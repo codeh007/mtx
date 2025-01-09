@@ -1,0 +1,31 @@
+// import { mtQueueClean, mtQueueCount, mtQueueDequeue, mtQueueEnqueue } from "@/server/routes/queue/mtQueue.r";
+
+export class mtQueue {
+  public enqueue = async (name: string, ...items: any[]) => {
+    const items2 = items.map((it, i) => {
+      return {
+        name: name,
+        data: it,
+      };
+    });
+    await mtQueueEnqueue(items2);
+  };
+
+  public count = async (name: string) => {
+    return await mtQueueCount(name);
+  };
+
+  public removeQueue = async (queueName: string) => {
+    return mtQueueClean({
+      queueName,
+    });
+  };
+
+  public dequeue = async (queueName: string, count: number = 1) => {
+    const a = await mtQueueDequeue({
+      limit: count,
+      queueName: queueName,
+    });
+    return a;
+  };
+}

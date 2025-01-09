@@ -1,0 +1,59 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"globalEnv": ["CI", "GITHUB_OAUTH_TOKEN"],
+	"tasks": {
+		"dev": {
+			"cache": false,
+			"persistent": true
+		},
+		"build": {
+			"dependsOn": ["^build"],
+			"env": ["COMPONENTS_BASE_URL", "npm_config_user_agent", "https_proxy"],
+			"outputs": ["dist/**", ".next/**", "storybook-static/**"]
+		},
+		"release": {
+			"outputs": []
+		},
+		"version:patch": {
+			"cache": false,
+			"outputs": []
+		},
+		"build:watch": {
+			"cache": false,
+			"persistent": true
+		},
+		"brl": {
+			"outputs": []
+		},
+		"clean": {
+			"cache": false,
+			"outputs": []
+		},
+		"lint": {
+			"cache": false,
+			"dependsOn": [],
+			"outputs": []
+		},
+		"lint:fix": {
+			"cache": false,
+			"dependsOn": []
+		},
+		"prebuild": {
+			"outputs": []
+		},
+		"typecheck": {
+			"dependsOn": ["build"],
+			"outputs": [],
+			"cache": true
+		},
+		"test": {
+			"dependsOn": [],
+			"outputs": ["jest.config.cjs"]
+		},
+		"test:watch": {
+			"dependsOn": [],
+			"cache": false,
+			"persistent": true
+		}
+	}
+}

@@ -1,0 +1,29 @@
+'use client'
+
+import { CellContext } from "@tanstack/react-table"
+import React from "react";
+// import { ChevronRight } from 'lucide-react';
+export const SortOrderCell = (info: CellContext<any, any>) => {
+    const len = (info?.table?.options?.meta?.getDatas()?.length) ?? 0
+    const [value, setValue] = React.useState(info.cell.getValue())
+    //输入框失去焦点后，调用后端更新数据。
+    const onBlur = () => {
+        const numValue = parseInt(value)
+        info.table.options.meta?.UpdateRow(info.row.index, info.column.id, numValue)
+    }
+    return (<div className="flex w-full">
+        <input type="number" value={value as string} onChange={e => setValue(e.target.value)} onBlur={onBlur} className="flex-grow" />
+        {
+            (info.row.index < (len - 1)) && <>
+                <button onClick={() => {
+                    info.table.options.meta?.reorderRow(info.row.index, info.row.index + 1)
+                }}>
+                    <span className="w-4 h-4">
+                        <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 18L12 22L16 18" /><path d="M12 2V22" /></svg>
+                    </span>
+                </button>
+            </>
+        }
+    </div>
+    )
+}

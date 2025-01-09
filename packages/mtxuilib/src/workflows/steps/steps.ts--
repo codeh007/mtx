@@ -1,0 +1,50 @@
+import type { WorkflowEvent, WorkflowStep } from "cloudflare:workers";
+import { agentNodeList } from "mtmaiapi/gomtmapi/sdk.gen.js";
+import type { MtmaiClient } from "../mtmaiclient";
+
+export async function helloListStep(
+  event: WorkflowEvent<unknown>,
+  step: WorkflowStep,
+  ctx: MtmaiClient,
+) {
+  //@ts-ignore
+  const result2 = await step.do("测试A", async () => {
+    try {
+      const response = await agentNodeList({
+        //@ts-ignore
+        client: ctx.getMtmClient(),
+        path: { tenant: ctx.getTenandId() },
+      });
+      const responseLog = JSON.stringify(response);
+      if (response.error) {
+        return {
+          error: response.error,
+        };
+      }
+      return {
+        some: "helloListStep",
+        log: responseLog,
+        datalist: response?.data?.rows,
+      };
+    } catch (e) {
+      return {
+        some: `list error ${e}`,
+      };
+    }
+  });
+  return {
+    result2: result2,
+  };
+}
+
+export async function stepTest1(
+  event: WorkflowEvent<unknown>,
+  step: WorkflowStep,
+  ctx: MtmaiClient,
+) {
+  return await step.do("stepTestB", async () => {
+    return {
+      data: "stepTest1Result123",
+    };
+  });
+}

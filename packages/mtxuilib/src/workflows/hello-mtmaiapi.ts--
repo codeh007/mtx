@@ -1,0 +1,30 @@
+import {
+  WorkflowEntrypoint,
+  type WorkflowEvent,
+  type WorkflowStep,
+} from "cloudflare:workers";
+import type { Env } from "../types";
+import { MtmaiClient } from "./mtmaiclient";
+import type { WfParams } from "./params";
+import { stepGenArticle } from "./steps/step-gen-article";
+import { helloListStep } from "./steps/steps";
+export class WfHelloMtmaiapi extends WorkflowEntrypoint<Env, WfParams> {
+  async run(e: WorkflowEvent<WfParams>, s: WorkflowStep) {
+    // 初始化上下文
+    const ctx = new MtmaiClient({
+      url: "http://www.baidu.com",
+      // tenant: "ab tenant",
+    });
+    ctx.setPayload(e.payload);
+
+    const finnalResult = {
+      version: "0.0.1",
+      output: "fake result for WfHelloToolUse",
+      listData: await helloListStep(e, s, ctx),
+      article: await stepGenArticle(e, s, ctx, { topic: "seo 优化技巧" }),
+    };
+
+    // TODO: 保存最终状态到数据库
+    return finnalResult;
+  }
+}
