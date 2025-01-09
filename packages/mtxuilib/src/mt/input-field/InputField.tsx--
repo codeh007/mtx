@@ -1,0 +1,84 @@
+"use client";
+
+import React from "react";
+import { useFormContext } from "react-hook-form";
+
+import { cn } from "../../lib";
+import { Input, type InputProps } from "../../ui/input";
+import { Label } from "../../ui/label";
+
+/**
+ * 仿 mui input 样式输入框
+ * @param param0
+ * @returns
+ * @see https://play.tailwindcss.com/asmAkefxLr
+ */
+const InputField = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ name, label, className, type, placeholder, ...rest }, ref) => {
+    const formMethods = useFormContext();
+    if (!formMethods) {
+      return <div className="bg-red-100">missing form context</div>;
+    }
+    if (type === "hidden") {
+      return <input {...formMethods.register(name)} type="hidden" ref={ref} />;
+    }
+    return (
+      <div
+        className={cn(
+          "group relative my-2",
+          // "max-w-[fit-content]",
+          className,
+        )}
+      >
+        <Input
+          type={type}
+          className={cn(
+            "peer p-4 outline-none",
+            "focus-visible:ring-0",
+            "focus-visible:border-none",
+            "border-none ring-0",
+          )}
+          // ref={ref}
+          placeholder=" "
+          {...formMethods.register(name)}
+        />
+
+        <Label
+          className={cn(
+            "pointer-events-none absolute left-[9px] top-px -translate-y-1/2 px-1 text-sm text-gray-500 transition-all duration-300 group-focus-within:!top-px group-focus-within:!text-sm group-focus-within:!text-blue-500 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-xl",
+          )}
+        >
+          {label}
+        </Label>
+
+        <fieldset
+          className={cn(
+            "pointer-events-none invisible absolute inset-0 mt-[-9px] rounded border border-gray-400 group-focus-within:border-2  group-focus-within:!border-blue-500 group-hover:border-gray-700 peer-placeholder-shown:visible",
+          )}
+        >
+          <legend className="invisible ml-2 max-w-[0.01px] whitespace-nowrap px-0 text-sm transition-all duration-300 group-focus-within:max-w-full group-focus-within:px-1">
+            {label}
+          </legend>
+        </fieldset>
+
+        <fieldset
+          className={cn(
+            "pointer-events-none visible absolute inset-0 mt-[-9px] rounded border border-gray-400 group-focus-within:border-2 group-focus-within:!border-blue-500 group-hover:border-gray-700 peer-placeholder-shown:invisible",
+          )}
+        >
+          <legend className="invisible ml-2 max-w-full whitespace-nowrap px-1 text-sm">
+            {label}
+          </legend>
+        </fieldset>
+
+        {formMethods.formState.errors[name]?.message && (
+          <p className="text-red-700">
+            {/* {formMethods.formState.errors[name]?.message} */}
+          </p>
+        )}
+      </div>
+    );
+  },
+);
+InputField.displayName = "InputField";
+export { InputField };

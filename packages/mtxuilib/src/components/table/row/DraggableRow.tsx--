@@ -1,0 +1,56 @@
+'use client'
+
+import { Row, flexRender } from "@tanstack/react-table";
+import { GripVerticalIcon } from "lucide-react";
+import React from "react";
+import { useDrag, useDrop } from "react-dnd";
+import { cn } from "../../../lib/utils";
+import { TableCell } from "../../../ui/table";
+
+interface DraggableRowProps<T> extends React.HTMLAttributes<HTMLTableRowElement> {
+  row: Row<T>
+  enableDrag: boolean
+  reorderRow: (draggedRowIndex: number, targetRowIndex: number) => void
+}
+/**
+ * 行拖放
+ * 源自reatable 官方范例： https://codesandbox.io/s/github/tanstack/table/tree/main/examples/react/row-dnd?from-embed=&file=/src/main.tsx:2553-2734
+ * 这个范例由于使用react dnd 组件，导致 需要 ref 的方式 引用 td, 这个导致不太通用，
+ *     也许： dnd-kit 组件的方式更好。
+ *     参考： https://codesandbox.io/s/react-table-drag-and-drop-sort-rows-with-dnd-kit-btpy9
+ *
+ */
+export function DraggableRow<T>({ row, reorderRow, className, children, enableDrag }: DraggableRowProps<T>) {
+  const [, dropRef] = useDrop({
+    accept: 'row',
+    drop: (draggedRow: Row<T>) => reorderRow(draggedRow.index, row.index),
+  })
+
+  const [{ isDragging }, dragRef, previewRef] = useDrag({
+    collect: monitor => ({
+      isDragging: monitor.isDragging(),
+    }),
+    item: () => row,
+    type: 'row',
+  })
+
+  return (
+    <tr className={cn(isDragging && "border-2 border-red-600 opacity-50", className)} ref={previewRef}>
+      {row.getVisibleCells().map((cell, i) => (
+        <TableCell key={cell.id} {...(enableDrag && i == 0) && { ref: dropRef }
+        }>
+          {
+            enableDrag && i == 0 && <button ref={dragRef}>
+              <GripVerticalIcon></GripVerticalIcon>
+            </button>
+          }
+          {flexRender(
+            cell.column.columnDef.cell,
+            cell.getContext()
+          )}
+        </TableCell>
+      ))
+      }
+    </tr>
+  )
+}

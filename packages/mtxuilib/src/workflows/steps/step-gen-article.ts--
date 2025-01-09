@@ -1,0 +1,127 @@
+import type { PromptTemplate } from "@langchain/core/prompts";
+import type { WorkflowEvent, WorkflowStep } from "cloudflare:workers";
+// import type { PromptTemplate } from "@langchain/core/prompts";
+import { AgentExecutor, createReactAgent } from "langchain/agents";
+import { pull } from "langchain/hub";
+import { WebSearchTool } from "../../tools/webSearch";
+import type { MtmaiClient } from "../mtmaiclient";
+import { WraperToolStep } from "../tool-steps/toolStepWebSearch";
+
+export async function stepGenArticle(
+  e: WorkflowEvent<unknown>,
+  s: WorkflowStep,
+  c: MtmaiClient,
+  props: { topic: string },
+) {
+  const data = {
+    title: await s.do(`gen article title,topic ${props.topic}`, async () => {
+      const { topic } = props;
+      try {
+        const llm = c.getDefaultLlm();
+        const messages = [
+          {
+            role: "system",
+            content:
+              "你是文章标题生成器，现在根据用户输入的主题生成一个文章标题，注意不要啰嗦和解释，直接给出文章标题",
+          },
+          { role: "user", content: `我文章的主题是 ${topic}` },
+        ];
+        const resp = await llm.invoke(messages);
+        const tools = [WraperToolStep(s, WebSearchTool)];
+        //@ts-ignore
+        const prompt = await pull<PromptTemplate>("hwchase17/react");
+        //@ts-ignore
+        const agentWithChat = await createReactAgent({
+          llm,
+          //@ts-ignore
+          tools,
+          //@ts-ignore
+          prompt,
+        });
+
+        const agentExecutorWithChat = new AgentExecutor({
+          //@ts-ignore
+          agent: agentWithChat,
+          //@ts-ignore
+          tools,
+        });
+        const result2 = await agentExecutorWithChat.invoke({
+          input: "调用 webSearch 工具，搜索抖音相关最新咨询",
+          // Notice that chat_history is a string, since this prompt is aimed at LLMs, not chat models
+          chat_history:
+            "Human: Hi! My name is Cob\nAI: Hello Cob! Nice to meet you",
+        });
+
+        return {
+          title: resp.content,
+          result2: result2,
+        };
+      } catch (e) {
+        return {
+          some: `list error ${e}`,
+        };
+      }
+    }),
+
+    outliness: await s.do(
+      `gen article outlines,topic ${props.topic}`,
+      async () => {
+        const { topic } = props;
+        try {
+          const llm = c.getDefaultLlm();
+          const messages = [
+            {
+              role: "system",
+              content: `你是文章大纲生成器，现在根据用户输入的主题生成文章的大纲,注意不要啰嗦和解释，直接给出文章标题.
+                要求: 10 个大纲，一行一个。
+`,
+            },
+            { role: "user", content: `我文章的主题是 ${topic}` },
+          ];
+          const resp = await llm.invoke(messages);
+          return {
+            title: resp.content,
+          };
+        } catch (e) {
+          return {
+            some: `list error ${e}`,
+          };
+        }
+      },
+    ),
+  };
+  return data;
+}
+
+// export async function stepGenArticleTitle(
+//   e: WorkflowEvent<unknown>,
+//   s: WorkflowStep,
+//   c: MtmaiClient,
+//   props: { topic: string },
+// ) {
+//   const { topic } = props;
+//   return await s.do(`gen article title,topic ${topic}`, async () => {
+//     try {
+//       const response = await agentNodeList({
+//         //@ts-ignore
+//         client: ctx.getMtmClient(),
+//         path: { tenant: c.getTenandId() },
+//       });
+//       const responseLog = JSON.stringify(response);
+//       if (response.error) {
+//         return {
+//           error: response.error,
+//         };
+//       }
+//       return {
+//         some: "helloListStep",
+//         log: responseLog,
+//         datalist: response?.data?.rows,
+//       };
+//     } catch (e) {
+//       return {
+//         some: `list error ${e}`,
+//       };
+//     }
+//   });
+// }

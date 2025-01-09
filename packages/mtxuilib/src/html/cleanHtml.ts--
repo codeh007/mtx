@@ -1,0 +1,13 @@
+import * as cheerio from "cheerio";
+
+/**
+ * 删除html 标记，仅保留纯文本
+ * @param url
+ * @param html
+ * @returns
+ */
+export async function htmlClean(html: string) {
+  const doc = cheerio.load(html);
+  const text = doc("body").text();
+  return text;
+}

@@ -1,0 +1,214 @@
+import https from "https";
+import net from "net";
+import WebSocket from "ws";
+import { Default_WsTunnelPassword } from "./common";
+
+const DEFAULT_LISTEN_PORT = 10891;
+const dEFAULT_SBIND_ADDR = "127.0.0.1";
+const opts: any = {},
+  cache: Record<string, any> = {};
+
+const CFDOMAN: any[] = [];
+const CIDR4 = [
+  "173.245.48.0/20",
+  "103.21.244.0/22",
+  "103.22.200.0/22",
+  "103.31.4.0/22",
+  "141.101.64.0/18",
+  "108.162.192.0/18",
+  "190.93.240.0/20",
+  "188.114.96.0/20",
+  "197.234.240.0/22",
+  "198.41.128.0/17",
+  "162.158.0.0/15",
+  "104.16.0.0/13",
+  "104.24.0.0/14",
+  "172.64.0.0/13",
+  "131.0.72.0/22",
+];
+const CIDR6 = [
+  "2400:cb00::/32",
+  "2606:4700::/32",
+  "2803:f800::/32",
+  "2405:b500::/32",
+  "2405:8100::/32",
+  "2a06:98c0::/29",
+  "2c0f:f248::/32",
+];
+
+const ADDR4 = CIDR4.map((cidr: any) => {
+  const [addr, mask] = cidr.split("/");
+  return {
+    m: (0xffffffff << (32 - Number(mask))) >>> 0,
+    a: addr
+      .split(".")
+      .map(Number)
+      .reduce((s: any, b: any, i: any) => (s += b << (24 - 8 * i)), 0),
+  };
+});
+const ADDR6 = CIDR6.map((cidr) => {
+  const [addr, mask] = cidr.split("/");
+  return {
+    m: mask,
+    s: addr
+      .split(":")
+      .map((p) => Number.parseInt(p, 16).toString(2).padStart(16, "0"))
+      .join("")
+      .slice(0, Number.parseInt(mask)),
+  };
+});
+const ipInCFCidr = (ip: string) => {
+  if (ip.indexOf(":") == -1) {
+    const ipa = ip.split(".").map(Number);
+    return {
+      cf: ADDR4.some(({ a, m }) => (ipa.reduce((s, b, i) => (s += b << (24 - 8 * i)), 0) & m) === (a & m)),
+      ip: ip,
+    };
+  } else {
+    const ips = ip
+      .split(":")
+      .map((p) => Number.parseInt(p, 16).toString(2).padStart(16, "0"))
+      .join("");
+    return {
+      cf: ADDR6.some(({ s, m }) => ips.slice(0, Number.parseInt(m)) === s),
+      ip: ip,
+    };
+  }
+};
+
+const dns = (host: string) =>
+  new Promise((res, rej) => {
+    const o = Object.assign({ method: "GET", headers: { Accept: "application/dns-json" } }, opts);
+    const request = https
+      .request(`https://cloudflare-dns.com/dns-query?name=${host}&type=A`, o, (r: any) => {
+        let data = "";
+        r.on("data", (chunk: any) => (data += chunk)).on("end", () => {
+          const d = JSON.parse(data);
+          if (d.Status === 0 && d.Answer && d.Answer.length > 0)
+            res(d.Answer.map((a: any) => a.data).find((ip: any) => /^(\d{1,3}\.){3}\d{1,3}$/.test(ip)));
+          else rej(new Error("no ipv4 addr"));
+        });
+      })
+      .on("error", (error: any) => rej(error))
+      .end();
+  });
+const isCFIP = (host: any, ATYP: any) =>
+  new Promise((res, rej) => {
+    if (CFDOMAN.includes(host)) res({ cf: true, ip: host });
+    else if (cache[host] == undefined) {
+      if (ATYP == 0x01 || ATYP == 0x04) res((cache[host] = ipInCFCidr(host)));
+      else if (ATYP == 0x03)
+        dns(host)
+          .then((ip: any) => res((cache[host] = ipInCFCidr(ip))))
+          .catch((e) => res({ cf: false, ip: host }));
+    } else res(cache[host]);
+  });
+
+/** ******************************************************************************************
+ * 在本地启动 socks 5代理，内部用ws的方式对接 部署到 cloudflare worker 网络中专服务。
+ * 快速测试命令： curl -v --proxy socks5h://user:password@127.0.0.1:10891 https://www.baidu.com
+ * *******************************************************************************************/
+export const cfWsClientServe = async (options: any) => {
+  const { domain, sport = DEFAULT_LISTEN_PORT, sbind = dEFAULT_SBIND_ADDR, wkip, byip, cfhs = [] } = options;
+  const password = Default_WsTunnelPassword;
+
+  const url = "wss://" + domain + "/ws/tunnel";
+
+  Object.assign(CFDOMAN, cfhs);
+  if (wkip)
+    Object.assign(opts, {
+      lookup: (host: any, opts: any, cb: any) => cb(null, wkip, wkip.indexOf(":") == -1 ? 4 : 6),
+    });
+
+  const server = net.createServer((socks) =>
+    socks
+      .once("data", (data: any) => {
+        const [VERSION] = data; //VERSION NMETHODS METHODS
+        if (VERSION != 0x05) socks.end();
+        else if (data.slice(2).some((method: any) => method == 0x00)) {
+          //0x00,0x02
+          socks.write(Buffer.from([0x05, 0x00])); //select
+          socks.once("data", (head) => {
+            const [VERSION, CMD, RSV, ATYP] = head;
+            if (VERSION != 0x05 || CMD != 0x01) return; //connect
+            const host =
+              ATYP == 0x01
+                ? head
+                    .slice(4, -2)
+                    .map((b: any) => Number.parseInt(b, 10))
+                    .join(".")
+                : //IPV4
+                  ATYP == 0x04
+                  ? head
+                      .slice(4, -2)
+                      .reduce(
+                        (s: any, b: any, i: any, a: any) => (i % 2 ? s.concat(a.slice(i - 1, i + 1)) : s),
+                        [],
+                      )
+                      .map((b: any) => b.readUInt16BE(0).toString(16))
+                      .join(":")
+                  : //IPV6
+                    ATYP == 0x03
+                    ? head.slice(5, -2).toString("utf8")
+                    : ""; //DOMAIN
+            const port = head.slice(-2).readUInt16BE(0);
+
+            try {
+              isCFIP(host, ATYP).then(({ cf, ip }: any) => {
+                if (cf && !byip) {
+                  //原版代码有这个if分支，具体作用不明。
+                  net.connect(port, wkip ? wkip : ip, () => {
+                    console.error(`todo【!byip ${ip}:${port}】`, cf);
+                    // net.connect(port, wkip?wkip:ip, function(){res(this);}).on('error',rej)
+                  });
+                } else {
+                  const websocket = new WebSocket(url);
+                  websocket.addEventListener("open", () => {
+                    websocket.send(
+                      JSON.stringify({
+                        hostname: cf ? byip : ip,
+                        port,
+                        psw: password,
+                      }),
+                    );
+                    socks.write(((head[1] = 0x00), head));
+                    socks.on("data", (d) => {
+                      // console.log(`>>:${d.length}`);
+                      websocket.send(d);
+                    });
+                    socks.on("error", (e) => {
+                      console.log("socks on error", e);
+                    });
+                  });
+                  // websocket.addEventListener("message", (event) => {
+                  //   // console.log(`<${event?.data?.length}`);
+                  //   socks.write(event.data.);
+                  // });
+                  // websocket.on("message", (data) => {
+                  //   // console.log(`<${event?.data?.length}`);
+                  //   // socks.write(new Uint8Array(event));
+                  //   socks.write(data.)
+                  // });
+                  websocket.onmessage = (e) => {
+                    socks.write(e.data as Uint8Array);
+                  };
+                }
+              });
+            } catch (e) {
+              console.log("err2999", e);
+            }
+          });
+        } else socks.write(Buffer.from([0x05, 0xff])); //reject
+      })
+      .on("error", (e: any) => console.log(e)),
+  );
+  server.on("error", (e: any) => {
+    console.log("ERROR", url, e);
+  });
+  server.listen(sport, sbind, () => {
+    console.log(`================================================================================
+sockes5 serve on ${sport} wsUrl: "${url}"
+testing: curl -v --proxy socks5h://user:password@127.0.0.1:${sport} https://www.baidu.com
+`);
+  });
+};

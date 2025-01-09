@@ -1,0 +1,10 @@
+import { z } from "zod";
+
+/**
+ * 这里定义 通过 mq 传递的消息结构
+ */
+export const msgOpenBrowser = z.object({
+  url: z.string(),
+});
+
+export type MsgOpenBrowser = z.infer<typeof msgOpenBrowser>;
