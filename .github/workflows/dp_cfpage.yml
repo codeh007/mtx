@@ -30,6 +30,8 @@ permissions:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
 
+env:
+  MTM_DATABASE_URL: ${{ secrets.MTM_DATABASE_URL }}
 jobs:
   dp_cfpage:
     name: dp_cfpage
