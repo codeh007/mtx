@@ -20,6 +20,7 @@ on:
           - "2"
           - "3"
         default: "1"
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
 
