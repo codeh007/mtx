@@ -55,7 +55,7 @@ jobs:
           # token: ${{ secrets.SAGE_PAT }}
 
       - name: Install
-        uses: ./.github/composite-actions/install
+        uses: ./.github/actions/install
 
       - name: Build
         run: bun run build
