@@ -60,6 +60,11 @@ jobs:
       - name: Build
         run: bun run build
 
+      - name: chmod
+        run: |
+          chmod 777 -R packages/gomtm-cli/bin/*
+          chmod 777 -R packages/gomtm-cli/dist/*
+
       - name: Create release Pull Request or publish to NPM
         id: changesets
         uses: changesets/action@v1
