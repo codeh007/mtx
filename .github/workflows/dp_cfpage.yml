@@ -49,4 +49,4 @@ jobs:
       # - name: testing gomtm gomtm-cli
       #   run: gomtm --help
       - name: 使用gomtm 进行 cfpage 部署
-        run: (cd apps/testui && gomtm dp cfpage)
+        run: (cd apps/testui && packages/gomtm-cli/bin/gomtm dp cfpage)
