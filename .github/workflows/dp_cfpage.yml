@@ -32,6 +32,7 @@ concurrency:
 
 env:
   MTM_DATABASE_URL: ${{ secrets.MTM_DATABASE_URL }}
+
 jobs:
   dp_cfpage:
     name: dp_cfpage
@@ -45,10 +46,5 @@ jobs:
       - name: setup bun
         uses: ./.github/actions/setup_bun
 
-      # - name: install gomtm
-      #   run: npm -g install gomtm-cli
-
-      # - name: testing gomtm gomtm-cli
-      #   run: gomtm --help
       - name: 使用gomtm 进行 cfpage 部署
         run: (cd apps/testui && ../../packages/gomtm-cli/bin/gomtm dp cfpage)
