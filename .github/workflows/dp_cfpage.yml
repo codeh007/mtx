@@ -43,8 +43,10 @@ jobs:
       - name: setup bun
         uses: ./.github/actions/setup_bun
 
-      - name: install gomtm
-        run: npm -g install gomtm-cli
+      # - name: install gomtm
+      #   run: npm -g install gomtm-cli
 
-      - name: testing gomtm gomtm-cli
-        run: gomtm --help
+      # - name: testing gomtm gomtm-cli
+      #   run: gomtm --help
+      name: 使用gomtm 进行 cfpage 部署
+      run: gomtm dp cf_mtxedge
