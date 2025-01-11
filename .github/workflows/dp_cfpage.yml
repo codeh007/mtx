@@ -26,7 +26,6 @@ permissions:
   packages: write
   actions: write
   id-token: write
-  # workflows: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -35,6 +34,10 @@ concurrency:
 env:
   MTM_DATABASE_URL: ${{ secrets.MTM_DATABASE_URL }}
   SERVER_MSGQUEUE_RABBITMQ_URL: ${{ secrets.SERVER_MSGQUEUE_RABBITMQ_URL }}
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_API_EMAIL: ${{ secrets.CLOUDFLARE_API_EMAIL }}
+  CLOUDFLARE_AI_TOKEN: ${{ secrets.CLOUDFLARE_AI_TOKEN }}
 
 jobs:
   dp_cfpage:
