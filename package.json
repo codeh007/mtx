@@ -10,10 +10,6 @@
   "files": [
     "dist"
   ],
-  "bin": {
-    "gomtm": "./bin/gomtm",
-    "gomtm2": "./dist/main.js"
-  },
   "scripts": {
     "build": "turbo build",
     "with-env": "dotenv -e ./env/gomtm.env --",
