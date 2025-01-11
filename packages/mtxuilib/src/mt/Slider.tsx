@@ -60,7 +60,7 @@ export const MtSlider = genericMemo(
 
 interface SliderButtonProps {
   selected: boolean;
-  children: string | JSX.Element | Array<JSX.Element | string>;
+  children: React.ReactNode;
   setSelected: () => void;
 }
 

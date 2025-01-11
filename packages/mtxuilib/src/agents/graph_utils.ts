@@ -5,16 +5,15 @@ import {
 } from "@langchain/core/messages";
 import { parsePartialJson } from "@langchain/core/output_parsers";
 import type { Artifact } from "mtmaiapi";
-import { cleanContent } from "../lib/s-utils";
+import { cleanContent } from "mtxuilib/lib/s-utils";
 import type {
-  ArtifactToolResponse,
-  ArtifactMarkdownV3,
   ArtifactCodeV3,
-  ProgrammingLanguageOptions,
+  ArtifactMarkdownV3,
+  ArtifactToolResponse,
   ArtifactV3,
+  ProgrammingLanguageOptions,
   RewriteArtifactMetaToolResponse,
-} from "../types/opencanvasTypes";
-// import { cleanContent } from "mtxuilib/lib/utils";
+} from "mtxuilib/types/opencanvasTypes";
 // import type {
 //   Artifact,
 //   ArtifactCodeV3,

@@ -36,7 +36,7 @@ export interface IDGetter {
   metadata: {
     id: string;
   };
-  getRow?: () => JSX.Element;
+  getRow?: () => React.ReactNode;
   onClick?: () => void;
   isExpandable?: boolean;
 }
@@ -46,7 +46,7 @@ interface DataTableProps<TData extends IDGetter, TValue> {
   data: TData[];
   error?: Error | null;
   filters: ToolbarFilters;
-  actions?: JSX.Element[];
+  actions?: React.ReactNode[];
   sorting?: SortingState;
   setSorting?: OnChangeFn<SortingState>;
   setSearch?: (search: string) => void;
@@ -76,10 +76,10 @@ interface DataTableProps<TData extends IDGetter, TValue> {
 }
 
 interface ExtraDataTableProps {
-  emptyState?: JSX.Element;
+  emptyState?: React.ReactNode;
   card?: {
     containerStyle?: string;
-    component: React.FC<any> | ((data) => JSX.Element);
+    component: React.FC<any> | ((data) => React.ReactNode);
   };
 }
 

@@ -22,11 +22,12 @@ export async function pushLoki(...data: any[]) {
     ],
   };
 
+  //@ts-ignore
   const result = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Basic ${btoa(LokiUsername + ":" + Lokipassword)}`,
+      Authorization: `Basic ${btoa(`${LokiUsername}:${Lokipassword}`)}`,
     },
     body: JSON.stringify(logdata),
   }).then((x) => x.text());

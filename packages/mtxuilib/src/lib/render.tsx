@@ -6,50 +6,47 @@
 
 // import { Renderable } from "@tanstack/react-table"
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export type Renderable<TProps = any> =
-	| React.ReactNode
-	| React.ComponentType<TProps>;
+  | React.ReactNode
+  | React.ComponentType<TProps>;
 /**
  * If rendering headers, cells, or footers with custom markup, use flexRender instead of `cell.getValue()` or `cell.renderValue()`.
  */
 export function flexRender<TProps extends object>(
-	Comp: Renderable<TProps>,
-	props: TProps,
-): React.ReactNode | JSX.Element {
-	return !Comp ? null : isReactComponent<TProps>(Comp) ? (
-		<Comp {...props} />
-	) : (
-		Comp
-	);
+  Comp: Renderable<TProps>,
+  props: TProps,
+): React.ReactNode | React.ReactElement {
+  return !Comp ? null : isReactComponent<TProps>(Comp) ? (
+    <Comp {...props} />
+  ) : (
+    Comp
+  );
 }
 
 export function isReactComponent<TProps>(
-	component: unknown,
+  component: unknown,
 ): component is React.ComponentType<TProps> {
-	return (
-		isClassComponent(component) ||
-		typeof component === "function" ||
-		isExoticComponent(component)
-	);
+  return (
+    isClassComponent(component) ||
+    typeof component === "function" ||
+    isExoticComponent(component)
+  );
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 function isClassComponent(component: any) {
-	return (
-		typeof component === "function" &&
-		(() => {
-			const proto = Object.getPrototypeOf(component);
-			return proto.prototype?.isReactComponent;
-		})()
-	);
+  return (
+    typeof component === "function" &&
+    (() => {
+      const proto = Object.getPrototypeOf(component);
+      return proto.prototype?.isReactComponent;
+    })()
+  );
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 function isExoticComponent(component: any) {
-	return (
-		typeof component === "object" &&
-		typeof component.$$typeof === "symbol" &&
-		["react.memo", "react.forward_ref"].includes(component.$$typeof.description)
-	);
+  return (
+    typeof component === "object" &&
+    typeof component.$$typeof === "symbol" &&
+    ["react.memo", "react.forward_ref"].includes(component.$$typeof.description)
+  );
 }

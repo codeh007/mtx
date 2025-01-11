@@ -2,7 +2,6 @@ import { createSimulationGraph } from "../../agents/simulationGraph";
 import type { Env } from "../../types";
 
 import { Hono } from "hono";
-
 export const blogGraphRoute = new Hono<{ Bindings: Env }>().post(
   "/",
   async (c) => {
@@ -12,3 +11,5 @@ export const blogGraphRoute = new Hono<{ Bindings: Env }>().post(
     return c.json(graph);
   },
 );
+
+export type BlogGraphRoute = typeof blogGraphRoute;
