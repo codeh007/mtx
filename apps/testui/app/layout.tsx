@@ -12,7 +12,7 @@ import type { Metadata, Viewport } from "next";
 import { cookies, headers } from "next/headers";
 import type { ReactNode } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import "../../styles/globals.css";
+import "./globals.css";
 export const runtime = "edge"; //nodejs
 export const dynamic = "force-dynamic";
 // initMtiaiClient();
