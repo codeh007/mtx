@@ -73,7 +73,6 @@
     "src/agents",
     "src/prompts",
     "src/browser",
-    "../mtmaiapi",
     "src/workflows",
     "**/*.gen.ts"
   ]
