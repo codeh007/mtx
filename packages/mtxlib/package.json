@@ -6,7 +6,10 @@
     "access": "public"
   },
   "type": "module",
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
   "typesVersions": {
@@ -24,8 +27,16 @@
   },
   "exports": {
     ".": {
-      "types": ["./src/index.ts", "./dist/index.js", "./dist/index.d.ts"],
-      "import": ["./src/index.ts", "./dist/index.js", "./dist/*"]
+      "types": [
+        "./src/index.ts",
+        "./dist/index.js",
+        "./dist/index.d.ts"
+      ],
+      "import": [
+        "./src/index.ts",
+        "./dist/index.js",
+        "./dist/*"
+      ]
     },
     "./*": {
       "types": [
@@ -60,13 +71,19 @@
       ]
     },
     "./styles/*": {
-      "import": ["./src/styles/*", "./dist/styles/*"],
-      "require": ["./src/styles/*", "./dist/styles/*"]
+      "import": [
+        "./src/styles/*",
+        "./dist/styles/*"
+      ],
+      "require": [
+        "./src/styles/*",
+        "./dist/styles/*"
+      ]
     }
   },
   "scripts": {
     "dev": "npx next dev",
-    "build": "tsc --outDir dist --jsx react-jsx --incremental false --declaration true --noEmit false --removeComments true --project ",
+    "build--": "tsc --outDir dist --jsx react-jsx --incremental false --declaration true --noEmit false --removeComments true --project ",
     "db:migrate": "bun run src/db/migrate.ts",
     "gen": "bun src/cli/main.ts gen"
   },
