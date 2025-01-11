@@ -1,6 +1,6 @@
 {
-  "name": "mtmaiadmin",
-  "version": "0.0.726",
+  "name": "mtxadmin",
+  "version": "0.0.1",
   "license": "MIT",
   "type": "module",
   "private": false,
@@ -9,8 +9,16 @@
   },
   "exports": {
     ".": {
-      "types": ["./src/index.ts", "./src/index.tsx", "./dist/index.js"],
-      "import": ["./src/index.ts", "./src/index.tsx", "./dist/index.js"]
+      "types": [
+        "./src/index.ts",
+        "./src/index.tsx",
+        "./dist/index.js"
+      ],
+      "import": [
+        "./src/index.ts",
+        "./src/index.tsx",
+        "./dist/index.js"
+      ]
     },
     "./*": {
       "types": [
@@ -37,7 +45,9 @@
       ]
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "bin": {
     "mtmaiadmin": "dist/main.js"
   },

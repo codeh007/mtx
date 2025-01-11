@@ -1,7 +1,7 @@
 import { cookies, headers } from "next/headers";
 
 
-import { auth } from "../../app/(auth)/auth";
+import { auth } from "./auth";
 
 import type { Metadata } from "next";
 
