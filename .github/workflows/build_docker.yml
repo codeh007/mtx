@@ -31,11 +31,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-# 方式 2: 更细粒度的控制，基于分支或其他条件
-# concurrency:
-#   group: ${{ github.workflow }}-${{ github.ref_name }}
-#   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
