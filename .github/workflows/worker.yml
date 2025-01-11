@@ -36,6 +36,8 @@ jobs:
   testing_gomtm_worker:
     name: dp_cfpage
     runs-on: ubuntu-latest
+    timeout-minutes: 2
+
     steps:
       - name: Checkout branch
         uses: actions/checkout@v4
