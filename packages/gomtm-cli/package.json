@@ -9,9 +9,9 @@
     "access": "public"
   },
   "files": [
+    "bin",
     "dist",
-    "src",
-    "dist/gomtm"
+    "src"
   ],
   "bin22": {
     "gomtm-cli": "./dist/gomtm-cli.js"
