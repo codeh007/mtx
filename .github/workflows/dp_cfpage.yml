@@ -42,3 +42,9 @@ jobs:
           # token: ${{ secrets.SAGE_PAT }}
       - name: setup bun
         uses: ./.github/actions/setup_bun
+
+      - name: install gomtm
+        run: npm -g install gomtm-cli
+
+      - name: testing gomtm gomtm-cli
+        run: gomtm --help
