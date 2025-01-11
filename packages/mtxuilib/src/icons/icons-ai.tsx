@@ -11,7 +11,6 @@ function IconNextChat({
   const id = React.useId();
 
   return (
-    // biome-ignore lint/a11y/noSvgWithoutTitle: <explanation>
     <svg
       viewBox="0 0 17 17"
       fill="none"
@@ -116,7 +115,7 @@ function IconVercel({ className, ...props }: React.ComponentProps<"svg">) {
       <path
         d="M37.5896 0.25L74.5396 64.25H0.639648L37.5896 0.25Z"
         fill="currentColor"
-      ></path>
+      />
     </svg>
   );
 }
@@ -151,7 +150,7 @@ function IconSeparator({ className, ...props }: React.ComponentProps<"svg">) {
       className={cn("size-4", className)}
       {...props}
     >
-      <path d="M16.88 3.549L7.12 20.451"></path>
+      <path d="M16.88 3.549L7.12 20.451" />
     </svg>
   );
 }
@@ -477,31 +476,31 @@ function IconChevronUpDown({
 }
 
 export {
+  IconArrowDown,
+  IconArrowElbow,
+  IconArrowRight,
+  IconCheck,
+  IconChevronUpDown,
+  IconClose,
+  IconCopy,
+  IconDownload,
   IconEdit,
+  IconExternalLink,
+  IconGitHub,
+  IconMessage,
+  IconMoon,
   IconNextChat,
   IconOpenAI,
-  IconVercel,
-  IconGitHub,
-  IconSeparator,
-  IconArrowDown,
-  IconArrowRight,
-  IconUser,
   IconPlus,
-  IconArrowElbow,
-  IconSpinner,
-  IconMessage,
-  IconTrash,
   IconRefresh,
-  IconStop,
-  IconSidebar,
-  IconMoon,
-  IconSun,
-  IconCopy,
-  IconCheck,
-  IconDownload,
-  IconClose,
+  IconSeparator,
   IconShare,
+  IconSidebar,
+  IconSpinner,
+  IconStop,
+  IconSun,
+  IconTrash,
+  IconUser,
   IconUsers,
-  IconExternalLink,
-  IconChevronUpDown,
+  IconVercel,
 };

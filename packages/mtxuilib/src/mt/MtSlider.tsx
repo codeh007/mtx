@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { memo } from "react";
+import { type PropsWithChildren, memo } from "react";
 
 import { genericMemo } from "../lib/react";
 import { classNames } from "../lib/utils";
@@ -52,12 +52,16 @@ export const MtSlider = genericMemo(
 
 interface SliderButtonProps {
   selected: boolean;
-  children: string | JSX.Element | Array<JSX.Element | string>;
+
   setSelected: () => void;
 }
 
 const SliderButton = memo(
-  ({ selected, children, setSelected }: SliderButtonProps) => {
+  ({
+    selected,
+    children,
+    setSelected,
+  }: PropsWithChildren<SliderButtonProps>) => {
     return (
       <button
         type="button"

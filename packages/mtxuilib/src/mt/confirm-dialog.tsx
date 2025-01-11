@@ -6,7 +6,7 @@ import { Spinner } from "./mtloading";
 
 interface ConfirmDialogProps {
   title: string;
-  description: string | JSX.Element;
+  description: React.ReactNode;
 
   submitLabel: string;
   submitVariant?: ButtonProps["variant"];

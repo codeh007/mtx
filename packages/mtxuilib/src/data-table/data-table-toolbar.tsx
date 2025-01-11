@@ -1,8 +1,7 @@
 "use client";
-
 import { Cross2Icon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
-
+import type React from "react";
 import { DataTableViewOptions } from "./data-table-view-options";
 
 import { Spinner } from "../mt/mtloading";
@@ -32,7 +31,7 @@ export type ToolbarFilters = {
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
   filters: ToolbarFilters;
-  actions: JSX.Element[];
+  actions: React.ReactNode[];
   setSearch?: (search: string) => void;
   search?: string;
   showColumnToggle?: boolean;

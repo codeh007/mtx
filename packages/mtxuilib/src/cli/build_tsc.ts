@@ -34,6 +34,7 @@ export const buildWithTsc = async () => {
 
     copyDir("src/styles", "dist/styles");
   } catch (e) {
-    console.error("执行 compile-migrations 失败", e);
+    console.error("执行 buildWithTsc 失败", e);
+    process.exit(1);
   }
 };

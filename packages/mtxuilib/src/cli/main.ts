@@ -39,6 +39,7 @@ function loadEnv() {
       await compileMigrations();
     } catch (e) {
       console.error("执行 compile-migrations 失败", e);
+      process.exit(1);
     }
   });
   program.command("dp_workflow").action(async () => {
@@ -51,7 +52,8 @@ function loadEnv() {
       console.log("执行命令：", cmd);
       await exec(cmd);
     } catch (e) {
-      console.error("启动 nextjs (mtmaiadmin) 失败", e);
+      console.error("执行 dp_workflow 失败", e);
+      process.exit(1);
     }
   });
   program.parse();

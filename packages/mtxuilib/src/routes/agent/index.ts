@@ -2,15 +2,14 @@ import { isAIMessageChunk } from "@langchain/core/messages";
 import type { Runnable } from "@langchain/core/runnables";
 import { MemorySaver } from "@langchain/langgraph";
 import { Hono } from "hono";
-import { AgentCtx } from "../../agents/agentctx/agentctx";
-import { createAssistantGraph } from "../../agents/assisant";
+// import { createAssistantGraph } from "../../../../mtxlib/src/agents/assisant";
 // import { buildCanvasGraph } from "../../agents/open-canvas";
-import { createSimulationGraph } from "../../agents/simulationGraph";
-import { TestAgent } from "../../agents/testagent";
+// import { createSimulationGraph } from "../../../../mtxlib/src/agents/simulationGraph";
+// import { TestAgent } from "../../agents/testagent";
 import { generateUUID } from "../../lib/s-utils";
 import { StreamingResponse, makeStream } from "../../lib/sse/sse";
 import type { Env } from "../../types";
-import { blogGraphRoute } from "./blogGraph";
+// import { blogGraphRoute } from "./blogGraph";
 // import { reactAgentDemoRoute } from "./demo/react.ts--";
 import { mtmaiAgentRoute } from "./mtmai";
 import { testAgentApp } from "./testagent";
@@ -23,10 +22,8 @@ export const agentApp = new Hono<{ Bindings: Env }>()
     });
   })
   .all("/run", async (c) => handlerRunAgent(c.req.raw));
-agentApp
-  .route("/testagent", testAgentApp)
-  .route("/mtmai", mtmaiAgentRoute)
-  .route("/blog", blogGraphRoute);
+agentApp.route("/testagent", testAgentApp).route("/mtmai", mtmaiAgentRoute);
+// .route("/blog", blogGraphRoute);
 // .route("/demo/react", reactAgentDemoRoute);
 
 export async function handlerRunAgent(req: Request) {
@@ -112,20 +109,20 @@ export async function* makeRunableStreamEventLcRaw(
 
 async function getRunableByNodeName(name: string): Promise<Runnable> {
   if (name === "simulationGraph") {
-    const wf = createSimulationGraph();
-    const graph = wf.compile({ checkpointer });
-    //@ts-ignore
-    return graph;
+    // const wf = createSimulationGraph();
+    // const graph = wf.compile({ checkpointer });
+    // //@ts-ignore
+    // return graph;
   }
   if (name === "assisant") {
-    const wf = createAssistantGraph();
-    const graph = wf.compile({ checkpointer });
-    //@ts-ignore
-    return graph;
+    // const wf = createAssistantGraph();
+    // const graph = wf.compile({ checkpointer });
+    // //@ts-ignore
+    // return graph;
   }
   if (name === "test") {
-    const r = new TestAgent(new AgentCtx());
-    return r.runnable();
+    // const r = new TestAgent(new AgentCtx());
+    // return r.runnable();
   }
   // if (name === "canvas") {
   //   const graph = buildCanvasGraph()

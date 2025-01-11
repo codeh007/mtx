@@ -9,7 +9,7 @@
     ],
     "skipLibCheck": true,
     "allowJs": true,
-    "strict": true,
+    // "strict": true,
     "strictNullChecks": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
@@ -22,7 +22,7 @@
       "react-dom",
       "jest",
       "@cloudflare/workers-types",
-      // "@cloudflare/workers-types/experimental",
+      "@cloudflare/workers-types/experimental",
       "bun-types",
       "jquery"
     ],
@@ -39,10 +39,6 @@
     "declaration": true,
     "rootDir": "./src",
     "outDir": "dist",
-    // "typeRoots": [
-    //   "./node_modules/@types",
-    //   "./src/@types"
-    // ],
     "plugins": [
       {
         "name": "next"
@@ -50,6 +46,7 @@
     ],
     // 添加以下配置使 TypeScript 更宽松
     "noImplicitAny": false, // 允许隐式的 any 类型
+    "strict": false, // 关闭严格模式
     // "ignoreDeprecations": "5.0", // 忽略某些废弃警告
     "noUnusedLocals": false, // 允许未使用的局部变量
     "noUnusedParameters": false, // 允许未使用的参数

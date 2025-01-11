@@ -26,7 +26,7 @@ type IconButtonWithoutChildrenProps = {
 
 type IconButtonWithChildrenProps = {
   icon?: undefined;
-  children: string | JSX.Element | JSX.Element[];
+  children: React.ReactNode[];
 } & BaseIconButtonProps;
 
 type IconButtonProps =
