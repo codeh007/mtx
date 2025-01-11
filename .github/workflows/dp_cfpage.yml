@@ -56,3 +56,18 @@ jobs:
 
       - name: 使用gomtm 进行 cfpage 部署
         run: (cd apps/testui && ../../packages/gomtm-cli/bin/gomtm dp cfpage)
+
+  testing_gomtm_worker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    needs: [dp_cfpage]
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # token: ${{ secrets.SAGE_PAT }}
+
+      - name: 测试是否能自动启动worker
+        run: (cd apps/testui && ../../packages/gomtm-cli/bin/gomtm)
