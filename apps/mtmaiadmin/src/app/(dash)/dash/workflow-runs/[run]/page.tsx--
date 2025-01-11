@@ -1,0 +1,212 @@
+"use client";
+
+import { WorkflowRunStatus } from "mtmaiapi/api";
+import { DashSidebar } from "mtmaiui";
+import { useMtmaiV2 } from "mtmaiui";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  CodeHighlighter,
+  MtTabs,
+  MtTabsContent,
+  MtTabsList,
+  MtTabsTrigger,
+  Separator,
+  Sheet,
+  SheetContent,
+  SidebarInset,
+  TabsTrigger,
+} from "mtxuilib";
+import { use, useEffect, useState } from "react";
+import { useWorkflowRunShape } from "../../../../../hooks/useWorkflowRun";
+import RunDetailHeader from "../../../../../modules/workflow-run/header";
+import { MiniMap } from "../../../../../modules/workflow-run/mini-map";
+import StepRunDetail, {
+  TabOption,
+} from "../../../../../modules/workflow-run/step-run-detail/step-run-detail";
+import { StepRunEvents } from "../../../../../modules/workflow-run/step-run-events-for-workflow-run";
+import {
+  ViewToggle,
+  hasChildSteps,
+} from "../../../../../modules/workflow-run/view-toggle";
+import { WorkflowRunInputDialog } from "../../../../../modules/workflow-run/workflow-run-input";
+import WorkflowRunVisualizer from "../../../../../modules/workflow-run/workflow-run-visualizer-v2";
+import { DashContent } from "../../components/DashContent";
+import { DashHeaders } from "../../components/DashHeaders";
+
+export const WORKFLOW_RUN_TERMINAL_STATUSES = [
+  WorkflowRunStatus.CANCELLED,
+  WorkflowRunStatus.FAILED,
+  WorkflowRunStatus.SUCCEEDED,
+];
+
+interface WorkflowRunSidebarState {
+  workflowRunId?: string;
+  stepRunId?: string;
+  defaultOpenTab?: TabOption;
+}
+
+export default function ExpandedWorkflowRunPage(props: {
+  params: { run: string };
+}) {
+  //@ts-ignore
+  const { run } = use(props.params);
+  const [sidebarState, setSidebarState] = useState<WorkflowRunSidebarState>();
+  const { shape } = useWorkflowRunShape(run);
+  useEffect(() => {
+    if (sidebarState?.workflowRunId && run !== sidebarState?.workflowRunId) {
+      setSidebarState(undefined);
+    }
+  }, [run, sidebarState]);
+  const view = useMtmaiV2((x) => x.preferredWorkflowRunView);
+
+  // const tenant = useTenant();
+  // const stepRunSchemaQuery = useQuery({
+  //   ...stepRunGetSchemaOptions({
+  //     path: {
+  //       tenant: tenant.metadata.id,
+  //       "step-run": run,
+  //     },
+  //   }),
+  // });
+
+  return (
+    <>
+      <DashSidebar />
+      <SidebarInset>
+        <DashHeaders>
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/">Home</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/workflow-runs">
+                  Workflow Runs
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>{shape.data?.displayName}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </DashHeaders>
+        <DashContent>
+          <div className="flex-grow h-full w-full">
+            <div className="mx-auto max-w-7xl pt-2 px-4 sm:px-6 lg:px-8">
+              <RunDetailHeader
+                loading={shape.isLoading}
+                data={shape.data}
+                refetch={() => shape.refetch()}
+              />
+              <Separator className="my-2" />
+              <div className="w-full h-fit flex overflow-auto relative bg-slate-100 dark:bg-slate-900">
+                {shape.data &&
+                  view === "graph" &&
+                  hasChildSteps(shape.data) && (
+                    <WorkflowRunVisualizer
+                      shape={shape.data}
+                      selectedStepRunId={sidebarState?.stepRunId}
+                      setSelectedStepRunId={(stepRunId) => {
+                        setSidebarState({
+                          stepRunId,
+                          defaultOpenTab: TabOption.Output,
+                          workflowRunId: run,
+                        });
+                      }}
+                    />
+                  )}
+                {shape.data &&
+                  (view === "minimap" || !hasChildSteps(shape.data)) && (
+                    <MiniMap
+                      shape={shape.data}
+                      selectedStepRunId={sidebarState?.stepRunId}
+                      onClick={(stepRunId, defaultOpenTab?: TabOption) =>
+                        setSidebarState(
+                          stepRunId === sidebarState?.stepRunId
+                            ? undefined
+                            : {
+                                stepRunId,
+                                defaultOpenTab,
+                                workflowRunId: run,
+                              },
+                        )
+                      }
+                    />
+                  )}
+                {shape.data && <ViewToggle shape={shape.data} />}
+              </div>
+              <div className="h-4" />
+              <MtTabs defaultValue="activity">
+                <MtTabsList layout="underlined">
+                  <MtTabsTrigger variant="underlined" value="activity">
+                    Activity
+                  </MtTabsTrigger>
+                  <TabsTrigger variant="underlined" value="input">
+                    Input
+                  </TabsTrigger>
+                  <TabsTrigger variant="underlined" value="additional-metadata">
+                    Metadata
+                  </TabsTrigger>
+                </MtTabsList>
+                <MtTabsContent value="activity">
+                  <div className="h-4" />
+                  {!shape.isLoading && shape.data && (
+                    <StepRunEvents
+                      workflowRun={shape.data}
+                      onClick={(stepRunId) =>
+                        setSidebarState(
+                          stepRunId === sidebarState?.stepRunId
+                            ? undefined
+                            : { stepRunId, workflowRunId: run },
+                        )
+                      }
+                    />
+                  )}
+                </MtTabsContent>
+                <MtTabsContent TabsContent value="input">
+                  {shape.data && <WorkflowRunInputDialog run={shape.data} />}
+                </MtTabsContent>
+                <MtTabsContent value="additional-metadata">
+                  <CodeHighlighter
+                    className="my-4"
+                    language="json"
+                    code={JSON.stringify(
+                      shape.data?.additionalMetadata,
+                      null,
+                      2,
+                    )}
+                  />
+                </MtTabsContent>
+              </MtTabs>
+            </div>
+            {shape.data && (
+              <Sheet
+                open={!!sidebarState}
+                onOpenChange={(open) =>
+                  open ? undefined : setSidebarState(undefined)
+                }
+              >
+                <SheetContent className="w-fit min-w-[56rem] max-w-4xl sm:max-w-2xl z-[60]">
+                  {sidebarState?.stepRunId && (
+                    <StepRunDetail
+                      stepRunId={sidebarState?.stepRunId}
+                      workflowRun={shape.data}
+                      defaultOpenTab={sidebarState?.defaultOpenTab}
+                    />
+                  )}
+                </SheetContent>
+              </Sheet>
+            )}
+          </div>
+        </DashContent>
+      </SidebarInset>
+    </>
+  );
+}

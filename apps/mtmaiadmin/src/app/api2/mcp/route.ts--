@@ -1,0 +1,11 @@
+// import { HelloMcpClient } from "./client";
+
+const handler = async (r: Request) => {
+  console.log("启动并连接 mcp server");
+  const result = await HelloMcpClient();
+
+  return new Response(JSON.stringify(result));
+};
+
+export const GET = handler;
+export const POST = handler;

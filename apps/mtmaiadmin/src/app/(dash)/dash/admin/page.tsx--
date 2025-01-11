@@ -1,0 +1,75 @@
+"use client";
+
+import { useMtmaiV2 } from "mtmaiui/stores/StoreProvider";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "mtxuilib";
+import dynamic from "next/dynamic";
+import { useState } from "react";
+
+const LzShellExecView = dynamic(
+  () =>
+    import("../../../../components/cmdshell/ShellExecView").then(
+      (x) => x.ShellExecView,
+    ),
+  {
+    ssr: false,
+  },
+);
+const cmdsList = [
+  {
+    isShell: false,
+    label: "release",
+    cmd: ". .venv/bin/activate && export PATH=$PATH:.venv/bin:${HOME}/.bun/bin && mtmai release",
+  },
+  {
+    label: "dp",
+    cmd: ". .venv/bin/activate && export PATH=$PATH:.venv/bin:${HOME}/.bun/bin && mtmai dp",
+    isShell: false,
+  },
+  {
+    label: "clean",
+    cmd: ". .venv/bin/activate && export PATH=$PATH:.venv/bin:${HOME}/.bun/bin && mtmai clean",
+    isShell: false,
+  },
+  {
+    label: "deploy_temboio",
+    cmd: "deploy_temboio",
+    isShell: false,
+  },
+  {
+    label: "docker_build_mtmai",
+    cmd: "docker_build_mtmai",
+    isShell: false,
+  },
+];
+export default function Page() {
+  const gomtmBackend = useMtmaiV2((x) => x.serverUrl);
+  const [shellPath, setShellPath] = useState("");
+
+  const execApiEndpoint = `${gomtmBackend}/api/v1/ws`;
+  return (
+    <div className="flex flex-col gap-2 w-full">
+      <div>{gomtmBackend}</div>
+      <div className="flex flex-row gap-2 p-2 w-full h-full">
+        <Tabs defaultValue="release" className="w-full h-full">
+          <TabsList className="flex w-full gap-2">
+            {cmdsList.map((cmd) => (
+              <TabsTrigger key={cmd.label} value={cmd.label}>
+                {cmd.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+
+          {cmdsList.map((cmd, i) => (
+            <TabsContent value={cmd.label} key={cmd.label + i.toString()}>
+              <LzShellExecView
+                execApiEndpoint={execApiEndpoint}
+                cmdLine={cmd.cmd}
+                label={cmd.label}
+              />
+            </TabsContent>
+          ))}
+        </Tabs>
+      </div>
+    </div>
+  );
+}

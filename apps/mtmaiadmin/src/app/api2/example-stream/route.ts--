@@ -1,0 +1,7 @@
+import { graphSseStream } from "mtxuilib/graphs/graphutils/graphutils.ts";
+import { newStreamResponse } from "mtxuilib/lib/sse/sse.ts";
+const handler = async (r: Request) => {
+  return newStreamResponse(graphSseStream("simulationGraph", {}, {}));
+};
+
+export const GET = handler;

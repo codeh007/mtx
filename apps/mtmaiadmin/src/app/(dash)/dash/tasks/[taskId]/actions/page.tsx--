@@ -1,0 +1,19 @@
+"use client";
+
+import { MtErrorBoundary } from "mtxuilib";
+import { Skeleton } from "mtxuilib";
+import { Suspense } from "react";
+import { TaskActions } from "../../../../../../skyvern/routes/tasks/detail/TaskActions.tsx--";
+
+export default function Page(props: { params: { taskId: string } }) {
+  const { taskId } = props.params;
+  return (
+    <>
+      <Suspense fallback={<Skeleton className="h-32 w-full" />}>
+        <MtErrorBoundary>
+          <TaskActions taskId={taskId} />
+        </MtErrorBoundary>
+      </Suspense>
+    </>
+  );
+}

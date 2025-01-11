@@ -1,0 +1,48 @@
+import { MtSuspenseBoundary } from "mtxuilib";
+import type { Metadata } from "next";
+import { headers } from "next/headers";
+// import { getCoreConfig } from "../../../lib/core/coreConfig";
+import "./globals.css";
+// import { MtmaiProvider, MtmaiProvider } from "../../../stores/StoreProvider";
+import "./globals.css";
+import React from "react";
+import { MtmaiProvider } from "../../../stores/StoreProvider";
+// });
+
+export const metadata: Metadata = {
+  title: "Open Canvas",
+  description: "Open Canvas Chat UX by LangChain",
+};
+
+export default async function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  // const coreConfig = await getCoreConfig();
+  const hostName = (await headers()).get("host");
+  return (
+    <html
+      lang="en"
+      // `next-themes` injects an extra classname to the body element to avoid
+      // visual flicker before hydration. Hence the `suppressHydrationWarning`
+      // prop is necessary to avoid the React hydration mismatch warning.
+      // https://github.com/pacocoursey/next-themes?tab=readme-ov-file#with-app
+      suppressHydrationWarning
+    >
+      <body className={inter.className}>
+        <MtSuspenseBoundary>
+          <MtmaiProvider
+            accessToken={coreConfig?.accessToken}
+            backends={coreConfig?.backends || []}
+            hostName={hostName || ""}
+            xApiKey={coreConfig.xApiKey}
+          >
+
+              {children}
+          </MtmaiProvider>
+        </MtSuspenseBoundary>
+      </body>
+    </html>
+  );
+}

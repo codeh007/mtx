@@ -1,0 +1,34 @@
+"use client";
+
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
+
+/**
+ * 文章搜索结果
+ * @param props
+ * @returns
+ */
+export default function Page() {
+  const searchParams = useSearchParams();
+  const keyword = searchParams.get("s");
+
+  const postsQuery = useSuspenseQuery({
+    ...postsPostListOptions({
+      query: {
+        keyword,
+      },
+    }),
+  });
+
+  return (
+    <div>
+      <div>
+        <input type="text" placeholder="搜索" />
+      </div>
+      <div>slug: </div>
+      {postsQuery.data?.data?.map((post) => (
+        <div key={post.id}>{post.title}</div>
+      ))}
+    </div>
+  );
+}
