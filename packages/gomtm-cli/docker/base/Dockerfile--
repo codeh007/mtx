@@ -1,0 +1,168 @@
+ARG GOLANG_VERSION=${GOLANG_VERSION:-"1.23.3"}
+ARG WORK_DIR=${WORK_DIR:-"/app"}
+ARG MAIN_GH_TOKEN
+ARG MAIN_GH_USER
+ARG NONROOT_USER=${NONROOT_USER:-"user"}
+ARG PYTHON_VERSION=${PYTHON_VERSION:-"3.12"}
+ARG NODE_VERSION=${NODE_VERSION:-"20.18.1"}
+
+FROM debian as mtmbase
+ARG DEFAULT_PASSWORD
+ARG NONROOT_USER=${NONROOT_USER:-"user"}
+
+ENV BUILD_STAGE=true
+ENV PATH=/app/bin:/app/hack:/app/hack/dev:/app/hack:${HOME}/.local/bin:$PATH
+ENV SHELL=/bin/bash
+
+RUN apt update -yqq --fix-missing && apt -yqq --no-install-recommends install \
+    sudo git curl wget ca-certificates gnupg2 unzip lsb-release \
+    iptables iproute2 net-tools inetutils-ping dnsutils \
+    ncat socat \
+    openssh-server \
+    make \
+    gettext-base \
+    libpcap-dev \
+    make build-essential libssl-dev \
+    && apt -y autoremove && apt-get -y clean && rm -rf /tmp/* && rm -rf /var/lib/apt/lists/*
+
+
+RUN apt update -yqq --fix-missing && apt -yqq --no-install-recommends install \
+    zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \
+    llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev \
+    && apt -y autoremove && apt-get -y clean && rm -rf /tmp/* && rm -rf /var/lib/apt/lists/*
+
+
+
+# 安装 Go
+# ARG GOLANG_VERSION=${GOLANG_VERSION:-"1.22.8"}
+# ENV GOLANG_VERSION=${GOLANG_VERSION:-"1.22.8"}
+# ENV GOPATH=/usr/local/go
+# ENV PATH=$GOPATH/bin:$PATH
+# RUN OS=$(uname -s | tr '[:upper:]' '[:lower:]') ARCH=$(uname -m) \
+#     curl -o /tmp/go${GOLANG_VERSION}.${OS}-${ARCH}.tar.gz -sSL https://go.dev/dl/go${GOLANG_VERSION}.${OS}-${ARCH}.tar.gz \
+#     && tar -C /usr/local -xzf /tmp/go${GOLANG_VERSION}.${OS}-${ARCH}.tar.gz \
+#     && rm /tmp/go${GOLANG_VERSION}.${OS}-${ARCH}.tar.gz
+# RUN go --version
+# RUN echo 'export PATH="$GOPATH/bin:$PATH"' >> /etc/profile \
+#     && echo 'export PATH="$GOPATH/bin:$PATH"' >> ${HOME}/.bashrc
+
+#############################
+# 安装 Go
+ARG GOLANG_VERSION=${GOLANG_VERSION:-"1.23.3"}
+ENV GOLANG_VERSION=${GOLANG_VERSION}
+ENV GOPATH=/usr/local/go
+ENV PATH=$GOPATH/bin:$PATH
+RUN curl -o /tmp/goinstall.tar.gz -sSL https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz \
+    && tar -C /usr/local -xzf /tmp/goinstall.tar.gz \
+    && rm /tmp/goinstall.tar.gz
+RUN echo 'export PATH="$GOPATH/bin:$PATH"' >> /etc/profile
+
+# RUN echo 'export PATH="$GOPATH/bin:$PATH"' >> /etc/profile \
+#     && echo 'export PATH="$GOPATH/bin:$PATH"' >> ${HOME}/.bashrc
+
+#############################
+# python
+ARG PYTHON_VERSION=${PYTHON_VERSION:-"3.12"}
+ENV PYTHON_VERSION=${PYTHON_VERSION:-"3.12"}
+ENV PYENV_ROOT="/.pyenv"
+ENV PATH="${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:${PATH}"
+RUN git clone --depth=1 https://github.com/pyenv/pyenv.git ${PYENV_ROOT}
+RUN pyenv install ${PYTHON_VERSION} && pyenv global ${PYTHON_VERSION}
+
+
+#############################
+# path: /.pyenv/shims:/.pyenv/bin:/usr/local/go/bin:/app/bin:/app/hack:/app/hack/dev:/app/hack:/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+# RUN echo "path: ${PATH}"
+RUN python --version
+RUN pip --version
+RUN pip install --no-cache-dir -U wheel setuptools uv uvicorn poetry
+RUN pip install uv
+RUN poetry --version
+#############################
+# nodejs
+# nvm environment variables
+ENV NVM_DIR /usr/local/nvm
+ENV NODE_VERSION=${NODE_VERSION:-"20.18.1"}
+RUN mkdir -p $NVM_DIR \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash \
+    && . $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm alias default $NODE_VERSION \
+    && nvm use default
+# RUN source "${NVM_DIR}/nvm.sh" && nvm install --lts
+# ENV PATH="${NVM_DIR}/versions/node/v${NODE_VERSION}/bin:${PATH}"
+# add node and npm to path so the commands are available
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+# /usr/local/nvm/versions/node/v20.18.1/bin/npm
+RUN echo "export NVM_DIR=$NVM_DIR" >> ${HOME}/.bashrc \
+    && echo "export NODE_VERSION=$NODE_VERSION" >> ${HOME}/.bashrc \
+    && echo 'export PATH="$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH"' >> ${HOME}/.bashrc
+
+RUN echo 'Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/bin/npm"' >> /etc/sudoers
+
+
+RUN npm install -g pnpm yarn
+
+# bun
+ENV BUN_INSTALL="/.bun"
+ENV PATH="$BUN_INSTALL/bin:$PATH"
+RUN curl -fsSL https://bun.sh/install | bash
+RUN echo "export BUN_INSTALL=$BUN_INSTALL" >> ${HOME}/.bashrc \
+    && echo 'export PATH="$BUN_INSTALL/bin:$PATH"' >> ${HOME}/.bashrc
+
+# cloudflared
+RUN curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb \
+    && sudo dpkg -i cloudflared.deb \
+    && rm cloudflared.deb
+
+RUN curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list \
+    && sudo apt-get update && sudo apt-get install -yqq cloudflare-warp \
+    && apt -y autoremove && apt-get -y clean && rm -rf /tmp/* && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.gpg | sudo apt-key add - \
+    && curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.list | sudo tee /etc/apt/sources.list.d/tailscale.list \
+    && apt-get update -yqq && apt-get install -y tailscale \
+    && apt -y autoremove && apt-get -y clean && rm -rf /tmp/* \
+    && rm -rf /var/lib/apt/lists/*
+
+
+# postgresql
+RUN sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' \
+    && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - \
+    && apt-get update && apt-get install -yqq --no-install-recommends postgresql-16 postgresql-16-pgvector \
+    && apt -y autoremove && apt-get -y clean && rm -rf /tmp/* && rm -rf /var/lib/apt/lists/*
+
+
+
+
+WORKDIR ${WORK_DIR}
+
+COPY Taskfile.yaml ${WORK_DIR}/Taskfile.yaml
+COPY ./hack ${WORK_DIR}/hack
+COPY mtm/embed/bin ${WORK_DIR}/bin
+COPY bin/garagemq ${WORK_DIR}/bin/garagemq
+
+RUN bash ${WORK_DIR}/hack/dev/pkg.sh install
+
+RUN useradd --user-group --create-home --no-log-init --shell /bin/bash ${NONROOT_USER}
+RUN usermod -aG sudo ${NONROOT_USER}
+RUN echo "${NONROOT_USER} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+RUN bash ${WORK_DIR}/hack/dev/install_py install
+
+RUN bash ${WORK_DIR}/hack/dev/pkg.sh install_nodejs
+
+RUN node -v &&  npm -v && bun -v && pnpm -v
+
+RUN GOLANG_VERSION=${GOLANG_VERSION} bash ${WORK_DIR}/hack/dev/install-golang.sh install
+
+# RUN bash ${WORK_DIR}/hack/dev/searxng install
+# RUN ./gomtm install searxng
+
+RUN bash ${WORK_DIR}/hack/dev/vnc install
+
+RUN bash ${WORK_DIR}/hack/dev/pkg.sh playwright
+
+CMD ["dockerentry"]
