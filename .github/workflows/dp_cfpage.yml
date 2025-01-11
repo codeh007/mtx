@@ -34,6 +34,7 @@ concurrency:
 
 env:
   MTM_DATABASE_URL: ${{ secrets.MTM_DATABASE_URL }}
+  SERVER_MSGQUEUE_RABBITMQ_URL: ${{ secrets.SERVER_MSGQUEUE_RABBITMQ_URL }}
 
 jobs:
   dp_cfpage:
