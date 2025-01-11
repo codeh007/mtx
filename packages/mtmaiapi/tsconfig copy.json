@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    "target": "ESNEXT",
+    "lib": ["dom", "dom.iterable", "esnext", "WebWorker"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    // "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    // "types": ["node", "jest", "@cloudflare/workers-types", "bun-types"],
+    "types": ["node"],
+
+    // "moduleResolution": "bundler",
+    "moduleResolution": "node",
+    "module": "ESNext",
+    "resolveJsonModule": true,
+    // "isolatedModules": true,
+    "isolatedModules": false,
+    "noEmitOnError": true,
+
+    "jsx": "preserve",
+    "declaration": true,
+
+    // "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
+    "rootDir": "./src",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    // "paths": {
+    //   "@/*": ["./src/*"]
+    // },
+    "noImplicitAny": false
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": [
+    "node_modules",
+    ".vscode",
+    "public",
+    "dist",
+    "openapi-ts.config.ts"
+  ]
+}
