@@ -25,7 +25,7 @@ function loadEnv() {
 (async () => {
   await loadEnv();
   program.command("hello").action(async () => {
-    console.log("(gomtmcli hello4)", import.meta.url);
+    console.log("(gomtmcli hello5)", import.meta.url);
     // await buildWithViteBuild();
     // console.log("(mtxuilib)build tsc");
     // await buildWithTsc();
