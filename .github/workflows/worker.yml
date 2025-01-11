@@ -35,7 +35,6 @@ env:
   MTM_DATABASE_URL: ${{ secrets.MTM_DATABASE_URL }}
 jobs:
   testing_gomtm_worker:
-    name: dp_cfpage
     runs-on: ubuntu-latest
     timeout-minutes: 2
 
