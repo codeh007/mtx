@@ -64,7 +64,9 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # 使用 PAT 替代默认的 GITHUB_TOKEN
+          GITHUB_TOKEN: ${{ secrets.SAGE_PAT }}
 
       # - name: Slack notification
       #   if: steps.changesets.outputs.published == 'true'
