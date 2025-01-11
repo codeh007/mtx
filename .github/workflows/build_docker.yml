@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - docker/**/*
+      - packages/gomtm-cli/**/*
   workflow_dispatch:
     inputs:
       tag:
@@ -58,5 +58,5 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USER }}/gomtm:latest
-          file: docker/base/Dockerfile
+          file: packages/gomtm-cli/docker/base/Dockerfile
           target: base
