@@ -18,15 +18,13 @@ runs:
         registry-url: "https://registry.npmjs.org"
         # cache: "pnpm"
 
-
     - name: bun install
       # run: bun install --development
       run: bun install --frozen-lockfile
       shell: bash
 
-
-    - name: Setup Git User
-      shell: bash
-      run: |
-        git config --global user.email "joseshegs@gmail.com"
-        git config --global user.name "Segun Adebayo"
+    # - name: Setup Git User
+    #   shell: bash
+    #   run: |
+    #     git config --global user.email "joseshegs@gmail.com"
+    #     git config --global user.name "Segun Adebayo"
