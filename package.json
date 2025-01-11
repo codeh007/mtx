@@ -14,7 +14,7 @@
     "build": "turbo build",
     "with-env": "dotenv -e ./env/gomtm.env --",
     "gen": "cd packages/mtmaiapi && bun run gen",
-    "release": "turbo build && changeset publish"
+    "release": "changeset publish"
   },
   "typesVersions": {
     "*": {
