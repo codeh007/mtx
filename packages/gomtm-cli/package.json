@@ -13,8 +13,9 @@
     "dist",
     "src"
   ],
-  "bin22": {
-    "gomtm-cli": "./dist/gomtm-cli.js"
+  "bin": {
+    "gomtm-cli": "./dist/gomtm-cli.js",
+    "gomtm": "./bin/gomtm"
   },
   "os": [
     "darwin",
