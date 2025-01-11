@@ -1,0 +1,27 @@
+"use client";
+
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { postsGetPostOptions } from "mtmaiapi/@tanstack/react-query.gen";
+import { PostDetailView } from "../../../../modules/posts/PostDetailView";
+
+/**
+ * 文章详细页
+ * @param props
+ * @returns
+ */
+export default function Page(props: { params: { slugs: string[] } }) {
+  const { slugs } = props.params;
+  const postDetailQuery = useSuspenseQuery({
+    ...postsGetPostOptions({
+      path: {
+        slug_or_id: slugs.join("/"),
+      },
+    }),
+  });
+
+  return (
+    <div>
+      <PostDetailView post={postDetailQuery.data} />
+    </div>
+  );
+}

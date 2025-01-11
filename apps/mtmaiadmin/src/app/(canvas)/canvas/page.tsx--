@@ -1,0 +1,17 @@
+"use client";
+
+import { MtSuspenseBoundary } from "mtxuilib";
+import { Canvas } from "../../../opencanvas/canvas";
+import { GraphProvider } from "../../../stores/GraphContext";
+
+export default function Home() {
+  return (
+    <MtSuspenseBoundary>
+      <GraphProvider>
+        <MtSuspenseBoundary>
+          <Canvas />
+        </MtSuspenseBoundary>
+      </GraphProvider>
+    </MtSuspenseBoundary>
+  );
+}

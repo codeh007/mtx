@@ -1,0 +1,66 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+      "WebWorker"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "types": [
+      "node",
+      "bun-types"
+    ],
+    "moduleResolution": "bundler",
+    "module": "ESNext",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve", //react-jsx | preserve
+    // "allowImportingTsExtensions": true,
+    // "verbatimModuleSyntax": true,
+    // "strictNullChecks": true,
+    // "allowSyntheticDefaultImports": true,
+    // "declaration": true,
+    "noImplicitAny": false,
+    // "rootDir": "./src",
+    // "outDir": "dist",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    // "paths": {
+    //   // "@/*": ["./src/*"],
+    //   "mtxuilib/*": [
+    //     "../../packages/mtxuilib/src/*"
+    //   ],
+    //   // "mtmaiapi/*": ["../../packages/mtmaiapi/src/*"]
+    //   // "mtmeditor/*": ["../../packages/mtmeditor/src/*"],
+    //   // "mtmscreentocode/*": ["../../packages/mtmscreentocode/src/*"],
+    //   // "mtmaibot/*": ["../../packages/mtmaibot/src/*"]
+    // }
+  },
+  "include": [
+    ".next/types/**/*.ts",
+    "next.config.mjs",
+    "src",
+    ".next.dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules",
+    ".vscode",
+    "public",
+    ".next.dev",
+    "src/.storybook",
+    "src/stories",
+    "src/__test__"
+  ]
+}

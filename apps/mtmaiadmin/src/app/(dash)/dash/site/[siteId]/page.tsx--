@@ -1,0 +1,34 @@
+"use client";
+import { DashContent, DashHeaders, DashSidebar, SiteShowView } from "mtmaiui";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+  SidebarInset,
+} from "mtxuilib";
+import { use } from "react";
+
+export default function Page(props: { params }) {
+  // @ts-ignore
+  const { siteId } = use(props.params);
+  return (
+    <>
+      <DashSidebar />
+      <SidebarInset>
+        <DashHeaders>
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbPage>sites</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </DashHeaders>
+        <DashContent>
+          <SiteShowView siteId={siteId} />
+        </DashContent>
+      </SidebarInset>
+    </>
+  );
+}

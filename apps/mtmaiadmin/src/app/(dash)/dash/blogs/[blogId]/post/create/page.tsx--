@@ -1,0 +1,38 @@
+"use client";
+
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+  SidebarInset,
+} from "mtxuilib";
+import { use } from "react";
+import { DashSidebar } from "../../../../../../../components/sidebar/siderbar";
+import { CreateBlogPostForm } from "../../../../../../../modules/posts/blog-post-form-create";
+import { DashContent } from "../../../../components/DashContent";
+import { DashHeaders } from "../../../../components/DashHeaders";
+
+export default function CreatePostPage(props: { params: { blogId: string } }) {
+  //@ts-expect-error
+  const { blogId } = use(props.params);
+  return (
+    <>
+      <DashSidebar />
+      <SidebarInset>
+        <DashHeaders>
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbPage>Create Post</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </DashHeaders>
+        <DashContent>
+          <CreateBlogPostForm blogId={blogId as string} />
+        </DashContent>
+      </SidebarInset>
+    </>
+  );
+}

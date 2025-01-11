@@ -1,0 +1,73 @@
+"use client";
+
+import { useTenant } from "mtmaiui/hooks/useAuth";
+// import { MtmaiAgent } from "mtxuilib/agents/mtmaiAgent/mtmaiAgent";
+import { Button } from "mtxuilib/ui/button";
+export default function TestPage() {
+  const tenant = useTenant();
+
+  const handleClick = () => {
+    const testChatUrl = `https://colab-gomtm.yuepa8.com/api/v1/tenants/${tenant.metadata.id}/chat`;
+
+    fetch(testChatUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: "你好",
+      }),
+      credentials: "include",
+    });
+  };
+
+  const handleClickCallModel = () => {
+    const testChatUrl = `https://colab-gomtm.yuepa8.com/api/v1/tenants/${tenant.metadata.id}/callModel`;
+
+    fetch(testChatUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: "你好",
+      }),
+      credentials: "include",
+    });
+  };
+
+  const handleClickReactAgent = async () => {
+    const mtmaiAgent = new MtmaiAgent(tenant.metadata.id);
+    const result = await mtmaiAgent.run("你好");
+    console.log(result);
+  };
+
+  const handleClickBlogGraph = async () => {
+    const blogGraphEndpoint = "http://localhost:3500/api/mtm/agent/run";
+    const response = await fetch(blogGraphEndpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message: "你好" }),
+    });
+    const result = await response.json();
+    console.log(result);
+  };
+
+  const handleAgentRunV3 = async () => {
+    // const assistant = new Assistant(tenant.metadata.id);
+    // const result = await assistant.run("你好");
+    // console.log(result);
+  };
+
+  return (
+    <div className="flex flex-col gap-2">
+      <Button onClick={handleClick}>TestChatStream</Button>
+      <Button onClick={handleClickCallModel}>TestCallModel</Button>
+      <Button onClick={handleClickReactAgent}>TestReactAgent</Button>
+      <Button onClick={handleClickBlogGraph}>TestBlogGraph</Button>
+      <Button onClick={handleAgentRunV3}>TestAgentRunV3</Button>
+    </div>
+  );
+}
