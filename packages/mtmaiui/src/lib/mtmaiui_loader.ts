@@ -70,7 +70,8 @@ export async function loadMtmaiuiClientApp(options) {
     return;
   }
   //生产环境的路径
-  const response = await fetch(manifest);
+  const uri = new URL(manifest, window.location.href);
+  const response = await fetch(uri);
   const data = await response.json();
   console.log("manifest", manifest, data);
   //TODO: 生产环境加载
