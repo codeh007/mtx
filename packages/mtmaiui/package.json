@@ -1,7 +1,7 @@
 {
   "name": "mtmaiui",
   "private": false,
-  "version": "0.5.2",
+  "version": "0.5.4",
   "type": "module",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -20,8 +20,7 @@
     "build:types": "vite build --types",
     "build:server": "vite build --ssr src/entry-server.tsx",
     "serve": "vite preview",
-    "start": "vite",
-    "page:deploy": "bun run ./src/cli/main.ts dp_mtmaiui"
+    "start": "vite"
   },
   "typesVersions": {
     "*": {

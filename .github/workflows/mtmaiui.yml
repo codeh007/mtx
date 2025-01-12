@@ -3,7 +3,7 @@ name: dp_cfpage
 on:
   push:
     paths:
-      - "packages/**"
+      - "packages/**/*"
       - "package.json"
     branches:
       - main
