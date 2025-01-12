@@ -1,6 +1,10 @@
 // src/lib/mtmaiui_loader.ts
-var manifest = import.meta.resolve("/.vite/manifest.json");
-var entrySrcName = "/src/entry-client.tsx";
+var loaderOptions = {
+  isDev: false,
+  basePath: "/mtmaiui",
+  manifest: "/mtmaiui/.vite/manifest.json",
+  entrySrcName: "/src/entry-client.tsx"
+};
 async function loadMtmaiuiClientApp(options) {
   console.log("import.meta", import.meta);
   let { isDev } = options;
@@ -31,7 +35,7 @@ async function loadMtmaiuiClientApp(options) {
       await new Promise((resolve) => setTimeout(resolve, 100));
       console.log("开始加载入口文件...");
       const entryScript = document.createElement("script");
-      entryScript.src = import.meta.resolve(entrySrcName);
+      entryScript.src = import.meta.resolve(options.entrySrcName);
       entryScript.type = "module";
       await new Promise((resolve, reject) => {
         entryScript.onload = () => {
@@ -46,12 +50,14 @@ async function loadMtmaiuiClientApp(options) {
     }
     return;
   }
-  const response = await fetch(manifest);
+  const uri = new URL(options.basePath + options.manifest, window.location.href);
+  console.log("uri", uri);
+  const response = await fetch(uri);
   const data = await response.json();
-  console.log("manifest", manifest, data);
+  console.log("manifest", options.manifest, data);
   console.log("开始加载生产环境脚本...TODO");
 }
-loadMtmaiuiClientApp(false);
+loadMtmaiuiClientApp(loaderOptions);
 export {
   loadMtmaiuiClientApp
 };
