@@ -34,10 +34,10 @@ export default defineConfig({
   },
   build: {
     // lib: {
-    //   entry: resolve(__dirname, "lib/hello123.ts"),
-    //   name: "hello123",
+    //   entry: resolve(__dirname, "lib/mtmaiui_loader.ts"),
+    //   name: "mtmaiui_loader",
     //   // the proper extensions will be added
-    //   fileName: "hello123",
+    //   fileName: "mtmaiui_loader",
     // },
     manifest: true,
     outDir: "public/mtmaiui",
@@ -53,6 +53,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),
+        // loader: resolve(__dirname, "src/lib/mtmaiui_loader.ts"),
         // nested: resolve(__dirname, "src/nested/index.html"),
       },
     },
