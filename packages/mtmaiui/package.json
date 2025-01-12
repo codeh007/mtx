@@ -15,7 +15,7 @@
     "dev": "dotenv -e ../../../gomtm/env/mtmaiui.env -- next dev",
     "dev:next": "  next dev",
     "dev:ssr": "node server",
-    "build": "next build && vite build --emptyOutDir=false",
+    "build": "vite build --emptyOutDir=false && bun build ./src/lib/mtmaiui_loader.ts --outdir ./public && next build",
     "build:tsc": "tsc --outDir dist --jsx react-jsx --incremental false --declaration true --noEmit false --removeComments true --project tsconfig.json",
     "build:vite": "vite build --emptyOutDir=false",
     "build:types": "vite build --types",

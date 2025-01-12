@@ -57,7 +57,7 @@ export async function loadMtmaiuiClientApp(options) {
       await new Promise((resolve, reject) => {
         entryScript.onload = () => {
           console.log("入口文件加载完成");
-          resolve();
+          resolve(void 0);
         };
         entryScript.onerror = (e) =>
           reject(new Error(`入口文件加载失败: ${e.message}`));
@@ -76,8 +76,11 @@ export async function loadMtmaiuiClientApp(options) {
   console.log("开始加载生产环境脚本...TODO");
 }
 
-// 根据url判断是生成环境还是
-function GetBrowserUrl() {
-  return window.location.href;
+// 根据url判断是否生成环境
+function IsProduction() {
+  const protocol = window.location.protocol;
+  // const host = window.location.host;
+  // const url = `${protocol}//${host}`;
+  return protocol === "https:"
 }
 loadMtmaiuiClientApp(false);
