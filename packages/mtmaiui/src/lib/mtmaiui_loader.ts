@@ -13,14 +13,7 @@ const loaderOptions ={
  */
 export async function loadMtmaiuiClientApp(options: typeof loaderOptions) {
   console.log("import.meta", import.meta);
-  let { isDev } = options;
-  if (
-    isDev === undefined &&
-    (import.meta.url.includes("localhost") ||
-      import.meta.url.includes("127.0.0.1"))
-  ) {
-    isDev = true;
-  }
+  const {isDev} = options;
   if (isDev) {
     try {
       // 1. 加载 Vite 客户端
@@ -80,9 +73,8 @@ export async function loadMtmaiuiClientApp(options: typeof loaderOptions) {
   console.log("开始加载生产环境脚本...TODO");
 }
 
-// 根据url判断是否生成环境
-function IsProduction() {
-  const protocol = window.location.protocol;
-  return protocol === "https:"
-}
-loadMtmaiuiClientApp(loaderOptions);
+
+loadMtmaiuiClientApp({
+  ...loaderOptions, 
+  isDev: (import.meta.url.includes("localhost") || import.meta.url.includes("127.0.0.1"))}
+);
