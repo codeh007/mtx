@@ -1,9 +1,11 @@
-name: dp_cfpage
+name: dp_cfpage_mtmaiui
 
 on:
   push:
     paths:
-      - "packages/**/*"
+      - "packages/mtmaiui/**/*"
+      - "packages/mtmaiapi/**/*"
+      - "packages/mtxuilib/**/*"
       - "package.json"
     branches:
       - main
