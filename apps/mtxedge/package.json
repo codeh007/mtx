@@ -52,7 +52,7 @@
         "mtmaiadmin": "dist/main.js"
     },
     "scripts": {
-        "build": "next build",
+        "build": "bun run next build",
         "build3": "dotenv -e ../../env/mtmaiadmin.env -- tsx src/db/migrate && next build",
         "db:migrate": "dotenv -e ../../env/mtmaiadmin.env -- tsx src/db/migrate",
         "dev": "dotenv -e ../../env/mtmaiadmin.env -- next dev",
