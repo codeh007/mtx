@@ -1,11 +1,15 @@
 #!/usr/bin/env node
 import { program } from "commander";
+import { fileURLToPath } from 'node:url'
 import dotenv from "dotenv";
 import fs from "node:fs";
 import path from "node:path";
+import vite from "vite";
 // import { buildWithTsc } from "./build_tsc";
 // import { buildWithViteBuild } from "./build_vite";
 // import { compileMigrations } from "./compile-migrations";
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 const envFiles = ["../../env/dev.env", "./env/dev.env", ".env"];
 function loadEnv() {
@@ -24,8 +28,13 @@ function loadEnv() {
 }
 (async () => {
   await loadEnv();
-  program.command("hello").action(async () => {
-    console.log("(gomtmcli hello5)", import.meta.url);
+  program.command("build_mtmaiui").action(async () => {
+    console.log("(build_mtmaiui)", import.meta.url);
+
+    const projectDir = path.resolve(__dirname, "../../../packages/mtmaiui");
+    await vite.build({
+      configFile: path.resolve(projectDir, "vite.config.js"),
+    });
     // await buildWithViteBuild();
     // console.log("(mtxuilib)build tsc");
     // await buildWithTsc();
