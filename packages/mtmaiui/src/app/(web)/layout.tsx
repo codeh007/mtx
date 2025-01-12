@@ -2,18 +2,19 @@ import { fontSans } from "mtxuilib/fonts";
 import "mtxuilib/styles/globals.css";
 import type { Viewport } from "next";
 import { cookies, headers } from "next/headers";
-import { Suspense, type ReactNode } from "react";
+import {  type ReactNode } from "react";
 
 import { UIProviders } from "mtmaiui/stores/UIProviders";
 import { frontendGetConfig, initMtiaiClient } from "mtmaiapi";
 
 import { cn } from "mtxuilib/lib/utils";
 import { MtmaiProvider } from "../../stores/StoreProvider";
-import { MustLogin } from "../../components/MustLogin";
+// import { MustLogin } from "../../components/MustLogin";
 import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
 import { SidebarProvider } from "mtxuilib/ui/sidebar";
-import { GomtmRuntimeProvider } from "../../stores/gomtm-runtime-privider";
-import { HatchatLoader } from "../../components/HatchatLoader";
+// import { GomtmRuntimeProvider } from "../../stores/gomtm-runtime-privider";
+// import { HatchatLoader } from "../../components/HatchatLoader";
+import { getBackendUrl } from "mtxuilib/lib/sslib";
 import "./globals.css";
 import { MtmaiuiLoaderScript } from "../../components/MtmaiuiLoader";
 
@@ -42,11 +43,12 @@ export default async function Layout(props: {
     )?.value;
   }
 
+  const selfUrl = await getBackendUrl();
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <ThemeHeaderScript />
-        <MtmaiuiLoaderScript />
+        <MtmaiuiLoaderScript uiUrl={selfUrl} />
       </head>
       <body
         className={cn(
