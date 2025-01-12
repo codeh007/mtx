@@ -11,7 +11,7 @@ import { cn } from "mtxuilib/lib/utils";
 // import { MtmaiapiProvider } from "../../context/MtmaiapiProvider";
 // import { MtmaiProvider } from "../../context/StoreProvider";
 // import { getCoreConfig } from "../../lib/core/coreConfig";
-import "../../styles/globals.css";
+import "./globals.css";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
