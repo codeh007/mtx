@@ -10,7 +10,8 @@ type MtmaiDevSrcProps = {
  * @returns
  */
 export function MtmaiuiLoaderScript(props: MtmaiDevSrcProps) {
-  const uiUrl = props.uiUrl || "http://localhost:6111";
+  // const uiUrl = props.uiUrl || "http://localhost:6111";
+  const uiUrl = props.uiUrl || "";
   const scriptSrc =
     process.env?.NODE_ENV === "production"
       ? `${uiUrl}/mtmaiui_load.js`
