@@ -1,17 +1,24 @@
-const basePath = "/mtmaiui";
-const manifest = import.meta.resolve(`${basePath}/.vite/manifest.json`);
-const entrySrcName = "/src/entry-client.tsx";
-/**
- * @typedef {Object} LoadMtmaiuiClientAppOptions
- * @property {boolean} [isDev] - 是否是开发环境
- */
+// const basePath = "/mtmaiui";
+// const manifest = import.meta.resolve(`${basePath}/.vite/manifest.json`);
+// const entrySrcName = "/src/entry-client.tsx";
+
+const loaderOptions ={
+  isDev: false,
+  basePath: "/mtmaiui",
+  manifest: "/mtmaiui/.vite/manifest.json",
+  entrySrcName: "/src/entry-client.tsx",
+}
+
+// interface LoadMtmaiuiClientAppOptions {
+//   isDev?: boolean;
+// }
 
 /**
  * 加载 mtmaiui 客户端
  * @param {LoadMtmaiuiClientAppOptions} options - 配置选项
  * @returns {Promise<void>}
  */
-export async function loadMtmaiuiClientApp(options) {
+export async function loadMtmaiuiClientApp(options: typeof loaderOptions) {
   console.log("import.meta", import.meta);
   let { isDev } = options;
   if (
@@ -53,7 +60,7 @@ export async function loadMtmaiuiClientApp(options) {
       // 3. 加载入口文件
       console.log("开始加载入口文件...");
       const entryScript = document.createElement("script");
-      entryScript.src = import.meta.resolve(entrySrcName);
+      entryScript.src = import.meta.resolve(options.entrySrcName);
       entryScript.type = "module";
       await new Promise((resolve, reject) => {
         entryScript.onload = () => {
@@ -70,10 +77,10 @@ export async function loadMtmaiuiClientApp(options) {
     return;
   }
   //生产环境的路径
-  const uri = new URL(manifest, window.location.href);
+  const uri = new URL(options.manifest, window.location.href);
   const response = await fetch(uri);
   const data = await response.json();
-  console.log("manifest", manifest, data);
+  console.log("manifest", options.manifest, data);
   //TODO: 生产环境加载
   console.log("开始加载生产环境脚本...TODO");
 }
@@ -85,4 +92,4 @@ function IsProduction() {
   // const url = `${protocol}//${host}`;
   return protocol === "https:"
 }
-loadMtmaiuiClientApp(false);
+loadMtmaiuiClientApp(loaderOptions);
