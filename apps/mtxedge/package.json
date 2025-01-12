@@ -1,6 +1,6 @@
 {
-    "name": "testui",
-    "version": "0.0.1",
+    "name": "mtxedge",
+    "version": "0.0.2",
     "license": "MIT",
     "type": "module",
     "private": true,
