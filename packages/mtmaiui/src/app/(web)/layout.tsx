@@ -1,17 +1,25 @@
 import { fontSans } from "mtxuilib/fonts";
 import "mtxuilib/styles/globals.css";
 import type { Viewport } from "next";
-import { headers } from "next/headers";
-import type { ReactNode } from "react";
+import { cookies, headers } from "next/headers";
+import { Suspense, type ReactNode } from "react";
 
-// import { UIProviders } from "mtmaiui/stores/UIProviders";
+import { UIProviders } from "mtmaiui/stores/UIProviders";
+import { frontendGetConfig, initMtiaiClient } from "mtmaiapi";
 
-import { getBackendUrl } from "mtxuilib/lib/sslib";
+// import { getBackendUrl } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
 // import { MtmaiapiProvider } from "../../context/MtmaiapiProvider";
 // import { MtmaiProvider } from "../../context/StoreProvider";
 // import { getCoreConfig } from "../../lib/core/coreConfig";
 import "./globals.css";
+import { MtmaiProvider } from "../../stores/StoreProvider";
+import { MustLogin } from "../../components/MustLogin";
+import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
+import { SidebarProvider } from "mtxuilib/ui/sidebar.jsx";
+import { GomtmRuntimeProvider } from "../../stores/gomtm-runtime-privider";
+import { HatchatLoader } from "../../components/HatchatLoader";
+// import { MtmaiProvider } from "mtmaiui/stores/MtmaiProvider";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -30,31 +38,58 @@ export default async function Layout(props: {
 
   // const coreConfig = await getCoreConfig();
 
+  // const hostName = (await headers()).get("host");
+  // const backendUrl = await getBackendUrl();
+
   const hostName = (await headers()).get("host");
-  const backendUrl = await getBackendUrl();
+  initMtiaiClient();
+  const frontendConfigResponse = await frontendGetConfig({});
+  const backendUrl = process.env.MTMAI_BACKEND;
+  let accessToken: string | undefined = undefined;
+  if (frontendConfigResponse.data?.cookieAccessToken) {
+    accessToken = (await cookies()).get(
+      frontendConfigResponse.data?.cookieAccessToken,
+    )?.value;
+  }
 
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <ThemeHeaderScript />
+      </head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable,
         )}
       >
-        {/* <MtmaiProvider
-          accessToken={coreConfig?.accessToken}
-          backends={coreConfig?.backends || []}
-          hostName={hostName || ""}
+        <MtmaiProvider
+          frontendConfig={frontendConfigResponse.data}
+          hostName={hostName}
+          serverUrl={backendUrl}
+          accessToken={accessToken}
         >
-          <MtmaiapiProvider
-            serverUrl={coreConfig.backends[0]}
-            accessToken={coreConfig.accessToken}
-          >
-            <UIProviders> */}
-              {children}
-            {/* </UIProviders>
-          </MtmaiapiProvider>
-        </MtmaiProvider> */}
+          <MustLogin>
+            <Suspense>
+              <HatchatLoader>
+                <GomtmRuntimeProvider>
+                  <UIProviders>
+                    <SidebarProvider
+                      style={
+                        {
+                          // "--sidebar-width": "350px", //如果需要左侧双侧边栏 就设置为 350px
+                        } as React.CSSProperties
+                      }
+                    >
+                      {children}
+                    </SidebarProvider>
+                    {/* <ServerSwitch /> */}
+                  </UIProviders>
+                </GomtmRuntimeProvider>
+              </HatchatLoader>
+            </Suspense>
+          </MustLogin>
+        </MtmaiProvider>
       </body>
     </html>
   );
