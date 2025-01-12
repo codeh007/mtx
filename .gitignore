@@ -1,6 +1,8 @@
 .vscode
 env
 .env
+.next
+.next.dev
 # Logs
 logs
 *.log
