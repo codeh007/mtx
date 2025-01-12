@@ -1,0 +1,77 @@
+{
+  "../../node_modules/@tanstack/query-devtools/build/DevtoolsComponent/HO4MOOFI.js": {
+    "file": "assets/HO4MOOFI-D5Ntr7IK.js",
+    "name": "HO4MOOFI",
+    "src": "../../node_modules/@tanstack/query-devtools/build/DevtoolsComponent/HO4MOOFI.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_B4MFY5CR-BR_KdiWa.js",
+      "_production-CZUGRsdr.js",
+      "index.html"
+    ]
+  },
+  "../../node_modules/@tanstack/query-devtools/build/DevtoolsPanelComponent/HUY7CZI3.js": {
+    "file": "assets/HUY7CZI3-CCQI3AhZ.js",
+    "name": "HUY7CZI3",
+    "src": "../../node_modules/@tanstack/query-devtools/build/DevtoolsPanelComponent/HUY7CZI3.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_B4MFY5CR-BR_KdiWa.js",
+      "_production-CZUGRsdr.js",
+      "index.html"
+    ]
+  },
+  "../mtxuilib/src/components/devtools/DevToolsView.tsx": {
+    "file": "assets/DevToolsView-0IahU0cF.js",
+    "name": "DevToolsView",
+    "src": "../mtxuilib/src/components/devtools/DevToolsView.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ],
+    "dynamicImports": [
+      "_production-CZUGRsdr.js"
+    ]
+  },
+  "_B4MFY5CR-BR_KdiWa.js": {
+    "file": "assets/B4MFY5CR-BR_KdiWa.js",
+    "name": "B4MFY5CR",
+    "imports": [
+      "_production-CZUGRsdr.js"
+    ]
+  },
+  "_production-CZUGRsdr.js": {
+    "file": "assets/production-CZUGRsdr.js",
+    "name": "production",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ],
+    "dynamicImports": [
+      "../../node_modules/@tanstack/query-devtools/build/DevtoolsComponent/HO4MOOFI.js",
+      "../../node_modules/@tanstack/query-devtools/build/DevtoolsPanelComponent/HUY7CZI3.js"
+    ]
+  },
+  "index.html": {
+    "file": "assets/main-P1eC_bC4.js",
+    "name": "main",
+    "src": "index.html",
+    "isEntry": true,
+    "dynamicImports": [
+      "src/components/assisant/AssisantFAB.tsx",
+      "../mtxuilib/src/components/devtools/DevToolsView.tsx"
+    ],
+    "css": [
+      "assets/main-DbiPP5aE.css"
+    ]
+  },
+  "src/components/assisant/AssisantFAB.tsx": {
+    "file": "assets/AssisantFAB-BsV6_xdx.js",
+    "name": "AssisantFAB",
+    "src": "src/components/assisant/AssisantFAB.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  }
+}

@@ -23,7 +23,7 @@
       // "jest",
       // "@cloudflare/workers-types",
       // // "@cloudflare/workers-types/experimental",
-      // "bun-types",
+      "bun-types",
       // "jquery"
     ],
     "moduleResolution": "bundler",
