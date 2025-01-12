@@ -55,7 +55,7 @@
     "build": "bun src/cli/main.ts build",
     "build3": "dotenv -e ../../env/mtmaiadmin.env -- tsx src/db/migrate && next build",
     "db:migrate": "dotenv -e ../../env/mtmaiadmin.env -- tsx src/db/migrate",
-    "dev": "dotenv -e ../../env/mtmaiadmin.env -- next dev",
+    "dev": "dotenv -e ../../../gomtm/env/mtmaiadmin.env -- next dev",
     "db:gen": "drizzle-kit generate",
     "drizzle:migrate": "tsx ./db/migrate.ts",
     "db:push": "drizzle-kit push",
