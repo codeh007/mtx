@@ -258,5 +258,5 @@ export const newlineToCarriageReturn = (str: string) =>
 
 export const emptyLineCount = (content: string): number => {
   const liens = content.split("\n");
-  return liens.filter((line) => line.trim() == "").length;
+  return liens.filter((line) => line.trim() === "").length;
 };

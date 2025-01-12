@@ -1,7 +1,3 @@
-// const basePath = "/mtmaiui";
-// const manifest = import.meta.resolve(`${basePath}/.vite/manifest.json`);
-// const entrySrcName = "/src/entry-client.tsx";
-
 const loaderOptions ={
   isDev: false,
   basePath: "/mtmaiui",
@@ -9,9 +5,6 @@ const loaderOptions ={
   entrySrcName: "/src/entry-client.tsx",
 }
 
-// interface LoadMtmaiuiClientAppOptions {
-//   isDev?: boolean;
-// }
 
 /**
  * 加载 mtmaiui 客户端
@@ -88,8 +81,6 @@ export async function loadMtmaiuiClientApp(options: typeof loaderOptions) {
 // 根据url判断是否生成环境
 function IsProduction() {
   const protocol = window.location.protocol;
-  // const host = window.location.host;
-  // const url = `${protocol}//${host}`;
   return protocol === "https:"
 }
 loadMtmaiuiClientApp(loaderOptions);
