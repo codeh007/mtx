@@ -30,8 +30,8 @@
     "rootDir": ".",
     // "baseUrl": "./src",
     // "paths": {
-    //   "mtxuilib": [
-    //     "../mtxuilib/src/*"
+    //   "mtmaiui": [
+    //     "./src/*"
     //   ]
     // },
     /* Linting */
