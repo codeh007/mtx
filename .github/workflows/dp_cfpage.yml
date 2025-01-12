@@ -74,4 +74,4 @@ jobs:
           # token: ${{ secrets.SAGE_PAT }}
 
       - name: 测试是否能自动启动worker
-        run: (cd apps/testui && ../../packages/gomtm-cli/bin/gomtm)
+        run: (cd apps/mtxedge && ../../packages/gomtm-cli/bin/gomtm)

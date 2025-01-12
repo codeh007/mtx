@@ -17,7 +17,6 @@ export const subscribeSse = (
 };
 
 export const eventHandler = async (
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   event: Record<string, any>,
   set: (
     partial:
