@@ -11,8 +11,9 @@
   },
   "sideEffects": false,
   "scripts": {
-    "dev": "vite --port=6111",
-    "dev:next": "next dev",
+    "dev_vite": "vite --port=6111",
+    "dev": "dotenv -e ../../../gomtm/env/mtmaiui.env -- next dev",
+    "dev:next": "  next dev",
     "dev:ssr": "node server",
     "build": "next build && vite build --emptyOutDir=false",
     "build:tsc": "tsc --outDir dist --jsx react-jsx --incremental false --declaration true --noEmit false --removeComments true --project tsconfig.json",

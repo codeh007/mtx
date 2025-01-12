@@ -7,19 +7,14 @@ import { Suspense, type ReactNode } from "react";
 import { UIProviders } from "mtmaiui/stores/UIProviders";
 import { frontendGetConfig, initMtiaiClient } from "mtmaiapi";
 
-// import { getBackendUrl } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
-// import { MtmaiapiProvider } from "../../context/MtmaiapiProvider";
-// import { MtmaiProvider } from "../../context/StoreProvider";
-// import { getCoreConfig } from "../../lib/core/coreConfig";
-import "./globals.css";
 import { MtmaiProvider } from "../../stores/StoreProvider";
 import { MustLogin } from "../../components/MustLogin";
 import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
-import { SidebarProvider } from "mtxuilib/ui/sidebar.jsx";
+import { SidebarProvider } from "mtxuilib/ui/sidebar";
 import { GomtmRuntimeProvider } from "../../stores/gomtm-runtime-privider";
 import { HatchatLoader } from "../../components/HatchatLoader";
-// import { MtmaiProvider } from "mtmaiui/stores/MtmaiProvider";
+import "./globals.css";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -35,12 +30,6 @@ export default async function Layout(props: {
   children: ReactNode;
 }) {
   const { children } = props;
-
-  // const coreConfig = await getCoreConfig();
-
-  // const hostName = (await headers()).get("host");
-  // const backendUrl = await getBackendUrl();
-
   const hostName = (await headers()).get("host");
   initMtiaiClient();
   const frontendConfigResponse = await frontendGetConfig({});
