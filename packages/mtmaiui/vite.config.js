@@ -40,6 +40,7 @@ export default defineConfig({
     //   fileName: "hello123",
     // },
     manifest: true,
+    outDir: "public/vite",
     // lib: {
     //   entry: "src/lib/hello123.ts",
     //   name: "hello123",
