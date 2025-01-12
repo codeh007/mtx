@@ -15,6 +15,7 @@ import { SidebarProvider } from "mtxuilib/ui/sidebar";
 import { GomtmRuntimeProvider } from "../../stores/gomtm-runtime-privider";
 import { HatchatLoader } from "../../components/HatchatLoader";
 import "./globals.css";
+import { MtmaiuiLoaderScript } from "../../components/MtmaiuiLoader";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -45,6 +46,7 @@ export default async function Layout(props: {
     <html lang="en" suppressHydrationWarning>
       <head>
         <ThemeHeaderScript />
+        <MtmaiuiLoaderScript uiUrl="http://localhost:6111" />
       </head>
       <body
         className={cn(
