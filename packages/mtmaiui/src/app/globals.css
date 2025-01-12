@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 /* :root {
   --header-height: 64px;
 } */
@@ -131,6 +132,7 @@
     src: url(/fonts/geist-mono.woff2) format("woff2");
   }
 }
+
 
 /* CodeMirror override styles */
 

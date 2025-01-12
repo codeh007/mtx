@@ -11,7 +11,6 @@ export default async function Page(props: { params }) {
   return (
     <>
       <HelloXLz />
-      aaaaa page
       <HydrationBoundary state={dehydrate(queryClient)}>
         <MtSuspenseBoundary>
           {/* <PokemonInfo /> */}

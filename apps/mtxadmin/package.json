@@ -53,7 +53,7 @@
   },
   "scripts": {
     "build": "bun src/cli/main.ts build",
-    "build3": "dotenv -e ../../env/mtmaiadmin.env -- tsx src/db/migrate && next build",
+    "build3--": "dotenv -e ../../env/mtmaiadmin.env -- tsx src/db/migrate && next build",
     "db:migrate": "dotenv -e ../../env/mtmaiadmin.env -- tsx src/db/migrate",
     "dev": "dotenv -e ../../../gomtm/env/mtmaiadmin.env -- next dev",
     "db:gen": "drizzle-kit generate",
