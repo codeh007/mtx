@@ -1,4 +1,5 @@
-const manifest = import.meta.resolve("/.vite/manifest.json");
+const basePath = "/mtmaiui";
+const manifest = import.meta.resolve(`${basePath}/.vite/manifest.json`);
 const entrySrcName = "/src/entry-client.tsx";
 /**
  * @typedef {Object} LoadMtmaiuiClientAppOptions
