@@ -94,7 +94,7 @@ jobs:
         continue-on-error: true
 
   build_docker_gomtm_base:
-    needs: [dp_cfpage]
+    needs: [dp_cfpage, testing_npm_install_gomtm, testing_gomtm_worker]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
