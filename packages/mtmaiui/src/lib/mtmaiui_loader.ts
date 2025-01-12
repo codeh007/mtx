@@ -71,6 +71,8 @@ export async function loadMtmaiuiClientApp(options: typeof loaderOptions) {
   }
   //生产环境的路径
   const uri = new URL(options.manifest, window.location.href);
+  console.log("uri", uri);
+  
   const response = await fetch(uri);
   const data = await response.json();
   console.log("manifest", options.manifest, data);

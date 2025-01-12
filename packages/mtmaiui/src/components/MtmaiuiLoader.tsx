@@ -13,13 +13,15 @@ type MtmaiDevSrcProps = {
 export function MtmaiuiLoaderScript(props: MtmaiDevSrcProps) {
   // const uiUrl = props.uiUrl || "http://localhost:6111";
   const uiUrl = props.uiUrl || "";
-  const scriptSrc =
-    process.env?.NODE_ENV === "production"
-      ? `${uiUrl}/${loaderScriptName}`
-      : `${uiUrl}/${loaderScriptName}`;
+
+  const uri = new URL(loaderScriptName, uiUrl);
+  // const scriptSrc =
+  //   process.env?.NODE_ENV === "production"
+  //     ? `${uiUrl}${loaderScriptName}`
+  //     : `${uiUrl}${loaderScriptName}`;
   return (
     <>
-      <Script type="module" crossOrigin="anonymous" src={`${scriptSrc}`} />
+      <Script type="module" crossOrigin="anonymous" src={`${uri.toString()}`} />
     </>
   );
 }
