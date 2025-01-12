@@ -41,6 +41,7 @@ export default defineConfig({
     // },
     manifest: true,
     outDir: "public/mtmaiui",
+    base: "/mtmaiui/",
     // lib: {
     //   entry: "src/lib/hello123.ts",
     //   name: "hello123",
