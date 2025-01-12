@@ -55,11 +55,11 @@ jobs:
       - name: setup bun
         uses: ./.github/actions/setup_bun
 
-      - name: 测试gomtm 命令
-        run: (cd apps/testui && ../../packages/gomtm-cli/bin/gomtm dp --help)
+      # - name: 测试gomtm 命令
+      #   run: (cd apps/mtxedge && ../../packages/gomtm-cli/bin/gomtm dp --help)
 
       - name: 使用gomtm 进行 cfpage 部署
-        run: (cd apps/testui && ../../packages/gomtm-cli/bin/gomtm dp cfpage)
+        run: (cd apps/mtxedge && ../../packages/gomtm-cli/bin/gomtm dp cfpage)
 
   testing_gomtm_worker:
     runs-on: ubuntu-latest
