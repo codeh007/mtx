@@ -42,6 +42,7 @@
     "target": "ES2022",
     "allowJs": true,
     "incremental": true,
+    "noImplicitAny": false,
     "resolveJsonModule": true,
     "plugins": [
       {

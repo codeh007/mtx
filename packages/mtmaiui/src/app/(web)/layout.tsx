@@ -58,10 +58,9 @@ export default async function Layout(props: {
           serverUrl={backendUrl}
           accessToken={accessToken}
         >
-          <MustLogin>
-            <Suspense>
-              <HatchatLoader>
-                <GomtmRuntimeProvider>
+          {/* <MustLogin> */}
+              {/* <HatchatLoader>
+                <GomtmRuntimeProvider> */}
                   <UIProviders>
                     <SidebarProvider
                       style={
@@ -74,10 +73,9 @@ export default async function Layout(props: {
                     </SidebarProvider>
                     {/* <ServerSwitch /> */}
                   </UIProviders>
-                </GomtmRuntimeProvider>
-              </HatchatLoader>
-            </Suspense>
-          </MustLogin>
+                {/* </GomtmRuntimeProvider>
+              </HatchatLoader> */}
+          {/* </MustLogin> */}
         </MtmaiProvider>
       </body>
     </html>
