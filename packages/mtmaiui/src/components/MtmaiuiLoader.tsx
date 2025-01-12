@@ -1,5 +1,6 @@
 import Script from "next/script";
 
+const loaderScriptName = "/mtmaiui_loader.js";
 type MtmaiDevSrcProps = {
   uiUrl?: string;
 };
@@ -14,8 +15,8 @@ export function MtmaiuiLoaderScript(props: MtmaiDevSrcProps) {
   const uiUrl = props.uiUrl || "";
   const scriptSrc =
     process.env?.NODE_ENV === "production"
-      ? `${uiUrl}/mtmaiui_load.js`
-      : `${uiUrl}/mtmaiui_load.js`;
+      ? `${uiUrl}/${loaderScriptName}`
+      : `${uiUrl}/${loaderScriptName}`;
   return (
     <>
       <Script type="module" crossOrigin="anonymous" src={`${scriptSrc}`} />
