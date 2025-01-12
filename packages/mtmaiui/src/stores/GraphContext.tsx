@@ -47,7 +47,7 @@ import {
   useState,
 } from "react";
 import type { useUser } from "../../../../apps/mtmaiadmin/src/hooks--/useMtmapi";
-import { reverseCleanContent } from "../lib";
+import { reverseCleanContent } from "../lib/index.ts--";
 import { useAssistants } from "../opencanvas/hooks/useAssistants";
 import { useRuns } from "../opencanvas/hooks/useRuns";
 import { useThread } from "../opencanvas/hooks/useThread";
