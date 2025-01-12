@@ -70,7 +70,7 @@ export async function loadMtmaiuiClientApp(options: typeof loaderOptions) {
     return;
   }
   //生产环境的路径
-  const uri = new URL(options.basePath + options.manifest, window.location.href);
+  const uri = new URL(options.manifest, window.location.href);
   console.log("uri", uri);
   
   const response = await fetch(uri);
