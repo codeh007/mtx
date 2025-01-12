@@ -1,16 +1,28 @@
-"use client";
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import { getQueryClient } from "mtmaiui/stores/get-query-client";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
+// import { HelloXLz } from "../../componenets/HelloXLz";
+// import { useSuspenseQuery } from "@tanstack/react-query";
+// import { postListOptions } from "mtmaiapi";
+import { HelloXLz } from "../../components/HelloXLz";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { postListOptions } from "mtmaiapi";
+export default async function Page(props: { params }) {
+  const queryClient = getQueryClient();
 
-export default function Page(props: { params }) {
-  const postQuery = useSuspenseQuery({
-    ...postListOptions({}),
-  });
+  // const postQuery = useSuspenseQuery({
+  //   ...postListOptions({}),
+  // });
   return (
-    <div className="prose dark:prose-invert">
-      <h1>wellcome6</h1>
-      <pre>{JSON.stringify(postQuery.data, null, 2)}</pre>
-    </div>
+    <>
+      <HelloXLz />
+      aaaaa page
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <MtSuspenseBoundary>
+          {/* <PokemonInfo /> */}
+          {/* <PostListViewPublic /> */}
+          {/* <ExternalAppContainer /> */}
+        </MtSuspenseBoundary>
+      </HydrationBoundary>
+    </>
   );
 }
