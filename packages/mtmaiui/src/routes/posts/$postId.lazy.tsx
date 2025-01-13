@@ -1,60 +1,58 @@
-import { Await, createFileRoute, notFound } from "@tanstack/react-router";
-import type { PostType } from "../posts";
+import { Await, createLazyFileRoute, notFound } from '@tanstack/react-router'
+import type { PostType } from './index.lazy'
 
 async function fetchPostById(postId: string) {
-  console.info(`Fetching post with id ${postId}...`);
+  console.info(`Fetching post with id ${postId}...`)
 
-  await new Promise((r) =>
-    setTimeout(r, 100 + Math.round(Math.random() * 100)),
-  );
+  await new Promise((r) => setTimeout(r, 100 + Math.round(Math.random() * 100)))
 
   const res = await fetch(
     `https://jsonplaceholder.typicode.com/posts/${postId}`,
-  );
+  )
 
-  if (res.status === 404) throw notFound();
+  if (res.status === 404) throw notFound()
 
-  return res.json() as Promise<PostType>;
+  return res.json() as Promise<PostType>
 }
 
 export type CommentType = {
-  id: string;
-  postId: string;
-  name: string;
-  email: string;
-  body: string;
-};
+  id: string
+  postId: string
+  name: string
+  email: string
+  body: string
+}
 
 async function fetchComments(postId: string) {
-  await new Promise((r) => setTimeout(r, 2000));
+  await new Promise((r) => setTimeout(r, 2000))
 
   return fetch(
     `https://jsonplaceholder.typicode.com/comments?postId=${postId}`,
-  ).then((r) => r.json() as Promise<Array<CommentType>>);
+  ).then((r) => r.json() as Promise<Array<CommentType>>)
 }
 
-export const Route = createFileRoute("/posts/$postId")({
+export const Route = createLazyFileRoute('/posts/$postId')({
   loader: async ({ params: { postId } }) => {
-    const commentsPromise = fetchComments(postId);
-    const post = await fetchPostById(postId);
+    const commentsPromise = fetchComments(postId)
+    const post = await fetchPostById(postId)
 
     return {
       post,
       commentsPromise: commentsPromise,
-    };
+    }
   },
   wrapInSuspense: true,
   errorComponent: ({ error }) => {
-    return <div>Failed to load post: {(error as any).message}</div>;
+    return <div>Failed to load post: {(error as any).message}</div>
   },
   notFoundComponent: () => {
-    return <div>Post not found</div>;
+    return <div>Post not found</div>
   },
   component: PostComponent,
-});
+})
 
 function PostComponent() {
-  const { post, commentsPromise } = Route.useLoaderData();
+  const { post, commentsPromise } = Route.useLoaderData()
 
   return (
     <div className="space-y-2">
@@ -78,12 +76,12 @@ function PostComponent() {
                     </div>
                     <div className="text-sm">{comment.body}</div>
                   </div>
-                );
+                )
               })}
             </div>
-          );
+          )
         }}
       </Await>
     </div>
-  );
+  )
 }

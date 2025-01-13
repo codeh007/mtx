@@ -1,70 +1,70 @@
-"use client";
+'use client'
 
 import {
   MtTabs,
   MtTabsContent,
   MtTabsList,
   MtTabsTrigger,
-} from "mtxuilib/mt/tabs";
-import { Suspense } from "react";
+} from 'mtxuilib/mt/tabs'
+import { Suspense } from 'react'
 
-import { ConfirmDialog } from "mtxuilib/mt/confirm-dialog";
+import { ConfirmDialog } from 'mtxuilib/mt/confirm-dialog'
 
-import { Square3Stack3DIcon } from "@heroicons/react/24/outline";
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
-import api, { type WorkflowUpdateRequest } from "mtmaiapi/api";
-import { use, useState } from "react";
-import invariant from "tiny-invariant";
+import { Square3Stack3DIcon } from '@heroicons/react/24/outline'
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
+import api, { type WorkflowUpdateRequest } from 'mtmaiapi/api'
+import { use, useState } from 'react'
+import invariant from 'tiny-invariant'
 
-import { createFileRoute } from "@tanstack/react-router";
+import { createLazyFileRoute } from '@tanstack/react-router'
 import {
   workflowDeleteMutation,
   workflowGetOptions,
   workflowVersionGetOptions,
-} from "mtmaiapi";
-import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
-import { SkeletonListview } from "mtxuilib/components/skeletons/SkeletonListView";
-import { useMtRouter } from "mtxuilib/hooks/use-router";
-import { relativeDate } from "mtxuilib/lib/utils";
-import { MtLoading } from "mtxuilib/mt/mtloading";
-import { Badge } from "mtxuilib/ui/badge";
-import { Button } from "mtxuilib/ui/button";
+} from 'mtmaiapi'
+import { MtErrorBoundary } from 'mtxuilib/components/MtErrorBoundary'
+import { MtSuspenseBoundary } from 'mtxuilib/components/MtSuspenseBoundary'
+import { SkeletonListview } from 'mtxuilib/components/skeletons/SkeletonListView'
+import { useMtRouter } from 'mtxuilib/hooks/use-router'
+import { relativeDate } from 'mtxuilib/lib/utils'
+import { MtLoading } from 'mtxuilib/mt/mtloading'
+import { Badge } from 'mtxuilib/ui/badge'
+import { Button } from 'mtxuilib/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "mtxuilib/ui/dropdown-menu";
-import { Separator } from "mtxuilib/ui/separator";
-import { SidebarInset, SidebarTrigger } from "mtxuilib/ui/sidebar";
-import { WorkflowTriggerBtn } from "../../components/workflow/WorkflowTriggerBtn";
-import WorkflowGeneralSettings from "../../components/workflow/workflow-general-settings";
-import { WorkflowTags } from "../../components/workflow/workflow-tags";
-import { useTenant } from "../../hooks";
-import { useApiError, useApiMetaIntegrations } from "../../hooks/useApi";
-import { useBasePath } from "../../hooks/useBasePath";
-import { WorkflowRunsTable } from "../../modules/workflow-run/workflow-runs-table";
-import { DashSidebar } from "../../components/sidebar/siderbar";
-export const Route = createFileRoute("/workflows/$workflowId")({
+} from 'mtxuilib/ui/dropdown-menu'
+import { Separator } from 'mtxuilib/ui/separator'
+import { SidebarInset, SidebarTrigger } from 'mtxuilib/ui/sidebar'
+import { WorkflowTriggerBtn } from '../../components/workflow/WorkflowTriggerBtn'
+import WorkflowGeneralSettings from '../../components/workflow/workflow-general-settings'
+import { WorkflowTags } from '../../components/workflow/workflow-tags'
+import { useTenant } from '../../hooks'
+import { useApiError, useApiMetaIntegrations } from '../../hooks/useApi'
+import { useBasePath } from '../../hooks/useBasePath'
+import { WorkflowRunsTable } from '../../modules/workflow-run/workflow-runs-table'
+import { DashSidebar } from '../../components/sidebar/siderbar'
+export const Route = createLazyFileRoute('/workflows/$workflowId')({
   component: ExpandedWorkflow,
-});
+})
 
 export default function ExpandedWorkflow(props: {
   params: Promise<{
-    workflowId: string;
-  }>;
+    workflowId: string
+  }>
 }) {
-  const { workflowId } = use(props.params);
-  const tenant = useTenant();
-  const router = useMtRouter();
-  const basePath = useBasePath();
+  const { workflowId } = use(props.params)
+  const tenant = useTenant()
+  const router = useMtRouter()
+  const basePath = useBasePath()
   // const mtmapi = useMtmClient();
 
   // TODO list previous versions and make selectable
-  const [selectedVersion] = useState<string | undefined>();
-  const { handleApiError } = useApiError({});
-  const [deleteWorkflow, setDeleteWorkflow] = useState(false);
+  const [selectedVersion] = useState<string | undefined>()
+  const { handleApiError } = useApiError({})
+  const [deleteWorkflow, setDeleteWorkflow] = useState(false)
 
   const workflowQuery = useSuspenseQuery({
     ...workflowGetOptions({
@@ -73,7 +73,7 @@ export default function ExpandedWorkflow(props: {
         tenant: tenant.metadata.id,
       },
     }),
-  });
+  })
 
   // const workflowVersionQuery = mtmapi.useQuery(
   //   "get",
@@ -103,40 +103,40 @@ export default function ExpandedWorkflow(props: {
       },
     }),
     refetchInterval: 3000,
-  });
+  })
 
   const updateWorkflowMutation = useMutation({
-    mutationKey: ["workflow:update", workflowQuery?.data?.metadata.id],
+    mutationKey: ['workflow:update', workflowQuery?.data?.metadata.id],
     mutationFn: async (data: WorkflowUpdateRequest) => {
-      invariant(workflowQuery.data);
+      invariant(workflowQuery.data)
       const res = await api.workflowUpdate(workflowQuery?.data?.metadata.id, {
         ...data,
-      });
+      })
 
-      return res.data;
+      return res.data
     },
     onError: handleApiError,
     onSuccess: () => {
-      workflowQuery.refetch();
+      workflowQuery.refetch()
     },
-  });
+  })
   const deleteWorkflowMutation = useMutation({
     ...workflowDeleteMutation(),
     onSuccess: () => {
-      router.push(`${basePath}/workflows`);
+      router.push(`${basePath}/workflows`)
     },
-  });
+  })
 
-  const integrations = useApiMetaIntegrations();
+  const integrations = useApiMetaIntegrations()
 
-  const workflow = workflowQuery.data;
+  const workflow = workflowQuery.data
 
   // if (workflowQuery.isLoading || !workflow) {
   //   return <Loading />;
   // }
 
-  const hasGithubIntegration = integrations?.find((i) => i.name === "github");
-  const currVersion = workflow.versions?.[0].version;
+  const hasGithubIntegration = integrations?.find((i) => i.name === 'github')
+  const currVersion = workflow.versions?.[0].version
 
   return (
     <>
@@ -178,7 +178,7 @@ export default function ExpandedWorkflow(props: {
                               onClick={() => {
                                 updateWorkflowMutation.mutate({
                                   isPaused: false,
-                                });
+                                })
                               }}
                             >
                               Paused
@@ -190,7 +190,7 @@ export default function ExpandedWorkflow(props: {
                               onClick={() => {
                                 updateWorkflowMutation.mutate({
                                   isPaused: true,
-                                });
+                                })
                               }}
                             >
                               Active
@@ -205,7 +205,7 @@ export default function ExpandedWorkflow(props: {
                                 onClick={() => {
                                   updateWorkflowMutation.mutate({
                                     isPaused: false,
-                                  });
+                                  })
                                 }}
                               >
                                 Unpause runs
@@ -216,7 +216,7 @@ export default function ExpandedWorkflow(props: {
                                 onClick={() => {
                                   updateWorkflowMutation.mutate({
                                     isPaused: true,
-                                  });
+                                  })
                                 }}
                               >
                                 Pause runs
@@ -233,7 +233,7 @@ export default function ExpandedWorkflow(props: {
                   </div>
                   <div className="flex flex-row justify-start items-center mt-4">
                     <div className="text-sm text-gray-700 dark:text-gray-300">
-                      Updated{" "}
+                      Updated{' '}
                       {relativeDate(workflow.versions?.[0].metadata.updatedAt)}
                     </div>
                   </div>
@@ -291,16 +291,16 @@ export default function ExpandedWorkflow(props: {
                         variant="destructive"
                         className="mt-2"
                         onClick={() => {
-                          setDeleteWorkflow(true);
+                          setDeleteWorkflow(true)
                         }}
                       >
                         Delete Workflow
                       </Button>
 
                       <ConfirmDialog
-                        title={"Delete workflow"}
+                        title={'Delete workflow'}
                         description={`Are you sure you want to delete the workflow ${workflow.name}? This action cannot be undone, and will immediately prevent any services running with this workflow from executing steps.`}
-                        submitLabel={"Delete"}
+                        submitLabel={'Delete'}
                         onSubmit={(): void => {
                           deleteWorkflowMutation.mutate({
                             // params: {
@@ -309,10 +309,10 @@ export default function ExpandedWorkflow(props: {
                               tenant: tenant.metadata.id,
                             },
                             // },
-                          });
+                          })
                         }}
                         onCancel={(): void => {
-                          setDeleteWorkflow(false);
+                          setDeleteWorkflow(false)
                         }}
                         isLoading={deleteWorkflowMutation.isPending}
                         isOpen={deleteWorkflow}
@@ -326,7 +326,7 @@ export default function ExpandedWorkflow(props: {
         </div>
       </SidebarInset>
     </>
-  );
+  )
 }
 
 function RecentRunsList(props: { workflowId: string }) {
@@ -340,5 +340,5 @@ function RecentRunsList(props: { workflowId: string }) {
         filterVisibility={{ Workflow: false }}
       />
     </>
-  );
+  )
 }

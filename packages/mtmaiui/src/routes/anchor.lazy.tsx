@@ -1,76 +1,76 @@
 import {
   Link,
-  createFileRoute,
+  createLazyFileRoute,
   useLocation,
   useNavigate,
-} from "@tanstack/react-router";
-import { Button } from "mtxuilib/ui/button";
-import { useLayoutEffect, useRef, useState } from "react";
-export const Route = createFileRoute("/anchor")({
+} from '@tanstack/react-router'
+import { Button } from 'mtxuilib/ui/button'
+import { useLayoutEffect, useRef, useState } from 'react'
+export const Route = createLazyFileRoute('/anchor')({
   component: AnchorComponent,
-});
+})
 
 const anchors: Array<{
-  id: string;
-  title: string;
-  hashScrollIntoView?: boolean | ScrollIntoViewOptions;
+  id: string
+  title: string
+  hashScrollIntoView?: boolean | ScrollIntoViewOptions
 }> = [
   {
-    id: "default-anchor",
-    title: "Default Anchor",
+    id: 'default-anchor',
+    title: 'Default Anchor',
   },
   {
-    id: "false-anchor",
-    title: "No Scroll Into View",
+    id: 'false-anchor',
+    title: 'No Scroll Into View',
     hashScrollIntoView: false,
   },
   {
-    id: "smooth-scroll",
-    title: "Smooth Scroll",
-    hashScrollIntoView: { behavior: "smooth" },
+    id: 'smooth-scroll',
+    title: 'Smooth Scroll',
+    hashScrollIntoView: { behavior: 'smooth' },
   },
-] as const;
+] as const
 
 function AnchorSection({ id, title }: { id: string; title: string }) {
-  const [hasShown, setHasShown] = useState(false);
-  const elementRef = useRef<HTMLHeadingElement>(null);
+  const [hasShown, setHasShown] = useState(false)
+  const elementRef = useRef<HTMLHeadingElement>(null)
 
   useLayoutEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!hasShown && entry.isIntersecting) {
-          setHasShown(true);
+          setHasShown(true)
         }
       },
       { threshold: 0.01 },
-    );
+    )
 
-    const currentRef = elementRef.current;
+    const currentRef = elementRef.current
     if (currentRef) {
-      observer.observe(currentRef);
+      observer.observe(currentRef)
     }
 
     return () => {
       if (currentRef) {
-        observer.unobserve(currentRef);
+        observer.unobserve(currentRef)
       }
-    };
-  }, [hasShown]);
+    }
+  }, [hasShown])
 
   return (
     <div id={id} className="p-2 min-h-dvh">
       <h1 className="font-bold text-xl pt-10" ref={elementRef}>
         {title}
-        {hasShown ? " (shown)" : ""}
+        {hasShown ? ' (shown)' : ''}
       </h1>
     </div>
-  );
+  )
 }
 
 function AnchorComponent() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [withScroll, setWithScroll] = useState(true);
+  const navigate = useNavigate()
+  const location = useLocation()
+  const [withScroll, setWithScroll] = useState(true)
 
   return (
     <div className="flex flex-col w-full">
@@ -82,7 +82,7 @@ function AnchorComponent() {
                 hash={anchor.id}
                 activeOptions={{ includeHash: true }}
                 activeProps={{
-                  className: "font-bold active",
+                  className: 'font-bold active',
                 }}
                 hashScrollIntoView={anchor.hashScrollIntoView}
               >
@@ -96,25 +96,25 @@ function AnchorComponent() {
         <form
           className="p-2 space-y-2 min-h-dvh"
           onSubmit={(event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            const formData = new FormData(event.target as HTMLFormElement);
+            event.preventDefault()
+            event.stopPropagation()
+            const formData = new FormData(event.target as HTMLFormElement)
 
-            const toHash = formData.get("hash") as string;
+            const toHash = formData.get('hash') as string
 
             if (!toHash) {
-              return;
+              return
             }
 
             const hashScrollIntoView = withScroll
               ? ({
-                  behavior: formData.get("scrollBehavior") as ScrollBehavior,
-                  block: formData.get("scrollBlock") as ScrollLogicalPosition,
-                  inline: formData.get("scrollInline") as ScrollLogicalPosition,
+                  behavior: formData.get('scrollBehavior') as ScrollBehavior,
+                  block: formData.get('scrollBlock') as ScrollLogicalPosition,
+                  inline: formData.get('scrollInline') as ScrollLogicalPosition,
                 } satisfies ScrollIntoViewOptions)
-              : false;
+              : false
 
-            navigate({ hash: toHash, hashScrollIntoView });
+            navigate({ hash: toHash, hashScrollIntoView })
           }}
         >
           <h1 className="font-bold text-xl">Scroll with navigate</h1>
@@ -139,7 +139,7 @@ function AnchorComponent() {
                   checked={withScroll}
                   onChange={(e) => setWithScroll(e.target.checked)}
                   type="checkbox"
-                />{" "}
+                />{' '}
                 Scroll Into View
               </label>
             </div>
@@ -206,5 +206,5 @@ function AnchorComponent() {
         ))}
       </main>
     </div>
-  );
+  )
 }

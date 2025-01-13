@@ -27,7 +27,6 @@ export class MtmaiFrontApp {
     }
     if (this.options.mountType === "normal") {
       //开发环境
-      console.log("mtmai dev");
       const root = createRoot(rootElement);
       root.render(<App />);
       // hydrateRoot(

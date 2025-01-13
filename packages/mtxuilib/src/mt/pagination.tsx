@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTransition } from "react";
-import { Icons } from "../icons";
+import { Icons } from "../icons/index.tsx--";
 import { searchString } from "../lib/utils";
 import { Button } from "../ui/button";
 interface TBountyListPagination {
