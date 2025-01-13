@@ -1,41 +1,4 @@
 // src/lib/mtmaiui_loader.ts
-async function loadMtmaiuiClientApp(options) {
-  const { isDev } = options;
-  if (isDev) {
-    try {
-      const viteClientScript = document.createElement("script");
-      viteClientScript.src = import.meta.resolve("/@vite/client");
-      viteClientScript.type = "module";
-      await new Promise((resolve, reject) => {
-        viteClientScript.onload = resolve;
-        viteClientScript.onerror = (e) => reject(new Error(`Vite client 加载失败: ${e.message}`));
-        document.head.appendChild(viteClientScript);
-      });
-      console.log("Vite client 加载完成");
-      const reactRefreshScript = document.createElement("script");
-      reactRefreshScript.type = "module";
-      reactRefreshScript.textContent = `
-        import RefreshRuntime from "${import.meta.resolve("/@react-refresh")}"
-        RefreshRuntime.injectIntoGlobalHook(window)
-        window.$RefreshReg$ = () => {}
-        window.$RefreshSig$ = () => (type) => type
-        window.__vite_plugin_react_preamble_installed__ = true
-      `;
-      document.head.appendChild(reactRefreshScript);
-      await new Promise((resolve) => setTimeout(resolve, 100));
-    } catch (error) {
-      console.error("加载过程中发生错误:", error);
-    }
-    return;
-  }
-  const uri = new URL(options.manifest, window.location.href);
-  console.log("uri", uri);
-  const response = await fetch(uri);
-  const data = await response.json();
-  console.log("manifest", options.manifest, data);
-  console.log("开始加载生产环境脚本...TODO");
-}
-
 class MTMAIUILoader {
   baseUrl;
   manifest = null;
@@ -82,11 +45,9 @@ class MTMAIUILoader {
   }
 }
 if (typeof window !== "undefined") {
-  console.log("加强脚本V2");
   const loader = new MTMAIUILoader("/mtmaiui");
   loader.load().catch(console.error);
 }
 export {
-  loadMtmaiuiClientApp,
   MTMAIUILoader
 };
