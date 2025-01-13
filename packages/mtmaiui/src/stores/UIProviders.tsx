@@ -1,11 +1,8 @@
 "use client";
 
 import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
-// import { MtProgressBar } from "mtxuilib/components/MtProgressBar";
 import { TailwindIndicator } from "mtxuilib/components/tailwind-indicator";
 import { MtThemeProvider } from "mtxuilib/components/themes/ThemeProvider";
-// import { SonnerToaster } from "mtxuilib/ui/sonner";
-// import { Toaster } from "mtxuilib/ui/toaster";
 import { TooltipProvider } from "mtxuilib/ui/tooltip";
 import dynamic from "next/dynamic";
 import type { PropsWithChildren } from "react";
