@@ -1,7 +1,13 @@
-'use client'
-import React from "react"
-export const UserFAB = ()=>{
-  return <div>
-    UserFAB
-  </div>
-}
+"use client";
+
+
+import { AssistantModal } from "mtxuilib/assistant-ui/assistant-modal";
+
+export const UserFAB = () => {
+  return (
+    <>
+      UserFAB
+      <AssistantModal />
+    </>
+  );
+};

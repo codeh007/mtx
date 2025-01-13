@@ -39,7 +39,6 @@ function RootComponent() {
           Dash
         </CustomLink>{" "}
         <CustomLink
-          // @ts-expect-error
           to="/this-route-does-not-exist"
           activeProps={{
             className: "font-bold",

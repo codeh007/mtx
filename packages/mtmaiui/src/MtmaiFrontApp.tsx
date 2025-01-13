@@ -46,11 +46,6 @@ export class MtmaiFrontApp {
       styleLink.rel = "stylesheet";
       styleLink.href = this.css;
       shadowRoot.appendChild(styleLink);
-
-      // 创建挂载点
-      // const mountPoint = document.createElement("div");
-      // shadowRoot.appendChild(mountPoint);
-      // rootElement = mountPoint;
       hydrateRoot(
         shadowRoot,
         <StrictMode>
