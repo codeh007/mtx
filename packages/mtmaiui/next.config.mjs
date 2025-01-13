@@ -85,6 +85,10 @@ const nextConfig = {
       if (pathData.chunk.name === 'test-lazy2') {
         return 'static/chunks/test-lazy222.js';
       }
+      if (pathData.chunk.name === 'dashapp') {
+        return 'static/chunks/dashapp.js';
+      }
+     
       // 其他 chunks 保持原有的命名方式（带哈希）
       return 'static/chunks/[name].[contenthash].js';
       // return config.output.chunkFilename
