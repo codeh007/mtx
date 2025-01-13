@@ -13,7 +13,6 @@ import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
 import { SidebarProvider } from "mtxuilib/ui/sidebar";
 import { getBackendUrl } from "mtxuilib/lib/sslib";
 import "./globals.css";
-// import { MtmaiuiLoaderScript } from "../../components/MtmaiuiLoader";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
