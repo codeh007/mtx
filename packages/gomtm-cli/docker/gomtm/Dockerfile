@@ -372,10 +372,6 @@ RUN uv pip install -U mtmai
 # yakit(IDE, linux 版的无UI)
 RUN curl -sS -L http://oss.yaklang.io/install-latest-yak.sh | bash -
 
-RUN curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.gpg | sudo apt-key add - \
-    && curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.list | sudo tee /etc/apt/sources.list.d/tailscale.list \
-    && apt-get update \
-    && apt-get install -y tailscale
 
 # RUN ./.venv/bin/mtmai --help
 # RUN ./gomtm install searxng
