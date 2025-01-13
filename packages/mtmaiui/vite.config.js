@@ -38,7 +38,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),
-        loader: resolve(__dirname, "src/lib/mtmaiui_loader.ts"),
+        // loader: resolve(__dirname, "src/lib/mtmaiui_loader.ts"),
       },
       output: {
         // 添加这个配置来控制输出文件的命名

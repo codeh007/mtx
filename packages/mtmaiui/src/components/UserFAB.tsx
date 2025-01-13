@@ -42,38 +42,41 @@ export const UserFAB = () => {
           onOpenChange={setOpenDropdown}
           >
         <DropdownMenuTrigger asChild>
-        <Button className={cn(
-        "fixed bottom-14 right-4",
-        "bg-tertiary/20 text-tertiary-foreground border border-slate-500 hover:bg-tertiary/10 rounded-lg",
-        
-        )}
-        onClick={() => {
-          // setOpenCmdk(true)
-          setOpenDropdown(true)
-        }}
-        >
-        <Icons.apple />
-      </Button>
-        {/* <Button variant="outline">Open dropdown</Button> */}
+          <Button className={cn(
+            "fixed bottom-14 right-4",
+            "bg-tertiary/20 text-tertiary-foreground border border-slate-500 hover:bg-tertiary/10 rounded-lg",
+            
+            )}
+            onClick={() => {
+              setOpenDropdown(true)
+            }}
+            >
+            <Icons.apple />
+          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56">
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <CustomLink to="/dashboard">
-            <DropdownMenuItem>
-              管理
-              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-            </DropdownMenuItem>
+              <DropdownMenuItem>
+                管理
+                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+              </DropdownMenuItem>
             </CustomLink>
-            <DropdownMenuItem>
-              Billing
-              <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              Settings
-              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-            </DropdownMenuItem>
+            <CustomLink to="/">
+              <DropdownMenuItem>
+                Home
+                <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </CustomLink>
+            <CustomLink to="/posts">
+              <DropdownMenuItem>
+                posts
+                <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </CustomLink>
+
             <DropdownMenuItem>
               Keyboard shortcuts
               <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>

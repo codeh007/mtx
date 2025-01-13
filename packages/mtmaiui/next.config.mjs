@@ -1,3 +1,4 @@
+import BundleAnalyzerPlugin from '@next/bundle-analyzer';
 const mode = process.env.BUILD_MODE ?? "standalone";
 const disableChunk = !!process.env.DISABLE_CHUNK || mode === "export";
 const distDir = process.env.NEXT_BUILD_OUTPUT ?? ".next";
@@ -22,6 +23,11 @@ const nextConfig = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+
+  experimental: {
+    optimizePackageImports: ['icon-library'],
+  },
+
 
   webpack: (
     config,
@@ -89,4 +95,8 @@ const nextConfig = {
   ],
 };
 
-export default nextConfig;
+const withBundleAnalyzer =BundleAnalyzerPlugin({
+  enabled: process.env.ANALYZE === 'true',
+})
+// export default nextConfig;
+export default withBundleAnalyzer(nextConfig);

@@ -12,7 +12,7 @@ function RootComponent() {
   return (
     <>
       <UserFAB />
-      <div className="p-2 flex gap-2 text-lg border-b">
+      {/* <div className="p-2 flex gap-2 text-lg border-b">
         <CustomLink
           to="/"
           activeProps={{
@@ -47,7 +47,7 @@ function RootComponent() {
           Route Does Not Exist
         </CustomLink>
       </div>
-      <hr />
+      <hr /> */}
       <Outlet />
     </>
   );
