@@ -45,7 +45,7 @@ export default async function Layout(props: {
     <html lang="en" suppressHydrationWarning>
       <head>
         <ThemeHeaderScript />
-        <MtmaiuiLoaderScript uiUrl={selfUrl} />
+        {/* <MtmaiuiLoaderScript uiUrl={selfUrl} /> */}
       </head>
       <body
         className={cn(

@@ -1,4 +1,17 @@
 import type { Manifest } from 'vite';
+
+/*******************************************************************************************
+ * 用途: 在 nextjs 作为主应用的情况下,再叠加另外一个纯前端的 vite react微应用.
+ * 重要: [功能已经放弃]
+ *      原因是 nextjs 本身已经可以做到这点, 如果再 使用vite, 就相当于两个程序,虽然可以公用一些库,
+ *      不管是开发阶段还是部署阶段, 都大大增加了复杂度.
+ * 
+ * 如何使用: nextjs 实现这个功能?
+ *     1: 所有使用 类似 await import("./some.tsx") 的语句都会让nextjs 将这个文件打包到独立文件中.
+ *        找到这个文件的方法是通过.next/react-loadable-manifest.json 这个文件
+ *        根据文件名,找到最终构建的文件
+ * 
+ *******************************************************************************************/
 export class MTMAIUILoader {
   private baseUrl: string;
   private manifest: Manifest | null = null;
