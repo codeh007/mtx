@@ -1,4 +1,4 @@
 'use client'
 export default function Page() {
-    return <div>home@dash</div>
+    return <div>dash page1 @dash</div>
 }
