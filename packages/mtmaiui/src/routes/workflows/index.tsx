@@ -10,6 +10,7 @@ import { DashContent } from '../../components/DashContent'
 import { DashSidebar } from '../../components/sidebar/siderbar'
 import { DashHeaders } from '../../components/DashHeaders'
 import dynamic from 'next/dynamic'
+import { useTenant } from '../../hooks/useAuth'
 export const Route = createFileRoute('/workflows/')({
   component: RouteComponent,
 })
@@ -20,9 +21,13 @@ const WorkflowTableLazy = dynamic(()=>import(
       ssr:false})
       
 function RouteComponent() {
-  return <div>Hello "/workflows/"!
 
-<DashSidebar />
+  const tenant = useTenant();
+
+  if (!tenant) return null
+
+  return <>
+    <DashSidebar />
       <SidebarInset>
         <DashHeaders>
           <Breadcrumb>
@@ -39,5 +44,5 @@ function RouteComponent() {
           </Suspense>
         </DashContent>
       </SidebarInset>
-  </div>
+  </>
 }

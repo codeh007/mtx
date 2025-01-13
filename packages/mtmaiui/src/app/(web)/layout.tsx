@@ -72,7 +72,8 @@ export default async function Layout(props: {
                       <WebLayout>
                       <WebLayoutHeader />
                       {children}
-                      {dash}
+                      {/* {dash} */}
+                      {/* <div id="gomtm-runtime-container" /> */}
                       </WebLayout>
                     </SidebarProvider>
                     
