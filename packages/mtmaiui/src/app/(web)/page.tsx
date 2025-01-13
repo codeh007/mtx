@@ -1,17 +1,16 @@
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getQueryClient } from "mtmaiui/stores/get-query-client";
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
+// import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 
 export default async function Page(props: { params }) {
   const queryClient = getQueryClient();
   return (
     <>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <MtSuspenseBoundary>
+          <div>home</div>
           {/* <PokemonInfo /> */}
           {/* <PostListViewPublic /> */}
           {/* <ExternalAppContainer /> */}
-        </MtSuspenseBoundary>
       </HydrationBoundary>
     </>
   );
