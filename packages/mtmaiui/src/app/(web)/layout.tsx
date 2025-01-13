@@ -14,7 +14,7 @@ import {WebLayoutHeader} from "mtxuilib/layouts/web/WebLayoutHeader"
 import {WebLayout} from "mtxuilib/layouts/web/WebLayout"
 import "mtxuilib/styles/globals.css";
 import "./globals.css";
-export const runtime = "edge";
+export const runtime = "nodejs";
 // export const dynamic = "force-dynamic";
 
 export const viewport: Viewport = {
