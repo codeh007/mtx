@@ -10,6 +10,8 @@ import { MtmaiProvider } from "../../stores/StoreProvider";
 import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
 import { SidebarProvider } from "mtxuilib/ui/sidebar";
 import { getBackendUrl } from "mtxuilib/lib/sslib";
+import {WebLayoutHeader} from "mtxuilib/layouts/web/WebLayoutHeader"
+import {WebLayout} from "mtxuilib/layouts/web/WebLayout"
 import "mtxuilib/styles/globals.css";
 import "./globals.css";
 export const runtime = "edge";
@@ -67,10 +69,12 @@ export default async function Layout(props: {
                         } as React.CSSProperties
                       }
                     >
+                      <WebLayout>
+                      <WebLayoutHeader />
                       {children}
                       {dash}
+                      </WebLayout>
                     </SidebarProvider>
-                    {/* <ServerSwitch /> */}
                     
                   </UIProviders>
                 {/* </GomtmRuntimeProvider> */}
