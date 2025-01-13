@@ -2,22 +2,16 @@
 
 import { Button } from 'mtxuilib/ui/button'
 import dynamic from 'next/dynamic'
-const AppLazy = dynamic(()=>import(
-  /* webpackChunkName: "my-app" */ 
-  '../../../App'
-).then(x=>x.App),{ssr:false})
+import { AppLazy, TestLazy2Lz } from '../../../components/Lazy'
 
-// const DomClientLoader = dynamic(()=>import('../../../components/DomClientLoader').then(x=>x.DomClientLoader),{ssr:false})
+
 export default function Page() {
 
-  return <><AppLazy/>>
+  return <>
+  <AppLazy/>
   
   <Button onClick={async ()=>{
-    const a = await import(
-      /* webpackChunkName: "test-lazy2" */
-      "../../../components/TestLazy2"
-    )
-    console.log(a)
+    console.log("TestLazy2Lz",TestLazy2Lz.default())
   }}>test1</Button>
   </>
 }
