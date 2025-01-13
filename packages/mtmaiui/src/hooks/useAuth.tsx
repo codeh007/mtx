@@ -14,9 +14,9 @@ export const useUser = () => {
 };
 export const useTenant = () => {
   const tenant = useMtmaiV2((x) => x.currentTenant);
-  if (!tenant) {
-    throw new Error("Tenant not found");
-  }
+  // if (!tenant) {
+  //   throw new Error("Tenant not found");
+  // }
   return tenant;
 };
 
@@ -26,11 +26,7 @@ export const useOptionalTenant = () => {
 
 export const useIsAdmin = () => {
   const tenant = useTenant();
-  return (
-    tenant.name === "default" ||
-    tenant.name === "admin" ||
-    tenant.name === "Default"
-  );
+  return ["default","admin","Default"].includes(tenant?.name||"")
 };
 
 export const useLoginHandler = () => {

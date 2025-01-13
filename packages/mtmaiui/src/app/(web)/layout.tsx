@@ -1,9 +1,7 @@
 import { fontSans } from "mtxuilib/fonts";
-import "mtxuilib/styles/globals.css";
 import type { Viewport } from "next";
 import { cookies, headers } from "next/headers";
 import type {  ReactNode } from "react";
-
 import { UIProviders } from "mtmaiui/stores/UIProviders";
 import { frontendGetConfig, initMtiaiClient } from "mtmaiapi";
 
@@ -12,10 +10,8 @@ import { MtmaiProvider } from "../../stores/StoreProvider";
 import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
 import { SidebarProvider } from "mtxuilib/ui/sidebar";
 import { getBackendUrl } from "mtxuilib/lib/sslib";
+import "mtxuilib/styles/globals.css";
 import "./globals.css";
-import dynamic from "next/dynamic";
-import { HatchatLoader } from "../../components/HatchatLoader";
-
 export const runtime = "edge";
 // export const dynamic = "force-dynamic";
 
@@ -25,14 +21,6 @@ export const viewport: Viewport = {
     { media: "(prefers-color-scheme: dark)", color: "black" },
   ],
 };
-
-// const DashSlot = dynamic(
-//   () => import('./@dash/default'),
-//   { 
-//     ssr: false,
-//     loading: () => <div>Loading dashboard...</div>
-//   }
-// )
 
 export default async function Layout(props: {
   children: ReactNode;
@@ -69,7 +57,7 @@ export default async function Layout(props: {
           serverUrl={backendUrl}
           accessToken={accessToken}
         >
-              <HatchatLoader>
+              
                 {/* <GomtmRuntimeProvider>  */}
                   <UIProviders>
                     <SidebarProvider
@@ -86,7 +74,6 @@ export default async function Layout(props: {
                     
                   </UIProviders>
                 {/* </GomtmRuntimeProvider> */}
-              </HatchatLoader> 
 
           
         </MtmaiProvider>
