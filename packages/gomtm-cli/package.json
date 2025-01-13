@@ -19,7 +19,7 @@
   },
   "sideEffects": false,
   "scripts": {
-    "build": "bun build src/cli/main.ts --outdir=dist/gomtm-cli.js"
+    "build": "bun build src/cli/main.ts --outdir=dist/gomtm-cli.js --target node"
   },
   "dependencies": {},
   "devDependencies": {
