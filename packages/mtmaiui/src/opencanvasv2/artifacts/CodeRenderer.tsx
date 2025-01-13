@@ -15,10 +15,10 @@ import { getArtifactContent } from "mtxuilib/agents/graph_utils";
 import { cn } from "mtxuilib/lib/utils";
 import type { ArtifactCodeV3 } from "mtxuilib/types/opencanvasTypes";
 import React, { type MutableRefObject } from "react";
-import { cleanContent } from "../../lib/index.ts--";
 import { useGraphStore } from "../../stores/GraphContextV2";
 import styles from "./CodeRenderer.module.css";
 import { CopyText } from "./components/CopyText";
+import { cleanContent } from "../../lib/utils";
 
 export interface CodeRendererProps {
   editorRef: MutableRefObject<EditorView | null>;

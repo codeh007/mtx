@@ -1,16 +1,6 @@
 // src/lib/mtmaiui_loader.ts
-var loaderOptions = {
-  isDev: false,
-  basePath: "/mtmaiui",
-  manifest: "/mtmaiui/.vite/manifest.json",
-  entrySrcName: "/src/entry-client.tsx"
-};
 async function loadMtmaiuiClientApp(options) {
-  console.log("import.meta", import.meta);
-  let { isDev } = options;
-  if (isDev === undefined && (import.meta.url.includes("localhost") || import.meta.url.includes("127.0.0.1"))) {
-    isDev = true;
-  }
+  const { isDev } = options;
   if (isDev) {
     try {
       const viteClientScript = document.createElement("script");
@@ -33,31 +23,70 @@ async function loadMtmaiuiClientApp(options) {
       `;
       document.head.appendChild(reactRefreshScript);
       await new Promise((resolve) => setTimeout(resolve, 100));
-      console.log("开始加载入口文件...");
-      const entryScript = document.createElement("script");
-      entryScript.src = import.meta.resolve(options.entrySrcName);
-      entryScript.type = "module";
-      await new Promise((resolve, reject) => {
-        entryScript.onload = () => {
-          console.log("入口文件加载完成");
-          resolve(undefined);
-        };
-        entryScript.onerror = (e) => reject(new Error(`入口文件加载失败: ${e.message}`));
-        document.body.appendChild(entryScript);
-      });
     } catch (error) {
       console.error("加载过程中发生错误:", error);
     }
     return;
   }
-  const uri = new URL(options.basePath + options.manifest, window.location.href);
+  const uri = new URL(options.manifest, window.location.href);
   console.log("uri", uri);
   const response = await fetch(uri);
   const data = await response.json();
   console.log("manifest", options.manifest, data);
   console.log("开始加载生产环境脚本...TODO");
 }
-loadMtmaiuiClientApp(loaderOptions);
+
+class MTMAIUILoader {
+  baseUrl;
+  manifest = null;
+  constructor(baseUrl) {
+    this.baseUrl = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+  }
+  async init() {
+    const manifestUrl = `${this.baseUrl}.vite/manifest.json`;
+    const response = await fetch(manifestUrl);
+    this.manifest = await response.json();
+  }
+  async loadScript(url) {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = url;
+      script.type = "module";
+      script.onload = () => resolve();
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+  }
+  async loadCSS(url) {
+    return new Promise((resolve) => {
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = url;
+      link.onload = () => resolve();
+      document.head.appendChild(link);
+    });
+  }
+  async load() {
+    if (!this.manifest) {
+      await this.init();
+    }
+    const entryPoint = Object.entries(this.manifest).find(([_2, entry2]) => entry2.isEntry);
+    if (!entryPoint) {
+      throw new Error("No entry point found in manifest");
+    }
+    const [_, entry] = entryPoint;
+    if (entry.css) {
+      await Promise.all(entry.css.map((css) => this.loadCSS(`${this.baseUrl}${css}`)));
+    }
+    await this.loadScript(`${this.baseUrl}${entry.file}`);
+  }
+}
+if (typeof window !== "undefined") {
+  console.log("加强脚本V2");
+  const loader = new MTMAIUILoader("/mtmaiui");
+  loader.load().catch(console.error);
+}
 export {
-  loadMtmaiuiClientApp
+  loadMtmaiuiClientApp,
+  MTMAIUILoader
 };

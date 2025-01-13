@@ -53,6 +53,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),
+        loader: resolve(__dirname, "src/lib/mtmaiui_loader.ts"),
+
         // loader: resolve(__dirname, "src/lib/mtmaiui_loader.ts"),
         // nested: resolve(__dirname, "src/nested/index.html"),
       },

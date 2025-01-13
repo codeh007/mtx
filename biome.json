@@ -6,6 +6,7 @@
   "files": {
     "ignore": [
       "dist",
+      "packages/mtmaiui/public/mtmaiui",
       "examples/react-app/openapi",
       "coverage",
       "examples/nextjs-app/openapi",

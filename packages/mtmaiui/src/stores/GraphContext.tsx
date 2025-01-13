@@ -46,11 +46,10 @@ import {
   useRef,
   useState,
 } from "react";
-import type { useUser } from "../../../../apps/mtmaiadmin/src/hooks--/useMtmapi";
-import { reverseCleanContent } from "../lib/index.ts--";
 import { useAssistants } from "../opencanvas/hooks/useAssistants";
 import { useRuns } from "../opencanvas/hooks/useRuns";
 import { useThread } from "../opencanvas/hooks/useThread";
+import { reverseCleanContent } from "../lib/utils";
 interface GraphData {
   runId: string | undefined;
   isStreaming: boolean;
