@@ -12,7 +12,7 @@ const loaderOptions ={
  * @returns {Promise<void>}
  */
 export async function loadMtmaiuiClientApp(options: typeof loaderOptions) {
-  console.log("import.meta", import.meta);
+  // console.log("import.meta", import.meta);
   const {isDev} = options;
   if (isDev) {
     try {

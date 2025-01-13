@@ -109,11 +109,20 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push
+      - name: 构建基础gomtmdocker镜像
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USER }}/gomtmbase:latest
+          file: packages/gomtm-cli/docker/gomtm/Dockerfile
+          target: mtmbase
+
+      - name: 构建gomtm-cli docker镜像
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USER }}/gomtm:latest
           file: packages/gomtm-cli/docker/gomtm/Dockerfile
-          target: mtmbase
+          target: gomtm
