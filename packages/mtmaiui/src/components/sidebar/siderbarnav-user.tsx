@@ -36,7 +36,7 @@ export function NavUser() {
   const { setTheme, theme } = useTheme();
   const tenant = useTenant();
 
-  const userImageSrc = `https://avatar.vercel.sh/${tenant.alertMemberEmails}`;
+  const userImageSrc = `https://avatar.vercel.sh/${tenant?.alertMemberEmails}`;
   // const userEmail = user.email;
   return (
     <SidebarMenu>
