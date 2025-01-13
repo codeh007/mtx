@@ -75,31 +75,18 @@ export class MTMAIUILoader {
 
   //加载开发环境的脚本
   async loadLoadDevelopment(viteServerUrl: string, entrySrcName="/src/entry-client.tsx") {
-      // 加载 Vite 客户端
-    const viteClientScript = document.createElement("script");
-    viteClientScript.src = import.meta.resolve(`${viteServerUrl}/@vite/client`);
-    viteClientScript.type = "module";
-    document.head.appendChild(viteClientScript);
-    // 加载 React 刷新运行时
-    const reactRefreshScript = document.createElement("script");
-    reactRefreshScript.type = "module";
-    reactRefreshScript.textContent = `
-      import RefreshRuntime from "${viteServerUrl}/@react-refresh"
-      RefreshRuntime.injectIntoGlobalHook(window)
-      window.$RefreshReg$ = () => {}
-      window.$RefreshSig$ = () => (type) => type
-      window.__vite_plugin_react_preamble_installed__ = true
-    `;
-    document.head.appendChild(reactRefreshScript);
-
-    // 等待一小段时间确保 React refresh 初始化完成
-    // await new Promise((resolve) => setTimeout(resolve, 100));
-
-    // 加载客户端入口
-    const entryScript = document.createElement("script");
-    entryScript.src = `${viteServerUrl}${entrySrcName}`
-    entryScript.type = "module";
-    document.body.appendChild(entryScript);
+    // 加载 Vite 客户端
+    await import(`${viteServerUrl}/@vite/client`);
+    const RefreshRuntime = (await import(`${viteServerUrl}/@react-refresh`)).default;
+    RefreshRuntime.injectIntoGlobalHook(window);
+    //@ts-ignore
+    window.$RefreshReg$ = () => {};
+    //@ts-ignore
+    window.$RefreshSig$ = () => (type) => type;
+    //@ts-ignore
+    window.__vite_plugin_react_preamble_installed__ = true;
+    // 应用入口
+    await import(`${viteServerUrl}${entrySrcName}`);
     return;
   }
 }
@@ -118,5 +105,4 @@ if(typeof window !== "undefined"){
     const loader = new MTMAIUILoader(baseUrl);
     loader.loadLoadProduction().catch(console.error);
   }
-  
 }
