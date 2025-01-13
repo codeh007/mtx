@@ -4,6 +4,9 @@ import type { Workflow } from "mtmaiapi";
 import Link from "next/link";
 import { useBasePath } from "../../hooks/useBasePath";
 import { WorkflowTriggerBtn } from "./WorkflowTriggerBtn";
+import { Badge } from "mtxuilib/ui/badge";
+import { RelativeDate } from "mtxuilib/mt/relative-date";
+import { Button } from "mtxuilib/ui/button";
 
 export const WorkflowCard = ({ data }: { data: Workflow }) => {
   const basePath = useBasePath();
