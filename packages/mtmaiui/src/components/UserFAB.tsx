@@ -21,6 +21,7 @@ import {
   // DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu"
 import { cn } from "mtxuilib/lib/utils";
+import { Link } from "@tanstack/react-router";
 
 export const UserFAB = () => {
 
@@ -42,17 +43,16 @@ export const UserFAB = () => {
       }
 
         <DropdownMenu open={openDropdown} onOpenChange={setOpenDropdown}>
-        {/* <DropdownMenuTrigger asChild>
-          <Button variant="outline">Open</Button>
-        </DropdownMenuTrigger> */}
         <DropdownMenuContent className="w-56">
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
+            <Link to="/dashboard">
             <DropdownMenuItem>
-              Profile
+              管理
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>
+            </Link>
             <DropdownMenuItem>
               Billing
               <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>

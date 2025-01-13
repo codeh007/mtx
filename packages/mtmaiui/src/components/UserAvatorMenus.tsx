@@ -14,9 +14,9 @@ import {
 import { useMtmaiV2 } from "../stores/StoreProvider";
 
 export default function UserAvatorMenus() {
-  const userQuery = useUserInfo();
-  const logout = useLogout();
-  const loginPath = useMtmaiV2((x) => x.coreConfig?.loginPath || "");
+  // const userQuery = useUserInfo();
+  // const logout = useLogout();
+  // const loginPath = useMtmaiV2((x) => x.coreConfig?.loginPath || "");
   return (
     <>
       <DropdownMenu>
