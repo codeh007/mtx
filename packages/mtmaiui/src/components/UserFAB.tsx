@@ -18,15 +18,21 @@ import {
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
+  // DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu"
+import { cn } from "mtxuilib/lib/utils";
 
 export const UserFAB = () => {
 
   const [openCmdk, setOpenCmdk] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState(false)
   return (
     <>
-      <Button>
+      <Button className={cn(
+        "absolute bottom-14 right-4",
+        "bg-tertiary/20 text-tertiary-foreground border border-slate-500 hover:bg-tertiary/10 rounded-lg",
+        
+        )}>
         <Icons.apple />
       </Button>
       {
@@ -35,61 +41,61 @@ export const UserFAB = () => {
         )
       }
 
-<DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline">Open</Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
+        <DropdownMenu open={openDropdown} onOpenChange={setOpenDropdown}>
+        {/* <DropdownMenuTrigger asChild>
+          <Button variant="outline">Open</Button>
+        </DropdownMenuTrigger> */}
+        <DropdownMenuContent className="w-56">
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem>
+              Profile
+              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              Billing
+              <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              Settings
+              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              Keyboard shortcuts
+              <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem>Team</DropdownMenuItem>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>
+              <DropdownMenuPortal>
+                <DropdownMenuSubContent>
+                  <DropdownMenuItem>Email</DropdownMenuItem>
+                  <DropdownMenuItem>Message</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>More...</DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuPortal>
+            </DropdownMenuSub>
+            <DropdownMenuItem>
+              New Team
+              <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>GitHub</DropdownMenuItem>
+          <DropdownMenuItem>Support</DropdownMenuItem>
+          <DropdownMenuItem disabled>API</DropdownMenuItem>
+          <DropdownMenuSeparator />
           <DropdownMenuItem>
-            Profile
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            Log out
+            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            Billing
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            Settings
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            Keyboard shortcuts
-            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>Team</DropdownMenuItem>
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent>
-                <DropdownMenuItem>Email</DropdownMenuItem>
-                <DropdownMenuItem>Message</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>More...</DropdownMenuItem>
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub>
-          <DropdownMenuItem>
-            New Team
-            <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>GitHub</DropdownMenuItem>
-        <DropdownMenuItem>Support</DropdownMenuItem>
-        <DropdownMenuItem disabled>API</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Log out
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </>
   );
 };
