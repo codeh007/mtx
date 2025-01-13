@@ -16,7 +16,6 @@ export default defineConfig({
     alias: {
       // 添加 mtmaiapi 的路径别名
       'mtmaiapi': resolve(__dirname, '../mtmaiapi/src'),
-      // 如果还有其他类似的包也需要解析，可以继续添加
       'mtxuilib': resolve(__dirname, '../mtxuilib/src'),
       'mtmaiui': resolve(__dirname, '../mtmaiui/src'),
     }
@@ -33,14 +32,29 @@ export default defineConfig({
     },
   },
   build: {
-    // lib: {
-    //   entry: resolve(__dirname, "lib/hello123.ts"),
-    //   name: "hello123",
-    //   // the proper extensions will be added
-    //   fileName: "hello123",
-    // },
     manifest: true,
-    outDir: "public/vite",
+    outDir: "public/mtmaiui_dev",
+    base: "/mtmaiui_dev/",
+    emptyOutDir: true,
+    // base: 'https://your-cdn-domain.com/assistant/',
+    rollupOptions: {
+      
+      input: {
+        main: resolve(__dirname, "index.html"),
+        loader: resolve(__dirname, "src/lib/mtmaiui_loader.ts"),
+      },
+
+      output: {
+        format: 'es',
+        entryFileNames: "[name].js",
+        chunkFileNames: "chunks/[name].[hash].js",
+        assetFileNames: "assets/[name].[ext]",
+        inlineDynamicImports: false,
+        experimentalMinChunkSize: 10000,
+        chunkSizeWarningLimit: 1000,
+      },
+    },
+    
     // lib: {
     //   entry: "src/lib/hello123.ts",
     //   name: "hello123",
@@ -49,11 +63,5 @@ export default defineConfig({
     // },
     // overwrite default .html entry
     // input: "src/entry-client.tsx",
-    rollupOptions: {
-      input: {
-        main: resolve(__dirname, "index.html"),
-        // nested: resolve(__dirname, "src/nested/index.html"),
-      },
-    },
   },
 });
