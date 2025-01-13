@@ -33,12 +33,22 @@ export default defineConfig({
   },
   build: {
     manifest: true,
-    outDir: "public/mtmaiui",
+    outDir: "public/mtmaiui/",
     base: "/mtmaiui/",
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),
         loader: resolve(__dirname, "src/lib/mtmaiui_loader.ts"),
+      },
+      output: {
+        // 添加这个配置来控制输出文件的命名
+        entryFileNames: (chunkInfo) => {
+          // 如果是 loader 入口，保持原始名称
+          if (chunkInfo.name === 'loader') {
+            return 'mtmaiui_loader.js';
+          }
+          return 'assets/[name]-[hash].js';
+        },
       },
     },
     // optimizeDeps: {
@@ -62,12 +72,12 @@ export default defineConfig({
     // },
     // overwrite default .html entry
     // input: "src/entry-client.tsx",
-    lib: {
-      // 添加库构建配置
-      entry: resolve(__dirname, "src/lib/mtmaiui_loader.ts"),
-      name: 'mtmaiui_loader',
-      fileName: 'mtmaiui_loader',
-      formats: ['es'],
-    },
+    // lib: {
+    //   // 添加库构建配置
+    //   entry: resolve(__dirname, "src/lib/mtmaiui_loader.ts"),
+    //   name: 'mtmaiui_loader',
+    //   fileName: 'mtmaiui_loader',
+    //   formats: ['es'],
+    // },
   },
 });
