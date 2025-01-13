@@ -1,6 +1,8 @@
 "use client";
 
-import { useMtmClient, useTenant } from "../../hooks";
+import { useTenant } from "../../hooks/useAuth";
+import { useMtmClient } from "../../hooks/useMtmapi";
+
 
 export function useBlog(blogId: string) {
   const mtmapi = useMtmClient();

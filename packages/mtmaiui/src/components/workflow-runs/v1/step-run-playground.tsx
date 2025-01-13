@@ -26,9 +26,9 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from "mtxuilib/ui/tooltip";
-import { useTenant } from "../../../hooks";
 import { useApiError } from "../../../hooks/useApi";
 import { RunStatus, WorkflowRunsTable } from "../../../modules";
+import { useTenant } from "../../../hooks/useAuth";
 
 export function StepRunPlayground({
   stepRun,

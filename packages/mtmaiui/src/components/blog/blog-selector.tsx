@@ -13,7 +13,8 @@ import {
   useOptimistic,
   useState,
 } from "react";
-import { useMtmClient, useTenant } from "../../hooks";
+import { useTenant } from "../../hooks/useAuth";
+import { useMtmClient } from "../../hooks/useMtmapi";
 export function BlogSelector({
   className,
   selectedBlogId,

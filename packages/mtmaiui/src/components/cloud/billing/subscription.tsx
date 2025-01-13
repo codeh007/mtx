@@ -17,9 +17,9 @@ import { Label } from "mtxuilib/ui/label";
 
 import type React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useTenant } from "../../../hooks";
 import { useApiError } from "../../../hooks/useApi";
 import { queryClient } from "../../../skyvern/api/QueryClient";
+import { useTenant } from "../../../hooks/useAuth";
 
 interface SubscriptionProps {
   active?: TenantSubscription;

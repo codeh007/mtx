@@ -8,7 +8,6 @@ import { ThreadPrimitive } from "@assistant-ui/react";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
 import { useToast } from "mtxuilib/ui/use-toast";
-import { useUser } from "../../hooks";
 import { useGraphStore } from "../../stores/GraphContextV2";
 import { DebugViewCanvas } from "../DebugViewCanvas";
 import { ReflectionsDialog } from "../reflections-dialog/ReflectionsDialog";
@@ -57,7 +56,7 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
   //   assistantsData: { selectedAssistant },
   //   graphData: { clearState, runId, feedbackSubmitted, setFeedbackSubmitted },
   // } = useGraphContextV2();
-  const user = useUser();
+  // const user = useUser();
   const modelName = useGraphStore((x) => x.modelName);
   const setModelName = useGraphStore((x) => x.setModelName);
   useLangSmithLinkToolUI();
