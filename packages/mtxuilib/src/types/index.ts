@@ -1,7 +1,7 @@
 import type { Ai } from "@cloudflare/ai";
 import type { z } from "zod";
 import type { User } from "../db/schema";
-import type { Icons } from "../icons/index.tsx--";
+import { Icons } from "../icons/icons";
 export type { WorkflowEvent, WorkflowStep } from "cloudflare:workers";
 // export * from "./opencanvasTypes";
 export type ZodObjectAny = z.ZodObject<any, any, any, any>;

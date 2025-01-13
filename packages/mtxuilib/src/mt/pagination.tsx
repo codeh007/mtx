@@ -2,9 +2,9 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTransition } from "react";
-import { Icons } from "../icons/index.tsx--";
 import { searchString } from "../lib/utils";
 import { Button } from "../ui/button";
+import { Icons } from "../icons/icons";
 interface TBountyListPagination {
   itemCount: number;
   pageSize: number;

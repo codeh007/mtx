@@ -1,6 +1,6 @@
 "use client";
 
-import { Icons } from "../icons/index.tsx--";
+import { Icons } from "../icons/icons";
 import { cn } from "../lib/utils";
 
 export function Spinner() {
