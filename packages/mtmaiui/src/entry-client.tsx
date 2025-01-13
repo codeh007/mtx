@@ -1,3 +1,4 @@
+"use client";
 import { StrictMode } from "react";
 // import ReactDOM from "react-dom/client";
 import { createRoot, hydrateRoot } from "react-dom/client";

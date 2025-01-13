@@ -29,13 +29,14 @@ import { user } from "../../db/schema";
 import { useTenant } from "../../hooks/useAuth";
 import { useMtmClient } from "../../hooks/useMtmapi";
 import { ThemeToggle } from "../../skyvern/components/ThemeSwitch";
+import { Avatar, AvatarFallback, AvatarImage } from "mtxuilib/ui/avatar";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { setTheme, theme } = useTheme();
   const tenant = useTenant();
 
-  const userImageSrc = `https://avatar.vercel.sh/${tenant.alertMemberEmails}`;
+  const userImageSrc = `https://avatar.vercel.sh/${tenant?.alertMemberEmails}`;
   // const userEmail = user.email;
   return (
     <SidebarMenu>
@@ -47,13 +48,13 @@ export function NavUser() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="size-8 rounded-full">
-                <AvatarImage src={userImageSrc} alt={tenant.name} />
+                <AvatarImage src={userImageSrc} alt={tenant?.name} />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{tenant.name}</span>
+                <span className="truncate font-semibold">{tenant?.name}</span>
                 <span className="truncate text-xs">
-                  {tenant.alertMemberEmails}
+                  {tenant?.alertMemberEmails}
                 </span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
@@ -68,12 +69,12 @@ export function NavUser() {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
+                  <AvatarImage src={user?.avatar} alt={user?.name} />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
+                  <span className="truncate font-semibold">{user?.name}</span>
+                  <span className="truncate text-xs">{user?.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>

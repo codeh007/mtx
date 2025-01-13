@@ -41,11 +41,11 @@ import { SidebarInset, SidebarTrigger } from 'mtxuilib/ui/sidebar'
 import { WorkflowTriggerBtn } from '../../components/workflow/WorkflowTriggerBtn'
 import WorkflowGeneralSettings from '../../components/workflow/workflow-general-settings'
 import { WorkflowTags } from '../../components/workflow/workflow-tags'
-import { useTenant } from '../../hooks'
 import { useApiError, useApiMetaIntegrations } from '../../hooks/useApi'
 import { useBasePath } from '../../hooks/useBasePath'
 import { WorkflowRunsTable } from '../../modules/workflow-run/workflow-runs-table'
 import { DashSidebar } from '../../components/sidebar/siderbar'
+import { useTenant } from '../../hooks/useAuth'
 export const Route = createLazyFileRoute('/workflows/$workflowId')({
   component: ExpandedWorkflow,
 })

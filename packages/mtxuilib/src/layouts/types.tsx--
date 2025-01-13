@@ -3,7 +3,6 @@ export interface DashASiderProps {
 }
 
 export interface DashSettingsProps {
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	obj?: any;
 }
 

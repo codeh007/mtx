@@ -36,7 +36,6 @@ import {
 } from "mtxuilib/ui/dropdown-menu";
 import { Separator } from "mtxuilib/ui/separator";
 import { SidebarInset, SidebarTrigger } from "mtxuilib/ui/sidebar";
-import { useTenant } from "../../../hooks";
 import { useApiError, useApiMetaIntegrations } from "../../../hooks/useApi";
 import { useBasePath } from "../../../hooks/useBasePath";
 import { WorkflowRunsTable } from "../../../modules";
@@ -44,6 +43,7 @@ import { DashSidebar } from "../../sidebar/siderbar";
 import { WorkflowTriggerBtn } from "../../workflow/WorkflowTriggerBtn";
 import WorkflowGeneralSettings from "../../workflow/workflow-general-settings";
 import { WorkflowTags } from "../../workflow/workflow-tags";
+import { useTenant } from "../../../hooks/useAuth";
 export default function ExpandedWorkflow(props: {
   params: Promise<{
     workflowId: string;
