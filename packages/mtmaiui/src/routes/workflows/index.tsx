@@ -24,7 +24,7 @@ function RouteComponent() {
 
   const tenant = useTenant();
 
-  if (!tenant) throw new Error("tenant required");
+  if (!tenant) return null
 
   return <>
     <DashSidebar />
