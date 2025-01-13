@@ -13,9 +13,10 @@ import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
 import { SidebarProvider } from "mtxuilib/ui/sidebar";
 import { getBackendUrl } from "mtxuilib/lib/sslib";
 import "./globals.css";
+import dynamic from "next/dynamic";
 
 export const runtime = "edge";
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -23,6 +24,14 @@ export const viewport: Viewport = {
     { media: "(prefers-color-scheme: dark)", color: "black" },
   ],
 };
+
+// const DashSlot = dynamic(
+//   () => import('./@dash/default'),
+//   { 
+//     ssr: false,
+//     loading: () => <div>Loading dashboard...</div>
+//   }
+// )
 
 export default async function Layout(props: {
   children: ReactNode;
@@ -71,6 +80,7 @@ export default async function Layout(props: {
                     >
                       {children}
                       {dash}
+                      {/* <DashSlot/> */}
                     </SidebarProvider>
                     {/* <ServerSwitch /> */}
                     
