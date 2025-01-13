@@ -2,12 +2,15 @@
 import { RouterProvider } from "@tanstack/react-router";
 import { createRouter } from "./router";
 import "./styles/globals.css";
+import { useMemo } from "react";
 
-export const mainAppRouter = createRouter();
 export function App() {
+  const mainRouter = useMemo(()=>{
+    return createRouter();
+  },[])
   return (
     <>
-      <RouterProvider router={mainAppRouter} />
+      <RouterProvider router={mainRouter} />
     </>
   );
 }
