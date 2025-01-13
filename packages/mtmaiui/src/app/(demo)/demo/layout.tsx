@@ -8,12 +8,11 @@ import { UIProviders } from "mtmaiui/stores/UIProviders";
 import { frontendGetConfig, initMtiaiClient } from "mtmaiapi";
 
 import { cn } from "mtxuilib/lib/utils";
-import { MtmaiProvider } from "../../stores/StoreProvider";
 import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
 import { SidebarProvider } from "mtxuilib/ui/sidebar";
 import { getBackendUrl } from "mtxuilib/lib/sslib";
 import "./globals.css";
-import { MtmaiuiLoaderScript } from "../../components/MtmaiuiLoader";
+import { MtmaiProvider } from "../../../stores/StoreProvider";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
