@@ -10,11 +10,6 @@ import type { Renderable } from "../../lib/render";
 export interface DashASiderProps {
 	isCollapsed?: boolean;
 }
-
-// export interface DashSettingsProps {
-// 	obj?: Record<string, any>;
-// }
-
 export interface DashHeaderProps {
 	hidden?: boolean;
 }
