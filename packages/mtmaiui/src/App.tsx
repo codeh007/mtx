@@ -1,7 +1,7 @@
 "use client";
 import { RouterProvider } from "@tanstack/react-router";
 import { createRouter } from "./router";
-import "./styles/globals.css";
+// import "./styles/globals.css";
 import { useMemo } from "react";
 import { useTenant } from "./hooks/useAuth";
 
