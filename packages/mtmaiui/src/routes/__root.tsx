@@ -1,7 +1,7 @@
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 import { CustomLink } from "../components/CreatedLink";
-import { LzAssisantFAB } from "../components/assisant/AssisantFABLz";
 import { NotFound } from "../components/notFound";
+import { UserFAB } from "../components/UserFAB";
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -11,7 +11,7 @@ export const Route = createRootRoute({
 function RootComponent() {
   return (
     <>
-      <LzAssisantFAB />
+      <UserFAB />
       <div className="p-2 flex gap-2 text-lg border-b">
         <CustomLink
           to="/"
@@ -49,8 +49,6 @@ function RootComponent() {
       </div>
       <hr />
       <Outlet />
-      {/* Start rendering router matches */}
-      {/* <TanStackRouterDevtools position="bottom-right" /> */}
     </>
   );
 }
