@@ -26,7 +26,6 @@ import {
 } from "mtxuilib/icons/aichatbot.icons";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
-import { useMtmClient } from "../../hooks";
 import { MultimodalInput } from "../chat/prompt-input/multimodal-input";
 import { DiffView } from "./diffview";
 import { Editor } from "./editor";
@@ -233,7 +232,7 @@ export function Block({
 
   const [isToolbarVisible, setIsToolbarVisible] = useState(false);
 
-  const mtmapi = useMtmClient();
+  // const mtmapi = useMtmClient();
 
   /*
    * NOTE: if there are no documents, or if

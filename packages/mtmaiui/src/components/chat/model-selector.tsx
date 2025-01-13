@@ -15,7 +15,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "mtxuilib/ui/dropdown-menu";
-import { useTenant, useMtmClient } from "../../hooks";
+import { useMtmClient } from "../../hooks/useMtmapi";
+import { useTenant } from "../../hooks/useAuth";
 
 export function ModelSelector({
   selectedModelId,

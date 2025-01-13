@@ -49,6 +49,8 @@ import { NavChat } from "./nav-chatprofile";
 import { NavDevtools } from "./nav-devtools";
 import { SidebarHistory } from "./sidebar-history";
 import { NavUser } from "./siderbarnav-user";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "mtxuilib/ui/collapsible";
+import { CustomLink } from "../CustomLink";
 
 /*************************************************************************
  * 备忘：
@@ -270,9 +272,9 @@ export const SidebarMenuView = () => {
                   {item.children?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
-                        <Link href={subItem.url}>
+                        <CustomLink to={subItem.url}>
                           <span>{subItem.title}</span>
-                        </Link>
+                        </CustomLink>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   ))}

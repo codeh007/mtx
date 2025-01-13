@@ -1,5 +1,4 @@
 import { Outlet, createRootRoute } from "@tanstack/react-router";
-import { CustomLink } from "../components/CustomLink";
 import { NotFound } from "../components/notFound";
 import { UserFAB } from "../components/UserFAB";
 

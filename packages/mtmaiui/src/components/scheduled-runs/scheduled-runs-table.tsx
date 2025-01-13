@@ -24,10 +24,11 @@ import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { Button } from "mtxuilib/ui/button";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { useMtmClient, useTenant } from "../../hooks";
 import { useBasePath } from "../../hooks/useBasePath";
 import { DeleteScheduledRun } from "./delete-scheduled-runs";
 import { columns } from "./scheduled-runs-columns";
+import { useTenant } from "../../hooks/useAuth";
+import { useMtmClient } from "../../hooks/useMtmapi";
 
 export interface ScheduledWorkflowRunsTableProps {
   createdAfter?: string;

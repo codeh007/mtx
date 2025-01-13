@@ -77,10 +77,12 @@ export const UserFAB = () => {
               </DropdownMenuItem>
             </CustomLink>
 
+            <CustomLink to="/workflows/">
             <DropdownMenuItem>
-              Keyboard shortcuts
+              workflows
               <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
             </DropdownMenuItem>
+            </CustomLink>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
