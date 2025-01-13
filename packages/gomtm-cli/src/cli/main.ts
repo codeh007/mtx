@@ -31,13 +31,10 @@ function loadEnv() {
   program.command("build_mtmaiui").action(async () => {
     console.log("(build_mtmaiui)", import.meta.url);
 
-    const projectDir = path.resolve(__dirname, "../../../packages/mtmaiui");
-    await vite.build({
-      configFile: path.resolve(projectDir, "vite.config.js"),
-    });
-    // await buildWithViteBuild();
-    // console.log("(mtxuilib)build tsc");
-    // await buildWithTsc();
+    // const projectDir = path.resolve(__dirname, "../../../packages/mtmaiui");
+    // await vite.build({
+    //   configFile: path.resolve(projectDir, "vite.config.js"),
+    // });
   });
 
   // program.command("gen").action(async () => {
