@@ -1,14 +1,4 @@
-interface ManifestEntry {
-  file: string;
-  isEntry?: boolean;
-  imports?: string[];
-  css?: string[];
-}
-
-interface Manifest {
-  [key: string]: ManifestEntry;
-}
-
+import type { Manifest } from 'vite';
 export class MTMAIUILoader {
   private baseUrl: string;
   private manifest: Manifest | null = null;
@@ -46,7 +36,7 @@ export class MTMAIUILoader {
   }
 
   //加载生产环境的脚本
-  async loadLoadProduction() {
+  async loadProduction() {
     if (!this.manifest) {
       await this.init();
     }
@@ -68,8 +58,6 @@ export class MTMAIUILoader {
         entry.css.map((css) => this.loadCSS(`${this.baseUrl}${css}`))
       );
     }
-
-    // 加载主脚本
     await this.loadScript(`${this.baseUrl}${entry.file}`);
   }
 
@@ -103,6 +91,6 @@ if(typeof window !== "undefined"){
     const baseUrl = "/mtmaiui";
 
     const loader = new MTMAIUILoader(baseUrl);
-    loader.loadLoadProduction().catch(console.error);
+    loader.loadProduction().catch(console.error);
   }
 }
