@@ -18,6 +18,7 @@ import {
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
   // DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu"
 import { cn } from "mtxuilib/lib/utils";
@@ -29,8 +30,20 @@ export const UserFAB = () => {
   const [openDropdown, setOpenDropdown] = useState(false)
   return (
     <>
-      <Button className={cn(
-        "absolute bottom-14 right-4",
+      
+      {
+        openCmdk && (
+          <AssistantModal />
+        )
+      }
+
+        <DropdownMenu 
+          open={openDropdown} 
+          onOpenChange={setOpenDropdown}
+          >
+        <DropdownMenuTrigger asChild>
+        <Button className={cn(
+        "fixed bottom-14 right-4",
         "bg-tertiary/20 text-tertiary-foreground border border-slate-500 hover:bg-tertiary/10 rounded-lg",
         
         )}
@@ -41,13 +54,8 @@ export const UserFAB = () => {
         >
         <Icons.apple />
       </Button>
-      {
-        openCmdk && (
-          <AssistantModal />
-        )
-      }
-
-        <DropdownMenu open={openDropdown} onOpenChange={setOpenDropdown}>
+        {/* <Button variant="outline">Open dropdown</Button> */}
+        </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56">
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
