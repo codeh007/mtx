@@ -61,15 +61,7 @@ const nextConfig = {
       "basic-ftp",
     );
 
-    // 自定义 chunk 文件名生成规则
-    config.output.chunkFilename = (pathData) => {
-      // 特定脚本则使用无哈希的文件名, 可以明确url路径,方便自定义加载
-      if (pathData.chunk.name === 'TestLazy2') {
-        return 'static/chunks/test-lazy222.js';
-      }
-      // 其他 chunks 保持原有的命名方式（带哈希）
-      // return 'static/chunks/[name].[contenthash].js';
-    };
+    
     // 演示将 chunk 文件名改为特定名称
     // config.optimization.splitChunks = {
     //   cacheGroups: {
@@ -82,6 +74,21 @@ const nextConfig = {
     //     },
     //   },
     // }
+    /*
+      自定义 chunk 文件名生成规则
+      提示:
+          - 在代码中使用"webpackChunkName"魔法注释,可以指定 chunck 名称
+          - 
+    */
+    config.output.chunkFilename = (pathData) => {
+      // 特定脚本则使用无哈希的文件名, 可以明确url路径,方便自定义加载
+      if (pathData.chunk.name === 'test-lazy2') {
+        return 'static/chunks/test-lazy222.js';
+      }
+      // 其他 chunks 保持原有的命名方式（带哈希）
+      return 'static/chunks/[name].[contenthash].js';
+      // return config.output.chunkFilename
+    };
 
     return config;
   },
