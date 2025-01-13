@@ -3,7 +3,7 @@
 import type { FrontendConfig, Site } from "mtmaiapi";
 // import { DevTools } from "mtxuilib/components/devtools/DevTools";
 import type React from "react";
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useContext, useEffect, useMemo } from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -139,15 +139,22 @@ export const MtmaiProvider = (props: AppProviderProps) => {
   const { children, ...etc } = props;
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const mystore = useMemo(() => createMtAppStore(etc), []);
-
+  useEffect(()=>{
+    console.log("MtmaiProvider");
+    import("../AppLoader").then(x=>{
+      x
+    })
+  },[])
   return (
     <mtmaiStoreContext.Provider value={mystore}>
+      
       <ReactQueryProvider
         serverUrl={etc.serverUrl as string}
         accessToken={etc.accessToken as string}
         host={etc.hostName as string}
       >
         {children}
+        
         <HatchatLoaderLazy />
         <DevToolsLazy />
       </ReactQueryProvider>
