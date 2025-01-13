@@ -206,9 +206,9 @@ RUN curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | ba
 # nvm install 20 && nvm alias default 20
 # python base
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends --fix-missing -y \
-        python python-pip python3-venv python3-distutils \
-        && apt -y autoremove && apt-get -y clean && rm -rf /tmp/* \
-        && rm -rf /var/lib/apt/lists/*
+    python python-pip python3-venv python3-distutils \
+    && apt -y autoremove && apt-get -y clean && rm -rf /tmp/* \
+    && rm -rf /var/lib/apt/lists/*
 
 
 # golang ----------------------------------------------------------------------------------------------------------
@@ -223,13 +223,13 @@ FROM build_base AS builder_mtm
 # to understand why libc6-compat might be needed.
 WORKDIR /app
 RUN apt-get update && apt-get install -y  curl \
-                        git \
-                        mercurial \
-                        make \
-                        binutils \
-                        bison \
-                        gcc \
-                        build-essential
+    git \
+    mercurial \
+    make \
+    binutils \
+    bison \
+    gcc \
+    build-essential
 ARG TRPC_BACKEND
 ENV TRPC_BACKEND=${TRPC_BACKEND}
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -343,9 +343,9 @@ RUN curl -o 1.deb https://vscode.download.prss.microsoft.com/dbazure/download/st
     && sudo dpkg -i 1.deb && sudo rm 1.deb
 
 RUN apt update && apt install -y dbus-x11 \
-        x11-utils \
-        x11-xserver-utils \
-        xdg-utils
+    x11-utils \
+    x11-xserver-utils \
+    xdg-utils
 
 
 
@@ -368,21 +368,16 @@ RUN bun install -g gomtm@latest
 # RUN pip install -U uv
 RUN uv venv
 # RUN uv pip install -U --system mtmai
-
-
-
-
 RUN uv pip install -U mtmai
-
 # yakit(IDE, linux 版的无UI)
 RUN curl -sS -L http://oss.yaklang.io/install-latest-yak.sh | bash -
 
 RUN curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.gpg | sudo apt-key add - \
-	&& curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.list | sudo tee /etc/apt/sources.list.d/tailscale.list \
-	&& apt-get update \
-	&& apt-get install -y tailscale
+    && curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.list | sudo tee /etc/apt/sources.list.d/tailscale.list \
+    && apt-get update \
+    && apt-get install -y tailscale
 
 # RUN ./.venv/bin/mtmai --help
 # RUN ./gomtm install searxng
 
-# CMD ["./gomtm","serve"]
+CMD ["./gomtm"]
