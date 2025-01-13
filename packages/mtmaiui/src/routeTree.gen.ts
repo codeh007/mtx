@@ -14,7 +14,6 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as LayoutsrootImport } from './routes/layouts/__root'
-import { Route as LayoutImport } from './routes/_layout'
 import { Route as IndexImport } from './routes/index'
 import { Route as WorkflowsIndexImport } from './routes/workflows/index'
 import { Route as LayoutsLayout2LayoutBImport } from './routes/layouts/_layout-2/layout-b'
@@ -23,14 +22,12 @@ import { Route as LayoutsLayout2LayoutAImport } from './routes/layouts/_layout-2
 // Create Virtual Routes
 
 const LayoutsImport = createFileRoute('/layouts')()
-const PostsLazyImport = createFileRoute('/posts')()
 const AnchorLazyImport = createFileRoute('/anchor')()
 const PostsIndexLazyImport = createFileRoute('/posts/')()
 const DashIndexLazyImport = createFileRoute('/dash/')()
 const WorkflowsWorkflowIdLazyImport = createFileRoute(
   '/workflows/$workflowId',
 )()
-const PostsPostIdLazyImport = createFileRoute('/posts/$postId')()
 
 // Create/Update Routes
 
@@ -45,22 +42,11 @@ const LayoutsRoute = LayoutsImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const PostsLazyRoute = PostsLazyImport.update({
-  id: '/posts',
-  path: '/posts',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/posts.lazy').then((d) => d.Route))
-
 const AnchorLazyRoute = AnchorLazyImport.update({
   id: '/anchor',
   path: '/anchor',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/anchor.lazy').then((d) => d.Route))
-
-const LayoutRoute = LayoutImport.update({
-  id: '/_layout',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -69,9 +55,9 @@ const IndexRoute = IndexImport.update({
 } as any)
 
 const PostsIndexLazyRoute = PostsIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PostsLazyRoute,
+  id: '/posts/',
+  path: '/posts/',
+  getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/posts/index.lazy').then((d) => d.Route))
 
 const DashIndexLazyRoute = DashIndexLazyImport.update({
@@ -93,12 +79,6 @@ const WorkflowsWorkflowIdLazyRoute = WorkflowsWorkflowIdLazyImport.update({
 } as any).lazy(() =>
   import('./routes/workflows/$workflowId.lazy').then((d) => d.Route),
 )
-
-const PostsPostIdLazyRoute = PostsPostIdLazyImport.update({
-  id: '/$postId',
-  path: '/$postId',
-  getParentRoute: () => PostsLazyRoute,
-} as any).lazy(() => import('./routes/posts/$postId.lazy').then((d) => d.Route))
 
 const LayoutsLayout2LayoutBRoute = LayoutsLayout2LayoutBImport.update({
   id: '/_layout-2/layout-b',
@@ -123,25 +103,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/_layout': {
-      id: '/_layout'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof LayoutImport
-      parentRoute: typeof rootRoute
-    }
     '/anchor': {
       id: '/anchor'
       path: '/anchor'
       fullPath: '/anchor'
       preLoaderRoute: typeof AnchorLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/posts': {
-      id: '/posts'
-      path: '/posts'
-      fullPath: '/posts'
-      preLoaderRoute: typeof PostsLazyImport
       parentRoute: typeof rootRoute
     }
     '/layouts': {
@@ -157,13 +123,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/layouts'
       preLoaderRoute: typeof LayoutsrootImport
       parentRoute: typeof LayoutsRoute
-    }
-    '/posts/$postId': {
-      id: '/posts/$postId'
-      path: '/$postId'
-      fullPath: '/posts/$postId'
-      preLoaderRoute: typeof PostsPostIdLazyImport
-      parentRoute: typeof PostsLazyImport
     }
     '/workflows/$workflowId': {
       id: '/workflows/$workflowId'
@@ -188,10 +147,10 @@ declare module '@tanstack/react-router' {
     }
     '/posts/': {
       id: '/posts/'
-      path: '/'
-      fullPath: '/posts/'
+      path: '/posts'
+      fullPath: '/posts'
       preLoaderRoute: typeof PostsIndexLazyImport
-      parentRoute: typeof PostsLazyImport
+      parentRoute: typeof rootRoute
     }
     '/layouts/_layout-2/layout-a': {
       id: '/layouts/_layout-2/layout-a'
@@ -212,20 +171,6 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-interface PostsLazyRouteChildren {
-  PostsPostIdLazyRoute: typeof PostsPostIdLazyRoute
-  PostsIndexLazyRoute: typeof PostsIndexLazyRoute
-}
-
-const PostsLazyRouteChildren: PostsLazyRouteChildren = {
-  PostsPostIdLazyRoute: PostsPostIdLazyRoute,
-  PostsIndexLazyRoute: PostsIndexLazyRoute,
-}
-
-const PostsLazyRouteWithChildren = PostsLazyRoute._addFileChildren(
-  PostsLazyRouteChildren,
-)
-
 interface LayoutsRouteChildren {
   LayoutsrootRoute: typeof LayoutsrootRoute
   LayoutsLayout2LayoutARoute: typeof LayoutsLayout2LayoutARoute
@@ -243,25 +188,20 @@ const LayoutsRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '': typeof LayoutRoute
   '/anchor': typeof AnchorLazyRoute
-  '/posts': typeof PostsLazyRouteWithChildren
   '/layouts': typeof LayoutsrootRoute
-  '/posts/$postId': typeof PostsPostIdLazyRoute
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdLazyRoute
   '/workflows': typeof WorkflowsIndexRoute
   '/dash': typeof DashIndexLazyRoute
-  '/posts/': typeof PostsIndexLazyRoute
+  '/posts': typeof PostsIndexLazyRoute
   '/layouts/layout-a': typeof LayoutsLayout2LayoutARoute
   '/layouts/layout-b': typeof LayoutsLayout2LayoutBRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '': typeof LayoutRoute
   '/anchor': typeof AnchorLazyRoute
   '/layouts': typeof LayoutsrootRoute
-  '/posts/$postId': typeof PostsPostIdLazyRoute
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdLazyRoute
   '/workflows': typeof WorkflowsIndexRoute
   '/dash': typeof DashIndexLazyRoute
@@ -273,12 +213,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/_layout': typeof LayoutRoute
   '/anchor': typeof AnchorLazyRoute
-  '/posts': typeof PostsLazyRouteWithChildren
   '/layouts': typeof LayoutsRouteWithChildren
   '/layouts/__root': typeof LayoutsrootRoute
-  '/posts/$postId': typeof PostsPostIdLazyRoute
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdLazyRoute
   '/workflows/': typeof WorkflowsIndexRoute
   '/dash/': typeof DashIndexLazyRoute
@@ -291,24 +228,19 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | ''
     | '/anchor'
-    | '/posts'
     | '/layouts'
-    | '/posts/$postId'
     | '/workflows/$workflowId'
     | '/workflows'
     | '/dash'
-    | '/posts/'
+    | '/posts'
     | '/layouts/layout-a'
     | '/layouts/layout-b'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | ''
     | '/anchor'
     | '/layouts'
-    | '/posts/$postId'
     | '/workflows/$workflowId'
     | '/workflows'
     | '/dash'
@@ -318,12 +250,9 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/_layout'
     | '/anchor'
-    | '/posts'
     | '/layouts'
     | '/layouts/__root'
-    | '/posts/$postId'
     | '/workflows/$workflowId'
     | '/workflows/'
     | '/dash/'
@@ -335,24 +264,22 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  LayoutRoute: typeof LayoutRoute
   AnchorLazyRoute: typeof AnchorLazyRoute
-  PostsLazyRoute: typeof PostsLazyRouteWithChildren
   LayoutsRoute: typeof LayoutsRouteWithChildren
   WorkflowsWorkflowIdLazyRoute: typeof WorkflowsWorkflowIdLazyRoute
   WorkflowsIndexRoute: typeof WorkflowsIndexRoute
   DashIndexLazyRoute: typeof DashIndexLazyRoute
+  PostsIndexLazyRoute: typeof PostsIndexLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  LayoutRoute: LayoutRoute,
   AnchorLazyRoute: AnchorLazyRoute,
-  PostsLazyRoute: PostsLazyRouteWithChildren,
   LayoutsRoute: LayoutsRouteWithChildren,
   WorkflowsWorkflowIdLazyRoute: WorkflowsWorkflowIdLazyRoute,
   WorkflowsIndexRoute: WorkflowsIndexRoute,
   DashIndexLazyRoute: DashIndexLazyRoute,
+  PostsIndexLazyRoute: PostsIndexLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -366,30 +293,19 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/_layout",
         "/anchor",
-        "/posts",
         "/layouts",
         "/workflows/$workflowId",
         "/workflows/",
-        "/dash/"
+        "/dash/",
+        "/posts/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/_layout": {
-      "filePath": "_layout.tsx"
-    },
     "/anchor": {
       "filePath": "anchor.lazy.tsx"
-    },
-    "/posts": {
-      "filePath": "posts.lazy.tsx",
-      "children": [
-        "/posts/$postId",
-        "/posts/"
-      ]
     },
     "/layouts": {
       "filePath": "layouts",
@@ -403,10 +319,6 @@ export const routeTree = rootRoute
       "filePath": "layouts/__root.tsx",
       "parent": "/layouts"
     },
-    "/posts/$postId": {
-      "filePath": "posts/$postId.lazy.tsx",
-      "parent": "/posts"
-    },
     "/workflows/$workflowId": {
       "filePath": "workflows/$workflowId.lazy.tsx"
     },
@@ -417,8 +329,7 @@ export const routeTree = rootRoute
       "filePath": "dash/index.lazy.tsx"
     },
     "/posts/": {
-      "filePath": "posts/index.lazy.tsx",
-      "parent": "/posts"
+      "filePath": "posts/index.lazy.tsx"
     },
     "/layouts/_layout-2/layout-a": {
       "filePath": "layouts/_layout-2/layout-a.tsx",
