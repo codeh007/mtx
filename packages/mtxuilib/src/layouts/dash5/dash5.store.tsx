@@ -6,7 +6,32 @@ import { devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import type { Renderable } from "../../lib/render";
-import type { DashASiderProps, DashSettingsProps } from "../types.tsx--";
+
+export interface DashASiderProps {
+	isCollapsed?: boolean;
+}
+
+export interface DashSettingsProps {
+	obj?: Record<string, any>;
+}
+
+export interface DashHeaderProps {
+	hidden?: boolean;
+}
+
+export interface SiderNavItemProps {
+	title?: string | null;
+	label?: string | null;
+	icon?: string | null;
+	variant?: "default" | "ghost";
+	url?: string | null;
+}
+export interface NavProps {
+	isCollapsed?: boolean;
+	isActive?: boolean;
+	items: SiderNavItemProps[];
+}
+
 
 /**
  * 主布局配置
