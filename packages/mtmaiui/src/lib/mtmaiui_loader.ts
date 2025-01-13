@@ -39,9 +39,9 @@ export class MTMAIUILoader {
     if (!this.manifest) {
       await this.init();
     }
-
+    if(!this.manifest) throw new Error("manifest is null");
     // 找到入口文件
-    const entryPoint = Object.entries(this.manifest!).find(
+    const entryPoint = Object.entries(this.manifest).find(
       ([_, entry]) => entry.isEntry
     );
 

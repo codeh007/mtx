@@ -1,5 +1,5 @@
 "use client";
-import { Icons } from "../../icons/index.tsx--";
+import { Icons } from "../../icons/icons";
 import { Input } from "../../ui/input";
 
 interface SearchInputProps {
@@ -8,7 +8,6 @@ interface SearchInputProps {
 }
 export const SearchInput = (props: SearchInputProps) => {
   const { value = "", onChange, ...rest } = props;
-  // const form = useFormContext();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange?.(e.target.value);
   };
