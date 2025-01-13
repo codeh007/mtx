@@ -13,9 +13,11 @@ import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
 import { SidebarProvider } from "mtxuilib/ui/sidebar";
 import { getBackendUrl } from "mtxuilib/lib/sslib";
 import "./globals.css";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 
-export const runtime = "edge";
+// export const runtime = "edge";
+export const runtime = "nodejs"; //nodejs
+
 // export const dynamic = "force-dynamic";
 
 export const viewport: Viewport = {
