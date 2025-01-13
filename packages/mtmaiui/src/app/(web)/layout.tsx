@@ -14,6 +14,7 @@ import { SidebarProvider } from "mtxuilib/ui/sidebar";
 import { getBackendUrl } from "mtxuilib/lib/sslib";
 import "./globals.css";
 import dynamic from "next/dynamic";
+import { HatchatLoader } from "../../components/HatchatLoader";
 
 export const runtime = "edge";
 // export const dynamic = "force-dynamic";
@@ -68,8 +69,8 @@ export default async function Layout(props: {
           serverUrl={backendUrl}
           accessToken={accessToken}
         >
-              {/* <HatchatLoader>
-                <GomtmRuntimeProvider> */}
+              <HatchatLoader>
+                {/* <GomtmRuntimeProvider>  */}
                   <UIProviders>
                     <SidebarProvider
                       style={
@@ -80,13 +81,12 @@ export default async function Layout(props: {
                     >
                       {children}
                       {dash}
-                      {/* <DashSlot/> */}
                     </SidebarProvider>
                     {/* <ServerSwitch /> */}
                     
                   </UIProviders>
-                {/* </GomtmRuntimeProvider>
-              </HatchatLoader> */}
+                {/* </GomtmRuntimeProvider> */}
+              </HatchatLoader> 
 
           
         </MtmaiProvider>
