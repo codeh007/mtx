@@ -11,9 +11,9 @@ export interface DashASiderProps {
 	isCollapsed?: boolean;
 }
 
-export interface DashSettingsProps {
-	obj?: Record<string, any>;
-}
+// export interface DashSettingsProps {
+// 	obj?: Record<string, any>;
+// }
 
 export interface DashHeaderProps {
 	hidden?: boolean;
@@ -58,7 +58,7 @@ export const dash5LayoutDefaultConfig = {
 export type Dash5LayoutProps = {
 	headerComponent?: Renderable<DashASiderProps>;
 	aSiderRender?: (props: DashASiderProps) => React.ReactNode;
-	settingsRender?: (props: DashSettingsProps) => React.ReactNode;
+	// settingsRender?: (props: DashSettingsProps) => React.ReactNode;
 };
 
 export interface Dash5LayoutState extends Dash5LayoutProps {
