@@ -1,5 +1,5 @@
 "use client";
-import { Icons } from "../../icons";
+import { Icons } from "../../icons/index.tsx--";
 import { Input } from "../../ui/input";
 
 interface SearchInputProps {

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { Fragment } from "react/jsx-runtime";
-import { IconX } from "../../icons";
+import { IconX } from "../../icons/index.tsx--";
 import { cn } from "../../lib/utils";
 import { buttonVariants } from "../../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../../ui/tooltip";

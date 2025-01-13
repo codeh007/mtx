@@ -8,7 +8,6 @@ export class MTMAIUILoader {
   }
 
   async init() {
-    // 加载 manifest.json
     const manifestUrl = `${this.baseUrl}.vite/manifest.json`;
     const response = await fetch(manifestUrl);
     this.manifest = await response.json();
@@ -63,6 +62,9 @@ export class MTMAIUILoader {
 
   //加载开发环境的脚本
   async loadLoadDevelopment(viteServerUrl: string, entrySrcName="/src/entry-client.tsx") {
+    // css
+    const cssSrc="/src/styles/globals.css"
+    this.loadCSS(`${viteServerUrl}${cssSrc}`);
     // 加载 Vite 客户端
     await import(`${viteServerUrl}/@vite/client`);
     const RefreshRuntime = (await import(`${viteServerUrl}/@react-refresh`)).default;
@@ -75,6 +77,8 @@ export class MTMAIUILoader {
     window.__vite_plugin_react_preamble_installed__ = true;
     // 应用入口
     await import(`${viteServerUrl}${entrySrcName}`);
+    
+    await this.loadCSS(`${viteServerUrl}/${cssSrc}`);
     return;
   }
 }

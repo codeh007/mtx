@@ -21,7 +21,7 @@ import {
   // DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu"
 import { cn } from "mtxuilib/lib/utils";
-import { Link } from "@tanstack/react-router";
+import { CustomLink } from "./CustomLink";
 
 export const UserFAB = () => {
 
@@ -33,7 +33,12 @@ export const UserFAB = () => {
         "absolute bottom-14 right-4",
         "bg-tertiary/20 text-tertiary-foreground border border-slate-500 hover:bg-tertiary/10 rounded-lg",
         
-        )}>
+        )}
+        onClick={() => {
+          // setOpenCmdk(true)
+          setOpenDropdown(true)
+        }}
+        >
         <Icons.apple />
       </Button>
       {
@@ -47,12 +52,12 @@ export const UserFAB = () => {
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <Link to="/dashboard">
+            <CustomLink to="/dashboard">
             <DropdownMenuItem>
               管理
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>
-            </Link>
+            </CustomLink>
             <DropdownMenuItem>
               Billing
               <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
