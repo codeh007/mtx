@@ -60,7 +60,6 @@ export default async function Layout(props: {
           serverUrl={backendUrl}
           accessToken={accessToken}
         >
-          {/* <MustLogin> */}
               {/* <HatchatLoader>
                 <GomtmRuntimeProvider> */}
                   <UIProviders>
@@ -72,14 +71,15 @@ export default async function Layout(props: {
                       }
                     >
                       {children}
+                      {dash}
                     </SidebarProvider>
                     {/* <ServerSwitch /> */}
+                    
                   </UIProviders>
                 {/* </GomtmRuntimeProvider>
               </HatchatLoader> */}
-          {/* </MustLogin> */}
 
-          {dash}
+          
         </MtmaiProvider>
       </body>
     </html>
