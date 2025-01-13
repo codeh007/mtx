@@ -6,7 +6,7 @@ import { devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import type { Renderable } from "../../lib/render";
-import type { DashASiderProps, DashSettingsProps } from "../types";
+import type { DashASiderProps, DashSettingsProps } from "../types.tsx--";
 
 /**
  * 主布局配置

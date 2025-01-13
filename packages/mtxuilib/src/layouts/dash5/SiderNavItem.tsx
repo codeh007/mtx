@@ -6,7 +6,7 @@ import { Fragment } from "react/jsx-runtime";
 import { cn } from "../../lib/utils";
 import { buttonVariants } from "../../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../../ui/tooltip";
-import type { NavProps } from "../types";
+import type { NavProps } from "../types.tsx--";
 import { IconX } from "../../icons/icons";
 
 export function SiderNavItem({ items, isCollapsed }: NavProps) {

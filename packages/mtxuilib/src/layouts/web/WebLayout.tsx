@@ -1,12 +1,10 @@
 "use client";
 
-import { WebLayoutHeader } from "./WebLayoutHeader";
 
 export function WebLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      <WebLayoutHeader />
+    <div className="flex flex-col min-h-screen h-full">
       {children}
-    </>
+    </div>
   );
 }
