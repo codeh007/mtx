@@ -1,14 +1,13 @@
-// import type { Config } from "tailwindcss";
+import type { Config } from "tailwindcss";
 
 /** @type {import('tailwindcss').Config} */
-const config = {
+const config: Config = {
   content: [
-    // "./app/**/*.{js,jsx,ts,tsx,mdx}",
+    "./app/**/*.{js,jsx,ts,tsx,mdx}",
     "./src/**/*.{js,jsx,ts,tsx,mdx}",
     "../../packages/mtxuilib/src/**/*.{js,jsx,ts,tsx,mdx}",
-    // "../../packages/mtmeditor/src/**/*.{js,jsx,ts,tsx,mdx}",
-    // "../../packages/mtmscreentocode/src/**/*.{js,jsx,ts,tsx,mdx}",
-    // "../../packages/mtmaibot/src/**/*.{js,jsx,ts,tsx,mdx}",
+    "../../packages/mtmaiui/src/**/*.{js,jsx,ts,tsx,mdx}",
+
   ],
   darkMode: ["class"],
   theme: {
