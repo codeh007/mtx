@@ -1,19 +1,20 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { siteListOptions } from "mtmaiapi";
+import { type Site, siteListOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useMemo } from "react";
 import { useTenant } from "../../hooks/useAuth";
+import { CustomLink } from "../CustomLink";
 import { SiteListViewHeader } from "./SiteListViewHeader";
 
 export default function SiteListView() {
-  const router = useMtRouter();
+  // const router = useMtRouter();
   const tenant = useTenant();
   const listQuery = useSuspenseQuery({
     ...siteListOptions({
       path: {
-        tenant: tenant.metadata.id,
+        tenant: tenant!.metadata.id,
       },
     }),
   });
@@ -28,9 +29,30 @@ export default function SiteListView() {
       ) : (
         <>
           <SiteListViewHeader />
-          <DebugValue value={listQuery.data!} />
+
+          <div className="flex flex-col gap-2">
+            {listQuery.data?.rows?.map((site) => (
+              <SiteListItem key={site.metadata.id} site={site} />
+            ))}
+          </div>
         </>
       )}
     </div>
   );
 }
+
+interface SiteListItemProps {
+  site: Site;
+}
+const SiteListItem = ({ site }: SiteListItemProps) => {
+  return (
+    <div>
+      <DebugValue data={site} />
+      <div>
+        <CustomLink to={`/dash/site/${site.metadata.id}`}>
+          {site.title}
+        </CustomLink>
+      </div>
+    </div>
+  );
+};
