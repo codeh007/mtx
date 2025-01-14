@@ -59,27 +59,16 @@ export default async function Layout(props: {
           serverUrl={backendUrl}
           accessToken={accessToken}
         >
-              
-                {/* <GomtmRuntimeProvider>  */}
-                  <UIProviders>
-                    <SidebarProvider
-                      style={
-                        {
-                          // "--sidebar-width": "350px", //如果需要左侧双侧边栏 就设置为 350px
-                        } as React.CSSProperties
-                      }
-                    >
+          <UIProviders>
+                    
                       <WebLayout>
                       <WebLayoutHeader />
                       {children}
                       {/* {dash} */}
                       </WebLayout>
-                    </SidebarProvider>
+                  
                     
-                  </UIProviders>
-                {/* </GomtmRuntimeProvider> */}
-
-          
+          </UIProviders>          
         </MtmaiProvider>
       </body>
     </html>

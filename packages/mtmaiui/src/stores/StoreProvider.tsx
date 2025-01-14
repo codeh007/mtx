@@ -11,18 +11,9 @@ import { useShallow } from "zustand/react/shallow";
 import ReactQueryProvider from "./ReactQueryProvider";
 import { type HatchetSliceState, createHatchetSlice } from "./hatchet.slice";
 // import { HatchatLoader } from "../components/HatchatLoader";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 
-const DevToolsLazy = dynamic(() => import("mtxuilib/components/devtools/DevTools").then(x=>x.DevTools), {
-  ssr: false,
-});
-const HatchatLoaderLazy = dynamic(() => import("../components/HatchatLoader").then(x=>x.HatchatLoader), {
-  ssr: false,
-});
 
-const AppLazy = dynamic(() => import("../App").then(x=>x.App), {
-  ssr: false,
-});
 
 interface MtmaiBotProps {
   hostName?: string | null;
@@ -157,9 +148,7 @@ export const MtmaiProvider = (props: AppProviderProps) => {
         host={etc.hostName as string}
       >
         {children}
-        <AppLazy />
-        <HatchatLoaderLazy />
-        <DevToolsLazy />
+
       </ReactQueryProvider>
     </mtmaiStoreContext.Provider>
   );
