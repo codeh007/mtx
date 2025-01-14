@@ -19,7 +19,6 @@
     "build:tsc": "tsc --outDir dist --jsx react-jsx --incremental false --declaration true --noEmit false --removeComments true --project tsconfig.json",
     "build_vite_dev": "vite build --config vite.config.dev.js",
     "build:types": "vite build --types",
-    "build:server": "vite build --ssr src/entry-server.tsx",
     "serve": "vite preview",
     "start": "vite",
     "db:gen": "drizzle-kit generate",
