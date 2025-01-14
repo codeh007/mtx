@@ -1,10 +1,7 @@
 {
   "name": "mtmaiapi",
   "version": "0.6.2",
-  "files": [
-    "dist",
-    "src"
-  ],
+  "files": ["dist", "src"],
   "license": "MIT",
   "packageManager": "bun@1.1.20",
   "private": false,
@@ -79,7 +76,7 @@
     "gen--": "openapi-ts --input http://localhost:8444/api/v1/openapi.json --output ./src --client fetch && biome format --write ./src",
     "gen": "openapi-ts && biome format --write ./src",
     "gen2": "npx openapi-typescript ../../../gomtm/api-contracts/openapi/openapi.yaml -o src/query_client/generated.ts",
-    "gen3": "openapi-ts --input ../../api-contracts/openapi/openapi.yaml --output ./src/gen3 --client fetch && biome format --write ./src/gen3",
+    "gen3": "openapi-ts --input ../../../api-contracts/openapi/openapi.yaml --output ./src/gen3 --client fetch && biome format --write ./src/gen3",
     "build-old": "rimraf ./dist/ && bunx tsc -p tsconfig.json --outDir dist --incremental false --noEmit false --removeComments true --skipLibCheck true",
     "prepare--": "npm run build",
     "tsc:build": "tsc && resolve-tspaths",
