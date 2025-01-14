@@ -1860,7 +1860,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Get the sites for the tenant */
+        /** @description Get the site-hosts for the tenant */
         get: operations["site-host:list"];
         put?: never;
         /** @description create site-host */
