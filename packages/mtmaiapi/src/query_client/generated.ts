@@ -4,9904 +4,10099 @@
  */
 
 export interface paths {
-  "/api/ready": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get readiness
-     * @description Gets the readiness status
-     */
-    get: operations["readiness:get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/live": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get liveness
-     * @description Gets the liveness status
-     */
-    get: operations["liveness:get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/meta": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get metadata
-     * @description Gets metadata for the Hatchet instance
-     */
-    get: operations["metadata:get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/cloud/metadata": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get cloud metadata
-     * @description Gets metadata for the Hatchet cloud instance
-     */
-    get: operations["cloudMetadata::get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/meta/integrations": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * List integrations
-     * @description List all integrations
-     */
-    get: operations["metadata:list:integrations"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/users/login": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Login user
-     * @description Logs in a user.
-     */
-    post: operations["user:update:login"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/users/google/start": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Start OAuth flow
-     * @description Starts the OAuth flow
-     */
-    get: operations["user:update:google-oauth-start"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/users/google/callback": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Complete OAuth flow
-     * @description Completes the OAuth flow
-     */
-    get: operations["user:update:google-oauth-callback"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/users/github/start": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Start OAuth flow
-     * @description Starts the OAuth flow
-     */
-    get: operations["user:update:github-oauth-start"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/users/github/callback": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Complete OAuth flow
-     * @description Completes the OAuth flow
-     */
-    get: operations["user:update:github-oauth-callback"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/slack/start": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Start OAuth flow
-     * @description Starts the OAuth flow
-     */
-    get: operations["user:update:slack-oauth-start"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/users/slack/callback": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Complete OAuth flow
-     * @description Completes the OAuth flow
-     */
-    get: operations["user:update:slack-oauth-callback"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/sns/{tenant}/{event}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Github app tenant webhook
-     * @description SNS event
-     */
-    post: operations["sns:update"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/sns": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * List SNS integrations
-     * @description List SNS integrations
-     */
-    get: operations["sns:list"];
-    put?: never;
-    /**
-     * Create SNS integration
-     * @description Create SNS integration
-     */
-    post: operations["sns:create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/alerting-email-groups": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * List tenant alert email groups
-     * @description Gets a list of tenant alert email groups
-     */
-    get: operations["alert-email-group:list"];
-    put?: never;
-    /**
-     * Create tenant alert email group
-     * @description Creates a new tenant alert email group
-     */
-    post: operations["alert-email-group:create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/resource-policy": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Create tenant alert email group
-     * @description Gets the resource policy for a tenant
-     */
-    get: operations["tenant-resource-policy:get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/alerting-email-groups/{alert-email-group}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    post?: never;
-    /**
-     * Delete tenant alert email group
-     * @description Deletes a tenant alert email group
-     */
-    delete: operations["alert-email-group:delete"];
-    options?: never;
-    head?: never;
-    /**
-     * Update tenant alert email group
-     * @description Updates a tenant alert email group
-     */
-    patch: operations["alert-email-group:update"];
-    trace?: never;
-  };
-  "/api/v1/sns/{sns}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    post?: never;
-    /**
-     * Delete SNS integration
-     * @description Delete SNS integration
-     */
-    delete: operations["sns:delete"];
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/slack": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * List Slack integrations
-     * @description List Slack webhooks
-     */
-    get: operations["slack-webhook:list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/slack/{slack}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    post?: never;
-    /**
-     * Delete Slack webhook
-     * @description Delete Slack webhook
-     */
-    delete: operations["slack-webhook:delete"];
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/users/current": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get current user
-     * @description Gets the current user
-     */
-    get: operations["user:get:current"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/users/password": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Change user password
-     * @description Update a user password.
-     */
-    post: operations["user:update:password"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/users/register": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Register user
-     * @description Registers a user.
-     */
-    post: operations["user:create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/users/logout": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Logout user
-     * @description Logs out a user.
-     */
-    post: operations["user:update:logout"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/users/memberships": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * List tenant memberships
-     * @description Lists all tenant memberships for the current user
-     */
-    get: operations["tenant-memberships:list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/users/invites": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * List tenant invites
-     * @description Lists all tenant invites for the current user
-     */
-    get: operations["user:list:tenant-invites"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/users/invites/accept": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Accept tenant invite
-     * @description Accepts a tenant invite
-     */
-    post: operations["tenant-invite:accept"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/users/invites/reject": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Reject tenant invite
-     * @description Rejects a tenant invite
-     */
-    post: operations["tenant-invite:reject"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Create tenant
-     * @description Creates a new tenant
-     */
-    post: operations["tenant:create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    /**
-     * Update tenant
-     * @description Update an existing tenant
-     */
-    patch: operations["tenant:update"];
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/alerting/settings": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get tenant alerting settings
-     * @description Gets the alerting settings for a tenant
-     */
-    get: operations["tenant-alerting-settings:get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/invites": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * List tenant invites
-     * @description Gets a list of tenant invites
-     */
-    get: operations["tenant-invite:list"];
-    put?: never;
-    /**
-     * Create tenant invite
-     * @description Creates a new tenant invite
-     */
-    post: operations["tenant-invite:create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/invites/{tenant-invite}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    post?: never;
-    /**
-     * Delete invite
-     * @description Deletes a tenant invite
-     */
-    delete: operations["tenant-invite:delete"];
-    options?: never;
-    head?: never;
-    /**
-     * Update invite
-     * @description Updates a tenant invite
-     */
-    patch: operations["tenant-invite:update"];
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/api-tokens": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * List API Tokens
-     * @description List API tokens for a tenant
-     */
-    get: operations["api-token:list"];
-    put?: never;
-    /**
-     * Create API Token
-     * @description Create an API token for a tenant
-     */
-    post: operations["api-token:create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/api-tokens/{api-token}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Revoke API Token
-     * @description Revoke an API token for a tenant
-     */
-    post: operations["api-token:update:revoke"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/queue-metrics": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get workflow metrics
-     * @description Get the queue metrics for the tenant
-     */
-    get: operations["tenant:get:queue-metrics"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/step-run-queue-metrics": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get step run metrics
-     * @description Get the queue metrics for the tenant
-     */
-    get: operations["tenant:get:step-run-queue-metrics"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/events": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * List events
-     * @description Lists all events for a tenant.
-     */
-    get: operations["event:list"];
-    put?: never;
-    /**
-     * Create event
-     * @description Creates a new event.
-     */
-    post: operations["event:create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/events/bulk": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Bulk Create events
-     * @description Bulk creates new events.
-     */
-    post: operations["event:create:bulk"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/events/replay": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Replay events
-     * @description Replays a list of events.
-     */
-    post: operations["event:update:replay"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/events/cancel": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Replay events
-     * @description Cancels all runs for a list of events.
-     */
-    post: operations["event:update:cancel"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/rate-limits": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * List rate limits
-     * @description Lists all rate limits for a tenant.
-     */
-    get: operations["rate-limit:list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/members": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * List tenant members
-     * @description Gets a list of tenant members
-     */
-    get: operations["tenant-member:list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/members/{member}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    post?: never;
-    /**
-     * Delete a tenant member
-     * @description Delete a member from a tenant
-     */
-    delete: operations["tenant-member:delete"];
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/events/{event}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get event data
-     * @description Get an event.
-     */
-    get: operations["event:get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/events/{event}/data": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get event data
-     * @description Get the data for an event.
-     */
-    get: operations["event-data:get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/events/keys": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * List event keys
-     * @description Lists all event keys for a tenant.
-     */
-    get: operations["event-key:list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/workflows": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get workflows
-     * @description Get all workflows for a tenant
-     */
-    get: operations["workflow:list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/workflows/scheduled": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get scheduled workflow runs
-     * @description Get all scheduled workflow runs for a tenant
-     */
-    get: operations["workflow-scheduled:list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/workflows/scheduled/{scheduledId}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get scheduled workflow run
-     * @description Get a scheduled workflow run for a tenant
-     */
-    get: operations["workflow-scheduled:get"];
-    put?: never;
-    post?: never;
-    /**
-     * Delete scheduled workflow run
-     * @description Delete a scheduled workflow run for a tenant
-     */
-    delete: operations["workflow-scheduled:delete"];
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/workflows/crons": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get cron job workflows
-     * @description Get all cron job workflow runs for a tenant
-     */
-    get: operations["cron-workflow:list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/workflows/cancel": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Cancel workflow runs
-     * @description Cancel a batch of workflow runs
-     */
-    post: operations["workflow-run:cancel"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/workflows/{workflow}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get workflow
-     * @description Get a workflow for a tenant
-     */
-    get: operations["workflow:get"];
-    put?: never;
-    post?: never;
-    /**
-     * Delete workflow
-     * @description Delete a workflow for a tenant
-     */
-    delete: operations["workflow:delete"];
-    options?: never;
-    head?: never;
-    /**
-     * Update workflow
-     * @description Update a workflow for a tenant
-     */
-    patch: operations["workflow:update"];
-    trace?: never;
-  };
-  "/api/v1/workflows/{workflow}/versions": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get workflow version
-     * @description Get a workflow version for a tenant
-     */
-    get: operations["workflow-version:get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/workflows/{workflow}/trigger": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Trigger workflow run
-     * @description Trigger a new workflow run for a tenant
-     */
-    post: operations["workflow-run:create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/workflows/{workflow}/metrics": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get workflow metrics
-     * @description Get the metrics for a workflow version
-     */
-    get: operations["workflow:get:metrics"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/step-runs/{step-run}/logs": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * List log lines
-     * @description Lists log lines for a step run.
-     */
-    get: operations["log-line:list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/step-runs/{step-run}/events": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * List events for step run
-     * @description List events for a step run
-     */
-    get: operations["step-run:list:events"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/step-run-events": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * List events for all step runs for a workflow run
-     * @description List events for all step runs for a workflow run
-     */
-    get: operations["workflow-run:list:step-run-events"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/step-runs/{step-run}/archives": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * List archives for step run
-     * @description List archives for a step run
-     */
-    get: operations["step-run:list:archives"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/workflows/{workflow}/worker-count": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get workflow worker count
-     * @description Get a count of the workers available for workflow
-     */
-    get: operations["workflow:get:workers-count"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/workflows/runs": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get workflow runs
-     * @description Get all workflow runs for a tenant
-     */
-    get: operations["workflow-run:list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/workflow-runs/replay": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Replay workflow runs
-     * @description Replays a list of workflow runs.
-     */
-    post: operations["workflow-run:update:replay"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/workflows/runs/metrics": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get workflow runs metrics
-     * @description Get a summary of  workflow run metrics for a tenant
-     */
-    get: operations["workflow-run:get:metrics"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get workflow run
-     * @description Get a workflow run for a tenant
-     */
-    get: operations["workflow-run:get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/shape": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get workflow run
-     * @description Get a workflow run for a tenant
-     */
-    get: operations["workflow-run:get:shape"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/step-runs/{step-run}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get step run
-     * @description Get a step run by id
-     */
-    get: operations["step-run:get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/step-runs/{step-run}/rerun": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Rerun step run
-     * @description Reruns a step run
-     */
-    post: operations["step-run:update:rerun"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/step-runs/{step-run}/cancel": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Attempts to cancel a step run
-     * @description Attempts to cancel a step run
-     */
-    post: operations["step-run:update:cancel"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/step-runs/{step-run}/schema": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get step run schema
-     * @description Get the schema for a step run
-     */
-    get: operations["step-run:get:schema"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/worker": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get workers
-     * @description Get all workers for a tenant
-     */
-    get: operations["worker:list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/workers/{worker}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get worker
-     * @description Get a worker
-     */
-    get: operations["worker:get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    /**
-     * Update worker
-     * @description Update a worker
-     */
-    patch: operations["worker:update"];
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/webhook-workers": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * List webhooks
-     * @description Lists all webhooks
-     */
-    get: operations["webhook:list"];
-    put?: never;
-    /**
-     * Create a webhook
-     * @description Creates a webhook
-     */
-    post: operations["webhook:create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/webhook-workers/{webhook}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    post?: never;
-    /**
-     * Delete a webhook
-     * @description Deletes a webhook
-     */
-    delete: operations["webhook:delete"];
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/webhook-workers/{webhook}/requests": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * List webhook requests
-     * @description Lists all requests for a webhook
-     */
-    get: operations["webhook-requests:list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/input": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get workflow run input
-     * @description Get the input for a workflow run.
-     */
-    get: operations["workflow-run:get:input"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/workflows/byName/{name}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get workflow version
-     * @description Get a workflow by its name
-     */
-    get: operations["workflow:getByName"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/chat": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * 聊天消息接口
-     * @description chat 聊天接口
-     */
-    post: operations["chat:chat"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/callModel": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * 调用模型
-     * @description 调用模型
-     */
-    post: operations["chat:callModel"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/chat/{chatId}/messages": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * 获取聊天消息
-     * @description 获取聊天消息
-     */
-    get: operations["chat:messages"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/chat/models": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * 获取模型列表
-     * @description 获取模型列表
-     */
-    get: operations["chat:models"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/chat/completions": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * 聊天消息接口
-     * @description chat 聊天接口
-     */
-    post: operations["chat:completions"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/worker/config": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * 获取worker配置, 内部使用免去配置 token环境变量的麻烦
-     * @description 获取worker配置
-     */
-    get: operations["worker:config"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/mtmai/bloggenconfig": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * 获取博客生成配置
-     * @description 获取博客生成配置
-     */
-    get: operations["mtmai:bloggenconfig"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/mtmai/workerConfig": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * get the config of worker
-     * @description get the config of worker
-     */
-    get: operations["mtmai:workerConfig"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/blogs": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get tenant blogs
-     * @description Get the blogs for the tenant
-     */
-    get: operations["blog:list"];
-    put?: never;
-    /**
-     * Create blog post
-     * @description Creates a new blog
-     */
-    post: operations["blog:create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/blogs/{blog}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Get the blogs for the tenant */
-    get: operations["blog:get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    /**
-     * Update blog
-     * @description Update an existing blog
-     */
-    patch: operations["blog:update"];
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/sites": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Get the sites for the tenant */
-    get: operations["site:list"];
-    put?: never;
-    /** @description create site */
-    post: operations["site:create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/sites/{site}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Get the site for the tenant */
-    get: operations["site:get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    /**
-     * Update tenant
-     * @description Update an existing site
-     */
-    patch: operations["site:update"];
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/sites/byHost/{host}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description 前端根据域名获取site公开数据 */
-    get: operations["site:getByHost"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/posts/public": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Get the posts for the site */
-    get: operations["post:listPublic"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/posts/{post}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Get the post for the tenant */
-    get: operations["post:get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/posts": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Get the posts for the site */
-    get: operations["post:list"];
-    put?: never;
-    /** @description create post */
-    post: operations["post:create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/tools/call/{tool}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /** @description 调用工具 */
-    post: operations["tool:call"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tools/operationGuide": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description ai agent 在自动化操作过程中，必须参考这个操作说明来完成自动化操作 */
-    get: operations["tools:operationGuide"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/tools/websearch": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /** @description 使用工具进行网络搜索 */
-    post: operations["tools:websearch"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/artifacts": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * 获取租户下的artifacts列表
-     * @description Get the artifacts for the tenant
-     */
-    get: operations["artifact:list"];
-    put?: never;
-    /**
-     * Create blog post
-     * @description Creates a new artifact
-     */
-    post: operations["artifact:create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/artifacts/{artifact}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Get step run
-     * @description Get a blog post by id
-     */
-    get: operations["artifact:get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/nodes": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * 获取租户下的节点列表
-     * @description 获取节点
-     */
-    get: operations["agent:nodeList"];
-    put?: never;
-    /**
-     * Create agent node
-     * @description Creates a new agentnode
-     */
-    post: operations["agent:create"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/nodes/{node}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * 获取节点状态
-     * @description 获取节点状态
-     */
-    get: operations["agent:node"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    /**
-     * 更新节点状态
-     * @description 更新节点状态
-     */
-    patch: operations["agent:nodeUpdate"];
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/nodes/run": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * 执行节点
-     * @description 执行节点(执行工作流)
-     */
-    post: operations["agent:nodeRun"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/nodes/form/{node}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * 获取节点表单
-     * @description 获取节点表单
-     */
-    post: operations["agent:nodeForm"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/llm/{slug}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * 执行节点
-     * @description 执行节点
-     */
-    post: operations["llm:get"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/docs": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * 获取租户下的文档列表
-     * @description 获取节点
-     */
-    get: operations["doc:list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/prompts": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * 提示词列表
-     * @description Get the blogs for the tenant
-     */
-    get: operations["prompt:list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/prompts/{prompt}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** 获取单个提示词 */
-    get: operations["prompt:get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/assisants": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * 提示词列表
-     * @description Get the blogs for the tenant
-     */
-    get: operations["assisant:list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/assisants/{assisant}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** 获取单个助手配置 */
-    get: operations["assisant:get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/tenants/{tenant}/subscribe": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * 订阅消息接口
-     * @description Subscribe to workflow run events
-     */
-    post: operations["subscribe:subscribe"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/admin/seed": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description 种子数据 */
-    get: operations["admin:seed"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/admin/releaseConn": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    post: operations["admin:releaseConn"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/frontend/config": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: operations["frontend:getConfig"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/frontend/siderbar": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: operations["frontend:getSiderbar"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+    "/api/ready": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get readiness
+         * @description Gets the readiness status
+         */
+        get: operations["readiness:get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/live": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get liveness
+         * @description Gets the liveness status
+         */
+        get: operations["liveness:get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/meta": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get metadata
+         * @description Gets metadata for the Hatchet instance
+         */
+        get: operations["metadata:get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/cloud/metadata": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get cloud metadata
+         * @description Gets metadata for the Hatchet cloud instance
+         */
+        get: operations["cloudMetadata::get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/meta/integrations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List integrations
+         * @description List all integrations
+         */
+        get: operations["metadata:list:integrations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Login user
+         * @description Logs in a user.
+         */
+        post: operations["user:update:login"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/google/start": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Start OAuth flow
+         * @description Starts the OAuth flow
+         */
+        get: operations["user:update:google-oauth-start"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/google/callback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Complete OAuth flow
+         * @description Completes the OAuth flow
+         */
+        get: operations["user:update:google-oauth-callback"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/github/start": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Start OAuth flow
+         * @description Starts the OAuth flow
+         */
+        get: operations["user:update:github-oauth-start"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/github/callback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Complete OAuth flow
+         * @description Completes the OAuth flow
+         */
+        get: operations["user:update:github-oauth-callback"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/slack/start": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Start OAuth flow
+         * @description Starts the OAuth flow
+         */
+        get: operations["user:update:slack-oauth-start"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/slack/callback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Complete OAuth flow
+         * @description Completes the OAuth flow
+         */
+        get: operations["user:update:slack-oauth-callback"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/sns/{tenant}/{event}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Github app tenant webhook
+         * @description SNS event
+         */
+        post: operations["sns:update"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/sns": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List SNS integrations
+         * @description List SNS integrations
+         */
+        get: operations["sns:list"];
+        put?: never;
+        /**
+         * Create SNS integration
+         * @description Create SNS integration
+         */
+        post: operations["sns:create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/alerting-email-groups": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List tenant alert email groups
+         * @description Gets a list of tenant alert email groups
+         */
+        get: operations["alert-email-group:list"];
+        put?: never;
+        /**
+         * Create tenant alert email group
+         * @description Creates a new tenant alert email group
+         */
+        post: operations["alert-email-group:create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/resource-policy": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Create tenant alert email group
+         * @description Gets the resource policy for a tenant
+         */
+        get: operations["tenant-resource-policy:get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/alerting-email-groups/{alert-email-group}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete tenant alert email group
+         * @description Deletes a tenant alert email group
+         */
+        delete: operations["alert-email-group:delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update tenant alert email group
+         * @description Updates a tenant alert email group
+         */
+        patch: operations["alert-email-group:update"];
+        trace?: never;
+    };
+    "/api/v1/sns/{sns}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete SNS integration
+         * @description Delete SNS integration
+         */
+        delete: operations["sns:delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/slack": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Slack integrations
+         * @description List Slack webhooks
+         */
+        get: operations["slack-webhook:list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/slack/{slack}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete Slack webhook
+         * @description Delete Slack webhook
+         */
+        delete: operations["slack-webhook:delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/current": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get current user
+         * @description Gets the current user
+         */
+        get: operations["user:get:current"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Change user password
+         * @description Update a user password.
+         */
+        post: operations["user:update:password"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/register": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Register user
+         * @description Registers a user.
+         */
+        post: operations["user:create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Logout user
+         * @description Logs out a user.
+         */
+        post: operations["user:update:logout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/memberships": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List tenant memberships
+         * @description Lists all tenant memberships for the current user
+         */
+        get: operations["tenant-memberships:list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/invites": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List tenant invites
+         * @description Lists all tenant invites for the current user
+         */
+        get: operations["user:list:tenant-invites"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/invites/accept": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Accept tenant invite
+         * @description Accepts a tenant invite
+         */
+        post: operations["tenant-invite:accept"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/invites/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Reject tenant invite
+         * @description Rejects a tenant invite
+         */
+        post: operations["tenant-invite:reject"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create tenant
+         * @description Creates a new tenant
+         */
+        post: operations["tenant:create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update tenant
+         * @description Update an existing tenant
+         */
+        patch: operations["tenant:update"];
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/alerting/settings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get tenant alerting settings
+         * @description Gets the alerting settings for a tenant
+         */
+        get: operations["tenant-alerting-settings:get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/invites": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List tenant invites
+         * @description Gets a list of tenant invites
+         */
+        get: operations["tenant-invite:list"];
+        put?: never;
+        /**
+         * Create tenant invite
+         * @description Creates a new tenant invite
+         */
+        post: operations["tenant-invite:create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/invites/{tenant-invite}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete invite
+         * @description Deletes a tenant invite
+         */
+        delete: operations["tenant-invite:delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update invite
+         * @description Updates a tenant invite
+         */
+        patch: operations["tenant-invite:update"];
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/api-tokens": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List API Tokens
+         * @description List API tokens for a tenant
+         */
+        get: operations["api-token:list"];
+        put?: never;
+        /**
+         * Create API Token
+         * @description Create an API token for a tenant
+         */
+        post: operations["api-token:create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/api-tokens/{api-token}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Revoke API Token
+         * @description Revoke an API token for a tenant
+         */
+        post: operations["api-token:update:revoke"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/queue-metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get workflow metrics
+         * @description Get the queue metrics for the tenant
+         */
+        get: operations["tenant:get:queue-metrics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/step-run-queue-metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get step run metrics
+         * @description Get the queue metrics for the tenant
+         */
+        get: operations["tenant:get:step-run-queue-metrics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List events
+         * @description Lists all events for a tenant.
+         */
+        get: operations["event:list"];
+        put?: never;
+        /**
+         * Create event
+         * @description Creates a new event.
+         */
+        post: operations["event:create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/events/bulk": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Bulk Create events
+         * @description Bulk creates new events.
+         */
+        post: operations["event:create:bulk"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/events/replay": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Replay events
+         * @description Replays a list of events.
+         */
+        post: operations["event:update:replay"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/events/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Replay events
+         * @description Cancels all runs for a list of events.
+         */
+        post: operations["event:update:cancel"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/rate-limits": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List rate limits
+         * @description Lists all rate limits for a tenant.
+         */
+        get: operations["rate-limit:list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/members": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List tenant members
+         * @description Gets a list of tenant members
+         */
+        get: operations["tenant-member:list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/members/{member}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete a tenant member
+         * @description Delete a member from a tenant
+         */
+        delete: operations["tenant-member:delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/events/{event}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get event data
+         * @description Get an event.
+         */
+        get: operations["event:get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/events/{event}/data": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get event data
+         * @description Get the data for an event.
+         */
+        get: operations["event-data:get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/events/keys": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List event keys
+         * @description Lists all event keys for a tenant.
+         */
+        get: operations["event-key:list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/workflows": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get workflows
+         * @description Get all workflows for a tenant
+         */
+        get: operations["workflow:list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/workflows/scheduled": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get scheduled workflow runs
+         * @description Get all scheduled workflow runs for a tenant
+         */
+        get: operations["workflow-scheduled:list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/workflows/scheduled/{scheduledId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get scheduled workflow run
+         * @description Get a scheduled workflow run for a tenant
+         */
+        get: operations["workflow-scheduled:get"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete scheduled workflow run
+         * @description Delete a scheduled workflow run for a tenant
+         */
+        delete: operations["workflow-scheduled:delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/workflows/crons": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get cron job workflows
+         * @description Get all cron job workflow runs for a tenant
+         */
+        get: operations["cron-workflow:list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/workflows/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Cancel workflow runs
+         * @description Cancel a batch of workflow runs
+         */
+        post: operations["workflow-run:cancel"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/workflows/{workflow}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get workflow
+         * @description Get a workflow for a tenant
+         */
+        get: operations["workflow:get"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete workflow
+         * @description Delete a workflow for a tenant
+         */
+        delete: operations["workflow:delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update workflow
+         * @description Update a workflow for a tenant
+         */
+        patch: operations["workflow:update"];
+        trace?: never;
+    };
+    "/api/v1/workflows/{workflow}/versions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get workflow version
+         * @description Get a workflow version for a tenant
+         */
+        get: operations["workflow-version:get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/workflows/{workflow}/trigger": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Trigger workflow run
+         * @description Trigger a new workflow run for a tenant
+         */
+        post: operations["workflow-run:create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/workflows/{workflow}/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get workflow metrics
+         * @description Get the metrics for a workflow version
+         */
+        get: operations["workflow:get:metrics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/step-runs/{step-run}/logs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List log lines
+         * @description Lists log lines for a step run.
+         */
+        get: operations["log-line:list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/step-runs/{step-run}/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List events for step run
+         * @description List events for a step run
+         */
+        get: operations["step-run:list:events"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/step-run-events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List events for all step runs for a workflow run
+         * @description List events for all step runs for a workflow run
+         */
+        get: operations["workflow-run:list:step-run-events"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/step-runs/{step-run}/archives": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List archives for step run
+         * @description List archives for a step run
+         */
+        get: operations["step-run:list:archives"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/workflows/{workflow}/worker-count": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get workflow worker count
+         * @description Get a count of the workers available for workflow
+         */
+        get: operations["workflow:get:workers-count"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/workflows/runs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get workflow runs
+         * @description Get all workflow runs for a tenant
+         */
+        get: operations["workflow-run:list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/workflow-runs/replay": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Replay workflow runs
+         * @description Replays a list of workflow runs.
+         */
+        post: operations["workflow-run:update:replay"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/workflows/runs/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get workflow runs metrics
+         * @description Get a summary of  workflow run metrics for a tenant
+         */
+        get: operations["workflow-run:get:metrics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get workflow run
+         * @description Get a workflow run for a tenant
+         */
+        get: operations["workflow-run:get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/shape": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get workflow run
+         * @description Get a workflow run for a tenant
+         */
+        get: operations["workflow-run:get:shape"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/step-runs/{step-run}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get step run
+         * @description Get a step run by id
+         */
+        get: operations["step-run:get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/step-runs/{step-run}/rerun": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Rerun step run
+         * @description Reruns a step run
+         */
+        post: operations["step-run:update:rerun"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/step-runs/{step-run}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Attempts to cancel a step run
+         * @description Attempts to cancel a step run
+         */
+        post: operations["step-run:update:cancel"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/step-runs/{step-run}/schema": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get step run schema
+         * @description Get the schema for a step run
+         */
+        get: operations["step-run:get:schema"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/worker": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get workers
+         * @description Get all workers for a tenant
+         */
+        get: operations["worker:list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/workers/{worker}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get worker
+         * @description Get a worker
+         */
+        get: operations["worker:get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update worker
+         * @description Update a worker
+         */
+        patch: operations["worker:update"];
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/webhook-workers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List webhooks
+         * @description Lists all webhooks
+         */
+        get: operations["webhook:list"];
+        put?: never;
+        /**
+         * Create a webhook
+         * @description Creates a webhook
+         */
+        post: operations["webhook:create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/webhook-workers/{webhook}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete a webhook
+         * @description Deletes a webhook
+         */
+        delete: operations["webhook:delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/webhook-workers/{webhook}/requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List webhook requests
+         * @description Lists all requests for a webhook
+         */
+        get: operations["webhook-requests:list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/input": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get workflow run input
+         * @description Get the input for a workflow run.
+         */
+        get: operations["workflow-run:get:input"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/workflows/byName/{name}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get workflow version
+         * @description Get a workflow by its name
+         */
+        get: operations["workflow:getByName"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/chat": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 聊天消息接口
+         * @description chat 聊天接口
+         */
+        post: operations["chat:chat"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/callModel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 调用模型
+         * @description 调用模型
+         */
+        post: operations["chat:callModel"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/chat/{chatId}/messages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 获取聊天消息
+         * @description 获取聊天消息
+         */
+        get: operations["chat:messages"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/chat/models": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 获取模型列表
+         * @description 获取模型列表
+         */
+        get: operations["chat:models"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/chat/completions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 聊天消息接口
+         * @description chat 聊天接口
+         */
+        post: operations["chat:completions"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/worker/config": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 获取worker配置, 内部使用免去配置 token环境变量的麻烦
+         * @description 获取worker配置
+         */
+        get: operations["worker:config"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/mtmai/bloggenconfig": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 获取博客生成配置
+         * @description 获取博客生成配置
+         */
+        get: operations["mtmai:bloggenconfig"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/mtmai/workerConfig": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * get the config of worker
+         * @description get the config of worker
+         */
+        get: operations["mtmai:workerConfig"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/blogs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get tenant blogs
+         * @description Get the blogs for the tenant
+         */
+        get: operations["blog:list"];
+        put?: never;
+        /**
+         * Create blog post
+         * @description Creates a new blog
+         */
+        post: operations["blog:create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/blogs/{blog}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get the blogs for the tenant */
+        get: operations["blog:get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update blog
+         * @description Update an existing blog
+         */
+        patch: operations["blog:update"];
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/sites": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get the sites for the tenant */
+        get: operations["site:list"];
+        put?: never;
+        /** @description create site */
+        post: operations["site:create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/sites/{site}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get the site for the tenant */
+        get: operations["site:get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update tenant
+         * @description Update an existing site
+         */
+        patch: operations["site:update"];
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/sites/byHost/{host}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description 前端根据域名获取site公开数据 */
+        get: operations["site:getByHost"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/site-hosts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get the sites for the tenant */
+        get: operations["site-host:list"];
+        put?: never;
+        /** @description create site-host */
+        post: operations["site-host:create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/site-hosts/{host}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get the site-host for the tenant */
+        get: operations["site-host:get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update tenant
+         * @description Update an existing site-host
+         */
+        patch: operations["site-host:update"];
+        trace?: never;
+    };
+    "/api/v1/posts/public": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get the posts for the site */
+        get: operations["post:listPublic"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/posts/{post}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get the post for the tenant */
+        get: operations["post:get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/posts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get the posts for the site */
+        get: operations["post:list"];
+        put?: never;
+        /** @description create post */
+        post: operations["post:create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/tools/call/{tool}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description 调用工具 */
+        post: operations["tool:call"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tools/operationGuide": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description ai agent 在自动化操作过程中，必须参考这个操作说明来完成自动化操作 */
+        get: operations["tools:operationGuide"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/tools/websearch": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description 使用工具进行网络搜索 */
+        post: operations["tools:websearch"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/artifacts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 获取租户下的artifacts列表
+         * @description Get the artifacts for the tenant
+         */
+        get: operations["artifact:list"];
+        put?: never;
+        /**
+         * Create blog post
+         * @description Creates a new artifact
+         */
+        post: operations["artifact:create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/artifacts/{artifact}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get step run
+         * @description Get a blog post by id
+         */
+        get: operations["artifact:get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/nodes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 获取租户下的节点列表
+         * @description 获取节点
+         */
+        get: operations["agent:nodeList"];
+        put?: never;
+        /**
+         * Create agent node
+         * @description Creates a new agentnode
+         */
+        post: operations["agent:create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/nodes/{node}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 获取节点状态
+         * @description 获取节点状态
+         */
+        get: operations["agent:node"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * 更新节点状态
+         * @description 更新节点状态
+         */
+        patch: operations["agent:nodeUpdate"];
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/nodes/run": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 执行节点
+         * @description 执行节点(执行工作流)
+         */
+        post: operations["agent:nodeRun"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/nodes/form/{node}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 获取节点表单
+         * @description 获取节点表单
+         */
+        post: operations["agent:nodeForm"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/llm/{slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 执行节点
+         * @description 执行节点
+         */
+        post: operations["llm:get"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/docs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 获取租户下的文档列表
+         * @description 获取节点
+         */
+        get: operations["doc:list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/prompts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 提示词列表
+         * @description Get the blogs for the tenant
+         */
+        get: operations["prompt:list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/prompts/{prompt}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 获取单个提示词 */
+        get: operations["prompt:get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/assisants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 提示词列表
+         * @description Get the blogs for the tenant
+         */
+        get: operations["assisant:list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/assisants/{assisant}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 获取单个助手配置 */
+        get: operations["assisant:get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/subscribe": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 订阅消息接口
+         * @description Subscribe to workflow run events
+         */
+        post: operations["subscribe:subscribe"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/seed": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description 种子数据 */
+        get: operations["admin:seed"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/releaseConn": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["admin:releaseConn"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/frontend/config": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["frontend:getConfig"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/frontend/siderbar": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["frontend:getSiderbar"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-  schemas: {
-    APIMetaAuth: {
-      /**
-       * @description the supported types of authentication
-       * @example [
-       *       "basic",
-       *       "google"
-       *     ]
-       */
-      schemes?: string[];
-    };
-    APIMetaPosthog: {
-      /**
-       * @description the PostHog API key
-       * @example phk_1234567890abcdef
-       */
-      apiKey?: string;
-      /**
-       * @description the PostHog API host
-       * @example https://posthog.example.com
-       */
-      apiHost?: string;
-    };
-    APIMeta: {
-      auth?: components["schemas"]["APIMetaAuth"];
-      /**
-       * @description the Pylon app ID for usepylon.com chat support
-       * @example 12345678-1234-1234-1234-123456789012
-       */
-      pylonAppId?: string;
-      posthog?: components["schemas"]["APIMetaPosthog"];
-      /**
-       * @description whether or not users can sign up for this instance
-       * @example true
-       */
-      allowSignup?: boolean;
-      /**
-       * @description whether or not users can invite other users to this instance
-       * @example true
-       */
-      allowInvites?: boolean;
-      /**
-       * @description whether or not users can create new tenants
-       * @example true
-       */
-      allowCreateTenant?: boolean;
-      /**
-       * @description whether or not users can change their password
-       * @example true
-       */
-      allowChangePassword?: boolean;
-    };
-    APIError: {
-      /**
-       * Format: uint64
-       * @description a custom Hatchet error code
-       * @example 1400
-       */
-      code?: number;
-      /**
-       * @description the field that this error is associated with, if applicable
-       * @example name
-       */
-      field?: string;
-      /**
-       * @description a description for this error
-       * @example A descriptive error message
-       */
-      description: string;
-      /**
-       * @description a link to the documentation for this error, if it exists
-       * @example github.com/hatchet-dev/hatchet
-       */
-      docs_link?: string;
-    };
-    APIErrors: {
-      errors: components["schemas"]["APIError"][];
-    };
-    APIMetaIntegration: {
-      /**
-       * @description the name of the integration
-       * @example github
-       */
-      name: string;
-      /** @description whether this integration is enabled on the instance */
-      enabled: boolean;
-    };
-    ListAPIMetaIntegration: components["schemas"]["APIMetaIntegration"][];
-    UserLoginRequest: {
-      /**
-       * Format: email
-       * @description The email address of the user.
-       */
-      email: string;
-      /** @description The password of the user. */
-      password: string;
-    };
-    APIResourceMeta: {
-      /**
-       * @description the id of this resource, in UUID format
-       * @example bb214807-246e-43a5-a25d-41761d1cff9e
-       */
-      id: string;
-      /**
-       * Format: date-time
-       * @description the time that this resource was created
-       * @example 2022-12-13T15:06:48.888358-05:00
-       */
-      createdAt: string;
-      /**
-       * Format: date-time
-       * @description the time that this resource was last updated
-       * @example 2022-12-13T15:06:48.888358-05:00
-       */
-      updatedAt: string;
-    };
-    User: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description The display name of the user. */
-      name?: string;
-      /**
-       * Format: email
-       * @description The email address of the user.
-       */
-      email: string;
-      /** @description Whether the user has verified their email address. */
-      emailVerified: boolean;
-      /** @description Whether the user has a password set. */
-      hasPassword?: boolean;
-      /** @description A hash of the user's email address for use with Pylon Support Chat */
-      emailHash?: string;
-      /** @description The user's token for use with Pylon Support Chat */
-      userToken?: string;
-    };
-    /** @example {
-     *       "next_page": 3,
-     *       "num_pages": 10,
-     *       "current_page": 2
-     *     } */
-    PaginationResponse: {
-      /**
-       * Format: int64
-       * @description the current page
-       * @example 2
-       */
-      current_page?: number;
-      /**
-       * Format: int64
-       * @description the next page
-       * @example 3
-       */
-      next_page?: number;
-      /**
-       * Format: int64
-       * @description the total number of pages for listing
-       * @example 10
-       */
-      num_pages?: number;
-    };
-    SNSIntegration: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /**
-       * Format: uuid
-       * @description The unique identifier for the tenant that the SNS integration belongs to.
-       */
-      tenantId: string;
-      /** @description The Amazon Resource Name (ARN) of the SNS topic. */
-      topicArn: string;
-      /** @description The URL to send SNS messages to. */
-      ingestUrl?: string;
-    };
-    ListSNSIntegrations: {
-      pagination: components["schemas"]["PaginationResponse"];
-      rows: components["schemas"]["SNSIntegration"][];
-    };
-    CreateSNSIntegrationRequest: {
-      /** @description The Amazon Resource Name (ARN) of the SNS topic. */
-      topicArn: string;
-    };
-    TenantAlertEmailGroup: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description A list of emails for users */
-      emails: string[];
-    };
-    TenantAlertEmailGroupList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["TenantAlertEmailGroup"][];
-    };
-    CreateTenantAlertEmailGroupRequest: {
-      /** @description A list of emails for users */
-      emails: string[];
-    };
-    /** @enum {string} */
-    TenantResource: "WORKER" | "EVENT" | "WORKFLOW_RUN" | "CRON" | "SCHEDULE";
-    TenantResourceLimit: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description The resource associated with this limit. */
-      resource: components["schemas"]["TenantResource"];
-      /** @description The limit associated with this limit. */
-      limitValue: number;
-      /** @description The alarm value associated with this limit to warn of approaching limit value. */
-      alarmValue?: number;
-      /** @description The current value associated with this limit. */
-      value: number;
-      /** @description The meter window for the limit. (i.e. 1 day, 1 week, 1 month) */
-      window?: string;
-      /**
-       * Format: date-time
-       * @description The last time the limit was refilled.
-       */
-      lastRefill?: string;
-    };
-    TenantResourcePolicy: {
-      /** @description A list of resource limits for the tenant. */
-      limits: components["schemas"]["TenantResourceLimit"][];
-    };
-    UpdateTenantAlertEmailGroupRequest: {
-      /** @description A list of emails for users */
-      emails: string[];
-    };
-    SlackWebhook: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /**
-       * Format: uuid
-       * @description The unique identifier for the tenant that the SNS integration belongs to.
-       */
-      tenantId: string;
-      /** @description The team name associated with this slack webhook. */
-      teamName: string;
-      /** @description The team id associated with this slack webhook. */
-      teamId: string;
-      /** @description The channel name associated with this slack webhook. */
-      channelName: string;
-      /** @description The channel id associated with this slack webhook. */
-      channelId: string;
-    };
-    ListSlackWebhooks: {
-      pagination: components["schemas"]["PaginationResponse"];
-      rows: components["schemas"]["SlackWebhook"][];
-    };
-    UserChangePasswordRequest: {
-      /** @description The password of the user. */
-      password: string;
-      /** @description The new password for the user. */
-      newPassword: string;
-    };
-    UserRegisterRequest: {
-      /** @description The name of the user. */
-      name: string;
-      /**
-       * Format: email
-       * @description The email address of the user.
-       */
-      email: string;
-      /** @description The password of the user. */
-      password: string;
-    };
-    UserTenantPublic: {
-      /**
-       * Format: email
-       * @description The email address of the user.
-       */
-      email: string;
-      /** @description The display name of the user. */
-      name?: string;
-    };
-    /** @enum {string} */
-    TenantMemberRole: "OWNER" | "ADMIN" | "MEMBER";
-    Tenant: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description The name of the tenant. */
-      name: string;
-      /** @description The slug of the tenant. */
-      slug: string;
-      /** @description Whether the tenant has opted out of analytics. */
-      analyticsOptOut?: boolean;
-      /** @description Whether to alert tenant members. */
-      alertMemberEmails?: boolean;
-    };
-    TenantMember: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description The user associated with this tenant member. */
-      user: components["schemas"]["UserTenantPublic"];
-      /** @description The role of the user in the tenant. */
-      role: components["schemas"]["TenantMemberRole"];
-      /** @description The tenant associated with this tenant member. */
-      tenant?: components["schemas"]["Tenant"];
-    };
-    UserTenantMembershipsList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["TenantMember"][];
-    };
-    TenantInvite: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description The email of the user to invite. */
-      email: string;
-      /** @description The role of the user in the tenant. */
-      role: components["schemas"]["TenantMemberRole"];
-      /** @description The tenant id associated with this tenant invite. */
-      tenantId: string;
-      /** @description The tenant name for the tenant. */
-      tenantName?: string;
-      /**
-       * Format: date-time
-       * @description The time that this invite expires.
-       */
-      expires: string;
-    };
-    TenantInviteList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["TenantInvite"][];
-    };
-    AcceptInviteRequest: {
-      /** @example bb214807-246e-43a5-a25d-41761d1cff9e */
-      invite: string;
-    };
-    RejectInviteRequest: {
-      /** @example bb214807-246e-43a5-a25d-41761d1cff9e */
-      invite: string;
-    };
-    CreateTenantRequest: {
-      /** @description The name of the tenant. */
-      name: string;
-      /** @description The slug of the tenant. */
-      slug: string;
-    };
-    UpdateTenantRequest: {
-      /** @description The name of the tenant. */
-      name?: string;
-      /** @description Whether the tenant has opted out of analytics. */
-      analyticsOptOut?: boolean;
-      /** @description Whether to alert tenant members. */
-      alertMemberEmails?: boolean;
-      /** @description Whether to send alerts when workflow runs fail. */
-      enableWorkflowRunFailureAlerts?: boolean;
-      /** @description Whether to enable alerts when tokens are approaching expiration. */
-      enableExpiringTokenAlerts?: boolean;
-      /** @description Whether to enable alerts when tenant resources are approaching limits. */
-      enableTenantResourceLimitAlerts?: boolean;
-      /** @description The max frequency at which to alert. */
-      maxAlertingFrequency?: string;
-    };
-    TenantAlertingSettings: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description Whether to alert tenant members. */
-      alertMemberEmails?: boolean;
-      /** @description Whether to send alerts when workflow runs fail. */
-      enableWorkflowRunFailureAlerts?: boolean;
-      /** @description Whether to enable alerts when tokens are approaching expiration. */
-      enableExpiringTokenAlerts?: boolean;
-      /** @description Whether to enable alerts when tenant resources are approaching limits. */
-      enableTenantResourceLimitAlerts?: boolean;
-      /** @description The max frequency at which to alert. */
-      maxAlertingFrequency: string;
-      /**
-       * Format: date-time
-       * @description The last time an alert was sent.
-       */
-      lastAlertedAt?: string;
-    };
-    CreateTenantInviteRequest: {
-      /** @description The email of the user to invite. */
-      email: string;
-      /** @description The role of the user in the tenant. */
-      role: components["schemas"]["TenantMemberRole"];
-    };
-    UpdateTenantInviteRequest: {
-      /** @description The role of the user in the tenant. */
-      role: components["schemas"]["TenantMemberRole"];
-    };
-    APIToken: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description The name of the API token. */
-      name: string;
-      /**
-       * Format: date-time
-       * @description When the API token expires.
-       */
-      expiresAt: string;
-    };
-    ListAPITokensResponse: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["APIToken"][];
-    };
-    CreateAPITokenRequest: {
-      /** @description A name for the API token. */
-      name: string;
-      /** @description The duration for which the token is valid. */
-      expiresIn?: string;
-    };
-    CreateAPITokenResponse: {
-      /** @description The API token. */
-      token: string;
-    };
-    /** @description A workflow ID. */
-    WorkflowID: string;
-    QueueMetrics: {
-      /** @description The number of items in the queue. */
-      numQueued: number;
-      /** @description The number of items running. */
-      numRunning: number;
-      /** @description The number of items pending. */
-      numPending: number;
-    };
-    TenantQueueMetrics: {
-      /** @description The total queue metrics. */
-      total?: components["schemas"]["QueueMetrics"];
-      workflow?: {
-        [key: string]: components["schemas"]["QueueMetrics"];
-      };
-      queues?: {
-        [key: string]: number;
-      };
-    };
-    TenantStepRunQueueMetrics: {
-      queues?: {
-        [key: string]: number;
-      };
-    };
-    /** @description The key for the event. */
-    EventKey: string;
-    /** @enum {string} */
-    WorkflowRunStatus:
-      | "PENDING"
-      | "RUNNING"
-      | "SUCCEEDED"
-      | "FAILED"
-      | "CANCELLED"
-      | "QUEUED";
-    WorkflowRunStatusList: components["schemas"]["WorkflowRunStatus"][];
-    EventSearch: string;
-    /** @enum {string} */
-    EventOrderByField: "createdAt";
-    /** @enum {string} */
-    EventOrderByDirection: "asc" | "desc";
-    EventWorkflowRunSummary: {
-      /**
-       * Format: int64
-       * @description The number of pending runs.
-       */
-      pending?: number;
-      /**
-       * Format: int64
-       * @description The number of running runs.
-       */
-      running?: number;
-      /**
-       * Format: int64
-       * @description The number of queued runs.
-       */
-      queued?: number;
-      /**
-       * Format: int64
-       * @description The number of succeeded runs.
-       */
-      succeeded?: number;
-      /**
-       * Format: int64
-       * @description The number of failed runs.
-       */
-      failed?: number;
-    };
-    Event: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description The key for the event. */
-      key: string;
-      /** @description The tenant associated with this event. */
-      tenant?: components["schemas"]["Tenant"];
-      /** @description The ID of the tenant associated with this event. */
-      tenantId: string;
-      /** @description The workflow run summary for this event. */
-      workflowRunSummary?: components["schemas"]["EventWorkflowRunSummary"];
-      /** @description Additional metadata for the event. */
-      additionalMetadata?: Record<string, never>;
-    };
-    EventList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["Event"][];
-    };
-    CreateEventRequest: {
-      /** @description The key for the event. */
-      key: string;
-      /** @description The data for the event. */
-      data: Record<string, never>;
-      /** @description Additional metadata for the event. */
-      additionalMetadata?: Record<string, never>;
-    };
-    BulkCreateEventRequest: {
-      events: components["schemas"]["CreateEventRequest"][];
-    };
-    Events: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description The events. */
-      events: components["schemas"]["Event"][];
-    };
-    ReplayEventRequest: {
-      eventIds: string[];
-    };
-    CancelEventRequest: {
-      eventIds: string[];
-    };
-    /** @enum {string} */
-    RateLimitOrderByField: "key" | "value" | "limitValue";
-    /** @enum {string} */
-    RateLimitOrderByDirection: "asc" | "desc";
-    RateLimit: {
-      /** @description The key for the rate limit. */
-      key: string;
-      /** @description The ID of the tenant associated with this rate limit. */
-      tenantId: string;
-      /** @description The maximum number of requests allowed within the window. */
-      limitValue: number;
-      /** @description The current number of requests made within the window. */
-      value: number;
-      /** @description The window of time in which the limitValue is enforced. */
-      window: string;
-      /**
-       * Format: date-time
-       * @description The last time the rate limit was refilled.
-       * @example 2022-12-13T15:06:48.888358-05:00
-       */
-      lastRefill: string;
-    };
-    RateLimitList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["RateLimit"][];
-    };
-    TenantMemberList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["TenantMember"][];
-    };
-    EventData: {
-      /** @description The data for the event (JSON bytes). */
-      data: string;
-    };
-    EventKeyList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["EventKey"][];
-    };
-    Workflow: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description The name of the workflow. */
-      name: string;
-      /** @description The description of the workflow. */
-      description?: string;
-      /** @description Whether the workflow is paused. */
-      isPaused?: boolean;
-      versions?: components["schemas"]["WorkflowVersionMeta"][];
-      /** @description The tags of the workflow. */
-      tags?: components["schemas"]["WorkflowTag"][];
-      /** @description The jobs of the workflow. */
-      jobs?: components["schemas"]["Job"][];
-    };
-    WorkflowVersionMeta: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description The version of the workflow. */
-      version: string;
-      /** Format: int32 */
-      order: number;
-      workflowId: string;
-      workflow?: components["schemas"]["Workflow"];
-    };
-    WorkflowTag: {
-      /** @description The name of the workflow. */
-      name: string;
-      /** @description The description of the workflow. */
-      color: string;
-    };
-    Step: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description The readable id of the step. */
-      readableId: string;
-      tenantId: string;
-      jobId: string;
-      action: string;
-      /** @description The timeout of the step. */
-      timeout?: string;
-      children?: string[];
-      parents?: string[];
-    };
-    Job: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      tenantId: string;
-      versionId: string;
-      name: string;
-      /** @description The description of the job. */
-      description?: string;
-      steps: components["schemas"]["Step"][];
-      /** @description The timeout of the job. */
-      timeout?: string;
-    };
-    WorkflowList: {
-      metadata?: components["schemas"]["APIResourceMeta"];
-      rows?: components["schemas"]["Workflow"][];
-      pagination?: components["schemas"]["PaginationResponse"];
-    };
-    /** @enum {string} */
-    ScheduledWorkflowsOrderByField: "triggerAt" | "createdAt";
-    /** @enum {string} */
-    WorkflowRunOrderByDirection: "ASC" | "DESC";
-    /** @enum {string} */
-    ScheduledRunStatus:
-      | "PENDING"
-      | "RUNNING"
-      | "SUCCEEDED"
-      | "FAILED"
-      | "CANCELLED"
-      | "QUEUED"
-      | "SCHEDULED";
-    ScheduledWorkflows: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      tenantId: string;
-      workflowVersionId: string;
-      workflowId: string;
-      workflowName: string;
-      /** Format: date-time */
-      triggerAt: string;
-      input?: {
-        [key: string]: unknown;
-      };
-      additionalMetadata?: {
-        [key: string]: unknown;
-      };
-      /** Format: date-time */
-      workflowRunCreatedAt?: string;
-      workflowRunName?: string;
-      workflowRunStatus?: components["schemas"]["WorkflowRunStatus"];
-      /**
-       * Format: uuid
-       * @example bb214807-246e-43a5-a25d-41761d1cff9e
-       */
-      workflowRunId?: string;
-    };
-    ScheduledWorkflowsList: {
-      rows?: components["schemas"]["ScheduledWorkflows"][];
-      pagination?: components["schemas"]["PaginationResponse"];
-    };
-    /** @enum {string} */
-    CronWorkflowsOrderByField: "createdAt";
-    CronWorkflows: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      tenantId: string;
-      workflowVersionId: string;
-      workflowId: string;
-      workflowName: string;
-      cron: string;
-      input?: {
-        [key: string]: unknown;
-      };
-      additionalMetadata?: {
-        [key: string]: unknown;
-      };
-    };
-    CronWorkflowsList: {
-      rows?: components["schemas"]["CronWorkflows"][];
-      pagination?: components["schemas"]["PaginationResponse"];
-    };
-    WorkflowRunsCancelRequest: {
-      workflowRunIds: string[];
-    };
-    WorkflowUpdateRequest: {
-      /** @description Whether the workflow is paused. */
-      isPaused?: boolean;
-    };
-    /** @enum {string} */
-    ConcurrencyLimitStrategy:
-      | "CANCEL_IN_PROGRESS"
-      | "DROP_NEWEST"
-      | "QUEUE_NEWEST"
-      | "GROUP_ROUND_ROBIN";
-    WorkflowConcurrency: {
-      /**
-       * Format: int32
-       * @description The maximum number of concurrent workflow runs.
-       */
-      maxRuns: number;
-      /** @description The strategy to use when the concurrency limit is reached. */
-      limitStrategy: components["schemas"]["ConcurrencyLimitStrategy"];
-      /** @description An action which gets the concurrency group for the WorkflowRun. */
-      getConcurrencyGroup: string;
-    };
-    WorkflowTriggerEventRef: {
-      parent_id?: string;
-      event_key?: string;
-    };
-    WorkflowTriggerCronRef: {
-      parent_id?: string;
-      cron?: string;
-    };
-    WorkflowTriggers: {
-      metadata?: components["schemas"]["APIResourceMeta"];
-      workflow_version_id?: string;
-      tenant_id?: string;
-      events?: components["schemas"]["WorkflowTriggerEventRef"][];
-      crons?: components["schemas"]["WorkflowTriggerCronRef"][];
-    };
-    WorkflowVersion: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description The version of the workflow. */
-      version: string;
-      /** Format: int32 */
-      order: number;
-      workflowId: string;
-      /** @description The sticky strategy of the workflow. */
-      sticky?: string;
-      /**
-       * Format: int32
-       * @description The default priority of the workflow.
-       */
-      defaultPriority?: number;
-      workflow?: components["schemas"]["Workflow"];
-      concurrency?: components["schemas"]["WorkflowConcurrency"];
-      triggers?: components["schemas"]["WorkflowTriggers"];
-      scheduleTimeout?: string;
-      jobs?: components["schemas"]["Job"][];
-    };
-    TriggerWorkflowRunRequest: {
-      input: Record<string, never>;
-      additionalMetadata?: Record<string, never>;
-    };
-    WorkflowRun: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      tenantId: string;
-      workflowVersionId: string;
-      workflowVersion?: components["schemas"]["WorkflowVersion"];
-      status: components["schemas"]["WorkflowRunStatus"];
-      displayName?: string;
-      jobRuns?: components["schemas"]["JobRun"][];
-      triggeredBy: components["schemas"]["WorkflowRunTriggeredBy"];
-      input?: {
-        [key: string]: unknown;
-      };
-      error?: string;
-      /** Format: date-time */
-      startedAt?: string;
-      /** Format: date-time */
-      finishedAt?: string;
-      /** @example 1000 */
-      duration?: number;
-      /**
-       * Format: uuid
-       * @example bb214807-246e-43a5-a25d-41761d1cff9e
-       */
-      parentId?: string;
-      /**
-       * Format: uuid
-       * @example bb214807-246e-43a5-a25d-41761d1cff9e
-       */
-      parentStepRunId?: string;
-      additionalMetadata?: {
-        [key: string]: unknown;
-      };
-    };
-    JobRun: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      tenantId: string;
-      workflowRunId: string;
-      workflowRun?: components["schemas"]["WorkflowRun"];
-      jobId: string;
-      job?: components["schemas"]["Job"];
-      tickerId?: string;
-      stepRuns?: components["schemas"]["StepRun"][];
-      status: components["schemas"]["JobRunStatus"];
-      result?: Record<string, never>;
-      /** Format: date-time */
-      startedAt?: string;
-      /** Format: date-time */
-      finishedAt?: string;
-      /** Format: date-time */
-      timeoutAt?: string;
-      /** Format: date-time */
-      cancelledAt?: string;
-      cancelledReason?: string;
-      cancelledError?: string;
-    };
-    /** @enum {string} */
-    StepRunStatus:
-      | "PENDING"
-      | "PENDING_ASSIGNMENT"
-      | "ASSIGNED"
-      | "RUNNING"
-      | "SUCCEEDED"
-      | "FAILED"
-      | "CANCELLED"
-      | "CANCELLING";
-    StepRun: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      tenantId: string;
-      jobRunId: string;
-      jobRun?: components["schemas"]["JobRun"];
-      stepId: string;
-      step?: components["schemas"]["Step"];
-      childWorkflowsCount?: number;
-      parents?: string[];
-      childWorkflowRuns?: string[];
-      workerId?: string;
-      input?: string;
-      output?: string;
-      status: components["schemas"]["StepRunStatus"];
-      /** Format: date-time */
-      requeueAfter?: string;
-      result?: Record<string, never>;
-      error?: string;
-      /** Format: date-time */
-      startedAt?: string;
-      startedAtEpoch?: number;
-      /** Format: date-time */
-      finishedAt?: string;
-      finishedAtEpoch?: number;
-      /** Format: date-time */
-      timeoutAt?: string;
-      timeoutAtEpoch?: number;
-      /** Format: date-time */
-      cancelledAt?: string;
-      cancelledAtEpoch?: number;
-      cancelledReason?: string;
-      cancelledError?: string;
-    };
-    /** @enum {string} */
-    JobRunStatus: "PENDING" | "RUNNING" | "SUCCEEDED" | "FAILED" | "CANCELLED";
-    WorkflowRunTriggeredBy: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      parentWorkflowRunId?: string;
-      eventId?: string;
-      cronParentId?: string;
-      cronSchedule?: string;
-    };
-    WorkflowMetrics: {
-      /** @description The number of runs for a specific group key (passed via filter) */
-      groupKeyRunsCount?: number;
-      /** @description The total number of concurrency group keys. */
-      groupKeyCount?: number;
-    };
-    /** @enum {string} */
-    LogLineLevel: "DEBUG" | "INFO" | "WARN" | "ERROR";
-    LogLineLevelField: components["schemas"]["LogLineLevel"][];
-    LogLineSearch: string;
-    /** @enum {string} */
-    LogLineOrderByField: "createdAt";
-    /** @enum {string} */
-    LogLineOrderByDirection: "asc" | "desc";
-    LogLine: {
-      /**
-       * Format: date-time
-       * @description The creation date of the log line.
-       */
-      createdAt: string;
-      /** @description The log message. */
-      message: string;
-      /** @description The log metadata. */
-      metadata: Record<string, never>;
-    };
-    LogLineList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["LogLine"][];
-    };
-    /** @enum {string} */
-    StepRunEventReason:
-      | "REQUEUED_NO_WORKER"
-      | "REQUEUED_RATE_LIMIT"
-      | "SCHEDULING_TIMED_OUT"
-      | "ASSIGNED"
-      | "STARTED"
-      | "ACKNOWLEDGED"
-      | "FINISHED"
-      | "FAILED"
-      | "RETRYING"
-      | "CANCELLED"
-      | "TIMEOUT_REFRESHED"
-      | "REASSIGNED"
-      | "TIMED_OUT"
-      | "SLOT_RELEASED"
-      | "RETRIED_BY_USER"
-      | "WORKFLOW_RUN_GROUP_KEY_SUCCEEDED"
-      | "WORKFLOW_RUN_GROUP_KEY_FAILED";
-    /** @enum {string} */
-    StepRunEventSeverity: "INFO" | "WARNING" | "CRITICAL";
-    StepRunEvent: {
-      id: number;
-      /** Format: date-time */
-      timeFirstSeen: string;
-      /** Format: date-time */
-      timeLastSeen: string;
-      stepRunId?: string;
-      workflowRunId?: string;
-      reason: components["schemas"]["StepRunEventReason"];
-      severity: components["schemas"]["StepRunEventSeverity"];
-      message: string;
-      count: number;
-      data?: Record<string, never>;
-    };
-    StepRunEventList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["StepRunEvent"][];
-    };
-    StepRunArchive: {
-      stepRunId: string;
-      order: number;
-      input?: string;
-      output?: string;
-      /** Format: date-time */
-      startedAt?: string;
-      error?: string;
-      retryCount: number;
-      /** Format: date-time */
-      createdAt: string;
-      startedAtEpoch?: number;
-      /** Format: date-time */
-      finishedAt?: string;
-      finishedAtEpoch?: number;
-      /** Format: date-time */
-      timeoutAt?: string;
-      timeoutAtEpoch?: number;
-      /** Format: date-time */
-      cancelledAt?: string;
-      cancelledAtEpoch?: number;
-      cancelledReason?: string;
-      cancelledError?: string;
-    };
-    StepRunArchiveList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["StepRunArchive"][];
-    };
-    WorkflowWorkersCount: {
-      freeSlotCount?: number;
-      maxSlotCount?: number;
-      workflowRunId?: string;
-    };
-    /** @enum {string} */
-    WorkflowKind: "FUNCTION" | "DURABLE" | "DAG";
-    WorkflowKindList: components["schemas"]["WorkflowKind"][];
-    /** @enum {string} */
-    WorkflowRunOrderByField:
-      | "createdAt"
-      | "startedAt"
-      | "finishedAt"
-      | "duration";
-    WorkflowRunList: {
-      rows?: components["schemas"]["WorkflowRun"][];
-      pagination?: components["schemas"]["PaginationResponse"];
-    };
-    ReplayWorkflowRunsRequest: {
-      workflowRunIds: string[];
-    };
-    ReplayWorkflowRunsResponse: {
-      workflowRuns: components["schemas"]["WorkflowRun"][];
-    };
-    WorkflowRunsMetricsCounts: {
-      PENDING?: number;
-      RUNNING?: number;
-      SUCCEEDED?: number;
-      FAILED?: number;
-      QUEUED?: number;
-    };
-    WorkflowRunsMetrics: {
-      counts?: components["schemas"]["WorkflowRunsMetricsCounts"];
-    };
-    WorkflowRunShape: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      tenantId: string;
-      workflowId?: string;
-      workflowVersionId: string;
-      workflowVersion?: components["schemas"]["WorkflowVersion"];
-      status: components["schemas"]["WorkflowRunStatus"];
-      displayName?: string;
-      jobRuns?: components["schemas"]["JobRun"][];
-      triggeredBy: components["schemas"]["WorkflowRunTriggeredBy"];
-      input?: {
-        [key: string]: unknown;
-      };
-      error?: string;
-      /** Format: date-time */
-      startedAt?: string;
-      /** Format: date-time */
-      finishedAt?: string;
-      /** @example 1000 */
-      duration?: number;
-      /**
-       * Format: uuid
-       * @example bb214807-246e-43a5-a25d-41761d1cff9e
-       */
-      parentId?: string;
-      /**
-       * Format: uuid
-       * @example bb214807-246e-43a5-a25d-41761d1cff9e
-       */
-      parentStepRunId?: string;
-      additionalMetadata?: {
-        [key: string]: unknown;
-      };
-    };
-    RerunStepRunRequest: {
-      input: Record<string, never>;
-    };
-    /** @enum {string} */
-    WorkerType: "SELFHOSTED" | "MANAGED" | "WEBHOOK";
-    SemaphoreSlots: {
-      /**
-       * Format: uuid
-       * @description The step run id.
-       */
-      stepRunId: string;
-      /** @description The action id. */
-      actionId: string;
-      /**
-       * Format: date-time
-       * @description The time this slot was started.
-       */
-      startedAt?: string;
-      /**
-       * Format: date-time
-       * @description The time this slot will timeout.
-       */
-      timeoutAt?: string;
-      /**
-       * Format: uuid
-       * @description The workflow run id.
-       */
-      workflowRunId: string;
-      status: components["schemas"]["StepRunStatus"];
-    };
-    RecentStepRuns: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description The action id. */
-      actionId: string;
-      status: components["schemas"]["StepRunStatus"];
-      /** Format: date-time */
-      startedAt?: string;
-      /** Format: date-time */
-      finishedAt?: string;
-      /** Format: date-time */
-      cancelledAt?: string;
-      /** Format: uuid */
-      workflowRunId: string;
-    };
-    WorkerLabel: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description The key of the label. */
-      key: string;
-      /** @description The value of the label. */
-      value?: string;
-    };
-    /** @enum {string} */
-    WorkerRuntimeSDKs: "GOLANG" | "PYTHON" | "TYPESCRIPT";
-    WorkerRuntimeInfo: {
-      sdkVersion?: string;
-      language?: components["schemas"]["WorkerRuntimeSDKs"];
-      languageVersion?: string;
-      os?: string;
-      runtimeExtra?: string;
-    };
-    Worker: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description The name of the worker. */
-      name: string;
-      type: components["schemas"]["WorkerType"];
-      /**
-       * Format: date-time
-       * @description The time this worker last sent a heartbeat.
-       * @example 2022-12-13T15:06:48.888358-05:00
-       */
-      lastHeartbeatAt?: string;
-      /**
-       * Format: date-time
-       * @description The time this worker last sent a heartbeat.
-       * @example 2022-12-13T15:06:48.888358-05:00
-       */
-      lastListenerEstablished?: string;
-      /** @description The actions this worker can perform. */
-      actions?: string[];
-      /** @description The semaphore slot state for the worker. */
-      slots?: components["schemas"]["SemaphoreSlots"][];
-      /** @description The recent step runs for the worker. */
-      recentStepRuns?: components["schemas"]["RecentStepRuns"][];
-      /**
-       * @description The status of the worker.
-       * @enum {string}
-       */
-      status?: "ACTIVE" | "INACTIVE" | "PAUSED";
-      /** @description The maximum number of runs this worker can execute concurrently. */
-      maxRuns?: number;
-      /** @description The number of runs this worker can execute concurrently. */
-      availableRuns?: number;
-      /**
-       * Format: uuid
-       * @description the id of the assigned dispatcher, in UUID format
-       * @example bb214807-246e-43a5-a25d-41761d1cff9e
-       */
-      dispatcherId?: string;
-      /** @description The current label state of the worker. */
-      labels?: components["schemas"]["WorkerLabel"][];
-      /** @description The webhook URL for the worker. */
-      webhookUrl?: string;
-      /**
-       * Format: uuid
-       * @description The webhook ID for the worker.
-       */
-      webhookId?: string;
-      runtimeInfo?: components["schemas"]["WorkerRuntimeInfo"];
-    };
-    WorkerList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["Worker"][];
-    };
-    UpdateWorkerRequest: {
-      /** @description Whether the worker is paused and cannot accept new runs. */
-      isPaused?: boolean;
-    };
-    WebhookWorker: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description The name of the webhook worker. */
-      name: string;
-      /** @description The webhook url. */
-      url: string;
-    };
-    WebhookWorkerListResponse: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["WebhookWorker"][];
-    };
-    WebhookWorkerCreateRequest: {
-      /** @description The name of the webhook worker. */
-      name: string;
-      /** @description The webhook url. */
-      url: string;
-      /** @description The secret key for validation. If not provided, a random secret will be generated. */
-      secret?: string;
-    };
-    WebhookWorkerCreated: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description The name of the webhook worker. */
-      name: string;
-      /** @description The webhook url. */
-      url: string;
-      /** @description The secret key for validation. */
-      secret: string;
-    };
-    /** @enum {unknown} */
-    WebhookWorkerRequestMethod: "GET" | "POST" | "PUT";
-    WebhookWorkerRequest: {
-      /**
-       * Format: date-time
-       * @description The date and time the request was created.
-       */
-      created_at: string;
-      /** @description The HTTP method used for the request. */
-      method: components["schemas"]["WebhookWorkerRequestMethod"];
-      /** @description The HTTP status code of the response. */
-      statusCode: number;
-    };
-    WebhookWorkerRequestListResponse: {
-      /** @description The list of webhook requests. */
-      requests?: components["schemas"]["WebhookWorkerRequest"][];
-    };
-    /** @enum {string} */
-    ChatMessageRole: "system" | "user" | "assistant";
-    /** @description 单个聊天消息 */
-    ChatMessage: {
-      id: string;
-      role: components["schemas"]["ChatMessageRole"];
-      content: string;
-      createdAt: string;
-      threadId: string;
-    };
-    ChatReq: {
-      threadId?: string;
-      profile?: string;
-      messages: components["schemas"]["ChatMessage"][];
-      /** @description 附加的表单数据 */
-      params?: Record<string, never>;
-    };
-    /** @description 聊天消息列表 */
-    ChatMessages: {
-      messages?: components["schemas"]["ChatMessage"][];
-    };
-    ChatModel: {
-      id: string;
-      label: string;
-      description?: string;
-      icon?: string;
-      apiIdentifier?: string;
-    };
-    ChatModelList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["ChatModel"][];
-    };
-    ChatCompletionsReq: {
-      model?: string;
-      messages?: components["schemas"]["ChatMessage"][];
-    };
-    WorkerConfig: {
-      workerToken?: string;
-    };
-    /** @description 博客站点生成基本配置 */
-    BlogGenConfig: {
-      /** @description 站点名称. */
-      name: string;
-      /** @description 博客站点介绍. */
-      description: string;
-      /** @description 站点关键字列表 */
-      seo_keywords?: string;
-      /** @description 站点建议日更帖子数量 */
-      dayPublishCountHint?: number;
-    };
-    /** @description worker 启动时所需的关键配置 */
-    mtmai_WorkerConfig: {
-      /** @description token */
-      token?: string;
-    };
-    BlogConfig: {
-      /** @description The number of posts to publish per day. */
-      dayPublishCount?: number;
-      /** @description The description of the blog. */
-      description?: string;
-    };
-    Blog: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      title: string;
-      description?: string;
-      /** @description The tenant associated with this tenant blog. */
-      tenant?: components["schemas"]["Tenant"];
-      config?: components["schemas"]["BlogConfig"];
-      /** @description The status of the blog. */
-      status?: string;
-      /** @description Whether the blog is enabled. */
-      enabled?: boolean;
-      /** @description The slug of the blog. */
-      slug?: string;
-    };
-    BlogList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["Blog"][];
-    };
-    CreateBlogRequest: {
-      /** @description blog title to create. */
-      title?: string;
-    };
-    UpdateBlogRequest: {
-      title: string;
-      description?: string;
-    };
-    /** @description site */
-    Site: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description site 标题 */
-      title: string;
-      /** @description site 描述 */
-      description: string;
-    };
-    SiteList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["Site"][];
-    };
-    /** Format: uuid */
-    TenantParameter: string;
-    CreateSiteRequest: {
-      /** @description site 标题 */
-      title: string;
-      /** @description site 描述 */
-      description: string;
-      /** @description 入站域名(指定绑定入站域名) */
-      host?: string;
-    };
-    UpdateSiteRequest: {
-      /** @description site 标题 */
-      title?: string;
-    };
-    Post: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      title: string;
-      /** @description The tenant associated with this tenant blog */
-      content: string;
-    };
-    PostList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["Post"][];
-    };
-    CreatePostRequest: {
-      title: string;
-      /** @description The tenant associated with this tenant blog. */
-      content: string;
-    };
-    ToolCallResult: {
-      /** @description 结果id */
-      id?: string;
-      /** @description 结果数据 */
-      data?: string;
-    };
-    OperataionGuideResponse: {
-      /** @description 详细的操作手册描述 */
-      message?: string;
-    };
-    WebSearchResult: {
-      /** @description 结果描述 */
-      message?: string;
-    };
-    Artifact: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      title: string;
-      /** @description The tenant associated with this tenant blog. */
-      state: Record<string, never>;
-      nextId?: string;
-      prevId?: string;
-    };
-    ArtifactList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["Artifact"][];
-    };
-    CreateArtifacttRequest: {
-      /**
-       * Format: uuid
-       * @description The blog id.
-       */
-      artId: string;
-      title: string;
-      /** @description The tenant associated with this tenant blog. */
-      state: Record<string, never>;
-    };
-    BaseState: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description 线程ID */
-      threadId?: string;
-      /** @description 聊天消息 */
-      messages: components["schemas"]["ChatMessage"][];
-    };
-    AssisantState: components["schemas"]["BaseState"] & {
-      /** @description 名称 */
-      name: string;
-      /** @description 描述 */
-      description: string;
-    };
-    /** @description llm config */
-    LlmConfig: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      base_url: string;
-      api_key: string;
-      /** @description llm model name */
-      model: string;
-    };
-    GenArticleState: components["schemas"]["BaseState"] & {
-      /** @description 关联的上级博客生成任务 */
-      blogTaskState?: components["schemas"]["BlogTaskState"];
-      /** @description 当前关联的主题 */
-      topic: string;
-      /** @description 关键提示语 */
-      prompt?: string;
-      /** @description 文章主标题 */
-      title?: string;
-      /** @description 文章副标题 */
-      subTitle?: string;
-      /** @description 文章大纲列表 */
-      oulines?: components["schemas"]["ArticleOutline"][];
-    };
-    BlogTaskState: components["schemas"]["BaseState"] & {
-      llm?: components["schemas"]["LlmConfig"];
-      /** @description 关键提示语 */
-      prompt?: string;
-      /** @description 博客站点功能定位描述 */
-      blogDescription: string;
-      /** @description 博客的SEO关键字 */
-      blogKeywords: string[];
-      /** @description 当前生成文章使用的主题 */
-      curTopicToGen?: string;
-      /** @description 当前正在生成的文章 */
-      curArticleState?: components["schemas"]["GenArticleState"];
-      /** @description 当前步骤描述 */
-      stepDescription?: string;
-      /** @description 运行状态 */
-      runningState?: string;
-      /**
-       * @description 已经完成的日更天子数量
-       * @default 0
-       */
-      dayPublishdCount: number;
-      /**
-       * @description 建议日更数
-       * @default 10
-       */
-      dayPublishCountHint: number;
-    };
-    /** @description 文章大纲 */
-    ArticleOutline: {
-      title: string;
-      /** @description 大纲描述 */
-      description?: string;
-    };
-    PostizChannel: {
-      /** @description 聊天消息 */
-      messages?: components["schemas"]["ChatMessage"][];
-      fresearch?: string;
-      orgId?: string;
-      hook?: string;
-      content?: string;
-      date?: string;
-      category?: string;
-      popularPosts?: string;
-      topic?: string;
-      isPicture?: boolean;
-      format?: string;
-      tone?: string;
-      question?: string;
-    };
-    PostizState: {
-      channel?: components["schemas"]["PostizChannel"];
-    };
-    TokenChunk: {
-      /** @description 消息ID */
-      id: string;
-      /** @description 消息内容 */
-      content: string;
-    };
-    EvtNodeStep: {
-      /** @description 节点名称 */
-      name: string;
-      /** @description 节点输入 */
-      input: string;
-    };
-    AgentState:
-      | components["schemas"]["AssisantState"]
-      | components["schemas"]["GenArticleState"]
-      | components["schemas"]["BlogTaskState"]
-      | components["schemas"]["PostizState"]
-      | components["schemas"]["TokenChunk"]
-      | components["schemas"]["EvtNodeStep"];
-    /** @description agent 执行动作 */
-    AgentAction: {
-      /** @description 工具名称 */
-      Tool: string;
-      /** @description 工具输入 */
-      ToolInput: string;
-      /** @description 工具日志 */
-      Log: string;
-      /** @description 工具ID */
-      ToolID: string;
-    };
-    /** @description agent 执行步骤 */
-    AgentStep: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      Action: components["schemas"]["AgentAction"];
-      /** @description 步骤观察 */
-      Observation: string;
-    };
-    /** @description agent 完成 */
-    AgentFinish: {
-      /** @description 返回值 */
-      ReturnValues: Record<string, never>;
-      /** @description 日志 */
-      Log: string;
-    };
-    /** @description agent 节点输出 */
-    AgentNodeOutput: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description 是否是最终步骤 */
-      isFinal: boolean;
-      /** @description 更多步骤 */
-      moreSteps: components["schemas"]["AgentStep"][];
-      /** @description 输出 */
-      output: Record<string, never>;
-      /** @description 错误 */
-      error?: string;
-    };
-    AgentNode: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description agent 节点名称, 或者作为工具名称 */
-      title: string;
-      /** @description agent 节点描述, 或者作为工具描述 */
-      description: string;
-      /** @description 节点类型，决定了由哪个agent来进行调度 */
-      type?: string;
-      /** @description agent 的配置 */
-      Config?: Record<string, never>;
-      state?: components["schemas"]["AgentState"];
-      /** @description agent 节点执行步骤, 一般表示之前执行的步骤 */
-      steps: components["schemas"]["AgentStep"][];
-      finish?: components["schemas"]["AgentFinish"];
-      /** @description 上级节点 */
-      parentId?: string;
-      agentNodeOutput?: components["schemas"]["AgentNodeOutput"];
-      tools?: string;
-      /** @description 记忆ID，表示这个agent的记忆 */
-      memoryId?: string;
-      /** @description 输入 */
-      input?: string;
-      /** @description 输出 */
-      output?: string;
-    };
-    AgentNodeList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["AgentNode"][];
-    };
-    /** @description 创建agent节点请求 */
-    AgentNodeCreateRequest: {
-      /** @description agent 节点名称, 或者作为工具名称 */
-      title?: string;
-      /** @description agent 节点提示词 */
-      prompt: string;
-      /** @description agent 节点描述, 或者作为工具描述 */
-      description?: string;
-    };
-    /** @description 创建agent节点请求 */
-    AgentNodeUpdateRequest: {
-      /** @description agent 节点名称, 或者作为工具名称 */
-      title?: string;
-      /** @description agent 节点提示词 */
-      prompt: string;
-      /** @description agent 节点类型 */
-      type?: string;
-      /** @description agent 节点描述 */
-      description?: string;
-      /** @description agent 节点状态 */
-      state?: Record<string, never>;
-    };
-    /** @enum {string} */
-    FlowNames:
-      | "research"
-      | "blogAuto"
-      | "tenant"
-      | "resourceAction"
-      | "oneShotDemo";
-    WorkflowRunCommonInput: {
-      isStream: boolean;
-      threadId: string;
-    };
-    /** @description 研究输入(目前写死为调用社交媒体) */
-    ResearchRequest: components["schemas"]["WorkflowRunCommonInput"] & {
-      /** @description 详细描述要调研详情 */
-      input: string;
-    };
-    CrewAIParams: {
-      input?: string;
-    };
-    ScrapeGraphParams: {
-      input?: string;
-    };
-    /** @description 节点运行 */
-    NodeRunAction: {
-      /** @description 动作 */
-      action?: string;
-      /** @description 输入 */
-      input?: Record<string, never>;
-    };
-    /**
-     * @description 阅读级别
-     * @enum {string}
-     */
-    ReadingLevelOptions: "pirate" | "child" | "teenager" | "college" | "phd";
-    /**
-     * @description 工具内容长度,(文章,代码内容长度)
-     * @enum {string}
-     */
-    ArtifactLengthOptions: "shortest" | "short" | "long" | "longest";
-    /** @description agent运行节点请求 */
-    AgentNodeRunRequest: {
-      flowName: components["schemas"]["FlowNames"];
-      /** @description agent 节点ID(threadId) */
-      nodeId?: string;
-      /** @description 是否使用stream 传输事件 */
-      isStream?: boolean;
-      params:
-        | components["schemas"]["ResearchRequest"]
-        | components["schemas"]["CrewAIParams"]
-        | components["schemas"]["ScrapeGraphParams"];
-      config?: unknown;
-      /** @description 步骤限制(没用上) */
-      stepLimit?: number;
-      messages?: components["schemas"]["ChatMessage"][];
-      action?: components["schemas"]["NodeRunAction"];
-      /** @description 语言 */
-      language?: string;
-      /** @description 自定义快速动作ID */
-      customQuickActionId?: string;
-      /** @description 工件ID */
-      artifactId?: string;
-      /** @description 是否使用表情符号重新生成 */
-      regenerateWithEmojis?: boolean;
-      /** @description 阅读级别 */
-      readingLevel?: components["schemas"]["ReadingLevelOptions"];
-      /** @description 工具内容长度,(文章,代码内容长度) */
-      artifactLength?: components["schemas"]["ArtifactLengthOptions"];
-    };
-    /** @description agentnode run */
-    AgentNodeRun: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      title?: string;
-      description?: string;
-      state?: Record<string, never>;
-      workflowRunId: string;
-      nodeId: string;
-      input?: Record<string, never>;
-      output?: Record<string, never>;
-    };
-    FormField: {
-      name: string;
-      type: string;
-    };
-    SchemaForm: {
-      title: string;
-      description?: string;
-      fields: components["schemas"]["FormField"][];
-    };
-    AgentRunForm: {
-      form: components["schemas"]["SchemaForm"];
-    };
-    /** @description 文档 */
-    Document: {
-      /** @description 页面内容 */
-      PageContent: string;
-      /** @description 元数据 */
-      Metadata: Record<string, never>;
-      /** @description 分数 */
-      Score: number;
-    };
-    PromptList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["Artifact"][];
-    };
-    AssisantConfigurable: {
-      /** @description langgraph 中对应的 threadId */
-      threadId?: string;
-      /** @description langgraph 中对应的 checkpointId */
-      checkpointId?: string;
-    } & {
-      [key: string]: unknown;
-    };
-    AssisantConfig: {
-      /** @description 助手名称 */
-      name?: string;
-      tags?: string[];
-      /**
-       * @description 递归限制
-       * @default 10
-       */
-      recursion_limit: number;
-      configurable?: components["schemas"]["AssisantConfigurable"];
-    };
-    Assisant: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description 助手名称 */
-      name?: string;
-      updated_at?: string;
-      /** @description 如果后端使用 langgraph ，则返回 langgraph 的 graph_id */
-      graph_id?: string;
-      config?: components["schemas"]["AssisantConfig"];
-      tags: string[];
-    };
-    SubscribeRequest: {
-      /** @description 消息 */
-      protocol?: string;
-      /** @description 消息 */
-      runId?: string;
-      /** @description 消息 */
-      streamKey?: string;
-      /** @description 元数据 */
-      meta?: Record<string, never>;
-    };
-    CommonResult: {
-      Success: boolean;
-      Message: string;
-    };
-    FrontendConfig: {
-      /** @description Cookie access token */
-      cookieAccessToken: string;
-      /** @description Dashboard path */
-      dashPath: string;
-      /** @description Hot key debug */
-      hotKeyDebug: string;
-      /** @description 实验性质，默认租户的access token */
-      defaultTenantAccessToken: string;
-    };
-    DashSidebarItem: {
-      /** @description 名称 */
-      title: string;
-      /** @description url 例如/login */
-      url: string;
-      /** @description 图标 */
-      icon?: string;
-      /** @description 默认展开 */
-      defaultExpanded?: boolean;
-      /** @description 只允许超级管理员查看 */
-      adminOnly?: boolean;
-      children?: components["schemas"]["DashSidebarItem"][];
-    };
-    SiderbarConfig: {
-      /** @description logo */
-      logo?: string;
-      sideritems?: components["schemas"]["DashSidebarItem"][];
-    };
-    TenantList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["Tenant"][];
-    };
-    WorkflowVersionDefinition: {
-      /** @description The raw YAML definition of the workflow. */
-      rawDefinition: string;
-    };
-    CreatePullRequestFromStepRun: {
-      branchName: string;
-    };
-    StepRunDiff: {
-      key: string;
-      original: string;
-      modified: string;
-    };
-    GetStepRunDiffResponse: {
-      diffs: components["schemas"]["StepRunDiff"][];
-    };
-    /** @enum {string} */
-    PullRequestState: "open" | "closed";
-    PullRequest: {
-      repositoryOwner: string;
-      repositoryName: string;
-      pullRequestID: number;
-      pullRequestTitle: string;
-      pullRequestNumber: number;
-      pullRequestHeadBranch: string;
-      pullRequestBaseBranch: string;
-      pullRequestState: components["schemas"]["PullRequestState"];
-    };
-    ListPullRequestsResponse: {
-      pullRequests: components["schemas"]["PullRequest"][];
-    };
-    WebhookWorkerCreateResponse: {
-      worker?: components["schemas"]["WebhookWorkerCreated"];
-    };
-    ChatHistoryList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["ChatMessage"][];
-    };
-    /** @description crawai agent 定义 */
-    CrewAiAgent: {
-      /** @description name */
-      name: string;
-      /** @description role */
-      role: string;
-      /** @description role */
-      backstory: string;
-      /** @description goal */
-      goal: string;
-      /** @description maxRetryLimit */
-      maxRetryLimit?: number;
-      /** @description maxRpm */
-      maxRpm?: number;
-    };
-    /** @description 任务定义 */
-    CrewAiTask: {
-      /** @description 任务描述 */
-      description: string;
-      /** @description 期待输出 */
-      expectedOutput: string;
-      /** @description 任务输出json格式名称 */
-      outputJsonSchemaName?: string;
-      /** @description agent */
-      agent: string;
-    };
-    /** @description 调用 Agent 参数 */
-    CallAgent: {
-      /** @description 大语言模型 api 配置 */
-      llm?: components["schemas"]["LlmConfig"];
-      /** @description 输入参数 */
-      input: Record<string, never>;
-      /** @description agents 列表 */
-      agents: components["schemas"]["CrewAiAgent"][];
-      /** @description 任务列表 */
-      tasks: components["schemas"]["CrewAiTask"][];
-      /**
-       * @description 是否调试模式
-       * @default 0
-       */
-      debug: boolean;
-    };
-    /** @description 调用Agent的输出结果 */
-    CallAgentResult: {
-      data?: Record<string, never>;
-    };
-    /** @description topics 生成结果 */
-    GenTopicResult: {
-      /** @description 主题列表，按优先顺序，更好的更靠前 */
-      topics: string[];
-    };
-    /** @description 文章生成输入 */
-    GenArticleInput: {
-      topic: string;
-    };
-    /** @description 运行新任务的结果 */
-    RunNewTaskResponse: {
-      description?: string;
-    };
-    /**
-     * @description 可用的操作名称枚举：
-     *     - **startBlogTask**: 启动单个博客自动化操作任务
-     *     - **stopBlogTask**: 停止单个博客自动化操作任务
-     *
-     * @enum {string}
-     */
-    OperationEnum: "startBlogTask" | "stopBlogTask";
-    /** @description 根状态 */
-    RootConfig: {
-      /** @description token */
-      token?: string;
-    };
-    CreateBlogPostRequest: {
-      /**
-       * Format: uuid
-       * @description The blog id.
-       */
-      blogId: string;
-      /**
-       * Format: uuid
-       * @description The authord id.
-       */
-      authorId?: string;
-      title: string;
-      /** @description The tenant associated with this tenant blog. */
-      content: string;
-    };
-    PostOutline: {
-      /** @description post outline title */
-      title?: string;
-      /** @description post outline content */
-      content?: string;
-    };
-    PostState: {
-      /** @description post title */
-      title?: string;
-      /** @description post topic */
-      topic?: string;
-      /** @description post outlines */
-      outlines?: components["schemas"]["PostOutline"][];
-    };
-    BlogPost: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      title: string;
-      /** @description The tenant associated with this tenant blog */
-      content: string;
-      state?: components["schemas"]["PostState"];
-    };
-    BlogPostList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["BlogPost"][];
-    };
-    UpdatePostRequest: {
-      /**
-       * Format: uuid
-       * @description The blog id.
-       */
-      blogId: string;
-      /**
-       * Format: uuid
-       * @description The authord id.
-       */
-      authorId?: string;
-      title: string;
-      /** @description The tenant associated with this tenant blog. */
-      content: string;
-    };
-    /** @description agent 节点输入 */
-    AgentNodeInput: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description 输入 */
-      inputs: Record<string, never>;
-      /** @description 中间步骤 */
-      intermediateSteps?: components["schemas"]["AgentStep"][];
-    };
-    /** @description agent 任务工具 */
-    AgentTaskTool: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description 工具名称 */
-      name: string;
-      /** @description 工具描述 */
-      description: string;
-    };
-    /** @description 任务执行步骤 */
-    AgentTaskStep: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      /** @description 工具名称 */
-      name: string;
-      /** @description 步骤启动时间 */
-      createAt: string;
-      /** @description 步骤输入类型(human,ai,tool) */
-      inputType?: string;
-      /** @description 步骤输入 */
-      input: string;
-      /** @description 步骤输出 */
-      output: string;
-      /** @description 是否是最终步骤 */
-      isFinal?: boolean;
-      /** @description 步骤执行原因 */
-      reason: string;
-    };
-    DocumentList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["Document"][];
-    };
-    /** @description 研究输出(目前写死为调用社交媒体) */
-    ResearchResponse: {
-      /** @description 研究结果 */
-      output: string;
-    };
-    Prompt: {
-      metadata: components["schemas"]["APIResourceMeta"];
-      title: string;
-      content: string;
-      tags: string[];
-    };
-    AssisantList: {
-      pagination?: components["schemas"]["PaginationResponse"];
-      rows?: components["schemas"]["Assisant"][];
-    };
-    PostListRequest: {
-      /** @description The site id */
-      siteId?: string;
-      hostName?: string;
-    };
-    BulkCreateEventResponse: components["schemas"]["Events"];
-    CreateSiteResponse: components["schemas"]["Site"];
-    CreatePostResponse: components["schemas"]["Post"];
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    schemas: {
+        APIMetaAuth: {
+            /**
+             * @description the supported types of authentication
+             * @example [
+             *       "basic",
+             *       "google"
+             *     ]
+             */
+            schemes?: string[];
+        };
+        APIMetaPosthog: {
+            /**
+             * @description the PostHog API key
+             * @example phk_1234567890abcdef
+             */
+            apiKey?: string;
+            /**
+             * @description the PostHog API host
+             * @example https://posthog.example.com
+             */
+            apiHost?: string;
+        };
+        APIMeta: {
+            auth?: components["schemas"]["APIMetaAuth"];
+            /**
+             * @description the Pylon app ID for usepylon.com chat support
+             * @example 12345678-1234-1234-1234-123456789012
+             */
+            pylonAppId?: string;
+            posthog?: components["schemas"]["APIMetaPosthog"];
+            /**
+             * @description whether or not users can sign up for this instance
+             * @example true
+             */
+            allowSignup?: boolean;
+            /**
+             * @description whether or not users can invite other users to this instance
+             * @example true
+             */
+            allowInvites?: boolean;
+            /**
+             * @description whether or not users can create new tenants
+             * @example true
+             */
+            allowCreateTenant?: boolean;
+            /**
+             * @description whether or not users can change their password
+             * @example true
+             */
+            allowChangePassword?: boolean;
+        };
+        APIError: {
+            /**
+             * Format: uint64
+             * @description a custom Hatchet error code
+             * @example 1400
+             */
+            code?: number;
+            /**
+             * @description the field that this error is associated with, if applicable
+             * @example name
+             */
+            field?: string;
+            /**
+             * @description a description for this error
+             * @example A descriptive error message
+             */
+            description: string;
+            /**
+             * @description a link to the documentation for this error, if it exists
+             * @example github.com/hatchet-dev/hatchet
+             */
+            docs_link?: string;
+        };
+        APIErrors: {
+            errors: components["schemas"]["APIError"][];
+        };
+        APIMetaIntegration: {
+            /**
+             * @description the name of the integration
+             * @example github
+             */
+            name: string;
+            /** @description whether this integration is enabled on the instance */
+            enabled: boolean;
+        };
+        ListAPIMetaIntegration: components["schemas"]["APIMetaIntegration"][];
+        UserLoginRequest: {
+            /**
+             * Format: email
+             * @description The email address of the user.
+             */
+            email: string;
+            /** @description The password of the user. */
+            password: string;
+        };
+        APIResourceMeta: {
+            /**
+             * @description the id of this resource, in UUID format
+             * @example bb214807-246e-43a5-a25d-41761d1cff9e
+             */
+            id: string;
+            /**
+             * Format: date-time
+             * @description the time that this resource was created
+             * @example 2022-12-13T15:06:48.888358-05:00
+             */
+            createdAt: string;
+            /**
+             * Format: date-time
+             * @description the time that this resource was last updated
+             * @example 2022-12-13T15:06:48.888358-05:00
+             */
+            updatedAt: string;
+        };
+        User: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description The display name of the user. */
+            name?: string;
+            /**
+             * Format: email
+             * @description The email address of the user.
+             */
+            email: string;
+            /** @description Whether the user has verified their email address. */
+            emailVerified: boolean;
+            /** @description Whether the user has a password set. */
+            hasPassword?: boolean;
+            /** @description A hash of the user's email address for use with Pylon Support Chat */
+            emailHash?: string;
+            /** @description The user's token for use with Pylon Support Chat */
+            userToken?: string;
+        };
+        /** @example {
+         *       "next_page": 3,
+         *       "num_pages": 10,
+         *       "current_page": 2
+         *     } */
+        PaginationResponse: {
+            /**
+             * Format: int64
+             * @description the current page
+             * @example 2
+             */
+            current_page?: number;
+            /**
+             * Format: int64
+             * @description the next page
+             * @example 3
+             */
+            next_page?: number;
+            /**
+             * Format: int64
+             * @description the total number of pages for listing
+             * @example 10
+             */
+            num_pages?: number;
+        };
+        SNSIntegration: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /**
+             * Format: uuid
+             * @description The unique identifier for the tenant that the SNS integration belongs to.
+             */
+            tenantId: string;
+            /** @description The Amazon Resource Name (ARN) of the SNS topic. */
+            topicArn: string;
+            /** @description The URL to send SNS messages to. */
+            ingestUrl?: string;
+        };
+        ListSNSIntegrations: {
+            pagination: components["schemas"]["PaginationResponse"];
+            rows: components["schemas"]["SNSIntegration"][];
+        };
+        CreateSNSIntegrationRequest: {
+            /** @description The Amazon Resource Name (ARN) of the SNS topic. */
+            topicArn: string;
+        };
+        TenantAlertEmailGroup: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description A list of emails for users */
+            emails: string[];
+        };
+        TenantAlertEmailGroupList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["TenantAlertEmailGroup"][];
+        };
+        CreateTenantAlertEmailGroupRequest: {
+            /** @description A list of emails for users */
+            emails: string[];
+        };
+        /** @enum {string} */
+        TenantResource: "WORKER" | "EVENT" | "WORKFLOW_RUN" | "CRON" | "SCHEDULE";
+        TenantResourceLimit: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description The resource associated with this limit. */
+            resource: components["schemas"]["TenantResource"];
+            /** @description The limit associated with this limit. */
+            limitValue: number;
+            /** @description The alarm value associated with this limit to warn of approaching limit value. */
+            alarmValue?: number;
+            /** @description The current value associated with this limit. */
+            value: number;
+            /** @description The meter window for the limit. (i.e. 1 day, 1 week, 1 month) */
+            window?: string;
+            /**
+             * Format: date-time
+             * @description The last time the limit was refilled.
+             */
+            lastRefill?: string;
+        };
+        TenantResourcePolicy: {
+            /** @description A list of resource limits for the tenant. */
+            limits: components["schemas"]["TenantResourceLimit"][];
+        };
+        UpdateTenantAlertEmailGroupRequest: {
+            /** @description A list of emails for users */
+            emails: string[];
+        };
+        SlackWebhook: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /**
+             * Format: uuid
+             * @description The unique identifier for the tenant that the SNS integration belongs to.
+             */
+            tenantId: string;
+            /** @description The team name associated with this slack webhook. */
+            teamName: string;
+            /** @description The team id associated with this slack webhook. */
+            teamId: string;
+            /** @description The channel name associated with this slack webhook. */
+            channelName: string;
+            /** @description The channel id associated with this slack webhook. */
+            channelId: string;
+        };
+        ListSlackWebhooks: {
+            pagination: components["schemas"]["PaginationResponse"];
+            rows: components["schemas"]["SlackWebhook"][];
+        };
+        UserChangePasswordRequest: {
+            /** @description The password of the user. */
+            password: string;
+            /** @description The new password for the user. */
+            newPassword: string;
+        };
+        UserRegisterRequest: {
+            /** @description The name of the user. */
+            name: string;
+            /**
+             * Format: email
+             * @description The email address of the user.
+             */
+            email: string;
+            /** @description The password of the user. */
+            password: string;
+        };
+        UserTenantPublic: {
+            /**
+             * Format: email
+             * @description The email address of the user.
+             */
+            email: string;
+            /** @description The display name of the user. */
+            name?: string;
+        };
+        /** @enum {string} */
+        TenantMemberRole: "OWNER" | "ADMIN" | "MEMBER";
+        Tenant: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description The name of the tenant. */
+            name: string;
+            /** @description The slug of the tenant. */
+            slug: string;
+            /** @description Whether the tenant has opted out of analytics. */
+            analyticsOptOut?: boolean;
+            /** @description Whether to alert tenant members. */
+            alertMemberEmails?: boolean;
+        };
+        TenantMember: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description The user associated with this tenant member. */
+            user: components["schemas"]["UserTenantPublic"];
+            /** @description The role of the user in the tenant. */
+            role: components["schemas"]["TenantMemberRole"];
+            /** @description The tenant associated with this tenant member. */
+            tenant?: components["schemas"]["Tenant"];
+        };
+        UserTenantMembershipsList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["TenantMember"][];
+        };
+        TenantInvite: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description The email of the user to invite. */
+            email: string;
+            /** @description The role of the user in the tenant. */
+            role: components["schemas"]["TenantMemberRole"];
+            /** @description The tenant id associated with this tenant invite. */
+            tenantId: string;
+            /** @description The tenant name for the tenant. */
+            tenantName?: string;
+            /**
+             * Format: date-time
+             * @description The time that this invite expires.
+             */
+            expires: string;
+        };
+        TenantInviteList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["TenantInvite"][];
+        };
+        AcceptInviteRequest: {
+            /** @example bb214807-246e-43a5-a25d-41761d1cff9e */
+            invite: string;
+        };
+        RejectInviteRequest: {
+            /** @example bb214807-246e-43a5-a25d-41761d1cff9e */
+            invite: string;
+        };
+        CreateTenantRequest: {
+            /** @description The name of the tenant. */
+            name: string;
+            /** @description The slug of the tenant. */
+            slug: string;
+        };
+        UpdateTenantRequest: {
+            /** @description The name of the tenant. */
+            name?: string;
+            /** @description Whether the tenant has opted out of analytics. */
+            analyticsOptOut?: boolean;
+            /** @description Whether to alert tenant members. */
+            alertMemberEmails?: boolean;
+            /** @description Whether to send alerts when workflow runs fail. */
+            enableWorkflowRunFailureAlerts?: boolean;
+            /** @description Whether to enable alerts when tokens are approaching expiration. */
+            enableExpiringTokenAlerts?: boolean;
+            /** @description Whether to enable alerts when tenant resources are approaching limits. */
+            enableTenantResourceLimitAlerts?: boolean;
+            /** @description The max frequency at which to alert. */
+            maxAlertingFrequency?: string;
+        };
+        TenantAlertingSettings: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description Whether to alert tenant members. */
+            alertMemberEmails?: boolean;
+            /** @description Whether to send alerts when workflow runs fail. */
+            enableWorkflowRunFailureAlerts?: boolean;
+            /** @description Whether to enable alerts when tokens are approaching expiration. */
+            enableExpiringTokenAlerts?: boolean;
+            /** @description Whether to enable alerts when tenant resources are approaching limits. */
+            enableTenantResourceLimitAlerts?: boolean;
+            /** @description The max frequency at which to alert. */
+            maxAlertingFrequency: string;
+            /**
+             * Format: date-time
+             * @description The last time an alert was sent.
+             */
+            lastAlertedAt?: string;
+        };
+        CreateTenantInviteRequest: {
+            /** @description The email of the user to invite. */
+            email: string;
+            /** @description The role of the user in the tenant. */
+            role: components["schemas"]["TenantMemberRole"];
+        };
+        UpdateTenantInviteRequest: {
+            /** @description The role of the user in the tenant. */
+            role: components["schemas"]["TenantMemberRole"];
+        };
+        APIToken: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description The name of the API token. */
+            name: string;
+            /**
+             * Format: date-time
+             * @description When the API token expires.
+             */
+            expiresAt: string;
+        };
+        ListAPITokensResponse: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["APIToken"][];
+        };
+        CreateAPITokenRequest: {
+            /** @description A name for the API token. */
+            name: string;
+            /** @description The duration for which the token is valid. */
+            expiresIn?: string;
+        };
+        CreateAPITokenResponse: {
+            /** @description The API token. */
+            token: string;
+        };
+        /** @description A workflow ID. */
+        WorkflowID: string;
+        QueueMetrics: {
+            /** @description The number of items in the queue. */
+            numQueued: number;
+            /** @description The number of items running. */
+            numRunning: number;
+            /** @description The number of items pending. */
+            numPending: number;
+        };
+        TenantQueueMetrics: {
+            /** @description The total queue metrics. */
+            total?: components["schemas"]["QueueMetrics"];
+            workflow?: {
+                [key: string]: components["schemas"]["QueueMetrics"];
+            };
+            queues?: {
+                [key: string]: number;
+            };
+        };
+        TenantStepRunQueueMetrics: {
+            queues?: {
+                [key: string]: number;
+            };
+        };
+        /** @description The key for the event. */
+        EventKey: string;
+        /** @enum {string} */
+        WorkflowRunStatus: "PENDING" | "RUNNING" | "SUCCEEDED" | "FAILED" | "CANCELLED" | "QUEUED";
+        WorkflowRunStatusList: components["schemas"]["WorkflowRunStatus"][];
+        EventSearch: string;
+        /** @enum {string} */
+        EventOrderByField: "createdAt";
+        /** @enum {string} */
+        EventOrderByDirection: "asc" | "desc";
+        EventWorkflowRunSummary: {
+            /**
+             * Format: int64
+             * @description The number of pending runs.
+             */
+            pending?: number;
+            /**
+             * Format: int64
+             * @description The number of running runs.
+             */
+            running?: number;
+            /**
+             * Format: int64
+             * @description The number of queued runs.
+             */
+            queued?: number;
+            /**
+             * Format: int64
+             * @description The number of succeeded runs.
+             */
+            succeeded?: number;
+            /**
+             * Format: int64
+             * @description The number of failed runs.
+             */
+            failed?: number;
+        };
+        Event: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description The key for the event. */
+            key: string;
+            /** @description The tenant associated with this event. */
+            tenant?: components["schemas"]["Tenant"];
+            /** @description The ID of the tenant associated with this event. */
+            tenantId: string;
+            /** @description The workflow run summary for this event. */
+            workflowRunSummary?: components["schemas"]["EventWorkflowRunSummary"];
+            /** @description Additional metadata for the event. */
+            additionalMetadata?: Record<string, never>;
+        };
+        EventList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["Event"][];
+        };
+        CreateEventRequest: {
+            /** @description The key for the event. */
+            key: string;
+            /** @description The data for the event. */
+            data: Record<string, never>;
+            /** @description Additional metadata for the event. */
+            additionalMetadata?: Record<string, never>;
+        };
+        BulkCreateEventRequest: {
+            events: components["schemas"]["CreateEventRequest"][];
+        };
+        Events: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description The events. */
+            events: components["schemas"]["Event"][];
+        };
+        ReplayEventRequest: {
+            eventIds: string[];
+        };
+        CancelEventRequest: {
+            eventIds: string[];
+        };
+        /** @enum {string} */
+        RateLimitOrderByField: "key" | "value" | "limitValue";
+        /** @enum {string} */
+        RateLimitOrderByDirection: "asc" | "desc";
+        RateLimit: {
+            /** @description The key for the rate limit. */
+            key: string;
+            /** @description The ID of the tenant associated with this rate limit. */
+            tenantId: string;
+            /** @description The maximum number of requests allowed within the window. */
+            limitValue: number;
+            /** @description The current number of requests made within the window. */
+            value: number;
+            /** @description The window of time in which the limitValue is enforced. */
+            window: string;
+            /**
+             * Format: date-time
+             * @description The last time the rate limit was refilled.
+             * @example 2022-12-13T15:06:48.888358-05:00
+             */
+            lastRefill: string;
+        };
+        RateLimitList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["RateLimit"][];
+        };
+        TenantMemberList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["TenantMember"][];
+        };
+        EventData: {
+            /** @description The data for the event (JSON bytes). */
+            data: string;
+        };
+        EventKeyList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["EventKey"][];
+        };
+        Workflow: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description The name of the workflow. */
+            name: string;
+            /** @description The description of the workflow. */
+            description?: string;
+            /** @description Whether the workflow is paused. */
+            isPaused?: boolean;
+            versions?: components["schemas"]["WorkflowVersionMeta"][];
+            /** @description The tags of the workflow. */
+            tags?: components["schemas"]["WorkflowTag"][];
+            /** @description The jobs of the workflow. */
+            jobs?: components["schemas"]["Job"][];
+        };
+        WorkflowVersionMeta: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description The version of the workflow. */
+            version: string;
+            /** Format: int32 */
+            order: number;
+            workflowId: string;
+            workflow?: components["schemas"]["Workflow"];
+        };
+        WorkflowTag: {
+            /** @description The name of the workflow. */
+            name: string;
+            /** @description The description of the workflow. */
+            color: string;
+        };
+        Step: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description The readable id of the step. */
+            readableId: string;
+            tenantId: string;
+            jobId: string;
+            action: string;
+            /** @description The timeout of the step. */
+            timeout?: string;
+            children?: string[];
+            parents?: string[];
+        };
+        Job: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            tenantId: string;
+            versionId: string;
+            name: string;
+            /** @description The description of the job. */
+            description?: string;
+            steps: components["schemas"]["Step"][];
+            /** @description The timeout of the job. */
+            timeout?: string;
+        };
+        WorkflowList: {
+            metadata?: components["schemas"]["APIResourceMeta"];
+            rows?: components["schemas"]["Workflow"][];
+            pagination?: components["schemas"]["PaginationResponse"];
+        };
+        /** @enum {string} */
+        ScheduledWorkflowsOrderByField: "triggerAt" | "createdAt";
+        /** @enum {string} */
+        WorkflowRunOrderByDirection: "ASC" | "DESC";
+        /** @enum {string} */
+        ScheduledRunStatus: "PENDING" | "RUNNING" | "SUCCEEDED" | "FAILED" | "CANCELLED" | "QUEUED" | "SCHEDULED";
+        ScheduledWorkflows: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            tenantId: string;
+            workflowVersionId: string;
+            workflowId: string;
+            workflowName: string;
+            /** Format: date-time */
+            triggerAt: string;
+            input?: {
+                [key: string]: unknown;
+            };
+            additionalMetadata?: {
+                [key: string]: unknown;
+            };
+            /** Format: date-time */
+            workflowRunCreatedAt?: string;
+            workflowRunName?: string;
+            workflowRunStatus?: components["schemas"]["WorkflowRunStatus"];
+            /**
+             * Format: uuid
+             * @example bb214807-246e-43a5-a25d-41761d1cff9e
+             */
+            workflowRunId?: string;
+        };
+        ScheduledWorkflowsList: {
+            rows?: components["schemas"]["ScheduledWorkflows"][];
+            pagination?: components["schemas"]["PaginationResponse"];
+        };
+        /** @enum {string} */
+        CronWorkflowsOrderByField: "createdAt";
+        CronWorkflows: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            tenantId: string;
+            workflowVersionId: string;
+            workflowId: string;
+            workflowName: string;
+            cron: string;
+            input?: {
+                [key: string]: unknown;
+            };
+            additionalMetadata?: {
+                [key: string]: unknown;
+            };
+        };
+        CronWorkflowsList: {
+            rows?: components["schemas"]["CronWorkflows"][];
+            pagination?: components["schemas"]["PaginationResponse"];
+        };
+        WorkflowRunsCancelRequest: {
+            workflowRunIds: string[];
+        };
+        WorkflowUpdateRequest: {
+            /** @description Whether the workflow is paused. */
+            isPaused?: boolean;
+        };
+        /** @enum {string} */
+        ConcurrencyLimitStrategy: "CANCEL_IN_PROGRESS" | "DROP_NEWEST" | "QUEUE_NEWEST" | "GROUP_ROUND_ROBIN";
+        WorkflowConcurrency: {
+            /**
+             * Format: int32
+             * @description The maximum number of concurrent workflow runs.
+             */
+            maxRuns: number;
+            /** @description The strategy to use when the concurrency limit is reached. */
+            limitStrategy: components["schemas"]["ConcurrencyLimitStrategy"];
+            /** @description An action which gets the concurrency group for the WorkflowRun. */
+            getConcurrencyGroup: string;
+        };
+        WorkflowTriggerEventRef: {
+            parent_id?: string;
+            event_key?: string;
+        };
+        WorkflowTriggerCronRef: {
+            parent_id?: string;
+            cron?: string;
+        };
+        WorkflowTriggers: {
+            metadata?: components["schemas"]["APIResourceMeta"];
+            workflow_version_id?: string;
+            tenant_id?: string;
+            events?: components["schemas"]["WorkflowTriggerEventRef"][];
+            crons?: components["schemas"]["WorkflowTriggerCronRef"][];
+        };
+        WorkflowVersion: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description The version of the workflow. */
+            version: string;
+            /** Format: int32 */
+            order: number;
+            workflowId: string;
+            /** @description The sticky strategy of the workflow. */
+            sticky?: string;
+            /**
+             * Format: int32
+             * @description The default priority of the workflow.
+             */
+            defaultPriority?: number;
+            workflow?: components["schemas"]["Workflow"];
+            concurrency?: components["schemas"]["WorkflowConcurrency"];
+            triggers?: components["schemas"]["WorkflowTriggers"];
+            scheduleTimeout?: string;
+            jobs?: components["schemas"]["Job"][];
+        };
+        TriggerWorkflowRunRequest: {
+            input: Record<string, never>;
+            additionalMetadata?: Record<string, never>;
+        };
+        WorkflowRun: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            tenantId: string;
+            workflowVersionId: string;
+            workflowVersion?: components["schemas"]["WorkflowVersion"];
+            status: components["schemas"]["WorkflowRunStatus"];
+            displayName?: string;
+            jobRuns?: components["schemas"]["JobRun"][];
+            triggeredBy: components["schemas"]["WorkflowRunTriggeredBy"];
+            input?: {
+                [key: string]: unknown;
+            };
+            error?: string;
+            /** Format: date-time */
+            startedAt?: string;
+            /** Format: date-time */
+            finishedAt?: string;
+            /** @example 1000 */
+            duration?: number;
+            /**
+             * Format: uuid
+             * @example bb214807-246e-43a5-a25d-41761d1cff9e
+             */
+            parentId?: string;
+            /**
+             * Format: uuid
+             * @example bb214807-246e-43a5-a25d-41761d1cff9e
+             */
+            parentStepRunId?: string;
+            additionalMetadata?: {
+                [key: string]: unknown;
+            };
+        };
+        JobRun: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            tenantId: string;
+            workflowRunId: string;
+            workflowRun?: components["schemas"]["WorkflowRun"];
+            jobId: string;
+            job?: components["schemas"]["Job"];
+            tickerId?: string;
+            stepRuns?: components["schemas"]["StepRun"][];
+            status: components["schemas"]["JobRunStatus"];
+            result?: Record<string, never>;
+            /** Format: date-time */
+            startedAt?: string;
+            /** Format: date-time */
+            finishedAt?: string;
+            /** Format: date-time */
+            timeoutAt?: string;
+            /** Format: date-time */
+            cancelledAt?: string;
+            cancelledReason?: string;
+            cancelledError?: string;
+        };
+        /** @enum {string} */
+        StepRunStatus: "PENDING" | "PENDING_ASSIGNMENT" | "ASSIGNED" | "RUNNING" | "SUCCEEDED" | "FAILED" | "CANCELLED" | "CANCELLING";
+        StepRun: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            tenantId: string;
+            jobRunId: string;
+            jobRun?: components["schemas"]["JobRun"];
+            stepId: string;
+            step?: components["schemas"]["Step"];
+            childWorkflowsCount?: number;
+            parents?: string[];
+            childWorkflowRuns?: string[];
+            workerId?: string;
+            input?: string;
+            output?: string;
+            status: components["schemas"]["StepRunStatus"];
+            /** Format: date-time */
+            requeueAfter?: string;
+            result?: Record<string, never>;
+            error?: string;
+            /** Format: date-time */
+            startedAt?: string;
+            startedAtEpoch?: number;
+            /** Format: date-time */
+            finishedAt?: string;
+            finishedAtEpoch?: number;
+            /** Format: date-time */
+            timeoutAt?: string;
+            timeoutAtEpoch?: number;
+            /** Format: date-time */
+            cancelledAt?: string;
+            cancelledAtEpoch?: number;
+            cancelledReason?: string;
+            cancelledError?: string;
+        };
+        /** @enum {string} */
+        JobRunStatus: "PENDING" | "RUNNING" | "SUCCEEDED" | "FAILED" | "CANCELLED";
+        WorkflowRunTriggeredBy: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            parentWorkflowRunId?: string;
+            eventId?: string;
+            cronParentId?: string;
+            cronSchedule?: string;
+        };
+        WorkflowMetrics: {
+            /** @description The number of runs for a specific group key (passed via filter) */
+            groupKeyRunsCount?: number;
+            /** @description The total number of concurrency group keys. */
+            groupKeyCount?: number;
+        };
+        /** @enum {string} */
+        LogLineLevel: "DEBUG" | "INFO" | "WARN" | "ERROR";
+        LogLineLevelField: components["schemas"]["LogLineLevel"][];
+        LogLineSearch: string;
+        /** @enum {string} */
+        LogLineOrderByField: "createdAt";
+        /** @enum {string} */
+        LogLineOrderByDirection: "asc" | "desc";
+        LogLine: {
+            /**
+             * Format: date-time
+             * @description The creation date of the log line.
+             */
+            createdAt: string;
+            /** @description The log message. */
+            message: string;
+            /** @description The log metadata. */
+            metadata: Record<string, never>;
+        };
+        LogLineList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["LogLine"][];
+        };
+        /** @enum {string} */
+        StepRunEventReason: "REQUEUED_NO_WORKER" | "REQUEUED_RATE_LIMIT" | "SCHEDULING_TIMED_OUT" | "ASSIGNED" | "STARTED" | "ACKNOWLEDGED" | "FINISHED" | "FAILED" | "RETRYING" | "CANCELLED" | "TIMEOUT_REFRESHED" | "REASSIGNED" | "TIMED_OUT" | "SLOT_RELEASED" | "RETRIED_BY_USER" | "WORKFLOW_RUN_GROUP_KEY_SUCCEEDED" | "WORKFLOW_RUN_GROUP_KEY_FAILED";
+        /** @enum {string} */
+        StepRunEventSeverity: "INFO" | "WARNING" | "CRITICAL";
+        StepRunEvent: {
+            id: number;
+            /** Format: date-time */
+            timeFirstSeen: string;
+            /** Format: date-time */
+            timeLastSeen: string;
+            stepRunId?: string;
+            workflowRunId?: string;
+            reason: components["schemas"]["StepRunEventReason"];
+            severity: components["schemas"]["StepRunEventSeverity"];
+            message: string;
+            count: number;
+            data?: Record<string, never>;
+        };
+        StepRunEventList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["StepRunEvent"][];
+        };
+        StepRunArchive: {
+            stepRunId: string;
+            order: number;
+            input?: string;
+            output?: string;
+            /** Format: date-time */
+            startedAt?: string;
+            error?: string;
+            retryCount: number;
+            /** Format: date-time */
+            createdAt: string;
+            startedAtEpoch?: number;
+            /** Format: date-time */
+            finishedAt?: string;
+            finishedAtEpoch?: number;
+            /** Format: date-time */
+            timeoutAt?: string;
+            timeoutAtEpoch?: number;
+            /** Format: date-time */
+            cancelledAt?: string;
+            cancelledAtEpoch?: number;
+            cancelledReason?: string;
+            cancelledError?: string;
+        };
+        StepRunArchiveList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["StepRunArchive"][];
+        };
+        WorkflowWorkersCount: {
+            freeSlotCount?: number;
+            maxSlotCount?: number;
+            workflowRunId?: string;
+        };
+        /** @enum {string} */
+        WorkflowKind: "FUNCTION" | "DURABLE" | "DAG";
+        WorkflowKindList: components["schemas"]["WorkflowKind"][];
+        /** @enum {string} */
+        WorkflowRunOrderByField: "createdAt" | "startedAt" | "finishedAt" | "duration";
+        WorkflowRunList: {
+            rows?: components["schemas"]["WorkflowRun"][];
+            pagination?: components["schemas"]["PaginationResponse"];
+        };
+        ReplayWorkflowRunsRequest: {
+            workflowRunIds: string[];
+        };
+        ReplayWorkflowRunsResponse: {
+            workflowRuns: components["schemas"]["WorkflowRun"][];
+        };
+        WorkflowRunsMetricsCounts: {
+            PENDING?: number;
+            RUNNING?: number;
+            SUCCEEDED?: number;
+            FAILED?: number;
+            QUEUED?: number;
+        };
+        WorkflowRunsMetrics: {
+            counts?: components["schemas"]["WorkflowRunsMetricsCounts"];
+        };
+        WorkflowRunShape: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            tenantId: string;
+            workflowId?: string;
+            workflowVersionId: string;
+            workflowVersion?: components["schemas"]["WorkflowVersion"];
+            status: components["schemas"]["WorkflowRunStatus"];
+            displayName?: string;
+            jobRuns?: components["schemas"]["JobRun"][];
+            triggeredBy: components["schemas"]["WorkflowRunTriggeredBy"];
+            input?: {
+                [key: string]: unknown;
+            };
+            error?: string;
+            /** Format: date-time */
+            startedAt?: string;
+            /** Format: date-time */
+            finishedAt?: string;
+            /** @example 1000 */
+            duration?: number;
+            /**
+             * Format: uuid
+             * @example bb214807-246e-43a5-a25d-41761d1cff9e
+             */
+            parentId?: string;
+            /**
+             * Format: uuid
+             * @example bb214807-246e-43a5-a25d-41761d1cff9e
+             */
+            parentStepRunId?: string;
+            additionalMetadata?: {
+                [key: string]: unknown;
+            };
+        };
+        RerunStepRunRequest: {
+            input: Record<string, never>;
+        };
+        /** @enum {string} */
+        WorkerType: "SELFHOSTED" | "MANAGED" | "WEBHOOK";
+        SemaphoreSlots: {
+            /**
+             * Format: uuid
+             * @description The step run id.
+             */
+            stepRunId: string;
+            /** @description The action id. */
+            actionId: string;
+            /**
+             * Format: date-time
+             * @description The time this slot was started.
+             */
+            startedAt?: string;
+            /**
+             * Format: date-time
+             * @description The time this slot will timeout.
+             */
+            timeoutAt?: string;
+            /**
+             * Format: uuid
+             * @description The workflow run id.
+             */
+            workflowRunId: string;
+            status: components["schemas"]["StepRunStatus"];
+        };
+        RecentStepRuns: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description The action id. */
+            actionId: string;
+            status: components["schemas"]["StepRunStatus"];
+            /** Format: date-time */
+            startedAt?: string;
+            /** Format: date-time */
+            finishedAt?: string;
+            /** Format: date-time */
+            cancelledAt?: string;
+            /** Format: uuid */
+            workflowRunId: string;
+        };
+        WorkerLabel: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description The key of the label. */
+            key: string;
+            /** @description The value of the label. */
+            value?: string;
+        };
+        /** @enum {string} */
+        WorkerRuntimeSDKs: "GOLANG" | "PYTHON" | "TYPESCRIPT";
+        WorkerRuntimeInfo: {
+            sdkVersion?: string;
+            language?: components["schemas"]["WorkerRuntimeSDKs"];
+            languageVersion?: string;
+            os?: string;
+            runtimeExtra?: string;
+        };
+        Worker: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description The name of the worker. */
+            name: string;
+            type: components["schemas"]["WorkerType"];
+            /**
+             * Format: date-time
+             * @description The time this worker last sent a heartbeat.
+             * @example 2022-12-13T15:06:48.888358-05:00
+             */
+            lastHeartbeatAt?: string;
+            /**
+             * Format: date-time
+             * @description The time this worker last sent a heartbeat.
+             * @example 2022-12-13T15:06:48.888358-05:00
+             */
+            lastListenerEstablished?: string;
+            /** @description The actions this worker can perform. */
+            actions?: string[];
+            /** @description The semaphore slot state for the worker. */
+            slots?: components["schemas"]["SemaphoreSlots"][];
+            /** @description The recent step runs for the worker. */
+            recentStepRuns?: components["schemas"]["RecentStepRuns"][];
+            /**
+             * @description The status of the worker.
+             * @enum {string}
+             */
+            status?: "ACTIVE" | "INACTIVE" | "PAUSED";
+            /** @description The maximum number of runs this worker can execute concurrently. */
+            maxRuns?: number;
+            /** @description The number of runs this worker can execute concurrently. */
+            availableRuns?: number;
+            /**
+             * Format: uuid
+             * @description the id of the assigned dispatcher, in UUID format
+             * @example bb214807-246e-43a5-a25d-41761d1cff9e
+             */
+            dispatcherId?: string;
+            /** @description The current label state of the worker. */
+            labels?: components["schemas"]["WorkerLabel"][];
+            /** @description The webhook URL for the worker. */
+            webhookUrl?: string;
+            /**
+             * Format: uuid
+             * @description The webhook ID for the worker.
+             */
+            webhookId?: string;
+            runtimeInfo?: components["schemas"]["WorkerRuntimeInfo"];
+        };
+        WorkerList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["Worker"][];
+        };
+        UpdateWorkerRequest: {
+            /** @description Whether the worker is paused and cannot accept new runs. */
+            isPaused?: boolean;
+        };
+        WebhookWorker: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description The name of the webhook worker. */
+            name: string;
+            /** @description The webhook url. */
+            url: string;
+        };
+        WebhookWorkerListResponse: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["WebhookWorker"][];
+        };
+        WebhookWorkerCreateRequest: {
+            /** @description The name of the webhook worker. */
+            name: string;
+            /** @description The webhook url. */
+            url: string;
+            /** @description The secret key for validation. If not provided, a random secret will be generated. */
+            secret?: string;
+        };
+        WebhookWorkerCreated: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description The name of the webhook worker. */
+            name: string;
+            /** @description The webhook url. */
+            url: string;
+            /** @description The secret key for validation. */
+            secret: string;
+        };
+        /** @enum {unknown} */
+        WebhookWorkerRequestMethod: "GET" | "POST" | "PUT";
+        WebhookWorkerRequest: {
+            /**
+             * Format: date-time
+             * @description The date and time the request was created.
+             */
+            created_at: string;
+            /** @description The HTTP method used for the request. */
+            method: components["schemas"]["WebhookWorkerRequestMethod"];
+            /** @description The HTTP status code of the response. */
+            statusCode: number;
+        };
+        WebhookWorkerRequestListResponse: {
+            /** @description The list of webhook requests. */
+            requests?: components["schemas"]["WebhookWorkerRequest"][];
+        };
+        /** @enum {string} */
+        ChatMessageRole: "system" | "user" | "assistant";
+        /** @description 单个聊天消息 */
+        ChatMessage: {
+            id: string;
+            role: components["schemas"]["ChatMessageRole"];
+            content: string;
+            createdAt: string;
+            threadId: string;
+        };
+        ChatReq: {
+            threadId?: string;
+            profile?: string;
+            messages: components["schemas"]["ChatMessage"][];
+            /** @description 附加的表单数据 */
+            params?: Record<string, never>;
+        };
+        /** @description 聊天消息列表 */
+        ChatMessages: {
+            messages?: components["schemas"]["ChatMessage"][];
+        };
+        ChatModel: {
+            id: string;
+            label: string;
+            description?: string;
+            icon?: string;
+            apiIdentifier?: string;
+        };
+        ChatModelList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["ChatModel"][];
+        };
+        ChatCompletionsReq: {
+            model?: string;
+            messages?: components["schemas"]["ChatMessage"][];
+        };
+        WorkerConfig: {
+            workerToken?: string;
+        };
+        /** @description 博客站点生成基本配置 */
+        BlogGenConfig: {
+            /** @description 站点名称. */
+            name: string;
+            /** @description 博客站点介绍. */
+            description: string;
+            /** @description 站点关键字列表 */
+            seo_keywords?: string;
+            /** @description 站点建议日更帖子数量 */
+            dayPublishCountHint?: number;
+        };
+        /** @description worker 启动时所需的关键配置 */
+        mtmai_WorkerConfig: {
+            /** @description token */
+            token?: string;
+        };
+        BlogConfig: {
+            /** @description The number of posts to publish per day. */
+            dayPublishCount?: number;
+            /** @description The description of the blog. */
+            description?: string;
+        };
+        Blog: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            title: string;
+            description?: string;
+            /** @description The tenant associated with this tenant blog. */
+            tenant?: components["schemas"]["Tenant"];
+            config?: components["schemas"]["BlogConfig"];
+            /** @description The status of the blog. */
+            status?: string;
+            /** @description Whether the blog is enabled. */
+            enabled?: boolean;
+            /** @description The slug of the blog. */
+            slug?: string;
+        };
+        BlogList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["Blog"][];
+        };
+        CreateBlogRequest: {
+            /** @description blog title to create. */
+            title?: string;
+        };
+        UpdateBlogRequest: {
+            title: string;
+            description?: string;
+        };
+        /** @description site */
+        Site: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description site 标题 */
+            title: string;
+            /** @description site 描述 */
+            description: string;
+        };
+        SiteList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["Site"][];
+        };
+        /** Format: uuid */
+        TenantParameter: string;
+        CreateSiteRequest: {
+            /** @description site 标题 */
+            title: string;
+            /** @description site 描述 */
+            description: string;
+            /** @description 入站域名(指定绑定入站域名) */
+            host?: string;
+        };
+        UpdateSiteRequest: {
+            /** @description site 标题 */
+            title?: string;
+        };
+        /** @description site-host */
+        SiteHost: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description site-host 标题 */
+            title: string;
+            /** @description site-host 描述 */
+            description: string;
+            /** @description 绑定域名 */
+            host: string;
+        };
+        SiteHostList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["SiteHost"][];
+        };
+        CreateSiteHostRequest: {
+            /** @description 站点ID */
+            siteId: string;
+            /** @description site-host 标题 */
+            title: string;
+            /** @description site-host 描述 */
+            description: string;
+            /** @description 绑定域名 */
+            host: string;
+        };
+        Post: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            title: string;
+            /** @description The tenant associated with this tenant blog */
+            content: string;
+        };
+        PostList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["Post"][];
+        };
+        CreatePostRequest: {
+            title: string;
+            /** @description The tenant associated with this tenant blog. */
+            content: string;
+        };
+        ToolCallResult: {
+            /** @description 结果id */
+            id?: string;
+            /** @description 结果数据 */
+            data?: string;
+        };
+        OperataionGuideResponse: {
+            /** @description 详细的操作手册描述 */
+            message?: string;
+        };
+        WebSearchResult: {
+            /** @description 结果描述 */
+            message?: string;
+        };
+        Artifact: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            title: string;
+            /** @description The tenant associated with this tenant blog. */
+            state: Record<string, never>;
+            nextId?: string;
+            prevId?: string;
+        };
+        ArtifactList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["Artifact"][];
+        };
+        CreateArtifacttRequest: {
+            /**
+             * Format: uuid
+             * @description The blog id.
+             */
+            artId: string;
+            title: string;
+            /** @description The tenant associated with this tenant blog. */
+            state: Record<string, never>;
+        };
+        BaseState: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description 线程ID */
+            threadId?: string;
+            /** @description 聊天消息 */
+            messages: components["schemas"]["ChatMessage"][];
+        };
+        AssisantState: components["schemas"]["BaseState"] & {
+            /** @description 名称 */
+            name: string;
+            /** @description 描述 */
+            description: string;
+        };
+        /** @description llm config */
+        LlmConfig: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            base_url: string;
+            api_key: string;
+            /** @description llm model name */
+            model: string;
+        };
+        GenArticleState: components["schemas"]["BaseState"] & {
+            /** @description 关联的上级博客生成任务 */
+            blogTaskState?: components["schemas"]["BlogTaskState"];
+            /** @description 当前关联的主题 */
+            topic: string;
+            /** @description 关键提示语 */
+            prompt?: string;
+            /** @description 文章主标题 */
+            title?: string;
+            /** @description 文章副标题 */
+            subTitle?: string;
+            /** @description 文章大纲列表 */
+            oulines?: components["schemas"]["ArticleOutline"][];
+        };
+        BlogTaskState: components["schemas"]["BaseState"] & {
+            llm?: components["schemas"]["LlmConfig"];
+            /** @description 关键提示语 */
+            prompt?: string;
+            /** @description 博客站点功能定位描述 */
+            blogDescription: string;
+            /** @description 博客的SEO关键字 */
+            blogKeywords: string[];
+            /** @description 当前生成文章使用的主题 */
+            curTopicToGen?: string;
+            /** @description 当前正在生成的文章 */
+            curArticleState?: components["schemas"]["GenArticleState"];
+            /** @description 当前步骤描述 */
+            stepDescription?: string;
+            /** @description 运行状态 */
+            runningState?: string;
+            /**
+             * @description 已经完成的日更天子数量
+             * @default 0
+             */
+            dayPublishdCount: number;
+            /**
+             * @description 建议日更数
+             * @default 10
+             */
+            dayPublishCountHint: number;
+        };
+        /** @description 文章大纲 */
+        ArticleOutline: {
+            title: string;
+            /** @description 大纲描述 */
+            description?: string;
+        };
+        PostizChannel: {
+            /** @description 聊天消息 */
+            messages?: components["schemas"]["ChatMessage"][];
+            fresearch?: string;
+            orgId?: string;
+            hook?: string;
+            content?: string;
+            date?: string;
+            category?: string;
+            popularPosts?: string;
+            topic?: string;
+            isPicture?: boolean;
+            format?: string;
+            tone?: string;
+            question?: string;
+        };
+        PostizState: {
+            channel?: components["schemas"]["PostizChannel"];
+        };
+        TokenChunk: {
+            /** @description 消息ID */
+            id: string;
+            /** @description 消息内容 */
+            content: string;
+        };
+        EvtNodeStep: {
+            /** @description 节点名称 */
+            name: string;
+            /** @description 节点输入 */
+            input: string;
+        };
+        AgentState: components["schemas"]["AssisantState"] | components["schemas"]["GenArticleState"] | components["schemas"]["BlogTaskState"] | components["schemas"]["PostizState"] | components["schemas"]["TokenChunk"] | components["schemas"]["EvtNodeStep"];
+        /** @description agent 执行动作 */
+        AgentAction: {
+            /** @description 工具名称 */
+            Tool: string;
+            /** @description 工具输入 */
+            ToolInput: string;
+            /** @description 工具日志 */
+            Log: string;
+            /** @description 工具ID */
+            ToolID: string;
+        };
+        /** @description agent 执行步骤 */
+        AgentStep: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            Action: components["schemas"]["AgentAction"];
+            /** @description 步骤观察 */
+            Observation: string;
+        };
+        /** @description agent 完成 */
+        AgentFinish: {
+            /** @description 返回值 */
+            ReturnValues: Record<string, never>;
+            /** @description 日志 */
+            Log: string;
+        };
+        /** @description agent 节点输出 */
+        AgentNodeOutput: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description 是否是最终步骤 */
+            isFinal: boolean;
+            /** @description 更多步骤 */
+            moreSteps: components["schemas"]["AgentStep"][];
+            /** @description 输出 */
+            output: Record<string, never>;
+            /** @description 错误 */
+            error?: string;
+        };
+        AgentNode: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description agent 节点名称, 或者作为工具名称 */
+            title: string;
+            /** @description agent 节点描述, 或者作为工具描述 */
+            description: string;
+            /** @description 节点类型，决定了由哪个agent来进行调度 */
+            type?: string;
+            /** @description agent 的配置 */
+            Config?: Record<string, never>;
+            state?: components["schemas"]["AgentState"];
+            /** @description agent 节点执行步骤, 一般表示之前执行的步骤 */
+            steps: components["schemas"]["AgentStep"][];
+            finish?: components["schemas"]["AgentFinish"];
+            /** @description 上级节点 */
+            parentId?: string;
+            agentNodeOutput?: components["schemas"]["AgentNodeOutput"];
+            tools?: string;
+            /** @description 记忆ID，表示这个agent的记忆 */
+            memoryId?: string;
+            /** @description 输入 */
+            input?: string;
+            /** @description 输出 */
+            output?: string;
+        };
+        AgentNodeList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["AgentNode"][];
+        };
+        /** @description 创建agent节点请求 */
+        AgentNodeCreateRequest: {
+            /** @description agent 节点名称, 或者作为工具名称 */
+            title?: string;
+            /** @description agent 节点提示词 */
+            prompt: string;
+            /** @description agent 节点描述, 或者作为工具描述 */
+            description?: string;
+        };
+        /** @description 创建agent节点请求 */
+        AgentNodeUpdateRequest: {
+            /** @description agent 节点名称, 或者作为工具名称 */
+            title?: string;
+            /** @description agent 节点提示词 */
+            prompt: string;
+            /** @description agent 节点类型 */
+            type?: string;
+            /** @description agent 节点描述 */
+            description?: string;
+            /** @description agent 节点状态 */
+            state?: Record<string, never>;
+        };
+        /** @enum {string} */
+        FlowNames: "research" | "blogAuto" | "tenant" | "resourceAction" | "oneShotDemo";
+        WorkflowRunCommonInput: {
+            isStream: boolean;
+            threadId: string;
+        };
+        /** @description 研究输入(目前写死为调用社交媒体) */
+        ResearchRequest: components["schemas"]["WorkflowRunCommonInput"] & {
+            /** @description 详细描述要调研详情 */
+            input: string;
+        };
+        CrewAIParams: {
+            input?: string;
+        };
+        ScrapeGraphParams: {
+            input?: string;
+        };
+        /** @description 节点运行 */
+        NodeRunAction: {
+            /** @description 动作 */
+            action?: string;
+            /** @description 输入 */
+            input?: Record<string, never>;
+        };
+        /**
+         * @description 阅读级别
+         * @enum {string}
+         */
+        ReadingLevelOptions: "pirate" | "child" | "teenager" | "college" | "phd";
+        /**
+         * @description 工具内容长度,(文章,代码内容长度)
+         * @enum {string}
+         */
+        ArtifactLengthOptions: "shortest" | "short" | "long" | "longest";
+        /** @description agent运行节点请求 */
+        AgentNodeRunRequest: {
+            flowName: components["schemas"]["FlowNames"];
+            /** @description agent 节点ID(threadId) */
+            nodeId?: string;
+            /** @description 是否使用stream 传输事件 */
+            isStream?: boolean;
+            params: components["schemas"]["ResearchRequest"] | components["schemas"]["CrewAIParams"] | components["schemas"]["ScrapeGraphParams"];
+            config?: unknown;
+            /** @description 步骤限制(没用上) */
+            stepLimit?: number;
+            messages?: components["schemas"]["ChatMessage"][];
+            action?: components["schemas"]["NodeRunAction"];
+            /** @description 语言 */
+            language?: string;
+            /** @description 自定义快速动作ID */
+            customQuickActionId?: string;
+            /** @description 工件ID */
+            artifactId?: string;
+            /** @description 是否使用表情符号重新生成 */
+            regenerateWithEmojis?: boolean;
+            /** @description 阅读级别 */
+            readingLevel?: components["schemas"]["ReadingLevelOptions"];
+            /** @description 工具内容长度,(文章,代码内容长度) */
+            artifactLength?: components["schemas"]["ArtifactLengthOptions"];
+        };
+        /** @description agentnode run */
+        AgentNodeRun: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            title?: string;
+            description?: string;
+            state?: Record<string, never>;
+            workflowRunId: string;
+            nodeId: string;
+            input?: Record<string, never>;
+            output?: Record<string, never>;
+        };
+        FormField: {
+            name: string;
+            type: string;
+        };
+        SchemaForm: {
+            title: string;
+            description?: string;
+            fields: components["schemas"]["FormField"][];
+        };
+        AgentRunForm: {
+            form: components["schemas"]["SchemaForm"];
+        };
+        /** @description 文档 */
+        Document: {
+            /** @description 页面内容 */
+            PageContent: string;
+            /** @description 元数据 */
+            Metadata: Record<string, never>;
+            /** @description 分数 */
+            Score: number;
+        };
+        PromptList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["Artifact"][];
+        };
+        AssisantConfigurable: {
+            /** @description langgraph 中对应的 threadId */
+            threadId?: string;
+            /** @description langgraph 中对应的 checkpointId */
+            checkpointId?: string;
+        } & {
+            [key: string]: unknown;
+        };
+        AssisantConfig: {
+            /** @description 助手名称 */
+            name?: string;
+            tags?: string[];
+            /**
+             * @description 递归限制
+             * @default 10
+             */
+            recursion_limit: number;
+            configurable?: components["schemas"]["AssisantConfigurable"];
+        };
+        Assisant: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description 助手名称 */
+            name?: string;
+            updated_at?: string;
+            /** @description 如果后端使用 langgraph ，则返回 langgraph 的 graph_id */
+            graph_id?: string;
+            config?: components["schemas"]["AssisantConfig"];
+            tags: string[];
+        };
+        SubscribeRequest: {
+            /** @description 消息 */
+            protocol?: string;
+            /** @description 消息 */
+            runId?: string;
+            /** @description 消息 */
+            streamKey?: string;
+            /** @description 元数据 */
+            meta?: Record<string, never>;
+        };
+        CommonResult: {
+            Success: boolean;
+            Message: string;
+        };
+        FrontendConfig: {
+            /** @description Cookie access token */
+            cookieAccessToken: string;
+            /** @description Dashboard path */
+            dashPath: string;
+            /** @description Hot key debug */
+            hotKeyDebug: string;
+            /** @description 实验性质，默认租户的access token */
+            defaultTenantAccessToken: string;
+        };
+        DashSidebarItem: {
+            /** @description 名称 */
+            title: string;
+            /** @description url 例如/login */
+            url: string;
+            /** @description 图标 */
+            icon?: string;
+            /** @description 默认展开 */
+            defaultExpanded?: boolean;
+            /** @description 只允许超级管理员查看 */
+            adminOnly?: boolean;
+            children?: components["schemas"]["DashSidebarItem"][];
+        };
+        SiderbarConfig: {
+            /** @description logo */
+            logo?: string;
+            sideritems?: components["schemas"]["DashSidebarItem"][];
+        };
+        TenantList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["Tenant"][];
+        };
+        WorkflowVersionDefinition: {
+            /** @description The raw YAML definition of the workflow. */
+            rawDefinition: string;
+        };
+        CreatePullRequestFromStepRun: {
+            branchName: string;
+        };
+        StepRunDiff: {
+            key: string;
+            original: string;
+            modified: string;
+        };
+        GetStepRunDiffResponse: {
+            diffs: components["schemas"]["StepRunDiff"][];
+        };
+        /** @enum {string} */
+        PullRequestState: "open" | "closed";
+        PullRequest: {
+            repositoryOwner: string;
+            repositoryName: string;
+            pullRequestID: number;
+            pullRequestTitle: string;
+            pullRequestNumber: number;
+            pullRequestHeadBranch: string;
+            pullRequestBaseBranch: string;
+            pullRequestState: components["schemas"]["PullRequestState"];
+        };
+        ListPullRequestsResponse: {
+            pullRequests: components["schemas"]["PullRequest"][];
+        };
+        WebhookWorkerCreateResponse: {
+            worker?: components["schemas"]["WebhookWorkerCreated"];
+        };
+        ChatHistoryList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["ChatMessage"][];
+        };
+        /** @description crawai agent 定义 */
+        CrewAiAgent: {
+            /** @description name */
+            name: string;
+            /** @description role */
+            role: string;
+            /** @description role */
+            backstory: string;
+            /** @description goal */
+            goal: string;
+            /** @description maxRetryLimit */
+            maxRetryLimit?: number;
+            /** @description maxRpm */
+            maxRpm?: number;
+        };
+        /** @description 任务定义 */
+        CrewAiTask: {
+            /** @description 任务描述 */
+            description: string;
+            /** @description 期待输出 */
+            expectedOutput: string;
+            /** @description 任务输出json格式名称 */
+            outputJsonSchemaName?: string;
+            /** @description agent */
+            agent: string;
+        };
+        /** @description 调用 Agent 参数 */
+        CallAgent: {
+            /** @description 大语言模型 api 配置 */
+            llm?: components["schemas"]["LlmConfig"];
+            /** @description 输入参数 */
+            input: Record<string, never>;
+            /** @description agents 列表 */
+            agents: components["schemas"]["CrewAiAgent"][];
+            /** @description 任务列表 */
+            tasks: components["schemas"]["CrewAiTask"][];
+            /**
+             * @description 是否调试模式
+             * @default 0
+             */
+            debug: boolean;
+        };
+        /** @description 调用Agent的输出结果 */
+        CallAgentResult: {
+            data?: Record<string, never>;
+        };
+        /** @description topics 生成结果 */
+        GenTopicResult: {
+            /** @description 主题列表，按优先顺序，更好的更靠前 */
+            topics: string[];
+        };
+        /** @description 文章生成输入 */
+        GenArticleInput: {
+            topic: string;
+        };
+        /** @description 运行新任务的结果 */
+        RunNewTaskResponse: {
+            description?: string;
+        };
+        /**
+         * @description 可用的操作名称枚举：
+         *     - **startBlogTask**: 启动单个博客自动化操作任务
+         *     - **stopBlogTask**: 停止单个博客自动化操作任务
+         *
+         * @enum {string}
+         */
+        OperationEnum: "startBlogTask" | "stopBlogTask";
+        /** @description 根状态 */
+        RootConfig: {
+            /** @description token */
+            token?: string;
+        };
+        CreateBlogPostRequest: {
+            /**
+             * Format: uuid
+             * @description The blog id.
+             */
+            blogId: string;
+            /**
+             * Format: uuid
+             * @description The authord id.
+             */
+            authorId?: string;
+            title: string;
+            /** @description The tenant associated with this tenant blog. */
+            content: string;
+        };
+        PostOutline: {
+            /** @description post outline title */
+            title?: string;
+            /** @description post outline content */
+            content?: string;
+        };
+        PostState: {
+            /** @description post title */
+            title?: string;
+            /** @description post topic */
+            topic?: string;
+            /** @description post outlines */
+            outlines?: components["schemas"]["PostOutline"][];
+        };
+        BlogPost: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            title: string;
+            /** @description The tenant associated with this tenant blog */
+            content: string;
+            state?: components["schemas"]["PostState"];
+        };
+        BlogPostList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["BlogPost"][];
+        };
+        UpdatePostRequest: {
+            /**
+             * Format: uuid
+             * @description The blog id.
+             */
+            blogId: string;
+            /**
+             * Format: uuid
+             * @description The authord id.
+             */
+            authorId?: string;
+            title: string;
+            /** @description The tenant associated with this tenant blog. */
+            content: string;
+        };
+        /** @description agent 节点输入 */
+        AgentNodeInput: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description 输入 */
+            inputs: Record<string, never>;
+            /** @description 中间步骤 */
+            intermediateSteps?: components["schemas"]["AgentStep"][];
+        };
+        /** @description agent 任务工具 */
+        AgentTaskTool: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description 工具名称 */
+            name: string;
+            /** @description 工具描述 */
+            description: string;
+        };
+        /** @description 任务执行步骤 */
+        AgentTaskStep: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description 工具名称 */
+            name: string;
+            /** @description 步骤启动时间 */
+            createAt: string;
+            /** @description 步骤输入类型(human,ai,tool) */
+            inputType?: string;
+            /** @description 步骤输入 */
+            input: string;
+            /** @description 步骤输出 */
+            output: string;
+            /** @description 是否是最终步骤 */
+            isFinal?: boolean;
+            /** @description 步骤执行原因 */
+            reason: string;
+        };
+        DocumentList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["Document"][];
+        };
+        /** @description 研究输出(目前写死为调用社交媒体) */
+        ResearchResponse: {
+            /** @description 研究结果 */
+            output: string;
+        };
+        Prompt: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            title: string;
+            content: string;
+            tags: string[];
+        };
+        AssisantList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["Assisant"][];
+        };
+        PostListRequest: {
+            /** @description The site id */
+            siteId?: string;
+            hostName?: string;
+        };
+        BulkCreateEventResponse: components["schemas"]["Events"];
+        CreateSiteResponse: components["schemas"]["Site"];
+        CreateSiteHostResponse: components["schemas"]["SiteHost"];
+        UpdateSiteHostRequest: components["schemas"]["SiteHost"];
+        UpdateSiteHostResponse: components["schemas"]["SiteHost"];
+        CreatePostResponse: components["schemas"]["Post"];
+    };
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-  "readiness:get": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Healthy */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Not ready to accept traffic */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  "liveness:get": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Healthy */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Not liveness */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  "metadata:get": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the metadata */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIMeta"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "cloudMetadata::get": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Cloud unavailable */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "metadata:list:integrations": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the list of integrations */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ListAPIMetaIntegration"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "user:update:login": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["UserLoginRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully logged in */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["User"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Method not allowed */
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "user:update:google-oauth-start": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully started the OAuth flow */
-      302: {
-        headers: {
-          location?: string;
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  "user:update:google-oauth-callback": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully completed the OAuth flow */
-      302: {
-        headers: {
-          location?: string;
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  "user:update:github-oauth-start": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully started the OAuth flow */
-      302: {
-        headers: {
-          location?: string;
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  "user:update:github-oauth-callback": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully completed the OAuth flow */
-      302: {
-        headers: {
-          location?: string;
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  "user:update:slack-oauth-start": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully started the OAuth flow */
-      302: {
-        headers: {
-          location?: string;
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  "user:update:slack-oauth-callback": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully completed the OAuth flow */
-      302: {
-        headers: {
-          location?: string;
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  "sns:update": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The event key */
-        event: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully processed webhook */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Method not allowed */
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "sns:list": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved SNS integrations */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ListSNSIntegrations"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Method not allowed */
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "sns:create": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["CreateSNSIntegrationRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully created SNS integration */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["SNSIntegration"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Method not allowed */
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "alert-email-group:list": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the tenant alert email groups */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["TenantAlertEmailGroupList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "alert-email-group:create": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    /** @description The tenant alert email group to create */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateTenantAlertEmailGroupRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully created the tenant alert email group */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["TenantAlertEmailGroup"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "tenant-resource-policy:get": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the tenant resource policy */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["TenantResourcePolicy"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "alert-email-group:delete": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant alert email group id */
-        "alert-email-group": string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully deleted the tenant alert email group */
-      204: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "alert-email-group:update": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant alert email group id */
-        "alert-email-group": string;
-      };
-      cookie?: never;
-    };
-    /** @description The tenant alert email group to update */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["UpdateTenantAlertEmailGroupRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully updated the tenant alert email group */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["TenantAlertEmailGroup"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "sns:delete": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The SNS integration id */
-        sns: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully deleted SNS integration */
-      204: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Method not allowed */
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "slack-webhook:list": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved Slack webhooks */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ListSlackWebhooks"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Method not allowed */
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "slack-webhook:delete": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The Slack webhook id */
-        slack: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully deleted Slack webhook */
-      204: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Method not allowed */
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "user:get:current": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the user */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["User"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Method not allowed */
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "user:update:password": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["UserChangePasswordRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully changed password */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["User"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Method not allowed */
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "user:create": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["UserRegisterRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully registered the user */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["User"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Method not allowed */
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "user:update:logout": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully logged out */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["User"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Method not allowed */
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "tenant-memberships:list": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully listed the tenant memberships */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["UserTenantMembershipsList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "user:list:tenant-invites": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully listed the tenant invites */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["TenantInviteList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "tenant-invite:accept": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["AcceptInviteRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully accepted the tenant invite */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "tenant-invite:reject": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["RejectInviteRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully rejected the tenant invite */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "tenant:create": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description The tenant to create */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateTenantRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully created the tenant */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Tenant"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "tenant:update": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    /** @description The tenant properties to update */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["UpdateTenantRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully created the tenant */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Tenant"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "tenant-alerting-settings:get": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the tenant alerting settings */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["TenantAlertingSettings"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "tenant-invite:list": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the tenant invites */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["TenantInviteList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "tenant-invite:create": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    /** @description The tenant invite to create */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateTenantInviteRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully created the tenant invite */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["TenantInvite"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "tenant-invite:delete": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The tenant invite id */
-        "tenant-invite": string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully deleted the tenant invite */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["TenantInvite"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "tenant-invite:update": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The tenant invite id */
-        "tenant-invite": string;
-      };
-      cookie?: never;
-    };
-    /** @description The tenant invite to update */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["UpdateTenantInviteRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully updated the tenant invite */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["TenantInvite"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "api-token:list": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the workflows */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ListAPITokensResponse"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "api-token:create": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["CreateAPITokenRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully retrieved the workflows */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["CreateAPITokenResponse"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "api-token:update:revoke": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The API token */
-        "api-token": string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully revoked the token */
-      204: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "tenant:get:queue-metrics": {
-    parameters: {
-      query?: {
-        /** @description A list of workflow IDs to filter by */
-        workflows?: components["schemas"]["WorkflowID"][];
-        /**
-         * @description A list of metadata key value pairs to filter by
-         * @example [
-         *       "key1:value1",
-         *       "key2:value2"
-         *     ]
-         */
-        additionalMetadata?: string[];
-      };
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the workflow version metrics */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["TenantQueueMetrics"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "tenant:get:step-run-queue-metrics": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the step run queue metrics */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["TenantStepRunQueueMetrics"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "event:list": {
-    parameters: {
-      query?: {
-        /** @description The number to skip */
-        offset?: number;
-        /** @description The number to limit by */
-        limit?: number;
-        /** @description A list of keys to filter by */
-        keys?: components["schemas"]["EventKey"][];
-        /** @description A list of workflow IDs to filter by */
-        workflows?: components["schemas"]["WorkflowID"][];
-        /** @description A list of workflow run statuses to filter by */
-        statuses?: components["schemas"]["WorkflowRunStatusList"];
-        /** @description The search query to filter for */
-        search?: components["schemas"]["EventSearch"];
-        /** @description What to order by */
-        orderByField?: components["schemas"]["EventOrderByField"];
-        /** @description The order direction */
-        orderByDirection?: components["schemas"]["EventOrderByDirection"];
-        /**
-         * @description A list of metadata key value pairs to filter by
-         * @example [
-         *       "key1:value1",
-         *       "key2:value2"
-         *     ]
-         */
-        additionalMetadata?: string[];
-        /** @description A list of event ids to filter by */
-        eventIds?: string[];
-      };
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully listed the events */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["EventList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "event:create": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    /** @description The event to create */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateEventRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully created the event */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Event"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Resource limit exceeded */
-      429: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "event:create:bulk": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    /** @description The events to create */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["BulkCreateEventRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully created the events */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Events"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Resource limit exceeded */
-      429: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "event:update:replay": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    /** @description The event ids to replay */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["ReplayEventRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully replayed the events */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["EventList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Resource limit exceeded */
-      429: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "event:update:cancel": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    /** @description The event ids to replay */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CancelEventRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully canceled runs for the events */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            workflowRunIds?: string[];
-          };
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Resource limit exceeded */
-      429: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "rate-limit:list": {
-    parameters: {
-      query?: {
-        /** @description The number to skip */
-        offset?: number;
-        /** @description The number to limit by */
-        limit?: number;
-        /** @description The search query to filter for */
-        search?: string;
-        /** @description What to order by */
-        orderByField?: components["schemas"]["RateLimitOrderByField"];
-        /** @description The order direction */
-        orderByDirection?: components["schemas"]["RateLimitOrderByDirection"];
-      };
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully listed the rate limits */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["RateLimitList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "tenant-member:list": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the tenant members */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["TenantMemberList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "tenant-member:delete": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The tenant member id */
-        member: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully deleted the tenant members */
-      204: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["TenantMember"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "event:get": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The event id */
-        event: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the event data */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Event"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "event-data:get": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The event id */
-        event: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the event data */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["EventData"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "event-key:list": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully listed the event keys */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["EventKeyList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "workflow:list": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the workflows */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["WorkflowList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "workflow-scheduled:list": {
-    parameters: {
-      query?: {
-        /** @description The number to skip */
-        offset?: number;
-        /** @description The number to limit by */
-        limit?: number;
-        /** @description The order by field */
-        orderByField?: components["schemas"]["ScheduledWorkflowsOrderByField"];
-        /** @description The order by direction */
-        orderByDirection?: components["schemas"]["WorkflowRunOrderByDirection"];
-        /** @description The workflow id to get runs for. */
-        workflowId?: string;
-        /** @description The parent workflow run id */
-        parentWorkflowRunId?: string;
-        /** @description The parent step run id */
-        parentStepRunId?: string;
-        /**
-         * @description A list of metadata key value pairs to filter by
-         * @example [
-         *       "key1:value1",
-         *       "key2:value2"
-         *     ]
-         */
-        additionalMetadata?: string[];
-        /** @description A list of scheduled run statuses to filter by */
-        statuses?: components["schemas"]["ScheduledRunStatus"][];
-      };
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the workflow runs */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ScheduledWorkflowsList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "workflow-scheduled:get": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The scheduled workflow id */
-        scheduledId: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the workflow runs */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ScheduledWorkflows"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "workflow-scheduled:delete": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The scheduled workflow id */
-        scheduledId: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully deleted the scheduled workflow run */
-      204: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "cron-workflow:list": {
-    parameters: {
-      query?: {
-        /** @description The number to skip */
-        offset?: number;
-        /** @description The number to limit by */
-        limit?: number;
-        /** @description The workflow id to get runs for. */
-        workflowId?: string;
-        /**
-         * @description A list of metadata key value pairs to filter by
-         * @example [
-         *       "key1:value1",
-         *       "key2:value2"
-         *     ]
-         */
-        additionalMetadata?: string[];
-        /** @description The order by field */
-        orderByField?: components["schemas"]["CronWorkflowsOrderByField"];
-        /** @description The order by direction */
-        orderByDirection?: components["schemas"]["WorkflowRunOrderByDirection"];
-      };
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the workflow runs */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["CronWorkflowsList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "workflow-run:cancel": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    /** @description The input to cancel the workflow runs */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["WorkflowRunsCancelRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully cancelled the workflow runs */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            workflowRunIds?: string[];
-          };
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "workflow:get": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The workflow id */
-        workflow: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the workflow */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Workflow"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "workflow:delete": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The workflow id */
-        workflow: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully deleted the workflow */
-      204: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "workflow:update": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The workflow id */
-        workflow: string;
-      };
-      cookie?: never;
-    };
-    /** @description The input to update the workflow */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["WorkflowUpdateRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully updated the workflow */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Workflow"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "workflow-version:get": {
-    parameters: {
-      query?: {
-        /** @description The workflow version. If not supplied, the latest version is fetched. */
-        version?: string;
-      };
-      header?: never;
-      path: {
-        /** @description The workflow id */
-        workflow: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the workflow version */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["WorkflowVersion"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "workflow-run:create": {
-    parameters: {
-      query?: {
-        /** @description The workflow version. If not supplied, the latest version is fetched. */
-        version?: string;
-      };
-      header?: never;
-      path: {
-        /** @description The workflow id */
-        workflow: string;
-      };
-      cookie?: never;
-    };
-    /** @description The input to the workflow run */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["TriggerWorkflowRunRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully created the workflow run */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["WorkflowRun"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Resource limit exceeded */
-      429: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "workflow:get:metrics": {
-    parameters: {
-      query?: {
-        /** @description A status of workflow run statuses to filter by */
-        status?: components["schemas"]["WorkflowRunStatus"];
-        /** @description A group key to filter metrics by */
-        groupKey?: string;
-      };
-      header?: never;
-      path: {
-        /** @description The workflow id */
-        workflow: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the workflow version metrics */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["WorkflowMetrics"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "log-line:list": {
-    parameters: {
-      query?: {
-        /** @description The number to skip */
-        offset?: number;
-        /** @description The number to limit by */
-        limit?: number;
-        /** @description A list of levels to filter by */
-        levels?: components["schemas"]["LogLineLevelField"];
-        /** @description The search query to filter for */
-        search?: components["schemas"]["LogLineSearch"];
-        /** @description What to order by */
-        orderByField?: components["schemas"]["LogLineOrderByField"];
-        /** @description The order direction */
-        orderByDirection?: components["schemas"]["LogLineOrderByDirection"];
-      };
-      header?: never;
-      path: {
-        /** @description The step run id */
-        "step-run": string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully listed the events */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["LogLineList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "step-run:list:events": {
-    parameters: {
-      query?: {
-        /** @description The number to skip */
-        offset?: number;
-        /** @description The number to limit by */
-        limit?: number;
-      };
-      header?: never;
-      path: {
-        /** @description The step run id */
-        "step-run": string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the events */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["StepRunEventList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description The step run was not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "workflow-run:list:step-run-events": {
-    parameters: {
-      query?: {
-        /** @description Last ID of the last event */
-        lastId?: number;
-      };
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The workflow run id */
-        "workflow-run": string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the events */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["StepRunEventList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description The step run was not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "step-run:list:archives": {
-    parameters: {
-      query?: {
-        /** @description The number to skip */
-        offset?: number;
-        /** @description The number to limit by */
-        limit?: number;
-      };
-      header?: never;
-      path: {
-        /** @description The step run id */
-        "step-run": string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the events */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["StepRunArchiveList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description The step run was not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "workflow:get:workers-count": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The workflow id */
-        workflow: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the workflow worker count */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["WorkflowWorkersCount"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "workflow-run:list": {
-    parameters: {
-      query?: {
-        /** @description The number to skip */
-        offset?: number;
-        /** @description The number to limit by */
-        limit?: number;
-        /** @description The event id to get runs for. */
-        eventId?: string;
-        /** @description The workflow id to get runs for. */
-        workflowId?: string;
-        /** @description The parent workflow run id */
-        parentWorkflowRunId?: string;
-        /** @description The parent step run id */
-        parentStepRunId?: string;
-        /** @description A list of workflow run statuses to filter by */
-        statuses?: components["schemas"]["WorkflowRunStatusList"];
-        /** @description A list of workflow kinds to filter by */
-        kinds?: components["schemas"]["WorkflowKindList"];
-        /**
-         * @description A list of metadata key value pairs to filter by
-         * @example [
-         *       "key1:value1",
-         *       "key2:value2"
-         *     ]
-         */
-        additionalMetadata?: string[];
-        /**
-         * @description The time after the workflow run was created
-         * @example 2021-01-01T00:00:00Z
-         */
-        createdAfter?: string;
-        /**
-         * @description The time before the workflow run was created
-         * @example 2021-01-01T00:00:00Z
-         */
-        createdBefore?: string;
-        /**
-         * @description The time after the workflow run was finished
-         * @example 2021-01-01T00:00:00Z
-         */
-        finishedAfter?: string;
-        /**
-         * @description The time before the workflow run was finished
-         * @example 2021-01-01T00:00:00Z
-         */
-        finishedBefore?: string;
-        /** @description The order by field */
-        orderByField?: components["schemas"]["WorkflowRunOrderByField"];
-        /** @description The order by direction */
-        orderByDirection?: components["schemas"]["WorkflowRunOrderByDirection"];
-      };
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the workflow runs */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["WorkflowRunList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "workflow-run:update:replay": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    /** @description The workflow run ids to replay */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["ReplayWorkflowRunsRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully replayed the workflow runs */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ReplayWorkflowRunsResponse"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Resource limit exceeded */
-      429: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "workflow-run:get:metrics": {
-    parameters: {
-      query?: {
-        /** @description The event id to get runs for. */
-        eventId?: string;
-        /** @description The workflow id to get runs for. */
-        workflowId?: string;
-        /** @description The parent workflow run id */
-        parentWorkflowRunId?: string;
-        /** @description The parent step run id */
-        parentStepRunId?: string;
-        /**
-         * @description A list of metadata key value pairs to filter by
-         * @example [
-         *       "key1:value1",
-         *       "key2:value2"
-         *     ]
-         */
-        additionalMetadata?: string[];
-        /**
-         * @description The time after the workflow run was created
-         * @example 2021-01-01T00:00:00Z
-         */
-        createdAfter?: string;
-        /**
-         * @description The time before the workflow run was created
-         * @example 2021-01-01T00:00:00Z
-         */
-        createdBefore?: string;
-      };
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the workflow runs metrics */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["WorkflowRunsMetrics"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "workflow-run:get": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The workflow run id */
-        "workflow-run": string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the workflow run */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["WorkflowRun"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "workflow-run:get:shape": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The workflow run id */
-        "workflow-run": string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the workflow run */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["WorkflowRunShape"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "step-run:get": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The step run id */
-        "step-run": string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the step run */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["StepRun"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description The step run was not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "step-run:update:rerun": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The step run id */
-        "step-run": string;
-      };
-      cookie?: never;
-    };
-    /** @description The input to the rerun */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["RerunStepRunRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully replayed the events */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["StepRun"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "step-run:update:cancel": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The step run id */
-        "step-run": string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully dispatched the cancellation */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["StepRun"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "step-run:get:schema": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The step run id */
-        "step-run": string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the step run schema */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": Record<string, never>;
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description The step run was not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "worker:list": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the workflows */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["WorkerList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "worker:get": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The worker id */
-        worker: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the worker */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Worker"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "worker:update": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The worker id */
-        worker: string;
-      };
-      cookie?: never;
-    };
-    /** @description The worker update */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["UpdateWorkerRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully updated the worker */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Worker"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "webhook:list": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description The list of webhook workers */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["WebhookWorkerListResponse"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Method not allowed */
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "webhook:create": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["WebhookWorkerCreateRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully created the webhook */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["WebhookWorkerCreated"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Method not allowed */
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "webhook:delete": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The webhook id */
-        webhook: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully deleted the webhook */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Method not allowed */
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "webhook-requests:list": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The webhook id */
-        webhook: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description The list of webhook requests */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["WebhookWorkerRequestListResponse"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Method not allowed */
-      405: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "workflow-run:get:input": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The workflow run id */
-        "workflow-run": string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the workflow run input */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": {
-            [key: string]: unknown;
-          };
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Workflow run not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "workflow:getByName": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The workflow name */
-        name: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the workflow */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Workflow"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "chat:chat": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["ChatReq"];
-      };
-    };
-    responses: {
-      /** @description chat 聊天应用 */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "text/event-stream": string;
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "chat:callModel": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "text/event-stream": string;
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "chat:messages": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description 聊天 ID */
-        chatId: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description 返回聊天消息 */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ChatMessages"];
-        };
-      };
-    };
-  };
-  "chat:models": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description 返回模型列表 */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ChatModelList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "chat:completions": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["ChatCompletionsReq"];
-      };
-    };
-    responses: {
-      /** @description 返回任意结构的响应 */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": Record<string, never>;
-          "text/event-stream": Record<string, never>;
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "worker:config": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description 返回模型列表 */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["WorkerConfig"];
-        };
-      };
-    };
-  };
-  "mtmai:bloggenconfig": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description 博客生成配置 */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["BlogGenConfig"];
-        };
-      };
-    };
-  };
-  "mtmai:workerConfig": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["mtmai_WorkerConfig"];
-        };
-      };
-    };
-  };
-  "blog:list": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the tenant blog list */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["BlogList"];
-        };
-      };
-    };
-  };
-  "blog:create": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    /** @description 创建博客 */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateBlogRequest"];
-        "text/event-stream": string;
-      };
-    };
-    responses: {
-      /** @description Successfully created the blog */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Blog"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "blog:get": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The blog id */
-        blog: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Blog"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "blog:update": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The blog id */
-        blog: string;
-      };
-      cookie?: never;
-    };
-    /** @description The tenant properties to update */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["UpdateBlogRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully created the tenant */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Blog"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "site:list": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["SiteList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "site:create": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: components["schemas"]["TenantParameter"];
-      };
-      cookie?: never;
-    };
-    /** @description 创建agentnode */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateSiteRequest"];
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Site"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "site:get": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The site id */
-        site: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Site"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "site:update": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The site id */
-        site: string;
-      };
-      cookie?: never;
-    };
-    /** @description The tenant properties to update */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["UpdateSiteRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully created the tenant */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Site"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "site:getByHost": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description host name */
-        host: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Site"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "post:listPublic": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: {
-      content: {
-        "*/*"?: never;
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["PostList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "post:get": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The post id */
-        post: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Post"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "post:list": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: {
-      content: {
-        "*/*"?: never;
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["PostList"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "post:create": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: components["schemas"]["TenantParameter"];
-      };
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreatePostRequest"];
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Post"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "tool:call": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: components["schemas"]["TenantParameter"];
-        /** @description The tool name */
-        tool: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description 工具调用结果 */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ToolCallResult"];
-        };
-      };
-    };
-  };
-  "tools:operationGuide": {
-    parameters: {
-      query: {
-        /** @description operation name */
-        operation: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description 工作流列表信息 */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["OperataionGuideResponse"];
-        };
-      };
-    };
-  };
-  "tools:websearch": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: components["schemas"]["TenantParameter"];
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description 网络搜索结果 */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["WebSearchResult"];
-        };
-      };
-    };
-  };
-  "artifact:list": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the tenant artifacts list */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["ArtifactList"];
-        };
-      };
-    };
-  };
-  "artifact:create": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    /** @description 创建artifact */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["CreateArtifacttRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully created the blog post */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Artifact"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "artifact:get": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The tenant id */
-        artifact: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the step run */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Artifact"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description The step run was not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "agent:nodeList": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: components["schemas"]["TenantParameter"];
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the list of nodes */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["AgentNodeList"];
-        };
-      };
-    };
-  };
-  "agent:create": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    /** @description 创建agentnode */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["AgentNodeCreateRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully created the blog post */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["AgentNode"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "agent:node": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: components["schemas"]["TenantParameter"];
-        /** @description The node id */
-        node: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description agent node full state */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["AgentNode"];
-        };
-      };
-    };
-  };
-  "agent:nodeUpdate": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: components["schemas"]["TenantParameter"];
-        /** @description The node id */
-        node: string;
-      };
-      cookie?: never;
-    };
-    /** @description 创建agentnode */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["AgentNodeUpdateRequest"];
-      };
-    };
-    responses: {
-      /** @description Successfully created the blog post */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["AgentNode"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "agent:nodeRun": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: components["schemas"]["TenantParameter"];
-      };
-      cookie?: never;
-    };
-    /** @description 创建agentnode */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["AgentNodeRunRequest"];
-      };
-    };
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["AgentNodeRun"];
-          "text/event-stream":
-            | components["schemas"]["TokenChunk"]
-            | components["schemas"]["AssisantState"]
-            | components["schemas"]["GenArticleState"]
-            | components["schemas"]["BlogTaskState"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "agent:nodeForm": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: components["schemas"]["TenantParameter"];
-        /** @description The node id */
-        node: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["AgentRunForm"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "llm:get": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: components["schemas"]["TenantParameter"];
-        /** @description The slug */
-        slug: string;
-      };
-      cookie?: never;
-    };
-    /** @description 获取LLM */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["AgentNodeRunRequest"];
-      };
-    };
-    responses: {
-      /** @description 获取LLM */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["LlmConfig"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "doc:list": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successfully retrieved the tenant blog list */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Document"];
-        };
-      };
-    };
-  };
-  "prompt:list": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description 提示词列表 */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["PromptList"];
-        };
-      };
-    };
-  };
-  "prompt:get": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The prompt id */
-        prompt: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description 获取单个提示词 */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "text/markdown": string;
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-      /** @description A malformed or bad request */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  "assisant:list": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description 提示词列表 */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["PromptList"];
-        };
-      };
-    };
-  };
-  "assisant:get": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-        /** @description The assisant id */
-        assisant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description 助手配置 */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["Assisant"];
-        };
-      };
-    };
-  };
-  "subscribe:subscribe": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description The tenant id */
-        tenant: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: {
-      content: {
-        "application/json": components["schemas"]["SubscribeRequest"];
-      };
-    };
-    responses: {
-      /** @description chat 聊天应用 */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "text/event-stream": string;
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIError"];
-        };
-      };
-    };
-  };
-  "admin:seed": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["CommonResult"];
-        };
-      };
-    };
-  };
-  "admin:releaseConn": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["CommonResult"];
-        };
-      };
-      /** @description A malformed or bad request */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["APIErrors"];
-        };
-      };
-    };
-  };
-  "frontend:getConfig": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description frontend core config */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["FrontendConfig"];
-        };
-      };
-    };
-  };
-  "frontend:getSiderbar": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description frontend siderbar config */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "application/json": components["schemas"]["SiderbarConfig"];
-        };
-      };
-    };
-  };
+    "readiness:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Healthy */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not ready to accept traffic */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "liveness:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Healthy */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not liveness */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "metadata:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the metadata */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIMeta"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "cloudMetadata::get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Cloud unavailable */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "metadata:list:integrations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the list of integrations */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListAPIMetaIntegration"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "user:update:login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["UserLoginRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully logged in */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Method not allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "user:update:google-oauth-start": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully started the OAuth flow */
+            302: {
+                headers: {
+                    location?: string;
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "user:update:google-oauth-callback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully completed the OAuth flow */
+            302: {
+                headers: {
+                    location?: string;
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "user:update:github-oauth-start": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully started the OAuth flow */
+            302: {
+                headers: {
+                    location?: string;
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "user:update:github-oauth-callback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully completed the OAuth flow */
+            302: {
+                headers: {
+                    location?: string;
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "user:update:slack-oauth-start": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully started the OAuth flow */
+            302: {
+                headers: {
+                    location?: string;
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "user:update:slack-oauth-callback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully completed the OAuth flow */
+            302: {
+                headers: {
+                    location?: string;
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "sns:update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The event key */
+                event: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully processed webhook */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Method not allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "sns:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved SNS integrations */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListSNSIntegrations"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Method not allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "sns:create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["CreateSNSIntegrationRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully created SNS integration */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SNSIntegration"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Method not allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "alert-email-group:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the tenant alert email groups */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantAlertEmailGroupList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "alert-email-group:create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        /** @description The tenant alert email group to create */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateTenantAlertEmailGroupRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully created the tenant alert email group */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantAlertEmailGroup"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "tenant-resource-policy:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the tenant resource policy */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantResourcePolicy"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "alert-email-group:delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant alert email group id */
+                "alert-email-group": string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully deleted the tenant alert email group */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "alert-email-group:update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant alert email group id */
+                "alert-email-group": string;
+            };
+            cookie?: never;
+        };
+        /** @description The tenant alert email group to update */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateTenantAlertEmailGroupRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully updated the tenant alert email group */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantAlertEmailGroup"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "sns:delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The SNS integration id */
+                sns: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully deleted SNS integration */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Method not allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "slack-webhook:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved Slack webhooks */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListSlackWebhooks"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Method not allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "slack-webhook:delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The Slack webhook id */
+                slack: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully deleted Slack webhook */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Method not allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "user:get:current": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the user */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Method not allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "user:update:password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["UserChangePasswordRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully changed password */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Method not allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "user:create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["UserRegisterRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully registered the user */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Method not allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "user:update:logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully logged out */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["User"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Method not allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "tenant-memberships:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully listed the tenant memberships */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserTenantMembershipsList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "user:list:tenant-invites": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully listed the tenant invites */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantInviteList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "tenant-invite:accept": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["AcceptInviteRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully accepted the tenant invite */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "tenant-invite:reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["RejectInviteRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully rejected the tenant invite */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "tenant:create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description The tenant to create */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateTenantRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully created the tenant */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Tenant"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "tenant:update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        /** @description The tenant properties to update */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateTenantRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully created the tenant */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Tenant"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "tenant-alerting-settings:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the tenant alerting settings */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantAlertingSettings"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "tenant-invite:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the tenant invites */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantInviteList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "tenant-invite:create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        /** @description The tenant invite to create */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateTenantInviteRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully created the tenant invite */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantInvite"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "tenant-invite:delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The tenant invite id */
+                "tenant-invite": string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully deleted the tenant invite */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantInvite"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "tenant-invite:update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The tenant invite id */
+                "tenant-invite": string;
+            };
+            cookie?: never;
+        };
+        /** @description The tenant invite to update */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateTenantInviteRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully updated the tenant invite */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantInvite"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "api-token:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the workflows */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ListAPITokensResponse"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "api-token:create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["CreateAPITokenRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully retrieved the workflows */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CreateAPITokenResponse"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "api-token:update:revoke": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The API token */
+                "api-token": string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully revoked the token */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "tenant:get:queue-metrics": {
+        parameters: {
+            query?: {
+                /** @description A list of workflow IDs to filter by */
+                workflows?: components["schemas"]["WorkflowID"][];
+                /**
+                 * @description A list of metadata key value pairs to filter by
+                 * @example [
+                 *       "key1:value1",
+                 *       "key2:value2"
+                 *     ]
+                 */
+                additionalMetadata?: string[];
+            };
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the workflow version metrics */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantQueueMetrics"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "tenant:get:step-run-queue-metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the step run queue metrics */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantStepRunQueueMetrics"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "event:list": {
+        parameters: {
+            query?: {
+                /** @description The number to skip */
+                offset?: number;
+                /** @description The number to limit by */
+                limit?: number;
+                /** @description A list of keys to filter by */
+                keys?: components["schemas"]["EventKey"][];
+                /** @description A list of workflow IDs to filter by */
+                workflows?: components["schemas"]["WorkflowID"][];
+                /** @description A list of workflow run statuses to filter by */
+                statuses?: components["schemas"]["WorkflowRunStatusList"];
+                /** @description The search query to filter for */
+                search?: components["schemas"]["EventSearch"];
+                /** @description What to order by */
+                orderByField?: components["schemas"]["EventOrderByField"];
+                /** @description The order direction */
+                orderByDirection?: components["schemas"]["EventOrderByDirection"];
+                /**
+                 * @description A list of metadata key value pairs to filter by
+                 * @example [
+                 *       "key1:value1",
+                 *       "key2:value2"
+                 *     ]
+                 */
+                additionalMetadata?: string[];
+                /** @description A list of event ids to filter by */
+                eventIds?: string[];
+            };
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully listed the events */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EventList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "event:create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        /** @description The event to create */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateEventRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully created the event */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Event"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Resource limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "event:create:bulk": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        /** @description The events to create */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkCreateEventRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully created the events */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Events"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Resource limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "event:update:replay": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        /** @description The event ids to replay */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReplayEventRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully replayed the events */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EventList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Resource limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "event:update:cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        /** @description The event ids to replay */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CancelEventRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully canceled runs for the events */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        workflowRunIds?: string[];
+                    };
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Resource limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "rate-limit:list": {
+        parameters: {
+            query?: {
+                /** @description The number to skip */
+                offset?: number;
+                /** @description The number to limit by */
+                limit?: number;
+                /** @description The search query to filter for */
+                search?: string;
+                /** @description What to order by */
+                orderByField?: components["schemas"]["RateLimitOrderByField"];
+                /** @description The order direction */
+                orderByDirection?: components["schemas"]["RateLimitOrderByDirection"];
+            };
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully listed the rate limits */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RateLimitList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "tenant-member:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the tenant members */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantMemberList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "tenant-member:delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The tenant member id */
+                member: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully deleted the tenant members */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantMember"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "event:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The event id */
+                event: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the event data */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Event"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "event-data:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The event id */
+                event: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the event data */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EventData"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "event-key:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully listed the event keys */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EventKeyList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "workflow:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the workflows */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkflowList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "workflow-scheduled:list": {
+        parameters: {
+            query?: {
+                /** @description The number to skip */
+                offset?: number;
+                /** @description The number to limit by */
+                limit?: number;
+                /** @description The order by field */
+                orderByField?: components["schemas"]["ScheduledWorkflowsOrderByField"];
+                /** @description The order by direction */
+                orderByDirection?: components["schemas"]["WorkflowRunOrderByDirection"];
+                /** @description The workflow id to get runs for. */
+                workflowId?: string;
+                /** @description The parent workflow run id */
+                parentWorkflowRunId?: string;
+                /** @description The parent step run id */
+                parentStepRunId?: string;
+                /**
+                 * @description A list of metadata key value pairs to filter by
+                 * @example [
+                 *       "key1:value1",
+                 *       "key2:value2"
+                 *     ]
+                 */
+                additionalMetadata?: string[];
+                /** @description A list of scheduled run statuses to filter by */
+                statuses?: components["schemas"]["ScheduledRunStatus"][];
+            };
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the workflow runs */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScheduledWorkflowsList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "workflow-scheduled:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The scheduled workflow id */
+                scheduledId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the workflow runs */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScheduledWorkflows"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "workflow-scheduled:delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The scheduled workflow id */
+                scheduledId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully deleted the scheduled workflow run */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "cron-workflow:list": {
+        parameters: {
+            query?: {
+                /** @description The number to skip */
+                offset?: number;
+                /** @description The number to limit by */
+                limit?: number;
+                /** @description The workflow id to get runs for. */
+                workflowId?: string;
+                /**
+                 * @description A list of metadata key value pairs to filter by
+                 * @example [
+                 *       "key1:value1",
+                 *       "key2:value2"
+                 *     ]
+                 */
+                additionalMetadata?: string[];
+                /** @description The order by field */
+                orderByField?: components["schemas"]["CronWorkflowsOrderByField"];
+                /** @description The order by direction */
+                orderByDirection?: components["schemas"]["WorkflowRunOrderByDirection"];
+            };
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the workflow runs */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CronWorkflowsList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "workflow-run:cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        /** @description The input to cancel the workflow runs */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkflowRunsCancelRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully cancelled the workflow runs */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        workflowRunIds?: string[];
+                    };
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "workflow:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The workflow id */
+                workflow: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the workflow */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Workflow"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "workflow:delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The workflow id */
+                workflow: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully deleted the workflow */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "workflow:update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The workflow id */
+                workflow: string;
+            };
+            cookie?: never;
+        };
+        /** @description The input to update the workflow */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WorkflowUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully updated the workflow */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Workflow"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "workflow-version:get": {
+        parameters: {
+            query?: {
+                /** @description The workflow version. If not supplied, the latest version is fetched. */
+                version?: string;
+            };
+            header?: never;
+            path: {
+                /** @description The workflow id */
+                workflow: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the workflow version */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkflowVersion"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "workflow-run:create": {
+        parameters: {
+            query?: {
+                /** @description The workflow version. If not supplied, the latest version is fetched. */
+                version?: string;
+            };
+            header?: never;
+            path: {
+                /** @description The workflow id */
+                workflow: string;
+            };
+            cookie?: never;
+        };
+        /** @description The input to the workflow run */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TriggerWorkflowRunRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully created the workflow run */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkflowRun"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Resource limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "workflow:get:metrics": {
+        parameters: {
+            query?: {
+                /** @description A status of workflow run statuses to filter by */
+                status?: components["schemas"]["WorkflowRunStatus"];
+                /** @description A group key to filter metrics by */
+                groupKey?: string;
+            };
+            header?: never;
+            path: {
+                /** @description The workflow id */
+                workflow: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the workflow version metrics */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkflowMetrics"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "log-line:list": {
+        parameters: {
+            query?: {
+                /** @description The number to skip */
+                offset?: number;
+                /** @description The number to limit by */
+                limit?: number;
+                /** @description A list of levels to filter by */
+                levels?: components["schemas"]["LogLineLevelField"];
+                /** @description The search query to filter for */
+                search?: components["schemas"]["LogLineSearch"];
+                /** @description What to order by */
+                orderByField?: components["schemas"]["LogLineOrderByField"];
+                /** @description The order direction */
+                orderByDirection?: components["schemas"]["LogLineOrderByDirection"];
+            };
+            header?: never;
+            path: {
+                /** @description The step run id */
+                "step-run": string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully listed the events */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LogLineList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "step-run:list:events": {
+        parameters: {
+            query?: {
+                /** @description The number to skip */
+                offset?: number;
+                /** @description The number to limit by */
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                /** @description The step run id */
+                "step-run": string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the events */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StepRunEventList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description The step run was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "workflow-run:list:step-run-events": {
+        parameters: {
+            query?: {
+                /** @description Last ID of the last event */
+                lastId?: number;
+            };
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The workflow run id */
+                "workflow-run": string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the events */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StepRunEventList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description The step run was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "step-run:list:archives": {
+        parameters: {
+            query?: {
+                /** @description The number to skip */
+                offset?: number;
+                /** @description The number to limit by */
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                /** @description The step run id */
+                "step-run": string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the events */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StepRunArchiveList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description The step run was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "workflow:get:workers-count": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The workflow id */
+                workflow: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the workflow worker count */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkflowWorkersCount"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "workflow-run:list": {
+        parameters: {
+            query?: {
+                /** @description The number to skip */
+                offset?: number;
+                /** @description The number to limit by */
+                limit?: number;
+                /** @description The event id to get runs for. */
+                eventId?: string;
+                /** @description The workflow id to get runs for. */
+                workflowId?: string;
+                /** @description The parent workflow run id */
+                parentWorkflowRunId?: string;
+                /** @description The parent step run id */
+                parentStepRunId?: string;
+                /** @description A list of workflow run statuses to filter by */
+                statuses?: components["schemas"]["WorkflowRunStatusList"];
+                /** @description A list of workflow kinds to filter by */
+                kinds?: components["schemas"]["WorkflowKindList"];
+                /**
+                 * @description A list of metadata key value pairs to filter by
+                 * @example [
+                 *       "key1:value1",
+                 *       "key2:value2"
+                 *     ]
+                 */
+                additionalMetadata?: string[];
+                /**
+                 * @description The time after the workflow run was created
+                 * @example 2021-01-01T00:00:00Z
+                 */
+                createdAfter?: string;
+                /**
+                 * @description The time before the workflow run was created
+                 * @example 2021-01-01T00:00:00Z
+                 */
+                createdBefore?: string;
+                /**
+                 * @description The time after the workflow run was finished
+                 * @example 2021-01-01T00:00:00Z
+                 */
+                finishedAfter?: string;
+                /**
+                 * @description The time before the workflow run was finished
+                 * @example 2021-01-01T00:00:00Z
+                 */
+                finishedBefore?: string;
+                /** @description The order by field */
+                orderByField?: components["schemas"]["WorkflowRunOrderByField"];
+                /** @description The order by direction */
+                orderByDirection?: components["schemas"]["WorkflowRunOrderByDirection"];
+            };
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the workflow runs */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkflowRunList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "workflow-run:update:replay": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        /** @description The workflow run ids to replay */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReplayWorkflowRunsRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully replayed the workflow runs */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReplayWorkflowRunsResponse"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Resource limit exceeded */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "workflow-run:get:metrics": {
+        parameters: {
+            query?: {
+                /** @description The event id to get runs for. */
+                eventId?: string;
+                /** @description The workflow id to get runs for. */
+                workflowId?: string;
+                /** @description The parent workflow run id */
+                parentWorkflowRunId?: string;
+                /** @description The parent step run id */
+                parentStepRunId?: string;
+                /**
+                 * @description A list of metadata key value pairs to filter by
+                 * @example [
+                 *       "key1:value1",
+                 *       "key2:value2"
+                 *     ]
+                 */
+                additionalMetadata?: string[];
+                /**
+                 * @description The time after the workflow run was created
+                 * @example 2021-01-01T00:00:00Z
+                 */
+                createdAfter?: string;
+                /**
+                 * @description The time before the workflow run was created
+                 * @example 2021-01-01T00:00:00Z
+                 */
+                createdBefore?: string;
+            };
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the workflow runs metrics */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkflowRunsMetrics"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "workflow-run:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The workflow run id */
+                "workflow-run": string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the workflow run */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkflowRun"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "workflow-run:get:shape": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The workflow run id */
+                "workflow-run": string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the workflow run */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkflowRunShape"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "step-run:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The step run id */
+                "step-run": string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the step run */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StepRun"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description The step run was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "step-run:update:rerun": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The step run id */
+                "step-run": string;
+            };
+            cookie?: never;
+        };
+        /** @description The input to the rerun */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RerunStepRunRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully replayed the events */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StepRun"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "step-run:update:cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The step run id */
+                "step-run": string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully dispatched the cancellation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StepRun"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "step-run:get:schema": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The step run id */
+                "step-run": string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the step run schema */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description The step run was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "worker:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the workflows */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkerList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "worker:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The worker id */
+                worker: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the worker */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Worker"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "worker:update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The worker id */
+                worker: string;
+            };
+            cookie?: never;
+        };
+        /** @description The worker update */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateWorkerRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully updated the worker */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Worker"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "webhook:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The list of webhook workers */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WebhookWorkerListResponse"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Method not allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "webhook:create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["WebhookWorkerCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully created the webhook */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WebhookWorkerCreated"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Method not allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "webhook:delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The webhook id */
+                webhook: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully deleted the webhook */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Method not allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "webhook-requests:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The webhook id */
+                webhook: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The list of webhook requests */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WebhookWorkerRequestListResponse"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Method not allowed */
+            405: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "workflow-run:get:input": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The workflow run id */
+                "workflow-run": string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the workflow run input */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Workflow run not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "workflow:getByName": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The workflow name */
+                name: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the workflow */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Workflow"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "chat:chat": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["ChatReq"];
+            };
+        };
+        responses: {
+            /** @description chat 聊天应用 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/event-stream": string;
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "chat:callModel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/event-stream": string;
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "chat:messages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description 聊天 ID */
+                chatId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 返回聊天消息 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChatMessages"];
+                };
+            };
+        };
+    };
+    "chat:models": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 返回模型列表 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ChatModelList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "chat:completions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["ChatCompletionsReq"];
+            };
+        };
+        responses: {
+            /** @description 返回任意结构的响应 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": Record<string, never>;
+                    "text/event-stream": Record<string, never>;
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "worker:config": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 返回模型列表 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkerConfig"];
+                };
+            };
+        };
+    };
+    "mtmai:bloggenconfig": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 博客生成配置 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BlogGenConfig"];
+                };
+            };
+        };
+    };
+    "mtmai:workerConfig": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["mtmai_WorkerConfig"];
+                };
+            };
+        };
+    };
+    "blog:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the tenant blog list */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BlogList"];
+                };
+            };
+        };
+    };
+    "blog:create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        /** @description 创建博客 */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateBlogRequest"];
+                "text/event-stream": string;
+            };
+        };
+        responses: {
+            /** @description Successfully created the blog */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Blog"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "blog:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The blog id */
+                blog: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Blog"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "blog:update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The blog id */
+                blog: string;
+            };
+            cookie?: never;
+        };
+        /** @description The tenant properties to update */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateBlogRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully created the tenant */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Blog"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "site:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SiteList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "site:create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: components["schemas"]["TenantParameter"];
+            };
+            cookie?: never;
+        };
+        /** @description 创建agentnode */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSiteRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Site"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "site:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The site id */
+                site: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Site"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "site:update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The site id */
+                site: string;
+            };
+            cookie?: never;
+        };
+        /** @description The tenant properties to update */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateSiteRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully created the tenant */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Site"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "site:getByHost": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description host name */
+                host: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Site"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "site-host:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SiteHostList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "site-host:create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: components["schemas"]["TenantParameter"];
+            };
+            cookie?: never;
+        };
+        /** @description 创建agentnode */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSiteHostRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SiteHost"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "site-host:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The site-host id */
+                host: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SiteHost"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "site-host:update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: components["schemas"]["TenantParameter"];
+                /** @description The site-host id */
+                host: string;
+            };
+            cookie?: never;
+        };
+        /** @description The tenant properties to update */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SiteHost"];
+            };
+        };
+        responses: {
+            /** @description Successfully created the tenant */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SiteHost"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "post:listPublic": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "*/*"?: never;
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PostList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "post:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The post id */
+                post: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Post"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "post:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "*/*"?: never;
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PostList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "post:create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: components["schemas"]["TenantParameter"];
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreatePostRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Post"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "tool:call": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: components["schemas"]["TenantParameter"];
+                /** @description The tool name */
+                tool: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 工具调用结果 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ToolCallResult"];
+                };
+            };
+        };
+    };
+    "tools:operationGuide": {
+        parameters: {
+            query: {
+                /** @description operation name */
+                operation: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 工作流列表信息 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OperataionGuideResponse"];
+                };
+            };
+        };
+    };
+    "tools:websearch": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: components["schemas"]["TenantParameter"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 网络搜索结果 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WebSearchResult"];
+                };
+            };
+        };
+    };
+    "artifact:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the tenant artifacts list */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ArtifactList"];
+                };
+            };
+        };
+    };
+    "artifact:create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        /** @description 创建artifact */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateArtifacttRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully created the blog post */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Artifact"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "artifact:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The tenant id */
+                artifact: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the step run */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Artifact"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description The step run was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "agent:nodeList": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: components["schemas"]["TenantParameter"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the list of nodes */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentNodeList"];
+                };
+            };
+        };
+    };
+    "agent:create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        /** @description 创建agentnode */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AgentNodeCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully created the blog post */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentNode"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "agent:node": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: components["schemas"]["TenantParameter"];
+                /** @description The node id */
+                node: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description agent node full state */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentNode"];
+                };
+            };
+        };
+    };
+    "agent:nodeUpdate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: components["schemas"]["TenantParameter"];
+                /** @description The node id */
+                node: string;
+            };
+            cookie?: never;
+        };
+        /** @description 创建agentnode */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AgentNodeUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully created the blog post */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentNode"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "agent:nodeRun": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: components["schemas"]["TenantParameter"];
+            };
+            cookie?: never;
+        };
+        /** @description 创建agentnode */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AgentNodeRunRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentNodeRun"];
+                    "text/event-stream": components["schemas"]["TokenChunk"] | components["schemas"]["AssisantState"] | components["schemas"]["GenArticleState"] | components["schemas"]["BlogTaskState"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "agent:nodeForm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: components["schemas"]["TenantParameter"];
+                /** @description The node id */
+                node: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentRunForm"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "llm:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: components["schemas"]["TenantParameter"];
+                /** @description The slug */
+                slug: string;
+            };
+            cookie?: never;
+        };
+        /** @description 获取LLM */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AgentNodeRunRequest"];
+            };
+        };
+        responses: {
+            /** @description 获取LLM */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LlmConfig"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "doc:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved the tenant blog list */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Document"];
+                };
+            };
+        };
+    };
+    "prompt:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 提示词列表 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PromptList"];
+                };
+            };
+        };
+    };
+    "prompt:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The prompt id */
+                prompt: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 获取单个提示词 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/markdown": string;
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+            /** @description A malformed or bad request */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "assisant:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 提示词列表 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PromptList"];
+                };
+            };
+        };
+    };
+    "assisant:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The assisant id */
+                assisant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 助手配置 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Assisant"];
+                };
+            };
+        };
+    };
+    "subscribe:subscribe": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["SubscribeRequest"];
+            };
+        };
+        responses: {
+            /** @description chat 聊天应用 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/event-stream": string;
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "admin:seed": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CommonResult"];
+                };
+            };
+        };
+    };
+    "admin:releaseConn": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CommonResult"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "frontend:getConfig": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description frontend core config */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FrontendConfig"];
+                };
+            };
+        };
+    };
+    "frontend:getSiderbar": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description frontend siderbar config */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SiderbarConfig"];
+                };
+            };
+        };
+    };
 }
