@@ -56,73 +56,39 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
 
-  // webpack: (
-  // 	config,
-  // 	{ buildId, dev, isServer, defaultLoaders, nextRuntime, webpack },
-  // ) => {
-  // 	// config.ignoreWarnings = [
-  // 	// 	{ module: /node_modules\/@radix-ui\/react-select/ },
-  // 	// ];
-  // 	// add externals
-  // 	config.externals = config.externals || [];
-  // 	config.externals.push(
-  // 		"puppeteer-extra",
-  // 		"puppeteer-extra-plugin-stealth",
-  // 		"puppeteer-extra-plugin-adblocker",
-  // 		"puppeteer-extra-plugin-block-resources",
-  // 		"puppeteer-extra-plugin-devtools",
-  // 		"puppeteer-extra-plugin-stealth",
-  // 		"puppeteer-extra-plugin-recaptcha",
-  // 		"puppeteer-extra-plugin-session",
-  // 		"@puppeteer",
-  // 		"turndown",
-  // 		"linkedom",
-  // 		"cloudflare:sockets",
-  // 		"cloudflare",
-  // 		"onnxruntime-node",
-  // 		"cosmiconfig",
-  // 		"inngest",
-  // 		"canvas",
-  // 		"onnxruntime-node",
-  // 		"@xenova",
-  // 		"tiktoken",
-  // 		"unpdf",
-  // 		"agent-base",
-  // 		"basic-ftp",
-  // 	);
-  // 	return config;
-  // },
-
-  // serverExternalPackages: [
-  //   "@prisma/client",
-  //   "clone-deep",
-  //   "puppeteer-core",
-  //   "puppeteer",
-  //   "merge-deep",
-  //   "puppeteer-extra",
-  //   "puppeteer-extra-plugin-stealth",
-  //   "puppeteer-extra-plugin-recaptcha",
-  //   "cross-fetch",
-  //   "node-fetch",
-  //   "puppeteer-extra-plugin-devtools",
-  //   "puppeteer-extra-plugin-stealth",
-  //   "puppeteer-extra-plugin-session",
-  //   "@puppeteer",
-  //   "turndown",
-  //   "linkedom",
-  //   "cloudflare:sockets",
-  //   "cloudflare",
-  //   "cosmiconfig",
-  //   // "inngest",
-  //   "llamaindex",
-  //   "onnxruntime-node",
-  //   "canvas",
-  //   "@xenova",
-  //   "tiktoken",
-  //   "unpdf",
-  //   // "agent-base",
-  //   "basic-ftp",
-  // ],
+  
+  webpack: (
+    config,
+    { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack },
+  ) => {
+    // add externals
+    config.externals = config.externals || [];
+    config.externals.push(
+      "puppeteer-extra",
+      "puppeteer-extra-plugin-stealth",
+      "puppeteer-extra-plugin-adblocker",
+      "puppeteer-extra-plugin-block-resources",
+      "puppeteer-extra-plugin-devtools",
+      "puppeteer-extra-plugin-stealth",
+      "puppeteer-extra-plugin-recaptcha",
+      "puppeteer-extra-plugin-session",
+      "@puppeteer",
+      "turndown",
+      "linkedom",
+      "cloudflare:sockets",
+      "cloudflare",
+      "onnxruntime-node",
+      "cosmiconfig",
+      "inngest",
+      "canvas",
+      "onnxruntime-node",
+      "@xenova",
+      "tiktoken",
+      "unpdf",
+      "agent-base",
+      "basic-ftp",
+    );
+    
 
   // webpack: (config, { isServer }) => {
   //   if (!isServer) {
@@ -189,7 +155,7 @@ const nextConfig = {
   //   return config;
   // },
 
-  async headers() {
+  async headers() 
     return [
       {
         source: "/:path*",
@@ -209,8 +175,7 @@ const nextConfig = {
           },
         ],
       },
-    ];
-  },
+    ];,
 };
 
 export default nextConfig;
