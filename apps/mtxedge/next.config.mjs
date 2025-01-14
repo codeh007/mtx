@@ -87,9 +87,40 @@ const nextConfig = {
       "agent-base",
       "basic-ftp",
     );
-    if (nextRuntime === "edge") {
-      config.externals.push("pg");
-    }
+
+    // 演示将 chunk 文件名改为特定名称
+    // config.optimization.splitChunks = {
+    //   cacheGroups: {
+    //     testLazy: {
+    //       // 匹配 TestLazy2 组件的路径
+    //       test: /[\\/]components[\\/]TestLazy2/,
+    //       name: 'test-lazy222',  // 这将是输出的文件名前缀
+    //       chunks: 'async',    // 只处理异步加载的代码
+    //       enforce: true       // 强制创建这个chunk
+    //     },
+    //   },
+    // }
+    /*
+      自定义 chunk 文件名生成规则
+      提示:
+          - 在代码中使用"webpackChunkName"魔法注释,可以指定 chunck 名称
+          - 
+    */
+    config.output.chunkFilename = (pathData) => {
+      // 特定脚本则使用无哈希的文件名, 可以明确url路径,方便自定义加载
+      if (pathData.chunk.name === "test-lazy2") {
+        return "static/chunks/test-lazy222.js";
+      }
+      if (pathData.chunk.name === "dashapp") {
+        return "static/chunks/dashapp.js";
+      }
+
+      // 其他 chunks 保持原有的命名方式（带哈希）
+      return "static/chunks/[name].[contenthash].js";
+      // return config.output.chunkFilename
+    };
+
+    return config;
   },
 };
 
