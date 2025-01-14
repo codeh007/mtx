@@ -3,371 +3,369 @@
 import {
   createClient,
   createConfig,
-  type OptionsLegacyParser,
+  type Options,
 } from "@hey-api/client-fetch";
 import type {
-  ReadinessGetError,
-  ReadinessGetResponse,
-  LivenessGetError,
-  LivenessGetResponse,
-  MetadataGetError,
+  ReadinessGetData,
+  LivenessGetData,
+  MetadataGetData,
   MetadataGetResponse,
-  CloudMetadataGetError,
+  MetadataGetError,
+  CloudMetadataGetData,
   CloudMetadataGetResponse,
-  MetadataListIntegrationsError,
+  CloudMetadataGetError,
+  MetadataListIntegrationsData,
   MetadataListIntegrationsResponse,
+  MetadataListIntegrationsError,
   UserUpdateLoginData,
-  UserUpdateLoginError,
   UserUpdateLoginResponse,
+  UserUpdateLoginError,
+  UserUpdateGoogleOauthStartData,
+  UserUpdateGoogleOauthCallbackData,
+  UserUpdateGithubOauthStartData,
+  UserUpdateGithubOauthCallbackData,
   UserUpdateSlackOauthStartData,
+  UserUpdateSlackOauthCallbackData,
   SnsUpdateData,
   SnsUpdateError,
-  SnsUpdateResponse,
   SnsListData,
-  SnsListError,
   SnsListResponse,
+  SnsListError,
   SnsCreateData,
-  SnsCreateError,
   SnsCreateResponse,
-  AlertEmailGroupCreateData,
-  AlertEmailGroupCreateError,
-  AlertEmailGroupCreateResponse,
+  SnsCreateError,
   AlertEmailGroupListData,
-  AlertEmailGroupListError,
   AlertEmailGroupListResponse,
+  AlertEmailGroupListError,
+  AlertEmailGroupCreateData,
+  AlertEmailGroupCreateResponse,
+  AlertEmailGroupCreateError,
   TenantResourcePolicyGetData,
-  TenantResourcePolicyGetError,
   TenantResourcePolicyGetResponse,
-  AlertEmailGroupUpdateData,
-  AlertEmailGroupUpdateError,
-  AlertEmailGroupUpdateResponse,
+  TenantResourcePolicyGetError,
   AlertEmailGroupDeleteData,
-  AlertEmailGroupDeleteError,
   AlertEmailGroupDeleteResponse,
+  AlertEmailGroupDeleteError,
+  AlertEmailGroupUpdateData,
+  AlertEmailGroupUpdateResponse,
+  AlertEmailGroupUpdateError,
   SnsDeleteData,
-  SnsDeleteError,
   SnsDeleteResponse,
+  SnsDeleteError,
   SlackWebhookListData,
-  SlackWebhookListError,
   SlackWebhookListResponse,
+  SlackWebhookListError,
   SlackWebhookDeleteData,
-  SlackWebhookDeleteError,
   SlackWebhookDeleteResponse,
-  UserGetCurrentError,
+  SlackWebhookDeleteError,
+  UserGetCurrentData,
   UserGetCurrentResponse,
+  UserGetCurrentError,
   UserUpdatePasswordData,
-  UserUpdatePasswordError,
   UserUpdatePasswordResponse,
+  UserUpdatePasswordError,
   UserCreateData,
-  UserCreateError,
   UserCreateResponse,
-  UserUpdateLogoutError,
+  UserCreateError,
+  UserUpdateLogoutData,
   UserUpdateLogoutResponse,
-  TenantMembershipsListError,
+  UserUpdateLogoutError,
+  TenantMembershipsListData,
   TenantMembershipsListResponse,
-  UserListTenantInvitesError,
+  TenantMembershipsListError,
+  UserListTenantInvitesData,
   UserListTenantInvitesResponse,
+  UserListTenantInvitesError,
   TenantInviteAcceptData,
   TenantInviteAcceptError,
-  TenantInviteAcceptResponse,
   TenantInviteRejectData,
   TenantInviteRejectError,
-  TenantInviteRejectResponse,
   TenantCreateData,
-  TenantCreateError,
   TenantCreateResponse,
+  TenantCreateError,
   TenantUpdateData,
-  TenantUpdateError,
   TenantUpdateResponse,
+  TenantUpdateError,
   TenantAlertingSettingsGetData,
-  TenantAlertingSettingsGetError,
   TenantAlertingSettingsGetResponse,
-  TenantInviteCreateData,
-  TenantInviteCreateError,
-  TenantInviteCreateResponse,
+  TenantAlertingSettingsGetError,
   TenantInviteListData,
-  TenantInviteListError,
   TenantInviteListResponse,
-  TenantInviteUpdateData,
-  TenantInviteUpdateError,
-  TenantInviteUpdateResponse,
+  TenantInviteListError,
+  TenantInviteCreateData,
+  TenantInviteCreateResponse,
+  TenantInviteCreateError,
   TenantInviteDeleteData,
-  TenantInviteDeleteError,
   TenantInviteDeleteResponse,
-  ApiTokenCreateData,
-  ApiTokenCreateError,
-  ApiTokenCreateResponse,
+  TenantInviteDeleteError,
+  TenantInviteUpdateData,
+  TenantInviteUpdateResponse,
+  TenantInviteUpdateError,
   ApiTokenListData,
-  ApiTokenListError,
   ApiTokenListResponse,
+  ApiTokenListError,
+  ApiTokenCreateData,
+  ApiTokenCreateResponse,
+  ApiTokenCreateError,
   ApiTokenUpdateRevokeData,
-  ApiTokenUpdateRevokeError,
   ApiTokenUpdateRevokeResponse,
+  ApiTokenUpdateRevokeError,
   TenantGetQueueMetricsData,
-  TenantGetQueueMetricsError,
   TenantGetQueueMetricsResponse,
+  TenantGetQueueMetricsError,
   TenantGetStepRunQueueMetricsData,
-  TenantGetStepRunQueueMetricsError,
   TenantGetStepRunQueueMetricsResponse,
+  TenantGetStepRunQueueMetricsError,
   EventListData,
-  EventListError,
   EventListResponse,
+  EventListError,
   EventCreateData,
-  EventCreateError,
   EventCreateResponse,
+  EventCreateError,
   EventCreateBulkData,
-  EventCreateBulkError,
   EventCreateBulkResponse,
+  EventCreateBulkError,
   EventUpdateReplayData,
-  EventUpdateReplayError,
   EventUpdateReplayResponse,
+  EventUpdateReplayError,
   EventUpdateCancelData,
-  EventUpdateCancelError,
   EventUpdateCancelResponse,
+  EventUpdateCancelError,
   RateLimitListData,
-  RateLimitListError,
   RateLimitListResponse,
+  RateLimitListError,
   TenantMemberListData,
-  TenantMemberListError,
   TenantMemberListResponse,
+  TenantMemberListError,
   TenantMemberDeleteData,
-  TenantMemberDeleteError,
   TenantMemberDeleteResponse,
+  TenantMemberDeleteError,
   EventGetData,
-  EventGetError,
   EventGetResponse,
+  EventGetError,
   EventDataGetData,
-  EventDataGetError,
   EventDataGetResponse,
+  EventDataGetError,
   EventKeyListData,
-  EventKeyListError,
   EventKeyListResponse,
+  EventKeyListError,
   WorkflowListData,
-  WorkflowListError,
   WorkflowListResponse,
+  WorkflowListError,
   WorkflowScheduledListData,
-  WorkflowScheduledListError,
   WorkflowScheduledListResponse,
-  WorkflowScheduledGetData,
-  WorkflowScheduledGetError,
-  WorkflowScheduledGetResponse,
+  WorkflowScheduledListError,
   WorkflowScheduledDeleteData,
-  WorkflowScheduledDeleteError,
   WorkflowScheduledDeleteResponse,
+  WorkflowScheduledDeleteError,
+  WorkflowScheduledGetData,
+  WorkflowScheduledGetResponse,
+  WorkflowScheduledGetError,
   CronWorkflowListData,
-  CronWorkflowListError,
   CronWorkflowListResponse,
+  CronWorkflowListError,
   WorkflowRunCancelData,
-  WorkflowRunCancelError,
   WorkflowRunCancelResponse,
-  WorkflowGetData,
-  WorkflowGetError,
-  WorkflowGetResponse,
+  WorkflowRunCancelError,
   WorkflowDeleteData,
-  WorkflowDeleteError,
   WorkflowDeleteResponse,
+  WorkflowDeleteError,
+  WorkflowGetData,
+  WorkflowGetResponse,
+  WorkflowGetError,
   WorkflowUpdateData,
-  WorkflowUpdateError,
   WorkflowUpdateResponse,
+  WorkflowUpdateError,
   WorkflowVersionGetData,
-  WorkflowVersionGetError,
   WorkflowVersionGetResponse,
+  WorkflowVersionGetError,
   WorkflowRunCreateData,
-  WorkflowRunCreateError,
   WorkflowRunCreateResponse,
+  WorkflowRunCreateError,
   WorkflowGetMetricsData,
-  WorkflowGetMetricsError,
   WorkflowGetMetricsResponse,
+  WorkflowGetMetricsError,
   LogLineListData,
-  LogLineListError,
   LogLineListResponse,
+  LogLineListError,
   StepRunListEventsData,
-  StepRunListEventsError,
   StepRunListEventsResponse,
+  StepRunListEventsError,
   WorkflowRunListStepRunEventsData,
-  WorkflowRunListStepRunEventsError,
   WorkflowRunListStepRunEventsResponse,
+  WorkflowRunListStepRunEventsError,
   StepRunListArchivesData,
-  StepRunListArchivesError,
   StepRunListArchivesResponse,
+  StepRunListArchivesError,
   WorkflowGetWorkersCountData,
-  WorkflowGetWorkersCountError,
   WorkflowGetWorkersCountResponse,
+  WorkflowGetWorkersCountError,
   WorkflowRunListData,
-  WorkflowRunListError,
   WorkflowRunListResponse,
+  WorkflowRunListError,
   WorkflowRunUpdateReplayData,
-  WorkflowRunUpdateReplayError,
   WorkflowRunUpdateReplayResponse,
+  WorkflowRunUpdateReplayError,
   WorkflowRunGetMetricsData,
-  WorkflowRunGetMetricsError,
   WorkflowRunGetMetricsResponse,
+  WorkflowRunGetMetricsError,
   WorkflowRunGetData,
-  WorkflowRunGetError,
   WorkflowRunGetResponse,
+  WorkflowRunGetError,
   WorkflowRunGetShapeData,
-  WorkflowRunGetShapeError,
   WorkflowRunGetShapeResponse,
+  WorkflowRunGetShapeError,
   StepRunGetData,
-  StepRunGetError,
   StepRunGetResponse,
+  StepRunGetError,
   StepRunUpdateRerunData,
-  StepRunUpdateRerunError,
   StepRunUpdateRerunResponse,
+  StepRunUpdateRerunError,
   StepRunUpdateCancelData,
-  StepRunUpdateCancelError,
   StepRunUpdateCancelResponse,
+  StepRunUpdateCancelError,
   StepRunGetSchemaData,
-  StepRunGetSchemaError,
   StepRunGetSchemaResponse,
+  StepRunGetSchemaError,
   WorkerListData,
-  WorkerListError,
   WorkerListResponse,
-  WorkerUpdateData,
-  WorkerUpdateError,
-  WorkerUpdateResponse,
+  WorkerListError,
   WorkerGetData,
-  WorkerGetError,
   WorkerGetResponse,
+  WorkerGetError,
+  WorkerUpdateData,
+  WorkerUpdateResponse,
+  WorkerUpdateError,
   WebhookListData,
-  WebhookListError,
   WebhookListResponse,
+  WebhookListError,
   WebhookCreateData,
-  WebhookCreateError,
   WebhookCreateResponse,
+  WebhookCreateError,
   WebhookDeleteData,
   WebhookDeleteError,
-  WebhookDeleteResponse,
   WebhookRequestsListData,
-  WebhookRequestsListError,
   WebhookRequestsListResponse,
+  WebhookRequestsListError,
   WorkflowRunGetInputData,
-  WorkflowRunGetInputError,
   WorkflowRunGetInputResponse,
+  WorkflowRunGetInputError,
   WorkflowGetByNameData,
-  WorkflowGetByNameError,
   WorkflowGetByNameResponse,
+  WorkflowGetByNameError,
   ChatChatData,
-  ChatChatError,
   ChatChatResponse,
+  ChatChatError,
   ChatCallModelData,
-  ChatCallModelError,
   ChatCallModelResponse,
+  ChatCallModelError,
   ChatMessagesData,
-  ChatMessagesError,
   ChatMessagesResponse,
   ChatModelsData,
-  ChatModelsError,
   ChatModelsResponse,
+  ChatModelsError,
   ChatCompletionsData,
-  ChatCompletionsError,
   ChatCompletionsResponse,
-  WorkerConfigError,
+  ChatCompletionsError,
+  WorkerConfigData,
   WorkerConfigResponse,
-  MtmaiBloggenconfigError,
+  MtmaiBloggenconfigData,
   MtmaiBloggenconfigResponse,
-  MtmaiWorkerConfigError,
+  MtmaiWorkerConfigData,
   MtmaiWorkerConfigResponse,
   BlogListData,
-  BlogListError,
   BlogListResponse,
   BlogCreateData,
-  BlogCreateError,
   BlogCreateResponse,
+  BlogCreateError,
   BlogGetData,
-  BlogGetError,
   BlogGetResponse,
+  BlogGetError,
   BlogUpdateData,
-  BlogUpdateError,
   BlogUpdateResponse,
+  BlogUpdateError,
   SiteListData,
-  SiteListError,
   SiteListResponse,
+  SiteListError,
   SiteCreateData,
-  SiteCreateError,
   SiteCreateResponse,
+  SiteCreateError,
   SiteGetData,
-  SiteGetError,
   SiteGetResponse,
+  SiteGetError,
+  SiteUpdateData,
+  SiteUpdateResponse,
+  SiteUpdateError,
   SiteGetByHostData,
-  SiteGetByHostError,
   SiteGetByHostResponse,
+  SiteGetByHostError,
   PostListPublicData,
-  PostListPublicError,
   PostListPublicResponse,
+  PostListPublicError,
   PostGetData,
-  PostGetError,
   PostGetResponse,
+  PostGetError,
   PostListData,
-  PostListError,
   PostListResponse,
+  PostListError,
   PostCreateData,
-  PostCreateError,
   PostCreateResponse,
+  PostCreateError,
   ToolCallData,
-  ToolCallError,
   ToolCallResponse,
   ToolsOperationGuideData,
-  ToolsOperationGuideError,
   ToolsOperationGuideResponse,
   ToolsWebsearchData,
-  ToolsWebsearchError,
   ToolsWebsearchResponse,
   ArtifactListData,
-  ArtifactListError,
   ArtifactListResponse,
   ArtifactCreateData,
-  ArtifactCreateError,
   ArtifactCreateResponse,
+  ArtifactCreateError,
   ArtifactGetData,
-  ArtifactGetError,
   ArtifactGetResponse,
+  ArtifactGetError,
   AgentNodeListData,
-  AgentNodeListError,
   AgentNodeListResponse,
   AgentCreateData,
-  AgentCreateError,
   AgentCreateResponse,
+  AgentCreateError,
   AgentNodeData,
-  AgentNodeError,
   AgentNodeResponse,
   AgentNodeUpdateData,
-  AgentNodeUpdateError,
   AgentNodeUpdateResponse,
+  AgentNodeUpdateError,
   AgentNodeRunData,
-  AgentNodeRunError,
   AgentNodeRunResponse,
+  AgentNodeRunError,
   AgentNodeFormData,
-  AgentNodeFormError,
   AgentNodeFormResponse,
+  AgentNodeFormError,
   LlmGetData,
-  LlmGetError,
   LlmGetResponse,
+  LlmGetError,
   DocListData,
-  DocListError,
   DocListResponse,
   PromptListData,
-  PromptListError,
   PromptListResponse,
   PromptGetData,
-  PromptGetError,
   PromptGetResponse,
+  PromptGetError,
   AssisantListData,
-  AssisantListError,
   AssisantListResponse,
   AssisantGetData,
-  AssisantGetError,
   AssisantGetResponse,
   SubscribeSubscribeData,
-  SubscribeSubscribeError,
   SubscribeSubscribeResponse,
-  AdminSeedError,
+  SubscribeSubscribeError,
+  AdminSeedData,
   AdminSeedResponse,
-  AdminReleaseConnError,
+  AdminReleaseConnData,
   AdminReleaseConnResponse,
-  FrontendGetConfigError,
+  AdminReleaseConnError,
+  FrontendGetConfigData,
   FrontendGetConfigResponse,
-  FrontendGetSiderbarError,
+  FrontendGetSiderbarData,
   FrontendGetSiderbarResponse,
 } from "./types.gen";
 
@@ -378,13 +376,9 @@ export const client = createClient(createConfig());
  * Gets the readiness status
  */
 export const readinessGet = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<ReadinessGetData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<
-    ReadinessGetResponse,
-    ReadinessGetError,
-    ThrowOnError
-  >({
+  return (options?.client ?? client).get<unknown, unknown, ThrowOnError>({
     ...options,
     url: "/api/ready",
   });
@@ -395,13 +389,9 @@ export const readinessGet = <ThrowOnError extends boolean = false>(
  * Gets the liveness status
  */
 export const livenessGet = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<LivenessGetData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<
-    LivenessGetResponse,
-    LivenessGetError,
-    ThrowOnError
-  >({
+  return (options?.client ?? client).get<unknown, unknown, ThrowOnError>({
     ...options,
     url: "/api/live",
   });
@@ -412,7 +402,7 @@ export const livenessGet = <ThrowOnError extends boolean = false>(
  * Gets metadata for the Hatchet instance
  */
 export const metadataGet = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<MetadataGetData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     MetadataGetResponse,
@@ -429,7 +419,7 @@ export const metadataGet = <ThrowOnError extends boolean = false>(
  * Gets metadata for the Hatchet cloud instance
  */
 export const cloudMetadataGet = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<CloudMetadataGetData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     CloudMetadataGetResponse,
@@ -446,7 +436,7 @@ export const cloudMetadataGet = <ThrowOnError extends boolean = false>(
  * List all integrations
  */
 export const metadataListIntegrations = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<MetadataListIntegrationsData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     MetadataListIntegrationsResponse,
@@ -454,6 +444,16 @@ export const metadataListIntegrations = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/meta/integrations",
   });
 };
@@ -463,7 +463,7 @@ export const metadataListIntegrations = <ThrowOnError extends boolean = false>(
  * Logs in a user.
  */
 export const userUpdateLogin = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<UserUpdateLoginData, ThrowOnError>,
+  options?: Options<UserUpdateLoginData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     UserUpdateLoginResponse,
@@ -471,6 +471,10 @@ export const userUpdateLogin = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
     url: "/api/v1/users/login",
   });
 };
@@ -482,9 +486,9 @@ export const userUpdateLogin = <ThrowOnError extends boolean = false>(
 export const userUpdateGoogleOauthStart = <
   ThrowOnError extends boolean = false,
 >(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<UserUpdateGoogleOauthStartData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<void, unknown, ThrowOnError>({
+  return (options?.client ?? client).get<unknown, unknown, ThrowOnError>({
     ...options,
     url: "/api/v1/users/google/start",
   });
@@ -497,9 +501,9 @@ export const userUpdateGoogleOauthStart = <
 export const userUpdateGoogleOauthCallback = <
   ThrowOnError extends boolean = false,
 >(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<UserUpdateGoogleOauthCallbackData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<void, unknown, ThrowOnError>({
+  return (options?.client ?? client).get<unknown, unknown, ThrowOnError>({
     ...options,
     url: "/api/v1/users/google/callback",
   });
@@ -512,9 +516,9 @@ export const userUpdateGoogleOauthCallback = <
 export const userUpdateGithubOauthStart = <
   ThrowOnError extends boolean = false,
 >(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<UserUpdateGithubOauthStartData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<void, unknown, ThrowOnError>({
+  return (options?.client ?? client).get<unknown, unknown, ThrowOnError>({
     ...options,
     url: "/api/v1/users/github/start",
   });
@@ -527,9 +531,9 @@ export const userUpdateGithubOauthStart = <
 export const userUpdateGithubOauthCallback = <
   ThrowOnError extends boolean = false,
 >(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<UserUpdateGithubOauthCallbackData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<void, unknown, ThrowOnError>({
+  return (options?.client ?? client).get<unknown, unknown, ThrowOnError>({
     ...options,
     url: "/api/v1/users/github/callback",
   });
@@ -540,9 +544,9 @@ export const userUpdateGithubOauthCallback = <
  * Starts the OAuth flow
  */
 export const userUpdateSlackOauthStart = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<UserUpdateSlackOauthStartData, ThrowOnError>,
+  options: Options<UserUpdateSlackOauthStartData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<void, unknown, ThrowOnError>({
+  return (options?.client ?? client).get<unknown, unknown, ThrowOnError>({
     ...options,
     url: "/api/v1/tenants/{tenant}/slack/start",
   });
@@ -555,9 +559,9 @@ export const userUpdateSlackOauthStart = <ThrowOnError extends boolean = false>(
 export const userUpdateSlackOauthCallback = <
   ThrowOnError extends boolean = false,
 >(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<UserUpdateSlackOauthCallbackData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<void, unknown, ThrowOnError>({
+  return (options?.client ?? client).get<unknown, unknown, ThrowOnError>({
     ...options,
     url: "/api/v1/users/slack/callback",
   });
@@ -568,10 +572,10 @@ export const userUpdateSlackOauthCallback = <
  * SNS event
  */
 export const snsUpdate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<SnsUpdateData, ThrowOnError>,
+  options: Options<SnsUpdateData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
-    SnsUpdateResponse,
+    unknown,
     SnsUpdateError,
     ThrowOnError
   >({
@@ -585,7 +589,7 @@ export const snsUpdate = <ThrowOnError extends boolean = false>(
  * List SNS integrations
  */
 export const snsList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<SnsListData, ThrowOnError>,
+  options: Options<SnsListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     SnsListResponse,
@@ -593,6 +597,16 @@ export const snsList = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/sns",
   });
 };
@@ -602,7 +616,7 @@ export const snsList = <ThrowOnError extends boolean = false>(
  * Create SNS integration
  */
 export const snsCreate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<SnsCreateData, ThrowOnError>,
+  options: Options<SnsCreateData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     SnsCreateResponse,
@@ -610,24 +624,21 @@ export const snsCreate = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/sns",
-  });
-};
-
-/**
- * Create tenant alert email group
- * Creates a new tenant alert email group
- */
-export const alertEmailGroupCreate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<AlertEmailGroupCreateData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).post<
-    AlertEmailGroupCreateResponse,
-    AlertEmailGroupCreateError,
-    ThrowOnError
-  >({
-    ...options,
-    url: "/api/v1/tenants/{tenant}/alerting-email-groups",
   });
 };
 
@@ -636,7 +647,7 @@ export const alertEmailGroupCreate = <ThrowOnError extends boolean = false>(
  * Gets a list of tenant alert email groups
  */
 export const alertEmailGroupList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<AlertEmailGroupListData, ThrowOnError>,
+  options: Options<AlertEmailGroupListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     AlertEmailGroupListResponse,
@@ -644,6 +655,47 @@ export const alertEmailGroupList = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/alerting-email-groups",
+  });
+};
+
+/**
+ * Create tenant alert email group
+ * Creates a new tenant alert email group
+ */
+export const alertEmailGroupCreate = <ThrowOnError extends boolean = false>(
+  options: Options<AlertEmailGroupCreateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).post<
+    AlertEmailGroupCreateResponse,
+    AlertEmailGroupCreateError,
+    ThrowOnError
+  >({
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/alerting-email-groups",
   });
 };
@@ -653,7 +705,7 @@ export const alertEmailGroupList = <ThrowOnError extends boolean = false>(
  * Gets the resource policy for a tenant
  */
 export const tenantResourcePolicyGet = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<TenantResourcePolicyGetData, ThrowOnError>,
+  options: Options<TenantResourcePolicyGetData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     TenantResourcePolicyGetResponse,
@@ -661,24 +713,17 @@ export const tenantResourcePolicyGet = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/resource-policy",
-  });
-};
-
-/**
- * Update tenant alert email group
- * Updates a tenant alert email group
- */
-export const alertEmailGroupUpdate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<AlertEmailGroupUpdateData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).patch<
-    AlertEmailGroupUpdateResponse,
-    AlertEmailGroupUpdateError,
-    ThrowOnError
-  >({
-    ...options,
-    url: "/api/v1/alerting-email-groups/{alert-email-group}",
   });
 };
 
@@ -687,7 +732,7 @@ export const alertEmailGroupUpdate = <ThrowOnError extends boolean = false>(
  * Deletes a tenant alert email group
  */
 export const alertEmailGroupDelete = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<AlertEmailGroupDeleteData, ThrowOnError>,
+  options: Options<AlertEmailGroupDeleteData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).delete<
     AlertEmailGroupDeleteResponse,
@@ -695,6 +740,47 @@ export const alertEmailGroupDelete = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/alerting-email-groups/{alert-email-group}",
+  });
+};
+
+/**
+ * Update tenant alert email group
+ * Updates a tenant alert email group
+ */
+export const alertEmailGroupUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<AlertEmailGroupUpdateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).patch<
+    AlertEmailGroupUpdateResponse,
+    AlertEmailGroupUpdateError,
+    ThrowOnError
+  >({
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/alerting-email-groups/{alert-email-group}",
   });
 };
@@ -704,7 +790,7 @@ export const alertEmailGroupDelete = <ThrowOnError extends boolean = false>(
  * Delete SNS integration
  */
 export const snsDelete = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<SnsDeleteData, ThrowOnError>,
+  options: Options<SnsDeleteData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).delete<
     SnsDeleteResponse,
@@ -712,6 +798,16 @@ export const snsDelete = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/sns/{sns}",
   });
 };
@@ -721,7 +817,7 @@ export const snsDelete = <ThrowOnError extends boolean = false>(
  * List Slack webhooks
  */
 export const slackWebhookList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<SlackWebhookListData, ThrowOnError>,
+  options: Options<SlackWebhookListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     SlackWebhookListResponse,
@@ -729,6 +825,16 @@ export const slackWebhookList = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/slack",
   });
 };
@@ -738,7 +844,7 @@ export const slackWebhookList = <ThrowOnError extends boolean = false>(
  * Delete Slack webhook
  */
 export const slackWebhookDelete = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<SlackWebhookDeleteData, ThrowOnError>,
+  options: Options<SlackWebhookDeleteData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).delete<
     SlackWebhookDeleteResponse,
@@ -746,6 +852,16 @@ export const slackWebhookDelete = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/slack/{slack}",
   });
 };
@@ -755,7 +871,7 @@ export const slackWebhookDelete = <ThrowOnError extends boolean = false>(
  * Gets the current user
  */
 export const userGetCurrent = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<UserGetCurrentData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     UserGetCurrentResponse,
@@ -772,7 +888,7 @@ export const userGetCurrent = <ThrowOnError extends boolean = false>(
  * Update a user password.
  */
 export const userUpdatePassword = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<UserUpdatePasswordData, ThrowOnError>,
+  options?: Options<UserUpdatePasswordData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     UserUpdatePasswordResponse,
@@ -780,6 +896,10 @@ export const userUpdatePassword = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
     url: "/api/v1/users/password",
   });
 };
@@ -789,7 +909,7 @@ export const userUpdatePassword = <ThrowOnError extends boolean = false>(
  * Registers a user.
  */
 export const userCreate = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<UserCreateData, ThrowOnError>,
+  options?: Options<UserCreateData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     UserCreateResponse,
@@ -797,6 +917,10 @@ export const userCreate = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
     url: "/api/v1/users/register",
   });
 };
@@ -806,7 +930,7 @@ export const userCreate = <ThrowOnError extends boolean = false>(
  * Logs out a user.
  */
 export const userUpdateLogout = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<UserUpdateLogoutData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     UserUpdateLogoutResponse,
@@ -823,7 +947,7 @@ export const userUpdateLogout = <ThrowOnError extends boolean = false>(
  * Lists all tenant memberships for the current user
  */
 export const tenantMembershipsList = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<TenantMembershipsListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     TenantMembershipsListResponse,
@@ -840,7 +964,7 @@ export const tenantMembershipsList = <ThrowOnError extends boolean = false>(
  * Lists all tenant invites for the current user
  */
 export const userListTenantInvites = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<UserListTenantInvitesData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     UserListTenantInvitesResponse,
@@ -857,14 +981,28 @@ export const userListTenantInvites = <ThrowOnError extends boolean = false>(
  * Accepts a tenant invite
  */
 export const tenantInviteAccept = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<TenantInviteAcceptData, ThrowOnError>,
+  options?: Options<TenantInviteAcceptData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
-    TenantInviteAcceptResponse,
+    unknown,
     TenantInviteAcceptError,
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/users/invites/accept",
   });
 };
@@ -874,14 +1012,28 @@ export const tenantInviteAccept = <ThrowOnError extends boolean = false>(
  * Rejects a tenant invite
  */
 export const tenantInviteReject = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<TenantInviteRejectData, ThrowOnError>,
+  options?: Options<TenantInviteRejectData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
-    TenantInviteRejectResponse,
+    unknown,
     TenantInviteRejectError,
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/users/invites/reject",
   });
 };
@@ -891,7 +1043,7 @@ export const tenantInviteReject = <ThrowOnError extends boolean = false>(
  * Creates a new tenant
  */
 export const tenantCreate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<TenantCreateData, ThrowOnError>,
+  options: Options<TenantCreateData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     TenantCreateResponse,
@@ -899,6 +1051,20 @@ export const tenantCreate = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants",
   });
 };
@@ -908,7 +1074,7 @@ export const tenantCreate = <ThrowOnError extends boolean = false>(
  * Update an existing tenant
  */
 export const tenantUpdate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<TenantUpdateData, ThrowOnError>,
+  options: Options<TenantUpdateData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).patch<
     TenantUpdateResponse,
@@ -916,6 +1082,20 @@ export const tenantUpdate = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}",
   });
 };
@@ -925,7 +1105,7 @@ export const tenantUpdate = <ThrowOnError extends boolean = false>(
  * Gets the alerting settings for a tenant
  */
 export const tenantAlertingSettingsGet = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<TenantAlertingSettingsGetData, ThrowOnError>,
+  options: Options<TenantAlertingSettingsGetData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     TenantAlertingSettingsGetResponse,
@@ -933,24 +1113,17 @@ export const tenantAlertingSettingsGet = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/alerting/settings",
-  });
-};
-
-/**
- * Create tenant invite
- * Creates a new tenant invite
- */
-export const tenantInviteCreate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<TenantInviteCreateData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).post<
-    TenantInviteCreateResponse,
-    TenantInviteCreateError,
-    ThrowOnError
-  >({
-    ...options,
-    url: "/api/v1/tenants/{tenant}/invites",
   });
 };
 
@@ -959,7 +1132,7 @@ export const tenantInviteCreate = <ThrowOnError extends boolean = false>(
  * Gets a list of tenant invites
  */
 export const tenantInviteList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<TenantInviteListData, ThrowOnError>,
+  options: Options<TenantInviteListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     TenantInviteListResponse,
@@ -967,24 +1140,48 @@ export const tenantInviteList = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/invites",
   });
 };
 
 /**
- * Update invite
- * Updates a tenant invite
+ * Create tenant invite
+ * Creates a new tenant invite
  */
-export const tenantInviteUpdate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<TenantInviteUpdateData, ThrowOnError>,
+export const tenantInviteCreate = <ThrowOnError extends boolean = false>(
+  options: Options<TenantInviteCreateData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).patch<
-    TenantInviteUpdateResponse,
-    TenantInviteUpdateError,
+  return (options?.client ?? client).post<
+    TenantInviteCreateResponse,
+    TenantInviteCreateError,
     ThrowOnError
   >({
     ...options,
-    url: "/api/v1/tenants/{tenant}/invites/{tenant-invite}",
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/invites",
   });
 };
 
@@ -993,7 +1190,7 @@ export const tenantInviteUpdate = <ThrowOnError extends boolean = false>(
  * Deletes a tenant invite
  */
 export const tenantInviteDelete = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<TenantInviteDeleteData, ThrowOnError>,
+  options: Options<TenantInviteDeleteData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).delete<
     TenantInviteDeleteResponse,
@@ -1001,24 +1198,48 @@ export const tenantInviteDelete = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/invites/{tenant-invite}",
   });
 };
 
 /**
- * Create API Token
- * Create an API token for a tenant
+ * Update invite
+ * Updates a tenant invite
  */
-export const apiTokenCreate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<ApiTokenCreateData, ThrowOnError>,
+export const tenantInviteUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<TenantInviteUpdateData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).post<
-    ApiTokenCreateResponse,
-    ApiTokenCreateError,
+  return (options?.client ?? client).patch<
+    TenantInviteUpdateResponse,
+    TenantInviteUpdateError,
     ThrowOnError
   >({
     ...options,
-    url: "/api/v1/tenants/{tenant}/api-tokens",
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/invites/{tenant-invite}",
   });
 };
 
@@ -1027,7 +1248,7 @@ export const apiTokenCreate = <ThrowOnError extends boolean = false>(
  * List API tokens for a tenant
  */
 export const apiTokenList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<ApiTokenListData, ThrowOnError>,
+  options: Options<ApiTokenListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     ApiTokenListResponse,
@@ -1035,6 +1256,47 @@ export const apiTokenList = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/api-tokens",
+  });
+};
+
+/**
+ * Create API Token
+ * Create an API token for a tenant
+ */
+export const apiTokenCreate = <ThrowOnError extends boolean = false>(
+  options: Options<ApiTokenCreateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).post<
+    ApiTokenCreateResponse,
+    ApiTokenCreateError,
+    ThrowOnError
+  >({
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/api-tokens",
   });
 };
@@ -1044,7 +1306,7 @@ export const apiTokenList = <ThrowOnError extends boolean = false>(
  * Revoke an API token for a tenant
  */
 export const apiTokenUpdateRevoke = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<ApiTokenUpdateRevokeData, ThrowOnError>,
+  options: Options<ApiTokenUpdateRevokeData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     ApiTokenUpdateRevokeResponse,
@@ -1052,6 +1314,16 @@ export const apiTokenUpdateRevoke = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/api-tokens/{api-token}",
   });
 };
@@ -1061,7 +1333,7 @@ export const apiTokenUpdateRevoke = <ThrowOnError extends boolean = false>(
  * Get the queue metrics for the tenant
  */
 export const tenantGetQueueMetrics = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<TenantGetQueueMetricsData, ThrowOnError>,
+  options: Options<TenantGetQueueMetricsData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     TenantGetQueueMetricsResponse,
@@ -1069,6 +1341,16 @@ export const tenantGetQueueMetrics = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/queue-metrics",
   });
 };
@@ -1080,7 +1362,7 @@ export const tenantGetQueueMetrics = <ThrowOnError extends boolean = false>(
 export const tenantGetStepRunQueueMetrics = <
   ThrowOnError extends boolean = false,
 >(
-  options: OptionsLegacyParser<TenantGetStepRunQueueMetricsData, ThrowOnError>,
+  options: Options<TenantGetStepRunQueueMetricsData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     TenantGetStepRunQueueMetricsResponse,
@@ -1088,6 +1370,16 @@ export const tenantGetStepRunQueueMetrics = <
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/step-run-queue-metrics",
   });
 };
@@ -1097,7 +1389,7 @@ export const tenantGetStepRunQueueMetrics = <
  * Lists all events for a tenant.
  */
 export const eventList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<EventListData, ThrowOnError>,
+  options: Options<EventListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     EventListResponse,
@@ -1105,6 +1397,16 @@ export const eventList = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/events",
   });
 };
@@ -1114,7 +1416,7 @@ export const eventList = <ThrowOnError extends boolean = false>(
  * Creates a new event.
  */
 export const eventCreate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<EventCreateData, ThrowOnError>,
+  options: Options<EventCreateData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     EventCreateResponse,
@@ -1122,6 +1424,20 @@ export const eventCreate = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/events",
   });
 };
@@ -1131,7 +1447,7 @@ export const eventCreate = <ThrowOnError extends boolean = false>(
  * Bulk creates new events.
  */
 export const eventCreateBulk = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<EventCreateBulkData, ThrowOnError>,
+  options: Options<EventCreateBulkData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     EventCreateBulkResponse,
@@ -1139,6 +1455,20 @@ export const eventCreateBulk = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/events/bulk",
   });
 };
@@ -1148,7 +1478,7 @@ export const eventCreateBulk = <ThrowOnError extends boolean = false>(
  * Replays a list of events.
  */
 export const eventUpdateReplay = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<EventUpdateReplayData, ThrowOnError>,
+  options: Options<EventUpdateReplayData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     EventUpdateReplayResponse,
@@ -1156,6 +1486,20 @@ export const eventUpdateReplay = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/events/replay",
   });
 };
@@ -1165,7 +1509,7 @@ export const eventUpdateReplay = <ThrowOnError extends boolean = false>(
  * Cancels all runs for a list of events.
  */
 export const eventUpdateCancel = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<EventUpdateCancelData, ThrowOnError>,
+  options: Options<EventUpdateCancelData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     EventUpdateCancelResponse,
@@ -1173,6 +1517,20 @@ export const eventUpdateCancel = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/events/cancel",
   });
 };
@@ -1182,7 +1540,7 @@ export const eventUpdateCancel = <ThrowOnError extends boolean = false>(
  * Lists all rate limits for a tenant.
  */
 export const rateLimitList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<RateLimitListData, ThrowOnError>,
+  options: Options<RateLimitListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     RateLimitListResponse,
@@ -1190,6 +1548,16 @@ export const rateLimitList = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/rate-limits",
   });
 };
@@ -1199,7 +1567,7 @@ export const rateLimitList = <ThrowOnError extends boolean = false>(
  * Gets a list of tenant members
  */
 export const tenantMemberList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<TenantMemberListData, ThrowOnError>,
+  options: Options<TenantMemberListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     TenantMemberListResponse,
@@ -1207,6 +1575,16 @@ export const tenantMemberList = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/members",
   });
 };
@@ -1216,7 +1594,7 @@ export const tenantMemberList = <ThrowOnError extends boolean = false>(
  * Delete a member from a tenant
  */
 export const tenantMemberDelete = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<TenantMemberDeleteData, ThrowOnError>,
+  options: Options<TenantMemberDeleteData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).delete<
     TenantMemberDeleteResponse,
@@ -1224,6 +1602,16 @@ export const tenantMemberDelete = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/members/{member}",
   });
 };
@@ -1233,7 +1621,7 @@ export const tenantMemberDelete = <ThrowOnError extends boolean = false>(
  * Get an event.
  */
 export const eventGet = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<EventGetData, ThrowOnError>,
+  options: Options<EventGetData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     EventGetResponse,
@@ -1241,6 +1629,16 @@ export const eventGet = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/events/{event}",
   });
 };
@@ -1250,7 +1648,7 @@ export const eventGet = <ThrowOnError extends boolean = false>(
  * Get the data for an event.
  */
 export const eventDataGet = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<EventDataGetData, ThrowOnError>,
+  options: Options<EventDataGetData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     EventDataGetResponse,
@@ -1258,6 +1656,16 @@ export const eventDataGet = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/events/{event}/data",
   });
 };
@@ -1267,7 +1675,7 @@ export const eventDataGet = <ThrowOnError extends boolean = false>(
  * Lists all event keys for a tenant.
  */
 export const eventKeyList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<EventKeyListData, ThrowOnError>,
+  options: Options<EventKeyListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     EventKeyListResponse,
@@ -1275,6 +1683,16 @@ export const eventKeyList = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/events/keys",
   });
 };
@@ -1284,7 +1702,7 @@ export const eventKeyList = <ThrowOnError extends boolean = false>(
  * Get all workflows for a tenant
  */
 export const workflowList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkflowListData, ThrowOnError>,
+  options: Options<WorkflowListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     WorkflowListResponse,
@@ -1292,6 +1710,16 @@ export const workflowList = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/workflows",
   });
 };
@@ -1301,7 +1729,7 @@ export const workflowList = <ThrowOnError extends boolean = false>(
  * Get all scheduled workflow runs for a tenant
  */
 export const workflowScheduledList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkflowScheduledListData, ThrowOnError>,
+  options: Options<WorkflowScheduledListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     WorkflowScheduledListResponse,
@@ -1309,24 +1737,17 @@ export const workflowScheduledList = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/workflows/scheduled",
-  });
-};
-
-/**
- * Get scheduled workflow run
- * Get a scheduled workflow run for a tenant
- */
-export const workflowScheduledGet = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkflowScheduledGetData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).get<
-    WorkflowScheduledGetResponse,
-    WorkflowScheduledGetError,
-    ThrowOnError
-  >({
-    ...options,
-    url: "/api/v1/tenants/{tenant}/workflows/scheduled/{scheduledId}",
   });
 };
 
@@ -1335,7 +1756,7 @@ export const workflowScheduledGet = <ThrowOnError extends boolean = false>(
  * Delete a scheduled workflow run for a tenant
  */
 export const workflowScheduledDelete = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkflowScheduledDeleteData, ThrowOnError>,
+  options: Options<WorkflowScheduledDeleteData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).delete<
     WorkflowScheduledDeleteResponse,
@@ -1343,6 +1764,43 @@ export const workflowScheduledDelete = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/workflows/scheduled/{scheduledId}",
+  });
+};
+
+/**
+ * Get scheduled workflow run
+ * Get a scheduled workflow run for a tenant
+ */
+export const workflowScheduledGet = <ThrowOnError extends boolean = false>(
+  options: Options<WorkflowScheduledGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    WorkflowScheduledGetResponse,
+    WorkflowScheduledGetError,
+    ThrowOnError
+  >({
+    ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/workflows/scheduled/{scheduledId}",
   });
 };
@@ -1352,7 +1810,7 @@ export const workflowScheduledDelete = <ThrowOnError extends boolean = false>(
  * Get all cron job workflow runs for a tenant
  */
 export const cronWorkflowList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<CronWorkflowListData, ThrowOnError>,
+  options: Options<CronWorkflowListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     CronWorkflowListResponse,
@@ -1360,6 +1818,16 @@ export const cronWorkflowList = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/workflows/crons",
   });
 };
@@ -1369,7 +1837,7 @@ export const cronWorkflowList = <ThrowOnError extends boolean = false>(
  * Cancel a batch of workflow runs
  */
 export const workflowRunCancel = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkflowRunCancelData, ThrowOnError>,
+  options: Options<WorkflowRunCancelData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     WorkflowRunCancelResponse,
@@ -1377,24 +1845,21 @@ export const workflowRunCancel = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/workflows/cancel",
-  });
-};
-
-/**
- * Get workflow
- * Get a workflow for a tenant
- */
-export const workflowGet = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkflowGetData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).get<
-    WorkflowGetResponse,
-    WorkflowGetError,
-    ThrowOnError
-  >({
-    ...options,
-    url: "/api/v1/workflows/{workflow}",
   });
 };
 
@@ -1403,7 +1868,7 @@ export const workflowGet = <ThrowOnError extends boolean = false>(
  * Delete a workflow for a tenant
  */
 export const workflowDelete = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkflowDeleteData, ThrowOnError>,
+  options: Options<WorkflowDeleteData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).delete<
     WorkflowDeleteResponse,
@@ -1411,6 +1876,43 @@ export const workflowDelete = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/workflows/{workflow}",
+  });
+};
+
+/**
+ * Get workflow
+ * Get a workflow for a tenant
+ */
+export const workflowGet = <ThrowOnError extends boolean = false>(
+  options: Options<WorkflowGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    WorkflowGetResponse,
+    WorkflowGetError,
+    ThrowOnError
+  >({
+    ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/workflows/{workflow}",
   });
 };
@@ -1420,7 +1922,7 @@ export const workflowDelete = <ThrowOnError extends boolean = false>(
  * Update a workflow for a tenant
  */
 export const workflowUpdate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkflowUpdateData, ThrowOnError>,
+  options: Options<WorkflowUpdateData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).patch<
     WorkflowUpdateResponse,
@@ -1428,6 +1930,20 @@ export const workflowUpdate = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/workflows/{workflow}",
   });
 };
@@ -1437,7 +1953,7 @@ export const workflowUpdate = <ThrowOnError extends boolean = false>(
  * Get a workflow version for a tenant
  */
 export const workflowVersionGet = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkflowVersionGetData, ThrowOnError>,
+  options: Options<WorkflowVersionGetData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     WorkflowVersionGetResponse,
@@ -1445,6 +1961,16 @@ export const workflowVersionGet = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/workflows/{workflow}/versions",
   });
 };
@@ -1454,7 +1980,7 @@ export const workflowVersionGet = <ThrowOnError extends boolean = false>(
  * Trigger a new workflow run for a tenant
  */
 export const workflowRunCreate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkflowRunCreateData, ThrowOnError>,
+  options: Options<WorkflowRunCreateData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     WorkflowRunCreateResponse,
@@ -1462,6 +1988,20 @@ export const workflowRunCreate = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/workflows/{workflow}/trigger",
   });
 };
@@ -1471,7 +2011,7 @@ export const workflowRunCreate = <ThrowOnError extends boolean = false>(
  * Get the metrics for a workflow version
  */
 export const workflowGetMetrics = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkflowGetMetricsData, ThrowOnError>,
+  options: Options<WorkflowGetMetricsData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     WorkflowGetMetricsResponse,
@@ -1479,6 +2019,16 @@ export const workflowGetMetrics = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/workflows/{workflow}/metrics",
   });
 };
@@ -1488,7 +2038,7 @@ export const workflowGetMetrics = <ThrowOnError extends boolean = false>(
  * Lists log lines for a step run.
  */
 export const logLineList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<LogLineListData, ThrowOnError>,
+  options: Options<LogLineListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     LogLineListResponse,
@@ -1496,6 +2046,16 @@ export const logLineList = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/step-runs/{step-run}/logs",
   });
 };
@@ -1505,7 +2065,7 @@ export const logLineList = <ThrowOnError extends boolean = false>(
  * List events for a step run
  */
 export const stepRunListEvents = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<StepRunListEventsData, ThrowOnError>,
+  options: Options<StepRunListEventsData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     StepRunListEventsResponse,
@@ -1513,6 +2073,16 @@ export const stepRunListEvents = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/step-runs/{step-run}/events",
   });
 };
@@ -1524,7 +2094,7 @@ export const stepRunListEvents = <ThrowOnError extends boolean = false>(
 export const workflowRunListStepRunEvents = <
   ThrowOnError extends boolean = false,
 >(
-  options: OptionsLegacyParser<WorkflowRunListStepRunEventsData, ThrowOnError>,
+  options: Options<WorkflowRunListStepRunEventsData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     WorkflowRunListStepRunEventsResponse,
@@ -1532,6 +2102,16 @@ export const workflowRunListStepRunEvents = <
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/step-run-events",
   });
 };
@@ -1541,7 +2121,7 @@ export const workflowRunListStepRunEvents = <
  * List archives for a step run
  */
 export const stepRunListArchives = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<StepRunListArchivesData, ThrowOnError>,
+  options: Options<StepRunListArchivesData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     StepRunListArchivesResponse,
@@ -1549,6 +2129,16 @@ export const stepRunListArchives = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/step-runs/{step-run}/archives",
   });
 };
@@ -1558,7 +2148,7 @@ export const stepRunListArchives = <ThrowOnError extends boolean = false>(
  * Get a count of the workers available for workflow
  */
 export const workflowGetWorkersCount = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkflowGetWorkersCountData, ThrowOnError>,
+  options: Options<WorkflowGetWorkersCountData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     WorkflowGetWorkersCountResponse,
@@ -1566,6 +2156,16 @@ export const workflowGetWorkersCount = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/workflows/{workflow}/worker-count",
   });
 };
@@ -1575,7 +2175,7 @@ export const workflowGetWorkersCount = <ThrowOnError extends boolean = false>(
  * Get all workflow runs for a tenant
  */
 export const workflowRunList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkflowRunListData, ThrowOnError>,
+  options: Options<WorkflowRunListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     WorkflowRunListResponse,
@@ -1583,6 +2183,16 @@ export const workflowRunList = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/workflows/runs",
   });
 };
@@ -1592,7 +2202,7 @@ export const workflowRunList = <ThrowOnError extends boolean = false>(
  * Replays a list of workflow runs.
  */
 export const workflowRunUpdateReplay = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkflowRunUpdateReplayData, ThrowOnError>,
+  options: Options<WorkflowRunUpdateReplayData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     WorkflowRunUpdateReplayResponse,
@@ -1600,6 +2210,20 @@ export const workflowRunUpdateReplay = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/workflow-runs/replay",
   });
 };
@@ -1609,7 +2233,7 @@ export const workflowRunUpdateReplay = <ThrowOnError extends boolean = false>(
  * Get a summary of  workflow run metrics for a tenant
  */
 export const workflowRunGetMetrics = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkflowRunGetMetricsData, ThrowOnError>,
+  options: Options<WorkflowRunGetMetricsData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     WorkflowRunGetMetricsResponse,
@@ -1617,6 +2241,16 @@ export const workflowRunGetMetrics = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/workflows/runs/metrics",
   });
 };
@@ -1626,7 +2260,7 @@ export const workflowRunGetMetrics = <ThrowOnError extends boolean = false>(
  * Get a workflow run for a tenant
  */
 export const workflowRunGet = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkflowRunGetData, ThrowOnError>,
+  options: Options<WorkflowRunGetData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     WorkflowRunGetResponse,
@@ -1634,6 +2268,16 @@ export const workflowRunGet = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}",
   });
 };
@@ -1643,7 +2287,7 @@ export const workflowRunGet = <ThrowOnError extends boolean = false>(
  * Get a workflow run for a tenant
  */
 export const workflowRunGetShape = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkflowRunGetShapeData, ThrowOnError>,
+  options: Options<WorkflowRunGetShapeData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     WorkflowRunGetShapeResponse,
@@ -1651,6 +2295,16 @@ export const workflowRunGetShape = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/shape",
   });
 };
@@ -1660,7 +2314,7 @@ export const workflowRunGetShape = <ThrowOnError extends boolean = false>(
  * Get a step run by id
  */
 export const stepRunGet = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<StepRunGetData, ThrowOnError>,
+  options: Options<StepRunGetData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     StepRunGetResponse,
@@ -1668,6 +2322,16 @@ export const stepRunGet = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/step-runs/{step-run}",
   });
 };
@@ -1677,7 +2341,7 @@ export const stepRunGet = <ThrowOnError extends boolean = false>(
  * Reruns a step run
  */
 export const stepRunUpdateRerun = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<StepRunUpdateRerunData, ThrowOnError>,
+  options: Options<StepRunUpdateRerunData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     StepRunUpdateRerunResponse,
@@ -1685,6 +2349,20 @@ export const stepRunUpdateRerun = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/step-runs/{step-run}/rerun",
   });
 };
@@ -1694,7 +2372,7 @@ export const stepRunUpdateRerun = <ThrowOnError extends boolean = false>(
  * Attempts to cancel a step run
  */
 export const stepRunUpdateCancel = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<StepRunUpdateCancelData, ThrowOnError>,
+  options: Options<StepRunUpdateCancelData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     StepRunUpdateCancelResponse,
@@ -1702,6 +2380,16 @@ export const stepRunUpdateCancel = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/step-runs/{step-run}/cancel",
   });
 };
@@ -1711,7 +2399,7 @@ export const stepRunUpdateCancel = <ThrowOnError extends boolean = false>(
  * Get the schema for a step run
  */
 export const stepRunGetSchema = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<StepRunGetSchemaData, ThrowOnError>,
+  options: Options<StepRunGetSchemaData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     StepRunGetSchemaResponse,
@@ -1719,6 +2407,16 @@ export const stepRunGetSchema = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/step-runs/{step-run}/schema",
   });
 };
@@ -1728,7 +2426,7 @@ export const stepRunGetSchema = <ThrowOnError extends boolean = false>(
  * Get all workers for a tenant
  */
 export const workerList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkerListData, ThrowOnError>,
+  options: Options<WorkerListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     WorkerListResponse,
@@ -1736,24 +2434,17 @@ export const workerList = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/worker",
-  });
-};
-
-/**
- * Update worker
- * Update a worker
- */
-export const workerUpdate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkerUpdateData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).patch<
-    WorkerUpdateResponse,
-    WorkerUpdateError,
-    ThrowOnError
-  >({
-    ...options,
-    url: "/api/v1/workers/{worker}",
   });
 };
 
@@ -1762,7 +2453,7 @@ export const workerUpdate = <ThrowOnError extends boolean = false>(
  * Get a worker
  */
 export const workerGet = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkerGetData, ThrowOnError>,
+  options: Options<WorkerGetData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     WorkerGetResponse,
@@ -1770,6 +2461,47 @@ export const workerGet = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/workers/{worker}",
+  });
+};
+
+/**
+ * Update worker
+ * Update a worker
+ */
+export const workerUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<WorkerUpdateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).patch<
+    WorkerUpdateResponse,
+    WorkerUpdateError,
+    ThrowOnError
+  >({
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/workers/{worker}",
   });
 };
@@ -1779,7 +2511,7 @@ export const workerGet = <ThrowOnError extends boolean = false>(
  * Lists all webhooks
  */
 export const webhookList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WebhookListData, ThrowOnError>,
+  options: Options<WebhookListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     WebhookListResponse,
@@ -1787,6 +2519,16 @@ export const webhookList = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/webhook-workers",
   });
 };
@@ -1796,7 +2538,7 @@ export const webhookList = <ThrowOnError extends boolean = false>(
  * Creates a webhook
  */
 export const webhookCreate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WebhookCreateData, ThrowOnError>,
+  options: Options<WebhookCreateData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     WebhookCreateResponse,
@@ -1804,6 +2546,20 @@ export const webhookCreate = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/webhook-workers",
   });
 };
@@ -1813,14 +2569,24 @@ export const webhookCreate = <ThrowOnError extends boolean = false>(
  * Deletes a webhook
  */
 export const webhookDelete = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WebhookDeleteData, ThrowOnError>,
+  options: Options<WebhookDeleteData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).delete<
-    WebhookDeleteResponse,
+    unknown,
     WebhookDeleteError,
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/webhook-workers/{webhook}",
   });
 };
@@ -1830,7 +2596,7 @@ export const webhookDelete = <ThrowOnError extends boolean = false>(
  * Lists all requests for a webhook
  */
 export const webhookRequestsList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WebhookRequestsListData, ThrowOnError>,
+  options: Options<WebhookRequestsListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     WebhookRequestsListResponse,
@@ -1838,6 +2604,16 @@ export const webhookRequestsList = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/webhook-workers/{webhook}/requests",
   });
 };
@@ -1847,7 +2623,7 @@ export const webhookRequestsList = <ThrowOnError extends boolean = false>(
  * Get the input for a workflow run.
  */
 export const workflowRunGetInput = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkflowRunGetInputData, ThrowOnError>,
+  options: Options<WorkflowRunGetInputData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     WorkflowRunGetInputResponse,
@@ -1855,6 +2631,16 @@ export const workflowRunGetInput = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/input",
   });
 };
@@ -1864,7 +2650,7 @@ export const workflowRunGetInput = <ThrowOnError extends boolean = false>(
  * Get a workflow by its name
  */
 export const workflowGetByName = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<WorkflowGetByNameData, ThrowOnError>,
+  options: Options<WorkflowGetByNameData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     WorkflowGetByNameResponse,
@@ -1872,6 +2658,16 @@ export const workflowGetByName = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/workflows/byName/{name}",
   });
 };
@@ -1881,7 +2677,7 @@ export const workflowGetByName = <ThrowOnError extends boolean = false>(
  * chat 聊天接口
  */
 export const chatChat = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<ChatChatData, ThrowOnError>,
+  options: Options<ChatChatData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     ChatChatResponse,
@@ -1889,6 +2685,20 @@ export const chatChat = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/chat",
   });
 };
@@ -1898,7 +2708,7 @@ export const chatChat = <ThrowOnError extends boolean = false>(
  * 调用模型
  */
 export const chatCallModel = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<ChatCallModelData, ThrowOnError>,
+  options: Options<ChatCallModelData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     ChatCallModelResponse,
@@ -1906,6 +2716,16 @@ export const chatCallModel = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/callModel",
   });
 };
@@ -1915,14 +2735,24 @@ export const chatCallModel = <ThrowOnError extends boolean = false>(
  * 获取聊天消息
  */
 export const chatMessages = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<ChatMessagesData, ThrowOnError>,
+  options: Options<ChatMessagesData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     ChatMessagesResponse,
-    ChatMessagesError,
+    unknown,
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/chat/{chatId}/messages",
   });
 };
@@ -1932,7 +2762,7 @@ export const chatMessages = <ThrowOnError extends boolean = false>(
  * 获取模型列表
  */
 export const chatModels = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<ChatModelsData, ThrowOnError>,
+  options: Options<ChatModelsData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     ChatModelsResponse,
@@ -1940,6 +2770,16 @@ export const chatModels = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/chat/models",
   });
 };
@@ -1949,7 +2789,7 @@ export const chatModels = <ThrowOnError extends boolean = false>(
  * chat 聊天接口
  */
 export const chatCompletions = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<ChatCompletionsData, ThrowOnError>,
+  options: Options<ChatCompletionsData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     ChatCompletionsResponse,
@@ -1957,6 +2797,20 @@ export const chatCompletions = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/chat/completions",
   });
 };
@@ -1966,14 +2820,24 @@ export const chatCompletions = <ThrowOnError extends boolean = false>(
  * 获取worker配置
  */
 export const workerConfig = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<WorkerConfigData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     WorkerConfigResponse,
-    WorkerConfigError,
+    unknown,
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/worker/config",
   });
 };
@@ -1983,14 +2847,24 @@ export const workerConfig = <ThrowOnError extends boolean = false>(
  * 获取博客生成配置
  */
 export const mtmaiBloggenconfig = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<MtmaiBloggenconfigData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     MtmaiBloggenconfigResponse,
-    MtmaiBloggenconfigError,
+    unknown,
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/mtmai/bloggenconfig",
   });
 };
@@ -2000,14 +2874,24 @@ export const mtmaiBloggenconfig = <ThrowOnError extends boolean = false>(
  * get the config of worker
  */
 export const mtmaiWorkerConfig = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<MtmaiWorkerConfigData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     MtmaiWorkerConfigResponse,
-    MtmaiWorkerConfigError,
+    unknown,
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/mtmai/workerConfig",
   });
 };
@@ -2017,14 +2901,24 @@ export const mtmaiWorkerConfig = <ThrowOnError extends boolean = false>(
  * Get the blogs for the tenant
  */
 export const blogList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<BlogListData, ThrowOnError>,
+  options: Options<BlogListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     BlogListResponse,
-    BlogListError,
+    unknown,
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/blogs",
   });
 };
@@ -2034,7 +2928,7 @@ export const blogList = <ThrowOnError extends boolean = false>(
  * Creates a new blog
  */
 export const blogCreate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<BlogCreateData, ThrowOnError>,
+  options: Options<BlogCreateData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     BlogCreateResponse,
@@ -2042,6 +2936,20 @@ export const blogCreate = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/blogs",
   });
 };
@@ -2050,7 +2958,7 @@ export const blogCreate = <ThrowOnError extends boolean = false>(
  * Get the blogs for the tenant
  */
 export const blogGet = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<BlogGetData, ThrowOnError>,
+  options: Options<BlogGetData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     BlogGetResponse,
@@ -2058,6 +2966,16 @@ export const blogGet = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/blogs/{blog}",
   });
 };
@@ -2067,7 +2985,7 @@ export const blogGet = <ThrowOnError extends boolean = false>(
  * Update an existing blog
  */
 export const blogUpdate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<BlogUpdateData, ThrowOnError>,
+  options: Options<BlogUpdateData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).patch<
     BlogUpdateResponse,
@@ -2075,6 +2993,20 @@ export const blogUpdate = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/blogs/{blog}",
   });
 };
@@ -2083,7 +3015,7 @@ export const blogUpdate = <ThrowOnError extends boolean = false>(
  * Get the sites for the tenant
  */
 export const siteList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<SiteListData, ThrowOnError>,
+  options: Options<SiteListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     SiteListResponse,
@@ -2091,6 +3023,16 @@ export const siteList = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/sites",
   });
 };
@@ -2099,7 +3041,7 @@ export const siteList = <ThrowOnError extends boolean = false>(
  * create site
  */
 export const siteCreate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<SiteCreateData, ThrowOnError>,
+  options: Options<SiteCreateData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     SiteCreateResponse,
@@ -2107,6 +3049,20 @@ export const siteCreate = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/sites",
   });
 };
@@ -2115,7 +3071,7 @@ export const siteCreate = <ThrowOnError extends boolean = false>(
  * Get the site for the tenant
  */
 export const siteGet = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<SiteGetData, ThrowOnError>,
+  options: Options<SiteGetData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     SiteGetResponse,
@@ -2123,6 +3079,47 @@ export const siteGet = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/sites/{site}",
+  });
+};
+
+/**
+ * Update tenant
+ * Update an existing site
+ */
+export const siteUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<SiteUpdateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).patch<
+    SiteUpdateResponse,
+    SiteUpdateError,
+    ThrowOnError
+  >({
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/sites/{site}",
   });
 };
@@ -2131,7 +3128,7 @@ export const siteGet = <ThrowOnError extends boolean = false>(
  * 前端根据域名获取site公开数据
  */
 export const siteGetByHost = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<SiteGetByHostData, ThrowOnError>,
+  options: Options<SiteGetByHostData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     SiteGetByHostResponse,
@@ -2139,6 +3136,16 @@ export const siteGetByHost = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/sites/byHost/{host}",
   });
 };
@@ -2147,7 +3154,7 @@ export const siteGetByHost = <ThrowOnError extends boolean = false>(
  * Get the posts for the site
  */
 export const postListPublic = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<PostListPublicData, ThrowOnError>,
+  options?: Options<PostListPublicData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     PostListPublicResponse,
@@ -2163,7 +3170,7 @@ export const postListPublic = <ThrowOnError extends boolean = false>(
  * Get the post for the tenant
  */
 export const postGet = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<PostGetData, ThrowOnError>,
+  options: Options<PostGetData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     PostGetResponse,
@@ -2171,6 +3178,16 @@ export const postGet = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/posts/{post}",
   });
 };
@@ -2179,7 +3196,7 @@ export const postGet = <ThrowOnError extends boolean = false>(
  * Get the posts for the site
  */
 export const postList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<PostListData, ThrowOnError>,
+  options: Options<PostListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     PostListResponse,
@@ -2187,6 +3204,16 @@ export const postList = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/posts",
   });
 };
@@ -2195,7 +3222,7 @@ export const postList = <ThrowOnError extends boolean = false>(
  * create post
  */
 export const postCreate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<PostCreateData, ThrowOnError>,
+  options: Options<PostCreateData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     PostCreateResponse,
@@ -2203,6 +3230,20 @@ export const postCreate = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/posts",
   });
 };
@@ -2211,14 +3252,24 @@ export const postCreate = <ThrowOnError extends boolean = false>(
  * 调用工具
  */
 export const toolCall = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<ToolCallData, ThrowOnError>,
+  options: Options<ToolCallData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     ToolCallResponse,
-    ToolCallError,
+    unknown,
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/tools/call/{tool}",
   });
 };
@@ -2227,14 +3278,24 @@ export const toolCall = <ThrowOnError extends boolean = false>(
  * ai agent 在自动化操作过程中，必须参考这个操作说明来完成自动化操作
  */
 export const toolsOperationGuide = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<ToolsOperationGuideData, ThrowOnError>,
+  options: Options<ToolsOperationGuideData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     ToolsOperationGuideResponse,
-    ToolsOperationGuideError,
+    unknown,
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tools/operationGuide",
   });
 };
@@ -2243,14 +3304,24 @@ export const toolsOperationGuide = <ThrowOnError extends boolean = false>(
  * 使用工具进行网络搜索
  */
 export const toolsWebsearch = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<ToolsWebsearchData, ThrowOnError>,
+  options: Options<ToolsWebsearchData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     ToolsWebsearchResponse,
-    ToolsWebsearchError,
+    unknown,
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/tools/websearch",
   });
 };
@@ -2260,14 +3331,24 @@ export const toolsWebsearch = <ThrowOnError extends boolean = false>(
  * Get the artifacts for the tenant
  */
 export const artifactList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<ArtifactListData, ThrowOnError>,
+  options: Options<ArtifactListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     ArtifactListResponse,
-    ArtifactListError,
+    unknown,
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/artifacts",
   });
 };
@@ -2277,7 +3358,7 @@ export const artifactList = <ThrowOnError extends boolean = false>(
  * Creates a new artifact
  */
 export const artifactCreate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<ArtifactCreateData, ThrowOnError>,
+  options: Options<ArtifactCreateData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     ArtifactCreateResponse,
@@ -2285,6 +3366,20 @@ export const artifactCreate = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/artifacts",
   });
 };
@@ -2294,7 +3389,7 @@ export const artifactCreate = <ThrowOnError extends boolean = false>(
  * Get a blog post by id
  */
 export const artifactGet = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<ArtifactGetData, ThrowOnError>,
+  options: Options<ArtifactGetData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     ArtifactGetResponse,
@@ -2302,6 +3397,16 @@ export const artifactGet = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/artifacts/{artifact}",
   });
 };
@@ -2311,14 +3416,24 @@ export const artifactGet = <ThrowOnError extends boolean = false>(
  * 获取节点
  */
 export const agentNodeList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<AgentNodeListData, ThrowOnError>,
+  options: Options<AgentNodeListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     AgentNodeListResponse,
-    AgentNodeListError,
+    unknown,
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/nodes",
   });
 };
@@ -2328,7 +3443,7 @@ export const agentNodeList = <ThrowOnError extends boolean = false>(
  * Creates a new agentnode
  */
 export const agentCreate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<AgentCreateData, ThrowOnError>,
+  options: Options<AgentCreateData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     AgentCreateResponse,
@@ -2336,6 +3451,20 @@ export const agentCreate = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/nodes",
   });
 };
@@ -2345,14 +3474,24 @@ export const agentCreate = <ThrowOnError extends boolean = false>(
  * 获取节点状态
  */
 export const agentNode = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<AgentNodeData, ThrowOnError>,
+  options: Options<AgentNodeData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     AgentNodeResponse,
-    AgentNodeError,
+    unknown,
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/nodes/{node}",
   });
 };
@@ -2362,7 +3501,7 @@ export const agentNode = <ThrowOnError extends boolean = false>(
  * 更新节点状态
  */
 export const agentNodeUpdate = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<AgentNodeUpdateData, ThrowOnError>,
+  options: Options<AgentNodeUpdateData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).patch<
     AgentNodeUpdateResponse,
@@ -2370,6 +3509,20 @@ export const agentNodeUpdate = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/nodes/{node}",
   });
 };
@@ -2379,7 +3532,7 @@ export const agentNodeUpdate = <ThrowOnError extends boolean = false>(
  * 执行节点(执行工作流)
  */
 export const agentNodeRun = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<AgentNodeRunData, ThrowOnError>,
+  options: Options<AgentNodeRunData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     AgentNodeRunResponse,
@@ -2387,6 +3540,20 @@ export const agentNodeRun = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/nodes/run",
   });
 };
@@ -2396,7 +3563,7 @@ export const agentNodeRun = <ThrowOnError extends boolean = false>(
  * 获取节点表单
  */
 export const agentNodeForm = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<AgentNodeFormData, ThrowOnError>,
+  options: Options<AgentNodeFormData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     AgentNodeFormResponse,
@@ -2404,6 +3571,16 @@ export const agentNodeForm = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/nodes/form/{node}",
   });
 };
@@ -2413,7 +3590,7 @@ export const agentNodeForm = <ThrowOnError extends boolean = false>(
  * 执行节点
  */
 export const llmGet = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<LlmGetData, ThrowOnError>,
+  options: Options<LlmGetData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     LlmGetResponse,
@@ -2421,6 +3598,20 @@ export const llmGet = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/llm/{slug}",
   });
 };
@@ -2430,14 +3621,24 @@ export const llmGet = <ThrowOnError extends boolean = false>(
  * 获取节点
  */
 export const docList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<DocListData, ThrowOnError>,
+  options: Options<DocListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     DocListResponse,
-    DocListError,
+    unknown,
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/docs",
   });
 };
@@ -2447,14 +3648,24 @@ export const docList = <ThrowOnError extends boolean = false>(
  * Get the blogs for the tenant
  */
 export const promptList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<PromptListData, ThrowOnError>,
+  options: Options<PromptListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     PromptListResponse,
-    PromptListError,
+    unknown,
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/prompts",
   });
 };
@@ -2463,7 +3674,7 @@ export const promptList = <ThrowOnError extends boolean = false>(
  * 获取单个提示词
  */
 export const promptGet = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<PromptGetData, ThrowOnError>,
+  options: Options<PromptGetData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     PromptGetResponse,
@@ -2471,6 +3682,16 @@ export const promptGet = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/prompts/{prompt}",
   });
 };
@@ -2480,14 +3701,24 @@ export const promptGet = <ThrowOnError extends boolean = false>(
  * Get the blogs for the tenant
  */
 export const assisantList = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<AssisantListData, ThrowOnError>,
+  options: Options<AssisantListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     AssisantListResponse,
-    AssisantListError,
+    unknown,
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/assisants",
   });
 };
@@ -2496,14 +3727,24 @@ export const assisantList = <ThrowOnError extends boolean = false>(
  * 获取单个助手配置
  */
 export const assisantGet = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<AssisantGetData, ThrowOnError>,
+  options: Options<AssisantGetData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     AssisantGetResponse,
-    AssisantGetError,
+    unknown,
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/assisants/{assisant}",
   });
 };
@@ -2513,7 +3754,7 @@ export const assisantGet = <ThrowOnError extends boolean = false>(
  * Subscribe to workflow run events
  */
 export const subscribeSubscribe = <ThrowOnError extends boolean = false>(
-  options: OptionsLegacyParser<SubscribeSubscribeData, ThrowOnError>,
+  options: Options<SubscribeSubscribeData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     SubscribeSubscribeResponse,
@@ -2521,6 +3762,20 @@ export const subscribeSubscribe = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/subscribe",
   });
 };
@@ -2529,20 +3784,30 @@ export const subscribeSubscribe = <ThrowOnError extends boolean = false>(
  * 种子数据
  */
 export const adminSeed = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<AdminSeedData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     AdminSeedResponse,
-    AdminSeedError,
+    unknown,
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/admin/seed",
   });
 };
 
 export const adminReleaseConn = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<AdminReleaseConnData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
     AdminReleaseConnResponse,
@@ -2550,16 +3815,26 @@ export const adminReleaseConn = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/admin/releaseConn",
   });
 };
 
 export const frontendGetConfig = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<FrontendGetConfigData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     FrontendGetConfigResponse,
-    FrontendGetConfigError,
+    unknown,
     ThrowOnError
   >({
     ...options,
@@ -2568,11 +3843,11 @@ export const frontendGetConfig = <ThrowOnError extends boolean = false>(
 };
 
 export const frontendGetSiderbar = <ThrowOnError extends boolean = false>(
-  options?: OptionsLegacyParser<unknown, ThrowOnError>,
+  options?: Options<FrontendGetSiderbarData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
     FrontendGetSiderbarResponse,
-    FrontendGetSiderbarError,
+    unknown,
     ThrowOnError
   >({
     ...options,
