@@ -11,7 +11,7 @@ interface SiteHostListViewProps {
 }
 export function SiteHostListView({ tenant, site }: SiteHostListViewProps) {
   const query = useSuspenseQuery({
-    ...sitehost(),
+    ...siteHostListQueryOptions(),
   });
   return <div>SiteHostListView</div>;
 }
