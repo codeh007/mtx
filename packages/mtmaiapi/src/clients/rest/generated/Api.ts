@@ -2370,7 +2370,7 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
       ...params,
     });
   /**
-   * @description Get the sites for the tenant
+   * @description Get the site-hosts for the tenant
    *
    * @tags site-host
    * @name SiteHostList
