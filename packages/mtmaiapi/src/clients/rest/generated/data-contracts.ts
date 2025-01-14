@@ -2148,6 +2148,11 @@ export interface CreateSiteRequest {
 
 export type CreateSiteResponse = Site;
 
+export interface UpdateSiteRequest {
+  /** site 标题 */
+  title?: string;
+}
+
 export interface PostList {
   pagination?: PaginationResponse;
   rows?: Post[];
