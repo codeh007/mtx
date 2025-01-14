@@ -88,6 +88,9 @@ const nextConfig = {
       "agent-base",
       "basic-ftp",
     );
+    if(nextRuntime === "edge"){
+      config.externals.push("pg");
+    }
     
 
   // webpack: (config, { isServer }) => {
