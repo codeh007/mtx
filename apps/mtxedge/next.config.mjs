@@ -56,7 +56,6 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
 
-  
   webpack: (
     config,
     { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack },
@@ -88,97 +87,10 @@ const nextConfig = {
       "agent-base",
       "basic-ftp",
     );
-    if(nextRuntime === "edge"){
+    if (nextRuntime === "edge") {
       config.externals.push("pg");
     }
-    
-
-  // webpack: (config, { isServer }) => {
-  //   if (!isServer) {
-  //     /** *******************************************************************************
-  //      * 这个配置目的是 额外打包一个 example-entry 纯客户端入口
-  //      * 让第三方站点以 <script src="https://example.com/example-entry.js"></script> 方式引入
-  //      **********************************************************************************/
-  //     const originalEntry = config.entry;
-  //     config.entry = async () => {
-  //       const originalEntries = await originalEntry();
-  //       return {
-  //         ...originalEntries,
-  //         "example-entry": [join(__dirname, "src/entry-client.tsx")],
-  //       };
-  //     };
-
-  //     // 配置代码分割
-  //     config.optimization = {
-  //       ...config.optimization,
-  //       splitChunks: {
-  //         chunks: "all",
-  //         cacheGroups: {
-  //           // 复用已有的公共模块
-  //           commons: {
-  //             test: /[\\/]node_modules[\\/]/,
-  //             name: "vendors",
-  //             chunks: "all",
-  //           },
-  //           // 大型依赖单独分包
-  //           defaultVendors: {
-  //             test: /[\\/]node_modules[\\/](react|react-dom|@monaco-editor)[\\/]/,
-  //             name(module) {
-  //               const packageName = module.context.match(
-  //                 /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
-  //               )[1];
-  //               return `vendor.${packageName.replace("@", "")}`;
-  //             },
-  //             priority: 10,
-  //             chunks: "all",
-  //           },
-  //         },
-  //       },
-  //     };
-
-  //     // 配置输出
-  //     const originalFilename = config.output.filename;
-  //     config.output = {
-  //       ...config.output,
-  //       filename: (pathData) => {
-  //         if (pathData.chunk.name === "example-entry") {
-  //           return "static/js/[name].js";
-  //         }
-  //         return typeof originalFilename === "function"
-  //           ? originalFilename(pathData)
-  //           : originalFilename;
-  //       },
-  //       chunkFilename: "static/js/[name].[chunkhash].js",
-  //       library: {
-  //         type: "umd",
-  //         name: "ExampleApp",
-  //       },
-  //     };
-  //   }
-  //   return config;
-  // },
-
-  async headers() 
-    return [
-      {
-        source: "/:path*",
-        //webcontainer 跨域问题
-        headers: [
-          {
-            key: "Cross-Origin-Opener-Policy",
-            value: "same-origin",
-          },
-          {
-            key: "Cross-Origin-Embedder-Policy",
-            value: "require-corp",
-          },
-          {
-            key: "Cross-Origin-Resource-Policy",
-            value: "cross-origin",
-          },
-        ],
-      },
-    ];,
+  },
 };
 
 export default nextConfig;
