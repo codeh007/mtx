@@ -89,7 +89,6 @@ import {
   Site,
   SiteHost,
   SiteHostList,
-  SiteHostListRequest,
   SiteList,
   SNSIntegration,
   StepRun,
@@ -2519,13 +2518,24 @@ export class Api<
    * @request GET:/api/v1/tenants/{tenant}/site-hosts
    * @secure
    */
-  siteHostList = (tenant: string, data: SiteHostListRequest, params: RequestParams = {}) =>
+  siteHostList = (
+    tenant: string,
+    query?: {
+      /**
+       * The number to skip
+       * @format int64
+       */
+      offset?: number;
+      /** The host name */
+      host?: string;
+    },
+    params: RequestParams = {},
+  ) =>
     this.request<SiteHostList, APIErrors>({
       path: `/api/v1/tenants/${tenant}/site-hosts`,
       method: "GET",
-      body: data,
+      query: query,
       secure: true,
-      type: ContentType.Json,
       format: "json",
       ...params,
     });

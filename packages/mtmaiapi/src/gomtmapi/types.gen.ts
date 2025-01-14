@@ -6664,7 +6664,16 @@ export type SiteHostListData = {
      */
     tenant: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * The number to skip
+     */
+    offset?: number;
+    /**
+     * The host name
+     */
+    host?: string;
+  };
   url: "/api/v1/tenants/{tenant}/site-hosts";
 };
 

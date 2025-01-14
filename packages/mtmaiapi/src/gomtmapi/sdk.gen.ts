@@ -3163,7 +3163,7 @@ export const siteGetByHost = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Get the sites for the tenant
+ * Get the site-hosts for the tenant
  */
 export const siteHostList = <ThrowOnError extends boolean = false>(
   options: Options<SiteHostListData, ThrowOnError>,
