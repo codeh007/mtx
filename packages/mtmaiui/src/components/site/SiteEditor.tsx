@@ -2,7 +2,8 @@
 
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { Save } from "lucide-react";
-import { type Site, siteGetOptions } from "mtmaiapi";
+import { type Site, siteGetOptions, siteUpdateMutation } from "mtmaiapi";
+import { Switch } from "mtxuilib/ui/switch";
 
 import { ZForm, useZodForm } from "mtxuilib/form/ZodForm";
 import { Icons } from "mtxuilib/icons/icons";
@@ -35,7 +36,7 @@ export const SiteEditor = (props: SiteEditorProps) => {
     ...siteGetOptions({
       path: {
         site: siteId,
-        tenant: tenant.metadata.id,
+        tenant: tenant!.metadata.id,
       },
     }),
   });
@@ -49,13 +50,14 @@ export const SiteEditor = (props: SiteEditorProps) => {
 
 const SiteEditorForm = (props: { site: Site }) => {
   const { site } = props;
-
+  const tenant = useTenant();
   const updateSiteMutation = useMutation({
     ...siteUpdateMutation(),
     onSuccess: (data) => {
       toast.success("操作成功");
     },
     onError: (error) => {
+      console.log(error);
       toast.error("操作失败");
     },
   });
@@ -66,7 +68,8 @@ const SiteEditorForm = (props: { site: Site }) => {
   const handleSubmit = (data: Site) => {
     updateSiteMutation.mutate({
       path: {
-        id: site.id,
+        tenant: tenant!.metadata.id,
+        site: site.metadata.id,
       },
       body: data,
     });
