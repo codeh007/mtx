@@ -2153,6 +2153,39 @@ export interface UpdateSiteRequest {
   title?: string;
 }
 
+/** site-host */
+export interface SiteHost {
+  metadata: APIResourceMeta;
+  /** site-host 标题 */
+  title: string;
+  /** site-host 描述 */
+  description: string;
+  /** 绑定域名 */
+  host: string;
+}
+
+export interface SiteHostList {
+  pagination?: PaginationResponse;
+  rows?: SiteHost[];
+}
+
+export interface CreateSiteHostRequest {
+  /** 站点ID */
+  siteId: string;
+  /** site-host 标题 */
+  title: string;
+  /** site-host 描述 */
+  description: string;
+  /** 绑定域名 */
+  host: string;
+}
+
+export type CreateSiteHostResponse = SiteHost;
+
+export type UpdateSiteHostRequest = SiteHost;
+
+export type UpdateSiteHostResponse = SiteHost;
+
 export interface PostList {
   pagination?: PaginationResponse;
   rows?: Post[];

@@ -41,6 +41,7 @@ import {
   CreateBlogRequest,
   CreateEventRequest,
   CreatePostRequest,
+  CreateSiteHostRequest,
   CreateSiteRequest,
   CreateSNSIntegrationRequest,
   CreateTenantAlertEmailGroupRequest,
@@ -86,6 +87,8 @@ import {
   ScheduledWorkflowsOrderByField,
   SiderbarConfig,
   Site,
+  SiteHost,
+  SiteHostList,
   SiteList,
   SNSIntegration,
   StepRun,
@@ -2363,6 +2366,75 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
       path: `/api/v1/tenants/${tenant}/sites/byHost/${host}`,
       method: "GET",
       secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Get the sites for the tenant
+   *
+   * @tags site-host
+   * @name SiteHostList
+   * @request GET:/api/v1/tenants/{tenant}/site-hosts
+   * @secure
+   */
+  siteHostList = (tenant: string, params: RequestParams = {}) =>
+    this.request<SiteHostList, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/site-hosts`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description create site-host
+   *
+   * @tags site-host
+   * @name SiteHostCreate
+   * @request POST:/api/v1/tenants/{tenant}/site-hosts
+   * @secure
+   */
+  siteHostCreate = (tenant: TenantParameter, data: CreateSiteHostRequest, params: RequestParams = {}) =>
+    this.request<SiteHost, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/site-hosts`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Get the site-host for the tenant
+   *
+   * @tags site-host
+   * @name SiteHostGet
+   * @request GET:/api/v1/tenants/{tenant}/site-hosts/{host}
+   * @secure
+   */
+  siteHostGet = (tenant: string, host: string, params: RequestParams = {}) =>
+    this.request<SiteHost, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/site-hosts/${host}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Update an existing site-host
+   *
+   * @tags Tenant
+   * @name SiteHostUpdate
+   * @summary Update tenant
+   * @request PATCH:/api/v1/tenants/{tenant}/site-hosts/{host}
+   * @secure
+   */
+  siteHostUpdate = (tenant: TenantParameter, host: string, data: SiteHost, params: RequestParams = {}) =>
+    this.request<SiteHost, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/site-hosts/${host}`,
+      method: "PATCH",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
       format: "json",
       ...params,
     });
