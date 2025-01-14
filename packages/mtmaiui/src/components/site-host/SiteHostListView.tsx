@@ -1,9 +1,9 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-import type { Tenant } from "mtmaiapi/gomtmapi/types.gen";
-
-import type { Site } from "mtmaiapi/gomtmapi/types.gen";
+import { siteHostListOptions } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
+import type { Site, Tenant } from "mtmaiapi/gomtmapi/types.gen";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue.jsx";
 
 interface SiteHostListViewProps {
   tenant: Tenant;
@@ -11,7 +11,21 @@ interface SiteHostListViewProps {
 }
 export function SiteHostListView({ tenant, site }: SiteHostListViewProps) {
   const query = useSuspenseQuery({
-    ...siteHostListQueryOptions(),
+    ...siteHostListOptions({
+      path: {
+        tenant: tenant.metadata.id,
+        // host: site.metadata.id,
+        // si
+      },
+    }),
   });
-  return <div>SiteHostListView</div>;
+  return (
+    <div>
+      <DebugValue
+        data={{
+          data: query.data,
+        }}
+      />
+    </div>
+  );
 }

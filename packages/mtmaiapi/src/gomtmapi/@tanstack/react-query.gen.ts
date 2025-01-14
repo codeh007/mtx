@@ -213,6 +213,14 @@ import type {
   SiteUpdateError,
   SiteUpdateResponse,
   SiteGetByHostData,
+  SiteHostListData,
+  SiteHostCreateData,
+  SiteHostCreateError,
+  SiteHostCreateResponse,
+  SiteHostGetData,
+  SiteHostUpdateData,
+  SiteHostUpdateError,
+  SiteHostUpdateResponse,
   PostListPublicData,
   PostGetData,
   PostListData,
@@ -368,6 +376,10 @@ import {
   siteGet,
   siteUpdate,
   siteGetByHost,
+  siteHostList,
+  siteHostCreate,
+  siteHostGet,
+  siteHostUpdate,
   postListPublic,
   postGet,
   postList,
@@ -3549,6 +3561,103 @@ export const siteGetByHostOptions = (options: Options<SiteGetByHostData>) => {
     },
     queryKey: siteGetByHostQueryKey(options),
   });
+};
+
+export const siteHostListQueryKey = (options: Options<SiteHostListData>) => [
+  createQueryKey("siteHostList", options),
+];
+
+export const siteHostListOptions = (options: Options<SiteHostListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await siteHostList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: siteHostListQueryKey(options),
+  });
+};
+
+export const siteHostCreateQueryKey = (
+  options: Options<SiteHostCreateData>,
+) => [createQueryKey("siteHostCreate", options)];
+
+export const siteHostCreateOptions = (options: Options<SiteHostCreateData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await siteHostCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: siteHostCreateQueryKey(options),
+  });
+};
+
+export const siteHostCreateMutation = (
+  options?: Partial<Options<SiteHostCreateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    SiteHostCreateResponse,
+    SiteHostCreateError,
+    Options<SiteHostCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await siteHostCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const siteHostGetQueryKey = (options: Options<SiteHostGetData>) => [
+  createQueryKey("siteHostGet", options),
+];
+
+export const siteHostGetOptions = (options: Options<SiteHostGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await siteHostGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: siteHostGetQueryKey(options),
+  });
+};
+
+export const siteHostUpdateMutation = (
+  options?: Partial<Options<SiteHostUpdateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    SiteHostUpdateResponse,
+    SiteHostUpdateError,
+    Options<SiteHostUpdateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await siteHostUpdate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };
 
 export const postListPublicQueryKey = (
