@@ -2224,12 +2224,6 @@ export interface Post {
   content: string;
 }
 
-export interface PostListRequest {
-  /** The site id */
-  siteId?: string;
-  hostName?: string;
-}
-
 export interface FrontendConfig {
   /** Cookie access token */
   cookieAccessToken: string;
