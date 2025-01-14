@@ -1853,6 +1853,45 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/tenants/{tenant}/site-hosts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get the sites for the tenant */
+        get: operations["site-host:list"];
+        put?: never;
+        /** @description create site-host */
+        post: operations["site-host:create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/tenants/{tenant}/site-hosts/{host}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get the site-host for the tenant */
+        get: operations["site-host:get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update tenant
+         * @description Update an existing site-host
+         */
+        patch: operations["site-host:update"];
+        trace?: never;
+    };
     "/api/v1/posts/public": {
         parameters: {
             query?: never;
@@ -3510,6 +3549,30 @@ export interface components {
             /** @description site 标题 */
             title?: string;
         };
+        /** @description site-host */
+        SiteHost: {
+            metadata: components["schemas"]["APIResourceMeta"];
+            /** @description site-host 标题 */
+            title: string;
+            /** @description site-host 描述 */
+            description: string;
+            /** @description 绑定域名 */
+            host: string;
+        };
+        SiteHostList: {
+            pagination?: components["schemas"]["PaginationResponse"];
+            rows?: components["schemas"]["SiteHost"][];
+        };
+        CreateSiteHostRequest: {
+            /** @description 站点ID */
+            siteId: string;
+            /** @description site-host 标题 */
+            title: string;
+            /** @description site-host 描述 */
+            description: string;
+            /** @description 绑定域名 */
+            host: string;
+        };
         Post: {
             metadata: components["schemas"]["APIResourceMeta"];
             title: string;
@@ -4144,6 +4207,9 @@ export interface components {
         };
         BulkCreateEventResponse: components["schemas"]["Events"];
         CreateSiteResponse: components["schemas"]["Site"];
+        CreateSiteHostResponse: components["schemas"]["SiteHost"];
+        UpdateSiteHostRequest: components["schemas"]["SiteHost"];
+        UpdateSiteHostResponse: components["schemas"]["SiteHost"];
         CreatePostResponse: components["schemas"]["Post"];
     };
     responses: never;
@@ -8892,6 +8958,199 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "site-host:list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SiteHostList"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "site-host:create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: components["schemas"]["TenantParameter"];
+            };
+            cookie?: never;
+        };
+        /** @description 创建agentnode */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSiteHostRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SiteHost"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "site-host:get": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+                /** @description The site-host id */
+                host: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SiteHost"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+        };
+    };
+    "site-host:update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: components["schemas"]["TenantParameter"];
+                /** @description The site-host id */
+                host: string;
+            };
+            cookie?: never;
+        };
+        /** @description The tenant properties to update */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SiteHost"];
+            };
+        };
+        responses: {
+            /** @description Successfully created the tenant */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SiteHost"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
                 };
             };
         };
