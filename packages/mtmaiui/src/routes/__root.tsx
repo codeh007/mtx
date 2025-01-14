@@ -1,6 +1,6 @@
 import { Outlet, createRootRoute } from "@tanstack/react-router";
-import { NotFound } from "../components/notFound";
 import { UserFAB } from "../components/UserFAB";
+import { NotFound } from "../components/notFound";
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -9,45 +9,9 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <>
+    <div className="fixed top-0 left-0 w-full h-full bg-red-100">
       <UserFAB />
-      {/* <div className="p-2 flex gap-2 text-lg border-b">
-        <CustomLink
-          to="/"
-          activeProps={{
-            className: "font-bold",
-          }}
-          activeOptions={{ exact: true }}
-        >
-          Home
-        </CustomLink>{" "}
-        <CustomLink
-          to="/posts"
-          activeProps={{
-            className: "font-bold",
-          }}
-        >
-          Posts
-        </CustomLink>
-        <CustomLink
-          to="/dash"
-          activeProps={{
-            className: "font-bold",
-          }}
-        >
-          Dash
-        </CustomLink>{" "}
-        <CustomLink
-          to="/this-route-does-not-exist"
-          activeProps={{
-            className: "font-bold",
-          }}
-        >
-          Route Does Not Exist
-        </CustomLink>
-      </div>
-      <hr /> */}
       <Outlet />
-    </>
+    </div>
   );
 }

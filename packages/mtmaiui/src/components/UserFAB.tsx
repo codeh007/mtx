@@ -1,11 +1,11 @@
 "use client";
 
-
 import { AssistantModal } from "mtxuilib/assistant-ui/assistant-modal";
 import { Icons } from "mtxuilib/icons/icons";
 import { Button } from "mtxuilib/ui/button";
 import { useState } from "react";
 
+import { cn } from "mtxuilib/lib/utils";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,38 +19,27 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-  // DropdownMenuTrigger,
-} from "mtxuilib/ui/dropdown-menu"
-import { cn } from "mtxuilib/lib/utils";
+} from "mtxuilib/ui/dropdown-menu";
 import { CustomLink } from "./CustomLink";
 
 export const UserFAB = () => {
-
-  const [openCmdk, setOpenCmdk] = useState(false)
-  const [openDropdown, setOpenDropdown] = useState(false)
+  const [openCmdk, setOpenCmdk] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(false);
   return (
     <>
-      
-      {
-        openCmdk && (
-          <AssistantModal />
-        )
-      }
+      {openCmdk && <AssistantModal />}
 
-        <DropdownMenu 
-          open={openDropdown} 
-          onOpenChange={setOpenDropdown}
-          >
+      <DropdownMenu open={openDropdown} onOpenChange={setOpenDropdown}>
         <DropdownMenuTrigger asChild>
-          <Button className={cn(
-            "fixed bottom-14 right-4",
-            "bg-tertiary/20 text-tertiary-foreground border border-slate-500 hover:bg-tertiary/10 rounded-lg",
-            
+          <Button
+            className={cn(
+              "fixed bottom-14 right-4 z-40",
+              "bg-tertiary/20 text-tertiary-foreground border border-slate-500 hover:bg-tertiary/10 rounded-lg",
             )}
             onClick={() => {
-              setOpenDropdown(true)
+              setOpenDropdown(true);
             }}
-            >
+          >
             <Icons.apple />
           </Button>
         </DropdownMenuTrigger>
@@ -78,10 +67,10 @@ export const UserFAB = () => {
             </CustomLink>
 
             <CustomLink to="/workflows/">
-            <DropdownMenuItem>
-              workflows
-              <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-            </DropdownMenuItem>
+              <DropdownMenuItem>
+                workflows
+                <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+              </DropdownMenuItem>
             </CustomLink>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
