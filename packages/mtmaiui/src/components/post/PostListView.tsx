@@ -20,16 +20,17 @@ import {
   CardHeader,
   CardTitle,
 } from "mtxuilib/ui/card";
-import Link from "next/link";
 import { useOptionalTenant } from "../../hooks/useAuth";
 import { useBasePath } from "../../hooks/useBasePath";
+import { CustomLink } from "../CustomLink";
 import { columns } from "./blog-post-columns";
 
 type PostListViewProps = {
   blogId?: string;
+  siteId?: string;
 };
 export const PostListView = (props: PostListViewProps) => {
-  const [blogId, setBlogId] = useState(props.blogId);
+  const { blogId, siteId } = props;
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [showCreateBlog, setShowCreateBlog] = useState(false);
 
@@ -39,6 +40,9 @@ export const PostListView = (props: PostListViewProps) => {
     ...postListOptions({
       path: {
         tenant: optionalTenant?.metadata.id || "",
+      },
+      query: {
+        siteId: siteId,
       },
     }),
   });
@@ -62,12 +66,12 @@ export const PostListView = (props: PostListViewProps) => {
         </CardDescription>
       </CardHeader>
       <CardFooter>
-        <Link href="#" className="flex flex-row item-center">
+        <CustomLink to="#" className="flex flex-row item-center">
           <Button onClick={() => {}} variant="link" className="p-0 w-fit">
             {/* <QuestionMarkCircleIcon className={cn("h-4 w-4 mr-2")} /> */}
             {/* Docs: Understanding Workflows in Hatchet */}
           </Button>
-        </Link>
+        </CustomLink>
       </CardFooter>
     </Card>
   );
@@ -100,22 +104,6 @@ export const PostListView = (props: PostListViewProps) => {
         <BiTable className="size-4" />
       )}
     </Button>,
-    // <Button
-    //   key="card-toggle"
-    //   className="h-8 px-2 lg:px-3"
-    //   size="sm"
-    //   onClick={() => {
-    //     setCardToggle((t) => !t);
-    //   }}
-    //   variant={"outline"}
-    //   aria-label="Toggle card/table view"
-    // >
-    //   {!cardToggle ? (
-    //     <Icons.plus className="size-4" />
-    //   ) : (
-    //     <Icons.plus className="size-4" />
-    //   )}
-    // </Button>,
     <Button
       key="refresh"
       className="h-8 px-2 lg:px-3"
@@ -131,9 +119,10 @@ export const PostListView = (props: PostListViewProps) => {
         className={`h-4 w-4 transition-transform ${rotate ? "rotate-180" : ""}`}
       />
     </Button>,
-    <Link
+    <CustomLink
       key="create-post"
-      href={`${basePath}/blogs/${blogId}/post/create`}
+      to={`${basePath}/site/post/create`}
+      search={{ siteId: siteId }}
       className={cn("h-8 px-2 lg:px-3", buttonVariants({ variant: "outline" }))}
       onClick={() => {
         setShowCreateBlog(true);
@@ -142,7 +131,8 @@ export const PostListView = (props: PostListViewProps) => {
     >
       <Icons.plus className="size-4" />
       {/* <PlusCircleIcon className="size-4" /> */}
-    </Link>,
+    </CustomLink>,
+    // <CreatePostBtn key="create-post" />,
   ];
 
   return (
