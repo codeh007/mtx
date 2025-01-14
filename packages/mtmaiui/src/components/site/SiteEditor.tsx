@@ -51,7 +51,7 @@ const SiteEditorForm = (props: { site: Site }) => {
   const { site } = props;
 
   const updateSiteMutation = useMutation({
-    ...siteSiteUpdateMutation(),
+    ...siteUpdateMutation(),
     onSuccess: (data) => {
       toast.success("操作成功");
     },
