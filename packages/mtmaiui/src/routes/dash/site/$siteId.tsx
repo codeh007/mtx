@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Outlet, createFileRoute } from "@tanstack/react-router";
-import { siteGetOptions } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen.js";
+import { siteGetOptions } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
 import {
   MtTabs,
   MtTabsContent,
