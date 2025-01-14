@@ -2528,6 +2528,8 @@ export class Api<
       offset?: number;
       /** The host name */
       host?: string;
+      /** The site id */
+      siteId?: string;
     },
     params: RequestParams = {},
   ) =>

@@ -6673,6 +6673,10 @@ export type SiteHostListData = {
      * The host name
      */
     host?: string;
+    /**
+     * The site id
+     */
+    siteId?: string;
   };
   url: "/api/v1/tenants/{tenant}/site-hosts";
 };
