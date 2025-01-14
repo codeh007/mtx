@@ -12,17 +12,19 @@
   "sideEffects": false,
   "scripts": {
     "dev_vite": "vite --port=6111",
-    "generate-routes": "router generate",
+    "withEnv": "dotenv -e ../../../gomtm/env/mtmaiui.env --",
     "dev": "dotenv -e ../../../gomtm/env/mtmaiui.env -- next dev",
-    "dev:next": "  next dev",
-    "dev:ssr": "node server",
+    "dev:next": "next dev",
     "build": "vite build && next build",
     "build:tsc": "tsc --outDir dist --jsx react-jsx --incremental false --declaration true --noEmit false --removeComments true --project tsconfig.json",
     "build_vite_dev": "vite build --config vite.config.dev.js",
     "build:types": "vite build --types",
     "build:server": "vite build --ssr src/entry-server.tsx",
     "serve": "vite preview",
-    "start": "vite"
+    "start": "vite",
+    "db:gen": "drizzle-kit generate",
+    "db:migrate": "bun run withEnv -- bun run src/db/migrate.ts",
+    "db:push": "bun run withEnv -- drizzle-kit push"
   },
   "typesVersions": {
     "*": {
