@@ -1812,7 +1812,11 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch?: never;
+        /**
+         * Update tenant
+         * @description Update an existing site
+         */
+        patch: operations["site:update"];
         trace?: never;
     };
     "/api/v1/tenants/{tenant}/sites/{site}": {
@@ -8716,6 +8720,52 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Site"];
+                };
+            };
+            /** @description A malformed or bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIErrors"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIError"];
+                };
+            };
+        };
+    };
+    "site:update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description The tenant id */
+                tenant: string;
+            };
+            cookie?: never;
+        };
+        /** @description The tenant properties to update */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateTenantRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully created the tenant */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Tenant"];
                 };
             };
             /** @description A malformed or bad request */
