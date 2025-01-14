@@ -3,7 +3,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { siteHostListOptions } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
 import type { Site, Tenant } from "mtmaiapi/gomtmapi/types.gen";
-import { DebugValue } from "mtxuilib/components/devtools/DebugValue.jsx";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 
 interface SiteHostListViewProps {
   tenant: Tenant;
@@ -16,6 +16,9 @@ export function SiteHostListView({ tenant, site }: SiteHostListViewProps) {
         tenant: tenant.metadata.id,
         // host: site.metadata.id,
         // si
+      },
+      body: {
+        site: site.metadata.id,
       },
     }),
   });
