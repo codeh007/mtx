@@ -1,18 +1,17 @@
+import { frontendGetConfig, initMtiaiClient } from "mtmaiapi";
+import { UIProviders } from "mtmaiui/stores/UIProviders";
 import { fontSans } from "mtxuilib/fonts";
 import type { Viewport } from "next";
 import { cookies, headers } from "next/headers";
-import type {  ReactNode } from "react";
-import { UIProviders } from "mtmaiui/stores/UIProviders";
-import { frontendGetConfig, initMtiaiClient } from "mtmaiapi";
+import type { ReactNode } from "react";
 
-import { cn } from "mtxuilib/lib/utils";
-import { MtmaiProvider } from "../../stores/StoreProvider";
 import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
-import { SidebarProvider } from "mtxuilib/ui/sidebar";
+import { WebLayout } from "mtxuilib/layouts/web/WebLayout";
+import { WebLayoutHeader } from "mtxuilib/layouts/web/WebLayoutHeader";
 import { getBackendUrl } from "mtxuilib/lib/sslib";
-import {WebLayoutHeader} from "mtxuilib/layouts/web/WebLayoutHeader"
-import {WebLayout} from "mtxuilib/layouts/web/WebLayout"
+import { cn } from "mtxuilib/lib/utils";
 import "mtxuilib/styles/globals.css";
+import { MtmaiProvider } from "../../stores/StoreProvider";
 import "./globals.css";
 export const runtime = "nodejs";
 // export const dynamic = "force-dynamic";
@@ -60,15 +59,12 @@ export default async function Layout(props: {
           accessToken={accessToken}
         >
           <UIProviders>
-                    
-                      <WebLayout>
-                      <WebLayoutHeader />
-                      {children}
-                      {/* {dash} */}
-                      </WebLayout>
-                  
-                    
-          </UIProviders>          
+            <WebLayout>
+              <WebLayoutHeader />
+              {children}
+              {/* {dash} */}
+            </WebLayout>
+          </UIProviders>
         </MtmaiProvider>
       </body>
     </html>

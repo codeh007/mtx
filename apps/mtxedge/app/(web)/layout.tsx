@@ -1,20 +1,20 @@
+import { frontendGetConfig, initMtiaiClient } from "mtmaiapi";
+import { UIProviders } from "mtmaiui/stores/UIProviders";
 import { fontSans } from "mtxuilib/fonts";
-import "mtxuilib/styles/globals.css";
 import type { Viewport } from "next";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import type { ReactNode } from "react";
 
-// import { UIProviders } from "mtmaiui/stores/UIProviders";
-
+import { MtmaiProvider } from "mtmaiui/stores/StoreProvider";
+import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
+import { WebLayout } from "mtxuilib/layouts/web/WebLayout";
+import { WebLayoutHeader } from "mtxuilib/layouts/web/WebLayoutHeader";
 import { getBackendUrl } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
-// import { MtmaiapiProvider } from "../../context/MtmaiapiProvider";
-// import { MtmaiProvider } from "../../context/StoreProvider";
-// import { getCoreConfig } from "../../lib/core/coreConfig";
+import "mtxuilib/styles/globals.css";
 import "./globals.css";
-
 export const runtime = "edge";
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -25,36 +25,47 @@ export const viewport: Viewport = {
 
 export default async function Layout(props: {
   children: ReactNode;
+  // dash: ReactNode;
 }) {
   const { children } = props;
-
-  // const coreConfig = await getCoreConfig();
-
   const hostName = (await headers()).get("host");
-  const backendUrl = await getBackendUrl();
+  initMtiaiClient();
+  const frontendConfigResponse = await frontendGetConfig({});
+  const backendUrl = process.env.MTMAI_BACKEND;
+  let accessToken: string | undefined = undefined;
+  if (frontendConfigResponse.data?.cookieAccessToken) {
+    accessToken = (await cookies()).get(
+      frontendConfigResponse.data?.cookieAccessToken,
+    )?.value;
+  }
 
+  const selfUrl = await getBackendUrl();
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <ThemeHeaderScript />
+        {/* <MtmaiuiLoaderScript uiUrl={selfUrl} /> */}
+      </head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable,
         )}
       >
-        {/* <MtmaiProvider
-          accessToken={coreConfig?.accessToken}
-          backends={coreConfig?.backends || []}
-          hostName={hostName || ""}
+        <MtmaiProvider
+          frontendConfig={frontendConfigResponse.data}
+          hostName={hostName}
+          serverUrl={backendUrl}
+          accessToken={accessToken}
         >
-          <MtmaiapiProvider
-            serverUrl={coreConfig.backends[0]}
-            accessToken={coreConfig.accessToken}
-          >
-            <UIProviders> */}
+          <UIProviders>
+            <WebLayout>
+              <WebLayoutHeader />
               {children}
-            {/* </UIProviders>
-          </MtmaiapiProvider>
-        </MtmaiProvider> */}
+              {/* {dash} */}
+            </WebLayout>
+          </UIProviders>
+        </MtmaiProvider>
       </body>
     </html>
   );
