@@ -8861,7 +8861,6 @@ export interface operations {
             };
         };
     };
-<<<<<<< HEAD
     "site:update": {
         parameters: {
             query?: never;
@@ -8910,8 +8909,6 @@ export interface operations {
             };
         };
     };
-=======
->>>>>>> 23d25c266a410b5442f3ecae3b9d658d05569078
     "site:getByHost": {
         parameters: {
             query?: never;
