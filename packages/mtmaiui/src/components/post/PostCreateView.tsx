@@ -1,7 +1,8 @@
 "use client";
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import { postCreateMutation } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
+import type { Tenant } from "mtmaiapi/gomtmapi/types.gen";
 
-import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { ZForm, useZodForm } from "mtxuilib/form/ZodForm";
 import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
 import { Button } from "mtxuilib/ui/button";
@@ -17,7 +18,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "mtxuilib/ui/tabs";
 import { toast } from "sonner";
 import { z } from "zod";
 
-export const PostCreateView = () => {
+interface PostCreateViewProps {
+  tenant: Tenant;
+  siteId: string;
+}
+export const PostCreateView = (props: PostCreateViewProps) => {
+  const { tenant } = props;
   // const { postId } = props;
   const postUpdateMutation = useMutation({
     // ...blogPostCreateMutation(),
@@ -29,29 +35,50 @@ export const PostCreateView = () => {
     },
   });
 
-  const postQuery = useSuspenseQuery({
-    // ...blogPostGetOptions({
-    //   path: {
-    //     slug_or_id: postId || "",
-    //   },
-    // }),
-  });
+  // const postQuery = useSuspenseQuery({
+  //   // ...blogPostGetOptions({
+  //   //   path: {
+  //   //     slug_or_id: postId || "",
+  //   //   },
+  //   // }),
+  //   ...postGetOptions({
+  //     path: {
+  //       tenant: tenant.metadata.id,
+  //       // post: "123",
+  //     },
+  //   }),
+  // });
 
-  const post = postQuery?.data;
+  // const post = postQuery?.data;
+
+  const createPostMutation = useMutation({
+    ...postCreateMutation(),
+    onSuccess: (data) => {
+      toast.success("操作成功");
+    },
+    onError: (error) => {
+      console.log("失败", error);
+    },
+  });
 
   const form = useZodForm({
     schema: z.any(),
-    defaultValues: post,
+    // defaultValues: post,
   });
   return (
     <div>
-      <DebugValue data={post} />
+      {/* <DebugValue data={post} /> */}
       <ZForm
         form={form}
         handleSubmit={(values) => {
-          postUpdateMutation.mutate({
+          createPostMutation.mutate({
+            path: {
+              tenant: tenant.metadata.id,
+              // site: props.siteId,
+            },
             body: {
               ...values,
+              siteId: props.siteId,
             },
           });
         }}
@@ -101,19 +128,24 @@ export const PostCreateView = () => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="slug"
+              render={({ field }) => <Input {...field} placeholder="slug" />}
+            />
 
             <div className="min-h-4" />
             <div className="h-full mx-auto w-full">
-              {/* <LzMtmEditor
-                defaultValue={form.getValues().content}
-                onValueChange={(html) => {
-                  console.log("可视化编辑器提交", html);
-                  form.setValue("content", html);
+              <textarea
+                className="w-full h-full"
+                value={form.getValues().content}
+                onChange={(e) => {
+                  form.setValue("content", e.target.value);
                 }}
-              /> */}
+              />
             </div>
           </TabsContent>
-          <TabsContent value="options">111</TabsContent>
+          <TabsContent value="options">not implemented</TabsContent>
         </Tabs>
       </ZForm>
     </div>
