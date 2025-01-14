@@ -26,7 +26,7 @@ export const viewport: Viewport = {
 
 export default async function Layout(props: {
   children: ReactNode;
-  dash: ReactNode;
+  // dash: ReactNode;
 }) {
   const { children, dash } = props;
   const hostName = (await headers()).get("host");
@@ -73,7 +73,6 @@ export default async function Layout(props: {
                       <WebLayoutHeader />
                       {children}
                       {/* {dash} */}
-                      {/* <div id="gomtm-runtime-container" /> */}
                       </WebLayout>
                     </SidebarProvider>
                     

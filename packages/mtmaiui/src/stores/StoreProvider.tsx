@@ -20,6 +20,9 @@ const HatchatLoaderLazy = dynamic(() => import("../components/HatchatLoader").th
   ssr: false,
 });
 
+const AppLazy = dynamic(() => import("../App").then(x=>x.App), {
+  ssr: false,
+});
 
 interface MtmaiBotProps {
   hostName?: string | null;
@@ -154,7 +157,7 @@ export const MtmaiProvider = (props: AppProviderProps) => {
         host={etc.hostName as string}
       >
         {children}
-        
+        <AppLazy />
         <HatchatLoaderLazy />
         <DevToolsLazy />
       </ReactQueryProvider>
