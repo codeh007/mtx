@@ -9,7 +9,7 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-red-100">
+    <div className="fixed flex top-0 left-0 w-full h-full bg-blue-400">
       <UserFAB />
       <Outlet />
     </div>

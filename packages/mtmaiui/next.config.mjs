@@ -92,6 +92,14 @@ const nextConfig = {
       // return config.output.chunkFilename
     };
 
+    if (!isServer) {
+      // 为独立应用设置 library 配置
+      if (process.env.BUILD_TARGET === "widget") {
+        config.output.library = "DashApp";
+        config.output.libraryTarget = "umd";
+        config.output.globalObject = "this";
+      }
+    }
     return config;
   },
 

@@ -33,26 +33,24 @@ function RouteComponent() {
   if (!tenant) return null;
 
   return (
-    <div className="flex flex-col top-0 left-0 w-full h-full bg-blue-100 p-2">
+    <>
       <DashSidebar />
-      <div className="fixed top-0 left-0 w-full h-full bg-blue-200">
-        <SidebarInset>
-          <DashHeaders>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Workflows</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </DashHeaders>
-          <DashContent>
-            <Suspense fallback={<div>Loading...</div>}>
-              <WorkflowTableLazy />
-            </Suspense>
-          </DashContent>
-        </SidebarInset>
-      </div>
-    </div>
+      <SidebarInset>
+        <DashHeaders>
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbPage>Workflows</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </DashHeaders>
+        <DashContent>
+          <Suspense fallback={<div>Loading...</div>}>
+            <WorkflowTableLazy />
+          </Suspense>
+        </DashContent>
+      </SidebarInset>
+    </>
   );
 }
