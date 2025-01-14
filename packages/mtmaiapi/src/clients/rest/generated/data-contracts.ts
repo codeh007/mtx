@@ -2203,6 +2203,12 @@ export interface PostList {
 
 export interface CreatePostRequest {
   /**
+   * @format uuid
+   * @minLength 36
+   * @maxLength 36
+   */
+  siteId: string;
+  /**
    * @minLength 3
    * @maxLength 200
    */
