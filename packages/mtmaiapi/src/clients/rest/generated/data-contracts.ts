@@ -2196,6 +2196,13 @@ export type UpdateSiteHostRequest = SiteHost;
 
 export type UpdateSiteHostResponse = SiteHost;
 
+export interface SiteHostListRequest {
+  /** 站点ID */
+  siteId?: string;
+  /** 绑定域名 */
+  host?: string;
+}
+
 export interface PostList {
   pagination?: PaginationResponse;
   rows?: Post[];
