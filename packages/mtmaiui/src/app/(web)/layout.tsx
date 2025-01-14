@@ -28,7 +28,7 @@ export default async function Layout(props: {
   children: ReactNode;
   // dash: ReactNode;
 }) {
-  const { children, dash } = props;
+  const { children } = props;
   const hostName = (await headers()).get("host");
   initMtiaiClient();
   const frontendConfigResponse = await frontendGetConfig({});
