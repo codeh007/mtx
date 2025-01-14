@@ -299,6 +299,18 @@ import type {
   SiteGetByHostData,
   SiteGetByHostResponse,
   SiteGetByHostError,
+  SiteHostListData,
+  SiteHostListResponse,
+  SiteHostListError,
+  SiteHostCreateData,
+  SiteHostCreateResponse,
+  SiteHostCreateError,
+  SiteHostGetData,
+  SiteHostGetResponse,
+  SiteHostGetError,
+  SiteHostUpdateData,
+  SiteHostUpdateResponse,
+  SiteHostUpdateError,
   PostListPublicData,
   PostListPublicResponse,
   PostListPublicError,
@@ -3147,6 +3159,119 @@ export const siteGetByHost = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/sites/byHost/{host}",
+  });
+};
+
+/**
+ * Get the sites for the tenant
+ */
+export const siteHostList = <ThrowOnError extends boolean = false>(
+  options: Options<SiteHostListData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    SiteHostListResponse,
+    SiteHostListError,
+    ThrowOnError
+  >({
+    ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/site-hosts",
+  });
+};
+
+/**
+ * create site-host
+ */
+export const siteHostCreate = <ThrowOnError extends boolean = false>(
+  options: Options<SiteHostCreateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).post<
+    SiteHostCreateResponse,
+    SiteHostCreateError,
+    ThrowOnError
+  >({
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/site-hosts",
+  });
+};
+
+/**
+ * Get the site-host for the tenant
+ */
+export const siteHostGet = <ThrowOnError extends boolean = false>(
+  options: Options<SiteHostGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    SiteHostGetResponse,
+    SiteHostGetError,
+    ThrowOnError
+  >({
+    ...options,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/site-hosts/{host}",
+  });
+};
+
+/**
+ * Update tenant
+ * Update an existing site-host
+ */
+export const siteHostUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<SiteHostUpdateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).patch<
+    SiteHostUpdateResponse,
+    SiteHostUpdateError,
+    ThrowOnError
+  >({
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/site-hosts/{host}",
   });
 };
 

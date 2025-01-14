@@ -2545,6 +2545,55 @@ export type UpdateSiteRequest = {
   title?: string;
 };
 
+/**
+ * site-host
+ */
+export type SiteHost = {
+  metadata: ApiResourceMeta;
+  /**
+   * site-host 标题
+   */
+  title: string;
+  /**
+   * site-host 描述
+   */
+  description: string;
+  /**
+   * 绑定域名
+   */
+  host: string;
+};
+
+export type SiteHostList = {
+  pagination?: PaginationResponse;
+  rows?: Array<SiteHost>;
+};
+
+export type CreateSiteHostRequest = {
+  /**
+   * 站点ID
+   */
+  siteId: string;
+  /**
+   * site-host 标题
+   */
+  title: string;
+  /**
+   * site-host 描述
+   */
+  description: string;
+  /**
+   * 绑定域名
+   */
+  host: string;
+};
+
+export type CreateSiteHostResponse = SiteHost;
+
+export type UpdateSiteHostRequest = SiteHost;
+
+export type UpdateSiteHostResponse = SiteHost;
+
 export type PostList = {
   pagination?: PaginationResponse;
   rows?: Array<Post>;
@@ -6606,6 +6655,161 @@ export type SiteGetByHostResponses = {
 
 export type SiteGetByHostResponse =
   SiteGetByHostResponses[keyof SiteGetByHostResponses];
+
+export type SiteHostListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/site-hosts";
+};
+
+export type SiteHostListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type SiteHostListError = SiteHostListErrors[keyof SiteHostListErrors];
+
+export type SiteHostListResponses = {
+  200: SiteHostList;
+};
+
+export type SiteHostListResponse =
+  SiteHostListResponses[keyof SiteHostListResponses];
+
+export type SiteHostCreateData = {
+  /**
+   * 创建agentnode
+   */
+  body: CreateSiteHostRequest;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/site-hosts";
+};
+
+export type SiteHostCreateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type SiteHostCreateError =
+  SiteHostCreateErrors[keyof SiteHostCreateErrors];
+
+export type SiteHostCreateResponses = {
+  200: SiteHost;
+};
+
+export type SiteHostCreateResponse =
+  SiteHostCreateResponses[keyof SiteHostCreateResponses];
+
+export type SiteHostGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+    /**
+     * The site-host id
+     */
+    host: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/site-hosts/{host}";
+};
+
+export type SiteHostGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type SiteHostGetError = SiteHostGetErrors[keyof SiteHostGetErrors];
+
+export type SiteHostGetResponses = {
+  200: SiteHost;
+};
+
+export type SiteHostGetResponse =
+  SiteHostGetResponses[keyof SiteHostGetResponses];
+
+export type SiteHostUpdateData = {
+  /**
+   * The tenant properties to update
+   */
+  body: SiteHost;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The site-host id
+     */
+    host: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/site-hosts/{host}";
+};
+
+export type SiteHostUpdateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type SiteHostUpdateError =
+  SiteHostUpdateErrors[keyof SiteHostUpdateErrors];
+
+export type SiteHostUpdateResponses = {
+  /**
+   * Successfully created the tenant
+   */
+  200: SiteHost;
+};
+
+export type SiteHostUpdateResponse =
+  SiteHostUpdateResponses[keyof SiteHostUpdateResponses];
 
 export type PostListPublicData = {
   body?: never;
