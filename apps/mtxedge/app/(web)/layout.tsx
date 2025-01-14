@@ -13,7 +13,7 @@ import { getBackendUrl } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
 import "mtxuilib/styles/globals.css";
 import "./globals.css";
-export const runtime = "edge";
+export const runtime = "nodejs";
 // export const dynamic = "force-dynamic";
 
 export const viewport: Viewport = {
@@ -25,7 +25,6 @@ export const viewport: Viewport = {
 
 export default async function Layout(props: {
   children: ReactNode;
-  // dash: ReactNode;
 }) {
   const { children } = props;
   const hostName = (await headers()).get("host");
