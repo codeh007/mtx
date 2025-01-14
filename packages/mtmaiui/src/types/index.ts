@@ -1,2 +1,2 @@
-export * from "./actions";
-export * from "./artifact";
+export type * from "./actions";
+export type * from "./artifact";

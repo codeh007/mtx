@@ -13,7 +13,7 @@ import { cn } from "mtxuilib/lib/utils";
 import "mtxuilib/styles/globals.css";
 import { MtmaiProvider } from "../../stores/StoreProvider";
 import "./globals.css";
-export const runtime = "edge";
+export const runtime = "nodejs";
 // export const dynamic = "force-dynamic";
 
 export const viewport: Viewport = {
