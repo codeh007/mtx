@@ -2618,14 +2618,6 @@ export type Post = {
   content: string;
 };
 
-export type PostListRequest = {
-  /**
-   * The site id
-   */
-  siteId?: string;
-  hostName?: string;
-};
-
 export type FrontendConfig = {
   /**
    * Cookie access token
@@ -6827,7 +6819,12 @@ export type SiteHostUpdateResponse =
 export type PostListPublicData = {
   body?: never;
   path?: never;
-  query?: never;
+  query?: {
+    /**
+     * The site id
+     */
+    siteId?: string;
+  };
   url: "/api/v1/posts/public";
 };
 
@@ -6903,7 +6900,12 @@ export type PostListData = {
      */
     tenant: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * The site id
+     */
+    siteId?: string;
+  };
   url: "/api/v1/tenants/{tenant}/posts";
 };
 

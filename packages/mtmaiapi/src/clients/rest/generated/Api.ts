@@ -2610,11 +2610,22 @@ export class Api<
    * @name PostListPublic
    * @request GET:/api/v1/posts/public
    */
-  postListPublic = (data: any, params: RequestParams = {}) =>
+  postListPublic = (
+    query?: {
+      /**
+       * The site id
+       * @format uuid
+       * @minLength 36
+       * @maxLength 36
+       */
+      siteId?: string;
+    },
+    params: RequestParams = {},
+  ) =>
     this.request<PostList, APIErrors>({
       path: `/api/v1/posts/public`,
       method: "GET",
-      body: data,
+      query: query,
       format: "json",
       ...params,
     });
@@ -2642,11 +2653,23 @@ export class Api<
    * @request GET:/api/v1/tenants/{tenant}/posts
    * @secure
    */
-  postList = (tenant: string, data: any, params: RequestParams = {}) =>
+  postList = (
+    tenant: string,
+    query?: {
+      /**
+       * The site id
+       * @format uuid
+       * @minLength 36
+       * @maxLength 36
+       */
+      siteId?: string;
+    },
+    params: RequestParams = {},
+  ) =>
     this.request<PostList, APIErrors>({
       path: `/api/v1/tenants/${tenant}/posts`,
       method: "GET",
-      body: data,
+      query: query,
       secure: true,
       format: "json",
       ...params,
