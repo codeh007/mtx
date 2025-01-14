@@ -20,8 +20,9 @@ import { Route as WorkflowsLayoutImport } from './routes/workflows/_layout'
 import { Route as DashSiteRouteImport } from './routes/dash/site/route'
 import { Route as LayoutsLayout2LayoutBImport } from './routes/layouts/_layout-2/layout-b'
 import { Route as LayoutsLayout2LayoutAImport } from './routes/layouts/_layout-2/layout-a'
-import { Route as DashSiteSiteIdImport } from './routes/dash/site/$siteId'
-import { Route as DashSiteCreateRouteImport } from './routes/dash/site/create/route'
+import { Route as DashSiteSiteIdRouteImport } from './routes/dash/site/$siteId/route'
+import { Route as DashSitePostCreateImport } from './routes/dash/site/post/create'
+import { Route as DashSiteSiteIdCreateRouteImport } from './routes/dash/site/$siteId/create/route'
 
 // Create Virtual Routes
 
@@ -116,16 +117,22 @@ const LayoutsLayout2LayoutARoute = LayoutsLayout2LayoutAImport.update({
   getParentRoute: () => LayoutsRoute,
 } as any)
 
-const DashSiteSiteIdRoute = DashSiteSiteIdImport.update({
+const DashSiteSiteIdRouteRoute = DashSiteSiteIdRouteImport.update({
   id: '/$siteId',
   path: '/$siteId',
   getParentRoute: () => DashSiteRouteRoute,
 } as any)
 
-const DashSiteCreateRouteRoute = DashSiteCreateRouteImport.update({
+const DashSitePostCreateRoute = DashSitePostCreateImport.update({
+  id: '/post/create',
+  path: '/post/create',
+  getParentRoute: () => DashSiteRouteRoute,
+} as any)
+
+const DashSiteSiteIdCreateRouteRoute = DashSiteSiteIdCreateRouteImport.update({
   id: '/create',
   path: '/create',
-  getParentRoute: () => DashSiteRouteRoute,
+  getParentRoute: () => DashSiteSiteIdRouteRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -202,18 +209,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsIndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/dash/site/create': {
-      id: '/dash/site/create'
-      path: '/create'
-      fullPath: '/dash/site/create'
-      preLoaderRoute: typeof DashSiteCreateRouteImport
-      parentRoute: typeof DashSiteRouteImport
-    }
     '/dash/site/$siteId': {
       id: '/dash/site/$siteId'
       path: '/$siteId'
       fullPath: '/dash/site/$siteId'
-      preLoaderRoute: typeof DashSiteSiteIdImport
+      preLoaderRoute: typeof DashSiteSiteIdRouteImport
       parentRoute: typeof DashSiteRouteImport
     }
     '/layouts/_layout-2/layout-a': {
@@ -237,21 +237,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashSiteIndexLazyImport
       parentRoute: typeof DashSiteRouteImport
     }
+    '/dash/site/$siteId/create': {
+      id: '/dash/site/$siteId/create'
+      path: '/create'
+      fullPath: '/dash/site/$siteId/create'
+      preLoaderRoute: typeof DashSiteSiteIdCreateRouteImport
+      parentRoute: typeof DashSiteSiteIdRouteImport
+    }
+    '/dash/site/post/create': {
+      id: '/dash/site/post/create'
+      path: '/post/create'
+      fullPath: '/dash/site/post/create'
+      preLoaderRoute: typeof DashSitePostCreateImport
+      parentRoute: typeof DashSiteRouteImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface DashSiteSiteIdRouteRouteChildren {
+  DashSiteSiteIdCreateRouteRoute: typeof DashSiteSiteIdCreateRouteRoute
+}
+
+const DashSiteSiteIdRouteRouteChildren: DashSiteSiteIdRouteRouteChildren = {
+  DashSiteSiteIdCreateRouteRoute: DashSiteSiteIdCreateRouteRoute,
+}
+
+const DashSiteSiteIdRouteRouteWithChildren =
+  DashSiteSiteIdRouteRoute._addFileChildren(DashSiteSiteIdRouteRouteChildren)
+
 interface DashSiteRouteRouteChildren {
-  DashSiteCreateRouteRoute: typeof DashSiteCreateRouteRoute
-  DashSiteSiteIdRoute: typeof DashSiteSiteIdRoute
+  DashSiteSiteIdRouteRoute: typeof DashSiteSiteIdRouteRouteWithChildren
   DashSiteIndexLazyRoute: typeof DashSiteIndexLazyRoute
+  DashSitePostCreateRoute: typeof DashSitePostCreateRoute
 }
 
 const DashSiteRouteRouteChildren: DashSiteRouteRouteChildren = {
-  DashSiteCreateRouteRoute: DashSiteCreateRouteRoute,
-  DashSiteSiteIdRoute: DashSiteSiteIdRoute,
+  DashSiteSiteIdRouteRoute: DashSiteSiteIdRouteRouteWithChildren,
   DashSiteIndexLazyRoute: DashSiteIndexLazyRoute,
+  DashSitePostCreateRoute: DashSitePostCreateRoute,
 }
 
 const DashSiteRouteRouteWithChildren = DashSiteRouteRoute._addFileChildren(
@@ -298,11 +323,12 @@ export interface FileRoutesByFullPath {
   '/workflows/': typeof WorkflowsIndexRoute
   '/dash': typeof DashIndexLazyRoute
   '/posts': typeof PostsIndexLazyRoute
-  '/dash/site/create': typeof DashSiteCreateRouteRoute
-  '/dash/site/$siteId': typeof DashSiteSiteIdRoute
+  '/dash/site/$siteId': typeof DashSiteSiteIdRouteRouteWithChildren
   '/layouts/layout-a': typeof LayoutsLayout2LayoutARoute
   '/layouts/layout-b': typeof LayoutsLayout2LayoutBRoute
   '/dash/site/': typeof DashSiteIndexLazyRoute
+  '/dash/site/$siteId/create': typeof DashSiteSiteIdCreateRouteRoute
+  '/dash/site/post/create': typeof DashSitePostCreateRoute
 }
 
 export interface FileRoutesByTo {
@@ -312,11 +338,12 @@ export interface FileRoutesByTo {
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdLazyRoute
   '/dash': typeof DashIndexLazyRoute
   '/posts': typeof PostsIndexLazyRoute
-  '/dash/site/create': typeof DashSiteCreateRouteRoute
-  '/dash/site/$siteId': typeof DashSiteSiteIdRoute
+  '/dash/site/$siteId': typeof DashSiteSiteIdRouteRouteWithChildren
   '/layouts/layout-a': typeof LayoutsLayout2LayoutARoute
   '/layouts/layout-b': typeof LayoutsLayout2LayoutBRoute
   '/dash/site': typeof DashSiteIndexLazyRoute
+  '/dash/site/$siteId/create': typeof DashSiteSiteIdCreateRouteRoute
+  '/dash/site/post/create': typeof DashSitePostCreateRoute
 }
 
 export interface FileRoutesById {
@@ -331,11 +358,12 @@ export interface FileRoutesById {
   '/workflows/': typeof WorkflowsIndexRoute
   '/dash/': typeof DashIndexLazyRoute
   '/posts/': typeof PostsIndexLazyRoute
-  '/dash/site/create': typeof DashSiteCreateRouteRoute
-  '/dash/site/$siteId': typeof DashSiteSiteIdRoute
+  '/dash/site/$siteId': typeof DashSiteSiteIdRouteRouteWithChildren
   '/layouts/_layout-2/layout-a': typeof LayoutsLayout2LayoutARoute
   '/layouts/_layout-2/layout-b': typeof LayoutsLayout2LayoutBRoute
   '/dash/site/': typeof DashSiteIndexLazyRoute
+  '/dash/site/$siteId/create': typeof DashSiteSiteIdCreateRouteRoute
+  '/dash/site/post/create': typeof DashSitePostCreateRoute
 }
 
 export interface FileRouteTypes {
@@ -349,11 +377,12 @@ export interface FileRouteTypes {
     | '/workflows/'
     | '/dash'
     | '/posts'
-    | '/dash/site/create'
     | '/dash/site/$siteId'
     | '/layouts/layout-a'
     | '/layouts/layout-b'
     | '/dash/site/'
+    | '/dash/site/$siteId/create'
+    | '/dash/site/post/create'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -362,11 +391,12 @@ export interface FileRouteTypes {
     | '/workflows/$workflowId'
     | '/dash'
     | '/posts'
-    | '/dash/site/create'
     | '/dash/site/$siteId'
     | '/layouts/layout-a'
     | '/layouts/layout-b'
     | '/dash/site'
+    | '/dash/site/$siteId/create'
+    | '/dash/site/post/create'
   id:
     | '__root__'
     | '/'
@@ -379,11 +409,12 @@ export interface FileRouteTypes {
     | '/workflows/'
     | '/dash/'
     | '/posts/'
-    | '/dash/site/create'
     | '/dash/site/$siteId'
     | '/layouts/_layout-2/layout-a'
     | '/layouts/_layout-2/layout-b'
     | '/dash/site/'
+    | '/dash/site/$siteId/create'
+    | '/dash/site/post/create'
   fileRoutesById: FileRoutesById
 }
 
@@ -429,9 +460,9 @@ export const routeTree = rootRoute
     "/dash/site": {
       "filePath": "dash/site/route.tsx",
       "children": [
-        "/dash/site/create",
         "/dash/site/$siteId",
-        "/dash/site/"
+        "/dash/site/",
+        "/dash/site/post/create"
       ]
     },
     "/layouts": {
@@ -472,13 +503,12 @@ export const routeTree = rootRoute
     "/posts/": {
       "filePath": "posts/index.lazy.tsx"
     },
-    "/dash/site/create": {
-      "filePath": "dash/site/create/route.tsx",
-      "parent": "/dash/site"
-    },
     "/dash/site/$siteId": {
-      "filePath": "dash/site/$siteId.tsx",
-      "parent": "/dash/site"
+      "filePath": "dash/site/$siteId/route.tsx",
+      "parent": "/dash/site",
+      "children": [
+        "/dash/site/$siteId/create"
+      ]
     },
     "/layouts/_layout-2/layout-a": {
       "filePath": "layouts/_layout-2/layout-a.tsx",
@@ -490,6 +520,14 @@ export const routeTree = rootRoute
     },
     "/dash/site/": {
       "filePath": "dash/site/index.lazy.tsx",
+      "parent": "/dash/site"
+    },
+    "/dash/site/$siteId/create": {
+      "filePath": "dash/site/$siteId/create/route.tsx",
+      "parent": "/dash/site/$siteId"
+    },
+    "/dash/site/post/create": {
+      "filePath": "dash/site/post/create.tsx",
       "parent": "/dash/site"
     }
   }
