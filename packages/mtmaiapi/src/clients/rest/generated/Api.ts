@@ -107,6 +107,7 @@ import {
   ToolCallResult,
   TriggerWorkflowRunRequest,
   UpdateBlogRequest,
+  UpdateSiteRequest,
   UpdateTenantAlertEmailGroupRequest,
   UpdateTenantInviteRequest,
   UpdateTenantRequest,
@@ -2315,25 +2316,6 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
       ...params,
     });
   /**
-   * @description Update an existing site
-   *
-   * @tags Tenant
-   * @name SiteUpdate
-   * @summary Update tenant
-   * @request PATCH:/api/v1/tenants/{tenant}/sites
-   * @secure
-   */
-  siteUpdate = (tenant: string, data: UpdateTenantRequest, params: RequestParams = {}) =>
-    this.request<Tenant, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/sites`,
-      method: "PATCH",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
-      format: "json",
-      ...params,
-    });
-  /**
    * @description Get the site for the tenant
    *
    * @tags site
@@ -2346,6 +2328,25 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
       path: `/api/v1/tenants/${tenant}/sites/${site}`,
       method: "GET",
       secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Update an existing site
+   *
+   * @tags Tenant
+   * @name SiteUpdate
+   * @summary Update tenant
+   * @request PATCH:/api/v1/tenants/{tenant}/sites/{site}
+   * @secure
+   */
+  siteUpdate = (tenant: string, site: string, data: UpdateSiteRequest, params: RequestParams = {}) =>
+    this.request<Site, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/sites/${site}`,
+      method: "PATCH",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
       format: "json",
       ...params,
     });
