@@ -3549,6 +3549,12 @@ export interface components {
             /** @description site 标题 */
             title?: string;
         };
+        SiteHostListRequest: {
+            /** @description 站点ID */
+            siteId?: string;
+            /** @description 绑定域名 */
+            host?: string;
+        };
         /** @description site-host */
         SiteHost: {
             metadata: components["schemas"]["APIResourceMeta"];
@@ -8972,7 +8978,11 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["SiteHostListRequest"];
+            };
+        };
         responses: {
             200: {
                 headers: {

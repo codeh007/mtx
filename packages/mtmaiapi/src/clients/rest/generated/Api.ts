@@ -89,6 +89,7 @@ import {
   Site,
   SiteHost,
   SiteHostList,
+  SiteHostListRequest,
   SiteList,
   SNSIntegration,
   StepRun,
@@ -2377,11 +2378,13 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @request GET:/api/v1/tenants/{tenant}/site-hosts
    * @secure
    */
-  siteHostList = (tenant: string, params: RequestParams = {}) =>
+  siteHostList = (tenant: string, data: SiteHostListRequest, params: RequestParams = {}) =>
     this.request<SiteHostList, APIErrors>({
       path: `/api/v1/tenants/${tenant}/site-hosts`,
       method: "GET",
+      body: data,
       secure: true,
+      type: ContentType.Json,
       format: "json",
       ...params,
     });
