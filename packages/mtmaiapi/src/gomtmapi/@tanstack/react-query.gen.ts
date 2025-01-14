@@ -214,6 +214,8 @@ import type {
   SiteUpdateResponse,
   SiteGetByHostData,
   SiteHostListData,
+  SiteHostListError,
+  SiteHostListResponse,
   SiteHostCreateData,
   SiteHostCreateError,
   SiteHostCreateResponse,
@@ -3580,6 +3582,55 @@ export const siteHostListOptions = (options: Options<SiteHostListData>) => {
     },
     queryKey: siteHostListQueryKey(options),
   });
+};
+
+export const siteHostListInfiniteQueryKey = (
+  options: Options<SiteHostListData>,
+): QueryKey<Options<SiteHostListData>> => [
+  createQueryKey("siteHostList", options, true),
+];
+
+export const siteHostListInfiniteOptions = (
+  options: Options<SiteHostListData>,
+) => {
+  return infiniteQueryOptions<
+    SiteHostListResponse,
+    SiteHostListError,
+    InfiniteData<SiteHostListResponse>,
+    QueryKey<Options<SiteHostListData>>,
+    | number
+    | Pick<
+        QueryKey<Options<SiteHostListData>>[0],
+        "body" | "headers" | "path" | "query"
+      >
+  >(
+    // @ts-ignore
+    {
+      queryFn: async ({ pageParam, queryKey, signal }) => {
+        // @ts-ignore
+        const page: Pick<
+          QueryKey<Options<SiteHostListData>>[0],
+          "body" | "headers" | "path" | "query"
+        > =
+          typeof pageParam === "object"
+            ? pageParam
+            : {
+                query: {
+                  offset: pageParam,
+                },
+              };
+        const params = createInfiniteParams(queryKey, page);
+        const { data } = await siteHostList({
+          ...options,
+          ...params,
+          signal,
+          throwOnError: true,
+        });
+        return data;
+      },
+      queryKey: siteHostListInfiniteQueryKey(options),
+    },
+  );
 };
 
 export const siteHostCreateQueryKey = (
