@@ -18,7 +18,7 @@ import {
   FormMessage,
 } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
-import { SiteInput } from "../../site/SiteInput";
+import { SiteInput } from "../../../components/site/SiteInput";
 
 interface CreateTaskArticleGenProps {
   prompt: string;
