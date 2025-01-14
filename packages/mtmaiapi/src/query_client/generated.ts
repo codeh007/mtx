@@ -1812,15 +1812,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-<<<<<<< HEAD
         patch?: never;
-=======
-        /**
-         * Update tenant
-         * @description Update an existing site
-         */
-        patch: operations["site:update"];
->>>>>>> 23d25c266a410b5442f3ecae3b9d658d05569078
         trace?: never;
     };
     "/api/v1/tenants/{tenant}/sites/{site}": {
@@ -1837,15 +1829,11 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-<<<<<<< HEAD
         /**
          * Update tenant
          * @description Update an existing site
          */
         patch: operations["site:update"];
-=======
-        patch?: never;
->>>>>>> 23d25c266a410b5442f3ecae3b9d658d05569078
         trace?: never;
     };
     "/api/v1/tenants/{tenant}/sites/byHost/{host}": {
@@ -3518,13 +3506,10 @@ export interface components {
             /** @description 入站域名(指定绑定入站域名) */
             host?: string;
         };
-<<<<<<< HEAD
         UpdateSiteRequest: {
             /** @description site 标题 */
             title?: string;
         };
-=======
->>>>>>> 23d25c266a410b5442f3ecae3b9d658d05569078
         Post: {
             metadata: components["schemas"]["APIResourceMeta"];
             title: string;
@@ -8761,55 +8746,6 @@ export interface operations {
             };
         };
     };
-<<<<<<< HEAD
-=======
-    "site:update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description The tenant id */
-                tenant: string;
-            };
-            cookie?: never;
-        };
-        /** @description The tenant properties to update */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateTenantRequest"];
-            };
-        };
-        responses: {
-            /** @description Successfully created the tenant */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Tenant"];
-                };
-            };
-            /** @description A malformed or bad request */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["APIErrors"];
-                };
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["APIError"];
-                };
-            };
-        };
-    };
->>>>>>> 23d25c266a410b5442f3ecae3b9d658d05569078
     "site:get": {
         parameters: {
             query?: never;
