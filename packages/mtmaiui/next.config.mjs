@@ -1,8 +1,8 @@
-import BundleAnalyzerPlugin from '@next/bundle-analyzer';
+import BundleAnalyzerPlugin from "@next/bundle-analyzer";
 const mode = process.env.BUILD_MODE ?? "standalone";
 const disableChunk = !!process.env.DISABLE_CHUNK || mode === "export";
 const distDir = process.env.NEXT_BUILD_OUTPUT ?? ".next";
-console.log(`nextjs (mtxedge)===================================
+console.log(`NEXTJS (mtmaiui)===================================
 mode : ${mode} output: ${distDir} disableChunk ${disableChunk}`);
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -25,9 +25,8 @@ const nextConfig = {
   },
 
   experimental: {
-    optimizePackageImports: ['icon-library'],
+    optimizePackageImports: ["icon-library"],
   },
-
 
   webpack: (
     config,
@@ -61,7 +60,6 @@ const nextConfig = {
       "basic-ftp",
     );
 
-    
     // 演示将 chunk 文件名改为特定名称
     // config.optimization.splitChunks = {
     //   cacheGroups: {
@@ -82,15 +80,15 @@ const nextConfig = {
     */
     config.output.chunkFilename = (pathData) => {
       // 特定脚本则使用无哈希的文件名, 可以明确url路径,方便自定义加载
-      if (pathData.chunk.name === 'test-lazy2') {
-        return 'static/chunks/test-lazy222.js';
+      if (pathData.chunk.name === "test-lazy2") {
+        return "static/chunks/test-lazy222.js";
       }
-      if (pathData.chunk.name === 'dashapp') {
-        return 'static/chunks/dashapp.js';
+      if (pathData.chunk.name === "dashapp") {
+        return "static/chunks/dashapp.js";
       }
-     
+
       // 其他 chunks 保持原有的命名方式（带哈希）
-      return 'static/chunks/[name].[contenthash].js';
+      return "static/chunks/[name].[contenthash].js";
       // return config.output.chunkFilename
     };
 
@@ -129,8 +127,8 @@ const nextConfig = {
   ],
 };
 
-const withBundleAnalyzer =BundleAnalyzerPlugin({
-  enabled: process.env.ANALYZE === 'true',
-})
+const withBundleAnalyzer = BundleAnalyzerPlugin({
+  enabled: process.env.ANALYZE === "true",
+});
 // export default nextConfig;
 export default withBundleAnalyzer(nextConfig);
