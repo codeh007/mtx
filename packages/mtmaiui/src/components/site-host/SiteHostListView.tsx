@@ -2,7 +2,7 @@
 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { siteHostListOptions } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
-import type { Site, Tenant } from "mtmaiapi/gomtmapi/types.gen";
+import type { Site, SiteHost, Tenant } from "mtmaiapi/gomtmapi/types.gen";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 
 interface SiteHostListViewProps {
@@ -17,8 +17,8 @@ export function SiteHostListView({ tenant, site }: SiteHostListViewProps) {
         // host: site.metadata.id,
         // si
       },
-      body: {
-        site: site.metadata.id,
+      query: {
+        siteId: site.metadata.id,
       },
     }),
   });
@@ -29,6 +29,18 @@ export function SiteHostListView({ tenant, site }: SiteHostListViewProps) {
           data: query.data,
         }}
       />
+      {query.data?.rows?.map((host) => (
+        <SiteHostListItem key={host.metadata.id} host={host} />
+      ))}
     </div>
   );
 }
+
+export const SiteHostListItem = ({ host }: { host: SiteHost }) => {
+  return (
+    <div>
+      {host.metadata.id}
+      <div>{host.host}</div>
+    </div>
+  );
+};
