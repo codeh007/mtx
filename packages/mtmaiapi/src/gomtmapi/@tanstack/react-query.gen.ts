@@ -264,7 +264,6 @@ import type {
   SubscribeSubscribeData,
   SubscribeSubscribeError,
   SubscribeSubscribeResponse,
-  AdminSeedData,
   AdminReleaseConnData,
   AdminReleaseConnError,
   AdminReleaseConnResponse,
@@ -405,7 +404,6 @@ import {
   assisantList,
   assisantGet,
   subscribeSubscribe,
-  adminSeed,
   adminReleaseConn,
   frontendGetConfig,
   frontendGetSiderbar,
@@ -4329,25 +4327,6 @@ export const subscribeSubscribeMutation = (
     },
   };
   return mutationOptions;
-};
-
-export const adminSeedQueryKey = (options?: Options<AdminSeedData>) => [
-  createQueryKey("adminSeed", options),
-];
-
-export const adminSeedOptions = (options?: Options<AdminSeedData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await adminSeed({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: adminSeedQueryKey(options),
-  });
 };
 
 export const adminReleaseConnQueryKey = (
