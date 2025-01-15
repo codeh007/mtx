@@ -3080,22 +3080,6 @@ export class Api<
       ...params,
     });
   /**
-   * @description 种子数据
-   *
-   * @tags admin
-   * @name AdminSeed
-   * @request GET:/api/v1/admin/seed
-   * @secure
-   */
-  adminSeed = (params: RequestParams = {}) =>
-    this.request<CommonResult, any>({
-      path: `/api/v1/admin/seed`,
-      method: "GET",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
    * No description
    *
    * @tags admin
