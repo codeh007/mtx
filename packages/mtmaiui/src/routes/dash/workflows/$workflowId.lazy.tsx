@@ -18,6 +18,7 @@ import invariant from "tiny-invariant";
 
 import { createLazyFileRoute } from "@tanstack/react-router";
 import {
+  type Tenant,
   workflowDeleteMutation,
   workflowGetOptions,
   workflowVersionGetOptions,
@@ -29,12 +30,6 @@ import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { relativeDate } from "mtxuilib/lib/utils";
 import { MtLoading } from "mtxuilib/mt/mtloading";
 import { Badge } from "mtxuilib/ui/badge";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-} from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
 import {
   DropdownMenu,
@@ -43,8 +38,6 @@ import {
   DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu";
 import { Separator } from "mtxuilib/ui/separator";
-import { SidebarInset, SidebarTrigger } from "mtxuilib/ui/sidebar";
-import { DashSidebar } from "../../../components/sidebar/siderbar";
 import { WorkflowRunsTable } from "../../../components/workflow-run/workflow-runs-table";
 import { WorkflowTriggerBtn } from "../../../components/workflow/WorkflowTriggerBtn";
 import WorkflowGeneralSettings from "../../../components/workflow/workflow-general-settings";
@@ -56,15 +49,11 @@ export const Route = createLazyFileRoute("/dash/workflows/$workflowId")({
   component: ExpandedWorkflow,
 });
 
-export default function ExpandedWorkflow(props: {
-  workflowId: string;
-}) {
-  const { workflowId } = props;
-  const tenant = useTenant();
+export default function ExpandedWorkflow() {
+  const { workflowId } = Route.useParams();
   const router = useMtRouter();
+  const tenant = useTenant();
   const basePath = useBasePath();
-  // const mtmapi = useMtmClient();
-
   // TODO list previous versions and make selectable
   const [selectedVersion] = useState<string | undefined>();
   const { handleApiError } = useApiError({});
@@ -74,7 +63,7 @@ export default function ExpandedWorkflow(props: {
     ...workflowGetOptions({
       path: {
         workflow: workflowId,
-        tenant: tenant.metadata.id,
+        tenant: tenant!.metadata.id,
       },
     }),
   });
@@ -100,7 +89,7 @@ export default function ExpandedWorkflow(props: {
     ...workflowVersionGetOptions({
       path: {
         workflow: workflowId,
-        tenant: tenant.metadata.id,
+        // tenant: tenant!.metadata.id,
       },
       query: {
         version: selectedVersion,
@@ -143,203 +132,190 @@ export default function ExpandedWorkflow(props: {
   const currVersion = workflow.versions?.[0].version;
 
   return (
-    <>
-      <DashSidebar />
-      <SidebarInset>
-        <header className="sticky top-0 flex shrink-0 items-center gap-2 border-b bg-background p-4">
-          <SidebarTrigger className="-ml-1" />
-          <Separator orientation="vertical" className="mr-2 h-4" />
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbPage>Workflows</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </header>
-        <div className="flex flex-1 flex-col gap-4 p-4">
-          <Suspense fallback={<SkeletonListview />}>
-            <MtErrorBoundary>
-              <div className="flex-grow h-full w-full">
-                <div className="mx-auto max-w-7xl py-8 px-4 sm:px-6 lg:px-8">
-                  <div className="flex flex-row justify-between items-center">
-                    <div className="flex flex-row gap-4 items-center">
-                      <Square3Stack3DIcon className="h-6 w-6 text-foreground mt-1" />
-                      <h2 className="text-2xl font-bold leading-tight text-foreground">
-                        {workflow.name}
-                      </h2>
-                      {currVersion && (
-                        <Badge className="text-sm mt-1" variant="outline">
-                          {currVersion}
+    <div className="flex flex-1 flex-col gap-4 p-4">
+      <Suspense fallback={<SkeletonListview />}>
+        <MtErrorBoundary>
+          <div className="flex-grow h-full w-full">
+            <div className="mx-auto max-w-7xl py-8 px-4 sm:px-6 lg:px-8">
+              <div className="flex flex-row justify-between items-center">
+                <div className="flex flex-row gap-4 items-center">
+                  <Square3Stack3DIcon className="h-6 w-6 text-foreground mt-1" />
+                  <h2 className="text-2xl font-bold leading-tight text-foreground">
+                    {workflow.name}
+                  </h2>
+                  {currVersion && (
+                    <Badge className="text-sm mt-1" variant="outline">
+                      {currVersion}
+                    </Badge>
+                  )}
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      {workflow.isPaused ? (
+                        <Badge
+                          variant="inProgress"
+                          className="px-2"
+                          onClick={() => {
+                            updateWorkflowMutation.mutate({
+                              isPaused: false,
+                            });
+                          }}
+                        >
+                          Paused
+                        </Badge>
+                      ) : (
+                        <Badge
+                          variant="successful"
+                          className="px-2"
+                          onClick={() => {
+                            updateWorkflowMutation.mutate({
+                              isPaused: true,
+                            });
+                          }}
+                        >
+                          Active
                         </Badge>
                       )}
-                      <DropdownMenu>
-                        <DropdownMenuTrigger>
-                          {workflow.isPaused ? (
-                            <Badge
-                              variant="inProgress"
-                              className="px-2"
-                              onClick={() => {
-                                updateWorkflowMutation.mutate({
-                                  isPaused: false,
-                                });
-                              }}
-                            >
-                              Paused
-                            </Badge>
-                          ) : (
-                            <Badge
-                              variant="successful"
-                              className="px-2"
-                              onClick={() => {
-                                updateWorkflowMutation.mutate({
-                                  isPaused: true,
-                                });
-                              }}
-                            >
-                              Active
-                            </Badge>
-                          )}
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                          <DropdownMenuItem>
-                            {workflow.isPaused ? (
-                              // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-                              <div
-                                onClick={() => {
-                                  updateWorkflowMutation.mutate({
-                                    isPaused: false,
-                                  });
-                                }}
-                              >
-                                Unpause runs
-                              </div>
-                            ) : (
-                              // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-                              <div
-                                onClick={() => {
-                                  updateWorkflowMutation.mutate({
-                                    isPaused: true,
-                                  });
-                                }}
-                              >
-                                Pause runs
-                              </div>
-                            )}
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-                    <WorkflowTags tags={workflow.tags || []} />
-                    <div className="flex flex-row gap-2">
-                      <WorkflowTriggerBtn workflowId={workflowId} />
-                    </div>
-                  </div>
-                  <div className="flex flex-row justify-start items-center mt-4">
-                    <div className="text-sm text-gray-700 dark:text-gray-300">
-                      Updated{" "}
-                      {relativeDate(workflow.versions?.[0].metadata.updatedAt)}
-                    </div>
-                  </div>
-                  {workflow.description && (
-                    <div className="text-sm text-gray-700 dark:text-gray-300 mt-4">
-                      {workflow.description}
-                    </div>
-                  )}
-                  <div className="flex flex-row justify-start items-center mt-4" />
-                  <MtTabs defaultValue="runs">
-                    <MtTabsList layout="underlined">
-                      <MtTabsTrigger variant="underlined" value="runs">
-                        Runs
-                      </MtTabsTrigger>
-                      <MtTabsTrigger variant="underlined" value="settings">
-                        Settings
-                      </MtTabsTrigger>
-                    </MtTabsList>
-                    <MtTabsContent value="runs">
-                      <h3 className="text-xl font-bold leading-tight text-foreground mt-4">
-                        Recent Runs
-                      </h3>
-                      <Separator className="my-4" />
-                      <MtSuspenseBoundary>
-                        <RecentRunsList workflowId={workflowId} />
-                      </MtSuspenseBoundary>
-                    </MtTabsContent>
-                    <MtTabsContent value="settings">
-                      <h3 className="text-xl font-bold leading-tight text-foreground mt-4">
-                        Settings
-                      </h3>
-                      <Separator className="my-4" />
-                      {workflowVersionQuery.isLoading ||
-                      !workflowVersionQuery.data ? (
-                        <MtLoading />
-                      ) : (
-                        <WorkflowGeneralSettings
-                          workflow={workflowVersionQuery.data}
-                        />
-                      )}
-                      <Separator className="my-4" />
-                      {hasGithubIntegration && (
-                        <div className="hidden">
-                          <h3 className="hidden text-xl font-bold leading-tight text-foreground mt-8">
-                            Deployment Settings
-                          </h3>
-                          <Separator className="hidden my-4" />
-                        </div>
-                      )}
-                      <h4 className="text-lg font-bold leading-tight text-foreground mt-8">
-                        Danger Zone
-                      </h4>
-                      <Separator className="my-4" />
-                      <Button
-                        variant="destructive"
-                        className="mt-2"
-                        onClick={() => {
-                          setDeleteWorkflow(true);
-                        }}
-                      >
-                        Delete Workflow
-                      </Button>
-
-                      <ConfirmDialog
-                        title={"Delete workflow"}
-                        description={`Are you sure you want to delete the workflow ${workflow.name}? This action cannot be undone, and will immediately prevent any services running with this workflow from executing steps.`}
-                        submitLabel={"Delete"}
-                        onSubmit={(): void => {
-                          deleteWorkflowMutation.mutate({
-                            // params: {
-                            path: {
-                              workflow: workflowId,
-                              tenant: tenant.metadata.id,
-                            },
-                            // },
-                          });
-                        }}
-                        onCancel={(): void => {
-                          setDeleteWorkflow(false);
-                        }}
-                        isLoading={deleteWorkflowMutation.isPending}
-                        isOpen={deleteWorkflow}
-                      />
-                    </MtTabsContent>
-                  </MtTabs>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem>
+                        {workflow.isPaused ? (
+                          // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+                          <div
+                            onClick={() => {
+                              updateWorkflowMutation.mutate({
+                                isPaused: false,
+                              });
+                            }}
+                          >
+                            Unpause runs
+                          </div>
+                        ) : (
+                          // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+                          <div
+                            onClick={() => {
+                              updateWorkflowMutation.mutate({
+                                isPaused: true,
+                              });
+                            }}
+                          >
+                            Pause runs
+                          </div>
+                        )}
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+                <WorkflowTags tags={workflow.tags || []} />
+                <div className="flex flex-row gap-2">
+                  <WorkflowTriggerBtn workflowId={workflowId} />
                 </div>
               </div>
-            </MtErrorBoundary>
-          </Suspense>
-        </div>
-      </SidebarInset>
-    </>
+              <div className="flex flex-row justify-start items-center mt-4">
+                <div className="text-sm text-gray-700 dark:text-gray-300">
+                  Updated{" "}
+                  {relativeDate(workflow.versions?.[0].metadata.updatedAt)}
+                </div>
+              </div>
+              {workflow.description && (
+                <div className="text-sm text-gray-700 dark:text-gray-300 mt-4">
+                  {workflow.description}
+                </div>
+              )}
+              <div className="flex flex-row justify-start items-center mt-4" />
+              <MtTabs defaultValue="runs">
+                <MtTabsList layout="underlined">
+                  <MtTabsTrigger variant="underlined" value="runs">
+                    Runs
+                  </MtTabsTrigger>
+                  <MtTabsTrigger variant="underlined" value="settings">
+                    Settings
+                  </MtTabsTrigger>
+                </MtTabsList>
+                <MtTabsContent value="runs">
+                  <h3 className="text-xl font-bold leading-tight text-foreground mt-4">
+                    Recent Runs
+                  </h3>
+                  <Separator className="my-4" />
+                  <MtSuspenseBoundary>
+                    <RecentRunsList tenant={tenant!} workflowId={workflowId} />
+                  </MtSuspenseBoundary>
+                </MtTabsContent>
+                <MtTabsContent value="settings">
+                  <h3 className="text-xl font-bold leading-tight text-foreground mt-4">
+                    Settings
+                  </h3>
+                  <Separator className="my-4" />
+                  {workflowVersionQuery.isLoading ||
+                  !workflowVersionQuery.data ? (
+                    <MtLoading />
+                  ) : (
+                    <WorkflowGeneralSettings
+                      workflow={workflowVersionQuery.data}
+                    />
+                  )}
+                  <Separator className="my-4" />
+                  {hasGithubIntegration && (
+                    <div className="hidden">
+                      <h3 className="hidden text-xl font-bold leading-tight text-foreground mt-8">
+                        Deployment Settings
+                      </h3>
+                      <Separator className="hidden my-4" />
+                    </div>
+                  )}
+                  <h4 className="text-lg font-bold leading-tight text-foreground mt-8">
+                    Danger Zone
+                  </h4>
+                  <Separator className="my-4" />
+                  <Button
+                    variant="destructive"
+                    className="mt-2"
+                    onClick={() => {
+                      setDeleteWorkflow(true);
+                    }}
+                  >
+                    Delete Workflow
+                  </Button>
+
+                  <ConfirmDialog
+                    title={"Delete workflow"}
+                    description={`Are you sure you want to delete the workflow ${workflow.name}? This action cannot be undone, and will immediately prevent any services running with this workflow from executing steps.`}
+                    submitLabel={"Delete"}
+                    onSubmit={(): void => {
+                      deleteWorkflowMutation.mutate({
+                        // params: {
+                        path: {
+                          workflow: workflowId,
+                          tenant: tenant.metadata.id,
+                        },
+                        // },
+                      });
+                    }}
+                    onCancel={(): void => {
+                      setDeleteWorkflow(false);
+                    }}
+                    isLoading={deleteWorkflowMutation.isPending}
+                    isOpen={deleteWorkflow}
+                  />
+                </MtTabsContent>
+              </MtTabs>
+            </div>
+          </div>
+        </MtErrorBoundary>
+      </Suspense>
+    </div>
   );
 }
 
-function RecentRunsList(props: { workflowId: string }) {
-  // const tenant = useTenant();
-
+interface RecentRunsListProps {
+  workflowId: string;
+  tenant: Tenant;
+}
+function RecentRunsList({ workflowId, tenant }: RecentRunsListProps) {
   return (
     <>
       <WorkflowRunsTable
-        workflowId={props.workflowId}
+        tenant={tenant}
+        workflowId={workflowId}
         initColumnVisibility={{ Workflow: false }}
         filterVisibility={{ Workflow: false }}
       />

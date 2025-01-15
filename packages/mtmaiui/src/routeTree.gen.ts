@@ -14,8 +14,10 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
-import { Route as DashWorkflowsRouteImport } from './routes/dash/workflows/route'
 import { Route as DashSiteRouteImport } from './routes/dash/site/route'
+import { Route as DashWorkflowsIndexImport } from './routes/dash/workflows/index'
+import { Route as DashWorkflowRunsIndexImport } from './routes/dash/workflow-runs/index'
+import { Route as DashWorkflowRunsWorkflowRunIdImport } from './routes/dash/workflow-runs/$workflowRunId'
 import { Route as DashSiteSiteIdRouteImport } from './routes/dash/site/$siteId/route'
 import { Route as DashSitePostCreateImport } from './routes/dash/site/post/create'
 import { Route as DashSiteSiteIdCreateRouteImport } from './routes/dash/site/$siteId/create/route'
@@ -24,6 +26,8 @@ import { Route as DashSiteSiteIdCreateRouteImport } from './routes/dash/site/$si
 
 const PostsIndexLazyImport = createFileRoute('/posts/')()
 const DashIndexLazyImport = createFileRoute('/dash/')()
+const DashWorkflowsRouteLazyImport = createFileRoute('/dash/workflows')()
+const DashWorkflowRunsRouteLazyImport = createFileRoute('/dash/workflow-runs')()
 const DashWorkflowsWorkflowIdLazyImport = createFileRoute(
   '/dash/workflows/$workflowId',
 )()
@@ -48,11 +52,21 @@ const DashIndexLazyRoute = DashIndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/dash/index.lazy').then((d) => d.Route))
 
-const DashWorkflowsRouteRoute = DashWorkflowsRouteImport.update({
+const DashWorkflowsRouteLazyRoute = DashWorkflowsRouteLazyImport.update({
   id: '/dash/workflows',
   path: '/dash/workflows',
   getParentRoute: () => rootRoute,
-} as any)
+} as any).lazy(() =>
+  import('./routes/dash/workflows/route.lazy').then((d) => d.Route),
+)
+
+const DashWorkflowRunsRouteLazyRoute = DashWorkflowRunsRouteLazyImport.update({
+  id: '/dash/workflow-runs',
+  path: '/dash/workflow-runs',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/dash/workflow-runs/route.lazy').then((d) => d.Route),
+)
 
 const DashSiteRouteRoute = DashSiteRouteImport.update({
   id: '/dash/site',
@@ -60,14 +74,33 @@ const DashSiteRouteRoute = DashSiteRouteImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const DashWorkflowsIndexRoute = DashWorkflowsIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashWorkflowsRouteLazyRoute,
+} as any)
+
+const DashWorkflowRunsIndexRoute = DashWorkflowRunsIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashWorkflowRunsRouteLazyRoute,
+} as any)
+
 const DashWorkflowsWorkflowIdLazyRoute =
   DashWorkflowsWorkflowIdLazyImport.update({
     id: '/$workflowId',
     path: '/$workflowId',
-    getParentRoute: () => DashWorkflowsRouteRoute,
+    getParentRoute: () => DashWorkflowsRouteLazyRoute,
   } as any).lazy(() =>
     import('./routes/dash/workflows/$workflowId.lazy').then((d) => d.Route),
   )
+
+const DashWorkflowRunsWorkflowRunIdRoute =
+  DashWorkflowRunsWorkflowRunIdImport.update({
+    id: '/$workflowRunId',
+    path: '/$workflowRunId',
+    getParentRoute: () => DashWorkflowRunsRouteLazyRoute,
+  } as any)
 
 const DashSiteSiteIdRouteRoute = DashSiteSiteIdRouteImport.update({
   id: '/$siteId',
@@ -105,11 +138,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashSiteRouteImport
       parentRoute: typeof rootRoute
     }
+    '/dash/workflow-runs': {
+      id: '/dash/workflow-runs'
+      path: '/dash/workflow-runs'
+      fullPath: '/dash/workflow-runs'
+      preLoaderRoute: typeof DashWorkflowRunsRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/dash/workflows': {
       id: '/dash/workflows'
       path: '/dash/workflows'
       fullPath: '/dash/workflows'
-      preLoaderRoute: typeof DashWorkflowsRouteImport
+      preLoaderRoute: typeof DashWorkflowsRouteLazyImport
       parentRoute: typeof rootRoute
     }
     '/dash/': {
@@ -133,12 +173,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashSiteSiteIdRouteImport
       parentRoute: typeof DashSiteRouteImport
     }
+    '/dash/workflow-runs/$workflowRunId': {
+      id: '/dash/workflow-runs/$workflowRunId'
+      path: '/$workflowRunId'
+      fullPath: '/dash/workflow-runs/$workflowRunId'
+      preLoaderRoute: typeof DashWorkflowRunsWorkflowRunIdImport
+      parentRoute: typeof DashWorkflowRunsRouteLazyImport
+    }
     '/dash/workflows/$workflowId': {
       id: '/dash/workflows/$workflowId'
       path: '/$workflowId'
       fullPath: '/dash/workflows/$workflowId'
       preLoaderRoute: typeof DashWorkflowsWorkflowIdLazyImport
-      parentRoute: typeof DashWorkflowsRouteImport
+      parentRoute: typeof DashWorkflowsRouteLazyImport
+    }
+    '/dash/workflow-runs/': {
+      id: '/dash/workflow-runs/'
+      path: '/'
+      fullPath: '/dash/workflow-runs/'
+      preLoaderRoute: typeof DashWorkflowRunsIndexImport
+      parentRoute: typeof DashWorkflowRunsRouteLazyImport
+    }
+    '/dash/workflows/': {
+      id: '/dash/workflows/'
+      path: '/'
+      fullPath: '/dash/workflows/'
+      preLoaderRoute: typeof DashWorkflowsIndexImport
+      parentRoute: typeof DashWorkflowsRouteLazyImport
     }
     '/dash/site/$siteId/create': {
       id: '/dash/site/$siteId/create'
@@ -184,25 +245,50 @@ const DashSiteRouteRouteWithChildren = DashSiteRouteRoute._addFileChildren(
   DashSiteRouteRouteChildren,
 )
 
-interface DashWorkflowsRouteRouteChildren {
+interface DashWorkflowRunsRouteLazyRouteChildren {
+  DashWorkflowRunsWorkflowRunIdRoute: typeof DashWorkflowRunsWorkflowRunIdRoute
+  DashWorkflowRunsIndexRoute: typeof DashWorkflowRunsIndexRoute
+}
+
+const DashWorkflowRunsRouteLazyRouteChildren: DashWorkflowRunsRouteLazyRouteChildren =
+  {
+    DashWorkflowRunsWorkflowRunIdRoute: DashWorkflowRunsWorkflowRunIdRoute,
+    DashWorkflowRunsIndexRoute: DashWorkflowRunsIndexRoute,
+  }
+
+const DashWorkflowRunsRouteLazyRouteWithChildren =
+  DashWorkflowRunsRouteLazyRoute._addFileChildren(
+    DashWorkflowRunsRouteLazyRouteChildren,
+  )
+
+interface DashWorkflowsRouteLazyRouteChildren {
   DashWorkflowsWorkflowIdLazyRoute: typeof DashWorkflowsWorkflowIdLazyRoute
+  DashWorkflowsIndexRoute: typeof DashWorkflowsIndexRoute
 }
 
-const DashWorkflowsRouteRouteChildren: DashWorkflowsRouteRouteChildren = {
-  DashWorkflowsWorkflowIdLazyRoute: DashWorkflowsWorkflowIdLazyRoute,
-}
+const DashWorkflowsRouteLazyRouteChildren: DashWorkflowsRouteLazyRouteChildren =
+  {
+    DashWorkflowsWorkflowIdLazyRoute: DashWorkflowsWorkflowIdLazyRoute,
+    DashWorkflowsIndexRoute: DashWorkflowsIndexRoute,
+  }
 
-const DashWorkflowsRouteRouteWithChildren =
-  DashWorkflowsRouteRoute._addFileChildren(DashWorkflowsRouteRouteChildren)
+const DashWorkflowsRouteLazyRouteWithChildren =
+  DashWorkflowsRouteLazyRoute._addFileChildren(
+    DashWorkflowsRouteLazyRouteChildren,
+  )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dash/site': typeof DashSiteRouteRouteWithChildren
-  '/dash/workflows': typeof DashWorkflowsRouteRouteWithChildren
+  '/dash/workflow-runs': typeof DashWorkflowRunsRouteLazyRouteWithChildren
+  '/dash/workflows': typeof DashWorkflowsRouteLazyRouteWithChildren
   '/dash': typeof DashIndexLazyRoute
   '/posts': typeof PostsIndexLazyRoute
   '/dash/site/$siteId': typeof DashSiteSiteIdRouteRouteWithChildren
+  '/dash/workflow-runs/$workflowRunId': typeof DashWorkflowRunsWorkflowRunIdRoute
   '/dash/workflows/$workflowId': typeof DashWorkflowsWorkflowIdLazyRoute
+  '/dash/workflow-runs/': typeof DashWorkflowRunsIndexRoute
+  '/dash/workflows/': typeof DashWorkflowsIndexRoute
   '/dash/site/$siteId/create': typeof DashSiteSiteIdCreateRouteRoute
   '/dash/site/post/create': typeof DashSitePostCreateRoute
 }
@@ -210,11 +296,13 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dash/site': typeof DashSiteRouteRouteWithChildren
-  '/dash/workflows': typeof DashWorkflowsRouteRouteWithChildren
   '/dash': typeof DashIndexLazyRoute
   '/posts': typeof PostsIndexLazyRoute
   '/dash/site/$siteId': typeof DashSiteSiteIdRouteRouteWithChildren
+  '/dash/workflow-runs/$workflowRunId': typeof DashWorkflowRunsWorkflowRunIdRoute
   '/dash/workflows/$workflowId': typeof DashWorkflowsWorkflowIdLazyRoute
+  '/dash/workflow-runs': typeof DashWorkflowRunsIndexRoute
+  '/dash/workflows': typeof DashWorkflowsIndexRoute
   '/dash/site/$siteId/create': typeof DashSiteSiteIdCreateRouteRoute
   '/dash/site/post/create': typeof DashSitePostCreateRoute
 }
@@ -223,11 +311,15 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/dash/site': typeof DashSiteRouteRouteWithChildren
-  '/dash/workflows': typeof DashWorkflowsRouteRouteWithChildren
+  '/dash/workflow-runs': typeof DashWorkflowRunsRouteLazyRouteWithChildren
+  '/dash/workflows': typeof DashWorkflowsRouteLazyRouteWithChildren
   '/dash/': typeof DashIndexLazyRoute
   '/posts/': typeof PostsIndexLazyRoute
   '/dash/site/$siteId': typeof DashSiteSiteIdRouteRouteWithChildren
+  '/dash/workflow-runs/$workflowRunId': typeof DashWorkflowRunsWorkflowRunIdRoute
   '/dash/workflows/$workflowId': typeof DashWorkflowsWorkflowIdLazyRoute
+  '/dash/workflow-runs/': typeof DashWorkflowRunsIndexRoute
+  '/dash/workflows/': typeof DashWorkflowsIndexRoute
   '/dash/site/$siteId/create': typeof DashSiteSiteIdCreateRouteRoute
   '/dash/site/post/create': typeof DashSitePostCreateRoute
 }
@@ -237,33 +329,43 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dash/site'
+    | '/dash/workflow-runs'
     | '/dash/workflows'
     | '/dash'
     | '/posts'
     | '/dash/site/$siteId'
+    | '/dash/workflow-runs/$workflowRunId'
     | '/dash/workflows/$workflowId'
+    | '/dash/workflow-runs/'
+    | '/dash/workflows/'
     | '/dash/site/$siteId/create'
     | '/dash/site/post/create'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/dash/site'
-    | '/dash/workflows'
     | '/dash'
     | '/posts'
     | '/dash/site/$siteId'
+    | '/dash/workflow-runs/$workflowRunId'
     | '/dash/workflows/$workflowId'
+    | '/dash/workflow-runs'
+    | '/dash/workflows'
     | '/dash/site/$siteId/create'
     | '/dash/site/post/create'
   id:
     | '__root__'
     | '/'
     | '/dash/site'
+    | '/dash/workflow-runs'
     | '/dash/workflows'
     | '/dash/'
     | '/posts/'
     | '/dash/site/$siteId'
+    | '/dash/workflow-runs/$workflowRunId'
     | '/dash/workflows/$workflowId'
+    | '/dash/workflow-runs/'
+    | '/dash/workflows/'
     | '/dash/site/$siteId/create'
     | '/dash/site/post/create'
   fileRoutesById: FileRoutesById
@@ -272,7 +374,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashSiteRouteRoute: typeof DashSiteRouteRouteWithChildren
-  DashWorkflowsRouteRoute: typeof DashWorkflowsRouteRouteWithChildren
+  DashWorkflowRunsRouteLazyRoute: typeof DashWorkflowRunsRouteLazyRouteWithChildren
+  DashWorkflowsRouteLazyRoute: typeof DashWorkflowsRouteLazyRouteWithChildren
   DashIndexLazyRoute: typeof DashIndexLazyRoute
   PostsIndexLazyRoute: typeof PostsIndexLazyRoute
 }
@@ -280,7 +383,8 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashSiteRouteRoute: DashSiteRouteRouteWithChildren,
-  DashWorkflowsRouteRoute: DashWorkflowsRouteRouteWithChildren,
+  DashWorkflowRunsRouteLazyRoute: DashWorkflowRunsRouteLazyRouteWithChildren,
+  DashWorkflowsRouteLazyRoute: DashWorkflowsRouteLazyRouteWithChildren,
   DashIndexLazyRoute: DashIndexLazyRoute,
   PostsIndexLazyRoute: PostsIndexLazyRoute,
 }
@@ -297,6 +401,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/dash/site",
+        "/dash/workflow-runs",
         "/dash/workflows",
         "/dash/",
         "/posts/"
@@ -312,10 +417,18 @@ export const routeTree = rootRoute
         "/dash/site/post/create"
       ]
     },
-    "/dash/workflows": {
-      "filePath": "dash/workflows/route.tsx",
+    "/dash/workflow-runs": {
+      "filePath": "dash/workflow-runs/route.lazy.tsx",
       "children": [
-        "/dash/workflows/$workflowId"
+        "/dash/workflow-runs/$workflowRunId",
+        "/dash/workflow-runs/"
+      ]
+    },
+    "/dash/workflows": {
+      "filePath": "dash/workflows/route.lazy.tsx",
+      "children": [
+        "/dash/workflows/$workflowId",
+        "/dash/workflows/"
       ]
     },
     "/dash/": {
@@ -331,8 +444,20 @@ export const routeTree = rootRoute
         "/dash/site/$siteId/create"
       ]
     },
+    "/dash/workflow-runs/$workflowRunId": {
+      "filePath": "dash/workflow-runs/$workflowRunId.tsx",
+      "parent": "/dash/workflow-runs"
+    },
     "/dash/workflows/$workflowId": {
       "filePath": "dash/workflows/$workflowId.lazy.tsx",
+      "parent": "/dash/workflows"
+    },
+    "/dash/workflow-runs/": {
+      "filePath": "dash/workflow-runs/index.tsx",
+      "parent": "/dash/workflow-runs"
+    },
+    "/dash/workflows/": {
+      "filePath": "dash/workflows/index.tsx",
       "parent": "/dash/workflows"
     },
     "/dash/site/$siteId/create": {
