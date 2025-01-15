@@ -11,10 +11,10 @@ import { Button } from "mtxuilib/ui/button";
 import { Checkbox } from "mtxuilib/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "mtxuilib/ui/popover";
 import { useMemo, useState } from "react";
-import { useMtmClient } from "../../hooks/useMtmapi";
-import { columns as workflowRunsColumns } from "../../modules/workflow-run/workflow-runs-columns";
-import { AdditionalMetadata } from "./additional-metadata";
 import { useTenant } from "../../hooks/useAuth";
+import { useMtmClient } from "../../hooks/useMtmapi";
+import { columns as workflowRunsColumns } from "../workflow-run/workflow-runs-columns";
+import { AdditionalMetadata } from "./additional-metadata";
 
 export const columns = ({
   onRowClick,

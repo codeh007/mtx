@@ -1,13 +1,22 @@
 "use client";
 
+import {
+  MtTabs,
+  MtTabsContent,
+  MtTabsList,
+  MtTabsTrigger,
+} from "mtxuilib/mt/tabs";
 import { Suspense } from "react";
+
+import { ConfirmDialog } from "mtxuilib/mt/confirm-dialog";
 
 import { Square3Stack3DIcon } from "@heroicons/react/24/outline";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import api, { type WorkflowUpdateRequest } from "mtmaiapi/api";
-import { use, useState } from "react";
+import { useState } from "react";
 import invariant from "tiny-invariant";
 
+import { createLazyFileRoute } from "@tanstack/react-router";
 import {
   workflowDeleteMutation,
   workflowGetOptions,
@@ -18,15 +27,14 @@ import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { SkeletonListview } from "mtxuilib/components/skeletons/SkeletonListView";
 import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { relativeDate } from "mtxuilib/lib/utils";
-import { ConfirmDialog } from "mtxuilib/mt/confirm-dialog";
 import { MtLoading } from "mtxuilib/mt/mtloading";
-import {
-  MtTabs,
-  MtTabsContent,
-  MtTabsList,
-  MtTabsTrigger,
-} from "mtxuilib/mt/tabs";
 import { Badge } from "mtxuilib/ui/badge";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+} from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
 import {
   DropdownMenu,
@@ -36,23 +44,26 @@ import {
 } from "mtxuilib/ui/dropdown-menu";
 import { Separator } from "mtxuilib/ui/separator";
 import { SidebarInset, SidebarTrigger } from "mtxuilib/ui/sidebar";
+import { DashSidebar } from "../../../components/sidebar/siderbar";
+import { WorkflowRunsTable } from "../../../components/workflow-run/workflow-runs-table";
+import { WorkflowTriggerBtn } from "../../../components/workflow/WorkflowTriggerBtn";
+import WorkflowGeneralSettings from "../../../components/workflow/workflow-general-settings";
+import { WorkflowTags } from "../../../components/workflow/workflow-tags";
 import { useApiError, useApiMetaIntegrations } from "../../../hooks/useApi";
-import { useBasePath } from "../../../hooks/useBasePath";
-import { WorkflowRunsTable } from "../../../modules";
-import { DashSidebar } from "../../sidebar/siderbar";
-import { WorkflowTriggerBtn } from "../../workflow/WorkflowTriggerBtn";
-import WorkflowGeneralSettings from "../../workflow/workflow-general-settings";
-import { WorkflowTags } from "../../workflow/workflow-tags";
 import { useTenant } from "../../../hooks/useAuth";
+import { useBasePath } from "../../../hooks/useBasePath";
+export const Route = createLazyFileRoute("/dash/workflows/$workflowId")({
+  component: ExpandedWorkflow,
+});
+
 export default function ExpandedWorkflow(props: {
-  params: Promise<{
-    workflowId: string;
-  }>;
+  workflowId: string;
 }) {
-  const { workflowId } = use(props.params);
+  const { workflowId } = props;
   const tenant = useTenant();
   const router = useMtRouter();
   const basePath = useBasePath();
+  // const mtmapi = useMtmClient();
 
   // TODO list previous versions and make selectable
   const [selectedVersion] = useState<string | undefined>();
