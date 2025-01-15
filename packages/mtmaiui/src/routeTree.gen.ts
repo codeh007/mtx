@@ -21,8 +21,11 @@ import { Route as DashWorkflowsIndexImport } from './routes/dash/workflows/index
 import { Route as DashWorkflowRunsIndexImport } from './routes/dash/workflow-runs/index'
 import { Route as DashWorkflowRunsWorkflowRunIdImport } from './routes/dash/workflow-runs/$workflowRunId'
 import { Route as DashSiteSiteIdRouteImport } from './routes/dash/site/$siteId/route'
+import { Route as DashOnboardingGetStartedIndexImport } from './routes/dash/onboarding/get-started/index'
+import { Route as DashOnboardingCreateTenantIndexImport } from './routes/dash/onboarding/create-tenant/index'
 import { Route as DashSitePostCreateImport } from './routes/dash/site/post/create'
 import { Route as DashSiteSiteIdCreateRouteImport } from './routes/dash/site/$siteId/create/route'
+import { Route as DashOnboardingCreateTenantComponentsTenantCreateFormImport } from './routes/dash/onboarding/create-tenant/_components/tenant-create-form'
 
 // Create Virtual Routes
 
@@ -131,6 +134,20 @@ const DashSiteSiteIdRouteRoute = DashSiteSiteIdRouteImport.update({
   getParentRoute: () => DashSiteRouteRoute,
 } as any)
 
+const DashOnboardingGetStartedIndexRoute =
+  DashOnboardingGetStartedIndexImport.update({
+    id: '/dash/onboarding/get-started/',
+    path: '/dash/onboarding/get-started/',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const DashOnboardingCreateTenantIndexRoute =
+  DashOnboardingCreateTenantIndexImport.update({
+    id: '/dash/onboarding/create-tenant/',
+    path: '/dash/onboarding/create-tenant/',
+    getParentRoute: () => rootRoute,
+  } as any)
+
 const DashSitePostCreateRoute = DashSitePostCreateImport.update({
   id: '/post/create',
   path: '/post/create',
@@ -142,6 +159,13 @@ const DashSiteSiteIdCreateRouteRoute = DashSiteSiteIdCreateRouteImport.update({
   path: '/create',
   getParentRoute: () => DashSiteSiteIdRouteRoute,
 } as any)
+
+const DashOnboardingCreateTenantComponentsTenantCreateFormRoute =
+  DashOnboardingCreateTenantComponentsTenantCreateFormImport.update({
+    id: '/dash/onboarding/create-tenant/_components/tenant-create-form',
+    path: '/dash/onboarding/create-tenant/tenant-create-form',
+    getParentRoute: () => rootRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -259,6 +283,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashSitePostCreateImport
       parentRoute: typeof DashSiteRouteImport
     }
+    '/dash/onboarding/create-tenant/': {
+      id: '/dash/onboarding/create-tenant/'
+      path: '/dash/onboarding/create-tenant'
+      fullPath: '/dash/onboarding/create-tenant'
+      preLoaderRoute: typeof DashOnboardingCreateTenantIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/dash/onboarding/get-started/': {
+      id: '/dash/onboarding/get-started/'
+      path: '/dash/onboarding/get-started'
+      fullPath: '/dash/onboarding/get-started'
+      preLoaderRoute: typeof DashOnboardingGetStartedIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/dash/onboarding/create-tenant/_components/tenant-create-form': {
+      id: '/dash/onboarding/create-tenant/_components/tenant-create-form'
+      path: '/dash/onboarding/create-tenant/tenant-create-form'
+      fullPath: '/dash/onboarding/create-tenant/tenant-create-form'
+      preLoaderRoute: typeof DashOnboardingCreateTenantComponentsTenantCreateFormImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -362,6 +407,9 @@ export interface FileRoutesByFullPath {
   '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/dash/site/$siteId/create': typeof DashSiteSiteIdCreateRouteRoute
   '/dash/site/post/create': typeof DashSitePostCreateRoute
+  '/dash/onboarding/create-tenant': typeof DashOnboardingCreateTenantIndexRoute
+  '/dash/onboarding/get-started': typeof DashOnboardingGetStartedIndexRoute
+  '/dash/onboarding/create-tenant/tenant-create-form': typeof DashOnboardingCreateTenantComponentsTenantCreateFormRoute
 }
 
 export interface FileRoutesByTo {
@@ -378,6 +426,9 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginIndexLazyRoute
   '/dash/site/$siteId/create': typeof DashSiteSiteIdCreateRouteRoute
   '/dash/site/post/create': typeof DashSitePostCreateRoute
+  '/dash/onboarding/create-tenant': typeof DashOnboardingCreateTenantIndexRoute
+  '/dash/onboarding/get-started': typeof DashOnboardingGetStartedIndexRoute
+  '/dash/onboarding/create-tenant/tenant-create-form': typeof DashOnboardingCreateTenantComponentsTenantCreateFormRoute
 }
 
 export interface FileRoutesById {
@@ -398,6 +449,9 @@ export interface FileRoutesById {
   '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/dash/site/$siteId/create': typeof DashSiteSiteIdCreateRouteRoute
   '/dash/site/post/create': typeof DashSitePostCreateRoute
+  '/dash/onboarding/create-tenant/': typeof DashOnboardingCreateTenantIndexRoute
+  '/dash/onboarding/get-started/': typeof DashOnboardingGetStartedIndexRoute
+  '/dash/onboarding/create-tenant/_components/tenant-create-form': typeof DashOnboardingCreateTenantComponentsTenantCreateFormRoute
 }
 
 export interface FileRouteTypes {
@@ -419,6 +473,9 @@ export interface FileRouteTypes {
     | '/auth/login/'
     | '/dash/site/$siteId/create'
     | '/dash/site/post/create'
+    | '/dash/onboarding/create-tenant'
+    | '/dash/onboarding/get-started'
+    | '/dash/onboarding/create-tenant/tenant-create-form'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -434,6 +491,9 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/dash/site/$siteId/create'
     | '/dash/site/post/create'
+    | '/dash/onboarding/create-tenant'
+    | '/dash/onboarding/get-started'
+    | '/dash/onboarding/create-tenant/tenant-create-form'
   id:
     | '__root__'
     | '/'
@@ -452,6 +512,9 @@ export interface FileRouteTypes {
     | '/auth/login/'
     | '/dash/site/$siteId/create'
     | '/dash/site/post/create'
+    | '/dash/onboarding/create-tenant/'
+    | '/dash/onboarding/get-started/'
+    | '/dash/onboarding/create-tenant/_components/tenant-create-form'
   fileRoutesById: FileRoutesById
 }
 
@@ -463,6 +526,9 @@ export interface RootRouteChildren {
   DashWorkflowsRouteLazyRoute: typeof DashWorkflowsRouteLazyRouteWithChildren
   DashIndexLazyRoute: typeof DashIndexLazyRoute
   PostsIndexLazyRoute: typeof PostsIndexLazyRoute
+  DashOnboardingCreateTenantIndexRoute: typeof DashOnboardingCreateTenantIndexRoute
+  DashOnboardingGetStartedIndexRoute: typeof DashOnboardingGetStartedIndexRoute
+  DashOnboardingCreateTenantComponentsTenantCreateFormRoute: typeof DashOnboardingCreateTenantComponentsTenantCreateFormRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -473,6 +539,10 @@ const rootRouteChildren: RootRouteChildren = {
   DashWorkflowsRouteLazyRoute: DashWorkflowsRouteLazyRouteWithChildren,
   DashIndexLazyRoute: DashIndexLazyRoute,
   PostsIndexLazyRoute: PostsIndexLazyRoute,
+  DashOnboardingCreateTenantIndexRoute: DashOnboardingCreateTenantIndexRoute,
+  DashOnboardingGetStartedIndexRoute: DashOnboardingGetStartedIndexRoute,
+  DashOnboardingCreateTenantComponentsTenantCreateFormRoute:
+    DashOnboardingCreateTenantComponentsTenantCreateFormRoute,
 }
 
 export const routeTree = rootRoute
@@ -491,7 +561,10 @@ export const routeTree = rootRoute
         "/dash/workflow-runs",
         "/dash/workflows",
         "/dash/",
-        "/posts/"
+        "/posts/",
+        "/dash/onboarding/create-tenant/",
+        "/dash/onboarding/get-started/",
+        "/dash/onboarding/create-tenant/_components/tenant-create-form"
       ]
     },
     "/": {
@@ -571,6 +644,15 @@ export const routeTree = rootRoute
     "/dash/site/post/create": {
       "filePath": "dash/site/post/create.tsx",
       "parent": "/dash/site"
+    },
+    "/dash/onboarding/create-tenant/": {
+      "filePath": "dash/onboarding/create-tenant/index.tsx"
+    },
+    "/dash/onboarding/get-started/": {
+      "filePath": "dash/onboarding/get-started/index.tsx"
+    },
+    "/dash/onboarding/create-tenant/_components/tenant-create-form": {
+      "filePath": "dash/onboarding/create-tenant/_components/tenant-create-form.tsx"
     }
   }
 }
