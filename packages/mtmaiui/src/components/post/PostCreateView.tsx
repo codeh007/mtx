@@ -67,7 +67,6 @@ export const PostCreateView = (props: PostCreateViewProps) => {
   });
   return (
     <div>
-      {/* <DebugValue data={post} /> */}
       <ZForm
         form={form}
         handleSubmit={(values) => {
