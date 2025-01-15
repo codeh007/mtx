@@ -1,6 +1,6 @@
 "use client";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import { createLazyFileRoute } from "@tanstack/react-router";
+import { createLazyFileRoute, Outlet } from "@tanstack/react-router";
 import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { SkeletonListview } from "mtxuilib/components/skeletons/SkeletonListView";
 import {
@@ -12,7 +12,7 @@ import {
 import { Button } from "mtxuilib/ui/button";
 import { Separator } from "mtxuilib/ui/separator";
 import { SidebarInset, SidebarTrigger } from "mtxuilib/ui/sidebar";
-import { Suspense, Suspense } from "react";
+import { Suspense } from "react";
 import { CustomLink } from "../../../components/CustomLink";
 import { DashSidebar } from "../../../components/sidebar/siderbar";
 import { useTenant } from "../../../hooks/useAuth";
