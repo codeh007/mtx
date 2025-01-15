@@ -1,23 +1,23 @@
 "use client";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 import { workflowRunCreateMutation } from "mtmaiapi";
 import type { Workflow } from "mtmaiapi/api";
-import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { cn } from "mtxuilib/lib/utils";
 import { CodeEditor } from "mtxuilib/mt/code-editor";
-import { useState } from "react";
-import { useApiError } from "../../hooks/useApi";
-import { useTenant } from "../../hooks/useAuth";
-import { useBasePath } from "../../hooks/useBasePath";
 import { Button } from "mtxuilib/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
 } from "mtxuilib/ui/dialog";
+import { useState } from "react";
+import { useApiError } from "../../hooks/useApi";
+import { useTenant } from "../../hooks/useAuth";
+import { useBasePath } from "../../hooks/useBasePath";
 export function TriggerWorkflowForm({
   workflow,
   show,
@@ -29,7 +29,8 @@ export function TriggerWorkflowForm({
 }) {
   const tenant = useTenant();
 
-  const router = useMtRouter();
+  // const router = useMtRouter();
+  const navigate = useNavigate();
   const basePath = useBasePath();
 
   const [input, setInput] = useState<string | undefined>("{}");
@@ -43,7 +44,13 @@ export function TriggerWorkflowForm({
   const triggerWorkflowMutation = useMutation({
     ...workflowRunCreateMutation(),
     onSuccess: (data) => {
-      router.push(`${basePath}/workflow-runs/${data.metadata.id}`);
+      // router.push(`${basePath}/workflow-runs/${data.metadata.id}`);
+      navigate({
+        to: `/${basePath}/workflow-runs/${data.metadata.id}`,
+        params: {
+          workflowRunId: data.metadata.id,
+        },
+      });
     },
     onError: handleApiError,
     onMutate: () => {

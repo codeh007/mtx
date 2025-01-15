@@ -2,20 +2,20 @@
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useQuery } from "@tanstack/react-query";
 import type { SortingState, VisibilityState } from "@tanstack/react-table";
-import { workflowListOptions } from "mtmaiapi";
+import { type Tenant, workflowListOptions } from "mtmaiapi";
 import { DataTable } from "mtxuilib/data-table/data-table";
+import { Button } from "mtxuilib/ui/button";
 import { useState } from "react";
 import { BiCard, BiTable } from "react-icons/bi";
-import { useTenant } from "../../hooks/useAuth";
-import { useBasePath } from "../../hooks/useBasePath";
 import { WorkflowCard } from "./WorkflowCard";
 import { WorkflowEmptyCard } from "./WorkflowEmptyCard";
 import { columns } from "./workflow-columns";
-import { Button } from "mtxuilib/ui/button";
 
-export function WorkflowTable() {
-  const tenant = useTenant();
-  const basePath = useBasePath(); // 如果有这个 hook，确保它在这里调用
+interface WorkflowTableProps {
+  tenant: Tenant;
+}
+export function WorkflowTable({ tenant }: WorkflowTableProps) {
+  // const basePath = useBasePath();
   const [cardToggle, setCardToggle] = useState(true);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rotate, setRotate] = useState(false);

@@ -19,6 +19,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import invariant from "tiny-invariant";
 
+import type { Tenant } from "mtmaiapi";
 import api, {
   type ReplayWorkflowRunsRequest,
   WorkflowRunOrderByDirection,
@@ -50,7 +51,6 @@ import {
 import { Separator } from "mtxuilib/ui/separator";
 import { Skeleton } from "mtxuilib/ui/skeleton";
 import { useApiError } from "../../hooks/useApi";
-import { useTenant } from "../../hooks/useAuth";
 import { useMtmClient } from "../../hooks/useMtmapi";
 import { useMtmaiV2 } from "../../stores/StoreProvider";
 import type { AdditionalMetadataClick } from "../events/additional-metadata";
@@ -58,6 +58,7 @@ import { columns } from "./workflow-runs-columns";
 import { WorkflowRunsMetricsView } from "./workflow-runs-metrics";
 
 export interface WorkflowRunsTableProps {
+  tenant: Tenant;
   createdAfter?: string;
   createdBefore?: string;
   workflowId?: string;
@@ -83,6 +84,7 @@ export const getCreatedAfterFromTimeRange = (timeRange?: string) => {
 };
 
 export function WorkflowRunsTable({
+  tenant,
   createdAfter: createdAfterProp,
   workflowId,
   initColumnVisibility = {},
@@ -93,9 +95,8 @@ export function WorkflowRunsTable({
   showMetrics = false,
 }: WorkflowRunsTableProps) {
   const searchParams = useSearchParams();
-  const tenant = useTenant();
+  // const tenant = useTenant();
   const router = useMtRouter();
-  // const cloudMeta = useCloudApiMeta();
   const mtmapi = useMtmClient();
 
   const [viewQueueMetrics, setViewQueueMetrics] = useState(false);
@@ -326,7 +327,6 @@ export function WorkflowRunsTable({
     {
       params: {
         path: {
-          // biome-ignore lint/style/noNonNullAssertion: <explanation>
           tenant: tenant!.metadata.id,
         },
         query: {
@@ -349,7 +349,6 @@ export function WorkflowRunsTable({
     {
       params: {
         path: {
-          // biome-ignore lint/style/noNonNullAssertion: <explanation>
           tenant: tenant!.metadata.id,
         },
       },
@@ -365,7 +364,6 @@ export function WorkflowRunsTable({
   } = mtmapi.useQuery("get", "/api/v1/tenants/{tenant}/workflows", {
     params: {
       path: {
-        // biome-ignore lint/style/noNonNullAssertion: <explanation>
         tenant: tenant!.metadata.id,
       },
     },
@@ -646,7 +644,7 @@ export function WorkflowRunsTable({
           </Select>
         </div>
       )}
-      {showMetrics && cloudMeta && cloudMeta.data?.metricsEnabled && (
+      {showMetrics && (
         <GetWorkflowChart
           tenantId={tenant.metadata.id}
           createdAfter={createdAfter}
@@ -735,7 +733,7 @@ const GetWorkflowChart = ({
   refetchInterval?: number;
   zoom: (startTime: string, endTime: string) => void;
 }) => {
-  const mtmapi = useMtmClient();
+  // const mtmapi = useMtmClient();
   // const workflowRunEventsMetricsQuery = useQuery({
   //   ...queries.cloud.workflowRunMetrics(tenantId, {
   //     createdAfter,
@@ -744,24 +742,39 @@ const GetWorkflowChart = ({
   //   placeholderData: (prev) => prev,
   //   refetchInterval,
   // });
-  const workflowRunEventsMetricsQuery = mtmapi.useQuery(
-    "get",
-    "/api/v1/cloud/tenants/{tenant}/m",
-    {},
-    {
-      placeholderData: (prev) => prev,
-      refetchInterval,
-    },
-  );
+  // const workflowRunEventsMetricsQuery = mtmapi.useQuery(
+  //   "get",
+  //   "/api/v1/cloud/tenants/{tenant}/m",
+  //   {},
+  //   {
+  //     placeholderData: (prev) => prev,
+  //     refetchInterval,
+  //   },
+  // );
+
+  // const workflowRunEventsMetricsQuery = useSuspenseQuery({
+  //   ...workflowGetMetricsOptions({
+  //     path: {
+  //       workflow: tenantId,
+  //     },
+  //     query: {
+  //       // createdAfter,
+  //       // finishedBefore,
+  //     },
+  //   }),
+  //   // placeholderData: (prev) => prev,
+  //   refetchInterval,
+  // });
 
   // /api/v1/cloud/tenants/${tenant}/runs-metrics
-  if (workflowRunEventsMetricsQuery.isLoading) {
-    return <Skeleton className="w-full h-36" />;
-  }
+  // if (workflowRunEventsMetricsQuery.isLoading) {
+  //   return <Skeleton className="w-full h-36" />;
+  // }
 
   return (
     <div className="">
-      <ZoomableChart
+      TODO: ZoomableChart
+      {/* <ZoomableChart
         kind="bar"
         data={
           workflowRunEventsMetricsQuery.data?.results?.map(
@@ -778,7 +791,7 @@ const GetWorkflowChart = ({
         }}
         zoom={zoom}
         showYAxis={false}
-      />
+      /> */}
     </div>
   );
 };

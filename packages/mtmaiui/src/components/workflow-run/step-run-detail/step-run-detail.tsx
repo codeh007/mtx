@@ -5,8 +5,9 @@ import { formatDuration } from "date-fns";
 import { PlayIcon } from "lucide-react";
 import {
   type StepRun,
-  stepRunGetSchemaOptions,
+  type Tenant,
   type WorkflowRunShape,
+  stepRunGetSchemaOptions,
 } from "mtmaiapi";
 import { StepRunStatus, queries } from "mtmaiapi/api";
 import type { components } from "mtmaiapi/query_client/generated";
@@ -20,18 +21,17 @@ import {
   MtTabsList,
   MtTabsTrigger,
 } from "mtxuilib/mt/tabs";
+import { Button } from "mtxuilib/ui/button";
+import { Separator } from "mtxuilib/ui/separator";
 import type React from "react";
-import { useMemo, useState } from "react";
-import { useTenant } from "../../../hooks/useAuth";
+import { type JSX, useMemo, useState } from "react";
+import { useApiError } from "../../../hooks/useApi";
 import { useMtmClient } from "../../../hooks/useMtmapi";
 import { RunIndicator } from "../run-statuses";
 import { StepRunEvents } from "../step-run-events-for-workflow-run";
 import { WorkflowRunsTable } from "../workflow-runs-table";
 import { StepRunLogs } from "./step-run-logs";
 import StepRunOutput from "./step-run-output";
-import { Button } from "mtxuilib/ui/button";
-import { Separator } from "mtxuilib/ui/separator";
-import { useApiError } from "../../../hooks/useApi";
 export enum TabOption {
   Output = "output",
   ChildWorkflowRuns = "child-workflow-runs",
@@ -41,6 +41,7 @@ export enum TabOption {
 }
 
 interface StepRunDetailProps {
+  tenant: Tenant;
   stepRunId: string;
   workflowRun: WorkflowRunShape;
   defaultOpenTab?: TabOption;
@@ -53,11 +54,12 @@ export const STEP_RUN_TERMINAL_STATUSES = [
   StepRunStatus.SUCCEEDED,
 ];
 
-const StepRunDetail: React.FC<StepRunDetailProps> = ({
+export const StepRunDetail = ({
+  tenant,
   stepRunId,
   workflowRun,
   defaultOpenTab = TabOption.Output,
-}) => {
+}: StepRunDetailProps) => {
   const [errors, setErrors] = useState<string[]>([]);
   const mtmapi = useMtmClient();
   const { handleApiError } = useApiError({
@@ -136,7 +138,7 @@ const StepRunDetail: React.FC<StepRunDetailProps> = ({
     },
   );
 
-  const tenant = useTenant();
+  // const tenant = useTenant();
   const stepRunSchemaQuery = useQuery({
     ...stepRunGetSchemaOptions({
       path: {
@@ -259,6 +261,7 @@ const StepRunDetail: React.FC<StepRunDetailProps> = ({
         </MtTabsContent>
         <MtTabsContent value={TabOption.ChildWorkflowRuns}>
           <ChildWorkflowRuns
+            tenant={tenant}
             stepRun={stepRun}
             workflowRun={workflowRun}
             refetchInterval={5000}
@@ -307,7 +310,7 @@ const StepRunDetail: React.FC<StepRunDetailProps> = ({
   );
 };
 
-export default StepRunDetail;
+// export default StepRunDetail;
 
 const StepRunSummary: React.FC<{ data: StepRun }> = ({ data }) => {
   const timings: JSX.Element[] = [];
@@ -388,18 +391,19 @@ const StepRunSummary: React.FC<{ data: StepRun }> = ({ data }) => {
 };
 
 export function ChildWorkflowRuns({
+  tenant,
   stepRun,
   workflowRun,
   refetchInterval,
 }: {
+  tenant: Tenant;
   stepRun: StepRun | undefined;
   workflowRun: components["schemas"]["WorkflowRun"];
   refetchInterval?: number;
 }) {
-  const tenant = useTenant();
-
   return (
     <WorkflowRunsTable
+      tenant={tenant}
       parentWorkflowRunId={workflowRun.metadata.id}
       parentStepRunId={stepRun?.metadata.id}
       refetchInterval={refetchInterval}

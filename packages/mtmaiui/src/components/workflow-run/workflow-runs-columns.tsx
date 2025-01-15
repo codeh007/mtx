@@ -7,7 +7,12 @@ import { RelativeDate } from "mtxuilib/mt/relative-date";
 
 import { DataTableColumnHeader } from "mtxuilib/data-table/data-table-column-header";
 import { Checkbox } from "mtxuilib/ui/checkbox";
-import Link from "next/link";
+import { useBasePath } from "../../hooks/useBasePath";
+import { CustomLink } from "../CustomLink";
+import {
+  AdditionalMetadata,
+  type AdditionalMetadataClick,
+} from "../events/additional-metadata";
 import { RunStatus } from "./run-statuses";
 
 export const columns: (
@@ -42,13 +47,18 @@ export const columns: (
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Run Id" />
     ),
-    cell: ({ row }) => (
-      <Link href={`/dash/workflow-runs/${row.original.metadata.id}`}>
-        <div className="cursor-pointer hover:underline min-w-fit whitespace-nowrap">
-          {row.original.displayName || row.original.metadata.id}
-        </div>
-      </Link>
-    ),
+    cell: ({ row }) => {
+      const basePath = useBasePath();
+      return (
+        <CustomLink
+          to={`/${basePath}/workflow-runs/${row.original.metadata.id}`}
+        >
+          <div className="cursor-pointer hover:underline min-w-fit whitespace-nowrap">
+            {row.original.displayName || row.original.metadata.id}
+          </div>
+        </CustomLink>
+      );
+    },
     enableSorting: false,
     enableHiding: false,
   },

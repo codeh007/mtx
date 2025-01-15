@@ -2,9 +2,9 @@
 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { workflowGetOptions } from "mtmaiapi";
+import { Button } from "mtxuilib/ui/button";
 import { useState } from "react";
 import { TriggerWorkflowForm } from "./trigger-workflow-form";
-import { Button } from "mtxuilib/ui/button";
 
 interface WorkflowTriggerBtnProps {
   workflowId: string;
@@ -19,7 +19,6 @@ export const WorkflowTriggerBtn = ({ workflowId }: WorkflowTriggerBtnProps) => {
       },
     }),
   });
-  const workflow = workflowQuery.data;
   return (
     <>
       <Button className="text-sm" onClick={() => setTriggerWorkflow(true)}>
@@ -28,7 +27,7 @@ export const WorkflowTriggerBtn = ({ workflowId }: WorkflowTriggerBtnProps) => {
 
       <TriggerWorkflowForm
         show={triggerWorkflow}
-        workflow={workflow}
+        workflow={workflowQuery.data}
         onClose={() => setTriggerWorkflow(false)}
       />
     </>
