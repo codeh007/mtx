@@ -1,13 +1,11 @@
 "use client";
 
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
-import { metadataListIntegrationsOptions } from "mtmaiapi";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { useSearch } from "@tanstack/react-router";
+import { metadataGetOptions, metadataListIntegrationsOptions } from "mtmaiapi";
 import type { APIErrors } from "mtmaiapi/api";
-import api from "mtmaiapi/api";
 import { useToast } from "mtxuilib/ui/use-toast";
-import { useSearchParams } from "next/navigation";
-import { type Dispatch, type SetStateAction, useEffect, useMemo } from "react";
+import { type Dispatch, type SetStateAction, useEffect } from "react";
 import { getFieldErrors } from "../lib/utils";
 export function useApiError(props: {
   setFieldErrors?: Dispatch<SetStateAction<Record<string, string>>>;
@@ -98,49 +96,53 @@ export function useApiMetaIntegrations() {
   return metaQuery.data;
 }
 
+// TODO: 由于报错,暂时取消了功能.
 export function useErrorParam() {
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
   const { toast } = useToast();
+  const searchParams = useSearch({ strict: false });
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // searchParams.
   useEffect(() => {
-    if (searchParams.get("error") && searchParams.get("error") !== "") {
-      toast({
-        title: "Error",
-        description: searchParams.get("error") || "",
-        duration: 5000,
-      });
-
-      // remove from search params
-      const newSearchParams = new URLSearchParams(searchParams);
-      newSearchParams.delete("error");
-      setSearchParams(newSearchParams);
-    }
-  }, [toast, searchParams, setSearchParams]);
+    // if (searchParams.get("error") && searchParams.get("error") !== "") {
+    //   toast({
+    //     title: "Error",
+    //     description: searchParams.get("error") || "",
+    //     duration: 5000,
+    //   });
+    //   // remove from search params
+    //   // const newSearchParams = new URLSearchParams(searchParams);
+    //   // newSearchParams.delete("error");
+    //   // setSearchParams(newSearchParams);
+    // }
+  }, [toast, searchParams]);
 }
 
 export function useApiMeta() {
-  const { handleApiError } = useApiError({});
+  // const { handleApiError } = useApiError({});
 
-  const metaQuery = useQuery({
-    queryKey: ["metadata:get"],
-    queryFn: async () => {
-      const meta = await api.metadataGet();
-      return meta;
-    },
-    staleTime: 1000 * 60,
+  // const metaQuery = useQuery({
+  //   queryKey: ["metadata:get"],
+  //   queryFn: async () => {
+  //     const meta = await api.metadataGet();
+  //     return meta;
+  //   },
+  //   staleTime: 1000 * 60,
+  // });
+  const metaQuery = useSuspenseQuery({
+    ...metadataGetOptions({}),
   });
 
-  if (metaQuery.isError) {
-    handleApiError(metaQuery.error as AxiosError);
-  }
+  // if (metaQuery.isError) {
+  //   handleApiError(metaQuery.error as AxiosError);
+  // }
 
-  const data = useMemo(() => {
-    return metaQuery.data?.data;
-  }, [metaQuery.data]);
+  // const data = useMemo(() => {
+  //   return metaQuery.data;
+  // }, [metaQuery.data]);
 
   return {
-    data: data,
+    data: metaQuery.data,
     isLoading: false,
   };
 }
