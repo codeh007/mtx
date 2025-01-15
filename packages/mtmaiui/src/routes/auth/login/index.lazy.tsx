@@ -166,8 +166,12 @@ export function GoogleLogin() {
 
 export function GithubLogin() {
   const backendUrl = useGomtmnBackendUrl();
+  const origin = window.location.origin;
   return (
-    <a href={`${backendUrl}/api/v1/users/github/start`} className="w-full">
+    <a
+      href={`${backendUrl}/api/v1/users/github/start?origin=${origin}`}
+      className="w-full"
+    >
       <Button variant="outline" type="button" className="w-full py-2">
         <Icons.gitHub className="mr-2 h-4 w-4" />
         Github

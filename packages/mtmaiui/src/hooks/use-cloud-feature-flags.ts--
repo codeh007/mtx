@@ -1,7 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
-import { cloudApi } from "mtmaiapi/api/api.js";
-// import cloudApi from "mtmaiapi/api";
 import { useApiError } from "mtmaiui";
 
 export default function useCloudFeatureFlags(tenantId: string) {

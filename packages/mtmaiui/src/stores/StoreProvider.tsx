@@ -13,8 +13,6 @@ import { type HatchetSliceState, createHatchetSlice } from "./hatchet.slice";
 // import { HatchatLoader } from "../components/HatchatLoader";
 // import dynamic from "next/dynamic";
 
-
-
 interface MtmaiBotProps {
   hostName?: string | null;
   serverUrl?: string | null;
@@ -133,22 +131,19 @@ export const MtmaiProvider = (props: AppProviderProps) => {
   const { children, ...etc } = props;
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const mystore = useMemo(() => createMtAppStore(etc), []);
-  useEffect(()=>{
-    console.log("MtmaiProvider");
-    import("../AppLoader").then(x=>{
-      x
-    })
-  },[])
+  useEffect(() => {
+    import("../AppLoader").then((x) => {
+      x;
+    });
+  }, []);
   return (
     <mtmaiStoreContext.Provider value={mystore}>
-      
       <ReactQueryProvider
         serverUrl={etc.serverUrl as string}
         accessToken={etc.accessToken as string}
         host={etc.hostName as string}
       >
         {children}
-
       </ReactQueryProvider>
     </mtmaiStoreContext.Provider>
   );

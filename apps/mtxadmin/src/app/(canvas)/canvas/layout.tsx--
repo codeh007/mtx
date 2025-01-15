@@ -3,11 +3,8 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 // import { getCoreConfig } from "../../../lib/core/coreConfig";
 import "./globals.css";
-// import { MtmaiProvider, MtmaiProvider } from "../../../stores/StoreProvider";
 import "./globals.css";
 import React from "react";
-import { MtmaiProvider } from "../../../stores/StoreProvider";
-// });
 
 export const metadata: Metadata = {
   title: "Open Canvas",
