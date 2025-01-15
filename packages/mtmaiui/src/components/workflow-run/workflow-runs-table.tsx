@@ -33,18 +33,29 @@ import {
   ToolbarType,
 } from "mtxuilib/data-table/data-table-toolbar";
 import { useMtRouter } from "mtxuilib/hooks/use-router";
-import type { AdditionalMetadataClick } from "../../components/events/additional-metadata";
+import { Button } from "mtxuilib/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "mtxuilib/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "mtxuilib/ui/select";
+import { Separator } from "mtxuilib/ui/separator";
+import { Skeleton } from "mtxuilib/ui/skeleton";
 import { useApiError } from "../../hooks/useApi";
 import { useTenant } from "../../hooks/useAuth";
 import { useMtmClient } from "../../hooks/useMtmapi";
 import { useMtmaiV2 } from "../../stores/StoreProvider";
+import type { AdditionalMetadataClick } from "../events/additional-metadata";
 import { columns } from "./workflow-runs-columns";
 import { WorkflowRunsMetricsView } from "./workflow-runs-metrics";
-import { Button } from "mtxuilib/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "mtxuilib/ui/dialog";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "mtxuilib/ui/select";
-import { Separator } from "mtxuilib/ui/separator";
-import { Skeleton } from "mtxuilib/ui/skeleton";
 
 export interface WorkflowRunsTableProps {
   createdAfter?: string;
