@@ -1,5 +1,5 @@
 "use client";
-import { createFileRoute } from "@tanstack/react-router";
+import { Outlet, createFileRoute } from "@tanstack/react-router";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,25 +7,25 @@ import {
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
 import { SidebarInset } from "mtxuilib/ui/sidebar";
-import dynamic from "next/dynamic";
 import { Suspense } from "react";
-import { DashContent } from "../../components/DashContent";
-import { DashHeaders } from "../../components/DashHeaders";
-import { DashSidebar } from "../../components/sidebar/siderbar";
-import { useTenant } from "../../hooks/useAuth";
-export const Route = createFileRoute("/workflows/")({
+import { DashContent } from "../../../components/DashContent";
+import { DashHeaders } from "../../../components/DashHeaders";
+import { DashSidebar } from "../../../components/sidebar/siderbar";
+import { WorkflowTable } from "../../../components/workflow/workflow-table";
+import { useTenant } from "../../../hooks/useAuth";
+export const Route = createFileRoute("/dash/workflows")({
   component: RouteComponent,
 });
 
-const WorkflowTableLazy = dynamic(
-  () =>
-    import("../../components/workflow/workflow-table").then(
-      (x) => x.WorkflowTable,
-    ),
-  {
-    ssr: false,
-  },
-);
+// const WorkflowTableLazy = dynamic(
+//   () =>
+//     import('../../components/workflow/workflow-table').then(
+//       (x) => x.WorkflowTable,
+//     ),
+//   {
+//     ssr: false,
+//   },
+// )
 
 function RouteComponent() {
   const tenant = useTenant();
@@ -47,7 +47,8 @@ function RouteComponent() {
         </DashHeaders>
         <DashContent>
           <Suspense fallback={<div>Loading...</div>}>
-            <WorkflowTableLazy />
+            <WorkflowTable />
+            <Outlet />
           </Suspense>
         </DashContent>
       </SidebarInset>

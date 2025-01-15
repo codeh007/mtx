@@ -1,12 +1,12 @@
 "use client";
 
 import type { Workflow } from "mtmaiapi";
-import Link from "next/link";
-import { useBasePath } from "../../hooks/useBasePath";
-import { WorkflowTriggerBtn } from "./WorkflowTriggerBtn";
-import { Badge } from "mtxuilib/ui/badge";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
+import { Badge } from "mtxuilib/ui/badge";
 import { Button } from "mtxuilib/ui/button";
+import { useBasePath } from "../../hooks/useBasePath";
+import { CustomLink } from "../CustomLink";
+import { WorkflowTriggerBtn } from "./WorkflowTriggerBtn";
 
 export const WorkflowCard = ({ data }: { data: Workflow }) => {
   const basePath = useBasePath();
@@ -18,9 +18,9 @@ export const WorkflowCard = ({ data }: { data: Workflow }) => {
       <div className="px-4 py-5 sm:p-6">
         <div className="flex flex-row justify-between items-center">
           <h3 className="text-lg leading-6 font-medium text-foreground">
-            <Link href={`${basePath}/workflows/${data.metadata?.id}`}>
+            <CustomLink to={`${basePath}/workflows/${data.metadata?.id}`}>
               {data.name}
-            </Link>
+            </CustomLink>
           </h3>
           {data.isPaused ? (
             <Badge variant="inProgress">Paused</Badge>
@@ -37,9 +37,9 @@ export const WorkflowCard = ({ data }: { data: Workflow }) => {
       </div>
       <div className="px-4 py-4 sm:px-6">
         <div className="text-sm text-background-secondary gap-2 flex flex-row">
-          <Link href={`${basePath}/workflows/${data.metadata?.id}`}>
+          <CustomLink to={`${basePath}/workflows/${data.metadata?.id}`}>
             <Button>View</Button>
-          </Link>
+          </CustomLink>
           <WorkflowTriggerBtn workflowId={data.metadata.id} />
         </div>
       </div>

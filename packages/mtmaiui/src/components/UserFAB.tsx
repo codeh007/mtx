@@ -20,11 +20,13 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu";
+import { useBasePath } from "../hooks/useBasePath";
 import { CustomLink } from "./CustomLink";
 
 export const UserFAB = () => {
   const [openCmdk, setOpenCmdk] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
+  const basePath = useBasePath();
   return (
     <>
       {openCmdk && <AssistantModal />}
@@ -47,7 +49,7 @@ export const UserFAB = () => {
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <CustomLink to="/dashboard">
+            <CustomLink to={`${basePath}/dashboard`}>
               <DropdownMenuItem>
                 管理
                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
@@ -59,14 +61,14 @@ export const UserFAB = () => {
                 <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
               </DropdownMenuItem>
             </CustomLink>
-            <CustomLink to="/posts">
+            <CustomLink to={`${basePath}/posts`}>
               <DropdownMenuItem>
                 posts
                 <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
               </DropdownMenuItem>
             </CustomLink>
 
-            <CustomLink to="/workflows/">
+            <CustomLink to={`${basePath}/workflows`}>
               <DropdownMenuItem>
                 workflows
                 <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
