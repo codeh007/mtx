@@ -2600,6 +2600,7 @@ export type PostList = {
 };
 
 export type CreatePostRequest = {
+  siteId: string;
   title: string;
   /**
    * The tenant associated with this tenant blog.
