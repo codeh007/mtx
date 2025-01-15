@@ -1,7 +1,9 @@
 "use client";
 
+import type { WorkflowRunShape } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import { BiExitFullscreen, BiExpand } from "react-icons/bi";
+import { useMtmaiV2 } from "../../stores/StoreProvider";
 
 type Props = {
   shape: WorkflowRunShape;
