@@ -13,8 +13,10 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as AuthRouteImport } from './routes/auth/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as DashSiteRouteImport } from './routes/dash/site/route'
+import { Route as AuthLoginRouteImport } from './routes/auth/login/route'
 import { Route as DashWorkflowsIndexImport } from './routes/dash/workflows/index'
 import { Route as DashWorkflowRunsIndexImport } from './routes/dash/workflow-runs/index'
 import { Route as DashWorkflowRunsWorkflowRunIdImport } from './routes/dash/workflow-runs/$workflowRunId'
@@ -28,11 +30,18 @@ const PostsIndexLazyImport = createFileRoute('/posts/')()
 const DashIndexLazyImport = createFileRoute('/dash/')()
 const DashWorkflowsRouteLazyImport = createFileRoute('/dash/workflows')()
 const DashWorkflowRunsRouteLazyImport = createFileRoute('/dash/workflow-runs')()
+const AuthLoginIndexLazyImport = createFileRoute('/auth/login/')()
 const DashWorkflowsWorkflowIdLazyImport = createFileRoute(
   '/dash/workflows/$workflowId',
 )()
 
 // Create/Update Routes
+
+const AuthRouteRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -73,6 +82,20 @@ const DashSiteRouteRoute = DashSiteRouteImport.update({
   path: '/dash/site',
   getParentRoute: () => rootRoute,
 } as any)
+
+const AuthLoginRouteRoute = AuthLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AuthLoginIndexLazyRoute = AuthLoginIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthLoginRouteRoute,
+} as any).lazy(() =>
+  import('./routes/auth/login/index.lazy').then((d) => d.Route),
+)
 
 const DashWorkflowsIndexRoute = DashWorkflowsIndexImport.update({
   id: '/',
@@ -130,6 +153,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof AuthRouteImport
     }
     '/dash/site': {
       id: '/dash/site'
@@ -201,6 +238,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashWorkflowsIndexImport
       parentRoute: typeof DashWorkflowsRouteLazyImport
     }
+    '/auth/login/': {
+      id: '/auth/login/'
+      path: '/'
+      fullPath: '/auth/login/'
+      preLoaderRoute: typeof AuthLoginIndexLazyImport
+      parentRoute: typeof AuthLoginRouteImport
+    }
     '/dash/site/$siteId/create': {
       id: '/dash/site/$siteId/create'
       path: '/create'
@@ -219,6 +263,30 @@ declare module '@tanstack/react-router' {
 }
 
 // Create and export the route tree
+
+interface AuthLoginRouteRouteChildren {
+  AuthLoginIndexLazyRoute: typeof AuthLoginIndexLazyRoute
+}
+
+const AuthLoginRouteRouteChildren: AuthLoginRouteRouteChildren = {
+  AuthLoginIndexLazyRoute: AuthLoginIndexLazyRoute,
+}
+
+const AuthLoginRouteRouteWithChildren = AuthLoginRouteRoute._addFileChildren(
+  AuthLoginRouteRouteChildren,
+)
+
+interface AuthRouteRouteChildren {
+  AuthLoginRouteRoute: typeof AuthLoginRouteRouteWithChildren
+}
+
+const AuthRouteRouteChildren: AuthRouteRouteChildren = {
+  AuthLoginRouteRoute: AuthLoginRouteRouteWithChildren,
+}
+
+const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
+  AuthRouteRouteChildren,
+)
 
 interface DashSiteSiteIdRouteRouteChildren {
   DashSiteSiteIdCreateRouteRoute: typeof DashSiteSiteIdCreateRouteRoute
@@ -279,6 +347,8 @@ const DashWorkflowsRouteLazyRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRouteRouteWithChildren
+  '/auth/login': typeof AuthLoginRouteRouteWithChildren
   '/dash/site': typeof DashSiteRouteRouteWithChildren
   '/dash/workflow-runs': typeof DashWorkflowRunsRouteLazyRouteWithChildren
   '/dash/workflows': typeof DashWorkflowsRouteLazyRouteWithChildren
@@ -289,12 +359,14 @@ export interface FileRoutesByFullPath {
   '/dash/workflows/$workflowId': typeof DashWorkflowsWorkflowIdLazyRoute
   '/dash/workflow-runs/': typeof DashWorkflowRunsIndexRoute
   '/dash/workflows/': typeof DashWorkflowsIndexRoute
+  '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/dash/site/$siteId/create': typeof DashSiteSiteIdCreateRouteRoute
   '/dash/site/post/create': typeof DashSitePostCreateRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRouteRouteWithChildren
   '/dash/site': typeof DashSiteRouteRouteWithChildren
   '/dash': typeof DashIndexLazyRoute
   '/posts': typeof PostsIndexLazyRoute
@@ -303,6 +375,7 @@ export interface FileRoutesByTo {
   '/dash/workflows/$workflowId': typeof DashWorkflowsWorkflowIdLazyRoute
   '/dash/workflow-runs': typeof DashWorkflowRunsIndexRoute
   '/dash/workflows': typeof DashWorkflowsIndexRoute
+  '/auth/login': typeof AuthLoginIndexLazyRoute
   '/dash/site/$siteId/create': typeof DashSiteSiteIdCreateRouteRoute
   '/dash/site/post/create': typeof DashSitePostCreateRoute
 }
@@ -310,6 +383,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/auth': typeof AuthRouteRouteWithChildren
+  '/auth/login': typeof AuthLoginRouteRouteWithChildren
   '/dash/site': typeof DashSiteRouteRouteWithChildren
   '/dash/workflow-runs': typeof DashWorkflowRunsRouteLazyRouteWithChildren
   '/dash/workflows': typeof DashWorkflowsRouteLazyRouteWithChildren
@@ -320,6 +395,7 @@ export interface FileRoutesById {
   '/dash/workflows/$workflowId': typeof DashWorkflowsWorkflowIdLazyRoute
   '/dash/workflow-runs/': typeof DashWorkflowRunsIndexRoute
   '/dash/workflows/': typeof DashWorkflowsIndexRoute
+  '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/dash/site/$siteId/create': typeof DashSiteSiteIdCreateRouteRoute
   '/dash/site/post/create': typeof DashSitePostCreateRoute
 }
@@ -328,6 +404,8 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
+    | '/auth/login'
     | '/dash/site'
     | '/dash/workflow-runs'
     | '/dash/workflows'
@@ -338,11 +416,13 @@ export interface FileRouteTypes {
     | '/dash/workflows/$workflowId'
     | '/dash/workflow-runs/'
     | '/dash/workflows/'
+    | '/auth/login/'
     | '/dash/site/$siteId/create'
     | '/dash/site/post/create'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/dash/site'
     | '/dash'
     | '/posts'
@@ -351,11 +431,14 @@ export interface FileRouteTypes {
     | '/dash/workflows/$workflowId'
     | '/dash/workflow-runs'
     | '/dash/workflows'
+    | '/auth/login'
     | '/dash/site/$siteId/create'
     | '/dash/site/post/create'
   id:
     | '__root__'
     | '/'
+    | '/auth'
+    | '/auth/login'
     | '/dash/site'
     | '/dash/workflow-runs'
     | '/dash/workflows'
@@ -366,6 +449,7 @@ export interface FileRouteTypes {
     | '/dash/workflows/$workflowId'
     | '/dash/workflow-runs/'
     | '/dash/workflows/'
+    | '/auth/login/'
     | '/dash/site/$siteId/create'
     | '/dash/site/post/create'
   fileRoutesById: FileRoutesById
@@ -373,6 +457,7 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRouteRoute: typeof AuthRouteRouteWithChildren
   DashSiteRouteRoute: typeof DashSiteRouteRouteWithChildren
   DashWorkflowRunsRouteLazyRoute: typeof DashWorkflowRunsRouteLazyRouteWithChildren
   DashWorkflowsRouteLazyRoute: typeof DashWorkflowsRouteLazyRouteWithChildren
@@ -382,6 +467,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRouteRoute: AuthRouteRouteWithChildren,
   DashSiteRouteRoute: DashSiteRouteRouteWithChildren,
   DashWorkflowRunsRouteLazyRoute: DashWorkflowRunsRouteLazyRouteWithChildren,
   DashWorkflowsRouteLazyRoute: DashWorkflowsRouteLazyRouteWithChildren,
@@ -400,6 +486,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/auth",
         "/dash/site",
         "/dash/workflow-runs",
         "/dash/workflows",
@@ -409,6 +496,19 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/auth": {
+      "filePath": "auth/route.tsx",
+      "children": [
+        "/auth/login"
+      ]
+    },
+    "/auth/login": {
+      "filePath": "auth/login/route.tsx",
+      "parent": "/auth",
+      "children": [
+        "/auth/login/"
+      ]
     },
     "/dash/site": {
       "filePath": "dash/site/route.tsx",
@@ -459,6 +559,10 @@ export const routeTree = rootRoute
     "/dash/workflows/": {
       "filePath": "dash/workflows/index.tsx",
       "parent": "/dash/workflows"
+    },
+    "/auth/login/": {
+      "filePath": "auth/login/index.lazy.tsx",
+      "parent": "/auth/login"
     },
     "/dash/site/$siteId/create": {
       "filePath": "dash/site/$siteId/create/route.tsx",

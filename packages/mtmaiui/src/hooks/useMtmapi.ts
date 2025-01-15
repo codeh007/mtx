@@ -5,8 +5,19 @@ import createClient from "openapi-react-query";
 import { useMemo } from "react";
 import { useMtmaiV2 } from "../stores/StoreProvider";
 
+export function useGomtmnBackendUrl() {
+  const serverUrl = useMtmaiV2((x) => x.serverUrl);
+  if (!serverUrl) {
+    throw new Error("Server URL is not set");
+  }
+  return serverUrl;
+}
+
 export function useMtmClient() {
   const serverUrl = useMtmaiV2((x) => x.serverUrl);
+  if (!serverUrl) {
+    throw new Error("Server URL is not set");
+  }
   const accessToken = useMtmaiV2((x) => x.accessToken);
   const $mtmapi = useMemo(() => {
     const fetchClient = createFetchClient<paths>({
