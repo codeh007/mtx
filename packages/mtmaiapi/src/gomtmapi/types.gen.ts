@@ -7545,19 +7545,6 @@ export type SubscribeSubscribeResponses = {
 export type SubscribeSubscribeResponse =
   SubscribeSubscribeResponses[keyof SubscribeSubscribeResponses];
 
-export type AdminSeedData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: "/api/v1/admin/seed";
-};
-
-export type AdminSeedResponses = {
-  200: CommonResult;
-};
-
-export type AdminSeedResponse = AdminSeedResponses[keyof AdminSeedResponses];
-
 export type AdminReleaseConnData = {
   body?: never;
   path?: never;

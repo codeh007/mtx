@@ -370,8 +370,6 @@ import type {
   SubscribeSubscribeData,
   SubscribeSubscribeResponse,
   SubscribeSubscribeError,
-  AdminSeedData,
-  AdminSeedResponse,
   AdminReleaseConnData,
   AdminReleaseConnResponse,
   AdminReleaseConnError,
@@ -3902,32 +3900,6 @@ export const subscribeSubscribe = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/subscribe",
-  });
-};
-
-/**
- * 种子数据
- */
-export const adminSeed = <ThrowOnError extends boolean = false>(
-  options?: Options<AdminSeedData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).get<
-    AdminSeedResponse,
-    unknown,
-    ThrowOnError
-  >({
-    ...options,
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/admin/seed",
   });
 };
 
