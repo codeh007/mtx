@@ -1,15 +1,13 @@
 "use client";
-import { useMutation } from "@tanstack/react-query";
-import { Link, createLazyFileRoute, useNavigate } from "@tanstack/react-router";
-import type { UserLoginRequest } from "mtmaiapi";
-import api from "mtmaiapi/api/api";
+import { Link, createLazyFileRoute } from "@tanstack/react-router";
 import { Icons } from "mtxuilib/icons/icons";
 import { MtLoading } from "mtxuilib/mt/mtloading";
 import { Button } from "mtxuilib/ui/button";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { CustomLink } from "../../../components/CustomLink";
 import { UserLoginForm } from "../../../components/auth/user-login-form";
-import { useApiError, useApiMeta, useErrorParam } from "../../../hooks/useApi";
+import { useApiMeta, useErrorParam } from "../../../hooks/useApi";
+import { useLoginHandler } from "../../../hooks/useAuth";
 import { useGomtmnBackendUrl } from "../../../hooks/useMtmapi";
 
 export const Route = createLazyFileRoute("/auth/login/")({
@@ -125,27 +123,30 @@ export function OrContinueWith() {
 }
 
 function BasicLogin() {
-  const navigate = useNavigate();
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const { handleApiError } = useApiError({ setFieldErrors });
+  // const navigate = useNavigate();
+  // const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  // const { handleApiError } = useApiError({ setFieldErrors });
 
-  const loginMutation = useMutation({
-    mutationKey: ["user:update:login"],
-    mutationFn: async (data: UserLoginRequest) => {
-      await api.userUpdateLogin(data);
-    },
-    onSuccess: () => {
-      navigate({
-        to: "/",
-      });
-    },
-    onError: handleApiError,
-  });
+  const { loginHandler, isPending, fieldErrors } = useLoginHandler();
+
+  // const loginMutation = useMutation({
+  //   // mutationKey: ["user:update:login"],
+  //   // mutationFn: async (data: UserLoginRequest) => {
+  //   //   await api.userUpdateLogin(data);
+  //   // },
+
+  //   onSuccess: () => {
+  //     navigate({
+  //       to: "/",
+  //     });
+  //   },
+  //   onError: handleApiError,
+  // });
 
   return (
     <UserLoginForm
-      isLoading={loginMutation.isPending}
-      onSubmit={loginMutation.mutate}
+      isLoading={isPending}
+      onSubmit={loginHandler}
       fieldErrors={fieldErrors}
     />
   );
