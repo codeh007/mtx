@@ -54,7 +54,7 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 
 
 ENV UV_TOOL_BIN_DIR=/opt/uv-bin/
-RUN command -v uv ||  curl -LsSf https://astral.sh/uv/install.sh | sudo sh
+RUN command -v uv ||  curl -LsSf https://astral.sh/uv/install.sh | sh
 # Ensure the installed binary is on the `PATH`
 ENV PATH="/root/.local/bin/:$PATH"
 ENV PATH="${UV_TOOL_BIN_DIR}/:$PATH"

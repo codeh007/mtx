@@ -356,8 +356,6 @@ import type {
   LlmGetData,
   LlmGetResponse,
   LlmGetError,
-  DocListData,
-  DocListResponse,
   PromptListData,
   PromptListResponse,
   PromptGetData,
@@ -2888,16 +2886,6 @@ export const mtmaiWorkerConfig = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
     url: "/api/v1/mtmai/worker_config",
   });
 };
@@ -3732,33 +3720,6 @@ export const llmGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/llm/{slug}",
-  });
-};
-
-/**
- * 获取租户下的文档列表
- * 获取节点
- */
-export const docList = <ThrowOnError extends boolean = false>(
-  options: Options<DocListData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).get<
-    DocListResponse,
-    unknown,
-    ThrowOnError
-  >({
-    ...options,
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/docs",
   });
 };
 

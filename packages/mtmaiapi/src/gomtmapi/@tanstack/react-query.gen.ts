@@ -256,7 +256,6 @@ import type {
   LlmGetData,
   LlmGetError,
   LlmGetResponse,
-  DocListData,
   PromptListData,
   PromptGetData,
   AssisantListData,
@@ -398,7 +397,6 @@ import {
   agentNodeRun,
   agentNodeForm,
   llmGet,
-  docList,
   promptList,
   promptGet,
   assisantList,
@@ -4191,25 +4189,6 @@ export const llmGetMutation = (options?: Partial<Options<LlmGetData>>) => {
     },
   };
   return mutationOptions;
-};
-
-export const docListQueryKey = (options: Options<DocListData>) => [
-  createQueryKey("docList", options),
-];
-
-export const docListOptions = (options: Options<DocListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await docList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: docListQueryKey(options),
-  });
 };
 
 export const promptListQueryKey = (options: Options<PromptListData>) => [
