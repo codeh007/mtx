@@ -1,5 +1,5 @@
 {
-  "name": "riona-ai-agent",
+  "name": "mt-riona-ai-agent",
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {
