@@ -1,16 +1,14 @@
 "use client";
 import { RouterProvider } from "@tanstack/react-router";
-import { createRouter } from "./router";
 import { useMemo } from "react";
-import { useTenant } from "./hooks/useAuth";
 import { createRoot } from "react-dom/client";
+import { createRouter } from "./router";
 
 export function App() {
-  const mainRouter = useMemo(()=>{
+  const mainRouter = useMemo(() => {
     return createRouter();
-  },[])
+  }, []);
 
-  const tenant = useTenant();
   return (
     <>
       <RouterProvider router={mainRouter} />
