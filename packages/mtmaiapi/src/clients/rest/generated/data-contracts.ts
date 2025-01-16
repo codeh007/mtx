@@ -1774,7 +1774,7 @@ export interface AgentNodeRunRequest {
   nodeId?: string;
   /** 是否使用stream 传输事件 */
   isStream?: boolean;
-  params: ResearchRequest | CrewAIParams | ScrapeGraphParams;
+  params: ResearchRequest | CrewAIParams | ScrapeGraphParams | BrowserParams;
   config?: any;
   /** 步骤限制(没用上) */
   stepLimit?: number;
@@ -1886,6 +1886,10 @@ export interface ScrapeGraphParams {
 }
 
 export interface CrewAIParams {
+  input?: string;
+}
+
+export interface BrowserParams {
   input?: string;
 }
 
@@ -2093,6 +2097,7 @@ export enum FlowNames {
   Tenant = "tenant",
   ResourceAction = "resourceAction",
   OneShotDemo = "oneShotDemo",
+  Browser = "browser",
 }
 
 /** llm config */
