@@ -49,7 +49,6 @@ import {
   CreateTenantRequest,
   CronWorkflowsList,
   CronWorkflowsOrderByField,
-  Document,
   Event,
   EventData,
   EventKey,
@@ -2319,7 +2318,6 @@ export class Api<
    * @tags mtmai
    * @name MtmaiWorkerConfig
    * @request GET:/api/v1/mtmai/worker_config
-   * @secure
    */
   mtmaiWorkerConfig = (params: RequestParams = {}) =>
     this.request<
@@ -2333,7 +2331,6 @@ export class Api<
     >({
       path: `/api/v1/mtmai/worker_config`,
       method: "GET",
-      secure: true,
       format: "json",
       ...params,
     });
@@ -2967,23 +2964,6 @@ export class Api<
       body: data,
       secure: true,
       type: ContentType.Json,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description 获取节点
-   *
-   * @tags doc
-   * @name DocList
-   * @summary 获取租户下的文档列表
-   * @request GET:/api/v1/tenants/{tenant}/docs
-   * @secure
-   */
-  docList = (tenant: string, params: RequestParams = {}) =>
-    this.request<Document, any>({
-      path: `/api/v1/tenants/${tenant}/docs`,
-      method: "GET",
-      secure: true,
       format: "json",
       ...params,
     });
