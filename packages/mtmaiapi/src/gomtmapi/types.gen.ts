@@ -7346,10 +7346,7 @@ export type AgentNodeFormResponse =
   AgentNodeFormResponses[keyof AgentNodeFormResponses];
 
 export type LlmGetData = {
-  /**
-   * 获取LLM
-   */
-  body: AgentNodeRunRequest;
+  body?: never;
   path: {
     /**
      * The tenant id
