@@ -26,7 +26,7 @@ export const useOptionalTenant = () => {
 
 export const useIsAdmin = () => {
   const tenant = useTenant();
-  return ["default","admin","Default"].includes(tenant?.name||"")
+  return ["default", "admin", "Default"].includes(tenant?.name || "");
 };
 
 export const useLoginHandler = () => {
@@ -46,12 +46,12 @@ export const useLoginHandler = () => {
   });
 
   const loginHandler = async (values) => {
-    const loginResult = await loginMutation.mutateAsync({
-      body: {
-        email: values.email,
-        password: values.password,
-      },
-    });
+    // const loginResult = await loginMutation.mutateAsync({
+    //   body: {
+    //     email: values.email,
+    //     password: values.password,
+    //   },
+    // });
   };
 
   return { loginHandler, isPending: loginMutation.isPending };
