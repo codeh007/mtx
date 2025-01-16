@@ -2314,23 +2314,24 @@ export class Api<
       ...params,
     });
   /**
-   * @description get the config of worker
+   * No description
    *
    * @tags mtmai
    * @name MtmaiWorkerConfig
-   * @summary get the config of worker
-   * @request GET:/api/v1/mtmai/workerConfig
+   * @request GET:/api/v1/mtmai/worker_config
    * @secure
    */
   mtmaiWorkerConfig = (params: RequestParams = {}) =>
     this.request<
       {
         /** token */
-        token?: string;
+        token: string;
+        /** grpcHostPort */
+        grpcHostPort: string;
       },
       any
     >({
-      path: `/api/v1/mtmai/workerConfig`,
+      path: `/api/v1/mtmai/worker_config`,
       method: "GET",
       secure: true,
       format: "json",

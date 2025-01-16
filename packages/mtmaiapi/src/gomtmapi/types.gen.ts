@@ -6304,7 +6304,7 @@ export type MtmaiWorkerConfigData = {
   body?: never;
   path?: never;
   query?: never;
-  url: "/api/v1/mtmai/workerConfig";
+  url: "/api/v1/mtmai/worker_config";
 };
 
 export type MtmaiWorkerConfigResponses = {
@@ -6315,7 +6315,11 @@ export type MtmaiWorkerConfigResponses = {
     /**
      * token
      */
-    token?: string;
+    token: string;
+    /**
+     * grpcHostPort
+     */
+    grpcHostPort: string;
   };
 };
 

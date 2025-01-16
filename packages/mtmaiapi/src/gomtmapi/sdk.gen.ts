@@ -2879,10 +2879,6 @@ export const mtmaiBloggenconfig = <ThrowOnError extends boolean = false>(
   });
 };
 
-/**
- * get the config of worker
- * get the config of worker
- */
 export const mtmaiWorkerConfig = <ThrowOnError extends boolean = false>(
   options?: Options<MtmaiWorkerConfigData, ThrowOnError>,
 ) => {
@@ -2902,7 +2898,7 @@ export const mtmaiWorkerConfig = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/mtmai/workerConfig",
+    url: "/api/v1/mtmai/worker_config",
   });
 };
 
