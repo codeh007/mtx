@@ -7381,27 +7381,6 @@ export type LlmGetResponses = {
 
 export type LlmGetResponse = LlmGetResponses[keyof LlmGetResponses];
 
-export type DocListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/docs";
-};
-
-export type DocListResponses = {
-  /**
-   * Successfully retrieved the tenant blog list
-   */
-  200: Document;
-};
-
-export type DocListResponse = DocListResponses[keyof DocListResponses];
-
 export type PromptListData = {
   body?: never;
   path: {
