@@ -2,20 +2,41 @@
 import { ZForm, useZodForm } from "mtxuilib/form/ZodForm";
 import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { MtLink } from "mtxuilib/mt/mtlink";
+import { SubmitButton } from "mtxuilib/mt/submit-button";
 import { Input } from "mtxuilib/ui/input";
 import { useState } from "react";
 import { z } from "zod";
 import { useLoginHandler } from "../../hooks/useAuth";
-import {SubmitButton} from "mtxuilib/mt/submit-button"
+
+const schema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(8, "Password must be at least 8 characters long"),
+});
+
+// interface LoginWithCreddentsProps {
+//   className?: string;
+//   onSubmit: (opts: z.infer<typeof schema>) => void;
+//   isLoading: boolean;
+//   fieldErrors?: Record<string, string>;
+// }
+
 export function LoginWithCreddents() {
   const [isSuccessful, setIsSuccessful] = useState(false);
 
   const router = useMtRouter();
 
   const form = useZodForm({
-    schema: z.any(),
+    schema: schema,
     defaultValues: {},
   });
+  // 参考
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm<z.infer<typeof schema>>({
+  //   resolver: zodResolver(schema),
+  // });
 
   const { loginHandler, isPending } = useLoginHandler();
   return (
