@@ -6,8 +6,6 @@ import { useState } from "react";
 import { client } from "mtmaiapi";
 import { deleteCookie, getCookie } from "mtxuilib/lib/clientlib";
 import { useToast } from "mtxuilib/ui/use-toast";
-// import { useAssistants } from ".";
-
 export type AssistantTool = {
   /**
    * The name of the tool

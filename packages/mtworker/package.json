@@ -1,6 +1,6 @@
 {
   "name": "mt-riona-ai-agent",
-  "version": "1.0.0",
+  "version": "0.1.1",
   "main": "src/index.ts",
   "scripts": {
     "start": "tsc && node build/index.js",
@@ -10,6 +10,9 @@
   },
   "keywords": [],
   "author": "",
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "ISC",
   "description": "Riona-AI-Agent is an AI-powered automation tool designed to interact with various social media platforms.",
   "dependencies": {
