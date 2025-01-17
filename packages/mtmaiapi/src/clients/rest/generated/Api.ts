@@ -2955,15 +2955,12 @@ export class Api<
   llmGet = (
     tenant: TenantParameter,
     slug: string,
-    data: AgentNodeRunRequest,
     params: RequestParams = {},
   ) =>
     this.request<LlmConfig, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/llm/${slug}`,
       method: "POST",
-      body: data,
       secure: true,
-      type: ContentType.Json,
       format: "json",
       ...params,
     });
