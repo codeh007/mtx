@@ -29,7 +29,6 @@ export function TriggerWorkflowForm({
 }) {
   const tenant = useTenant();
 
-  // const router = useMtRouter();
   const navigate = useNavigate();
   const basePath = useBasePath();
 
@@ -44,7 +43,6 @@ export function TriggerWorkflowForm({
   const triggerWorkflowMutation = useMutation({
     ...workflowRunCreateMutation(),
     onSuccess: (data) => {
-      // router.push(`${basePath}/workflow-runs/${data.metadata.id}`);
       navigate({
         to: `/${basePath}/workflow-runs/${data.metadata.id}`,
         params: {
@@ -95,12 +93,10 @@ export function TriggerWorkflowForm({
             const inputObj = JSON.parse(input || "{}");
             const addlMetaObj = JSON.parse(addlMeta || "{}");
             triggerWorkflowMutation.mutate({
-              // params: {
               path: {
                 tenant: tenant.metadata.id,
                 workflow: workflow.metadata.id,
               },
-              // },
               body: {
                 input: inputObj,
                 additionalMetadata: addlMetaObj,
@@ -114,7 +110,7 @@ export function TriggerWorkflowForm({
               "h-4 w-4 mr-2",
             )}
           />
-          Trigger workflow
+          Trigger
         </Button>
         {errors.length > 0 && (
           <div className="mt-4">
