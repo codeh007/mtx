@@ -1973,7 +1973,7 @@ export type AgentNodeRunRequest = {
    * 是否使用stream 传输事件
    */
   isStream?: boolean;
-  params: ResearchRequest | CrewAiParams | ScrapeGraphParams;
+  params: ResearchRequest | CrewAiParams | ScrapeGraphParams | BrowserParams;
   config?: unknown;
   /**
    * 步骤限制(没用上)
@@ -2172,6 +2172,10 @@ export type ScrapeGraphParams = {
 };
 
 export type CrewAiParams = {
+  input?: string;
+};
+
+export type BrowserParams = {
   input?: string;
 };
 
@@ -2449,7 +2453,8 @@ export type FlowNames =
   | "blogAuto"
   | "tenant"
   | "resourceAction"
-  | "oneShotDemo";
+  | "oneShotDemo"
+  | "browser";
 
 /**
  * llm config
@@ -7341,10 +7346,7 @@ export type AgentNodeFormResponse =
   AgentNodeFormResponses[keyof AgentNodeFormResponses];
 
 export type LlmGetData = {
-  /**
-   * 获取LLM
-   */
-  body: AgentNodeRunRequest;
+  body?: never;
   path: {
     /**
      * The tenant id

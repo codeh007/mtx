@@ -3705,10 +3705,6 @@ export const llmGet = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
