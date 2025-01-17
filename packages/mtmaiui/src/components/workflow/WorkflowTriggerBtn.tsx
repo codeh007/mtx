@@ -2,8 +2,11 @@
 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { workflowGetOptions } from "mtmaiapi";
-import { Button } from "mtxuilib/ui/button";
+import { cn } from "mtxuilib/lib/utils";
+import { buttonVariants } from "mtxuilib/ui/button";
 import { useState } from "react";
+import { useBasePath } from "../../hooks/useBasePath";
+import { CustomLink } from "../CustomLink";
 import { TriggerWorkflowForm } from "./trigger-workflow-form";
 
 interface WorkflowTriggerBtnProps {
@@ -11,7 +14,8 @@ interface WorkflowTriggerBtnProps {
 }
 export const WorkflowTriggerBtn = ({ workflowId }: WorkflowTriggerBtnProps) => {
   const [triggerWorkflow, setTriggerWorkflow] = useState(false);
-
+  const basePath = useBasePath();
+  // const navigate = useNavigate();
   const workflowQuery = useSuspenseQuery({
     ...workflowGetOptions({
       path: {
@@ -19,11 +23,17 @@ export const WorkflowTriggerBtn = ({ workflowId }: WorkflowTriggerBtnProps) => {
       },
     }),
   });
+
+  const workflowName = workflowQuery.data?.name;
+
   return (
     <>
-      <Button className="text-sm" onClick={() => setTriggerWorkflow(true)}>
-        Trigger Workflow
-      </Button>
+      <CustomLink
+        to={`${basePath}/workflows/trigger/${workflowName}?${new URLSearchParams({ workflowId }).toString()}`}
+        className={cn(buttonVariants({ variant: "outline" }))}
+      >
+        Trigger
+      </CustomLink>
 
       <TriggerWorkflowForm
         show={triggerWorkflow}

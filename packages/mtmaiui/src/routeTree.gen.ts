@@ -23,6 +23,8 @@ import { Route as DashWorkflowRunsWorkflowRunIdImport } from './routes/dash/work
 import { Route as DashSiteSiteIdRouteImport } from './routes/dash/site/$siteId/route'
 import { Route as DashOnboardingGetStartedIndexImport } from './routes/dash/onboarding/get-started/index'
 import { Route as DashOnboardingCreateTenantIndexImport } from './routes/dash/onboarding/create-tenant/index'
+import { Route as DashWorkflowsTriggerFlowBrowserImport } from './routes/dash/workflows/trigger/FlowBrowser'
+import { Route as DashWorkflowsTriggerSplatImport } from './routes/dash/workflows/trigger/$'
 import { Route as DashSitePostCreateImport } from './routes/dash/site/post/create'
 import { Route as DashSiteSiteIdCreateRouteImport } from './routes/dash/site/$siteId/create/route'
 import { Route as DashOnboardingCreateTenantComponentsTenantCreateFormImport } from './routes/dash/onboarding/create-tenant/_components/tenant-create-form'
@@ -36,6 +38,9 @@ const DashWorkflowRunsRouteLazyImport = createFileRoute('/dash/workflow-runs')()
 const AuthLoginIndexLazyImport = createFileRoute('/auth/login/')()
 const DashWorkflowsWorkflowIdLazyImport = createFileRoute(
   '/dash/workflows/$workflowId',
+)()
+const DashWorkflowsTriggerRouteLazyImport = createFileRoute(
+  '/dash/workflows/trigger',
 )()
 
 // Create/Update Routes
@@ -121,6 +126,15 @@ const DashWorkflowsWorkflowIdLazyRoute =
     import('./routes/dash/workflows/$workflowId.lazy').then((d) => d.Route),
   )
 
+const DashWorkflowsTriggerRouteLazyRoute =
+  DashWorkflowsTriggerRouteLazyImport.update({
+    id: '/trigger',
+    path: '/trigger',
+    getParentRoute: () => DashWorkflowsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/dash/workflows/trigger/route.lazy').then((d) => d.Route),
+  )
+
 const DashWorkflowRunsWorkflowRunIdRoute =
   DashWorkflowRunsWorkflowRunIdImport.update({
     id: '/$workflowRunId',
@@ -147,6 +161,19 @@ const DashOnboardingCreateTenantIndexRoute =
     path: '/dash/onboarding/create-tenant/',
     getParentRoute: () => rootRoute,
   } as any)
+
+const DashWorkflowsTriggerFlowBrowserRoute =
+  DashWorkflowsTriggerFlowBrowserImport.update({
+    id: '/FlowBrowser',
+    path: '/FlowBrowser',
+    getParentRoute: () => DashWorkflowsTriggerRouteLazyRoute,
+  } as any)
+
+const DashWorkflowsTriggerSplatRoute = DashWorkflowsTriggerSplatImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => DashWorkflowsTriggerRouteLazyRoute,
+} as any)
 
 const DashSitePostCreateRoute = DashSitePostCreateImport.update({
   id: '/post/create',
@@ -241,6 +268,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashWorkflowRunsWorkflowRunIdImport
       parentRoute: typeof DashWorkflowRunsRouteLazyImport
     }
+    '/dash/workflows/trigger': {
+      id: '/dash/workflows/trigger'
+      path: '/trigger'
+      fullPath: '/dash/workflows/trigger'
+      preLoaderRoute: typeof DashWorkflowsTriggerRouteLazyImport
+      parentRoute: typeof DashWorkflowsRouteLazyImport
+    }
     '/dash/workflows/$workflowId': {
       id: '/dash/workflows/$workflowId'
       path: '/$workflowId'
@@ -282,6 +316,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/dash/site/post/create'
       preLoaderRoute: typeof DashSitePostCreateImport
       parentRoute: typeof DashSiteRouteImport
+    }
+    '/dash/workflows/trigger/$': {
+      id: '/dash/workflows/trigger/$'
+      path: '/$'
+      fullPath: '/dash/workflows/trigger/$'
+      preLoaderRoute: typeof DashWorkflowsTriggerSplatImport
+      parentRoute: typeof DashWorkflowsTriggerRouteLazyImport
+    }
+    '/dash/workflows/trigger/FlowBrowser': {
+      id: '/dash/workflows/trigger/FlowBrowser'
+      path: '/FlowBrowser'
+      fullPath: '/dash/workflows/trigger/FlowBrowser'
+      preLoaderRoute: typeof DashWorkflowsTriggerFlowBrowserImport
+      parentRoute: typeof DashWorkflowsTriggerRouteLazyImport
     }
     '/dash/onboarding/create-tenant/': {
       id: '/dash/onboarding/create-tenant/'
@@ -374,13 +422,32 @@ const DashWorkflowRunsRouteLazyRouteWithChildren =
     DashWorkflowRunsRouteLazyRouteChildren,
   )
 
+interface DashWorkflowsTriggerRouteLazyRouteChildren {
+  DashWorkflowsTriggerSplatRoute: typeof DashWorkflowsTriggerSplatRoute
+  DashWorkflowsTriggerFlowBrowserRoute: typeof DashWorkflowsTriggerFlowBrowserRoute
+}
+
+const DashWorkflowsTriggerRouteLazyRouteChildren: DashWorkflowsTriggerRouteLazyRouteChildren =
+  {
+    DashWorkflowsTriggerSplatRoute: DashWorkflowsTriggerSplatRoute,
+    DashWorkflowsTriggerFlowBrowserRoute: DashWorkflowsTriggerFlowBrowserRoute,
+  }
+
+const DashWorkflowsTriggerRouteLazyRouteWithChildren =
+  DashWorkflowsTriggerRouteLazyRoute._addFileChildren(
+    DashWorkflowsTriggerRouteLazyRouteChildren,
+  )
+
 interface DashWorkflowsRouteLazyRouteChildren {
+  DashWorkflowsTriggerRouteLazyRoute: typeof DashWorkflowsTriggerRouteLazyRouteWithChildren
   DashWorkflowsWorkflowIdLazyRoute: typeof DashWorkflowsWorkflowIdLazyRoute
   DashWorkflowsIndexRoute: typeof DashWorkflowsIndexRoute
 }
 
 const DashWorkflowsRouteLazyRouteChildren: DashWorkflowsRouteLazyRouteChildren =
   {
+    DashWorkflowsTriggerRouteLazyRoute:
+      DashWorkflowsTriggerRouteLazyRouteWithChildren,
     DashWorkflowsWorkflowIdLazyRoute: DashWorkflowsWorkflowIdLazyRoute,
     DashWorkflowsIndexRoute: DashWorkflowsIndexRoute,
   }
@@ -401,12 +468,15 @@ export interface FileRoutesByFullPath {
   '/posts': typeof PostsIndexLazyRoute
   '/dash/site/$siteId': typeof DashSiteSiteIdRouteRouteWithChildren
   '/dash/workflow-runs/$workflowRunId': typeof DashWorkflowRunsWorkflowRunIdRoute
+  '/dash/workflows/trigger': typeof DashWorkflowsTriggerRouteLazyRouteWithChildren
   '/dash/workflows/$workflowId': typeof DashWorkflowsWorkflowIdLazyRoute
   '/dash/workflow-runs/': typeof DashWorkflowRunsIndexRoute
   '/dash/workflows/': typeof DashWorkflowsIndexRoute
   '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/dash/site/$siteId/create': typeof DashSiteSiteIdCreateRouteRoute
   '/dash/site/post/create': typeof DashSitePostCreateRoute
+  '/dash/workflows/trigger/$': typeof DashWorkflowsTriggerSplatRoute
+  '/dash/workflows/trigger/FlowBrowser': typeof DashWorkflowsTriggerFlowBrowserRoute
   '/dash/onboarding/create-tenant': typeof DashOnboardingCreateTenantIndexRoute
   '/dash/onboarding/get-started': typeof DashOnboardingGetStartedIndexRoute
   '/dash/onboarding/create-tenant/tenant-create-form': typeof DashOnboardingCreateTenantComponentsTenantCreateFormRoute
@@ -420,12 +490,15 @@ export interface FileRoutesByTo {
   '/posts': typeof PostsIndexLazyRoute
   '/dash/site/$siteId': typeof DashSiteSiteIdRouteRouteWithChildren
   '/dash/workflow-runs/$workflowRunId': typeof DashWorkflowRunsWorkflowRunIdRoute
+  '/dash/workflows/trigger': typeof DashWorkflowsTriggerRouteLazyRouteWithChildren
   '/dash/workflows/$workflowId': typeof DashWorkflowsWorkflowIdLazyRoute
   '/dash/workflow-runs': typeof DashWorkflowRunsIndexRoute
   '/dash/workflows': typeof DashWorkflowsIndexRoute
   '/auth/login': typeof AuthLoginIndexLazyRoute
   '/dash/site/$siteId/create': typeof DashSiteSiteIdCreateRouteRoute
   '/dash/site/post/create': typeof DashSitePostCreateRoute
+  '/dash/workflows/trigger/$': typeof DashWorkflowsTriggerSplatRoute
+  '/dash/workflows/trigger/FlowBrowser': typeof DashWorkflowsTriggerFlowBrowserRoute
   '/dash/onboarding/create-tenant': typeof DashOnboardingCreateTenantIndexRoute
   '/dash/onboarding/get-started': typeof DashOnboardingGetStartedIndexRoute
   '/dash/onboarding/create-tenant/tenant-create-form': typeof DashOnboardingCreateTenantComponentsTenantCreateFormRoute
@@ -443,12 +516,15 @@ export interface FileRoutesById {
   '/posts/': typeof PostsIndexLazyRoute
   '/dash/site/$siteId': typeof DashSiteSiteIdRouteRouteWithChildren
   '/dash/workflow-runs/$workflowRunId': typeof DashWorkflowRunsWorkflowRunIdRoute
+  '/dash/workflows/trigger': typeof DashWorkflowsTriggerRouteLazyRouteWithChildren
   '/dash/workflows/$workflowId': typeof DashWorkflowsWorkflowIdLazyRoute
   '/dash/workflow-runs/': typeof DashWorkflowRunsIndexRoute
   '/dash/workflows/': typeof DashWorkflowsIndexRoute
   '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/dash/site/$siteId/create': typeof DashSiteSiteIdCreateRouteRoute
   '/dash/site/post/create': typeof DashSitePostCreateRoute
+  '/dash/workflows/trigger/$': typeof DashWorkflowsTriggerSplatRoute
+  '/dash/workflows/trigger/FlowBrowser': typeof DashWorkflowsTriggerFlowBrowserRoute
   '/dash/onboarding/create-tenant/': typeof DashOnboardingCreateTenantIndexRoute
   '/dash/onboarding/get-started/': typeof DashOnboardingGetStartedIndexRoute
   '/dash/onboarding/create-tenant/_components/tenant-create-form': typeof DashOnboardingCreateTenantComponentsTenantCreateFormRoute
@@ -467,12 +543,15 @@ export interface FileRouteTypes {
     | '/posts'
     | '/dash/site/$siteId'
     | '/dash/workflow-runs/$workflowRunId'
+    | '/dash/workflows/trigger'
     | '/dash/workflows/$workflowId'
     | '/dash/workflow-runs/'
     | '/dash/workflows/'
     | '/auth/login/'
     | '/dash/site/$siteId/create'
     | '/dash/site/post/create'
+    | '/dash/workflows/trigger/$'
+    | '/dash/workflows/trigger/FlowBrowser'
     | '/dash/onboarding/create-tenant'
     | '/dash/onboarding/get-started'
     | '/dash/onboarding/create-tenant/tenant-create-form'
@@ -485,12 +564,15 @@ export interface FileRouteTypes {
     | '/posts'
     | '/dash/site/$siteId'
     | '/dash/workflow-runs/$workflowRunId'
+    | '/dash/workflows/trigger'
     | '/dash/workflows/$workflowId'
     | '/dash/workflow-runs'
     | '/dash/workflows'
     | '/auth/login'
     | '/dash/site/$siteId/create'
     | '/dash/site/post/create'
+    | '/dash/workflows/trigger/$'
+    | '/dash/workflows/trigger/FlowBrowser'
     | '/dash/onboarding/create-tenant'
     | '/dash/onboarding/get-started'
     | '/dash/onboarding/create-tenant/tenant-create-form'
@@ -506,12 +588,15 @@ export interface FileRouteTypes {
     | '/posts/'
     | '/dash/site/$siteId'
     | '/dash/workflow-runs/$workflowRunId'
+    | '/dash/workflows/trigger'
     | '/dash/workflows/$workflowId'
     | '/dash/workflow-runs/'
     | '/dash/workflows/'
     | '/auth/login/'
     | '/dash/site/$siteId/create'
     | '/dash/site/post/create'
+    | '/dash/workflows/trigger/$'
+    | '/dash/workflows/trigger/FlowBrowser'
     | '/dash/onboarding/create-tenant/'
     | '/dash/onboarding/get-started/'
     | '/dash/onboarding/create-tenant/_components/tenant-create-form'
@@ -600,6 +685,7 @@ export const routeTree = rootRoute
     "/dash/workflows": {
       "filePath": "dash/workflows/route.lazy.tsx",
       "children": [
+        "/dash/workflows/trigger",
         "/dash/workflows/$workflowId",
         "/dash/workflows/"
       ]
@@ -620,6 +706,14 @@ export const routeTree = rootRoute
     "/dash/workflow-runs/$workflowRunId": {
       "filePath": "dash/workflow-runs/$workflowRunId.tsx",
       "parent": "/dash/workflow-runs"
+    },
+    "/dash/workflows/trigger": {
+      "filePath": "dash/workflows/trigger/route.lazy.tsx",
+      "parent": "/dash/workflows",
+      "children": [
+        "/dash/workflows/trigger/$",
+        "/dash/workflows/trigger/FlowBrowser"
+      ]
     },
     "/dash/workflows/$workflowId": {
       "filePath": "dash/workflows/$workflowId.lazy.tsx",
@@ -644,6 +738,14 @@ export const routeTree = rootRoute
     "/dash/site/post/create": {
       "filePath": "dash/site/post/create.tsx",
       "parent": "/dash/site"
+    },
+    "/dash/workflows/trigger/$": {
+      "filePath": "dash/workflows/trigger/$.tsx",
+      "parent": "/dash/workflows/trigger"
+    },
+    "/dash/workflows/trigger/FlowBrowser": {
+      "filePath": "dash/workflows/trigger/FlowBrowser.tsx",
+      "parent": "/dash/workflows/trigger"
     },
     "/dash/onboarding/create-tenant/": {
       "filePath": "dash/onboarding/create-tenant/index.tsx"
