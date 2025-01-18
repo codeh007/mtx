@@ -1,6 +1,6 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { tenantMembershipsListOptions } from "mtmaiapi";
 import { type PropsWithChildren, useEffect, useMemo } from "react";
 import { useBasePath } from "../hooks/useBasePath";
@@ -14,15 +14,12 @@ import { useMtmaiV2 } from "../stores/StoreProvider";
  */
 export function HatchatLoader(props: PropsWithChildren) {
   const { children } = props;
-  // const searchParams = useSearchParams();
-  // const search = useSearch({ strict: false });
-  // search.
   const currentTenant = useMtmaiV2((x) => x.currentTenant);
   const setCurrentTenant = useMtmaiV2((x) => x.setCurrentTenant);
   const lastTenant = useMtmaiV2((x) => x.lastTenant);
 
   const basePath = useBasePath();
-  const listMembershipsQuery = useSuspenseQuery({
+  const listMembershipsQuery = useQuery({
     ...tenantMembershipsListOptions(),
   });
 

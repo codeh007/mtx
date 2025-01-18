@@ -129,20 +129,6 @@ function BasicLogin() {
 
   const { loginHandler, isPending, fieldErrors } = useLoginHandler();
 
-  // const loginMutation = useMutation({
-  //   // mutationKey: ["user:update:login"],
-  //   // mutationFn: async (data: UserLoginRequest) => {
-  //   //   await api.userUpdateLogin(data);
-  //   // },
-
-  //   onSuccess: () => {
-  //     navigate({
-  //       to: "/",
-  //     });
-  //   },
-  //   onError: handleApiError,
-  // });
-
   return (
     <UserLoginForm
       isLoading={isPending}

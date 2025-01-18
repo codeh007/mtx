@@ -1,5 +1,8 @@
 "use client";
 
+import { Badge } from "mtxuilib/ui/badge";
+
+import { cn } from "mtxuilib/lib/utils";
 export function IsNewBadge() {
   return (
     <div
