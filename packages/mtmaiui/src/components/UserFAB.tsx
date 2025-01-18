@@ -49,18 +49,6 @@ export const UserFAB = () => {
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <CustomLink to={`${basePath}/dashboard`}>
-              <DropdownMenuItem>
-                管理
-                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-              </DropdownMenuItem>
-            </CustomLink>
-            <CustomLink to="/">
-              <DropdownMenuItem>
-                Home
-                <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-              </DropdownMenuItem>
-            </CustomLink>
             <CustomLink to={`${basePath}/posts`}>
               <DropdownMenuItem>
                 posts
@@ -71,6 +59,12 @@ export const UserFAB = () => {
             <CustomLink to={`${basePath}/workflows`}>
               <DropdownMenuItem>
                 workflows
+                <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </CustomLink>
+            <CustomLink to={"/chat"}>
+              <DropdownMenuItem>
+                chat
                 <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
               </DropdownMenuItem>
             </CustomLink>
@@ -89,15 +83,15 @@ export const UserFAB = () => {
                 </DropdownMenuSubContent>
               </DropdownMenuPortal>
             </DropdownMenuSub>
-            <DropdownMenuItem>
+            {/* <DropdownMenuItem>
               New Team
               <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>GitHub</DropdownMenuItem>
-          <DropdownMenuItem>Support</DropdownMenuItem>
-          <DropdownMenuItem disabled>API</DropdownMenuItem>
+          {/* <DropdownMenuItem>GitHub</DropdownMenuItem> */}
+          {/* <DropdownMenuItem>Support</DropdownMenuItem> */}
+          {/* <DropdownMenuItem disabled>API</DropdownMenuItem> */}
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             Log out

@@ -9,12 +9,12 @@ export const LzThread = dynamic(
   },
 );
 
-export const LzCanvas = dynamic(
-  () => import("./canvas/canvas").then((mod) => mod.Canvas),
-  {
-    ssr: false,
-  },
-);
+// export const LzCanvas = dynamic(
+//   () => import("./canvas/canvas").then((mod) => mod.Canvas),
+//   {
+//     ssr: false,
+//   },
+// );
 
 export const LzArtifactRenderer = dynamic(
   () =>
