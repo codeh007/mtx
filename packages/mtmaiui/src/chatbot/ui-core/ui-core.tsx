@@ -3,6 +3,11 @@ import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 
 import { type Renderable, flexRender } from "mtxuilib/lib/render";
 import { Button } from "mtxuilib/ui/button";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "mtxuilib/ui/collapsible.jsx";
 import { useState } from "react";
 import { AiCompletion } from "../ui-messages/AiCompletion";
 import { ArtifactCode } from "../ui-messages/ArtifactCode";
@@ -23,7 +28,6 @@ export const UiItem = (props: {
   return <>{flexRender(Component, item.props)}</>;
 };
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export function getComponent(name: string): Renderable<any> {
   switch (name) {
     case "Image":
@@ -58,7 +62,6 @@ export function getComponent(name: string): Renderable<any> {
   }
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export const renderChildren = (props: any) => {
   const componentName = props.component;
   if (!componentName) {
@@ -70,7 +73,6 @@ export const renderChildren = (props: any) => {
   return <>{flexRender(Component, props.props)}</>;
 };
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export const renderArtiface = (props: any) => {
   const componentName = props.artiface_type;
   if (!componentName) {
