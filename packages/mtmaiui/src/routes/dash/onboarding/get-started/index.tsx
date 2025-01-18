@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { cn } from "mtxuilib/lib/utils";
 import {
   Accordion,
   AccordionContent,
@@ -271,7 +272,7 @@ export default function GetStarted() {
             </AccordionItem>
           </Accordion>
 
-          <div className={`mt-8 pb-10 ${!workflowTriggered ?? "hidden"}`}>
+          <div className={cn("mt-8 pb-10", !workflowTriggered && "hidden")}>
             {workflowTriggered ? (
               <h2 className="text-2xl font-bold mb-4">What's Next?</h2>
             ) : (

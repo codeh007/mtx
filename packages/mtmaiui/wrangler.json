@@ -28,11 +28,6 @@
       "name": "WfHelloAssisant",
       "binding": "WfHelloAssisant",
       "class_name": "WfHelloAssisant"
-    },
-    {
-      "name": "WfHelloMtmaiapi",
-      "binding": "WfHelloMtmaiapi",
-      "class_name": "WfHelloMtmaiapi"
     }
   ],
   "send_email": [
