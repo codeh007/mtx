@@ -12,22 +12,23 @@ import { v4 as uuidv4 } from "uuid";
 
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
+import { InlineContextTooltip } from "mtxuilib/mt/inline-context-tooltip";
 import type { CustomQuickAction } from "mtxuilib/types/opencanvasTypes";
-import { useToast } from "mtxuilib/ui/use-toast";
-import { useStore } from "../../../../hooks/useStore";
-import { FullPrompt } from "./FullPrompt";
 import { Button } from "mtxuilib/ui/button";
 import { Checkbox } from "mtxuilib/ui/checkbox";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
 } from "mtxuilib/ui/dialog";
 import { Input } from "mtxuilib/ui/input";
 import { Label } from "mtxuilib/ui/label";
 import { Textarea } from "mtxuilib/ui/textarea";
+import { useToast } from "mtxuilib/ui/use-toast";
+import { useStore } from "../../../../hooks/useStore";
+import { FullPrompt } from "./FullPrompt";
 
 const CUSTOM_INSTRUCTIONS_TOOLTIP_TEXT =
   "This field contains the custom instructions you set, which will then be used to instruct the LLM on how to re-generate the selected artifact.";

@@ -12,18 +12,20 @@ import { v4 as uuidv4 } from "uuid";
 
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
+import { InlineContextTooltip } from "mtxuilib/mt/inline-context-tooltip";
 import type { CustomQuickAction } from "mtxuilib/types/opencanvasTypes";
+import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useStore } from "../../../hooks/useStore";
 import { FullPrompt } from "./FullPrompt";
-import { Button } from "mtxuilib/ui/button";
+
 import { Checkbox } from "mtxuilib/ui/checkbox";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
 } from "mtxuilib/ui/dialog";
 import { Input } from "mtxuilib/ui/input";
 import { Label } from "mtxuilib/ui/label";
