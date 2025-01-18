@@ -196,6 +196,7 @@ import type {
   WorkerConfigData,
   MtmaiBloggenconfigData,
   MtmaiWorkerConfigData,
+  MtmaiStreamDemo1Data,
   BlogListData,
   BlogCreateData,
   BlogCreateError,
@@ -367,6 +368,7 @@ import {
   workerConfig,
   mtmaiBloggenconfig,
   mtmaiWorkerConfig,
+  mtmaiStreamDemo1,
   blogList,
   blogCreate,
   blogGet,
@@ -3345,6 +3347,27 @@ export const mtmaiWorkerConfigOptions = (
       return data;
     },
     queryKey: mtmaiWorkerConfigQueryKey(options),
+  });
+};
+
+export const mtmaiStreamDemo1QueryKey = (
+  options?: Options<MtmaiStreamDemo1Data>,
+) => [createQueryKey("mtmaiStreamDemo1", options)];
+
+export const mtmaiStreamDemo1Options = (
+  options?: Options<MtmaiStreamDemo1Data>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await mtmaiStreamDemo1({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: mtmaiStreamDemo1QueryKey(options),
   });
 };
 
