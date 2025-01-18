@@ -1,7 +1,7 @@
 import { Outlet, createRootRoute } from "@tanstack/react-router";
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { UserFAB } from "../components/UserFAB";
 import { NotFound } from "../components/notFound";
+import { useSessionLoader } from "../hooks/useAuth";
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -9,13 +9,11 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
+  useSessionLoader();
   return (
     <div className="fixed flex top-0 left-0 w-full h-full">
       <UserFAB />
       <Outlet />
-      <MtSuspenseBoundary>
-        <useSessionLoader />
-      </MtSuspenseBoundary>
     </div>
   );
 }
