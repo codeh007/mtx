@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 
-import { TighterText, TighterText } from "mtxuilib/mt/TighterText";
+import { TighterText } from "mtxuilib/mt/TighterText";
 import { InlineContextTooltip } from "mtxuilib/mt/inline-context-tooltip";
 import { Button } from "mtxuilib/ui/button";
 
