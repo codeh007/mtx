@@ -12,14 +12,16 @@ import { ConfirmDialog } from "mtxuilib/mt/confirm-dialog";
 import { Spinner } from "mtxuilib/mt/mtloading";
 import { Badge } from "mtxuilib/ui/badge";
 import { Button } from "mtxuilib/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription } from "mtxuilib/ui/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "mtxuilib/ui/card";
 import { Label } from "mtxuilib/ui/label";
 
+import { Alert, AlertDescription, AlertTitle } from "mtxuilib/ui/alert";
 import type React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useApiError } from "../../../hooks/useApi";
-import { queryClient } from "../../../skyvern/api/QueryClient";
 import { useTenant } from "../../../hooks/useAuth";
+import { queryClient } from "../../../skyvern/api/QueryClient";
+import { Switch } from "mtxuilib/ui/switch.jsx";
 
 interface SubscriptionProps {
   active?: TenantSubscription;
@@ -203,6 +205,7 @@ export const Subscription: React.FC<SubscriptionProps> = ({
             </AlertTitle>
             <AlertDescription>
               A payment method is required to upgrade your subscription, please{" "}
+              {/* biome-ignore lint/a11y/useValidAnchor: <explanation> */}
               <a onClick={manageClicked} className="underline pointer" href="#">
                 add one
               </a>{" "}

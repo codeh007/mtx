@@ -4,10 +4,11 @@ import { LlmIcon } from "mtxuilib/icons/llm";
 
 import { AnimatePresence, motion } from "framer-motion";
 import { ExternalLink, X } from "lucide-react";
-import { LS_HAS_SEEN_MODEL_DROPDOWN_ALERT } from "mtxuilib/constants";
-import { type Dispatch, type SetStateAction, useEffect } from "react";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
+import { LS_HAS_SEEN_MODEL_DROPDOWN_ALERT } from "mtxuilib/constants";
 import { TighterText } from "mtxuilib/mt/TighterText";
+import { Alert, AlertDescription, AlertTitle } from "mtxuilib/ui/alert";
+import { type Dispatch, type SetStateAction, useEffect } from "react";
 
 export const AlertNewModelSelectorFeature = ({
   chatStarted,
