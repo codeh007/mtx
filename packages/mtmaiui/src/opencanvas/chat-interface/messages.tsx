@@ -7,9 +7,13 @@ import {
 } from "@assistant-ui/react";
 import React, { type Dispatch, type FC, type SetStateAction } from "react";
 
+import { makeMarkdownText } from "@assistant-ui/react-markdown";
 import { TighterText } from "mtxuilib/mt/TighterText";
+import { Avatar, AvatarFallback } from "mtxuilib/ui/avatar";
 import { useFeedback } from "../hooks/useFeedback";
 import { FeedbackButton } from "./feedback";
+
+const MarkdownText = makeMarkdownText({});
 
 interface AssistantMessageProps {
   runId: string | undefined;
