@@ -14,7 +14,7 @@ function RouteComponent() {
     return <div>Loading tenant...</div>;
   }
   return (
-    <>
+    <div className="w-full h-full bg-blue-200 p-2">
       <GraphV3Provider
         backendUrl="https://colab-gomtm.yuepa8.com"
         tenant={tenant}
@@ -23,6 +23,6 @@ function RouteComponent() {
           <Canvas />
         </MtSuspenseBoundary>
       </GraphV3Provider>
-    </>
+    </div>
   );
 }
