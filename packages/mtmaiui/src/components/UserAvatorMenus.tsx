@@ -3,6 +3,7 @@
 import { Icons } from "mtxuilib/icons/icons";
 import { cn } from "mtxuilib/lib/utils";
 import { MtLink } from "mtxuilib/mt/mtlink";
+import { Avatar, AvatarImage, AvatarFallback } from "mtxuilib/ui/avatar.jsx";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu";
-import { useMtmaiV2 } from "../stores/StoreProvider";
+// import { useMtmaiV2 } from "../stores/StoreProvider";
 
 export default function UserAvatorMenus() {
   // const userQuery = useUserInfo();

@@ -5,7 +5,7 @@ import { memo } from "react";
 const viewTransition = { ease: cubicEasingFn };
 
 interface ViewProps extends HTMLMotionProps<"div"> {
-  children: JSX.Element;
+  children: React.ReactNode;
 }
 
 export const WorkbenchView = memo(({ children, ...props }: ViewProps) => {
