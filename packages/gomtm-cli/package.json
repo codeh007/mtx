@@ -1,18 +1,14 @@
 {
   "name": "gomtm-cli",
   "private": false,
-  "version": "0.6.31",
+  "version": "0.6.32",
   "type": "module",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
   "publishConfig": {
     "access": "public"
   },
-  "files": [
-    "bin",
-    "dist",
-    "src"
-  ],
+  "files": ["bin", "dist", "src"],
   "bin": {
     "gomtm-cli": "./dist/gomtm-cli.js",
     "gomtm": "./bin/gomtm"
