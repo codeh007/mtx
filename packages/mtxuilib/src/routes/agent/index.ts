@@ -2,15 +2,9 @@ import { isAIMessageChunk } from "@langchain/core/messages";
 import type { Runnable } from "@langchain/core/runnables";
 import { MemorySaver } from "@langchain/langgraph";
 import { Hono } from "hono";
-// import { createAssistantGraph } from "../../../../mtxlib/src/agents/assisant";
-// import { buildCanvasGraph } from "../../agents/open-canvas";
-// import { createSimulationGraph } from "../../../../mtxlib/src/agents/simulationGraph";
-// import { TestAgent } from "../../agents/testagent";
 import { generateUUID } from "../../lib/s-utils";
 import { StreamingResponse, makeStream } from "../../lib/sse/sse";
 import type { Env } from "../../types";
-// import { blogGraphRoute } from "./blogGraph";
-// import { reactAgentDemoRoute } from "./demo/react.ts--";
 import { mtmaiAgentRoute } from "./mtmai";
 import { testAgentApp } from "./testagent";
 const checkpointer = new MemorySaver();
@@ -23,8 +17,6 @@ export const agentApp = new Hono<{ Bindings: Env }>()
   })
   .all("/run", async (c) => handlerRunAgent(c.req.raw));
 agentApp.route("/testagent", testAgentApp).route("/mtmai", mtmaiAgentRoute);
-// .route("/blog", blogGraphRoute);
-// .route("/demo/react", reactAgentDemoRoute);
 
 export async function handlerRunAgent(req: Request) {
   let input: any = {};
