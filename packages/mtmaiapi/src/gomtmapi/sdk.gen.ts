@@ -273,6 +273,9 @@ import type {
   MtmaiBloggenconfigResponse,
   MtmaiWorkerConfigData,
   MtmaiWorkerConfigResponse,
+  MtmaiStreamDemo1Data,
+  MtmaiStreamDemo1Response,
+  MtmaiStreamDemo1Error,
   BlogListData,
   BlogListResponse,
   BlogCreateData,
@@ -2887,6 +2890,22 @@ export const mtmaiWorkerConfig = <ThrowOnError extends boolean = false>(
   >({
     ...options,
     url: "/api/v1/mtmai/worker_config",
+  });
+};
+
+/**
+ * stream demo 1
+ */
+export const mtmaiStreamDemo1 = <ThrowOnError extends boolean = false>(
+  options?: Options<MtmaiStreamDemo1Data, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    MtmaiStreamDemo1Response,
+    MtmaiStreamDemo1Error,
+    ThrowOnError
+  >({
+    ...options,
+    url: "/api/v1/mtmai/streamdemo1",
   });
 };
 
