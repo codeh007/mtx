@@ -35,18 +35,6 @@ function AssistantSelectComponent(props: AssistantSelectProps) {
   const [allDisabled, setAllDisabled] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-  // const {
-  //   assistantsData: {
-  //     assistants,
-  //     selectedAssistant,
-  //     isLoadingAllAssistants,
-  //     setSelectedAssistant,
-  //     createCustomAssistant,
-  //     editCustomAssistant,
-  //     deleteAssistant,
-  //   },
-  // } = useGraphContextV2();
-
   const selectedAssistant = useGraphStore((x) => x.selectedAssistant);
   const assistants = useGraphStore((x) => x.assistants);
   const isLoadingAllAssistants = useGraphStore((x) => x.isLoadingAllAssistants);

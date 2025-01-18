@@ -11,6 +11,7 @@ import {
 } from "react";
 
 import { TighterText } from "mtxuilib/mt/TighterText";
+import { InlineContextTooltip } from "mtxuilib/mt/inline-context-tooltip";
 import { Button } from "mtxuilib/ui/button";
 import {
   Dialog,
@@ -23,9 +24,9 @@ import { Input } from "mtxuilib/ui/input";
 import { Label } from "mtxuilib/ui/label";
 import { Textarea } from "mtxuilib/ui/textarea";
 import { useToast } from "mtxuilib/ui/use-toast";
+import type { CreateAssistantFields } from "../../hooks/useAssistants";
 import { ColorPicker } from "./color-picker";
 import { IconSelect } from "./icon-select";
-// import { CreateAssistantFields } from "../../hooks/useAssistants";
 
 interface CreateEditAssistantDialogProps {
   open: boolean;
