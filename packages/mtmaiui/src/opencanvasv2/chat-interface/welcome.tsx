@@ -1,8 +1,10 @@
+"use client";
 import { ThreadPrimitive, useThreadRuntime } from "@assistant-ui/react";
 import { NotebookPen } from "lucide-react";
 import { TighterText } from "mtxuilib/mt/TighterText";
 
 import type { ProgrammingLanguageOptions } from "mtxuilib/types/opencanvasTypes";
+import { Avatar, AvatarFallback } from "mtxuilib/ui/avatar";
 import { Button } from "mtxuilib/ui/button";
 import type { FC } from "react";
 import { ProgrammingLanguagesDropdown } from "../../opencanvas/programming-lang-dropdown";
@@ -122,7 +124,7 @@ export const ThreadWelcome: FC<ThreadWelcomeProps> = (
         <div className="text-center max-w-3xl w-full">
           <Avatar className="mx-auto">
             {/* <AvatarImage src="/lc_logo.jpg" alt="LangChain Logo" /> */}
-            <AvatarFallback>LC</AvatarFallback>
+            <AvatarFallback>Mtmai</AvatarFallback>
           </Avatar>
           <TighterText className="mt-4 text-lg font-medium">
             What would you like to write today?

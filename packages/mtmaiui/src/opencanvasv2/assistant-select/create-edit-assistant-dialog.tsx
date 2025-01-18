@@ -25,7 +25,7 @@ import { Textarea } from "mtxuilib/ui/textarea";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { ColorPicker } from "./color-picker";
 import { IconSelect } from "./icon-select";
-import { CreateAssistantFields } from "../../hooks/useAssistants";
+// import { CreateAssistantFields } from "../../hooks/useAssistants";
 
 interface CreateEditAssistantDialogProps {
   open: boolean;

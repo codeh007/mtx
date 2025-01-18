@@ -2,6 +2,7 @@ import { ThreadPrimitive, useThreadRuntime } from "@assistant-ui/react";
 import { NotebookPen } from "lucide-react";
 import { TighterText } from "mtxuilib/mt/TighterText";
 import type { ProgrammingLanguageOptions } from "mtxuilib/types/opencanvasTypes";
+import { Avatar, AvatarFallback } from "mtxuilib/ui/avatar";
 import { Button } from "mtxuilib/ui/button";
 import type { FC } from "react";
 import { ProgrammingLanguagesDropdown } from "../programming-lang-dropdown";
