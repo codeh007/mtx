@@ -1,8 +1,8 @@
 "use client";
 import { cn } from "mtxuilib/lib/utils";
+import { Separator } from "mtxuilib/ui/separator";
 import { Suspense } from "react";
 import { SidebarToggle } from "./sidebar/sidebar-toggle";
-import { Separator } from "mtxuilib/ui/separator";
 
 interface DashHeadersProps {
   borderBottom?: boolean;
