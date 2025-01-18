@@ -1,5 +1,4 @@
-export const runtime = "nodejs";
-
+export const runtime = "edge";
 const handler = async (req: Request) => {
   //   const { messages } = await req.json();
   //   const response = await chatbot.invoke(messages);
