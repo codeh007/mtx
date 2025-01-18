@@ -29,6 +29,7 @@ export function HatchatLoader(props: PropsWithChildren) {
 
   const navigate = Route.useNavigate();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const computedCurrTenant = useMemo(() => {
     const findTenant = (tenantId: string) => {
       return memberships?.find((m) => m.tenant?.metadata.id === tenantId)

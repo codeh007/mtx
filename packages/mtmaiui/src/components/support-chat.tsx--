@@ -1,5 +1,5 @@
-'use client'
-import { User } from "mtmaiapi";
+"use client";
+import type { User } from "mtmaiapi";
 import type React from "react";
 import { type PropsWithChildren, useEffect, useMemo } from "react";
 import useApiMeta from "../hooks/use-api-meta";
@@ -41,7 +41,6 @@ const SupportChat: React.FC<PropsWithChildren & SupportChatProps> = ({
       return;
     }
 
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     (window as any).pylon = {
       chat_settings: {
         app_id: APP_ID,
@@ -51,7 +50,6 @@ const SupportChat: React.FC<PropsWithChildren & SupportChatProps> = ({
       },
     };
 
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     (window as any).Pylon("setNewIssueCustomFields", {
       user_id: user.metadata.id,
       tenant_name: tenant?.name,
