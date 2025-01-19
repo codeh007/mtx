@@ -7,7 +7,7 @@ import {
   NodeInterrupt,
   StateGraph,
 } from "@langchain/langgraph";
-import { getLlm } from "mtxuilib/llm/llm.js";
+import { getLlm } from "mtxuilib/llm/llm";
 import type { ConfigurableAnnotation } from "./runnable_config";
 const inMemoryStore = new InMemoryStore();
 
