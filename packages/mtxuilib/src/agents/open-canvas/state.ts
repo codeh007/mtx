@@ -7,7 +7,7 @@ import type {
   ProgrammingLanguageOptions,
   ReadingLevelOptions,
   TextHighlight,
-} from "mtxuilib/types/index.js";
+} from "../../types/opencanvasTypes";
 
 export const OpenCanvasGraphAnnotation = Annotation.Root({
   ...MessagesAnnotation.spec,

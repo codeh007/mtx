@@ -1,20 +1,19 @@
 import type { BaseMessage } from "@langchain/core/messages";
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
-import { getArtifactContent } from "../../graph_utils";
-
-import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types.js";
+import {
+  ensureStoreInConfig,
+  formatReflections,
+  getModelFromConfig,
+} from "mtxuilib/agentutils/agentutils";
+import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types";
+import { getArtifactContent } from "../../../agentutils/graph_utils";
 import type {
   ArtifactCodeV3,
   ArtifactMarkdownV3,
   ArtifactV3,
   CustomQuickAction,
   Reflections,
-} from "mtxuilib/types/index.js";
-import {
-  ensureStoreInConfig,
-  formatReflections,
-  getModelFromConfig,
-} from "../../utils";
+} from "../../../types/opencanvasTypes";
 import {
   CUSTOM_QUICK_ACTION_ARTIFACT_CONTENT_PROMPT,
   CUSTOM_QUICK_ACTION_ARTIFACT_PROMPT_PREFIX,
