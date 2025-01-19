@@ -4,34 +4,25 @@ import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 const SIGNIN_ERROR_URL = "/auth/login";
 
-export const signByCredentials = async (
-  formData: FormData,
-  successUrl: string,
-  errorUrl?: string,
-) => {
-  try {
-    await signIn("credentials", formData);
-  } catch (error) {
-    if (error instanceof AuthError) {
-      return redirect(`${errorUrl}?error=${error.type}`);
-    }
-    throw error;
-  }
-};
-
-export const signByProvider = async (
+export const signin = async (
   providerId: string,
-  //   formData: FormData,
   callbackUrl?: string,
   successUrl?: string,
   errorUrl?: string,
+  formData?: FormData,
 ) => {
-  //   await signIn(providerId, formData);
   try {
-    await signIn(providerId, {
-      redirectTo: callbackUrl ?? "",
-    });
+    if (providerId === "credentials" && formData) {
+      const result = await signIn("credentials", formData);
+    } else {
+      const result = await signIn(providerId, {
+        // redirectTo: callbackUrl ?? "",
+        redirectTo: callbackUrl || "/",
+      });
+      // console.log(result);
+    }
   } catch (error) {
+    console.error("捕获到错误", error);
     // Signin can fail for a number of reasons, such as the user
     // not existing, or the user not having the correct role.
     // In some cases, you may want to redirect to a custom error

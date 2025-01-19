@@ -42,9 +42,21 @@ export const providerMap = providers
   })
   .filter((provider) => provider.id !== "credentials");
 
+const basePath = `${process.env.MTM_BASE_URL}/api/auth`;
+// console.log("basePath", basePath);
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers,
   pages: {
     signIn: "/auth/login",
+  },
+  basePath: basePath,
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+
+      return token;
+    },
   },
 });
