@@ -17,7 +17,7 @@ export const signin = async (
     } else {
       const result = await signIn(providerId, {
         // redirectTo: callbackUrl ?? "",
-        redirectTo: callbackUrl || "/",
+        // redirectTo: callbackUrl || "/",
       });
       // console.log(result);
     }

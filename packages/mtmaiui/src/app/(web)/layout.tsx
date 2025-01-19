@@ -54,7 +54,10 @@ export default async function Layout(props: {
           fontSans.variable,
         )}
       >
-        <SessionProvider basePath={"/api/auth"} session={session}>
+        <SessionProvider
+          basePath={"http://gitpod:3600/api/auth"}
+          session={session}
+        >
           <MtmaiProvider
             frontendConfig={frontendConfigResponse.data}
             hostName={hostName}
