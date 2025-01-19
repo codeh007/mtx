@@ -7,6 +7,15 @@ import {
   NodeInterrupt,
   StateGraph,
 } from "@langchain/langgraph";
+import {
+  type LlmConfig,
+  type Tenant,
+  type User,
+  initMtiaiClient,
+  llmGet,
+  tenantMembershipsList,
+  userGetCurrent,
+} from "mtmaiapi";
 import { getLlm } from "mtxuilib/llm/llm";
 const inMemoryStore = new InMemoryStore();
 
@@ -18,16 +27,69 @@ const StateAnnotation = Annotation.Root({
   someValue: Annotation<string>,
   someValue2: Annotation<string>,
   logs: Annotation<string[]>,
+  tenant: Annotation<Tenant>,
+  user: Annotation<User>,
+  llmConfig: Annotation<LlmConfig>,
 });
+
+// 入口节点
+const entryNode = async (
+  state: typeof StateAnnotation.State,
+  config?: RunnableConfig,
+) => {
+  // 1: 确保基础配置
+  const gomtmApiUrl = config?.configurable?.gomtmApiUrl;
+  console.log("进入入口节点, 开始初始化 gomtm api", gomtmApiUrl);
+  initMtiaiClient(gomtmApiUrl);
+
+  // const tenant = config?.configurable?.tenant;
+  let user: User | undefined;
+  try {
+    user = (await userGetCurrent()).data;
+  } catch (e) {
+    console.warn("运行 入口节点获取用户信息失败");
+    return {};
+  }
+
+  let tenant: Tenant | undefined;
+  try {
+    // const tenant = await tenantGetCurrent()
+    const memberships = await tenantMembershipsList();
+    // const findTenant = (tenantId: string) => {
+    //   return memberships.data?.find((m) => m.tenant?.metadata.id === tenantId)
+    //     ?.tenant;
+    // };
+    // const tenant = memberships.find(m => m.tenant?.metadata.id === user?.tenantId)?.tenant
+  } catch (e) {
+    console.warn("运行 入口节点获取租户息失败");
+    return {};
+  }
+
+  if (!tenant) {
+    console.log("缺少 tenant 信息");
+    return {};
+  }
+  const llmConfig = await llmGet({
+    path: {
+      tenant: tenant.metadata.id,
+      slug: "default",
+    },
+  });
+
+  console.log("entryNode 节点完成");
+  return {
+    llmConfig,
+    tenant,
+    user,
+  };
+};
 
 const initialSupport = async (state: typeof StateAnnotation.State) => {
   console.log("进入 initialSupport 节点");
-  // state.logs.push("进入 initialSupport 节点");
-  // 序列化当前状态
+  // (实验)序列化当前状态
   const serializedState = JSON.stringify(
     state,
     (key, value) => {
-      // 处理特殊类型的序列化
       if (value?._getType === "function") {
         // 如果是消息对象，保留关键信息
         return {
