@@ -73,6 +73,15 @@ export const useLoginHandler = () => {
   return { loginHandler, isPending: loginMutation.isPending, fieldErrors };
 };
 
+// export const useLogout = () => {
+//   const router = useMtRouter();
+//   const logout = () => {
+//     logout();
+//     router.push("/");
+//   };
+//   return { logout };
+// };
+
 /**
  * 基本数据的加载
  * @param props

@@ -1,5 +1,5 @@
 "use server";
-import { signIn } from "mtxuilib/lib/auth/auth";
+import { signIn, signOut } from "mtxuilib/lib/auth/auth";
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 const SIGNIN_ERROR_URL = "/auth/login";
@@ -36,4 +36,9 @@ export const signin = async (
     // https://nextjs.org/docs/app/api-reference/functions/redirect#server-component
     throw error;
   }
+};
+
+
+export const logout = async () => {
+  await signOut();
 };
