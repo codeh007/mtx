@@ -56,7 +56,7 @@ export default async function Layout(props: {
         )}
       >
         <SessionProvider
-          basePath={`${selfBackendUrl}/api/auth`}
+          // basePath={`${selfBackendUrl}/api/auth`}
           session={session}
         >
           <MtmaiProvider
