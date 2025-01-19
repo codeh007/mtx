@@ -1,6 +1,6 @@
 import { isAIMessageChunk } from "@langchain/core/messages";
 import type { Runnable } from "@langchain/core/runnables";
-import { generateUUID } from "../utils";
+import { generateUUID } from "../lib/utils";
 export async function* runableSseStream(runable: Runnable, input: any) {
   const threadId = generateUUID();
   const config2 = { configurable: { thread_id: threadId } };

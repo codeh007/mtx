@@ -6,23 +6,6 @@ import OpenAI from "openai";
 // const defaultModel = "meta-llama/Meta-Llama-3-8B-Instruct-Turbo";
 const defaultModel = "llama3-groq-70b-8192-tool-use-preview";
 
-// const defaultEmbeddingModel = "@cf/baai/bge-large-en-v1.5";
-
-// export function getAiModal(modelName = "mtmai") {
-//   const apiKey = getApiKeyByModelName(modelName);
-
-//   // 直接调用 open ai 兼容库
-//   // const baseURL = getBaseURLByModelName(modelName);
-//   // const model = getProviderModelName(modelName);
-//   // const openAiClient = createOpenAI({ baseURL, apiKey });
-//   // return openAiClient(model);
-
-//   // 使用代理 api 转发
-//   const baseURL = `${getBackendUrl()}/api/v1`;
-//   const openAiClient = createOpenAI({ baseURL, apiKey });
-//   return openAiClient(modelName);
-// }
-
 const openAIList = [
   {
     token: "yfVRxAEf5PzZ-Kp75QPDCFcIOdXpq4eoSf9XPL03",
@@ -37,23 +20,6 @@ const openAIList = [
 const together_tokens = [
   "b499766806f24fc0ba872e7979ec2ad9a91362b39a550449e4bb68108d45861d",
 ];
-
-// function getBaseURLByModelName(modelName: string) {
-//   const _modelName = modelName || defaultModel;
-
-//   const [providerName, model] = splitOnce(_modelName, "/");
-
-//   switch (providerName) {
-//     case "groq":
-//       return "https://api.groq.com/openai/v1";
-//     case "together":
-//       return "https://api.together.xyz/v1";
-//     case "@cf":
-//       return `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/ai/v1`;
-//     default:
-//       return `https://api-inference.huggingface.co/models/${model}`;
-//   }
-// }
 
 function splitOnce(input: string, delimiter: string): [string, string] {
   const delimiterIndex = input.indexOf(delimiter);
@@ -134,24 +100,7 @@ export function getDefaultOpenaiClient() {
   const openaiClient = new OpenAI({ apiKey, baseURL });
   return openaiClient;
 }
-// 暂时不要删除
 export function getLlm() {
-  // const apiKey =
-  //   "a7ac7e09d69fb4d6b761e2f4418f1a9edfd422618affc9cc554857069322fa3b"; //together
-
-  // const baseURL = "https://api.together.xyz/v1";
-  // const modelName = "meta-llama/Meta-Llama-3-8B-Instruct-Turbo";
-  // const lcllm = new ChatOpenAI(
-  //   {
-  //     temperature: 0.1,
-  //     apiKey,
-  //     model: modelName,
-  //   },
-  //   {
-  //     baseURL: baseURL,
-  //   },
-  // );
-
   const apiKey = "CzEDAeske7RipomNe3KLLtqvu820Ewfp";
   const baseURL = "https://llama3-1-70b.lepton.run/api/v1/";
 

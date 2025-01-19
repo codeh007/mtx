@@ -3,10 +3,8 @@ import type { Runnable } from "@langchain/core/runnables";
 import { MemorySaver } from "@langchain/langgraph";
 import { Hono } from "hono";
 import { generateUUID } from "../../lib/s-utils";
-import { StreamingResponse, makeStream } from "../../lib/sse/sse";
+import { StreamingResponse, makeStream } from "../../llm/sse";
 import type { Env } from "../../types";
-import { mtmaiAgentRoute } from "./mtmai";
-import { testAgentApp } from "./testagent";
 const checkpointer = new MemorySaver();
 const defaultProfile = "assisant";
 export const agentApp = new Hono<{ Bindings: Env }>()
@@ -16,7 +14,7 @@ export const agentApp = new Hono<{ Bindings: Env }>()
     });
   })
   .all("/run", async (c) => handlerRunAgent(c.req.raw));
-agentApp.route("/testagent", testAgentApp).route("/mtmai", mtmaiAgentRoute);
+// agentApp.route("/testagent", testAgentApp).route("/mtmai", mtmaiAgentRoute);
 
 export async function handlerRunAgent(req: Request) {
   let input: any = {};
