@@ -24,8 +24,6 @@ export function newStreamResponse(
   const stream = makeStream(asyncGenerator);
   const response = new StreamingResponse(stream);
   return response;
-
-  // return new StreamingResponse(res, init);
 }
 
 /**
@@ -59,3 +57,9 @@ export const makeStream = <T extends Record<string, unknown>>(
     },
   });
 };
+
+export function emitText(text: string) {
+  const b = JSON.stringify(text);
+  const a = `0:${b}\n`;
+  return a;
+}
