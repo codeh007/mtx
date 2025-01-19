@@ -1,7 +1,6 @@
 import type { Workflow } from "@cloudflare/workers-types";
 
 import { resources } from "mtxuilib/db/schema";
-import postgres from "postgres";
 import { getDb } from "../../db/dbClient";
 
 import { Hono } from "hono";
@@ -59,21 +58,7 @@ export const workflowsApp = new Hono<{ Bindings: Env }>()
       return new Response(`出错：:${e}`);
     }
   })
-  .get("test1", async (c) => {
-    try {
-      const dbUrl =
-        "postgresql://postgres:7W8jZ1oWhDvUp7xy@lethally-obtainable-wagtail.data-1.use1.tembo.io:5432/test2";
 
-      const sql = postgres(dbUrl, {
-        /* options */
-      }); // will use psql environment variables
-      const result = await sql`select * from resources`;
-      return new Response(JSON.stringify(result));
-    } catch (e) {
-      console.log("出错：", e);
-      return new Response(`出错：:${e}`);
-    }
-  })
   .get("listworkflows", async (c) => {
     return new Response("listworkflows");
   });
