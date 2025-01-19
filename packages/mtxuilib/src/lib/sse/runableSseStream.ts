@@ -1,10 +1,7 @@
 import { isAIMessageChunk } from "@langchain/core/messages";
-import { Runnable } from "@langchain/core/runnables";
-import { generateUUID } from "../../utils";
-export async function* runableSseStream(
-  runable: Runnable,
-  input: any,
-) {
+import type { Runnable } from "@langchain/core/runnables";
+import { generateUUID } from "../utils";
+export async function* runableSseStream(runable: Runnable, input: any) {
   const threadId = generateUUID();
   const config2 = { configurable: { thread_id: threadId } };
   const eventStream = await runable.streamEvents(input, {
@@ -22,7 +19,7 @@ export async function* runableSseStream(
       } else {
         if (data.chunk?.content) {
           // yield emitText(data.chunk.content as string);
-          yield "0:sseStream123"
+          yield "0:sseStream123";
         }
       }
     }

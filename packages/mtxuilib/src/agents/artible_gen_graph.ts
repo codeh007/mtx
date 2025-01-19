@@ -11,7 +11,7 @@ import {
   START,
   StateGraph,
 } from "@langchain/langgraph";
-import { getLlm } from "mtxuilib/llm/llm.js";
+import { getLlm } from "mtxuilib/llm/llm";
 
 export const BlogAutoGraphInputAnnotation = Annotation.Root({
   blogId: Annotation<string>,
