@@ -4,8 +4,6 @@ export const runtime = "edge";
 
 const exampleUserInput = "What's the weather like today?";
 
-// GraphInput
-
 const handler = async (r: Request) => {
   try {
     const input = {
@@ -13,7 +11,7 @@ const handler = async (r: Request) => {
     };
 
     //TODO: 增加 zod schema 验证输入格式
-    const graphInput = r.json() as GraphInput;
+    const graphInput = (await r.json()) as GraphInput;
     console.log("graphInput", graphInput);
 
     // const builder = createAssistantGraph();

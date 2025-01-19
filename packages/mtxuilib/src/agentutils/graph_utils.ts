@@ -3,13 +3,20 @@ import { createAssistantGraph } from "../agents/assisant";
 import { generateUUID } from "../lib/s-utils";
 import { StreamingResponse, makeStream } from "../llm/sse";
 
-export async function* runLanggraph(input: any) {
+export function newGraphSseResponse(graphName: string, input, configurable) {
+  const stream = runLanggraph(input, configurable);
+  return new StreamingResponse(makeStream(stream));
+}
+export async function* runLanggraph(input, configurable) {
   const builder = createAssistantGraph();
   const runable = builder.compile();
-  const threadId = generateUUID();
-  const config2 = { configurable: { thread_id: threadId } };
   const eventStream = await runable.streamEvents(input, {
-    ...config2,
+    ...{
+      configurable: {
+        ...configurable,
+        thread_id: configurable.thread_id || generateUUID(),
+      },
+    },
     version: "v2",
   });
 
@@ -28,9 +35,4 @@ export async function* runLanggraph(input: any) {
       }
     }
   }
-}
-
-export function newGraphSseResponse(graphName: string, input, config) {
-  const stream = runLanggraph(input);
-  return new StreamingResponse(makeStream(stream));
 }
