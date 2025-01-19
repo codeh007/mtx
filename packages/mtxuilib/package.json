@@ -6,9 +6,7 @@
     "access": "public"
   },
   "type": "module",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
   "repository": {
@@ -29,16 +27,8 @@
   },
   "exports": {
     ".": {
-      "types": [
-        "./src/index.ts",
-        "./dist/index.js",
-        "./dist/index.d.ts"
-      ],
-      "import": [
-        "./src/index.ts",
-        "./dist/index.js",
-        "./dist/*"
-      ]
+      "types": ["./src/index.ts", "./dist/index.js", "./dist/index.d.ts"],
+      "import": ["./src/index.ts", "./dist/index.js", "./dist/*"]
     },
     "./*": {
       "types": [
@@ -73,14 +63,8 @@
       ]
     },
     "./styles/*": {
-      "import": [
-        "./src/styles/*",
-        "./dist/styles/*"
-      ],
-      "require": [
-        "./src/styles/*",
-        "./dist/styles/*"
-      ]
+      "import": ["./src/styles/*", "./dist/styles/*"],
+      "require": ["./src/styles/*", "./dist/styles/*"]
     }
   },
   "scripts": {
@@ -195,7 +179,7 @@
     "next-nprogress-bar": "^2.4.3",
     "next-themes": "^0.3.0",
     "node-html-parser": "^6.1.13",
-    "octokit": "^4.0",
+    "octokit": "^4.1",
     "openai": "^4.55.5",
     "path-to-regexp": "^6.2.2",
     "postgres": "^3.4.4",
@@ -271,7 +255,7 @@
     "typescript": "^5.7",
     "vite": "^6.0.3",
     "vite-plugin-dts": "^4.4.0",
-    "wrangler": "^3.88.0"
+    "wrangler": "^3.103"
   },
   "other": {
     "vaul": "^0.9.1",
