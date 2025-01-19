@@ -6,7 +6,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { exec } from "../lib/exec";
 // import { buildWithTsc } from "./build_tsc";
-import { buildWithViteBuild } from "./build_vite";
+// import { buildWithViteBuild } from "./build_vite.ts--";
 import { compileMigrations } from "./compile-migrations";
 
 const envFiles = ["../../env/dev.env", "./env/dev.env", ".env"];
@@ -28,7 +28,7 @@ function loadEnv() {
   await loadEnv();
   program.command("build").action(async () => {
     console.log("(mtxuilib)build vite");
-    await buildWithViteBuild();
+    // await buildWithViteBuild();
     console.log("(mtxuilib)build tsc");
     // await buildWithTsc();
   });
@@ -58,9 +58,3 @@ function loadEnv() {
   });
   program.parse();
 })();
-
-// 构建tailwindcss 样式
-// console.log("build tailwindcss 样式");
-// await exec(
-//   "bun run tailwindcss -i ./src/styles/globals.css -o ./dist/globals.css",
-// );

@@ -18,11 +18,12 @@ const StateAnnotation = Annotation.Root({
   input: Annotation<string>,
   someValue: Annotation<string>,
   someValue2: Annotation<string>,
+  logs: Annotation<string[]>,
 });
 
 const initialSupport = async (state: typeof StateAnnotation.State) => {
   console.log("进入 initialSupport 节点");
-
+  state.logs.push("进入 initialSupport 节点");
   // 序列化当前状态
   const serializedState = JSON.stringify(
     state,
