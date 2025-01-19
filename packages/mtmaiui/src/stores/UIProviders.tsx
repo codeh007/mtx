@@ -35,9 +35,6 @@ const DevToolsLazy = dynamic(
     ssr: false,
   },
 );
-// const HatchatLoaderLazy = dynamic(() => import("../components/HatchatLoader").then(x=>x.HatchatLoader), {
-//   ssr: false,
-// });
 
 const AppLazy = dynamic(() => import("../App").then((x) => x.App), {
   ssr: false,

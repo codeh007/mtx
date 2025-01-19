@@ -20,15 +20,18 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu";
+import { useSession } from "next-auth/react";
 import { useBasePath } from "../hooks/useBasePath";
 import { CustomLink } from "./CustomLink";
-
 export const UserFAB = () => {
   const [openCmdk, setOpenCmdk] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
   const basePath = useBasePath();
+
+  const { data: session, update } = useSession();
   return (
     <>
+      <pre>{JSON.stringify(session, null, 2)}</pre>
       {openCmdk && <AssistantModal />}
 
       <DropdownMenu open={openDropdown} onOpenChange={setOpenDropdown}>

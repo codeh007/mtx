@@ -1,4 +1,8 @@
-import NextAuth, { CredentialsSignin } from "next-auth";
+import NextAuth, {
+  CredentialsSignin,
+  type Session,
+  type User,
+} from "next-auth";
 import type { Provider } from "next-auth/providers";
 import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
@@ -8,6 +12,9 @@ const superUser = {
   password: "admin123!!",
   email: "admin@example.com",
 };
+interface ExtendedSession extends Session {
+  user: User;
+}
 class InvalidLoginError extends CredentialsSignin {
   code = "Invalid identifier or password";
 }
@@ -57,6 +64,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
 
       return token;
+    },
+    async session({
+      session,
+      token,
+    }: {
+      session: ExtendedSession;
+      token;
+    }) {
+      console.log("auth session callback", token);
+      if (session.user) {
+        session.user.id = token.id as string;
+      }
+
+      return session;
     },
   },
 });
