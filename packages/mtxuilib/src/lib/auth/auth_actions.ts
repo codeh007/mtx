@@ -22,9 +22,9 @@ export const signByCredentials = async (
 export const signByProvider = async (
   providerId: string,
   //   formData: FormData,
-  callbackUrl: string,
-  successUrl: string,
-  errorUrl: string,
+  callbackUrl?: string,
+  successUrl?: string,
+  errorUrl?: string,
 ) => {
   //   await signIn(providerId, formData);
   try {

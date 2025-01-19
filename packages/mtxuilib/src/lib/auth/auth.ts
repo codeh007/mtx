@@ -13,7 +13,10 @@ class InvalidLoginError extends CredentialsSignin {
 }
 
 const providers: Provider[] = [
-  GitHub,
+  GitHub({
+    clientId: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+  }),
   Credentials({
     credentials: { password: { label: "Password", type: "password" } },
     authorize(c) {
