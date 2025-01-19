@@ -3,7 +3,7 @@ import type { EditorView } from "@codemirror/view";
 import { HumanMessage } from "@langchain/core/messages";
 import { CircleCheck, Forward, LoaderCircle } from "lucide-react";
 import { convertToOpenAIFormat } from "mtxuilib/agentutils/convert_messages";
-import { getArtifactContent } from "mtxuilib/agentutils/graph_utils";
+import { getArtifactContent } from "mtxuilib/agentutils/opencanvas_utils";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { cn } from "mtxuilib/lib/utils";
 import type {

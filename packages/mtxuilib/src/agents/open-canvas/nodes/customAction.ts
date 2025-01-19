@@ -6,7 +6,6 @@ import {
   getModelFromConfig,
 } from "mtxuilib/agentutils/agentutils";
 import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types";
-import { getArtifactContent } from "../../../agentutils/graph_utils";
 import type {
   ArtifactCodeV3,
   ArtifactMarkdownV3,

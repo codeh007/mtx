@@ -1,7 +1,8 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
 import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types.js";
-import type { ArtifactV3, Reflections } from "mtxuilib/types/index.js";
-import { getArtifactContent } from "../../graph_utils";
+import type { ArtifactV3, Reflections } from "../../../types/opencanvasTypes";
+// import type { ArtifactV3, Reflections } from "mtxuilib/types/index.js";
+// import { getArtifactContent } from "../../graph_utils";
 import {
   ensureStoreInConfig,
   formatReflections,

@@ -1,12 +1,18 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
-import type { Reflections } from "mtxuilib/types/index.js";
-import { getArtifactContent } from "../../graph_utils";
 import {
   ensureStoreInConfig,
-  formatArtifactContentWithTemplate,
   formatReflections,
   getModelFromConfig,
-} from "../../utils";
+} from "../../../agentutils/agentutils";
+import type { Reflections } from "../../../types/opencanvasTypes";
+// import type { Reflections } from "mtxuilib/types/index.js";
+// import { getArtifactContent } from "../../graph_utils";
+// import {
+//   ensureStoreInConfig,
+//   formatArtifactContentWithTemplate,
+//   formatReflections,
+//   getModelFromConfig,
+// } from "../../utils";
 import { CURRENT_ARTIFACT_PROMPT, NO_ARTIFACT_PROMPT } from "../prompts";
 import type {
   OpenCanvasGraphAnnotation,
