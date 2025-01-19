@@ -4,6 +4,7 @@ import { generateUUID } from "../lib/s-utils";
 import { StreamingResponse, makeStream } from "../llm/sse";
 
 export function newGraphSseResponse(graphName: string, input, configurable) {
+  // TODO: 增加 zod schema 验证输入格式
   const stream = runLanggraph(input, configurable);
   return new StreamingResponse(makeStream(stream));
 }
