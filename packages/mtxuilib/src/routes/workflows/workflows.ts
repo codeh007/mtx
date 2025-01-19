@@ -1,8 +1,8 @@
 import type { Workflow } from "@cloudflare/workers-types";
 
+import { resources } from "mtxuilib/db/schema";
 import postgres from "postgres";
 import { getDb } from "../../db/dbClient";
-import { resources } from "../../db/schema";
 
 import { Hono } from "hono";
 type Env = {
