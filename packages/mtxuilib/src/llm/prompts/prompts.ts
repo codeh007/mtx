@@ -1,6 +1,9 @@
-import { MODIFICATIONS_TAG_NAME, WORK_DIR } from "../../utils/constants";
-import { allowedHTMLElements } from "../../utils/markdown";
-import { stripIndents } from "../../utils/stripIndent";
+import {
+  MODIFICATIONS_TAG_NAME,
+  WORK_DIR,
+} from "../../../../mtmaiui/src/lib/utils/constants";
+import { allowedHTMLElements } from "../../../../mtmaiui/src/lib/utils/markdown";
+import { stripIndents } from "../../lib/utils";
 
 export const getSystemPrompt = (cwd: string = WORK_DIR) => `
 You are Bolt, an expert AI assistant and exceptional senior software developer with vast knowledge across multiple programming languages, frameworks, and best practices.
@@ -283,7 +286,4 @@ export const CONTINUE_PROMPT = stripIndents`
   Do not repeat any content, including artifact and action tags.
 `;
 
-
-function getArticleGenPrompt(){
-
-}
+function getArticleGenPrompt() {}
