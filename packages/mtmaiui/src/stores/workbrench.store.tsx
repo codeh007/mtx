@@ -13,12 +13,12 @@ import { useShallow } from "zustand/react/shallow";
 //   updateMessageContentById,
 // } from "../../../../apps/mtmaiadmin/src/lib/messageUtils";
 
-import type {
-  AssisantMenus,
-  AssisantWorkbenchConfig,
-  Message,
-  ThreadUIState,
-} from "mtmaiapi";
+// import type {
+//   AssisantMenus,
+//   AssisantWorkbenchConfig,
+//   Message,
+//   ThreadUIState,
+// } from "mtmaiapi";
 import type React from "react";
 
 import { debounce } from "lodash";
@@ -27,18 +27,23 @@ import type { Tenant } from "mtmaiapi/api";
 import type { components } from "mtmaiapi/query_client/generated";
 import { io } from "socket.io-client";
 import type { Suggestion } from "../db/schema";
-import { addMessage, deleteMessageById, updateMessageById, updateMessageContentById } from "../lib/messageUtils";
-import type {
-  IAction,
-  IAsk,
-  IFileRef,
-  IInputHistory,
-  IMessageElement,
-  IStep,
-  ITasklistElement,
-  IThread,
-  IToken,
-} from "../types";
+// import {
+//   addMessage,
+//   deleteMessageById,
+//   updateMessageById,
+//   updateMessageContentById,
+// } from "../lib/messageUtils.ts--";
+// import type {
+//   IAction,
+//   IAsk,
+//   IFileRef,
+//   IInputHistory,
+//   IMessageElement,
+//   IStep,
+//   ITasklistElement,
+//   IThread,
+//   IToken,
+// } from "../types";
 import type { HubmanInput } from "../types/hatchet-types";
 import { subscribeSse } from "./eventHandler";
 import { handleSseSubmit } from "./handleSubmit";
