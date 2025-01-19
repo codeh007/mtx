@@ -17,6 +17,7 @@ const handler = async (r: Request) => {
     const result = await graph.invoke(input);
     return new Response(JSON.stringify(result));
   } catch (e) {
+    console.log("运行graph 出错", e);
     return new Response(JSON.stringify(e));
   }
 };

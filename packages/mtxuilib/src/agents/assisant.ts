@@ -21,6 +21,27 @@ const StateAnnotation = Annotation.Root({
 });
 
 const initialSupport = async (state: typeof StateAnnotation.State) => {
+  console.log("进入 initialSupport 节点");
+
+  // 序列化当前状态
+  const serializedState = JSON.stringify(
+    state,
+    (key, value) => {
+      // 处理特殊类型的序列化
+      if (value?._getType === "function") {
+        // 如果是消息对象，保留关键信息
+        return {
+          role: value.role,
+          content: value.content,
+        };
+      }
+      return value;
+    },
+    2,
+  );
+
+  console.log("序列化后的状态:", serializedState);
+
   const llm = getLlm();
   const SYSTEM_TEMPLATE = `You are frontline support staff for LangCorp, a company that sells computers.
 Be concise in your responses.
