@@ -11,7 +11,7 @@ export const Route = createLazyFileRoute("/chat")({
 function RouteComponent() {
   const tenant = useTenant();
   if (!tenant) {
-    return <div>Loading tenant...</div>;
+    null;
   }
   return (
     <div className="w-full h-full bg-blue-200 p-2">
