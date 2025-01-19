@@ -9,11 +9,11 @@ import {
 import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { setCookie } from "mtxuilib/lib/clientlib";
 import { useEffect, useMemo, useState } from "react";
-// import { Route } from "@tanstack/react-router";
 import { Route } from "../routes/__root";
 import { useMtmaiV2 } from "../stores/StoreProvider";
 import { useApiError } from "./useApi";
 
+import { signByCredentials } from "mtxuilib/lib/auth/auth_actions";
 import { useBasePath } from "./useBasePath";
 
 export const useUser = () => {
@@ -60,12 +60,14 @@ export const useLoginHandler = () => {
   });
 
   const loginHandler = async (values) => {
-    const loginResult = await loginMutation.mutateAsync({
-      body: {
-        email: values.email,
-        password: values.password,
-      },
-    });
+    // const loginResult = await loginMutation.mutateAsync({
+    //   body: {
+    //     email: values.email,
+    //     password: values.password,
+    //   },
+    // });
+
+    signByCredentials(values, "/", "/");
   };
 
   return { loginHandler, isPending: loginMutation.isPending, fieldErrors };

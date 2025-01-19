@@ -5,7 +5,7 @@ import GitHub from "next-auth/providers/github";
 const superUser = {
   id: "admin",
   username: "admin",
-  password: "admin",
+  password: "admin123!!",
   email: "admin@example.com",
 };
 class InvalidLoginError extends CredentialsSignin {

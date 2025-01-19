@@ -7,46 +7,13 @@ import { ScreenPanel } from "mtxuilib/mt/ScreenPanel";
 import { Button } from "mtxuilib/ui/button";
 
 import { providerMap } from "mtxuilib/lib/auth/auth";
-import {
-  signByCredentials,
-  signByProvider,
-} from "mtxuilib/lib/auth/auth_actions";
+import { signByProvider } from "mtxuilib/lib/auth/auth_actions";
 
 export const LoginPage = (props: {
   searchParams: { callbackUrl: string | undefined };
 }) => {
-  const callbackUrl = props.searchParams.callbackUrl;
-
-  const handleSubmit = async (formData: FormData) => {
-    await signByCredentials(formData, "/", "/");
-  };
-
   return (
     <ScreenPanel open={true}>
-      <form action={handleSubmit}>
-        <label htmlFor="email">
-          Email
-          <input name="email" id="email" />
-        </label>
-        <label htmlFor="password">
-          Password
-          <input name="password" id="password" />
-        </label>
-        <input type="submit" value="Sign In" />
-      </form>
-      {Object.values(providerMap).map((provider) => (
-        <form
-          key={provider.id}
-          action={async () => {
-            signByProvider(provider.id, provider.id, "/", "/");
-          }}
-        >
-          <button type="submit">
-            <span>Sign in with {provider.name}</span>
-          </button>
-        </form>
-      ))}
-
       <div className="size-screen container flex flex-col items-center justify-center">
         <div className="absolute left-4 top-20 focus:z-10 focus:outline-none md:left-8 md:top-8">
           <GoBackButton />
@@ -96,6 +63,19 @@ export const LoginPage = (props: {
             <span className="bg-appbg px-2 ">OR</span>
           </div>
           <LoginWithCreddents />
+
+          {Object.values(providerMap).map((provider) => (
+            <form
+              key={provider.id}
+              action={async () => {
+                signByProvider(provider.id, provider.id, "/", "/");
+              }}
+            >
+              <button type="submit">
+                <span>Sign in with {provider.name}</span>
+              </button>
+            </form>
+          ))}
         </div>
       </div>
     </ScreenPanel>
