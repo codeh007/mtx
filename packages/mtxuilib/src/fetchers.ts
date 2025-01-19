@@ -1,5 +1,4 @@
 import { z } from "zod";
-// import { newPuppeteerFetcher } from "../../mtxlib/src/browser/puppeteer-fetcher";
 export const CRAWL_FETCH_TYPE = ["fetch", "puppeteer"] as const;
 const fetchTypeSchema = z.enum(CRAWL_FETCH_TYPE);
 
