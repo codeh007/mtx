@@ -101,7 +101,10 @@ export async function getChatsByUserId({ id }: { id: string }) {
 
 export async function getChatById({ id }: { id: string }) {
   try {
-    const [selectedChat] = await db.select().from(chat).where(eq(chat.id, id));
+    const [selectedChat] = await getDb()
+      .select()
+      .from(chat)
+      .where(eq(chat.id, id));
     return selectedChat;
   } catch (error) {
     console.error("Failed to get chat by id from database");
@@ -111,7 +114,7 @@ export async function getChatById({ id }: { id: string }) {
 
 export async function saveMessages({ messages }: { messages: Array<Message> }) {
   try {
-    return await db.insert(message).values(messages);
+    return await getDb().insert(message).values(messages);
   } catch (error) {
     console.error("Failed to save messages in database", error);
     throw error;
@@ -120,7 +123,7 @@ export async function saveMessages({ messages }: { messages: Array<Message> }) {
 
 export async function getMessagesByChatId({ id }: { id: string }) {
   try {
-    return await db
+    return await getDb()
       .select()
       .from(message)
       .where(eq(message.chatId, id))
@@ -141,22 +144,24 @@ export async function voteMessage({
   type: "up" | "down";
 }) {
   try {
-    const [existingVote] = await db
+    const [existingVote] = await getDb()
       .select()
       .from(vote)
       .where(and(eq(vote.messageId, messageId)));
 
     if (existingVote) {
-      return await db
+      return await getDb()
         .update(vote)
         .set({ isUpvoted: type === "up" })
         .where(and(eq(vote.messageId, messageId), eq(vote.chatId, chatId)));
     }
-    return await db.insert(vote).values({
-      chatId,
-      messageId,
-      isUpvoted: type === "up",
-    });
+    return await getDb()
+      .insert(vote)
+      .values({
+        chatId,
+        messageId,
+        isUpvoted: type === "up",
+      });
   } catch (error) {
     console.error("Failed to upvote message in database", error);
     throw error;
@@ -165,7 +170,7 @@ export async function voteMessage({
 
 export async function getVotesByChatId({ id }: { id: string }) {
   try {
-    return await db.select().from(vote).where(eq(vote.chatId, id));
+    return await getDb().select().from(vote).where(eq(vote.chatId, id));
   } catch (error) {
     console.error("Failed to get votes by chat id from database", error);
     throw error;
@@ -184,7 +189,7 @@ export async function saveDocument({
   userId: string;
 }) {
   try {
-    return await db.insert(document).values({
+    return await getDb().insert(document).values({
       id,
       title,
       content,
@@ -199,7 +204,7 @@ export async function saveDocument({
 
 export async function getDocumentsById({ id }: { id: string }) {
   try {
-    const documents = await db
+    const documents = await getDb()
       .select()
       .from(document)
       .where(eq(document.id, id))
@@ -214,7 +219,7 @@ export async function getDocumentsById({ id }: { id: string }) {
 
 export async function getDocumentById({ id }: { id: string }) {
   try {
-    const [selectedDocument] = await db
+    const [selectedDocument] = await getDb()
       .select()
       .from(document)
       .where(eq(document.id, id))
@@ -235,7 +240,7 @@ export async function deleteDocumentsByIdAfterTimestamp({
   timestamp: Date;
 }) {
   try {
-    await db
+    await getDb()
       .delete(suggestion)
       .where(
         and(
@@ -244,7 +249,7 @@ export async function deleteDocumentsByIdAfterTimestamp({
         ),
       );
 
-    return await db
+    return await getDb()
       .delete(document)
       .where(and(eq(document.id, id), gt(document.createdAt, timestamp)));
   } catch (error) {
@@ -261,7 +266,7 @@ export async function saveSuggestions({
   suggestions: Array<Suggestion>;
 }) {
   try {
-    return await db.insert(suggestion).values(suggestions);
+    return await getDb().insert(suggestion).values(suggestions);
   } catch (error) {
     console.error("Failed to save suggestions in database");
     throw error;
@@ -274,7 +279,7 @@ export async function getSuggestionsByDocumentId({
   documentId: string;
 }) {
   try {
-    return await db
+    return await getDb()
       .select()
       .from(suggestion)
       .where(and(eq(suggestion.documentId, documentId)));
