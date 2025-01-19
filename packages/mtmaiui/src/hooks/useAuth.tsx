@@ -14,7 +14,6 @@ import { useMtmaiV2 } from "../stores/StoreProvider";
 import { useApiError } from "./useApi";
 
 import { signin } from "mtxuilib/lib/auth/auth_actions";
-// import { signByCredentials } from "mtxuilib/lib/auth/auth_actions";
 import { useBasePath } from "./useBasePath";
 
 export const useUser = () => {
