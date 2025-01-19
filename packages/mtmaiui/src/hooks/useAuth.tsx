@@ -13,7 +13,8 @@ import { Route } from "../routes/__root";
 import { useMtmaiV2 } from "../stores/StoreProvider";
 import { useApiError } from "./useApi";
 
-import { signByCredentials } from "mtxuilib/lib/auth/auth_actions";
+import { signin } from "mtxuilib/lib/auth/auth_actions";
+// import { signByCredentials } from "mtxuilib/lib/auth/auth_actions";
 import { useBasePath } from "./useBasePath";
 
 export const useUser = () => {
@@ -67,7 +68,7 @@ export const useLoginHandler = () => {
     //   },
     // });
 
-    signByCredentials(values, "/", "/");
+    signin("credentials", "/", "/", "/", values);
   };
 
   return { loginHandler, isPending: loginMutation.isPending, fieldErrors };

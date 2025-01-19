@@ -1,6 +1,15 @@
 import { headers } from "next/headers";
+// import "server-only";
 export const getBackendUrl = async (prefix?: string) => {
-  if (typeof window !== "undefined") return window.location.origin;
+  // if (typeof window !== "undefined") return window.location.origin;
+
+  if (process.env.MTM_BASE_URL) {
+    return `https://${process.env.MTM_BASE_URL}${prefix || ""}`;
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}${prefix || ""}`;
+  }
+
   const host = (await headers()).get("host") || "localhost";
   const port = Number(process.env.PORT) || 3000;
   //本地ip(或tailscale 内网ip)
@@ -20,8 +29,6 @@ export const getBackendUrl = async (prefix?: string) => {
       .hostname;
     return `https://${port}-${gitpodWrokspaceHost}${prefix || ""}`;
   }
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}${prefix || ""}`;
-  }
+
   return `http://${host}:${port}${prefix || ""}`;
 };

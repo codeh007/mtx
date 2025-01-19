@@ -1,7 +1,7 @@
 import type { Ai } from "@cloudflare/ai";
 import type { z } from "zod";
 import type { User } from "../db/schema";
-import { Icons } from "../icons/icons";
+import type { Icons } from "../icons/icons";
 export type { WorkflowEvent, WorkflowStep } from "cloudflare:workers";
 // export * from "./opencanvasTypes";
 export type ZodObjectAny = z.ZodObject<any, any, any, any>;
@@ -36,7 +36,6 @@ declare namespace NodeJS {
     MTXP2P_BACKEND_URL: string;
     MT_APP_ID: string;
     MTM_SITE_ID: string;
-    NEXTAUTH_URL: string;
     NEXTAUTH_SECRET: string;
     FACEBOOK_ID: string;
     FACEBOOK_SECRET: string;
