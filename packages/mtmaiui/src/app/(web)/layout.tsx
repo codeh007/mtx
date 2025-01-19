@@ -8,7 +8,6 @@ import type { ReactNode } from "react";
 import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
 import { WebLayout } from "mtxuilib/layouts/web/WebLayout";
 import { WebLayoutHeader } from "mtxuilib/layouts/web/WebLayoutHeader";
-import { auth } from "mtxuilib/lib/auth/auth";
 import { getBackendUrl } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
 import "mtxuilib/styles/globals.css";
@@ -27,7 +26,6 @@ export const viewport: Viewport = {
 
 export default async function Layout(props: {
   children: ReactNode;
-  // dash: ReactNode;
 }) {
   const { children } = props;
   const hostName = (await headers()).get("host");
@@ -40,8 +38,6 @@ export default async function Layout(props: {
       frontendConfigResponse.data?.cookieAccessToken,
     )?.value;
   }
-  const session = await auth();
-
   const selfBackendUrl = await getBackendUrl();
   return (
     <html lang="en" suppressHydrationWarning>
@@ -55,22 +51,22 @@ export default async function Layout(props: {
           fontSans.variable,
         )}
       >
-        <MtSessionProvider>
-          <MtmaiProvider
-            frontendConfig={frontendConfigResponse.data}
-            hostName={hostName}
-            serverUrl={backendUrl}
-            accessToken={accessToken}
-          >
+        <MtmaiProvider
+          frontendConfig={frontendConfigResponse.data}
+          hostName={hostName}
+          serverUrl={backendUrl}
+          selfBackendUrl={selfBackendUrl}
+          accessToken={accessToken}
+        >
+          <MtSessionProvider>
             <UIProviders>
               <WebLayout>
                 <WebLayoutHeader />
                 {children}
-                {/* {dash} */}
               </WebLayout>
             </UIProviders>
-          </MtmaiProvider>
-        </MtSessionProvider>
+          </MtSessionProvider>
+        </MtmaiProvider>
       </body>
     </html>
   );

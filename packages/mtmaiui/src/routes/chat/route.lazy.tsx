@@ -2,7 +2,7 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { useTenant } from "../../hooks/useAuth";
 import { Canvas } from "../../opencanvasv2/canvas/canvas";
-import { GraphV3Provider } from "../../stores/GraphContextV2";
+import { GraphV2Provider } from "../../stores/GraphContextV2";
 
 export const Route = createLazyFileRoute("/chat")({
   component: RouteComponent,
@@ -10,19 +10,20 @@ export const Route = createLazyFileRoute("/chat")({
 
 function RouteComponent() {
   const tenant = useTenant();
+
   if (!tenant) {
     null;
   }
   return (
     <div className="w-full h-full bg-blue-200 p-2">
-      <GraphV3Provider
-        backendUrl="https://colab-gomtm.yuepa8.com"
+      <GraphV2Provider
+        agentEndpointBase="https://colab-gomtm.yuepa8.com"
         tenant={tenant}
       >
         <MtSuspenseBoundary>
           <Canvas />
         </MtSuspenseBoundary>
-      </GraphV3Provider>
+      </GraphV2Provider>
     </div>
   );
 }

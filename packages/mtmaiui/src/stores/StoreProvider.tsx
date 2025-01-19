@@ -1,7 +1,6 @@
 "use client";
 
 import type { FrontendConfig, Site } from "mtmaiapi";
-// import { DevTools } from "mtxuilib/components/devtools/DevTools";
 import type React from "react";
 import { createContext, useContext, useEffect, useMemo } from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
@@ -10,12 +9,11 @@ import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import ReactQueryProvider from "./ReactQueryProvider";
 import { type HatchetSliceState, createHatchetSlice } from "./hatchet.slice";
-// import { HatchatLoader } from "../components/HatchatLoader";
-// import dynamic from "next/dynamic";
 
 interface MtmaiBotProps {
   hostName?: string | null;
   serverUrl?: string | null;
+  selfBackendUrl?: string | null;
   accessToken?: string | null;
   frontendConfig?: FrontendConfig;
 }
@@ -30,6 +28,7 @@ interface MtmaiState extends MtmaiBotProps {
   setServerUrl: (serverUrl: string) => void;
   setHostName: (hostName: string) => void;
   setAccessToken: (accessToken: string) => void;
+  setSelfBackendUrl: (selfBackendUrl: string) => void;
   site?: Site;
   setSite: (site: Site) => void;
 }
@@ -51,6 +50,7 @@ const createAppSlice: StateCreator<MtmaiState, [], [], MtmaiState> = (
     setHostName: (hostName) => set({ hostName }),
     setAccessToken: (accessToken) => set({ accessToken }),
     setSite: (site) => set({ site }),
+    setSelfBackendUrl: (selfBackendUrl) => set({ selfBackendUrl }),
   };
 };
 
