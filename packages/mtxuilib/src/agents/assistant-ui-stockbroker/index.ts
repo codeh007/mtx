@@ -9,13 +9,13 @@ import {
 } from "@langchain/langgraph";
 import { ToolNode } from "@langchain/langgraph/prebuilt";
 import { ChatOpenAI } from "@langchain/openai";
+import { z } from "zod";
 import {
   ALL_TOOLS_LIST,
   type StockPurchase,
   priceSnapshotTool,
   webSearchTool,
-} from "tools.js";
-import { z } from "zod";
+} from "./tools";
 
 const GraphAnnotation = Annotation.Root({
   ...MessagesAnnotation.spec,

@@ -1,13 +1,13 @@
 import { TavilySearchResults } from "@langchain/community/tools/tavily_search";
 import { tool } from "@langchain/core/tools";
+import { z } from "zod";
 import type {
   BalanceSheetsResponse,
   CashFlowStatementsResponse,
   CompanyFactsResponse,
   IncomeStatementsResponse,
   SnapshotResponse,
-} from "types.js";
-import { z } from "zod";
+} from "./types";
 
 export async function callFinancialDatasetAPI<
   Output extends Record<string, any> = Record<string, any>,
