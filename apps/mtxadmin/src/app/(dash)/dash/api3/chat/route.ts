@@ -8,6 +8,10 @@ import {
 import { z } from "zod";
 
 import {
+  getMostRecentUserMessage,
+  sanitizeResponseMessages,
+} from "mtmaiui/lib/utils";
+import {
   deleteChatById,
   getChatById,
   getDocumentById,
@@ -16,11 +20,7 @@ import {
   saveSuggestions,
 } from "mtxuilib/db/queries/queries";
 import type { Suggestion } from "mtxuilib/db/schema";
-import {
-  generateUUID,
-  getMostRecentUserMessage,
-  sanitizeResponseMessages,
-} from "mtxuilib/lib/utils";
+import { generateUUID } from "mtxuilib/lib/utils";
 import { auth } from "../../../../(auth)/auth";
 
 export const maxDuration = 60;
