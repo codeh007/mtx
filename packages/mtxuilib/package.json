@@ -70,8 +70,11 @@
   "scripts": {
     "dev": "npx next dev",
     "build": "bun run ./src/cli/main.ts build",
-    "db:migrate": "bun run src/db/migrate.ts",
-    "gen": "bun src/cli/main.ts gen"
+    "withEnv": "dotenv -e ../../../gomtm/env/mtmaiui.env --",
+    "gen": "bun src/cli/main.ts gen",
+    "db:gen": "drizzle-kit generate",
+    "db:migrate": "bun run withEnv -- bun run src/db/migrate.ts",
+    "db:push": "bun run withEnv -- drizzle-kit push"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.66",

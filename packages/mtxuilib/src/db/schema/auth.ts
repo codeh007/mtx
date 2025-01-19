@@ -8,9 +8,6 @@ import {
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 
-// const connectionString = "postgres://postgres:postgres@localhost:5432/drizzle";
-// const pool = postgres(connectionString, { max: 1 });
-
 // export const db = drizzle(pool);
 // 参考: https://authjs.dev/getting-started/adapters/drizzle
 export const users = pgTable("user", {
