@@ -67,6 +67,9 @@ jobs:
       - name: 使用gomtm 进行 cfpage 部署
         run: (cd apps/mtxedge && ../../packages/gomtm-cli/bin/gomtm dp cfpage)
 
+      - name: deploy mtmaiui
+        run: (cd packages/mtmaiui && bun run build && ../../packages/gomtm-cli/bin/gomtm dp cfpage)
+
   testing_npm_install_gomtm:
     runs-on: ubuntu-latest
     timeout-minutes: 2
@@ -126,3 +129,19 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USER }}/gomtm:latest
           file: packages/gomtm-cli/docker/gomtm/Dockerfile
           target: gomtm
+
+  # dp_mtmaiui:
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 20
+  #   steps:
+  #     - name: Checkout branch
+  #       uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
+
+  #     - name: setup bun
+  #       uses: ./.github/actions/setup_bun
+
+  #     - name: deploy to cloudflare pages
+  #       run: (cd packages/mtmaiui && bun run build && ../../packages/gomtm-cli/bin/gomtm dp cfpage)
+
