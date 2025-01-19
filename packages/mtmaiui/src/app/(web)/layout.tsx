@@ -53,7 +53,7 @@ export default async function Layout(props: {
       >
         <MtmaiProvider
           frontendConfig={frontendConfigResponse.data}
-          hostName={hostName}
+          hostName={hostName!}
           serverUrl={backendUrl}
           selfBackendUrl={selfBackendUrl}
           accessToken={accessToken}

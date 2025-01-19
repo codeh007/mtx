@@ -22,7 +22,7 @@ const StateAnnotation = Annotation.Root({
 
 const initialSupport = async (state: typeof StateAnnotation.State) => {
   console.log("进入 initialSupport 节点");
-  state.logs.push("进入 initialSupport 节点");
+  // state.logs.push("进入 initialSupport 节点");
   // 序列化当前状态
   const serializedState = JSON.stringify(
     state,

@@ -14,12 +14,12 @@ export async function runGraphStream(
   get: () => AgentNodeState,
 ) {
   try {
-    console.log("runGraphStream", props);
     const agentEndpointBase = get().agentEndpointBase;
     const tenant = get().tenant;
     if (!tenant?.metadata?.id) {
       throw new Error("(runGraphStream)tenant is required");
     }
+    console.log("runGraphStream", { props, tenant, agentEndpointBase });
     // const endpointUrl = `${backendUrl}/api/v1/tenants/${tenant.metadata.id}/nodes/run`;
     const endpointUrl = `${agentEndpointBase}/api/chat`;
     const response = await fetch(endpointUrl, {
