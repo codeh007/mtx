@@ -11,7 +11,7 @@ import {
   updateHighlightedCode,
   updateHighlightedMarkdown,
   updateRewrittenArtifact,
-} from "mtxuilib/agents/graph_utils";
+} from "mtxuilib/agentutils/graph_utils";
 import {
   type ALL_MODEL_NAMES,
   // DEFAULT_INPUTS,
@@ -46,10 +46,11 @@ import {
   useRef,
   useState,
 } from "react";
+import type { useUser } from "../hooks/useAuth";
+import { reverseCleanContent } from "../lib/utils";
 import { useAssistants } from "../opencanvas/hooks/useAssistants";
 import { useRuns } from "../opencanvas/hooks/useRuns";
 import { useThread } from "../opencanvas/hooks/useThread";
-import { reverseCleanContent } from "../lib/utils";
 interface GraphData {
   runId: string | undefined;
   isStreaming: boolean;
