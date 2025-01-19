@@ -4,8 +4,13 @@ import type {
   ArtifactCodeV3,
   ArtifactV3,
   Reflections,
-} from "mtxuilib/types/index.js";
-import { getArtifactContent } from "../../graph_utils";
+} from "../../../types/opencanvasTypes";
+// import type {
+//   ArtifactCodeV3,
+//   ArtifactV3,
+//   Reflections,
+// } from "mtxuilib/types/index.js";
+// import { getArtifactContent } from "../../graph_utils";
 import {
   ensureStoreInConfig,
   formatReflections,

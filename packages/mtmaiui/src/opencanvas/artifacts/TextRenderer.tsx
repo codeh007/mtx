@@ -20,6 +20,8 @@ import React, {
 } from "react";
 import { useGraphContext } from "../../stores/GraphContext";
 import { CopyText } from "./components/CopyText";
+import { getArtifactContent } from "mtxuilib/agentutils/opencanvas_utils.js";
+import type { ArtifactMarkdownV3 } from "mtxuilib/types/opencanvasTypes.js";
 
 const cleanText = (text: string) => {
   return text.replaceAll("\\\n", "\n");
