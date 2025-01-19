@@ -1,6 +1,5 @@
 "use client";
 import dynamic from "next/dynamic";
-// export const runtime = "nodejs";
 
 const LoginPage = dynamic(
   () =>
@@ -12,6 +11,8 @@ const LoginPage = dynamic(
     },
   },
 );
-export default function Page() {
-  return <LoginPage />;
+export default function Page(props: {
+  searchParams: { callbackUrl: string | undefined };
+}) {
+  return <LoginPage {...props} />;
 }
