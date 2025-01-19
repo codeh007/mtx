@@ -73,7 +73,8 @@
     "withEnv": "dotenv -e ../../../gomtm/env/mtmaiui.env --",
     "gen": "bun src/cli/main.ts gen",
     "db:gen": "drizzle-kit generate",
-    "db:migrate": "bun run withEnv -- bun run src/db/migrate.ts",
+    "db:migrate:old": "bun run withEnv -- bun run src/db/migrate.ts",
+    "db:migrate": "bun run withEnv -- bun drizzle-kit migrate --config=drizzle.config.ts",
     "db:push": "bun run withEnv -- drizzle-kit push"
   },
   "dependencies": {

@@ -8,6 +8,13 @@
       "when": 1734515865737,
       "tag": "0000_magical_skullbuster",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1737263182812,
+      "tag": "0001_crazy_echo",
+      "breakpoints": true
     }
   ]
 }
