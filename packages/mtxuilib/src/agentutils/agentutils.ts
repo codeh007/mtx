@@ -9,12 +9,7 @@ import {
   // type ChatUniversalModel,
   initChatModel,
 } from "langchain/chat_models/universal";
-import { isArtifactCodeContent } from "mtxuilib/lib/artifact_content_types";
-import type {
-  ArtifactCodeV3,
-  ArtifactMarkdownV3,
-  Reflections,
-} from "mtxuilib/types/opencanvasTypes";
+import type { Reflections } from "mtxuilib/types/opencanvasTypes";
 
 export const formatReflections = (
   reflections: Reflections,
@@ -113,35 +108,6 @@ export const ensureStoreInConfig = (
     throw new Error("`store` not found in config");
   }
   return config.store;
-};
-
-export const formatArtifactContent = (
-  content: ArtifactMarkdownV3 | ArtifactCodeV3,
-  shortenContent?: boolean,
-): string => {
-  let artifactContent: string;
-
-  if (isArtifactCodeContent(content)) {
-    artifactContent = shortenContent
-      ? content.code?.slice(0, 500)
-      : content.code;
-  } else {
-    artifactContent = shortenContent
-      ? content.fullMarkdown?.slice(0, 500)
-      : content.fullMarkdown;
-  }
-  return `Title: ${content.title}\nArtifact type: ${content.type}\nContent: ${artifactContent}`;
-};
-
-export const formatArtifactContentWithTemplate = (
-  template: string,
-  content: ArtifactMarkdownV3 | ArtifactCodeV3,
-  shortenContent?: boolean,
-): string => {
-  return template.replace(
-    "{artifact}",
-    formatArtifactContent(content, shortenContent),
-  );
 };
 
 export const getModelConfig = (

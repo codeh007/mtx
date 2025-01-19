@@ -1,5 +1,5 @@
 import { streamText as aiSdkStreamText, convertToCoreMessages } from "ai";
-import { getLlmOpenaiClient } from "./llm_config";
+// import { getLlmOpenaiClient } from "./llm_config";
 
 interface ToolResult<Name extends string, Args, Result> {
   toolCallId: string;
@@ -37,25 +37,3 @@ export async function streamTextV2(
   });
   return result;
 }
-
-// async function callDefaultLlm(req: Request) {
-// 	const { messages } = (await req.json()) as any;
-
-// 	const apiKey =
-// 		"b135fd4bed9be2a988e0376d1bb0977fcb8b6a88ec9f35da8138fa49eb9a0d50";
-// 	const baseURL = "https://api.together.xyz/v1";
-
-// 	const openAiClient = createOpenAI({
-// 		baseURL: baseURL,
-// 		apiKey: apiKey,
-// 	});
-// 	const model = "meta-llama/Llama-3-8b-chat-hf";
-// 	const openaiModel = openAiClient(model);
-
-// 	const result = await aiSdkStreamText({
-// 		model: openaiModel,
-// 		messages,
-// 	});
-
-// 	return result.toDataStreamResponse();
-// }
