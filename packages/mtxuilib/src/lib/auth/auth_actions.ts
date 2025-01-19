@@ -38,7 +38,6 @@ export const signin = async (
   }
 };
 
-
 export const logout = async () => {
   await signOut();
 };
