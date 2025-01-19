@@ -5,10 +5,13 @@ import {
   StateGraph,
 } from "@langchain/langgraph";
 import { z } from "zod";
-import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types.js";
-import type { Reflections } from "mtxuilib/types/index.js";
-import { getArtifactContent } from "../graph_utils";
-import { ensureStoreInConfig, formatReflections } from "../utils";
+import {
+  ensureStoreInConfig,
+  formatReflections,
+} from "../../agentutils/agentutils";
+import { getArtifactContent } from "../../agentutils/graph_utils";
+import { isArtifactMarkdownContent } from "../../lib/artifact_content_types";
+import type { Reflections } from "../../types/opencanvasTypes";
 import { REFLECT_SYSTEM_PROMPT, REFLECT_USER_PROMPT } from "./prompts";
 import {
   ReflectionGraphAnnotation,

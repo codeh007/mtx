@@ -8,7 +8,6 @@ import {
   StateGraph,
 } from "@langchain/langgraph";
 import { getLlm } from "mtxuilib/llm/llm";
-import type { ConfigurableAnnotation } from "./runnable_config";
 const inMemoryStore = new InMemoryStore();
 
 const StateAnnotation = Annotation.Root({
@@ -215,16 +214,6 @@ const handleRefund = async (state: typeof StateAnnotation.State) => {
   };
 };
 
-const step1 = async (
-  state: typeof StateAnnotation.State,
-  config?: RunnableConfig<typeof ConfigurableAnnotation.State>,
-) => {
-  console.log("---Step 1---");
-  return {
-    ...state,
-    someValue: "someValue111",
-  };
-};
 const step2 = async (
   state: typeof StateAnnotation.State,
   config?: RunnableConfig,

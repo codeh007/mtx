@@ -14,15 +14,6 @@ import type {
   ProgrammingLanguageOptions,
   RewriteArtifactMetaToolResponse,
 } from "mtxuilib/types/opencanvasTypes";
-// import type {
-//   Artifact,
-//   ArtifactCodeV3,
-//   ArtifactMarkdownV3,
-//   ArtifactToolResponse,
-//   ArtifactV3,
-//   ProgrammingLanguageOptions,
-//   RewriteArtifactMetaToolResponse,
-// } from "mtxuilib/types";
 
 export function removeCodeBlockFormatting(text: string): string {
   if (!text) return text;
