@@ -20,8 +20,16 @@ import {
 // Optionally, if not using email/pass login, you can
 // use the Drizzle adapter for Auth.js / NextAuth
 // https://authjs.dev/reference/adapter/drizzle
-const client = postgres(`${process.env.POSTGRES_URL!}?sslmode=require`);
-const db = drizzle(client);
+// const db = drizzle(client);
+let db: any;
+const getDb = () => {
+  if (!db) {
+    const client = postgres(`${process.env.POSTGRES_URL!}?sslmode=require`);
+
+    db = drizzle(client);
+  }
+  return db;
+};
 
 export async function getUser(email: string): Promise<Array<User>> {
   try {
@@ -68,8 +76,8 @@ export async function saveChat({
 
 export async function deleteChatById({ id }: { id: string }) {
   try {
-    await db.delete(vote).where(eq(vote.chatId, id));
-    await db.delete(message).where(eq(message.chatId, id));
+    await getDb().delete(vote).where(eq(vote.chatId, id));
+    await getDb().delete(message).where(eq(message.chatId, id));
 
     return await db.delete(chat).where(eq(chat.id, id));
   } catch (error) {
@@ -80,7 +88,7 @@ export async function deleteChatById({ id }: { id: string }) {
 
 export async function getChatsByUserId({ id }: { id: string }) {
   try {
-    return await db
+    return await getDb()
       .select()
       .from(chat)
       .where(eq(chat.userId, id))

@@ -68,7 +68,7 @@ export const LoginPage = (props: {
             <form
               key={provider.id}
               action={async () => {
-                signByProvider(provider.id, provider.id, "/", "/");
+                signByProvider(provider.id);
               }}
             >
               <button type="submit">
