@@ -18,8 +18,8 @@ import {
 } from "./schema";
 
 let dbInstance: any;
-const getDb=() =>{
-  if(!dbInstance){
+const getDb = () => {
+  if (!dbInstance) {
     const client = postgres(`${process.env.POSTGRES_URL!}?sslmode=require`);
     dbInstance = drizzle(client);
   }
@@ -95,7 +95,10 @@ export async function getChatsByUserId({ id }: { id: string }) {
 
 export async function getChatById({ id }: { id: string }) {
   try {
-    const [selectedChat] = await getDb().select().from(chat).where(eq(chat.id, id));
+    const [selectedChat] = await getDb()
+      .select()
+      .from(chat)
+      .where(eq(chat.id, id));
     return selectedChat;
   } catch (error) {
     console.error("Failed to get chat by id from database");
@@ -104,14 +107,14 @@ export async function getChatById({ id }: { id: string }) {
 }
 
 export async function saveMessages({ messages }: { messages: Array<Message> }) {
-  if(messages?.length>0){
+  if (messages?.length > 0) {
     try {
       return await getDb().insert(message).values(messages);
     } catch (error) {
       console.error("Failed to save messages in database", error);
       throw error;
     }
-}
+  }
 }
 
 export async function getMessagesByChatId({ id }: { id: string }) {
@@ -147,13 +150,14 @@ export async function voteMessage({
         .update(vote)
         .set({ isUpvoted: type === "up" ? true : false })
         .where(and(eq(vote.messageId, messageId), eq(vote.chatId, chatId)));
-    } else {
-      return await getDb().insert(vote).values({
+    }
+    return await getDb()
+      .insert(vote)
+      .values({
         chatId,
         messageId,
         isUpvoted: type === "up" ? true : false,
       });
-    }
   } catch (error) {
     console.error("Failed to upvote message in database", error);
     throw error;

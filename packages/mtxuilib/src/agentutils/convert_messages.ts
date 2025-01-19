@@ -8,8 +8,6 @@ import type {
   BaseMessage,
   ToolMessage,
 } from "@langchain/core/messages";
-// import type { ChatMessage } from "mtmaiapi";
-
 // Not exposed by `@assistant-ui/react` package, but is
 // the required return type for this callback function.
 type Message =
