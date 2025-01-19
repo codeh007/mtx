@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { createUser, getUser } from "mtmaiui/db/queries";
+import { createUser, getUser } from "mtxuilib/db/queries/queries";
 
 import { signIn } from "./auth";
 
