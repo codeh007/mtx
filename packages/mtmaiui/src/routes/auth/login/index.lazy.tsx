@@ -16,6 +16,7 @@ export const Route = createLazyFileRoute("/auth/login/")({
 
 function RouteComponent() {
   useErrorParam();
+
   const meta = useApiMeta();
 
   if (meta.isLoading) {
