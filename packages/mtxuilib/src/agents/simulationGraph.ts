@@ -1,9 +1,7 @@
-import {
+import type {
   AIMessage,
-  type AIMessageChunk,
-  type BaseMessage,
-  type BaseMessageLike,
-  HumanMessage,
+  AIMessageChunk,
+  BaseMessageLike,
 } from "@langchain/core/messages";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import type { Runnable } from "@langchain/core/runnables";
@@ -13,7 +11,8 @@ import {
   START,
   StateGraph,
 } from "@langchain/langgraph";
-import { getLlm } from "mtxuilib/llm/llm.js";
+import { swapRoles } from "mtxuilib/agentutils/agentutils";
+import { getLlm } from "mtxuilib/llm/llm";
 async function myChatBot(messages: BaseMessageLike[]): Promise<AIMessageChunk> {
   const systemMessage = {
     role: "system",
@@ -59,13 +58,13 @@ You want them to give you ALL the money back. Be extremely persistent. This trip
 //
 
 // MessagesAnnotation coerces all message likes to base message classes
-function swapRoles(messages: BaseMessage[]) {
-  return messages.map((m) =>
-    m instanceof AIMessage
-      ? new HumanMessage({ content: m.content })
-      : new AIMessage({ content: m.content }),
-  );
-}
+// function swapRoles(messages: BaseMessage[]) {
+//   return messages.map((m) =>
+//     m instanceof AIMessage
+//       ? new HumanMessage({ content: m.content })
+//       : new AIMessage({ content: m.content }),
+//   );
+// }
 
 async function simulatedUserNode(state: typeof MessagesAnnotation.State) {
   const messages = state.messages;
