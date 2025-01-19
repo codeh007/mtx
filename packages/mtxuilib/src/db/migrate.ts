@@ -7,9 +7,6 @@ config({
   path: "../../dev.env",
 });
 
-// const DATABASE_URL =
-//   "postgresql://postgres:7W8jZ1oWhDvUp7xy@lethally-obtainable-wagtail.data-1.use1.tembo.io:5432/test2?sslmode=require";
-
 const runMigrate = async () => {
   if (!process.env.POSTGRES_URL) {
     throw new Error("POSTGRES_URL is not defined");
