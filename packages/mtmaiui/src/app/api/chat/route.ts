@@ -1,14 +1,21 @@
-// import { createAssistantGraph } from "mtxuilib/agents/assisant";
 import { newGraphSseResponse } from "mtxuilib/agentutils/graph_utils";
+import type { GraphInput } from "../../../stores/GraphContext";
 export const runtime = "edge";
 
 const exampleUserInput = "What's the weather like today?";
+
+// GraphInput
 
 const handler = async (r: Request) => {
   try {
     const input = {
       messages: [{ role: "user", content: exampleUserInput }],
     };
+
+    //TODO: 增加 zod schema 验证输入格式
+    const graphInput = r.json() as GraphInput;
+    console.log("graphInput", graphInput);
+
     // const builder = createAssistantGraph();
     // // const runnable = builder.getRunnable();
     // // const a = runnable.invoke(input);
@@ -16,7 +23,7 @@ const handler = async (r: Request) => {
     // const graph = builder.compile();
     // const result = await graph.invoke(input);
     // return new Response(JSON.stringify(result));
-    return newGraphSseResponse("test", input, {});
+    return newGraphSseResponse("test", graphInput, {});
   } catch (e) {
     console.log("run langgraph error", e);
     return new Response(JSON.stringify(e));
