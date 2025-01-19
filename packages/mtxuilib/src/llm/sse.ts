@@ -21,9 +21,7 @@
 export function newStreamResponse(
   asyncGenerator: AsyncGenerator<any, void, unknown>,
 ) {
-  const stream = makeStream(asyncGenerator);
-  const response = new StreamingResponse(stream);
-  return response;
+  return new StreamingResponse(makeStream(asyncGenerator));
 }
 
 /**
@@ -43,14 +41,11 @@ export class StreamingResponse extends Response {
   }
 }
 
-export const makeStream = <T extends Record<string, unknown>>(
-  generator: AsyncGenerator<T, void, unknown>,
-) => {
-  const encoder = new TextEncoder();
+export const makeStream = <T>(generator: AsyncGenerator<T, void, unknown>) => {
+  // const encoder = new TextEncoder();
   return new ReadableStream<any>({
     async start(controller) {
       for await (const chunk of generator) {
-        // const chunkData = encoder.encode(JSON.stringify(chunk));
         controller.enqueue(chunk);
       }
       controller.close();
