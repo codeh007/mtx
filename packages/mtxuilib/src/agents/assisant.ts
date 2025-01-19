@@ -293,12 +293,14 @@ const step2 = async (
 export function createAssistantGraph() {
   const checkpointer = new MemorySaver();
   const builder = new StateGraph(StateAnnotation)
+    .addNode("entryNode", entryNode)
     .addNode("initial_support", initialSupport)
     // .addNode("billing_support", billingSupport)
     // .addNode("technical_support", technicalSupport)
     // .addNode("handle_refund", handleRefund)
-    .addEdge("__start__", "initial_support");
+    .addEdge("__start__", "entryNode");
 
+  builder.addEdge("entryNode", "initial_support");
   // builder = builder.addConditionalEdges(
   //   "initial_support",
   //   async (state: typeof StateAnnotation.State) => {
