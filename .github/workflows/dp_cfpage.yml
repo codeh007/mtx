@@ -47,7 +47,7 @@ env:
   DOCKER_IMAGE_TAG: ${{ github.ref_type == 'tag' && github.ref_name || github.event_name == 'workflow_dispatch' && github.event.inputs.tag || 'pre' }}
 
 jobs:
-  dp_cfpage:
+  deploy:
     name: dp_cfpage
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -61,9 +61,6 @@ jobs:
       - name: setup bun
         uses: ./.github/actions/setup_bun
 
-      # - name: 测试gomtm 命令
-      #   run: (cd apps/mtxedge && ../../packages/gomtm-cli/bin/gomtm dp --help)
-
       - name: 使用gomtm 进行 cfpage 部署
         run: (cd apps/mtxedge && ../../packages/gomtm-cli/bin/gomtm dp cfpage)
 
@@ -73,7 +70,7 @@ jobs:
   testing_npm_install_gomtm:
     runs-on: ubuntu-latest
     timeout-minutes: 2
-    needs: [dp_cfpage]
+    needs: [deploy]
     steps:
       - name: 安装 gomtm-cli 包后,应该自带 gomtm 命令
         run: |
@@ -83,7 +80,7 @@ jobs:
   testing_gomtm_worker:
     runs-on: ubuntu-latest
     timeout-minutes: 2
-    needs: [dp_cfpage]
+    needs: [deploy]
 
     steps:
       - name: Checkout branch
@@ -97,7 +94,7 @@ jobs:
         continue-on-error: true
 
   build_docker_gomtm_base:
-    needs: [dp_cfpage, testing_npm_install_gomtm, testing_gomtm_worker]
+    needs: [deploy, testing_npm_install_gomtm, testing_gomtm_worker]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -129,19 +126,4 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USER }}/gomtm:latest
           file: packages/gomtm-cli/docker/gomtm/Dockerfile
           target: gomtm
-
-  # dp_mtmaiui:
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 20
-  #   steps:
-  #     - name: Checkout branch
-  #       uses: actions/checkout@v4
-  #       with:
-  #         fetch-depth: 0
-
-  #     - name: setup bun
-  #       uses: ./.github/actions/setup_bun
-
-  #     - name: deploy to cloudflare pages
-  #       run: (cd packages/mtmaiui && bun run build && ../../packages/gomtm-cli/bin/gomtm dp cfpage)
 
