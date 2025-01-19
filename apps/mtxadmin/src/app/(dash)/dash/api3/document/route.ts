@@ -2,7 +2,7 @@ import {
   deleteDocumentsByIdAfterTimestamp,
   getDocumentsById,
   saveDocument,
-} from "mtmaiui/db/queries";
+} from "mtxuilib/db/queries/queries";
 import { auth } from "../../../../(auth)/auth";
 
 export async function GET(request: Request) {
