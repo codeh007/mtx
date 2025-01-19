@@ -32,19 +32,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # tests:
-  #   name: Tests
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout branch
-  #       uses: actions/checkout@v4
-
-  #     - name: Install
-  #       uses: ./.github/composite-actions/install
-
-  #     - name: Run tests
-  #       run: pnpm test
-
   release:
     name: Release
     runs-on: ubuntu-latest

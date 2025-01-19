@@ -1,3 +1,3 @@
 export const runtime = "edge";
-import { handlers } from "../../../../lib/auth/auth";
+import { handlers } from "mtxuilib/lib/auth/auth";
 export const { GET, POST } = handlers;

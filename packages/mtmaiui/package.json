@@ -82,7 +82,6 @@
     "mtmaiapi": "*",
     "mtxuilib": "*",
     "next": "^15.1.5",
-    "next-auth": "^5.0.0-beta.25",
     "react": "^19",
     "react-dom": "^19",
     "redaxios": "^0.5.1",
