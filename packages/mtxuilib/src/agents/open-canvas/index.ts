@@ -1,5 +1,4 @@
 import { END, START, Send, StateGraph } from "@langchain/langgraph";
-// import { DEFAULT_INPUTS } from "../../constants";
 import { customAction } from "./nodes/customAction";
 import { generateArtifact } from "./nodes/generate-artifact";
 import { generateFollowup } from "./nodes/generateFollowup";
