@@ -13,9 +13,15 @@ import {
 } from "lucide-react";
 import { frontendGetSiderbarOptions } from "mtmaiapi";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
+import { user } from "mtxuilib/db/schema";
 import { useIsMobile } from "mtxuilib/hooks/use-mobile";
 import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { IconX, Icons } from "mtxuilib/icons/icons";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "mtxuilib/ui/collapsible";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,15 +48,13 @@ import {
   useSidebar,
 } from "mtxuilib/ui/sidebar";
 import Link from "next/link";
-import { user } from "../../db/schema";
 import { useIsAdmin } from "../../hooks/useAuth";
+import { CustomLink } from "../CustomLink";
 import { SidebarMenuApp } from "./SidebarMenuApp";
 import { NavChat } from "./nav-chatprofile";
 import { NavDevtools } from "./nav-devtools";
 import { SidebarHistory } from "./sidebar-history";
 import { NavUser } from "./siderbarnav-user";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "mtxuilib/ui/collapsible";
-import { CustomLink } from "../CustomLink";
 
 /*************************************************************************
  * 备忘：

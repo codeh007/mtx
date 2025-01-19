@@ -7,7 +7,7 @@ import {
 } from "prosemirror-view";
 import { createRoot } from "react-dom/client";
 
-import type { Suggestion } from "../../db/schema";
+import type { Suggestion } from "mtxuilib/db/schema";
 import { Suggestion as PreviewSuggestion } from "./suggestion";
 
 export interface UISuggestion extends Suggestion {

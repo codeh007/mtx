@@ -8,11 +8,19 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
+import type { Chat } from "mtxuilib/db/schema";
 import {
   MoreHorizontalIcon,
   PlusIcon,
   TrashIcon,
 } from "mtxuilib/icons/aichatbot.icons";
+import { Button } from "mtxuilib/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "mtxuilib/ui/dropdown-menu";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -22,12 +30,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "mtxuilib/ui/sidebar";
-import type { Chat } from "../../db/schema";
+import { BetterTooltip } from "mtxuilib/ui/tooltip";
 import { useBasePath } from "../../hooks/useBasePath";
 import { fetcher } from "../../lib/utils";
-import { Button } from "mtxuilib/ui/button";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "mtxuilib/ui/dropdown-menu";
-import { BetterTooltip } from "mtxuilib/ui/tooltip";
 
 type GroupedChats = {
   today: Chat[];

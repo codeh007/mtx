@@ -8,7 +8,9 @@ import {
   LogOut,
   Sparkles,
 } from "lucide-react";
+import { user } from "mtxuilib/db/schema";
 import { useMtRouter } from "mtxuilib/hooks/use-router";
+import { Avatar, AvatarFallback, AvatarImage } from "mtxuilib/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,11 +27,9 @@ import {
   useSidebar,
 } from "mtxuilib/ui/sidebar";
 import { useTheme } from "next-themes";
-import { user } from "../../db/schema";
 import { useTenant } from "../../hooks/useAuth";
 import { useMtmClient } from "../../hooks/useMtmapi";
 import { ThemeToggle } from "../../skyvern/components/ThemeSwitch";
-import { Avatar, AvatarFallback, AvatarImage } from "mtxuilib/ui/avatar";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
