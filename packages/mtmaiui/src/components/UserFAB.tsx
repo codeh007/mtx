@@ -2,12 +2,9 @@
 
 import { AssistantModal } from "mtxuilib/assistant-ui/assistant-modal";
 import { Icons } from "mtxuilib/icons/icons";
-import { Button } from "mtxuilib/ui/button";
-import { useState } from "react";
-
-// import { useLogout } from "../hooks/useAuth";
 import { logout } from "mtxuilib/lib/auth/auth_actions";
 import { cn } from "mtxuilib/lib/utils";
+import { Button } from "mtxuilib/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,7 +20,9 @@ import {
   DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
 
+import { useNavigate } from "@tanstack/react-router";
 import { useBasePath } from "../hooks/useBasePath";
 import { CustomLink } from "./CustomLink";
 export const UserFAB = () => {
@@ -32,10 +31,20 @@ export const UserFAB = () => {
   const basePath = useBasePath();
 
   const { data: session, update } = useSession();
-  // const { logout } = useLogout();
+
+  const navigate = useNavigate();
+
+  const handleOpenDropdown = () => {
+    if (!session) {
+      // signin("credentials");
+      navigate({
+        to: "/auth/login",
+      });
+    }
+    setOpenDropdown(true);
+  };
   return (
     <>
-      {/* <pre>{JSON.stringify(session, null, 2)}</pre> */}
       {openCmdk && <AssistantModal />}
 
       <DropdownMenu open={openDropdown} onOpenChange={setOpenDropdown}>
@@ -45,9 +54,7 @@ export const UserFAB = () => {
               "fixed bottom-14 right-4 z-40",
               "bg-tertiary/20 text-tertiary-foreground border border-slate-500 hover:bg-tertiary/10 rounded-lg",
             )}
-            onClick={() => {
-              setOpenDropdown(true);
-            }}
+            onClick={handleOpenDropdown}
           >
             <Icons.apple />
           </Button>
