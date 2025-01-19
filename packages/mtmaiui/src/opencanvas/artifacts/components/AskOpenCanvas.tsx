@@ -1,5 +1,5 @@
 import { CircleArrowUp } from "lucide-react";
-import { getArtifactContent } from "mtxuilib/agents/graph_utils";
+import { getArtifactContent } from "mtxuilib/agentutils/graph_utils.js";
 import { isArtifactCodeContent } from "mtxuilib/lib/artifact_content_types";
 import { cn } from "mtxuilib/lib/utils";
 import type { ArtifactV3 } from "mtxuilib/types/opencanvasTypes";

@@ -1,15 +1,13 @@
 import type { EditorView } from "@codemirror/view";
 import { HumanMessage } from "@langchain/core/messages";
 import { CircleCheck, Forward, LoaderCircle } from "lucide-react";
-import { getArtifactContent } from "mtxuilib/agents/graph_utils";
-import { convertToOpenAIFormat } from "mtxuilib/lib/convert_messages";
+import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
+import { cn } from "mtxuilib/lib/utils";
 import type {
   ArtifactCodeV3,
   ArtifactMarkdownV3,
   ProgrammingLanguageOptions,
-} from "mtxuilib/types";
-import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
-import { cn } from "mtxuilib/lib/utils";
+} from "mtxuilib/types/opencanvasTypes";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useGraphContext } from "../../stores/GraphContext";
@@ -20,6 +18,8 @@ import { TextRenderer } from "./TextRenderer";
 import { ActionsToolbar, CodeToolBar } from "./actions_toolbar";
 import { CustomQuickActions } from "./actions_toolbar/custom";
 import { AskOpenCanvas } from "./components/AskOpenCanvas";
+import { convertToOpenAIFormat } from "mtxuilib/agentutils/convert_messages.js";
+import { getArtifactContent } from "mtxuilib/agentutils/graph_utils.js";
 
 export interface ArtifactRendererProps {
   isEditing: boolean;
