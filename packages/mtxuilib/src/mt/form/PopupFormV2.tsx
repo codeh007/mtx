@@ -1,5 +1,7 @@
 "use client";
 import type { UseMutationResult } from "@tanstack/react-query";
+// import { Dialog, DialogContent, DialogTitle } from "@radix-ui/react-dialog";
+import type { SchemaForm } from "mtmaiapi";
 import {
   type PropsWithChildren,
   type ReactElement,
@@ -14,8 +16,9 @@ import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
-import type { SchemaForm } from "../components/schema-form/schema-form.z";
-import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "../../ui/dialog";
+// import type { SchemaForm } from "../components/schema-form/schema-form.z";
+// import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 import { EditFormToolbar } from "./EditFormToolbar";
 import { type UseZodForm, ZForm } from "./ZodForm";
 

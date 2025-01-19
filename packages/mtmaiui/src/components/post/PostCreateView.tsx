@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { postCreateMutation } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
 import type { Tenant } from "mtmaiapi/gomtmapi/types.gen";
 
-import { ZForm, useZodForm } from "mtxuilib/form/ZodForm";
+import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
 import { Button } from "mtxuilib/ui/button";
 import {

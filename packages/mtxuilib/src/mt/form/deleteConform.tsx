@@ -1,15 +1,15 @@
 "use client";
 import { Slot } from "@radix-ui/react-slot";
 import React, { useState } from "react";
-import { cn } from "../lib/utils";
-import { Button, type ButtonProps, buttonVariants } from "../ui/button";
+import { cn } from "../../lib/utils";
+import { Button, type ButtonProps, buttonVariants } from "../../ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
+} from "../../ui/dialog";
 
 export const DeleteConformDlg = (props: {
   handleOk: () => void;

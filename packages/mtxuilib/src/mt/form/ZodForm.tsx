@@ -43,7 +43,6 @@ export function useZodForm<TSchema extends z.ZodType>(
   return form;
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export type AnyZodForm = UseZodForm<any>;
 
 export function ZForm<TInput extends FieldValues>(

@@ -1,8 +1,8 @@
 "use client";
 
+import type { SchemaForm } from "mtmaiapi";
 import { Fragment, useMemo } from "react";
 import { z } from "zod";
-import type { SchemaForm } from "../components/schema-form/schema-form.z";
 import {
   FormControl,
   FormDescription,
@@ -10,8 +10,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
+} from "../../ui/form";
+// import type { SchemaForm } from "../components/schema-form/schema-form.z";
+// import {
+//   FormControl,
+//   FormDescription,
+//   FormField,
+import { Input } from "../../ui/input";
+//   FormItem,
+//   FormLabel,
+//   FormMessage,
+// } from "../ui/form";
+// import { Input } from "../ui/input";
 import { EditFormToolbar } from "./EditFormToolbar";
 import { ZForm, useZodForm } from "./ZodForm";
 
