@@ -19,10 +19,17 @@ const runMigrate = async () => {
   console.log("⏳ Running migrations...");
 
   const start = Date.now();
-  await migrate(db, {
-    // migrationsSchema: "./src/db/schema/index.ts",
-    migrationsFolder: "./src/db/migrations",
-  });
+  try {
+    // console.log("db", db);
+    await migrate(db, {
+      // migrationsSchema: "./src/db/schema/index.ts",
+      migrationsFolder: "./src/db/migrations",
+    });
+  } catch (e) {
+    console.error("❌ Migration failed");
+    console.error(e);
+    process.exit(1);
+  }
   const end = Date.now();
 
   console.log("✅ Migrations completed in", end - start, "ms");

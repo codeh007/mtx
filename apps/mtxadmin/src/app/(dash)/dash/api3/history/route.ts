@@ -1,4 +1,4 @@
-import { getChatsByUserId } from "mtmaiui/db/queries";
+import { getChatsByUserId } from "mtxuilib/db/queries/queries";
 import { auth } from "../../../../(auth)/auth";
 
 export async function GET() {
@@ -8,7 +8,6 @@ export async function GET() {
     return Response.json("Unauthorized!", { status: 401 });
   }
 
-  // biome-ignore lint/style/noNonNullAssertion: <explanation>
   const chats = await getChatsByUserId({ id: session.user.id! });
   return Response.json(chats);
 }

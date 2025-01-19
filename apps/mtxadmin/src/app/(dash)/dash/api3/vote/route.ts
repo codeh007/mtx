@@ -1,4 +1,4 @@
-import { getVotesByChatId, voteMessage } from "mtmaiui/db/queries";
+import { getVotesByChatId, voteMessage } from "mtxuilib/db/queries/queries";
 import { auth } from "../../../../(auth)/auth";
 
 export async function GET(request: Request) {

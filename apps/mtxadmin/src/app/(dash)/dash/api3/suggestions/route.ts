@@ -1,4 +1,4 @@
-import { getSuggestionsByDocumentId } from "mtmaiui/db/queries";
+import { getSuggestionsByDocumentId } from "mtxuilib/db/queries/queries";
 import { auth } from "../../../../(auth)/auth";
 
 export async function GET(request: Request) {
