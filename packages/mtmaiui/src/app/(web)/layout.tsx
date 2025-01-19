@@ -12,7 +12,7 @@ import { auth } from "mtxuilib/lib/auth/auth";
 import { getBackendUrl } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
 import "mtxuilib/styles/globals.css";
-import { SessionProvider } from "next-auth/react";
+import { MtSessionProvider } from "../../stores/MtSessionProvider";
 import { MtmaiProvider } from "../../stores/StoreProvider";
 import "./globals.css";
 export const runtime = "nodejs";
@@ -55,10 +55,7 @@ export default async function Layout(props: {
           fontSans.variable,
         )}
       >
-        <SessionProvider
-          // basePath={`${selfBackendUrl}/api/auth`}
-          session={session}
-        >
+        <MtSessionProvider>
           <MtmaiProvider
             frontendConfig={frontendConfigResponse.data}
             hostName={hostName}
@@ -73,7 +70,7 @@ export default async function Layout(props: {
               </WebLayout>
             </UIProviders>
           </MtmaiProvider>
-        </SessionProvider>
+        </MtSessionProvider>
       </body>
     </html>
   );
