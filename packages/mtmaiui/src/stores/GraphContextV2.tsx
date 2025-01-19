@@ -6,7 +6,7 @@ import type {
   ChatMessage,
   Tenant,
 } from "mtmaiapi";
-import type { ArtifactV3, TextHighlight } from "mtxuilib/types";
+import type { ArtifactV3, TextHighlight } from "mtxuilib/types/opencanvasTypes";
 import { createContext, useContext, useMemo } from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
@@ -14,59 +14,8 @@ import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { runGraphStream } from "./runGraphStream";
 
-// console.log("loaded GraphContextV2");
-// interface GraphData {
-//   runId: string | undefined;
-//   isStreaming: boolean;
-//   selectedBlocks: TextHighlight | undefined;
-//   artifact: ArtifactV3 | undefined;
-//   updateRenderedArtifactRequired: boolean;
-//   isArtifactSaved: boolean;
-//   firstTokenReceived: boolean;
-//   feedbackSubmitted: boolean;
-//   setFeedbackSubmitted: Dispatch<SetStateAction<boolean>>;
-//   // setArtifact: Dispatch<SetStateAction<ArtifactV3 | undefined>>;
-//   // setSelectedBlocks: Dispatch<SetStateAction<TextHighlight | undefined>>;
-//   // setSelectedArtifact: (index: number) => void;
-//   // streamMessage: (params: GraphInput) => Promise<void>;
-//   setArtifactContent: (index: number, content: string) => void;
-//   clearState: () => void;
-//   setUpdateRenderedArtifactRequired: Dispatch<SetStateAction<boolean>>;
-// }
-
-// type ThreadDataContextType = ReturnType<typeof useThread>;
-
-// type AssistantsDataContextType = ReturnType<typeof useAssistants>;
-
-// type GraphContentType = {
-//   graphData: GraphData;
-//   threadData: ThreadDataContextType;
-//   assistantsData: AssistantsDataContextType;
-// };
-
-// const GraphContext = createContext<GraphContentType | undefined>(undefined);
-
-// export interface GraphInput {
-//   // messages?: Record<string, any>[];
-
-//   backendUrl?: string;
-//   tenantId: string;
-//   payload: any;
-//   highlightedCode?: CodeHighlight;
-//   highlightedText?: TextHighlight;
-
-//   artifact?: ArtifactV3;
-
-//   language?: LanguageOptions;
-//   artifactLength?: ArtifactLengthOptions;
-//   regenerateWithEmojis?: boolean;
-//   readingLevel?: ReadingLevelOptions;
-//   customQuickActionId?: string;
-// }
-
 export interface AgentNodeProps {
-  backendUrl: string;
-  // tenantId: string;
+  agentEndpointBase: string;
   tenant: Tenant;
 }
 export interface AgentNodeState extends AgentNodeProps {
@@ -191,7 +140,7 @@ const createWordbrenchStore = (initProps?: Partial<GraphV2StoreState>) => {
 const mtmaiStoreContext = createContext<mtappStore | null>(null);
 
 type AppProviderProps = React.PropsWithChildren<AgentNodeProps>;
-export const GraphV3Provider = (props: AppProviderProps) => {
+export const GraphV2Provider = (props: AppProviderProps) => {
   const { children, ...etc } = props;
   const mystore = useMemo(() => createWordbrenchStore(etc), [etc]);
   return (

@@ -15,20 +15,13 @@ export async function runGraphStream(
 ) {
   try {
     console.log("runGraphStream", props);
-    /**
-     * 由于 大语言 应用 本质上就是 基于事件工作流
-     * 这里有两个方式来处理
-     * 1: 节点间的跳转由前端完成
-     * 2: 节点间的跳转由后端完成
-     *
-     * 目前先实现第一点
-     */
-    const backendUrl = get().backendUrl;
+    const agentEndpointBase = get().agentEndpointBase;
     const tenant = get().tenant;
     if (!tenant?.metadata?.id) {
       throw new Error("(runGraphStream)tenant is required");
     }
-    const endpointUrl = `${backendUrl}/api/v1/tenants/${tenant.metadata.id}/nodes/run`;
+    // const endpointUrl = `${backendUrl}/api/v1/tenants/${tenant.metadata.id}/nodes/run`;
+    const endpointUrl = `${agentEndpointBase}/api/chat`;
     const response = await fetch(endpointUrl, {
       method: "POST",
       headers: {

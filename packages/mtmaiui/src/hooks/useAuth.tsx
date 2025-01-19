@@ -9,7 +9,6 @@ import {
 import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { setCookie } from "mtxuilib/lib/clientlib";
 import { useEffect, useMemo, useState } from "react";
-import { Route } from "../routes/__root";
 import { useMtmaiV2 } from "../stores/StoreProvider";
 import { useApiError } from "./useApi";
 
@@ -23,14 +22,6 @@ export const useUser = () => {
   return userQuery.data;
 };
 export const useTenant = () => {
-  const tenant = useMtmaiV2((x) => x.currentTenant);
-  // if (!tenant) {
-  //   throw new Error("Tenant not found");
-  // }
-  return tenant;
-};
-
-export const useOptionalTenant = () => {
   return useMtmaiV2((x) => x.currentTenant);
 };
 
@@ -50,7 +41,6 @@ export const useLoginHandler = () => {
   const loginMutation = useMutation({
     ...userUpdateLoginMutation(),
     onSuccess: (data) => {
-      console.log("login success", data);
       if (data.userToken) {
         setCookie(cookieKey, data.userToken);
         router.push("/");
@@ -101,8 +91,6 @@ export function useSessionLoader() {
     return listMembershipsQuery.data?.rows || [];
   }, [listMembershipsQuery]);
 
-  const navigate = Route.useNavigate();
-
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const computedCurrTenant = useMemo(() => {
     const findTenant = (tenantId: string) => {
@@ -130,25 +118,22 @@ export function useSessionLoader() {
       }
     }
 
-    if (memberships?.length === 0) {
-      // 如果没有任何租户，则创建一个默认租户
-      // const tenant = await api.tenantCreate({
-      //   name: "Default",
-      //   slug: "default",
-      // });
-      // return tenant.data;
+    // if (memberships?.length === 0) {
+    //   // 如果没有任何租户，则创建一个默认租户
+    //   // const tenant = await api.tenantCreate({
+    //   //   name: "Default",
+    //   //   slug: "default",
+    //   // });
+    //   // return tenant.data;
 
-      navigate({
-        to: `${basePath}/onboarding/create-tenant`,
-      });
-    }
-    const firstMembershipTenant = memberships?.[0]?.tenant;
-
-    return firstMembershipTenant;
+    //   navigate({
+    //     to: `${basePath}/onboarding/create-tenant`,
+    //   });
+    // }
+    return memberships?.[0]?.tenant;
   }, [basePath, memberships, lastTenant?.metadata.id]);
 
   useEffect(() => {
-    // 当computedCurrTenant有值，且currentTenant没有值时，设置currentTenant
     if (computedCurrTenant && !currentTenant) {
       setCurrentTenant(computedCurrTenant);
     }
