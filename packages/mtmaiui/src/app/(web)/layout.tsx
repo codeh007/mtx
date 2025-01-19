@@ -9,6 +9,7 @@ import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
 import { WebLayout } from "mtxuilib/layouts/web/WebLayout";
 import { WebLayoutHeader } from "mtxuilib/layouts/web/WebLayoutHeader";
 import { auth } from "mtxuilib/lib/auth/auth";
+import { getBackendUrl } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
 import "mtxuilib/styles/globals.css";
 import { SessionProvider } from "next-auth/react";
@@ -41,7 +42,7 @@ export default async function Layout(props: {
   }
   const session = await auth();
 
-  // const selfUrl = await getBackendUrl();
+  const selfBackendUrl = await getBackendUrl();
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -55,7 +56,7 @@ export default async function Layout(props: {
         )}
       >
         <SessionProvider
-          basePath={"http://gitpod:3600/api/auth"}
+          basePath={`${selfBackendUrl}/api/auth`}
           session={session}
         >
           <MtmaiProvider
