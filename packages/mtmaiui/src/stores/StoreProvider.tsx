@@ -11,10 +11,10 @@ import ReactQueryProvider from "./ReactQueryProvider";
 import { type HatchetSliceState, createHatchetSlice } from "./hatchet.slice";
 
 interface MtmaiBotProps {
-  hostName?: string | null;
-  serverUrl?: string | null;
-  selfBackendUrl?: string | null;
-  accessToken?: string | null;
+  hostName?: string;
+  serverUrl?: string ;
+  selfBackendUrl?: string ;
+  accessToken?: string;
   frontendConfig?: FrontendConfig;
 }
 interface MtmaiState extends MtmaiBotProps {
