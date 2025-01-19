@@ -14,11 +14,14 @@ import {
   saveDocument,
   saveMessages,
   saveSuggestions,
-} from "mtmaiui/db/queries";
-import { Suggestion } from "mtmaiui/db/schema";
-import { generateUUID, getMostRecentUserMessage, sanitizeResponseMessages } from "mtmaiui/lib/utils";
+} from "mtxuilib/db/queries/queries";
+import type { Suggestion } from "mtxuilib/db/schema";
+import {
+  generateUUID,
+  getMostRecentUserMessage,
+  sanitizeResponseMessages,
+} from "mtxuilib/lib/utils";
 import { auth } from "../../../../(auth)/auth";
-
 
 export const maxDuration = 60;
 
