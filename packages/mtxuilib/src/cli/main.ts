@@ -5,7 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { exec } from "../lib/exec";
-import { buildWithTsc } from "./build_tsc";
+// import { buildWithTsc } from "./build_tsc";
 import { buildWithViteBuild } from "./build_vite";
 import { compileMigrations } from "./compile-migrations";
 
@@ -30,7 +30,7 @@ function loadEnv() {
     console.log("(mtxuilib)build vite");
     await buildWithViteBuild();
     console.log("(mtxuilib)build tsc");
-    await buildWithTsc();
+    // await buildWithTsc();
   });
 
   program.command("gen").action(async () => {
