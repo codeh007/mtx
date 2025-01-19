@@ -9,7 +9,7 @@ import { headers } from "next/headers";
 import { type ReactNode, Suspense } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import "../../../styles/globals.css";
-import "../../../styles/index.scss";
+// import "../../../styles/index.scss";
 
 export const runtime = "nodejs"; //nodejs
 

@@ -5,9 +5,73 @@ import { cn } from "mtxuilib/lib/utils";
 import { GoBackButton } from "mtxuilib/mt/GoBackButton";
 import { ScreenPanel } from "mtxuilib/mt/ScreenPanel";
 import { Button } from "mtxuilib/ui/button";
-export const LoginPage = () => {
+
+import { providerMap, signIn } from "mtxuilib/lib/auth/auth";
+import { AuthError } from "next-auth";
+import { redirect } from "next/navigation";
+
+const SIGNIN_ERROR_URL = "/auth/login";
+
+export const LoginPage = (props: {
+  searchParams: { callbackUrl: string | undefined };
+}) => {
+  const callbackUrl = props.searchParams.callbackUrl;
   return (
     <ScreenPanel open={true}>
+      <form
+        action={async (formData) => {
+          "use server";
+          try {
+            await signIn("credentials", formData);
+          } catch (error) {
+            if (error instanceof AuthError) {
+              return redirect(`${SIGNIN_ERROR_URL}?error=${error.type}`);
+            }
+            throw error;
+          }
+        }}
+      >
+        <label htmlFor="email">
+          Email
+          <input name="email" id="email" />
+        </label>
+        <label htmlFor="password">
+          Password
+          <input name="password" id="password" />
+        </label>
+        <input type="submit" value="Sign In" />
+      </form>
+      {Object.values(providerMap).map((provider) => (
+        <form
+          key={provider.id}
+          action={async () => {
+            "use server";
+            try {
+              await signIn(provider.id, {
+                redirectTo: props.searchParams?.callbackUrl ?? "",
+              });
+            } catch (error) {
+              // Signin can fail for a number of reasons, such as the user
+              // not existing, or the user not having the correct role.
+              // In some cases, you may want to redirect to a custom error
+              if (error instanceof AuthError) {
+                return redirect(`${SIGNIN_ERROR_URL}?error=${error.type}`);
+              }
+
+              // Otherwise if a redirects happens Next.js can handle it
+              // so you can just re-thrown the error and let Next.js handle it.
+              // Docs:
+              // https://nextjs.org/docs/app/api-reference/functions/redirect#server-component
+              throw error;
+            }
+          }}
+        >
+          <button type="submit">
+            <span>Sign in with {provider.name}</span>
+          </button>
+        </form>
+      ))}
+
       <div className="size-screen container flex flex-col items-center justify-center">
         <div className="absolute left-4 top-20 focus:z-10 focus:outline-none md:left-8 md:top-8">
           <GoBackButton />
