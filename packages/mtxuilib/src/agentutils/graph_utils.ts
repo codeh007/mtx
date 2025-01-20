@@ -41,40 +41,53 @@ export async function* runLanggraph(input, configurable) {
     version: "v2",
   });
 
-  for await (const e of eventStream) {
-    console.log(
-      `[stream]: ${e.run_id},${e.name},${e.event},\n===========\n${JSON.stringify(
-        e.metadata,
-        null,
-        2,
-      )}\n===========\n`,
-    );
+  try {
+    for await (const e of eventStream) {
+      if (e.event !== "on_chat_model_stream") {
+        console.log(
+          `[stream]: ${e.run_id},${e.name},${e.event},\n===========\n${JSON.stringify(
+            e,
+            null,
+            2,
+          )}\n===========\n`,
+        );
+      }
 
-    const langgraph_node = e.metadata.langgraph_node;
-    if (e.event === "on_chain_start") {
-      // console.log("on_chain_start", data);
-    }
-    if (e.event === "on_chat_model_stream" && isAIMessageChunk(e.data?.chunk)) {
+      const langgraph_node = e.metadata.langgraph_node;
+      if (e.event === "on_chain_start") {
+        // console.log("on_chain_start", data);
+      }
       if (
-        e.data.chunk.tool_call_chunks !== undefined &&
-        e.data.chunk.tool_call_chunks?.length > 0
+        e.event === "on_chat_model_stream" &&
+        isAIMessageChunk(e.data?.chunk)
       ) {
-        // yield data.chunk.tool_call_chunks;
-      } else {
-        if (e.data.chunk?.content) {
-          if (langgraph_node === "generateArtifact") {
-            // yield `0:${JSON.stringify(e.data.chunk.content)}\n`;
-          } else if (langgraph_node === "generateFollowup") {
-            yield `0:${JSON.stringify(e.data.chunk.content)}\n`;
-          } else if (langgraph_node === "replyToGeneralInput") {
-            yield `0:${JSON.stringify(e.data.chunk.content)}\n`;
-          } else {
-            // yield `0:${JSON.stringify(data.chunk.content)}\n`;
+        if (
+          e.data.chunk.tool_call_chunks !== undefined &&
+          e.data.chunk.tool_call_chunks?.length > 0
+        ) {
+          // yield data.chunk.tool_call_chunks;
+        } else {
+          if (e.data.chunk?.content) {
+            if (langgraph_node === "generateArtifact") {
+              // yield `0:${JSON.stringify(e.data.chunk.content)}\n`;
+            } else if (langgraph_node === "generateFollowup") {
+              yield `0:${JSON.stringify(e.data.chunk.content)}\n`;
+            } else if (langgraph_node === "replyToGeneralInput") {
+              yield `0:${JSON.stringify(e.data.chunk.content)}\n`;
+            } else {
+              // yield `0:${JSON.stringify(data.chunk.content)}\n`;
+            }
           }
         }
       }
-    } else if (e.event === "on_chat_model_end") {
-      yield `d:"[DONE]"\n`;
+      // else if (e.event === "on_chat_model_end") {
+      //   yield `d:"[DONE]"\n`;
+      // }
     }
+  } catch (error: any) {
+    console.error("[runLanggraph] Error:", error);
+    yield `3:${JSON.stringify({ error: error.message })}\n`;
+  } finally {
+    yield `d:"[DONE]"\n`;
   }
 }

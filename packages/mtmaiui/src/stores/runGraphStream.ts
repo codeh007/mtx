@@ -10,7 +10,7 @@ const VERCEL_AI_EVENT_TYPES = {
   FINISH: "d:",
 } as const;
 
-export async function runGraphStream(
+export async function handleSseGraphStream(
   { ...props }: AgentNodeRunRequest,
   set: (
     partial:
@@ -93,7 +93,7 @@ const handleStreamLine = (
 };
 
 // 最终的事件处理
-export const graphEventHandler = async (
+const graphEventHandler = async (
   event: Record<string, any>,
   set: (
     partial:
