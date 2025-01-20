@@ -10,6 +10,7 @@ import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types";
 import { z } from "zod";
 import { TITLE_SYSTEM_PROMPT, TITLE_USER_PROMPT } from "./prompts";
 
+import type { ArtifactCodeV3, ArtifactMarkdownV3 } from "mtmaiapi";
 import {
   TitleGenerationAnnotation,
   type TitleGenerationReturnType,
@@ -46,8 +47,8 @@ export const generateTitle = async (
 
   const artifactContent = currentArtifactContent
     ? isArtifactMarkdownContent(currentArtifactContent)
-      ? currentArtifactContent.fullMarkdown
-      : currentArtifactContent.code
+      ? (currentArtifactContent as ArtifactMarkdownV3).fullMarkdown
+      : (currentArtifactContent as ArtifactCodeV3).code
     : undefined;
 
   const artifactContext = artifactContent
