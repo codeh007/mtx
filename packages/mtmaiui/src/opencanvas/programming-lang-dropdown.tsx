@@ -2,13 +2,14 @@
 import { Code } from "lucide-react";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
-import type { ProgrammingLanguageOptions } from "mtxuilib/types";
+import type { ProgrammingLanguageOptions } from "mtxuilib/types/opencanvasTypes";
+// import type { ProgrammingLanguageOptions } from "mtxuilib/types";
 import { Button } from "mtxuilib/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu";
 
 interface ProgrammingLanguageListProps {
