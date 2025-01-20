@@ -20,11 +20,11 @@ export type UserRules = {
   contentRules: string[];
 };
 
-// export interface Artifact {
-//   id: string;
-//   contents: ArtifactContent[];
-//   currentContentIndex: number;
-// }
+export interface Artifact {
+  id: string;
+  contents: ArtifactContent[];
+  currentContentIndex: number;
+}
 
 export interface ArtifactContent {
   index: number;
