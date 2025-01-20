@@ -10,7 +10,7 @@ import React, { type FC } from "react";
 import { makeMarkdownText } from "@assistant-ui/react-markdown";
 import { TighterText } from "mtxuilib/mt/TighterText";
 import { Avatar, AvatarFallback } from "mtxuilib/ui/avatar";
-import { useFeedback } from "../hooks/useFeedback";
+import { useFeedback } from "../../../hooks/useFeedback";
 import { FeedbackButton } from "./feedback";
 
 const MarkdownText = makeMarkdownText({});
