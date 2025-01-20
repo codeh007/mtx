@@ -1,25 +1,36 @@
 import { isAIMessageChunk } from "@langchain/core/messages";
+import { InMemoryStore, MemorySaver } from "@langchain/langgraph";
+import { OpenAIEmbeddings } from "@langchain/openai";
+import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { buildCanvasGraph } from "../agents/open-canvas";
 import { generateUUID } from "../lib/s-utils";
 import { StreamingResponse, makeStream } from "../llm/sse";
 
+const memory = new MemorySaver();
+const inMemoryStore = new InMemoryStore();
 export function newGraphSseResponse(graphName: string, input, configurable) {
   // TODO: 增加 zod schema 验证输入格式
   const stream = runLanggraph(input, configurable);
   return new StreamingResponse(makeStream(stream));
 }
 export async function* runLanggraph(input, configurable) {
+  const embeddings = new OpenAIEmbeddings({
+    model: "text-embedding-3-large",
+  });
+  const store = new MemoryVectorStore(embeddings);
   const runable = buildCanvasGraph()
-    .compile()
+    .compile({
+      checkpointer: memory,
+    })
     .withConfig({ runName: "open_canvas" });
 
-  // const runable = builder.compile();
   const eventStream = await runable.streamEvents(input, {
     ...{
       configurable: {
         ...configurable,
         thread_id: configurable.thread_id || generateUUID(),
       },
+      store: inMemoryStore,
     },
     version: "v2",
   });
