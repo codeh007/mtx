@@ -1,6 +1,10 @@
 import { isAIMessageChunk } from "@langchain/core/messages";
-import type { Runnable, RunnableConfig } from "@langchain/core/runnables";
-import { InMemoryStore, MemorySaver } from "@langchain/langgraph";
+import type { Runnable } from "@langchain/core/runnables";
+import {
+  InMemoryStore,
+  type LangGraphRunnableConfig,
+  MemorySaver,
+} from "@langchain/langgraph";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import type { AgentNodeRunInput, CanvasGraphParams } from "mtmaiapi/gomtmapi";
 // import { MemoryVectorStore } from "langchain/vectorstores/memory";
@@ -22,7 +26,7 @@ export function newGraphSseResponse(
 export async function* runLanggraph(
   agentName: string,
   input: AgentNodeRunInput["params"],
-  config: RunnableConfig,
+  config: LangGraphRunnableConfig,
 ) {
   const embeddings = new OpenAIEmbeddings({
     model: "text-embedding-3-large",
@@ -35,13 +39,15 @@ export async function* runLanggraph(
     threadId = generateUUID();
     yield `2:${JSON.stringify({ newThread: { threadId } })}\n`;
   }
-  const newConfig = {
+  const graphConfig = {
     configurable: {
       ...config.configurable,
       thread_id: threadId,
       assistant_id: "default",
     },
-  };
+    store: inMemoryStore,
+    runName: "canvas",
+  } satisfies LangGraphRunnableConfig;
 
   if (agentName === "postiz") {
   } else {
@@ -49,12 +55,12 @@ export async function* runLanggraph(
       .compile({
         checkpointer: memorySaver,
       })
-      .withConfig({ runName: "canvas" });
+      .withConfig(graphConfig);
 
-    graph.updateState(newConfig, {
+    graph.updateState(graphConfig, {
       values: {
         ...input,
-        thread_id: config.configurable.thread_id,
+        thread_id: threadId,
       },
     });
     runable = graph;
@@ -62,8 +68,7 @@ export async function* runLanggraph(
 
   const eventStream = await runable.streamEvents(input, {
     configurable: {
-      ...newConfig.configurable,
-      store: inMemoryStore,
+      ...graphConfig.configurable,
     },
     version: "v2",
   });
