@@ -2,11 +2,11 @@
 
 import type { Thread } from "@langchain/langgraph-sdk";
 import { isToday, isWithinInterval, isYesterday, subDays } from "date-fns";
-import { Sheet, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
 import { Button } from "mtxuilib/ui/button";
-import { SheetContent, SheetTrigger } from "mtxuilib/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "mtxuilib/ui/sheet";
 import { useToast } from "mtxuilib/ui/use-toast";
 import React, { useState } from "react";
 import { PiChatsCircleLight } from "react-icons/pi";

@@ -1,6 +1,7 @@
 "use client";
-import type { Assistant } from "@langchain/langgraph-sdk";
 import { BrainCog, Loader } from "lucide-react";
+// import type { Assistant } from "@langchain/langgraph-sdk";
+import type { Assistant } from "mtmaiapi";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
 import { Badge } from "mtxuilib/ui/badge";
@@ -16,7 +17,6 @@ import {
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useEffect, useState } from "react";
 import { useStore } from "../../hooks/useStore";
-// import { useStore } from "../hooks/useStore";
 import { ConfirmClearDialog } from "./ConfirmClearDialog";
 import { getIcon } from "./assistant-select/utils";
 

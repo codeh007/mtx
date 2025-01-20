@@ -10,12 +10,6 @@ import { getLanguageTemplate } from "mtxuilib/agentutils/get_language_template";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import NoSSRWrapper from "mtxuilib/components/NoSSRWrapper";
 import { cn } from "mtxuilib/lib/utils";
-// import type {
-//   ArtifactCodeV3,
-//   ArtifactMarkdownV3,
-//   ArtifactV3,
-//   ProgrammingLanguageOptions,
-// } from "mtxuilib/types/opencanvasTypes";
 import { useToast } from "mtxuilib/ui/use-toast";
 import dynamic from "next/dynamic";
 import React, { useState } from "react";

@@ -8,8 +8,9 @@ import {
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { cn } from "mtxuilib/lib/utils";
 import { TighterText } from "mtxuilib/mt/TighterText";
-import type { CustomQuickAction } from "mtxuilib/types/opencanvasTypes";
+// import type { CustomQuickAction } from "mtxuilib/types/opencanvasTypes";
 
+import { CustomQuickAction, User } from "mtmaiapi";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +20,6 @@ import {
   DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu";
 import { useToast } from "mtxuilib/ui/use-toast";
-import type { User } from "next-auth";
 import { useEffect, useState } from "react";
 import { useStore } from "../../../../../hooks/useStore";
 import type { GraphInput } from "../../../../../stores/GraphContext";
@@ -111,7 +111,7 @@ export function CustomQuickActions(props: CustomQuickActionsProps) {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (typeof window === "undefined" || !assistantId || !user) return;
-    getAndSetCustomQuickActions(user.id);
+    getAndSetCustomQuickActions(user.metadata.id);
   }, [assistantId, user]);
 
   const handleNewActionClick = (e: Event) => {
@@ -145,7 +145,7 @@ export function CustomQuickActions(props: CustomQuickActionsProps) {
       const deletionSuccess = await deleteCustomQuickAction(
         id,
         customQuickActions || [],
-        user.id,
+        user.metadata.id,
       );
       if (deletionSuccess) {
         toast({

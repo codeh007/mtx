@@ -1,6 +1,6 @@
 import { Eye, EyeOff } from "lucide-react";
 
-import type { User } from "next-auth";
+// import type { User } from "next-auth";
 import {
   type Dispatch,
   type FormEvent,
@@ -13,11 +13,11 @@ import { v4 as uuidv4 } from "uuid";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
 import { InlineContextTooltip } from "mtxuilib/mt/inline-context-tooltip";
-import type { CustomQuickAction } from "mtxuilib/types/opencanvasTypes";
 import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { FullPrompt } from "./FullPrompt";
 
+import { CustomQuickAction, User } from "mtmaiapi";
 import { Checkbox } from "mtxuilib/ui/checkbox";
 import {
   Dialog,
@@ -122,7 +122,7 @@ export function NewCustomQuickActionDialog(
             includeReflections,
           },
           props.allQuickActions,
-          user.id,
+          user.metadata.id,
         );
       } else {
         success = await createCustomQuickAction(
@@ -135,7 +135,7 @@ export function NewCustomQuickActionDialog(
             includeReflections,
           },
           props.allQuickActions,
-          user.id,
+          user.metadata.id,
         );
       }
 
@@ -146,7 +146,7 @@ export function NewCustomQuickActionDialog(
         handleClearState();
         props.onOpenChange(false);
         // Re-fetch after creating a new custom quick action to update the list
-        await props.getAndSetCustomQuickActions(user.id);
+        await props.getAndSetCustomQuickActions(user.metadata.id);
       } else {
         toast({
           title: `Failed to ${props.isEditing ? "edit" : "create"} custom quick action`,
