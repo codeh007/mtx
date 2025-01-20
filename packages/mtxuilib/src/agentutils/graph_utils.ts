@@ -1,5 +1,9 @@
 import { isAIMessageChunk } from "@langchain/core/messages";
-import { InMemoryStore, MemorySaver } from "@langchain/langgraph";
+import {
+  InMemoryStore,
+  type LangGraphRunnableConfig,
+  MemorySaver,
+} from "@langchain/langgraph";
 import { OpenAIEmbeddings } from "@langchain/openai";
 // import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { buildCanvasGraph } from "../agents/open-canvas";
@@ -13,7 +17,10 @@ export function newGraphSseResponse(graphName: string, input, configurable) {
   const stream = runLanggraph(input, configurable);
   return new StreamingResponse(makeStream(stream));
 }
-export async function* runLanggraph(input, configurable) {
+export async function* runLanggraph(
+  input,
+  configurable: LangGraphRunnableConfig,
+) {
   const embeddings = new OpenAIEmbeddings({
     model: "text-embedding-3-large",
   });
@@ -24,20 +31,22 @@ export async function* runLanggraph(input, configurable) {
     })
     .withConfig({ runName: "open_canvas" });
 
-  let threadId = configurable.thread_id;
+  let threadId = configurable.configurable.thread_id;
   if (!threadId) {
     threadId = generateUUID();
     yield `2:${JSON.stringify({ newThread: { threadId } })}\n`;
   }
-  const eventStream = await runable.streamEvents(input, {
-    ...{
-      configurable: {
-        ...configurable,
-        thread_id: threadId,
-        assistant_id: "default",
-      },
-      store: inMemoryStore,
+
+  const config = {
+    configurable: {
+      ...configurable.configurable,
+      thread_id: threadId,
+      assistant_id: "default",
     },
+  };
+  const eventStream = await runable.streamEvents(input, {
+    configurable: config.configurable,
+    store: inMemoryStore,
     version: "v2",
   });
 
@@ -88,6 +97,16 @@ export async function* runLanggraph(input, configurable) {
     console.error("[runLanggraph] Error:", error);
     yield `3:${JSON.stringify({ error: error.message })}\n`;
   } finally {
-    yield `d:"[DONE]"\n`;
+    try {
+      yield `d:"[DONE]"\n`;
+      // 保存 state
+      // 提示: 关于状态的问题:
+      //     虽然 langgraphjs 提供了 store  memory 等功能,但是实现的方式,可以理解为一个 api 端点.
+      //     查看他们的范例, 他们使用store\ memory 都是在节点内部调用,因此, 可以自己实现一个基于数据库的方式的api 实现 store 的功能.
+      //     而不是依赖 langgraphjs 自带的 store memory, 毕竟最终还是需要基于数据库的持久化的.
+      
+    } catch (finalError) {
+      console.error("[runLanggraph] Error in finally block:", finalError);
+    }
   }
 }
