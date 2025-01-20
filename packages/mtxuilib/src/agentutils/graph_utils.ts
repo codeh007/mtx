@@ -1,6 +1,5 @@
 import { isAIMessageChunk } from "@langchain/core/messages";
 import { buildCanvasGraph } from "../agents/open-canvas";
-// import { createAssistantGraph } from "../agents/assisant.ts--";
 import { generateUUID } from "../lib/s-utils";
 import { StreamingResponse, makeStream } from "../llm/sse";
 
@@ -10,11 +9,9 @@ export function newGraphSseResponse(graphName: string, input, configurable) {
   return new StreamingResponse(makeStream(stream));
 }
 export async function* runLanggraph(input, configurable) {
-  // const builder = createAssistantGraph();
-
   const runable = buildCanvasGraph()
-  .compile()
-  .withConfig({ runName: "open_canvas" });
+    .compile()
+    .withConfig({ runName: "open_canvas" });
 
   // const runable = builder.compile();
   const eventStream = await runable.streamEvents(input, {

@@ -2,8 +2,8 @@ import { isAIMessageChunk } from "@langchain/core/messages";
 import type { Runnable } from "@langchain/core/runnables";
 import { MemorySaver } from "@langchain/langgraph";
 import { Hono } from "hono";
-import { generateUUID } from "../../lib/s-utils";
-import { StreamingResponse, makeStream } from "../../llm/sse";
+// import { generateUUID } from "../../lib/s-utils";
+// import { StreamingResponse, makeStream } from "../../llm/sse";
 import type { Env } from "../../types";
 const checkpointer = new MemorySaver();
 const defaultProfile = "assisant";
@@ -13,45 +13,46 @@ export const agentApp = new Hono<{ Bindings: Env }>()
       message: "hello agent (graph)",
     });
   })
-  .all("/run", async (c) => handlerRunAgent(c.req.raw));
+  // .all("/run", async (c) => handlerRunAgent(c.req.raw));
 // agentApp.route("/testagent", testAgentApp).route("/mtmai", mtmaiAgentRoute);
 
-export async function handlerRunAgent(req: Request) {
-  let input: any = {};
-  if (req.method === "POST") {
-    input = await req.json();
-  }
+// export async function handlerRunAgent(req: Request) {
+//   let input: any = {};
+//   if (req.method === "POST") {
+//     input = await req.json();
+//   }
 
-  let profile = "chat";
-  if (input.profile) {
-    profile = input.profile;
-  }
+//   let profile = "chat";
+//   if (input.profile) {
+//     profile = input.profile;
+//   }
 
-  console.log("input", input);
+//   console.log("input", input);
 
-  const config = {
-    configurable: {
-      thread_id: input.threadId || generateUUID(),
-    },
-  };
+//   const config = {
+//     configurable: {
+//       thread_id: input.threadId || generateUUID(),
+//     },
+//   };
 
-  const StreamMode = "lc-raw";
-  if (StreamMode === "lc-raw") {
-    return new StreamingResponse(
-      makeStream(makeRunableStreamEventLcRaw(input, config)),
-    );
-  }
-  // vercel ai stream protocol
-  return new StreamingResponse(
-    makeStream(makeRunableStreamEvent(input, config)),
-  );
-}
+//   const StreamMode = "lc-raw";
+//   if (StreamMode === "lc-raw") {
+//     return new StreamingResponse(
+//       makeStream(makeRunableStreamEventLcRaw(input, config)),
+//     );
+//   }
+//   // vercel ai stream protocol
+//   return new StreamingResponse(
+//     makeStream(makeRunableStreamEvent(input, config)),
+//   );
+// }
 
 export async function* makeRunableStreamEvent(
   input: any,
+  runable: Runnable,
   config: any,
 ): AsyncGenerator<any, void, unknown> {
-  const runable = await getRunableByNodeName(input.profile || defaultProfile);
+  // const runable = await getRunableByNodeName(input.profile || defaultProfile);
   const eventStream = runable.streamEvents(input, {
     ...config,
     version: "v2",
@@ -72,53 +73,4 @@ export async function* makeRunableStreamEvent(
       }
     }
   }
-}
-export async function* makeRunableStreamEventLcRaw(
-  input: any,
-  config: any,
-): AsyncGenerator<any, void, unknown> {
-  const runable = await getRunableByNodeName(input.profile || defaultProfile);
-  const eventStream = runable.streamEvents(input, {
-    ...config,
-    version: "v2",
-  });
-
-  for await (const chunk of eventStream) {
-    // console.log(chunk);
-    if (chunk) {
-      try {
-        const str = JSON.stringify(chunk);
-        yield `${str}\n`;
-      } catch (e) {
-        yield `errpr ${e}`;
-      }
-    }
-  }
-  console.log("graph 运行完毕");
-}
-
-async function getRunableByNodeName(name: string): Promise<Runnable> {
-  if (name === "simulationGraph") {
-    // const wf = createSimulationGraph();
-    // const graph = wf.compile({ checkpointer });
-    // //@ts-ignore
-    // return graph;
-  }
-  if (name === "assisant") {
-    // const wf = createAssistantGraph();
-    // const graph = wf.compile({ checkpointer });
-    // //@ts-ignore
-    // return graph;
-  }
-  if (name === "test") {
-    // const r = new TestAgent(new AgentCtx());
-    // return r.runnable();
-  }
-  // if (name === "canvas") {
-  //   const graph = buildCanvasGraph()
-  //     .compile()
-  //     .withConfig({ runName: "canvas" });
-  //   return graph;
-  // }
-  throw new Error(`Graph ${name} not found`);
 }
