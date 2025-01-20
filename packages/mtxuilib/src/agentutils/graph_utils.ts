@@ -1,9 +1,6 @@
 import { isAIMessageChunk } from "@langchain/core/messages";
-import {
-  InMemoryStore,
-  type LangGraphRunnableConfig,
-  MemorySaver,
-} from "@langchain/langgraph";
+import type { RunnableConfig } from "@langchain/core/runnables";
+import { InMemoryStore, MemorySaver } from "@langchain/langgraph";
 import { OpenAIEmbeddings } from "@langchain/openai";
 // import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { buildCanvasGraph } from "../agents/open-canvas";
@@ -17,10 +14,7 @@ export function newGraphSseResponse(graphName: string, input, configurable) {
   const stream = runLanggraph(input, configurable);
   return new StreamingResponse(makeStream(stream));
 }
-export async function* runLanggraph(
-  input,
-  configurable: LangGraphRunnableConfig,
-) {
+export async function* runLanggraph(input, config: RunnableConfig) {
   const embeddings = new OpenAIEmbeddings({
     model: "text-embedding-3-large",
   });
@@ -31,21 +25,21 @@ export async function* runLanggraph(
     })
     .withConfig({ runName: "open_canvas" });
 
-  let threadId = configurable.configurable.thread_id;
+  let threadId = config.configurable.thread_id;
   if (!threadId) {
     threadId = generateUUID();
     yield `2:${JSON.stringify({ newThread: { threadId } })}\n`;
   }
 
-  const config = {
+  const newConfig = {
     configurable: {
-      ...configurable.configurable,
+      ...config.configurable,
       thread_id: threadId,
       assistant_id: "default",
     },
   };
   const eventStream = await runable.streamEvents(input, {
-    configurable: config.configurable,
+    ...newConfig,
     store: inMemoryStore,
     version: "v2",
   });
@@ -74,7 +68,6 @@ export async function* runLanggraph(
           e.data.chunk.tool_call_chunks !== undefined &&
           e.data.chunk.tool_call_chunks?.length > 0
         ) {
-          // yield data.chunk.tool_call_chunks;
         } else {
           if (e.data.chunk?.content) {
             if (langgraph_node === "generateArtifact") {

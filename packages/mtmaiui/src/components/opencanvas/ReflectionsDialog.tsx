@@ -15,9 +15,10 @@ import {
 } from "mtxuilib/ui/dialog";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useEffect, useState } from "react";
-import { getIcon } from "../assistant-select/utils";
-import { useStore } from "../hooks/useStore";
+import { useStore } from "../../hooks/useStore";
+// import { useStore } from "../hooks/useStore";
 import { ConfirmClearDialog } from "./ConfirmClearDialog";
+import { getIcon } from "./assistant-select/utils";
 
 export interface NoReflectionsProps {
   selectedAssistant: Assistant | undefined;
