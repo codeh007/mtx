@@ -2,13 +2,13 @@ import { isAIMessageChunk } from "@langchain/core/messages";
 import type { Runnable, RunnableConfig } from "@langchain/core/runnables";
 import { InMemoryStore, MemorySaver } from "@langchain/langgraph";
 import { OpenAIEmbeddings } from "@langchain/openai";
-import type { CanvasGraphParams } from "mtmaiapi/gomtmapi";
+import type { AgentNodeRunInput, CanvasGraphParams } from "mtmaiapi/gomtmapi";
 // import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { buildCanvasGraph } from "../agents/open-canvas";
 import { generateUUID } from "../lib/s-utils";
 import { StreamingResponse, makeStream } from "../llm/sse";
 
-const memory = new MemorySaver();
+const memorySaver = new MemorySaver();
 const inMemoryStore = new InMemoryStore();
 export function newGraphSseResponse(
   agentName: string,
@@ -21,7 +21,7 @@ export function newGraphSseResponse(
 }
 export async function* runLanggraph(
   agentName: string,
-  input,
+  input: AgentNodeRunInput["params"],
   config: RunnableConfig,
 ) {
   const embeddings = new OpenAIEmbeddings({
@@ -29,21 +29,12 @@ export async function* runLanggraph(
   });
   // const store = new MemoryVectorStore(embeddings);
   let runable: Runnable;
-  if (agentName === "postiz") {
-  } else {
-    runable = buildCanvasGraph()
-      .compile({
-        checkpointer: memory,
-      })
-      .withConfig({ runName: "canvas" });
-  }
 
   let threadId = config.configurable.thread_id;
   if (!threadId) {
     threadId = generateUUID();
     yield `2:${JSON.stringify({ newThread: { threadId } })}\n`;
   }
-
   const newConfig = {
     configurable: {
       ...config.configurable,
@@ -51,6 +42,23 @@ export async function* runLanggraph(
       assistant_id: "default",
     },
   };
+
+  if (agentName === "postiz") {
+  } else {
+    const graph = buildCanvasGraph()
+      .compile({
+        checkpointer: memorySaver,
+      })
+      .withConfig({ runName: "canvas" });
+
+    graph.updateState(newConfig, {
+      values: {
+        ...input,
+        thread_id: config.configurable.thread_id,
+      },
+    });
+    runable = graph;
+  }
 
   const eventStream = await runable.streamEvents(input, {
     configurable: {
