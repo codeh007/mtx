@@ -12,7 +12,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useMtmaiV2 } from "../stores/StoreProvider";
 import { useApiError } from "./useApi";
 
-import { signin } from "mtxuilib/lib/auth/auth_actions";
 import { useBasePath } from "./useBasePath";
 
 export const useUser = () => {
@@ -50,14 +49,14 @@ export const useLoginHandler = () => {
   });
 
   const loginHandler = async (values) => {
-    // const loginResult = await loginMutation.mutateAsync({
-    //   body: {
-    //     email: values.email,
-    //     password: values.password,
-    //   },
-    // });
+    const loginResult = await loginMutation.mutateAsync({
+      body: {
+        email: values.email,
+        password: values.password,
+      },
+    });
 
-    signin("credentials", "/", "/", "/", values);
+    // signin("credentials", "/", "/", "/", values);
   };
 
   return { loginHandler, isPending: loginMutation.isPending, fieldErrors };
