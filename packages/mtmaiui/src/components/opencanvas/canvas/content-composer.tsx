@@ -14,8 +14,8 @@ import type { ProgrammingLanguageOptions } from "mtxuilib/types/opencanvasTypes"
 import { Toaster } from "mtxuilib/ui/toaster";
 import { useToast } from "mtxuilib/ui/use-toast";
 import React, { useCallback, useState } from "react";
-import { useUser } from "../../hooks/useAuth";
-import { useGraphStore } from "../../stores/GraphContext";
+import { useUser } from "../../../hooks/useAuth";
+import { useGraphStore } from "../../../stores/GraphContext";
 import { Thread } from "../chat-interface/thread";
 
 export interface ContentComposerChatInterfaceProps {

@@ -7,7 +7,7 @@ import {
   TooltipTrigger,
 } from "mtxuilib/ui/tooltip";
 import { useState } from "react";
-import type { GraphInput } from "../../../../stores/GraphContext";
+import type { GraphInput } from "../../../../../stores/GraphContext";
 
 export interface LengthOptionsProps {
   streamMessage: (params: GraphInput) => Promise<void>;

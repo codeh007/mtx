@@ -8,7 +8,7 @@ import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
 import type { ProgrammingLanguageOptions } from "mtxuilib/types/opencanvasTypes";
 import { useToast } from "mtxuilib/ui/use-toast";
-import { useGraphStore } from "../../stores/GraphContext";
+import { useGraphStore } from "../../../stores/GraphContext";
 import { useLangSmithLinkToolUI } from "../tool-hooks/LangSmithLinkToolUI";
 import { Composer } from "./composer";
 import { AssistantMessage, UserMessage } from "./messages";
