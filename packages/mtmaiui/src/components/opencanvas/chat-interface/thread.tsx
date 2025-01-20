@@ -4,9 +4,9 @@ import type { Thread as ThreadType } from "@langchain/langgraph-sdk";
 import { ArrowDownIcon, SquarePen } from "lucide-react";
 import type { Dispatch, FC, SetStateAction } from "react";
 
+import type { ProgrammingLanguageOptions } from "mtmaiapi";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
-import type { ProgrammingLanguageOptions } from "mtxuilib/types/opencanvasTypes";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useGraphStore } from "../../../stores/GraphContext";
 import { useLangSmithLinkToolUI } from "../LangSmithLinkToolUI";

@@ -10,10 +10,10 @@ import { BlockNoteView } from "@blocknote/shadcn";
 import "@blocknote/shadcn/style.css";
 import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
+import type { ArtifactMarkdownV3 } from "mtmaiapi";
 import { getArtifactContent } from "mtxuilib/agentutils/opencanvas_utils";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types";
-import type { ArtifactMarkdownV3 } from "mtxuilib/types/opencanvasTypes";
 import { Textarea } from "mtxuilib/ui/textarea";
 import React, {
   type Dispatch,

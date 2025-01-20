@@ -1,7 +1,7 @@
 "use client";
 
 import { generateId } from "ai";
-import type { AgentNodeRunRequest } from "mtmaiapi";
+import type { AgentNodeRunInput } from "mtmaiapi";
 import type { AgentNodeState } from "./GraphContext";
 
 const VERCEL_AI_EVENT_TYPES = {
@@ -11,7 +11,7 @@ const VERCEL_AI_EVENT_TYPES = {
 } as const;
 
 export async function handleSseGraphStream(
-  { ...props }: AgentNodeRunRequest,
+  { ...props }: AgentNodeRunInput,
   set: (
     partial:
       | Partial<AgentNodeState>

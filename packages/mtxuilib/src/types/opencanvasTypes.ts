@@ -2,6 +2,8 @@
 
 import type { ProgrammingLanguageOptions } from "mtmaiapi";
 
+// import type { ProgrammingLanguageOptions } from "mtmaiapi";
+
 // export type Message = {
 //   id: string;
 //   text?: string;
@@ -17,7 +19,7 @@ import type { ProgrammingLanguageOptions } from "mtmaiapi";
 //   result?: any;
 // }
 
-export type Model = "gpt-4o-mini" | string; // Add other model options as needed
+// export type Model = "gpt-4o-mini" | string; // Add other model options as needed
 
 // export type UserRules = {
 //   styleRules: string[];
@@ -65,65 +67,65 @@ export type Model = "gpt-4o-mini" | string; // Add other model options as needed
 // export type ArtifactType = "code" | "text";
 
 export const PROGRAMMING_LANGUAGES: Array<{
-	language: ProgrammingLanguageOptions;
-	label: string;
+  language: ProgrammingLanguageOptions;
+  label: string;
 }> = [
-	{
-		language: "typescript",
-		label: "TypeScript",
-	},
-	{
-		language: "javascript",
-		label: "JavaScript",
-	},
-	{
-		language: "cpp",
-		label: "C++",
-	},
-	{
-		language: "java",
-		label: "Java",
-	},
-	{
-		language: "php",
-		label: "PHP",
-	},
-	{
-		language: "python",
-		label: "Python",
-	},
-	{
-		language: "html",
-		label: "HTML",
-	},
-	{
-		language: "sql",
-		label: "SQL",
-	},
-	{
-		language: "json",
-		label: "JSON",
-	},
-	{
-		language: "rust",
-		label: "Rust",
-	},
-	{
-		language: "xml",
-		label: "XML",
-	},
-	{
-		language: "clojure",
-		label: "Clojure",
-	},
-	{
-		language: "csharp",
-		label: "C#",
-	},
-	{
-		language: "other",
-		label: "Other",
-	},
+  {
+    language: "typescript",
+    label: "TypeScript",
+  },
+  {
+    language: "javascript",
+    label: "JavaScript",
+  },
+  {
+    language: "cpp",
+    label: "C++",
+  },
+  {
+    language: "java",
+    label: "Java",
+  },
+  {
+    language: "php",
+    label: "PHP",
+  },
+  {
+    language: "python",
+    label: "Python",
+  },
+  {
+    language: "html",
+    label: "HTML",
+  },
+  {
+    language: "sql",
+    label: "SQL",
+  },
+  {
+    language: "json",
+    label: "JSON",
+  },
+  {
+    language: "rust",
+    label: "Rust",
+  },
+  {
+    language: "xml",
+    label: "XML",
+  },
+  {
+    language: "clojure",
+    label: "Clojure",
+  },
+  {
+    language: "csharp",
+    label: "C#",
+  },
+  {
+    language: "other",
+    label: "Other",
+  },
 ];
 
 // export type ArtifactLengthOptions = "shortest" | "short" | "long" | "longest";

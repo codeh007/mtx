@@ -1,7 +1,7 @@
 import { ThreadPrimitive, useThreadRuntime } from "@assistant-ui/react";
 import { NotebookPen } from "lucide-react";
+import type { ProgrammingLanguageOptions } from "mtmaiapi";
 import { TighterText } from "mtxuilib/mt/TighterText";
-import type { ProgrammingLanguageOptions } from "mtxuilib/types/opencanvasTypes";
 import { Avatar, AvatarFallback } from "mtxuilib/ui/avatar";
 import { Button } from "mtxuilib/ui/button";
 import type { FC } from "react";
@@ -17,7 +17,7 @@ interface QuickStartButtonsProps {
 
 const QuickStartPrompts = () => {
   const threadRuntime = useThreadRuntime();
-
+1
   const handleClick = (text: string) => {
     threadRuntime.append({
       role: "user",
