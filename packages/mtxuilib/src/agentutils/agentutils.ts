@@ -5,9 +5,8 @@ import {
 } from "@langchain/core/messages";
 
 import type { BaseStore, LangGraphRunnableConfig } from "@langchain/langgraph";
+import type { Reflections } from "mtmaiapi";
 import { getLlm } from "mtxuilib/llm/llm";
-
-import type { Reflections } from "mtxuilib/types/opencanvasTypes";
 
 export const formatReflections = (
   reflections: Reflections,

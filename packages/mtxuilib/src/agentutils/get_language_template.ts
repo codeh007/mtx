@@ -1,5 +1,6 @@
+import type { ProgrammingLanguageOptions } from "mtmaiapi";
+
 // open canvas
-import type { ProgrammingLanguageOptions } from "mtxuilib/types/opencanvasTypes";
 export const getLanguageTemplate = (
   language: ProgrammingLanguageOptions,
 ): string => {

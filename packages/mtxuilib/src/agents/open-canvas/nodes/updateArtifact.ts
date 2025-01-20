@@ -1,10 +1,5 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
 import { isArtifactCodeContent } from "mtxuilib/lib/artifact_content_types";
-import type {
-  ArtifactCodeV3,
-  ArtifactV3,
-  Reflections,
-} from "../../../types/opencanvasTypes";
 
 import {
   ensureStoreInConfig,
@@ -18,6 +13,7 @@ import type {
   OpenCanvasGraphAnnotation,
   OpenCanvasGraphReturnType,
 } from "../state";
+import type { Reflections, ArtifactCodeV3, ArtifactV3 } from "mtmaiapi";
 
 /**
  * Update an existing artifact based on the user's query.

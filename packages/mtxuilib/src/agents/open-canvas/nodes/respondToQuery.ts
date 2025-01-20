@@ -4,12 +4,12 @@ import {
   ensureStoreInConfig,
   formatReflections,
 } from "../../../agentutils/agentutils";
-import type { Reflections } from "../../../types/opencanvasTypes";
 import type {
   OpenCanvasGraphAnnotation,
   OpenCanvasGraphReturnType,
 } from "../state";
 import { formatArtifacts } from "../utils";
+import type { Reflections } from "mtmaiapi";
 
 /**
  * Generate responses to questions. Does not generate artifacts.

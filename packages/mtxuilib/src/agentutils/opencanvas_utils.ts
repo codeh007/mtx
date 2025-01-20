@@ -7,18 +7,17 @@ import {
   type BaseMessageChunk,
 } from "@langchain/core/messages";
 import { parsePartialJson } from "@langchain/core/output_parsers";
-import type { Artifact } from "mtmaiapi";
-import { isArtifactCodeContent } from "mtxuilib/lib/artifact_content_types";
-import { cleanContent } from "mtxuilib/lib/s-utils";
-
 import type {
+  Artifact,
   ArtifactCodeV3,
   ArtifactMarkdownV3,
   ArtifactToolResponse,
   ArtifactV3,
   ProgrammingLanguageOptions,
   RewriteArtifactMetaToolResponse,
-} from "mtxuilib/types/opencanvasTypes";
+} from "mtmaiapi";
+import { isArtifactCodeContent } from "mtxuilib/lib/artifact_content_types";
+import { cleanContent } from "mtxuilib/lib/s-utils";
 
 export function removeCodeBlockFormatting(text: string): string {
   if (!text) return text;

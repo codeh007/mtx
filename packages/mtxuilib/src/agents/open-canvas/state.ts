@@ -7,7 +7,7 @@ import type {
   ProgrammingLanguageOptions,
   ReadingLevelOptions,
   TextHighlight,
-} from "../../types/opencanvasTypes";
+} from "mtmaiapi";
 
 export const OpenCanvasGraphAnnotation = Annotation.Root({
   ...MessagesAnnotation.spec,

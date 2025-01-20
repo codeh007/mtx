@@ -4,14 +4,13 @@ import {
   START,
   StateGraph,
 } from "@langchain/langgraph";
+import type { Reflections } from "mtmaiapi";
 import { z } from "zod";
 import {
   ensureStoreInConfig,
   formatReflections,
 } from "../../agentutils/agentutils";
-import { getArtifactContent } from "../../agentutils/graph_utils";
 import { isArtifactMarkdownContent } from "../../lib/artifact_content_types";
-import type { Reflections } from "../../types/opencanvasTypes";
 import { REFLECT_SYSTEM_PROMPT, REFLECT_USER_PROMPT } from "./prompts";
 import {
   ReflectionGraphAnnotation,

@@ -6,13 +6,13 @@ import {
   getModelFromConfig,
 } from "mtxuilib/agentutils/agentutils";
 import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types";
-import type {
-  ArtifactCodeV3,
-  ArtifactMarkdownV3,
-  ArtifactV3,
-  CustomQuickAction,
-  Reflections,
-} from "../../../types/opencanvasTypes";
+// import type {
+//   ArtifactCodeV3,
+//   ArtifactMarkdownV3,
+//   ArtifactV3,
+//   CustomQuickAction,
+//   Reflections,
+// } from "../../../types/opencanvasTypes";
 import {
   CUSTOM_QUICK_ACTION_ARTIFACT_CONTENT_PROMPT,
   CUSTOM_QUICK_ACTION_ARTIFACT_PROMPT_PREFIX,
@@ -23,6 +23,14 @@ import type {
   OpenCanvasGraphAnnotation,
   OpenCanvasGraphReturnType,
 } from "../state";
+import type {
+  CustomQuickAction,
+  Reflections,
+  ArtifactCodeV3,
+  ArtifactMarkdownV3,
+  ArtifactV3,
+} from "mtmaiapi";
+import { getArtifactContent } from "../../../agentutils/opencanvas_utils";
 
 const formatMessages = (messages: BaseMessage[]): string =>
   messages

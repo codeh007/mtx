@@ -8,9 +8,9 @@ export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 
 export type EditDlgProps = {
-  onSubmit: (values: any) => Promise<void>;
-  onDelete: (values: any) => Promise<void>;
-  defaultValues?: any;
+  onSubmit: (values) => Promise<void>;
+  onDelete: (values) => Promise<void>;
+  defaultValues?;
 } & DialogProps;
 
 export type MaybePromise<TType> = Promise<TType> | TType;
@@ -97,7 +97,7 @@ declare namespace NodeJS {
 export type Await<T> = T extends PromiseLike<infer U> ? U : T;
 export type ArrayElement<ArrayType extends readonly unknown[]> =
   ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
-declare function MaybePromise<T>(value: T): T | Promise<T> | PromiseLike<T>;
+// declare function MaybePromise<T>(value: T): T | Promise<T> | PromiseLike<T>;
 
 export type NavItem = {
   title: string;

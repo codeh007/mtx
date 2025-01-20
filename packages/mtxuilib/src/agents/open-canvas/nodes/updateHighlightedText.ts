@@ -9,7 +9,6 @@ import {
   getModelFromConfig,
 } from "../../../agentutils/agentutils";
 import { getArtifactContent } from "../../../agentutils/opencanvas_utils";
-import type { ArtifactMarkdownV3 } from "../../../types/opencanvasTypes";
 import type {
   OpenCanvasGraphAnnotation,
   OpenCanvasGraphReturnType,

@@ -1828,6 +1828,58 @@ export interface CustomQuickAction {
   includeRecentHistory: boolean;
 }
 
+/** 生成内容的反思规则 */
+export interface Reflections {
+  /** 生成内容时要遵循的样式规则 */
+  styleRules: string[];
+  /** 生成内容时要记住的关于用户的关键内容 */
+  content: string[];
+}
+
+export enum LanguageOptions {
+  Chinese = "chinese",
+  English = "english",
+  Spanish = "spanish",
+  French = "french",
+  Hindi = "hindi",
+}
+
+/** 工具内容长度,(文章,代码内容长度) */
+export enum ArtifactLengthOptions {
+  Shortest = "shortest",
+  Short = "short",
+  Long = "long",
+  Longest = "longest",
+}
+
+export type RewriteArtifactMetaToolResponse =
+  | {
+      type: "text";
+      title?: string;
+      language: ProgrammingLanguageOptions;
+    }
+  | {
+      type: "code";
+      title: string;
+      language: ProgrammingLanguageOptions;
+    };
+
+export interface ArtifactToolResponse {
+  artifact?: string;
+  title?: string;
+  language?: string;
+  type?: string;
+}
+
+/** 阅读级别 */
+export enum ReadingLevelOptions {
+  Pirate = "pirate",
+  Child = "child",
+  Teenager = "teenager",
+  College = "college",
+  Phd = "phd",
+}
+
 export enum ProgrammingLanguageOptions {
   Typescript = "typescript",
   Javascript = "javascript",
@@ -1869,9 +1921,9 @@ export interface CanvasGraphParams {
   /** 是否使用表情符号重新生成 */
   regenerateWithEmojis?: boolean;
   /** 阅读级别 */
-  readingLevel?: "pirate" | "child" | "teenager" | "college" | "phd";
+  readingLevel?: ReadingLevelOptions;
   /** 工具内容长度,(文章,代码内容长度) */
-  artifactLength?: "shortest" | "short" | "long" | "longest";
+  artifactLength?: ArtifactLengthOptions;
   artifact?: ArtifactV3;
   addComments?: boolean;
   addLogs?: boolean;

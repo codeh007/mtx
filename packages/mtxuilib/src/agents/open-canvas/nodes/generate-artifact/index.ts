@@ -5,13 +5,13 @@ import {
   getModelFromConfig,
   optionallyGetSystemPromptFromConfig,
 } from "../../../../agentutils/agentutils";
-import type { ArtifactV3 } from "../../../../types/opencanvasTypes";
 import type {
   OpenCanvasGraphAnnotation,
   OpenCanvasGraphReturnType,
 } from "../../state";
 import { ARTIFACT_TOOL_SCHEMA } from "./schemas";
 import { createArtifactContent, formatNewArtifactPrompt } from "./utils";
+import type { ArtifactV3 } from "mtmaiapi";
 
 /**
  * Generate a new artifact based on the user's query.
