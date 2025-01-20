@@ -46,7 +46,9 @@ export async function* runLanggraph(input, configurable) {
       } else {
         if (data.chunk?.content) {
           // yield emitText(data.chunk.content as string);
-          yield data.chunk.content;
+
+          const aa = JSON.stringify(data.chunk.content);
+          yield `0:${aa}\n`;
         }
       }
     }
