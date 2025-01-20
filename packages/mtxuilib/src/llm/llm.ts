@@ -48,7 +48,6 @@ export const getLlmOpenaiClient = (name?: string) => {
 
 const defaultModel = "llama3-groq-70b-8192-tool-use-preview";
 
-
 function splitOnce(input: string, delimiter: string): [string, string] {
   const delimiterIndex = input.indexOf(delimiter);
   if (delimiterIndex === -1) {
@@ -108,6 +107,17 @@ export function getLlm() {
     },
     {
       baseURL: baseURL,
+      fetch: customeLlmFetch,
     },
   );
 }
+const customeLlmFetch = async (url: RequestInfo, options: RequestInit) => {
+  console.log("customeLlmFetch", url, options);
+  const response = await fetch(url, options);
+  console.log(
+    `customeLlmFetch response: ${response.status}, content-length: ${response.headers.get(
+      "content-length",
+    )}, content-type: ${await response.headers.get("content-type")}`,
+  );
+  return response;
+};

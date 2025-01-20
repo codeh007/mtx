@@ -13,6 +13,12 @@ import { updateArtifact } from "./nodes/updateArtifact";
 import { updateHighlightedText } from "./nodes/updateHighlightedText";
 import { OpenCanvasGraphAnnotation } from "./state";
 
+/**
+ * 其他参考文档:
+ *  https://blog.cloudflare.com/langchain-and-cloudflare/
+ *
+ */
+
 export const DEFAULT_INPUTS = {
   highlightedCode: undefined,
   highlightedText: undefined,
@@ -109,7 +115,3 @@ export function buildCanvasGraph() {
 
   return builder;
 }
-
-// export const graph = buildCanvasGraph()
-//   .compile()
-//   .withConfig({ runName: "open_canvas" });

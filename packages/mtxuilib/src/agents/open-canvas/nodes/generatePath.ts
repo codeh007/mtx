@@ -94,16 +94,16 @@ export const generatePath = async (
   const model = await getModelFromConfig(config, {
     temperature: 0,
   });
-  const modelWithTool = model.withStructuredOutput(
-    z.object({
-      route: z
-        .enum(["replyToGeneralInput", artifactRoute])
-        .describe("The route to take based on the user's query."),
-    }),
-    {
-      name: "route_query",
-    },
-  );
+
+  const routeSchema = z.object({
+    route: z
+      .enum(["replyToGeneralInput", artifactRoute])
+      .describe("The route to take based on the user's query."),
+  });
+  const modelWithTool = model.withStructuredOutput(routeSchema, {
+    name: "route_query",
+    includeRaw: true,
+  });
 
   const result = await modelWithTool.invoke([
     {
@@ -112,7 +112,12 @@ export const generatePath = async (
     },
   ]);
 
+  let route = result.parsed?.route;
+  if (!route) {
+    route = routeSchema.parse(JSON.parse(result.raw.content.toString())).route;
+  }
+
   return {
-    next: result.route,
+    next: route,
   };
 };
