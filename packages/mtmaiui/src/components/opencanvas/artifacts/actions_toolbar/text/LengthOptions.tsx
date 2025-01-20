@@ -1,5 +1,5 @@
+import type { ArtifactLengthOptions } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
-import type { ArtifactLengthOptions } from "mtxuilib/types/opencanvasTypes";
 import {
   Tooltip,
   TooltipContent,

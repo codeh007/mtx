@@ -8,9 +8,8 @@ import {
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { cn } from "mtxuilib/lib/utils";
 import { TighterText } from "mtxuilib/mt/TighterText";
-// import type { CustomQuickAction } from "mtxuilib/types/opencanvasTypes";
 
-import { CustomQuickAction, User } from "mtmaiapi";
+import type { CustomQuickAction, User } from "mtmaiapi";
 import {
   DropdownMenu,
   DropdownMenuContent,
