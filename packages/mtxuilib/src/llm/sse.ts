@@ -40,14 +40,14 @@ export class StreamingResponse extends Response {
     });
   }
 }
+const encoder = new TextEncoder();
 
 export const makeStream = <T>(generator: AsyncGenerator<T, void, unknown>) => {
-  const encoder = new TextEncoder();
   return new ReadableStream<any>({
     async start(controller) {
       for await (const chunk of generator) {
-        const encoded = encoder.encode(`${JSON.stringify(chunk)}\n`);
-        controller.enqueue(encoded);
+        // 必须是 Uint8Array 否则 cloudflare worker 不兼容
+        controller.enqueue(encoder.encode(`${chunk}`));
       }
       controller.close();
     },
@@ -61,7 +61,6 @@ export function emitText(text: string) {
 }
 
 export async function chatCompletionStream(stream) {
-  const encoder = new TextEncoder();
   return new ReadableStream({
     async start(controller) {
       for await (const chunk of stream) {
@@ -87,7 +86,6 @@ export async function chatCompletionStream(stream) {
 }
 
 export async function chatStream(stream) {
-  const encoder = new TextEncoder();
   return new ReadableStream({
     async start(controller) {
       for await (const chunk of stream) {
