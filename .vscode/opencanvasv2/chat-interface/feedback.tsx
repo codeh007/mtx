@@ -2,7 +2,7 @@
 import { ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import type { Dispatch, FC, SetStateAction } from "react";
-import type { FeedbackResponse } from "../../hooks/useFeedback";
+import type { FeedbackResponse } from "../../../packages/mtmaiui/src/hooks/useFeedback";
 interface FeedbackButtonProps {
   runId: string;
   setFeedbackSubmitted: Dispatch<SetStateAction<boolean>>;

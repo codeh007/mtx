@@ -1,3 +1,6 @@
+/**
+ * 注意:这里的函数兼顾 browser 和 edge 运行环境
+ */
 import {
   AIMessage,
   type BaseMessage,

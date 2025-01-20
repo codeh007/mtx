@@ -15,7 +15,7 @@ import { Toaster } from "mtxuilib/ui/toaster";
 import { useToast } from "mtxuilib/ui/use-toast";
 import React, { useCallback, useState } from "react";
 import { useUser } from "../../hooks/useAuth";
-import { useGraphStore } from "../../stores/GraphContextV2";
+import { useGraphStore } from "../../stores/GraphContextV2.tsx--";
 import { Thread } from "../chat-interface/thread";
 
 export interface ContentComposerChatInterfaceProps {

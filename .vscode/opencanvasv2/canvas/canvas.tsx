@@ -14,7 +14,7 @@ import type {
 import { useToast } from "mtxuilib/ui/use-toast";
 import React, { useState } from "react";
 import { useUser } from "../../hooks/useAuth";
-import { useGraphStore } from "../../stores/GraphContextV2";
+import { useGraphStore } from "../../stores/GraphContextV2.tsx--";
 import { ArtifactRenderer } from "../artifacts/ArtifactRenderer";
 import { ContentComposerChatInterface } from "./content-composer";
 

@@ -2,7 +2,7 @@
 import { AIMessage, type BaseMessage } from "@langchain/core/messages";
 import type { Thread } from "@langchain/langgraph-sdk";
 import { debounce } from "lodash";
-import { client } from "mtmaiapi";
+import { type Tenant, client } from "mtmaiapi";
 import {
   convertToArtifactV3,
   handleGenerateArtifactToolCallChunk,
@@ -11,7 +11,16 @@ import {
   updateHighlightedCode,
   updateHighlightedMarkdown,
   updateRewrittenArtifact,
-} from "mtxuilib/agentutils/graph_utils";
+} from "mtxuilib/agentutils/opencanvas_utils";
+// import {
+//   convertToArtifactV3,
+//   handleGenerateArtifactToolCallChunk,
+//   removeCodeBlockFormatting,
+//   replaceOrInsertMessageChunk,
+//   updateHighlightedCode,
+//   updateHighlightedMarkdown,
+//   updateRewrittenArtifact,
+// } from "mtxuilib/agentutils/graph_utils";
 import {
   type ALL_MODEL_NAMES,
   // DEFAULT_INPUTS,
@@ -38,7 +47,7 @@ import type {
 import { useToast } from "mtxuilib/ui/use-toast";
 import {
   type Dispatch,
-  type ReactNode,
+  type PropsWithChildren,
   type SetStateAction,
   createContext,
   useContext,
@@ -108,7 +117,12 @@ export interface GraphInput {
   customQuickActionId?: string;
 }
 
-export function GraphProvider({ children }: { children: ReactNode }) {
+interface AgentNodeProps {
+  agentEndpointBase: string;
+  tenant: Tenant;
+}
+
+export function GraphProvider(props: PropsWithChildren<AgentNodeProps>) {
   // const userData = useUser();
   const userData = {} as any; //临时代码
   const assistantsData = useAssistants();
@@ -119,6 +133,7 @@ export function GraphProvider({ children }: { children: ReactNode }) {
   const [artifact, setArtifact] = useState<ArtifactV3>();
   const [selectedBlocks, setSelectedBlocks] = useState<TextHighlight>();
   const [isStreaming, setIsStreaming] = useState(false);
+  // const []
   const [updateRenderedArtifactRequired, setUpdateRenderedArtifactRequired] =
     useState(false);
   const lastSavedArtifact = useRef<ArtifactV3 | undefined>(undefined);
@@ -141,6 +156,7 @@ export function GraphProvider({ children }: { children: ReactNode }) {
   //   userData.getUser();
   // }, []);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (!userData.user) return;
@@ -943,7 +959,7 @@ export function GraphProvider({ children }: { children: ReactNode }) {
 
   return (
     <GraphContext.Provider value={contextValue}>
-      {children}
+      {props.children}
     </GraphContext.Provider>
   );
 }

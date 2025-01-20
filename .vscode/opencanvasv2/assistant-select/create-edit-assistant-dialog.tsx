@@ -24,7 +24,7 @@ import { Input } from "mtxuilib/ui/input";
 import { Label } from "mtxuilib/ui/label";
 import { Textarea } from "mtxuilib/ui/textarea";
 import { useToast } from "mtxuilib/ui/use-toast";
-import type { CreateAssistantFields } from "../../hooks/useAssistants";
+import type { CreateAssistantFields } from "../../../packages/mtmaiui/src/hooks/useAssistants";
 import { ColorPicker } from "./color-picker";
 import { IconSelect } from "./icon-select";
 

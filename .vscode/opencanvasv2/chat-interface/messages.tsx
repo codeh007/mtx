@@ -9,7 +9,7 @@ import React, { type Dispatch, type FC, type SetStateAction } from "react";
 
 import { TighterText } from "mtxuilib/mt/TighterText";
 import { Avatar, AvatarFallback } from "mtxuilib/ui/avatar";
-import { useFeedback } from "../../hooks/useFeedback";
+import { useFeedback } from "../../../packages/mtmaiui/src/hooks/useFeedback";
 import { FeedbackButton } from "./feedback";
 
 import { makeMarkdownText } from "@assistant-ui/react-markdown";
