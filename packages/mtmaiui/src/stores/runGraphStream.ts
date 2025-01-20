@@ -2,7 +2,8 @@
 
 import { generateId } from "ai";
 import type { AgentNodeRunRequest } from "mtmaiapi";
-import type { AgentNodeState } from "./GraphContextV2.tsx--";
+import type { AgentNodeState } from "./GraphContext";
+// import type { AgentNodeState } from "./GraphContextV2.tsx--";
 
 export async function runGraphStream(
   { ...props }: AgentNodeRunRequest,
