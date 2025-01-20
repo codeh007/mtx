@@ -5,6 +5,7 @@ import {
   formatReflections,
   getModelFromConfig,
 } from "../../../agentutils/agentutils";
+import { getArtifactContent } from "../../../agentutils/opencanvas_utils";
 import type { Reflections } from "../../../types/opencanvasTypes";
 import { FOLLOWUP_ARTIFACT_PROMPT } from "../prompts";
 import type {

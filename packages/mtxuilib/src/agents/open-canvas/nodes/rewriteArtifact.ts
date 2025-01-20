@@ -1,9 +1,11 @@
+import type { LangGraphRunnableConfig } from "@langchain/langgraph";
 import { ChatOpenAI } from "@langchain/openai";
-import { OpenCanvasGraphAnnotation, OpenCanvasGraphReturnType } from "../state";
+import type { Reflections } from "../../../types/opencanvasTypes";
 import { UPDATE_ENTIRE_ARTIFACT_PROMPT } from "../prompts";
-import { ensureStoreInConfig, formatReflections } from "@/agent/utils";
-import { Reflections } from "mtxuilib/types/index.js";
-import { LangGraphRunnableConfig } from "@langchain/langgraph";
+import type {
+  OpenCanvasGraphAnnotation,
+  OpenCanvasGraphReturnType,
+} from "../state";
 
 export const rewriteArtifact = async (
   state: typeof OpenCanvasGraphAnnotation.State,

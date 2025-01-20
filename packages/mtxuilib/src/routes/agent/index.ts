@@ -2,57 +2,20 @@ import { isAIMessageChunk } from "@langchain/core/messages";
 import type { Runnable } from "@langchain/core/runnables";
 import { MemorySaver } from "@langchain/langgraph";
 import { Hono } from "hono";
-// import { generateUUID } from "../../lib/s-utils";
-// import { StreamingResponse, makeStream } from "../../llm/sse";
 import type { Env } from "../../types";
 const checkpointer = new MemorySaver();
 const defaultProfile = "assisant";
-export const agentApp = new Hono<{ Bindings: Env }>()
-  .get("/", async (c) => {
-    return c.json({
-      message: "hello agent (graph)",
-    });
-  })
-  // .all("/run", async (c) => handlerRunAgent(c.req.raw));
-// agentApp.route("/testagent", testAgentApp).route("/mtmai", mtmaiAgentRoute);
-
-// export async function handlerRunAgent(req: Request) {
-//   let input: any = {};
-//   if (req.method === "POST") {
-//     input = await req.json();
-//   }
-
-//   let profile = "chat";
-//   if (input.profile) {
-//     profile = input.profile;
-//   }
-
-//   console.log("input", input);
-
-//   const config = {
-//     configurable: {
-//       thread_id: input.threadId || generateUUID(),
-//     },
-//   };
-
-//   const StreamMode = "lc-raw";
-//   if (StreamMode === "lc-raw") {
-//     return new StreamingResponse(
-//       makeStream(makeRunableStreamEventLcRaw(input, config)),
-//     );
-//   }
-//   // vercel ai stream protocol
-//   return new StreamingResponse(
-//     makeStream(makeRunableStreamEvent(input, config)),
-//   );
-// }
+export const agentApp = new Hono<{ Bindings: Env }>().get("/", async (c) => {
+  return c.json({
+    message: "hello agent (graph)",
+  });
+});
 
 export async function* makeRunableStreamEvent(
   input: any,
   runable: Runnable,
   config: any,
 ): AsyncGenerator<any, void, unknown> {
-  // const runable = await getRunableByNodeName(input.profile || defaultProfile);
   const eventStream = runable.streamEvents(input, {
     ...config,
     version: "v2",

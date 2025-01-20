@@ -1,15 +1,10 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
 import { ChatOpenAI } from "@langchain/openai";
-import type { Reflections } from "mtxuilib/types/index.js";
+import type { Reflections } from "../../../types/opencanvasTypes";
 import type {
   OpenCanvasGraphAnnotation,
   OpenCanvasGraphReturnType,
 } from "../state";
-import {
-  ensureStoreInConfig,
-  formatArtifacts,
-  formatReflections,
-} from "../utils";
 
 /**
  * Generate responses to questions. Does not generate artifacts.

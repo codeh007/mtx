@@ -29,6 +29,7 @@ export async function* runLanggraph(input, configurable) {
       configurable: {
         ...configurable,
         thread_id: configurable.thread_id || generateUUID(),
+        assistant_id:"default",
       },
       store: inMemoryStore,
     },
