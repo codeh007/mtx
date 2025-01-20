@@ -24,8 +24,6 @@ const StateAnnotation = Annotation.Root({
   nextRepresentative: Annotation<string>,
   refundAuthorized: Annotation<boolean>,
   input: Annotation<string>,
-  someValue: Annotation<string>,
-  someValue2: Annotation<string>,
   logs: Annotation<string[]>,
   tenant: Annotation<Tenant>,
   user: Annotation<User>,
