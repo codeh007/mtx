@@ -5,10 +5,12 @@ import {
 } from "@langchain/core/messages";
 
 import type { BaseStore, LangGraphRunnableConfig } from "@langchain/langgraph";
-import {
-  // type ChatUniversalModel,
-  initChatModel,
-} from "langchain/chat_models/universal";
+// import {
+//   // type ChatUniversalModel,
+//   initChatModel,
+// } from "langchain/chat_models/universal";
+import { getLlm } from "mtxuilib/llm/llm";
+
 import type { Reflections } from "mtxuilib/types/opencanvasTypes";
 
 export const formatReflections = (
@@ -191,26 +193,28 @@ export async function getModelFromConfig(
     temperature?: number;
     maxTokens?: number;
   },
-): Promise<ReturnType<typeof initChatModel>> {
-  const { temperature = 0.5, maxTokens } = extra || {};
-  const { modelName, modelProvider, azureConfig, apiKey } =
-    getModelConfig(config);
-  return await initChatModel(modelName, {
-    modelProvider,
-    temperature,
-    maxTokens,
-    ...(apiKey ? { apiKey } : {}),
-    ...(azureConfig != null
-      ? {
-          azureOpenAIApiKey: azureConfig.azureOpenAIApiKey,
-          azureOpenAIApiInstanceName: azureConfig.azureOpenAIApiInstanceName,
-          azureOpenAIApiDeploymentName:
-            azureConfig.azureOpenAIApiDeploymentName,
-          azureOpenAIApiVersion: azureConfig.azureOpenAIApiVersion,
-          azureOpenAIBasePath: azureConfig.azureOpenAIBasePath,
-        }
-      : {}),
-  });
+) {
+  // const { temperature = 0.5, maxTokens } = extra || {};
+  // const { modelName, modelProvider, azureConfig, apiKey } =
+  getModelConfig(config);
+  // return await initChatModel(modelName, {
+  //   modelProvider,
+  //   temperature,
+  //   maxTokens,
+  //   ...(apiKey ? { apiKey } : {}),
+  //   ...(azureConfig != null
+  //     ? {
+  //         azureOpenAIApiKey: azureConfig.azureOpenAIApiKey,
+  //         azureOpenAIApiInstanceName: azureConfig.azureOpenAIApiInstanceName,
+  //         azureOpenAIApiDeploymentName:
+  //           azureConfig.azureOpenAIApiDeploymentName,
+  //         azureOpenAIApiVersion: azureConfig.azureOpenAIApiVersion,
+  //         azureOpenAIBasePath: azureConfig.azureOpenAIBasePath,
+  //       }
+  //     : {}),
+  // });
+  const a = await getLlm();
+  return a;
 }
 
 // MessagesAnnotation coerces all message likes to base message classes

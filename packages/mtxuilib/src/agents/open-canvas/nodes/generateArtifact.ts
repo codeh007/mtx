@@ -1,11 +1,14 @@
+import type { LangGraphRunnableConfig } from "@langchain/langgraph";
 import { ChatOpenAI } from "@langchain/openai";
-import { OpenCanvasGraphAnnotation, OpenCanvasGraphReturnType } from "../state";
-import { NEW_ARTIFACT_PROMPT } from "../prompts";
-import { Artifact, Reflections } from "mtxuilib/types/index.js";
-import { z } from "zod";
+import type { Artifact } from "mtmaiapi";
 import { v4 as uuidv4 } from "uuid";
-import { ensureStoreInConfig, formatReflections } from "@/agent/utils";
-import { LangGraphRunnableConfig } from "@langchain/langgraph";
+import { z } from "zod";
+import {
+  ensureStoreInConfig,
+  formatReflections,
+} from "../../../agentutils/agentutils";
+import type { Reflections } from "../../../types/opencanvasTypes";
+import { NEW_ARTIFACT_PROMPT } from "../prompts";
 
 /**
  * Generate a new artifact based on the user's query.

@@ -1,23 +1,16 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
-import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types.js";
-// import type { Reflections } from "mtxuilib/types/index.js";
-// import {
-//   ensureStoreInConfig,
-//   formatReflections,
-//   getModelFromConfig,
-// } from "../../utils";
+import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types";
+import {
+  ensureStoreInConfig,
+  formatReflections,
+  getModelFromConfig,
+} from "../../../agentutils/agentutils";
+import type { Reflections } from "../../../types/opencanvasTypes";
 import { FOLLOWUP_ARTIFACT_PROMPT } from "../prompts";
 import type {
   OpenCanvasGraphAnnotation,
   OpenCanvasGraphReturnType,
 } from "../state";
-import {
-  getModelFromConfig,
-  ensureStoreInConfig,
-  formatReflections,
-} from "../../../agentutils/agentutils";
-import type { Reflections } from "../../../types/opencanvasTypes";
-// import { getArtifactContent } from "../../graph_utils";
 
 /**
  * Generate a followup message after generating or updating an artifact.
