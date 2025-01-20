@@ -1,15 +1,15 @@
 "use client";
 import { ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
-import type { Dispatch, FC, SetStateAction } from "react";
+import type { FC } from "react";
 
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
-import type { FeedbackResponse } from "../hooks/useFeedback";
 import { cn } from "mtxuilib/lib/utils";
 import { useToast } from "mtxuilib/ui/use-toast";
+import type { FeedbackResponse } from "../hooks/useFeedback";
 
 interface FeedbackButtonProps {
   runId: string;
-  setFeedbackSubmitted: Dispatch<SetStateAction<boolean>>;
+  setFeedbackSubmitted: (feedbackSubmitted: boolean) => void;
   sendFeedback: (
     runId: string,
     feedbackKey: string,

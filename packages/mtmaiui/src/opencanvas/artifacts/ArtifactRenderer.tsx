@@ -2,7 +2,6 @@
 import type { EditorView } from "@codemirror/view";
 import { HumanMessage } from "@langchain/core/messages";
 import { CircleCheck, Forward, LoaderCircle } from "lucide-react";
-import { convertToOpenAIFormat } from "mtxuilib/agentutils/convert_messages";
 import { getArtifactContent } from "mtxuilib/agentutils/opencanvas_utils";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { user } from "mtxuilib/db/schema/user";
@@ -14,7 +13,7 @@ import type {
 } from "mtxuilib/types/opencanvasTypes";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { setMessages } from "../../lib/persistence/db";
+import { useGraphStore } from "../../stores/GraphContext";
 import { ReflectionsDialog } from "../reflections-dialog/ReflectionsDialog";
 import { ArtifactLoading } from "./ArtifactLoading";
 import { CodeRenderer } from "./CodeRenderer";
@@ -132,7 +131,19 @@ function ArtifactRendererComponent(props: ArtifactRendererProps) {
   const [isSelectionActive, setIsSelectionActive] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [isHoveringOverArtifact, setIsHoveringOverArtifact] = useState(false);
-
+  const artifact = useGraphStore((x) => x.artifact);
+  const setUpdateRenderedArtifactRequired = useGraphStore(
+    (x) => x.setUpdateRenderedArtifactRequired,
+  );
+  const isStreaming = useGraphStore((x) => x.isStreaming);
+  const setSelectedBlocks = useGraphStore((x) => x.setSelectedBlocks);
+  const selectedBlocks = useGraphStore((x) => x.selectedBlocks);
+  const setMessages = useGraphStore((x) => x.setMessages);
+  const isArtifactSaved = useGraphStore((x) => x.isArtifactSaved);
+  const setIsArtifactSaved = useGraphStore((x) => x.setIsArtifactSaved);
+  const selectedAssistant = useGraphStore((x) => x.selectedAssistant);
+  const setSelectedArtifact = useGraphStore((x) => x.setSelectedArtifact);
+  const streamMessage = useGraphStore((x) => x.streamMessage);
   const handleMouseUp = useCallback(() => {
     const selection = window.getSelection();
     if (selection && selection.rangeCount > 0 && contentRef.current) {
@@ -196,17 +207,17 @@ function ArtifactRendererComponent(props: ArtifactRendererProps) {
       id: uuidv4(),
     });
 
-    setMessages((prevMessages) => [...prevMessages, humanMessage]);
-    handleCleanupState();
-    await streamMessage({
-      messages: [convertToOpenAIFormat(humanMessage)],
-      ...(selectionIndexes && {
-        highlightedCode: {
-          startCharIndex: selectionIndexes.start,
-          endCharIndex: selectionIndexes.end,
-        },
-      }),
-    });
+    // setMessages((prevMessages) => [...prevMessages, humanMessage]);
+    // handleCleanupState();
+    // await streamMessage({
+    //   messages: [convertToOpenAIFormat(humanMessage)],
+    //   ...(selectionIndexes && {
+    //     highlightedCode: {
+    //       startCharIndex: selectionIndexes.start,
+    //       endCharIndex: selectionIndexes.end,
+    //     },
+    //   }),
+    // });
   };
 
   useEffect(() => {
