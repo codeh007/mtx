@@ -8,7 +8,7 @@ import {
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { cn } from "mtxuilib/lib/utils";
 import { TighterText } from "mtxuilib/mt/TighterText";
-import type { CustomQuickAction } from "mtxuilib/types";
+import type { CustomQuickAction } from "mtxuilib/types/opencanvasTypes";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,9 +19,7 @@ import {
 } from "mtxuilib/ui/dropdown-menu";
 import { useToast } from "mtxuilib/ui/use-toast";
 import type { User } from "next-auth";
-import { useEffect, useState } from "react";
-import { useStore } from "../../../../hooks/useStore";
-import type { GraphInput } from "../../../../stores/GraphContext";
+import React, { useEffect, useState } from "react";
 import { NewCustomQuickActionDialog } from "./NewCustomQuickActionDialog";
 
 export interface CustomQuickActionsProps {

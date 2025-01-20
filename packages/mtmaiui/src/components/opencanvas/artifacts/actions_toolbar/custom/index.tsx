@@ -6,9 +6,22 @@ import {
   WandSparkles,
 } from "lucide-react";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
+import { cn } from "mtxuilib/lib/utils";
+import { TighterText } from "mtxuilib/mt/TighterText";
+import type { CustomQuickAction } from "mtxuilib/types/opencanvasTypes";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "mtxuilib/ui/dropdown-menu.jsx";
+import { useToast } from "mtxuilib/ui/use-toast";
 import type { User } from "next-auth";
 import { useEffect, useState } from "react";
-import { useStore } from "../../../hooks/useStore";
+import { useStore } from "../../../../../hooks/useStore";
+import type { GraphInput } from "../../../../../stores/GraphContext";
 import { NewCustomQuickActionDialog } from "./NewCustomQuickActionDialog";
 
 export interface CustomQuickActionsProps {
