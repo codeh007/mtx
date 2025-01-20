@@ -1,13 +1,12 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
 import { ChatOpenAI } from "@langchain/openai";
-import type { Artifact } from "mtmaiapi";
+import type { Artifact, Reflections } from "mtmaiapi";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 import {
   ensureStoreInConfig,
   formatReflections,
 } from "../../../agentutils/agentutils";
-import type { Reflections } from "../../../types/opencanvasTypes";
 import { NEW_ARTIFACT_PROMPT } from "../prompts";
 import type {
   OpenCanvasGraphAnnotation,

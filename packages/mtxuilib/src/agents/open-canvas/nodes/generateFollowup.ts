@@ -6,12 +6,12 @@ import {
   getModelFromConfig,
 } from "../../../agentutils/agentutils";
 import { getArtifactContent } from "../../../agentutils/opencanvas_utils";
-import type { Reflections } from "../../../types/opencanvasTypes";
 import { FOLLOWUP_ARTIFACT_PROMPT } from "../prompts";
 import type {
   OpenCanvasGraphAnnotation,
   OpenCanvasGraphReturnType,
 } from "../state";
+import type { Reflections } from "mtmaiapi";
 
 /**
  * Generate a followup message after generating or updating an artifact.

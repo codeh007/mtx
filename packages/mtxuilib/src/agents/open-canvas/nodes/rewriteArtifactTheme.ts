@@ -1,7 +1,12 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
 import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types";
-import type { ArtifactV3, Reflections } from "../../../types/opencanvasTypes";
 
+import {
+  ensureStoreInConfig,
+  formatReflections,
+  getModelFromConfig,
+} from "../../../agentutils/agentutils";
+import { getArtifactContent } from "../../../agentutils/opencanvas_utils";
 import {
   ADD_EMOJIS_TO_ARTIFACT_PROMPT,
   CHANGE_ARTIFACT_LANGUAGE_PROMPT,
@@ -13,12 +18,7 @@ import type {
   OpenCanvasGraphAnnotation,
   OpenCanvasGraphReturnType,
 } from "../state";
-import {
-  getModelFromConfig,
-  ensureStoreInConfig,
-  formatReflections,
-} from "../../../agentutils/agentutils";
-import { getArtifactContent } from "../../../agentutils/opencanvas_utils";
+import type { Reflections, ArtifactV3 } from "mtmaiapi";
 
 export const rewriteArtifactTheme = async (
   state: typeof OpenCanvasGraphAnnotation.State,

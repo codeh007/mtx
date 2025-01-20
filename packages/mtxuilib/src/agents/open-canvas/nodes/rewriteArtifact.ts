@@ -1,6 +1,10 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
 import { ChatOpenAI } from "@langchain/openai";
-import type { Reflections } from "../../../types/opencanvasTypes";
+import type { Reflections } from "mtmaiapi";
+import {
+  ensureStoreInConfig,
+  formatReflections,
+} from "../../../agentutils/agentutils";
 import { UPDATE_ENTIRE_ARTIFACT_PROMPT } from "../prompts";
 import type {
   OpenCanvasGraphAnnotation,

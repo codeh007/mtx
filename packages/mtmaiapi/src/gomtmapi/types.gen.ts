@@ -2039,6 +2039,61 @@ export type CustomQuickAction = {
   includeRecentHistory: boolean;
 };
 
+/**
+ * 生成内容的反思规则
+ */
+export type Reflections = {
+  /**
+   * 生成内容时要遵循的样式规则
+   */
+  styleRules: Array<string>;
+  /**
+   * 生成内容时要记住的关于用户的关键内容
+   */
+  content: Array<string>;
+};
+
+export type LanguageOptions =
+  | "chinese"
+  | "english"
+  | "spanish"
+  | "french"
+  | "hindi";
+
+/**
+ * 工具内容长度,(文章,代码内容长度)
+ */
+export type ArtifactLengthOptions = "shortest" | "short" | "long" | "longest";
+
+export type RewriteArtifactMetaToolResponse =
+  | {
+      type: "text";
+      title?: string;
+      language: ProgrammingLanguageOptions;
+    }
+  | {
+      type: "code";
+      title: string;
+      language: ProgrammingLanguageOptions;
+    };
+
+export type ArtifactToolResponse = {
+  artifact?: string;
+  title?: string;
+  language?: string;
+  type?: string;
+};
+
+/**
+ * 阅读级别
+ */
+export type ReadingLevelOptions =
+  | "pirate"
+  | "child"
+  | "teenager"
+  | "college"
+  | "phd";
+
 export type ProgrammingLanguageOptions =
   | "typescript"
   | "javascript"
@@ -2101,11 +2156,11 @@ export type CanvasGraphParams = {
   /**
    * 阅读级别
    */
-  readingLevel?: "pirate" | "child" | "teenager" | "college" | "phd";
+  readingLevel?: ReadingLevelOptions;
   /**
    * 工具内容长度,(文章,代码内容长度)
    */
-  artifactLength?: "shortest" | "short" | "long" | "longest";
+  artifactLength?: ArtifactLengthOptions;
   artifact?: ArtifactV3;
   addComments?: boolean;
   addLogs?: boolean;

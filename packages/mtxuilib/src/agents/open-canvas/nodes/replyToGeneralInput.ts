@@ -8,7 +8,6 @@ import {
   formatArtifactContentWithTemplate,
   getArtifactContent,
 } from "../../../agentutils/opencanvas_utils";
-import type { Reflections } from "../../../types/opencanvasTypes";
 import { CURRENT_ARTIFACT_PROMPT, NO_ARTIFACT_PROMPT } from "../prompts";
 import type {
   OpenCanvasGraphAnnotation,

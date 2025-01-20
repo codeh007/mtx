@@ -1,4 +1,7 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
+import { getModelFromConfig } from "../../../agentutils/agentutils";
+import { getArtifactContent } from "../../../agentutils/opencanvas_utils";
+import { isArtifactCodeContent } from "../../../lib/artifact_content_types";
 import {
   ADD_COMMENTS_TO_CODE_ARTIFACT_PROMPT,
   ADD_LOGS_TO_CODE_ARTIFACT_PROMPT,
@@ -9,13 +12,7 @@ import type {
   OpenCanvasGraphAnnotation,
   OpenCanvasGraphReturnType,
 } from "../state";
-import { getModelFromConfig } from "../../../agentutils/agentutils";
-import { getArtifactContent } from "../../../agentutils/opencanvas_utils";
-import { isArtifactCodeContent } from "../../../lib/artifact_content_types";
-import type {
-  ArtifactCodeV3,
-  ArtifactV3,
-} from "../../../types/opencanvasTypes";
+import type { ArtifactCodeV3, ArtifactV3 } from "mtmaiapi";
 
 export const rewriteCodeArtifactTheme = async (
   state: typeof OpenCanvasGraphAnnotation.State,
