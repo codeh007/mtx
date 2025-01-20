@@ -20,7 +20,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useGraphStore } from "../../stores/GraphContextV2";
+import { useGraphStore } from "../../stores/GraphContextV2.tsx--";
 import { CopyText } from "./components/CopyText";
 
 const cleanText = (text: string) => {

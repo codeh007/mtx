@@ -1,7 +1,7 @@
 import { isAIMessageChunk } from "@langchain/core/messages";
 import { InMemoryStore, MemorySaver } from "@langchain/langgraph";
 import { OpenAIEmbeddings } from "@langchain/openai";
-import { MemoryVectorStore } from "langchain/vectorstores/memory";
+// import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { buildCanvasGraph } from "../agents/open-canvas";
 import { generateUUID } from "../lib/s-utils";
 import { StreamingResponse, makeStream } from "../llm/sse";
@@ -17,7 +17,7 @@ export async function* runLanggraph(input, configurable) {
   const embeddings = new OpenAIEmbeddings({
     model: "text-embedding-3-large",
   });
-  const store = new MemoryVectorStore(embeddings);
+  // const store = new MemoryVectorStore(embeddings);
   const runable = buildCanvasGraph()
     .compile({
       checkpointer: memory,
@@ -29,7 +29,7 @@ export async function* runLanggraph(input, configurable) {
       configurable: {
         ...configurable,
         thread_id: configurable.thread_id || generateUUID(),
-        assistant_id:"default",
+        assistant_id: "default",
       },
       store: inMemoryStore,
     },

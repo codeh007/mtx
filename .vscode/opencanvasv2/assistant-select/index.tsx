@@ -15,7 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu";
 import { useToast } from "mtxuilib/ui/use-toast";
-import { useGraphStore } from "../../stores/GraphContextV2";
+import { useGraphStore } from "../../stores/GraphContextV2.tsx--";
 import { AlertNewAssistantsFeature } from "./alert-new-feature";
 import { CreateEditAssistantDialog } from "./create-edit-assistant-dialog";
 import { getIcon } from "./utils";

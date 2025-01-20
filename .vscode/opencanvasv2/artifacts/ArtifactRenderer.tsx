@@ -15,7 +15,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useUser } from "../../hooks/useAuth";
 import { setMessages } from "../../lib/persistence/db";
-import { useGraphStore } from "../../stores/GraphContextV2";
+import { useGraphStore } from "../../stores/GraphContextV2.tsx--";
 import { ReflectionsDialog } from "../reflections-dialog/ReflectionsDialog";
 import { ArtifactLoading } from "./ArtifactLoading";
 import { CodeRenderer } from "./CodeRenderer";

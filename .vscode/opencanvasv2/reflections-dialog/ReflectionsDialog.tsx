@@ -15,7 +15,7 @@ import {
 } from "mtxuilib/ui/dialog";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useEffect, useState } from "react";
-import { useStore } from "../../opencanvas/hooks/useStore";
+import { useStore } from "../../../packages/mtmaiui/src/opencanvas/hooks/useStore";
 import { getIcon } from "../assistant-select/utils";
 import { ConfirmClearDialog } from "./ConfirmClearDialog";
 

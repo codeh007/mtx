@@ -1,3 +1,5 @@
+'use client'
+
 import { cpp } from "@codemirror/lang-cpp";
 import { html } from "@codemirror/lang-html";
 import { java } from "@codemirror/lang-java";
@@ -12,7 +14,7 @@ import { clojure } from "@nextjournal/lang-clojure";
 import { csharp } from "@replit/codemirror-lang-csharp";
 import CodeMirror, { type EditorView } from "@uiw/react-codemirror";
 import { getArtifactContent } from "mtxuilib/agentutils/opencanvas_utils";
-import { cleanContent } from "mtxuilib/lib/s-utils.js";
+import { cleanContent } from "mtxuilib/lib/s-utils";
 import { cn } from "mtxuilib/lib/utils";
 import type { ArtifactCodeV3 } from "mtxuilib/types/opencanvasTypes";
 import React, { type MutableRefObject, useEffect } from "react";
@@ -69,6 +71,7 @@ export function CodeRendererComponent(props: Readonly<CodeRendererProps>) {
     setUpdateRenderedArtifactRequired,
   } = graphData;
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (updateRenderedArtifactRequired) {
       setUpdateRenderedArtifactRequired(false);

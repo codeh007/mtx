@@ -7,7 +7,7 @@ import type { ProgrammingLanguageOptions } from "mtxuilib/types/opencanvasTypes"
 import { Avatar, AvatarFallback } from "mtxuilib/ui/avatar";
 import { Button } from "mtxuilib/ui/button";
 import type { FC } from "react";
-import { ProgrammingLanguagesDropdown } from "../../opencanvas/programming-lang-dropdown";
+import { ProgrammingLanguagesDropdown } from "../../../packages/mtmaiui/src/opencanvas/programming-lang-dropdown";
 
 interface QuickStartButtonsProps {
   handleQuickStart: (

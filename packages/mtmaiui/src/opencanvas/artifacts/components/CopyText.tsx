@@ -1,3 +1,5 @@
+'use client'
+
 import { motion } from "framer-motion";
 import { Copy } from "lucide-react";
 import { isArtifactCodeContent } from "mtxuilib/lib/artifact_content_types";

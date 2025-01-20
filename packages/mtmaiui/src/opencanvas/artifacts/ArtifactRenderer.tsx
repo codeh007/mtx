@@ -1,3 +1,4 @@
+"use client";
 import type { EditorView } from "@codemirror/view";
 import { HumanMessage } from "@langchain/core/messages";
 import { CircleCheck, Forward, LoaderCircle } from "lucide-react";
@@ -17,8 +18,9 @@ import { ReflectionsDialog } from "../reflections-dialog/ReflectionsDialog";
 import { ArtifactLoading } from "./ArtifactLoading";
 import { CodeRenderer } from "./CodeRenderer";
 import { TextRenderer } from "./TextRenderer";
-import { ActionsToolbar, CodeToolBar } from "./actions_toolbar";
+import { CodeToolBar } from "./actions_toolbar/code";
 import { CustomQuickActions } from "./actions_toolbar/custom";
+import { ActionsToolbar } from "./actions_toolbar/text";
 import { AskOpenCanvas } from "./components/AskOpenCanvas";
 
 export interface ArtifactRendererProps {
@@ -184,6 +186,7 @@ function ArtifactRendererComponent(props: ArtifactRendererProps) {
     setInputValue("");
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const handleDocumentMouseDown = useCallback(
     (event: MouseEvent) => {
       if (
@@ -230,6 +233,7 @@ function ArtifactRendererComponent(props: ArtifactRendererProps) {
     };
   }, [handleMouseUp, handleDocumentMouseDown]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     try {
       if (artifactContentRef.current && highlightLayerRef.current) {
@@ -307,6 +311,7 @@ function ArtifactRendererComponent(props: ArtifactRendererProps) {
     }
   }, [isSelectionActive, selectionBox]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!!selectedBlocks && !isSelectionActive) {
       // Selection is not active but selected blocks are present. Clear them.
@@ -323,7 +328,7 @@ function ArtifactRendererComponent(props: ArtifactRendererProps) {
   }
 
   if (!artifact || !currentArtifactContent) {
-    return <div className="w-full h-full"></div>;
+    return <div className="w-full h-full" />;
   }
 
   const isBackwardsDisabled =
