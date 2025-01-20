@@ -8,6 +8,7 @@ import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
 import type { ProgrammingLanguageOptions } from "mtxuilib/types/opencanvasTypes";
 import { useToast } from "mtxuilib/ui/use-toast";
+import { useGraphStore } from "../../stores/GraphContext";
 import { useLangSmithLinkToolUI } from "../tool-hooks/LangSmithLinkToolUI";
 import { Composer } from "./composer";
 import { AssistantMessage, UserMessage } from "./messages";
@@ -77,6 +78,10 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
     //   });
     // }
   };
+
+  const feedbackSubmitted = useGraphStore((x) => x.feedbackSubmitted);
+  const setFeedbackSubmitted = useGraphStore((x) => x.setFeedbackSubmitted);
+  const runId = useGraphStore((x) => x.runId);
 
   return (
     <ThreadPrimitive.Root className="flex flex-col h-full">
