@@ -1,10 +1,15 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
 import { ChatOpenAI } from "@langchain/openai";
+import {
+  ensureStoreInConfig,
+  formatReflections,
+} from "../../../agentutils/agentutils";
 import type { Reflections } from "../../../types/opencanvasTypes";
 import type {
   OpenCanvasGraphAnnotation,
   OpenCanvasGraphReturnType,
 } from "../state";
+import { formatArtifacts } from "../utils";
 
 /**
  * Generate responses to questions. Does not generate artifacts.
