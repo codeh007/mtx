@@ -42,11 +42,12 @@ export class StreamingResponse extends Response {
 }
 
 export const makeStream = <T>(generator: AsyncGenerator<T, void, unknown>) => {
-  // const encoder = new TextEncoder();
+  const encoder = new TextEncoder();
   return new ReadableStream<any>({
     async start(controller) {
       for await (const chunk of generator) {
-        controller.enqueue(chunk);
+        const encoded = encoder.encode(`${JSON.stringify(chunk)}\n`);
+        controller.enqueue(encoded);
       }
       controller.close();
     },
@@ -60,43 +61,52 @@ export function emitText(text: string) {
 }
 
 export async function chatCompletionStream(stream) {
+  const encoder = new TextEncoder();
   return new ReadableStream({
     async start(controller) {
       for await (const chunk of stream) {
         if (chunk.choices[0].delta.finish_reason) {
-          controller.enqueue(`data: ${JSON.stringify(chunk)}\n\n`);
+          controller.enqueue(
+            encoder.encode(`data: ${JSON.stringify(chunk)}\n\n`),
+          );
           controller.close();
           return;
         }
         if (chunk.choices[0].delta.content === undefined) {
-          controller.enqueue("data: [DONE]\n\n");
+          controller.enqueue(encoder.encode("data: [DONE]\n\n"));
           controller.close();
           return;
         }
         console.log(chunk.choices[0].delta.content);
-        controller.enqueue(`data: ${JSON.stringify(chunk)}\n\n`);
+        controller.enqueue(
+          encoder.encode(`data: ${JSON.stringify(chunk)}\n\n`),
+        );
       }
     },
   });
 }
 
 export async function chatStream(stream) {
+  const encoder = new TextEncoder();
   return new ReadableStream({
     async start(controller) {
       for await (const chunk of stream) {
         if (chunk.choices[0].delta.finish_reason) {
-          controller.enqueue(`data: ${JSON.stringify(chunk)}\n\n`);
+          controller.enqueue(
+            encoder.encode(`data: ${JSON.stringify(chunk)}\n\n`),
+          );
           controller.close();
           return;
         }
         if (chunk.choices[0].delta.content === undefined) {
-          controller.enqueue("data: [DONE]\n\n");
+          controller.enqueue(encoder.encode("data: [DONE]\n\n"));
           controller.close();
           return;
         }
         console.log(chunk.choices[0].delta.content);
-        // controller.enqueue(`data: ${JSON.stringify(chunk)}\n\n`);
-        controller.enqueue(`0:"${chunk.choices[0].delta.content}" \n`);
+        controller.enqueue(
+          encoder.encode(`0:"${chunk.choices[0].delta.content}" \n`),
+        );
       }
     },
   });
