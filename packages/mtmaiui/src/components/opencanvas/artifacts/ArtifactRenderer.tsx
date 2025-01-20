@@ -13,7 +13,7 @@ import type {
 } from "mtxuilib/types/opencanvasTypes";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useGraphStore } from "../../stores/GraphContext";
+import { useGraphStore } from "../../../stores/GraphContext";
 import { ReflectionsDialog } from "../reflections-dialog/ReflectionsDialog";
 import { ArtifactLoading } from "./ArtifactLoading";
 import { CodeRenderer } from "./CodeRenderer";
