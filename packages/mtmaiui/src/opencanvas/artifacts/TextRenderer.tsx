@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import "@blocknote/core/fonts/inter.css";
 import {
@@ -22,7 +22,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useGraphContext } from "../../stores/GraphContext";
 import { CopyText } from "./components/CopyText";
 
 const cleanText = (text: string) => {
@@ -67,7 +66,6 @@ export interface TextRendererProps {
 
 export function TextRendererComponent(props: TextRendererProps) {
   const editor = useCreateBlockNote({});
-  const { graphData } = useGraphContext();
   const {
     artifact,
     isStreaming,

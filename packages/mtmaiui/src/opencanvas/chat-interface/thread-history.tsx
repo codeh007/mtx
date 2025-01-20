@@ -7,11 +7,9 @@ import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
 import { Button } from "mtxuilib/ui/button";
 import { SheetContent, SheetTrigger } from "mtxuilib/ui/sheet";
-import { Skeleton } from "mtxuilib/ui/skeleton";
 import { useToast } from "mtxuilib/ui/use-toast";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { PiChatsCircleLight } from "react-icons/pi";
-import { useGraphContext } from "../../stores/GraphContext";
 
 interface ThreadHistoryProps {
   switchSelectedThreadCallback: (thread: Thread) => void;
@@ -57,7 +55,7 @@ const ThreadItem = (props: ThreadProps) => {
   );
 };
 
-const LoadingThread = () => <Skeleton className="w-full h-8" />;
+// const LoadingThread = () => <Skeleton className="w-full h-8" />;
 
 const convertThreadActualToThreadProps = (
   thread: Thread,
@@ -195,47 +193,46 @@ function ThreadsList(props: ThreadsListProps) {
 
 export function ThreadHistoryComponent(props: ThreadHistoryProps) {
   const { toast } = useToast();
-  const {
-    userData: { user },
-    threadData: {
-      deleteThread,
-      getUserThreads,
-      userThreads,
-      isUserThreadsLoading,
-    },
-    graphData: { setMessages, switchSelectedThread },
-  } = useGraphContext();
+  // const {
+  //   userData: { user },
+  //   threadData: {
+  //     deleteThread,
+  //     getUserThreads,
+  //     userThreads,
+  //     isUserThreadsLoading,
+  //   },
+  //   graphData: { setMessages, switchSelectedThread },
+  // } = useGraphContext();
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    if (typeof window === "undefined" || userThreads.length || !user) return;
+  // useEffect(() => {
+  //   if (typeof window === "undefined" || userThreads.length || !user) return;
 
-    getUserThreads(user.id);
-  }, [user]);
+  //   getUserThreads(user.id);
+  // }, [user]);
 
   const handleDeleteThread = async (id: string) => {
-    if (!user) {
-      toast({
-        title: "Failed to delete thread",
-        description: "User not found",
-        duration: 5000,
-        variant: "destructive",
-      });
-      return;
-    }
-
-    await deleteThread(id, user.id, () => setMessages([]));
+    // if (!user) {
+    //   toast({
+    //     title: "Failed to delete thread",
+    //     description: "User not found",
+    //     duration: 5000,
+    //     variant: "destructive",
+    //   });
+    //   return;
+    // }
+    // await deleteThread(id, user.id, () => setMessages([]));
   };
 
-  const groupedThreads = groupThreads(
-    userThreads,
-    (thread) => {
-      switchSelectedThread(thread);
-      props.switchSelectedThreadCallback(thread);
-      setOpen(false);
-    },
-    handleDeleteThread,
-  );
+  // const groupedThreads = groupThreads(
+  //   userThreads,
+  //   (thread) => {
+  //     switchSelectedThread(thread);
+  //     props.switchSelectedThreadCallback(thread);
+  //     setOpen(false);
+  //   },
+  //   handleDeleteThread,
+  // );
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -258,7 +255,7 @@ export function ThreadHistoryComponent(props: ThreadHistoryProps) {
         <TighterText className="px-2 text-lg text-gray-600">
           Chat History
         </TighterText>
-        {isUserThreadsLoading && !userThreads.length ? (
+        {/* {isUserThreadsLoading && !userThreads.length ? (
           <div className="flex flex-col gap-1 px-2 pt-3">
             {Array.from({ length: 25 }).map((_, i) => (
               <LoadingThread key={`loading-thread-${i}`} />
@@ -268,7 +265,7 @@ export function ThreadHistoryComponent(props: ThreadHistoryProps) {
           <p className="px-3 text-gray-500">No items found in history.</p>
         ) : (
           <ThreadsList groupedThreads={groupedThreads} />
-        )}
+        )} */}
       </SheetContent>
     </Sheet>
   );

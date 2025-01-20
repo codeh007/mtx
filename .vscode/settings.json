@@ -1,0 +1,13 @@
+{
+	"search.exclude": {
+		"**/node_modules": true,
+		"**/bower_components": true,
+		"**/*.code-search": true,
+		"**/.next": true,
+		"**/__pycache__": true,
+		"**/.pytest_cache": true,
+		"**/dist": true,
+		"mtm/web/static": true,
+		"**/.next.dev": true
+	}
+}

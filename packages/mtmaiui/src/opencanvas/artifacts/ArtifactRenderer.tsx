@@ -5,6 +5,7 @@ import { CircleCheck, Forward, LoaderCircle } from "lucide-react";
 import { convertToOpenAIFormat } from "mtxuilib/agentutils/convert_messages";
 import { getArtifactContent } from "mtxuilib/agentutils/opencanvas_utils";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
+import { user } from "mtxuilib/db/schema/user";
 import { cn } from "mtxuilib/lib/utils";
 import type {
   ArtifactCodeV3,
@@ -13,7 +14,7 @@ import type {
 } from "mtxuilib/types/opencanvasTypes";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useGraphContext } from "../../stores/GraphContext";
+import { setMessages } from "../../lib/persistence/db";
 import { ReflectionsDialog } from "../reflections-dialog/ReflectionsDialog";
 import { ArtifactLoading } from "./ArtifactLoading";
 import { CodeRenderer } from "./CodeRenderer";
@@ -117,21 +118,6 @@ function NavigateArtifactHistory(props: NavigateArtifactHistoryProps) {
 }
 
 function ArtifactRendererComponent(props: ArtifactRendererProps) {
-  const {
-    graphData,
-    assistantsData: { selectedAssistant },
-    userData: { user },
-  } = useGraphContext();
-  const {
-    artifact,
-    selectedBlocks,
-    isStreaming,
-    isArtifactSaved,
-    setSelectedArtifact,
-    setMessages,
-    streamMessage,
-    setSelectedBlocks,
-  } = graphData;
   const editorRef = useRef<EditorView | null>(null);
   const artifactContentRef = useRef<HTMLDivElement>(null);
   const highlightLayerRef = useRef<HTMLDivElement>(null);

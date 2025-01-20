@@ -49,7 +49,6 @@
     ".next/types/**/*.ts",
     "src",
     ".next.dev/types/**/*.ts",
-    "../../.vscode/opencanvasv2"
   ],
   "exclude": ["node_modules"]
 }

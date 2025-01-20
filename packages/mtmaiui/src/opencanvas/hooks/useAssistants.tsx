@@ -353,7 +353,13 @@ export function useAssistants() {
 
   return {
     assistants,
-    selectedAssistant,
+    selectedAssistant: {
+      assistant_id: "fakeAssistantId",
+      name: "fakeAssistantName",
+      description: "fakeAssistantDescription",
+      iconName: "fakeIconName",
+      iconColor: "fakeIconColor",
+    },
     isLoadingAllAssistants,
     isDeletingAssistant,
     isCreatingAssistant,

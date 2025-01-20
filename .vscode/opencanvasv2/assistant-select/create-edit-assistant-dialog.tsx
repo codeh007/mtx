@@ -110,14 +110,6 @@ export function CreateEditAssistantDialog(
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // if (!props.userId) {
-    //   toast({
-    //     title: "User not found",
-    //     variant: "destructive",
-    //     duration: 5000,
-    //   });
-    //   return;
-    // }
     if (props.isEditing && !props.assistant) {
       toast({
         title: "Assistant not found",

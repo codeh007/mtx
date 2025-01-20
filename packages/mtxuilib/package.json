@@ -79,7 +79,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.66",
-    "@assistant-ui/react": "^0.7.19",
+    "@assistant-ui/react": "^0.7.44",
     "@assistant-ui/react-ai-sdk": "^0.7.5",
     "@assistant-ui/react-langgraph": "^0.1.8",
     "@assistant-ui/react-markdown": "^0.7.7",
