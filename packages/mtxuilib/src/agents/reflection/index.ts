@@ -10,6 +10,7 @@ import {
   ensureStoreInConfig,
   formatReflections,
 } from "../../agentutils/agentutils";
+import { getArtifactContent } from "../../agentutils/opencanvas_utils";
 import { isArtifactMarkdownContent } from "../../lib/artifact_content_types";
 import { REFLECT_SYSTEM_PROMPT, REFLECT_USER_PROMPT } from "./prompts";
 import {

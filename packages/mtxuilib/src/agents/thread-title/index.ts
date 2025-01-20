@@ -5,9 +5,11 @@ import {
 } from "@langchain/langgraph";
 import { Client } from "@langchain/langgraph-sdk";
 import { ChatOpenAI } from "@langchain/openai";
+import { getArtifactContent } from "mtxuilib/agentutils/opencanvas_utils";
 import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types";
 import { z } from "zod";
 import { TITLE_SYSTEM_PROMPT, TITLE_USER_PROMPT } from "./prompts";
+
 import {
   TitleGenerationAnnotation,
   type TitleGenerationReturnType,

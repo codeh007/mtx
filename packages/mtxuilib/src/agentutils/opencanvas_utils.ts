@@ -8,7 +8,6 @@ import {
 } from "@langchain/core/messages";
 import { parsePartialJson } from "@langchain/core/output_parsers";
 import type {
-  Artifact,
   ArtifactCodeV3,
   ArtifactMarkdownV3,
   ArtifactToolResponse,
@@ -324,37 +323,37 @@ export const updateRewrittenArtifact = ({
   return newArtifact;
 };
 
-export const convertToArtifactV3 = (oldArtifact: Artifact): ArtifactV3 => {
-  let currentIndex = oldArtifact.currentContentIndex;
-  if (currentIndex > oldArtifact.contents.length) {
-    // If the value to be set in `currentIndex` is greater than the total number of contents,
-    // set it to the last index so that the user can see the latest content.
-    currentIndex = oldArtifact.contents.length;
-  }
+// export const convertToArtifactV3 = (oldArtifact: Artifact): ArtifactV3 => {
+//   let currentIndex = oldArtifact.currentContentIndex;
+//   if (currentIndex > oldArtifact.contents.length) {
+//     // If the value to be set in `currentIndex` is greater than the total number of contents,
+//     // set it to the last index so that the user can see the latest content.
+//     currentIndex = oldArtifact.contents.length;
+//   }
 
-  const v3: ArtifactV3 = {
-    currentIndex,
-    contents: oldArtifact.contents.map((content) => {
-      if (content.type === "code") {
-        return {
-          index: content.index,
-          type: "code",
-          title: content.title,
-          language: content.language as ProgrammingLanguageOptions,
-          code: content.content,
-        };
-      }
-      return {
-        index: content.index,
-        type: "text",
-        title: content.title,
-        fullMarkdown: content.content,
-        blocks: undefined,
-      };
-    }),
-  };
-  return v3;
-};
+//   const v3: ArtifactV3 = {
+//     currentIndex,
+//     contents: oldArtifact.contents.map((content) => {
+//       if (content.type === "code") {
+//         return {
+//           index: content.index,
+//           type: "code",
+//           title: content.title,
+//           language: content.language as ProgrammingLanguageOptions,
+//           code: content.content,
+//         };
+//       }
+//       return {
+//         index: content.index,
+//         type: "text",
+//         title: content.title,
+//         fullMarkdown: content.content,
+//         blocks: undefined,
+//       };
+//     }),
+//   };
+//   return v3;
+// };
 
 export const getArtifactContent = (
   artifact: ArtifactV3,
@@ -399,7 +398,8 @@ export function handleGenerateArtifactToolCallChunk(toolCallChunkArgs: string) {
       return undefined;
     }
     if (content.type === "text") {
-      content.fullMarkdown = cleanContent(content.fullMarkdown);
+      const markdownContent = content as ArtifactMarkdownV3;
+      markdownContent.fullMarkdown = cleanContent(markdownContent.fullMarkdown);
     }
 
     return {
@@ -428,12 +428,12 @@ export const formatArtifactContent = (
 
   if (isArtifactCodeContent(content)) {
     artifactContent = shortenContent
-      ? content.code?.slice(0, 500)
-      : content.code;
+      ? (content as ArtifactCodeV3).code?.slice(0, 500)
+      : (content as ArtifactCodeV3).code;
   } else {
     artifactContent = shortenContent
-      ? content.fullMarkdown?.slice(0, 500)
-      : content.fullMarkdown;
+      ? (content as ArtifactMarkdownV3).fullMarkdown?.slice(0, 500)
+      : (content as ArtifactMarkdownV3).fullMarkdown;
   }
   return `Title: ${content.title}\nArtifact type: ${content.type}\nContent: ${artifactContent}`;
 };
