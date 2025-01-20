@@ -1,7 +1,7 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import NoSSRWrapper from "mtxuilib/components/NoSSRWrapper";
-import { Canvas } from "../../components/opencanvas/canvas/canvas";
+import { Canvas } from "../../components/opencanvas/canvas";
 import { useTenant } from "../../hooks/useAuth";
 import { GraphProvider } from "../../stores/GraphContext";
 import { useMtmaiV2 } from "../../stores/StoreProvider";

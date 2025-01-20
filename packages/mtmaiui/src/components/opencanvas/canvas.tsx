@@ -17,7 +17,7 @@ import { ContentComposerChatInterface } from "./content-composer";
 
 const LZArtifactRenderer = dynamic(
   () =>
-    import("../artifacts/ArtifactRenderer").then((mod) => mod.ArtifactRenderer),
+    import("./artifacts/ArtifactRenderer").then((mod) => mod.ArtifactRenderer),
   {
     ssr: false,
   },
