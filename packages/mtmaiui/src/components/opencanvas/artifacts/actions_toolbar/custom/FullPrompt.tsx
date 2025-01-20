@@ -1,11 +1,11 @@
 import { AnimatePresence, motion } from "framer-motion";
+import type { CustomQuickAction } from "mtmaiapi";
 import {
   CUSTOM_QUICK_ACTION_ARTIFACT_CONTENT_PROMPT,
   CUSTOM_QUICK_ACTION_ARTIFACT_PROMPT_PREFIX,
   CUSTOM_QUICK_ACTION_CONVERSATION_CONTEXT,
   REFLECTIONS_QUICK_ACTION_PROMPT,
 } from "mtxuilib/agents/open-canvas/prompts";
-import type { CustomQuickAction } from "mtxuilib/types/opencanvasTypes";
 import {
   Tooltip,
   TooltipContent,

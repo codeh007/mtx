@@ -2,15 +2,15 @@
 import type { EditorView } from "@codemirror/view";
 import { HumanMessage } from "@langchain/core/messages";
 import { CircleCheck, Forward, LoaderCircle } from "lucide-react";
-import type { ProgrammingLanguageOptions } from "mtmaiapi";
+import type {
+    ArtifactCodeV3,
+    ArtifactMarkdownV3,
+    ProgrammingLanguageOptions,
+} from "mtmaiapi";
 import { getArtifactContent } from "mtxuilib/agentutils/opencanvas_utils";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { user } from "mtxuilib/db/schema/user";
 import { cn } from "mtxuilib/lib/utils";
-import type {
-  ArtifactCodeV3,
-  ArtifactMarkdownV3,
-} from "mtxuilib/types/opencanvasTypes";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useGraphStore } from "../../../stores/GraphContext";
@@ -329,12 +329,12 @@ function ArtifactRendererComponent(props: ArtifactRendererProps) {
   }
 
   const isBackwardsDisabled =
-    artifact.contents.length === 1 ||
+    artifact.contents?.length === 1 ||
     currentArtifactContent.index === 1 ||
     isStreaming;
   const isForwardDisabled =
-    artifact.contents.length === 1 ||
-    currentArtifactContent.index === artifact.contents.length ||
+    artifact.contents?.length === 1 ||
+    currentArtifactContent.index === artifact.contents?.length ||
     isStreaming;
 
   return (
@@ -352,7 +352,7 @@ function ArtifactRendererComponent(props: ArtifactRendererProps) {
             isForwardDisabled={isForwardDisabled}
             setSelectedArtifact={setSelectedArtifact}
             currentArtifactContent={currentArtifactContent}
-            totalArtifactVersions={artifact.contents.length}
+            totalArtifactVersions={artifact.contents?.length}
           />
         </div>
         <div className="ml-auto mt-[10px] mr-[6px]">

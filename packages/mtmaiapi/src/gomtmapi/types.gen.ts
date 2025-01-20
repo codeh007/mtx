@@ -1994,21 +1994,49 @@ export type CodeHighlight = {
 
 export type ArtifactV3 = {
   currentIndex?: number;
-  contents?: Array<
-    | {
-        index: number;
-        type: string;
-        title: string;
-        fullMarkdown: string;
-      }
-    | {
-        index: number;
-        type: string;
-        title: string;
-        language: ProgrammingLanguageOptions;
-        code: string;
-      }
-  >;
+  contents?: Array<ArtifactMarkdownV3 | ArtifactCodeV3>;
+};
+
+export type ArtifactCodeV3 = {
+  index: number;
+  type: string;
+  title: string;
+  language: ProgrammingLanguageOptions;
+  code: string;
+};
+
+export type ArtifactMarkdownV3 = {
+  index: number;
+  type: string;
+  title: string;
+  fullMarkdown: string;
+};
+
+export type CustomQuickAction = {
+  /**
+   * A UUID for the quick action. Used to identify the quick action.
+   */
+  id: string;
+  /**
+   * The title of the quick action. Used in the UI to display the quick action.
+   */
+  title: string;
+  /**
+   * The prompt to use when the quick action is invoked.
+   */
+  prompt: string;
+  /**
+   * Whether or not to include the user's reflections in the prompt.
+   */
+  includeReflections: boolean;
+  /**
+   * Whether or not to include the default prefix in the prompt.
+   */
+  includePrefix: boolean;
+  /**
+   * Whether or not to include the last 5 (or less) messages in the prompt.
+   */
+  includeRecentHistory: boolean;
 };
 
 export type ProgrammingLanguageOptions =
