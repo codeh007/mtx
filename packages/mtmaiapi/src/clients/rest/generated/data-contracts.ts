@@ -1768,14 +1768,48 @@ export interface AgentNodeRun {
 }
 
 /** agent运行节点请求 */
-export interface AgentNodeRunRequest {
+export interface AgentNodeRunInput {
   flowName: FlowNames;
   /** agent 节点ID(threadId) */
   nodeId?: string;
   /** 是否使用stream 传输事件 */
   isStream?: boolean;
-  params: ResearchRequest | CrewAIParams | ScrapeGraphParams | BrowserParams;
-  config?: any;
+  params:
+    | ResearchRequest
+    | CrewAIParams
+    | ScrapeGraphParams
+    | BrowserParams
+    | CanvasGraphParams;
+}
+
+export interface TextHighlight {
+  fullMarkdown?: string;
+  markdownBlock?: string;
+  selectedText?: string;
+}
+
+export interface CodeHighlight {
+  startCharIndex?: number;
+  endCharIndex?: number;
+}
+
+export interface ArtifactV3 {
+  currentIndex?: number;
+  contents?: (
+    | {
+        index?: number;
+        type?: string;
+        title?: string;
+        fullMarkdown?: string;
+      }
+    | {
+        index?: number;
+        type?: string;
+      }
+  )[];
+}
+
+export interface CanvasGraphParams {
   /** 步骤限制(没用上) */
   stepLimit?: number;
   messages?: ChatMessage[];
@@ -1792,12 +1826,26 @@ export interface AgentNodeRunRequest {
   customQuickActionId?: string;
   /** 工件ID */
   artifactId?: string;
+  /** 是否修复bug */
+  fixBugs?: boolean;
+  highlightedCode?: CodeHighlight;
+  highlightedText?: TextHighlight;
   /** 是否使用表情符号重新生成 */
   regenerateWithEmojis?: boolean;
   /** 阅读级别 */
   readingLevel?: "pirate" | "child" | "teenager" | "college" | "phd";
   /** 工具内容长度,(文章,代码内容长度) */
   artifactLength?: "shortest" | "short" | "long" | "longest";
+  artifact?: ArtifactV3;
+  addComments?: boolean;
+  addLogs?: boolean;
+  portLanguage?:
+    | "typescript"
+    | "javascript"
+    | "cpp"
+    | "java"
+    | "php"
+    | "python";
 }
 
 /** agent 任务工具 */

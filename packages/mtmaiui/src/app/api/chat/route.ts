@@ -6,7 +6,7 @@ export const runtime = "edge";
 const handler = async (r: Request) => {
   try {
     const accessToken = (await cookies()).get(cookieAccessToken)?.value;
-    return newGraphSseResponse("test", await r.json(), {
+    return newGraphSseResponse("opencanvas", await r.json(), {
       configurable: {
         gomtmApiUrl: process.env.MTMAI_BACKEND,
         accessToken: accessToken,
