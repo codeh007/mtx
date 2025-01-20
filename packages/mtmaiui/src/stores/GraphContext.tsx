@@ -20,7 +20,7 @@ import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
-import { runGraphStream } from "./runGraphStream";
+import { handleSseGraphStream } from "./runGraphStream";
 
 export interface GraphInput {
   messages?: Record<string, any>[];
@@ -131,7 +131,7 @@ export const createGraphSlice: StateCreator<
       set({ selectedArtifact: index });
     },
     streamMessage: (params) => {
-      return runGraphStream({ ...params }, set, get);
+      return handleSseGraphStream({ ...params }, set, get);
     },
     addMessage: (message: ChatMessage) => {
       const prevMessages = get().messages;
@@ -148,7 +148,7 @@ export const createGraphSlice: StateCreator<
       };
       set({ messages: [...prevMessages, humanMessage] });
 
-      await runGraphStream({}, set, get);
+      await handleSseGraphStream({}, set, get);
     },
     setUpdateRenderedArtifactRequired: (
       updateRenderedArtifactRequired: boolean,
