@@ -8,6 +8,7 @@ import { ChatOpenAI } from "@langchain/openai";
 import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types";
 import { z } from "zod";
 import { TITLE_SYSTEM_PROMPT, TITLE_USER_PROMPT } from "./prompts";
+// import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import {
   TitleGenerationAnnotation,
   type TitleGenerationReturnType,
