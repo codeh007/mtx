@@ -4,7 +4,7 @@ import {
   START,
   StateGraph,
 } from "@langchain/langgraph";
-import type { Reflections } from "mtmaiapi";
+import type { ArtifactCodeV3, ArtifactMarkdownV3, Reflections } from "mtmaiapi";
 import { z } from "zod";
 import {
   ensureStoreInConfig,
@@ -61,8 +61,8 @@ export const reflect = async (
 
   const artifactContent = currentArtifactContent
     ? isArtifactMarkdownContent(currentArtifactContent)
-      ? currentArtifactContent.fullMarkdown
-      : currentArtifactContent.code
+      ? (currentArtifactContent as ArtifactMarkdownV3).fullMarkdown
+      : (currentArtifactContent as ArtifactCodeV3).code
     : undefined;
 
   const formattedSystemPrompt = REFLECT_SYSTEM_PROMPT.replace(
