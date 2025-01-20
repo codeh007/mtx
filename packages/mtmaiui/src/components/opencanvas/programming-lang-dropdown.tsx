@@ -1,8 +1,8 @@
 "use client";
 import { Code } from "lucide-react";
+import type { ProgrammingLanguageOptions } from "mtmaiapi";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
-import type { ProgrammingLanguageOptions } from "mtxuilib/types/opencanvasTypes";
 import { Button } from "mtxuilib/ui/button";
 import {
   DropdownMenu,

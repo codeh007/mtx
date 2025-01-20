@@ -1878,6 +1878,26 @@ export interface CanvasGraphParams {
   portLanguage?: ProgrammingLanguageOptions;
 }
 
+export type Assistant = {
+  /** The ID of the assistant */
+  assistant_id: string;
+  /** The ID of the graph */
+  graph_id: string;
+  /** The assistant config */
+  config: object;
+  /** The time the assistant was created */
+  created_at: string;
+  /** The assistant metadata */
+  metadata: object;
+  /** The version of the assistant */
+  version: number;
+} & {
+  /** The last time the assistant was updated */
+  updated_at: string;
+  /** The name of the assistant */
+  name: string;
+};
+
 /** agent 任务工具 */
 export interface AgentTaskTool {
   metadata: APIResourceMeta;

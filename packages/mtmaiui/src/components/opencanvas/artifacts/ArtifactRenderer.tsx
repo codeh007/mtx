@@ -3,9 +3,9 @@ import type { EditorView } from "@codemirror/view";
 import { HumanMessage } from "@langchain/core/messages";
 import { CircleCheck, Forward, LoaderCircle } from "lucide-react";
 import type {
-    ArtifactCodeV3,
-    ArtifactMarkdownV3,
-    ProgrammingLanguageOptions,
+  ArtifactCodeV3,
+  ArtifactMarkdownV3,
+  ProgrammingLanguageOptions,
 } from "mtmaiapi";
 import { getArtifactContent } from "mtxuilib/agentutils/opencanvas_utils";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";

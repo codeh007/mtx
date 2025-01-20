@@ -1,8 +1,22 @@
 import type { Ai } from "@cloudflare/ai";
+import type { DialogProps } from "@radix-ui/react-dialog";
 import type { z } from "zod";
 import type { User } from "../db/schema";
 import type { Icons } from "../icons/icons";
 export type { WorkflowEvent, WorkflowStep } from "cloudflare:workers";
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {}
+
+export type EditDlgProps = {
+  onSubmit: (values: any) => Promise<void>;
+  onDelete: (values: any) => Promise<void>;
+  defaultValues?: any;
+} & DialogProps;
+
+export type MaybePromise<TType> = Promise<TType> | TType;
+export type Nullable<T> = { [P in keyof T]: T[P] | null };
+export type searchParams = { [key: string]: string | string[] | undefined };
+
 // export * from "./opencanvasTypes";
 export type ZodObjectAny = z.ZodObject<any, any, any, any>;
 
