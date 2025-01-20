@@ -2,6 +2,7 @@
 
 import { getLanguageTemplate } from "mtxuilib/agentutils/get_language_template";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
+import NoSSRWrapper from "mtxuilib/components/NoSSRWrapper";
 import { cn } from "mtxuilib/lib/utils";
 import type {
   ArtifactCodeV3,
@@ -107,10 +108,12 @@ export function CanvasComponent() {
       <MtSuspenseBoundary>
         {chatStarted && (
           <div className="w-full ml-auto">
-            <LZArtifactRenderer
-              setIsEditing={setIsEditing}
-              isEditing={isEditing}
-            />
+            <NoSSRWrapper>
+              <LZArtifactRenderer
+                setIsEditing={setIsEditing}
+                isEditing={isEditing}
+              />
+            </NoSSRWrapper>
           </div>
         )}
       </MtSuspenseBoundary>

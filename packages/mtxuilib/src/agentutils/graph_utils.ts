@@ -24,11 +24,16 @@ export async function* runLanggraph(input, configurable) {
     })
     .withConfig({ runName: "open_canvas" });
 
+  let threadId = configurable.thread_id;
+  if (!threadId) {
+    threadId = generateUUID();
+    yield `2:${JSON.stringify({ newThread: { threadId } })}\n`;
+  }
   const eventStream = await runable.streamEvents(input, {
     ...{
       configurable: {
         ...configurable,
-        thread_id: configurable.thread_id || generateUUID(),
+        thread_id: threadId,
         assistant_id: "default",
       },
       store: inMemoryStore,

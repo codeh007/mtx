@@ -52,6 +52,9 @@ export interface AgentNodeState extends AgentNodeProps {
   agentNode: AgentNode;
   setAgentNode: (agentNode: AgentNode) => void;
 
+  // subscribeEvents: (options: {
+  //   runId: string;
+  // }) => void;
   isStreaming: boolean;
   setIsStreaming: (isStreaming: boolean) => void;
   firstTokenReceived: boolean;
@@ -152,6 +155,8 @@ export const createGraphSlice: StateCreator<
     ) => {
       set({ updateRenderedArtifactRequired });
     },
+    // subscribeEvents: (options) => graphEventHandler(options, set, get),
+
     ...init,
   };
 };
