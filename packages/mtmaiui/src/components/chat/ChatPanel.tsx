@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "mtxuilib/lib/utils";
-import { LzChatClient } from "../LzComponents";
+import { useWorkbrenchStore } from "../../stores/workbrench.store";
 
 export const ChatPanel = () => {
   // 这里主要处理打开关闭 中间的聊天窗口的动画效果。

@@ -1,10 +1,9 @@
 "use client";
 
+import { getLanguageTemplate } from "mtxuilib/agentutils/get_language_template";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import type { ALL_MODEL_NAMES } from "mtxuilib/constants";
 import { user } from "mtxuilib/db/schema/user";
-import { getLanguageTemplate } from "mtxuilib/lib/get_language_template";
-
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { cn } from "mtxuilib/lib/utils";
 import type {
   ArtifactCodeV3,
@@ -13,10 +12,18 @@ import type {
   ProgrammingLanguageOptions,
 } from "mtxuilib/types/opencanvasTypes";
 import { useToast } from "mtxuilib/ui/use-toast";
+import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import { useGraphContext } from "../../stores/GraphContext";
-import { ArtifactRenderer } from "../artifacts/ArtifactRenderer";
 import { ContentComposerChatInterface } from "./content-composer";
+
+const LZArtifactRenderer = dynamic(
+  () =>
+    import("../artifacts/ArtifactRenderer").then((mod) => mod.ArtifactRenderer),
+  {
+    ssr: false,
+  },
+);
 
 export function CanvasComponent() {
   const { threadData, graphData, userData } = useGraphContext();
@@ -105,7 +112,7 @@ export function CanvasComponent() {
       <MtSuspenseBoundary>
         {chatStarted && (
           <div className="w-full ml-auto">
-            <ArtifactRenderer
+            <LZArtifactRenderer
               setIsEditing={setIsEditing}
               isEditing={isEditing}
             />

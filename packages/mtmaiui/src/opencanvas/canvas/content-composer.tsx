@@ -11,8 +11,8 @@ import type { Thread as ThreadType } from "@langchain/langgraph-sdk";
 import {
   convertLangchainMessages,
   convertToOpenAIFormat,
-} from "mtxuilib/lib/convert_messages";
-import type { ProgrammingLanguageOptions } from "mtxuilib/types";
+} from "mtxuilib/agentutils/convert_messages";
+import type { ProgrammingLanguageOptions } from "mtxuilib/types/opencanvasTypes";
 import { Toaster } from "mtxuilib/ui/toaster";
 import { useToast } from "mtxuilib/ui/use-toast";
 import React, { useState } from "react";
