@@ -3,29 +3,20 @@ import { generateId } from "ai";
 import type {
   AgentNode,
   AgentNodeRunInput,
-  ChatMessage,
-  TextHighlight,
   ArtifactV3,
+  ChatMessage,
   Tenant,
+  TextHighlight,
 } from "mtmaiapi";
-// import type {
-//   ArtifactLengthOptions,
-//   ArtifactV3,
-//   CodeHighlight,
-//   LanguageOptions,
-//   ProgrammingLanguageOptions,
-//   ReadingLevelOptions,
-//   TextHighlight,
-// } from "mtxuilib/types/opencanvasTypes";
+import type { CanvasGraphParams } from "mtmaiapi/gomtmapi";
 import { createContext, useContext, useMemo } from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { handleSseGraphStream } from "./runGraphStream";
-import type { CanvasGraphParams } from "mtmaiapi/gomtmapi";
 
-export type GraphInput = CanvasGraphParams  
+export type GraphInput = CanvasGraphParams;
 
 export interface AgentNodeProps {
   agentEndpointBase: string;

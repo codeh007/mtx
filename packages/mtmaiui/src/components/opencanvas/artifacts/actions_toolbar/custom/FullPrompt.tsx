@@ -5,12 +5,12 @@ import {
   CUSTOM_QUICK_ACTION_CONVERSATION_CONTEXT,
   REFLECTIONS_QUICK_ACTION_PROMPT,
 } from "mtxuilib/agents/open-canvas/prompts";
-import type { CustomQuickAction } from "mtxuilib/types";
+import type { CustomQuickAction } from "mtxuilib/types/opencanvasTypes";
 import {
-  TooltipProvider,
   Tooltip,
-  TooltipTrigger,
   TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
 } from "mtxuilib/ui/tooltip";
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 

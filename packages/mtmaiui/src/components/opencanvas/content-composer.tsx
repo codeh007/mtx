@@ -7,10 +7,9 @@ import {
   useExternalMessageConverter,
   useExternalStoreRuntime,
 } from "@assistant-ui/react";
-import type { ChatMessage } from "mtmaiapi";
+import type { ChatMessage, ProgrammingLanguageOptions } from "mtmaiapi";
 
 import type { Thread as ThreadType } from "@langchain/langgraph-sdk";
-import type { ProgrammingLanguageOptions } from "mtxuilib/types/opencanvasTypes";
 import { Toaster } from "mtxuilib/ui/toaster";
 import { useToast } from "mtxuilib/ui/use-toast";
 import React, { useCallback, useState } from "react";

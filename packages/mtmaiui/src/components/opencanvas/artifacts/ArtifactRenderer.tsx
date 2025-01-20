@@ -2,6 +2,7 @@
 import type { EditorView } from "@codemirror/view";
 import { HumanMessage } from "@langchain/core/messages";
 import { CircleCheck, Forward, LoaderCircle } from "lucide-react";
+import type { ProgrammingLanguageOptions } from "mtmaiapi";
 import { getArtifactContent } from "mtxuilib/agentutils/opencanvas_utils";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { user } from "mtxuilib/db/schema/user";
@@ -9,7 +10,6 @@ import { cn } from "mtxuilib/lib/utils";
 import type {
   ArtifactCodeV3,
   ArtifactMarkdownV3,
-  ProgrammingLanguageOptions,
 } from "mtxuilib/types/opencanvasTypes";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
