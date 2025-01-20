@@ -9,6 +9,10 @@ import {
 } from "../../../agentutils/agentutils";
 import type { Reflections } from "../../../types/opencanvasTypes";
 import { NEW_ARTIFACT_PROMPT } from "../prompts";
+import type {
+  OpenCanvasGraphAnnotation,
+  OpenCanvasGraphReturnType,
+} from "../state";
 
 /**
  * Generate a new artifact based on the user's query.
