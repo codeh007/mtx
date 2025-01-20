@@ -2,6 +2,7 @@ import { isAIMessageChunk } from "@langchain/core/messages";
 import type { RunnableConfig } from "@langchain/core/runnables";
 import { InMemoryStore, MemorySaver } from "@langchain/langgraph";
 import { OpenAIEmbeddings } from "@langchain/openai";
+import type { CanvasGraphParams } from "mtmaiapi/gomtmapi";
 // import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { buildCanvasGraph } from "../agents/open-canvas";
 import { generateUUID } from "../lib/s-utils";
@@ -9,7 +10,11 @@ import { StreamingResponse, makeStream } from "../llm/sse";
 
 const memory = new MemorySaver();
 const inMemoryStore = new InMemoryStore();
-export function newGraphSseResponse(graphName: string, input, configurable) {
+export function newGraphSseResponse(
+  graphName: string,
+  input: CanvasGraphParams,
+  configurable,
+) {
   // TODO: 增加 zod schema 验证输入格式
   const stream = runLanggraph(input, configurable);
   return new StreamingResponse(makeStream(stream));
@@ -38,6 +43,7 @@ export async function* runLanggraph(input, config: RunnableConfig) {
       assistant_id: "default",
     },
   };
+
   const eventStream = await runable.streamEvents(input, {
     ...newConfig,
     store: inMemoryStore,

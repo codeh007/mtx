@@ -3,13 +3,13 @@ import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { MagicPencilSVG } from "mtxuilib/icons/magic_pencil";
 import { cn } from "mtxuilib/lib/utils";
 import { useEffect, useRef, useState } from "react";
-// import type { GraphInput } from "../../../hooks/useGraph.tsx--";
 import { LengthOptions } from "./LengthOptions";
 import { ReadingLevelOptions } from "./ReadingLevelOptions";
 import { TranslateOptions } from "./TranslateOptions";
+import type { CanvasGraphParams } from "mtmaiapi/gomtmapi";
 
 type SharedComponentProps = {
-  streamMessage: (params: GraphInput) => Promise<void>;
+  streamMessage: (params: CanvasGraphParams) => Promise<void>;
   handleClose: () => void;
 };
 
@@ -21,7 +21,7 @@ type ToolbarOption = {
 };
 
 export interface ActionsToolbarProps {
-  streamMessage: (params: GraphInput) => Promise<void>;
+  streamMessage: (params: CanvasGraphParams) => Promise<void>;
   isTextSelected: boolean;
 }
 

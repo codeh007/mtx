@@ -1963,7 +1963,7 @@ export type AgentNodeRun = {
 /**
  * agent运行节点请求
  */
-export type AgentNodeRunRequest = {
+export type AgentNodeRunInput = {
   flowName: FlowNames;
   /**
    * agent 节点ID(threadId)
@@ -1973,8 +1973,42 @@ export type AgentNodeRunRequest = {
    * 是否使用stream 传输事件
    */
   isStream?: boolean;
-  params: ResearchRequest | CrewAiParams | ScrapeGraphParams | BrowserParams;
-  config?: unknown;
+  params:
+    | ResearchRequest
+    | CrewAiParams
+    | ScrapeGraphParams
+    | BrowserParams
+    | CanvasGraphParams;
+};
+
+export type TextHighlight = {
+  fullMarkdown?: string;
+  markdownBlock?: string;
+  selectedText?: string;
+};
+
+export type CodeHighlight = {
+  startCharIndex?: number;
+  endCharIndex?: number;
+};
+
+export type ArtifactV3 = {
+  currentIndex?: number;
+  contents?: Array<
+    | {
+        index?: number;
+        type?: string;
+        title?: string;
+        fullMarkdown?: string;
+      }
+    | {
+        index?: number;
+        type?: string;
+      }
+  >;
+};
+
+export type CanvasGraphParams = {
   /**
    * 步骤限制(没用上)
    */
@@ -2008,6 +2042,12 @@ export type AgentNodeRunRequest = {
    */
   artifactId?: string;
   /**
+   * 是否修复bug
+   */
+  fixBugs?: boolean;
+  highlightedCode?: CodeHighlight;
+  highlightedText?: TextHighlight;
+  /**
    * 是否使用表情符号重新生成
    */
   regenerateWithEmojis?: boolean;
@@ -2019,6 +2059,16 @@ export type AgentNodeRunRequest = {
    * 工具内容长度,(文章,代码内容长度)
    */
   artifactLength?: "shortest" | "short" | "long" | "longest";
+  artifact?: ArtifactV3;
+  addComments?: boolean;
+  addLogs?: boolean;
+  portLanguage?:
+    | "typescript"
+    | "javascript"
+    | "cpp"
+    | "java"
+    | "php"
+    | "python";
 };
 
 /**
@@ -7306,7 +7356,7 @@ export type AgentNodeRunData = {
   /**
    * 创建agentnode
    */
-  body: AgentNodeRunRequest;
+  body: AgentNodeRunInput;
   path: {
     /**
      * The tenant id

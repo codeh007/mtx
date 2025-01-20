@@ -15,7 +15,7 @@ import {
   AgentNodeCreateRequest,
   AgentNodeList,
   AgentNodeRun,
-  AgentNodeRunRequest,
+  AgentNodeRunInput,
   AgentNodeUpdateRequest,
   AgentRunForm,
   APIError,
@@ -2922,7 +2922,7 @@ export class Api<
    */
   agentNodeRun = (
     tenant: TenantParameter,
-    data: AgentNodeRunRequest,
+    data: AgentNodeRunInput,
     params: RequestParams = {},
   ) =>
     this.request<AgentNodeRun, APIErrors | APIError>({

@@ -2,45 +2,30 @@
 import { generateId } from "ai";
 import type {
   AgentNode,
-  AgentNodeRunRequest,
+  AgentNodeRunInput,
   ChatMessage,
+  TextHighlight,
+  ArtifactV3,
   Tenant,
 } from "mtmaiapi";
-import type {
-  ArtifactLengthOptions,
-  ArtifactV3,
-  CodeHighlight,
-  LanguageOptions,
-  ProgrammingLanguageOptions,
-  ReadingLevelOptions,
-  TextHighlight,
-} from "mtxuilib/types/opencanvasTypes";
+// import type {
+//   ArtifactLengthOptions,
+//   ArtifactV3,
+//   CodeHighlight,
+//   LanguageOptions,
+//   ProgrammingLanguageOptions,
+//   ReadingLevelOptions,
+//   TextHighlight,
+// } from "mtxuilib/types/opencanvasTypes";
 import { createContext, useContext, useMemo } from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { handleSseGraphStream } from "./runGraphStream";
+import type { CanvasGraphParams } from "mtmaiapi/gomtmapi";
 
-export interface GraphInput {
-  messages?: Record<string, any>[];
-
-  highlightedCode?: CodeHighlight;
-  highlightedText?: TextHighlight;
-
-  artifact?: ArtifactV3;
-
-  language?: LanguageOptions;
-  artifactLength?: ArtifactLengthOptions;
-  regenerateWithEmojis?: boolean;
-  readingLevel?: ReadingLevelOptions;
-
-  addComments?: boolean;
-  addLogs?: boolean;
-  portLanguage?: ProgrammingLanguageOptions;
-  fixBugs?: boolean;
-  customQuickActionId?: string;
-}
+export type GraphInput = CanvasGraphParams  
 
 export interface AgentNodeProps {
   agentEndpointBase: string;
@@ -84,7 +69,7 @@ export interface AgentNodeState extends AgentNodeProps {
   //可能放这里不合适
   selectedBlocks: TextHighlight | undefined;
   setSelectedBlocks: (selectedBlocks: TextHighlight) => void;
-  streamMessage: (params: AgentNodeRunRequest) => Promise<void>;
+  streamMessage: (params: AgentNodeRunInput) => Promise<void>;
   updateRenderedArtifactRequired: boolean;
   setUpdateRenderedArtifactRequired: (
     updateRenderedArtifactRequired: boolean,
