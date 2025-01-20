@@ -5,7 +5,7 @@ import {
   MessagePrimitive,
   useMessage,
 } from "@assistant-ui/react";
-import React, { type Dispatch, type FC, type SetStateAction } from "react";
+import React, { type FC } from "react";
 
 import { makeMarkdownText } from "@assistant-ui/react-markdown";
 import { TighterText } from "mtxuilib/mt/TighterText";
@@ -18,7 +18,7 @@ const MarkdownText = makeMarkdownText({});
 interface AssistantMessageProps {
   runId: string | undefined;
   feedbackSubmitted: boolean;
-  setFeedbackSubmitted: Dispatch<SetStateAction<boolean>>;
+  setFeedbackSubmitted: (feedbackSubmitted: boolean) => void;
 }
 
 export const AssistantMessage: FC<AssistantMessageProps> = ({
@@ -62,7 +62,7 @@ export const UserMessage: FC = () => {
 interface AssistantMessageBarProps {
   runId: string;
   feedbackSubmitted: boolean;
-  setFeedbackSubmitted: Dispatch<SetStateAction<boolean>>;
+  setFeedbackSubmitted: (feedbackSubmitted: boolean) => void;
 }
 
 const AssistantMessageBarComponent = ({

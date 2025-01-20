@@ -82,6 +82,10 @@ export interface AgentNodeState extends AgentNodeProps {
   selectedBlocks: TextHighlight | undefined;
   setSelectedBlocks: (selectedBlocks: TextHighlight) => void;
   streamMessage: (params: AgentNodeRunRequest) => Promise<void>;
+  updateRenderedArtifactRequired: boolean;
+  setUpdateRenderedArtifactRequired: (
+    updateRenderedArtifactRequired: boolean,
+  ) => void;
 }
 
 export const createGraphSlice: StateCreator<
@@ -142,6 +146,11 @@ export const createGraphSlice: StateCreator<
       set({ messages: [...prevMessages, humanMessage] });
 
       await runGraphStream({}, set, get);
+    },
+    setUpdateRenderedArtifactRequired: (
+      updateRenderedArtifactRequired: boolean,
+    ) => {
+      set({ updateRenderedArtifactRequired });
     },
     ...init,
   };

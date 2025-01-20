@@ -112,12 +112,12 @@ export function getLlm() {
   );
 }
 const customeLlmFetch = async (url: RequestInfo, options: RequestInit) => {
-  console.log("customeLlmFetch", url, options);
+  // console.log("customeLlmFetch", url, options);
   const response = await fetch(url, options);
-  console.log(
-    `customeLlmFetch response: ${response.status}, content-length: ${response.headers.get(
-      "content-length",
-    )}, content-type: ${await response.headers.get("content-type")}`,
-  );
+  // console.log(
+  //   `customeLlmFetch response: ${response.status}, content-length: ${response.headers.get(
+  //     "content-length",
+  //   )}, content-type: ${await response.headers.get("content-type")}`,
+  // );
   return response;
 };

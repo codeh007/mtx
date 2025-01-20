@@ -22,6 +22,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { useGraphStore } from "../../stores/GraphContext";
 import { CopyText } from "./components/CopyText";
 
 const cleanText = (text: string) => {
@@ -66,15 +67,20 @@ export interface TextRendererProps {
 
 export function TextRendererComponent(props: TextRendererProps) {
   const editor = useCreateBlockNote({});
-  const {
-    artifact,
-    isStreaming,
-    updateRenderedArtifactRequired,
-    firstTokenReceived,
-    setArtifact,
-    setSelectedBlocks,
-    setUpdateRenderedArtifactRequired,
-  } = graphData;
+  // const {
+  //   artifact,
+  //   isStreaming,
+  //   updateRenderedArtifactRequired,
+  //   firstTokenReceived,
+  //   setArtifact,
+  //   setSelectedBlocks,
+  //   setUpdateRenderedArtifactRequired,
+  // } = graphData;
+
+  const artifact = useGraphStore((x) => x.artifact);
+  const selectedBlocks = useGraphStore((x) => x.selectedBlocks);
+  const setSelectedBlocks = useGraphStore((x) => x.setSelectedBlocks);
+  const isStreaming = useGraphStore((x) => x.isStreaming);
 
   const [rawMarkdown, setRawMarkdown] = useState("");
   const [isRawView, setIsRawView] = useState(false);

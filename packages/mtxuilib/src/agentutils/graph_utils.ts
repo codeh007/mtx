@@ -36,21 +36,40 @@ export async function* runLanggraph(input, configurable) {
     version: "v2",
   });
 
-  for await (const { event, data } of eventStream) {
-    if (event === "on_chat_model_stream" && isAIMessageChunk(data?.chunk)) {
+  for await (const e of eventStream) {
+    console.log(
+      `[stream]: ${e.run_id},${e.name},${e.event},\n===========\n${JSON.stringify(
+        e.metadata,
+        null,
+        2,
+      )}\n===========\n`,
+    );
+
+    const langgraph_node = e.metadata.langgraph_node;
+    if (e.event === "on_chain_start") {
+      // console.log("on_chain_start", data);
+    }
+    if (e.event === "on_chat_model_stream" && isAIMessageChunk(e.data?.chunk)) {
       if (
-        data.chunk.tool_call_chunks !== undefined &&
-        data.chunk.tool_call_chunks?.length > 0
+        e.data.chunk.tool_call_chunks !== undefined &&
+        e.data.chunk.tool_call_chunks?.length > 0
       ) {
         // yield data.chunk.tool_call_chunks;
       } else {
-        if (data.chunk?.content) {
-          // yield emitText(data.chunk.content as string);
-
-          const aa = JSON.stringify(data.chunk.content);
-          yield `0:${aa}\n`;
+        if (e.data.chunk?.content) {
+          if (langgraph_node === "generateArtifact") {
+            // yield `0:${JSON.stringify(e.data.chunk.content)}\n`;
+          } else if (langgraph_node === "generateFollowup") {
+            yield `0:${JSON.stringify(e.data.chunk.content)}\n`;
+          } else if (langgraph_node === "replyToGeneralInput") {
+            yield `0:${JSON.stringify(e.data.chunk.content)}\n`;
+          } else {
+            // yield `0:${JSON.stringify(data.chunk.content)}\n`;
+          }
         }
       }
+    } else if (e.event === "on_chat_model_end") {
+      yield `d:"[DONE]"\n`;
     }
   }
 }
