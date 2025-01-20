@@ -1,5 +1,5 @@
 import { isAIMessageChunk } from "@langchain/core/messages";
-import type { RunnableConfig } from "@langchain/core/runnables";
+import type { Runnable, RunnableConfig } from "@langchain/core/runnables";
 import { InMemoryStore, MemorySaver } from "@langchain/langgraph";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import type { CanvasGraphParams } from "mtmaiapi/gomtmapi";
@@ -11,24 +11,32 @@ import { StreamingResponse, makeStream } from "../llm/sse";
 const memory = new MemorySaver();
 const inMemoryStore = new InMemoryStore();
 export function newGraphSseResponse(
-  graphName: string,
+  agentName: string,
   input: CanvasGraphParams,
   configurable,
 ) {
   // TODO: 增加 zod schema 验证输入格式
-  const stream = runLanggraph(input, configurable);
+  const stream = runLanggraph(agentName, input, configurable);
   return new StreamingResponse(makeStream(stream));
 }
-export async function* runLanggraph(input, config: RunnableConfig) {
+export async function* runLanggraph(
+  agentName: string,
+  input,
+  config: RunnableConfig,
+) {
   const embeddings = new OpenAIEmbeddings({
     model: "text-embedding-3-large",
   });
   // const store = new MemoryVectorStore(embeddings);
-  const runable = buildCanvasGraph()
-    .compile({
-      checkpointer: memory,
-    })
-    .withConfig({ runName: "open_canvas" });
+  let runable: Runnable;
+  if (agentName === "postiz") {
+  } else {
+    runable = buildCanvasGraph()
+      .compile({
+        checkpointer: memory,
+      })
+      .withConfig({ runName: "canvas" });
+  }
 
   let threadId = config.configurable.thread_id;
   if (!threadId) {
