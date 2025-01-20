@@ -53,8 +53,10 @@ export async function* runLanggraph(
   };
 
   const eventStream = await runable.streamEvents(input, {
-    ...newConfig,
-    store: inMemoryStore,
+    configurable: {
+      ...newConfig.configurable,
+      store: inMemoryStore,
+    },
     version: "v2",
   });
 
