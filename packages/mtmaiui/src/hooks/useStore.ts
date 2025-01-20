@@ -1,9 +1,6 @@
 "use client";
 
-import type {
-  CustomQuickAction,
-  Reflections,
-} from "mtxuilib/types/opencanvasTypes";
+import type { Reflections, CustomQuickAction } from "mtmaiapi";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useState } from "react";
 

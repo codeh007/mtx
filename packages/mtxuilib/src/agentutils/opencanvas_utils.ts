@@ -437,3 +437,65 @@ export const formatArtifactContent = (
   }
   return `Title: ${content.title}\nArtifact type: ${content.type}\nContent: ${artifactContent}`;
 };
+
+export const PROGRAMMING_LANGUAGES: Array<{
+  language: ProgrammingLanguageOptions;
+  label: string;
+}> = [
+  {
+    language: "typescript",
+    label: "TypeScript",
+  },
+  {
+    language: "javascript",
+    label: "JavaScript",
+  },
+  {
+    language: "cpp",
+    label: "C++",
+  },
+  {
+    language: "java",
+    label: "Java",
+  },
+  {
+    language: "php",
+    label: "PHP",
+  },
+  {
+    language: "python",
+    label: "Python",
+  },
+  {
+    language: "html",
+    label: "HTML",
+  },
+  {
+    language: "sql",
+    label: "SQL",
+  },
+  {
+    language: "json",
+    label: "JSON",
+  },
+  {
+    language: "rust",
+    label: "Rust",
+  },
+  {
+    language: "xml",
+    label: "XML",
+  },
+  {
+    language: "clojure",
+    label: "Clojure",
+  },
+  {
+    language: "csharp",
+    label: "C#",
+  },
+  {
+    language: "other",
+    label: "Other",
+  },
+];

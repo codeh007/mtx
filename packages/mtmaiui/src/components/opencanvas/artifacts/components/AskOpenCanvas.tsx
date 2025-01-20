@@ -1,9 +1,8 @@
-'use client'
+"use client";
 import { CircleArrowUp } from "lucide-react";
 import { getArtifactContent } from "mtxuilib/agentutils/opencanvas_utils";
 import { isArtifactCodeContent } from "mtxuilib/lib/artifact_content_types";
 import { cn } from "mtxuilib/lib/utils";
-import type { ArtifactV3 } from "mtxuilib/types/opencanvasTypes";
 import { Button } from "mtxuilib/ui/button";
 import { Input } from "mtxuilib/ui/input";
 import { useToast } from "mtxuilib/ui/use-toast";
