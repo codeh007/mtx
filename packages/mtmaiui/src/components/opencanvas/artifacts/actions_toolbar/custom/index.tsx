@@ -9,6 +9,7 @@ import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { cn } from "mtxuilib/lib/utils";
 import { TighterText } from "mtxuilib/mt/TighterText";
 import type { CustomQuickAction } from "mtxuilib/types/opencanvasTypes";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,7 +17,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "mtxuilib/ui/dropdown-menu.jsx";
+} from "mtxuilib/ui/dropdown-menu";
 import { useToast } from "mtxuilib/ui/use-toast";
 import type { User } from "next-auth";
 import { useEffect, useState } from "react";

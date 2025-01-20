@@ -16,7 +16,6 @@ import { InlineContextTooltip } from "mtxuilib/mt/inline-context-tooltip";
 import type { CustomQuickAction } from "mtxuilib/types/opencanvasTypes";
 import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
-import { useStore } from "../../../hooks/useStore";
 import { FullPrompt } from "./FullPrompt";
 
 import { Checkbox } from "mtxuilib/ui/checkbox";
@@ -30,6 +29,7 @@ import {
 import { Input } from "mtxuilib/ui/input";
 import { Label } from "mtxuilib/ui/label";
 import { Textarea } from "mtxuilib/ui/textarea";
+import { useStore } from "../../../../../hooks/useStore";
 
 const CUSTOM_INSTRUCTIONS_TOOLTIP_TEXT =
   "This field contains the custom instructions you set, which will then be used to instruct the LLM on how to re-generate the selected artifact.";
