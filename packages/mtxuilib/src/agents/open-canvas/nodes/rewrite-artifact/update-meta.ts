@@ -1,9 +1,17 @@
 import type { ToolCall } from "@langchain/core/messages/tool";
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
-import { getArtifactContent } from "../../../graph_utils";
+// import { getArtifactContent } from "../../../graph_utils";
 import { GET_TITLE_TYPE_REWRITE_ARTIFACT } from "../../prompts";
 import type { OpenCanvasGraphAnnotation } from "../../state";
 import { OPTIONALLY_UPDATE_ARTIFACT_META_SCHEMA } from "./schemas";
+import {
+  getModelFromConfig,
+  getFormattedReflections,
+} from "../../../../agentutils/agentutils";
+import {
+  getArtifactContent,
+  formatArtifactContent,
+} from "../../../../agentutils/opencanvas_utils";
 
 export async function optionallyUpdateArtifactMeta(
   state: typeof OpenCanvasGraphAnnotation.State,

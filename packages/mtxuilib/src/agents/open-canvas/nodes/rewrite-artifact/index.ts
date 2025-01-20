@@ -1,10 +1,11 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
-import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types.js";
+import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types";
 import {
   getFormattedReflections,
   getModelFromConfig,
   optionallyGetSystemPromptFromConfig,
-} from "../../../agentUtils";
+} from "../../../../agentutils/agentutils";
+
 import type {
   OpenCanvasGraphAnnotation,
   OpenCanvasGraphReturnType,
