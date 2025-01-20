@@ -1783,30 +1783,50 @@ export interface AgentNodeRunInput {
 }
 
 export interface TextHighlight {
-  fullMarkdown?: string;
-  markdownBlock?: string;
-  selectedText?: string;
+  fullMarkdown: string;
+  markdownBlock: string;
+  selectedText: string;
 }
 
 export interface CodeHighlight {
-  startCharIndex?: number;
-  endCharIndex?: number;
+  startCharIndex: number;
+  endCharIndex: number;
 }
 
 export interface ArtifactV3 {
   currentIndex?: number;
   contents?: (
     | {
-        index?: number;
-        type?: string;
-        title?: string;
-        fullMarkdown?: string;
+        index: number;
+        type: string;
+        title: string;
+        fullMarkdown: string;
       }
     | {
-        index?: number;
-        type?: string;
+        index: number;
+        type: string;
+        title: string;
+        language: ProgrammingLanguageOptions;
+        code: string;
       }
   )[];
+}
+
+export enum ProgrammingLanguageOptions {
+  Typescript = "typescript",
+  Javascript = "javascript",
+  Cpp = "cpp",
+  Java = "java",
+  Php = "php",
+  Python = "python",
+  Html = "html",
+  Sql = "sql",
+  Json = "json",
+  Rust = "rust",
+  Xml = "xml",
+  Clojure = "clojure",
+  Csharp = "csharp",
+  Other = "other",
 }
 
 export interface CanvasGraphParams {
@@ -1839,13 +1859,7 @@ export interface CanvasGraphParams {
   artifact?: ArtifactV3;
   addComments?: boolean;
   addLogs?: boolean;
-  portLanguage?:
-    | "typescript"
-    | "javascript"
-    | "cpp"
-    | "java"
-    | "php"
-    | "python";
+  portLanguage?: ProgrammingLanguageOptions;
 }
 
 /** agent 任务工具 */

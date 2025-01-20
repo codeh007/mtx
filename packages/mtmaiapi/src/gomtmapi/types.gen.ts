@@ -1982,31 +1982,50 @@ export type AgentNodeRunInput = {
 };
 
 export type TextHighlight = {
-  fullMarkdown?: string;
-  markdownBlock?: string;
-  selectedText?: string;
+  fullMarkdown: string;
+  markdownBlock: string;
+  selectedText: string;
 };
 
 export type CodeHighlight = {
-  startCharIndex?: number;
-  endCharIndex?: number;
+  startCharIndex: number;
+  endCharIndex: number;
 };
 
 export type ArtifactV3 = {
   currentIndex?: number;
   contents?: Array<
     | {
-        index?: number;
-        type?: string;
-        title?: string;
-        fullMarkdown?: string;
+        index: number;
+        type: string;
+        title: string;
+        fullMarkdown: string;
       }
     | {
-        index?: number;
-        type?: string;
+        index: number;
+        type: string;
+        title: string;
+        language: ProgrammingLanguageOptions;
+        code: string;
       }
   >;
 };
+
+export type ProgrammingLanguageOptions =
+  | "typescript"
+  | "javascript"
+  | "cpp"
+  | "java"
+  | "php"
+  | "python"
+  | "html"
+  | "sql"
+  | "json"
+  | "rust"
+  | "xml"
+  | "clojure"
+  | "csharp"
+  | "other";
 
 export type CanvasGraphParams = {
   /**
@@ -2062,13 +2081,7 @@ export type CanvasGraphParams = {
   artifact?: ArtifactV3;
   addComments?: boolean;
   addLogs?: boolean;
-  portLanguage?:
-    | "typescript"
-    | "javascript"
-    | "cpp"
-    | "java"
-    | "php"
-    | "python";
+  portLanguage?: ProgrammingLanguageOptions;
 };
 
 /**

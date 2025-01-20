@@ -1,13 +1,14 @@
 import { BookA, Bug, Code, MessageCircleCode, ScrollText } from "lucide-react";
-import type { ProgrammingLanguageOptions } from "mtxuilib/types";
+import type { CanvasGraphParams, ProgrammingLanguageOptions } from "mtmaiapi";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { cn } from "mtxuilib/lib/utils";
 import { useEffect, useRef, useState } from "react";
+import type { GraphInput } from "../../../../../stores/GraphContext";
 import { PortToLanguageOptions } from "./PortToLanguage";
 
 type SharedComponentProps = {
   handleClose: () => void;
-  streamMessage: (params: GraphInput) => Promise<void>;
+  streamMessage: (params: CanvasGraphParams) => Promise<void>;
   language: ProgrammingLanguageOptions;
 };
 

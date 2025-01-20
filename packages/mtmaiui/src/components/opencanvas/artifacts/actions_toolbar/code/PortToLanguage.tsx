@@ -1,8 +1,10 @@
-import type { ProgrammingLanguageOptions } from "mtxuilib/types";
+import type { CanvasGraphParams } from "mtmaiapi";
+import type { ProgrammingLanguageOptions } from "mtmaiapi/gomtmapi";
+import { useToast } from "mtxuilib/ui/use-toast";
 import { ProgrammingLanguageList } from "../../../programming-lang-dropdown";
 
 export interface PortToLanguageOptionsProps {
-  streamMessage: (params: GraphInput) => Promise<void>;
+  streamMessage: (params: CanvasGraphParams) => Promise<void>;
   handleClose: () => void;
   language: ProgrammingLanguageOptions;
 }
