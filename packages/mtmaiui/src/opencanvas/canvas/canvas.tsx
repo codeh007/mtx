@@ -2,8 +2,6 @@
 
 import { getLanguageTemplate } from "mtxuilib/agentutils/get_language_template";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
-import type { ALL_MODEL_NAMES } from "mtxuilib/constants";
-import { user } from "mtxuilib/db/schema/user";
 import { cn } from "mtxuilib/lib/utils";
 import type {
   ArtifactCodeV3,
@@ -13,8 +11,7 @@ import type {
 } from "mtxuilib/types/opencanvasTypes";
 import { useToast } from "mtxuilib/ui/use-toast";
 import dynamic from "next/dynamic";
-import React, { useEffect, useState } from "react";
-import { useGraphContext } from "../../stores/GraphContext";
+import React, { useState } from "react";
 import { ContentComposerChatInterface } from "./content-composer";
 
 const LZArtifactRenderer = dynamic(
@@ -26,19 +23,17 @@ const LZArtifactRenderer = dynamic(
 );
 
 export function CanvasComponent() {
-  const { threadData, graphData, userData } = useGraphContext();
-  const { threadId, clearThreadsWithNoValues, setModelName } = threadData;
-  const { setArtifact } = graphData;
+  // const { threadId, clearThreadsWithNoValues, setModelName } = threadData;
+  // const { setArtifact } = graphData;
   const { toast } = useToast();
   const [chatStarted, setChatStarted] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    if (!threadId || !user) return;
-    // Clear threads with no values
-    clearThreadsWithNoValues(user.id);
-  }, [threadId, user]);
+  // useEffect(() => {
+  //   if (!threadId || !user) return;
+  //   // Clear threads with no values
+  //   clearThreadsWithNoValues(user.id);
+  // }, [threadId, user]);
 
   const handleQuickStart = (
     type: "text" | "code",
@@ -79,7 +74,7 @@ export function CanvasComponent() {
     // Do not worry about existing items in state. This should
     // never occur since this action can only be invoked if
     // there are no messages/artifacts in the thread.
-    setArtifact(newArtifact);
+    // setArtifact(newArtifact);
     setIsEditing(true);
   };
 
@@ -97,9 +92,9 @@ export function CanvasComponent() {
             // Chat should only be "started" if there are messages present
             if ((thread.values as Record<string, any>)?.messages?.length) {
               setChatStarted(true);
-              setModelName(
-                thread?.metadata?.customModelName as ALL_MODEL_NAMES,
-              );
+              // setModelName(
+              //   thread?.metadata?.customModelName as ALL_MODEL_NAMES,
+              // );
             } else {
               setChatStarted(false);
             }

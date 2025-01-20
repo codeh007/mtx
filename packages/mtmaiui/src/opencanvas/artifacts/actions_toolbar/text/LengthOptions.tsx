@@ -1,10 +1,10 @@
 import { cn } from "mtxuilib/lib/utils";
 import type { ArtifactLengthOptions } from "mtxuilib/types/opencanvasTypes";
 import {
-  TooltipProvider,
   Tooltip,
-  TooltipTrigger,
   TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
 } from "mtxuilib/ui/tooltip";
 import { useState } from "react";
 import type { GraphInput } from "../../../../stores/GraphContext";

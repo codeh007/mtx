@@ -2,23 +2,22 @@ import type { Assistant } from "@langchain/langgraph-sdk";
 import * as Icons from "lucide-react";
 import { OC_HAS_SEEN_CUSTOM_ASSISTANTS_ALERT } from "mtxuilib/constants";
 import React, { useState } from "react";
-import { useGraphContext } from "../../stores/GraphContext";
 
-import { AlertNewAssistantsFeature } from "./alert-new-feature";
-import { AssistantItem } from "./assistant-item";
-import { CreateEditAssistantDialog } from "./create-edit-assistant-dialog";
-import { getIcon } from "./utils";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuItem,
+  DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu";
 import { useToast } from "mtxuilib/ui/use-toast";
+import { AlertNewAssistantsFeature } from "./alert-new-feature";
+import { AssistantItem } from "./assistant-item";
+import { CreateEditAssistantDialog } from "./create-edit-assistant-dialog";
+import { getIcon } from "./utils";
 
 interface AssistantSelectProps {
   userId: string | undefined;
@@ -34,18 +33,6 @@ function AssistantSelectComponent(props: AssistantSelectProps) {
   >();
   const [allDisabled, setAllDisabled] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-
-  const {
-    assistantsData: {
-      assistants,
-      selectedAssistant,
-      isLoadingAllAssistants,
-      setSelectedAssistant,
-      createCustomAssistant,
-      editCustomAssistant,
-      deleteAssistant,
-    },
-  } = useGraphContext();
 
   const handleNewAssistantClick = (event: Event) => {
     event.preventDefault();

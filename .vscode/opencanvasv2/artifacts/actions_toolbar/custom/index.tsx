@@ -131,15 +131,6 @@ export function CustomQuickActions(props: CustomQuickActionsProps) {
   };
 
   const handleDelete = async (id: string) => {
-    // if (!user) {
-    //   toast({
-    //     title: "Failed to delete",
-    //     description: "User not found",
-    //     variant: "destructive",
-    //     duration: 5000,
-    //   });
-    //   return;
-    // }
     try {
       const deletionSuccess = await deleteCustomQuickAction(
         id,

@@ -2,17 +2,15 @@
 import { ThreadPrimitive } from "@assistant-ui/react";
 import type { Thread as ThreadType } from "@langchain/langgraph-sdk";
 import { ArrowDownIcon, SquarePen } from "lucide-react";
-import type { ProgrammingLanguageOptions } from "mtxuilib/types";
 import type { Dispatch, FC, SetStateAction } from "react";
-import { useGraphContext } from "../../stores/GraphContext";
 
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
+import type { ProgrammingLanguageOptions } from "mtxuilib/types/opencanvasTypes";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useLangSmithLinkToolUI } from "../tool-hooks/LangSmithLinkToolUI";
 import { Composer } from "./composer";
 import { AssistantMessage, UserMessage } from "./messages";
-import ModelSelector from "./model-selector";
 import { ThreadWelcome } from "./welcome";
 
 const ThreadScrollToBottom: FC = () => {
@@ -48,36 +46,36 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
     switchSelectedThreadCallback,
   } = props;
   const { toast } = useToast();
-  const {
-    userData: { user },
-    threadData: { createThread, modelName, setModelName },
-    assistantsData: { selectedAssistant },
-    graphData: { clearState, runId, feedbackSubmitted, setFeedbackSubmitted },
-  } = useGraphContext();
+  // const {
+  //   userData: { user },
+  //   threadData: { createThread, modelName, setModelName },
+  //   assistantsData: { selectedAssistant },
+  //   graphData: { clearState, runId, feedbackSubmitted, setFeedbackSubmitted },
+  // } = useGraphContext();
 
   useLangSmithLinkToolUI();
 
   const handleCreateThread = async () => {
-    if (!user) {
-      toast({
-        title: "User not found",
-        description: "Failed to create thread without user",
-        duration: 5000,
-        variant: "destructive",
-      });
-      return;
-    }
-    setModelName(modelName);
-    clearState();
-    setChatStarted(false);
-    const thread = await createThread(modelName, user.id);
-    if (!thread) {
-      toast({
-        title: "Failed to create a new thread",
-        duration: 5000,
-        variant: "destructive",
-      });
-    }
+    // if (!user) {
+    //   toast({
+    //     title: "User not found",
+    //     description: "Failed to create thread without user",
+    //     duration: 5000,
+    //     variant: "destructive",
+    //   });
+    //   return;
+    // }
+    // setModelName(modelName);
+    // clearState();
+    // setChatStarted(false);
+    // const thread = await createThread(modelName, user.id);
+    // if (!thread) {
+    //   toast({
+    //     title: "Failed to create a new thread",
+    //     duration: 5000,
+    //     variant: "destructive",
+    //   });
+    // }
   };
 
   return (
@@ -88,13 +86,13 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
             switchSelectedThreadCallback={switchSelectedThreadCallback}
           /> */}
           <TighterText className="text-xl">Open Canvas</TighterText>
-          {!hasChatStarted && (
+          {/* {!hasChatStarted && (
             <ModelSelector
               chatStarted={false}
               modelName={modelName}
               setModelName={setModelName}
             />
-          )}
+          )} */}
         </div>
         {hasChatStarted ? (
           <TooltipIconButton

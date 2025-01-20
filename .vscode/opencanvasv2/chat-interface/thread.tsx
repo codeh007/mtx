@@ -8,7 +8,6 @@ import { ThreadPrimitive } from "@assistant-ui/react";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
 import { useToast } from "mtxuilib/ui/use-toast";
-// import { useGraphStore } from "../../stores/GraphContextV2.tsx--";
 import { DebugViewCanvas } from "../DebugViewCanvas";
 import { ReflectionsDialog } from "../reflections-dialog/ReflectionsDialog";
 import { useLangSmithLinkToolUI } from "../tool-hooks/LangSmithLinkToolUI";

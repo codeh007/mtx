@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { cpp } from "@codemirror/lang-cpp";
 import { html } from "@codemirror/lang-html";
@@ -17,8 +17,7 @@ import { getArtifactContent } from "mtxuilib/agentutils/opencanvas_utils";
 import { cleanContent } from "mtxuilib/lib/s-utils";
 import { cn } from "mtxuilib/lib/utils";
 import type { ArtifactCodeV3 } from "mtxuilib/types/opencanvasTypes";
-import React, { type MutableRefObject, useEffect } from "react";
-import { useGraphContext } from "../../stores/GraphContext";
+import React, { type MutableRefObject } from "react";
 import styles from "./CodeRenderer.module.css";
 import { CopyText } from "./components/CopyText";
 
@@ -61,26 +60,25 @@ const getLanguageExtension = (language: string) => {
 };
 
 export function CodeRendererComponent(props: Readonly<CodeRendererProps>) {
-  const { graphData } = useGraphContext();
-  const {
-    artifact,
-    isStreaming,
-    updateRenderedArtifactRequired,
-    firstTokenReceived,
-    setArtifactContent,
-    setUpdateRenderedArtifactRequired,
-  } = graphData;
+  // const {
+  //   artifact,
+  //   isStreaming,
+  //   updateRenderedArtifactRequired,
+  //   firstTokenReceived,
+  //   setArtifactContent,
+  //   setUpdateRenderedArtifactRequired,
+  // } = graphData;
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    if (updateRenderedArtifactRequired) {
-      setUpdateRenderedArtifactRequired(false);
-    }
-  }, [updateRenderedArtifactRequired]);
+  // useEffect(() => {
+  //   if (updateRenderedArtifactRequired) {
+  //     setUpdateRenderedArtifactRequired(false);
+  //   }
+  // }, [updateRenderedArtifactRequired]);
 
-  if (!artifact) {
-    return null;
-  }
+  // if (!artifact) {
+  //   return null;
+  // }
 
   const artifactContent = getArtifactContent(artifact) as ArtifactCodeV3;
   const extensions = [getLanguageExtension(artifactContent.language)];

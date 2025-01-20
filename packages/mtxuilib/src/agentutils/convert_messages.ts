@@ -32,6 +32,7 @@ export const getMessageType = (message: Record<string, any>): string => {
   throw new Error("Unsupported message type");
 };
 
+// 可能不需要了
 export const convertLangchainMessages: useExternalMessageConverter.Callback<
   BaseMessage
 > = (message): Message | Message[] => {

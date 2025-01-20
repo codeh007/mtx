@@ -1,3 +1,4 @@
+"use client";
 import type { Thread } from "@langchain/langgraph-sdk";
 import { client } from "mtmaiapi";
 import {
@@ -185,7 +186,7 @@ export function useThread() {
   };
 
   return {
-    threadId,
+    threadId: "fakethreadId", // 暂时返回一个固定的threadId,确保能跑起来
     userThreads,
     isUserThreadsLoading,
     modelName,
