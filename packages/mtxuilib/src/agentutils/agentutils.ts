@@ -126,9 +126,13 @@ export const getModelConfig = (
   };
   apiKey?: string;
 } => {
-  const customModelName = config.configurable?.customModelName as string;
+  let customModelName = config.configurable?.customModelName as string;
+  // if (!customModelName) {
+  //   throw new Error("Model name is missing in config.");
+  // }
   if (!customModelName) {
-    throw new Error("Model name is missing in config.");
+    //暂时写死
+    customModelName = "openai/gpt-4o";
   }
 
   if (customModelName.startsWith("azure/")) {
@@ -213,7 +217,7 @@ export async function getModelFromConfig(
   //       }
   //     : {}),
   // });
-  const a = await getLlm();
+  const a = getLlm();
   return a;
 }
 
