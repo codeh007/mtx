@@ -27,7 +27,6 @@ import { Input } from "mtxuilib/ui/input";
 import { Label } from "mtxuilib/ui/label";
 import { Textarea } from "mtxuilib/ui/textarea";
 import { useToast } from "mtxuilib/ui/use-toast";
-// import { useStore } from "../../../hooks/useStore";
 import { FullPrompt } from "./FullPrompt";
 
 const CUSTOM_INSTRUCTIONS_TOOLTIP_TEXT =
