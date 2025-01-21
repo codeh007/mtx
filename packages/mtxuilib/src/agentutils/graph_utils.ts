@@ -11,6 +11,7 @@ import type { AgentNodeRunInput, CanvasGraphParams } from "mtmaiapi/gomtmapi";
 import { buildCanvasGraph } from "../agents/open-canvas";
 import { generateUUID } from "../lib/s-utils";
 import { StreamingResponse, makeStream } from "../llm/sse";
+import type { MtmRunnableConfig } from "./runableconfig";
 
 const memorySaver = new MemorySaver();
 const inMemoryStore = new InMemoryStore();
@@ -26,7 +27,7 @@ export function newGraphSseResponse(
 export async function* runLanggraph(
   agentName: string,
   input: AgentNodeRunInput["params"],
-  config: LangGraphRunnableConfig,
+  config: MtmRunnableConfig,
 ) {
   const embeddings = new OpenAIEmbeddings({
     model: "text-embedding-3-large",
