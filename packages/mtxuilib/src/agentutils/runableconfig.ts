@@ -3,8 +3,8 @@ import type { LangGraphRunnableConfig } from "@langchain/langgraph";
 import type { mtmaiWorkerConfig } from "mtmaiapi";
 
 interface MtmConfigurable extends Record<string, any> {
-  thread_id: string;
-  ctx: GraphContext;
+  thread_id?: string;
+  ctx?: GraphContext;
   backendUrl?: string;
   mtmclient?: ReturnType<typeof createClient>;
   mtmaiConfig?: Awaited<ReturnType<typeof mtmaiWorkerConfig>>["data"];

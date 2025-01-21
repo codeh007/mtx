@@ -9,14 +9,17 @@ import type {
   ReadingLevelOptions,
   TextHighlight,
 } from "mtmaiapi";
+import { z } from "zod";
 import type { SearxngSearchResult } from "../../agentutils/searxng";
-
+import { editorSchema } from "./schema";
 export const StormGraphAnnotation = Annotation.Root({
   ...MessagesAnnotation.spec,
   searchResults: Annotation<SearxngSearchResult[] | undefined>,
   topic: Annotation<string | undefined>,
   outline: Annotation<Outline | undefined>,
   error: Annotation<string | undefined>,
+  // 编辑者(角色观点)
+  editors: Annotation<z.infer<typeof editorSchema>[] | undefined>,
   // 下面的可能都是没用的 ===================================================================
   /**
    * The part of the artifact the user highlighted. Use the `selectedArtifactId`
