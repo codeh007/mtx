@@ -170,6 +170,7 @@
     "input-otp": "^1.2.4",
     "jotai": "^2.9.3",
     "js-cookie": "^3.0.5",
+    "jsonrepair": "^3.11.2",
     "lodash": "^4.17.21",
     "lodash.template": "^4.5.0",
     "lru-cache": "^10.4.3",
