@@ -3,7 +3,7 @@ export * from "./gomtmapi/@tanstack/react-query.gen";
 
 import { client } from "./gomtmapi";
 
-export const cookieAccessToken = "mtmaibot_access_token"; //mtmaibot_access_token
+export const cookieAccessToken = "mtm_access_token";
 
 export function initMtiaiClient(backendUrl?: string) {
   const mtmaiBackend = backendUrl || process.env.MTMAI_BACKEND;

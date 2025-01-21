@@ -19,10 +19,10 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu";
-import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 import { useNavigate } from "@tanstack/react-router";
+import { useUser } from "../hooks/useAuth";
 import { useBasePath } from "../hooks/useBasePath";
 import { CustomLink } from "./CustomLink";
 export const UserFAB = () => {
@@ -30,12 +30,12 @@ export const UserFAB = () => {
   const [openDropdown, setOpenDropdown] = useState(false);
   const basePath = useBasePath();
 
-  const { data: session, update } = useSession();
-
+  // const { data: session, update } = useSession();
+  const user = useUser();
   const navigate = useNavigate();
 
   const handleOpenDropdown = () => {
-    if (!session) {
+    if (!user) {
       // signin("credentials");
       navigate({
         to: "/auth/login",
@@ -59,7 +59,7 @@ export const UserFAB = () => {
             <Icons.apple />
           </Button>
         </DropdownMenuTrigger>
-        {session && (
+        {user && (
           <DropdownMenuContent className="w-56">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />

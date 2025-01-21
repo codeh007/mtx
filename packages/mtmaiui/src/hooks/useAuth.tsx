@@ -40,6 +40,7 @@ export const useLoginHandler = () => {
   const loginMutation = useMutation({
     ...userUpdateLoginMutation(),
     onSuccess: (data) => {
+      console.log("login success", data);
       if (data.userToken) {
         setCookie(cookieKey, data.userToken);
         router.push("/");
@@ -55,8 +56,6 @@ export const useLoginHandler = () => {
         password: values.password,
       },
     });
-
-    // signin("credentials", "/", "/", "/", values);
   };
 
   return { loginHandler, isPending: loginMutation.isPending, fieldErrors };
