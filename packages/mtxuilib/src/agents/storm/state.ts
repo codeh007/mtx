@@ -1,10 +1,11 @@
 import { Annotation, MessagesAnnotation } from "@langchain/langgraph";
 import type {
-  ArtifactLengthOptions,
+  // ArtifactLengthOptions,
   ArtifactV3,
   CodeHighlight,
   LanguageOptions,
-  ProgrammingLanguageOptions,
+  Outline,
+  // ProgrammingLanguageOptions,
   ReadingLevelOptions,
   TextHighlight,
 } from "mtmaiapi";
@@ -13,6 +14,8 @@ import type { SearxngSearchResult } from "../../agentutils/searxng";
 export const StormGraphAnnotation = Annotation.Root({
   ...MessagesAnnotation.spec,
   searchResults: Annotation<SearxngSearchResult[] | undefined>,
+  topic: Annotation<string | undefined>,
+  outline: Annotation<Outline | undefined>,
   // 下面的可能都是没用的 ===================================================================
   /**
    * The part of the artifact the user highlighted. Use the `selectedArtifactId`
@@ -39,7 +42,7 @@ export const StormGraphAnnotation = Annotation.Root({
   /**
    * The length of the artifact to regenerate to.
    */
-  artifactLength: Annotation<ArtifactLengthOptions | undefined>,
+  // artifactLength: Annotation<ArtifactLengthOptions | undefined>,
   /**
    * Whether or not to regenerate with emojis.
    */
@@ -59,11 +62,11 @@ export const StormGraphAnnotation = Annotation.Root({
   /**
    * The programming language to port the code artifact to.
    */
-  portLanguage: Annotation<ProgrammingLanguageOptions | undefined>,
+  // portLanguage: Annotation<ProgrammingLanguageOptions | undefined>,
   /**
    * Whether or not to fix bugs in the code artifact.
    */
-  fixBugs: Annotation<boolean | undefined>,
+  // fixBugs: Annotation<boolean | undefined>,
   /**
    * The ID of the custom quick action to use.
    */
