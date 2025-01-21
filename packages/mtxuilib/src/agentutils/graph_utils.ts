@@ -62,7 +62,7 @@ export async function* runLanggraph(
   // const store = new MemoryVectorStore(embeddings);
   let runable: Runnable;
 
-  let threadId = config.configurable.thread_id;
+  let threadId = config.configurable?.thread_id;
   if (!threadId) {
     threadId = generateUUID();
     yield `2:${JSON.stringify({ newThread: { threadId } })}\n`;
@@ -89,6 +89,7 @@ export async function* runLanggraph(
       values: {
         ...input,
         thread_id: threadId,
+        messages: input.messages || [],
       },
     });
     runable = graph;
@@ -103,17 +104,18 @@ export async function* runLanggraph(
 
   try {
     for await (const e of eventStream) {
+      const langgraph_node = e.metadata.langgraph_node;
       if (e.event !== "on_chat_model_stream") {
-        console.log(
-          `[stream]: ${e.run_id},${e.name},${e.event},\n===========\n${JSON.stringify(
-            e,
-            null,
-            2,
-          )}\n===========\n`,
-        );
+        // console.log(
+        //   `[stream]: ${e.run_id},${e.name},${e.event},\n===========\n${JSON.stringify(
+        //     e,
+        //     null,
+        //     2,
+        //   )}\n===========\n`,
+        // );
+        console.log(`[stream]: ${langgraph_node},${e.name},${e.event}`);
       }
 
-      const langgraph_node = e.metadata.langgraph_node;
       if (e.event === "on_chain_start") {
         // console.log("on_chain_start", data);
       }
@@ -128,7 +130,7 @@ export async function* runLanggraph(
         } else {
           if (e.data.chunk?.content) {
             if (langgraph_node === "generateArtifact") {
-              // yield `0:${JSON.stringify(e.data.chunk.content)}\n`;
+              // yield EmitDataEvent("generateArtifact", e.data.chunk.content);
             } else if (langgraph_node === "generateFollowup") {
               yield `0:${JSON.stringify(e.data.chunk.content)}\n`;
             } else if (langgraph_node === "replyToGeneralInput") {
@@ -137,6 +139,11 @@ export async function* runLanggraph(
               // yield `0:${JSON.stringify(data.chunk.content)}\n`;
             }
           }
+        }
+      }
+      if (langgraph_node === "generateArtifact") {
+        if (e.data?.chunk?.content) {
+          yield EmitDataEvent("generateArtifact", e.data.chunk.content);
         }
       }
       // else if (e.event === "on_chat_model_end") {
@@ -150,3 +157,7 @@ export async function* runLanggraph(
     yield `d:"[DONE]"\n`;
   }
 }
+
+const EmitDataEvent = (eventName: string, eventData: any) => {
+  return `2:${JSON.stringify({ event: eventName, data: eventData })}`;
+};

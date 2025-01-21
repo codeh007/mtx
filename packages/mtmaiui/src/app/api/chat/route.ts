@@ -4,21 +4,13 @@ export const runtime = "edge";
 
 const handler = async (r: Request) => {
   try {
-    let accessToken = (await cookies()).get("access_token")?.value;
-    if (!accessToken) {
-      const tokenFromHeader = r.headers.get("Authorization");
-      if (tokenFromHeader) {
-        accessToken = tokenFromHeader.split(" ")[1];
-      }
-    }
+    const accessToken =
+      (await cookies()).get("access_token")?.value ||
+      r.headers.get("Authorization");
     if (!accessToken) {
       throw new Error("accessToken is required");
     }
     return newGraphSseResponse("opencanvas", await r.json(), {
-      configurable: {
-        gomtmApiUrl: process.env.MTMAI_BACKEND,
-        // accessToken: accessToken,
-      },
       ctx: {
         accessToken: accessToken,
       },
