@@ -75,7 +75,7 @@ const handleStreamLine = (
 
     if (line.startsWith(VERCEL_AI_EVENT_TYPES.AI_REPLY)) {
       graphEventHandler(
-        { type: "aiReply", data: JSON.parse(line.substring(2)) },
+        { event: "aiReply", data: JSON.parse(line.substring(2)) },
         set,
         get,
       );
@@ -103,7 +103,7 @@ const graphEventHandler = async (
   ) => void,
   get: () => AgentNodeState,
 ) => {
-  const eventType = event.type;
+  const eventType = event.event;
   switch (eventType) {
     case "aiReply": {
       const content = event.data;
@@ -116,7 +116,7 @@ const graphEventHandler = async (
               role: "assistant",
               content,
               id: generateId(),
-              createdAt: new Date().toISOString(),
+              // createdAt: new Date().toISOString(),
               threadId: get().runId,
             },
           ],
@@ -133,6 +133,13 @@ const graphEventHandler = async (
     }
     case "newThread": {
       console.log("[TODO] newThread event", event);
+      break;
+    }
+    case "generateArtifact": {
+      console.log("[Event] generateArtifact", event, JSON.parse(event.data));
+      set({
+        artifact: JSON.parse(event.data),
+      });
       break;
     }
     default:
