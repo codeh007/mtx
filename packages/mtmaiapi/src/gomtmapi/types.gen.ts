@@ -2157,6 +2157,39 @@ export type CanvasGraphParams = {
   portLanguage?: ProgrammingLanguageOptions;
 };
 
+export type Outline = {
+  /**
+   * Title of the Wikipedia page
+   */
+  pageTitle: string;
+  /**
+   * Titles and descriptions for each section of the Wikipedia page
+   */
+  sections: Array<{
+    /**
+     * Title of the section
+     */
+    section_title: string;
+    /**
+     * Content of the section
+     */
+    description: string;
+    /**
+     * Titles and descriptions for each subsection of the Wikipedia page
+     */
+    subsections?: Array<{
+      /**
+       * Title of the subsection
+       */
+      subsectionTitle: string;
+      /**
+       * Content of the subsection
+       */
+      description: string;
+    }>;
+  }>;
+};
+
 export type Assistant = {
   /**
    * The ID of the assistant

@@ -120,16 +120,16 @@
     "generate-docs": "typedoc"
   },
   "dependencies": {
-    "@lukemorales/query-key-factory": "^1.3.2",
     "@bufbuild/buf": "^1.47.2",
     "@bufbuild/protobuf": "^2.2.2",
     "@bufbuild/protoc-gen-es": "^2.2.2",
     "@connectrpc/connect": "^1.6.1",
     "@connectrpc/connect-web": "^1.6.1",
     "@hey-api/client-fetch": "^0.6.0",
-    "@hey-api/openapi-ts": "^0.61.3",
+    "@hey-api/openapi-ts": "^0.62.2",
     "@langchain/aws": "^0.1.2",
     "@langchain/groq": "^0.1.2",
+    "@lukemorales/query-key-factory": "^1.3.2",
     "@tanstack/react-query": "^5.62.14",
     "@tanstack/react-query-devtools": "^5.62.14",
     "@tanstack/react-query-next-experimental": "^5.62.14",

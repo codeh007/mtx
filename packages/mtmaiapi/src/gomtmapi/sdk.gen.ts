@@ -390,8 +390,8 @@ export const readinessGet = <ThrowOnError extends boolean = false>(
   options?: Options<ReadinessGetData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<unknown, unknown, ThrowOnError>({
-    ...options,
     url: "/api/ready",
+    ...options,
   });
 };
 
@@ -403,8 +403,8 @@ export const livenessGet = <ThrowOnError extends boolean = false>(
   options?: Options<LivenessGetData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<unknown, unknown, ThrowOnError>({
-    ...options,
     url: "/api/live",
+    ...options,
   });
 };
 
@@ -420,8 +420,8 @@ export const metadataGet = <ThrowOnError extends boolean = false>(
     MetadataGetError,
     ThrowOnError
   >({
-    ...options,
     url: "/api/v1/meta",
+    ...options,
   });
 };
 
@@ -437,8 +437,8 @@ export const cloudMetadataGet = <ThrowOnError extends boolean = false>(
     CloudMetadataGetError,
     ThrowOnError
   >({
-    ...options,
     url: "/api/v1/cloud/metadata",
+    ...options,
   });
 };
 
@@ -454,7 +454,6 @@ export const metadataListIntegrations = <ThrowOnError extends boolean = false>(
     MetadataListIntegrationsError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -466,6 +465,7 @@ export const metadataListIntegrations = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/meta/integrations",
+    ...options,
   });
 };
 
@@ -481,12 +481,12 @@ export const userUpdateLogin = <ThrowOnError extends boolean = false>(
     UserUpdateLoginError,
     ThrowOnError
   >({
+    url: "/api/v1/users/login",
     ...options,
     headers: {
       "Content-Type": "application/json",
       ...options?.headers,
     },
-    url: "/api/v1/users/login",
   });
 };
 
@@ -500,8 +500,8 @@ export const userUpdateGoogleOauthStart = <
   options?: Options<UserUpdateGoogleOauthStartData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<unknown, unknown, ThrowOnError>({
-    ...options,
     url: "/api/v1/users/google/start",
+    ...options,
   });
 };
 
@@ -515,8 +515,8 @@ export const userUpdateGoogleOauthCallback = <
   options?: Options<UserUpdateGoogleOauthCallbackData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<unknown, unknown, ThrowOnError>({
-    ...options,
     url: "/api/v1/users/google/callback",
+    ...options,
   });
 };
 
@@ -530,8 +530,8 @@ export const userUpdateGithubOauthStart = <
   options?: Options<UserUpdateGithubOauthStartData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<unknown, unknown, ThrowOnError>({
-    ...options,
     url: "/api/v1/users/github/start",
+    ...options,
   });
 };
 
@@ -545,8 +545,8 @@ export const userUpdateGithubOauthCallback = <
   options?: Options<UserUpdateGithubOauthCallbackData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<unknown, unknown, ThrowOnError>({
-    ...options,
     url: "/api/v1/users/github/callback",
+    ...options,
   });
 };
 
@@ -558,8 +558,8 @@ export const userUpdateSlackOauthStart = <ThrowOnError extends boolean = false>(
   options: Options<UserUpdateSlackOauthStartData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<unknown, unknown, ThrowOnError>({
-    ...options,
     url: "/api/v1/tenants/{tenant}/slack/start",
+    ...options,
   });
 };
 
@@ -573,8 +573,8 @@ export const userUpdateSlackOauthCallback = <
   options?: Options<UserUpdateSlackOauthCallbackData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<unknown, unknown, ThrowOnError>({
-    ...options,
     url: "/api/v1/users/slack/callback",
+    ...options,
   });
 };
 
@@ -590,8 +590,8 @@ export const snsUpdate = <ThrowOnError extends boolean = false>(
     SnsUpdateError,
     ThrowOnError
   >({
-    ...options,
     url: "/api/v1/sns/{tenant}/{event}",
+    ...options,
   });
 };
 
@@ -607,7 +607,6 @@ export const snsList = <ThrowOnError extends boolean = false>(
     SnsListError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -619,6 +618,7 @@ export const snsList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/sns",
+    ...options,
   });
 };
 
@@ -634,11 +634,6 @@ export const snsCreate = <ThrowOnError extends boolean = false>(
     SnsCreateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -650,6 +645,11 @@ export const snsCreate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/sns",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -665,7 +665,6 @@ export const alertEmailGroupList = <ThrowOnError extends boolean = false>(
     AlertEmailGroupListError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -677,6 +676,7 @@ export const alertEmailGroupList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/alerting-email-groups",
+    ...options,
   });
 };
 
@@ -692,11 +692,6 @@ export const alertEmailGroupCreate = <ThrowOnError extends boolean = false>(
     AlertEmailGroupCreateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -708,6 +703,11 @@ export const alertEmailGroupCreate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/alerting-email-groups",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -723,7 +723,6 @@ export const tenantResourcePolicyGet = <ThrowOnError extends boolean = false>(
     TenantResourcePolicyGetError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -735,6 +734,7 @@ export const tenantResourcePolicyGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/resource-policy",
+    ...options,
   });
 };
 
@@ -750,7 +750,6 @@ export const alertEmailGroupDelete = <ThrowOnError extends boolean = false>(
     AlertEmailGroupDeleteError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -762,6 +761,7 @@ export const alertEmailGroupDelete = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/alerting-email-groups/{alert-email-group}",
+    ...options,
   });
 };
 
@@ -777,11 +777,6 @@ export const alertEmailGroupUpdate = <ThrowOnError extends boolean = false>(
     AlertEmailGroupUpdateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -793,6 +788,11 @@ export const alertEmailGroupUpdate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/alerting-email-groups/{alert-email-group}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -808,7 +808,6 @@ export const snsDelete = <ThrowOnError extends boolean = false>(
     SnsDeleteError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -820,6 +819,7 @@ export const snsDelete = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/sns/{sns}",
+    ...options,
   });
 };
 
@@ -835,7 +835,6 @@ export const slackWebhookList = <ThrowOnError extends boolean = false>(
     SlackWebhookListError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -847,6 +846,7 @@ export const slackWebhookList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/slack",
+    ...options,
   });
 };
 
@@ -862,7 +862,6 @@ export const slackWebhookDelete = <ThrowOnError extends boolean = false>(
     SlackWebhookDeleteError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -874,6 +873,7 @@ export const slackWebhookDelete = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/slack/{slack}",
+    ...options,
   });
 };
 
@@ -889,8 +889,8 @@ export const userGetCurrent = <ThrowOnError extends boolean = false>(
     UserGetCurrentError,
     ThrowOnError
   >({
-    ...options,
     url: "/api/v1/users/current",
+    ...options,
   });
 };
 
@@ -906,12 +906,12 @@ export const userUpdatePassword = <ThrowOnError extends boolean = false>(
     UserUpdatePasswordError,
     ThrowOnError
   >({
+    url: "/api/v1/users/password",
     ...options,
     headers: {
       "Content-Type": "application/json",
       ...options?.headers,
     },
-    url: "/api/v1/users/password",
   });
 };
 
@@ -927,12 +927,12 @@ export const userCreate = <ThrowOnError extends boolean = false>(
     UserCreateError,
     ThrowOnError
   >({
+    url: "/api/v1/users/register",
     ...options,
     headers: {
       "Content-Type": "application/json",
       ...options?.headers,
     },
-    url: "/api/v1/users/register",
   });
 };
 
@@ -948,8 +948,8 @@ export const userUpdateLogout = <ThrowOnError extends boolean = false>(
     UserUpdateLogoutError,
     ThrowOnError
   >({
-    ...options,
     url: "/api/v1/users/logout",
+    ...options,
   });
 };
 
@@ -965,8 +965,8 @@ export const tenantMembershipsList = <ThrowOnError extends boolean = false>(
     TenantMembershipsListError,
     ThrowOnError
   >({
-    ...options,
     url: "/api/v1/users/memberships",
+    ...options,
   });
 };
 
@@ -982,8 +982,8 @@ export const userListTenantInvites = <ThrowOnError extends boolean = false>(
     UserListTenantInvitesError,
     ThrowOnError
   >({
-    ...options,
     url: "/api/v1/users/invites",
+    ...options,
   });
 };
 
@@ -999,11 +999,6 @@ export const tenantInviteAccept = <ThrowOnError extends boolean = false>(
     TenantInviteAcceptError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -1015,6 +1010,11 @@ export const tenantInviteAccept = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/users/invites/accept",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -1030,11 +1030,6 @@ export const tenantInviteReject = <ThrowOnError extends boolean = false>(
     TenantInviteRejectError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -1046,6 +1041,11 @@ export const tenantInviteReject = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/users/invites/reject",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -1061,11 +1061,6 @@ export const tenantCreate = <ThrowOnError extends boolean = false>(
     TenantCreateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -1077,6 +1072,11 @@ export const tenantCreate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -1092,11 +1092,6 @@ export const tenantUpdate = <ThrowOnError extends boolean = false>(
     TenantUpdateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -1108,6 +1103,11 @@ export const tenantUpdate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -1123,7 +1123,6 @@ export const tenantAlertingSettingsGet = <ThrowOnError extends boolean = false>(
     TenantAlertingSettingsGetError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1135,6 +1134,7 @@ export const tenantAlertingSettingsGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/alerting/settings",
+    ...options,
   });
 };
 
@@ -1150,7 +1150,6 @@ export const tenantInviteList = <ThrowOnError extends boolean = false>(
     TenantInviteListError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1162,6 +1161,7 @@ export const tenantInviteList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/invites",
+    ...options,
   });
 };
 
@@ -1177,11 +1177,6 @@ export const tenantInviteCreate = <ThrowOnError extends boolean = false>(
     TenantInviteCreateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -1193,6 +1188,11 @@ export const tenantInviteCreate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/invites",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -1208,7 +1208,6 @@ export const tenantInviteDelete = <ThrowOnError extends boolean = false>(
     TenantInviteDeleteError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1220,6 +1219,7 @@ export const tenantInviteDelete = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/invites/{tenant-invite}",
+    ...options,
   });
 };
 
@@ -1235,11 +1235,6 @@ export const tenantInviteUpdate = <ThrowOnError extends boolean = false>(
     TenantInviteUpdateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -1251,6 +1246,11 @@ export const tenantInviteUpdate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/invites/{tenant-invite}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -1266,7 +1266,6 @@ export const apiTokenList = <ThrowOnError extends boolean = false>(
     ApiTokenListError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1278,6 +1277,7 @@ export const apiTokenList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/api-tokens",
+    ...options,
   });
 };
 
@@ -1293,11 +1293,6 @@ export const apiTokenCreate = <ThrowOnError extends boolean = false>(
     ApiTokenCreateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -1309,6 +1304,11 @@ export const apiTokenCreate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/api-tokens",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -1324,7 +1324,6 @@ export const apiTokenUpdateRevoke = <ThrowOnError extends boolean = false>(
     ApiTokenUpdateRevokeError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1336,6 +1335,7 @@ export const apiTokenUpdateRevoke = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/api-tokens/{api-token}",
+    ...options,
   });
 };
 
@@ -1351,7 +1351,6 @@ export const tenantGetQueueMetrics = <ThrowOnError extends boolean = false>(
     TenantGetQueueMetricsError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1363,6 +1362,7 @@ export const tenantGetQueueMetrics = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/queue-metrics",
+    ...options,
   });
 };
 
@@ -1380,7 +1380,6 @@ export const tenantGetStepRunQueueMetrics = <
     TenantGetStepRunQueueMetricsError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1392,6 +1391,7 @@ export const tenantGetStepRunQueueMetrics = <
       },
     ],
     url: "/api/v1/tenants/{tenant}/step-run-queue-metrics",
+    ...options,
   });
 };
 
@@ -1407,7 +1407,6 @@ export const eventList = <ThrowOnError extends boolean = false>(
     EventListError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1419,6 +1418,7 @@ export const eventList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/events",
+    ...options,
   });
 };
 
@@ -1434,11 +1434,6 @@ export const eventCreate = <ThrowOnError extends boolean = false>(
     EventCreateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -1450,6 +1445,11 @@ export const eventCreate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/events",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -1465,11 +1465,6 @@ export const eventCreateBulk = <ThrowOnError extends boolean = false>(
     EventCreateBulkError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -1481,6 +1476,11 @@ export const eventCreateBulk = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/events/bulk",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -1496,11 +1496,6 @@ export const eventUpdateReplay = <ThrowOnError extends boolean = false>(
     EventUpdateReplayError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -1512,6 +1507,11 @@ export const eventUpdateReplay = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/events/replay",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -1527,11 +1527,6 @@ export const eventUpdateCancel = <ThrowOnError extends boolean = false>(
     EventUpdateCancelError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -1543,6 +1538,11 @@ export const eventUpdateCancel = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/events/cancel",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -1558,7 +1558,6 @@ export const rateLimitList = <ThrowOnError extends boolean = false>(
     RateLimitListError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1570,6 +1569,7 @@ export const rateLimitList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/rate-limits",
+    ...options,
   });
 };
 
@@ -1585,7 +1585,6 @@ export const tenantMemberList = <ThrowOnError extends boolean = false>(
     TenantMemberListError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1597,6 +1596,7 @@ export const tenantMemberList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/members",
+    ...options,
   });
 };
 
@@ -1612,7 +1612,6 @@ export const tenantMemberDelete = <ThrowOnError extends boolean = false>(
     TenantMemberDeleteError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1624,6 +1623,7 @@ export const tenantMemberDelete = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/members/{member}",
+    ...options,
   });
 };
 
@@ -1639,7 +1639,6 @@ export const eventGet = <ThrowOnError extends boolean = false>(
     EventGetError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1651,6 +1650,7 @@ export const eventGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/events/{event}",
+    ...options,
   });
 };
 
@@ -1666,7 +1666,6 @@ export const eventDataGet = <ThrowOnError extends boolean = false>(
     EventDataGetError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1678,6 +1677,7 @@ export const eventDataGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/events/{event}/data",
+    ...options,
   });
 };
 
@@ -1693,7 +1693,6 @@ export const eventKeyList = <ThrowOnError extends boolean = false>(
     EventKeyListError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1705,6 +1704,7 @@ export const eventKeyList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/events/keys",
+    ...options,
   });
 };
 
@@ -1720,7 +1720,6 @@ export const workflowList = <ThrowOnError extends boolean = false>(
     WorkflowListError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1732,6 +1731,7 @@ export const workflowList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflows",
+    ...options,
   });
 };
 
@@ -1747,7 +1747,6 @@ export const workflowScheduledList = <ThrowOnError extends boolean = false>(
     WorkflowScheduledListError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1759,6 +1758,7 @@ export const workflowScheduledList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflows/scheduled",
+    ...options,
   });
 };
 
@@ -1774,7 +1774,6 @@ export const workflowScheduledDelete = <ThrowOnError extends boolean = false>(
     WorkflowScheduledDeleteError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1786,6 +1785,7 @@ export const workflowScheduledDelete = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflows/scheduled/{scheduledId}",
+    ...options,
   });
 };
 
@@ -1801,7 +1801,6 @@ export const workflowScheduledGet = <ThrowOnError extends boolean = false>(
     WorkflowScheduledGetError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1813,6 +1812,7 @@ export const workflowScheduledGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflows/scheduled/{scheduledId}",
+    ...options,
   });
 };
 
@@ -1828,7 +1828,6 @@ export const cronWorkflowList = <ThrowOnError extends boolean = false>(
     CronWorkflowListError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1840,6 +1839,7 @@ export const cronWorkflowList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflows/crons",
+    ...options,
   });
 };
 
@@ -1855,11 +1855,6 @@ export const workflowRunCancel = <ThrowOnError extends boolean = false>(
     WorkflowRunCancelError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -1871,6 +1866,11 @@ export const workflowRunCancel = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflows/cancel",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -1886,7 +1886,6 @@ export const workflowDelete = <ThrowOnError extends boolean = false>(
     WorkflowDeleteError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1898,6 +1897,7 @@ export const workflowDelete = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/workflows/{workflow}",
+    ...options,
   });
 };
 
@@ -1913,7 +1913,6 @@ export const workflowGet = <ThrowOnError extends boolean = false>(
     WorkflowGetError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1925,6 +1924,7 @@ export const workflowGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/workflows/{workflow}",
+    ...options,
   });
 };
 
@@ -1940,11 +1940,6 @@ export const workflowUpdate = <ThrowOnError extends boolean = false>(
     WorkflowUpdateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -1956,6 +1951,11 @@ export const workflowUpdate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/workflows/{workflow}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -1971,7 +1971,6 @@ export const workflowVersionGet = <ThrowOnError extends boolean = false>(
     WorkflowVersionGetError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -1983,6 +1982,7 @@ export const workflowVersionGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/workflows/{workflow}/versions",
+    ...options,
   });
 };
 
@@ -1998,11 +1998,6 @@ export const workflowRunCreate = <ThrowOnError extends boolean = false>(
     WorkflowRunCreateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -2014,6 +2009,11 @@ export const workflowRunCreate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/workflows/{workflow}/trigger",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -2029,7 +2029,6 @@ export const workflowGetMetrics = <ThrowOnError extends boolean = false>(
     WorkflowGetMetricsError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2041,6 +2040,7 @@ export const workflowGetMetrics = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/workflows/{workflow}/metrics",
+    ...options,
   });
 };
 
@@ -2056,7 +2056,6 @@ export const logLineList = <ThrowOnError extends boolean = false>(
     LogLineListError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2068,6 +2067,7 @@ export const logLineList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/step-runs/{step-run}/logs",
+    ...options,
   });
 };
 
@@ -2083,7 +2083,6 @@ export const stepRunListEvents = <ThrowOnError extends boolean = false>(
     StepRunListEventsError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2095,6 +2094,7 @@ export const stepRunListEvents = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/step-runs/{step-run}/events",
+    ...options,
   });
 };
 
@@ -2112,7 +2112,6 @@ export const workflowRunListStepRunEvents = <
     WorkflowRunListStepRunEventsError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2124,6 +2123,7 @@ export const workflowRunListStepRunEvents = <
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/step-run-events",
+    ...options,
   });
 };
 
@@ -2139,7 +2139,6 @@ export const stepRunListArchives = <ThrowOnError extends boolean = false>(
     StepRunListArchivesError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2151,6 +2150,7 @@ export const stepRunListArchives = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/step-runs/{step-run}/archives",
+    ...options,
   });
 };
 
@@ -2166,7 +2166,6 @@ export const workflowGetWorkersCount = <ThrowOnError extends boolean = false>(
     WorkflowGetWorkersCountError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2178,6 +2177,7 @@ export const workflowGetWorkersCount = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflows/{workflow}/worker-count",
+    ...options,
   });
 };
 
@@ -2193,7 +2193,6 @@ export const workflowRunList = <ThrowOnError extends boolean = false>(
     WorkflowRunListError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2205,6 +2204,7 @@ export const workflowRunList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflows/runs",
+    ...options,
   });
 };
 
@@ -2220,11 +2220,6 @@ export const workflowRunUpdateReplay = <ThrowOnError extends boolean = false>(
     WorkflowRunUpdateReplayError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -2236,6 +2231,11 @@ export const workflowRunUpdateReplay = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflow-runs/replay",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -2251,7 +2251,6 @@ export const workflowRunGetMetrics = <ThrowOnError extends boolean = false>(
     WorkflowRunGetMetricsError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2263,6 +2262,7 @@ export const workflowRunGetMetrics = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflows/runs/metrics",
+    ...options,
   });
 };
 
@@ -2278,7 +2278,6 @@ export const workflowRunGet = <ThrowOnError extends boolean = false>(
     WorkflowRunGetError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2290,6 +2289,7 @@ export const workflowRunGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}",
+    ...options,
   });
 };
 
@@ -2305,7 +2305,6 @@ export const workflowRunGetShape = <ThrowOnError extends boolean = false>(
     WorkflowRunGetShapeError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2317,6 +2316,7 @@ export const workflowRunGetShape = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/shape",
+    ...options,
   });
 };
 
@@ -2332,7 +2332,6 @@ export const stepRunGet = <ThrowOnError extends boolean = false>(
     StepRunGetError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2344,6 +2343,7 @@ export const stepRunGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/step-runs/{step-run}",
+    ...options,
   });
 };
 
@@ -2359,11 +2359,6 @@ export const stepRunUpdateRerun = <ThrowOnError extends boolean = false>(
     StepRunUpdateRerunError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -2375,6 +2370,11 @@ export const stepRunUpdateRerun = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/step-runs/{step-run}/rerun",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -2390,7 +2390,6 @@ export const stepRunUpdateCancel = <ThrowOnError extends boolean = false>(
     StepRunUpdateCancelError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2402,6 +2401,7 @@ export const stepRunUpdateCancel = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/step-runs/{step-run}/cancel",
+    ...options,
   });
 };
 
@@ -2417,7 +2417,6 @@ export const stepRunGetSchema = <ThrowOnError extends boolean = false>(
     StepRunGetSchemaError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2429,6 +2428,7 @@ export const stepRunGetSchema = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/step-runs/{step-run}/schema",
+    ...options,
   });
 };
 
@@ -2444,7 +2444,6 @@ export const workerList = <ThrowOnError extends boolean = false>(
     WorkerListError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2456,6 +2455,7 @@ export const workerList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/worker",
+    ...options,
   });
 };
 
@@ -2471,7 +2471,6 @@ export const workerGet = <ThrowOnError extends boolean = false>(
     WorkerGetError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2483,6 +2482,7 @@ export const workerGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/workers/{worker}",
+    ...options,
   });
 };
 
@@ -2498,11 +2498,6 @@ export const workerUpdate = <ThrowOnError extends boolean = false>(
     WorkerUpdateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -2514,6 +2509,11 @@ export const workerUpdate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/workers/{worker}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -2529,7 +2529,6 @@ export const webhookList = <ThrowOnError extends boolean = false>(
     WebhookListError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2541,6 +2540,7 @@ export const webhookList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/webhook-workers",
+    ...options,
   });
 };
 
@@ -2556,11 +2556,6 @@ export const webhookCreate = <ThrowOnError extends boolean = false>(
     WebhookCreateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -2572,6 +2567,11 @@ export const webhookCreate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/webhook-workers",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -2587,7 +2587,6 @@ export const webhookDelete = <ThrowOnError extends boolean = false>(
     WebhookDeleteError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2599,6 +2598,7 @@ export const webhookDelete = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/webhook-workers/{webhook}",
+    ...options,
   });
 };
 
@@ -2614,7 +2614,6 @@ export const webhookRequestsList = <ThrowOnError extends boolean = false>(
     WebhookRequestsListError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2626,6 +2625,7 @@ export const webhookRequestsList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/webhook-workers/{webhook}/requests",
+    ...options,
   });
 };
 
@@ -2641,7 +2641,6 @@ export const workflowRunGetInput = <ThrowOnError extends boolean = false>(
     WorkflowRunGetInputError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2653,6 +2652,7 @@ export const workflowRunGetInput = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/input",
+    ...options,
   });
 };
 
@@ -2668,7 +2668,6 @@ export const workflowGetByName = <ThrowOnError extends boolean = false>(
     WorkflowGetByNameError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2680,6 +2679,7 @@ export const workflowGetByName = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflows/byName/{name}",
+    ...options,
   });
 };
 
@@ -2695,11 +2695,6 @@ export const chatChat = <ThrowOnError extends boolean = false>(
     ChatChatError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -2711,6 +2706,11 @@ export const chatChat = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/chat",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -2726,7 +2726,6 @@ export const chatCallModel = <ThrowOnError extends boolean = false>(
     ChatCallModelError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2738,6 +2737,7 @@ export const chatCallModel = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/callModel",
+    ...options,
   });
 };
 
@@ -2753,7 +2753,6 @@ export const chatMessages = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2765,6 +2764,7 @@ export const chatMessages = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/chat/{chatId}/messages",
+    ...options,
   });
 };
 
@@ -2780,7 +2780,6 @@ export const chatModels = <ThrowOnError extends boolean = false>(
     ChatModelsError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2792,6 +2791,7 @@ export const chatModels = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/chat/models",
+    ...options,
   });
 };
 
@@ -2807,11 +2807,6 @@ export const chatCompletions = <ThrowOnError extends boolean = false>(
     ChatCompletionsError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -2823,6 +2818,11 @@ export const chatCompletions = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/chat/completions",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -2838,7 +2838,6 @@ export const workerConfig = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2850,6 +2849,7 @@ export const workerConfig = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/worker/config",
+    ...options,
   });
 };
 
@@ -2865,7 +2865,6 @@ export const mtmaiBloggenconfig = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2877,6 +2876,7 @@ export const mtmaiBloggenconfig = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/mtmai/bloggenconfig",
+    ...options,
   });
 };
 
@@ -2888,8 +2888,8 @@ export const mtmaiWorkerConfig = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
-    ...options,
     url: "/api/v1/mtmai/worker_config",
+    ...options,
   });
 };
 
@@ -2904,8 +2904,8 @@ export const mtmaiStreamDemo1 = <ThrowOnError extends boolean = false>(
     MtmaiStreamDemo1Error,
     ThrowOnError
   >({
-    ...options,
     url: "/api/v1/mtmai/streamdemo1",
+    ...options,
   });
 };
 
@@ -2921,7 +2921,6 @@ export const blogList = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2933,6 +2932,7 @@ export const blogList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/blogs",
+    ...options,
   });
 };
 
@@ -2948,11 +2948,6 @@ export const blogCreate = <ThrowOnError extends boolean = false>(
     BlogCreateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -2964,6 +2959,11 @@ export const blogCreate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/blogs",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -2978,7 +2978,6 @@ export const blogGet = <ThrowOnError extends boolean = false>(
     BlogGetError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -2990,6 +2989,7 @@ export const blogGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/blogs/{blog}",
+    ...options,
   });
 };
 
@@ -3005,11 +3005,6 @@ export const blogUpdate = <ThrowOnError extends boolean = false>(
     BlogUpdateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -3021,6 +3016,11 @@ export const blogUpdate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/blogs/{blog}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -3035,7 +3035,6 @@ export const siteList = <ThrowOnError extends boolean = false>(
     SiteListError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3047,6 +3046,7 @@ export const siteList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/sites",
+    ...options,
   });
 };
 
@@ -3061,11 +3061,6 @@ export const siteCreate = <ThrowOnError extends boolean = false>(
     SiteCreateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -3077,6 +3072,11 @@ export const siteCreate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/sites",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -3091,7 +3091,6 @@ export const siteGet = <ThrowOnError extends boolean = false>(
     SiteGetError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3103,6 +3102,7 @@ export const siteGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/sites/{site}",
+    ...options,
   });
 };
 
@@ -3118,11 +3118,6 @@ export const siteUpdate = <ThrowOnError extends boolean = false>(
     SiteUpdateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -3134,6 +3129,11 @@ export const siteUpdate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/sites/{site}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -3148,7 +3148,6 @@ export const siteGetByHost = <ThrowOnError extends boolean = false>(
     SiteGetByHostError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3160,6 +3159,7 @@ export const siteGetByHost = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/sites/byHost/{host}",
+    ...options,
   });
 };
 
@@ -3174,7 +3174,6 @@ export const siteHostList = <ThrowOnError extends boolean = false>(
     SiteHostListError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3186,6 +3185,7 @@ export const siteHostList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/site-hosts",
+    ...options,
   });
 };
 
@@ -3200,11 +3200,6 @@ export const siteHostCreate = <ThrowOnError extends boolean = false>(
     SiteHostCreateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -3216,6 +3211,11 @@ export const siteHostCreate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/site-hosts",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -3230,7 +3230,6 @@ export const siteHostGet = <ThrowOnError extends boolean = false>(
     SiteHostGetError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3242,6 +3241,7 @@ export const siteHostGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/site-hosts/{host}",
+    ...options,
   });
 };
 
@@ -3257,11 +3257,6 @@ export const siteHostUpdate = <ThrowOnError extends boolean = false>(
     SiteHostUpdateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -3273,6 +3268,11 @@ export const siteHostUpdate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/site-hosts/{host}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -3287,8 +3287,8 @@ export const postListPublic = <ThrowOnError extends boolean = false>(
     PostListPublicError,
     ThrowOnError
   >({
-    ...options,
     url: "/api/v1/posts/public",
+    ...options,
   });
 };
 
@@ -3303,7 +3303,6 @@ export const postGet = <ThrowOnError extends boolean = false>(
     PostGetError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3315,6 +3314,7 @@ export const postGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/posts/{post}",
+    ...options,
   });
 };
 
@@ -3329,7 +3329,6 @@ export const postList = <ThrowOnError extends boolean = false>(
     PostListError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3341,6 +3340,7 @@ export const postList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/posts",
+    ...options,
   });
 };
 
@@ -3355,11 +3355,6 @@ export const postCreate = <ThrowOnError extends boolean = false>(
     PostCreateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -3371,6 +3366,11 @@ export const postCreate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/posts",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -3385,7 +3385,6 @@ export const toolCall = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3397,6 +3396,7 @@ export const toolCall = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/tools/call/{tool}",
+    ...options,
   });
 };
 
@@ -3411,7 +3411,6 @@ export const toolsOperationGuide = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3423,6 +3422,7 @@ export const toolsOperationGuide = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tools/operationGuide",
+    ...options,
   });
 };
 
@@ -3437,7 +3437,6 @@ export const toolsWebsearch = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3449,6 +3448,7 @@ export const toolsWebsearch = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/tools/websearch",
+    ...options,
   });
 };
 
@@ -3464,7 +3464,6 @@ export const artifactList = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3476,6 +3475,7 @@ export const artifactList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/artifacts",
+    ...options,
   });
 };
 
@@ -3491,11 +3491,6 @@ export const artifactCreate = <ThrowOnError extends boolean = false>(
     ArtifactCreateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -3507,6 +3502,11 @@ export const artifactCreate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/artifacts",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -3522,7 +3522,6 @@ export const artifactGet = <ThrowOnError extends boolean = false>(
     ArtifactGetError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3534,6 +3533,7 @@ export const artifactGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/artifacts/{artifact}",
+    ...options,
   });
 };
 
@@ -3549,7 +3549,6 @@ export const agentNodeList = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3561,6 +3560,7 @@ export const agentNodeList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/nodes",
+    ...options,
   });
 };
 
@@ -3576,11 +3576,6 @@ export const agentCreate = <ThrowOnError extends boolean = false>(
     AgentCreateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -3592,6 +3587,11 @@ export const agentCreate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/nodes",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -3607,7 +3607,6 @@ export const agentNode = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3619,6 +3618,7 @@ export const agentNode = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/nodes/{node}",
+    ...options,
   });
 };
 
@@ -3634,11 +3634,6 @@ export const agentNodeUpdate = <ThrowOnError extends boolean = false>(
     AgentNodeUpdateError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -3650,6 +3645,11 @@ export const agentNodeUpdate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/nodes/{node}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -3665,11 +3665,6 @@ export const agentNodeRun = <ThrowOnError extends boolean = false>(
     AgentNodeRunError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -3681,6 +3676,11 @@ export const agentNodeRun = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/nodes/run",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -3696,7 +3696,6 @@ export const agentNodeForm = <ThrowOnError extends boolean = false>(
     AgentNodeFormError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3708,6 +3707,7 @@ export const agentNodeForm = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/nodes/form/{node}",
+    ...options,
   });
 };
 
@@ -3723,7 +3723,6 @@ export const llmGet = <ThrowOnError extends boolean = false>(
     LlmGetError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3735,6 +3734,7 @@ export const llmGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/llm/{slug}",
+    ...options,
   });
 };
 
@@ -3750,7 +3750,6 @@ export const promptList = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3762,6 +3761,7 @@ export const promptList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/prompts",
+    ...options,
   });
 };
 
@@ -3776,7 +3776,6 @@ export const promptGet = <ThrowOnError extends boolean = false>(
     PromptGetError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3788,6 +3787,7 @@ export const promptGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/prompts/{prompt}",
+    ...options,
   });
 };
 
@@ -3803,7 +3803,6 @@ export const assisantList = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3815,6 +3814,7 @@ export const assisantList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/assisants",
+    ...options,
   });
 };
 
@@ -3829,7 +3829,6 @@ export const assisantGet = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3841,6 +3840,7 @@ export const assisantGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/assisants/{assisant}",
+    ...options,
   });
 };
 
@@ -3856,11 +3856,6 @@ export const subscribeSubscribe = <ThrowOnError extends boolean = false>(
     SubscribeSubscribeError,
     ThrowOnError
   >({
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
     security: [
       {
         scheme: "bearer",
@@ -3872,6 +3867,11 @@ export const subscribeSubscribe = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/subscribe",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -3883,7 +3883,6 @@ export const adminReleaseConn = <ThrowOnError extends boolean = false>(
     AdminReleaseConnError,
     ThrowOnError
   >({
-    ...options,
     security: [
       {
         scheme: "bearer",
@@ -3895,6 +3894,7 @@ export const adminReleaseConn = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/admin/releaseConn",
+    ...options,
   });
 };
 
@@ -3906,8 +3906,8 @@ export const frontendGetConfig = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
-    ...options,
     url: "/api/v1/frontend/config",
+    ...options,
   });
 };
 
@@ -3919,7 +3919,7 @@ export const frontendGetSiderbar = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
-    ...options,
     url: "/api/v1/frontend/siderbar",
+    ...options,
   });
 };
