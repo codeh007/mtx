@@ -61,7 +61,6 @@ const initOutline = async (
   config: MtmRunnableConfig,
 ) => {
   const topic = state.topic;
-  const systemPrompt = `You are a Wikipedia writer. Write an outline for a Wikipedia page about a user-provided topic. Be comprehensive and specific.`;
 
   if (!topic) {
     return {
@@ -71,7 +70,14 @@ const initOutline = async (
   const messages = [
     {
       role: "system",
-      content: systemPrompt,
+      content: "You are a Wikipedia writer. Write an outline for a Wikipedia page about a user-provided topic. Be comprehensive and specific."
+                    +"\n\nIMPORTANT: Your response must be in valid JSON format. Follow these guidelines:"
+                    +"\n- Use double quotes for all strings"
+                    +"\n- Ensure all keys and values are properly enclosed"
+                    +"\n- Do not include any text outside of the JSON object"
+                    +"\n- Strictly adhere to the following JSON schema:"
+                    +`\n${JSON.stringify(zodToJsonSchema(outlineSchema))}`
+                    +"\n\nDouble-check your output to ensure it is valid JSON before submitting.",
     },
     {
       role: "user",
@@ -84,20 +90,22 @@ const initOutline = async (
 
   const model = await getModelFromConfig(config, {
     temperature: 0,
+    maxTokens: 8000,
   });
 
-  const modelWithTool = model.withStructuredOutput(sectionSchema, {
-    name: "outline_query",
-    includeRaw: true,
-  });
+  // const modelWithTool = model.withStructuredOutput(outlineSchema, {
+  //   // name: "outline_query",
+  //   includeRaw: true,
+  // });
 
-  const result = await modelWithTool.invoke(messages);
+  const result = await model.invoke(messages);
 
+  console.log("result", result.content);
 
-  let outline = result.parsed;
-  if (!outline) {
-    outline = subsectionSchema.parse(JSON.parse(result.raw.content as string));
-  }
+  // let outline = result.parsed;
+  // if (!outline) {
+  const outline = outlineSchema.parse(JSON.parse(result.content as string));
+  // }
 
   return {
     outline,
