@@ -1,17 +1,17 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
-import type { ArtifactV3 } from "mtxuilib/types/index.js";
 import {
   getFormattedReflections,
   getModelConfig,
   getModelFromConfig,
   optionallyGetSystemPromptFromConfig,
-} from "../../../utils";
+} from "../../../../agentutils/agentutils";
 import type {
   OpenCanvasGraphAnnotation,
   OpenCanvasGraphReturnType,
 } from "../../state";
 import { ARTIFACT_TOOL_SCHEMA } from "./schemas";
 import { createArtifactContent, formatNewArtifactPrompt } from "./utils";
+import type { ArtifactV3 } from "mtmaiapi";
 
 /**
  * Generate a new artifact based on the user's query.
@@ -20,6 +20,7 @@ export const generateArtifact = async (
   state: typeof OpenCanvasGraphAnnotation.State,
   config: LangGraphRunnableConfig,
 ): Promise<OpenCanvasGraphReturnType> => {
+  console.log("🎨 进入 generateArtifact", state, config);
   const { modelName } = getModelConfig(config);
   const smallModel = await getModelFromConfig(config, {
     temperature: 0.5,

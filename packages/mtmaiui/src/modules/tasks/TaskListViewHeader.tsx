@@ -1,7 +1,7 @@
 "use client";
 
-import { ZForm, useZodForm } from "mtxuilib/form/ZodForm";
 import { Icons } from "mtxuilib/icons/icons";
+import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { MtLink } from "mtxuilib/mt/mtlink";
 import { Input } from "mtxuilib/ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";

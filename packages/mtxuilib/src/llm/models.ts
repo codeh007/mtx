@@ -4,12 +4,6 @@ import { experimental_createProviderRegistry as createProviderRegistry } from "a
 // import { customMiddleware } from "./custom-middleware";
 export * from "./models";
 export * from "./prompts";
-// export const customModel = (apiIdentifier: string) => {
-//   return wrapLanguageModel({
-//     model: openai(apiIdentifier, {}),
-//     // middleware: customMiddleware,
-//   });
-// };
 
 // 新增 ====================================================================
 export const registry = createProviderRegistry({

@@ -1,5 +1,5 @@
 "use client";
-import { ZForm, useZodForm } from "mtxuilib/form/ZodForm";
+import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib";
 import {
 	FormControl,

@@ -1,10 +1,8 @@
 import type { ToolCall } from "@langchain/core/messages/tool";
-import { isArtifactCodeContent } from "mtxuilib/lib/artifact_content_types.js";
-import type {
-  ArtifactCodeV3,
-  ArtifactMarkdownV3,
-} from "mtxuilib/types/index.js";
-import { getArtifactContent } from "../../../graph_utils";
+import { isArtifactCodeContent } from "mtxuilib/lib/artifact_content_types";
+
+import type { ArtifactCodeV3, ArtifactMarkdownV3 } from "mtmaiapi";
+import { getArtifactContent } from "../../../../agentutils/opencanvas_utils";
 import {
   OPTIONALLY_UPDATE_META_PROMPT,
   UPDATE_ENTIRE_ARTIFACT_PROMPT,
@@ -109,5 +107,5 @@ const getLanguage = (
 ) =>
   artifactMetaToolCall?.args?.programmingLanguage ||
   (isArtifactCodeContent(currentArtifactContent)
-    ? currentArtifactContent.language
+    ? (currentArtifactContent as ArtifactCodeV3).language
     : "other");

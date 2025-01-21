@@ -7,8 +7,8 @@ import {
   siteSiteUpdateMutation,
 } from "mtmaiapi/@tanstack/react-query.gen";
 
-import { ZForm, useZodForm } from "mtxuilib/form/ZodForm";
 import { Icons } from "mtxuilib/icons/icons";
+import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { toast } from "sonner";
 
 export const EditorEditor = (props: DetailViewProps) => {

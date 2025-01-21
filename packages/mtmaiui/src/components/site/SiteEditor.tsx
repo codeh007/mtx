@@ -5,8 +5,8 @@ import { Save } from "lucide-react";
 import { type Site, siteGetOptions, siteUpdateMutation } from "mtmaiapi";
 import { Switch } from "mtxuilib/ui/switch";
 
-import { ZForm, useZodForm } from "mtxuilib/form/ZodForm";
 import { Icons } from "mtxuilib/icons/icons";
+import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";
 import {
   FormControl,

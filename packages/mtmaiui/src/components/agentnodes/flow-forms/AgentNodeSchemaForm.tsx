@@ -4,10 +4,10 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { agentNodeFormOptions } from "mtmaiapi";
 
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
-import { EditFormToolbar } from "mtxuilib/form/EditFormToolbar";
-import { ZForm, useZodForm } from "mtxuilib/form/ZodForm";
-import { useTenant } from "../../../hooks/useAuth";
+import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
+import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { Input } from "mtxuilib/ui/input";
+import { useTenant } from "../../../hooks/useAuth";
 
 interface SchemaFormViewProps {
   schema: any;

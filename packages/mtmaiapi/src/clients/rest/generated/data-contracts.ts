@@ -1768,14 +1768,136 @@ export interface AgentNodeRun {
 }
 
 /** agent运行节点请求 */
-export interface AgentNodeRunRequest {
+export interface AgentNodeRunInput {
   flowName: FlowNames;
   /** agent 节点ID(threadId) */
   nodeId?: string;
   /** 是否使用stream 传输事件 */
   isStream?: boolean;
-  params: ResearchRequest | CrewAIParams | ScrapeGraphParams | BrowserParams;
-  config?: any;
+  params:
+    | ResearchRequest
+    | CrewAIParams
+    | ScrapeGraphParams
+    | BrowserParams
+    | CanvasGraphParams;
+}
+
+export interface TextHighlight {
+  fullMarkdown: string;
+  markdownBlock: string;
+  selectedText: string;
+}
+
+export interface CodeHighlight {
+  startCharIndex: number;
+  endCharIndex: number;
+}
+
+export interface ArtifactV3 {
+  currentIndex?: number;
+  contents?: (ArtifactMarkdownV3 | ArtifactCodeV3)[];
+}
+
+export interface ArtifactCodeV3 {
+  index: number;
+  type: string;
+  title: string;
+  language: ProgrammingLanguageOptions;
+  code: string;
+}
+
+export interface ArtifactMarkdownV3 {
+  index: number;
+  type: string;
+  title: string;
+  fullMarkdown: string;
+}
+
+export interface CustomQuickAction {
+  /** A UUID for the quick action. Used to identify the quick action. */
+  id: string;
+  /** The title of the quick action. Used in the UI to display the quick action. */
+  title: string;
+  /** The prompt to use when the quick action is invoked. */
+  prompt: string;
+  /** Whether or not to include the user's reflections in the prompt. */
+  includeReflections: boolean;
+  /** Whether or not to include the default prefix in the prompt. */
+  includePrefix: boolean;
+  /** Whether or not to include the last 5 (or less) messages in the prompt. */
+  includeRecentHistory: boolean;
+}
+
+/** 生成内容的反思规则 */
+export interface Reflections {
+  /** 生成内容时要遵循的样式规则 */
+  styleRules: string[];
+  /** 生成内容时要记住的关于用户的关键内容 */
+  content: string[];
+}
+
+export enum LanguageOptions {
+  Chinese = "chinese",
+  English = "english",
+  Spanish = "spanish",
+  French = "french",
+  Hindi = "hindi",
+}
+
+/** 工具内容长度,(文章,代码内容长度) */
+export enum ArtifactLengthOptions {
+  Shortest = "shortest",
+  Short = "short",
+  Long = "long",
+  Longest = "longest",
+}
+
+export type RewriteArtifactMetaToolResponse =
+  | {
+      type: "text";
+      title?: string;
+      language: ProgrammingLanguageOptions;
+    }
+  | {
+      type: "code";
+      title: string;
+      language: ProgrammingLanguageOptions;
+    };
+
+export interface ArtifactToolResponse {
+  artifact?: string;
+  title?: string;
+  language?: string;
+  type?: string;
+}
+
+/** 阅读级别 */
+export enum ReadingLevelOptions {
+  Pirate = "pirate",
+  Child = "child",
+  Teenager = "teenager",
+  College = "college",
+  Phd = "phd",
+}
+
+export enum ProgrammingLanguageOptions {
+  Typescript = "typescript",
+  Javascript = "javascript",
+  Cpp = "cpp",
+  Java = "java",
+  Php = "php",
+  Python = "python",
+  Html = "html",
+  Sql = "sql",
+  Json = "json",
+  Rust = "rust",
+  Xml = "xml",
+  Clojure = "clojure",
+  Csharp = "csharp",
+  Other = "other",
+}
+
+export interface CanvasGraphParams {
   /** 步骤限制(没用上) */
   stepLimit?: number;
   messages?: ChatMessage[];
@@ -1792,13 +1914,41 @@ export interface AgentNodeRunRequest {
   customQuickActionId?: string;
   /** 工件ID */
   artifactId?: string;
+  /** 是否修复bug */
+  fixBugs?: boolean;
+  highlightedCode?: CodeHighlight;
+  highlightedText?: TextHighlight;
   /** 是否使用表情符号重新生成 */
   regenerateWithEmojis?: boolean;
   /** 阅读级别 */
-  readingLevel?: "pirate" | "child" | "teenager" | "college" | "phd";
+  readingLevel?: ReadingLevelOptions;
   /** 工具内容长度,(文章,代码内容长度) */
-  artifactLength?: "shortest" | "short" | "long" | "longest";
+  artifactLength?: ArtifactLengthOptions;
+  artifact?: ArtifactV3;
+  addComments?: boolean;
+  addLogs?: boolean;
+  portLanguage?: ProgrammingLanguageOptions;
 }
+
+export type Assistant = {
+  /** The ID of the assistant */
+  assistant_id: string;
+  /** The ID of the graph */
+  graph_id: string;
+  /** The assistant config */
+  config: object;
+  /** The time the assistant was created */
+  created_at: string;
+  /** The assistant metadata */
+  metadata: object;
+  /** The version of the assistant */
+  version: number;
+} & {
+  /** The last time the assistant was updated */
+  updated_at: string;
+  /** The name of the assistant */
+  name: string;
+};
 
 /** agent 任务工具 */
 export interface AgentTaskTool {

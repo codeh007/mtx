@@ -3,10 +3,12 @@ import type { AIMessageChunk } from "@langchain/core/messages";
 import type { RunnableBinding } from "@langchain/core/runnables";
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
 import type { ConfigurableChatModelCallOptions } from "langchain/chat_models/universal";
-import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types.js";
-import type { ArtifactMarkdownV3 } from "mtxuilib/types/index.js";
-import { getModelConfig, getModelFromConfig } from "../../agentUtils";
-import { getArtifactContent } from "../../graph_utils";
+import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types";
+import {
+  getModelConfig,
+  getModelFromConfig,
+} from "../../../agentutils/agentutils";
+import { getArtifactContent } from "../../../agentutils/opencanvas_utils";
 import type {
   OpenCanvasGraphAnnotation,
   OpenCanvasGraphReturnType,

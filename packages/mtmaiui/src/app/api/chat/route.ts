@@ -1,23 +1,19 @@
-import { createAssistantGraph } from "mtxuilib/agents/assisant";
-
+import { cookieAccessToken } from "mtmaiapi";
+import { newGraphSseResponse } from "mtxuilib/agentutils/graph_utils";
+import { cookies } from "next/headers";
 export const runtime = "edge";
-
-const exampleUserInput = "What's the weather like today?";
 
 const handler = async (r: Request) => {
   try {
-    const input = {
-      messages: [{ role: "user", content: exampleUserInput }],
-    };
-    const builder = createAssistantGraph();
-    // const runnable = builder.getRunnable();
-    // const a = runnable.invoke(input);
-
-    const graph = builder.compile();
-    const result = await graph.invoke(input);
-    return new Response(JSON.stringify(result));
+    const accessToken = (await cookies()).get(cookieAccessToken)?.value;
+    return newGraphSseResponse("opencanvas", await r.json(), {
+      configurable: {
+        gomtmApiUrl: process.env.MTMAI_BACKEND,
+        accessToken: accessToken,
+      },
+    });
   } catch (e) {
-    console.log("运行graph 出错", e);
+    console.log("run langgraph error", e);
     return new Response(JSON.stringify(e));
   }
 };

@@ -5,16 +5,8 @@ import {
 } from "@langchain/core/messages";
 
 import type { BaseStore, LangGraphRunnableConfig } from "@langchain/langgraph";
-import {
-  // type ChatUniversalModel,
-  initChatModel,
-} from "langchain/chat_models/universal";
-import { isArtifactCodeContent } from "mtxuilib/lib/artifact_content_types";
-import type {
-  ArtifactCodeV3,
-  ArtifactMarkdownV3,
-  Reflections,
-} from "mtxuilib/types/opencanvasTypes";
+import type { Reflections } from "mtmaiapi";
+import { getLlm } from "mtxuilib/llm/llm";
 
 export const formatReflections = (
   reflections: Reflections,
@@ -115,35 +107,6 @@ export const ensureStoreInConfig = (
   return config.store;
 };
 
-export const formatArtifactContent = (
-  content: ArtifactMarkdownV3 | ArtifactCodeV3,
-  shortenContent?: boolean,
-): string => {
-  let artifactContent: string;
-
-  if (isArtifactCodeContent(content)) {
-    artifactContent = shortenContent
-      ? content.code?.slice(0, 500)
-      : content.code;
-  } else {
-    artifactContent = shortenContent
-      ? content.fullMarkdown?.slice(0, 500)
-      : content.fullMarkdown;
-  }
-  return `Title: ${content.title}\nArtifact type: ${content.type}\nContent: ${artifactContent}`;
-};
-
-export const formatArtifactContentWithTemplate = (
-  template: string,
-  content: ArtifactMarkdownV3 | ArtifactCodeV3,
-  shortenContent?: boolean,
-): string => {
-  return template.replace(
-    "{artifact}",
-    formatArtifactContent(content, shortenContent),
-  );
-};
-
 export const getModelConfig = (
   config: LangGraphRunnableConfig,
 ): {
@@ -158,9 +121,13 @@ export const getModelConfig = (
   };
   apiKey?: string;
 } => {
-  const customModelName = config.configurable?.customModelName as string;
+  let customModelName = config.configurable?.customModelName as string;
+  // if (!customModelName) {
+  //   throw new Error("Model name is missing in config.");
+  // }
   if (!customModelName) {
-    throw new Error("Model name is missing in config.");
+    //暂时写死
+    customModelName = "openai/gpt-4o";
   }
 
   if (customModelName.startsWith("azure/")) {
@@ -225,26 +192,28 @@ export async function getModelFromConfig(
     temperature?: number;
     maxTokens?: number;
   },
-): Promise<ReturnType<typeof initChatModel>> {
-  const { temperature = 0.5, maxTokens } = extra || {};
-  const { modelName, modelProvider, azureConfig, apiKey } =
-    getModelConfig(config);
-  return await initChatModel(modelName, {
-    modelProvider,
-    temperature,
-    maxTokens,
-    ...(apiKey ? { apiKey } : {}),
-    ...(azureConfig != null
-      ? {
-          azureOpenAIApiKey: azureConfig.azureOpenAIApiKey,
-          azureOpenAIApiInstanceName: azureConfig.azureOpenAIApiInstanceName,
-          azureOpenAIApiDeploymentName:
-            azureConfig.azureOpenAIApiDeploymentName,
-          azureOpenAIApiVersion: azureConfig.azureOpenAIApiVersion,
-          azureOpenAIBasePath: azureConfig.azureOpenAIBasePath,
-        }
-      : {}),
-  });
+) {
+  // const { temperature = 0.5, maxTokens } = extra || {};
+  // const { modelName, modelProvider, azureConfig, apiKey } =
+  getModelConfig(config);
+  // return await initChatModel(modelName, {
+  //   modelProvider,
+  //   temperature,
+  //   maxTokens,
+  //   ...(apiKey ? { apiKey } : {}),
+  //   ...(azureConfig != null
+  //     ? {
+  //         azureOpenAIApiKey: azureConfig.azureOpenAIApiKey,
+  //         azureOpenAIApiInstanceName: azureConfig.azureOpenAIApiInstanceName,
+  //         azureOpenAIApiDeploymentName:
+  //           azureConfig.azureOpenAIApiDeploymentName,
+  //         azureOpenAIApiVersion: azureConfig.azureOpenAIApiVersion,
+  //         azureOpenAIBasePath: azureConfig.azureOpenAIBasePath,
+  //       }
+  //     : {}),
+  // });
+  const a = getLlm();
+  return a;
 }
 
 // MessagesAnnotation coerces all message likes to base message classes

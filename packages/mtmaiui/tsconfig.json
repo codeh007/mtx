@@ -10,13 +10,7 @@
     // "jsx": "react-jsx",
     "jsx": "preserve", //react-jsx
     "allowImportingTsExtensions": true,
-    "lib": [
-      "DOM",
-      "DOM.iterable",
-      "ES2022",
-      "esnext",
-      "WebWorker"
-    ],
+    "lib": ["DOM", "DOM.iterable", "ES2022", "esnext", "WebWorker"],
     "types": [
       "node",
       "vite/client",
@@ -54,9 +48,7 @@
   "include": [
     ".next/types/**/*.ts",
     "src",
-    ".next.dev/types/**/*.ts"
+    ".next.dev/types/**/*.ts",
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

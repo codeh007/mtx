@@ -1,10 +1,7 @@
 import { headers } from "next/headers";
-// import "server-only";
 export const getBackendUrl = async (prefix?: string) => {
-  // if (typeof window !== "undefined") return window.location.origin;
-
   if (process.env.MTM_BASE_URL) {
-    return `https://${process.env.MTM_BASE_URL}${prefix || ""}`;
+    return `${process.env.MTM_BASE_URL}${prefix || ""}`;
   }
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL}${prefix || ""}`;
