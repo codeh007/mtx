@@ -1,4 +1,5 @@
 import { HfInference } from '@huggingface/inference';
+
 const hf = new HfInference('your access token')
 /**
  * 用原始的 fetch 方式调用 huggingface 上的embedding 模型
