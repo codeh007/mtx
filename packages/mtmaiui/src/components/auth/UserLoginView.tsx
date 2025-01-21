@@ -1,6 +1,6 @@
 "use client";
-import { ZForm, useZodForm } from "mtxuilib/form/ZodForm";
 import { useMtRouter } from "mtxuilib/hooks/use-router";
+import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { MtLink } from "mtxuilib/mt/mtlink";
 import { SubmitButton } from "mtxuilib/mt/submit-button";
 import { Input } from "mtxuilib/ui/input";

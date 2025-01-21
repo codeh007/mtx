@@ -5,8 +5,8 @@ import { client } from "./gomtmapi";
 
 export const cookieAccessToken = "mtmaibot_access_token"; //mtmaibot_access_token
 
-export function initMtiaiClient() {
-  const mtmaiBackend = process.env.MTMAI_BACKEND;
+export function initMtiaiClient(backendUrl?: string) {
+  const mtmaiBackend = backendUrl || process.env.MTMAI_BACKEND;
   client?.setConfig({
     baseUrl: mtmaiBackend,
     // fetch:  async (req) => {

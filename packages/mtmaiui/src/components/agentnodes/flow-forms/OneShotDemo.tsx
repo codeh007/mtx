@@ -1,7 +1,7 @@
 "use client";
 
-import { EditFormToolbar } from "mtxuilib/form/EditFormToolbar";
-import { ZForm, useZodForm } from "mtxuilib/form/ZodForm";
+import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
+import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import {
   FormControl,
   FormField,

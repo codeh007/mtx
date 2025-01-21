@@ -1,9 +1,22 @@
 import type { Ai } from "@cloudflare/ai";
+import type { DialogProps } from "@radix-ui/react-dialog";
 import type { z } from "zod";
 import type { User } from "../db/schema";
 import type { Icons } from "../icons/icons";
 export type { WorkflowEvent, WorkflowStep } from "cloudflare:workers";
-// export * from "./opencanvasTypes";
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {}
+
+export type EditDlgProps = {
+  onSubmit: (values) => Promise<void>;
+  onDelete: (values) => Promise<void>;
+  defaultValues?;
+} & DialogProps;
+
+export type MaybePromise<TType> = Promise<TType> | TType;
+export type Nullable<T> = { [P in keyof T]: T[P] | null };
+export type searchParams = { [key: string]: string | string[] | undefined };
+
 export type ZodObjectAny = z.ZodObject<any, any, any, any>;
 
 export interface Env {
@@ -78,12 +91,9 @@ declare namespace NodeJS {
   }
 }
 
-// import { User } from "@prisma/client"
-
 export type Await<T> = T extends PromiseLike<infer U> ? U : T;
 export type ArrayElement<ArrayType extends readonly unknown[]> =
   ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
-declare function MaybePromise<T>(value: T): T | Promise<T> | PromiseLike<T>;
 
 export type NavItem = {
   title: string;

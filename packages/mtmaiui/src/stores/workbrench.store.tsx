@@ -1,49 +1,18 @@
 "use client";
 
+import type React from "react";
 import { type ChangeEvent, createContext, useContext, useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
-// import {
-//   addMessage,
-//   deleteMessageById,
-//   updateMessageById,
-//   updateMessageContentById,
-// } from "../../../../apps/mtmaiadmin/src/lib/messageUtils";
-
-// import type {
-//   AssisantMenus,
-//   AssisantWorkbenchConfig,
-//   Message,
-//   ThreadUIState,
-// } from "mtmaiapi";
-import type React from "react";
 
 import { debounce } from "lodash";
-// import type { ThreadForm } from "mtmaiapi";
 import type { Tenant } from "mtmaiapi/api";
 import type { components } from "mtmaiapi/query_client/generated";
+import type { Suggestion } from "mtxuilib/db/schema/suggestion";
 import { io } from "socket.io-client";
-import type { Suggestion } from "../db/schema";
-// import {
-//   addMessage,
-//   deleteMessageById,
-//   updateMessageById,
-//   updateMessageContentById,
-// } from "../lib/messageUtils.ts--";
-// import type {
-//   IAction,
-//   IAsk,
-//   IFileRef,
-//   IInputHistory,
-//   IMessageElement,
-//   IStep,
-//   ITasklistElement,
-//   IThread,
-//   IToken,
-// } from "../types";
 import type { HubmanInput } from "../types/hatchet-types";
 import { subscribeSse } from "./eventHandler";
 import { handleSseSubmit } from "./handleSubmit";
@@ -96,8 +65,8 @@ export interface WorkbrenchState extends WorkbenchProps {
   // useChat 状态提升到这里
   appendChatMessageCb?: (message) => void;
   //--------------------------------------------------------------------------------------
-  messages: IStep[];
-  setMessages: (messagesState: IStep[]) => void;
+  // messages: IStep[];
+  // setMessages: (messagesState: IStep[]) => void;
 
   setAccessToken: (accessToken: string) => void;
   // setParams: (params: Record<string, any>) => void;

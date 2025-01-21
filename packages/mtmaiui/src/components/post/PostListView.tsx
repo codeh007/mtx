@@ -20,7 +20,7 @@ import {
   CardHeader,
   CardTitle,
 } from "mtxuilib/ui/card";
-import { useOptionalTenant } from "../../hooks/useAuth";
+import { useTenant } from "../../hooks/useAuth";
 import { useBasePath } from "../../hooks/useBasePath";
 import { CustomLink } from "../CustomLink";
 import { columns } from "./blog-post-columns";
@@ -35,7 +35,7 @@ export const PostListView = (props: PostListViewProps) => {
   const [showCreateBlog, setShowCreateBlog] = useState(false);
 
   const [rotate, setRotate] = useState(false);
-  const optionalTenant = useOptionalTenant();
+  const optionalTenant = useTenant();
   const tenantBlogListQuery = useSuspenseQuery({
     ...postListOptions({
       path: {

@@ -1,8 +1,7 @@
 "use client";
 
-
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
-import { ZForm, useZodForm } from "mtxuilib/form/ZodForm";
+import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { useState } from "react";
 import { useTenant } from "../../hooks/useAuth";
 import { useMtmClient } from "../../hooks/useMtmapi";

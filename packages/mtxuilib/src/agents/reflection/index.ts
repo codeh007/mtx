@@ -4,14 +4,14 @@ import {
   START,
   StateGraph,
 } from "@langchain/langgraph";
+import type { ArtifactCodeV3, ArtifactMarkdownV3, Reflections } from "mtmaiapi";
 import { z } from "zod";
 import {
   ensureStoreInConfig,
   formatReflections,
 } from "../../agentutils/agentutils";
-import { getArtifactContent } from "../../agentutils/graph_utils";
+import { getArtifactContent } from "../../agentutils/opencanvas_utils";
 import { isArtifactMarkdownContent } from "../../lib/artifact_content_types";
-import type { Reflections } from "../../types/opencanvasTypes";
 import { REFLECT_SYSTEM_PROMPT, REFLECT_USER_PROMPT } from "./prompts";
 import {
   ReflectionGraphAnnotation,
@@ -61,8 +61,8 @@ export const reflect = async (
 
   const artifactContent = currentArtifactContent
     ? isArtifactMarkdownContent(currentArtifactContent)
-      ? currentArtifactContent.fullMarkdown
-      : currentArtifactContent.code
+      ? (currentArtifactContent as ArtifactMarkdownV3).fullMarkdown
+      : (currentArtifactContent as ArtifactCodeV3).code
     : undefined;
 
   const formattedSystemPrompt = REFLECT_SYSTEM_PROMPT.replace(

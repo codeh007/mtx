@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "mtmaiui",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "bun run dev",
+      "nodeVersionHint": 20,
+      "cwd": "${workspaceFolder}/packages/mtmaiui",
+      "skipFiles": ["<node_internals>/**", ".vscode/**", "/public", "/dist"]
+    }
+  ]
+}

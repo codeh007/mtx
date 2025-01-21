@@ -1,4 +1,3 @@
-"use client";
 import type { Assistant } from "@langchain/langgraph-sdk";
 import { ASSISTANT_ID_COOKIE } from "mtxuilib/constants";
 import { useState } from "react";
@@ -6,6 +5,7 @@ import { useState } from "react";
 import { client } from "mtmaiapi";
 import { deleteCookie, getCookie } from "mtxuilib/lib/clientlib";
 import { useToast } from "mtxuilib/ui/use-toast";
+
 export type AssistantTool = {
   /**
    * The name of the tool
@@ -353,7 +353,13 @@ export function useAssistants() {
 
   return {
     assistants,
-    selectedAssistant,
+    selectedAssistant: {
+      assistant_id: "fakeAssistantId",
+      name: "fakeAssistantName",
+      description: "fakeAssistantDescription",
+      iconName: "fakeIconName",
+      iconColor: "fakeIconColor",
+    },
     isLoadingAllAssistants,
     isDeletingAssistant,
     isCreatingAssistant,

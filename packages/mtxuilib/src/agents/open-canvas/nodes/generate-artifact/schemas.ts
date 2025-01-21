@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { PROGRAMMING_LANGUAGES } from "mtxuilib/types/index.js";
+import { PROGRAMMING_LANGUAGES } from "../../../../agentutils/opencanvas_utils";
 
 export const ARTIFACT_TOOL_SCHEMA = z.object({
   type: z

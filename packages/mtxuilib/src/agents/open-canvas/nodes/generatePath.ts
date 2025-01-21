@@ -1,5 +1,10 @@
+import type { LangGraphRunnableConfig } from "@langchain/langgraph";
 import { z } from "zod";
-import { getModelFromConfig } from "../../utils";
+import { getModelFromConfig } from "../../../agentutils/agentutils";
+import {
+  formatArtifactContentWithTemplate,
+  getArtifactContent,
+} from "../../../agentutils/opencanvas_utils";
 import {
   CURRENT_ARTIFACT_PROMPT,
   NO_ARTIFACT_PROMPT,
@@ -7,11 +12,7 @@ import {
   ROUTE_QUERY_OPTIONS_NO_ARTIFACTS,
   ROUTE_QUERY_PROMPT,
 } from "../prompts";
-import type { LangGraphRunnableConfig } from "@langchain/langgraph";
-import { formatArtifactContentWithTemplate } from "../../agentUtils";
-import { getArtifactContent } from "../../graph_utils";
 import type { OpenCanvasGraphAnnotation } from "../state";
-
 /**
  * Routes to the proper node in the graph based on the user's query.
  */
@@ -93,16 +94,16 @@ export const generatePath = async (
   const model = await getModelFromConfig(config, {
     temperature: 0,
   });
-  const modelWithTool = model.withStructuredOutput(
-    z.object({
-      route: z
-        .enum(["replyToGeneralInput", artifactRoute])
-        .describe("The route to take based on the user's query."),
-    }),
-    {
-      name: "route_query",
-    },
-  );
+
+  const routeSchema = z.object({
+    route: z
+      .enum(["replyToGeneralInput", artifactRoute])
+      .describe("The route to take based on the user's query."),
+  });
+  const modelWithTool = model.withStructuredOutput(routeSchema, {
+    name: "route_query",
+    includeRaw: true,
+  });
 
   const result = await modelWithTool.invoke([
     {
@@ -111,7 +112,12 @@ export const generatePath = async (
     },
   ]);
 
+  let route = result.parsed?.route;
+  if (!route) {
+    route = routeSchema.parse(JSON.parse(result.raw.content.toString())).route;
+  }
+
   return {
-    next: result.route,
+    next: route,
   };
 };

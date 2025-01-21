@@ -1,5 +1,5 @@
 import { Annotation, MessagesAnnotation } from "@langchain/langgraph";
-import type { ArtifactV3 } from "../../types/opencanvasTypes";
+import type { ArtifactV3 } from "mtmaiapi";
 
 export const ReflectionGraphAnnotation = Annotation.Root({
   /**

@@ -7,7 +7,7 @@ import { Suspense, memo } from "react";
 import { SkeletonLoading } from "mtxuilib/components/skeletons/SkeletonLoading";
 import { cn } from "mtxuilib/lib/utils";
 import { useWorkbrenchStore } from "../../stores/workbrench.store";
-import { getViewByName } from "../LzComponents";
+// import { getViewByName } from "../LzComponents";
 
 export interface WorkspaceProps {
   chatStarted?: boolean;

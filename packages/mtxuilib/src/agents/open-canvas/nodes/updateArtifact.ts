@@ -1,22 +1,19 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
-import { isArtifactCodeContent } from "mtxuilib/lib/artifact_content_types.js";
-import type {
-  ArtifactCodeV3,
-  ArtifactV3,
-  Reflections,
-} from "mtxuilib/types/index.js";
-import { getArtifactContent } from "../../graph_utils";
+import { isArtifactCodeContent } from "mtxuilib/lib/artifact_content_types";
+
 import {
   ensureStoreInConfig,
   formatReflections,
   getModelConfig,
   getModelFromConfig,
-} from "../../utils";
+} from "../../../agentutils/agentutils";
+import { getArtifactContent } from "../../../agentutils/opencanvas_utils";
 import { UPDATE_HIGHLIGHTED_ARTIFACT_PROMPT } from "../prompts";
 import type {
   OpenCanvasGraphAnnotation,
   OpenCanvasGraphReturnType,
 } from "../state";
+import type { Reflections, ArtifactCodeV3, ArtifactV3 } from "mtmaiapi";
 
 /**
  * Update an existing artifact based on the user's query.
