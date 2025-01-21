@@ -29,6 +29,15 @@ export async function* runLanggraph(
   input: AgentNodeRunInput["params"],
   config: MtmRunnableConfig,
 ) {
+  if (!config.ctx.accessToken) {
+    throw new Error("accessToken is required");
+  }
+  if (!config.ctx.userId) {
+    throw new Error("userId is required");
+  }
+  if (!config.ctx.tenantId) {
+    throw new Error("tenantId is required");
+  }
   const embeddings = new OpenAIEmbeddings({
     model: "text-embedding-3-large",
   });
