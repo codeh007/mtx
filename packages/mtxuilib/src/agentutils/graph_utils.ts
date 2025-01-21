@@ -1,11 +1,7 @@
 import { createClient, createConfig } from "@hey-api/client-fetch";
 import { isAIMessageChunk } from "@langchain/core/messages";
 import type { Runnable } from "@langchain/core/runnables";
-import {
-  InMemoryStore,
-  type LangGraphRunnableConfig,
-  MemorySaver,
-} from "@langchain/langgraph";
+import { InMemoryStore, MemorySaver } from "@langchain/langgraph";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import {
   type AgentNodeRunInput,
@@ -77,10 +73,17 @@ export async function* runLanggraph(
       ...config.configurable,
       thread_id: threadId,
       assistant_id: "default",
+      mtmaiConfig: mtmaiConfig.data,
+      mtmclient: mtmclient,
+      store: inMemoryStore,
+      ctx: {
+        // accessToken: ,
+        // userId: config.ctx.userId,
+      },
     },
-    store: inMemoryStore,
-    runName: "canvas",
-  } satisfies LangGraphRunnableConfig;
+
+    runName: agentName,
+  } satisfies MtmRunnableConfig;
 
   if (agentName === "postiz") {
   } else if (agentName === "storm") {

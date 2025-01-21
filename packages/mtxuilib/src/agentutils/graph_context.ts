@@ -1,6 +1,6 @@
 
 interface GraphContext {
-  accessToken: string;
-  userId: string;
-  tenantId: string;
+  accessToken?: string;
+  userId?: string;
+  tenantId?: string;
 }
