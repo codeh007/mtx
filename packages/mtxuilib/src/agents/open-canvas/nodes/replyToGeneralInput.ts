@@ -1,4 +1,5 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
+import type { Reflections } from "mtmaiapi";
 import {
   ensureStoreInConfig,
   formatReflections,

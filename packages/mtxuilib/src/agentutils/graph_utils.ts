@@ -147,15 +147,6 @@ export async function* runLanggraph(
     console.error("[runLanggraph] Error:", error);
     yield `3:${JSON.stringify({ error: error.message })}\n`;
   } finally {
-    try {
-      yield `d:"[DONE]"\n`;
-      // 保存 state
-      // 提示: 关于状态的问题:
-      //     虽然 langgraphjs 提供了 store  memory 等功能,但是实现的方式,可以理解为一个 api 端点.
-      //     查看他们的范例, 他们使用store\ memory 都是在节点内部调用,因此, 可以自己实现一个基于数据库的方式的api 实现 store 的功能.
-      //     而不是依赖 langgraphjs 自带的 store memory, 毕竟最终还是需要基于数据库的持久化的.
-    } catch (finalError) {
-      console.error("[runLanggraph] Error in finally block:", finalError);
-    }
+    yield `d:"[DONE]"\n`;
   }
 }
