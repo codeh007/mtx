@@ -5,6 +5,7 @@ import { getModelFromConfig } from "../../../agentutils/agentutils";
 import type { MtmRunnableConfig } from "../../../agentutils/runableconfig";
 import { outlineSchema, perspectivesSchema, subsectionSchema } from "../schema";
 import type { StormGraphAnnotation } from "../state";
+
 /**
  * 初始化研究节点
  * 1. 初始大纲
