@@ -1,16 +1,6 @@
 import { START, Send, StateGraph } from "@langchain/langgraph";
-// import { customAction } from "./nodes/customAction";
-// import { generateArtifact } from "./nodes/generate-artifact";
-// import { generateFollowup } from "./nodes/generateFollowup";
 import { generatePath } from "./nodes/generatePath";
-// import { generateTitleNode } from "./nodes/generateTitle";
-// import { reflectNode } from "./nodes/reflect";
-// import { replyToGeneralInput } from "./nodes/replyToGeneralInput";
-// import { rewriteArtifact } from "./nodes/rewrite-artifact";
-// import { rewriteArtifactTheme } from "./nodes/rewriteArtifactTheme";
-// import { rewriteCodeArtifactTheme } from "./nodes/rewriteCodeArtifactTheme";
-// import { updateArtifact } from "./nodes/updateArtifact";
-// import { updateHighlightedText } from "./nodes/updateHighlightedText";
+import { researchNode } from "./nodes/research";
 import { StormGraphAnnotation } from "./state";
 
 /**
@@ -54,7 +44,9 @@ export function buildStormGraph() {
   const builder = new StateGraph(StormGraphAnnotation)
     // Start node & edge
     .addNode("generatePath", generatePath)
+    .addNode("research", researchNode)
     .addEdge(START, "generatePath")
+
     // Nodes
     // .addNode("replyToGeneralInput", replyToGeneralInput)
     // .addNode("rewriteArtifact", rewriteArtifact)
@@ -70,7 +62,8 @@ export function buildStormGraph() {
     // .addNode("generateTitle", generateTitleNode)
     // Initial router
     .addConditionalEdges("generatePath", routeNode, [
-      //   "updateArtifact",
+      "research",
+
       //   "rewriteArtifactTheme",
       //   "rewriteCodeArtifactTheme",
       //   "replyToGeneralInput",

@@ -10,7 +10,7 @@ const handler = async (r: Request) => {
     if (!accessToken) {
       throw new Error("accessToken is required");
     }
-    return newGraphSseResponse("opencanvas", await r.json(), {
+    return newGraphSseResponse("storm", await r.json(), {
       ctx: {
         accessToken: accessToken,
       },

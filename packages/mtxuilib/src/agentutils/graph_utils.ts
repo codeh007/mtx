@@ -14,6 +14,7 @@ import {
 } from "mtmaiapi/gomtmapi";
 // import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { buildCanvasGraph } from "../agents/open-canvas";
+import { buildStormGraph } from "../agents/storm";
 import { generateUUID } from "../lib/s-utils";
 import { StreamingResponse, makeStream } from "../llm/sse";
 import type { MtmRunnableConfig } from "./runableconfig";
@@ -78,6 +79,13 @@ export async function* runLanggraph(
   } satisfies LangGraphRunnableConfig;
 
   if (agentName === "postiz") {
+  } else if (agentName === "storm") {
+    const graph = buildStormGraph()
+      .compile({
+        checkpointer: memorySaver,
+      })
+      .withConfig(graphConfig);
+    runable = graph;
   } else {
     const graph = buildCanvasGraph()
       .compile({
@@ -143,16 +151,14 @@ export async function* runLanggraph(
       }
       if (langgraph_node === "generateArtifact") {
         if (e.data?.chunk?.content) {
+          // TODO: 不应该通过事件传递完整数据,而是 eventName 和 itemId 类似的形式, 客户端通过 itemId 自己去拉取完整数据
           yield EmitDataEvent("generateArtifact", e.data.chunk.content);
         }
       }
-      // else if (e.event === "on_chat_model_end") {
-      //   yield `d:"[DONE]"\n`;
-      // }
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error("[runLanggraph] Error:", error);
-    yield `3:${JSON.stringify({ error: error.message })}\n`;
+    yield `3:${JSON.stringify({ error: (error as Error).message })}\n`;
   } finally {
     yield `d:"[DONE]"\n`;
   }
