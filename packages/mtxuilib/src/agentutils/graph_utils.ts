@@ -1,3 +1,4 @@
+import { createClient, createConfig } from "@hey-api/client-fetch";
 import { isAIMessageChunk } from "@langchain/core/messages";
 import type { Runnable } from "@langchain/core/runnables";
 import {
@@ -6,7 +7,11 @@ import {
   MemorySaver,
 } from "@langchain/langgraph";
 import { OpenAIEmbeddings } from "@langchain/openai";
-import type { AgentNodeRunInput, CanvasGraphParams } from "mtmaiapi/gomtmapi";
+import {
+  type AgentNodeRunInput,
+  type CanvasGraphParams,
+  userGetCurrent,
+} from "mtmaiapi/gomtmapi";
 // import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { buildCanvasGraph } from "../agents/open-canvas";
 import { generateUUID } from "../lib/s-utils";
@@ -32,12 +37,25 @@ export async function* runLanggraph(
   if (!config.ctx.accessToken) {
     throw new Error("accessToken is required");
   }
+
+  const mtmclient = createClient(createConfig());
+  mtmclient.setConfig({
+    baseUrl: config.backendUrl,
+    headers: {
+      Authorization: `Bearer ${config.ctx.accessToken}`,
+    },
+  });
+  config.mtmclient = mtmclient;
+
+  // 获取用户基本信息
   if (!config.ctx.userId) {
-    throw new Error("userId is required");
+    const user = await userGetCurrent({ client: mtmclient });
+    if (!user) {
+      throw new Error("user is required");
+    }
+    config.ctx.userId = user.data.metadata.id;
   }
-  if (!config.ctx.tenantId) {
-    throw new Error("tenantId is required");
-  }
+
   const embeddings = new OpenAIEmbeddings({
     model: "text-embedding-3-large",
   });

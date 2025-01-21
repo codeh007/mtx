@@ -16,7 +16,7 @@ type Message =
       role: "tool";
       toolCallId: string;
       toolName?: string | undefined;
-      result: any;
+      result;
     };
 
 export const getMessageType = (message: Record<string, any>): string => {
