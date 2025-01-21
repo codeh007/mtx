@@ -11,10 +11,12 @@ const handler = async (r: Request) => {
       throw new Error("accessToken is required");
     }
     return newGraphSseResponse("storm", await r.json(), {
-      ctx: {
-        accessToken: accessToken,
+      configurable: {
+        ctx: {
+          accessToken: accessToken,
+        },
+        backendUrl: process.env.MTMAI_BACKEND,
       },
-      backendUrl: process.env.MTMAI_BACKEND,
     });
   } catch (e) {
     console.log("run langgraph error", e);

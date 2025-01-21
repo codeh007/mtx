@@ -14,5 +14,6 @@ export const researchNode = async (
   console.log("searchResults", searchResults);
   return {
     next: "todo node",
+    searchResults: [searchResults],
   };
 };
