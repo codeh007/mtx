@@ -1537,12 +1537,6 @@ export enum OperationEnum {
   StopBlogTask = "stopBlogTask",
 }
 
-/** 根状态 */
-export interface RootConfig {
-  /** token */
-  token?: string;
-}
-
 export interface OperataionGuideResponse {
   /** 详细的操作手册描述 */
   message?: string;
