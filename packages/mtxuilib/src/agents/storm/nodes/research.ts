@@ -17,7 +17,7 @@ export const researchNode = async (
   console.log("开始初始化大纲");
   const outline = await initOutline(state, config);
   return {
-    next: "todo node",
+    next: "__end__",
     searchResults: [searchResults],
     outline: outline.outline,
   };
@@ -28,13 +28,14 @@ const initOutline = async (
   state: typeof StormGraphAnnotation.State,
   config: MtmRunnableConfig,
 ) => {
-  const systemPrompt = `You are a Wikipedia writer. Write an outline for a Wikipedia page about a user-provided topic. Be comprehensive and specific.
+  const topic = state.topic;
+  const systemPrompt = `You are a Wikipedia writer. Write an outline for a Wikipedia page about a user-provided topic. Be comprehensive and specific.`;
 
-
-
-
-Double-check your output to ensure it is valid JSON before submitting.`;
-
+  if (!topic) {
+    return {
+      error: "topic is required",
+    };
+  }
   const messages = [
     {
       role: "system",
@@ -42,12 +43,12 @@ Double-check your output to ensure it is valid JSON before submitting.`;
     },
     {
       role: "user",
-      content: state.topic,
+      content: topic,
     },
   ];
 
   const model = await getModelFromConfig(config, {
-    // temperature: 0,
+    temperature: 0,
   });
   const aiResponse = await model.invoke(messages);
 
