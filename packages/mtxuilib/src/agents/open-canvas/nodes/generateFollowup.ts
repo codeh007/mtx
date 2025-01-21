@@ -1,4 +1,5 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
+import type { ArtifactCodeV3, ArtifactMarkdownV3, Reflections } from "mtmaiapi";
 import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types";
 import {
   ensureStoreInConfig,
@@ -11,7 +12,6 @@ import type {
   OpenCanvasGraphAnnotation,
   OpenCanvasGraphReturnType,
 } from "../state";
-import type { Reflections } from "mtmaiapi";
 
 /**
  * Generate a followup message after generating or updating an artifact.
@@ -44,8 +44,8 @@ export const generateFollowup = async (
 
   const artifactContent = currentArtifactContent
     ? isArtifactMarkdownContent(currentArtifactContent)
-      ? currentArtifactContent.fullMarkdown
-      : currentArtifactContent.code
+      ? (currentArtifactContent as ArtifactMarkdownV3).fullMarkdown
+      : (currentArtifactContent as ArtifactCodeV3).code
     : undefined;
 
   const formattedPrompt = FOLLOWUP_ARTIFACT_PROMPT.replace(

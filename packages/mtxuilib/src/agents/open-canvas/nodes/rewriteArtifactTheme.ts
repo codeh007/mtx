@@ -1,6 +1,7 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
 import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types";
 
+import type { ArtifactMarkdownV3, ArtifactV3, Reflections } from "mtmaiapi";
 import {
   ensureStoreInConfig,
   formatReflections,
@@ -18,7 +19,6 @@ import type {
   OpenCanvasGraphAnnotation,
   OpenCanvasGraphReturnType,
 } from "../state";
-import type { Reflections, ArtifactV3 } from "mtmaiapi";
 
 export const rewriteArtifactTheme = async (
   state: typeof OpenCanvasGraphAnnotation.State,
@@ -53,7 +53,10 @@ export const rewriteArtifactTheme = async (
     formattedPrompt = CHANGE_ARTIFACT_LANGUAGE_PROMPT.replace(
       "{newLanguage}",
       state.language,
-    ).replace("{artifactContent}", currentArtifactContent.fullMarkdown);
+    ).replace(
+      "{artifactContent}",
+      (currentArtifactContent as ArtifactMarkdownV3).fullMarkdown,
+    );
   } else if (state.readingLevel && state.readingLevel !== "pirate") {
     let newReadingLevel = "";
     switch (state.readingLevel) {
@@ -73,11 +76,14 @@ export const rewriteArtifactTheme = async (
     formattedPrompt = CHANGE_ARTIFACT_READING_LEVEL_PROMPT.replace(
       "{newReadingLevel}",
       newReadingLevel,
-    ).replace("{artifactContent}", currentArtifactContent.fullMarkdown);
+    ).replace(
+      "{artifactContent}",
+      (currentArtifactContent as ArtifactMarkdownV3).fullMarkdown,
+    );
   } else if (state.readingLevel && state.readingLevel === "pirate") {
     formattedPrompt = CHANGE_ARTIFACT_TO_PIRATE_PROMPT.replace(
       "{artifactContent}",
-      currentArtifactContent.fullMarkdown,
+      (currentArtifactContent as ArtifactMarkdownV3).fullMarkdown,
     );
   } else if (state.artifactLength) {
     let newLength = "";
@@ -98,11 +104,14 @@ export const rewriteArtifactTheme = async (
     formattedPrompt = CHANGE_ARTIFACT_LENGTH_PROMPT.replace(
       "{newLength}",
       newLength,
-    ).replace("{artifactContent}", currentArtifactContent.fullMarkdown);
+    ).replace(
+      "{artifactContent}",
+      (currentArtifactContent as ArtifactMarkdownV3).fullMarkdown,
+    );
   } else if (state.regenerateWithEmojis) {
     formattedPrompt = ADD_EMOJIS_TO_ARTIFACT_PROMPT.replace(
       "{artifactContent}",
-      currentArtifactContent.fullMarkdown,
+      (currentArtifactContent as ArtifactMarkdownV3).fullMarkdown,
     );
   } else {
     throw new Error("No theme selected");

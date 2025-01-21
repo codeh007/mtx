@@ -1,4 +1,5 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
+import type { ArtifactCodeV3, ArtifactV3 } from "mtmaiapi";
 import { getModelFromConfig } from "../../../agentutils/agentutils";
 import { getArtifactContent } from "../../../agentutils/opencanvas_utils";
 import { isArtifactCodeContent } from "../../../lib/artifact_content_types";
@@ -12,7 +13,6 @@ import type {
   OpenCanvasGraphAnnotation,
   OpenCanvasGraphReturnType,
 } from "../state";
-import type { ArtifactCodeV3, ArtifactV3 } from "mtmaiapi";
 
 export const rewriteCodeArtifactTheme = async (
   state: typeof OpenCanvasGraphAnnotation.State,
@@ -76,7 +76,7 @@ export const rewriteCodeArtifactTheme = async (
   // Insert the code into the artifact placeholder in the prompt
   formattedPrompt = formattedPrompt.replace(
     "{artifactContent}",
-    currentArtifactContent.code,
+    (currentArtifactContent as ArtifactCodeV3).code,
   );
 
   const newArtifactValues = await smallModel.invoke([
@@ -88,7 +88,8 @@ export const rewriteCodeArtifactTheme = async (
     type: "code",
     title: currentArtifactContent.title,
     // Ensure the new artifact's language is updated, if necessary
-    language: state.portLanguage || currentArtifactContent.language,
+    language:
+      state.portLanguage || (currentArtifactContent as ArtifactCodeV3).language,
     code: newArtifactValues.content as string,
   };
 

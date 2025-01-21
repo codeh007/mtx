@@ -2,7 +2,8 @@ import type { BaseLanguageModelInput } from "@langchain/core/language_models/bas
 import type { AIMessageChunk } from "@langchain/core/messages";
 import type { RunnableBinding } from "@langchain/core/runnables";
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
-import type { ConfigurableChatModelCallOptions } from "langchain/chat_models/universal";
+import type { ArtifactMarkdownV3 } from "mtmaiapi";
+// import type { ConfigurableChatModelCallOptions } from "langchain/chat_models/universal";
 import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types";
 import {
   getModelConfig,
@@ -44,7 +45,8 @@ export const updateHighlightedText = async (
   let model: RunnableBinding<
     BaseLanguageModelInput,
     AIMessageChunk,
-    ConfigurableChatModelCallOptions
+    // ConfigurableChatModelCallOptions
+    LangGraphRunnableConfig
   >;
   if (modelProvider.includes("openai")) {
     // Custom model is OpenAI/Azure OpenAI

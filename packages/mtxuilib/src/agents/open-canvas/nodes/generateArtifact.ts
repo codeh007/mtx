@@ -1,7 +1,6 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
 import { ChatOpenAI } from "@langchain/openai";
-import type { Artifact, Reflections } from "mtmaiapi";
-import { v4 as uuidv4 } from "uuid";
+import type { ArtifactV3, Reflections } from "mtmaiapi";
 import { z } from "zod";
 import {
   ensureStoreInConfig,
@@ -79,12 +78,17 @@ export const generateArtifact = async (
     ],
     { runName: "generate_artifact" },
   );
-  const newArtifact: Artifact = {
-    id: response.id ?? uuidv4(),
-    content: response.tool_calls?.[0]?.args.artifact,
-    title: response.tool_calls?.[0]?.args.title,
-    type: response.tool_calls?.[0]?.args.type,
-    language: response.tool_calls?.[0]?.args.language,
+  const newArtifact: ArtifactV3 = {
+    // id: (response.id ?? uuidv4())?.toString(),
+    // metadata: {
+    //   id: response.id ?? uuidv4(),
+    //   createdAt: new Date().toISOString(),
+    //   updatedAt: new Date().toISOString(),
+    // },
+    contents: response.tool_calls?.[0]?.args.artifact,
+    // title: response.tool_calls?.[0]?.args.title,
+    // type: response.tool_calls?.[0]?.args.type,
+    // language: response.tool_calls?.[0]?.args.language,
   };
 
   return {
