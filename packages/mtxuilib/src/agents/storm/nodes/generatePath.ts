@@ -14,34 +14,12 @@ import {
 } from "../prompts";
 import type { StormGraphAnnotation } from "../state";
 /**
- * Routes to the proper node in the graph based on the user's query.
+ * graph 入口
  */
 export const generatePath = async (
   state: typeof StormGraphAnnotation.State,
   config: LangGraphRunnableConfig,
 ) => {
-  if (state.highlightedCode) {
-    return {
-      next: "updateArtifact",
-    };
-  }
-  if (state.highlightedText) {
-    return {
-      next: "updateHighlightedText",
-    };
-  }
-
-  if (
-    state.language ||
-    state.artifactLength ||
-    state.regenerateWithEmojis ||
-    state.readingLevel
-  ) {
-    return {
-      next: "rewriteArtifactTheme",
-    };
-  }
-
   if (
     state.addComments ||
     state.addLogs ||
@@ -118,6 +96,7 @@ export const generatePath = async (
   }
 
   return {
-    next: route,
+    // 暂时写死, 直接跳转到 research 节点
+    next: "research",
   };
 };
