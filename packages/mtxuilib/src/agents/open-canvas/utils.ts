@@ -1,16 +1,16 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
+import type { ArtifactV3 } from "mtmaiapi";
 import { getModelConfig } from "../../agentutils/agentutils";
-import type { Artifact } from "mtmaiapi";
 
 export const formatArtifacts = (
-  messages: Artifact[],
+  messages: ArtifactV3[],
   truncate?: boolean,
 ): string =>
   messages
     .map((artifact) => {
       const content = truncate
-        ? `${artifact.content.slice(0, 500)}${artifact.content.length > 500 ? "..." : ""}`
-        : artifact.content;
+        ? `${artifact.contents.slice(0, 500)}${artifact.contents.length > 500 ? "..." : ""}`
+        : artifact.contents;
       return `Title: ${artifact.title}\nID: ${artifact.id}\nContent: ${content}`;
     })
     .join("\n\n");

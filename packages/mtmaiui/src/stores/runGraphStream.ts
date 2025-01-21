@@ -25,14 +25,15 @@ export async function handleSseGraphStream(
     throw new Error("(runGraphStream)tenant is required");
   }
   console.log("runGraphStream", { props, tenant, agentEndpointBase });
-  // const endpointUrl = `${backendUrl}/api/v1/tenants/${tenant.metadata.id}/nodes/run`;
   const endpointUrl = `${agentEndpointBase}/api/chat`;
+
+  const messages = get().messages;
   const response = await fetch(endpointUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ ...props, isStream: true }),
+    body: JSON.stringify({ ...props, messages, isStream: true }),
     credentials: "include",
   });
   // stream 流式处理

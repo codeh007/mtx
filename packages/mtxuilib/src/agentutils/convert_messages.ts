@@ -6,6 +6,7 @@ import type {
 import type {
   AIMessage,
   BaseMessage,
+  ChatMessage,
   ToolMessage,
 } from "@langchain/core/messages";
 // Not exposed by `@assistant-ui/react` package, but is
@@ -90,6 +91,16 @@ export const convertLangchainMessages: useExternalMessageConverter.Callback<
 };
 
 export const convertToChatMessage: useExternalMessageConverter.Callback<
+  ChatMessage
+> = (message): Message | Message[] => {
+  return {
+    role: message.role,
+    id: message.id,
+    content: [{ type: "text", text: message.content }],
+  };
+};
+
+export const convertFromMtmChatMessage: useExternalMessageConverter.Callback<
   //@ts-ignore
   ChatMessage
 > = (message): Message | Message[] => {
