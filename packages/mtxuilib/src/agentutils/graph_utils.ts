@@ -32,29 +32,29 @@ export async function* runLanggraph(
   input: AgentNodeRunInput["params"],
   config: MtmRunnableConfig,
 ) {
-  if (!config.ctx.accessToken) {
+  if (!config.configurable.ctx.accessToken) {
     throw new Error("accessToken is required");
   }
 
   const mtmclient = createClient(createConfig());
   mtmclient.setConfig({
-    baseUrl: config.backendUrl,
+    baseUrl: config.configurable.backendUrl,
     headers: {
-      Authorization: `Bearer ${config.ctx.accessToken}`,
+      Authorization: `Bearer ${config.configurable.ctx.accessToken}`,
     },
   });
-  config.mtmclient = mtmclient;
+  config.configurable.mtmclient = mtmclient;
 
   // 获取基本配置信息
   const mtmaiConfig = await mtmaiWorkerConfig({ client: mtmclient });
-  console.log("mtmaiConfig", mtmaiConfig.data);
+  // console.log("mtmaiConfig", mtmaiConfig.data);
   // 获取用户基本信息
-  if (!config.ctx.userId) {
+  if (!config.configurable.ctx.userId) {
     const user = await userGetCurrent({ client: mtmclient });
     if (!user) {
       throw new Error("user is required");
     }
-    config.ctx.userId = user.data.metadata.id;
+    config.configurable.ctx.userId = user.data.metadata.id;
   }
 
   const embeddings = new OpenAIEmbeddings({
@@ -76,12 +76,7 @@ export async function* runLanggraph(
       mtmaiConfig: mtmaiConfig.data,
       mtmclient: mtmclient,
       store: inMemoryStore,
-      ctx: {
-        // accessToken: ,
-        // userId: config.ctx.userId,
-      },
     },
-
     runName: agentName,
   } satisfies MtmRunnableConfig;
 

@@ -8,9 +8,12 @@ import type {
   ReadingLevelOptions,
   TextHighlight,
 } from "mtmaiapi";
+import type { SearxngSearchResult } from "../../agentutils/searxng";
 
 export const StormGraphAnnotation = Annotation.Root({
   ...MessagesAnnotation.spec,
+  searchResults: Annotation<SearxngSearchResult[] | undefined>,
+  // 下面的可能都是没用的 ===================================================================
   /**
    * The part of the artifact the user highlighted. Use the `selectedArtifactId`
    * to determine which artifact the highlight belongs to.
