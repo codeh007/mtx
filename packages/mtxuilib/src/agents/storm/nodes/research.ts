@@ -1,13 +1,45 @@
+// import { zodToJsonSchema } from "@langchain/core";
+import { z } from "zod";
+import { zodToJsonSchema } from "zod-to-json-schema";
 import { getModelFromConfig } from "../../../agentutils/agentutils";
 import type { MtmRunnableConfig } from "../../../agentutils/runableconfig";
 import { searchSearxng } from "../../../agentutils/searxng";
 import type { StormGraphAnnotation } from "../state";
+
+const subsectionSchema = z.object({
+  subsection_title: z.string().describe("Title of the subsection"),
+  description: z.string().describe("Content of the subsection"),
+});
+
+const sectionSchema = z.object({
+  section_title: z.string().describe("Title of the section"),
+  description: z.string().describe("Content of the section"),
+  subsections: z.array(subsectionSchema).describe("Titles and descriptions for each subsection of the Wikipedia page."),
+});
+
+const outlineSchema = z.object({
+  page_title: z.string().describe("Title of the Wikipedia page"),
+  sections: z.array(sectionSchema).describe("Titles and descriptions for each section of the Wikipedia page."),
+});
+
+
 export const researchNode = async (
   state: typeof StormGraphAnnotation.State,
   config: MtmRunnableConfig,
 ) => {
+
+  if(!state.topic){
+    state.topic ="seo"
+  }
+  if(!state.topic){
+    return {
+      next: "__end__",
+      error:"topic is required",
+    };
+  }
   const searxngUrl = config.configurable?.mtmaiConfig.searxng;
   console.log("开始调用搜索", searxngUrl);
+
 
   const searchResults = await searchSearxng(searxngUrl, "hello", {
     categories: ["general"],
@@ -47,14 +79,25 @@ const initOutline = async (
     },
   ];
 
+  const jsonSchema = zodToJsonSchema(subsectionSchema);
+  console.log("jsonSchema", jsonSchema);
+
   const model = await getModelFromConfig(config, {
     temperature: 0,
   });
-  const aiResponse = await model.invoke(messages);
 
-  // Outline
-  // const loadedData = JSON.parse(config.mtmaiContext.repairJson(aiResponse.content));
-  const outline = JSON.parse(aiResponse.content.toString());
+  const modelWithTool = model.withStructuredOutput(sectionSchema, {
+    name: "outline_query",
+    includeRaw: true,
+  });
+
+  const result = await modelWithTool.invoke(messages);
+
+
+  let outline = result.parsed;
+  if (!outline) {
+    outline = subsectionSchema.parse(JSON.parse(result.raw.content as string));
+  }
 
   return {
     outline,
