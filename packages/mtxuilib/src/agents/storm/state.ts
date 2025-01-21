@@ -16,6 +16,7 @@ export const StormGraphAnnotation = Annotation.Root({
   searchResults: Annotation<SearxngSearchResult[] | undefined>,
   topic: Annotation<string | undefined>,
   outline: Annotation<Outline | undefined>,
+  error: Annotation<string | undefined>,
   // 下面的可能都是没用的 ===================================================================
   /**
    * The part of the artifact the user highlighted. Use the `selectedArtifactId`
