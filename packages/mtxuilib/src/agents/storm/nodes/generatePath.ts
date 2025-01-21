@@ -13,6 +13,12 @@ import {
   ROUTE_QUERY_PROMPT,
 } from "../prompts";
 import type { StormGraphAnnotation } from "../state";
+
+
+
+
+/**
+
 /**
  * graph 入口
  */
@@ -20,16 +26,7 @@ export const generatePath = async (
   state: typeof StormGraphAnnotation.State,
   config: LangGraphRunnableConfig,
 ) => {
-  if (
-    state.addComments ||
-    state.addLogs ||
-    state.portLanguage ||
-    state.fixBugs
-  ) {
-    return {
-      next: "rewriteCodeArtifactTheme",
-    };
-  }
+
 
   if (state.customQuickActionId) {
     return {
@@ -100,3 +97,8 @@ export const generatePath = async (
     next: "research",
   };
 };
+
+
+const initOutline = async (topic: string, config: LangGraphRunnableConfig) => {
+
+}
