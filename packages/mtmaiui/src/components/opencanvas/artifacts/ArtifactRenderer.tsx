@@ -339,6 +339,7 @@ function ArtifactRendererComponent(props: ArtifactRendererProps) {
 
   return (
     <div className="relative w-full h-full max-h-screen overflow-auto">
+      水水水水水水水水水水水水水水水水水水水
       <div className="flex flex-row items-center justify-between">
         <div className="pl-[6px] pt-3 flex flex-col items-start justify-start ml-[6px] gap-1">
           <ArtifactTitle
@@ -346,6 +347,7 @@ function ArtifactRendererComponent(props: ArtifactRendererProps) {
             isArtifactSaved={isArtifactSaved}
           />
         </div>
+        ---------------------------artifact
         <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center gap-3 text-gray-600">
           <NavigateArtifactHistory
             isBackwardsDisabled={isBackwardsDisabled}

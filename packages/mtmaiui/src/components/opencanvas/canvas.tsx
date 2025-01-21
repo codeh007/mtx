@@ -8,7 +8,6 @@ import type {
 } from "mtmaiapi";
 import { getLanguageTemplate } from "mtxuilib/agentutils/get_language_template";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
-import NoSSRWrapper from "mtxuilib/components/NoSSRWrapper";
 import { cn } from "mtxuilib/lib/utils";
 import { useToast } from "mtxuilib/ui/use-toast";
 import dynamic from "next/dynamic";
@@ -105,18 +104,18 @@ export function CanvasComponent() {
           handleQuickStart={handleQuickStart}
         />
       </div>
-      <MtSuspenseBoundary>
-        {chatStarted && (
+      {/* chatStarted:{JSON.stringify(chatStarted)} */}
+
+      {chatStarted && (
+        <MtSuspenseBoundary>
           <div className="w-full ml-auto">
-            <NoSSRWrapper>
-              <LZArtifactRenderer
-                setIsEditing={setIsEditing}
-                isEditing={isEditing}
-              />
-            </NoSSRWrapper>
+            <LZArtifactRenderer
+              setIsEditing={setIsEditing}
+              isEditing={isEditing}
+            />
           </div>
-        )}
-      </MtSuspenseBoundary>
+        </MtSuspenseBoundary>
+      )}
     </main>
   );
 }
