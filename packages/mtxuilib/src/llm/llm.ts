@@ -104,10 +104,11 @@ export function getLlm() {
       temperature: 0.1,
       apiKey,
       model: modelName,
+      streaming:false
     },
     {
       baseURL: baseURL,
-      fetch: customeLlmFetch,
+      // fetch: customeLlmFetch,
     },
   );
 }
@@ -118,29 +119,29 @@ export function getLlm() {
  * @param options
  * @returns
  */
-const customeLlmFetch = async (url: RequestInfo, options: RequestInit) => {
-  // Clone the request body to avoid consuming it
-  const bodyClone = options.body
-    ? JSON.parse(JSON.stringify(options.body))
-    : null;
+// const customeLlmFetch = async (url: RequestInfo, options: RequestInit) => {
+//   // Clone the request body to avoid consuming it
+//   const bodyClone = options.body
+//     ? JSON.parse(JSON.stringify(options.body))
+//     : null;
 
-  console.log(
-    `\n=== LLM Request ===\n${options.method} ${url}\nJSON.stringify(options.headers, null, 2)`,
-  );
-  if (bodyClone) {
-    // Pretty print the JSON body with 2 space indentation
-    console.log(JSON.stringify(JSON.parse(bodyClone), null, 2));
-  }
+//   console.log(
+//     `\n=== LLM Request ===\n${options.method} ${url}\nJSON.stringify(options.headers, null, 2)`,
+//   );
+//   if (bodyClone) {
+//     // Pretty print the JSON body with 2 space indentation
+//     console.log(JSON.stringify(JSON.parse(bodyClone), null, 2));
+//   }
 
-  const response = await fetch(url, options);
+//   const response = await fetch(url, options);
 
-  console.log(
-    `\n=== LLM Response === \nStatus: ${response.status}\nHeaders: ${JSON.stringify(
-      Object.fromEntries(response.headers.entries()),
-      null,
-      2,
-    )}`,
-  );
+//   console.log(
+//     `\n=== LLM Response === \nStatus: ${response.status}\nHeaders: ${JSON.stringify(
+//       Object.fromEntries(response.headers.entries()),
+//       null,
+//       2,
+//     )}`,
+//   );
 
-  return response;
-};
+//   return response;
+// };
