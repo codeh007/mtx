@@ -5,8 +5,9 @@ import {
 } from "@langchain/core/messages";
 
 import type { BaseStore, LangGraphRunnableConfig } from "@langchain/langgraph";
+import { ChatOpenAI } from "@langchain/openai";
 import type { Reflections } from "mtmaiapi";
-import { getLlm } from "mtxuilib/llm/llm";
+import { customeLlmFetch } from "mtxuilib/llm/llm";
 
 export const formatReflections = (
   reflections: Reflections,
@@ -213,7 +214,25 @@ export async function getModelFromConfig(
   //       }
   //     : {}),
   // });
-  return getLlm();
+  // return getLlm();
+
+  const apiKey = process.env.OPENAI_API_KEY;
+  const baseURL = process.env.OPENAI_API_BASE;
+  const modelName = process.env.OPENAI_MODEL;
+  return new ChatOpenAI(
+    {
+      temperature: extra?.temperature || 0.5,
+      apiKey,
+      model: modelName,
+      // streaming:false,
+      maxTokens: extra?.maxTokens || 128*1024,
+      // ...extra,
+    },
+    {
+      baseURL: baseURL,
+      fetch: customeLlmFetch,
+    },
+  );
 }
 
 // MessagesAnnotation coerces all message likes to base message classes

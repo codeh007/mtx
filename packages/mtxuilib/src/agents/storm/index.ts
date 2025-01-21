@@ -1,6 +1,6 @@
 import { START, Send, StateGraph } from "@langchain/langgraph";
 import { generatePath } from "./nodes/generatePath";
-import { researchNode } from "./nodes/research";
+import { initResearchNode } from "./nodes/initResearch";
 import { StormGraphAnnotation } from "./state";
 
 /**
@@ -44,7 +44,7 @@ export function buildStormGraph() {
   const builder = new StateGraph(StormGraphAnnotation)
     // Start node & edge
     .addNode("generatePath", generatePath)
-    .addNode("research", researchNode)
+    .addNode("research", initResearchNode)
     .addEdge(START, "generatePath")
 
     // Nodes
