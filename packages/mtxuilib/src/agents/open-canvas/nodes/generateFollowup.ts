@@ -1,5 +1,5 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
-import type { ArtifactCodeV3, ArtifactMarkdownV3, Reflections } from "mtmaiapi";
+import type { ArtifactCodeV3, Reflections } from "mtmaiapi";
 import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types";
 import {
   ensureStoreInConfig,
@@ -44,7 +44,7 @@ export const generateFollowup = async (
 
   const artifactContent = currentArtifactContent
     ? isArtifactMarkdownContent(currentArtifactContent)
-      ? (currentArtifactContent as ArtifactMarkdownV3).fullMarkdown
+      ? currentArtifactContent.artifact
       : (currentArtifactContent as ArtifactCodeV3).code
     : undefined;
 
