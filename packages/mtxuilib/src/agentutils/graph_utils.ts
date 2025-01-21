@@ -113,7 +113,7 @@ export async function* runLanggraph(
         //     2,
         //   )}\n===========\n`,
         // );
-        console.log(`[stream]: ${langgraph_node},${e.name},${e.event}`);
+        // console.log(`[stream]: ${langgraph_node},${e.name},${e.event}`);
       }
 
       if (e.event === "on_chain_start") {

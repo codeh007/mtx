@@ -89,11 +89,11 @@ export function getModelName(modelName: string) {
 
 export function getLlm() {
   //1: 通过后端获取 llm 配置
-  try {
-    //   TODO:
-  } catch (e) {
-    console.error("get llm config from api error", e);
-  }
+  // try {
+  //   //   TODO:
+  // } catch (e) {
+  //   console.error("get llm config from api error", e);
+  // }
 
   //2: 后端获取失败, 使用环境变量
   const apiKey = process.env.OPENAI_API_KEY;
@@ -111,13 +111,36 @@ export function getLlm() {
     },
   );
 }
+
+/**
+ * 自定义http 请求.目前的功能在于 记录 http 请求的信息
+ * @param url
+ * @param options
+ * @returns
+ */
 const customeLlmFetch = async (url: RequestInfo, options: RequestInit) => {
-  // console.log("customeLlmFetch", url, options);
+  // Clone the request body to avoid consuming it
+  const bodyClone = options.body
+    ? JSON.parse(JSON.stringify(options.body))
+    : null;
+
+  console.log(
+    `\n=== LLM Request ===\n${options.method} ${url}\nJSON.stringify(options.headers, null, 2)`,
+  );
+  if (bodyClone) {
+    // Pretty print the JSON body with 2 space indentation
+    console.log(JSON.stringify(JSON.parse(bodyClone), null, 2));
+  }
+
   const response = await fetch(url, options);
-  // console.log(
-  //   `customeLlmFetch response: ${response.status}, content-length: ${response.headers.get(
-  //     "content-length",
-  //   )}, content-type: ${await response.headers.get("content-type")}`,
-  // );
+
+  console.log(
+    `\n=== LLM Response === \nStatus: ${response.status}\nHeaders: ${JSON.stringify(
+      Object.fromEntries(response.headers.entries()),
+      null,
+      2,
+    )}`,
+  );
+
   return response;
 };

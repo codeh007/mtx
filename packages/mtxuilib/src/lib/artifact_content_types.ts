@@ -1,4 +1,4 @@
-import type { Artifact, ArtifactCodeV3, ArtifactMarkdownV3 } from "../types";
+import type { ArtifactCodeV3, ArtifactMarkdownV3 } from "mtmaiapi";
 
 export const isArtifactCodeContent = (
   content: unknown,
@@ -22,13 +22,13 @@ export const isArtifactMarkdownContent = (
   );
 };
 
-export const isDeprecatedArtifactType = (
-  artifact: unknown,
-): artifact is Artifact => {
-  return !!(
-    typeof artifact === "object" &&
-    artifact &&
-    "currentContentIndex" in artifact &&
-    typeof artifact.currentContentIndex === "number"
-  );
-};
+// export const isDeprecatedArtifactType = (
+//   artifact: unknown,
+// ): artifact is Artifact => {
+//   return !!(
+//     typeof artifact === "object" &&
+//     artifact &&
+//     "currentContentIndex" in artifact &&
+//     typeof artifact.currentContentIndex === "number"
+//   );
+// };

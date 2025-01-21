@@ -195,7 +195,7 @@ export async function getModelFromConfig(
 ) {
   // const { temperature = 0.5, maxTokens } = extra || {};
   // const { modelName, modelProvider, azureConfig, apiKey } =
-  getModelConfig(config);
+  // getModelConfig(config);
   // return await initChatModel(modelName, {
   //   modelProvider,
   //   temperature,
@@ -212,8 +212,7 @@ export async function getModelFromConfig(
   //       }
   //     : {}),
   // });
-  const a = getLlm();
-  return a;
+  return getLlm();
 }
 
 // MessagesAnnotation coerces all message likes to base message classes
