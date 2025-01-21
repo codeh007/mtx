@@ -1,4 +1,5 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
+import type { ArtifactCodeV3, ArtifactMarkdownV3, ArtifactV3 } from "mtmaiapi";
 import {
   getFormattedReflections,
   getModelConfig,
@@ -11,7 +12,6 @@ import type {
 } from "../../state";
 import { ARTIFACT_TOOL_SCHEMA } from "./schemas";
 import { createArtifactContent, formatNewArtifactPrompt } from "./utils";
-import type { ArtifactV3 } from "mtmaiapi";
 
 /**
  * Generate a new artifact based on the user's query.
@@ -52,6 +52,19 @@ export const generateArtifact = async (
     { runName: "generate_artifact" },
   );
 
+  // 有些模型输出内容不是出现在 tool_calls 中，而是直接出现在 response 中
+  if (response.tool_calls?.length === 0) {
+    // const newArtifactContent = createArtifactContent(response.content);
+    const newArtifactContent: ArtifactCodeV3 | ArtifactMarkdownV3 =
+      ARTIFACT_TOOL_SCHEMA.parse(JSON.parse(response.content.toString()));
+    const newArtifact: ArtifactV3 = {
+      currentIndex: 1,
+      contents: [newArtifactContent],
+    };
+    return {
+      artifact: newArtifact,
+    };
+  }
   const newArtifactContent = createArtifactContent(response.tool_calls?.[0]);
   const newArtifact: ArtifactV3 = {
     currentIndex: 1,
