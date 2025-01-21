@@ -2326,6 +2326,8 @@ export class Api<
         token: string;
         /** grpcHostPort */
         grpcHostPort: string;
+        /** searxng url */
+        searxng?: string;
       },
       any
     >({

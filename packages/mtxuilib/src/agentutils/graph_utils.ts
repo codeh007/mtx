@@ -10,6 +10,7 @@ import { OpenAIEmbeddings } from "@langchain/openai";
 import {
   type AgentNodeRunInput,
   type CanvasGraphParams,
+  mtmaiWorkerConfig,
   userGetCurrent,
 } from "mtmaiapi/gomtmapi";
 // import { MemoryVectorStore } from "langchain/vectorstores/memory";
@@ -48,6 +49,9 @@ export async function* runLanggraph(
   });
   config.mtmclient = mtmclient;
 
+  // 获取基本配置信息
+  const mtmaiConfig = await mtmaiWorkerConfig({ client: mtmclient });
+  console.log("mtmaiConfig", mtmaiConfig.data);
   // 获取用户基本信息
   if (!config.ctx.userId) {
     const user = await userGetCurrent({ client: mtmclient });

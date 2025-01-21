@@ -1680,16 +1680,6 @@ export type RunNewTaskResponse = {
  */
 export type OperationEnum = "startBlogTask" | "stopBlogTask";
 
-/**
- * 根状态
- */
-export type RootConfig = {
-  /**
-   * token
-   */
-  token?: string;
-};
-
 export type OperataionGuideResponse = {
   /**
    * 详细的操作手册描述
@@ -6511,6 +6501,10 @@ export type MtmaiWorkerConfigResponses = {
      * grpcHostPort
      */
     grpcHostPort: string;
+    /**
+     * searxng url
+     */
+    searxng?: string;
   };
 };
 
