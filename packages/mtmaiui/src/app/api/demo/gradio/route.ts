@@ -4,7 +4,7 @@ const handler = async (r: Request) => {
     const hfSpace = process.env.HF_SPACE;
     const hfToken = process.env.HF_TOKEN;
 
-    // 这里的参数按顺序对应 graio app 对应的函数的参数顺序
+    // 这里的参数按顺序对应 graio app 对应的函数的参数顺序.
     const payload =  [
         "Hello!!", // message
         [], // history
