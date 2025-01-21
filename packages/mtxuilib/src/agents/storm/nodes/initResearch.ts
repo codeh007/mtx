@@ -1,8 +1,8 @@
+import { jsonrepair } from 'jsonrepair';
 import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import { getModelFromConfig } from "../../../agentutils/agentutils";
 import type { MtmRunnableConfig } from "../../../agentutils/runableconfig";
-import { searchSearxng } from "../../../agentutils/searxng";
 import { outlineSchema, perspectivesSchema, subsectionSchema } from "../schema";
 import type { StormGraphAnnotation } from "../state";
 /**
@@ -27,12 +27,12 @@ export const initResearchNode = async (
       error:"topic is required",
     };
   }
-  const searxngUrl = config.configurable?.mtmaiConfig.searxng;
-  console.log("开始调用搜索", searxngUrl);
-  const searchResults = await searchSearxng(searxngUrl, "hello", {
-    categories: ["general"],
-  });
-  console.log("searchResults", searchResults);
+  // const searxngUrl = config.configurable?.mtmaiConfig.searxng;
+  // console.log("开始调用搜索", searxngUrl);
+  // const searchResults = await searchSearxng(searxngUrl, "hello", {
+  //   categories: ["general"],
+  // });
+  // console.log("searchResults", searchResults);
 
   // TODO: 可以并发
   const outline = await initOutline(state, config);
@@ -126,7 +126,7 @@ const surveySubjects = async (
   });
 
   const result = await model.invoke(messages);
-  const relatedSubjects = relatedSubjectsSchema.parse(JSON.parse(result.content as string));
+  const relatedSubjects = relatedSubjectsSchema.parse(JSON.parse(jsonrepair(result.content as string)));
 
   // 步骤: 召回系统已有的相关主题
   // examples = await MtmTopicDocRetriever().retrive(related_subjects.topics)
@@ -138,12 +138,12 @@ const surveySubjects = async (
     {
       role: "system",
       content: "You need to select a diverse (and distinct) group of Wikipedia editors who will work together to create a comprehensive article on the topic. Each of them represents a different perspective, role, or affiliation related to this topic."
-                +`You can use other Wikipedia pages of related topics for inspiration. For each editor, add a description of what they will focus on.`
-                +`[Requirements]`
-                +`- No explanations, greetings, or other unnecessary words. Output only in strict JSON data format`
-                +"\nDouble-check your output to ensure it is valid JSON before submitting,Strictly adhere to the following JSON schema:\n"
-                +`${JSON.stringify(zodToJsonSchema(perspectivesSchema))}`
-                +`Wiki page outlines of related topics for inspiration:`
+                +`\nYou can use other Wikipedia pages of related topics for inspiration. For each editor, add a description of what they will focus on.`
+                +`\n[Requirements]`
+                +`\n- No explanations, greetings, or other unnecessary words. Output only in strict JSON data format`
+                +"\nDouble-check your output to ensure it is valid JSON before submitting,Strictly  to the following JSON schema:"
+                +`\n${JSON.stringify(zodToJsonSchema(perspectivesSchema))}`
+                +`\nWiki page outlines of related topics for inspiration:`
                 +`${examples}`,
             },
             {
@@ -152,7 +152,7 @@ const surveySubjects = async (
     },
   ];
   const resultPerspectives = await model.invoke(messagesPerspectives);
-  const perspectives = perspectivesSchema.parse(JSON.parse(resultPerspectives.content as string));
+  const perspectives = perspectivesSchema.parse(JSON.parse(jsonrepair(resultPerspectives.content as string)));
 
   return perspectives
 
