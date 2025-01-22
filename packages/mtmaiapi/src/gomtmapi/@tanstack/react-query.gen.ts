@@ -269,6 +269,7 @@ import type {
   AdminReleaseConnResponse,
   FrontendGetConfigData,
   FrontendGetSiderbarData,
+  HfAccountGetData,
 } from "../types.gen";
 import {
   readinessGet,
@@ -407,6 +408,7 @@ import {
   adminReleaseConn,
   frontendGetConfig,
   frontendGetSiderbar,
+  hfAccountGet,
   client,
 } from "../sdk.gen";
 
@@ -4411,5 +4413,24 @@ export const frontendGetSiderbarOptions = (
       return data;
     },
     queryKey: frontendGetSiderbarQueryKey(options),
+  });
+};
+
+export const hfAccountGetQueryKey = (options?: Options<HfAccountGetData>) => [
+  createQueryKey("hfAccountGet", options),
+];
+
+export const hfAccountGetOptions = (options?: Options<HfAccountGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await hfAccountGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: hfAccountGetQueryKey(options),
   });
 };

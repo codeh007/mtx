@@ -3115,4 +3115,20 @@ export class Api<
       format: "json",
       ...params,
     });
+  /**
+   * No description
+   *
+   * @tags hf
+   * @name HfAccountGet
+   * @summary 获取 hf 账户信息
+   * @request GET:/api/v1/hf/account
+   * @secure
+   */
+  hfAccountGet = (params: RequestParams = {}) =>
+    this.request<void, any>({
+      path: `/api/v1/hf/account`,
+      method: "GET",
+      secure: true,
+      ...params,
+    });
 }
