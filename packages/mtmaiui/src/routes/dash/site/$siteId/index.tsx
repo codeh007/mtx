@@ -1,6 +1,4 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { Outlet, createFileRoute } from "@tanstack/react-router";
-import { siteGetOptions } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
 import {
   MtTabs,
   MtTabsContent,
@@ -9,8 +7,7 @@ import {
 } from "mtxuilib/mt/tabs";
 import { CustomLink } from "../../../../components/CustomLink";
 import { PostListView } from "../../../../components/post/PostListView";
-import { SiteEditor } from "../../../../components/site/SiteEditor";
-import { useTenant } from "../../../../hooks/useAuth";
+// import { SiteEditor } from "../../../../components/site/SiteEditor";
 
 export const Route = createFileRoute("/dash/site/$siteId/")({
   component: RouteComponent,
@@ -18,15 +15,6 @@ export const Route = createFileRoute("/dash/site/$siteId/")({
 
 function RouteComponent() {
   const { siteId } = Route.useParams();
-  const tenant = useTenant();
-  const site = useSuspenseQuery({
-    ...siteGetOptions({
-      path: {
-        tenant: tenant!.metadata.id,
-        site: siteId,
-      },
-    }),
-  });
   return (
     <div>
       <MtTabs defaultValue="site" className="w-full h-full">
@@ -38,7 +26,7 @@ function RouteComponent() {
           <MtTabsTrigger value="post">文章</MtTabsTrigger>
         </MtTabsList>
         <MtTabsContent value="site">
-          <SiteEditor siteId={siteId} />
+          {/* <SiteEditor siteId={siteId} /> */}
         </MtTabsContent>
         <MtTabsContent value="host">
           {/* <SiteHostListView tenant={tenant!} site={site.data} /> */}

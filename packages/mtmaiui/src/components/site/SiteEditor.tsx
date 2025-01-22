@@ -1,8 +1,8 @@
 "use client";
 
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { Save } from "lucide-react";
-import { type Site, siteGetOptions, siteUpdateMutation } from "mtmaiapi";
+import { type Site, siteUpdateMutation } from "mtmaiapi";
 import { Switch } from "mtxuilib/ui/switch";
 
 import { Icons } from "mtxuilib/icons/icons";
@@ -32,14 +32,14 @@ export const SiteEditor = (props: SiteEditorProps) => {
     throw new Error("siteId is required");
   }
   const tenant = useTenant();
-  const siteQuery = useSuspenseQuery({
-    ...siteGetOptions({
-      path: {
-        site: siteId,
-        tenant: tenant!.metadata.id,
-      },
-    }),
-  });
+  // const siteQuery = useSuspenseQuery({
+  //   ...siteGetOptions({
+  //     path: {
+  //       site: siteId,
+  //       tenant: tenant!.metadata.id,
+  //     },
+  //   }),
+  // });
   return (
     <Suspense fallback={<div>loading from...</div>}>
       {/* <DebugValue data={{ data: siteQuery.data }} /> */}
