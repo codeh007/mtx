@@ -19,8 +19,11 @@ import { Route as DashSiteRouteImport } from './routes/dash/site/route'
 import { Route as AuthLoginRouteImport } from './routes/auth/login/route'
 import { Route as DashWorkflowsIndexImport } from './routes/dash/workflows/index'
 import { Route as DashWorkflowRunsIndexImport } from './routes/dash/workflow-runs/index'
+import { Route as DashSiteIndexImport } from './routes/dash/site/index'
 import { Route as DashWorkflowRunsWorkflowRunIdImport } from './routes/dash/workflow-runs/$workflowRunId'
 import { Route as DashSiteSiteIdRouteImport } from './routes/dash/site/$siteId/route'
+import { Route as DashSiteCreateIndexImport } from './routes/dash/site/create/index'
+import { Route as DashSiteSiteIdIndexImport } from './routes/dash/site/$siteId/index'
 import { Route as DashOnboardingGetStartedIndexImport } from './routes/dash/onboarding/get-started/index'
 import { Route as DashOnboardingCreateTenantIndexImport } from './routes/dash/onboarding/create-tenant/index'
 import { Route as DashWorkflowsTriggerAssisantImport } from './routes/dash/workflows/trigger/assisant'
@@ -28,8 +31,9 @@ import { Route as DashWorkflowsTriggerFlowNewsGenImport } from './routes/dash/wo
 import { Route as DashWorkflowsTriggerFlowBrowserImport } from './routes/dash/workflows/trigger/FlowBrowser'
 import { Route as DashWorkflowsTriggerSplatImport } from './routes/dash/workflows/trigger/$'
 import { Route as DashSitePostCreateImport } from './routes/dash/site/post/create'
-import { Route as DashSiteSiteIdCreateRouteImport } from './routes/dash/site/$siteId/create/route'
+import { Route as DashSiteSiteIdHostRouteImport } from './routes/dash/site/$siteId/host/route'
 import { Route as DashOnboardingCreateTenantComponentsTenantCreateFormImport } from './routes/dash/onboarding/create-tenant/_components/tenant-create-form'
+import { Route as DashSiteSiteIdHostCreateIndexImport } from './routes/dash/site/$siteId/host/create/index'
 
 // Create Virtual Routes
 
@@ -126,6 +130,12 @@ const DashWorkflowRunsIndexRoute = DashWorkflowRunsIndexImport.update({
   getParentRoute: () => DashWorkflowRunsRouteLazyRoute,
 } as any)
 
+const DashSiteIndexRoute = DashSiteIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashSiteRouteRoute,
+} as any)
+
 const DashWorkflowsWorkflowIdLazyRoute =
   DashWorkflowsWorkflowIdLazyImport.update({
     id: '/$workflowId',
@@ -155,6 +165,18 @@ const DashSiteSiteIdRouteRoute = DashSiteSiteIdRouteImport.update({
   id: '/$siteId',
   path: '/$siteId',
   getParentRoute: () => DashSiteRouteRoute,
+} as any)
+
+const DashSiteCreateIndexRoute = DashSiteCreateIndexImport.update({
+  id: '/create/',
+  path: '/create/',
+  getParentRoute: () => DashSiteRouteRoute,
+} as any)
+
+const DashSiteSiteIdIndexRoute = DashSiteSiteIdIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashSiteSiteIdRouteRoute,
 } as any)
 
 const DashOnboardingGetStartedIndexRoute =
@@ -204,9 +226,9 @@ const DashSitePostCreateRoute = DashSitePostCreateImport.update({
   getParentRoute: () => DashSiteRouteRoute,
 } as any)
 
-const DashSiteSiteIdCreateRouteRoute = DashSiteSiteIdCreateRouteImport.update({
-  id: '/create',
-  path: '/create',
+const DashSiteSiteIdHostRouteRoute = DashSiteSiteIdHostRouteImport.update({
+  id: '/host',
+  path: '/host',
   getParentRoute: () => DashSiteSiteIdRouteRoute,
 } as any)
 
@@ -215,6 +237,13 @@ const DashOnboardingCreateTenantComponentsTenantCreateFormRoute =
     id: '/dash/onboarding/create-tenant/_components/tenant-create-form',
     path: '/dash/onboarding/create-tenant/tenant-create-form',
     getParentRoute: () => rootRoute,
+  } as any)
+
+const DashSiteSiteIdHostCreateIndexRoute =
+  DashSiteSiteIdHostCreateIndexImport.update({
+    id: '/create/',
+    path: '/create/',
+    getParentRoute: () => DashSiteSiteIdHostRouteRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -312,6 +341,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashWorkflowsWorkflowIdLazyImport
       parentRoute: typeof DashWorkflowsRouteLazyImport
     }
+    '/dash/site/': {
+      id: '/dash/site/'
+      path: '/'
+      fullPath: '/dash/site/'
+      preLoaderRoute: typeof DashSiteIndexImport
+      parentRoute: typeof DashSiteRouteImport
+    }
     '/dash/workflow-runs/': {
       id: '/dash/workflow-runs/'
       path: '/'
@@ -333,11 +369,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginIndexLazyImport
       parentRoute: typeof AuthLoginRouteImport
     }
-    '/dash/site/$siteId/create': {
-      id: '/dash/site/$siteId/create'
-      path: '/create'
-      fullPath: '/dash/site/$siteId/create'
-      preLoaderRoute: typeof DashSiteSiteIdCreateRouteImport
+    '/dash/site/$siteId/host': {
+      id: '/dash/site/$siteId/host'
+      path: '/host'
+      fullPath: '/dash/site/$siteId/host'
+      preLoaderRoute: typeof DashSiteSiteIdHostRouteImport
       parentRoute: typeof DashSiteSiteIdRouteImport
     }
     '/dash/site/post/create': {
@@ -389,12 +425,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashOnboardingGetStartedIndexImport
       parentRoute: typeof rootRoute
     }
+    '/dash/site/$siteId/': {
+      id: '/dash/site/$siteId/'
+      path: '/'
+      fullPath: '/dash/site/$siteId/'
+      preLoaderRoute: typeof DashSiteSiteIdIndexImport
+      parentRoute: typeof DashSiteSiteIdRouteImport
+    }
+    '/dash/site/create/': {
+      id: '/dash/site/create/'
+      path: '/create'
+      fullPath: '/dash/site/create'
+      preLoaderRoute: typeof DashSiteCreateIndexImport
+      parentRoute: typeof DashSiteRouteImport
+    }
     '/dash/onboarding/create-tenant/_components/tenant-create-form': {
       id: '/dash/onboarding/create-tenant/_components/tenant-create-form'
       path: '/dash/onboarding/create-tenant/tenant-create-form'
       fullPath: '/dash/onboarding/create-tenant/tenant-create-form'
       preLoaderRoute: typeof DashOnboardingCreateTenantComponentsTenantCreateFormImport
       parentRoute: typeof rootRoute
+    }
+    '/dash/site/$siteId/host/create/': {
+      id: '/dash/site/$siteId/host/create/'
+      path: '/create'
+      fullPath: '/dash/site/$siteId/host/create'
+      preLoaderRoute: typeof DashSiteSiteIdHostCreateIndexImport
+      parentRoute: typeof DashSiteSiteIdHostRouteImport
     }
   }
 }
@@ -425,12 +482,28 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
   AuthRouteRouteChildren,
 )
 
+interface DashSiteSiteIdHostRouteRouteChildren {
+  DashSiteSiteIdHostCreateIndexRoute: typeof DashSiteSiteIdHostCreateIndexRoute
+}
+
+const DashSiteSiteIdHostRouteRouteChildren: DashSiteSiteIdHostRouteRouteChildren =
+  {
+    DashSiteSiteIdHostCreateIndexRoute: DashSiteSiteIdHostCreateIndexRoute,
+  }
+
+const DashSiteSiteIdHostRouteRouteWithChildren =
+  DashSiteSiteIdHostRouteRoute._addFileChildren(
+    DashSiteSiteIdHostRouteRouteChildren,
+  )
+
 interface DashSiteSiteIdRouteRouteChildren {
-  DashSiteSiteIdCreateRouteRoute: typeof DashSiteSiteIdCreateRouteRoute
+  DashSiteSiteIdHostRouteRoute: typeof DashSiteSiteIdHostRouteRouteWithChildren
+  DashSiteSiteIdIndexRoute: typeof DashSiteSiteIdIndexRoute
 }
 
 const DashSiteSiteIdRouteRouteChildren: DashSiteSiteIdRouteRouteChildren = {
-  DashSiteSiteIdCreateRouteRoute: DashSiteSiteIdCreateRouteRoute,
+  DashSiteSiteIdHostRouteRoute: DashSiteSiteIdHostRouteRouteWithChildren,
+  DashSiteSiteIdIndexRoute: DashSiteSiteIdIndexRoute,
 }
 
 const DashSiteSiteIdRouteRouteWithChildren =
@@ -438,12 +511,16 @@ const DashSiteSiteIdRouteRouteWithChildren =
 
 interface DashSiteRouteRouteChildren {
   DashSiteSiteIdRouteRoute: typeof DashSiteSiteIdRouteRouteWithChildren
+  DashSiteIndexRoute: typeof DashSiteIndexRoute
   DashSitePostCreateRoute: typeof DashSitePostCreateRoute
+  DashSiteCreateIndexRoute: typeof DashSiteCreateIndexRoute
 }
 
 const DashSiteRouteRouteChildren: DashSiteRouteRouteChildren = {
   DashSiteSiteIdRouteRoute: DashSiteSiteIdRouteRouteWithChildren,
+  DashSiteIndexRoute: DashSiteIndexRoute,
   DashSitePostCreateRoute: DashSitePostCreateRoute,
+  DashSiteCreateIndexRoute: DashSiteCreateIndexRoute,
 }
 
 const DashSiteRouteRouteWithChildren = DashSiteRouteRoute._addFileChildren(
@@ -519,10 +596,11 @@ export interface FileRoutesByFullPath {
   '/dash/workflow-runs/$workflowRunId': typeof DashWorkflowRunsWorkflowRunIdRoute
   '/dash/workflows/trigger': typeof DashWorkflowsTriggerRouteLazyRouteWithChildren
   '/dash/workflows/$workflowId': typeof DashWorkflowsWorkflowIdLazyRoute
+  '/dash/site/': typeof DashSiteIndexRoute
   '/dash/workflow-runs/': typeof DashWorkflowRunsIndexRoute
   '/dash/workflows/': typeof DashWorkflowsIndexRoute
   '/auth/login/': typeof AuthLoginIndexLazyRoute
-  '/dash/site/$siteId/create': typeof DashSiteSiteIdCreateRouteRoute
+  '/dash/site/$siteId/host': typeof DashSiteSiteIdHostRouteRouteWithChildren
   '/dash/site/post/create': typeof DashSitePostCreateRoute
   '/dash/workflows/trigger/$': typeof DashWorkflowsTriggerSplatRoute
   '/dash/workflows/trigger/FlowBrowser': typeof DashWorkflowsTriggerFlowBrowserRoute
@@ -530,24 +608,26 @@ export interface FileRoutesByFullPath {
   '/dash/workflows/trigger/assisant': typeof DashWorkflowsTriggerAssisantRoute
   '/dash/onboarding/create-tenant': typeof DashOnboardingCreateTenantIndexRoute
   '/dash/onboarding/get-started': typeof DashOnboardingGetStartedIndexRoute
+  '/dash/site/$siteId/': typeof DashSiteSiteIdIndexRoute
+  '/dash/site/create': typeof DashSiteCreateIndexRoute
   '/dash/onboarding/create-tenant/tenant-create-form': typeof DashOnboardingCreateTenantComponentsTenantCreateFormRoute
+  '/dash/site/$siteId/host/create': typeof DashSiteSiteIdHostCreateIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
   '/chat': typeof ChatRouteLazyRoute
-  '/dash/site': typeof DashSiteRouteRouteWithChildren
   '/dash': typeof DashIndexLazyRoute
   '/posts': typeof PostsIndexLazyRoute
-  '/dash/site/$siteId': typeof DashSiteSiteIdRouteRouteWithChildren
   '/dash/workflow-runs/$workflowRunId': typeof DashWorkflowRunsWorkflowRunIdRoute
   '/dash/workflows/trigger': typeof DashWorkflowsTriggerRouteLazyRouteWithChildren
   '/dash/workflows/$workflowId': typeof DashWorkflowsWorkflowIdLazyRoute
+  '/dash/site': typeof DashSiteIndexRoute
   '/dash/workflow-runs': typeof DashWorkflowRunsIndexRoute
   '/dash/workflows': typeof DashWorkflowsIndexRoute
   '/auth/login': typeof AuthLoginIndexLazyRoute
-  '/dash/site/$siteId/create': typeof DashSiteSiteIdCreateRouteRoute
+  '/dash/site/$siteId/host': typeof DashSiteSiteIdHostRouteRouteWithChildren
   '/dash/site/post/create': typeof DashSitePostCreateRoute
   '/dash/workflows/trigger/$': typeof DashWorkflowsTriggerSplatRoute
   '/dash/workflows/trigger/FlowBrowser': typeof DashWorkflowsTriggerFlowBrowserRoute
@@ -555,7 +635,10 @@ export interface FileRoutesByTo {
   '/dash/workflows/trigger/assisant': typeof DashWorkflowsTriggerAssisantRoute
   '/dash/onboarding/create-tenant': typeof DashOnboardingCreateTenantIndexRoute
   '/dash/onboarding/get-started': typeof DashOnboardingGetStartedIndexRoute
+  '/dash/site/$siteId': typeof DashSiteSiteIdIndexRoute
+  '/dash/site/create': typeof DashSiteCreateIndexRoute
   '/dash/onboarding/create-tenant/tenant-create-form': typeof DashOnboardingCreateTenantComponentsTenantCreateFormRoute
+  '/dash/site/$siteId/host/create': typeof DashSiteSiteIdHostCreateIndexRoute
 }
 
 export interface FileRoutesById {
@@ -573,10 +656,11 @@ export interface FileRoutesById {
   '/dash/workflow-runs/$workflowRunId': typeof DashWorkflowRunsWorkflowRunIdRoute
   '/dash/workflows/trigger': typeof DashWorkflowsTriggerRouteLazyRouteWithChildren
   '/dash/workflows/$workflowId': typeof DashWorkflowsWorkflowIdLazyRoute
+  '/dash/site/': typeof DashSiteIndexRoute
   '/dash/workflow-runs/': typeof DashWorkflowRunsIndexRoute
   '/dash/workflows/': typeof DashWorkflowsIndexRoute
   '/auth/login/': typeof AuthLoginIndexLazyRoute
-  '/dash/site/$siteId/create': typeof DashSiteSiteIdCreateRouteRoute
+  '/dash/site/$siteId/host': typeof DashSiteSiteIdHostRouteRouteWithChildren
   '/dash/site/post/create': typeof DashSitePostCreateRoute
   '/dash/workflows/trigger/$': typeof DashWorkflowsTriggerSplatRoute
   '/dash/workflows/trigger/FlowBrowser': typeof DashWorkflowsTriggerFlowBrowserRoute
@@ -584,7 +668,10 @@ export interface FileRoutesById {
   '/dash/workflows/trigger/assisant': typeof DashWorkflowsTriggerAssisantRoute
   '/dash/onboarding/create-tenant/': typeof DashOnboardingCreateTenantIndexRoute
   '/dash/onboarding/get-started/': typeof DashOnboardingGetStartedIndexRoute
+  '/dash/site/$siteId/': typeof DashSiteSiteIdIndexRoute
+  '/dash/site/create/': typeof DashSiteCreateIndexRoute
   '/dash/onboarding/create-tenant/_components/tenant-create-form': typeof DashOnboardingCreateTenantComponentsTenantCreateFormRoute
+  '/dash/site/$siteId/host/create/': typeof DashSiteSiteIdHostCreateIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -603,10 +690,11 @@ export interface FileRouteTypes {
     | '/dash/workflow-runs/$workflowRunId'
     | '/dash/workflows/trigger'
     | '/dash/workflows/$workflowId'
+    | '/dash/site/'
     | '/dash/workflow-runs/'
     | '/dash/workflows/'
     | '/auth/login/'
-    | '/dash/site/$siteId/create'
+    | '/dash/site/$siteId/host'
     | '/dash/site/post/create'
     | '/dash/workflows/trigger/$'
     | '/dash/workflows/trigger/FlowBrowser'
@@ -614,23 +702,25 @@ export interface FileRouteTypes {
     | '/dash/workflows/trigger/assisant'
     | '/dash/onboarding/create-tenant'
     | '/dash/onboarding/get-started'
+    | '/dash/site/$siteId/'
+    | '/dash/site/create'
     | '/dash/onboarding/create-tenant/tenant-create-form'
+    | '/dash/site/$siteId/host/create'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/chat'
-    | '/dash/site'
     | '/dash'
     | '/posts'
-    | '/dash/site/$siteId'
     | '/dash/workflow-runs/$workflowRunId'
     | '/dash/workflows/trigger'
     | '/dash/workflows/$workflowId'
+    | '/dash/site'
     | '/dash/workflow-runs'
     | '/dash/workflows'
     | '/auth/login'
-    | '/dash/site/$siteId/create'
+    | '/dash/site/$siteId/host'
     | '/dash/site/post/create'
     | '/dash/workflows/trigger/$'
     | '/dash/workflows/trigger/FlowBrowser'
@@ -638,7 +728,10 @@ export interface FileRouteTypes {
     | '/dash/workflows/trigger/assisant'
     | '/dash/onboarding/create-tenant'
     | '/dash/onboarding/get-started'
+    | '/dash/site/$siteId'
+    | '/dash/site/create'
     | '/dash/onboarding/create-tenant/tenant-create-form'
+    | '/dash/site/$siteId/host/create'
   id:
     | '__root__'
     | '/'
@@ -654,10 +747,11 @@ export interface FileRouteTypes {
     | '/dash/workflow-runs/$workflowRunId'
     | '/dash/workflows/trigger'
     | '/dash/workflows/$workflowId'
+    | '/dash/site/'
     | '/dash/workflow-runs/'
     | '/dash/workflows/'
     | '/auth/login/'
-    | '/dash/site/$siteId/create'
+    | '/dash/site/$siteId/host'
     | '/dash/site/post/create'
     | '/dash/workflows/trigger/$'
     | '/dash/workflows/trigger/FlowBrowser'
@@ -665,7 +759,10 @@ export interface FileRouteTypes {
     | '/dash/workflows/trigger/assisant'
     | '/dash/onboarding/create-tenant/'
     | '/dash/onboarding/get-started/'
+    | '/dash/site/$siteId/'
+    | '/dash/site/create/'
     | '/dash/onboarding/create-tenant/_components/tenant-create-form'
+    | '/dash/site/$siteId/host/create/'
   fileRoutesById: FileRoutesById
 }
 
@@ -744,7 +841,9 @@ export const routeTree = rootRoute
       "filePath": "dash/site/route.tsx",
       "children": [
         "/dash/site/$siteId",
-        "/dash/site/post/create"
+        "/dash/site/",
+        "/dash/site/post/create",
+        "/dash/site/create/"
       ]
     },
     "/dash/workflow-runs": {
@@ -772,7 +871,8 @@ export const routeTree = rootRoute
       "filePath": "dash/site/$siteId/route.tsx",
       "parent": "/dash/site",
       "children": [
-        "/dash/site/$siteId/create"
+        "/dash/site/$siteId/host",
+        "/dash/site/$siteId/"
       ]
     },
     "/dash/workflow-runs/$workflowRunId": {
@@ -793,6 +893,10 @@ export const routeTree = rootRoute
       "filePath": "dash/workflows/$workflowId.lazy.tsx",
       "parent": "/dash/workflows"
     },
+    "/dash/site/": {
+      "filePath": "dash/site/index.tsx",
+      "parent": "/dash/site"
+    },
     "/dash/workflow-runs/": {
       "filePath": "dash/workflow-runs/index.tsx",
       "parent": "/dash/workflow-runs"
@@ -805,9 +909,12 @@ export const routeTree = rootRoute
       "filePath": "auth/login/index.lazy.tsx",
       "parent": "/auth/login"
     },
-    "/dash/site/$siteId/create": {
-      "filePath": "dash/site/$siteId/create/route.tsx",
-      "parent": "/dash/site/$siteId"
+    "/dash/site/$siteId/host": {
+      "filePath": "dash/site/$siteId/host/route.tsx",
+      "parent": "/dash/site/$siteId",
+      "children": [
+        "/dash/site/$siteId/host/create/"
+      ]
     },
     "/dash/site/post/create": {
       "filePath": "dash/site/post/create.tsx",
@@ -835,8 +942,20 @@ export const routeTree = rootRoute
     "/dash/onboarding/get-started/": {
       "filePath": "dash/onboarding/get-started/index.tsx"
     },
+    "/dash/site/$siteId/": {
+      "filePath": "dash/site/$siteId/index.tsx",
+      "parent": "/dash/site/$siteId"
+    },
+    "/dash/site/create/": {
+      "filePath": "dash/site/create/index.tsx",
+      "parent": "/dash/site"
+    },
     "/dash/onboarding/create-tenant/_components/tenant-create-form": {
       "filePath": "dash/onboarding/create-tenant/_components/tenant-create-form.tsx"
+    },
+    "/dash/site/$siteId/host/create/": {
+      "filePath": "dash/site/$siteId/host/create/index.tsx",
+      "parent": "/dash/site/$siteId/host"
     }
   }
 }

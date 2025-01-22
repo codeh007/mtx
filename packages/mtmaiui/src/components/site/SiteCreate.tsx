@@ -36,7 +36,7 @@ export const SiteCreateView = (props: SiteCreateViewProps) => {
     createSiteMutation.mutate({
       body: data,
       path: {
-        tenant: tenant.metadata.id,
+        tenant: tenant!.metadata.id,
       },
     });
   };
@@ -59,6 +59,12 @@ export const SiteCreateView = (props: SiteCreateViewProps) => {
             <FormMessage />
           </FormItem>
         )}
+      />
+
+      <FormField
+        control={form.control}
+        name="host"
+        render={({ field }) => <Input placeholder="host" {...field} />}
       />
       <EditFormToolbar form={form} onCancel={onCancel} />
     </ZForm>

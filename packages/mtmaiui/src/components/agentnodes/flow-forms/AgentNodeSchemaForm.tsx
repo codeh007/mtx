@@ -6,6 +6,13 @@ import { agentNodeFormOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { useTenant } from "../../../hooks/useAuth";
 
@@ -22,7 +29,7 @@ export const AgentNodeSchemaForm = ({
     ...agentNodeFormOptions({
       path: {
         node: schema,
-        tenant: tenant.metadata.id,
+        tenant: tenant!.metadata.id,
       },
     }),
   });

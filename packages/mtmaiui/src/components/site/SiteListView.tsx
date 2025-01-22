@@ -9,7 +9,6 @@ import { CustomLink } from "../CustomLink";
 import { SiteListViewHeader } from "./SiteListViewHeader";
 
 export default function SiteListView() {
-  // const router = useMtRouter();
   const tenant = useTenant();
   const listQuery = useSuspenseQuery({
     ...siteListOptions({
