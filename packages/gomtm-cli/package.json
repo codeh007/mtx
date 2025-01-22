@@ -1,7 +1,7 @@
 {
   "name": "gomtm-cli",
   "private": false,
-  "version": "0.6.50",
+  "version": "0.6.51",
   "type": "module",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -10,12 +10,12 @@
   },
   "files": ["bin", "dist", "src"],
   "bin": {
-    "gomtm-cli": "./dist/gomtm-cli.js",
     "gomtm": "./bin/gomtm"
   },
   "sideEffects": false,
   "scripts": {
-    "build": "bun build src/cli/main.ts --outdir=dist/gomtm-cli.js --target node"
+    "build--": "bun build src/cli/main.ts --outdir=dist/gomtm-cli.js --target node",
+    "build": "echo "
   },
   "dependencies": {},
   "devDependencies": {
