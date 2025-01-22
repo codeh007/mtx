@@ -1,15 +1,11 @@
 #!/usr/bin/env node
 import { program } from "commander";
-import { fileURLToPath } from 'node:url'
 import dotenv from "dotenv";
 import fs from "node:fs";
 import path from "node:path";
-import vite from "vite";
-// import { buildWithTsc } from "./build_tsc";
-// import { buildWithViteBuild } from "./build_vite";
-// import { compileMigrations } from "./compile-migrations";
+import { fileURLToPath } from "node:url";
 
-const __dirname = fileURLToPath(new URL('.', import.meta.url))
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 const envFiles = ["../../env/dev.env", "./env/dev.env", ".env"];
 function loadEnv() {
