@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { siteHostListOptions } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
-import type { SiteHost } from "mtmaiapi/gomtmapi/types.gen";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
 import { CustomLink } from "../../../../../components/CustomLink";
@@ -12,11 +11,6 @@ export const Route = createFileRoute("/dash/site/$siteId/host/")({
   component: RouteComponent,
 });
 
-// interface SiteHostListViewProps {
-//   tenant: Tenant;
-//   site: Site;
-// }
-
 function RouteComponent() {
   const { siteId } = Route.useParams();
   console.log("siteId", siteId);
@@ -25,7 +19,6 @@ function RouteComponent() {
     ...siteHostListOptions({
       path: {
         tenant: tenant!.metadata.id,
-        // host: site.metadata.id,
       },
       query: {
         siteId: siteId,
@@ -33,7 +26,7 @@ function RouteComponent() {
     }),
   });
   return (
-    <div>
+    <>
       <div className="flex p-2 justify-end">
         <DebugValue
           data={{
@@ -47,17 +40,11 @@ function RouteComponent() {
         </div>
       </div>
       {query.data?.rows?.map((host) => (
-        <SiteHostListItem key={host.metadata.id} host={host} />
+        <div key={host.metadata.id} className="bg-slate-100 p-2 space-y-2">
+          {host.metadata.id}
+          <div>{host.host}</div>
+        </div>
       ))}
-    </div>
+    </>
   );
 }
-
-export const SiteHostListItem = ({ host }: { host: SiteHost }) => {
-  return (
-    <div className="bg-blue-500 p-2">
-      {host.metadata.id}
-      <div>{host.host}</div>
-    </div>
-  );
-};
