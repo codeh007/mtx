@@ -1,31 +1,36 @@
-
 <!doctype html>
-<html>
-<head>
- <meta charset="utf-8">
- <title>{{ .Page.Title }}</title>
-
- {{ with resources.Get "css/main.css" }}
-  {{ $opts := dict "minify" true }}
-  {{ with . | css.TailwindCSS $opts }}
-    {{ if hugo.IsDevelopment }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}">
-    {{ else }}
-      {{ with . | fingerprint }}
-        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      {{ .Title }}
+    </title>
+    <meta name="description" content="{{ .Description }}" />
+    {{ with (templates.Defer (dict "key" "global")) }}
+      {{ $t := debug.Timer "tailwindcss" }}
+      {{ with resources.Get "css/styles.css" }}
+        {{ $opts := dict
+          "inlineImports" true
+          "optimize" (not hugo.IsDevelopment)
+        }}
+        {{ with . | css.TailwindCSS $opts }}
+          {{ if hugo.IsDevelopment }}
+            <link rel="stylesheet" href="{{ .RelPermalink }}" />
+          {{ else }}
+            {{ with . | minify | fingerprint }}
+              <link
+                rel="stylesheet"
+                href="{{ .RelPermalink }}"
+                integrity="{{ .Data.Integrity }}"
+                crossorigin="anonymous" />
+            {{ end }}
+          {{ end }}
+        {{ end }}
       {{ end }}
+      {{ $t.Stop }}
     {{ end }}
-  {{ end }}
-{{ end }}
-
-</head>
-
-<body>
- {{ block "main" . }}
- {{ end }}
-
- <div class="container mx-auto bg-blue-300 p-2">
-  <h1 class="text-2xl font-bold">Hello World</h1>
- </div>
-</body>
+  </head>
+  <body class="my-10">
+    {{ block "main" . }}{{ end }}
+  </body>
 </html>
