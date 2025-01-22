@@ -18,8 +18,8 @@ runs:
         bun-version: latest
 
     - name: bun install
-      # run: bun install --development
-      run: bun install --frozen-lockfile
+      run: |
+        [[ -f package.json ]] && bun install --frozen-lockfile || bun install --development
       shell: bash
 
     - name: Setup Git User
