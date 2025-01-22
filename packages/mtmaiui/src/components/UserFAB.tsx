@@ -30,7 +30,6 @@ export const UserFAB = () => {
   const [openDropdown, setOpenDropdown] = useState(false);
   const basePath = useBasePath();
 
-  // const { data: session, update } = useSession();
   const user = useUser();
   const navigate = useNavigate();
 
@@ -64,7 +63,7 @@ export const UserFAB = () => {
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <CustomLink to={`${basePath}/posts`}>
+              <CustomLink to={`${basePath}/post`}>
                 <DropdownMenuItem>
                   posts
                   <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
