@@ -2808,6 +2808,15 @@ export type UpdateSiteHostRequest = SiteHost;
 
 export type UpdateSiteHostResponse = SiteHost;
 
+export type Post = {
+  metadata: ApiResourceMeta;
+  title: string;
+  /**
+   * The tenant associated with this tenant blog
+   */
+  content: string;
+};
+
 export type PostList = {
   pagination?: PaginationResponse;
   rows?: Array<Post>;
@@ -2820,17 +2829,12 @@ export type CreatePostRequest = {
    * The tenant associated with this tenant blog.
    */
   content: string;
-};
-
-export type CreatePostResponse = Post;
-
-export type Post = {
-  metadata: ApiResourceMeta;
-  title: string;
   /**
-   * The tenant associated with this tenant blog
+   * The slug of the post
    */
-  content: string;
+  slug: string;
+  authorId?: string;
+  status?: "draft" | "published";
 };
 
 export type FrontendConfig = {

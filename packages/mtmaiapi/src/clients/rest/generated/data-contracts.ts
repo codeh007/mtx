@@ -2387,9 +2387,20 @@ export interface CreatePostRequest {
    * @maxLength 10240
    */
   content: string;
+  /**
+   * The slug of the post
+   * @minLength 3
+   * @maxLength 200
+   */
+  slug: string;
+  /**
+   * @format uuid
+   * @minLength 36
+   * @maxLength 36
+   */
+  authorId?: string;
+  status?: "draft" | "published";
 }
-
-export type CreatePostResponse = Post;
 
 export interface Post {
   metadata: APIResourceMeta;
