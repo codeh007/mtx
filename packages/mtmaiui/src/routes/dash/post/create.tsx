@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PostCreateView } from "../../../../components/post/PostCreateView";
-import { useTenant } from "../../../../hooks/useAuth";
+import { PostCreateView } from "../../../components/post/PostCreateView";
+import { useTenant } from "../../../hooks/useAuth";
 
-export const Route = createFileRoute("/dash/site/post/create")({
+export const Route = createFileRoute("/dash/post/create")({
   component: CreatePostRouteComponent,
 });
 
