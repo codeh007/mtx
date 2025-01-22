@@ -12,7 +12,6 @@ import { DashContent } from "../../../components/DashContent";
 import { DashHeaders } from "../../../components/DashHeaders";
 import { DashSidebar } from "../../../components/sidebar/siderbar";
 import { useTenant } from "../../../hooks/useAuth";
-import SiteListView from "../../../components/site/SiteListView";
 export const Route = createFileRoute("/dash/site")({
   component: RouteComponent,
 });
@@ -38,7 +37,6 @@ function RouteComponent() {
         <DashContent>
           <Suspense fallback={<div>Loading...</div>}>
             <Outlet />
-            <SiteListView />
           </Suspense>
         </DashContent>
       </SidebarInset>
