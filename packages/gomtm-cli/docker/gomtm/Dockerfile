@@ -6,7 +6,8 @@ ARG NODE_VERSION=${NODE_VERSION:-"20.18.1"}
 ARG DEFAULT_PASSWORD=${DEFAULT_PASSWORD:-"Admin123!@1"}
 
 FROM debian AS mtmbase
-ARG NONROOT_USER=
+ARG NONROOT_USER
+ARG WORK_DIR
 ENV BUILD_STAGE=true
 ENV PATH=/app/bin:/app/hack:/app/hack/dev:/app/hack:${HOME}/.local/bin:$PATH
 ENV SHELL=/bin/bash
