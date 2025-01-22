@@ -58,6 +58,7 @@ import {
   EventOrderByField,
   EventSearch,
   FrontendConfig,
+  HfAccount,
   ListAPIMetaIntegration,
   ListAPITokensResponse,
   ListSlackWebhooks,
@@ -3120,15 +3121,15 @@ export class Api<
    *
    * @tags hf
    * @name HfAccountGet
-   * @summary 获取 hf 账户信息
    * @request GET:/api/v1/hf/account
    * @secure
    */
   hfAccountGet = (params: RequestParams = {}) =>
-    this.request<void, any>({
+    this.request<HfAccount, APIErrors>({
       path: `/api/v1/hf/account`,
       method: "GET",
       secure: true,
+      format: "json",
       ...params,
     });
 }

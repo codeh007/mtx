@@ -379,6 +379,8 @@ import type {
   FrontendGetSiderbarData,
   FrontendGetSiderbarResponse,
   HfAccountGetData,
+  HfAccountGetResponse,
+  HfAccountGetError,
 } from "./types.gen";
 
 export const client = createClient(createConfig());
@@ -3925,13 +3927,14 @@ export const frontendGetSiderbar = <ThrowOnError extends boolean = false>(
   });
 };
 
-/**
- * 获取 hf 账户信息
- */
 export const hfAccountGet = <ThrowOnError extends boolean = false>(
   options?: Options<HfAccountGetData, ThrowOnError>,
 ) => {
-  return (options?.client ?? client).get<unknown, unknown, ThrowOnError>({
+  return (options?.client ?? client).get<
+    HfAccountGetResponse,
+    HfAccountGetError,
+    ThrowOnError
+  >({
     security: [
       {
         scheme: "bearer",

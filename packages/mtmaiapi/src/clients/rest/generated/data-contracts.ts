@@ -2430,8 +2430,9 @@ export interface DashSidebarItem {
 }
 
 export interface HfAccount {
+  metadata: APIResourceMeta;
   /** The username of the hf account. */
-  username?: string;
+  username: string;
   /** The token of the hf account. */
-  token?: string;
+  token: string;
 }
