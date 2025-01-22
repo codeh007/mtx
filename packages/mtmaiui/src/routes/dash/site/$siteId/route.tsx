@@ -7,8 +7,9 @@ import {
   MtTabsList,
   MtTabsTrigger,
 } from "mtxuilib/mt/tabs";
+import { CustomLink } from "../../../../components/CustomLink";
 import { PostListView } from "../../../../components/post/PostListView";
-import { SiteHostListView } from "../../../../components/site-host/SiteHostListView";
+// import { SiteHostListView } from "../../../../components/site-host/SiteHostListView";
 import { SiteEditor } from "../../../../components/site/SiteEditor";
 import { useTenant } from "../../../../hooks/useAuth";
 
@@ -32,14 +33,16 @@ function RouteComponent() {
       <MtTabs defaultValue="site" className="w-full h-full">
         <MtTabsList className="flex w-full gap-2">
           <MtTabsTrigger value="site">编辑</MtTabsTrigger>
-          <MtTabsTrigger value="host">域名</MtTabsTrigger>
+          <CustomLink to={`/dash/site/${siteId}/host/`}>
+            <MtTabsTrigger value="host">域名</MtTabsTrigger>
+          </CustomLink>
           <MtTabsTrigger value="post">文章</MtTabsTrigger>
         </MtTabsList>
         <MtTabsContent value="site">
           <SiteEditor siteId={siteId} />
         </MtTabsContent>
         <MtTabsContent value="host">
-          <SiteHostListView tenant={tenant!} site={site.data} />
+          {/* <SiteHostListView tenant={tenant!} site={site.data} /> */}
         </MtTabsContent>
         <MtTabsContent value="post">
           <PostListView siteId={siteId} />

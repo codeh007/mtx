@@ -1,16 +1,25 @@
-"use client";
+import { createFileRoute } from "@tanstack/react-router";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { siteHostListOptions } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
 import type { Site, SiteHost, Tenant } from "mtmaiapi/gomtmapi/types.gen";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
-import { CustomLink } from "../CustomLink";
+import { CustomLink } from "../../../../../components/CustomLink";
+
+export const Route = createFileRoute("/dash/site/$siteId/host/")({
+  component: RouteComponent,
+});
 
 interface SiteHostListViewProps {
   tenant: Tenant;
   site: Site;
 }
+
+function RouteComponent() {
+  return <></>;
+}
+
 export function SiteHostListView({ tenant, site }: SiteHostListViewProps) {
   const query = useSuspenseQuery({
     ...siteHostListOptions({
