@@ -2,33 +2,33 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { siteHostListOptions } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
-import type { Site, SiteHost, Tenant } from "mtmaiapi/gomtmapi/types.gen";
+import type { SiteHost } from "mtmaiapi/gomtmapi/types.gen";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
 import { CustomLink } from "../../../../../components/CustomLink";
+import { useTenant } from "../../../../../hooks/useAuth";
 
 export const Route = createFileRoute("/dash/site/$siteId/host/")({
   component: RouteComponent,
 });
 
-interface SiteHostListViewProps {
-  tenant: Tenant;
-  site: Site;
-}
+// interface SiteHostListViewProps {
+//   tenant: Tenant;
+//   site: Site;
+// }
 
 function RouteComponent() {
-  return <></>;
-}
-
-export function SiteHostListView({ tenant, site }: SiteHostListViewProps) {
+  const { siteId } = Route.useParams();
+  console.log("siteId", siteId);
+  const tenant = useTenant();
   const query = useSuspenseQuery({
     ...siteHostListOptions({
       path: {
-        tenant: tenant.metadata.id,
+        tenant: tenant!.metadata.id,
         // host: site.metadata.id,
       },
       query: {
-        siteId: site.metadata.id,
+        siteId: siteId,
       },
     }),
   });
@@ -41,7 +41,7 @@ export function SiteHostListView({ tenant, site }: SiteHostListViewProps) {
           }}
         />
         <div>
-          <CustomLink to={`/dash/site/${site.metadata.id}/host/create`}>
+          <CustomLink to={`/dash/site/${siteId}/host/create`}>
             <Button>增加 site host</Button>
           </CustomLink>
         </div>
@@ -55,7 +55,7 @@ export function SiteHostListView({ tenant, site }: SiteHostListViewProps) {
 
 export const SiteHostListItem = ({ host }: { host: SiteHost }) => {
   return (
-    <div>
+    <div className="bg-blue-500 p-2">
       {host.metadata.id}
       <div>{host.host}</div>
     </div>

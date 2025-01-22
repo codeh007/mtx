@@ -33,6 +33,7 @@ import { Route as DashWorkflowsTriggerAssisantImport } from './routes/dash/workf
 import { Route as DashWorkflowsTriggerFlowNewsGenImport } from './routes/dash/workflows/trigger/FlowNewsGen'
 import { Route as DashWorkflowsTriggerFlowBrowserImport } from './routes/dash/workflows/trigger/FlowBrowser'
 import { Route as DashWorkflowsTriggerSplatImport } from './routes/dash/workflows/trigger/$'
+import { Route as DashSiteSiteIdEditImport } from './routes/dash/site/$siteId/edit'
 import { Route as DashSiteSiteIdHostRouteImport } from './routes/dash/site/$siteId/host/route'
 import { Route as DashSiteSiteIdHostIndexImport } from './routes/dash/site/$siteId/host/index'
 import { Route as DashOnboardingCreateTenantComponentsTenantCreateFormImport } from './routes/dash/onboarding/create-tenant/_components/tenant-create-form'
@@ -234,6 +235,12 @@ const DashWorkflowsTriggerSplatRoute = DashWorkflowsTriggerSplatImport.update({
   getParentRoute: () => DashWorkflowsTriggerRouteLazyRoute,
 } as any)
 
+const DashSiteSiteIdEditRoute = DashSiteSiteIdEditImport.update({
+  id: '/edit',
+  path: '/edit',
+  getParentRoute: () => DashSiteSiteIdRouteRoute,
+} as any)
+
 const DashSiteSiteIdHostRouteRoute = DashSiteSiteIdHostRouteImport.update({
   id: '/host',
   path: '/host',
@@ -404,6 +411,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashSiteSiteIdHostRouteImport
       parentRoute: typeof DashSiteSiteIdRouteImport
     }
+    '/dash/site/$siteId/edit': {
+      id: '/dash/site/$siteId/edit'
+      path: '/edit'
+      fullPath: '/dash/site/$siteId/edit'
+      preLoaderRoute: typeof DashSiteSiteIdEditImport
+      parentRoute: typeof DashSiteSiteIdRouteImport
+    }
     '/dash/workflows/trigger/$': {
       id: '/dash/workflows/trigger/$'
       path: '/$'
@@ -542,11 +556,13 @@ const DashSiteSiteIdHostRouteRouteWithChildren =
 
 interface DashSiteSiteIdRouteRouteChildren {
   DashSiteSiteIdHostRouteRoute: typeof DashSiteSiteIdHostRouteRouteWithChildren
+  DashSiteSiteIdEditRoute: typeof DashSiteSiteIdEditRoute
   DashSiteSiteIdIndexRoute: typeof DashSiteSiteIdIndexRoute
 }
 
 const DashSiteSiteIdRouteRouteChildren: DashSiteSiteIdRouteRouteChildren = {
   DashSiteSiteIdHostRouteRoute: DashSiteSiteIdHostRouteRouteWithChildren,
+  DashSiteSiteIdEditRoute: DashSiteSiteIdEditRoute,
   DashSiteSiteIdIndexRoute: DashSiteSiteIdIndexRoute,
 }
 
@@ -645,6 +661,7 @@ export interface FileRoutesByFullPath {
   '/dash/workflows/': typeof DashWorkflowsIndexRoute
   '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/dash/site/$siteId/host': typeof DashSiteSiteIdHostRouteRouteWithChildren
+  '/dash/site/$siteId/edit': typeof DashSiteSiteIdEditRoute
   '/dash/workflows/trigger/$': typeof DashWorkflowsTriggerSplatRoute
   '/dash/workflows/trigger/FlowBrowser': typeof DashWorkflowsTriggerFlowBrowserRoute
   '/dash/workflows/trigger/FlowNewsGen': typeof DashWorkflowsTriggerFlowNewsGenRoute
@@ -672,6 +689,7 @@ export interface FileRoutesByTo {
   '/dash/workflow-runs': typeof DashWorkflowRunsIndexRoute
   '/dash/workflows': typeof DashWorkflowsIndexRoute
   '/auth/login': typeof AuthLoginIndexLazyRoute
+  '/dash/site/$siteId/edit': typeof DashSiteSiteIdEditRoute
   '/dash/workflows/trigger/$': typeof DashWorkflowsTriggerSplatRoute
   '/dash/workflows/trigger/FlowBrowser': typeof DashWorkflowsTriggerFlowBrowserRoute
   '/dash/workflows/trigger/FlowNewsGen': typeof DashWorkflowsTriggerFlowNewsGenRoute
@@ -707,6 +725,7 @@ export interface FileRoutesById {
   '/dash/workflows/': typeof DashWorkflowsIndexRoute
   '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/dash/site/$siteId/host': typeof DashSiteSiteIdHostRouteRouteWithChildren
+  '/dash/site/$siteId/edit': typeof DashSiteSiteIdEditRoute
   '/dash/workflows/trigger/$': typeof DashWorkflowsTriggerSplatRoute
   '/dash/workflows/trigger/FlowBrowser': typeof DashWorkflowsTriggerFlowBrowserRoute
   '/dash/workflows/trigger/FlowNewsGen': typeof DashWorkflowsTriggerFlowNewsGenRoute
@@ -743,6 +762,7 @@ export interface FileRouteTypes {
     | '/dash/workflows/'
     | '/auth/login/'
     | '/dash/site/$siteId/host'
+    | '/dash/site/$siteId/edit'
     | '/dash/workflows/trigger/$'
     | '/dash/workflows/trigger/FlowBrowser'
     | '/dash/workflows/trigger/FlowNewsGen'
@@ -769,6 +789,7 @@ export interface FileRouteTypes {
     | '/dash/workflow-runs'
     | '/dash/workflows'
     | '/auth/login'
+    | '/dash/site/$siteId/edit'
     | '/dash/workflows/trigger/$'
     | '/dash/workflows/trigger/FlowBrowser'
     | '/dash/workflows/trigger/FlowNewsGen'
@@ -802,6 +823,7 @@ export interface FileRouteTypes {
     | '/dash/workflows/'
     | '/auth/login/'
     | '/dash/site/$siteId/host'
+    | '/dash/site/$siteId/edit'
     | '/dash/workflows/trigger/$'
     | '/dash/workflows/trigger/FlowBrowser'
     | '/dash/workflows/trigger/FlowNewsGen'
@@ -925,6 +947,7 @@ export const routeTree = rootRoute
       "parent": "/dash/site",
       "children": [
         "/dash/site/$siteId/host",
+        "/dash/site/$siteId/edit",
         "/dash/site/$siteId/"
       ]
     },
@@ -977,6 +1000,10 @@ export const routeTree = rootRoute
         "/dash/site/$siteId/host/",
         "/dash/site/$siteId/host/create/"
       ]
+    },
+    "/dash/site/$siteId/edit": {
+      "filePath": "dash/site/$siteId/edit.tsx",
+      "parent": "/dash/site/$siteId"
     },
     "/dash/workflows/trigger/$": {
       "filePath": "dash/workflows/trigger/$.tsx",
