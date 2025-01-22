@@ -62,10 +62,10 @@ jobs:
         uses: ./.github/actions/setup_bun
 
       - name: 使用gomtm 进行 cfpage 部署
-        run: (cd apps/mtxedge && ../../packages/gomtm-cli/bin/gomtm dp cfpage)
+        run: (cd apps/mtxedge && ../../packages/gomtm-cli/bin/gomtm cfpage)
 
       - name: deploy mtmaiui
-        run: (cd packages/mtmaiui && bun run build && ../../packages/gomtm-cli/bin/gomtm dp cfpage)
+        run: (cd packages/mtmaiui && bun run build && ../../packages/gomtm-cli/bin/gomtm cfpage)
 
   testing_npm_install_gomtm:
     runs-on: ubuntu-latest
