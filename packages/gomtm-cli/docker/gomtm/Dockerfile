@@ -28,9 +28,7 @@ RUN apt update -yqq --fix-missing && apt -yqq --no-install-recommends install \
 
 #############################
 # 安装 Go
-# ARG GOLANG_VERSION=${GOLANG_VERSION:-"1.23.3"}
 ARG GOLANG_VERSION
-# ENV GOLANG_VERSION=${GOLANG_VERSION}
 ENV GOPATH=/usr/local/go
 ENV PATH=$GOPATH/bin:$PATH
 RUN curl -o /tmp/goinstall.tar.gz -sSL https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz \
@@ -79,8 +77,9 @@ RUN ln -sf $(which python3) /usr/local/bin/python && ln -sf $(which pip3) /usr/l
 #############################
 # nodejs
 # nvm environment variables
+ARG NODE_VERSION
 ENV NVM_DIR=/usr/local/nvm
-ENV NODE_VERSION=${NODE_VERSION:-"20.18.1"}
+# ENV NODE_VERSION=${NODE_VERSION:-"20.18.1"}
 RUN mkdir -p $NVM_DIR \
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash \
     && . $NVM_DIR/nvm.sh \
@@ -215,9 +214,8 @@ RUN curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/r
     && sudo dpkg -i cloudflared.deb \
     && rm cloudflared.deb
 
-ENV GOLANG_VERSION=${GOLANG_VERSION:-"1.22"}
+ARG GOLANG_VERSION
 # 设置Go Path
-# ENV GOPATH=/usr/local/go
 ENV GOPATH=/root/go
 ENV PATH=$PATH:$GOPATH/bin:/usr/local/go/bin:${PATH}
 # 安装 Go
