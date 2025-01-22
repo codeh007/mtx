@@ -8,8 +8,6 @@ import {
   MtTabsTrigger,
 } from "mtxuilib/mt/tabs";
 import { CustomLink } from "../../../../components/CustomLink";
-import { PostListView } from "../../../../components/post/PostListView";
-// import { SiteHostListView } from "../../../../components/site-host/SiteHostListView";
 import { SiteEditor } from "../../../../components/site/SiteEditor";
 import { useTenant } from "../../../../hooks/useAuth";
 
@@ -45,7 +43,7 @@ function RouteComponent() {
           {/* <SiteHostListView tenant={tenant!} site={site.data} /> */}
         </MtTabsContent>
         <MtTabsContent value="post">
-          <PostListView siteId={siteId} />
+          {/* <PostListView siteId={siteId} /> */}
         </MtTabsContent>
       </MtTabs>
 
