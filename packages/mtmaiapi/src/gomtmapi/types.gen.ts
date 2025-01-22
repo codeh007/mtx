@@ -2885,14 +2885,15 @@ export type DashSidebarItem = {
 };
 
 export type HfAccount = {
+  metadata: ApiResourceMeta;
   /**
    * The username of the hf account.
    */
-  username?: string;
+  username: string;
   /**
    * The token of the hf account.
    */
-  token?: string;
+  token: string;
 };
 
 export type ReadinessGetData = {
@@ -7847,9 +7848,29 @@ export type HfAccountGetData = {
   url: "/api/v1/hf/account";
 };
 
+export type HfAccountGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type HfAccountGetError = HfAccountGetErrors[keyof HfAccountGetErrors];
+
 export type HfAccountGetResponses = {
   /**
-   * 获取 hf 账户信息成功
+   * Successfully created the blog post
    */
-  200: unknown;
+  200: HfAccount;
 };
+
+export type HfAccountGetResponse =
+  HfAccountGetResponses[keyof HfAccountGetResponses];
