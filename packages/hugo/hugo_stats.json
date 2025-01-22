@@ -1,0 +1,31 @@
+{
+  "htmlElements": {
+    "tags": [
+      "a",
+      "body",
+      "div",
+      "em",
+      "h1",
+      "h2",
+      "head",
+      "html",
+      "link",
+      "meta",
+      "p",
+      "script",
+      "strong",
+      "title"
+    ],
+    "classes": [
+      "bg-blue-300",
+      "container",
+      "font-bold",
+      "mx-auto",
+      "p-2",
+      "text-2xl"
+    ],
+    "ids": [
+      "introduction"
+    ]
+  }
+}
