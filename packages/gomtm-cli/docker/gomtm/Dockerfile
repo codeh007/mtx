@@ -28,8 +28,8 @@ RUN apt update -yqq --fix-missing && apt -yqq --no-install-recommends install \
 #############################
 # 安装 Go
 # ARG GOLANG_VERSION=${GOLANG_VERSION:-"1.23.3"}
-# ARG GOLANG_VERSION
-ENV GOLANG_VERSION=${GOLANG_VERSION}
+ARG GOLANG_VERSION
+# ENV GOLANG_VERSION=${GOLANG_VERSION}
 ENV GOPATH=/usr/local/go
 ENV PATH=$GOPATH/bin:$PATH
 RUN curl -o /tmp/goinstall.tar.gz -sSL https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz \

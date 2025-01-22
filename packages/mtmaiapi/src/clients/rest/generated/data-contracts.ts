@@ -2428,3 +2428,10 @@ export interface DashSidebarItem {
   adminOnly?: boolean;
   children?: DashSidebarItem[];
 }
+
+export interface HfAccount {
+  /** The username of the hf account. */
+  username?: string;
+  /** The token of the hf account. */
+  token?: string;
+}

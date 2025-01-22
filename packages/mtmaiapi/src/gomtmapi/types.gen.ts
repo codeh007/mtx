@@ -2884,6 +2884,17 @@ export type DashSidebarItem = {
   children?: Array<DashSidebarItem>;
 };
 
+export type HfAccount = {
+  /**
+   * The username of the hf account.
+   */
+  username?: string;
+  /**
+   * The token of the hf account.
+   */
+  token?: string;
+};
+
 export type ReadinessGetData = {
   body?: never;
   path?: never;
@@ -7828,3 +7839,17 @@ export type FrontendGetSiderbarResponses = {
 
 export type FrontendGetSiderbarResponse =
   FrontendGetSiderbarResponses[keyof FrontendGetSiderbarResponses];
+
+export type HfAccountGetData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/hf/account";
+};
+
+export type HfAccountGetResponses = {
+  /**
+   * 获取 hf 账户信息成功
+   */
+  200: unknown;
+};

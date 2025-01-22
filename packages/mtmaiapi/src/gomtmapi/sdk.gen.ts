@@ -378,6 +378,7 @@ import type {
   FrontendGetConfigResponse,
   FrontendGetSiderbarData,
   FrontendGetSiderbarResponse,
+  HfAccountGetData,
 } from "./types.gen";
 
 export const client = createClient(createConfig());
@@ -3920,6 +3921,28 @@ export const frontendGetSiderbar = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     url: "/api/v1/frontend/siderbar",
+    ...options,
+  });
+};
+
+/**
+ * 获取 hf 账户信息
+ */
+export const hfAccountGet = <ThrowOnError extends boolean = false>(
+  options?: Options<HfAccountGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<unknown, unknown, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/hf/account",
     ...options,
   });
 };
