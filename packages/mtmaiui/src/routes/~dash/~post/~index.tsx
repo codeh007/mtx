@@ -2,7 +2,7 @@ import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import type { SortingState, VisibilityState } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { BiCard, BiTable } from "react-icons/bi";
 
 import { postListOptions } from "mtmaiapi";
@@ -42,12 +42,6 @@ export function PostListView() {
       },
     }),
   });
-
-  const data = useMemo(() => {
-    const data = tenantBlogListQuery.data?.rows || [];
-
-    return data;
-  }, [tenantBlogListQuery.data?.rows]);
 
   const emptyState = (
     <Card className="w-full text-justify">
@@ -134,7 +128,7 @@ export function PostListView() {
     <>
       <DataTable
         columns={columns}
-        data={data}
+        data={tenantBlogListQuery.data?.rows || []}
         pageCount={1}
         filters={[]}
         emptyState={emptyState}

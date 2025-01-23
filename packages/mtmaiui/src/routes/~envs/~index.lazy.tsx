@@ -14,7 +14,6 @@ import { Button, buttonVariants } from "mtxuilib/ui/button";
 
 import { useMemo, useState } from "react";
 import { CustomLink } from "../../components/CustomLink";
-import { useBasePath } from "../../hooks/useBasePath";
 import { EnvCard } from "./_components/EnvCard";
 import { envColumns } from "./_components/EnvColumn";
 import { EnvEmptyState } from "./_components/emptyState";
@@ -26,6 +25,7 @@ export const Route = createLazyFileRoute("/envs/")({
 function RouteComponent() {
   const { siteId } = Route.useParams();
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [cardToggle, setCardToggle] = useState(true);
   const [rotate, setRotate] = useState(false);
   const envsQuery = useSuspenseQuery({
     ...envGetOptions({}),
@@ -44,9 +44,7 @@ function RouteComponent() {
     },
   ]);
 
-  const [cardToggle, setCardToggle] = useState(true);
 
-  const basePath = useBasePath();
 
   const actions = [
     <Button
