@@ -2450,11 +2450,14 @@ export interface HfAccount {
 
 /** 环境变量 */
 export interface Env {
+  metadata: APIResourceMeta;
   /** 环境变量名称 */
-  name?: string;
+  name: string;
   /** 环境变量值 */
-  value?: string;
+  value: string;
 }
 
-/** 环境变量列表 */
-export type EnvList = Env[];
+export interface EnvList {
+  pagination?: PaginationResponse;
+  rows?: Env[];
+}

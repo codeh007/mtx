@@ -2904,20 +2904,21 @@ export type HfAccount = {
  * 环境变量
  */
 export type Env = {
+  metadata: ApiResourceMeta;
   /**
    * 环境变量名称
    */
-  name?: string;
+  name: string;
   /**
    * 环境变量值
    */
-  value?: string;
+  value: string;
 };
 
-/**
- * 环境变量列表
- */
-export type EnvList = Array<Env>;
+export type EnvList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Env>;
+};
 
 export type ReadinessGetData = {
   body?: never;

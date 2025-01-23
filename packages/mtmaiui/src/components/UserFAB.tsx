@@ -63,6 +63,13 @@ export const UserFAB = () => {
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
+              <CustomLink to={"/envs"}>
+                <DropdownMenuItem>
+                  envs
+                  <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </CustomLink>
+
               <CustomLink to={`${basePath}/post`}>
                 <DropdownMenuItem>
                   posts
