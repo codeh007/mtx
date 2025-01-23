@@ -1,8 +1,12 @@
+"use client";
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 import { UserFAB } from "../components/UserFAB";
 import { NotFound } from "../components/notFound";
-// import { useSessionLoader } from "../hooks/useAuth";
+import { onMount } from "./onMount";
 
+if (typeof window !== "undefined") {
+  onMount();
+}
 export const Route = createRootRoute({
   component: RootComponent,
   notFoundComponent: NotFound,
@@ -11,9 +15,11 @@ export const Route = createRootRoute({
 function RootComponent() {
   // useSessionLoader();
   return (
-    <div className="fixed flex top-0 left-0 w-full h-full">
+    <>
+      {/* <div className="fixed flex top-0 left-0 w-full h-full"> */}
       <UserFAB />
       <Outlet />
-    </div>
+      {/* </div> */}
+    </>
   );
 }

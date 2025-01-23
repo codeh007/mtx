@@ -8,6 +8,7 @@ export default async function Page(props: { params }) {
   return (
     <>
       <HydrationBoundary state={dehydrate(queryClient)}>
+        <div id="page-actions" />
         <MtSuspenseBoundary>
           <PostListViewPublic />
         </MtSuspenseBoundary>
