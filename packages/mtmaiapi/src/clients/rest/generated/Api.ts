@@ -49,6 +49,7 @@ import {
   CreateTenantRequest,
   CronWorkflowsList,
   CronWorkflowsOrderByField,
+  EnvList,
   Event,
   EventData,
   EventKey,
@@ -3129,6 +3130,41 @@ export class Api<
       path: `/api/v1/hf/account`,
       method: "GET",
       secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 环境变量
+   *
+   * @tags env
+   * @name EnvGet
+   * @request GET:/api/v1/env
+   * @secure
+   */
+  envGet = (params: RequestParams = {}) =>
+    this.request<EnvList, APIErrors>({
+      path: `/api/v1/env`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Update an existing env
+   *
+   * @tags blog
+   * @name EnvUpdate
+   * @summary Update blog
+   * @request PATCH:/api/v1/env
+   * @secure
+   */
+  envUpdate = (data: UpdateBlogRequest, params: RequestParams = {}) =>
+    this.request<Blog, APIErrors | APIError>({
+      path: `/api/v1/env`,
+      method: "PATCH",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
       format: "json",
       ...params,
     });

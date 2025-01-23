@@ -2364,6 +2364,13 @@ export type UpdateSiteHostRequest = SiteHost;
 
 export type UpdateSiteHostResponse = SiteHost;
 
+export interface Post {
+  metadata: APIResourceMeta;
+  title: string;
+  /** The tenant associated with this tenant blog */
+  content: string;
+}
+
 export interface PostList {
   pagination?: PaginationResponse;
   rows?: Post[];
@@ -2400,13 +2407,6 @@ export interface CreatePostRequest {
    */
   authorId?: string;
   status?: "draft" | "published";
-}
-
-export interface Post {
-  metadata: APIResourceMeta;
-  title: string;
-  /** The tenant associated with this tenant blog */
-  content: string;
 }
 
 export interface FrontendConfig {
@@ -2447,3 +2447,14 @@ export interface HfAccount {
   /** The token of the hf account. */
   token: string;
 }
+
+/** 环境变量 */
+export interface Env {
+  /** 环境变量名称 */
+  name?: string;
+  /** 环境变量值 */
+  value?: string;
+}
+
+/** 环境变量列表 */
+export type EnvList = Env[];

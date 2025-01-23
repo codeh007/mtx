@@ -270,6 +270,10 @@ import type {
   FrontendGetConfigData,
   FrontendGetSiderbarData,
   HfAccountGetData,
+  EnvGetData,
+  EnvUpdateData,
+  EnvUpdateError,
+  EnvUpdateResponse,
 } from "../types.gen";
 import {
   readinessGet,
@@ -409,6 +413,8 @@ import {
   frontendGetConfig,
   frontendGetSiderbar,
   hfAccountGet,
+  envGet,
+  envUpdate,
   client,
 } from "../sdk.gen";
 
@@ -4433,4 +4439,43 @@ export const hfAccountGetOptions = (options?: Options<HfAccountGetData>) => {
     },
     queryKey: hfAccountGetQueryKey(options),
   });
+};
+
+export const envGetQueryKey = (options?: Options<EnvGetData>) => [
+  createQueryKey("envGet", options),
+];
+
+export const envGetOptions = (options?: Options<EnvGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await envGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: envGetQueryKey(options),
+  });
+};
+
+export const envUpdateMutation = (
+  options?: Partial<Options<EnvUpdateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    EnvUpdateResponse,
+    EnvUpdateError,
+    Options<EnvUpdateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await envUpdate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };

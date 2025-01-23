@@ -381,6 +381,12 @@ import type {
   HfAccountGetData,
   HfAccountGetResponse,
   HfAccountGetError,
+  EnvGetData,
+  EnvGetResponse,
+  EnvGetError,
+  EnvUpdateData,
+  EnvUpdateResponse,
+  EnvUpdateError,
 } from "./types.gen";
 
 export const client = createClient(createConfig());
@@ -3947,5 +3953,62 @@ export const hfAccountGet = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/hf/account",
     ...options,
+  });
+};
+
+/**
+ * 环境变量
+ */
+export const envGet = <ThrowOnError extends boolean = false>(
+  options?: Options<EnvGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    EnvGetResponse,
+    EnvGetError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/env",
+    ...options,
+  });
+};
+
+/**
+ * Update blog
+ * Update an existing env
+ */
+export const envUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<EnvUpdateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).patch<
+    EnvUpdateResponse,
+    EnvUpdateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/env",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
