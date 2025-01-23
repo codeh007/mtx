@@ -270,10 +270,11 @@ import type {
   FrontendGetConfigData,
   FrontendGetSiderbarData,
   HfAccountGetData,
-  EnvGetData,
+  EnvListData,
   EnvUpdateData,
   EnvUpdateError,
   EnvUpdateResponse,
+  EnvGetData,
   KvUpdateData,
   KvUpdateError,
   KvUpdateResponse,
@@ -417,8 +418,9 @@ import {
   frontendGetConfig,
   frontendGetSiderbar,
   hfAccountGet,
-  envGet,
+  envList,
   envUpdate,
+  envGet,
   kvUpdate,
   kvGet,
   client,
@@ -4447,14 +4449,14 @@ export const hfAccountGetOptions = (options?: Options<HfAccountGetData>) => {
   });
 };
 
-export const envGetQueryKey = (options?: Options<EnvGetData>) => [
-  createQueryKey("envGet", options),
+export const envListQueryKey = (options?: Options<EnvListData>) => [
+  createQueryKey("envList", options),
 ];
 
-export const envGetOptions = (options?: Options<EnvGetData>) => {
+export const envListOptions = (options?: Options<EnvListData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await envGet({
+      const { data } = await envList({
         ...options,
         ...queryKey[0],
         signal,
@@ -4462,7 +4464,7 @@ export const envGetOptions = (options?: Options<EnvGetData>) => {
       });
       return data;
     },
-    queryKey: envGetQueryKey(options),
+    queryKey: envListQueryKey(options),
   });
 };
 
@@ -4484,6 +4486,25 @@ export const envUpdateMutation = (
     },
   };
   return mutationOptions;
+};
+
+export const envGetQueryKey = (options: Options<EnvGetData>) => [
+  createQueryKey("envGet", options),
+];
+
+export const envGetOptions = (options: Options<EnvGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await envGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: envGetQueryKey(options),
+  });
 };
 
 export const kvUpdateMutation = (options?: Partial<Options<KvUpdateData>>) => {
