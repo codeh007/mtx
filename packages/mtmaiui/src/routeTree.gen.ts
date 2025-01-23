@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/~__root'
 import { Route as AuthRouteImport } from './routes/~auth/~route'
+import { Route as IndexImport } from './routes/~index'
 import { Route as EnvsCreateImport } from './routes/~envs/~create'
 import { Route as DashPostRouteImport } from './routes/~dash/~post/~route'
 import { Route as AuthLoginRouteImport } from './routes/~auth/~login/~route'
@@ -58,6 +59,12 @@ const ChatRouteLazyRoute = ChatRouteLazyImport.update({
 const AuthRouteRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const IndexRoute = IndexImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -189,6 +196,13 @@ const DashSiteSiteIdHostIndexRoute = DashSiteSiteIdHostIndexImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -461,6 +475,7 @@ const DashWorkflowsRouteLazyRouteWithChildren =
   )
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
   '/chat': typeof ChatRouteLazyRoute
   '/envs': typeof EnvsRouteLazyRouteWithChildren
@@ -486,6 +501,7 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
   '/chat': typeof ChatRouteLazyRoute
   '/envs/create': typeof EnvsCreateRoute
@@ -505,6 +521,7 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
+  '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
   '/chat': typeof ChatRouteLazyRoute
   '/envs': typeof EnvsRouteLazyRouteWithChildren
@@ -532,6 +549,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/auth'
     | '/chat'
     | '/envs'
@@ -556,6 +574,7 @@ export interface FileRouteTypes {
     | '/dash/site/$siteId/host/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/auth'
     | '/chat'
     | '/envs/create'
@@ -573,6 +592,7 @@ export interface FileRouteTypes {
     | '/dash/site/$siteId/host'
   id:
     | '__root__'
+    | '/'
     | '/auth'
     | '/chat'
     | '/envs'
@@ -599,6 +619,7 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   ChatRouteLazyRoute: typeof ChatRouteLazyRoute
   EnvsRouteLazyRoute: typeof EnvsRouteLazyRouteWithChildren
@@ -609,6 +630,7 @@ export interface RootRouteChildren {
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   ChatRouteLazyRoute: ChatRouteLazyRoute,
   EnvsRouteLazyRoute: EnvsRouteLazyRouteWithChildren,
@@ -628,6 +650,7 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "~__root.tsx",
       "children": [
+        "/",
         "/auth",
         "/chat",
         "/envs",
@@ -636,6 +659,9 @@ export const routeTree = rootRoute
         "/dash/workflows",
         "/dash/onboarding/create-tenant/"
       ]
+    },
+    "/": {
+      "filePath": "~index.tsx"
     },
     "/auth": {
       "filePath": "~auth/~route.tsx",

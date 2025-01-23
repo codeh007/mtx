@@ -7899,14 +7899,14 @@ export type HfAccountGetResponses = {
 export type HfAccountGetResponse =
   HfAccountGetResponses[keyof HfAccountGetResponses];
 
-export type EnvGetData = {
+export type EnvListData = {
   body?: never;
   path?: never;
   query?: never;
   url: "/api/v1/env";
 };
 
-export type EnvGetErrors = {
+export type EnvListErrors = {
   /**
    * A malformed or bad request
    */
@@ -7921,13 +7921,13 @@ export type EnvGetErrors = {
   404: ApiErrors;
 };
 
-export type EnvGetError = EnvGetErrors[keyof EnvGetErrors];
+export type EnvListError = EnvListErrors[keyof EnvListErrors];
 
-export type EnvGetResponses = {
+export type EnvListResponses = {
   200: EnvList;
 };
 
-export type EnvGetResponse = EnvGetResponses[keyof EnvGetResponses];
+export type EnvListResponse = EnvListResponses[keyof EnvListResponses];
 
 export type EnvUpdateData = {
   /**
@@ -7960,6 +7960,41 @@ export type EnvUpdateResponses = {
 };
 
 export type EnvUpdateResponse = EnvUpdateResponses[keyof EnvUpdateResponses];
+
+export type EnvGetData = {
+  body?: never;
+  path: {
+    name: string;
+  };
+  query?: never;
+  url: "/api/v1/env/{name}";
+};
+
+export type EnvGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type EnvGetError = EnvGetErrors[keyof EnvGetErrors];
+
+export type EnvGetResponses = {
+  /**
+   * bash env text
+   */
+  200: Env;
+};
+
+export type EnvGetResponse = EnvGetResponses[keyof EnvGetResponses];
 
 export type KvUpdateData = {
   /**
