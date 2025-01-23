@@ -4,9 +4,9 @@ import type { ColumnDef } from "@tanstack/react-table";
 import type { components } from "mtmaiapi/query_client/generated";
 import { DataTableColumnHeader } from "mtxuilib/data-table/data-table-column-header";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
-import Link from "next/link";
-import { useBasePath } from "../../hooks/useBasePath";
 import { Badge } from "mtxuilib/ui/badge";
+import Link from "next/link";
+import { useBasePath } from "../../../../hooks/useBasePath";
 
 export const columns: ColumnDef<components["schemas"]["BlogPost"]>[] = [
   {

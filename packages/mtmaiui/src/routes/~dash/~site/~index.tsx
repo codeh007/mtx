@@ -49,12 +49,14 @@ interface SiteListItemProps {
 }
 const SiteListItem = ({ site }: SiteListItemProps) => {
   return (
-    <div>
-      <DebugValue data={site} />
-      <div>
+    <div className="flex bg-red-100 p-2 ">
+      <div className="flex-1">
         <CustomLink to={`/dash/site/${site.metadata.id}`}>
           {site.title}
         </CustomLink>
+      </div>
+      <div className="flex-0">
+        <DebugValue data={site} />
       </div>
     </div>
   );

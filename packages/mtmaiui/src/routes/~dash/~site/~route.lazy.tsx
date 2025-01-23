@@ -1,25 +1,25 @@
-import { Outlet, createFileRoute } from "@tanstack/react-router";
+import { Outlet, createLazyFileRoute } from '@tanstack/react-router'
 
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
   BreadcrumbPage,
-} from "mtxuilib/ui/breadcrumb";
-import { SidebarInset } from "mtxuilib/ui/sidebar";
-import { Suspense } from "react";
-import { DashContent } from "../../../components/DashContent";
-import { DashHeaders } from "../../../components/DashHeaders";
-import { DashSidebar } from "../../../components/sidebar/siderbar";
-import { useTenant } from "../../../hooks/useAuth";
-export const Route = createFileRoute("/dash/site")({
+} from 'mtxuilib/ui/breadcrumb'
+import { SidebarInset } from 'mtxuilib/ui/sidebar'
+import { Suspense } from 'react'
+import { DashContent } from '../../../components/DashContent'
+import { DashHeaders } from '../../../components/DashHeaders'
+import { DashSidebar } from '../../../components/sidebar/siderbar'
+import { useTenant } from '../../../hooks/useAuth'
+export const Route = createLazyFileRoute('/dash/site')({
   component: RouteComponent,
-});
+})
 
 function RouteComponent() {
-  const tenant = useTenant();
+  const tenant = useTenant()
   if (!tenant) {
-    return null;
+    return null
   }
   return (
     <>
@@ -41,5 +41,5 @@ function RouteComponent() {
         </DashContent>
       </SidebarInset>
     </>
-  );
+  )
 }

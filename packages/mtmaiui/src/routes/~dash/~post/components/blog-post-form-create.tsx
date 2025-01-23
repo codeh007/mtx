@@ -14,9 +14,9 @@ import {
 import { Input } from "mtxuilib/ui/input";
 import { useState } from "react";
 import { z } from "zod";
-import { useTenant, useUser } from "../../hooks/useAuth";
-import { useMtmClient } from "../../hooks/useMtmapi";
-import { BlogSelector } from "../blog/blog-selector";
+import { BlogSelector } from "../../../../components/blog/blog-selector";
+import { useTenant, useUser } from "../../../../hooks/useAuth";
+import { useMtmClient } from "../../../../hooks/useMtmapi";
 
 const schema = z.object({
   blogId: z.string().uuid(),
