@@ -16,9 +16,10 @@ export class EdgeApp {
   }
   private getCookies?: (name: string) => Promise<string> | string;
   async init(opts: {
-    getHostNameCb?: () => Promise<string> | string;
+    // getHostNameCb?: () => Promise<string> | string;
     getAccessTokenCb?: () => Promise<string> | string;
     getCookieCb?: (name: string) => Promise<string> | string;
+    getHeadersCb?: () => Promise<Headers> | Headers;
   }) {
     if (this.isInited) {
       return;
@@ -26,8 +27,9 @@ export class EdgeApp {
     if (typeof window !== "undefined") {
       return;
     }
-    if (opts.getHostNameCb) {
-      this.hostName = await opts.getHostNameCb();
+    if (opts.getHeadersCb) {
+      const headers = await opts.getHeadersCb();
+      this.hostName = headers.get("host")!;
     }
     this.getCookies = opts.getCookieCb;
     if (opts.getAccessTokenCb) {
