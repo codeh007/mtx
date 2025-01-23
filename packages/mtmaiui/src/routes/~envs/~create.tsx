@@ -13,7 +13,14 @@ import {
 import { toast } from "sonner";
 
 import { Input } from "mtxuilib/ui/input";
+import { useState } from "react";
 import { z } from "zod";
+import {
+  CodeMirrorEditor,
+  type EditorDocument,
+  type OnChangeCallback,
+  type OnSaveCallback,
+} from "../../components/editor/codemirror/CodeMirrorEditor";
 import { useTenant } from "../../hooks/useAuth";
 
 export const Route = createFileRoute("/envs/create")({
@@ -33,9 +40,22 @@ function RouteComponent() {
     },
   });
 
+  const [editorDocument, setEditorDocument] = useState<EditorDocument>({
+    value: "hello",
+    isBinary: false,
+    filePath: "/",
+  });
+
   const form = useZodForm({
     schema: z.any(),
   });
+
+  const handleDocSave: OnSaveCallback = () => {
+    console.log(editorDocument);
+  };
+  const onEditorChange: OnChangeCallback = (values) => {
+    console.log(values.content);
+  };
   return (
     <>
       <ZForm
@@ -78,6 +98,17 @@ function RouteComponent() {
               <FormMessage />
             </FormItem>
           )}
+        />
+
+        <CodeMirrorEditor
+          theme={"light"}
+          // editable={!isStreaming && editorDocument !== undefined}
+          // settings={editorSettings}
+          doc={editorDocument}
+          // autoFocusOnDocumentChange={isDesktop}
+          // onScroll={onEditorScroll}
+          onChange={onEditorChange}
+          onSave={handleDocSave}
         />
         <FormField
           control={form.control}

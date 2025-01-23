@@ -51,8 +51,6 @@ import { getTheme, reconfigureTheme } from "./cm-theme";
 import { indentKeyBinding } from "./indent";
 import { getLanguage } from "./languages";
 
-// const logger = createScopedLogger("CodeMirrorEditor");
-
 export interface EditorDocument {
   value: string;
   isBinary: boolean;
@@ -155,15 +153,13 @@ export const CodeMirrorEditor = memo(
     settings,
     className = "",
   }: Props) => {
-    renderLogger.trace("CodeMirrorEditor");
-
     const [languageCompartment] = useState(new Compartment());
 
     const containerRef = useRef<HTMLDivElement | null>(null);
-    const viewRef = useRef<EditorView>();
-    const themeRef = useRef<Theme>();
-    const docRef = useRef<EditorDocument>();
-    const editorStatesRef = useRef<EditorStates>();
+    const viewRef = useRef<EditorView | undefined>(undefined);
+    const themeRef = useRef<Theme | undefined>(undefined);
+    const docRef = useRef<EditorDocument | undefined>(undefined);
+    const editorStatesRef = useRef<EditorStates | undefined>(undefined);
     const onScrollRef = useRef(onScroll);
     const onChangeRef = useRef(onChange);
     const onSaveRef = useRef(onSave);
@@ -264,9 +260,9 @@ export const CodeMirrorEditor = memo(
         return;
       }
 
-      if (doc.filePath === "") {
-        logger.warn("File path should not be empty");
-      }
+      // if (doc.filePath === "") {
+      //   logger.warn("File path should not be empty");
+      // }
 
       let state = editorStates.get(doc.filePath);
 
@@ -304,8 +300,6 @@ export const CodeMirrorEditor = memo(
     );
   },
 );
-
-export default CodeMirrorEditor;
 
 CodeMirrorEditor.displayName = "CodeMirrorEditor";
 

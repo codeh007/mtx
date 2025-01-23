@@ -8,7 +8,8 @@ import {
   PanelGroup,
   PanelResizeHandle,
 } from "react-resizable-panels";
-import CodeMirrorEditor, {
+import {
+  CodeMirrorEditor,
   type EditorDocument,
   type EditorSettings,
   type OnChangeCallback as OnEditorChange,
@@ -58,7 +59,6 @@ export const EditorPanel = memo(
     onFileSave,
     onFileReset,
   }: EditorPanelProps) => {
-    renderLogger.trace("EditorPanel");
     const theme = "light";
     // const showTerminal = useStore(workbenchStore.showTerminal);
 
