@@ -1,10 +1,10 @@
-export { WfHelloAssisant } from "mtxuilib/workflows/hello-assisant.ts";
-export { WfHelloToolUse } from "mtxuilib/workflows/hello-tooluse.ts";
+export { WfHelloAssisant } from "mtxuilib/workflows/hello-assisant";
+export { WfHelloToolUse } from "mtxuilib/workflows/hello-tooluse";
 export { MyWorkflow } from "mtxuilib/workflows/hello-workflow";
 export { WorkflowDemo } from "mtxuilib/workflows/WorkflowDemo";
 import { handleWsRequest } from "mtxuilib/routes/ws/wsApp";
 
-import { mainApp } from "mtxuilib/routes/edgeApi.ts";
+import { mainApp } from "mtxuilib/routes/edgeApi";
 
 export default {
   async fetch(request: Request, env, ctx) {
