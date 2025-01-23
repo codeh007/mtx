@@ -13,13 +13,10 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
-  // useSessionLoader();
   return (
     <>
-      {/* <div className="fixed flex top-0 left-0 w-full h-full"> */}
       <UserFAB />
       <Outlet />
-      {/* </div> */}
     </>
   );
 }
