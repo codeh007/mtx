@@ -1,3 +1,4 @@
+"use client";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import type { SortingState, VisibilityState } from "@tanstack/react-table";
