@@ -2,7 +2,6 @@ import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { postCreateMutation } from "mtmaiapi";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
-import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
 import {
   FormControl,
   FormField,
@@ -12,15 +11,13 @@ import {
 } from "mtxuilib/ui/form";
 import { toast } from "sonner";
 
+import { javascript } from "@codemirror/lang-javascript";
+import CodeMirror from "@uiw/react-codemirror";
+import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { Input } from "mtxuilib/ui/input";
 import { useState } from "react";
 import { z } from "zod";
-import {
-  CodeMirrorEditor,
-  type EditorDocument,
-  type OnChangeCallback,
-  type OnSaveCallback,
-} from "../../components/editor/codemirror/CodeMirrorEditor";
+import type { EditorDocument } from "../../components/editor/codemirror/CodeMirrorEditor";
 import { useTenant } from "../../hooks/useAuth";
 
 export const Route = createFileRoute("/envs/create")({
@@ -50,11 +47,12 @@ function RouteComponent() {
     schema: z.any(),
   });
 
-  const handleDocSave: OnSaveCallback = () => {
-    console.log(editorDocument);
-  };
-  const onEditorChange: OnChangeCallback = (values) => {
-    console.log(values.content);
+  // const handleDocSave: OnSaveCallback = () => {
+  //   console.log(editorDocument);
+  // };
+  const onEditorChange = (value: string) => {
+    console.log(value);
+    form.setValue("value", value);
   };
   return (
     <>
@@ -75,47 +73,39 @@ function RouteComponent() {
       >
         <FormField
           control={form.control}
-          name="title"
+          name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>标题</FormLabel>
+              <FormLabel>envName</FormLabel>
               <FormControl>
-                <Input {...form.register("title")} placeholder="title" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="tags"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>tags</FormLabel>
-              <FormControl>
-                <TagsInput {...field} placeholder="tags" />
+                <Input {...form.register("name")} placeholder="name" />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <CodeMirrorEditor
-          theme={"light"}
-          // editable={!isStreaming && editorDocument !== undefined}
-          // settings={editorSettings}
-          doc={editorDocument}
-          // autoFocusOnDocumentChange={isDesktop}
-          // onScroll={onEditorScroll}
-          onChange={onEditorChange}
-          onSave={handleDocSave}
-        />
-        <FormField
-          control={form.control}
-          name="slug"
-          render={({ field }) => <Input {...field} placeholder="slug" />}
-        />
+        <div className="max-h-[500px] bg-blue-100  p-2">
+          {/* <CodeMirrorEditor
+            theme={"light"}
+            // editable={!isStreaming && editorDocument !== undefined}
+            // settings={editorSettings}
+            doc={editorDocument}
+            // autoFocusOnDocumentChange={isDesktop}
+            // onScroll={onEditorScroll}
+            onChange={onEditorChange}
+            onSave={handleDocSave}
+          /> */}
+
+          <CodeMirror
+            className="h-[300px]"
+            value={editorDocument.value}
+            extensions={[javascript({ jsx: true })]}
+            onChange={onEditorChange}
+          />
+        </div>
       </ZForm>
+      <EditFormToolbar form={form} />
     </>
   );
 }
