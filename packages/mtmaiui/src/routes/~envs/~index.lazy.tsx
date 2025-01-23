@@ -11,18 +11,12 @@ import { cn } from "mtxuilib/lib/utils";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
 
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "mtxuilib/ui/card";
 import { useMemo, useState } from "react";
 import { CustomLink } from "../../components/CustomLink";
-import { columns } from "../../components/workflow/workflow-columns";
 import { useBasePath } from "../../hooks/useBasePath";
 import { EnvCard } from "./_components/EnvCard";
+import { envColumns } from "./_components/EnvColumn";
+import { EnvEmptyState } from "./_components/emptyState";
 
 export const Route = createLazyFileRoute("/envs/")({
   component: RouteComponent,
@@ -41,29 +35,6 @@ function RouteComponent() {
 
     return data;
   }, [envsQuery.data?.rows]);
-
-  const emptyState = (
-    <Card className="w-full text-justify">
-      <CardHeader>
-        <CardTitle>No posts</CardTitle>
-        <CardDescription>
-          <p className="text-gray-700 dark:text-gray-300 mb-4">
-            There are no workflows registered in this tenant. To enable workflow
-            execution, please register a workflow with a worker or{" "}
-            <a href="support@hatchet.run">contact support</a>.
-          </p>
-        </CardDescription>
-      </CardHeader>
-      <CardFooter>
-        <CustomLink to="#" className="flex flex-row item-center">
-          <Button onClick={() => {}} variant="link" className="p-0 w-fit">
-            {/* <QuestionMarkCircleIcon className={cn("h-4 w-4 mr-2")} /> */}
-            {/* Docs: Understanding Workflows in Hatchet */}
-          </Button>
-        </CustomLink>
-      </CardFooter>
-    </Card>
-  );
 
   const [sorting, setSorting] = useState<SortingState>([
     {
@@ -109,13 +80,10 @@ function RouteComponent() {
       />
     </Button>,
     <CustomLink
-      key="create-post"
-      to={`${basePath}/post/create`}
+      key="create-env"
+      to={"create"}
       search={{ siteId: siteId }}
       className={cn("h-8 px-2 lg:px-3", buttonVariants({ variant: "outline" }))}
-      // onClick={() => {
-      //   setShowCreateBlog(true);
-      // }}
       aria-label="Create new post"
     >
       <Icons.plus className="size-4" />
@@ -124,11 +92,11 @@ function RouteComponent() {
   return (
     <>
       <DataTable
-        columns={columns}
+        columns={envColumns}
         data={data}
         pageCount={1}
         filters={[]}
-        emptyState={emptyState}
+        emptyState={EnvEmptyState}
         columnVisibility={columnVisibility}
         setColumnVisibility={setColumnVisibility}
         sorting={sorting}

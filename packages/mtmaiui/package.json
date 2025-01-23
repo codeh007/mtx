@@ -23,7 +23,9 @@
     "start": "vite",
     "db:gen": "drizzle-kit generate",
     "db:migrate": "bun run withEnv && bun run src/db/migrate.ts",
-    "db:push": "bun run withEnv -- drizzle-kit push"
+    "db:push": "bun run withEnv -- drizzle-kit push",
+    "gen:routes": "tsr generate",
+    "watch:routes": "tsr watch"
   },
   "typesVersions": {
     "*": {
@@ -99,6 +101,7 @@
     "@rollup/plugin-babel": "^6.0.4",
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.13",
+    "@tanstack/router-cli": "^1.97.14",
     "@types/bun": "^1.1.6",
     "@types/cors": "^2.8.17",
     "@types/diff": "^5.2.1",
