@@ -1,4 +1,3 @@
-import { frontendGetConfig, initMtiaiClient } from "mtmaiapi";
 import { UIProviders } from "mtmaiui/stores/UIProviders";
 import { fontSans } from "mtxuilib/fonts";
 import type { Viewport } from "next";
@@ -8,9 +7,9 @@ import type { ReactNode } from "react";
 import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
 import { WebLayout } from "mtxuilib/layouts/web/WebLayout";
 import { WebLayoutHeader } from "mtxuilib/layouts/web/WebLayoutHeader";
-import { getBackendUrl } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
 import "mtxuilib/styles/globals.css";
+import { edgeApp } from "../../lib/edgeapp";
 import { MtSessionProvider } from "../../stores/MtSessionProvider";
 import { MtmaiProvider } from "../../stores/StoreProvider";
 import "./globals.css";
@@ -28,17 +27,12 @@ export default async function Layout(props: {
   children: ReactNode;
 }) {
   const { children } = props;
-  const hostName = (await headers()).get("host");
-  initMtiaiClient();
-  const frontendConfigResponse = await frontendGetConfig({});
-  const backendUrl = process.env.MTMAI_BACKEND;
-  let accessToken: string | undefined = undefined;
-  if (frontendConfigResponse.data?.cookieAccessToken) {
-    accessToken = (await cookies()).get(
-      frontendConfigResponse.data?.cookieAccessToken,
-    )?.value;
-  }
-  const selfBackendUrl = await getBackendUrl();
+  await edgeApp.init({
+    getHostNameCb: async () => (await headers()).get("host")!,
+    getCookieCb: async (name: string) =>
+      (await cookies()).get(name)?.value || "",
+  });
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -52,11 +46,11 @@ export default async function Layout(props: {
         )}
       >
         <MtmaiProvider
-          frontendConfig={frontendConfigResponse.data}
-          hostName={hostName!}
-          serverUrl={backendUrl}
-          selfBackendUrl={selfBackendUrl}
-          accessToken={accessToken}
+          frontendConfig={await edgeApp.getFrontendConfig()}
+          hostName={edgeApp.hostName}
+          serverUrl={edgeApp.backend}
+          selfBackendUrl={await edgeApp.getBackendUrl()}
+          accessToken={await edgeApp.getAccessToken()}
         >
           <MtSessionProvider>
             <UIProviders>

@@ -1,4 +1,10 @@
 import { headers } from "next/headers";
+
+/**
+ * @deprecated 请使用edgeApp.getBackendUrl()
+ * @param prefix 
+ * @returns 
+ */
 export const getBackendUrl = async (prefix?: string) => {
   if (process.env.MTM_BASE_URL) {
     return `${process.env.MTM_BASE_URL}${prefix || ""}`;
