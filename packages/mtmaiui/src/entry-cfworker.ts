@@ -1,8 +1,8 @@
 export { WfHelloAssisant } from "mtxuilib/workflows/hello-assisant.ts";
 export { WfHelloToolUse } from "mtxuilib/workflows/hello-tooluse.ts";
-export { MyWorkflow } from "mtxuilib/workflows/hello-workflow.ts";
-export { WorkflowDemo } from "mtxuilib/workflows/WorkflowDemo.ts";
-import { handleWsRequest } from "mtxuilib/routes/ws/wsApp.ts";
+export { MyWorkflow } from "mtxuilib/workflows/hello-workflow";
+export { WorkflowDemo } from "mtxuilib/workflows/WorkflowDemo";
+import { handleWsRequest } from "mtxuilib/routes/ws/wsApp";
 
 import { mainApp } from "mtxuilib/routes/edgeApi.ts";
 
