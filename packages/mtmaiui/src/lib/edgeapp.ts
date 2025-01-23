@@ -15,8 +15,14 @@ export class EdgeApp {
     }
   }
   private getCookies?: (name: string) => Promise<string> | string;
+
+  /**
+   * 应用的初始化
+   * 在 nextjs 中的 layout page route 页面中,需要调用此方法
+   * @param opts
+   * @returns
+   */
   async init(opts: {
-    // getHostNameCb?: () => Promise<string> | string;
     getAccessTokenCb?: () => Promise<string> | string;
     getCookieCb?: (name: string) => Promise<string> | string;
     getHeadersCb?: () => Promise<Headers> | Headers;
@@ -85,16 +91,14 @@ export class EdgeApp {
     return "";
   }
 
+  // 获取当前服务器的url(通常是nextjs 运行的服务器地址)
   async getBackendUrl(prefix?: string) {
-    //  = async (prefix?: string) => {
     if (process.env.MTM_BASE_URL) {
       return `${process.env.MTM_BASE_URL}${prefix || ""}`;
     }
     if (process.env.VERCEL_URL) {
       return `https://${process.env.VERCEL_URL}${prefix || ""}`;
     }
-
-    // const host = (await headers()).get("host") || "localhost";
     const host = this.hostName;
     const port = Number(process.env.PORT) || 3000;
     //本地ip(或tailscale 内网ip)
@@ -116,9 +120,9 @@ export class EdgeApp {
     }
 
     return `http://${host}:${port}${prefix || ""}`;
-    // }
   }
 
+  // 获取进一步发配置数据
   async getFrontendConfig() {
     if (!this.frontendConfig) {
       const frontendConfigResponse = await frontendGetConfig({});
