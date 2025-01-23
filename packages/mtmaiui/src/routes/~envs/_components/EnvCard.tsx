@@ -1,14 +1,13 @@
-"use client";
-import type { components } from "mtmaiapi/query_client/generated";
+import type { Env } from "mtmaiapi";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Button } from "mtxuilib/ui/button";
 import Link from "next/link";
-import { useBasePath } from "../../hooks/useBasePath";
+import { useBasePath } from "../../../hooks/useBasePath";
 
 interface PostCardProps {
-  data: components["schemas"]["BlogPost"];
+  data: Env;
 }
-export const PostCard = ({ data }: PostCardProps) => {
+export const EnvCard = ({ data }: PostCardProps) => {
   const basePath = useBasePath();
   return (
     <div
@@ -19,7 +18,7 @@ export const PostCard = ({ data }: PostCardProps) => {
         <div className="flex flex-row justify-between items-center">
           <h3 className="text-lg leading-6 font-medium text-foreground">
             <Link href={`${basePath}/workflows/${data?.metadata?.id}`}>
-              {data?.title}
+              {data?.name}
             </Link>
           </h3>
           {/* {data?.isPaused ? (

@@ -3,11 +3,21 @@
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { useState } from "react";
-import { useTenant } from "../../hooks/useAuth";
-import { useMtmClient } from "../../hooks/useMtmapi";
-import { DiffView } from "../aichatbot/diffview";
-import { Editor } from "../aichatbot/editor";
-import { AssistantLoader } from "../chat/AssistantLoader";
+import { DiffView } from "../../../../components/aichatbot/diffview";
+import { Editor } from "../../../../components/aichatbot/editor";
+import { AssistantLoader } from "../../../../components/chat/AssistantLoader";
+import { useTenant } from "../../../../hooks/useAuth";
+import { useMtmClient } from "../../../../hooks/useMtmapi";
+import { Button } from "mtxuilib/ui/button.jsx";
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "mtxuilib/ui/form.jsx";
+import { Input } from "postcss";
+import { useWorkbrenchStore } from "../../../../stores/workbrench.store";
 
 const doc1 = `
 # title1

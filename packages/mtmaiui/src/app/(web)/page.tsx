@@ -1,7 +1,7 @@
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getQueryClient } from "mtmaiui/stores/get-query-client";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
-import { PostListViewPublic } from "../../components/post/PostListPublicView";
+import { PostListViewPublic } from "../../routes/~dash/~post/components/PostListPublicView";
 
 export default async function Page(props: { params }) {
   const queryClient = getQueryClient();
