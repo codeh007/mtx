@@ -11,7 +11,7 @@ export class EdgeApp {
       this.backend = process.env.MTMAI_BACKEND || "";
     }
     if (!this.token) {
-      this.token = process.env.MTM_TOKEN || "admin-1234567890";
+      this.token = process.env.MTM_ADMIN_TOKEN || "admin-token";
     }
   }
   private getCookies?: (name: string) => Promise<string> | string;
