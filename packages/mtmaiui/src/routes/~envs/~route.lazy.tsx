@@ -12,6 +12,7 @@ import { DashContent } from "../../components/DashContent";
 import { DashHeaders } from "../../components/DashHeaders";
 import { DashSidebar } from "../../components/sidebar/siderbar";
 import { useTenant } from "../../hooks/useAuth";
+import { RootAppWrapper } from "../components/RootAppWrapper";
 export const Route = createLazyFileRoute("/envs")({
   component: RouteComponent,
 });
@@ -22,7 +23,7 @@ function RouteComponent() {
     return null;
   }
   return (
-    <div className="fixed flex top-0 left-0 w-full h-full">
+    <RootAppWrapper>
       <DashSidebar />
       <SidebarInset>
         <DashHeaders>
@@ -40,6 +41,6 @@ function RouteComponent() {
           </Suspense>
         </DashContent>
       </SidebarInset>
-    </div>
+    </RootAppWrapper>
   );
 }

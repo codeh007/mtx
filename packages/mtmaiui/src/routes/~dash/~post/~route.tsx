@@ -11,13 +11,14 @@ import { Suspense } from "react";
 import { DashContent } from "../../../components/DashContent";
 import { DashHeaders } from "../../../components/DashHeaders";
 import { DashSidebar } from "../../../components/sidebar/siderbar";
+import { RootAppWrapper } from "../../components/RootAppWrapper";
 export const Route = createFileRoute("/dash/post")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
   return (
-    <>
+    <RootAppWrapper>
       <DashSidebar />
       <SidebarInset>
         <DashHeaders>
@@ -35,6 +36,6 @@ function RouteComponent() {
           </Suspense>
         </DashContent>
       </SidebarInset>
-    </>
+    </RootAppWrapper>
   );
 }
