@@ -45,7 +45,7 @@ import {
 } from "react";
 
 import { cn } from "mtxuilib/lib/utils";
-import type { Theme } from "../../../types/theme";
+import type { Theme } from "../../../types";
 import { BinaryContent } from "./BinaryContent";
 import { getTheme, reconfigureTheme } from "./cm-theme";
 import { indentKeyBinding } from "./indent";
