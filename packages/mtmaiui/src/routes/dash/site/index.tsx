@@ -13,14 +13,6 @@ export const Route = createFileRoute("/dash/site/")({
 });
 
 function RouteComponent() {
-  return (
-    <>
-      <SiteListView />
-    </>
-  );
-}
-
-export default function SiteListView() {
   const tenant = useTenant();
   const listQuery = useSuspenseQuery({
     ...siteListOptions({

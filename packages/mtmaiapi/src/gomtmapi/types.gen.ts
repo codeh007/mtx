@@ -2900,6 +2900,25 @@ export type HfAccount = {
   token: string;
 };
 
+/**
+ * 环境变量
+ */
+export type Env = {
+  /**
+   * 环境变量名称
+   */
+  name?: string;
+  /**
+   * 环境变量值
+   */
+  value?: string;
+};
+
+/**
+ * 环境变量列表
+ */
+export type EnvList = Array<Env>;
+
 export type ReadinessGetData = {
   body?: never;
   path?: never;
@@ -7878,3 +7897,65 @@ export type HfAccountGetResponses = {
 
 export type HfAccountGetResponse =
   HfAccountGetResponses[keyof HfAccountGetResponses];
+
+export type EnvGetData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/env";
+};
+
+export type EnvGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type EnvGetError = EnvGetErrors[keyof EnvGetErrors];
+
+export type EnvGetResponses = {
+  200: EnvList;
+};
+
+export type EnvGetResponse = EnvGetResponses[keyof EnvGetResponses];
+
+export type EnvUpdateData = {
+  /**
+   * The tenant properties to update
+   */
+  body: UpdateBlogRequest;
+  path?: never;
+  query?: never;
+  url: "/api/v1/env";
+};
+
+export type EnvUpdateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type EnvUpdateError = EnvUpdateErrors[keyof EnvUpdateErrors];
+
+export type EnvUpdateResponses = {
+  /**
+   * Successfully created the tenant
+   */
+  200: Blog;
+};
+
+export type EnvUpdateResponse = EnvUpdateResponses[keyof EnvUpdateResponses];
