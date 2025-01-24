@@ -11,31 +11,6 @@ export const RegisterView = (Component: ComponentType<unknown>, name: string | n
   allViewComponents[_name] = Component
 }
 
-// export const getComponentName = (comp: any) => {
-//   //自定义组件名称
-//   let name = comp.blockName || comp.displayName || comp?.name
-//   if (!name) {
-//     if (comp?.$$typeof == Symbol.for('react.lazy')) {
-//       name = comp?._payload?.value[2]
-//     }
-//     // else if (comp.$$typeof == Symbol.for('react.element')) {
-//     //   console.log("xxxxxxxx223335555")
-//     // }
-
-//     else {
-//       //这里未验证
-//       name = comp?._payload?.value?.blockName || comp?._payload?.value?.name
-//     }
-//   }
-//   if (!name) {
-//     console.error({
-//       message: "找不到客户端视图",
-//       comp: comp,
-//       data: JSON.stringify(comp, null, 2)
-//     })
-//   }
-//   return name
-// }
 
 export const getComponentProps = (comp) => {
   //自定义组件名称
