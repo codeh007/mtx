@@ -35,3 +35,4 @@ export const getBackendUrl = async (prefix?: string) => {
 
   return `http://${host}:${port}${prefix || ""}`;
 };
+  

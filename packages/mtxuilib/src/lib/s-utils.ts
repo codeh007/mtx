@@ -65,10 +65,6 @@ export function isGitpod() {
 export function isInColab() {
   return !!process.env.COLAB_KERNEL_MANAGER_PROXY_PORT;
 }
-// export function isInDocker() {
-// 	const fs = require("fs")
-// 	return fs.existsSync("/.dockerenv");
-// }
 
 export function gitpodPreviewUrl(port: number) {
   const GITPOD_WORKSPACE_URL = process.env.GITPOD_WORKSPACE_URL || "";
@@ -76,10 +72,6 @@ export function gitpodPreviewUrl(port: number) {
   const hostname = uri.hostname;
   return `https://${port}-${hostname}`;
 }
-// export const isSandbox = process.env.CSB_BASE_PREVIEW_HOST;
-// export function getSendboxPreviewUrl(port: number) {
-// 	return `${process.env.HOSTNAME}-${port}.${process.env.CSB_BASE_PREVIEW_HOST}`;
-// }
 
 export function isCloudflarePage() {
   return process?.env?.CF_PAGES_URL;
