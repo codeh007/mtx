@@ -30,18 +30,14 @@ const handler = async (r: Request) => {
     errorMsg = `加载 endpoints 数据失败:${(e as Error).message}`;
   }
 
-  console.log(endpointList);
   //开发阶段使用第一条配置作为远程服务器的配置
   const targetEndpoint = endpointList[0];
   const remoteUrl = targetEndpoint.url;
   const token = targetEndpoint.token;
 
   try {
-    // Get original request URL and extract path + search params
     const url = new URL(r.url);
     const targetUrl = `${remoteUrl}${url.pathname}${url.search}`;
-
-    // Forward original headers but override Authorization
     const requestHeaders = new Headers(r.headers);
     requestHeaders.set("Authorization", `Bearer ${token}`);
 
