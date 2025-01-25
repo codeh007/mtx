@@ -158,6 +158,7 @@ export class EdgeApp {
     return this.frontendConfig;
   }
 
+  // 获取业务后端列表
   async getEndpointList() {
     if (!this.endpointList) {
       try {

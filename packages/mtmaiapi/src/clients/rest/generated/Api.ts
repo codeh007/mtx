@@ -11,6 +11,8 @@
 
 import {
   AcceptInviteRequest,
+  Account,
+  AccountList,
   AgentNode,
   AgentNodeCreateRequest,
   AgentNodeList,
@@ -49,6 +51,7 @@ import {
   CreateTenantRequest,
   CronWorkflowsList,
   CronWorkflowsOrderByField,
+  Endpoint,
   EndpointList,
   Env,
   EnvList,
@@ -112,7 +115,9 @@ import {
   TenantStepRunQueueMetrics,
   ToolCallResult,
   TriggerWorkflowRunRequest,
+  UpdateAccountRequest,
   UpdateBlogRequest,
+  UpdateEndpointRequest,
   UpdateSiteRequest,
   UpdateTenantAlertEmailGroupRequest,
   UpdateTenantInviteRequest,
@@ -3245,9 +3250,44 @@ export class Api<
    * @request PATCH:/api/v1/endpoint
    * @secure
    */
-  endpointUpdate = (data: UpdateBlogRequest, params: RequestParams = {}) =>
-    this.request<Blog, APIErrors | APIError>({
+  endpointUpdate = (data: UpdateEndpointRequest, params: RequestParams = {}) =>
+    this.request<Endpoint, APIErrors | APIError>({
       path: `/api/v1/endpoint`,
+      method: "PATCH",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags account
+   * @name AccountList
+   * @request GET:/api/v1/account
+   * @secure
+   */
+  accountList = (params: RequestParams = {}) =>
+    this.request<AccountList, APIErrors>({
+      path: `/api/v1/account`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Update an account
+   *
+   * @tags account
+   * @name AccountUpdate
+   * @summary Update account
+   * @request PATCH:/api/v1/account
+   * @secure
+   */
+  accountUpdate = (data: UpdateAccountRequest, params: RequestParams = {}) =>
+    this.request<Account, APIErrors | APIError>({
+      path: `/api/v1/account`,
       method: "PATCH",
       body: data,
       secure: true,

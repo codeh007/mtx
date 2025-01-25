@@ -402,6 +402,12 @@ import type {
   EndpointUpdateData,
   EndpointUpdateResponse,
   EndpointUpdateError,
+  AccountListData,
+  AccountListResponse,
+  AccountListError,
+  AccountUpdateData,
+  AccountUpdateResponse,
+  AccountUpdateError,
 } from "./types.gen";
 
 export const client = createClient(createConfig());
@@ -4154,6 +4160,60 @@ export const endpointUpdate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/endpoint",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+export const accountList = <ThrowOnError extends boolean = false>(
+  options?: Options<AccountListData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    AccountListResponse,
+    AccountListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/account",
+    ...options,
+  });
+};
+
+/**
+ * Update account
+ * Update an account
+ */
+export const accountUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<AccountUpdateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).patch<
+    AccountUpdateResponse,
+    AccountUpdateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/account",
     ...options,
     headers: {
       "Content-Type": "application/json",
