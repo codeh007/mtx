@@ -70,6 +70,13 @@ export const UserFAB = () => {
                 </DropdownMenuItem>
               </CustomLink>
 
+              <CustomLink to={"/endpoint"}>
+                <DropdownMenuItem>
+                  endpoint
+                  <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </CustomLink>
+
               <CustomLink to={`${basePath}/post`}>
                 <DropdownMenuItem>
                   posts

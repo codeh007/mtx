@@ -19,9 +19,6 @@ const handler = async (r: Request) => {
       getCookieCb: async (name: string) =>
         (await cookies()).get(name)?.value || "",
     });
-
-    const endpointList = await edgeApp.getEndpointList();
-    console.log(endpointList);
   } catch (e) {
     errorMsg = `加载基本配置失败:${(e as Error).message}`;
   }
@@ -29,11 +26,11 @@ const handler = async (r: Request) => {
   //加载 endpoints 数据
   try {
     const endpointList = await edgeApp.getEndpointList();
-    console.log(endpointList);
   } catch (e) {
     errorMsg = `加载 endpoints 数据失败:${(e as Error).message}`;
   }
 
+  console.log(endpointList);
   //开发阶段使用第一条配置作为远程服务器的配置
   const targetEndpoint = endpointList[0];
   const remoteUrl = targetEndpoint.url;
@@ -57,8 +54,6 @@ const handler = async (r: Request) => {
       headers: requestHeaders,
       body: ["GET", "HEAD"].includes(r.method) ? undefined : r.body,
     });
-
-    // Return the response directly
     return response;
   } catch (e) {
     errorMsg = `请求远程服务器失败:${(e as Error).message}`;
