@@ -2487,7 +2487,7 @@ export interface UpdateAccountRequest {
   password?: string;
   token?: string;
   type?: string;
-  TenantAlertEmailGroup?: string;
+  email?: string;
   platform?: string;
   comment?: string;
 }

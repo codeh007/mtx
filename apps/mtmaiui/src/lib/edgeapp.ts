@@ -1,5 +1,6 @@
 import {
   type EndpointList,
+  type FrontendConfig,
   endpointList,
   frontendGetConfig,
   initMtiaiClient,
@@ -11,12 +12,12 @@ export class EdgeApp {
   public hostName = "";
   public backend: string | undefined = undefined;
   public token?: string = undefined;
-  public frontendConfig: any = undefined;
+  public frontendConfig?: FrontendConfig = undefined;
   //业务后端列表
   public endpointList?: EndpointList = undefined;
 
-  private cookies?: Promise<ReadonlyRequestCookies>;
-  private headers?: Promise<Headers> | Headers;
+  private cookies?: () => Promise<ReadonlyRequestCookies>;
+  private headers?: () => Promise<Headers> | Headers;
 
   /**
    * 应用的初始化
@@ -25,8 +26,8 @@ export class EdgeApp {
    * @returns
    */
   async init(opts: {
-    cookies?: Promise<ReadonlyRequestCookies>;
-    headers?: Promise<Headers> | Headers;
+    cookies?: () => Promise<ReadonlyRequestCookies>;
+    headers?: () => Promise<Headers> | Headers;
   }) {
     if (this.isInited) {
       return;
@@ -43,7 +44,7 @@ export class EdgeApp {
     if (!this.headers) {
       throw new Error("headers is not set");
     }
-    this.hostName = (await this.headers())?.get("host")!;
+    this.hostName = (await this.headers()).get("host") || "";
     this.cookies = opts.cookies;
     if (!this.cookies) {
       throw new Error("cookies is not set");
@@ -104,7 +105,7 @@ export class EdgeApp {
     }
     const tokenName = frontendConfig.cookieAccessToken;
     if (this.cookies) {
-      return (await this.cookies).get(tokenName)?.value || "";
+      return (await this.cookies()).get(tokenName)?.value || "";
     }
     return "";
   }
