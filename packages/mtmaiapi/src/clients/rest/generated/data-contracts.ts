@@ -2461,3 +2461,16 @@ export interface EnvList {
   pagination?: PaginationResponse;
   rows?: Env[];
 }
+
+export interface Endpoint {
+  metadata: APIResourceMeta;
+  name: string;
+  url: string;
+  token: string;
+  type: string;
+}
+
+export interface EndpointList {
+  pagination?: PaginationResponse;
+  rows?: Endpoint[];
+}

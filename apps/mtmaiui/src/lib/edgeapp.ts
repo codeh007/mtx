@@ -1,4 +1,9 @@
-import { frontendGetConfig, initMtiaiClient } from "mtmaiapi";
+import {
+  type EndpointList,
+  endpointList,
+  frontendGetConfig,
+  initMtiaiClient,
+} from "mtmaiapi";
 
 export class EdgeApp {
   private isInited = false;
@@ -6,6 +11,8 @@ export class EdgeApp {
   public backend = "";
   public token = "";
   public frontendConfig: any = undefined;
+  //业务后端列表
+  public endpointList?: EndpointList = undefined;
   constructor() {
     if (!this.backend) {
       this.backend = process.env.MTMAI_BACKEND || "";
@@ -91,6 +98,11 @@ export class EdgeApp {
     return "";
   }
 
+  async reset() {
+    this.endpointList = undefined;
+    this.frontendConfig = undefined;
+  }
+
   // 获取当前服务器的url(通常是nextjs 运行的服务器地址)
   async getBackendUrl(prefix?: string) {
     if (process.env.MTM_BASE_URL) {
@@ -129,6 +141,14 @@ export class EdgeApp {
       this.frontendConfig = frontendConfigResponse.data;
     }
     return this.frontendConfig;
+  }
+
+  async getEndpointList() {
+    if (!this.endpointList) {
+      const endpointListResponse = await endpointList({});
+      this.endpointList = endpointListResponse.data;
+    }
+    return this.endpointList;
   }
 }
 

@@ -2920,6 +2920,19 @@ export type EnvList = {
   rows?: Array<Env>;
 };
 
+export type Endpoint = {
+  metadata: ApiResourceMeta;
+  name: string;
+  url: string;
+  token: string;
+  type: string;
+};
+
+export type EndpointList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Endpoint>;
+};
+
 export type ReadinessGetData = {
   body?: never;
   path?: never;
@@ -8054,3 +8067,68 @@ export type KvGetResponses = {
 };
 
 export type KvGetResponse = KvGetResponses[keyof KvGetResponses];
+
+export type EndpointListData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/endpoint";
+};
+
+export type EndpointListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type EndpointListError = EndpointListErrors[keyof EndpointListErrors];
+
+export type EndpointListResponses = {
+  200: EndpointList;
+};
+
+export type EndpointListResponse =
+  EndpointListResponses[keyof EndpointListResponses];
+
+export type EndpointUpdateData = {
+  /**
+   * The tenant properties to update
+   */
+  body: UpdateBlogRequest;
+  path?: never;
+  query?: never;
+  url: "/api/v1/endpoint";
+};
+
+export type EndpointUpdateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type EndpointUpdateError =
+  EndpointUpdateErrors[keyof EndpointUpdateErrors];
+
+export type EndpointUpdateResponses = {
+  /**
+   * Successfully created the tenant
+   */
+  200: Blog;
+};
+
+export type EndpointUpdateResponse =
+  EndpointUpdateResponses[keyof EndpointUpdateResponses];

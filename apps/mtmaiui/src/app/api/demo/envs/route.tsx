@@ -7,11 +7,16 @@ export const runtime = "edge";
 
 //测试: 从总后端加载环境变量
 const handler = async (r: Request) => {
+  await edgeApp.reset();
   await edgeApp.init({
     getHeadersCb: async () => await headers(),
     getCookieCb: async (name: string) =>
       (await cookies()).get(name)?.value || "",
   });
+
+  const endpointList = await edgeApp.getEndpointList();
+  console.log(endpointList);
+
   return new Response("ok");
 };
 
