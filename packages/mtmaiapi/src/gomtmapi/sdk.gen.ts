@@ -396,6 +396,12 @@ import type {
   KvGetData,
   KvGetResponse,
   KvGetError,
+  EndpointListData,
+  EndpointListResponse,
+  EndpointListError,
+  EndpointUpdateData,
+  EndpointUpdateResponse,
+  EndpointUpdateError,
 } from "./types.gen";
 
 export const client = createClient(createConfig());
@@ -4099,5 +4105,59 @@ export const kvGet = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/kv/{key}",
     ...options,
+  });
+};
+
+export const endpointList = <ThrowOnError extends boolean = false>(
+  options?: Options<EndpointListData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    EndpointListResponse,
+    EndpointListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/endpoint",
+    ...options,
+  });
+};
+
+/**
+ * Update endpoint
+ * Update an endpoint
+ */
+export const endpointUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<EndpointUpdateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).patch<
+    EndpointUpdateResponse,
+    EndpointUpdateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/endpoint",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };

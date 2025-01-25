@@ -279,6 +279,10 @@ import type {
   KvUpdateError,
   KvUpdateResponse,
   KvGetData,
+  EndpointListData,
+  EndpointUpdateData,
+  EndpointUpdateError,
+  EndpointUpdateResponse,
 } from "../types.gen";
 import {
   readinessGet,
@@ -423,6 +427,8 @@ import {
   envGet,
   kvUpdate,
   kvGet,
+  endpointList,
+  endpointUpdate,
   client,
 } from "../sdk.gen";
 
@@ -4542,4 +4548,43 @@ export const kvGetOptions = (options: Options<KvGetData>) => {
     },
     queryKey: kvGetQueryKey(options),
   });
+};
+
+export const endpointListQueryKey = (options?: Options<EndpointListData>) => [
+  createQueryKey("endpointList", options),
+];
+
+export const endpointListOptions = (options?: Options<EndpointListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await endpointList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: endpointListQueryKey(options),
+  });
+};
+
+export const endpointUpdateMutation = (
+  options?: Partial<Options<EndpointUpdateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    EndpointUpdateResponse,
+    EndpointUpdateError,
+    Options<EndpointUpdateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await endpointUpdate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };

@@ -49,6 +49,7 @@ import {
   CreateTenantRequest,
   CronWorkflowsList,
   CronWorkflowsOrderByField,
+  EndpointList,
   Env,
   EnvList,
   Event,
@@ -3153,7 +3154,7 @@ export class Api<
   /**
    * @description Update an existing env
    *
-   * @tags blog
+   * @tags env
    * @name EnvUpdate
    * @summary Update blog
    * @request PATCH:/api/v1/env
@@ -3217,6 +3218,41 @@ export class Api<
       path: `/api/v1/kv/${key}`,
       method: "GET",
       secure: true,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags endpoint
+   * @name EndpointList
+   * @request GET:/api/v1/endpoint
+   * @secure
+   */
+  endpointList = (params: RequestParams = {}) =>
+    this.request<EndpointList, APIErrors>({
+      path: `/api/v1/endpoint`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Update an endpoint
+   *
+   * @tags endpoint
+   * @name EndpointUpdate
+   * @summary Update endpoint
+   * @request PATCH:/api/v1/endpoint
+   * @secure
+   */
+  endpointUpdate = (data: UpdateBlogRequest, params: RequestParams = {}) =>
+    this.request<Blog, APIErrors | APIError>({
+      path: `/api/v1/endpoint`,
+      method: "PATCH",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
       ...params,
     });
 }
