@@ -16,7 +16,7 @@ export class EdgeApp {
   public endpointList?: EndpointList = undefined;
 
   private cookies?: Promise<ReadonlyRequestCookies>;
-  private headers?: () => Promise<Headers> | Headers;
+  private headers?: Promise<Headers> | Headers;
 
   /**
    * 应用的初始化
@@ -26,7 +26,7 @@ export class EdgeApp {
    */
   async init(opts: {
     cookies?: Promise<ReadonlyRequestCookies>;
-    headers?: () => Promise<Headers> | Headers;
+    headers?: Promise<Headers> | Headers;
   }) {
     if (this.isInited) {
       return;
