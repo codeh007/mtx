@@ -15,10 +15,10 @@ export default defineConfig({
   resolve: {
     alias: {
       // 添加 mtmaiapi 的路径别名
-      'mtmaiapi': resolve(__dirname, '../mtmaiapi/src'),
-      'mtxuilib': resolve(__dirname, '../mtxuilib/src'),
-      'mtmaiui': resolve(__dirname, '../mtmaiui/src'),
-    }
+      mtmaiapi: resolve(__dirname, "../../packages/mtmaiapi/src"),
+      mtxuilib: resolve(__dirname, "../../packages/mtxuilib/src"),
+      // mtmaiui: resolve(__dirname, "../mtmaiui/src"),
+    },
   },
   server: {
     port: 6111,
@@ -44,10 +44,10 @@ export default defineConfig({
         // 添加这个配置来控制输出文件的命名
         entryFileNames: (chunkInfo) => {
           // 如果是 loader 入口，保持原始名称
-          if (chunkInfo.name === 'loader') {
-            return 'mtmaiui_loader.js';
+          if (chunkInfo.name === "loader") {
+            return "mtmaiui_loader.js";
           }
-          return 'assets/[name]-[hash].js';
+          return "assets/[name]-[hash].js";
         },
       },
     },
@@ -63,7 +63,7 @@ export default defineConfig({
     //   experimentalMinChunkSize: 10000,
     //   chunkSizeWarningLimit: 1000,
     // },
-    
+
     // lib: {
     //   entry: "src/lib/hello123.ts",
     //   name: "hello123",

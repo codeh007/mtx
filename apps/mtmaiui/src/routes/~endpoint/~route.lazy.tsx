@@ -12,9 +12,9 @@ import { DashContent } from "../../components/DashContent";
 import { DashHeaders } from "../../components/DashHeaders";
 import { DashSidebar } from "../../components/sidebar/siderbar";
 import { RootAppWrapper } from "../components/RootAppWrapper";
-export const Route = createLazyFileRoute("/envs")({
+export const Route = createLazyFileRoute('/endpoint')({
   component: RouteComponent,
-});
+})
 
 function RouteComponent() {
   return (
