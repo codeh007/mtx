@@ -2056,21 +2056,6 @@ export interface BrowserParams {
   input?: string;
 }
 
-/** 文档 */
-export interface Document {
-  /** 页面内容 */
-  PageContent: string;
-  /** 元数据 */
-  Metadata: object;
-  /** 分数 */
-  Score: number;
-}
-
-export interface DocumentList {
-  pagination?: PaginationResponse;
-  rows?: Document[];
-}
-
 export interface BaseState {
   metadata: APIResourceMeta;
   /** 线程ID */
@@ -2473,4 +2458,34 @@ export interface Endpoint {
 export interface EndpointList {
   pagination?: PaginationResponse;
   rows?: Endpoint[];
+}
+
+export interface UpdateEndpointRequest {
+  name?: string;
+  url?: string;
+  token?: string;
+}
+
+export interface Account {
+  metadata: APIResourceMeta;
+  username: string;
+  password: string;
+  token: string;
+  type: string;
+  TenantAlertEmailGroup?: string;
+  platform: string;
+}
+
+export interface AccountList {
+  pagination?: PaginationResponse;
+  rows?: Account[];
+}
+
+export interface UpdateAccountRequest {
+  username?: string;
+  password?: string;
+  token?: string;
+  type?: string;
+  TenantAlertEmailGroup?: string;
+  platform?: string;
 }

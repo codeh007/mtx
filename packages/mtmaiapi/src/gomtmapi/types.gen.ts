@@ -2388,31 +2388,6 @@ export type BrowserParams = {
   input?: string;
 };
 
-/**
- * 文档
- */
-export type Document = {
-  /**
-   * 页面内容
-   */
-  PageContent: string;
-  /**
-   * 元数据
-   */
-  Metadata: {
-    [key: string]: unknown;
-  };
-  /**
-   * 分数
-   */
-  Score: number;
-};
-
-export type DocumentList = {
-  pagination?: PaginationResponse;
-  rows?: Array<Document>;
-};
-
 export type BaseState = {
   metadata: ApiResourceMeta;
   /**
@@ -2931,6 +2906,36 @@ export type Endpoint = {
 export type EndpointList = {
   pagination?: PaginationResponse;
   rows?: Array<Endpoint>;
+};
+
+export type UpdateEndpointRequest = {
+  name?: string;
+  url?: string;
+  token?: string;
+};
+
+export type Account = {
+  metadata: ApiResourceMeta;
+  username: string;
+  password: string;
+  token: string;
+  type: string;
+  TenantAlertEmailGroup?: string;
+  platform: string;
+};
+
+export type AccountList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Account>;
+};
+
+export type UpdateAccountRequest = {
+  username?: string;
+  password?: string;
+  token?: string;
+  type?: string;
+  TenantAlertEmailGroup?: string;
+  platform?: string;
 };
 
 export type ReadinessGetData = {
@@ -8103,7 +8108,7 @@ export type EndpointUpdateData = {
   /**
    * The tenant properties to update
    */
-  body: UpdateBlogRequest;
+  body: UpdateEndpointRequest;
   path?: never;
   query?: never;
   url: "/api/v1/endpoint";
@@ -8127,8 +8132,72 @@ export type EndpointUpdateResponses = {
   /**
    * Successfully created the tenant
    */
-  200: Blog;
+  200: Endpoint;
 };
 
 export type EndpointUpdateResponse =
   EndpointUpdateResponses[keyof EndpointUpdateResponses];
+
+export type AccountListData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/account";
+};
+
+export type AccountListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type AccountListError = AccountListErrors[keyof AccountListErrors];
+
+export type AccountListResponses = {
+  200: AccountList;
+};
+
+export type AccountListResponse =
+  AccountListResponses[keyof AccountListResponses];
+
+export type AccountUpdateData = {
+  /**
+   * The account properties to update
+   */
+  body: UpdateAccountRequest;
+  path?: never;
+  query?: never;
+  url: "/api/v1/account";
+};
+
+export type AccountUpdateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type AccountUpdateError = AccountUpdateErrors[keyof AccountUpdateErrors];
+
+export type AccountUpdateResponses = {
+  /**
+   * Successfully created the account
+   */
+  200: Account;
+};
+
+export type AccountUpdateResponse =
+  AccountUpdateResponses[keyof AccountUpdateResponses];

@@ -283,6 +283,10 @@ import type {
   EndpointUpdateData,
   EndpointUpdateError,
   EndpointUpdateResponse,
+  AccountListData,
+  AccountUpdateData,
+  AccountUpdateError,
+  AccountUpdateResponse,
 } from "../types.gen";
 import {
   readinessGet,
@@ -429,6 +433,8 @@ import {
   kvGet,
   endpointList,
   endpointUpdate,
+  accountList,
+  accountUpdate,
   client,
 } from "../sdk.gen";
 
@@ -4579,6 +4585,45 @@ export const endpointUpdateMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await endpointUpdate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const accountListQueryKey = (options?: Options<AccountListData>) => [
+  createQueryKey("accountList", options),
+];
+
+export const accountListOptions = (options?: Options<AccountListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await accountList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: accountListQueryKey(options),
+  });
+};
+
+export const accountUpdateMutation = (
+  options?: Partial<Options<AccountUpdateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    AccountUpdateResponse,
+    AccountUpdateError,
+    Options<AccountUpdateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await accountUpdate({
         ...options,
         ...localOptions,
         throwOnError: true,
