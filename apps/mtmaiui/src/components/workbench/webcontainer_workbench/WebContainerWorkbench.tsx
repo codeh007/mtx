@@ -5,7 +5,7 @@ import { memo, useCallback, useEffect } from "react";
 import type {
   OnChangeCallback as OnEditorChange,
   OnScrollCallback as OnEditorScroll,
-} from "../../../components/editor/codemirror/CodeMirrorEditor";
+} from "../../editor/codemirror/CodeMirrorEditor";
 
 import { computed } from "nanostores";
 
@@ -13,12 +13,12 @@ import { PanelHeaderButton } from "../../ui/PanelHeaderButton";
 
 import { useStore } from "@nanostores/react";
 import { Icons } from "mtxuilib/icons/icons";
+import { cn } from "mtxuilib/lib/utils";
 import { toast } from "react-toastify";
-import { WorkbenchView } from "../../../components/WorkbenchView";
 import { useWorkbrenchStore } from "../../../stores/workbrench.store";
+import { WorkbenchView } from "../../WorkbenchView";
 import { EditorPanel } from "./EditorPanel";
 import { Preview } from "./Preview";
-import { cn } from "mtxuilib/lib/utils";
 
 export interface WorkspaceProps {
   chatStarted?: boolean;
