@@ -17,6 +17,7 @@ export class EdgeApp {
     if (!this.backend) {
       this.backend = process.env.MTMAI_BACKEND || "";
     }
+
     this.token = process.env?.MTM_ADMIN_TOKEN;
     if (!this.token) {
       throw new Error("MTM_ADMIN_TOKEN is not set");
