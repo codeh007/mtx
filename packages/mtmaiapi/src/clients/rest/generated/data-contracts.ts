@@ -2466,28 +2466,29 @@ export interface UpdateEndpointRequest {
   token?: string;
 }
 
-export interface Account {
+export interface PlatformAccount {
   metadata: APIResourceMeta;
+  key: string;
   username: string;
   password: string;
   token: string;
   type: string;
-  TenantAlertEmailGroup?: string;
   platform: string;
   comment: string;
 }
 
-export interface AccountList {
+export interface PlatformAccountList {
   pagination?: PaginationResponse;
-  rows?: Account[];
+  rows?: PlatformAccount[];
 }
 
-export interface UpdateAccountRequest {
-  username?: string;
-  password?: string;
-  token?: string;
-  type?: string;
-  email?: string;
-  platform?: string;
-  comment?: string;
+export interface UpdatePlatformAccountRequest {
+  key: string;
+  username: string;
+  password: string;
+  token: string;
+  type: string;
+  email: string;
+  platform: string;
+  comment: string;
 }

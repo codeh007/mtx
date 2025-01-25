@@ -11,8 +11,6 @@
 
 import {
   AcceptInviteRequest,
-  Account,
-  AccountList,
   AgentNode,
   AgentNodeCreateRequest,
   AgentNodeList,
@@ -76,6 +74,8 @@ import {
   LogLineOrderByField,
   LogLineSearch,
   OperataionGuideResponse,
+  PlatformAccount,
+  PlatformAccountList,
   Post,
   PostList,
   PromptList,
@@ -115,9 +115,9 @@ import {
   TenantStepRunQueueMetrics,
   ToolCallResult,
   TriggerWorkflowRunRequest,
-  UpdateAccountRequest,
   UpdateBlogRequest,
   UpdateEndpointRequest,
+  UpdatePlatformAccountRequest,
   UpdateSiteRequest,
   UpdateTenantAlertEmailGroupRequest,
   UpdateTenantInviteRequest,
@@ -3263,31 +3263,34 @@ export class Api<
   /**
    * No description
    *
-   * @tags account
-   * @name AccountList
-   * @request GET:/api/v1/account
+   * @tags platform_account
+   * @name PlatformAccountList
+   * @request GET:/api/v1/platform_account
    * @secure
    */
-  accountList = (params: RequestParams = {}) =>
-    this.request<AccountList, APIErrors>({
-      path: `/api/v1/account`,
+  platformAccountList = (params: RequestParams = {}) =>
+    this.request<PlatformAccountList, APIErrors>({
+      path: `/api/v1/platform_account`,
       method: "GET",
       secure: true,
       format: "json",
       ...params,
     });
   /**
-   * @description Update an account
+   * @description Update an platform_account
    *
-   * @tags account
-   * @name AccountUpdate
-   * @summary Update account
-   * @request PATCH:/api/v1/account
+   * @tags platform_account
+   * @name PlatformAccountUpdate
+   * @summary Update platform_account
+   * @request PATCH:/api/v1/platform_account
    * @secure
    */
-  accountUpdate = (data: UpdateAccountRequest, params: RequestParams = {}) =>
-    this.request<Account, APIErrors | APIError>({
-      path: `/api/v1/account`,
+  platformAccountUpdate = (
+    data: UpdatePlatformAccountRequest,
+    params: RequestParams = {},
+  ) =>
+    this.request<PlatformAccount, APIErrors>({
+      path: `/api/v1/platform_account`,
       method: "PATCH",
       body: data,
       secure: true,
