@@ -2923,22 +2923,12 @@ export type PlatformAccount = {
   type: string;
   platform: string;
   comment: string;
+  tags: Array<string>;
 };
 
 export type PlatformAccountList = {
   pagination?: PaginationResponse;
   rows?: Array<PlatformAccount>;
-};
-
-export type UpdatePlatformAccountRequest = {
-  key: string;
-  username: string;
-  password: string;
-  token: string;
-  type: string;
-  email: string;
-  platform: string;
-  comment: string;
 };
 
 export type ReadinessGetData = {
@@ -8177,7 +8167,7 @@ export type PlatformAccountUpdateData = {
   /**
    * The platform_account properties to update
    */
-  body: UpdatePlatformAccountRequest;
+  body: PlatformAccount;
   path?: never;
   query?: never;
   url: "/api/v1/platform_account";
