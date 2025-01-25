@@ -9,7 +9,7 @@ import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension
 export class EdgeApp {
   private isInited = false;
   public hostName = "";
-  public backend = "";
+  public backend: string | undefined = undefined;
   public token?: string = undefined;
   public frontendConfig: any = undefined;
   //业务后端列表
@@ -31,10 +31,7 @@ export class EdgeApp {
     if (this.isInited) {
       return;
     }
-    if (!this.backend) {
-      this.backend = process.env.MTMAI_BACKEND || "";
-    }
-
+    this.backend = process.env.MTMAI_BACKEND;
     this.token = process.env?.MTM_ADMIN_TOKEN;
     if (!this.token && !isCI()) {
       throw new Error("MTM_ADMIN_TOKEN is not set");
@@ -42,11 +39,15 @@ export class EdgeApp {
     if (typeof window !== "undefined") {
       return;
     }
-    if (opts.headers) {
-      this.headers = opts.headers;
-      this.hostName = (await this.headers())?.get("host")!;
+    this.headers = opts.headers;
+    if (!this.headers) {
+      throw new Error("headers is not set");
     }
+    this.hostName = (await this.headers())?.get("host")!;
     this.cookies = opts.cookies;
+    if (!this.cookies) {
+      throw new Error("cookies is not set");
+    }
 
     const envUrl = `${this.backend}/api/v1/env/default`;
     const response = await fetch(envUrl, {
@@ -148,8 +149,7 @@ export class EdgeApp {
   async getFrontendConfig() {
     if (!this.frontendConfig) {
       try {
-        const frontendConfigResponse = await frontendGetConfig({});
-        this.frontendConfig = frontendConfigResponse.data;
+        this.frontendConfig = (await frontendGetConfig({})).data;
       } catch (e) {
         console.error(`getFrontendConfig error: ${e}`);
         this.frontendConfig = undefined;
@@ -160,8 +160,12 @@ export class EdgeApp {
 
   async getEndpointList() {
     if (!this.endpointList) {
-      const endpointListResponse = await endpointList({});
-      this.endpointList = endpointListResponse.data;
+      try {
+        this.endpointList = (await endpointList({})).data;
+      } catch (e) {
+        console.error(`getEndpointList error: ${e}`);
+        this.endpointList = undefined;
+      }
     }
     return this.endpointList;
   }
