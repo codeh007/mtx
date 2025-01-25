@@ -9,7 +9,7 @@ export class EdgeApp {
   private isInited = false;
   public hostName = "";
   public backend = "";
-  public token = "";
+  public token?: string = undefined;
   public frontendConfig: any = undefined;
   //业务后端列表
   public endpointList?: EndpointList = undefined;
@@ -17,8 +17,9 @@ export class EdgeApp {
     if (!this.backend) {
       this.backend = process.env.MTMAI_BACKEND || "";
     }
+    this.token = process.env?.MTM_ADMIN_TOKEN;
     if (!this.token) {
-      this.token = process.env.MTM_ADMIN_TOKEN || "admin-token";
+      throw new Error("MTM_ADMIN_TOKEN is not set");
     }
   }
   private getCookies?: (name: string) => Promise<string> | string;
@@ -30,7 +31,7 @@ export class EdgeApp {
    * @returns
    */
   async init(opts: {
-    getAccessTokenCb?: () => Promise<string> | string;
+    // getAccessTokenCb?: () => Promise<string> | string;
     getCookieCb?: (name: string) => Promise<string> | string;
     getHeadersCb?: () => Promise<Headers> | Headers;
   }) {
@@ -45,14 +46,18 @@ export class EdgeApp {
       this.hostName = headers.get("host")!;
     }
     this.getCookies = opts.getCookieCb;
-    if (opts.getAccessTokenCb) {
-      this.token = await opts.getAccessTokenCb();
-    }
-    const response = await fetch(`${this.backend}/api/v1/env/default`, {
+
+    const envUrl = `${this.backend}/api/v1/env/default`;
+    const response = await fetch(envUrl, {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
     });
+    if (!response.ok) {
+      throw new Error(
+        `get env error: ${response.statusText}, from url: ${envUrl}`,
+      );
+    }
     const envText = await response.text();
     const env = envText.split("\n").map((line) => line.trim());
 
@@ -91,7 +96,11 @@ export class EdgeApp {
   }
 
   async getAccessToken() {
-    const tokenName = (await this.getFrontendConfig()).cookieAccessToken;
+    const frontendConfig = await this.getFrontendConfig();
+    if (!frontendConfig) {
+      throw new Error("get frontendConfig error");
+    }
+    const tokenName = frontendConfig.cookieAccessToken;
     if (this.getCookies) {
       return this.getCookies(tokenName);
     }
@@ -137,8 +146,13 @@ export class EdgeApp {
   // 获取进一步发配置数据
   async getFrontendConfig() {
     if (!this.frontendConfig) {
-      const frontendConfigResponse = await frontendGetConfig({});
-      this.frontendConfig = frontendConfigResponse.data;
+      try {
+        const frontendConfigResponse = await frontendGetConfig({});
+        this.frontendConfig = frontendConfigResponse.data;
+      } catch (e) {
+        console.error(`getFrontendConfig error: ${e}`);
+        this.frontendConfig = undefined;
+      }
     }
     return this.frontendConfig;
   }
