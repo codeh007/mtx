@@ -23,7 +23,6 @@ export class EdgeApp {
    * @returns
    */
   async init(opts: {
-    // getAccessTokenCb?: () => Promise<string> | string;
     getCookieCb?: (name: string) => Promise<string> | string;
     getHeadersCb?: () => Promise<Headers> | Headers;
   }) {
