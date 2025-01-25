@@ -13,16 +13,7 @@ export class EdgeApp {
   public frontendConfig: any = undefined;
   //业务后端列表
   public endpointList?: EndpointList = undefined;
-  constructor() {
-    if (!this.backend) {
-      this.backend = process.env.MTMAI_BACKEND || "";
-    }
 
-    this.token = process.env?.MTM_ADMIN_TOKEN;
-    if (!this.token) {
-      throw new Error("MTM_ADMIN_TOKEN is not set");
-    }
-  }
   private getCookies?: (name: string) => Promise<string> | string;
 
   /**
@@ -38,6 +29,14 @@ export class EdgeApp {
   }) {
     if (this.isInited) {
       return;
+    }
+    if (!this.backend) {
+      this.backend = process.env.MTMAI_BACKEND || "";
+    }
+
+    this.token = process.env?.MTM_ADMIN_TOKEN;
+    if (!this.token) {
+      throw new Error("MTM_ADMIN_TOKEN is not set");
     }
     if (typeof window !== "undefined") {
       return;
