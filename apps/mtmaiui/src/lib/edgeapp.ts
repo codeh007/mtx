@@ -145,7 +145,7 @@ export class EdgeApp {
     return `http://${host}:${port}${prefix || ""}`;
   }
 
-  // 获取进一步发配置数据
+  // 获取前端配置数据
   async getFrontendConfig() {
     if (!this.frontendConfig) {
       try {
