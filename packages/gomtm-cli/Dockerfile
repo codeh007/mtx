@@ -233,7 +233,7 @@ FROM mtmbase AS gomtm
 WORKDIR /app
 RUN bun install -g gomtm@latest
 RUN uv venv
-RUN uv pip install --no-cache-dir -U mtmai
+RUN uv pip install --no-cache-dir -U mtxai
 # yakit(IDE, linux 版的无UI)
 RUN curl -sS -L http://oss.yaklang.io/install-latest-yak.sh | bash -
 
