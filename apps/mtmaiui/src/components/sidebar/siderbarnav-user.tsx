@@ -37,7 +37,6 @@ export function NavUser() {
   const tenant = useTenant();
 
   const userImageSrc = `https://avatar.vercel.sh/${tenant?.alertMemberEmails}`;
-  // const userEmail = user.email;
   return (
     <SidebarMenu>
       <SidebarMenuItem>

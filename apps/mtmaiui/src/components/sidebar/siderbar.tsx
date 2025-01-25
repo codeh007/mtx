@@ -139,11 +139,6 @@ interface SiteSidebarGroupProps {
 export const SiteSidebarGroup = (props: SiteSidebarGroupProps) => {
   const isMobile = useIsMobile();
   const { siteId } = props;
-  // const siteQuery = useSuspenseQuery({
-  //   ...siteGetSiteOptions({
-  //     path: { id: siteId },
-  //   }),
-  // });
   return (
     <Collapsible
       // key={item.title}

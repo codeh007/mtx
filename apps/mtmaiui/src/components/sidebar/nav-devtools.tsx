@@ -3,6 +3,11 @@
 import { ChevronRight } from "lucide-react";
 
 import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "mtxuilib/ui/collapsible";
+import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,

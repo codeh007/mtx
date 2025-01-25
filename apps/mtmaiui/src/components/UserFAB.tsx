@@ -1,7 +1,7 @@
 "use client";
 
 import { AssistantModal } from "mtxuilib/assistant-ui/assistant-modal";
-import { Icons } from "mtxuilib/icons/icons";
+import { IconX, Icons } from "mtxuilib/icons/icons";
 import { logout } from "mtxuilib/lib/auth/auth_actions";
 import { cn } from "mtxuilib/lib/utils";
 import { Button } from "mtxuilib/ui/button";
@@ -21,7 +21,9 @@ import {
 } from "mtxuilib/ui/dropdown-menu";
 import { useState } from "react";
 
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
+import { frontendGetSiderbarOptions } from "mtmaiapi";
 import { useUser } from "../hooks/useAuth";
 import { useBasePath } from "../hooks/useBasePath";
 import { CustomLink } from "./CustomLink";
@@ -63,39 +65,7 @@ export const UserFAB = () => {
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <CustomLink to={"/envs"}>
-                <DropdownMenuItem>
-                  envs
-                  <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                </DropdownMenuItem>
-              </CustomLink>
-
-              <CustomLink to={"/endpoint"}>
-                <DropdownMenuItem>
-                  endpoint
-                  <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                </DropdownMenuItem>
-              </CustomLink>
-
-              <CustomLink to={`${basePath}/post`}>
-                <DropdownMenuItem>
-                  posts
-                  <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                </DropdownMenuItem>
-              </CustomLink>
-
-              <CustomLink to={`${basePath}/workflows`}>
-                <DropdownMenuItem>
-                  workflows
-                  <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                </DropdownMenuItem>
-              </CustomLink>
-              <CustomLink to={"/chat"}>
-                <DropdownMenuItem>
-                  chat
-                  <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                </DropdownMenuItem>
-              </CustomLink>
+              <UserFABDropdownMenuContent />
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
@@ -128,6 +98,45 @@ export const UserFAB = () => {
           </DropdownMenuContent>
         )}
       </DropdownMenu>
+    </>
+  );
+};
+
+const UserFABDropdownMenuContent = () => {
+  const siderbarQuery = useSuspenseQuery({
+    ...frontendGetSiderbarOptions({}),
+  });
+
+  if (!siderbarQuery.data?.sideritems) {
+    return null;
+  }
+  return (
+    <>
+      <DropdownMenuContent>
+        {siderbarQuery.data?.sideritems?.map((item) => (
+          <DropdownMenuGroup key={item.title}>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>
+                {item.icon && (
+                  <IconX name={item.icon} className="size-5 m-0 p-0" />
+                )}
+                <span className="text-lg font-semibold">{item.title}</span>
+              </DropdownMenuSubTrigger>
+              <DropdownMenuPortal>
+                <DropdownMenuSubContent>
+                  {item.children?.map((subItem) => (
+                    <CustomLink key={subItem.title} to={subItem.url}>
+                      <DropdownMenuItem>
+                        <span>{subItem.title}</span>
+                      </DropdownMenuItem>
+                    </CustomLink>
+                  ))}
+                </DropdownMenuSubContent>
+              </DropdownMenuPortal>
+            </DropdownMenuSub>
+          </DropdownMenuGroup>
+        ))}
+      </DropdownMenuContent>
     </>
   );
 };
