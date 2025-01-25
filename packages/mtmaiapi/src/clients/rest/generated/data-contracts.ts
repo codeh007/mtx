@@ -2474,6 +2474,7 @@ export interface Account {
   type: string;
   TenantAlertEmailGroup?: string;
   platform: string;
+  comment: string;
 }
 
 export interface AccountList {
@@ -2488,4 +2489,5 @@ export interface UpdateAccountRequest {
   type?: string;
   TenantAlertEmailGroup?: string;
   platform?: string;
+  comment?: string;
 }

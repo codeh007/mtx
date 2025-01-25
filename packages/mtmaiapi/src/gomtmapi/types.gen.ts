@@ -2922,6 +2922,7 @@ export type Account = {
   type: string;
   TenantAlertEmailGroup?: string;
   platform: string;
+  comment: string;
 };
 
 export type AccountList = {
@@ -2936,6 +2937,7 @@ export type UpdateAccountRequest = {
   type?: string;
   TenantAlertEmailGroup?: string;
   platform?: string;
+  comment?: string;
 };
 
 export type ReadinessGetData = {
