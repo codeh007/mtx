@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button } from "mtxuilib/ui/button.jsx";
+import { Button } from "mtxuilib/ui/button";
 
 export const Route = createFileRoute("/endpoint/")({
   component: RouteComponent,
