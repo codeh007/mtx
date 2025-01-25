@@ -36,7 +36,7 @@ export class EdgeApp {
     }
 
     this.token = process.env?.MTM_ADMIN_TOKEN;
-    if (!this.token) {
+    if (!this.token && !isCI()) {
       throw new Error("MTM_ADMIN_TOKEN is not set");
     }
     if (typeof window !== "undefined") {
@@ -168,3 +168,7 @@ export class EdgeApp {
 }
 
 export const edgeApp = new EdgeApp();
+
+function isCI() {
+  return process.env.CI === "true";
+}
