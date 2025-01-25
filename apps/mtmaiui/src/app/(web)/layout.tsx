@@ -28,9 +28,8 @@ export default async function Layout(props: {
 }) {
   const { children } = props;
   await edgeApp.init({
-    getHeadersCb: async () => await headers(),
-    getCookieCb: async (name: string) =>
-      (await cookies()).get(name)?.value || "",
+    headers: headers,
+    cookies: cookies,
   });
 
   return (

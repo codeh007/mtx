@@ -4,6 +4,7 @@ import {
   frontendGetConfig,
   initMtiaiClient,
 } from "mtmaiapi";
+import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 
 export class EdgeApp {
   private isInited = false;
@@ -14,7 +15,8 @@ export class EdgeApp {
   //业务后端列表
   public endpointList?: EndpointList = undefined;
 
-  private getCookies?: (name: string) => Promise<string> | string;
+  private cookies?: Promise<ReadonlyRequestCookies>;
+  private headers?: () => Promise<Headers> | Headers;
 
   /**
    * 应用的初始化
@@ -23,8 +25,8 @@ export class EdgeApp {
    * @returns
    */
   async init(opts: {
-    getCookieCb?: (name: string) => Promise<string> | string;
-    getHeadersCb?: () => Promise<Headers> | Headers;
+    cookies?: Promise<ReadonlyRequestCookies>;
+    headers?: () => Promise<Headers> | Headers;
   }) {
     if (this.isInited) {
       return;
@@ -40,11 +42,11 @@ export class EdgeApp {
     if (typeof window !== "undefined") {
       return;
     }
-    if (opts.getHeadersCb) {
-      const headers = await opts.getHeadersCb();
-      this.hostName = headers.get("host")!;
+    if (opts.headers) {
+      this.headers = opts.headers;
+      this.hostName = (await this.headers())?.get("host")!;
     }
-    this.getCookies = opts.getCookieCb;
+    this.cookies = opts.cookies;
 
     const envUrl = `${this.backend}/api/v1/env/default`;
     const response = await fetch(envUrl, {
@@ -100,8 +102,8 @@ export class EdgeApp {
       throw new Error("get frontendConfig error");
     }
     const tokenName = frontendConfig.cookieAccessToken;
-    if (this.getCookies) {
-      return this.getCookies(tokenName);
+    if (this.cookies) {
+      return (await this.cookies).get(tokenName)?.value || "";
     }
     return "";
   }

@@ -15,9 +15,8 @@ const handler = async (r: Request) => {
   //加载基本配置
   try {
     await edgeApp.init({
-      getHeadersCb: async () => await headers(),
-      getCookieCb: async (name: string) =>
-        (await cookies()).get(name)?.value || "",
+      headers: async () => await headers(),
+      cookies: async (name: string) => (await cookies()).get(name)?.value || "",
     });
   } catch (e) {
     errorMsg = `加载基本配置失败:${(e as Error).message}`;
