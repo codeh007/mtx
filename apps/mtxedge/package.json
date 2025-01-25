@@ -53,7 +53,7 @@
     "@copilotkit/react-ui": "^1.4.7",
     "@copilotkit/runtime": "^1.4.7",
     "@ai-sdk/openai": "^0.0.66",
-    "@assistant-ui/react": "^0.7.19",
+    "@assistant-ui/react": "^0.7",
     "@assistant-ui/react-ai-sdk": "^0.7.4",
     "@assistant-ui/react-langgraph": "^0.1.7",
     "@assistant-ui/react-markdown": "^0.7.5",
