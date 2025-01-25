@@ -64,9 +64,7 @@ export const UserFAB = () => {
           <DropdownMenuContent className="w-56">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <UserFABDropdownMenuContent />
-            </DropdownMenuGroup>
+            <UserFABDropdownMenuContent />
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>Team</DropdownMenuItem>
@@ -112,31 +110,29 @@ const UserFABDropdownMenuContent = () => {
   }
   return (
     <>
-      <DropdownMenuContent>
-        {siderbarQuery.data?.sideritems?.map((item) => (
-          <DropdownMenuGroup key={item.title}>
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger>
-                {item.icon && (
-                  <IconX name={item.icon} className="size-5 m-0 p-0" />
-                )}
-                <span className="text-lg font-semibold">{item.title}</span>
-              </DropdownMenuSubTrigger>
-              <DropdownMenuPortal>
-                <DropdownMenuSubContent>
-                  {item.children?.map((subItem) => (
-                    <CustomLink key={subItem.title} to={subItem.url}>
-                      <DropdownMenuItem>
-                        <span>{subItem.title}</span>
-                      </DropdownMenuItem>
-                    </CustomLink>
-                  ))}
-                </DropdownMenuSubContent>
-              </DropdownMenuPortal>
-            </DropdownMenuSub>
-          </DropdownMenuGroup>
-        ))}
-      </DropdownMenuContent>
+      {siderbarQuery.data?.sideritems?.map((item) => (
+        <DropdownMenuGroup key={item.title}>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              {item.icon && (
+                <IconX name={item.icon} className="size-5 m-0 p-0" />
+              )}
+              <span className="text-lg font-semibold">{item.title}</span>
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                {item.children?.map((subItem) => (
+                  <CustomLink key={subItem.title} to={subItem.url}>
+                    <DropdownMenuItem>
+                      <span>{subItem.title}</span>
+                    </DropdownMenuItem>
+                  </CustomLink>
+                ))}
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+        </DropdownMenuGroup>
+      ))}
     </>
   );
 };
