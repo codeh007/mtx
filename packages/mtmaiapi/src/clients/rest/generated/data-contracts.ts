@@ -2475,20 +2475,10 @@ export interface PlatformAccount {
   type: string;
   platform: string;
   comment: string;
+  tags: string[];
 }
 
 export interface PlatformAccountList {
   pagination?: PaginationResponse;
   rows?: PlatformAccount[];
-}
-
-export interface UpdatePlatformAccountRequest {
-  key: string;
-  username: string;
-  password: string;
-  token: string;
-  type: string;
-  email: string;
-  platform: string;
-  comment: string;
 }

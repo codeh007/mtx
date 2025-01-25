@@ -15,8 +15,8 @@ const handler = async (r: Request) => {
   //加载基本配置
   try {
     await edgeApp.init({
-      headers: async () => await headers(),
-      cookies: async (name: string) => (await cookies()).get(name)?.value || "",
+      headers: headers,
+      cookies: cookies,
     });
   } catch (e) {
     errorMsg = `加载基本配置失败:${(e as Error).message}`;
@@ -25,6 +25,7 @@ const handler = async (r: Request) => {
   //加载 endpoints 数据
   try {
     const endpointList = await edgeApp.getEndpointList();
+    console.log("endpointList:", endpointList);
   } catch (e) {
     errorMsg = `加载 endpoints 数据失败:${(e as Error).message}`;
   }

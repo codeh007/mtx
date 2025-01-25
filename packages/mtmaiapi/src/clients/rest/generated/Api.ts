@@ -117,7 +117,6 @@ import {
   TriggerWorkflowRunRequest,
   UpdateBlogRequest,
   UpdateEndpointRequest,
-  UpdatePlatformAccountRequest,
   UpdateSiteRequest,
   UpdateTenantAlertEmailGroupRequest,
   UpdateTenantInviteRequest,
@@ -3285,10 +3284,7 @@ export class Api<
    * @request PATCH:/api/v1/platform_account
    * @secure
    */
-  platformAccountUpdate = (
-    data: UpdatePlatformAccountRequest,
-    params: RequestParams = {},
-  ) =>
+  platformAccountUpdate = (data: PlatformAccount, params: RequestParams = {}) =>
     this.request<PlatformAccount, APIErrors>({
       path: `/api/v1/platform_account`,
       method: "PATCH",
