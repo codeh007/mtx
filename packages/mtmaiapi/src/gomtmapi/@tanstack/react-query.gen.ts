@@ -283,10 +283,10 @@ import type {
   EndpointUpdateData,
   EndpointUpdateError,
   EndpointUpdateResponse,
-  AccountListData,
-  AccountUpdateData,
-  AccountUpdateError,
-  AccountUpdateResponse,
+  PlatformAccountListData,
+  PlatformAccountUpdateData,
+  PlatformAccountUpdateError,
+  PlatformAccountUpdateResponse,
 } from "../types.gen";
 import {
   readinessGet,
@@ -433,8 +433,8 @@ import {
   kvGet,
   endpointList,
   endpointUpdate,
-  accountList,
-  accountUpdate,
+  platformAccountList,
+  platformAccountUpdate,
   client,
 } from "../sdk.gen";
 
@@ -4595,14 +4595,16 @@ export const endpointUpdateMutation = (
   return mutationOptions;
 };
 
-export const accountListQueryKey = (options?: Options<AccountListData>) => [
-  createQueryKey("accountList", options),
-];
+export const platformAccountListQueryKey = (
+  options?: Options<PlatformAccountListData>,
+) => [createQueryKey("platformAccountList", options)];
 
-export const accountListOptions = (options?: Options<AccountListData>) => {
+export const platformAccountListOptions = (
+  options?: Options<PlatformAccountListData>,
+) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await accountList({
+      const { data } = await platformAccountList({
         ...options,
         ...queryKey[0],
         signal,
@@ -4610,20 +4612,20 @@ export const accountListOptions = (options?: Options<AccountListData>) => {
       });
       return data;
     },
-    queryKey: accountListQueryKey(options),
+    queryKey: platformAccountListQueryKey(options),
   });
 };
 
-export const accountUpdateMutation = (
-  options?: Partial<Options<AccountUpdateData>>,
+export const platformAccountUpdateMutation = (
+  options?: Partial<Options<PlatformAccountUpdateData>>,
 ) => {
   const mutationOptions: UseMutationOptions<
-    AccountUpdateResponse,
-    AccountUpdateError,
-    Options<AccountUpdateData>
+    PlatformAccountUpdateResponse,
+    PlatformAccountUpdateError,
+    Options<PlatformAccountUpdateData>
   > = {
     mutationFn: async (localOptions) => {
-      const { data } = await accountUpdate({
+      const { data } = await platformAccountUpdate({
         ...options,
         ...localOptions,
         throwOnError: true,

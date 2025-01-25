@@ -402,12 +402,12 @@ import type {
   EndpointUpdateData,
   EndpointUpdateResponse,
   EndpointUpdateError,
-  AccountListData,
-  AccountListResponse,
-  AccountListError,
-  AccountUpdateData,
-  AccountUpdateResponse,
-  AccountUpdateError,
+  PlatformAccountListData,
+  PlatformAccountListResponse,
+  PlatformAccountListError,
+  PlatformAccountUpdateData,
+  PlatformAccountUpdateResponse,
+  PlatformAccountUpdateError,
 } from "./types.gen";
 
 export const client = createClient(createConfig());
@@ -4168,12 +4168,12 @@ export const endpointUpdate = <ThrowOnError extends boolean = false>(
   });
 };
 
-export const accountList = <ThrowOnError extends boolean = false>(
-  options?: Options<AccountListData, ThrowOnError>,
+export const platformAccountList = <ThrowOnError extends boolean = false>(
+  options?: Options<PlatformAccountListData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).get<
-    AccountListResponse,
-    AccountListError,
+    PlatformAccountListResponse,
+    PlatformAccountListError,
     ThrowOnError
   >({
     security: [
@@ -4186,21 +4186,21 @@ export const accountList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/account",
+    url: "/api/v1/platform_account",
     ...options,
   });
 };
 
 /**
- * Update account
- * Update an account
+ * Update platform_account
+ * Update an platform_account
  */
-export const accountUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<AccountUpdateData, ThrowOnError>,
+export const platformAccountUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<PlatformAccountUpdateData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).patch<
-    AccountUpdateResponse,
-    AccountUpdateError,
+    PlatformAccountUpdateResponse,
+    PlatformAccountUpdateError,
     ThrowOnError
   >({
     security: [
@@ -4213,7 +4213,7 @@ export const accountUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/account",
+    url: "/api/v1/platform_account",
     ...options,
     headers: {
       "Content-Type": "application/json",

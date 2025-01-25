@@ -2914,30 +2914,31 @@ export type UpdateEndpointRequest = {
   token?: string;
 };
 
-export type Account = {
+export type PlatformAccount = {
   metadata: ApiResourceMeta;
+  key: string;
   username: string;
   password: string;
   token: string;
   type: string;
-  TenantAlertEmailGroup?: string;
   platform: string;
   comment: string;
 };
 
-export type AccountList = {
+export type PlatformAccountList = {
   pagination?: PaginationResponse;
-  rows?: Array<Account>;
+  rows?: Array<PlatformAccount>;
 };
 
-export type UpdateAccountRequest = {
-  username?: string;
-  password?: string;
-  token?: string;
-  type?: string;
-  email?: string;
-  platform?: string;
-  comment?: string;
+export type UpdatePlatformAccountRequest = {
+  key: string;
+  username: string;
+  password: string;
+  token: string;
+  type: string;
+  email: string;
+  platform: string;
+  comment: string;
 };
 
 export type ReadinessGetData = {
@@ -8140,14 +8141,14 @@ export type EndpointUpdateResponses = {
 export type EndpointUpdateResponse =
   EndpointUpdateResponses[keyof EndpointUpdateResponses];
 
-export type AccountListData = {
+export type PlatformAccountListData = {
   body?: never;
   path?: never;
   query?: never;
-  url: "/api/v1/account";
+  url: "/api/v1/platform_account";
 };
 
-export type AccountListErrors = {
+export type PlatformAccountListErrors = {
   /**
    * A malformed or bad request
    */
@@ -8162,26 +8163,27 @@ export type AccountListErrors = {
   404: ApiErrors;
 };
 
-export type AccountListError = AccountListErrors[keyof AccountListErrors];
+export type PlatformAccountListError =
+  PlatformAccountListErrors[keyof PlatformAccountListErrors];
 
-export type AccountListResponses = {
-  200: AccountList;
+export type PlatformAccountListResponses = {
+  200: PlatformAccountList;
 };
 
-export type AccountListResponse =
-  AccountListResponses[keyof AccountListResponses];
+export type PlatformAccountListResponse =
+  PlatformAccountListResponses[keyof PlatformAccountListResponses];
 
-export type AccountUpdateData = {
+export type PlatformAccountUpdateData = {
   /**
-   * The account properties to update
+   * The platform_account properties to update
    */
-  body: UpdateAccountRequest;
+  body: UpdatePlatformAccountRequest;
   path?: never;
   query?: never;
-  url: "/api/v1/account";
+  url: "/api/v1/platform_account";
 };
 
-export type AccountUpdateErrors = {
+export type PlatformAccountUpdateErrors = {
   /**
    * A malformed or bad request
    */
@@ -8189,17 +8191,18 @@ export type AccountUpdateErrors = {
   /**
    * Forbidden
    */
-  403: ApiError;
+  403: ApiErrors;
 };
 
-export type AccountUpdateError = AccountUpdateErrors[keyof AccountUpdateErrors];
+export type PlatformAccountUpdateError =
+  PlatformAccountUpdateErrors[keyof PlatformAccountUpdateErrors];
 
-export type AccountUpdateResponses = {
+export type PlatformAccountUpdateResponses = {
   /**
-   * Successfully created the account
+   * Successfully created the platform_account
    */
-  200: Account;
+  200: PlatformAccount;
 };
 
-export type AccountUpdateResponse =
-  AccountUpdateResponses[keyof AccountUpdateResponses];
+export type PlatformAccountUpdateResponse =
+  PlatformAccountUpdateResponses[keyof PlatformAccountUpdateResponses];
