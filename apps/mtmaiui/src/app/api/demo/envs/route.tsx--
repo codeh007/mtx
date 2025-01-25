@@ -1,6 +1,4 @@
-import { cookies } from "next/headers";
-
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { edgeApp } from "../../../../lib/edgeapp";
 
 export const runtime = "edge";
@@ -12,9 +10,8 @@ const handler = async (r: Request) => {
   try {
     await edgeApp.reset();
     await edgeApp.init({
-      getHeadersCb: async () => await headers(),
-      getCookieCb: async (name: string) =>
-        (await cookies()).get(name)?.value || "",
+      headers: headers,
+      cookies: async (name: string) => (await cookies()).get(name)?.value || "",
     });
 
     const endpointList = await edgeApp.getEndpointList();
