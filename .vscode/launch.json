@@ -7,7 +7,7 @@
       "request": "launch",
       "command": "bun run dev",
       "nodeVersionHint": 20,
-      "cwd": "${workspaceFolder}/packages/mtmaiui",
+      "cwd": "${workspaceFolder}/apps/mtmaiui",
       "skipFiles": ["<node_internals>/**", ".vscode/**", "/public", "/dist"]
     }
   ]

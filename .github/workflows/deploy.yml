@@ -65,7 +65,7 @@ jobs:
       #   run: (cd apps/mtxedge && ../../packages/gomtm-cli/bin/gomtm cfpage)
 
       - name: deploy mtmaiui cfpage
-        run: (cd apps/mtmaiui && bun run build && ../../apps/gomtm-cli/bin/gomtm cfpage)
+        run: (cd apps/mtmaiui && bun run build && ../../packages/gomtm-cli/bin/gomtm cfpage)
 
   testing_npm_install_gomtm:
     runs-on: ubuntu-latest
