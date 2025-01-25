@@ -7,16 +7,25 @@ export const runtime = "edge";
 
 //测试: 从总后端加载环境变量
 const handler = async (r: Request) => {
-  await edgeApp.reset();
-  await edgeApp.init({
-    getHeadersCb: async () => await headers(),
-    getCookieCb: async (name: string) =>
-      (await cookies()).get(name)?.value || "",
-  });
+  let errorMsg = "";
 
-  const endpointList = await edgeApp.getEndpointList();
-  console.log(endpointList);
+  try {
+    await edgeApp.reset();
+    await edgeApp.init({
+      getHeadersCb: async () => await headers(),
+      getCookieCb: async (name: string) =>
+        (await cookies()).get(name)?.value || "",
+    });
 
+    const endpointList = await edgeApp.getEndpointList();
+    console.log(endpointList);
+  } catch (e) {
+    errorMsg = (e as Error).message;
+  }
+
+  if (errorMsg) {
+    return new Response(errorMsg, { status: 500 });
+  }
   return new Response("ok");
 };
 
