@@ -78,12 +78,14 @@ export default {
  */
 const proxyHandler = async (r: Request, env?: Env, ctx?: ExecutionContext) => {
   console.log(`env:${JSON.stringify(env)}`);
-  // try {
   await edgeApp.init({});
 
   let endpointList: EndpointList | undefined = undefined;
   endpointList = await edgeApp.getEndpointList();
 
+  if (!endpointList?.rows?.length) {
+    throw new Error("endpointList is empty");
+  }
   //开发阶段使用第一条配置作为远程服务器的配置
   const targetEndpoint = endpointList[0];
   const remoteUrl = targetEndpoint.url;
