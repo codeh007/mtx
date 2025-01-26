@@ -13,7 +13,7 @@ import {
   getFrontendConfig,
   getHostName,
   initEdgeApp,
-} from "mtxuilib/lib/edgeapp";
+} from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
 import "mtxuilib/styles/globals.css";
 import { MtSessionProvider } from "../../stores/MtSessionProvider";
