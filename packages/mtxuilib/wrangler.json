@@ -1,0 +1,23 @@
+{
+  "name": "mtmgw",
+  "main": "src/entry-cfworker.ts",
+  "compatibility_date": "2024-10-22",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "logs": {
+      "enabled": true
+    }
+  },
+  "workflows": [
+    {
+      "name": "MyWorkflow",
+      "binding": "MyWorkflow",
+      "class_name": "MyWorkflow"
+    }
+  ],
+  "send_email": [
+    {
+      "name": "SEND_EMAIL"
+    }
+  ]
+}

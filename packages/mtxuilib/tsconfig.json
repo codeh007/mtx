@@ -1,12 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNEXT",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext",
-      "WebWorker"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext", "WebWorker"],
     "skipLibCheck": true,
     "allowJs": true,
     "strict": true,
@@ -43,6 +38,9 @@
     //   "./node_modules/@types",
     //   "./src/@types"
     // ],
+    // "paths": {
+    //   "mtxuilib/*": ["./src/*"]
+    // },
     "plugins": [
       {
         "name": "next"
@@ -57,10 +55,7 @@
     "allowUnreachableCode": true, // 允许未到达的代码
     "checkJs": false // 不检查 JavaScript 文件
   },
-  "include": [
-    "src",
-    ".next/types/**/*.ts"
-  ],
+  "include": ["src", ".next/types/**/*.ts"],
   "exclude": [
     "dist",
     "node_modules/**/*.*",

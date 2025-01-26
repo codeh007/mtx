@@ -5,8 +5,8 @@ import {
   frontendGetConfig,
   initMtiaiClient,
 } from "mtmaiapi";
-import { isCI, isInBuild } from "mtxuilib/lib/s-utils";
 import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+import { isCI, isInBuild } from "./s-utils";
 
 export class EdgeApp {
   private isInited = false;
