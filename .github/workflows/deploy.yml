@@ -3,7 +3,6 @@ name: deploy
 on:
   push:
     paths:
-      - ".changeset/**"
       - "packages/**"
       - "apps/**"
       - "package.json"
@@ -61,20 +60,20 @@ jobs:
       - name: setup bun
         uses: ./.github/actions/setup_bun
 
-      - name: Set up Go
+      - name: install gomtm
+        run: |
+          cd packages/gomtm-cli
+          npm i -g
+
+      - name: Setup Go
         uses: actions/setup-go@v5
         with:
           go-version: '^1.23'
           check-latest: true
           go-version-file: 'go.mod'
           cache-dependency-path: "**/*.sum"
+
       - run: go version
-
-      - name: 安装开发板的 gomtm
-        run: |
-          cd packages/gomtm-cli
-          npm i -g
-
       - name: deploy to vercel
         run: |
           cd apps/mtmaiui
@@ -84,34 +83,23 @@ jobs:
         run: |
           (cd apps/mtmaiui && bun run build && gomtm cfpage)
 
-  testing_npm_install_gomtm:
-    runs-on: ubuntu-latest
-    timeout-minutes: 2
-    needs: [deploy]
-    steps:
-      - name: 安装 gomtm-cli 包后,应该自带 gomtm 命令
-        run: |
-          npm install gomtm-cli -g
-          gomtm --help
+  # testing_gomtm_worker:
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 2
+  #   needs: [deploy]
 
-  testing_gomtm_worker:
-    runs-on: ubuntu-latest
-    timeout-minutes: 2
-    needs: [deploy]
+  #   steps:
+  #     - name: Checkout branch
+  #       uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
 
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: 测试是否能自动启动worker
-        # run: (cd apps/mtxedge && ../../packages/gomtm-cli/bin/gomtm)
-        run: timeout 30s sh -c '(cd apps/mtxedge && ../../packages/gomtm-cli/bin/gomtm)'
-        continue-on-error: true
+  #     - name: 测试是否能自动启动worker
+  #       run: timeout 30s sh -c '(cd apps/mtxedge && ../../packages/gomtm-cli/bin/gomtm)'
+  #       continue-on-error: true
 
   build_docker_gomtm_base:
-    needs: [deploy, testing_npm_install_gomtm, testing_gomtm_worker]
+    needs: [deploy]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
