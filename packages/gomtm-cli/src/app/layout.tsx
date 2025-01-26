@@ -3,6 +3,9 @@
 // import type { Viewport } from "next";
 // import type { ReactNode } from "react";
 // import "react-toastify/dist/ReactToastify.css";
+
+import type { ReactNode } from "react";
+
 // import "../../styles/globals.css";
 export const runtime = "edge"; //nodejs
 export const dynamic = "force-dynamic";
@@ -13,7 +16,6 @@ export default async function Layout(props: {
   const { children } = props;
   return (
     <html lang="en" suppressHydrationWarning>
-      <head></head>
       <body>{children}</body>
     </html>
   );
