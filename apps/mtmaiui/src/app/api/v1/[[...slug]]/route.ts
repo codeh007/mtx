@@ -22,6 +22,7 @@ const handler = async (r: Request) => {
 
   try {
     const endpointList = await edgeApp.getEndpointList();
+
     console.log("endpointList:", endpointList);
   } catch (e) {
     errorMsg = `load endpointList error:${(e as Error).message}`;
