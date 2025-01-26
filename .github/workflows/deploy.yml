@@ -150,7 +150,7 @@ jobs:
   #         gomtm vc
 
   deploy_vercel_gomtm:
-    needs: [deploy]
+    needs: [release]
     timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
@@ -175,21 +175,10 @@ jobs:
           go-version-file: 'go.mod'
           cache-dependency-path: "**/*.sum"
 
-      # - name: show env
-      #   run: |
-      #     echo $GOPRIVATE
-      #     echo $GIT_CREDENTIALS
-
-      # - name: show env2
-      #   run: |
-      #     env
-
       - name: deploy to vercel
         run: |
           cd packages/gomtm-cli
-          gomtm vc
-
-
+          gomtm vc_gomtm
 
   build_docker_gomtm_base:
     needs: [deploy]
