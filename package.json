@@ -52,14 +52,14 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@changesets/cli": "^2.27.11",
-    "@types/node": "22.7.4",
     "@changesets/get-release-plan": "4.0.6",
-    "@octokit/rest": "^21.0.0",
     "@cloudflare/next-on-pages": "^1.13.7",
     "@cloudflare/workers-types": "^4.20250109.0",
     "@jest/globals": "^29.7.0",
     "@jest/types": "^29.6.3",
+    "@octokit/rest": "^21.0.0",
     "@types/bun": "^1.1.16",
+    "@types/node": "22.7.4",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "bun-types": "^1.1.43",
     "changeset": "^0.2.6",
@@ -67,7 +67,7 @@
     "turbo": "^2.3.3",
     "typescript": "^5.7",
     "vite": "^6.0.3",
-    "wrangler": "^3.103"
+    "wrangler": "^3.105.1"
   },
   "resolutions": {
     "prosemirror-model": "1.23.0"

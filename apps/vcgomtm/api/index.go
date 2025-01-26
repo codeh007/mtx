@@ -18,14 +18,11 @@ var serverApp *server.MtmBaseApp
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 	if serverApp == nil {
-		// fmt.Println("serverApp == nil")
-		serverApp = server.NewMtmBaseApp(nil)
+		serverApp = server.NewMtmBaseApp()
 		if err := serverApp.SetupBase(context.Background()); err != nil {
-			// fmt.Println("serverApp.SetupBase error", err)
 			panic(errors.Wrap(err, "serverApp.SetupBase error"))
 		}
 	}
 
-	// fmt.Println("serverApp", serverApp)
 	serverApp.ServeHTTP(w, r)
 }
