@@ -7,7 +7,13 @@ import type { ReactNode } from "react";
 import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
 import { WebLayout } from "mtxuilib/layouts/web/WebLayout";
 import { WebLayoutHeader } from "mtxuilib/layouts/web/WebLayoutHeader";
-import { edgeApp, getBackendUrl } from "mtxuilib/lib/edgeapp";
+import {
+  getAccessToken,
+  getBackendUrl,
+  getFrontendConfig,
+  getHostName,
+  initEdgeApp,
+} from "mtxuilib/lib/edgeapp";
 import { cn } from "mtxuilib/lib/utils";
 import "mtxuilib/styles/globals.css";
 import { MtSessionProvider } from "../../stores/MtSessionProvider";
@@ -27,7 +33,7 @@ export default async function Layout(props: {
   children: ReactNode;
 }) {
   const { children } = props;
-  await edgeApp.init({
+  await initEdgeApp({
     headers: headers,
     cookies: cookies,
   });
@@ -45,11 +51,11 @@ export default async function Layout(props: {
         )}
       >
         <MtmaiProvider
-          frontendConfig={await edgeApp.getFrontendConfig()}
-          hostName={edgeApp.hostName}
+          frontendConfig={await getFrontendConfig()}
+          hostName={await getHostName()}
           serverUrl={await getBackendUrl()}
           selfBackendUrl={await getBackendUrl()}
-          accessToken={await edgeApp.getAccessToken()}
+          accessToken={await getAccessToken()}
         >
           <MtSessionProvider>
             <UIProviders>

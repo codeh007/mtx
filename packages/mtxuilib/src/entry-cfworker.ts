@@ -5,10 +5,8 @@ export { MyWorkflow } from "./workflows/hello-workflow";
 // import { handleWsRequest } from "mtxuilib/routes/ws/wsApp";
 
 import type { EndpointList, Env } from "mtmaiapi/gomtmapi/types.gen";
-// import { mainApp } from "mtxuilib/routes/edgeApi.ts";
-import { edgeApp } from "./lib/edgeapp";
+import { getEndpointList, initEdgeApp } from "./lib/edgeapp";
 import { handleWsRequest } from "./routes/ws/wsApp";
-
 export default {
   async fetch(request: Request, env, ctx) {
     //设置环境变量,达到兼容 nodejs 的目的
@@ -78,10 +76,10 @@ export default {
  */
 const proxyHandler = async (r: Request, env?: Env, ctx?: ExecutionContext) => {
   console.log(`env:${JSON.stringify(env)}`);
-  await edgeApp.init({});
+  await initEdgeApp({});
 
   let endpointList: EndpointList | undefined = undefined;
-  endpointList = await edgeApp.getEndpointList();
+  endpointList = await getEndpointList();
 
   if (!endpointList?.rows?.length) {
     throw new Error("endpointList is empty");
