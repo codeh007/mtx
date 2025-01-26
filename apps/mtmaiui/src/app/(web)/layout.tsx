@@ -48,7 +48,7 @@ export default async function Layout(props: {
           frontendConfig={await edgeApp.getFrontendConfig()}
           hostName={edgeApp.hostName}
           serverUrl={await getBackendUrl()}
-          selfBackendUrl={await edgeApp.getBackendUrl()}
+          selfBackendUrl={await getBackendUrl()}
           accessToken={await edgeApp.getAccessToken()}
         >
           <MtSessionProvider>
