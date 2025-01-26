@@ -34,8 +34,12 @@ export class EdgeApp {
     }
     this.backend = process.env.MTMAI_BACKEND;
     this.token = process.env?.MTM_ADMIN_TOKEN;
-    if (!this.token && !isCI()) {
+    if (!this.token && !isCI() && !isInBuild()) {
       throw new Error("MTM_ADMIN_TOKEN is not set");
+    }
+
+    if (this.token) {
+      console.warn("⚠️ MTM_ADMIN_TOKEN is set");
     }
     if (typeof window !== "undefined") {
       return;
@@ -177,4 +181,12 @@ export const edgeApp = new EdgeApp();
 
 function isCI() {
   return process.env.CI === "true";
+}
+function isVercel() {
+  return process.env.VERCEL === "true";
+}
+function isInBuild() {
+  // return process.env.BUILD === "true";
+  // It is called: process.env.NEXT_PHASE and it will be set to phase-production-build during build time.
+  return process.env.NEXT_PHASE === "phase-production-build";
 }
