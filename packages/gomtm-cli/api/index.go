@@ -7,10 +7,10 @@ package handler
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/codeh007/gomtm/mtm/server"
-	"github.com/pkg/errors"
 )
 
 var serverApp *server.MtmBaseApp
@@ -19,7 +19,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	if serverApp == nil {
 		serverApp = server.NewMtmBaseApp()
 		if err := serverApp.SetupBase(context.Background()); err != nil {
-			panic(errors.Wrap(err, "serverApp.SetupBase error"))
+			panic(fmt.Errorf("serverApp.SetupBase error: %w", err))
 		}
 	}
 	serverApp.ServeHTTP(w, r)
