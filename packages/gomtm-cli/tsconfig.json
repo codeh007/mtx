@@ -27,8 +27,8 @@
     "module": "ESNext" /* Specify what module code is generated. */,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    // "jsx": "preserve", //react-jsx
-    "jsx": "react-jsx", //react-jsx
+    "jsx": "preserve", //react-jsx
+    // "jsx": "react-jsx", //react-jsx
     // "allowImportingTsExtensions": true,
     "allowSyntheticDefaultImports": true,
     "declaration": true,
