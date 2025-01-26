@@ -115,6 +115,10 @@ export class EdgeApp {
   }
 
   async getAccessToken() {
+    if (isInBuild()) {
+      console.warn("在build 阶段,不加载AccessToken");
+      return "";
+    }
     const frontendConfig = await this.getFrontendConfig();
     if (!frontendConfig) {
       throw new Error("get frontendConfig error");
@@ -169,7 +173,7 @@ export class EdgeApp {
   // 获取前端配置数据
   async getFrontendConfig() {
     if (isInBuild()) {
-      console.warn("在build 阶段,不加载远程前端配置");
+      console.warn("在build 阶段,不加载FrontendConfig远程前端配置");
       return undefined;
     }
     if (!this.frontendConfig) {
