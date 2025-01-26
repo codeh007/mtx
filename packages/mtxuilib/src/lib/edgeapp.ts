@@ -45,7 +45,7 @@ export class EdgeApp {
     }
     this.headers = opts.headers;
     this.cookies = opts.cookies;
-    initMtiaiClient();
+    initMtiaiClient(await this.getBackendUrl());
     this.isInited = true;
   }
 
@@ -72,7 +72,6 @@ export class EdgeApp {
 
   // 获取当前服务器的url(通常是nextjs 运行的服务器地址)
   async getBackendUrl(prefix?: string) {
-    // console.log("process.env.MTMAI_BACKEND", process.env.MTMAI_BACKEND);
     if (process.env.MTM_BASE_URL) {
       return `${process.env.MTM_BASE_URL}${prefix}`;
     }
@@ -95,11 +94,11 @@ export class EdgeApp {
       return `https://${host}${prefix}`;
     }
 
-    if (process.env.GITPOD_WORKSPACE_URL) {
-      const gitpodWrokspaceHost = new URL(process.env?.GITPOD_WORKSPACE_URL)
-        .hostname;
-      return `https://${port}-${gitpodWrokspaceHost}${prefix}`;
-    }
+    // if (process.env.GITPOD_WORKSPACE_URL) {
+    //   const gitpodWrokspaceHost = new URL(process.env?.GITPOD_WORKSPACE_URL)
+    //     .hostname;
+    //   return `https://${port}-${gitpodWrokspaceHost}${prefix}`;
+    // }
 
     return `http://${host}:${port}${prefix}`;
   }
