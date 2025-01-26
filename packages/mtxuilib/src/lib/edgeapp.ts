@@ -60,55 +60,6 @@ export class EdgeApp {
     //   throw new Error("cookies is not set");
     // }
 
-    const envUrl = `${await this.getBackendUrl()}/api/v1/env/default`;
-    const response = await fetch(envUrl, {
-      headers: {
-        Authorization: `Bearer ${this.token}`,
-      },
-    });
-    if (!response.ok) {
-      throw new Error(
-        `get remote env error: ${response.statusText}, from url: ${envUrl}`,
-      );
-    }
-    const envText = await response.text();
-    const env = envText.split("\n").map((line) => line.trim());
-
-    const skipsComment = ["#", "//"];
-    //防止覆盖重要本地变量
-    const skipsLocals = [
-      "NEXT_BUILD_OUTPUT",
-      "PORT",
-      "MTMAI_BACKEND",
-      "MTM_TOKEN",
-    ];
-    console.log("阶段2");
-
-    for (const line of env) {
-      const v = line.split("=");
-      if (v.length !== 2) {
-        continue;
-      }
-      const envName = v[0];
-      if (skipsComment.includes(envName)) {
-        continue;
-      }
-      if (skipsLocals.includes(envName)) {
-        continue;
-      }
-      let envValue = line.split("=")[1];
-      if (envValue) {
-        envValue = envValue.trim();
-        if (envValue.startsWith('"') && envValue.endsWith('"')) {
-          envValue = envValue.substring(1, envValue.length - 1);
-        }
-        if (envValue.startsWith("'") && envValue.endsWith("'")) {
-          envValue = envValue.substring(1, envValue.length - 1);
-        }
-        console.log(`⚠️ [remote] ${envName}=${envValue}`);
-        process.env[envName] = envValue;
-      }
-    }
     console.log("阶段3");
     initMtiaiClient();
     this.isInited = true;
@@ -137,7 +88,7 @@ export class EdgeApp {
 
   // 获取当前服务器的url(通常是nextjs 运行的服务器地址)
   async getBackendUrl(prefix?: string) {
-    console.log("process.env.MTMAI_BACKEND", process.env.MTMAI_BACKEND);
+    // console.log("process.env.MTMAI_BACKEND", process.env.MTMAI_BACKEND);
     if (process.env.MTM_BASE_URL) {
       return `${process.env.MTM_BASE_URL}${prefix || ""}`;
     }
@@ -149,7 +100,6 @@ export class EdgeApp {
     }
     const host = this.hostName;
     const port = Number(process.env.PORT) || 3000;
-    //本地ip(或tailscale 内网ip)
     if (
       host?.includes("localhost") ||
       host?.includes("ts.net") ||
@@ -200,6 +150,56 @@ export class EdgeApp {
       }
     }
     return this.endpointList;
+  }
+
+  async loadRemoteEnv() {
+    const envUrl = `${await this.getBackendUrl()}/api/v1/env/default`;
+    const response = await fetch(envUrl, {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error(
+        `get remote env error: ${response.statusText}, from url: ${envUrl}`,
+      );
+    }
+    const envText = await response.text();
+    const env = envText.split("\n").map((line) => line.trim());
+
+    const skipsComment = ["#", "//"];
+    //防止覆盖重要本地变量
+    const skipsLocals = [
+      "NEXT_BUILD_OUTPUT",
+      "PORT",
+      "MTMAI_BACKEND",
+      "MTM_TOKEN",
+    ];
+    for (const line of env) {
+      const v = line.split("=");
+      if (v.length !== 2) {
+        continue;
+      }
+      const envName = v[0];
+      if (skipsComment.includes(envName)) {
+        continue;
+      }
+      if (skipsLocals.includes(envName)) {
+        continue;
+      }
+      let envValue = line.split("=")[1];
+      if (envValue) {
+        envValue = envValue.trim();
+        if (envValue.startsWith('"') && envValue.endsWith('"')) {
+          envValue = envValue.substring(1, envValue.length - 1);
+        }
+        if (envValue.startsWith("'") && envValue.endsWith("'")) {
+          envValue = envValue.substring(1, envValue.length - 1);
+        }
+        console.log(`⚠️ [remote] ${envName}=${envValue}`);
+        process.env[envName] = envValue;
+      }
+    }
   }
 }
 
