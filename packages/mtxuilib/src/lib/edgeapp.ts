@@ -83,31 +83,22 @@ export class EdgeApp {
     }
     const host = this.hostName || "localhost";
     const port = Number(process.env.PORT) || 3000;
-    if (
+
+    const localHost =
       host?.includes("localhost") ||
       host?.includes("ts.net") ||
-      host?.startsWith("100.")
-    ) {
-      return `http://${host}${prefix}`;
+      host?.startsWith("100.");
+    if (localHost) {
+      return `http://${host}:${port}${prefix}`;
     }
-    if (host) {
-      return `https://${host}${prefix}`;
-    }
-
-    // if (process.env.GITPOD_WORKSPACE_URL) {
-    //   const gitpodWrokspaceHost = new URL(process.env?.GITPOD_WORKSPACE_URL)
-    //     .hostname;
-    //   return `https://${port}-${gitpodWrokspaceHost}${prefix}`;
-    // }
-
-    return `http://${host}:${port}${prefix}`;
+    return `https://${host}:${port}${prefix}`;
   }
 
   // 获取前端配置数据
   async getFrontendConfig() {
     if (isInBuild()) {
       console.warn("在build 阶段,不加载FrontendConfig远程前端配置");
-      return {};
+      return {} as FrontendConfig;
     }
     if (!this.frontendConfig) {
       try {
@@ -126,10 +117,9 @@ export class EdgeApp {
       try {
         this.endpointList = (await endpointList({})).data;
       } catch (e) {
-        console.log("process.env.MTMAI_BACKEND", process.env.MTMAI_BACKEND);
-
-        console.error(`getEndpointList error: ${e}`);
-        this.endpointList = undefined;
+        console.error(
+          `getEndpointList error: ${e}, when backendUrl: ${await this.getBackendUrl()}`,
+        );
       }
     }
     return this.endpointList;
