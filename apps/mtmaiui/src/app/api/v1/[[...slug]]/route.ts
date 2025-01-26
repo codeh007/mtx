@@ -11,23 +11,20 @@ export const runtime = "edge";
  */
 const handler = async (r: Request) => {
   let errorMsg = "";
-
-  //加载基本配置
   try {
     await edgeApp.init({
       headers: headers,
       cookies: cookies,
     });
   } catch (e) {
-    errorMsg = `加载基本配置失败:${(e as Error).message}`;
+    errorMsg = `edgeApp.init error:${(e as Error).message}`;
   }
 
-  //加载 endpoints 数据
   try {
     const endpointList = await edgeApp.getEndpointList();
     console.log("endpointList:", endpointList);
   } catch (e) {
-    errorMsg = `加载 endpoints 数据失败:${(e as Error).message}`;
+    errorMsg = `load endpointList error:${(e as Error).message}`;
   }
 
   //开发阶段使用第一条配置作为远程服务器的配置
