@@ -31,6 +31,12 @@ export function getBackendUrl(prefix = "") {
   return `https://${host}:${port}${prefix}`;
 }
 
+export async function initMtiaiClientV2() {
+  await initMtiaiClient({
+    baseUrl: await getBackendUrl(),
+  });
+}
+
 export class EdgeApp {
   private isInited = false;
   public hostName = "";
@@ -68,9 +74,10 @@ export class EdgeApp {
     }
     this.headers = opts.headers;
     this.cookies = opts.cookies;
-    initMtiaiClient({
-      baseUrl: (await this.getBackendUrl()) || "http://localhost:3000",
-    });
+    // initMtiaiClient({
+    //   baseUrl: (await getBackendUrl()) || "http://localhost:3000",
+    // });
+    await initMtiaiClientV2();
     this.isInited = true;
   }
 
@@ -96,28 +103,28 @@ export class EdgeApp {
   }
 
   // 获取当前服务器的url(通常是nextjs 运行的服务器地址)
-  async getBackendUrl(prefix = "") {
-    if (process.env.MTM_BASE_URL) {
-      return `${process.env.MTM_BASE_URL}${prefix}`;
-    }
-    if (process.env.MTMAI_BACKEND) {
-      return `${process.env.MTMAI_BACKEND}${prefix}`;
-    }
-    if (process.env.VERCEL_URL) {
-      return `https://${process.env.VERCEL_URL}${prefix}`;
-    }
-    const host = this.hostName || "localhost";
-    const port = Number(process.env.PORT) || 3000;
+  // async getBackendUrl(prefix = "") {
+  //   if (process.env.MTM_BASE_URL) {
+  //     return `${process.env.MTM_BASE_URL}${prefix}`;
+  //   }
+  //   if (process.env.MTMAI_BACKEND) {
+  //     return `${process.env.MTMAI_BACKEND}${prefix}`;
+  //   }
+  //   if (process.env.VERCEL_URL) {
+  //     return `https://${process.env.VERCEL_URL}${prefix}`;
+  //   }
+  //   const host = this.hostName || "localhost";
+  //   const port = Number(process.env.PORT) || 3000;
 
-    const localHost =
-      host?.includes("localhost") ||
-      host?.includes("ts.net") ||
-      host?.startsWith("100.");
-    if (localHost) {
-      return `http://${host}:${port}${prefix}`;
-    }
-    return `https://${host}:${port}${prefix}`;
-  }
+  //   const localHost =
+  //     host?.includes("localhost") ||
+  //     host?.includes("ts.net") ||
+  //     host?.startsWith("100.");
+  //   if (localHost) {
+  //     return `http://${host}:${port}${prefix}`;
+  //   }
+  //   return `https://${host}:${port}${prefix}`;
+  // }
 
   // 获取前端配置数据
   async getFrontendConfig() {
@@ -139,12 +146,12 @@ export class EdgeApp {
   // 获取业务后端列表
   async getEndpointList() {
     if (!this.endpointList) {
-      console.log(`getEndpointList, backendUrl: ${await this.getBackendUrl()}`);
+      console.log(`getEndpointList, backendUrl: ${await getBackendUrl()}`);
       try {
         this.endpointList = (await endpointList({})).data;
       } catch (e) {
         console.error(
-          `getEndpointList error: ${e}, when backendUrl: ${await this.getBackendUrl()}`,
+          `getEndpointList error: ${e}, when backendUrl: ${await getBackendUrl()}`,
         );
       }
     }
@@ -152,7 +159,7 @@ export class EdgeApp {
   }
 
   async loadRemoteEnv() {
-    const envUrl = `${await this.getBackendUrl()}/api/v1/env/default`;
+    const envUrl = `${await getBackendUrl()}/api/v1/env/default`;
     const response = await fetch(envUrl, {
       headers: {
         Authorization: `Bearer ${this.token}`,
