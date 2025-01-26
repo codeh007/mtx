@@ -4,9 +4,7 @@ import dotenv from "dotenv";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { exec } from "../lib/exec";
-// import { buildWithTsc } from "./build_tsc";
-// import { buildWithViteBuild } from "./build_vite.ts--";
+import { exec } from "../lib/mtos";
 import { compileMigrations } from "./compile-migrations";
 
 const envFiles = ["../../env/dev.env", "./env/dev.env", ".env"];
