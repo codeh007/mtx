@@ -29,16 +29,10 @@ export class EdgeApp {
     cookies?: () => Promise<ReadonlyRequestCookies>;
     headers?: () => Promise<Headers> | Headers;
   }) {
-    // this.env = opts.env;
-    // for (const key in this.env) {
-    //   process.env[key] = this.env[key];
-    // }
-    console.log(
-      `init:${process.env.MTMAI_BACKEND}, ${process.env.MTM_ADMIN_TOKEN}`,
-    );
-    // if (this.isInited) {
-    //   return;
-    // }
+    if (this.isInited) {
+      console.log("edgeApp.init already inited");
+      return;
+    }
     this.backend = process.env.MTMAI_BACKEND;
     this.token = process.env?.MTM_ADMIN_TOKEN;
     if (!this.token && !isCI() && !isInBuild()) {
@@ -61,7 +55,6 @@ export class EdgeApp {
     //   throw new Error("cookies is not set");
     // }
 
-    console.log("阶段1");
     const envUrl = `${this.backend}/api/v1/env/default`;
     const response = await fetch(envUrl, {
       headers: {
@@ -70,7 +63,7 @@ export class EdgeApp {
     });
     if (!response.ok) {
       throw new Error(
-        `get env error: ${response.statusText}, from url: ${envUrl}`,
+        `get remote env error: ${response.statusText}, from url: ${envUrl}`,
       );
     }
     const envText = await response.text();
@@ -112,8 +105,6 @@ export class EdgeApp {
       }
     }
     console.log("阶段3");
-
-    console.log("initMtiaiClient");
     initMtiaiClient();
     this.isInited = true;
   }
