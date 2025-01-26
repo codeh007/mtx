@@ -15,7 +15,7 @@
     "withEnv": "dotenv -e ../../../gomtm/env/mtmaiui.env --",
     "dev": "dotenv -e ../../../gomtm/env/mtmaiui.env -- next dev",
     "dev:next": "bun run watch & next dev",
-    "build": "vite build && next build",
+    "build--": "vite build && next build",
     "build:tsc": "tsc --outDir dist --jsx react-jsx --incremental false --declaration true --noEmit false --removeComments true --project tsconfig.json",
     "build_vite_dev": "vite build --config vite.config.dev.js",
     "build:types": "vite build --types",

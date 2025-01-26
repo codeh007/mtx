@@ -148,9 +148,7 @@ jobs:
         run: |
           cd apps/mtmaiui
           gomtm vc
-        # env:
-        #   GOPRIVATE: ${{ secrets.GOPRIVATE }}
-        #   GIT_CREDENTIALS: ${{ secrets.GIT_CREDENTIALS }}
+
 
 
   build_docker_gomtm_base:
