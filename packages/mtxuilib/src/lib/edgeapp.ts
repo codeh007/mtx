@@ -6,12 +6,11 @@ import {
   initMtiaiClient,
 } from "mtmaiapi";
 import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
-import { isCI, isInBuild } from "./s-utils";
+import { isInBuild } from "./s-utils";
 
 const gomtmBackendToken: string | undefined = undefined;
 let cachedEndpointList: EndpointList | undefined = undefined;
 let cachedFrontendConfig: FrontendConfig | undefined = undefined;
-let isInited = false;
 let headers: () => Promise<Headers> | Headers;
 let cookies: () => Promise<ReadonlyRequestCookies>;
 
@@ -136,10 +135,6 @@ export async function getAccessToken() {
   if (!frontendConfig) {
     throw new Error("get frontendConfig error");
   }
-  // const tokenName = frontendConfig?.cookieAccessToken;
-  // if (this.cookies) {
-  //   return (await this.cookies()).get(tokenName)?.value || "";
-  // }
   return "";
 }
 
@@ -159,27 +154,28 @@ export async function getHostName() {
   return "localhost";
 }
 
+// 服务初始化入口函数
 export async function initEdgeApp(opts: {
   cookies?: () => Promise<ReadonlyRequestCookies>;
   headers?: () => Promise<Headers> | Headers;
 }) {
-  if (isInited) {
-    console.log("edgeApp.init already inited");
-    return;
-  }
-  const token = process.env?.MTM_ADMIN_TOKEN;
-  if (!token && !isCI() && !isInBuild()) {
-    throw new Error("MTM_ADMIN_TOKEN is not set");
-  }
-
-  if (!token) {
-    console.warn("⚠️ MTM_ADMIN_TOKEN is not set");
-  }
+  // if (isInited) {
+  //   return;
+  // }
   if (typeof window !== "undefined") {
     return;
   }
+  // console.log("initEdgeApp");
+  // const token = process.env?.MTM_ADMIN_TOKEN;
+  // if (!token && !isCI() && !isInBuild()) {
+  //   throw new Error("MTM_ADMIN_TOKEN is not set");
+  // }
+
+  // if (!token) {
+  //   console.warn("⚠️ MTM_ADMIN_TOKEN is not set");
+  // }
   headers = opts.headers;
   cookies = opts.cookies;
   await initMtiaiClientV2();
-  isInited = true;
+  // isInited = true;
 }
