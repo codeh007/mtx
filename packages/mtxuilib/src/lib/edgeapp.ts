@@ -33,6 +33,11 @@ export class EdgeApp {
       console.log("edgeApp.init already inited");
       return;
     }
+
+    if (isInBuild()) {
+      console.warn("在build 阶段,不加载远程环境变量");
+      return;
+    }
     this.backend = process.env.MTMAI_BACKEND;
     this.token = process.env?.MTM_ADMIN_TOKEN;
     if (!this.token && !isCI() && !isInBuild()) {
