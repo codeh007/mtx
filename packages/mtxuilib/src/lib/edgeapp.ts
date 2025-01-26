@@ -50,12 +50,12 @@ export class EdgeApp {
     if (typeof window !== "undefined") {
       return;
     }
-    // this.headers = opts.headers;
+    this.headers = opts.headers;
     // if (!this.headers) {
     //   throw new Error("headers is not set");
     // }
     // this.hostName = (await this.headers()).get("host") || "";
-    // this.cookies = opts.cookies;
+    this.cookies = opts.cookies;
     // if (!this.cookies) {
     //   throw new Error("cookies is not set");
     // }
@@ -168,6 +168,10 @@ export class EdgeApp {
 
   // 获取前端配置数据
   async getFrontendConfig() {
+    if (isInBuild()) {
+      console.warn("在build 阶段,不加载远程前端配置");
+      return undefined;
+    }
     if (!this.frontendConfig) {
       try {
         this.frontendConfig = (await frontendGetConfig({})).data;
