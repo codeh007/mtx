@@ -11,7 +11,6 @@ import { isCI, isInBuild } from "./s-utils";
 export class EdgeApp {
   private isInited = false;
   public hostName = "";
-  // public backend: string | undefined = undefined;
   public token?: string = undefined;
   public frontendConfig?: FrontendConfig = undefined;
   //业务后端列表
@@ -33,12 +32,6 @@ export class EdgeApp {
       console.log("edgeApp.init already inited");
       return;
     }
-
-    if (isInBuild()) {
-      console.warn("在build 阶段,不加载远程环境变量");
-      // return;
-    }
-    // this.backend = process.env.MTMAI_BACKEND;
     this.token = process.env?.MTM_ADMIN_TOKEN;
     if (!this.token && !isCI() && !isInBuild()) {
       throw new Error("MTM_ADMIN_TOKEN is not set");
@@ -51,16 +44,7 @@ export class EdgeApp {
       return;
     }
     this.headers = opts.headers;
-    // if (!this.headers) {
-    //   throw new Error("headers is not set");
-    // }
-    // this.hostName = (await this.headers()).get("host") || "";
     this.cookies = opts.cookies;
-    // if (!this.cookies) {
-    //   throw new Error("cookies is not set");
-    // }
-
-    console.log("阶段3");
     initMtiaiClient();
     this.isInited = true;
   }
@@ -124,7 +108,7 @@ export class EdgeApp {
   async getFrontendConfig() {
     if (isInBuild()) {
       console.warn("在build 阶段,不加载FrontendConfig远程前端配置");
-      return undefined;
+      return {};
     }
     if (!this.frontendConfig) {
       try {
