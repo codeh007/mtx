@@ -1,8 +1,8 @@
 import { cookies } from "next/headers";
 
 import { endpointList } from "mtmaiapi";
+import { edgeApp } from "mtxuilib/lib/edgeapp";
 import { headers } from "next/headers";
-import { edgeApp } from "../../../../lib/edgeapp";
 
 export const runtime = "edge";
 
