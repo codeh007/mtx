@@ -5,7 +5,7 @@ export { MyWorkflow } from "./workflows/hello-workflow";
 // import { handleWsRequest } from "mtxuilib/routes/ws/wsApp";
 
 import type { EndpointList, Env } from "mtmaiapi/gomtmapi/types.gen";
-import { getEndpointList, initEdgeApp } from "./lib/edgeapp";
+import { getEndpointList, initEdgeApp } from "./lib/sslib";
 import { handleWsRequest } from "./routes/ws/wsApp";
 export default {
   async fetch(request: Request, env, ctx) {
