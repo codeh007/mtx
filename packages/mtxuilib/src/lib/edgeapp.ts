@@ -45,7 +45,9 @@ export class EdgeApp {
     }
     this.headers = opts.headers;
     this.cookies = opts.cookies;
-    initMtiaiClient(await this.getBackendUrl());
+    initMtiaiClient({
+      baseUrl: await this.getBackendUrl(),
+    });
     this.isInited = true;
   }
 
