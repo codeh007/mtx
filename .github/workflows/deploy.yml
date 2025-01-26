@@ -66,6 +66,11 @@ jobs:
           cd packages/gomtm-cli
           npm i -g
 
+      - name: deploy to vercel
+        run: |
+          cd apps/mtmaiui
+          gomtm vc
+
       - name: deploy mtmaiui cfpage
         run: |
           (cd apps/mtmaiui && bun run build && gomtm cfpage)
