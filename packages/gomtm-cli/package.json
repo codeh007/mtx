@@ -15,13 +15,24 @@
   "sideEffects": false,
   "scripts": {
     "build--": "bun build src/cli/main.ts --outdir=dist/gomtm-cli.js --target node",
-    "build": "echo "
+    "build": "next build "
   },
   "dependencies": {
-    "next": "^15.1.6"
+    "next": "^15.1.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "commander": "^12.1.0",
-    "vite": "^6.0.3"
+    "vite": "^6.0.3",
+    "@types/node": "^22",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.0",
+    "tailwind-merge": "^2.5.5",
+    "tailwind-scrollbar": "^3.1.0",
+    "tailwind-scrollbar-hide": "^1.1.7",
+    "tailwindcss": "^3.4.17",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.7"
   }
 }
