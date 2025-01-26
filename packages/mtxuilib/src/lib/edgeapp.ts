@@ -123,7 +123,7 @@ export class EdgeApp {
     if (!frontendConfig) {
       throw new Error("get frontendConfig error");
     }
-    const tokenName = frontendConfig.cookieAccessToken;
+    const tokenName = frontendConfig?.cookieAccessToken;
     if (this.cookies) {
       return (await this.cookies()).get(tokenName)?.value || "";
     }

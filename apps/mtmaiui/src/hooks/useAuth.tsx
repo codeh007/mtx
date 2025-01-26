@@ -36,7 +36,7 @@ export const useLoginHandler = () => {
 
   const { handleApiError } = useApiError({ setFieldErrors });
 
-  const cookieKey = frontendConfig!.cookieAccessToken || "access_token";
+  const cookieKey = frontendConfig?.cookieAccessToken || "access_token";
   const loginMutation = useMutation({
     ...userUpdateLoginMutation(),
     onSuccess: (data) => {
