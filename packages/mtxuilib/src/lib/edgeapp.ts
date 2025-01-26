@@ -11,7 +11,7 @@ import { isCI, isInBuild } from "./s-utils";
 export class EdgeApp {
   private isInited = false;
   public hostName = "";
-  public backend: string | undefined = undefined;
+  // public backend: string | undefined = undefined;
   public token?: string = undefined;
   public frontendConfig?: FrontendConfig = undefined;
   //业务后端列表
@@ -36,9 +36,9 @@ export class EdgeApp {
 
     if (isInBuild()) {
       console.warn("在build 阶段,不加载远程环境变量");
-      return;
+      // return;
     }
-    this.backend = process.env.MTMAI_BACKEND;
+    // this.backend = process.env.MTMAI_BACKEND;
     this.token = process.env?.MTM_ADMIN_TOKEN;
     if (!this.token && !isCI() && !isInBuild()) {
       throw new Error("MTM_ADMIN_TOKEN is not set");
@@ -60,7 +60,7 @@ export class EdgeApp {
     //   throw new Error("cookies is not set");
     // }
 
-    const envUrl = `${this.backend}/api/v1/env/default`;
+    const envUrl = `${await this.getBackendUrl()}/api/v1/env/default`;
     const response = await fetch(envUrl, {
       headers: {
         Authorization: `Bearer ${this.token}`,
