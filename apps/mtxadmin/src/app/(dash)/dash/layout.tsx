@@ -1,5 +1,5 @@
 import "@xterm/xterm/css/xterm.css";
-import { frontendGetConfig, initMtiaiClient } from "mtmaiapi";
+import { frontendGetConfig } from "mtmaiapi";
 import { MtmaiProvider } from "mtmaiui/stores/StoreProvider";
 import { UIProviders } from "mtmaiui/stores/UIProviders";
 import { GomtmRuntimeProvider } from "mtmaiui/stores/gomtm-runtime-privider";
@@ -38,7 +38,7 @@ export default async function Layout(props: {
 }) {
   const { children } = props;
   const hostName = (await headers()).get("host");
-  initMtiaiClient();
+  // initMtiaiClient();
   const frontendConfigResponse = await frontendGetConfig({});
   const backendUrl = process.env.MTMAI_BACKEND;
   let accessToken: string | undefined = undefined;

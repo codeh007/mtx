@@ -7,7 +7,7 @@ import type { ReactNode } from "react";
 import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
 import { WebLayout } from "mtxuilib/layouts/web/WebLayout";
 import { WebLayoutHeader } from "mtxuilib/layouts/web/WebLayoutHeader";
-import { edgeApp } from "mtxuilib/lib/edgeapp";
+import { edgeApp, getBackendUrl } from "mtxuilib/lib/edgeapp";
 import { cn } from "mtxuilib/lib/utils";
 import "mtxuilib/styles/globals.css";
 import { MtSessionProvider } from "../../stores/MtSessionProvider";
@@ -47,7 +47,7 @@ export default async function Layout(props: {
         <MtmaiProvider
           frontendConfig={await edgeApp.getFrontendConfig()}
           hostName={edgeApp.hostName}
-          serverUrl={edgeApp.backend}
+          serverUrl={await getBackendUrl()}
           selfBackendUrl={await edgeApp.getBackendUrl()}
           accessToken={await edgeApp.getAccessToken()}
         >

@@ -8,6 +8,29 @@ import {
 import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { isCI, isInBuild } from "./s-utils";
 
+export function getBackendUrl(prefix = "") {
+  if (process.env.MTM_BASE_URL) {
+    return `${process.env.MTM_BASE_URL}${prefix}`;
+  }
+  if (process.env.MTMAI_BACKEND) {
+    return `${process.env.MTMAI_BACKEND}${prefix}`;
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}${prefix}`;
+  }
+  const host = process.env.MTMAI_BACKEND || "localhost";
+  const port = Number(process.env.PORT) || 3000;
+
+  const localHost =
+    host?.includes("localhost") ||
+    host?.includes("ts.net") ||
+    host?.startsWith("100.");
+  if (localHost) {
+    return `http://${host}:${port}${prefix}`;
+  }
+  return `https://${host}:${port}${prefix}`;
+}
+
 export class EdgeApp {
   private isInited = false;
   public hostName = "";
