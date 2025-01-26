@@ -135,6 +135,15 @@ jobs:
           go-version-file: 'go.mod'
           cache-dependency-path: "**/*.sum"
 
+      - name: show env
+        run: |
+          echo $GOPRIVATE
+          echo $GIT_CREDENTIALS
+
+      - name: show env2
+        run: |
+          env
+
       - name: deploy to vercel
         run: |
           cd apps/mtmaiui
