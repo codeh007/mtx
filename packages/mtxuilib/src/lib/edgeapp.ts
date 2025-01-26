@@ -74,34 +74,34 @@ export class EdgeApp {
   async getBackendUrl(prefix?: string) {
     // console.log("process.env.MTMAI_BACKEND", process.env.MTMAI_BACKEND);
     if (process.env.MTM_BASE_URL) {
-      return `${process.env.MTM_BASE_URL}${prefix || ""}`;
+      return `${process.env.MTM_BASE_URL}${prefix}`;
     }
     if (process.env.MTMAI_BACKEND) {
-      return `${process.env.MTMAI_BACKEND}${prefix || ""}`;
+      return `${process.env.MTMAI_BACKEND}${prefix}`;
     }
     if (process.env.VERCEL_URL) {
-      return `https://${process.env.VERCEL_URL}${prefix || ""}`;
+      return `https://${process.env.VERCEL_URL}${prefix}`;
     }
-    const host = this.hostName;
+    const host = this.hostName || "localhost";
     const port = Number(process.env.PORT) || 3000;
     if (
       host?.includes("localhost") ||
       host?.includes("ts.net") ||
       host?.startsWith("100.")
     ) {
-      return `http://${host}${prefix || ""}`;
+      return `http://${host}${prefix}`;
     }
     if (host) {
-      return `https://${host}${prefix || ""}`;
+      return `https://${host}${prefix}`;
     }
 
     if (process.env.GITPOD_WORKSPACE_URL) {
       const gitpodWrokspaceHost = new URL(process.env?.GITPOD_WORKSPACE_URL)
         .hostname;
-      return `https://${port}-${gitpodWrokspaceHost}${prefix || ""}`;
+      return `https://${port}-${gitpodWrokspaceHost}${prefix}`;
     }
 
-    return `http://${host}:${port}${prefix || ""}`;
+    return `http://${host}:${port}${prefix}`;
   }
 
   // 获取前端配置数据
