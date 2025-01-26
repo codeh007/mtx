@@ -46,7 +46,7 @@ export class EdgeApp {
     this.headers = opts.headers;
     this.cookies = opts.cookies;
     initMtiaiClient({
-      baseUrl: await this.getBackendUrl(),
+      baseUrl: (await this.getBackendUrl()) || "http://localhost:3000",
     });
     this.isInited = true;
   }
@@ -116,6 +116,7 @@ export class EdgeApp {
   // 获取业务后端列表
   async getEndpointList() {
     if (!this.endpointList) {
+      console.log(`getEndpointList, backendUrl: ${await this.getBackendUrl()}`);
       try {
         this.endpointList = (await endpointList({})).data;
       } catch (e) {
