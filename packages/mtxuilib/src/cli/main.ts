@@ -26,9 +26,7 @@ function loadEnv() {
   await loadEnv();
   program.command("build").action(async () => {
     console.log("(mtxuilib)build vite");
-    // await buildWithViteBuild();
     console.log("(mtxuilib)build tsc");
-    // await buildWithTsc();
   });
 
   program.command("gen").action(async () => {
