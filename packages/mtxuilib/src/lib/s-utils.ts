@@ -135,3 +135,15 @@ export const emptyLineCount = (content: string): number => {
   const liens = content.split("\n");
   return liens.filter((line) => line.trim() === "").length;
 };
+
+export function isCI() {
+  return process.env.CI === "true";
+}
+// export function isInVercel() {
+//   return process.env.VERCEL === "true";
+// }
+export function isInBuild() {
+  // return process.env.BUILD === "true";
+  // It is called: process.env.NEXT_PHASE and it will be set to phase-production-build during build time.
+  return process.env.NEXT_PHASE === "phase-production-build";
+}

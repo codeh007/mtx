@@ -61,6 +61,15 @@ jobs:
       - name: setup bun
         uses: ./.github/actions/setup_bun
 
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '^1.23'
+          check-latest: true
+          go-version-file: 'go.mod'
+          cache-dependency-path: "**/*.sum"
+      - run: go version
+
       - name: 安装开发板的 gomtm
         run: |
           cd packages/gomtm-cli
