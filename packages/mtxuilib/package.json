@@ -76,7 +76,7 @@
     "db:migrate:old": "bun run withEnv -- bun run src/db/migrate.ts",
     "db:migrate": "bun run withEnv -- bun drizzle-kit migrate --config=drizzle.config.ts",
     "db:push": "bun run withEnv -- drizzle-kit push",
-    "deploy_worker": "bun run withEnv -- wrangler deploy src/entry-cfworker.ts"
+    "deploy_worker": "bun run withEnv -- wrangler deploy src/entry-cfworker.ts --config=../../../gomtm/wrangler.mtmgw.json"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.66",

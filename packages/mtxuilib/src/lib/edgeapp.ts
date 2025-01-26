@@ -19,7 +19,6 @@ export class EdgeApp {
 
   private cookies?: () => Promise<ReadonlyRequestCookies>;
   private headers?: () => Promise<Headers> | Headers;
-
   /**
    * 应用的初始化
    * 在 nextjs 中的 layout page route 页面中,需要调用此方法
@@ -30,31 +29,39 @@ export class EdgeApp {
     cookies?: () => Promise<ReadonlyRequestCookies>;
     headers?: () => Promise<Headers> | Headers;
   }) {
-    if (this.isInited) {
-      return;
-    }
+    // this.env = opts.env;
+    // for (const key in this.env) {
+    //   process.env[key] = this.env[key];
+    // }
+    console.log(
+      `init:${process.env.MTMAI_BACKEND}, ${process.env.MTM_ADMIN_TOKEN}`,
+    );
+    // if (this.isInited) {
+    //   return;
+    // }
     this.backend = process.env.MTMAI_BACKEND;
     this.token = process.env?.MTM_ADMIN_TOKEN;
     if (!this.token && !isCI() && !isInBuild()) {
       throw new Error("MTM_ADMIN_TOKEN is not set");
     }
 
-    if (this.token) {
-      console.warn("⚠️ MTM_ADMIN_TOKEN is set");
+    if (!this.token) {
+      console.warn("⚠️ MTM_ADMIN_TOKEN is not set");
     }
     if (typeof window !== "undefined") {
       return;
     }
-    this.headers = opts.headers;
-    if (!this.headers) {
-      throw new Error("headers is not set");
-    }
-    this.hostName = (await this.headers()).get("host") || "";
-    this.cookies = opts.cookies;
-    if (!this.cookies) {
-      throw new Error("cookies is not set");
-    }
+    // this.headers = opts.headers;
+    // if (!this.headers) {
+    //   throw new Error("headers is not set");
+    // }
+    // this.hostName = (await this.headers()).get("host") || "";
+    // this.cookies = opts.cookies;
+    // if (!this.cookies) {
+    //   throw new Error("cookies is not set");
+    // }
 
+    console.log("阶段1");
     const envUrl = `${this.backend}/api/v1/env/default`;
     const response = await fetch(envUrl, {
       headers: {
@@ -77,8 +84,14 @@ export class EdgeApp {
       "MTMAI_BACKEND",
       "MTM_TOKEN",
     ];
+    console.log("阶段2");
+
     for (const line of env) {
-      const envName = line.split("=")[0];
+      const v = line.split("=");
+      if (v.length !== 2) {
+        continue;
+      }
+      const envName = v[0];
       if (skipsComment.includes(envName)) {
         continue;
       }
@@ -98,7 +111,9 @@ export class EdgeApp {
         process.env[envName] = envValue;
       }
     }
+    console.log("阶段3");
 
+    console.log("initMtiaiClient");
     initMtiaiClient();
     this.isInited = true;
   }
@@ -122,8 +137,12 @@ export class EdgeApp {
 
   // 获取当前服务器的url(通常是nextjs 运行的服务器地址)
   async getBackendUrl(prefix?: string) {
+    console.log("process.env.MTMAI_BACKEND", process.env.MTMAI_BACKEND);
     if (process.env.MTM_BASE_URL) {
       return `${process.env.MTM_BASE_URL}${prefix || ""}`;
+    }
+    if (process.env.MTMAI_BACKEND) {
+      return `${process.env.MTMAI_BACKEND}${prefix || ""}`;
     }
     if (process.env.VERCEL_URL) {
       return `https://${process.env.VERCEL_URL}${prefix || ""}`;
@@ -170,6 +189,8 @@ export class EdgeApp {
       try {
         this.endpointList = (await endpointList({})).data;
       } catch (e) {
+        console.log("process.env.MTMAI_BACKEND", process.env.MTMAI_BACKEND);
+
         console.error(`getEndpointList error: ${e}`);
         this.endpointList = undefined;
       }
