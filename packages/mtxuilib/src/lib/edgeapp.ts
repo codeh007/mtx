@@ -73,7 +73,7 @@ export class EdgeApp {
   }
 
   // 获取当前服务器的url(通常是nextjs 运行的服务器地址)
-  async getBackendUrl(prefix?: string) {
+  async getBackendUrl(prefix = "") {
     if (process.env.MTM_BASE_URL) {
       return `${process.env.MTM_BASE_URL}${prefix}`;
     }
