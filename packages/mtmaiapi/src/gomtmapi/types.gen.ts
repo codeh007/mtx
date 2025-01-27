@@ -2924,6 +2924,9 @@ export type PlatformAccount = {
   platform: string;
   comment: string;
   tags: Array<string>;
+  properties: {
+    [key: string]: unknown;
+  };
 };
 
 export type PlatformAccountList = {
@@ -8135,7 +8138,7 @@ export type PlatformAccountListData = {
   body?: never;
   path?: never;
   query?: never;
-  url: "/api/v1/platform_account";
+  url: "/api/v1/platform_accounts";
 };
 
 export type PlatformAccountListErrors = {
@@ -8163,14 +8166,66 @@ export type PlatformAccountListResponses = {
 export type PlatformAccountListResponse =
   PlatformAccountListResponses[keyof PlatformAccountListResponses];
 
+export type PlatformAccountCreateData = {
+  body: PlatformAccount;
+  path?: never;
+  query?: never;
+  url: "/api/v1/platform_accounts";
+};
+
+export type PlatformAccountCreateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type PlatformAccountCreateError =
+  PlatformAccountCreateErrors[keyof PlatformAccountCreateErrors];
+
+export type PlatformAccountCreateResponses = {
+  200: PlatformAccount;
+};
+
+export type PlatformAccountCreateResponse =
+  PlatformAccountCreateResponses[keyof PlatformAccountCreateResponses];
+
+export type PlatformAccountGetData = {
+  body?: never;
+  path: {
+    /**
+     * The platform_account id
+     */
+    platform_account: string;
+  };
+  query?: never;
+  url: "/api/v1/platform_accounts/{platform_account}";
+};
+
+export type PlatformAccountGetResponses = {
+  200: PlatformAccount;
+};
+
+export type PlatformAccountGetResponse =
+  PlatformAccountGetResponses[keyof PlatformAccountGetResponses];
+
 export type PlatformAccountUpdateData = {
   /**
    * The platform_account properties to update
    */
   body: PlatformAccount;
-  path?: never;
+  path: {
+    /**
+     * The platform_account id
+     */
+    platform_account: string;
+  };
   query?: never;
-  url: "/api/v1/platform_account";
+  url: "/api/v1/platform_accounts/{platform_account}";
 };
 
 export type PlatformAccountUpdateErrors = {
