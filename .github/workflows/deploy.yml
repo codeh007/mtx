@@ -173,10 +173,14 @@ jobs:
       - name: 命令测试 bun
         run: |
           bun --version
-          
+
       - name: 命令测试 node
         run: |
           node --version
+
+      - name: 命令测试 bun i
+        run: |
+          bun i
 
       - name: install gomtm
         run: |
