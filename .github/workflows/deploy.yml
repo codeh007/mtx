@@ -195,6 +195,16 @@ jobs:
           go-version-file: 'go.mod'
           cache-dependency-path: "**/*.sum"
 
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel Environment Information
+        run: cd packages/gomtm-cli && vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: cd packages/gomtm-cli && vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      
+      
       - name: deploy to vercel
         # env:
         #   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
