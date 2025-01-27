@@ -3,7 +3,7 @@ import type { components } from "mtmaiapi/query_client/generated";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Button } from "mtxuilib/ui/button";
 import Link from "next/link";
-import { useBasePath } from "../../../../hooks/useBasePath";
+import { useBasePath } from "../../../hooks/useBasePath";
 
 interface PostCardProps {
   data: components["schemas"]["BlogPost"];

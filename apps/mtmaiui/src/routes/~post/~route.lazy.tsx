@@ -1,20 +1,20 @@
-import { Outlet, createLazyFileRoute } from '@tanstack/react-router'
+import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
   BreadcrumbPage,
-} from 'mtxuilib/ui/breadcrumb'
-import { SidebarInset } from 'mtxuilib/ui/sidebar'
-import { Suspense } from 'react'
-import { DashContent } from '../../../components/DashContent'
-import { DashHeaders } from '../../../components/DashHeaders'
-import { DashSidebar } from '../../../components/sidebar/siderbar'
-import { RootAppWrapper } from '../../components/RootAppWrapper'
-export const Route = createLazyFileRoute('/dash/post')({
+} from "mtxuilib/ui/breadcrumb";
+import { SidebarInset } from "mtxuilib/ui/sidebar";
+import { Suspense } from "react";
+import { DashContent } from "../../components/DashContent";
+import { DashHeaders } from "../../components/DashHeaders";
+import { DashSidebar } from "../../components/sidebar/siderbar";
+import { RootAppWrapper } from "../components/RootAppWrapper";
+export const Route = createLazyFileRoute("/post")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
   return (
@@ -37,5 +37,5 @@ function RouteComponent() {
         </DashContent>
       </SidebarInset>
     </RootAppWrapper>
-  )
+  );
 }

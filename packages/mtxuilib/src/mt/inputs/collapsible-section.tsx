@@ -16,7 +16,7 @@ import { DEFAULT_COLLAPSED } from "../json-form";
 export const CollapsibleSection = (props: ObjectFieldTemplateProps) => {
   if (!props.title) {
     return props.properties.map((element, i) => (
-      <div className="property-wrapper ml-4" key={i}>
+      <div className="property-wrapper ml-4" key={element.name}>
         {element.content}
       </div>
     ));
@@ -35,7 +35,7 @@ export const CollapsibleSection = (props: ObjectFieldTemplateProps) => {
           {props.description}
           {props.properties?.length > 0 ? (
             props.properties.map((element, i) => (
-              <div className="property-wrapper ml-4" key={i}>
+              <div className="property-wrapper ml-4" key={element.name}>
                 {element.content}
               </div>
             ))

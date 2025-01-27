@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { type ChangeEvent, type MouseEvent, useState } from "react";
 
-const SingleFileUploadForm = () => {
+export const SingleFileUploadForm = () => {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
@@ -128,6 +128,7 @@ const SingleFileUploadForm = () => {
           )}
         </div>
         <div className="mt-4 flex justify-center gap-1.5 md:mt-0 md:flex-col">
+          {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
           <button
             disabled={!previewUrl}
             onClick={onCancelFile}
@@ -135,6 +136,7 @@ const SingleFileUploadForm = () => {
           >
             Cancel file
           </button>
+          {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
           <button
             disabled={!previewUrl}
             onClick={onUploadFile}
@@ -148,4 +150,4 @@ const SingleFileUploadForm = () => {
   );
 };
 
-export default SingleFileUploadForm;
+// export default SingleFileUploadForm;

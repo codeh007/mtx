@@ -6,7 +6,7 @@ import { DataTableColumnHeader } from "mtxuilib/data-table/data-table-column-hea
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Badge } from "mtxuilib/ui/badge";
 import Link from "next/link";
-import { useBasePath } from "../../../../hooks/useBasePath";
+import { useBasePath } from "../../../hooks/useBasePath";
 
 export const columns: ColumnDef<components["schemas"]["BlogPost"]>[] = [
   {
