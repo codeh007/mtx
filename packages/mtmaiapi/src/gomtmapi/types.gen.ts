@@ -2916,17 +2916,16 @@ export type UpdateEndpointRequest = {
 
 export type PlatformAccount = {
   metadata: ApiResourceMeta;
-  key: string;
   username: string;
-  email: string;
-  password: string;
-  token: string;
-  type: string;
+  email?: string;
+  password?: string;
+  token?: string;
+  type?: string;
   platform: string;
-  enabled: boolean;
-  comment: string;
-  tags: Array<string>;
-  properties: {
+  enabled?: boolean;
+  comment?: string;
+  tags?: Array<string>;
+  properties?: {
     [key: string]: unknown;
   };
 };
@@ -2934,6 +2933,22 @@ export type PlatformAccount = {
 export type PlatformAccountList = {
   pagination?: PaginationResponse;
   rows?: Array<PlatformAccount>;
+};
+
+export type PlatformAccountUpdate = {
+  metadata?: ApiResourceMeta;
+  username?: string;
+  email?: string;
+  password?: string;
+  token?: string;
+  type?: string;
+  platform?: string;
+  enabled?: boolean;
+  comment?: string;
+  tags?: Array<string>;
+  properties?: {
+    [key: string]: unknown;
+  };
 };
 
 export type ReadinessGetData = {
