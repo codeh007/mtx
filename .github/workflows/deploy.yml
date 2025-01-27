@@ -165,10 +165,18 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install Vercel CLI
         run: npm install -g vercel
+
+      - name: 命令测试 bun
+        run: |
+          bun --version
+          
+      - name: 命令测试 node
+        run: |
+          node --version
 
       - name: install gomtm
         run: |
@@ -184,8 +192,8 @@ jobs:
           cache-dependency-path: "**/*.sum"
 
       - name: deploy to vercel
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        # env:
+        #   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
           cd packages/gomtm-cli
           gomtm vc_gomtm
