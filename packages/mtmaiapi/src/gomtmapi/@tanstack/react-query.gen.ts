@@ -284,6 +284,10 @@ import type {
   EndpointUpdateError,
   EndpointUpdateResponse,
   PlatformAccountListData,
+  PlatformAccountCreateData,
+  PlatformAccountCreateError,
+  PlatformAccountCreateResponse,
+  PlatformAccountGetData,
   PlatformAccountUpdateData,
   PlatformAccountUpdateError,
   PlatformAccountUpdateResponse,
@@ -434,6 +438,8 @@ import {
   endpointList,
   endpointUpdate,
   platformAccountList,
+  platformAccountCreate,
+  platformAccountGet,
   platformAccountUpdate,
   client,
 } from "../sdk.gen";
@@ -4613,6 +4619,68 @@ export const platformAccountListOptions = (
       return data;
     },
     queryKey: platformAccountListQueryKey(options),
+  });
+};
+
+export const platformAccountCreateQueryKey = (
+  options: Options<PlatformAccountCreateData>,
+) => [createQueryKey("platformAccountCreate", options)];
+
+export const platformAccountCreateOptions = (
+  options: Options<PlatformAccountCreateData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await platformAccountCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: platformAccountCreateQueryKey(options),
+  });
+};
+
+export const platformAccountCreateMutation = (
+  options?: Partial<Options<PlatformAccountCreateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    PlatformAccountCreateResponse,
+    PlatformAccountCreateError,
+    Options<PlatformAccountCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await platformAccountCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const platformAccountGetQueryKey = (
+  options: Options<PlatformAccountGetData>,
+) => [createQueryKey("platformAccountGet", options)];
+
+export const platformAccountGetOptions = (
+  options: Options<PlatformAccountGetData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await platformAccountGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: platformAccountGetQueryKey(options),
   });
 };
 

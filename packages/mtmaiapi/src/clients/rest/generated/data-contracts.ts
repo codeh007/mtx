@@ -2476,6 +2476,7 @@ export interface PlatformAccount {
   platform: string;
   comment: string;
   tags: string[];
+  properties: object;
 }
 
 export interface PlatformAccountList {

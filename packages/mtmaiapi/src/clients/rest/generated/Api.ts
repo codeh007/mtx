@@ -3264,12 +3264,46 @@ export class Api<
    *
    * @tags platform_account
    * @name PlatformAccountList
-   * @request GET:/api/v1/platform_account
+   * @request GET:/api/v1/platform_accounts
    * @secure
    */
   platformAccountList = (params: RequestParams = {}) =>
     this.request<PlatformAccountList, APIErrors>({
-      path: `/api/v1/platform_account`,
+      path: `/api/v1/platform_accounts`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description create platform_account
+   *
+   * @tags platform_account
+   * @name PlatformAccountCreate
+   * @request POST:/api/v1/platform_accounts
+   * @secure
+   */
+  platformAccountCreate = (data: PlatformAccount, params: RequestParams = {}) =>
+    this.request<PlatformAccount, APIErrors | APIError>({
+      path: `/api/v1/platform_accounts`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags platform_account
+   * @name PlatformAccountGet
+   * @request GET:/api/v1/platform_accounts/{platform_account}
+   * @secure
+   */
+  platformAccountGet = (platformAccount: string, params: RequestParams = {}) =>
+    this.request<PlatformAccount, any>({
+      path: `/api/v1/platform_accounts/${platformAccount}`,
       method: "GET",
       secure: true,
       format: "json",
@@ -3281,12 +3315,16 @@ export class Api<
    * @tags platform_account
    * @name PlatformAccountUpdate
    * @summary Update platform_account
-   * @request PATCH:/api/v1/platform_account
+   * @request PATCH:/api/v1/platform_accounts/{platform_account}
    * @secure
    */
-  platformAccountUpdate = (data: PlatformAccount, params: RequestParams = {}) =>
+  platformAccountUpdate = (
+    platformAccount: string,
+    data: PlatformAccount,
+    params: RequestParams = {},
+  ) =>
     this.request<PlatformAccount, APIErrors>({
-      path: `/api/v1/platform_account`,
+      path: `/api/v1/platform_accounts/${platformAccount}`,
       method: "PATCH",
       body: data,
       secure: true,

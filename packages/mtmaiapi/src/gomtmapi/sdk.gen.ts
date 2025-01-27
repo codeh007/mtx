@@ -405,6 +405,11 @@ import type {
   PlatformAccountListData,
   PlatformAccountListResponse,
   PlatformAccountListError,
+  PlatformAccountCreateData,
+  PlatformAccountCreateResponse,
+  PlatformAccountCreateError,
+  PlatformAccountGetData,
+  PlatformAccountGetResponse,
   PlatformAccountUpdateData,
   PlatformAccountUpdateResponse,
   PlatformAccountUpdateError,
@@ -4186,7 +4191,60 @@ export const platformAccountList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/platform_account",
+    url: "/api/v1/platform_accounts",
+    ...options,
+  });
+};
+
+/**
+ * create platform_account
+ */
+export const platformAccountCreate = <ThrowOnError extends boolean = false>(
+  options: Options<PlatformAccountCreateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).post<
+    PlatformAccountCreateResponse,
+    PlatformAccountCreateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/platform_accounts",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+export const platformAccountGet = <ThrowOnError extends boolean = false>(
+  options: Options<PlatformAccountGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    PlatformAccountGetResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/platform_accounts/{platform_account}",
     ...options,
   });
 };
@@ -4213,7 +4271,7 @@ export const platformAccountUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/platform_account",
+    url: "/api/v1/platform_accounts/{platform_account}",
     ...options,
     headers: {
       "Content-Type": "application/json",
