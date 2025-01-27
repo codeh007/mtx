@@ -5,8 +5,8 @@ import { cn } from "../../lib/utils";
 
 export interface JsonObjectInputProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  value?: any;
-  onChange?: (value: any) => void;
+  value?;
+  onChange?: (value) => void;
   disabled?: boolean;
   placeholder?: string;
 }
@@ -22,7 +22,7 @@ export const JsonObjectInput = React.forwardRef<
   const [isEditing, setIsEditing] = React.useState(false);
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
 
-  const formatJson = (val: any): string => {
+  const formatJson = (val): string => {
     try {
       return JSON.stringify(val, null, 2);
     } catch (e) {
@@ -30,7 +30,7 @@ export const JsonObjectInput = React.forwardRef<
     }
   };
 
-  const parseJson = (val: string): any => {
+  const parseJson = (val: string) => {
     try {
       return JSON.parse(val);
     } catch (e) {

@@ -149,5 +149,3 @@ export const SingleFileUploadForm = () => {
     </form>
   );
 };
-
-// export default SingleFileUploadForm;
