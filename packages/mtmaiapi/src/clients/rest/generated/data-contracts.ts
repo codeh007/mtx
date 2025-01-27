@@ -2468,20 +2468,33 @@ export interface UpdateEndpointRequest {
 
 export interface PlatformAccount {
   metadata: APIResourceMeta;
-  key: string;
   username: string;
-  email: string;
-  password: string;
-  token: string;
-  type: string;
+  email?: string;
+  password?: string;
+  token?: string;
+  type?: string;
   platform: string;
-  enabled: boolean;
-  comment: string;
-  tags: string[];
-  properties: object;
+  enabled?: boolean;
+  comment?: string;
+  tags?: string[];
+  properties?: object;
 }
 
 export interface PlatformAccountList {
   pagination?: PaginationResponse;
   rows?: PlatformAccount[];
+}
+
+export interface PlatformAccountUpdate {
+  metadata?: APIResourceMeta;
+  username?: string;
+  email?: string;
+  password?: string;
+  token?: string;
+  type?: string;
+  platform?: string;
+  enabled?: boolean;
+  comment?: string;
+  tags?: string[];
+  properties?: object;
 }
