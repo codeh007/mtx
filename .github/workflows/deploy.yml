@@ -167,20 +167,8 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install Vercel CLI
-        run: npm install -g vercel
-
-      - name: 命令测试 bun
-        run: |
-          bun --version
-
-      - name: 命令测试 node
-        run: |
-          node --version
-
-      - name: 命令测试 bun i
-        run: |
-          bun i
+      # - name: Install Vercel CLI
+      #   run: npm install -g vercel
 
       - name: install gomtm
         run: |
@@ -195,14 +183,14 @@ jobs:
           go-version-file: 'go.mod'
           cache-dependency-path: "**/*.sum"
 
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
+      # - name: Install Vercel CLI
+      #   run: npm install --global vercel@latest
 
-      - name: Pull Vercel Environment Information
-        run: cd packages/gomtm-cli && vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      # - name: Pull Vercel Environment Information
+      #   run: cd packages/gomtm-cli && vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Build Project Artifacts
-        run: cd packages/gomtm-cli && vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      # - name: Build Project Artifacts
+      #   run: cd packages/gomtm-cli && vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
       
       
       - name: deploy to vercel
