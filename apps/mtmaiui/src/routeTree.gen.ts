@@ -16,6 +16,7 @@ import { Route as rootRoute } from './routes/~__root'
 import { Route as AuthRouteImport } from './routes/~auth/~route'
 import { Route as IndexImport } from './routes/~index'
 import { Route as PlatformAccountCreateImport } from './routes/~platform-account/~create'
+import { Route as PlatformAccountIdImport } from './routes/~platform-account/~$id'
 import { Route as EnvsCreateImport } from './routes/~envs/~create'
 import { Route as AuthLoginRouteImport } from './routes/~auth/~login/~route'
 import { Route as EndpointIndexImport } from './routes/~endpoint/~index'
@@ -130,6 +131,12 @@ const EnvsIndexLazyRoute = EnvsIndexLazyImport.update({
 const PlatformAccountCreateRoute = PlatformAccountCreateImport.update({
   id: '/create',
   path: '/create',
+  getParentRoute: () => PlatformAccountRouteLazyRoute,
+} as any)
+
+const PlatformAccountIdRoute = PlatformAccountIdImport.update({
+  id: '/$id',
+  path: '/$id',
   getParentRoute: () => PlatformAccountRouteLazyRoute,
 } as any)
 
@@ -301,6 +308,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/envs/create'
       preLoaderRoute: typeof EnvsCreateImport
       parentRoute: typeof EnvsRouteLazyImport
+    }
+    '/platform-account/$id': {
+      id: '/platform-account/$id'
+      path: '/$id'
+      fullPath: '/platform-account/$id'
+      preLoaderRoute: typeof PlatformAccountIdImport
+      parentRoute: typeof PlatformAccountRouteLazyImport
     }
     '/platform-account/create': {
       id: '/platform-account/create'
@@ -490,12 +504,14 @@ const EnvsRouteLazyRouteWithChildren = EnvsRouteLazyRoute._addFileChildren(
 )
 
 interface PlatformAccountRouteLazyRouteChildren {
+  PlatformAccountIdRoute: typeof PlatformAccountIdRoute
   PlatformAccountCreateRoute: typeof PlatformAccountCreateRoute
   PlatformAccountIndexLazyRoute: typeof PlatformAccountIndexLazyRoute
 }
 
 const PlatformAccountRouteLazyRouteChildren: PlatformAccountRouteLazyRouteChildren =
   {
+    PlatformAccountIdRoute: PlatformAccountIdRoute,
     PlatformAccountCreateRoute: PlatformAccountCreateRoute,
     PlatformAccountIndexLazyRoute: PlatformAccountIndexLazyRoute,
   }
@@ -588,6 +604,7 @@ export interface FileRoutesByFullPath {
   '/endpoint/': typeof EndpointIndexRoute
   '/auth/login': typeof AuthLoginRouteRouteWithChildren
   '/envs/create': typeof EnvsCreateRoute
+  '/platform-account/$id': typeof PlatformAccountIdRoute
   '/platform-account/create': typeof PlatformAccountCreateRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
@@ -615,6 +632,7 @@ export interface FileRoutesByTo {
   '/chat': typeof ChatRouteLazyRoute
   '/endpoint': typeof EndpointIndexRoute
   '/envs/create': typeof EnvsCreateRoute
+  '/platform-account/$id': typeof PlatformAccountIdRoute
   '/platform-account/create': typeof PlatformAccountCreateRoute
   '/envs': typeof EnvsIndexLazyRoute
   '/platform-account': typeof PlatformAccountIndexLazyRoute
@@ -642,6 +660,7 @@ export interface FileRoutesById {
   '/endpoint/': typeof EndpointIndexRoute
   '/auth/login': typeof AuthLoginRouteRouteWithChildren
   '/envs/create': typeof EnvsCreateRoute
+  '/platform-account/$id': typeof PlatformAccountIdRoute
   '/platform-account/create': typeof PlatformAccountCreateRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
@@ -675,6 +694,7 @@ export interface FileRouteTypes {
     | '/endpoint/'
     | '/auth/login'
     | '/envs/create'
+    | '/platform-account/$id'
     | '/platform-account/create'
     | '/envs/'
     | '/platform-account/'
@@ -701,6 +721,7 @@ export interface FileRouteTypes {
     | '/chat'
     | '/endpoint'
     | '/envs/create'
+    | '/platform-account/$id'
     | '/platform-account/create'
     | '/envs'
     | '/platform-account'
@@ -726,6 +747,7 @@ export interface FileRouteTypes {
     | '/endpoint/'
     | '/auth/login'
     | '/envs/create'
+    | '/platform-account/$id'
     | '/platform-account/create'
     | '/envs/'
     | '/platform-account/'
@@ -824,6 +846,7 @@ export const routeTree = rootRoute
     "/platform-account": {
       "filePath": "~platform-account/~route.lazy.tsx",
       "children": [
+        "/platform-account/$id",
         "/platform-account/create",
         "/platform-account/"
       ]
@@ -842,6 +865,10 @@ export const routeTree = rootRoute
     "/envs/create": {
       "filePath": "~envs/~create.tsx",
       "parent": "/envs"
+    },
+    "/platform-account/$id": {
+      "filePath": "~platform-account/~$id.tsx",
+      "parent": "/platform-account"
     },
     "/platform-account/create": {
       "filePath": "~platform-account/~create.tsx",
