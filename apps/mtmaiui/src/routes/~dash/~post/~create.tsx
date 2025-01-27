@@ -50,7 +50,7 @@ function CreatePostRouteComponent() {
 		// defaultValues: post,
 	});
 	return (
-		<>
+		<div>
 			<ZForm
 				form={form}
 				handleSubmit={(values) => {
@@ -130,6 +130,6 @@ function CreatePostRouteComponent() {
 					<TabsContent value="options">not implemented</TabsContent>
 				</Tabs>
 			</ZForm>
-		</>
+		</div>
 	);
 }
