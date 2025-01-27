@@ -17,7 +17,6 @@ import { Route as AuthRouteImport } from './routes/~auth/~route'
 import { Route as IndexImport } from './routes/~index'
 import { Route as PlatformAccountCreateImport } from './routes/~platform-account/~create'
 import { Route as EnvsCreateImport } from './routes/~envs/~create'
-import { Route as DashPostRouteImport } from './routes/~dash/~post/~route'
 import { Route as AuthLoginRouteImport } from './routes/~auth/~login/~route'
 import { Route as EndpointIndexImport } from './routes/~endpoint/~index'
 import { Route as DashSiteSiteIdRouteImport } from './routes/~dash/~site/~$siteId/~route'
@@ -40,6 +39,7 @@ const EndpointRouteLazyImport = createFileRoute('/endpoint')()
 const ChatRouteLazyImport = createFileRoute('/chat')()
 const DashWorkflowsRouteLazyImport = createFileRoute('/dash/workflows')()
 const DashSiteRouteLazyImport = createFileRoute('/dash/site')()
+const DashPostRouteLazyImport = createFileRoute('/dash/post')()
 const PlatformAccountIndexLazyImport = createFileRoute('/platform-account/')()
 const EnvsIndexLazyImport = createFileRoute('/envs/')()
 const DashWorkflowsWorkflowIdLazyImport = createFileRoute(
@@ -105,6 +105,14 @@ const DashSiteRouteLazyRoute = DashSiteRouteLazyImport.update({
   import('./routes/~dash/~site/~route.lazy').then((d) => d.Route),
 )
 
+const DashPostRouteLazyRoute = DashPostRouteLazyImport.update({
+  id: '/dash/post',
+  path: '/dash/post',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/~dash/~post/~route.lazy').then((d) => d.Route),
+)
+
 const PlatformAccountIndexLazyRoute = PlatformAccountIndexLazyImport.update({
   id: '/',
   path: '/',
@@ -129,12 +137,6 @@ const EnvsCreateRoute = EnvsCreateImport.update({
   id: '/create',
   path: '/create',
   getParentRoute: () => EnvsRouteLazyRoute,
-} as any)
-
-const DashPostRouteRoute = DashPostRouteImport.update({
-  id: '/dash/post',
-  path: '/dash/post',
-  getParentRoute: () => rootRoute,
 } as any)
 
 const AuthLoginRouteRoute = AuthLoginRouteImport.update({
@@ -175,7 +177,7 @@ const DashSiteSiteIdRouteRoute = DashSiteSiteIdRouteImport.update({
 const DashPostCreateRoute = DashPostCreateImport.update({
   id: '/create',
   path: '/create',
-  getParentRoute: () => DashPostRouteRoute,
+  getParentRoute: () => DashPostRouteLazyRoute,
 } as any)
 
 const DashWorkflowsIndexRoute = DashWorkflowsIndexImport.update({
@@ -193,7 +195,7 @@ const DashSiteIndexRoute = DashSiteIndexImport.update({
 const DashPostIndexRoute = DashPostIndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => DashPostRouteRoute,
+  getParentRoute: () => DashPostRouteLazyRoute,
 } as any)
 
 const DashSiteSiteIdHostRouteRoute = DashSiteSiteIdHostRouteImport.update({
@@ -293,13 +295,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof AuthRouteImport
     }
-    '/dash/post': {
-      id: '/dash/post'
-      path: '/dash/post'
-      fullPath: '/dash/post'
-      preLoaderRoute: typeof DashPostRouteImport
-      parentRoute: typeof rootRoute
-    }
     '/envs/create': {
       id: '/envs/create'
       path: '/create'
@@ -328,6 +323,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlatformAccountIndexLazyImport
       parentRoute: typeof PlatformAccountRouteLazyImport
     }
+    '/dash/post': {
+      id: '/dash/post'
+      path: '/dash/post'
+      fullPath: '/dash/post'
+      preLoaderRoute: typeof DashPostRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/dash/site': {
       id: '/dash/site'
       path: '/dash/site'
@@ -347,7 +349,7 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/dash/post/'
       preLoaderRoute: typeof DashPostIndexImport
-      parentRoute: typeof DashPostRouteImport
+      parentRoute: typeof DashPostRouteLazyImport
     }
     '/dash/site/': {
       id: '/dash/site/'
@@ -368,7 +370,7 @@ declare module '@tanstack/react-router' {
       path: '/create'
       fullPath: '/dash/post/create'
       preLoaderRoute: typeof DashPostCreateImport
-      parentRoute: typeof DashPostRouteImport
+      parentRoute: typeof DashPostRouteLazyImport
     }
     '/dash/site/$siteId': {
       id: '/dash/site/$siteId'
@@ -503,19 +505,18 @@ const PlatformAccountRouteLazyRouteWithChildren =
     PlatformAccountRouteLazyRouteChildren,
   )
 
-interface DashPostRouteRouteChildren {
+interface DashPostRouteLazyRouteChildren {
   DashPostIndexRoute: typeof DashPostIndexRoute
   DashPostCreateRoute: typeof DashPostCreateRoute
 }
 
-const DashPostRouteRouteChildren: DashPostRouteRouteChildren = {
+const DashPostRouteLazyRouteChildren: DashPostRouteLazyRouteChildren = {
   DashPostIndexRoute: DashPostIndexRoute,
   DashPostCreateRoute: DashPostCreateRoute,
 }
 
-const DashPostRouteRouteWithChildren = DashPostRouteRoute._addFileChildren(
-  DashPostRouteRouteChildren,
-)
+const DashPostRouteLazyRouteWithChildren =
+  DashPostRouteLazyRoute._addFileChildren(DashPostRouteLazyRouteChildren)
 
 interface DashSiteSiteIdHostRouteRouteChildren {
   DashSiteSiteIdHostIndexRoute: typeof DashSiteSiteIdHostIndexRoute
@@ -586,11 +587,11 @@ export interface FileRoutesByFullPath {
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
   '/endpoint/': typeof EndpointIndexRoute
   '/auth/login': typeof AuthLoginRouteRouteWithChildren
-  '/dash/post': typeof DashPostRouteRouteWithChildren
   '/envs/create': typeof EnvsCreateRoute
   '/platform-account/create': typeof PlatformAccountCreateRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
+  '/dash/post': typeof DashPostRouteLazyRouteWithChildren
   '/dash/site': typeof DashSiteRouteLazyRouteWithChildren
   '/dash/workflows': typeof DashWorkflowsRouteLazyRouteWithChildren
   '/dash/post/': typeof DashPostIndexRoute
@@ -640,11 +641,11 @@ export interface FileRoutesById {
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
   '/endpoint/': typeof EndpointIndexRoute
   '/auth/login': typeof AuthLoginRouteRouteWithChildren
-  '/dash/post': typeof DashPostRouteRouteWithChildren
   '/envs/create': typeof EnvsCreateRoute
   '/platform-account/create': typeof PlatformAccountCreateRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
+  '/dash/post': typeof DashPostRouteLazyRouteWithChildren
   '/dash/site': typeof DashSiteRouteLazyRouteWithChildren
   '/dash/workflows': typeof DashWorkflowsRouteLazyRouteWithChildren
   '/dash/post/': typeof DashPostIndexRoute
@@ -673,11 +674,11 @@ export interface FileRouteTypes {
     | '/platform-account'
     | '/endpoint/'
     | '/auth/login'
-    | '/dash/post'
     | '/envs/create'
     | '/platform-account/create'
     | '/envs/'
     | '/platform-account/'
+    | '/dash/post'
     | '/dash/site'
     | '/dash/workflows'
     | '/dash/post/'
@@ -724,11 +725,11 @@ export interface FileRouteTypes {
     | '/platform-account'
     | '/endpoint/'
     | '/auth/login'
-    | '/dash/post'
     | '/envs/create'
     | '/platform-account/create'
     | '/envs/'
     | '/platform-account/'
+    | '/dash/post'
     | '/dash/site'
     | '/dash/workflows'
     | '/dash/post/'
@@ -754,7 +755,7 @@ export interface RootRouteChildren {
   EndpointRouteLazyRoute: typeof EndpointRouteLazyRouteWithChildren
   EnvsRouteLazyRoute: typeof EnvsRouteLazyRouteWithChildren
   PlatformAccountRouteLazyRoute: typeof PlatformAccountRouteLazyRouteWithChildren
-  DashPostRouteRoute: typeof DashPostRouteRouteWithChildren
+  DashPostRouteLazyRoute: typeof DashPostRouteLazyRouteWithChildren
   DashSiteRouteLazyRoute: typeof DashSiteRouteLazyRouteWithChildren
   DashWorkflowsRouteLazyRoute: typeof DashWorkflowsRouteLazyRouteWithChildren
   DashOnboardingCreateTenantIndexRoute: typeof DashOnboardingCreateTenantIndexRoute
@@ -767,7 +768,7 @@ const rootRouteChildren: RootRouteChildren = {
   EndpointRouteLazyRoute: EndpointRouteLazyRouteWithChildren,
   EnvsRouteLazyRoute: EnvsRouteLazyRouteWithChildren,
   PlatformAccountRouteLazyRoute: PlatformAccountRouteLazyRouteWithChildren,
-  DashPostRouteRoute: DashPostRouteRouteWithChildren,
+  DashPostRouteLazyRoute: DashPostRouteLazyRouteWithChildren,
   DashSiteRouteLazyRoute: DashSiteRouteLazyRouteWithChildren,
   DashWorkflowsRouteLazyRoute: DashWorkflowsRouteLazyRouteWithChildren,
   DashOnboardingCreateTenantIndexRoute: DashOnboardingCreateTenantIndexRoute,
@@ -838,13 +839,6 @@ export const routeTree = rootRoute
         "/auth/login/"
       ]
     },
-    "/dash/post": {
-      "filePath": "~dash/~post/~route.tsx",
-      "children": [
-        "/dash/post/",
-        "/dash/post/create"
-      ]
-    },
     "/envs/create": {
       "filePath": "~envs/~create.tsx",
       "parent": "/envs"
@@ -860,6 +854,13 @@ export const routeTree = rootRoute
     "/platform-account/": {
       "filePath": "~platform-account/~index.lazy.tsx",
       "parent": "/platform-account"
+    },
+    "/dash/post": {
+      "filePath": "~dash/~post/~route.lazy.tsx",
+      "children": [
+        "/dash/post/",
+        "/dash/post/create"
+      ]
     },
     "/dash/site": {
       "filePath": "~dash/~site/~route.lazy.tsx",
