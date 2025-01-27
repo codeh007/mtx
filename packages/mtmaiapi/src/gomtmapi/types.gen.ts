@@ -2918,10 +2918,12 @@ export type PlatformAccount = {
   metadata: ApiResourceMeta;
   key: string;
   username: string;
+  email: string;
   password: string;
   token: string;
   type: string;
   platform: string;
+  enabled: boolean;
   comment: string;
   tags: Array<string>;
   properties: {
