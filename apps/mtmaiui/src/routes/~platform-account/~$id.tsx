@@ -73,7 +73,7 @@ function RouteComponent() {
             <FormItem>
               <FormLabel>User name</FormLabel>
               <FormControl>
-                <Input {...form.register("username")} placeholder="username" />
+                <Input {...field} placeholder="username" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -81,12 +81,12 @@ function RouteComponent() {
         />
         <FormField
           control={form.control}
-          name="username"
+          name="password"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input {...form.register("password")} placeholder="password" />
+                <Input {...field} placeholder="password" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -99,7 +99,7 @@ function RouteComponent() {
             <FormItem>
               <FormLabel>type</FormLabel>
               <FormControl>
-                <Input {...form.register("type")} placeholder="type" />
+                <Input {...field} placeholder="type" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -107,12 +107,12 @@ function RouteComponent() {
         />
         <FormField
           control={form.control}
-          name="type"
+          name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>type</FormLabel>
+              <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input {...form.register("type")} placeholder="type" />
+                <Input {...field} placeholder="email" type="email" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -125,7 +125,7 @@ function RouteComponent() {
             <FormItem>
               <FormLabel>platform</FormLabel>
               <FormControl>
-                <Input {...form.register("platform")} placeholder="platform" />
+                <Input {...field} placeholder="platform" />
               </FormControl>
               <FormMessage />
             </FormItem>
