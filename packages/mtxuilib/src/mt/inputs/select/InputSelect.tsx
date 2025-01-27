@@ -33,7 +33,7 @@ export const InputSelectField = React.forwardRef<HTMLInputElement, InputProps>(
     ref,
   ) => {
     const methods = useFormContext();
-    const handleValueChange = (value: any) => {
+    const handleValueChange = (value) => {
       methods.setValue(name, value);
     };
     return (
@@ -112,4 +112,3 @@ export const InputSelectField = React.forwardRef<HTMLInputElement, InputProps>(
   },
 );
 InputSelectField.displayName = "InputSelectField";
-// export { InputSelectField };

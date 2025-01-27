@@ -144,8 +144,6 @@ function RouteComponent() {
             </FormItem>
           )}
         />
-        {/* <JsonObjectEditor name="metadata" label="metadata" /> */}
-
         <FormField
           name={"properties"}
           render={({ field }) => (
