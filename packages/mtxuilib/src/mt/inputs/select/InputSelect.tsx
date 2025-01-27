@@ -1,3 +1,4 @@
+"use client";
 import { Label } from "@radix-ui/react-context-menu";
 import {
   Select,
@@ -16,7 +17,7 @@ export interface InputProps
   kind?: string;
 }
 
-const InputSelectField = React.forwardRef<HTMLInputElement, InputProps>(
+export const InputSelectField = React.forwardRef<HTMLInputElement, InputProps>(
   (
     {
       name,
@@ -111,4 +112,4 @@ const InputSelectField = React.forwardRef<HTMLInputElement, InputProps>(
   },
 );
 InputSelectField.displayName = "InputSelectField";
-export { InputSelectField };
+// export { InputSelectField };

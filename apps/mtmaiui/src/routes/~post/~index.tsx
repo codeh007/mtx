@@ -17,13 +17,13 @@ import {
   CardHeader,
   CardTitle,
 } from "mtxuilib/ui/card";
-import { CustomLink } from "../../../components/CustomLink";
-import { columns } from "../../../components/workflow/workflow-columns";
-import { useTenant } from "../../../hooks/useAuth";
-import { useBasePath } from "../../../hooks/useBasePath";
+import { CustomLink } from "../../components/CustomLink";
+import { columns } from "../../components/workflow/workflow-columns";
+import { useTenant } from "../../hooks/useAuth";
+import { useBasePath } from "../../hooks/useBasePath";
 import { PostCard } from "./components/PostCard";
 
-export const Route = createFileRoute("/dash/post/")({
+export const Route = createFileRoute("/post/")({
   component: PostListView,
 });
 

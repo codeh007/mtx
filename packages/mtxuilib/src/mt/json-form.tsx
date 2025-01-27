@@ -11,8 +11,8 @@ import type {
 import { createContext, useRef } from "react";
 import { cn } from "../lib/utils";
 import { Button } from "../ui/button";
-import { CollapsibleSection } from "./form-inputs/collapsible-section";
-import { DynamicSizeInputTemplate } from "./form-inputs/dynamic-size-input-template";
+import { CollapsibleSection } from "./inputs/collapsible-section";
+import { DynamicSizeInputTemplate } from "./inputs/dynamic-size-input-template";
 import { MtLoading } from "./mtloading";
 //================================================================================================
 // 来自 hatchet 前端

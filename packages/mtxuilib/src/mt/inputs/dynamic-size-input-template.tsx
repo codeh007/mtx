@@ -56,13 +56,14 @@ export function DynamicSizeInputTemplate(props: BaseInputTemplateProps) {
   }: FocusEvent<HTMLTextAreaElement>) => onFocus(id, val);
 
   const inputProps = { ...rest, ...getInputProps(schema, type, options) };
-  delete inputProps.hideLabel; // hideLabel is not a valid prop for textarea
+  inputProps.hideLabel = undefined; // hideLabel is not a valid prop for textarea
 
   const setHeight = (e: HTMLTextAreaElement) => {
     e.style.height = "auto";
     e.style.height = `${e.scrollHeight}px`;
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     // Call adjustHeight whenever the watched value changes externally
     if (!ref.current) {
@@ -89,14 +90,10 @@ export function DynamicSizeInputTemplate(props: BaseInputTemplateProps) {
       placeholder={placeholder}
       disabled={disabled}
       readOnly={readonly}
-      //@ts-ignore
-      autoFocus={autofocus}
       className="overflow-y-hidden"
       onKeyDown={handleKeyDown}
-      //@ts-ignore
       onChange={
-        //@ts-ignore
-        (onChangeOverride as
+        (onChangeOverride as unknown as
           | ((event: ChangeEvent<HTMLTextAreaElement>) => void)
           | undefined) || onTextChange
       }
