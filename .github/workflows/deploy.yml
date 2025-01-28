@@ -185,7 +185,7 @@ jobs:
       
       - name: deploy to vercel
         run: |
-          # cd packages/gomtm-cli
+          cd packages/gomtm-cli
           bun i
           gomtm vc_gomtm
 
