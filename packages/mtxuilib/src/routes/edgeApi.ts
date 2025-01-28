@@ -3,11 +3,13 @@ import { Hono } from "hono";
 import { authorsApp } from "./authorsApp/author";
 import { booksApp } from "./booksApp/bookApp";
 import { wsApp } from "./ws/wsApp";
+import { spaceProxy } from "./space-proxy/space-proxy";
 
 export const mainApp = new Hono()
   .route("/authors", authorsApp)
   .route("/books", booksApp)
   .route("/ws", wsApp)
+  .route("/space", spaceProxy)
   .all("*", (c) => {
     return c.json({ hello: "world any" }, 200);
   });

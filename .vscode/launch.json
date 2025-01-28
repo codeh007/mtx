@@ -1,14 +1,23 @@
 {
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "mtmaiui",
-      "type": "node-terminal",
-      "request": "launch",
-      "command": "bun run dev",
-      "nodeVersionHint": 20,
-      "cwd": "${workspaceFolder}/apps/mtmaiui",
-      "skipFiles": ["<node_internals>/**", ".vscode/**", "/public", "/dist"]
-    }
-  ]
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "mtmaiui",
+			"type": "node-terminal",
+			"request": "launch",
+			"command": "bun run dev",
+			"nodeVersionHint": 20,
+			"cwd": "${workspaceFolder}/apps/mtmaiui",
+			"skipFiles": ["<node_internals>/**", ".vscode/**", "/public", "/dist"]
+		},
+		{
+			"name": "wrangler",
+			"type": "node-terminal",
+			"request": "launch",
+			"command": "bun run wrangler:dev",
+			"nodeVersionHint": 20,
+			"cwd": "${workspaceFolder}/packages/mtxuilib",
+			"skipFiles": ["<node_internals>/**", ".vscode/**", "/public", "/dist"]
+		}
+	]
 }
