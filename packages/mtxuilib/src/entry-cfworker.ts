@@ -27,7 +27,6 @@ export default {
       if (uri.pathname.startsWith("/api/ws")) {
         return handleWsRequest(request, env, ctx);
       }
-      // return mainApp.fetch(request, env, ctx);
       const response = await proxyHandler(request, env, ctx);
 
       // 添加禁用缓存的响应头
