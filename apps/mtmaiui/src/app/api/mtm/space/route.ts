@@ -1,4 +1,5 @@
 import type { EndpointList } from "mtmaiapi";
+import { copyIncomeHeaders } from "mtxuilib/http/rproxy";
 
 export const runtime = "edge";
 
@@ -47,25 +48,22 @@ const handler = async (r: Request) => {
     const remoteUrl = `https://${userName}-${userName}.hf.space/api/v1/agent/hello/ag`;
     const token = targetEndpoint!.token;
 
-    const requestHeaders = new Headers(r.headers);
+    const requestHeaders = copyIncomeHeaders(r);
+    for (const [key, value] of requestHeaders.entries()) {
+      console.log(`header:${key}:${value}`);
+    }
+
     requestHeaders.set("Authorization", `Bearer ${token}`);
     requestHeaders.set("Content-Type", "application/json");
 
     const response = await fetch(remoteUrl.toString(), {
-      // method: r.method,
-      method: "GET",
+      method: r.method,
       headers: requestHeaders,
-      // body: ["GET", "HEAD"].includes(r.method) ? undefined : r.body,
-      // body: JSON.stringify({
-      //   prompt: "你好",
-      // }),
+      body: r.body,
     });
 
-    const headerItems = requestHeaders.entries();
     console.log(
-      `🚀 [space proxy(v1)] =>${r.method} ${remoteUrl.toString()}\n headers: ${JSON.stringify(
-        headerItems,
-      )}, status: ${response.status}`,
+      `🚀 [rroxy(space)] => ${r.method} ${response.status} ${remoteUrl.toString()}\n`,
     );
     return response;
   } catch (e) {
@@ -76,9 +74,15 @@ const handler = async (r: Request) => {
           stack: (e as Error).stack,
           name: (e as Error).name,
           cause: (e as Error).cause,
-          details: e, // Include the full error object
+          // Omit cause and details to avoid circular JSON structure
         },
-        null,
+        // Use a replacer function to handle circular references
+        (key, value) => {
+          if (key === "cause" || key === "issuerCertificate") {
+            return "[Circular]";
+          }
+          return value;
+        },
         2,
       ),
       {
