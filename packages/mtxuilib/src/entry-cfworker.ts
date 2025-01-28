@@ -5,7 +5,7 @@ export { MyWorkflow } from "./workflows/hello-workflow";
 // import { handleWsRequest } from "mtxuilib/routes/ws/wsApp";
 
 import type { EndpointList, Env } from "mtmaiapi/gomtmapi/types.gen";
-import { getEndpointList, initEdgeApp } from "./lib/sslib";
+import { getEndpointList, initGomtmApp } from "./lib/sslib";
 import { mainApp } from "./routes/edgeApi";
 export default {
   async fetch(request: Request, env, ctx) {
@@ -17,7 +17,7 @@ export default {
     }
     try {
       // console.log(`env:${JSON.stringify(env)}`);
-      await initEdgeApp({});
+      await initGomtmApp({});
       const responseFromApp = await mainApp.fetch(request, env, ctx);
       if (responseFromApp.status === 200) {
         return responseFromApp;

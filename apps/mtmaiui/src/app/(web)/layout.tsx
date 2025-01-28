@@ -12,7 +12,7 @@ import {
   getBackendUrl,
   getFrontendConfig,
   getHostName,
-  initEdgeApp,
+  initGomtmApp,
 } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
 import "mtxuilib/styles/globals.css";
@@ -33,7 +33,7 @@ export default async function Layout(props: {
   children: ReactNode;
 }) {
   const { children } = props;
-  await initEdgeApp({
+  await initGomtmApp({
     headers: headers,
     cookies: cookies,
   });

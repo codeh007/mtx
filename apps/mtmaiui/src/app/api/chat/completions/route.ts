@@ -1,18 +1,7 @@
-import type { LlmConfig } from "mtmaiapi";
 import type { ChatCompletionCreateParams } from "openai/resources/chat/completions";
+import { getLlmConfig } from "../config";
 
 export const runtime = "edge";
-
-const defaultLlm: LlmConfig = {
-  model: "llama3.1-70b",
-  apiKey: "ZGd2VL8B9KxqMB3HIsTaNXmp5iM9ew3c",
-  baseUrl: "https://llama3-1-70b.lepton.run/api/v1/",
-  metadata: {
-    id: "default-llm",
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
-};
 
 /**
  * 给定 openai completion 请求, 返回完全接口兼容的 completion 响应
@@ -22,6 +11,7 @@ const defaultLlm: LlmConfig = {
 const handler = async (req: Request) => {
   try {
     const body = (await req.json()) as ChatCompletionCreateParams;
+    const defaultLlm = await getLlmConfig();
 
     // 远端真正的模型名称
     const remoteModel = body.model || defaultLlm.model;
