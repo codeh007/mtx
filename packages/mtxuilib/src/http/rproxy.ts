@@ -69,18 +69,18 @@ export function newRProxy(options: RProxyOptions) {
 
 export function copyIncomeHeaders(
   r: Request,
-  additionalExcludesHeaderPrefixes: string[] = [],
+  excludesHeaderPrefixes: string[] = [],
 ) {
-  const excludesHeaderPrefixes = [
+  const allExcludesHeaderPrefixes = [
     "host",
     "content-length",
     "x-forwarded-",
     "cf-",
-    ...additionalExcludesHeaderPrefixes,
+    ...excludesHeaderPrefixes,
   ];
   const requestHeaders = new Headers();
   r.headers.forEach((value, key) => {
-    if (!excludesHeaderPrefixes.some((prefix) => key.startsWith(prefix))) {
+    if (!allExcludesHeaderPrefixes.some((prefix) => key.startsWith(prefix))) {
       requestHeaders.set(key, value);
     }
   });
