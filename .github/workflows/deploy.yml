@@ -167,9 +167,6 @@ jobs:
         with:
           node-version: '22'
 
-      # - name: Install Vercel CLI
-      #   run: npm install -g vercel
-
       - name: install gomtm
         run: |
           cd packages/gomtm-cli
@@ -186,7 +183,6 @@ jobs:
       - name: deploy to vercel
         run: |
           cd packages/gomtm-cli
-          bun i
           gomtm vc_gomtm
 
   build_docker_gomtm_base:
