@@ -402,6 +402,17 @@ import type {
   EndpointUpdateData,
   EndpointUpdateResponse,
   EndpointUpdateError,
+  PlatformListData,
+  PlatformListResponse,
+  PlatformListError,
+  PlatformCreateData,
+  PlatformCreateResponse,
+  PlatformCreateError,
+  PlatformGetData,
+  PlatformGetResponse,
+  PlatformUpdateData,
+  PlatformUpdateResponse,
+  PlatformUpdateError,
   PlatformAccountListData,
   PlatformAccountListResponse,
   PlatformAccountListError,
@@ -4165,6 +4176,113 @@ export const endpointUpdate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/endpoint",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+export const platformList = <ThrowOnError extends boolean = false>(
+  options?: Options<PlatformListData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    PlatformListResponse,
+    PlatformListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/platforms",
+    ...options,
+  });
+};
+
+/**
+ * create platform
+ */
+export const platformCreate = <ThrowOnError extends boolean = false>(
+  options: Options<PlatformCreateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).post<
+    PlatformCreateResponse,
+    PlatformCreateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/platforms",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+export const platformGet = <ThrowOnError extends boolean = false>(
+  options: Options<PlatformGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    PlatformGetResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/platforms/{platform}",
+    ...options,
+  });
+};
+
+/**
+ * Update platform
+ * Update an platform
+ */
+export const platformUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<PlatformUpdateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).patch<
+    PlatformUpdateResponse,
+    PlatformUpdateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/platforms/{platform}",
     ...options,
     headers: {
       "Content-Type": "application/json",

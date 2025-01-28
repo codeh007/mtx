@@ -5,7 +5,7 @@ import type {
   FileAction,
   ShellAction,
 } from "../../types/actions";
-import type { BoltArtifactData } from "../../types/artifact";
+import type { BoltArtifactData } from "../../types/artifact.ts--";
 
 import { unreachable } from "../utils/unreachable";
 

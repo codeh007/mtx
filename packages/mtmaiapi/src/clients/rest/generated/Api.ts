@@ -74,8 +74,10 @@ import {
   LogLineOrderByField,
   LogLineSearch,
   OperataionGuideResponse,
+  Platform,
   PlatformAccount,
   PlatformAccountList,
+  PlatformList,
   Post,
   PostList,
   PromptList,
@@ -3252,6 +3254,79 @@ export class Api<
   endpointUpdate = (data: UpdateEndpointRequest, params: RequestParams = {}) =>
     this.request<Endpoint, APIErrors | APIError>({
       path: `/api/v1/endpoint`,
+      method: "PATCH",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags platform
+   * @name PlatformList
+   * @request GET:/api/v1/platforms
+   * @secure
+   */
+  platformList = (params: RequestParams = {}) =>
+    this.request<PlatformList, APIErrors>({
+      path: `/api/v1/platforms`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description create platform
+   *
+   * @tags platform
+   * @name PlatformCreate
+   * @request POST:/api/v1/platforms
+   * @secure
+   */
+  platformCreate = (data: Platform, params: RequestParams = {}) =>
+    this.request<Platform, APIErrors | APIError>({
+      path: `/api/v1/platforms`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags platform
+   * @name PlatformGet
+   * @request GET:/api/v1/platforms/{platform}
+   * @secure
+   */
+  platformGet = (platform: string, params: RequestParams = {}) =>
+    this.request<Platform, any>({
+      path: `/api/v1/platforms/${platform}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Update an platform
+   *
+   * @tags platform
+   * @name PlatformUpdate
+   * @summary Update platform
+   * @request PATCH:/api/v1/platforms/{platform}
+   * @secure
+   */
+  platformUpdate = (
+    platform: string,
+    data: Platform,
+    params: RequestParams = {},
+  ) =>
+    this.request<Platform, APIErrors>({
+      path: `/api/v1/platforms/${platform}`,
       method: "PATCH",
       body: data,
       secure: true,

@@ -2466,6 +2466,31 @@ export interface UpdateEndpointRequest {
   token?: string;
 }
 
+export interface Platform {
+  metadata: APIResourceMeta;
+  name: string;
+  description?: string;
+  url: string;
+  loginUrl?: string;
+  properties?: object;
+  tags?: string[];
+}
+
+export interface PlatformList {
+  pagination?: PaginationResponse;
+  rows?: Platform[];
+}
+
+export interface PlatformUpdate {
+  metadata: APIResourceMeta;
+  name: string;
+  description?: string;
+  url: string;
+  loginUrl?: string;
+  properties?: object;
+  tags?: string[];
+}
+
 export interface PlatformAccount {
   metadata: APIResourceMeta;
   username: string;

@@ -283,6 +283,14 @@ import type {
   EndpointUpdateData,
   EndpointUpdateError,
   EndpointUpdateResponse,
+  PlatformListData,
+  PlatformCreateData,
+  PlatformCreateError,
+  PlatformCreateResponse,
+  PlatformGetData,
+  PlatformUpdateData,
+  PlatformUpdateError,
+  PlatformUpdateResponse,
   PlatformAccountListData,
   PlatformAccountCreateData,
   PlatformAccountCreateError,
@@ -437,6 +445,10 @@ import {
   kvGet,
   endpointList,
   endpointUpdate,
+  platformList,
+  platformCreate,
+  platformGet,
+  platformUpdate,
   platformAccountList,
   platformAccountCreate,
   platformAccountGet,
@@ -4591,6 +4603,103 @@ export const endpointUpdateMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await endpointUpdate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const platformListQueryKey = (options?: Options<PlatformListData>) => [
+  createQueryKey("platformList", options),
+];
+
+export const platformListOptions = (options?: Options<PlatformListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await platformList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: platformListQueryKey(options),
+  });
+};
+
+export const platformCreateQueryKey = (
+  options: Options<PlatformCreateData>,
+) => [createQueryKey("platformCreate", options)];
+
+export const platformCreateOptions = (options: Options<PlatformCreateData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await platformCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: platformCreateQueryKey(options),
+  });
+};
+
+export const platformCreateMutation = (
+  options?: Partial<Options<PlatformCreateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    PlatformCreateResponse,
+    PlatformCreateError,
+    Options<PlatformCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await platformCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const platformGetQueryKey = (options: Options<PlatformGetData>) => [
+  createQueryKey("platformGet", options),
+];
+
+export const platformGetOptions = (options: Options<PlatformGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await platformGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: platformGetQueryKey(options),
+  });
+};
+
+export const platformUpdateMutation = (
+  options?: Partial<Options<PlatformUpdateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    PlatformUpdateResponse,
+    PlatformUpdateError,
+    Options<PlatformUpdateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await platformUpdate({
         ...options,
         ...localOptions,
         throwOnError: true,

@@ -2914,6 +2914,35 @@ export type UpdateEndpointRequest = {
   token?: string;
 };
 
+export type Platform = {
+  metadata: ApiResourceMeta;
+  name: string;
+  description?: string;
+  url: string;
+  loginUrl?: string;
+  properties?: {
+    [key: string]: unknown;
+  };
+  tags?: Array<string>;
+};
+
+export type PlatformList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Platform>;
+};
+
+export type PlatformUpdate = {
+  metadata: ApiResourceMeta;
+  name: string;
+  description?: string;
+  url: string;
+  loginUrl?: string;
+  properties?: {
+    [key: string]: unknown;
+  };
+  tags?: Array<string>;
+};
+
 export type PlatformAccount = {
   metadata: ApiResourceMeta;
   username: string;
@@ -8150,6 +8179,123 @@ export type EndpointUpdateResponses = {
 
 export type EndpointUpdateResponse =
   EndpointUpdateResponses[keyof EndpointUpdateResponses];
+
+export type PlatformListData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/platforms";
+};
+
+export type PlatformListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type PlatformListError = PlatformListErrors[keyof PlatformListErrors];
+
+export type PlatformListResponses = {
+  200: PlatformList;
+};
+
+export type PlatformListResponse =
+  PlatformListResponses[keyof PlatformListResponses];
+
+export type PlatformCreateData = {
+  body: Platform;
+  path?: never;
+  query?: never;
+  url: "/api/v1/platforms";
+};
+
+export type PlatformCreateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type PlatformCreateError =
+  PlatformCreateErrors[keyof PlatformCreateErrors];
+
+export type PlatformCreateResponses = {
+  200: Platform;
+};
+
+export type PlatformCreateResponse =
+  PlatformCreateResponses[keyof PlatformCreateResponses];
+
+export type PlatformGetData = {
+  body?: never;
+  path: {
+    /**
+     * The platform id
+     */
+    platform: string;
+  };
+  query?: never;
+  url: "/api/v1/platforms/{platform}";
+};
+
+export type PlatformGetResponses = {
+  200: Platform;
+};
+
+export type PlatformGetResponse =
+  PlatformGetResponses[keyof PlatformGetResponses];
+
+export type PlatformUpdateData = {
+  /**
+   * The platform properties to update
+   */
+  body: Platform;
+  path: {
+    /**
+     * The platform id
+     */
+    platform: string;
+  };
+  query?: never;
+  url: "/api/v1/platforms/{platform}";
+};
+
+export type PlatformUpdateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type PlatformUpdateError =
+  PlatformUpdateErrors[keyof PlatformUpdateErrors];
+
+export type PlatformUpdateResponses = {
+  /**
+   * Successfully created the platform
+   */
+  200: Platform;
+};
+
+export type PlatformUpdateResponse =
+  PlatformUpdateResponses[keyof PlatformUpdateResponses];
 
 export type PlatformAccountListData = {
   body?: never;
