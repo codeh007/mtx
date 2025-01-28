@@ -2251,8 +2251,8 @@ export enum FlowNames {
 /** llm config */
 export interface LlmConfig {
   metadata: APIResourceMeta;
-  base_url: string;
-  api_key: string;
+  baseUrl: string;
+  apiKey: string;
   /** llm model name */
   model: string;
 }

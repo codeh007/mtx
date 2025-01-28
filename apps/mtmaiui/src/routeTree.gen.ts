@@ -24,6 +24,7 @@ import { Route as AuthLoginRouteImport } from './routes/~auth/~login/~route'
 import { Route as PostIndexImport } from './routes/~post/~index'
 import { Route as PlatformIndexImport } from './routes/~platform/~index'
 import { Route as EndpointIndexImport } from './routes/~endpoint/~index'
+import { Route as ChatIndexImport } from './routes/~chat/~index'
 import { Route as DashSiteSiteIdRouteImport } from './routes/~dash/~site/~$siteId/~route'
 import { Route as DashWorkflowsIndexImport } from './routes/~dash/~workflows/~index'
 import { Route as DashSiteIndexImport } from './routes/~dash/~site/~index'
@@ -182,6 +183,12 @@ const EndpointIndexRoute = EndpointIndexImport.update({
   getParentRoute: () => EndpointRouteLazyRoute,
 } as any)
 
+const ChatIndexRoute = ChatIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ChatRouteLazyRoute,
+} as any)
+
 const DashWorkflowsWorkflowIdLazyRoute =
   DashWorkflowsWorkflowIdLazyImport.update({
     id: '/$workflowId',
@@ -313,6 +320,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/post'
       preLoaderRoute: typeof PostRouteLazyImport
       parentRoute: typeof rootRoute
+    }
+    '/chat/': {
+      id: '/chat/'
+      path: '/'
+      fullPath: '/chat/'
+      preLoaderRoute: typeof ChatIndexImport
+      parentRoute: typeof ChatRouteLazyImport
     }
     '/endpoint/': {
       id: '/endpoint/'
@@ -516,6 +530,18 @@ const PlatformRouteRouteWithChildren = PlatformRouteRoute._addFileChildren(
   PlatformRouteRouteChildren,
 )
 
+interface ChatRouteLazyRouteChildren {
+  ChatIndexRoute: typeof ChatIndexRoute
+}
+
+const ChatRouteLazyRouteChildren: ChatRouteLazyRouteChildren = {
+  ChatIndexRoute: ChatIndexRoute,
+}
+
+const ChatRouteLazyRouteWithChildren = ChatRouteLazyRoute._addFileChildren(
+  ChatRouteLazyRouteChildren,
+)
+
 interface EndpointRouteLazyRouteChildren {
   EndpointIndexRoute: typeof EndpointIndexRoute
 }
@@ -637,11 +663,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
   '/platform': typeof PlatformRouteRouteWithChildren
-  '/chat': typeof ChatRouteLazyRoute
+  '/chat': typeof ChatRouteLazyRouteWithChildren
   '/endpoint': typeof EndpointRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
   '/post': typeof PostRouteLazyRouteWithChildren
+  '/chat/': typeof ChatIndexRoute
   '/endpoint/': typeof EndpointIndexRoute
   '/platform/': typeof PlatformIndexRoute
   '/post/': typeof PostIndexRoute
@@ -670,7 +697,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
-  '/chat': typeof ChatRouteLazyRoute
+  '/chat': typeof ChatIndexRoute
   '/endpoint': typeof EndpointIndexRoute
   '/platform': typeof PlatformIndexRoute
   '/post': typeof PostIndexRoute
@@ -696,11 +723,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
   '/platform': typeof PlatformRouteRouteWithChildren
-  '/chat': typeof ChatRouteLazyRoute
+  '/chat': typeof ChatRouteLazyRouteWithChildren
   '/endpoint': typeof EndpointRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
   '/post': typeof PostRouteLazyRouteWithChildren
+  '/chat/': typeof ChatIndexRoute
   '/endpoint/': typeof EndpointIndexRoute
   '/platform/': typeof PlatformIndexRoute
   '/post/': typeof PostIndexRoute
@@ -737,6 +765,7 @@ export interface FileRouteTypes {
     | '/envs'
     | '/platform-account'
     | '/post'
+    | '/chat/'
     | '/endpoint/'
     | '/platform/'
     | '/post/'
@@ -793,6 +822,7 @@ export interface FileRouteTypes {
     | '/envs'
     | '/platform-account'
     | '/post'
+    | '/chat/'
     | '/endpoint/'
     | '/platform/'
     | '/post/'
@@ -823,7 +853,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   PlatformRouteRoute: typeof PlatformRouteRouteWithChildren
-  ChatRouteLazyRoute: typeof ChatRouteLazyRoute
+  ChatRouteLazyRoute: typeof ChatRouteLazyRouteWithChildren
   EndpointRouteLazyRoute: typeof EndpointRouteLazyRouteWithChildren
   EnvsRouteLazyRoute: typeof EnvsRouteLazyRouteWithChildren
   PlatformAccountRouteLazyRoute: typeof PlatformAccountRouteLazyRouteWithChildren
@@ -837,7 +867,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   PlatformRouteRoute: PlatformRouteRouteWithChildren,
-  ChatRouteLazyRoute: ChatRouteLazyRoute,
+  ChatRouteLazyRoute: ChatRouteLazyRouteWithChildren,
   EndpointRouteLazyRoute: EndpointRouteLazyRouteWithChildren,
   EnvsRouteLazyRoute: EnvsRouteLazyRouteWithChildren,
   PlatformAccountRouteLazyRoute: PlatformAccountRouteLazyRouteWithChildren,
@@ -886,7 +916,10 @@ export const routeTree = rootRoute
       ]
     },
     "/chat": {
-      "filePath": "~chat/~route.lazy.tsx"
+      "filePath": "~chat/~route.lazy.tsx",
+      "children": [
+        "/chat/"
+      ]
     },
     "/endpoint": {
       "filePath": "~endpoint/~route.lazy.tsx",
@@ -915,6 +948,10 @@ export const routeTree = rootRoute
         "/post/",
         "/post/create"
       ]
+    },
+    "/chat/": {
+      "filePath": "~chat/~index.tsx",
+      "parent": "/chat"
     },
     "/endpoint/": {
       "filePath": "~endpoint/~index.tsx",

@@ -2645,8 +2645,8 @@ export type FlowNames =
  */
 export type LlmConfig = {
   metadata: ApiResourceMeta;
-  base_url: string;
-  api_key: string;
+  baseUrl: string;
+  apiKey: string;
   /**
    * llm model name
    */
