@@ -1,10 +1,21 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
-import NoSSRWrapper from "mtxuilib/components/NoSSRWrapper";
-import { Canvas } from "../../components/opencanvas/canvas";
 import { useTenant } from "../../hooks/useAuth";
-import { GraphProvider } from "../../stores/GraphContext";
 import { useMtmaiV2 } from "../../stores/StoreProvider";
+
+import { Outlet } from "@tanstack/react-router";
+
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+} from "mtxuilib/ui/breadcrumb";
+import { SidebarInset } from "mtxuilib/ui/sidebar";
+import { Suspense } from "react";
+import { DashContent } from "../../components/DashContent";
+import { DashHeaders } from "../../components/DashHeaders";
+import { DashSidebar } from "../../components/sidebar/siderbar";
+import { RootAppWrapper } from "../components/RootAppWrapper";
 
 export const Route = createLazyFileRoute("/chat")({
   component: RouteComponent,
@@ -20,14 +31,24 @@ function RouteComponent() {
     null;
   }
   return (
-    <div className="w-full h-full bg-blue-200">
-      <NoSSRWrapper>
-        <GraphProvider agentEndpointBase={selfBackendend!} tenant={tenant!}>
-          <MtSuspenseBoundary>
-            <Canvas />
-          </MtSuspenseBoundary>
-        </GraphProvider>
-      </NoSSRWrapper>
-    </div>
+    <RootAppWrapper>
+      <DashSidebar />
+      <SidebarInset>
+        <DashHeaders>
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbPage>Workflows</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </DashHeaders>
+        <DashContent>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Outlet />
+          </Suspense>
+        </DashContent>
+      </SidebarInset>
+    </RootAppWrapper>
   );
 }
