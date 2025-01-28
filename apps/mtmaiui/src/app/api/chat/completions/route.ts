@@ -23,6 +23,8 @@ const handler = async (req: Request) => {
   try {
     const body = (await req.json()) as ChatCompletionCreateParams;
 
+    // 远端真正的模型名称
+    const remoteModel = body.model || defaultLlm.model;
     // Forward request to LLM API
     const response = await fetch(`${defaultLlm.baseUrl}/chat/completions`, {
       method: "POST",
@@ -32,7 +34,7 @@ const handler = async (req: Request) => {
       },
       body: JSON.stringify({
         ...body,
-        model: defaultLlm.model,
+        model: remoteModel,
       }),
     });
 
