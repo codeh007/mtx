@@ -15,7 +15,7 @@ function RouteComponent() {
 }
 
 const getApiGatewayUrl = () => {
-  return "https://mtmaiui.yuepa8.com/api/v1/agent/ag";
+  return "/api/mtm/space";
 };
 const TestApiGateway = () => {
   const [responseText, setResponseText] = useState("");
