@@ -28,7 +28,6 @@
     "@tanstack/router-plugin": "^1.93.0",
     "@tanstack/start": "^1.93.0",
     "get-port": "^7.1.0",
-    "mtmaiapi": "*",
     "mtxuilib": "*",
     "next": "^15.1.6",
     "react": "^19.0.0",
