@@ -80,11 +80,11 @@
     "wrangler_dev": "bun run withEnv -- wrangler dev src/entry-cfworker.ts --config=../../../gomtm/wrangler.mtmgw.json --ip=0.0.0.0 --port=8787 --tsconfig=tsconfig.wrangler.json"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^0.0.66",
-    "@assistant-ui/react": "^0.7",
+    "@ai-sdk/openai": "^1.1.5",
+    "@assistant-ui/react": "^0.7.57",
     "@assistant-ui/react-ai-sdk": "^0.7.5",
     "@assistant-ui/react-langgraph": "^0.1.8",
-    "@assistant-ui/react-markdown": "^0.7.7",
+    "@assistant-ui/react-markdown": "^0.7.5",
     "@assistant-ui/react-syntax-highlighter": "^0.7.5",
     "@cloudflare/ai": "^1.2.2",
     "@fontsource/geist-sans": "^5.1.0",
@@ -157,7 +157,7 @@
     "@visx/text": "^3.3.0",
     "@visx/tooltip": "^3.3.0",
     "@visx/vendor": "^3.5.0",
-    "ai": "^4.0.18",
+    "ai": "^4.1.7",
     "ansi-to-html": "^0.7.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
