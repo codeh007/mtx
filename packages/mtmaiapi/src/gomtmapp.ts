@@ -6,7 +6,8 @@ import {
   initMtiaiClient,
 } from "mtmaiapi";
 import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
-import { isInBuild } from "./s-utils";
+import { isInBuild } from "./util/sutils";
+// import { isInBuild } from "./s-utils";
 
 const gomtmBackendToken: string | undefined = undefined;
 let cachedEndpointList: EndpointList | undefined = undefined;
@@ -143,9 +144,9 @@ export async function getHostName() {
   if (typeof window !== "undefined") {
     return window.location.hostname;
   }
-  if (headers) {
-    return (await headers()).get("host") || "localhost";
-  }
+  //   if (headers) {
+  //     return (await headers()).get("host") || "localhost";
+  //   }
   return "localhost";
 }
 
@@ -153,11 +154,12 @@ export async function getHostName() {
 export async function initGomtmApp(opts: {
   cookies?: () => Promise<ReadonlyRequestCookies>;
   headers?: () => Promise<Headers> | Headers;
+  r: Request;
 }) {
   if (typeof window !== "undefined") {
     return;
   }
-  headers = opts.headers;
-  cookies = opts.cookies;
+  //   headers = opts.headers;
+  //   cookies = opts.cookies;
   await initMtiaiClientV2();
 }

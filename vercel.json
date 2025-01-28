@@ -1,0 +1,12 @@
+{
+  "buildCommand": "bun run build",
+  "installCommand": "bun i",
+  "outputDirectory": "packages/gomtm-cli/.next",
+  "framework": "nextjs",
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "api/index.go"
+    }
+  ]
+}

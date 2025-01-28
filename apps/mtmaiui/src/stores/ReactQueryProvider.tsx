@@ -26,7 +26,7 @@ export default function ReactQueryProvider({
     }
 
     client?.setConfig({
-      baseUrl: serverUrl ?? "",
+      // baseUrl: serverUrl ?? "",
       fetch: async (req) => {
         console.log(`🔄,${req.method} ${req.url}`);
         const response = await fetch(req, {

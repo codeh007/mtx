@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { agentNodeRun } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import type { ChatCompletion } from "openai/resources/chat/completions";
 import { useState } from "react";
+import { useTenant } from "../../hooks/useAuth";
 
 export const Route = createFileRoute("/endpoint/")({
   component: RouteComponent,
@@ -12,6 +14,7 @@ function RouteComponent() {
     <div className="flex flex-col gap-4">
       <TestApiGateway />
       <TestCompletion />
+      <TestAgentRun />
     </div>
   );
 }
@@ -68,6 +71,26 @@ const TestCompletion = () => {
   return (
     <div>
       <Button onClick={handleClick}>TestCompletion</Button>
+      <div>{responseText}</div>
+    </div>
+  );
+};
+
+const TestAgentRun = () => {
+  const [responseText, setResponseText] = useState("");
+  const tenant = useTenant();
+  const handleClick = async () => {
+    const response = await agentNodeRun({
+      path: {
+        tenant: tenant!.metadata.id,
+      },
+      body: {},
+    });
+    setResponseText(JSON.stringify(response.data));
+  };
+  return (
+    <div>
+      <Button onClick={handleClick}>TestAgentRun</Button>
       <div>{responseText}</div>
     </div>
   );
