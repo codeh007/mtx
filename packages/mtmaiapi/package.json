@@ -164,11 +164,7 @@
     "typedoc-plugin-markdown": "^4.0.2",
     "typescript": "^5.7"
   },
-  "other": {
-    "jest": "^29.7.0",
-    "openapi-ts": "^0.3.4"
-  },
   "engines": {
-    "node": "20.x"
+    "node": "22.x"
   }
 }

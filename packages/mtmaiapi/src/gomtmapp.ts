@@ -1,13 +1,12 @@
+import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import {
   type EndpointList,
   type FrontendConfig,
   endpointList,
   frontendGetConfig,
-  initMtiaiClient,
-} from "mtmaiapi";
-import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+} from "./gomtmapi";
+import { initMtiaiClient } from "./index";
 import { isInBuild } from "./util/sutils";
-// import { isInBuild } from "./s-utils";
 
 const gomtmBackendToken: string | undefined = undefined;
 let cachedEndpointList: EndpointList | undefined = undefined;
@@ -129,8 +128,6 @@ export async function getAccessToken() {
     console.warn("在build 阶段,不加载AccessToken");
     return "";
   }
-  // const frontendConfig = await getFrontendConfig();
-
   return "";
 }
 
