@@ -27,6 +27,8 @@ import {
   Blog,
   BlogGenConfig,
   BlogList,
+  Browser,
+  BrowserList,
   BulkCreateEventRequest,
   BulkCreateEventResponse,
   CancelEventRequest,
@@ -3400,6 +3402,79 @@ export class Api<
   ) =>
     this.request<PlatformAccount, APIErrors>({
       path: `/api/v1/platform_accounts/${platformAccount}`,
+      method: "PATCH",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags browser
+   * @name BrowserList
+   * @request GET:/api/v1/browsers
+   * @secure
+   */
+  browserList = (params: RequestParams = {}) =>
+    this.request<BrowserList, APIErrors>({
+      path: `/api/v1/browsers`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description create browser
+   *
+   * @tags browser
+   * @name BrowserCreate
+   * @request POST:/api/v1/browsers
+   * @secure
+   */
+  browserCreate = (data: Browser, params: RequestParams = {}) =>
+    this.request<Browser, APIErrors | APIError>({
+      path: `/api/v1/browsers`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags browser
+   * @name BrowserGet
+   * @request GET:/api/v1/browsers/{browser}
+   * @secure
+   */
+  browserGet = (browser: string, params: RequestParams = {}) =>
+    this.request<Browser, any>({
+      path: `/api/v1/browsers/${browser}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Update an browser
+   *
+   * @tags browser
+   * @name BrowserUpdate
+   * @summary Update browser
+   * @request PATCH:/api/v1/browsers/{browser}
+   * @secure
+   */
+  browserUpdate = (
+    browser: string,
+    data: Browser,
+    params: RequestParams = {},
+  ) =>
+    this.request<Browser, APIErrors>({
+      path: `/api/v1/browsers/${browser}`,
       method: "PATCH",
       body: data,
       secure: true,

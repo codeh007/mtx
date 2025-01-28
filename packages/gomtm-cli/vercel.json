@@ -1,7 +1,6 @@
 {
   "buildCommand": "bun run build",
-  "installCommand": "bun i",
-  "framework": "nextjs",
+  "framework": "other",
   "rewrites": [
     {
       "source": "/api/(.*)",

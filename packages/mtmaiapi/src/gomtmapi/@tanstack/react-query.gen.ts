@@ -299,6 +299,14 @@ import type {
   PlatformAccountUpdateData,
   PlatformAccountUpdateError,
   PlatformAccountUpdateResponse,
+  BrowserListData,
+  BrowserCreateData,
+  BrowserCreateError,
+  BrowserCreateResponse,
+  BrowserGetData,
+  BrowserUpdateData,
+  BrowserUpdateError,
+  BrowserUpdateResponse,
 } from "../types.gen";
 import {
   readinessGet,
@@ -453,6 +461,10 @@ import {
   platformAccountCreate,
   platformAccountGet,
   platformAccountUpdate,
+  browserList,
+  browserCreate,
+  browserGet,
+  browserUpdate,
   client,
 } from "../sdk.gen";
 
@@ -4803,6 +4815,103 @@ export const platformAccountUpdateMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await platformAccountUpdate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const browserListQueryKey = (options?: Options<BrowserListData>) => [
+  createQueryKey("browserList", options),
+];
+
+export const browserListOptions = (options?: Options<BrowserListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await browserList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: browserListQueryKey(options),
+  });
+};
+
+export const browserCreateQueryKey = (options: Options<BrowserCreateData>) => [
+  createQueryKey("browserCreate", options),
+];
+
+export const browserCreateOptions = (options: Options<BrowserCreateData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await browserCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: browserCreateQueryKey(options),
+  });
+};
+
+export const browserCreateMutation = (
+  options?: Partial<Options<BrowserCreateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    BrowserCreateResponse,
+    BrowserCreateError,
+    Options<BrowserCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await browserCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const browserGetQueryKey = (options: Options<BrowserGetData>) => [
+  createQueryKey("browserGet", options),
+];
+
+export const browserGetOptions = (options: Options<BrowserGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await browserGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: browserGetQueryKey(options),
+  });
+};
+
+export const browserUpdateMutation = (
+  options?: Partial<Options<BrowserUpdateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    BrowserUpdateResponse,
+    BrowserUpdateError,
+    Options<BrowserUpdateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await browserUpdate({
         ...options,
         ...localOptions,
         throwOnError: true,
