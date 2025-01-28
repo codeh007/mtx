@@ -2523,3 +2523,28 @@ export interface PlatformAccountUpdate {
   tags?: string[];
   properties?: object;
 }
+
+export interface Browser {
+  metadata: APIResourceMeta;
+  name: string;
+  description?: string;
+  url: string;
+  loginUrl?: string;
+  properties?: object;
+  tags?: string[];
+}
+
+export interface BrowserList {
+  pagination?: PaginationResponse;
+  rows?: Browser[];
+}
+
+export interface BrowserUpdate {
+  metadata: APIResourceMeta;
+  name: string;
+  description?: string;
+  url: string;
+  loginUrl?: string;
+  properties?: object;
+  tags?: string[];
+}

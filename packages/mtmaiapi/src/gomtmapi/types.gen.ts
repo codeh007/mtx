@@ -2980,6 +2980,35 @@ export type PlatformAccountUpdate = {
   };
 };
 
+export type Browser = {
+  metadata: ApiResourceMeta;
+  name: string;
+  description?: string;
+  url: string;
+  loginUrl?: string;
+  properties?: {
+    [key: string]: unknown;
+  };
+  tags?: Array<string>;
+};
+
+export type BrowserList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Browser>;
+};
+
+export type BrowserUpdate = {
+  metadata: ApiResourceMeta;
+  name: string;
+  description?: string;
+  url: string;
+  loginUrl?: string;
+  properties?: {
+    [key: string]: unknown;
+  };
+  tags?: Array<string>;
+};
+
 export type ReadinessGetData = {
   body?: never;
   path?: never;
@@ -8414,3 +8443,117 @@ export type PlatformAccountUpdateResponses = {
 
 export type PlatformAccountUpdateResponse =
   PlatformAccountUpdateResponses[keyof PlatformAccountUpdateResponses];
+
+export type BrowserListData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/browsers";
+};
+
+export type BrowserListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type BrowserListError = BrowserListErrors[keyof BrowserListErrors];
+
+export type BrowserListResponses = {
+  200: BrowserList;
+};
+
+export type BrowserListResponse =
+  BrowserListResponses[keyof BrowserListResponses];
+
+export type BrowserCreateData = {
+  body: Browser;
+  path?: never;
+  query?: never;
+  url: "/api/v1/browsers";
+};
+
+export type BrowserCreateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type BrowserCreateError = BrowserCreateErrors[keyof BrowserCreateErrors];
+
+export type BrowserCreateResponses = {
+  200: Browser;
+};
+
+export type BrowserCreateResponse =
+  BrowserCreateResponses[keyof BrowserCreateResponses];
+
+export type BrowserGetData = {
+  body?: never;
+  path: {
+    /**
+     * The platform id
+     */
+    browser: string;
+  };
+  query?: never;
+  url: "/api/v1/browsers/{browser}";
+};
+
+export type BrowserGetResponses = {
+  200: Browser;
+};
+
+export type BrowserGetResponse = BrowserGetResponses[keyof BrowserGetResponses];
+
+export type BrowserUpdateData = {
+  /**
+   * The browser properties to update
+   */
+  body: Browser;
+  path: {
+    /**
+     * The platform id
+     */
+    browser: string;
+  };
+  query?: never;
+  url: "/api/v1/browsers/{browser}";
+};
+
+export type BrowserUpdateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type BrowserUpdateError = BrowserUpdateErrors[keyof BrowserUpdateErrors];
+
+export type BrowserUpdateResponses = {
+  /**
+   * Successfully created the browser
+   */
+  200: Browser;
+};
+
+export type BrowserUpdateResponse =
+  BrowserUpdateResponses[keyof BrowserUpdateResponses];

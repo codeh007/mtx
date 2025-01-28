@@ -424,6 +424,17 @@ import type {
   PlatformAccountUpdateData,
   PlatformAccountUpdateResponse,
   PlatformAccountUpdateError,
+  BrowserListData,
+  BrowserListResponse,
+  BrowserListError,
+  BrowserCreateData,
+  BrowserCreateResponse,
+  BrowserCreateError,
+  BrowserGetData,
+  BrowserGetResponse,
+  BrowserUpdateData,
+  BrowserUpdateResponse,
+  BrowserUpdateError,
 } from "./types.gen";
 
 export const client = createClient(createConfig());
@@ -4390,6 +4401,113 @@ export const platformAccountUpdate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/platform_accounts/{platform_account}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+export const browserList = <ThrowOnError extends boolean = false>(
+  options?: Options<BrowserListData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    BrowserListResponse,
+    BrowserListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/browsers",
+    ...options,
+  });
+};
+
+/**
+ * create browser
+ */
+export const browserCreate = <ThrowOnError extends boolean = false>(
+  options: Options<BrowserCreateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).post<
+    BrowserCreateResponse,
+    BrowserCreateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/browsers",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+export const browserGet = <ThrowOnError extends boolean = false>(
+  options: Options<BrowserGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    BrowserGetResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/browsers/{browser}",
+    ...options,
+  });
+};
+
+/**
+ * Update browser
+ * Update an browser
+ */
+export const browserUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<BrowserUpdateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).patch<
+    BrowserUpdateResponse,
+    BrowserUpdateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/browsers/{browser}",
     ...options,
     headers: {
       "Content-Type": "application/json",
