@@ -307,6 +307,14 @@ import type {
   BrowserUpdateData,
   BrowserUpdateError,
   BrowserUpdateResponse,
+  ProxyListData,
+  ProxyCreateData,
+  ProxyCreateError,
+  ProxyCreateResponse,
+  ProxyGetData,
+  ProxyUpdateData,
+  ProxyUpdateError,
+  ProxyUpdateResponse,
 } from "../types.gen";
 import {
   readinessGet,
@@ -465,6 +473,10 @@ import {
   browserCreate,
   browserGet,
   browserUpdate,
+  proxyList,
+  proxyCreate,
+  proxyGet,
+  proxyUpdate,
   client,
 } from "../sdk.gen";
 
@@ -4912,6 +4924,103 @@ export const browserUpdateMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await browserUpdate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const proxyListQueryKey = (options?: Options<ProxyListData>) => [
+  createQueryKey("proxyList", options),
+];
+
+export const proxyListOptions = (options?: Options<ProxyListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await proxyList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: proxyListQueryKey(options),
+  });
+};
+
+export const proxyCreateQueryKey = (options: Options<ProxyCreateData>) => [
+  createQueryKey("proxyCreate", options),
+];
+
+export const proxyCreateOptions = (options: Options<ProxyCreateData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await proxyCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: proxyCreateQueryKey(options),
+  });
+};
+
+export const proxyCreateMutation = (
+  options?: Partial<Options<ProxyCreateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    ProxyCreateResponse,
+    ProxyCreateError,
+    Options<ProxyCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await proxyCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const proxyGetQueryKey = (options: Options<ProxyGetData>) => [
+  createQueryKey("proxyGet", options),
+];
+
+export const proxyGetOptions = (options: Options<ProxyGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await proxyGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: proxyGetQueryKey(options),
+  });
+};
+
+export const proxyUpdateMutation = (
+  options?: Partial<Options<ProxyUpdateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    ProxyUpdateResponse,
+    ProxyUpdateError,
+    Options<ProxyUpdateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await proxyUpdate({
         ...options,
         ...localOptions,
         throwOnError: true,

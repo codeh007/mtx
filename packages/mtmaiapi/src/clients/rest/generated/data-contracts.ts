@@ -2548,3 +2548,28 @@ export interface BrowserUpdate {
   properties?: object;
   tags?: string[];
 }
+
+export interface Proxy {
+  metadata: APIResourceMeta;
+  name: string;
+  description?: string;
+  url: string;
+  loginUrl?: string;
+  properties?: object;
+  tags?: string[];
+}
+
+export interface ProxyList {
+  pagination?: PaginationResponse;
+  rows?: Proxy[];
+}
+
+export interface ProxyUpdate {
+  metadata: APIResourceMeta;
+  name: string;
+  description?: string;
+  url: string;
+  loginUrl?: string;
+  properties?: object;
+  tags?: string[];
+}
