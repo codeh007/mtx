@@ -7,7 +7,6 @@ export { MyWorkflow } from "./workflows/hello-workflow";
 import type { EndpointList, Env } from "mtmaiapi/gomtmapi/types.gen";
 import { getEndpointList, initEdgeApp } from "./lib/sslib";
 import { mainApp } from "./routes/edgeApi";
-import { handleWsRequest } from "./routes/ws/wsApp";
 export default {
   async fetch(request: Request, env, ctx) {
     //设置环境变量,达到兼容 nodejs 的目的
@@ -23,23 +22,24 @@ export default {
       if (responseFromApp.status === 200) {
         return responseFromApp;
       }
-      const uri = new URL(request.url);
-      if (uri.pathname.startsWith("/api/ws")) {
-        return handleWsRequest(request, env, ctx);
-      }
-      // return mainApp.fetch(request, env, ctx);
-      const response = await proxyHandler(request, env, ctx);
+      console.log(`responseFromApp:${JSON.stringify(responseFromApp.status)}`);
+      // const uri = new URL(request.url);
+      // if (uri.pathname.startsWith("/api/ws")) {
+      //   return handleWsRequest(request, env, ctx);
+      // }
+      // // return mainApp.fetch(request, env, ctx);
+      // const response = await proxyHandler(request, env, ctx);
 
-      // 添加禁用缓存的响应头
-      const headers = new Headers(response.headers);
-      headers.set(
-        "Cache-Control",
-        "no-store, no-cache, must-revalidate, proxy-revalidate",
-      );
-      headers.set("Pragma", "no-cache");
-      headers.set("Expires", "0");
+      // // 添加禁用缓存的响应头
+      // const headers = new Headers(response.headers);
+      // headers.set(
+      //   "Cache-Control",
+      //   "no-store, no-cache, must-revalidate, proxy-revalidate",
+      // );
+      // headers.set("Pragma", "no-cache");
+      // headers.set("Expires", "0");
 
-      return response;
+      // return response;
     } catch (e) {
       const error = e as Error;
       const errorDetails = {

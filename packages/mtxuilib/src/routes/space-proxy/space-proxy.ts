@@ -41,7 +41,9 @@ export const spaceProxy = new Hono().all("/", async (c) => {
     requestHeaders.set("Authorization", `Bearer ${token}`);
 
     console.log(
-      `🚀 [space proxy(v1)] ${r.method} ${remoteUrl.toString()} len:${r.body?.length}`,
+      `🚀 [space proxy(v1)] =>${r.method} ${remoteUrl.toString()}\n headers: ${JSON.stringify(
+        requestHeaders.get("Authorization"),
+      )}`,
     );
     const response = await fetch(remoteUrl.toString(), {
       method: r.method,
@@ -50,7 +52,7 @@ export const spaceProxy = new Hono().all("/", async (c) => {
     });
     return response;
   } catch (e) {
-    c.json({
+    return c.json({
       error: e as Error,
     });
   }
