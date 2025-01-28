@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "mtxuilib/ui/button";
+import type { ChatCompletion } from "openai/resources/chat/completions";
 import { useState } from "react";
 
 export const Route = createFileRoute("/endpoint/")({
@@ -8,8 +9,9 @@ export const Route = createFileRoute("/endpoint/")({
 
 function RouteComponent() {
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       <TestApiGateway />
+      <TestCompletion />
     </div>
   );
 }
@@ -17,6 +19,11 @@ function RouteComponent() {
 const getApiGatewayUrl = () => {
   return "/api/mtm/space";
 };
+
+const getCompletionUrl = () => {
+  return "/api/chat/completions";
+};
+
 const TestApiGateway = () => {
   const [responseText, setResponseText] = useState("");
   const handleClick = async () => {
@@ -27,6 +34,40 @@ const TestApiGateway = () => {
   return (
     <div>
       <Button onClick={handleClick}>TestApiGateway</Button>
+      <div>{responseText}</div>
+    </div>
+  );
+};
+
+const TestCompletion = () => {
+  const [responseText, setResponseText] = useState("");
+  const handleClick = async () => {
+    const response = await fetch(getCompletionUrl(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "llama3.1-70b",
+        messages: [
+          {
+            role: "user",
+            content: "你好,用中文写一个很好笑的长篇小说,用markdown格式",
+          },
+        ],
+        temperature: 0.7,
+        max_tokens: 8000,
+        stream: true,
+      }),
+    });
+    const data = (await response.json()) as ChatCompletion;
+    setResponseText(
+      data.choices?.[0]?.message?.content || JSON.stringify(data, null, 2),
+    );
+  };
+  return (
+    <div>
+      <Button onClick={handleClick}>TestCompletion</Button>
       <div>{responseText}</div>
     </div>
   );
