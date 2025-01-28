@@ -24,6 +24,8 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
 
+  outputFileTracingRoot: path.join("../../"),
+
   experimental: {
     optimizePackageImports: ["icon-library"],
   },
