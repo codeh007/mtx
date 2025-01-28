@@ -34,6 +34,7 @@ export const spaceProxy = new Hono().all("/", async (c) => {
     }
     //开发阶段使用第一条配置作为远程服务器的配置
     const targetEndpoint = endpointList.rows[0];
+    console.log(`targetEndpoint:${JSON.stringify(targetEndpoint)}`);
     const remoteUrl = targetEndpoint.url;
     const token = targetEndpoint.token;
 
