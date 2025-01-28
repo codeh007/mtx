@@ -3,7 +3,7 @@ import path from "node:path";
 const mode = process.env.BUILD_MODE ?? "standalone";
 const disableChunk = !!process.env.DISABLE_CHUNK || mode === "export";
 const distDir = process.env.NEXT_BUILD_OUTPUT ?? ".next";
-console.log(`NEXTJS (mtmaiui)===================================
+console.log(`NEXTJS (gomtm)===================================
 mode : ${mode} output: ${distDir} disableChunk ${disableChunk}`);
 /** @type {import('next').NextConfig} */
 const nextConfig = {
