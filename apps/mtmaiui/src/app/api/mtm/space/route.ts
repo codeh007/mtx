@@ -1,6 +1,4 @@
 import type { EndpointList } from "mtmaiapi";
-import { getEndpointList } from "mtxuilib/lib/sslib.js";
-import c from "react-syntax-highlighter/dist/esm/languages/hljs/c";
 
 export const runtime = "edge";
 
@@ -10,16 +8,15 @@ export const runtime = "edge";
 const handler = async (r: Request) => {
   let userName = "";
   try {
-    const r = c.req.raw;
     let endpointList: EndpointList | undefined = undefined;
-    endpointList = await getEndpointList();
+    // endpointList = await getEndpointList();
 
     if (!endpointList?.rows?.length) {
       // @ts-ignore
-      process.env.DEFAULT_HFSPACE = c.env.DEFAULT_HFSPACE;
+      process.env.DEFAULT_HFSPACE = process.env.DEFAULT_HFSPACE;
       console.log(`使用环境变量的默认值:${process.env.DEFAULT_HFSPACE}`);
 
-      const uri = new URL(process.env.DEFAULT_HFSPACE);
+      const uri = new URL(process.env.DEFAULT_HFSPACE!);
       userName = uri.username;
       // 创建一个新的 URL，只保留协议、主机名和路径部分
       const cleanUrl = `${uri.protocol}//${uri.host}${uri.pathname}${uri.search}`;
@@ -27,7 +24,7 @@ const handler = async (r: Request) => {
       endpointList = {
         rows: [],
       };
-      endpointList.rows.push({
+      endpointList?.rows?.push({
         url: cleanUrl,
         token: uri.password,
         metadata: {
@@ -41,14 +38,14 @@ const handler = async (r: Request) => {
       console.log(`endpointList:${JSON.stringify(endpointList)}`);
     }
     //开发阶段使用第一条配置作为远程服务器的配置
-    const targetEndpoint = endpointList.rows[0];
+    const targetEndpoint = endpointList?.rows?.[0];
     console.log(`targetEndpoint:${JSON.stringify(targetEndpoint)}`);
     // const remoteUrl =
     //   "https://zhangxiang2801-zhangxiang2801.hf.space" +
     //   "/gradio_api/call/greet";
 
     const remoteUrl = `https://${userName}-${userName}.hf.space/api/v1/agent/hello/ag`;
-    const token = targetEndpoint.token;
+    const token = targetEndpoint!.token;
 
     const requestHeaders = new Headers(r.headers);
     requestHeaders.set("Authorization", `Bearer ${token}`);
@@ -64,16 +61,33 @@ const handler = async (r: Request) => {
       // }),
     });
 
+    const headerItems = requestHeaders.entries();
     console.log(
       `🚀 [space proxy(v1)] =>${r.method} ${remoteUrl.toString()}\n headers: ${JSON.stringify(
-        requestHeaders.get("Authorization"),
+        headerItems,
       )}, status: ${response.status}`,
     );
     return response;
   } catch (e) {
-    return c.json({
-      error: e as Error,
-    });
+    return new Response(
+      JSON.stringify(
+        {
+          error: (e as Error).message,
+          stack: (e as Error).stack,
+          name: (e as Error).name,
+          cause: (e as Error).cause,
+          details: e, // Include the full error object
+        },
+        null,
+        2,
+      ),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
   }
 };
 
