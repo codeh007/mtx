@@ -3009,6 +3009,35 @@ export type BrowserUpdate = {
   tags?: Array<string>;
 };
 
+export type Proxy = {
+  metadata: ApiResourceMeta;
+  name: string;
+  description?: string;
+  url: string;
+  loginUrl?: string;
+  properties?: {
+    [key: string]: unknown;
+  };
+  tags?: Array<string>;
+};
+
+export type ProxyList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Proxy>;
+};
+
+export type ProxyUpdate = {
+  metadata: ApiResourceMeta;
+  name: string;
+  description?: string;
+  url: string;
+  loginUrl?: string;
+  properties?: {
+    [key: string]: unknown;
+  };
+  tags?: Array<string>;
+};
+
 export type ReadinessGetData = {
   body?: never;
   path?: never;
@@ -8557,3 +8586,116 @@ export type BrowserUpdateResponses = {
 
 export type BrowserUpdateResponse =
   BrowserUpdateResponses[keyof BrowserUpdateResponses];
+
+export type ProxyListData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/proxies";
+};
+
+export type ProxyListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type ProxyListError = ProxyListErrors[keyof ProxyListErrors];
+
+export type ProxyListResponses = {
+  200: ProxyList;
+};
+
+export type ProxyListResponse = ProxyListResponses[keyof ProxyListResponses];
+
+export type ProxyCreateData = {
+  body: Proxy;
+  path?: never;
+  query?: never;
+  url: "/api/v1/proxies";
+};
+
+export type ProxyCreateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type ProxyCreateError = ProxyCreateErrors[keyof ProxyCreateErrors];
+
+export type ProxyCreateResponses = {
+  200: Proxy;
+};
+
+export type ProxyCreateResponse =
+  ProxyCreateResponses[keyof ProxyCreateResponses];
+
+export type ProxyGetData = {
+  body?: never;
+  path: {
+    /**
+     * The platform id
+     */
+    proxy: string;
+  };
+  query?: never;
+  url: "/api/v1/proxies/{proxy}";
+};
+
+export type ProxyGetResponses = {
+  200: Proxy;
+};
+
+export type ProxyGetResponse = ProxyGetResponses[keyof ProxyGetResponses];
+
+export type ProxyUpdateData = {
+  /**
+   * The proxy properties to update
+   */
+  body: Proxy;
+  path: {
+    /**
+     * The platform id
+     */
+    proxy: string;
+  };
+  query?: never;
+  url: "/api/v1/proxies/{proxy}";
+};
+
+export type ProxyUpdateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type ProxyUpdateError = ProxyUpdateErrors[keyof ProxyUpdateErrors];
+
+export type ProxyUpdateResponses = {
+  /**
+   * Successfully created the proxy
+   */
+  200: Proxy;
+};
+
+export type ProxyUpdateResponse =
+  ProxyUpdateResponses[keyof ProxyUpdateResponses];

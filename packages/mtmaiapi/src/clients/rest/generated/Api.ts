@@ -83,6 +83,8 @@ import {
   Post,
   PostList,
   PromptList,
+  Proxy,
+  ProxyList,
   RateLimitList,
   RateLimitOrderByDirection,
   RateLimitOrderByField,
@@ -3475,6 +3477,75 @@ export class Api<
   ) =>
     this.request<Browser, APIErrors>({
       path: `/api/v1/browsers/${browser}`,
+      method: "PATCH",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags proxy
+   * @name ProxyList
+   * @request GET:/api/v1/proxies
+   * @secure
+   */
+  proxyList = (params: RequestParams = {}) =>
+    this.request<ProxyList, APIErrors>({
+      path: `/api/v1/proxies`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description create proxy
+   *
+   * @tags proxy
+   * @name ProxyCreate
+   * @request POST:/api/v1/proxies
+   * @secure
+   */
+  proxyCreate = (data: Proxy, params: RequestParams = {}) =>
+    this.request<Proxy, APIErrors | APIError>({
+      path: `/api/v1/proxies`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags proxy
+   * @name ProxyGet
+   * @request GET:/api/v1/proxies/{proxy}
+   * @secure
+   */
+  proxyGet = (proxy: string, params: RequestParams = {}) =>
+    this.request<Proxy, any>({
+      path: `/api/v1/proxies/${proxy}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Update an proxy
+   *
+   * @tags proxy
+   * @name ProxyUpdate
+   * @summary Update proxy
+   * @request PATCH:/api/v1/proxies/{proxy}
+   * @secure
+   */
+  proxyUpdate = (proxy: string, data: Proxy, params: RequestParams = {}) =>
+    this.request<Proxy, APIErrors>({
+      path: `/api/v1/proxies/${proxy}`,
       method: "PATCH",
       body: data,
       secure: true,

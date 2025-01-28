@@ -435,6 +435,17 @@ import type {
   BrowserUpdateData,
   BrowserUpdateResponse,
   BrowserUpdateError,
+  ProxyListData,
+  ProxyListResponse,
+  ProxyListError,
+  ProxyCreateData,
+  ProxyCreateResponse,
+  ProxyCreateError,
+  ProxyGetData,
+  ProxyGetResponse,
+  ProxyUpdateData,
+  ProxyUpdateResponse,
+  ProxyUpdateError,
 } from "./types.gen";
 
 export const client = createClient(createConfig());
@@ -4508,6 +4519,113 @@ export const browserUpdate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/browsers/{browser}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+export const proxyList = <ThrowOnError extends boolean = false>(
+  options?: Options<ProxyListData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    ProxyListResponse,
+    ProxyListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/proxies",
+    ...options,
+  });
+};
+
+/**
+ * create proxy
+ */
+export const proxyCreate = <ThrowOnError extends boolean = false>(
+  options: Options<ProxyCreateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).post<
+    ProxyCreateResponse,
+    ProxyCreateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/proxies",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+export const proxyGet = <ThrowOnError extends boolean = false>(
+  options: Options<ProxyGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    ProxyGetResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/proxies/{proxy}",
+    ...options,
+  });
+};
+
+/**
+ * Update proxy
+ * Update an proxy
+ */
+export const proxyUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<ProxyUpdateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).patch<
+    ProxyUpdateResponse,
+    ProxyUpdateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/proxies/{proxy}",
     ...options,
     headers: {
       "Content-Type": "application/json",
