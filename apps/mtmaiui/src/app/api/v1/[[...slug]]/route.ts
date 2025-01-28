@@ -1,4 +1,5 @@
-import { initGomtmApp } from "mtmaiapi/gomtmapp";
+import { getBackendUrl, initGomtmApp } from "mtmaiapi/gomtmapp";
+import { copyIncomeHeaders } from "mtxuilib/http/rproxy";
 
 export const runtime = "edge";
 
@@ -8,8 +9,9 @@ export const runtime = "edge";
 const handler = async (r: Request) => {
   await initGomtmApp({ r: r });
   const url = new URL(r.url);
-  const targetUrl = `http://localhost:8383${url.pathname}${url.search}`;
-  const requestHeaders = new Headers(r.headers);
+  const backendUrl = getBackendUrl();
+  const targetUrl = `${backendUrl}${url.pathname}${url.search}`;
+  const requestHeaders = copyIncomeHeaders(r);
   const response = await fetch(targetUrl, {
     method: r.method,
     headers: requestHeaders,
