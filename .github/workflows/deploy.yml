@@ -162,16 +162,6 @@ jobs:
       - name: setup bun
         uses: ./.github/actions/setup_bun
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
-      - name: install gomtm
-        run: |
-          cd packages/gomtm-cli
-          npm i -g
-
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
@@ -179,10 +169,19 @@ jobs:
           check-latest: true
           go-version-file: 'go.mod'
           cache-dependency-path: "**/*.sum"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: install gomtm
+        run: |
+          ( cd packages/gomtm-cli && npm i -g )
       
       - name: deploy to vercel
         run: |
-          cd packages/gomtm-cli
+          # cd packages/gomtm-cli
           gomtm vc_gomtm
 
   build_docker_gomtm_base:

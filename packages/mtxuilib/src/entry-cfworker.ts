@@ -22,7 +22,8 @@ export default {
       if (responseFromApp.status === 200) {
         return responseFromApp;
       }
-      console.log(`responseFromApp:${JSON.stringify(responseFromApp.status)}`);
+      return responseFromApp;
+      // console.log(`responseFromApp:${JSON.stringify(responseFromApp.status)}`);
       // const uri = new URL(request.url);
       // if (uri.pathname.startsWith("/api/ws")) {
       //   return handleWsRequest(request, env, ctx);

@@ -76,8 +76,8 @@
     "db:migrate:old": "bun run withEnv -- bun run src/db/migrate.ts",
     "db:migrate": "bun run withEnv -- bun drizzle-kit migrate --config=drizzle.config.ts",
     "db:push": "bun run withEnv -- drizzle-kit push",
-    "deploy_worker": "bun run withEnv -- wrangler deploy src/entry-cfworker.ts --config=../../../gomtm/wrangler.mtmgw.json",
-    "wrangler_dev": "bun run withEnv -- wrangler dev src/entry-cfworker.ts --config=../../../gomtm/wrangler.mtmgw.json --ip=0.0.0.0 --port=8788 --tsconfig=tsconfig.wrangler.json"
+    "wrangler_deploy": "bun run withEnv -- wrangler deploy src/entry-cfworker.ts --config=../../../gomtm/wrangler.mtmgw.json",
+    "wrangler_dev": "bun run withEnv -- wrangler dev src/entry-cfworker.ts --config=../../../gomtm/wrangler.mtmgw.json --ip=0.0.0.0 --port=8787 --tsconfig=tsconfig.wrangler.json"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.66",

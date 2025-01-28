@@ -15,7 +15,9 @@
   "sideEffects": false,
   "scripts": {
     "build--": "bun build src/cli/main.ts --outdir=dist/gomtm-cli.js --target node",
-    "build": "next build "
+    "build": "next build ",
+    "wrangler_deploy": "bun run withEnv -- wrangler deploy src/entry-cfworker.ts --config=../../../gomtm/wrangler.mtmgw.json",
+    "wrangler_dev": "bun run withEnv -- wrangler dev src/entry-cfworker.ts --config=../../../gomtm/wrangler.mtmgw.json --ip=0.0.0.0 --port=8788 --tsconfig=tsconfig.wrangler.json"
   },
   "dependencies": {
     "@codemirror/lang-sql": "^6.8.0",
