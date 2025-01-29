@@ -1,9 +1,6 @@
-import { openai } from "@ai-sdk/openai";
 // import { newGraphSseResponse } from "mtxuilib/agentutils/graph_utils";
 // import { cookies } from "next/headers";
 // import type { ChatCompletionCreateParams, ChatCompletionMessageParam } from "openai/resources/chat/completions";
-
-import { streamText } from "ai";
 
 export const runtime = "edge";
 
@@ -11,12 +8,13 @@ export const maxDuration = 30;
 const handler = async (r: Request) => {
   const { messages } = (await r.json()) as any;
 
-  const result = streamText({
-    model: openai("gpt-4o"),
-    messages,
-  });
+  // 基于ai-sdk 的实现
+  // const result = streamText({
+  //   model: openai("gpt-4o"),
+  //   messages,
+  // });
 
-  return result.toDataStreamResponse();
+  // return result.toDataStreamResponse();
 
   // 备忘代码,调用 langgraph
   // try {

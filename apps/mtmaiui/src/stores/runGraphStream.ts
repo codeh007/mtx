@@ -25,7 +25,7 @@ export async function handleSseGraphStream(
     throw new Error("(runGraphStream)tenant is required");
   }
   console.log("runGraphStream", { props, tenant, agentEndpointBase });
-  const endpointUrl = `${agentEndpointBase}/api/chat`;
+  const endpointUrl = `${agentEndpointBase}/api/v1/chat`;
 
   const messages = get().messages;
   const response = await fetch(endpointUrl, {
