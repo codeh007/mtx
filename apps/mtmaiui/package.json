@@ -24,6 +24,7 @@
     "db:gen": "drizzle-kit generate",
     "db:migrate": "bun run withEnv && bun run src/db/migrate.ts",
     "db:push": "bun run withEnv -- drizzle-kit push",
+    "db_pull": "bun run drizzle-kit pull",
     "gen:routes": "tsr generate",
     "watch": "tsr watch"
   },

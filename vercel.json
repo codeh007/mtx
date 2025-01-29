@@ -11,6 +11,17 @@
     {
       "source": "/(.*)",
       "destination": "/api/index.go"
+    },
+    {
+      "source": "/demopage.html",
+      "destination": "/app.html",
+      "missing": [
+        {
+          "type": "header",
+          "key": "Accept",
+          "value": "application/json"
+        }
+      ]
     }
   ]
 }
