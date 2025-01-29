@@ -10,11 +10,11 @@
     },
     {
       "source": "/(.*)",
-      "destination": "/api/index.go"
+      "destination": "/api/index"
     },
     {
       "source": "/demopage.html",
-      "destination": "/app.html",
+      "destination": "/",
       "missing": [
         {
           "type": "header",
