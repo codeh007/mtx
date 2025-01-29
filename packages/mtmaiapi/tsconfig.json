@@ -51,6 +51,7 @@
     "dist",
     "openapi-ts.config.ts",
     "code_gen",
-    "src/examples"
+    "src/examples",
+    "src/db/migrations"
   ]
 }

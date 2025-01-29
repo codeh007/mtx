@@ -2,12 +2,20 @@
 // import { cookies } from "next/headers";
 // import type { ChatCompletionCreateParams, ChatCompletionMessageParam } from "openai/resources/chat/completions";
 
+import { newRProxy } from "mtxuilib/http/rproxy";
+
 export const runtime = "edge";
 
 export const maxDuration = 30;
+
+const remoteUrl = "http://localhost:7860/api/v1/chat";
 const handler = async (r: Request) => {
   const { messages } = (await r.json()) as any;
 
+  const rp = newRProxy({
+    baseUrl: remoteUrl,
+  });
+  return rp(r);
   // 基于ai-sdk 的实现
   // const result = streamText({
   //   model: openai("gpt-4o"),
