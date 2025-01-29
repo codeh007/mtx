@@ -8,14 +8,19 @@ export const runtime = "edge";
 
 export const maxDuration = 30;
 
-const remoteUrl = "http://localhost:7860/api/v1/chat";
+const remoteUrl = "http://localhost:7860";
 const handler = async (r: Request) => {
-  const { messages } = (await r.json()) as any;
+  // 克隆请求以便可以多次读取
+  const clonedRequest = r.clone();
+
+  const { messages } = (await clonedRequest.json()) as any;
 
   const rp = newRProxy({
     baseUrl: remoteUrl,
   });
-  return rp(r);
+
+  const response = await rp(r);
+  return response;
   // 基于ai-sdk 的实现
   // const result = streamText({
   //   model: openai("gpt-4o"),
