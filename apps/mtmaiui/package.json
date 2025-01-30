@@ -92,7 +92,8 @@
     "redaxios": "^0.5.1",
     "superjson": "^2.2.2",
     "unenv": "^1.10.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "antd": "^5.22.1"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
