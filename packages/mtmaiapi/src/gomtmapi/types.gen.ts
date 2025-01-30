@@ -2651,6 +2651,29 @@ export type LlmConfig = {
    * llm model name
    */
   model: string;
+  modelInfo: ModelInfo;
+};
+
+/**
+ * model info
+ */
+export type ModelInfo = {
+  /**
+   * True if the model supports vision, aka image input, otherwise False.
+   */
+  vision: boolean;
+  /**
+   * True if the model supports function calling, otherwise False.
+   */
+  function_calling: boolean;
+  /**
+   * True if the model supports json output, otherwise False. Note: this is different to structured json.
+   */
+  json_output: boolean;
+  /**
+   * Model family should be one of the constants from :py:class:`ModelFamily` or a string representing an unknown model family.
+   */
+  family: string;
 };
 
 export type TokenChunk = {

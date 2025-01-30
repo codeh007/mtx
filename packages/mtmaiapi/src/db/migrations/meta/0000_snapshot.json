@@ -274,12 +274,8 @@
           "tableFrom": "SiteHost",
           "tableTo": "Site",
           "schemaTo": "public",
-          "columnsFrom": [
-            "siteId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["siteId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -363,12 +359,8 @@
           "tableFrom": "Site",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -666,12 +658,8 @@
           "tableFrom": "Event",
           "tableTo": "Event",
           "schemaTo": "public",
-          "columnsFrom": [
-            "replayedFromId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["replayedFromId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         }
@@ -900,12 +888,8 @@
           "tableFrom": "Endpoint",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -1226,12 +1210,8 @@
           "tableFrom": "Post",
           "tableTo": "User",
           "schemaTo": "public",
-          "columnsFrom": [
-            "authorId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["authorId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -1240,12 +1220,8 @@
           "tableFrom": "Post",
           "tableTo": "Messages",
           "schemaTo": "public",
-          "columnsFrom": [
-            "lastMessageId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["lastMessageId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         },
@@ -1254,12 +1230,8 @@
           "tableFrom": "Post",
           "tableTo": "Post",
           "schemaTo": "public",
-          "columnsFrom": [
-            "parentPostId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parentPostId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         },
@@ -1268,12 +1240,8 @@
           "tableFrom": "Post",
           "tableTo": "Site",
           "schemaTo": "public",
-          "columnsFrom": [
-            "siteId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["siteId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -1282,12 +1250,8 @@
           "tableFrom": "Post",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -1815,9 +1779,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "SystemConfig_name_unique": {
-          "columns": [
-            "name"
-          ],
+          "columns": ["name"],
           "nullsNotDistinct": false,
           "name": "SystemConfig_name_unique"
         }
@@ -2548,12 +2510,8 @@
           "tableFrom": "WorkflowRun",
           "tableTo": "User",
           "schemaTo": "public",
-          "columnsFrom": [
-            "byUserId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["byUserId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -2562,12 +2520,8 @@
           "tableFrom": "WorkflowRun",
           "tableTo": "WorkflowRun",
           "schemaTo": "public",
-          "columnsFrom": [
-            "parentId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parentId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         },
@@ -2576,12 +2530,8 @@
           "tableFrom": "WorkflowRun",
           "tableTo": "StepRun",
           "schemaTo": "public",
-          "columnsFrom": [
-            "parentStepRunId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parentStepRunId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         }
@@ -2873,12 +2823,8 @@
           "tableFrom": "Tenant",
           "tableTo": "ControllerPartition",
           "schemaTo": "public",
-          "columnsFrom": [
-            "controllerPartitionId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["controllerPartitionId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "set null"
         },
@@ -2887,12 +2833,8 @@
           "tableFrom": "Tenant",
           "tableTo": "SchedulerPartition",
           "schemaTo": "public",
-          "columnsFrom": [
-            "schedulerPartitionId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["schedulerPartitionId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "set null"
         },
@@ -2901,12 +2843,8 @@
           "tableFrom": "Tenant",
           "tableTo": "TenantWorkerPartition",
           "schemaTo": "public",
-          "columnsFrom": [
-            "workerPartitionId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["workerPartitionId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "set null"
         }
@@ -2987,12 +2925,8 @@
           "tableFrom": "APIToken",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -3056,12 +2990,8 @@
           "tableFrom": "Action",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -3250,12 +3180,8 @@
           "tableFrom": "AgentNode",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -3381,12 +3307,8 @@
           "tableFrom": "AgentNodeRun",
           "tableTo": "AgentNode",
           "schemaTo": "public",
-          "columnsFrom": [
-            "nodeId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["nodeId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -3395,12 +3317,8 @@
           "tableFrom": "AgentNodeRun",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -3484,12 +3402,8 @@
           "tableFrom": "Chat",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -3498,12 +3412,8 @@
           "tableFrom": "Chat",
           "tableTo": "User",
           "schemaTo": "public",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -3624,12 +3534,8 @@
           "tableFrom": "Artifact",
           "tableTo": "Chat",
           "schemaTo": "public",
-          "columnsFrom": [
-            "chatId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["chatId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -3638,12 +3544,8 @@
           "tableFrom": "Artifact",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -3740,12 +3642,8 @@
           "tableFrom": "Assisant",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -3866,12 +3764,8 @@
           "tableFrom": "Blog",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -3939,12 +3833,8 @@
           "tableFrom": "BlogConfig",
           "tableTo": "Blog",
           "schemaTo": "public",
-          "columnsFrom": [
-            "blogId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["blogId"],
+          "columnsTo": ["id"],
           "onDelete": "restrict",
           "onUpdate": "cascade"
         }
@@ -4167,12 +4057,8 @@
           "tableFrom": "BlogPost",
           "tableTo": "User",
           "schemaTo": "public",
-          "columnsFrom": [
-            "authorId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["authorId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -4181,12 +4067,8 @@
           "tableFrom": "BlogPost",
           "tableTo": "Blog",
           "schemaTo": "public",
-          "columnsFrom": [
-            "blogId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["blogId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -4195,12 +4077,8 @@
           "tableFrom": "BlogPost",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -4278,12 +4156,8 @@
           "tableFrom": "ChatMessage",
           "tableTo": "Chat",
           "schemaTo": "public",
-          "columnsFrom": [
-            "chatId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["chatId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -4367,12 +4241,8 @@
           "tableFrom": "Comment",
           "tableTo": "User",
           "schemaTo": "public",
-          "columnsFrom": [
-            "authorId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["authorId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -4381,12 +4251,8 @@
           "tableFrom": "Comment",
           "tableTo": "BlogPost",
           "schemaTo": "public",
-          "columnsFrom": [
-            "blogId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["blogId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -4753,12 +4619,8 @@
           "tableFrom": "GetGroupKeyRun",
           "tableTo": "Ticker",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tickerId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tickerId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         },
@@ -4767,12 +4629,8 @@
           "tableFrom": "GetGroupKeyRun",
           "tableTo": "Worker",
           "schemaTo": "public",
-          "columnsFrom": [
-            "workerId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["workerId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         },
@@ -4781,12 +4639,8 @@
           "tableFrom": "GetGroupKeyRun",
           "tableTo": "WorkflowRun",
           "schemaTo": "public",
-          "columnsFrom": [
-            "workflowRunId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["workflowRunId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -4964,12 +4818,8 @@
           "tableFrom": "Worker",
           "tableTo": "Dispatcher",
           "schemaTo": "public",
-          "columnsFrom": [
-            "dispatcherId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["dispatcherId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         },
@@ -4978,12 +4828,8 @@
           "tableFrom": "Worker",
           "tableTo": "WebhookWorker",
           "schemaTo": "public",
-          "columnsFrom": [
-            "webhookId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["webhookId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         }
@@ -5209,12 +5055,8 @@
           "tableFrom": "Integration",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -5394,12 +5236,8 @@
           "tableFrom": "WorkflowVersion",
           "tableTo": "Job",
           "schemaTo": "public",
-          "columnsFrom": [
-            "onFailureJobId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["onFailureJobId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         },
@@ -5408,12 +5246,8 @@
           "tableFrom": "WorkflowVersion",
           "tableTo": "Workflow",
           "schemaTo": "public",
-          "columnsFrom": [
-            "workflowId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["workflowId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -5540,12 +5374,8 @@
           "tableFrom": "Job",
           "tableTo": "WorkflowVersion",
           "schemaTo": "public",
-          "columnsFrom": [
-            "workflowVersionId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["workflowVersionId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -5724,12 +5554,8 @@
           "tableFrom": "JobRun",
           "tableTo": "WorkflowRun",
           "schemaTo": "public",
-          "columnsFrom": [
-            "workflowRunId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["workflowRunId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -5852,12 +5678,8 @@
           "tableFrom": "JobRunLookupData",
           "tableTo": "JobRun",
           "schemaTo": "public",
-          "columnsFrom": [
-            "jobRunId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["jobRunId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -6272,12 +6094,8 @@
           "tableFrom": "StepRun",
           "tableTo": "JobRun",
           "schemaTo": "public",
-          "columnsFrom": [
-            "jobRunId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["jobRunId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -6286,12 +6104,8 @@
           "tableFrom": "StepRun",
           "tableTo": "Worker",
           "schemaTo": "public",
-          "columnsFrom": [
-            "workerId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["workerId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         }
@@ -6359,12 +6173,8 @@
           "tableFrom": "LogLine",
           "tableTo": "StepRun",
           "schemaTo": "public",
-          "columnsFrom": [
-            "stepRunId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["stepRunId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         }
@@ -6457,12 +6267,8 @@
           "tableFrom": "Media",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -6681,12 +6487,8 @@
           "tableFrom": "Messages",
           "tableTo": "MessagesGroup",
           "schemaTo": "public",
-          "columnsFrom": [
-            "groupId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["groupId"],
+          "columnsTo": ["id"],
           "onDelete": "restrict",
           "onUpdate": "cascade"
         }
@@ -6776,12 +6578,8 @@
           "tableFrom": "Prompt",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -6859,12 +6657,8 @@
           "tableFrom": "Reply",
           "tableTo": "User",
           "schemaTo": "public",
-          "columnsFrom": [
-            "authorId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["authorId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -6873,12 +6667,8 @@
           "tableFrom": "Reply",
           "tableTo": "Comment",
           "schemaTo": "public",
-          "columnsFrom": [
-            "commentId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["commentId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -6973,12 +6763,8 @@
           "tableFrom": "SNSIntegration",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -7085,12 +6871,8 @@
           "tableFrom": "Service",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -7222,12 +7004,8 @@
           "tableFrom": "SlackAppWebhook",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -7431,12 +7209,8 @@
           "tableFrom": "SocialMediaAgency",
           "tableTo": "Media",
           "schemaTo": "public",
-          "columnsFrom": [
-            "logoId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["logoId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         },
@@ -7445,12 +7219,8 @@
           "tableFrom": "SocialMediaAgency",
           "tableTo": "User",
           "schemaTo": "public",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -7589,14 +7359,8 @@
           "tableFrom": "Step",
           "tableTo": "Action",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId",
-            "actionId"
-          ],
-          "columnsTo": [
-            "actionId",
-            "tenantId"
-          ],
+          "columnsFrom": ["tenantId", "actionId"],
+          "columnsTo": ["actionId", "tenantId"],
           "onDelete": "restrict",
           "onUpdate": "cascade"
         },
@@ -7605,12 +7369,8 @@
           "tableFrom": "Step",
           "tableTo": "Job",
           "schemaTo": "public",
-          "columnsFrom": [
-            "jobId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["jobId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -7736,12 +7496,8 @@
           "tableFrom": "StepDesiredWorkerLabel",
           "tableTo": "Step",
           "schemaTo": "public",
-          "columnsFrom": [
-            "stepId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["stepId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -7870,14 +7626,8 @@
           "tableFrom": "StepRateLimit",
           "tableTo": "RateLimit",
           "schemaTo": "public",
-          "columnsFrom": [
-            "rateLimitKey",
-            "tenantId"
-          ],
-          "columnsTo": [
-            "tenantId",
-            "key"
-          ],
+          "columnsFrom": ["rateLimitKey", "tenantId"],
+          "columnsTo": ["tenantId", "key"],
           "onDelete": "restrict",
           "onUpdate": "cascade"
         }
@@ -8016,12 +7766,8 @@
           "tableFrom": "StepRunResultArchive",
           "tableTo": "StepRun",
           "schemaTo": "public",
-          "columnsFrom": [
-            "stepRunId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["stepRunId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -8081,12 +7827,8 @@
           "tableFrom": "StreamEvent",
           "tableTo": "StepRun",
           "schemaTo": "public",
-          "columnsFrom": [
-            "stepRunId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["stepRunId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         }
@@ -8350,12 +8092,8 @@
           "tableFrom": "TenantAlertEmailGroup",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -8483,12 +8221,8 @@
           "tableFrom": "TenantAlertingSettings",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -8497,12 +8231,8 @@
           "tableFrom": "TenantAlertingSettings",
           "tableTo": "Ticker",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tickerId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tickerId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         }
@@ -8602,12 +8332,8 @@
           "tableFrom": "TenantInviteLink",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -8709,12 +8435,8 @@
           "tableFrom": "TenantMember",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -8723,12 +8445,8 @@
           "tableFrom": "TenantMember",
           "tableTo": "User",
           "schemaTo": "public",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -8863,12 +8581,8 @@
           "tableFrom": "TenantResourceLimit",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -8966,12 +8680,8 @@
           "tableFrom": "TenantResourceLimitAlert",
           "tableTo": "TenantResourceLimit",
           "schemaTo": "public",
-          "columnsFrom": [
-            "resourceLimitId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["resourceLimitId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -8980,12 +8690,8 @@
           "tableFrom": "TenantResourceLimitAlert",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -9093,12 +8799,8 @@
           "tableFrom": "TenantVcsProvider",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -9233,12 +8935,8 @@
           "tableFrom": "UserOAuth",
           "tableTo": "User",
           "schemaTo": "public",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -9290,12 +8988,8 @@
           "tableFrom": "UserPassword",
           "tableTo": "User",
           "schemaTo": "public",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -9373,12 +9067,8 @@
           "tableFrom": "UserSession",
           "tableTo": "User",
           "schemaTo": "public",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -9497,12 +9187,8 @@
           "tableFrom": "WebhookWorker",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -9511,12 +9197,8 @@
           "tableFrom": "WebhookWorker",
           "tableTo": "APIToken",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tokenId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tokenId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -9588,12 +9270,8 @@
           "tableFrom": "WebhookWorkerRequest",
           "tableTo": "WebhookWorker",
           "schemaTo": "public",
-          "columnsFrom": [
-            "webhookWorkerId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["webhookWorkerId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -9674,12 +9352,8 @@
           "tableFrom": "WebhookWorkerWorkflow",
           "tableTo": "WebhookWorker",
           "schemaTo": "public",
-          "columnsFrom": [
-            "webhookWorkerId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["webhookWorkerId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -9688,12 +9362,8 @@
           "tableFrom": "WebhookWorkerWorkflow",
           "tableTo": "Workflow",
           "schemaTo": "public",
-          "columnsFrom": [
-            "workflowId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["workflowId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -9963,12 +9633,8 @@
           "tableFrom": "WorkerAssignEvent",
           "tableTo": "Worker",
           "schemaTo": "public",
-          "columnsFrom": [
-            "workerId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["workerId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -10075,12 +9741,8 @@
           "tableFrom": "WorkerLabel",
           "tableTo": "Worker",
           "schemaTo": "public",
-          "columnsFrom": [
-            "workerId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["workerId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -10189,12 +9851,8 @@
           "tableFrom": "WorkflowConcurrency",
           "tableTo": "Action",
           "schemaTo": "public",
-          "columnsFrom": [
-            "getConcurrencyGroupId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["getConcurrencyGroupId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         },
@@ -10203,12 +9861,8 @@
           "tableFrom": "WorkflowConcurrency",
           "tableTo": "WorkflowVersion",
           "schemaTo": "public",
-          "columnsFrom": [
-            "workflowVersionId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["workflowVersionId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -10293,12 +9947,8 @@
           "tableFrom": "WorkflowRunStickyState",
           "tableTo": "WorkflowRun",
           "schemaTo": "public",
-          "columnsFrom": [
-            "workflowRunId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["workflowRunId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -10378,12 +10028,8 @@
           "tableFrom": "WorkflowTriggerCronRef",
           "tableTo": "WorkflowTriggers",
           "schemaTo": "public",
-          "columnsFrom": [
-            "parentId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parentId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -10392,12 +10038,8 @@
           "tableFrom": "WorkflowTriggerCronRef",
           "tableTo": "Ticker",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tickerId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tickerId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         }
@@ -10585,14 +10227,8 @@
           "tableFrom": "WorkflowRunTriggeredBy",
           "tableTo": "WorkflowTriggerCronRef",
           "schemaTo": "public",
-          "columnsFrom": [
-            "cronParentId",
-            "cronSchedule"
-          ],
-          "columnsTo": [
-            "parentId",
-            "cron"
-          ],
+          "columnsFrom": ["cronParentId", "cronSchedule"],
+          "columnsTo": ["parentId", "cron"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         },
@@ -10601,12 +10237,8 @@
           "tableFrom": "WorkflowRunTriggeredBy",
           "tableTo": "WorkflowTriggerScheduledRef",
           "schemaTo": "public",
-          "columnsFrom": [
-            "scheduledId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["scheduledId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         }
@@ -10756,12 +10388,8 @@
           "tableFrom": "WorkflowTriggerScheduledRef",
           "tableTo": "WorkflowVersion",
           "schemaTo": "public",
-          "columnsFrom": [
-            "parentId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parentId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -10770,12 +10398,8 @@
           "tableFrom": "WorkflowTriggerScheduledRef",
           "tableTo": "StepRun",
           "schemaTo": "public",
-          "columnsFrom": [
-            "parentStepRunId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parentStepRunId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         },
@@ -10784,12 +10408,8 @@
           "tableFrom": "WorkflowTriggerScheduledRef",
           "tableTo": "WorkflowRun",
           "schemaTo": "public",
-          "columnsFrom": [
-            "parentWorkflowRunId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parentWorkflowRunId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         },
@@ -10798,12 +10418,8 @@
           "tableFrom": "WorkflowTriggerScheduledRef",
           "tableTo": "Ticker",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tickerId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tickerId"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "cascade"
         }
@@ -10905,12 +10521,8 @@
           "tableFrom": "WorkflowTag",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -11020,12 +10632,8 @@
           "tableFrom": "WorkflowTriggers",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -11034,12 +10642,8 @@
           "tableFrom": "WorkflowTriggers",
           "tableTo": "WorkflowVersion",
           "schemaTo": "public",
-          "columnsFrom": [
-            "workflowVersionId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["workflowVersionId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -11121,12 +10725,8 @@
           "tableFrom": "WorkflowTriggerEventRef",
           "tableTo": "WorkflowTriggers",
           "schemaTo": "public",
-          "columnsFrom": [
-            "parentId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parentId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -11201,12 +10801,8 @@
           "tableFrom": "_ActionToWorker",
           "tableTo": "Action",
           "schemaTo": "public",
-          "columnsFrom": [
-            "A"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["A"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -11215,12 +10811,8 @@
           "tableFrom": "_ActionToWorker",
           "tableTo": "Worker",
           "schemaTo": "public",
-          "columnsFrom": [
-            "B"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["B"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -11295,12 +10887,8 @@
           "tableFrom": "_BlogPostToTag",
           "tableTo": "BlogPost",
           "schemaTo": "public",
-          "columnsFrom": [
-            "A"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["A"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -11309,12 +10897,8 @@
           "tableFrom": "_BlogPostToTag",
           "tableTo": "Tag",
           "schemaTo": "public",
-          "columnsFrom": [
-            "B"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["B"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -11445,12 +11029,8 @@
           "tableFrom": "_MediaToUser",
           "tableTo": "Media",
           "schemaTo": "public",
-          "columnsFrom": [
-            "A"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["A"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -11459,12 +11039,8 @@
           "tableFrom": "_MediaToUser",
           "tableTo": "User",
           "schemaTo": "public",
-          "columnsFrom": [
-            "B"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["B"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -11539,12 +11115,8 @@
           "tableFrom": "_ServiceToWorker",
           "tableTo": "Service",
           "schemaTo": "public",
-          "columnsFrom": [
-            "A"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["A"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -11553,12 +11125,8 @@
           "tableFrom": "_ServiceToWorker",
           "tableTo": "Worker",
           "schemaTo": "public",
-          "columnsFrom": [
-            "B"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["B"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -11633,12 +11201,8 @@
           "tableFrom": "_StepOrder",
           "tableTo": "Step",
           "schemaTo": "public",
-          "columnsFrom": [
-            "A"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["A"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -11647,12 +11211,8 @@
           "tableFrom": "_StepOrder",
           "tableTo": "Step",
           "schemaTo": "public",
-          "columnsFrom": [
-            "B"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["B"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -11727,12 +11287,8 @@
           "tableFrom": "_StepRunOrder",
           "tableTo": "StepRun",
           "schemaTo": "public",
-          "columnsFrom": [
-            "A"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["A"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -11741,12 +11297,8 @@
           "tableFrom": "_StepRunOrder",
           "tableTo": "StepRun",
           "schemaTo": "public",
-          "columnsFrom": [
-            "B"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["B"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -11821,12 +11373,8 @@
           "tableFrom": "_WorkflowToWorkflowTag",
           "tableTo": "Workflow",
           "schemaTo": "public",
-          "columnsFrom": [
-            "A"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["A"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -11835,12 +11383,8 @@
           "tableFrom": "_WorkflowToWorkflowTag",
           "tableTo": "WorkflowTag",
           "schemaTo": "public",
-          "columnsFrom": [
-            "B"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["B"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -11875,12 +11419,8 @@
           "tableFrom": "SocialMediaAgencyNiche",
           "tableTo": "SocialMediaAgency",
           "schemaTo": "public",
-          "columnsFrom": [
-            "agencyId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["agencyId"],
+          "columnsTo": ["id"],
           "onDelete": "restrict",
           "onUpdate": "cascade"
         }
@@ -11888,10 +11428,7 @@
       "compositePrimaryKeys": {
         "SocialMediaAgencyNiche_pkey": {
           "name": "SocialMediaAgencyNiche_pkey",
-          "columns": [
-            "agencyId",
-            "niche"
-          ]
+          "columns": ["agencyId", "niche"]
         }
       },
       "uniqueConstraints": {},
@@ -11934,11 +11471,7 @@
       "compositePrimaryKeys": {
         "StepExpression_pkey": {
           "name": "StepExpression_pkey",
-          "columns": [
-            "key",
-            "stepId",
-            "kind"
-          ]
+          "columns": ["key", "stepId", "kind"]
         }
       },
       "uniqueConstraints": {},
@@ -12004,11 +11537,7 @@
       "compositePrimaryKeys": {
         "StepRunExpressionEval_pkey": {
           "name": "StepRunExpressionEval_pkey",
-          "columns": [
-            "key",
-            "stepRunId",
-            "kind"
-          ]
+          "columns": ["key", "stepRunId", "kind"]
         }
       },
       "uniqueConstraints": {},
@@ -12104,12 +11633,8 @@
           "tableFrom": "KVStore",
           "tableTo": "Tenant",
           "schemaTo": "public",
-          "columnsFrom": [
-            "tenantId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tenantId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -12117,10 +11642,7 @@
       "compositePrimaryKeys": {
         "KVStore_pkey": {
           "name": "KVStore_pkey",
-          "columns": [
-            "ns",
-            "key"
-          ]
+          "columns": ["ns", "key"]
         }
       },
       "uniqueConstraints": {},
@@ -12142,10 +11664,7 @@
     },
     "public.From": {
       "name": "From",
-      "values": [
-        "BUYER",
-        "SELLER"
-      ],
+      "values": ["BUYER", "SELLER"],
       "schema": "public"
     },
     "public.InternalQueue": {
@@ -12161,69 +11680,37 @@
     },
     "public.InviteLinkStatus": {
       "name": "InviteLinkStatus",
-      "values": [
-        "PENDING",
-        "ACCEPTED",
-        "REJECTED"
-      ],
+      "values": ["PENDING", "ACCEPTED", "REJECTED"],
       "schema": "public"
     },
     "public.JobKind": {
       "name": "JobKind",
-      "values": [
-        "DEFAULT",
-        "ON_FAILURE"
-      ],
+      "values": ["DEFAULT", "ON_FAILURE"],
       "schema": "public"
     },
     "public.JobRunStatus": {
       "name": "JobRunStatus",
-      "values": [
-        "PENDING",
-        "RUNNING",
-        "SUCCEEDED",
-        "FAILED",
-        "CANCELLED"
-      ],
+      "values": ["PENDING", "RUNNING", "SUCCEEDED", "FAILED", "CANCELLED"],
       "schema": "public"
     },
     "public.LeaseKind": {
       "name": "LeaseKind",
-      "values": [
-        "WORKER",
-        "QUEUE"
-      ],
+      "values": ["WORKER", "QUEUE"],
       "schema": "public"
     },
     "public.LimitResource": {
       "name": "LimitResource",
-      "values": [
-        "WORKFLOW_RUN",
-        "EVENT",
-        "WORKER",
-        "CRON",
-        "SCHEDULE"
-      ],
+      "values": ["WORKFLOW_RUN", "EVENT", "WORKER", "CRON", "SCHEDULE"],
       "schema": "public"
     },
     "public.LogLineLevel": {
       "name": "LogLineLevel",
-      "values": [
-        "DEBUG",
-        "INFO",
-        "WARN",
-        "ERROR"
-      ],
+      "values": ["DEBUG", "INFO", "WARN", "ERROR"],
       "schema": "public"
     },
     "public.State": {
       "name": "State",
-      "values": [
-        "QUEUE",
-        "PUBLISHED",
-        "ERROR",
-        "DRAFT"
-      ],
+      "values": ["QUEUE", "PUBLISHED", "ERROR", "DRAFT"],
       "schema": "public"
     },
     "public.StepExpressionKind": {
@@ -12238,10 +11725,7 @@
     },
     "public.StepRateLimitKind": {
       "name": "StepRateLimitKind",
-      "values": [
-        "STATIC",
-        "DYNAMIC"
-      ],
+      "values": ["STATIC", "DYNAMIC"],
       "schema": "public"
     },
     "public.StepRunEventReason": {
@@ -12271,11 +11755,7 @@
     },
     "public.StepRunEventSeverity": {
       "name": "StepRunEventSeverity",
-      "values": [
-        "INFO",
-        "WARNING",
-        "CRITICAL"
-      ],
+      "values": ["INFO", "WARNING", "CRITICAL"],
       "schema": "public"
     },
     "public.StepRunStatus": {
@@ -12294,43 +11774,27 @@
     },
     "public.StickyStrategy": {
       "name": "StickyStrategy",
-      "values": [
-        "SOFT",
-        "HARD"
-      ],
+      "values": ["SOFT", "HARD"],
       "schema": "public"
     },
     "public.TenantMemberRole": {
       "name": "TenantMemberRole",
-      "values": [
-        "OWNER",
-        "ADMIN",
-        "MEMBER"
-      ],
+      "values": ["OWNER", "ADMIN", "MEMBER"],
       "schema": "public"
     },
     "public.TenantResourceLimitAlertType": {
       "name": "TenantResourceLimitAlertType",
-      "values": [
-        "Alarm",
-        "Exhausted"
-      ],
+      "values": ["Alarm", "Exhausted"],
       "schema": "public"
     },
     "public.VcsProvider": {
       "name": "VcsProvider",
-      "values": [
-        "GITHUB"
-      ],
+      "values": ["GITHUB"],
       "schema": "public"
     },
     "public.WebhookWorkerRequestMethod": {
       "name": "WebhookWorkerRequestMethod",
-      "values": [
-        "GET",
-        "POST",
-        "PUT"
-      ],
+      "values": ["GET", "POST", "PUT"],
       "schema": "public"
     },
     "public.WorkerLabelComparator": {
@@ -12347,41 +11811,22 @@
     },
     "public.WorkerSDKS": {
       "name": "WorkerSDKS",
-      "values": [
-        "UNKNOWN",
-        "GO",
-        "PYTHON",
-        "TYPESCRIPT"
-      ],
+      "values": ["UNKNOWN", "GO", "PYTHON", "TYPESCRIPT"],
       "schema": "public"
     },
     "public.WorkerType": {
       "name": "WorkerType",
-      "values": [
-        "WEBHOOK",
-        "MANAGED",
-        "SELFHOSTED"
-      ],
+      "values": ["WEBHOOK", "MANAGED", "SELFHOSTED"],
       "schema": "public"
     },
     "public.WorkflowKind": {
       "name": "WorkflowKind",
-      "values": [
-        "FUNCTION",
-        "DURABLE",
-        "DAG"
-      ],
+      "values": ["FUNCTION", "DURABLE", "DAG"],
       "schema": "public"
     },
     "public.WorkflowRunStatus": {
       "name": "WorkflowRunStatus",
-      "values": [
-        "PENDING",
-        "QUEUED",
-        "RUNNING",
-        "SUCCEEDED",
-        "FAILED"
-      ],
+      "values": ["PENDING", "QUEUED", "RUNNING", "SUCCEEDED", "FAILED"],
       "schema": "public"
     }
   },
