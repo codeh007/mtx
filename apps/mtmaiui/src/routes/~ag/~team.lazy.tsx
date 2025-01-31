@@ -1,4 +1,4 @@
-import TeamManager from "../components/views/team/manager";
+import { TeamManager } from "../components/views/team/manager";
 
 import { createLazyFileRoute } from "@tanstack/react-router";
 

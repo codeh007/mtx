@@ -1,19 +1,19 @@
-import React from "react";
-import { Button, Tooltip, Tag } from "antd";
 import {
-  Plus,
-  Trash2,
+  Globe,
+  Package,
   PanelLeftClose,
   PanelLeftOpen,
   Pin,
-  Package,
+  Plus,
   RefreshCw,
-  Globe,
-  Info,
+  Trash2,
 } from "lucide-react";
-import type { Gallery } from "./types";
+import { Button } from "mtxuilib/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
+import type React from "react";
 import { getRelativeTimeString } from "../atoms";
 import { useGalleryStore } from "./store";
+import type { Gallery } from "./types";
 
 interface GallerySidebarProps {
   isOpen: boolean;
@@ -47,24 +47,35 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
     return (
       <div className="h-full border-r border-secondary">
         <div className="p-2 -ml-2">
-          <Tooltip title={`Galleries (${galleries.length})`}>
-            <button
-              onClick={onToggle}
-              className="p-2 rounded-md hover:bg-secondary hover:text-accent text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
-            >
-              <PanelLeftOpen strokeWidth={1.5} className="h-6 w-6" />
-            </button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant={"ghost"}
+                onClick={onToggle}
+                className="p-2 rounded-md hover:bg-secondary hover:text-accent text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+              >
+                <PanelLeftOpen strokeWidth={1.5} className="h-6 w-6" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Open Sidebar</p>
+            </TooltipContent>
           </Tooltip>
         </div>
 
         <div className="mt-4 px-2 -ml-1">
-          <Tooltip title="Create new gallery">
-            <Button
-              type="text"
-              className="w-full p-2 flex justify-center"
-              onClick={onCreateGallery}
-              icon={<Plus className="w-4 h-4" />}
-            />
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                className="w-full p-2 flex justify-center"
+                onClick={onCreateGallery}
+              >
+                <Plus className="w-4 h-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Create new gallery</p>
+            </TooltipContent>
           </Tooltip>
         </div>
       </div>
@@ -82,28 +93,34 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
             {galleries.length}
           </span>
         </div>
-        <Tooltip title="Close Sidebar">
-          <button
-            onClick={onToggle}
-            className="p-2 rounded-md hover:bg-secondary hover:text-accent text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
-          >
-            <PanelLeftClose strokeWidth={1.5} className="h-6 w-6" />
-          </button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              onClick={onToggle}
+              className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+            >
+              <PanelLeftClose strokeWidth={1.5} className="h-6 w-6" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Close Sidebar</p>
+          </TooltipContent>
         </Tooltip>
       </div>
 
       {/* Create Gallery Button */}
       <div className="my-4 flex text-sm">
         <div className="mr-2 w-full">
-          <Tooltip title="Create new gallery">
-            <Button
-              type="primary"
-              className="w-full"
-              icon={<Plus className="w-4 h-4" />}
-              onClick={onCreateGallery}
-            >
-              New Gallery
-            </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button className="w-full" onClick={onCreateGallery}>
+                <Plus className="w-4 h-4" />
+                New Gallery
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Create new gallery</p>
+            </TooltipContent>
           </Tooltip>
         </div>
       </div>
@@ -120,149 +137,153 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
         </div>
       ) : (
         <div className="scroll overflow-y-auto h-[calc(100%-170px)]">
-          <>
-            {galleries.map((gallery) => (
-              <div key={gallery.id} className="relative border-secondary">
-                <div
-                  className={`absolute top-1 left-0.5 z-50 h-[calc(100%-8px)] w-1 bg-opacity-80 rounded ${
-                    currentGallery?.id === gallery.id
-                      ? "bg-accent"
-                      : "bg-tertiary"
-                  }`}
-                />
-                <div
-                  className={`group ml-1 flex flex-col p-3 rounded-l cursor-pointer hover:bg-secondary ${
-                    currentGallery?.id === gallery.id
-                      ? "border-accent bg-secondary"
-                      : "border-transparent"
-                  }`}
-                  onClick={() => onSelectGallery(gallery)}
-                >
-                  {/* Gallery Name and Actions Row */}
-                  <div className="flex items-center justify-between min-w-0">
+          {galleries.map((gallery) => (
+            <div key={gallery.id} className="relative border-secondary">
+              <div
+                className={`absolute top-1 left-0.5 z-50 h-[calc(100%-8px)] w-1 bg-opacity-80 rounded ${
+                  currentGallery?.id === gallery.id
+                    ? "bg-accent"
+                    : "bg-tertiary"
+                }`}
+              />
+              {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+              <div
+                className={`group ml-1 flex flex-col p-3 rounded-l cursor-pointer hover:bg-secondary ${
+                  currentGallery?.id === gallery.id
+                    ? "border-accent bg-secondary"
+                    : "border-transparent"
+                }`}
+                onClick={() => onSelectGallery(gallery)}
+              >
+                {/* Gallery Name and Actions Row */}
+                <div className="flex items-center justify-between min-w-0">
+                  {" "}
+                  {/* Added min-w-0 */}
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
                     {" "}
-                    {/* Added min-w-0 */}
-                    <div className="flex items-center gap-2 min-w-0 flex-1">
+                    {/* Added min-w-0 and flex-1 */}
+                    <div className="truncate flex-1">
                       {" "}
-                      {/* Added min-w-0 and flex-1 */}
-                      <div className="truncate flex-1">
-                        {" "}
-                        {/* Wrapped name in div with truncate and flex-1 */}
-                        <span className="font-medium">{gallery.name}</span>
-                      </div>
-                      {gallery.url && (
-                        <Tooltip title="Remote Gallery">
+                      {/* Wrapped name in div with truncate and flex-1 */}
+                      <span className="font-medium">{gallery.name}</span>
+                    </div>
+                    {gallery.url && (
+                      <Tooltip>
+                        <TooltipTrigger asChild>
                           <Globe className="w-3 h-3 text-secondary flex-shrink-0" />{" "}
                           {/* Added flex-shrink-0 */}
-                        </Tooltip>
-                      )}
-                    </div>
-                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity ml-2 flex-shrink-0">
-                      {gallery.url && (
-                        <Tooltip
-                          title={
-                            getLastSyncTime(gallery.id)
-                              ? `Last synced: ${getLastSyncTime(gallery.id)}`
-                              : "Never synced"
-                          }
-                        >
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Remote Gallery</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    )}
+                  </div>
+                  <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity ml-2 flex-shrink-0">
+                    {gallery.url && (
+                      <Tooltip>
+                        <TooltipTrigger asChild>
                           <Button
-                            type="text"
-                            size="small"
+                            size="sm"
                             className="p-0 min-w-[24px] h-6"
-                            icon={<RefreshCw className="w-4 h-4" />}
                             onClick={(e) => {
                               e.stopPropagation();
                               syncGallery(gallery.id);
                             }}
-                          />
-                        </Tooltip>
-                      )}
-                      <Tooltip
-                        title={
-                          defaultGalleryId === gallery.id
-                            ? "Default gallery"
-                            : "Set as default gallery"
-                        }
-                      >
+                          >
+                            <RefreshCw className="w-4 h-4" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Sync gallery</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    )}
+                    <Tooltip>
+                      <TooltipTrigger asChild>
                         <Button
-                          type="text"
-                          size="small"
+                          size="sm"
+                          variant={"ghost"}
                           className={`p-0 min-w-[24px] h-6 ${
                             defaultGalleryId === gallery.id ? "text-accent" : ""
                           }`}
-                          icon={
-                            <Pin
-                              className={`w-4 h-4 ${
-                                defaultGalleryId === gallery.id
-                                  ? "fill-accent"
-                                  : ""
-                              }`}
-                            />
-                          }
                           onClick={(e) => {
                             e.stopPropagation();
                             onSetDefault(gallery.id);
                           }}
-                        />
-                      </Tooltip>
-                      <Tooltip
-                        title={
-                          galleries.length === 1
-                            ? "Cannot delete the last gallery"
-                            : "Delete gallery"
-                        }
-                      >
+                        >
+                          <Pin
+                            className={`w-4 h-4 ${
+                              defaultGalleryId === gallery.id
+                                ? "fill-accent"
+                                : ""
+                            }`}
+                          />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        {gallery.id
+                          ? "Default gallery"
+                          : "Set as default gallery"}
+                      </TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
                         <Button
-                          type="text"
-                          size="small"
+                          size="sm"
                           className="p-0 min-w-[24px] h-6"
-                          danger
+                          variant={"destructive"}
                           disabled={galleries.length === 1}
-                          icon={<Trash2 className="w-4 h-4 text-red-500" />}
                           onClick={(e) => {
                             e.stopPropagation();
                             onDeleteGallery(gallery.id);
                           }}
-                        />
-                      </Tooltip>
-                    </div>
+                        >
+                          <Trash2 className="w-4 h-4 text-red-500" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        {galleries.length === 1
+                          ? "Cannot delete the last gallery"
+                          : "Delete gallery"}
+                      </TooltipContent>
+                    </Tooltip>
                   </div>
+                </div>
 
-                  {/* Rest of the content remains the same */}
-                  <div className="mt-1 flex items-center gap-2 text-xs text-secondary">
-                    <span className="bg-secondary/20 truncate rounded px-1">
-                      v{gallery.metadata.version}
-                    </span>
-                    <div className="flex items-center gap-1">
-                      <Package className="w-3 h-3" />
-                      <span>
-                        {Object.values(gallery.items.components).reduce(
-                          (sum, arr) => sum + arr.length,
-                          0
-                        )}{" "}
-                        components
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Updated Timestamp */}
-                  <div className="mt-1 flex items-center gap-1 text-xs text-secondary">
+                {/* Rest of the content remains the same */}
+                <div className="mt-1 flex items-center gap-2 text-xs text-secondary">
+                  <span className="bg-secondary/20 truncate rounded px-1">
+                    v{gallery.metadata.version}
+                  </span>
+                  <div className="flex items-center gap-1">
+                    <Package className="w-3 h-3" />
                     <span>
-                      {getRelativeTimeString(gallery.metadata.updated_at)}
-                      {defaultGalleryId === gallery.id ? (
-                        <span className="text-accent border-accent border rounded px-1 ml-1 py-0.5">
-                          default
-                        </span>
-                      ) : (
-                        ""
-                      )}
+                      {Object.values(gallery.items.components).reduce(
+                        (sum, arr) => sum + arr.length,
+                        0,
+                      )}{" "}
+                      components
                     </span>
                   </div>
                 </div>
+
+                {/* Updated Timestamp */}
+                <div className="mt-1 flex items-center gap-1 text-xs text-secondary">
+                  <span>
+                    {getRelativeTimeString(gallery.metadata.updated_at)}
+                    {defaultGalleryId === gallery.id ? (
+                      <span className="text-accent border-accent border rounded px-1 ml-1 py-0.5">
+                        default
+                      </span>
+                    ) : (
+                      ""
+                    )}
+                  </span>
+                </div>
               </div>
-            ))}
-          </>
+            </div>
+          ))}
 
           <div className="p-2 mt-2 border-dashed border rounded text-xs mr-2">
             Gallery items marked as default (

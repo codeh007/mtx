@@ -16,7 +16,7 @@ import {
   useNodesState,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { Button, Layout, Switch, Tooltip, message } from "antd";
+import { Button, Switch, Tooltip, message } from "antd";
 import { Cable, Code2, Download, Save } from "lucide-react";
 import React, { useCallback, useRef, useState } from "react";
 import type { ComponentTypes, Team } from "../../../types/datamodel";
@@ -31,7 +31,7 @@ import "./builder.css";
 import { NodeEditor } from "./node-editor";
 import TeamBuilderToolbar from "./toolbar";
 
-const { Sider, Content } = Layout;
+// const { Sider, Content } = Layout;
 
 interface TeamBuilderProps {
   team: Team;
@@ -340,7 +340,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
           {/* 应该显示在flex 的右侧并自动延申 */}
           <div className="flex-1 bg-primary rounded w-full h-full">
             <div
-              className={`relative rounded bg-tertiary  w-full h-full w-full h-full transition-all duration-200 ${
+              className={`relative rounded bg-tertiary  w-full h-full transition-all duration-200 ${
                 isFullscreen
                   ? "fixed inset-4 z-50 shadow bg-tertiary  backdrop-blur-sm"
                   : ""
@@ -398,7 +398,6 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
               onToggleFullscreen={handleToggleFullscreen}
               onAutoLayout={layoutNodes}
             />
-            {/* </Content> */}
           </div>
 
           <NodeEditor
