@@ -240,6 +240,8 @@ import type {
   ArtifactCreateError,
   ArtifactCreateResponse,
   ArtifactGetData,
+  TeamListData,
+  TeamGetData,
   AgentNodeListData,
   AgentCreateData,
   AgentCreateError,
@@ -254,8 +256,8 @@ import type {
   AgentNodeFormData,
   AgentNodeFormError,
   AgentNodeFormResponse,
-  AgentAgentListData,
-  AgentAgentGetData,
+  AgentListData,
+  AgentGetData,
   LlmGetData,
   LlmGetError,
   LlmGetResponse,
@@ -440,14 +442,16 @@ import {
   artifactList,
   artifactCreate,
   artifactGet,
+  teamList,
+  teamGet,
   agentNodeList,
   agentCreate,
   agentNode,
   agentNodeUpdate,
   agentNodeRun,
   agentNodeForm,
-  agentAgentList,
-  agentAgentGet,
+  agentList,
+  agentGet,
   llmGet,
   promptList,
   promptGet,
@@ -4076,6 +4080,44 @@ export const artifactGetOptions = (options: Options<ArtifactGetData>) => {
   });
 };
 
+export const teamListQueryKey = (options: Options<TeamListData>) => [
+  createQueryKey("teamList", options),
+];
+
+export const teamListOptions = (options: Options<TeamListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await teamList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: teamListQueryKey(options),
+  });
+};
+
+export const teamGetQueryKey = (options: Options<TeamGetData>) => [
+  createQueryKey("teamGet", options),
+];
+
+export const teamGetOptions = (options: Options<TeamGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await teamGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: teamGetQueryKey(options),
+  });
+};
+
 export const agentNodeListQueryKey = (options: Options<AgentNodeListData>) => [
   createQueryKey("agentNodeList", options),
 ];
@@ -4251,14 +4293,14 @@ export const agentNodeFormMutation = (
   return mutationOptions;
 };
 
-export const agentAgentListQueryKey = (
-  options: Options<AgentAgentListData>,
-) => [createQueryKey("agentAgentList", options)];
+export const agentListQueryKey = (options: Options<AgentListData>) => [
+  createQueryKey("agentList", options),
+];
 
-export const agentAgentListOptions = (options: Options<AgentAgentListData>) => {
+export const agentListOptions = (options: Options<AgentListData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agentAgentList({
+      const { data } = await agentList({
         ...options,
         ...queryKey[0],
         signal,
@@ -4266,18 +4308,18 @@ export const agentAgentListOptions = (options: Options<AgentAgentListData>) => {
       });
       return data;
     },
-    queryKey: agentAgentListQueryKey(options),
+    queryKey: agentListQueryKey(options),
   });
 };
 
-export const agentAgentGetQueryKey = (options: Options<AgentAgentGetData>) => [
-  createQueryKey("agentAgentGet", options),
+export const agentGetQueryKey = (options: Options<AgentGetData>) => [
+  createQueryKey("agentGet", options),
 ];
 
-export const agentAgentGetOptions = (options: Options<AgentAgentGetData>) => {
+export const agentGetOptions = (options: Options<AgentGetData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agentAgentGet({
+      const { data } = await agentGet({
         ...options,
         ...queryKey[0],
         signal,
@@ -4285,7 +4327,7 @@ export const agentAgentGetOptions = (options: Options<AgentAgentGetData>) => {
       });
       return data;
     },
-    queryKey: agentAgentGetQueryKey(options),
+    queryKey: agentGetQueryKey(options),
   });
 };
 

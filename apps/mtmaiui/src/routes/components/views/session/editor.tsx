@@ -1,12 +1,14 @@
+import { useQuery } from "@tanstack/react-query";
 import type { FormProps } from "antd";
 import { Button, Form, Input, Modal, Select, Spin, message } from "antd";
 import { TriangleAlertIcon } from "lucide-react";
+import { teamListOptions } from "mtmaiapi";
 import type React from "react";
 import { useContext, useEffect, useState } from "react";
 import { CustomLink } from "../../../../components/CustomLink";
+import { useTenant } from "../../../../hooks/useAuth";
 import { appContext } from "../../../../stores/agStoreProvider";
 import type { Team } from "../../types/datamodel";
-import { teamAPI } from "../team/api";
 import type { SessionEditorProps } from "./types";
 
 type FieldType = {
@@ -26,26 +28,36 @@ export const SessionEditor: React.FC<SessionEditorProps> = ({
   const { user } = useContext(appContext);
   const [messageApi, contextHolder] = message.useMessage();
 
-  // Fetch teams when modal opens
-  useEffect(() => {
-    const fetchTeams = async () => {
-      if (isOpen) {
-        try {
-          setLoading(true);
-          const userId = user?.email || "";
-          const teamsData = await teamAPI.listTeams(userId);
-          setTeams(teamsData);
-        } catch (error) {
-          messageApi.error("Error loading teams");
-          console.error("Error loading teams:", error);
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
+  const tenant = useTenant()
 
-    fetchTeams();
-  }, [isOpen, user?.email]);
+  // Fetch teams when modal opens
+  // useEffect(() => {
+  //   const fetchTeams = async () => {
+  //     if (isOpen) {
+  //       try {
+  //         setLoading(true);
+  //         const userId = user?.email || "";
+  //         const teamsData = await teamAPI.listTeams(userId);
+  //         setTeams(teamsData);
+  //       } catch (error) {
+  //         messageApi.error("Error loading teams");
+  //         console.error("Error loading teams:", error);
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     }
+  //   };
+
+  //   fetchTeams();
+  // }, [isOpen, user?.email]);
+
+  const teamQuery = useQuery({
+    ...teamListOptions({
+      path:{
+        tenant: tenant!.metadata.id
+      }
+    })
+  })
 
   // Set form values when modal opens or session changes
   useEffect(() => {
@@ -141,7 +153,7 @@ export const SessionEditor: React.FC<SessionEditorProps> = ({
         </div>
 
         <div className="text-sm text-accent ">
-          <CustomLink href="/build">view all teams</CustomLink>
+          <CustomLink to="/build">view all teams</CustomLink>
         </div>
 
         {hasNoTeams && (

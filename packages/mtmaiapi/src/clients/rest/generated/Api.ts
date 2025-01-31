@@ -108,6 +108,8 @@ import {
   StepRunArchiveList,
   StepRunEventList,
   SubscribeRequest,
+  Team,
+  TeamList,
   Tenant,
   TenantAlertEmailGroup,
   TenantAlertEmailGroupList,
@@ -162,9 +164,7 @@ import {
 } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
-export class Api<
-  SecurityDataType = unknown,
-> extends HttpClient<SecurityDataType> {
+export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
    * @description Gets the readiness status
    *
@@ -385,11 +385,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/sns
    * @secure
    */
-  snsCreate = (
-    tenant: string,
-    data: CreateSNSIntegrationRequest,
-    params: RequestParams = {},
-  ) =>
+  snsCreate = (tenant: string, data: CreateSNSIntegrationRequest, params: RequestParams = {}) =>
     this.request<SNSIntegration, APIErrors>({
       path: `/api/v1/tenants/${tenant}/sns`,
       method: "POST",
@@ -408,11 +404,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/alerting-email-groups
    * @secure
    */
-  alertEmailGroupCreate = (
-    tenant: string,
-    data: CreateTenantAlertEmailGroupRequest,
-    params: RequestParams = {},
-  ) =>
+  alertEmailGroupCreate = (tenant: string, data: CreateTenantAlertEmailGroupRequest, params: RequestParams = {}) =>
     this.request<TenantAlertEmailGroup, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/alerting-email-groups`,
       method: "POST",
@@ -488,10 +480,7 @@ export class Api<
    * @request DELETE:/api/v1/alerting-email-groups/{alert-email-group}
    * @secure
    */
-  alertEmailGroupDelete = (
-    alertEmailGroup: string,
-    params: RequestParams = {},
-  ) =>
+  alertEmailGroupDelete = (alertEmailGroup: string, params: RequestParams = {}) =>
     this.request<void, APIErrors | APIError>({
       path: `/api/v1/alerting-email-groups/${alertEmailGroup}`,
       method: "DELETE",
@@ -573,10 +562,7 @@ export class Api<
    * @request POST:/api/v1/users/password
    * @secure
    */
-  userUpdatePassword = (
-    data: UserChangePasswordRequest,
-    params: RequestParams = {},
-  ) =>
+  userUpdatePassword = (data: UserChangePasswordRequest, params: RequestParams = {}) =>
     this.request<User, APIErrors>({
       path: `/api/v1/users/password`,
       method: "POST",
@@ -663,10 +649,7 @@ export class Api<
    * @request POST:/api/v1/users/invites/accept
    * @secure
    */
-  tenantInviteAccept = (
-    data: AcceptInviteRequest,
-    params: RequestParams = {},
-  ) =>
+  tenantInviteAccept = (data: AcceptInviteRequest, params: RequestParams = {}) =>
     this.request<void, APIErrors | APIError>({
       path: `/api/v1/users/invites/accept`,
       method: "POST",
@@ -684,10 +667,7 @@ export class Api<
    * @request POST:/api/v1/users/invites/reject
    * @secure
    */
-  tenantInviteReject = (
-    data: RejectInviteRequest,
-    params: RequestParams = {},
-  ) =>
+  tenantInviteReject = (data: RejectInviteRequest, params: RequestParams = {}) =>
     this.request<void, APIErrors | APIError>({
       path: `/api/v1/users/invites/reject`,
       method: "POST",
@@ -724,11 +704,7 @@ export class Api<
    * @request PATCH:/api/v1/tenants/{tenant}
    * @secure
    */
-  tenantUpdate = (
-    tenant: string,
-    data: UpdateTenantRequest,
-    params: RequestParams = {},
-  ) =>
+  tenantUpdate = (tenant: string, data: UpdateTenantRequest, params: RequestParams = {}) =>
     this.request<Tenant, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}`,
       method: "PATCH",
@@ -764,11 +740,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/invites
    * @secure
    */
-  tenantInviteCreate = (
-    tenant: string,
-    data: CreateTenantInviteRequest,
-    params: RequestParams = {},
-  ) =>
+  tenantInviteCreate = (tenant: string, data: CreateTenantInviteRequest, params: RequestParams = {}) =>
     this.request<TenantInvite, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/invites`,
       method: "POST",
@@ -826,11 +798,7 @@ export class Api<
    * @request DELETE:/api/v1/tenants/{tenant}/invites/{tenant-invite}
    * @secure
    */
-  tenantInviteDelete = (
-    tenant: string,
-    tenantInvite: string,
-    params: RequestParams = {},
-  ) =>
+  tenantInviteDelete = (tenant: string, tenantInvite: string, params: RequestParams = {}) =>
     this.request<TenantInvite, APIErrors>({
       path: `/api/v1/tenants/${tenant}/invites/${tenantInvite}`,
       method: "DELETE",
@@ -847,11 +815,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/api-tokens
    * @secure
    */
-  apiTokenCreate = (
-    tenant: string,
-    data: CreateAPITokenRequest,
-    params: RequestParams = {},
-  ) =>
+  apiTokenCreate = (tenant: string, data: CreateAPITokenRequest, params: RequestParams = {}) =>
     this.request<CreateAPITokenResponse, APIErrors>({
       path: `/api/v1/tenants/${tenant}/api-tokens`,
       method: "POST",
@@ -1002,11 +966,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/events
    * @secure
    */
-  eventCreate = (
-    tenant: string,
-    data: CreateEventRequest,
-    params: RequestParams = {},
-  ) =>
+  eventCreate = (tenant: string, data: CreateEventRequest, params: RequestParams = {}) =>
     this.request<Event, APIErrors>({
       path: `/api/v1/tenants/${tenant}/events`,
       method: "POST",
@@ -1025,11 +985,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/events/bulk
    * @secure
    */
-  eventCreateBulk = (
-    tenant: string,
-    data: BulkCreateEventRequest,
-    params: RequestParams = {},
-  ) =>
+  eventCreateBulk = (tenant: string, data: BulkCreateEventRequest, params: RequestParams = {}) =>
     this.request<BulkCreateEventResponse, APIErrors>({
       path: `/api/v1/tenants/${tenant}/events/bulk`,
       method: "POST",
@@ -1048,11 +1004,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/events/replay
    * @secure
    */
-  eventUpdateReplay = (
-    tenant: string,
-    data: ReplayEventRequest,
-    params: RequestParams = {},
-  ) =>
+  eventUpdateReplay = (tenant: string, data: ReplayEventRequest, params: RequestParams = {}) =>
     this.request<EventList, APIErrors>({
       path: `/api/v1/tenants/${tenant}/events/replay`,
       method: "POST",
@@ -1071,11 +1023,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/events/cancel
    * @secure
    */
-  eventUpdateCancel = (
-    tenant: string,
-    data: CancelEventRequest,
-    params: RequestParams = {},
-  ) =>
+  eventUpdateCancel = (tenant: string, data: CancelEventRequest, params: RequestParams = {}) =>
     this.request<
       {
         workflowRunIds?: string[];
@@ -1155,11 +1103,7 @@ export class Api<
    * @request DELETE:/api/v1/tenants/{tenant}/members/{member}
    * @secure
    */
-  tenantMemberDelete = (
-    tenant: string,
-    member: string,
-    params: RequestParams = {},
-  ) =>
+  tenantMemberDelete = (tenant: string, member: string, params: RequestParams = {}) =>
     this.request<TenantMember, APIErrors>({
       path: `/api/v1/tenants/${tenant}/members/${member}`,
       method: "DELETE",
@@ -1309,11 +1253,7 @@ export class Api<
    * @request GET:/api/v1/tenants/{tenant}/workflows/scheduled/{scheduledId}
    * @secure
    */
-  workflowScheduledGet = (
-    tenant: string,
-    scheduledId: string,
-    params: RequestParams = {},
-  ) =>
+  workflowScheduledGet = (tenant: string, scheduledId: string, params: RequestParams = {}) =>
     this.request<ScheduledWorkflows, APIErrors>({
       path: `/api/v1/tenants/${tenant}/workflows/scheduled/${scheduledId}`,
       method: "GET",
@@ -1330,11 +1270,7 @@ export class Api<
    * @request DELETE:/api/v1/tenants/{tenant}/workflows/scheduled/{scheduledId}
    * @secure
    */
-  workflowScheduledDelete = (
-    tenant: string,
-    scheduledId: string,
-    params: RequestParams = {},
-  ) =>
+  workflowScheduledDelete = (tenant: string, scheduledId: string, params: RequestParams = {}) =>
     this.request<void, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/workflows/scheduled/${scheduledId}`,
       method: "DELETE",
@@ -1399,11 +1335,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/workflows/cancel
    * @secure
    */
-  workflowRunCancel = (
-    tenant: string,
-    data: WorkflowRunsCancelRequest,
-    params: RequestParams = {},
-  ) =>
+  workflowRunCancel = (tenant: string, data: WorkflowRunsCancelRequest, params: RequestParams = {}) =>
     this.request<
       {
         workflowRunIds?: string[];
@@ -1460,11 +1392,7 @@ export class Api<
    * @request PATCH:/api/v1/workflows/{workflow}
    * @secure
    */
-  workflowUpdate = (
-    workflow: string,
-    data: WorkflowUpdateRequest,
-    params: RequestParams = {},
-  ) =>
+  workflowUpdate = (workflow: string, data: WorkflowUpdateRequest, params: RequestParams = {}) =>
     this.request<Workflow, APIErrors>({
       path: `/api/v1/workflows/${workflow}`,
       method: "PATCH",
@@ -1709,11 +1637,7 @@ export class Api<
    * @request GET:/api/v1/tenants/{tenant}/workflows/{workflow}/worker-count
    * @secure
    */
-  workflowGetWorkersCount = (
-    tenant: string,
-    workflow: string,
-    params: RequestParams = {},
-  ) =>
+  workflowGetWorkersCount = (tenant: string, workflow: string, params: RequestParams = {}) =>
     this.request<WorkflowWorkersCount, APIErrors>({
       path: `/api/v1/tenants/${tenant}/workflows/${workflow}/worker-count`,
       method: "GET",
@@ -1828,11 +1752,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/workflow-runs/replay
    * @secure
    */
-  workflowRunUpdateReplay = (
-    tenant: string,
-    data: ReplayWorkflowRunsRequest,
-    params: RequestParams = {},
-  ) =>
+  workflowRunUpdateReplay = (tenant: string, data: ReplayWorkflowRunsRequest, params: RequestParams = {}) =>
     this.request<ReplayWorkflowRunsResponse, APIErrors>({
       path: `/api/v1/tenants/${tenant}/workflow-runs/replay`,
       method: "POST",
@@ -1919,11 +1839,7 @@ export class Api<
    * @request GET:/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}
    * @secure
    */
-  workflowRunGet = (
-    tenant: string,
-    workflowRun: string,
-    params: RequestParams = {},
-  ) =>
+  workflowRunGet = (tenant: string, workflowRun: string, params: RequestParams = {}) =>
     this.request<WorkflowRun, APIErrors>({
       path: `/api/v1/tenants/${tenant}/workflow-runs/${workflowRun}`,
       method: "GET",
@@ -1940,11 +1856,7 @@ export class Api<
    * @request GET:/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/shape
    * @secure
    */
-  workflowRunGetShape = (
-    tenant: string,
-    workflowRun: string,
-    params: RequestParams = {},
-  ) =>
+  workflowRunGetShape = (tenant: string, workflowRun: string, params: RequestParams = {}) =>
     this.request<WorkflowRunShape, APIErrors>({
       path: `/api/v1/tenants/${tenant}/workflow-runs/${workflowRun}/shape`,
       method: "GET",
@@ -1978,12 +1890,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/step-runs/{step-run}/rerun
    * @secure
    */
-  stepRunUpdateRerun = (
-    tenant: string,
-    stepRun: string,
-    data: RerunStepRunRequest,
-    params: RequestParams = {},
-  ) =>
+  stepRunUpdateRerun = (tenant: string, stepRun: string, data: RerunStepRunRequest, params: RequestParams = {}) =>
     this.request<StepRun, APIErrors>({
       path: `/api/v1/tenants/${tenant}/step-runs/${stepRun}/rerun`,
       method: "POST",
@@ -2002,11 +1909,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/step-runs/{step-run}/cancel
    * @secure
    */
-  stepRunUpdateCancel = (
-    tenant: string,
-    stepRun: string,
-    params: RequestParams = {},
-  ) =>
+  stepRunUpdateCancel = (tenant: string, stepRun: string, params: RequestParams = {}) =>
     this.request<StepRun, APIErrors>({
       path: `/api/v1/tenants/${tenant}/step-runs/${stepRun}/cancel`,
       method: "POST",
@@ -2023,11 +1926,7 @@ export class Api<
    * @request GET:/api/v1/tenants/{tenant}/step-runs/{step-run}/schema
    * @secure
    */
-  stepRunGetSchema = (
-    tenant: string,
-    stepRun: string,
-    params: RequestParams = {},
-  ) =>
+  stepRunGetSchema = (tenant: string, stepRun: string, params: RequestParams = {}) =>
     this.request<object, APIErrors>({
       path: `/api/v1/tenants/${tenant}/step-runs/${stepRun}/schema`,
       method: "GET",
@@ -2061,11 +1960,7 @@ export class Api<
    * @request PATCH:/api/v1/workers/{worker}
    * @secure
    */
-  workerUpdate = (
-    worker: string,
-    data: UpdateWorkerRequest,
-    params: RequestParams = {},
-  ) =>
+  workerUpdate = (worker: string, data: UpdateWorkerRequest, params: RequestParams = {}) =>
     this.request<Worker, APIErrors>({
       path: `/api/v1/workers/${worker}`,
       method: "PATCH",
@@ -2116,11 +2011,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/webhook-workers
    * @secure
    */
-  webhookCreate = (
-    tenant: string,
-    data: WebhookWorkerCreateRequest,
-    params: RequestParams = {},
-  ) =>
+  webhookCreate = (tenant: string, data: WebhookWorkerCreateRequest, params: RequestParams = {}) =>
     this.request<WebhookWorkerCreated, APIErrors>({
       path: `/api/v1/tenants/${tenant}/webhook-workers`,
       method: "POST",
@@ -2170,11 +2061,7 @@ export class Api<
    * @request GET:/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/input
    * @secure
    */
-  workflowRunGetInput = (
-    tenant: string,
-    workflowRun: string,
-    params: RequestParams = {},
-  ) =>
+  workflowRunGetInput = (tenant: string, workflowRun: string, params: RequestParams = {}) =>
     this.request<Record<string, any>, APIErrors>({
       path: `/api/v1/tenants/${tenant}/workflow-runs/${workflowRun}/input`,
       method: "GET",
@@ -2191,11 +2078,7 @@ export class Api<
    * @request GET:/api/v1/tenants/{tenant}/workflows/byName/{name}
    * @secure
    */
-  workflowGetByName = (
-    tenant: string,
-    name: string,
-    params: RequestParams = {},
-  ) =>
+  workflowGetByName = (tenant: string, name: string, params: RequestParams = {}) =>
     this.request<Workflow, APIErrors>({
       path: `/api/v1/tenants/${tenant}/workflows/byName/${name}`,
       method: "GET",
@@ -2280,11 +2163,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/chat/completions
    * @secure
    */
-  chatCompletions = (
-    tenant: string,
-    data: ChatCompletionsReq,
-    params: RequestParams = {},
-  ) =>
+  chatCompletions = (tenant: string, data: ChatCompletionsReq, params: RequestParams = {}) =>
     this.request<object, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/chat/completions`,
       method: "POST",
@@ -2389,11 +2268,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/blogs
    * @secure
    */
-  blogCreate = (
-    tenant: string,
-    data: CreateBlogRequest,
-    params: RequestParams = {},
-  ) =>
+  blogCreate = (tenant: string, data: CreateBlogRequest, params: RequestParams = {}) =>
     this.request<Blog, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/blogs`,
       method: "POST",
@@ -2428,12 +2303,7 @@ export class Api<
    * @request PATCH:/api/v1/tenants/{tenant}/blogs/{blog}
    * @secure
    */
-  blogUpdate = (
-    tenant: string,
-    blog: string,
-    data: UpdateBlogRequest,
-    params: RequestParams = {},
-  ) =>
+  blogUpdate = (tenant: string, blog: string, data: UpdateBlogRequest, params: RequestParams = {}) =>
     this.request<Blog, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/blogs/${blog}`,
       method: "PATCH",
@@ -2467,11 +2337,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/sites
    * @secure
    */
-  siteCreate = (
-    tenant: TenantParameter,
-    data: CreateSiteRequest,
-    params: RequestParams = {},
-  ) =>
+  siteCreate = (tenant: TenantParameter, data: CreateSiteRequest, params: RequestParams = {}) =>
     this.request<Site, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/sites`,
       method: "POST",
@@ -2506,12 +2372,7 @@ export class Api<
    * @request PATCH:/api/v1/tenants/{tenant}/sites/{site}
    * @secure
    */
-  siteUpdate = (
-    tenant: string,
-    site: string,
-    data: UpdateSiteRequest,
-    params: RequestParams = {},
-  ) =>
+  siteUpdate = (tenant: string, site: string, data: UpdateSiteRequest, params: RequestParams = {}) =>
     this.request<Site, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/sites/${site}`,
       method: "PATCH",
@@ -2576,11 +2437,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/site-hosts
    * @secure
    */
-  siteHostCreate = (
-    tenant: TenantParameter,
-    data: CreateSiteHostRequest,
-    params: RequestParams = {},
-  ) =>
+  siteHostCreate = (tenant: TenantParameter, data: CreateSiteHostRequest, params: RequestParams = {}) =>
     this.request<SiteHost, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/site-hosts`,
       method: "POST",
@@ -2615,12 +2472,7 @@ export class Api<
    * @request PATCH:/api/v1/tenants/{tenant}/site-hosts/{host}
    * @secure
    */
-  siteHostUpdate = (
-    tenant: TenantParameter,
-    host: string,
-    data: SiteHost,
-    params: RequestParams = {},
-  ) =>
+  siteHostUpdate = (tenant: TenantParameter, host: string, data: SiteHost, params: RequestParams = {}) =>
     this.request<SiteHost, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/site-hosts/${host}`,
       method: "PATCH",
@@ -2709,11 +2561,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/posts
    * @secure
    */
-  postCreate = (
-    tenant: TenantParameter,
-    data: CreatePostRequest,
-    params: RequestParams = {},
-  ) =>
+  postCreate = (tenant: TenantParameter, data: CreatePostRequest, params: RequestParams = {}) =>
     this.request<Post, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/posts`,
       method: "POST",
@@ -2731,11 +2579,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/tools/call/{tool}
    * @secure
    */
-  toolCall = (
-    tenant: TenantParameter,
-    tool: string,
-    params: RequestParams = {},
-  ) =>
+  toolCall = (tenant: TenantParameter, tool: string, params: RequestParams = {}) =>
     this.request<ToolCallResult, any>({
       path: `/api/v1/tenants/${tenant}/tools/call/${tool}`,
       method: "POST",
@@ -2808,11 +2652,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/artifacts
    * @secure
    */
-  artifactCreate = (
-    tenant: string,
-    data: CreateArtifacttRequest,
-    params: RequestParams = {},
-  ) =>
+  artifactCreate = (tenant: string, data: CreateArtifacttRequest, params: RequestParams = {}) =>
     this.request<Artifact, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/artifacts`,
       method: "POST",
@@ -2831,13 +2671,43 @@ export class Api<
    * @request GET:/api/v1/tenants/{tenant}/artifacts/{artifact}
    * @secure
    */
-  artifactGet = (
-    tenant: string,
-    artifact: string,
-    params: RequestParams = {},
-  ) =>
+  artifactGet = (tenant: string, artifact: string, params: RequestParams = {}) =>
     this.request<Artifact, APIErrors>({
       path: `/api/v1/tenants/${tenant}/artifacts/${artifact}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取团队列表
+   *
+   * @tags teams
+   * @name TeamList
+   * @summary 获取租户下的团队列表
+   * @request GET:/api/v1/tenants/{tenant}/teams
+   * @secure
+   */
+  teamList = (tenant: TenantParameter, params: RequestParams = {}) =>
+    this.request<TeamList, any>({
+      path: `/api/v1/tenants/${tenant}/teams`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取团队列表
+   *
+   * @tags teams
+   * @name TeamGet
+   * @summary 获取租户下的团队列表
+   * @request GET:/api/v1/tenants/{tenant}/teams/{team}
+   * @secure
+   */
+  teamGet = (tenant: TenantParameter, team: string, params: RequestParams = {}) =>
+    this.request<Team, any>({
+      path: `/api/v1/tenants/${tenant}/teams/${team}`,
       method: "GET",
       secure: true,
       format: "json",
@@ -2869,11 +2739,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/nodes
    * @secure
    */
-  agentCreate = (
-    tenant: string,
-    data: AgentNodeCreateRequest,
-    params: RequestParams = {},
-  ) =>
+  agentCreate = (tenant: string, data: AgentNodeCreateRequest, params: RequestParams = {}) =>
     this.request<AgentNode, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/nodes`,
       method: "POST",
@@ -2892,11 +2758,7 @@ export class Api<
    * @request GET:/api/v1/tenants/{tenant}/nodes/{node}
    * @secure
    */
-  agentNode = (
-    tenant: TenantParameter,
-    node: string,
-    params: RequestParams = {},
-  ) =>
+  agentNode = (tenant: TenantParameter, node: string, params: RequestParams = {}) =>
     this.request<AgentNode, any>({
       path: `/api/v1/tenants/${tenant}/nodes/${node}`,
       method: "GET",
@@ -2913,12 +2775,7 @@ export class Api<
    * @request PATCH:/api/v1/tenants/{tenant}/nodes/{node}
    * @secure
    */
-  agentNodeUpdate = (
-    tenant: TenantParameter,
-    node: string,
-    data: AgentNodeUpdateRequest,
-    params: RequestParams = {},
-  ) =>
+  agentNodeUpdate = (tenant: TenantParameter, node: string, data: AgentNodeUpdateRequest, params: RequestParams = {}) =>
     this.request<AgentNode, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/nodes/${node}`,
       method: "PATCH",
@@ -2937,11 +2794,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/nodes/run
    * @secure
    */
-  agentNodeRun = (
-    tenant: TenantParameter,
-    data: AgentNodeRunInput,
-    params: RequestParams = {},
-  ) =>
+  agentNodeRun = (tenant: TenantParameter, data: AgentNodeRunInput, params: RequestParams = {}) =>
     this.request<AgentNodeRun, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/nodes/run`,
       method: "POST",
@@ -2960,11 +2813,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/nodes/form/{node}
    * @secure
    */
-  agentNodeForm = (
-    tenant: TenantParameter,
-    node: string,
-    params: RequestParams = {},
-  ) =>
+  agentNodeForm = (tenant: TenantParameter, node: string, params: RequestParams = {}) =>
     this.request<AgentRunForm, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/nodes/form/${node}`,
       method: "POST",
@@ -2976,12 +2825,12 @@ export class Api<
    * @description 获取agent列表
    *
    * @tags agent
-   * @name AgentAgentList
+   * @name AgentList
    * @summary 获取租户下的agent列表
    * @request GET:/api/v1/tenants/{tenant}/agents
    * @secure
    */
-  agentAgentList = (tenant: TenantParameter, params: RequestParams = {}) =>
+  agentList = (tenant: TenantParameter, params: RequestParams = {}) =>
     this.request<Agent, any>({
       path: `/api/v1/tenants/${tenant}/agents`,
       method: "GET",
@@ -2993,16 +2842,12 @@ export class Api<
    * @description 获取agent列表
    *
    * @tags agent
-   * @name AgentAgentGet
+   * @name AgentGet
    * @summary 获取租户下的agent列表
    * @request GET:/api/v1/tenants/{tenant}/agent/{agent}
    * @secure
    */
-  agentAgentGet = (
-    tenant: TenantParameter,
-    agent: string,
-    params: RequestParams = {},
-  ) =>
+  agentGet = (tenant: TenantParameter, agent: string, params: RequestParams = {}) =>
     this.request<Agent, any>({
       path: `/api/v1/tenants/${tenant}/agent/${agent}`,
       method: "GET",
@@ -3019,11 +2864,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/llm/{slug}
    * @secure
    */
-  llmGet = (
-    tenant: TenantParameter,
-    slug: string,
-    params: RequestParams = {},
-  ) =>
+  llmGet = (tenant: TenantParameter, slug: string, params: RequestParams = {}) =>
     this.request<LlmConfig, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/llm/${slug}`,
       method: "POST",
@@ -3090,11 +2931,7 @@ export class Api<
    * @request GET:/api/v1/tenants/{tenant}/assisants/{assisant}
    * @secure
    */
-  assisantGet = (
-    tenant: string,
-    assisant: string,
-    params: RequestParams = {},
-  ) =>
+  assisantGet = (tenant: string, assisant: string, params: RequestParams = {}) =>
     this.request<Assisant, any>({
       path: `/api/v1/tenants/${tenant}/assisants/${assisant}`,
       method: "GET",
@@ -3111,11 +2948,7 @@ export class Api<
    * @request POST:/api/v1/tenants/{tenant}/subscribe
    * @secure
    */
-  subscribeSubscribe = (
-    tenant: string,
-    data: SubscribeRequest,
-    params: RequestParams = {},
-  ) =>
+  subscribeSubscribe = (tenant: string, data: SubscribeRequest, params: RequestParams = {}) =>
     this.request<EventSearch, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/subscribe`,
       method: "POST",
@@ -3363,11 +3196,7 @@ export class Api<
    * @request PATCH:/api/v1/platforms/{platform}
    * @secure
    */
-  platformUpdate = (
-    platform: string,
-    data: Platform,
-    params: RequestParams = {},
-  ) =>
+  platformUpdate = (platform: string, data: Platform, params: RequestParams = {}) =>
     this.request<Platform, APIErrors>({
       path: `/api/v1/platforms/${platform}`,
       method: "PATCH",
@@ -3436,11 +3265,7 @@ export class Api<
    * @request PATCH:/api/v1/platform_accounts/{platform_account}
    * @secure
    */
-  platformAccountUpdate = (
-    platformAccount: string,
-    data: PlatformAccount,
-    params: RequestParams = {},
-  ) =>
+  platformAccountUpdate = (platformAccount: string, data: PlatformAccount, params: RequestParams = {}) =>
     this.request<PlatformAccount, APIErrors>({
       path: `/api/v1/platform_accounts/${platformAccount}`,
       method: "PATCH",
@@ -3509,11 +3334,7 @@ export class Api<
    * @request PATCH:/api/v1/browsers/{browser}
    * @secure
    */
-  browserUpdate = (
-    browser: string,
-    data: Browser,
-    params: RequestParams = {},
-  ) =>
+  browserUpdate = (browser: string, data: Browser, params: RequestParams = {}) =>
     this.request<Browser, APIErrors>({
       path: `/api/v1/browsers/${browser}`,
       method: "PATCH",
