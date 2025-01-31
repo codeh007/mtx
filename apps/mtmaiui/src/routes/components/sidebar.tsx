@@ -2,7 +2,6 @@ import { Tooltip } from "antd";
 import {
   Bot,
   GalleryHorizontalEnd,
-  Link,
   MessagesSquare,
   PanelLeftClose,
   PanelLeftOpen,
@@ -154,7 +153,7 @@ const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
                         {" "}
                       </div>
                     )}
-                    <Link
+                    <CustomLink
                       to={item.href}
                       onClick={() => handleNavClick(item)}
                       className={classNames(
@@ -177,7 +176,7 @@ const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
                         )}
                       />
                       {showFull && item.name}
-                    </Link>
+                    </CustomLink>
                   </div>
                 );
 
@@ -206,7 +205,7 @@ const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
             {!showFull && !isMobile ? (
               <>
                 <Tooltip title="Settings" placement="right">
-                  <Link
+                  <CustomLink
                     to="/settings"
                     onClick={() =>
                       setHeader({
@@ -223,7 +222,7 @@ const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
                     className="group flex gap-x-3 rounded-md p-2 text-sm font-medium text-primary hover:text-accent hover:bg-secondary justify-center"
                   >
                     <Settings className="h-6 w-6 shrink-0 text-secondary group-hover:text-accent" />
-                  </Link>
+                  </CustomLink>
                 </Tooltip>
                 <div className="hidden md:block">
                   <Tooltip
@@ -250,7 +249,7 @@ const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
                 <div className="w-full  ">
                   <div className="hidden">
                     {" "}
-                    <Link
+                    <CustomLink
                       to="/settings"
                       onClick={() =>
                         setHeader({
@@ -268,7 +267,7 @@ const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
                     >
                       <Settings className="h-6 w-6 shrink-0 text-secondary group-hover:text-accent" />
                       {showFull && "Settings"}
-                    </Link>
+                    </CustomLink>
                   </div>
                 </div>
                 <div className="hidden md:block">

@@ -1,23 +1,17 @@
-import React from "react";
-import { Input, Collapse, type CollapseProps } from "antd";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
+import { Collapse, type CollapseProps, Input } from "antd";
+import Sider from "antd/es/layout/Sider";
 import {
+  Bot,
   Brain,
   ChevronDown,
-  Bot,
-  Wrench,
-  Timer,
   Maximize2,
   Minimize2,
+  Timer,
+  Wrench,
 } from "lucide-react";
-import type {
-  AgentConfig,
-  ModelConfig,
-  TerminationConfig,
-  ToolConfig,
-} from "../../../types/datamodel";
-import Sider from "antd/es/layout/Sider";
+import React from "react";
 import { useGalleryStore } from "../../gallery/store";
 
 interface ComponentConfigTypes {
@@ -26,7 +20,7 @@ interface ComponentConfigTypes {
 
 type ComponentTypes = "agent" | "model" | "tool" | "termination";
 
-interface LibraryProps {}
+type LibraryProps = {};
 
 interface PresetItemProps {
   id: string;
@@ -121,17 +115,17 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
           (termination) => ({
             label: `${termination.termination_type}`,
             config: termination,
-          })
+          }),
         ),
         icon: <Timer className="w-4 h-4" />,
       },
     ],
-    [defaultGallery]
+    [defaultGallery],
   );
 
   const items: CollapseProps["items"] = sections.map((section) => {
     const filteredItems = section.items.filter((item) =>
-      item.label.toLowerCase().includes(searchTerm.toLowerCase())
+      item.label.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
     return {
@@ -181,13 +175,11 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
   }
 
   return (
-    <Sider
-      width={300}
-      className="bg-primary z-10 mr-2 border-r border-secondary"
-    >
+    <Sider width={300} className=" z-10 mr-2 border-r border-secondary">
       <div className="rounded p-2 pt-2">
         <div className="flex justify-between items-center mb-2">
           <div className="text-normal">Component Library</div>
+          {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
           <button
             onClick={() => setIsMinimized(true)}
             className="p-1 hover:bg-tertiary rounded transition-colors"
@@ -216,7 +208,7 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
           expandIcon={({ isActive }) => (
             <ChevronDown
               strokeWidth={1}
-              className={(isActive ? "transform rotate-180" : "") + " w-4 h-4"}
+              className={`${isActive ? "transform rotate-180" : ""} w-4 h-4`}
             />
           )}
         />
@@ -224,5 +216,3 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
     </Sider>
   );
 };
-
-export default ComponentLibrary;

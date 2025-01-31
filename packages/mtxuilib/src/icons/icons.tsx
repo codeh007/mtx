@@ -1,11 +1,13 @@
 //图标网址：https://lucide.dev/
-type IconProps = React.HTMLAttributes<SVGElement>;
-export type Icon = LucideIcon;
 import {
+  DotsHorizontalIcon,
+  DotsVerticalIcon,
   PaperPlaneIcon,
+  ReloadIcon,
   ReloadIcon as ReloadIcon2,
 } from "@radix-ui/react-icons";
 import { cva } from "class-variance-authority";
+import type { LucideIcon } from "lucide-react";
 import {
   AlertTriangle,
   AlignCenter,
@@ -17,6 +19,7 @@ import {
   Baseline,
   Bell,
   Bold,
+  Bot,
   Boxes,
   Bug,
   Check,
@@ -37,6 +40,7 @@ import {
   FileCode,
   FileText,
   Film,
+  GalleryHorizontalEnd,
   GripVertical,
   Heading1,
   Heading2,
@@ -62,6 +66,7 @@ import {
   Menu,
   MessageSquare,
   MessageSquarePlus,
+  MessagesSquare,
   Minus,
   Moon,
   MoreHorizontal,
@@ -79,6 +84,7 @@ import {
   Quote,
   RectangleHorizontal,
   RectangleVertical,
+  Rocket,
   RotateCcw,
   Save,
   Search,
@@ -98,18 +104,19 @@ import {
   Underline,
   Ungroup,
   User,
+  Users,
   Verified,
   WrapText,
   X,
 } from "lucide-react";
+import { Autogenstudio } from "./autogenstudio";
 
-import type { LucideIcon } from "lucide-react";
+export interface IconProps extends React.HTMLAttributes<SVGElement> {
+  className?: string;
+  inverted?: boolean;
+}
 
-import {
-  DotsHorizontalIcon,
-  DotsVerticalIcon,
-  ReloadIcon,
-} from "@radix-ui/react-icons";
+export type Icon = LucideIcon;
 
 export const iconVariants = cva("", {
   variants: {
@@ -223,6 +230,13 @@ const borderTop = (props: LucideProps) => (
 
 export const Icons = {
   X,
+  autogenstudio: Autogenstudio,
+  playground: MessagesSquare,
+  "message-square": MessagesSquare,
+  team: Users,
+  bot: Bot,
+  deploy: Rocket,
+  gallery: GalleryHorizontalEnd,
   play: Play,
   pause: Pause,
   alertTriangle: AlertTriangle,
@@ -489,7 +503,6 @@ export const Icons = {
 
 export const IconX = (props: { name?: string | null } & IconProps) => {
   const { name, ...etc } = props;
-  //@ts-ignore
   const Icon = Icons[name] || SquareIcon;
   return <Icon {...etc} />;
 };

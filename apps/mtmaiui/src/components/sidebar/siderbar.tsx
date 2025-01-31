@@ -267,11 +267,16 @@ export const SidebarMenuView = () => {
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <SidebarMenuSub>
-                  {/* <DebugValue data={item} /> */}
                   {item.children?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
                         <CustomLink to={subItem.url}>
+                          {subItem.icon && (
+                            <IconX
+                              name={subItem.icon}
+                              className="size-5 m-0 p-0"
+                            />
+                          )}
                           <span>{subItem.title}</span>
                         </CustomLink>
                       </SidebarMenuSubButton>

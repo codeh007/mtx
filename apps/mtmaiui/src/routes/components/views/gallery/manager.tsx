@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { message, Modal } from "antd";
+import { Modal, message } from "antd";
 import { ChevronRight } from "lucide-react";
-import { useGalleryStore } from "./store";
-import { GallerySidebar } from "./sidebar";
-import { GalleryDetail } from "./detail";
+import { useEffect, useState } from "react";
 import { GalleryCreateModal } from "./create-modal";
+import { GalleryDetail } from "./detail";
+import { GallerySidebar } from "./sidebar";
+import { useGalleryStore } from "./store";
 import type { Gallery } from "./types";
 
 export const GalleryManager: React.FC = () => {
@@ -49,14 +49,14 @@ export const GalleryManager: React.FC = () => {
     if (galleryId && !selectedGalleryId) {
       handleSelectGallery(galleryId);
     }
-  }, []);
+  }, [selectedGalleryId]);
 
   // Update URL when gallery changes
-  useEffect(() => {
-    if (selectedGalleryId) {
-      window.history.pushState({}, "", `?galleryId=${selectedGalleryId}`);
-    }
-  }, [selectedGalleryId]);
+  // useEffect(() => {
+  //   if (selectedGalleryId) {
+  //     window.history.pushState({}, "", `?galleryId=${selectedGalleryId}`);
+  //   }
+  // }, [selectedGalleryId]);
 
   const handleSelectGallery = async (galleryId: string) => {
     if (hasUnsavedChanges) {
@@ -121,7 +121,7 @@ export const GalleryManager: React.FC = () => {
 
   const handleUpdateGallery = async (
     galleryId: string,
-    updates: Partial<Gallery>
+    updates: Partial<Gallery>,
   ) => {
     try {
       await updateGallery(galleryId, updates);

@@ -1,15 +1,13 @@
 import { Dialog } from "@headlessui/react";
-import { ConfigProvider, theme } from "antd";
-import "antd/dist/reset.css";
+import { ConfigProvider } from "antd";
+// import "antd/dist/reset.css";
 import { X } from "lucide-react";
 import * as React from "react";
+import { useEffect } from "react";
 import { useConfigStore } from "../../stores/agStore";
 import { appContext } from "../../stores/agStoreProvider";
 import ContentHeader from "./contentheader";
 import Footer from "./footer";
-import SideBar from "./sidebar";
-// import { appContext } from "../../stores/agStore";
-
 const classNames = (...classes: (string | undefined | boolean)[]) => {
   return classes.filter(Boolean).join(" ");
 };
@@ -23,7 +21,7 @@ type Props = {
   meta?;
 };
 
-const Layout = ({
+export const Layout = ({
   meta,
   title,
   link,
@@ -38,15 +36,15 @@ const Layout = ({
   const darkMode = "light";
 
   // Close mobile menu on route change
-  React.useEffect(() => {
+  useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [link]);
 
-  React.useEffect(() => {
-    document.getElementsByTagName("html")[0].className = `${
-      darkMode === "dark" ? "dark bg-primary" : "light bg-primary"
-    }`;
-  }, [darkMode]);
+  // useEffect(() => {
+  //   document.getElementsByTagName("html")[0].className = `${
+  //     darkMode === "dark" ? "dark bg-primary" : "light bg-primary"
+  //   }`;
+  // }, [darkMode]);
 
   const layoutContent = (
     <div className="min-h-screen flex">
@@ -73,15 +71,15 @@ const Layout = ({
                 <X className="h-6 w-6" aria-hidden="true" />
               </button>
             </div>
-            <SideBar link={link} meta={meta} isMobile={true} />
+            {/* <SideBar link={link} meta={meta} isMobile={true} /> */}
           </Dialog.Panel>
         </div>
       </Dialog>
 
       {/* Desktop sidebar */}
-      <div className="hidden md:flex md:flex-col md:fixed md:inset-y-0">
+      {/* <div className="hidden md:flex md:flex-col md:fixed md:inset-y-0">
         <SideBar link={link} meta={meta} isMobile={false} />
-      </div>
+      </div> */}
 
       {/* Content area */}
       <div
@@ -103,12 +101,12 @@ const Layout = ({
           theme={{
             token: {
               borderRadius: 4,
-              colorBgBase: darkMode === "dark" ? "#05080C" : "#ffffff",
+              // colorBgBase: darkMode === "dark" ? "#05080C" : "#ffffff",
             },
-            algorithm:
-              darkMode === "dark"
-                ? theme.darkAlgorithm
-                : theme.defaultAlgorithm,
+            // algorithm:
+            //   darkMode === "dark"
+            //     ? theme.darkAlgorithm
+            //     : theme.defaultAlgorithm,
           }}
         >
           <main className="flex-1 p-2 text-primary">{children}</main>
@@ -135,5 +133,3 @@ const Layout = ({
 
   return layoutContent;
 };
-
-export default Layout;
