@@ -333,72 +333,73 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
         onDragEnd={handleDragEnd}
         onDragOver={handleDragOver}
       >
-        <Layout className=" relative  h-[calc(100vh-239px)] rounded">
+        <div className="flex relative  h-[calc(100vh-239px)] rounded w-full ">
+          {/* 左侧的工具栏, */}
           {!isJsonMode && <ComponentLibrary />}
 
-          <Layout className="bg-primary rounded">
-            <Content className="relative rounded bg-tertiary  ">
-              <div
-                className={`w-full h-full transition-all duration-200 ${
-                  isFullscreen
-                    ? "fixed inset-4 z-50 shadow bg-tertiary  backdrop-blur-sm"
-                    : ""
-                }`}
-              >
-                {isJsonMode ? (
-                  <MonacoEditor
-                    value={JSON.stringify(syncToJson(), null, 2)}
-                    onChange={handleJsonChange}
-                    editorRef={editorRef}
-                    language="json"
-                    minimap={false}
-                  />
-                ) : (
-                  <ReactFlow
-                    nodes={nodes}
-                    edges={edges}
-                    onNodesChange={onNodesChange}
-                    onEdgesChange={onEdgesChange}
-                    onConnect={onConnect}
-                    // onNodeClick={(_, node) => setSelectedNode(node.id)}
-                    nodeTypes={nodeTypes}
-                    edgeTypes={edgeTypes}
-                    onDrop={(event) => event.preventDefault()}
-                    onDragOver={(event) => event.preventDefault()}
-                    className="rounded"
-                    fitView
-                    fitViewOptions={{ padding: 10 }}
-                  >
-                    {showGrid && <Background />}
-                    {showMiniMap && <MiniMap />}
-                  </ReactFlow>
-                )}
-              </div>
-              {isFullscreen && (
-                // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-                <div
-                  className="fixed inset-0 -z-10 bg-background bg-opacity-80 backdrop-blur-sm"
-                  onClick={handleToggleFullscreen}
+          {/* 应该显示在flex 的右侧并自动延申 */}
+          <div className="flex-1 bg-primary rounded w-full h-full">
+            <div
+              className={`relative rounded bg-tertiary  w-full h-full w-full h-full transition-all duration-200 ${
+                isFullscreen
+                  ? "fixed inset-4 z-50 shadow bg-tertiary  backdrop-blur-sm"
+                  : ""
+              }`}
+            >
+              {isJsonMode ? (
+                <MonacoEditor
+                  value={JSON.stringify(syncToJson(), null, 2)}
+                  onChange={handleJsonChange}
+                  editorRef={editorRef}
+                  language="json"
+                  minimap={false}
                 />
+              ) : (
+                <ReactFlow
+                  nodes={nodes}
+                  edges={edges}
+                  onNodesChange={onNodesChange}
+                  onEdgesChange={onEdgesChange}
+                  onConnect={onConnect}
+                  // onNodeClick={(_, node) => setSelectedNode(node.id)}
+                  nodeTypes={nodeTypes}
+                  edgeTypes={edgeTypes}
+                  onDrop={(event) => event.preventDefault()}
+                  onDragOver={(event) => event.preventDefault()}
+                  className="rounded"
+                  fitView
+                  fitViewOptions={{ padding: 10 }}
+                >
+                  {showGrid && <Background />}
+                  {showMiniMap && <MiniMap />}
+                </ReactFlow>
               )}
-              <TeamBuilderToolbar
-                isJsonMode={isJsonMode}
-                isFullscreen={isFullscreen}
-                showGrid={showGrid}
-                onToggleMiniMap={() => setShowMiniMap(!showMiniMap)}
-                canUndo={canUndo}
-                canRedo={canRedo}
-                isDirty={isDirty}
-                onToggleView={() => setIsJsonMode(!isJsonMode)}
-                onUndo={undo}
-                onRedo={redo}
-                onSave={handleSave}
-                onToggleGrid={() => setShowGrid(!showGrid)}
-                onToggleFullscreen={handleToggleFullscreen}
-                onAutoLayout={layoutNodes}
+            </div>
+            {isFullscreen && (
+              // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+              <div
+                className="fixed inset-0 -z-10 bg-background bg-opacity-80 backdrop-blur-sm"
+                onClick={handleToggleFullscreen}
               />
-            </Content>
-          </Layout>
+            )}
+            <TeamBuilderToolbar
+              isJsonMode={isJsonMode}
+              isFullscreen={isFullscreen}
+              showGrid={showGrid}
+              onToggleMiniMap={() => setShowMiniMap(!showMiniMap)}
+              canUndo={canUndo}
+              canRedo={canRedo}
+              isDirty={isDirty}
+              onToggleView={() => setIsJsonMode(!isJsonMode)}
+              onUndo={undo}
+              onRedo={redo}
+              onSave={handleSave}
+              onToggleGrid={() => setShowGrid(!showGrid)}
+              onToggleFullscreen={handleToggleFullscreen}
+              onAutoLayout={layoutNodes}
+            />
+            {/* </Content> */}
+          </div>
 
           <NodeEditor
             node={nodes.find((n) => n.id === selectedNodeId) || null}
@@ -410,7 +411,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
               }
             }}
           />
-        </Layout>
+        </div>
       </DndContext>
     </div>
   );

@@ -1,7 +1,6 @@
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { Collapse, type CollapseProps, Input } from "antd";
-import Sider from "antd/es/layout/Sider";
 import {
   Bot,
   Brain,
@@ -175,7 +174,7 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
   }
 
   return (
-    <Sider width={300} className=" z-10 mr-2 border-r border-secondary">
+    <div className="z-10 mr-2 border-r border-secondary w-64">
       <div className="rounded p-2 pt-2">
         <div className="flex justify-between items-center mb-2">
           <div className="text-normal">Component Library</div>
@@ -213,6 +212,6 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
           )}
         />
       </div>
-    </Sider>
+    </div>
   );
 };
