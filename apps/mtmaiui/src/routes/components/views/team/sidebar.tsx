@@ -1,4 +1,4 @@
-import { Button, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import {
   Bot,
   Copy,
@@ -10,6 +10,7 @@ import {
   RefreshCcw,
   Trash2,
 } from "lucide-react";
+import { Button } from "mtxuilib/ui/button";
 import type React from "react";
 import type { Team } from "../../types/datamodel";
 import { getRelativeTimeString } from "../atoms";
@@ -55,7 +56,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
             {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
             <button
               onClick={onToggle}
-              className="p-2 rounded-md hover:bg-secondary hover:text-accent text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+              className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
             >
               <PanelLeftOpen strokeWidth={1.5} className="h-6 w-6" />
             </button>
@@ -88,9 +89,10 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
           </span>
         </div>
         <Tooltip title="Close Sidebar">
+          {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
           <button
             onClick={onToggle}
-            className="p-2 rounded-md hover:bg-secondary hover:text-accent text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+            className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
           >
             <PanelLeftClose strokeWidth={1.5} className="h-6 w-6" />
           </button>
@@ -103,11 +105,11 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
         <div className=" mr-2 w-full">
           <Tooltip title="Create new session">
             <Button
-              type="primary"
+              // type="primary"
               className="w-full"
-              icon={<Plus className="w-4 h-4" />}
               onClick={createTeam}
             >
+              <Plus className="size-4" />
               New Team
             </Button>
           </Tooltip>
@@ -115,7 +117,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
       </div>
 
       {/* Section Label */}
-      <div className="py-2 flex   text-sm text-secondary">
+      <div className="py-2 flex text-sm">
         <div className="flex"> Recents</div>
         {isLoading && <RefreshCcw className="w-4 h-4 ml-2 animate-spin" />}
       </div>
@@ -123,7 +125,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
       {/* Teams List */}
 
       {!isLoading && teams.length === 0 && (
-        <div className="p-2 mr-2 text-center text-secondary text-sm border border-dashed rounded ">
+        <div className="p-2 mr-2 text-center text-sm border border-dashed rounded ">
           <InfoIcon className="w-4 h-4 inline-block mr-1.5 -mt-0.5" />
           No recent teams found
         </div>
@@ -136,9 +138,8 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
               key={"teams_title"}
               className={` ${isLoading ? "  pointer-events-none" : ""}`}
             >
-              {" "}
               {teams.map((team) => (
-                <div key={team.id} className="relative   border-secondary">
+                <div key={team.id} className="relative border-secondary">
                   {
                     <div
                       className={` absolute top-1 left-0.5 z-50 h-[calc(100%-8px)]
@@ -149,6 +150,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                       {" "}
                     </div>
                   }
+                  {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
                   <div
                     className={`group ml-1 flex flex-col p-3 rounded-l cursor-pointer hover:bg-secondary   ${
                       currentTeam?.id === team.id
@@ -177,22 +179,22 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                   </Tooltip> */}
                         <Tooltip title="Delete team">
                           <Button
-                            type="text"
-                            size="small"
+                            variant="destructive"
+                            size="icon"
                             className="p-0 min-w-[24px] h-6"
-                            danger
-                            icon={<Trash2 className="w-4 h-4 text-red-500" />}
                             onClick={(e) => {
                               e.stopPropagation();
                               if (team.id) onDeleteTeam(team.id);
                             }}
-                          />
+                          >
+                            <Trash2 className="w-4 h-4 text-red-500" />
+                          </Button>
                         </Tooltip>
                       </div>
                     </div>
 
                     {/* Team Metadata Row */}
-                    <div className="mt-1 flex items-center gap-2 text-xs text-secondary">
+                    <div className="mt-1 flex items-center gap-2 text-xs">
                       <span className="bg-secondary/20  truncate   rounded">
                         {team.config.team_type}
                       </span>
@@ -209,7 +211,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
 
                     {/* Updated Timestamp */}
                     {team.updated_at && (
-                      <div className="mt-1 flex items-center gap-1 text-xs text-secondary">
+                      <div className="mt-1 flex items-center gap-1 text-xs">
                         {/* <Calendar className="w-3 h-3" /> */}
                         <span>{getRelativeTimeString(team.updated_at)}</span>
                       </div>
@@ -221,10 +223,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
           )}
 
           {/* Gallery Teams Section */}
-          <div
-            key={"gallery_title"}
-            className="py-2 text-sm text-secondary mt-4"
-          >
+          <div key={"gallery_title"} className="py-2 text-sm mt-4">
             <GalleryHorizontalEnd className="w-4 h-4 inline-block mr-1.5" />
             From Gallery
           </div>
@@ -253,8 +252,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                           icon={<Copy className="w-4 h-4" />}
                           onClick={(e) => {
                             e.stopPropagation();
-                            galleryTeam.name =
-                              galleryTeam.name + "_" + new Date().getTime();
+                            galleryTeam.name = `${galleryTeam.name}_${new Date().getTime()}`;
                             onCreateTeam({
                               config: galleryTeam,
                             });
@@ -265,7 +263,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                   </div>
 
                   {/* Team Metadata Row */}
-                  <div className="mt-1 flex items-center gap-2 text-xs text-secondary">
+                  <div className="mt-1 flex items-center gap-2 text-xs ">
                     <span className="bg-secondary/20 truncate rounded">
                       {galleryTeam.team_type}
                     </span>

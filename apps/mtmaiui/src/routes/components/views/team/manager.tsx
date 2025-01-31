@@ -45,7 +45,7 @@ export const TeamManager: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [user?.email]);
+  }, [user?.email, currentTeam]);
 
   useEffect(() => {
     fetchTeams();
@@ -220,7 +220,7 @@ export const TeamManager: React.FC = () => {
               onDirtyStateChange={setHasUnsavedChanges}
             />
           ) : (
-            <div className="flex items-center   justify-center h-[calc(100vh-190px)] text-secondary">
+            <div className="flex items-center   justify-center h-[calc(100vh-190px)]">
               Select a team from the sidebar or create a new one
             </div>
           )}
@@ -229,5 +229,3 @@ export const TeamManager: React.FC = () => {
     </div>
   );
 };
-
-export default TeamManager;
