@@ -356,6 +356,10 @@ import type {
   AgentNodeFormData,
   AgentNodeFormResponse,
   AgentNodeFormError,
+  AgentAgentListData,
+  AgentAgentListResponse,
+  AgentAgentGetData,
+  AgentAgentGetResponse,
   LlmGetData,
   LlmGetResponse,
   LlmGetError,
@@ -3775,6 +3779,60 @@ export const agentNodeForm = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/nodes/form/{node}",
+    ...options,
+  });
+};
+
+/**
+ * 获取租户下的agent列表
+ * 获取agent列表
+ */
+export const agentAgentList = <ThrowOnError extends boolean = false>(
+  options: Options<AgentAgentListData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    AgentAgentListResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/agents",
+    ...options,
+  });
+};
+
+/**
+ * 获取租户下的agent列表
+ * 获取agent列表
+ */
+export const agentAgentGet = <ThrowOnError extends boolean = false>(
+  options: Options<AgentAgentGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    AgentAgentGetResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/agent/{agent}",
     ...options,
   });
 };

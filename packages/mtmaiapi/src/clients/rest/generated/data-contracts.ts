@@ -1924,6 +1924,14 @@ export interface CanvasGraphParams {
   portLanguage?: ProgrammingLanguageOptions;
 }
 
+export interface Agent {
+  metadata?: APIResourceMeta;
+  /** agent 节点名称, 或者作为工具名称 */
+  title?: string;
+  /** agent 节点描述, 或者作为工具描述 */
+  description?: string;
+}
+
 export interface Outline {
   /** Title of the Wikipedia page */
   pageTitle: string;
