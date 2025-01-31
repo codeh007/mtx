@@ -576,11 +576,7 @@ export interface WorkflowConcurrency {
    */
   maxRuns: number;
   /** The strategy to use when the concurrency limit is reached. */
-  limitStrategy:
-    | "CANCEL_IN_PROGRESS"
-    | "DROP_NEWEST"
-    | "QUEUE_NEWEST"
-    | "GROUP_ROUND_ROBIN";
+  limitStrategy: "CANCEL_IN_PROGRESS" | "DROP_NEWEST" | "QUEUE_NEWEST" | "GROUP_ROUND_ROBIN";
   /** An action which gets the concurrency group for the WorkflowRun. */
   getConcurrencyGroup: string;
 }
@@ -1768,12 +1764,7 @@ export interface AgentNodeRunInput {
   nodeId?: string;
   /** 是否使用stream 传输事件 */
   isStream?: boolean;
-  params:
-    | ResearchRequest
-    | CrewAIParams
-    | ScrapeGraphParams
-    | BrowserParams
-    | CanvasGraphParams;
+  params: ResearchRequest | CrewAIParams | ScrapeGraphParams | BrowserParams | CanvasGraphParams;
 }
 
 export interface TextHighlight {
@@ -1924,6 +1915,26 @@ export interface CanvasGraphParams {
   portLanguage?: ProgrammingLanguageOptions;
 }
 
+export interface Team {
+  metadata: APIResourceMeta;
+  name: string;
+  userId: string;
+  version?: string;
+  config: object;
+}
+
+export interface TeamList {
+  pagination?: PaginationResponse;
+  rows?: Team[];
+}
+
+export interface TeamUpdate {
+  metadata: APIResourceMeta;
+  name: string;
+  userId: string;
+  version: string;
+}
+
 export interface Agent {
   metadata?: APIResourceMeta;
   /** agent 节点名称, 或者作为工具名称 */
@@ -2072,13 +2083,7 @@ export interface BaseState {
   messages: ChatMessage[];
 }
 
-export type AgentState =
-  | AssisantState
-  | GenArticleState
-  | BlogTaskState
-  | PostizState
-  | TokenChunk
-  | EvtNodeStep;
+export type AgentState = AssisantState | GenArticleState | BlogTaskState | PostizState | TokenChunk | EvtNodeStep;
 
 export type AssisantState = BaseState & {
   /** 名称 */

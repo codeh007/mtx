@@ -8,11 +8,9 @@ export const Route = createFileRoute("/ag/gallery/")({
 function RouteComponent() {
   return (
     <>
-      {/* <Layout title="Home"> */}
       <main style={{ height: "100%" }} className=" h-full ">
         <GalleryManager />
       </main>
-      {/* </Layout> */}
     </>
   );
 }
