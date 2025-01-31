@@ -1,35 +1,35 @@
-import React, { useCallback, useRef, useState } from "react";
 import {
   DndContext,
+  type DragEndEvent,
+  type DragOverEvent,
+  PointerSensor,
   useSensor,
   useSensors,
-  PointerSensor,
-  DragEndEvent,
-  DragOverEvent,
 } from "@dnd-kit/core";
 import {
-  ReactFlow,
-  useNodesState,
-  useEdgesState,
-  addEdge,
-  Connection,
   Background,
+  type Connection,
   MiniMap,
+  ReactFlow,
+  addEdge,
+  useEdgesState,
+  useNodesState,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { Button, Layout, message, Modal, Switch, Tooltip } from "antd";
+import { Button, Layout, Switch, Tooltip, message } from "antd";
 import { Cable, Code2, Download, Save } from "lucide-react";
-import { useTeamBuilderStore } from "./store";
+import React, { useCallback, useRef, useState } from "react";
+import type { ComponentTypes, Team } from "../../../types/datamodel";
 import { ComponentLibrary } from "./library";
-import { ComponentTypes, Team } from "../../../types/datamodel";
-import { CustomNode, CustomEdge, DragItem } from "./types";
 import { edgeTypes, nodeTypes } from "./nodes";
+import { useTeamBuilderStore } from "./store";
+import type { CustomEdge, CustomNode, DragItem } from "./types";
 
 // import builder css
-import "./builder.css";
-import TeamBuilderToolbar from "./toolbar";
 import { MonacoEditor } from "../../monaco";
+import "./builder.css";
 import { NodeEditor } from "./node-editor";
+import TeamBuilderToolbar from "./toolbar";
 
 const { Sider, Content } = Layout;
 
@@ -69,7 +69,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   } = useTeamBuilderStore();
 
   const currentHistoryIndex = useTeamBuilderStore(
-    (state) => state.currentHistoryIndex
+    (state) => state.currentHistoryIndex,
   );
 
   // Compute isDirty based on the store value
@@ -82,7 +82,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   const onConnect = useCallback(
     (params: Connection) =>
       setEdges((eds: CustomEdge[]) => addEdge(params, eds)),
-    [setEdges]
+    [setEdges],
   );
 
   const sensors = useSensors(
@@ -90,7 +90,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
       activationConstraint: {
         distance: 8,
       },
-    })
+    }),
   );
 
   // Need to notify parent whenever isDirty changes
@@ -115,7 +115,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   React.useEffect(() => {
     if (team?.config) {
       const { nodes: initialNodes, edges: initialEdges } = loadFromJson(
-        team.config
+        team.config,
       );
       setNodes(initialNodes);
       setEdges(initialEdges);
@@ -133,7 +133,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
         console.error("Invalid JSON:", error);
       }
     },
-    [loadFromJson]
+    [loadFromJson],
   );
 
   // Handle save
@@ -161,7 +161,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
       messageApi.error(
         error instanceof Error
           ? error.message
-          : "Failed to save team configuration"
+          : "Failed to save team configuration",
       );
     }
   }, [syncToJson, onChange, resetHistory]);
@@ -192,7 +192,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
 
   const validateDropTarget = (
     draggedType: ComponentTypes,
-    targetType: ComponentTypes
+    targetType: ComponentTypes,
   ): boolean => {
     const validTargets: Record<ComponentTypes, ComponentTypes[]> = {
       model: ["team", "agent"],
@@ -248,7 +248,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
       draggedItem.type as ComponentTypes,
       position,
       draggedItem.config,
-      nodeId
+      nodeId,
     );
   };
 
@@ -317,7 +317,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
                 <div className="relative">
                   <Save size={18} />
                   {isDirty && (
-                    <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></div>
+                    <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full" />
                   )}
                 </div>
               }
@@ -333,7 +333,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
         onDragEnd={handleDragEnd}
         onDragOver={handleDragOver}
       >
-        <Layout className=" relative bg-primary  h-[calc(100vh-239px)] rounded">
+        <Layout className=" relative  h-[calc(100vh-239px)] rounded">
           {!isJsonMode && <ComponentLibrary />}
 
           <Layout className="bg-primary rounded">
@@ -375,6 +375,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
                 )}
               </div>
               {isFullscreen && (
+                // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
                 <div
                   className="fixed inset-0 -z-10 bg-background bg-opacity-80 backdrop-blur-sm"
                   onClick={handleToggleFullscreen}

@@ -1,22 +1,20 @@
-import React from "react";
 import { Button, Tooltip } from "antd";
 import {
   Bot,
-  Plus,
-  Edit,
-  Trash2,
-  PanelLeftClose,
-  PanelLeftOpen,
-  Calendar,
   Copy,
   GalleryHorizontalEnd,
   InfoIcon,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Plus,
   RefreshCcw,
+  Trash2,
 } from "lucide-react";
+import type React from "react";
 import type { Team } from "../../types/datamodel";
 import { getRelativeTimeString } from "../atoms";
-import { defaultTeam } from "./types";
 import { useGalleryStore } from "../gallery/store";
+import { defaultTeam } from "./types";
 
 interface TeamSidebarProps {
   isOpen: boolean;
@@ -45,7 +43,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
 
   const createTeam = () => {
     const newTeam = Object.assign({}, defaultTeam);
-    newTeam.config.name = "new_team_" + new Date().getTime();
+    newTeam.config.name = `new_team_${new Date().getTime()}`;
     onCreateTeam(newTeam);
   };
   // Render collapsed state
@@ -54,6 +52,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
       <div className="h-full border-r border-secondary">
         <div className="p-2 -ml-2">
           <Tooltip title={`Teams (${teams.length})`}>
+            {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
             <button
               onClick={onToggle}
               className="p-2 rounded-md hover:bg-secondary hover:text-accent text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"

@@ -1,14 +1,14 @@
-import React, { useCallback } from "react";
 import { Handle, Position } from "@xyflow/react";
 import {
-  CheckCircle,
   AlertTriangle,
+  Bot,
+  CheckCircle,
+  Flag,
   StopCircle,
   UserCircle,
-  Bot,
-  Flag,
 } from "lucide-react";
-import { RunStatus } from "../../../../types/datamodel";
+import { useCallback } from "react";
+import type { RunStatus } from "../../../../types/datamodel";
 
 export type NodeType = "agent" | "user" | "end";
 
@@ -71,8 +71,8 @@ function AgentNode({ data, isConnectable }: AgentNodeProps) {
           data.status === "complete"
             ? "var(--accent)"
             : data.status === "error"
-            ? "rgb(239 68 68)"
-            : "var(--secondary)",
+              ? "rgb(239 68 68)"
+              : "var(--secondary)",
       };
     }
 
@@ -94,7 +94,7 @@ function AgentNode({ data, isConnectable }: AgentNodeProps) {
       <Handle
         type="target"
         position={Position.Top}
-        style={{ background: "#555" }}
+        style={{ background: "#aaa" }}
         isConnectable={isConnectable}
         id="target"
       />
