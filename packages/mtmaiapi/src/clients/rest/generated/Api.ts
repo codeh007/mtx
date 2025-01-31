@@ -11,6 +11,7 @@
 
 import {
   AcceptInviteRequest,
+  Agent,
   AgentNode,
   AgentNodeCreateRequest,
   AgentNodeList,
@@ -2967,6 +2968,44 @@ export class Api<
     this.request<AgentRunForm, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/nodes/form/${node}`,
       method: "POST",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取agent列表
+   *
+   * @tags agent
+   * @name AgentAgentList
+   * @summary 获取租户下的agent列表
+   * @request GET:/api/v1/tenants/{tenant}/agents
+   * @secure
+   */
+  agentAgentList = (tenant: TenantParameter, params: RequestParams = {}) =>
+    this.request<Agent, any>({
+      path: `/api/v1/tenants/${tenant}/agents`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取agent列表
+   *
+   * @tags agent
+   * @name AgentAgentGet
+   * @summary 获取租户下的agent列表
+   * @request GET:/api/v1/tenants/{tenant}/agent/{agent}
+   * @secure
+   */
+  agentAgentGet = (
+    tenant: TenantParameter,
+    agent: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<Agent, any>({
+      path: `/api/v1/tenants/${tenant}/agent/${agent}`,
+      method: "GET",
       secure: true,
       format: "json",
       ...params,

@@ -2157,6 +2157,18 @@ export type CanvasGraphParams = {
   portLanguage?: ProgrammingLanguageOptions;
 };
 
+export type Agent = {
+  metadata?: ApiResourceMeta;
+  /**
+   * agent 节点名称, 或者作为工具名称
+   */
+  title?: string;
+  /**
+   * agent 节点描述, 或者作为工具描述
+   */
+  description?: string;
+};
+
 export type Outline = {
   /**
    * Title of the Wikipedia page
@@ -7762,6 +7774,48 @@ export type AgentNodeFormResponses = {
 
 export type AgentNodeFormResponse =
   AgentNodeFormResponses[keyof AgentNodeFormResponses];
+
+export type AgentAgentListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/agents";
+};
+
+export type AgentAgentListResponses = {
+  200: Agent;
+};
+
+export type AgentAgentListResponse =
+  AgentAgentListResponses[keyof AgentAgentListResponses];
+
+export type AgentAgentGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The agent id
+     */
+    agent: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/agent/{agent}";
+};
+
+export type AgentAgentGetResponses = {
+  200: Agent;
+};
+
+export type AgentAgentGetResponse =
+  AgentAgentGetResponses[keyof AgentAgentGetResponses];
 
 export type LlmGetData = {
   body?: never;

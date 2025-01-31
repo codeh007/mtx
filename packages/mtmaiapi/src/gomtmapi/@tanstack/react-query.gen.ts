@@ -254,6 +254,8 @@ import type {
   AgentNodeFormData,
   AgentNodeFormError,
   AgentNodeFormResponse,
+  AgentAgentListData,
+  AgentAgentGetData,
   LlmGetData,
   LlmGetError,
   LlmGetResponse,
@@ -444,6 +446,8 @@ import {
   agentNodeUpdate,
   agentNodeRun,
   agentNodeForm,
+  agentAgentList,
+  agentAgentGet,
   llmGet,
   promptList,
   promptGet,
@@ -4245,6 +4249,44 @@ export const agentNodeFormMutation = (
     },
   };
   return mutationOptions;
+};
+
+export const agentAgentListQueryKey = (
+  options: Options<AgentAgentListData>,
+) => [createQueryKey("agentAgentList", options)];
+
+export const agentAgentListOptions = (options: Options<AgentAgentListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await agentAgentList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: agentAgentListQueryKey(options),
+  });
+};
+
+export const agentAgentGetQueryKey = (options: Options<AgentAgentGetData>) => [
+  createQueryKey("agentAgentGet", options),
+];
+
+export const agentAgentGetOptions = (options: Options<AgentAgentGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await agentAgentGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: agentAgentGetQueryKey(options),
+  });
 };
 
 export const llmGetQueryKey = (options: Options<LlmGetData>) => [
