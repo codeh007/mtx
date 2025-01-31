@@ -8,7 +8,6 @@ import { useContext, useEffect, useState } from "react";
 import { CustomLink } from "../../../../components/CustomLink";
 import { useTenant } from "../../../../hooks/useAuth";
 import { appContext } from "../../../../stores/agStoreProvider";
-import type { Team } from "../../types/datamodel";
 import type { SessionEditorProps } from "./types";
 
 type FieldType = {
@@ -23,12 +22,12 @@ export const SessionEditor: React.FC<SessionEditorProps> = ({
   isOpen,
 }) => {
   const [form] = Form.useForm();
-  const [teams, setTeams] = useState<Team[]>([]);
+  // const [teams, setTeams] = useState<Team[]>([]);
   const [loading, setLoading] = useState(false);
   const { user } = useContext(appContext);
   const [messageApi, contextHolder] = message.useMessage();
 
-  const tenant = useTenant()
+  const tenant = useTenant();
 
   // Fetch teams when modal opens
   // useEffect(() => {
@@ -53,11 +52,11 @@ export const SessionEditor: React.FC<SessionEditorProps> = ({
 
   const teamQuery = useQuery({
     ...teamListOptions({
-      path:{
-        tenant: tenant!.metadata.id
-      }
-    })
-  })
+      path: {
+        tenant: tenant!.metadata.id,
+      },
+    }),
+  });
 
   // Set form values when modal opens or session changes
   useEffect(() => {
@@ -94,7 +93,7 @@ export const SessionEditor: React.FC<SessionEditorProps> = ({
     console.error("Form validation failed:", errorInfo);
   };
 
-  const hasNoTeams = !loading && teams.length === 0;
+  const hasNoTeams = !loading && teamQuery.data?.rows?.length === 0;
 
   return (
     <Modal
@@ -143,8 +142,8 @@ export const SessionEditor: React.FC<SessionEditorProps> = ({
                   .toLowerCase()
                   .includes(input.toLowerCase())
               }
-              options={teams.map((team) => ({
-                value: team.id,
+              options={teamQuery.data?.rows.map((team) => ({
+                value: team.metadata.id,
                 label: `${team.config.name} (${team.config.team_type})`,
               }))}
               notFoundContent={loading ? <Spin size="small" /> : null}
