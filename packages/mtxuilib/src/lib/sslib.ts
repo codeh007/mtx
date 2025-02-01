@@ -125,12 +125,12 @@ export async function getFrontendConfig() {
 
 export async function getAccessToken() {
   if (isInBuild()) {
-    console.warn("在build 阶段,不加载AccessToken");
     return "";
   }
-  // const frontendConfig = await getFrontendConfig();
-
-  return "";
+  const cookies = await import("next/headers").then((x) => {
+    return x.cookies();
+  });
+  return cookies.get("access_token")?.value || "";
 }
 
 export async function reset() {
