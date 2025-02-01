@@ -27,6 +27,8 @@ import { Route as EndpointIndexImport } from './routes/~endpoint/~index'
 import { Route as ChatIndexImport } from './routes/~chat/~index'
 import { Route as AgIndexImport } from './routes/~ag/~index'
 import { Route as DashSiteSiteIdRouteImport } from './routes/~dash/~site/~$siteId/~route'
+import { Route as AgTeamTeamIdImport } from './routes/~ag/~team/~$teamId'
+import { Route as AgGalleryGalleryIdImport } from './routes/~ag/~gallery/~$galleryId'
 import { Route as DashWorkflowsIndexImport } from './routes/~dash/~workflows/~index'
 import { Route as DashSiteIndexImport } from './routes/~dash/~site/~index'
 import { Route as AgGalleryIndexImport } from './routes/~ag/~gallery/~index'
@@ -47,13 +49,15 @@ const ChatRouteLazyImport = createFileRoute('/chat')()
 const AgRouteLazyImport = createFileRoute('/ag')()
 const DashWorkflowsRouteLazyImport = createFileRoute('/dash/workflows')()
 const DashSiteRouteLazyImport = createFileRoute('/dash/site')()
-const AgTeamLazyImport = createFileRoute('/ag/team')()
+const AgTeamRouteLazyImport = createFileRoute('/ag/team')()
+const AgGalleryRouteLazyImport = createFileRoute('/ag/gallery')()
 const PlatformAccountIndexLazyImport = createFileRoute('/platform-account/')()
 const EnvsIndexLazyImport = createFileRoute('/envs/')()
 const DashWorkflowsWorkflowIdLazyImport = createFileRoute(
   '/dash/workflows/$workflowId',
 )()
 const AuthLoginIndexLazyImport = createFileRoute('/auth/login/')()
+const AgTeamIndexLazyImport = createFileRoute('/ag/team/')()
 
 // Create/Update Routes
 
@@ -131,11 +135,21 @@ const DashSiteRouteLazyRoute = DashSiteRouteLazyImport.update({
   import('./routes/~dash/~site/~route.lazy').then((d) => d.Route),
 )
 
-const AgTeamLazyRoute = AgTeamLazyImport.update({
+const AgTeamRouteLazyRoute = AgTeamRouteLazyImport.update({
   id: '/team',
   path: '/team',
   getParentRoute: () => AgRouteLazyRoute,
-} as any).lazy(() => import('./routes/~ag/~team.lazy').then((d) => d.Route))
+} as any).lazy(() =>
+  import('./routes/~ag/~team/~route.lazy').then((d) => d.Route),
+)
+
+const AgGalleryRouteLazyRoute = AgGalleryRouteLazyImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => AgRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~ag/~gallery/~route.lazy').then((d) => d.Route),
+)
 
 const PlatformAccountIndexLazyRoute = PlatformAccountIndexLazyImport.update({
   id: '/',
@@ -228,10 +242,30 @@ const AuthLoginIndexLazyRoute = AuthLoginIndexLazyImport.update({
   import('./routes/~auth/~login/~index.lazy').then((d) => d.Route),
 )
 
+const AgTeamIndexLazyRoute = AgTeamIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AgTeamRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~ag/~team/~index.lazy').then((d) => d.Route),
+)
+
 const DashSiteSiteIdRouteRoute = DashSiteSiteIdRouteImport.update({
   id: '/$siteId',
   path: '/$siteId',
   getParentRoute: () => DashSiteRouteLazyRoute,
+} as any)
+
+const AgTeamTeamIdRoute = AgTeamTeamIdImport.update({
+  id: '/$teamId',
+  path: '/$teamId',
+  getParentRoute: () => AgTeamRouteLazyRoute,
+} as any)
+
+const AgGalleryGalleryIdRoute = AgGalleryGalleryIdImport.update({
+  id: '/$galleryId',
+  path: '/$galleryId',
+  getParentRoute: () => AgGalleryRouteLazyRoute,
 } as any)
 
 const DashWorkflowsIndexRoute = DashWorkflowsIndexImport.update({
@@ -247,9 +281,9 @@ const DashSiteIndexRoute = DashSiteIndexImport.update({
 } as any)
 
 const AgGalleryIndexRoute = AgGalleryIndexImport.update({
-  id: '/gallery/',
-  path: '/gallery/',
-  getParentRoute: () => AgRouteLazyRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => AgGalleryRouteLazyRoute,
 } as any)
 
 const DashSiteSiteIdHostRouteRoute = DashSiteSiteIdHostRouteImport.update({
@@ -440,11 +474,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlatformAccountIndexLazyImport
       parentRoute: typeof PlatformAccountRouteLazyImport
     }
+    '/ag/gallery': {
+      id: '/ag/gallery'
+      path: '/gallery'
+      fullPath: '/ag/gallery'
+      preLoaderRoute: typeof AgGalleryRouteLazyImport
+      parentRoute: typeof AgRouteLazyImport
+    }
     '/ag/team': {
       id: '/ag/team'
       path: '/team'
       fullPath: '/ag/team'
-      preLoaderRoute: typeof AgTeamLazyImport
+      preLoaderRoute: typeof AgTeamRouteLazyImport
       parentRoute: typeof AgRouteLazyImport
     }
     '/dash/site': {
@@ -463,10 +504,10 @@ declare module '@tanstack/react-router' {
     }
     '/ag/gallery/': {
       id: '/ag/gallery/'
-      path: '/gallery'
-      fullPath: '/ag/gallery'
+      path: '/'
+      fullPath: '/ag/gallery/'
       preLoaderRoute: typeof AgGalleryIndexImport
-      parentRoute: typeof AgRouteLazyImport
+      parentRoute: typeof AgGalleryRouteLazyImport
     }
     '/dash/site/': {
       id: '/dash/site/'
@@ -482,12 +523,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashWorkflowsIndexImport
       parentRoute: typeof DashWorkflowsRouteLazyImport
     }
+    '/ag/gallery/$galleryId': {
+      id: '/ag/gallery/$galleryId'
+      path: '/$galleryId'
+      fullPath: '/ag/gallery/$galleryId'
+      preLoaderRoute: typeof AgGalleryGalleryIdImport
+      parentRoute: typeof AgGalleryRouteLazyImport
+    }
+    '/ag/team/$teamId': {
+      id: '/ag/team/$teamId'
+      path: '/$teamId'
+      fullPath: '/ag/team/$teamId'
+      preLoaderRoute: typeof AgTeamTeamIdImport
+      parentRoute: typeof AgTeamRouteLazyImport
+    }
     '/dash/site/$siteId': {
       id: '/dash/site/$siteId'
       path: '/$siteId'
       fullPath: '/dash/site/$siteId'
       preLoaderRoute: typeof DashSiteSiteIdRouteImport
       parentRoute: typeof DashSiteRouteLazyImport
+    }
+    '/ag/team/': {
+      id: '/ag/team/'
+      path: '/'
+      fullPath: '/ag/team/'
+      preLoaderRoute: typeof AgTeamIndexLazyImport
+      parentRoute: typeof AgTeamRouteLazyImport
     }
     '/auth/login/': {
       id: '/auth/login/'
@@ -586,16 +648,43 @@ const PlatformRouteRouteWithChildren = PlatformRouteRoute._addFileChildren(
   PlatformRouteRouteChildren,
 )
 
+interface AgGalleryRouteLazyRouteChildren {
+  AgGalleryIndexRoute: typeof AgGalleryIndexRoute
+  AgGalleryGalleryIdRoute: typeof AgGalleryGalleryIdRoute
+}
+
+const AgGalleryRouteLazyRouteChildren: AgGalleryRouteLazyRouteChildren = {
+  AgGalleryIndexRoute: AgGalleryIndexRoute,
+  AgGalleryGalleryIdRoute: AgGalleryGalleryIdRoute,
+}
+
+const AgGalleryRouteLazyRouteWithChildren =
+  AgGalleryRouteLazyRoute._addFileChildren(AgGalleryRouteLazyRouteChildren)
+
+interface AgTeamRouteLazyRouteChildren {
+  AgTeamTeamIdRoute: typeof AgTeamTeamIdRoute
+  AgTeamIndexLazyRoute: typeof AgTeamIndexLazyRoute
+}
+
+const AgTeamRouteLazyRouteChildren: AgTeamRouteLazyRouteChildren = {
+  AgTeamTeamIdRoute: AgTeamTeamIdRoute,
+  AgTeamIndexLazyRoute: AgTeamIndexLazyRoute,
+}
+
+const AgTeamRouteLazyRouteWithChildren = AgTeamRouteLazyRoute._addFileChildren(
+  AgTeamRouteLazyRouteChildren,
+)
+
 interface AgRouteLazyRouteChildren {
   AgIndexRoute: typeof AgIndexRoute
-  AgTeamLazyRoute: typeof AgTeamLazyRoute
-  AgGalleryIndexRoute: typeof AgGalleryIndexRoute
+  AgGalleryRouteLazyRoute: typeof AgGalleryRouteLazyRouteWithChildren
+  AgTeamRouteLazyRoute: typeof AgTeamRouteLazyRouteWithChildren
 }
 
 const AgRouteLazyRouteChildren: AgRouteLazyRouteChildren = {
   AgIndexRoute: AgIndexRoute,
-  AgTeamLazyRoute: AgTeamLazyRoute,
-  AgGalleryIndexRoute: AgGalleryIndexRoute,
+  AgGalleryRouteLazyRoute: AgGalleryRouteLazyRouteWithChildren,
+  AgTeamRouteLazyRoute: AgTeamRouteLazyRouteWithChildren,
 }
 
 const AgRouteLazyRouteWithChildren = AgRouteLazyRoute._addFileChildren(
@@ -753,13 +842,17 @@ export interface FileRoutesByFullPath {
   '/post/create': typeof PostCreateRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
-  '/ag/team': typeof AgTeamLazyRoute
+  '/ag/gallery': typeof AgGalleryRouteLazyRouteWithChildren
+  '/ag/team': typeof AgTeamRouteLazyRouteWithChildren
   '/dash/site': typeof DashSiteRouteLazyRouteWithChildren
   '/dash/workflows': typeof DashWorkflowsRouteLazyRouteWithChildren
-  '/ag/gallery': typeof AgGalleryIndexRoute
+  '/ag/gallery/': typeof AgGalleryIndexRoute
   '/dash/site/': typeof DashSiteIndexRoute
   '/dash/workflows/': typeof DashWorkflowsIndexRoute
+  '/ag/gallery/$galleryId': typeof AgGalleryGalleryIdRoute
+  '/ag/team/$teamId': typeof AgTeamTeamIdRoute
   '/dash/site/$siteId': typeof DashSiteSiteIdRouteRouteWithChildren
+  '/ag/team/': typeof AgTeamIndexLazyRoute
   '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/dash/workflows/$workflowId': typeof DashWorkflowsWorkflowIdLazyRoute
   '/dash/onboarding/create-tenant': typeof DashOnboardingCreateTenantIndexRoute
@@ -784,10 +877,12 @@ export interface FileRoutesByTo {
   '/post/create': typeof PostCreateRoute
   '/envs': typeof EnvsIndexLazyRoute
   '/platform-account': typeof PlatformAccountIndexLazyRoute
-  '/ag/team': typeof AgTeamLazyRoute
   '/ag/gallery': typeof AgGalleryIndexRoute
   '/dash/site': typeof DashSiteIndexRoute
   '/dash/workflows': typeof DashWorkflowsIndexRoute
+  '/ag/gallery/$galleryId': typeof AgGalleryGalleryIdRoute
+  '/ag/team/$teamId': typeof AgTeamTeamIdRoute
+  '/ag/team': typeof AgTeamIndexLazyRoute
   '/auth/login': typeof AuthLoginIndexLazyRoute
   '/dash/workflows/$workflowId': typeof DashWorkflowsWorkflowIdLazyRoute
   '/dash/onboarding/create-tenant': typeof DashOnboardingCreateTenantIndexRoute
@@ -820,13 +915,17 @@ export interface FileRoutesById {
   '/post/create': typeof PostCreateRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
-  '/ag/team': typeof AgTeamLazyRoute
+  '/ag/gallery': typeof AgGalleryRouteLazyRouteWithChildren
+  '/ag/team': typeof AgTeamRouteLazyRouteWithChildren
   '/dash/site': typeof DashSiteRouteLazyRouteWithChildren
   '/dash/workflows': typeof DashWorkflowsRouteLazyRouteWithChildren
   '/ag/gallery/': typeof AgGalleryIndexRoute
   '/dash/site/': typeof DashSiteIndexRoute
   '/dash/workflows/': typeof DashWorkflowsIndexRoute
+  '/ag/gallery/$galleryId': typeof AgGalleryGalleryIdRoute
+  '/ag/team/$teamId': typeof AgTeamTeamIdRoute
   '/dash/site/$siteId': typeof DashSiteSiteIdRouteRouteWithChildren
+  '/ag/team/': typeof AgTeamIndexLazyRoute
   '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/dash/workflows/$workflowId': typeof DashWorkflowsWorkflowIdLazyRoute
   '/dash/onboarding/create-tenant/': typeof DashOnboardingCreateTenantIndexRoute
@@ -861,13 +960,17 @@ export interface FileRouteTypes {
     | '/post/create'
     | '/envs/'
     | '/platform-account/'
+    | '/ag/gallery'
     | '/ag/team'
     | '/dash/site'
     | '/dash/workflows'
-    | '/ag/gallery'
+    | '/ag/gallery/'
     | '/dash/site/'
     | '/dash/workflows/'
+    | '/ag/gallery/$galleryId'
+    | '/ag/team/$teamId'
     | '/dash/site/$siteId'
+    | '/ag/team/'
     | '/auth/login/'
     | '/dash/workflows/$workflowId'
     | '/dash/onboarding/create-tenant'
@@ -891,10 +994,12 @@ export interface FileRouteTypes {
     | '/post/create'
     | '/envs'
     | '/platform-account'
-    | '/ag/team'
     | '/ag/gallery'
     | '/dash/site'
     | '/dash/workflows'
+    | '/ag/gallery/$galleryId'
+    | '/ag/team/$teamId'
+    | '/ag/team'
     | '/auth/login'
     | '/dash/workflows/$workflowId'
     | '/dash/onboarding/create-tenant'
@@ -925,13 +1030,17 @@ export interface FileRouteTypes {
     | '/post/create'
     | '/envs/'
     | '/platform-account/'
+    | '/ag/gallery'
     | '/ag/team'
     | '/dash/site'
     | '/dash/workflows'
     | '/ag/gallery/'
     | '/dash/site/'
     | '/dash/workflows/'
+    | '/ag/gallery/$galleryId'
+    | '/ag/team/$teamId'
     | '/dash/site/$siteId'
+    | '/ag/team/'
     | '/auth/login/'
     | '/dash/workflows/$workflowId'
     | '/dash/onboarding/create-tenant/'
@@ -1016,8 +1125,8 @@ export const routeTree = rootRoute
       "filePath": "~ag/~route.lazy.tsx",
       "children": [
         "/ag/",
-        "/ag/team",
-        "/ag/gallery/"
+        "/ag/gallery",
+        "/ag/team"
       ]
     },
     "/chat": {
@@ -1105,9 +1214,21 @@ export const routeTree = rootRoute
       "filePath": "~platform-account/~index.lazy.tsx",
       "parent": "/platform-account"
     },
+    "/ag/gallery": {
+      "filePath": "~ag/~gallery/~route.lazy.tsx",
+      "parent": "/ag",
+      "children": [
+        "/ag/gallery/",
+        "/ag/gallery/$galleryId"
+      ]
+    },
     "/ag/team": {
-      "filePath": "~ag/~team.lazy.tsx",
-      "parent": "/ag"
+      "filePath": "~ag/~team/~route.lazy.tsx",
+      "parent": "/ag",
+      "children": [
+        "/ag/team/$teamId",
+        "/ag/team/"
+      ]
     },
     "/dash/site": {
       "filePath": "~dash/~site/~route.lazy.tsx",
@@ -1126,7 +1247,7 @@ export const routeTree = rootRoute
     },
     "/ag/gallery/": {
       "filePath": "~ag/~gallery/~index.tsx",
-      "parent": "/ag"
+      "parent": "/ag/gallery"
     },
     "/dash/site/": {
       "filePath": "~dash/~site/~index.tsx",
@@ -1136,6 +1257,14 @@ export const routeTree = rootRoute
       "filePath": "~dash/~workflows/~index.tsx",
       "parent": "/dash/workflows"
     },
+    "/ag/gallery/$galleryId": {
+      "filePath": "~ag/~gallery/~$galleryId.tsx",
+      "parent": "/ag/gallery"
+    },
+    "/ag/team/$teamId": {
+      "filePath": "~ag/~team/~$teamId.tsx",
+      "parent": "/ag/team"
+    },
     "/dash/site/$siteId": {
       "filePath": "~dash/~site/~$siteId/~route.tsx",
       "parent": "/dash/site",
@@ -1144,6 +1273,10 @@ export const routeTree = rootRoute
         "/dash/site/$siteId/edit",
         "/dash/site/$siteId/host"
       ]
+    },
+    "/ag/team/": {
+      "filePath": "~ag/~team/~index.lazy.tsx",
+      "parent": "/ag/team"
     },
     "/auth/login/": {
       "filePath": "~auth/~login/~index.lazy.tsx",

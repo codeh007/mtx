@@ -1,3 +1,5 @@
+import { useMutation } from "@tanstack/react-query";
+import message from "antd/es/message";
 import {
   Bot,
   Copy,
@@ -9,20 +11,24 @@ import {
   RefreshCcw,
   Trash2,
 } from "lucide-react";
-import { Button } from "mtxuilib/ui/button";
+import { type Team, teamCreateMutation } from "mtmaiapi";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
+import { cn } from "mtxuilib/lib/utils";
+import { Button, buttonVariants } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
-import type { Team } from "../../types/datamodel";
-import { getRelativeTimeString } from "../atoms";
-import { useGalleryStore } from "../gallery/store";
-import { defaultTeam } from "./types";
+import { CustomLink } from "../../../components/CustomLink";
+import { useTenant } from "../../../hooks/useAuth";
+import { getRelativeTimeString } from "../../components/views/atoms";
+import { defaultTeam } from "../../components/views/team/types";
+import { useGalleryStore } from "../~gallery/store";
+import { undefined } from "./~route.lazy";
 
 interface TeamSidebarProps {
   isOpen: boolean;
   teams: Team[];
   currentTeam: Team | null;
   onToggle: () => void;
-  onSelectTeam: (team: Team) => void;
   onCreateTeam: (team: Team) => void;
   onEditTeam: (team: Team) => void;
   onDeleteTeam: (teamId: number) => void;
@@ -34,19 +40,72 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
   teams,
   currentTeam,
   onToggle,
-  onSelectTeam,
-  onCreateTeam,
   onEditTeam,
   onDeleteTeam,
   isLoading = false,
 }) => {
   const defaultGallery = useGalleryStore((state) => state.getDefaultGallery());
+  const [messageApi, contextHolder] = message.useMessage();
 
-  const createTeam = () => {
-    const newTeam = Object.assign({}, defaultTeam);
-    newTeam.config.name = `new_team_${new Date().getTime()}`;
-    onCreateTeam(newTeam);
+  const tenant = useTenant();
+  // const createTeam = () => {
+  //   const newTeam = Object.assign({}, defaultTeam);
+  //   newTeam.config.name = `new_team_${new Date().getTime()}`;
+  //   // onCreateTeam(newTeam);
+  // };
+  const createTeamMutation = useMutation({
+    ...teamCreateMutation({}),
+  });
+
+  // const handleCreateTeam = (newTeam: Team) => {
+  //   console.log("newTeam", newTeam);
+  //   // setCurrentTeam(newTeam);
+  //   // also save it to db
+
+  //   // handleSaveTeam(newTeam);
+  // };
+
+  const handleSaveTeam = async () => {
+    const teamData = Object.assign({}, defaultTeam);
+    console.log("handleSaveTeam", teamData);
+    const sanitizedTeamData = {
+      ...{
+        teamData,
+        config: {
+          ...teamData.config,
+          name: teamData.config?.name || `new_team_${new Date().getTime()}`,
+        },
+      },
+      created_at: undefined, // Remove these fields
+      updated_at: undefined, // Let server handle timestamps
+    };
+
+    console.log("teamData", sanitizedTeamData);
+    const savedTeam = await createTeamMutation.mutateAsync({
+      path: {
+        tenant: tenant!.metadata.id,
+      },
+      body: {
+        ...sanitizedTeamData,
+      },
+    });
+
+    messageApi.success(
+      `Team ${teamData.id ? "updated" : "created"} successfully`,
+    );
+
+    // Update teams list
+    // if (teamData.id) {
+    //   setTeams(teams.map((t) => (t.id === savedTeam.id ? savedTeam : t)));
+    //   if (currentTeam?.id === savedTeam.id) {
+    //     setCurrentTeam(savedTeam);
+    //   }
+    // } else {
+    //   setTeams([savedTeam, ...teams]);
+    //   setCurrentTeam(savedTeam);
+    // }
   };
+
   // Render collapsed state
   if (!isOpen) {
     return (
@@ -74,7 +133,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
               <Button
                 // type="text"
                 className="w-full p-2 flex justify-center"
-                onClick={createTeam}
+                onClick={handleSaveTeam}
               >
                 <Plus className="w-4 h-4" />
               </Button>
@@ -122,9 +181,9 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-                // type="primary"
-                className="w-full"
-                onClick={createTeam}
+                // to="/ag/team/create"
+                className={cn("w-full", buttonVariants())}
+                onClick={handleSaveTeam}
               >
                 <Plus className="size-4" />
                 新建团队
@@ -139,7 +198,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
 
       {/* Section Label */}
       <div className="py-2 flex text-sm">
-        <div className="flex"> Recents</div>
+        <div className="flex">最近使用</div>
         {isLoading && <RefreshCcw className="w-4 h-4 ml-2 animate-spin" />}
       </div>
 
@@ -160,33 +219,39 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
               className={` ${isLoading ? "  pointer-events-none" : ""}`}
             >
               {teams.map((team) => (
-                <div key={team.id} className="relative border-secondary">
+                <div
+                  key={team.metadata.id}
+                  className="relative border-secondary"
+                >
+                  <DebugValue data={team} />
                   {
                     <div
                       className={` absolute top-1 left-0.5 z-50 h-[calc(100%-8px)]
                w-1 bg-opacity-80  rounded ${
-                 currentTeam?.id === team.id ? "bg-accent" : "bg-tertiary"
+                 currentTeam?.metadata.id === team.metadata.id
+                   ? "bg-accent"
+                   : "bg-tertiary"
                }`}
                     >
                       {" "}
                     </div>
                   }
-                  {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
                   <div
                     className={`group ml-1 flex flex-col p-3 rounded-l cursor-pointer hover:bg-secondary   ${
-                      currentTeam?.id === team.id
+                      currentTeam?.metadata.id === team.metadata.id
                         ? "border-accent bg-secondary"
                         : "border-transparent"
                     }`}
-                    onClick={() => onSelectTeam(team)}
+                    // onClick={() => onSelectTeam(team)}
                   >
-                    {/* Team Name and Actions Row */}
-                    <div className="flex items-center justify-between">
-                      <span className="font-medium truncate">
-                        {team.config.name}
-                      </span>
-                      <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        {/* <Tooltip title="Edit team">
+                    <CustomLink to={`/ag/team/${team.metadata.id}`}>
+                      {/* Team Name and Actions Row */}
+                      <div className="flex items-center justify-between">
+                        <span className="font-medium truncate">
+                          {team.config.name}
+                        </span>
+                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          {/* <Tooltip title="Edit team">
                     <Button
                       type="text"
                       size="small"
@@ -198,48 +263,51 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                       }}
                     />
                   </Tooltip> */}
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant="destructive"
-                              size="icon"
-                              className="p-0 min-w-[24px] h-6"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                if (team.id) onDeleteTeam(team.id);
-                              }}
-                            >
-                              <Trash2 className="w-4 h-4 text-red-500" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <span>Delete team</span>
-                          </TooltipContent>
-                        </Tooltip>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                variant="destructive"
+                                size="icon"
+                                className="p-0 min-w-[24px] h-6"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (team.id) onDeleteTeam(team.id);
+                                }}
+                              >
+                                <Trash2 className="w-4 h-4 text-red-500" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <span>Delete team</span>
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Team Metadata Row */}
-                    <div className="mt-1 flex items-center gap-2 text-xs">
-                      <span className="bg-secondary/20  truncate   rounded">
-                        {team.config.team_type}
-                      </span>
-                      <div className="flex items-center gap-1">
-                        <Bot className="w-3 h-3" />
-                        <span>
-                          {team.config.participants.length}{" "}
-                          {team.config.participants.length === 1
-                            ? "agent"
-                            : "agents"}
+                      {/* Team Metadata Row */}
+                      <div className="mt-1 flex items-center gap-2 text-xs">
+                        <span className="bg-secondary/20  truncate   rounded">
+                          {team.config.team_type}
                         </span>
+                        <div className="flex items-center gap-1">
+                          <Bot className="w-3 h-3" />
+                          <span>
+                            {team.config.participants.length}{" "}
+                            {team.config.participants.length === 1
+                              ? "agent"
+                              : "agents"}
+                          </span>
+                        </div>
                       </div>
-                    </div>
+                    </CustomLink>
 
                     {/* Updated Timestamp */}
-                    {team.updated_at && (
+                    {team.metadata.updatedAt && (
                       <div className="mt-1 flex items-center gap-1 text-xs">
                         {/* <Calendar className="w-3 h-3" /> */}
-                        <span>{getRelativeTimeString(team.updated_at)}</span>
+                        <span>
+                          {getRelativeTimeString(team.metadata.updatedAt)}
+                        </span>
                       </div>
                     )}
                   </div>

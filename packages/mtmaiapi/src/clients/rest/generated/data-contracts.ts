@@ -1942,22 +1942,67 @@ export interface TeamUpdate {
   name: string;
   userId: string;
   version: string;
-  config: {
-    /** Describes how the component can be instantiated. */
-    provider?: string;
-    /** Logical type of the component. If missing, the component assumes the default type of the provider. */
-    component_type?: string;
-    /** Version of the component specification. If missing, the component assumes whatever is the current version of the library used to load it. This is obviously dangerous and should be used for user authored ephmeral config. For all other configs version should be specified. */
-    version?: string;
-    /** Version of the component. If missing, the component assumes the default version of the provider. */
-    component_version?: string;
-    /** Description of the component. */
+  config: ComponentModel;
+}
+
+export interface ComponentModel {
+  /** Describes how the component can be instantiated. */
+  provider?: string;
+  /** Logical type of the component. If missing, the component assumes the default type of the provider. */
+  component_type?: string;
+  /** Version of the component specification. If missing, the component assumes whatever is the current version of the library used to load it. This is obviously dangerous and should be used for user authored ephmeral config. For all other configs version should be specified. */
+  version?: string;
+  /** Version of the component. If missing, the component assumes the default version of the provider. */
+  component_version?: string;
+  /** Description of the component. */
+  description?: string;
+  /** Human readable label for the component. If missing the component assumes the class name of the provider. */
+  label?: string;
+  /** The schema validated config field is passed to a given class's implmentation of :py:meth:`autogen_core.ComponentConfigImpl._from_config` to create a new instance of the component class. */
+  config?: object;
+}
+
+export interface GalleryComponents {
+  agents: ComponentModel[];
+  models: ComponentModel[];
+  tools: ComponentModel[];
+  terminations: ComponentModel[];
+}
+
+export interface GalleryItems {
+  teams: ComponentModel[];
+  components: GalleryComponents;
+}
+
+export interface Gallery {
+  metadata: APIResourceMeta;
+  name: string;
+  url: string;
+  userId: string;
+  meta: {
+    author: string;
+    created_at: string;
+    updated_at: string;
+    version: string;
     description?: string;
-    /** Human readable label for the component. If missing the component assumes the class name of the provider. */
-    label?: string;
-    /** The schema validated config field is passed to a given class's implmentation of :py:meth:`autogen_core.ComponentConfigImpl._from_config` to create a new instance of the component class. */
-    config?: object;
+    tags?: any[];
+    license?: string;
+    homepage?: string;
+    category?: string;
+    last_synced?: string;
   };
+  items: GalleryItems;
+}
+
+export interface GalleryList {
+  pagination?: PaginationResponse;
+  rows?: Gallery[];
+}
+
+export interface GalleryUpdate {
+  metadata: APIResourceMeta;
+  name: string;
+  userId: string;
 }
 
 export interface Agent {

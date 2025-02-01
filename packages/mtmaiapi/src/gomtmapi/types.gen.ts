@@ -2177,38 +2177,83 @@ export type TeamUpdate = {
   name: string;
   userId: string;
   version: string;
-  config: {
-    /**
-     * Describes how the component can be instantiated.
-     */
-    provider?: string;
-    /**
-     * Logical type of the component. If missing, the component assumes the default type of the provider.
-     */
-    component_type?: string;
-    /**
-     * Version of the component specification. If missing, the component assumes whatever is the current version of the library used to load it. This is obviously dangerous and should be used for user authored ephmeral config. For all other configs version should be specified.
-     */
-    version?: string;
-    /**
-     * Version of the component. If missing, the component assumes the default version of the provider.
-     */
-    component_version?: string;
-    /**
-     * Description of the component.
-     */
-    description?: string;
-    /**
-     * Human readable label for the component. If missing the component assumes the class name of the provider.
-     */
-    label?: string;
-    /**
-     * The schema validated config field is passed to a given class's implmentation of :py:meth:`autogen_core.ComponentConfigImpl._from_config` to create a new instance of the component class.
-     */
-    config?: {
-      [key: string]: unknown;
-    };
+  config: ComponentModel;
+};
+
+export type ComponentModel = {
+  /**
+   * Describes how the component can be instantiated.
+   */
+  provider?: string;
+  /**
+   * Logical type of the component. If missing, the component assumes the default type of the provider.
+   */
+  component_type?: string;
+  /**
+   * Version of the component specification. If missing, the component assumes whatever is the current version of the library used to load it. This is obviously dangerous and should be used for user authored ephmeral config. For all other configs version should be specified.
+   */
+  version?: string;
+  /**
+   * Version of the component. If missing, the component assumes the default version of the provider.
+   */
+  component_version?: string;
+  /**
+   * Description of the component.
+   */
+  description?: string;
+  /**
+   * Human readable label for the component. If missing the component assumes the class name of the provider.
+   */
+  label?: string;
+  /**
+   * The schema validated config field is passed to a given class's implmentation of :py:meth:`autogen_core.ComponentConfigImpl._from_config` to create a new instance of the component class.
+   */
+  config?: {
+    [key: string]: unknown;
   };
+};
+
+export type GalleryComponents = {
+  agents: Array<ComponentModel>;
+  models: Array<ComponentModel>;
+  tools: Array<ComponentModel>;
+  terminations: Array<ComponentModel>;
+};
+
+export type GalleryItems = {
+  teams: Array<ComponentModel>;
+  components: GalleryComponents;
+};
+
+export type Gallery = {
+  metadata: ApiResourceMeta;
+  name: string;
+  url: string;
+  userId: string;
+  meta: {
+    author: string;
+    created_at: string;
+    updated_at: string;
+    version: string;
+    description?: string;
+    tags?: Array<unknown>;
+    license?: string;
+    homepage?: string;
+    category?: string;
+    last_synced?: string;
+  };
+  items: GalleryItems;
+};
+
+export type GalleryList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Gallery>;
+};
+
+export type GalleryUpdate = {
+  metadata: ApiResourceMeta;
+  name: string;
+  userId: string;
 };
 
 export type Agent = {
@@ -7700,6 +7745,79 @@ export type TeamGetResponses = {
 };
 
 export type TeamGetResponse = TeamGetResponses[keyof TeamGetResponses];
+
+export type GalleryListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/galleries";
+};
+
+export type GalleryListResponses = {
+  200: GalleryList;
+};
+
+export type GalleryListResponse =
+  GalleryListResponses[keyof GalleryListResponses];
+
+export type GalleryCreateData = {
+  body: Gallery;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/galleries";
+};
+
+export type GalleryCreateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type GalleryCreateError = GalleryCreateErrors[keyof GalleryCreateErrors];
+
+export type GalleryCreateResponses = {
+  200: Gallery;
+};
+
+export type GalleryCreateResponse =
+  GalleryCreateResponses[keyof GalleryCreateResponses];
+
+export type GalleryGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The gallery id
+     */
+    gallery: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/gallery/{gallery}";
+};
+
+export type GalleryGetResponses = {
+  200: Gallery;
+};
+
+export type GalleryGetResponse = GalleryGetResponses[keyof GalleryGetResponses];
 
 export type AgentNodeListData = {
   body?: never;

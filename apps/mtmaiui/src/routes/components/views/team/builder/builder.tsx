@@ -18,7 +18,7 @@ import {
 import "@xyflow/react/dist/style.css";
 import { Button, Switch, Tooltip, message } from "antd";
 import { Cable, Code2, Download, Save } from "lucide-react";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import type { ComponentTypes, Team } from "../../../types/datamodel";
 import { ComponentLibrary } from "./library";
 import { edgeTypes, nodeTypes } from "./nodes";
@@ -37,11 +37,11 @@ interface TeamBuilderProps {
   onDirtyStateChange?: (isDirty: boolean) => void;
 }
 
-export const TeamBuilder: React.FC<TeamBuilderProps> = ({
+export const TeamBuilder = ({
   team,
   onChange,
   onDirtyStateChange,
-}) => {
+}: TeamBuilderProps) => {
   // Replace store state with React Flow hooks
   const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
@@ -110,7 +110,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   }, [isDirty]);
 
   // Load initial config
-  React.useEffect(() => {
+  useEffect(() => {
     if (team?.config) {
       const { nodes: initialNodes, edges: initialEdges } = loadFromJson(
         team.config,

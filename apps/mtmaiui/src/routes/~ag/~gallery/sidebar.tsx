@@ -8,12 +8,12 @@ import {
   RefreshCw,
   Trash2,
 } from "lucide-react";
+import type { Gallery } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
-import { getRelativeTimeString } from "../atoms";
+import { getRelativeTimeString } from "../../components/views/atoms";
 import { useGalleryStore } from "./store";
-import type { Gallery } from "./types";
 
 interface GallerySidebarProps {
   isOpen: boolean;
@@ -138,10 +138,13 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
       ) : (
         <div className="scroll overflow-y-auto h-[calc(100%-170px)]">
           {galleries.map((gallery) => (
-            <div key={gallery.id} className="relative border-secondary">
+            <div
+              key={gallery.metadata.id}
+              className="relative border-secondary"
+            >
               <div
                 className={`absolute top-1 left-0.5 z-50 h-[calc(100%-8px)] w-1 bg-opacity-80 rounded ${
-                  currentGallery?.id === gallery.id
+                  currentGallery?.metadata.id === gallery.metadata.id
                     ? "bg-accent"
                     : "bg-tertiary"
                 }`}
@@ -149,7 +152,7 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
               {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
               <div
                 className={`group ml-1 flex flex-col p-3 rounded-l cursor-pointer hover:bg-secondary ${
-                  currentGallery?.id === gallery.id
+                  currentGallery?.metadata.id === gallery.metadata.id
                     ? "border-accent bg-secondary"
                     : "border-transparent"
                 }`}
@@ -188,7 +191,7 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
                             className="p-0 min-w-[24px] h-6"
                             onClick={(e) => {
                               e.stopPropagation();
-                              syncGallery(gallery.id);
+                              syncGallery(gallery.metadata.id);
                             }}
                           >
                             <RefreshCw className="w-4 h-4" />
@@ -205,16 +208,18 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
                           size="sm"
                           variant={"ghost"}
                           className={`p-0 min-w-[24px] h-6 ${
-                            defaultGalleryId === gallery.id ? "text-accent" : ""
+                            defaultGalleryId === gallery.metadata.id
+                              ? "text-accent"
+                              : ""
                           }`}
                           onClick={(e) => {
                             e.stopPropagation();
-                            onSetDefault(gallery.id);
+                            onSetDefault(gallery.metadata.id);
                           }}
                         >
                           <Pin
                             className={`w-4 h-4 ${
-                              defaultGalleryId === gallery.id
+                              defaultGalleryId === gallery.metadata.id
                                 ? "fill-accent"
                                 : ""
                             }`}
@@ -222,7 +227,7 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent>
-                        {gallery.id
+                        {gallery.metadata.id
                           ? "Default gallery"
                           : "Set as default gallery"}
                       </TooltipContent>
@@ -236,10 +241,10 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
                           disabled={galleries.length === 1}
                           onClick={(e) => {
                             e.stopPropagation();
-                            onDeleteGallery(gallery.id);
+                            onDeleteGallery(gallery.metadata.id);
                           }}
                         >
-                          <Trash2 className="w-4 h-4 text-red-500" />
+                          <Trash2 className="size-4" />
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent>
@@ -254,7 +259,7 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
                 {/* Rest of the content remains the same */}
                 <div className="mt-1 flex items-center gap-2 text-xs text-secondary">
                   <span className="bg-secondary/20 truncate rounded px-1">
-                    v{gallery.metadata.version}
+                    {gallery?.meta?.version}
                   </span>
                   <div className="flex items-center gap-1">
                     <Package className="w-3 h-3" />
@@ -271,8 +276,8 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
                 {/* Updated Timestamp */}
                 <div className="mt-1 flex items-center gap-1 text-xs text-secondary">
                   <span>
-                    {getRelativeTimeString(gallery.metadata.updated_at)}
-                    {defaultGalleryId === gallery.id ? (
+                    {getRelativeTimeString(gallery.metadata.updatedAt)}
+                    {defaultGalleryId === gallery.metadata.id ? (
                       <span className="text-accent border-accent border rounded px-1 ml-1 py-0.5">
                         default
                       </span>

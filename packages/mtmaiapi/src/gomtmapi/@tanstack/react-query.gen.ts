@@ -245,6 +245,11 @@ import type {
   TeamCreateError,
   TeamCreateResponse,
   TeamGetData,
+  GalleryListData,
+  GalleryCreateData,
+  GalleryCreateError,
+  GalleryCreateResponse,
+  GalleryGetData,
   AgentNodeListData,
   AgentCreateData,
   AgentCreateError,
@@ -448,6 +453,9 @@ import {
   teamList,
   teamCreate,
   teamGet,
+  galleryList,
+  galleryCreate,
+  galleryGet,
   agentNodeList,
   agentCreate,
   agentNode,
@@ -4158,6 +4166,83 @@ export const teamGetOptions = (options: Options<TeamGetData>) => {
       return data;
     },
     queryKey: teamGetQueryKey(options),
+  });
+};
+
+export const galleryListQueryKey = (options: Options<GalleryListData>) => [
+  createQueryKey("galleryList", options),
+];
+
+export const galleryListOptions = (options: Options<GalleryListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await galleryList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: galleryListQueryKey(options),
+  });
+};
+
+export const galleryCreateQueryKey = (options: Options<GalleryCreateData>) => [
+  createQueryKey("galleryCreate", options),
+];
+
+export const galleryCreateOptions = (options: Options<GalleryCreateData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await galleryCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: galleryCreateQueryKey(options),
+  });
+};
+
+export const galleryCreateMutation = (
+  options?: Partial<Options<GalleryCreateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    GalleryCreateResponse,
+    GalleryCreateError,
+    Options<GalleryCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await galleryCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const galleryGetQueryKey = (options: Options<GalleryGetData>) => [
+  createQueryKey("galleryGet", options),
+];
+
+export const galleryGetOptions = (options: Options<GalleryGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await galleryGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: galleryGetQueryKey(options),
   });
 };
 
