@@ -2005,6 +2005,26 @@ export interface GalleryUpdate {
   userId: string;
 }
 
+export interface Session {
+  metadata: APIResourceMeta;
+  name: string;
+  userId: string;
+  teamId: string;
+  version: string;
+}
+
+export interface SessionList {
+  pagination?: PaginationResponse;
+  rows?: Session[];
+}
+
+export interface SessionUpdate {
+  metadata?: APIResourceMeta;
+  name?: string;
+  userId?: string;
+  version?: string;
+}
+
 export interface Agent {
   metadata?: APIResourceMeta;
   /** agent 节点名称, 或者作为工具名称 */

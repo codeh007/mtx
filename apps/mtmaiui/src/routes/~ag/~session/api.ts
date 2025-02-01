@@ -1,5 +1,5 @@
-import type { Session, SessionRuns } from "../../types/datamodel";
-import { getServerUrl } from "../../utils";
+import type { Session, SessionRuns } from "../../components/types/datamodel";
+import { getServerUrl } from "../../components/utils";
 
 export class SessionAPI {
   private getBaseUrl(): string {

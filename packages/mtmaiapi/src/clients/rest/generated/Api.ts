@@ -100,6 +100,8 @@ import {
   ScheduledWorkflows,
   ScheduledWorkflowsList,
   ScheduledWorkflowsOrderByField,
+  Session,
+  SessionList,
   SiderbarConfig,
   Site,
   SiteHost,
@@ -2962,6 +2964,66 @@ export class Api<
   ) =>
     this.request<Gallery, any>({
       path: `/api/v1/tenants/${tenant}/gallery/${gallery}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取会话列表
+   *
+   * @tags sessions
+   * @name SessionList
+   * @summary 获取租户下的会话列表
+   * @request GET:/api/v1/tenants/{tenant}/sessions
+   * @secure
+   */
+  sessionList = (tenant: TenantParameter, params: RequestParams = {}) =>
+    this.request<SessionList, any>({
+      path: `/api/v1/tenants/${tenant}/sessions`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description create session
+   *
+   * @tags session
+   * @name SessionCreate
+   * @request POST:/api/v1/tenants/{tenant}/sessions
+   * @secure
+   */
+  sessionCreate = (
+    tenant: TenantParameter,
+    data: Session,
+    params: RequestParams = {},
+  ) =>
+    this.request<Session, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/sessions`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取会话
+   *
+   * @tags session
+   * @name SessionGet
+   * @summary 获取租户下的会话
+   * @request GET:/api/v1/tenants/{tenant}/sessions/{session}
+   * @secure
+   */
+  sessionGet = (
+    tenant: TenantParameter,
+    session: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<Session, any>({
+      path: `/api/v1/tenants/${tenant}/sessions/${session}`,
       method: "GET",
       secure: true,
       format: "json",

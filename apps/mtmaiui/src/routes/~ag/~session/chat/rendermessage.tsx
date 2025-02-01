@@ -5,14 +5,17 @@ import type {
   FunctionCall,
   FunctionExecutionResult,
   ImageContent,
-} from "../../../types/datamodel";
+} from "../../../components/types/datamodel";
 // import type {
 //   AgentMessageConfig,
 //   FunctionCall,
 //   FunctionExecutionResult,
 //   ImageContent,
 // } from "../../../types/datamodel";
-import { ClickableImage, TruncatableText } from "../../atoms";
+import {
+  ClickableImage,
+  TruncatableText,
+} from "../../../components/views/atoms";
 
 const TEXT_THRESHOLD = 400;
 const JSON_THRESHOLD = 800;

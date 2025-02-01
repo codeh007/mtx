@@ -9,8 +9,8 @@ import {
   Trash2,
 } from "lucide-react";
 import { Button } from "mtxuilib/ui/button";
-import type { Session } from "../../types/datamodel";
-import { getRelativeTimeString } from "../atoms";
+import type { Session } from "../../components/types/datamodel";
+import { getRelativeTimeString } from "../../components/views/atoms";
 
 interface SidebarProps {
   isOpen: boolean;
