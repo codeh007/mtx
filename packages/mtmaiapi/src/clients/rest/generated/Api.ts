@@ -2863,6 +2863,28 @@ export class Api<
       ...params,
     });
   /**
+   * @description create team
+   *
+   * @tags team
+   * @name TeamCreate
+   * @request POST:/api/v1/tenants/{tenant}/teams
+   * @secure
+   */
+  teamCreate = (
+    tenant: TenantParameter,
+    data: Team,
+    params: RequestParams = {},
+  ) =>
+    this.request<Team, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/teams`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
    * @description 获取团队列表
    *
    * @tags teams

@@ -7616,6 +7616,37 @@ export type TeamListResponses = {
 
 export type TeamListResponse = TeamListResponses[keyof TeamListResponses];
 
+export type TeamCreateData = {
+  body: Team;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/teams";
+};
+
+export type TeamCreateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type TeamCreateError = TeamCreateErrors[keyof TeamCreateErrors];
+
+export type TeamCreateResponses = {
+  200: Team;
+};
+
+export type TeamCreateResponse = TeamCreateResponses[keyof TeamCreateResponses];
+
 export type TeamGetData = {
   body?: never;
   path: {

@@ -342,6 +342,9 @@ import type {
   ArtifactGetError,
   TeamListData,
   TeamListResponse,
+  TeamCreateData,
+  TeamCreateResponse,
+  TeamCreateError,
   TeamGetData,
   TeamGetResponse,
   AgentNodeListData,
@@ -3637,6 +3640,36 @@ export const teamList = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/teams",
     ...options,
+  });
+};
+
+/**
+ * create team
+ */
+export const teamCreate = <ThrowOnError extends boolean = false>(
+  options: Options<TeamCreateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).post<
+    TeamCreateResponse,
+    TeamCreateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/teams",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
