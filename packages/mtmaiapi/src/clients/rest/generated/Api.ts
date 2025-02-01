@@ -65,6 +65,8 @@ import {
   EventOrderByField,
   EventSearch,
   FrontendConfig,
+  Gallery,
+  GalleryList,
   HfAccount,
   ListAPIMetaIntegration,
   ListAPITokensResponse,
@@ -2900,6 +2902,66 @@ export class Api<
   ) =>
     this.request<Team, any>({
       path: `/api/v1/tenants/${tenant}/teams/${team}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取画廊列表
+   *
+   * @tags galleries
+   * @name GalleryList
+   * @summary 获取租户下的画廊列表
+   * @request GET:/api/v1/tenants/{tenant}/galleries
+   * @secure
+   */
+  galleryList = (tenant: TenantParameter, params: RequestParams = {}) =>
+    this.request<GalleryList, any>({
+      path: `/api/v1/tenants/${tenant}/galleries`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description create gallery
+   *
+   * @tags galleries
+   * @name GalleryCreate
+   * @request POST:/api/v1/tenants/{tenant}/galleries
+   * @secure
+   */
+  galleryCreate = (
+    tenant: TenantParameter,
+    data: Gallery,
+    params: RequestParams = {},
+  ) =>
+    this.request<Gallery, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/galleries`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取画廊列表
+   *
+   * @tags galleries
+   * @name GalleryGet
+   * @summary 获取租户下的画廊列表
+   * @request GET:/api/v1/tenants/{tenant}/gallery/{gallery}
+   * @secure
+   */
+  galleryGet = (
+    tenant: TenantParameter,
+    gallery: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<Gallery, any>({
+      path: `/api/v1/tenants/${tenant}/gallery/${gallery}`,
       method: "GET",
       secure: true,
       format: "json",

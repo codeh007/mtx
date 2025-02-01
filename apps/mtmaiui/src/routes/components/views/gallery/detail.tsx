@@ -17,10 +17,10 @@ import {
 import { Button } from "mtxuilib/ui/button";
 import type React from "react";
 import { useRef, useState } from "react";
+import { useGalleryStore } from "../../../~ag/~gallery/store";
 import type { ComponentConfigTypes } from "../../types/datamodel";
 import { TruncatableText, getRelativeTimeString } from "../atoms";
 import { MonacoEditor } from "../monaco";
-import { useGalleryStore } from "./store";
 import type { Gallery } from "./types";
 
 const ComponentGrid: React.FC<{

@@ -1,13 +1,18 @@
+import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { Modal, message } from "antd";
 import { ChevronRight } from "lucide-react";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { useEffect, useState } from "react";
-import { GalleryCreateModal } from "./create-modal";
-import { GalleryDetail } from "./detail";
+import GalleryCreateModal from "../../components/views/gallery/create-modal";
+import type { Gallery } from "../../components/views/gallery/types";
 import { GallerySidebar } from "./sidebar";
 import { useGalleryStore } from "./store";
-import type { Gallery } from "./types";
 
-export const GalleryManager: React.FC = () => {
+export const Route = createLazyFileRoute("/ag/gallery")({
+  component: RouteComponent,
+});
+
+function RouteComponent() {
   const [isLoading, setIsLoading] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -132,74 +137,77 @@ export const GalleryManager: React.FC = () => {
       console.error(error);
     }
   };
-
   return (
-    <div className="relative flex h-full w-full">
-      {contextHolder}
+    <main style={{ height: "100%" }} className=" h-full ">
+      {/* <Outlet /> */}
+      <div className="relative flex h-full w-full">
+        {contextHolder}
 
-      {/* Create Modal */}
-      <GalleryCreateModal
-        open={isCreateModalOpen}
-        onCancel={() => setIsCreateModalOpen(false)}
-        onCreateGallery={handleCreateGallery}
-      />
-
-      {/* Sidebar */}
-      <div
-        className={`absolute left-0 top-0 h-full transition-all duration-200 ease-in-out ${
-          isSidebarOpen ? "w-64" : "w-12"
-        }`}
-      >
-        <GallerySidebar
-          isOpen={isSidebarOpen}
-          galleries={galleries}
-          currentGallery={currentGallery}
-          onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
-          onSelectGallery={(gallery) => handleSelectGallery(gallery.id)}
-          onCreateGallery={() => setIsCreateModalOpen(true)}
-          onDeleteGallery={handleDeleteGallery}
-          defaultGalleryId={getDefaultGallery()?.id}
-          onSetDefault={setDefaultGallery}
-          isLoading={isLoading}
+        {/* Create Modal */}
+        <GalleryCreateModal
+          open={isCreateModalOpen}
+          onCancel={() => setIsCreateModalOpen(false)}
+          onCreateGallery={handleCreateGallery}
         />
-      </div>
 
-      {/* Main Content */}
-      <div
-        className={`flex-1 transition-all max-w-5xl -mr-6 duration-200 ${
-          isSidebarOpen ? "ml-64" : "ml-12"
-        }`}
-      >
-        <div className="p-4 pt-2">
-          {/* Breadcrumb */}
-          <div className="flex items-center gap-2 mb-4 text-sm">
-            <span className="text-primary font-medium">Galleries</span>
-            {currentGallery && (
-              <>
-                <ChevronRight className="w-4 h-4 text-secondary" />
-                <span className="text-secondary">{currentGallery.name}</span>
-              </>
-            )}
-          </div>
+        {/* Sidebar */}
+        <div
+          className={`absolute left-0 top-0 h-full transition-all duration-200 ease-in-out ${
+            isSidebarOpen ? "w-64" : "w-12"
+          }`}
+        >
+          <GallerySidebar
+            isOpen={isSidebarOpen}
+            galleries={galleries}
+            currentGallery={currentGallery}
+            onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
+            onSelectGallery={(gallery) => handleSelectGallery(gallery.id)}
+            onCreateGallery={() => setIsCreateModalOpen(true)}
+            onDeleteGallery={handleDeleteGallery}
+            defaultGalleryId={getDefaultGallery()?.id}
+            onSetDefault={setDefaultGallery}
+            isLoading={isLoading}
+          />
+        </div>
 
-          {/* Content Area */}
-          {currentGallery ? (
-            <GalleryDetail
-              gallery={currentGallery}
-              onSave={(updates) =>
-                handleUpdateGallery(currentGallery.id, updates)
-              }
-              onDirtyStateChange={setHasUnsavedChanges}
-            />
-          ) : (
-            <div className="flex items-center justify-center h-[calc(100vh-120px)] text-secondary">
-              Select a gallery from the sidebar or create a new one
+        {/* Main Content */}
+        <div
+          className={`flex-1 transition-all max-w-5xl -mr-6 duration-200 ${
+            isSidebarOpen ? "ml-64" : "ml-12"
+          }`}
+        >
+          <div className="p-4 pt-2">
+            {/* Breadcrumb */}
+            <div className="flex items-center gap-2 mb-4 text-sm">
+              <span className="text-primary font-medium">Galleries</span>
+              {currentGallery && (
+                <>
+                  <ChevronRight className="w-4 h-4 text-secondary" />
+                  <span className="text-secondary">{currentGallery.name}</span>
+                </>
+              )}
             </div>
-          )}
+
+            {/* Content Area */}
+            {/* {currentGallery ? (
+              <GalleryDetail
+                gallery={currentGallery}
+                onSave={(updates) =>
+                  handleUpdateGallery(currentGallery.id, updates)
+                }
+                onDirtyStateChange={setHasUnsavedChanges}
+              />
+            ) : (
+              <div className="flex items-center justify-center h-[calc(100vh-120px)] text-secondary">
+                Select a gallery from the sidebar or create a new one
+              </div>
+            )} */}
+            <MtSuspenseBoundary>
+              <Outlet />
+            </MtSuspenseBoundary>
+          </div>
         </div>
       </div>
-    </div>
+    </main>
   );
-};
-
-export default GalleryManager;
+}

@@ -347,6 +347,13 @@ import type {
   TeamCreateError,
   TeamGetData,
   TeamGetResponse,
+  GalleryListData,
+  GalleryListResponse,
+  GalleryCreateData,
+  GalleryCreateResponse,
+  GalleryCreateError,
+  GalleryGetData,
+  GalleryGetResponse,
   AgentNodeListData,
   AgentNodeListResponse,
   AgentCreateData,
@@ -3696,6 +3703,90 @@ export const teamGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/teams/{team}",
+    ...options,
+  });
+};
+
+/**
+ * 获取租户下的画廊列表
+ * 获取画廊列表
+ */
+export const galleryList = <ThrowOnError extends boolean = false>(
+  options: Options<GalleryListData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    GalleryListResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/galleries",
+    ...options,
+  });
+};
+
+/**
+ * create gallery
+ */
+export const galleryCreate = <ThrowOnError extends boolean = false>(
+  options: Options<GalleryCreateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).post<
+    GalleryCreateResponse,
+    GalleryCreateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/galleries",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * 获取租户下的画廊列表
+ * 获取画廊列表
+ */
+export const galleryGet = <ThrowOnError extends boolean = false>(
+  options: Options<GalleryGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    GalleryGetResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/gallery/{gallery}",
     ...options,
   });
 };

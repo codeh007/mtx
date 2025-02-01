@@ -1,14 +1,14 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Gallery } from "./types";
-import {
+import type {
   AgentConfig,
   ModelConfig,
   TeamConfig,
   TerminationConfig,
   ToolConfig,
-} from "../../types/datamodel";
-import { defaultGallery } from "./utils";
+} from "../../components/types/datamodel";
+import type { Gallery } from "../../components/views/gallery/types";
+import { defaultGallery } from "../../components/views/gallery/utils";
 
 interface GalleryStore {
   galleries: Gallery[];

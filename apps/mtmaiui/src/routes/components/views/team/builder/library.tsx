@@ -11,7 +11,7 @@ import {
   Wrench,
 } from "lucide-react";
 import React from "react";
-import { useGalleryStore } from "../../gallery/store";
+import { useGalleryStore } from "../../../../~ag/~gallery/store";
 
 interface ComponentConfigTypes {
   [key: string]: any;

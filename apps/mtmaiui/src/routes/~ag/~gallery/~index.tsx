@@ -1,6 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import GalleryManager from "../../components/views/gallery/manager";
-
 export const Route = createFileRoute("/ag/gallery/")({
   component: RouteComponent,
 });
@@ -8,9 +6,9 @@ export const Route = createFileRoute("/ag/gallery/")({
 function RouteComponent() {
   return (
     <>
-      <main style={{ height: "100%" }} className=" h-full ">
-        <GalleryManager />
-      </main>
+      <div className="flex items-center justify-center h-[calc(100vh-120px)]">
+        Select a gallery from the sidebar or create a new one
+      </div>
     </>
   );
 }
