@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import type React from "react";
 import Markdown from "react-markdown";
 
 interface MarkdownViewProps {

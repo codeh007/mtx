@@ -29,9 +29,7 @@ import type { CustomEdge, CustomNode, DragItem } from "./types";
 import { MonacoEditor } from "../../monaco";
 import "./builder.css";
 import { NodeEditor } from "./node-editor";
-import TeamBuilderToolbar from "./toolbar";
-
-// const { Sider, Content } = Layout;
+import { TeamBuilderToolbar } from "./toolbar";
 
 interface TeamBuilderProps {
   team: Team;

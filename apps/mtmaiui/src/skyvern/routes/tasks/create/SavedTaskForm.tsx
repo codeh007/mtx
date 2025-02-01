@@ -808,7 +808,7 @@ export function SavedTaskForm({ initialValues, template }: Props) {
             {saveTaskMutation.isPending && (
               <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Save Changes
+            保存任务
           </Button>
           <Button
             type="submit"

@@ -1,4 +1,3 @@
-import { Tooltip } from "antd";
 import {
   Bot,
   Copy,
@@ -11,6 +10,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { Button } from "mtxuilib/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
 import type { Team } from "../../types/datamodel";
 import { getRelativeTimeString } from "../atoms";
@@ -52,25 +52,36 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
     return (
       <div className="h-full border-r border-secondary">
         <div className="p-2 -ml-2">
-          <Tooltip title={`Teams (${teams.length})`}>
-            {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-            <button
-              onClick={onToggle}
-              className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
-            >
-              <PanelLeftOpen strokeWidth={1.5} className="h-6 w-6" />
-            </button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
+              <button
+                onClick={onToggle}
+                className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+              >
+                <PanelLeftOpen strokeWidth={1.5} className="h-6 w-6" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <span>Teams ({teams.length})</span>
+            </TooltipContent>
           </Tooltip>
         </div>
 
         <div className="mt-4 px-2 -ml-1">
-          <Tooltip title="Create new team">
-            <Button
-              type="text"
-              className="w-full p-2 flex justify-center"
-              onClick={createTeam}
-              icon={<Plus className="w-4 h-4" />}
-            />
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                // type="text"
+                className="w-full p-2 flex justify-center"
+                onClick={createTeam}
+              >
+                <Plus className="w-4 h-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <span>创建团队</span>
+            </TooltipContent>
           </Tooltip>
         </div>
       </div>
@@ -88,14 +99,19 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
             {teams.length}
           </span>
         </div>
-        <Tooltip title="Close Sidebar">
-          {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-          <button
-            onClick={onToggle}
-            className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
-          >
-            <PanelLeftClose strokeWidth={1.5} className="h-6 w-6" />
-          </button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
+            <button
+              onClick={onToggle}
+              className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+            >
+              <PanelLeftClose strokeWidth={1.5} className="h-6 w-6" />
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <span>Close Sidebar</span>
+          </TooltipContent>
         </Tooltip>
       </div>
 
@@ -103,15 +119,20 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
 
       <div className="my-4 flex text-sm  ">
         <div className=" mr-2 w-full">
-          <Tooltip title="Create new session">
-            <Button
-              // type="primary"
-              className="w-full"
-              onClick={createTeam}
-            >
-              <Plus className="size-4" />
-              New Team
-            </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                // type="primary"
+                className="w-full"
+                onClick={createTeam}
+              >
+                <Plus className="size-4" />
+                新建团队
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <span>Create new team</span>
+            </TooltipContent>
           </Tooltip>
         </div>
       </div>
@@ -177,18 +198,23 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                       }}
                     />
                   </Tooltip> */}
-                        <Tooltip title="Delete team">
-                          <Button
-                            variant="destructive"
-                            size="icon"
-                            className="p-0 min-w-[24px] h-6"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              if (team.id) onDeleteTeam(team.id);
-                            }}
-                          >
-                            <Trash2 className="w-4 h-4 text-red-500" />
-                          </Button>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="destructive"
+                              size="icon"
+                              className="p-0 min-w-[24px] h-6"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (team.id) onDeleteTeam(team.id);
+                              }}
+                            >
+                              <Trash2 className="w-4 h-4 text-red-500" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <span>Delete team</span>
+                          </TooltipContent>
                         </Tooltip>
                       </div>
                     </div>
@@ -244,20 +270,26 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                       {galleryTeam.name}
                     </span>
                     <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Tooltip title="Use as template">
-                        <Button
-                          type="text"
-                          size="small"
-                          className="p-0 min-w-[24px] h-6"
-                          icon={<Copy className="w-4 h-4" />}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            galleryTeam.name = `${galleryTeam.name}_${new Date().getTime()}`;
-                            onCreateTeam({
-                              config: galleryTeam,
-                            });
-                          }}
-                        />
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            // type="text"
+                            size="icon"
+                            className="p-0 min-w-[24px] h-6"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              galleryTeam.name = `${galleryTeam.name}_${new Date().getTime()}`;
+                              onCreateTeam({
+                                config: galleryTeam,
+                              });
+                            }}
+                          >
+                            <Copy className="w-4 h-4" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <span>Use as template</span>
+                        </TooltipContent>
                       </Tooltip>
                     </div>
                   </div>

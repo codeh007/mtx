@@ -142,6 +142,7 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
         <div className="space-y-2">
           {filteredItems.map((item, itemIndex) => (
             <PresetItem
+              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
               key={itemIndex}
               id={`${section.title.toLowerCase()}-${itemIndex}`}
               type={section.type}
