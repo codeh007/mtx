@@ -1,28 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { Drawer, Button, Space, message, Select, Input } from "antd";
-import { NodeEditorProps } from "./types";
-import { useTeamBuilderStore } from "./store";
-import {
-  TeamConfig,
-  ComponentTypes,
-  TeamTypes,
-  ModelTypes,
-  SelectorGroupChatConfig,
-  RoundRobinGroupChatConfig,
-  ModelConfig,
-  AzureOpenAIModelConfig,
-  OpenAIModelConfig,
-  ComponentConfigTypes,
+import { Button, Drawer, Input, Select, Space, message } from "antd";
+import type React from "react";
+import { useEffect, useState } from "react";
+import type {
   AgentConfig,
-  ToolConfig,
   AgentTypes,
-  ToolTypes,
+  AzureOpenAIModelConfig,
+  CombinationTerminationConfig,
+  ComponentConfigTypes,
+  ComponentTypes,
+  MaxMessageTerminationConfig,
+  ModelConfig,
+  ModelTypes,
+  OpenAIModelConfig,
+  RoundRobinGroupChatConfig,
+  SelectorGroupChatConfig,
+  TeamConfig,
+  TeamTypes,
   TerminationConfig,
   TerminationTypes,
-  MaxMessageTerminationConfig,
   TextMentionTerminationConfig,
-  CombinationTerminationConfig,
+  ToolConfig,
+  ToolTypes,
 } from "../../../types/datamodel";
+import { useTeamBuilderStore } from "./store";
+import type { NodeEditorProps } from "./types";
 
 const { TextArea } = Input;
 
@@ -413,7 +414,7 @@ const TerminationEditor: React.FC<EditorProps<TerminationConfig>> = ({
 
   const handleUpdateCondition = (
     index: number,
-    newCondition: TerminationConfig
+    newCondition: TerminationConfig,
   ) => {
     if (value.termination_type === "CombinationTermination") {
       const newConditions = [...value.conditions];
@@ -462,7 +463,7 @@ const TerminationEditor: React.FC<EditorProps<TerminationConfig>> = ({
             onChange={(e) =>
               onChange({
                 ...value,
-                max_messages: parseInt(e.target.value),
+                max_messages: Number.parseInt(e.target.value),
               } as MaxMessageTerminationConfig)
             }
             disabled={disabled}
@@ -531,7 +532,7 @@ const TerminationEditor: React.FC<EditorProps<TerminationConfig>> = ({
                       </Button>
                     </Space>
                   </div>
-                )
+                ),
               )}
               <Button
                 type="dashed"

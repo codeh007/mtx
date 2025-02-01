@@ -1,35 +1,34 @@
-import React from "react";
+import { useDroppable } from "@dnd-kit/core";
 import {
-  Handle,
-  Position,
-  NodeProps,
-  EdgeProps,
-  getBezierPath,
   BaseEdge,
+  type EdgeProps,
+  Handle,
+  type NodeProps,
+  Position,
+  getBezierPath,
 } from "@xyflow/react";
 import {
-  LucideIcon,
-  Users,
-  Wrench,
-  Settings,
+  Bot,
   Brain,
+  Edit,
+  type LucideIcon,
   Timer,
   Trash2Icon,
-  Edit,
-  Bot,
+  Users,
+  Wrench,
 } from "lucide-react";
-import { NodeData, CustomNode } from "./types";
-import {
+import type React from "react";
+import type {
   AgentConfig,
-  TeamConfig,
-  ModelConfig,
-  ToolConfig,
-  TerminationConfig,
   ComponentTypes,
+  ModelConfig,
+  TeamConfig,
+  TerminationConfig,
+  ToolConfig,
 } from "../../../types/datamodel";
-import { useDroppable } from "@dnd-kit/core";
 import { TruncatableText } from "../../atoms";
 import { useTeamBuilderStore } from "./store";
+import type { CustomNode, NodeData } from "./types";
 
 // Icon mapping for different node types
 const iconMap: Record<NodeData["type"], LucideIcon> = {

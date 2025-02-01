@@ -1,26 +1,27 @@
-import React, { useState, useRef } from "react";
-import { Button, message, Tooltip } from "antd";
+import { Tooltip, message } from "antd";
 import {
-  Package,
-  Users,
   Bot,
-  Globe,
-  RefreshCw,
-  Edit2,
-  X,
-  Wrench,
   Brain,
-  Timer,
-  Save,
-  ChevronUp,
   ChevronDown,
+  ChevronUp,
   Edit,
+  Globe,
+  Package,
+  RefreshCw,
+  Save,
+  Timer,
+  Users,
+  Wrench,
+  X,
 } from "lucide-react";
-import type { Gallery } from "./types";
-import { useGalleryStore } from "./store";
+import { Button } from "mtxuilib/ui/button";
+import type React from "react";
+import { useRef, useState } from "react";
+import type { ComponentConfigTypes } from "../../types/datamodel";
+import { TruncatableText, getRelativeTimeString } from "../atoms";
 import { MonacoEditor } from "../monaco";
-import { ComponentConfigTypes } from "../../types/datamodel";
-import { getRelativeTimeString, TruncatableText } from "../atoms";
+import { useGalleryStore } from "./store";
+import type { Gallery } from "./types";
 
 const ComponentGrid: React.FC<{
   title: string;
@@ -31,6 +32,7 @@ const ComponentGrid: React.FC<{
 
   return (
     <div className="bg-tertiary rounded    p-2">
+      {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
       <div
         className="flex items-center justify-between cursor-pointer mb-2"
         onClick={() => setIsExpanded(!isExpanded)}
@@ -94,6 +96,7 @@ export const GalleryDetail: React.FC<GalleryDetailProps> = ({
   const { syncGallery, getLastSyncTime } = useGalleryStore();
 
   const handleSync = async () => {
+    console.log("handleSync", gallery);
     if (!gallery.url) return;
 
     setIsSyncing(true);
@@ -195,7 +198,7 @@ export const GalleryDetail: React.FC<GalleryDetailProps> = ({
               <span className="text-sm">
                 {Object.values(gallery.items.components).reduce(
                   (sum, arr) => sum + arr.length,
-                  0
+                  0,
                 )}{" "}
                 components
               </span>
@@ -222,42 +225,31 @@ export const GalleryDetail: React.FC<GalleryDetailProps> = ({
             title={
               getLastSyncTime(gallery.id)
                 ? `Last synced: ${getRelativeTimeString(
-                    getLastSyncTime(gallery.id) || ""
+                    getLastSyncTime(gallery.id) || "",
                   )}`
                 : "Never synced"
             }
           >
-            <Button
-              icon={
-                <RefreshCw
-                  className={(isSyncing ? "animate-spin" : "") + " w-4 h-4"}
-                />
-              }
-              loading={isSyncing}
-              onClick={handleSync}
-            >
-              Sync
+            <Button loading={isSyncing} onClick={handleSync}>
+              <RefreshCw
+                className={`${isSyncing ? "animate-spin" : ""} w-4 h-4`}
+              />
+              同步
             </Button>
           </Tooltip>
         )}
         {!isEditing ? (
-          <Button
-            icon={<Edit className="w-4 h-4" />}
-            onClick={() => setIsEditing(true)}
-          >
-            Edit
+          <Button onClick={() => setIsEditing(true)}>
+            <Edit className="w-4 h-4" />
+            编辑
           </Button>
         ) : (
           <>
-            <Button
-              icon={<X className="w-4 h-4" />}
-              onClick={() => setIsEditing(false)}
-            >
-              Cancel
+            <Button onClick={() => setIsEditing(false)}>
+              <X className="w-4 h-4" />
+              取消
             </Button>
-            <Button type="primary" onClick={handleSave}>
-              Save Changes
-            </Button>
+            <Button onClick={handleSave}>保存</Button>
           </>
         )}
       </div>
@@ -281,21 +273,18 @@ export const GalleryDetail: React.FC<GalleryDetailProps> = ({
           style={{ height: "70vh" }}
         >
           <div className="border-b border-secondary p-4 flex justify-between items-center">
-            <h3 className="text-normal font-medium">
-              Edit Gallery Configuration
-            </h3>
+            <h3 className="text-normal font-medium">编辑画廊配置</h3>
             <div className="inline-flex gap-2">
-              <Tooltip title="Save Changes">
-                <Button
+              <Tooltip title="保存">
+                <Button onClick={handleSave}>
                   icon={<Save className="w-4 h-4" />}
-                  onClick={handleSave}
-                />
+                </Button>
               </Tooltip>
-              <Tooltip title="Cancel Editing">
-                <Button
-                  icon={<X className="w-4 h-4" />}
-                  onClick={() => setIsEditing(false)}
-                />
+              <Tooltip title="取消编辑">
+                <Button onClick={() => setIsEditing(false)}>
+                  <X className="w-4 h-4" />
+                  取消
+                </Button>
               </Tooltip>
             </div>
           </div>

@@ -1,5 +1,6 @@
-import React, { memo, useState } from "react";
 import { Loader2, Maximize2, Minimize2, X } from "lucide-react";
+import type React from "react";
+import { memo, useState } from "react";
 
 export const LoadingIndicator = ({ size = 16 }: { size: number }) => (
   <div className="inline-flex items-center gap-2 text-accent   mr-2">
@@ -109,7 +110,7 @@ export const TruncatableText = memo(
         )}
       </div>
     );
-  }
+  },
 );
 
 const FullScreenImage: React.FC<{
@@ -180,15 +181,19 @@ export function getRelativeTimeString(date: string | number | Date): string {
 
   if (diffInSeconds < 60) {
     return "just now";
-  } else if (diffInMinutes < 60) {
-    return `${diffInMinutes} ${diffInMinutes === 1 ? "minute" : "minutes"} ago`;
-  } else if (diffInHours < 24) {
-    return `${diffInHours} ${diffInHours === 1 ? "hour" : "hours"} ago`;
-  } else if (diffInDays < 30) {
-    return `${diffInDays} ${diffInDays === 1 ? "day" : "days"} ago`;
-  } else if (diffInMonths < 12) {
-    return `${diffInMonths} ${diffInMonths === 1 ? "month" : "months"} ago`;
-  } else {
-    return `${diffInYears} ${diffInYears === 1 ? "year" : "years"} ago`;
   }
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes} ${diffInMinutes === 1 ? "minute" : "minutes"} ago`;
+  }
+  if (diffInHours < 24) {
+    return `${diffInHours} ${diffInHours === 1 ? "hour" : "hours"} ago`;
+  }
+  if (diffInDays < 30) {
+    return `${diffInDays} ${diffInDays === 1 ? "day" : "days"} ago`;
+  }
+  if (diffInMonths < 12) {
+    return `${diffInMonths} ${diffInMonths === 1 ? "month" : "months"} ago`;
+  }
+
+  return `${diffInYears} ${diffInYears === 1 ? "year" : "years"} ago`;
 }
