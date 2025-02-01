@@ -22,7 +22,7 @@ import { useTenant } from "../../../hooks/useAuth";
 import { getRelativeTimeString } from "../../components/views/atoms";
 import { defaultTeam } from "../../components/views/team/types";
 import { useGalleryStore } from "../~gallery/store";
-import { undefined } from "./~route.lazy";
+// import { undefined } from "./~route.lazy";
 
 interface TeamSidebarProps {
   isOpen: boolean;
@@ -248,7 +248,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                       {/* Team Name and Actions Row */}
                       <div className="flex items-center justify-between">
                         <span className="font-medium truncate">
-                          {team.config.name}
+                          {team?.config?.name}
                         </span>
                         <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                           {/* <Tooltip title="Edit team">
