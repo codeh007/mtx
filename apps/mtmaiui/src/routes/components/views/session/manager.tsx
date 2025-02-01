@@ -193,7 +193,7 @@ export const SessionManager: React.FC = () => {
             {session && <ChatView session={session} />}
           </div>
         ) : (
-          <div className="flex items-center justify-center h-full text-secondary">
+          <div className="flex items-center justify-center h-full">
             No session selected. Create or select a session from the sidebar.
           </div>
         )}

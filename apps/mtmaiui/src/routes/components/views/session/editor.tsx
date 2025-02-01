@@ -1,18 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import type { FormProps } from "antd";
-import { Button, Form, Input, Modal, Select, Spin, message } from "antd";
+import { Form, Input, Modal, Select, Spin, message } from "antd";
 import { TriangleAlertIcon } from "lucide-react";
 import { teamListOptions } from "mtmaiapi";
+import { Button } from "mtxuilib/ui/button";
 import type React from "react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { CustomLink } from "../../../../components/CustomLink";
-import { useTenant } from "../../../../hooks/useAuth";
-import { appContext } from "../../../../stores/agStoreProvider";
+import { useTenant, useUser } from "../../../../hooks/useAuth";
 import type { SessionEditorProps } from "./types";
 
 type FieldType = {
   name: string;
-  team_id?: number;
+  teamId?: string;
 };
 
 export const SessionEditor: React.FC<SessionEditorProps> = ({
@@ -23,11 +23,12 @@ export const SessionEditor: React.FC<SessionEditorProps> = ({
 }) => {
   const [form] = Form.useForm();
   // const [teams, setTeams] = useState<Team[]>([]);
-  const [loading, setLoading] = useState(false);
-  const { user } = useContext(appContext);
+  // const [loading, setLoading] = useState(false);
+  // const { user } = useContext(appContext);
   const [messageApi, contextHolder] = message.useMessage();
 
   const tenant = useTenant();
+  const user = useUser();
 
   // Fetch teams when modal opens
   // useEffect(() => {
@@ -46,7 +47,6 @@ export const SessionEditor: React.FC<SessionEditorProps> = ({
   //       }
   //     }
   //   };
-
   //   fetchTeams();
   // }, [isOpen, user?.email]);
 
@@ -93,7 +93,7 @@ export const SessionEditor: React.FC<SessionEditorProps> = ({
     console.error("Form validation failed:", errorInfo);
   };
 
-  const hasNoTeams = !loading && teamQuery.data?.rows?.length === 0;
+  const hasNoTeams = !teamQuery.isLoading && teamQuery.data?.rows?.length === 0;
 
   return (
     <Modal
@@ -128,13 +128,13 @@ export const SessionEditor: React.FC<SessionEditorProps> = ({
           <Form.Item<FieldType>
             className="w-full"
             label="Team"
-            name="team_id"
+            name="teamId"
             rules={[{ required: true, message: "Please select a team" }]}
           >
             <Select
               placeholder="Select a team"
-              loading={loading}
-              disabled={loading || hasNoTeams}
+              loading={teamQuery.isLoading}
+              disabled={teamQuery.isLoading || hasNoTeams}
               showSearch
               optionFilterProp="children"
               filterOption={(input, option) =>
@@ -142,16 +142,18 @@ export const SessionEditor: React.FC<SessionEditorProps> = ({
                   .toLowerCase()
                   .includes(input.toLowerCase())
               }
-              options={teamQuery.data?.rows.map((team) => ({
+              options={teamQuery.data?.rows?.map((team) => ({
                 value: team.metadata.id,
                 label: `${team.config.name} (${team.config.team_type})`,
               }))}
-              notFoundContent={loading ? <Spin size="small" /> : null}
+              notFoundContent={
+                teamQuery.isLoading ? <Spin size="small" /> : null
+              }
             />
           </Form.Item>
         </div>
 
-        <div className="text-sm text-accent ">
+        <div className="text-sm ">
           <CustomLink to="/build">view all teams</CustomLink>
         </div>
 
@@ -164,8 +166,10 @@ export const SessionEditor: React.FC<SessionEditorProps> = ({
 
         <Form.Item className="flex justify-end mb-0">
           <div className="flex gap-2">
-            <Button onClick={onCancel}>Cancel</Button>
-            <Button type="primary" htmlType="submit" disabled={hasNoTeams}>
+            <Button variant="outline" onClick={onCancel}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={hasNoTeams}>
               {session ? "Update" : "Create"}
             </Button>
           </div>
@@ -174,5 +178,3 @@ export const SessionEditor: React.FC<SessionEditorProps> = ({
     </Modal>
   );
 };
-
-export default SessionEditor;
