@@ -2162,7 +2162,7 @@ export type Team = {
   name: string;
   userId: string;
   version?: string;
-  config: {
+  component: {
     [key: string]: unknown;
   };
 };
@@ -2177,6 +2177,9 @@ export type TeamUpdate = {
   name: string;
   userId: string;
   version: string;
+  component: {
+    [key: string]: unknown;
+  };
 };
 
 export type Agent = {
