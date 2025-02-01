@@ -1,8 +1,10 @@
+import { useMutation } from "@tanstack/react-query";
 import { Modal, message } from "antd";
 import { ChevronRight } from "lucide-react";
+import { teamCreateMutation } from "mtmaiapi";
 import type React from "react";
-import { useCallback, useContext, useEffect, useState } from "react";
-import { appContext } from "../../../../stores/agStoreProvider";
+import { useCallback, useEffect, useState } from "react";
+import { useTenant, useUser } from "../../../../hooks/useAuth";
 import type { Team } from "../../types/datamodel";
 import { teamAPI } from "./api";
 import { TeamBuilder } from "./builder/builder";
@@ -19,9 +21,11 @@ export const TeamManager: React.FC = () => {
     }
   });
 
-  const { user } = useContext(appContext);
+  // const { user } = useContext(appContext);
   const [messageApi, contextHolder] = message.useMessage();
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const user = useUser();
+  const tenant = useTenant();
 
   // Persist sidebar state
   useEffect(() => {
@@ -127,42 +131,51 @@ export const TeamManager: React.FC = () => {
   };
 
   const handleCreateTeam = (newTeam: Team) => {
+    console.log("newTeam", newTeam);
     setCurrentTeam(newTeam);
     // also save it to db
 
     handleSaveTeam(newTeam);
   };
 
+  const createTeamMutation = useMutation({
+    // ...createteamm
+    ...teamCreateMutation({}),
+  });
+
   const handleSaveTeam = async (teamData: Partial<Team>) => {
-    if (!user?.email) return;
+    // if (!user?.email) return;
+    console.log("teamData", teamData);
+    const sanitizedTeamData = {
+      ...teamData,
+      created_at: undefined, // Remove these fields
+      updated_at: undefined, // Let server handle timestamps
+    };
 
-    try {
-      const sanitizedTeamData = {
-        ...teamData,
-        created_at: undefined, // Remove these fields
-        updated_at: undefined, // Let server handle timestamps
-      };
+    console.log("teamData", sanitizedTeamData);
+    const savedTeam = await createTeamMutation.mutateAsync({
+      path: {
+        tenant: tenant!.metadata.id,
+      },
+      body: {
+        ...sanitizedTeamData,
+      },
+    });
 
-      console.log("teamData", sanitizedTeamData);
-      const savedTeam = await teamAPI.createTeam(sanitizedTeamData, user.email);
+    messageApi.success(
+      `Team ${teamData.id ? "updated" : "created"} successfully`,
+    );
 
-      messageApi.success(
-        `Team ${teamData.id ? "updated" : "created"} successfully`,
-      );
-
-      // Update teams list
-      if (teamData.id) {
-        setTeams(teams.map((t) => (t.id === savedTeam.id ? savedTeam : t)));
-        if (currentTeam?.id === savedTeam.id) {
-          setCurrentTeam(savedTeam);
-        }
-      } else {
-        setTeams([savedTeam, ...teams]);
-        setCurrentTeam(savedTeam);
-      }
-    } catch (error) {
-      throw error;
-    }
+    // Update teams list
+    // if (teamData.id) {
+    //   setTeams(teams.map((t) => (t.id === savedTeam.id ? savedTeam : t)));
+    //   if (currentTeam?.id === savedTeam.id) {
+    //     setCurrentTeam(savedTeam);
+    //   }
+    // } else {
+    //   setTeams([savedTeam, ...teams]);
+    //   setCurrentTeam(savedTeam);
+    // }
   };
 
   return (
