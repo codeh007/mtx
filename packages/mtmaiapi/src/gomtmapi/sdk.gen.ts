@@ -354,6 +354,13 @@ import type {
   GalleryCreateError,
   GalleryGetData,
   GalleryGetResponse,
+  SessionListData,
+  SessionListResponse,
+  SessionCreateData,
+  SessionCreateResponse,
+  SessionCreateError,
+  SessionGetData,
+  SessionGetResponse,
   AgentNodeListData,
   AgentNodeListResponse,
   AgentCreateData,
@@ -3787,6 +3794,90 @@ export const galleryGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/gallery/{gallery}",
+    ...options,
+  });
+};
+
+/**
+ * 获取租户下的会话列表
+ * 获取会话列表
+ */
+export const sessionList = <ThrowOnError extends boolean = false>(
+  options: Options<SessionListData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    SessionListResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/sessions",
+    ...options,
+  });
+};
+
+/**
+ * create session
+ */
+export const sessionCreate = <ThrowOnError extends boolean = false>(
+  options: Options<SessionCreateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).post<
+    SessionCreateResponse,
+    SessionCreateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/sessions",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * 获取租户下的会话
+ * 获取会话
+ */
+export const sessionGet = <ThrowOnError extends boolean = false>(
+  options: Options<SessionGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    SessionGetResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/sessions/{session}",
     ...options,
   });
 };

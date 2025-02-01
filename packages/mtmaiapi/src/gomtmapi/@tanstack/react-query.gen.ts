@@ -250,6 +250,11 @@ import type {
   GalleryCreateError,
   GalleryCreateResponse,
   GalleryGetData,
+  SessionListData,
+  SessionCreateData,
+  SessionCreateError,
+  SessionCreateResponse,
+  SessionGetData,
   AgentNodeListData,
   AgentCreateData,
   AgentCreateError,
@@ -456,6 +461,9 @@ import {
   galleryList,
   galleryCreate,
   galleryGet,
+  sessionList,
+  sessionCreate,
+  sessionGet,
   agentNodeList,
   agentCreate,
   agentNode,
@@ -4243,6 +4251,83 @@ export const galleryGetOptions = (options: Options<GalleryGetData>) => {
       return data;
     },
     queryKey: galleryGetQueryKey(options),
+  });
+};
+
+export const sessionListQueryKey = (options: Options<SessionListData>) => [
+  createQueryKey("sessionList", options),
+];
+
+export const sessionListOptions = (options: Options<SessionListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await sessionList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: sessionListQueryKey(options),
+  });
+};
+
+export const sessionCreateQueryKey = (options: Options<SessionCreateData>) => [
+  createQueryKey("sessionCreate", options),
+];
+
+export const sessionCreateOptions = (options: Options<SessionCreateData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await sessionCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: sessionCreateQueryKey(options),
+  });
+};
+
+export const sessionCreateMutation = (
+  options?: Partial<Options<SessionCreateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    SessionCreateResponse,
+    SessionCreateError,
+    Options<SessionCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await sessionCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const sessionGetQueryKey = (options: Options<SessionGetData>) => [
+  createQueryKey("sessionGet", options),
+];
+
+export const sessionGetOptions = (options: Options<SessionGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await sessionGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: sessionGetQueryKey(options),
   });
 };
 

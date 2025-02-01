@@ -8,7 +8,7 @@ import {
   UserCircle,
 } from "lucide-react";
 import { useCallback } from "react";
-import type { RunStatus } from "../../../../types/datamodel";
+import type { RunStatus } from "../../../../components/types/datamodel";
 
 export type NodeType = "agent" | "user" | "end";
 

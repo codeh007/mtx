@@ -2256,6 +2256,26 @@ export type GalleryUpdate = {
   userId: string;
 };
 
+export type Session = {
+  metadata: ApiResourceMeta;
+  name: string;
+  userId: string;
+  teamId: string;
+  version: string;
+};
+
+export type SessionList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Session>;
+};
+
+export type SessionUpdate = {
+  metadata?: ApiResourceMeta;
+  name?: string;
+  userId?: string;
+  version?: string;
+};
+
 export type Agent = {
   metadata?: ApiResourceMeta;
   /**
@@ -7818,6 +7838,79 @@ export type GalleryGetResponses = {
 };
 
 export type GalleryGetResponse = GalleryGetResponses[keyof GalleryGetResponses];
+
+export type SessionListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/sessions";
+};
+
+export type SessionListResponses = {
+  200: SessionList;
+};
+
+export type SessionListResponse =
+  SessionListResponses[keyof SessionListResponses];
+
+export type SessionCreateData = {
+  body: Session;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/sessions";
+};
+
+export type SessionCreateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type SessionCreateError = SessionCreateErrors[keyof SessionCreateErrors];
+
+export type SessionCreateResponses = {
+  200: Session;
+};
+
+export type SessionCreateResponse =
+  SessionCreateResponses[keyof SessionCreateResponses];
+
+export type SessionGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The session id
+     */
+    session: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/sessions/{session}";
+};
+
+export type SessionGetResponses = {
+  200: Session;
+};
+
+export type SessionGetResponse = SessionGetResponses[keyof SessionGetResponses];
 
 export type AgentNodeListData = {
   body?: never;

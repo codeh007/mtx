@@ -1,26 +1,30 @@
-import React, { useState, useRef, useEffect } from "react";
-import {
-  StopCircle,
-  MessageSquare,
-  Loader2,
-  CheckCircle,
-  AlertTriangle,
-  TriangleAlertIcon,
-  GroupIcon,
-  ChevronDown,
-  ChevronUp,
-  Bot,
-} from "lucide-react";
-import { Run, Message, TeamConfig } from "../../../types/datamodel";
-import AgentFlow from "./agentflow/agentflow";
-import { RenderMessage } from "./rendermessage";
-import InputRequestView from "./inputrequest";
 import { Tooltip } from "antd";
 import {
-  getRelativeTimeString,
+  AlertTriangle,
+  Bot,
+  CheckCircle,
+  ChevronDown,
+  ChevronUp,
+  Loader2,
+  MessageSquare,
+  StopCircle,
+  TriangleAlertIcon,
+} from "lucide-react";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
+import type {
+  Message,
+  Run,
+  TeamConfig,
+} from "../../../components/types/datamodel";
+import {
   LoadingDots,
   TruncatableText,
-} from "../../atoms";
+  getRelativeTimeString,
+} from "../../../components/views/atoms";
+import AgentFlow from "./agentflow/agentflow";
+import InputRequestView from "./inputrequest";
+import { RenderMessage } from "./rendermessage";
 
 interface RunViewProps {
   run: Run;

@@ -1,12 +1,12 @@
 "use client";
 
 import {
-  PaperAirplaneIcon,
   Cog6ToothIcon,
   ExclamationTriangleIcon,
+  PaperAirplaneIcon,
 } from "@heroicons/react/24/outline";
 import * as React from "react";
-import { IStatus } from "../../../types/app";
+import type { IStatus } from "../../../components/types/app";
 
 interface ChatInputProps {
   onSubmit: (text: string) => void;

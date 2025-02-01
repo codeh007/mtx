@@ -17,6 +17,7 @@ import {
   Users,
   Wrench,
 } from "lucide-react";
+import { Button } from "mtxuilib/ui/button";
 import type React from "react";
 import type {
   AgentConfig,
@@ -124,15 +125,16 @@ const BaseNode: React.FC<BaseNodeProps> = ({
             <span className="text-xs px-2 py-1 bg-gray-200 rounded text-gray-700">
               {data.type}
             </span>
-            <button
+            <Button
+              variant="ghost"
               onClick={(e) => {
                 e.stopPropagation();
                 setSelectedNode(id);
               }}
               className="p-1 hover:bg-secondary rounded"
             >
-              <Edit className="w-4 h-4 text-accent" />
-            </button>
+              <Edit className="w-4 h-4" />
+            </Button>
             {showDelete && (
               <>
                 <button

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
 import { ChevronRight, TriangleAlert } from "lucide-react";
-import { DeploySidebar } from "./sidebar";
-import { Guide, defaultGuides } from "./types";
+import type React from "react";
+import { useEffect, useState } from "react";
 import { GuideContent } from "./guides/guides";
+import { DeploySidebar } from "./sidebar";
+import { type Guide, defaultGuides } from "./types";
 
 export const DeployManager: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);

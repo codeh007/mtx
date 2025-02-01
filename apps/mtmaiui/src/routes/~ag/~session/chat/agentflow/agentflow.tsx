@@ -13,13 +13,13 @@ import {
 import "@xyflow/react/dist/style.css";
 import type React from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useConfigStore } from "../../../../../../stores/agStore";
+import { useConfigStore } from "../../../../../stores/agStore";
 import type {
   AgentConfig,
   AgentMessageConfig,
   Run,
   TeamConfig,
-} from "../../../../types/datamodel";
+} from "../../../../components/types/datamodel";
 import AgentNode from "./agentnode";
 import { CustomEdge } from "./edge";
 import { EdgeMessageModal } from "./edgemessagemodal";

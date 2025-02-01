@@ -14,7 +14,7 @@ import {
   RotateCcw,
 } from "lucide-react";
 import type React from "react";
-import { useConfigStore } from "../../../../../../stores/agStore";
+import { useConfigStore } from "../../../../../stores/agStore";
 
 interface AgentFlowToolbarProps {
   isFullscreen: boolean;

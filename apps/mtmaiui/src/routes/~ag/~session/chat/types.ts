@@ -1,9 +1,8 @@
-import {
+import type {
   AgentMessageConfig,
   Message,
-  TaskResult,
   ThreadStatus,
-} from "../../../types/datamodel";
+} from "../../../components/types/datamodel";
 
 export interface ThreadState {
   messages: AgentMessageConfig[];
