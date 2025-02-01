@@ -103,7 +103,7 @@ jobs:
       - name: install gomtm
         run: |
           cd packages/gomtm-cli
-          npm i -g
+          bun i -g
 
       - name: deploy mtmaiui cfpage
         run: |
