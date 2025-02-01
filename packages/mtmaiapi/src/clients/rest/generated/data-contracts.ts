@@ -1929,7 +1929,7 @@ export interface Team {
   name: string;
   userId: string;
   version?: string;
-  config: object;
+  component: object;
 }
 
 export interface TeamList {
@@ -1942,6 +1942,7 @@ export interface TeamUpdate {
   name: string;
   userId: string;
   version: string;
+  component: object;
 }
 
 export interface Agent {

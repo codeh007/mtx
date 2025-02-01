@@ -40,6 +40,8 @@ env:
   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
   GOPRIVATE: ${{ secrets.GOPRIVATE }}
   GIT_CREDENTIALS: ${{ secrets.GIT_CREDENTIALS }}
+  MAIN_GH_TOKEN: ${{ secrets.MAIN_GH_TOKEN }}
+  MAIN_GH_USER: ${{ secrets.MAIN_GH_USER }}
 
   # Tag Image with tag name on release
   # else with user specified tag (default 'dev') if triggered via workflow
