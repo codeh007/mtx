@@ -49,7 +49,6 @@ const GalleryRouteLazyImport = createFileRoute('/gallery')()
 const EnvsRouteLazyImport = createFileRoute('/envs')()
 const EndpointRouteLazyImport = createFileRoute('/endpoint')()
 const ChatRouteLazyImport = createFileRoute('/chat')()
-const AgRouteLazyImport = createFileRoute('/ag')()
 const DashWorkflowsRouteLazyImport = createFileRoute('/dash/workflows')()
 const DashSiteRouteLazyImport = createFileRoute('/dash/site')()
 const TeamIndexLazyImport = createFileRoute('/team/')()
@@ -117,12 +116,6 @@ const ChatRouteLazyRoute = ChatRouteLazyImport.update({
   path: '/chat',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~chat/~route.lazy').then((d) => d.Route))
-
-const AgRouteLazyRoute = AgRouteLazyImport.update({
-  id: '/ag',
-  path: '/ag',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/~ag/~route.lazy').then((d) => d.Route))
 
 const PlatformRouteRoute = PlatformRouteImport.update({
   id: '/platform',
@@ -351,13 +344,6 @@ declare module '@tanstack/react-router' {
       path: '/platform'
       fullPath: '/platform'
       preLoaderRoute: typeof PlatformRouteImport
-      parentRoute: typeof rootRoute
-    }
-    '/ag': {
-      id: '/ag'
-      path: '/ag'
-      fullPath: '/ag'
-      preLoaderRoute: typeof AgRouteLazyImport
       parentRoute: typeof rootRoute
     }
     '/chat': {
@@ -831,7 +817,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
   '/platform': typeof PlatformRouteRouteWithChildren
-  '/ag': typeof AgRouteLazyRoute
   '/chat': typeof ChatRouteLazyRouteWithChildren
   '/endpoint': typeof EndpointRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
@@ -874,7 +859,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
-  '/ag': typeof AgRouteLazyRoute
   '/chat': typeof ChatIndexRoute
   '/endpoint': typeof EndpointIndexRoute
   '/gallery': typeof GalleryIndexRoute
@@ -906,7 +890,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
   '/platform': typeof PlatformRouteRouteWithChildren
-  '/ag': typeof AgRouteLazyRoute
   '/chat': typeof ChatRouteLazyRouteWithChildren
   '/endpoint': typeof EndpointRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
@@ -952,7 +935,6 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/platform'
-    | '/ag'
     | '/chat'
     | '/endpoint'
     | '/envs'
@@ -994,7 +976,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
-    | '/ag'
     | '/chat'
     | '/endpoint'
     | '/gallery'
@@ -1024,7 +1005,6 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/platform'
-    | '/ag'
     | '/chat'
     | '/endpoint'
     | '/envs'
@@ -1069,7 +1049,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   PlatformRouteRoute: typeof PlatformRouteRouteWithChildren
-  AgRouteLazyRoute: typeof AgRouteLazyRoute
   ChatRouteLazyRoute: typeof ChatRouteLazyRouteWithChildren
   EndpointRouteLazyRoute: typeof EndpointRouteLazyRouteWithChildren
   EnvsRouteLazyRoute: typeof EnvsRouteLazyRouteWithChildren
@@ -1087,7 +1066,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   PlatformRouteRoute: PlatformRouteRouteWithChildren,
-  AgRouteLazyRoute: AgRouteLazyRoute,
   ChatRouteLazyRoute: ChatRouteLazyRouteWithChildren,
   EndpointRouteLazyRoute: EndpointRouteLazyRouteWithChildren,
   EnvsRouteLazyRoute: EnvsRouteLazyRouteWithChildren,
@@ -1114,7 +1092,6 @@ export const routeTree = rootRoute
         "/",
         "/auth",
         "/platform",
-        "/ag",
         "/chat",
         "/endpoint",
         "/envs",
@@ -1142,9 +1119,6 @@ export const routeTree = rootRoute
       "children": [
         "/platform/"
       ]
-    },
-    "/ag": {
-      "filePath": "~ag/~route.lazy.tsx"
     },
     "/chat": {
       "filePath": "~chat/~route.lazy.tsx",

@@ -21,21 +21,12 @@
   },
   "dependencies": {
     "@codemirror/lang-sql": "^6.8.0",
-    "@tanstack/react-query": "^5.62.14",
-    "@tanstack/react-query-devtools": "^5.62.14",
-    "@tanstack/react-query-next-experimental": "^5.62.14",
-    "@tanstack/react-router": "^1.93.0",
-    "@tanstack/react-table": "^8.20.6",
-    "@tanstack/router-devtools": "^1.93.0",
-    "@tanstack/router-plugin": "^1.93.0",
-    "@tanstack/start": "^1.93.0",
     "get-port": "^7.1.0",
     "mtxuilib": "*",
     "next": "^15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "redaxios": "^0.5.1",
-    "styled-jsx": "^5.1.6",
     "superjson": "^2.2.2",
     "zod": "^3.23.8"
   },
@@ -51,5 +42,8 @@
     "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.7"
+  },
+  "other": {
+    "styled-jsx": "^5.1.6"
   }
 }

@@ -1,13 +1,11 @@
 import { Dialog } from "@headlessui/react";
 import { ConfigProvider } from "antd";
-// import "antd/dist/reset.css";
 import { X } from "lucide-react";
 import * as React from "react";
 import { useEffect } from "react";
 import { useConfigStore } from "../../stores/agStore";
 import { appContext } from "../../stores/agStoreProvider";
 import ContentHeader from "./contentheader";
-import Footer from "./footer";
 const classNames = (...classes: (string | undefined | boolean)[]) => {
   return classes.filter(Boolean).join(" ");
 };
@@ -112,7 +110,7 @@ export const Layout = ({
           <main className="flex-1 p-2 text-primary">{children}</main>
         </ConfigProvider>
 
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </div>
   );
