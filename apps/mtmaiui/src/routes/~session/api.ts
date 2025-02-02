@@ -1,4 +1,5 @@
-import type { Session, SessionRuns } from "../components/types/datamodel";
+import { Session } from "mtmaiapi";
+import type { SessionRuns } from "../components/types/datamodel";
 // import { getServerUrl } from "../components/utils";
 
 export class SessionAPI {
@@ -38,50 +39,50 @@ export class SessionAPI {
     return data.data;
   }
 
-  async createSession(
-    sessionData: Partial<Session>,
-    userId: string,
-  ): Promise<Session> {
-    const session = {
-      ...sessionData,
-      user_id: userId, // Ensure user_id is included
-    };
+  // async createSession(
+  //   sessionData: Partial<Session>,
+  //   userId: string,
+  // ): Promise<Session> {
+  //   const session = {
+  //     ...sessionData,
+  //     user_id: userId, // Ensure user_id is included
+  //   };
 
-    const response = await fetch(`${this.getBaseUrl()}/sessions/`, {
-      method: "POST",
-      headers: this.getHeaders(),
-      body: JSON.stringify(session),
-    });
-    const data = await response.json();
-    if (!data.status)
-      throw new Error(data.message || "Failed to create session");
-    return data.data;
-  }
+  //   const response = await fetch(`${this.getBaseUrl()}/sessions/`, {
+  //     method: "POST",
+  //     headers: this.getHeaders(),
+  //     body: JSON.stringify(session),
+  //   });
+  //   const data = await response.json();
+  //   if (!data.status)
+  //     throw new Error(data.message || "Failed to create session");
+  //   return data.data;
+  // }
 
-  async updateSession(
-    sessionId: number,
-    sessionData: Partial<Session>,
-    userId: string,
-  ): Promise<Session> {
-    const session = {
-      ...sessionData,
-      id: sessionId,
-      user_id: userId, // Ensure user_id is included
-    };
+  // async updateSession(
+  //   sessionId: number,
+  //   sessionData: Partial<Session>,
+  //   userId: string,
+  // ): Promise<Session> {
+  //   const session = {
+  //     ...sessionData,
+  //     id: sessionId,
+  //     user_id: userId, // Ensure user_id is included
+  //   };
 
-    const response = await fetch(
-      `${this.getBaseUrl()}/sessions/${sessionId}?user_id=${userId}`,
-      {
-        method: "PUT",
-        headers: this.getHeaders(),
-        body: JSON.stringify(session),
-      },
-    );
-    const data = await response.json();
-    if (!data.status)
-      throw new Error(data.message || "Failed to update session");
-    return data.data;
-  }
+  //   const response = await fetch(
+  //     `${this.getBaseUrl()}/sessions/${sessionId}?user_id=${userId}`,
+  //     {
+  //       method: "PUT",
+  //       headers: this.getHeaders(),
+  //       body: JSON.stringify(session),
+  //     },
+  //   );
+  //   const data = await response.json();
+  //   if (!data.status)
+  //     throw new Error(data.message || "Failed to update session");
+  //   return data.data;
+  // }
 
   // session runs with messages
   async getSessionRuns(
