@@ -1,10 +1,10 @@
 import type { AgentConfig, Team } from "../../types/datamodel";
-import { getServerUrl } from "../../utils";
+// import { getServerUrl } from "../../utils";
 
 export class TeamAPI {
-  private getBaseUrl(): string {
-    return getServerUrl();
-  }
+  // private getBaseUrl(): string {
+  //   return getServerUrl();
+  // }
 
   private getHeaders(): HeadersInit {
     return {
