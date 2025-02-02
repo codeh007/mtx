@@ -1,15 +1,15 @@
 import { useMutation } from "@tanstack/react-query";
 import message from "antd/es/message";
 import {
-    Bot,
-    Copy,
-    GalleryHorizontalEnd,
-    InfoIcon,
-    PanelLeftClose,
-    PanelLeftOpen,
-    Plus,
-    RefreshCcw,
-    Trash2,
+  Bot,
+  Copy,
+  GalleryHorizontalEnd,
+  InfoIcon,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Plus,
+  RefreshCcw,
+  Trash2,
 } from "lucide-react";
 import { type Team, teamCreateMutation } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
@@ -244,7 +244,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                     }`}
                     // onClick={() => onSelectTeam(team)}
                   >
-                    <CustomLink to={`/ag/team/${team.metadata.id}`}>
+                    <CustomLink to={`${team.metadata.id}`}>
                       {/* Team Name and Actions Row */}
                       <div className="flex items-center justify-between">
                         <span className="font-medium truncate">
@@ -271,7 +271,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                                 className="p-0 min-w-[24px] h-6"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  if (team.id) onDeleteTeam(team.id);
+                                  if (team.metadata.id) onDeleteTeam(team.metadata.id);
                                 }}
                               >
                                 <Trash2 className="w-4 h-4 text-red-500" />
