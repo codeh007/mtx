@@ -16,7 +16,7 @@ import type {
   RewriteArtifactMetaToolResponse,
 } from "mtmaiapi";
 import { isArtifactCodeContent } from "mtxuilib/lib/artifact_content_types";
-import { cleanContent } from "mtxuilib/lib/s-utils";
+import { cleanContent } from "mtxuilib/lib/sslib";
 
 export function removeCodeBlockFormatting(text: string): string {
   if (!text) return text;

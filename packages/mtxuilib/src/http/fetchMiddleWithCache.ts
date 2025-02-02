@@ -1,10 +1,6 @@
 import { LRUCache } from "lru-cache";
-import { sha256WithAlphabets } from "../lib/hash";
+import { sha256WithAlphabets } from "../lib/utils";
 import type { FetchType } from "./mthttp";
-
-// type makeCacheKeyFn = (req: string | URL | globalThis.Request) => Promise<string>
-
-//cache ==================================================================================
 
 const options: LRUCache.Options<any, any, any> = {
   max: 500,
@@ -56,7 +52,7 @@ export function fetchMiddleWithCache(fetcher: FetchType) {
       return new Response(new Uint8Array(cacheObj as ArrayBuffer));
     }
     const response = await fetcher(input, init);
-    if (response.status == 200 && response.body) {
+    if (response.status === 200 && response.body) {
       const [s1, s2] = response.body.tee();
       writeStreamToCache(key, s2);
       return new Response(s1, response);
@@ -76,7 +72,10 @@ async function writeStreamToCache(key: string, steam: ReadableStream) {
     if (value) chunks.push(value);
   }
   const byteArray = new Uint8Array(
-    chunks.reduce((acc, chunk) => [...acc, ...Array.from(chunk)], []),
+    chunks.reduce((acc, chunk) => {
+      const array = Array.from(chunk);
+      return acc.concat(array);
+    }, []),
   );
   // 存储到缓存中
   if (byteArray.buffer.byteLength > 0) {
