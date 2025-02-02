@@ -78,7 +78,6 @@ import {
   LogLineOrderByDirection,
   LogLineOrderByField,
   LogLineSearch,
-  OperataionGuideResponse,
   Platform,
   PlatformAccount,
   PlatformAccountList,
@@ -126,7 +125,6 @@ import {
   TenantQueueMetrics,
   TenantResourcePolicy,
   TenantStepRunQueueMetrics,
-  ToolCallResult,
   TriggerWorkflowRunRequest,
   UpdateBlogRequest,
   UpdateEndpointRequest,
@@ -144,7 +142,6 @@ import {
   WebhookWorkerCreateRequest,
   WebhookWorkerListResponse,
   WebhookWorkerRequestListResponse,
-  WebSearchResult,
   Worker,
   WorkerConfig,
   WorkerList,
@@ -2730,65 +2727,6 @@ export class Api<
       ...params,
     });
   /**
-   * @description 调用工具
-   *
-   * @tags tool
-   * @name ToolCall
-   * @request POST:/api/v1/tenants/{tenant}/tools/call/{tool}
-   * @secure
-   */
-  toolCall = (
-    tenant: TenantParameter,
-    tool: string,
-    params: RequestParams = {},
-  ) =>
-    this.request<ToolCallResult, any>({
-      path: `/api/v1/tenants/${tenant}/tools/call/${tool}`,
-      method: "POST",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description ai agent 在自动化操作过程中，必须参考这个操作说明来完成自动化操作
-   *
-   * @tags tools
-   * @name ToolsOperationGuide
-   * @request GET:/api/v1/tools/operationGuide
-   * @secure
-   */
-  toolsOperationGuide = (
-    query: {
-      /** operation name */
-      operation: string;
-    },
-    params: RequestParams = {},
-  ) =>
-    this.request<OperataionGuideResponse, any>({
-      path: `/api/v1/tools/operationGuide`,
-      method: "GET",
-      query: query,
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description 使用工具进行网络搜索
-   *
-   * @tags tools, websearch
-   * @name ToolsWebsearch
-   * @request POST:/api/v1/tenants/{tenant}/tools/websearch
-   * @secure
-   */
-  toolsWebsearch = (tenant: TenantParameter, params: RequestParams = {}) =>
-    this.request<WebSearchResult, any>({
-      path: `/api/v1/tenants/${tenant}/tools/websearch`,
-      method: "POST",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
    * @description Get the artifacts for the tenant
    *
    * @tags artifact
@@ -3154,29 +3092,6 @@ export class Api<
   ) =>
     this.request<AgentNodeRun, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/nodes/run`,
-      method: "POST",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description 执行autogen
-   *
-   * @tags agent
-   * @name AgentRun
-   * @request POST:/api/v1/tenants/{tenant}/nodes/runV2/{session}
-   * @secure
-   */
-  agentRun = (
-    tenant: TenantParameter,
-    session: string,
-    data: AgentNodeRunInput,
-    params: RequestParams = {},
-  ) =>
-    this.request<AgentNodeRun, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/nodes/runV2/${session}`,
       method: "POST",
       body: data,
       secure: true,

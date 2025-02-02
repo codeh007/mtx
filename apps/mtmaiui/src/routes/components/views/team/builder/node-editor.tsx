@@ -3,27 +3,26 @@ import type React from "react";
 import { useEffect, useState } from "react";
 import type {
   AgentConfig,
-  AgentTypes,
-  AzureOpenAIModelConfig,
+  // AgentTypes,
+  // AzureOpenAIModelConfig,
   CombinationTerminationConfig,
-  ComponentConfigTypes,
-  ComponentTypes,
+  // ComponentConfigTypes,
+  // ComponentTypes,
   MaxMessageTerminationConfig,
-  ModelConfig,
-  ModelTypes,
-  OpenAIModelConfig,
+  // ModelConfig,
+  // ModelTypes,
+  // OpenAIModelConfig,
   RoundRobinGroupChatConfig,
   SelectorGroupChatConfig,
   TeamConfig,
-  TeamTypes,
+  // TeamTypes,
   TerminationConfig,
-  TerminationTypes,
+  // TerminationTypes,
   TextMentionTerminationConfig,
-  ToolConfig,
-  ToolTypes,
 } from "../../../types/datamodel";
 import { useTeamBuilderStore } from "./store";
 import type { NodeEditorProps } from "./types";
+import { ModelConfig, ModelTypes, AgentTypes, ToolConfig, ToolTypes } from "mtmaiapi";
 
 const { TextArea } = Input;
 

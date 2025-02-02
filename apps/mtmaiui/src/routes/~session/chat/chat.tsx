@@ -1,23 +1,21 @@
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { message } from "antd";
 import { ChevronRight, MessagesSquare } from "lucide-react";
-import { agentRunMutation, Session, teamGetOptions } from "mtmaiapi";
+import { AgentMessageConfig, agentNodeRunMutation, RunStatus, Session, teamGetOptions, TeamResult, WebSocketMessage } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import * as React from "react";
 import { useEffect } from "react";
 import { useTenant } from "../../../hooks/useAuth";
 import { appContext } from "../../../stores/agStoreProvider";
-import type { IStatus } from "../../components/types/app";
+// import type { IStatus } from "../../components/types/app";
 import type {
-  AgentMessageConfig,
+  // AgentMessageConfig,
+  IStatus,
   Run,
-  RunStatus,
-  TeamResult,
-  WebSocketMessage
 } from "../../components/types/datamodel";
 import { sessionAPI } from "../api";
 import ChatInput from "./chatinput";
-import RunView from "./runview";
+import { RunView } from "./runview";
 import { TIMEOUT_CONFIG } from "./types";
 
 interface ChatViewProps {
@@ -120,7 +118,7 @@ export default function ChatView({ session }: ChatViewProps) {
   }, [activeSocket]);
 
   const runMutation = useMutation({
-    ...agentRunMutation({
+    ...agentNodeRunMutation({
       path: {
         tenant: tenant!.metadata.id,
         session: session!.metadata.id,
@@ -379,7 +377,7 @@ export default function ChatView({ session }: ChatViewProps) {
       const response = await runMutation.mutateAsync({
         path: {
           tenant: tenant!.metadata.id,
-          session: session.metadata.id,
+          session: session!.metadata.id,
         },
         body: {
           // session_id: session.metadata.id,
@@ -402,9 +400,9 @@ export default function ChatView({ session }: ChatViewProps) {
       });
 
       // Setup WebSocket
-      const socket = setupWebSocket(runId, query);
-      setActiveSocket(socket);
-      activeSocketRef.current = socket;
+      // const socket = setupWebSocket(runId, query);
+      // setActiveSocket(socket);
+      // activeSocketRef.current = socket;
     } catch (error) {
       handleError(error);
     } finally {

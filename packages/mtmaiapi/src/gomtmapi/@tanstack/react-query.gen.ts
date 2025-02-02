@@ -6,7 +6,6 @@ import {
   type UseMutationOptions,
   infiniteQueryOptions,
   type InfiniteData,
-  type DefaultError,
 } from "@tanstack/react-query";
 import type {
   ReadinessGetData,
@@ -230,11 +229,6 @@ import type {
   PostCreateData,
   PostCreateError,
   PostCreateResponse,
-  ToolCallData,
-  ToolCallResponse,
-  ToolsOperationGuideData,
-  ToolsWebsearchData,
-  ToolsWebsearchResponse,
   ArtifactListData,
   ArtifactCreateData,
   ArtifactCreateError,
@@ -269,9 +263,6 @@ import type {
   AgentNodeRunData,
   AgentNodeRunError,
   AgentNodeRunResponse,
-  AgentRunData,
-  AgentRunError,
-  AgentRunResponse,
   AgentNodeFormData,
   AgentNodeFormError,
   AgentNodeFormResponse,
@@ -455,9 +446,6 @@ import {
   postGet,
   postList,
   postCreate,
-  toolCall,
-  toolsOperationGuide,
-  toolsWebsearch,
   artifactList,
   artifactCreate,
   artifactGet,
@@ -476,7 +464,6 @@ import {
   agentNode,
   agentNodeUpdate,
   agentNodeRun,
-  agentRun,
   agentNodeForm,
   agentList,
   agentGet,
@@ -3934,103 +3921,6 @@ export const postCreateMutation = (
   return mutationOptions;
 };
 
-export const toolCallQueryKey = (options: Options<ToolCallData>) => [
-  createQueryKey("toolCall", options),
-];
-
-export const toolCallOptions = (options: Options<ToolCallData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await toolCall({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: toolCallQueryKey(options),
-  });
-};
-
-export const toolCallMutation = (options?: Partial<Options<ToolCallData>>) => {
-  const mutationOptions: UseMutationOptions<
-    ToolCallResponse,
-    DefaultError,
-    Options<ToolCallData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await toolCall({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const toolsOperationGuideQueryKey = (
-  options: Options<ToolsOperationGuideData>,
-) => [createQueryKey("toolsOperationGuide", options)];
-
-export const toolsOperationGuideOptions = (
-  options: Options<ToolsOperationGuideData>,
-) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await toolsOperationGuide({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: toolsOperationGuideQueryKey(options),
-  });
-};
-
-export const toolsWebsearchQueryKey = (
-  options: Options<ToolsWebsearchData>,
-) => [createQueryKey("toolsWebsearch", options)];
-
-export const toolsWebsearchOptions = (options: Options<ToolsWebsearchData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await toolsWebsearch({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: toolsWebsearchQueryKey(options),
-  });
-};
-
-export const toolsWebsearchMutation = (
-  options?: Partial<Options<ToolsWebsearchData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    ToolsWebsearchResponse,
-    DefaultError,
-    Options<ToolsWebsearchData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await toolsWebsearch({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
 export const artifactListQueryKey = (options: Options<ArtifactListData>) => [
   createQueryKey("artifactList", options),
 ];
@@ -4485,43 +4375,6 @@ export const agentNodeRunMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await agentNodeRun({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const agentRunQueryKey = (options: Options<AgentRunData>) => [
-  createQueryKey("agentRun", options),
-];
-
-export const agentRunOptions = (options: Options<AgentRunData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agentRun({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: agentRunQueryKey(options),
-  });
-};
-
-export const agentRunMutation = (options?: Partial<Options<AgentRunData>>) => {
-  const mutationOptions: UseMutationOptions<
-    AgentRunResponse,
-    AgentRunError,
-    Options<AgentRunData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await agentRun({
         ...options,
         ...localOptions,
         throwOnError: true,
