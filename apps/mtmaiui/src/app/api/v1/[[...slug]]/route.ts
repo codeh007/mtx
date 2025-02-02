@@ -13,10 +13,10 @@ const handler = async (r: Request) => {
 		rewrites: [
 			{
 				from: "/api/v1/chat",
-				to: "https://service1.example.com",
+				to: "http://localhost:7860",
 			},
 			{
-				from: /^\/api\/service2/,
+				from: /^\/api\/service2abde\/notexist/,
 				to: "https://service2.example.com",
 			},
 		],
