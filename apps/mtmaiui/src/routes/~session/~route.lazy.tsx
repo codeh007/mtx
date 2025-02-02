@@ -97,32 +97,32 @@ function RouteComponent() {
     return () => window.removeEventListener('popstate', handleLocationChange)
   }, [session])
 
-  const handleSaveSession = async (sessionData: Partial<Session>) => {
-    if (!user?.email) return
+  // const handleSaveSession = async (sessionData: Partial<Session>) => {
+  //   if (!user?.email) return
 
-    try {
-      if (sessionData.id) {
-        const updated = await sessionAPI.updateSession(
-          sessionData.id,
-          sessionData,
-          user.email,
-        )
-        setSessions(sessions.map((s) => (s.id === updated.id ? updated : s)))
-        if (session?.id === updated.id) {
-          setSession(updated)
-        }
-      } else {
-        const created = await sessionAPI.createSession(sessionData, user.email)
-        setSessions([created, ...sessions])
-        setSession(created)
-      }
-      setIsEditorOpen(false)
-      setEditingSession(undefined)
-    } catch (error) {
-      messageApi.error('Error saving session')
-      console.error(error)
-    }
-  }
+  //   try {
+  //     if (sessionData.id) {
+  //       const updated = await sessionAPI.updateSession(
+  //         sessionData.id,
+  //         sessionData,
+  //         user.email,
+  //       )
+  //       setSessions(sessions.map((s) => (s.id === updated.id ? updated : s)))
+  //       if (session?.id === updated.id) {
+  //         setSession(updated)
+  //       }
+  //     } else {
+  //       const created = await sessionAPI.createSession(sessionData, user.email)
+  //       setSessions([created, ...sessions])
+  //       setSession(created)
+  //     }
+  //     setIsEditorOpen(false)
+  //     setEditingSession(undefined)
+  //   } catch (error) {
+  //     messageApi.error('Error saving session')
+  //     console.error(error)
+  //   }
+  // }
 
   const handleDeleteSession = async (sessionId: number) => {
     if (!user?.email) return

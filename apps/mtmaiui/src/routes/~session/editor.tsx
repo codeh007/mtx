@@ -76,7 +76,7 @@ export const SessionEditor= ({
   //   }
   // }, [form, session, isOpen]);
 
-  const onFinish = async (values) => {
+  const handleSubmit = async (values) => {
     try {
       await onSave({
         ...values,
@@ -116,7 +116,7 @@ export const SessionEditor= ({
         {contextHolder}
         <ZForm
           form={form}
-          handleSubmit={onFinish}
+          handleSubmit={handleSubmit}
         >
 
         <FormField

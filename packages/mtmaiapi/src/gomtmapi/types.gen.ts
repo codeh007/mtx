@@ -7912,6 +7912,42 @@ export type SessionGetResponses = {
 
 export type SessionGetResponse = SessionGetResponses[keyof SessionGetResponses];
 
+export type SessionUpdateData = {
+  body: Session;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The session id
+     */
+    session: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/sessions/{session}";
+};
+
+export type SessionUpdateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type SessionUpdateError = SessionUpdateErrors[keyof SessionUpdateErrors];
+
+export type SessionUpdateResponses = {
+  200: Session;
+};
+
+export type SessionUpdateResponse =
+  SessionUpdateResponses[keyof SessionUpdateResponses];
+
 export type AgentNodeListData = {
   body?: never;
   path: {

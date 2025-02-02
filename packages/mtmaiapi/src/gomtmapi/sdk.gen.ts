@@ -361,6 +361,9 @@ import type {
   SessionCreateError,
   SessionGetData,
   SessionGetResponse,
+  SessionUpdateData,
+  SessionUpdateResponse,
+  SessionUpdateError,
   AgentNodeListData,
   AgentNodeListResponse,
   AgentCreateData,
@@ -3879,6 +3882,37 @@ export const sessionGet = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/sessions/{session}",
     ...options,
+  });
+};
+
+/**
+ * 更新会话
+ * 更新会话
+ */
+export const sessionUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<SessionUpdateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).put<
+    SessionUpdateResponse,
+    SessionUpdateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/sessions/{session}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
