@@ -10,11 +10,10 @@ import {
   StopCircle,
   TriangleAlertIcon,
 } from "lucide-react";
+import { ChatMessage } from "mtmaiapi";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
-import type React from "react";
 import { useEffect, useRef, useState } from "react";
 import type {
-  // Message,
   Run,
   TeamConfig,
 } from "../../components/types/datamodel";
@@ -35,7 +34,7 @@ interface RunViewProps {
   isFirstRun?: boolean;
 }
 
-const RunView({
+export const RunView = ({
   run,
   onInputResponse,
   onCancel,
@@ -58,13 +57,13 @@ const RunView({
     }, 450);
   }, [run.messages]); // Only depend on messages changing
 
-  const calculateThreadTokens = (messages: Message[]) => {
+  const calculateThreadTokens = (messages: ChatMessage[]) => {
     return messages.reduce((total, msg) => {
-      if (!msg.config.models_usage) return total;
+      if (!msg.config?.models_usage) return total;
       return (
         total +
-        (msg.config.models_usage.prompt_tokens || 0) +
-        (msg.config.models_usage.completion_tokens || 0)
+        (msg.config?.models_usage?.prompt_tokens || 0) +
+        (msg.config?.models_usage?.completion_tokens || 0)
       );
     }, 0);
   };
@@ -151,8 +150,7 @@ const RunView({
           </Tooltip>
           {!isFirstRun && (
             <>
-              {" "}
-              |{" "}
+              |
               <TriangleAlertIcon className="w-4 h-4 -mt-1 inline-block mr-1 ml-1" />
               Note: Each run does not share data with previous runs in the same
               session yet.
@@ -177,7 +175,7 @@ const RunView({
           <span className="text-sm font-medium text-primary">Agent Team</span>
         </div>
 
-        <div className="   w-full">
+        <div className="w-full">
           {/* Main Response Container */}
           <div className="p-4 bg-secondary border border-secondary rounded">
             <div className="flex justify-between items-start mb-2">
@@ -226,7 +224,7 @@ const RunView({
           {/* Thread Section */}
           <div className="">
             {run.messages.length > 0 && (
-              <div className="mt-2 pl-4 border-secondary rounded-b border-l-2 border-secondary/30">
+              <div className="mt-2 pl-4 rounded-b border-l-2 border-secondary/30">
                 <div className="flex pt-2">
                   <div className="flex-1">
                     <button
@@ -320,5 +318,3 @@ const RunView({
     </div>
   );
 };
-
-export default RunView;

@@ -122,11 +122,11 @@ interface MessageProps {
   className?: string;
 }
 
-export const RenderMessage: React.FC<MessageProps> = ({
+export const RenderMessage = ({
   message,
   isLast = false,
   className = "",
-}) => {
+}:MessageProps) => {
   if (!message) return null;
   const isUser = messageUtils.isUser(message.source);
   const content = message.content;
