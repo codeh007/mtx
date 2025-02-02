@@ -19,7 +19,7 @@ import { Suspense } from 'react'
 import { DashContent } from '../../components/DashContent'
 import { DashHeaders } from '../../components/DashHeaders'
 import { DashSidebar } from '../../components/sidebar/siderbar'
-import { RootAppWrapper } from '../components/RootAppWrapper.tsx--'
+import { RootAppWrapper } from '../components/RootAppWrapper'
 import { TeamSidebar } from './sidebar'
 
 export const Route = createLazyFileRoute('/team')({
