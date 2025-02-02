@@ -1,0 +1,81 @@
+"use client"
+ 
+import { Check, ChevronsUpDown } from "lucide-react"
+ 
+import { useSuspenseQuery } from "@tanstack/react-query"
+import { teamListOptions } from "mtmaiapi"
+import { cn } from "mtxuilib/lib/utils"
+import { Button } from "mtxuilib/ui/button"
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+} from "mtxuilib/ui/command"
+import { InputProps } from "mtxuilib/ui/input"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "mtxuilib/ui/popover"
+import { useState } from "react"
+import { useTenant } from "../../hooks/useAuth"
+
+export function TeamCombo(props: InputProps) {
+    const [open, setOpen] = useState(false)
+  const [value, setValue] = useState("")
+  const tenant = useTenant()
+
+  const teamsQuery = useSuspenseQuery({
+    ...teamListOptions({
+        path:{
+            tenant: tenant!.metadata.id
+        }
+    })
+  })
+  return <Popover open={open} onOpenChange={setOpen}>
+  <PopoverTrigger asChild>
+    <Button
+      variant="outline"
+      role="combobox"
+      aria-expanded={open}
+      className="w-[200px] justify-between"
+    >
+      {value
+        ? teamsQuery.data?.rows?.find((framework) => framework.metadata.id === value)?.name
+        : "Select ..."}
+      <ChevronsUpDown className="opacity-50" />
+    </Button>
+  </PopoverTrigger>
+  <PopoverContent className="w-[200px] p-0">
+    <Command>
+      <CommandInput placeholder="Search framework..." className="h-9" />
+      <CommandList>
+        <CommandEmpty>No framework found.</CommandEmpty>
+        <CommandGroup>
+          {teamsQuery.data?.rows?.map((team) => (
+            <CommandItem
+              key={team.metadata.id}
+              value={team.metadata.id}
+              onSelect={(currentValue) => {
+                setValue(currentValue === value ? "" : currentValue)
+                setOpen(false)
+              }}
+            >
+              {team.name}
+              <Check
+                className={cn(
+                  "ml-auto",
+                  value === team.metadata.id ? "opacity-100" : "opacity-0"
+                )}
+              />
+            </CommandItem>
+          ))}
+        </CommandGroup>
+      </CommandList>
+    </Command>
+  </PopoverContent>
+</Popover>;
+}

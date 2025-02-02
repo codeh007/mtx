@@ -17,6 +17,7 @@ import { Input } from "mtxuilib/ui/input";
 import { z } from "zod";
 import { CustomLink } from "../../components/CustomLink";
 import { useTenant, useUser } from "../../hooks/useAuth";
+import { TeamCombo } from "../~team/TeamCombo";
 import type { SessionEditorProps } from "./types";
 
 export const SessionEditor= ({
@@ -102,7 +103,6 @@ export const SessionEditor= ({
 
   return (
     <Dialog
-      // title={session ? "Edit Session" : "Create Session"}
       open={isOpen}
       onOpenChange={onCancel}
       // footer={null}
@@ -162,7 +162,8 @@ export const SessionEditor= ({
             <FormItem>
               <FormLabel>teamId</FormLabel>
               <FormControl>
-                <Input placeholder="teamId" {...field} />
+                {/* <Input placeholder="teamId" {...field} /> */}
+                <TeamCombo {...field} />
               </FormControl>
               {/* <FormDescription></FormDescription> */}
               <FormMessage />
