@@ -1,11 +1,12 @@
 import {
-    type Edge,
-    EdgeLabelRenderer,
-    type EdgeProps,
-    getSmoothStepPath,
+  type Edge,
+  EdgeLabelRenderer,
+  type EdgeProps,
+  getSmoothStepPath,
 } from "@xyflow/react";
+import { AgentMessageConfig } from "mtmaiapi";
 import type React from "react";
-import type { AgentMessageConfig } from "../../../components/types/datamodel";
+// import type { AgentMessageConfig } from "../../../components/types/datamodel";
 
 const EDGE_OFFSET = 140;
 
