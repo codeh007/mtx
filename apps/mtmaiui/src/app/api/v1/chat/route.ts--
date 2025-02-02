@@ -1,7 +1,3 @@
-// import { newGraphSseResponse } from "mtxuilib/agentutils/graph_utils";
-// import { cookies } from "next/headers";
-// import type { ChatCompletionCreateParams, ChatCompletionMessageParam } from "openai/resources/chat/completions";
-
 import { newRProxy } from "mtxuilib/http/rproxy";
 
 export const runtime = "edge";
@@ -10,45 +6,45 @@ export const maxDuration = 30;
 
 const remoteUrl = "http://localhost:7860";
 const handler = async (r: Request) => {
-  // 克隆请求以便可以多次读取
-  const clonedRequest = r.clone();
+	// 克隆请求以便可以多次读取
+	const clonedRequest = r.clone();
 
-  const { messages } = (await clonedRequest.json()) as any;
+	const { messages } = (await clonedRequest.json()) as any;
 
-  const rp = newRProxy({
-    baseUrl: remoteUrl,
-  });
+	const rp = newRProxy({
+		baseUrl: remoteUrl,
+	});
 
-  const response = await rp(r);
-  return response;
-  // 基于ai-sdk 的实现
-  // const result = streamText({
-  //   model: openai("gpt-4o"),
-  //   messages,
-  // });
+	const response = await rp(r);
+	return response;
+	// 基于ai-sdk 的实现
+	// const result = streamText({
+	//   model: openai("gpt-4o"),
+	//   messages,
+	// });
 
-  // return result.toDataStreamResponse();
+	// return result.toDataStreamResponse();
 
-  // 备忘代码,调用 langgraph
-  // try {
-  //   const accessToken =
-  //     (await cookies()).get("access_token")?.value ||
-  //     r.headers.get("Authorization");
-  //   if (!accessToken) {
-  //     throw new Error("accessToken is required");
-  //   }
-  //   return newGraphSseResponse("storm", await r.json(), {
-  //     configurable: {
-  //       ctx: {
-  //         accessToken: accessToken,
-  //       },
-  //       backendUrl: process.env.MTMAI_BACKEND,
-  //     },
-  //   });
-  // } catch (e) {
-  //   console.log("run langgraph error", e);
-  //   return new Response(JSON.stringify(e));
-  // }
+	// 备忘代码,调用 langgraph
+	// try {
+	//   const accessToken =
+	//     (await cookies()).get("access_token")?.value ||
+	//     r.headers.get("Authorization");
+	//   if (!accessToken) {
+	//     throw new Error("accessToken is required");
+	//   }
+	//   return newGraphSseResponse("storm", await r.json(), {
+	//     configurable: {
+	//       ctx: {
+	//         accessToken: accessToken,
+	//       },
+	//       backendUrl: process.env.MTMAI_BACKEND,
+	//     },
+	//   });
+	// } catch (e) {
+	//   console.log("run langgraph error", e);
+	//   return new Response(JSON.stringify(e));
+	// }
 };
 
 export const GET = handler;
