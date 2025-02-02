@@ -1,4 +1,5 @@
-import type { Team, TeamConfig } from "../../types/datamodel";
+import type { Team, TeamConfig } from "mtmaiapi";
+// import type { TeamConfig } from "../../types/datamodel";
 
 export interface TeamEditorProps {
   team?: Team;
@@ -42,6 +43,6 @@ export const defaultTeamConfig: TeamConfig = {
   },
 };
 
-export const defaultTeam: Team = {
+export const defaultTeam = {
   config: defaultTeamConfig,
 };

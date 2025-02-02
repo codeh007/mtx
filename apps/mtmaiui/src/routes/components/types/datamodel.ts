@@ -3,7 +3,16 @@
 //   completion_tokens: number;
 // }
 
-import { AgentMessageConfig, AgentTypes, BaseConfig, ModelConfig, TeamResult, ToolConfig } from "mtmaiapi";
+import type {
+  AgentMessageConfig,
+  AgentTypes,
+  BaseConfig,
+  ModelConfig,
+  RunStatus,
+  TeamResult,
+  TeamTypes,
+  ToolConfig,
+} from "mtmaiapi";
 
 // export interface ImageContent {
 //   url: string;
@@ -87,8 +96,6 @@ import { AgentMessageConfig, AgentTypes, BaseConfig, ModelConfig, TeamResult, To
 //   session_id: number;
 //   run_id: string;
 // }
-
-
 
 // export interface SessionRuns {
 //   runs: Run[];
@@ -186,41 +193,41 @@ import { AgentMessageConfig, AgentTypes, BaseConfig, ModelConfig, TeamResult, To
 
 // export type ToolConfig = PythonFunctionToolConfig;
 
-export interface BaseAgentConfig extends BaseConfig {
-  name: string;
-  agent_type: AgentTypes;
-  system_message?: string;
-  model_client?: ModelConfig;
-  tools?: ToolConfig[];
-  description?: string;
-}
+// export interface BaseAgentConfig extends BaseConfig {
+//   name: string;
+//   agent_type: AgentTypes;
+//   system_message?: string;
+//   model_client?: ModelConfig;
+//   tools?: ToolConfig[];
+//   description?: string;
+// }
 
-export interface AssistantAgentConfig extends BaseAgentConfig {
-  agent_type: "AssistantAgent";
-}
+// export interface AssistantAgentConfig extends BaseAgentConfig {
+//   agent_type: "AssistantAgent";
+// }
 
-export interface UserProxyAgentConfig extends BaseAgentConfig {
-  agent_type: "UserProxyAgent";
-}
+// export interface UserProxyAgentConfig extends BaseAgentConfig {
+//   agent_type: "UserProxyAgent";
+// }
 
-export interface MultimodalWebSurferAgentConfig extends BaseAgentConfig {
-  agent_type: "MultimodalWebSurfer";
-}
+// export interface MultimodalWebSurferAgentConfig extends BaseAgentConfig {
+//   agent_type: "MultimodalWebSurfer";
+// }
 
-export interface FileSurferAgentConfig extends BaseAgentConfig {
-  agent_type: "FileSurfer";
-}
+// export interface FileSurferAgentConfig extends BaseAgentConfig {
+//   agent_type: "FileSurfer";
+// }
 
-export interface MagenticOneCoderAgentConfig extends BaseAgentConfig {
-  agent_type: "MagenticOneCoderAgent";
-}
+// export interface MagenticOneCoderAgentConfig extends BaseAgentConfig {
+//   agent_type: "MagenticOneCoderAgent";
+// }
 
-export type AgentConfig =
-  | AssistantAgentConfig
-  | UserProxyAgentConfig
-  | MultimodalWebSurferAgentConfig
-  | FileSurferAgentConfig
-  | MagenticOneCoderAgentConfig;
+// export type AgentConfig =
+//   | AssistantAgentConfig
+//   | UserProxyAgentConfig
+//   | MultimodalWebSurferAgentConfig
+//   | FileSurferAgentConfig
+//   | MagenticOneCoderAgentConfig;
 
 // export interface TerminationConfig extends BaseConfig {
 //   termination_type: TerminationTypes;
@@ -228,49 +235,49 @@ export type AgentConfig =
 //   text?: string;
 // }
 
-export interface BaseTerminationConfig extends BaseConfig {
-  termination_type: TerminationTypes;
+// export interface BaseTerminationConfig extends BaseConfig {
+//   termination_type: TerminationTypes;
+// }
+
+// export interface MaxMessageTerminationConfig extends BaseTerminationConfig {
+//   termination_type: "MaxMessageTermination";
+//   max_messages: number;
+// }
+
+// export interface TextMentionTerminationConfig extends BaseTerminationConfig {
+//   termination_type: "TextMentionTermination";
+//   text: string;
+// }
+
+// export interface CombinationTerminationConfig extends BaseTerminationConfig {
+//   termination_type: "CombinationTermination";
+//   operator: "and" | "or";
+//   conditions: TerminationConfig[];
 }
 
-export interface MaxMessageTerminationConfig extends BaseTerminationConfig {
-  termination_type: "MaxMessageTermination";
-  max_messages: number;
-}
+// export type TerminationConfig =
+//   | MaxMessageTerminationConfig
+//   | TextMentionTerminationConfig
+//   | CombinationTerminationConfig;
 
-export interface TextMentionTerminationConfig extends BaseTerminationConfig {
-  termination_type: "TextMentionTermination";
-  text: string;
-}
+// export interface BaseTeamConfig extends BaseConfig {
+//   name: string;
+//   participants: AgentConfig[];
+//   team_type: TeamTypes;
+//   termination_condition?: TerminationConfig;
+// }
 
-export interface CombinationTerminationConfig extends BaseTerminationConfig {
-  termination_type: "CombinationTermination";
-  operator: "and" | "or";
-  conditions: TerminationConfig[];
-}
+// export interface RoundRobinGroupChatConfig extends BaseTeamConfig {
+//   team_type: "RoundRobinGroupChat";
+// }
 
-export type TerminationConfig =
-  | MaxMessageTerminationConfig
-  | TextMentionTerminationConfig
-  | CombinationTerminationConfig;
+// export interface SelectorGroupChatConfig extends BaseTeamConfig {
+//   team_type: "SelectorGroupChat";
+//   selector_prompt: string;
+//   model_client: ModelConfig;
+// }
 
-export interface BaseTeamConfig extends BaseConfig {
-  name: string;
-  participants: AgentConfig[];
-  team_type: TeamTypes;
-  termination_condition?: TerminationConfig;
-}
-
-export interface RoundRobinGroupChatConfig extends BaseTeamConfig {
-  team_type: "RoundRobinGroupChat";
-}
-
-export interface SelectorGroupChatConfig extends BaseTeamConfig {
-  team_type: "SelectorGroupChat";
-  selector_prompt: string;
-  model_client: ModelConfig;
-}
-
-export type TeamConfig = RoundRobinGroupChatConfig | SelectorGroupChatConfig;
+// export type TeamConfig = RoundRobinGroupChatConfig | SelectorGroupChatConfig;
 
 // export interface Team extends DBModel {
 //   config: TeamConfig;
@@ -282,16 +289,16 @@ export type TeamConfig = RoundRobinGroupChatConfig | SelectorGroupChatConfig;
 //   duration: number;
 // }
 
-export interface Run {
-  id: string;
-  created_at: string;
-  updated_at?: string;
-  status: RunStatus;
-  task: AgentMessageConfig;
-  team_result: TeamResult | null;
-  messages: Message[]; // Change to Message[]
-  error_message?: string;
-}
+// export interface Run {
+//   id: string;
+//   created_at: string;
+//   updated_at?: string;
+//   status: RunStatus;
+//   task: AgentMessageConfig;
+//   team_result: TeamResult | null;
+//   messages: Message[]; // Change to Message[]
+//   error_message?: string;
+// }
 
 // export type RunStatus =
 //   | "created"

@@ -1,28 +1,9 @@
 import { Button, Drawer, Input, Select, Space, message } from "antd";
+import type { AgentConfig, AgentTypes, CombinationTerminationConfig, MaxMessageTerminationConfig, ModelConfig, ModelTypes, TeamConfig, TeamTypes, TerminationConfig, TextMentionTerminationConfig, ToolConfig, ToolTypes } from "mtmaiapi";
 import type React from "react";
 import { useEffect, useState } from "react";
-import type {
-  AgentConfig,
-  // AgentTypes,
-  // AzureOpenAIModelConfig,
-  CombinationTerminationConfig,
-  // ComponentConfigTypes,
-  // ComponentTypes,
-  MaxMessageTerminationConfig,
-  // ModelConfig,
-  // ModelTypes,
-  // OpenAIModelConfig,
-  RoundRobinGroupChatConfig,
-  SelectorGroupChatConfig,
-  TeamConfig,
-  // TeamTypes,
-  TerminationConfig,
-  // TerminationTypes,
-  TextMentionTerminationConfig,
-} from "../../../types/datamodel";
 import { useTeamBuilderStore } from "./store";
 import type { NodeEditorProps } from "./types";
-import { ModelConfig, ModelTypes, AgentTypes, ToolConfig, ToolTypes } from "mtmaiapi";
 
 const { TextArea } = Input;
 
