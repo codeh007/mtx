@@ -1968,7 +1968,8 @@ export type AgentNodeRunInput = {
     | CrewAiParams
     | ScrapeGraphParams
     | BrowserParams
-    | CanvasGraphParams;
+    | CanvasGraphParams
+    | MessageV2;
 };
 
 export type TextHighlight = {
@@ -2570,6 +2571,154 @@ export type ToolCallMessageConfig = BaseMessageConfig & {
 export type ToolCallResultMessageConfig = BaseMessageConfig & {
   content: Array<FunctionExecutionResult>;
 };
+
+export type DbModel = {
+  id: number;
+  user_id: string;
+  created_at: string;
+  updated_at: string;
+  version: number;
+};
+
+export type TeamResult = {
+  task_result: {
+    [key: string]: unknown;
+  };
+  usage: string;
+  duration: number;
+};
+
+export type MessageV2 = DbModel & {
+  config: AgentMessageConfig;
+};
+
+export type InnerMessageConfig =
+  | ToolCallMessageConfig
+  | ToolCallResultMessageConfig;
+
+export type ChatMessageConfig =
+  | TextMessageConfig
+  | MultiModalMessageConfig
+  | StopMessageConfig
+  | HandoffMessageConfig;
+
+export type AgentMessageConfig =
+  | TextMessageConfig
+  | MultiModalMessageConfig
+  | StopMessageConfig
+  | HandoffMessageConfig
+  | ToolCallMessageConfig
+  | ToolCallResultMessageConfig;
+
+export type SessionRuns = {
+  runs: Array<Run>;
+};
+
+export type BaseConfig = {
+  component_type: string;
+  version?: string;
+  description?: string;
+};
+
+export type WebSocketMessage = {
+  type: string;
+  data?: AgentMessageConfig;
+  status?: Status;
+  error?: string;
+  timestamp?: string;
+};
+
+export type TaskResult = {
+  messages: Array<AgentMessageConfig>;
+  stop_reason?: string;
+};
+
+export type Run = {
+  id: string;
+  created_at: string;
+  updated_at?: string;
+  status:
+    | "created"
+    | "active"
+    | "awaiting_input"
+    | "timeout"
+    | "complete"
+    | "error"
+    | "stopped";
+  task: AgentMessageConfig;
+  team_result: TeamResult;
+  messages: Array<{
+    id: string;
+    text?: string;
+    rawResponse?: {
+      [key: string]: unknown;
+    };
+    sender: string;
+    toolCalls?: Array<{
+      id: string;
+      name: string;
+      args: string;
+      result?: {
+        [key: string]: unknown;
+      };
+    }>;
+  }>;
+  error_message?: string;
+};
+
+export type AgentTypes =
+  | "AssistantAgent"
+  | "UserProxyAgent"
+  | "MultimodalWebSurfer"
+  | "FileSurfer"
+  | "MagenticOneCoderAgent";
+
+export type ToolTypes = "PythonFunction";
+
+export type ModelTypes =
+  | "OpenAIChatCompletionClient"
+  | "AzureOpenAIChatCompletionClient";
+
+export type BaseModelConfig = BaseConfig & {
+  model: string;
+  model_type: ModelTypes;
+  api_key?: string;
+  base_url?: string;
+};
+
+export type AzureOpenAiModelConfig = BaseModelConfig & {
+  model_type: "AzureOpenAIChatCompletionClient";
+  azure_deployment: string;
+  api_version: string;
+  azure_endpoint: string;
+  azure_ad_token_provider: string;
+};
+
+export type OpenAiModelConfig = BaseModelConfig & {
+  model_type: "OpenAIChatCompletionClient";
+};
+
+export type ToolConfig = BaseConfig & {
+  name: string;
+  description: string;
+  content: string;
+  tool_type: ToolTypes;
+};
+
+export type ModelConfig = {
+  temperature?: number;
+  modelProvider?: string;
+  maxTokens?: number;
+  azureConfig?: {
+    azureOpenAIApiKey?: string;
+    azureOpenAIApiInstanceName?: string;
+    azureOpenAIApiDeploymentName?: string;
+    azureOpenAIApiVersion?: string;
+    azureOpenAIBasePath?: string;
+  };
+};
+
+export type ModelConfigV2 = AzureOpenAiModelConfig | OpenAiModelConfig;
 
 export type BaseState = {
   metadata: ApiResourceMeta;

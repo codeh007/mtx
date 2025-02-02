@@ -1,8 +1,4 @@
-import type {
-    AgentMessageConfig,
-    Message,
-    ThreadStatus,
-} from "../../components/types/datamodel";
+import { AgentMessageConfig } from "mtmaiapi";
 
 export interface ThreadState {
   messages: AgentMessageConfig[];

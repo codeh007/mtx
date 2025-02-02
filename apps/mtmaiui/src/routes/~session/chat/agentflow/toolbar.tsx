@@ -1,18 +1,19 @@
 import type { MenuProps } from "antd";
-import { Button, Dropdown, Tooltip } from "antd";
+import { Dropdown, Tooltip } from "antd";
 import {
-    ArrowDown,
-    ArrowRight,
-    Grid,
-    Hash,
-    MapIcon,
-    Maximize2,
-    MessageSquareIcon,
-    MessageSquareOffIcon,
-    Minimize2,
-    MoreHorizontal,
-    RotateCcw,
+  ArrowDown,
+  ArrowRight,
+  Grid,
+  Hash,
+  MapIcon,
+  Maximize2,
+  MessageSquareIcon,
+  MessageSquareOffIcon,
+  Minimize2,
+  MoreHorizontal,
+  RotateCcw,
 } from "lucide-react";
+import { Button } from "mtxuilib/ui/button";
 import type React from "react";
 import { useConfigStore } from "../../../../stores/agStore";
 
@@ -77,13 +78,16 @@ export const AgentFlowToolbar: React.FC<AgentFlowToolbarProps> = ({
       <div className="p-1 flex items-center gap-1">
         <Tooltip title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}>
           <Button
-            type="text"
-            icon={
-              isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />
-            }
+            variant="ghost"
             className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
             onClick={onToggleFullscreen}
-          />
+          >
+            {isFullscreen ? (
+              <Minimize2 size={18} />
+            ) : (
+              <Maximize2 size={18} />
+            )}
+          </Button>
         </Tooltip>
 
         <Tooltip
@@ -92,36 +96,34 @@ export const AgentFlowToolbar: React.FC<AgentFlowToolbarProps> = ({
           } Layout`}
         >
           <Button
-            type="text"
-            icon={
-              settings.direction === "TB" ? (
-                <ArrowDown size={18} />
-              ) : (
-                <ArrowRight size={18} />
-              )
-            }
+            variant="ghost"
             className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
             onClick={() =>
               setAgentFlowSettings({
                 direction: settings.direction === "TB" ? "LR" : "TB",
               })
             }
-          />
+          >
+            {settings.direction === "TB" ? (
+              <ArrowDown size={18} />
+            ) : (
+              <ArrowRight size={18} />
+            )}
+          </Button>
         </Tooltip>
 
         <Tooltip title={settings.showLabels ? "Hide Labels" : "Show Labels"}>
           <Button
-            type="text"
-            icon={
-              settings.showLabels ? (
-                <MessageSquareIcon size={18} />
-              ) : (
-                <MessageSquareOffIcon size={18} />
-              )
-            }
+            variant="ghost"
             className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
             onClick={toggleSetting("showLabels")}
-          />
+          >
+            {settings.showLabels ? (
+              <MessageSquareIcon size={18} />
+            ) : (
+              <MessageSquareOffIcon size={18} />
+            )}
+          </Button>
         </Tooltip>
 
         <Dropdown
@@ -133,11 +135,12 @@ export const AgentFlowToolbar: React.FC<AgentFlowToolbarProps> = ({
           overlayStyle={{ zIndex: 1000 }}
         >
           <Button
-            type="text"
-            icon={<MoreHorizontal size={18} />}
+            variant="ghost"
             className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
             title="More Options" // Use native title instead of Tooltip
-          />
+          >
+            <MoreHorizontal size={18} />
+          </Button>
         </Dropdown>
       </div>
     </div>

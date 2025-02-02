@@ -89,11 +89,11 @@ function RouteComponent() {
   }
 
   const handleSelectSession = async (selectedSession: Session) => {
-    if (!user?.email || !selectedSession.id) return
+    if (!user?.email || !selectedSession.metadata.id) return
 
     try {
       setIsLoading(true)
-      const data = await sessionAPI.getSession(selectedSession.id, user.email)
+      const data = await sessionAPI.getSession(selectedSession.metadata.id, user.email)
       if (!data) {
         // Session not found
         messageApi.error('Session not found')
@@ -106,7 +106,7 @@ function RouteComponent() {
         return
       }
       setSession(data)
-      window.history.pushState({}, '', `?sessionId=${selectedSession.id}`)
+      window.history.pushState({}, '', `?sessionId=${selectedSession.metadata.id}`)
     } catch (error) {
       console.error('Error loading session:', error)
       messageApi.error('Error loading session')
@@ -122,7 +122,6 @@ function RouteComponent() {
   }
 
   return (
-    <>
     <RootAppWrapper>
         <DashSidebar />
         <SidebarInset>
@@ -181,6 +180,5 @@ function RouteComponent() {
           </DashContent>
         </SidebarInset>
       </RootAppWrapper>
-    </>
   )
 }

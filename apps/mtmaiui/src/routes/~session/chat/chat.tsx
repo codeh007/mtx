@@ -1,7 +1,7 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { message } from "antd";
 import { ChevronRight, MessagesSquare } from "lucide-react";
-import { Session, teamGetOptions } from "mtmaiapi";
+import { agentRunMutation, Session, teamGetOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import * as React from "react";
 import { useEffect } from "react";
@@ -119,22 +119,30 @@ export default function ChatView({ session }: ChatViewProps) {
     };
   }, [activeSocket]);
 
-  const createRun = async (sessionId: string): Promise<string> => {
-    console.log("createRun", sessionId);
-    const payload = { session_id: sessionId, user_id: user?.email || "" };
-    const response = await fetch(`/runs/`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+  const runMutation = useMutation({
+    ...agentRunMutation({
+      path: {
+        tenant: tenant!.metadata.id,
+        session: session!.metadata.id,
+      },
+    }),
+  })
+  // const createRun = async (sessionId: string): Promise<string> => {
+  //   console.log("createRun", sessionId);
+  //   const payload = { session_id: sessionId, user_id: user?.email || "" };
+  //   const response = await fetch(`/runs/`, {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify(payload),
+  //   });
 
-    if (!response.ok) {
-      throw new Error("Failed to create run");
-    }
+  //   if (!response.ok) {
+  //     throw new Error("Failed to create run");
+  //   }
 
-    const data = await response.json();
-    return data.data.run_id;
-  };
+  //   const data = await response.json();
+  //   return data.data.run_id;
+  // };
 
   const handleWebSocketMessage = (message: WebSocketMessage) => {
     setCurrentRun((current) => {
@@ -368,11 +376,20 @@ export default function ChatView({ session }: ChatViewProps) {
     }
 
     try {
-      const runId = await createRun(session.metadata.id);
+      const response = await runMutation.mutateAsync({
+        path: {
+          tenant: tenant!.metadata.id,
+          session: session.metadata.id,
+        },
+        body: {
+          // session_id: session.metadata.id,
+          // user_id: user?.email || "",
+        },
+      });
 
       // Initialize run state BEFORE websocket connection
       setCurrentRun({
-        id: runId,
+        id: response.run_id,
         created_at: new Date().toISOString(),
         status: "created", // Start with created status
         messages: [],
@@ -396,7 +413,7 @@ export default function ChatView({ session }: ChatViewProps) {
   };
 
   const setupWebSocket = (runId: string, query: string): WebSocket => {
-    if (!session || !session.id) {
+    if (!session || !session.metadata.id) {
       throw new Error("Invalid session configuration");
     }
     // Close existing socket if any
@@ -418,7 +435,7 @@ export default function ChatView({ session }: ChatViewProps) {
       task: createMessage(
         { content: query, source: "user" },
         runId,
-        session.id || 0,
+        session.metadata.id,
       ).config,
       team_result: null,
       messages: [],
@@ -458,22 +475,22 @@ export default function ChatView({ session }: ChatViewProps) {
   };
 
   // Helper for WebSocket URL
-  const getBaseUrl = (url: string): string => {
-    try {
-      let baseUrl = url.replace(/(^\w+:|^)\/\//, "");
-      if (baseUrl.startsWith("localhost")) {
-        baseUrl = baseUrl.replace("/api", "");
-      } else if (baseUrl === "/api") {
-        baseUrl = window.location.host;
-      } else {
-        baseUrl = baseUrl.replace("/api", "").replace(/\/$/, "");
-      }
-      return baseUrl;
-    } catch (error) {
-      console.error("Error processing server URL:", error);
-      throw new Error("Invalid server URL configuration");
-    }
-  };
+  // const getBaseUrl = (url: string): string => {
+  //   try {
+  //     let baseUrl = url.replace(/(^\w+:|^)\/\//, "");
+  //     if (baseUrl.startsWith("localhost")) {
+  //       baseUrl = baseUrl.replace("/api", "");
+  //     } else if (baseUrl === "/api") {
+  //       baseUrl = window.location.host;
+  //     } else {
+  //       baseUrl = baseUrl.replace("/api", "").replace(/\/$/, "");
+  //     }
+  //     return baseUrl;
+  //   } catch (error) {
+  //     console.error("Error processing server URL:", error);
+  //     throw new Error("Invalid server URL configuration");
+  //   }
+  // };
 
   return (
     <div className="text-primary h-[calc(100vh-165px)] relative rounded flex-1 scroll">
@@ -494,8 +511,7 @@ export default function ChatView({ session }: ChatViewProps) {
           className="flex-1 overflow-y-auto scroll mt-2 min-h-0 relative"
         >
           <div id="scroll-gradient" className="scroll-gradient h-8 top-0">
-            {" "}
-            <span className="  inline-block h-6"></span>{" "}
+            <span className="inline-block h-6"></span>
           </div>
           <>
             {teamConfigQuery.data && (

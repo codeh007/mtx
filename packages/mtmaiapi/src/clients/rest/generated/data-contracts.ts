@@ -1773,7 +1773,8 @@ export interface AgentNodeRunInput {
     | CrewAIParams
     | ScrapeGraphParams
     | BrowserParams
-    | CanvasGraphParams;
+    | CanvasGraphParams
+    | MessageV2;
 }
 
 export interface TextHighlight {
@@ -2216,6 +2217,152 @@ export type ToolCallMessageConfig = BaseMessageConfig & {
 export type ToolCallResultMessageConfig = BaseMessageConfig & {
   content: FunctionExecutionResult[];
 };
+
+export interface DBModel {
+  id: number;
+  user_id: string;
+  created_at: string;
+  updated_at: string;
+  version: number;
+}
+
+export interface TeamResult {
+  task_result: object;
+  usage: string;
+  duration: number;
+}
+
+export type MessageV2 = DBModel & {
+  config: AgentMessageConfig;
+};
+
+export type InnerMessageConfig =
+  | ToolCallMessageConfig
+  | ToolCallResultMessageConfig;
+
+export type ChatMessageConfig =
+  | TextMessageConfig
+  | MultiModalMessageConfig
+  | StopMessageConfig
+  | HandoffMessageConfig;
+
+export type AgentMessageConfig =
+  | TextMessageConfig
+  | MultiModalMessageConfig
+  | StopMessageConfig
+  | HandoffMessageConfig
+  | ToolCallMessageConfig
+  | ToolCallResultMessageConfig;
+
+export interface SessionRuns {
+  runs: Run[];
+}
+
+export interface BaseConfig {
+  component_type: string;
+  version?: string;
+  description?: string;
+}
+
+export interface WebSocketMessage {
+  type: string;
+  data?: AgentMessageConfig;
+  status?: string;
+  error?: string;
+  timestamp?: string;
+}
+
+export interface TaskResult {
+  messages: AgentMessageConfig[];
+  stop_reason?: string;
+}
+
+export interface Run {
+  id: string;
+  created_at: string;
+  updated_at?: string;
+  status:
+    | "created"
+    | "active"
+    | "awaiting_input"
+    | "timeout"
+    | "complete"
+    | "error"
+    | "stopped";
+  task: AgentMessageConfig;
+  team_result: TeamResult;
+  messages: {
+    id: string;
+    text?: string | null;
+    rawResponse?: Record<string, any>;
+    sender: string;
+    toolCalls?: {
+      id: string;
+      name: string;
+      args: string;
+      result?: object | null;
+    }[];
+  }[];
+  error_message?: string;
+}
+
+export enum AgentTypes {
+  AssistantAgent = "AssistantAgent",
+  UserProxyAgent = "UserProxyAgent",
+  MultimodalWebSurfer = "MultimodalWebSurfer",
+  FileSurfer = "FileSurfer",
+  MagenticOneCoderAgent = "MagenticOneCoderAgent",
+}
+
+export enum ToolTypes {
+  PythonFunction = "PythonFunction",
+}
+
+export enum ModelTypes {
+  OpenAIChatCompletionClient = "OpenAIChatCompletionClient",
+  AzureOpenAIChatCompletionClient = "AzureOpenAIChatCompletionClient",
+}
+
+export type BaseModelConfig = BaseConfig & {
+  model: string;
+  model_type: ModelTypes;
+  api_key?: string;
+  base_url?: string;
+};
+
+export type AzureOpenAIModelConfig = BaseModelConfig & {
+  model_type: "AzureOpenAIChatCompletionClient";
+  azure_deployment: string;
+  api_version: string;
+  azure_endpoint: string;
+  azure_ad_token_provider: string;
+};
+
+export type OpenAIModelConfig = BaseModelConfig & {
+  model_type: "OpenAIChatCompletionClient";
+};
+
+export type ToolConfig = BaseConfig & {
+  name: string;
+  description: string;
+  content: string;
+  tool_type: ToolTypes;
+};
+
+export interface ModelConfig {
+  temperature?: number;
+  modelProvider?: string;
+  maxTokens?: number;
+  azureConfig?: {
+    azureOpenAIApiKey?: string;
+    azureOpenAIApiInstanceName?: string;
+    azureOpenAIApiDeploymentName?: string;
+    azureOpenAIApiVersion?: string;
+    azureOpenAIBasePath?: string;
+  };
+}
+
+export type ModelConfigV2 = AzureOpenAIModelConfig | OpenAIModelConfig;
 
 export interface BaseState {
   metadata: APIResourceMeta;
