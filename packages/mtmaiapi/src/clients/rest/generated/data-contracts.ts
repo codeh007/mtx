@@ -2366,31 +2366,50 @@ export type AgentConfig =
   | FileSurferAgentConfig
   | MagenticOneCoderAgentConfig;
 
-export type AssistantAgentConfig = (BaseConfig & {
+export type AssistantAgentConfig = BaseAgentConfig & {
+  agent_type?: "AssistantAgent";
+};
+
+export type UserProxyAgentConfig = BaseAgentConfig & {
+  agent_type: "UserProxyAgent";
+};
+
+export type MultimodalWebSurferAgentConfig = BaseAgentConfig & {
+  agent_type?: "MultimodalWebSurfer";
+};
+
+export type FileSurferAgentConfig = BaseAgentConfig & {
+  agent_type: "FileSurfer";
+};
+
+export type MagenticOneCoderAgentConfig = BaseAgentConfig & {
+  agent_type: "MagenticOneCoderAgent";
+};
+
+export type BaseAgentConfig = BaseConfig & {
   name: string;
   agent_type: AgentTypes;
   system_message?: string;
   model_client: ModelConfig;
   tools: ToolConfig[];
   description: string;
-}) & {
-  agent_type?: "AssistantAgent";
 };
 
-export type UserProxyAgentConfig = {
-  agent_type: "UserProxyAgent";
+export type BaseTeamConfig = BaseConfig & {
+  name?: string;
+  participants?: AgentConfig[];
+  team_type?: TeamTypes;
+  termination_condition?: TerminationConfig;
 };
 
-export type MultimodalWebSurferAgentConfig = {
-  agent_type?: "MultimodalWebSurfer";
-};
+export interface RoundRobinGroupChatConfig {
+  team_type?: "RoundRobinGroupChat";
+}
 
-export type FileSurferAgentConfig = {
-  agent_type: "FileSurfer";
-};
-
-export type MagenticOneCoderAgentConfig = {
-  agent_type: "MagenticOneCoderAgent";
+export type SelectorGroupChatConfig = BaseTeamConfig & {
+  team_type?: "SelectorGroupChat";
+  selector_prompt?: string;
+  model_client?: ModelConfig;
 };
 
 export type TerminationConfig =
@@ -2429,22 +2448,8 @@ export enum TeamTypes {
   MagenticOneGroupChat = "MagenticOneGroupChat",
 }
 
-export type TeamConfig = (BaseConfig & {
-  name?: string;
-  participants?: AgentConfig[];
-  team_type?: TeamTypes;
-  termination_condition?: TerminationConfig;
-}) &
-  (
-    | {
-        team_type?: "RoundRobinGroupChat";
-      }
-    | {
-        team_type?: "SelectorGroupChat";
-        selector_prompt?: string;
-        model_client?: ModelConfig;
-      }
-  );
+export type TeamConfig = BaseTeamConfig &
+  (RoundRobinGroupChatConfig | SelectorGroupChatConfig);
 
 export interface BaseState {
   metadata: APIResourceMeta;
