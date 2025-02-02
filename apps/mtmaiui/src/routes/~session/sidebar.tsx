@@ -1,16 +1,16 @@
 import { Tooltip } from "antd";
 import {
-  Edit,
-  InfoIcon,
-  PanelLeftClose,
-  PanelLeftOpen,
-  Plus,
-  RefreshCcw,
-  Trash2,
+    Edit,
+    InfoIcon,
+    PanelLeftClose,
+    PanelLeftOpen,
+    Plus,
+    RefreshCcw,
+    Trash2,
 } from "lucide-react";
 import { Button } from "mtxuilib/ui/button";
-import type { Session } from "../../components/types/datamodel";
-import { getRelativeTimeString } from "../../components/views/atoms";
+import type { Session } from "../components/types/datamodel";
+import { getRelativeTimeString } from "../components/views/atoms";
 
 interface SidebarProps {
   isOpen: boolean;

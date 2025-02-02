@@ -1,19 +1,19 @@
 import { message } from "antd";
 import { ChevronRight, MessagesSquare } from "lucide-react";
 import * as React from "react";
-import { appContext } from "../../../../stores/agStoreProvider";
-import type { IStatus } from "../../../components/types/app";
+import { appContext } from "../../../stores/agStoreProvider";
+import type { IStatus } from "../../components/types/app";
 import type {
-  AgentMessageConfig,
-  Run,
-  RunStatus,
-  Session,
-  TeamConfig,
-  TeamResult,
-  WebSocketMessage,
-} from "../../../components/types/datamodel";
-import { getServerUrl } from "../../../components/utils";
-import { teamAPI } from "../../../components/views/team/api";
+    AgentMessageConfig,
+    Run,
+    RunStatus,
+    Session,
+    TeamConfig,
+    TeamResult,
+    WebSocketMessage,
+} from "../../components/types/datamodel";
+import { getServerUrl } from "../../components/utils";
+import { teamAPI } from "../../components/views/team/api";
 import { sessionAPI } from "../api";
 import ChatInput from "./chatinput";
 import RunView from "./runview";

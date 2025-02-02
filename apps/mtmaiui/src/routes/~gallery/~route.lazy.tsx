@@ -1,28 +1,28 @@
-import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
-import { Modal, message } from "antd";
-import { ChevronRight } from "lucide-react";
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
-import { useEffect, useState } from "react";
-import GalleryCreateModal from "../../components/views/gallery/create-modal";
-import type { Gallery } from "../../components/views/gallery/types";
-import { GallerySidebar } from "./sidebar";
-import { useGalleryStore } from "./store";
+import { Outlet, createLazyFileRoute } from '@tanstack/react-router'
+import { Modal, message } from 'antd'
+import { ChevronRight } from 'lucide-react'
+import { MtSuspenseBoundary } from 'mtxuilib/components/MtSuspenseBoundary'
+import { useEffect, useState } from 'react'
+import GalleryCreateModal from '../components/views/gallery/create-modal'
+import type { Gallery } from '../components/views/gallery/types'
+import { GallerySidebar } from './sidebar'
+import { useGalleryStore } from './store'
 
-export const Route = createLazyFileRoute("/ag/gallery")({
+export const Route = createLazyFileRoute('/gallery')({
   component: RouteComponent,
-});
+})
 
 function RouteComponent() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("gallerySidebar");
-      return stored !== null ? JSON.parse(stored) : true;
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('gallerySidebar')
+      return stored !== null ? JSON.parse(stored) : true
     }
-    return true;
-  });
+    return true
+  })
 
   const {
     galleries,
@@ -34,27 +34,27 @@ function RouteComponent() {
     setDefaultGallery,
     getSelectedGallery,
     getDefaultGallery,
-  } = useGalleryStore();
+  } = useGalleryStore()
 
-  const [messageApi, contextHolder] = message.useMessage();
-  const currentGallery = getSelectedGallery();
+  const [messageApi, contextHolder] = message.useMessage()
+  const currentGallery = getSelectedGallery()
 
   // Persist sidebar state
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("gallerySidebar", JSON.stringify(isSidebarOpen));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('gallerySidebar', JSON.stringify(isSidebarOpen))
     }
-  }, [isSidebarOpen]);
+  }, [isSidebarOpen])
 
   // Handle URL params
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const galleryId = params.get("galleryId");
+    const params = new URLSearchParams(window.location.search)
+    const galleryId = params.get('galleryId')
 
     if (galleryId && !selectedGalleryId) {
-      handleSelectGallery(galleryId);
+      handleSelectGallery(galleryId)
     }
-  }, [selectedGalleryId]);
+  }, [selectedGalleryId])
 
   // Update URL when gallery changes
   // useEffect(() => {
@@ -66,24 +66,24 @@ function RouteComponent() {
   const handleSelectGallery = async (galleryId: string) => {
     if (hasUnsavedChanges) {
       Modal.confirm({
-        title: "Unsaved Changes",
-        content: "You have unsaved changes. Do you want to discard them?",
-        okText: "Discard",
-        cancelText: "Go Back",
+        title: 'Unsaved Changes',
+        content: 'You have unsaved changes. Do you want to discard them?',
+        okText: 'Discard',
+        cancelText: 'Go Back',
         onOk: () => {
-          selectGallery(galleryId);
-          setHasUnsavedChanges(false);
+          selectGallery(galleryId)
+          setHasUnsavedChanges(false)
         },
-      });
+      })
     } else {
-      selectGallery(galleryId);
+      selectGallery(galleryId)
     }
-  };
+  }
 
   const handleCreateGallery = async (galleryData: Gallery) => {
     const newGallery: Gallery = {
       id: `gallery_${Date.now()}`,
-      name: galleryData.name || "New Gallery",
+      name: galleryData.name || 'New Gallery',
       url: galleryData.url,
       metadata: {
         ...galleryData.metadata,
@@ -99,46 +99,46 @@ function RouteComponent() {
           terminations: [],
         },
       },
-    };
+    }
 
     try {
-      setIsLoading(true);
-      await addGallery(newGallery);
-      messageApi.success("Gallery created successfully");
-      selectGallery(newGallery.id);
+      setIsLoading(true)
+      await addGallery(newGallery)
+      messageApi.success('Gallery created successfully')
+      selectGallery(newGallery.id)
     } catch (error) {
-      messageApi.error("Failed to create gallery");
-      console.error(error);
+      messageApi.error('Failed to create gallery')
+      console.error(error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const handleDeleteGallery = async (galleryId: string) => {
     try {
-      await removeGallery(galleryId);
-      messageApi.success("Gallery deleted successfully");
+      await removeGallery(galleryId)
+      messageApi.success('Gallery deleted successfully')
     } catch (error) {
-      messageApi.error("Failed to delete gallery");
-      console.error(error);
+      messageApi.error('Failed to delete gallery')
+      console.error(error)
     }
-  };
+  }
 
   const handleUpdateGallery = async (
     galleryId: string,
     updates: Partial<Gallery>,
   ) => {
     try {
-      await updateGallery(galleryId, updates);
-      setHasUnsavedChanges(false);
-      messageApi.success("Gallery updated successfully");
+      await updateGallery(galleryId, updates)
+      setHasUnsavedChanges(false)
+      messageApi.success('Gallery updated successfully')
     } catch (error) {
-      messageApi.error("Failed to update gallery");
-      console.error(error);
+      messageApi.error('Failed to update gallery')
+      console.error(error)
     }
-  };
+  }
   return (
-    <main style={{ height: "100%" }} className=" h-full ">
+    <main style={{ height: '100%' }} className=" h-full ">
       {/* <Outlet /> */}
       <div className="relative flex h-full w-full">
         {contextHolder}
@@ -153,7 +153,7 @@ function RouteComponent() {
         {/* Sidebar */}
         <div
           className={`absolute left-0 top-0 h-full transition-all duration-200 ease-in-out ${
-            isSidebarOpen ? "w-64" : "w-12"
+            isSidebarOpen ? 'w-64' : 'w-12'
           }`}
         >
           <GallerySidebar
@@ -173,7 +173,7 @@ function RouteComponent() {
         {/* Main Content */}
         <div
           className={`flex-1 transition-all max-w-5xl -mr-6 duration-200 ${
-            isSidebarOpen ? "ml-64" : "ml-12"
+            isSidebarOpen ? 'ml-64' : 'ml-12'
           }`}
         >
           <div className="p-4 pt-2">
@@ -209,5 +209,5 @@ function RouteComponent() {
         </div>
       </div>
     </main>
-  );
+  )
 }

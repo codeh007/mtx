@@ -1,27 +1,27 @@
 import { Tooltip } from "antd";
 import {
-  AlertTriangle,
-  Bot,
-  CheckCircle,
-  ChevronDown,
-  ChevronUp,
-  Loader2,
-  MessageSquare,
-  StopCircle,
-  TriangleAlertIcon,
+    AlertTriangle,
+    Bot,
+    CheckCircle,
+    ChevronDown,
+    ChevronUp,
+    Loader2,
+    MessageSquare,
+    StopCircle,
+    TriangleAlertIcon,
 } from "lucide-react";
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
 import type {
-  Message,
-  Run,
-  TeamConfig,
-} from "../../../components/types/datamodel";
+    Message,
+    Run,
+    TeamConfig,
+} from "../../components/types/datamodel";
 import {
-  LoadingDots,
-  TruncatableText,
-  getRelativeTimeString,
-} from "../../../components/views/atoms";
+    LoadingDots,
+    TruncatableText,
+    getRelativeTimeString,
+} from "../../components/views/atoms";
 import AgentFlow from "./agentflow/agentflow";
 import InputRequestView from "./inputrequest";
 import { RenderMessage } from "./rendermessage";

@@ -1,11 +1,11 @@
 import { Bot, User } from "lucide-react";
 import type React from "react";
 import type {
-  AgentMessageConfig,
-  FunctionCall,
-  FunctionExecutionResult,
-  ImageContent,
-} from "../../../components/types/datamodel";
+    AgentMessageConfig,
+    FunctionCall,
+    FunctionExecutionResult,
+    ImageContent,
+} from "../../components/types/datamodel";
 // import type {
 //   AgentMessageConfig,
 //   FunctionCall,
@@ -13,9 +13,9 @@ import type {
 //   ImageContent,
 // } from "../../../types/datamodel";
 import {
-  ClickableImage,
-  TruncatableText,
-} from "../../../components/views/atoms";
+    ClickableImage,
+    TruncatableText,
+} from "../../components/views/atoms";
 
 const TEXT_THRESHOLD = 400;
 const JSON_THRESHOLD = 800;

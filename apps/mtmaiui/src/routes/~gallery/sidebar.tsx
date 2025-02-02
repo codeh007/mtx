@@ -1,18 +1,18 @@
 import {
-  Globe,
-  Package,
-  PanelLeftClose,
-  PanelLeftOpen,
-  Pin,
-  Plus,
-  RefreshCw,
-  Trash2,
+    Globe,
+    Package,
+    PanelLeftClose,
+    PanelLeftOpen,
+    Pin,
+    Plus,
+    RefreshCw,
+    Trash2,
 } from "lucide-react";
 import type { Gallery } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
-import { getRelativeTimeString } from "../../components/views/atoms";
+import { getRelativeTimeString } from "../components/views/atoms";
 import { useGalleryStore } from "./store";
 
 interface GallerySidebarProps {

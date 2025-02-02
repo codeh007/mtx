@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
-export const Route = createFileRoute("/ag/gallery/")({
+import { createFileRoute } from '@tanstack/react-router'
+export const Route = createFileRoute('/gallery/')({
   component: RouteComponent,
-});
+})
 
 function RouteComponent() {
   return (
@@ -10,5 +10,5 @@ function RouteComponent() {
         Select a gallery from the sidebar or create a new one
       </div>
     </>
-  );
+  )
 }

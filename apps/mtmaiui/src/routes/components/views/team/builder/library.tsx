@@ -2,16 +2,16 @@ import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { Collapse, type CollapseProps, Input } from "antd";
 import {
-  Bot,
-  Brain,
-  ChevronDown,
-  Maximize2,
-  Minimize2,
-  Timer,
-  Wrench,
+    Bot,
+    Brain,
+    ChevronDown,
+    Maximize2,
+    Minimize2,
+    Timer,
+    Wrench,
 } from "lucide-react";
 import React from "react";
-import { useGalleryStore } from "../../../../~ag/~gallery/store";
+import { useGalleryStore } from "../../../../~gallery/store";
 
 interface ComponentConfigTypes {
   [key: string]: any;

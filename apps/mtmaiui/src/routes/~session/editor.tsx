@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import type { FormProps } from "antd";
-import { Form, Input, Select, Spin, message } from "antd";
+import { message } from "antd";
 import { TriangleAlertIcon } from "lucide-react";
 import { teamListOptions } from "mtmaiapi";
+import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
+import { useZodForm, ZForm } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";
 import {
   Dialog,
@@ -11,29 +12,26 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "mtxuilib/ui/dialog";
-import type React from "react";
-import { useEffect } from "react";
-import { CustomLink } from "../../../components/CustomLink";
-import { useTenant, useUser } from "../../../hooks/useAuth";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuilib/ui/form";
+import { Input } from "mtxuilib/ui/input";
+import { z } from "zod";
+import { CustomLink } from "../../components/CustomLink";
+import { useTenant, useUser } from "../../hooks/useAuth";
 import type { SessionEditorProps } from "./types";
 
-type FieldType = {
-  name: string;
-  teamId?: string;
-};
-
-export const SessionEditor: React.FC<SessionEditorProps> = ({
+export const SessionEditor= ({
   session,
   onSave,
   onCancel,
   isOpen,
-}) => {
-  const [form] = Form.useForm();
-  // const [teams, setTeams] = useState<Team[]>([]);
-  // const [loading, setLoading] = useState(false);
-  // const { user } = useContext(appContext);
+}:SessionEditorProps) => {
   const [messageApi, contextHolder] = message.useMessage();
-
+  const form = useZodForm({
+    schema: z.object({
+      name: z.string().min(1, { message: "Name is required" }),
+      teamId: z.string().optional(),
+    }),
+  });
   const tenant = useTenant();
   const user = useUser();
 
@@ -66,18 +64,18 @@ export const SessionEditor: React.FC<SessionEditorProps> = ({
   });
 
   // Set form values when modal opens or session changes
-  useEffect(() => {
-    if (isOpen) {
-      form.setFieldsValue({
-        name: session?.name || "",
-        team_id: session?.team_id || undefined,
-      });
-    } else {
-      form.resetFields();
-    }
-  }, [form, session, isOpen]);
+  // useEffect(() => {
+  //   if (isOpen) {
+  //     form.setFieldsValue({
+  //       name: session?.name || "",
+  //       team_id: session?.team_id || undefined,
+  //     });
+  //   } else {
+  //     form.resetFields();
+  //   }
+  // }, [form, session, isOpen]);
 
-  const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
+  const onFinish = async (values) => {
     try {
       await onSave({
         ...values,
@@ -93,7 +91,7 @@ export const SessionEditor: React.FC<SessionEditorProps> = ({
     }
   };
 
-  const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
+  const onFinishFailed= (
     errorInfo,
   ) => {
     messageApi.error("Please check the form for errors");
@@ -119,15 +117,16 @@ export const SessionEditor: React.FC<SessionEditorProps> = ({
           <DialogTitle>Create Session</DialogTitle>
         </DialogHeader>
         {contextHolder}
-        <Form
+        <ZForm
           form={form}
-          name="session-form"
-          layout="vertical"
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
+          handleSubmit={onFinish}
+          // name="session-form"
+          // layout="vertical"
+          // onFinish={onFinish}
+          // onFinishFailed={onFinishFailed}
+          // autoComplete="off"
         >
-          <Form.Item<FieldType>
+          {/* <Form.Item<FieldType>
             label="Session Name"
             name="name"
             rules={[
@@ -139,10 +138,40 @@ export const SessionEditor: React.FC<SessionEditorProps> = ({
             ]}
           >
             <Input />
-          </Form.Item>
+          </Form.Item> */}
+
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>name</FormLabel>
+              <FormControl>
+                <Input placeholder="name" {...field} />
+              </FormControl>
+              {/* <FormDescription></FormDescription> */}
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="teamId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>teamId</FormLabel>
+              <FormControl>
+                <Input placeholder="teamId" {...field} />
+              </FormControl>
+              {/* <FormDescription></FormDescription> */}
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
           <div className="space-y-2   w-full">
-            <Form.Item<FieldType>
+            {/* <Form.Item<FieldType>
               className="w-full"
               label="Team"
               name="teamId"
@@ -167,7 +196,7 @@ export const SessionEditor: React.FC<SessionEditorProps> = ({
                   teamQuery.isLoading ? <Spin size="small" /> : null
                 }
               />
-            </Form.Item>
+            </Form.Item> */}
           </div>
 
           <div className="text-sm ">
@@ -181,7 +210,7 @@ export const SessionEditor: React.FC<SessionEditorProps> = ({
             </div>
           )}
 
-          <Form.Item className="flex justify-end mb-0">
+          {/* <Form.Item className="flex justify-end mb-0">
             <div className="flex gap-2">
               <Button variant="outline" onClick={onCancel}>
                 Cancel
@@ -190,8 +219,10 @@ export const SessionEditor: React.FC<SessionEditorProps> = ({
                 {session ? "Update" : "Create"}
               </Button>
             </div>
-          </Form.Item>
-        </Form>
+          </Form.Item> */}
+          <EditFormToolbar form={form} />
+
+        </ZForm>
       </DialogContent>
     </Dialog>
   );

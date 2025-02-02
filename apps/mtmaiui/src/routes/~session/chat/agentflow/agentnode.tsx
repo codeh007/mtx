@@ -1,14 +1,14 @@
 import { Handle, Position } from "@xyflow/react";
 import {
-  AlertTriangle,
-  Bot,
-  CheckCircle,
-  Flag,
-  StopCircle,
-  UserCircle,
+    AlertTriangle,
+    Bot,
+    CheckCircle,
+    Flag,
+    StopCircle,
+    UserCircle,
 } from "lucide-react";
 import { useCallback } from "react";
-import type { RunStatus } from "../../../../components/types/datamodel";
+import type { RunStatus } from "../../../components/types/datamodel";
 
 export type NodeType = "agent" | "user" | "end";
 
