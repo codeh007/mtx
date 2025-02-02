@@ -7,7 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 import * as React from "react";
 import { useEffect } from "react";
-import type { IStatus } from "../../components/types/app";
+import { IStatus } from "../../components/types/datamodel";
 
 interface ChatInputProps {
   onSubmit: (text: string) => void;

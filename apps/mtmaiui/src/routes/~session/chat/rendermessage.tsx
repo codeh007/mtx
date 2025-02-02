@@ -1,9 +1,9 @@
 import { Bot, User } from "lucide-react";
-import { FunctionCall, FunctionExecutionResult, ImageContent } from "mtmaiapi";
+import { AgentMessageConfig, FunctionCall, FunctionExecutionResult, ImageContent } from "mtmaiapi";
 import type React from "react";
-import type {
-  AgentMessageConfig,
-} from "../../components/types/datamodel";
+// import type {
+//   AgentMessageConfig,
+// } from "../../components/types/datamodel";
 import {
   ClickableImage,
   TruncatableText,
