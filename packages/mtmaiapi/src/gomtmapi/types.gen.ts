@@ -7713,75 +7713,6 @@ export type PostCreateResponses = {
 
 export type PostCreateResponse = PostCreateResponses[keyof PostCreateResponses];
 
-export type ToolCallData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The tool name
-     */
-    tool: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/tools/call/{tool}";
-};
-
-export type ToolCallResponses = {
-  /**
-   * 工具调用结果
-   */
-  200: ToolCallResult;
-};
-
-export type ToolCallResponse = ToolCallResponses[keyof ToolCallResponses];
-
-export type ToolsOperationGuideData = {
-  body?: never;
-  path?: never;
-  query: {
-    /**
-     * operation name
-     */
-    operation: string;
-  };
-  url: "/api/v1/tools/operationGuide";
-};
-
-export type ToolsOperationGuideResponses = {
-  /**
-   * 工作流列表信息
-   */
-  200: OperataionGuideResponse;
-};
-
-export type ToolsOperationGuideResponse =
-  ToolsOperationGuideResponses[keyof ToolsOperationGuideResponses];
-
-export type ToolsWebsearchData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/tools/websearch";
-};
-
-export type ToolsWebsearchResponses = {
-  /**
-   * 网络搜索结果
-   */
-  200: WebSearchResult;
-};
-
-export type ToolsWebsearchResponse =
-  ToolsWebsearchResponses[keyof ToolsWebsearchResponses];
-
 export type ArtifactListData = {
   body?: never;
   path: {
@@ -8301,44 +8232,6 @@ export type AgentNodeRunResponses = {
 
 export type AgentNodeRunResponse =
   AgentNodeRunResponses[keyof AgentNodeRunResponses];
-
-export type AgentRunData = {
-  /**
-   * 创建agentnode
-   */
-  body: AgentNodeRunInput;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The session id
-     */
-    session: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/nodes/runV2/{session}";
-};
-
-export type AgentRunErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type AgentRunError = AgentRunErrors[keyof AgentRunErrors];
-
-export type AgentRunResponses = {
-  200: AgentNodeRun;
-};
-
-export type AgentRunResponse = AgentRunResponses[keyof AgentRunResponses];
 
 export type AgentNodeFormData = {
   body?: never;

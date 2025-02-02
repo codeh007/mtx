@@ -326,12 +326,6 @@ import type {
   PostCreateData,
   PostCreateResponse,
   PostCreateError,
-  ToolCallData,
-  ToolCallResponse,
-  ToolsOperationGuideData,
-  ToolsOperationGuideResponse,
-  ToolsWebsearchData,
-  ToolsWebsearchResponse,
   ArtifactListData,
   ArtifactListResponse,
   ArtifactCreateData,
@@ -377,9 +371,6 @@ import type {
   AgentNodeRunData,
   AgentNodeRunResponse,
   AgentNodeRunError,
-  AgentRunData,
-  AgentRunResponse,
-  AgentRunError,
   AgentNodeFormData,
   AgentNodeFormResponse,
   AgentNodeFormError,
@@ -3474,84 +3465,6 @@ export const postCreate = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 调用工具
- */
-export const toolCall = <ThrowOnError extends boolean = false>(
-  options: Options<ToolCallData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).post<
-    ToolCallResponse,
-    unknown,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/tools/call/{tool}",
-    ...options,
-  });
-};
-
-/**
- * ai agent 在自动化操作过程中，必须参考这个操作说明来完成自动化操作
- */
-export const toolsOperationGuide = <ThrowOnError extends boolean = false>(
-  options: Options<ToolsOperationGuideData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).get<
-    ToolsOperationGuideResponse,
-    unknown,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tools/operationGuide",
-    ...options,
-  });
-};
-
-/**
- * 使用工具进行网络搜索
- */
-export const toolsWebsearch = <ThrowOnError extends boolean = false>(
-  options: Options<ToolsWebsearchData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).post<
-    ToolsWebsearchResponse,
-    unknown,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/tools/websearch",
-    ...options,
-  });
-};
-
-/**
  * 获取租户下的artifacts列表
  * Get the artifacts for the tenant
  */
@@ -4058,36 +3971,6 @@ export const agentNodeRun = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/nodes/run",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 执行autogen
- */
-export const agentRun = <ThrowOnError extends boolean = false>(
-  options: Options<AgentRunData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).post<
-    AgentRunResponse,
-    AgentRunError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/nodes/runV2/{session}",
     ...options,
     headers: {
       "Content-Type": "application/json",

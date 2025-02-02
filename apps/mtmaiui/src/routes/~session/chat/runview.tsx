@@ -121,7 +121,7 @@ export const RunView = ({
     }
   };
 
-  const lastResultMessage = run.team_result?.task_result.messages.slice(-1)[0];
+  const lastResultMessage = run?.team_result?.task_result.messages.slice(-1)[0];
   const lastMessage = run.messages.slice(-1)[0];
 
   return (
@@ -136,7 +136,7 @@ export const RunView = ({
           <Tooltip>
             <TooltipTrigger asChild>
             <span className="cursor-help">
-              Run ...{run.id.slice(-6)} |{" "}
+              Run ...{run.id?.slice(-6)} |{" "}
               {getRelativeTimeString(run?.created_at || "")}{" "}
               </span>
             </TooltipTrigger>
@@ -197,7 +197,7 @@ export const RunView = ({
             {run.status !== "awaiting_input" && run.status !== "active" && (
               <div className="text-sm break-all">
                 <div className="text-xs bg-tertiary mb-1 text-secondary border-secondary -mt-2 bdorder rounded p-2">
-                  Stop reason: {run.team_result?.task_result?.stop_reason}
+                  Stop reason: {run?.team_result?.task_result?.stop_reason}
                 </div>
 
                 {lastMessage ? (
