@@ -105,14 +105,11 @@ export const SessionEditor= ({
     <Dialog
       open={isOpen}
       onOpenChange={onCancel}
-      // footer={null}
-      // className="text-primary"
-      // forceRender
     >
       <DialogTrigger asChild>
         <Button>Create Session</Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="w-[600px]">
         <DialogHeader>
           <DialogTitle>Create Session</DialogTitle>
         </DialogHeader>
@@ -120,25 +117,7 @@ export const SessionEditor= ({
         <ZForm
           form={form}
           handleSubmit={onFinish}
-          // name="session-form"
-          // layout="vertical"
-          // onFinish={onFinish}
-          // onFinishFailed={onFinishFailed}
-          // autoComplete="off"
         >
-          {/* <Form.Item<FieldType>
-            label="Session Name"
-            name="name"
-            rules={[
-              { required: true, message: "Please enter a session name" },
-              {
-                max: 100,
-                message: "Session name cannot exceed 100 characters",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item> */}
 
         <FormField
           control={form.control}
@@ -201,7 +180,7 @@ export const SessionEditor= ({
           </div>
 
           <div className="text-sm ">
-            <CustomLink to="/ag/team">view all teams</CustomLink>
+            <CustomLink to="../team">view all teams</CustomLink>
           </div>
 
           {hasNoTeams && (
@@ -210,19 +189,7 @@ export const SessionEditor= ({
               <span>No teams found. Please create a team first.</span>
             </div>
           )}
-
-          {/* <Form.Item className="flex justify-end mb-0">
-            <div className="flex gap-2">
-              <Button variant="outline" onClick={onCancel}>
-                Cancel
-              </Button>
-              <Button type="submit" disabled={hasNoTeams}>
-                {session ? "Update" : "Create"}
-              </Button>
-            </div>
-          </Form.Item> */}
           <EditFormToolbar form={form} />
-
         </ZForm>
       </DialogContent>
     </Dialog>

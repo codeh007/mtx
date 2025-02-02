@@ -1,10 +1,10 @@
 import type { Session, SessionRuns } from "../components/types/datamodel";
-import { getServerUrl } from "../components/utils";
+// import { getServerUrl } from "../components/utils";
 
 export class SessionAPI {
-  private getBaseUrl(): string {
-    return getServerUrl();
-  }
+  // private getBaseUrl(): string {
+  //   return getServerUrl();
+  // }
 
   private getHeaders(): HeadersInit {
     return {
