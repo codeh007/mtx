@@ -3030,6 +3030,30 @@ export class Api<
       ...params,
     });
   /**
+   * @description 更新会话
+   *
+   * @tags session
+   * @name SessionUpdate
+   * @summary 更新会话
+   * @request PUT:/api/v1/tenants/{tenant}/sessions/{session}
+   * @secure
+   */
+  sessionUpdate = (
+    tenant: TenantParameter,
+    session: string,
+    data: Session,
+    params: RequestParams = {},
+  ) =>
+    this.request<Session, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/sessions/${session}`,
+      method: "PUT",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
    * @description 获取节点
    *
    * @tags agent

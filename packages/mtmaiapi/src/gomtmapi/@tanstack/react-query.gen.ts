@@ -255,6 +255,9 @@ import type {
   SessionCreateError,
   SessionCreateResponse,
   SessionGetData,
+  SessionUpdateData,
+  SessionUpdateError,
+  SessionUpdateResponse,
   AgentNodeListData,
   AgentCreateData,
   AgentCreateError,
@@ -464,6 +467,7 @@ import {
   sessionList,
   sessionCreate,
   sessionGet,
+  sessionUpdate,
   agentNodeList,
   agentCreate,
   agentNode,
@@ -4329,6 +4333,26 @@ export const sessionGetOptions = (options: Options<SessionGetData>) => {
     },
     queryKey: sessionGetQueryKey(options),
   });
+};
+
+export const sessionUpdateMutation = (
+  options?: Partial<Options<SessionUpdateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    SessionUpdateResponse,
+    SessionUpdateError,
+    Options<SessionUpdateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await sessionUpdate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };
 
 export const agentNodeListQueryKey = (options: Options<AgentNodeListData>) => [
