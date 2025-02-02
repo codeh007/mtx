@@ -1900,12 +1900,7 @@ export interface CanvasGraphParams {
   stepLimit?: number;
   messages?: ChatMessage[];
   /** 节点运行 */
-  action?: {
-    /** 动作 */
-    action?: string;
-    /** 输入 */
-    input?: object;
-  };
+  action?: NodeRunAction;
   /** 语言 */
   language?: string;
   /** 自定义快速动作ID */
@@ -2041,35 +2036,10 @@ export interface Outline {
   /** Title of the Wikipedia page */
   pageTitle: string;
   /** Titles and descriptions for each section of the Wikipedia page */
-  sections: {
-    /** Title of the section */
-    section_title: string;
-    /** Content of the section */
-    description: string;
-    /** Titles and descriptions for each subsection of the Wikipedia page */
-    subsections?: {
-      /** Title of the subsection */
-      subsectionTitle: string;
-      /** Content of the subsection */
-      description: string;
-    }[];
-  }[];
+  sections: Section[];
 }
 
-export type Assistant = {
-  /** The ID of the assistant */
-  assistant_id: string;
-  /** The ID of the graph */
-  graph_id: string;
-  /** The assistant config */
-  config: object;
-  /** The time the assistant was created */
-  created_at: string;
-  /** The assistant metadata */
-  metadata: object;
-  /** The version of the assistant */
-  version: number;
-} & {
+export type Assistant = AssistantBase & {
   /** The last time the assistant was updated */
   updated_at: string;
   /** The name of the assistant */
@@ -2402,6 +2372,45 @@ export type BaseAgentConfig = BaseConfig & {
   tools: ToolConfig[];
   description: string;
 };
+
+export interface Section {
+  /** Title of the section */
+  section_title: string;
+  /** Content of the section */
+  description: string;
+  /** Titles and descriptions for each subsection of the Wikipedia page */
+  subsections?: Subsection[];
+}
+
+export interface Subsection {
+  /** Title of the subsection */
+  subsectionTitle: string;
+  /** Content of the subsection */
+  description: string;
+}
+
+/** 节点运行 */
+export interface NodeRunAction {
+  /** 动作 */
+  action?: string;
+  /** 输入 */
+  input?: object;
+}
+
+export interface AssistantBase {
+  /** The ID of the assistant */
+  assistant_id: string;
+  /** The ID of the graph */
+  graph_id: string;
+  /** The assistant config */
+  config: object;
+  /** The time the assistant was created */
+  created_at: string;
+  /** The assistant metadata */
+  metadata: object;
+  /** The version of the assistant */
+  version: number;
+}
 
 export type BaseTeamConfig = BaseConfig & {
   name?: string;
