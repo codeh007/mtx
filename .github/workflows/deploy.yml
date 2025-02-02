@@ -104,8 +104,7 @@ jobs:
 
       - name: install gomtm
         run: |
-          cd packages/gomtm-cli
-          bun i -g
+          ( cd packages/gomtm-cli && npm i -g )
 
       - name: deploy mtmaiui cfpage
         run: |
