@@ -86,10 +86,7 @@ export interface Message extends DBModel {
   run_id: string;
 }
 
-// export interface Session extends DBModel {
-//   name: string;
-//   team_id?: number;
-// }
+
 
 export interface SessionRuns {
   runs: Run[];

@@ -1,4 +1,4 @@
-// import { Tooltip } from "antd";
+"use client"
 import {
   AlertTriangle,
   Bot,
@@ -24,7 +24,7 @@ import {
   getRelativeTimeString,
 } from "../../components/views/atoms";
 import AgentFlow from "./agentflow/agentflow";
-import InputRequestView from "./inputrequest";
+import { InputRequestView } from "./inputrequest";
 import { RenderMessage } from "./rendermessage";
 
 interface RunViewProps {

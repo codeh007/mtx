@@ -2519,6 +2519,12 @@ export type BrowserParams = {
   input?: string;
 };
 
+export type ImageContent = {
+  url: string;
+  alt?: string;
+  data?: string;
+};
+
 export type BaseState = {
   metadata: ApiResourceMeta;
   /**
@@ -8110,6 +8116,44 @@ export type AgentNodeRunResponses = {
 
 export type AgentNodeRunResponse =
   AgentNodeRunResponses[keyof AgentNodeRunResponses];
+
+export type AgentRunData = {
+  /**
+   * 创建agentnode
+   */
+  body: AgentNodeRunInput;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The session id
+     */
+    session: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/nodes/runV2/{session}";
+};
+
+export type AgentRunErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type AgentRunError = AgentRunErrors[keyof AgentRunErrors];
+
+export type AgentRunResponses = {
+  200: AgentNodeRun;
+};
+
+export type AgentRunResponse = AgentRunResponses[keyof AgentRunResponses];
 
 export type AgentNodeFormData = {
   body?: never;
