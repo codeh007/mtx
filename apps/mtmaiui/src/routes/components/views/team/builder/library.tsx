@@ -2,13 +2,13 @@ import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { Collapse, type CollapseProps, Input } from "antd";
 import {
-    Bot,
-    Brain,
-    ChevronDown,
-    Maximize2,
-    Minimize2,
-    Timer,
-    Wrench,
+  Bot,
+  Brain,
+  ChevronDown,
+  Maximize2,
+  Minimize2,
+  Timer,
+  Wrench,
 } from "lucide-react";
 import React from "react";
 import { useGalleryStore } from "../../../../~gallery/store";
@@ -189,9 +189,7 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
           </button>
         </div>
 
-        <div className="mb-4 text-secondary">
-          Drag a component to add it to the team
-        </div>
+        <div className="mb-4">Drag a component to add it to the team</div>
 
         <div className="flex items-center gap-2 mb-4">
           <Input

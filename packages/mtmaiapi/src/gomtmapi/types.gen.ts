@@ -2710,6 +2710,82 @@ export type RunStatus =
   | "error"
   | "stopped";
 
+export type AgentConfig =
+  | ((BaseConfig & {
+      name: string;
+      agent_type: AgentTypes;
+      system_message?: string;
+      model_client: ModelConfig;
+      tools: Array<ToolConfig>;
+      description: string;
+    }) & {
+      agent_type?: "AssistantAgent";
+    })
+  | (_0 & {
+      agent_type: "UserProxyAgent";
+    })
+  | (_0 & {
+      agent_type?: "MultimodalWebSurfer";
+    })
+  | (_0 & {
+      agent_type: "FileSurfer";
+    })
+  | (_0 & {
+      agent_type: "MagenticOneCoderAgent";
+    });
+
+export type TerminationConfig =
+  | MaxMessageTerminationConfig
+  | TextMentionTerminationConfig
+  | CombinationTerminationConfig;
+
+export type BaseTerminationConfig = BaseConfig & {
+  termination_type?:
+    | "MaxMessageTermination"
+    | "StopMessageTermination"
+    | "TextMentionTermination"
+    | "TimeoutTermination"
+    | "CombinationTermination";
+};
+
+export type MaxMessageTerminationConfig = BaseTerminationConfig & {
+  termination_type: "MaxMessageTermination";
+  max_messages: number;
+};
+
+export type TextMentionTerminationConfig = BaseTerminationConfig & {
+  termination_type: "TextMentionTermination";
+  text: string;
+};
+
+export type CombinationTerminationConfig = BaseTerminationConfig & {
+  termination_type: "CombinationTermination";
+  operator: "and" | "or";
+  conditions: Array<TerminationConfig>;
+};
+
+export type TeamTypes =
+  | "RoundRobinGroupChat"
+  | "SelectorGroupChat"
+  | "MagenticOneGroupChat";
+
+export type TeamConfig = (BaseConfig & {
+  name?: string;
+  participants?: Array<AgentConfig>;
+  team_type?: TeamTypes;
+  termination_condition?: TerminationConfig;
+}) &
+  (
+    | {
+        team_type?: "RoundRobinGroupChat";
+      }
+    | (_02 & {
+        team_type?: "SelectorGroupChat";
+        selector_prompt?: string;
+        model_client?: ModelConfig;
+      })
+  );
+
 export type BaseState = {
   metadata: ApiResourceMeta;
   /**

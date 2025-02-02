@@ -15,7 +15,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Header = ({ meta, link }: any) => {
+export const Header = ({ meta, link }: any) => {
   const { user, logout } = React.useContext(appContext);
   const userName = user ? user.name : "Unknown";
   const userAvatarUrl = user ? user.avatar_url : "";
@@ -272,5 +272,3 @@ const Header = ({ meta, link }: any) => {
     </Disclosure>
   );
 };
-
-export default Header;

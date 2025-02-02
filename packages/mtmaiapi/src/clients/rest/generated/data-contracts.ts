@@ -2359,6 +2359,83 @@ export enum RunStatus {
   Stopped = "stopped",
 }
 
+export type AgentConfig =
+  | ((BaseConfig & {
+      name: string;
+      agent_type: AgentTypes;
+      system_message?: string;
+      model_client: ModelConfig;
+      tools: ToolConfig[];
+      description: string;
+    }) & {
+      agent_type?: "AssistantAgent";
+    })
+  | {
+      agent_type: "UserProxyAgent";
+    }
+  | {
+      agent_type?: "MultimodalWebSurfer";
+    }
+  | {
+      agent_type: "FileSurfer";
+    }
+  | {
+      agent_type: "MagenticOneCoderAgent";
+    };
+
+export type TerminationConfig =
+  | MaxMessageTerminationConfig
+  | TextMentionTerminationConfig
+  | CombinationTerminationConfig;
+
+export type BaseTerminationConfig = BaseConfig & {
+  termination_type?:
+    | "MaxMessageTermination"
+    | "StopMessageTermination"
+    | "TextMentionTermination"
+    | "TimeoutTermination"
+    | "CombinationTermination";
+};
+
+export type MaxMessageTerminationConfig = BaseTerminationConfig & {
+  termination_type: "MaxMessageTermination";
+  max_messages: number;
+};
+
+export type TextMentionTerminationConfig = BaseTerminationConfig & {
+  termination_type: "TextMentionTermination";
+  text: string;
+};
+
+export type CombinationTerminationConfig = BaseTerminationConfig & {
+  termination_type: "CombinationTermination";
+  operator: "and" | "or";
+  conditions: TerminationConfig[];
+};
+
+export enum TeamTypes {
+  RoundRobinGroupChat = "RoundRobinGroupChat",
+  SelectorGroupChat = "SelectorGroupChat",
+  MagenticOneGroupChat = "MagenticOneGroupChat",
+}
+
+export type TeamConfig = (BaseConfig & {
+  name?: string;
+  participants?: AgentConfig[];
+  team_type?: TeamTypes;
+  termination_condition?: TerminationConfig;
+}) &
+  (
+    | {
+        team_type?: "RoundRobinGroupChat";
+      }
+    | {
+        team_type?: "SelectorGroupChat";
+        selector_prompt?: string;
+        model_client?: ModelConfig;
+      }
+  );
+
 export interface BaseState {
   metadata: APIResourceMeta;
   /** 线程ID */

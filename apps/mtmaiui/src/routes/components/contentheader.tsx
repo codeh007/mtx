@@ -6,6 +6,7 @@ import {
   SunIcon,
 } from "@heroicons/react/24/outline";
 import { ChevronDown, Menu as MenuIcon } from "lucide-react";
+import { Button } from "mtxuilib/ui/button";
 import React from "react";
 import { CustomLink } from "../../components/CustomLink";
 import { useConfigStore } from "../../stores/agStore";
@@ -20,7 +21,7 @@ const classNames = (...classes: (string | undefined | boolean)[]) => {
   return classes.filter(Boolean).join(" ");
 };
 
-const ContentHeader = ({
+export const ContentHeader = ({
   onMobileMenuToggle,
   isMobileMenuOpen,
 }: ContentHeaderProps) => {
@@ -33,13 +34,13 @@ const ContentHeader = ({
     <div className="sticky top-0 z-40 bg-primary border-b border-secondary">
       <div className="flex h-16 items-center gap-x-4 px-4">
         {/* Mobile Menu Button */}
-        <button
+        <Button
           onClick={onMobileMenuToggle}
           className="md:hidden p-2 rounded-md hover:bg-secondary text-secondary hover:text-accent transition-colors"
           aria-label="Toggle mobile menu"
         >
           <MenuIcon className="h-6 w-6" />
-        </button>
+        </Button>
 
         {/* Desktop Sidebar Toggle - Hidden on Mobile */}
         {/* <div className="hidden md:block">
@@ -120,7 +121,7 @@ const ContentHeader = ({
             </form>
 
             {/* Dark Mode Toggle */}
-            <button
+            <Button
               onClick={() =>
                 setDarkMode(darkMode === "dark" ? "light" : "dark")
               }
@@ -131,11 +132,11 @@ const ContentHeader = ({
               ) : (
                 <SunIcon className="h-6 w-6" />
               )}
-            </button>
+            </Button>
             {/* Notifications */}
-            <button className="text-secondary hidden hover:text-primary">
+            <Button className="text-secondary hidden hover:text-primary">
               <BellIcon className="h-6 w-6" />
-            </button>
+            </Button>
 
             {/* Separator */}
             <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-secondary" />
@@ -185,5 +186,3 @@ const ContentHeader = ({
     </div>
   );
 };
-
-export default ContentHeader;

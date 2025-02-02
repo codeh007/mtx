@@ -17,16 +17,23 @@ import {
   Users,
   Wrench,
 } from "lucide-react";
-import { Button } from "mtxuilib/ui/button";
-import type React from "react";
 import type {
   AgentConfig,
-  ComponentTypes,
   ModelConfig,
   TeamConfig,
   TerminationConfig,
   ToolConfig,
-} from "../../../types/datamodel";
+} from "mtmaiapi";
+import { Button } from "mtxuilib/ui/button";
+import type React from "react";
+// import type {
+//   AgentConfig,
+//   ComponentTypes,
+//   ModelConfig,
+//   TeamConfig,
+//   TerminationConfig,
+//   ToolConfig,
+// } from "../../../types/datamodel";
 import { TruncatableText } from "../../atoms";
 import { useTeamBuilderStore } from "./store";
 import type { CustomNode, NodeData } from "./types";
