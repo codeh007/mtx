@@ -2169,6 +2169,14 @@ export interface BrowserParams {
   input?: string;
 }
 
+export enum TerminationTypes {
+  MaxMessageTermination = "MaxMessageTermination",
+  StopMessageTermination = "StopMessageTermination",
+  TextMentionTermination = "TextMentionTermination",
+  TimeoutTermination = "TimeoutTermination",
+  CombinationTermination = "CombinationTermination",
+}
+
 export interface RequestUsage {
   prompt_tokens: number;
   completion_tokens: number;
@@ -2418,12 +2426,7 @@ export type TerminationConfig =
   | CombinationTerminationConfig;
 
 export type BaseTerminationConfig = BaseConfig & {
-  termination_type?:
-    | "MaxMessageTermination"
-    | "StopMessageTermination"
-    | "TextMentionTermination"
-    | "TimeoutTermination"
-    | "CombinationTermination";
+  termination_type?: TerminationTypes;
 };
 
 export type MaxMessageTerminationConfig = BaseTerminationConfig & {
