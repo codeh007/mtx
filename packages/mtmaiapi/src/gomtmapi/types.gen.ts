@@ -2519,10 +2519,56 @@ export type BrowserParams = {
   input?: string;
 };
 
+export type RequestUsage = {
+  prompt_tokens: number;
+  completion_tokens: number;
+};
+
+export type FunctionCall = {
+  id: string;
+  arguments: string;
+  name: string;
+};
+
+export type FunctionExecutionResult = {
+  call_id: string;
+  content: string;
+};
+
+export type BaseMessageConfig = {
+  source?: string;
+  models_usage?: RequestUsage;
+};
+
 export type ImageContent = {
   url: string;
   alt?: string;
   data?: string;
+};
+
+export type TextMessageConfig = BaseMessageConfig & {
+  content?: string;
+};
+
+export type MultiModalMessageConfig = BaseMessageConfig & {
+  content?: Array<string | ImageContent>;
+};
+
+export type StopMessageConfig = BaseMessageConfig & {
+  content: string;
+};
+
+export type HandoffMessageConfig = BaseMessageConfig & {
+  content: string;
+  target: string;
+};
+
+export type ToolCallMessageConfig = BaseMessageConfig & {
+  content: Array<FunctionCall>;
+};
+
+export type ToolCallResultMessageConfig = BaseMessageConfig & {
+  content: Array<FunctionExecutionResult>;
 };
 
 export type BaseState = {

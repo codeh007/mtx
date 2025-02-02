@@ -2165,11 +2165,57 @@ export interface BrowserParams {
   input?: string;
 }
 
+export interface RequestUsage {
+  prompt_tokens: number;
+  completion_tokens: number;
+}
+
+export interface FunctionCall {
+  id: string;
+  arguments: string;
+  name: string;
+}
+
+export interface FunctionExecutionResult {
+  call_id: string;
+  content: string;
+}
+
+export interface BaseMessageConfig {
+  source?: string;
+  models_usage?: RequestUsage;
+}
+
 export interface ImageContent {
   url: string;
   alt?: string;
   data?: string;
 }
+
+export type TextMessageConfig = BaseMessageConfig & {
+  content?: string;
+};
+
+export type MultiModalMessageConfig = BaseMessageConfig & {
+  content?: (string | ImageContent)[];
+};
+
+export type StopMessageConfig = BaseMessageConfig & {
+  content: string;
+};
+
+export type HandoffMessageConfig = BaseMessageConfig & {
+  content: string;
+  target: string;
+};
+
+export type ToolCallMessageConfig = BaseMessageConfig & {
+  content: FunctionCall[];
+};
+
+export type ToolCallResultMessageConfig = BaseMessageConfig & {
+  content: FunctionExecutionResult[];
+};
 
 export interface BaseState {
   metadata: APIResourceMeta;
