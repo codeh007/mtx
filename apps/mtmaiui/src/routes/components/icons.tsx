@@ -7,7 +7,7 @@ type Props = {
   className?: string;
 };
 
-const Icon = ({ icon = "app", size = 4, className = "" }: Props) => {
+export const Icon = ({ icon = "app", size = 4, className = "" }: Props) => {
   const sizeClass = `h-${size} w-${size}  ${className}`;
   if (icon === "github") {
     return (
@@ -280,4 +280,3 @@ const Icon = ({ icon = "app", size = 4, className = "" }: Props) => {
     </svg>
   );
 };
-export default Icon;
