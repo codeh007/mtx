@@ -1,56 +1,58 @@
-export interface RequestUsage {
-  prompt_tokens: number;
-  completion_tokens: number;
-}
+// export interface RequestUsage {
+//   prompt_tokens: number;
+//   completion_tokens: number;
+// }
 
-export interface ImageContent {
-  url: string;
-  alt?: string;
-  data?: string;
-}
+import { HandoffMessageConfig, MultiModalMessageConfig, StopMessageConfig, TextMessageConfig, ToolCallMessageConfig, ToolCallResultMessageConfig } from "mtmaiapi";
 
-export interface FunctionCall {
-  id: string;
-  arguments: string; // JSON string
-  name: string;
-}
+// export interface ImageContent {
+//   url: string;
+//   alt?: string;
+//   data?: string;
+// }
 
-export interface FunctionExecutionResult {
-  call_id: string;
-  content: string;
-}
+// export interface FunctionCall {
+//   id: string;
+//   arguments: string; // JSON string
+//   name: string;
+// }
+
+// export interface FunctionExecutionResult {
+//   call_id: string;
+//   content: string;
+// }
 
 // Base message configuration (maps to Python BaseMessage)
-export interface BaseMessageConfig {
-  source: string;
-  models_usage?: RequestUsage;
-}
+// export interface BaseMessageConfig {
+//   source: string;
+//   models_usage?: RequestUsage;
+// }
 
 // Message configurations (mapping directly to Python classes)
-export interface TextMessageConfig extends BaseMessageConfig {
-  content: string;
-}
+// export interface TextMessageConfig extends BaseMessageConfig {
+//   content: string;
+// }
 
-export interface MultiModalMessageConfig extends BaseMessageConfig {
-  content: (string | ImageContent)[];
-}
+// export interface MultiModalMessageConfig extends BaseMessageConfig {
+//   content: (string | ImageContent)[];
+// }
 
-export interface StopMessageConfig extends BaseMessageConfig {
-  content: string;
-}
+// export interface StopMessageConfig extends BaseMessageConfig {
+//   content: string;
+// }
 
-export interface HandoffMessageConfig extends BaseMessageConfig {
-  content: string;
-  target: string;
-}
+// export interface HandoffMessageConfig extends BaseMessageConfig {
+//   content: string;
+//   target: string;
+// }
 
-export interface ToolCallMessageConfig extends BaseMessageConfig {
-  content: FunctionCall[];
-}
+// export interface ToolCallMessageConfig extends BaseMessageConfig {
+//   content: FunctionCall[];
+// }
 
-export interface ToolCallResultMessageConfig extends BaseMessageConfig {
-  content: FunctionExecutionResult[];
-}
+// export interface ToolCallResultMessageConfig extends BaseMessageConfig {
+//   content: FunctionExecutionResult[];
+// }
 
 // Message type unions (matching Python type aliases)
 export type InnerMessageConfig =
