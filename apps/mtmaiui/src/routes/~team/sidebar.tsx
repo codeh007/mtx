@@ -22,7 +22,6 @@ import { useTenant } from "../../hooks/useAuth";
 import { getRelativeTimeString } from "../components/views/atoms";
 import { defaultTeam } from "../components/views/team/types";
 import { useGalleryStore } from "../~gallery/store";
-// import { undefined } from "./~route.lazy";
 
 interface TeamSidebarProps {
   isOpen: boolean;

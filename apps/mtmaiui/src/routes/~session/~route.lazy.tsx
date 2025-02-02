@@ -1,6 +1,5 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { message } from 'antd'
-// import { Session } from 'inspector';
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { useConfigStore } from '../../stores/agStore'
 import { appContext } from '../../stores/agStoreProvider'
@@ -9,6 +8,20 @@ import { sessionAPI } from './api'
 import ChatView from './chat/chat'
 import { SessionEditor } from './editor'
 import { Sidebar } from './sidebar'
+
+
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+} from 'mtxuilib/ui/breadcrumb'
+import { SidebarInset } from 'mtxuilib/ui/sidebar'
+import { Suspense } from 'react'
+import { DashContent } from '../../components/DashContent'
+import { DashHeaders } from '../../components/DashHeaders'
+import { DashSidebar } from '../../components/sidebar/siderbar'
+import { RootAppWrapper } from '../components/RootAppWrapper'
 
 export const Route = createLazyFileRoute('/session')({
   component: RouteComponent,
@@ -166,6 +179,20 @@ function RouteComponent() {
   }, [fetchSessions])
   return (
     <>
+    <RootAppWrapper>
+        <DashSidebar />
+        <SidebarInset>
+          <DashHeaders>
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbPage>posts</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </DashHeaders>
+          <DashContent>
+            <Suspense fallback={<div>Loading...</div>}>
       <div className="relative flex h-full w-full">
         {contextHolder}
         <div
@@ -214,6 +241,11 @@ function RouteComponent() {
           }}
         />
       </div>
+      
+    </Suspense>
+          </DashContent>
+        </SidebarInset>
+      </RootAppWrapper>
     </>
   )
 }
