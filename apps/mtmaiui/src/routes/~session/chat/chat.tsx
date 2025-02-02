@@ -1,6 +1,8 @@
 import { message } from "antd";
 import { ChevronRight, MessagesSquare } from "lucide-react";
 import * as React from "react";
+// import { getServerUrl } from "../../../lib/agUtil";
+import { useEffect } from "react";
 import { appContext } from "../../../stores/agStoreProvider";
 import type { IStatus } from "../../components/types/app";
 import type {
@@ -12,21 +14,18 @@ import type {
   TeamResult,
   WebSocketMessage,
 } from "../../components/types/datamodel";
-// import { getServerUrl } from "../../components/utils";
 import { teamAPI } from "../../components/views/team/api";
 import { sessionAPI } from "../api";
 import ChatInput from "./chatinput";
 import RunView from "./runview";
 import { TIMEOUT_CONFIG } from "./types";
-import { getServerUrl } from "../../../lib/agUtil";
-// const logo = require("../../../../images/landing/welcome.svg").default;
 
 interface ChatViewProps {
   session: Session | null;
 }
 
 export default function ChatView({ session }: ChatViewProps) {
-  const serverUrl = getServerUrl();
+  // const serverUrl = getServerUrl();
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<IStatus | null>({
     status: true,
@@ -89,7 +88,7 @@ export default function ChatView({ session }: ChatViewProps) {
   }, [session?.id]);
 
   // Load team config
-  React.useEffect(() => {
+  useEffect(() => {
     if (session?.team_id && user?.email) {
       teamAPI
         .getTeam(session.team_id, user.email)
@@ -128,7 +127,7 @@ export default function ChatView({ session }: ChatViewProps) {
 
   const createRun = async (sessionId: number): Promise<string> => {
     const payload = { session_id: sessionId, user_id: user?.email || "" };
-    const response = await fetch(`${serverUrl}/runs/`, {
+    const response = await fetch(`/runs/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),

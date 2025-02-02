@@ -44,7 +44,7 @@ export function TeamCombo(props: InputProps) {
       className="w-[200px] justify-between"
     >
       {value
-        ? teamsQuery.data?.rows?.find((framework) => framework.metadata.id === value)?.name
+        ? teamsQuery.data?.rows?.find((framework) => framework.metadata.id === value)?.config?.name
         : "Select ..."}
       <ChevronsUpDown className="opacity-50" />
     </Button>
@@ -64,7 +64,7 @@ export function TeamCombo(props: InputProps) {
                 setOpen(false)
               }}
             >
-              {team.name}
+              {team.config?.name}
               <Check
                 className={cn(
                   "ml-auto",
