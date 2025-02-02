@@ -3162,6 +3162,29 @@ export class Api<
       ...params,
     });
   /**
+   * @description 执行autogen
+   *
+   * @tags agent
+   * @name AgentRun
+   * @request POST:/api/v1/tenants/{tenant}/nodes/runV2/{session}
+   * @secure
+   */
+  agentRun = (
+    tenant: TenantParameter,
+    session: string,
+    data: AgentNodeRunInput,
+    params: RequestParams = {},
+  ) =>
+    this.request<AgentNodeRun, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/nodes/runV2/${session}`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
    * @description 获取节点表单
    *
    * @tags agent

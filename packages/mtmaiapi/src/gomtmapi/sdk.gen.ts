@@ -377,6 +377,9 @@ import type {
   AgentNodeRunData,
   AgentNodeRunResponse,
   AgentNodeRunError,
+  AgentRunData,
+  AgentRunResponse,
+  AgentRunError,
   AgentNodeFormData,
   AgentNodeFormResponse,
   AgentNodeFormError,
@@ -4055,6 +4058,36 @@ export const agentNodeRun = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/nodes/run",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * 执行autogen
+ */
+export const agentRun = <ThrowOnError extends boolean = false>(
+  options: Options<AgentRunData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).post<
+    AgentRunResponse,
+    AgentRunError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/nodes/runV2/{session}",
     ...options,
     headers: {
       "Content-Type": "application/json",

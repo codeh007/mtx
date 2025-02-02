@@ -269,6 +269,9 @@ import type {
   AgentNodeRunData,
   AgentNodeRunError,
   AgentNodeRunResponse,
+  AgentRunData,
+  AgentRunError,
+  AgentRunResponse,
   AgentNodeFormData,
   AgentNodeFormError,
   AgentNodeFormResponse,
@@ -473,6 +476,7 @@ import {
   agentNode,
   agentNodeUpdate,
   agentNodeRun,
+  agentRun,
   agentNodeForm,
   agentList,
   agentGet,
@@ -4481,6 +4485,43 @@ export const agentNodeRunMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await agentNodeRun({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const agentRunQueryKey = (options: Options<AgentRunData>) => [
+  createQueryKey("agentRun", options),
+];
+
+export const agentRunOptions = (options: Options<AgentRunData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await agentRun({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: agentRunQueryKey(options),
+  });
+};
+
+export const agentRunMutation = (options?: Partial<Options<AgentRunData>>) => {
+  const mutationOptions: UseMutationOptions<
+    AgentRunResponse,
+    AgentRunError,
+    Options<AgentRunData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await agentRun({
         ...options,
         ...localOptions,
         throwOnError: true,

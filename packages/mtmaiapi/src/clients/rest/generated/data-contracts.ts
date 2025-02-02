@@ -2165,6 +2165,12 @@ export interface BrowserParams {
   input?: string;
 }
 
+export interface ImageContent {
+  url: string;
+  alt?: string;
+  data?: string;
+}
+
 export interface BaseState {
   metadata: APIResourceMeta;
   /** 线程ID */
