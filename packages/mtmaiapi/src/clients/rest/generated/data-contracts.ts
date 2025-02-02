@@ -1773,8 +1773,7 @@ export interface AgentNodeRunInput {
     | CrewAIParams
     | ScrapeGraphParams
     | BrowserParams
-    | CanvasGraphParams
-    | MessageV2;
+    | CanvasGraphParams;
 }
 
 export interface TextHighlight {
@@ -2291,18 +2290,7 @@ export interface Run {
     | "stopped";
   task: AgentMessageConfig;
   team_result: TeamResult;
-  messages: {
-    id: string;
-    text?: string | null;
-    rawResponse?: Record<string, any>;
-    sender: string;
-    toolCalls?: {
-      id: string;
-      name: string;
-      args: string;
-      result?: object | null;
-    }[];
-  }[];
+  messages: ChatMessage[];
   error_message?: string;
 }
 

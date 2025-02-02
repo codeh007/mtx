@@ -1968,8 +1968,7 @@ export type AgentNodeRunInput = {
     | CrewAiParams
     | ScrapeGraphParams
     | BrowserParams
-    | CanvasGraphParams
-    | MessageV2;
+    | CanvasGraphParams;
 };
 
 export type TextHighlight = {
@@ -2647,22 +2646,7 @@ export type Run = {
     | "stopped";
   task: AgentMessageConfig;
   team_result: TeamResult;
-  messages: Array<{
-    id: string;
-    text?: string;
-    rawResponse?: {
-      [key: string]: unknown;
-    };
-    sender: string;
-    toolCalls?: Array<{
-      id: string;
-      name: string;
-      args: string;
-      result?: {
-        [key: string]: unknown;
-      };
-    }>;
-  }>;
+  messages: Array<ChatMessage>;
   error_message?: string;
 };
 
