@@ -1,19 +1,20 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { message } from "antd";
 import { ChevronRight, MessagesSquare } from "lucide-react";
-import { Session } from "mtmaiapi";
+import { Session, teamGetOptions } from "mtmaiapi";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import * as React from "react";
 import { useEffect } from "react";
+import { useTenant } from "../../../hooks/useAuth";
 import { appContext } from "../../../stores/agStoreProvider";
 import type { IStatus } from "../../components/types/app";
 import type {
   AgentMessageConfig,
   Run,
   RunStatus,
-  TeamConfig,
   TeamResult,
-  WebSocketMessage,
+  WebSocketMessage
 } from "../../components/types/datamodel";
-import { teamAPI } from "../../components/views/team/api";
 import { sessionAPI } from "../api";
 import ChatInput from "./chatinput";
 import RunView from "./runview";
@@ -24,7 +25,6 @@ interface ChatViewProps {
 }
 
 export default function ChatView({ session }: ChatViewProps) {
-  // const serverUrl = getServerUrl();
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<IStatus | null>({
     status: true,
@@ -35,8 +35,9 @@ export default function ChatView({ session }: ChatViewProps) {
   const [existingRuns, setExistingRuns] = React.useState<Run[]>([]);
   const [currentRun, setCurrentRun] = React.useState<Run | null>(null);
   const [messageApi, contextHolder] = message.useMessage();
-
   const chatContainerRef = React.useRef<HTMLDivElement | null>(null);
+
+  const tenant = useTenant()
 
   // Context and config
   const { user } = React.useContext(appContext);
@@ -44,7 +45,7 @@ export default function ChatView({ session }: ChatViewProps) {
   const [activeSocket, setActiveSocket] = React.useState<WebSocket | null>(
     null,
   );
-  const [teamConfig, setTeamConfig] = React.useState<TeamConfig | null>(null);
+  // const [teamConfig, setTeamConfig] = React.useState<TeamConfig | null>(null);
 
   const inputTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
   const activeSocketRef = React.useRef<WebSocket | null>(null);
@@ -65,10 +66,10 @@ export default function ChatView({ session }: ChatViewProps) {
 
   // Load existing runs when session changes
   const loadSessionRuns = async () => {
-    if (!session?.id || !user?.email) return;
+    if (!session?.metadata.id || !user?.email) return;
 
     try {
-      const response = await sessionAPI.getSessionRuns(session.id, user.email);
+      const response = await sessionAPI.getSessionRuns(session.metadata.id, user.email);
       setExistingRuns(response.runs);
     } catch (error) {
       console.error("Error loading session runs:", error);
@@ -76,31 +77,25 @@ export default function ChatView({ session }: ChatViewProps) {
     }
   };
 
-  React.useEffect(() => {
-    if (session?.id) {
+  useEffect(() => {
+    if (session?.metadata.id) {
       loadSessionRuns();
       setCurrentRun(null);
     } else {
       setExistingRuns([]);
       setCurrentRun(null);
     }
-  }, [session?.id]);
+  }, [session?.metadata.id]);
 
-  // Load team config
-  useEffect(() => {
-    if (session?.team_id && user?.email) {
-      teamAPI
-        .getTeam(session.team_id, user.email)
-        .then((team) => {
-          setTeamConfig(team.config);
-        })
-        .catch((error) => {
-          console.error("Error loading team config:", error);
-          // messageApi.error("Failed to load team config");
-          setTeamConfig(null);
-        });
-    }
-  }, [session]);
+
+  const teamConfigQuery = useSuspenseQuery({
+    ...teamGetOptions({
+      path: {
+        tenant: tenant!.metadata.id,
+        team: session!.teamId,
+      },
+    }),
+  })
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -124,7 +119,8 @@ export default function ChatView({ session }: ChatViewProps) {
     };
   }, [activeSocket]);
 
-  const createRun = async (sessionId: number): Promise<string> => {
+  const createRun = async (sessionId: string): Promise<string> => {
+    console.log("createRun", sessionId);
     const payload = { session_id: sessionId, user_id: user?.email || "" };
     const response = await fetch(`/runs/`, {
       method: "POST",
@@ -350,6 +346,7 @@ export default function ChatView({ session }: ChatViewProps) {
   };
 
   const runTask = async (query: string) => {
+    console.log("runTask", query);
     setError(null);
     setLoading(true);
 
@@ -364,14 +361,14 @@ export default function ChatView({ session }: ChatViewProps) {
       inputTimeoutRef.current = null;
     }
 
-    if (!session?.id || !teamConfig) {
+    if (!session?.metadata.id || !teamConfigQuery.data) {
       // Add teamConfig check
       setLoading(false);
       return;
     }
 
     try {
-      const runId = await createRun(session.id);
+      const runId = await createRun(session.metadata.id);
 
       // Initialize run state BEFORE websocket connection
       setCurrentRun({
@@ -407,9 +404,9 @@ export default function ChatView({ session }: ChatViewProps) {
       activeSocket.close();
     }
 
-    const baseUrl = getBaseUrl(serverUrl);
+    // const baseUrl = getBaseUrl(serverUrl);
     const wsProtocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const wsUrl = `${wsProtocol}//${baseUrl}/api/ws/runs/${runId}`;
+    const wsUrl = `${wsProtocol}//api/ws/runs/${runId}`;
 
     const socket = new WebSocket(wsUrl);
 
@@ -434,7 +431,7 @@ export default function ChatView({ session }: ChatViewProps) {
         JSON.stringify({
           type: "start",
           task: query,
-          team_config: teamConfig,
+          team_config: teamConfigQuery.data,
         }),
       );
     };
@@ -479,14 +476,15 @@ export default function ChatView({ session }: ChatViewProps) {
   };
 
   return (
-    <div className="text-primary h-[calc(100vh-165px)] bg-primary relative rounded flex-1 scroll">
+    <div className="text-primary h-[calc(100vh-165px)] relative rounded flex-1 scroll">
+      <DebugValue data={{team: teamConfigQuery.data}}/>
       {contextHolder}
       <div className="flex pt-2 items-center gap-2  text-sm">
         <span className="text-primary font-medium"> Sessions</span>
         {session && (
           <>
             <ChevronRight className="w-4 h-4 text-secondary" />
-            <span className="text-secondary">{session.name}</span>
+            <span className="">{session.name}</span>
           </>
         )}
       </div>
@@ -500,12 +498,12 @@ export default function ChatView({ session }: ChatViewProps) {
             <span className="  inline-block h-6"></span>{" "}
           </div>
           <>
-            {teamConfig && (
+            {teamConfigQuery.data && (
               <>
                 {/* Existing Runs */}
                 {existingRuns.map((run, index) => (
                   <RunView
-                    teamConfig={teamConfig}
+                    teamConfig={teamConfigQuery.data}
                     key={run.id + "-review-" + index}
                     run={run}
                     isFirstRun={index === 0}
@@ -516,7 +514,7 @@ export default function ChatView({ session }: ChatViewProps) {
                 {currentRun && (
                   <RunView
                     run={currentRun}
-                    teamConfig={teamConfig}
+                    teamConfig={teamConfigQuery.data}
                     onInputResponse={handleInputResponse}
                     onCancel={handleCancel}
                     isFirstRun={existingRuns.length === 0}
@@ -533,7 +531,7 @@ export default function ChatView({ session }: ChatViewProps) {
                         className="w-64 h-64 mb-4 inline-block"
                       />
                       <div className="  font-medium mb-2">Start a new task</div>
-                      <div className="text-secondary text-sm">
+                      <div className="text-sm">
                         Enter a task to get started
                       </div>
                     </div>
@@ -543,7 +541,7 @@ export default function ChatView({ session }: ChatViewProps) {
             )}
 
             {/* No team config */}
-            {!teamConfig && (
+            {!teamConfigQuery.data && (
               <div className="flex items-center justify-center h-[80%]">
                 <div className="text-center  ">
                   <MessagesSquare
@@ -554,7 +552,7 @@ export default function ChatView({ session }: ChatViewProps) {
                     No team configuration found for this session (may have been
                     deleted).{" "}
                   </div>
-                  <div className="text-secondary text-sm">
+                  <div className="text-sm">
                     Add a team to the session to get started.
                   </div>
                 </div>
@@ -563,7 +561,7 @@ export default function ChatView({ session }: ChatViewProps) {
           </>
         </div>
 
-        {session && teamConfig && (
+        {session && teamConfigQuery.data && (
           <div className="flex-shrink-0">
             <ChatInput
               onSubmit={runTask}

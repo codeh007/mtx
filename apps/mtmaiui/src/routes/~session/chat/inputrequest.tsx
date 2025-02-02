@@ -1,5 +1,5 @@
+import { Clock, Loader2, SendHorizontal } from "lucide-react";
 import React, { useEffect, useRef } from "react";
-import { SendHorizontal, Loader2, Clock } from "lucide-react";
 import { TIMEOUT_CONFIG } from "./types";
 
 interface InputRequestProps {
@@ -9,7 +9,7 @@ interface InputRequestProps {
   onTimeout?: () => void;
 }
 
-const InputRequestView: React.FC<InputRequestProps> = ({
+export const InputRequestView: React.FC<InputRequestProps> = ({
   prompt,
   onSubmit,
   disabled = false,
@@ -20,7 +20,7 @@ const InputRequestView: React.FC<InputRequestProps> = ({
   const [timeLeft, setTimeLeft] = React.useState(TIMEOUT_CONFIG.DURATION_SEC);
   const [hasInteracted, setHasInteracted] = React.useState(false);
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const timerRef = useRef<NodeJS.Timeout>();
+  const timerRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   useEffect(() => {
     if (!disabled) {
@@ -150,5 +150,3 @@ const InputRequestView: React.FC<InputRequestProps> = ({
     </div>
   );
 };
-
-export default InputRequestView;

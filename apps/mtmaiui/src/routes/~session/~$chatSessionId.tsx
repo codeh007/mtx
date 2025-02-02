@@ -23,10 +23,7 @@ function RouteComponent() {
   })
   return (
     <div>
-      chat session id: {chatSessionId}
-      <div className="pl-4">
         {chatSession.data && <ChatView session={chatSession.data} />}
-      </div>
     </div>
   )
 }
