@@ -1,6 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { message } from 'antd'
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useConfigStore } from '../../stores/agStore'
 import { appContext } from '../../stores/agStoreProvider'
 import type { Session } from '../components/types/datamodel'
@@ -50,27 +50,27 @@ function RouteComponent() {
   }, [isSidebarOpen])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  const fetchSessions = useCallback(async () => {
-    if (!user?.email) return
+  // const fetchSessions = useCallback(async () => {
+  //   if (!user?.email) return
 
-    try {
-      setIsLoading(true)
-      const data = await sessionAPI.listSessions(user.email)
-      setSessions(data)
+  //   try {
+  //     setIsLoading(true)
+  //     const data = await sessionAPI.listSessions(user.email)
+  //     setSessions(data)
 
-      // Only set first session if there's no sessionId in URL
-      const params = new URLSearchParams(window.location.search)
-      const sessionId = params.get('sessionId')
-      if (!session && data.length > 0 && !sessionId) {
-        setSession(data[0])
-      }
-    } catch (error) {
-      console.error('Error fetching sessions:', error)
-      messageApi.error('Error loading sessions')
-    } finally {
-      setIsLoading(false)
-    }
-  }, [user?.email, setSessions, session, setSession])
+  //     // Only set first session if there's no sessionId in URL
+  //     const params = new URLSearchParams(window.location.search)
+  //     const sessionId = params.get('sessionId')
+  //     if (!session && data.length > 0 && !sessionId) {
+  //       setSession(data[0])
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching sessions:', error)
+  //     messageApi.error('Error loading sessions')
+  //   } finally {
+  //     setIsLoading(false)
+  //   }
+  // }, [user?.email, setSessions, session, setSession])
 
   // Handle initial URL params
   useEffect(() => {
@@ -97,32 +97,6 @@ function RouteComponent() {
     return () => window.removeEventListener('popstate', handleLocationChange)
   }, [session])
 
-  // const handleSaveSession = async (sessionData: Partial<Session>) => {
-  //   if (!user?.email) return
-
-  //   try {
-  //     if (sessionData.id) {
-  //       const updated = await sessionAPI.updateSession(
-  //         sessionData.id,
-  //         sessionData,
-  //         user.email,
-  //       )
-  //       setSessions(sessions.map((s) => (s.id === updated.id ? updated : s)))
-  //       if (session?.id === updated.id) {
-  //         setSession(updated)
-  //       }
-  //     } else {
-  //       const created = await sessionAPI.createSession(sessionData, user.email)
-  //       setSessions([created, ...sessions])
-  //       setSession(created)
-  //     }
-  //     setIsEditorOpen(false)
-  //     setEditingSession(undefined)
-  //   } catch (error) {
-  //     messageApi.error('Error saving session')
-  //     console.error(error)
-  //   }
-  // }
 
   const handleDeleteSession = async (sessionId: number) => {
     if (!user?.email) return
@@ -174,9 +148,9 @@ function RouteComponent() {
     }
   }
 
-  useEffect(() => {
-    fetchSessions()
-  }, [fetchSessions])
+  // useEffect(() => {
+  //   fetchSessions()
+  // }, [fetchSessions])
   return (
     <>
     <RootAppWrapper>
@@ -202,7 +176,7 @@ function RouteComponent() {
         >
           <Sidebar
             isOpen={isSidebarOpen}
-            sessions={sessions}
+            // sessions={sessions}
             currentSession={session}
             onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
             onSelectSession={handleSelectSession}
@@ -234,7 +208,7 @@ function RouteComponent() {
         <SessionEditor
           session={editingSession}
           isOpen={isEditorOpen}
-          onSave={handleSaveSession}
+          // onSave={handleSaveSession}
           onCancel={() => {
             setIsEditorOpen(false)
             setEditingSession(undefined)
