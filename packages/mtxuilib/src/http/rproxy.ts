@@ -1,7 +1,19 @@
+export interface RewriteRule {
+	// 匹配的路径模式
+	from: string | RegExp;
+	// 目标基础URL，如果提供则覆盖全局baseUrl
+	to: string;
+	// 可选的路径重写规则
+	rewrite?: {
+		from: string;
+		to: string;
+	};
+}
+
 export interface RProxyOptions {
-  baseUrl: string;
-  rewritePathFrom?: string;
-  rewritePathTo?: string;
+	baseUrl: string;
+	rewrites?: RewriteRule[];
+	headers?: Record<string, string>;
 }
 /**
  * 简易的反向 http 代理
@@ -9,80 +21,74 @@ export interface RProxyOptions {
  * @returns
  */
 export function newRProxy(options: RProxyOptions) {
-  // const { baseUrl } = options;
-  const { baseUrl, rewritePathFrom, rewritePathTo } = options;
-  return async (r: Request) => {
-    const incomeUri = new URL(r.url);
-    const incomePathname = incomeUri.pathname;
-    let targetPath = incomeUri.pathname;
+	const { baseUrl, rewrites = [] } = options;
 
-    // url rewrite
-    if (
-      rewritePathFrom &&
-      rewritePathTo &&
-      incomePathname.includes(rewritePathFrom)
-    ) {
-      // Replace the matched portion of the incoming path with the target pattern
-      targetPath = targetPath.replace(rewritePathFrom, rewritePathTo);
-    }
+	return async (r: Request) => {
+		const incomeUri = new URL(r.url);
+		const incomePathname = incomeUri.pathname;
+		let targetPath = incomePathname;
+		let targetBaseUrl = baseUrl;
 
-    const fullUrl = new URL(baseUrl + targetPath);
-    fullUrl.search = incomeUri.search;
-    try {
-      console.log(`rproxy => ${r.method} ${fullUrl}`);
+		// 检查是否匹配新的重写规则
+		for (const rule of rewrites) {
+			const isMatch =
+				typeof rule.from === "string"
+					? incomePathname.includes(rule.from)
+					: rule.from.test(incomePathname);
 
-      const xForwardHost =
-        r.headers.get("x-forwarded-host") ||
-        r.headers.get("host") ||
-        fullUrl.hostname;
-      const xForwardProto: string =
-        r.headers.get("x-forwarded-proto") || fullUrl.protocol || "https";
-      const fetchOptions = {
-        method: r.method,
-        headers: {
-          ...Object.fromEntries(r.headers.entries()),
-          "x-forwarded-host": xForwardHost,
-          "x-forwarded-proto": xForwardProto,
-        },
-        redirect: "manual" as const,
-        ...(r.body && { body: r.body }),
-      };
+			if (isMatch) {
+				targetBaseUrl = rule.to;
+				// 如果定义了路径重写规则
+				if (rule.rewrite) {
+					targetPath = targetPath.replace(rule.rewrite.from, rule.rewrite.to);
+				}
+				break;
+			}
+		}
 
-      const response = await fetch(fullUrl, fetchOptions);
-      if (response.status >= 300 && response.status < 400) {
-        const location = response.headers.get("Location");
-        if (location) {
-          return new Response(null, {
-            status: response.status,
-            headers: {
-              ...Object.fromEntries(response.headers.entries()),
-            },
-          });
-        }
-      }
-      return response;
-    } catch (e) {
-      return new Response(`error ${e} ${fullUrl.toString()}`);
-    }
-  };
+		const fullUrl = new URL(targetBaseUrl + targetPath);
+		fullUrl.search = incomeUri.search;
+		try {
+			const requestHeaders = copyIncomeHeaders(r);
+			const response = await fetch(fullUrl, {
+				method: r.method,
+				headers: requestHeaders,
+				body: ["GET", "HEAD"].includes(r.method) ? undefined : r.body,
+			});
+			console.log(`🚀 [rProxy] ${r.method}(${response.status}) ${r.url}`);
+			return response;
+		} catch (e) {
+			return new Response(`error ${e} ${fullUrl.toString()}`);
+		}
+	};
 }
 
+const allExcludesHeaderPrefixes = [
+	"host",
+	"content-length",
+	"x-forwarded-",
+	"cf-",
+];
+
+/**
+ * 复制请求头, 自动清理和修正headers
+ * @param r
+ * @param excludesHeaderPrefixes
+ * @returns
+ */
 export function copyIncomeHeaders(
-  r: Request,
-  excludesHeaderPrefixes: string[] = [],
+	r: Request,
+	excludesHeaderPrefixes: string[] = [],
 ) {
-  const allExcludesHeaderPrefixes = [
-    "host",
-    "content-length",
-    "x-forwarded-",
-    "cf-",
-    ...excludesHeaderPrefixes,
-  ];
-  const requestHeaders = new Headers();
-  r.headers.forEach((value, key) => {
-    if (!allExcludesHeaderPrefixes.some((prefix) => key.startsWith(prefix))) {
-      requestHeaders.set(key, value);
-    }
-  });
-  return requestHeaders;
+	const requestHeaders = new Headers();
+	r.headers.forEach((value, key) => {
+		if (
+			!allExcludesHeaderPrefixes
+				.concat(excludesHeaderPrefixes)
+				.some((prefix) => key.startsWith(prefix))
+		) {
+			requestHeaders.set(key, value);
+		}
+	});
+	return requestHeaders;
 }
