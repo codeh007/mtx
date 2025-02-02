@@ -1,4 +1,4 @@
-import { generateUUID } from "../../lib/s-utils";
+import { generateUUID } from "../../lib/sslib";
 
 export class WsContext {
   private connectId: string | undefined;

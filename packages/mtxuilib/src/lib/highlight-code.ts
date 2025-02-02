@@ -1,9 +1,7 @@
 "use server";
 
-// biome-ignore lint/style/useNodejsImportProtocol: <explanation>
-import { promises as fs } from "fs";
-// biome-ignore lint/style/useNodejsImportProtocol: <explanation>
-import path from "path";
+import { promises as fs } from "node:fs";
+import path from "node:path";
 import { getHighlighter } from "shiki";
 
 export async function highlightCode(code: string) {

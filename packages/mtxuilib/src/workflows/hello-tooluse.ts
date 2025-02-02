@@ -4,8 +4,7 @@ import {
   type WorkflowEvent,
   type WorkflowStep,
 } from "cloudflare:workers";
-// import { createSimulationGraph } from "../../../mtxlib/src/agents/simulationGraph";
-import { generateUUID } from "../lib/s-utils";
+import { generateUUID } from "../lib/sslib";
 import type { Env } from "../types";
 
 const checkpointer = new MemorySaver();

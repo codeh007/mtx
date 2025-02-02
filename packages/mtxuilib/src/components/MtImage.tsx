@@ -3,7 +3,7 @@
  */
 import Image, { type ImageLoader } from "next/image";
 import type { ComponentProps } from "react";
-import { isCloudflarePage } from "../lib/s-utils";
+import { isCloudflarePage } from "../lib/sslib";
 
 const normalizeSrc = (src: string) => {
   return src.startsWith("/") ? src.slice(1) : src;

@@ -15,7 +15,7 @@ import { csharp } from "@replit/codemirror-lang-csharp";
 import CodeMirror, { type EditorView } from "@uiw/react-codemirror";
 import type { ArtifactCodeV3 } from "mtmaiapi";
 import { getArtifactContent } from "mtxuilib/agentutils/opencanvas_utils";
-import { cleanContent } from "mtxuilib/lib/s-utils";
+import { cleanContent } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
 import React, { type MutableRefObject } from "react";
 import { useGraphStore } from "../../../stores/GraphContext";
@@ -81,11 +81,11 @@ export function CodeRendererComponent(props: Readonly<CodeRendererProps>) {
   //   return null;
   // }
 
-  const isStreaming  = useGraphStore(x=>x.isStreaming)
-  const firstTokenReceived = useGraphStore(x=>x.firstTokenReceived)
+  const isStreaming = useGraphStore((x) => x.isStreaming);
+  const firstTokenReceived = useGraphStore((x) => x.firstTokenReceived);
   const artifactContent = getArtifactContent(artifact) as ArtifactCodeV3;
   const extensions = [getLanguageExtension(artifactContent.language)];
-  const setArtifactContent = useGraphStore(x=>x.setArtifactContent)
+  const setArtifactContent = useGraphStore((x) => x.setArtifactContent);
   if (!artifactContent.code) {
     return null;
   }
