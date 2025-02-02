@@ -1,15 +1,6 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute, Outlet } from '@tanstack/react-router'
 import { message } from 'antd'
-import { useContext, useEffect, useState } from 'react'
-import { useConfigStore } from '../../stores/agStore'
-import { appContext } from '../../stores/agStoreProvider'
-import type { Session } from '../components/types/datamodel'
-import { sessionAPI } from './api'
-import ChatView from './chat/chat'
-import { SessionEditor } from './editor'
-import { Sidebar } from './sidebar'
-
-
+import { Session } from 'mtmaiapi'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -17,11 +8,16 @@ import {
   BreadcrumbPage,
 } from 'mtxuilib/ui/breadcrumb'
 import { SidebarInset } from 'mtxuilib/ui/sidebar'
-import { Suspense } from 'react'
+import { Suspense, useContext, useEffect, useState } from 'react'
 import { DashContent } from '../../components/DashContent'
 import { DashHeaders } from '../../components/DashHeaders'
 import { DashSidebar } from '../../components/sidebar/siderbar'
+import { useConfigStore } from '../../stores/agStore'
+import { appContext } from '../../stores/agStoreProvider'
 import { RootAppWrapper } from '../components/RootAppWrapper'
+import { sessionAPI } from './api'
+import { SessionEditor } from './session-editor'
+import { Sidebar } from './sidebar'
 
 export const Route = createLazyFileRoute('/session')({
   component: RouteComponent,
@@ -48,29 +44,6 @@ function RouteComponent() {
       localStorage.setItem('sessionSidebar', JSON.stringify(isSidebarOpen))
     }
   }, [isSidebarOpen])
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  // const fetchSessions = useCallback(async () => {
-  //   if (!user?.email) return
-
-  //   try {
-  //     setIsLoading(true)
-  //     const data = await sessionAPI.listSessions(user.email)
-  //     setSessions(data)
-
-  //     // Only set first session if there's no sessionId in URL
-  //     const params = new URLSearchParams(window.location.search)
-  //     const sessionId = params.get('sessionId')
-  //     if (!session && data.length > 0 && !sessionId) {
-  //       setSession(data[0])
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching sessions:', error)
-  //     messageApi.error('Error loading sessions')
-  //   } finally {
-  //     setIsLoading(false)
-  //   }
-  // }, [user?.email, setSessions, session, setSession])
 
   // Handle initial URL params
   useEffect(() => {
@@ -148,9 +121,6 @@ function RouteComponent() {
     }
   }
 
-  // useEffect(() => {
-  //   fetchSessions()
-  // }, [fetchSessions])
   return (
     <>
     <RootAppWrapper>
@@ -176,7 +146,6 @@ function RouteComponent() {
         >
           <Sidebar
             isOpen={isSidebarOpen}
-            // sessions={sessions}
             currentSession={session}
             onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
             onSelectSession={handleSelectSession}
@@ -194,15 +163,7 @@ function RouteComponent() {
             isSidebarOpen ? 'ml-64' : 'ml-12'
           }`}
         >
-          {session && sessions.length > 0 ? (
-            <div className="pl-4">
-              {session && <ChatView session={session} />}
-            </div>
-          ) : (
-            <div className="flex items-center justify-center h-full">
-              No session selected. Create or select a session from the sidebar.
-            </div>
-          )}
+          <Outlet />
         </div>
 
         <SessionEditor

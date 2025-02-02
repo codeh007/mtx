@@ -1,26 +1,27 @@
-import { Tooltip } from "antd";
+// import { Tooltip } from "antd";
 import {
-    AlertTriangle,
-    Bot,
-    CheckCircle,
-    ChevronDown,
-    ChevronUp,
-    Loader2,
-    MessageSquare,
-    StopCircle,
-    TriangleAlertIcon,
+  AlertTriangle,
+  Bot,
+  CheckCircle,
+  ChevronDown,
+  ChevronUp,
+  Loader2,
+  MessageSquare,
+  StopCircle,
+  TriangleAlertIcon,
 } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
 import type {
-    Message,
-    Run,
-    TeamConfig,
+  Message,
+  Run,
+  TeamConfig,
 } from "../../components/types/datamodel";
 import {
-    LoadingDots,
-    TruncatableText,
-    getRelativeTimeString,
+  LoadingDots,
+  TruncatableText,
+  getRelativeTimeString,
 } from "../../components/views/atoms";
 import AgentFlow from "./agentflow/agentflow";
 import InputRequestView from "./inputrequest";
@@ -133,19 +134,20 @@ const RunView: React.FC<RunViewProps> = ({
         } mb-4 pb-2 pt-2 border-b border-dashed border-secondary`}
       >
         <div className="text-xs text-secondary">
-          <Tooltip
-            title={
+          <Tooltip>
+            <TooltipTrigger asChild>
+            <span className="cursor-help">
+              Run ...{run.id.slice(-6)} |{" "}
+              {getRelativeTimeString(run?.created_at || "")}{" "}
+              </span>
+            </TooltipTrigger>
+            <TooltipContent>
               <div className="text-xs">
                 <div>ID: {run.id}</div>
                 <div>Created: {new Date(run.created_at).toLocaleString()}</div>
                 <div>Status: {run.status}</div>
               </div>
-            }
-          >
-            <span className="cursor-help">
-              Run ...{run.id.slice(-6)} |{" "}
-              {getRelativeTimeString(run?.created_at || "")}{" "}
-            </span>
+            </TooltipContent>
           </Tooltip>
           {!isFirstRun && (
             <>

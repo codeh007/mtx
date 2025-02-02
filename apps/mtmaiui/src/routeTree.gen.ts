@@ -17,6 +17,7 @@ import { Route as PlatformRouteImport } from './routes/~platform/~route'
 import { Route as AuthRouteImport } from './routes/~auth/~route'
 import { Route as IndexImport } from './routes/~index'
 import { Route as TeamTeamIdImport } from './routes/~team/~$teamId'
+import { Route as SessionChatSessionIdImport } from './routes/~session/~$chatSessionId'
 import { Route as PostCreateImport } from './routes/~post/~create'
 import { Route as PlatformAccountCreateImport } from './routes/~platform-account/~create'
 import { Route as PlatformAccountIdImport } from './routes/~platform-account/~$id'
@@ -175,6 +176,12 @@ const TeamTeamIdRoute = TeamTeamIdImport.update({
   id: '/$teamId',
   path: '/$teamId',
   getParentRoute: () => TeamRouteLazyRoute,
+} as any)
+
+const SessionChatSessionIdRoute = SessionChatSessionIdImport.update({
+  id: '/$chatSessionId',
+  path: '/$chatSessionId',
+  getParentRoute: () => SessionRouteLazyRoute,
 } as any)
 
 const PostCreateRoute = PostCreateImport.update({
@@ -486,6 +493,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostCreateImport
       parentRoute: typeof PostRouteLazyImport
     }
+    '/session/$chatSessionId': {
+      id: '/session/$chatSessionId'
+      path: '/$chatSessionId'
+      fullPath: '/session/$chatSessionId'
+      preLoaderRoute: typeof SessionChatSessionIdImport
+      parentRoute: typeof SessionRouteLazyImport
+    }
     '/team/$teamId': {
       id: '/team/$teamId'
       path: '/$teamId'
@@ -730,10 +744,12 @@ const PostRouteLazyRouteWithChildren = PostRouteLazyRoute._addFileChildren(
 
 interface SessionRouteLazyRouteChildren {
   SessionIndexRoute: typeof SessionIndexRoute
+  SessionChatSessionIdRoute: typeof SessionChatSessionIdRoute
 }
 
 const SessionRouteLazyRouteChildren: SessionRouteLazyRouteChildren = {
   SessionIndexRoute: SessionIndexRoute,
+  SessionChatSessionIdRoute: SessionChatSessionIdRoute,
 }
 
 const SessionRouteLazyRouteWithChildren =
@@ -837,6 +853,7 @@ export interface FileRoutesByFullPath {
   '/platform-account/$id': typeof PlatformAccountIdRoute
   '/platform-account/create': typeof PlatformAccountCreateRoute
   '/post/create': typeof PostCreateRoute
+  '/session/$chatSessionId': typeof SessionChatSessionIdRoute
   '/team/$teamId': typeof TeamTeamIdRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
@@ -870,6 +887,7 @@ export interface FileRoutesByTo {
   '/platform-account/$id': typeof PlatformAccountIdRoute
   '/platform-account/create': typeof PlatformAccountCreateRoute
   '/post/create': typeof PostCreateRoute
+  '/session/$chatSessionId': typeof SessionChatSessionIdRoute
   '/team/$teamId': typeof TeamTeamIdRoute
   '/envs': typeof EnvsIndexLazyRoute
   '/platform-account': typeof PlatformAccountIndexLazyRoute
@@ -910,6 +928,7 @@ export interface FileRoutesById {
   '/platform-account/$id': typeof PlatformAccountIdRoute
   '/platform-account/create': typeof PlatformAccountCreateRoute
   '/post/create': typeof PostCreateRoute
+  '/session/$chatSessionId': typeof SessionChatSessionIdRoute
   '/team/$teamId': typeof TeamTeamIdRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
@@ -955,6 +974,7 @@ export interface FileRouteTypes {
     | '/platform-account/$id'
     | '/platform-account/create'
     | '/post/create'
+    | '/session/$chatSessionId'
     | '/team/$teamId'
     | '/envs/'
     | '/platform-account/'
@@ -987,6 +1007,7 @@ export interface FileRouteTypes {
     | '/platform-account/$id'
     | '/platform-account/create'
     | '/post/create'
+    | '/session/$chatSessionId'
     | '/team/$teamId'
     | '/envs'
     | '/platform-account'
@@ -1025,6 +1046,7 @@ export interface FileRouteTypes {
     | '/platform-account/$id'
     | '/platform-account/create'
     | '/post/create'
+    | '/session/$chatSessionId'
     | '/team/$teamId'
     | '/envs/'
     | '/platform-account/'
@@ -1164,7 +1186,8 @@ export const routeTree = rootRoute
     "/session": {
       "filePath": "~session/~route.lazy.tsx",
       "children": [
-        "/session/"
+        "/session/",
+        "/session/$chatSessionId"
       ]
     },
     "/team": {
@@ -1224,6 +1247,10 @@ export const routeTree = rootRoute
     "/post/create": {
       "filePath": "~post/~create.tsx",
       "parent": "/post"
+    },
+    "/session/$chatSessionId": {
+      "filePath": "~session/~$chatSessionId.tsx",
+      "parent": "/session"
     },
     "/team/$teamId": {
       "filePath": "~team/~$teamId.tsx",

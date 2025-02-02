@@ -51,16 +51,16 @@ export function TeamCombo(props: InputProps) {
       className="w-[200px] justify-between"
     >
       {value
-        ? teamsQuery.data?.rows?.find((framework) => framework.metadata.id === value)?.config?.name
-        : "Select ..."}
+        ? teamsQuery.data?.rows?.find((row) => row.metadata.id === value)?.config?.name
+        : "选择团队"}
       <ChevronsUpDown className="opacity-50" />
     </Button>
   </PopoverTrigger>
   <PopoverContent className="w-[200px] p-0">
     <Command>
-      <CommandInput placeholder="Search framework..." className="h-9" />
+      <CommandInput placeholder="搜索团队..." className="h-9" />
       <CommandList>
-        <CommandEmpty>No framework found.</CommandEmpty>
+        <CommandEmpty>没有找到团队</CommandEmpty>
         <CommandGroup>
           {teamsQuery.data?.rows?.map((team) => (
             <CommandItem

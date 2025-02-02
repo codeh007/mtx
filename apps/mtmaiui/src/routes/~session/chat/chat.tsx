@@ -1,7 +1,7 @@
 import { message } from "antd";
 import { ChevronRight, MessagesSquare } from "lucide-react";
+import { Session } from "mtmaiapi";
 import * as React from "react";
-// import { getServerUrl } from "../../../lib/agUtil";
 import { useEffect } from "react";
 import { appContext } from "../../../stores/agStoreProvider";
 import type { IStatus } from "../../components/types/app";
@@ -9,7 +9,6 @@ import type {
   AgentMessageConfig,
   Run,
   RunStatus,
-  Session,
   TeamConfig,
   TeamResult,
   WebSocketMessage,

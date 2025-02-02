@@ -12,12 +12,12 @@ import {
 import { Session, sessionListOptions } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
+import { CustomLink } from "../../components/CustomLink";
 import { useTenant } from "../../hooks/useAuth";
 import { getRelativeTimeString } from "../components/views/atoms";
 
 interface SidebarProps {
   isOpen: boolean;
-  // sessions: Session[];
   currentSession: Session | null;
   onToggle: () => void;
   onSelectSession: (session: Session) => void;
@@ -153,16 +153,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
                  currentSession?.metadata.id === s.metadata.id ? "bg-accent" : "bg-tertiary"
                }`}
             >
-              {" "}
             </div>
-            {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+            <CustomLink to={`${s.metadata.id}`}>
             <div
               className={`group ml-1 flex items-center justify-between rounded-l p-2 py-1 text-sm cursor-pointer hover:bg-tertiary ${
                 currentSession?.metadata.id === s.metadata.id
                   ? "  border-accent bg-secondary"
                   : ""
               }`}
-              onClick={() => onSelectSession(s)}
+              // onClick={() => onSelectSession(s)}
             >
               <span className="truncate text-sm flex-1">{s.name}</span>
               <span className="ml-2 truncate text-xs flex-1">
@@ -171,9 +170,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                   <Tooltip>
                   <TooltipTrigger asChild>
-                  <Button
-                    // type="text"
-                    size="sm"
+                  <Button size="sm"
                     className="p-0 min-w-[24px] h-6"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -207,6 +204,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </Tooltip>
               </div>
             </div>
+            </CustomLink>
           </div>
         ))}
       </div>

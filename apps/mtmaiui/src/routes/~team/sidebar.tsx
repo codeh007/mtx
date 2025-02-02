@@ -47,22 +47,9 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
   const [messageApi, contextHolder] = message.useMessage();
 
   const tenant = useTenant();
-  // const createTeam = () => {
-  //   const newTeam = Object.assign({}, defaultTeam);
-  //   newTeam.config.name = `new_team_${new Date().getTime()}`;
-  //   // onCreateTeam(newTeam);
-  // };
   const createTeamMutation = useMutation({
     ...teamCreateMutation({}),
   });
-
-  // const handleCreateTeam = (newTeam: Team) => {
-  //   console.log("newTeam", newTeam);
-  //   // setCurrentTeam(newTeam);
-  //   // also save it to db
-
-  //   // handleSaveTeam(newTeam);
-  // };
 
   const handleSaveTeam = async () => {
     const teamData = Object.assign({}, defaultTeam);

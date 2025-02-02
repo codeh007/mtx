@@ -1,11 +1,12 @@
 "use client";
 
 import {
-    Cog6ToothIcon,
-    ExclamationTriangleIcon,
-    PaperAirplaneIcon,
+  Cog6ToothIcon,
+  ExclamationTriangleIcon,
+  PaperAirplaneIcon,
 } from "@heroicons/react/24/outline";
 import * as React from "react";
+import { useEffect } from "react";
 import type { IStatus } from "../../components/types/app";
 
 interface ChatInputProps {
@@ -29,7 +30,7 @@ export default function ChatInput({
   const isInputDisabled = disabled || loading;
 
   // Handle textarea auto-resize
-  React.useEffect(() => {
+  useEffect(() => {
     if (textAreaRef.current) {
       textAreaRef.current.style.height = textAreaDefaultHeight;
       const scrollHeight = textAreaRef.current.scrollHeight;
@@ -38,7 +39,7 @@ export default function ChatInput({
   }, [text]);
 
   // Clear input when loading changes from true to false (meaning the response is complete)
-  React.useEffect(() => {
+  useEffect(() => {
     if (previousLoading && !loading && !error) {
       resetInput();
     }
