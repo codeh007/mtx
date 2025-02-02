@@ -14,7 +14,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
 import type {
-  Message,
+  // Message,
   Run,
   TeamConfig,
 } from "../../components/types/datamodel";
@@ -35,13 +35,13 @@ interface RunViewProps {
   isFirstRun?: boolean;
 }
 
-const RunView: React.FC<RunViewProps> = ({
+const RunView({
   run,
   onInputResponse,
   onCancel,
   teamConfig,
   isFirstRun = false,
-}) => {
+}: RunViewProps) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const threadContainerRef = useRef<HTMLDivElement | null>(null);
   const isActive = run.status === "active" || run.status === "awaiting_input";
