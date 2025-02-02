@@ -389,7 +389,7 @@ export default function ChatView({ session }: ChatViewProps) {
 
       // Initialize run state BEFORE websocket connection
       setCurrentRun({
-        id: .,
+        // id: .,
         created_at: new Date().toISOString(),
         status: "created", // Start with created status
         messages: [],
