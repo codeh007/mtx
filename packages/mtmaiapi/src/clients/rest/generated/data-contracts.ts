@@ -2360,28 +2360,38 @@ export enum RunStatus {
 }
 
 export type AgentConfig =
-  | ((BaseConfig & {
-      name: string;
-      agent_type: AgentTypes;
-      system_message?: string;
-      model_client: ModelConfig;
-      tools: ToolConfig[];
-      description: string;
-    }) & {
-      agent_type?: "AssistantAgent";
-    })
-  | {
-      agent_type: "UserProxyAgent";
-    }
-  | {
-      agent_type?: "MultimodalWebSurfer";
-    }
-  | {
-      agent_type: "FileSurfer";
-    }
-  | {
-      agent_type: "MagenticOneCoderAgent";
-    };
+  | AssistantAgentConfig
+  | UserProxyAgentConfig
+  | MultimodalWebSurferAgentConfig
+  | FileSurferAgentConfig
+  | MagenticOneCoderAgentConfig;
+
+export type AssistantAgentConfig = (BaseConfig & {
+  name: string;
+  agent_type: AgentTypes;
+  system_message?: string;
+  model_client: ModelConfig;
+  tools: ToolConfig[];
+  description: string;
+}) & {
+  agent_type?: "AssistantAgent";
+};
+
+export type UserProxyAgentConfig = {
+  agent_type: "UserProxyAgent";
+};
+
+export type MultimodalWebSurferAgentConfig = {
+  agent_type?: "MultimodalWebSurfer";
+};
+
+export type FileSurferAgentConfig = {
+  agent_type: "FileSurfer";
+};
+
+export type MagenticOneCoderAgentConfig = {
+  agent_type: "MagenticOneCoderAgent";
+};
 
 export type TerminationConfig =
   | MaxMessageTerminationConfig

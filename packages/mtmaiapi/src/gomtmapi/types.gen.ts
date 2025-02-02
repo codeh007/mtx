@@ -2711,28 +2711,38 @@ export type RunStatus =
   | "stopped";
 
 export type AgentConfig =
-  | ((BaseConfig & {
-      name: string;
-      agent_type: AgentTypes;
-      system_message?: string;
-      model_client: ModelConfig;
-      tools: Array<ToolConfig>;
-      description: string;
-    }) & {
-      agent_type?: "AssistantAgent";
-    })
-  | (_0 & {
-      agent_type: "UserProxyAgent";
-    })
-  | (_0 & {
-      agent_type?: "MultimodalWebSurfer";
-    })
-  | (_0 & {
-      agent_type: "FileSurfer";
-    })
-  | (_0 & {
-      agent_type: "MagenticOneCoderAgent";
-    });
+  | AssistantAgentConfig
+  | UserProxyAgentConfig
+  | MultimodalWebSurferAgentConfig
+  | FileSurferAgentConfig
+  | MagenticOneCoderAgentConfig;
+
+export type AssistantAgentConfig = (BaseConfig & {
+  name: string;
+  agent_type: AgentTypes;
+  system_message?: string;
+  model_client: ModelConfig;
+  tools: Array<ToolConfig>;
+  description: string;
+}) & {
+  agent_type?: "AssistantAgent";
+};
+
+export type UserProxyAgentConfig = _0 & {
+  agent_type: "UserProxyAgent";
+};
+
+export type MultimodalWebSurferAgentConfig = _0 & {
+  agent_type?: "MultimodalWebSurfer";
+};
+
+export type FileSurferAgentConfig = _0 & {
+  agent_type: "FileSurfer";
+};
+
+export type MagenticOneCoderAgentConfig = _0 & {
+  agent_type: "MagenticOneCoderAgent";
+};
 
 export type TerminationConfig =
   | MaxMessageTerminationConfig

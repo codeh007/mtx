@@ -65,7 +65,7 @@ export const TruncatableText = memo(
 
     const displayContent =
       shouldTruncate && !isExpanded
-        ? content.slice(0, threshold) + "..."
+        ? `${content.slice(0, threshold)}...`
         : content;
 
     return (
@@ -97,7 +97,7 @@ export const TruncatableText = memo(
                 rounded bg-secondary/80 
                 text-xs font-medium
                 transition-all duration-300
-                 hover:text-accent
+                hover:text-accent
                 hover:scale-105
                 z-10
               `}

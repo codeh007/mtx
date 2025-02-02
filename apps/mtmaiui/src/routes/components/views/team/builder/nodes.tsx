@@ -26,14 +26,6 @@ import type {
 } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import type React from "react";
-// import type {
-//   AgentConfig,
-//   ComponentTypes,
-//   ModelConfig,
-//   TeamConfig,
-//   TerminationConfig,
-//   ToolConfig,
-// } from "../../../types/datamodel";
 import { TruncatableText } from "../../atoms";
 import { useTeamBuilderStore } from "./store";
 import type { CustomNode, NodeData } from "./types";
@@ -143,18 +135,16 @@ const BaseNode: React.FC<BaseNodeProps> = ({
               <Edit className="w-4 h-4" />
             </Button>
             {showDelete && (
-              <>
-                <button
-                  onClick={(e) => {
-                    console.log("remove node", id);
-                    e.stopPropagation();
-                    if (id) removeNode(id);
-                  }}
-                  className="p-1 hover:bg-red-100 rounded"
-                >
-                  <Trash2Icon className="w-4 h-4 text-red-500" />
-                </button>
-              </>
+              <Button
+                onClick={(e) => {
+                  console.log("remove node", id);
+                  e.stopPropagation();
+                  if (id) removeNode(id);
+                }}
+                className="p-1 hover:bg-red-100 rounded"
+              >
+                <Trash2Icon className="w-4 h-4 text-red-500" />
+              </Button>
             )}
           </div>
         </div>

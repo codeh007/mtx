@@ -64,7 +64,7 @@ type SidebarProps = {
   isMobile: boolean;
 };
 
-const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
+export const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
   const { sidebar, setHeader, setSidebarState } = useConfigStore();
   const { isExpanded } = sidebar;
 
@@ -321,5 +321,3 @@ const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
     </div>
   );
 };
-
-export default Sidebar;
