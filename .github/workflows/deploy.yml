@@ -111,46 +111,6 @@ jobs:
           (cd apps/mtmaiui && bun run build && gomtm cfpage)
           # bun run build && gomtm cfpage
 
-  # deploy_vercel_mtmaiui:
-  #   needs: [deploy]
-  #   timeout-minutes: 20
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout branch
-  #       uses: actions/checkout@v4
-  #       with:
-  #         fetch-depth: 0
-
-  #     - name: setup bun
-  #       uses: ./.github/actions/setup_bun
-
-  #     - name: install gomtm
-  #       run: |
-  #         cd packages/gomtm-cli
-  #         npm i -g
-
-  #     - name: Setup Go
-  #       uses: actions/setup-go@v5
-  #       with:
-  #         go-version: '^1.23'
-  #         check-latest: true
-  #         go-version-file: 'go.mod'
-  #         cache-dependency-path: "**/*.sum"
-
-  #     - name: show env
-  #       run: |
-  #         echo $GOPRIVATE
-  #         echo $GIT_CREDENTIALS
-
-  #     - name: show env2
-  #       run: |
-  #         env
-
-  #     - name: deploy to vercel
-  #       run: |
-  #         cd apps/mtmaiui
-  #         gomtm vc
-
   deploy_vercel_gomtm:
     needs: [release]
     timeout-minutes: 20
