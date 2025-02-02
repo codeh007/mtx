@@ -400,6 +400,7 @@ export const AgentNode: React.FC<NodeProps<CustomNode>> = (props) => {
             <div className="space-y-1">
               {config.tools.map((tool, index) => (
                 <div
+                  // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                   key={index}
                   className="relative text-sm py-1 px-2 bg-white rounded flex items-center gap-2"
                 >
