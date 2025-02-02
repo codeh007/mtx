@@ -11,7 +11,7 @@ import { Suspense } from "react";
 import { DashContent } from "../../components/DashContent";
 import { DashHeaders } from "../../components/DashHeaders";
 import { DashSidebar } from "../../components/sidebar/siderbar";
-import { RootAppWrapper } from "../components/RootAppWrapper.tsx--";
+import { RootAppWrapper } from "../components/RootAppWrapper";
 export const Route = createLazyFileRoute("/post")({
   component: RouteComponent,
 });
