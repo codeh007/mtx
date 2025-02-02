@@ -1,20 +1,23 @@
-import { Tooltip } from "antd";
+'use client'
+import { useSuspenseQuery } from "@tanstack/react-query";
 import {
-    Edit,
-    InfoIcon,
-    PanelLeftClose,
-    PanelLeftOpen,
-    Plus,
-    RefreshCcw,
-    Trash2,
+  Edit,
+  InfoIcon,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Plus,
+  RefreshCcw,
+  Trash2,
 } from "lucide-react";
+import { Session, sessionListOptions } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
-import type { Session } from "../components/types/datamodel";
+import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
+import { useTenant } from "../../hooks/useAuth";
 import { getRelativeTimeString } from "../components/views/atoms";
 
 interface SidebarProps {
   isOpen: boolean;
-  sessions: Session[];
+  // sessions: Session[];
   currentSession: Session | null;
   onToggle: () => void;
   onSelectSession: (session: Session) => void;
@@ -25,7 +28,7 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({
   isOpen,
-  sessions,
+  // sessions,
   currentSession,
   onToggle,
   onSelectSession,
@@ -33,32 +36,51 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onDeleteSession,
   isLoading = false,
 }) => {
+
+  const tenant = useTenant()
+  const sessionQuery = useSuspenseQuery({
+    ...sessionListOptions({
+      path:{
+        tenant: tenant!.metadata.id,
+      }
+    })
+  })
+
+  const sessions = sessionQuery.data?.rows ?? []
   if (!isOpen) {
     return (
       <div className="h-full  border-r border-secondary">
         <div className="p-2 -ml-2 ">
-          <Tooltip
-            title=<span>
-              Sessions{" "}
-              <span className="text-accent mx-1"> {sessions.length} </span>
-            </span>
-          >
+          <Tooltip>
+            <TooltipTrigger asChild>
             <Button
               onClick={onToggle}
               className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
             >
               <PanelLeftOpen strokeWidth={1.5} className="h-6 w-6" />
             </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <span>
+                Sessions{" "}
+                <span className="text-accent mx-1"> {sessions.length} </span>
+              </span>
+            </TooltipContent>
           </Tooltip>
         </div>
         <div className="mt-4 px-2 -ml-1">
-          <Tooltip title="Create new session">
+          <Tooltip>
+            <TooltipTrigger asChild>
             <Button
               className="w-full p-2 flex justify-center"
               onClick={() => onEditSession()}
             >
-              <Plus className="w-4 h-4" />
-            </Button>
+                <Plus className="w-4 h-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <span>Create new session</span>
+            </TooltipContent>
           </Tooltip>
         </div>
       </div>
@@ -74,30 +96,40 @@ export const Sidebar: React.FC<SidebarProps> = ({
             {sessions.length}
           </span>
         </div>
-        <Tooltip title="Close Sidebar">
-          <Button
-            variant={"ghost"}
-            onClick={onToggle}
-            className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant={"ghost"}
+              onClick={onToggle}
+              className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
           >
-            <PanelLeftClose strokeWidth={1.5} className="h-6 w-6" />
-          </Button>
+              <PanelLeftClose strokeWidth={1.5} className="h-6 w-6" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <span>Close Sidebar</span>
+          </TooltipContent>
         </Tooltip>
       </div>
 
       <div className="my-4 flex text-sm  ">
         <div className=" mr-2 w-full">
-          <Tooltip title="Create new session">
-            <Button className="w-full" onClick={() => onEditSession()}>
-              <Plus className="w-4 h-4" />
-              New Session
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button className="w-full" onClick={() => onEditSession()}>
+                <Plus className="w-4 h-4" />
+                新建会话
             </Button>
+            </TooltipTrigger  >
+            <TooltipContent>
+              <span>新建会话</span>
+            </TooltipContent>
           </Tooltip>
         </div>
       </div>
 
       <div className="py-2 flex text-sm">
-        Recents{" "}
+        最近{" "}
         {isLoading && (
           <RefreshCcw className="w-4 h-4 inline-block ml-2 animate-spin" />
         )}
@@ -114,11 +146,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       <div className="overflow-y-auto   h-[calc(100%-150px)]">
         {sessions.map((s) => (
-          <div key={s.id} className="relative">
+          <div key={s.metadata.id} className="relative">
             <div
               className={`bg-accent absolute top-1 left-0.5 z-50 h-[calc(100%-8px)]
                w-1 bg-opacity-80  rounded ${
-                 currentSession?.id === s.id ? "bg-accent" : "bg-tertiary"
+                 currentSession?.metadata.id === s.metadata.id ? "bg-accent" : "bg-tertiary"
                }`}
             >
               {" "}
@@ -126,7 +158,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
             <div
               className={`group ml-1 flex items-center justify-between rounded-l p-2 py-1 text-sm cursor-pointer hover:bg-tertiary ${
-                currentSession?.id === s.id
+                currentSession?.metadata.id === s.metadata.id
                   ? "  border-accent bg-secondary"
                   : ""
               }`}
@@ -134,10 +166,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
             >
               <span className="truncate text-sm flex-1">{s.name}</span>
               <span className="ml-2 truncate text-xs flex-1">
-                {getRelativeTimeString(s.updated_at || "")}
+                {getRelativeTimeString(s.metadata.updatedAt || "")}
               </span>
               <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Tooltip title="Edit session">
+                  <Tooltip>
+                  <TooltipTrigger asChild>
                   <Button
                     // type="text"
                     size="sm"
@@ -149,19 +182,28 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   >
                     <Edit className="w-4 h-4" />
                   </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <span>Edit session</span>
+                  </TooltipContent>
                 </Tooltip>
-                <Tooltip title="Delete session">
+                <Tooltip>
+                  <TooltipTrigger asChild>
                   <Button
                     size="sm"
                     className="p-0 min-w-[24px] h-6"
                     variant="destructive"
                     onClick={(e) => {
                       e.stopPropagation();
-                      if (s.id) onDeleteSession(s.id);
+                      // if (s.metadata.id) onDeleteSession(s.metadata.id);
                     }}
                   >
                     <Trash2 className="w-4 h-4  text-red-500" />
                   </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <span>Delete session</span>
+                  </TooltipContent>
                 </Tooltip>
               </div>
             </div>

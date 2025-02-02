@@ -1,7 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { message } from "antd";
 import { TriangleAlertIcon } from "lucide-react";
-import { teamListOptions } from "mtmaiapi";
+import { Session, sessionCreateMutation, sessionUpdateMutation, teamListOptions } from "mtmaiapi";
 import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { useZodForm, ZForm } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";
@@ -17,12 +17,17 @@ import { Input } from "mtxuilib/ui/input";
 import { z } from "zod";
 import { CustomLink } from "../../components/CustomLink";
 import { useTenant, useUser } from "../../hooks/useAuth";
+// import type { Session } from "../components/types/datamodel";
 import { TeamCombo } from "../~team/TeamCombo";
-import type { SessionEditorProps } from "./types";
 
+export interface SessionEditorProps {
+  session?: Session;
+  onCancel: () => void;
+  isOpen: boolean;
+}
 export const SessionEditor= ({
   session,
-  onSave,
+  // onSave,
   onCancel,
   isOpen,
 }:SessionEditorProps) => {
@@ -35,26 +40,6 @@ export const SessionEditor= ({
   });
   const tenant = useTenant();
   const user = useUser();
-
-  // Fetch teams when modal opens
-  // useEffect(() => {
-  //   const fetchTeams = async () => {
-  //     if (isOpen) {
-  //       try {
-  //         setLoading(true);
-  //         const userId = user?.email || "";
-  //         const teamsData = await teamAPI.listTeams(userId);
-  //         setTeams(teamsData);
-  //       } catch (error) {
-  //         messageApi.error("Error loading teams");
-  //         console.error("Error loading teams:", error);
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     }
-  //   };
-  //   fetchTeams();
-  // }, [isOpen, user?.email]);
 
   const teamQuery = useQuery({
     ...teamListOptions({
@@ -76,12 +61,36 @@ export const SessionEditor= ({
   //   }
   // }, [form, session, isOpen]);
 
+  const updateSession = useMutation({
+    ...sessionUpdateMutation()
+  });
+
+  const createSession = useMutation({
+    ...sessionCreateMutation()
+  });
+
   const handleSubmit = async (values) => {
     try {
-      await onSave({
-        ...values,
-        id: session?.id,
-      });
+      if (session) {
+        await updateSession.mutateAsync({
+          path: {
+            tenant: tenant!.metadata.id,
+            session: session!.metadata.id,
+        },
+        body: {
+          ...values,
+          },
+        });
+      } else {
+        await createSession.mutateAsync({
+          path: {
+            tenant: tenant!.metadata.id,
+          },
+          body: {
+            ...values,
+          },
+        });
+      }
       messageApi.success(
         `Session ${session ? "updated" : "created"} successfully`,
       );

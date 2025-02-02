@@ -1,11 +1,6 @@
-import type { Session } from "../components/types/datamodel";
+import { Session } from "mtmaiapi";
 
-export interface SessionEditorProps {
-  session?: Session;
-  onSave: (session: Partial<Session>) => Promise<void>;
-  onCancel: () => void;
-  isOpen: boolean;
-}
+
 
 export interface SessionListProps {
   sessions: Session[];
@@ -16,9 +11,9 @@ export interface SessionListProps {
   isLoading?: boolean;
 }
 
-export interface SessionFormState {
-  name: string;
-  team_id: string;
-  isSubmitting: boolean;
-  error?: string;
-}
+// export interface SessionFormState {
+//   name: string;
+//   team_id: string;
+//   isSubmitting: boolean;
+//   error?: string;
+// }

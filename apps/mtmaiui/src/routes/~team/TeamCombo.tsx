@@ -7,25 +7,27 @@ import { teamListOptions } from "mtmaiapi"
 import { cn } from "mtxuilib/lib/utils"
 import { Button } from "mtxuilib/ui/button"
 import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
 } from "mtxuilib/ui/command"
 import { InputProps } from "mtxuilib/ui/input"
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "mtxuilib/ui/popover"
 import { useState } from "react"
 import { useTenant } from "../../hooks/useAuth"
 
 export function TeamCombo(props: InputProps) {
+
+  const {defaultValue, onChange} = props
     const [open, setOpen] = useState(false)
-  const [value, setValue] = useState("")
+  const [value, setValue] = useState(defaultValue)
   const tenant = useTenant()
 
   const teamsQuery = useSuspenseQuery({
@@ -35,6 +37,11 @@ export function TeamCombo(props: InputProps) {
         }
     })
   })
+
+  const handleChange = (value: string) => {
+    setValue(value)
+    onChange?.(value as any) 
+  }
   return <Popover open={open} onOpenChange={setOpen}>
   <PopoverTrigger asChild>
     <Button
@@ -60,11 +67,11 @@ export function TeamCombo(props: InputProps) {
               key={team.metadata.id}
               value={team.metadata.id}
               onSelect={(currentValue) => {
-                setValue(currentValue === value ? "" : currentValue)
+                handleChange(currentValue === value ? "" : currentValue)
                 setOpen(false)
               }}
             >
-              {team.config?.name}
+              {(team.config as any)?.name}
               <Check
                 className={cn(
                   "ml-auto",
