@@ -2110,21 +2110,7 @@ export type CanvasGraphParams = {
    */
   stepLimit?: number;
   messages?: Array<ChatMessage>;
-  /**
-   * 节点运行
-   */
-  action?: {
-    /**
-     * 动作
-     */
-    action?: string;
-    /**
-     * 输入
-     */
-    input?: {
-      [key: string]: unknown;
-    };
-  };
+  action?: NodeRunAction;
   /**
    * 语言
    */
@@ -2300,61 +2286,10 @@ export type Outline = {
   /**
    * Titles and descriptions for each section of the Wikipedia page
    */
-  sections: Array<{
-    /**
-     * Title of the section
-     */
-    section_title: string;
-    /**
-     * Content of the section
-     */
-    description: string;
-    /**
-     * Titles and descriptions for each subsection of the Wikipedia page
-     */
-    subsections?: Array<{
-      /**
-       * Title of the subsection
-       */
-      subsectionTitle: string;
-      /**
-       * Content of the subsection
-       */
-      description: string;
-    }>;
-  }>;
+  sections: Array<Section>;
 };
 
-export type Assistant = {
-  /**
-   * The ID of the assistant
-   */
-  assistant_id: string;
-  /**
-   * The ID of the graph
-   */
-  graph_id: string;
-  /**
-   * The assistant config
-   */
-  config: {
-    [key: string]: unknown;
-  };
-  /**
-   * The time the assistant was created
-   */
-  created_at: string;
-  /**
-   * The assistant metadata
-   */
-  metadata: {
-    [key: string]: unknown;
-  };
-  /**
-   * The version of the assistant
-   */
-  version: number;
-} & {
+export type Assistant = AssistantBase & {
   /**
    * The last time the assistant was updated
    */
@@ -2751,6 +2686,79 @@ export type BaseAgentConfig = BaseConfig & {
   model_client: ModelConfig;
   tools: Array<ToolConfig>;
   description: string;
+};
+
+export type Section = {
+  /**
+   * Title of the section
+   */
+  section_title: string;
+  /**
+   * Content of the section
+   */
+  description: string;
+  /**
+   * Titles and descriptions for each subsection of the Wikipedia page
+   */
+  subsections?: Array<Subsection>;
+};
+
+export type Subsection = {
+  /**
+   * Title of the subsection
+   */
+  subsectionTitle: string;
+  /**
+   * Content of the subsection
+   */
+  description: string;
+};
+
+/**
+ * 节点运行
+ */
+export type NodeRunAction = {
+  /**
+   * 动作
+   */
+  action?: string;
+  /**
+   * 输入
+   */
+  input?: {
+    [key: string]: unknown;
+  };
+};
+
+export type AssistantBase = {
+  /**
+   * The ID of the assistant
+   */
+  assistant_id: string;
+  /**
+   * The ID of the graph
+   */
+  graph_id: string;
+  /**
+   * The assistant config
+   */
+  config: {
+    [key: string]: unknown;
+  };
+  /**
+   * The time the assistant was created
+   */
+  created_at: string;
+  /**
+   * The assistant metadata
+   */
+  metadata: {
+    [key: string]: unknown;
+  };
+  /**
+   * The version of the assistant
+   */
+  version: number;
 };
 
 export type BaseTeamConfig = BaseConfig & {
