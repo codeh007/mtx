@@ -1406,6 +1406,10 @@ export interface ChatMessage {
   content: string;
   createdAt: string;
   threadId: string;
+  config: {
+    message_type?: string;
+    source?: string;
+  };
 }
 
 export enum ChatMessageRole {
@@ -2266,7 +2270,7 @@ export interface BaseConfig {
 export interface WebSocketMessage {
   type: string;
   data?: AgentMessageConfig;
-  status?: string;
+  status?: RunStatus;
   error?: string;
   timestamp?: string;
 }
@@ -2280,14 +2284,7 @@ export interface Run {
   id: string;
   created_at: string;
   updated_at?: string;
-  status:
-    | "created"
-    | "active"
-    | "awaiting_input"
-    | "timeout"
-    | "complete"
-    | "error"
-    | "stopped";
+  status: RunStatus;
   task: AgentMessageConfig;
   team_result: TeamResult;
   messages: ChatMessage[];
@@ -2351,6 +2348,16 @@ export interface ModelConfig {
 }
 
 export type ModelConfigV2 = AzureOpenAIModelConfig | OpenAIModelConfig;
+
+export enum RunStatus {
+  Created = "created",
+  Active = "active",
+  AwaitingInput = "awaiting_input",
+  Timeout = "timeout",
+  Complete = "complete",
+  Error = "error",
+  Stopped = "stopped",
+}
 
 export interface BaseState {
   metadata: APIResourceMeta;

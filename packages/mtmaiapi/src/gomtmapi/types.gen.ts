@@ -1499,6 +1499,10 @@ export type ChatMessage = {
   content: string;
   createdAt: string;
   threadId: string;
+  config: {
+    message_type?: string;
+    source?: string;
+  };
 };
 
 export type ChatMessageRole = "system" | "user" | "assistant";
@@ -2622,7 +2626,7 @@ export type BaseConfig = {
 export type WebSocketMessage = {
   type: string;
   data?: AgentMessageConfig;
-  status?: Status;
+  status?: RunStatus;
   error?: string;
   timestamp?: string;
 };
@@ -2636,14 +2640,7 @@ export type Run = {
   id: string;
   created_at: string;
   updated_at?: string;
-  status:
-    | "created"
-    | "active"
-    | "awaiting_input"
-    | "timeout"
-    | "complete"
-    | "error"
-    | "stopped";
+  status: RunStatus;
   task: AgentMessageConfig;
   team_result: TeamResult;
   messages: Array<ChatMessage>;
@@ -2703,6 +2700,15 @@ export type ModelConfig = {
 };
 
 export type ModelConfigV2 = AzureOpenAiModelConfig | OpenAiModelConfig;
+
+export type RunStatus =
+  | "created"
+  | "active"
+  | "awaiting_input"
+  | "timeout"
+  | "complete"
+  | "error"
+  | "stopped";
 
 export type BaseState = {
   metadata: ApiResourceMeta;
