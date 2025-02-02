@@ -1,15 +1,15 @@
 import { useMutation } from "@tanstack/react-query";
 import message from "antd/es/message";
 import {
-  Bot,
-  Copy,
-  GalleryHorizontalEnd,
-  InfoIcon,
-  PanelLeftClose,
-  PanelLeftOpen,
-  Plus,
-  RefreshCcw,
-  Trash2,
+    Bot,
+    Copy,
+    GalleryHorizontalEnd,
+    InfoIcon,
+    PanelLeftClose,
+    PanelLeftOpen,
+    Plus,
+    RefreshCcw,
+    Trash2,
 } from "lucide-react";
 import { type Team, teamCreateMutation } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
@@ -17,10 +17,10 @@ import { cn } from "mtxuilib/lib/utils";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
-import { CustomLink } from "../../../components/CustomLink";
-import { useTenant } from "../../../hooks/useAuth";
-import { getRelativeTimeString } from "../../components/views/atoms";
-import { defaultTeam } from "../../components/views/team/types";
+import { CustomLink } from "../../components/CustomLink";
+import { useTenant } from "../../hooks/useAuth";
+import { getRelativeTimeString } from "../components/views/atoms";
+import { defaultTeam } from "../components/views/team/types";
 import { useGalleryStore } from "../~gallery/store";
 // import { undefined } from "./~route.lazy";
 

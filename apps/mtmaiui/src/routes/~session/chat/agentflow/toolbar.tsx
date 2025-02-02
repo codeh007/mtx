@@ -1,20 +1,20 @@
 import type { MenuProps } from "antd";
 import { Button, Dropdown, Tooltip } from "antd";
 import {
-  ArrowDown,
-  ArrowRight,
-  Grid,
-  Hash,
-  MapIcon,
-  Maximize2,
-  MessageSquareIcon,
-  MessageSquareOffIcon,
-  Minimize2,
-  MoreHorizontal,
-  RotateCcw,
+    ArrowDown,
+    ArrowRight,
+    Grid,
+    Hash,
+    MapIcon,
+    Maximize2,
+    MessageSquareIcon,
+    MessageSquareOffIcon,
+    Minimize2,
+    MoreHorizontal,
+    RotateCcw,
 } from "lucide-react";
 import type React from "react";
-import { useConfigStore } from "../../../../../stores/agStore";
+import { useConfigStore } from "../../../../stores/agStore";
 
 interface AgentFlowToolbarProps {
   isFullscreen: boolean;
