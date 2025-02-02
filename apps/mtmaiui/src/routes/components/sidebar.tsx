@@ -1,4 +1,3 @@
-import { Tooltip } from "antd";
 import {
   Bot,
   GalleryHorizontalEnd,
@@ -8,11 +7,12 @@ import {
   Rocket,
   Settings,
 } from "lucide-react";
+import { Button } from "mtxuilib/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import React from "react";
 import { CustomLink } from "../../components/CustomLink";
 import { useConfigStore } from "../../stores/agStore";
 import Icon from "./icons";
-
 interface INavItem {
   name: string;
   href: string;
@@ -183,8 +183,11 @@ const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
                 return (
                   <li key={item.name}>
                     {!showFull && !isMobile ? (
-                      <Tooltip title={item.name} placement="right">
-                        {navLink}
+                      <Tooltip placement="right">
+                        <TooltipTrigger asChild>{navLink}</TooltipTrigger>
+                        <TooltipContent>
+                          <p>{item.name}</p>
+                        </TooltipContent>
                       </Tooltip>
                     ) : (
                       navLink
@@ -204,43 +207,56 @@ const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
           >
             {!showFull && !isMobile ? (
               <>
-                <Tooltip title="Settings" placement="right">
-                  <CustomLink
-                    to="/settings"
-                    onClick={() =>
-                      setHeader({
-                        title: "Settings",
-                        breadcrumbs: [
-                          {
-                            name: "Settings",
-                            href: "/settings",
-                            current: true,
-                          },
-                        ],
-                      })
-                    }
-                    className="group flex gap-x-3 rounded-md p-2 text-sm font-medium text-primary hover:text-accent hover:bg-secondary justify-center"
-                  >
-                    <Settings className="h-6 w-6 shrink-0 text-secondary group-hover:text-accent" />
-                  </CustomLink>
+                <Tooltip placement="right">
+                  <TooltipTrigger asChild>
+                    <CustomLink
+                      to="/settings"
+                      onClick={() =>
+                        setHeader({
+                          title: "Settings",
+                          breadcrumbs: [
+                            {
+                              name: "Settings",
+                              href: "/settings",
+                              current: true,
+                            },
+                          ],
+                        })
+                      }
+                      className="group flex gap-x-3 rounded-md p-2 text-sm font-medium text-primary hover:text-accent hover:bg-secondary justify-center"
+                    >
+                      <Settings className="h-6 w-6 shrink-0 text-secondary group-hover:text-accent" />
+                    </CustomLink>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Settings</p>
+                  </TooltipContent>
                 </Tooltip>
                 <div className="hidden md:block">
-                  <Tooltip
-                    title={isExpanded ? "Close Sidebar" : "Open Sidebar"}
-                    placement="right"
-                  >
-                    <button
-                      onClick={() =>
-                        setSidebarState({ isExpanded: !isExpanded })
-                      }
-                      className="p-2 rounded-md hover:bg-secondary hover:text-accent text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
-                    >
-                      {isExpanded ? (
-                        <PanelLeftClose strokeWidth={1.5} className="h-6 w-6" />
-                      ) : (
-                        <PanelLeftOpen strokeWidth={1.5} className="h-6 w-6" />
-                      )}
-                    </button>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        onClick={() =>
+                          setSidebarState({ isExpanded: !isExpanded })
+                        }
+                        className="p-2 rounded-md hover:bg-secondary hover:text-accent text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+                      >
+                        {isExpanded ? (
+                          <PanelLeftClose
+                            strokeWidth={1.5}
+                            className="h-6 w-6"
+                          />
+                        ) : (
+                          <PanelLeftOpen
+                            strokeWidth={1.5}
+                            className="h-6 w-6"
+                          />
+                        )}
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{isExpanded ? "Close Sidebar" : "Open Sidebar"}</p>
+                    </TooltipContent>
                   </Tooltip>
                 </div>
               </>
@@ -271,22 +287,30 @@ const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
                   </div>
                 </div>
                 <div className="hidden md:block">
-                  <Tooltip
-                    title={`${isExpanded ? "Close Sidebar" : "Open Sidebar"}`}
-                    placement="right"
-                  >
-                    <button
-                      onClick={() =>
-                        setSidebarState({ isExpanded: !isExpanded })
-                      }
-                      className="p-2 rounded-md hover:bg-secondary hover:text-accent text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
-                    >
-                      {isExpanded ? (
-                        <PanelLeftClose strokeWidth={1.5} className="h-6 w-6" />
-                      ) : (
-                        <PanelLeftOpen strokeWidth={1.5} className="h-6 w-6" />
-                      )}
-                    </button>
+                  <Tooltip placement="right">
+                    <TooltipTrigger asChild>
+                      <Button
+                        onClick={() =>
+                          setSidebarState({ isExpanded: !isExpanded })
+                        }
+                        className="p-2 rounded-md hover:bg-secondary hover:text-accent text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+                      >
+                        {isExpanded ? (
+                          <PanelLeftClose
+                            strokeWidth={1.5}
+                            className="h-6 w-6"
+                          />
+                        ) : (
+                          <PanelLeftOpen
+                            strokeWidth={1.5}
+                            className="h-6 w-6"
+                          />
+                        )}
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{isExpanded ? "Close Sidebar" : "Open Sidebar"}</p>
+                    </TooltipContent>
                   </Tooltip>
                 </div>
               </div>

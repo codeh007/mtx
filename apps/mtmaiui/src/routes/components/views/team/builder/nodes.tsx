@@ -279,6 +279,7 @@ export const TeamNode: React.FC<NodeProps<CustomNode>> = (props) => {
         <div className="space-y-1">
           {config.participants?.map((participant, index) => (
             <div
+              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
               key={index}
               className="relative text-sm py-1 px-2 bg-white rounded flex items-center gap-2"
             >
