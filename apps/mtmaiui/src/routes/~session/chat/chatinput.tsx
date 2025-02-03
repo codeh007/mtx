@@ -36,7 +36,7 @@ export default function ChatInput({
       const scrollHeight = textAreaRef.current.scrollHeight;
       textAreaRef.current.style.height = `${scrollHeight}px`;
     }
-  }, [text]);
+  }, [text, loading]);
 
   // Clear input when loading changes from true to false (meaning the response is complete)
   useEffect(() => {

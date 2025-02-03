@@ -1,6 +1,8 @@
+import { match } from "path-to-regexp";
+
 export interface RewriteRule {
-  // 匹配的路径模式
-  from: string | RegExp;
+  // 匹配的路径模式，支持 Express 风格的参数，如 /api/:param
+  from: string;
   // 目标基础URL，如果提供则覆盖全局baseUrl
   to: string;
   // 可选的路径重写规则
@@ -23,24 +25,35 @@ export interface RProxyOptions {
 export function newRProxy(options: RProxyOptions) {
   const { baseUrl, rewrites = [] } = options;
 
+  // 预处理所有重写规则，创建匹配函数
+  const rules = rewrites.map((rule) => ({
+    ...rule,
+    matcher: match(rule.from, { decode: decodeURIComponent }),
+  }));
+
   return async (r: Request) => {
     const incomeUri = new URL(r.url);
     const incomePathname = incomeUri.pathname;
     let targetPath = incomePathname;
     let targetBaseUrl = baseUrl;
 
-    // 检查是否匹配新的重写规则
-    for (const rule of rewrites) {
-      const isMatch =
-        typeof rule.from === "string"
-          ? incomePathname.includes(rule.from)
-          : rule.from.test(incomePathname);
+    // 使用 path-to-regexp 进行路径匹配
+    for (const rule of rules) {
+      const matchResult = rule.matcher(incomePathname);
 
-      if (isMatch) {
+      if (matchResult) {
         targetBaseUrl = rule.to;
-        // 如果定义了路径重写规则
+
         if (rule.rewrite) {
-          targetPath = targetPath.replace(rule.rewrite.from, rule.rewrite.to);
+          // 使用匹配到的参数进行替换
+          let toPath = rule.rewrite.to;
+          for (const [key, value] of Object.entries(matchResult.params)) {
+            toPath = toPath.replace(`:${key}`, value as string);
+          }
+          targetPath = toPath;
+        } else {
+          // 如果没有特定的重写规则，保持相同的参数结构
+          targetPath = incomePathname;
         }
         break;
       }
@@ -55,7 +68,9 @@ export function newRProxy(options: RProxyOptions) {
         headers: requestHeaders,
         body: ["GET", "HEAD"].includes(r.method) ? undefined : r.body,
       });
-      console.log(`🚀 [rProxy] ${r.method}(${response.status}) ${r.url}`);
+      console.log(
+        `🚀 [rProxy] ${r.method}(${response.status}) \n${r.url}, \n===> ${targetBaseUrl}${targetPath}`,
+      );
       return response;
     } catch (e) {
       return new Response(`error ${e} ${fullUrl.toString()}`);
