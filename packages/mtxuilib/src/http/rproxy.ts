@@ -13,7 +13,7 @@ export interface RewriteRule {
 }
 
 export interface RProxyOptions {
-  baseUrl: string;
+  // baseUrl: string;
   rewrites?: RewriteRule[];
   headers?: Record<string, string>;
 }
@@ -24,7 +24,7 @@ export interface RProxyOptions {
  * @returns
  */
 export function newRProxy(options: RProxyOptions) {
-  const { baseUrl, rewrites = [] } = options;
+  const { rewrites = [] } = options;
 
   // 预处理所有重写规则，创建匹配函数
   const rules = rewrites.map((rule) => ({
@@ -35,7 +35,7 @@ export function newRProxy(options: RProxyOptions) {
   return async (r: Request) => {
     const incomeUri = new URL(r.url);
     const incomePathname = incomeUri.pathname;
-    let targetUrl = baseUrl;
+    let targetUrl = "";
 
     // 使用 path-to-regexp 进行路径匹配
     for (const rule of rules) {
@@ -45,9 +45,27 @@ export function newRProxy(options: RProxyOptions) {
         // 如果匹配成功，使用rule.to作为完整的基础URL
         let finalPath = rule.to;
 
-        // 替换路径中的参数
-        for (const [key, value] of Object.entries(matchResult.params)) {
-          finalPath = finalPath.replace(`:${key}`, value as string);
+        if (Array.isArray(matchResult.params)) {
+          // 处理通配符捕获的情况
+          // 例如:
+          // {
+          //   from: "/api/v1/(.*)",
+          //   to: `${getBackendUrl()}/api/v1/$1`,
+          // },
+          // 匹配到的参数为:
+          // matchResult.params = ["123"]
+          // 需要替换为:
+          // finalPath = `${getBackendUrl()}/api/v1/123`
+          for (const [index, value] of Object.entries(matchResult.params)) {
+            // 数字索引会转换为 $1, $2, $3 等
+            const placeholder = `$${Number.parseInt(index) + 1}`;
+            finalPath = finalPath.replace(placeholder, value as string);
+          }
+        } else {
+          // 处理命名参数的情况
+          for (const [key, value] of Object.entries(matchResult.params)) {
+            finalPath = finalPath.replace(`:${key}`, value as string);
+          }
         }
 
         targetUrl = finalPath;
