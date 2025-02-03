@@ -8,7 +8,7 @@ import type {
   Tenant,
   TextHighlight,
 } from "mtmaiapi";
-import type { Assistant, CanvasGraphParams, Session } from "mtmaiapi/gomtmapi";
+import type { Assistant, Session } from "mtmaiapi/gomtmapi";
 import { createContext, useContext, useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { type StateCreator, createStore, useStore } from "zustand";
@@ -23,8 +23,6 @@ import { useShallow } from "zustand/react/shallow";
 import { handleSseGraphStream } from "./runGraphStream";
 
 import type { ThreadMessageLike } from "@assistant-ui/react";
-
-export type GraphInput = CanvasGraphParams;
 
 interface IBreadcrumb {
   name: string;
@@ -130,8 +128,8 @@ export interface AgentNodeState extends AgentNodeProps {
   setArtifactContent: (index: number, content: string) => void;
 
   // autogen studio =========================================================================
-  messages: Message[];
-  setMessages: (messages: Message[]) => void;
+  // messages: Message[];
+  // setMessages: (messages: Message[]) => void;
   session: Session | null;
   setSession: (session: Session | null) => void;
   sessions: Session[];

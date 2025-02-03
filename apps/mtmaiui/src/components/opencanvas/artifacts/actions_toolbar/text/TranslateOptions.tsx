@@ -1,4 +1,4 @@
-import type { LanguageOptions } from "mtxuilib/types";
+import type { CanvasGraphParams, LanguageOptions } from "mtmaiapi";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import {
   ChinaFlag,
@@ -9,7 +9,7 @@ import {
 } from "mtxuilib/icons/flags";
 
 export interface TranslateOptionsProps {
-  streamMessage: (params: GraphInput) => Promise<void>;
+  streamMessage: (params: CanvasGraphParams) => Promise<void>;
   handleClose: () => void;
 }
 
