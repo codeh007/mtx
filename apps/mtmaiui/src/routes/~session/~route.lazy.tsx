@@ -12,7 +12,9 @@ import { Suspense, useEffect, useState } from "react";
 import { DashContent } from "../../components/DashContent";
 import { DashHeaders } from "../../components/DashHeaders";
 import { DashSidebar } from "../../components/sidebar/siderbar";
-import { useGraphStore } from "../../stores/GraphContext";
+import { useTenant } from "../../hooks/useAuth";
+import { GraphProvider, useGraphStore } from "../../stores/GraphContext";
+import { useMtmaiV2 } from "../../stores/StoreProvider";
 // import { appContext } from "../../stores/agStoreProvider";
 import { RootAppWrapper } from "../components/RootAppWrapper";
 import { Sidebar } from "../~chat/sidebar";
@@ -38,6 +40,11 @@ function RouteComponent() {
   const setSession = useGraphStore((x) => x.setSession);
   const sessions = useGraphStore((x) => x.sessions);
   const setSessions = useGraphStore((x) => x.setSessions);
+  const tenant = useTenant();
+  const selfBackendend = useMtmaiV2((x) => x.selfBackendUrl);
+  if (!selfBackendend) {
+    null;
+  }
 
   // Handle initial URL params
   useEffect(() => {
@@ -134,45 +141,47 @@ function RouteComponent() {
         </DashHeaders>
         <DashContent>
           <Suspense fallback={<div>Loading...</div>}>
-            <div className="relative flex h-full w-full">
-              {/* {contextHolder} */}
-              <div
-                className={`absolute left-0 top-0 h-full transition-all duration-200 ease-in-out ${
-                  isSidebarOpen ? "w-64" : "w-12"
-                }`}
-              >
-                <Sidebar
-                  isOpen={isSidebarOpen}
-                  currentSession={session}
-                  onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
-                  onSelectSession={handleSelectSession}
-                  onEditSession={(session) => {
-                    setEditingSession(session);
-                    setIsEditorOpen(true);
+            <GraphProvider agentEndpointBase={selfBackendend!} tenant={tenant!}>
+              <div className="relative flex h-full w-full">
+                {/* {contextHolder} */}
+                <div
+                  className={`absolute left-0 top-0 h-full transition-all duration-200 ease-in-out ${
+                    isSidebarOpen ? "w-64" : "w-12"
+                  }`}
+                >
+                  <Sidebar
+                    isOpen={isSidebarOpen}
+                    currentSession={session}
+                    onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
+                    onSelectSession={handleSelectSession}
+                    onEditSession={(session) => {
+                      setEditingSession(session);
+                      setIsEditorOpen(true);
+                    }}
+                    onDeleteSession={handleDeleteSession}
+                    isLoading={isLoading}
+                  />
+                </div>
+
+                <div
+                  className={`flex-1 transition-all -mr-4 duration-200 ${
+                    isSidebarOpen ? "ml-64" : "ml-12"
+                  }`}
+                >
+                  <Outlet />
+                </div>
+
+                <SessionEditor
+                  session={editingSession}
+                  isOpen={isEditorOpen}
+                  // onSave={handleSaveSession}
+                  onCancel={() => {
+                    setIsEditorOpen(false);
+                    setEditingSession(undefined);
                   }}
-                  onDeleteSession={handleDeleteSession}
-                  isLoading={isLoading}
                 />
               </div>
-
-              <div
-                className={`flex-1 transition-all -mr-4 duration-200 ${
-                  isSidebarOpen ? "ml-64" : "ml-12"
-                }`}
-              >
-                <Outlet />
-              </div>
-
-              <SessionEditor
-                session={editingSession}
-                isOpen={isEditorOpen}
-                // onSave={handleSaveSession}
-                onCancel={() => {
-                  setIsEditorOpen(false);
-                  setEditingSession(undefined);
-                }}
-              />
-            </div>
+            </GraphProvider>
           </Suspense>
         </DashContent>
       </SidebarInset>
