@@ -36,44 +36,25 @@ export function newRProxy(options: RProxyOptions) {
     const incomeUri = new URL(r.url);
     const incomePathname = incomeUri.pathname;
     let targetUrl = "";
-
-    // 使用 path-to-regexp 进行路径匹配
     for (const rule of rules) {
       const matchResult = rule.matcher(incomePathname);
-
       if (matchResult) {
-        // 如果匹配成功，使用rule.to作为完整的基础URL
         let finalPath = rule.to;
-
-        if (Array.isArray(matchResult.params)) {
-          // 处理通配符捕获的情况
-          // 例如:
-          // {
-          //   from: "/api/v1/(.*)",
-          //   to: `${getBackendUrl()}/api/v1/$1`,
-          // },
-          // 匹配到的参数为:
-          // matchResult.params = ["123"]
-          // 需要替换为:
-          // finalPath = `${getBackendUrl()}/api/v1/123`
-          for (const [index, value] of Object.entries(matchResult.params)) {
-            // 数字索引会转换为 $1, $2, $3 等
-            const placeholder = `$${Number.parseInt(index) + 1}`;
-            finalPath = finalPath.replace(placeholder, value as string);
-          }
-        } else {
-          // 处理命名参数的情况
-          for (const [key, value] of Object.entries(matchResult.params)) {
-            finalPath = finalPath.replace(`:${key}`, value as string);
-          }
+        //位置参数
+        for (const [index, value] of Object.entries(matchResult.params)) {
+          const placeholder = `$${Number.parseInt(index) + 1}`;
+          finalPath = finalPath.replace(placeholder, value as string);
         }
-
+        // 命名参数
+        for (const [key, value] of Object.entries(matchResult.params)) {
+          finalPath = finalPath.replace(`:${key}`, value as string);
+        }
         targetUrl = finalPath;
         break;
       }
     }
 
-    // 构建最终的URL，添加查询参数
+    // 最终URL
     const fullUrl = new URL(targetUrl);
     fullUrl.search = incomeUri.search;
 
