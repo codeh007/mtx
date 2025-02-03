@@ -1,19 +1,11 @@
 import { match } from "path-to-regexp";
 
 export interface RewriteRule {
-  // 匹配的路径模式，支持 Express 风格的参数，如 /api/:param
   from: string;
-  // 目标基础URL，如果提供则覆盖全局baseUrl
   to: string;
-  // 可选的路径重写规则
-  rewrite?: {
-    from: string;
-    to: string;
-  };
 }
 
 export interface RProxyOptions {
-  // baseUrl: string;
   rewrites?: RewriteRule[];
   headers?: Record<string, string>;
 }
@@ -76,32 +68,35 @@ export function newRProxy(options: RProxyOptions) {
   };
 }
 
-const allExcludesHeaderPrefixes = [
+const DEFAULT_EXCLUDED_HEADERS = [
   "host",
   "content-length",
   "x-forwarded-",
   "cf-",
+  "connection",
+  "sec-",
+  "proxy-",
+  "transfer-encoding",
 ];
 
 /**
- * 复制请求头, 自动清理和修正headers
- * @param r
- * @param excludesHeaderPrefixes
- * @returns
+ * 复制请求头，但排除特定前缀的头部
+ * @param request 原始请求
+ * @param additionalExcludes 额外需要排除的头部前缀
+ * @returns 新的 Headers 对象
  */
 export function copyIncomeHeaders(
-  r: Request,
-  excludesHeaderPrefixes: string[] = [],
-) {
-  const requestHeaders = new Headers();
-  r.headers.forEach((value, key) => {
-    if (
-      !allExcludesHeaderPrefixes
-        .concat(excludesHeaderPrefixes)
-        .some((prefix) => key.startsWith(prefix))
-    ) {
-      requestHeaders.set(key, value);
-    }
-  });
-  return requestHeaders;
+  request: Request,
+  additionalExcludes: string[] = [],
+): Headers {
+  const excludedPrefixes = [...DEFAULT_EXCLUDED_HEADERS, ...additionalExcludes];
+
+  return new Headers(
+    Array.from(request.headers.entries()).filter(
+      ([key]) =>
+        !excludedPrefixes.some((prefix) =>
+          key.toLowerCase().startsWith(prefix),
+        ),
+    ),
+  );
 }
