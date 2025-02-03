@@ -1404,9 +1404,9 @@ export interface ChatMessage {
   id: string;
   role: ChatMessageRole;
   content: string;
-  createdAt: string;
-  threadId: string;
-  config: {
+  createdAt?: string;
+  source?: string;
+  config?: {
     message_type?: string;
     source?: string;
   };
