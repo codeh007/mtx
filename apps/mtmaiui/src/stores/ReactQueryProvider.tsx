@@ -27,9 +27,7 @@ export default function ReactQueryProvider({
 
     client?.setConfig({
       fetch: async (req) => {
-        console.log(
-          `🔄,${req.method} ${req.url} accessToken:${accessToken} host:${host}`,
-        );
+        console.log(`🔄,${req.method} ${req.url}`);
         const response = await fetch(req, {
           headers: {
             ...req.headers,
