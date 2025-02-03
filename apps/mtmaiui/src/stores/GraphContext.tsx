@@ -22,8 +22,6 @@ import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { handleSseGraphStream } from "./runGraphStream";
 
-import type { ThreadMessageLike } from "@assistant-ui/react";
-
 interface IBreadcrumb {
   name: string;
   href: string;
@@ -38,7 +36,6 @@ export interface IAgentFlowSettings {
   showTokens: boolean;
   showMessages: boolean;
   showMiniMap?: boolean;
-  // Add any other settings we want to persist
 }
 
 interface IHeaderState {
@@ -82,20 +79,16 @@ export interface AgentNodeProps {
   tenant: Tenant;
 }
 export interface AgentNodeState extends AgentNodeProps {
-  messages: ThreadMessageLike[];
-  setMessages: (messages: ThreadMessageLike[]) => void;
+  messages: ChatMessage[];
+  setMessages: (messages: ChatMessage[]) => void;
   agentNode: AgentNode;
   setAgentNode: (agentNode: AgentNode) => void;
-
-  // subscribeEvents: (options: {
-  //   runId: string;
-  // }) => void;
   isStreaming: boolean;
   setIsStreaming: (isStreaming: boolean) => void;
   firstTokenReceived: boolean;
   setFirstTokenReceived: (firstTokenReceived: boolean) => void;
 
-  addMessage: (message: ThreadMessageLike) => void;
+  addMessage: (message: ChatMessage) => void;
   submitHumanInput: (content: string) => void;
   modelName: string;
   setModelName: (modelName: string) => void;
@@ -128,8 +121,6 @@ export interface AgentNodeState extends AgentNodeProps {
   setArtifactContent: (index: number, content: string) => void;
 
   // autogen studio =========================================================================
-  // messages: Message[];
-  // setMessages: (messages: Message[]) => void;
   session: Session | null;
   setSession: (session: Session | null) => void;
   sessions: Session[];
@@ -163,7 +154,7 @@ export const createGraphSlice: StateCreator<
   return {
     nodeState: undefined,
     messages: [],
-    setMessages: (messages: ChatMessage[]) => {
+    setMessages: (messages) => {
       set({ messages });
     },
     setAgentNode: (agentNode: AgentNode) => {
@@ -202,14 +193,21 @@ export const createGraphSlice: StateCreator<
     },
     submitHumanInput: async (content: string) => {
       const prevMessages = get().messages;
-      const humanMessage = {
-        role: "user",
-        content,
-        id: generateId(),
-        createdAt: new Date(),
-        threadId: get().runId,
-      };
-      set({ messages: [...prevMessages, humanMessage] });
+      set({
+        messages: [
+          ...prevMessages,
+          {
+            role: "user",
+            content,
+            id: generateId(),
+            createdAt: new Date().toISOString(),
+            threadId: get().runId || generateId(),
+            config: {
+              // threadId: get().runId,
+            },
+          },
+        ],
+      });
 
       await handleSseGraphStream({}, set, get);
     },
@@ -224,9 +222,6 @@ export const createGraphSlice: StateCreator<
     },
 
     // autogen studio =========================================================================
-    // Existing state
-    messages: [],
-    setMessages: (messages) => set({ messages }),
     session: null,
     setSession: (session) => set({ session }),
     sessions: [],
