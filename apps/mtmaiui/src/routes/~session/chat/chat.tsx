@@ -1,5 +1,4 @@
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
-import { message } from "antd";
 import { ChevronRight, MessagesSquare } from "lucide-react";
 import {
   type AgentMessageConfig,
@@ -9,13 +8,14 @@ import {
   type TeamResult,
   type WebSocketMessage,
   agentNodeRunMutation,
+  chatChatMutation,
   teamGetOptions,
 } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
+import { toast } from "mtxuilib/ui/use-toast";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { useTenant } from "../../../hooks/useAuth";
-import { appContext } from "../../../stores/agStoreProvider";
+import { useTenant, useUser } from "../../../hooks/useAuth";
 import type { IStatus } from "../../components/datamodel";
 import ChatInput from "./chatinput";
 import { TIMEOUT_CONFIG } from "./consts";
@@ -35,23 +35,16 @@ export default function ChatView({ session }: ChatViewProps) {
   // Core state
   const [existingRuns, setExistingRuns] = useState<Run[]>([]);
   const [currentRun, setCurrentRun] = useState<Run | null>(null);
-  const [messageApi, contextHolder] = message.useMessage();
   const chatContainerRef = React.useRef<HTMLDivElement | null>(null);
 
   const tenant = useTenant();
-
-  // Context and config
-  const { user } = React.useContext(appContext);
-  // const { session, sessions } = useConfigStore();
+  const user = useUser();
   const [activeSocket, setActiveSocket] = React.useState<WebSocket | null>(
     null,
   );
-  // const [teamConfig, setTeamConfig] = React.useState<TeamConfig | null>(null);
-
   const inputTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
   const activeSocketRef = React.useRef<WebSocket | null>(null);
 
-  // Create a Message object from AgentMessageConfig
   const createMessage = (
     config: AgentMessageConfig,
     runId: string,
@@ -110,7 +103,7 @@ export default function ChatView({ session }: ChatViewProps) {
   }, [existingRuns.length, currentRun?.messages]);
 
   // Cleanup socket on unmount
-  React.useEffect(() => {
+  useEffect(() => {
     return () => {
       if (inputTimeoutRef.current) {
         clearTimeout(inputTimeoutRef.current);
@@ -120,29 +113,12 @@ export default function ChatView({ session }: ChatViewProps) {
   }, [activeSocket]);
 
   const runMutation = useMutation({
-    ...agentNodeRunMutation({
-      path: {
-        tenant: tenant!.metadata.id,
-        session: session!.metadata.id,
-      },
-    }),
+    ...agentNodeRunMutation({}),
   });
-  // const createRun = async (sessionId: string): Promise<string> => {
-  //   console.log("createRun", sessionId);
-  //   const payload = { session_id: sessionId, user_id: user?.email || "" };
-  //   const response = await fetch(`/runs/`, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(payload),
-  //   });
 
-  //   if (!response.ok) {
-  //     throw new Error("Failed to create run");
-  //   }
-
-  //   const data = await response.json();
-  //   return data.data.run_id;
-  // };
+  const chatMutation = useMutation({
+    ...chatChatMutation({}),
+  });
 
   const handleWebSocketMessage = (message: WebSocketMessage) => {
     setCurrentRun((current) => {
@@ -262,7 +238,10 @@ export default function ChatView({ session }: ChatViewProps) {
 
   const handleError = (error: any) => {
     console.error("Error:", error);
-    message.error("Error during request processing");
+    toast({
+      title: "Error",
+      description: "Error during request processing",
+    });
 
     setCurrentRun((current) => {
       if (!current) return null;
@@ -376,7 +355,7 @@ export default function ChatView({ session }: ChatViewProps) {
     }
 
     try {
-      const response = await runMutation.mutateAsync({
+      const response = await chatMutation.mutateAsync({
         path: {
           tenant: tenant!.metadata.id,
           session: session!.metadata.id,
@@ -495,7 +474,7 @@ export default function ChatView({ session }: ChatViewProps) {
   return (
     <div className="text-primary h-[calc(100vh-165px)] relative rounded flex-1 scroll">
       <DebugValue data={{ team: teamConfigQuery.data }} />
-      {contextHolder}
+      {/* {contextHolder} */}
       <div className="flex pt-2 items-center gap-2  text-sm">
         <span className="text-primary font-medium"> Sessions</span>
         {session && (

@@ -26,16 +26,15 @@ interface SidebarProps {
   isLoading?: boolean;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({
+export const Sidebar = ({
   isOpen,
-  // sessions,
   currentSession,
   onToggle,
   onSelectSession,
   onEditSession,
   onDeleteSession,
   isLoading = false,
-}) => {
+}: SidebarProps) => {
   const tenant = useTenant();
   const sessionQuery = useSuspenseQuery({
     ...sessionListOptions({
@@ -153,7 +152,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                    ? "bg-accent"
                    : "bg-tertiary"
                }`}
-            ></div>
+            />
             <CustomLink to={`${s.metadata.id}`}>
               <div
                 className={`group ml-1 flex items-center justify-between rounded-l p-2 py-1 text-sm cursor-pointer hover:bg-tertiary ${
