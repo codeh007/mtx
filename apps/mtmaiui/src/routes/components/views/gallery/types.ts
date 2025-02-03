@@ -1,10 +1,10 @@
-import {
+import type {
   AgentConfig,
   ModelConfig,
   TeamConfig,
   TerminationConfig,
   ToolConfig,
-} from "../../types/datamodel";
+} from "../../datamodel";
 
 export interface GalleryMetadata {
   author: string;

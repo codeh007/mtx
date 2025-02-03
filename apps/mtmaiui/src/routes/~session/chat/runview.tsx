@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   AlertTriangle,
   Bot,
@@ -10,13 +10,10 @@ import {
   StopCircle,
   TriangleAlertIcon,
 } from "lucide-react";
-import { ChatMessage } from "mtmaiapi";
+import type { ChatMessage } from "mtmaiapi";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import { useEffect, useRef, useState } from "react";
-import type {
-  Run,
-  TeamConfig,
-} from "../../components/types/datamodel";
+import type { Run, TeamConfig } from "../../components/datamodel";
 import {
   LoadingDots,
   TruncatableText,
@@ -135,9 +132,9 @@ export const RunView = ({
         <div className="text-xs text-secondary">
           <Tooltip>
             <TooltipTrigger asChild>
-            <span className="cursor-help">
-              Run ...{run.id?.slice(-6)} |{" "}
-              {getRelativeTimeString(run?.created_at || "")}{" "}
+              <span className="cursor-help">
+                Run ...{run.id?.slice(-6)} |{" "}
+                {getRelativeTimeString(run?.created_at || "")}{" "}
               </span>
             </TooltipTrigger>
             <TooltipContent>

@@ -11,6 +11,8 @@ import {
   useReactFlow,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
+// import { useConfigStore } from "../../../../stores/agStore";
+import type { AgentMessageConfig } from "mtmaiapi";
 import type React from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useConfigStore } from "../../../../stores/agStore";
@@ -19,12 +21,10 @@ import type {
   // AgentMessageConfig,
   Run,
   TeamConfig,
-} from "../../../components/types/datamodel";
+} from "../../../components/datamodel";
 import AgentNode from "./agentnode";
 import { CustomEdge } from "./edge";
 import { EdgeMessageModal } from "./edgemessagemodal";
-// import { useConfigStore } from "../../../../stores/agStore";
-import { AgentMessageConfig } from "mtmaiapi";
 import { AgentFlowToolbar } from "./toolbar";
 
 interface AgentFlowProps {

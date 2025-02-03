@@ -1,6 +1,7 @@
 import { Clock, Loader2, SendHorizontal } from "lucide-react";
+import { Button } from "mtxuilib/ui/button";
 import React, { useEffect, useRef } from "react";
-import { TIMEOUT_CONFIG } from "./types";
+import { TIMEOUT_CONFIG } from "./consts";
 
 interface InputRequestProps {
   prompt: string;
@@ -130,7 +131,8 @@ export const InputRequestView: React.FC<InputRequestProps> = ({
               : "Type your response..."
           }
         />
-        <button
+        <Button
+          variant="ghost"
           onClick={handleSubmit}
           disabled={disabled || isSubmitting || !response.trim()}
           className={`px-4 py-2 rounded bg-accent text-white hover:bg-accent/90 disabled:opacity-50 disabled:hover:bg-accent flex items-center gap-2 transition-all ${
@@ -145,7 +147,7 @@ export const InputRequestView: React.FC<InputRequestProps> = ({
             <SendHorizontal size={16} />
           )}
           <span>Submit</span>
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import type { IStatus } from "./types/datamodel";
+import type { IStatus } from "./datamodel";
 
 export function setLocalStorage(name: string, value: any, stringify = true) {
   if (stringify) {

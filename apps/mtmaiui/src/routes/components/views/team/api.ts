@@ -1,7 +1,6 @@
-import type { AgentConfig, Team } from "../../types/datamodel";
+import type { AgentConfig, Team } from "../../datamodel";
 
 export class TeamAPI {
-
   private getHeaders(): HeadersInit {
     return {
       "Content-Type": "application/json",

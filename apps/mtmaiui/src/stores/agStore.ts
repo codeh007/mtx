@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import type { Message, Session } from "../routes/components/types/datamodel";
+import type { Message, Session } from "../routes/components/datamodel";
 
 interface IBreadcrumb {
   name: string;

@@ -1,41 +1,44 @@
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { message } from "antd";
 import { ChevronRight, MessagesSquare } from "lucide-react";
-import { AgentMessageConfig, agentNodeRunMutation, RunStatus, Session, teamGetOptions, TeamResult, WebSocketMessage } from "mtmaiapi";
+import {
+  type AgentMessageConfig,
+  type Run,
+  type RunStatus,
+  type Session,
+  type TeamResult,
+  type WebSocketMessage,
+  agentNodeRunMutation,
+  teamGetOptions,
+} from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTenant } from "../../../hooks/useAuth";
 import { appContext } from "../../../stores/agStoreProvider";
-// import type { IStatus } from "../../components/types/app";
-import type {
-  // AgentMessageConfig,
-  IStatus,
-  Run,
-} from "../../components/types/datamodel";
-import { sessionAPI } from "../api";
+import type { IStatus } from "../../components/datamodel";
 import ChatInput from "./chatinput";
+import { TIMEOUT_CONFIG } from "./consts";
 import { RunView } from "./runview";
-import { TIMEOUT_CONFIG } from "./types";
 
 interface ChatViewProps {
   session: Session | null;
 }
 
 export default function ChatView({ session }: ChatViewProps) {
-  const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState<IStatus | null>({
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<IStatus | null>({
     status: true,
     message: "All good",
   });
 
   // Core state
-  const [existingRuns, setExistingRuns] = React.useState<Run[]>([]);
-  const [currentRun, setCurrentRun] = React.useState<Run | null>(null);
+  const [existingRuns, setExistingRuns] = useState<Run[]>([]);
+  const [currentRun, setCurrentRun] = useState<Run | null>(null);
   const [messageApi, contextHolder] = message.useMessage();
   const chatContainerRef = React.useRef<HTMLDivElement | null>(null);
 
-  const tenant = useTenant()
+  const tenant = useTenant();
 
   // Context and config
   const { user } = React.useContext(appContext);
@@ -67,8 +70,8 @@ export default function ChatView({ session }: ChatViewProps) {
     if (!session?.metadata.id || !user?.email) return;
 
     try {
-      const response = await sessionAPI.getSessionRuns(session.metadata.id, user.email);
-      setExistingRuns(response.runs);
+      // const response = await sessionAPI.getSessionRuns(session.metadata.id, user.email);
+      // setExistingRuns(response.runs);
     } catch (error) {
       console.error("Error loading session runs:", error);
       messageApi.error("Failed to load chat history");
@@ -85,7 +88,6 @@ export default function ChatView({ session }: ChatViewProps) {
     }
   }, [session?.metadata.id]);
 
-
   const teamConfigQuery = useSuspenseQuery({
     ...teamGetOptions({
       path: {
@@ -93,9 +95,9 @@ export default function ChatView({ session }: ChatViewProps) {
         team: session!.teamId,
       },
     }),
-  })
+  });
 
-  React.useEffect(() => {
+  useEffect(() => {
     setTimeout(() => {
       if (chatContainerRef.current && existingRuns.length > 0) {
         // Scroll to bottom to show latest run
@@ -124,7 +126,7 @@ export default function ChatView({ session }: ChatViewProps) {
         session: session!.metadata.id,
       },
     }),
-  })
+  });
   // const createRun = async (sessionId: string): Promise<string> => {
   //   console.log("createRun", sessionId);
   //   const payload = { session_id: sessionId, user_id: user?.email || "" };
@@ -492,7 +494,7 @@ export default function ChatView({ session }: ChatViewProps) {
 
   return (
     <div className="text-primary h-[calc(100vh-165px)] relative rounded flex-1 scroll">
-      <DebugValue data={{team: teamConfigQuery.data}}/>
+      <DebugValue data={{ team: teamConfigQuery.data }} />
       {contextHolder}
       <div className="flex pt-2 items-center gap-2  text-sm">
         <span className="text-primary font-medium"> Sessions</span>
@@ -509,7 +511,7 @@ export default function ChatView({ session }: ChatViewProps) {
           className="flex-1 overflow-y-auto scroll mt-2 min-h-0 relative"
         >
           <div id="scroll-gradient" className="scroll-gradient h-8 top-0">
-            <span className="inline-block h-6"></span>
+            <span className="inline-block h-6" />
           </div>
           <>
             {teamConfigQuery.data && (
@@ -518,7 +520,7 @@ export default function ChatView({ session }: ChatViewProps) {
                 {existingRuns.map((run, index) => (
                   <RunView
                     teamConfig={teamConfigQuery.data}
-                    key={run.id + "-review-" + index}
+                    key={`${run.id}-review-${index}`}
                     run={run}
                     isFirstRun={index === 0}
                   />
@@ -545,9 +547,7 @@ export default function ChatView({ session }: ChatViewProps) {
                         className="w-64 h-64 mb-4 inline-block"
                       />
                       <div className="  font-medium mb-2">Start a new task</div>
-                      <div className="text-sm">
-                        Enter a task to get started
-                      </div>
+                      <div className="text-sm">Enter a task to get started</div>
                     </div>
                   </div>
                 )}
