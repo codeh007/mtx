@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { Button } from "mtxuilib/ui/button";
 import type React from "react";
-import { useConfigStore } from "../../../../stores/agStore";
+import { useGraphStore } from "../../../../stores/GraphContext";
 
 interface AgentFlowToolbarProps {
   isFullscreen: boolean;
@@ -28,7 +28,9 @@ export const AgentFlowToolbar: React.FC<AgentFlowToolbarProps> = ({
   onToggleFullscreen,
   onResetView,
 }) => {
-  const { agentFlow: settings, setAgentFlowSettings } = useConfigStore();
+  // const { agentFlow: settings, setAgentFlowSettings } = useConfigStore();
+  const settings = useGraphStore((x) => x.agentFlow);
+  const setAgentFlowSettings = useGraphStore((x) => x.setAgentFlowSettings);
 
   const toggleSetting = (setting: keyof typeof settings) => () => {
     setAgentFlowSettings({
@@ -82,11 +84,7 @@ export const AgentFlowToolbar: React.FC<AgentFlowToolbarProps> = ({
             className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
             onClick={onToggleFullscreen}
           >
-            {isFullscreen ? (
-              <Minimize2 size={18} />
-            ) : (
-              <Maximize2 size={18} />
-            )}
+            {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
           </Button>
         </Tooltip>
 
