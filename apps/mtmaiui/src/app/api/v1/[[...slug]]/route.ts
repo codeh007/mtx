@@ -9,18 +9,15 @@ export const runtime = "edge";
 const handler = async (r: Request) => {
   await initGomtmApp({ r: r });
   const rProxy = newRProxy({
-    baseUrl: getBackendUrl(),
     rewrites: [
       {
         from: "/api/v1/tenants/:tenant/chat",
         to: "http://localhost:7860/api/v1/tenants/:tenant/chat",
-        // pattern: /^\/api\/v1\/tenants\/([^\/]+)\/chat/,
-        // builder: (matches) =>
-        //   `http://localhost:7860/api/v1/tenants/${matches[1]}/chat`,
       },
+      //其他api
       {
-        from: "/api/v1/chat",
-        to: "http://localhost:7860/api/v1/chat",
+        from: "/api/v1/(.*)",
+        to: `${getBackendUrl()}/api/v1/$1`,
       },
     ],
   });
