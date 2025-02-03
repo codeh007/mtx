@@ -11,8 +11,8 @@ import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import React from "react";
 import { CustomLink } from "../../components/CustomLink";
-import { useConfigStore } from "../../stores/agStore";
-import Icon from "./icons";
+import { useGraphStore } from "../../stores/GraphContext";
+import { Icon } from "./icons";
 interface INavItem {
   name: string;
   href: string;
@@ -65,8 +65,12 @@ type SidebarProps = {
 };
 
 export const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
-  const { sidebar, setHeader, setSidebarState } = useConfigStore();
-  const { isExpanded } = sidebar;
+  // const { sidebar, setHeader, setSidebarState } = useConfigStore();
+
+  const sidebar = useGraphStore((x) => x.sidebar);
+  const setSidebarState = useGraphStore((x) => x.setSidebarState);
+  const setHeader = useGraphStore((x) => x.setHeader);
+  const isExpanded = useGraphStore((x) => x.sidebar.isExpanded);
 
   // Set initial header state based on current route
   React.useEffect(() => {

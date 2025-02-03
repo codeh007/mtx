@@ -18,7 +18,7 @@ import { subscribeSse } from "./eventHandler";
 import { handleSseSubmit } from "./handleSubmit";
 export interface IAskForm {
   callback: (data) => void;
-  askForm: ThreadForm;
+  // askForm: ThreadForm;
 }
 export interface WorkbenchProps {
   backendUrl: string;
@@ -53,7 +53,7 @@ export interface WorkbrenchState extends WorkbenchProps {
   // currentView: string;
   // setCurrentView: (view: string) => void;
 
-  workbenchConfig: AssisantWorkbenchConfig | undefined;
+  // workbenchConfig: AssisantWorkbenchConfig | undefined;
   // setWorkbenchConfig: (config: AssisantWorkbenchConfig) => void;
   // setAssisantConfig: (config: AssisantConfig) => void;
   openWorkbench: (viewName: string, viewProps?: Record<string, any>) => void;
@@ -80,11 +80,11 @@ export interface WorkbrenchState extends WorkbenchProps {
   //-----------------------------------
   setShowWorkbench: (openWorkbench: boolean) => void;
   setOpenChat: (openChat: boolean) => void;
-  openView: (
-    viewName: string,
-    viewProps?: Record<string, any>,
-    target?: AssisantMenus["target"],
-  ) => void;
+  // openView: (
+  //   viewName: string,
+  //   viewProps?: Record<string, any>,
+  //   target?: AssisantMenus["target"],
+  // ) => void;
   setCurrentWorkbenchView: (id: string) => void;
 
   //--------------------------------------------------------------------------------------------
@@ -122,24 +122,24 @@ export interface WorkbrenchState extends WorkbenchProps {
   loading: boolean;
   setLoading: (loading: boolean) => void;
 
-  askUser?: IAsk;
-  setAskUser: (askUserState?: IAsk) => void;
+  // askUser?: IAsk;
+  // setAskUser: (askUserState?: IAsk) => void;
 
   askForm?: IAskForm;
   setAskForm: (askForm?: IAskForm) => void;
 
-  elementState: IMessageElement[];
-  setElementState: (elementState: IMessageElement[]) => void;
+  // elementState: IMessageElement[];
+  // setElementState: (elementState: IMessageElement[]) => void;
 
   //在侧边栏 显示的单个 element
-  sideViewState?: IMessageElement;
-  setSideViewState: (sideViewState?: IMessageElement) => void;
+  // sideViewState?: IMessageElement;
+  // setSideViewState: (sideViewState?: IMessageElement) => void;
 
-  tasklistState: ITasklistElement[];
-  setTasklistState: (tasklistState: ITasklistElement[]) => void;
+  // tasklistState: ITasklistElement[];
+  // setTasklistState: (tasklistState: ITasklistElement[]) => void;
 
-  actionState: IAction[];
-  setActionState: (actionState: IAction[]) => void;
+  // actionState: IAction[];
+  // setActionState: (actionState: IAction[]) => void;
   // connectWs: () => void;
   askUserState?: IAsk;
   setAskUserState: (askUserState?: IAsk) => void;

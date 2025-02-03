@@ -8,10 +8,16 @@ import type {
   Tenant,
   TextHighlight,
 } from "mtmaiapi";
-import type { Assistant, CanvasGraphParams } from "mtmaiapi/gomtmapi";
+import type { Assistant, CanvasGraphParams, Session } from "mtmaiapi/gomtmapi";
 import { createContext, useContext, useMemo } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { type StateCreator, createStore, useStore } from "zustand";
-import { devtools, subscribeWithSelector } from "zustand/middleware";
+import {
+  createJSONStorage,
+  devtools,
+  persist,
+  subscribeWithSelector,
+} from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { handleSseGraphStream } from "./runGraphStream";
@@ -19,6 +25,59 @@ import { handleSseGraphStream } from "./runGraphStream";
 import type { ThreadMessageLike } from "@assistant-ui/react";
 
 export type GraphInput = CanvasGraphParams;
+
+interface IBreadcrumb {
+  name: string;
+  href: string;
+  current?: boolean;
+}
+
+// New interfaces
+export interface IAgentFlowSettings {
+  direction: "TB" | "LR";
+  showLabels: boolean;
+  showGrid: boolean;
+  showTokens: boolean;
+  showMessages: boolean;
+  showMiniMap?: boolean;
+  // Add any other settings we want to persist
+}
+
+interface IHeaderState {
+  title: string;
+  breadcrumbs?: IBreadcrumb[];
+}
+
+interface ISidebarState {
+  isExpanded: boolean;
+  isPinned: boolean;
+}
+// Default settings
+const DEFAULT_AGENT_FLOW_SETTINGS: IAgentFlowSettings = {
+  direction: "TB",
+  showLabels: true,
+  showGrid: true,
+  showTokens: true,
+  showMessages: true,
+  showMiniMap: false,
+};
+
+export interface IUser {
+  name: string;
+  email?: string;
+  username?: string;
+  avatar_url?: string;
+  metadata?: any;
+}
+
+export interface AppContextType {
+  user: IUser | null;
+  setUser: any;
+  logout: any;
+  cookie_name: string;
+  darkMode: string;
+  setDarkMode: any;
+}
 
 export interface AgentNodeProps {
   agentEndpointBase: string;
@@ -69,6 +128,32 @@ export interface AgentNodeState extends AgentNodeProps {
   ) => void;
   artifactContent: string[];
   setArtifactContent: (index: number, content: string) => void;
+
+  // autogen studio =========================================================================
+  messages: Message[];
+  setMessages: (messages: Message[]) => void;
+  session: Session | null;
+  setSession: (session: Session | null) => void;
+  sessions: Session[];
+  setSessions: (sessions: Session[]) => void;
+  version: string | null;
+  setVersion: (version: string | null) => void;
+
+  // Header state
+  header: IHeaderState;
+  setHeader: (header: Partial<IHeaderState>) => void;
+  setBreadcrumbs: (breadcrumbs: IBreadcrumb[]) => void;
+
+  // Sidebar state
+  sidebar: ISidebarState;
+  setSidebarState: (state: Partial<ISidebarState>) => void;
+  collapseSidebar: () => void;
+  expandSidebar: () => void;
+  toggleSidebar: () => void;
+
+  // Agent flow settings agentFlow: IAgentFlowSettings;
+  agentFlow: IAgentFlowSettings;
+  setAgentFlowSettings: (settings: Partial<IAgentFlowSettings>) => void;
 }
 
 export const createGraphSlice: StateCreator<
@@ -139,6 +224,60 @@ export const createGraphSlice: StateCreator<
       //TODO: 不正确,以后修改
       set({ artifactContent: [...get().artifactContent, content] });
     },
+
+    // autogen studio =========================================================================
+    // Existing state
+    messages: [],
+    setMessages: (messages) => set({ messages }),
+    session: null,
+    setSession: (session) => set({ session }),
+    sessions: [],
+    setSessions: (sessions) => set({ sessions }),
+    version: null,
+    setVersion: (version) => set({ version }),
+    connectionId: uuidv4(),
+
+    // Header state
+    header: {
+      title: "",
+      breadcrumbs: [],
+    },
+    setHeader: (newHeader) =>
+      set((state) => ({
+        header: { ...state.header, ...newHeader },
+      })),
+    setBreadcrumbs: (breadcrumbs) =>
+      set((state) => ({
+        header: { ...state.header, breadcrumbs },
+      })),
+    // Add AgentFlow settings
+    agentFlow: DEFAULT_AGENT_FLOW_SETTINGS,
+    setAgentFlowSettings: (newSettings) =>
+      set((state) => ({
+        agentFlow: { ...state.agentFlow, ...newSettings },
+      })),
+
+    // Sidebar state and actions
+    sidebar: {
+      isExpanded: true,
+      isPinned: false,
+    },
+    setSidebarState: (newState) =>
+      set((state) => ({
+        sidebar: { ...state.sidebar, ...newState },
+      })),
+    collapseSidebar: () =>
+      set((state) => ({
+        sidebar: { ...state.sidebar, isExpanded: false },
+      })),
+    expandSidebar: () =>
+      set((state) => ({
+        sidebar: { ...state.sidebar, isExpanded: true },
+      })),
+    toggleSidebar: () =>
+      set((state) => ({
+        sidebar: { ...state.sidebar, isExpanded: !state.sidebar.isExpanded },
+      })),
     ...init,
   };
 };
@@ -149,14 +288,23 @@ type GraphV2StoreState = AgentNodeState;
 const createWordbrenchStore = (initProps?: Partial<GraphV2StoreState>) => {
   return createStore<GraphV2StoreState>()(
     subscribeWithSelector(
-      // persist(
-      devtools(
-        immer((...a) => ({
-          ...createGraphSlice(...a),
-          ...initProps,
-        })),
+      persist(
+        devtools(
+          immer((...a) => ({
+            ...createGraphSlice(...a),
+            ...initProps,
+          })),
+          {
+            name: "graph-store",
+          },
+        ),
         {
-          name: "graph-store",
+          name: "graph-sidebar-state",
+          storage: createJSONStorage(() => localStorage),
+          partialize: (state) => ({
+            sidebar: state.sidebar,
+            agentFlow: state.agentFlow,
+          }),
         },
       ),
     ),

@@ -11,17 +11,15 @@ import {
   useReactFlow,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-// import { useConfigStore } from "../../../../stores/agStore";
-import type { AgentMessageConfig } from "mtmaiapi";
-import type React from "react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useConfigStore } from "../../../../stores/agStore";
 import type {
   AgentConfig,
-  // AgentMessageConfig,
+  AgentMessageConfig,
   Run,
   TeamConfig,
-} from "../../../components/datamodel";
+} from "mtmaiapi";
+import type React from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useGraphStore } from "../../../../stores/GraphContext";
 import AgentNode from "./agentnode";
 import { CustomEdge } from "./edge";
 import { EdgeMessageModal } from "./edgemessagemodal";
@@ -79,6 +77,7 @@ const getLayoutedElements = (
     { source: string; target: string }[]
   >();
 
+  // biome-ignore lint/complexity/noForEach: <explanation>
   edges.forEach((edge) => {
     const forwardKey = `${edge.source}->${edge.target}`;
     const reverseKey = `${edge.target}->${edge.source}`;
@@ -240,7 +239,9 @@ const AgentFlow: React.FC<AgentFlowProps> = ({ teamConfig, run }) => {
   const [shouldRefit, setShouldRefit] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const { agentFlow: settings } = useConfigStore();
+  // const { agentFlow: settings } = useConfigStore();
+  const settings = useGraphStore((x) => x.agentFlow);
+  const setAgentFlowSettings = useGraphStore((x) => x.setAgentFlowSettings);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedEdge, setSelectedEdge] = useState<CustomEdge | null>(null);
 

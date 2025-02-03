@@ -23,8 +23,8 @@ import { Route as PlatformAccountCreateImport } from './routes/~platform-account
 import { Route as PlatformAccountIdImport } from './routes/~platform-account/~$id'
 import { Route as GalleryGalleryIdImport } from './routes/~gallery/~$galleryId'
 import { Route as EnvsCreateImport } from './routes/~envs/~create'
+import { Route as ChatCanvasImport } from './routes/~chat/~canvas'
 import { Route as AuthLoginRouteImport } from './routes/~auth/~login/~route'
-import { Route as SessionIndexImport } from './routes/~session/~index'
 import { Route as PostIndexImport } from './routes/~post/~index'
 import { Route as PlatformIndexImport } from './routes/~platform/~index'
 import { Route as GalleryIndexImport } from './routes/~gallery/~index'
@@ -214,16 +214,16 @@ const EnvsCreateRoute = EnvsCreateImport.update({
   getParentRoute: () => EnvsRouteLazyRoute,
 } as any)
 
+const ChatCanvasRoute = ChatCanvasImport.update({
+  id: '/canvas',
+  path: '/canvas',
+  getParentRoute: () => ChatRouteLazyRoute,
+} as any)
+
 const AuthLoginRouteRoute = AuthLoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => AuthRouteRoute,
-} as any)
-
-const SessionIndexRoute = SessionIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => SessionRouteLazyRoute,
 } as any)
 
 const PostIndexRoute = PostIndexImport.update({
@@ -444,19 +444,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostIndexImport
       parentRoute: typeof PostRouteLazyImport
     }
-    '/session/': {
-      id: '/session/'
-      path: '/'
-      fullPath: '/session/'
-      preLoaderRoute: typeof SessionIndexImport
-      parentRoute: typeof SessionRouteLazyImport
-    }
     '/auth/login': {
       id: '/auth/login'
       path: '/login'
       fullPath: '/auth/login'
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof AuthRouteImport
+    }
+    '/chat/canvas': {
+      id: '/chat/canvas'
+      path: '/canvas'
+      fullPath: '/chat/canvas'
+      preLoaderRoute: typeof ChatCanvasImport
+      parentRoute: typeof ChatRouteLazyImport
     }
     '/envs/create': {
       id: '/envs/create'
@@ -662,10 +662,12 @@ const PlatformRouteRouteWithChildren = PlatformRouteRoute._addFileChildren(
 
 interface ChatRouteLazyRouteChildren {
   ChatIndexRoute: typeof ChatIndexRoute
+  ChatCanvasRoute: typeof ChatCanvasRoute
 }
 
 const ChatRouteLazyRouteChildren: ChatRouteLazyRouteChildren = {
   ChatIndexRoute: ChatIndexRoute,
+  ChatCanvasRoute: ChatCanvasRoute,
 }
 
 const ChatRouteLazyRouteWithChildren = ChatRouteLazyRoute._addFileChildren(
@@ -743,12 +745,10 @@ const PostRouteLazyRouteWithChildren = PostRouteLazyRoute._addFileChildren(
 )
 
 interface SessionRouteLazyRouteChildren {
-  SessionIndexRoute: typeof SessionIndexRoute
   SessionChatSessionIdRoute: typeof SessionChatSessionIdRoute
 }
 
 const SessionRouteLazyRouteChildren: SessionRouteLazyRouteChildren = {
-  SessionIndexRoute: SessionIndexRoute,
   SessionChatSessionIdRoute: SessionChatSessionIdRoute,
 }
 
@@ -846,8 +846,8 @@ export interface FileRoutesByFullPath {
   '/gallery/': typeof GalleryIndexRoute
   '/platform/': typeof PlatformIndexRoute
   '/post/': typeof PostIndexRoute
-  '/session/': typeof SessionIndexRoute
   '/auth/login': typeof AuthLoginRouteRouteWithChildren
+  '/chat/canvas': typeof ChatCanvasRoute
   '/envs/create': typeof EnvsCreateRoute
   '/gallery/$galleryId': typeof GalleryGalleryIdRoute
   '/platform-account/$id': typeof PlatformAccountIdRoute
@@ -876,12 +876,13 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
+  '/session': typeof SessionRouteLazyRouteWithChildren
   '/chat': typeof ChatIndexRoute
   '/endpoint': typeof EndpointIndexRoute
   '/gallery': typeof GalleryIndexRoute
   '/platform': typeof PlatformIndexRoute
   '/post': typeof PostIndexRoute
-  '/session': typeof SessionIndexRoute
+  '/chat/canvas': typeof ChatCanvasRoute
   '/envs/create': typeof EnvsCreateRoute
   '/gallery/$galleryId': typeof GalleryGalleryIdRoute
   '/platform-account/$id': typeof PlatformAccountIdRoute
@@ -921,8 +922,8 @@ export interface FileRoutesById {
   '/gallery/': typeof GalleryIndexRoute
   '/platform/': typeof PlatformIndexRoute
   '/post/': typeof PostIndexRoute
-  '/session/': typeof SessionIndexRoute
   '/auth/login': typeof AuthLoginRouteRouteWithChildren
+  '/chat/canvas': typeof ChatCanvasRoute
   '/envs/create': typeof EnvsCreateRoute
   '/gallery/$galleryId': typeof GalleryGalleryIdRoute
   '/platform-account/$id': typeof PlatformAccountIdRoute
@@ -967,8 +968,8 @@ export interface FileRouteTypes {
     | '/gallery/'
     | '/platform/'
     | '/post/'
-    | '/session/'
     | '/auth/login'
+    | '/chat/canvas'
     | '/envs/create'
     | '/gallery/$galleryId'
     | '/platform-account/$id'
@@ -996,12 +997,13 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/session'
     | '/chat'
     | '/endpoint'
     | '/gallery'
     | '/platform'
     | '/post'
-    | '/session'
+    | '/chat/canvas'
     | '/envs/create'
     | '/gallery/$galleryId'
     | '/platform-account/$id'
@@ -1039,8 +1041,8 @@ export interface FileRouteTypes {
     | '/gallery/'
     | '/platform/'
     | '/post/'
-    | '/session/'
     | '/auth/login'
+    | '/chat/canvas'
     | '/envs/create'
     | '/gallery/$galleryId'
     | '/platform-account/$id'
@@ -1145,7 +1147,8 @@ export const routeTree = rootRoute
     "/chat": {
       "filePath": "~chat/~route.lazy.tsx",
       "children": [
-        "/chat/"
+        "/chat/",
+        "/chat/canvas"
       ]
     },
     "/endpoint": {
@@ -1186,7 +1189,6 @@ export const routeTree = rootRoute
     "/session": {
       "filePath": "~session/~route.lazy.tsx",
       "children": [
-        "/session/",
         "/session/$chatSessionId"
       ]
     },
@@ -1217,16 +1219,16 @@ export const routeTree = rootRoute
       "filePath": "~post/~index.tsx",
       "parent": "/post"
     },
-    "/session/": {
-      "filePath": "~session/~index.tsx",
-      "parent": "/session"
-    },
     "/auth/login": {
       "filePath": "~auth/~login/~route.tsx",
       "parent": "/auth",
       "children": [
         "/auth/login/"
       ]
+    },
+    "/chat/canvas": {
+      "filePath": "~chat/~canvas.tsx",
+      "parent": "/chat"
     },
     "/envs/create": {
       "filePath": "~envs/~create.tsx",

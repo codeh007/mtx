@@ -8,15 +8,15 @@ import {
 } from "mtxuilib/ui/breadcrumb";
 import { SidebarInset } from "mtxuilib/ui/sidebar";
 import { toast } from "mtxuilib/ui/use-toast";
-import { Suspense, useContext, useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { DashContent } from "../../components/DashContent";
 import { DashHeaders } from "../../components/DashHeaders";
 import { DashSidebar } from "../../components/sidebar/siderbar";
-import { useConfigStore } from "../../stores/agStore";
-import { appContext } from "../../stores/agStoreProvider";
+import { useGraphStore } from "../../stores/GraphContext";
+// import { appContext } from "../../stores/agStoreProvider";
 import { RootAppWrapper } from "../components/RootAppWrapper";
+import { Sidebar } from "../~chat/sidebar";
 import { SessionEditor } from "./session-editor";
-import { Sidebar } from "./sidebar";
 
 export const Route = createLazyFileRoute("/session")({
   component: RouteComponent,
@@ -33,16 +33,11 @@ function RouteComponent() {
     }
     return true; // Default value during SSR
   });
-  // const [messageApi, contextHolder] = message.useMessage()
 
-  const { user } = useContext(appContext);
-  const { session, setSession, sessions, setSessions } = useConfigStore();
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("sessionSidebar", JSON.stringify(isSidebarOpen));
-    }
-  }, [isSidebarOpen]);
+  const session = useGraphStore((x) => x.session);
+  const setSession = useGraphStore((x) => x.setSession);
+  const sessions = useGraphStore((x) => x.sessions);
+  const setSessions = useGraphStore((x) => x.setSessions);
 
   // Handle initial URL params
   useEffect(() => {
@@ -54,23 +49,8 @@ function RouteComponent() {
     }
   }, []);
 
-  // Handle browser back/forward
-  useEffect(() => {
-    const handleLocationChange = () => {
-      const params = new URLSearchParams(window.location.search);
-      const sessionId = params.get("sessionId");
-
-      if (!sessionId && session) {
-        setSession(null);
-      }
-    };
-
-    window.addEventListener("popstate", handleLocationChange);
-    return () => window.removeEventListener("popstate", handleLocationChange);
-  }, [session]);
-
   const handleDeleteSession = async (sessionId: number) => {
-    if (!user?.email) return;
+    // if (!user?.email) return;
 
     try {
       // const response = await sessionAPI.deleteSession(sessionId, user.email)
@@ -94,7 +74,7 @@ function RouteComponent() {
   };
 
   const handleSelectSession = async (selectedSession: Session) => {
-    if (!user?.email || !selectedSession.metadata.id) return;
+    // if (!user?.email || !selectedSession.metadata.id) return;
 
     try {
       setIsLoading(true);
