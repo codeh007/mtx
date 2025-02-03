@@ -15,10 +15,9 @@ import { DashSidebar } from "../../components/sidebar/siderbar";
 import { useTenant } from "../../hooks/useAuth";
 import { GraphProvider, useGraphStore } from "../../stores/GraphContext";
 import { useMtmaiV2 } from "../../stores/StoreProvider";
-// import { appContext } from "../../stores/agStoreProvider";
 import { RootAppWrapper } from "../components/RootAppWrapper";
+import { SessionEditor } from "../~chat/session-editor";
 import { Sidebar } from "../~chat/sidebar";
-import { SessionEditor } from "./session-editor";
 
 export const Route = createLazyFileRoute("/session")({
   component: RouteComponent,
@@ -81,8 +80,6 @@ function RouteComponent() {
   };
 
   const handleSelectSession = async (selectedSession: Session) => {
-    // if (!user?.email || !selectedSession.metadata.id) return;
-
     try {
       setIsLoading(true);
       // const data = await sessionAPI.getSession(

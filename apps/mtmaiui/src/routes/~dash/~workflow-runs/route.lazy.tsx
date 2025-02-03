@@ -1,6 +1,6 @@
 "use client";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import { createLazyFileRoute, Outlet } from "@tanstack/react-router";
+import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { SkeletonListview } from "mtxuilib/components/skeletons/SkeletonListView";
 import {
@@ -42,7 +42,7 @@ function RouteComponent() {
             </BreadcrumbList>
           </Breadcrumb>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4">
+        <div className="flex flex-1 flex-col">
           <Suspense fallback={<SkeletonListview />}>
             <MtErrorBoundary>
               <div>

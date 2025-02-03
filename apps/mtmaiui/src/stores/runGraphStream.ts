@@ -1,7 +1,7 @@
 "use client";
 
 import { generateId } from "ai";
-import type { AgentNodeRunInput } from "mtmaiapi";
+import { type AgentNodeRunInput, chatChat } from "mtmaiapi";
 import type { AgentNodeState } from "./GraphContext";
 
 const VERCEL_AI_EVENT_TYPES = {
@@ -26,21 +26,29 @@ export async function handleSseGraphStream(
   }
   console.log("runGraphStream", { props, tenant, agentEndpointBase });
   // const endpointUrl = `${agentEndpointBase}/api/v1/chat`;
-  const endpointUrl = "/api/v1/chat";
+  // const endpointUrl = "/api/v1/chat";
+  // const endpointurl = ""
   const messages = get().messages;
-  const response = await fetch(endpointUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  const response = await chatChat({
+    path: {
+      tenant: tenant.metadata.id,
     },
-    body: JSON.stringify({ ...props, messages, isStream: true }),
-    credentials: "include",
+    body: { ...props, messages, isStream: true },
   });
+
+  // const response = await fetch(endpointUrl, {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify({ ...props, messages, isStream: true }),
+  //   credentials: "include",
+  // });
   // stream 流式处理
   // 1: 格式转换
   // 2: 事件处理
-  if (response?.body) {
-    const reader = response.body.getReader();
+  if (response?.response.body) {
+    const reader = response.response.body.getReader();
     try {
       while (true) {
         const { done, value } = await reader.read();

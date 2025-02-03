@@ -48,7 +48,7 @@ function RouteComponent() {
         </DashHeaders>
         <DashContent>
           <Suspense fallback={<div>Loading...</div>}>
-            <div className="flex flex-col gap-4 pt-8">
+            <div className="fixed top-0 right-0 flex flex-col">
               <CustomLink
                 className={cn(
                   "text-lg",

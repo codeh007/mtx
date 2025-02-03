@@ -1,4 +1,5 @@
-import type { ArtifactLengthOptions } from "mtmaiapi";
+import { Slider } from "antd";
+import type { ArtifactLengthOptions, CanvasGraphParams } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import {
   Tooltip,
@@ -7,10 +8,9 @@ import {
   TooltipTrigger,
 } from "mtxuilib/ui/tooltip";
 import { useState } from "react";
-import type { GraphInput } from "../../../../../stores/GraphContext";
 
 export interface LengthOptionsProps {
-  streamMessage: (params: GraphInput) => Promise<void>;
+  streamMessage: (params: CanvasGraphParams) => Promise<void>;
   handleClose: () => void;
 }
 

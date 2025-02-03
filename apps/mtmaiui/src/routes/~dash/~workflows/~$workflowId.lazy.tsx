@@ -132,7 +132,7 @@ export default function ExpandedWorkflow() {
   const currVersion = workflow.versions?.[0].version;
 
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4">
+    <div className="flex flex-1 flex-col">
       <Suspense fallback={<SkeletonListview />}>
         <MtErrorBoundary>
           <div className="flex-grow h-full w-full">

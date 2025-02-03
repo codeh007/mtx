@@ -6,9 +6,6 @@ import type {
   ImageContent,
 } from "mtmaiapi";
 import type React from "react";
-// import type {
-//   AgentMessageConfig,
-// } from "../../components/types/datamodel";
 import { ClickableImage, TruncatableText } from "../../components/views/atoms";
 
 const TEXT_THRESHOLD = 400;
@@ -33,9 +30,11 @@ const RenderMultiModal: React.FC<{ content: (string | ImageContent)[] }> = ({
   <div className="space-y-2">
     {content.map((item, index) =>
       typeof item === "string" ? (
+        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
         <TruncatableText key={index} content={item} className="break-all" />
       ) : (
         <ClickableImage
+          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
           key={index}
           src={getImageSource(item)}
           alt={item.alt || "Image"}
