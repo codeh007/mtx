@@ -129,12 +129,12 @@ export const RunView = ({
           isFirstRun ? "mb-2" : "mt-4"
         } mb-4 pb-2 pt-2 border-b border-dashed border-secondary`}
       >
-        <div className="text-xs text-secondary">
+        <div className="text-xs">
           <Tooltip>
             <TooltipTrigger asChild>
               <span className="cursor-help">
-                Run ...{run.id?.slice(-6)} |{" "}
-                {getRelativeTimeString(run?.created_at || "")}{" "}
+                Run ...{run.id?.slice(-6)} |
+                {getRelativeTimeString(run?.created_at || "")}
               </span>
             </TooltipTrigger>
             <TooltipContent>
@@ -193,7 +193,7 @@ export const RunView = ({
             {/* Final Response */}
             {run.status !== "awaiting_input" && run.status !== "active" && (
               <div className="text-sm break-all">
-                <div className="text-xs bg-tertiary mb-1 text-secondary border-secondary -mt-2 bdorder rounded p-2">
+                <div className="text-xs bg-tertiary mb-1   border-secondary -mt-2 bdorder rounded p-2">
                   Stop reason: {run?.team_result?.task_result?.stop_reason}
                 </div>
 
@@ -226,7 +226,7 @@ export const RunView = ({
                   <div className="flex-1">
                     <button
                       onClick={() => setIsExpanded(!isExpanded)}
-                      className="flex items-center gap-1 text-sm text-secondary hover:text-primary transition-colors"
+                      className="flex items-center gap-1 text-sm   hover:text-primary transition-colors"
                     >
                       <MessageSquare size={16} /> Agent steps [
                       <span className="text-accent text-xs">
@@ -253,7 +253,7 @@ export const RunView = ({
                     </button>
                   </div>
 
-                  <div className="text-sm text-secondary">
+                  <div className="text-sm  ">
                     {calculateThreadTokens(run.messages)} tokens |{" "}
                     {run.messages.length} messages
                   </div>

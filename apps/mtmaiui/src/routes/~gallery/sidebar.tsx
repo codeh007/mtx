@@ -1,12 +1,12 @@
 import {
-    Globe,
-    Package,
-    PanelLeftClose,
-    PanelLeftOpen,
-    Pin,
-    Plus,
-    RefreshCw,
-    Trash2,
+  Globe,
+  Package,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Pin,
+  Plus,
+  RefreshCw,
+  Trash2,
 } from "lucide-react";
 import type { Gallery } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
@@ -52,7 +52,7 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
               <Button
                 variant={"ghost"}
                 onClick={onToggle}
-                className="p-2 rounded-md hover:bg-secondary hover:text-accent text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+                className="p-2 rounded-md hover:bg-secondary hover:text-accent   transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
               >
                 <PanelLeftOpen strokeWidth={1.5} className="h-6 w-6" />
               </Button>
@@ -126,15 +126,13 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
       </div>
 
       {/* Section Label */}
-      <div className="py-2 text-sm text-secondary">All Galleries</div>
+      <div className="py-2 text-sm  ">All Galleries</div>
 
       {/* Galleries List */}
       {isLoading ? (
-        <div className="p-4 text-center text-secondary text-sm">Loading...</div>
+        <div className="p-4 text-center   text-sm">Loading...</div>
       ) : galleries.length === 0 ? (
-        <div className="p-4 text-center text-secondary text-sm">
-          No galleries found
-        </div>
+        <div className="p-4 text-center   text-sm">No galleries found</div>
       ) : (
         <div className="scroll overflow-y-auto h-[calc(100%-170px)]">
           {galleries.map((gallery) => (
@@ -173,7 +171,7 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
                     {gallery.url && (
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <Globe className="w-3 h-3 text-secondary flex-shrink-0" />{" "}
+                          <Globe className="w-3 h-3   flex-shrink-0" />{" "}
                           {/* Added flex-shrink-0 */}
                         </TooltipTrigger>
                         <TooltipContent>
@@ -257,7 +255,7 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
                 </div>
 
                 {/* Rest of the content remains the same */}
-                <div className="mt-1 flex items-center gap-2 text-xs text-secondary">
+                <div className="mt-1 flex items-center gap-2 text-xs  ">
                   <span className="bg-secondary/20 truncate rounded px-1">
                     {gallery?.meta?.version}
                   </span>
@@ -274,7 +272,7 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
                 </div>
 
                 {/* Updated Timestamp */}
-                <div className="mt-1 flex items-center gap-1 text-xs text-secondary">
+                <div className="mt-1 flex items-center gap-1 text-xs  ">
                   <span>
                     {getRelativeTimeString(gallery.metadata.updatedAt)}
                     {defaultGalleryId === gallery.metadata.id ? (

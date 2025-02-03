@@ -61,20 +61,20 @@ export const DeployManager: React.FC = () => {
             <span className="text-primary font-medium">Deploy</span>
             {currentGuide && (
               <>
-                <ChevronRight className="w-4 h-4 text-secondary" />
-                <span className="text-secondary">{currentGuide.title}</span>
+                <ChevronRight className="w-4 h-4  " />
+                <span className=" ">{currentGuide.title}</span>
               </>
             )}
           </div>
           <div className="rounded border border-secondary border-dashed p-2 text-sm mb-4">
-            <TriangleAlert className="w-4 h-4 inline-block mr-2 -mt-1 text-secondary " />{" "}
-            The deployment guide section is work in progress.
+            <TriangleAlert className="w-4 h-4 inline-block mr-2 -mt-1   " /> The
+            deployment guide section is work in progress.
           </div>
           {/* Content Area */}
           {currentGuide ? (
             <GuideContent guide={currentGuide} />
           ) : (
-            <div className="flex items-center justify-center h-[calc(100vh-190px)] text-secondary">
+            <div className="flex items-center justify-center h-[calc(100vh-190px)]  ">
               Select a guide from the sidebar to get started
             </div>
           )}

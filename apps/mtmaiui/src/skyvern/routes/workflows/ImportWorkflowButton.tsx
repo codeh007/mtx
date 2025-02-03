@@ -80,7 +80,7 @@ function ImportWorkflowButton() {
                 }
               }}
             />
-            <div className="flex h-full cursor-pointer items-center gap-2 rounded-md bg-secondary px-4 py-2 font-bold text-secondary-foreground hover:bg-secondary/90">
+            <div className="flex h-full cursor-pointer items-center gap-2 rounded-md bg-secondary px-4 py-2 font-bold  -foreground hover:bg-secondary/90">
               {createWorkflowFromYamlMutation.isPending ? (
                 <ReloadIcon className="h-4 w-4 animate-spin" />
               ) : (

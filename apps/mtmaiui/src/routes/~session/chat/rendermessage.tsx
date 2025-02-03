@@ -1,13 +1,15 @@
 import { Bot, User } from "lucide-react";
-import { AgentMessageConfig, FunctionCall, FunctionExecutionResult, ImageContent } from "mtmaiapi";
+import type {
+  AgentMessageConfig,
+  FunctionCall,
+  FunctionExecutionResult,
+  ImageContent,
+} from "mtmaiapi";
 import type React from "react";
 // import type {
 //   AgentMessageConfig,
 // } from "../../components/types/datamodel";
-import {
-  ClickableImage,
-  TruncatableText,
-} from "../../components/views/atoms";
+import { ClickableImage, TruncatableText } from "../../components/views/atoms";
 
 const TEXT_THRESHOLD = 400;
 const JSON_THRESHOLD = 800;
@@ -126,7 +128,7 @@ export const RenderMessage = ({
   message,
   isLast = false,
   className = "",
-}:MessageProps) => {
+}: MessageProps) => {
   if (!message) return null;
   const isUser = messageUtils.isUser(message.source);
   const content = message.content;
@@ -157,7 +159,7 @@ export const RenderMessage = ({
             </span>
           </div>
 
-          <div className="text-sm text-secondary">
+          <div className="text-sm">
             {messageUtils.isToolCallContent(content) ? (
               <RenderToolCall content={content} />
             ) : messageUtils.isMultiModalContent(content) ? (
@@ -173,7 +175,7 @@ export const RenderMessage = ({
           </div>
 
           {message.models_usage && (
-            <div className="text-xs text-secondary mt-1">
+            <div className="text-xs mt-1">
               Tokens:{" "}
               {(message.models_usage.prompt_tokens || 0) +
                 (message.models_usage.completion_tokens || 0)}

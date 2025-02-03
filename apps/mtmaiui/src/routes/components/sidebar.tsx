@@ -125,7 +125,7 @@ export const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
             <span className="text-base font-semibold text-primary">
               {meta?.title}
             </span>
-            <span className="text-xs text-secondary">{meta?.description}</span>
+            <span className="text-xs  ">{meta?.description}</span>
           </div>
         )}
       </div>
@@ -163,7 +163,7 @@ export const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
                         // Color states
                         isActive
                           ? "bg-secondary text-primary "
-                          : "text-secondary hover:bg-tertiary hover:text-accent",
+                          : "  hover:bg-tertiary hover:text-accent",
                       )}
                     >
                       {" "}
@@ -172,7 +172,7 @@ export const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
                           "h-6 w-6 shrink-0",
                           isActive
                             ? "text-accent"
-                            : "text-secondary group-hover:text-accent",
+                            : "  group-hover:text-accent",
                         )}
                       />
                       {showFull && item.name}
@@ -225,7 +225,7 @@ export const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
                       }
                       className="group flex gap-x-3 rounded-md p-2 text-sm font-medium text-primary hover:text-accent hover:bg-secondary justify-center"
                     >
-                      <Settings className="h-6 w-6 shrink-0 text-secondary group-hover:text-accent" />
+                      <Settings className="h-6 w-6 shrink-0   group-hover:text-accent" />
                     </CustomLink>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -239,7 +239,7 @@ export const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
                         onClick={() =>
                           setSidebarState({ isExpanded: !isExpanded })
                         }
-                        className="p-2 rounded-md hover:bg-secondary hover:text-accent text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+                        className="p-2 rounded-md hover:bg-secondary hover:text-accent   transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
                       >
                         {isExpanded ? (
                           <PanelLeftClose
@@ -281,7 +281,7 @@ export const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
                       }
                       className="group flex flex-1 gap-x-3 rounded-md p-2 text-sm font-medium text-primary hover:text-accent hover:bg-secondary"
                     >
-                      <Settings className="h-6 w-6 shrink-0 text-secondary group-hover:text-accent" />
+                      <Settings className="h-6 w-6 shrink-0   group-hover:text-accent" />
                       {showFull && "Settings"}
                     </CustomLink>
                   </div>
@@ -293,7 +293,7 @@ export const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
                         onClick={() =>
                           setSidebarState({ isExpanded: !isExpanded })
                         }
-                        className="p-2 rounded-md hover:bg-secondary hover:text-accent text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+                        className="p-2 rounded-md hover:bg-secondary hover:text-accent   transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
                       >
                         {isExpanded ? (
                           <PanelLeftClose

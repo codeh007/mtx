@@ -180,21 +180,19 @@ export const GalleryDetail: React.FC<GalleryDetailProps> = ({
               </h1>
               {gallery.url && (
                 <Tooltip title="Remote Gallery">
-                  <Globe className="w-5 h-5 text-secondary" />
+                  <Globe className="w-5 h-5  " />
                 </Tooltip>
               )}
             </div>
-            <p className="text-secondary w-1/2 mt-2 line-clamp-3">
+            <p className="  w-1/2 mt-2 line-clamp-3">
               {gallery.metadata.description}
             </p>
-            <p className="text-secondary text-sm mt-2">
-              {gallery.metadata.author}
-            </p>
+            <p className="  text-sm mt-2">{gallery.metadata.author}</p>
           </div>
 
           <div className="flex gap-2">
             <div className="bg-tertiary backdrop-blur rounded p-2 flex items-center gap-2">
-              <Package className="w-4 h-4 text-secondary" />
+              <Package className="w-4 h-4  " />
               <span className="text-sm">
                 {Object.values(gallery.items.components).reduce(
                   (sum, arr) => sum + arr.length,

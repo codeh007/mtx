@@ -119,7 +119,7 @@ function AgentNode({ data, isConnectable }: AgentNodeProps) {
               </span>
             </div>
             {data.reason && (
-              <div className="mt-1 text-xs text-secondary max-w-[200px] text-center">
+              <div className="mt-1 text-xs   max-w-[200px] text-center">
                 {data.reason.length > 100
                   ? `${data.reason.substring(0, 97)}...`
                   : data.reason}
@@ -129,10 +129,10 @@ function AgentNode({ data, isConnectable }: AgentNodeProps) {
         ) : (
           <>
             {data.agentType && (
-              <div className="text-sm text-secondary">{data.agentType}</div>
+              <div className="text-sm  ">{data.agentType}</div>
             )}
             {data.description && (
-              <div className="text-xs text-secondary mt-1 truncate max-w-[200px]">
+              <div className="text-xs   mt-1 truncate max-w-[200px]">
                 {data.description}
               </div>
             )}

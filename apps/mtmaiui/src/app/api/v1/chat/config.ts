@@ -3,7 +3,7 @@ import type { LlmConfig } from "mtmaiapi";
 export function getLlmConfig(): LlmConfig {
   const defaultLlm: LlmConfig = {
     model: "llama3.1-70b",
-    apiKey: "ZGd2VL8B9KxqMB3HIsTaNXmp5iM9ew3c",
+    apiKey: "YLJU3oah5ZwNv1HzAGOeVwfvDfUWB6yb",
     baseUrl: "https://llama3-1-70b.lepton.run/api/v1/",
     metadata: {
       id: "default-llm",
