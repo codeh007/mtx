@@ -17,6 +17,7 @@ export interface RProxyOptions {
   rewrites?: RewriteRule[];
   headers?: Record<string, string>;
 }
+
 /**
  * 反向 http 代理
  * @param options
@@ -34,33 +35,30 @@ export function newRProxy(options: RProxyOptions) {
   return async (r: Request) => {
     const incomeUri = new URL(r.url);
     const incomePathname = incomeUri.pathname;
-    let targetPath = incomePathname;
-    let targetBaseUrl = baseUrl;
+    let targetUrl = baseUrl;
 
     // 使用 path-to-regexp 进行路径匹配
     for (const rule of rules) {
       const matchResult = rule.matcher(incomePathname);
 
       if (matchResult) {
-        targetBaseUrl = rule.to;
+        // 如果匹配成功，使用rule.to作为完整的基础URL
+        let finalPath = rule.to;
 
-        if (rule.rewrite) {
-          // 使用匹配到的参数进行替换
-          let toPath = rule.rewrite.to;
-          for (const [key, value] of Object.entries(matchResult.params)) {
-            toPath = toPath.replace(`:${key}`, value as string);
-          }
-          targetPath = toPath;
-        } else {
-          // 如果没有特定的重写规则，保持相同的参数结构
-          targetPath = incomePathname;
+        // 替换路径中的参数
+        for (const [key, value] of Object.entries(matchResult.params)) {
+          finalPath = finalPath.replace(`:${key}`, value as string);
         }
+
+        targetUrl = finalPath;
         break;
       }
     }
 
-    const fullUrl = new URL(targetBaseUrl + targetPath);
+    // 构建最终的URL，添加查询参数
+    const fullUrl = new URL(targetUrl);
     fullUrl.search = incomeUri.search;
+
     try {
       const requestHeaders = copyIncomeHeaders(r);
       const response = await fetch(fullUrl, {
@@ -68,8 +66,9 @@ export function newRProxy(options: RProxyOptions) {
         headers: requestHeaders,
         body: ["GET", "HEAD"].includes(r.method) ? undefined : r.body,
       });
+
       console.log(
-        `🚀 [rProxy] ${r.method}(${response.status}) \n${r.url}, \n===> ${targetBaseUrl}${targetPath}`,
+        `🚀 [rProxy] ${r.method}(${response.status}) \n${r.url}, \n===> ${fullUrl.toString()}`,
       );
       return response;
     } catch (e) {

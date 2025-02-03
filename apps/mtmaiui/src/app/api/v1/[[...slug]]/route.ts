@@ -14,10 +14,13 @@ const handler = async (r: Request) => {
       {
         from: "/api/v1/tenants/:tenant/chat",
         to: "http://localhost:7860/api/v1/tenants/:tenant/chat",
+        // pattern: /^\/api\/v1\/tenants\/([^\/]+)\/chat/,
+        // builder: (matches) =>
+        //   `http://localhost:7860/api/v1/tenants/${matches[1]}/chat`,
       },
       {
         from: "/api/v1/chat",
-        to: "http://localhost:7860",
+        to: "http://localhost:7860/api/v1/chat",
       },
     ],
   });
