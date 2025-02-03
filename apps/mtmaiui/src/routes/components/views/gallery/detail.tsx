@@ -1,24 +1,24 @@
 import { Tooltip, message } from "antd";
 import {
-    Bot,
-    Brain,
-    ChevronDown,
-    ChevronUp,
-    Edit,
-    Globe,
-    Package,
-    RefreshCw,
-    Save,
-    Timer,
-    Users,
-    Wrench,
-    X,
+  Bot,
+  Brain,
+  ChevronDown,
+  ChevronUp,
+  Edit,
+  Globe,
+  Package,
+  RefreshCw,
+  Save,
+  Timer,
+  Users,
+  Wrench,
+  X,
 } from "lucide-react";
 import { Button } from "mtxuilib/ui/button";
 import type React from "react";
 import { useRef, useState } from "react";
 import { useGalleryStore } from "../../../~gallery/store";
-import type { ComponentConfigTypes } from "../../types/datamodel";
+import type { ComponentConfigTypes } from "../../datamodel";
 import { TruncatableText, getRelativeTimeString } from "../atoms";
 import { MonacoEditor } from "../monaco";
 import type { Gallery } from "./types";

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   Edit,
@@ -9,7 +9,7 @@ import {
   RefreshCcw,
   Trash2,
 } from "lucide-react";
-import { Session, sessionListOptions } from "mtmaiapi";
+import { type Session, sessionListOptions } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import { CustomLink } from "../../components/CustomLink";
@@ -36,29 +36,28 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onDeleteSession,
   isLoading = false,
 }) => {
-
-  const tenant = useTenant()
+  const tenant = useTenant();
   const sessionQuery = useSuspenseQuery({
     ...sessionListOptions({
-      path:{
+      path: {
         tenant: tenant!.metadata.id,
-      }
-    })
-  })
+      },
+    }),
+  });
 
-  const sessions = sessionQuery.data?.rows ?? []
+  const sessions = sessionQuery.data?.rows ?? [];
   if (!isOpen) {
     return (
       <div className="h-full  border-r border-secondary">
         <div className="p-2 -ml-2 ">
           <Tooltip>
             <TooltipTrigger asChild>
-            <Button
-              onClick={onToggle}
-              className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
-            >
-              <PanelLeftOpen strokeWidth={1.5} className="h-6 w-6" />
-            </Button>
+              <Button
+                onClick={onToggle}
+                className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+              >
+                <PanelLeftOpen strokeWidth={1.5} className="h-6 w-6" />
+              </Button>
             </TooltipTrigger>
             <TooltipContent>
               <span>
@@ -71,10 +70,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div className="mt-4 px-2 -ml-1">
           <Tooltip>
             <TooltipTrigger asChild>
-            <Button
-              className="w-full p-2 flex justify-center"
-              onClick={() => onEditSession()}
-            >
+              <Button
+                className="w-full p-2 flex justify-center"
+                onClick={() => onEditSession()}
+              >
                 <Plus className="w-4 h-4" />
               </Button>
             </TooltipTrigger>
@@ -102,7 +101,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               variant={"ghost"}
               onClick={onToggle}
               className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
-          >
+            >
               <PanelLeftClose strokeWidth={1.5} className="h-6 w-6" />
             </Button>
           </TooltipTrigger>
@@ -119,8 +118,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <Button className="w-full" onClick={() => onEditSession()}>
                 <Plus className="w-4 h-4" />
                 新建会话
-            </Button>
-            </TooltipTrigger  >
+              </Button>
+            </TooltipTrigger>
             <TooltipContent>
               <span>新建会话</span>
             </TooltipContent>
@@ -150,60 +149,62 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <div
               className={`bg-accent absolute top-1 left-0.5 z-50 h-[calc(100%-8px)]
                w-1 bg-opacity-80  rounded ${
-                 currentSession?.metadata.id === s.metadata.id ? "bg-accent" : "bg-tertiary"
+                 currentSession?.metadata.id === s.metadata.id
+                   ? "bg-accent"
+                   : "bg-tertiary"
                }`}
-            >
-            </div>
+            ></div>
             <CustomLink to={`${s.metadata.id}`}>
-            <div
-              className={`group ml-1 flex items-center justify-between rounded-l p-2 py-1 text-sm cursor-pointer hover:bg-tertiary ${
-                currentSession?.metadata.id === s.metadata.id
-                  ? "  border-accent bg-secondary"
-                  : ""
-              }`}
-              // onClick={() => onSelectSession(s)}
-            >
-              <span className="truncate text-sm flex-1">{s.name}</span>
-              <span className="ml-2 truncate text-xs flex-1">
-                {getRelativeTimeString(s.metadata.updatedAt || "")}
-              </span>
-              <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div
+                className={`group ml-1 flex items-center justify-between rounded-l p-2 py-1 text-sm cursor-pointer hover:bg-tertiary ${
+                  currentSession?.metadata.id === s.metadata.id
+                    ? "  border-accent bg-secondary"
+                    : ""
+                }`}
+                // onClick={() => onSelectSession(s)}
+              >
+                <span className="truncate text-sm flex-1">{s.name}</span>
+                <span className="ml-2 truncate text-xs flex-1">
+                  {getRelativeTimeString(s.metadata.updatedAt || "")}
+                </span>
+                <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                   <Tooltip>
-                  <TooltipTrigger asChild>
-                  <Button size="sm"
-                    className="p-0 min-w-[24px] h-6"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onEditSession(s);
-                    }}
-                  >
-                    <Edit className="w-4 h-4" />
-                  </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <span>Edit session</span>
-                  </TooltipContent>
-                </Tooltip>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                  <Button
-                    size="sm"
-                    className="p-0 min-w-[24px] h-6"
-                    variant="destructive"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      // if (s.metadata.id) onDeleteSession(s.metadata.id);
-                    }}
-                  >
-                    <Trash2 className="w-4 h-4  text-red-500" />
-                  </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <span>Delete session</span>
-                  </TooltipContent>
-                </Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        size="sm"
+                        className="p-0 min-w-[24px] h-6"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onEditSession(s);
+                        }}
+                      >
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <span>Edit session</span>
+                    </TooltipContent>
+                  </Tooltip>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        size="sm"
+                        className="p-0 min-w-[24px] h-6"
+                        variant="destructive"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          // if (s.metadata.id) onDeleteSession(s.metadata.id);
+                        }}
+                      >
+                        <Trash2 className="w-4 h-4  text-red-500" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <span>Delete session</span>
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
               </div>
-            </div>
             </CustomLink>
           </div>
         ))}

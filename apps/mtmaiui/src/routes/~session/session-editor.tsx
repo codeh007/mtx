@@ -1,9 +1,14 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { message } from "antd";
 import { TriangleAlertIcon } from "lucide-react";
-import { Session, sessionCreateMutation, sessionUpdateMutation, teamListOptions } from "mtmaiapi";
+import {
+  type Session,
+  sessionCreateMutation,
+  sessionUpdateMutation,
+  teamListOptions,
+} from "mtmaiapi";
 import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
-import { useZodForm, ZForm } from "mtxuilib/mt/form/ZodForm";
+import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";
 import {
   Dialog,
@@ -12,12 +17,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "mtxuilib/ui/dialog";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuilib/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { z } from "zod";
 import { CustomLink } from "../../components/CustomLink";
 import { useTenant, useUser } from "../../hooks/useAuth";
-// import type { Session } from "../components/types/datamodel";
 import { TeamCombo } from "../~team/TeamCombo";
 
 export interface SessionEditorProps {
@@ -25,12 +35,12 @@ export interface SessionEditorProps {
   onCancel: () => void;
   isOpen: boolean;
 }
-export const SessionEditor= ({
+export const SessionEditor = ({
   session,
   // onSave,
   onCancel,
   isOpen,
-}:SessionEditorProps) => {
+}: SessionEditorProps) => {
   const [messageApi, contextHolder] = message.useMessage();
   const form = useZodForm({
     schema: z.object({
@@ -62,11 +72,11 @@ export const SessionEditor= ({
   // }, [form, session, isOpen]);
 
   const updateSession = useMutation({
-    ...sessionUpdateMutation()
+    ...sessionUpdateMutation(),
   });
 
   const createSession = useMutation({
-    ...sessionCreateMutation()
+    ...sessionCreateMutation(),
   });
 
   const handleSubmit = async (values) => {
@@ -76,9 +86,9 @@ export const SessionEditor= ({
           path: {
             tenant: tenant!.metadata.id,
             session: session!.metadata.id,
-        },
-        body: {
-          ...values,
+          },
+          body: {
+            ...values,
           },
         });
       } else {
@@ -101,9 +111,7 @@ export const SessionEditor= ({
     }
   };
 
-  const onFinishFailed= (
-    errorInfo,
-  ) => {
+  const onFinishFailed = (errorInfo) => {
     messageApi.error("Please check the form for errors");
     console.error("Form validation failed:", errorInfo);
   };
@@ -111,10 +119,7 @@ export const SessionEditor= ({
   const hasNoTeams = !teamQuery.isLoading && teamQuery.data?.rows?.length === 0;
 
   return (
-    <Dialog
-      open={isOpen}
-      onOpenChange={onCancel}
-    >
+    <Dialog open={isOpen} onOpenChange={onCancel}>
       <DialogTrigger asChild>
         <Button>Create Session</Button>
       </DialogTrigger>
@@ -123,41 +128,37 @@ export const SessionEditor= ({
           <DialogTitle>Create Session</DialogTitle>
         </DialogHeader>
         {contextHolder}
-        <ZForm
-          form={form}
-          handleSubmit={handleSubmit}
-        >
+        <ZForm form={form} handleSubmit={handleSubmit}>
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>name</FormLabel>
+                <FormControl>
+                  <Input placeholder="name" {...field} />
+                </FormControl>
+                {/* <FormDescription></FormDescription> */}
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>name</FormLabel>
-              <FormControl>
-                <Input placeholder="name" {...field} />
-              </FormControl>
-              {/* <FormDescription></FormDescription> */}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="teamId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>teamId</FormLabel>
-              <FormControl>
-                {/* <Input placeholder="teamId" {...field} /> */}
-                <TeamCombo {...field} />
-              </FormControl>
-              {/* <FormDescription></FormDescription> */}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="teamId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>teamId</FormLabel>
+                <FormControl>
+                  {/* <Input placeholder="teamId" {...field} /> */}
+                  <TeamCombo {...field} />
+                </FormControl>
+                {/* <FormDescription></FormDescription> */}
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <div className="space-y-2   w-full">
             {/* <Form.Item<FieldType>

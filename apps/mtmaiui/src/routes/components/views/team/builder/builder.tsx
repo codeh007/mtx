@@ -19,7 +19,7 @@ import "@xyflow/react/dist/style.css";
 import { Button, Switch, Tooltip, message } from "antd";
 import { Cable, Code2, Download, Save } from "lucide-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import type { ComponentTypes, Team } from "../../../types/datamodel";
+import type { ComponentTypes, Team } from "../../../datamodel";
 import { ComponentLibrary } from "./library";
 import { edgeTypes, nodeTypes } from "./nodes";
 import { useTeamBuilderStore } from "./store";

@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type {
-    AgentConfig,
-    ModelConfig,
-    TeamConfig,
-    TerminationConfig,
-    ToolConfig,
-} from "../components/types/datamodel";
+  AgentConfig,
+  ModelConfig,
+  TeamConfig,
+  TerminationConfig,
+  ToolConfig,
+} from "../components/datamodel";
 import type { Gallery } from "../components/views/gallery/types";
 import { defaultGallery } from "../components/views/gallery/utils";
 
@@ -65,7 +65,7 @@ export const useGalleryStore = create<GalleryStore>()(
                     updated_at: new Date().toISOString(),
                   },
                 }
-              : gallery
+              : gallery,
           ),
         })),
 
@@ -151,6 +151,6 @@ export const useGalleryStore = create<GalleryStore>()(
     }),
     {
       name: "gallery-storage",
-    }
-  )
+    },
+  ),
 );
