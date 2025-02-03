@@ -14,7 +14,6 @@ const handler = async (r: Request) => {
         from: "/api/v1/tenants/:tenant/chat",
         to: "http://localhost:7860/api/v1/tenants/:tenant/chat",
       },
-      //其他api
       {
         from: "/api/v1/(.*)",
         to: `${getBackendUrl()}/api/v1/$1`,
