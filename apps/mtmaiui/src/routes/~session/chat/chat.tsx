@@ -358,11 +358,25 @@ export default function ChatView({ session }: ChatViewProps) {
       const response = await chatMutation.mutateAsync({
         path: {
           tenant: tenant!.metadata.id,
-          session: session!.metadata.id,
+          // session: session!.metadata.id,
         },
         body: {
           // session_id: session.metadata.id,
           // user_id: user?.email || "",
+          messages: [
+            {
+              id: "1",
+              createdAt: new Date().toISOString(),
+              // updatedAt: new Date().toISOString(),
+              role: "user",
+              content: "query",
+              config: {
+                // content: query,
+                source: "user",
+              },
+              threadId: "1",
+            },
+          ],
         },
       });
 
@@ -479,7 +493,7 @@ export default function ChatView({ session }: ChatViewProps) {
         <span className="text-primary font-medium"> Sessions</span>
         {session && (
           <>
-            <ChevronRight className="w-4 h-4 text-secondary" />
+            <ChevronRight className="w-4 h-4  " />
             <span className="">{session.name}</span>
           </>
         )}

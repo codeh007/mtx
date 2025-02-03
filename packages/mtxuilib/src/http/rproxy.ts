@@ -18,7 +18,7 @@ export interface RProxyOptions {
 export function newRProxy(options: RProxyOptions) {
   const { rewrites = [] } = options;
 
-  // 预处理所有重写规则，创建匹配函数
+  // rewrite rules
   const rules = rewrites.map((rule) => ({
     ...rule,
     matcher: match(rule.from, { decode: decodeURIComponent }),
@@ -37,7 +37,7 @@ export function newRProxy(options: RProxyOptions) {
           const placeholder = `$${Number.parseInt(index) + 1}`;
           finalPath = finalPath.replace(placeholder, value as string);
         }
-        // 命名参数
+        //命名参数
         for (const [key, value] of Object.entries(matchResult.params)) {
           finalPath = finalPath.replace(`:${key}`, value as string);
         }
@@ -46,7 +46,7 @@ export function newRProxy(options: RProxyOptions) {
       }
     }
 
-    // 最终URL
+    // final url
     const fullUrl = new URL(targetUrl);
     fullUrl.search = incomeUri.search;
 

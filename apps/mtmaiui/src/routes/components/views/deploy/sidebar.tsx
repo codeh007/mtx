@@ -1,12 +1,11 @@
-import React from "react";
-import { Button, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import {
+  InfoIcon,
   PanelLeftClose,
   PanelLeftOpen,
-  Book,
-  InfoIcon,
   RefreshCcw,
 } from "lucide-react";
+import type React from "react";
 import type { Guide } from "./types";
 
 interface DeploySidebarProps {
@@ -34,7 +33,7 @@ export const DeploySidebar: React.FC<DeploySidebarProps> = ({
           <Tooltip title="Documentation">
             <button
               onClick={onToggle}
-              className="p-2 rounded-md hover:bg-secondary hover:text-accent text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+              className="p-2 rounded-md hover:bg-secondary hover:text-accent   transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
             >
               <PanelLeftOpen strokeWidth={1.5} className="h-6 w-6" />
             </button>
@@ -58,7 +57,7 @@ export const DeploySidebar: React.FC<DeploySidebarProps> = ({
         <Tooltip title="Close Sidebar">
           <button
             onClick={onToggle}
-            className="p-2 rounded-md hover:bg-secondary hover:text-accent text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+            className="p-2 rounded-md hover:bg-secondary hover:text-accent   transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
           >
             <PanelLeftClose strokeWidth={1.5} className="h-6 w-6" />
           </button>
@@ -74,7 +73,7 @@ export const DeploySidebar: React.FC<DeploySidebarProps> = ({
 
       {/* Empty State */}
       {!isLoading && guides.length === 0 && (
-        <div className="p-2 m-2 text-center text-secondary text-sm border border-dashed rounded">
+        <div className="p-2 m-2 text-center   text-sm border border-dashed rounded">
           <InfoIcon className="w-4 h-4 inline-block mr-1.5 -mt-0.5" />
           No deployment guide available
         </div>

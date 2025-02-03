@@ -42,7 +42,7 @@ export const Header = ({ meta, link }: any) => {
                 }
               }}
               type="button"
-              className="flex-shrink-0 bg-primary p-1 text-secondary rounded-full hover:text-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent"
+              className="flex-shrink-0 bg-primary p-1   rounded-full hover:  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent"
             >
               <span className="sr-only">Toggle dark mode </span>
               {context.darkMode === "dark" && (
@@ -85,7 +85,7 @@ export const Header = ({ meta, link }: any) => {
                 </div>
 
                 <div className="hidden md:ml-6 md:flex md:space-x-6">
-                  {/* Current: "border-accent text-gray-900", Default: "border-transparent text-secondary hover:border-gray-300 hover:text-primary" */}
+                  {/* Current: "border-accent text-gray-900", Default: "border-transparent   hover:border-gray-300 hover:text-primary" */}
                   {links.map((data, index) => {
                     const isActive = data.href === link;
                     const activeClass = isActive
@@ -119,7 +119,7 @@ export const Header = ({ meta, link }: any) => {
 
               <div className="flex items-center md:hidden">
                 {/* Mobile menu button */}
-                <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-secondary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-accent">
+                <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:  hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-accent">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
                     <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
@@ -136,7 +136,7 @@ export const Header = ({ meta, link }: any) => {
                     <>
                       <div className="ml-3">
                         <div className="text-sm text-primary">{userName}</div>
-                        <div className="text-xs  text-secondary">{user_id}</div>
+                        <div className="text-xs   ">{user_id}</div>
                       </div>
 
                       {/* Profile dropdown */}
@@ -244,11 +244,11 @@ export const Header = ({ meta, link }: any) => {
                   </div>
                   <div className="ml-3">
                     <div className="text-sm text-primary">{userName}</div>
-                    <div className="text-xs   text-secondary">{user_id}</div>
+                    <div className="text-xs    ">{user_id}</div>
                   </div>
                   <button
                     type="button"
-                    className="ml-auto flex-shrink-0 bg-primary p-1 text-secondary rounded-full hover:text-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent"
+                    className="ml-auto flex-shrink-0 bg-primary p-1   rounded-full hover:  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent"
                   >
                     <span className="sr-only">View notifications</span>
                     <BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -259,7 +259,7 @@ export const Header = ({ meta, link }: any) => {
                     as="a"
                     href="#"
                     onClick={() => logout()}
-                    className="block px-4 py-2 text-base font-medium text-secondary hover:text-primary "
+                    className="block px-4 py-2 text-base font-medium   hover:text-primary "
                   >
                     Sign out
                   </Disclosure.Button>

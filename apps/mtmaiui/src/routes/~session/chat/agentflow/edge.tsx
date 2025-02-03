@@ -4,7 +4,7 @@ import {
   type EdgeProps,
   getSmoothStepPath,
 } from "@xyflow/react";
-import { AgentMessageConfig } from "mtmaiapi";
+import type { AgentMessageConfig } from "mtmaiapi";
 import type React from "react";
 // import type { AgentMessageConfig } from "../../../components/types/datamodel";
 
@@ -133,7 +133,7 @@ export const CustomEdge: React.FC<CustomEdgeProps> = ({
               }}
             >
               {messageCount > 0 && (
-                <span className="text-xs text-secondary">({messageCount})</span>
+                <span className="text-xs  ">({messageCount})</span>
               )}
               <span className="text-sm">{data.label}</span>
             </div>

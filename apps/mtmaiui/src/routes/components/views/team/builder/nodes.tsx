@@ -242,9 +242,7 @@ export const TeamNode: React.FC<NodeProps<CustomNode>> = (props) => {
               <div className="text-sm">{config.model_client.model}</div>
             )}
             <DroppableZone id={`${props.id}-model-zone`} accepts={["model"]}>
-              <div className="text-secondary text-xs my-1 text-center">
-                Drop model here
-              </div>
+              <div className="  text-xs my-1 text-center">Drop model here</div>
             </DroppableZone>
           </div>
         </NodeSection>
@@ -278,9 +276,7 @@ export const TeamNode: React.FC<NodeProps<CustomNode>> = (props) => {
             </div>
           ))}
           <DroppableZone id={`${props.id}-agent-zone`} accepts={["agent"]}>
-            <div className="text-secondary text-xs my-1 text-center">
-              Drop agents here
-            </div>
+            <div className="  text-xs my-1 text-center">Drop agents here</div>
           </DroppableZone>
         </div>
       </NodeSection>
@@ -305,7 +301,7 @@ export const TeamNode: React.FC<NodeProps<CustomNode>> = (props) => {
             id={`${props.id}-termination-zone`}
             accepts={["termination"]}
           >
-            <div className="text-secondary text-xs my-1 text-center">
+            <div className="  text-xs my-1 text-center">
               Drop termination here
             </div>
           </DroppableZone>
@@ -370,9 +366,7 @@ export const AgentNode: React.FC<NodeProps<CustomNode>> = (props) => {
             </>
           )}
           <DroppableZone id={`${props.id}-model-zone`} accepts={["model"]}>
-            <div className="text-secondary text-xs my-1 text-center">
-              Drop model here
-            </div>
+            <div className="  text-xs my-1 text-center">Drop model here</div>
           </DroppableZone>
         </div>
       </NodeSection>
@@ -402,9 +396,7 @@ export const AgentNode: React.FC<NodeProps<CustomNode>> = (props) => {
             </div>
           )}
           <DroppableZone id={`${props.id}-tool-zone`} accepts={["tool"]}>
-            <div className="text-secondary text-xs my-1 text-center">
-              Drop tools here
-            </div>
+            <div className="  text-xs my-1 text-center">Drop tools here</div>
           </DroppableZone>
         </div>
       </NodeSection>

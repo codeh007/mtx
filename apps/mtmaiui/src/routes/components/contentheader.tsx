@@ -36,7 +36,7 @@ export const ContentHeader = ({
         {/* Mobile Menu Button */}
         <Button
           onClick={onMobileMenuToggle}
-          className="md:hidden p-2 rounded-md hover:bg-secondary text-secondary hover:text-accent transition-colors"
+          className="md:hidden p-2 rounded-md hover:bg-secondary   hover:text-accent transition-colors"
           aria-label="Toggle mobile menu"
         >
           <MenuIcon className="h-6 w-6" />
@@ -49,7 +49,7 @@ export const ContentHeader = ({
               onClick={() => setSidebarState({ isExpanded: !isExpanded })}
               className={classNames(
                 "p-2 rounded-md hover:bg-secondary",
-                "hover:text-accent text-secondary transition-colors",
+                "hover:text-accent   transition-colors",
                 "focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
               )}
             >
@@ -76,7 +76,7 @@ export const ContentHeader = ({
                             fill="currentColor"
                             viewBox="0 0 20 20"
                             aria-hidden="true"
-                            className="size-5 shrink-0 text-secondary"
+                            className="size-5 shrink-0  "
                           >
                             <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
                           </svg>
@@ -89,7 +89,7 @@ export const ContentHeader = ({
                             index > 0 ? "ml-4" : "",
                             page.current
                               ? "text-primary"
-                              : "text-secondary hover:text-accent",
+                              : "  hover:text-accent",
                           )}
                         >
                           {page.name}
@@ -111,12 +111,12 @@ export const ContentHeader = ({
               <label htmlFor="search-field" className="sr-only">
                 Search
               </label>
-              <MagnifyingGlassIcon className="pointer-events-none absolute inset-y-0 left-2 h-full w-5 text-secondary" />
+              <MagnifyingGlassIcon className="pointer-events-none absolute inset-y-0 left-2 h-full w-5  " />
               <input
                 id="search-field"
                 type="search"
                 placeholder="Search..."
-                className="block h-full w-full border-0 bg-primary py-0 pl-10 pr-0 text-primary placeholder:text-secondary focus:ring-0 sm:text-sm"
+                className="block h-full w-full border-0 bg-primary py-0 pl-10 pr-0 text-primary placeholder:  focus:ring-0 sm:text-sm"
               />
             </form>
 
@@ -125,7 +125,7 @@ export const ContentHeader = ({
               onClick={() =>
                 setDarkMode(darkMode === "dark" ? "light" : "dark")
               }
-              className="text-secondary hover:text-primary"
+              className="  hover:text-primary"
             >
               {darkMode === "dark" ? (
                 <MoonIcon className="h-6 w-6" />
@@ -134,7 +134,7 @@ export const ContentHeader = ({
               )}
             </Button>
             {/* Notifications */}
-            <Button className="text-secondary hidden hover:text-primary">
+            <Button className="  hidden hover:text-primary">
               <BellIcon className="h-6 w-6" />
             </Button>
 
@@ -160,7 +160,7 @@ export const ContentHeader = ({
                     <span className="ml-4 text-sm text-primary">
                       {user.name}
                     </span>
-                    <ChevronDown className="ml-2 h-5 w-5 text-secondary" />
+                    <ChevronDown className="ml-2 h-5 w-5  " />
                   </span>
                 </Menu.Button>
                 <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-primary py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">

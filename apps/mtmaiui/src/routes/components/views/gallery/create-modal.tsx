@@ -1,9 +1,10 @@
-import React, { useState, useRef } from "react";
-import { Modal, Tabs, Input, Button, Alert, Upload } from "antd";
-import { Globe, Upload as UploadIcon, Code } from "lucide-react";
-import { MonacoEditor } from "../monaco";
 import type { InputRef, UploadFile, UploadProps } from "antd";
-import { Gallery } from "./types";
+import { Alert, Button, Input, Modal, Tabs, Upload } from "antd";
+import { Code, Globe, Upload as UploadIcon } from "lucide-react";
+import type React from "react";
+import { useRef, useState } from "react";
+import { MonacoEditor } from "../monaco";
+import type { Gallery } from "./types";
 import { defaultGallery } from "./utils";
 
 interface GalleryCreateModalProps {
@@ -20,7 +21,7 @@ export const GalleryCreateModal: React.FC<GalleryCreateModalProps> = ({
   const [activeTab, setActiveTab] = useState("url");
   const [url, setUrl] = useState("");
   const [jsonContent, setJsonContent] = useState(
-    JSON.stringify(defaultGallery, null, 2)
+    JSON.stringify(defaultGallery, null, 2),
   );
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -108,7 +109,7 @@ export const GalleryCreateModal: React.FC<GalleryCreateModalProps> = ({
               role="button"
               onClick={(e) => {
                 setUrl(
-                  "https://raw.githubusercontent.com/victordibia/multiagent-systems-with-autogen/refs/heads/main/research/components/gallery/base.json"
+                  "https://raw.githubusercontent.com/victordibia/multiagent-systems-with-autogen/refs/heads/main/research/components/gallery/base.json",
                 );
                 e.preventDefault();
               }}
@@ -143,7 +144,7 @@ export const GalleryCreateModal: React.FC<GalleryCreateModalProps> = ({
         <div className="border-2 border-dashed rounded-lg p-8 text-center space-y-4">
           <Upload.Dragger {...uploadProps}>
             <p className="ant-upload-drag-icon">
-              <UploadIcon className="w-8 h-8 mx-auto text-secondary" />
+              <UploadIcon className="w-8 h-8 mx-auto  " />
             </p>
             <p className="ant-upload-text">
               Click or drag JSON file to this area

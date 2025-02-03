@@ -1,11 +1,11 @@
-import React from "react";
 import { Copy } from "lucide-react";
-import { Guide } from "../types";
-import PythonGuide from "./python";
-import DockerGuide from "./docker";
+import type React from "react";
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import js from "react-syntax-highlighter/dist/esm/languages/prism/javascript";
 import python from "react-syntax-highlighter/dist/esm/languages/prism/python";
+import type { Guide } from "../types";
+import DockerGuide from "./docker";
+import PythonGuide from "./python";
 
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
@@ -32,7 +32,7 @@ export const GuideContent: React.FC<GuideContentProps> = ({ guide }) => {
 
     default:
       return (
-        <div className="text-secondary">
+        <div className=" ">
           A Guide with the title <strong>{guide.title}</strong> is work in
           progress!
         </div>
