@@ -24,16 +24,19 @@ export async function handleSseGraphStream(
   if (!tenant?.metadata?.id) {
     throw new Error("(runGraphStream)tenant is required");
   }
-  console.log("runGraphStream", { props, tenant, agentEndpointBase });
-  // const endpointUrl = `${agentEndpointBase}/api/v1/chat`;
-  // const endpointUrl = "/api/v1/chat";
-  // const endpointurl = ""
+
   const messages = get().messages;
+  console.log("runGraphStream", { props, tenant, agentEndpointBase, messages });
   const response = await chatChat({
     path: {
       tenant: tenant.metadata.id,
     },
-    body: { ...props, messages, isStream: true },
+    body: {
+      ...props,
+      messages,
+      // isStream: true,
+      threadId: "1", //TODO: 需要修正
+    },
   });
 
   // const response = await fetch(endpointUrl, {
