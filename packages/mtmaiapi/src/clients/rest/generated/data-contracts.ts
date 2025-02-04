@@ -1924,9 +1924,7 @@ export interface CanvasGraphParams {
 }
 
 export interface Run {
-  id: string;
-  created_at: string;
-  updated_at?: string;
+  metadata: APIResourceMeta;
   status: RunStatus;
   task: AgentMessageConfig;
   team_result: TeamResult;
