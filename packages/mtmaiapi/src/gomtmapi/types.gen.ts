@@ -2148,9 +2148,7 @@ export type CanvasGraphParams = {
 };
 
 export type Run = {
-  id: string;
-  created_at: string;
-  updated_at?: string;
+  metadata: ApiResourceMeta;
   status: RunStatus;
   task: AgentMessageConfig;
   team_result: TeamResult;
