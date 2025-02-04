@@ -9,22 +9,19 @@ import {
 import { Separator } from "mtxuilib/ui/separator";
 import { Sheet, SheetContent } from "mtxuilib/ui/sheet";
 import { useEffect, useState } from "react";
-import RunDetailHeader from "../../components/workflow-run/header";
-import { MiniMap } from "../../components/workflow-run/mini-map";
-import {
-  StepRunDetail,
-  TabOption,
-} from "../../components/workflow-run/step-run-detail/step-run-detail";
-import { StepRunEvents } from "../../components/workflow-run/step-run-events-for-workflow-run";
-import {
-  ViewToggle,
-  hasChildSteps,
-} from "../../components/workflow-run/view-toggle";
-import { WorkflowRunInputDialog } from "../../components/workflow-run/workflow-run-input";
-import WorkflowRunVisualizer from "../../components/workflow-run/workflow-run-visualizer-v2";
 import { useTenant } from "../../hooks/useAuth";
 import { useWorkflowRunShape } from "../../hooks/useWorkflowRun";
 import { useMtmaiV2 } from "../../stores/StoreProvider";
+import RunDetailHeader from "./components/header";
+import { MiniMap } from "./components/mini-map";
+import {
+  StepRunDetail,
+  TabOption,
+} from "./components/step-run-detail/step-run-detail";
+import { StepRunEvents } from "./components/step-run-events-for-workflow-run";
+import { ViewToggle, hasChildSteps } from "./components/view-toggle";
+import { WorkflowRunInputDialog } from "./components/workflow-run-input";
+import WorkflowRunVisualizer from "./components/workflow-run-visualizer-v2";
 
 export const Route = createFileRoute("/workflow-runs/$workflowRunId")({
   component: RouteComponent,

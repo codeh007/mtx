@@ -14,13 +14,13 @@ import { formatDuration } from "date-fns";
 import { Link } from "lucide-react";
 import { WorkflowRunStatus, queries } from "mtmaiapi/api";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
-import { useApiError } from "../../hooks/useApi";
-import { useTenant } from "../../hooks/useAuth";
-import { useBasePath } from "../../hooks/useBasePath";
-import { useMtmClient } from "../../hooks/useMtmapi";
-import type { WorkflowRunShape } from "../../types/hatchet-types";
 import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
+import { useApiError } from "../../../hooks/useApi";
+import { useTenant } from "../../../hooks/useAuth";
+import { useBasePath } from "../../../hooks/useBasePath";
+import { useMtmClient } from "../../../hooks/useMtmapi";
+import type { WorkflowRunShape } from "../../../types/hatchet-types";
 
 interface RunDetailHeaderProps {
   data?: WorkflowRunShape;
@@ -111,7 +111,7 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
                 replayWorkflowRunsMutation.mutate({
                   params: {
                     path: {
-                      tenant: tenant.metadata.id,
+                      tenant: tenant!.metadata.id,
                     },
                   },
                   body: {
@@ -132,7 +132,7 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
                 cancelWorkflowRunMutation.mutate({
                   params: {
                     path: {
-                      tenant: tenant.metadata.id,
+                      tenant: tenant!.metadata.id,
                     },
                   },
                   body: {
@@ -169,8 +169,8 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
 export default RunDetailHeader;
 
 const RunSummary: React.FC<{ data: WorkflowRunShape }> = ({ data }) => {
-  const timings: JSX.Element[] = [];
-  const basePath = useBasePath();
+  const timings: React.ReactNode[] = [];
+  // const basePath = useBasePath();
 
   timings.push(
     <div key="created" className="text-sm text-muted-foreground">
@@ -230,7 +230,7 @@ const RunSummary: React.FC<{ data: WorkflowRunShape }> = ({ data }) => {
   }
 
   // interleave the timings with a dot
-  const interleavedTimings: JSX.Element[] = [];
+  const interleavedTimings: React.ReactNode[] = [];
 
   timings.forEach((timing, index) => {
     interleavedTimings.push(timing);

@@ -5,8 +5,7 @@ import { workflowGetOptions } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { buttonVariants } from "mtxuilib/ui/button";
 import { useState } from "react";
-import { useBasePath } from "../../hooks/useBasePath";
-import { CustomLink } from "../CustomLink";
+import { CustomLink } from "../../../components/CustomLink";
 import { TriggerWorkflowForm } from "./trigger-workflow-form";
 
 interface WorkflowTriggerBtnProps {
@@ -14,7 +13,7 @@ interface WorkflowTriggerBtnProps {
 }
 export const WorkflowTriggerBtn = ({ workflowId }: WorkflowTriggerBtnProps) => {
   const [triggerWorkflow, setTriggerWorkflow] = useState(false);
-  const basePath = useBasePath();
+  // const basePath = useBasePath();
   const workflowQuery = useSuspenseQuery({
     ...workflowGetOptions({
       path: {
@@ -28,7 +27,7 @@ export const WorkflowTriggerBtn = ({ workflowId }: WorkflowTriggerBtnProps) => {
   return (
     <>
       <CustomLink
-        to={`${basePath}/workflows/trigger/${workflowName}?${new URLSearchParams({ workflowId }).toString()}`}
+        to={`/workflows/trigger/${workflowName}?${new URLSearchParams({ workflowId }).toString()}`}
         className={cn(buttonVariants({ variant: "outline" }))}
       >
         Trigger

@@ -1,7 +1,7 @@
 "use client";
 import { createFileRoute } from "@tanstack/react-router";
-import { WorkflowRunsTable } from "../../components/workflow-run/workflow-runs-table";
 import { useTenant } from "../../hooks/useAuth";
+import { WorkflowRunsTable } from "./components/workflow-runs-table";
 
 export const Route = createFileRoute("/workflow-runs/")({
   component: RouteComponent,

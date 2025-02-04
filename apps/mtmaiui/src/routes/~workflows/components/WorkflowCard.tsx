@@ -4,12 +4,11 @@ import type { Workflow } from "mtmaiapi";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Badge } from "mtxuilib/ui/badge";
 import { Button } from "mtxuilib/ui/button";
-import { useBasePath } from "../../hooks/useBasePath";
-import { CustomLink } from "../CustomLink";
+import { CustomLink } from "../../../components/CustomLink";
+import { useBasePath } from "../../../hooks/useBasePath";
 import { WorkflowTriggerBtn } from "./WorkflowTriggerBtn";
 
 export const WorkflowCard = ({ data }: { data: Workflow }) => {
-  const basePath = useBasePath();
   return (
     <div
       key={data.metadata?.id}
@@ -18,7 +17,7 @@ export const WorkflowCard = ({ data }: { data: Workflow }) => {
       <div className="px-4 py-5 sm:p-6">
         <div className="flex flex-row justify-between items-center">
           <h3 className="text-lg leading-6 font-medium text-foreground">
-            <CustomLink to={`${basePath}/workflows/${data.metadata?.id}`}>
+            <CustomLink to={`/workflows/${data.metadata?.id}`}>
               {data.name}
             </CustomLink>
           </h3>
