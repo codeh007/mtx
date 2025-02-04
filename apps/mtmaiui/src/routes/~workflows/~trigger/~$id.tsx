@@ -15,7 +15,7 @@ import { useState } from "react";
 import { useApiError } from "../../../hooks/useApi";
 import { useTenant } from "../../../hooks/useAuth";
 import { useBasePath } from "../../../hooks/useBasePath";
-export const Route = createFileRoute("/dash/workflows/trigger/$")({
+export const Route = createFileRoute("/workflows/trigger/$id")({
   component: RouteComponent,
 });
 
@@ -23,9 +23,6 @@ function RouteComponent() {
   const search = useSearch({ strict: false });
   const navigate = useNavigate();
   const tenant = useTenant();
-
-  const basePath = useBasePath();
-
   const [input, setInput] = useState<string | undefined>("{}");
   const [addlMeta, setAddlMeta] = useState<string | undefined>("{}");
   const [errors, setErrors] = useState<string[]>([]);
@@ -37,7 +34,7 @@ function RouteComponent() {
     ...workflowRunCreateMutation(),
     onSuccess: (data) => {
       navigate({
-        to: `/${basePath}/workflow-runs/${data.metadata.id}`,
+        to: `/workflow-runs/${data.metadata.id}`,
         params: {
           workflowRunId: data.metadata.id,
         },
@@ -81,7 +78,7 @@ function RouteComponent() {
           const addlMetaObj = JSON.parse(addlMeta || "{}");
           triggerWorkflowMutation.mutate({
             path: {
-              tenant: tenant.metadata.id,
+              tenant: tenant!.metadata.id,
               workflow: workflow.metadata.id,
             },
             body: {

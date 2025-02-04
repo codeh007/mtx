@@ -22,7 +22,7 @@ export const AgentNodeEditView = ({ id }: { id: string }) => {
     "get",
     "/api/v1/tenants/{tenant}/nodes/{node}",
     {
-      params: { path: { tenant: tenant.metadata.id, node: id } },
+      params: { path: { tenant: tenant!.metadata.id, node: id } },
     },
   );
 
