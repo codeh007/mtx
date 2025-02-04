@@ -1482,6 +1482,7 @@ export type ChatReq = {
   threadId?: string;
   profile?: string;
   messages: Array<ChatMessage>;
+  runner?: string;
   /**
    * 附加的表单数据
    */
@@ -1494,10 +1495,9 @@ export type ChatReq = {
  * 单个聊天消息
  */
 export type ChatMessage = {
-  id: string;
+  metadata: ApiResourceMeta;
   role: ChatMessageRole;
   content: string;
-  createdAt?: string;
   source?: string;
   config?: {
     message_type?: string;
@@ -1958,7 +1958,12 @@ export type AgentNodeRun = {
  * agent运行节点请求
  */
 export type AgentNodeRunInput = {
-  flowName: FlowNames;
+  flowName?: string;
+  /**
+   * 运行器名称(对应 autogent 的 angent 入口名称)
+   */
+  runner?: string;
+  messages?: Array<ChatMessage>;
   /**
    * agent 节点ID(threadId)
    */
@@ -3069,14 +3074,6 @@ export type WebSearchResult = {
    */
   message?: string;
 };
-
-export type FlowNames =
-  | "research"
-  | "blogAuto"
-  | "tenant"
-  | "resourceAction"
-  | "oneShotDemo"
-  | "browser";
 
 /**
  * llm config

@@ -50,7 +50,6 @@ const WorkflowsRouteLazyImport = createFileRoute('/workflows')()
 const WorkflowRunsRouteLazyImport = createFileRoute('/workflow-runs')()
 const TeamRouteLazyImport = createFileRoute('/team')()
 const SiteRouteLazyImport = createFileRoute('/site')()
-const SessionRouteLazyImport = createFileRoute('/session')()
 const PostRouteLazyImport = createFileRoute('/post')()
 const PlatformAccountRouteLazyImport = createFileRoute('/platform-account')()
 const GalleryRouteLazyImport = createFileRoute('/gallery')()
@@ -94,14 +93,6 @@ const SiteRouteLazyRoute = SiteRouteLazyImport.update({
   path: '/site',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~site/~route.lazy').then((d) => d.Route))
-
-const SessionRouteLazyRoute = SessionRouteLazyImport.update({
-  id: '/session',
-  path: '/session',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/~session/~route.lazy').then((d) => d.Route),
-)
 
 const PostRouteLazyRoute = PostRouteLazyImport.update({
   id: '/post',
@@ -427,13 +418,6 @@ declare module '@tanstack/react-router' {
       path: '/post'
       fullPath: '/post'
       preLoaderRoute: typeof PostRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/session': {
-      id: '/session'
-      path: '/session'
-      fullPath: '/session'
-      preLoaderRoute: typeof SessionRouteLazyImport
       parentRoute: typeof rootRoute
     }
     '/site': {
@@ -914,7 +898,6 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof GalleryRouteLazyRouteWithChildren
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
   '/post': typeof PostRouteLazyRouteWithChildren
-  '/session': typeof SessionRouteLazyRoute
   '/site': typeof SiteRouteLazyRouteWithChildren
   '/team': typeof TeamRouteLazyRouteWithChildren
   '/workflow-runs': typeof WorkflowRunsRouteLazyRouteWithChildren
@@ -956,7 +939,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
-  '/session': typeof SessionRouteLazyRoute
   '/chat': typeof ChatIndexRoute
   '/endpoint': typeof EndpointIndexRoute
   '/gallery': typeof GalleryIndexRoute
@@ -999,7 +981,6 @@ export interface FileRoutesById {
   '/gallery': typeof GalleryRouteLazyRouteWithChildren
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
   '/post': typeof PostRouteLazyRouteWithChildren
-  '/session': typeof SessionRouteLazyRoute
   '/site': typeof SiteRouteLazyRouteWithChildren
   '/team': typeof TeamRouteLazyRouteWithChildren
   '/workflow-runs': typeof WorkflowRunsRouteLazyRouteWithChildren
@@ -1050,7 +1031,6 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/platform-account'
     | '/post'
-    | '/session'
     | '/site'
     | '/team'
     | '/workflow-runs'
@@ -1091,7 +1071,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
-    | '/session'
     | '/chat'
     | '/endpoint'
     | '/gallery'
@@ -1132,7 +1111,6 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/platform-account'
     | '/post'
-    | '/session'
     | '/site'
     | '/team'
     | '/workflow-runs'
@@ -1182,7 +1160,6 @@ export interface RootRouteChildren {
   GalleryRouteLazyRoute: typeof GalleryRouteLazyRouteWithChildren
   PlatformAccountRouteLazyRoute: typeof PlatformAccountRouteLazyRouteWithChildren
   PostRouteLazyRoute: typeof PostRouteLazyRouteWithChildren
-  SessionRouteLazyRoute: typeof SessionRouteLazyRoute
   SiteRouteLazyRoute: typeof SiteRouteLazyRouteWithChildren
   TeamRouteLazyRoute: typeof TeamRouteLazyRouteWithChildren
   WorkflowRunsRouteLazyRoute: typeof WorkflowRunsRouteLazyRouteWithChildren
@@ -1200,7 +1177,6 @@ const rootRouteChildren: RootRouteChildren = {
   GalleryRouteLazyRoute: GalleryRouteLazyRouteWithChildren,
   PlatformAccountRouteLazyRoute: PlatformAccountRouteLazyRouteWithChildren,
   PostRouteLazyRoute: PostRouteLazyRouteWithChildren,
-  SessionRouteLazyRoute: SessionRouteLazyRoute,
   SiteRouteLazyRoute: SiteRouteLazyRouteWithChildren,
   TeamRouteLazyRoute: TeamRouteLazyRouteWithChildren,
   WorkflowRunsRouteLazyRoute: WorkflowRunsRouteLazyRouteWithChildren,
@@ -1227,7 +1203,6 @@ export const routeTree = rootRoute
         "/gallery",
         "/platform-account",
         "/post",
-        "/session",
         "/site",
         "/team",
         "/workflow-runs",
@@ -1292,9 +1267,6 @@ export const routeTree = rootRoute
         "/post/",
         "/post/create"
       ]
-    },
-    "/session": {
-      "filePath": "~session/~route.lazy.tsx"
     },
     "/site": {
       "filePath": "~site/~route.lazy.tsx",

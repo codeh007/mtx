@@ -84,6 +84,9 @@ export interface AgentNodeState extends AgentNodeProps {
   setMessages: (messages: ChatMessage[]) => void;
   openWorkBench?: boolean;
   setOpenWorkBench: (openWorkBench: boolean) => void;
+  // agent 运行器名称
+  runner?: string;
+  setRunner: (runner: string) => void;
   isStreaming: boolean;
   setIsStreaming: (isStreaming: boolean) => void;
   firstTokenReceived: boolean;
@@ -91,8 +94,6 @@ export interface AgentNodeState extends AgentNodeProps {
 
   addMessage: (message: ChatMessage) => void;
   submitHumanInput: (content: string) => void;
-  // modelName: string;
-  // setModelName: (modelName: string) => void;
 
   selectedAssistant?: Assistant;
   setSelectedAssistant: (selectedAssistant?: Assistant) => void;
@@ -167,6 +168,9 @@ export const createGraphSlice: StateCreator<
     setFeedbackSubmitted: (feedbackSubmitted: boolean) => {
       set({ feedbackSubmitted });
     },
+    setRunnerName: (runnerName: string) => {
+      set({ runner: runnerName });
+    },
     setIsStreaming: (isStreaming: boolean) => {
       set({ isStreaming });
     },
@@ -204,10 +208,13 @@ export const createGraphSlice: StateCreator<
         messages: [
           ...prevMessages,
           {
-            id: generateId(),
+            metadata: {
+              id: generateId(),
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+            },
             role: "user",
             content,
-            createdAt: new Date().toISOString(),
           },
         ],
       });
