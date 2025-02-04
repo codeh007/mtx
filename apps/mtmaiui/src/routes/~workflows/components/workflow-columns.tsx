@@ -5,8 +5,7 @@ import type { Workflow } from "mtmaiapi/api";
 import { DataTableColumnHeader } from "mtxuilib/data-table/data-table-column-header";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Badge } from "mtxuilib/ui/badge";
-import Link from "next/link";
-import { useBasePath } from "../../../hooks/useBasePath";
+import { CustomLink } from "../../../components/CustomLink";
 
 export const columns: ColumnDef<Workflow>[] = [
   {
@@ -32,13 +31,12 @@ export const columns: ColumnDef<Workflow>[] = [
       <DataTableColumnHeader column={column} title="Name" />
     ),
     cell: ({ row }) => {
-      const basePath = useBasePath();
       return (
-        <Link href={`${basePath}/workflows/${row.original.metadata.id}`}>
+        <CustomLink to={`/workflows/${row.original.metadata.id}`}>
           <div className="cursor-pointer hover:underline min-w-fit whitespace-nowrap text-md p-2">
             {row.original.name}
           </div>
-        </Link>
+        </CustomLink>
       );
     },
     enableSorting: true,
@@ -73,17 +71,16 @@ export const columns: ColumnDef<Workflow>[] = [
     header: () => <></>,
     accessorKey: "chevron",
     cell: ({ row }) => {
-      const basePath = useBasePath();
       return (
         <div className="flex gap-2 justify-end">
-          <Link href={`${basePath}/workflows/${row.original.metadata.id}`}>
+          <CustomLink to={`/workflows/${row.original.metadata.id}`}>
             <div className="cursor-pointer hover:underline min-w-fit whitespace-nowrap text-md p-2">
               <ChevronRightIcon
                 className="h-5 w-5 flex-none text-gray-700 dark:text-gray-300"
                 aria-hidden="true"
               />
             </div>
-          </Link>
+          </CustomLink>
         </div>
       );
     },

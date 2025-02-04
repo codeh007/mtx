@@ -50,9 +50,7 @@ export const columns: (
     cell: ({ row }) => {
       const basePath = useBasePath();
       return (
-        <CustomLink
-          to={`/${basePath}/workflow-runs/${row.original.metadata.id}`}
-        >
+        <CustomLink to={`/workflow-runs/${row.original.metadata.id}`}>
           <div className="cursor-pointer hover:underline min-w-fit whitespace-nowrap">
             {row.original.displayName || row.original.metadata.id}
           </div>
@@ -84,7 +82,9 @@ export const columns: (
       return (
         <div className="min-w-fit whitespace-nowrap">
           {(workflow && (
-            <a href={`/workflows/${workflowId}`}>{workflowName}</a>
+            <CustomLink to={`/workflows/${workflowId}`}>
+              {workflowName}
+            </CustomLink>
           )) ||
             "N/A"}
         </div>

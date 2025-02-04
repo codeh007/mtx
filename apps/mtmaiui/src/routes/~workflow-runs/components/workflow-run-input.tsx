@@ -2,7 +2,7 @@
 import type { WorkflowRun } from "mtmaiapi/api";
 import { CodeHighlighter } from "mtxuilib/mt/code-highlighter";
 import { MtLoading } from "mtxuilib/mt/mtloading";
-import { useMtmClient } from "../../hooks/useMtmapi";
+import { useMtmClient } from "../../../hooks/useMtmapi";
 
 export function WorkflowRunInputDialog({ run }: { run: WorkflowRun }) {
   const mtmapi = useMtmClient();

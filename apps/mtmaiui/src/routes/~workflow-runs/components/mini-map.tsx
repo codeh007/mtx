@@ -1,5 +1,6 @@
 "use client";
 
+import type { Step, StepRun, WorkflowRunShape } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import type React from "react";
 import { useMemo } from "react";
