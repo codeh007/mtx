@@ -4,10 +4,10 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { siteHostListOptions } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
-import { CustomLink } from "../../../../../components/CustomLink";
-import { useTenant } from "../../../../../hooks/useAuth";
+import { CustomLink } from "../../../../components/CustomLink";
+import { useTenant } from "../../../../hooks/useAuth";
 
-export const Route = createFileRoute("/dash/site/$siteId/host/")({
+export const Route = createFileRoute("/site/$siteId/host/")({
   component: RouteComponent,
 });
 

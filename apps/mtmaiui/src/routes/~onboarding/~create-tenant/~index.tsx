@@ -4,10 +4,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { tenantCreateMutation } from "mtmaiapi";
 import { queries } from "mtmaiapi/api/queries";
 import { useState } from "react";
-import { useApiError } from "../../../../hooks/useApi";
-import { useBasePath } from "../../../../hooks/useBasePath";
+import { useApiError } from "../../../hooks/useApi";
+import { useBasePath } from "../../../hooks/useBasePath";
 import { TenantCreateForm } from "./_components/tenant-create-form";
-export const Route = createFileRoute("/dash/onboarding/create-tenant/")({
+export const Route = createFileRoute("/onboarding/create-tenant/")({
   component: RouteComponent,
 });
 

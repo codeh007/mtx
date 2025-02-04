@@ -1,7 +1,7 @@
 import { CodeHighlighter } from "mtxuilib/mt/code-highlighter";
 
+import type { StepRun, WorkflowRunShape } from "mtmaiapi";
 import {
-  // type StepRun,
   StepRunStatus,
 } from "mtmaiapi/api";
 import { LoggingComponent } from "mtxuilib/mt/logs";
