@@ -8,714 +8,761 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from '@tanstack/react-router'
 
 // Import Routes
 
-import { Route as rootRoute } from "./routes/~__root";
-import { Route as AuthLoginRouteImport } from "./routes/~auth/~login/~route";
-import { Route as AuthRouteImport } from "./routes/~auth/~route";
-import { Route as SessionChatSessionIdImport } from "./routes/~chat/~$chatSessionId";
-import { Route as ChatCanvasImport } from "./routes/~chat/~canvas";
-import { Route as ChatIndexImport } from "./routes/~chat/~index";
-import { Route as DashOnboardingCreateTenantIndexImport } from "./routes/~dash/~onboarding/~create-tenant/~index";
-import { Route as DashSiteSiteIdEditImport } from "./routes/~dash/~site/~$siteId/~edit";
-import { Route as DashSiteSiteIdHostIndexImport } from "./routes/~dash/~site/~$siteId/~host/~index";
-import { Route as DashSiteSiteIdHostRouteImport } from "./routes/~dash/~site/~$siteId/~host/~route";
-import { Route as DashSiteSiteIdIndexImport } from "./routes/~dash/~site/~$siteId/~index";
-import { Route as DashSiteSiteIdRouteImport } from "./routes/~dash/~site/~$siteId/~route";
-import { Route as DashSiteCreateIndexImport } from "./routes/~dash/~site/~create/~index";
-import { Route as DashSiteIndexImport } from "./routes/~dash/~site/~index";
-import { Route as DashWorkflowsIndexImport } from "./routes/~dash/~workflows/~index";
-import { Route as EndpointIndexImport } from "./routes/~endpoint/~index";
-import { Route as EnvsCreateImport } from "./routes/~envs/~create";
-import { Route as GalleryGalleryIdImport } from "./routes/~gallery/~$galleryId";
-import { Route as GalleryIndexImport } from "./routes/~gallery/~index";
-import { Route as IndexImport } from "./routes/~index";
-import { Route as PlatformAccountIdImport } from "./routes/~platform-account/~$id";
-import { Route as PlatformAccountCreateImport } from "./routes/~platform-account/~create";
-import { Route as PlatformIndexImport } from "./routes/~platform/~index";
-import { Route as PlatformRouteImport } from "./routes/~platform/~route";
-import { Route as PostCreateImport } from "./routes/~post/~create";
-import { Route as PostIndexImport } from "./routes/~post/~index";
-import { Route as TeamTeamIdImport } from "./routes/~team/~$teamId";
+import { Route as rootRoute } from './routes/~__root'
+import { Route as PlatformRouteImport } from './routes/~platform/~route'
+import { Route as AuthRouteImport } from './routes/~auth/~route'
+import { Route as IndexImport } from './routes/~index'
+import { Route as TeamTeamIdImport } from './routes/~team/~$teamId'
+import { Route as PostCreateImport } from './routes/~post/~create'
+import { Route as PlatformAccountCreateImport } from './routes/~platform-account/~create'
+import { Route as PlatformAccountIdImport } from './routes/~platform-account/~$id'
+import { Route as GalleryGalleryIdImport } from './routes/~gallery/~$galleryId'
+import { Route as EnvsCreateImport } from './routes/~envs/~create'
+import { Route as ChatCanvasImport } from './routes/~chat/~canvas'
+import { Route as ChatChatSessionIdImport } from './routes/~chat/~$chatSessionId'
+import { Route as AuthLoginRouteImport } from './routes/~auth/~login/~route'
+import { Route as PostIndexImport } from './routes/~post/~index'
+import { Route as PlatformIndexImport } from './routes/~platform/~index'
+import { Route as GalleryIndexImport } from './routes/~gallery/~index'
+import { Route as EndpointIndexImport } from './routes/~endpoint/~index'
+import { Route as ChatIndexImport } from './routes/~chat/~index'
+import { Route as DashWorkflowRunsWorkflowRunIdImport } from './routes/~dash/~workflow-runs/~$workflowRunId'
+import { Route as DashSiteSiteIdRouteImport } from './routes/~dash/~site/~$siteId/~route'
+import { Route as DashWorkflowsIndexImport } from './routes/~dash/~workflows/~index'
+import { Route as DashWorkflowRunsIndexImport } from './routes/~dash/~workflow-runs/~index'
+import { Route as DashSiteIndexImport } from './routes/~dash/~site/~index'
+import { Route as DashSiteSiteIdHostRouteImport } from './routes/~dash/~site/~$siteId/~host/~route'
+import { Route as DashSiteSiteIdEditImport } from './routes/~dash/~site/~$siteId/~edit'
+import { Route as DashSiteCreateIndexImport } from './routes/~dash/~site/~create/~index'
+import { Route as DashSiteSiteIdIndexImport } from './routes/~dash/~site/~$siteId/~index'
+import { Route as DashOnboardingCreateTenantIndexImport } from './routes/~dash/~onboarding/~create-tenant/~index'
+import { Route as DashSiteSiteIdHostIndexImport } from './routes/~dash/~site/~$siteId/~host/~index'
 
 // Create Virtual Routes
 
-const TeamRouteLazyImport = createFileRoute("/team")();
-const SessionRouteLazyImport = createFileRoute("/session")();
-const PostRouteLazyImport = createFileRoute("/post")();
-const PlatformAccountRouteLazyImport = createFileRoute("/platform-account")();
-const GalleryRouteLazyImport = createFileRoute("/gallery")();
-const EnvsRouteLazyImport = createFileRoute("/envs")();
-const EndpointRouteLazyImport = createFileRoute("/endpoint")();
-const ChatRouteLazyImport = createFileRoute("/chat")();
-const DashWorkflowsRouteLazyImport = createFileRoute("/dash/workflows")();
-const DashSiteRouteLazyImport = createFileRoute("/dash/site")();
-const TeamIndexLazyImport = createFileRoute("/team/")();
-const PlatformAccountIndexLazyImport = createFileRoute("/platform-account/")();
-const EnvsIndexLazyImport = createFileRoute("/envs/")();
+const TeamRouteLazyImport = createFileRoute('/team')()
+const SessionRouteLazyImport = createFileRoute('/session')()
+const PostRouteLazyImport = createFileRoute('/post')()
+const PlatformAccountRouteLazyImport = createFileRoute('/platform-account')()
+const GalleryRouteLazyImport = createFileRoute('/gallery')()
+const EnvsRouteLazyImport = createFileRoute('/envs')()
+const EndpointRouteLazyImport = createFileRoute('/endpoint')()
+const ChatRouteLazyImport = createFileRoute('/chat')()
+const DashWorkflowsRouteLazyImport = createFileRoute('/dash/workflows')()
+const DashWorkflowRunsRouteLazyImport = createFileRoute('/dash/workflow-runs')()
+const DashSiteRouteLazyImport = createFileRoute('/dash/site')()
+const TeamIndexLazyImport = createFileRoute('/team/')()
+const PlatformAccountIndexLazyImport = createFileRoute('/platform-account/')()
+const EnvsIndexLazyImport = createFileRoute('/envs/')()
 const DashWorkflowsWorkflowIdLazyImport = createFileRoute(
-  "/dash/workflows/$workflowId",
-)();
-const AuthLoginIndexLazyImport = createFileRoute("/auth/login/")();
+  '/dash/workflows/$workflowId',
+)()
+const AuthLoginIndexLazyImport = createFileRoute('/auth/login/')()
 
 // Create/Update Routes
 
 const TeamRouteLazyRoute = TeamRouteLazyImport.update({
-  id: "/team",
-  path: "/team",
+  id: '/team',
+  path: '/team',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import("./routes/~team/~route.lazy").then((d) => d.Route));
+} as any).lazy(() => import('./routes/~team/~route.lazy').then((d) => d.Route))
 
 const SessionRouteLazyRoute = SessionRouteLazyImport.update({
-  id: "/session",
-  path: "/session",
+  id: '/session',
+  path: '/session',
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
-  import("./routes/~session/~route.lazy").then((d) => d.Route),
-);
+  import('./routes/~session/~route.lazy').then((d) => d.Route),
+)
 
 const PostRouteLazyRoute = PostRouteLazyImport.update({
-  id: "/post",
-  path: "/post",
+  id: '/post',
+  path: '/post',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import("./routes/~post/~route.lazy").then((d) => d.Route));
+} as any).lazy(() => import('./routes/~post/~route.lazy').then((d) => d.Route))
 
 const PlatformAccountRouteLazyRoute = PlatformAccountRouteLazyImport.update({
-  id: "/platform-account",
-  path: "/platform-account",
+  id: '/platform-account',
+  path: '/platform-account',
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
-  import("./routes/~platform-account/~route.lazy").then((d) => d.Route),
-);
+  import('./routes/~platform-account/~route.lazy').then((d) => d.Route),
+)
 
 const GalleryRouteLazyRoute = GalleryRouteLazyImport.update({
-  id: "/gallery",
-  path: "/gallery",
+  id: '/gallery',
+  path: '/gallery',
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
-  import("./routes/~gallery/~route.lazy").then((d) => d.Route),
-);
+  import('./routes/~gallery/~route.lazy').then((d) => d.Route),
+)
 
 const EnvsRouteLazyRoute = EnvsRouteLazyImport.update({
-  id: "/envs",
-  path: "/envs",
+  id: '/envs',
+  path: '/envs',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import("./routes/~envs/~route.lazy").then((d) => d.Route));
+} as any).lazy(() => import('./routes/~envs/~route.lazy').then((d) => d.Route))
 
 const EndpointRouteLazyRoute = EndpointRouteLazyImport.update({
-  id: "/endpoint",
-  path: "/endpoint",
+  id: '/endpoint',
+  path: '/endpoint',
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
-  import("./routes/~endpoint/~route.lazy").then((d) => d.Route),
-);
+  import('./routes/~endpoint/~route.lazy').then((d) => d.Route),
+)
 
 const ChatRouteLazyRoute = ChatRouteLazyImport.update({
-  id: "/chat",
-  path: "/chat",
+  id: '/chat',
+  path: '/chat',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import("./routes/~chat/~route.lazy").then((d) => d.Route));
+} as any).lazy(() => import('./routes/~chat/~route.lazy').then((d) => d.Route))
 
 const PlatformRouteRoute = PlatformRouteImport.update({
-  id: "/platform",
-  path: "/platform",
+  id: '/platform',
+  path: '/platform',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const AuthRouteRoute = AuthRouteImport.update({
-  id: "/auth",
-  path: "/auth",
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const IndexRoute = IndexImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const DashWorkflowsRouteLazyRoute = DashWorkflowsRouteLazyImport.update({
-  id: "/dash/workflows",
-  path: "/dash/workflows",
+  id: '/dash/workflows',
+  path: '/dash/workflows',
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
-  import("./routes/~dash/~workflows/~route.lazy").then((d) => d.Route),
-);
+  import('./routes/~dash/~workflows/~route.lazy').then((d) => d.Route),
+)
+
+const DashWorkflowRunsRouteLazyRoute = DashWorkflowRunsRouteLazyImport.update({
+  id: '/dash/workflow-runs',
+  path: '/dash/workflow-runs',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/~dash/~workflow-runs/~route.lazy').then((d) => d.Route),
+)
 
 const DashSiteRouteLazyRoute = DashSiteRouteLazyImport.update({
-  id: "/dash/site",
-  path: "/dash/site",
+  id: '/dash/site',
+  path: '/dash/site',
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
-  import("./routes/~dash/~site/~route.lazy").then((d) => d.Route),
-);
+  import('./routes/~dash/~site/~route.lazy').then((d) => d.Route),
+)
 
 const TeamIndexLazyRoute = TeamIndexLazyImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => TeamRouteLazyRoute,
-} as any).lazy(() => import("./routes/~team/~index.lazy").then((d) => d.Route));
+} as any).lazy(() => import('./routes/~team/~index.lazy').then((d) => d.Route))
 
 const PlatformAccountIndexLazyRoute = PlatformAccountIndexLazyImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => PlatformAccountRouteLazyRoute,
 } as any).lazy(() =>
-  import("./routes/~platform-account/~index.lazy").then((d) => d.Route),
-);
+  import('./routes/~platform-account/~index.lazy').then((d) => d.Route),
+)
 
 const EnvsIndexLazyRoute = EnvsIndexLazyImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => EnvsRouteLazyRoute,
-} as any).lazy(() => import("./routes/~envs/~index.lazy").then((d) => d.Route));
+} as any).lazy(() => import('./routes/~envs/~index.lazy').then((d) => d.Route))
 
 const TeamTeamIdRoute = TeamTeamIdImport.update({
-  id: "/$teamId",
-  path: "/$teamId",
+  id: '/$teamId',
+  path: '/$teamId',
   getParentRoute: () => TeamRouteLazyRoute,
-} as any);
-
-const SessionChatSessionIdRoute = SessionChatSessionIdImport.update({
-  id: "/$chatSessionId",
-  path: "/$chatSessionId",
-  getParentRoute: () => SessionRouteLazyRoute,
-} as any);
+} as any)
 
 const PostCreateRoute = PostCreateImport.update({
-  id: "/create",
-  path: "/create",
+  id: '/create',
+  path: '/create',
   getParentRoute: () => PostRouteLazyRoute,
-} as any);
+} as any)
 
 const PlatformAccountCreateRoute = PlatformAccountCreateImport.update({
-  id: "/create",
-  path: "/create",
+  id: '/create',
+  path: '/create',
   getParentRoute: () => PlatformAccountRouteLazyRoute,
-} as any);
+} as any)
 
 const PlatformAccountIdRoute = PlatformAccountIdImport.update({
-  id: "/$id",
-  path: "/$id",
+  id: '/$id',
+  path: '/$id',
   getParentRoute: () => PlatformAccountRouteLazyRoute,
-} as any);
+} as any)
 
 const GalleryGalleryIdRoute = GalleryGalleryIdImport.update({
-  id: "/$galleryId",
-  path: "/$galleryId",
+  id: '/$galleryId',
+  path: '/$galleryId',
   getParentRoute: () => GalleryRouteLazyRoute,
-} as any);
+} as any)
 
 const EnvsCreateRoute = EnvsCreateImport.update({
-  id: "/create",
-  path: "/create",
+  id: '/create',
+  path: '/create',
   getParentRoute: () => EnvsRouteLazyRoute,
-} as any);
+} as any)
 
 const ChatCanvasRoute = ChatCanvasImport.update({
-  id: "/canvas",
-  path: "/canvas",
+  id: '/canvas',
+  path: '/canvas',
   getParentRoute: () => ChatRouteLazyRoute,
-} as any);
+} as any)
+
+const ChatChatSessionIdRoute = ChatChatSessionIdImport.update({
+  id: '/$chatSessionId',
+  path: '/$chatSessionId',
+  getParentRoute: () => ChatRouteLazyRoute,
+} as any)
 
 const AuthLoginRouteRoute = AuthLoginRouteImport.update({
-  id: "/login",
-  path: "/login",
+  id: '/login',
+  path: '/login',
   getParentRoute: () => AuthRouteRoute,
-} as any);
+} as any)
 
 const PostIndexRoute = PostIndexImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => PostRouteLazyRoute,
-} as any);
+} as any)
 
 const PlatformIndexRoute = PlatformIndexImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => PlatformRouteRoute,
-} as any);
+} as any)
 
 const GalleryIndexRoute = GalleryIndexImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => GalleryRouteLazyRoute,
-} as any);
+} as any)
 
 const EndpointIndexRoute = EndpointIndexImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => EndpointRouteLazyRoute,
-} as any);
+} as any)
 
 const ChatIndexRoute = ChatIndexImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => ChatRouteLazyRoute,
-} as any);
+} as any)
 
 const DashWorkflowsWorkflowIdLazyRoute =
   DashWorkflowsWorkflowIdLazyImport.update({
-    id: "/$workflowId",
-    path: "/$workflowId",
+    id: '/$workflowId',
+    path: '/$workflowId',
     getParentRoute: () => DashWorkflowsRouteLazyRoute,
   } as any).lazy(() =>
-    import("./routes/~dash/~workflows/~$workflowId.lazy").then((d) => d.Route),
-  );
+    import('./routes/~dash/~workflows/~$workflowId.lazy').then((d) => d.Route),
+  )
 
 const AuthLoginIndexLazyRoute = AuthLoginIndexLazyImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => AuthLoginRouteRoute,
 } as any).lazy(() =>
-  import("./routes/~auth/~login/~index.lazy").then((d) => d.Route),
-);
+  import('./routes/~auth/~login/~index.lazy').then((d) => d.Route),
+)
+
+const DashWorkflowRunsWorkflowRunIdRoute =
+  DashWorkflowRunsWorkflowRunIdImport.update({
+    id: '/$workflowRunId',
+    path: '/$workflowRunId',
+    getParentRoute: () => DashWorkflowRunsRouteLazyRoute,
+  } as any)
 
 const DashSiteSiteIdRouteRoute = DashSiteSiteIdRouteImport.update({
-  id: "/$siteId",
-  path: "/$siteId",
+  id: '/$siteId',
+  path: '/$siteId',
   getParentRoute: () => DashSiteRouteLazyRoute,
-} as any);
+} as any)
 
 const DashWorkflowsIndexRoute = DashWorkflowsIndexImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => DashWorkflowsRouteLazyRoute,
-} as any);
+} as any)
+
+const DashWorkflowRunsIndexRoute = DashWorkflowRunsIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashWorkflowRunsRouteLazyRoute,
+} as any)
 
 const DashSiteIndexRoute = DashSiteIndexImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => DashSiteRouteLazyRoute,
-} as any);
+} as any)
 
 const DashSiteSiteIdHostRouteRoute = DashSiteSiteIdHostRouteImport.update({
-  id: "/host",
-  path: "/host",
+  id: '/host',
+  path: '/host',
   getParentRoute: () => DashSiteSiteIdRouteRoute,
-} as any);
+} as any)
 
 const DashSiteSiteIdEditRoute = DashSiteSiteIdEditImport.update({
-  id: "/edit",
-  path: "/edit",
+  id: '/edit',
+  path: '/edit',
   getParentRoute: () => DashSiteSiteIdRouteRoute,
-} as any);
+} as any)
 
 const DashSiteCreateIndexRoute = DashSiteCreateIndexImport.update({
-  id: "/create/",
-  path: "/create/",
+  id: '/create/',
+  path: '/create/',
   getParentRoute: () => DashSiteRouteLazyRoute,
-} as any);
+} as any)
 
 const DashSiteSiteIdIndexRoute = DashSiteSiteIdIndexImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => DashSiteSiteIdRouteRoute,
-} as any);
+} as any)
 
 const DashOnboardingCreateTenantIndexRoute =
   DashOnboardingCreateTenantIndexImport.update({
-    id: "/dash/onboarding/create-tenant/",
-    path: "/dash/onboarding/create-tenant/",
+    id: '/dash/onboarding/create-tenant/',
+    path: '/dash/onboarding/create-tenant/',
     getParentRoute: () => rootRoute,
-  } as any);
+  } as any)
 
 const DashSiteSiteIdHostIndexRoute = DashSiteSiteIdHostIndexImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => DashSiteSiteIdHostRouteRoute,
-} as any);
+} as any)
 
 // Populate the FileRoutesByPath interface
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/": {
-      id: "/";
-      path: "/";
-      fullPath: "/";
-      preLoaderRoute: typeof IndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/auth": {
-      id: "/auth";
-      path: "/auth";
-      fullPath: "/auth";
-      preLoaderRoute: typeof AuthRouteImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/platform": {
-      id: "/platform";
-      path: "/platform";
-      fullPath: "/platform";
-      preLoaderRoute: typeof PlatformRouteImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/chat": {
-      id: "/chat";
-      path: "/chat";
-      fullPath: "/chat";
-      preLoaderRoute: typeof ChatRouteLazyImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/endpoint": {
-      id: "/endpoint";
-      path: "/endpoint";
-      fullPath: "/endpoint";
-      preLoaderRoute: typeof EndpointRouteLazyImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/envs": {
-      id: "/envs";
-      path: "/envs";
-      fullPath: "/envs";
-      preLoaderRoute: typeof EnvsRouteLazyImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/gallery": {
-      id: "/gallery";
-      path: "/gallery";
-      fullPath: "/gallery";
-      preLoaderRoute: typeof GalleryRouteLazyImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/platform-account": {
-      id: "/platform-account";
-      path: "/platform-account";
-      fullPath: "/platform-account";
-      preLoaderRoute: typeof PlatformAccountRouteLazyImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/post": {
-      id: "/post";
-      path: "/post";
-      fullPath: "/post";
-      preLoaderRoute: typeof PostRouteLazyImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/session": {
-      id: "/session";
-      path: "/session";
-      fullPath: "/session";
-      preLoaderRoute: typeof SessionRouteLazyImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/team": {
-      id: "/team";
-      path: "/team";
-      fullPath: "/team";
-      preLoaderRoute: typeof TeamRouteLazyImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/chat/": {
-      id: "/chat/";
-      path: "/";
-      fullPath: "/chat/";
-      preLoaderRoute: typeof ChatIndexImport;
-      parentRoute: typeof ChatRouteLazyImport;
-    };
-    "/endpoint/": {
-      id: "/endpoint/";
-      path: "/";
-      fullPath: "/endpoint/";
-      preLoaderRoute: typeof EndpointIndexImport;
-      parentRoute: typeof EndpointRouteLazyImport;
-    };
-    "/gallery/": {
-      id: "/gallery/";
-      path: "/";
-      fullPath: "/gallery/";
-      preLoaderRoute: typeof GalleryIndexImport;
-      parentRoute: typeof GalleryRouteLazyImport;
-    };
-    "/platform/": {
-      id: "/platform/";
-      path: "/";
-      fullPath: "/platform/";
-      preLoaderRoute: typeof PlatformIndexImport;
-      parentRoute: typeof PlatformRouteImport;
-    };
-    "/post/": {
-      id: "/post/";
-      path: "/";
-      fullPath: "/post/";
-      preLoaderRoute: typeof PostIndexImport;
-      parentRoute: typeof PostRouteLazyImport;
-    };
-    "/auth/login": {
-      id: "/auth/login";
-      path: "/login";
-      fullPath: "/auth/login";
-      preLoaderRoute: typeof AuthLoginRouteImport;
-      parentRoute: typeof AuthRouteImport;
-    };
-    "/chat/canvas": {
-      id: "/chat/canvas";
-      path: "/canvas";
-      fullPath: "/chat/canvas";
-      preLoaderRoute: typeof ChatCanvasImport;
-      parentRoute: typeof ChatRouteLazyImport;
-    };
-    "/envs/create": {
-      id: "/envs/create";
-      path: "/create";
-      fullPath: "/envs/create";
-      preLoaderRoute: typeof EnvsCreateImport;
-      parentRoute: typeof EnvsRouteLazyImport;
-    };
-    "/gallery/$galleryId": {
-      id: "/gallery/$galleryId";
-      path: "/$galleryId";
-      fullPath: "/gallery/$galleryId";
-      preLoaderRoute: typeof GalleryGalleryIdImport;
-      parentRoute: typeof GalleryRouteLazyImport;
-    };
-    "/platform-account/$id": {
-      id: "/platform-account/$id";
-      path: "/$id";
-      fullPath: "/platform-account/$id";
-      preLoaderRoute: typeof PlatformAccountIdImport;
-      parentRoute: typeof PlatformAccountRouteLazyImport;
-    };
-    "/platform-account/create": {
-      id: "/platform-account/create";
-      path: "/create";
-      fullPath: "/platform-account/create";
-      preLoaderRoute: typeof PlatformAccountCreateImport;
-      parentRoute: typeof PlatformAccountRouteLazyImport;
-    };
-    "/post/create": {
-      id: "/post/create";
-      path: "/create";
-      fullPath: "/post/create";
-      preLoaderRoute: typeof PostCreateImport;
-      parentRoute: typeof PostRouteLazyImport;
-    };
-    "/session/$chatSessionId": {
-      id: "/session/$chatSessionId";
-      path: "/$chatSessionId";
-      fullPath: "/session/$chatSessionId";
-      preLoaderRoute: typeof SessionChatSessionIdImport;
-      parentRoute: typeof SessionRouteLazyImport;
-    };
-    "/team/$teamId": {
-      id: "/team/$teamId";
-      path: "/$teamId";
-      fullPath: "/team/$teamId";
-      preLoaderRoute: typeof TeamTeamIdImport;
-      parentRoute: typeof TeamRouteLazyImport;
-    };
-    "/envs/": {
-      id: "/envs/";
-      path: "/";
-      fullPath: "/envs/";
-      preLoaderRoute: typeof EnvsIndexLazyImport;
-      parentRoute: typeof EnvsRouteLazyImport;
-    };
-    "/platform-account/": {
-      id: "/platform-account/";
-      path: "/";
-      fullPath: "/platform-account/";
-      preLoaderRoute: typeof PlatformAccountIndexLazyImport;
-      parentRoute: typeof PlatformAccountRouteLazyImport;
-    };
-    "/team/": {
-      id: "/team/";
-      path: "/";
-      fullPath: "/team/";
-      preLoaderRoute: typeof TeamIndexLazyImport;
-      parentRoute: typeof TeamRouteLazyImport;
-    };
-    "/dash/site": {
-      id: "/dash/site";
-      path: "/dash/site";
-      fullPath: "/dash/site";
-      preLoaderRoute: typeof DashSiteRouteLazyImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/dash/workflows": {
-      id: "/dash/workflows";
-      path: "/dash/workflows";
-      fullPath: "/dash/workflows";
-      preLoaderRoute: typeof DashWorkflowsRouteLazyImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/dash/site/": {
-      id: "/dash/site/";
-      path: "/";
-      fullPath: "/dash/site/";
-      preLoaderRoute: typeof DashSiteIndexImport;
-      parentRoute: typeof DashSiteRouteLazyImport;
-    };
-    "/dash/workflows/": {
-      id: "/dash/workflows/";
-      path: "/";
-      fullPath: "/dash/workflows/";
-      preLoaderRoute: typeof DashWorkflowsIndexImport;
-      parentRoute: typeof DashWorkflowsRouteLazyImport;
-    };
-    "/dash/site/$siteId": {
-      id: "/dash/site/$siteId";
-      path: "/$siteId";
-      fullPath: "/dash/site/$siteId";
-      preLoaderRoute: typeof DashSiteSiteIdRouteImport;
-      parentRoute: typeof DashSiteRouteLazyImport;
-    };
-    "/auth/login/": {
-      id: "/auth/login/";
-      path: "/";
-      fullPath: "/auth/login/";
-      preLoaderRoute: typeof AuthLoginIndexLazyImport;
-      parentRoute: typeof AuthLoginRouteImport;
-    };
-    "/dash/workflows/$workflowId": {
-      id: "/dash/workflows/$workflowId";
-      path: "/$workflowId";
-      fullPath: "/dash/workflows/$workflowId";
-      preLoaderRoute: typeof DashWorkflowsWorkflowIdLazyImport;
-      parentRoute: typeof DashWorkflowsRouteLazyImport;
-    };
-    "/dash/onboarding/create-tenant/": {
-      id: "/dash/onboarding/create-tenant/";
-      path: "/dash/onboarding/create-tenant";
-      fullPath: "/dash/onboarding/create-tenant";
-      preLoaderRoute: typeof DashOnboardingCreateTenantIndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/dash/site/$siteId/": {
-      id: "/dash/site/$siteId/";
-      path: "/";
-      fullPath: "/dash/site/$siteId/";
-      preLoaderRoute: typeof DashSiteSiteIdIndexImport;
-      parentRoute: typeof DashSiteSiteIdRouteImport;
-    };
-    "/dash/site/create/": {
-      id: "/dash/site/create/";
-      path: "/create";
-      fullPath: "/dash/site/create";
-      preLoaderRoute: typeof DashSiteCreateIndexImport;
-      parentRoute: typeof DashSiteRouteLazyImport;
-    };
-    "/dash/site/$siteId/edit": {
-      id: "/dash/site/$siteId/edit";
-      path: "/edit";
-      fullPath: "/dash/site/$siteId/edit";
-      preLoaderRoute: typeof DashSiteSiteIdEditImport;
-      parentRoute: typeof DashSiteSiteIdRouteImport;
-    };
-    "/dash/site/$siteId/host": {
-      id: "/dash/site/$siteId/host";
-      path: "/host";
-      fullPath: "/dash/site/$siteId/host";
-      preLoaderRoute: typeof DashSiteSiteIdHostRouteImport;
-      parentRoute: typeof DashSiteSiteIdRouteImport;
-    };
-    "/dash/site/$siteId/host/": {
-      id: "/dash/site/$siteId/host/";
-      path: "/";
-      fullPath: "/dash/site/$siteId/host/";
-      preLoaderRoute: typeof DashSiteSiteIdHostIndexImport;
-      parentRoute: typeof DashSiteSiteIdHostRouteImport;
-    };
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/platform': {
+      id: '/platform'
+      path: '/platform'
+      fullPath: '/platform'
+      preLoaderRoute: typeof PlatformRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/endpoint': {
+      id: '/endpoint'
+      path: '/endpoint'
+      fullPath: '/endpoint'
+      preLoaderRoute: typeof EndpointRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/envs': {
+      id: '/envs'
+      path: '/envs'
+      fullPath: '/envs'
+      preLoaderRoute: typeof EnvsRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/platform-account': {
+      id: '/platform-account'
+      path: '/platform-account'
+      fullPath: '/platform-account'
+      preLoaderRoute: typeof PlatformAccountRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/post': {
+      id: '/post'
+      path: '/post'
+      fullPath: '/post'
+      preLoaderRoute: typeof PostRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/session': {
+      id: '/session'
+      path: '/session'
+      fullPath: '/session'
+      preLoaderRoute: typeof SessionRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/team': {
+      id: '/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof TeamRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/chat/': {
+      id: '/chat/'
+      path: '/'
+      fullPath: '/chat/'
+      preLoaderRoute: typeof ChatIndexImport
+      parentRoute: typeof ChatRouteLazyImport
+    }
+    '/endpoint/': {
+      id: '/endpoint/'
+      path: '/'
+      fullPath: '/endpoint/'
+      preLoaderRoute: typeof EndpointIndexImport
+      parentRoute: typeof EndpointRouteLazyImport
+    }
+    '/gallery/': {
+      id: '/gallery/'
+      path: '/'
+      fullPath: '/gallery/'
+      preLoaderRoute: typeof GalleryIndexImport
+      parentRoute: typeof GalleryRouteLazyImport
+    }
+    '/platform/': {
+      id: '/platform/'
+      path: '/'
+      fullPath: '/platform/'
+      preLoaderRoute: typeof PlatformIndexImport
+      parentRoute: typeof PlatformRouteImport
+    }
+    '/post/': {
+      id: '/post/'
+      path: '/'
+      fullPath: '/post/'
+      preLoaderRoute: typeof PostIndexImport
+      parentRoute: typeof PostRouteLazyImport
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof AuthRouteImport
+    }
+    '/chat/$chatSessionId': {
+      id: '/chat/$chatSessionId'
+      path: '/$chatSessionId'
+      fullPath: '/chat/$chatSessionId'
+      preLoaderRoute: typeof ChatChatSessionIdImport
+      parentRoute: typeof ChatRouteLazyImport
+    }
+    '/chat/canvas': {
+      id: '/chat/canvas'
+      path: '/canvas'
+      fullPath: '/chat/canvas'
+      preLoaderRoute: typeof ChatCanvasImport
+      parentRoute: typeof ChatRouteLazyImport
+    }
+    '/envs/create': {
+      id: '/envs/create'
+      path: '/create'
+      fullPath: '/envs/create'
+      preLoaderRoute: typeof EnvsCreateImport
+      parentRoute: typeof EnvsRouteLazyImport
+    }
+    '/gallery/$galleryId': {
+      id: '/gallery/$galleryId'
+      path: '/$galleryId'
+      fullPath: '/gallery/$galleryId'
+      preLoaderRoute: typeof GalleryGalleryIdImport
+      parentRoute: typeof GalleryRouteLazyImport
+    }
+    '/platform-account/$id': {
+      id: '/platform-account/$id'
+      path: '/$id'
+      fullPath: '/platform-account/$id'
+      preLoaderRoute: typeof PlatformAccountIdImport
+      parentRoute: typeof PlatformAccountRouteLazyImport
+    }
+    '/platform-account/create': {
+      id: '/platform-account/create'
+      path: '/create'
+      fullPath: '/platform-account/create'
+      preLoaderRoute: typeof PlatformAccountCreateImport
+      parentRoute: typeof PlatformAccountRouteLazyImport
+    }
+    '/post/create': {
+      id: '/post/create'
+      path: '/create'
+      fullPath: '/post/create'
+      preLoaderRoute: typeof PostCreateImport
+      parentRoute: typeof PostRouteLazyImport
+    }
+    '/team/$teamId': {
+      id: '/team/$teamId'
+      path: '/$teamId'
+      fullPath: '/team/$teamId'
+      preLoaderRoute: typeof TeamTeamIdImport
+      parentRoute: typeof TeamRouteLazyImport
+    }
+    '/envs/': {
+      id: '/envs/'
+      path: '/'
+      fullPath: '/envs/'
+      preLoaderRoute: typeof EnvsIndexLazyImport
+      parentRoute: typeof EnvsRouteLazyImport
+    }
+    '/platform-account/': {
+      id: '/platform-account/'
+      path: '/'
+      fullPath: '/platform-account/'
+      preLoaderRoute: typeof PlatformAccountIndexLazyImport
+      parentRoute: typeof PlatformAccountRouteLazyImport
+    }
+    '/team/': {
+      id: '/team/'
+      path: '/'
+      fullPath: '/team/'
+      preLoaderRoute: typeof TeamIndexLazyImport
+      parentRoute: typeof TeamRouteLazyImport
+    }
+    '/dash/site': {
+      id: '/dash/site'
+      path: '/dash/site'
+      fullPath: '/dash/site'
+      preLoaderRoute: typeof DashSiteRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/dash/workflow-runs': {
+      id: '/dash/workflow-runs'
+      path: '/dash/workflow-runs'
+      fullPath: '/dash/workflow-runs'
+      preLoaderRoute: typeof DashWorkflowRunsRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/dash/workflows': {
+      id: '/dash/workflows'
+      path: '/dash/workflows'
+      fullPath: '/dash/workflows'
+      preLoaderRoute: typeof DashWorkflowsRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/dash/site/': {
+      id: '/dash/site/'
+      path: '/'
+      fullPath: '/dash/site/'
+      preLoaderRoute: typeof DashSiteIndexImport
+      parentRoute: typeof DashSiteRouteLazyImport
+    }
+    '/dash/workflow-runs/': {
+      id: '/dash/workflow-runs/'
+      path: '/'
+      fullPath: '/dash/workflow-runs/'
+      preLoaderRoute: typeof DashWorkflowRunsIndexImport
+      parentRoute: typeof DashWorkflowRunsRouteLazyImport
+    }
+    '/dash/workflows/': {
+      id: '/dash/workflows/'
+      path: '/'
+      fullPath: '/dash/workflows/'
+      preLoaderRoute: typeof DashWorkflowsIndexImport
+      parentRoute: typeof DashWorkflowsRouteLazyImport
+    }
+    '/dash/site/$siteId': {
+      id: '/dash/site/$siteId'
+      path: '/$siteId'
+      fullPath: '/dash/site/$siteId'
+      preLoaderRoute: typeof DashSiteSiteIdRouteImport
+      parentRoute: typeof DashSiteRouteLazyImport
+    }
+    '/dash/workflow-runs/$workflowRunId': {
+      id: '/dash/workflow-runs/$workflowRunId'
+      path: '/$workflowRunId'
+      fullPath: '/dash/workflow-runs/$workflowRunId'
+      preLoaderRoute: typeof DashWorkflowRunsWorkflowRunIdImport
+      parentRoute: typeof DashWorkflowRunsRouteLazyImport
+    }
+    '/auth/login/': {
+      id: '/auth/login/'
+      path: '/'
+      fullPath: '/auth/login/'
+      preLoaderRoute: typeof AuthLoginIndexLazyImport
+      parentRoute: typeof AuthLoginRouteImport
+    }
+    '/dash/workflows/$workflowId': {
+      id: '/dash/workflows/$workflowId'
+      path: '/$workflowId'
+      fullPath: '/dash/workflows/$workflowId'
+      preLoaderRoute: typeof DashWorkflowsWorkflowIdLazyImport
+      parentRoute: typeof DashWorkflowsRouteLazyImport
+    }
+    '/dash/onboarding/create-tenant/': {
+      id: '/dash/onboarding/create-tenant/'
+      path: '/dash/onboarding/create-tenant'
+      fullPath: '/dash/onboarding/create-tenant'
+      preLoaderRoute: typeof DashOnboardingCreateTenantIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/dash/site/$siteId/': {
+      id: '/dash/site/$siteId/'
+      path: '/'
+      fullPath: '/dash/site/$siteId/'
+      preLoaderRoute: typeof DashSiteSiteIdIndexImport
+      parentRoute: typeof DashSiteSiteIdRouteImport
+    }
+    '/dash/site/create/': {
+      id: '/dash/site/create/'
+      path: '/create'
+      fullPath: '/dash/site/create'
+      preLoaderRoute: typeof DashSiteCreateIndexImport
+      parentRoute: typeof DashSiteRouteLazyImport
+    }
+    '/dash/site/$siteId/edit': {
+      id: '/dash/site/$siteId/edit'
+      path: '/edit'
+      fullPath: '/dash/site/$siteId/edit'
+      preLoaderRoute: typeof DashSiteSiteIdEditImport
+      parentRoute: typeof DashSiteSiteIdRouteImport
+    }
+    '/dash/site/$siteId/host': {
+      id: '/dash/site/$siteId/host'
+      path: '/host'
+      fullPath: '/dash/site/$siteId/host'
+      preLoaderRoute: typeof DashSiteSiteIdHostRouteImport
+      parentRoute: typeof DashSiteSiteIdRouteImport
+    }
+    '/dash/site/$siteId/host/': {
+      id: '/dash/site/$siteId/host/'
+      path: '/'
+      fullPath: '/dash/site/$siteId/host/'
+      preLoaderRoute: typeof DashSiteSiteIdHostIndexImport
+      parentRoute: typeof DashSiteSiteIdHostRouteImport
+    }
   }
 }
 
 // Create and export the route tree
 
 interface AuthLoginRouteRouteChildren {
-  AuthLoginIndexLazyRoute: typeof AuthLoginIndexLazyRoute;
+  AuthLoginIndexLazyRoute: typeof AuthLoginIndexLazyRoute
 }
 
 const AuthLoginRouteRouteChildren: AuthLoginRouteRouteChildren = {
   AuthLoginIndexLazyRoute: AuthLoginIndexLazyRoute,
-};
+}
 
 const AuthLoginRouteRouteWithChildren = AuthLoginRouteRoute._addFileChildren(
   AuthLoginRouteRouteChildren,
-);
+)
 
 interface AuthRouteRouteChildren {
-  AuthLoginRouteRoute: typeof AuthLoginRouteRouteWithChildren;
+  AuthLoginRouteRoute: typeof AuthLoginRouteRouteWithChildren
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthLoginRouteRoute: AuthLoginRouteRouteWithChildren,
-};
+}
 
 const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
   AuthRouteRouteChildren,
-);
+)
 
 interface PlatformRouteRouteChildren {
-  PlatformIndexRoute: typeof PlatformIndexRoute;
+  PlatformIndexRoute: typeof PlatformIndexRoute
 }
 
 const PlatformRouteRouteChildren: PlatformRouteRouteChildren = {
   PlatformIndexRoute: PlatformIndexRoute,
-};
+}
 
 const PlatformRouteRouteWithChildren = PlatformRouteRoute._addFileChildren(
   PlatformRouteRouteChildren,
-);
+)
 
 interface ChatRouteLazyRouteChildren {
-  ChatIndexRoute: typeof ChatIndexRoute;
-  ChatCanvasRoute: typeof ChatCanvasRoute;
+  ChatIndexRoute: typeof ChatIndexRoute
+  ChatChatSessionIdRoute: typeof ChatChatSessionIdRoute
+  ChatCanvasRoute: typeof ChatCanvasRoute
 }
 
 const ChatRouteLazyRouteChildren: ChatRouteLazyRouteChildren = {
   ChatIndexRoute: ChatIndexRoute,
+  ChatChatSessionIdRoute: ChatChatSessionIdRoute,
   ChatCanvasRoute: ChatCanvasRoute,
-};
+}
 
 const ChatRouteLazyRouteWithChildren = ChatRouteLazyRoute._addFileChildren(
   ChatRouteLazyRouteChildren,
-);
+)
 
 interface EndpointRouteLazyRouteChildren {
-  EndpointIndexRoute: typeof EndpointIndexRoute;
+  EndpointIndexRoute: typeof EndpointIndexRoute
 }
 
 const EndpointRouteLazyRouteChildren: EndpointRouteLazyRouteChildren = {
   EndpointIndexRoute: EndpointIndexRoute,
-};
+}
 
 const EndpointRouteLazyRouteWithChildren =
-  EndpointRouteLazyRoute._addFileChildren(EndpointRouteLazyRouteChildren);
+  EndpointRouteLazyRoute._addFileChildren(EndpointRouteLazyRouteChildren)
 
 interface EnvsRouteLazyRouteChildren {
-  EnvsCreateRoute: typeof EnvsCreateRoute;
-  EnvsIndexLazyRoute: typeof EnvsIndexLazyRoute;
+  EnvsCreateRoute: typeof EnvsCreateRoute
+  EnvsIndexLazyRoute: typeof EnvsIndexLazyRoute
 }
 
 const EnvsRouteLazyRouteChildren: EnvsRouteLazyRouteChildren = {
   EnvsCreateRoute: EnvsCreateRoute,
   EnvsIndexLazyRoute: EnvsIndexLazyRoute,
-};
+}
 
 const EnvsRouteLazyRouteWithChildren = EnvsRouteLazyRoute._addFileChildren(
   EnvsRouteLazyRouteChildren,
-);
+)
 
 interface GalleryRouteLazyRouteChildren {
-  GalleryIndexRoute: typeof GalleryIndexRoute;
-  GalleryGalleryIdRoute: typeof GalleryGalleryIdRoute;
+  GalleryIndexRoute: typeof GalleryIndexRoute
+  GalleryGalleryIdRoute: typeof GalleryGalleryIdRoute
 }
 
 const GalleryRouteLazyRouteChildren: GalleryRouteLazyRouteChildren = {
   GalleryIndexRoute: GalleryIndexRoute,
   GalleryGalleryIdRoute: GalleryGalleryIdRoute,
-};
+}
 
 const GalleryRouteLazyRouteWithChildren =
-  GalleryRouteLazyRoute._addFileChildren(GalleryRouteLazyRouteChildren);
+  GalleryRouteLazyRoute._addFileChildren(GalleryRouteLazyRouteChildren)
 
 interface PlatformAccountRouteLazyRouteChildren {
-  PlatformAccountIdRoute: typeof PlatformAccountIdRoute;
-  PlatformAccountCreateRoute: typeof PlatformAccountCreateRoute;
-  PlatformAccountIndexLazyRoute: typeof PlatformAccountIndexLazyRoute;
+  PlatformAccountIdRoute: typeof PlatformAccountIdRoute
+  PlatformAccountCreateRoute: typeof PlatformAccountCreateRoute
+  PlatformAccountIndexLazyRoute: typeof PlatformAccountIndexLazyRoute
 }
 
 const PlatformAccountRouteLazyRouteChildren: PlatformAccountRouteLazyRouteChildren =
@@ -723,367 +770,389 @@ const PlatformAccountRouteLazyRouteChildren: PlatformAccountRouteLazyRouteChildr
     PlatformAccountIdRoute: PlatformAccountIdRoute,
     PlatformAccountCreateRoute: PlatformAccountCreateRoute,
     PlatformAccountIndexLazyRoute: PlatformAccountIndexLazyRoute,
-  };
+  }
 
 const PlatformAccountRouteLazyRouteWithChildren =
   PlatformAccountRouteLazyRoute._addFileChildren(
     PlatformAccountRouteLazyRouteChildren,
-  );
+  )
 
 interface PostRouteLazyRouteChildren {
-  PostIndexRoute: typeof PostIndexRoute;
-  PostCreateRoute: typeof PostCreateRoute;
+  PostIndexRoute: typeof PostIndexRoute
+  PostCreateRoute: typeof PostCreateRoute
 }
 
 const PostRouteLazyRouteChildren: PostRouteLazyRouteChildren = {
   PostIndexRoute: PostIndexRoute,
   PostCreateRoute: PostCreateRoute,
-};
+}
 
 const PostRouteLazyRouteWithChildren = PostRouteLazyRoute._addFileChildren(
   PostRouteLazyRouteChildren,
-);
-
-interface SessionRouteLazyRouteChildren {
-  SessionChatSessionIdRoute: typeof SessionChatSessionIdRoute;
-}
-
-const SessionRouteLazyRouteChildren: SessionRouteLazyRouteChildren = {
-  SessionChatSessionIdRoute: SessionChatSessionIdRoute,
-};
-
-const SessionRouteLazyRouteWithChildren =
-  SessionRouteLazyRoute._addFileChildren(SessionRouteLazyRouteChildren);
+)
 
 interface TeamRouteLazyRouteChildren {
-  TeamTeamIdRoute: typeof TeamTeamIdRoute;
-  TeamIndexLazyRoute: typeof TeamIndexLazyRoute;
+  TeamTeamIdRoute: typeof TeamTeamIdRoute
+  TeamIndexLazyRoute: typeof TeamIndexLazyRoute
 }
 
 const TeamRouteLazyRouteChildren: TeamRouteLazyRouteChildren = {
   TeamTeamIdRoute: TeamTeamIdRoute,
   TeamIndexLazyRoute: TeamIndexLazyRoute,
-};
+}
 
 const TeamRouteLazyRouteWithChildren = TeamRouteLazyRoute._addFileChildren(
   TeamRouteLazyRouteChildren,
-);
+)
 
 interface DashSiteSiteIdHostRouteRouteChildren {
-  DashSiteSiteIdHostIndexRoute: typeof DashSiteSiteIdHostIndexRoute;
+  DashSiteSiteIdHostIndexRoute: typeof DashSiteSiteIdHostIndexRoute
 }
 
 const DashSiteSiteIdHostRouteRouteChildren: DashSiteSiteIdHostRouteRouteChildren =
   {
     DashSiteSiteIdHostIndexRoute: DashSiteSiteIdHostIndexRoute,
-  };
+  }
 
 const DashSiteSiteIdHostRouteRouteWithChildren =
   DashSiteSiteIdHostRouteRoute._addFileChildren(
     DashSiteSiteIdHostRouteRouteChildren,
-  );
+  )
 
 interface DashSiteSiteIdRouteRouteChildren {
-  DashSiteSiteIdIndexRoute: typeof DashSiteSiteIdIndexRoute;
-  DashSiteSiteIdEditRoute: typeof DashSiteSiteIdEditRoute;
-  DashSiteSiteIdHostRouteRoute: typeof DashSiteSiteIdHostRouteRouteWithChildren;
+  DashSiteSiteIdIndexRoute: typeof DashSiteSiteIdIndexRoute
+  DashSiteSiteIdEditRoute: typeof DashSiteSiteIdEditRoute
+  DashSiteSiteIdHostRouteRoute: typeof DashSiteSiteIdHostRouteRouteWithChildren
 }
 
 const DashSiteSiteIdRouteRouteChildren: DashSiteSiteIdRouteRouteChildren = {
   DashSiteSiteIdIndexRoute: DashSiteSiteIdIndexRoute,
   DashSiteSiteIdEditRoute: DashSiteSiteIdEditRoute,
   DashSiteSiteIdHostRouteRoute: DashSiteSiteIdHostRouteRouteWithChildren,
-};
+}
 
 const DashSiteSiteIdRouteRouteWithChildren =
-  DashSiteSiteIdRouteRoute._addFileChildren(DashSiteSiteIdRouteRouteChildren);
+  DashSiteSiteIdRouteRoute._addFileChildren(DashSiteSiteIdRouteRouteChildren)
 
 interface DashSiteRouteLazyRouteChildren {
-  DashSiteIndexRoute: typeof DashSiteIndexRoute;
-  DashSiteSiteIdRouteRoute: typeof DashSiteSiteIdRouteRouteWithChildren;
-  DashSiteCreateIndexRoute: typeof DashSiteCreateIndexRoute;
+  DashSiteIndexRoute: typeof DashSiteIndexRoute
+  DashSiteSiteIdRouteRoute: typeof DashSiteSiteIdRouteRouteWithChildren
+  DashSiteCreateIndexRoute: typeof DashSiteCreateIndexRoute
 }
 
 const DashSiteRouteLazyRouteChildren: DashSiteRouteLazyRouteChildren = {
   DashSiteIndexRoute: DashSiteIndexRoute,
   DashSiteSiteIdRouteRoute: DashSiteSiteIdRouteRouteWithChildren,
   DashSiteCreateIndexRoute: DashSiteCreateIndexRoute,
-};
+}
 
 const DashSiteRouteLazyRouteWithChildren =
-  DashSiteRouteLazyRoute._addFileChildren(DashSiteRouteLazyRouteChildren);
+  DashSiteRouteLazyRoute._addFileChildren(DashSiteRouteLazyRouteChildren)
+
+interface DashWorkflowRunsRouteLazyRouteChildren {
+  DashWorkflowRunsIndexRoute: typeof DashWorkflowRunsIndexRoute
+  DashWorkflowRunsWorkflowRunIdRoute: typeof DashWorkflowRunsWorkflowRunIdRoute
+}
+
+const DashWorkflowRunsRouteLazyRouteChildren: DashWorkflowRunsRouteLazyRouteChildren =
+  {
+    DashWorkflowRunsIndexRoute: DashWorkflowRunsIndexRoute,
+    DashWorkflowRunsWorkflowRunIdRoute: DashWorkflowRunsWorkflowRunIdRoute,
+  }
+
+const DashWorkflowRunsRouteLazyRouteWithChildren =
+  DashWorkflowRunsRouteLazyRoute._addFileChildren(
+    DashWorkflowRunsRouteLazyRouteChildren,
+  )
 
 interface DashWorkflowsRouteLazyRouteChildren {
-  DashWorkflowsIndexRoute: typeof DashWorkflowsIndexRoute;
-  DashWorkflowsWorkflowIdLazyRoute: typeof DashWorkflowsWorkflowIdLazyRoute;
+  DashWorkflowsIndexRoute: typeof DashWorkflowsIndexRoute
+  DashWorkflowsWorkflowIdLazyRoute: typeof DashWorkflowsWorkflowIdLazyRoute
 }
 
 const DashWorkflowsRouteLazyRouteChildren: DashWorkflowsRouteLazyRouteChildren =
   {
     DashWorkflowsIndexRoute: DashWorkflowsIndexRoute,
     DashWorkflowsWorkflowIdLazyRoute: DashWorkflowsWorkflowIdLazyRoute,
-  };
+  }
 
 const DashWorkflowsRouteLazyRouteWithChildren =
   DashWorkflowsRouteLazyRoute._addFileChildren(
     DashWorkflowsRouteLazyRouteChildren,
-  );
+  )
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexRoute;
-  "/auth": typeof AuthRouteRouteWithChildren;
-  "/platform": typeof PlatformRouteRouteWithChildren;
-  "/chat": typeof ChatRouteLazyRouteWithChildren;
-  "/endpoint": typeof EndpointRouteLazyRouteWithChildren;
-  "/envs": typeof EnvsRouteLazyRouteWithChildren;
-  "/gallery": typeof GalleryRouteLazyRouteWithChildren;
-  "/platform-account": typeof PlatformAccountRouteLazyRouteWithChildren;
-  "/post": typeof PostRouteLazyRouteWithChildren;
-  "/session": typeof SessionRouteLazyRouteWithChildren;
-  "/team": typeof TeamRouteLazyRouteWithChildren;
-  "/chat/": typeof ChatIndexRoute;
-  "/endpoint/": typeof EndpointIndexRoute;
-  "/gallery/": typeof GalleryIndexRoute;
-  "/platform/": typeof PlatformIndexRoute;
-  "/post/": typeof PostIndexRoute;
-  "/auth/login": typeof AuthLoginRouteRouteWithChildren;
-  "/chat/canvas": typeof ChatCanvasRoute;
-  "/envs/create": typeof EnvsCreateRoute;
-  "/gallery/$galleryId": typeof GalleryGalleryIdRoute;
-  "/platform-account/$id": typeof PlatformAccountIdRoute;
-  "/platform-account/create": typeof PlatformAccountCreateRoute;
-  "/post/create": typeof PostCreateRoute;
-  "/session/$chatSessionId": typeof SessionChatSessionIdRoute;
-  "/team/$teamId": typeof TeamTeamIdRoute;
-  "/envs/": typeof EnvsIndexLazyRoute;
-  "/platform-account/": typeof PlatformAccountIndexLazyRoute;
-  "/team/": typeof TeamIndexLazyRoute;
-  "/dash/site": typeof DashSiteRouteLazyRouteWithChildren;
-  "/dash/workflows": typeof DashWorkflowsRouteLazyRouteWithChildren;
-  "/dash/site/": typeof DashSiteIndexRoute;
-  "/dash/workflows/": typeof DashWorkflowsIndexRoute;
-  "/dash/site/$siteId": typeof DashSiteSiteIdRouteRouteWithChildren;
-  "/auth/login/": typeof AuthLoginIndexLazyRoute;
-  "/dash/workflows/$workflowId": typeof DashWorkflowsWorkflowIdLazyRoute;
-  "/dash/onboarding/create-tenant": typeof DashOnboardingCreateTenantIndexRoute;
-  "/dash/site/$siteId/": typeof DashSiteSiteIdIndexRoute;
-  "/dash/site/create": typeof DashSiteCreateIndexRoute;
-  "/dash/site/$siteId/edit": typeof DashSiteSiteIdEditRoute;
-  "/dash/site/$siteId/host": typeof DashSiteSiteIdHostRouteRouteWithChildren;
-  "/dash/site/$siteId/host/": typeof DashSiteSiteIdHostIndexRoute;
+  '/': typeof IndexRoute
+  '/auth': typeof AuthRouteRouteWithChildren
+  '/platform': typeof PlatformRouteRouteWithChildren
+  '/chat': typeof ChatRouteLazyRouteWithChildren
+  '/endpoint': typeof EndpointRouteLazyRouteWithChildren
+  '/envs': typeof EnvsRouteLazyRouteWithChildren
+  '/gallery': typeof GalleryRouteLazyRouteWithChildren
+  '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
+  '/post': typeof PostRouteLazyRouteWithChildren
+  '/session': typeof SessionRouteLazyRoute
+  '/team': typeof TeamRouteLazyRouteWithChildren
+  '/chat/': typeof ChatIndexRoute
+  '/endpoint/': typeof EndpointIndexRoute
+  '/gallery/': typeof GalleryIndexRoute
+  '/platform/': typeof PlatformIndexRoute
+  '/post/': typeof PostIndexRoute
+  '/auth/login': typeof AuthLoginRouteRouteWithChildren
+  '/chat/$chatSessionId': typeof ChatChatSessionIdRoute
+  '/chat/canvas': typeof ChatCanvasRoute
+  '/envs/create': typeof EnvsCreateRoute
+  '/gallery/$galleryId': typeof GalleryGalleryIdRoute
+  '/platform-account/$id': typeof PlatformAccountIdRoute
+  '/platform-account/create': typeof PlatformAccountCreateRoute
+  '/post/create': typeof PostCreateRoute
+  '/team/$teamId': typeof TeamTeamIdRoute
+  '/envs/': typeof EnvsIndexLazyRoute
+  '/platform-account/': typeof PlatformAccountIndexLazyRoute
+  '/team/': typeof TeamIndexLazyRoute
+  '/dash/site': typeof DashSiteRouteLazyRouteWithChildren
+  '/dash/workflow-runs': typeof DashWorkflowRunsRouteLazyRouteWithChildren
+  '/dash/workflows': typeof DashWorkflowsRouteLazyRouteWithChildren
+  '/dash/site/': typeof DashSiteIndexRoute
+  '/dash/workflow-runs/': typeof DashWorkflowRunsIndexRoute
+  '/dash/workflows/': typeof DashWorkflowsIndexRoute
+  '/dash/site/$siteId': typeof DashSiteSiteIdRouteRouteWithChildren
+  '/dash/workflow-runs/$workflowRunId': typeof DashWorkflowRunsWorkflowRunIdRoute
+  '/auth/login/': typeof AuthLoginIndexLazyRoute
+  '/dash/workflows/$workflowId': typeof DashWorkflowsWorkflowIdLazyRoute
+  '/dash/onboarding/create-tenant': typeof DashOnboardingCreateTenantIndexRoute
+  '/dash/site/$siteId/': typeof DashSiteSiteIdIndexRoute
+  '/dash/site/create': typeof DashSiteCreateIndexRoute
+  '/dash/site/$siteId/edit': typeof DashSiteSiteIdEditRoute
+  '/dash/site/$siteId/host': typeof DashSiteSiteIdHostRouteRouteWithChildren
+  '/dash/site/$siteId/host/': typeof DashSiteSiteIdHostIndexRoute
 }
 
 export interface FileRoutesByTo {
-  "/": typeof IndexRoute;
-  "/auth": typeof AuthRouteRouteWithChildren;
-  "/session": typeof SessionRouteLazyRouteWithChildren;
-  "/chat": typeof ChatIndexRoute;
-  "/endpoint": typeof EndpointIndexRoute;
-  "/gallery": typeof GalleryIndexRoute;
-  "/platform": typeof PlatformIndexRoute;
-  "/post": typeof PostIndexRoute;
-  "/chat/canvas": typeof ChatCanvasRoute;
-  "/envs/create": typeof EnvsCreateRoute;
-  "/gallery/$galleryId": typeof GalleryGalleryIdRoute;
-  "/platform-account/$id": typeof PlatformAccountIdRoute;
-  "/platform-account/create": typeof PlatformAccountCreateRoute;
-  "/post/create": typeof PostCreateRoute;
-  "/session/$chatSessionId": typeof SessionChatSessionIdRoute;
-  "/team/$teamId": typeof TeamTeamIdRoute;
-  "/envs": typeof EnvsIndexLazyRoute;
-  "/platform-account": typeof PlatformAccountIndexLazyRoute;
-  "/team": typeof TeamIndexLazyRoute;
-  "/dash/site": typeof DashSiteIndexRoute;
-  "/dash/workflows": typeof DashWorkflowsIndexRoute;
-  "/auth/login": typeof AuthLoginIndexLazyRoute;
-  "/dash/workflows/$workflowId": typeof DashWorkflowsWorkflowIdLazyRoute;
-  "/dash/onboarding/create-tenant": typeof DashOnboardingCreateTenantIndexRoute;
-  "/dash/site/$siteId": typeof DashSiteSiteIdIndexRoute;
-  "/dash/site/create": typeof DashSiteCreateIndexRoute;
-  "/dash/site/$siteId/edit": typeof DashSiteSiteIdEditRoute;
-  "/dash/site/$siteId/host": typeof DashSiteSiteIdHostIndexRoute;
+  '/': typeof IndexRoute
+  '/auth': typeof AuthRouteRouteWithChildren
+  '/session': typeof SessionRouteLazyRoute
+  '/chat': typeof ChatIndexRoute
+  '/endpoint': typeof EndpointIndexRoute
+  '/gallery': typeof GalleryIndexRoute
+  '/platform': typeof PlatformIndexRoute
+  '/post': typeof PostIndexRoute
+  '/chat/$chatSessionId': typeof ChatChatSessionIdRoute
+  '/chat/canvas': typeof ChatCanvasRoute
+  '/envs/create': typeof EnvsCreateRoute
+  '/gallery/$galleryId': typeof GalleryGalleryIdRoute
+  '/platform-account/$id': typeof PlatformAccountIdRoute
+  '/platform-account/create': typeof PlatformAccountCreateRoute
+  '/post/create': typeof PostCreateRoute
+  '/team/$teamId': typeof TeamTeamIdRoute
+  '/envs': typeof EnvsIndexLazyRoute
+  '/platform-account': typeof PlatformAccountIndexLazyRoute
+  '/team': typeof TeamIndexLazyRoute
+  '/dash/site': typeof DashSiteIndexRoute
+  '/dash/workflow-runs': typeof DashWorkflowRunsIndexRoute
+  '/dash/workflows': typeof DashWorkflowsIndexRoute
+  '/dash/workflow-runs/$workflowRunId': typeof DashWorkflowRunsWorkflowRunIdRoute
+  '/auth/login': typeof AuthLoginIndexLazyRoute
+  '/dash/workflows/$workflowId': typeof DashWorkflowsWorkflowIdLazyRoute
+  '/dash/onboarding/create-tenant': typeof DashOnboardingCreateTenantIndexRoute
+  '/dash/site/$siteId': typeof DashSiteSiteIdIndexRoute
+  '/dash/site/create': typeof DashSiteCreateIndexRoute
+  '/dash/site/$siteId/edit': typeof DashSiteSiteIdEditRoute
+  '/dash/site/$siteId/host': typeof DashSiteSiteIdHostIndexRoute
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute;
-  "/": typeof IndexRoute;
-  "/auth": typeof AuthRouteRouteWithChildren;
-  "/platform": typeof PlatformRouteRouteWithChildren;
-  "/chat": typeof ChatRouteLazyRouteWithChildren;
-  "/endpoint": typeof EndpointRouteLazyRouteWithChildren;
-  "/envs": typeof EnvsRouteLazyRouteWithChildren;
-  "/gallery": typeof GalleryRouteLazyRouteWithChildren;
-  "/platform-account": typeof PlatformAccountRouteLazyRouteWithChildren;
-  "/post": typeof PostRouteLazyRouteWithChildren;
-  "/session": typeof SessionRouteLazyRouteWithChildren;
-  "/team": typeof TeamRouteLazyRouteWithChildren;
-  "/chat/": typeof ChatIndexRoute;
-  "/endpoint/": typeof EndpointIndexRoute;
-  "/gallery/": typeof GalleryIndexRoute;
-  "/platform/": typeof PlatformIndexRoute;
-  "/post/": typeof PostIndexRoute;
-  "/auth/login": typeof AuthLoginRouteRouteWithChildren;
-  "/chat/canvas": typeof ChatCanvasRoute;
-  "/envs/create": typeof EnvsCreateRoute;
-  "/gallery/$galleryId": typeof GalleryGalleryIdRoute;
-  "/platform-account/$id": typeof PlatformAccountIdRoute;
-  "/platform-account/create": typeof PlatformAccountCreateRoute;
-  "/post/create": typeof PostCreateRoute;
-  "/session/$chatSessionId": typeof SessionChatSessionIdRoute;
-  "/team/$teamId": typeof TeamTeamIdRoute;
-  "/envs/": typeof EnvsIndexLazyRoute;
-  "/platform-account/": typeof PlatformAccountIndexLazyRoute;
-  "/team/": typeof TeamIndexLazyRoute;
-  "/dash/site": typeof DashSiteRouteLazyRouteWithChildren;
-  "/dash/workflows": typeof DashWorkflowsRouteLazyRouteWithChildren;
-  "/dash/site/": typeof DashSiteIndexRoute;
-  "/dash/workflows/": typeof DashWorkflowsIndexRoute;
-  "/dash/site/$siteId": typeof DashSiteSiteIdRouteRouteWithChildren;
-  "/auth/login/": typeof AuthLoginIndexLazyRoute;
-  "/dash/workflows/$workflowId": typeof DashWorkflowsWorkflowIdLazyRoute;
-  "/dash/onboarding/create-tenant/": typeof DashOnboardingCreateTenantIndexRoute;
-  "/dash/site/$siteId/": typeof DashSiteSiteIdIndexRoute;
-  "/dash/site/create/": typeof DashSiteCreateIndexRoute;
-  "/dash/site/$siteId/edit": typeof DashSiteSiteIdEditRoute;
-  "/dash/site/$siteId/host": typeof DashSiteSiteIdHostRouteRouteWithChildren;
-  "/dash/site/$siteId/host/": typeof DashSiteSiteIdHostIndexRoute;
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/auth': typeof AuthRouteRouteWithChildren
+  '/platform': typeof PlatformRouteRouteWithChildren
+  '/chat': typeof ChatRouteLazyRouteWithChildren
+  '/endpoint': typeof EndpointRouteLazyRouteWithChildren
+  '/envs': typeof EnvsRouteLazyRouteWithChildren
+  '/gallery': typeof GalleryRouteLazyRouteWithChildren
+  '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
+  '/post': typeof PostRouteLazyRouteWithChildren
+  '/session': typeof SessionRouteLazyRoute
+  '/team': typeof TeamRouteLazyRouteWithChildren
+  '/chat/': typeof ChatIndexRoute
+  '/endpoint/': typeof EndpointIndexRoute
+  '/gallery/': typeof GalleryIndexRoute
+  '/platform/': typeof PlatformIndexRoute
+  '/post/': typeof PostIndexRoute
+  '/auth/login': typeof AuthLoginRouteRouteWithChildren
+  '/chat/$chatSessionId': typeof ChatChatSessionIdRoute
+  '/chat/canvas': typeof ChatCanvasRoute
+  '/envs/create': typeof EnvsCreateRoute
+  '/gallery/$galleryId': typeof GalleryGalleryIdRoute
+  '/platform-account/$id': typeof PlatformAccountIdRoute
+  '/platform-account/create': typeof PlatformAccountCreateRoute
+  '/post/create': typeof PostCreateRoute
+  '/team/$teamId': typeof TeamTeamIdRoute
+  '/envs/': typeof EnvsIndexLazyRoute
+  '/platform-account/': typeof PlatformAccountIndexLazyRoute
+  '/team/': typeof TeamIndexLazyRoute
+  '/dash/site': typeof DashSiteRouteLazyRouteWithChildren
+  '/dash/workflow-runs': typeof DashWorkflowRunsRouteLazyRouteWithChildren
+  '/dash/workflows': typeof DashWorkflowsRouteLazyRouteWithChildren
+  '/dash/site/': typeof DashSiteIndexRoute
+  '/dash/workflow-runs/': typeof DashWorkflowRunsIndexRoute
+  '/dash/workflows/': typeof DashWorkflowsIndexRoute
+  '/dash/site/$siteId': typeof DashSiteSiteIdRouteRouteWithChildren
+  '/dash/workflow-runs/$workflowRunId': typeof DashWorkflowRunsWorkflowRunIdRoute
+  '/auth/login/': typeof AuthLoginIndexLazyRoute
+  '/dash/workflows/$workflowId': typeof DashWorkflowsWorkflowIdLazyRoute
+  '/dash/onboarding/create-tenant/': typeof DashOnboardingCreateTenantIndexRoute
+  '/dash/site/$siteId/': typeof DashSiteSiteIdIndexRoute
+  '/dash/site/create/': typeof DashSiteCreateIndexRoute
+  '/dash/site/$siteId/edit': typeof DashSiteSiteIdEditRoute
+  '/dash/site/$siteId/host': typeof DashSiteSiteIdHostRouteRouteWithChildren
+  '/dash/site/$siteId/host/': typeof DashSiteSiteIdHostIndexRoute
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
+  fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | "/"
-    | "/auth"
-    | "/platform"
-    | "/chat"
-    | "/endpoint"
-    | "/envs"
-    | "/gallery"
-    | "/platform-account"
-    | "/post"
-    | "/session"
-    | "/team"
-    | "/chat/"
-    | "/endpoint/"
-    | "/gallery/"
-    | "/platform/"
-    | "/post/"
-    | "/auth/login"
-    | "/chat/canvas"
-    | "/envs/create"
-    | "/gallery/$galleryId"
-    | "/platform-account/$id"
-    | "/platform-account/create"
-    | "/post/create"
-    | "/session/$chatSessionId"
-    | "/team/$teamId"
-    | "/envs/"
-    | "/platform-account/"
-    | "/team/"
-    | "/dash/site"
-    | "/dash/workflows"
-    | "/dash/site/"
-    | "/dash/workflows/"
-    | "/dash/site/$siteId"
-    | "/auth/login/"
-    | "/dash/workflows/$workflowId"
-    | "/dash/onboarding/create-tenant"
-    | "/dash/site/$siteId/"
-    | "/dash/site/create"
-    | "/dash/site/$siteId/edit"
-    | "/dash/site/$siteId/host"
-    | "/dash/site/$siteId/host/";
-  fileRoutesByTo: FileRoutesByTo;
+    | '/'
+    | '/auth'
+    | '/platform'
+    | '/chat'
+    | '/endpoint'
+    | '/envs'
+    | '/gallery'
+    | '/platform-account'
+    | '/post'
+    | '/session'
+    | '/team'
+    | '/chat/'
+    | '/endpoint/'
+    | '/gallery/'
+    | '/platform/'
+    | '/post/'
+    | '/auth/login'
+    | '/chat/$chatSessionId'
+    | '/chat/canvas'
+    | '/envs/create'
+    | '/gallery/$galleryId'
+    | '/platform-account/$id'
+    | '/platform-account/create'
+    | '/post/create'
+    | '/team/$teamId'
+    | '/envs/'
+    | '/platform-account/'
+    | '/team/'
+    | '/dash/site'
+    | '/dash/workflow-runs'
+    | '/dash/workflows'
+    | '/dash/site/'
+    | '/dash/workflow-runs/'
+    | '/dash/workflows/'
+    | '/dash/site/$siteId'
+    | '/dash/workflow-runs/$workflowRunId'
+    | '/auth/login/'
+    | '/dash/workflows/$workflowId'
+    | '/dash/onboarding/create-tenant'
+    | '/dash/site/$siteId/'
+    | '/dash/site/create'
+    | '/dash/site/$siteId/edit'
+    | '/dash/site/$siteId/host'
+    | '/dash/site/$siteId/host/'
+  fileRoutesByTo: FileRoutesByTo
   to:
-    | "/"
-    | "/auth"
-    | "/session"
-    | "/chat"
-    | "/endpoint"
-    | "/gallery"
-    | "/platform"
-    | "/post"
-    | "/chat/canvas"
-    | "/envs/create"
-    | "/gallery/$galleryId"
-    | "/platform-account/$id"
-    | "/platform-account/create"
-    | "/post/create"
-    | "/session/$chatSessionId"
-    | "/team/$teamId"
-    | "/envs"
-    | "/platform-account"
-    | "/team"
-    | "/dash/site"
-    | "/dash/workflows"
-    | "/auth/login"
-    | "/dash/workflows/$workflowId"
-    | "/dash/onboarding/create-tenant"
-    | "/dash/site/$siteId"
-    | "/dash/site/create"
-    | "/dash/site/$siteId/edit"
-    | "/dash/site/$siteId/host";
+    | '/'
+    | '/auth'
+    | '/session'
+    | '/chat'
+    | '/endpoint'
+    | '/gallery'
+    | '/platform'
+    | '/post'
+    | '/chat/$chatSessionId'
+    | '/chat/canvas'
+    | '/envs/create'
+    | '/gallery/$galleryId'
+    | '/platform-account/$id'
+    | '/platform-account/create'
+    | '/post/create'
+    | '/team/$teamId'
+    | '/envs'
+    | '/platform-account'
+    | '/team'
+    | '/dash/site'
+    | '/dash/workflow-runs'
+    | '/dash/workflows'
+    | '/dash/workflow-runs/$workflowRunId'
+    | '/auth/login'
+    | '/dash/workflows/$workflowId'
+    | '/dash/onboarding/create-tenant'
+    | '/dash/site/$siteId'
+    | '/dash/site/create'
+    | '/dash/site/$siteId/edit'
+    | '/dash/site/$siteId/host'
   id:
-    | "__root__"
-    | "/"
-    | "/auth"
-    | "/platform"
-    | "/chat"
-    | "/endpoint"
-    | "/envs"
-    | "/gallery"
-    | "/platform-account"
-    | "/post"
-    | "/session"
-    | "/team"
-    | "/chat/"
-    | "/endpoint/"
-    | "/gallery/"
-    | "/platform/"
-    | "/post/"
-    | "/auth/login"
-    | "/chat/canvas"
-    | "/envs/create"
-    | "/gallery/$galleryId"
-    | "/platform-account/$id"
-    | "/platform-account/create"
-    | "/post/create"
-    | "/session/$chatSessionId"
-    | "/team/$teamId"
-    | "/envs/"
-    | "/platform-account/"
-    | "/team/"
-    | "/dash/site"
-    | "/dash/workflows"
-    | "/dash/site/"
-    | "/dash/workflows/"
-    | "/dash/site/$siteId"
-    | "/auth/login/"
-    | "/dash/workflows/$workflowId"
-    | "/dash/onboarding/create-tenant/"
-    | "/dash/site/$siteId/"
-    | "/dash/site/create/"
-    | "/dash/site/$siteId/edit"
-    | "/dash/site/$siteId/host"
-    | "/dash/site/$siteId/host/";
-  fileRoutesById: FileRoutesById;
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/platform'
+    | '/chat'
+    | '/endpoint'
+    | '/envs'
+    | '/gallery'
+    | '/platform-account'
+    | '/post'
+    | '/session'
+    | '/team'
+    | '/chat/'
+    | '/endpoint/'
+    | '/gallery/'
+    | '/platform/'
+    | '/post/'
+    | '/auth/login'
+    | '/chat/$chatSessionId'
+    | '/chat/canvas'
+    | '/envs/create'
+    | '/gallery/$galleryId'
+    | '/platform-account/$id'
+    | '/platform-account/create'
+    | '/post/create'
+    | '/team/$teamId'
+    | '/envs/'
+    | '/platform-account/'
+    | '/team/'
+    | '/dash/site'
+    | '/dash/workflow-runs'
+    | '/dash/workflows'
+    | '/dash/site/'
+    | '/dash/workflow-runs/'
+    | '/dash/workflows/'
+    | '/dash/site/$siteId'
+    | '/dash/workflow-runs/$workflowRunId'
+    | '/auth/login/'
+    | '/dash/workflows/$workflowId'
+    | '/dash/onboarding/create-tenant/'
+    | '/dash/site/$siteId/'
+    | '/dash/site/create/'
+    | '/dash/site/$siteId/edit'
+    | '/dash/site/$siteId/host'
+    | '/dash/site/$siteId/host/'
+  fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
-  AuthRouteRoute: typeof AuthRouteRouteWithChildren;
-  PlatformRouteRoute: typeof PlatformRouteRouteWithChildren;
-  ChatRouteLazyRoute: typeof ChatRouteLazyRouteWithChildren;
-  EndpointRouteLazyRoute: typeof EndpointRouteLazyRouteWithChildren;
-  EnvsRouteLazyRoute: typeof EnvsRouteLazyRouteWithChildren;
-  GalleryRouteLazyRoute: typeof GalleryRouteLazyRouteWithChildren;
-  PlatformAccountRouteLazyRoute: typeof PlatformAccountRouteLazyRouteWithChildren;
-  PostRouteLazyRoute: typeof PostRouteLazyRouteWithChildren;
-  SessionRouteLazyRoute: typeof SessionRouteLazyRouteWithChildren;
-  TeamRouteLazyRoute: typeof TeamRouteLazyRouteWithChildren;
-  DashSiteRouteLazyRoute: typeof DashSiteRouteLazyRouteWithChildren;
-  DashWorkflowsRouteLazyRoute: typeof DashWorkflowsRouteLazyRouteWithChildren;
-  DashOnboardingCreateTenantIndexRoute: typeof DashOnboardingCreateTenantIndexRoute;
+  IndexRoute: typeof IndexRoute
+  AuthRouteRoute: typeof AuthRouteRouteWithChildren
+  PlatformRouteRoute: typeof PlatformRouteRouteWithChildren
+  ChatRouteLazyRoute: typeof ChatRouteLazyRouteWithChildren
+  EndpointRouteLazyRoute: typeof EndpointRouteLazyRouteWithChildren
+  EnvsRouteLazyRoute: typeof EnvsRouteLazyRouteWithChildren
+  GalleryRouteLazyRoute: typeof GalleryRouteLazyRouteWithChildren
+  PlatformAccountRouteLazyRoute: typeof PlatformAccountRouteLazyRouteWithChildren
+  PostRouteLazyRoute: typeof PostRouteLazyRouteWithChildren
+  SessionRouteLazyRoute: typeof SessionRouteLazyRoute
+  TeamRouteLazyRoute: typeof TeamRouteLazyRouteWithChildren
+  DashSiteRouteLazyRoute: typeof DashSiteRouteLazyRouteWithChildren
+  DashWorkflowRunsRouteLazyRoute: typeof DashWorkflowRunsRouteLazyRouteWithChildren
+  DashWorkflowsRouteLazyRoute: typeof DashWorkflowsRouteLazyRouteWithChildren
+  DashOnboardingCreateTenantIndexRoute: typeof DashOnboardingCreateTenantIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -1096,16 +1165,17 @@ const rootRouteChildren: RootRouteChildren = {
   GalleryRouteLazyRoute: GalleryRouteLazyRouteWithChildren,
   PlatformAccountRouteLazyRoute: PlatformAccountRouteLazyRouteWithChildren,
   PostRouteLazyRoute: PostRouteLazyRouteWithChildren,
-  SessionRouteLazyRoute: SessionRouteLazyRouteWithChildren,
+  SessionRouteLazyRoute: SessionRouteLazyRoute,
   TeamRouteLazyRoute: TeamRouteLazyRouteWithChildren,
   DashSiteRouteLazyRoute: DashSiteRouteLazyRouteWithChildren,
+  DashWorkflowRunsRouteLazyRoute: DashWorkflowRunsRouteLazyRouteWithChildren,
   DashWorkflowsRouteLazyRoute: DashWorkflowsRouteLazyRouteWithChildren,
   DashOnboardingCreateTenantIndexRoute: DashOnboardingCreateTenantIndexRoute,
-};
+}
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {
@@ -1125,6 +1195,7 @@ export const routeTree = rootRoute
         "/session",
         "/team",
         "/dash/site",
+        "/dash/workflow-runs",
         "/dash/workflows",
         "/dash/onboarding/create-tenant/"
       ]
@@ -1148,6 +1219,7 @@ export const routeTree = rootRoute
       "filePath": "~chat/~route.lazy.tsx",
       "children": [
         "/chat/",
+        "/chat/$chatSessionId",
         "/chat/canvas"
       ]
     },
@@ -1187,10 +1259,7 @@ export const routeTree = rootRoute
       ]
     },
     "/session": {
-      "filePath": "~session/~route.lazy.tsx",
-      "children": [
-        "/session/$chatSessionId"
-      ]
+      "filePath": "~session/~route.lazy.tsx"
     },
     "/team": {
       "filePath": "~team/~route.lazy.tsx",
@@ -1226,6 +1295,10 @@ export const routeTree = rootRoute
         "/auth/login/"
       ]
     },
+    "/chat/$chatSessionId": {
+      "filePath": "~chat/~$chatSessionId.tsx",
+      "parent": "/chat"
+    },
     "/chat/canvas": {
       "filePath": "~chat/~canvas.tsx",
       "parent": "/chat"
@@ -1249,10 +1322,6 @@ export const routeTree = rootRoute
     "/post/create": {
       "filePath": "~post/~create.tsx",
       "parent": "/post"
-    },
-    "/session/$chatSessionId": {
-      "filePath": "~session/~$chatSessionId.tsx",
-      "parent": "/session"
     },
     "/team/$teamId": {
       "filePath": "~team/~$teamId.tsx",
@@ -1278,6 +1347,13 @@ export const routeTree = rootRoute
         "/dash/site/create/"
       ]
     },
+    "/dash/workflow-runs": {
+      "filePath": "~dash/~workflow-runs/~route.lazy.tsx",
+      "children": [
+        "/dash/workflow-runs/",
+        "/dash/workflow-runs/$workflowRunId"
+      ]
+    },
     "/dash/workflows": {
       "filePath": "~dash/~workflows/~route.lazy.tsx",
       "children": [
@@ -1288,6 +1364,10 @@ export const routeTree = rootRoute
     "/dash/site/": {
       "filePath": "~dash/~site/~index.tsx",
       "parent": "/dash/site"
+    },
+    "/dash/workflow-runs/": {
+      "filePath": "~dash/~workflow-runs/~index.tsx",
+      "parent": "/dash/workflow-runs"
     },
     "/dash/workflows/": {
       "filePath": "~dash/~workflows/~index.tsx",
@@ -1301,6 +1381,10 @@ export const routeTree = rootRoute
         "/dash/site/$siteId/edit",
         "/dash/site/$siteId/host"
       ]
+    },
+    "/dash/workflow-runs/$workflowRunId": {
+      "filePath": "~dash/~workflow-runs/~$workflowRunId.tsx",
+      "parent": "/dash/workflow-runs"
     },
     "/auth/login/": {
       "filePath": "~auth/~login/~index.lazy.tsx",
