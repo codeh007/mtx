@@ -1,7 +1,7 @@
 "use client";
 
 import { generateId } from "ai";
-import { type AgentNodeRunInput, chatChat } from "mtmaiapi";
+import { type AgentNodeRunInput, agentNodeRun } from "mtmaiapi";
 import type { AgentNodeState } from "./GraphContext";
 
 const VERCEL_AI_EVENT_TYPES = {
@@ -27,14 +27,15 @@ export async function handleSseGraphStream(
 
   const messages = get().messages;
   console.log("runGraphStream", { props, tenant, agentEndpointBase, messages });
-  const response = await chatChat({
+
+  const response = await agentNodeRun({
     path: {
       tenant: tenant.metadata.id,
     },
     body: {
       ...props,
       messages,
-      threadId: "1", //TODO: 需要修正
+      runner: get().runner,
     },
     headers: {
       Accept: "text/event-stream",
@@ -43,6 +44,22 @@ export async function handleSseGraphStream(
     },
     parseAs: "stream",
   });
+  // const response = await chatChat({
+  //   path: {
+  //     tenant: tenant.metadata.id,
+  //   },
+  //   body: {
+  //     ...props,
+  //     messages,
+  //     runner: get().runner,
+  //   },
+  //   headers: {
+  //     Accept: "text/event-stream",
+  //     "Cache-Control": "no-cache",
+  //     Connection: "keep-alive",
+  //   },
+  //   parseAs: "stream",
+  // });
 
   // stream 流式处理
   if (response?.data) {

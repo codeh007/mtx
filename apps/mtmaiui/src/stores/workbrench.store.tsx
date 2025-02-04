@@ -15,7 +15,7 @@ import type { Suggestion } from "mtxuilib/db/schema/suggestion";
 import { io } from "socket.io-client";
 import type { HubmanInput } from "../types/hatchet-types";
 import { subscribeSse } from "./eventHandler";
-import { handleSseSubmit } from "./handleSubmit";
+// import { handleSseSubmit } fro./handleSubmit.ts--mit";
 export interface IAskForm {
   callback: (data) => void;
   // askForm: ThreadForm;
@@ -247,7 +247,7 @@ export const createWorkbrenchSlice: StateCreator<
           fileReferences,
         });
       } else {
-        handleSseSubmit(set, get);
+        // handleSseSubmit(set, get);
       }
     }, 200),
     setMessages: (messages) => set({ messages }),

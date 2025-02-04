@@ -1395,16 +1395,16 @@ export interface ChatReq {
   threadId?: string;
   profile?: string;
   messages: ChatMessage[];
+  runner?: string;
   /** 附加的表单数据 */
   params?: object;
 }
 
 /** 单个聊天消息 */
 export interface ChatMessage {
-  id: string;
+  metadata: APIResourceMeta;
   role: ChatMessageRole;
   content: string;
-  createdAt?: string;
   source?: string;
   config?: {
     message_type?: string;
@@ -1767,7 +1767,10 @@ export interface AgentNodeRun {
 
 /** agent运行节点请求 */
 export interface AgentNodeRunInput {
-  flowName: FlowNames;
+  flowName?: string;
+  /** 运行器名称(对应 autogent 的 angent 入口名称) */
+  runner?: string;
+  messages?: ChatMessage[];
   /** agent 节点ID(threadId) */
   nodeId?: string;
   /** 是否使用stream 传输事件 */
@@ -2657,15 +2660,6 @@ export interface ToolCallResult {
 export interface WebSearchResult {
   /** 结果描述 */
   message?: string;
-}
-
-export enum FlowNames {
-  Research = "research",
-  BlogAuto = "blogAuto",
-  Tenant = "tenant",
-  ResourceAction = "resourceAction",
-  OneShotDemo = "oneShotDemo",
-  Browser = "browser",
 }
 
 /** llm config */
