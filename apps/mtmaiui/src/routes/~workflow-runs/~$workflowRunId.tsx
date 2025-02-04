@@ -9,25 +9,24 @@ import {
 import { Separator } from "mtxuilib/ui/separator";
 import { Sheet, SheetContent } from "mtxuilib/ui/sheet";
 import { useEffect, useState } from "react";
-import RunDetailHeader from "../../../components/workflow-run/header";
-import { MiniMap } from "../../../components/workflow-run/mini-map";
+import RunDetailHeader from "../../components/workflow-run/header";
+import { MiniMap } from "../../components/workflow-run/mini-map";
 import {
   StepRunDetail,
   TabOption,
-} from "../../../components/workflow-run/step-run-detail/step-run-detail";
-import { StepRunEvents } from "../../../components/workflow-run/step-run-events-for-workflow-run";
+} from "../../components/workflow-run/step-run-detail/step-run-detail";
+import { StepRunEvents } from "../../components/workflow-run/step-run-events-for-workflow-run";
 import {
   ViewToggle,
   hasChildSteps,
-} from "../../../components/workflow-run/view-toggle";
-import { WorkflowRunInputDialog } from "../../../components/workflow-run/workflow-run-input";
-import WorkflowRunVisualizer from "../../../components/workflow-run/workflow-run-visualizer-v2";
-import { useTenant } from "../../../hooks/useAuth";
-import { useWorkflowRunShape } from "../../../hooks/useWorkflowRun";
-import { useMtmaiV2 } from "../../../stores/StoreProvider";
-// import { run } from "node:test";
+} from "../../components/workflow-run/view-toggle";
+import { WorkflowRunInputDialog } from "../../components/workflow-run/workflow-run-input";
+import WorkflowRunVisualizer from "../../components/workflow-run/workflow-run-visualizer-v2";
+import { useTenant } from "../../hooks/useAuth";
+import { useWorkflowRunShape } from "../../hooks/useWorkflowRun";
+import { useMtmaiV2 } from "../../stores/StoreProvider";
 
-export const Route = createFileRoute("/dash/workflow-runs/$workflowRunId")({
+export const Route = createFileRoute("/workflow-runs/$workflowRunId")({
   component: RouteComponent,
 });
 interface WorkflowRunSidebarState {
@@ -123,7 +122,7 @@ function RouteComponent() {
               />
             )}
           </MtTabsContent>
-          <MtTabsContent TabsContent value="input">
+          <MtTabsContent value="input">
             {shape.data && <WorkflowRunInputDialog run={shape.data} />}
           </MtTabsContent>
           <MtTabsContent value="additional-metadata">

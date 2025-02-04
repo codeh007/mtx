@@ -8,11 +8,11 @@ import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { DataTableColumnHeader } from "mtxuilib/data-table/data-table-column-header";
 import { Checkbox } from "mtxuilib/ui/checkbox";
 import { useBasePath } from "../../hooks/useBasePath";
-import { CustomLink } from "../CustomLink";
 import {
   AdditionalMetadata,
   type AdditionalMetadataClick,
-} from "../events/additional-metadata";
+} from "../../routes/~events/additional-metadata";
+import { CustomLink } from "../CustomLink";
 import { RunStatus } from "./run-statuses";
 
 export const columns: (

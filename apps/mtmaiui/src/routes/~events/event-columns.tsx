@@ -3,7 +3,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Event } from "mtmaiapi/api";
 
-import { DataTable } from "mtxuilib/data-table/data-table";
 import { DataTableColumnHeader } from "mtxuilib/data-table/data-table-column-header";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Badge } from "mtxuilib/ui/badge";
@@ -13,7 +12,9 @@ import { Popover, PopoverContent, PopoverTrigger } from "mtxuilib/ui/popover";
 import { useMemo, useState } from "react";
 import { useTenant } from "../../hooks/useAuth";
 import { useMtmClient } from "../../hooks/useMtmapi";
-import { columns as workflowRunsColumns } from "../workflow-run/workflow-runs-columns";
+// import { columns as workflowRunsColumns } from "../../../components/workflow-run/workflow-runs-columns";
+// import { useTenant } from "../../../hooks/useAuth";
+// import { useMtmClient } from "../../../hooks/useMtmapi";
 import { AdditionalMetadata } from "./additional-metadata";
 
 export const columns = ({
@@ -164,7 +165,7 @@ function WorkflowRunSummary({ event }: { event: Event }) {
     {
       params: {
         path: {
-          tenant: tenant.metadata.id,
+          tenant: tenant!.metadata.id,
         },
       },
     },
@@ -201,7 +202,8 @@ function WorkflowRunSummary({ event }: { event: Event }) {
 
   const hoverCardContent = (
     <div className="min-w-fit z-40 bg-white/10 rounded">
-      <DataTable
+      TODO: event run table
+      {/* <DataTable
         columns={workflowRunsColumns()}
         data={workflowRuns}
         filters={[]}
@@ -214,7 +216,7 @@ function WorkflowRunSummary({ event }: { event: Event }) {
         }}
         showColumnToggle={false}
         isLoading={listWorkflowRunsQuery.isLoading}
-      />
+      /> */}
     </div>
   );
 
