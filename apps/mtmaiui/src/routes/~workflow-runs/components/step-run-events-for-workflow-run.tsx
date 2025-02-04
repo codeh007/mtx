@@ -1,4 +1,5 @@
 "use client";
+import type { StepRun, WorkflowRunShape } from "mtmaiapi";
 import { type Step, WorkflowRunStatus } from "mtmaiapi/api";
 import { DataTable } from "mtxuilib/data-table/data-table";
 import { useMemo } from "react";

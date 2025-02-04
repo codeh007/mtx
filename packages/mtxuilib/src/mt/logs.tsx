@@ -142,12 +142,12 @@ export const LoggingComponent: React.FC<LogProps> = ({
 
   return (
     <div
-      className="w-full mx-auto overflow-y-auto p-6 text-indigo-300 font-mono text-xs rounded-md max-h-[25rem] min-h-[25rem] bg-muted"
+      className="w-full mx-auto overflow-y-auto p-6  font-mono text-xs rounded-md max-h-[25rem] min-h-[25rem] bg-muted"
       ref={containerRef}
       onScroll={handleScroll}
     >
       {refreshing && (
-        <div className="absolute top-0 left-0 right-0 bg-gray-800 text-white p-2 text-center">
+        <div className="absolute top-0 left-0 right-0  p-2 text-center">
           Refreshing...
         </div>
       )}
@@ -179,6 +179,7 @@ export const LoggingComponent: React.FC<LogProps> = ({
               </span>
             )}
             <span
+              // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
               dangerouslySetInnerHTML={{
                 __html: sanitizedHtml,
               }}

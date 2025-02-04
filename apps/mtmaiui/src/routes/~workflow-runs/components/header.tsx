@@ -93,7 +93,7 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
           </div>
           <div className="flex flex-row gap-2 items-center">
             <a
-              href={`${basePath}/workflows/${data.workflowId}`}
+              href={`/workflows/${data.workflowId}`}
               target="_blank"
               rel="noreferrer"
             >

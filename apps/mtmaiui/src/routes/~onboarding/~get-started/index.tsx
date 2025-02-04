@@ -12,7 +12,7 @@ import { Button } from "mtxuilib/ui/button";
 import { type PropsWithChildren, useState } from "react";
 import { BiAlarm, BiBook, BiCalendar, BiLogoDiscordAlt } from "react-icons/bi";
 import type { IconType } from "react-icons/lib";
-import { useTenant } from "../../../../hooks/useAuth";
+import { useTenant } from "../../../hooks/useAuth";
 export const Route = createFileRoute("/dash/onboarding/get-started/")({
   component: RouteComponent,
 });

@@ -12,9 +12,9 @@ import {
   FormMessage,
 } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
-import { useTenant } from "../../../../hooks/useAuth";
+import { useTenant } from "../../../hooks/useAuth";
 
-export const Route = createFileRoute("/dash/site/create/")({
+export const Route = createFileRoute("/site/create/")({
   component: RouteComponent,
 });
 

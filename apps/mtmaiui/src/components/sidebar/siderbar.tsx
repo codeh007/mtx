@@ -221,7 +221,7 @@ export const SiteSidebarGroup = (props: SiteSidebarGroupProps) => {
             <SidebarMenuItem>
               <SidebarMenuButton>
                 <FileText />
-                <Link href={`/dash/site/${siteId}/logs`}>
+                <Link href={`/site/${siteId}/logs`}>
                   <span>日志</span>
                 </Link>
               </SidebarMenuButton>

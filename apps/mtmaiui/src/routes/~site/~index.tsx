@@ -4,11 +4,11 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { type Site, siteListOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useMemo } from "react";
-import { CustomLink } from "../../../components/CustomLink";
-import { SiteListViewHeader } from "../../../components/site/SiteListViewHeader";
-import { useTenant } from "../../../hooks/useAuth";
+import { CustomLink } from "../../components/CustomLink";
+import { SiteListViewHeader } from "../../components/site/SiteListViewHeader";
+import { useTenant } from "../../hooks/useAuth";
 
-export const Route = createFileRoute("/dash/site/")({
+export const Route = createFileRoute("/site/")({
   component: RouteComponent,
 });
 
