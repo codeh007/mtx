@@ -50,10 +50,10 @@ import {
 } from "mtxuilib/ui/select";
 import { Separator } from "mtxuilib/ui/separator";
 import { Skeleton } from "mtxuilib/ui/skeleton";
-import { useApiError } from "../../hooks/useApi";
-import { useMtmClient } from "../../hooks/useMtmapi";
-import type { AdditionalMetadataClick } from "../../routes/~events/additional-metadata";
-import { useMtmaiV2 } from "../../stores/StoreProvider";
+import { useApiError } from "../../../hooks/useApi";
+import { useMtmClient } from "../../../hooks/useMtmapi";
+import { useMtmaiV2 } from "../../../stores/StoreProvider";
+import type { AdditionalMetadataClick } from "../../~events/additional-metadata";
 import { columns } from "./workflow-runs-columns";
 import { WorkflowRunsMetricsView } from "./workflow-runs-metrics";
 

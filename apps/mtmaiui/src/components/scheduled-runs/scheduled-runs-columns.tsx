@@ -6,7 +6,7 @@ import { DataTableRowActions } from "mtxuilib/data-table/data-table-row-actions"
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import Link from "next/link";
 import { AdditionalMetadata } from "../../routes/~events/additional-metadata";
-import { RunStatus } from "../workflow-run/run-statuses";
+import { RunStatus } from "../../routes/~workflow-runs/components/run-statuses";
 export type RateLimitRow = RateLimit & {
   metadata: {
     id: string;

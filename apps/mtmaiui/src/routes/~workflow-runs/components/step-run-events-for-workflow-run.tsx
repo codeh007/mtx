@@ -2,7 +2,7 @@
 import { type Step, WorkflowRunStatus } from "mtmaiapi/api";
 import { DataTable } from "mtxuilib/data-table/data-table";
 import { useMemo } from "react";
-import { useMtmClient } from "../../hooks/useMtmapi";
+import { useMtmClient } from "../../../hooks/useMtmapi";
 import { type ActivityEventData, columns } from "./events-columns";
 
 export function StepRunEvents({

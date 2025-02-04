@@ -4,34 +4,33 @@ import { cn } from "mtxuilib/lib/utils";
 import { Button } from "mtxuilib/ui/button";
 import {
   Card,
-  CardHeader,
-  CardTitle,
   CardDescription,
   CardFooter,
+  CardHeader,
+  CardTitle,
 } from "mtxuilib/ui/card";
-import Link from "next/link";
+import { CustomLink } from "../../../components/CustomLink";
 
 export const WorkflowEmptyCard = () => {
   return (
     <>
       <Card className="w-full text-justify">
         <CardHeader>
-          <CardTitle>No Registered Workflows</CardTitle>
+          <CardTitle>没有注册的工作流</CardTitle>
           <CardDescription>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              There are no workflows registered in this tenant. To enable
-              workflow execution, please register a workflow with a worker or{" "}
-              <a href="support@hatchet.run">contact support</a>.
+              没有注册的工作流.
+              <a href="support@hatchet.run">联系支持</a>.
             </p>
           </CardDescription>
         </CardHeader>
         <CardFooter>
-          <Link href="#" className="flex flex-row item-center">
+          <CustomLink to="/workflows" className="flex flex-row item-center">
             <Button onClick={() => {}} variant="link" className="p-0 w-fit">
               <QuestionMarkCircleIcon className={cn("h-4 w-4 mr-2")} />
-              Docs: Understanding Workflows in Hatchet
+              帮助文档
             </Button>
-          </Link>
+          </CustomLink>
         </CardFooter>
       </Card>
     </>

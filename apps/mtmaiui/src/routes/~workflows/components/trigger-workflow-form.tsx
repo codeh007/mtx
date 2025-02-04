@@ -15,9 +15,9 @@ import {
   DialogTitle,
 } from "mtxuilib/ui/dialog";
 import { useState } from "react";
-import { useApiError } from "../../hooks/useApi";
-import { useTenant } from "../../hooks/useAuth";
-import { useBasePath } from "../../hooks/useBasePath";
+import { useApiError } from "../../../hooks/useApi";
+import { useTenant } from "../../../hooks/useAuth";
+import { useBasePath } from "../../../hooks/useBasePath";
 export function TriggerWorkflowForm({
   workflow,
   show,
@@ -94,7 +94,7 @@ export function TriggerWorkflowForm({
             const addlMetaObj = JSON.parse(addlMeta || "{}");
             triggerWorkflowMutation.mutate({
               path: {
-                tenant: tenant.metadata.id,
+                // tenant: tenant!.metadata.id,
                 workflow: workflow.metadata.id,
               },
               body: {

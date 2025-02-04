@@ -1,7 +1,7 @@
 "use client";
 import { type StepRun, StepRunStatus } from "mtmaiapi/api";
-import { useMtmClient } from "../../../hooks/useMtmapi";
 import { LoggingComponent } from "mtxuilib/mt/logs";
+import { useMtmClient } from "../../../../hooks/useMtmapi";
 
 export function StepRunLogs({
   stepRun,
