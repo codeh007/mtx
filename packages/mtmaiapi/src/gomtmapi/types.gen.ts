@@ -1963,7 +1963,7 @@ export type AgentNodeRunInput = {
    * 运行器名称(对应 autogent 的 angent 入口名称)
    */
   runner?: string;
-  messages?: Array<ChatMessage>;
+  messages: Array<ChatMessage>;
   /**
    * agent 节点ID(threadId)
    */
@@ -2847,9 +2847,7 @@ export type AgentState =
   | AssisantState
   | GenArticleState
   | BlogTaskState
-  | PostizState
-  | TokenChunk
-  | EvtNodeStep;
+  | PostizState;
 
 export type AssisantState = BaseState & {
   /**
@@ -6962,38 +6960,6 @@ export type ChatChatResponses = {
 
 export type ChatChatResponse = ChatChatResponses[keyof ChatChatResponses];
 
-export type ChatCallModelData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/callModel";
-};
-
-export type ChatCallModelErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type ChatCallModelError = ChatCallModelErrors[keyof ChatCallModelErrors];
-
-export type ChatCallModelResponses = {
-  200: string;
-};
-
-export type ChatCallModelResponse =
-  ChatCallModelResponses[keyof ChatCallModelResponses];
-
 export type ChatMessagesData = {
   body?: never;
   path: {
@@ -7053,44 +7019,6 @@ export type ChatModelsResponses = {
 };
 
 export type ChatModelsResponse = ChatModelsResponses[keyof ChatModelsResponses];
-
-export type ChatCompletionsData = {
-  body?: ChatCompletionsReq;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/chat/completions";
-};
-
-export type ChatCompletionsErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type ChatCompletionsError =
-  ChatCompletionsErrors[keyof ChatCompletionsErrors];
-
-export type ChatCompletionsResponses = {
-  /**
-   * 返回任意结构的响应
-   */
-  200: {
-    [key: string]: unknown;
-  };
-};
-
-export type ChatCompletionsResponse =
-  ChatCompletionsResponses[keyof ChatCompletionsResponses];
 
 export type WorkerConfigData = {
   body?: never;
@@ -8492,44 +8420,6 @@ export type RunGetResponses = {
 };
 
 export type RunGetResponse = RunGetResponses[keyof RunGetResponses];
-
-export type LlmGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The slug
-     */
-    slug: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/llm/{slug}";
-};
-
-export type LlmGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type LlmGetError = LlmGetErrors[keyof LlmGetErrors];
-
-export type LlmGetResponses = {
-  /**
-   * 获取LLM
-   */
-  200: LlmConfig;
-};
-
-export type LlmGetResponse = LlmGetResponses[keyof LlmGetResponses];
 
 export type PromptListData = {
   body?: never;

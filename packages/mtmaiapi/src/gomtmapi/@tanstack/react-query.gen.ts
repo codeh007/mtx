@@ -184,14 +184,8 @@ import type {
   ChatChatData,
   ChatChatError,
   ChatChatResponse,
-  ChatCallModelData,
-  ChatCallModelError,
-  ChatCallModelResponse,
   ChatMessagesData,
   ChatModelsData,
-  ChatCompletionsData,
-  ChatCompletionsError,
-  ChatCompletionsResponse,
   WorkerConfigData,
   MtmaiBloggenconfigData,
   MtmaiWorkerConfigData,
@@ -273,9 +267,6 @@ import type {
   RunCreateError,
   RunCreateResponse,
   RunGetData,
-  LlmGetData,
-  LlmGetError,
-  LlmGetResponse,
   PromptListData,
   PromptGetData,
   AssisantListData,
@@ -426,10 +417,8 @@ import {
   workflowRunGetInput,
   workflowGetByName,
   chatChat,
-  chatCallModel,
   chatMessages,
   chatModels,
-  chatCompletions,
   workerConfig,
   mtmaiBloggenconfig,
   mtmaiWorkerConfig,
@@ -475,7 +464,6 @@ import {
   runList,
   runCreate,
   runGet,
-  llmGet,
   promptList,
   promptGet,
   assisantList,
@@ -3272,45 +3260,6 @@ export const chatChatMutation = (options?: Partial<Options<ChatChatData>>) => {
   return mutationOptions;
 };
 
-export const chatCallModelQueryKey = (options: Options<ChatCallModelData>) => [
-  createQueryKey("chatCallModel", options),
-];
-
-export const chatCallModelOptions = (options: Options<ChatCallModelData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await chatCallModel({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: chatCallModelQueryKey(options),
-  });
-};
-
-export const chatCallModelMutation = (
-  options?: Partial<Options<ChatCallModelData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    ChatCallModelResponse,
-    ChatCallModelError,
-    Options<ChatCallModelData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await chatCallModel({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
 export const chatMessagesQueryKey = (options: Options<ChatMessagesData>) => [
   createQueryKey("chatMessages", options),
 ];
@@ -3347,47 +3296,6 @@ export const chatModelsOptions = (options: Options<ChatModelsData>) => {
     },
     queryKey: chatModelsQueryKey(options),
   });
-};
-
-export const chatCompletionsQueryKey = (
-  options: Options<ChatCompletionsData>,
-) => [createQueryKey("chatCompletions", options)];
-
-export const chatCompletionsOptions = (
-  options: Options<ChatCompletionsData>,
-) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await chatCompletions({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: chatCompletionsQueryKey(options),
-  });
-};
-
-export const chatCompletionsMutation = (
-  options?: Partial<Options<ChatCompletionsData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    ChatCompletionsResponse,
-    ChatCompletionsError,
-    Options<ChatCompletionsData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await chatCompletions({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
 };
 
 export const workerConfigQueryKey = (options?: Options<WorkerConfigData>) => [
@@ -4545,43 +4453,6 @@ export const runGetOptions = (options: Options<RunGetData>) => {
     },
     queryKey: runGetQueryKey(options),
   });
-};
-
-export const llmGetQueryKey = (options: Options<LlmGetData>) => [
-  createQueryKey("llmGet", options),
-];
-
-export const llmGetOptions = (options: Options<LlmGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await llmGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: llmGetQueryKey(options),
-  });
-};
-
-export const llmGetMutation = (options?: Partial<Options<LlmGetData>>) => {
-  const mutationOptions: UseMutationOptions<
-    LlmGetResponse,
-    LlmGetError,
-    Options<LlmGetData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await llmGet({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
 };
 
 export const promptListQueryKey = (options: Options<PromptListData>) => [

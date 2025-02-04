@@ -256,17 +256,11 @@ import type {
   ChatChatData,
   ChatChatResponse,
   ChatChatError,
-  ChatCallModelData,
-  ChatCallModelResponse,
-  ChatCallModelError,
   ChatMessagesData,
   ChatMessagesResponse,
   ChatModelsData,
   ChatModelsResponse,
   ChatModelsError,
-  ChatCompletionsData,
-  ChatCompletionsResponse,
-  ChatCompletionsError,
   WorkerConfigData,
   WorkerConfigResponse,
   MtmaiBloggenconfigData,
@@ -385,9 +379,6 @@ import type {
   RunCreateError,
   RunGetData,
   RunGetResponse,
-  LlmGetData,
-  LlmGetResponse,
-  LlmGetError,
   PromptListData,
   PromptListResponse,
   PromptGetData,
@@ -2812,33 +2803,6 @@ export const chatChat = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 调用模型
- * 调用模型
- */
-export const chatCallModel = <ThrowOnError extends boolean = false>(
-  options: Options<ChatCallModelData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).post<
-    ChatCallModelResponse,
-    ChatCallModelError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/callModel",
-    ...options,
-  });
-};
-
-/**
  * 获取聊天消息
  * 获取聊天消息
  */
@@ -2889,37 +2853,6 @@ export const chatModels = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/chat/models",
     ...options,
-  });
-};
-
-/**
- * 聊天消息接口
- * chat 聊天接口
- */
-export const chatCompletions = <ThrowOnError extends boolean = false>(
-  options: Options<ChatCompletionsData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).post<
-    ChatCompletionsResponse,
-    ChatCompletionsError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/chat/completions",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
   });
 };
 
@@ -4147,33 +4080,6 @@ export const runGet = <ThrowOnError extends boolean = false>(
       ...options,
     },
   );
-};
-
-/**
- * 执行节点
- * 执行节点
- */
-export const llmGet = <ThrowOnError extends boolean = false>(
-  options: Options<LlmGetData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).post<
-    LlmGetResponse,
-    LlmGetError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/llm/{slug}",
-    ...options,
-  });
 };
 
 /**

@@ -1770,7 +1770,7 @@ export interface AgentNodeRunInput {
   flowName?: string;
   /** 运行器名称(对应 autogent 的 angent 入口名称) */
   runner?: string;
-  messages?: ChatMessage[];
+  messages: ChatMessage[];
   /** agent 节点ID(threadId) */
   nodeId?: string;
   /** 是否使用stream 传输事件 */
@@ -2491,9 +2491,7 @@ export type AgentState =
   | AssisantState
   | GenArticleState
   | BlogTaskState
-  | PostizState
-  | TokenChunk
-  | EvtNodeStep;
+  | PostizState;
 
 export type AssisantState = BaseState & {
   /** 名称 */
