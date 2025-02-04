@@ -96,6 +96,7 @@ import {
   ReplayWorkflowRunsResponse,
   RerunStepRunRequest,
   Run,
+  RunList,
   ScheduledRunStatus,
   ScheduledWorkflows,
   ScheduledWorkflowsList,
@@ -3169,7 +3170,7 @@ export class Api<
    * @secure
    */
   runList = (tenant: TenantParameter, params: RequestParams = {}) =>
-    this.request<TeamList, any>({
+    this.request<RunList, any>({
       path: `/api/v1/tenants/${tenant}/runs`,
       method: "GET",
       secure: true,

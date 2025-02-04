@@ -8438,7 +8438,7 @@ export type RunListData = {
 };
 
 export type RunListResponses = {
-  200: TeamList;
+  200: RunList;
 };
 
 export type RunListResponse = RunListResponses[keyof RunListResponses];
