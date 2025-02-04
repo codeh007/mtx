@@ -95,7 +95,6 @@ export function WorkflowRunsTable({
   showMetrics = false,
 }: WorkflowRunsTableProps) {
   const searchParams = useSearchParams();
-  // const tenant = useTenant();
   const router = useMtRouter();
   const mtmapi = useMtmClient();
 
