@@ -33,7 +33,6 @@ import {
   BulkCreateEventRequest,
   BulkCreateEventResponse,
   CancelEventRequest,
-  ChatCompletionsReq,
   ChatMessages,
   ChatModelList,
   ChatReq,
@@ -72,7 +71,6 @@ import {
   ListAPITokensResponse,
   ListSlackWebhooks,
   ListSNSIntegrations,
-  LlmConfig,
   LogLineLevelField,
   LogLineList,
   LogLineOrderByDirection,
@@ -2227,22 +2225,6 @@ export class Api<
       ...params,
     });
   /**
-   * @description 调用模型
-   *
-   * @tags chat
-   * @name ChatCallModel
-   * @summary 调用模型
-   * @request POST:/api/v1/tenants/{tenant}/callModel
-   * @secure
-   */
-  chatCallModel = (tenant: string, params: RequestParams = {}) =>
-    this.request<EventSearch, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/callModel`,
-      method: "POST",
-      secure: true,
-      ...params,
-    });
-  /**
    * @description 获取聊天消息
    *
    * @tags chat
@@ -2273,29 +2255,6 @@ export class Api<
       path: `/api/v1/tenants/${tenant}/chat/models`,
       method: "GET",
       secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description chat 聊天接口
-   *
-   * @tags chat
-   * @name ChatCompletions
-   * @summary 聊天消息接口
-   * @request POST:/api/v1/tenants/{tenant}/chat/completions
-   * @secure
-   */
-  chatCompletions = (
-    tenant: string,
-    data: ChatCompletionsReq,
-    params: RequestParams = {},
-  ) =>
-    this.request<object, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/chat/completions`,
-      method: "POST",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
       format: "json",
       ...params,
     });
@@ -3212,27 +3171,6 @@ export class Api<
     this.request<Run, any>({
       path: `/api/v1/tenants/${tenant}/runs/${run}`,
       method: "GET",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description 执行节点
-   *
-   * @tags llm
-   * @name LlmGet
-   * @summary 执行节点
-   * @request POST:/api/v1/tenants/{tenant}/llm/{slug}
-   * @secure
-   */
-  llmGet = (
-    tenant: TenantParameter,
-    slug: string,
-    params: RequestParams = {},
-  ) =>
-    this.request<LlmConfig, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/llm/${slug}`,
-      method: "POST",
       secure: true,
       format: "json",
       ...params,

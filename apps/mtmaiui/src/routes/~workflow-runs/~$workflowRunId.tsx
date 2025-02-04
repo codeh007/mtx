@@ -98,10 +98,13 @@ function RouteComponent() {
               Activity
             </MtTabsTrigger>
             <MtTabsTrigger variant="underlined" value="input">
-              Input
+              输入
             </MtTabsTrigger>
             <MtTabsTrigger variant="underlined" value="additional-metadata">
-              Metadata
+              元数据
+            </MtTabsTrigger>
+            <MtTabsTrigger variant="underlined" value="control">
+              控制
             </MtTabsTrigger>
           </MtTabsList>
           <MtTabsContent value="activity">
@@ -128,6 +131,10 @@ function RouteComponent() {
               language="json"
               code={JSON.stringify(shape.data?.additionalMetadata, null, 2)}
             />
+          </MtTabsContent>
+          <MtTabsContent value="control">
+            <div className="h-4" />
+            TODO 交互
           </MtTabsContent>
         </MtTabs>
       </div>

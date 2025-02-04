@@ -1,5 +1,5 @@
 "use client";
-import type { WorkflowRun } from "mtmaiapi/api";
+import type { WorkflowRun } from "mtmaiapi";
 import { CodeHighlighter } from "mtxuilib/mt/code-highlighter";
 import { MtLoading } from "mtxuilib/mt/mtloading";
 import { useMtmClient } from "../../../hooks/useMtmapi";
