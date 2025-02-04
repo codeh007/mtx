@@ -2147,6 +2147,34 @@ export type CanvasGraphParams = {
   portLanguage?: ProgrammingLanguageOptions;
 };
 
+export type Run = {
+  id: string;
+  created_at: string;
+  updated_at?: string;
+  status: RunStatus;
+  task: AgentMessageConfig;
+  team_result: TeamResult;
+  messages: Array<ChatMessage>;
+  error_message?: string;
+};
+
+export type RunList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Run>;
+};
+
+export type RunUpdate = {
+  metadata: ApiResourceMeta;
+  name: string;
+  description?: string;
+  url: string;
+  loginUrl?: string;
+  properties?: {
+    [key: string]: unknown;
+  };
+  tags?: Array<string>;
+};
+
 export type Team = {
   metadata: ApiResourceMeta;
   name: string;
@@ -2576,17 +2604,6 @@ export type WebSocketMessage = {
 export type TaskResult = {
   messages: Array<AgentMessageConfig>;
   stop_reason?: string;
-};
-
-export type Run = {
-  id: string;
-  created_at: string;
-  updated_at?: string;
-  status: RunStatus;
-  task: AgentMessageConfig;
-  team_result: TeamResult;
-  messages: Array<ChatMessage>;
-  error_message?: string;
 };
 
 export type AgentTypes =
@@ -8409,6 +8426,77 @@ export type AgentGetResponses = {
 };
 
 export type AgentGetResponse = AgentGetResponses[keyof AgentGetResponses];
+
+export type RunListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/runs";
+};
+
+export type RunListResponses = {
+  200: TeamList;
+};
+
+export type RunListResponse = RunListResponses[keyof RunListResponses];
+
+export type RunCreateData = {
+  body: Run;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/runs";
+};
+
+export type RunCreateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type RunCreateError = RunCreateErrors[keyof RunCreateErrors];
+
+export type RunCreateResponses = {
+  200: Run;
+};
+
+export type RunCreateResponse = RunCreateResponses[keyof RunCreateResponses];
+
+export type RunGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The run id
+     */
+    run: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/runs/{run}";
+};
+
+export type RunGetResponses = {
+  200: Run;
+};
+
+export type RunGetResponse = RunGetResponses[keyof RunGetResponses];
 
 export type LlmGetData = {
   body?: never;

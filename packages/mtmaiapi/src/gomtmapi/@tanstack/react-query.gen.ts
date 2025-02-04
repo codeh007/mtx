@@ -268,6 +268,11 @@ import type {
   AgentNodeFormResponse,
   AgentListData,
   AgentGetData,
+  RunListData,
+  RunCreateData,
+  RunCreateError,
+  RunCreateResponse,
+  RunGetData,
   LlmGetData,
   LlmGetError,
   LlmGetResponse,
@@ -467,6 +472,9 @@ import {
   agentNodeForm,
   agentList,
   agentGet,
+  runList,
+  runCreate,
+  runGet,
   llmGet,
   promptList,
   promptGet,
@@ -4459,6 +4467,83 @@ export const agentGetOptions = (options: Options<AgentGetData>) => {
       return data;
     },
     queryKey: agentGetQueryKey(options),
+  });
+};
+
+export const runListQueryKey = (options: Options<RunListData>) => [
+  createQueryKey("runList", options),
+];
+
+export const runListOptions = (options: Options<RunListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await runList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: runListQueryKey(options),
+  });
+};
+
+export const runCreateQueryKey = (options: Options<RunCreateData>) => [
+  createQueryKey("runCreate", options),
+];
+
+export const runCreateOptions = (options: Options<RunCreateData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await runCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: runCreateQueryKey(options),
+  });
+};
+
+export const runCreateMutation = (
+  options?: Partial<Options<RunCreateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    RunCreateResponse,
+    RunCreateError,
+    Options<RunCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await runCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const runGetQueryKey = (options: Options<RunGetData>) => [
+  createQueryKey("runGet", options),
+];
+
+export const runGetOptions = (options: Options<RunGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await runGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: runGetQueryKey(options),
   });
 };
 

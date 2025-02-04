@@ -2,7 +2,7 @@
 import { ThreadPrimitive } from "@assistant-ui/react";
 import type { Thread as ThreadType } from "@langchain/langgraph-sdk";
 import { ArrowDownIcon, SquarePen } from "lucide-react";
-import type { Dispatch, FC, SetStateAction } from "react";
+import type { FC } from "react";
 
 import type { ProgrammingLanguageOptions } from "mtmaiapi";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
@@ -35,7 +35,7 @@ export interface ThreadProps {
     type: "text" | "code",
     language?: ProgrammingLanguageOptions,
   ) => void;
-  setChatStarted: Dispatch<SetStateAction<boolean>>;
+  setChatStarted: (chatStarted: boolean) => void;
   switchSelectedThreadCallback: (thread: ThreadType) => void;
 }
 
@@ -116,7 +116,7 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
           </div>
         )}
       </div>
-      <ThreadPrimitive.Viewport className="flex-1 overflow-y-auto scroll-smooth bg-inherit px-4 pt-8">
+      <ThreadPrimitive.Viewport className="flex-1 overflow-y-auto scroll-smooth bg-inherit px-2 pt-2 justify-center mx-auto">
         {!hasChatStarted && (
           <ThreadWelcome
             handleQuickStart={handleQuickStart}

@@ -378,6 +378,13 @@ import type {
   AgentListResponse,
   AgentGetData,
   AgentGetResponse,
+  RunListData,
+  RunListResponse,
+  RunCreateData,
+  RunCreateResponse,
+  RunCreateError,
+  RunGetData,
+  RunGetResponse,
   LlmGetData,
   LlmGetResponse,
   LlmGetError,
@@ -4058,6 +4065,88 @@ export const agentGet = <ThrowOnError extends boolean = false>(
     url: "/api/v1/tenants/{tenant}/agent/{agent}",
     ...options,
   });
+};
+
+/**
+ * 获取租户下的run列表
+ * 获取run列表
+ */
+export const runList = <ThrowOnError extends boolean = false>(
+  options: Options<RunListData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    RunListResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/runs",
+    ...options,
+  });
+};
+
+/**
+ * 创建run
+ */
+export const runCreate = <ThrowOnError extends boolean = false>(
+  options: Options<RunCreateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).post<
+    RunCreateResponse,
+    RunCreateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/runs",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * 获取租户下的run列表
+ * 获取run列表
+ */
+export const runGet = <ThrowOnError extends boolean = false>(
+  options: Options<RunGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<RunGetResponse, unknown, ThrowOnError>(
+    {
+      security: [
+        {
+          scheme: "bearer",
+          type: "http",
+        },
+        {
+          scheme: "basic",
+          type: "http",
+        },
+      ],
+      url: "/api/v1/tenants/{tenant}/runs/{run}",
+      ...options,
+    },
+  );
 };
 
 /**
