@@ -15,7 +15,6 @@ interface WorkflowTriggerBtnProps {
 export const WorkflowTriggerBtn = ({ workflowId }: WorkflowTriggerBtnProps) => {
   const [triggerWorkflow, setTriggerWorkflow] = useState(false);
   const basePath = useBasePath();
-  // const navigate = useNavigate();
   const workflowQuery = useSuspenseQuery({
     ...workflowGetOptions({
       path: {

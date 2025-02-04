@@ -1,8 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { agentNodeRunMutation } from "mtmaiapi";
-import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
+import { Input } from "mtxuilib/ui/input";
+
+import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import {
   FormControl,
   FormField,
@@ -10,14 +12,13 @@ import {
   FormLabel,
   FormMessage,
 } from "mtxuilib/ui/form";
-import { Input } from "mtxuilib/ui/input";
 import { useState } from "react";
 import { z } from "zod";
-import { useApiError } from "../../../../hooks/useApi";
-import { useTenant } from "../../../../hooks/useAuth";
-import { useBasePath } from "../../../../hooks/useBasePath";
+import { useApiError } from "../../../hooks/useApi";
+import { useTenant } from "../../../hooks/useAuth";
+import { useBasePath } from "../../../hooks/useBasePath";
 
-export const Route = createFileRoute("/dash/workflows/trigger/FlowNewsGen")({
+export const Route = createFileRoute("/dash/workflows/trigger/FlowBrowser")({
   component: RouteComponent,
 });
 
@@ -53,23 +54,24 @@ function RouteComponent() {
         // workflow: workflow.metadata.id,
       },
       body: {
-        flowName: "FlowNewsGen",
+        flowName: "FlowBrowser",
         params: {
           input: values.input,
         },
       },
     });
   };
+
   return (
     <>
-      <h1>FlowNewsGen</h1>
+      <h1>FlowBrowser</h1>
       <ZForm className="" handleSubmit={handleSubmit} form={form}>
         <FormField
           control={form.control}
           name="input"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>主题</FormLabel>
+              <FormLabel>标题</FormLabel>
               <FormControl>
                 <Input placeholder="输入" {...field} />
               </FormControl>
@@ -83,3 +85,5 @@ function RouteComponent() {
     </>
   );
 }
+
+//'{\n  "current_state": {\n    "evaluation_previous_goal": "Unknown - No previous actions to evaluate.",\n    "memory": "Started with a blank page",\n    "next_goal": "Navigate to the Wikipedia page about the Internet"\n  },\n  "action": [\n    {\n      "go_to_url": {\n        "url": "https://en.wikipedia.org/wiki/Internet"\n      }\n    }\n  ]\n}'

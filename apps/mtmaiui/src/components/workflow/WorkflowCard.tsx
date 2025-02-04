@@ -37,7 +37,7 @@ export const WorkflowCard = ({ data }: { data: Workflow }) => {
       </div>
       <div className="px-4 py-4 sm:px-6">
         <div className="text-sm text-background-secondary gap-2 flex flex-row">
-          <CustomLink to={`${basePath}/workflows/${data.metadata?.id}`}>
+          <CustomLink to={`/workflows/${data.metadata?.id}`}>
             <Button>View</Button>
           </CustomLink>
           <WorkflowTriggerBtn workflowId={data.metadata.id} />

@@ -13,11 +13,11 @@ import {
 import { Input } from "mtxuilib/ui/input";
 import { useState } from "react";
 import { z } from "zod";
-import { useApiError } from "../../../../hooks/useApi";
-import { useTenant } from "../../../../hooks/useAuth";
-import { useBasePath } from "../../../../hooks/useBasePath";
+import { useApiError } from "../../../hooks/useApi";
+import { useTenant } from "../../../hooks/useAuth";
+import { useBasePath } from "../../../hooks/useBasePath";
 
-export const Route = createFileRoute("/dash/workflows/trigger/assisant")({
+export const Route = createFileRoute("/dash/workflows/trigger/FlowNewsGen")({
   component: RouteComponent,
 });
 
@@ -53,7 +53,7 @@ function RouteComponent() {
         // workflow: workflow.metadata.id,
       },
       body: {
-        flowName: "assisant",
+        flowName: "FlowNewsGen",
         params: {
           input: values.input,
         },
@@ -62,7 +62,7 @@ function RouteComponent() {
   };
   return (
     <>
-      <h1>assisant</h1>
+      <h1>FlowNewsGen</h1>
       <ZForm className="" handleSubmit={handleSubmit} form={form}>
         <FormField
           control={form.control}

@@ -15,7 +15,6 @@ interface WorkflowTableProps {
   tenant: Tenant;
 }
 export function WorkflowTable({ tenant }: WorkflowTableProps) {
-  // const basePath = useBasePath();
   const [cardToggle, setCardToggle] = useState(true);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rotate, setRotate] = useState(false);
