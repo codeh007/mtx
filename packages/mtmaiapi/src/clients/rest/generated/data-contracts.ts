@@ -1923,6 +1923,32 @@ export interface CanvasGraphParams {
   portLanguage?: ProgrammingLanguageOptions;
 }
 
+export interface Run {
+  id: string;
+  created_at: string;
+  updated_at?: string;
+  status: RunStatus;
+  task: AgentMessageConfig;
+  team_result: TeamResult;
+  messages: ChatMessage[];
+  error_message?: string;
+}
+
+export interface RunList {
+  pagination?: PaginationResponse;
+  rows?: Run[];
+}
+
+export interface RunUpdate {
+  metadata: APIResourceMeta;
+  name: string;
+  description?: string;
+  url: string;
+  loginUrl?: string;
+  properties?: object;
+  tags?: string[];
+}
+
 export interface Team {
   metadata: APIResourceMeta;
   name: string;
@@ -2256,17 +2282,6 @@ export interface WebSocketMessage {
 export interface TaskResult {
   messages: AgentMessageConfig[];
   stop_reason?: string;
-}
-
-export interface Run {
-  id: string;
-  created_at: string;
-  updated_at?: string;
-  status: RunStatus;
-  task: AgentMessageConfig;
-  team_result: TeamResult;
-  messages: ChatMessage[];
-  error_message?: string;
 }
 
 export enum AgentTypes {

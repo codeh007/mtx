@@ -95,6 +95,7 @@ import {
   ReplayWorkflowRunsRequest,
   ReplayWorkflowRunsResponse,
   RerunStepRunRequest,
+  Run,
   ScheduledRunStatus,
   ScheduledWorkflows,
   ScheduledWorkflowsList,
@@ -3153,6 +3154,62 @@ export class Api<
   ) =>
     this.request<Agent, any>({
       path: `/api/v1/tenants/${tenant}/agent/${agent}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取run列表
+   *
+   * @tags run
+   * @name RunList
+   * @summary 获取租户下的run列表
+   * @request GET:/api/v1/tenants/{tenant}/runs
+   * @secure
+   */
+  runList = (tenant: TenantParameter, params: RequestParams = {}) =>
+    this.request<TeamList, any>({
+      path: `/api/v1/tenants/${tenant}/runs`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 创建run
+   *
+   * @tags run
+   * @name RunCreate
+   * @request POST:/api/v1/tenants/{tenant}/runs
+   * @secure
+   */
+  runCreate = (
+    tenant: TenantParameter,
+    data: Run,
+    params: RequestParams = {},
+  ) =>
+    this.request<Run, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/runs`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取run列表
+   *
+   * @tags run
+   * @name RunGet
+   * @summary 获取租户下的run列表
+   * @request GET:/api/v1/tenants/{tenant}/runs/{run}
+   * @secure
+   */
+  runGet = (tenant: TenantParameter, run: string, params: RequestParams = {}) =>
+    this.request<Run, any>({
+      path: `/api/v1/tenants/${tenant}/runs/${run}`,
       method: "GET",
       secure: true,
       format: "json",

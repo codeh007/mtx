@@ -4,19 +4,9 @@ import { useMtmaiV2 } from "../../stores/StoreProvider";
 
 import { Outlet } from "@tanstack/react-router";
 
-import { cn } from "mtxuilib/lib/utils";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-} from "mtxuilib/ui/breadcrumb";
-import { buttonVariants } from "mtxuilib/ui/button";
 import { SidebarInset } from "mtxuilib/ui/sidebar";
 import { Suspense } from "react";
-import { CustomLink } from "../../components/CustomLink";
 import { DashContent } from "../../components/DashContent";
-import { DashHeaders } from "../../components/DashHeaders";
 import { DashSidebar } from "../../components/sidebar/siderbar";
 import { RootAppWrapper } from "../components/RootAppWrapper";
 
@@ -37,7 +27,7 @@ function RouteComponent() {
     <RootAppWrapper>
       <DashSidebar />
       <SidebarInset>
-        <DashHeaders>
+        {/* <DashHeaders>
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
@@ -45,10 +35,10 @@ function RouteComponent() {
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
-        </DashHeaders>
+        </DashHeaders> */}
         <DashContent>
           <Suspense fallback={<div>Loading...</div>}>
-            <div className="fixed top-0 right-0 flex flex-col">
+            {/* <div className="fixed top-0 right-0 flex flex-col">
               <CustomLink
                 className={cn(
                   "text-lg",
@@ -58,7 +48,7 @@ function RouteComponent() {
               >
                 Canvas
               </CustomLink>
-            </div>
+            </div> */}
             <Outlet />
           </Suspense>
         </DashContent>

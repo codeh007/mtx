@@ -118,7 +118,7 @@ const graphEventHandler = async (
   ) => void,
   get: () => AgentNodeState,
 ) => {
-  const eventType = event.event;
+  const eventType = event.event || event.type;
   switch (eventType) {
     case "aiReply": {
       const content = event.data;
@@ -142,6 +142,24 @@ const graphEventHandler = async (
           messages: [...messagesWithoutLast, lastMessage],
         });
       }
+      break;
+    }
+    case "TextMessage": {
+      console.log("[Event] TextMessage", event);
+      set({
+        messages: [
+          ...get().messages,
+          {
+            role: event.source || "assistant",
+            content: event.content,
+            id: generateId(),
+          },
+        ],
+      });
+      break;
+    }
+    case "ToolCallRequestEvent": {
+      console.log("[Event] ToolCallRequestEvent", event);
       break;
     }
     case "newThread": {
