@@ -258,9 +258,6 @@ import type {
   ChatChatError,
   ChatMessagesData,
   ChatMessagesResponse,
-  ChatModelsData,
-  ChatModelsResponse,
-  ChatModelsError,
   WorkerConfigData,
   WorkerConfigResponse,
   MtmaiBloggenconfigData,
@@ -386,9 +383,17 @@ import type {
   RunCreateError,
   RunGetData,
   RunGetResponse,
-  LlmGetData,
-  LlmGetResponse,
-  LlmGetError,
+  ModelListData,
+  ModelListResponse,
+  ModelListError,
+  ModelCreateData,
+  ModelCreateResponse,
+  ModelCreateError,
+  ModelGetData,
+  ModelGetResponse,
+  ModelUpdateData,
+  ModelUpdateResponse,
+  ModelUpdateError,
   PromptListData,
   PromptListResponse,
   PromptGetData,
@@ -2840,33 +2845,6 @@ export const chatMessages = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 获取模型列表
- * 获取模型列表
- */
-export const chatModels = <ThrowOnError extends boolean = false>(
-  options: Options<ChatModelsData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).get<
-    ChatModelsResponse,
-    ChatModelsError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/chat/models",
-    ...options,
-  });
-};
-
-/**
  * 获取worker配置, 内部使用免去配置 token环境变量的麻烦
  * 获取worker配置
  */
@@ -4176,16 +4154,61 @@ export const runGet = <ThrowOnError extends boolean = false>(
   );
 };
 
+export const modelList = <ThrowOnError extends boolean = false>(
+  options: Options<ModelListData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    ModelListResponse,
+    ModelListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/models",
+    ...options,
+  });
+};
+
 /**
- * 执行节点
- * 执行节点
+ * 大语言模型配置
  */
-export const llmGet = <ThrowOnError extends boolean = false>(
-  options: Options<LlmGetData, ThrowOnError>,
+export const modelCreate = <ThrowOnError extends boolean = false>(
+  options: Options<ModelCreateData, ThrowOnError>,
 ) => {
   return (options?.client ?? client).post<
-    LlmGetResponse,
-    LlmGetError,
+    ModelCreateResponse,
+    ModelCreateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/models",
+    ...options,
+  });
+};
+
+export const modelGet = <ThrowOnError extends boolean = false>(
+  options: Options<ModelGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    ModelGetResponse,
+    unknown,
     ThrowOnError
   >({
     security: [
@@ -4200,6 +4223,36 @@ export const llmGet = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/models/{model}",
     ...options,
+  });
+};
+
+/**
+ * Update an model
+ */
+export const modelUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<ModelUpdateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).patch<
+    ModelUpdateResponse,
+    ModelUpdateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/models/{model}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 

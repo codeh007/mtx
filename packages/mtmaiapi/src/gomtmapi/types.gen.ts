@@ -1514,19 +1514,6 @@ export type ChatMessages = {
   messages?: Array<ChatMessage>;
 };
 
-export type ChatModel = {
-  id: string;
-  label: string;
-  description?: string;
-  icon?: string;
-  apiIdentifier?: string;
-};
-
-export type ChatModelList = {
-  pagination?: PaginationResponse;
-  rows?: Array<ChatModel>;
-};
-
 export type ChatHistoryList = {
   pagination?: PaginationResponse;
   rows?: Array<ChatMessage>;
@@ -3004,7 +2991,7 @@ export type WebSearchResult = {
 /**
  * llm model
  */
-export type LlmModel = {
+export type Model = {
   metadata: ApiResourceMeta;
   baseUrl: string;
   apiKey: string;
@@ -3039,6 +3026,16 @@ export type ModelInfo = {
    * Model family should be one of the constants from :py:class:`ModelFamily` or a string representing an unknown model family.
    */
   family: string;
+};
+
+export type ModelList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Model>;
+};
+
+export type UpdateModel = {
+  metadata?: ApiResourceMeta;
+  name?: string;
 };
 
 export type TokenChunk = {
@@ -6918,40 +6915,6 @@ export type ChatMessagesResponses = {
 export type ChatMessagesResponse =
   ChatMessagesResponses[keyof ChatMessagesResponses];
 
-export type ChatModelsData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/chat/models";
-};
-
-export type ChatModelsErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type ChatModelsError = ChatModelsErrors[keyof ChatModelsErrors];
-
-export type ChatModelsResponses = {
-  /**
-   * 返回模型列表
-   */
-  200: ChatModelList;
-};
-
-export type ChatModelsResponse = ChatModelsResponses[keyof ChatModelsResponses];
-
 export type WorkerConfigData = {
   body?: never;
   path?: never;
@@ -8426,23 +8389,54 @@ export type RunGetResponses = {
 
 export type RunGetResponse = RunGetResponses[keyof RunGetResponses];
 
-export type LlmGetData = {
+export type ModelListData = {
   body?: never;
   path: {
     /**
      * The tenant id
      */
     tenant: TenantParameter;
-    /**
-     * The model
-     */
-    model: string;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/models/{model}";
+  url: "/api/v1/tenants/{tenant}/models";
 };
 
-export type LlmGetErrors = {
+export type ModelListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type ModelListError = ModelListErrors[keyof ModelListErrors];
+
+export type ModelListResponses = {
+  200: ModelList;
+};
+
+export type ModelListResponse = ModelListResponses[keyof ModelListResponses];
+
+export type ModelCreateData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/models";
+};
+
+export type ModelCreateErrors = {
   /**
    * A malformed or bad request
    */
@@ -8453,16 +8447,81 @@ export type LlmGetErrors = {
   403: ApiError;
 };
 
-export type LlmGetError = LlmGetErrors[keyof LlmGetErrors];
+export type ModelCreateError = ModelCreateErrors[keyof ModelCreateErrors];
 
-export type LlmGetResponses = {
+export type ModelCreateResponses = {
   /**
-   * 获取LLM
+   * 获取大语言模型配置
    */
-  200: LlmModel;
+  200: Model;
 };
 
-export type LlmGetResponse = LlmGetResponses[keyof LlmGetResponses];
+export type ModelCreateResponse =
+  ModelCreateResponses[keyof ModelCreateResponses];
+
+export type ModelGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The model id
+     */
+    model: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/models/{model}";
+};
+
+export type ModelGetResponses = {
+  200: Model;
+};
+
+export type ModelGetResponse = ModelGetResponses[keyof ModelGetResponses];
+
+export type ModelUpdateData = {
+  /**
+   * The model properties to update
+   */
+  body: Model;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The model id
+     */
+    model: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/models/{model}";
+};
+
+export type ModelUpdateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type ModelUpdateError = ModelUpdateErrors[keyof ModelUpdateErrors];
+
+export type ModelUpdateResponses = {
+  /**
+   * Successfully created the model
+   */
+  200: Model;
+};
+
+export type ModelUpdateResponse =
+  ModelUpdateResponses[keyof ModelUpdateResponses];
 
 export type PromptListData = {
   body?: never;

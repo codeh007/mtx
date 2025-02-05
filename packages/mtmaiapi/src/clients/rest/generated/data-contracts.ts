@@ -1423,19 +1423,6 @@ export interface ChatMessages {
   messages?: ChatMessage[];
 }
 
-export interface ChatModel {
-  id: string;
-  label: string;
-  description?: string;
-  icon?: string;
-  apiIdentifier?: string;
-}
-
-export interface ChatModelList {
-  pagination?: PaginationResponse;
-  rows?: ChatModel[];
-}
-
 export interface ChatHistoryList {
   pagination?: PaginationResponse;
   rows?: ChatMessage[];
@@ -2614,7 +2601,7 @@ export interface WebSearchResult {
 }
 
 /** llm model */
-export interface LlmModel {
+export interface Model {
   metadata: APIResourceMeta;
   baseUrl: string;
   apiKey: string;
@@ -2639,6 +2626,16 @@ export interface ModelInfo {
    * @default "unknown"
    */
   family: string;
+}
+
+export interface ModelList {
+  pagination?: PaginationResponse;
+  rows?: Model[];
+}
+
+export interface UpdateModel {
+  metadata?: APIResourceMeta;
+  name?: string;
 }
 
 export interface TokenChunk {
