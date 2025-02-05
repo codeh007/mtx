@@ -1,7 +1,7 @@
 {
   "name": "gomtm-cli",
   "private": false,
-  "version": "0.6.228",
+  "version": "0.6.229",
   "type": "module",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -45,6 +45,5 @@
   "other": {
     "styled-jsx": "^5.1.6",
     "commander": "^12.1.0"
-
   }
 }
