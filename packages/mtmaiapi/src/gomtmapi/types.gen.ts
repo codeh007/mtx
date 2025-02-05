@@ -2272,6 +2272,17 @@ export type Agent = {
   description?: string;
 };
 
+export type EventBase = {
+  type: string;
+};
+
+/**
+ * 用户调用工作流后, 后端返回工作流启动状态的事件, 一般用于根据 Id,从 stream api 中进一步拉取更加详细的事件
+ */
+export type StartWorkflowRunEvent = EventBase & {
+  workflowRunId?: string;
+};
+
 export type Outline = {
   /**
    * Title of the Wikipedia page
@@ -3069,10 +3080,6 @@ export type SchemaForm = {
   title: string;
   description?: string;
   fields: Array<FormField>;
-};
-
-export type AgentRunForm = {
-  form: SchemaForm;
 };
 
 /**
@@ -8169,42 +8176,6 @@ export type AgentNodeRunResponses = {
 export type AgentNodeRunResponse =
   AgentNodeRunResponses[keyof AgentNodeRunResponses];
 
-export type AgentNodeFormData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The node id
-     */
-    node: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/nodes/form/{node}";
-};
-
-export type AgentNodeFormErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type AgentNodeFormError = AgentNodeFormErrors[keyof AgentNodeFormErrors];
-
-export type AgentNodeFormResponses = {
-  200: AgentRunForm;
-};
-
-export type AgentNodeFormResponse =
-  AgentNodeFormResponses[keyof AgentNodeFormResponses];
-
 export type AgentListData = {
   body?: never;
   path: {
@@ -8244,6 +8215,42 @@ export type AgentGetResponses = {
 };
 
 export type AgentGetResponse = AgentGetResponses[keyof AgentGetResponses];
+
+export type AgentStreamData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The stream id
+     */
+    stream: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/stream/{stream}";
+};
+
+export type AgentStreamErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type AgentStreamError = AgentStreamErrors[keyof AgentStreamErrors];
+
+export type AgentStreamResponses = {
+  200: string;
+};
+
+export type AgentStreamResponse =
+  AgentStreamResponses[keyof AgentStreamResponses];
 
 export type AgEventListData = {
   body?: never;

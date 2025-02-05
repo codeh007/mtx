@@ -2035,6 +2035,15 @@ export interface Agent {
   description?: string;
 }
 
+export interface EventBase {
+  type: string;
+}
+
+/** 用户调用工作流后, 后端返回工作流启动状态的事件, 一般用于根据 Id,从 stream api 中进一步拉取更加详细的事件 */
+export type StartWorkflowRunEvent = EventBase & {
+  workflowRunId?: string;
+};
+
 export interface Outline {
   /** Title of the Wikipedia page */
   pageTitle: string;
@@ -2661,10 +2670,6 @@ export interface SchemaForm {
   title: string;
   description?: string;
   fields: FormField[];
-}
-
-export interface AgentRunForm {
-  form: SchemaForm;
 }
 
 /** site */
