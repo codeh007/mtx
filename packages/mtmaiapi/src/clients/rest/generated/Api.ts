@@ -71,6 +71,7 @@ import {
   ListAPITokensResponse,
   ListSlackWebhooks,
   ListSNSIntegrations,
+  LlmModel,
   LogLineLevelField,
   LogLineList,
   LogLineOrderByDirection,
@@ -3171,6 +3172,27 @@ export class Api<
     this.request<Run, any>({
       path: `/api/v1/tenants/${tenant}/runs/${run}`,
       method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 执行节点
+   *
+   * @tags llm
+   * @name LlmGet
+   * @summary 执行节点
+   * @request POST:/api/v1/tenants/{tenant}/llm/{model}
+   * @secure
+   */
+  llmGet = (
+    tenant: TenantParameter,
+    model: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<LlmModel, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/llm/${model}`,
+      method: "POST",
       secure: true,
       format: "json",
       ...params,

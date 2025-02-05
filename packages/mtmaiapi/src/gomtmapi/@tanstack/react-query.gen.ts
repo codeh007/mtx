@@ -267,6 +267,9 @@ import type {
   RunCreateError,
   RunCreateResponse,
   RunGetData,
+  LlmGetData,
+  LlmGetError,
+  LlmGetResponse,
   PromptListData,
   PromptGetData,
   AssisantListData,
@@ -464,6 +467,7 @@ import {
   runList,
   runCreate,
   runGet,
+  llmGet,
   promptList,
   promptGet,
   assisantList,
@@ -4453,6 +4457,43 @@ export const runGetOptions = (options: Options<RunGetData>) => {
     },
     queryKey: runGetQueryKey(options),
   });
+};
+
+export const llmGetQueryKey = (options: Options<LlmGetData>) => [
+  createQueryKey("llmGet", options),
+];
+
+export const llmGetOptions = (options: Options<LlmGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await llmGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: llmGetQueryKey(options),
+  });
+};
+
+export const llmGetMutation = (options?: Partial<Options<LlmGetData>>) => {
+  const mutationOptions: UseMutationOptions<
+    LlmGetResponse,
+    LlmGetError,
+    Options<LlmGetData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await llmGet({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };
 
 export const promptListQueryKey = (options: Options<PromptListData>) => [

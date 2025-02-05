@@ -1616,43 +1616,6 @@ export type CrewAiTask = {
 };
 
 /**
- * 调用 Agent 参数
- */
-export type CallAgent = {
-  /**
-   * 大语言模型 api 配置
-   */
-  llm?: LlmConfig;
-  /**
-   * 输入参数
-   */
-  input: {
-    [key: string]: unknown;
-  };
-  /**
-   * agents 列表
-   */
-  agents: Array<CrewAiAgent>;
-  /**
-   * 任务列表
-   */
-  tasks: Array<CrewAiTask>;
-  /**
-   * 是否调试模式
-   */
-  debug?: boolean;
-};
-
-/**
- * 调用Agent的输出结果
- */
-export type CallAgentResult = {
-  data?: {
-    [key: string]: unknown;
-  };
-};
-
-/**
  * topics 生成结果
  */
 export type GenTopicResult = {
@@ -2297,6 +2260,19 @@ export type SessionUpdate = {
   version?: string;
 };
 
+export type AgEvent = {
+  metadata: ApiResourceMeta;
+  userId: string;
+  data?: {
+    [key: string]: unknown;
+  };
+};
+
+export type AgEventList = {
+  pagination?: PaginationResponse;
+  rows?: Array<AgEvent>;
+};
+
 export type Agent = {
   metadata?: ApiResourceMeta;
   /**
@@ -2843,11 +2819,7 @@ export type BaseState = {
   messages: Array<ChatMessage>;
 };
 
-export type AgentState =
-  | AssisantState
-  | GenArticleState
-  | BlogTaskState
-  | PostizState;
+export type AgentState = AssisantState | GenArticleState | PostizState;
 
 export type AssisantState = BaseState & {
   /**
@@ -2861,10 +2833,6 @@ export type AssisantState = BaseState & {
 };
 
 export type GenArticleState = BaseState & {
-  /**
-   * 关联的上级博客生成任务
-   */
-  blogTaskState?: BlogTaskState;
   /**
    * 当前关联的主题
    */
@@ -2891,46 +2859,6 @@ export type GenArticleState = BaseState & {
      */
     description?: string;
   }>;
-};
-
-export type BlogTaskState = BaseState & {
-  llm?: LlmConfig;
-  /**
-   * 关键提示语
-   */
-  prompt?: string;
-  /**
-   * 博客站点功能定位描述
-   */
-  blogDescription: string;
-  /**
-   * 博客的SEO关键字
-   */
-  blogKeywords: Array<string>;
-  /**
-   * 当前生成文章使用的主题
-   */
-  curTopicToGen?: string;
-  /**
-   * 当前正在生成的文章
-   */
-  curArticleState?: GenArticleState;
-  /**
-   * 当前步骤描述
-   */
-  stepDescription?: string;
-  /**
-   * 运行状态
-   */
-  runningState?: string;
-  /**
-   * 已经完成的日更天子数量
-   */
-  dayPublishdCount: number;
-  /**
-   * 建议日更数
-   */
-  dayPublishCountHint: number;
 };
 
 export type PostizChannel = {
@@ -3074,9 +3002,9 @@ export type WebSearchResult = {
 };
 
 /**
- * llm config
+ * llm model
  */
-export type LlmConfig = {
+export type LlmModel = {
   metadata: ApiResourceMeta;
   baseUrl: string;
   apiKey: string;
@@ -3084,6 +3012,10 @@ export type LlmConfig = {
    * llm model name
    */
   model: string;
+  /**
+   * model family
+   */
+  family: string;
   modelInfo: ModelInfo;
 };
 
@@ -8420,6 +8352,44 @@ export type RunGetResponses = {
 };
 
 export type RunGetResponse = RunGetResponses[keyof RunGetResponses];
+
+export type LlmGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The model
+     */
+    model: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/llm/{model}";
+};
+
+export type LlmGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type LlmGetError = LlmGetErrors[keyof LlmGetErrors];
+
+export type LlmGetResponses = {
+  /**
+   * 获取LLM
+   */
+  200: LlmModel;
+};
+
+export type LlmGetResponse = LlmGetResponses[keyof LlmGetResponses];
 
 export type PromptListData = {
   body?: never;
