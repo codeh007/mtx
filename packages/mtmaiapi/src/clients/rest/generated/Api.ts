@@ -36,7 +36,6 @@ import {
   BulkCreateEventResponse,
   CancelEventRequest,
   ChatMessages,
-  ChatModelList,
   ChatReq,
   CommonResult,
   CreateAPITokenRequest,
@@ -73,12 +72,13 @@ import {
   ListAPITokensResponse,
   ListSlackWebhooks,
   ListSNSIntegrations,
-  LlmModel,
   LogLineLevelField,
   LogLineList,
   LogLineOrderByDirection,
   LogLineOrderByField,
   LogLineSearch,
+  Model,
+  ModelList,
   Platform,
   PlatformAccount,
   PlatformAccountList,
@@ -2245,23 +2245,6 @@ export class Api<
       ...params,
     });
   /**
-   * @description 获取模型列表
-   *
-   * @tags chat
-   * @name ChatModels
-   * @summary 获取模型列表
-   * @request GET:/api/v1/tenants/{tenant}/chat/models
-   * @secure
-   */
-  chatModels = (tenant: string, params: RequestParams = {}) =>
-    this.request<ChatModelList, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/chat/models`,
-      method: "GET",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
    * @description 获取worker配置
    *
    * @name WorkerConfig
@@ -3239,23 +3222,77 @@ export class Api<
       ...params,
     });
   /**
-   * @description 执行节点
+   * No description
    *
-   * @tags llm
-   * @name LlmGet
-   * @summary 执行节点
-   * @request POST:/api/v1/tenants/{tenant}/models/{model}
+   * @tags model
+   * @name ModelList
+   * @request GET:/api/v1/tenants/{tenant}/models
    * @secure
    */
-  llmGet = (
+  modelList = (tenant: TenantParameter, params: RequestParams = {}) =>
+    this.request<ModelList, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/models`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 大语言模型配置
+   *
+   * @tags model
+   * @name ModelCreate
+   * @request POST:/api/v1/tenants/{tenant}/models
+   * @secure
+   */
+  modelCreate = (tenant: TenantParameter, params: RequestParams = {}) =>
+    this.request<Model, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/models`,
+      method: "POST",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags model
+   * @name ModelGet
+   * @request GET:/api/v1/tenants/{tenant}/models/{model}
+   * @secure
+   */
+  modelGet = (
     tenant: TenantParameter,
     model: string,
     params: RequestParams = {},
   ) =>
-    this.request<LlmModel, APIErrors | APIError>({
+    this.request<Model, any>({
       path: `/api/v1/tenants/${tenant}/models/${model}`,
-      method: "POST",
+      method: "GET",
       secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Update an model
+   *
+   * @tags model
+   * @name ModelUpdate
+   * @request PATCH:/api/v1/tenants/{tenant}/models/{model}
+   * @secure
+   */
+  modelUpdate = (
+    tenant: TenantParameter,
+    model: string,
+    data: Model,
+    params: RequestParams = {},
+  ) =>
+    this.request<Model, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/models/${model}`,
+      method: "PATCH",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
       format: "json",
       ...params,
     });
