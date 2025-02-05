@@ -372,6 +372,13 @@ import type {
   AgentListResponse,
   AgentGetData,
   AgentGetResponse,
+  AgEventListData,
+  AgEventListResponse,
+  AgEventCreateData,
+  AgEventCreateResponse,
+  AgEventCreateError,
+  AgEventGetData,
+  AgEventGetResponse,
   RunListData,
   RunListResponse,
   RunCreateData,
@@ -4004,6 +4011,90 @@ export const agentGet = <ThrowOnError extends boolean = false>(
 };
 
 /**
+ * 获取租户下的agEvent列表
+ * 获取agEvent列表
+ */
+export const agEventList = <ThrowOnError extends boolean = false>(
+  options: Options<AgEventListData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    AgEventListResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/agEvents",
+    ...options,
+  });
+};
+
+/**
+ * create agEvent
+ */
+export const agEventCreate = <ThrowOnError extends boolean = false>(
+  options: Options<AgEventCreateData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).post<
+    AgEventCreateResponse,
+    AgEventCreateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/agEvents",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * 获取租户下的agEvent列表
+ * 获取agEvent列表
+ */
+export const agEventGet = <ThrowOnError extends boolean = false>(
+  options: Options<AgEventGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    AgEventGetResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/agEvents/{agEvent}",
+    ...options,
+  });
+};
+
+/**
  * 获取租户下的run列表
  * 获取run列表
  */
@@ -4107,7 +4198,7 @@ export const llmGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/tenants/{tenant}/llm/{model}",
+    url: "/api/v1/tenants/{tenant}/models/{model}",
     ...options,
   });
 };

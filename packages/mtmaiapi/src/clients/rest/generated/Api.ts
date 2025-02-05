@@ -19,6 +19,8 @@ import {
   AgentNodeRunInput,
   AgentNodeUpdateRequest,
   AgentRunForm,
+  AgEvent,
+  AgEventList,
   APIError,
   APIErrors,
   APIMeta,
@@ -3121,6 +3123,66 @@ export class Api<
       ...params,
     });
   /**
+   * @description 获取agEvent列表
+   *
+   * @tags agEvents
+   * @name AgEventList
+   * @summary 获取租户下的agEvent列表
+   * @request GET:/api/v1/tenants/{tenant}/agEvents
+   * @secure
+   */
+  agEventList = (tenant: TenantParameter, params: RequestParams = {}) =>
+    this.request<AgEventList, any>({
+      path: `/api/v1/tenants/${tenant}/agEvents`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description create agEvent
+   *
+   * @tags agEvents
+   * @name AgEventCreate
+   * @request POST:/api/v1/tenants/{tenant}/agEvents
+   * @secure
+   */
+  agEventCreate = (
+    tenant: TenantParameter,
+    data: AgEvent,
+    params: RequestParams = {},
+  ) =>
+    this.request<AgEvent, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/agEvents`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取agEvent列表
+   *
+   * @tags agEvents
+   * @name AgEventGet
+   * @summary 获取租户下的agEvent列表
+   * @request GET:/api/v1/tenants/{tenant}/agEvents/{agEvent}
+   * @secure
+   */
+  agEventGet = (
+    tenant: TenantParameter,
+    agEvent: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<AgEvent, any>({
+      path: `/api/v1/tenants/${tenant}/agEvents/${agEvent}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
    * @description 获取run列表
    *
    * @tags run
@@ -3182,7 +3244,7 @@ export class Api<
    * @tags llm
    * @name LlmGet
    * @summary 执行节点
-   * @request POST:/api/v1/tenants/{tenant}/llm/{model}
+   * @request POST:/api/v1/tenants/{tenant}/models/{model}
    * @secure
    */
   llmGet = (
@@ -3191,7 +3253,7 @@ export class Api<
     params: RequestParams = {},
   ) =>
     this.request<LlmModel, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/llm/${model}`,
+      path: `/api/v1/tenants/${tenant}/models/${model}`,
       method: "POST",
       secure: true,
       format: "json",
