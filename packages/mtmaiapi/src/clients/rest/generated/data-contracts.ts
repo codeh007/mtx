@@ -1493,28 +1493,6 @@ export interface CrewAiTask {
   agent: string;
 }
 
-/** 调用 Agent 参数 */
-export interface CallAgent {
-  /** 大语言模型 api 配置 */
-  llm?: LlmConfig;
-  /** 输入参数 */
-  input: object;
-  /** agents 列表 */
-  agents: CrewAiAgent[];
-  /** 任务列表 */
-  tasks: CrewAiTask[];
-  /**
-   * 是否调试模式
-   * @default 0
-   */
-  debug?: boolean;
-}
-
-/** 调用Agent的输出结果 */
-export interface CallAgentResult {
-  data?: object;
-}
-
 /** topics 生成结果 */
 export interface GenTopicResult {
   /** 主题列表，按优先顺序，更好的更靠前 */
@@ -2051,6 +2029,17 @@ export interface SessionUpdate {
   version?: string;
 }
 
+export interface AgEvent {
+  metadata: APIResourceMeta;
+  userId: string;
+  data?: object;
+}
+
+export interface AgEventList {
+  pagination?: PaginationResponse;
+  rows?: AgEvent[];
+}
+
 export interface Agent {
   metadata?: APIResourceMeta;
   /** agent 节点名称, 或者作为工具名称 */
@@ -2487,11 +2476,7 @@ export interface BaseState {
   messages: ChatMessage[];
 }
 
-export type AgentState =
-  | AssisantState
-  | GenArticleState
-  | BlogTaskState
-  | PostizState;
+export type AgentState = AssisantState | GenArticleState | PostizState;
 
 export type AssisantState = BaseState & {
   /** 名称 */
@@ -2502,8 +2487,6 @@ export type AssisantState = BaseState & {
 
 /** 文章生成的过程状态 */
 export type GenArticleState = BaseState & {
-  /** 关联的上级博客生成任务 */
-  blogTaskState?: BlogTaskState;
   /** 当前关联的主题 */
   topic: string;
   /** 关键提示语 */
@@ -2518,36 +2501,6 @@ export type GenArticleState = BaseState & {
     /** 大纲描述 */
     description?: string;
   }[];
-};
-
-/** 博客自动化操作的状态 */
-export type BlogTaskState = BaseState & {
-  /** llm config */
-  llm?: LlmConfig;
-  /** 关键提示语 */
-  prompt?: string;
-  /** 博客站点功能定位描述 */
-  blogDescription: string;
-  /** 博客的SEO关键字 */
-  blogKeywords: string[];
-  /** 当前生成文章使用的主题 */
-  curTopicToGen?: string;
-  /** 当前正在生成的文章 */
-  curArticleState?: GenArticleState;
-  /** 当前步骤描述 */
-  stepDescription?: string;
-  /** 运行状态 */
-  runningState?: string;
-  /**
-   * 已经完成的日更天子数量
-   * @default 0
-   */
-  dayPublishdCount: number;
-  /**
-   * 建议日更数
-   * @default 10
-   */
-  dayPublishCountHint: number;
 };
 
 export interface PostizChannel {
@@ -2660,13 +2613,15 @@ export interface WebSearchResult {
   message?: string;
 }
 
-/** llm config */
-export interface LlmConfig {
+/** llm model */
+export interface LlmModel {
   metadata: APIResourceMeta;
   baseUrl: string;
   apiKey: string;
   /** llm model name */
   model: string;
+  /** model family */
+  family: string;
   /** model info */
   modelInfo: ModelInfo;
 }

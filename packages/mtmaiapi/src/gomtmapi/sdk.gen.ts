@@ -379,6 +379,9 @@ import type {
   RunCreateError,
   RunGetData,
   RunGetResponse,
+  LlmGetData,
+  LlmGetResponse,
+  LlmGetError,
   PromptListData,
   PromptListResponse,
   PromptGetData,
@@ -4080,6 +4083,33 @@ export const runGet = <ThrowOnError extends boolean = false>(
       ...options,
     },
   );
+};
+
+/**
+ * 执行节点
+ * 执行节点
+ */
+export const llmGet = <ThrowOnError extends boolean = false>(
+  options: Options<LlmGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).post<
+    LlmGetResponse,
+    LlmGetError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/llm/{model}",
+    ...options,
+  });
 };
 
 /**
