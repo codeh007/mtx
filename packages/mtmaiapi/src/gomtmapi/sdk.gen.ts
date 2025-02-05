@@ -362,13 +362,13 @@ import type {
   AgentNodeRunData,
   AgentNodeRunResponse,
   AgentNodeRunError,
-  AgentNodeFormData,
-  AgentNodeFormResponse,
-  AgentNodeFormError,
   AgentListData,
   AgentListResponse,
   AgentGetData,
   AgentGetResponse,
+  AgentStreamData,
+  AgentStreamResponse,
+  AgentStreamError,
   AgEventListData,
   AgEventListResponse,
   AgEventCreateData,
@@ -3908,33 +3908,6 @@ export const agentNodeRun = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 获取节点表单
- * 获取节点表单
- */
-export const agentNodeForm = <ThrowOnError extends boolean = false>(
-  options: Options<AgentNodeFormData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).post<
-    AgentNodeFormResponse,
-    AgentNodeFormError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/nodes/form/{node}",
-    ...options,
-  });
-};
-
-/**
  * 获取租户下的agent列表
  * 获取agent列表
  */
@@ -3984,6 +3957,33 @@ export const agentGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/agent/{agent}",
+    ...options,
+  });
+};
+
+/**
+ * 拉取事件
+ * 拉取事件
+ */
+export const agentStream = <ThrowOnError extends boolean = false>(
+  options: Options<AgentStreamData, ThrowOnError>,
+) => {
+  return (options?.client ?? client).get<
+    AgentStreamResponse,
+    AgentStreamError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/stream/{stream}",
     ...options,
   });
 };

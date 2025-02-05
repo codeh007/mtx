@@ -18,7 +18,6 @@ import {
   AgentNodeRun,
   AgentNodeRunInput,
   AgentNodeUpdateRequest,
-  AgentRunForm,
   AgEvent,
   AgEventList,
   APIError,
@@ -3047,27 +3046,6 @@ export class Api<
       ...params,
     });
   /**
-   * @description 获取节点表单
-   *
-   * @tags agent
-   * @name AgentNodeForm
-   * @summary 获取节点表单
-   * @request POST:/api/v1/tenants/{tenant}/nodes/form/{node}
-   * @secure
-   */
-  agentNodeForm = (
-    tenant: TenantParameter,
-    node: string,
-    params: RequestParams = {},
-  ) =>
-    this.request<AgentRunForm, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/nodes/form/${node}`,
-      method: "POST",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
    * @description 获取agent列表
    *
    * @tags agent
@@ -3103,6 +3081,26 @@ export class Api<
       method: "GET",
       secure: true,
       format: "json",
+      ...params,
+    });
+  /**
+   * @description 拉取事件
+   *
+   * @tags agent
+   * @name AgentStream
+   * @summary 拉取事件
+   * @request GET:/api/v1/tenants/{tenant}/stream/{stream}
+   * @secure
+   */
+  agentStream = (
+    tenant: TenantParameter,
+    stream: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<EventSearch, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/stream/${stream}`,
+      method: "GET",
+      secure: true,
       ...params,
     });
   /**

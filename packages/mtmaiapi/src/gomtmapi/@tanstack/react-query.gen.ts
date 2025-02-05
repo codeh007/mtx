@@ -256,11 +256,9 @@ import type {
   AgentNodeRunData,
   AgentNodeRunError,
   AgentNodeRunResponse,
-  AgentNodeFormData,
-  AgentNodeFormError,
-  AgentNodeFormResponse,
   AgentListData,
   AgentGetData,
+  AgentStreamData,
   AgEventListData,
   AgEventCreateData,
   AgEventCreateError,
@@ -469,9 +467,9 @@ import {
   agentNode,
   agentNodeUpdate,
   agentNodeRun,
-  agentNodeForm,
   agentList,
   agentGet,
+  agentStream,
   agEventList,
   agEventCreate,
   agEventGet,
@@ -4300,45 +4298,6 @@ export const agentNodeRunMutation = (
   return mutationOptions;
 };
 
-export const agentNodeFormQueryKey = (options: Options<AgentNodeFormData>) => [
-  createQueryKey("agentNodeForm", options),
-];
-
-export const agentNodeFormOptions = (options: Options<AgentNodeFormData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agentNodeForm({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: agentNodeFormQueryKey(options),
-  });
-};
-
-export const agentNodeFormMutation = (
-  options?: Partial<Options<AgentNodeFormData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    AgentNodeFormResponse,
-    AgentNodeFormError,
-    Options<AgentNodeFormData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await agentNodeForm({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
 export const agentListQueryKey = (options: Options<AgentListData>) => [
   createQueryKey("agentList", options),
 ];
@@ -4374,6 +4333,25 @@ export const agentGetOptions = (options: Options<AgentGetData>) => {
       return data;
     },
     queryKey: agentGetQueryKey(options),
+  });
+};
+
+export const agentStreamQueryKey = (options: Options<AgentStreamData>) => [
+  createQueryKey("agentStream", options),
+];
+
+export const agentStreamOptions = (options: Options<AgentStreamData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await agentStream({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: agentStreamQueryKey(options),
   });
 };
 
