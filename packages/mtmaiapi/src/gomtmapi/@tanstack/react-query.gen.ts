@@ -262,6 +262,11 @@ import type {
   AgentNodeFormResponse,
   AgentListData,
   AgentGetData,
+  AgEventListData,
+  AgEventCreateData,
+  AgEventCreateError,
+  AgEventCreateResponse,
+  AgEventGetData,
   RunListData,
   RunCreateData,
   RunCreateError,
@@ -464,6 +469,9 @@ import {
   agentNodeForm,
   agentList,
   agentGet,
+  agEventList,
+  agEventCreate,
+  agEventGet,
   runList,
   runCreate,
   runGet,
@@ -4379,6 +4387,83 @@ export const agentGetOptions = (options: Options<AgentGetData>) => {
       return data;
     },
     queryKey: agentGetQueryKey(options),
+  });
+};
+
+export const agEventListQueryKey = (options: Options<AgEventListData>) => [
+  createQueryKey("agEventList", options),
+];
+
+export const agEventListOptions = (options: Options<AgEventListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await agEventList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: agEventListQueryKey(options),
+  });
+};
+
+export const agEventCreateQueryKey = (options: Options<AgEventCreateData>) => [
+  createQueryKey("agEventCreate", options),
+];
+
+export const agEventCreateOptions = (options: Options<AgEventCreateData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await agEventCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: agEventCreateQueryKey(options),
+  });
+};
+
+export const agEventCreateMutation = (
+  options?: Partial<Options<AgEventCreateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    AgEventCreateResponse,
+    AgEventCreateError,
+    Options<AgEventCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await agEventCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const agEventGetQueryKey = (options: Options<AgEventGetData>) => [
+  createQueryKey("agEventGet", options),
+];
+
+export const agEventGetOptions = (options: Options<AgEventGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await agEventGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: agEventGetQueryKey(options),
   });
 };
 

@@ -8282,6 +8282,79 @@ export type AgentGetResponses = {
 
 export type AgentGetResponse = AgentGetResponses[keyof AgentGetResponses];
 
+export type AgEventListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/agEvents";
+};
+
+export type AgEventListResponses = {
+  200: AgEventList;
+};
+
+export type AgEventListResponse =
+  AgEventListResponses[keyof AgEventListResponses];
+
+export type AgEventCreateData = {
+  body: AgEvent;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/agEvents";
+};
+
+export type AgEventCreateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type AgEventCreateError = AgEventCreateErrors[keyof AgEventCreateErrors];
+
+export type AgEventCreateResponses = {
+  200: AgEvent;
+};
+
+export type AgEventCreateResponse =
+  AgEventCreateResponses[keyof AgEventCreateResponses];
+
+export type AgEventGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The gallery id
+     */
+    agEvent: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/agEvents/{agEvent}";
+};
+
+export type AgEventGetResponses = {
+  200: AgEvent;
+};
+
+export type AgEventGetResponse = AgEventGetResponses[keyof AgEventGetResponses];
+
 export type RunListData = {
   body?: never;
   path: {
@@ -8366,7 +8439,7 @@ export type LlmGetData = {
     model: string;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/llm/{model}";
+  url: "/api/v1/tenants/{tenant}/models/{model}";
 };
 
 export type LlmGetErrors = {
