@@ -16,7 +16,6 @@ import {
 } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
 import "mtxuilib/styles/globals.css";
-import { MtSessionProvider } from "../../stores/MtSessionProvider";
 import { MtmaiProvider } from "../../stores/StoreProvider";
 import "./globals.css";
 export const runtime = "nodejs";
@@ -57,14 +56,12 @@ export default async function Layout(props: {
           selfBackendUrl={await getBackendUrl()}
           accessToken={await getAccessToken()}
         >
-          <MtSessionProvider>
             <UIProviders>
               <WebLayout>
                 <WebLayoutHeader />
                 {children}
               </WebLayout>
-            </UIProviders>
-          </MtSessionProvider>
+          </UIProviders>
         </MtmaiProvider>
       </body>
     </html>

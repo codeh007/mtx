@@ -1,47 +1,47 @@
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
-import type { SortingState, VisibilityState } from "@tanstack/react-table";
-import { useState } from "react";
-import { BiCard, BiTable } from "react-icons/bi";
+import { ArrowPathIcon } from '@heroicons/react/24/outline'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { createLazyFileRoute } from '@tanstack/react-router'
+import type { SortingState, VisibilityState } from '@tanstack/react-table'
+import { useState } from 'react'
+import { BiCard, BiTable } from 'react-icons/bi'
 
-import { postListOptions } from "mtmaiapi";
-import { DataTable } from "mtxuilib/data-table/data-table";
-import { Icons } from "mtxuilib/icons/icons";
-import { cn } from "mtxuilib/lib/utils";
-import { Button, buttonVariants } from "mtxuilib/ui/button";
+import { postListOptions } from 'mtmaiapi'
+import { DataTable } from 'mtxuilib/data-table/data-table'
+import { Icons } from 'mtxuilib/icons/icons'
+import { cn } from 'mtxuilib/lib/utils'
+import { Button, buttonVariants } from 'mtxuilib/ui/button'
 import {
   Card,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "mtxuilib/ui/card";
-import { CustomLink } from "../../components/CustomLink";
-import { useTenant } from "../../hooks/useAuth";
-import { useBasePath } from "../../hooks/useBasePath";
-import { columns } from "../~workflows/components/workflow-columns";
-import { PostCard } from "./components/PostCard";
+} from 'mtxuilib/ui/card'
+import { CustomLink } from '../../components/CustomLink'
+import { useTenant } from '../../hooks/useAuth'
+import { useBasePath } from '../../hooks/useBasePath'
+import { columns } from '../~workflows/components/workflow-columns'
+import { PostCard } from './components/PostCard'
 
-export const Route = createFileRoute("/post/")({
+export const Route = createLazyFileRoute('/post/')({
   component: PostListView,
-});
+})
 
 export function PostListView() {
-  const { siteId } = Route.useParams();
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [rotate, setRotate] = useState(false);
-  const optionalTenant = useTenant();
+  const { siteId } = Route.useParams()
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [rotate, setRotate] = useState(false)
+  const optionalTenant = useTenant()
   const tenantBlogListQuery = useSuspenseQuery({
     ...postListOptions({
       path: {
-        tenant: optionalTenant?.metadata.id || "",
+        tenant: optionalTenant?.metadata.id || '',
       },
       query: {
         siteId: siteId,
       },
     }),
-  });
+  })
 
   const emptyState = (
     <Card className="w-full text-justify">
@@ -50,7 +50,7 @@ export function PostListView() {
         <CardDescription>
           <p className="text-gray-700 dark:text-gray-300 mb-4">
             There are no workflows registered in this tenant. To enable workflow
-            execution, please register a workflow with a worker or{" "}
+            execution, please register a workflow with a worker or{' '}
             <a href="support@hatchet.run">contact support</a>.
           </p>
         </CardDescription>
@@ -64,18 +64,18 @@ export function PostListView() {
         </CustomLink>
       </CardFooter>
     </Card>
-  );
+  )
 
   const [sorting, setSorting] = useState<SortingState>([
     {
-      id: "title",
+      id: 'title',
       desc: true,
     },
-  ]);
+  ])
 
-  const [cardToggle, setCardToggle] = useState(true);
+  const [cardToggle, setCardToggle] = useState(true)
 
-  const basePath = useBasePath();
+  const basePath = useBasePath()
 
   const actions = [
     <Button
@@ -83,9 +83,9 @@ export function PostListView() {
       className="h-8 px-2 lg:px-3"
       size="sm"
       onClick={() => {
-        setCardToggle((t) => !t);
+        setCardToggle((t) => !t)
       }}
-      variant={"outline"}
+      variant={'outline'}
       aria-label="Toggle card/table view"
     >
       {!cardToggle ? (
@@ -99,21 +99,21 @@ export function PostListView() {
       className="h-8 px-2 lg:px-3"
       size="sm"
       onClick={() => {
-        tenantBlogListQuery.refetch();
-        setRotate(!rotate);
+        tenantBlogListQuery.refetch()
+        setRotate(!rotate)
       }}
-      variant={"outline"}
+      variant={'outline'}
       aria-label="Refresh events list"
     >
       <ArrowPathIcon
-        className={`h-4 w-4 transition-transform ${rotate ? "rotate-180" : ""}`}
+        className={`h-4 w-4 transition-transform ${rotate ? 'rotate-180' : ''}`}
       />
     </Button>,
     <CustomLink
       key="create-post"
       to={`${basePath}/post/create`}
       search={{ siteId: siteId }}
-      className={cn("h-8 px-2 lg:px-3", buttonVariants({ variant: "outline" }))}
+      className={cn('h-8 px-2 lg:px-3', buttonVariants({ variant: 'outline' }))}
       // onClick={() => {
       //   setShowCreateBlog(true);
       // }}
@@ -122,7 +122,7 @@ export function PostListView() {
       <Icons.plus className="size-4" />
       {/* <PlusCircleIcon className="size-4" /> */}
     </CustomLink>,
-  ];
+  ]
 
   return (
     <>
@@ -148,5 +148,5 @@ export function PostListView() {
         }
       />
     </>
-  );
+  )
 }

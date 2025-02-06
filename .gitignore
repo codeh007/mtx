@@ -3,6 +3,7 @@ env
 .next
 .next.dev
 # Logs
+.turbo
 logs
 *.log
 npm-debug.log*

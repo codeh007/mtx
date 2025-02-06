@@ -7,13 +7,14 @@ import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
+import { MtSessionProvider } from "./MtSessionProvider";
 import ReactQueryProvider from "./ReactQueryProvider";
 import { type HatchetSliceState, createHatchetSlice } from "./hatchet.slice";
 
 interface MtmaiBotProps {
   hostName?: string;
-  serverUrl?: string ;
-  selfBackendUrl?: string ;
+  serverUrl?: string;
+  selfBackendUrl?: string;
   accessToken?: string;
   frontendConfig?: FrontendConfig;
 }
@@ -143,7 +144,7 @@ export const MtmaiProvider = (props: AppProviderProps) => {
         accessToken={etc.accessToken as string}
         host={etc.hostName as string}
       >
-        {children}
+        <MtSessionProvider>{children}</MtSessionProvider>
       </ReactQueryProvider>
     </mtmaiStoreContext.Provider>
   );
