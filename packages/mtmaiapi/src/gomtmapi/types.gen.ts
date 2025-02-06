@@ -2260,6 +2260,18 @@ export type AgEventList = {
   rows?: Array<AgEvent>;
 };
 
+export type AgEventCreate = {
+  data: {
+    [key: string]: unknown;
+  };
+};
+
+export type AgEventUpdate = {
+  metadata: ApiResourceMeta;
+  name: string;
+  userId: string;
+};
+
 export type Agent = {
   metadata?: ApiResourceMeta;
   /**
@@ -8244,7 +8256,7 @@ export type AgEventListResponse =
   AgEventListResponses[keyof AgEventListResponses];
 
 export type AgEventCreateData = {
-  body: AgEvent;
+  body: AgEventCreate;
   path: {
     /**
      * The tenant id

@@ -19,6 +19,7 @@ import {
   AgentNodeRunInput,
   AgentNodeUpdateRequest,
   AgEvent,
+  AgEventCreate,
   AgEventList,
   APIError,
   APIErrors,
@@ -3117,7 +3118,7 @@ export class Api<
    */
   agEventCreate = (
     tenant: TenantParameter,
-    data: AgEvent,
+    data: AgEventCreate,
     params: RequestParams = {},
   ) =>
     this.request<AgEvent, APIErrors | APIError>({

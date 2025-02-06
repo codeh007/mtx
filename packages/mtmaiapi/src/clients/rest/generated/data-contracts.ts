@@ -2027,6 +2027,16 @@ export interface AgEventList {
   rows?: AgEvent[];
 }
 
+export interface AgEventCreate {
+  data: object;
+}
+
+export interface AgEventUpdate {
+  metadata: APIResourceMeta;
+  name: string;
+  userId: string;
+}
+
 export interface Agent {
   metadata?: APIResourceMeta;
   /** agent 节点名称, 或者作为工具名称 */
