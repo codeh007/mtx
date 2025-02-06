@@ -400,9 +400,6 @@ import type {
   AssisantListResponse,
   AssisantGetData,
   AssisantGetResponse,
-  SubscribeSubscribeData,
-  SubscribeSubscribeResponse,
-  SubscribeSubscribeError,
   AdminReleaseConnData,
   AdminReleaseConnResponse,
   AdminReleaseConnError,
@@ -4340,37 +4337,6 @@ export const assisantGet = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/assisants/{assisant}",
     ...options,
-  });
-};
-
-/**
- * 订阅消息接口
- * Subscribe to workflow run events
- */
-export const subscribeSubscribe = <ThrowOnError extends boolean = false>(
-  options: Options<SubscribeSubscribeData, ThrowOnError>,
-) => {
-  return (options?.client ?? client).post<
-    SubscribeSubscribeResponse,
-    SubscribeSubscribeError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/subscribe",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
   });
 };
 

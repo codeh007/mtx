@@ -8613,42 +8613,6 @@ export type AssisantGetResponses = {
 export type AssisantGetResponse =
   AssisantGetResponses[keyof AssisantGetResponses];
 
-export type SubscribeSubscribeData = {
-  body?: SubscribeRequest;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/subscribe";
-};
-
-export type SubscribeSubscribeErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type SubscribeSubscribeError =
-  SubscribeSubscribeErrors[keyof SubscribeSubscribeErrors];
-
-export type SubscribeSubscribeResponses = {
-  /**
-   * chat 聊天应用
-   */
-  200: string;
-};
-
-export type SubscribeSubscribeResponse =
-  SubscribeSubscribeResponses[keyof SubscribeSubscribeResponses];
-
 export type AdminReleaseConnData = {
   body?: never;
   path?: never;

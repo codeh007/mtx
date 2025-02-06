@@ -280,9 +280,6 @@ import type {
   PromptGetData,
   AssisantListData,
   AssisantGetData,
-  SubscribeSubscribeData,
-  SubscribeSubscribeError,
-  SubscribeSubscribeResponse,
   AdminReleaseConnData,
   AdminReleaseConnError,
   AdminReleaseConnResponse,
@@ -482,7 +479,6 @@ import {
   promptGet,
   assisantList,
   assisantGet,
-  subscribeSubscribe,
   adminReleaseConn,
   frontendGetConfig,
   frontendGetSiderbar,
@@ -4657,47 +4653,6 @@ export const assisantGetOptions = (options: Options<AssisantGetData>) => {
     },
     queryKey: assisantGetQueryKey(options),
   });
-};
-
-export const subscribeSubscribeQueryKey = (
-  options: Options<SubscribeSubscribeData>,
-) => [createQueryKey("subscribeSubscribe", options)];
-
-export const subscribeSubscribeOptions = (
-  options: Options<SubscribeSubscribeData>,
-) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await subscribeSubscribe({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: subscribeSubscribeQueryKey(options),
-  });
-};
-
-export const subscribeSubscribeMutation = (
-  options?: Partial<Options<SubscribeSubscribeData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    SubscribeSubscribeResponse,
-    SubscribeSubscribeError,
-    Options<SubscribeSubscribeData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await subscribeSubscribe({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
 };
 
 export const adminReleaseConnQueryKey = (

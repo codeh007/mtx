@@ -112,7 +112,6 @@ import {
   StepRun,
   StepRunArchiveList,
   StepRunEventList,
-  SubscribeRequest,
   Team,
   TeamList,
   Tenant,
@@ -3351,28 +3350,6 @@ export class Api<
       method: "GET",
       secure: true,
       format: "json",
-      ...params,
-    });
-  /**
-   * @description Subscribe to workflow run events
-   *
-   * @tags subscribe
-   * @name SubscribeSubscribe
-   * @summary 订阅消息接口
-   * @request POST:/api/v1/tenants/{tenant}/subscribe
-   * @secure
-   */
-  subscribeSubscribe = (
-    tenant: string,
-    data: SubscribeRequest,
-    params: RequestParams = {},
-  ) =>
-    this.request<EventSearch, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/subscribe`,
-      method: "POST",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
       ...params,
     });
   /**

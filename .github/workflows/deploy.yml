@@ -108,7 +108,7 @@ jobs:
 
       - name: deploy mtmaiui cfpage
         run: |
-          cd apps/mtmaiui && gomtm cfpage
+          gomtm cfpage --sub-dir apps/mtmaiui
 
   deploy_vercel_gomtm:
     needs: [release]
