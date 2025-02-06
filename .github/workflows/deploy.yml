@@ -103,15 +103,15 @@ jobs:
         uses: ./.github/actions/setup_bun
 
       # Add these steps before deploying
-      - name: Install dependencies
-        run: |
-          cd apps/mtmaiui
-          bun install
+      # - name: Install dependencies
+      #   run: |
+      #     cd apps/mtmaiui
+      #     bun install
 
-      - name: Build project
-        run: |
-          cd apps/mtmaiui
-          bun run build
+      # - name: Build project
+      #   run: |
+      #     cd apps/mtmaiui
+      #     bun run build
 
       - name: install gomtm
         run: |
