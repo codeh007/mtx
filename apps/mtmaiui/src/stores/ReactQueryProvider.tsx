@@ -24,8 +24,9 @@ export default function ReactQueryProvider({
     if (typeof window !== "undefined") {
       console.log("query client serverUrl", serverUrl);
     }
-
     client?.setConfig({
+      baseUrl: serverUrl,
+      credentials: "include",
       fetch: async (req) => {
         console.log(`🔄,${req.method} ${req.url}`);
         const response = await fetch(req, {
@@ -40,7 +41,7 @@ export default function ReactQueryProvider({
             }),
           },
           //允许跨站cookie，这样可以不用专门设置 Authorization header
-          credentials: "include",
+          // credentials: "include",
         });
         return response;
       },
