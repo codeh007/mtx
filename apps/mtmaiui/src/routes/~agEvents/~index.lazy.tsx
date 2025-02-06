@@ -20,8 +20,9 @@ import {
 import { CustomLink } from '../../components/CustomLink'
 import { useTenant } from '../../hooks/useAuth'
 import { useBasePath } from '../../hooks/useBasePath'
-import { columns } from '../~workflows/components/workflow-columns'
-import { PostCard } from './components/PostCard'
+// import { columns } from '../~workflows/components/workflow-columns'
+import { AgEventsColumns } from './components/ag-events-columns'
+import { AgEventCard } from './components/AgEventCard'
 
 export const Route = createLazyFileRoute('/agEvents/')({
   component: PostListView,
@@ -135,7 +136,7 @@ export function PostListView() {
   return (
     <>
       <DataTable
-        columns={columns}
+        columns={AgEventsColumns}
         data={agEventsQuery.data?.rows || []}
         pageCount={1}
         filters={[]}
@@ -150,7 +151,7 @@ export function PostListView() {
         card={
           cardToggle
             ? {
-                component: PostCard,
+                component: AgEventCard,
               }
             : undefined
         }
