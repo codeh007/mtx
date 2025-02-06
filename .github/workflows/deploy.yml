@@ -108,8 +108,7 @@ jobs:
 
       - name: deploy mtmaiui cfpage
         run: |
-          pwd
-          bun run build && gomtm cfpage
+          cd apps/mtmaiui && bun run build && gomtm cfpage
 
   deploy_vercel_gomtm:
     needs: [release]

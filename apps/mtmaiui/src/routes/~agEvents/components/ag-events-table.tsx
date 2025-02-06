@@ -55,9 +55,7 @@ import { useApiError } from "../../../hooks/useApi";
 import { useMtmClient } from "../../../hooks/useMtmapi";
 import { useMtmaiV2 } from "../../../stores/StoreProvider";
 import type { AdditionalMetadataClick } from "../../~events/additional-metadata";
-import { columns } from "./workflow-runs-columns";
-import { WorkflowRunsMetricsView } from "./workflow-runs-metrics";
-
+import { agEventsColumns } from "./ag-events-columns";
 export interface WorkflowRunsTableProps {
   tenant: Tenant;
   createdAfter?: string;
@@ -71,20 +69,9 @@ export interface WorkflowRunsTableProps {
   showMetrics?: boolean;
 }
 
-// export const getCreatedAfterFromTimeRange = (timeRange?: string) => {
-//   switch (timeRange) {
-//     case "1h":
-//       return new Date(Date.now() - 60 * 60 * 1000).toISOString();
-//     case "6h":
-//       return new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString();
-//     case "1d":
-//       return new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
-//     case "7d":
-//       return new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-//   }
-// };
 
-export function WorkflowRunsTable({
+
+export function AgEventsTable({
   tenant,
   createdAfter: createdAfterProp,
   workflowId,
@@ -655,7 +642,7 @@ export function WorkflowRunsTable({
           refetchInterval={refetchInterval}
         />
       )}
-      <div className="flex flex-row justify-between items-center my-4">
+      {/* <div className="flex flex-row justify-between items-center my-4">
         {metricsQuery.data ? (
           <WorkflowRunsMetricsView
             metrics={metricsQuery.data}
@@ -693,12 +680,12 @@ export function WorkflowRunsTable({
         ) : (
           <Skeleton className="max-w-[800px] w-[40vw] h-8" />
         )}
-      </div>
+      </div> */}
       <DataTable
         emptyState={<>No workflow runs found with the given filters.</>}
         error={workflowKeysError}
         isLoading={isLoading}
-        columns={columns(onAdditionalMetadataClick)}
+        columns={agEventsColumns(onAdditionalMetadataClick)}
         columnVisibility={columnVisibility}
         setColumnVisibility={setColumnVisibility}
         data={listWorkflowRunsQuery.data?.rows || []}
@@ -719,79 +706,3 @@ export function WorkflowRunsTable({
     </>
   );
 }
-
-const GetWorkflowChart = ({
-  tenantId,
-  createdAfter,
-  finishedBefore,
-  refetchInterval,
-  zoom,
-}: {
-  tenantId: string;
-  createdAfter?: string;
-  finishedBefore?: string;
-  refetchInterval?: number;
-  zoom: (startTime: string, endTime: string) => void;
-}) => {
-  // const mtmapi = useMtmClient();
-  // const workflowRunEventsMetricsQuery = useQuery({
-  //   ...queries.cloud.workflowRunMetrics(tenantId, {
-  //     createdAfter,
-  //     finishedBefore,
-  //   }),
-  //   placeholderData: (prev) => prev,
-  //   refetchInterval,
-  // });
-  // const workflowRunEventsMetricsQuery = mtmapi.useQuery(
-  //   "get",
-  //   "/api/v1/cloud/tenants/{tenant}/m",
-  //   {},
-  //   {
-  //     placeholderData: (prev) => prev,
-  //     refetchInterval,
-  //   },
-  // );
-
-  // const workflowRunEventsMetricsQuery = useSuspenseQuery({
-  //   ...workflowGetMetricsOptions({
-  //     path: {
-  //       workflow: tenantId,
-  //     },
-  //     query: {
-  //       // createdAfter,
-  //       // finishedBefore,
-  //     },
-  //   }),
-  //   // placeholderData: (prev) => prev,
-  //   refetchInterval,
-  // });
-
-  // /api/v1/cloud/tenants/${tenant}/runs-metrics
-  // if (workflowRunEventsMetricsQuery.isLoading) {
-  //   return <Skeleton className="w-full h-36" />;
-  // }
-
-  return (
-    <div className="">
-      TODO: ZoomableChart
-      {/* <ZoomableChart
-        kind="bar"
-        data={
-          workflowRunEventsMetricsQuery.data?.results?.map(
-            (result): DataPoint<"SUCCEEDED" | "FAILED"> => ({
-              date: result.time,
-              SUCCEEDED: result.SUCCEEDED,
-              FAILED: result.FAILED,
-            }),
-          ) || []
-        }
-        colors={{
-          SUCCEEDED: "rgb(34 197 94 / 0.5)",
-          FAILED: "hsl(var(--destructive))",
-        }}
-        zoom={zoom}
-        showYAxis={false}
-      /> */}
-    </div>
-  );
-};
