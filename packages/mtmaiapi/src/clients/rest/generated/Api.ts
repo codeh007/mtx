@@ -2301,18 +2301,6 @@ export class Api<
       ...params,
     });
   /**
-   * @description stream demo 1
-   *
-   * @name MtmaiStreamDemo1
-   * @request GET:/api/v1/mtmai/streamdemo1
-   */
-  mtmaiStreamDemo1 = (params: RequestParams = {}) =>
-    this.request<EventSearch, APIErrors | APIError>({
-      path: `/api/v1/mtmai/streamdemo1`,
-      method: "GET",
-      ...params,
-    });
-  /**
    * @description Get the blogs for the tenant
    *
    * @tags Tenant

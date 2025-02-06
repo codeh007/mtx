@@ -6986,34 +6986,6 @@ export type MtmaiWorkerConfigResponses = {
 export type MtmaiWorkerConfigResponse =
   MtmaiWorkerConfigResponses[keyof MtmaiWorkerConfigResponses];
 
-export type MtmaiStreamDemo1Data = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: "/api/v1/mtmai/streamdemo1";
-};
-
-export type MtmaiStreamDemo1Errors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type MtmaiStreamDemo1Error =
-  MtmaiStreamDemo1Errors[keyof MtmaiStreamDemo1Errors];
-
-export type MtmaiStreamDemo1Responses = {
-  200: string;
-};
-
-export type MtmaiStreamDemo1Response =
-  MtmaiStreamDemo1Responses[keyof MtmaiStreamDemo1Responses];
-
 export type BlogListData = {
   body?: never;
   path: {
