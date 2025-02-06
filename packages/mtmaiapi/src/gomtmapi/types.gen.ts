@@ -1473,6 +1473,10 @@ export type WebhookWorkerListResponse = {
   rows?: Array<WebhookWorker>;
 };
 
+export type ApiResourceMetaProperties = {
+  metadata?: ApiResourceMeta;
+};
+
 export type CommonResult = {
   Success: boolean;
   Message: string;
@@ -2255,6 +2259,9 @@ export type AgEvent = {
   };
   framework: string;
   stepRunId: string;
+  meta?: {
+    [key: string]: unknown;
+  };
 };
 
 export type AgEventList = {
@@ -2262,9 +2269,9 @@ export type AgEventList = {
   rows?: Array<AgEvent>;
 };
 
-export type AgEventCreate = ApiResourceMeta & AgEvent;
+export type AgEventCreate = ApiResourceMetaProperties & AgEvent;
 
-export type AgEventUpdate = ApiResourceMeta & AgEvent;
+export type AgEventUpdate = ApiResourceMetaProperties & AgEvent;
 
 export type Agent = {
   metadata?: ApiResourceMeta;

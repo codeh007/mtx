@@ -1386,6 +1386,10 @@ export interface WebhookWorkerListResponse {
   rows?: WebhookWorker[];
 }
 
+export interface APIResourceMetaProperties {
+  metadata?: APIResourceMeta;
+}
+
 export interface CommonResult {
   Success: boolean;
   Message: string;
@@ -2022,6 +2026,7 @@ export interface AgEvent {
   data: object;
   framework: string;
   stepRunId: string;
+  meta?: object;
 }
 
 export interface AgEventList {
@@ -2029,9 +2034,9 @@ export interface AgEventList {
   rows?: AgEvent[];
 }
 
-export type AgEventCreate = APIResourceMeta & AgEvent;
+export type AgEventCreate = APIResourceMetaProperties & AgEvent;
 
-export type AgEventUpdate = APIResourceMeta & AgEvent;
+export type AgEventUpdate = APIResourceMetaProperties & AgEvent;
 
 export interface Agent {
   metadata?: APIResourceMeta;

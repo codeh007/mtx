@@ -144,6 +144,7 @@ export const MtmaiProvider = (props: AppProviderProps) => {
         accessToken={etc.accessToken as string}
         host={etc.hostName as string}
       >
+        backendUrl: {mystore.getState().serverUrl}
         <MtSessionProvider>{children}</MtSessionProvider>
       </ReactQueryProvider>
     </mtmaiStoreContext.Provider>

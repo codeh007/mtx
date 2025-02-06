@@ -147,7 +147,11 @@ const graphEventHandler = async (
             {
               role: "assistant",
               content,
-              id: generateId(),
+              metadata: {
+                id: generateId(),
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+              },
             },
           ],
         });
