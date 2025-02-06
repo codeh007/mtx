@@ -1,15 +1,13 @@
 "use client";
-import { AgEvent } from "mtmaiapi";
+import type { AgEvent } from "mtmaiapi";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Button } from "mtxuilib/ui/button";
-import Link from "next/link";
-import { useBasePath } from "../../../hooks/useBasePath";
+import { CustomLink } from "../../../components/CustomLink";
 
 interface AgEventCardProps {
   data: AgEvent;
 }
 export const AgEventCard = ({ data }: AgEventCardProps) => {
-  const basePath = useBasePath();
   return (
     <div
       key={data.metadata?.id}
@@ -18,9 +16,12 @@ export const AgEventCard = ({ data }: AgEventCardProps) => {
       <div className="px-4 py-5 sm:p-6">
         <div className="flex flex-row justify-between items-center">
           <h3 className="text-lg leading-6 font-medium text-foreground">
-            <Link href={`${basePath}/workflows/${data?.metadata?.id}`}>
+            <CustomLink
+              to={`/agEvents/${data?.metadata?.id}`}
+              className="hover:underline"
+            >
               {data?.userId}
-            </Link>
+            </CustomLink>
           </h3>
           {/* {data?.isPaused ? (
             <Badge variant="inProgress">Paused</Badge>
@@ -37,9 +38,9 @@ export const AgEventCard = ({ data }: AgEventCardProps) => {
       </div>
       <div className="px-4 py-4 sm:px-6">
         <div className="text-sm text-background-secondary">
-          <Link href={`${basePath}/posts/${data?.metadata?.id}`}>
+          <CustomLink to={`/agEvents/${data?.metadata?.id}`}>
             <Button>View Post</Button>
-          </Link>
+          </CustomLink>
         </div>
       </div>
     </div>

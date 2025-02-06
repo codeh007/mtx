@@ -2017,9 +2017,11 @@ export interface SessionUpdate {
 }
 
 export interface AgEvent {
-  metadata: APIResourceMeta;
-  userId: string;
-  data?: object;
+  metadata?: APIResourceMeta;
+  userId?: string;
+  data: object;
+  framework: string;
+  stepRunId: string;
 }
 
 export interface AgEventList {
@@ -2027,15 +2029,9 @@ export interface AgEventList {
   rows?: AgEvent[];
 }
 
-export interface AgEventCreate {
-  data: object;
-}
+export type AgEventCreate = APIResourceMeta & AgEvent;
 
-export interface AgEventUpdate {
-  metadata: APIResourceMeta;
-  name: string;
-  userId: string;
-}
+export type AgEventUpdate = APIResourceMeta & AgEvent;
 
 export interface Agent {
   metadata?: APIResourceMeta;

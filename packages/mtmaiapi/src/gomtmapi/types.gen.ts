@@ -2248,11 +2248,13 @@ export type SessionUpdate = {
 };
 
 export type AgEvent = {
-  metadata: ApiResourceMeta;
-  userId: string;
-  data?: {
+  metadata?: ApiResourceMeta;
+  userId?: string;
+  data: {
     [key: string]: unknown;
   };
+  framework: string;
+  stepRunId: string;
 };
 
 export type AgEventList = {
@@ -2260,17 +2262,9 @@ export type AgEventList = {
   rows?: Array<AgEvent>;
 };
 
-export type AgEventCreate = {
-  data: {
-    [key: string]: unknown;
-  };
-};
+export type AgEventCreate = ApiResourceMeta & AgEvent;
 
-export type AgEventUpdate = {
-  metadata: ApiResourceMeta;
-  name: string;
-  userId: string;
-};
+export type AgEventUpdate = ApiResourceMeta & AgEvent;
 
 export type Agent = {
   metadata?: ApiResourceMeta;
