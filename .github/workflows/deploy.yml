@@ -121,7 +121,7 @@ jobs:
         run: |
           # gomtm cfpage --sub-dir apps/mtmaiui
           # gomtm vc_gomtm --enable-vercel-deploy=true --sub-package packages/gomtm-cli
-          gomtm vc_gomtm --sub-package apps/mtmaiui --cfpage=true
+          gomtm vc_gomtm --sub-package apps/mtmaiui --enable-deploy-cfpage=true
 
   deploy_vercel_gomtm:
     needs: [release]
