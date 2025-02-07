@@ -1,14 +1,14 @@
 "use client";
 
 import { formatDuration } from "date-fns";
-import { type Step, type StepRun, StepRunStatus } from "mtmaiapi/api";
+import { type Step, type StepRun, StepRunStatus } from "mtmaiapi";
+import { cn } from "mtxuilib/lib/utils";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
+import { Label } from "mtxuilib/ui/label";
 import { memo, useState } from "react";
 import { Handle, Position } from "reactflow";
 import { RunIndicator, RunStatus } from "./run-statuses";
 import { TabOption } from "./step-run-detail/step-run-detail";
-import { cn } from "mtxuilib/lib/utils";
-import { Label } from "mtxuilib/ui/label";
 
 export interface StepRunNodeProps {
   stepRun: StepRun;
@@ -67,6 +67,7 @@ export default memo(({ data }: { data: StepRunNodeProps }) => {
           </div>
           {stepRun.finishedAtEpoch && stepRun.startedAtEpoch && (
             <div className="text-xs text-gray-500 dark:text-gray-400">
+              {/* @ts-ignore */}
               {formatDuration(stepRun.finishedAtEpoch - stepRun.startedAtEpoch)}
             </div>
           )}
@@ -118,6 +119,7 @@ export function getTiming({ stepRun }: { stepRun: StepRun }) {
       </span>
       <span className="text-gray-500 font-medium text-xs">
         {stepRun.startedAt && !end && <RelativeDate date={stepRun.startedAt} />}
+        {/* @ts-ignore */}
         {start && end && formatDuration(end - start)}
       </span>
     </Label>

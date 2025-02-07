@@ -1,7 +1,7 @@
 "use client";
 import type React from "react";
 
-import { WorkflowRunStatus, type WorkflowRunsMetrics } from "mtmaiapi/api";
+import { WorkflowRunStatus, type WorkflowRunsMetrics } from "mtmaiapi";
 import { Badge } from "mtxuilib/ui/badge";
 
 interface WorkflowRunsMetricsProps {

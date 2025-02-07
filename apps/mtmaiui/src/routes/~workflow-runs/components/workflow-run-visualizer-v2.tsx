@@ -1,7 +1,6 @@
 "use client";
 import dagre from "dagre";
-import type { StepRun, WorkflowRunShape } from "mtmaiapi";
-import { StepRunStatus } from "mtmaiapi/api";
+import { StepRunStatus, type StepRun, type WorkflowRunShape } from "mtmaiapi";
 import { useTheme } from "next-themes";
 import { useEffect, useMemo } from "react";
 import ReactFlow, {

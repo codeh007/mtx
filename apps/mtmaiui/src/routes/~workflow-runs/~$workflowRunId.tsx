@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { CodeHighlighter } from "mtxuilib/mt/code-highlighter";
 import {
   MtTabs,

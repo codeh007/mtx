@@ -1,14 +1,13 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import type { WorkflowRun } from "mtmaiapi/api";
 
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 
+import type { WorkflowRun } from "mtmaiapi";
 import { DataTableColumnHeader } from "mtxuilib/data-table/data-table-column-header";
 import { Checkbox } from "mtxuilib/ui/checkbox";
 import { CustomLink } from "../../../components/CustomLink";
-import { useBasePath } from "../../../hooks/useBasePath";
 import {
   AdditionalMetadata,
   type AdditionalMetadataClick,
@@ -48,7 +47,7 @@ export const columns: (
       <DataTableColumnHeader column={column} title="Run Id" />
     ),
     cell: ({ row }) => {
-      const basePath = useBasePath();
+      // const basePath = useBasePath();
       return (
         <CustomLink to={`/workflow-runs/${row.original.metadata.id}`}>
           <div className="cursor-pointer hover:underline min-w-fit whitespace-nowrap">
