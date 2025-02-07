@@ -930,7 +930,6 @@ export interface StepRun {
   metadata: APIResourceMeta;
   tenantId: string;
   jobRunId: string;
-  jobRun?: JobRun;
   stepId: string;
   step?: Step;
   childWorkflowsCount?: number;
@@ -2430,18 +2429,17 @@ export interface AssistantBase {
   version: number;
 }
 
-export type BaseTeamConfig = BaseConfig & {
+export interface BaseTeamConfig {
   name?: string;
   participants?: AgentConfig[];
   team_type?: TeamTypes;
-  termination_condition?: TerminationConfig;
-};
+}
 
 export interface RoundRobinGroupChatConfig {
   team_type?: "RoundRobinGroupChat";
 }
 
-export type SelectorGroupChatConfig = BaseTeamConfig & {
+export type SelectorGroupChatConfig = {
   team_type?: "SelectorGroupChat";
   selector_prompt?: string;
   model_client?: ModelConfig;
@@ -2478,8 +2476,7 @@ export enum TeamTypes {
   MagenticOneGroupChat = "MagenticOneGroupChat",
 }
 
-export type TeamConfig = BaseTeamConfig &
-  (RoundRobinGroupChatConfig | SelectorGroupChatConfig);
+export type TeamConfig = RoundRobinGroupChatConfig | SelectorGroupChatConfig;
 
 export interface BaseState {
   metadata: APIResourceMeta;
@@ -2825,7 +2822,18 @@ export interface DashSidebarItem {
   defaultExpanded?: boolean;
   /** 只允许超级管理员查看 */
   adminOnly?: boolean;
-  children?: DashSidebarItem[];
+  children?: DashSidebarItemLeaf[];
+}
+
+export interface DashSidebarItemLeaf {
+  /** 名称 */
+  title: string;
+  /** url 例如/login */
+  url: string;
+  /** 图标 */
+  icon?: string;
+  /** 只允许超级管理员查看 */
+  adminOnly?: boolean;
 }
 
 export interface HfAccount {

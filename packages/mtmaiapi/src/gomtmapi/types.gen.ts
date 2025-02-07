@@ -233,12 +233,26 @@ export type TenantMemberList = {
 
 export type TenantMemberRole = "OWNER" | "ADMIN" | "MEMBER";
 
+export const TenantMemberRole = {
+  OWNER: "OWNER",
+  ADMIN: "ADMIN",
+  MEMBER: "MEMBER",
+} as const;
+
 export type TenantResource =
   | "WORKER"
   | "EVENT"
   | "WORKFLOW_RUN"
   | "CRON"
   | "SCHEDULE";
+
+export const TenantResource = {
+  WORKER: "WORKER",
+  EVENT: "EVENT",
+  WORKFLOW_RUN: "WORKFLOW_RUN",
+  CRON: "CRON",
+  SCHEDULE: "SCHEDULE",
+} as const;
 
 export type TenantResourceLimit = {
   metadata: ApiResourceMeta;
@@ -555,7 +569,16 @@ export type EventWorkflowRunSummary = {
 
 export type EventOrderByField = "createdAt";
 
+export const EventOrderByField = {
+  CREATED_AT: "createdAt",
+} as const;
+
 export type EventOrderByDirection = "asc" | "desc";
+
+export const EventOrderByDirection = {
+  ASC: "asc",
+  DESC: "desc",
+} as const;
 
 export type EventSearch = string;
 
@@ -613,7 +636,18 @@ export type RateLimitList = {
 
 export type RateLimitOrderByField = "key" | "value" | "limitValue";
 
+export const RateLimitOrderByField = {
+  KEY: "key",
+  VALUE: "value",
+  LIMIT_VALUE: "limitValue",
+} as const;
+
 export type RateLimitOrderByDirection = "asc" | "desc";
+
+export const RateLimitOrderByDirection = {
+  ASC: "asc",
+  DESC: "desc",
+} as const;
 
 export type ReplayEventRequest = {
   eventIds: Array<string>;
@@ -875,6 +909,11 @@ export type ScheduledWorkflowsList = {
 
 export type ScheduledWorkflowsOrderByField = "triggerAt" | "createdAt";
 
+export const ScheduledWorkflowsOrderByField = {
+  TRIGGER_AT: "triggerAt",
+  CREATED_AT: "createdAt",
+} as const;
+
 export type ScheduledRunStatus =
   | "PENDING"
   | "RUNNING"
@@ -883,6 +922,16 @@ export type ScheduledRunStatus =
   | "CANCELLED"
   | "QUEUED"
   | "SCHEDULED";
+
+export const ScheduledRunStatus = {
+  PENDING: "PENDING",
+  RUNNING: "RUNNING",
+  SUCCEEDED: "SUCCEEDED",
+  FAILED: "FAILED",
+  CANCELLED: "CANCELLED",
+  QUEUED: "QUEUED",
+  SCHEDULED: "SCHEDULED",
+} as const;
 
 export type CronWorkflows = {
   metadata: ApiResourceMeta;
@@ -906,13 +955,29 @@ export type CronWorkflowsList = {
 
 export type CronWorkflowsOrderByField = "createdAt";
 
+export const CronWorkflowsOrderByField = {
+  CREATED_AT: "createdAt",
+} as const;
+
 export type WorkflowRunOrderByField =
   | "createdAt"
   | "startedAt"
   | "finishedAt"
   | "duration";
 
+export const WorkflowRunOrderByField = {
+  CREATED_AT: "createdAt",
+  STARTED_AT: "startedAt",
+  FINISHED_AT: "finishedAt",
+  DURATION: "duration",
+} as const;
+
 export type WorkflowRunOrderByDirection = "ASC" | "DESC";
+
+export const WorkflowRunOrderByDirection = {
+  ASC: "ASC",
+  DESC: "DESC",
+} as const;
 
 export type WorkflowRunsMetrics = {
   counts?: WorkflowRunsMetricsCounts;
@@ -934,9 +999,24 @@ export type WorkflowRunStatus =
   | "CANCELLED"
   | "QUEUED";
 
+export const WorkflowRunStatus = {
+  PENDING: "PENDING",
+  RUNNING: "RUNNING",
+  SUCCEEDED: "SUCCEEDED",
+  FAILED: "FAILED",
+  CANCELLED: "CANCELLED",
+  QUEUED: "QUEUED",
+} as const;
+
 export type WorkflowRunStatusList = Array<WorkflowRunStatus>;
 
 export type WorkflowKind = "FUNCTION" | "DURABLE" | "DAG";
+
+export const WorkflowKind = {
+  FUNCTION: "FUNCTION",
+  DURABLE: "DURABLE",
+  DAG: "DAG",
+} as const;
 
 export type WorkflowKindList = Array<WorkflowKind>;
 
@@ -951,6 +1031,14 @@ export type JobRunStatus =
   | "FAILED"
   | "CANCELLED";
 
+export const JobRunStatus = {
+  PENDING: "PENDING",
+  RUNNING: "RUNNING",
+  SUCCEEDED: "SUCCEEDED",
+  FAILED: "FAILED",
+  CANCELLED: "CANCELLED",
+} as const;
+
 export type StepRunStatus =
   | "PENDING"
   | "PENDING_ASSIGNMENT"
@@ -960,6 +1048,17 @@ export type StepRunStatus =
   | "FAILED"
   | "CANCELLED"
   | "CANCELLING";
+
+export const StepRunStatus = {
+  PENDING: "PENDING",
+  PENDING_ASSIGNMENT: "PENDING_ASSIGNMENT",
+  ASSIGNED: "ASSIGNED",
+  RUNNING: "RUNNING",
+  SUCCEEDED: "SUCCEEDED",
+  FAILED: "FAILED",
+  CANCELLED: "CANCELLED",
+  CANCELLING: "CANCELLING",
+} as const;
 
 export type JobRun = {
   metadata: ApiResourceMeta;
@@ -994,7 +1093,6 @@ export type StepRun = {
   metadata: ApiResourceMeta;
   tenantId: string;
   jobRunId: string;
-  jobRun?: JobRun;
   stepId: string;
   step?: Step;
   childWorkflowsCount?: number;
@@ -1040,7 +1138,33 @@ export type StepRunEventReason =
   | "WORKFLOW_RUN_GROUP_KEY_SUCCEEDED"
   | "WORKFLOW_RUN_GROUP_KEY_FAILED";
 
+export const StepRunEventReason = {
+  REQUEUED_NO_WORKER: "REQUEUED_NO_WORKER",
+  REQUEUED_RATE_LIMIT: "REQUEUED_RATE_LIMIT",
+  SCHEDULING_TIMED_OUT: "SCHEDULING_TIMED_OUT",
+  ASSIGNED: "ASSIGNED",
+  STARTED: "STARTED",
+  ACKNOWLEDGED: "ACKNOWLEDGED",
+  FINISHED: "FINISHED",
+  FAILED: "FAILED",
+  RETRYING: "RETRYING",
+  CANCELLED: "CANCELLED",
+  TIMEOUT_REFRESHED: "TIMEOUT_REFRESHED",
+  REASSIGNED: "REASSIGNED",
+  TIMED_OUT: "TIMED_OUT",
+  SLOT_RELEASED: "SLOT_RELEASED",
+  RETRIED_BY_USER: "RETRIED_BY_USER",
+  WORKFLOW_RUN_GROUP_KEY_SUCCEEDED: "WORKFLOW_RUN_GROUP_KEY_SUCCEEDED",
+  WORKFLOW_RUN_GROUP_KEY_FAILED: "WORKFLOW_RUN_GROUP_KEY_FAILED",
+} as const;
+
 export type StepRunEventSeverity = "INFO" | "WARNING" | "CRITICAL";
+
+export const StepRunEventSeverity = {
+  INFO: "INFO",
+  WARNING: "WARNING",
+  CRITICAL: "CRITICAL",
+} as const;
 
 export type StepRunEvent = {
   id: number;
@@ -1096,6 +1220,12 @@ export type WorkerRuntimeInfo = {
 };
 
 export type WorkerRuntimeSdks = "GOLANG" | "PYTHON" | "TYPESCRIPT";
+
+export const WorkerRuntimeSdks = {
+  GOLANG: "GOLANG",
+  PYTHON: "PYTHON",
+  TYPESCRIPT: "TYPESCRIPT",
+} as const;
 
 export type WorkerList = {
   pagination?: PaginationResponse;
@@ -1297,6 +1427,11 @@ export type PullRequest = {
 
 export type PullRequestState = "open" | "closed";
 
+export const PullRequestState = {
+  OPEN: "open",
+  CLOSED: "closed",
+} as const;
+
 export type LogLine = {
   /**
    * The creation date of the log line.
@@ -1316,6 +1451,13 @@ export type LogLine = {
 
 export type LogLineLevel = "DEBUG" | "INFO" | "WARN" | "ERROR";
 
+export const LogLineLevel = {
+  DEBUG: "DEBUG",
+  INFO: "INFO",
+  WARN: "WARN",
+  ERROR: "ERROR",
+} as const;
+
 export type LogLineList = {
   pagination?: PaginationResponse;
   rows?: Array<LogLine>;
@@ -1323,7 +1465,16 @@ export type LogLineList = {
 
 export type LogLineOrderByField = "createdAt";
 
+export const LogLineOrderByField = {
+  CREATED_AT: "createdAt",
+} as const;
+
 export type LogLineOrderByDirection = "asc" | "desc";
+
+export const LogLineOrderByDirection = {
+  ASC: "asc",
+  DESC: "desc",
+} as const;
 
 export type LogLineSearch = string;
 
@@ -1410,6 +1561,12 @@ export type WebhookWorker = {
 };
 
 export type WebhookWorkerRequestMethod = "GET" | "POST" | "PUT";
+
+export const WebhookWorkerRequestMethod = {
+  GET: "GET",
+  POST: "POST",
+  PUT: "PUT",
+} as const;
 
 export type WebhookWorkerRequest = {
   /**
@@ -1510,6 +1667,12 @@ export type ChatMessage = {
 };
 
 export type ChatMessageRole = "system" | "user" | "assistant";
+
+export const ChatMessageRole = {
+  SYSTEM: "system",
+  USER: "user",
+  ASSISTANT: "assistant",
+} as const;
 
 /**
  * 聊天消息列表
@@ -1637,6 +1800,17 @@ export type RunNewTaskResponse = {
  *
  */
 export type OperationEnum = "startBlogTask" | "stopBlogTask";
+
+/**
+ * 可用的操作名称枚举：
+ * - **startBlogTask**: 启动单个博客自动化操作任务
+ * - **stopBlogTask**: 停止单个博客自动化操作任务
+ *
+ */
+export const OperationEnum = {
+  START_BLOG_TASK: "startBlogTask",
+  STOP_BLOG_TASK: "stopBlogTask",
+} as const;
 
 export type OperataionGuideResponse = {
   /**
@@ -2013,10 +2187,28 @@ export type LanguageOptions =
   | "french"
   | "hindi";
 
+export const LanguageOptions = {
+  CHINESE: "chinese",
+  ENGLISH: "english",
+  SPANISH: "spanish",
+  FRENCH: "french",
+  HINDI: "hindi",
+} as const;
+
 /**
  * 工具内容长度,(文章,代码内容长度)
  */
 export type ArtifactLengthOptions = "shortest" | "short" | "long" | "longest";
+
+/**
+ * 工具内容长度,(文章,代码内容长度)
+ */
+export const ArtifactLengthOptions = {
+  SHORTEST: "shortest",
+  SHORT: "short",
+  LONG: "long",
+  LONGEST: "longest",
+} as const;
 
 export type RewriteArtifactMetaToolResponse =
   | {
@@ -2047,6 +2239,17 @@ export type ReadingLevelOptions =
   | "college"
   | "phd";
 
+/**
+ * 阅读级别
+ */
+export const ReadingLevelOptions = {
+  PIRATE: "pirate",
+  CHILD: "child",
+  TEENAGER: "teenager",
+  COLLEGE: "college",
+  PHD: "phd",
+} as const;
+
 export type ProgrammingLanguageOptions =
   | "typescript"
   | "javascript"
@@ -2062,6 +2265,23 @@ export type ProgrammingLanguageOptions =
   | "clojure"
   | "csharp"
   | "other";
+
+export const ProgrammingLanguageOptions = {
+  TYPESCRIPT: "typescript",
+  JAVASCRIPT: "javascript",
+  CPP: "cpp",
+  JAVA: "java",
+  PHP: "php",
+  PYTHON: "python",
+  HTML: "html",
+  SQL: "sql",
+  JSON: "json",
+  RUST: "rust",
+  XML: "xml",
+  CLOJURE: "clojure",
+  CSHARP: "csharp",
+  OTHER: "other",
+} as const;
 
 export type CanvasGraphParams = {
   /**
@@ -2265,6 +2485,12 @@ export type AgEvent = {
 };
 
 export type EventTypes = "startWorkflowRun" | "endWorkflowRun" | "stepRun";
+
+export const EventTypes = {
+  START_WORKFLOW_RUN: "startWorkflowRun",
+  END_WORKFLOW_RUN: "endWorkflowRun",
+  STEP_RUN: "stepRun",
+} as const;
 
 export type AgEventList = {
   pagination?: PaginationResponse;
@@ -2485,6 +2711,14 @@ export type TerminationTypes =
   | "TimeoutTermination"
   | "CombinationTermination";
 
+export const TerminationTypes = {
+  MAX_MESSAGE_TERMINATION: "MaxMessageTermination",
+  STOP_MESSAGE_TERMINATION: "StopMessageTermination",
+  TEXT_MENTION_TERMINATION: "TextMentionTermination",
+  TIMEOUT_TERMINATION: "TimeoutTermination",
+  COMBINATION_TERMINATION: "CombinationTermination",
+} as const;
+
 export type RequestUsage = {
   prompt_tokens: number;
   completion_tokens: number;
@@ -2605,11 +2839,28 @@ export type AgentTypes =
   | "FileSurfer"
   | "MagenticOneCoderAgent";
 
+export const AgentTypes = {
+  ASSISTANT_AGENT: "AssistantAgent",
+  USER_PROXY_AGENT: "UserProxyAgent",
+  MULTIMODAL_WEB_SURFER: "MultimodalWebSurfer",
+  FILE_SURFER: "FileSurfer",
+  MAGENTIC_ONE_CODER_AGENT: "MagenticOneCoderAgent",
+} as const;
+
 export type ToolTypes = "PythonFunction";
+
+export const ToolTypes = {
+  PYTHON_FUNCTION: "PythonFunction",
+} as const;
 
 export type ModelTypes =
   | "OpenAIChatCompletionClient"
   | "AzureOpenAIChatCompletionClient";
+
+export const ModelTypes = {
+  OPEN_AI_CHAT_COMPLETION_CLIENT: "OpenAIChatCompletionClient",
+  AZURE_OPEN_AI_CHAT_COMPLETION_CLIENT: "AzureOpenAIChatCompletionClient",
+} as const;
 
 export type BaseModelConfig = BaseConfig & {
   model: string;
@@ -2660,6 +2911,16 @@ export type RunStatus =
   | "complete"
   | "error"
   | "stopped";
+
+export const RunStatus = {
+  CREATED: "created",
+  ACTIVE: "active",
+  AWAITING_INPUT: "awaiting_input",
+  TIMEOUT: "timeout",
+  COMPLETE: "complete",
+  ERROR: "error",
+  STOPPED: "stopped",
+} as const;
 
 export type AgentConfig =
   | AssistantAgentConfig
@@ -2770,18 +3031,17 @@ export type AssistantBase = {
   version: number;
 };
 
-export type BaseTeamConfig = BaseConfig & {
+export type BaseTeamConfig = {
   name?: string;
   participants?: Array<AgentConfig>;
   team_type?: TeamTypes;
-  termination_condition?: TerminationConfig;
 };
 
 export type RoundRobinGroupChatConfig = {
   team_type?: "RoundRobinGroupChat";
 };
 
-export type SelectorGroupChatConfig = BaseTeamConfig & {
+export type SelectorGroupChatConfig = {
   team_type?: "SelectorGroupChat";
   selector_prompt?: string;
   model_client?: ModelConfig;
@@ -2817,8 +3077,13 @@ export type TeamTypes =
   | "SelectorGroupChat"
   | "MagenticOneGroupChat";
 
-export type TeamConfig = BaseTeamConfig &
-  (RoundRobinGroupChatConfig | SelectorGroupChatConfig);
+export const TeamTypes = {
+  ROUND_ROBIN_GROUP_CHAT: "RoundRobinGroupChat",
+  SELECTOR_GROUP_CHAT: "SelectorGroupChat",
+  MAGENTIC_ONE_GROUP_CHAT: "MagenticOneGroupChat",
+} as const;
+
+export type TeamConfig = RoundRobinGroupChatConfig | SelectorGroupChatConfig;
 
 export type BaseState = {
   metadata: ApiResourceMeta;
@@ -3267,7 +3532,26 @@ export type DashSidebarItem = {
    * 只允许超级管理员查看
    */
   adminOnly?: boolean;
-  children?: Array<DashSidebarItem>;
+  children?: Array<DashSidebarItemLeaf>;
+};
+
+export type DashSidebarItemLeaf = {
+  /**
+   * 名称
+   */
+  title: string;
+  /**
+   * url 例如/login
+   */
+  url: string;
+  /**
+   * 图标
+   */
+  icon?: string;
+  /**
+   * 只允许超级管理员查看
+   */
+  adminOnly?: boolean;
 };
 
 export type HfAccount = {
