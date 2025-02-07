@@ -2264,6 +2264,8 @@ export type AgEvent = {
   };
 };
 
+export type EventTypes = "startWorkflowRun" | "endWorkflowRun" | "stepRun";
+
 export type AgEventList = {
   pagination?: PaginationResponse;
   rows?: Array<AgEvent>;

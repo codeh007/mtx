@@ -2029,6 +2029,12 @@ export interface AgEvent {
   meta?: object;
 }
 
+export enum EventTypes {
+  StartWorkflowRun = "startWorkflowRun",
+  EndWorkflowRun = "endWorkflowRun",
+  StepRun = "stepRun",
+}
+
 export interface AgEventList {
   pagination?: PaginationResponse;
   rows?: AgEvent[];
