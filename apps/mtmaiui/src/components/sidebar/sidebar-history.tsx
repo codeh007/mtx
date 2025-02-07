@@ -12,13 +12,12 @@ import {
   AlertDialogTitle,
 } from "mtxuilib/ui/alert-dialog";
 import type { User } from "next-auth";
-import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { sessionListOptions } from "mtmaiapi";
+import { chatListOptions } from "mtmaiapi";
 import type { Chat } from "mtxuilib/db/schema";
 import {
   MoreHorizontalIcon,
@@ -44,6 +43,7 @@ import {
 import { BetterTooltip } from "mtxuilib/ui/tooltip";
 import { useTenant } from "../../hooks/useAuth";
 import { useBasePath } from "../../hooks/useBasePath";
+import { CustomLink } from "../CustomLink";
 
 type GroupedChats = {
   today: Chat[];
@@ -66,9 +66,9 @@ const ChatItem = ({
 }) => (
   <SidebarMenuItem>
     <SidebarMenuButton asChild isActive={isActive}>
-      <Link href={`/chat/${chat.id}`} onClick={() => setOpenMobile(false)}>
+      <CustomLink to={`/chat/${chat.id}`} onClick={() => setOpenMobile(false)}>
         <span>{chat.title}</span>
-      </Link>
+      </CustomLink>
     </SidebarMenuButton>
     <DropdownMenu modal={true}>
       <DropdownMenuTrigger asChild>
@@ -109,7 +109,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
   // });
 
   const sessionQuery = useSuspenseQuery({
-    ...sessionListOptions({
+    ...chatListOptions({
       path: {
         tenant: tenant!.metadata.id,
       },
