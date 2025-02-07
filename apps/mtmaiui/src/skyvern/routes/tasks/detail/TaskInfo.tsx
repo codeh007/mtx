@@ -1,7 +1,8 @@
 "use client";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Badge } from "lucide-react";
-import { client } from "mtmaiapi";
+
+import { client } from "mtmaiapi/gomtmapi/client.gen";
 import { Skeleton } from "mtxuilib/ui/skeleton";
 import { Status, type StepApiResponse } from "../../../api/types";
 import { StatusBadge } from "../../../components/StatusBadge";

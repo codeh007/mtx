@@ -1,7 +1,7 @@
 "use client";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryStreamedHydration } from "@tanstack/react-query-next-experimental";
-import { client } from "mtmaiapi";
+import { client } from "mtmaiapi/gomtmapi/client.gen";
 
 import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { type PropsWithChildren, useMemo } from "react";

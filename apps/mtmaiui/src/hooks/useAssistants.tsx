@@ -2,7 +2,8 @@ import type { Assistant } from "@langchain/langgraph-sdk";
 import { ASSISTANT_ID_COOKIE } from "mtxuilib/constants";
 import { useState } from "react";
 
-import { client } from "mtmaiapi";
+import { client } from "mtmaiapi/gomtmapi/client.gen";
+
 import { deleteCookie, getCookie } from "mtxuilib/lib/clientlib";
 import { useToast } from "mtxuilib/ui/use-toast";
 

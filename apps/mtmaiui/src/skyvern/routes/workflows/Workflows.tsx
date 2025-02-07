@@ -8,13 +8,13 @@ import {
 } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+import { client } from "mtmaiapi/gomtmapi/client.gen";
 import { useSearchParams } from "next/navigation";
 import { stringify as convertToYAML } from "yaml";
 import { useBasePath } from "../../../hooks/useBasePath";
 import type { WorkflowRunApiResponse } from "../../api/types";
 import { StatusBadge } from "../../components/StatusBadge";
 
-import { client } from "mtmaiapi";
 import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { basicTimeFormat, cn } from "mtxuilib/lib/utils";
 import { Alert, AlertDescription, AlertTitle } from "mtxuilib/ui/alert";
@@ -37,6 +37,7 @@ import { ImportWorkflowButton } from "./ImportWorkflowButton";
 import { WorkflowActions } from "./WorkflowActions";
 import { WorkflowTitle } from "./WorkflowTitle";
 import type { WorkflowCreateYAMLRequest } from "./types/workflowYamlTypes";
+import { Pagination } from "antd";
 
 const emptyWorkflowRequest: WorkflowCreateYAMLRequest = {
   title: "New Workflow",

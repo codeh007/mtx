@@ -2,7 +2,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DotsHorizontalIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { client } from "mtmaiapi";
+import { client } from "mtmaiapi/gomtmapi/client.gen";
+
 import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { Button } from "mtxuilib/ui/button";
 import {

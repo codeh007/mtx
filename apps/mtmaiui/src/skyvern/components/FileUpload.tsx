@@ -1,6 +1,7 @@
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useMutation } from "@tanstack/react-query";
-import { client } from "mtmaiapi";
+import { client } from "mtmaiapi/gomtmapi/client.gen";
+
 import { cn } from "mtxuilib/lib/utils";
 import { Button } from "mtxuilib/ui/button";
 import { Input } from "mtxuilib/ui/input";

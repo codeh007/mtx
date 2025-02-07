@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { cn } from "mtxuilib/lib/utils";
 import { useState } from "react";
 
-import { client } from "mtmaiapi";
+import { client } from "mtmaiapi/gomtmapi/client.gen";
 import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { Button } from "mtxuilib/ui/button";
 import {

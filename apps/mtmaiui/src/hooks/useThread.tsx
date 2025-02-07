@@ -1,7 +1,8 @@
 "use client";
 
 import type { Thread } from "@langchain/langgraph-sdk";
-import { client } from "mtmaiapi";
+import { client } from "mtmaiapi/gomtmapi/client.gen";
+
 import {
   type ALL_MODEL_NAMES,
   DEFAULT_MODEL_NAME,
