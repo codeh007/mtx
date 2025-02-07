@@ -2484,10 +2484,15 @@ export type AgEvent = {
   };
 };
 
-export type EventTypes = "startWorkflowRun" | "endWorkflowRun" | "stepRun";
+export type EventTypes =
+  | "startWorkflowRun"
+  | "assisantReply"
+  | "endWorkflowRun"
+  | "stepRun";
 
 export const EventTypes = {
   START_WORKFLOW_RUN: "startWorkflowRun",
+  ASSISANT_REPLY: "assisantReply",
   END_WORKFLOW_RUN: "endWorkflowRun",
   STEP_RUN: "stepRun",
 } as const;
