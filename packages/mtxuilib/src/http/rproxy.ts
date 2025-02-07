@@ -52,30 +52,34 @@ export function newRProxy(options: RProxyOptions) {
 
     try {
       const requestHeaders = copyIncomeHeaders(r);
+
+      console.log("response.headers");
+
       const response = await fetch(fullUrl, {
         method: r.method,
         headers: requestHeaders,
         body: ["GET", "HEAD"].includes(r.method) ? undefined : r.body,
+        credentials: "include",
       });
 
-      // 创建新的 Headers 对象
-      const newHeaders = new Headers(response.headers);
-      // 移除 Content-Encoding 头，让浏览器正确处理响应内容
-      newHeaders.delete("content-encoding");
-
-      // 读取并解压响应体
-      const body = await response.arrayBuffer();
+      // 创建新的响应，保留所有原始响应头
+      const newResponse = new Response(response.body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers: response.headers,
+      });
 
       console.log(
         `🚀 [rProxy] ${r.method}(${response.status}) \n${r.url}, \n===> ${fullUrl.toString()}`,
       );
+      // console.log("response.headers");
+      // for (const [key, value] of Array.from(response.headers.entries())) {
+      //   console.log(`${key}: ${value}`);
+      // }
 
-      // 返回新的 Response，使用解压后的内容
-      return new Response(body, {
-        status: response.status,
-        statusText: response.statusText,
-        headers: newHeaders,
-      });
+      // newResponse.headers.set("content-encoding", "zstd");
+
+      return newResponse;
     } catch (e) {
       return new Response(`error ${e} ${fullUrl.toString()}`);
     }
@@ -90,7 +94,7 @@ const DEFAULT_EXCLUDED_HEADERS = [
   "connection",
   "sec-",
   "proxy-",
-  "transfer-encoding",
+  // "transfer-encoding",
 ];
 
 /**
@@ -105,7 +109,7 @@ export function copyIncomeHeaders(
 ): Headers {
   const excludedPrefixes = [...DEFAULT_EXCLUDED_HEADERS, ...additionalExcludes];
 
-  return new Headers(
+  const newHeaders = new Headers(
     Array.from(request.headers.entries()).filter(
       ([key]) =>
         !excludedPrefixes.some((prefix) =>
@@ -113,4 +117,11 @@ export function copyIncomeHeaders(
         ),
     ),
   );
+
+  // 提示,设置明确的传输格式, 原因是,如果上游经过了 cloudflare, 可能使用使用 zstd 压缩, 导致后续的流不能正确解释最终看到乱码.
+  newHeaders.set("Accept-Encoding", "gzip, deflate, br");
+  for (const [key, value] of Array.from(newHeaders.entries())) {
+    console.log(`${key}: ${value}`);
+  }
+  return newHeaders;
 }
