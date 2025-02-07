@@ -1,7 +1,6 @@
 export * from "./gomtmapi";
 export * from "./gomtmapi/@tanstack/react-query.gen";
 import type { Config } from "@hey-api/client-fetch";
-// import { cookies } from "next/headers";
 import { client } from "./gomtmapi/client.gen";
 export const cookieAccessToken = "mtm_access_token";
 
