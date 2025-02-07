@@ -8,7 +8,6 @@ import {
   type TeamResult,
   type WebSocketMessage,
   agentNodeRunMutation,
-  chatChatMutation,
   teamGetOptions,
 } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
@@ -116,9 +115,9 @@ export default function ChatView({ session }: ChatViewProps) {
     ...agentNodeRunMutation({}),
   });
 
-  const chatMutation = useMutation({
-    ...chatChatMutation({}),
-  });
+  // const chatMutation = useMutation({
+  //   ...chatChatMutation({}),
+  // });
 
   const handleWebSocketMessage = (message: WebSocketMessage) => {
     setCurrentRun((current) => {
