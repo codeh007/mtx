@@ -83,6 +83,7 @@
     "@assistant-ui/react-markdown": "^0.7.5",
     "@assistant-ui/react-syntax-highlighter": "^0.7.5",
     "@cloudflare/ai": "^1.2.2",
+    "@electric-sql/pglite": "^0.2.16",
     "@fontsource/geist-sans": "^5.1.0",
     "@fontsource/inter": "^5.1.1",
     "@fontsource/jetbrains-mono": "^5.1.2",
