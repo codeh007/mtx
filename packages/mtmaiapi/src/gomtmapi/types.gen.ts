@@ -2489,14 +2489,14 @@ export type EventTypes =
   | "assisantReply"
   | "endWorkflowRun"
   | "stepRun"
-  | "textMessage";
+  | "TextMessage";
 
 export const EventTypes = {
   START_WORKFLOW_RUN: "startWorkflowRun",
   ASSISANT_REPLY: "assisantReply",
   END_WORKFLOW_RUN: "endWorkflowRun",
   STEP_RUN: "stepRun",
-  TEXT_MESSAGE: "textMessage",
+  TEXT_MESSAGE: "TextMessage",
 } as const;
 
 export type AgEventList = {

@@ -2329,7 +2329,7 @@ export const zEventTypes = z.enum([
   "assisantReply",
   "endWorkflowRun",
   "stepRun",
-  "textMessage",
+  "TextMessage",
 ]);
 
 export const zAgEventList = z.object({

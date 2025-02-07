@@ -4353,7 +4353,7 @@ export const EventTypesSchema = {
     "assisantReply",
     "endWorkflowRun",
     "stepRun",
-    "textMessage",
+    "TextMessage",
   ],
 } as const;
 

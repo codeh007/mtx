@@ -2033,7 +2033,7 @@ export enum EventTypes {
   AssisantReply = "assisantReply",
   EndWorkflowRun = "endWorkflowRun",
   StepRun = "stepRun",
-  TextMessage = "textMessage",
+  TextMessage = "TextMessage",
 }
 
 export interface AgEventList {
