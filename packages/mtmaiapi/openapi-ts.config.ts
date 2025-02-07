@@ -1,13 +1,8 @@
-import {
-  type UserConfig,
-  defaultPlugins,
-  defineConfig,
-} from "@hey-api/openapi-ts";
+import { type UserConfig, defineConfig } from "@hey-api/openapi-ts";
 
 //新版，使用golang openapi 后端
 export default defineConfig({
   input: "../../../gomtm/api-contracts/openapi/openapi.yaml",
-  // client: "@hey-api/client-fetch",
   output: {
     format: "prettier",
     lint: "eslint",
@@ -15,7 +10,8 @@ export default defineConfig({
   },
   experimentalParser: true,
   plugins: [
-    ...defaultPlugins,
+    // ...defaultPlugins,
+    "@hey-api/typescript",
     "@hey-api/client-fetch",
     "@hey-api/schemas",
     {
@@ -24,9 +20,10 @@ export default defineConfig({
     },
     "@tanstack/react-query",
     "zod",
-    // {
-    //   name: "@hey-api/sdk",
-    //   validator: true,
-    // },
+    // "@hey-api/sdk",
+    {
+      name: "@hey-api/sdk",
+      validator: true,
+    },
   ],
 }) as UserConfig;

@@ -477,6 +477,169 @@ import type {
   ProxyUpdateError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
+import {
+  zMetadataGetResponse,
+  zCloudMetadataGetResponse,
+  zMetadataListIntegrationsResponse,
+  zUserUpdateLoginResponse,
+  zSnsListResponse,
+  zSnsCreateResponse,
+  zAlertEmailGroupListResponse,
+  zAlertEmailGroupCreateResponse,
+  zTenantResourcePolicyGetResponse,
+  zAlertEmailGroupDeleteResponse,
+  zAlertEmailGroupUpdateResponse,
+  zSnsDeleteResponse,
+  zSlackWebhookListResponse,
+  zSlackWebhookDeleteResponse,
+  zUserGetCurrentResponse,
+  zUserUpdatePasswordResponse,
+  zUserCreateResponse,
+  zUserUpdateLogoutResponse,
+  zTenantMembershipsListResponse,
+  zUserListTenantInvitesResponse,
+  zTenantCreateResponse,
+  zTenantUpdateResponse,
+  zTenantAlertingSettingsGetResponse,
+  zTenantInviteListResponse,
+  zTenantInviteCreateResponse,
+  zTenantInviteDeleteResponse,
+  zTenantInviteUpdateResponse,
+  zApiTokenListResponse,
+  zApiTokenCreateResponse,
+  zApiTokenUpdateRevokeResponse,
+  zTenantGetQueueMetricsResponse,
+  zTenantGetStepRunQueueMetricsResponse,
+  zEventListResponse,
+  zEventCreateResponse,
+  zEventCreateBulkResponse,
+  zEventUpdateReplayResponse,
+  zEventUpdateCancelResponse,
+  zRateLimitListResponse,
+  zTenantMemberListResponse,
+  zTenantMemberDeleteResponse,
+  zEventGetResponse,
+  zEventDataGetResponse,
+  zEventKeyListResponse,
+  zWorkflowListResponse,
+  zWorkflowScheduledListResponse,
+  zWorkflowScheduledDeleteResponse,
+  zWorkflowScheduledGetResponse,
+  zCronWorkflowListResponse,
+  zWorkflowRunCancelResponse,
+  zWorkflowDeleteResponse,
+  zWorkflowGetResponse,
+  zWorkflowUpdateResponse,
+  zWorkflowVersionGetResponse,
+  zWorkflowRunCreateResponse,
+  zWorkflowGetMetricsResponse,
+  zLogLineListResponse,
+  zStepRunListEventsResponse,
+  zWorkflowRunListStepRunEventsResponse,
+  zStepRunListArchivesResponse,
+  zWorkflowGetWorkersCountResponse,
+  zWorkflowRunListResponse,
+  zWorkflowRunUpdateReplayResponse,
+  zWorkflowRunGetMetricsResponse,
+  zWorkflowRunGetResponse,
+  zWorkflowRunGetShapeResponse,
+  zStepRunGetResponse,
+  zStepRunUpdateRerunResponse,
+  zStepRunUpdateCancelResponse,
+  zStepRunGetSchemaResponse,
+  zWorkerListResponse,
+  zWorkerGetResponse,
+  zWorkerUpdateResponse,
+  zWebhookListResponse,
+  zWebhookCreateResponse,
+  zWebhookRequestsListResponse,
+  zWorkflowRunGetInputResponse,
+  zWorkflowGetByNameResponse,
+  zChatChatResponse,
+  zChatMessagesResponse,
+  zWorkerConfigResponse,
+  zMtmaiBloggenconfigResponse,
+  zMtmaiWorkerConfigResponse,
+  zBlogListResponse,
+  zBlogCreateResponse,
+  zBlogGetResponse,
+  zBlogUpdateResponse,
+  zSiteListResponse,
+  zSiteCreateResponse,
+  zSiteGetResponse,
+  zSiteUpdateResponse,
+  zSiteGetByHostResponse,
+  zSiteHostListResponse,
+  zSiteHostCreateResponse,
+  zSiteHostGetResponse,
+  zSiteHostUpdateResponse,
+  zPostListPublicResponse,
+  zPostGetResponse,
+  zPostListResponse,
+  zPostCreateResponse,
+  zArtifactListResponse,
+  zArtifactCreateResponse,
+  zArtifactGetResponse,
+  zTeamListResponse,
+  zTeamCreateResponse,
+  zTeamGetResponse,
+  zGalleryListResponse,
+  zGalleryCreateResponse,
+  zGalleryGetResponse,
+  zSessionListResponse,
+  zSessionCreateResponse,
+  zSessionGetResponse,
+  zSessionUpdateResponse,
+  zAgentNodeListResponse,
+  zAgentCreateResponse,
+  zAgentNodeResponse,
+  zAgentNodeUpdateResponse,
+  zAgentNodeRunResponse,
+  zAgentListResponse,
+  zAgentGetResponse,
+  zAgentStreamResponse,
+  zAgEventListResponse,
+  zAgEventCreateResponse,
+  zAgEventGetResponse,
+  zRunListResponse,
+  zRunCreateResponse,
+  zRunGetResponse,
+  zModelListResponse,
+  zModelCreateResponse,
+  zModelGetResponse,
+  zModelUpdateResponse,
+  zPromptListResponse,
+  zPromptGetResponse,
+  zAssisantListResponse,
+  zAssisantGetResponse,
+  zAdminReleaseConnResponse,
+  zFrontendGetConfigResponse,
+  zFrontendGetSiderbarResponse,
+  zHfAccountGetResponse,
+  zEnvListResponse,
+  zEnvUpdateResponse,
+  zEnvGetResponse,
+  zKvUpdateResponse,
+  zKvGetResponse,
+  zEndpointListResponse,
+  zEndpointUpdateResponse,
+  zPlatformListResponse,
+  zPlatformCreateResponse,
+  zPlatformGetResponse,
+  zPlatformUpdateResponse,
+  zPlatformAccountListResponse,
+  zPlatformAccountCreateResponse,
+  zPlatformAccountGetResponse,
+  zPlatformAccountUpdateResponse,
+  zBrowserListResponse,
+  zBrowserCreateResponse,
+  zBrowserGetResponse,
+  zBrowserUpdateResponse,
+  zProxyListResponse,
+  zProxyCreateResponse,
+  zProxyGetResponse,
+  zProxyUpdateResponse,
+} from "./zod.gen";
 
 export type Options<
   TData extends TDataShape = TDataShape,
@@ -532,6 +695,9 @@ export const metadataGet = <ThrowOnError extends boolean = false>(
     MetadataGetError,
     ThrowOnError
   >({
+    responseValidator: async (data) => {
+      return await zMetadataGetResponse.parseAsync(data);
+    },
     url: "/api/v1/meta",
     ...options,
   });
@@ -549,6 +715,9 @@ export const cloudMetadataGet = <ThrowOnError extends boolean = false>(
     CloudMetadataGetError,
     ThrowOnError
   >({
+    responseValidator: async (data) => {
+      return await zCloudMetadataGetResponse.parseAsync(data);
+    },
     url: "/api/v1/cloud/metadata",
     ...options,
   });
@@ -576,6 +745,9 @@ export const metadataListIntegrations = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zMetadataListIntegrationsResponse.parseAsync(data);
+    },
     url: "/api/v1/meta/integrations",
     ...options,
   });
@@ -593,6 +765,9 @@ export const userUpdateLogin = <ThrowOnError extends boolean = false>(
     UserUpdateLoginError,
     ThrowOnError
   >({
+    responseValidator: async (data) => {
+      return await zUserUpdateLoginResponse.parseAsync(data);
+    },
     url: "/api/v1/users/login",
     ...options,
     headers: {
@@ -739,6 +914,9 @@ export const snsList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zSnsListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/sns",
     ...options,
   });
@@ -766,6 +944,9 @@ export const snsCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zSnsCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/sns",
     ...options,
     headers: {
@@ -797,6 +978,9 @@ export const alertEmailGroupList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zAlertEmailGroupListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/alerting-email-groups",
     ...options,
   });
@@ -824,6 +1008,9 @@ export const alertEmailGroupCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zAlertEmailGroupCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/alerting-email-groups",
     ...options,
     headers: {
@@ -855,6 +1042,9 @@ export const tenantResourcePolicyGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zTenantResourcePolicyGetResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/resource-policy",
     ...options,
   });
@@ -882,6 +1072,9 @@ export const alertEmailGroupDelete = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zAlertEmailGroupDeleteResponse.parseAsync(data);
+    },
     url: "/api/v1/alerting-email-groups/{alert-email-group}",
     ...options,
   });
@@ -909,6 +1102,9 @@ export const alertEmailGroupUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zAlertEmailGroupUpdateResponse.parseAsync(data);
+    },
     url: "/api/v1/alerting-email-groups/{alert-email-group}",
     ...options,
     headers: {
@@ -940,6 +1136,9 @@ export const snsDelete = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zSnsDeleteResponse.parseAsync(data);
+    },
     url: "/api/v1/sns/{sns}",
     ...options,
   });
@@ -967,6 +1166,9 @@ export const slackWebhookList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zSlackWebhookListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/slack",
     ...options,
   });
@@ -994,6 +1196,9 @@ export const slackWebhookDelete = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zSlackWebhookDeleteResponse.parseAsync(data);
+    },
     url: "/api/v1/slack/{slack}",
     ...options,
   });
@@ -1011,6 +1216,9 @@ export const userGetCurrent = <ThrowOnError extends boolean = false>(
     UserGetCurrentError,
     ThrowOnError
   >({
+    responseValidator: async (data) => {
+      return await zUserGetCurrentResponse.parseAsync(data);
+    },
     url: "/api/v1/users/current",
     ...options,
   });
@@ -1028,6 +1236,9 @@ export const userUpdatePassword = <ThrowOnError extends boolean = false>(
     UserUpdatePasswordError,
     ThrowOnError
   >({
+    responseValidator: async (data) => {
+      return await zUserUpdatePasswordResponse.parseAsync(data);
+    },
     url: "/api/v1/users/password",
     ...options,
     headers: {
@@ -1049,6 +1260,9 @@ export const userCreate = <ThrowOnError extends boolean = false>(
     UserCreateError,
     ThrowOnError
   >({
+    responseValidator: async (data) => {
+      return await zUserCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/users/register",
     ...options,
     headers: {
@@ -1070,6 +1284,9 @@ export const userUpdateLogout = <ThrowOnError extends boolean = false>(
     UserUpdateLogoutError,
     ThrowOnError
   >({
+    responseValidator: async (data) => {
+      return await zUserUpdateLogoutResponse.parseAsync(data);
+    },
     url: "/api/v1/users/logout",
     ...options,
   });
@@ -1087,6 +1304,9 @@ export const tenantMembershipsList = <ThrowOnError extends boolean = false>(
     TenantMembershipsListError,
     ThrowOnError
   >({
+    responseValidator: async (data) => {
+      return await zTenantMembershipsListResponse.parseAsync(data);
+    },
     url: "/api/v1/users/memberships",
     ...options,
   });
@@ -1104,6 +1324,9 @@ export const userListTenantInvites = <ThrowOnError extends boolean = false>(
     UserListTenantInvitesError,
     ThrowOnError
   >({
+    responseValidator: async (data) => {
+      return await zUserListTenantInvitesResponse.parseAsync(data);
+    },
     url: "/api/v1/users/invites",
     ...options,
   });
@@ -1193,6 +1416,9 @@ export const tenantCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zTenantCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants",
     ...options,
     headers: {
@@ -1224,6 +1450,9 @@ export const tenantUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zTenantUpdateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}",
     ...options,
     headers: {
@@ -1255,6 +1484,9 @@ export const tenantAlertingSettingsGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zTenantAlertingSettingsGetResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/alerting/settings",
     ...options,
   });
@@ -1282,6 +1514,9 @@ export const tenantInviteList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zTenantInviteListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/invites",
     ...options,
   });
@@ -1309,6 +1544,9 @@ export const tenantInviteCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zTenantInviteCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/invites",
     ...options,
     headers: {
@@ -1340,6 +1578,9 @@ export const tenantInviteDelete = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zTenantInviteDeleteResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/invites/{tenant-invite}",
     ...options,
   });
@@ -1367,6 +1608,9 @@ export const tenantInviteUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zTenantInviteUpdateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/invites/{tenant-invite}",
     ...options,
     headers: {
@@ -1398,6 +1642,9 @@ export const apiTokenList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zApiTokenListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/api-tokens",
     ...options,
   });
@@ -1425,6 +1672,9 @@ export const apiTokenCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zApiTokenCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/api-tokens",
     ...options,
     headers: {
@@ -1456,6 +1706,9 @@ export const apiTokenUpdateRevoke = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zApiTokenUpdateRevokeResponse.parseAsync(data);
+    },
     url: "/api/v1/api-tokens/{api-token}",
     ...options,
   });
@@ -1483,6 +1736,9 @@ export const tenantGetQueueMetrics = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zTenantGetQueueMetricsResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/queue-metrics",
     ...options,
   });
@@ -1512,6 +1768,9 @@ export const tenantGetStepRunQueueMetrics = <
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zTenantGetStepRunQueueMetricsResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/step-run-queue-metrics",
     ...options,
   });
@@ -1539,6 +1798,9 @@ export const eventList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zEventListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/events",
     ...options,
   });
@@ -1566,6 +1828,9 @@ export const eventCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zEventCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/events",
     ...options,
     headers: {
@@ -1597,6 +1862,9 @@ export const eventCreateBulk = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zEventCreateBulkResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/events/bulk",
     ...options,
     headers: {
@@ -1628,6 +1896,9 @@ export const eventUpdateReplay = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zEventUpdateReplayResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/events/replay",
     ...options,
     headers: {
@@ -1659,6 +1930,9 @@ export const eventUpdateCancel = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zEventUpdateCancelResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/events/cancel",
     ...options,
     headers: {
@@ -1690,6 +1964,9 @@ export const rateLimitList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zRateLimitListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/rate-limits",
     ...options,
   });
@@ -1717,6 +1994,9 @@ export const tenantMemberList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zTenantMemberListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/members",
     ...options,
   });
@@ -1744,6 +2024,9 @@ export const tenantMemberDelete = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zTenantMemberDeleteResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/members/{member}",
     ...options,
   });
@@ -1771,6 +2054,9 @@ export const eventGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zEventGetResponse.parseAsync(data);
+    },
     url: "/api/v1/events/{event}",
     ...options,
   });
@@ -1798,6 +2084,9 @@ export const eventDataGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zEventDataGetResponse.parseAsync(data);
+    },
     url: "/api/v1/events/{event}/data",
     ...options,
   });
@@ -1825,6 +2114,9 @@ export const eventKeyList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zEventKeyListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/events/keys",
     ...options,
   });
@@ -1852,6 +2144,9 @@ export const workflowList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkflowListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/workflows",
     ...options,
   });
@@ -1879,6 +2174,9 @@ export const workflowScheduledList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkflowScheduledListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/workflows/scheduled",
     ...options,
   });
@@ -1906,6 +2204,9 @@ export const workflowScheduledDelete = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkflowScheduledDeleteResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/workflows/scheduled/{scheduledId}",
     ...options,
   });
@@ -1933,6 +2234,9 @@ export const workflowScheduledGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkflowScheduledGetResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/workflows/scheduled/{scheduledId}",
     ...options,
   });
@@ -1960,6 +2264,9 @@ export const cronWorkflowList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zCronWorkflowListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/workflows/crons",
     ...options,
   });
@@ -1987,6 +2294,9 @@ export const workflowRunCancel = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkflowRunCancelResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/workflows/cancel",
     ...options,
     headers: {
@@ -2018,6 +2328,9 @@ export const workflowDelete = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkflowDeleteResponse.parseAsync(data);
+    },
     url: "/api/v1/workflows/{workflow}",
     ...options,
   });
@@ -2045,6 +2358,9 @@ export const workflowGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkflowGetResponse.parseAsync(data);
+    },
     url: "/api/v1/workflows/{workflow}",
     ...options,
   });
@@ -2072,6 +2388,9 @@ export const workflowUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkflowUpdateResponse.parseAsync(data);
+    },
     url: "/api/v1/workflows/{workflow}",
     ...options,
     headers: {
@@ -2103,6 +2422,9 @@ export const workflowVersionGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkflowVersionGetResponse.parseAsync(data);
+    },
     url: "/api/v1/workflows/{workflow}/versions",
     ...options,
   });
@@ -2130,6 +2452,9 @@ export const workflowRunCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkflowRunCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/workflows/{workflow}/trigger",
     ...options,
     headers: {
@@ -2161,6 +2486,9 @@ export const workflowGetMetrics = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkflowGetMetricsResponse.parseAsync(data);
+    },
     url: "/api/v1/workflows/{workflow}/metrics",
     ...options,
   });
@@ -2188,6 +2516,9 @@ export const logLineList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zLogLineListResponse.parseAsync(data);
+    },
     url: "/api/v1/step-runs/{step-run}/logs",
     ...options,
   });
@@ -2215,6 +2546,9 @@ export const stepRunListEvents = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zStepRunListEventsResponse.parseAsync(data);
+    },
     url: "/api/v1/step-runs/{step-run}/events",
     ...options,
   });
@@ -2244,6 +2578,9 @@ export const workflowRunListStepRunEvents = <
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkflowRunListStepRunEventsResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/step-run-events",
     ...options,
   });
@@ -2271,6 +2608,9 @@ export const stepRunListArchives = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zStepRunListArchivesResponse.parseAsync(data);
+    },
     url: "/api/v1/step-runs/{step-run}/archives",
     ...options,
   });
@@ -2298,6 +2638,9 @@ export const workflowGetWorkersCount = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkflowGetWorkersCountResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/workflows/{workflow}/worker-count",
     ...options,
   });
@@ -2325,6 +2668,9 @@ export const workflowRunList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkflowRunListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/workflows/runs",
     ...options,
   });
@@ -2352,6 +2698,9 @@ export const workflowRunUpdateReplay = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkflowRunUpdateReplayResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/workflow-runs/replay",
     ...options,
     headers: {
@@ -2383,6 +2732,9 @@ export const workflowRunGetMetrics = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkflowRunGetMetricsResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/workflows/runs/metrics",
     ...options,
   });
@@ -2410,6 +2762,9 @@ export const workflowRunGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkflowRunGetResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}",
     ...options,
   });
@@ -2437,6 +2792,9 @@ export const workflowRunGetShape = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkflowRunGetShapeResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/shape",
     ...options,
   });
@@ -2464,6 +2822,9 @@ export const stepRunGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zStepRunGetResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/step-runs/{step-run}",
     ...options,
   });
@@ -2491,6 +2852,9 @@ export const stepRunUpdateRerun = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zStepRunUpdateRerunResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/step-runs/{step-run}/rerun",
     ...options,
     headers: {
@@ -2522,6 +2886,9 @@ export const stepRunUpdateCancel = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zStepRunUpdateCancelResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/step-runs/{step-run}/cancel",
     ...options,
   });
@@ -2549,6 +2916,9 @@ export const stepRunGetSchema = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zStepRunGetSchemaResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/step-runs/{step-run}/schema",
     ...options,
   });
@@ -2576,6 +2946,9 @@ export const workerList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkerListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/worker",
     ...options,
   });
@@ -2603,6 +2976,9 @@ export const workerGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkerGetResponse.parseAsync(data);
+    },
     url: "/api/v1/workers/{worker}",
     ...options,
   });
@@ -2630,6 +3006,9 @@ export const workerUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkerUpdateResponse.parseAsync(data);
+    },
     url: "/api/v1/workers/{worker}",
     ...options,
     headers: {
@@ -2661,6 +3040,9 @@ export const webhookList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWebhookListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/webhook-workers",
     ...options,
   });
@@ -2688,6 +3070,9 @@ export const webhookCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWebhookCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/webhook-workers",
     ...options,
     headers: {
@@ -2746,6 +3131,9 @@ export const webhookRequestsList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWebhookRequestsListResponse.parseAsync(data);
+    },
     url: "/api/v1/webhook-workers/{webhook}/requests",
     ...options,
   });
@@ -2773,6 +3161,9 @@ export const workflowRunGetInput = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkflowRunGetInputResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/input",
     ...options,
   });
@@ -2800,6 +3191,9 @@ export const workflowGetByName = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkflowGetByNameResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/workflows/byName/{name}",
     ...options,
   });
@@ -2827,6 +3221,9 @@ export const chatChat = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zChatChatResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/chat",
     ...options,
     headers: {
@@ -2858,6 +3255,9 @@ export const chatMessages = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zChatMessagesResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/chat/{chatId}/messages",
     ...options,
   });
@@ -2885,6 +3285,9 @@ export const workerConfig = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zWorkerConfigResponse.parseAsync(data);
+    },
     url: "/api/v1/worker/config",
     ...options,
   });
@@ -2912,6 +3315,9 @@ export const mtmaiBloggenconfig = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zMtmaiBloggenconfigResponse.parseAsync(data);
+    },
     url: "/api/v1/mtmai/bloggenconfig",
     ...options,
   });
@@ -2925,6 +3331,9 @@ export const mtmaiWorkerConfig = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
+    responseValidator: async (data) => {
+      return await zMtmaiWorkerConfigResponse.parseAsync(data);
+    },
     url: "/api/v1/mtmai/worker_config",
     ...options,
   });
@@ -2952,6 +3361,9 @@ export const blogList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zBlogListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/blogs",
     ...options,
   });
@@ -2979,6 +3391,9 @@ export const blogCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zBlogCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/blogs",
     ...options,
     headers: {
@@ -3009,6 +3424,9 @@ export const blogGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zBlogGetResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/blogs/{blog}",
     ...options,
   });
@@ -3036,6 +3454,9 @@ export const blogUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zBlogUpdateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/blogs/{blog}",
     ...options,
     headers: {
@@ -3066,6 +3487,9 @@ export const siteList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zSiteListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/sites",
     ...options,
   });
@@ -3092,6 +3516,9 @@ export const siteCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zSiteCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/sites",
     ...options,
     headers: {
@@ -3122,6 +3549,9 @@ export const siteGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zSiteGetResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/sites/{site}",
     ...options,
   });
@@ -3149,6 +3579,9 @@ export const siteUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zSiteUpdateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/sites/{site}",
     ...options,
     headers: {
@@ -3179,6 +3612,9 @@ export const siteGetByHost = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zSiteGetByHostResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/sites/byHost/{host}",
     ...options,
   });
@@ -3205,6 +3641,9 @@ export const siteHostList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zSiteHostListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/site-hosts",
     ...options,
   });
@@ -3231,6 +3670,9 @@ export const siteHostCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zSiteHostCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/site-hosts",
     ...options,
     headers: {
@@ -3261,6 +3703,9 @@ export const siteHostGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zSiteHostGetResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/site-hosts/{host}",
     ...options,
   });
@@ -3288,6 +3733,9 @@ export const siteHostUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zSiteHostUpdateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/site-hosts/{host}",
     ...options,
     headers: {
@@ -3308,6 +3756,9 @@ export const postListPublic = <ThrowOnError extends boolean = false>(
     PostListPublicError,
     ThrowOnError
   >({
+    responseValidator: async (data) => {
+      return await zPostListPublicResponse.parseAsync(data);
+    },
     url: "/api/v1/posts/public",
     ...options,
   });
@@ -3334,6 +3785,9 @@ export const postGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zPostGetResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/posts/{post}",
     ...options,
   });
@@ -3360,6 +3814,9 @@ export const postList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zPostListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/posts",
     ...options,
   });
@@ -3386,6 +3843,9 @@ export const postCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zPostCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/posts",
     ...options,
     headers: {
@@ -3417,6 +3877,9 @@ export const artifactList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zArtifactListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/artifacts",
     ...options,
   });
@@ -3444,6 +3907,9 @@ export const artifactCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zArtifactCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/artifacts",
     ...options,
     headers: {
@@ -3475,6 +3941,9 @@ export const artifactGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zArtifactGetResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/artifacts/{artifact}",
     ...options,
   });
@@ -3502,6 +3971,9 @@ export const teamList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zTeamListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/teams",
     ...options,
   });
@@ -3528,6 +4000,9 @@ export const teamCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zTeamCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/teams",
     ...options,
     headers: {
@@ -3559,6 +4034,9 @@ export const teamGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zTeamGetResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/teams/{team}",
     ...options,
   });
@@ -3586,6 +4064,9 @@ export const galleryList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zGalleryListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/galleries",
     ...options,
   });
@@ -3612,6 +4093,9 @@ export const galleryCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zGalleryCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/galleries",
     ...options,
     headers: {
@@ -3643,6 +4127,9 @@ export const galleryGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zGalleryGetResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/gallery/{gallery}",
     ...options,
   });
@@ -3670,6 +4157,9 @@ export const sessionList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zSessionListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/sessions",
     ...options,
   });
@@ -3696,6 +4186,9 @@ export const sessionCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zSessionCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/sessions",
     ...options,
     headers: {
@@ -3727,6 +4220,9 @@ export const sessionGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zSessionGetResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/sessions/{session}",
     ...options,
   });
@@ -3754,6 +4250,9 @@ export const sessionUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zSessionUpdateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/sessions/{session}",
     ...options,
     headers: {
@@ -3785,6 +4284,9 @@ export const agentNodeList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zAgentNodeListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/nodes",
     ...options,
   });
@@ -3812,6 +4314,9 @@ export const agentCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zAgentCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/nodes",
     ...options,
     headers: {
@@ -3843,6 +4348,9 @@ export const agentNode = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zAgentNodeResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/nodes/{node}",
     ...options,
   });
@@ -3870,6 +4378,9 @@ export const agentNodeUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zAgentNodeUpdateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/nodes/{node}",
     ...options,
     headers: {
@@ -3901,6 +4412,9 @@ export const agentNodeRun = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zAgentNodeRunResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/nodes/run",
     ...options,
     headers: {
@@ -3932,6 +4446,9 @@ export const agentList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zAgentListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/agents",
     ...options,
   });
@@ -3959,6 +4476,9 @@ export const agentGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zAgentGetResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/agent/{agent}",
     ...options,
   });
@@ -3986,6 +4506,9 @@ export const agentStream = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zAgentStreamResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/stream/{stream}",
     ...options,
   });
@@ -4013,6 +4536,9 @@ export const agEventList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zAgEventListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/agEvents",
     ...options,
   });
@@ -4039,6 +4565,9 @@ export const agEventCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zAgEventCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/agEvents",
     ...options,
     headers: {
@@ -4070,6 +4599,9 @@ export const agEventGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zAgEventGetResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/agEvents/{agEvent}",
     ...options,
   });
@@ -4097,6 +4629,9 @@ export const runList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zRunListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/runs",
     ...options,
   });
@@ -4123,6 +4658,9 @@ export const runCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zRunCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/runs",
     ...options,
     headers: {
@@ -4154,6 +4692,9 @@ export const runGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zRunGetResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/runs/{run}",
     ...options,
   });
@@ -4177,6 +4718,9 @@ export const modelList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zModelListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/models",
     ...options,
   });
@@ -4203,6 +4747,9 @@ export const modelCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zModelCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/models",
     ...options,
   });
@@ -4226,6 +4773,9 @@ export const modelGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zModelGetResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/models/{model}",
     ...options,
   });
@@ -4252,6 +4802,9 @@ export const modelUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zModelUpdateResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/models/{model}",
     ...options,
     headers: {
@@ -4283,6 +4836,9 @@ export const promptList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zPromptListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/prompts",
     ...options,
   });
@@ -4309,6 +4865,9 @@ export const promptGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zPromptGetResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/prompts/{prompt}",
     ...options,
   });
@@ -4336,6 +4895,9 @@ export const assisantList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zAssisantListResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/assisants",
     ...options,
   });
@@ -4362,6 +4924,9 @@ export const assisantGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zAssisantGetResponse.parseAsync(data);
+    },
     url: "/api/v1/tenants/{tenant}/assisants/{assisant}",
     ...options,
   });
@@ -4385,6 +4950,9 @@ export const adminReleaseConn = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zAdminReleaseConnResponse.parseAsync(data);
+    },
     url: "/api/v1/admin/releaseConn",
     ...options,
   });
@@ -4398,6 +4966,9 @@ export const frontendGetConfig = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
+    responseValidator: async (data) => {
+      return await zFrontendGetConfigResponse.parseAsync(data);
+    },
     url: "/api/v1/frontend/config",
     ...options,
   });
@@ -4411,6 +4982,9 @@ export const frontendGetSiderbar = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
+    responseValidator: async (data) => {
+      return await zFrontendGetSiderbarResponse.parseAsync(data);
+    },
     url: "/api/v1/frontend/siderbar",
     ...options,
   });
@@ -4434,6 +5008,9 @@ export const hfAccountGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zHfAccountGetResponse.parseAsync(data);
+    },
     url: "/api/v1/hf/account",
     ...options,
   });
@@ -4460,6 +5037,9 @@ export const envList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zEnvListResponse.parseAsync(data);
+    },
     url: "/api/v1/env",
     ...options,
   });
@@ -4487,6 +5067,9 @@ export const envUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zEnvUpdateResponse.parseAsync(data);
+    },
     url: "/api/v1/env",
     ...options,
     headers: {
@@ -4517,6 +5100,9 @@ export const envGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zEnvGetResponse.parseAsync(data);
+    },
     url: "/api/v1/env/{name}",
     ...options,
   });
@@ -4544,6 +5130,9 @@ export const kvUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zKvUpdateResponse.parseAsync(data);
+    },
     url: "/api/v1/kv",
     ...options,
     headers: {
@@ -4571,6 +5160,9 @@ export const kvGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zKvGetResponse.parseAsync(data);
+    },
     url: "/api/v1/kv/{key}",
     ...options,
   });
@@ -4594,6 +5186,9 @@ export const endpointList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zEndpointListResponse.parseAsync(data);
+    },
     url: "/api/v1/endpoint",
     ...options,
   });
@@ -4621,6 +5216,9 @@ export const endpointUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zEndpointUpdateResponse.parseAsync(data);
+    },
     url: "/api/v1/endpoint",
     ...options,
     headers: {
@@ -4648,6 +5246,9 @@ export const platformList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zPlatformListResponse.parseAsync(data);
+    },
     url: "/api/v1/platforms",
     ...options,
   });
@@ -4674,6 +5275,9 @@ export const platformCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zPlatformCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/platforms",
     ...options,
     headers: {
@@ -4701,6 +5305,9 @@ export const platformGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zPlatformGetResponse.parseAsync(data);
+    },
     url: "/api/v1/platforms/{platform}",
     ...options,
   });
@@ -4728,6 +5335,9 @@ export const platformUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zPlatformUpdateResponse.parseAsync(data);
+    },
     url: "/api/v1/platforms/{platform}",
     ...options,
     headers: {
@@ -4755,6 +5365,9 @@ export const platformAccountList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zPlatformAccountListResponse.parseAsync(data);
+    },
     url: "/api/v1/platform_accounts",
     ...options,
   });
@@ -4781,6 +5394,9 @@ export const platformAccountCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zPlatformAccountCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/platform_accounts",
     ...options,
     headers: {
@@ -4808,6 +5424,9 @@ export const platformAccountGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zPlatformAccountGetResponse.parseAsync(data);
+    },
     url: "/api/v1/platform_accounts/{platform_account}",
     ...options,
   });
@@ -4835,6 +5454,9 @@ export const platformAccountUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zPlatformAccountUpdateResponse.parseAsync(data);
+    },
     url: "/api/v1/platform_accounts/{platform_account}",
     ...options,
     headers: {
@@ -4862,6 +5484,9 @@ export const browserList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zBrowserListResponse.parseAsync(data);
+    },
     url: "/api/v1/browsers",
     ...options,
   });
@@ -4888,6 +5513,9 @@ export const browserCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zBrowserCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/browsers",
     ...options,
     headers: {
@@ -4915,6 +5543,9 @@ export const browserGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zBrowserGetResponse.parseAsync(data);
+    },
     url: "/api/v1/browsers/{browser}",
     ...options,
   });
@@ -4942,6 +5573,9 @@ export const browserUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zBrowserUpdateResponse.parseAsync(data);
+    },
     url: "/api/v1/browsers/{browser}",
     ...options,
     headers: {
@@ -4969,6 +5603,9 @@ export const proxyList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zProxyListResponse.parseAsync(data);
+    },
     url: "/api/v1/proxies",
     ...options,
   });
@@ -4995,6 +5632,9 @@ export const proxyCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zProxyCreateResponse.parseAsync(data);
+    },
     url: "/api/v1/proxies",
     ...options,
     headers: {
@@ -5022,6 +5662,9 @@ export const proxyGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zProxyGetResponse.parseAsync(data);
+    },
     url: "/api/v1/proxies/{proxy}",
     ...options,
   });
@@ -5049,6 +5692,9 @@ export const proxyUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
+    responseValidator: async (data) => {
+      return await zProxyUpdateResponse.parseAsync(data);
+    },
     url: "/api/v1/proxies/{proxy}",
     ...options,
     headers: {
