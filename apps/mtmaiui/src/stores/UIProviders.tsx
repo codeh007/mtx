@@ -62,8 +62,7 @@ export const UIProviders = (props: PropsWithChildren) => {
             <SonnerToasterLazy position="top-center" />
             <ToasterLazy />
             <TailwindIndicator />
-            {/* <AppLazy /> */}
-
+            <AppLazy />
             <DevToolsLazy />
           </TooltipProvider>
         </MtErrorBoundary>

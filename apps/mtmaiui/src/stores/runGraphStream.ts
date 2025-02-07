@@ -1,7 +1,11 @@
 "use client";
 
 import { generateId } from "ai";
-import { type AgentNodeRunInput, agentNodeRun } from "mtmaiapi";
+import {
+  type AgentNodeRunInput,
+  type EventTypes,
+  agentNodeRun,
+} from "mtmaiapi";
 import type { AgentNodeState } from "./GraphContext";
 
 const VERCEL_AI_EVENT_TYPES = {
@@ -135,7 +139,7 @@ const graphEventHandler = async (
   ) => void,
   get: () => AgentNodeState,
 ) => {
-  const eventType = event.event || event.type;
+  const eventType = (event.event || event.type) as EventTypes;
   switch (eventType) {
     case "aiReply": {
       const content = event.data;
@@ -173,10 +177,16 @@ const graphEventHandler = async (
           {
             role: event.source || "assistant",
             content: event.content,
-            id: generateId(),
+            // id: generateId(),
+            metadata: {
+              id: generateId(),
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+            },
           },
         ],
       });
+
       break;
     }
     case "ToolCallRequestEvent": {
@@ -192,6 +202,10 @@ const graphEventHandler = async (
       set({
         artifact: JSON.parse(event.data),
       });
+      break;
+    }
+    case "startWorkflowRun": {
+      console.log("[Event] startWorkflowRun", event);
       break;
     }
     default:

@@ -58,10 +58,24 @@ export function newRProxy(options: RProxyOptions) {
         body: ["GET", "HEAD"].includes(r.method) ? undefined : r.body,
       });
 
+      // 创建新的 Headers 对象
+      const newHeaders = new Headers(response.headers);
+      // 移除 Content-Encoding 头，让浏览器正确处理响应内容
+      newHeaders.delete("content-encoding");
+
+      // 读取并解压响应体
+      const body = await response.arrayBuffer();
+
       console.log(
         `🚀 [rProxy] ${r.method}(${response.status}) \n${r.url}, \n===> ${fullUrl.toString()}`,
       );
-      return response;
+
+      // 返回新的 Response，使用解压后的内容
+      return new Response(body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers: newHeaders,
+      });
     } catch (e) {
       return new Response(`error ${e} ${fullUrl.toString()}`);
     }
