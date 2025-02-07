@@ -3735,14 +3735,6 @@ export const zGalleryCreateResponse = zGallery;
 
 export const zGalleryGetResponse = zGallery;
 
-export const zSessionListResponse = zSessionList;
-
-export const zSessionCreateResponse = zSession;
-
-export const zSessionGetResponse = zSession;
-
-export const zSessionUpdateResponse = zSession;
-
 export const zAgentNodeListResponse = zAgentNodeList;
 
 export const zAgentCreateResponse = zAgentNode;

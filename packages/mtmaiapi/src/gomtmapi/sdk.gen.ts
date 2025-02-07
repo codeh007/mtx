@@ -336,16 +336,6 @@ import type {
   GalleryCreateError,
   GalleryGetData,
   GalleryGetResponse,
-  SessionListData,
-  SessionListResponse,
-  SessionCreateData,
-  SessionCreateResponse,
-  SessionCreateError,
-  SessionGetData,
-  SessionGetResponse,
-  SessionUpdateData,
-  SessionUpdateResponse,
-  SessionUpdateError,
   AgentNodeListData,
   AgentNodeListResponse,
   AgentCreateData,
@@ -586,10 +576,6 @@ import {
   zGalleryListResponse,
   zGalleryCreateResponse,
   zGalleryGetResponse,
-  zSessionListResponse,
-  zSessionCreateResponse,
-  zSessionGetResponse,
-  zSessionUpdateResponse,
   zAgentNodeListResponse,
   zAgentCreateResponse,
   zAgentNodeResponse,
@@ -4132,133 +4118,6 @@ export const galleryGet = <ThrowOnError extends boolean = false>(
     },
     url: "/api/v1/tenants/{tenant}/gallery/{gallery}",
     ...options,
-  });
-};
-
-/**
- * 获取租户下的会话列表
- * 获取会话列表
- */
-export const sessionList = <ThrowOnError extends boolean = false>(
-  options: Options<SessionListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    SessionListResponse,
-    unknown,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    responseValidator: async (data) => {
-      return await zSessionListResponse.parseAsync(data);
-    },
-    url: "/api/v1/tenants/{tenant}/sessions",
-    ...options,
-  });
-};
-
-/**
- * create session
- */
-export const sessionCreate = <ThrowOnError extends boolean = false>(
-  options: Options<SessionCreateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    SessionCreateResponse,
-    SessionCreateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    responseValidator: async (data) => {
-      return await zSessionCreateResponse.parseAsync(data);
-    },
-    url: "/api/v1/tenants/{tenant}/sessions",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 获取租户下的会话
- * 获取会话
- */
-export const sessionGet = <ThrowOnError extends boolean = false>(
-  options: Options<SessionGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    SessionGetResponse,
-    unknown,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    responseValidator: async (data) => {
-      return await zSessionGetResponse.parseAsync(data);
-    },
-    url: "/api/v1/tenants/{tenant}/sessions/{session}",
-    ...options,
-  });
-};
-
-/**
- * 更新会话
- * 更新会话
- */
-export const sessionUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<SessionUpdateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).put<
-    SessionUpdateResponse,
-    SessionUpdateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    responseValidator: async (data) => {
-      return await zSessionUpdateResponse.parseAsync(data);
-    },
-    url: "/api/v1/tenants/{tenant}/sessions/{session}",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
   });
 };
 
