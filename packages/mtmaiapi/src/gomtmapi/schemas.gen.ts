@@ -3592,18 +3592,18 @@ export const AgentNodeRunInputSchema = {
   type: "object",
   description: "agent运行节点请求",
   properties: {
+    messages: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ChatMessage",
+      },
+    },
     flowName: {
       type: "string",
     },
     runner: {
       type: "string",
       description: "运行器名称(对应 autogent 的 angent 入口名称)",
-    },
-    messages: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/ChatMessage",
-      },
     },
     nodeId: {
       type: "string",
@@ -3633,7 +3633,7 @@ export const AgentNodeRunInputSchema = {
       ],
     },
   },
-  required: ["messages", "params"],
+  required: ["messages"],
 } as const;
 
 export const TextHighlightSchema = {
@@ -4348,13 +4348,7 @@ export const AgEventSchema = {
 
 export const EventTypesSchema = {
   type: "string",
-  enum: [
-    "WorkflowRunStart",
-    "WorkflowRunEnd",
-    "AssistantReply",
-    "StepRun",
-    "TextMessage",
-  ],
+  enum: ["WorkflowRunStart", "WorkflowRunEnd", "StepRun", "TextMessage"],
 } as const;
 
 export const AgEventListSchema = {

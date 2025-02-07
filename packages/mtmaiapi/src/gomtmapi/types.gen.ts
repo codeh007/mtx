@@ -2086,12 +2086,12 @@ export type AgentNodeRun = {
  * agent运行节点请求
  */
 export type AgentNodeRunInput = {
+  messages: Array<ChatMessage>;
   flowName?: string;
   /**
    * 运行器名称(对应 autogent 的 angent 入口名称)
    */
   runner?: string;
-  messages: Array<ChatMessage>;
   /**
    * agent 节点ID(threadId)
    */
@@ -2100,7 +2100,7 @@ export type AgentNodeRunInput = {
    * 是否使用stream 传输事件
    */
   isStream?: boolean;
-  params:
+  params?:
     | ResearchRequest
     | CrewAiParams
     | ScrapeGraphParams
@@ -2487,14 +2487,12 @@ export type AgEvent = {
 export type EventTypes =
   | "WorkflowRunStart"
   | "WorkflowRunEnd"
-  | "AssistantReply"
   | "StepRun"
   | "TextMessage";
 
 export const EventTypes = {
   WORKFLOW_RUN_START: "WorkflowRunStart",
   WORKFLOW_RUN_END: "WorkflowRunEnd",
-  ASSISTANT_REPLY: "AssistantReply",
   STEP_RUN: "StepRun",
   TEXT_MESSAGE: "TextMessage",
 } as const;

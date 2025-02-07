@@ -1812,92 +1812,94 @@ export const zAgentNodeRun = z.object({
 });
 
 export const zAgentNodeRunInput = z.object({
+  messages: z.array(zChatMessage),
   flowName: z.string().optional(),
   runner: z.string().optional(),
-  messages: z.array(zChatMessage),
   nodeId: z.string().optional(),
   isStream: z.boolean().optional(),
-  params: z.union([
-    z
-      .object({
-        isStream: z.boolean(),
-        threadId: z.string(),
-      })
-      .merge(
-        z.object({
-          input: z.string(),
-        }),
-      ),
-    z.object({
-      input: z.string().optional(),
-    }),
-    z.object({
-      input: z.string().optional(),
-    }),
-    z.object({
-      input: z.string().optional(),
-    }),
-    z.object({
-      stepLimit: z.number().optional(),
-      messages: z.array(zChatMessage).optional(),
-      action: z
+  params: z
+    .union([
+      z
         .object({
-          action: z.string().optional(),
-          input: z.object({}).optional(),
+          isStream: z.boolean(),
+          threadId: z.string(),
         })
-        .optional(),
-      language: z.string().optional(),
-      customQuickActionId: z.string().optional(),
-      artifactId: z.string().optional(),
-      fixBugs: z.boolean().optional(),
-      highlightedCode: z
-        .object({
-          startCharIndex: z.number(),
-          endCharIndex: z.number(),
-        })
-        .optional(),
-      highlightedText: z
-        .object({
-          fullMarkdown: z.string(),
-          markdownBlock: z.string(),
-          selectedText: z.string(),
-        })
-        .optional(),
-      regenerateWithEmojis: z.boolean().optional(),
-      readingLevel: z
-        .enum(["pirate", "child", "teenager", "college", "phd"])
-        .optional(),
-      artifactLength: z
-        .enum(["shortest", "short", "long", "longest"])
-        .optional(),
-      artifact: z
-        .object({
-          currentIndex: z.number().optional(),
-          contents: z.array(z.unknown()).optional(),
-        })
-        .optional(),
-      addComments: z.boolean().optional(),
-      addLogs: z.boolean().optional(),
-      portLanguage: z
-        .enum([
-          "typescript",
-          "javascript",
-          "cpp",
-          "java",
-          "php",
-          "python",
-          "html",
-          "sql",
-          "json",
-          "rust",
-          "xml",
-          "clojure",
-          "csharp",
-          "other",
-        ])
-        .optional(),
-    }),
-  ]),
+        .merge(
+          z.object({
+            input: z.string(),
+          }),
+        ),
+      z.object({
+        input: z.string().optional(),
+      }),
+      z.object({
+        input: z.string().optional(),
+      }),
+      z.object({
+        input: z.string().optional(),
+      }),
+      z.object({
+        stepLimit: z.number().optional(),
+        messages: z.array(zChatMessage).optional(),
+        action: z
+          .object({
+            action: z.string().optional(),
+            input: z.object({}).optional(),
+          })
+          .optional(),
+        language: z.string().optional(),
+        customQuickActionId: z.string().optional(),
+        artifactId: z.string().optional(),
+        fixBugs: z.boolean().optional(),
+        highlightedCode: z
+          .object({
+            startCharIndex: z.number(),
+            endCharIndex: z.number(),
+          })
+          .optional(),
+        highlightedText: z
+          .object({
+            fullMarkdown: z.string(),
+            markdownBlock: z.string(),
+            selectedText: z.string(),
+          })
+          .optional(),
+        regenerateWithEmojis: z.boolean().optional(),
+        readingLevel: z
+          .enum(["pirate", "child", "teenager", "college", "phd"])
+          .optional(),
+        artifactLength: z
+          .enum(["shortest", "short", "long", "longest"])
+          .optional(),
+        artifact: z
+          .object({
+            currentIndex: z.number().optional(),
+            contents: z.array(z.unknown()).optional(),
+          })
+          .optional(),
+        addComments: z.boolean().optional(),
+        addLogs: z.boolean().optional(),
+        portLanguage: z
+          .enum([
+            "typescript",
+            "javascript",
+            "cpp",
+            "java",
+            "php",
+            "python",
+            "html",
+            "sql",
+            "json",
+            "rust",
+            "xml",
+            "clojure",
+            "csharp",
+            "other",
+          ])
+          .optional(),
+      }),
+    ])
+    .optional(),
 });
 
 export const zTextHighlight = z.object({
@@ -2327,7 +2329,6 @@ export const zAgEvent = z.object({
 export const zEventTypes = z.enum([
   "WorkflowRunStart",
   "WorkflowRunEnd",
-  "AssistantReply",
   "StepRun",
   "TextMessage",
 ]);

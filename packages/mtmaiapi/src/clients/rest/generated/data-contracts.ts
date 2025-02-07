@@ -1735,15 +1735,15 @@ export interface AgentNodeRun {
 
 /** agent运行节点请求 */
 export interface AgentNodeRunInput {
+  messages: ChatMessage[];
   flowName?: string;
   /** 运行器名称(对应 autogent 的 angent 入口名称) */
   runner?: string;
-  messages: ChatMessage[];
   /** agent 节点ID(threadId) */
   nodeId?: string;
   /** 是否使用stream 传输事件 */
   isStream?: boolean;
-  params:
+  params?:
     | ResearchRequest
     | CrewAIParams
     | ScrapeGraphParams
@@ -2031,7 +2031,6 @@ export interface AgEvent {
 export enum EventTypes {
   WorkflowRunStart = "WorkflowRunStart",
   WorkflowRunEnd = "WorkflowRunEnd",
-  AssistantReply = "AssistantReply",
   StepRun = "StepRun",
   TextMessage = "TextMessage",
 }
