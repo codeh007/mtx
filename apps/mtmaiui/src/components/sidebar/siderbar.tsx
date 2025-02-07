@@ -12,6 +12,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { frontendGetSiderbarOptions } from "mtmaiapi";
+import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { user } from "mtxuilib/db/schema";
 import { useIsMobile } from "mtxuilib/hooks/use-mobile";
@@ -48,6 +49,7 @@ import {
   useSidebar,
 } from "mtxuilib/ui/sidebar";
 import Link from "next/link";
+import { Suspense } from "react";
 import { useIsAdmin } from "../../hooks/useAuth";
 import { CustomLink } from "../CustomLink";
 import { SidebarMenuApp } from "./SidebarMenuApp";
@@ -108,7 +110,38 @@ export const DashSidebar = (props: DashSidebarProps) => {
                 </CollapsibleTrigger>
                 <CollapsibleContent>
                   <SidebarMenuSub>
-                    <SidebarHistory user={user} />
+                    <MtErrorBoundary>
+                      <Suspense
+                        fallback={
+                          <SidebarGroup>
+                            <div className="px-2 py-1 text-xs text-sidebar-foreground/50">
+                              Today
+                            </div>
+                            <SidebarGroupContent>
+                              <div className="flex flex-col">
+                                {[44, 32, 28, 64, 52].map((item) => (
+                                  <div
+                                    key={item}
+                                    className="rounded-md h-8 flex gap-2 px-2 items-center"
+                                  >
+                                    <div
+                                      className="h-4 rounded-md flex-1 max-w-[--skeleton-width] bg-sidebar-accent-foreground/10"
+                                      style={
+                                        {
+                                          "--skeleton-width": `${item}%`,
+                                        } as React.CSSProperties
+                                      }
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            </SidebarGroupContent>
+                          </SidebarGroup>
+                        }
+                      >
+                        <SidebarHistory user={user} />
+                      </Suspense>
+                    </MtErrorBoundary>
                   </SidebarMenuSub>
                 </CollapsibleContent>
               </SidebarMenuItem>

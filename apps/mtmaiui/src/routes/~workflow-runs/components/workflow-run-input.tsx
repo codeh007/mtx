@@ -1,27 +1,21 @@
 "use client";
-import type { WorkflowRun } from "mtmaiapi";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { type WorkflowRun, workflowRunGetInputOptions } from "mtmaiapi";
 import { CodeHighlighter } from "mtxuilib/mt/code-highlighter";
-import { MtLoading } from "mtxuilib/mt/mtloading";
-import { useMtmClient } from "../../../hooks/useMtmapi";
 
 export function WorkflowRunInputDialog({ run }: { run: WorkflowRun }) {
-  const mtmapi = useMtmClient();
-  const getInputQuery = mtmapi.useQuery(
-    "get",
-    "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/input",
-    {
-      params: {
-        path: {
-          tenant: run.tenantId,
-          "workflow-run": run.metadata.id,
-        },
+  const getInputQuery = useSuspenseQuery({
+    ...workflowRunGetInputOptions({
+      path: {
+        tenant: run.tenantId,
+        "workflow-run": run.metadata.id,
       },
-    },
-  );
+    }),
+  });
 
-  if (getInputQuery.isLoading) {
-    return <MtLoading />;
-  }
+  // if (getInputQuery.isLoading) {
+  //   return <MtLoading />;
+  // }
 
   if (!getInputQuery.data) {
     return null;

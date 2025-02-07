@@ -1,13 +1,24 @@
 "use client";
 
 import { isToday, isYesterday, subMonths, subWeeks } from "date-fns";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "mtxuilib/ui/alert-dialog";
 import type { User } from "next-auth";
 import Link from "next/link";
-import { useParams, usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
-import useSWR from "swr";
 
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { sessionListOptions } from "mtmaiapi";
 import type { Chat } from "mtxuilib/db/schema";
 import {
   MoreHorizontalIcon,
@@ -31,8 +42,8 @@ import {
   useSidebar,
 } from "mtxuilib/ui/sidebar";
 import { BetterTooltip } from "mtxuilib/ui/tooltip";
+import { useTenant } from "../../hooks/useAuth";
 import { useBasePath } from "../../hooks/useBasePath";
-import { fetcher } from "../../lib/utils";
 
 type GroupedChats = {
   today: Chat[];
@@ -87,19 +98,23 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
   const { setOpenMobile } = useSidebar();
   const { id } = useParams();
   const basePath = useBasePath();
-  const pathname = usePathname();
-  const {
-    data: history,
-    isLoading,
-    mutate,
-  } = useSWR<Array<Chat>>(user ? "/api/history" : null, fetcher, {
-    fallbackData: [],
-  });
+  // const pathname = usePathname();
+  const tenant = useTenant();
+  // const {
+  //   data: history,
+  //   isLoading,
+  //   mutate,
+  // } = useSWR<Array<Chat>>(user ? "/api/history" : null, fetcher, {
+  //   fallbackData: [],
+  // });
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    mutate();
-  }, [pathname, mutate]);
+  const sessionQuery = useSuspenseQuery({
+    ...sessionListOptions({
+      path: {
+        tenant: tenant!.metadata.id,
+      },
+    }),
+  });
 
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -141,7 +156,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
     );
   }
 
-  if (isLoading) {
+  if (sessionQuery.isLoading) {
     return (
       <SidebarGroup>
         <div className="px-2 py-1 text-xs text-sidebar-foreground/50">
@@ -175,9 +190,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
       <SidebarGroup>
         <SidebarGroupContent>
           <div className="text-zinc-500 w-full flex flex-row justify-center items-center text-sm gap-2">
-            <div>
-              Your conversations will appear here once you start chatting!
-            </div>
+            <div>当前没有聊天记录</div>
           </div>
         </SidebarGroupContent>
       </SidebarGroup>
@@ -189,7 +202,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
     const oneWeekAgo = subWeeks(now, 1);
     const oneMonthAgo = subMonths(now, 1);
 
-    return chats.reduce(
+    return chats?.reduce(
       (groups, chat) => {
         const chatDate = new Date(chat.createdAt);
 
@@ -255,7 +268,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
           <SidebarMenu>
             {history &&
               (() => {
-                const groupedChats = groupChatsByDate(history);
+                const groupedChats = groupChatsByDate(sessionQuery.data.rows);
 
                 return (
                   <>

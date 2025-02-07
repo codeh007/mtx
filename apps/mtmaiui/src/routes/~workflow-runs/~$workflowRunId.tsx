@@ -123,7 +123,9 @@ function RouteComponent() {
             )}
           </MtTabsContent>
           <MtTabsContent value="input">
-            {shape.data && <WorkflowRunInputDialog run={shape.data} />}
+            <MtErrorBoundary>
+              {shape.data && <WorkflowRunInputDialog run={shape.data} />}
+            </MtErrorBoundary>
           </MtTabsContent>
           <MtTabsContent value="additional-metadata">
             <CodeHighlighter

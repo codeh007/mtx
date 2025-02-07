@@ -1,5 +1,4 @@
 "use client";
-import { PlusIcon } from "@heroicons/react/24/outline";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { SkeletonListview } from "mtxuilib/components/skeletons/SkeletonListView";
@@ -9,11 +8,9 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
-import { Button } from "mtxuilib/ui/button";
 import { Separator } from "mtxuilib/ui/separator";
 import { SidebarInset, SidebarTrigger } from "mtxuilib/ui/sidebar";
 import { Suspense } from "react";
-import { CustomLink } from "../../components/CustomLink";
 import { DashSidebar } from "../../components/sidebar/siderbar";
 import { useTenant } from "../../hooks/useAuth";
 import { useBasePath } from "../../hooks/useBasePath";
@@ -46,14 +43,14 @@ function RouteComponent() {
         <div className="flex flex-1 flex-col">
           <Suspense fallback={<SkeletonListview />}>
             <MtErrorBoundary>
-              <div>
+              {/* <div>
                 <CustomLink to={`${basePath}/create/oneshot`}>
                   <Button>
                     <PlusIcon className="size-4" />
                     oneshot
                   </Button>
                 </CustomLink>
-              </div>
+              </div> */}
               <Outlet />
             </MtErrorBoundary>
           </Suspense>
