@@ -30,8 +30,6 @@ import { Route as WorkflowRunsIndexImport } from './routes/~workflow-runs/~index
 import { Route as SiteIndexImport } from './routes/~site/~index'
 import { Route as PlatformIndexImport } from './routes/~platform/~index'
 import { Route as GalleryIndexImport } from './routes/~gallery/~index'
-import { Route as EndpointIndexImport } from './routes/~endpoint/~index'
-import { Route as ChatIndexImport } from './routes/~chat/~index'
 import { Route as WorkflowsTriggerAssisantImport } from './routes/~workflows/~trigger/~assisant'
 import { Route as WorkflowsTriggerIdImport } from './routes/~workflows/~trigger/~$id'
 import { Route as SiteSiteIdHostRouteImport } from './routes/~site/~$siteId/~host/~route'
@@ -65,6 +63,8 @@ const PostIndexLazyImport = createFileRoute('/post/')()
 const PlatformAccountIndexLazyImport = createFileRoute('/platform-account/')()
 const ModelIndexLazyImport = createFileRoute('/model/')()
 const EnvsIndexLazyImport = createFileRoute('/envs/')()
+const EndpointIndexLazyImport = createFileRoute('/endpoint/')()
+const ChatIndexLazyImport = createFileRoute('/chat/')()
 const AgEventsIndexLazyImport = createFileRoute('/agEvents/')()
 const AuthLoginIndexLazyImport = createFileRoute('/auth/login/')()
 
@@ -220,6 +220,20 @@ const EnvsIndexLazyRoute = EnvsIndexLazyImport.update({
   getParentRoute: () => EnvsRouteLazyRoute,
 } as any).lazy(() => import('./routes/~envs/~index.lazy').then((d) => d.Route))
 
+const EndpointIndexLazyRoute = EndpointIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => EndpointRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~endpoint/~index.lazy').then((d) => d.Route),
+)
+
+const ChatIndexLazyRoute = ChatIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ChatRouteLazyRoute,
+} as any).lazy(() => import('./routes/~chat/~index.lazy').then((d) => d.Route))
+
 const AgEventsIndexLazyRoute = AgEventsIndexLazyImport.update({
   id: '/',
   path: '/',
@@ -316,18 +330,6 @@ const GalleryIndexRoute = GalleryIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => GalleryRouteLazyRoute,
-} as any)
-
-const EndpointIndexRoute = EndpointIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => EndpointRouteLazyRoute,
-} as any)
-
-const ChatIndexRoute = ChatIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ChatRouteLazyRoute,
 } as any)
 
 const AuthLoginIndexLazyRoute = AuthLoginIndexLazyImport.update({
@@ -496,20 +498,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkflowsRouteLazyImport
       parentRoute: typeof rootRoute
     }
-    '/chat/': {
-      id: '/chat/'
-      path: '/'
-      fullPath: '/chat/'
-      preLoaderRoute: typeof ChatIndexImport
-      parentRoute: typeof ChatRouteLazyImport
-    }
-    '/endpoint/': {
-      id: '/endpoint/'
-      path: '/'
-      fullPath: '/endpoint/'
-      preLoaderRoute: typeof EndpointIndexImport
-      parentRoute: typeof EndpointRouteLazyImport
-    }
     '/gallery/': {
       id: '/gallery/'
       path: '/'
@@ -621,6 +609,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/agEvents/'
       preLoaderRoute: typeof AgEventsIndexLazyImport
       parentRoute: typeof AgEventsRouteLazyImport
+    }
+    '/chat/': {
+      id: '/chat/'
+      path: '/'
+      fullPath: '/chat/'
+      preLoaderRoute: typeof ChatIndexLazyImport
+      parentRoute: typeof ChatRouteLazyImport
+    }
+    '/endpoint/': {
+      id: '/endpoint/'
+      path: '/'
+      fullPath: '/endpoint/'
+      preLoaderRoute: typeof EndpointIndexLazyImport
+      parentRoute: typeof EndpointRouteLazyImport
     }
     '/envs/': {
       id: '/envs/'
@@ -775,15 +777,15 @@ const AgEventsRouteLazyRouteWithChildren =
   AgEventsRouteLazyRoute._addFileChildren(AgEventsRouteLazyRouteChildren)
 
 interface ChatRouteLazyRouteChildren {
-  ChatIndexRoute: typeof ChatIndexRoute
   ChatChatSessionIdRoute: typeof ChatChatSessionIdRoute
   ChatCanvasRoute: typeof ChatCanvasRoute
+  ChatIndexLazyRoute: typeof ChatIndexLazyRoute
 }
 
 const ChatRouteLazyRouteChildren: ChatRouteLazyRouteChildren = {
-  ChatIndexRoute: ChatIndexRoute,
   ChatChatSessionIdRoute: ChatChatSessionIdRoute,
   ChatCanvasRoute: ChatCanvasRoute,
+  ChatIndexLazyRoute: ChatIndexLazyRoute,
 }
 
 const ChatRouteLazyRouteWithChildren = ChatRouteLazyRoute._addFileChildren(
@@ -791,11 +793,11 @@ const ChatRouteLazyRouteWithChildren = ChatRouteLazyRoute._addFileChildren(
 )
 
 interface EndpointRouteLazyRouteChildren {
-  EndpointIndexRoute: typeof EndpointIndexRoute
+  EndpointIndexLazyRoute: typeof EndpointIndexLazyRoute
 }
 
 const EndpointRouteLazyRouteChildren: EndpointRouteLazyRouteChildren = {
-  EndpointIndexRoute: EndpointIndexRoute,
+  EndpointIndexLazyRoute: EndpointIndexLazyRoute,
 }
 
 const EndpointRouteLazyRouteWithChildren =
@@ -988,8 +990,6 @@ export interface FileRoutesByFullPath {
   '/team': typeof TeamRouteLazyRouteWithChildren
   '/workflow-runs': typeof WorkflowRunsRouteLazyRouteWithChildren
   '/workflows': typeof WorkflowsRouteLazyRouteWithChildren
-  '/chat/': typeof ChatIndexRoute
-  '/endpoint/': typeof EndpointIndexRoute
   '/gallery/': typeof GalleryIndexRoute
   '/platform/': typeof PlatformIndexRoute
   '/site/': typeof SiteIndexRoute
@@ -1006,6 +1006,8 @@ export interface FileRoutesByFullPath {
   '/team/$teamId': typeof TeamTeamIdRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdRoute
   '/agEvents/': typeof AgEventsIndexLazyRoute
+  '/chat/': typeof ChatIndexLazyRoute
+  '/endpoint/': typeof EndpointIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/model/': typeof ModelIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
@@ -1027,8 +1029,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
-  '/chat': typeof ChatIndexRoute
-  '/endpoint': typeof EndpointIndexRoute
   '/gallery': typeof GalleryIndexRoute
   '/platform': typeof PlatformIndexRoute
   '/site': typeof SiteIndexRoute
@@ -1043,6 +1043,8 @@ export interface FileRoutesByTo {
   '/team/$teamId': typeof TeamTeamIdRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdRoute
   '/agEvents': typeof AgEventsIndexLazyRoute
+  '/chat': typeof ChatIndexLazyRoute
+  '/endpoint': typeof EndpointIndexLazyRoute
   '/envs': typeof EnvsIndexLazyRoute
   '/model': typeof ModelIndexLazyRoute
   '/platform-account': typeof PlatformAccountIndexLazyRoute
@@ -1077,8 +1079,6 @@ export interface FileRoutesById {
   '/team': typeof TeamRouteLazyRouteWithChildren
   '/workflow-runs': typeof WorkflowRunsRouteLazyRouteWithChildren
   '/workflows': typeof WorkflowsRouteLazyRouteWithChildren
-  '/chat/': typeof ChatIndexRoute
-  '/endpoint/': typeof EndpointIndexRoute
   '/gallery/': typeof GalleryIndexRoute
   '/platform/': typeof PlatformIndexRoute
   '/site/': typeof SiteIndexRoute
@@ -1095,6 +1095,8 @@ export interface FileRoutesById {
   '/team/$teamId': typeof TeamTeamIdRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdRoute
   '/agEvents/': typeof AgEventsIndexLazyRoute
+  '/chat/': typeof ChatIndexLazyRoute
+  '/endpoint/': typeof EndpointIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/model/': typeof ModelIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
@@ -1131,8 +1133,6 @@ export interface FileRouteTypes {
     | '/team'
     | '/workflow-runs'
     | '/workflows'
-    | '/chat/'
-    | '/endpoint/'
     | '/gallery/'
     | '/platform/'
     | '/site/'
@@ -1149,6 +1149,8 @@ export interface FileRouteTypes {
     | '/team/$teamId'
     | '/workflow-runs/$workflowRunId'
     | '/agEvents/'
+    | '/chat/'
+    | '/endpoint/'
     | '/envs/'
     | '/model/'
     | '/platform-account/'
@@ -1169,8 +1171,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
-    | '/chat'
-    | '/endpoint'
     | '/gallery'
     | '/platform'
     | '/site'
@@ -1185,6 +1185,8 @@ export interface FileRouteTypes {
     | '/team/$teamId'
     | '/workflow-runs/$workflowRunId'
     | '/agEvents'
+    | '/chat'
+    | '/endpoint'
     | '/envs'
     | '/model'
     | '/platform-account'
@@ -1217,8 +1219,6 @@ export interface FileRouteTypes {
     | '/team'
     | '/workflow-runs'
     | '/workflows'
-    | '/chat/'
-    | '/endpoint/'
     | '/gallery/'
     | '/platform/'
     | '/site/'
@@ -1235,6 +1235,8 @@ export interface FileRouteTypes {
     | '/team/$teamId'
     | '/workflow-runs/$workflowRunId'
     | '/agEvents/'
+    | '/chat/'
+    | '/endpoint/'
     | '/envs/'
     | '/model/'
     | '/platform-account/'
@@ -1338,9 +1340,9 @@ export const routeTree = rootRoute
     "/chat": {
       "filePath": "~chat/~route.lazy.tsx",
       "children": [
-        "/chat/",
         "/chat/$chatSessionId",
-        "/chat/canvas"
+        "/chat/canvas",
+        "/chat/"
       ]
     },
     "/endpoint": {
@@ -1421,14 +1423,6 @@ export const routeTree = rootRoute
         "/workflows/trigger/assisant"
       ]
     },
-    "/chat/": {
-      "filePath": "~chat/~index.tsx",
-      "parent": "/chat"
-    },
-    "/endpoint/": {
-      "filePath": "~endpoint/~index.tsx",
-      "parent": "/endpoint"
-    },
     "/gallery/": {
       "filePath": "~gallery/~index.tsx",
       "parent": "/gallery"
@@ -1500,6 +1494,14 @@ export const routeTree = rootRoute
     "/agEvents/": {
       "filePath": "~agEvents/~index.lazy.tsx",
       "parent": "/agEvents"
+    },
+    "/chat/": {
+      "filePath": "~chat/~index.lazy.tsx",
+      "parent": "/chat"
+    },
+    "/endpoint/": {
+      "filePath": "~endpoint/~index.lazy.tsx",
+      "parent": "/endpoint"
     },
     "/envs/": {
       "filePath": "~envs/~index.lazy.tsx",

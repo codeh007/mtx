@@ -10,10 +10,10 @@ import {
   StopCircle,
   TriangleAlertIcon,
 } from "lucide-react";
-import type { ChatMessage } from "mtmaiapi";
+import type { ChatMessage, Run, TeamConfig } from "mtmaiapi";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import { useEffect, useRef, useState } from "react";
-import type { Run, TeamConfig } from "../../components/datamodel";
+// import type { Run, TeamConfig } from "../../components/datamodel";
 import {
   LoadingDots,
   TruncatableText,

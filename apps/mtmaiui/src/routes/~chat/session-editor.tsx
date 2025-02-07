@@ -1,10 +1,11 @@
+"use client";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { message } from "antd";
+// import { message } from "antd";
 import { TriangleAlertIcon } from "lucide-react";
 import {
   type Session,
-  sessionCreateMutation,
-  sessionUpdateMutation,
+  // sessionCreateMutation,
+  // sessionUpdateMutation,
   teamListOptions,
 } from "mtmaiapi";
 import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
@@ -41,7 +42,7 @@ export const SessionEditor = ({
   onCancel,
   isOpen,
 }: SessionEditorProps) => {
-  const [messageApi, contextHolder] = message.useMessage();
+  // const [messageApi, contextHolder] = message.useMessage();
   const form = useZodForm({
     schema: z.object({
       name: z.string().min(1, { message: "Name is required" }),
@@ -111,10 +112,10 @@ export const SessionEditor = ({
     }
   };
 
-  const onFinishFailed = (errorInfo) => {
-    messageApi.error("Please check the form for errors");
-    console.error("Form validation failed:", errorInfo);
-  };
+  // const onFinishFailed = (errorInfo) => {
+  //   messageApi.error("Please check the form for errors");
+  //   console.error("Form validation failed:", errorInfo);
+  // };
 
   const hasNoTeams = !teamQuery.isLoading && teamQuery.data?.rows?.length === 0;
 
@@ -127,7 +128,7 @@ export const SessionEditor = ({
         <DialogHeader>
           <DialogTitle>Create Session</DialogTitle>
         </DialogHeader>
-        {contextHolder}
+        {/* {contextHolder} */}
         <ZForm form={form} handleSubmit={handleSubmit}>
           <FormField
             control={form.control}

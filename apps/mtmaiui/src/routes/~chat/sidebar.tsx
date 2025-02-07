@@ -9,7 +9,7 @@ import {
   RefreshCcw,
   Trash2,
 } from "lucide-react";
-import { type Session, sessionListOptions } from "mtmaiapi";
+import type { Session } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import { CustomLink } from "../../components/CustomLink";
