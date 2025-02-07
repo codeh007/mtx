@@ -3009,6 +3009,45 @@ export const ChatCompletionsReqSchema = {
   },
 } as const;
 
+export const ChatSessionSchema = {
+  type: "object",
+  description: "聊天 Session",
+  properties: {
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+  },
+} as const;
+
+export const ChatSessionUpdateSchema = {
+  type: "object",
+  description: "更新聊天 Session",
+  properties: {
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+    name: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const ChatSessionListSchema = {
+  type: "object",
+  description: "聊天 Session 列表",
+  properties: {
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+    rows: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ChatSession",
+      },
+    },
+  },
+} as const;
+
 export const WorkerConfigSchema = {
   properties: {
     workerToken: {

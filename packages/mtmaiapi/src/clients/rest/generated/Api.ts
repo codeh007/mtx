@@ -36,7 +36,9 @@ import {
   BulkCreateEventResponse,
   CancelEventRequest,
   ChatMessages,
-  ChatReq,
+  ChatSession,
+  ChatSessionList,
+  ChatSessionUpdate,
   CommonResult,
   CreateAPITokenRequest,
   CreateAPITokenResponse,
@@ -2207,21 +2209,88 @@ export class Api<
       ...params,
     });
   /**
-   * @description chat 聊天接口
+   * @description 获取聊天列表
    *
    * @tags chat
-   * @name ChatChat
-   * @summary 聊天消息接口
-   * @request POST:/api/v1/tenants/{tenant}/chat
+   * @name ChatList
+   * @summary 获取租户下的聊天列表
+   * @request GET:/api/v1/tenants/{tenant}/chats
    * @secure
    */
-  chatChat = (tenant: string, data: ChatReq, params: RequestParams = {}) =>
-    this.request<EventSearch, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/chat`,
+  chatList = (tenant: TenantParameter, params: RequestParams = {}) =>
+    this.request<ChatSessionList, any>({
+      path: `/api/v1/tenants/${tenant}/chats`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 创建聊天 Session
+   *
+   * @tags chat
+   * @name ChatCreateChatSession
+   * @summary 创建聊天 Session
+   * @request POST:/api/v1/tenants/{tenant}/chats
+   * @secure
+   */
+  chatCreateChatSession = (
+    tenant: string,
+    data: ChatSessionUpdate,
+    params: RequestParams = {},
+  ) =>
+    this.request<ChatSession, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/chats`,
       method: "POST",
       body: data,
       secure: true,
       type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取聊天列表
+   *
+   * @tags chat
+   * @name ChatGet
+   * @summary 获取租户下的聊天列表
+   * @request GET:/api/v1/tenants/{tenant}/chats/{chat}
+   * @secure
+   */
+  chatGet = (
+    tenant: TenantParameter,
+    chat: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<ChatSession, any>({
+      path: `/api/v1/tenants/${tenant}/chats/${chat}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 更新会话
+   *
+   * @tags chat
+   * @name ChatUpdateChatSession
+   * @summary 更新会话
+   * @request PUT:/api/v1/tenants/{tenant}/chats/{chat}
+   * @secure
+   */
+  chatUpdateChatSession = (
+    tenant: TenantParameter,
+    chat: string,
+    data: ChatSessionUpdate,
+    params: RequestParams = {},
+  ) =>
+    this.request<ChatSession, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/chats/${chat}`,
+      method: "PUT",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
       ...params,
     });
   /**
@@ -2230,12 +2299,12 @@ export class Api<
    * @tags chat
    * @name ChatMessages
    * @summary 获取聊天消息
-   * @request GET:/api/v1/tenants/{tenant}/chat/{chatId}/messages
+   * @request GET:/api/v1/tenants/{tenant}/chats/{chatId}/messages
    * @secure
    */
   chatMessages = (tenant: string, chatId: string, params: RequestParams = {}) =>
     this.request<ChatMessages, any>({
-      path: `/api/v1/tenants/${tenant}/chat/${chatId}/messages`,
+      path: `/api/v1/tenants/${tenant}/chats/${chatId}/messages`,
       method: "GET",
       secure: true,
       format: "json",

@@ -1691,6 +1691,29 @@ export type ChatCompletionsReq = {
   messages?: Array<ChatMessage>;
 };
 
+/**
+ * 聊天 Session
+ */
+export type ChatSession = {
+  metadata?: ApiResourceMeta;
+};
+
+/**
+ * 更新聊天 Session
+ */
+export type ChatSessionUpdate = {
+  metadata?: ApiResourceMeta;
+  name?: string;
+};
+
+/**
+ * 聊天 Session 列表
+ */
+export type ChatSessionList = {
+  metadata?: ApiResourceMeta;
+  rows?: Array<ChatSession>;
+};
+
 export type WorkerConfig = {
   workerToken?: string;
 };
@@ -7166,8 +7189,26 @@ export type WorkflowGetByNameResponses = {
 export type WorkflowGetByNameResponse =
   WorkflowGetByNameResponses[keyof WorkflowGetByNameResponses];
 
-export type ChatChatData = {
-  body?: ChatReq;
+export type ChatListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/chats";
+};
+
+export type ChatListResponses = {
+  200: ChatSessionList;
+};
+
+export type ChatListResponse = ChatListResponses[keyof ChatListResponses];
+
+export type ChatCreateChatSessionData = {
+  body: ChatSessionUpdate;
   path: {
     /**
      * The tenant id
@@ -7175,10 +7216,10 @@ export type ChatChatData = {
     tenant: string;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/chat";
+  url: "/api/v1/tenants/{tenant}/chats";
 };
 
-export type ChatChatErrors = {
+export type ChatCreateChatSessionErrors = {
   /**
    * A malformed or bad request
    */
@@ -7189,16 +7230,74 @@ export type ChatChatErrors = {
   403: ApiError;
 };
 
-export type ChatChatError = ChatChatErrors[keyof ChatChatErrors];
+export type ChatCreateChatSessionError =
+  ChatCreateChatSessionErrors[keyof ChatCreateChatSessionErrors];
 
-export type ChatChatResponses = {
-  /**
-   * chat 聊天应用
-   */
-  200: string;
+export type ChatCreateChatSessionResponses = {
+  200: ChatSession;
 };
 
-export type ChatChatResponse = ChatChatResponses[keyof ChatChatResponses];
+export type ChatCreateChatSessionResponse =
+  ChatCreateChatSessionResponses[keyof ChatCreateChatSessionResponses];
+
+export type ChatGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The chat id
+     */
+    chat: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/chats/{chat}";
+};
+
+export type ChatGetResponses = {
+  200: ChatSession;
+};
+
+export type ChatGetResponse = ChatGetResponses[keyof ChatGetResponses];
+
+export type ChatUpdateChatSessionData = {
+  body: ChatSessionUpdate;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The session id
+     */
+    chat: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/chats/{chat}";
+};
+
+export type ChatUpdateChatSessionErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type ChatUpdateChatSessionError =
+  ChatUpdateChatSessionErrors[keyof ChatUpdateChatSessionErrors];
+
+export type ChatUpdateChatSessionResponses = {
+  200: ChatSession;
+};
+
+export type ChatUpdateChatSessionResponse =
+  ChatUpdateChatSessionResponses[keyof ChatUpdateChatSessionResponses];
 
 export type ChatMessagesData = {
   body?: never;
@@ -7213,7 +7312,7 @@ export type ChatMessagesData = {
     chatId: string;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/chat/{chatId}/messages";
+  url: "/api/v1/tenants/{tenant}/chats/{chatId}/messages";
 };
 
 export type ChatMessagesResponses = {

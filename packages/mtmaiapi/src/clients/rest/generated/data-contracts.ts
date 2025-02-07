@@ -1436,6 +1436,23 @@ export interface ChatCompletionsReq {
   messages?: ChatMessage[];
 }
 
+/** 聊天 Session */
+export interface ChatSession {
+  metadata?: APIResourceMeta;
+}
+
+/** 更新聊天 Session */
+export interface ChatSessionUpdate {
+  metadata?: APIResourceMeta;
+  name?: string;
+}
+
+/** 聊天 Session 列表 */
+export interface ChatSessionList {
+  metadata?: APIResourceMeta;
+  rows?: ChatSession[];
+}
+
 export interface WorkerConfig {
   workerToken?: string;
 }

@@ -253,9 +253,16 @@ import type {
   WorkflowGetByNameData,
   WorkflowGetByNameResponse,
   WorkflowGetByNameError,
-  ChatChatData,
-  ChatChatResponse,
-  ChatChatError,
+  ChatListData,
+  ChatListResponse,
+  ChatCreateChatSessionData,
+  ChatCreateChatSessionResponse,
+  ChatCreateChatSessionError,
+  ChatGetData,
+  ChatGetResponse,
+  ChatUpdateChatSessionData,
+  ChatUpdateChatSessionResponse,
+  ChatUpdateChatSessionError,
   ChatMessagesData,
   ChatMessagesResponse,
   WorkerConfigData,
@@ -545,7 +552,10 @@ import {
   zWebhookRequestsListResponse,
   zWorkflowRunGetInputResponse,
   zWorkflowGetByNameResponse,
-  zChatChatResponse,
+  zChatListResponse,
+  zChatCreateChatSessionResponse,
+  zChatGetResponse,
+  zChatUpdateChatSessionResponse,
   zChatMessagesResponse,
   zWorkerConfigResponse,
   zMtmaiBloggenconfigResponse,
@@ -3186,15 +3196,15 @@ export const workflowGetByName = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 聊天消息接口
- * chat 聊天接口
+ * 获取租户下的聊天列表
+ * 获取聊天列表
  */
-export const chatChat = <ThrowOnError extends boolean = false>(
-  options: Options<ChatChatData, ThrowOnError>,
+export const chatList = <ThrowOnError extends boolean = false>(
+  options: Options<ChatListData, ThrowOnError>,
 ) => {
-  return (options.client ?? _heyApiClient).post<
-    ChatChatResponse,
-    ChatChatError,
+  return (options.client ?? _heyApiClient).get<
+    ChatListResponse,
+    unknown,
     ThrowOnError
   >({
     security: [
@@ -3208,9 +3218,103 @@ export const chatChat = <ThrowOnError extends boolean = false>(
       },
     ],
     responseValidator: async (data) => {
-      return await zChatChatResponse.parseAsync(data);
+      return await zChatListResponse.parseAsync(data);
     },
-    url: "/api/v1/tenants/{tenant}/chat",
+    url: "/api/v1/tenants/{tenant}/chats",
+    ...options,
+  });
+};
+
+/**
+ * 创建聊天 Session
+ * 创建聊天 Session
+ */
+export const chatCreateChatSession = <ThrowOnError extends boolean = false>(
+  options: Options<ChatCreateChatSessionData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    ChatCreateChatSessionResponse,
+    ChatCreateChatSessionError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    responseValidator: async (data) => {
+      return await zChatCreateChatSessionResponse.parseAsync(data);
+    },
+    url: "/api/v1/tenants/{tenant}/chats",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * 获取租户下的聊天列表
+ * 获取聊天列表
+ */
+export const chatGet = <ThrowOnError extends boolean = false>(
+  options: Options<ChatGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    ChatGetResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    responseValidator: async (data) => {
+      return await zChatGetResponse.parseAsync(data);
+    },
+    url: "/api/v1/tenants/{tenant}/chats/{chat}",
+    ...options,
+  });
+};
+
+/**
+ * 更新会话
+ * 更新会话
+ */
+export const chatUpdateChatSession = <ThrowOnError extends boolean = false>(
+  options: Options<ChatUpdateChatSessionData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).put<
+    ChatUpdateChatSessionResponse,
+    ChatUpdateChatSessionError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    responseValidator: async (data) => {
+      return await zChatUpdateChatSessionResponse.parseAsync(data);
+    },
+    url: "/api/v1/tenants/{tenant}/chats/{chat}",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -3244,7 +3348,7 @@ export const chatMessages = <ThrowOnError extends boolean = false>(
     responseValidator: async (data) => {
       return await zChatMessagesResponse.parseAsync(data);
     },
-    url: "/api/v1/tenants/{tenant}/chat/{chatId}/messages",
+    url: "/api/v1/tenants/{tenant}/chats/{chatId}/messages",
     ...options,
   });
 };

@@ -1416,6 +1416,20 @@ export const zChatCompletionsReq = z.object({
   messages: z.array(zChatMessage).optional(),
 });
 
+export const zChatSession = z.object({
+  metadata: zApiResourceMeta.optional(),
+});
+
+export const zChatSessionUpdate = z.object({
+  metadata: zApiResourceMeta.optional(),
+  name: z.string().optional(),
+});
+
+export const zChatSessionList = z.object({
+  metadata: zApiResourceMeta.optional(),
+  rows: z.array(zChatSession).optional(),
+});
+
 export const zWorkerConfig = z.object({
   workerToken: z.string().optional(),
 });
@@ -3669,7 +3683,13 @@ export const zWorkflowRunGetInputResponse = z.object({});
 
 export const zWorkflowGetByNameResponse = zWorkflow;
 
-export const zChatChatResponse = z.string();
+export const zChatListResponse = zChatSessionList;
+
+export const zChatCreateChatSessionResponse = zChatSession;
+
+export const zChatGetResponse = zChatSession;
+
+export const zChatUpdateChatSessionResponse = zChatSession;
 
 export const zChatMessagesResponse = zChatMessages;
 
