@@ -3016,7 +3016,17 @@ export const ChatSessionSchema = {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
     },
+    name: {
+      type: "string",
+    },
+    version: {
+      type: "string",
+    },
+    team: {
+      type: "string",
+    },
   },
+  required: ["name", "version"],
 } as const;
 
 export const ChatSessionUpdateSchema = {

@@ -1439,6 +1439,9 @@ export interface ChatCompletionsReq {
 /** 聊天 Session */
 export interface ChatSession {
   metadata?: APIResourceMeta;
+  name: string;
+  version: string;
+  team?: string;
 }
 
 /** 更新聊天 Session */

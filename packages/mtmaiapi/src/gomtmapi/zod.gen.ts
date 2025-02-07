@@ -1418,6 +1418,9 @@ export const zChatCompletionsReq = z.object({
 
 export const zChatSession = z.object({
   metadata: zApiResourceMeta.optional(),
+  name: z.string(),
+  version: z.string(),
+  team: z.string().optional(),
 });
 
 export const zChatSessionUpdate = z.object({

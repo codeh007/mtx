@@ -1696,6 +1696,9 @@ export type ChatCompletionsReq = {
  */
 export type ChatSession = {
   metadata?: ApiResourceMeta;
+  name: string;
+  version: string;
+  team?: string;
 };
 
 /**
