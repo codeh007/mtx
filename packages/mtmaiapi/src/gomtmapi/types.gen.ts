@@ -9155,7 +9155,7 @@ export type KvGetErrors = {
 export type KvGetError = KvGetErrors[keyof KvGetErrors];
 
 export type KvGetResponses = {
-  200: Blob | File;
+  200: string;
 };
 
 export type KvGetResponse = KvGetResponses[keyof KvGetResponses];
@@ -9686,3 +9686,7 @@ export type ProxyUpdateResponses = {
 
 export type ProxyUpdateResponse =
   ProxyUpdateResponses[keyof ProxyUpdateResponses];
+
+export type ClientOptions = {
+  baseUrl: `${string}://${string}` | (string & {});
+};

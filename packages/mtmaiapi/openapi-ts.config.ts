@@ -7,7 +7,7 @@ import {
 //新版，使用golang openapi 后端
 export default defineConfig({
   input: "../../../gomtm/api-contracts/openapi/openapi.yaml",
-  client: "@hey-api/client-fetch",
+  // client: "@hey-api/client-fetch",
   output: {
     format: "prettier",
     lint: "eslint",
@@ -16,7 +16,7 @@ export default defineConfig({
   experimentalParser: true,
   plugins: [
     ...defaultPlugins,
-    // "@hey-api/client-fetch",
+    "@hey-api/client-fetch",
     "@hey-api/schemas",
     {
       enums: "javascript",
