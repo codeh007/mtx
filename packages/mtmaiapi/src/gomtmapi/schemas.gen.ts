@@ -4349,10 +4349,10 @@ export const AgEventSchema = {
 export const EventTypesSchema = {
   type: "string",
   enum: [
-    "startWorkflowRun",
-    "assisantReply",
-    "endWorkflowRun",
-    "stepRun",
+    "WorkflowRunStart",
+    "WorkflowRunEnd",
+    "AssistantReply",
+    "StepRun",
     "TextMessage",
   ],
 } as const;

@@ -2325,10 +2325,10 @@ export const zAgEvent = z.object({
 });
 
 export const zEventTypes = z.enum([
-  "startWorkflowRun",
-  "assisantReply",
-  "endWorkflowRun",
-  "stepRun",
+  "WorkflowRunStart",
+  "WorkflowRunEnd",
+  "AssistantReply",
+  "StepRun",
   "TextMessage",
 ]);
 

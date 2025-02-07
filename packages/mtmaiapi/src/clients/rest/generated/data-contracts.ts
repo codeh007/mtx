@@ -2029,10 +2029,10 @@ export interface AgEvent {
 }
 
 export enum EventTypes {
-  StartWorkflowRun = "startWorkflowRun",
-  AssisantReply = "assisantReply",
-  EndWorkflowRun = "endWorkflowRun",
-  StepRun = "stepRun",
+  WorkflowRunStart = "WorkflowRunStart",
+  WorkflowRunEnd = "WorkflowRunEnd",
+  AssistantReply = "AssistantReply",
+  StepRun = "StepRun",
   TextMessage = "TextMessage",
 }
 
