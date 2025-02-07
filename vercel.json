@@ -1,7 +1,7 @@
 {
   "buildCommand": "bun run build",
   "installCommand": "bun i",
-  "outputDirectory": "packages/gomtm-cli/.next",
+  "outputDirectory": "apps/mtmaiui/.next",
   "framework": "nextjs",
   "rewrites": [
     {
