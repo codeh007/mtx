@@ -5313,120 +5313,6 @@ export const RunStatusSchema = {
 
 export const AgentConfigSchema = {
   type: "object",
-  oneOf: [
-    {
-      $ref: "#/components/schemas/AssistantAgentConfig",
-    },
-    {
-      $ref: "#/components/schemas/UserProxyAgentConfig",
-    },
-    {
-      $ref: "#/components/schemas/MultimodalWebSurferAgentConfig",
-    },
-    {
-      $ref: "#/components/schemas/FileSurferAgentConfig",
-    },
-    {
-      $ref: "#/components/schemas/MagenticOneCoderAgentConfig",
-    },
-  ],
-} as const;
-
-export const AssistantAgentConfigSchema = {
-  type: "object",
-  allOf: [
-    {
-      $ref: "#/components/schemas/BaseAgentConfig",
-    },
-    {
-      type: "object",
-      properties: {
-        agent_type: {
-          type: "string",
-          enum: ["AssistantAgent"],
-        },
-      },
-    },
-  ],
-} as const;
-
-export const UserProxyAgentConfigSchema = {
-  type: "object",
-  allOf: [
-    {
-      $ref: "#/components/schemas/BaseAgentConfig",
-    },
-    {
-      type: "object",
-      properties: {
-        agent_type: {
-          type: "string",
-          enum: ["UserProxyAgent"],
-        },
-      },
-      required: ["agent_type"],
-    },
-  ],
-} as const;
-
-export const MultimodalWebSurferAgentConfigSchema = {
-  type: "object",
-  allOf: [
-    {
-      $ref: "#/components/schemas/BaseAgentConfig",
-    },
-    {
-      type: "object",
-      properties: {
-        agent_type: {
-          type: "string",
-          enum: ["MultimodalWebSurfer"],
-        },
-      },
-    },
-  ],
-} as const;
-
-export const FileSurferAgentConfigSchema = {
-  type: "object",
-  allOf: [
-    {
-      $ref: "#/components/schemas/BaseAgentConfig",
-    },
-    {
-      type: "object",
-      properties: {
-        agent_type: {
-          type: "string",
-          enum: ["FileSurfer"],
-        },
-      },
-      required: ["agent_type"],
-    },
-  ],
-} as const;
-
-export const MagenticOneCoderAgentConfigSchema = {
-  type: "object",
-  allOf: [
-    {
-      $ref: "#/components/schemas/BaseAgentConfig",
-    },
-    {
-      type: "object",
-      properties: {
-        agent_type: {
-          type: "string",
-          enum: ["MagenticOneCoderAgent"],
-        },
-      },
-      required: ["agent_type"],
-    },
-  ],
-} as const;
-
-export const BaseAgentConfigSchema = {
-  type: "object",
   allOf: [
     {
       $ref: "#/components/schemas/BaseConfig",
@@ -5458,7 +5344,24 @@ export const BaseAgentConfigSchema = {
           type: "string",
         },
       },
-      required: ["name", "agent_type", "model_client", "tools", "description"],
+      required: ["name", "agent_type"],
+    },
+  ],
+} as const;
+
+export const AssistantAgentConfigSchema = {
+  type: "object",
+  allOf: [
+    {
+      $ref: "#/components/schemas/AgentConfig",
+    },
+    {
+      type: "object",
+      properties: {
+        agent_type: {
+          $ref: "#/components/schemas/AgentTypes",
+        },
+      },
     },
   ],
 } as const;

@@ -2956,40 +2956,17 @@ export const RunStatus = {
   STOPPED: "stopped",
 } as const;
 
-export type AgentConfig =
-  | AssistantAgentConfig
-  | UserProxyAgentConfig
-  | MultimodalWebSurferAgentConfig
-  | FileSurferAgentConfig
-  | MagenticOneCoderAgentConfig;
-
-export type AssistantAgentConfig = BaseAgentConfig & {
-  agent_type?: "AssistantAgent";
-};
-
-export type UserProxyAgentConfig = BaseAgentConfig & {
-  agent_type: "UserProxyAgent";
-};
-
-export type MultimodalWebSurferAgentConfig = BaseAgentConfig & {
-  agent_type?: "MultimodalWebSurfer";
-};
-
-export type FileSurferAgentConfig = BaseAgentConfig & {
-  agent_type: "FileSurfer";
-};
-
-export type MagenticOneCoderAgentConfig = BaseAgentConfig & {
-  agent_type: "MagenticOneCoderAgent";
-};
-
-export type BaseAgentConfig = BaseConfig & {
+export type AgentConfig = BaseConfig & {
   name: string;
   agent_type: AgentTypes;
   system_message?: string;
-  model_client: ModelConfig;
-  tools: Array<ToolConfig>;
-  description: string;
+  model_client?: ModelConfig;
+  tools?: Array<ToolConfig>;
+  description?: string;
+};
+
+export type AssistantAgentConfig = AgentConfig & {
+  agent_type?: AgentTypes;
 };
 
 export type Section = {
