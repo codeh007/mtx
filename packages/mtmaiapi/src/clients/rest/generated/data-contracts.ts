@@ -2291,12 +2291,6 @@ export interface SessionRuns {
   runs: Run[];
 }
 
-export interface BaseConfig {
-  component_type: string;
-  version?: string;
-  description?: string;
-}
-
 export interface WebSocketMessage {
   type: string;
   data?: AgentMessageConfig;
@@ -2327,7 +2321,7 @@ export enum ModelTypes {
   AzureOpenAIChatCompletionClient = "AzureOpenAIChatCompletionClient",
 }
 
-export type BaseModelConfig = BaseConfig & {
+export type BaseModelConfig = ComponentModel & {
   model: string;
   model_type: ModelTypes;
   api_key?: string;
@@ -2346,7 +2340,7 @@ export type OpenAIModelConfig = BaseModelConfig & {
   model_type: "OpenAIChatCompletionClient";
 };
 
-export type ToolConfig = BaseConfig & {
+export type ToolConfig = ComponentModel & {
   name: string;
   description: string;
   content: string;
@@ -2378,7 +2372,7 @@ export enum RunStatus {
   Stopped = "stopped",
 }
 
-export type AgentConfig = BaseConfig & {
+export type AgentConfig = ComponentModel & {
   name: string;
   agent_type: AgentTypes;
   system_message?: string;
@@ -2451,7 +2445,7 @@ export type TerminationConfig =
   | TextMentionTerminationConfig
   | CombinationTerminationConfig;
 
-export type BaseTerminationConfig = BaseConfig & {
+export type BaseTerminationConfig = ComponentModel & {
   termination_type?: TerminationTypes;
 };
 

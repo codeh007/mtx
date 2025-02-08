@@ -2847,12 +2847,6 @@ export type SessionRuns = {
   runs: Array<Run>;
 };
 
-export type BaseConfig = {
-  component_type: string;
-  version?: string;
-  description?: string;
-};
-
 export type WebSocketMessage = {
   type: string;
   data?: AgentMessageConfig;
@@ -2896,7 +2890,7 @@ export const ModelTypes = {
   AZURE_OPEN_AI_CHAT_COMPLETION_CLIENT: "AzureOpenAIChatCompletionClient",
 } as const;
 
-export type BaseModelConfig = BaseConfig & {
+export type BaseModelConfig = ComponentModel & {
   model: string;
   model_type: ModelTypes;
   api_key?: string;
@@ -2915,7 +2909,7 @@ export type OpenAiModelConfig = BaseModelConfig & {
   model_type: "OpenAIChatCompletionClient";
 };
 
-export type ToolConfig = BaseConfig & {
+export type ToolConfig = ComponentModel & {
   name: string;
   description: string;
   content: string;
@@ -2956,7 +2950,7 @@ export const RunStatus = {
   STOPPED: "stopped",
 } as const;
 
-export type AgentConfig = BaseConfig & {
+export type AgentConfig = ComponentModel & {
   name: string;
   agent_type: AgentTypes;
   system_message?: string;
@@ -3063,7 +3057,7 @@ export type TerminationConfig =
   | TextMentionTerminationConfig
   | CombinationTerminationConfig;
 
-export type BaseTerminationConfig = BaseConfig & {
+export type BaseTerminationConfig = ComponentModel & {
   termination_type?: TerminationTypes;
 };
 

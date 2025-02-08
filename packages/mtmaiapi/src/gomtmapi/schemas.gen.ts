@@ -5062,22 +5062,6 @@ export const SessionRunsSchema = {
   required: ["runs"],
 } as const;
 
-export const BaseConfigSchema = {
-  type: "object",
-  properties: {
-    component_type: {
-      type: "string",
-    },
-    version: {
-      type: "string",
-    },
-    description: {
-      type: "string",
-    },
-  },
-  required: ["component_type"],
-} as const;
-
 export const WebSocketMessageSchema = {
   type: "object",
   properties: {
@@ -5143,7 +5127,7 @@ export const BaseModelConfigSchema = {
   type: "object",
   allOf: [
     {
-      $ref: "#/components/schemas/BaseConfig",
+      $ref: "#/components/schemas/ComponentModel",
     },
     {
       type: "object",
@@ -5227,7 +5211,7 @@ export const ToolConfigSchema = {
   type: "object",
   allOf: [
     {
-      $ref: "#/components/schemas/BaseConfig",
+      $ref: "#/components/schemas/ComponentModel",
     },
     {
       type: "object",
@@ -5315,7 +5299,7 @@ export const AgentConfigSchema = {
   type: "object",
   allOf: [
     {
-      $ref: "#/components/schemas/BaseConfig",
+      $ref: "#/components/schemas/ComponentModel",
     },
     {
       type: "object",
@@ -5525,7 +5509,7 @@ export const BaseTerminationConfigSchema = {
   type: "object",
   allOf: [
     {
-      $ref: "#/components/schemas/BaseConfig",
+      $ref: "#/components/schemas/ComponentModel",
     },
     {
       type: "object",

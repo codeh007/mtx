@@ -2255,9 +2255,13 @@ export const zTeam = z.object({
           .array(
             z
               .object({
-                component_type: z.string(),
-                version: z.string().optional(),
+                provider: z.string().optional(),
+                component_type: z.string().optional(),
+                version: z.number().int().optional(),
+                component_version: z.number().int().optional(),
                 description: z.string().optional(),
+                label: z.string().optional(),
+                config: z.object({}).optional(),
               })
               .merge(
                 z.object({
@@ -2290,9 +2294,13 @@ export const zTeam = z.object({
                     .array(
                       z
                         .object({
-                          component_type: z.string(),
-                          version: z.string().optional(),
+                          provider: z.string().optional(),
+                          component_type: z.string().optional(),
+                          version: z.number().int().optional(),
+                          component_version: z.number().int().optional(),
                           description: z.string().optional(),
+                          label: z.string().optional(),
+                          config: z.object({}).optional(),
                         })
                         .merge(
                           z.object({
@@ -2336,9 +2344,13 @@ export const zTeam = z.object({
           .array(
             z
               .object({
-                component_type: z.string(),
-                version: z.string().optional(),
+                provider: z.string().optional(),
+                component_type: z.string().optional(),
+                version: z.number().int().optional(),
+                component_version: z.number().int().optional(),
                 description: z.string().optional(),
+                label: z.string().optional(),
+                config: z.object({}).optional(),
               })
               .merge(
                 z.object({
@@ -2371,9 +2383,13 @@ export const zTeam = z.object({
                     .array(
                       z
                         .object({
-                          component_type: z.string(),
-                          version: z.string().optional(),
+                          provider: z.string().optional(),
+                          component_type: z.string().optional(),
+                          version: z.number().int().optional(),
+                          component_version: z.number().int().optional(),
                           description: z.string().optional(),
+                          label: z.string().optional(),
+                          config: z.object({}).optional(),
                         })
                         .merge(
                           z.object({
@@ -2760,12 +2776,6 @@ export const zSessionRuns = z.object({
   runs: z.array(zRun),
 });
 
-export const zBaseConfig = z.object({
-  component_type: z.string(),
-  version: z.string().optional(),
-  description: z.string().optional(),
-});
-
 export const zWebSocketMessage = z.object({
   type: z.string(),
   data: zAgentMessageConfig.optional(),
@@ -2804,7 +2814,7 @@ export const zModelTypes = z.enum([
   "AzureOpenAIChatCompletionClient",
 ]);
 
-export const zBaseModelConfig = zBaseConfig.merge(
+export const zBaseModelConfig = zComponentModel.merge(
   z.object({
     model: z.string(),
     model_type: zModelTypes,
@@ -2829,7 +2839,7 @@ export const zOpenAiModelConfig = zBaseModelConfig.merge(
   }),
 );
 
-export const zToolConfig = zBaseConfig.merge(
+export const zToolConfig = zComponentModel.merge(
   z.object({
     name: z.string(),
     description: z.string(),
@@ -2868,7 +2878,7 @@ export const zRunStatus = z.enum([
   "stopped",
 ]);
 
-export const zAgentConfig = zBaseConfig.merge(
+export const zAgentConfig = zComponentModel.merge(
   z.object({
     name: z.string(),
     agent_type: zAgentTypes,
@@ -2936,7 +2946,7 @@ export const zSelectorGroupChatConfig = z.object({
 });
 
 export const zTerminationConfig: z.ZodTypeAny = z.union([
-  zBaseConfig
+  zComponentModel
     .merge(
       z.object({
         termination_type: zTerminationTypes.optional(),
@@ -2948,7 +2958,7 @@ export const zTerminationConfig: z.ZodTypeAny = z.union([
         max_messages: z.number(),
       }),
     ),
-  zBaseConfig
+  zComponentModel
     .merge(
       z.object({
         termination_type: zTerminationTypes.optional(),
@@ -2960,7 +2970,7 @@ export const zTerminationConfig: z.ZodTypeAny = z.union([
         text: z.string(),
       }),
     ),
-  zBaseConfig
+  zComponentModel
     .merge(
       z.object({
         termination_type: zTerminationTypes.optional(),
@@ -2979,7 +2989,7 @@ export const zTerminationConfig: z.ZodTypeAny = z.union([
     ),
 ]);
 
-export const zBaseTerminationConfig = zBaseConfig.merge(
+export const zBaseTerminationConfig = zComponentModel.merge(
   z.object({
     termination_type: zTerminationTypes.optional(),
   }),
