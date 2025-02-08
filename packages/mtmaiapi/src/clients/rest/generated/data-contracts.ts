@@ -1761,6 +1761,8 @@ export interface AgentNodeRunInput {
   runner?: string;
   /** agent 节点ID(threadId) */
   nodeId?: string;
+  /** 团队ID */
+  teamId?: string;
   /** 是否使用stream 传输事件 */
   isStream?: boolean;
   params?:

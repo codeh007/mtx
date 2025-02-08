@@ -3658,6 +3658,10 @@ export const AgentNodeRunInputSchema = {
       type: "string",
       description: "agent 节点ID(threadId)",
     },
+    teamId: {
+      type: "string",
+      description: "团队ID",
+    },
     isStream: {
       type: "boolean",
       description: "是否使用stream 传输事件",

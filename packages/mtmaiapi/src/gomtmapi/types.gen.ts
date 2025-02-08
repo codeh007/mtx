@@ -2123,6 +2123,10 @@ export type AgentNodeRunInput = {
    */
   nodeId?: string;
   /**
+   * 团队ID
+   */
+  teamId?: string;
+  /**
    * 是否使用stream 传输事件
    */
   isStream?: boolean;

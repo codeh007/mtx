@@ -1833,6 +1833,7 @@ export const zAgentNodeRunInput = z.object({
   flowName: z.string().optional(),
   runner: z.string().optional(),
   nodeId: z.string().optional(),
+  teamId: z.string().optional(),
   isStream: z.boolean().optional(),
   params: z
     .union([
