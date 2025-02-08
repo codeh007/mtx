@@ -41,6 +41,6 @@ export const defaultTeamConfig: TeamConfig = {
   },
 };
 
-export const defaultTeam = {
-  config: defaultTeamConfig,
-};
+// export const defaultTeam = {
+//   config: defaultTeamConfig,
+// };
