@@ -166,14 +166,14 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
         <div className=" mr-2 w-full">
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button
-                // to="/ag/team/create"
+              <CustomLink
+                to="/ag/team/create"
                 className={cn("w-full", buttonVariants())}
                 onClick={handleSaveTeam}
               >
                 <Plus className="size-4" />
                 新建团队
-              </Button>
+              </CustomLink>
             </TooltipTrigger>
             <TooltipContent>
               <span>Create new team</span>
@@ -257,7 +257,8 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                                 className="p-0 min-w-[24px] h-6"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  if (team.metadata.id) onDeleteTeam(team.metadata.id);
+                                  if (team.metadata.id)
+                                    onDeleteTeam(team.metadata.id);
                                 }}
                               >
                                 <Trash2 className="w-4 h-4 text-red-500" />
