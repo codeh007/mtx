@@ -20,8 +20,10 @@ import type React from "react";
 import { CustomLink } from "../../components/CustomLink";
 import { useTenant } from "../../hooks/useAuth";
 import { getRelativeTimeString } from "../components/views/atoms";
-import { defaultTeam } from "../components/views/team/types";
+import { defaultTeamConfig } from "../components/views/team/types";
+// import { defaultTeam } from "../components/views/team/types";
 import { useGalleryStore } from "../~gallery/store";
+import { config } from "process";
 
 interface TeamSidebarProps {
   isOpen: boolean;
@@ -52,33 +54,57 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
   });
 
   const handleSaveTeam = async () => {
-    const teamData = Object.assign({}, defaultTeam);
+    // const teamData = Object.assign({}, defaultTeamConfig);
+    const teamData = defaultTeamConfig;
+    teamData.version = undefined;
     console.log("handleSaveTeam", teamData);
-    const sanitizedTeamData = {
-      ...{
-        teamData,
-        config: {
-          ...teamData.config,
-          name: teamData.config?.name || `new_team_${new Date().getTime()}`,
-        },
-      },
-      created_at: undefined, // Remove these fields
-      updated_at: undefined, // Let server handle timestamps
-    };
 
-    console.log("teamData", sanitizedTeamData);
+    // const sanitizedTeamData = {
+    //   ...{
+    //     teamData,
+    //     component: {
+    //       ...teamData,
+    //       name: `new_team_${new Date().getTime()}`,
+    //     },
+    //   },
+    //   created_at: undefined, // Remove these fields
+    //   updated_at: undefined, // Let server handle timestamps
+    // };
+
+    // sanitizedTeamData.version = undefined;
+    console.log("defaultTeamConfig", defaultTeamConfig);
     const savedTeam = await createTeamMutation.mutateAsync({
       path: {
         tenant: tenant!.metadata.id,
       },
       body: {
-        ...sanitizedTeamData,
+        // ...teamData,
+        // component: teamData,
+        component: {
+          ...defaultTeamConfig,
+          version: undefined,
+          team_type: "RoundRobinGroupChat",
+          name: "new_team",
+        },
+
+        // ...sanitizedTeamData,
+        // name: sanitizedTeamData.component.name,
+        // component: {
+        //   // ...defaultTeamConfig,
+        //   ...sanitizedTeamData,
+
+        //   // name: sanitizedTeamData.component.name,
+        //   config: {
+        //     // ...sanitizedTeamData.component.config,
+        //     name: sanitizedTeamData.component.name,
+        //   },
+        // },
       },
     });
 
-    messageApi.success(
-      `Team ${teamData.id ? "updated" : "created"} successfully`,
-    );
+    // messageApi.success(
+    //   `Team ${teamData.id ? "updated" : "created"} successfully`,
+    // );
 
     // Update teams list
     // if (teamData.id) {
@@ -274,13 +300,13 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                       {/* Team Metadata Row */}
                       <div className="mt-1 flex items-center gap-2 text-xs">
                         <span className="bg-secondary/20  truncate   rounded">
-                          {team.config.team_type}
+                          {team.component?.config?.team_type}
                         </span>
                         <div className="flex items-center gap-1">
                           <Bot className="w-3 h-3" />
                           <span>
-                            {team.config.participants.length}{" "}
-                            {team.config.participants.length === 1
+                            {team.component.config.participants.length}{" "}
+                            {team.component.config.participants.length === 1
                               ? "agent"
                               : "agents"}
                           </span>
