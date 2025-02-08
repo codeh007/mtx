@@ -4103,11 +4103,11 @@ export const TeamSchema = {
     version: {
       type: "string",
     },
-    config: {
-      type: "object",
+    component: {
+      $ref: "#/components/schemas/ComponentModel",
     },
   },
-  required: ["metadata", "name", "userId", "config"],
+  required: ["metadata", "name", "userId", "component"],
 } as const;
 
 export const TeamListSchema = {
@@ -4159,12 +4159,12 @@ export const ComponentModelSchema = {
         "Logical type of the component. If missing, the component assumes the default type of the provider.",
     },
     version: {
-      type: "string",
+      type: "integer",
       description:
         "Version of the component specification. If missing, the component assumes whatever is the current version of the library used to load it. This is obviously dangerous and should be used for user authored ephmeral config. For all other configs version should be specified.",
     },
     component_version: {
-      type: "string",
+      type: "integer",
       description:
         "Version of the component. If missing, the component assumes the default version of the provider.",
     },

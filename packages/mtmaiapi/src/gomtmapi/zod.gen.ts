@@ -2238,7 +2238,15 @@ export const zTeam = z.object({
   name: z.string(),
   userId: z.string(),
   version: z.string().optional(),
-  config: z.object({}),
+  component: z.object({
+    provider: z.string().optional(),
+    component_type: z.string().optional(),
+    version: z.number().int().optional(),
+    component_version: z.number().int().optional(),
+    description: z.string().optional(),
+    label: z.string().optional(),
+    config: z.object({}).optional(),
+  }),
 });
 
 export const zTeamList = z.object({
@@ -2254,8 +2262,8 @@ export const zTeamUpdate = z.object({
   config: z.object({
     provider: z.string().optional(),
     component_type: z.string().optional(),
-    version: z.string().optional(),
-    component_version: z.string().optional(),
+    version: z.number().int().optional(),
+    component_version: z.number().int().optional(),
     description: z.string().optional(),
     label: z.string().optional(),
     config: z.object({}).optional(),
@@ -2265,8 +2273,8 @@ export const zTeamUpdate = z.object({
 export const zComponentModel = z.object({
   provider: z.string().optional(),
   component_type: z.string().optional(),
-  version: z.string().optional(),
-  component_version: z.string().optional(),
+  version: z.number().int().optional(),
+  component_version: z.number().int().optional(),
   description: z.string().optional(),
   label: z.string().optional(),
   config: z.object({}).optional(),

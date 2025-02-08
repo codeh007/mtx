@@ -1945,7 +1945,7 @@ export interface Team {
   name: string;
   userId: string;
   version?: string;
-  config: object;
+  component: ComponentModel;
 }
 
 export interface TeamList {
@@ -1967,9 +1967,9 @@ export interface ComponentModel {
   /** Logical type of the component. If missing, the component assumes the default type of the provider. */
   component_type?: string;
   /** Version of the component specification. If missing, the component assumes whatever is the current version of the library used to load it. This is obviously dangerous and should be used for user authored ephmeral config. For all other configs version should be specified. */
-  version?: string;
+  version?: number;
   /** Version of the component. If missing, the component assumes the default version of the provider. */
-  component_version?: string;
+  component_version?: number;
   /** Description of the component. */
   description?: string;
   /** Human readable label for the component. If missing the component assumes the class name of the provider. */
