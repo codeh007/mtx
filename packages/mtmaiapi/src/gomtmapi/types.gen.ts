@@ -2387,7 +2387,6 @@ export type Team = {
   name: string;
   userId: string;
   version?: string;
-  config?: TeamConfig;
   component: TeamConfig;
 };
 
@@ -2408,11 +2407,11 @@ export type ComponentModel = {
   /**
    * Describes how the component can be instantiated.
    */
-  provider?: string;
+  provider: string;
   /**
    * Logical type of the component. If missing, the component assumes the default type of the provider.
    */
-  component_type?: string;
+  component_type: string;
   /**
    * Version of the component specification. If missing, the component assumes whatever is the current version of the library used to load it. This is obviously dangerous and should be used for user authored ephmeral config. For all other configs version should be specified.
    */
@@ -3046,7 +3045,7 @@ export type RoundRobinGroupChatConfig = {
   team_type?: "RoundRobinGroupChat";
 };
 
-export type SelectorGroupChatConfig = {
+export type SelectorGroupChatConfig = ComponentModel & {
   team_type?: "SelectorGroupChat";
   selector_prompt?: string;
   model_client?: ModelConfig;

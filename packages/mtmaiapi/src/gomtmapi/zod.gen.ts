@@ -2238,99 +2238,10 @@ export const zTeam = z.object({
   name: z.string(),
   userId: z.string(),
   version: z.string().optional(),
-  config: z
-    .object({
-      provider: z.string().optional(),
-      component_type: z.string().optional(),
-      version: z.number().int().optional(),
-      component_version: z.number().int().optional(),
-      description: z.string().optional(),
-      label: z.string().optional(),
-      config: z.object({}).optional(),
-    })
-    .merge(
-      z.object({
-        name: z.string().optional(),
-        participants: z
-          .array(
-            z
-              .object({
-                provider: z.string().optional(),
-                component_type: z.string().optional(),
-                version: z.number().int().optional(),
-                component_version: z.number().int().optional(),
-                description: z.string().optional(),
-                label: z.string().optional(),
-                config: z.object({}).optional(),
-              })
-              .merge(
-                z.object({
-                  name: z.string(),
-                  agent_type: z.enum([
-                    "AssistantAgent",
-                    "UserProxyAgent",
-                    "MultimodalWebSurfer",
-                    "FileSurfer",
-                    "MagenticOneCoderAgent",
-                  ]),
-                  system_message: z.string().optional(),
-                  model_client: z
-                    .object({
-                      temperature: z.number().optional(),
-                      modelProvider: z.string().optional(),
-                      maxTokens: z.number().optional(),
-                      azureConfig: z
-                        .object({
-                          azureOpenAIApiKey: z.string().optional(),
-                          azureOpenAIApiInstanceName: z.string().optional(),
-                          azureOpenAIApiDeploymentName: z.string().optional(),
-                          azureOpenAIApiVersion: z.string().optional(),
-                          azureOpenAIBasePath: z.string().optional(),
-                        })
-                        .optional(),
-                    })
-                    .optional(),
-                  tools: z
-                    .array(
-                      z
-                        .object({
-                          provider: z.string().optional(),
-                          component_type: z.string().optional(),
-                          version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
-                          label: z.string().optional(),
-                          config: z.object({}).optional(),
-                        })
-                        .merge(
-                          z.object({
-                            name: z.string(),
-                            description: z.string(),
-                            content: z.string(),
-                            tool_type: z.enum(["PythonFunction"]),
-                          }),
-                        ),
-                    )
-                    .optional(),
-                  description: z.string().optional(),
-                }),
-              ),
-          )
-          .optional(),
-        team_type: z
-          .enum([
-            "RoundRobinGroupChat",
-            "SelectorGroupChat",
-            "MagenticOneGroupChat",
-          ])
-          .optional(),
-      }),
-    )
-    .optional(),
   component: z
     .object({
-      provider: z.string().optional(),
-      component_type: z.string().optional(),
+      provider: z.string(),
+      component_type: z.string(),
       version: z.number().int().optional(),
       component_version: z.number().int().optional(),
       description: z.string().optional(),
@@ -2344,8 +2255,8 @@ export const zTeam = z.object({
           .array(
             z
               .object({
-                provider: z.string().optional(),
-                component_type: z.string().optional(),
+                provider: z.string(),
+                component_type: z.string(),
                 version: z.number().int().optional(),
                 component_version: z.number().int().optional(),
                 description: z.string().optional(),
@@ -2383,8 +2294,8 @@ export const zTeam = z.object({
                     .array(
                       z
                         .object({
-                          provider: z.string().optional(),
-                          component_type: z.string().optional(),
+                          provider: z.string(),
+                          component_type: z.string(),
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
@@ -2428,8 +2339,8 @@ export const zTeamUpdate = z.object({
   userId: z.string(),
   version: z.string(),
   config: z.object({
-    provider: z.string().optional(),
-    component_type: z.string().optional(),
+    provider: z.string(),
+    component_type: z.string(),
     version: z.number().int().optional(),
     component_version: z.number().int().optional(),
     description: z.string().optional(),
@@ -2439,8 +2350,8 @@ export const zTeamUpdate = z.object({
 });
 
 export const zComponentModel = z.object({
-  provider: z.string().optional(),
-  component_type: z.string().optional(),
+  provider: z.string(),
+  component_type: z.string(),
   version: z.number().int().optional(),
   component_version: z.number().int().optional(),
   description: z.string().optional(),
@@ -2939,11 +2850,13 @@ export const zRoundRobinGroupChatConfig = z.object({
   team_type: z.enum(["RoundRobinGroupChat"]).optional(),
 });
 
-export const zSelectorGroupChatConfig = z.object({
-  team_type: z.enum(["SelectorGroupChat"]).optional(),
-  selector_prompt: z.string().optional(),
-  model_client: zModelConfig.optional(),
-});
+export const zSelectorGroupChatConfig = zComponentModel.merge(
+  z.object({
+    team_type: z.enum(["SelectorGroupChat"]).optional(),
+    selector_prompt: z.string().optional(),
+    model_client: zModelConfig.optional(),
+  }),
+);
 
 export const zTerminationConfig: z.ZodTypeAny = z.union([
   zComponentModel

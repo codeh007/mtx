@@ -4103,9 +4103,6 @@ export const TeamSchema = {
     version: {
       type: "string",
     },
-    config: {
-      $ref: "#/components/schemas/TeamConfig",
-    },
     component: {
       $ref: "#/components/schemas/TeamConfig",
     },
@@ -4186,6 +4183,7 @@ export const ComponentModelSchema = {
         "The schema validated config field is passed to a given class's implmentation of :py:meth:`autogen_core.ComponentConfigImpl._from_config` to create a new instance of the component class.",
     },
   },
+  required: ["provider", "component_type"],
 } as const;
 
 export const GalleryComponentsSchema = {
@@ -5472,6 +5470,9 @@ export const RoundRobinGroupChatConfigSchema = {
 export const SelectorGroupChatConfigSchema = {
   type: "object",
   allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
     {
       type: "object",
       properties: {
