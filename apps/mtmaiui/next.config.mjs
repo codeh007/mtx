@@ -1,5 +1,4 @@
 import BundleAnalyzerPlugin from "@next/bundle-analyzer";
-import path from "node:path";
 const mode = process.env.BUILD_MODE ?? "standalone";
 const disableChunk = !!process.env.DISABLE_CHUNK || mode === "export";
 const distDir = process.env.NEXT_BUILD_OUTPUT ?? ".next";
@@ -25,7 +24,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
 
-  outputFileTracingRoot: path.join("../../"),
+  // outputFileTracingRoot: path.join(__dirname, "../../"),
 
   experimental: {
     optimizePackageImports: ["icon-library"],
