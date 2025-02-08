@@ -90,7 +90,7 @@ jobs:
       #   env:
       #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   deploy:
-    needs: [release]
+    # needs: [release]
     name: deploy
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -112,7 +112,7 @@ jobs:
           gomtm vc_gomtm --sub-package=apps/mtmaiui --enable-deploy-cfpage=true
 
   deploy_vercel_gomtm:
-    needs: [release]
+    # needs: [release]
     timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:

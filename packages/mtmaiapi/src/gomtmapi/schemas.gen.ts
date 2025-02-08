@@ -5319,6 +5319,7 @@ export const AgentConfigSchema = {
     },
     {
       type: "object",
+      required: ["name", "agent_type"],
       properties: {
         name: {
           type: "string",
@@ -5344,7 +5345,6 @@ export const AgentConfigSchema = {
           type: "string",
         },
       },
-      required: ["name", "agent_type"],
     },
   ],
 } as const;
