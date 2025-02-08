@@ -5713,12 +5713,22 @@ export const TeamTypesSchema = {
 
 export const TeamConfigSchema = {
   type: "object",
-  oneOf: [
+  allOf: [
     {
-      $ref: "#/components/schemas/RoundRobinGroupChatConfig",
+      $ref: "#/components/schemas/ComponentModel",
     },
     {
-      $ref: "#/components/schemas/SelectorGroupChatConfig",
+      $ref: "#/components/schemas/BaseTeamConfig",
+    },
+    {
+      oneOf: [
+        {
+          $ref: "#/components/schemas/RoundRobinGroupChatConfig",
+        },
+        {
+          $ref: "#/components/schemas/SelectorGroupChatConfig",
+        },
+      ],
     },
   ],
 } as const;

@@ -3023,10 +3023,9 @@ export const zTeamTypes = z.enum([
   "MagenticOneGroupChat",
 ]);
 
-export const zTeamConfig = z.union([
-  zRoundRobinGroupChatConfig,
-  zSelectorGroupChatConfig,
-]);
+export const zTeamConfig = zComponentModel
+  .merge(zBaseTeamConfig)
+  .merge(z.union([zRoundRobinGroupChatConfig, zSelectorGroupChatConfig]));
 
 export const zBaseState = z.object({
   metadata: zApiResourceMeta,
