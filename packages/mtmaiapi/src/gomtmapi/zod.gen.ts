@@ -2238,15 +2238,667 @@ export const zTeam = z.object({
   name: z.string(),
   userId: z.string(),
   version: z.string().optional(),
-  component: z.object({
-    provider: z.string().optional(),
-    component_type: z.string().optional(),
-    version: z.number().int().optional(),
-    component_version: z.number().int().optional(),
-    description: z.string().optional(),
-    label: z.string().optional(),
-    config: z.object({}).optional(),
-  }),
+  config: z
+    .object({
+      provider: z.string().optional(),
+      component_type: z.string().optional(),
+      version: z.number().int().optional(),
+      component_version: z.number().int().optional(),
+      description: z.string().optional(),
+      label: z.string().optional(),
+      config: z.object({}).optional(),
+    })
+    .merge(
+      z.object({
+        name: z.string().optional(),
+        participants: z
+          .array(
+            z.union([
+              z
+                .object({
+                  component_type: z.string(),
+                  version: z.string().optional(),
+                  description: z.string().optional(),
+                })
+                .merge(
+                  z.object({
+                    name: z.string(),
+                    agent_type: z.enum([
+                      "AssistantAgent",
+                      "UserProxyAgent",
+                      "MultimodalWebSurfer",
+                      "FileSurfer",
+                      "MagenticOneCoderAgent",
+                    ]),
+                    system_message: z.string().optional(),
+                    model_client: z.object({
+                      temperature: z.number().optional(),
+                      modelProvider: z.string().optional(),
+                      maxTokens: z.number().optional(),
+                      azureConfig: z
+                        .object({
+                          azureOpenAIApiKey: z.string().optional(),
+                          azureOpenAIApiInstanceName: z.string().optional(),
+                          azureOpenAIApiDeploymentName: z.string().optional(),
+                          azureOpenAIApiVersion: z.string().optional(),
+                          azureOpenAIBasePath: z.string().optional(),
+                        })
+                        .optional(),
+                    }),
+                    tools: z.array(
+                      z
+                        .object({
+                          component_type: z.string(),
+                          version: z.string().optional(),
+                          description: z.string().optional(),
+                        })
+                        .merge(
+                          z.object({
+                            name: z.string(),
+                            description: z.string(),
+                            content: z.string(),
+                            tool_type: z.enum(["PythonFunction"]),
+                          }),
+                        ),
+                    ),
+                    description: z.string(),
+                  }),
+                )
+                .merge(
+                  z.object({
+                    agent_type: z.enum(["AssistantAgent"]).optional(),
+                  }),
+                ),
+              z
+                .object({
+                  component_type: z.string(),
+                  version: z.string().optional(),
+                  description: z.string().optional(),
+                })
+                .merge(
+                  z.object({
+                    name: z.string(),
+                    agent_type: z.enum([
+                      "AssistantAgent",
+                      "UserProxyAgent",
+                      "MultimodalWebSurfer",
+                      "FileSurfer",
+                      "MagenticOneCoderAgent",
+                    ]),
+                    system_message: z.string().optional(),
+                    model_client: z.object({
+                      temperature: z.number().optional(),
+                      modelProvider: z.string().optional(),
+                      maxTokens: z.number().optional(),
+                      azureConfig: z
+                        .object({
+                          azureOpenAIApiKey: z.string().optional(),
+                          azureOpenAIApiInstanceName: z.string().optional(),
+                          azureOpenAIApiDeploymentName: z.string().optional(),
+                          azureOpenAIApiVersion: z.string().optional(),
+                          azureOpenAIBasePath: z.string().optional(),
+                        })
+                        .optional(),
+                    }),
+                    tools: z.array(
+                      z
+                        .object({
+                          component_type: z.string(),
+                          version: z.string().optional(),
+                          description: z.string().optional(),
+                        })
+                        .merge(
+                          z.object({
+                            name: z.string(),
+                            description: z.string(),
+                            content: z.string(),
+                            tool_type: z.enum(["PythonFunction"]),
+                          }),
+                        ),
+                    ),
+                    description: z.string(),
+                  }),
+                )
+                .merge(
+                  z.object({
+                    agent_type: z.enum(["UserProxyAgent"]),
+                  }),
+                ),
+              z
+                .object({
+                  component_type: z.string(),
+                  version: z.string().optional(),
+                  description: z.string().optional(),
+                })
+                .merge(
+                  z.object({
+                    name: z.string(),
+                    agent_type: z.enum([
+                      "AssistantAgent",
+                      "UserProxyAgent",
+                      "MultimodalWebSurfer",
+                      "FileSurfer",
+                      "MagenticOneCoderAgent",
+                    ]),
+                    system_message: z.string().optional(),
+                    model_client: z.object({
+                      temperature: z.number().optional(),
+                      modelProvider: z.string().optional(),
+                      maxTokens: z.number().optional(),
+                      azureConfig: z
+                        .object({
+                          azureOpenAIApiKey: z.string().optional(),
+                          azureOpenAIApiInstanceName: z.string().optional(),
+                          azureOpenAIApiDeploymentName: z.string().optional(),
+                          azureOpenAIApiVersion: z.string().optional(),
+                          azureOpenAIBasePath: z.string().optional(),
+                        })
+                        .optional(),
+                    }),
+                    tools: z.array(
+                      z
+                        .object({
+                          component_type: z.string(),
+                          version: z.string().optional(),
+                          description: z.string().optional(),
+                        })
+                        .merge(
+                          z.object({
+                            name: z.string(),
+                            description: z.string(),
+                            content: z.string(),
+                            tool_type: z.enum(["PythonFunction"]),
+                          }),
+                        ),
+                    ),
+                    description: z.string(),
+                  }),
+                )
+                .merge(
+                  z.object({
+                    agent_type: z.enum(["MultimodalWebSurfer"]).optional(),
+                  }),
+                ),
+              z
+                .object({
+                  component_type: z.string(),
+                  version: z.string().optional(),
+                  description: z.string().optional(),
+                })
+                .merge(
+                  z.object({
+                    name: z.string(),
+                    agent_type: z.enum([
+                      "AssistantAgent",
+                      "UserProxyAgent",
+                      "MultimodalWebSurfer",
+                      "FileSurfer",
+                      "MagenticOneCoderAgent",
+                    ]),
+                    system_message: z.string().optional(),
+                    model_client: z.object({
+                      temperature: z.number().optional(),
+                      modelProvider: z.string().optional(),
+                      maxTokens: z.number().optional(),
+                      azureConfig: z
+                        .object({
+                          azureOpenAIApiKey: z.string().optional(),
+                          azureOpenAIApiInstanceName: z.string().optional(),
+                          azureOpenAIApiDeploymentName: z.string().optional(),
+                          azureOpenAIApiVersion: z.string().optional(),
+                          azureOpenAIBasePath: z.string().optional(),
+                        })
+                        .optional(),
+                    }),
+                    tools: z.array(
+                      z
+                        .object({
+                          component_type: z.string(),
+                          version: z.string().optional(),
+                          description: z.string().optional(),
+                        })
+                        .merge(
+                          z.object({
+                            name: z.string(),
+                            description: z.string(),
+                            content: z.string(),
+                            tool_type: z.enum(["PythonFunction"]),
+                          }),
+                        ),
+                    ),
+                    description: z.string(),
+                  }),
+                )
+                .merge(
+                  z.object({
+                    agent_type: z.enum(["FileSurfer"]),
+                  }),
+                ),
+              z
+                .object({
+                  component_type: z.string(),
+                  version: z.string().optional(),
+                  description: z.string().optional(),
+                })
+                .merge(
+                  z.object({
+                    name: z.string(),
+                    agent_type: z.enum([
+                      "AssistantAgent",
+                      "UserProxyAgent",
+                      "MultimodalWebSurfer",
+                      "FileSurfer",
+                      "MagenticOneCoderAgent",
+                    ]),
+                    system_message: z.string().optional(),
+                    model_client: z.object({
+                      temperature: z.number().optional(),
+                      modelProvider: z.string().optional(),
+                      maxTokens: z.number().optional(),
+                      azureConfig: z
+                        .object({
+                          azureOpenAIApiKey: z.string().optional(),
+                          azureOpenAIApiInstanceName: z.string().optional(),
+                          azureOpenAIApiDeploymentName: z.string().optional(),
+                          azureOpenAIApiVersion: z.string().optional(),
+                          azureOpenAIBasePath: z.string().optional(),
+                        })
+                        .optional(),
+                    }),
+                    tools: z.array(
+                      z
+                        .object({
+                          component_type: z.string(),
+                          version: z.string().optional(),
+                          description: z.string().optional(),
+                        })
+                        .merge(
+                          z.object({
+                            name: z.string(),
+                            description: z.string(),
+                            content: z.string(),
+                            tool_type: z.enum(["PythonFunction"]),
+                          }),
+                        ),
+                    ),
+                    description: z.string(),
+                  }),
+                )
+                .merge(
+                  z.object({
+                    agent_type: z.enum(["MagenticOneCoderAgent"]),
+                  }),
+                ),
+            ]),
+          )
+          .optional(),
+        team_type: z
+          .enum([
+            "RoundRobinGroupChat",
+            "SelectorGroupChat",
+            "MagenticOneGroupChat",
+          ])
+          .optional(),
+      }),
+    )
+    .merge(
+      z.union([
+        z.object({
+          team_type: z.enum(["RoundRobinGroupChat"]).optional(),
+        }),
+        z.object({
+          team_type: z.enum(["SelectorGroupChat"]).optional(),
+          selector_prompt: z.string().optional(),
+          model_client: z
+            .object({
+              temperature: z.number().optional(),
+              modelProvider: z.string().optional(),
+              maxTokens: z.number().optional(),
+              azureConfig: z
+                .object({
+                  azureOpenAIApiKey: z.string().optional(),
+                  azureOpenAIApiInstanceName: z.string().optional(),
+                  azureOpenAIApiDeploymentName: z.string().optional(),
+                  azureOpenAIApiVersion: z.string().optional(),
+                  azureOpenAIBasePath: z.string().optional(),
+                })
+                .optional(),
+            })
+            .optional(),
+        }),
+      ]),
+    )
+    .optional(),
+  component: z
+    .object({
+      provider: z.string().optional(),
+      component_type: z.string().optional(),
+      version: z.number().int().optional(),
+      component_version: z.number().int().optional(),
+      description: z.string().optional(),
+      label: z.string().optional(),
+      config: z.object({}).optional(),
+    })
+    .merge(
+      z.object({
+        name: z.string().optional(),
+        participants: z
+          .array(
+            z.union([
+              z
+                .object({
+                  component_type: z.string(),
+                  version: z.string().optional(),
+                  description: z.string().optional(),
+                })
+                .merge(
+                  z.object({
+                    name: z.string(),
+                    agent_type: z.enum([
+                      "AssistantAgent",
+                      "UserProxyAgent",
+                      "MultimodalWebSurfer",
+                      "FileSurfer",
+                      "MagenticOneCoderAgent",
+                    ]),
+                    system_message: z.string().optional(),
+                    model_client: z.object({
+                      temperature: z.number().optional(),
+                      modelProvider: z.string().optional(),
+                      maxTokens: z.number().optional(),
+                      azureConfig: z
+                        .object({
+                          azureOpenAIApiKey: z.string().optional(),
+                          azureOpenAIApiInstanceName: z.string().optional(),
+                          azureOpenAIApiDeploymentName: z.string().optional(),
+                          azureOpenAIApiVersion: z.string().optional(),
+                          azureOpenAIBasePath: z.string().optional(),
+                        })
+                        .optional(),
+                    }),
+                    tools: z.array(
+                      z
+                        .object({
+                          component_type: z.string(),
+                          version: z.string().optional(),
+                          description: z.string().optional(),
+                        })
+                        .merge(
+                          z.object({
+                            name: z.string(),
+                            description: z.string(),
+                            content: z.string(),
+                            tool_type: z.enum(["PythonFunction"]),
+                          }),
+                        ),
+                    ),
+                    description: z.string(),
+                  }),
+                )
+                .merge(
+                  z.object({
+                    agent_type: z.enum(["AssistantAgent"]).optional(),
+                  }),
+                ),
+              z
+                .object({
+                  component_type: z.string(),
+                  version: z.string().optional(),
+                  description: z.string().optional(),
+                })
+                .merge(
+                  z.object({
+                    name: z.string(),
+                    agent_type: z.enum([
+                      "AssistantAgent",
+                      "UserProxyAgent",
+                      "MultimodalWebSurfer",
+                      "FileSurfer",
+                      "MagenticOneCoderAgent",
+                    ]),
+                    system_message: z.string().optional(),
+                    model_client: z.object({
+                      temperature: z.number().optional(),
+                      modelProvider: z.string().optional(),
+                      maxTokens: z.number().optional(),
+                      azureConfig: z
+                        .object({
+                          azureOpenAIApiKey: z.string().optional(),
+                          azureOpenAIApiInstanceName: z.string().optional(),
+                          azureOpenAIApiDeploymentName: z.string().optional(),
+                          azureOpenAIApiVersion: z.string().optional(),
+                          azureOpenAIBasePath: z.string().optional(),
+                        })
+                        .optional(),
+                    }),
+                    tools: z.array(
+                      z
+                        .object({
+                          component_type: z.string(),
+                          version: z.string().optional(),
+                          description: z.string().optional(),
+                        })
+                        .merge(
+                          z.object({
+                            name: z.string(),
+                            description: z.string(),
+                            content: z.string(),
+                            tool_type: z.enum(["PythonFunction"]),
+                          }),
+                        ),
+                    ),
+                    description: z.string(),
+                  }),
+                )
+                .merge(
+                  z.object({
+                    agent_type: z.enum(["UserProxyAgent"]),
+                  }),
+                ),
+              z
+                .object({
+                  component_type: z.string(),
+                  version: z.string().optional(),
+                  description: z.string().optional(),
+                })
+                .merge(
+                  z.object({
+                    name: z.string(),
+                    agent_type: z.enum([
+                      "AssistantAgent",
+                      "UserProxyAgent",
+                      "MultimodalWebSurfer",
+                      "FileSurfer",
+                      "MagenticOneCoderAgent",
+                    ]),
+                    system_message: z.string().optional(),
+                    model_client: z.object({
+                      temperature: z.number().optional(),
+                      modelProvider: z.string().optional(),
+                      maxTokens: z.number().optional(),
+                      azureConfig: z
+                        .object({
+                          azureOpenAIApiKey: z.string().optional(),
+                          azureOpenAIApiInstanceName: z.string().optional(),
+                          azureOpenAIApiDeploymentName: z.string().optional(),
+                          azureOpenAIApiVersion: z.string().optional(),
+                          azureOpenAIBasePath: z.string().optional(),
+                        })
+                        .optional(),
+                    }),
+                    tools: z.array(
+                      z
+                        .object({
+                          component_type: z.string(),
+                          version: z.string().optional(),
+                          description: z.string().optional(),
+                        })
+                        .merge(
+                          z.object({
+                            name: z.string(),
+                            description: z.string(),
+                            content: z.string(),
+                            tool_type: z.enum(["PythonFunction"]),
+                          }),
+                        ),
+                    ),
+                    description: z.string(),
+                  }),
+                )
+                .merge(
+                  z.object({
+                    agent_type: z.enum(["MultimodalWebSurfer"]).optional(),
+                  }),
+                ),
+              z
+                .object({
+                  component_type: z.string(),
+                  version: z.string().optional(),
+                  description: z.string().optional(),
+                })
+                .merge(
+                  z.object({
+                    name: z.string(),
+                    agent_type: z.enum([
+                      "AssistantAgent",
+                      "UserProxyAgent",
+                      "MultimodalWebSurfer",
+                      "FileSurfer",
+                      "MagenticOneCoderAgent",
+                    ]),
+                    system_message: z.string().optional(),
+                    model_client: z.object({
+                      temperature: z.number().optional(),
+                      modelProvider: z.string().optional(),
+                      maxTokens: z.number().optional(),
+                      azureConfig: z
+                        .object({
+                          azureOpenAIApiKey: z.string().optional(),
+                          azureOpenAIApiInstanceName: z.string().optional(),
+                          azureOpenAIApiDeploymentName: z.string().optional(),
+                          azureOpenAIApiVersion: z.string().optional(),
+                          azureOpenAIBasePath: z.string().optional(),
+                        })
+                        .optional(),
+                    }),
+                    tools: z.array(
+                      z
+                        .object({
+                          component_type: z.string(),
+                          version: z.string().optional(),
+                          description: z.string().optional(),
+                        })
+                        .merge(
+                          z.object({
+                            name: z.string(),
+                            description: z.string(),
+                            content: z.string(),
+                            tool_type: z.enum(["PythonFunction"]),
+                          }),
+                        ),
+                    ),
+                    description: z.string(),
+                  }),
+                )
+                .merge(
+                  z.object({
+                    agent_type: z.enum(["FileSurfer"]),
+                  }),
+                ),
+              z
+                .object({
+                  component_type: z.string(),
+                  version: z.string().optional(),
+                  description: z.string().optional(),
+                })
+                .merge(
+                  z.object({
+                    name: z.string(),
+                    agent_type: z.enum([
+                      "AssistantAgent",
+                      "UserProxyAgent",
+                      "MultimodalWebSurfer",
+                      "FileSurfer",
+                      "MagenticOneCoderAgent",
+                    ]),
+                    system_message: z.string().optional(),
+                    model_client: z.object({
+                      temperature: z.number().optional(),
+                      modelProvider: z.string().optional(),
+                      maxTokens: z.number().optional(),
+                      azureConfig: z
+                        .object({
+                          azureOpenAIApiKey: z.string().optional(),
+                          azureOpenAIApiInstanceName: z.string().optional(),
+                          azureOpenAIApiDeploymentName: z.string().optional(),
+                          azureOpenAIApiVersion: z.string().optional(),
+                          azureOpenAIBasePath: z.string().optional(),
+                        })
+                        .optional(),
+                    }),
+                    tools: z.array(
+                      z
+                        .object({
+                          component_type: z.string(),
+                          version: z.string().optional(),
+                          description: z.string().optional(),
+                        })
+                        .merge(
+                          z.object({
+                            name: z.string(),
+                            description: z.string(),
+                            content: z.string(),
+                            tool_type: z.enum(["PythonFunction"]),
+                          }),
+                        ),
+                    ),
+                    description: z.string(),
+                  }),
+                )
+                .merge(
+                  z.object({
+                    agent_type: z.enum(["MagenticOneCoderAgent"]),
+                  }),
+                ),
+            ]),
+          )
+          .optional(),
+        team_type: z
+          .enum([
+            "RoundRobinGroupChat",
+            "SelectorGroupChat",
+            "MagenticOneGroupChat",
+          ])
+          .optional(),
+      }),
+    )
+    .merge(
+      z.union([
+        z.object({
+          team_type: z.enum(["RoundRobinGroupChat"]).optional(),
+        }),
+        z.object({
+          team_type: z.enum(["SelectorGroupChat"]).optional(),
+          selector_prompt: z.string().optional(),
+          model_client: z
+            .object({
+              temperature: z.number().optional(),
+              modelProvider: z.string().optional(),
+              maxTokens: z.number().optional(),
+              azureConfig: z
+                .object({
+                  azureOpenAIApiKey: z.string().optional(),
+                  azureOpenAIApiInstanceName: z.string().optional(),
+                  azureOpenAIApiDeploymentName: z.string().optional(),
+                  azureOpenAIApiVersion: z.string().optional(),
+                  azureOpenAIBasePath: z.string().optional(),
+                })
+                .optional(),
+            })
+            .optional(),
+        }),
+      ]),
+    ),
 });
 
 export const zTeamList = z.object({

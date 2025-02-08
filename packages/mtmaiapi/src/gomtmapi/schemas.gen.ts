@@ -4103,8 +4103,11 @@ export const TeamSchema = {
     version: {
       type: "string",
     },
+    config: {
+      $ref: "#/components/schemas/TeamConfig",
+    },
     component: {
-      $ref: "#/components/schemas/ComponentModel",
+      $ref: "#/components/schemas/TeamConfig",
     },
   },
   required: ["metadata", "name", "userId", "component"],

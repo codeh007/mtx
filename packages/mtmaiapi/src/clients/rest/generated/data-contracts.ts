@@ -1945,7 +1945,8 @@ export interface Team {
   name: string;
   userId: string;
   version?: string;
-  component: ComponentModel;
+  config?: TeamConfig;
+  component: TeamConfig;
 }
 
 export interface TeamList {
