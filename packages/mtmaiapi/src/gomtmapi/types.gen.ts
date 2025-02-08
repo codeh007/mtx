@@ -3117,9 +3117,7 @@ export const TeamTypes = {
   MAGENTIC_ONE_GROUP_CHAT: "MagenticOneGroupChat",
 } as const;
 
-export type TeamConfig = ComponentModel &
-  BaseTeamConfig &
-  (RoundRobinGroupChatConfig | SelectorGroupChatConfig);
+export type TeamConfig = ComponentModel & BaseTeamConfig;
 
 export type BaseState = {
   metadata: ApiResourceMeta;

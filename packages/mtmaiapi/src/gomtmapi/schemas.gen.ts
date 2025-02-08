@@ -5723,16 +5723,6 @@ export const TeamConfigSchema = {
     {
       $ref: "#/components/schemas/BaseTeamConfig",
     },
-    {
-      oneOf: [
-        {
-          $ref: "#/components/schemas/RoundRobinGroupChatConfig",
-        },
-        {
-          $ref: "#/components/schemas/SelectorGroupChatConfig",
-        },
-      ],
-    },
   ],
 } as const;
 

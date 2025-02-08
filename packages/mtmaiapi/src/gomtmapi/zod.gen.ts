@@ -2541,33 +2541,6 @@ export const zTeam = z.object({
           .optional(),
       }),
     )
-    .merge(
-      z.union([
-        z.object({
-          team_type: z.enum(["RoundRobinGroupChat"]).optional(),
-        }),
-        z.object({
-          team_type: z.enum(["SelectorGroupChat"]).optional(),
-          selector_prompt: z.string().optional(),
-          model_client: z
-            .object({
-              temperature: z.number().optional(),
-              modelProvider: z.string().optional(),
-              maxTokens: z.number().optional(),
-              azureConfig: z
-                .object({
-                  azureOpenAIApiKey: z.string().optional(),
-                  azureOpenAIApiInstanceName: z.string().optional(),
-                  azureOpenAIApiDeploymentName: z.string().optional(),
-                  azureOpenAIApiVersion: z.string().optional(),
-                  azureOpenAIBasePath: z.string().optional(),
-                })
-                .optional(),
-            })
-            .optional(),
-        }),
-      ]),
-    )
     .optional(),
   component: z
     .object({
@@ -2871,33 +2844,6 @@ export const zTeam = z.object({
           ])
           .optional(),
       }),
-    )
-    .merge(
-      z.union([
-        z.object({
-          team_type: z.enum(["RoundRobinGroupChat"]).optional(),
-        }),
-        z.object({
-          team_type: z.enum(["SelectorGroupChat"]).optional(),
-          selector_prompt: z.string().optional(),
-          model_client: z
-            .object({
-              temperature: z.number().optional(),
-              modelProvider: z.string().optional(),
-              maxTokens: z.number().optional(),
-              azureConfig: z
-                .object({
-                  azureOpenAIApiKey: z.string().optional(),
-                  azureOpenAIApiInstanceName: z.string().optional(),
-                  azureOpenAIApiDeploymentName: z.string().optional(),
-                  azureOpenAIApiVersion: z.string().optional(),
-                  azureOpenAIBasePath: z.string().optional(),
-                })
-                .optional(),
-            })
-            .optional(),
-        }),
-      ]),
     ),
 });
 
@@ -3675,9 +3621,7 @@ export const zTeamTypes = z.enum([
   "MagenticOneGroupChat",
 ]);
 
-export const zTeamConfig = zComponentModel
-  .merge(zBaseTeamConfig)
-  .merge(z.union([zRoundRobinGroupChatConfig, zSelectorGroupChatConfig]));
+export const zTeamConfig = zComponentModel.merge(zBaseTeamConfig);
 
 export const zBaseState = z.object({
   metadata: zApiResourceMeta,

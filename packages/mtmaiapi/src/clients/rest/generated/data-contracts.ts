@@ -2500,9 +2500,7 @@ export enum TeamTypes {
   MagenticOneGroupChat = "MagenticOneGroupChat",
 }
 
-export type TeamConfig = ComponentModel &
-  BaseTeamConfig &
-  (RoundRobinGroupChatConfig | SelectorGroupChatConfig);
+export type TeamConfig = ComponentModel & BaseTeamConfig;
 
 export interface BaseState {
   metadata: APIResourceMeta;

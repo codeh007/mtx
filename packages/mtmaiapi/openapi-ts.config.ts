@@ -23,7 +23,7 @@ export default defineConfig({
     // "@hey-api/sdk",
     {
       name: "@hey-api/sdk",
-      validator: true,
+      validator: false,
     },
   ],
 }) as UserConfig;
