@@ -5576,6 +5576,7 @@ export const MaxMessageTerminationConfigComponentSchema = {
     },
     {
       type: "object",
+      required: ["config"],
       properties: {
         config: {
           type: "object",
@@ -5591,6 +5592,7 @@ export const MaxMessageTerminationConfigSchema = {
   allOf: [
     {
       type: "object",
+      required: ["termination_type", "max_messages"],
       properties: {
         termination_type: {
           type: "string",
@@ -5600,7 +5602,6 @@ export const MaxMessageTerminationConfigSchema = {
           type: "integer",
         },
       },
-      required: ["termination_type", "max_messages"],
     },
   ],
 } as const;
@@ -5628,6 +5629,7 @@ export const TextMentionTerminationConfigSchema = {
   allOf: [
     {
       type: "object",
+      required: ["termination_type", "text"],
       properties: {
         termination_type: {
           type: "string",
@@ -5637,7 +5639,6 @@ export const TextMentionTerminationConfigSchema = {
           type: "string",
         },
       },
-      required: ["termination_type", "text"],
     },
   ],
 } as const;

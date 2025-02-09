@@ -3066,7 +3066,7 @@ export type TerminationConfig = {
 };
 
 export type MaxMessageTerminationConfigComponent = ComponentModel & {
-  config?: MaxMessageTerminationConfig;
+  config: MaxMessageTerminationConfig;
 };
 
 export type MaxMessageTerminationConfig = {
