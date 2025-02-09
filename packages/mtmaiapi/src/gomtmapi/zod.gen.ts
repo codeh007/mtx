@@ -1838,9 +1838,6 @@ export const zAgentNodeRunInput = z.object({
         input: z.string().optional(),
       }),
       z.object({
-        input: z.string().optional(),
-      }),
-      z.object({
         stepLimit: z.number().optional(),
         messages: z.array(zChatMessage).optional(),
         action: z
@@ -2317,10 +2314,14 @@ export const zTeam = z.object({
                                     base_url: z.string().optional(),
                                     model_info: z
                                       .object({
+                                        family: z.enum([
+                                          "r1",
+                                          "openai",
+                                          "unknown",
+                                        ]),
                                         vision: z.boolean(),
                                         function_calling: z.boolean(),
                                         json_output: z.boolean(),
-                                        family: z.string().default("unknown"),
                                       })
                                       .optional(),
                                   }),
@@ -2348,40 +2349,17 @@ export const zTeam = z.object({
                               })
                               .merge(
                                 z.object({
-                                  config: z
-                                    .object({
-                                      provider: z.string(),
-                                      component_type: z.enum([
-                                        "team",
-                                        "agent",
-                                        "model",
-                                        "tool",
-                                        "termination",
-                                      ]),
-                                      version: z.number().int().optional(),
-                                      component_version: z
-                                        .number()
-                                        .int()
-                                        .optional(),
-                                      description: z.string().optional(),
-                                      label: z.string().optional(),
-                                      config: z.object({}),
-                                    })
-                                    .merge(
-                                      z.object({
-                                        name: z.string(),
-                                        description: z.string(),
-                                        content: z.string(),
-                                        tool_type: z.enum(["PythonFunction"]),
-                                        source_code: z.string().optional(),
-                                        global_imports: z
-                                          .array(z.string())
-                                          .optional(),
-                                        has_cancellation_support: z
-                                          .boolean()
-                                          .optional(),
-                                      }),
-                                    ),
+                                  config: z.object({
+                                    name: z.string(),
+                                    description: z.string().optional(),
+                                    source_code: z.string().optional(),
+                                    global_imports: z
+                                      .array(z.string())
+                                      .optional(),
+                                    has_cancellation_support: z
+                                      .boolean()
+                                      .optional(),
+                                  }),
                                 }),
                               ),
                           )
@@ -2419,7 +2397,6 @@ export const zTeam = z.object({
                         "StopMessageTermination",
                         "TextMentionTermination",
                         "TimeoutTermination",
-                        "CombinationTermination",
                       ])
                       .optional(),
                     conditions: z
@@ -2677,8 +2654,13 @@ export const zScrapeGraphParams = z.object({
   input: z.string().optional(),
 });
 
-export const zCrewAiParams = z.object({
-  input: z.string().optional(),
+export const zModelFamily = z.enum(["r1", "openai", "unknown"]);
+
+export const zModelInfo = z.object({
+  family: zModelFamily,
+  vision: z.boolean(),
+  function_calling: z.boolean(),
+  json_output: z.boolean(),
 });
 
 export const zBrowserParams = z.object({
@@ -2690,7 +2672,6 @@ export const zTerminationTypes = z.enum([
   "StopMessageTermination",
   "TextMentionTermination",
   "TimeoutTermination",
-  "CombinationTermination",
 ]);
 
 export const zComponentTypes = z.enum([
@@ -2823,14 +2804,7 @@ export const zAzureOpenAiModelConfig = zComponentModel
       model_type: zModelTypes,
       api_key: z.string().optional(),
       base_url: z.string().optional(),
-      model_info: z
-        .object({
-          vision: z.boolean(),
-          function_calling: z.boolean(),
-          json_output: z.boolean(),
-          family: z.string().default("unknown"),
-        })
-        .optional(),
+      model_info: zModelInfo.optional(),
     }),
   )
   .merge(
@@ -2850,14 +2824,7 @@ export const zOpenAiModelConfig = zComponentModel
       model_type: zModelTypes,
       api_key: z.string().optional(),
       base_url: z.string().optional(),
-      model_info: z
-        .object({
-          vision: z.boolean(),
-          function_calling: z.boolean(),
-          json_output: z.boolean(),
-          family: z.string().default("unknown"),
-        })
-        .optional(),
+      model_info: zModelInfo.optional(),
     }),
   )
   .merge(
@@ -2868,31 +2835,23 @@ export const zOpenAiModelConfig = zComponentModel
 
 export const zToolComponent = zComponentModel.merge(
   z.object({
-    config: zComponentModel.merge(
-      z.object({
-        name: z.string(),
-        description: z.string(),
-        content: z.string(),
-        tool_type: zToolTypes,
-        source_code: z.string().optional(),
-        global_imports: z.array(z.string()).optional(),
-        has_cancellation_support: z.boolean().optional(),
-      }),
-    ),
+    config: z.object({
+      name: z.string(),
+      description: z.string().optional(),
+      source_code: z.string().optional(),
+      global_imports: z.array(z.string()).optional(),
+      has_cancellation_support: z.boolean().optional(),
+    }),
   }),
 );
 
-export const zToolConfig = zComponentModel.merge(
-  z.object({
-    name: z.string(),
-    description: z.string(),
-    content: z.string(),
-    tool_type: zToolTypes,
-    source_code: z.string().optional(),
-    global_imports: z.array(z.string()).optional(),
-    has_cancellation_support: z.boolean().optional(),
-  }),
-);
+export const zToolConfig = z.object({
+  name: z.string(),
+  description: z.string().optional(),
+  source_code: z.string().optional(),
+  global_imports: z.array(z.string()).optional(),
+  has_cancellation_support: z.boolean().optional(),
+});
 
 export const zModelComponent = zComponentModel.merge(
   z.object({
@@ -2902,14 +2861,7 @@ export const zModelComponent = zComponentModel.merge(
         model_type: zModelTypes,
         api_key: z.string().optional(),
         base_url: z.string().optional(),
-        model_info: z
-          .object({
-            vision: z.boolean(),
-            function_calling: z.boolean(),
-            json_output: z.boolean(),
-            family: z.string().default("unknown"),
-          })
-          .optional(),
+        model_info: zModelInfo.optional(),
       }),
     ),
   }),
@@ -2921,14 +2873,7 @@ export const zModelConfig = zComponentModel.merge(
     model_type: zModelTypes,
     api_key: z.string().optional(),
     base_url: z.string().optional(),
-    model_info: z
-      .object({
-        vision: z.boolean(),
-        function_calling: z.boolean(),
-        json_output: z.boolean(),
-        family: z.string().default("unknown"),
-      })
-      .optional(),
+    model_info: zModelInfo.optional(),
   }),
 );
 
@@ -3299,30 +3244,9 @@ export const zWebSearchResult = z.object({
   message: z.string().optional(),
 });
 
-export const zModel = z.object({
-  metadata: zApiResourceMeta,
-  baseUrl: z.string(),
-  apiKey: z.string(),
-  model: z.string(),
-  family: z.string(),
-  modelInfo: z.object({
-    vision: z.boolean(),
-    function_calling: z.boolean(),
-    json_output: z.boolean(),
-    family: z.string().default("unknown"),
-  }),
-});
-
-export const zModelInfo = z.object({
-  vision: z.boolean(),
-  function_calling: z.boolean(),
-  json_output: z.boolean(),
-  family: z.string().default("unknown"),
-});
-
 export const zModelList = z.object({
   pagination: zPaginationResponse.optional(),
-  rows: z.array(zModel).optional(),
+  rows: z.array(zModelComponent).optional(),
 });
 
 export const zUpdateModel = z.object({
@@ -3873,14 +3797,6 @@ export const zRunListResponse = zRunList;
 export const zRunCreateResponse = zRun;
 
 export const zRunGetResponse = zRun;
-
-export const zModelListResponse = zModelList;
-
-export const zModelCreateResponse = zModel;
-
-export const zModelGetResponse = zModel;
-
-export const zModelUpdateResponse = zModel;
 
 export const zPromptListResponse = zPromptList;
 

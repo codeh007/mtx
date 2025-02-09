@@ -77,8 +77,6 @@ import {
   LogLineOrderByDirection,
   LogLineOrderByField,
   LogLineSearch,
-  Model,
-  ModelList,
   Platform,
   PlatformAccount,
   PlatformAccountList,
@@ -3147,81 +3145,6 @@ export class Api<
       path: `/api/v1/tenants/${tenant}/runs/${run}`,
       method: "GET",
       secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * No description
-   *
-   * @tags model
-   * @name ModelList
-   * @request GET:/api/v1/tenants/{tenant}/models
-   * @secure
-   */
-  modelList = (tenant: TenantParameter, params: RequestParams = {}) =>
-    this.request<ModelList, APIErrors>({
-      path: `/api/v1/tenants/${tenant}/models`,
-      method: "GET",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description 大语言模型配置
-   *
-   * @tags model
-   * @name ModelCreate
-   * @request POST:/api/v1/tenants/{tenant}/models
-   * @secure
-   */
-  modelCreate = (tenant: TenantParameter, params: RequestParams = {}) =>
-    this.request<Model, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/models`,
-      method: "POST",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * No description
-   *
-   * @tags model
-   * @name ModelGet
-   * @request GET:/api/v1/tenants/{tenant}/models/{model}
-   * @secure
-   */
-  modelGet = (
-    tenant: TenantParameter,
-    model: string,
-    params: RequestParams = {},
-  ) =>
-    this.request<Model, any>({
-      path: `/api/v1/tenants/${tenant}/models/${model}`,
-      method: "GET",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description Update an model
-   *
-   * @tags model
-   * @name ModelUpdate
-   * @request PATCH:/api/v1/tenants/{tenant}/models/{model}
-   * @secure
-   */
-  modelUpdate = (
-    tenant: TenantParameter,
-    model: string,
-    data: Model,
-    params: RequestParams = {},
-  ) =>
-    this.request<Model, APIErrors>({
-      path: `/api/v1/tenants/${tenant}/models/${model}`,
-      method: "PATCH",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
       format: "json",
       ...params,
     });

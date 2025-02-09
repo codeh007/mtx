@@ -2080,7 +2080,6 @@ export type AgentNodeRunInput = {
   isStream?: boolean;
   params?:
     | ResearchRequest
-    | CrewAiParams
     | ScrapeGraphParams
     | BrowserParams
     | CanvasGraphParams;
@@ -2634,8 +2633,19 @@ export type ScrapeGraphParams = {
   input?: string;
 };
 
-export type CrewAiParams = {
-  input?: string;
+export type ModelFamily = "r1" | "openai" | "unknown";
+
+export const ModelFamily = {
+  R1: "r1",
+  OPENAI: "openai",
+  UNKNOWN: "unknown",
+} as const;
+
+export type ModelInfo = {
+  family: ModelFamily;
+  vision: boolean;
+  function_calling: boolean;
+  json_output: boolean;
 };
 
 export type BrowserParams = {
@@ -2646,15 +2656,13 @@ export type TerminationTypes =
   | "MaxMessageTermination"
   | "StopMessageTermination"
   | "TextMentionTermination"
-  | "TimeoutTermination"
-  | "CombinationTermination";
+  | "TimeoutTermination";
 
 export const TerminationTypes = {
   MAX_MESSAGE_TERMINATION: "MaxMessageTermination",
   STOP_MESSAGE_TERMINATION: "StopMessageTermination",
   TEXT_MENTION_TERMINATION: "TextMentionTermination",
   TIMEOUT_TERMINATION: "TimeoutTermination",
-  COMBINATION_TERMINATION: "CombinationTermination",
 } as const;
 
 export type ComponentTypes =
@@ -2805,11 +2813,9 @@ export type ToolComponent = ComponentModel & {
   config: ToolConfig;
 };
 
-export type ToolConfig = ComponentModel & {
+export type ToolConfig = {
   name: string;
-  description: string;
-  content: string;
-  tool_type: ToolTypes;
+  description?: string;
   source_code?: string;
   global_imports?: Array<string>;
   has_cancellation_support?: boolean;
@@ -3120,49 +3126,9 @@ export type WebSearchResult = {
   message?: string;
 };
 
-/**
- * llm model
- */
-export type Model = {
-  metadata: ApiResourceMeta;
-  baseUrl: string;
-  apiKey: string;
-  /**
-   * llm model name
-   */
-  model: string;
-  /**
-   * model family
-   */
-  family: string;
-  modelInfo: ModelInfo;
-};
-
-/**
- * model info
- */
-export type ModelInfo = {
-  /**
-   * True if the model supports vision, aka image input, otherwise False.
-   */
-  vision: boolean;
-  /**
-   * True if the model supports function calling, otherwise False.
-   */
-  function_calling: boolean;
-  /**
-   * True if the model supports json output, otherwise False. Note: this is different to structured json.
-   */
-  json_output: boolean;
-  /**
-   * Model family should be one of the constants from :py:class:`ModelFamily` or a string representing an unknown model family.
-   */
-  family: string;
-};
-
 export type ModelList = {
   pagination?: PaginationResponse;
-  rows?: Array<Model>;
+  rows?: Array<ModelComponent>;
 };
 
 export type UpdateModel = {
@@ -8434,140 +8400,6 @@ export type RunGetResponses = {
 };
 
 export type RunGetResponse = RunGetResponses[keyof RunGetResponses];
-
-export type ModelListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/models";
-};
-
-export type ModelListErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type ModelListError = ModelListErrors[keyof ModelListErrors];
-
-export type ModelListResponses = {
-  200: ModelList;
-};
-
-export type ModelListResponse = ModelListResponses[keyof ModelListResponses];
-
-export type ModelCreateData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/models";
-};
-
-export type ModelCreateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type ModelCreateError = ModelCreateErrors[keyof ModelCreateErrors];
-
-export type ModelCreateResponses = {
-  /**
-   * 获取大语言模型配置
-   */
-  200: Model;
-};
-
-export type ModelCreateResponse =
-  ModelCreateResponses[keyof ModelCreateResponses];
-
-export type ModelGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The model id
-     */
-    model: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/models/{model}";
-};
-
-export type ModelGetResponses = {
-  200: Model;
-};
-
-export type ModelGetResponse = ModelGetResponses[keyof ModelGetResponses];
-
-export type ModelUpdateData = {
-  /**
-   * The model properties to update
-   */
-  body: Model;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The model id
-     */
-    model: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/models/{model}";
-};
-
-export type ModelUpdateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-};
-
-export type ModelUpdateError = ModelUpdateErrors[keyof ModelUpdateErrors];
-
-export type ModelUpdateResponses = {
-  /**
-   * Successfully created the model
-   */
-  200: Model;
-};
-
-export type ModelUpdateResponse =
-  ModelUpdateResponses[keyof ModelUpdateResponses];
 
 export type PromptListData = {
   body?: never;

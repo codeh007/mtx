@@ -205,7 +205,8 @@ const graphEventHandler = async (
         messages: [
           ...get().messages,
           {
-            role: event.source || "assistant",
+            // role: event.source || "assistant",
+            role: "assistant", // 暂时全部设置为 assistant, 原因是 assisant ui ,仅支持 user + assisant
             content: event.content,
             metadata: {
               id: generateId(),

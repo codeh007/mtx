@@ -373,17 +373,6 @@ import type {
   RunCreateError,
   RunGetData,
   RunGetResponse,
-  ModelListData,
-  ModelListResponse,
-  ModelListError,
-  ModelCreateData,
-  ModelCreateResponse,
-  ModelCreateError,
-  ModelGetData,
-  ModelGetResponse,
-  ModelUpdateData,
-  ModelUpdateResponse,
-  ModelUpdateError,
   PromptListData,
   PromptListResponse,
   PromptGetData,
@@ -4061,108 +4050,6 @@ export const runGet = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/runs/{run}",
     ...options,
-  });
-};
-
-export const modelList = <ThrowOnError extends boolean = false>(
-  options: Options<ModelListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    ModelListResponse,
-    ModelListError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/models",
-    ...options,
-  });
-};
-
-/**
- * 大语言模型配置
- */
-export const modelCreate = <ThrowOnError extends boolean = false>(
-  options: Options<ModelCreateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    ModelCreateResponse,
-    ModelCreateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/models",
-    ...options,
-  });
-};
-
-export const modelGet = <ThrowOnError extends boolean = false>(
-  options: Options<ModelGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    ModelGetResponse,
-    unknown,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/models/{model}",
-    ...options,
-  });
-};
-
-/**
- * Update an model
- */
-export const modelUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<ModelUpdateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).patch<
-    ModelUpdateResponse,
-    ModelUpdateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/models/{model}",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
   });
 };
 

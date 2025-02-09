@@ -3581,7 +3581,6 @@ export const AgentNodeRunSchema = {
 } as const;
 
 export const AgentNodeRunInputSchema = {
-  type: "object",
   description: "agent运行节点请求",
   properties: {
     messages: {
@@ -3615,9 +3614,6 @@ export const AgentNodeRunInputSchema = {
           $ref: "#/components/schemas/ResearchRequest",
         },
         {
-          $ref: "#/components/schemas/CrewAIParams",
-        },
-        {
           $ref: "#/components/schemas/ScrapeGraphParams",
         },
         {
@@ -3633,7 +3629,6 @@ export const AgentNodeRunInputSchema = {
 } as const;
 
 export const TextHighlightSchema = {
-  type: "object",
   properties: {
     fullMarkdown: {
       type: "string",
@@ -3649,7 +3644,6 @@ export const TextHighlightSchema = {
 } as const;
 
 export const CodeHighlightSchema = {
-  type: "object",
   properties: {
     startCharIndex: {
       type: "number",
@@ -3683,7 +3677,6 @@ export const ArtifactV3Schema = {
 } as const;
 
 export const ArtifactCodeV3Schema = {
-  type: "object",
   properties: {
     index: {
       type: "number",
@@ -3706,7 +3699,6 @@ export const ArtifactCodeV3Schema = {
 } as const;
 
 export const ArtifactMarkdownV3Schema = {
-  type: "object",
   properties: {
     index: {
       type: "number",
@@ -3725,7 +3717,6 @@ export const ArtifactMarkdownV3Schema = {
 } as const;
 
 export const CustomQuickActionSchema = {
-  type: "object",
   properties: {
     id: {
       type: "string",
@@ -3803,7 +3794,6 @@ export const ArtifactLengthOptionsSchema = {
 export const RewriteArtifactMetaToolResponseSchema = {
   oneOf: [
     {
-      type: "object",
       properties: {
         type: {
           type: "string",
@@ -3820,7 +3810,6 @@ export const RewriteArtifactMetaToolResponseSchema = {
       required: ["type", "language"],
     },
     {
-      type: "object",
       properties: {
         type: {
           type: "string",
@@ -3840,7 +3829,6 @@ export const RewriteArtifactMetaToolResponseSchema = {
 } as const;
 
 export const ArtifactToolResponseSchema = {
-  type: "object",
   properties: {
     artifact: {
       type: "string",
@@ -4360,7 +4348,6 @@ export const StartWorkflowRunEventSchema = {
 } as const;
 
 export const OutlineSchema = {
-  type: "object",
   properties: {
     pageTitle: {
       type: "string",
@@ -4558,10 +4545,25 @@ export const ScrapeGraphParamsSchema = {
   },
 } as const;
 
-export const CrewAIParamsSchema = {
+export const ModelFamilySchema = {
+  type: "string",
+  enum: ["r1", "openai", "unknown"],
+} as const;
+
+export const ModelInfoSchema = {
+  required: ["function_calling", "json_output", "family", "vision"],
   properties: {
-    input: {
-      type: "string",
+    family: {
+      $ref: "#/components/schemas/ModelFamily",
+    },
+    vision: {
+      type: "boolean",
+    },
+    function_calling: {
+      type: "boolean",
+    },
+    json_output: {
+      type: "boolean",
     },
   },
 } as const;
@@ -4581,7 +4583,6 @@ export const TerminationTypesSchema = {
     "StopMessageTermination",
     "TextMentionTermination",
     "TimeoutTermination",
-    "CombinationTermination",
   ],
 } as const;
 
@@ -4635,7 +4636,6 @@ export const BaseMessageConfigSchema = {
       type: "string",
     },
     models_usage: {
-      type: "object",
       $ref: "#/components/schemas/RequestUsage",
     },
   },
@@ -4663,7 +4663,6 @@ export const TextMessageConfigSchema = {
       $ref: "#/components/schemas/BaseMessageConfig",
     },
     {
-      type: "object",
       properties: {
         content: {
           type: "string",
@@ -4844,7 +4843,6 @@ export const AgentMessageConfigSchema = {
 } as const;
 
 export const SessionRunsSchema = {
-  type: "object",
   properties: {
     runs: {
       type: "array",
@@ -4893,13 +4891,11 @@ export const ModelTypesSchema = {
 } as const;
 
 export const AzureOpenAIModelConfigSchema = {
-  type: "object",
   allOf: [
     {
       $ref: "#/components/schemas/ModelConfig",
     },
     {
-      type: "object",
       properties: {
         model_type: {
           type: "string",
@@ -4930,7 +4926,6 @@ export const AzureOpenAIModelConfigSchema = {
 } as const;
 
 export const OpenAIModelConfigSchema = {
-  type: "object",
   allOf: [
     {
       $ref: "#/components/schemas/ModelConfig",
@@ -4949,7 +4944,6 @@ export const OpenAIModelConfigSchema = {
 } as const;
 
 export const ToolComponentSchema = {
-  type: "object",
   allOf: [
     {
       $ref: "#/components/schemas/ComponentModel",
@@ -4968,57 +4962,38 @@ export const ToolComponentSchema = {
 } as const;
 
 export const ToolConfigSchema = {
-  type: "object",
-  allOf: [
-    {
-      $ref: "#/components/schemas/ComponentModel",
+  required: ["name"],
+  properties: {
+    name: {
+      type: "string",
     },
-    {
-      type: "object",
-      properties: {
-        name: {
-          type: "string",
-        },
-        description: {
-          type: "string",
-        },
-        content: {
-          type: "string",
-        },
-        tool_type: {
-          type: "string",
-          $ref: "#/components/schemas/ToolTypes",
-        },
-        source_code: {
-          type: "string",
-        },
-        global_imports: {
-          type: "array",
-          items: {
-            type: "string",
-          },
-        },
-        has_cancellation_support: {
-          type: "boolean",
-        },
+    description: {
+      type: "string",
+    },
+    source_code: {
+      type: "string",
+    },
+    global_imports: {
+      type: "array",
+      items: {
+        type: "string",
       },
-      required: ["name", "description", "content", "tool_type"],
     },
-  ],
+    has_cancellation_support: {
+      type: "boolean",
+    },
+  },
 } as const;
 
 export const ModelComponentSchema = {
-  type: "object",
   allOf: [
     {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
-      type: "object",
       required: ["config"],
       properties: {
         config: {
-          type: "object",
           $ref: "#/components/schemas/ModelConfig",
         },
       },
@@ -5027,13 +5002,11 @@ export const ModelComponentSchema = {
 } as const;
 
 export const ModelConfigSchema = {
-  type: "object",
   allOf: [
     {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
-      type: "object",
       properties: {
         model: {
           type: "string",
@@ -5089,7 +5062,6 @@ export const AgentComponentSchema = {
 } as const;
 
 export const AgentConfigSchema = {
-  type: "object",
   allOf: [
     {
       type: "object",
@@ -5176,7 +5148,6 @@ export const SubsectionSchema = {
 } as const;
 
 export const NodeRunActionSchema = {
-  type: "object",
   description: "节点运行",
   properties: {
     action: {
@@ -5242,7 +5213,6 @@ export const TeamComponentSchema = {
 } as const;
 
 export const TerminationComponentSchema = {
-  type: "object",
   allOf: [
     {
       $ref: "#/components/schemas/ComponentModel",
@@ -5261,7 +5231,6 @@ export const TerminationComponentSchema = {
 } as const;
 
 export const TerminationConfigSchema = {
-  type: "object",
   properties: {
     termination_type: {
       type: "string",
@@ -5277,7 +5246,6 @@ export const TerminationConfigSchema = {
 } as const;
 
 export const MaxMessageTerminationConfigComponentSchema = {
-  type: "object",
   allOf: [
     {
       $ref: "#/components/schemas/ComponentModel",
@@ -5296,7 +5264,6 @@ export const MaxMessageTerminationConfigComponentSchema = {
 } as const;
 
 export const MaxMessageTerminationConfigSchema = {
-  type: "object",
   allOf: [
     {
       type: "object",
@@ -5315,7 +5282,6 @@ export const MaxMessageTerminationConfigSchema = {
 } as const;
 
 export const TextMentionTerminationComponentSchema = {
-  type: "object",
   allOf: [
     {
       $ref: "#/components/schemas/ComponentModel",
@@ -5333,7 +5299,6 @@ export const TextMentionTerminationComponentSchema = {
 } as const;
 
 export const TextMentionTerminationConfigSchema = {
-  type: "object",
   allOf: [
     {
       type: "object",
@@ -5352,7 +5317,6 @@ export const TextMentionTerminationConfigSchema = {
 } as const;
 
 export const TerminationConditionsSchema = {
-  type: "object",
   oneOf: [
     {
       $ref: "#/components/schemas/MaxMessageTerminationConfigComponent",
@@ -5677,63 +5641,6 @@ export const WebSearchResultSchema = {
   },
 } as const;
 
-export const ModelSchema = {
-  description: "llm model",
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    baseUrl: {
-      type: "string",
-    },
-    apiKey: {
-      type: "string",
-    },
-    model: {
-      type: "string",
-      description: "llm model name",
-    },
-    family: {
-      type: "string",
-      description: "model family",
-    },
-    modelInfo: {
-      $ref: "#/components/schemas/ModelInfo",
-    },
-  },
-  required: ["metadata", "baseUrl", "apiKey", "model", "modelInfo", "family"],
-  type: "object",
-} as const;
-
-export const ModelInfoSchema = {
-  type: "object",
-  description: "model info",
-  properties: {
-    vision: {
-      type: "boolean",
-      description:
-        "True if the model supports vision, aka image input, otherwise False.",
-    },
-    function_calling: {
-      type: "boolean",
-      description:
-        "True if the model supports function calling, otherwise False.",
-    },
-    json_output: {
-      type: "boolean",
-      description:
-        "True if the model supports json output, otherwise False. Note: this is different to structured json.",
-    },
-    family: {
-      type: "string",
-      description:
-        "Model family should be one of the constants from :py:class:`ModelFamily` or a string representing an unknown model family.",
-      default: "unknown",
-    },
-  },
-  required: ["vision", "function_calling", "json_output", "family"],
-} as const;
-
 export const ModelListSchema = {
   properties: {
     pagination: {
@@ -5741,7 +5648,7 @@ export const ModelListSchema = {
     },
     rows: {
       items: {
-        $ref: "#/components/schemas/Model",
+        $ref: "#/components/schemas/ModelComponent",
       },
       type: "array",
     },

@@ -1739,7 +1739,6 @@ export interface AgentNodeRunInput {
   isStream?: boolean;
   params?:
     | ResearchRequest
-    | CrewAIParams
     | ScrapeGraphParams
     | BrowserParams
     | CanvasGraphParams;
@@ -2119,8 +2118,17 @@ export interface ScrapeGraphParams {
   input?: string;
 }
 
-export interface CrewAIParams {
-  input?: string;
+export enum ModelFamily {
+  R1 = "r1",
+  Openai = "openai",
+  Unknown = "unknown",
+}
+
+export interface ModelInfo {
+  family: ModelFamily;
+  vision: boolean;
+  function_calling: boolean;
+  json_output: boolean;
 }
 
 export interface BrowserParams {
@@ -2132,7 +2140,6 @@ export enum TerminationTypes {
   StopMessageTermination = "StopMessageTermination",
   TextMentionTermination = "TextMentionTermination",
   TimeoutTermination = "TimeoutTermination",
-  CombinationTermination = "CombinationTermination",
 }
 
 export enum ComponentTypes {
@@ -2261,15 +2268,13 @@ export type ToolComponent = ComponentModel & {
   config: ToolConfig;
 };
 
-export type ToolConfig = ComponentModel & {
+export interface ToolConfig {
   name: string;
-  description: string;
-  content: string;
-  tool_type: ToolTypes;
+  description?: string;
   source_code?: string;
   global_imports?: string[];
   has_cancellation_support?: boolean;
-};
+}
 
 export type ModelComponent = ComponentModel & {
   config: ModelConfig;
@@ -2280,7 +2285,6 @@ export type ModelConfig = ComponentModel & {
   model_type: ModelTypes;
   api_key?: string;
   base_url?: string;
-  /** model info */
   model_info?: ModelInfo;
 };
 
@@ -2506,37 +2510,9 @@ export interface WebSearchResult {
   message?: string;
 }
 
-/** llm model */
-export interface Model {
-  metadata: APIResourceMeta;
-  baseUrl: string;
-  apiKey: string;
-  /** llm model name */
-  model: string;
-  /** model family */
-  family: string;
-  /** model info */
-  modelInfo: ModelInfo;
-}
-
-/** model info */
-export interface ModelInfo {
-  /** True if the model supports vision, aka image input, otherwise False. */
-  vision: boolean;
-  /** True if the model supports function calling, otherwise False. */
-  function_calling: boolean;
-  /** True if the model supports json output, otherwise False. Note: this is different to structured json. */
-  json_output: boolean;
-  /**
-   * Model family should be one of the constants from :py:class:`ModelFamily` or a string representing an unknown model family.
-   * @default "unknown"
-   */
-  family: string;
-}
-
 export interface ModelList {
   pagination?: PaginationResponse;
-  rows?: Model[];
+  rows?: ModelComponent[];
 }
 
 export interface UpdateModel {
