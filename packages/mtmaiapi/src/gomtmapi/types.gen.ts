@@ -2766,11 +2766,7 @@ export type SessionRuns = {
 
 export type MemoryConfig = ComponentModel;
 
-export type ModelContext = ComponentModel & {
-  config: {
-    [key: string]: unknown;
-  };
-};
+export type ModelContext = ComponentModel;
 
 export type TaskResult = {
   messages: Array<AgentMessageConfig>;
@@ -2898,8 +2894,8 @@ export type AgentConfig = {
   model_client_stream: boolean;
   system_message?: string;
   model_client: ModelComponent;
-  tools?: Array<ToolComponent>;
-  handoffs?: Array<string>;
+  tools: Array<ToolComponent>;
+  handoffs: Array<string>;
   reflect_on_tool_use: boolean;
   tool_call_summary_format: string;
 };

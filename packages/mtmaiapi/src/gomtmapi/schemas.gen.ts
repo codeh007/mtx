@@ -4872,15 +4872,6 @@ export const ModelContextSchema = {
     {
       $ref: "#/components/schemas/ComponentModel",
     },
-    {
-      type: "object",
-      required: ["config"],
-      properties: {
-        config: {
-          type: "object",
-        },
-      },
-    },
   ],
 } as const;
 
@@ -5147,6 +5138,8 @@ export const AgentConfigSchema = {
     "reflect_on_tool_use",
     "tool_call_summary_format",
     "model_client_stream",
+    "tools",
+    "handoffs",
   ],
   properties: {
     name: {
@@ -5177,18 +5170,22 @@ export const AgentConfigSchema = {
       items: {
         $ref: "#/components/schemas/ToolComponent",
       },
+      default: [],
     },
     handoffs: {
       type: "array",
       items: {
         type: "string",
       },
+      default: [],
     },
     reflect_on_tool_use: {
       type: "boolean",
+      default: false,
     },
     tool_call_summary_format: {
       type: "string",
+      default: "{result}",
     },
   },
 } as const;

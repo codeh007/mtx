@@ -2233,9 +2233,7 @@ export interface SessionRuns {
 
 export type MemoryConfig = ComponentModel;
 
-export type ModelContext = ComponentModel & {
-  config: object;
-};
+export type ModelContext = ComponentModel;
 
 export interface TaskResult {
   messages: AgentMessageConfig[];
@@ -2338,9 +2336,13 @@ export interface AgentConfig {
   model_client_stream: boolean;
   system_message?: string;
   model_client: ModelComponent;
-  tools?: ToolComponent[];
-  handoffs?: string[];
+  /** @default [] */
+  tools: ToolComponent[];
+  /** @default [] */
+  handoffs: string[];
+  /** @default false */
   reflect_on_tool_use: boolean;
+  /** @default "{result}" */
   tool_call_summary_format: string;
 }
 

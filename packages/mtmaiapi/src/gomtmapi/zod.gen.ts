@@ -2273,11 +2273,6 @@ export const zTeam = z.object({
                             label: z.string().optional(),
                             config: z.object({}),
                           })
-                          .merge(
-                            z.object({
-                              config: z.object({}),
-                            }),
-                          )
                           .optional(),
                         memory: z
                           .object({
@@ -2386,10 +2381,12 @@ export const zTeam = z.object({
                                 }),
                               ),
                           )
-                          .optional(),
-                        handoffs: z.array(z.string()).optional(),
-                        reflect_on_tool_use: z.boolean(),
-                        tool_call_summary_format: z.string(),
+                          .default([]),
+                        handoffs: z.array(z.string()).default([]),
+                        reflect_on_tool_use: z.boolean().default(false),
+                        tool_call_summary_format: z
+                          .string()
+                          .default("{result}"),
                       }),
                     }),
                   ),
@@ -2803,11 +2800,7 @@ export const zSessionRuns = z.object({
 
 export const zMemoryConfig = zComponentModel;
 
-export const zModelContext = zComponentModel.merge(
-  z.object({
-    config: z.object({}),
-  }),
-);
+export const zModelContext = zComponentModel;
 
 export const zTaskResult = z.object({
   messages: z.array(zAgentMessageConfig),
@@ -2983,10 +2976,10 @@ export const zAgentComponent = zComponentModel.merge(
       model_client_stream: z.boolean().default(false),
       system_message: z.string().optional(),
       model_client: zModelComponent,
-      tools: z.array(zToolComponent).optional(),
-      handoffs: z.array(z.string()).optional(),
-      reflect_on_tool_use: z.boolean(),
-      tool_call_summary_format: z.string(),
+      tools: z.array(zToolComponent).default([]),
+      handoffs: z.array(z.string()).default([]),
+      reflect_on_tool_use: z.boolean().default(false),
+      tool_call_summary_format: z.string().default("{result}"),
     }),
   }),
 );
@@ -2999,10 +2992,10 @@ export const zAgentConfig = z.object({
   model_client_stream: z.boolean().default(false),
   system_message: z.string().optional(),
   model_client: zModelComponent,
-  tools: z.array(zToolComponent).optional(),
-  handoffs: z.array(z.string()).optional(),
-  reflect_on_tool_use: z.boolean(),
-  tool_call_summary_format: z.string(),
+  tools: z.array(zToolComponent).default([]),
+  handoffs: z.array(z.string()).default([]),
+  reflect_on_tool_use: z.boolean().default(false),
+  tool_call_summary_format: z.string().default("{result}"),
 });
 
 export const zSection = z.object({
