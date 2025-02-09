@@ -356,10 +356,6 @@ import type {
   AgentNodeRunData,
   AgentNodeRunResponse,
   AgentNodeRunError,
-  AgentListData,
-  AgentListResponse,
-  AgentGetData,
-  AgentGetResponse,
   AgentStreamData,
   AgentStreamResponse,
   AgentStreamError,
@@ -393,10 +389,6 @@ import type {
   PromptGetData,
   PromptGetResponse,
   PromptGetError,
-  AssisantListData,
-  AssisantListResponse,
-  AssisantGetData,
-  AssisantGetResponse,
   AdminReleaseConnData,
   AdminReleaseConnResponse,
   AdminReleaseConnError,
@@ -3878,60 +3870,6 @@ export const agentNodeRun = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 获取租户下的agent列表
- * 获取agent列表
- */
-export const agentList = <ThrowOnError extends boolean = false>(
-  options: Options<AgentListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    AgentListResponse,
-    unknown,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/agents",
-    ...options,
-  });
-};
-
-/**
- * 获取租户下的agent列表
- * 获取agent列表
- */
-export const agentGet = <ThrowOnError extends boolean = false>(
-  options: Options<AgentGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    AgentGetResponse,
-    unknown,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/agent/{agent}",
-    ...options,
-  });
-};
-
-/**
  * 拉取事件
  * 拉取事件
  */
@@ -4277,59 +4215,6 @@ export const promptGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/prompts/{prompt}",
-    ...options,
-  });
-};
-
-/**
- * 提示词列表
- * Get the blogs for the tenant
- */
-export const assisantList = <ThrowOnError extends boolean = false>(
-  options: Options<AssisantListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    AssisantListResponse,
-    unknown,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/assisants",
-    ...options,
-  });
-};
-
-/**
- * 获取单个助手配置
- */
-export const assisantGet = <ThrowOnError extends boolean = false>(
-  options: Options<AssisantGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    AssisantGetResponse,
-    unknown,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/assisants/{assisant}",
     ...options,
   });
 };

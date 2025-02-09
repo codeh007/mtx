@@ -1475,34 +1475,6 @@ export interface BlogGenConfig {
   dayPublishCountHint?: number;
 }
 
-/** crawai agent 定义 */
-export interface CrewAiAgent {
-  /** name */
-  name: string;
-  /** role */
-  role: string;
-  /** role */
-  backstory: string;
-  /** goal */
-  goal: string;
-  /** maxRetryLimit */
-  maxRetryLimit?: number;
-  /** maxRpm */
-  maxRpm?: number;
-}
-
-/** 任务定义 */
-export interface CrewAiTask {
-  /** 任务描述 */
-  description: string;
-  /** 期待输出 */
-  expectedOutput: string;
-  /** 任务输出json格式名称 */
-  outputJsonSchemaName?: string;
-  /** agent */
-  agent: string;
-}
-
 /** topics 生成结果 */
 export interface GenTopicResult {
   /** 主题列表，按优先顺序，更好的更靠前 */
@@ -2021,26 +1993,6 @@ export interface GalleryUpdate {
   userId: string;
 }
 
-export interface Session {
-  metadata: APIResourceMeta;
-  name: string;
-  userId: string;
-  teamId: string;
-  version: string;
-}
-
-export interface SessionList {
-  pagination?: PaginationResponse;
-  rows?: Session[];
-}
-
-export interface SessionUpdate {
-  metadata?: APIResourceMeta;
-  name?: string;
-  userId?: string;
-  version?: string;
-}
-
 export interface AgEvent {
   metadata?: APIResourceMeta;
   userId?: string;
@@ -2066,14 +2018,6 @@ export type AgEventCreate = APIResourceMetaProperties & AgEvent;
 
 export type AgEventUpdate = APIResourceMetaProperties & AgEvent;
 
-export interface Agent {
-  metadata?: APIResourceMeta;
-  /** agent 节点名称, 或者作为工具名称 */
-  title?: string;
-  /** agent 节点描述, 或者作为工具描述 */
-  description?: string;
-}
-
 export interface EventBase {
   type: string;
 }
@@ -2089,13 +2033,6 @@ export interface Outline {
   /** Titles and descriptions for each section of the Wikipedia page */
   sections: Section[];
 }
-
-export type Assistant = AssistantBase & {
-  /** The last time the assistant was updated */
-  updated_at: string;
-  /** The name of the assistant */
-  name: string;
-};
 
 /** agent 任务工具 */
 export interface AgentTaskTool {
@@ -2391,21 +2328,6 @@ export interface NodeRunAction {
   input?: object;
 }
 
-export interface AssistantBase {
-  /** The ID of the assistant */
-  assistant_id: string;
-  /** The ID of the graph */
-  graph_id: string;
-  /** The assistant config */
-  config: object;
-  /** The time the assistant was created */
-  created_at: string;
-  /** The assistant metadata */
-  metadata: object;
-  /** The version of the assistant */
-  version: number;
-}
-
 export interface RoundRobinGroupChatConfig {
   team_type?: "RoundRobinGroupChat";
 }
@@ -2551,38 +2473,6 @@ export interface Prompt {
 export interface PromptList {
   pagination?: PaginationResponse;
   rows?: Artifact[];
-}
-
-export interface AssisantList {
-  pagination?: PaginationResponse;
-  rows?: Assisant[];
-}
-
-export interface Assisant {
-  metadata: APIResourceMeta;
-  /** 助手名称 */
-  name?: string;
-  updated_at?: string;
-  /** 如果后端使用 langgraph ，则返回 langgraph 的 graph_id */
-  graph_id?: string;
-  config?: {
-    /** 助手名称 */
-    name?: string;
-    tags?: string[];
-    /**
-     * 递归限制
-     * @default 10
-     */
-    recursion_limit?: number;
-    configurable?: {
-      /** langgraph 中对应的 threadId */
-      threadId?: string;
-      /** langgraph 中对应的 checkpointId */
-      checkpointId?: string;
-      [key: string]: any;
-    };
-  };
-  tags: string[];
 }
 
 export interface SubscribeRequest {

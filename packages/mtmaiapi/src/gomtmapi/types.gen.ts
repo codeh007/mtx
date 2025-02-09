@@ -1744,58 +1744,6 @@ export type BlogGenConfig = {
 };
 
 /**
- * crawai agent 定义
- */
-export type CrewAiAgent = {
-  /**
-   * name
-   */
-  name: string;
-  /**
-   * role
-   */
-  role: string;
-  /**
-   * role
-   */
-  backstory: string;
-  /**
-   * goal
-   */
-  goal: string;
-  /**
-   * maxRetryLimit
-   */
-  maxRetryLimit?: number;
-  /**
-   * maxRpm
-   */
-  maxRpm?: number;
-};
-
-/**
- * 任务定义
- */
-export type CrewAiTask = {
-  /**
-   * 任务描述
-   */
-  description: string;
-  /**
-   * 期待输出
-   */
-  expectedOutput: string;
-  /**
-   * 任务输出json格式名称
-   */
-  outputJsonSchemaName?: string;
-  /**
-   * agent
-   */
-  agent: string;
-};
-
-/**
  * topics 生成结果
  */
 export type GenTopicResult = {
@@ -2479,26 +2427,6 @@ export type GalleryUpdate = {
   userId: string;
 };
 
-export type Session = {
-  metadata: ApiResourceMeta;
-  name: string;
-  userId: string;
-  teamId: string;
-  version: string;
-};
-
-export type SessionList = {
-  pagination?: PaginationResponse;
-  rows?: Array<Session>;
-};
-
-export type SessionUpdate = {
-  metadata?: ApiResourceMeta;
-  name?: string;
-  userId?: string;
-  version?: string;
-};
-
 export type AgEvent = {
   metadata?: ApiResourceMeta;
   userId?: string;
@@ -2534,18 +2462,6 @@ export type AgEventCreate = ApiResourceMetaProperties & AgEvent;
 
 export type AgEventUpdate = ApiResourceMetaProperties & AgEvent;
 
-export type Agent = {
-  metadata?: ApiResourceMeta;
-  /**
-   * agent 节点名称, 或者作为工具名称
-   */
-  title?: string;
-  /**
-   * agent 节点描述, 或者作为工具描述
-   */
-  description?: string;
-};
-
 export type EventBase = {
   type: string;
 };
@@ -2566,17 +2482,6 @@ export type Outline = {
    * Titles and descriptions for each section of the Wikipedia page
    */
   sections: Array<Section>;
-};
-
-export type Assistant = AssistantBase & {
-  /**
-   * The last time the assistant was updated
-   */
-  updated_at: string;
-  /**
-   * The name of the assistant
-   */
-  name: string;
 };
 
 /**
@@ -2987,37 +2892,6 @@ export type NodeRunAction = {
   };
 };
 
-export type AssistantBase = {
-  /**
-   * The ID of the assistant
-   */
-  assistant_id: string;
-  /**
-   * The ID of the graph
-   */
-  graph_id: string;
-  /**
-   * The assistant config
-   */
-  config: {
-    [key: string]: unknown;
-  };
-  /**
-   * The time the assistant was created
-   */
-  created_at: string;
-  /**
-   * The assistant metadata
-   */
-  metadata: {
-    [key: string]: unknown;
-  };
-  /**
-   * The version of the assistant
-   */
-  version: number;
-};
-
 export type RoundRobinGroupChatConfig = {
   team_type?: "RoundRobinGroupChat";
 };
@@ -3192,47 +3066,6 @@ export type Prompt = {
 export type PromptList = {
   pagination?: PaginationResponse;
   rows?: Array<Artifact>;
-};
-
-export type AssisantList = {
-  pagination?: PaginationResponse;
-  rows?: Array<Assisant>;
-};
-
-export type Assisant = {
-  metadata: ApiResourceMeta;
-  /**
-   * 助手名称
-   */
-  name?: string;
-  updated_at?: string;
-  /**
-   * 如果后端使用 langgraph ，则返回 langgraph 的 graph_id
-   */
-  graph_id?: string;
-  config?: {
-    /**
-     * 助手名称
-     */
-    name?: string;
-    tags?: Array<string>;
-    /**
-     * 递归限制
-     */
-    recursion_limit?: number;
-    configurable?: {
-      /**
-       * langgraph 中对应的 threadId
-       */
-      threadId?: string;
-      /**
-       * langgraph 中对应的 checkpointId
-       */
-      checkpointId?: string;
-      [key: string]: unknown | string | undefined;
-    };
-  };
-  tags: Array<string>;
 };
 
 export type SubscribeRequest = {
@@ -8409,46 +8242,6 @@ export type AgentNodeRunResponses = {
 export type AgentNodeRunResponse =
   AgentNodeRunResponses[keyof AgentNodeRunResponses];
 
-export type AgentListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/agents";
-};
-
-export type AgentListResponses = {
-  200: Agent;
-};
-
-export type AgentListResponse = AgentListResponses[keyof AgentListResponses];
-
-export type AgentGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The agent id
-     */
-    agent: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/agent/{agent}";
-};
-
-export type AgentGetResponses = {
-  200: Agent;
-};
-
-export type AgentGetResponse = AgentGetResponses[keyof AgentGetResponses];
-
 export type AgentStreamData = {
   body?: never;
   path: {
@@ -8825,54 +8618,6 @@ export type PromptGetResponses = {
 };
 
 export type PromptGetResponse = PromptGetResponses[keyof PromptGetResponses];
-
-export type AssisantListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/assisants";
-};
-
-export type AssisantListResponses = {
-  /**
-   * 提示词列表
-   */
-  200: PromptList;
-};
-
-export type AssisantListResponse =
-  AssisantListResponses[keyof AssisantListResponses];
-
-export type AssisantGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-    /**
-     * The assisant id
-     */
-    assisant: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/assisants/{assisant}";
-};
-
-export type AssisantGetResponses = {
-  /**
-   * 助手配置
-   */
-  200: Assisant;
-};
-
-export type AssisantGetResponse =
-  AssisantGetResponses[keyof AssisantGetResponses];
 
 export type AdminReleaseConnData = {
   body?: never;

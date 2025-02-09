@@ -86,6 +86,7 @@
     "@tanstack/router-devtools": "^1.93.0",
     "@tanstack/router-plugin": "^1.93.0",
     "@tanstack/start": "^1.93.0",
+    "antd": "^5.22.1",
     "get-port": "^7.1.0",
     "mtmaiapi": "*",
     "mtxuilib": "*",
@@ -95,8 +96,7 @@
     "redaxios": "^0.5.1",
     "superjson": "^2.2.2",
     "unenv": "^1.10.0",
-    "zod": "^3.23.8",
-    "antd": "^5.22.1"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",

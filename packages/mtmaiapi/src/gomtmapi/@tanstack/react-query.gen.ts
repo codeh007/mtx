@@ -130,8 +130,6 @@ import {
   agentNode,
   agentNodeUpdate,
   agentNodeRun,
-  agentList,
-  agentGet,
   agentStream,
   agEventList,
   agEventCreate,
@@ -145,8 +143,6 @@ import {
   modelUpdate,
   promptList,
   promptGet,
-  assisantList,
-  assisantGet,
   adminReleaseConn,
   frontendGetConfig,
   frontendGetSiderbar,
@@ -426,8 +422,6 @@ import type {
   AgentNodeRunData,
   AgentNodeRunError,
   AgentNodeRunResponse,
-  AgentListData,
-  AgentGetData,
   AgentStreamData,
   AgEventListData,
   AgEventCreateData,
@@ -449,8 +443,6 @@ import type {
   ModelUpdateResponse,
   PromptListData,
   PromptGetData,
-  AssisantListData,
-  AssisantGetData,
   AdminReleaseConnData,
   AdminReleaseConnError,
   AdminReleaseConnResponse,
@@ -4232,44 +4224,6 @@ export const agentNodeRunMutation = (
   return mutationOptions;
 };
 
-export const agentListQueryKey = (options: Options<AgentListData>) => [
-  createQueryKey("agentList", options),
-];
-
-export const agentListOptions = (options: Options<AgentListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agentList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: agentListQueryKey(options),
-  });
-};
-
-export const agentGetQueryKey = (options: Options<AgentGetData>) => [
-  createQueryKey("agentGet", options),
-];
-
-export const agentGetOptions = (options: Options<AgentGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agentGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: agentGetQueryKey(options),
-  });
-};
-
 export const agentStreamQueryKey = (options: Options<AgentStreamData>) => [
   createQueryKey("agentStream", options),
 ];
@@ -4575,44 +4529,6 @@ export const promptGetOptions = (options: Options<PromptGetData>) => {
       return data;
     },
     queryKey: promptGetQueryKey(options),
-  });
-};
-
-export const assisantListQueryKey = (options: Options<AssisantListData>) => [
-  createQueryKey("assisantList", options),
-];
-
-export const assisantListOptions = (options: Options<AssisantListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await assisantList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: assisantListQueryKey(options),
-  });
-};
-
-export const assisantGetQueryKey = (options: Options<AssisantGetData>) => [
-  createQueryKey("assisantGet", options),
-];
-
-export const assisantGetOptions = (options: Options<AssisantGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await assisantGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: assisantGetQueryKey(options),
   });
 };
 

@@ -1444,22 +1444,6 @@ export const zBlogGenConfig = z.object({
   dayPublishCountHint: z.number().optional(),
 });
 
-export const zCrewAiAgent = z.object({
-  name: z.string(),
-  role: z.string(),
-  backstory: z.string(),
-  goal: z.string(),
-  maxRetryLimit: z.number().optional(),
-  maxRpm: z.number().optional(),
-});
-
-export const zCrewAiTask = z.object({
-  description: z.string(),
-  expectedOutput: z.string(),
-  outputJsonSchemaName: z.string().optional(),
-  agent: z.string(),
-});
-
 export const zGenTopicResult = z.object({
   topics: z.array(z.string()),
 });
@@ -2542,26 +2526,6 @@ export const zGalleryUpdate = z.object({
   userId: z.string(),
 });
 
-export const zSession = z.object({
-  metadata: zApiResourceMeta,
-  name: z.string(),
-  userId: z.string(),
-  teamId: z.string(),
-  version: z.string(),
-});
-
-export const zSessionList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z.array(zSession).optional(),
-});
-
-export const zSessionUpdate = z.object({
-  metadata: zApiResourceMeta.optional(),
-  name: z.string().optional(),
-  userId: z.string().optional(),
-  version: z.string().optional(),
-});
-
 export const zAgEvent = z.object({
   metadata: zApiResourceMeta.optional(),
   userId: z.string().optional(),
@@ -2586,12 +2550,6 @@ export const zAgEventList = z.object({
 export const zAgEventCreate = zApiResourceMetaProperties.merge(zAgEvent);
 
 export const zAgEventUpdate = zApiResourceMetaProperties.merge(zAgEvent);
-
-export const zAgent = z.object({
-  metadata: zApiResourceMeta.optional(),
-  title: z.string().optional(),
-  description: z.string().optional(),
-});
 
 export const zEventBase = z.object({
   type: z.string(),
@@ -2620,22 +2578,6 @@ export const zOutline = z.object({
     }),
   ),
 });
-
-export const zAssistant = z
-  .object({
-    assistant_id: z.string(),
-    graph_id: z.string(),
-    config: z.object({}),
-    created_at: z.string(),
-    metadata: z.object({}),
-    version: z.number(),
-  })
-  .merge(
-    z.object({
-      updated_at: z.string(),
-      name: z.string(),
-    }),
-  );
 
 export const zAgentTaskTool = z.object({
   metadata: zApiResourceMeta,
@@ -2981,15 +2923,6 @@ export const zNodeRunAction = z.object({
   input: z.object({}).optional(),
 });
 
-export const zAssistantBase = z.object({
-  assistant_id: z.string(),
-  graph_id: z.string(),
-  config: z.object({}),
-  created_at: z.string(),
-  metadata: z.object({}),
-  version: z.number(),
-});
-
 export const zRoundRobinGroupChatConfig = z.object({
   team_type: z.enum(["RoundRobinGroupChat"]).optional(),
 });
@@ -3276,55 +3209,6 @@ export const zPrompt = z.object({
 export const zPromptList = z.object({
   pagination: zPaginationResponse.optional(),
   rows: z.array(zArtifact).optional(),
-});
-
-export const zAssisantList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z
-    .array(
-      z.object({
-        metadata: zApiResourceMeta,
-        name: z.string().optional(),
-        updated_at: z.string().optional(),
-        graph_id: z.string().optional(),
-        config: z
-          .object({
-            name: z.string().optional(),
-            tags: z.array(z.string()).optional(),
-            recursion_limit: z.number().optional().default(10),
-            configurable: z
-              .object({
-                threadId: z.string().optional(),
-                checkpointId: z.string().optional(),
-              })
-              .optional(),
-          })
-          .optional(),
-        tags: z.array(z.string()),
-      }),
-    )
-    .optional(),
-});
-
-export const zAssisant = z.object({
-  metadata: zApiResourceMeta,
-  name: z.string().optional(),
-  updated_at: z.string().optional(),
-  graph_id: z.string().optional(),
-  config: z
-    .object({
-      name: z.string().optional(),
-      tags: z.array(z.string()).optional(),
-      recursion_limit: z.number().optional().default(10),
-      configurable: z
-        .object({
-          threadId: z.string().optional(),
-          checkpointId: z.string().optional(),
-        })
-        .optional(),
-    })
-    .optional(),
-  tags: z.array(z.string()),
 });
 
 export const zSubscribeRequest = z.object({
@@ -3904,10 +3788,6 @@ export const zAgentNodeUpdateResponse = zAgentNode;
 
 export const zAgentNodeRunResponse = zAgentNodeRun;
 
-export const zAgentListResponse = zAgent;
-
-export const zAgentGetResponse = zAgent;
-
 export const zAgentStreamResponse = z.string();
 
 export const zAgEventListResponse = zAgEventList;
@@ -3933,10 +3813,6 @@ export const zModelUpdateResponse = zModel;
 export const zPromptListResponse = zPromptList;
 
 export const zPromptGetResponse = z.string();
-
-export const zAssisantListResponse = zPromptList;
-
-export const zAssisantGetResponse = zAssisant;
 
 export const zAdminReleaseConnResponse = zCommonResult;
 

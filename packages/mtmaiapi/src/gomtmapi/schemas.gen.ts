@@ -3091,62 +3091,6 @@ export const BlogGenConfigSchema = {
   required: ["name", "description"],
 } as const;
 
-export const CrewAiAgentSchema = {
-  type: "object",
-  description: "crawai agent 定义",
-  properties: {
-    name: {
-      description: "name",
-      type: "string",
-    },
-    role: {
-      description: "role",
-      type: "string",
-    },
-    backstory: {
-      description: "role",
-      type: "string",
-    },
-    goal: {
-      description: "goal",
-      type: "string",
-    },
-    maxRetryLimit: {
-      description: "maxRetryLimit",
-      type: "number",
-    },
-    maxRpm: {
-      description: "maxRpm",
-      type: "number",
-    },
-  },
-  required: ["goal", "name", "role", "backstory"],
-} as const;
-
-export const CrewAiTaskSchema = {
-  type: "object",
-  description: "任务定义",
-  properties: {
-    description: {
-      description: "任务描述",
-      type: "string",
-    },
-    expectedOutput: {
-      description: "期待输出",
-      type: "string",
-    },
-    outputJsonSchemaName: {
-      description: "任务输出json格式名称",
-      type: "string",
-    },
-    agent: {
-      description: "agent",
-      type: "string",
-    },
-  },
-  required: ["description", "expectedOutput", "agent"],
-} as const;
-
 export const GenTopicResultSchema = {
   type: "object",
   description: "topics 生成结果",
@@ -4320,60 +4264,6 @@ export const GalleryUpdateSchema = {
   required: ["metadata", "name", "userId"],
 } as const;
 
-export const SessionSchema = {
-  type: "object",
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    name: {
-      type: "string",
-    },
-    userId: {
-      type: "string",
-    },
-    teamId: {
-      type: "string",
-    },
-    version: {
-      type: "string",
-    },
-  },
-  required: ["metadata", "name", "userId", "teamId", "version"],
-} as const;
-
-export const SessionListSchema = {
-  properties: {
-    pagination: {
-      $ref: "#/components/schemas/PaginationResponse",
-    },
-    rows: {
-      items: {
-        $ref: "#/components/schemas/Session",
-      },
-      type: "array",
-    },
-  },
-} as const;
-
-export const SessionUpdateSchema = {
-  type: "object",
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    name: {
-      type: "string",
-    },
-    userId: {
-      type: "string",
-    },
-    version: {
-      type: "string",
-    },
-  },
-} as const;
-
 export const AgEventSchema = {
   type: "object",
   properties: {
@@ -4442,23 +4332,6 @@ export const AgEventUpdateSchema = {
   ],
 } as const;
 
-export const AgentSchema = {
-  type: "object",
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    title: {
-      type: "string",
-      description: "agent 节点名称, 或者作为工具名称",
-    },
-    description: {
-      type: "string",
-      description: "agent 节点描述, 或者作为工具描述",
-    },
-  },
-} as const;
-
 export const EventBaseSchema = {
   type: "object",
   properties: {
@@ -4505,28 +4378,6 @@ export const OutlineSchema = {
     },
   },
   required: ["pageTitle", "sections"],
-} as const;
-
-export const AssistantSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/AssistantBase",
-    },
-    {
-      type: "object",
-      properties: {
-        updated_at: {
-          type: "string",
-          description: "The last time the assistant was updated",
-        },
-        name: {
-          type: "string",
-          description: "The name of the assistant",
-        },
-      },
-      required: ["updated_at", "name"],
-    },
-  ],
 } as const;
 
 export const AgentTaskToolSchema = {
@@ -5369,44 +5220,6 @@ export const NodeRunActionSchema = {
   },
 } as const;
 
-export const AssistantBaseSchema = {
-  type: "object",
-  properties: {
-    assistant_id: {
-      type: "string",
-      description: "The ID of the assistant",
-    },
-    graph_id: {
-      type: "string",
-      description: "The ID of the graph",
-    },
-    config: {
-      type: "object",
-      description: "The assistant config",
-    },
-    created_at: {
-      type: "string",
-      description: "The time the assistant was created",
-    },
-    metadata: {
-      type: "object",
-      description: "The assistant metadata",
-    },
-    version: {
-      type: "number",
-      description: "The version of the assistant",
-    },
-  },
-  required: [
-    "assistant_id",
-    "graph_id",
-    "config",
-    "created_at",
-    "metadata",
-    "version",
-  ],
-} as const;
-
 export const RoundRobinGroupChatConfigSchema = {
   type: "object",
   properties: {
@@ -5849,84 +5662,6 @@ export const PromptListSchema = {
       "x-go-name": "Rows",
     },
   },
-} as const;
-
-export const AssisantListSchema = {
-  properties: {
-    pagination: {
-      $ref: "#/components/schemas/PaginationResponse",
-    },
-    rows: {
-      items: {
-        $ref: "#/components/schemas/Assisant",
-      },
-      type: "array",
-      "x-go-name": "Rows",
-    },
-  },
-} as const;
-
-export const AssisantSchema = {
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    name: {
-      type: "string",
-      description: "助手名称",
-    },
-    updated_at: {
-      type: "string",
-    },
-    graph_id: {
-      type: "string",
-      description: "如果后端使用 langgraph ，则返回 langgraph 的 graph_id",
-    },
-    config: {
-      type: "object",
-      properties: {
-        name: {
-          type: "string",
-          description: "助手名称",
-        },
-        tags: {
-          type: "array",
-          items: {
-            type: "string",
-            description:
-              "Tags for this call and any sub-calls (eg. a Chain calling an LLM).You can use these to filter calls.",
-          },
-        },
-        recursion_limit: {
-          type: "number",
-          description: "递归限制",
-          default: 10,
-        },
-        configurable: {
-          type: "object",
-          properties: {
-            threadId: {
-              type: "string",
-              description: "langgraph 中对应的 threadId",
-            },
-            checkpointId: {
-              type: "string",
-              description: "langgraph 中对应的 checkpointId",
-            },
-          },
-          additionalProperties: true,
-        },
-      },
-    },
-    tags: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-    },
-  },
-  required: ["metadata", "title", "content", "tags"],
-  type: "object",
 } as const;
 
 export const SubscribeRequestSchema = {

@@ -11,7 +11,6 @@
 
 import {
   AcceptInviteRequest,
-  Agent,
   AgentNode,
   AgentNodeCreateRequest,
   AgentNodeList,
@@ -26,7 +25,6 @@ import {
   APIMeta,
   Artifact,
   ArtifactList,
-  Assisant,
   Blog,
   BlogGenConfig,
   BlogList,
@@ -3017,44 +3015,6 @@ export class Api<
       ...params,
     });
   /**
-   * @description 获取agent列表
-   *
-   * @tags agent
-   * @name AgentList
-   * @summary 获取租户下的agent列表
-   * @request GET:/api/v1/tenants/{tenant}/agents
-   * @secure
-   */
-  agentList = (tenant: TenantParameter, params: RequestParams = {}) =>
-    this.request<Agent, any>({
-      path: `/api/v1/tenants/${tenant}/agents`,
-      method: "GET",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description 获取agent列表
-   *
-   * @tags agent
-   * @name AgentGet
-   * @summary 获取租户下的agent列表
-   * @request GET:/api/v1/tenants/{tenant}/agent/{agent}
-   * @secure
-   */
-  agentGet = (
-    tenant: TenantParameter,
-    agent: string,
-    params: RequestParams = {},
-  ) =>
-    this.request<Agent, any>({
-      path: `/api/v1/tenants/${tenant}/agent/${agent}`,
-      method: "GET",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
    * @description 拉取事件
    *
    * @tags agent
@@ -3296,44 +3256,6 @@ export class Api<
       path: `/api/v1/tenants/${tenant}/prompts/${prompt}`,
       method: "GET",
       secure: true,
-      ...params,
-    });
-  /**
-   * @description Get the blogs for the tenant
-   *
-   * @tags assisant
-   * @name AssisantList
-   * @summary 提示词列表
-   * @request GET:/api/v1/tenants/{tenant}/assisants
-   * @secure
-   */
-  assisantList = (tenant: string, params: RequestParams = {}) =>
-    this.request<PromptList, any>({
-      path: `/api/v1/tenants/${tenant}/assisants`,
-      method: "GET",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * No description
-   *
-   * @tags assisant
-   * @name AssisantGet
-   * @summary 获取单个助手配置
-   * @request GET:/api/v1/tenants/{tenant}/assisants/{assisant}
-   * @secure
-   */
-  assisantGet = (
-    tenant: string,
-    assisant: string,
-    params: RequestParams = {},
-  ) =>
-    this.request<Assisant, any>({
-      path: `/api/v1/tenants/${tenant}/assisants/${assisant}`,
-      method: "GET",
-      secure: true,
-      format: "json",
       ...params,
     });
   /**

@@ -47,7 +47,7 @@ export function TeamCombo(props: InputProps) {
         >
           {value
             ? teamsQuery.data?.rows?.find((row) => row.metadata.id === value)
-                ?.config?.name
+                ?.component?.label || "no name agent"
             : "选择团队"}
           <ChevronsUpDown className="opacity-50" />
         </Button>
