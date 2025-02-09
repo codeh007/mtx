@@ -137,32 +137,16 @@ jobs:
         with:
           node-version: '22'
 
-      # - name: Install Vercel CLI
-      #   run: npm install --global vercel@canary
-        
-      # - name: Pull Vercel Environment Information
-      #   run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-
-      # - name: Build Project Artifacts
-      #   run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
-
-      # - name: Deploy Project Artifacts to Vercel
-      #   run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
-
-      # - name: 直接build
-      #   run: |
-      #     ( cd apps/mtmaiui && npx vercel build --yes --prod --token=${{ secrets.VERCEL_TOKEN }} --debug)
-      # - name: 直接build2
-      #   run: |
-      #     ( cd apps/mtmaiui && npx  @cloudflare/next-on-pages --skip-build)
-
       - name: install gomtm
         run: |
           ( cd packages/gomtm-cli && npm i -g )
       
-      - name: deploy to vercel
+      - name: deploy to vercel (gomtm-cli)
         run: |
           gomtm vc_gomtm --enable-vercel-deploy=true --sub-package packages/gomtm-cli
+      - name: deploy to vercel (mtmaiui)
+        run: |
+          gomtm vc_gomtm --enable-vercel-deploy=true --sub-package apps/mtmaiui
 
   build_docker_gomtm_base:
     needs: [deploy]
