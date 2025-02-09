@@ -1937,7 +1937,7 @@ export interface ComponentModel {
   /** Describes how the component can be instantiated. */
   provider: string;
   /** Logical type of the component. If missing, the component assumes the default type of the provider. */
-  component_type: string;
+  component_type: ComponentTypes;
   /** Version of the component specification. If missing, the component assumes whatever is the current version of the library used to load it. This is obviously dangerous and should be used for user authored ephmeral config. For all other configs version should be specified. */
   version?: number;
   /** Version of the component. If missing, the component assumes the default version of the provider. */
@@ -2135,6 +2135,14 @@ export enum TerminationTypes {
   CombinationTermination = "CombinationTermination",
 }
 
+export enum ComponentTypes {
+  Team = "team",
+  Agent = "agent",
+  Model = "model",
+  Tool = "tool",
+  Termination = "termination",
+}
+
 export interface RequestUsage {
   prompt_tokens: number;
   completion_tokens: number;
@@ -2272,6 +2280,8 @@ export type ModelConfig = ComponentModel & {
   model_type: ModelTypes;
   api_key?: string;
   base_url?: string;
+  /** model info */
+  model_info?: ModelInfo;
 };
 
 export enum RunStatus {
@@ -2292,6 +2302,7 @@ export type AgentConfig = {
   name: string;
   description?: string;
   agent_type: AgentTypes;
+  /** @default false */
   model_client_stream: boolean;
   system_message?: string;
   model_client?: ModelComponent;

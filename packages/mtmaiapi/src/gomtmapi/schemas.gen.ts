@@ -3550,7 +3550,6 @@ export const AgentNodeSchema = {
 } as const;
 
 export const AgentNodeRunSchema = {
-  type: "object",
   description: "agentnode run",
   properties: {
     metadata: {
@@ -3885,7 +3884,6 @@ export const ProgrammingLanguageOptionsSchema = {
 } as const;
 
 export const CanvasGraphParamsSchema = {
-  type: "object",
   properties: {
     stepLimit: {
       type: "number",
@@ -4090,6 +4088,7 @@ export const TeamUpdateSchema = {
 } as const;
 
 export const ComponentModelSchema = {
+  required: ["provider", "component_type", "config"],
   properties: {
     provider: {
       type: "string",
@@ -4099,6 +4098,7 @@ export const ComponentModelSchema = {
       type: "string",
       description:
         "Logical type of the component. If missing, the component assumes the default type of the provider.",
+      $ref: "#/components/schemas/ComponentTypes",
     },
     version: {
       type: "integer",
@@ -4125,7 +4125,6 @@ export const ComponentModelSchema = {
         "The schema validated config field is passed to a given class's implmentation of :py:meth:`autogen_core.ComponentConfigImpl._from_config` to create a new instance of the component class.",
     },
   },
-  required: ["provider", "component_type", "config"],
 } as const;
 
 export const GalleryComponentsSchema = {
@@ -4586,6 +4585,11 @@ export const TerminationTypesSchema = {
   ],
 } as const;
 
+export const ComponentTypesSchema = {
+  type: "string",
+  enum: ["team", "agent", "model", "tool", "termination"],
+} as const;
+
 export const RequestUsageSchema = {
   properties: {
     prompt_tokens: {
@@ -5044,6 +5048,9 @@ export const ModelConfigSchema = {
         base_url: {
           type: "string",
         },
+        model_info: {
+          $ref: "#/components/schemas/ModelInfo",
+        },
       },
       required: ["model", "model_type"],
     },
@@ -5133,7 +5140,6 @@ export const AgentConfigSchema = {
 } as const;
 
 export const SectionSchema = {
-  type: "object",
   properties: {
     section_title: {
       type: "string",
@@ -5156,7 +5162,6 @@ export const SectionSchema = {
 } as const;
 
 export const SubsectionSchema = {
-  type: "object",
   properties: {
     subsectionTitle: {
       type: "string",
@@ -5548,7 +5553,6 @@ export const ResearchRequestSchema = {
   description: "研究输入(目前写死为调用社交媒体)",
   allOf: [
     {
-      type: "object",
       properties: {
         isStream: {
           type: "boolean",

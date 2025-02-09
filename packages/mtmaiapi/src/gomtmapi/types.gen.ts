@@ -2359,7 +2359,7 @@ export type ComponentModel = {
   /**
    * Logical type of the component. If missing, the component assumes the default type of the provider.
    */
-  component_type: string;
+  component_type: ComponentTypes;
   /**
    * Version of the component specification. If missing, the component assumes whatever is the current version of the library used to load it. This is obviously dangerous and should be used for user authored ephmeral config. For all other configs version should be specified.
    */
@@ -2657,6 +2657,21 @@ export const TerminationTypes = {
   COMBINATION_TERMINATION: "CombinationTermination",
 } as const;
 
+export type ComponentTypes =
+  | "team"
+  | "agent"
+  | "model"
+  | "tool"
+  | "termination";
+
+export const ComponentTypes = {
+  TEAM: "team",
+  AGENT: "agent",
+  MODEL: "model",
+  TOOL: "tool",
+  TERMINATION: "termination",
+} as const;
+
 export type RequestUsage = {
   prompt_tokens: number;
   completion_tokens: number;
@@ -2809,6 +2824,7 @@ export type ModelConfig = ComponentModel & {
   model_type: ModelTypes;
   api_key?: string;
   base_url?: string;
+  model_info?: ModelInfo;
 };
 
 export type RunStatus =

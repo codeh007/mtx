@@ -2225,7 +2225,7 @@ export const zTeam = z.object({
   component: z
     .object({
       provider: z.string(),
-      component_type: z.string(),
+      component_type: z.enum(["team", "agent", "model", "tool", "termination"]),
       version: z.number().int().optional(),
       component_version: z.number().int().optional(),
       description: z.string().optional(),
@@ -2242,7 +2242,13 @@ export const zTeam = z.object({
                 z
                   .object({
                     provider: z.string(),
-                    component_type: z.string(),
+                    component_type: z.enum([
+                      "team",
+                      "agent",
+                      "model",
+                      "tool",
+                      "termination",
+                    ]),
                     version: z.number().int().optional(),
                     component_version: z.number().int().optional(),
                     description: z.string().optional(),
@@ -2266,7 +2272,13 @@ export const zTeam = z.object({
                         model_client: z
                           .object({
                             provider: z.string(),
-                            component_type: z.string(),
+                            component_type: z.enum([
+                              "team",
+                              "agent",
+                              "model",
+                              "tool",
+                              "termination",
+                            ]),
                             version: z.number().int().optional(),
                             component_version: z.number().int().optional(),
                             description: z.string().optional(),
@@ -2278,7 +2290,13 @@ export const zTeam = z.object({
                               config: z
                                 .object({
                                   provider: z.string(),
-                                  component_type: z.string(),
+                                  component_type: z.enum([
+                                    "team",
+                                    "agent",
+                                    "model",
+                                    "tool",
+                                    "termination",
+                                  ]),
                                   version: z.number().int().optional(),
                                   component_version: z
                                     .number()
@@ -2297,6 +2315,14 @@ export const zTeam = z.object({
                                     ]),
                                     api_key: z.string().optional(),
                                     base_url: z.string().optional(),
+                                    model_info: z
+                                      .object({
+                                        vision: z.boolean(),
+                                        function_calling: z.boolean(),
+                                        json_output: z.boolean(),
+                                        family: z.string().default("unknown"),
+                                      })
+                                      .optional(),
                                   }),
                                 ),
                             }),
@@ -2307,7 +2333,13 @@ export const zTeam = z.object({
                             z
                               .object({
                                 provider: z.string(),
-                                component_type: z.string(),
+                                component_type: z.enum([
+                                  "team",
+                                  "agent",
+                                  "model",
+                                  "tool",
+                                  "termination",
+                                ]),
                                 version: z.number().int().optional(),
                                 component_version: z.number().int().optional(),
                                 description: z.string().optional(),
@@ -2319,7 +2351,13 @@ export const zTeam = z.object({
                                   config: z
                                     .object({
                                       provider: z.string(),
-                                      component_type: z.string(),
+                                      component_type: z.enum([
+                                        "team",
+                                        "agent",
+                                        "model",
+                                        "tool",
+                                        "termination",
+                                      ]),
                                       version: z.number().int().optional(),
                                       component_version: z
                                         .number()
@@ -2359,7 +2397,13 @@ export const zTeam = z.object({
             termination_condition: z
               .object({
                 provider: z.string(),
-                component_type: z.string(),
+                component_type: z.enum([
+                  "team",
+                  "agent",
+                  "model",
+                  "tool",
+                  "termination",
+                ]),
                 version: z.number().int().optional(),
                 component_version: z.number().int().optional(),
                 description: z.string().optional(),
@@ -2384,7 +2428,13 @@ export const zTeam = z.object({
                           z
                             .object({
                               provider: z.string(),
-                              component_type: z.string(),
+                              component_type: z.enum([
+                                "team",
+                                "agent",
+                                "model",
+                                "tool",
+                                "termination",
+                              ]),
                               version: z.number().int().optional(),
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
@@ -2404,7 +2454,13 @@ export const zTeam = z.object({
                           z
                             .object({
                               provider: z.string(),
-                              component_type: z.string(),
+                              component_type: z.enum([
+                                "team",
+                                "agent",
+                                "model",
+                                "tool",
+                                "termination",
+                              ]),
                               version: z.number().int().optional(),
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
@@ -2448,7 +2504,7 @@ export const zTeamUpdate = z.object({
   version: z.string(),
   config: z.object({
     provider: z.string(),
-    component_type: z.string(),
+    component_type: z.enum(["team", "agent", "model", "tool", "termination"]),
     version: z.number().int().optional(),
     component_version: z.number().int().optional(),
     description: z.string().optional(),
@@ -2459,7 +2515,7 @@ export const zTeamUpdate = z.object({
 
 export const zComponentModel = z.object({
   provider: z.string(),
-  component_type: z.string(),
+  component_type: z.enum(["team", "agent", "model", "tool", "termination"]),
   version: z.number().int().optional(),
   component_version: z.number().int().optional(),
   description: z.string().optional(),
@@ -2637,6 +2693,14 @@ export const zTerminationTypes = z.enum([
   "CombinationTermination",
 ]);
 
+export const zComponentTypes = z.enum([
+  "team",
+  "agent",
+  "model",
+  "tool",
+  "termination",
+]);
+
 export const zRequestUsage = z.object({
   prompt_tokens: z.number(),
   completion_tokens: z.number(),
@@ -2759,6 +2823,14 @@ export const zAzureOpenAiModelConfig = zComponentModel
       model_type: zModelTypes,
       api_key: z.string().optional(),
       base_url: z.string().optional(),
+      model_info: z
+        .object({
+          vision: z.boolean(),
+          function_calling: z.boolean(),
+          json_output: z.boolean(),
+          family: z.string().default("unknown"),
+        })
+        .optional(),
     }),
   )
   .merge(
@@ -2778,6 +2850,14 @@ export const zOpenAiModelConfig = zComponentModel
       model_type: zModelTypes,
       api_key: z.string().optional(),
       base_url: z.string().optional(),
+      model_info: z
+        .object({
+          vision: z.boolean(),
+          function_calling: z.boolean(),
+          json_output: z.boolean(),
+          family: z.string().default("unknown"),
+        })
+        .optional(),
     }),
   )
   .merge(
@@ -2822,6 +2902,14 @@ export const zModelComponent = zComponentModel.merge(
         model_type: zModelTypes,
         api_key: z.string().optional(),
         base_url: z.string().optional(),
+        model_info: z
+          .object({
+            vision: z.boolean(),
+            function_calling: z.boolean(),
+            json_output: z.boolean(),
+            family: z.string().default("unknown"),
+          })
+          .optional(),
       }),
     ),
   }),
@@ -2833,6 +2921,14 @@ export const zModelConfig = zComponentModel.merge(
     model_type: zModelTypes,
     api_key: z.string().optional(),
     base_url: z.string().optional(),
+    model_info: z
+      .object({
+        vision: z.boolean(),
+        function_calling: z.boolean(),
+        json_output: z.boolean(),
+        family: z.string().default("unknown"),
+      })
+      .optional(),
   }),
 );
 
