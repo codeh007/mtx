@@ -15,7 +15,7 @@ import { toast } from "mtxuilib/ui/use-toast";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useTenant, useUser } from "../../../hooks/useAuth";
-import type { IStatus } from "../../components/datamodel";
+import type { IStatus } from "../../components/datamodel.ts--";
 import ChatInput from "./chatinput";
 import { TIMEOUT_CONFIG } from "./consts";
 import { RunView } from "./runview";

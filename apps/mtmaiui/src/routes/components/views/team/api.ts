@@ -1,4 +1,4 @@
-import type { AgentConfig, Team } from "../../datamodel";
+import type { AgentConfig, Team } from "../../datamodel.ts--";
 
 export class TeamAPI {
   private getHeaders(): HeadersInit {

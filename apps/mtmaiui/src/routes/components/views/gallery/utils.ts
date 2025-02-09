@@ -7,7 +7,7 @@ import type {
   RoundRobinGroupChatConfig,
   TextMentionTerminationConfig,
   UserProxyAgentConfig,
-} from "../../datamodel";
+} from "../../datamodel.ts--";
 
 export const defaultGallery = {
   id: "gallery_default",

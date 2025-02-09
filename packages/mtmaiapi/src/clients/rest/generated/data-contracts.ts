@@ -576,11 +576,7 @@ export interface WorkflowConcurrency {
    */
   maxRuns: number;
   /** The strategy to use when the concurrency limit is reached. */
-  limitStrategy:
-    | "CANCEL_IN_PROGRESS"
-    | "DROP_NEWEST"
-    | "QUEUE_NEWEST"
-    | "GROUP_ROUND_ROBIN";
+  limitStrategy: "CANCEL_IN_PROGRESS" | "DROP_NEWEST" | "QUEUE_NEWEST" | "GROUP_ROUND_ROBIN";
   /** An action which gets the concurrency group for the WorkflowRun. */
   getConcurrencyGroup: string;
 }
@@ -1765,12 +1761,7 @@ export interface AgentNodeRunInput {
   teamId?: string;
   /** 是否使用stream 传输事件 */
   isStream?: boolean;
-  params?:
-    | ResearchRequest
-    | CrewAIParams
-    | ScrapeGraphParams
-    | BrowserParams
-    | CanvasGraphParams;
+  params?: ResearchRequest | CrewAIParams | ScrapeGraphParams | BrowserParams | CanvasGraphParams;
 }
 
 export interface TextHighlight {
@@ -1945,8 +1936,7 @@ export interface Team {
   name: string;
   userId: string;
   version?: string;
-  config?: TeamConfig;
-  component: TeamConfig;
+  component: TeamComponent;
 }
 
 export interface TeamList {
@@ -1976,7 +1966,7 @@ export interface ComponentModel {
   /** Human readable label for the component. If missing the component assumes the class name of the provider. */
   label?: string;
   /** The schema validated config field is passed to a given class's implmentation of :py:meth:`autogen_core.ComponentConfigImpl._from_config` to create a new instance of the component class. */
-  config?: object;
+  config: object;
 }
 
 export interface GalleryComponents {
@@ -2251,33 +2241,15 @@ export type ToolCallResultMessageConfig = BaseMessageConfig & {
   content: FunctionExecutionResult[];
 };
 
-export interface DBModel {
-  id: number;
-  user_id: string;
-  created_at: string;
-  updated_at: string;
-  version: number;
-}
-
 export interface TeamResult {
   task_result: object;
   usage: string;
   duration: number;
 }
 
-export type MessageV2 = DBModel & {
-  config: AgentMessageConfig;
-};
+export type InnerMessageConfig = ToolCallMessageConfig | ToolCallResultMessageConfig;
 
-export type InnerMessageConfig =
-  | ToolCallMessageConfig
-  | ToolCallResultMessageConfig;
-
-export type ChatMessageConfig =
-  | TextMessageConfig
-  | MultiModalMessageConfig
-  | StopMessageConfig
-  | HandoffMessageConfig;
+export type ChatMessageConfig = TextMessageConfig | MultiModalMessageConfig | StopMessageConfig | HandoffMessageConfig;
 
 export type AgentMessageConfig =
   | TextMessageConfig
@@ -2340,14 +2312,26 @@ export type OpenAIModelConfig = BaseModelConfig & {
   model_type: "OpenAIChatCompletionClient";
 };
 
+export type ToolComponent = ComponentModel & {
+  config: ToolConfig;
+};
+
 export type ToolConfig = ComponentModel & {
   name: string;
   description: string;
   content: string;
   tool_type: ToolTypes;
+  source_code?: string;
+  global_imports?: string[];
+  has_cancellation_support?: boolean;
+};
+
+export type ModelComponent = ComponentModel & {
+  config: ModelConfig;
 };
 
 export interface ModelConfig {
+  model: string;
   temperature?: number;
   modelProvider?: string;
   maxTokens?: number;
@@ -2372,13 +2356,20 @@ export enum RunStatus {
   Stopped = "stopped",
 }
 
+export type AgentComponent = ComponentModel & {
+  config: AgentConfig;
+};
+
 export type AgentConfig = ComponentModel & {
   name: string;
+  description?: string;
   agent_type: AgentTypes;
   system_message?: string;
-  model_client?: ModelConfig;
-  tools?: ToolConfig[];
-  description?: string;
+  model_client?: ModelComponent;
+  tools?: ToolComponent[];
+  handoffs?: string[];
+  reflect_on_tool_use?: boolean;
+  tool_call_summary_format?: string;
 };
 
 export type AssistantAgentConfig = AgentConfig & {
@@ -2424,46 +2415,48 @@ export interface AssistantBase {
   version: number;
 }
 
-export interface BaseTeamConfig {
-  name?: string;
-  participants?: AgentConfig[];
-  team_type?: TeamTypes;
-}
-
 export interface RoundRobinGroupChatConfig {
   team_type?: "RoundRobinGroupChat";
 }
 
-export type SelectorGroupChatConfig = {
+export type SelectorGroupChatConfig = ComponentModel & {
   team_type?: "SelectorGroupChat";
   selector_prompt?: string;
   model_client?: ModelConfig;
 };
 
-export type TerminationConfig =
-  | MaxMessageTerminationConfig
-  | TextMentionTerminationConfig
-  | CombinationTerminationConfig;
-
-export type BaseTerminationConfig = ComponentModel & {
-  termination_type?: TerminationTypes;
+export type TeamComponent = ComponentModel & {
+  config?: TeamConfig;
 };
 
-export type MaxMessageTerminationConfig = BaseTerminationConfig & {
+export type TerminationComponent = ComponentModel & {
+  config: TerminationConfig;
+};
+
+export interface TerminationConfig {
+  termination_type?: TerminationTypes;
+  conditions?: TerminationConditions[];
+}
+
+export type MaxMessageTerminationConfigComponent = ComponentModel & {
+  config: MaxMessageTerminationConfig;
+};
+
+export type MaxMessageTerminationConfig = {
   termination_type: "MaxMessageTermination";
   max_messages: number;
 };
 
-export type TextMentionTerminationConfig = BaseTerminationConfig & {
+export type TextMentionTerminationComponent = ComponentModel & {
+  config?: TextMentionTerminationConfig;
+};
+
+export type TextMentionTerminationConfig = {
   termination_type: "TextMentionTermination";
   text: string;
 };
 
-export type CombinationTerminationConfig = BaseTerminationConfig & {
-  termination_type: "CombinationTermination";
-  operator: "and" | "or";
-  conditions: TerminationConfig[];
-};
+export type TerminationConditions = MaxMessageTerminationConfigComponent | TextMentionTerminationComponent;
 
 export enum TeamTypes {
   RoundRobinGroupChat = "RoundRobinGroupChat",
@@ -2471,7 +2464,11 @@ export enum TeamTypes {
   MagenticOneGroupChat = "MagenticOneGroupChat",
 }
 
-export type TeamConfig = ComponentModel & BaseTeamConfig;
+export interface TeamConfig {
+  max_turns?: number;
+  participants?: AgentComponent[];
+  termination_condition?: TerminationComponent;
+}
 
 export interface BaseState {
   metadata: APIResourceMeta;

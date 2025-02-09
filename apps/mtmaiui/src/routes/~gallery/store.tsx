@@ -6,7 +6,7 @@ import type {
   TeamConfig,
   TerminationConfig,
   ToolConfig,
-} from "../components/datamodel";
+} from "../components/datamodel.ts--";
 import type { Gallery } from "../components/views/gallery/types";
 import { defaultGallery } from "../components/views/gallery/utils";
 

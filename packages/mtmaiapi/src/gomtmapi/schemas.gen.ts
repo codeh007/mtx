@@ -4104,7 +4104,7 @@ export const TeamSchema = {
       type: "string",
     },
     component: {
-      $ref: "#/components/schemas/TeamConfig",
+      $ref: "#/components/schemas/TeamComponent",
     },
   },
   required: ["metadata", "name", "userId", "component"],
@@ -4147,7 +4147,6 @@ export const TeamUpdateSchema = {
 } as const;
 
 export const ComponentModelSchema = {
-  type: "object",
   properties: {
     provider: {
       type: "string",
@@ -4183,7 +4182,7 @@ export const ComponentModelSchema = {
         "The schema validated config field is passed to a given class's implmentation of :py:meth:`autogen_core.ComponentConfigImpl._from_config` to create a new instance of the component class.",
     },
   },
-  required: ["provider", "component_type"],
+  required: ["provider", "component_type", "config"],
 } as const;
 
 export const GalleryComponentsSchema = {
@@ -4936,28 +4935,6 @@ export const ToolCallResultMessageConfigSchema = {
   ],
 } as const;
 
-export const DBModelSchema = {
-  type: "object",
-  properties: {
-    id: {
-      type: "number",
-    },
-    user_id: {
-      type: "string",
-    },
-    created_at: {
-      type: "string",
-    },
-    updated_at: {
-      type: "string",
-    },
-    version: {
-      type: "number",
-    },
-  },
-  required: ["id", "user_id", "created_at", "updated_at", "version"],
-} as const;
-
 export const TeamResultSchema = {
   type: "object",
   properties: {
@@ -4972,25 +4949,6 @@ export const TeamResultSchema = {
     },
   },
   required: ["task_result", "usage", "duration"],
-} as const;
-
-export const MessageV2Schema = {
-  type: "object",
-  allOf: [
-    {
-      $ref: "#/components/schemas/DBModel",
-    },
-    {
-      type: "object",
-      properties: {
-        config: {
-          type: "object",
-          $ref: "#/components/schemas/AgentMessageConfig",
-        },
-      },
-      required: ["config"],
-    },
-  ],
 } as const;
 
 export const InnerMessageConfigSchema = {
@@ -5205,6 +5163,25 @@ export const OpenAIModelConfigSchema = {
   ],
 } as const;
 
+export const ToolComponentSchema = {
+  type: "object",
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
+    {
+      type: "object",
+      required: ["config"],
+      properties: {
+        config: {
+          type: "object",
+          $ref: "#/components/schemas/ToolConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
 export const ToolConfigSchema = {
   type: "object",
   allOf: [
@@ -5227,15 +5204,50 @@ export const ToolConfigSchema = {
           type: "string",
           $ref: "#/components/schemas/ToolTypes",
         },
+        source_code: {
+          type: "string",
+        },
+        global_imports: {
+          type: "array",
+          items: {
+            type: "string",
+          },
+        },
+        has_cancellation_support: {
+          type: "boolean",
+        },
       },
       required: ["name", "description", "content", "tool_type"],
     },
   ],
 } as const;
 
+export const ModelComponentSchema = {
+  type: "object",
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
+    {
+      type: "object",
+      required: ["config"],
+      properties: {
+        config: {
+          type: "object",
+          $ref: "#/components/schemas/ModelConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
 export const ModelConfigSchema = {
   type: "object",
+  required: ["model"],
   properties: {
+    model: {
+      type: "string",
+    },
     temperature: {
       type: "number",
     },
@@ -5293,6 +5305,25 @@ export const RunStatusSchema = {
   ],
 } as const;
 
+export const AgentComponentSchema = {
+  type: "object",
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
+    {
+      type: "object",
+      required: ["config"],
+      properties: {
+        config: {
+          type: "object",
+          $ref: "#/components/schemas/AgentConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
 export const AgentConfigSchema = {
   type: "object",
   allOf: [
@@ -5306,6 +5337,9 @@ export const AgentConfigSchema = {
         name: {
           type: "string",
         },
+        description: {
+          type: "string",
+        },
         agent_type: {
           type: "string",
           $ref: "#/components/schemas/AgentTypes",
@@ -5315,15 +5349,24 @@ export const AgentConfigSchema = {
         },
         model_client: {
           type: "object",
-          $ref: "#/components/schemas/ModelConfig",
+          $ref: "#/components/schemas/ModelComponent",
         },
         tools: {
           type: "array",
           items: {
-            $ref: "#/components/schemas/ToolConfig",
+            $ref: "#/components/schemas/ToolComponent",
           },
         },
-        description: {
+        handoffs: {
+          type: "array",
+          items: {
+            type: "string",
+          },
+        },
+        reflect_on_tool_use: {
+          type: "boolean",
+        },
+        tool_call_summary_format: {
           type: "string",
         },
       },
@@ -5439,24 +5482,6 @@ export const AssistantBaseSchema = {
   ],
 } as const;
 
-export const BaseTeamConfigSchema = {
-  type: "object",
-  properties: {
-    name: {
-      type: "string",
-    },
-    participants: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/AgentConfig",
-      },
-    },
-    team_type: {
-      $ref: "#/components/schemas/TeamTypes",
-    },
-  },
-} as const;
-
 export const RoundRobinGroupChatConfigSchema = {
   type: "object",
   properties: {
@@ -5491,22 +5516,7 @@ export const SelectorGroupChatConfigSchema = {
   ],
 } as const;
 
-export const TerminationConfigSchema = {
-  type: "object",
-  oneOf: [
-    {
-      $ref: "#/components/schemas/MaxMessageTerminationConfig",
-    },
-    {
-      $ref: "#/components/schemas/TextMentionTerminationConfig",
-    },
-    {
-      $ref: "#/components/schemas/CombinationTerminationConfig",
-    },
-  ],
-} as const;
-
-export const BaseTerminationConfigSchema = {
+export const TeamComponentSchema = {
   type: "object",
   allOf: [
     {
@@ -5515,9 +5525,61 @@ export const BaseTerminationConfigSchema = {
     {
       type: "object",
       properties: {
-        termination_type: {
-          type: "string",
-          $ref: "#/components/schemas/TerminationTypes",
+        config: {
+          $ref: "#/components/schemas/TeamConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const TerminationComponentSchema = {
+  type: "object",
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
+    {
+      type: "object",
+      required: ["config"],
+      properties: {
+        config: {
+          type: "object",
+          $ref: "#/components/schemas/TerminationConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const TerminationConfigSchema = {
+  type: "object",
+  properties: {
+    termination_type: {
+      type: "string",
+      $ref: "#/components/schemas/TerminationTypes",
+    },
+    conditions: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/TerminationConditions",
+      },
+    },
+  },
+} as const;
+
+export const MaxMessageTerminationConfigComponentSchema = {
+  type: "object",
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
+    {
+      type: "object",
+      properties: {
+        config: {
+          type: "object",
+          $ref: "#/components/schemas/MaxMessageTerminationConfig",
         },
       },
     },
@@ -5528,9 +5590,6 @@ export const MaxMessageTerminationConfigSchema = {
   type: "object",
   allOf: [
     {
-      $ref: "#/components/schemas/BaseTerminationConfig",
-    },
-    {
       type: "object",
       properties: {
         termination_type: {
@@ -5538,7 +5597,7 @@ export const MaxMessageTerminationConfigSchema = {
           enum: ["MaxMessageTermination"],
         },
         max_messages: {
-          type: "number",
+          type: "integer",
         },
       },
       required: ["termination_type", "max_messages"],
@@ -5546,12 +5605,27 @@ export const MaxMessageTerminationConfigSchema = {
   ],
 } as const;
 
-export const TextMentionTerminationConfigSchema = {
+export const TextMentionTerminationComponentSchema = {
   type: "object",
   allOf: [
     {
-      $ref: "#/components/schemas/BaseTerminationConfig",
+      $ref: "#/components/schemas/ComponentModel",
     },
+    {
+      type: "object",
+      properties: {
+        config: {
+          type: "object",
+          $ref: "#/components/schemas/TextMentionTerminationConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const TextMentionTerminationConfigSchema = {
+  type: "object",
+  allOf: [
     {
       type: "object",
       properties: {
@@ -5568,31 +5642,14 @@ export const TextMentionTerminationConfigSchema = {
   ],
 } as const;
 
-export const CombinationTerminationConfigSchema = {
+export const TerminationConditionsSchema = {
   type: "object",
-  allOf: [
+  oneOf: [
     {
-      $ref: "#/components/schemas/BaseTerminationConfig",
+      $ref: "#/components/schemas/MaxMessageTerminationConfigComponent",
     },
     {
-      type: "object",
-      properties: {
-        termination_type: {
-          type: "string",
-          enum: ["CombinationTermination"],
-        },
-        operator: {
-          type: "string",
-          enum: ["and", "or"],
-        },
-        conditions: {
-          type: "array",
-          items: {
-            $ref: "#/components/schemas/TerminationConfig",
-          },
-        },
-      },
-      required: ["termination_type", "operator", "conditions"],
+      $ref: "#/components/schemas/TextMentionTerminationComponent",
     },
   ],
 } as const;
@@ -5604,14 +5661,20 @@ export const TeamTypesSchema = {
 
 export const TeamConfigSchema = {
   type: "object",
-  allOf: [
-    {
-      $ref: "#/components/schemas/ComponentModel",
+  properties: {
+    max_turns: {
+      type: "integer",
     },
-    {
-      $ref: "#/components/schemas/BaseTeamConfig",
+    participants: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/AgentComponent",
+      },
     },
-  ],
+    termination_condition: {
+      $ref: "#/components/schemas/TerminationComponent",
+    },
+  },
 } as const;
 
 export const BaseStateSchema = {

@@ -18,7 +18,7 @@ import { Button } from "mtxuilib/ui/button";
 import type React from "react";
 import { useRef, useState } from "react";
 import { useGalleryStore } from "../../../~gallery/store";
-import type { ComponentConfigTypes } from "../../datamodel";
+import type { ComponentConfigTypes } from "../../datamodel.ts--";
 import { TruncatableText, getRelativeTimeString } from "../atoms";
 import { MonacoEditor } from "../monaco";
 import type { Gallery } from "./types";

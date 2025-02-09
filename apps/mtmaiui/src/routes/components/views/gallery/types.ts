@@ -4,7 +4,7 @@ import type {
   TeamConfig,
   TerminationConfig,
   ToolConfig,
-} from "../../datamodel";
+} from "../../datamodel.ts--";
 
 export interface GalleryMetadata {
   author: string;

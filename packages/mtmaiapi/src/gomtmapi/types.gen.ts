@@ -2387,7 +2387,7 @@ export type Team = {
   name: string;
   userId: string;
   version?: string;
-  component: TeamConfig;
+  component: TeamComponent;
 };
 
 export type TeamList = {
@@ -2431,7 +2431,7 @@ export type ComponentModel = {
   /**
    * The schema validated config field is passed to a given class's implmentation of :py:meth:`autogen_core.ComponentConfigImpl._from_config` to create a new instance of the component class.
    */
-  config?: {
+  config: {
     [key: string]: unknown;
   };
 };
@@ -2804,24 +2804,12 @@ export type ToolCallResultMessageConfig = BaseMessageConfig & {
   content: Array<FunctionExecutionResult>;
 };
 
-export type DbModel = {
-  id: number;
-  user_id: string;
-  created_at: string;
-  updated_at: string;
-  version: number;
-};
-
 export type TeamResult = {
   task_result: {
     [key: string]: unknown;
   };
   usage: string;
   duration: number;
-};
-
-export type MessageV2 = DbModel & {
-  config: AgentMessageConfig;
 };
 
 export type InnerMessageConfig =
@@ -2908,14 +2896,26 @@ export type OpenAiModelConfig = BaseModelConfig & {
   model_type: "OpenAIChatCompletionClient";
 };
 
+export type ToolComponent = ComponentModel & {
+  config: ToolConfig;
+};
+
 export type ToolConfig = ComponentModel & {
   name: string;
   description: string;
   content: string;
   tool_type: ToolTypes;
+  source_code?: string;
+  global_imports?: Array<string>;
+  has_cancellation_support?: boolean;
+};
+
+export type ModelComponent = ComponentModel & {
+  config: ModelConfig;
 };
 
 export type ModelConfig = {
+  model: string;
   temperature?: number;
   modelProvider?: string;
   maxTokens?: number;
@@ -2949,13 +2949,20 @@ export const RunStatus = {
   STOPPED: "stopped",
 } as const;
 
+export type AgentComponent = ComponentModel & {
+  config: AgentConfig;
+};
+
 export type AgentConfig = ComponentModel & {
   name: string;
+  description?: string;
   agent_type: AgentTypes;
   system_message?: string;
-  model_client?: ModelConfig;
-  tools?: Array<ToolConfig>;
-  description?: string;
+  model_client?: ModelComponent;
+  tools?: Array<ToolComponent>;
+  handoffs?: Array<string>;
+  reflect_on_tool_use?: boolean;
+  tool_call_summary_format?: string;
 };
 
 export type AssistantAgentConfig = AgentConfig & {
@@ -3035,12 +3042,6 @@ export type AssistantBase = {
   version: number;
 };
 
-export type BaseTeamConfig = {
-  name?: string;
-  participants?: Array<AgentConfig>;
-  team_type?: TeamTypes;
-};
-
 export type RoundRobinGroupChatConfig = {
   team_type?: "RoundRobinGroupChat";
 };
@@ -3051,30 +3052,40 @@ export type SelectorGroupChatConfig = ComponentModel & {
   model_client?: ModelConfig;
 };
 
-export type TerminationConfig =
-  | MaxMessageTerminationConfig
-  | TextMentionTerminationConfig
-  | CombinationTerminationConfig;
-
-export type BaseTerminationConfig = ComponentModel & {
-  termination_type?: TerminationTypes;
+export type TeamComponent = ComponentModel & {
+  config?: TeamConfig;
 };
 
-export type MaxMessageTerminationConfig = BaseTerminationConfig & {
+export type TerminationComponent = ComponentModel & {
+  config: TerminationConfig;
+};
+
+export type TerminationConfig = {
+  termination_type?: TerminationTypes;
+  conditions?: Array<TerminationConditions>;
+};
+
+export type MaxMessageTerminationConfigComponent = ComponentModel & {
+  config?: MaxMessageTerminationConfig;
+};
+
+export type MaxMessageTerminationConfig = {
   termination_type: "MaxMessageTermination";
   max_messages: number;
 };
 
-export type TextMentionTerminationConfig = BaseTerminationConfig & {
+export type TextMentionTerminationComponent = ComponentModel & {
+  config?: TextMentionTerminationConfig;
+};
+
+export type TextMentionTerminationConfig = {
   termination_type: "TextMentionTermination";
   text: string;
 };
 
-export type CombinationTerminationConfig = BaseTerminationConfig & {
-  termination_type: "CombinationTermination";
-  operator: "and" | "or";
-  conditions: Array<TerminationConfig>;
-};
+export type TerminationConditions =
+  | MaxMessageTerminationConfigComponent
+  | TextMentionTerminationComponent;
 
 export type TeamTypes =
   | "RoundRobinGroupChat"
@@ -3087,7 +3098,11 @@ export const TeamTypes = {
   MAGENTIC_ONE_GROUP_CHAT: "MagenticOneGroupChat",
 } as const;
 
-export type TeamConfig = ComponentModel & BaseTeamConfig;
+export type TeamConfig = {
+  max_turns?: number;
+  participants?: Array<AgentComponent>;
+  termination_condition?: TerminationComponent;
+};
 
 export type BaseState = {
   metadata: ApiResourceMeta;
