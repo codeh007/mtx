@@ -2006,6 +2006,7 @@ export enum EventTypes {
   WorkflowRunEnd = "WorkflowRunEnd",
   StepRun = "StepRun",
   TextMessage = "TextMessage",
+  ModelClientStreamingChunkEvent = "ModelClientStreamingChunkEvent",
 }
 
 export interface AgEventList {

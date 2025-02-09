@@ -4277,7 +4277,13 @@ export const AgEventSchema = {
 
 export const EventTypesSchema = {
   type: "string",
-  enum: ["WorkflowRunStart", "WorkflowRunEnd", "StepRun", "TextMessage"],
+  enum: [
+    "WorkflowRunStart",
+    "WorkflowRunEnd",
+    "StepRun",
+    "TextMessage",
+    "ModelClientStreamingChunkEvent",
+  ],
 } as const;
 
 export const AgEventListSchema = {
@@ -4319,7 +4325,6 @@ export const AgEventUpdateSchema = {
 } as const;
 
 export const EventBaseSchema = {
-  type: "object",
   properties: {
     type: {
       type: "string",

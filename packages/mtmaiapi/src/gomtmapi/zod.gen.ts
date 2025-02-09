@@ -2557,6 +2557,7 @@ export const zEventTypes = z.enum([
   "WorkflowRunEnd",
   "StepRun",
   "TextMessage",
+  "ModelClientStreamingChunkEvent",
 ]);
 
 export const zAgEventList = z.object({

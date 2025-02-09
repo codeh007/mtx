@@ -2443,13 +2443,15 @@ export type EventTypes =
   | "WorkflowRunStart"
   | "WorkflowRunEnd"
   | "StepRun"
-  | "TextMessage";
+  | "TextMessage"
+  | "ModelClientStreamingChunkEvent";
 
 export const EventTypes = {
   WORKFLOW_RUN_START: "WorkflowRunStart",
   WORKFLOW_RUN_END: "WorkflowRunEnd",
   STEP_RUN: "StepRun",
   TEXT_MESSAGE: "TextMessage",
+  MODEL_CLIENT_STREAMING_CHUNK_EVENT: "ModelClientStreamingChunkEvent",
 } as const;
 
 export type AgEventList = {
