@@ -2256,14 +2256,46 @@ export const zTeam = z.object({
                     z.object({
                       config: z.object({
                         name: z.string(),
-                        description: z.string().optional(),
-                        agent_type: z.enum([
-                          "AssistantAgent",
-                          "UserProxyAgent",
-                          "MultimodalWebSurfer",
-                          "FileSurfer",
-                          "MagenticOneCoderAgent",
-                        ]),
+                        description: z.string(),
+                        model_context: z
+                          .object({
+                            provider: z.string(),
+                            component_type: z.enum([
+                              "team",
+                              "agent",
+                              "model",
+                              "tool",
+                              "termination",
+                            ]),
+                            version: z.number().int().optional(),
+                            component_version: z.number().int().optional(),
+                            description: z.string().optional(),
+                            label: z.string().optional(),
+                            config: z.object({}),
+                          })
+                          .merge(
+                            z.object({
+                              config: z.object({}),
+                            }),
+                          )
+                          .optional(),
+                        memory: z
+                          .object({
+                            provider: z.string(),
+                            component_type: z.enum([
+                              "team",
+                              "agent",
+                              "model",
+                              "tool",
+                              "termination",
+                            ]),
+                            version: z.number().int().optional(),
+                            component_version: z.number().int().optional(),
+                            description: z.string().optional(),
+                            label: z.string().optional(),
+                            config: z.object({}),
+                          })
+                          .optional(),
                         model_client_stream: z.boolean().default(false),
                         system_message: z.string().optional(),
                         model_client: z
@@ -2319,8 +2351,7 @@ export const zTeam = z.object({
                                   .optional(),
                               }),
                             }),
-                          )
-                          .optional(),
+                          ),
                         tools: z
                           .array(
                             z
@@ -2357,8 +2388,8 @@ export const zTeam = z.object({
                           )
                           .optional(),
                         handoffs: z.array(z.string()).optional(),
-                        reflect_on_tool_use: z.boolean().optional(),
-                        tool_call_summary_format: z.string().optional(),
+                        reflect_on_tool_use: z.boolean(),
+                        tool_call_summary_format: z.string(),
                       }),
                     }),
                   ),
@@ -2770,6 +2801,14 @@ export const zSessionRuns = z.object({
   runs: z.array(zRun),
 });
 
+export const zMemoryConfig = zComponentModel;
+
+export const zModelContext = zComponentModel.merge(
+  z.object({
+    config: z.object({}),
+  }),
+);
+
 export const zTaskResult = z.object({
   messages: z.array(zAgentMessageConfig),
   stop_reason: z.string().optional(),
@@ -2922,6 +2961,8 @@ export const zModelConfig = z.object({
   model_info: zModelInfo.optional(),
 });
 
+export const zResponseFormat = z.enum(["json_object", "text"]);
+
 export const zRunStatus = z.enum([
   "created",
   "active",
@@ -2936,30 +2977,32 @@ export const zAgentComponent = zComponentModel.merge(
   z.object({
     config: z.object({
       name: z.string(),
-      description: z.string().optional(),
-      agent_type: zAgentTypes,
+      description: z.string(),
+      model_context: zModelContext.optional(),
+      memory: zMemoryConfig.optional(),
       model_client_stream: z.boolean().default(false),
       system_message: z.string().optional(),
-      model_client: zModelComponent.optional(),
+      model_client: zModelComponent,
       tools: z.array(zToolComponent).optional(),
       handoffs: z.array(z.string()).optional(),
-      reflect_on_tool_use: z.boolean().optional(),
-      tool_call_summary_format: z.string().optional(),
+      reflect_on_tool_use: z.boolean(),
+      tool_call_summary_format: z.string(),
     }),
   }),
 );
 
 export const zAgentConfig = z.object({
   name: z.string(),
-  description: z.string().optional(),
-  agent_type: zAgentTypes,
+  description: z.string(),
+  model_context: zModelContext.optional(),
+  memory: zMemoryConfig.optional(),
   model_client_stream: z.boolean().default(false),
   system_message: z.string().optional(),
-  model_client: zModelComponent.optional(),
+  model_client: zModelComponent,
   tools: z.array(zToolComponent).optional(),
   handoffs: z.array(z.string()).optional(),
-  reflect_on_tool_use: z.boolean().optional(),
-  tool_call_summary_format: z.string().optional(),
+  reflect_on_tool_use: z.boolean(),
+  tool_call_summary_format: z.string(),
 });
 
 export const zSection = z.object({

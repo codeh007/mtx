@@ -2764,6 +2764,14 @@ export type SessionRuns = {
   runs: Array<Run>;
 };
 
+export type MemoryConfig = ComponentModel;
+
+export type ModelContext = ComponentModel & {
+  config: {
+    [key: string]: unknown;
+  };
+};
+
 export type TaskResult = {
   messages: Array<AgentMessageConfig>;
   stop_reason?: string;
@@ -2839,7 +2847,7 @@ export type ModelConfig = {
   max_tokens?: number;
   n?: number;
   presence_penalty?: number;
-  response_format?: "json_object" | "text";
+  response_format?: ResponseFormat;
   seed?: number;
   stop?: Array<string>;
   temperature?: number;
@@ -2851,6 +2859,13 @@ export type ModelConfig = {
   };
   model_info?: ModelInfo;
 };
+
+export type ResponseFormat = "json_object" | "text";
+
+export const ResponseFormat = {
+  JSON_OBJECT: "json_object",
+  TEXT: "text",
+} as const;
 
 export type RunStatus =
   | "created"
@@ -2877,15 +2892,16 @@ export type AgentComponent = ComponentModel & {
 
 export type AgentConfig = {
   name: string;
-  description?: string;
-  agent_type: AgentTypes;
+  description: string;
+  model_context?: ModelContext;
+  memory?: MemoryConfig;
   model_client_stream: boolean;
   system_message?: string;
-  model_client?: ModelComponent;
+  model_client: ModelComponent;
   tools?: Array<ToolComponent>;
   handoffs?: Array<string>;
-  reflect_on_tool_use?: boolean;
-  tool_call_summary_format?: string;
+  reflect_on_tool_use: boolean;
+  tool_call_summary_format: string;
 };
 
 export type Section = {

@@ -2231,6 +2231,12 @@ export interface SessionRuns {
   runs: Run[];
 }
 
+export type MemoryConfig = ComponentModel;
+
+export type ModelContext = ComponentModel & {
+  config: object;
+};
+
 export interface TaskResult {
   messages: AgentMessageConfig[];
   stop_reason?: string;
@@ -2293,7 +2299,7 @@ export interface ModelConfig {
   max_tokens?: number;
   n?: number;
   presence_penalty?: number;
-  response_format?: "json_object" | "text";
+  response_format?: ResponseFormat;
   seed?: number;
   stop?: string[];
   temperature?: number;
@@ -2302,6 +2308,11 @@ export interface ModelConfig {
   organization?: string;
   default_headers?: Record<string, any>;
   model_info?: ModelInfo;
+}
+
+export enum ResponseFormat {
+  JsonObject = "json_object",
+  Text = "text",
 }
 
 export enum RunStatus {
@@ -2318,19 +2329,20 @@ export type AgentComponent = ComponentModel & {
   config: AgentConfig;
 };
 
-export type AgentConfig = {
+export interface AgentConfig {
   name: string;
-  description?: string;
-  agent_type: AgentTypes;
+  description: string;
+  model_context?: ModelContext;
+  memory?: MemoryConfig;
   /** @default false */
   model_client_stream: boolean;
   system_message?: string;
-  model_client?: ModelComponent;
+  model_client: ModelComponent;
   tools?: ToolComponent[];
   handoffs?: string[];
-  reflect_on_tool_use?: boolean;
-  tool_call_summary_format?: string;
-};
+  reflect_on_tool_use: boolean;
+  tool_call_summary_format: string;
+}
 
 export interface Section {
   /** Title of the section */

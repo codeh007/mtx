@@ -4859,6 +4859,31 @@ export const SessionRunsSchema = {
   required: ["runs"],
 } as const;
 
+export const MemoryConfigSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
+  ],
+} as const;
+
+export const ModelContextSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
+    {
+      type: "object",
+      required: ["config"],
+      properties: {
+        config: {
+          type: "object",
+        },
+      },
+    },
+  ],
+} as const;
+
 export const TaskResultSchema = {
   properties: {
     messages: {
@@ -5045,7 +5070,7 @@ export const ModelConfigSchema = {
     },
     response_format: {
       type: "string",
-      enum: ["json_object", "text"],
+      $ref: "#/components/schemas/ResponseFormat",
     },
     seed: {
       type: "integer",
@@ -5076,6 +5101,11 @@ export const ModelConfigSchema = {
       $ref: "#/components/schemas/ModelInfo",
     },
   },
+} as const;
+
+export const ResponseFormatSchema = {
+  type: "string",
+  enum: ["json_object", "text"],
 } as const;
 
 export const RunStatusSchema = {
@@ -5110,53 +5140,57 @@ export const AgentComponentSchema = {
 } as const;
 
 export const AgentConfigSchema = {
-  allOf: [
-    {
+  required: [
+    "name",
+    "description",
+    "model_client",
+    "reflect_on_tool_use",
+    "tool_call_summary_format",
+    "model_client_stream",
+  ],
+  properties: {
+    name: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    model_context: {
+      $ref: "#/components/schemas/ModelContext",
+    },
+    memory: {
+      $ref: "#/components/schemas/MemoryConfig",
+    },
+    model_client_stream: {
+      type: "boolean",
+      default: false,
+    },
+    system_message: {
+      type: "string",
+    },
+    model_client: {
       type: "object",
-      required: ["name", "agent_type", "model_client_stream"],
-      properties: {
-        name: {
-          type: "string",
-        },
-        description: {
-          type: "string",
-        },
-        agent_type: {
-          type: "string",
-          $ref: "#/components/schemas/AgentTypes",
-        },
-        model_client_stream: {
-          type: "boolean",
-          default: false,
-        },
-        system_message: {
-          type: "string",
-        },
-        model_client: {
-          type: "object",
-          $ref: "#/components/schemas/ModelComponent",
-        },
-        tools: {
-          type: "array",
-          items: {
-            $ref: "#/components/schemas/ToolComponent",
-          },
-        },
-        handoffs: {
-          type: "array",
-          items: {
-            type: "string",
-          },
-        },
-        reflect_on_tool_use: {
-          type: "boolean",
-        },
-        tool_call_summary_format: {
-          type: "string",
-        },
+      $ref: "#/components/schemas/ModelComponent",
+    },
+    tools: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ToolComponent",
       },
     },
-  ],
+    handoffs: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+    reflect_on_tool_use: {
+      type: "boolean",
+    },
+    tool_call_summary_format: {
+      type: "string",
+    },
+  },
 } as const;
 
 export const SectionSchema = {
