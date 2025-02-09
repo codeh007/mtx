@@ -3663,7 +3663,6 @@ export const CodeHighlightSchema = {
 } as const;
 
 export const ArtifactV3Schema = {
-  type: "object",
   properties: {
     currentIndex: {
       type: "number",
@@ -4553,7 +4552,6 @@ export const AgentNodeUpdateRequestSchema = {
 } as const;
 
 export const ScrapeGraphParamsSchema = {
-  type: "object",
   properties: {
     input: {
       type: "string",
@@ -4562,7 +4560,6 @@ export const ScrapeGraphParamsSchema = {
 } as const;
 
 export const CrewAIParamsSchema = {
-  type: "object",
   properties: {
     input: {
       type: "string",
@@ -4571,7 +4568,6 @@ export const CrewAIParamsSchema = {
 } as const;
 
 export const BrowserParamsSchema = {
-  type: "object",
   properties: {
     input: {
       type: "string",
@@ -4591,7 +4587,6 @@ export const TerminationTypesSchema = {
 } as const;
 
 export const RequestUsageSchema = {
-  type: "object",
   properties: {
     prompt_tokens: {
       type: "number",
@@ -4604,7 +4599,6 @@ export const RequestUsageSchema = {
 } as const;
 
 export const FunctionCallSchema = {
-  type: "object",
   properties: {
     id: {
       type: "string",
@@ -4620,7 +4614,6 @@ export const FunctionCallSchema = {
 } as const;
 
 export const FunctionExecutionResultSchema = {
-  type: "object",
   properties: {
     call_id: {
       type: "string",
@@ -4633,7 +4626,6 @@ export const FunctionExecutionResultSchema = {
 } as const;
 
 export const BaseMessageConfigSchema = {
-  type: "object",
   properties: {
     source: {
       type: "string",
@@ -4646,7 +4638,6 @@ export const BaseMessageConfigSchema = {
 } as const;
 
 export const ImageContentSchema = {
-  type: "object",
   properties: {
     url: {
       type: "string",
@@ -4679,7 +4670,6 @@ export const TextMessageConfigSchema = {
 } as const;
 
 export const MultiModalMessageConfigSchema = {
-  type: "object",
   allOf: [
     {
       $ref: "#/components/schemas/BaseMessageConfig",
@@ -4724,7 +4714,6 @@ export const StopMessageConfigSchema = {
 } as const;
 
 export const HandoffMessageConfigSchema = {
-  type: "object",
   allOf: [
     {
       $ref: "#/components/schemas/BaseMessageConfig",
@@ -4745,7 +4734,6 @@ export const HandoffMessageConfigSchema = {
 } as const;
 
 export const ToolCallMessageConfigSchema = {
-  type: "object",
   allOf: [
     {
       $ref: "#/components/schemas/BaseMessageConfig",
@@ -4766,7 +4754,6 @@ export const ToolCallMessageConfigSchema = {
 } as const;
 
 export const ToolCallResultMessageConfigSchema = {
-  type: "object",
   allOf: [
     {
       $ref: "#/components/schemas/BaseMessageConfig",
@@ -4787,7 +4774,6 @@ export const ToolCallResultMessageConfigSchema = {
 } as const;
 
 export const TeamResultSchema = {
-  type: "object",
   properties: {
     task_result: {
       type: "object",
@@ -4803,7 +4789,6 @@ export const TeamResultSchema = {
 } as const;
 
 export const InnerMessageConfigSchema = {
-  type: "object",
   oneOf: [
     {
       $ref: "#/components/schemas/ToolCallMessageConfig",
@@ -4815,7 +4800,6 @@ export const InnerMessageConfigSchema = {
 } as const;
 
 export const ChatMessageConfigSchema = {
-  type: "object",
   oneOf: [
     {
       $ref: "#/components/schemas/TextMessageConfig",
@@ -4833,7 +4817,6 @@ export const ChatMessageConfigSchema = {
 } as const;
 
 export const AgentMessageConfigSchema = {
-  type: "object",
   oneOf: [
     {
       $ref: "#/components/schemas/TextMessageConfig",
@@ -4870,7 +4853,6 @@ export const SessionRunsSchema = {
 } as const;
 
 export const TaskResultSchema = {
-  type: "object",
   properties: {
     messages: {
       type: "array",
@@ -5082,7 +5064,6 @@ export const RunStatusSchema = {
 } as const;
 
 export const AgentComponentSchema = {
-  type: "object",
   allOf: [
     {
       $ref: "#/components/schemas/ComponentModel",
@@ -5104,11 +5085,8 @@ export const AgentConfigSchema = {
   type: "object",
   allOf: [
     {
-      $ref: "#/components/schemas/ComponentModel",
-    },
-    {
       type: "object",
-      required: ["name", "agent_type"],
+      required: ["name", "agent_type", "model_client_stream"],
       properties: {
         name: {
           type: "string",
@@ -5119,6 +5097,10 @@ export const AgentConfigSchema = {
         agent_type: {
           type: "string",
           $ref: "#/components/schemas/AgentTypes",
+        },
+        model_client_stream: {
+          type: "boolean",
+          default: false,
         },
         system_message: {
           type: "string",
@@ -5144,23 +5126,6 @@ export const AgentConfigSchema = {
         },
         tool_call_summary_format: {
           type: "string",
-        },
-      },
-    },
-  ],
-} as const;
-
-export const AssistantAgentConfigSchema = {
-  type: "object",
-  allOf: [
-    {
-      $ref: "#/components/schemas/AgentConfig",
-    },
-    {
-      type: "object",
-      properties: {
-        agent_type: {
-          $ref: "#/components/schemas/AgentTypes",
         },
       },
     },
@@ -5580,7 +5545,6 @@ export const PostizStateSchema = {
 } as const;
 
 export const ResearchRequestSchema = {
-  type: "object",
   description: "研究输入(目前写死为调用社交媒体)",
   allOf: [
     {
@@ -5609,7 +5573,6 @@ export const ResearchRequestSchema = {
 } as const;
 
 export const ResearchResponseSchema = {
-  type: "object",
   description: "研究输出(目前写死为调用社交媒体)",
   properties: {
     output: {
@@ -5824,7 +5787,6 @@ export const EvtNodeStepSchema = {
 } as const;
 
 export const FormFieldSchema = {
-  type: "object",
   properties: {
     name: {
       type: "string",
@@ -5837,7 +5799,6 @@ export const FormFieldSchema = {
 } as const;
 
 export const SchemaFormSchema = {
-  type: "object",
   properties: {
     title: {
       type: "string",

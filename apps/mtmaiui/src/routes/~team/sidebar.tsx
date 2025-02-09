@@ -20,8 +20,7 @@ import type React from "react";
 import { CustomLink } from "../../components/CustomLink";
 import { useTenant } from "../../hooks/useAuth";
 import { getRelativeTimeString } from "../components/views/atoms";
-import { defaultTeamConfig } from "../components/views/team/types";
-// import { defaultTeam } from "../components/views/team/types";
+// import { defaultTeamConfig } from "../components/views/team/types";
 import { useGalleryStore } from "../~gallery/store";
 
 interface TeamSidebarProps {
@@ -54,7 +53,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
 
   const handleSaveTeam = async () => {
     // const teamData = Object.assign({}, defaultTeamConfig);
-    const teamData = defaultTeamConfig;
+    // const teamData = defaultTeamConfig;
     // teamData.version = undefined;
     // console.log("handleSaveTeam", teamData);
 
@@ -72,24 +71,22 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
 
     // sanitizedTeamData.version = undefined;
     // console.log("defaultTeamConfig", defaultTeamConfig);
-    const savedTeam = await createTeamMutation.mutateAsync({
+    await createTeamMutation.mutateAsync({
       path: {
         tenant: tenant!.metadata.id,
       },
       body: {
         // ...teamData,
         // component: teamData,
-        component: {
-          ...defaultTeamConfig,
-          version: undefined,
-        },
-
+        // component: {
+        //   // ...defaultTeamConfig,
+        //   // version: undefined,
+        // },
         // ...sanitizedTeamData,
         // name: sanitizedTeamData.component.name,
         // component: {
         //   // ...defaultTeamConfig,
         //   ...sanitizedTeamData,
-
         //   // name: sanitizedTeamData.component.name,
         //   config: {
         //     // ...sanitizedTeamData.component.config,
@@ -241,7 +238,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                    ? "bg-accent"
                    : "bg-tertiary"
                }`}
-                    ></div>
+                    />
                   }
                   <div
                     className={`group ml-1 flex flex-col p-3 rounded-l cursor-pointer hover:bg-secondary   ${
@@ -255,7 +252,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                       {/* Team Name and Actions Row */}
                       <div className="flex items-center justify-between">
                         <span className="font-medium truncate">
-                          {team?.config?.name}
+                          {team?.component?.label}
                         </span>
                         <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                           {/* <Tooltip title="Edit team">

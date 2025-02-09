@@ -2251,29 +2251,60 @@ export const zTeam = z.object({
                   })
                   .merge(
                     z.object({
-                      config: z
-                        .object({
-                          provider: z.string(),
-                          component_type: z.string(),
-                          version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
-                          label: z.string().optional(),
-                          config: z.object({}),
-                        })
-                        .merge(
-                          z.object({
-                            name: z.string(),
+                      config: z.object({
+                        name: z.string(),
+                        description: z.string().optional(),
+                        agent_type: z.enum([
+                          "AssistantAgent",
+                          "UserProxyAgent",
+                          "MultimodalWebSurfer",
+                          "FileSurfer",
+                          "MagenticOneCoderAgent",
+                        ]),
+                        model_client_stream: z.boolean().default(false),
+                        system_message: z.string().optional(),
+                        model_client: z
+                          .object({
+                            provider: z.string(),
+                            component_type: z.string(),
+                            version: z.number().int().optional(),
+                            component_version: z.number().int().optional(),
                             description: z.string().optional(),
-                            agent_type: z.enum([
-                              "AssistantAgent",
-                              "UserProxyAgent",
-                              "MultimodalWebSurfer",
-                              "FileSurfer",
-                              "MagenticOneCoderAgent",
-                            ]),
-                            system_message: z.string().optional(),
-                            model_client: z
+                            label: z.string().optional(),
+                            config: z.object({}),
+                          })
+                          .merge(
+                            z.object({
+                              config: z
+                                .object({
+                                  provider: z.string(),
+                                  component_type: z.string(),
+                                  version: z.number().int().optional(),
+                                  component_version: z
+                                    .number()
+                                    .int()
+                                    .optional(),
+                                  description: z.string().optional(),
+                                  label: z.string().optional(),
+                                  config: z.object({}),
+                                })
+                                .merge(
+                                  z.object({
+                                    model: z.string(),
+                                    model_type: z.enum([
+                                      "OpenAIChatCompletionClient",
+                                      "AzureOpenAIChatCompletionClient",
+                                    ]),
+                                    api_key: z.string().optional(),
+                                    base_url: z.string().optional(),
+                                  }),
+                                ),
+                            }),
+                          )
+                          .optional(),
+                        tools: z
+                          .array(
+                            z
                               .object({
                                 provider: z.string(),
                                 component_type: z.string(),
@@ -2300,74 +2331,27 @@ export const zTeam = z.object({
                                     })
                                     .merge(
                                       z.object({
-                                        model: z.string(),
-                                        model_type: z.enum([
-                                          "OpenAIChatCompletionClient",
-                                          "AzureOpenAIChatCompletionClient",
-                                        ]),
-                                        api_key: z.string().optional(),
-                                        base_url: z.string().optional(),
+                                        name: z.string(),
+                                        description: z.string(),
+                                        content: z.string(),
+                                        tool_type: z.enum(["PythonFunction"]),
+                                        source_code: z.string().optional(),
+                                        global_imports: z
+                                          .array(z.string())
+                                          .optional(),
+                                        has_cancellation_support: z
+                                          .boolean()
+                                          .optional(),
                                       }),
                                     ),
                                 }),
-                              )
-                              .optional(),
-                            tools: z
-                              .array(
-                                z
-                                  .object({
-                                    provider: z.string(),
-                                    component_type: z.string(),
-                                    version: z.number().int().optional(),
-                                    component_version: z
-                                      .number()
-                                      .int()
-                                      .optional(),
-                                    description: z.string().optional(),
-                                    label: z.string().optional(),
-                                    config: z.object({}),
-                                  })
-                                  .merge(
-                                    z.object({
-                                      config: z
-                                        .object({
-                                          provider: z.string(),
-                                          component_type: z.string(),
-                                          version: z.number().int().optional(),
-                                          component_version: z
-                                            .number()
-                                            .int()
-                                            .optional(),
-                                          description: z.string().optional(),
-                                          label: z.string().optional(),
-                                          config: z.object({}),
-                                        })
-                                        .merge(
-                                          z.object({
-                                            name: z.string(),
-                                            description: z.string(),
-                                            content: z.string(),
-                                            tool_type: z.enum([
-                                              "PythonFunction",
-                                            ]),
-                                            source_code: z.string().optional(),
-                                            global_imports: z
-                                              .array(z.string())
-                                              .optional(),
-                                            has_cancellation_support: z
-                                              .boolean()
-                                              .optional(),
-                                          }),
-                                        ),
-                                    }),
-                                  ),
-                              )
-                              .optional(),
-                            handoffs: z.array(z.string()).optional(),
-                            reflect_on_tool_use: z.boolean().optional(),
-                            tool_call_summary_format: z.string().optional(),
-                          }),
-                        ),
+                              ),
+                          )
+                          .optional(),
+                        handoffs: z.array(z.string()).optional(),
+                        reflect_on_tool_use: z.boolean().optional(),
+                        tool_call_summary_format: z.string().optional(),
+                      }),
                     }),
                   ),
               )
@@ -2864,41 +2848,33 @@ export const zRunStatus = z.enum([
 
 export const zAgentComponent = zComponentModel.merge(
   z.object({
-    config: zComponentModel.merge(
-      z.object({
-        name: z.string(),
-        description: z.string().optional(),
-        agent_type: zAgentTypes,
-        system_message: z.string().optional(),
-        model_client: zModelComponent.optional(),
-        tools: z.array(zToolComponent).optional(),
-        handoffs: z.array(z.string()).optional(),
-        reflect_on_tool_use: z.boolean().optional(),
-        tool_call_summary_format: z.string().optional(),
-      }),
-    ),
+    config: z.object({
+      name: z.string(),
+      description: z.string().optional(),
+      agent_type: zAgentTypes,
+      model_client_stream: z.boolean().default(false),
+      system_message: z.string().optional(),
+      model_client: zModelComponent.optional(),
+      tools: z.array(zToolComponent).optional(),
+      handoffs: z.array(z.string()).optional(),
+      reflect_on_tool_use: z.boolean().optional(),
+      tool_call_summary_format: z.string().optional(),
+    }),
   }),
 );
 
-export const zAgentConfig = zComponentModel.merge(
-  z.object({
-    name: z.string(),
-    description: z.string().optional(),
-    agent_type: zAgentTypes,
-    system_message: z.string().optional(),
-    model_client: zModelComponent.optional(),
-    tools: z.array(zToolComponent).optional(),
-    handoffs: z.array(z.string()).optional(),
-    reflect_on_tool_use: z.boolean().optional(),
-    tool_call_summary_format: z.string().optional(),
-  }),
-);
-
-export const zAssistantAgentConfig = zAgentConfig.merge(
-  z.object({
-    agent_type: zAgentTypes.optional(),
-  }),
-);
+export const zAgentConfig = z.object({
+  name: z.string(),
+  description: z.string().optional(),
+  agent_type: zAgentTypes,
+  model_client_stream: z.boolean().default(false),
+  system_message: z.string().optional(),
+  model_client: zModelComponent.optional(),
+  tools: z.array(zToolComponent).optional(),
+  handoffs: z.array(z.string()).optional(),
+  reflect_on_tool_use: z.boolean().optional(),
+  tool_call_summary_format: z.string().optional(),
+});
 
 export const zSection = z.object({
   section_title: z.string(),

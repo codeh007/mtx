@@ -2834,20 +2834,17 @@ export type AgentComponent = ComponentModel & {
   config: AgentConfig;
 };
 
-export type AgentConfig = ComponentModel & {
+export type AgentConfig = {
   name: string;
   description?: string;
   agent_type: AgentTypes;
+  model_client_stream: boolean;
   system_message?: string;
   model_client?: ModelComponent;
   tools?: Array<ToolComponent>;
   handoffs?: Array<string>;
   reflect_on_tool_use?: boolean;
   tool_call_summary_format?: string;
-};
-
-export type AssistantAgentConfig = AgentConfig & {
-  agent_type?: AgentTypes;
 };
 
 export type Section = {
