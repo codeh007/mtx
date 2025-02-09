@@ -2284,48 +2284,40 @@ export const zTeam = z.object({
                           })
                           .merge(
                             z.object({
-                              config: z
-                                .object({
-                                  provider: z.string(),
-                                  component_type: z.enum([
-                                    "team",
-                                    "agent",
-                                    "model",
-                                    "tool",
-                                    "termination",
-                                  ]),
-                                  version: z.number().int().optional(),
-                                  component_version: z
-                                    .number()
-                                    .int()
-                                    .optional(),
-                                  description: z.string().optional(),
-                                  label: z.string().optional(),
-                                  config: z.object({}),
-                                })
-                                .merge(
-                                  z.object({
-                                    model: z.string(),
-                                    model_type: z.enum([
-                                      "OpenAIChatCompletionClient",
-                                      "AzureOpenAIChatCompletionClient",
-                                    ]),
-                                    api_key: z.string().optional(),
-                                    base_url: z.string().optional(),
-                                    model_info: z
-                                      .object({
-                                        family: z.enum([
-                                          "r1",
-                                          "openai",
-                                          "unknown",
-                                        ]),
-                                        vision: z.boolean(),
-                                        function_calling: z.boolean(),
-                                        json_output: z.boolean(),
-                                      })
-                                      .optional(),
-                                  }),
-                                ),
+                              config: z.object({
+                                model: z.string(),
+                                model_type: z.enum([
+                                  "OpenAIChatCompletionClient",
+                                  "AzureOpenAIChatCompletionClient",
+                                ]),
+                                api_key: z.string().optional(),
+                                base_url: z.string().optional(),
+                                timeout: z.number().optional(),
+                                max_retries: z.number().int().optional(),
+                                frequency_penalty: z.number().optional(),
+                                logit_bias: z.number().int().optional(),
+                                max_tokens: z.number().int().optional(),
+                                n: z.number().int().optional(),
+                                presence_penalty: z.number().optional(),
+                                response_format: z
+                                  .enum(["json_object", "text"])
+                                  .optional(),
+                                seed: z.number().int().optional(),
+                                stop: z.array(z.string()).optional(),
+                                temperature: z.number().optional(),
+                                top_p: z.number().optional(),
+                                user: z.string().optional(),
+                                organization: z.string().optional(),
+                                default_headers: z.object({}).optional(),
+                                model_info: z
+                                  .object({
+                                    family: z.enum(["r1", "openai", "unknown"]),
+                                    vision: z.boolean(),
+                                    function_calling: z.boolean(),
+                                    json_output: z.boolean(),
+                                  })
+                                  .optional(),
+                              }),
                             }),
                           )
                           .optional(),
@@ -2798,16 +2790,29 @@ export const zModelTypes = z.enum([
   "AzureOpenAIChatCompletionClient",
 ]);
 
-export const zAzureOpenAiModelConfig = zComponentModel
-  .merge(
-    z.object({
-      model: z.string(),
-      model_type: zModelTypes,
-      api_key: z.string().optional(),
-      base_url: z.string().optional(),
-      model_info: zModelInfo.optional(),
-    }),
-  )
+export const zAzureOpenAiModelConfig = z
+  .object({
+    model: z.string(),
+    model_type: zModelTypes,
+    api_key: z.string().optional(),
+    base_url: z.string().optional(),
+    timeout: z.number().optional(),
+    max_retries: z.number().int().optional(),
+    frequency_penalty: z.number().optional(),
+    logit_bias: z.number().int().optional(),
+    max_tokens: z.number().int().optional(),
+    n: z.number().int().optional(),
+    presence_penalty: z.number().optional(),
+    response_format: z.enum(["json_object", "text"]).optional(),
+    seed: z.number().int().optional(),
+    stop: z.array(z.string()).optional(),
+    temperature: z.number().optional(),
+    top_p: z.number().optional(),
+    user: z.string().optional(),
+    organization: z.string().optional(),
+    default_headers: z.object({}).optional(),
+    model_info: zModelInfo.optional(),
+  })
   .merge(
     z.object({
       model_type: z.enum(["AzureOpenAIChatCompletionClient"]),
@@ -2818,16 +2823,29 @@ export const zAzureOpenAiModelConfig = zComponentModel
     }),
   );
 
-export const zOpenAiModelConfig = zComponentModel
-  .merge(
-    z.object({
-      model: z.string(),
-      model_type: zModelTypes,
-      api_key: z.string().optional(),
-      base_url: z.string().optional(),
-      model_info: zModelInfo.optional(),
-    }),
-  )
+export const zOpenAiModelConfig = z
+  .object({
+    model: z.string(),
+    model_type: zModelTypes,
+    api_key: z.string().optional(),
+    base_url: z.string().optional(),
+    timeout: z.number().optional(),
+    max_retries: z.number().int().optional(),
+    frequency_penalty: z.number().optional(),
+    logit_bias: z.number().int().optional(),
+    max_tokens: z.number().int().optional(),
+    n: z.number().int().optional(),
+    presence_penalty: z.number().optional(),
+    response_format: z.enum(["json_object", "text"]).optional(),
+    seed: z.number().int().optional(),
+    stop: z.array(z.string()).optional(),
+    temperature: z.number().optional(),
+    top_p: z.number().optional(),
+    user: z.string().optional(),
+    organization: z.string().optional(),
+    default_headers: z.object({}).optional(),
+    model_info: zModelInfo.optional(),
+  })
   .merge(
     z.object({
       model_type: z.enum(["OpenAIChatCompletionClient"]),
@@ -2856,27 +2874,53 @@ export const zToolConfig = z.object({
 
 export const zModelComponent = zComponentModel.merge(
   z.object({
-    config: zComponentModel.merge(
-      z.object({
-        model: z.string(),
-        model_type: zModelTypes,
-        api_key: z.string().optional(),
-        base_url: z.string().optional(),
-        model_info: zModelInfo.optional(),
-      }),
-    ),
+    config: z.object({
+      model: z.string(),
+      model_type: zModelTypes,
+      api_key: z.string().optional(),
+      base_url: z.string().optional(),
+      timeout: z.number().optional(),
+      max_retries: z.number().int().optional(),
+      frequency_penalty: z.number().optional(),
+      logit_bias: z.number().int().optional(),
+      max_tokens: z.number().int().optional(),
+      n: z.number().int().optional(),
+      presence_penalty: z.number().optional(),
+      response_format: z.enum(["json_object", "text"]).optional(),
+      seed: z.number().int().optional(),
+      stop: z.array(z.string()).optional(),
+      temperature: z.number().optional(),
+      top_p: z.number().optional(),
+      user: z.string().optional(),
+      organization: z.string().optional(),
+      default_headers: z.object({}).optional(),
+      model_info: zModelInfo.optional(),
+    }),
   }),
 );
 
-export const zModelConfig = zComponentModel.merge(
-  z.object({
-    model: z.string(),
-    model_type: zModelTypes,
-    api_key: z.string().optional(),
-    base_url: z.string().optional(),
-    model_info: zModelInfo.optional(),
-  }),
-);
+export const zModelConfig = z.object({
+  model: z.string(),
+  model_type: zModelTypes,
+  api_key: z.string().optional(),
+  base_url: z.string().optional(),
+  timeout: z.number().optional(),
+  max_retries: z.number().int().optional(),
+  frequency_penalty: z.number().optional(),
+  logit_bias: z.number().int().optional(),
+  max_tokens: z.number().int().optional(),
+  n: z.number().int().optional(),
+  presence_penalty: z.number().optional(),
+  response_format: z.enum(["json_object", "text"]).optional(),
+  seed: z.number().int().optional(),
+  stop: z.array(z.string()).optional(),
+  temperature: z.number().optional(),
+  top_p: z.number().optional(),
+  user: z.string().optional(),
+  organization: z.string().optional(),
+  default_headers: z.object({}).optional(),
+  model_info: zModelInfo.optional(),
+});
 
 export const zRunStatus = z.enum([
   "created",

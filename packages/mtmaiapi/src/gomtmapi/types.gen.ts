@@ -2827,11 +2827,28 @@ export type ModelComponent = ComponentModel & {
   config: ModelConfig;
 };
 
-export type ModelConfig = ComponentModel & {
+export type ModelConfig = {
   model: string;
   model_type: ModelTypes;
   api_key?: string;
   base_url?: string;
+  timeout?: number;
+  max_retries?: number;
+  frequency_penalty?: number;
+  logit_bias?: number;
+  max_tokens?: number;
+  n?: number;
+  presence_penalty?: number;
+  response_format?: "json_object" | "text";
+  seed?: number;
+  stop?: Array<string>;
+  temperature?: number;
+  top_p?: number;
+  user?: string;
+  organization?: string;
+  default_headers?: {
+    [key: string]: unknown;
+  };
   model_info?: ModelInfo;
 };
 

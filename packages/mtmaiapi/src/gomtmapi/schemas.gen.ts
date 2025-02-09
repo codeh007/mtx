@@ -5007,32 +5007,75 @@ export const ModelComponentSchema = {
 } as const;
 
 export const ModelConfigSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/ComponentModel",
+  required: ["model", "model_type"],
+  properties: {
+    model: {
+      type: "string",
     },
-    {
-      properties: {
-        model: {
-          type: "string",
-        },
-        model_type: {
-          type: "string",
-          $ref: "#/components/schemas/ModelTypes",
-        },
-        api_key: {
-          type: "string",
-        },
-        base_url: {
-          type: "string",
-        },
-        model_info: {
-          $ref: "#/components/schemas/ModelInfo",
-        },
+    model_type: {
+      type: "string",
+      $ref: "#/components/schemas/ModelTypes",
+    },
+    api_key: {
+      type: "string",
+    },
+    base_url: {
+      type: "string",
+    },
+    timeout: {
+      type: "number",
+    },
+    max_retries: {
+      type: "integer",
+    },
+    frequency_penalty: {
+      type: "number",
+    },
+    logit_bias: {
+      type: "integer",
+    },
+    max_tokens: {
+      type: "integer",
+    },
+    n: {
+      type: "integer",
+    },
+    presence_penalty: {
+      type: "number",
+    },
+    response_format: {
+      type: "string",
+      enum: ["json_object", "text"],
+    },
+    seed: {
+      type: "integer",
+    },
+    stop: {
+      type: "array",
+      items: {
+        type: "string",
       },
-      required: ["model", "model_type"],
     },
-  ],
+    temperature: {
+      type: "number",
+    },
+    top_p: {
+      type: "number",
+    },
+    user: {
+      type: "string",
+    },
+    organization: {
+      type: "string",
+    },
+    default_headers: {
+      type: "object",
+      additionalProperties: true,
+    },
+    model_info: {
+      $ref: "#/components/schemas/ModelInfo",
+    },
+  },
 } as const;
 
 export const RunStatusSchema = {
