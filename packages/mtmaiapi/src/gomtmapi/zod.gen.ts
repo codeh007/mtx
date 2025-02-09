@@ -2301,31 +2301,30 @@ export const zTeam = z.object({
                               })
                               .merge(
                                 z.object({
-                                  config: z.object({
-                                    model: z.string(),
-                                    temperature: z.number().optional(),
-                                    modelProvider: z.string().optional(),
-                                    maxTokens: z.number().optional(),
-                                    azureConfig: z
-                                      .object({
-                                        azureOpenAIApiKey: z
-                                          .string()
-                                          .optional(),
-                                        azureOpenAIApiInstanceName: z
-                                          .string()
-                                          .optional(),
-                                        azureOpenAIApiDeploymentName: z
-                                          .string()
-                                          .optional(),
-                                        azureOpenAIApiVersion: z
-                                          .string()
-                                          .optional(),
-                                        azureOpenAIBasePath: z
-                                          .string()
-                                          .optional(),
-                                      })
-                                      .optional(),
-                                  }),
+                                  config: z
+                                    .object({
+                                      provider: z.string(),
+                                      component_type: z.string(),
+                                      version: z.number().int().optional(),
+                                      component_version: z
+                                        .number()
+                                        .int()
+                                        .optional(),
+                                      description: z.string().optional(),
+                                      label: z.string().optional(),
+                                      config: z.object({}),
+                                    })
+                                    .merge(
+                                      z.object({
+                                        model: z.string(),
+                                        model_type: z.enum([
+                                          "OpenAIChatCompletionClient",
+                                          "AzureOpenAIChatCompletionClient",
+                                        ]),
+                                        api_key: z.string().optional(),
+                                        base_url: z.string().optional(),
+                                      }),
+                                    ),
                                 }),
                               )
                               .optional(),
@@ -2807,24 +2806,6 @@ export const zSessionRuns = z.object({
   runs: z.array(zRun),
 });
 
-export const zWebSocketMessage = z.object({
-  type: z.string(),
-  data: zAgentMessageConfig.optional(),
-  status: z
-    .enum([
-      "created",
-      "active",
-      "awaiting_input",
-      "timeout",
-      "complete",
-      "error",
-      "stopped",
-    ])
-    .optional(),
-  error: z.string().optional(),
-  timestamp: z.string().optional(),
-});
-
 export const zTaskResult = z.object({
   messages: z.array(zAgentMessageConfig),
   stop_reason: z.string().optional(),
@@ -2845,30 +2826,39 @@ export const zModelTypes = z.enum([
   "AzureOpenAIChatCompletionClient",
 ]);
 
-export const zBaseModelConfig = zComponentModel.merge(
-  z.object({
-    model: z.string(),
-    model_type: zModelTypes,
-    api_key: z.string().optional(),
-    base_url: z.string().optional(),
-  }),
-);
+export const zAzureOpenAiModelConfig = zComponentModel
+  .merge(
+    z.object({
+      model: z.string(),
+      model_type: zModelTypes,
+      api_key: z.string().optional(),
+      base_url: z.string().optional(),
+    }),
+  )
+  .merge(
+    z.object({
+      model_type: z.enum(["AzureOpenAIChatCompletionClient"]),
+      azure_deployment: z.string(),
+      api_version: z.string(),
+      azure_endpoint: z.string(),
+      azure_ad_token_provider: z.string(),
+    }),
+  );
 
-export const zAzureOpenAiModelConfig = zBaseModelConfig.merge(
-  z.object({
-    model_type: z.enum(["AzureOpenAIChatCompletionClient"]),
-    azure_deployment: z.string(),
-    api_version: z.string(),
-    azure_endpoint: z.string(),
-    azure_ad_token_provider: z.string(),
-  }),
-);
-
-export const zOpenAiModelConfig = zBaseModelConfig.merge(
-  z.object({
-    model_type: z.enum(["OpenAIChatCompletionClient"]),
-  }),
-);
+export const zOpenAiModelConfig = zComponentModel
+  .merge(
+    z.object({
+      model: z.string(),
+      model_type: zModelTypes,
+      api_key: z.string().optional(),
+      base_url: z.string().optional(),
+    }),
+  )
+  .merge(
+    z.object({
+      model_type: z.enum(["OpenAIChatCompletionClient"]),
+    }),
+  );
 
 export const zToolComponent = zComponentModel.merge(
   z.object({
@@ -2900,44 +2890,25 @@ export const zToolConfig = zComponentModel.merge(
 
 export const zModelComponent = zComponentModel.merge(
   z.object({
-    config: z.object({
-      model: z.string(),
-      temperature: z.number().optional(),
-      modelProvider: z.string().optional(),
-      maxTokens: z.number().optional(),
-      azureConfig: z
-        .object({
-          azureOpenAIApiKey: z.string().optional(),
-          azureOpenAIApiInstanceName: z.string().optional(),
-          azureOpenAIApiDeploymentName: z.string().optional(),
-          azureOpenAIApiVersion: z.string().optional(),
-          azureOpenAIBasePath: z.string().optional(),
-        })
-        .optional(),
-    }),
+    config: zComponentModel.merge(
+      z.object({
+        model: z.string(),
+        model_type: zModelTypes,
+        api_key: z.string().optional(),
+        base_url: z.string().optional(),
+      }),
+    ),
   }),
 );
 
-export const zModelConfig = z.object({
-  model: z.string(),
-  temperature: z.number().optional(),
-  modelProvider: z.string().optional(),
-  maxTokens: z.number().optional(),
-  azureConfig: z
-    .object({
-      azureOpenAIApiKey: z.string().optional(),
-      azureOpenAIApiInstanceName: z.string().optional(),
-      azureOpenAIApiDeploymentName: z.string().optional(),
-      azureOpenAIApiVersion: z.string().optional(),
-      azureOpenAIBasePath: z.string().optional(),
-    })
-    .optional(),
-});
-
-export const zModelConfigV2 = z.union([
-  zAzureOpenAiModelConfig,
-  zOpenAiModelConfig,
-]);
+export const zModelConfig = zComponentModel.merge(
+  z.object({
+    model: z.string(),
+    model_type: zModelTypes,
+    api_key: z.string().optional(),
+    base_url: z.string().optional(),
+  }),
+);
 
 export const zRunStatus = z.enum([
   "created",

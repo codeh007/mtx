@@ -2278,14 +2278,6 @@ export interface SessionRuns {
   runs: Run[];
 }
 
-export interface WebSocketMessage {
-  type: string;
-  data?: AgentMessageConfig;
-  status?: RunStatus;
-  error?: string;
-  timestamp?: string;
-}
-
 export interface TaskResult {
   messages: AgentMessageConfig[];
   stop_reason?: string;
@@ -2308,14 +2300,7 @@ export enum ModelTypes {
   AzureOpenAIChatCompletionClient = "AzureOpenAIChatCompletionClient",
 }
 
-export type BaseModelConfig = ComponentModel & {
-  model: string;
-  model_type: ModelTypes;
-  api_key?: string;
-  base_url?: string;
-};
-
-export type AzureOpenAIModelConfig = BaseModelConfig & {
+export type AzureOpenAIModelConfig = ModelConfig & {
   model_type: "AzureOpenAIChatCompletionClient";
   azure_deployment: string;
   api_version: string;
@@ -2323,7 +2308,7 @@ export type AzureOpenAIModelConfig = BaseModelConfig & {
   azure_ad_token_provider: string;
 };
 
-export type OpenAIModelConfig = BaseModelConfig & {
+export type OpenAIModelConfig = ModelConfig & {
   model_type: "OpenAIChatCompletionClient";
 };
 
@@ -2345,21 +2330,12 @@ export type ModelComponent = ComponentModel & {
   config: ModelConfig;
 };
 
-export interface ModelConfig {
+export type ModelConfig = ComponentModel & {
   model: string;
-  temperature?: number;
-  modelProvider?: string;
-  maxTokens?: number;
-  azureConfig?: {
-    azureOpenAIApiKey?: string;
-    azureOpenAIApiInstanceName?: string;
-    azureOpenAIApiDeploymentName?: string;
-    azureOpenAIApiVersion?: string;
-    azureOpenAIBasePath?: string;
-  };
-}
-
-export type ModelConfigV2 = AzureOpenAIModelConfig | OpenAIModelConfig;
+  model_type: ModelTypes;
+  api_key?: string;
+  base_url?: string;
+};
 
 export enum RunStatus {
   Created = "created",

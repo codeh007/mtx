@@ -5018,30 +5018,6 @@ export const SessionRunsSchema = {
   required: ["runs"],
 } as const;
 
-export const WebSocketMessageSchema = {
-  type: "object",
-  properties: {
-    type: {
-      type: "string",
-    },
-    data: {
-      type: "object",
-      $ref: "#/components/schemas/AgentMessageConfig",
-    },
-    status: {
-      type: "string",
-      $ref: "#/components/schemas/RunStatus",
-    },
-    error: {
-      type: "string",
-    },
-    timestamp: {
-      type: "string",
-    },
-  },
-  required: ["type"],
-} as const;
-
 export const TaskResultSchema = {
   type: "object",
   properties: {
@@ -5079,39 +5055,11 @@ export const ModelTypesSchema = {
   enum: ["OpenAIChatCompletionClient", "AzureOpenAIChatCompletionClient"],
 } as const;
 
-export const BaseModelConfigSchema = {
-  type: "object",
-  allOf: [
-    {
-      $ref: "#/components/schemas/ComponentModel",
-    },
-    {
-      type: "object",
-      properties: {
-        model: {
-          type: "string",
-        },
-        model_type: {
-          type: "string",
-          $ref: "#/components/schemas/ModelTypes",
-        },
-        api_key: {
-          type: "string",
-        },
-        base_url: {
-          type: "string",
-        },
-      },
-      required: ["model", "model_type"],
-    },
-  ],
-} as const;
-
 export const AzureOpenAIModelConfigSchema = {
   type: "object",
   allOf: [
     {
-      $ref: "#/components/schemas/BaseModelConfig",
+      $ref: "#/components/schemas/ModelConfig",
     },
     {
       type: "object",
@@ -5148,7 +5096,7 @@ export const OpenAIModelConfigSchema = {
   type: "object",
   allOf: [
     {
-      $ref: "#/components/schemas/BaseModelConfig",
+      $ref: "#/components/schemas/ModelConfig",
     },
     {
       type: "object",
@@ -5243,51 +5191,28 @@ export const ModelComponentSchema = {
 
 export const ModelConfigSchema = {
   type: "object",
-  required: ["model"],
-  properties: {
-    model: {
-      type: "string",
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
     },
-    temperature: {
-      type: "number",
-    },
-    modelProvider: {
-      type: "string",
-    },
-    maxTokens: {
-      type: "number",
-    },
-    azureConfig: {
+    {
       type: "object",
       properties: {
-        azureOpenAIApiKey: {
+        model: {
           type: "string",
         },
-        azureOpenAIApiInstanceName: {
+        model_type: {
+          type: "string",
+          $ref: "#/components/schemas/ModelTypes",
+        },
+        api_key: {
           type: "string",
         },
-        azureOpenAIApiDeploymentName: {
-          type: "string",
-        },
-        azureOpenAIApiVersion: {
-          type: "string",
-        },
-        azureOpenAIBasePath: {
+        base_url: {
           type: "string",
         },
       },
-    },
-  },
-} as const;
-
-export const ModelConfigV2Schema = {
-  type: "object",
-  oneOf: [
-    {
-      $ref: "#/components/schemas/AzureOpenAIModelConfig",
-    },
-    {
-      $ref: "#/components/schemas/OpenAIModelConfig",
+      required: ["model", "model_type"],
     },
   ],
 } as const;
