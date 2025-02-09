@@ -23,7 +23,6 @@ import { getRelativeTimeString } from "../components/views/atoms";
 import { defaultTeamConfig } from "../components/views/team/types";
 // import { defaultTeam } from "../components/views/team/types";
 import { useGalleryStore } from "../~gallery/store";
-import { config } from "process";
 
 interface TeamSidebarProps {
   isOpen: boolean;
@@ -56,8 +55,8 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
   const handleSaveTeam = async () => {
     // const teamData = Object.assign({}, defaultTeamConfig);
     const teamData = defaultTeamConfig;
-    teamData.version = undefined;
-    console.log("handleSaveTeam", teamData);
+    // teamData.version = undefined;
+    // console.log("handleSaveTeam", teamData);
 
     // const sanitizedTeamData = {
     //   ...{
@@ -72,7 +71,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
     // };
 
     // sanitizedTeamData.version = undefined;
-    console.log("defaultTeamConfig", defaultTeamConfig);
+    // console.log("defaultTeamConfig", defaultTeamConfig);
     const savedTeam = await createTeamMutation.mutateAsync({
       path: {
         tenant: tenant!.metadata.id,
@@ -83,8 +82,6 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
         component: {
           ...defaultTeamConfig,
           version: undefined,
-          team_type: "RoundRobinGroupChat",
-          name: "new_team",
         },
 
         // ...sanitizedTeamData,
@@ -244,9 +241,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                    ? "bg-accent"
                    : "bg-tertiary"
                }`}
-                    >
-                      {" "}
-                    </div>
+                    ></div>
                   }
                   <div
                     className={`group ml-1 flex flex-col p-3 rounded-l cursor-pointer hover:bg-secondary   ${
@@ -300,13 +295,13 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                       {/* Team Metadata Row */}
                       <div className="mt-1 flex items-center gap-2 text-xs">
                         <span className="bg-secondary/20  truncate   rounded">
-                          {team.component?.config?.team_type}
+                          {team.component?.team_type}
                         </span>
                         <div className="flex items-center gap-1">
                           <Bot className="w-3 h-3" />
                           <span>
-                            {team.component.config.participants.length}{" "}
-                            {team.component.config.participants.length === 1
+                            {team.component?.participants?.length}{" "}
+                            {team.component?.participants?.length === 1
                               ? "agent"
                               : "agents"}
                           </span>

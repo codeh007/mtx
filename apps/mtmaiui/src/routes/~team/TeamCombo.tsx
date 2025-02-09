@@ -67,7 +67,7 @@ export function TeamCombo(props: InputProps) {
                     setOpen(false);
                   }}
                 >
-                  {(team.config as any)?.name}
+                  {team.component.label ?? team.component.provider}
                   <Check
                     className={cn(
                       "ml-auto",

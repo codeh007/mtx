@@ -1,5 +1,5 @@
 import type { MenuProps } from "antd";
-import { Dropdown, Tooltip } from "antd";
+import { Button, Dropdown, Tooltip } from "antd";
 import {
   Cable,
   Code2,
@@ -13,7 +13,7 @@ import {
   Save,
   Undo2,
 } from "lucide-react";
-import { Button } from "mtxuilib/ui/button";
+import type React from "react";
 
 interface TeamBuilderToolbarProps {
   isJsonMode: boolean;
@@ -32,7 +32,7 @@ interface TeamBuilderToolbarProps {
   onToggleMiniMap: () => void;
 }
 
-export const TeamBuilderToolbar = ({
+export const TeamBuilderToolbar: React.FC<TeamBuilderToolbarProps> = ({
   isJsonMode,
   isFullscreen,
   showGrid,
@@ -47,7 +47,7 @@ export const TeamBuilderToolbar = ({
   onToggleFullscreen,
   onAutoLayout,
   onToggleMiniMap,
-}: TeamBuilderToolbarProps) => {
+}) => {
   const menuItems: MenuProps["items"] = [
     {
       key: "autoLayout",
@@ -80,67 +80,66 @@ export const TeamBuilderToolbar = ({
           <>
             <Tooltip title="Undo">
               <Button
-                variant="ghost"
+                type="text"
+                icon={<Undo2 size={18} />}
                 className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={onUndo}
                 disabled={!canUndo}
-              >
-                <Undo2 size={18} />
-              </Button>
+              />
             </Tooltip>
 
             <Tooltip title="Redo">
               <Button
-                variant="ghost"
+                type="text"
+                icon={<Redo2 size={18} />}
                 className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={onRedo}
                 disabled={!canRedo}
-              >
-                <Redo2 size={18} />
-              </Button>
+              />
             </Tooltip>
             <Tooltip
               title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
             >
               <Button
-                variant="ghost"
+                type="text"
+                icon={
+                  isFullscreen ? (
+                    <Minimize2 size={18} />
+                  ) : (
+                    <Maximize2 size={18} />
+                  )
+                }
                 className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
                 onClick={onToggleFullscreen}
-              >
-                {isFullscreen ? (
-                  <Minimize2 size={18} />
-                ) : (
-                  <Maximize2 size={18} />
-                )}
-              </Button>
+              />
             </Tooltip>
           </>
         )}
 
         <Tooltip title="Save Changes">
           <Button
-            variant="ghost"
+            type="text"
+            icon={
+              <div className="relative">
+                <Save size={18} />
+                {isDirty && (
+                  <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></div>
+                )}
+              </div>
+            }
             className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={onSave}
             // disabled={!isDirty}
-          >
-            <div className="relative">
-              <Save size={18} />
-              {isDirty && (
-                <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full" />
-              )}
-            </div>
-          </Button>
+          />
         </Tooltip>
 
         <Tooltip title={isJsonMode ? "Switch to Visual" : "Switch to JSON"}>
           <Button
-            variant="ghost"
+            type="text"
+            icon={isJsonMode ? <Cable size={18} /> : <Code2 size={18} />}
             className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
             onClick={onToggleView}
-          >
-            {isJsonMode ? <Cable size={18} /> : <Code2 size={18} />}
-          </Button>
+          />
         </Tooltip>
 
         {!isJsonMode && (
@@ -151,15 +150,16 @@ export const TeamBuilderToolbar = ({
             placement="bottomRight"
           >
             <Button
-              variant="ghost"
+              type="text"
+              icon={<MoreHorizontal size={18} />}
               className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
               title="More Options"
-            >
-              <MoreHorizontal size={18} />
-            </Button>
+            />
           </Dropdown>
         )}
       </div>
     </div>
   );
 };
+
+export default TeamBuilderToolbar;

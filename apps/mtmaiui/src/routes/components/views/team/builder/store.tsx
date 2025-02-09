@@ -6,7 +6,9 @@ import type {
   ToolConfig,
 } from "mtmaiapi";
 import { nanoid } from "nanoid";
+import type { Component } from "react";
 import { create } from "zustand";
+import { isAgentComponent, isTeamComponent } from "../../../types/guards";
 import type {
   CustomEdge,
   CustomNode,
@@ -15,12 +17,13 @@ import type {
   Position,
 } from "./types";
 import { convertTeamConfigToGraph, getLayoutedElements } from "./utils";
+import type { ComponentTypes } from "../../../types/datamodel";
 
 const MAX_HISTORY = 50;
 
-const isTeamConfig = (config: any): config is TeamConfig => {
-  return "team_type" in config;
-};
+// const isTeamConfig = (config: any): config is TeamConfig => {
+//   return "team_type" in config;
+// };
 
 const isAgentConfig = (config: any): config is AgentConfig => {
   return "agent_type" in config;
@@ -75,6 +78,7 @@ const buildTeamConfig = (
   nodes: CustomNode[],
   edges: CustomEdge[],
 ): TeamConfig | null => {
+  console.log("buildTeamConfig", teamNode);
   if (!isTeamConfig(teamNode.data.config)) return null;
 
   const config = { ...teamNode.data.config };
@@ -618,11 +622,14 @@ export const useTeamBuilderStore = create<TeamBuilderState>((set, get) => ({
 
   syncToJson: () => {
     const state = get();
-    const teamNodes = state.nodes.filter((node) => node.data.type === "team");
+    console.log("syncToJson", state.nodes);
+    const teamNodes = state.nodes.filter(
+      (node) => node.data.component.component_type === "team",
+    );
     if (teamNodes.length === 0) return null;
 
     const teamNode = teamNodes[0];
-    return buildTeamConfig(teamNode, state.nodes, state.edges);
+    return buildTeamComponent(teamNode, state.nodes, state.edges);
   },
 
   layoutNodes: () => {
@@ -670,3 +677,28 @@ export const useTeamBuilderStore = create<TeamBuilderState>((set, get) => ({
     }));
   },
 }));
+
+const buildTeamComponent = (
+  teamNode: CustomNode,
+  nodes: CustomNode[],
+  edges: CustomEdge[],
+): Component<TeamConfig> | null => {
+  if (!isTeamComponent(teamNode.data.component)) return null;
+
+  const component = { ...teamNode.data.component };
+
+  // Get participants using edges
+  const participantEdges = edges.filter(
+    (e) => e.source === teamNode.id && e.type === "agent-connection",
+  );
+  component.config.participants = participantEdges
+    .map((edge) => {
+      const agentNode = nodes.find((n) => n.id === edge.target);
+      if (!agentNode || !isAgentComponent(agentNode.data.component))
+        return null;
+      return agentNode.data.component;
+    })
+    .filter((agent): agent is Component<AgentConfig> => agent !== null);
+
+  return component;
+};

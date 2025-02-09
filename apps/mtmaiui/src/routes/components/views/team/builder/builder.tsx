@@ -2,6 +2,8 @@ import {
   DndContext,
   type DragEndEvent,
   type DragOverEvent,
+  DragOverlay,
+  type DragStartEvent,
   PointerSensor,
   useSensor,
   useSensors,
@@ -16,20 +18,29 @@ import {
   useNodesState,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { Button, Switch, Tooltip, message } from "antd";
-import { Cable, Code2, Download, Save } from "lucide-react";
+import { Switch, Tooltip, message } from "antd";
+import debounce from "lodash.debounce";
+import { Cable, Code2, Download, PlayCircle, Save } from "lucide-react";
+import { Button } from "mtxuilib/ui/button";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import type { ComponentTypes, Team } from "../../../datamodel";
-import { ComponentLibrary } from "./library";
-import { edgeTypes, nodeTypes } from "./nodes";
-import { useTeamBuilderStore } from "./store";
-import type { CustomEdge, CustomNode, DragItem } from "./types";
-
-// import builder css
+import type { ComponentTypes, Team } from "../../../types/datamodel";
 import { MonacoEditor } from "../../monaco";
 import "./builder.css";
-import { NodeEditor } from "./node-editor";
+import { ComponentLibrary } from "./library";
+import { NodeEditor } from "./node-editor/node-editor";
+import { edgeTypes, nodeTypes } from "./nodes";
+import { useTeamBuilderStore } from "./store";
+import TestDrawer from "./testdrawer";
 import { TeamBuilderToolbar } from "./toolbar";
+import type { CustomEdge, CustomNode, DragItem } from "./types";
+
+// const { Sider, Content } = Layout;
+interface DragItemData {
+  type: ComponentTypes;
+  config: any;
+  label: string;
+  icon: React.ReactNode;
+}
 
 interface TeamBuilderProps {
   team: Team;
@@ -37,11 +48,11 @@ interface TeamBuilderProps {
   onDirtyStateChange?: (isDirty: boolean) => void;
 }
 
-export const TeamBuilder = ({
+export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   team,
   onChange,
   onDirtyStateChange,
-}: TeamBuilderProps) => {
+}) => {
   // Replace store state with React Flow hooks
   const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
@@ -52,6 +63,11 @@ export const TeamBuilder = ({
   // const [isDirty, setIsDirty] = useState(false);
   const editorRef = useRef(null);
   const [messageApi, contextHolder] = message.useMessage();
+  const [activeDragItem, setActiveDragItem] = useState<DragItemData | null>(
+    null,
+  );
+
+  const [testDrawerVisible, setTestDrawerVisible] = useState(false);
 
   const {
     undo,
@@ -64,6 +80,7 @@ export const TeamBuilder = ({
     history,
     updateNode,
     selectedNodeId,
+    setSelectedNode,
   } = useTeamBuilderStore();
 
   const currentHistoryIndex = useTeamBuilderStore(
@@ -110,10 +127,11 @@ export const TeamBuilder = ({
   }, [isDirty]);
 
   // Load initial config
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if (team?.config) {
+    if (team?.component) {
       const { nodes: initialNodes, edges: initialEdges } = loadFromJson(
-        team.config,
+        team.component,
       );
       setNodes(initialNodes);
       setEdges(initialEdges);
@@ -122,36 +140,45 @@ export const TeamBuilder = ({
 
   // Handle JSON changes
   const handleJsonChange = useCallback(
-    (value: string) => {
+    debounce((value: string) => {
       try {
         const config = JSON.parse(value);
-        loadFromJson(config);
-        // dirty ?
+        // Always consider JSON edits as changes that should affect isDirty state
+        loadFromJson(config, false);
+        // Force history update even if nodes/edges appear same
+        useTeamBuilderStore.getState().addToHistory();
       } catch (error) {
         console.error("Invalid JSON:", error);
       }
-    },
+    }, 1000),
     [loadFromJson],
   );
+
+  // Cleanup debounced function
+  useEffect(() => {
+    return () => {
+      handleJsonChange.cancel();
+    };
+  }, [handleJsonChange]);
 
   // Handle save
   const handleSave = useCallback(async () => {
     try {
-      const config = syncToJson();
-      if (!config) {
+      const component = syncToJson();
+      if (!component) {
         throw new Error("Unable to generate valid configuration");
       }
 
       if (onChange) {
-        console.log("Saving team configuration", config);
+        console.log("Saving team configuration", component);
         const teamData: Partial<Team> = team
           ? {
               ...team,
-              config,
+              component,
               created_at: undefined,
               updated_at: undefined,
             }
-          : { config };
+          : { component };
         await onChange(teamData);
         resetHistory();
       }
@@ -210,7 +237,10 @@ export const TeamBuilder = ({
     const targetNode = nodes.find((node) => node.id === over.id);
     if (!targetNode) return;
 
-    const isValid = validateDropTarget(draggedType, targetNode.data.type);
+    const isValid = validateDropTarget(
+      draggedType,
+      targetNode.data.component.component_type,
+    );
     // Add visual feedback class to target node
     if (isValid) {
       targetNode.className = "drop-target-valid";
@@ -226,14 +256,16 @@ export const TeamBuilder = ({
     const draggedItem = active.data.current.current;
     const dropZoneId = over.id as string;
 
-    const [nodeId, zoneType] = dropZoneId.split("-zone")[0].split("-");
-
+    const [nodeId] = dropZoneId.split("@@@");
     // Find target node
     const targetNode = nodes.find((node) => node.id === nodeId);
     if (!targetNode) return;
 
     // Validate drop
-    const isValid = validateDropTarget(draggedItem.type, targetNode.data.type);
+    const isValid = validateDropTarget(
+      draggedItem.type,
+      targetNode.data.component.component_type,
+    );
     if (!isValid) return;
 
     const position = {
@@ -242,20 +274,28 @@ export const TeamBuilder = ({
     };
 
     // Pass both new node data AND target node id
-    addNode(
-      draggedItem.type as ComponentTypes,
-      position,
-      draggedItem.config,
-      nodeId,
-    );
+    addNode(position, draggedItem.config, nodeId);
+    setActiveDragItem(null);
+  };
+
+  const handleTestDrawerClose = () => {
+    console.log("TestDrawer closed");
+    setTestDrawerVisible(false);
   };
 
   const onDragStart = (item: DragItem) => {
     // We can add any drag start logic here if needed
   };
+  const handleDragStart = (event: DragStartEvent) => {
+    const { active } = event;
+    if (active.data.current) {
+      setActiveDragItem(active.data.current as DragItemData);
+    }
+  };
   return (
     <div>
-      {contextHolder}
+      {/* <DebugValue data={{ team }} /> */}
+      {/* {contextHolder} */}
       <div className="flex gap-2 text-xs rounded border-dashed border p-2 mb-2 items-center">
         <div className="flex-1">
           <Switch
@@ -282,19 +322,27 @@ export const TeamBuilder = ({
               experimental{" "}
             </span> */}
             </>
-          )}{" "}
-          mode{" "}
+          )}
+          mode
           <span className="text-xs text-orange-500 ml-1 underline">
-            {" "}
             (experimental)
           </span>
         </div>
         <div>
+          <Tooltip title="Test Team">
+            <Button
+              className="p-1.5 mr-2 px-2.5 rounded-md"
+              onClick={() => {
+                setTestDrawerVisible(true);
+              }}
+            >
+              <PlayCircle size={18} />
+              Test Team
+            </Button>
+          </Tooltip>
           <Tooltip title="Download Team">
             <Button
-              type="text"
-              icon={<Download size={18} />}
-              className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
+              className="p-1.5 rounded-md"
               onClick={() => {
                 const json = JSON.stringify(syncToJson(), null, 2);
                 const blob = new Blob([json], { type: "application/json" });
@@ -305,111 +353,140 @@ export const TeamBuilder = ({
                 a.click();
                 URL.revokeObjectURL(url);
               }}
-            />
+            >
+              <Download size={18} />
+              Download Team
+            </Button>
           </Tooltip>
 
           <Tooltip title="Save Changes">
             <Button
-              type="text"
-              icon={
-                <div className="relative">
-                  <Save size={18} />
-                  {isDirty && (
-                    <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full" />
-                  )}
-                </div>
-              }
-              className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-1.5 rounded-md"
               onClick={handleSave}
               // disabled={!isDirty}
-            />
+            >
+              <div className="relative">
+                <Save size={18} />
+                {isDirty && (
+                  <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full" />
+                )}
+              </div>
+              Save Changes
+            </Button>
           </Tooltip>
         </div>
       </div>
+
       <DndContext
         sensors={sensors}
         onDragEnd={handleDragEnd}
         onDragOver={handleDragOver}
+        onDragStart={handleDragStart}
       >
-        <div className="flex relative  h-[calc(100vh-239px)] rounded w-full ">
-          {/* 左侧的工具栏, */}
+        <div className="flex relative h-[calc(100vh-239px)] rounded">
           {!isJsonMode && <ComponentLibrary />}
-
-          {/* 应该显示在flex 的右侧并自动延申 */}
-          <div className="flex-1 bg-primary rounded w-full h-full">
-            <div
-              className={`relative rounded bg-tertiary  w-full h-full transition-all duration-200 ${
-                isFullscreen
-                  ? "fixed inset-4 z-50 shadow bg-tertiary  backdrop-blur-sm"
-                  : ""
-              }`}
-            >
-              {isJsonMode ? (
-                <MonacoEditor
-                  value={JSON.stringify(syncToJson(), null, 2)}
-                  onChange={handleJsonChange}
-                  editorRef={editorRef}
-                  language="json"
-                  minimap={false}
-                />
-              ) : (
-                <ReactFlow
-                  nodes={nodes}
-                  edges={edges}
-                  onNodesChange={onNodesChange}
-                  onEdgesChange={onEdgesChange}
-                  onConnect={onConnect}
-                  // onNodeClick={(_, node) => setSelectedNode(node.id)}
-                  nodeTypes={nodeTypes}
-                  edgeTypes={edgeTypes}
-                  onDrop={(event) => event.preventDefault()}
-                  onDragOver={(event) => event.preventDefault()}
-                  className="rounded"
-                  fitView
-                  fitViewOptions={{ padding: 10 }}
+          <div className="flex-1 flex w-full h-full">
+            <div className="flex-1 flex rounded  w-full h-full">
+              <div className="relative rounded bg-tertiary  w-full h-full">
+                <div
+                  className={`w-full h-full transition-all duration-200 ${
+                    isFullscreen
+                      ? "fixed inset-4 z-50 shadow bg-tertiary  backdrop-blur-sm"
+                      : ""
+                  }`}
                 >
-                  {showGrid && <Background />}
-                  {showMiniMap && <MiniMap />}
-                </ReactFlow>
-              )}
+                  {isJsonMode ? (
+                    <MonacoEditor
+                      value={JSON.stringify(syncToJson(), null, 2)}
+                      onChange={handleJsonChange}
+                      editorRef={editorRef}
+                      language="json"
+                      minimap={false}
+                    />
+                  ) : (
+                    <ReactFlow
+                      nodes={nodes}
+                      edges={edges}
+                      onNodesChange={onNodesChange}
+                      onEdgesChange={onEdgesChange}
+                      onConnect={onConnect}
+                      // onNodeClick={(_, node) => setSelectedNode(node.id)}
+                      nodeTypes={nodeTypes}
+                      edgeTypes={edgeTypes}
+                      onDrop={(event) => event.preventDefault()}
+                      onDragOver={(event) => event.preventDefault()}
+                      className="rounded"
+                      fitView
+                      fitViewOptions={{ padding: 10 }}
+                    >
+                      {showGrid && <Background />}
+                      {showMiniMap && <MiniMap />}
+                    </ReactFlow>
+                  )}
+                </div>
+                {isFullscreen && (
+                  // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+                  <div
+                    className="fixed inset-0 -z-10 bg-opacity-80 backdrop-blur-sm"
+                    onClick={handleToggleFullscreen}
+                  />
+                )}
+                <TeamBuilderToolbar
+                  isJsonMode={isJsonMode}
+                  isFullscreen={isFullscreen}
+                  showGrid={showGrid}
+                  onToggleMiniMap={() => setShowMiniMap(!showMiniMap)}
+                  canUndo={canUndo}
+                  canRedo={canRedo}
+                  isDirty={isDirty}
+                  onToggleView={() => setIsJsonMode(!isJsonMode)}
+                  onUndo={undo}
+                  onRedo={redo}
+                  onSave={handleSave}
+                  onToggleGrid={() => setShowGrid(!showGrid)}
+                  onToggleFullscreen={handleToggleFullscreen}
+                  onAutoLayout={layoutNodes}
+                />
+              </div>
             </div>
-            {isFullscreen && (
-              // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-              <div
-                className="fixed inset-0 -z-10 bg-background bg-opacity-80 backdrop-blur-sm"
-                onClick={handleToggleFullscreen}
-              />
-            )}
-            <TeamBuilderToolbar
-              isJsonMode={isJsonMode}
-              isFullscreen={isFullscreen}
-              showGrid={showGrid}
-              onToggleMiniMap={() => setShowMiniMap(!showMiniMap)}
-              canUndo={canUndo}
-              canRedo={canRedo}
-              isDirty={isDirty}
-              onToggleView={() => setIsJsonMode(!isJsonMode)}
-              onUndo={undo}
-              onRedo={redo}
-              onSave={handleSave}
-              onToggleGrid={() => setShowGrid(!showGrid)}
-              onToggleFullscreen={handleToggleFullscreen}
-              onAutoLayout={layoutNodes}
+
+            <NodeEditor
+              node={nodes.find((n) => n.id === selectedNodeId) || null}
+              onUpdate={(updates) => {
+                if (selectedNodeId) {
+                  console.log("updating node", selectedNodeId, updates);
+                  updateNode(selectedNodeId, updates);
+                  handleSave();
+                }
+              }}
+              onClose={() => setSelectedNode(null)}
             />
           </div>
-
-          <NodeEditor
-            node={nodes.find((n) => n.id === selectedNodeId) || null}
-            onUpdate={(updates) => {
-              if (selectedNodeId) {
-                console.log("updating node", selectedNodeId, updates);
-                updateNode(selectedNodeId, updates);
-                handleSave();
-              }
-            }}
-          />
         </div>
+        <DragOverlay
+          dropAnimation={{
+            duration: 250,
+            easing: "cubic-bezier(0.18, 0.67, 0.6, 1.22)",
+          }}
+        >
+          {activeDragItem ? (
+            <div className="p-2 text-primary h-full     rounded    ">
+              <div className="flex items-center gap-2">
+                {activeDragItem.icon}
+                <span className="text-sm">{activeDragItem.label}</span>
+              </div>
+            </div>
+          ) : null}
+        </DragOverlay>
       </DndContext>
+
+      {testDrawerVisible && (
+        <TestDrawer
+          isVisble={testDrawerVisible}
+          team={team}
+          onClose={() => handleTestDrawerClose()}
+        />
+      )}
     </div>
   );
 };

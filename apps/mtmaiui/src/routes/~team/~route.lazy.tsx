@@ -51,7 +51,7 @@ function RouteComponent() {
   const teamQuery = useSuspenseQuery({
     ...teamListOptions({
       path: {
-        tenant: tenant!.metadata.id,
+        tenant: tenant!.metadata?.id,
       },
     }),
   });
@@ -163,9 +163,9 @@ function RouteComponent() {
       },
     });
 
-    messageApi.success(
-      `Team ${teamData.metadata.id ? "updated" : "created"} successfully`,
-    );
+    // messageApi.success(
+    //   `Team ${teamData.metadata.id ? "updated" : "created"} successfully`,
+    // );
 
     // Update teams list
     // if (teamData.id) {
