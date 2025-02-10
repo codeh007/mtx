@@ -15,8 +15,8 @@ import {
   AgentNodeCreateRequest,
   AgentNodeList,
   AgentNodeRun,
-  AgentNodeRunInput,
   AgentNodeUpdateRequest,
+  AgentRunInput,
   AgEvent,
   AgEventCreate,
   AgEventList,
@@ -2907,11 +2907,10 @@ export class Api<
       ...params,
     });
   /**
-   * @description 获取节点
+   * @description 获取节点列表
    *
    * @tags agent
    * @name AgentNodeList
-   * @summary 获取租户下的节点列表
    * @request GET:/api/v1/tenants/{tenant}/nodes
    * @secure
    */
@@ -2947,11 +2946,10 @@ export class Api<
       ...params,
     });
   /**
-   * @description 获取节点状态
+   * @description get node state
    *
    * @tags agent
    * @name AgentNode
-   * @summary 获取节点状态
    * @request GET:/api/v1/tenants/{tenant}/nodes/{node}
    * @secure
    */
@@ -2968,11 +2966,10 @@ export class Api<
       ...params,
     });
   /**
-   * @description 更新节点状态
+   * @description update node state
    *
    * @tags agent
    * @name AgentNodeUpdate
-   * @summary 更新节点状态
    * @request PATCH:/api/v1/tenants/{tenant}/nodes/{node}
    * @secure
    */
@@ -2995,14 +2992,13 @@ export class Api<
    * @description 执行节点(执行工作流)
    *
    * @tags agent
-   * @name AgentNodeRun
-   * @summary 执行节点
+   * @name AgentRun
    * @request POST:/api/v1/tenants/{tenant}/nodes/run
    * @secure
    */
-  agentNodeRun = (
+  agentRun = (
     tenant: TenantParameter,
-    data: AgentNodeRunInput,
+    data: AgentRunInput,
     params: RequestParams = {},
   ) =>
     this.request<AgentNodeRun, APIErrors | APIError>({
@@ -3019,7 +3015,6 @@ export class Api<
    *
    * @tags agent
    * @name AgentStream
-   * @summary 拉取事件
    * @request GET:/api/v1/tenants/{tenant}/stream/{stream}
    * @secure
    */

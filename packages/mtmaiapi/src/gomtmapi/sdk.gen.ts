@@ -354,9 +354,9 @@ import type {
   AgentNodeUpdateData,
   AgentNodeUpdateResponse,
   AgentNodeUpdateError,
-  AgentNodeRunData,
-  AgentNodeRunResponse,
-  AgentNodeRunError,
+  AgentRunData,
+  AgentRunResponse,
+  AgentRunError,
   AgentStreamData,
   AgentStreamResponse,
   AgentStreamError,
@@ -3726,8 +3726,7 @@ export const galleryGet = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 获取租户下的节点列表
- * 获取节点
+ * 获取节点列表
  */
 export const agentNodeList = <ThrowOnError extends boolean = false>(
   options: Options<AgentNodeListData, ThrowOnError>,
@@ -3784,8 +3783,7 @@ export const agentCreate = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 获取节点状态
- * 获取节点状态
+ * get node state
  */
 export const agentNode = <ThrowOnError extends boolean = false>(
   options: Options<AgentNodeData, ThrowOnError>,
@@ -3811,8 +3809,7 @@ export const agentNode = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 更新节点状态
- * 更新节点状态
+ * update node state
  */
 export const agentNodeUpdate = <ThrowOnError extends boolean = false>(
   options: Options<AgentNodeUpdateData, ThrowOnError>,
@@ -3842,15 +3839,14 @@ export const agentNodeUpdate = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 执行节点
  * 执行节点(执行工作流)
  */
-export const agentNodeRun = <ThrowOnError extends boolean = false>(
-  options: Options<AgentNodeRunData, ThrowOnError>,
+export const agentRun = <ThrowOnError extends boolean = false>(
+  options: Options<AgentRunData, ThrowOnError>,
 ) => {
   return (options.client ?? _heyApiClient).post<
-    AgentNodeRunResponse,
-    AgentNodeRunError,
+    AgentRunResponse,
+    AgentRunError,
     ThrowOnError
   >({
     security: [
@@ -3873,7 +3869,6 @@ export const agentNodeRun = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 拉取事件
  * 拉取事件
  */
 export const agentStream = <ThrowOnError extends boolean = false>(

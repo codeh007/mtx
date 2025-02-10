@@ -1812,15 +1812,22 @@ export const zAgentNodeRun = z.object({
   output: z.object({}).optional(),
 });
 
-export const zAgentNodeRunInput = z.object({
-  messages: z.array(zChatMessage),
+export const zFlowPayload = z.object({
+  messages: z.array(zChatMessage).optional(),
+});
+
+export const zFloadAgPayload = z.object({
+  teamId: z.string(),
+  sessionId: z.string().optional(),
+});
+
+export const zAgentRunInput = z.object({
   flowName: z.string().optional(),
-  runner: z.string().optional(),
-  nodeId: z.string().optional(),
-  teamId: z.string().optional(),
   isStream: z.boolean().optional(),
   params: z
     .union([
+      zFlowPayload,
+      zFloadAgPayload,
       z
         .object({
           isStream: z.boolean(),
@@ -3853,7 +3860,7 @@ export const zAgentNodeResponse = zAgentNode;
 
 export const zAgentNodeUpdateResponse = zAgentNode;
 
-export const zAgentNodeRunResponse = zAgentNodeRun;
+export const zAgentRunResponse = zAgentNodeRun;
 
 export const zAgentStreamResponse = z.string();
 

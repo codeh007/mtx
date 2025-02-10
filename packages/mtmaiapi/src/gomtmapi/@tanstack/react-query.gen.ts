@@ -129,7 +129,7 @@ import {
   agentCreate,
   agentNode,
   agentNodeUpdate,
-  agentNodeRun,
+  agentRun,
   agentStream,
   agEventList,
   agEventCreate,
@@ -419,9 +419,9 @@ import type {
   AgentNodeUpdateData,
   AgentNodeUpdateError,
   AgentNodeUpdateResponse,
-  AgentNodeRunData,
-  AgentNodeRunError,
-  AgentNodeRunResponse,
+  AgentRunData,
+  AgentRunError,
+  AgentRunResponse,
   AgentStreamData,
   AgEventListData,
   AgEventCreateData,
@@ -4185,14 +4185,14 @@ export const agentNodeUpdateMutation = (
   return mutationOptions;
 };
 
-export const agentNodeRunQueryKey = (options: Options<AgentNodeRunData>) => [
-  createQueryKey("agentNodeRun", options),
+export const agentRunQueryKey = (options: Options<AgentRunData>) => [
+  createQueryKey("agentRun", options),
 ];
 
-export const agentNodeRunOptions = (options: Options<AgentNodeRunData>) => {
+export const agentRunOptions = (options: Options<AgentRunData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agentNodeRun({
+      const { data } = await agentRun({
         ...options,
         ...queryKey[0],
         signal,
@@ -4200,20 +4200,18 @@ export const agentNodeRunOptions = (options: Options<AgentNodeRunData>) => {
       });
       return data;
     },
-    queryKey: agentNodeRunQueryKey(options),
+    queryKey: agentRunQueryKey(options),
   });
 };
 
-export const agentNodeRunMutation = (
-  options?: Partial<Options<AgentNodeRunData>>,
-) => {
+export const agentRunMutation = (options?: Partial<Options<AgentRunData>>) => {
   const mutationOptions: UseMutationOptions<
-    AgentNodeRunResponse,
-    AgentNodeRunError,
-    Options<AgentNodeRunData>
+    AgentRunResponse,
+    AgentRunError,
+    Options<AgentRunData>
   > = {
     mutationFn: async (localOptions) => {
-      const { data } = await agentNodeRun({
+      const { data } = await agentRun({
         ...options,
         ...localOptions,
         throwOnError: true,

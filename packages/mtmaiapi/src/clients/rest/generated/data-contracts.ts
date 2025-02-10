@@ -1725,19 +1725,22 @@ export interface AgentNodeRun {
   output?: object;
 }
 
-/** agent运行节点请求 */
-export interface AgentNodeRunInput {
-  messages: ChatMessage[];
+export interface FlowPayload {
+  messages?: ChatMessage[];
+}
+
+export interface FloadAgPayload {
+  teamId: string;
+  sessionId?: string;
+}
+
+export interface AgentRunInput {
   flowName?: string;
-  /** 运行器名称(对应 autogent 的 angent 入口名称) */
-  runner?: string;
-  /** agent 节点ID(threadId) */
-  nodeId?: string;
-  /** 团队ID */
-  teamId?: string;
   /** 是否使用stream 传输事件 */
   isStream?: boolean;
   params?:
+    | FlowPayload
+    | FloadAgPayload
     | ResearchRequest
     | ScrapeGraphParams
     | BrowserParams

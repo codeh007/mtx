@@ -2056,29 +2056,24 @@ export type AgentNodeRun = {
   };
 };
 
-/**
- * agent运行节点请求
- */
-export type AgentNodeRunInput = {
-  messages: Array<ChatMessage>;
+export type FlowPayload = {
+  messages?: Array<ChatMessage>;
+};
+
+export type FloadAgPayload = {
+  teamId: string;
+  sessionId?: string;
+};
+
+export type AgentRunInput = {
   flowName?: string;
-  /**
-   * 运行器名称(对应 autogent 的 angent 入口名称)
-   */
-  runner?: string;
-  /**
-   * agent 节点ID(threadId)
-   */
-  nodeId?: string;
-  /**
-   * 团队ID
-   */
-  teamId?: string;
   /**
    * 是否使用stream 传输事件
    */
   isStream?: boolean;
   params?:
+    | FlowPayload
+    | FloadAgPayload
     | ResearchRequest
     | ScrapeGraphParams
     | BrowserParams
@@ -8138,7 +8133,7 @@ export type AgentNodeListResponse =
 
 export type AgentCreateData = {
   /**
-   * 创建agentnode
+   * create agentnode
    */
   body: AgentNodeCreateRequest;
   path: {
@@ -8201,7 +8196,7 @@ export type AgentNodeResponse = AgentNodeResponses[keyof AgentNodeResponses];
 
 export type AgentNodeUpdateData = {
   /**
-   * 创建agentnode
+   * update node state
    */
   body: AgentNodeUpdateRequest;
   path: {
@@ -8242,11 +8237,8 @@ export type AgentNodeUpdateResponses = {
 export type AgentNodeUpdateResponse =
   AgentNodeUpdateResponses[keyof AgentNodeUpdateResponses];
 
-export type AgentNodeRunData = {
-  /**
-   * 创建agentnode
-   */
-  body: AgentNodeRunInput;
+export type AgentRunData = {
+  body: AgentRunInput;
   path: {
     /**
      * The tenant id
@@ -8257,7 +8249,7 @@ export type AgentNodeRunData = {
   url: "/api/v1/tenants/{tenant}/nodes/run";
 };
 
-export type AgentNodeRunErrors = {
+export type AgentRunErrors = {
   /**
    * A malformed or bad request
    */
@@ -8268,14 +8260,13 @@ export type AgentNodeRunErrors = {
   403: ApiError;
 };
 
-export type AgentNodeRunError = AgentNodeRunErrors[keyof AgentNodeRunErrors];
+export type AgentRunError = AgentRunErrors[keyof AgentRunErrors];
 
-export type AgentNodeRunResponses = {
+export type AgentRunResponses = {
   200: AgentNodeRun;
 };
 
-export type AgentNodeRunResponse =
-  AgentNodeRunResponses[keyof AgentNodeRunResponses];
+export type AgentRunResponse = AgentRunResponses[keyof AgentRunResponses];
 
 export type AgentStreamData = {
   body?: never;

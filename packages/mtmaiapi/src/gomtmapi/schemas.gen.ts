@@ -3580,8 +3580,8 @@ export const AgentNodeRunSchema = {
   required: ["metadata", "nodeId", "workflowRunId"],
 } as const;
 
-export const AgentNodeRunInputSchema = {
-  description: "agent运行节点请求",
+export const FlowPayloadSchema = {
+  type: "object",
   properties: {
     messages: {
       type: "array",
@@ -3589,20 +3589,26 @@ export const AgentNodeRunInputSchema = {
         $ref: "#/components/schemas/ChatMessage",
       },
     },
-    flowName: {
-      type: "string",
-    },
-    runner: {
-      type: "string",
-      description: "运行器名称(对应 autogent 的 angent 入口名称)",
-    },
-    nodeId: {
-      type: "string",
-      description: "agent 节点ID(threadId)",
-    },
+  },
+} as const;
+
+export const FloadAgPayloadSchema = {
+  required: ["teamId"],
+  properties: {
     teamId: {
       type: "string",
-      description: "团队ID",
+    },
+    sessionId: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const AgentRunInputSchema = {
+  required: ["messages"],
+  properties: {
+    flowName: {
+      type: "string",
     },
     isStream: {
       type: "boolean",
@@ -3610,6 +3616,12 @@ export const AgentNodeRunInputSchema = {
     },
     params: {
       oneOf: [
+        {
+          $ref: "#/components/schemas/FlowPayload",
+        },
+        {
+          $ref: "#/components/schemas/FloadAgPayload",
+        },
         {
           $ref: "#/components/schemas/ResearchRequest",
         },
@@ -3625,7 +3637,6 @@ export const AgentNodeRunInputSchema = {
       ],
     },
   },
-  required: ["messages"],
 } as const;
 
 export const TextHighlightSchema = {
