@@ -1735,8 +1735,7 @@ export interface FloadAgPayload {
 }
 
 export interface AgentRunInput {
-  flowName?: string;
-  /** 是否使用stream 传输事件 */
+  name: FlowNames;
   isStream?: boolean;
   params?:
     | FlowPayload
@@ -2121,6 +2120,15 @@ export interface AgentNodeUpdateRequest {
   description?: string;
   /** agent 节点状态 */
   state?: object;
+}
+
+export enum FlowNames {
+  Assisant = "assisant",
+  Ag = "ag",
+  Research = "research",
+  Browser = "browser",
+  Tenant = "tenant",
+  News = "news",
 }
 
 export interface ScrapeGraphParams {

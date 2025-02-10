@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { agentNodeRunMutation } from "mtmaiapi";
+import { agentRunMutation } from "mtmaiapi";
 import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import {
@@ -26,20 +26,19 @@ export const AgentNodeCreateView = () => {
   });
 
   const createMutation = useMutation({
-    ...agentNodeRunMutation(),
+    ...agentRunMutation(),
   });
   const workflowName = "research";
   const handleFormSubmit = (values) => {
     createMutation.mutate({
       path: {
-        tenant: tenant.metadata.id,
+        tenant: tenant!.metadata.id,
       },
       body: {
-        payload: {
+        params: {
           ...values,
         },
         flowName: workflowName,
-        nodeId: "123",
         isStream: false,
       },
     });

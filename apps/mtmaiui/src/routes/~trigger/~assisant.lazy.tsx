@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { agentNodeRunMutation } from 'mtmaiapi'
+import { agentRunMutation, FlowNames } from 'mtmaiapi'
 import { EditFormToolbar } from 'mtxuilib/mt/form/EditFormToolbar'
-import { ZForm, useZodForm } from 'mtxuilib/mt/form/ZodForm'
+import { useZodForm, ZForm } from 'mtxuilib/mt/form/ZodForm'
 import {
   FormControl,
   FormField,
@@ -29,8 +29,8 @@ function RouteComponent() {
   const { handleApiError } = useApiError({
     setErrors,
   })
-  const agentRunMutation = useMutation({
-    ...agentNodeRunMutation(),
+  const agentRun = useMutation({
+    ...agentRunMutation(),
   })
 
   const formSchema = z.object({
@@ -46,13 +46,13 @@ function RouteComponent() {
   })
 
   const handleSubmit = (values: z.infer<typeof formSchema>) => {
-    agentRunMutation.mutate({
+    agentRun.mutate({
       path: {
         tenant: tenant!.metadata.id,
         // workflow: workflow.metadata.id,
       },
       body: {
-        flowName: 'assisant',
+        name: FlowNames.ASSISANT,
         params: {
           input: values.input,
         },

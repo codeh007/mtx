@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
-import { agentNodeOptions, agentNodeRunMutation } from "mtmaiapi";
+import { agentNodeOptions, agentRunMutation } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
 import { useTenant } from "../../hooks/useAuth";
@@ -15,13 +15,13 @@ export const AgentNodeShowView = ({ id }: AgentNodeShowViewProps) => {
   const agentNodeGetQuery = useSuspenseQuery({
     ...agentNodeOptions({
       path: {
-        tenant: tenant.metadata.id,
+        tenant: tenant!.metadata.id,
         node: id,
       },
     }),
   });
   const runStepMutation = useMutation({
-    ...agentNodeRunMutation(),
+    ...agentRunMutation(),
     onSuccess: (data) => {
       console.log(data);
     },
@@ -29,21 +29,14 @@ export const AgentNodeShowView = ({ id }: AgentNodeShowViewProps) => {
   const handleStepClick = async () => {
     const result = await runStepMutation.mutateAsync({
       path: {
-        tenant: tenant.metadata.id,
-        node: id,
+        tenant: tenant!.metadata.id,
       },
       body: {
-        profile: "tenant",
-        nodeId: id,
-        input: {
+        params: {
           text: "xxxxxxxxxxxxx",
         },
-        messages: [
-          {
-            role: "user",
-            content: "你好，给我说个小故事",
-          },
-        ],
+        flowName: "research",
+        isStream: false,
       },
     });
   };

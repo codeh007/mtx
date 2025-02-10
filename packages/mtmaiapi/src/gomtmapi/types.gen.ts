@@ -2066,10 +2066,7 @@ export type FloadAgPayload = {
 };
 
 export type AgentRunInput = {
-  flowName?: string;
-  /**
-   * 是否使用stream 传输事件
-   */
+  name: FlowNames;
   isStream?: boolean;
   params?:
     | FlowPayload
@@ -2630,6 +2627,23 @@ export type AgentNodeUpdateRequest = {
     [key: string]: unknown;
   };
 };
+
+export type FlowNames =
+  | "assisant"
+  | "ag"
+  | "research"
+  | "browser"
+  | "tenant"
+  | "news";
+
+export const FlowNames = {
+  ASSISANT: "assisant",
+  AG: "ag",
+  RESEARCH: "research",
+  BROWSER: "browser",
+  TENANT: "tenant",
+  NEWS: "news",
+} as const;
 
 export type ScrapeGraphParams = {
   input?: string;

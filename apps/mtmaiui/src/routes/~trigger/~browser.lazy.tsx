@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query'
-import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
-import { agentNodeRunMutation } from 'mtmaiapi'
+import { createLazyFileRoute } from '@tanstack/react-router'
 import { ZForm, useZodForm } from 'mtxuilib/mt/form/ZodForm'
 import { Input } from 'mtxuilib/ui/input'
 
+import { agentRunMutation, FlowNames } from 'mtmaiapi'
 import { EditFormToolbar } from 'mtxuilib/mt/form/EditFormToolbar'
 import {
   FormControl,
@@ -16,23 +16,20 @@ import { useState } from 'react'
 import { z } from 'zod'
 import { useApiError } from '../../hooks/useApi'
 import { useTenant } from '../../hooks/useAuth'
-import { useBasePath } from '../../hooks/useBasePath'
 
 export const Route = createLazyFileRoute('/trigger/browser')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  const navigate = useNavigate()
   const tenant = useTenant()
-  const basePath = useBasePath()
   const [errors, setErrors] = useState<string[]>([])
 
   const { handleApiError } = useApiError({
     setErrors,
   })
-  const agentRunMutation = useMutation({
-    ...agentNodeRunMutation(),
+  const agentRun = useMutation({
+    ...agentRunMutation(),
   })
 
   const formSchema = z.object({
@@ -48,13 +45,13 @@ function RouteComponent() {
   })
 
   const handleSubmit = (values: z.infer<typeof formSchema>) => {
-    agentRunMutation.mutate({
+    agentRun.mutate({
       path: {
         tenant: tenant!.metadata.id,
         // workflow: workflow.metadata.id,
       },
       body: {
-        flowName: 'FlowBrowser',
+        name: FlowNames.BROWSER,
         params: {
           input: values.input,
         },

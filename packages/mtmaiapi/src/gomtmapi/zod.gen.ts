@@ -1822,7 +1822,7 @@ export const zFloadAgPayload = z.object({
 });
 
 export const zAgentRunInput = z.object({
-  flowName: z.string().optional(),
+  name: z.enum(["assisant", "ag", "research", "browser", "tenant", "news"]),
   isStream: z.boolean().optional(),
   params: z
     .union([
@@ -2685,6 +2685,15 @@ export const zAgentNodeUpdateRequest = z.object({
   description: z.string().optional(),
   state: z.object({}).optional(),
 });
+
+export const zFlowNames = z.enum([
+  "assisant",
+  "ag",
+  "research",
+  "browser",
+  "tenant",
+  "news",
+]);
 
 export const zScrapeGraphParams = z.object({
   input: z.string().optional(),

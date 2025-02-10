@@ -3605,14 +3605,14 @@ export const FloadAgPayloadSchema = {
 } as const;
 
 export const AgentRunInputSchema = {
-  required: ["messages"],
+  required: ["name"],
   properties: {
-    flowName: {
+    name: {
       type: "string",
+      $ref: "#/components/schemas/FlowNames",
     },
     isStream: {
       type: "boolean",
-      description: "是否使用stream 传输事件",
     },
     params: {
       oneOf: [
@@ -4559,6 +4559,11 @@ export const AgentNodeUpdateRequestSchema = {
   },
   required: ["prompt"],
   type: "object",
+} as const;
+
+export const FlowNamesSchema = {
+  type: "string",
+  enum: ["assisant", "ag", "research", "browser", "tenant", "news"],
 } as const;
 
 export const ScrapeGraphParamsSchema = {
