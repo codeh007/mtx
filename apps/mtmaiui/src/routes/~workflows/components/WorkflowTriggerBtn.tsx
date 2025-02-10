@@ -27,7 +27,7 @@ export const WorkflowTriggerBtn = ({ workflowId }: WorkflowTriggerBtnProps) => {
   return (
     <>
       <CustomLink
-        to={`/workflows/trigger/${workflowName}?${new URLSearchParams({ workflowId }).toString()}`}
+        to={`/trigger/${workflowName}?${new URLSearchParams({ workflowId }).toString()}`}
         className={cn(buttonVariants({ variant: "outline" }))}
       >
         Trigger
