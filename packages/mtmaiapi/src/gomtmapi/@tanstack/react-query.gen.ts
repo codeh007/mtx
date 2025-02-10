@@ -137,6 +137,10 @@ import {
   runList,
   runCreate,
   runGet,
+  modelList,
+  modelCreate,
+  modelGet,
+  modelUpdate,
   promptList,
   promptGet,
   adminReleaseConn,
@@ -429,6 +433,14 @@ import type {
   RunCreateError,
   RunCreateResponse,
   RunGetData,
+  ModelListData,
+  ModelCreateData,
+  ModelCreateError,
+  ModelCreateResponse,
+  ModelGetData,
+  ModelUpdateData,
+  ModelUpdateError,
+  ModelUpdateResponse,
   PromptListData,
   PromptGetData,
   AdminReleaseConnData,
@@ -4383,6 +4395,103 @@ export const runGetOptions = (options: Options<RunGetData>) => {
     },
     queryKey: runGetQueryKey(options),
   });
+};
+
+export const modelListQueryKey = (options: Options<ModelListData>) => [
+  createQueryKey("modelList", options),
+];
+
+export const modelListOptions = (options: Options<ModelListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await modelList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: modelListQueryKey(options),
+  });
+};
+
+export const modelCreateQueryKey = (options: Options<ModelCreateData>) => [
+  createQueryKey("modelCreate", options),
+];
+
+export const modelCreateOptions = (options: Options<ModelCreateData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await modelCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: modelCreateQueryKey(options),
+  });
+};
+
+export const modelCreateMutation = (
+  options?: Partial<Options<ModelCreateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    ModelCreateResponse,
+    ModelCreateError,
+    Options<ModelCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await modelCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const modelGetQueryKey = (options: Options<ModelGetData>) => [
+  createQueryKey("modelGet", options),
+];
+
+export const modelGetOptions = (options: Options<ModelGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await modelGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: modelGetQueryKey(options),
+  });
+};
+
+export const modelUpdateMutation = (
+  options?: Partial<Options<ModelUpdateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    ModelUpdateResponse,
+    ModelUpdateError,
+    Options<ModelUpdateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await modelUpdate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };
 
 export const promptListQueryKey = (options: Options<PromptListData>) => [

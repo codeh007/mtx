@@ -2219,6 +2219,14 @@ export const zTeam = z.object({
   name: z.string(),
   userId: z.string(),
   version: z.string().optional(),
+  team_type: z
+    .enum([
+      "Assisant",
+      "RoundRobinGroupChat",
+      "SelectorGroupChat",
+      "MagenticOneGroupChat",
+    ])
+    .optional(),
   component: z
     .object({
       provider: z.string(),
@@ -2675,15 +2683,6 @@ export const zScrapeGraphParams = z.object({
   input: z.string().optional(),
 });
 
-export const zModelFamily = z.enum(["r1", "openai", "unknown"]);
-
-export const zModelInfo = z.object({
-  family: zModelFamily,
-  vision: z.boolean(),
-  function_calling: z.boolean(),
-  json_output: z.boolean(),
-});
-
 export const zBrowserParams = z.object({
   input: z.string().optional(),
 });
@@ -2817,72 +2816,106 @@ export const zAgentTypes = z.enum([
 
 export const zToolTypes = z.enum(["PythonFunction"]);
 
+export const zModel = z.object({
+  metadata: zApiResourceMeta.optional(),
+  config: z
+    .object({
+      model: z.string(),
+      model_type: z.enum([
+        "OpenAIChatCompletionClient",
+        "AzureOpenAIChatCompletionClient",
+      ]),
+      api_key: z.string().optional(),
+      base_url: z.string().optional(),
+      timeout: z.number().optional(),
+      max_retries: z.number().int().optional(),
+      frequency_penalty: z.number().optional(),
+      logit_bias: z.number().int().optional(),
+      max_tokens: z.number().int().optional(),
+      n: z.number().int().optional(),
+      presence_penalty: z.number().optional(),
+      response_format: z.enum(["json_object", "text"]).optional(),
+      seed: z.number().int().optional(),
+      stop: z.array(z.string()).optional(),
+      temperature: z.number().optional(),
+      top_p: z.number().optional(),
+      user: z.string().optional(),
+      organization: z.string().optional(),
+      default_headers: z.object({}).optional(),
+      model_info: z
+        .object({
+          family: z.enum(["r1", "openai", "unknown"]),
+          vision: z.boolean(),
+          function_calling: z.boolean(),
+          json_output: z.boolean(),
+        })
+        .optional(),
+    })
+    .optional(),
+});
+
+export const zModelConfig = z.object({
+  model: z.string(),
+  model_type: z.enum([
+    "OpenAIChatCompletionClient",
+    "AzureOpenAIChatCompletionClient",
+  ]),
+  api_key: z.string().optional(),
+  base_url: z.string().optional(),
+  timeout: z.number().optional(),
+  max_retries: z.number().int().optional(),
+  frequency_penalty: z.number().optional(),
+  logit_bias: z.number().int().optional(),
+  max_tokens: z.number().int().optional(),
+  n: z.number().int().optional(),
+  presence_penalty: z.number().optional(),
+  response_format: z.enum(["json_object", "text"]).optional(),
+  seed: z.number().int().optional(),
+  stop: z.array(z.string()).optional(),
+  temperature: z.number().optional(),
+  top_p: z.number().optional(),
+  user: z.string().optional(),
+  organization: z.string().optional(),
+  default_headers: z.object({}).optional(),
+  model_info: z
+    .object({
+      family: z.enum(["r1", "openai", "unknown"]),
+      vision: z.boolean(),
+      function_calling: z.boolean(),
+      json_output: z.boolean(),
+    })
+    .optional(),
+});
+
+export const zModelFamily = z.enum(["r1", "openai", "unknown"]);
+
+export const zModelInfo = z.object({
+  family: zModelFamily,
+  vision: z.boolean(),
+  function_calling: z.boolean(),
+  json_output: z.boolean(),
+});
+
 export const zModelTypes = z.enum([
   "OpenAIChatCompletionClient",
   "AzureOpenAIChatCompletionClient",
 ]);
 
-export const zAzureOpenAiModelConfig = z
-  .object({
-    model: z.string(),
-    model_type: zModelTypes,
-    api_key: z.string().optional(),
-    base_url: z.string().optional(),
-    timeout: z.number().optional(),
-    max_retries: z.number().int().optional(),
-    frequency_penalty: z.number().optional(),
-    logit_bias: z.number().int().optional(),
-    max_tokens: z.number().int().optional(),
-    n: z.number().int().optional(),
-    presence_penalty: z.number().optional(),
-    response_format: z.enum(["json_object", "text"]).optional(),
-    seed: z.number().int().optional(),
-    stop: z.array(z.string()).optional(),
-    temperature: z.number().optional(),
-    top_p: z.number().optional(),
-    user: z.string().optional(),
-    organization: z.string().optional(),
-    default_headers: z.object({}).optional(),
-    model_info: zModelInfo.optional(),
-  })
-  .merge(
-    z.object({
-      model_type: z.enum(["AzureOpenAIChatCompletionClient"]),
-      azure_deployment: z.string(),
-      api_version: z.string(),
-      azure_endpoint: z.string(),
-      azure_ad_token_provider: z.string(),
-    }),
-  );
+export const zAzureOpenAiModelConfig = zModelConfig.merge(
+  z.object({
+    model_type: z.enum(["AzureOpenAIChatCompletionClient"]),
+    azure_deployment: z.string(),
+    api_version: z.string(),
+    azure_endpoint: z.string(),
+    azure_ad_token_provider: z.string(),
+  }),
+);
 
-export const zOpenAiModelConfig = z
-  .object({
-    model: z.string(),
-    model_type: zModelTypes,
-    api_key: z.string().optional(),
-    base_url: z.string().optional(),
-    timeout: z.number().optional(),
-    max_retries: z.number().int().optional(),
-    frequency_penalty: z.number().optional(),
-    logit_bias: z.number().int().optional(),
-    max_tokens: z.number().int().optional(),
-    n: z.number().int().optional(),
-    presence_penalty: z.number().optional(),
-    response_format: z.enum(["json_object", "text"]).optional(),
-    seed: z.number().int().optional(),
-    stop: z.array(z.string()).optional(),
-    temperature: z.number().optional(),
-    top_p: z.number().optional(),
-    user: z.string().optional(),
-    organization: z.string().optional(),
-    default_headers: z.object({}).optional(),
-    model_info: zModelInfo.optional(),
-  })
-  .merge(
-    z.object({
-      model_type: z.enum(["OpenAIChatCompletionClient"]),
-    }),
-  );
+export const zOpenAiModelConfig = zModelConfig.merge(
+  z.object({
+    model_type: z.enum(["OpenAIChatCompletionClient"]),
+  }),
+);
 
 export const zToolComponent = zComponentModel.merge(
   z.object({
@@ -2906,53 +2939,9 @@ export const zToolConfig = z.object({
 
 export const zModelComponent = zComponentModel.merge(
   z.object({
-    config: z.object({
-      model: z.string(),
-      model_type: zModelTypes,
-      api_key: z.string().optional(),
-      base_url: z.string().optional(),
-      timeout: z.number().optional(),
-      max_retries: z.number().int().optional(),
-      frequency_penalty: z.number().optional(),
-      logit_bias: z.number().int().optional(),
-      max_tokens: z.number().int().optional(),
-      n: z.number().int().optional(),
-      presence_penalty: z.number().optional(),
-      response_format: z.enum(["json_object", "text"]).optional(),
-      seed: z.number().int().optional(),
-      stop: z.array(z.string()).optional(),
-      temperature: z.number().optional(),
-      top_p: z.number().optional(),
-      user: z.string().optional(),
-      organization: z.string().optional(),
-      default_headers: z.object({}).optional(),
-      model_info: zModelInfo.optional(),
-    }),
+    config: zModelConfig,
   }),
 );
-
-export const zModelConfig = z.object({
-  model: z.string(),
-  model_type: zModelTypes,
-  api_key: z.string().optional(),
-  base_url: z.string().optional(),
-  timeout: z.number().optional(),
-  max_retries: z.number().int().optional(),
-  frequency_penalty: z.number().optional(),
-  logit_bias: z.number().int().optional(),
-  max_tokens: z.number().int().optional(),
-  n: z.number().int().optional(),
-  presence_penalty: z.number().optional(),
-  response_format: z.enum(["json_object", "text"]).optional(),
-  seed: z.number().int().optional(),
-  stop: z.array(z.string()).optional(),
-  temperature: z.number().optional(),
-  top_p: z.number().optional(),
-  user: z.string().optional(),
-  organization: z.string().optional(),
-  default_headers: z.object({}).optional(),
-  model_info: zModelInfo.optional(),
-});
 
 export const zResponseFormat = z.enum(["json_object", "text"]);
 
@@ -3175,6 +3164,7 @@ export const zTerminationConditions = z.union([
 ]);
 
 export const zTeamTypes = z.enum([
+  "Assisant",
   "RoundRobinGroupChat",
   "SelectorGroupChat",
   "MagenticOneGroupChat",
@@ -3327,7 +3317,7 @@ export const zWebSearchResult = z.object({
 
 export const zModelList = z.object({
   pagination: zPaginationResponse.optional(),
-  rows: z.array(zModelComponent).optional(),
+  rows: z.array(zModel).optional(),
 });
 
 export const zUpdateModel = z.object({
@@ -3878,6 +3868,14 @@ export const zRunListResponse = zRunList;
 export const zRunCreateResponse = zRun;
 
 export const zRunGetResponse = zRun;
+
+export const zModelListResponse = zModelList;
+
+export const zModelCreateResponse = zModel;
+
+export const zModelGetResponse = zModel;
+
+export const zModelUpdateResponse = zModel;
 
 export const zPromptListResponse = zPromptList;
 

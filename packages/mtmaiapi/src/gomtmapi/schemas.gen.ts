@@ -4018,7 +4018,7 @@ export const RunUpdateSchema = {
 } as const;
 
 export const TeamSchema = {
-  type: "object",
+  required: ["metadata", "name", "userId", "component"],
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -4032,11 +4032,19 @@ export const TeamSchema = {
     version: {
       type: "string",
     },
+    team_type: {
+      type: "string",
+      enum: [
+        "Assisant",
+        "RoundRobinGroupChat",
+        "SelectorGroupChat",
+        "MagenticOneGroupChat",
+      ],
+    },
     component: {
       $ref: "#/components/schemas/TeamComponent",
     },
   },
-  required: ["metadata", "name", "userId", "component"],
 } as const;
 
 export const TeamListSchema = {
@@ -4550,29 +4558,6 @@ export const ScrapeGraphParamsSchema = {
   },
 } as const;
 
-export const ModelFamilySchema = {
-  type: "string",
-  enum: ["r1", "openai", "unknown"],
-} as const;
-
-export const ModelInfoSchema = {
-  required: ["function_calling", "json_output", "family", "vision"],
-  properties: {
-    family: {
-      $ref: "#/components/schemas/ModelFamily",
-    },
-    vision: {
-      type: "boolean",
-    },
-    function_calling: {
-      type: "boolean",
-    },
-    json_output: {
-      type: "boolean",
-    },
-  },
-} as const;
-
 export const BrowserParamsSchema = {
   properties: {
     input: {
@@ -4906,6 +4891,112 @@ export const ToolTypesSchema = {
   enum: ["PythonFunction"],
 } as const;
 
+export const ModelSchema = {
+  properties: {
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+    config: {
+      $ref: "#/components/schemas/ModelConfig",
+    },
+  },
+} as const;
+
+export const ModelConfigSchema = {
+  required: ["model", "model_type"],
+  properties: {
+    model: {
+      type: "string",
+    },
+    model_type: {
+      type: "string",
+      $ref: "#/components/schemas/ModelTypes",
+    },
+    api_key: {
+      type: "string",
+    },
+    base_url: {
+      type: "string",
+    },
+    timeout: {
+      type: "number",
+    },
+    max_retries: {
+      type: "integer",
+    },
+    frequency_penalty: {
+      type: "number",
+    },
+    logit_bias: {
+      type: "integer",
+    },
+    max_tokens: {
+      type: "integer",
+    },
+    n: {
+      type: "integer",
+    },
+    presence_penalty: {
+      type: "number",
+    },
+    response_format: {
+      type: "string",
+      $ref: "#/components/schemas/ResponseFormat",
+    },
+    seed: {
+      type: "integer",
+    },
+    stop: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+    temperature: {
+      type: "number",
+    },
+    top_p: {
+      type: "number",
+    },
+    user: {
+      type: "string",
+    },
+    organization: {
+      type: "string",
+    },
+    default_headers: {
+      type: "object",
+      additionalProperties: true,
+    },
+    model_info: {
+      $ref: "#/components/schemas/ModelInfo",
+    },
+  },
+} as const;
+
+export const ModelFamilySchema = {
+  type: "string",
+  enum: ["r1", "openai", "unknown"],
+} as const;
+
+export const ModelInfoSchema = {
+  required: ["function_calling", "json_output", "family", "vision"],
+  properties: {
+    family: {
+      $ref: "#/components/schemas/ModelFamily",
+    },
+    vision: {
+      type: "boolean",
+    },
+    function_calling: {
+      type: "boolean",
+    },
+    json_output: {
+      type: "boolean",
+    },
+  },
+} as const;
+
 export const ModelTypesSchema = {
   type: "string",
   enum: ["OpenAIChatCompletionClient", "AzureOpenAIChatCompletionClient"],
@@ -5020,78 +5111,6 @@ export const ModelComponentSchema = {
       },
     },
   ],
-} as const;
-
-export const ModelConfigSchema = {
-  required: ["model", "model_type"],
-  properties: {
-    model: {
-      type: "string",
-    },
-    model_type: {
-      type: "string",
-      $ref: "#/components/schemas/ModelTypes",
-    },
-    api_key: {
-      type: "string",
-    },
-    base_url: {
-      type: "string",
-    },
-    timeout: {
-      type: "number",
-    },
-    max_retries: {
-      type: "integer",
-    },
-    frequency_penalty: {
-      type: "number",
-    },
-    logit_bias: {
-      type: "integer",
-    },
-    max_tokens: {
-      type: "integer",
-    },
-    n: {
-      type: "integer",
-    },
-    presence_penalty: {
-      type: "number",
-    },
-    response_format: {
-      type: "string",
-      $ref: "#/components/schemas/ResponseFormat",
-    },
-    seed: {
-      type: "integer",
-    },
-    stop: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-    },
-    temperature: {
-      type: "number",
-    },
-    top_p: {
-      type: "number",
-    },
-    user: {
-      type: "string",
-    },
-    organization: {
-      type: "string",
-    },
-    default_headers: {
-      type: "object",
-      additionalProperties: true,
-    },
-    model_info: {
-      $ref: "#/components/schemas/ModelInfo",
-    },
-  },
 } as const;
 
 export const ResponseFormatSchema = {
@@ -5408,7 +5427,12 @@ export const TerminationConditionsSchema = {
 
 export const TeamTypesSchema = {
   type: "string",
-  enum: ["RoundRobinGroupChat", "SelectorGroupChat", "MagenticOneGroupChat"],
+  enum: [
+    "Assisant",
+    "RoundRobinGroupChat",
+    "SelectorGroupChat",
+    "MagenticOneGroupChat",
+  ],
 } as const;
 
 export const TeamConfigSchema = {
@@ -5727,7 +5751,7 @@ export const ModelListSchema = {
     },
     rows: {
       items: {
-        $ref: "#/components/schemas/ModelComponent",
+        $ref: "#/components/schemas/Model",
       },
       type: "array",
     },

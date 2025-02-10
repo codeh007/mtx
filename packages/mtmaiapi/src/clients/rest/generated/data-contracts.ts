@@ -1916,6 +1916,11 @@ export interface Team {
   name: string;
   userId: string;
   version?: string;
+  team_type?:
+    | "Assisant"
+    | "RoundRobinGroupChat"
+    | "SelectorGroupChat"
+    | "MagenticOneGroupChat";
   component: TeamComponent;
 }
 
@@ -2119,19 +2124,6 @@ export interface ScrapeGraphParams {
   input?: string;
 }
 
-export enum ModelFamily {
-  R1 = "r1",
-  Openai = "openai",
-  Unknown = "unknown",
-}
-
-export interface ModelInfo {
-  family: ModelFamily;
-  vision: boolean;
-  function_calling: boolean;
-  json_output: boolean;
-}
-
 export interface BrowserParams {
   input?: string;
 }
@@ -2252,6 +2244,47 @@ export enum ToolTypes {
   PythonFunction = "PythonFunction",
 }
 
+export interface Model {
+  metadata?: APIResourceMeta;
+  config?: ModelConfig;
+}
+
+export interface ModelConfig {
+  model: string;
+  model_type: ModelTypes;
+  api_key?: string;
+  base_url?: string;
+  timeout?: number;
+  max_retries?: number;
+  frequency_penalty?: number;
+  logit_bias?: number;
+  max_tokens?: number;
+  n?: number;
+  presence_penalty?: number;
+  response_format?: ResponseFormat;
+  seed?: number;
+  stop?: string[];
+  temperature?: number;
+  top_p?: number;
+  user?: string;
+  organization?: string;
+  default_headers?: Record<string, any>;
+  model_info?: ModelInfo;
+}
+
+export enum ModelFamily {
+  R1 = "r1",
+  Openai = "openai",
+  Unknown = "unknown",
+}
+
+export interface ModelInfo {
+  family: ModelFamily;
+  vision: boolean;
+  function_calling: boolean;
+  json_output: boolean;
+}
+
 export enum ModelTypes {
   OpenAIChatCompletionClient = "OpenAIChatCompletionClient",
   AzureOpenAIChatCompletionClient = "AzureOpenAIChatCompletionClient",
@@ -2284,29 +2317,6 @@ export interface ToolConfig {
 export type ModelComponent = ComponentModel & {
   config: ModelConfig;
 };
-
-export interface ModelConfig {
-  model: string;
-  model_type: ModelTypes;
-  api_key?: string;
-  base_url?: string;
-  timeout?: number;
-  max_retries?: number;
-  frequency_penalty?: number;
-  logit_bias?: number;
-  max_tokens?: number;
-  n?: number;
-  presence_penalty?: number;
-  response_format?: ResponseFormat;
-  seed?: number;
-  stop?: string[];
-  temperature?: number;
-  top_p?: number;
-  user?: string;
-  organization?: string;
-  default_headers?: Record<string, any>;
-  model_info?: ModelInfo;
-}
 
 export enum ResponseFormat {
   JsonObject = "json_object",
@@ -2416,6 +2426,7 @@ export type TerminationConditions =
   | TextMentionTerminationComponent;
 
 export enum TeamTypes {
+  Assisant = "Assisant",
   RoundRobinGroupChat = "RoundRobinGroupChat",
   SelectorGroupChat = "SelectorGroupChat",
   MagenticOneGroupChat = "MagenticOneGroupChat",
@@ -2542,7 +2553,7 @@ export interface WebSearchResult {
 
 export interface ModelList {
   pagination?: PaginationResponse;
-  rows?: ModelComponent[];
+  rows?: Model[];
 }
 
 export interface UpdateModel {

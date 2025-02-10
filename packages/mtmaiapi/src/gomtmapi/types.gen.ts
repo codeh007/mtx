@@ -2334,6 +2334,11 @@ export type Team = {
   name: string;
   userId: string;
   version?: string;
+  team_type?:
+    | "Assisant"
+    | "RoundRobinGroupChat"
+    | "SelectorGroupChat"
+    | "MagenticOneGroupChat";
   component: TeamComponent;
 };
 
@@ -2635,21 +2640,6 @@ export type ScrapeGraphParams = {
   input?: string;
 };
 
-export type ModelFamily = "r1" | "openai" | "unknown";
-
-export const ModelFamily = {
-  R1: "r1",
-  OPENAI: "openai",
-  UNKNOWN: "unknown",
-} as const;
-
-export type ModelInfo = {
-  family: ModelFamily;
-  vision: boolean;
-  function_calling: boolean;
-  json_output: boolean;
-};
-
 export type BrowserParams = {
   input?: string;
 };
@@ -2794,6 +2784,51 @@ export const ToolTypes = {
   PYTHON_FUNCTION: "PythonFunction",
 } as const;
 
+export type Model = {
+  metadata?: ApiResourceMeta;
+  config?: ModelConfig;
+};
+
+export type ModelConfig = {
+  model: string;
+  model_type: ModelTypes;
+  api_key?: string;
+  base_url?: string;
+  timeout?: number;
+  max_retries?: number;
+  frequency_penalty?: number;
+  logit_bias?: number;
+  max_tokens?: number;
+  n?: number;
+  presence_penalty?: number;
+  response_format?: ResponseFormat;
+  seed?: number;
+  stop?: Array<string>;
+  temperature?: number;
+  top_p?: number;
+  user?: string;
+  organization?: string;
+  default_headers?: {
+    [key: string]: unknown;
+  };
+  model_info?: ModelInfo;
+};
+
+export type ModelFamily = "r1" | "openai" | "unknown";
+
+export const ModelFamily = {
+  R1: "r1",
+  OPENAI: "openai",
+  UNKNOWN: "unknown",
+} as const;
+
+export type ModelInfo = {
+  family: ModelFamily;
+  vision: boolean;
+  function_calling: boolean;
+  json_output: boolean;
+};
+
 export type ModelTypes =
   | "OpenAIChatCompletionClient"
   | "AzureOpenAIChatCompletionClient";
@@ -2829,31 +2864,6 @@ export type ToolConfig = {
 
 export type ModelComponent = ComponentModel & {
   config: ModelConfig;
-};
-
-export type ModelConfig = {
-  model: string;
-  model_type: ModelTypes;
-  api_key?: string;
-  base_url?: string;
-  timeout?: number;
-  max_retries?: number;
-  frequency_penalty?: number;
-  logit_bias?: number;
-  max_tokens?: number;
-  n?: number;
-  presence_penalty?: number;
-  response_format?: ResponseFormat;
-  seed?: number;
-  stop?: Array<string>;
-  temperature?: number;
-  top_p?: number;
-  user?: string;
-  organization?: string;
-  default_headers?: {
-    [key: string]: unknown;
-  };
-  model_info?: ModelInfo;
 };
 
 export type ResponseFormat = "json_object" | "text";
@@ -2988,11 +2998,13 @@ export type TerminationConditions =
   | TextMentionTerminationComponent;
 
 export type TeamTypes =
+  | "Assisant"
   | "RoundRobinGroupChat"
   | "SelectorGroupChat"
   | "MagenticOneGroupChat";
 
 export const TeamTypes = {
+  ASSISANT: "Assisant",
   ROUND_ROBIN_GROUP_CHAT: "RoundRobinGroupChat",
   SELECTOR_GROUP_CHAT: "SelectorGroupChat",
   MAGENTIC_ONE_GROUP_CHAT: "MagenticOneGroupChat",
@@ -3159,7 +3171,7 @@ export type WebSearchResult = {
 
 export type ModelList = {
   pagination?: PaginationResponse;
-  rows?: Array<ModelComponent>;
+  rows?: Array<Model>;
 };
 
 export type UpdateModel = {
@@ -8010,6 +8022,19 @@ export type TeamGetData = {
   url: "/api/v1/tenants/{tenant}/teams/{team}";
 };
 
+export type TeamGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type TeamGetError = TeamGetErrors[keyof TeamGetErrors];
+
 export type TeamGetResponses = {
   200: Team;
 };
@@ -8431,6 +8456,153 @@ export type RunGetResponses = {
 };
 
 export type RunGetResponse = RunGetResponses[keyof RunGetResponses];
+
+export type ModelListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/models";
+};
+
+export type ModelListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type ModelListError = ModelListErrors[keyof ModelListErrors];
+
+export type ModelListResponses = {
+  200: ModelList;
+};
+
+export type ModelListResponse = ModelListResponses[keyof ModelListResponses];
+
+export type ModelCreateData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/models";
+};
+
+export type ModelCreateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type ModelCreateError = ModelCreateErrors[keyof ModelCreateErrors];
+
+export type ModelCreateResponses = {
+  /**
+   * 获取大语言模型配置
+   */
+  200: Model;
+};
+
+export type ModelCreateResponse =
+  ModelCreateResponses[keyof ModelCreateResponses];
+
+export type ModelGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The model id
+     */
+    model: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/models/{model}";
+};
+
+export type ModelGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type ModelGetError = ModelGetErrors[keyof ModelGetErrors];
+
+export type ModelGetResponses = {
+  200: Model;
+};
+
+export type ModelGetResponse = ModelGetResponses[keyof ModelGetResponses];
+
+export type ModelUpdateData = {
+  /**
+   * The model properties to update
+   */
+  body: Model;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The model id
+     */
+    model: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/models/{model}";
+};
+
+export type ModelUpdateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type ModelUpdateError = ModelUpdateErrors[keyof ModelUpdateErrors];
+
+export type ModelUpdateResponses = {
+  /**
+   * Successfully created the model
+   */
+  200: Model;
+};
+
+export type ModelUpdateResponse =
+  ModelUpdateResponses[keyof ModelUpdateResponses];
 
 export type PromptListData = {
   body?: never;
@@ -9225,6 +9397,19 @@ export type ProxyGetData = {
   query?: never;
   url: "/api/v1/proxies/{proxy}";
 };
+
+export type ProxyGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type ProxyGetError = ProxyGetErrors[keyof ProxyGetErrors];
 
 export type ProxyGetResponses = {
   200: Proxy;
