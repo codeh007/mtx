@@ -1734,9 +1734,10 @@ export interface FlowTenantPayload {
   input?: string;
 }
 
-export interface FloadAgPayload {
+export interface FlowAgPayload {
   teamId: string;
   sessionId?: string;
+  messages: ChatMessage[];
 }
 
 export interface AgentRunInput {
@@ -1747,7 +1748,7 @@ export interface AgentRunInput {
   params?:
     | FlowAssisantPayload
     | FlowTenantPayload
-    | FloadAgPayload
+    | FlowAgPayload
     | BrowserParams;
 }
 
@@ -2430,10 +2431,9 @@ export type TextMentionTerminationComponent = ComponentModel & {
   config?: TextMentionTerminationConfig;
 };
 
-export type TextMentionTerminationConfig = {
-  termination_type: "TextMentionTermination";
+export interface TextMentionTerminationConfig {
   text: string;
-};
+}
 
 export type TerminationConditions =
   | MaxMessageTerminationConfigComponent
@@ -2449,7 +2449,7 @@ export enum TeamTypes {
 export interface TeamConfig {
   max_turns?: number;
   participants?: AgentComponent[];
-  termination_condition?: TerminationComponent;
+  termination_condition?: ComponentModel;
 }
 
 export interface BaseState {

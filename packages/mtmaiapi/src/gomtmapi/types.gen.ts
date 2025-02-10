@@ -2067,9 +2067,10 @@ export type FlowTenantPayload = {
   input?: string;
 };
 
-export type FloadAgPayload = {
+export type FlowAgPayload = {
   teamId: string;
   sessionId?: string;
+  messages: Array<ChatMessage>;
 };
 
 export type AgentRunInput = {
@@ -2078,7 +2079,7 @@ export type AgentRunInput = {
   params?:
     | FlowAssisantPayload
     | FlowTenantPayload
-    | FloadAgPayload
+    | FlowAgPayload
     | BrowserParams;
 };
 
@@ -2995,7 +2996,6 @@ export type TextMentionTerminationComponent = ComponentModel & {
 };
 
 export type TextMentionTerminationConfig = {
-  termination_type: "TextMentionTermination";
   text: string;
 };
 
@@ -3019,7 +3019,7 @@ export const TeamTypes = {
 export type TeamConfig = {
   max_turns?: number;
   participants?: Array<AgentComponent>;
-  termination_condition?: TerminationComponent;
+  termination_condition?: ComponentModel;
 };
 
 export type BaseState = {

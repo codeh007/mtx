@@ -3597,14 +3597,20 @@ export const FlowTenantPayloadSchema = {
   },
 } as const;
 
-export const FloadAgPayloadSchema = {
-  required: ["teamId"],
+export const FlowAgPayloadSchema = {
+  required: ["teamId", "messages"],
   properties: {
     teamId: {
       type: "string",
     },
     sessionId: {
       type: "string",
+    },
+    messages: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ChatMessage",
+      },
     },
   },
 } as const;
@@ -3631,7 +3637,7 @@ export const AgentRunInputSchema = {
           $ref: "#/components/schemas/FlowTenantPayload",
         },
         {
-          $ref: "#/components/schemas/FloadAgPayload",
+          $ref: "#/components/schemas/FlowAgPayload",
         },
         {
           $ref: "#/components/schemas/BrowserParams",
@@ -5416,21 +5422,12 @@ export const TextMentionTerminationComponentSchema = {
 } as const;
 
 export const TextMentionTerminationConfigSchema = {
-  allOf: [
-    {
-      type: "object",
-      required: ["termination_type", "text"],
-      properties: {
-        termination_type: {
-          type: "string",
-          enum: ["TextMentionTermination"],
-        },
-        text: {
-          type: "string",
-        },
-      },
+  required: ["text"],
+  properties: {
+    text: {
+      type: "string",
     },
-  ],
+  },
 } as const;
 
 export const TerminationConditionsSchema = {
@@ -5466,7 +5463,7 @@ export const TeamConfigSchema = {
       },
     },
     termination_condition: {
-      $ref: "#/components/schemas/TerminationComponent",
+      $ref: "#/components/schemas/ComponentModel",
     },
   },
 } as const;
