@@ -14,7 +14,6 @@ import { CodeEditor } from 'mtxuilib/mt/code-editor'
 import { Button } from 'mtxuilib/ui/button'
 import { useState } from 'react'
 import { useApiError } from '../../hooks/useApi'
-import { useTenant } from '../../hooks/useAuth'
 export const Route = createLazyFileRoute('/trigger/$id')({
   component: RouteComponent,
 })
@@ -22,7 +21,7 @@ export const Route = createLazyFileRoute('/trigger/$id')({
 function RouteComponent() {
   const search = useSearch({ strict: false })
   const navigate = useNavigate()
-  const tenant = useTenant()
+  // const tenant = useTenant()
   const [input, setInput] = useState<string | undefined>('{}')
   const [addlMeta, setAddlMeta] = useState<string | undefined>('{}')
   const [errors, setErrors] = useState<string[]>([])
@@ -78,7 +77,7 @@ function RouteComponent() {
           const addlMetaObj = JSON.parse(addlMeta || '{}')
           triggerWorkflowMutation.mutate({
             path: {
-              tenant: tenant!.metadata.id,
+              // tenant: tenant!.metadata.id,
               workflow: workflow.metadata.id,
             },
             body: {

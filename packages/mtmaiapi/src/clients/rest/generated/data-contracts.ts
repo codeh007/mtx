@@ -1725,8 +1725,13 @@ export interface AgentNodeRun {
   output?: object;
 }
 
-export interface FlowPayload {
+export interface FlowAssisantPayload {
   messages?: ChatMessage[];
+}
+
+export interface FlowTenantPayload {
+  /** 输入 */
+  input?: string;
 }
 
 export interface FloadAgPayload {
@@ -1735,15 +1740,15 @@ export interface FloadAgPayload {
 }
 
 export interface AgentRunInput {
+  /** @default "ag" */
   name: FlowNames;
+  /** @default false */
   isStream?: boolean;
   params?:
-    | FlowPayload
+    | FlowAssisantPayload
+    | FlowTenantPayload
     | FloadAgPayload
-    | ResearchRequest
-    | ScrapeGraphParams
-    | BrowserParams
-    | CanvasGraphParams;
+    | BrowserParams;
 }
 
 export interface TextHighlight {
@@ -1913,18 +1918,7 @@ export interface RunUpdate {
   tags?: string[];
 }
 
-export interface Team {
-  metadata: APIResourceMeta;
-  name: string;
-  userId: string;
-  version?: string;
-  team_type?:
-    | "Assisant"
-    | "RoundRobinGroupChat"
-    | "SelectorGroupChat"
-    | "MagenticOneGroupChat";
-  component: TeamComponent;
-}
+export type Team = TeamProperties & APIResourceMetaProperties;
 
 export interface TeamList {
   pagination?: PaginationResponse;
@@ -1937,6 +1931,16 @@ export interface TeamUpdate {
   userId: string;
   version: string;
   config: ComponentModel;
+}
+
+export type TeamCreate = TeamProperties;
+
+export interface TeamProperties {
+  label?: string;
+  description?: string;
+  version?: number;
+  team_type?: TeamTypes;
+  component: TeamComponent;
 }
 
 export interface ComponentModel {
@@ -2125,7 +2129,6 @@ export interface AgentNodeUpdateRequest {
 export enum FlowNames {
   Assisant = "assisant",
   Ag = "ag",
-  Research = "research",
   Browser = "browser",
   Tenant = "tenant",
   News = "news",

@@ -1,12 +1,12 @@
 "use client";
 import { generateId } from "ai";
 import type {
+  AgentRunInput,
   ArtifactV3,
   ChatMessage,
   Tenant,
-  TextHighlight
+  TextHighlight,
 } from "mtmaiapi";
-import type { Assistant, Session } from "mtmaiapi/gomtmapi";
 import { createContext, useContext, useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { type StateCreator, createStore, useStore } from "zustand";
@@ -81,8 +81,8 @@ export interface AgentNodeState extends AgentNodeProps {
   addMessage: (message: ChatMessage) => void;
   submitHumanInput: (content: string) => void;
 
-  selectedAssistant?: Assistant;
-  setSelectedAssistant: (selectedAssistant?: Assistant) => void;
+  // selectedAssistant?: Assistant;
+  // setSelectedAssistant: (selectedAssistant?: Assistant) => void;
 
   feedbackSubmitted: boolean;
   setFeedbackSubmitted: (feedbackSubmitted: boolean) => void;
@@ -100,7 +100,7 @@ export interface AgentNodeState extends AgentNodeProps {
   //可能放这里不合适
   selectedBlocks: TextHighlight | undefined;
   setSelectedBlocks: (selectedBlocks?: TextHighlight) => void;
-  streamMessage: (params: AgentNodeRunInput) => Promise<void>;
+  streamMessage: (params: AgentRunInput) => Promise<void>;
   updateRenderedArtifactRequired: boolean;
   setUpdateRenderedArtifactRequired: (
     updateRenderedArtifactRequired: boolean,
@@ -109,26 +109,8 @@ export interface AgentNodeState extends AgentNodeProps {
   setArtifactContent: (index: number, content: string) => void;
 
   // autogen studio =========================================================================
-  session: Session | null;
-  setSession: (session: Session | null) => void;
-  sessions: Session[];
-  setSessions: (sessions: Session[]) => void;
   version: string | null;
   setVersion: (version: string | null) => void;
-
-  // Header state
-  // header: IHeaderState;
-  // setHeader: (header: Partial<IHeaderState>) => void;
-  // setBreadcrumbs: (breadcrumbs: IBreadcrumb[]) => void;
-
-  // Sidebar state
-  // sidebar: ISidebarState;
-  // setSidebarState: (state: Partial<ISidebarState>) => void;
-  // collapseSidebar: () => void;
-  // expandSidebar: () => void;
-  // toggleSidebar: () => void;
-
-  // Agent flow settings agentFlow: IAgentFlowSettings;
   agentFlow: IAgentFlowSettings;
   setAgentFlowSettings: (settings: Partial<IAgentFlowSettings>) => void;
 }
@@ -162,9 +144,6 @@ export const createGraphSlice: StateCreator<
     },
     setFirstTokenReceived: (firstTokenReceived: boolean) => {
       set({ firstTokenReceived });
-    },
-    setSelectedAssistant: (selectedAssistant) => {
-      set({ selectedAssistant });
     },
     setRunId: (runId: string) => {
       set({ runId });
@@ -209,7 +188,7 @@ export const createGraphSlice: StateCreator<
         ],
       });
 
-      await handleSseGraphStream({}, set, get);
+      await handleSseGraphStream(set, get);
     },
     setUpdateRenderedArtifactRequired: (
       updateRenderedArtifactRequired: boolean,
@@ -222,15 +201,9 @@ export const createGraphSlice: StateCreator<
     },
 
     // autogen studio =========================================================================
-    // session: null,
-    // setSession: (session) => set({ session }),
-    // sessions: [],
-    // setSessions: (sessions) => set({ sessions }),
     version: null,
     setVersion: (version) => set({ version }),
     connectionId: uuidv4(),
-
-    // Header state
     header: {
       title: "",
       breadcrumbs: [],
@@ -239,10 +212,6 @@ export const createGraphSlice: StateCreator<
       set((state) => ({
         header: { ...state.header, ...newHeader },
       })),
-    // setBreadcrumbs: (breadcrumbs) =>
-    //   set((state) => ({
-    //     header: { ...state.header, breadcrumbs },
-    //   })),
     // Add AgentFlow settings
     agentFlow: DEFAULT_AGENT_FLOW_SETTINGS,
     setAgentFlowSettings: (newSettings) =>
@@ -259,18 +228,6 @@ export const createGraphSlice: StateCreator<
       set((state) => ({
         sidebar: { ...state.sidebar, ...newState },
       })),
-    // collapseSidebar: () =>
-    // 	set((state) => ({
-    // 		sidebar: { ...state.sidebar, isExpanded: false },
-    // 	})),
-    // expandSidebar: () =>
-    // 	set((state) => ({
-    // 		sidebar: { ...state.sidebar, isExpanded: true },
-    // 	})),
-    // toggleSidebar: () =>
-    // 	set((state) => ({
-    // 		sidebar: { ...state.sidebar, isExpanded: !state.sidebar.isExpanded },
-    // 	})),
     ...init,
   };
 };

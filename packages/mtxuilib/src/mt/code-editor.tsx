@@ -45,8 +45,7 @@ export function CodeEditor({
         className,
         "w-full h-fit relative rounded-lg overflow-hidden",
       )}
-    >
-      Editor2323
+    >      
       <Editor
         beforeMount={setEditorTheme}
         language={language}

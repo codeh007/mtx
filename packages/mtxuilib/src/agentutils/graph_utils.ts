@@ -4,7 +4,7 @@ import type { Runnable } from "@langchain/core/runnables";
 import { InMemoryStore, MemorySaver } from "@langchain/langgraph";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import {
-  type AgentNodeRunInput,
+  type AgentRunInput,
   type CanvasGraphParams,
   mtmaiWorkerConfig,
   userGetCurrent,
@@ -28,7 +28,7 @@ export function newGraphSseResponse(
 }
 export async function* runLanggraph(
   agentName: string,
-  input: AgentNodeRunInput["params"],
+  input: AgentRunInput["params"],
   config: MtmRunnableConfig,
 ) {
   if (!config.configurable.ctx.accessToken) {

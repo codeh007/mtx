@@ -1,11 +1,11 @@
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { ChevronRight, MessagesSquare } from "lucide-react";
 import {
   type AgentMessageConfig,
   type Run,
   type RunStatus,
   type TeamResult,
-  type WebSocketMessage,
+  // type WebSocketMessage,
   teamGetOptions,
 } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
@@ -16,7 +16,9 @@ import { useTenant, useUser } from "../../../hooks/useAuth";
 import ChatInput from "./chatinput";
 import { TIMEOUT_CONFIG } from "./consts";
 import { RunView } from "./runview";
-import { Session } from "inspector";
+import type { Session } from "inspector";
+import type { WebSocketMessage } from "../../components/types/datamodel";
+// import { Session } from "inspector";
 
 interface ChatViewProps {
   session: Session | null;
@@ -109,9 +111,9 @@ export default function ChatView({ session }: ChatViewProps) {
     };
   }, [activeSocket]);
 
-  const runMutation = useMutation({
-    ...agentNodeRunMutation({}),
-  });
+  // const runMutation = useMutation({
+  //   ...agentNodeRunMutation({}),
+  // });
 
   // const chatMutation = useMutation({
   //   ...chatChatMutation({}),

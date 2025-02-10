@@ -2056,8 +2056,15 @@ export type AgentNodeRun = {
   };
 };
 
-export type FlowPayload = {
+export type FlowAssisantPayload = {
   messages?: Array<ChatMessage>;
+};
+
+export type FlowTenantPayload = {
+  /**
+   * 输入
+   */
+  input?: string;
 };
 
 export type FloadAgPayload = {
@@ -2069,12 +2076,10 @@ export type AgentRunInput = {
   name: FlowNames;
   isStream?: boolean;
   params?:
-    | FlowPayload
+    | FlowAssisantPayload
+    | FlowTenantPayload
     | FloadAgPayload
-    | ResearchRequest
-    | ScrapeGraphParams
-    | BrowserParams
-    | CanvasGraphParams;
+    | BrowserParams;
 };
 
 export type TextHighlight = {
@@ -2321,18 +2326,7 @@ export type RunUpdate = {
   tags?: Array<string>;
 };
 
-export type Team = {
-  metadata: ApiResourceMeta;
-  name: string;
-  userId: string;
-  version?: string;
-  team_type?:
-    | "Assisant"
-    | "RoundRobinGroupChat"
-    | "SelectorGroupChat"
-    | "MagenticOneGroupChat";
-  component: TeamComponent;
-};
+export type Team = TeamProperties & ApiResourceMetaProperties;
 
 export type TeamList = {
   pagination?: PaginationResponse;
@@ -2345,6 +2339,16 @@ export type TeamUpdate = {
   userId: string;
   version: string;
   config: ComponentModel;
+};
+
+export type TeamCreate = TeamProperties;
+
+export type TeamProperties = {
+  label?: string;
+  description?: string;
+  version?: number;
+  team_type?: TeamTypes;
+  component: TeamComponent;
 };
 
 export type ComponentModel = {
@@ -2628,18 +2632,11 @@ export type AgentNodeUpdateRequest = {
   };
 };
 
-export type FlowNames =
-  | "assisant"
-  | "ag"
-  | "research"
-  | "browser"
-  | "tenant"
-  | "news";
+export type FlowNames = "assisant" | "ag" | "browser" | "tenant" | "news";
 
 export const FlowNames = {
   ASSISANT: "assisant",
   AG: "ag",
-  RESEARCH: "research",
   BROWSER: "browser",
   TENANT: "tenant",
   NEWS: "news",
@@ -7985,7 +7982,7 @@ export type TeamListResponses = {
 export type TeamListResponse = TeamListResponses[keyof TeamListResponses];
 
 export type TeamCreateData = {
-  body: Team;
+  body: TeamCreate;
   path: {
     /**
      * The tenant id
@@ -8010,6 +8007,9 @@ export type TeamCreateErrors = {
 export type TeamCreateError = TeamCreateErrors[keyof TeamCreateErrors];
 
 export type TeamCreateResponses = {
+  /**
+   * 创建团队
+   */
   200: Team;
 };
 

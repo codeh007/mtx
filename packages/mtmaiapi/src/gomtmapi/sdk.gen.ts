@@ -3558,7 +3558,6 @@ export const artifactGet = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 获取租户下的团队列表
  * 获取团队列表
  */
 export const teamList = <ThrowOnError extends boolean = false>(
@@ -3585,7 +3584,7 @@ export const teamList = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * create team
+ * 创建团队
  */
 export const teamCreate = <ThrowOnError extends boolean = false>(
   options: Options<TeamCreateData, ThrowOnError>,

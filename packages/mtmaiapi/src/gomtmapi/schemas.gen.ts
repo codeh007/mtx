@@ -1380,7 +1380,6 @@ export const WorkflowWorkersCountSchema = {
 } as const;
 
 export const WorkflowRunSchema = {
-  type: "object",
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -1457,7 +1456,6 @@ export const WorkflowRunSchema = {
 } as const;
 
 export const WorkflowRunShapeSchema = {
-  type: "object",
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -1566,7 +1564,6 @@ export const ReplayWorkflowRunsResponseSchema = {
 } as const;
 
 export const WorkflowRunListSchema = {
-  type: "object",
   properties: {
     rows: {
       type: "array",
@@ -3580,14 +3577,22 @@ export const AgentNodeRunSchema = {
   required: ["metadata", "nodeId", "workflowRunId"],
 } as const;
 
-export const FlowPayloadSchema = {
-  type: "object",
+export const FlowAssisantPayloadSchema = {
   properties: {
     messages: {
       type: "array",
       items: {
         $ref: "#/components/schemas/ChatMessage",
       },
+    },
+  },
+} as const;
+
+export const FlowTenantPayloadSchema = {
+  properties: {
+    input: {
+      type: "string",
+      description: "输入",
     },
   },
 } as const;
@@ -3610,29 +3615,26 @@ export const AgentRunInputSchema = {
     name: {
       type: "string",
       $ref: "#/components/schemas/FlowNames",
+      additionalProperties: true,
+      default: "ag",
     },
     isStream: {
       type: "boolean",
+      default: false,
     },
     params: {
       oneOf: [
         {
-          $ref: "#/components/schemas/FlowPayload",
+          $ref: "#/components/schemas/FlowAssisantPayload",
+        },
+        {
+          $ref: "#/components/schemas/FlowTenantPayload",
         },
         {
           $ref: "#/components/schemas/FloadAgPayload",
         },
         {
-          $ref: "#/components/schemas/ResearchRequest",
-        },
-        {
-          $ref: "#/components/schemas/ScrapeGraphParams",
-        },
-        {
           $ref: "#/components/schemas/BrowserParams",
-        },
-        {
-          $ref: "#/components/schemas/CanvasGraphParams",
         },
       ],
     },
@@ -3895,7 +3897,6 @@ export const CanvasGraphParamsSchema = {
       },
     },
     action: {
-      type: "object",
       $ref: "#/components/schemas/NodeRunAction",
     },
     language: {
@@ -3915,11 +3916,9 @@ export const CanvasGraphParamsSchema = {
       description: "是否修复bug",
     },
     highlightedCode: {
-      type: "object",
       $ref: "#/components/schemas/CodeHighlight",
     },
     highlightedText: {
-      type: "object",
       $ref: "#/components/schemas/TextHighlight",
     },
     regenerateWithEmojis: {
@@ -3937,7 +3936,6 @@ export const CanvasGraphParamsSchema = {
       $ref: "#/components/schemas/ArtifactLengthOptions",
     },
     artifact: {
-      type: "object",
       $ref: "#/components/schemas/ArtifactV3",
     },
     addComments: {
@@ -4029,33 +4027,14 @@ export const RunUpdateSchema = {
 } as const;
 
 export const TeamSchema = {
-  required: ["metadata", "name", "userId", "component"],
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
+  allOf: [
+    {
+      $ref: "#/components/schemas/TeamProperties",
     },
-    name: {
-      type: "string",
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
     },
-    userId: {
-      type: "string",
-    },
-    version: {
-      type: "string",
-    },
-    team_type: {
-      type: "string",
-      enum: [
-        "Assisant",
-        "RoundRobinGroupChat",
-        "SelectorGroupChat",
-        "MagenticOneGroupChat",
-      ],
-    },
-    component: {
-      $ref: "#/components/schemas/TeamComponent",
-    },
-  },
+  ],
 } as const;
 
 export const TeamListSchema = {
@@ -4064,16 +4043,16 @@ export const TeamListSchema = {
       $ref: "#/components/schemas/PaginationResponse",
     },
     rows: {
+      type: "array",
       items: {
         $ref: "#/components/schemas/Team",
       },
-      type: "array",
     },
   },
 } as const;
 
 export const TeamUpdateSchema = {
-  type: "object",
+  required: ["metadata", "name", "userId", "version", "config"],
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -4091,7 +4070,36 @@ export const TeamUpdateSchema = {
       $ref: "#/components/schemas/ComponentModel",
     },
   },
-  required: ["metadata", "name", "userId", "version", "config"],
+} as const;
+
+export const TeamCreateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/TeamProperties",
+    },
+  ],
+} as const;
+
+export const TeamPropertiesSchema = {
+  required: ["userId", "component"],
+  properties: {
+    label: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    version: {
+      type: "integer",
+    },
+    team_type: {
+      type: "string",
+      $ref: "#/components/schemas/TeamTypes",
+    },
+    component: {
+      $ref: "#/components/schemas/TeamComponent",
+    },
+  },
 } as const;
 
 export const ComponentModelSchema = {
@@ -4563,7 +4571,7 @@ export const AgentNodeUpdateRequestSchema = {
 
 export const FlowNamesSchema = {
   type: "string",
-  enum: ["assisant", "ag", "research", "browser", "tenant", "news"],
+  enum: ["assisant", "ag", "browser", "tenant", "news"],
 } as const;
 
 export const ScrapeGraphParamsSchema = {
@@ -5276,7 +5284,6 @@ export const NodeRunActionSchema = {
 } as const;
 
 export const RoundRobinGroupChatConfigSchema = {
-  type: "object",
   properties: {
     team_type: {
       type: "string",
@@ -5286,13 +5293,11 @@ export const RoundRobinGroupChatConfigSchema = {
 } as const;
 
 export const SelectorGroupChatConfigSchema = {
-  type: "object",
   allOf: [
     {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
-      type: "object",
       properties: {
         team_type: {
           type: "string",
@@ -5310,13 +5315,11 @@ export const SelectorGroupChatConfigSchema = {
 } as const;
 
 export const TeamComponentSchema = {
-  type: "object",
   allOf: [
     {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
-      type: "object",
       properties: {
         config: {
           $ref: "#/components/schemas/TeamConfig",
@@ -5452,7 +5455,6 @@ export const TeamTypesSchema = {
 } as const;
 
 export const TeamConfigSchema = {
-  type: "object",
   properties: {
     max_turns: {
       type: "integer",
