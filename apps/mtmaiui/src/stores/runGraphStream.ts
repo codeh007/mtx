@@ -2,10 +2,9 @@
 
 import { generateId } from "ai";
 import {
-	type AgentNodeRunInput,
+	AgentRunInput,
 	EventTypes,
-	agentNodeRun,
-	agentStream,
+	agentStream
 } from "mtmaiapi";
 import type { AgentNodeState } from "./GraphContext";
 
@@ -75,7 +74,7 @@ async function pullEvent(
 }
 
 export async function handleSseGraphStream(
-	{ ...props }: AgentNodeRunInput,
+	{ ...props }: AgentRunInput,
 	set: (
 		partial:
 			| Partial<AgentNodeState>

@@ -1,20 +1,8 @@
 'use client'
 import { useMutation } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { agentRunMutation, FlowNames } from 'mtmaiapi'
-import { EditFormToolbar } from 'mtxuilib/mt/form/EditFormToolbar'
-import { useZodForm, ZForm } from 'mtxuilib/mt/form/ZodForm'
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from 'mtxuilib/ui/form'
-import { Input } from 'mtxuilib/ui/input'
-import { useState } from 'react'
-import { z } from 'zod'
-import { useApiError } from '../../hooks/useApi'
+import { agentRunMutation } from 'mtmaiapi'
+import { Button } from 'mtxuilib/ui/button'
 import { useTenant } from '../../hooks/useAuth'
 
 export const Route = createLazyFileRoute('/trigger/tenant')({
@@ -23,59 +11,23 @@ export const Route = createLazyFileRoute('/trigger/tenant')({
 
 function RouteComponent() {
   const tenant = useTenant()
-  const [errors, setErrors] = useState<string[]>([])
-
-  const { handleApiError } = useApiError({
-    setErrors,
-  })
   const agentRun = useMutation({
     ...agentRunMutation(),
   })
-
-  const formSchema = z.object({
-    input: z.string().optional(),
-  })
-
-  const form = useZodForm({
-    schema: formSchema,
-    defaultValues: {
-      input: '',
-    },
-  })
-
-  const handleSubmit = (values: z.infer<typeof formSchema>) => {
-    agentRun.mutate({
-      path: {
-        tenant: tenant!.metadata.id,
-      },
-      body: {
-        name: FlowNames.TENANT,
-        params: {
-          input: values.input,
-        },
-      },
-    })
-  }
   return (
-    <>
-      <h1>tenant</h1>
-      <ZForm className="" handleSubmit={handleSubmit} form={form}>
-        <FormField
-          control={form.control}
-          name="input"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>主题</FormLabel>
-              <FormControl>
-                <Input placeholder="输入" {...field} />
-              </FormControl>
-              {/* <FormDescription></FormDescription> */}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </ZForm>
-      <EditFormToolbar form={form} />
-    </>
+    <div className="flex flex-col gap-4">
+      <h1>重置 tenant 数据</h1>
+      <Button
+        onClick={() =>
+          agentRun.mutate({
+            path: {
+              tenant: tenant!.metadata.id,
+            },
+            body: { name: 'tenant', params: {} },
+          })
+        }
+      >
+        提交</Button>
+    </div>
   )
 }

@@ -11,9 +11,7 @@ import {
   FormMessage,
 } from 'mtxuilib/ui/form'
 import { Input } from 'mtxuilib/ui/input'
-import { useState } from 'react'
 import { z } from 'zod'
-import { useApiError } from '../../hooks/useApi'
 import { useTenant } from '../../hooks/useAuth'
 
 export const Route = createLazyFileRoute('/trigger/assisant')({
@@ -21,21 +19,13 @@ export const Route = createLazyFileRoute('/trigger/assisant')({
 })
 
 function RouteComponent() {
-  // const navigate = useNavigate()
   const tenant = useTenant()
-  // const basePath = useBasePath()
-  const [errors, setErrors] = useState<string[]>([])
-
-  const { handleApiError } = useApiError({
-    setErrors,
-  })
   const agentRun = useMutation({
     ...agentRunMutation(),
   })
 
   const formSchema = z.object({
     input: z.string().optional(),
-    // addlMeta: z.string().optional(),
   })
 
   const form = useZodForm({

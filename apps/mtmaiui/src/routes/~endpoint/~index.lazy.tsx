@@ -1,6 +1,6 @@
 'use client'
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { agentNodeRun } from 'mtmaiapi'
+import { agentRun } from 'mtmaiapi'
 import { Button } from 'mtxuilib/ui/button'
 import type { ChatCompletion } from 'openai/resources/chat/completions'
 import { useState } from 'react'
@@ -81,7 +81,7 @@ const TestAgentRun = () => {
   const [responseText, setResponseText] = useState('')
   const tenant = useTenant()
   const handleClick = async () => {
-    const response = await agentNodeRun({
+    const response = await agentRun({
       path: {
         tenant: tenant!.metadata.id,
       },

@@ -4,10 +4,8 @@ import {
   type AgentMessageConfig,
   type Run,
   type RunStatus,
-  type Session,
   type TeamResult,
   type WebSocketMessage,
-  agentNodeRunMutation,
   teamGetOptions,
 } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
@@ -15,10 +13,10 @@ import { toast } from "mtxuilib/ui/use-toast";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useTenant, useUser } from "../../../hooks/useAuth";
-import type { IStatus } from "../../components/datamodel.ts--";
 import ChatInput from "./chatinput";
 import { TIMEOUT_CONFIG } from "./consts";
 import { RunView } from "./runview";
+import { Session } from "inspector";
 
 interface ChatViewProps {
   session: Session | null;
