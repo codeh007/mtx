@@ -16,6 +16,7 @@ import { Route as rootRoute } from './routes/~__root'
 import { Route as AuthRouteImport } from './routes/~auth/~route'
 import { Route as IndexImport } from './routes/~index'
 import { Route as WorkflowRunsWorkflowRunIdImport } from './routes/~workflow-runs/~$workflowRunId'
+import { Route as TeamCreateImport } from './routes/~team/~create'
 import { Route as TeamTeamIdImport } from './routes/~team/~$teamId'
 import { Route as SiteSiteIdRouteImport } from './routes/~site/~$siteId/~route'
 import { Route as PlatformAccountCreateImport } from './routes/~platform-account/~create'
@@ -52,6 +53,7 @@ const GalleryRouteLazyImport = createFileRoute('/gallery')()
 const EnvsRouteLazyImport = createFileRoute('/envs')()
 const EndpointRouteLazyImport = createFileRoute('/endpoint')()
 const ChatRouteLazyImport = createFileRoute('/chat')()
+const AgstateRouteLazyImport = createFileRoute('/ag_state')()
 const AgEventsRouteLazyImport = createFileRoute('/agEvents')()
 const WorkflowsWorkflowIdLazyImport = createFileRoute(
   '/workflows/$workflowId',
@@ -165,6 +167,14 @@ const ChatRouteLazyRoute = ChatRouteLazyImport.update({
   path: '/chat',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~chat/~route.lazy').then((d) => d.Route))
+
+const AgstateRouteLazyRoute = AgstateRouteLazyImport.update({
+  id: '/ag_state',
+  path: '/ag_state',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/~ag_state/~route.lazy').then((d) => d.Route),
+)
 
 const AgEventsRouteLazyRoute = AgEventsRouteLazyImport.update({
   id: '/agEvents',
@@ -296,6 +306,12 @@ const WorkflowRunsWorkflowRunIdRoute = WorkflowRunsWorkflowRunIdImport.update({
   id: '/$workflowRunId',
   path: '/$workflowRunId',
   getParentRoute: () => WorkflowRunsRouteLazyRoute,
+} as any)
+
+const TeamCreateRoute = TeamCreateImport.update({
+  id: '/create',
+  path: '/create',
+  getParentRoute: () => TeamRouteLazyRoute,
 } as any)
 
 const TeamTeamIdRoute = TeamTeamIdImport.update({
@@ -450,6 +466,13 @@ declare module '@tanstack/react-router' {
       path: '/agEvents'
       fullPath: '/agEvents'
       preLoaderRoute: typeof AgEventsRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/ag_state': {
+      id: '/ag_state'
+      path: '/ag_state'
+      fullPath: '/ag_state'
+      preLoaderRoute: typeof AgstateRouteLazyImport
       parentRoute: typeof rootRoute
     }
     '/chat': {
@@ -639,6 +662,13 @@ declare module '@tanstack/react-router' {
       path: '/$teamId'
       fullPath: '/team/$teamId'
       preLoaderRoute: typeof TeamTeamIdImport
+      parentRoute: typeof TeamRouteLazyImport
+    }
+    '/team/create': {
+      id: '/team/create'
+      path: '/create'
+      fullPath: '/team/create'
+      preLoaderRoute: typeof TeamCreateImport
       parentRoute: typeof TeamRouteLazyImport
     }
     '/workflow-runs/$workflowRunId': {
@@ -996,11 +1026,13 @@ const SiteRouteLazyRouteWithChildren = SiteRouteLazyRoute._addFileChildren(
 
 interface TeamRouteLazyRouteChildren {
   TeamTeamIdRoute: typeof TeamTeamIdRoute
+  TeamCreateRoute: typeof TeamCreateRoute
   TeamIndexLazyRoute: typeof TeamIndexLazyRoute
 }
 
 const TeamRouteLazyRouteChildren: TeamRouteLazyRouteChildren = {
   TeamTeamIdRoute: TeamTeamIdRoute,
+  TeamCreateRoute: TeamCreateRoute,
   TeamIndexLazyRoute: TeamIndexLazyRoute,
 }
 
@@ -1059,6 +1091,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
   '/agEvents': typeof AgEventsRouteLazyRouteWithChildren
+  '/ag_state': typeof AgstateRouteLazyRoute
   '/chat': typeof ChatRouteLazyRouteWithChildren
   '/endpoint': typeof EndpointRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
@@ -1086,6 +1119,7 @@ export interface FileRoutesByFullPath {
   '/platform-account/create': typeof PlatformAccountCreateRoute
   '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
   '/team/$teamId': typeof TeamTeamIdRoute
+  '/team/create': typeof TeamCreateRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdRoute
   '/agEvents/': typeof AgEventsIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
@@ -1114,6 +1148,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
+  '/ag_state': typeof AgstateRouteLazyRoute
   '/trigger': typeof TriggerRouteLazyRouteWithChildren
   '/gallery': typeof GalleryIndexRoute
   '/platform': typeof PlatformIndexRoute
@@ -1127,6 +1162,7 @@ export interface FileRoutesByTo {
   '/platform-account/$id': typeof PlatformAccountIdRoute
   '/platform-account/create': typeof PlatformAccountCreateRoute
   '/team/$teamId': typeof TeamTeamIdRoute
+  '/team/create': typeof TeamCreateRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdRoute
   '/agEvents': typeof AgEventsIndexLazyRoute
   '/chat': typeof ChatIndexLazyRoute
@@ -1156,6 +1192,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
   '/agEvents': typeof AgEventsRouteLazyRouteWithChildren
+  '/ag_state': typeof AgstateRouteLazyRoute
   '/chat': typeof ChatRouteLazyRouteWithChildren
   '/endpoint': typeof EndpointRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
@@ -1183,6 +1220,7 @@ export interface FileRoutesById {
   '/platform-account/create': typeof PlatformAccountCreateRoute
   '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
   '/team/$teamId': typeof TeamTeamIdRoute
+  '/team/create': typeof TeamCreateRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdRoute
   '/agEvents/': typeof AgEventsIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
@@ -1214,6 +1252,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/agEvents'
+    | '/ag_state'
     | '/chat'
     | '/endpoint'
     | '/envs'
@@ -1241,6 +1280,7 @@ export interface FileRouteTypes {
     | '/platform-account/create'
     | '/site/$siteId'
     | '/team/$teamId'
+    | '/team/create'
     | '/workflow-runs/$workflowRunId'
     | '/agEvents/'
     | '/chat/'
@@ -1268,6 +1308,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/ag_state'
     | '/trigger'
     | '/gallery'
     | '/platform'
@@ -1281,6 +1322,7 @@ export interface FileRouteTypes {
     | '/platform-account/$id'
     | '/platform-account/create'
     | '/team/$teamId'
+    | '/team/create'
     | '/workflow-runs/$workflowRunId'
     | '/agEvents'
     | '/chat'
@@ -1308,6 +1350,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/agEvents'
+    | '/ag_state'
     | '/chat'
     | '/endpoint'
     | '/envs'
@@ -1335,6 +1378,7 @@ export interface FileRouteTypes {
     | '/platform-account/create'
     | '/site/$siteId'
     | '/team/$teamId'
+    | '/team/create'
     | '/workflow-runs/$workflowRunId'
     | '/agEvents/'
     | '/chat/'
@@ -1365,6 +1409,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   AgEventsRouteLazyRoute: typeof AgEventsRouteLazyRouteWithChildren
+  AgstateRouteLazyRoute: typeof AgstateRouteLazyRoute
   ChatRouteLazyRoute: typeof ChatRouteLazyRouteWithChildren
   EndpointRouteLazyRoute: typeof EndpointRouteLazyRouteWithChildren
   EnvsRouteLazyRoute: typeof EnvsRouteLazyRouteWithChildren
@@ -1385,6 +1430,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   AgEventsRouteLazyRoute: AgEventsRouteLazyRouteWithChildren,
+  AgstateRouteLazyRoute: AgstateRouteLazyRoute,
   ChatRouteLazyRoute: ChatRouteLazyRouteWithChildren,
   EndpointRouteLazyRoute: EndpointRouteLazyRouteWithChildren,
   EnvsRouteLazyRoute: EnvsRouteLazyRouteWithChildren,
@@ -1414,6 +1460,7 @@ export const routeTree = rootRoute
         "/",
         "/auth",
         "/agEvents",
+        "/ag_state",
         "/chat",
         "/endpoint",
         "/envs",
@@ -1444,6 +1491,9 @@ export const routeTree = rootRoute
       "children": [
         "/agEvents/"
       ]
+    },
+    "/ag_state": {
+      "filePath": "~ag_state/~route.lazy.tsx"
     },
     "/chat": {
       "filePath": "~chat/~route.lazy.tsx",
@@ -1512,6 +1562,7 @@ export const routeTree = rootRoute
       "filePath": "~team/~route.lazy.tsx",
       "children": [
         "/team/$teamId",
+        "/team/create",
         "/team/"
       ]
     },
@@ -1601,6 +1652,10 @@ export const routeTree = rootRoute
     },
     "/team/$teamId": {
       "filePath": "~team/~$teamId.tsx",
+      "parent": "/team"
+    },
+    "/team/create": {
+      "filePath": "~team/~create.tsx",
       "parent": "/team"
     },
     "/workflow-runs/$workflowRunId": {

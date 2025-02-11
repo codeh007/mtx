@@ -1,4 +1,4 @@
-import message from "antd/es/message";
+"use client";
 import {
   Bot,
   Copy,
@@ -15,12 +15,9 @@ import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { cn } from "mtxuilib/lib/utils";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
-import { toast } from "mtxuilib/ui/use-toast";
 import type React from "react";
 import { CustomLink } from "../../components/CustomLink";
-import { useTenant } from "../../hooks/useAuth";
 import { getRelativeTimeString } from "../components/views/atoms";
-// import { defaultTeamConfig } from "../components/views/team/types";
 import { useGalleryStore } from "../~gallery/store";
 
 interface TeamSidebarProps {
@@ -44,9 +41,9 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
   isLoading = false,
 }) => {
   const defaultGallery = useGalleryStore((state) => state.getDefaultGallery());
-  const [messageApi, contextHolder] = message.useMessage();
+  // const [messageApi, contextHolder] = message.useMessage();
 
-  const tenant = useTenant();
+  // const tenant = useTenant();
   // const createTeamMutation = useMutation({
   //   ...teamCreateMutation({}),
   // });
@@ -56,7 +53,6 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
     // const teamData = defaultTeamConfig;
     // teamData.version = undefined;
     // console.log("handleSaveTeam", teamData);
-
     // const sanitizedTeamData = {
     //   ...{
     //     teamData,
@@ -68,13 +64,8 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
     //   created_at: undefined, // Remove these fields
     //   updated_at: undefined, // Let server handle timestamps
     // };
-
     // sanitizedTeamData.version = undefined;
     // console.log("defaultTeamConfig", defaultTeamConfig);
-    toast({
-      title: "功能暂时取消,改为工作流中实现",
-      description: "创建团队成功",
-    });
     // await createTeamMutation.mutateAsync({
     //   path: {
     //     tenant: tenant!.metadata.id,
@@ -99,11 +90,9 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
     //     // },
     //   },
     // });
-
     // messageApi.success(
     //   `Team ${teamData.id ? "updated" : "created"} successfully`,
     // );
-
     // Update teams list
     // if (teamData.id) {
     //   setTeams(teams.map((t) => (t.id === savedTeam.id ? savedTeam : t)));
@@ -279,8 +268,8 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                                 className="p-0 min-w-[24px] h-6"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  if (team?.metadata?.id)
-                                    // onDeleteTeam(team.metadata.id);
+                                  if (team.metadata.id)
+                                    onDeleteTeam(team.metadata.id);
                                 }}
                               >
                                 <Trash2 className="w-4 h-4 text-red-500" />
@@ -296,14 +285,13 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                       {/* Team Metadata Row */}
                       <div className="mt-1 flex items-center gap-2 text-xs">
                         <span className="bg-secondary/20  truncate   rounded">
-                          {/* {team.component?.config.team_type} */}
-                          todo: team type
+                          {/* {team.component?.team_type} */}
                         </span>
                         <div className="flex items-center gap-1">
                           <Bot className="w-3 h-3" />
                           <span>
-                            {team.component?.config.participants?.length}{" "}
-                            {team.component?.config.participants?.length === 1
+                            {team.component?.config?.participants?.length}{" "}
+                            {team.component?.config?.participants?.length === 1
                               ? "agent"
                               : "agents"}
                           </span>
@@ -312,11 +300,11 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                     </CustomLink>
 
                     {/* Updated Timestamp */}
-                    {team?.metadata?.updatedAt && (
+                    {team.metadata?.updatedAt && (
                       <div className="mt-1 flex items-center gap-1 text-xs">
                         {/* <Calendar className="w-3 h-3" /> */}
                         <span>
-                          {getRelativeTimeString(team?.metadata?.updatedAt)}
+                          {getRelativeTimeString(team?.metadata.updatedAt)}
                         </span>
                       </div>
                     )}

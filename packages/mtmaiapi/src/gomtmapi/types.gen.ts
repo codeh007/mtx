@@ -2303,7 +2303,6 @@ export type CanvasGraphParams = {
 
 export type AgStateProperties = {
   version: string;
-  teamId: string;
   type?: string;
   state: {
     [key: string]: unknown;
@@ -2315,6 +2314,10 @@ export type AgState = AgStateProperties & ApiResourceMetaProperties;
 export type AgStateList = {
   pagination?: PaginationResponse;
   rows?: Array<AgState>;
+};
+
+export type AgStateUpsert = AgStateProperties & {
+  version?: string;
 };
 
 export type Run = {
@@ -9541,7 +9544,7 @@ export type AgStateUpsertData = {
   /**
    * The model properties to update
    */
-  body: AgState;
+  body: AgStateUpsert;
   path: {
     /**
      * The tenant id

@@ -9,6 +9,7 @@ import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useGraphStore } from "../../../stores/GraphContext";
+import { CustomLink } from "../../CustomLink";
 import { useLangSmithLinkToolUI } from "../LangSmithLinkToolUI";
 import { Composer } from "./composer";
 import { AssistantMessage, UserMessage } from "./messages";
@@ -91,6 +92,9 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
             switchSelectedThreadCallback={switchSelectedThreadCallback}
           /> */}
           <TighterText className="text-xl">Open Canvas</TighterText>
+          <div className="bg-red-100 w-full">
+            <CustomLink to="/ag_state">查看状态</CustomLink>
+          </div>
           {/* {!hasChatStarted && (
             <ModelSelector
               chatStarted={false}

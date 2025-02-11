@@ -3964,9 +3964,6 @@ export const AgStatePropertiesSchema = {
       type: "string",
       default: "1.0.0",
     },
-    teamId: {
-      type: "string",
-    },
     type: {
       type: "string",
       default: "TeamState",
@@ -4002,6 +3999,22 @@ export const AgStateListSchema = {
       },
     },
   },
+} as const;
+
+export const AgStateUpsertSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AgStateProperties",
+    },
+    {
+      properties: {
+        version: {
+          type: "string",
+          default: "1.0.0",
+        },
+      },
+    },
+  ],
 } as const;
 
 export const RunSchema = {

@@ -2017,7 +2017,6 @@ export const zCanvasGraphParams = z.object({
 
 export const zAgStateProperties = z.object({
   version: z.string().default("1.0.0"),
-  teamId: z.string(),
   type: z.string().optional().default("TeamState"),
   state: z.object({}).default({}),
 });
@@ -2028,6 +2027,12 @@ export const zAgStateList = z.object({
   pagination: zPaginationResponse.optional(),
   rows: z.array(zAgState).optional(),
 });
+
+export const zAgStateUpsert = zAgStateProperties.merge(
+  z.object({
+    version: z.string().optional().default("1.0.0"),
+  }),
+);
 
 export const zRun = z.object({
   metadata: zApiResourceMeta,

@@ -22,6 +22,7 @@ import {
   AgEventList,
   AgState,
   AgStateList,
+  AgStateUpsert,
   APIError,
   APIErrors,
   APIMeta,
@@ -3770,7 +3771,7 @@ export class Api<
   agStateUpsert = (
     tenant: TenantParameter,
     state: string,
-    data: AgState,
+    data: AgStateUpsert,
     params: RequestParams = {},
   ) =>
     this.request<AgState, APIErrors>({
