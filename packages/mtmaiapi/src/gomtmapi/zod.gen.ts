@@ -2016,7 +2016,7 @@ export const zCanvasGraphParams = z.object({
 });
 
 export const zAgStateProperties = z.object({
-  version: z.string().default("1.0.0"),
+  version: z.string().optional().default("1.0.0"),
   type: z.string().optional().default("TeamState"),
   state: z.object({}).default({}),
 });
@@ -2028,11 +2028,7 @@ export const zAgStateList = z.object({
   rows: z.array(zAgState).optional(),
 });
 
-export const zAgStateUpsert = zAgStateProperties.merge(
-  z.object({
-    version: z.string().optional().default("1.0.0"),
-  }),
-);
+export const zAgStateUpsert = zAgStateProperties;
 
 export const zRun = z.object({
   metadata: zApiResourceMeta,

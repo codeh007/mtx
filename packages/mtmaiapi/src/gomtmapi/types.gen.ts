@@ -2302,7 +2302,7 @@ export type CanvasGraphParams = {
 };
 
 export type AgStateProperties = {
-  version: string;
+  version?: string;
   type?: string;
   state: {
     [key: string]: unknown;
@@ -2316,9 +2316,7 @@ export type AgStateList = {
   rows?: Array<AgState>;
 };
 
-export type AgStateUpsert = AgStateProperties & {
-  version?: string;
-};
+export type AgStateUpsert = AgStateProperties;
 
 export type Run = {
   metadata: ApiResourceMeta;

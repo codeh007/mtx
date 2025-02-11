@@ -3958,7 +3958,7 @@ export const CanvasGraphParamsSchema = {
 } as const;
 
 export const AgStatePropertiesSchema = {
-  required: ["teamId", "state", "version"],
+  required: ["state"],
   properties: {
     version: {
       type: "string",
@@ -4005,14 +4005,6 @@ export const AgStateUpsertSchema = {
   allOf: [
     {
       $ref: "#/components/schemas/AgStateProperties",
-    },
-    {
-      properties: {
-        version: {
-          type: "string",
-          default: "1.0.0",
-        },
-      },
     },
   ],
 } as const;

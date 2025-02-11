@@ -1897,7 +1897,7 @@ export interface CanvasGraphParams {
 
 export interface AgStateProperties {
   /** @default "1.0.0" */
-  version: string;
+  version?: string;
   /** @default "TeamState" */
   type?: string;
   /** @default {} */
@@ -1911,10 +1911,7 @@ export interface AgStateList {
   rows?: AgState[];
 }
 
-export type AgStateUpsert = AgStateProperties & {
-  /** @default "1.0.0" */
-  version?: string;
-};
+export type AgStateUpsert = AgStateProperties;
 
 export interface Run {
   metadata: APIResourceMeta;
