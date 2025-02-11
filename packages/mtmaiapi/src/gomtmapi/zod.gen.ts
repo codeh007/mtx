@@ -2175,10 +2175,7 @@ export const zRunUpdate = z.object({
 
 export const zTeam = z
   .object({
-    label: z.string().optional(),
-    description: z.string().optional(),
-    version: z.number().int().optional(),
-    team_type: z
+    componentType: z
       .enum([
         "Assisant",
         "RoundRobinGroupChat",
@@ -2186,6 +2183,9 @@ export const zTeam = z
         "MagenticOneGroupChat",
       ])
       .optional(),
+    version: z.number().int().optional().default(1),
+    label: z.string().optional(),
+    description: z.string().optional(),
     component: z
       .object({
         provider: z.string(),
@@ -2404,7 +2404,7 @@ export const zTeamList = z.object({
 export const zTeamUpdate = z.object({
   metadata: zApiResourceMeta,
   name: z.string(),
-  userId: z.string(),
+  userId: z.string().optional(),
   version: z.string(),
   config: z.object({
     provider: z.string(),
@@ -2418,10 +2418,7 @@ export const zTeamUpdate = z.object({
 });
 
 export const zTeamCreate = z.object({
-  label: z.string().optional(),
-  description: z.string().optional(),
-  version: z.number().int().optional(),
-  team_type: z
+  componentType: z
     .enum([
       "Assisant",
       "RoundRobinGroupChat",
@@ -2429,6 +2426,9 @@ export const zTeamCreate = z.object({
       "MagenticOneGroupChat",
     ])
     .optional(),
+  version: z.number().int().optional().default(1),
+  label: z.string().optional(),
+  description: z.string().optional(),
   component: z
     .object({
       provider: z.string(),
@@ -2626,10 +2626,7 @@ export const zTeamCreate = z.object({
 });
 
 export const zTeamProperties = z.object({
-  label: z.string().optional(),
-  description: z.string().optional(),
-  version: z.number().int().optional(),
-  team_type: z
+  componentType: z
     .enum([
       "Assisant",
       "RoundRobinGroupChat",
@@ -2637,6 +2634,9 @@ export const zTeamProperties = z.object({
       "MagenticOneGroupChat",
     ])
     .optional(),
+  version: z.number().int().optional().default(1),
+  label: z.string().optional(),
+  description: z.string().optional(),
   component: z
     .object({
       provider: z.string(),
@@ -3582,13 +3582,6 @@ export const zPrompt = z.object({
 export const zPromptList = z.object({
   pagination: zPaginationResponse.optional(),
   rows: z.array(zArtifact).optional(),
-});
-
-export const zSubscribeRequest = z.object({
-  protocol: z.string().optional(),
-  runId: z.string().optional(),
-  streamKey: z.string().optional(),
-  meta: z.object({}).optional(),
 });
 
 export const zToolCallResult = z.object({

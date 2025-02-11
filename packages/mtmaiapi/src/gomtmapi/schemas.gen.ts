@@ -4118,7 +4118,7 @@ export const TeamListSchema = {
 } as const;
 
 export const TeamUpdateSchema = {
-  required: ["metadata", "name", "userId", "version", "config"],
+  required: ["metadata", "name", "version", "config"],
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -4147,20 +4147,21 @@ export const TeamCreateSchema = {
 } as const;
 
 export const TeamPropertiesSchema = {
-  required: ["userId", "component"],
+  required: ["type", "component"],
   properties: {
+    componentType: {
+      type: "string",
+      $ref: "#/components/schemas/TeamTypes",
+    },
+    version: {
+      type: "integer",
+      default: 1,
+    },
     label: {
       type: "string",
     },
     description: {
       type: "string",
-    },
-    version: {
-      type: "integer",
-    },
-    team_type: {
-      type: "string",
-      $ref: "#/components/schemas/TeamTypes",
     },
     component: {
       $ref: "#/components/schemas/TeamComponent",
@@ -5769,28 +5770,6 @@ export const PromptListSchema = {
       },
       type: "array",
       "x-go-name": "Rows",
-    },
-  },
-} as const;
-
-export const SubscribeRequestSchema = {
-  type: "object",
-  properties: {
-    protocol: {
-      type: "string",
-      description: "消息",
-    },
-    runId: {
-      type: "string",
-      description: "消息",
-    },
-    streamKey: {
-      type: "string",
-      description: "消息",
-    },
-    meta: {
-      type: "object",
-      description: "元数据",
     },
   },
 } as const;

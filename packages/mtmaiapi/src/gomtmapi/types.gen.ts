@@ -2356,7 +2356,7 @@ export type TeamList = {
 export type TeamUpdate = {
   metadata: ApiResourceMeta;
   name: string;
-  userId: string;
+  userId?: string;
   version: string;
   config: ComponentModel;
 };
@@ -2364,10 +2364,10 @@ export type TeamUpdate = {
 export type TeamCreate = TeamProperties;
 
 export type TeamProperties = {
+  componentType?: TeamTypes;
+  version?: number;
   label?: string;
   description?: string;
-  version?: number;
-  team_type?: TeamTypes;
   component: TeamComponent;
 };
 
@@ -3153,27 +3153,6 @@ export type Prompt = {
 export type PromptList = {
   pagination?: PaginationResponse;
   rows?: Array<Artifact>;
-};
-
-export type SubscribeRequest = {
-  /**
-   * 消息
-   */
-  protocol?: string;
-  /**
-   * 消息
-   */
-  runId?: string;
-  /**
-   * 消息
-   */
-  streamKey?: string;
-  /**
-   * 元数据
-   */
-  meta?: {
-    [key: string]: unknown;
-  };
 };
 
 export type ToolCallResult = {

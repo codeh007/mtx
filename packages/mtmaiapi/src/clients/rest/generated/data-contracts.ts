@@ -1950,7 +1950,7 @@ export interface TeamList {
 export interface TeamUpdate {
   metadata: APIResourceMeta;
   name: string;
-  userId: string;
+  userId?: string;
   version: string;
   config: ComponentModel;
 }
@@ -1958,10 +1958,11 @@ export interface TeamUpdate {
 export type TeamCreate = TeamProperties;
 
 export interface TeamProperties {
+  componentType?: TeamTypes;
+  /** @default 1 */
+  version?: number;
   label?: string;
   description?: string;
-  version?: number;
-  team_type?: TeamTypes;
   component: TeamComponent;
 }
 
@@ -2561,17 +2562,6 @@ export interface Prompt {
 export interface PromptList {
   pagination?: PaginationResponse;
   rows?: Artifact[];
-}
-
-export interface SubscribeRequest {
-  /** 消息 */
-  protocol?: string;
-  /** 消息 */
-  runId?: string;
-  /** 消息 */
-  streamKey?: string;
-  /** 元数据 */
-  meta?: object;
 }
 
 export interface ToolCallResult {
