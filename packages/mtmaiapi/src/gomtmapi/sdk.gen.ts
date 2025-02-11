@@ -337,6 +337,9 @@ import type {
   TeamGetData,
   TeamGetResponse,
   TeamGetError,
+  TeamUpdateData,
+  TeamUpdateResponse,
+  TeamUpdateError,
   GalleryListData,
   GalleryListResponse,
   GalleryCreateData,
@@ -469,12 +472,12 @@ import type {
   ProxyUpdateError,
   AgStateListData,
   AgStateListResponse,
-  AgStateCreateData,
-  AgStateCreateResponse,
-  AgStateCreateError,
   AgStateGetData,
   AgStateGetResponse,
   AgStateGetError,
+  AgStateUpsertData,
+  AgStateUpsertResponse,
+  AgStateUpsertError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -3649,6 +3652,36 @@ export const teamGet = <ThrowOnError extends boolean = false>(
 };
 
 /**
+ * Update an team
+ */
+export const teamUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<TeamUpdateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).patch<
+    TeamUpdateResponse,
+    TeamUpdateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/teams/{team}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
  * 获取租户下的画廊列表
  * 获取画廊列表
  */
@@ -4916,7 +4949,7 @@ export const proxyUpdate = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 获取团队列表
+ * 获取租户下的 agent 状态
  */
 export const agStateList = <ThrowOnError extends boolean = false>(
   options: Options<AgStateListData, ThrowOnError>,
@@ -4942,38 +4975,7 @@ export const agStateList = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 创建团队
- */
-export const agStateCreate = <ThrowOnError extends boolean = false>(
-  options: Options<AgStateCreateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    AgStateCreateResponse,
-    AgStateCreateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/agStates",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 获取租户下的团队列表
- * 获取团队列表
+ * 获取租户下的 agent 状态
  */
 export const agStateGet = <ThrowOnError extends boolean = false>(
   options: Options<AgStateGetData, ThrowOnError>,
@@ -4995,5 +4997,35 @@ export const agStateGet = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/agStates/{state}",
     ...options,
+  });
+};
+
+/**
+ * Upsert an agState
+ */
+export const agStateUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<AgStateUpsertData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).patch<
+    AgStateUpsertResponse,
+    AgStateUpsertError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/agStates/{state}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };

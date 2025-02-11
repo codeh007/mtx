@@ -1898,6 +1898,7 @@ export interface CanvasGraphParams {
 export interface AgStateProperties {
   version: string;
   teamId: string;
+  type: string;
   /** @default {} */
   state: Record<string, any>;
 }

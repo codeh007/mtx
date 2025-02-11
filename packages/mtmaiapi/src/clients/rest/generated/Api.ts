@@ -21,7 +21,6 @@ import {
   AgEventCreate,
   AgEventList,
   AgState,
-  AgStateCreate,
   AgStateList,
   APIError,
   APIErrors,
@@ -2850,6 +2849,29 @@ export class Api<
       ...params,
     });
   /**
+   * @description Update an team
+   *
+   * @tags team
+   * @name TeamUpdate
+   * @request PATCH:/api/v1/tenants/{tenant}/teams/{team}
+   * @secure
+   */
+  teamUpdate = (
+    tenant: TenantParameter,
+    team: string,
+    data: Team,
+    params: RequestParams = {},
+  ) =>
+    this.request<Team, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/teams/${team}`,
+      method: "PATCH",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
    * @description 获取画廊列表
    *
    * @tags galleries
@@ -3725,7 +3747,7 @@ export class Api<
       ...params,
     });
   /**
-   * @description 获取团队列表
+   * @description 获取租户下的 agent 状态
    *
    * @tags agStates
    * @name AgStateList
@@ -3741,33 +3763,10 @@ export class Api<
       ...params,
     });
   /**
-   * @description 创建团队
-   *
-   * @tags agStates
-   * @name AgStateCreate
-   * @request POST:/api/v1/tenants/{tenant}/agStates
-   * @secure
-   */
-  agStateCreate = (
-    tenant: TenantParameter,
-    data: AgStateCreate,
-    params: RequestParams = {},
-  ) =>
-    this.request<AgState, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/agStates`,
-      method: "POST",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description 获取团队列表
+   * @description 获取租户下的 agent 状态
    *
    * @tags agStates
    * @name AgStateGet
-   * @summary 获取租户下的团队列表
    * @request GET:/api/v1/tenants/{tenant}/agStates/{state}
    * @secure
    */
@@ -3780,6 +3779,29 @@ export class Api<
       path: `/api/v1/tenants/${tenant}/agStates/${state}`,
       method: "GET",
       secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Upsert an agState
+   *
+   * @tags agState
+   * @name AgStateUpsert
+   * @request PATCH:/api/v1/tenants/{tenant}/agStates/{state}
+   * @secure
+   */
+  agStateUpsert = (
+    tenant: TenantParameter,
+    state: string,
+    data: AgState,
+    params: RequestParams = {},
+  ) =>
+    this.request<AgState, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/agStates/${state}`,
+      method: "PATCH",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
       format: "json",
       ...params,
     });

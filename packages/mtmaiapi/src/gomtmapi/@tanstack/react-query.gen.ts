@@ -122,6 +122,7 @@ import {
   teamList,
   teamCreate,
   teamGet,
+  teamUpdate,
   galleryList,
   galleryCreate,
   galleryGet,
@@ -171,8 +172,8 @@ import {
   proxyGet,
   proxyUpdate,
   agStateList,
-  agStateCreate,
   agStateGet,
+  agStateUpsert,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -409,6 +410,9 @@ import type {
   TeamCreateError,
   TeamCreateResponse,
   TeamGetData,
+  TeamUpdateData,
+  TeamUpdateError,
+  TeamUpdateResponse,
   GalleryListData,
   GalleryCreateData,
   GalleryCreateError,
@@ -498,10 +502,10 @@ import type {
   ProxyUpdateError,
   ProxyUpdateResponse,
   AgStateListData,
-  AgStateCreateData,
-  AgStateCreateError,
-  AgStateCreateResponse,
   AgStateGetData,
+  AgStateUpsertData,
+  AgStateUpsertError,
+  AgStateUpsertResponse,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -4019,6 +4023,26 @@ export const teamGetOptions = (options: Options<TeamGetData>) => {
   });
 };
 
+export const teamUpdateMutation = (
+  options?: Partial<Options<TeamUpdateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    TeamUpdateResponse,
+    TeamUpdateError,
+    Options<TeamUpdateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await teamUpdate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
 export const galleryListQueryKey = (options: Options<GalleryListData>) => [
   createQueryKey("galleryList", options),
 ];
@@ -5187,45 +5211,6 @@ export const agStateListOptions = (options: Options<AgStateListData>) => {
   });
 };
 
-export const agStateCreateQueryKey = (options: Options<AgStateCreateData>) => [
-  createQueryKey("agStateCreate", options),
-];
-
-export const agStateCreateOptions = (options: Options<AgStateCreateData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agStateCreate({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: agStateCreateQueryKey(options),
-  });
-};
-
-export const agStateCreateMutation = (
-  options?: Partial<Options<AgStateCreateData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    AgStateCreateResponse,
-    AgStateCreateError,
-    Options<AgStateCreateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await agStateCreate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
 export const agStateGetQueryKey = (options: Options<AgStateGetData>) => [
   createQueryKey("agStateGet", options),
 ];
@@ -5243,4 +5228,24 @@ export const agStateGetOptions = (options: Options<AgStateGetData>) => {
     },
     queryKey: agStateGetQueryKey(options),
   });
+};
+
+export const agStateUpsertMutation = (
+  options?: Partial<Options<AgStateUpsertData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    AgStateUpsertResponse,
+    AgStateUpsertError,
+    Options<AgStateUpsertData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await agStateUpsert({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };

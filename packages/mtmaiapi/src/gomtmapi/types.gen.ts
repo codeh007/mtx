@@ -2304,6 +2304,7 @@ export type CanvasGraphParams = {
 export type AgStateProperties = {
   version: string;
   teamId: string;
+  type: string;
   state: {
     [key: string]: unknown;
   };
@@ -8067,6 +8068,47 @@ export type TeamGetResponses = {
 
 export type TeamGetResponse = TeamGetResponses[keyof TeamGetResponses];
 
+export type TeamUpdateData = {
+  /**
+   * The model properties to update
+   */
+  body: Team;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The model id
+     */
+    team: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/teams/{team}";
+};
+
+export type TeamUpdateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type TeamUpdateError = TeamUpdateErrors[keyof TeamUpdateErrors];
+
+export type TeamUpdateResponses = {
+  /**
+   * Successfully created the Team
+   */
+  200: Team;
+};
+
+export type TeamUpdateResponse = TeamUpdateResponses[keyof TeamUpdateResponses];
+
 export type GalleryListData = {
   body?: never;
   path: {
@@ -9496,41 +9538,6 @@ export type AgStateListResponses = {
 export type AgStateListResponse =
   AgStateListResponses[keyof AgStateListResponses];
 
-export type AgStateCreateData = {
-  body: AgStateCreate;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/agStates";
-};
-
-export type AgStateCreateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type AgStateCreateError = AgStateCreateErrors[keyof AgStateCreateErrors];
-
-export type AgStateCreateResponses = {
-  /**
-   * 创建团队
-   */
-  200: AgState;
-};
-
-export type AgStateCreateResponse =
-  AgStateCreateResponses[keyof AgStateCreateResponses];
-
 export type AgStateGetData = {
   body?: never;
   path: {
@@ -9565,6 +9572,48 @@ export type AgStateGetResponses = {
 };
 
 export type AgStateGetResponse = AgStateGetResponses[keyof AgStateGetResponses];
+
+export type AgStateUpsertData = {
+  /**
+   * The model properties to update
+   */
+  body: AgState;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The model id
+     */
+    state: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/agStates/{state}";
+};
+
+export type AgStateUpsertErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type AgStateUpsertError = AgStateUpsertErrors[keyof AgStateUpsertErrors];
+
+export type AgStateUpsertResponses = {
+  /**
+   * Successfully created the AgState
+   */
+  200: AgState;
+};
+
+export type AgStateUpsertResponse =
+  AgStateUpsertResponses[keyof AgStateUpsertResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});
