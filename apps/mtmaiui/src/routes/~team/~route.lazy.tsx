@@ -1,8 +1,8 @@
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { message } from "antd";
 import { ChevronRight } from "lucide-react";
-import { type Team, teamCreateMutation, teamListOptions } from "mtmaiapi";
+import { type Team, teamListOptions } from "mtmaiapi";
 import { useEffect, useState } from "react";
 import { useTenant, useUser } from "../../hooks/useAuth";
 import { teamAPI } from "../components/views/team/api";
@@ -100,21 +100,21 @@ function RouteComponent() {
   // };
 
   // Modify switchToTeam to take the id directly
-  const switchToTeam = async (teamId: number | undefined) => {
-    console.log("switchToTeam", teamId);
-    if (!teamId || !user?.email) return;
-    setIsLoading(true);
-    try {
-      const data = await teamAPI.getTeam(teamId, user.email!);
-      setCurrentTeam(data);
-      window.history.pushState({}, "", `?teamId=${teamId}`);
-    } catch (error) {
-      console.error("Error loading team:", error);
-      messageApi.error("Failed to load team");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // const switchToTeam = async (teamId: number | undefined) => {
+  //   console.log("switchToTeam", teamId);
+  //   if (!teamId || !user?.email) return;
+  //   setIsLoading(true);
+  //   try {
+  //     const data = await teamAPI.getTeam(teamId, user.email!);
+  //     setCurrentTeam(data);
+  //     window.history.pushState({}, "", `?teamId=${teamId}`);
+  //   } catch (error) {
+  //     console.error("Error loading team:", error);
+  //     messageApi.error("Failed to load team");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   const handleDeleteTeam = async (teamId: number) => {
     if (!user?.email) return;
@@ -140,9 +140,9 @@ function RouteComponent() {
     handleSaveTeam(newTeam);
   };
 
-  const createTeamMutation = useMutation({
-    ...teamCreateMutation({}),
-  });
+  // const createTeamMutation = useMutation({
+  //   ...teamCreateMutation({}),
+  // });
 
   const handleSaveTeam = async (teamData: Partial<Team>) => {
     // if (!user?.email) return;
@@ -154,14 +154,14 @@ function RouteComponent() {
     };
 
     console.log("teamData", sanitizedTeamData);
-    const savedTeam = await createTeamMutation.mutateAsync({
-      path: {
-        tenant: tenant!.metadata.id,
-      },
-      body: {
-        ...sanitizedTeamData,
-      },
-    });
+    // const savedTeam = await createTeamMutation.mutateAsync({
+    //   path: {
+    //     tenant: tenant!.metadata.id,
+    //   },
+    //   body: {
+    //     ...sanitizedTeamData,
+    //   },
+    // });
 
     // messageApi.success(
     //   `Team ${teamData.metadata.id ? "updated" : "created"} successfully`,
@@ -230,12 +230,11 @@ function RouteComponent() {
                         <>
                           <ChevronRight className="w-4 h-4  " />
                           <span className=" ">
-                            {currentTeam.config.name}
-                            {currentTeam.metadata.id ? (
+                            {currentTeam.component?.config?.name}
+                            {currentTeam.metadata?.id ? (
                               ""
                             ) : (
                               <span className="text-xs text-orange-500">
-                                {" "}
                                 (New)
                               </span>
                             )}

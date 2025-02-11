@@ -1899,7 +1899,7 @@ export interface AgStateProperties {
   /** @default "1.0.0" */
   version: string;
   teamId: string;
-  /** @default "team" */
+  /** @default "TeamState" */
   type?: string;
   /** @default {} */
   state: Record<string, any>;

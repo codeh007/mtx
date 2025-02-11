@@ -2018,7 +2018,7 @@ export const zCanvasGraphParams = z.object({
 export const zAgStateProperties = z.object({
   version: z.string().default("1.0.0"),
   teamId: z.string(),
-  type: z.string().optional().default("team"),
+  type: z.string().optional().default("TeamState"),
   state: z.object({}).default({}),
 });
 

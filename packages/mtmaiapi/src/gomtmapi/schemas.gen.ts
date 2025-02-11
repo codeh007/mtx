@@ -3969,7 +3969,7 @@ export const AgStatePropertiesSchema = {
     },
     type: {
       type: "string",
-      default: "team",
+      default: "TeamState",
     },
     state: {
       type: "object",
