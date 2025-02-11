@@ -3026,7 +3026,7 @@ export class Api<
     stream: string,
     params: RequestParams = {},
   ) =>
-    this.request<EventSearch, APIErrors | APIError>({
+    this.request<Record<string, any>, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/stream/${stream}`,
       method: "GET",
       secure: true,

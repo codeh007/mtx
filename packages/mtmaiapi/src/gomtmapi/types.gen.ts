@@ -2465,7 +2465,8 @@ export type EventTypes =
   | "WorkflowRunEnd"
   | "StepRun"
   | "TextMessage"
-  | "ModelClientStreamingChunkEvent";
+  | "ModelClientStreamingChunkEvent"
+  | "EventNewAgentState";
 
 export const EventTypes = {
   WORKFLOW_RUN_START: "WorkflowRunStart",
@@ -2473,6 +2474,7 @@ export const EventTypes = {
   STEP_RUN: "StepRun",
   TEXT_MESSAGE: "TextMessage",
   MODEL_CLIENT_STREAMING_CHUNK_EVENT: "ModelClientStreamingChunkEvent",
+  EVENT_NEW_AGENT_STATE: "EventNewAgentState",
 } as const;
 
 export type AgEventList = {
@@ -2483,6 +2485,12 @@ export type AgEventList = {
 export type AgEventCreate = ApiResourceMetaProperties & AgEvent;
 
 export type AgEventUpdate = ApiResourceMetaProperties & AgEvent;
+
+export type AgEventTypes = AgEvent | EventNewAgentState;
+
+export type EventNewAgentState = {
+  stateId: string;
+};
 
 export type EventBase = {
   type: string;
@@ -8317,7 +8325,7 @@ export type AgentStreamErrors = {
 export type AgentStreamError = AgentStreamErrors[keyof AgentStreamErrors];
 
 export type AgentStreamResponses = {
-  200: string;
+  200: AgEventTypes;
 };
 
 export type AgentStreamResponse =

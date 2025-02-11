@@ -4345,7 +4345,6 @@ export const GalleryUpdateSchema = {
 } as const;
 
 export const AgEventSchema = {
-  type: "object",
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -4364,6 +4363,7 @@ export const AgEventSchema = {
     },
     meta: {
       type: "object",
+      additionalProperties: true,
     },
   },
   required: ["data", "framework", "stepRunId"],
@@ -4377,6 +4377,7 @@ export const EventTypesSchema = {
     "StepRun",
     "TextMessage",
     "ModelClientStreamingChunkEvent",
+    "EventNewAgentState",
   ],
 } as const;
 
@@ -4395,7 +4396,6 @@ export const AgEventListSchema = {
 } as const;
 
 export const AgEventCreateSchema = {
-  type: "object",
   allOf: [
     {
       $ref: "#/components/schemas/APIResourceMetaProperties",
@@ -4407,7 +4407,6 @@ export const AgEventCreateSchema = {
 } as const;
 
 export const AgEventUpdateSchema = {
-  type: "object",
   allOf: [
     {
       $ref: "#/components/schemas/APIResourceMetaProperties",
@@ -4418,17 +4417,36 @@ export const AgEventUpdateSchema = {
   ],
 } as const;
 
+export const AgEventTypesSchema = {
+  oneOf: [
+    {
+      $ref: "#/components/schemas/AgEvent",
+    },
+    {
+      $ref: "#/components/schemas/EventNewAgentState",
+    },
+  ],
+} as const;
+
+export const EventNewAgentStateSchema = {
+  required: ["stateId"],
+  properties: {
+    stateId: {
+      type: "string",
+    },
+  },
+} as const;
+
 export const EventBaseSchema = {
+  required: ["type"],
   properties: {
     type: {
       type: "string",
     },
   },
-  required: ["type"],
 } as const;
 
 export const StartWorkflowRunEventSchema = {
-  type: "object",
   description:
     "用户调用工作流后, 后端返回工作流启动状态的事件, 一般用于根据 Id,从 stream api 中进一步拉取更加详细的事件",
   allOf: [
@@ -4436,7 +4454,6 @@ export const StartWorkflowRunEventSchema = {
       $ref: "#/components/schemas/EventBase",
     },
     {
-      type: "object",
       properties: {
         workflowRunId: {
           type: "string",

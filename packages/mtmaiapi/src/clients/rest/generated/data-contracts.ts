@@ -2032,7 +2032,7 @@ export interface AgEvent {
   data: object;
   framework: string;
   stepRunId: string;
-  meta?: object;
+  meta?: Record<string, any>;
 }
 
 export enum EventTypes {
@@ -2041,6 +2041,7 @@ export enum EventTypes {
   StepRun = "StepRun",
   TextMessage = "TextMessage",
   ModelClientStreamingChunkEvent = "ModelClientStreamingChunkEvent",
+  EventNewAgentState = "EventNewAgentState",
 }
 
 export interface AgEventList {
@@ -2051,6 +2052,12 @@ export interface AgEventList {
 export type AgEventCreate = APIResourceMetaProperties & AgEvent;
 
 export type AgEventUpdate = APIResourceMetaProperties & AgEvent;
+
+export type AgEventTypes = AgEvent | EventNewAgentState;
+
+export interface EventNewAgentState {
+  stateId: string;
+}
 
 export interface EventBase {
   type: string;
