@@ -2317,8 +2317,6 @@ export type AgStateList = {
   rows?: Array<AgState>;
 };
 
-export type AgStateCreate = AgStateProperties;
-
 export type Run = {
   metadata: ApiResourceMeta;
   status: RunStatus;

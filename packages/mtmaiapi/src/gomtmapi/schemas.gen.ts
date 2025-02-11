@@ -4004,14 +4004,6 @@ export const AgStateListSchema = {
   },
 } as const;
 
-export const AgStateCreateSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/AgStateProperties",
-    },
-  ],
-} as const;
-
 export const RunSchema = {
   type: "object",
   properties: {

@@ -1912,8 +1912,6 @@ export interface AgStateList {
   rows?: AgState[];
 }
 
-export type AgStateCreate = AgStateProperties;
-
 export interface Run {
   metadata: APIResourceMeta;
   status: RunStatus;

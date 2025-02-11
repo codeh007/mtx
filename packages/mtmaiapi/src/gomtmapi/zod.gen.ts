@@ -2029,8 +2029,6 @@ export const zAgStateList = z.object({
   rows: z.array(zAgState).optional(),
 });
 
-export const zAgStateCreate = zAgStateProperties;
-
 export const zRun = z.object({
   metadata: zApiResourceMeta,
   status: z.enum([
