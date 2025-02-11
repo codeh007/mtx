@@ -3979,10 +3979,10 @@ export const AgStatePropertiesSchema = {
 export const AgStateSchema = {
   allOf: [
     {
-      $ref: "#/components/schemas/AgStateProperties",
+      $ref: "#/components/schemas/APIResourceMetaProperties",
     },
     {
-      $ref: "#/components/schemas/APIResourceMetaProperties",
+      $ref: "#/components/schemas/AgStateProperties",
     },
   ],
 } as const;

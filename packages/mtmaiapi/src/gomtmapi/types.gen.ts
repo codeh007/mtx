@@ -2309,7 +2309,7 @@ export type AgStateProperties = {
   };
 };
 
-export type AgState = AgStateProperties & ApiResourceMetaProperties;
+export type AgState = ApiResourceMetaProperties & AgStateProperties;
 
 export type AgStateList = {
   pagination?: PaginationResponse;

@@ -1904,7 +1904,7 @@ export interface AgStateProperties {
   state: Record<string, any>;
 }
 
-export type AgState = AgStateProperties & APIResourceMetaProperties;
+export type AgState = APIResourceMetaProperties & AgStateProperties;
 
 export interface AgStateList {
   pagination?: PaginationResponse;

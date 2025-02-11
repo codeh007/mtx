@@ -2021,7 +2021,7 @@ export const zAgStateProperties = z.object({
   state: z.object({}).default({}),
 });
 
-export const zAgState = zAgStateProperties.merge(zApiResourceMetaProperties);
+export const zAgState = zApiResourceMetaProperties.merge(zAgStateProperties);
 
 export const zAgStateList = z.object({
   pagination: zPaginationResponse.optional(),
