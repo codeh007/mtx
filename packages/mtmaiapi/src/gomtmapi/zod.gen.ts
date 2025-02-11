@@ -2913,12 +2913,9 @@ export const zAgEventCreate = zApiResourceMetaProperties.merge(zAgEvent);
 
 export const zAgEventUpdate = zApiResourceMetaProperties.merge(zAgEvent);
 
-export const zAgEventTypes = z.union([
-  zAgEvent,
-  z.object({
-    stateId: z.string(),
-  }),
-]);
+export const zAgEventV2 = z.object({
+  stateId: z.string(),
+});
 
 export const zEventNewAgentState = z.object({
   stateId: z.string(),
@@ -4145,7 +4142,7 @@ export const zAgentNodeUpdateResponse = zAgentNode;
 
 export const zAgentRunResponse = zAgentNodeRun;
 
-export const zAgentStreamResponse = zAgEventTypes;
+export const zAgentStreamResponse = zAgEventV2;
 
 export const zAgEventListResponse = zAgEventList;
 

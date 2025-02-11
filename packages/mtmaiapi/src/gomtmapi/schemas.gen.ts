@@ -4345,6 +4345,7 @@ export const GalleryUpdateSchema = {
 } as const;
 
 export const AgEventSchema = {
+  required: ["data", "framework", "stepRunId"],
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -4366,7 +4367,6 @@ export const AgEventSchema = {
       additionalProperties: true,
     },
   },
-  required: ["data", "framework", "stepRunId"],
 } as const;
 
 export const EventTypesSchema = {
@@ -4417,11 +4417,8 @@ export const AgEventUpdateSchema = {
   ],
 } as const;
 
-export const AgEventTypesSchema = {
+export const AgEventV2Schema = {
   oneOf: [
-    {
-      $ref: "#/components/schemas/AgEvent",
-    },
     {
       $ref: "#/components/schemas/EventNewAgentState",
     },

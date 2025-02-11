@@ -20,6 +20,7 @@ import {
   AgEvent,
   AgEventCreate,
   AgEventList,
+  AgEventV2,
   AgState,
   AgStateList,
   AgStateUpsert,
@@ -3026,7 +3027,7 @@ export class Api<
     stream: string,
     params: RequestParams = {},
   ) =>
-    this.request<Record<string, any>, APIErrors | APIError>({
+    this.request<AgEventV2, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/stream/${stream}`,
       method: "GET",
       secure: true,

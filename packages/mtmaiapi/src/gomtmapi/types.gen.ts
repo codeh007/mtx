@@ -2486,7 +2486,7 @@ export type AgEventCreate = ApiResourceMetaProperties & AgEvent;
 
 export type AgEventUpdate = ApiResourceMetaProperties & AgEvent;
 
-export type AgEventTypes = AgEvent | EventNewAgentState;
+export type AgEventV2 = EventNewAgentState;
 
 export type EventNewAgentState = {
   stateId: string;
@@ -8325,7 +8325,7 @@ export type AgentStreamErrors = {
 export type AgentStreamError = AgentStreamErrors[keyof AgentStreamErrors];
 
 export type AgentStreamResponses = {
-  200: AgEventTypes;
+  200: AgEventV2;
 };
 
 export type AgentStreamResponse =

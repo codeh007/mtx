@@ -2053,7 +2053,7 @@ export type AgEventCreate = APIResourceMetaProperties & AgEvent;
 
 export type AgEventUpdate = APIResourceMetaProperties & AgEvent;
 
-export type AgEventTypes = AgEvent | EventNewAgentState;
+export type AgEventV2 = EventNewAgentState;
 
 export interface EventNewAgentState {
   stateId: string;
