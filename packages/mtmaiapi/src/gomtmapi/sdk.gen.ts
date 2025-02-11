@@ -331,15 +331,12 @@ import type {
   ArtifactGetError,
   TeamListData,
   TeamListResponse,
-  TeamCreateData,
-  TeamCreateResponse,
-  TeamCreateError,
   TeamGetData,
   TeamGetResponse,
   TeamGetError,
-  TeamUpdateData,
-  TeamUpdateResponse,
-  TeamUpdateError,
+  TeamUpsertData,
+  TeamUpsertResponse,
+  TeamUpsertError,
   GalleryListData,
   GalleryListResponse,
   GalleryCreateData,
@@ -3595,36 +3592,6 @@ export const teamList = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 创建团队
- */
-export const teamCreate = <ThrowOnError extends boolean = false>(
-  options: Options<TeamCreateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    TeamCreateResponse,
-    TeamCreateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/teams",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
  * 获取租户下的团队列表
  * 获取团队列表
  */
@@ -3652,14 +3619,14 @@ export const teamGet = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Update an team
+ * Upsert an team
  */
-export const teamUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<TeamUpdateData, ThrowOnError>,
+export const teamUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<TeamUpsertData, ThrowOnError>,
 ) => {
   return (options.client ?? _heyApiClient).patch<
-    TeamUpdateResponse,
-    TeamUpdateError,
+    TeamUpsertResponse,
+    TeamUpsertError,
     ThrowOnError
   >({
     security: [

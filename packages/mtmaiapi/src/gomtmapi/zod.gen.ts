@@ -2016,9 +2016,9 @@ export const zCanvasGraphParams = z.object({
 });
 
 export const zAgStateProperties = z.object({
-  version: z.string(),
+  version: z.string().default("1.0.0"),
   teamId: z.string(),
-  type: z.string(),
+  type: z.string().optional().default("team"),
   state: z.object({}).default({}),
 });
 
@@ -4117,11 +4117,9 @@ export const zArtifactGetResponse = zArtifact;
 
 export const zTeamListResponse = zTeamList;
 
-export const zTeamCreateResponse = zTeam;
-
 export const zTeamGetResponse = zTeam;
 
-export const zTeamUpdateResponse = zTeam;
+export const zTeamUpsertResponse = zTeam;
 
 export const zGalleryListResponse = zGalleryList;
 

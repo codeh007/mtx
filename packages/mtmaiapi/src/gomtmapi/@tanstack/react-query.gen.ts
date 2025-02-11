@@ -120,9 +120,8 @@ import {
   artifactCreate,
   artifactGet,
   teamList,
-  teamCreate,
   teamGet,
-  teamUpdate,
+  teamUpsert,
   galleryList,
   galleryCreate,
   galleryGet,
@@ -406,13 +405,10 @@ import type {
   ArtifactCreateResponse,
   ArtifactGetData,
   TeamListData,
-  TeamCreateData,
-  TeamCreateError,
-  TeamCreateResponse,
   TeamGetData,
-  TeamUpdateData,
-  TeamUpdateError,
-  TeamUpdateResponse,
+  TeamUpsertData,
+  TeamUpsertError,
+  TeamUpsertResponse,
   GalleryListData,
   GalleryCreateData,
   GalleryCreateError,
@@ -3965,45 +3961,6 @@ export const teamListOptions = (options: Options<TeamListData>) => {
   });
 };
 
-export const teamCreateQueryKey = (options: Options<TeamCreateData>) => [
-  createQueryKey("teamCreate", options),
-];
-
-export const teamCreateOptions = (options: Options<TeamCreateData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await teamCreate({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: teamCreateQueryKey(options),
-  });
-};
-
-export const teamCreateMutation = (
-  options?: Partial<Options<TeamCreateData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    TeamCreateResponse,
-    TeamCreateError,
-    Options<TeamCreateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await teamCreate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
 export const teamGetQueryKey = (options: Options<TeamGetData>) => [
   createQueryKey("teamGet", options),
 ];
@@ -4023,16 +3980,16 @@ export const teamGetOptions = (options: Options<TeamGetData>) => {
   });
 };
 
-export const teamUpdateMutation = (
-  options?: Partial<Options<TeamUpdateData>>,
+export const teamUpsertMutation = (
+  options?: Partial<Options<TeamUpsertData>>,
 ) => {
   const mutationOptions: UseMutationOptions<
-    TeamUpdateResponse,
-    TeamUpdateError,
-    Options<TeamUpdateData>
+    TeamUpsertResponse,
+    TeamUpsertError,
+    Options<TeamUpsertData>
   > = {
     mutationFn: async (localOptions) => {
-      const { data } = await teamUpdate({
+      const { data } = await teamUpsert({
         ...options,
         ...localOptions,
         throwOnError: true,

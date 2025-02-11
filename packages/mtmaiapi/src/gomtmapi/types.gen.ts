@@ -2304,7 +2304,7 @@ export type CanvasGraphParams = {
 export type AgStateProperties = {
   version: string;
   teamId: string;
-  type: string;
+  type?: string;
   state: {
     [key: string]: unknown;
   };
@@ -7999,40 +7999,6 @@ export type TeamListResponses = {
 
 export type TeamListResponse = TeamListResponses[keyof TeamListResponses];
 
-export type TeamCreateData = {
-  body: TeamCreate;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/teams";
-};
-
-export type TeamCreateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type TeamCreateError = TeamCreateErrors[keyof TeamCreateErrors];
-
-export type TeamCreateResponses = {
-  /**
-   * 创建团队
-   */
-  200: Team;
-};
-
-export type TeamCreateResponse = TeamCreateResponses[keyof TeamCreateResponses];
-
 export type TeamGetData = {
   body?: never;
   path: {
@@ -8068,7 +8034,7 @@ export type TeamGetResponses = {
 
 export type TeamGetResponse = TeamGetResponses[keyof TeamGetResponses];
 
-export type TeamUpdateData = {
+export type TeamUpsertData = {
   /**
    * The model properties to update
    */
@@ -8087,7 +8053,7 @@ export type TeamUpdateData = {
   url: "/api/v1/tenants/{tenant}/teams/{team}";
 };
 
-export type TeamUpdateErrors = {
+export type TeamUpsertErrors = {
   /**
    * A malformed or bad request
    */
@@ -8098,16 +8064,16 @@ export type TeamUpdateErrors = {
   403: ApiErrors;
 };
 
-export type TeamUpdateError = TeamUpdateErrors[keyof TeamUpdateErrors];
+export type TeamUpsertError = TeamUpsertErrors[keyof TeamUpsertErrors];
 
-export type TeamUpdateResponses = {
+export type TeamUpsertResponses = {
   /**
    * Successfully created the Team
    */
   200: Team;
 };
 
-export type TeamUpdateResponse = TeamUpdateResponses[keyof TeamUpdateResponses];
+export type TeamUpsertResponse = TeamUpsertResponses[keyof TeamUpsertResponses];
 
 export type GalleryListData = {
   body?: never;

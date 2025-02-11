@@ -114,7 +114,6 @@ import {
   StepRunArchiveList,
   StepRunEventList,
   Team,
-  TeamCreate,
   TeamList,
   Tenant,
   TenantAlertEmailGroup,
@@ -2806,28 +2805,6 @@ export class Api<
       ...params,
     });
   /**
-   * @description 创建团队
-   *
-   * @tags teams
-   * @name TeamCreate
-   * @request POST:/api/v1/tenants/{tenant}/teams
-   * @secure
-   */
-  teamCreate = (
-    tenant: TenantParameter,
-    data: TeamCreate,
-    params: RequestParams = {},
-  ) =>
-    this.request<Team, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/teams`,
-      method: "POST",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
-      format: "json",
-      ...params,
-    });
-  /**
    * @description 获取团队列表
    *
    * @tags teams
@@ -2849,14 +2826,14 @@ export class Api<
       ...params,
     });
   /**
-   * @description Update an team
+   * @description Upsert an team
    *
    * @tags team
-   * @name TeamUpdate
+   * @name TeamUpsert
    * @request PATCH:/api/v1/tenants/{tenant}/teams/{team}
    * @secure
    */
-  teamUpdate = (
+  teamUpsert = (
     tenant: TenantParameter,
     team: string,
     data: Team,

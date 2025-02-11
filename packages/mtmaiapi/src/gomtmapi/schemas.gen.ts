@@ -3958,16 +3958,18 @@ export const CanvasGraphParamsSchema = {
 } as const;
 
 export const AgStatePropertiesSchema = {
-  required: ["teamId", "state", "version", "type"],
+  required: ["teamId", "state", "version"],
   properties: {
     version: {
       type: "string",
+      default: "1.0.0",
     },
     teamId: {
       type: "string",
     },
     type: {
       type: "string",
+      default: "team",
     },
     state: {
       type: "object",
