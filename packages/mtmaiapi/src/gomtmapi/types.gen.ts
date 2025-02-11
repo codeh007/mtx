@@ -2301,6 +2301,23 @@ export type CanvasGraphParams = {
   portLanguage?: ProgrammingLanguageOptions;
 };
 
+export type AgStateProperties = {
+  version: string;
+  teamId: string;
+  state: {
+    [key: string]: unknown;
+  };
+};
+
+export type AgState = AgStateProperties & ApiResourceMetaProperties;
+
+export type AgStateList = {
+  pagination?: PaginationResponse;
+  rows?: Array<AgState>;
+};
+
+export type AgStateCreate = AgStateProperties;
+
 export type Run = {
   metadata: ApiResourceMeta;
   status: RunStatus;
@@ -9459,6 +9476,95 @@ export type ProxyUpdateResponses = {
 
 export type ProxyUpdateResponse =
   ProxyUpdateResponses[keyof ProxyUpdateResponses];
+
+export type AgStateListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/agStates";
+};
+
+export type AgStateListResponses = {
+  200: AgStateList;
+};
+
+export type AgStateListResponse =
+  AgStateListResponses[keyof AgStateListResponses];
+
+export type AgStateCreateData = {
+  body: AgStateCreate;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/agStates";
+};
+
+export type AgStateCreateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type AgStateCreateError = AgStateCreateErrors[keyof AgStateCreateErrors];
+
+export type AgStateCreateResponses = {
+  /**
+   * 创建团队
+   */
+  200: AgState;
+};
+
+export type AgStateCreateResponse =
+  AgStateCreateResponses[keyof AgStateCreateResponses];
+
+export type AgStateGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The agState id
+     */
+    state: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/agStates/{state}";
+};
+
+export type AgStateGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type AgStateGetError = AgStateGetErrors[keyof AgStateGetErrors];
+
+export type AgStateGetResponses = {
+  200: AgState;
+};
+
+export type AgStateGetResponse = AgStateGetResponses[keyof AgStateGetResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

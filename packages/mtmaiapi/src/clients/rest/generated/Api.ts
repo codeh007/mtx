@@ -20,6 +20,9 @@ import {
   AgEvent,
   AgEventCreate,
   AgEventList,
+  AgState,
+  AgStateCreate,
+  AgStateList,
   APIError,
   APIErrors,
   APIMeta,
@@ -3718,6 +3721,65 @@ export class Api<
       body: data,
       secure: true,
       type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取团队列表
+   *
+   * @tags agStates
+   * @name AgStateList
+   * @request GET:/api/v1/tenants/{tenant}/agStates
+   * @secure
+   */
+  agStateList = (tenant: TenantParameter, params: RequestParams = {}) =>
+    this.request<AgStateList, any>({
+      path: `/api/v1/tenants/${tenant}/agStates`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 创建团队
+   *
+   * @tags agStates
+   * @name AgStateCreate
+   * @request POST:/api/v1/tenants/{tenant}/agStates
+   * @secure
+   */
+  agStateCreate = (
+    tenant: TenantParameter,
+    data: AgStateCreate,
+    params: RequestParams = {},
+  ) =>
+    this.request<AgState, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/agStates`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取团队列表
+   *
+   * @tags agStates
+   * @name AgStateGet
+   * @summary 获取租户下的团队列表
+   * @request GET:/api/v1/tenants/{tenant}/agStates/{state}
+   * @secure
+   */
+  agStateGet = (
+    tenant: TenantParameter,
+    state: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<AgState, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/agStates/${state}`,
+      method: "GET",
+      secure: true,
       format: "json",
       ...params,
     });

@@ -170,6 +170,9 @@ import {
   proxyCreate,
   proxyGet,
   proxyUpdate,
+  agStateList,
+  agStateCreate,
+  agStateGet,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -494,6 +497,11 @@ import type {
   ProxyUpdateData,
   ProxyUpdateError,
   ProxyUpdateResponse,
+  AgStateListData,
+  AgStateCreateData,
+  AgStateCreateError,
+  AgStateCreateResponse,
+  AgStateGetData,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -5158,4 +5166,81 @@ export const proxyUpdateMutation = (
     },
   };
   return mutationOptions;
+};
+
+export const agStateListQueryKey = (options: Options<AgStateListData>) => [
+  createQueryKey("agStateList", options),
+];
+
+export const agStateListOptions = (options: Options<AgStateListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await agStateList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: agStateListQueryKey(options),
+  });
+};
+
+export const agStateCreateQueryKey = (options: Options<AgStateCreateData>) => [
+  createQueryKey("agStateCreate", options),
+];
+
+export const agStateCreateOptions = (options: Options<AgStateCreateData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await agStateCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: agStateCreateQueryKey(options),
+  });
+};
+
+export const agStateCreateMutation = (
+  options?: Partial<Options<AgStateCreateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    AgStateCreateResponse,
+    AgStateCreateError,
+    Options<AgStateCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await agStateCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const agStateGetQueryKey = (options: Options<AgStateGetData>) => [
+  createQueryKey("agStateGet", options),
+];
+
+export const agStateGetOptions = (options: Options<AgStateGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await agStateGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: agStateGetQueryKey(options),
+  });
 };

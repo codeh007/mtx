@@ -1895,6 +1895,22 @@ export interface CanvasGraphParams {
   portLanguage?: ProgrammingLanguageOptions;
 }
 
+export interface AgStateProperties {
+  version: string;
+  teamId: string;
+  /** @default {} */
+  state: Record<string, any>;
+}
+
+export type AgState = AgStateProperties & APIResourceMetaProperties;
+
+export interface AgStateList {
+  pagination?: PaginationResponse;
+  rows?: AgState[];
+}
+
+export type AgStateCreate = AgStateProperties;
+
 export interface Run {
   metadata: APIResourceMeta;
   status: RunStatus;

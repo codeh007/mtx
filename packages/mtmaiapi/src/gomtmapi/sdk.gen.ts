@@ -467,6 +467,14 @@ import type {
   ProxyUpdateData,
   ProxyUpdateResponse,
   ProxyUpdateError,
+  AgStateListData,
+  AgStateListResponse,
+  AgStateCreateData,
+  AgStateCreateResponse,
+  AgStateCreateError,
+  AgStateGetData,
+  AgStateGetResponse,
+  AgStateGetError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -4904,5 +4912,88 @@ export const proxyUpdate = <ThrowOnError extends boolean = false>(
       "Content-Type": "application/json",
       ...options?.headers,
     },
+  });
+};
+
+/**
+ * 获取团队列表
+ */
+export const agStateList = <ThrowOnError extends boolean = false>(
+  options: Options<AgStateListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    AgStateListResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/agStates",
+    ...options,
+  });
+};
+
+/**
+ * 创建团队
+ */
+export const agStateCreate = <ThrowOnError extends boolean = false>(
+  options: Options<AgStateCreateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    AgStateCreateResponse,
+    AgStateCreateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/agStates",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * 获取租户下的团队列表
+ * 获取团队列表
+ */
+export const agStateGet = <ThrowOnError extends boolean = false>(
+  options: Options<AgStateGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    AgStateGetResponse,
+    AgStateGetError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/agStates/{state}",
+    ...options,
   });
 };

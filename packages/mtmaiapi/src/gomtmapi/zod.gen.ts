@@ -2015,6 +2015,21 @@ export const zCanvasGraphParams = z.object({
   portLanguage: zProgrammingLanguageOptions.optional(),
 });
 
+export const zAgStateProperties = z.object({
+  version: z.string(),
+  teamId: z.string(),
+  state: z.object({}).default({}),
+});
+
+export const zAgState = zAgStateProperties.merge(zApiResourceMetaProperties);
+
+export const zAgStateList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zAgState).optional(),
+});
+
+export const zAgStateCreate = zAgStateProperties;
+
 export const zRun = z.object({
   metadata: zApiResourceMeta,
   status: z.enum([
@@ -4200,3 +4215,9 @@ export const zProxyCreateResponse = zProxy;
 export const zProxyGetResponse = zProxy;
 
 export const zProxyUpdateResponse = zProxy;
+
+export const zAgStateListResponse = zAgStateList;
+
+export const zAgStateCreateResponse = zAgState;
+
+export const zAgStateGetResponse = zAgState;

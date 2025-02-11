@@ -3957,6 +3957,56 @@ export const CanvasGraphParamsSchema = {
   },
 } as const;
 
+export const AgStatePropertiesSchema = {
+  required: ["teamId", "state", "version"],
+  properties: {
+    version: {
+      type: "string",
+    },
+    teamId: {
+      type: "string",
+    },
+    state: {
+      type: "object",
+      additionalProperties: true,
+      default: {},
+    },
+  },
+} as const;
+
+export const AgStateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AgStateProperties",
+    },
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+  ],
+} as const;
+
+export const AgStateListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/AgState",
+      },
+    },
+  },
+} as const;
+
+export const AgStateCreateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AgStateProperties",
+    },
+  ],
+} as const;
+
 export const RunSchema = {
   type: "object",
   properties: {
