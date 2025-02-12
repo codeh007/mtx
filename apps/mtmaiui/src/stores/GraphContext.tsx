@@ -113,6 +113,9 @@ export interface AgentNodeState extends AgentNodeProps {
   setVersion: (version: string | null) => void;
   agentFlow: IAgentFlowSettings;
   setAgentFlowSettings: (settings: Partial<IAgentFlowSettings>) => void;
+
+  threadId?: string;
+  setThreadId: (threadId: string) => void;
 }
 
 export const createGraphSlice: StateCreator<
@@ -141,6 +144,9 @@ export const createGraphSlice: StateCreator<
     },
     setIsStreaming: (isStreaming: boolean) => {
       set({ isStreaming });
+    },
+    setThreadId: (threadId: string) => {
+      set({ threadId });
     },
     setFirstTokenReceived: (firstTokenReceived: boolean) => {
       set({ firstTokenReceived });

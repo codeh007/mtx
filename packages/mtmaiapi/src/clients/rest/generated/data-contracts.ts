@@ -1407,15 +1407,13 @@ export interface ChatMessage {
 }
 
 export interface AgentRunInput {
-  /** @default "ag" */
-  name: FlowNames;
-  /** @default false */
-  isStream?: boolean;
-  params?:
-    | FlowAssisantPayload
-    | FlowTenantPayload
-    | FlowAgPayload
-    | BrowserParams;
+  /** 团队ID */
+  teamId: string;
+  /** 线程ID */
+  threadId?: string;
+  task: string;
+  /** 租户ID */
+  tenantId?: string;
 }
 
 export enum ChatMessageRole {
@@ -2303,29 +2301,6 @@ export enum RunStatus {
   Stopped = "stopped",
 }
 
-export type AgentComponent = ComponentModel & {
-  config: AgentConfig;
-};
-
-export interface AgentConfig {
-  name: string;
-  description: string;
-  model_context?: ModelContext;
-  memory?: MemoryConfig;
-  /** @default false */
-  model_client_stream: boolean;
-  system_message?: string;
-  model_client: ModelComponent;
-  /** @default [] */
-  tools: ToolComponent[];
-  /** @default [] */
-  handoffs: string[];
-  /** @default false */
-  reflect_on_tool_use: boolean;
-  /** @default "{result}" */
-  tool_call_summary_format: string;
-}
-
 export interface Section {
   /** Title of the section */
   section_title: string;
@@ -2403,7 +2378,7 @@ export enum TeamTypes {
 
 export interface TeamConfig {
   max_turns?: number;
-  participants?: AgentComponent[];
+  participants?: object[];
   termination_condition?: ComponentModel;
 }
 

@@ -1,7 +1,13 @@
 "use client";
 
 import { generateId } from "ai";
-import { EventTypes, FlowNames, agentRun, agentStream } from "mtmaiapi";
+import {
+  type AgentRunInput,
+  EventTypes,
+  FlowNames,
+  agentStream,
+  workflowRunCreate,
+} from "mtmaiapi";
 import type { AgentNodeState } from "./GraphContext";
 
 const VERCEL_AI_EVENT_TYPES = {
@@ -70,7 +76,6 @@ async function pullEvent(
 }
 
 export async function handleSseGraphStream(
-  // { ...props }: AgentRunInput,
   set: (
     partial:
       | Partial<AgentNodeState>
@@ -86,25 +91,27 @@ export async function handleSseGraphStream(
 
   const messages = get().messages;
   const teamId = get().teamId;
+  const threadId = get().threadId;
   console.log("runGraphStream", {
-    // props,
     tenant,
+    threadId,
     agentEndpointBase,
     messages,
     teamId,
   });
 
-  const response = await agentRun({
+  const task = "test";
+  const response = await workflowRunCreate({
     path: {
-      tenant: tenant.metadata.id,
+      workflow: FlowNames.AG,
     },
     body: {
-      name: FlowNames.AG,
-      isStream: false,
-      params: {
-        messages,
+      input: {
+        tenantId: tenant.metadata.id,
+        task: task,
         teamId: teamId,
-      },
+        threadId: threadId || "",
+      } satisfies AgentRunInput,
     },
     headers: {
       Accept: "text/event-stream",
@@ -137,7 +144,7 @@ const handleStreamLine = (
       const lineData = JSON.parse(line.substring(2));
       graphEventHandler(lineData, set, get);
     } else if (line.startsWith(VERCEL_AI_EVENT_TYPES.FINISH)) {
-      const lineData = JSON.parse(line.substring(2));
+      // const lineData = JSON.parse(line.substring(2));
       // 处理完成消息，如果需要的话
     } else {
       graphEventHandler(JSON.parse(line), set, get);
@@ -149,6 +156,7 @@ const handleStreamLine = (
 
 // 最终的事件处理
 const graphEventHandler = async (
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   event: Record<string, any>,
   set: (
     partial:

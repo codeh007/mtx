@@ -2929,33 +2929,22 @@ export const ChatMessageSchema = {
 } as const;
 
 export const AgentRunInputSchema = {
-  required: ["name"],
+  required: ["task", "teamId"],
   properties: {
-    name: {
+    teamId: {
       type: "string",
-      $ref: "#/components/schemas/FlowNames",
-      additionalProperties: true,
-      default: "ag",
+      description: "团队ID",
     },
-    isStream: {
-      type: "boolean",
-      default: false,
+    threadId: {
+      type: "string",
+      description: "线程ID",
     },
-    params: {
-      oneOf: [
-        {
-          $ref: "#/components/schemas/FlowAssisantPayload",
-        },
-        {
-          $ref: "#/components/schemas/FlowTenantPayload",
-        },
-        {
-          $ref: "#/components/schemas/FlowAgPayload",
-        },
-        {
-          $ref: "#/components/schemas/BrowserParams",
-        },
-      ],
+    task: {
+      type: "string",
+    },
+    tenantId: {
+      type: "string",
+      description: "租户ID",
     },
   },
 } as const;
@@ -5009,82 +4998,6 @@ export const RunStatusSchema = {
   ],
 } as const;
 
-export const AgentComponentSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/ComponentModel",
-    },
-    {
-      required: ["config"],
-      properties: {
-        config: {
-          $ref: "#/components/schemas/AgentConfig",
-        },
-      },
-    },
-  ],
-} as const;
-
-export const AgentConfigSchema = {
-  required: [
-    "name",
-    "description",
-    "model_client",
-    "reflect_on_tool_use",
-    "tool_call_summary_format",
-    "model_client_stream",
-    "tools",
-    "handoffs",
-  ],
-  properties: {
-    name: {
-      type: "string",
-    },
-    description: {
-      type: "string",
-    },
-    model_context: {
-      $ref: "#/components/schemas/ModelContext",
-    },
-    memory: {
-      $ref: "#/components/schemas/MemoryConfig",
-    },
-    model_client_stream: {
-      type: "boolean",
-      default: false,
-    },
-    system_message: {
-      type: "string",
-    },
-    model_client: {
-      type: "object",
-      $ref: "#/components/schemas/ModelComponent",
-    },
-    tools: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/ToolComponent",
-      },
-      default: [],
-    },
-    handoffs: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-      default: [],
-    },
-    reflect_on_tool_use: {
-      type: "boolean",
-      default: false,
-    },
-    tool_call_summary_format: {
-      type: "string",
-      default: "{result}",
-    },
-  },
-} as const;
-
 export const SectionSchema = {
   properties: {
     section_title: {
@@ -5298,7 +5211,7 @@ export const TeamConfigSchema = {
     participants: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/AgentComponent",
+        type: "object",
       },
     },
     termination_condition: {

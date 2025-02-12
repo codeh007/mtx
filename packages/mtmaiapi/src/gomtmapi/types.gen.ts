@@ -1654,13 +1654,19 @@ export type ChatMessage = {
 };
 
 export type AgentRunInput = {
-  name: FlowNames;
-  isStream?: boolean;
-  params?:
-    | FlowAssisantPayload
-    | FlowTenantPayload
-    | FlowAgPayload
-    | BrowserParams;
+  /**
+   * 团队ID
+   */
+  teamId: string;
+  /**
+   * 线程ID
+   */
+  threadId?: string;
+  task: string;
+  /**
+   * 租户ID
+   */
+  tenantId?: string;
 };
 
 export type ChatMessageRole = "system" | "user" | "assistant";
@@ -2797,24 +2803,6 @@ export const RunStatus = {
   STOPPED: "stopped",
 } as const;
 
-export type AgentComponent = ComponentModel & {
-  config: AgentConfig;
-};
-
-export type AgentConfig = {
-  name: string;
-  description: string;
-  model_context?: ModelContext;
-  memory?: MemoryConfig;
-  model_client_stream: boolean;
-  system_message?: string;
-  model_client: ModelComponent;
-  tools: Array<ToolComponent>;
-  handoffs: Array<string>;
-  reflect_on_tool_use: boolean;
-  tool_call_summary_format: string;
-};
-
 export type Section = {
   /**
    * Title of the section
@@ -2916,7 +2904,9 @@ export const TeamTypes = {
 
 export type TeamConfig = {
   max_turns?: number;
-  participants?: Array<AgentComponent>;
+  participants?: Array<{
+    [key: string]: unknown;
+  }>;
   termination_condition?: ComponentModel;
 };
 

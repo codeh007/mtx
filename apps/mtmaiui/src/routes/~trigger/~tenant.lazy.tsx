@@ -1,7 +1,11 @@
 "use client";
 import { useMutation } from "@tanstack/react-query";
 import { createLazyFileRoute, useNavigate } from "@tanstack/react-router";
-import { FlowNames, workflowRunCreateMutation } from "mtmaiapi";
+import {
+  FlowNames,
+  type TenantSeedReq,
+  workflowRunCreateMutation,
+} from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import { toast } from "mtxuilib/ui/use-toast";
 import { useTenant } from "../../hooks/useAuth";
@@ -20,7 +24,7 @@ function RouteComponent() {
         title: "操作成功",
         description: "触发 workflow 成功",
       });
-      navigate({ to: ".." });
+      navigate({ to: "/workflows" });
       // window.history.back();
     },
     onError: (error) => {
@@ -48,7 +52,9 @@ function RouteComponent() {
               workflow: FlowNames.TENANT,
             },
             body: {
-              input: {},
+              input: {
+                tenantId: tenant!.metadata.id,
+              } satisfies TenantSeedReq,
               additionalMetadata: {},
             },
           })
