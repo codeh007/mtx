@@ -253,18 +253,6 @@ import type {
   WorkflowGetByNameData,
   WorkflowGetByNameResponse,
   WorkflowGetByNameError,
-  ChatListData,
-  ChatListResponse,
-  ChatCreateChatSessionData,
-  ChatCreateChatSessionResponse,
-  ChatCreateChatSessionError,
-  ChatGetData,
-  ChatGetResponse,
-  ChatUpdateChatSessionData,
-  ChatUpdateChatSessionResponse,
-  ChatUpdateChatSessionError,
-  ChatMessagesData,
-  ChatMessagesResponse,
   WorkerConfigData,
   WorkerConfigResponse,
   MtmaiBloggenconfigData,
@@ -347,9 +335,6 @@ import type {
   GalleryCreateError,
   GalleryGetData,
   GalleryGetResponse,
-  AgentRunData,
-  AgentRunResponse,
-  AgentRunError,
   AgentStreamData,
   AgentStreamResponse,
   AgentStreamError,
@@ -2802,149 +2787,6 @@ export const workflowGetByName = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 获取租户下的聊天列表
- * 获取聊天列表
- */
-export const chatList = <ThrowOnError extends boolean = false>(
-  options: Options<ChatListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    ChatListResponse,
-    unknown,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/chats",
-    ...options,
-  });
-};
-
-/**
- * 创建聊天 Session
- * 创建聊天 Session
- */
-export const chatCreateChatSession = <ThrowOnError extends boolean = false>(
-  options: Options<ChatCreateChatSessionData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    ChatCreateChatSessionResponse,
-    ChatCreateChatSessionError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/chats",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 获取租户下的聊天列表
- * 获取聊天列表
- */
-export const chatGet = <ThrowOnError extends boolean = false>(
-  options: Options<ChatGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    ChatGetResponse,
-    unknown,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/chats/{chat}",
-    ...options,
-  });
-};
-
-/**
- * 更新会话
- * 更新会话
- */
-export const chatUpdateChatSession = <ThrowOnError extends boolean = false>(
-  options: Options<ChatUpdateChatSessionData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).put<
-    ChatUpdateChatSessionResponse,
-    ChatUpdateChatSessionError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/chats/{chat}",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 获取聊天消息
- * 获取聊天消息
- */
-export const chatMessages = <ThrowOnError extends boolean = false>(
-  options: Options<ChatMessagesData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    ChatMessagesResponse,
-    unknown,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/chats/{chatId}/messages",
-    ...options,
-  });
-};
-
-/**
  * 获取worker配置, 内部使用免去配置 token环境变量的麻烦
  * 获取worker配置
  */
@@ -3755,36 +3597,6 @@ export const galleryGet = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/gallery/{gallery}",
     ...options,
-  });
-};
-
-/**
- * 执行节点(执行工作流)
- */
-export const agentRun = <ThrowOnError extends boolean = false>(
-  options: Options<AgentRunData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    AgentRunResponse,
-    AgentRunError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/nodes/run",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
   });
 };
 

@@ -1366,27 +1366,6 @@ export const zCommonResult = z.object({
   Message: z.string(),
 });
 
-export const zChatReq = z.object({
-  threadId: z.string().optional(),
-  profile: z.string().optional(),
-  messages: z.array(
-    z.object({
-      metadata: zApiResourceMeta,
-      role: z.enum(["system", "user", "assistant"]),
-      content: z.string(),
-      source: z.string().optional(),
-      config: z
-        .object({
-          message_type: z.string().optional(),
-          source: z.string().optional(),
-        })
-        .optional(),
-    }),
-  ),
-  runner: z.string().optional(),
-  params: z.object({}).optional(),
-});
-
 export const zChatMessage = z.object({
   metadata: zApiResourceMeta,
   role: z.enum(["system", "user", "assistant"]),
@@ -1400,6 +1379,29 @@ export const zChatMessage = z.object({
     .optional(),
 });
 
+export const zAgentRunInput = z.object({
+  name: z.enum(["assisant", "ag", "browser", "tenant", "news"]),
+  isStream: z.boolean().optional().default(false),
+  params: z
+    .union([
+      z.object({
+        messages: z.array(zChatMessage).optional(),
+      }),
+      z.object({
+        input: z.string().optional(),
+      }),
+      z.object({
+        teamId: z.string(),
+        sessionId: z.string().optional(),
+        messages: z.array(zChatMessage),
+      }),
+      z.object({
+        input: z.string().optional(),
+      }),
+    ])
+    .optional(),
+});
+
 export const zChatMessageRole = z.enum(["system", "user", "assistant"]);
 
 export const zChatMessages = z.object({
@@ -1409,11 +1411,6 @@ export const zChatMessages = z.object({
 export const zChatHistoryList = z.object({
   pagination: zPaginationResponse.optional(),
   rows: z.array(zChatMessage).optional(),
-});
-
-export const zChatCompletionsReq = z.object({
-  model: z.string().optional(),
-  messages: z.array(zChatMessage).optional(),
 });
 
 export const zChatSession = z.object({
@@ -1578,15 +1575,9 @@ export const zCreateArtifacttRequest = z.object({
   state: z.object({}),
 });
 
-export const zAgentNodeRun = z.object({
-  metadata: zApiResourceMeta,
-  title: z.string().optional(),
-  description: z.string().optional(),
-  state: z.object({}).optional(),
-  workflowRunId: z.string(),
-  nodeId: z.string(),
-  input: z.object({}).optional(),
-  output: z.object({}).optional(),
+export const zRunAgentReq = z.object({
+  tenantId: z.string(),
+  task: z.string().optional(),
 });
 
 export const zFlowAssisantPayload = z.object({
@@ -1601,21 +1592,6 @@ export const zFlowAgPayload = z.object({
   teamId: z.string(),
   sessionId: z.string().optional(),
   messages: z.array(zChatMessage),
-});
-
-export const zAgentRunInput = z.object({
-  name: z.enum(["assisant", "ag", "browser", "tenant", "news"]),
-  isStream: z.boolean().optional().default(false),
-  params: z
-    .union([
-      zFlowAssisantPayload,
-      zFlowTenantPayload,
-      zFlowAgPayload,
-      z.object({
-        input: z.string().optional(),
-      }),
-    ])
-    .optional(),
 });
 
 export const zTextHighlight = z.object({
@@ -1846,21 +1822,6 @@ export const zRun = z.object({
       })
       .merge(
         z.object({
-          content: z.array(z.unknown()).optional(),
-        }),
-      ),
-    z
-      .object({
-        source: z.string().optional(),
-        models_usage: z
-          .object({
-            prompt_tokens: z.number(),
-            completion_tokens: z.number(),
-          })
-          .optional(),
-      })
-      .merge(
-        z.object({
           content: z.string(),
         }),
       ),
@@ -1973,7 +1934,7 @@ export const zTeam = z
         component_version: z.number().int().optional(),
         description: z.string().optional(),
         label: z.string().optional(),
-        config: z.object({}),
+        config: z.unknown(),
       })
       .merge(
         z.object({
@@ -1996,7 +1957,7 @@ export const zTeam = z
                       component_version: z.number().int().optional(),
                       description: z.string().optional(),
                       label: z.string().optional(),
-                      config: z.object({}),
+                      config: z.unknown(),
                     })
                     .merge(
                       z.object({
@@ -2017,7 +1978,7 @@ export const zTeam = z
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
                               label: z.string().optional(),
-                              config: z.object({}),
+                              config: z.unknown(),
                             })
                             .optional(),
                           memory: z
@@ -2034,7 +1995,7 @@ export const zTeam = z
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
                               label: z.string().optional(),
-                              config: z.object({}),
+                              config: z.unknown(),
                             })
                             .optional(),
                           model_client_stream: z.boolean().default(false),
@@ -2053,7 +2014,7 @@ export const zTeam = z
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
                               label: z.string().optional(),
-                              config: z.object({}),
+                              config: z.unknown(),
                             })
                             .merge(
                               z.object({
@@ -2116,7 +2077,7 @@ export const zTeam = z
                                     .optional(),
                                   description: z.string().optional(),
                                   label: z.string().optional(),
-                                  config: z.object({}),
+                                  config: z.unknown(),
                                 })
                                 .merge(
                                   z.object({
@@ -2159,7 +2120,7 @@ export const zTeam = z
                   component_version: z.number().int().optional(),
                   description: z.string().optional(),
                   label: z.string().optional(),
-                  config: z.object({}),
+                  config: z.unknown(),
                 })
                 .optional(),
             })
@@ -2186,7 +2147,7 @@ export const zTeamUpdate = z.object({
     component_version: z.number().int().optional(),
     description: z.string().optional(),
     label: z.string().optional(),
-    config: z.object({}),
+    config: z.unknown(),
   }),
 });
 
@@ -2210,7 +2171,7 @@ export const zTeamCreate = z.object({
       component_version: z.number().int().optional(),
       description: z.string().optional(),
       label: z.string().optional(),
-      config: z.object({}),
+      config: z.unknown(),
     })
     .merge(
       z.object({
@@ -2233,7 +2194,7 @@ export const zTeamCreate = z.object({
                     component_version: z.number().int().optional(),
                     description: z.string().optional(),
                     label: z.string().optional(),
-                    config: z.object({}),
+                    config: z.unknown(),
                   })
                   .merge(
                     z.object({
@@ -2254,7 +2215,7 @@ export const zTeamCreate = z.object({
                             component_version: z.number().int().optional(),
                             description: z.string().optional(),
                             label: z.string().optional(),
-                            config: z.object({}),
+                            config: z.unknown(),
                           })
                           .optional(),
                         memory: z
@@ -2271,7 +2232,7 @@ export const zTeamCreate = z.object({
                             component_version: z.number().int().optional(),
                             description: z.string().optional(),
                             label: z.string().optional(),
-                            config: z.object({}),
+                            config: z.unknown(),
                           })
                           .optional(),
                         model_client_stream: z.boolean().default(false),
@@ -2290,7 +2251,7 @@ export const zTeamCreate = z.object({
                             component_version: z.number().int().optional(),
                             description: z.string().optional(),
                             label: z.string().optional(),
-                            config: z.object({}),
+                            config: z.unknown(),
                           })
                           .merge(
                             z.object({
@@ -2346,7 +2307,7 @@ export const zTeamCreate = z.object({
                                 component_version: z.number().int().optional(),
                                 description: z.string().optional(),
                                 label: z.string().optional(),
-                                config: z.object({}),
+                                config: z.unknown(),
                               })
                               .merge(
                                 z.object({
@@ -2389,7 +2350,7 @@ export const zTeamCreate = z.object({
                 component_version: z.number().int().optional(),
                 description: z.string().optional(),
                 label: z.string().optional(),
-                config: z.object({}),
+                config: z.unknown(),
               })
               .optional(),
           })
@@ -2418,7 +2379,7 @@ export const zTeamProperties = z.object({
       component_version: z.number().int().optional(),
       description: z.string().optional(),
       label: z.string().optional(),
-      config: z.object({}),
+      config: z.unknown(),
     })
     .merge(
       z.object({
@@ -2441,7 +2402,7 @@ export const zTeamProperties = z.object({
                     component_version: z.number().int().optional(),
                     description: z.string().optional(),
                     label: z.string().optional(),
-                    config: z.object({}),
+                    config: z.unknown(),
                   })
                   .merge(
                     z.object({
@@ -2462,7 +2423,7 @@ export const zTeamProperties = z.object({
                             component_version: z.number().int().optional(),
                             description: z.string().optional(),
                             label: z.string().optional(),
-                            config: z.object({}),
+                            config: z.unknown(),
                           })
                           .optional(),
                         memory: z
@@ -2479,7 +2440,7 @@ export const zTeamProperties = z.object({
                             component_version: z.number().int().optional(),
                             description: z.string().optional(),
                             label: z.string().optional(),
-                            config: z.object({}),
+                            config: z.unknown(),
                           })
                           .optional(),
                         model_client_stream: z.boolean().default(false),
@@ -2498,7 +2459,7 @@ export const zTeamProperties = z.object({
                             component_version: z.number().int().optional(),
                             description: z.string().optional(),
                             label: z.string().optional(),
-                            config: z.object({}),
+                            config: z.unknown(),
                           })
                           .merge(
                             z.object({
@@ -2554,7 +2515,7 @@ export const zTeamProperties = z.object({
                                 component_version: z.number().int().optional(),
                                 description: z.string().optional(),
                                 label: z.string().optional(),
-                                config: z.object({}),
+                                config: z.unknown(),
                               })
                               .merge(
                                 z.object({
@@ -2597,7 +2558,7 @@ export const zTeamProperties = z.object({
                 component_version: z.number().int().optional(),
                 description: z.string().optional(),
                 label: z.string().optional(),
-                config: z.object({}),
+                config: z.unknown(),
               })
               .optional(),
           })
@@ -2613,7 +2574,7 @@ export const zComponentModel = z.object({
   component_version: z.number().int().optional(),
   description: z.string().optional(),
   label: z.string().optional(),
-  config: z.object({}),
+  config: z.unknown(),
 });
 
 export const zGalleryComponents = z.object({
@@ -2665,7 +2626,7 @@ export const zAgEvent = z.object({
   data: z.object({}),
   framework: z.string(),
   stepRunId: z.string(),
-  meta: z.object({}).optional(),
+  meta: z.unknown().optional(),
 });
 
 export const zEventTypes = z.enum([
@@ -2686,16 +2647,69 @@ export const zAgEventCreate = zApiResourceMetaProperties.merge(zAgEvent);
 
 export const zAgEventUpdate = zApiResourceMetaProperties.merge(zAgEvent);
 
-export const zAgEventV2 = z.object({
-  stateId: z.string(),
-});
+export const zAgEventV2 = z.union([
+  z.object({
+    stateId: z.string(),
+  }),
+  zEventTypes,
+  z.object({
+    type: z.string(),
+  }),
+  z
+    .object({
+      type: z.string(),
+    })
+    .merge(
+      z.object({
+        workflowRunId: z.string().optional(),
+      }),
+    ),
+  z.object({
+    id: z.string(),
+    content: z.string(),
+  }),
+  z
+    .object({
+      metadata: zApiResourceMeta,
+      threadId: z.string().optional(),
+      messages: z.array(z.object({})),
+    })
+    .merge(
+      z.object({
+        name: z.string(),
+        description: z.string(),
+      }),
+    ),
+  z
+    .object({
+      metadata: zApiResourceMeta,
+      threadId: z.string().optional(),
+      messages: z.array(z.object({})),
+    })
+    .merge(
+      z.object({
+        topic: z.string(),
+        prompt: z.string().optional(),
+        title: z.string().optional(),
+        subTitle: z.string().optional(),
+        oulines: z
+          .array(
+            z.object({
+              title: z.string(),
+              description: z.string().optional(),
+            }),
+          )
+          .optional(),
+      }),
+    ),
+]);
 
 export const zEventNewAgentState = z.object({
   stateId: z.string(),
 });
 
 export const zTenantSeedReq = z.object({
-  content: z.string().optional(),
+  tenantId: z.string(),
 });
 
 export const zEventBase = z.object({
@@ -2777,7 +2791,7 @@ export const zAgentNodeUpdateRequest = z.object({
   prompt: z.string(),
   type: z.string().optional(),
   description: z.string().optional(),
-  state: z.object({}).optional(),
+  state: z.unknown().optional(),
 });
 
 export const zFlowNames = z.enum([
@@ -2844,12 +2858,6 @@ export const zTextMessageConfig = zBaseMessageConfig.merge(
   }),
 );
 
-export const zMultiModalMessageConfig = zBaseMessageConfig.merge(
-  z.object({
-    content: z.array(z.unknown()).optional(),
-  }),
-);
-
 export const zStopMessageConfig = zBaseMessageConfig.merge(
   z.object({
     content: z.string(),
@@ -2888,14 +2896,12 @@ export const zInnerMessageConfig = z.union([
 
 export const zChatMessageConfig = z.union([
   zTextMessageConfig,
-  zMultiModalMessageConfig,
   zStopMessageConfig,
   zHandoffMessageConfig,
 ]);
 
 export const zAgentMessageConfig = z.union([
   zTextMessageConfig,
-  zMultiModalMessageConfig,
   zStopMessageConfig,
   zHandoffMessageConfig,
   zToolCallMessageConfig,
@@ -3250,52 +3256,8 @@ export const zTeamConfig = z.object({
 export const zBaseState = z.object({
   metadata: zApiResourceMeta,
   threadId: z.string().optional(),
-  messages: z.array(zChatMessage),
+  messages: z.array(z.object({})),
 });
-
-export const zAgentState = z.union([
-  zBaseState.merge(
-    z.object({
-      name: z.string(),
-      description: z.string(),
-    }),
-  ),
-  zBaseState.merge(
-    z.object({
-      topic: z.string(),
-      prompt: z.string().optional(),
-      title: z.string().optional(),
-      subTitle: z.string().optional(),
-      oulines: z
-        .array(
-          z.object({
-            title: z.string(),
-            description: z.string().optional(),
-          }),
-        )
-        .optional(),
-    }),
-  ),
-  z.object({
-    channel: z
-      .object({
-        messages: z.array(zChatMessage).optional(),
-        fresearch: z.string().optional(),
-        orgId: z.string().optional(),
-        hook: z.string().optional(),
-        content: z.string().optional(),
-        date: z.string().optional(),
-        category: z.string().optional(),
-        popularPosts: z.string().optional(),
-        topic: z.string().optional(),
-        isPicture: z.boolean().optional(),
-        format: z.string().optional(),
-        tone: z.string().optional(),
-        question: z.string().optional(),
-      })
-      .optional(),
-  }),
-]);
 
 export const zAssisantState = zBaseState.merge(
   z.object({
@@ -3320,26 +3282,6 @@ export const zGenArticleState = zBaseState.merge(
       .optional(),
   }),
 );
-
-export const zPostizChannel = z.object({
-  messages: z.array(zChatMessage).optional(),
-  fresearch: z.string().optional(),
-  orgId: z.string().optional(),
-  hook: z.string().optional(),
-  content: z.string().optional(),
-  date: z.string().optional(),
-  category: z.string().optional(),
-  popularPosts: z.string().optional(),
-  topic: z.string().optional(),
-  isPicture: z.boolean().optional(),
-  format: z.string().optional(),
-  tone: z.string().optional(),
-  question: z.string().optional(),
-});
-
-export const zPostizState = z.object({
-  channel: zPostizChannel.optional(),
-});
 
 export const zResearchRequest = z
   .object({
@@ -3837,16 +3779,6 @@ export const zWorkflowRunGetInputResponse = z.object({});
 
 export const zWorkflowGetByNameResponse = zWorkflow;
 
-export const zChatListResponse = zChatSessionList;
-
-export const zChatCreateChatSessionResponse = zChatSession;
-
-export const zChatGetResponse = zChatSession;
-
-export const zChatUpdateChatSessionResponse = zChatSession;
-
-export const zChatMessagesResponse = zChatMessages;
-
 export const zWorkerConfigResponse = zWorkerConfig;
 
 export const zMtmaiBloggenconfigResponse = zBlogGenConfig;
@@ -3910,8 +3842,6 @@ export const zGalleryListResponse = zGalleryList;
 export const zGalleryCreateResponse = zGallery;
 
 export const zGalleryGetResponse = zGallery;
-
-export const zAgentRunResponse = zAgentNodeRun;
 
 export const zAgentStreamResponse = zAgEventV2;
 

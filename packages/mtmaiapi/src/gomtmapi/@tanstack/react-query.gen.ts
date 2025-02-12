@@ -91,11 +91,6 @@ import {
   webhookRequestsList,
   workflowRunGetInput,
   workflowGetByName,
-  chatList,
-  chatCreateChatSession,
-  chatGet,
-  chatUpdateChatSession,
-  chatMessages,
   workerConfig,
   mtmaiBloggenconfig,
   mtmaiWorkerConfig,
@@ -126,7 +121,6 @@ import {
   galleryList,
   galleryCreate,
   galleryGet,
-  agentRun,
   agentStream,
   agEventList,
   agEventCreate,
@@ -352,15 +346,6 @@ import type {
   WebhookRequestsListData,
   WorkflowRunGetInputData,
   WorkflowGetByNameData,
-  ChatListData,
-  ChatCreateChatSessionData,
-  ChatCreateChatSessionError,
-  ChatCreateChatSessionResponse,
-  ChatGetData,
-  ChatUpdateChatSessionData,
-  ChatUpdateChatSessionError,
-  ChatUpdateChatSessionResponse,
-  ChatMessagesData,
   WorkerConfigData,
   MtmaiBloggenconfigData,
   MtmaiWorkerConfigData,
@@ -415,9 +400,6 @@ import type {
   GalleryCreateError,
   GalleryCreateResponse,
   GalleryGetData,
-  AgentRunData,
-  AgentRunError,
-  AgentRunResponse,
   AgentStreamData,
   AgEventListData,
   AgEventCreateData,
@@ -3225,124 +3207,6 @@ export const workflowGetByNameOptions = (
   });
 };
 
-export const chatListQueryKey = (options: Options<ChatListData>) => [
-  createQueryKey("chatList", options),
-];
-
-export const chatListOptions = (options: Options<ChatListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await chatList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: chatListQueryKey(options),
-  });
-};
-
-export const chatCreateChatSessionQueryKey = (
-  options: Options<ChatCreateChatSessionData>,
-) => [createQueryKey("chatCreateChatSession", options)];
-
-export const chatCreateChatSessionOptions = (
-  options: Options<ChatCreateChatSessionData>,
-) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await chatCreateChatSession({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: chatCreateChatSessionQueryKey(options),
-  });
-};
-
-export const chatCreateChatSessionMutation = (
-  options?: Partial<Options<ChatCreateChatSessionData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    ChatCreateChatSessionResponse,
-    ChatCreateChatSessionError,
-    Options<ChatCreateChatSessionData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await chatCreateChatSession({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const chatGetQueryKey = (options: Options<ChatGetData>) => [
-  createQueryKey("chatGet", options),
-];
-
-export const chatGetOptions = (options: Options<ChatGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await chatGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: chatGetQueryKey(options),
-  });
-};
-
-export const chatUpdateChatSessionMutation = (
-  options?: Partial<Options<ChatUpdateChatSessionData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    ChatUpdateChatSessionResponse,
-    ChatUpdateChatSessionError,
-    Options<ChatUpdateChatSessionData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await chatUpdateChatSession({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const chatMessagesQueryKey = (options: Options<ChatMessagesData>) => [
-  createQueryKey("chatMessages", options),
-];
-
-export const chatMessagesOptions = (options: Options<ChatMessagesData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await chatMessages({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: chatMessagesQueryKey(options),
-  });
-};
-
 export const workerConfigQueryKey = (options?: Options<WorkerConfigData>) => [
   createQueryKey("workerConfig", options),
 ];
@@ -4110,43 +3974,6 @@ export const galleryGetOptions = (options: Options<GalleryGetData>) => {
     },
     queryKey: galleryGetQueryKey(options),
   });
-};
-
-export const agentRunQueryKey = (options: Options<AgentRunData>) => [
-  createQueryKey("agentRun", options),
-];
-
-export const agentRunOptions = (options: Options<AgentRunData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agentRun({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: agentRunQueryKey(options),
-  });
-};
-
-export const agentRunMutation = (options?: Partial<Options<AgentRunData>>) => {
-  const mutationOptions: UseMutationOptions<
-    AgentRunResponse,
-    AgentRunError,
-    Options<AgentRunData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await agentRun({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
 };
 
 export const agentStreamQueryKey = (options: Options<AgentStreamData>) => [

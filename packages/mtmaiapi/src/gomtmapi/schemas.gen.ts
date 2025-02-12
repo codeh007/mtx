@@ -2899,34 +2899,7 @@ export const CommonResultSchema = {
   required: ["Success", "Message"],
 } as const;
 
-export const ChatReqSchema = {
-  type: "object",
-  properties: {
-    threadId: {
-      type: "string",
-    },
-    profile: {
-      type: "string",
-    },
-    messages: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/ChatMessage",
-      },
-    },
-    runner: {
-      type: "string",
-    },
-    params: {
-      type: "object",
-      description: "附加的表单数据",
-    },
-  },
-  required: ["messages"],
-} as const;
-
 export const ChatMessageSchema = {
-  type: "object",
   description: "单个聊天消息",
   properties: {
     metadata: {
@@ -2942,7 +2915,6 @@ export const ChatMessageSchema = {
       type: "string",
     },
     config: {
-      type: "object",
       properties: {
         message_type: {
           type: "string",
@@ -2956,13 +2928,44 @@ export const ChatMessageSchema = {
   required: ["metadata", "role", "content"],
 } as const;
 
+export const AgentRunInputSchema = {
+  required: ["name"],
+  properties: {
+    name: {
+      type: "string",
+      $ref: "#/components/schemas/FlowNames",
+      additionalProperties: true,
+      default: "ag",
+    },
+    isStream: {
+      type: "boolean",
+      default: false,
+    },
+    params: {
+      oneOf: [
+        {
+          $ref: "#/components/schemas/FlowAssisantPayload",
+        },
+        {
+          $ref: "#/components/schemas/FlowTenantPayload",
+        },
+        {
+          $ref: "#/components/schemas/FlowAgPayload",
+        },
+        {
+          $ref: "#/components/schemas/BrowserParams",
+        },
+      ],
+    },
+  },
+} as const;
+
 export const ChatMessageRoleSchema = {
   type: "string",
   enum: ["system", "user", "assistant"],
 } as const;
 
 export const ChatMessagesSchema = {
-  type: "object",
   description: "聊天消息列表",
   properties: {
     messages: {
@@ -2975,7 +2978,6 @@ export const ChatMessagesSchema = {
 } as const;
 
 export const ChatHistoryListSchema = {
-  type: "object",
   properties: {
     pagination: {
       $ref: "#/components/schemas/PaginationResponse",
@@ -2990,24 +2992,7 @@ export const ChatHistoryListSchema = {
   },
 } as const;
 
-export const ChatCompletionsReqSchema = {
-  type: "object",
-  properties: {
-    model: {
-      type: "string",
-    },
-    messages: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/ChatMessage",
-      },
-      "x-go-name": "Rows",
-    },
-  },
-} as const;
-
 export const ChatSessionSchema = {
-  type: "object",
   description: "聊天 Session",
   properties: {
     metadata: {
@@ -3027,7 +3012,6 @@ export const ChatSessionSchema = {
 } as const;
 
 export const ChatSessionUpdateSchema = {
-  type: "object",
   description: "更新聊天 Session",
   properties: {
     metadata: {
@@ -3040,7 +3024,6 @@ export const ChatSessionUpdateSchema = {
 } as const;
 
 export const ChatSessionListSchema = {
-  type: "object",
   description: "聊天 Session 列表",
   properties: {
     metadata: {
@@ -3418,35 +3401,16 @@ export const CreateArtifacttRequestSchema = {
   required: ["artId", "title", "state"],
 } as const;
 
-export const AgentNodeRunSchema = {
-  description: "agentnode run",
+export const RunAgentReqSchema = {
+  required: ["tenantId"],
   properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    title: {
+    tenantId: {
       type: "string",
     },
-    description: {
+    task: {
       type: "string",
-    },
-    state: {
-      type: "object",
-    },
-    workflowRunId: {
-      type: "string",
-    },
-    nodeId: {
-      type: "string",
-    },
-    input: {
-      type: "object",
-    },
-    output: {
-      type: "object",
     },
   },
-  required: ["metadata", "nodeId", "workflowRunId"],
 } as const;
 
 export const FlowAssisantPayloadSchema = {
@@ -3483,38 +3447,6 @@ export const FlowAgPayloadSchema = {
       items: {
         $ref: "#/components/schemas/ChatMessage",
       },
-    },
-  },
-} as const;
-
-export const AgentRunInputSchema = {
-  required: ["name"],
-  properties: {
-    name: {
-      type: "string",
-      $ref: "#/components/schemas/FlowNames",
-      additionalProperties: true,
-      default: "ag",
-    },
-    isStream: {
-      type: "boolean",
-      default: false,
-    },
-    params: {
-      oneOf: [
-        {
-          $ref: "#/components/schemas/FlowAssisantPayload",
-        },
-        {
-          $ref: "#/components/schemas/FlowTenantPayload",
-        },
-        {
-          $ref: "#/components/schemas/FlowAgPayload",
-        },
-        {
-          $ref: "#/components/schemas/BrowserParams",
-        },
-      ],
     },
   },
 } as const;
@@ -4066,7 +3998,6 @@ export const ComponentModelSchema = {
         "Human readable label for the component. If missing the component assumes the class name of the provider.",
     },
     config: {
-      type: "object",
       description:
         "The schema validated config field is passed to a given class's implmentation of :py:meth:`autogen_core.ComponentConfigImpl._from_config` to create a new instance of the component class.",
     },
@@ -4227,7 +4158,6 @@ export const AgEventSchema = {
       type: "string",
     },
     meta: {
-      type: "object",
       additionalProperties: true,
     },
   },
@@ -4286,6 +4216,24 @@ export const AgEventV2Schema = {
     {
       $ref: "#/components/schemas/EventNewAgentState",
     },
+    {
+      $ref: "#/components/schemas/EventTypes",
+    },
+    {
+      $ref: "#/components/schemas/EventBase",
+    },
+    {
+      $ref: "#/components/schemas/StartWorkflowRunEvent",
+    },
+    {
+      $ref: "#/components/schemas/TokenChunk",
+    },
+    {
+      $ref: "#/components/schemas/AssisantState",
+    },
+    {
+      $ref: "#/components/schemas/GenArticleState",
+    },
   ],
 } as const;
 
@@ -4299,8 +4247,9 @@ export const EventNewAgentStateSchema = {
 } as const;
 
 export const TenantSeedReqSchema = {
+  required: ["tenantId"],
   properties: {
-    content: {
+    tenantId: {
       type: "string",
     },
   },
@@ -4366,7 +4315,6 @@ export const AgentTaskToolSchema = {
     },
   },
   required: ["metadata", "name", "description"],
-  type: "object",
 } as const;
 
 export const AgentTaskStepSchema = {
@@ -4413,7 +4361,6 @@ export const AgentTaskStepSchema = {
     "output",
     "reason",
   ],
-  type: "object",
 } as const;
 
 export const AgentStepSchema = {
@@ -4431,7 +4378,6 @@ export const AgentStepSchema = {
     },
   },
   required: ["metadata", "Action", "Observation"],
-  type: "object",
 } as const;
 
 export const AgentActionSchema = {
@@ -4455,7 +4401,6 @@ export const AgentActionSchema = {
     },
   },
   required: ["Tool", "ToolInput", "Log", "ToolID"],
-  type: "object",
 } as const;
 
 export const AgentFinishSchema = {
@@ -4471,7 +4416,6 @@ export const AgentFinishSchema = {
     },
   },
   required: ["ReturnValues", "Log"],
-  type: "object",
 } as const;
 
 export const AgentNodeCreateRequestSchema = {
@@ -4491,7 +4435,6 @@ export const AgentNodeCreateRequestSchema = {
     },
   },
   required: ["prompt"],
-  type: "object",
 } as const;
 
 export const AgentNodeUpdateRequestSchema = {
@@ -4514,12 +4457,10 @@ export const AgentNodeUpdateRequestSchema = {
       description: "agent 节点描述",
     },
     state: {
-      type: "object",
       description: "agent 节点状态",
     },
   },
   required: ["prompt"],
-  type: "object",
 } as const;
 
 export const FlowNamesSchema = {
@@ -4624,7 +4565,6 @@ export const ImageContentSchema = {
 } as const;
 
 export const TextMessageConfigSchema = {
-  type: "object",
   allOf: [
     {
       $ref: "#/components/schemas/BaseMessageConfig",
@@ -4639,40 +4579,12 @@ export const TextMessageConfigSchema = {
   ],
 } as const;
 
-export const MultiModalMessageConfigSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/BaseMessageConfig",
-    },
-    {
-      type: "object",
-      properties: {
-        content: {
-          type: "array",
-          items: {
-            oneOf: [
-              {
-                type: "string",
-              },
-              {
-                $ref: "#/components/schemas/ImageContent",
-              },
-            ],
-          },
-        },
-      },
-    },
-  ],
-} as const;
-
 export const StopMessageConfigSchema = {
-  type: "object",
   allOf: [
     {
       $ref: "#/components/schemas/BaseMessageConfig",
     },
     {
-      type: "object",
       properties: {
         content: {
           type: "string",
@@ -4689,7 +4601,6 @@ export const HandoffMessageConfigSchema = {
       $ref: "#/components/schemas/BaseMessageConfig",
     },
     {
-      type: "object",
       properties: {
         content: {
           type: "string",
@@ -4709,7 +4620,6 @@ export const ToolCallMessageConfigSchema = {
       $ref: "#/components/schemas/BaseMessageConfig",
     },
     {
-      type: "object",
       properties: {
         content: {
           type: "array",
@@ -4729,7 +4639,6 @@ export const ToolCallResultMessageConfigSchema = {
       $ref: "#/components/schemas/BaseMessageConfig",
     },
     {
-      type: "object",
       properties: {
         content: {
           type: "array",
@@ -4775,9 +4684,6 @@ export const ChatMessageConfigSchema = {
       $ref: "#/components/schemas/TextMessageConfig",
     },
     {
-      $ref: "#/components/schemas/MultiModalMessageConfig",
-    },
-    {
       $ref: "#/components/schemas/StopMessageConfig",
     },
     {
@@ -4790,9 +4696,6 @@ export const AgentMessageConfigSchema = {
   oneOf: [
     {
       $ref: "#/components/schemas/TextMessageConfig",
-    },
-    {
-      $ref: "#/components/schemas/MultiModalMessageConfig",
     },
     {
       $ref: "#/components/schemas/StopMessageConfig",
@@ -5038,11 +4941,9 @@ export const ToolComponentSchema = {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
-      type: "object",
       required: ["config"],
       properties: {
         config: {
-          type: "object",
           $ref: "#/components/schemas/ToolConfig",
         },
       },
@@ -5114,11 +5015,9 @@ export const AgentComponentSchema = {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
-      type: "object",
       required: ["config"],
       properties: {
         config: {
-          type: "object",
           $ref: "#/components/schemas/AgentConfig",
         },
       },
@@ -5288,11 +5187,9 @@ export const TerminationComponentSchema = {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
-      type: "object",
       required: ["config"],
       properties: {
         config: {
-          type: "object",
           $ref: "#/components/schemas/TerminationConfig",
         },
       },
@@ -5321,11 +5218,9 @@ export const MaxMessageTerminationConfigComponentSchema = {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
-      type: "object",
       required: ["config"],
       properties: {
         config: {
-          type: "object",
           $ref: "#/components/schemas/MaxMessageTerminationConfig",
         },
       },
@@ -5336,7 +5231,6 @@ export const MaxMessageTerminationConfigComponentSchema = {
 export const MaxMessageTerminationConfigSchema = {
   allOf: [
     {
-      type: "object",
       required: ["termination_type", "max_messages"],
       properties: {
         termination_type: {
@@ -5357,10 +5251,8 @@ export const TextMentionTerminationComponentSchema = {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
-      type: "object",
       properties: {
         config: {
-          type: "object",
           $ref: "#/components/schemas/TextMentionTerminationConfig",
         },
       },
@@ -5416,7 +5308,6 @@ export const TeamConfigSchema = {
 } as const;
 
 export const BaseStateSchema = {
-  type: "object",
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -5429,25 +5320,11 @@ export const BaseStateSchema = {
       type: "array",
       description: "聊天消息",
       items: {
-        $ref: "#/components/schemas/ChatMessage",
+        type: "object",
       },
     },
   },
   required: ["messages", "metadata"],
-} as const;
-
-export const AgentStateSchema = {
-  oneOf: [
-    {
-      $ref: "#/components/schemas/AssisantState",
-    },
-    {
-      $ref: "#/components/schemas/GenArticleState",
-    },
-    {
-      $ref: "#/components/schemas/PostizState",
-    },
-  ],
 } as const;
 
 export const AssisantStateSchema = {
@@ -5478,7 +5355,6 @@ export const GenArticleStateSchema = {
       $ref: "#/components/schemas/BaseState",
     },
     {
-      type: "object",
       description: "文章生成的过程状态",
       properties: {
         topic: {
@@ -5501,7 +5377,6 @@ export const GenArticleStateSchema = {
           type: "array",
           description: "文章大纲列表",
           items: {
-            type: "object",
             description: "文章大纲",
             properties: {
               title: {
@@ -5519,63 +5394,6 @@ export const GenArticleStateSchema = {
       required: ["topic"],
     },
   ],
-} as const;
-
-export const PostizChannelSchema = {
-  properties: {
-    messages: {
-      type: "array",
-      description: "聊天消息",
-      items: {
-        $ref: "#/components/schemas/ChatMessage",
-      },
-    },
-    fresearch: {
-      type: "string",
-    },
-    orgId: {
-      type: "string",
-    },
-    hook: {
-      type: "string",
-    },
-    content: {
-      type: "string",
-    },
-    date: {
-      type: "string",
-    },
-    category: {
-      type: "string",
-    },
-    popularPosts: {
-      type: "string",
-    },
-    topic: {
-      type: "string",
-    },
-    isPicture: {
-      type: "boolean",
-    },
-    format: {
-      type: "string",
-    },
-    tone: {
-      type: "string",
-    },
-    question: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const PostizStateSchema = {
-  type: "object",
-  properties: {
-    channel: {
-      $ref: "#/components/schemas/PostizChannel",
-    },
-  },
 } as const;
 
 export const ResearchRequestSchema = {
@@ -6358,7 +6176,6 @@ export const PlatformAccountUpdateSchema = {
 } as const;
 
 export const BrowserSchema = {
-  type: "object",
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -6403,7 +6220,6 @@ export const BrowserListSchema = {
 } as const;
 
 export const BrowserUpdateSchema = {
-  type: "object",
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",

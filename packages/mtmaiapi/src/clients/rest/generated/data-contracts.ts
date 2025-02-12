@@ -1394,15 +1394,6 @@ export interface CommonResult {
   Message: string;
 }
 
-export interface ChatReq {
-  threadId?: string;
-  profile?: string;
-  messages: ChatMessage[];
-  runner?: string;
-  /** 附加的表单数据 */
-  params?: object;
-}
-
 /** 单个聊天消息 */
 export interface ChatMessage {
   metadata: APIResourceMeta;
@@ -1413,6 +1404,18 @@ export interface ChatMessage {
     message_type?: string;
     source?: string;
   };
+}
+
+export interface AgentRunInput {
+  /** @default "ag" */
+  name: FlowNames;
+  /** @default false */
+  isStream?: boolean;
+  params?:
+    | FlowAssisantPayload
+    | FlowTenantPayload
+    | FlowAgPayload
+    | BrowserParams;
 }
 
 export enum ChatMessageRole {
@@ -1429,11 +1432,6 @@ export interface ChatMessages {
 export interface ChatHistoryList {
   pagination?: PaginationResponse;
   rows?: ChatMessage[];
-}
-
-export interface ChatCompletionsReq {
-  model?: string;
-  messages?: ChatMessage[];
 }
 
 /** 聊天 Session */
@@ -1658,16 +1656,9 @@ export interface CreateArtifacttRequest {
   state: object;
 }
 
-/** agentnode run */
-export interface AgentNodeRun {
-  metadata: APIResourceMeta;
-  title?: string;
-  description?: string;
-  state?: object;
-  workflowRunId: string;
-  nodeId: string;
-  input?: object;
-  output?: object;
+export interface RunAgentReq {
+  tenantId: string;
+  task?: string;
 }
 
 export interface FlowAssisantPayload {
@@ -1683,18 +1674,6 @@ export interface FlowAgPayload {
   teamId: string;
   sessionId?: string;
   messages: ChatMessage[];
-}
-
-export interface AgentRunInput {
-  /** @default "ag" */
-  name: FlowNames;
-  /** @default false */
-  isStream?: boolean;
-  params?:
-    | FlowAssisantPayload
-    | FlowTenantPayload
-    | FlowAgPayload
-    | BrowserParams;
 }
 
 export interface TextHighlight {
@@ -1922,7 +1901,7 @@ export interface ComponentModel {
   /** Human readable label for the component. If missing the component assumes the class name of the provider. */
   label?: string;
   /** The schema validated config field is passed to a given class's implmentation of :py:meth:`autogen_core.ComponentConfigImpl._from_config` to create a new instance of the component class. */
-  config: object;
+  config: any;
 }
 
 export interface GalleryComponents {
@@ -1974,7 +1953,7 @@ export interface AgEvent {
   data: object;
   framework: string;
   stepRunId: string;
-  meta?: Record<string, any>;
+  meta?: any;
 }
 
 export enum EventTypes {
@@ -1995,14 +1974,21 @@ export type AgEventCreate = APIResourceMetaProperties & AgEvent;
 
 export type AgEventUpdate = APIResourceMetaProperties & AgEvent;
 
-export type AgEventV2 = EventNewAgentState;
+export type AgEventV2 =
+  | EventNewAgentState
+  | EventTypes
+  | EventBase
+  | StartWorkflowRunEvent
+  | TokenChunk
+  | AssisantState
+  | GenArticleState;
 
 export interface EventNewAgentState {
   stateId: string;
 }
 
 export interface TenantSeedReq {
-  content?: string;
+  tenantId: string;
 }
 
 export interface EventBase {
@@ -2099,7 +2085,7 @@ export interface AgentNodeUpdateRequest {
   /** agent 节点描述 */
   description?: string;
   /** agent 节点状态 */
-  state?: object;
+  state?: any;
 }
 
 export enum FlowNames {
@@ -2164,10 +2150,6 @@ export type TextMessageConfig = BaseMessageConfig & {
   content?: string;
 };
 
-export type MultiModalMessageConfig = BaseMessageConfig & {
-  content?: (string | ImageContent)[];
-};
-
 export type StopMessageConfig = BaseMessageConfig & {
   content: string;
 };
@@ -2197,13 +2179,11 @@ export type InnerMessageConfig =
 
 export type ChatMessageConfig =
   | TextMessageConfig
-  | MultiModalMessageConfig
   | StopMessageConfig
   | HandoffMessageConfig;
 
 export type AgentMessageConfig =
   | TextMessageConfig
-  | MultiModalMessageConfig
   | StopMessageConfig
   | HandoffMessageConfig
   | ToolCallMessageConfig
@@ -2432,10 +2412,8 @@ export interface BaseState {
   /** 线程ID */
   threadId?: string;
   /** 聊天消息 */
-  messages: ChatMessage[];
+  messages: object[];
 }
-
-export type AgentState = AssisantState | GenArticleState | PostizState;
 
 export type AssisantState = BaseState & {
   /** 名称 */
@@ -2461,27 +2439,6 @@ export type GenArticleState = BaseState & {
     description?: string;
   }[];
 };
-
-export interface PostizChannel {
-  /** 聊天消息 */
-  messages?: ChatMessage[];
-  fresearch?: string;
-  orgId?: string;
-  hook?: string;
-  content?: string;
-  date?: string;
-  category?: string;
-  popularPosts?: string;
-  topic?: string;
-  isPicture?: boolean;
-  format?: string;
-  tone?: string;
-  question?: string;
-}
-
-export interface PostizState {
-  channel?: PostizChannel;
-}
 
 /** 研究输入(目前写死为调用社交媒体) */
 export type ResearchRequest = {

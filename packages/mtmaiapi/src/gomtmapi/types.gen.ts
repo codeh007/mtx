@@ -1639,19 +1639,6 @@ export type CommonResult = {
   Message: string;
 };
 
-export type ChatReq = {
-  threadId?: string;
-  profile?: string;
-  messages: Array<ChatMessage>;
-  runner?: string;
-  /**
-   * 附加的表单数据
-   */
-  params?: {
-    [key: string]: unknown;
-  };
-};
-
 /**
  * 单个聊天消息
  */
@@ -1664,6 +1651,16 @@ export type ChatMessage = {
     message_type?: string;
     source?: string;
   };
+};
+
+export type AgentRunInput = {
+  name: FlowNames;
+  isStream?: boolean;
+  params?:
+    | FlowAssisantPayload
+    | FlowTenantPayload
+    | FlowAgPayload
+    | BrowserParams;
 };
 
 export type ChatMessageRole = "system" | "user" | "assistant";
@@ -1684,11 +1681,6 @@ export type ChatMessages = {
 export type ChatHistoryList = {
   pagination?: PaginationResponse;
   rows?: Array<ChatMessage>;
-};
-
-export type ChatCompletionsReq = {
-  model?: string;
-  messages?: Array<ChatMessage>;
 };
 
 /**
@@ -1943,24 +1935,9 @@ export type CreateArtifacttRequest = {
   };
 };
 
-/**
- * agentnode run
- */
-export type AgentNodeRun = {
-  metadata: ApiResourceMeta;
-  title?: string;
-  description?: string;
-  state?: {
-    [key: string]: unknown;
-  };
-  workflowRunId: string;
-  nodeId: string;
-  input?: {
-    [key: string]: unknown;
-  };
-  output?: {
-    [key: string]: unknown;
-  };
+export type RunAgentReq = {
+  tenantId: string;
+  task?: string;
 };
 
 export type FlowAssisantPayload = {
@@ -1978,16 +1955,6 @@ export type FlowAgPayload = {
   teamId: string;
   sessionId?: string;
   messages: Array<ChatMessage>;
-};
-
-export type AgentRunInput = {
-  name: FlowNames;
-  isStream?: boolean;
-  params?:
-    | FlowAssisantPayload
-    | FlowTenantPayload
-    | FlowAgPayload
-    | BrowserParams;
 };
 
 export type TextHighlight = {
@@ -2304,9 +2271,7 @@ export type ComponentModel = {
   /**
    * The schema validated config field is passed to a given class's implmentation of :py:meth:`autogen_core.ComponentConfigImpl._from_config` to create a new instance of the component class.
    */
-  config: {
-    [key: string]: unknown;
-  };
+  config: unknown;
 };
 
 export type GalleryComponents = {
@@ -2360,9 +2325,7 @@ export type AgEvent = {
   };
   framework: string;
   stepRunId: string;
-  meta?: {
-    [key: string]: unknown;
-  };
+  meta?: unknown;
 };
 
 export type EventTypes =
@@ -2391,14 +2354,21 @@ export type AgEventCreate = ApiResourceMetaProperties & AgEvent;
 
 export type AgEventUpdate = ApiResourceMetaProperties & AgEvent;
 
-export type AgEventV2 = EventNewAgentState;
+export type AgEventV2 =
+  | EventNewAgentState
+  | EventTypes
+  | EventBase
+  | StartWorkflowRunEvent
+  | TokenChunk
+  | AssisantState
+  | GenArticleState;
 
 export type EventNewAgentState = {
   stateId: string;
 };
 
 export type TenantSeedReq = {
-  content?: string;
+  tenantId: string;
 };
 
 export type EventBase = {
@@ -2564,9 +2534,7 @@ export type AgentNodeUpdateRequest = {
   /**
    * agent 节点状态
    */
-  state?: {
-    [key: string]: unknown;
-  };
+  state?: unknown;
 };
 
 export type FlowNames = "assisant" | "ag" | "browser" | "tenant" | "news";
@@ -2646,10 +2614,6 @@ export type TextMessageConfig = BaseMessageConfig & {
   content?: string;
 };
 
-export type MultiModalMessageConfig = BaseMessageConfig & {
-  content?: Array<string | ImageContent>;
-};
-
 export type StopMessageConfig = BaseMessageConfig & {
   content: string;
 };
@@ -2681,13 +2645,11 @@ export type InnerMessageConfig =
 
 export type ChatMessageConfig =
   | TextMessageConfig
-  | MultiModalMessageConfig
   | StopMessageConfig
   | HandoffMessageConfig;
 
 export type AgentMessageConfig =
   | TextMessageConfig
-  | MultiModalMessageConfig
   | StopMessageConfig
   | HandoffMessageConfig
   | ToolCallMessageConfig
@@ -2967,10 +2929,10 @@ export type BaseState = {
   /**
    * 聊天消息
    */
-  messages: Array<ChatMessage>;
+  messages: Array<{
+    [key: string]: unknown;
+  }>;
 };
-
-export type AgentState = AssisantState | GenArticleState | PostizState;
 
 export type AssisantState = BaseState & {
   /**
@@ -3010,29 +2972,6 @@ export type GenArticleState = BaseState & {
      */
     description?: string;
   }>;
-};
-
-export type PostizChannel = {
-  /**
-   * 聊天消息
-   */
-  messages?: Array<ChatMessage>;
-  fresearch?: string;
-  orgId?: string;
-  hook?: string;
-  content?: string;
-  date?: string;
-  category?: string;
-  popularPosts?: string;
-  topic?: string;
-  isPicture?: boolean;
-  format?: string;
-  tone?: string;
-  question?: string;
-};
-
-export type PostizState = {
-  channel?: PostizChannel;
 };
 
 /**
@@ -6898,7 +6837,7 @@ export type WorkflowGetByNameData = {
     /**
      * The workflow name
      */
-    name: string;
+    name: FlowNames;
   };
   query?: never;
   url: "/api/v1/tenants/{tenant}/workflows/byName/{name}";
@@ -6931,142 +6870,6 @@ export type WorkflowGetByNameResponses = {
 
 export type WorkflowGetByNameResponse =
   WorkflowGetByNameResponses[keyof WorkflowGetByNameResponses];
-
-export type ChatListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/chats";
-};
-
-export type ChatListResponses = {
-  200: ChatSessionList;
-};
-
-export type ChatListResponse = ChatListResponses[keyof ChatListResponses];
-
-export type ChatCreateChatSessionData = {
-  body: ChatSessionUpdate;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/chats";
-};
-
-export type ChatCreateChatSessionErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type ChatCreateChatSessionError =
-  ChatCreateChatSessionErrors[keyof ChatCreateChatSessionErrors];
-
-export type ChatCreateChatSessionResponses = {
-  200: ChatSession;
-};
-
-export type ChatCreateChatSessionResponse =
-  ChatCreateChatSessionResponses[keyof ChatCreateChatSessionResponses];
-
-export type ChatGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The chat id
-     */
-    chat: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/chats/{chat}";
-};
-
-export type ChatGetResponses = {
-  200: ChatSession;
-};
-
-export type ChatGetResponse = ChatGetResponses[keyof ChatGetResponses];
-
-export type ChatUpdateChatSessionData = {
-  body: ChatSessionUpdate;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The session id
-     */
-    chat: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/chats/{chat}";
-};
-
-export type ChatUpdateChatSessionErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type ChatUpdateChatSessionError =
-  ChatUpdateChatSessionErrors[keyof ChatUpdateChatSessionErrors];
-
-export type ChatUpdateChatSessionResponses = {
-  200: ChatSession;
-};
-
-export type ChatUpdateChatSessionResponse =
-  ChatUpdateChatSessionResponses[keyof ChatUpdateChatSessionResponses];
-
-export type ChatMessagesData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-    /**
-     * 聊天 ID
-     */
-    chatId: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/chats/{chatId}/messages";
-};
-
-export type ChatMessagesResponses = {
-  /**
-   * 返回聊天消息
-   */
-  200: ChatMessages;
-};
-
-export type ChatMessagesResponse =
-  ChatMessagesResponses[keyof ChatMessagesResponses];
 
 export type WorkerConfigData = {
   body?: never;
@@ -8078,37 +7881,6 @@ export type GalleryGetResponses = {
 };
 
 export type GalleryGetResponse = GalleryGetResponses[keyof GalleryGetResponses];
-
-export type AgentRunData = {
-  body: AgentRunInput;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/nodes/run";
-};
-
-export type AgentRunErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type AgentRunError = AgentRunErrors[keyof AgentRunErrors];
-
-export type AgentRunResponses = {
-  200: AgentNodeRun;
-};
-
-export type AgentRunResponse = AgentRunResponses[keyof AgentRunResponses];
 
 export type AgentStreamData = {
   body?: never;

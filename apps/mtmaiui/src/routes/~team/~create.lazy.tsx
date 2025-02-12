@@ -9,34 +9,28 @@ export const Route = createLazyFileRoute("/team/create")({
 });
 
 function RouteComponent() {
-  // const handleCreateTeam = (newTeam: Team) => {
-  //   console.log('newTeam', newTeam)
-  //   setCurrentTeam(newTeam)
-  //   // also save it to db
-
-  //   handleSaveTeam(newTeam)
-  // }
   const tenant = useTenant();
 
   const seedTenant = useMutation({
-    ...tenantSeedMutation({
-      // path: {
-      //   tenant: tenant,
-      // },
-    }),
+    ...tenantSeedMutation({}),
   });
   return (
     <div>
-      <h1>Create Team</h1>
+      <h1>创建默认团队</h1>
       <input type="text" placeholder="Team Name" />
       <Button
         onClick={() => {
           seedTenant.mutate({
-            // : "test",
+            path: {
+              tenant: tenant!.metadata.id,
+            },
+            body: {
+              tenantId: tenant!.metadata.id,
+            },
           });
         }}
       >
-        Create
+        立即创建
       </Button>
     </div>
   );
