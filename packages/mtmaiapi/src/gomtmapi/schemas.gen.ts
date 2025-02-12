@@ -3418,134 +3418,6 @@ export const CreateArtifacttRequestSchema = {
   required: ["artId", "title", "state"],
 } as const;
 
-export const AgentNodeOutputSchema = {
-  description: "agent 节点输出",
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    isFinal: {
-      type: "boolean",
-      description: "是否是最终步骤",
-    },
-    moreSteps: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/AgentStep",
-      },
-      description: "更多步骤",
-    },
-    output: {
-      type: "object",
-      description: "输出",
-    },
-    error: {
-      type: "string",
-      description: "错误",
-    },
-  },
-  required: ["metadata", "isFinal", "moreSteps", "output"],
-  type: "object",
-} as const;
-
-export const AgentNodeInputSchema = {
-  description: "agent 节点输入",
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    inputs: {
-      type: "object",
-      description: "输入",
-    },
-    intermediateSteps: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/AgentStep",
-      },
-      description: "中间步骤",
-    },
-  },
-  required: ["metadata", "inputs"],
-  type: "object",
-} as const;
-
-export const AgentNodeListSchema = {
-  properties: {
-    pagination: {
-      $ref: "#/components/schemas/PaginationResponse",
-    },
-    rows: {
-      items: {
-        $ref: "#/components/schemas/AgentNode",
-      },
-      type: "array",
-      "x-go-name": "Rows",
-    },
-  },
-} as const;
-
-export const AgentNodeSchema = {
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    title: {
-      type: "string",
-      description: "agent 节点名称, 或者作为工具名称",
-    },
-    description: {
-      type: "string",
-      description: "agent 节点描述, 或者作为工具描述",
-    },
-    type: {
-      type: "string",
-      description: "节点类型，决定了由哪个agent来进行调度",
-    },
-    Config: {
-      type: "object",
-      description: "agent 的配置",
-    },
-    state: {
-      $ref: "#/components/schemas/AgentState",
-    },
-    steps: {
-      description: "agent 节点执行步骤, 一般表示之前执行的步骤",
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/AgentStep",
-      },
-    },
-    finish: {
-      $ref: "#/components/schemas/AgentFinish",
-    },
-    parentId: {
-      description: "上级节点",
-      type: "string",
-    },
-    agentNodeOutput: {
-      $ref: "#/components/schemas/AgentNodeOutput",
-    },
-    tools: {
-      type: "string",
-    },
-    memoryId: {
-      type: "string",
-      description: "记忆ID，表示这个agent的记忆",
-    },
-    input: {
-      type: "string",
-      description: "输入",
-    },
-    output: {
-      type: "string",
-      description: "输出",
-    },
-  },
-  required: ["metadata", "title", "description", "steps"],
-  type: "object",
-} as const;
-
 export const AgentNodeRunSchema = {
   description: "agentnode run",
   properties: {
@@ -4421,6 +4293,14 @@ export const EventNewAgentStateSchema = {
   required: ["stateId"],
   properties: {
     stateId: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const TenantSeedReqSchema = {
+  properties: {
+    content: {
       type: "string",
     },
   },

@@ -331,6 +331,9 @@ import type {
   ArtifactGetError,
   TeamListData,
   TeamListResponse,
+  TeamCreateData,
+  TeamCreateResponse,
+  TeamCreateError,
   TeamGetData,
   TeamGetResponse,
   TeamGetError,
@@ -344,16 +347,6 @@ import type {
   GalleryCreateError,
   GalleryGetData,
   GalleryGetResponse,
-  AgentNodeListData,
-  AgentNodeListResponse,
-  AgentCreateData,
-  AgentCreateResponse,
-  AgentCreateError,
-  AgentNodeData,
-  AgentNodeResponse,
-  AgentNodeUpdateData,
-  AgentNodeUpdateResponse,
-  AgentNodeUpdateError,
   AgentRunData,
   AgentRunResponse,
   AgentRunError,
@@ -475,6 +468,9 @@ import type {
   AgStateUpsertData,
   AgStateUpsertResponse,
   AgStateUpsertError,
+  TenantSeedData,
+  TenantSeedResponse,
+  TenantSeedError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -3592,6 +3588,36 @@ export const teamList = <ThrowOnError extends boolean = false>(
 };
 
 /**
+ * 创建团队
+ */
+export const teamCreate = <ThrowOnError extends boolean = false>(
+  options: Options<TeamCreateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    TeamCreateResponse,
+    TeamCreateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/teams",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
  * 获取租户下的团队列表
  * 获取团队列表
  */
@@ -3729,119 +3755,6 @@ export const galleryGet = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/gallery/{gallery}",
     ...options,
-  });
-};
-
-/**
- * 获取节点列表
- */
-export const agentNodeList = <ThrowOnError extends boolean = false>(
-  options: Options<AgentNodeListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    AgentNodeListResponse,
-    unknown,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/nodes",
-    ...options,
-  });
-};
-
-/**
- * Create agent node
- * Creates a new agentnode
- */
-export const agentCreate = <ThrowOnError extends boolean = false>(
-  options: Options<AgentCreateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    AgentCreateResponse,
-    AgentCreateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/nodes",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * get node state
- */
-export const agentNode = <ThrowOnError extends boolean = false>(
-  options: Options<AgentNodeData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    AgentNodeResponse,
-    unknown,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/nodes/{node}",
-    ...options,
-  });
-};
-
-/**
- * update node state
- */
-export const agentNodeUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<AgentNodeUpdateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).patch<
-    AgentNodeUpdateResponse,
-    AgentNodeUpdateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/nodes/{node}",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
   });
 };
 
@@ -4989,6 +4902,37 @@ export const agStateUpsert = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/agStates/{state}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * 初始化租户
+ * 初始化租户
+ */
+export const tenantSeed = <ThrowOnError extends boolean = false>(
+  options: Options<TenantSeedData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    TenantSeedResponse,
+    TenantSeedError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenant/seed",
     ...options,
     headers: {
       "Content-Type": "application/json",

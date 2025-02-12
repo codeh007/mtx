@@ -120,15 +120,12 @@ import {
   artifactCreate,
   artifactGet,
   teamList,
+  teamCreate,
   teamGet,
   teamUpsert,
   galleryList,
   galleryCreate,
   galleryGet,
-  agentNodeList,
-  agentCreate,
-  agentNode,
-  agentNodeUpdate,
   agentRun,
   agentStream,
   agEventList,
@@ -173,6 +170,7 @@ import {
   agStateList,
   agStateGet,
   agStateUpsert,
+  tenantSeed,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -405,6 +403,9 @@ import type {
   ArtifactCreateResponse,
   ArtifactGetData,
   TeamListData,
+  TeamCreateData,
+  TeamCreateError,
+  TeamCreateResponse,
   TeamGetData,
   TeamUpsertData,
   TeamUpsertError,
@@ -414,14 +415,6 @@ import type {
   GalleryCreateError,
   GalleryCreateResponse,
   GalleryGetData,
-  AgentNodeListData,
-  AgentCreateData,
-  AgentCreateError,
-  AgentCreateResponse,
-  AgentNodeData,
-  AgentNodeUpdateData,
-  AgentNodeUpdateError,
-  AgentNodeUpdateResponse,
   AgentRunData,
   AgentRunError,
   AgentRunResponse,
@@ -502,6 +495,9 @@ import type {
   AgStateUpsertData,
   AgStateUpsertError,
   AgStateUpsertResponse,
+  TenantSeedData,
+  TenantSeedError,
+  TenantSeedResponse,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -3961,6 +3957,45 @@ export const teamListOptions = (options: Options<TeamListData>) => {
   });
 };
 
+export const teamCreateQueryKey = (options: Options<TeamCreateData>) => [
+  createQueryKey("teamCreate", options),
+];
+
+export const teamCreateOptions = (options: Options<TeamCreateData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await teamCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: teamCreateQueryKey(options),
+  });
+};
+
+export const teamCreateMutation = (
+  options?: Partial<Options<TeamCreateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    TeamCreateResponse,
+    TeamCreateError,
+    Options<TeamCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await teamCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
 export const teamGetQueryKey = (options: Options<TeamGetData>) => [
   createQueryKey("teamGet", options),
 ];
@@ -4075,103 +4110,6 @@ export const galleryGetOptions = (options: Options<GalleryGetData>) => {
     },
     queryKey: galleryGetQueryKey(options),
   });
-};
-
-export const agentNodeListQueryKey = (options: Options<AgentNodeListData>) => [
-  createQueryKey("agentNodeList", options),
-];
-
-export const agentNodeListOptions = (options: Options<AgentNodeListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agentNodeList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: agentNodeListQueryKey(options),
-  });
-};
-
-export const agentCreateQueryKey = (options: Options<AgentCreateData>) => [
-  createQueryKey("agentCreate", options),
-];
-
-export const agentCreateOptions = (options: Options<AgentCreateData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agentCreate({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: agentCreateQueryKey(options),
-  });
-};
-
-export const agentCreateMutation = (
-  options?: Partial<Options<AgentCreateData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    AgentCreateResponse,
-    AgentCreateError,
-    Options<AgentCreateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await agentCreate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const agentNodeQueryKey = (options: Options<AgentNodeData>) => [
-  createQueryKey("agentNode", options),
-];
-
-export const agentNodeOptions = (options: Options<AgentNodeData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agentNode({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: agentNodeQueryKey(options),
-  });
-};
-
-export const agentNodeUpdateMutation = (
-  options?: Partial<Options<AgentNodeUpdateData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    AgentNodeUpdateResponse,
-    AgentNodeUpdateError,
-    Options<AgentNodeUpdateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await agentNodeUpdate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
 };
 
 export const agentRunQueryKey = (options: Options<AgentRunData>) => [
@@ -5197,6 +5135,45 @@ export const agStateUpsertMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await agStateUpsert({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const tenantSeedQueryKey = (options: Options<TenantSeedData>) => [
+  createQueryKey("tenantSeed", options),
+];
+
+export const tenantSeedOptions = (options: Options<TenantSeedData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await tenantSeed({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: tenantSeedQueryKey(options),
+  });
+};
+
+export const tenantSeedMutation = (
+  options?: Partial<Options<TenantSeedData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    TenantSeedResponse,
+    TenantSeedError,
+    Options<TenantSeedData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await tenantSeed({
         ...options,
         ...localOptions,
         throwOnError: true,

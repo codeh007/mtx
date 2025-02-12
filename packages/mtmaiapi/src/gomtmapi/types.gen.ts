@@ -1944,99 +1944,6 @@ export type CreateArtifacttRequest = {
 };
 
 /**
- * agent 节点输出
- */
-export type AgentNodeOutput = {
-  metadata: ApiResourceMeta;
-  /**
-   * 是否是最终步骤
-   */
-  isFinal: boolean;
-  /**
-   * 更多步骤
-   */
-  moreSteps: Array<AgentStep>;
-  /**
-   * 输出
-   */
-  output: {
-    [key: string]: unknown;
-  };
-  /**
-   * 错误
-   */
-  error?: string;
-};
-
-/**
- * agent 节点输入
- */
-export type AgentNodeInput = {
-  metadata: ApiResourceMeta;
-  /**
-   * 输入
-   */
-  inputs: {
-    [key: string]: unknown;
-  };
-  /**
-   * 中间步骤
-   */
-  intermediateSteps?: Array<AgentStep>;
-};
-
-export type AgentNodeList = {
-  pagination?: PaginationResponse;
-  rows?: Array<AgentNode>;
-};
-
-export type AgentNode = {
-  metadata: ApiResourceMeta;
-  /**
-   * agent 节点名称, 或者作为工具名称
-   */
-  title: string;
-  /**
-   * agent 节点描述, 或者作为工具描述
-   */
-  description: string;
-  /**
-   * 节点类型，决定了由哪个agent来进行调度
-   */
-  type?: string;
-  /**
-   * agent 的配置
-   */
-  Config?: {
-    [key: string]: unknown;
-  };
-  state?: AgentState;
-  /**
-   * agent 节点执行步骤, 一般表示之前执行的步骤
-   */
-  steps: Array<AgentStep>;
-  finish?: AgentFinish;
-  /**
-   * 上级节点
-   */
-  parentId?: string;
-  agentNodeOutput?: AgentNodeOutput;
-  tools?: string;
-  /**
-   * 记忆ID，表示这个agent的记忆
-   */
-  memoryId?: string;
-  /**
-   * 输入
-   */
-  input?: string;
-  /**
-   * 输出
-   */
-  output?: string;
-};
-
-/**
  * agentnode run
  */
 export type AgentNodeRun = {
@@ -2488,6 +2395,10 @@ export type AgEventV2 = EventNewAgentState;
 
 export type EventNewAgentState = {
   stateId: string;
+};
+
+export type TenantSeedReq = {
+  content?: string;
 };
 
 export type EventBase = {
@@ -7985,6 +7896,40 @@ export type TeamListResponses = {
 
 export type TeamListResponse = TeamListResponses[keyof TeamListResponses];
 
+export type TeamCreateData = {
+  body: TeamCreate;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/teams";
+};
+
+export type TeamCreateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type TeamCreateError = TeamCreateErrors[keyof TeamCreateErrors];
+
+export type TeamCreateResponses = {
+  /**
+   * 创建团队
+   */
+  200: Team;
+};
+
+export type TeamCreateResponse = TeamCreateResponses[keyof TeamCreateResponses];
+
 export type TeamGetData = {
   body?: never;
   path: {
@@ -8133,134 +8078,6 @@ export type GalleryGetResponses = {
 };
 
 export type GalleryGetResponse = GalleryGetResponses[keyof GalleryGetResponses];
-
-export type AgentNodeListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/nodes";
-};
-
-export type AgentNodeListResponses = {
-  /**
-   * Successfully retrieved the list of nodes
-   */
-  200: AgentNodeList;
-};
-
-export type AgentNodeListResponse =
-  AgentNodeListResponses[keyof AgentNodeListResponses];
-
-export type AgentCreateData = {
-  /**
-   * create agentnode
-   */
-  body: AgentNodeCreateRequest;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/nodes";
-};
-
-export type AgentCreateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type AgentCreateError = AgentCreateErrors[keyof AgentCreateErrors];
-
-export type AgentCreateResponses = {
-  /**
-   * Successfully created the blog post
-   */
-  200: AgentNode;
-};
-
-export type AgentCreateResponse =
-  AgentCreateResponses[keyof AgentCreateResponses];
-
-export type AgentNodeData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The node id
-     */
-    node: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/nodes/{node}";
-};
-
-export type AgentNodeResponses = {
-  /**
-   * agent node full state
-   */
-  200: AgentNode;
-};
-
-export type AgentNodeResponse = AgentNodeResponses[keyof AgentNodeResponses];
-
-export type AgentNodeUpdateData = {
-  /**
-   * update node state
-   */
-  body: AgentNodeUpdateRequest;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The node id
-     */
-    node: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/nodes/{node}";
-};
-
-export type AgentNodeUpdateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type AgentNodeUpdateError =
-  AgentNodeUpdateErrors[keyof AgentNodeUpdateErrors];
-
-export type AgentNodeUpdateResponses = {
-  /**
-   * Successfully created the blog post
-   */
-  200: AgentNode;
-};
-
-export type AgentNodeUpdateResponse =
-  AgentNodeUpdateResponses[keyof AgentNodeUpdateResponses];
 
 export type AgentRunData = {
   body: AgentRunInput;
@@ -9566,6 +9383,42 @@ export type AgStateUpsertResponses = {
 
 export type AgStateUpsertResponse =
   AgStateUpsertResponses[keyof AgStateUpsertResponses];
+
+export type TenantSeedData = {
+  /**
+   * 租户种子消息
+   */
+  body: TenantSeedReq;
+  path?: never;
+  query?: never;
+  url: "/api/v1/tenant/seed";
+};
+
+export type TenantSeedErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type TenantSeedError = TenantSeedErrors[keyof TenantSeedErrors];
+
+export type TenantSeedResponses = {
+  /**
+   * Successfully retrieved the step run queue metrics
+   */
+  200: TenantSeedReq;
+};
+
+export type TenantSeedResponse = TenantSeedResponses[keyof TenantSeedResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

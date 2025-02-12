@@ -1658,61 +1658,6 @@ export interface CreateArtifacttRequest {
   state: object;
 }
 
-/** agent 节点输出 */
-export interface AgentNodeOutput {
-  metadata: APIResourceMeta;
-  /** 是否是最终步骤 */
-  isFinal: boolean;
-  /** 更多步骤 */
-  moreSteps: AgentStep[];
-  /** 输出 */
-  output: object;
-  /** 错误 */
-  error?: string;
-}
-
-/** agent 节点输入 */
-export interface AgentNodeInput {
-  metadata: APIResourceMeta;
-  /** 输入 */
-  inputs: object;
-  /** 中间步骤 */
-  intermediateSteps?: AgentStep[];
-}
-
-export interface AgentNodeList {
-  pagination?: PaginationResponse;
-  rows?: AgentNode[];
-}
-
-export interface AgentNode {
-  metadata: APIResourceMeta;
-  /** agent 节点名称, 或者作为工具名称 */
-  title: string;
-  /** agent 节点描述, 或者作为工具描述 */
-  description: string;
-  /** 节点类型，决定了由哪个agent来进行调度 */
-  type?: string;
-  /** agent 的配置 */
-  Config?: object;
-  state?: AgentState;
-  /** agent 节点执行步骤, 一般表示之前执行的步骤 */
-  steps: AgentStep[];
-  /** agent 完成 */
-  finish?: AgentFinish;
-  /** 上级节点 */
-  parentId?: string;
-  /** agent 节点输出 */
-  agentNodeOutput?: AgentNodeOutput;
-  tools?: string;
-  /** 记忆ID，表示这个agent的记忆 */
-  memoryId?: string;
-  /** 输入 */
-  input?: string;
-  /** 输出 */
-  output?: string;
-}
-
 /** agentnode run */
 export interface AgentNodeRun {
   metadata: APIResourceMeta;
@@ -2054,6 +1999,10 @@ export type AgEventV2 = EventNewAgentState;
 
 export interface EventNewAgentState {
   stateId: string;
+}
+
+export interface TenantSeedReq {
+  content?: string;
 }
 
 export interface EventBase {

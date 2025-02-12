@@ -11,11 +11,7 @@
 
 import {
   AcceptInviteRequest,
-  AgentNode,
-  AgentNodeCreateRequest,
-  AgentNodeList,
   AgentNodeRun,
-  AgentNodeUpdateRequest,
   AgentRunInput,
   AgEvent,
   AgEventCreate,
@@ -116,6 +112,7 @@ import {
   StepRunArchiveList,
   StepRunEventList,
   Team,
+  TeamCreate,
   TeamList,
   Tenant,
   TenantAlertEmailGroup,
@@ -128,6 +125,7 @@ import {
   TenantParameter,
   TenantQueueMetrics,
   TenantResourcePolicy,
+  TenantSeedReq,
   TenantStepRunQueueMetrics,
   TriggerWorkflowRunRequest,
   UpdateBlogRequest,
@@ -2807,6 +2805,28 @@ export class Api<
       ...params,
     });
   /**
+   * @description 创建团队
+   *
+   * @tags teams
+   * @name TeamCreate
+   * @request POST:/api/v1/tenants/{tenant}/teams
+   * @secure
+   */
+  teamCreate = (
+    tenant: TenantParameter,
+    data: TeamCreate,
+    params: RequestParams = {},
+  ) =>
+    this.request<Team, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/teams`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
    * @description 获取团队列表
    *
    * @tags teams
@@ -2907,88 +2927,6 @@ export class Api<
       path: `/api/v1/tenants/${tenant}/gallery/${gallery}`,
       method: "GET",
       secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description 获取节点列表
-   *
-   * @tags agent
-   * @name AgentNodeList
-   * @request GET:/api/v1/tenants/{tenant}/nodes
-   * @secure
-   */
-  agentNodeList = (tenant: TenantParameter, params: RequestParams = {}) =>
-    this.request<AgentNodeList, any>({
-      path: `/api/v1/tenants/${tenant}/nodes`,
-      method: "GET",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description Creates a new agentnode
-   *
-   * @tags agent
-   * @name AgentCreate
-   * @summary Create agent node
-   * @request POST:/api/v1/tenants/{tenant}/nodes
-   * @secure
-   */
-  agentCreate = (
-    tenant: string,
-    data: AgentNodeCreateRequest,
-    params: RequestParams = {},
-  ) =>
-    this.request<AgentNode, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/nodes`,
-      method: "POST",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description get node state
-   *
-   * @tags agent
-   * @name AgentNode
-   * @request GET:/api/v1/tenants/{tenant}/nodes/{node}
-   * @secure
-   */
-  agentNode = (
-    tenant: TenantParameter,
-    node: string,
-    params: RequestParams = {},
-  ) =>
-    this.request<AgentNode, any>({
-      path: `/api/v1/tenants/${tenant}/nodes/${node}`,
-      method: "GET",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description update node state
-   *
-   * @tags agent
-   * @name AgentNodeUpdate
-   * @request PATCH:/api/v1/tenants/{tenant}/nodes/{node}
-   * @secure
-   */
-  agentNodeUpdate = (
-    tenant: TenantParameter,
-    node: string,
-    data: AgentNodeUpdateRequest,
-    params: RequestParams = {},
-  ) =>
-    this.request<AgentNode, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/nodes/${node}`,
-      method: "PATCH",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
       format: "json",
       ...params,
     });
@@ -3778,6 +3716,25 @@ export class Api<
     this.request<AgState, APIErrors>({
       path: `/api/v1/tenants/${tenant}/agStates/${state}`,
       method: "PATCH",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 初始化租户
+   *
+   * @tags Tenant
+   * @name TenantSeed
+   * @summary 初始化租户
+   * @request POST:/api/v1/tenant/seed
+   * @secure
+   */
+  tenantSeed = (data: TenantSeedReq, params: RequestParams = {}) =>
+    this.request<TenantSeedReq, APIErrors>({
+      path: `/api/v1/tenant/seed`,
+      method: "POST",
       body: data,
       secure: true,
       type: ContentType.Json,

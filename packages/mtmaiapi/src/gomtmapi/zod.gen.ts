@@ -1578,229 +1578,6 @@ export const zCreateArtifacttRequest = z.object({
   state: z.object({}),
 });
 
-export const zAgentNodeOutput = z.object({
-  metadata: zApiResourceMeta,
-  isFinal: z.boolean(),
-  moreSteps: z.array(
-    z.object({
-      metadata: zApiResourceMeta,
-      Action: z.object({
-        Tool: z.string(),
-        ToolInput: z.string(),
-        Log: z.string(),
-        ToolID: z.string(),
-      }),
-      Observation: z.string(),
-    }),
-  ),
-  output: z.object({}),
-  error: z.string().optional(),
-});
-
-export const zAgentNodeInput = z.object({
-  metadata: zApiResourceMeta,
-  inputs: z.object({}),
-  intermediateSteps: z
-    .array(
-      z.object({
-        metadata: zApiResourceMeta,
-        Action: z.object({
-          Tool: z.string(),
-          ToolInput: z.string(),
-          Log: z.string(),
-          ToolID: z.string(),
-        }),
-        Observation: z.string(),
-      }),
-    )
-    .optional(),
-});
-
-export const zAgentNodeList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z
-    .array(
-      z.object({
-        metadata: zApiResourceMeta,
-        title: z.string(),
-        description: z.string(),
-        type: z.string().optional(),
-        Config: z.object({}).optional(),
-        state: z
-          .union([
-            z
-              .object({
-                metadata: zApiResourceMeta,
-                threadId: z.string().optional(),
-                messages: z.array(zChatMessage),
-              })
-              .merge(
-                z.object({
-                  name: z.string(),
-                  description: z.string(),
-                }),
-              ),
-            z
-              .object({
-                metadata: zApiResourceMeta,
-                threadId: z.string().optional(),
-                messages: z.array(zChatMessage),
-              })
-              .merge(
-                z.object({
-                  topic: z.string(),
-                  prompt: z.string().optional(),
-                  title: z.string().optional(),
-                  subTitle: z.string().optional(),
-                  oulines: z
-                    .array(
-                      z.object({
-                        title: z.string(),
-                        description: z.string().optional(),
-                      }),
-                    )
-                    .optional(),
-                }),
-              ),
-            z.object({
-              channel: z
-                .object({
-                  messages: z.array(zChatMessage).optional(),
-                  fresearch: z.string().optional(),
-                  orgId: z.string().optional(),
-                  hook: z.string().optional(),
-                  content: z.string().optional(),
-                  date: z.string().optional(),
-                  category: z.string().optional(),
-                  popularPosts: z.string().optional(),
-                  topic: z.string().optional(),
-                  isPicture: z.boolean().optional(),
-                  format: z.string().optional(),
-                  tone: z.string().optional(),
-                  question: z.string().optional(),
-                })
-                .optional(),
-            }),
-          ])
-          .optional(),
-        steps: z.array(
-          z.object({
-            metadata: zApiResourceMeta,
-            Action: z.object({
-              Tool: z.string(),
-              ToolInput: z.string(),
-              Log: z.string(),
-              ToolID: z.string(),
-            }),
-            Observation: z.string(),
-          }),
-        ),
-        finish: z
-          .object({
-            ReturnValues: z.object({}),
-            Log: z.string(),
-          })
-          .optional(),
-        parentId: z.string().optional(),
-        agentNodeOutput: zAgentNodeOutput.optional(),
-        tools: z.string().optional(),
-        memoryId: z.string().optional(),
-        input: z.string().optional(),
-        output: z.string().optional(),
-      }),
-    )
-    .optional(),
-});
-
-export const zAgentNode = z.object({
-  metadata: zApiResourceMeta,
-  title: z.string(),
-  description: z.string(),
-  type: z.string().optional(),
-  Config: z.object({}).optional(),
-  state: z
-    .union([
-      z
-        .object({
-          metadata: zApiResourceMeta,
-          threadId: z.string().optional(),
-          messages: z.array(zChatMessage),
-        })
-        .merge(
-          z.object({
-            name: z.string(),
-            description: z.string(),
-          }),
-        ),
-      z
-        .object({
-          metadata: zApiResourceMeta,
-          threadId: z.string().optional(),
-          messages: z.array(zChatMessage),
-        })
-        .merge(
-          z.object({
-            topic: z.string(),
-            prompt: z.string().optional(),
-            title: z.string().optional(),
-            subTitle: z.string().optional(),
-            oulines: z
-              .array(
-                z.object({
-                  title: z.string(),
-                  description: z.string().optional(),
-                }),
-              )
-              .optional(),
-          }),
-        ),
-      z.object({
-        channel: z
-          .object({
-            messages: z.array(zChatMessage).optional(),
-            fresearch: z.string().optional(),
-            orgId: z.string().optional(),
-            hook: z.string().optional(),
-            content: z.string().optional(),
-            date: z.string().optional(),
-            category: z.string().optional(),
-            popularPosts: z.string().optional(),
-            topic: z.string().optional(),
-            isPicture: z.boolean().optional(),
-            format: z.string().optional(),
-            tone: z.string().optional(),
-            question: z.string().optional(),
-          })
-          .optional(),
-      }),
-    ])
-    .optional(),
-  steps: z.array(
-    z.object({
-      metadata: zApiResourceMeta,
-      Action: z.object({
-        Tool: z.string(),
-        ToolInput: z.string(),
-        Log: z.string(),
-        ToolID: z.string(),
-      }),
-      Observation: z.string(),
-    }),
-  ),
-  finish: z
-    .object({
-      ReturnValues: z.object({}),
-      Log: z.string(),
-    })
-    .optional(),
-  parentId: z.string().optional(),
-  agentNodeOutput: zAgentNodeOutput.optional(),
-  tools: z.string().optional(),
-  memoryId: z.string().optional(),
-  input: z.string().optional(),
-  output: z.string().optional(),
-});
-
 export const zAgentNodeRun = z.object({
   metadata: zApiResourceMeta,
   title: z.string().optional(),
@@ -2915,6 +2692,10 @@ export const zAgEventV2 = z.object({
 
 export const zEventNewAgentState = z.object({
   stateId: z.string(),
+});
+
+export const zTenantSeedReq = z.object({
+  content: z.string().optional(),
 });
 
 export const zEventBase = z.object({
@@ -4118,6 +3899,8 @@ export const zArtifactGetResponse = zArtifact;
 
 export const zTeamListResponse = zTeamList;
 
+export const zTeamCreateResponse = zTeam;
+
 export const zTeamGetResponse = zTeam;
 
 export const zTeamUpsertResponse = zTeam;
@@ -4127,14 +3910,6 @@ export const zGalleryListResponse = zGalleryList;
 export const zGalleryCreateResponse = zGallery;
 
 export const zGalleryGetResponse = zGallery;
-
-export const zAgentNodeListResponse = zAgentNodeList;
-
-export const zAgentCreateResponse = zAgentNode;
-
-export const zAgentNodeResponse = zAgentNode;
-
-export const zAgentNodeUpdateResponse = zAgentNode;
 
 export const zAgentRunResponse = zAgentNodeRun;
 
@@ -4223,3 +3998,5 @@ export const zAgStateListResponse = zAgStateList;
 export const zAgStateGetResponse = zAgState;
 
 export const zAgStateUpsertResponse = zAgState;
+
+export const zTenantSeedResponse = zTenantSeedReq;
