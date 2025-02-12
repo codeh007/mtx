@@ -1517,12 +1517,7 @@ export class Api<
     workflow: string,
     data: TriggerWorkflowRunRequest,
     query?: {
-      /**
-       * The workflow version. If not supplied, the latest version is fetched.
-       * @format uuid
-       * @minLength 36
-       * @maxLength 36
-       */
+      /** The workflow version. If not supplied, the latest version is fetched. */
       version?: string;
     },
     params: RequestParams = {},
