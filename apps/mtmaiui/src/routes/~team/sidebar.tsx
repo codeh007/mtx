@@ -180,7 +180,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
           <Tooltip>
             <TooltipTrigger asChild>
               <CustomLink
-                to="/ag/team/create"
+                to="/team/create"
                 className={cn("w-full", buttonVariants())}
                 onClick={handleSaveTeam}
               >

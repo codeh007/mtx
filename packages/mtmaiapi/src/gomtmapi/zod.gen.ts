@@ -3999,4 +3999,4 @@ export const zAgStateGetResponse = zAgState;
 
 export const zAgStateUpsertResponse = zAgState;
 
-export const zTenantSeedResponse = zTenantSeedReq;
+export const zTenantSeedResponse = zCommonResult;

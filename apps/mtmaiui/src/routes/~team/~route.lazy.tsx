@@ -196,7 +196,7 @@ function RouteComponent() {
           <Suspense fallback={<div>Loading...</div>}>
             <main style={{ height: "100%" }} className=" h-full ">
               <div className="relative flex h-full w-full">
-                {contextHolder}
+                {/* {contextHolder} */}
                 {/* Sidebar */}
                 <div
                   className={`absolute left-0 top-0 h-full transition-all duration-200 ease-in-out ${

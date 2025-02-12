@@ -3728,12 +3728,16 @@ export class Api<
    * @tags Tenant
    * @name TenantSeed
    * @summary 初始化租户
-   * @request POST:/api/v1/tenant/seed
+   * @request POST:/api/v1/tenants/{tenant}/seed
    * @secure
    */
-  tenantSeed = (data: TenantSeedReq, params: RequestParams = {}) =>
-    this.request<TenantSeedReq, APIErrors>({
-      path: `/api/v1/tenant/seed`,
+  tenantSeed = (
+    tenant: string,
+    data: TenantSeedReq,
+    params: RequestParams = {},
+  ) =>
+    this.request<CommonResult, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/seed`,
       method: "POST",
       body: data,
       secure: true,

@@ -90,7 +90,7 @@
     "get-port": "^7.1.0",
     "mtmaiapi": "*",
     "mtxuilib": "*",
-    "next": "^15.1.6",
+    "next": "^15.1.7",
     "react": "^19",
     "react-dom": "^19",
     "redaxios": "^0.5.1",

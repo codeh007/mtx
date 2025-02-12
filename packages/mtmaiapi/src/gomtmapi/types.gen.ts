@@ -9389,9 +9389,14 @@ export type TenantSeedData = {
    * 租户种子消息
    */
   body: TenantSeedReq;
-  path?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+  };
   query?: never;
-  url: "/api/v1/tenant/seed";
+  url: "/api/v1/tenants/{tenant}/seed";
 };
 
 export type TenantSeedErrors = {
@@ -9415,7 +9420,7 @@ export type TenantSeedResponses = {
   /**
    * Successfully retrieved the step run queue metrics
    */
-  200: TenantSeedReq;
+  200: CommonResult;
 };
 
 export type TenantSeedResponse = TenantSeedResponses[keyof TenantSeedResponses];

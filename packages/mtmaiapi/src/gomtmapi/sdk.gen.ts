@@ -4932,7 +4932,7 @@ export const tenantSeed = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/tenant/seed",
+    url: "/api/v1/tenants/{tenant}/seed",
     ...options,
     headers: {
       "Content-Type": "application/json",
