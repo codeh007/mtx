@@ -1,36 +1,39 @@
 "use client";
 import { useMutation } from "@tanstack/react-query";
-import { createLazyFileRoute } from "@tanstack/react-router";
-import { workflowRunCreateMutation } from "mtmaiapi";
-// import { agentRunMutation } from 'mtmaiapi'
+import { createLazyFileRoute, useNavigate } from "@tanstack/react-router";
+import { FlowNames, workflowRunCreateMutation } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
-import { useState } from "react";
-import { useApiError } from "../../hooks/useApi";
+import { toast } from "mtxuilib/ui/use-toast";
 import { useTenant } from "../../hooks/useAuth";
+
 export const Route = createLazyFileRoute("/trigger/tenant")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
   const tenant = useTenant();
-  const [errors, setErrors] = useState<string[]>([]);
-
-  const { handleApiError } = useApiError({
-    setErrors,
-  });
+  const navigate = useNavigate({ from: "/trigger/tenant" });
   const triggerWorkflowMutation = useMutation({
     ...workflowRunCreateMutation(),
     onSuccess: (data) => {
-      // navigate({
-      //   to: `/workflow-runs/${data.metadata.id}`,
-      //   params: {
-      //     workflowRunId: data.metadata.id,
-      //   },
-      // })
+      toast({
+        title: "操作成功",
+        description: "触发 workflow 成功",
+      });
+      navigate({ to: ".." });
+      // window.history.back();
     },
-    onError: handleApiError,
+    onError: (error) => {
+      toast({
+        title: "操作失败",
+        description: error.errors.join(","),
+      });
+    },
     onMutate: () => {
-      // setErrors([])
+      toast({
+        title: "处理中",
+        description: "触发 workflow 中",
+      });
     },
   });
 
@@ -42,10 +45,8 @@ function RouteComponent() {
         onClick={() =>
           triggerWorkflowMutation.mutate({
             path: {
-              // tenant: tenant!.metadata.id,
-              workflow: "tenant",
+              workflow: FlowNames.TENANT,
             },
-            // body: { name: "tenant", isStream: false, params: {} },
             body: {
               input: {},
               additionalMetadata: {},
