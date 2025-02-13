@@ -165,6 +165,8 @@ import {
   agStateGet,
   agStateUpsert,
   tenantSeed,
+  chatMessagesList,
+  chatCreateMessage,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -480,6 +482,10 @@ import type {
   TenantSeedData,
   TenantSeedError,
   TenantSeedResponse,
+  ChatMessagesListData,
+  ChatCreateMessageData,
+  ChatCreateMessageError,
+  ChatCreateMessageResponse,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -5001,6 +5007,68 @@ export const tenantSeedMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await tenantSeed({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const chatMessagesListQueryKey = (
+  options: Options<ChatMessagesListData>,
+) => [createQueryKey("chatMessagesList", options)];
+
+export const chatMessagesListOptions = (
+  options: Options<ChatMessagesListData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await chatMessagesList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: chatMessagesListQueryKey(options),
+  });
+};
+
+export const chatCreateMessageQueryKey = (
+  options: Options<ChatCreateMessageData>,
+) => [createQueryKey("chatCreateMessage", options)];
+
+export const chatCreateMessageOptions = (
+  options: Options<ChatCreateMessageData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await chatCreateMessage({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: chatCreateMessageQueryKey(options),
+  });
+};
+
+export const chatCreateMessageMutation = (
+  options?: Partial<Options<ChatCreateMessageData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    ChatCreateMessageResponse,
+    ChatCreateMessageError,
+    Options<ChatCreateMessageData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await chatCreateMessage({
         ...options,
         ...localOptions,
         throwOnError: true,

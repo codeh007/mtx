@@ -31,6 +31,9 @@ import {
   BulkCreateEventRequest,
   BulkCreateEventResponse,
   CancelEventRequest,
+  ChatMessage,
+  ChatMessageCreate,
+  ChatMessages,
   CommonResult,
   CreateAPITokenRequest,
   CreateAPITokenResponse,
@@ -3604,6 +3607,51 @@ export class Api<
   ) =>
     this.request<CommonResult, APIErrors>({
       path: `/api/v1/tenants/${tenant}/seed`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取聊天消息
+   *
+   * @tags chat
+   * @name ChatMessagesList
+   * @summary 获取聊天消息
+   * @request GET:/api/v1/tenants/{tenant}/chat/{thread}/messages
+   * @secure
+   */
+  chatMessagesList = (
+    tenant: string,
+    thread: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<ChatMessages, any>({
+      path: `/api/v1/tenants/${tenant}/chat/${thread}/messages`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 发送聊天消息
+   *
+   * @tags chat
+   * @name ChatCreateMessage
+   * @summary 发送聊天消息
+   * @request POST:/api/v1/tenants/{tenant}/chat/{thread}/messages
+   * @secure
+   */
+  chatCreateMessage = (
+    tenant: TenantParameter,
+    thread: string,
+    data: ChatMessageCreate,
+    params: RequestParams = {},
+  ) =>
+    this.request<ChatMessage, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/chat/${thread}/messages`,
       method: "POST",
       body: data,
       secure: true,

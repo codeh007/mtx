@@ -456,6 +456,11 @@ import type {
   TenantSeedData,
   TenantSeedResponse,
   TenantSeedError,
+  ChatMessagesListData,
+  ChatMessagesListResponse,
+  ChatCreateMessageData,
+  ChatCreateMessageResponse,
+  ChatCreateMessageError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -4745,6 +4750,64 @@ export const tenantSeed = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/seed",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * 获取聊天消息
+ * 获取聊天消息
+ */
+export const chatMessagesList = <ThrowOnError extends boolean = false>(
+  options: Options<ChatMessagesListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    ChatMessagesListResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/chat/{thread}/messages",
+    ...options,
+  });
+};
+
+/**
+ * 发送聊天消息
+ * 发送聊天消息
+ */
+export const chatCreateMessage = <ThrowOnError extends boolean = false>(
+  options: Options<ChatCreateMessageData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    ChatCreateMessageResponse,
+    ChatCreateMessageError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/chat/{thread}/messages",
     ...options,
     headers: {
       "Content-Type": "application/json",

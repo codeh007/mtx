@@ -1432,6 +1432,14 @@ export interface ChatHistoryList {
   rows?: ChatMessage[];
 }
 
+export interface ChatMessageCreate {
+  content: string;
+  team_id: string;
+  thread_id?: string;
+  role?: ChatMessageRole;
+  message_type?: string;
+}
+
 /** 聊天 Session */
 export interface ChatSession {
   metadata?: APIResourceMeta;

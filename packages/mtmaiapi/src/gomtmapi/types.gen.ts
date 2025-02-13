@@ -1689,6 +1689,14 @@ export type ChatHistoryList = {
   rows?: Array<ChatMessage>;
 };
 
+export type ChatMessageCreate = {
+  content: string;
+  team_id: string;
+  thread_id?: string;
+  role?: ChatMessageRole;
+  message_type?: string;
+};
+
 /**
  * 聊天 Session
  */
@@ -9186,6 +9194,69 @@ export type TenantSeedResponses = {
 };
 
 export type TenantSeedResponse = TenantSeedResponses[keyof TenantSeedResponses];
+
+export type ChatMessagesListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+    /**
+     * thread ID
+     */
+    thread: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/chat/{thread}/messages";
+};
+
+export type ChatMessagesListResponses = {
+  /**
+   * 返回聊天消息
+   */
+  200: ChatMessages;
+};
+
+export type ChatMessagesListResponse =
+  ChatMessagesListResponses[keyof ChatMessagesListResponses];
+
+export type ChatCreateMessageData = {
+  body: ChatMessageCreate;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * thread ID
+     */
+    thread: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/chat/{thread}/messages";
+};
+
+export type ChatCreateMessageErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type ChatCreateMessageError =
+  ChatCreateMessageErrors[keyof ChatCreateMessageErrors];
+
+export type ChatCreateMessageResponses = {
+  200: ChatMessage;
+};
+
+export type ChatCreateMessageResponse =
+  ChatCreateMessageResponses[keyof ChatCreateMessageResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

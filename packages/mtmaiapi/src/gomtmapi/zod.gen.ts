@@ -1397,6 +1397,14 @@ export const zChatHistoryList = z.object({
   rows: z.array(zChatMessage).optional(),
 });
 
+export const zChatMessageCreate = z.object({
+  content: z.string(),
+  team_id: z.string(),
+  thread_id: z.string().optional(),
+  role: zChatMessageRole.optional(),
+  message_type: z.string().optional(),
+});
+
 export const zChatSession = z.object({
   metadata: zApiResourceMeta.optional(),
   name: z.string(),
@@ -3404,3 +3412,7 @@ export const zAgStateGetResponse = zAgState;
 export const zAgStateUpsertResponse = zAgState;
 
 export const zTenantSeedResponse = zCommonResult;
+
+export const zChatMessagesListResponse = zChatMessages;
+
+export const zChatCreateMessageResponse = zChatMessage;

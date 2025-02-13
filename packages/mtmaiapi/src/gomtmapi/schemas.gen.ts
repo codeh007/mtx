@@ -2981,6 +2981,28 @@ export const ChatHistoryListSchema = {
   },
 } as const;
 
+export const ChatMessageCreateSchema = {
+  required: ["content", "team_id"],
+  properties: {
+    content: {
+      type: "string",
+    },
+    team_id: {
+      type: "string",
+    },
+    thread_id: {
+      type: "string",
+    },
+    role: {
+      type: "string",
+      $ref: "#/components/schemas/ChatMessageRole",
+    },
+    message_type: {
+      type: "string",
+    },
+  },
+} as const;
+
 export const ChatSessionSchema = {
   description: "聊天 Session",
   properties: {
