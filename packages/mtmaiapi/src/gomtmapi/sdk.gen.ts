@@ -4787,7 +4787,6 @@ export const chatMessagesList = <ThrowOnError extends boolean = false>(
 
 /**
  * 发送聊天消息
- * 发送聊天消息
  */
 export const chatCreateMessage = <ThrowOnError extends boolean = false>(
   options: Options<ChatCreateMessageData, ThrowOnError>,

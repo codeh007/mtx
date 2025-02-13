@@ -3636,7 +3636,6 @@ export class Api<
    *
    * @tags chat
    * @name ChatCreateMessage
-   * @summary 发送聊天消息
    * @request POST:/api/v1/tenants/{tenant}/chat/messages
    * @secure
    */
