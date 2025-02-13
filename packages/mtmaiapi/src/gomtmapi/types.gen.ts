@@ -1690,6 +1690,7 @@ export type ChatHistoryList = {
 };
 
 export type ChatMessageCreate = {
+  tenant_id: string;
   content: string;
   team_id: string;
   thread_id?: string;
@@ -9202,13 +9203,9 @@ export type ChatMessagesListData = {
      * The tenant id
      */
     tenant: string;
-    /**
-     * thread ID
-     */
-    thread: string;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/chat/{thread}/messages";
+  url: "/api/v1/tenants/{tenant}/chat/messages";
 };
 
 export type ChatMessagesListResponses = {
@@ -9228,13 +9225,9 @@ export type ChatCreateMessageData = {
      * The tenant id
      */
     tenant: TenantParameter;
-    /**
-     * thread ID
-     */
-    thread: string;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/chat/{thread}/messages";
+  url: "/api/v1/tenants/{tenant}/chat/messages";
 };
 
 export type ChatCreateMessageErrors = {

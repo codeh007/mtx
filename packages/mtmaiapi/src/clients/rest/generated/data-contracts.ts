@@ -1433,6 +1433,7 @@ export interface ChatHistoryList {
 }
 
 export interface ChatMessageCreate {
+  tenant_id: string;
   content: string;
   team_id: string;
   thread_id?: string;

@@ -1398,6 +1398,7 @@ export const zChatHistoryList = z.object({
 });
 
 export const zChatMessageCreate = z.object({
+  tenant_id: z.string(),
   content: z.string(),
   team_id: z.string(),
   thread_id: z.string().optional(),

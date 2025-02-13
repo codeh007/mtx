@@ -3620,16 +3620,12 @@ export class Api<
    * @tags chat
    * @name ChatMessagesList
    * @summary 获取聊天消息
-   * @request GET:/api/v1/tenants/{tenant}/chat/{thread}/messages
+   * @request GET:/api/v1/tenants/{tenant}/chat/messages
    * @secure
    */
-  chatMessagesList = (
-    tenant: string,
-    thread: string,
-    params: RequestParams = {},
-  ) =>
+  chatMessagesList = (tenant: string, params: RequestParams = {}) =>
     this.request<ChatMessages, any>({
-      path: `/api/v1/tenants/${tenant}/chat/${thread}/messages`,
+      path: `/api/v1/tenants/${tenant}/chat/messages`,
       method: "GET",
       secure: true,
       format: "json",
@@ -3641,17 +3637,16 @@ export class Api<
    * @tags chat
    * @name ChatCreateMessage
    * @summary 发送聊天消息
-   * @request POST:/api/v1/tenants/{tenant}/chat/{thread}/messages
+   * @request POST:/api/v1/tenants/{tenant}/chat/messages
    * @secure
    */
   chatCreateMessage = (
     tenant: TenantParameter,
-    thread: string,
     data: ChatMessageCreate,
     params: RequestParams = {},
   ) =>
     this.request<ChatMessage, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/chat/${thread}/messages`,
+      path: `/api/v1/tenants/${tenant}/chat/messages`,
       method: "POST",
       body: data,
       secure: true,

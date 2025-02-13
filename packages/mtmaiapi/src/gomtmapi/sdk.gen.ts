@@ -4780,7 +4780,7 @@ export const chatMessagesList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/tenants/{tenant}/chat/{thread}/messages",
+    url: "/api/v1/tenants/{tenant}/chat/messages",
     ...options,
   });
 };
@@ -4807,7 +4807,7 @@ export const chatCreateMessage = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/tenants/{tenant}/chat/{thread}/messages",
+    url: "/api/v1/tenants/{tenant}/chat/messages",
     ...options,
     headers: {
       "Content-Type": "application/json",
