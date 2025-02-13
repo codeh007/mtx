@@ -34,6 +34,9 @@ import {
   ChatMessage,
   ChatMessageCreate,
   ChatMessages,
+  ChatSession,
+  ChatSessionList,
+  ChatSessionUpdate,
   CommonResult,
   CreateAPITokenRequest,
   CreateAPITokenResponse,
@@ -94,8 +97,6 @@ import {
   ReplayWorkflowRunsRequest,
   ReplayWorkflowRunsResponse,
   RerunStepRunRequest,
-  Run,
-  RunList,
   ScheduledRunStatus,
   ScheduledWorkflows,
   ScheduledWorkflowsList,
@@ -2901,62 +2902,6 @@ export class Api<
       ...params,
     });
   /**
-   * @description 获取run列表
-   *
-   * @tags run
-   * @name RunList
-   * @summary 获取租户下的run列表
-   * @request GET:/api/v1/tenants/{tenant}/runs
-   * @secure
-   */
-  runList = (tenant: TenantParameter, params: RequestParams = {}) =>
-    this.request<RunList, any>({
-      path: `/api/v1/tenants/${tenant}/runs`,
-      method: "GET",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description 创建run
-   *
-   * @tags run
-   * @name RunCreate
-   * @request POST:/api/v1/tenants/{tenant}/runs
-   * @secure
-   */
-  runCreate = (
-    tenant: TenantParameter,
-    data: Run,
-    params: RequestParams = {},
-  ) =>
-    this.request<Run, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/runs`,
-      method: "POST",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description 获取run列表
-   *
-   * @tags run
-   * @name RunGet
-   * @summary 获取租户下的run列表
-   * @request GET:/api/v1/tenants/{tenant}/runs/{run}
-   * @secure
-   */
-  runGet = (tenant: TenantParameter, run: string, params: RequestParams = {}) =>
-    this.request<Run, any>({
-      path: `/api/v1/tenants/${tenant}/runs/${run}`,
-      method: "GET",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
    * No description
    *
    * @tags model
@@ -3647,6 +3592,90 @@ export class Api<
     this.request<ChatMessage, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/chat/messages`,
       method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取聊天列表
+   *
+   * @tags chat
+   * @name ChatSessionList
+   * @summary 获取租户下的聊天列表
+   * @request GET:/api/v1/tenants/{tenant}/chat/sessions
+   * @secure
+   */
+  chatSessionList = (tenant: TenantParameter, params: RequestParams = {}) =>
+    this.request<ChatSessionList, any>({
+      path: `/api/v1/tenants/${tenant}/chat/sessions`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 创建聊天 Session
+   *
+   * @tags chat
+   * @name ChatSessionCreate
+   * @summary 创建聊天 Session
+   * @request POST:/api/v1/tenants/{tenant}/chat/sessions
+   * @secure
+   */
+  chatSessionCreate = (
+    tenant: TenantParameter,
+    data: ChatSessionUpdate,
+    params: RequestParams = {},
+  ) =>
+    this.request<ChatSession, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/chat/sessions`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取聊天列表
+   *
+   * @tags chat
+   * @name ChatSessionGet
+   * @summary 获取租户下的聊天列表
+   * @request GET:/api/v1/tenants/{tenant}/chat/sessions/{session}
+   * @secure
+   */
+  chatSessionGet = (
+    tenant: TenantParameter,
+    session: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<ChatSession, any>({
+      path: `/api/v1/tenants/${tenant}/chat/sessions/${session}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 更新会话
+   *
+   * @tags chat
+   * @name ChatSessionUpdate
+   * @request PUT:/api/v1/tenants/{tenant}/chat/sessions/{session}
+   * @secure
+   */
+  chatSessionUpdate = (
+    tenant: TenantParameter,
+    session: string,
+    data: ChatSessionUpdate,
+    params: RequestParams = {},
+  ) =>
+    this.request<ChatSession, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/chat/sessions/${session}`,
+      method: "PUT",
       body: data,
       secure: true,
       type: ContentType.Json,

@@ -3827,81 +3827,6 @@ export const AgStateUpsertSchema = {
   ],
 } as const;
 
-export const RunSchema = {
-  type: "object",
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    status: {
-      type: "string",
-      $ref: "#/components/schemas/RunStatus",
-    },
-    task: {
-      $ref: "#/components/schemas/AgentMessageConfig",
-    },
-    team_result: {
-      type: "object",
-      $ref: "#/components/schemas/TeamResult",
-    },
-    messages: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/ChatMessage",
-      },
-    },
-    error_message: {
-      type: "string",
-    },
-  },
-  required: ["metadata", "status", "task", "team_result", "messages"],
-} as const;
-
-export const RunListSchema = {
-  properties: {
-    pagination: {
-      $ref: "#/components/schemas/PaginationResponse",
-    },
-    rows: {
-      items: {
-        $ref: "#/components/schemas/Run",
-      },
-      type: "array",
-    },
-  },
-} as const;
-
-export const RunUpdateSchema = {
-  type: "object",
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    name: {
-      type: "string",
-    },
-    description: {
-      type: "string",
-    },
-    url: {
-      type: "string",
-    },
-    loginUrl: {
-      type: "string",
-    },
-    properties: {
-      type: "object",
-    },
-    tags: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-    },
-  },
-  required: ["metadata", "name", "url"],
-} as const;
-
 export const TeamSchema = {
   allOf: [
     {
@@ -4724,18 +4649,6 @@ export const AgentMessageConfigSchema = {
       $ref: "#/components/schemas/ToolCallResultMessageConfig",
     },
   ],
-} as const;
-
-export const SessionRunsSchema = {
-  properties: {
-    runs: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/Run",
-      },
-    },
-  },
-  required: ["runs"],
 } as const;
 
 export const MemoryConfigSchema = {

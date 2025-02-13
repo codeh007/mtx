@@ -2207,32 +2207,6 @@ export type AgStateList = {
 
 export type AgStateUpsert = AgStateProperties;
 
-export type Run = {
-  metadata: ApiResourceMeta;
-  status: RunStatus;
-  task: AgentMessageConfig;
-  team_result: TeamResult;
-  messages: Array<ChatMessage>;
-  error_message?: string;
-};
-
-export type RunList = {
-  pagination?: PaginationResponse;
-  rows?: Array<Run>;
-};
-
-export type RunUpdate = {
-  metadata: ApiResourceMeta;
-  name: string;
-  description?: string;
-  url: string;
-  loginUrl?: string;
-  properties?: {
-    [key: string]: unknown;
-  };
-  tags?: Array<string>;
-};
-
 export type Team = TeamProperties & ApiResourceMetaProperties;
 
 export type TeamList = {
@@ -2669,10 +2643,6 @@ export type AgentMessageConfig =
   | HandoffMessageConfig
   | ToolCallMessageConfig
   | ToolCallResultMessageConfig;
-
-export type SessionRuns = {
-  runs: Array<Run>;
-};
 
 export type MemoryConfig = ComponentModel;
 
@@ -7990,77 +7960,6 @@ export type AgEventGetResponses = {
 
 export type AgEventGetResponse = AgEventGetResponses[keyof AgEventGetResponses];
 
-export type RunListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/runs";
-};
-
-export type RunListResponses = {
-  200: RunList;
-};
-
-export type RunListResponse = RunListResponses[keyof RunListResponses];
-
-export type RunCreateData = {
-  body: Run;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/runs";
-};
-
-export type RunCreateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type RunCreateError = RunCreateErrors[keyof RunCreateErrors];
-
-export type RunCreateResponses = {
-  200: Run;
-};
-
-export type RunCreateResponse = RunCreateResponses[keyof RunCreateResponses];
-
-export type RunGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The run id
-     */
-    run: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/runs/{run}";
-};
-
-export type RunGetResponses = {
-  200: Run;
-};
-
-export type RunGetResponse = RunGetResponses[keyof RunGetResponses];
-
 export type ModelListData = {
   body?: never;
   path: {
@@ -9250,6 +9149,118 @@ export type ChatCreateMessageResponses = {
 
 export type ChatCreateMessageResponse =
   ChatCreateMessageResponses[keyof ChatCreateMessageResponses];
+
+export type ChatSessionListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/chat/sessions";
+};
+
+export type ChatSessionListResponses = {
+  200: ChatSessionList;
+};
+
+export type ChatSessionListResponse =
+  ChatSessionListResponses[keyof ChatSessionListResponses];
+
+export type ChatSessionCreateData = {
+  body: ChatSessionUpdate;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/chat/sessions";
+};
+
+export type ChatSessionCreateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type ChatSessionCreateError =
+  ChatSessionCreateErrors[keyof ChatSessionCreateErrors];
+
+export type ChatSessionCreateResponses = {
+  200: ChatSession;
+};
+
+export type ChatSessionCreateResponse =
+  ChatSessionCreateResponses[keyof ChatSessionCreateResponses];
+
+export type ChatSessionGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The session id
+     */
+    session: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/chat/sessions/{session}";
+};
+
+export type ChatSessionGetResponses = {
+  200: ChatSession;
+};
+
+export type ChatSessionGetResponse =
+  ChatSessionGetResponses[keyof ChatSessionGetResponses];
+
+export type ChatSessionUpdateData = {
+  body: ChatSessionUpdate;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The session id
+     */
+    session: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/chat/sessions/{session}";
+};
+
+export type ChatSessionUpdateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type ChatSessionUpdateError =
+  ChatSessionUpdateErrors[keyof ChatSessionUpdateErrors];
+
+export type ChatSessionUpdateResponses = {
+  200: ChatSession;
+};
+
+export type ChatSessionUpdateResponse =
+  ChatSessionUpdateResponses[keyof ChatSessionUpdateResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

@@ -345,13 +345,6 @@ import type {
   AgEventCreateError,
   AgEventGetData,
   AgEventGetResponse,
-  RunListData,
-  RunListResponse,
-  RunCreateData,
-  RunCreateResponse,
-  RunCreateError,
-  RunGetData,
-  RunGetResponse,
   ModelListData,
   ModelListResponse,
   ModelListError,
@@ -461,6 +454,16 @@ import type {
   ChatCreateMessageData,
   ChatCreateMessageResponse,
   ChatCreateMessageError,
+  ChatSessionListData,
+  ChatSessionListResponse,
+  ChatSessionCreateData,
+  ChatSessionCreateResponse,
+  ChatSessionCreateError,
+  ChatSessionGetData,
+  ChatSessionGetResponse,
+  ChatSessionUpdateData,
+  ChatSessionUpdateResponse,
+  ChatSessionUpdateError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -3715,90 +3718,6 @@ export const agEventGet = <ThrowOnError extends boolean = false>(
   });
 };
 
-/**
- * 获取租户下的run列表
- * 获取run列表
- */
-export const runList = <ThrowOnError extends boolean = false>(
-  options: Options<RunListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    RunListResponse,
-    unknown,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/runs",
-    ...options,
-  });
-};
-
-/**
- * 创建run
- */
-export const runCreate = <ThrowOnError extends boolean = false>(
-  options: Options<RunCreateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    RunCreateResponse,
-    RunCreateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/runs",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 获取租户下的run列表
- * 获取run列表
- */
-export const runGet = <ThrowOnError extends boolean = false>(
-  options: Options<RunGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    RunGetResponse,
-    unknown,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/runs/{run}",
-    ...options,
-  });
-};
-
 export const modelList = <ThrowOnError extends boolean = false>(
   options: Options<ModelListData, ThrowOnError>,
 ) => {
@@ -4807,6 +4726,121 @@ export const chatCreateMessage = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/chat/messages",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * 获取租户下的聊天列表
+ * 获取聊天列表
+ */
+export const chatSessionList = <ThrowOnError extends boolean = false>(
+  options: Options<ChatSessionListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    ChatSessionListResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/chat/sessions",
+    ...options,
+  });
+};
+
+/**
+ * 创建聊天 Session
+ * 创建聊天 Session
+ */
+export const chatSessionCreate = <ThrowOnError extends boolean = false>(
+  options: Options<ChatSessionCreateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    ChatSessionCreateResponse,
+    ChatSessionCreateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/chat/sessions",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * 获取租户下的聊天列表
+ * 获取聊天列表
+ */
+export const chatSessionGet = <ThrowOnError extends boolean = false>(
+  options: Options<ChatSessionGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    ChatSessionGetResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/chat/sessions/{session}",
+    ...options,
+  });
+};
+
+/**
+ * 更新会话
+ */
+export const chatSessionUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<ChatSessionUpdateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).put<
+    ChatSessionUpdateResponse,
+    ChatSessionUpdateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/chat/sessions/{session}",
     ...options,
     headers: {
       "Content-Type": "application/json",

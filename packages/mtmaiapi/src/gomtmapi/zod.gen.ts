@@ -1776,130 +1776,6 @@ export const zAgStateList = z.object({
 
 export const zAgStateUpsert = zAgStateProperties;
 
-export const zRun = z.object({
-  metadata: zApiResourceMeta,
-  status: z.enum([
-    "created",
-    "active",
-    "awaiting_input",
-    "timeout",
-    "complete",
-    "error",
-    "stopped",
-  ]),
-  task: z.union([
-    z
-      .object({
-        source: z.string().optional(),
-        models_usage: z
-          .object({
-            prompt_tokens: z.number(),
-            completion_tokens: z.number(),
-          })
-          .optional(),
-      })
-      .merge(
-        z.object({
-          content: z.string().optional(),
-        }),
-      ),
-    z
-      .object({
-        source: z.string().optional(),
-        models_usage: z
-          .object({
-            prompt_tokens: z.number(),
-            completion_tokens: z.number(),
-          })
-          .optional(),
-      })
-      .merge(
-        z.object({
-          content: z.string(),
-        }),
-      ),
-    z
-      .object({
-        source: z.string().optional(),
-        models_usage: z
-          .object({
-            prompt_tokens: z.number(),
-            completion_tokens: z.number(),
-          })
-          .optional(),
-      })
-      .merge(
-        z.object({
-          content: z.string(),
-          target: z.string(),
-        }),
-      ),
-    z
-      .object({
-        source: z.string().optional(),
-        models_usage: z
-          .object({
-            prompt_tokens: z.number(),
-            completion_tokens: z.number(),
-          })
-          .optional(),
-      })
-      .merge(
-        z.object({
-          content: z.array(
-            z.object({
-              id: z.string(),
-              arguments: z.string(),
-              name: z.string(),
-            }),
-          ),
-        }),
-      ),
-    z
-      .object({
-        source: z.string().optional(),
-        models_usage: z
-          .object({
-            prompt_tokens: z.number(),
-            completion_tokens: z.number(),
-          })
-          .optional(),
-      })
-      .merge(
-        z.object({
-          content: z.array(
-            z.object({
-              call_id: z.string(),
-              content: z.string(),
-            }),
-          ),
-        }),
-      ),
-  ]),
-  team_result: z.object({
-    task_result: z.object({}),
-    usage: z.string(),
-    duration: z.number(),
-  }),
-  messages: z.array(zChatMessage),
-  error_message: z.string().optional(),
-});
-
-export const zRunList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z.array(zRun).optional(),
-});
-
-export const zRunUpdate = z.object({
-  metadata: zApiResourceMeta,
-  name: z.string(),
-  description: z.string().optional(),
-  url: z.string(),
-  loginUrl: z.string().optional(),
-  properties: z.object({}).optional(),
-  tags: z.array(z.string()).optional(),
-});
-
 export const zTeam = z
   .object({
     componentType: z
@@ -2422,10 +2298,6 @@ export const zAgentMessageConfig = z.union([
   zToolCallMessageConfig,
   zToolCallResultMessageConfig,
 ]);
-
-export const zSessionRuns = z.object({
-  runs: z.array(zRun),
-});
 
 export const zMemoryConfig = zComponentModel;
 
@@ -3334,12 +3206,6 @@ export const zAgEventCreateResponse = zAgEvent;
 
 export const zAgEventGetResponse = zAgEvent;
 
-export const zRunListResponse = zRunList;
-
-export const zRunCreateResponse = zRun;
-
-export const zRunGetResponse = zRun;
-
 export const zModelListResponse = zModelList;
 
 export const zModelCreateResponse = zModel;
@@ -3417,3 +3283,11 @@ export const zTenantSeedResponse = zCommonResult;
 export const zChatMessagesListResponse = zChatMessages;
 
 export const zChatCreateMessageResponse = zChatMessage;
+
+export const zChatSessionListResponse = zChatSessionList;
+
+export const zChatSessionCreateResponse = zChatSession;
+
+export const zChatSessionGetResponse = zChatSession;
+
+export const zChatSessionUpdateResponse = zChatSession;

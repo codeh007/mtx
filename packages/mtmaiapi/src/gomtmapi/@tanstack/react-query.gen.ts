@@ -125,9 +125,6 @@ import {
   agEventList,
   agEventCreate,
   agEventGet,
-  runList,
-  runCreate,
-  runGet,
   modelList,
   modelCreate,
   modelGet,
@@ -167,6 +164,10 @@ import {
   tenantSeed,
   chatMessagesList,
   chatCreateMessage,
+  chatSessionList,
+  chatSessionCreate,
+  chatSessionGet,
+  chatSessionUpdate,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -408,11 +409,6 @@ import type {
   AgEventCreateError,
   AgEventCreateResponse,
   AgEventGetData,
-  RunListData,
-  RunCreateData,
-  RunCreateError,
-  RunCreateResponse,
-  RunGetData,
   ModelListData,
   ModelCreateData,
   ModelCreateError,
@@ -486,6 +482,14 @@ import type {
   ChatCreateMessageData,
   ChatCreateMessageError,
   ChatCreateMessageResponse,
+  ChatSessionListData,
+  ChatSessionCreateData,
+  ChatSessionCreateError,
+  ChatSessionCreateResponse,
+  ChatSessionGetData,
+  ChatSessionUpdateData,
+  ChatSessionUpdateError,
+  ChatSessionUpdateResponse,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -4078,83 +4082,6 @@ export const agEventGetOptions = (options: Options<AgEventGetData>) => {
   });
 };
 
-export const runListQueryKey = (options: Options<RunListData>) => [
-  createQueryKey("runList", options),
-];
-
-export const runListOptions = (options: Options<RunListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await runList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: runListQueryKey(options),
-  });
-};
-
-export const runCreateQueryKey = (options: Options<RunCreateData>) => [
-  createQueryKey("runCreate", options),
-];
-
-export const runCreateOptions = (options: Options<RunCreateData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await runCreate({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: runCreateQueryKey(options),
-  });
-};
-
-export const runCreateMutation = (
-  options?: Partial<Options<RunCreateData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    RunCreateResponse,
-    RunCreateError,
-    Options<RunCreateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await runCreate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const runGetQueryKey = (options: Options<RunGetData>) => [
-  createQueryKey("runGet", options),
-];
-
-export const runGetOptions = (options: Options<RunGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await runGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: runGetQueryKey(options),
-  });
-};
-
 export const modelListQueryKey = (options: Options<ModelListData>) => [
   createQueryKey("modelList", options),
 ];
@@ -5069,6 +4996,107 @@ export const chatCreateMessageMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await chatCreateMessage({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const chatSessionListQueryKey = (
+  options: Options<ChatSessionListData>,
+) => [createQueryKey("chatSessionList", options)];
+
+export const chatSessionListOptions = (
+  options: Options<ChatSessionListData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await chatSessionList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: chatSessionListQueryKey(options),
+  });
+};
+
+export const chatSessionCreateQueryKey = (
+  options: Options<ChatSessionCreateData>,
+) => [createQueryKey("chatSessionCreate", options)];
+
+export const chatSessionCreateOptions = (
+  options: Options<ChatSessionCreateData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await chatSessionCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: chatSessionCreateQueryKey(options),
+  });
+};
+
+export const chatSessionCreateMutation = (
+  options?: Partial<Options<ChatSessionCreateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    ChatSessionCreateResponse,
+    ChatSessionCreateError,
+    Options<ChatSessionCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await chatSessionCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const chatSessionGetQueryKey = (
+  options: Options<ChatSessionGetData>,
+) => [createQueryKey("chatSessionGet", options)];
+
+export const chatSessionGetOptions = (options: Options<ChatSessionGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await chatSessionGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: chatSessionGetQueryKey(options),
+  });
+};
+
+export const chatSessionUpdateMutation = (
+  options?: Partial<Options<ChatSessionUpdateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    ChatSessionUpdateResponse,
+    ChatSessionUpdateError,
+    Options<ChatSessionUpdateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await chatSessionUpdate({
         ...options,
         ...localOptions,
         throwOnError: true,

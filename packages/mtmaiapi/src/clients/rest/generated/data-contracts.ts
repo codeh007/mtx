@@ -1844,30 +1844,6 @@ export interface AgStateList {
 
 export type AgStateUpsert = AgStateProperties;
 
-export interface Run {
-  metadata: APIResourceMeta;
-  status: RunStatus;
-  task: AgentMessageConfig;
-  team_result: TeamResult;
-  messages: ChatMessage[];
-  error_message?: string;
-}
-
-export interface RunList {
-  pagination?: PaginationResponse;
-  rows?: Run[];
-}
-
-export interface RunUpdate {
-  metadata: APIResourceMeta;
-  name: string;
-  description?: string;
-  url: string;
-  loginUrl?: string;
-  properties?: object;
-  tags?: string[];
-}
-
 export type Team = TeamProperties & APIResourceMetaProperties;
 
 export interface TeamList {
@@ -2195,10 +2171,6 @@ export type AgentMessageConfig =
   | HandoffMessageConfig
   | ToolCallMessageConfig
   | ToolCallResultMessageConfig;
-
-export interface SessionRuns {
-  runs: Run[];
-}
 
 export type MemoryConfig = ComponentModel;
 
