@@ -2982,25 +2982,28 @@ export const ChatHistoryListSchema = {
 } as const;
 
 export const ChatMessageCreateSchema = {
-  required: ["tenant_id", "team_id", "content"],
+  required: ["tenantId", "teamId", "content"],
   properties: {
-    tenant_id: {
+    tenantId: {
       type: "string",
     },
     content: {
       type: "string",
     },
-    team_id: {
+    teamId: {
       type: "string",
     },
-    thread_id: {
+    threadId: {
+      type: "string",
+    },
+    runId: {
       type: "string",
     },
     role: {
       type: "string",
       $ref: "#/components/schemas/ChatMessageRole",
     },
-    message_type: {
+    messageType: {
       type: "string",
     },
   },

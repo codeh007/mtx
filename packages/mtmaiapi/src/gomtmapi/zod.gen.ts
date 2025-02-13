@@ -1399,12 +1399,13 @@ export const zChatHistoryList = z.object({
 });
 
 export const zChatMessageCreate = z.object({
-  tenant_id: z.string(),
+  tenantId: z.string(),
   content: z.string(),
-  team_id: z.string(),
-  thread_id: z.string().optional(),
+  teamId: z.string(),
+  threadId: z.string().optional(),
+  runId: z.string().optional(),
   role: zChatMessageRole.optional(),
-  message_type: z.string().optional(),
+  messageType: z.string().optional(),
 });
 
 export const zChatSession = z.object({

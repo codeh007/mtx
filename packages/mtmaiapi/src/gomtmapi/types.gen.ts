@@ -1682,12 +1682,13 @@ export type ChatHistoryList = {
 };
 
 export type ChatMessageCreate = {
-  tenant_id: string;
+  tenantId: string;
   content: string;
-  team_id: string;
-  thread_id?: string;
+  teamId: string;
+  threadId?: string;
+  runId?: string;
   role?: ChatMessageRole;
-  message_type?: string;
+  messageType?: string;
 };
 
 /**
