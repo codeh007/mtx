@@ -1381,9 +1381,10 @@ export const zChatMessage = z.object({
 
 export const zAgentRunInput = z.object({
   teamId: z.string(),
-  threadId: z.string().optional(),
+  sessionId: z.string().optional(),
   task: z.string(),
   tenantId: z.string().optional(),
+  runId: z.string().optional(),
 });
 
 export const zChatMessageRole = z.enum(["system", "user", "assistant"]);
@@ -1568,23 +1569,8 @@ export const zCreateArtifacttRequest = z.object({
   state: z.object({}),
 });
 
-export const zRunAgentReq = z.object({
-  tenantId: z.string(),
-  task: z.string().optional(),
-});
-
-export const zFlowAssisantPayload = z.object({
-  messages: z.array(zChatMessage).optional(),
-});
-
 export const zFlowTenantPayload = z.object({
   input: z.string().optional(),
-});
-
-export const zFlowAgPayload = z.object({
-  teamId: z.string(),
-  sessionId: z.string().optional(),
-  messages: z.array(zChatMessage),
 });
 
 export const zTextHighlight = z.object({

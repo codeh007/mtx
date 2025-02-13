@@ -1407,13 +1407,11 @@ export interface ChatMessage {
 }
 
 export interface AgentRunInput {
-  /** 团队ID */
   teamId: string;
-  /** 线程ID */
-  threadId?: string;
+  sessionId?: string;
   task: string;
-  /** 租户ID */
   tenantId?: string;
+  runId?: string;
 }
 
 export enum ChatMessageRole {
@@ -1663,24 +1661,9 @@ export interface CreateArtifacttRequest {
   state: object;
 }
 
-export interface RunAgentReq {
-  tenantId: string;
-  task?: string;
-}
-
-export interface FlowAssisantPayload {
-  messages?: ChatMessage[];
-}
-
 export interface FlowTenantPayload {
   /** 输入 */
   input?: string;
-}
-
-export interface FlowAgPayload {
-  teamId: string;
-  sessionId?: string;
-  messages: ChatMessage[];
 }
 
 export interface TextHighlight {

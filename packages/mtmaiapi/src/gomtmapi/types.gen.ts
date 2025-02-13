@@ -1654,19 +1654,11 @@ export type ChatMessage = {
 };
 
 export type AgentRunInput = {
-  /**
-   * 团队ID
-   */
   teamId: string;
-  /**
-   * 线程ID
-   */
-  threadId?: string;
+  sessionId?: string;
   task: string;
-  /**
-   * 租户ID
-   */
   tenantId?: string;
+  runId?: string;
 };
 
 export type ChatMessageRole = "system" | "user" | "assistant";
@@ -1950,26 +1942,11 @@ export type CreateArtifacttRequest = {
   };
 };
 
-export type RunAgentReq = {
-  tenantId: string;
-  task?: string;
-};
-
-export type FlowAssisantPayload = {
-  messages?: Array<ChatMessage>;
-};
-
 export type FlowTenantPayload = {
   /**
    * 输入
    */
   input?: string;
-};
-
-export type FlowAgPayload = {
-  teamId: string;
-  sessionId?: string;
-  messages: Array<ChatMessage>;
 };
 
 export type TextHighlight = {

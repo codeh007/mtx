@@ -2933,18 +2933,18 @@ export const AgentRunInputSchema = {
   properties: {
     teamId: {
       type: "string",
-      description: "团队ID",
     },
-    threadId: {
+    sessionId: {
       type: "string",
-      description: "线程ID",
     },
     task: {
       type: "string",
     },
     tenantId: {
       type: "string",
-      description: "租户ID",
+    },
+    runId: {
+      type: "string",
     },
   },
 } as const;
@@ -3415,52 +3415,11 @@ export const CreateArtifacttRequestSchema = {
   required: ["artId", "title", "state"],
 } as const;
 
-export const RunAgentReqSchema = {
-  required: ["tenantId"],
-  properties: {
-    tenantId: {
-      type: "string",
-    },
-    task: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const FlowAssisantPayloadSchema = {
-  properties: {
-    messages: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/ChatMessage",
-      },
-    },
-  },
-} as const;
-
 export const FlowTenantPayloadSchema = {
   properties: {
     input: {
       type: "string",
       description: "输入",
-    },
-  },
-} as const;
-
-export const FlowAgPayloadSchema = {
-  required: ["teamId", "messages"],
-  properties: {
-    teamId: {
-      type: "string",
-    },
-    sessionId: {
-      type: "string",
-    },
-    messages: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/ChatMessage",
-      },
     },
   },
 } as const;
