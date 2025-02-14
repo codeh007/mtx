@@ -2184,16 +2184,6 @@ export type TeamList = {
   rows?: Array<Team>;
 };
 
-export type TeamUpdate = {
-  metadata: ApiResourceMeta;
-  name: string;
-  userId?: string;
-  version: string;
-  config: ComponentModel;
-};
-
-export type TeamCreate = TeamProperties;
-
 export type TeamProperties = {
   componentType?: TeamTypes;
   version?: number;
@@ -6942,9 +6932,6 @@ export type SiteListResponses = {
 export type SiteListResponse = SiteListResponses[keyof SiteListResponses];
 
 export type SiteCreateData = {
-  /**
-   * 创建agentnode
-   */
   body: CreateSiteRequest;
   path: {
     /**
@@ -7522,7 +7509,12 @@ export type TeamListData = {
      */
     tenant: TenantParameter;
   };
-  query?: never;
+  query?: {
+    /**
+     * The team label
+     */
+    label?: string;
+  };
   url: "/api/v1/tenants/{tenant}/teams";
 };
 
@@ -7548,40 +7540,6 @@ export type TeamListResponses = {
 };
 
 export type TeamListResponse = TeamListResponses[keyof TeamListResponses];
-
-export type TeamCreateData = {
-  body: TeamCreate;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/teams";
-};
-
-export type TeamCreateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type TeamCreateError = TeamCreateErrors[keyof TeamCreateErrors];
-
-export type TeamCreateResponses = {
-  /**
-   * 创建团队
-   */
-  200: Team;
-};
-
-export type TeamCreateResponse = TeamCreateResponses[keyof TeamCreateResponses];
 
 export type TeamGetData = {
   body?: never;

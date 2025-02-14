@@ -1825,73 +1825,6 @@ export const zTeamList = z.object({
   rows: z.array(zTeam).optional(),
 });
 
-export const zTeamUpdate = z.object({
-  metadata: zApiResourceMeta,
-  name: z.string(),
-  userId: z.string().optional(),
-  version: z.string(),
-  config: z.object({
-    provider: z.string(),
-    component_type: z.enum(["team", "agent", "model", "tool", "termination"]),
-    version: z.number().int().optional(),
-    component_version: z.number().int().optional(),
-    description: z.string().optional(),
-    label: z.string().optional(),
-    config: z.unknown(),
-  }),
-});
-
-export const zTeamCreate = z.object({
-  componentType: z
-    .enum([
-      "Assisant",
-      "RoundRobinGroupChat",
-      "SelectorGroupChat",
-      "MagenticOneGroupChat",
-    ])
-    .optional(),
-  version: z.number().int().optional().default(1),
-  label: z.string().optional(),
-  description: z.string().optional(),
-  component: z
-    .object({
-      provider: z.string(),
-      component_type: z.enum(["team", "agent", "model", "tool", "termination"]),
-      version: z.number().int().optional(),
-      component_version: z.number().int().optional(),
-      description: z.string().optional(),
-      label: z.string().optional(),
-      config: z.unknown(),
-    })
-    .merge(
-      z.object({
-        config: z
-          .object({
-            max_turns: z.number().int().optional(),
-            participants: z.array(z.object({})).optional(),
-            termination_condition: z
-              .object({
-                provider: z.string(),
-                component_type: z.enum([
-                  "team",
-                  "agent",
-                  "model",
-                  "tool",
-                  "termination",
-                ]),
-                version: z.number().int().optional(),
-                component_version: z.number().int().optional(),
-                description: z.string().optional(),
-                label: z.string().optional(),
-                config: z.unknown(),
-              })
-              .optional(),
-          })
-          .optional(),
-      }),
-    ),
-});
-
 export const zTeamProperties = z.object({
   componentType: z
     .enum([
@@ -3076,8 +3009,6 @@ export const zArtifactCreateResponse = zArtifact;
 export const zArtifactGetResponse = zArtifact;
 
 export const zTeamListResponse = zTeamList;
-
-export const zTeamCreateResponse = zTeam;
 
 export const zTeamGetResponse = zTeam;
 

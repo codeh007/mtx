@@ -320,9 +320,6 @@ import type {
   TeamListData,
   TeamListResponse,
   TeamListError,
-  TeamCreateData,
-  TeamCreateResponse,
-  TeamCreateError,
   TeamGetData,
   TeamGetResponse,
   TeamGetError,
@@ -3435,36 +3432,6 @@ export const teamList = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/teams",
     ...options,
-  });
-};
-
-/**
- * 创建团队
- */
-export const teamCreate = <ThrowOnError extends boolean = false>(
-  options: Options<TeamCreateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    TeamCreateResponse,
-    TeamCreateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/teams",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
   });
 };
 

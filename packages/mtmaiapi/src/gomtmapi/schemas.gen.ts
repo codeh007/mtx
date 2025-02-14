@@ -3805,35 +3805,6 @@ export const TeamListSchema = {
   },
 } as const;
 
-export const TeamUpdateSchema = {
-  required: ["metadata", "name", "version", "config"],
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    name: {
-      type: "string",
-    },
-    userId: {
-      type: "string",
-    },
-    version: {
-      type: "string",
-    },
-    config: {
-      $ref: "#/components/schemas/ComponentModel",
-    },
-  },
-} as const;
-
-export const TeamCreateSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/TeamProperties",
-    },
-  ],
-} as const;
-
 export const TeamPropertiesSchema = {
   required: ["type", "component"],
   properties: {

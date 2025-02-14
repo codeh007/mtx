@@ -115,7 +115,6 @@ import {
   artifactCreate,
   artifactGet,
   teamList,
-  teamCreate,
   teamGet,
   teamUpsert,
   galleryList,
@@ -390,9 +389,6 @@ import type {
   ArtifactCreateResponse,
   ArtifactGetData,
   TeamListData,
-  TeamCreateData,
-  TeamCreateError,
-  TeamCreateResponse,
   TeamGetData,
   TeamUpsertData,
   TeamUpsertError,
@@ -3825,45 +3821,6 @@ export const teamListOptions = (options: Options<TeamListData>) => {
     },
     queryKey: teamListQueryKey(options),
   });
-};
-
-export const teamCreateQueryKey = (options: Options<TeamCreateData>) => [
-  createQueryKey("teamCreate", options),
-];
-
-export const teamCreateOptions = (options: Options<TeamCreateData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await teamCreate({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: teamCreateQueryKey(options),
-  });
-};
-
-export const teamCreateMutation = (
-  options?: Partial<Options<TeamCreateData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    TeamCreateResponse,
-    TeamCreateError,
-    Options<TeamCreateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await teamCreate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
 };
 
 export const teamGetQueryKey = (options: Options<TeamGetData>) => [

@@ -1831,16 +1831,6 @@ export interface TeamList {
   rows?: Team[];
 }
 
-export interface TeamUpdate {
-  metadata: APIResourceMeta;
-  name: string;
-  userId?: string;
-  version: string;
-  config: ComponentModel;
-}
-
-export type TeamCreate = TeamProperties;
-
 export interface TeamProperties {
   componentType?: TeamTypes;
   /** @default 1 */
