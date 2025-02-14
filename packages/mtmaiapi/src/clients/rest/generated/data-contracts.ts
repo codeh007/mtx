@@ -1506,11 +1506,6 @@ export enum OperationEnum {
   StopBlogTask = "stopBlogTask",
 }
 
-export interface OperataionGuideResponse {
-  /** 详细的操作手册描述 */
-  message?: string;
-}
-
 export interface CreateBlogPostRequest {
   /**
    * The blog id.
@@ -2373,18 +2368,6 @@ export type Forbidden = APIErrors;
 
 /** Not found */
 export type NotFound = APIErrors;
-
-export interface ToolCallResult {
-  /** 结果id */
-  id?: string;
-  /** 结果数据 */
-  data?: string;
-}
-
-export interface WebSearchResult {
-  /** 结果描述 */
-  message?: string;
-}
 
 export interface ModelList {
   pagination?: PaginationResponse;

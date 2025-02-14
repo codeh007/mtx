@@ -1452,10 +1452,6 @@ export const zRunNewTaskResponse = z.object({
 
 export const zOperationEnum = z.enum(["startBlogTask", "stopBlogTask"]);
 
-export const zOperataionGuideResponse = z.object({
-  message: z.string().optional(),
-});
-
 export const zCreateBlogPostRequest = z.object({
   blogId: z.string().uuid().length(36),
   authorId: z.string().uuid().length(36).optional(),
@@ -2580,15 +2576,6 @@ export const zBadRequest = z.unknown();
 export const zForbidden = z.unknown();
 
 export const zNotFound = z.unknown();
-
-export const zToolCallResult = z.object({
-  id: z.string().optional(),
-  data: z.string().optional(),
-});
-
-export const zWebSearchResult = z.object({
-  message: z.string().optional(),
-});
 
 export const zModelList = z.object({
   pagination: zPaginationResponse.optional(),

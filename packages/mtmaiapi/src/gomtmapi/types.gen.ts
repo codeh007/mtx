@@ -1785,13 +1785,6 @@ export const OperationEnum = {
   STOP_BLOG_TASK: "stopBlogTask",
 } as const;
 
-export type OperataionGuideResponse = {
-  /**
-   * 详细的操作手册描述
-   */
-  message?: string;
-};
-
 export type CreateBlogPostRequest = {
   /**
    * The blog id.
@@ -2890,24 +2883,6 @@ export type Forbidden = unknown;
  * Not found
  */
 export type NotFound = unknown;
-
-export type ToolCallResult = {
-  /**
-   * 结果id
-   */
-  id?: string;
-  /**
-   * 结果数据
-   */
-  data?: string;
-};
-
-export type WebSearchResult = {
-  /**
-   * 结果描述
-   */
-  message?: string;
-};
 
 export type ModelList = {
   pagination?: PaginationResponse;

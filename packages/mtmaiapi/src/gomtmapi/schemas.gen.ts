@@ -3138,17 +3138,6 @@ export const OperationEnumSchema = {
 `,
 } as const;
 
-export const OperataionGuideResponseSchema = {
-  type: "object",
-  properties: {
-    message: {
-      type: "string",
-      description: "详细的操作手册描述",
-    },
-  },
-  required: ["workflowName"],
-} as const;
-
 export const CreateBlogPostRequestSchema = {
   type: "object",
   properties: {
@@ -5198,30 +5187,6 @@ export const NotFoundSchema = {
       schema: {
         $ref: "#/components/schemas/APIErrors",
       },
-    },
-  },
-} as const;
-
-export const ToolCallResultSchema = {
-  type: "object",
-  properties: {
-    id: {
-      type: "string",
-      description: "结果id",
-    },
-    data: {
-      type: "string",
-      description: "结果数据",
-    },
-  },
-} as const;
-
-export const WebSearchResultSchema = {
-  type: "object",
-  properties: {
-    message: {
-      type: "string",
-      description: "结果描述",
     },
   },
 } as const;
