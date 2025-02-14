@@ -33,7 +33,7 @@ import {
   CancelEventRequest,
   ChatMessage,
   ChatMessageCreate,
-  ChatMessages,
+  ChatMessageList,
   ChatSession,
   ChatSessionList,
   ChatSessionUpdate,
@@ -3565,12 +3565,16 @@ export class Api<
    * @tags chat
    * @name ChatMessagesList
    * @summary 获取聊天消息
-   * @request GET:/api/v1/tenants/{tenant}/chat/messages
+   * @request GET:/api/v1/tenants/{tenant}/chat/{chat}/messages
    * @secure
    */
-  chatMessagesList = (tenant: string, params: RequestParams = {}) =>
-    this.request<ChatMessages, any>({
-      path: `/api/v1/tenants/${tenant}/chat/messages`,
+  chatMessagesList = (
+    tenant: string,
+    chat: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<ChatMessageList, any>({
+      path: `/api/v1/tenants/${tenant}/chat/${chat}/messages`,
       method: "GET",
       secure: true,
       format: "json",
@@ -3581,16 +3585,17 @@ export class Api<
    *
    * @tags chat
    * @name ChatCreateMessage
-   * @request POST:/api/v1/tenants/{tenant}/chat/messages
+   * @request POST:/api/v1/tenants/{tenant}/chat/{chat}/messages
    * @secure
    */
   chatCreateMessage = (
     tenant: TenantParameter,
+    chat: string,
     data: ChatMessageCreate,
     params: RequestParams = {},
   ) =>
     this.request<ChatMessage, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/chat/messages`,
+      path: `/api/v1/tenants/${tenant}/chat/${chat}/messages`,
       method: "POST",
       body: data,
       secure: true,
@@ -3612,29 +3617,6 @@ export class Api<
       path: `/api/v1/tenants/${tenant}/chat/sessions`,
       method: "GET",
       secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description 创建聊天 Session
-   *
-   * @tags chat
-   * @name ChatSessionCreate
-   * @summary 创建聊天 Session
-   * @request POST:/api/v1/tenants/{tenant}/chat/sessions
-   * @secure
-   */
-  chatSessionCreate = (
-    tenant: TenantParameter,
-    data: ChatSessionUpdate,
-    params: RequestParams = {},
-  ) =>
-    this.request<ChatSession, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/chat/sessions`,
-      method: "POST",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
       format: "json",
       ...params,
     });

@@ -1406,6 +1406,12 @@ export interface ChatMessage {
   };
 }
 
+export interface ChatMessageList {
+  metadata?: APIResourceMeta;
+  rows?: ChatMessage[];
+  pagination?: PaginationResponse;
+}
+
 export interface AgentRunInput {
   teamId: string;
   sessionId?: string;
@@ -1418,11 +1424,6 @@ export enum ChatMessageRole {
   System = "system",
   User = "user",
   Assistant = "assistant",
-}
-
-/** 聊天消息列表 */
-export interface ChatMessages {
-  messages?: ChatMessage[];
 }
 
 export interface ChatHistoryList {

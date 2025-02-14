@@ -1653,6 +1653,12 @@ export type ChatMessage = {
   };
 };
 
+export type ChatMessageList = {
+  metadata?: ApiResourceMeta;
+  rows?: Array<ChatMessage>;
+  pagination?: PaginationResponse;
+};
+
 export type AgentRunInput = {
   teamId: string;
   sessionId?: string;
@@ -1668,13 +1674,6 @@ export const ChatMessageRole = {
   USER: "user",
   ASSISTANT: "assistant",
 } as const;
-
-/**
- * 聊天消息列表
- */
-export type ChatMessages = {
-  messages?: Array<ChatMessage>;
-};
 
 export type ChatHistoryList = {
   pagination?: PaginationResponse;
@@ -9128,16 +9127,20 @@ export type ChatMessagesListData = {
      * The tenant id
      */
     tenant: string;
+    /**
+     * The chat id
+     */
+    chat: string;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/chat/messages";
+  url: "/api/v1/tenants/{tenant}/chat/{chat}/messages";
 };
 
 export type ChatMessagesListResponses = {
   /**
    * 返回聊天消息
    */
-  200: ChatMessages;
+  200: ChatMessageList;
 };
 
 export type ChatMessagesListResponse =
@@ -9150,9 +9153,13 @@ export type ChatCreateMessageData = {
      * The tenant id
      */
     tenant: TenantParameter;
+    /**
+     * The chat id
+     */
+    chat: string;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/chat/messages";
+  url: "/api/v1/tenants/{tenant}/chat/{chat}/messages";
 };
 
 export type ChatCreateMessageErrors = {
@@ -9212,39 +9219,6 @@ export type ChatSessionListResponses = {
 
 export type ChatSessionListResponse =
   ChatSessionListResponses[keyof ChatSessionListResponses];
-
-export type ChatSessionCreateData = {
-  body: ChatSessionUpdate;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/chat/sessions";
-};
-
-export type ChatSessionCreateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type ChatSessionCreateError =
-  ChatSessionCreateErrors[keyof ChatSessionCreateErrors];
-
-export type ChatSessionCreateResponses = {
-  200: ChatSession;
-};
-
-export type ChatSessionCreateResponse =
-  ChatSessionCreateResponses[keyof ChatSessionCreateResponses];
 
 export type ChatSessionGetData = {
   body?: never;

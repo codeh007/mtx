@@ -1379,6 +1379,12 @@ export const zChatMessage = z.object({
     .optional(),
 });
 
+export const zChatMessageList = z.object({
+  metadata: zApiResourceMeta.optional(),
+  rows: z.array(zChatMessage).optional(),
+  pagination: zPaginationResponse.optional(),
+});
+
 export const zAgentRunInput = z.object({
   teamId: z.string(),
   sessionId: z.string().optional(),
@@ -1388,10 +1394,6 @@ export const zAgentRunInput = z.object({
 });
 
 export const zChatMessageRole = z.enum(["system", "user", "assistant"]);
-
-export const zChatMessages = z.object({
-  messages: z.array(zChatMessage).optional(),
-});
 
 export const zChatHistoryList = z.object({
   pagination: zPaginationResponse.optional(),
@@ -3275,13 +3277,11 @@ export const zAgStateUpsertResponse = zAgState;
 
 export const zTenantSeedResponse = zCommonResult;
 
-export const zChatMessagesListResponse = zChatMessages;
+export const zChatMessagesListResponse = zChatMessageList;
 
 export const zChatCreateMessageResponse = zChatMessage;
 
 export const zChatSessionListResponse = zChatSessionList;
-
-export const zChatSessionCreateResponse = zChatSession;
 
 export const zChatSessionGetResponse = zChatSession;
 

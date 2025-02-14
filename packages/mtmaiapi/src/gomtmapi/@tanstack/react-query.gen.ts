@@ -165,7 +165,6 @@ import {
   chatMessagesList,
   chatCreateMessage,
   chatSessionList,
-  chatSessionCreate,
   chatSessionGet,
   chatSessionUpdate,
 } from "../sdk.gen";
@@ -483,9 +482,6 @@ import type {
   ChatCreateMessageError,
   ChatCreateMessageResponse,
   ChatSessionListData,
-  ChatSessionCreateData,
-  ChatSessionCreateError,
-  ChatSessionCreateResponse,
   ChatSessionGetData,
   ChatSessionUpdateData,
   ChatSessionUpdateError,
@@ -5025,47 +5021,6 @@ export const chatSessionListOptions = (
     },
     queryKey: chatSessionListQueryKey(options),
   });
-};
-
-export const chatSessionCreateQueryKey = (
-  options: Options<ChatSessionCreateData>,
-) => [createQueryKey("chatSessionCreate", options)];
-
-export const chatSessionCreateOptions = (
-  options: Options<ChatSessionCreateData>,
-) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await chatSessionCreate({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: chatSessionCreateQueryKey(options),
-  });
-};
-
-export const chatSessionCreateMutation = (
-  options?: Partial<Options<ChatSessionCreateData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    ChatSessionCreateResponse,
-    ChatSessionCreateError,
-    Options<ChatSessionCreateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await chatSessionCreate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
 };
 
 export const chatSessionGetQueryKey = (

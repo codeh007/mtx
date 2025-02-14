@@ -459,9 +459,6 @@ import type {
   ChatSessionListData,
   ChatSessionListResponse,
   ChatSessionListError,
-  ChatSessionCreateData,
-  ChatSessionCreateResponse,
-  ChatSessionCreateError,
   ChatSessionGetData,
   ChatSessionGetResponse,
   ChatSessionGetError,
@@ -4703,7 +4700,7 @@ export const chatMessagesList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/tenants/{tenant}/chat/messages",
+    url: "/api/v1/tenants/{tenant}/chat/{chat}/messages",
     ...options,
   });
 };
@@ -4729,7 +4726,7 @@ export const chatCreateMessage = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/tenants/{tenant}/chat/messages",
+    url: "/api/v1/tenants/{tenant}/chat/{chat}/messages",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -4762,37 +4759,6 @@ export const chatSessionList = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/chat/sessions",
     ...options,
-  });
-};
-
-/**
- * 创建聊天 Session
- * 创建聊天 Session
- */
-export const chatSessionCreate = <ThrowOnError extends boolean = false>(
-  options: Options<ChatSessionCreateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    ChatSessionCreateResponse,
-    ChatSessionCreateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/chat/sessions",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
   });
 };
 

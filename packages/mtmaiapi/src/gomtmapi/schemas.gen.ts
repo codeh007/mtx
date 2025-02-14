@@ -1125,7 +1125,6 @@ export const WorkflowConcurrencySchema = {
 } as const;
 
 export const WorkflowVersionMetaSchema = {
-  type: "object",
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -1208,7 +1207,6 @@ export const WorkflowVersionDefinitionSchema = {
 } as const;
 
 export const WorkflowTagSchema = {
-  type: "object",
   properties: {
     name: {
       type: "string",
@@ -1223,7 +1221,6 @@ export const WorkflowTagSchema = {
 } as const;
 
 export const WorkflowListSchema = {
-  type: "object",
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -2928,6 +2925,23 @@ export const ChatMessageSchema = {
   required: ["metadata", "role", "content"],
 } as const;
 
+export const ChatMessageListSchema = {
+  properties: {
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+    rows: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ChatMessage",
+      },
+    },
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+  },
+} as const;
+
 export const AgentRunInputSchema = {
   required: ["content", "teamId"],
   properties: {
@@ -2952,18 +2966,6 @@ export const AgentRunInputSchema = {
 export const ChatMessageRoleSchema = {
   type: "string",
   enum: ["system", "user", "assistant"],
-} as const;
-
-export const ChatMessagesSchema = {
-  description: "聊天消息列表",
-  properties: {
-    messages: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/ChatMessage",
-      },
-    },
-  },
 } as const;
 
 export const ChatHistoryListSchema = {
