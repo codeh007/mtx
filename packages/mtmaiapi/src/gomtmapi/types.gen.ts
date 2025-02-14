@@ -1660,7 +1660,7 @@ export type ChatMessageList = {
 };
 
 export type AgentRunInput = {
-  teamId: string;
+  teamId?: string;
   sessionId?: string;
   content: string;
   tenantId?: string;
@@ -2324,10 +2324,7 @@ export type AgEventV2 =
   | EventNewAgentState
   | EventTypes
   | EventBase
-  | StartWorkflowRunEvent
-  | TokenChunk
-  | AssisantState
-  | GenArticleState;
+  | StartWorkflowRunEvent;
 
 export type EventNewAgentState = {
   stateId: string;
@@ -2866,83 +2863,6 @@ export type TeamConfig = {
   termination_condition?: ComponentModel;
 };
 
-export type BaseState = {
-  metadata: ApiResourceMeta;
-  /**
-   * 线程ID
-   */
-  threadId?: string;
-  /**
-   * 聊天消息
-   */
-  messages: Array<{
-    [key: string]: unknown;
-  }>;
-};
-
-export type AssisantState = BaseState & {
-  /**
-   * 名称
-   */
-  name: string;
-  /**
-   * 描述
-   */
-  description: string;
-};
-
-export type GenArticleState = BaseState & {
-  /**
-   * 当前关联的主题
-   */
-  topic: string;
-  /**
-   * 关键提示语
-   */
-  prompt?: string;
-  /**
-   * 文章主标题
-   */
-  title?: string;
-  /**
-   * 文章副标题
-   */
-  subTitle?: string;
-  /**
-   * 文章大纲列表
-   */
-  oulines?: Array<{
-    title: string;
-    /**
-     * 大纲描述
-     */
-    description?: string;
-  }>;
-};
-
-/**
- * 研究输入(目前写死为调用社交媒体)
- */
-export type ResearchRequest = {
-  isStream: boolean;
-  threadId: string;
-} & {
-  /**
-   * 详细描述要调研详情
-   */
-  input: string;
-};
-
-/**
- * 研究输出(目前写死为调用社交媒体)
- */
-export type ResearchResponse = {
-  /**
-   * 研究结果
-   */
-  output: string;
-};
-
 export type TenantParameter = string;
 
 export type HttpCommonStatusResponse = unknown;
@@ -2997,28 +2917,6 @@ export type ModelList = {
 export type UpdateModel = {
   metadata?: ApiResourceMeta;
   name?: string;
-};
-
-export type TokenChunk = {
-  /**
-   * 消息ID
-   */
-  id: string;
-  /**
-   * 消息内容
-   */
-  content: string;
-};
-
-export type EvtNodeStep = {
-  /**
-   * 节点名称
-   */
-  name: string;
-  /**
-   * 节点输入
-   */
-  input: string;
 };
 
 export type FormField = {

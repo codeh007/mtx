@@ -1386,7 +1386,7 @@ export const zChatMessageList = z.object({
 });
 
 export const zAgentRunInput = z.object({
-  teamId: z.string(),
+  teamId: z.string().optional(),
   sessionId: z.string().optional(),
   content: z.string(),
   tenantId: z.string().optional(),
@@ -2044,44 +2044,6 @@ export const zAgEventV2 = z.union([
         workflowRunId: z.string().optional(),
       }),
     ),
-  z.object({
-    id: z.string(),
-    content: z.string(),
-  }),
-  z
-    .object({
-      metadata: zApiResourceMeta,
-      threadId: z.string().optional(),
-      messages: z.array(z.object({})),
-    })
-    .merge(
-      z.object({
-        name: z.string(),
-        description: z.string(),
-      }),
-    ),
-  z
-    .object({
-      metadata: zApiResourceMeta,
-      threadId: z.string().optional(),
-      messages: z.array(z.object({})),
-    })
-    .merge(
-      z.object({
-        topic: z.string(),
-        prompt: z.string().optional(),
-        title: z.string().optional(),
-        subTitle: z.string().optional(),
-        oulines: z
-          .array(
-            z.object({
-              title: z.string(),
-              description: z.string().optional(),
-            }),
-          )
-          .optional(),
-      }),
-    ),
 ]);
 
 export const zEventNewAgentState = z.object({
@@ -2597,51 +2559,6 @@ export const zTeamConfig = z.object({
   termination_condition: zComponentModel.optional(),
 });
 
-export const zBaseState = z.object({
-  metadata: zApiResourceMeta,
-  threadId: z.string().optional(),
-  messages: z.array(z.object({})),
-});
-
-export const zAssisantState = zBaseState.merge(
-  z.object({
-    name: z.string(),
-    description: z.string(),
-  }),
-);
-
-export const zGenArticleState = zBaseState.merge(
-  z.object({
-    topic: z.string(),
-    prompt: z.string().optional(),
-    title: z.string().optional(),
-    subTitle: z.string().optional(),
-    oulines: z
-      .array(
-        z.object({
-          title: z.string(),
-          description: z.string().optional(),
-        }),
-      )
-      .optional(),
-  }),
-);
-
-export const zResearchRequest = z
-  .object({
-    isStream: z.boolean(),
-    threadId: z.string(),
-  })
-  .merge(
-    z.object({
-      input: z.string(),
-    }),
-  );
-
-export const zResearchResponse = z.object({
-  output: z.string(),
-});
-
 export const zTenantParameter = z.string().uuid().length(36);
 
 export const zHttpCommonStatusResponse = z.unknown();
@@ -2681,16 +2598,6 @@ export const zModelList = z.object({
 export const zUpdateModel = z.object({
   metadata: zApiResourceMeta.optional(),
   name: z.string().optional(),
-});
-
-export const zTokenChunk = z.object({
-  id: z.string(),
-  content: z.string(),
-});
-
-export const zEvtNodeStep = z.object({
-  name: z.string(),
-  input: z.string(),
 });
 
 export const zFormField = z.object({

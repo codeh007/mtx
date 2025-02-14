@@ -57,10 +57,6 @@ const AgEventsRouteLazyImport = createFileRoute('/agEvents')()
 const WorkflowsWorkflowIdLazyImport = createFileRoute(
   '/workflows/$workflowId',
 )()
-const TriggerTenantLazyImport = createFileRoute('/trigger/tenant')()
-const TriggerNewgenLazyImport = createFileRoute('/trigger/newgen')()
-const TriggerBrowserLazyImport = createFileRoute('/trigger/browser')()
-const TriggerAssisantLazyImport = createFileRoute('/trigger/assisant')()
 const TriggerIdLazyImport = createFileRoute('/trigger/$id')()
 const TeamCreateLazyImport = createFileRoute('/team/create')()
 const PostCreateLazyImport = createFileRoute('/post/create')()
@@ -202,38 +198,6 @@ const WorkflowsWorkflowIdLazyRoute = WorkflowsWorkflowIdLazyImport.update({
   getParentRoute: () => WorkflowsRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~workflows/~$workflowId.lazy').then((d) => d.Route),
-)
-
-const TriggerTenantLazyRoute = TriggerTenantLazyImport.update({
-  id: '/tenant',
-  path: '/tenant',
-  getParentRoute: () => TriggerRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~trigger/~tenant.lazy').then((d) => d.Route),
-)
-
-const TriggerNewgenLazyRoute = TriggerNewgenLazyImport.update({
-  id: '/newgen',
-  path: '/newgen',
-  getParentRoute: () => TriggerRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~trigger/~newgen.lazy').then((d) => d.Route),
-)
-
-const TriggerBrowserLazyRoute = TriggerBrowserLazyImport.update({
-  id: '/browser',
-  path: '/browser',
-  getParentRoute: () => TriggerRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~trigger/~browser.lazy').then((d) => d.Route),
-)
-
-const TriggerAssisantLazyRoute = TriggerAssisantLazyImport.update({
-  id: '/assisant',
-  path: '/assisant',
-  getParentRoute: () => TriggerRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~trigger/~assisant.lazy').then((d) => d.Route),
 )
 
 const TriggerIdLazyRoute = TriggerIdLazyImport.update({
@@ -748,34 +712,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TriggerIdLazyImport
       parentRoute: typeof TriggerRouteLazyImport
     }
-    '/trigger/assisant': {
-      id: '/trigger/assisant'
-      path: '/assisant'
-      fullPath: '/trigger/assisant'
-      preLoaderRoute: typeof TriggerAssisantLazyImport
-      parentRoute: typeof TriggerRouteLazyImport
-    }
-    '/trigger/browser': {
-      id: '/trigger/browser'
-      path: '/browser'
-      fullPath: '/trigger/browser'
-      preLoaderRoute: typeof TriggerBrowserLazyImport
-      parentRoute: typeof TriggerRouteLazyImport
-    }
-    '/trigger/newgen': {
-      id: '/trigger/newgen'
-      path: '/newgen'
-      fullPath: '/trigger/newgen'
-      preLoaderRoute: typeof TriggerNewgenLazyImport
-      parentRoute: typeof TriggerRouteLazyImport
-    }
-    '/trigger/tenant': {
-      id: '/trigger/tenant'
-      path: '/tenant'
-      fullPath: '/trigger/tenant'
-      preLoaderRoute: typeof TriggerTenantLazyImport
-      parentRoute: typeof TriggerRouteLazyImport
-    }
     '/workflows/$workflowId': {
       id: '/workflows/$workflowId'
       path: '/$workflowId'
@@ -1042,18 +978,10 @@ const TeamRouteLazyRouteWithChildren = TeamRouteLazyRoute._addFileChildren(
 
 interface TriggerRouteLazyRouteChildren {
   TriggerIdLazyRoute: typeof TriggerIdLazyRoute
-  TriggerAssisantLazyRoute: typeof TriggerAssisantLazyRoute
-  TriggerBrowserLazyRoute: typeof TriggerBrowserLazyRoute
-  TriggerNewgenLazyRoute: typeof TriggerNewgenLazyRoute
-  TriggerTenantLazyRoute: typeof TriggerTenantLazyRoute
 }
 
 const TriggerRouteLazyRouteChildren: TriggerRouteLazyRouteChildren = {
   TriggerIdLazyRoute: TriggerIdLazyRoute,
-  TriggerAssisantLazyRoute: TriggerAssisantLazyRoute,
-  TriggerBrowserLazyRoute: TriggerBrowserLazyRoute,
-  TriggerNewgenLazyRoute: TriggerNewgenLazyRoute,
-  TriggerTenantLazyRoute: TriggerTenantLazyRoute,
 }
 
 const TriggerRouteLazyRouteWithChildren =
@@ -1131,10 +1059,6 @@ export interface FileRoutesByFullPath {
   '/post/create': typeof PostCreateLazyRoute
   '/team/create': typeof TeamCreateLazyRoute
   '/trigger/$id': typeof TriggerIdLazyRoute
-  '/trigger/assisant': typeof TriggerAssisantLazyRoute
-  '/trigger/browser': typeof TriggerBrowserLazyRoute
-  '/trigger/newgen': typeof TriggerNewgenLazyRoute
-  '/trigger/tenant': typeof TriggerTenantLazyRoute
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdLazyRoute
   '/onboarding/create-tenant': typeof OnboardingCreateTenantIndexRoute
   '/site/$siteId/': typeof SiteSiteIdIndexRoute
@@ -1174,10 +1098,6 @@ export interface FileRoutesByTo {
   '/post/create': typeof PostCreateLazyRoute
   '/team/create': typeof TeamCreateLazyRoute
   '/trigger/$id': typeof TriggerIdLazyRoute
-  '/trigger/assisant': typeof TriggerAssisantLazyRoute
-  '/trigger/browser': typeof TriggerBrowserLazyRoute
-  '/trigger/newgen': typeof TriggerNewgenLazyRoute
-  '/trigger/tenant': typeof TriggerTenantLazyRoute
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdLazyRoute
   '/onboarding/create-tenant': typeof OnboardingCreateTenantIndexRoute
   '/site/$siteId': typeof SiteSiteIdIndexRoute
@@ -1232,10 +1152,6 @@ export interface FileRoutesById {
   '/post/create': typeof PostCreateLazyRoute
   '/team/create': typeof TeamCreateLazyRoute
   '/trigger/$id': typeof TriggerIdLazyRoute
-  '/trigger/assisant': typeof TriggerAssisantLazyRoute
-  '/trigger/browser': typeof TriggerBrowserLazyRoute
-  '/trigger/newgen': typeof TriggerNewgenLazyRoute
-  '/trigger/tenant': typeof TriggerTenantLazyRoute
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdLazyRoute
   '/onboarding/create-tenant/': typeof OnboardingCreateTenantIndexRoute
   '/site/$siteId/': typeof SiteSiteIdIndexRoute
@@ -1292,10 +1208,6 @@ export interface FileRouteTypes {
     | '/post/create'
     | '/team/create'
     | '/trigger/$id'
-    | '/trigger/assisant'
-    | '/trigger/browser'
-    | '/trigger/newgen'
-    | '/trigger/tenant'
     | '/workflows/$workflowId'
     | '/onboarding/create-tenant'
     | '/site/$siteId/'
@@ -1334,10 +1246,6 @@ export interface FileRouteTypes {
     | '/post/create'
     | '/team/create'
     | '/trigger/$id'
-    | '/trigger/assisant'
-    | '/trigger/browser'
-    | '/trigger/newgen'
-    | '/trigger/tenant'
     | '/workflows/$workflowId'
     | '/onboarding/create-tenant'
     | '/site/$siteId'
@@ -1390,10 +1298,6 @@ export interface FileRouteTypes {
     | '/post/create'
     | '/team/create'
     | '/trigger/$id'
-    | '/trigger/assisant'
-    | '/trigger/browser'
-    | '/trigger/newgen'
-    | '/trigger/tenant'
     | '/workflows/$workflowId'
     | '/onboarding/create-tenant/'
     | '/site/$siteId/'
@@ -1569,11 +1473,7 @@ export const routeTree = rootRoute
     "/trigger": {
       "filePath": "~trigger/~route.lazy.tsx",
       "children": [
-        "/trigger/$id",
-        "/trigger/assisant",
-        "/trigger/browser",
-        "/trigger/newgen",
-        "/trigger/tenant"
+        "/trigger/$id"
       ]
     },
     "/workflow-runs": {
@@ -1700,22 +1600,6 @@ export const routeTree = rootRoute
     },
     "/trigger/$id": {
       "filePath": "~trigger/~$id.lazy.tsx",
-      "parent": "/trigger"
-    },
-    "/trigger/assisant": {
-      "filePath": "~trigger/~assisant.lazy.tsx",
-      "parent": "/trigger"
-    },
-    "/trigger/browser": {
-      "filePath": "~trigger/~browser.lazy.tsx",
-      "parent": "/trigger"
-    },
-    "/trigger/newgen": {
-      "filePath": "~trigger/~newgen.lazy.tsx",
-      "parent": "/trigger"
-    },
-    "/trigger/tenant": {
-      "filePath": "~trigger/~tenant.lazy.tsx",
       "parent": "/trigger"
     },
     "/workflows/$workflowId": {

@@ -2943,7 +2943,7 @@ export const ChatMessageListSchema = {
 } as const;
 
 export const AgentRunInputSchema = {
-  required: ["content", "teamId"],
+  required: ["content"],
   properties: {
     teamId: {
       type: "string",
@@ -4128,15 +4128,6 @@ export const AgEventV2Schema = {
     {
       $ref: "#/components/schemas/StartWorkflowRunEvent",
     },
-    {
-      $ref: "#/components/schemas/TokenChunk",
-    },
-    {
-      $ref: "#/components/schemas/AssisantState",
-    },
-    {
-      $ref: "#/components/schemas/GenArticleState",
-    },
   ],
 } as const;
 
@@ -5122,133 +5113,6 @@ export const TeamConfigSchema = {
   },
 } as const;
 
-export const BaseStateSchema = {
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    threadId: {
-      type: "string",
-      description: "线程ID",
-    },
-    messages: {
-      type: "array",
-      description: "聊天消息",
-      items: {
-        type: "object",
-      },
-    },
-  },
-  required: ["messages", "metadata"],
-} as const;
-
-export const AssisantStateSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/BaseState",
-    },
-    {
-      type: "object",
-      properties: {
-        name: {
-          type: "string",
-          description: "名称",
-        },
-        description: {
-          type: "string",
-          description: "描述",
-        },
-      },
-      required: ["name", "description"],
-    },
-  ],
-} as const;
-
-export const GenArticleStateSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/BaseState",
-    },
-    {
-      description: "文章生成的过程状态",
-      properties: {
-        topic: {
-          type: "string",
-          description: "当前关联的主题",
-        },
-        prompt: {
-          type: "string",
-          description: "关键提示语",
-        },
-        title: {
-          type: "string",
-          description: "文章主标题",
-        },
-        subTitle: {
-          type: "string",
-          description: "文章副标题",
-        },
-        oulines: {
-          type: "array",
-          description: "文章大纲列表",
-          items: {
-            description: "文章大纲",
-            properties: {
-              title: {
-                type: "string",
-              },
-              description: {
-                type: "string",
-                description: "大纲描述",
-              },
-            },
-            required: ["title"],
-          },
-        },
-      },
-      required: ["topic"],
-    },
-  ],
-} as const;
-
-export const ResearchRequestSchema = {
-  description: "研究输入(目前写死为调用社交媒体)",
-  allOf: [
-    {
-      properties: {
-        isStream: {
-          type: "boolean",
-        },
-        threadId: {
-          type: "string",
-        },
-      },
-      required: ["threadId", "isStream"],
-    },
-    {
-      type: "object",
-      properties: {
-        input: {
-          type: "string",
-          description: "详细描述要调研详情",
-        },
-      },
-      required: ["input"],
-    },
-  ],
-} as const;
-
-export const ResearchResponseSchema = {
-  description: "研究输出(目前写死为调用社交媒体)",
-  properties: {
-    output: {
-      type: "string",
-      description: "研究结果",
-    },
-  },
-  required: ["output"],
-} as const;
-
 export const TenantParameterSchema = {
   type: "string",
   format: "uuid",
@@ -5386,36 +5250,6 @@ export const UpdateModelSchema = {
       type: "string",
     },
   },
-} as const;
-
-export const TokenChunkSchema = {
-  type: "object",
-  properties: {
-    id: {
-      type: "string",
-      description: "消息ID",
-    },
-    content: {
-      type: "string",
-      description: "消息内容",
-    },
-  },
-  required: ["id", "content"],
-} as const;
-
-export const EvtNodeStepSchema = {
-  type: "object",
-  properties: {
-    name: {
-      type: "string",
-      description: "节点名称",
-    },
-    input: {
-      type: "string",
-      description: "节点输入",
-    },
-  },
-  required: ["name", "input"],
 } as const;
 
 export const FormFieldSchema = {
