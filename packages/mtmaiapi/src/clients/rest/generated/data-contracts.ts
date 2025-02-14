@@ -1822,7 +1822,12 @@ export interface AgStateList {
   rows?: AgState[];
 }
 
-export type AgStateUpsert = AgStateProperties;
+export type AgStateUpsert = AgStateProperties & {
+  /** 组件id */
+  componentId: string;
+  /** 运行id */
+  runId: string;
+};
 
 export type Team = TeamProperties & APIResourceMetaProperties;
 

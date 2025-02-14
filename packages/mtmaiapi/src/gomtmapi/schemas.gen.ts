@@ -3777,6 +3777,19 @@ export const AgStateUpsertSchema = {
     {
       $ref: "#/components/schemas/AgStateProperties",
     },
+    {
+      required: ["componentId", "runId"],
+      properties: {
+        componentId: {
+          type: "string",
+          description: "组件id",
+        },
+        runId: {
+          type: "string",
+          description: "运行id",
+        },
+      },
+    },
   ],
 } as const;
 

@@ -1759,7 +1759,12 @@ export const zAgStateList = z.object({
   rows: z.array(zAgState).optional(),
 });
 
-export const zAgStateUpsert = zAgStateProperties;
+export const zAgStateUpsert = zAgStateProperties.merge(
+  z.object({
+    componentId: z.string(),
+    runId: z.string(),
+  }),
+);
 
 export const zTeam = z
   .object({
