@@ -576,11 +576,7 @@ export interface WorkflowConcurrency {
    */
   maxRuns: number;
   /** The strategy to use when the concurrency limit is reached. */
-  limitStrategy:
-    | "CANCEL_IN_PROGRESS"
-    | "DROP_NEWEST"
-    | "QUEUE_NEWEST"
-    | "GROUP_ROUND_ROBIN";
+  limitStrategy: "CANCEL_IN_PROGRESS" | "DROP_NEWEST" | "QUEUE_NEWEST" | "GROUP_ROUND_ROBIN";
   /** An action which gets the concurrency group for the WorkflowRun. */
   getConcurrencyGroup: string;
 }
@@ -1409,7 +1405,7 @@ export interface ChatMessage {
 export interface AgentRunInput {
   teamId: string;
   sessionId?: string;
-  task: string;
+  content: string;
   tenantId?: string;
   runId?: string;
 }
@@ -2140,14 +2136,9 @@ export interface TeamResult {
   duration: number;
 }
 
-export type InnerMessageConfig =
-  | ToolCallMessageConfig
-  | ToolCallResultMessageConfig;
+export type InnerMessageConfig = ToolCallMessageConfig | ToolCallResultMessageConfig;
 
-export type ChatMessageConfig =
-  | TextMessageConfig
-  | StopMessageConfig
-  | HandoffMessageConfig;
+export type ChatMessageConfig = TextMessageConfig | StopMessageConfig | HandoffMessageConfig;
 
 export type AgentMessageConfig =
   | TextMessageConfig
@@ -2330,9 +2321,7 @@ export interface TextMentionTerminationConfig {
   text: string;
 }
 
-export type TerminationConditions =
-  | MaxMessageTerminationConfigComponent
-  | TextMentionTerminationComponent;
+export type TerminationConditions = MaxMessageTerminationConfigComponent | TextMentionTerminationComponent;
 
 export enum TeamTypes {
   Assisant = "Assisant",
@@ -2402,6 +2391,8 @@ export interface ResearchResponse {
  */
 export type TenantParameter = string;
 
+export type HttpCommonStatusResponse = any;
+
 export interface Prompt {
   metadata: APIResourceMeta;
   title: string;
@@ -2413,6 +2404,14 @@ export interface PromptList {
   pagination?: PaginationResponse;
   rows?: Artifact[];
 }
+
+export type BadRequest = APIErrors;
+
+/** Forbidden */
+export type Forbidden = APIErrors;
+
+/** Not found */
+export type NotFound = APIErrors;
 
 export interface ToolCallResult {
   /** 结果id */

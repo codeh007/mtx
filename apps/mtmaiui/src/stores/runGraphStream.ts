@@ -100,7 +100,7 @@ export async function handleSseGraphStream(
     teamId,
   });
 
-  const task = "test";
+  const content = messages[messages.length - 1].content;
   const response = await workflowRunCreate({
     path: {
       workflow: FlowNames.AG,
@@ -108,9 +108,9 @@ export async function handleSseGraphStream(
     body: {
       input: {
         tenantId: tenant.metadata.id,
-        task: task,
+        content: content,
         teamId: teamId,
-        threadId: threadId || "",
+        sessionId: threadId || "",
       } satisfies AgentRunInput,
     },
     headers: {
