@@ -576,7 +576,11 @@ export interface WorkflowConcurrency {
    */
   maxRuns: number;
   /** The strategy to use when the concurrency limit is reached. */
-  limitStrategy: "CANCEL_IN_PROGRESS" | "DROP_NEWEST" | "QUEUE_NEWEST" | "GROUP_ROUND_ROBIN";
+  limitStrategy:
+    | "CANCEL_IN_PROGRESS"
+    | "DROP_NEWEST"
+    | "QUEUE_NEWEST"
+    | "GROUP_ROUND_ROBIN";
   /** An action which gets the concurrency group for the WorkflowRun. */
   getConcurrencyGroup: string;
 }
@@ -2136,9 +2140,14 @@ export interface TeamResult {
   duration: number;
 }
 
-export type InnerMessageConfig = ToolCallMessageConfig | ToolCallResultMessageConfig;
+export type InnerMessageConfig =
+  | ToolCallMessageConfig
+  | ToolCallResultMessageConfig;
 
-export type ChatMessageConfig = TextMessageConfig | StopMessageConfig | HandoffMessageConfig;
+export type ChatMessageConfig =
+  | TextMessageConfig
+  | StopMessageConfig
+  | HandoffMessageConfig;
 
 export type AgentMessageConfig =
   | TextMessageConfig
@@ -2321,7 +2330,9 @@ export interface TextMentionTerminationConfig {
   text: string;
 }
 
-export type TerminationConditions = MaxMessageTerminationConfigComponent | TextMentionTerminationComponent;
+export type TerminationConditions =
+  | MaxMessageTerminationConfigComponent
+  | TextMentionTerminationComponent;
 
 export enum TeamTypes {
   Assisant = "Assisant",
