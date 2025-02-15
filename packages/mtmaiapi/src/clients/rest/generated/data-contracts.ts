@@ -1431,16 +1431,6 @@ export interface ChatHistoryList {
   rows?: ChatMessage[];
 }
 
-export interface ChatMessageCreate {
-  tenantId: string;
-  content: string;
-  teamId: string;
-  threadId?: string;
-  runId?: string;
-  role?: ChatMessageRole;
-  messageType?: string;
-}
-
 /** 聊天 Session */
 export interface ChatSession {
   metadata?: APIResourceMeta;
@@ -2140,6 +2130,16 @@ export type ChatMessageConfig =
   | TextMessageConfig
   | StopMessageConfig
   | HandoffMessageConfig;
+
+export interface ChatMessageUpsert {
+  tenantId: string;
+  content: string;
+  teamId: string;
+  threadId?: string;
+  runId?: string;
+  role?: ChatMessageRole;
+  messageType?: string;
+}
 
 export type AgentMessageConfig =
   | TextMessageConfig

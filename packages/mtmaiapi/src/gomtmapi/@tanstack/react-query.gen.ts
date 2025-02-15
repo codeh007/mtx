@@ -158,14 +158,15 @@ import {
   proxyGet,
   proxyUpdate,
   agStateList,
-  agStateGet,
   agStateUpsert,
+  agStateGet,
   tenantSeed,
   chatMessagesList,
-  chatCreateMessage,
   chatSessionList,
+  chatMessageUpsert,
   chatSessionGet,
   chatSessionUpdate,
+  uiAgentGet,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -466,22 +467,23 @@ import type {
   ProxyUpdateError,
   ProxyUpdateResponse,
   AgStateListData,
-  AgStateGetData,
   AgStateUpsertData,
   AgStateUpsertError,
   AgStateUpsertResponse,
+  AgStateGetData,
   TenantSeedData,
   TenantSeedError,
   TenantSeedResponse,
   ChatMessagesListData,
-  ChatCreateMessageData,
-  ChatCreateMessageError,
-  ChatCreateMessageResponse,
   ChatSessionListData,
+  ChatMessageUpsertData,
+  ChatMessageUpsertError,
+  ChatMessageUpsertResponse,
   ChatSessionGetData,
   ChatSessionUpdateData,
   ChatSessionUpdateError,
   ChatSessionUpdateResponse,
+  UiAgentGetData,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -4819,25 +4821,6 @@ export const agStateListOptions = (options: Options<AgStateListData>) => {
   });
 };
 
-export const agStateGetQueryKey = (options: Options<AgStateGetData>) => [
-  createQueryKey("agStateGet", options),
-];
-
-export const agStateGetOptions = (options: Options<AgStateGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agStateGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: agStateGetQueryKey(options),
-  });
-};
-
 export const agStateUpsertMutation = (
   options?: Partial<Options<AgStateUpsertData>>,
 ) => {
@@ -4856,6 +4839,25 @@ export const agStateUpsertMutation = (
     },
   };
   return mutationOptions;
+};
+
+export const agStateGetQueryKey = (options: Options<AgStateGetData>) => [
+  createQueryKey("agStateGet", options),
+];
+
+export const agStateGetOptions = (options: Options<AgStateGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await agStateGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: agStateGetQueryKey(options),
+  });
 };
 
 export const tenantSeedQueryKey = (options: Options<TenantSeedData>) => [
@@ -4918,47 +4920,6 @@ export const chatMessagesListOptions = (
   });
 };
 
-export const chatCreateMessageQueryKey = (
-  options: Options<ChatCreateMessageData>,
-) => [createQueryKey("chatCreateMessage", options)];
-
-export const chatCreateMessageOptions = (
-  options: Options<ChatCreateMessageData>,
-) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await chatCreateMessage({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: chatCreateMessageQueryKey(options),
-  });
-};
-
-export const chatCreateMessageMutation = (
-  options?: Partial<Options<ChatCreateMessageData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    ChatCreateMessageResponse,
-    ChatCreateMessageError,
-    Options<ChatCreateMessageData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await chatCreateMessage({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
 export const chatSessionListQueryKey = (
   options: Options<ChatSessionListData>,
 ) => [createQueryKey("chatSessionList", options)];
@@ -4978,6 +4939,47 @@ export const chatSessionListOptions = (
     },
     queryKey: chatSessionListQueryKey(options),
   });
+};
+
+export const chatMessageUpsertQueryKey = (
+  options: Options<ChatMessageUpsertData>,
+) => [createQueryKey("chatMessageUpsert", options)];
+
+export const chatMessageUpsertOptions = (
+  options: Options<ChatMessageUpsertData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await chatMessageUpsert({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: chatMessageUpsertQueryKey(options),
+  });
+};
+
+export const chatMessageUpsertMutation = (
+  options?: Partial<Options<ChatMessageUpsertData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    ChatMessageUpsertResponse,
+    ChatMessageUpsertError,
+    Options<ChatMessageUpsertData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await chatMessageUpsert({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };
 
 export const chatSessionGetQueryKey = (
@@ -5017,4 +5019,23 @@ export const chatSessionUpdateMutation = (
     },
   };
   return mutationOptions;
+};
+
+export const uiAgentGetQueryKey = (options: Options<UiAgentGetData>) => [
+  createQueryKey("uiAgentGet", options),
+];
+
+export const uiAgentGetOptions = (options: Options<UiAgentGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await uiAgentGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: uiAgentGetQueryKey(options),
+  });
 };

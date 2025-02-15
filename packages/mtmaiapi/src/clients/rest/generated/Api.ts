@@ -32,8 +32,8 @@ import {
   BulkCreateEventResponse,
   CancelEventRequest,
   ChatMessage,
-  ChatMessageCreate,
   ChatMessageList,
+  ChatMessageUpsert,
   ChatSession,
   ChatSessionList,
   ChatSessionUpdate,
@@ -3479,6 +3479,28 @@ export class Api<
       ...params,
     });
   /**
+   * @description Upsert an agState
+   *
+   * @tags agState
+   * @name AgStateUpsert
+   * @request PATCH:/api/v1/tenants/{tenant}/agStates
+   * @secure
+   */
+  agStateUpsert = (
+    tenant: TenantParameter,
+    data: AgStateUpsert,
+    params: RequestParams = {},
+  ) =>
+    this.request<AgState, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/agStates`,
+      method: "PATCH",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
    * @description 获取租户下的 agent 状态
    *
    * @tags agStates
@@ -3495,29 +3517,6 @@ export class Api<
       path: `/api/v1/tenants/${tenant}/agStates/${state}`,
       method: "GET",
       secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description Upsert an agState
-   *
-   * @tags agState
-   * @name AgStateUpsert
-   * @request PATCH:/api/v1/tenants/{tenant}/agStates/{state}
-   * @secure
-   */
-  agStateUpsert = (
-    tenant: TenantParameter,
-    state: string,
-    data: AgStateUpsert,
-    params: RequestParams = {},
-  ) =>
-    this.request<AgState, APIErrors>({
-      path: `/api/v1/tenants/${tenant}/agStates/${state}`,
-      method: "PATCH",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
       format: "json",
       ...params,
     });
@@ -3566,29 +3565,6 @@ export class Api<
       ...params,
     });
   /**
-   * @description 发送聊天消息
-   *
-   * @tags chat
-   * @name ChatCreateMessage
-   * @request POST:/api/v1/tenants/{tenant}/chat/{chat}/messages
-   * @secure
-   */
-  chatCreateMessage = (
-    tenant: TenantParameter,
-    chat: string,
-    data: ChatMessageCreate,
-    params: RequestParams = {},
-  ) =>
-    this.request<ChatMessage, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/chat/${chat}/messages`,
-      method: "POST",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
-      format: "json",
-      ...params,
-    });
-  /**
    * @description 获取聊天列表
    *
    * @tags chat
@@ -3602,6 +3578,28 @@ export class Api<
       path: `/api/v1/tenants/${tenant}/chat/sessions`,
       method: "GET",
       secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 保存 聊天消息
+   *
+   * @tags chat
+   * @name ChatMessageUpsert
+   * @request POST:/api/v1/tenants/{tenant}/chat/sessions
+   * @secure
+   */
+  chatMessageUpsert = (
+    tenant: TenantParameter,
+    data: ChatMessageUpsert,
+    params: RequestParams = {},
+  ) =>
+    this.request<ChatMessage, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/chat/sessions`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
       format: "json",
       ...params,
     });
@@ -3646,6 +3644,22 @@ export class Api<
       body: data,
       secure: true,
       type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 发送聊天消息
+   *
+   * @tags ui_agent
+   * @name UiAgentGet
+   * @request GET:/api/v1/tenants/{tenant}/ui_agent
+   * @secure
+   */
+  uiAgentGet = (tenant: TenantParameter, params: RequestParams = {}) =>
+    this.request<ChatMessageList, any>({
+      path: `/api/v1/tenants/${tenant}/ui_agent`,
+      method: "GET",
+      secure: true,
       format: "json",
       ...params,
     });

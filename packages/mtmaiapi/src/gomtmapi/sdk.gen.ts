@@ -439,29 +439,31 @@ import type {
   ProxyUpdateError,
   AgStateListData,
   AgStateListResponse,
-  AgStateGetData,
-  AgStateGetResponse,
-  AgStateGetError,
   AgStateUpsertData,
   AgStateUpsertResponse,
   AgStateUpsertError,
+  AgStateGetData,
+  AgStateGetResponse,
+  AgStateGetError,
   TenantSeedData,
   TenantSeedResponse,
   TenantSeedError,
   ChatMessagesListData,
   ChatMessagesListResponse,
-  ChatCreateMessageData,
-  ChatCreateMessageResponse,
-  ChatCreateMessageError,
   ChatSessionListData,
   ChatSessionListResponse,
   ChatSessionListError,
+  ChatMessageUpsertData,
+  ChatMessageUpsertResponse,
+  ChatMessageUpsertError,
   ChatSessionGetData,
   ChatSessionGetResponse,
   ChatSessionGetError,
   ChatSessionUpdateData,
   ChatSessionUpdateResponse,
   ChatSessionUpdateError,
+  UiAgentGetData,
+  UiAgentGetResponse,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -4559,6 +4561,36 @@ export const agStateList = <ThrowOnError extends boolean = false>(
 };
 
 /**
+ * Upsert an agState
+ */
+export const agStateUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<AgStateUpsertData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).patch<
+    AgStateUpsertResponse,
+    AgStateUpsertError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/agStates",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
  * 获取租户下的 agent 状态
  */
 export const agStateGet = <ThrowOnError extends boolean = false>(
@@ -4581,36 +4613,6 @@ export const agStateGet = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/agStates/{state}",
     ...options,
-  });
-};
-
-/**
- * Upsert an agState
- */
-export const agStateUpsert = <ThrowOnError extends boolean = false>(
-  options: Options<AgStateUpsertData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).patch<
-    AgStateUpsertResponse,
-    AgStateUpsertError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/agStates/{state}",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
   });
 };
 
@@ -4673,36 +4675,6 @@ export const chatMessagesList = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 发送聊天消息
- */
-export const chatCreateMessage = <ThrowOnError extends boolean = false>(
-  options: Options<ChatCreateMessageData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    ChatCreateMessageResponse,
-    ChatCreateMessageError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/chat/{chat}/messages",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
  * 获取租户下的聊天列表
  * 获取聊天列表
  */
@@ -4726,6 +4698,36 @@ export const chatSessionList = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/chat/sessions",
     ...options,
+  });
+};
+
+/**
+ * 保存 聊天消息
+ */
+export const chatMessageUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<ChatMessageUpsertData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    ChatMessageUpsertResponse,
+    ChatMessageUpsertError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/chat/sessions",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -4783,5 +4785,31 @@ export const chatSessionUpdate = <ThrowOnError extends boolean = false>(
       "Content-Type": "application/json",
       ...options?.headers,
     },
+  });
+};
+
+/**
+ * 发送聊天消息
+ */
+export const uiAgentGet = <ThrowOnError extends boolean = false>(
+  options: Options<UiAgentGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    UiAgentGetResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/ui_agent",
+    ...options,
   });
 };

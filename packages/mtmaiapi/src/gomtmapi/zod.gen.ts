@@ -1400,16 +1400,6 @@ export const zChatHistoryList = z.object({
   rows: z.array(zChatMessage).optional(),
 });
 
-export const zChatMessageCreate = z.object({
-  tenantId: z.string(),
-  content: z.string(),
-  teamId: z.string(),
-  threadId: z.string().optional(),
-  runId: z.string().optional(),
-  role: zChatMessageRole.optional(),
-  messageType: z.string().optional(),
-});
-
 export const zChatSession = z.object({
   metadata: zApiResourceMeta.optional(),
   name: z.string(),
@@ -2177,6 +2167,16 @@ export const zChatMessageConfig = z.union([
   zStopMessageConfig,
   zHandoffMessageConfig,
 ]);
+
+export const zChatMessageUpsert = z.object({
+  tenantId: z.string(),
+  content: z.string(),
+  teamId: z.string(),
+  threadId: z.string().optional(),
+  runId: z.string().optional(),
+  role: zChatMessageRole.optional(),
+  messageType: z.string().optional(),
+});
 
 export const zAgentMessageConfig = z.union([
   zTextMessageConfig,
@@ -3103,18 +3103,20 @@ export const zProxyUpdateResponse = zProxy;
 
 export const zAgStateListResponse = zAgStateList;
 
-export const zAgStateGetResponse = zAgState;
-
 export const zAgStateUpsertResponse = zAgState;
+
+export const zAgStateGetResponse = zAgState;
 
 export const zTenantSeedResponse = zCommonResult;
 
 export const zChatMessagesListResponse = zChatMessageList;
 
-export const zChatCreateMessageResponse = zChatMessage;
-
 export const zChatSessionListResponse = zChatSessionList;
+
+export const zChatMessageUpsertResponse = zChatMessage;
 
 export const zChatSessionGetResponse = zChatSession;
 
 export const zChatSessionUpdateResponse = zChatSession;
+
+export const zUiAgentGetResponse = zChatMessageList;

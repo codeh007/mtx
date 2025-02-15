@@ -1680,16 +1680,6 @@ export type ChatHistoryList = {
   rows?: Array<ChatMessage>;
 };
 
-export type ChatMessageCreate = {
-  tenantId: string;
-  content: string;
-  teamId: string;
-  threadId?: string;
-  runId?: string;
-  role?: ChatMessageRole;
-  messageType?: string;
-};
-
 /**
  * 聊天 Session
  */
@@ -2610,6 +2600,16 @@ export type ChatMessageConfig =
   | TextMessageConfig
   | StopMessageConfig
   | HandoffMessageConfig;
+
+export type ChatMessageUpsert = {
+  tenantId: string;
+  content: string;
+  teamId: string;
+  threadId?: string;
+  runId?: string;
+  role?: ChatMessageRole;
+  messageType?: string;
+};
 
 export type AgentMessageConfig =
   | TextMessageConfig
@@ -8850,6 +8850,44 @@ export type AgStateListResponses = {
 export type AgStateListResponse =
   AgStateListResponses[keyof AgStateListResponses];
 
+export type AgStateUpsertData = {
+  /**
+   * The model properties to update
+   */
+  body: AgStateUpsert;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/agStates";
+};
+
+export type AgStateUpsertErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type AgStateUpsertError = AgStateUpsertErrors[keyof AgStateUpsertErrors];
+
+export type AgStateUpsertResponses = {
+  /**
+   * Successfully created the AgState
+   */
+  200: AgState;
+};
+
+export type AgStateUpsertResponse =
+  AgStateUpsertResponses[keyof AgStateUpsertResponses];
+
 export type AgStateGetData = {
   body?: never;
   path: {
@@ -8884,48 +8922,6 @@ export type AgStateGetResponses = {
 };
 
 export type AgStateGetResponse = AgStateGetResponses[keyof AgStateGetResponses];
-
-export type AgStateUpsertData = {
-  /**
-   * The model properties to update
-   */
-  body: AgStateUpsert;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The model id
-     */
-    state: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/agStates/{state}";
-};
-
-export type AgStateUpsertErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-};
-
-export type AgStateUpsertError = AgStateUpsertErrors[keyof AgStateUpsertErrors];
-
-export type AgStateUpsertResponses = {
-  /**
-   * Successfully created the AgState
-   */
-  200: AgState;
-};
-
-export type AgStateUpsertResponse =
-  AgStateUpsertResponses[keyof AgStateUpsertResponses];
 
 export type TenantSeedData = {
   /**
@@ -8994,43 +8990,6 @@ export type ChatMessagesListResponses = {
 export type ChatMessagesListResponse =
   ChatMessagesListResponses[keyof ChatMessagesListResponses];
 
-export type ChatCreateMessageData = {
-  body: ChatMessageCreate;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The chat id
-     */
-    chat: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/chat/{chat}/messages";
-};
-
-export type ChatCreateMessageErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type ChatCreateMessageError =
-  ChatCreateMessageErrors[keyof ChatCreateMessageErrors];
-
-export type ChatCreateMessageResponses = {
-  200: ChatMessage;
-};
-
-export type ChatCreateMessageResponse =
-  ChatCreateMessageResponses[keyof ChatCreateMessageResponses];
-
 export type ChatSessionListData = {
   body?: never;
   path: {
@@ -9067,6 +9026,39 @@ export type ChatSessionListResponses = {
 
 export type ChatSessionListResponse =
   ChatSessionListResponses[keyof ChatSessionListResponses];
+
+export type ChatMessageUpsertData = {
+  body: ChatMessageUpsert;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/chat/sessions";
+};
+
+export type ChatMessageUpsertErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type ChatMessageUpsertError =
+  ChatMessageUpsertErrors[keyof ChatMessageUpsertErrors];
+
+export type ChatMessageUpsertResponses = {
+  200: ChatMessage;
+};
+
+export type ChatMessageUpsertResponse =
+  ChatMessageUpsertResponses[keyof ChatMessageUpsertResponses];
 
 export type ChatSessionGetData = {
   body?: never;
@@ -9139,6 +9131,24 @@ export type ChatSessionUpdateResponses = {
 
 export type ChatSessionUpdateResponse =
   ChatSessionUpdateResponses[keyof ChatSessionUpdateResponses];
+
+export type UiAgentGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/ui_agent";
+};
+
+export type UiAgentGetResponses = {
+  200: ChatMessageList;
+};
+
+export type UiAgentGetResponse = UiAgentGetResponses[keyof UiAgentGetResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

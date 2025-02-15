@@ -2983,34 +2983,6 @@ export const ChatHistoryListSchema = {
   },
 } as const;
 
-export const ChatMessageCreateSchema = {
-  required: ["tenantId", "teamId", "content"],
-  properties: {
-    tenantId: {
-      type: "string",
-    },
-    content: {
-      type: "string",
-    },
-    teamId: {
-      type: "string",
-    },
-    threadId: {
-      type: "string",
-    },
-    runId: {
-      type: "string",
-    },
-    role: {
-      type: "string",
-      $ref: "#/components/schemas/ChatMessageRole",
-    },
-    messageType: {
-      type: "string",
-    },
-  },
-} as const;
-
 export const ChatSessionSchema = {
   description: "聊天 Session",
   properties: {
@@ -4565,6 +4537,34 @@ export const ChatMessageConfigSchema = {
       $ref: "#/components/schemas/HandoffMessageConfig",
     },
   ],
+} as const;
+
+export const ChatMessageUpsertSchema = {
+  required: ["tenantId", "teamId", "content"],
+  properties: {
+    tenantId: {
+      type: "string",
+    },
+    content: {
+      type: "string",
+    },
+    teamId: {
+      type: "string",
+    },
+    threadId: {
+      type: "string",
+    },
+    runId: {
+      type: "string",
+    },
+    role: {
+      type: "string",
+      $ref: "#/components/schemas/ChatMessageRole",
+    },
+    messageType: {
+      type: "string",
+    },
+  },
 } as const;
 
 export const AgentMessageConfigSchema = {
