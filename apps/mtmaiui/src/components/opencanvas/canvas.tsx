@@ -1,10 +1,12 @@
 "use client";
 
-import type {
-  ArtifactCodeV3,
-  ArtifactMarkdownV3,
-  ArtifactV3,
-  ProgrammingLanguageOptions,
+import { useSuspenseQuery } from "@tanstack/react-query";
+import {
+  type ArtifactCodeV3,
+  type ArtifactMarkdownV3,
+  type ArtifactV3,
+  type ProgrammingLanguageOptions,
+  uiAgentGetOptions,
 } from "mtmaiapi";
 import { getLanguageTemplate } from "mtxuilib/agentutils/get_language_template";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
@@ -12,6 +14,7 @@ import { cn } from "mtxuilib/lib/utils";
 import { useToast } from "mtxuilib/ui/use-toast";
 import dynamic from "next/dynamic";
 import React, { useState } from "react";
+import { useTenant } from "../../hooks/useAuth";
 import { useGraphStore } from "../../stores/GraphContext";
 import { ContentComposerChatInterface } from "./content-composer";
 
@@ -36,6 +39,15 @@ export function CanvasComponent() {
   //   // Clear threads with no values
   //   clearThreadsWithNoValues(user.id);
   // }, [threadId, user]);
+  const tenant = useTenant();
+
+  const uiAgentStateQuery = useSuspenseQuery({
+    ...uiAgentGetOptions({
+      path: {
+        tenant: tenant!.metadata.id,
+      },
+    }),
+  });
 
   const handleQuickStart = (
     type: "text" | "code",

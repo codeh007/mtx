@@ -2776,6 +2776,8 @@ export const zQuickStart = z.object({
 
 export const zUiAgentConfig = z.unknown();
 
+export const zChatWelcome = z.unknown();
+
 export const zMetadataGetResponse = zApiMeta;
 
 export const zCloudMetadataGetResponse = zApiErrors;

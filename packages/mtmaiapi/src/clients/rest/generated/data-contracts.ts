@@ -2672,3 +2672,5 @@ export interface QuickStart {
 }
 
 export type UiAgentConfig = any;
+
+export type ChatWelcome = any;

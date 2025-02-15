@@ -3266,6 +3266,8 @@ export type QuickStart = {
 
 export type UiAgentConfig = unknown;
 
+export type ChatWelcome = unknown;
+
 export type ReadinessGetData = {
   body?: never;
   path?: never;

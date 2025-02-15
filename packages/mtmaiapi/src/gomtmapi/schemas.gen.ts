@@ -5899,11 +5899,8 @@ export const ProxyUpdateSchema = {
 
 export const UiAgentStateSchema = {
   Properties: {
-    quick_starts: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/QuickStart",
-      },
+    welcome: {
+      $ref: "#/components/schemas/ChatWelcome",
     },
     thread_id: {
       type: "string",
@@ -5947,6 +5944,29 @@ export const UiAgentConfigSchema = {
     someValue: {
       type: "string",
       description: "一些值",
+    },
+  },
+} as const;
+
+export const ChatWelcomeSchema = {
+  Properties: {
+    title: {
+      type: "string",
+      description: "欢迎语标题",
+    },
+    content: {
+      type: "string",
+      description: "欢迎语内容",
+    },
+    subTitle: {
+      type: "string",
+      description: "主标题",
+    },
+    quick_starts: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/QuickStart",
+      },
     },
   },
 } as const;
