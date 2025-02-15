@@ -2320,10 +2320,6 @@ export type EventNewAgentState = {
   stateId: string;
 };
 
-export type TenantSeedReq = {
-  tenantId: string;
-};
-
 export type EventBase = {
   type: string;
 };
@@ -3283,13 +3279,25 @@ export type UiAgentState = unknown;
 
 export type QuickStart = {
   /**
+   * 图标
+   */
+  icon?: string;
+  /**
    * 团队ID
    */
   team_id?: string;
   /**
-   * 内容
+   * 摘要
+   */
+  summary?: string;
+  /**
+   * 提交跟 agent 的内容
    */
   content: string;
+  /**
+   * 中文内容
+   */
+  cn?: string;
 };
 
 export type UiAgentConfig = unknown;

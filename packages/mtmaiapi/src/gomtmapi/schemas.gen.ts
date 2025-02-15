@@ -4093,15 +4093,6 @@ export const EventNewAgentStateSchema = {
   },
 } as const;
 
-export const TenantSeedReqSchema = {
-  required: ["tenantId"],
-  properties: {
-    tenantId: {
-      type: "string",
-    },
-  },
-} as const;
-
 export const EventBaseSchema = {
   required: ["type"],
   properties: {
@@ -5987,13 +5978,25 @@ export const UiAgentStateSchema = {
 export const QuickStartSchema = {
   required: ["content"],
   properties: {
+    icon: {
+      type: "string",
+      description: "图标",
+    },
     team_id: {
       type: "string",
       description: "团队ID",
     },
+    summary: {
+      type: "string",
+      description: "摘要",
+    },
     content: {
       type: "string",
-      description: "内容",
+      description: "提交跟 agent 的内容",
+    },
+    cn: {
+      type: "string",
+      description: "中文内容",
     },
   },
 } as const;

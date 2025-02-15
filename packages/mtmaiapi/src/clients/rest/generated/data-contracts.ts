@@ -1936,10 +1936,6 @@ export interface EventNewAgentState {
   stateId: string;
 }
 
-export interface TenantSeedReq {
-  tenantId: string;
-}
-
 export interface EventBase {
   type: string;
 }
@@ -2691,9 +2687,13 @@ export interface ProxyUpdate {
 export type UiAgentState = any;
 
 export interface QuickStart {
+  /** 图标 */
+  icon?: string;
   /** 团队ID */
   team_id?: string;
-  /** 内容 */
+  /** 摘要 */
+  summary?: string;
+  /** 提交跟 agent 的内容 */
   content: string;
 }
 

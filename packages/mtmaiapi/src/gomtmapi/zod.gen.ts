@@ -1976,10 +1976,6 @@ export const zEventNewAgentState = z.object({
   stateId: z.string(),
 });
 
-export const zTenantSeedReq = z.object({
-  tenantId: z.string(),
-});
-
 export const zEventBase = z.object({
   type: z.string(),
 });
@@ -2810,8 +2806,11 @@ export const zProxyUpdate = z.object({
 export const zUiAgentState = z.unknown();
 
 export const zQuickStart = z.object({
+  icon: z.string().optional(),
   team_id: z.string().optional(),
+  summary: z.string().optional(),
   content: z.string(),
+  cn: z.string().optional(),
 });
 
 export const zUiAgentConfig = z.unknown();
