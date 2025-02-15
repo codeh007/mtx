@@ -3107,8 +3107,6 @@ export const zAgStateUpsertResponse = zAgState;
 
 export const zAgStateGetResponse = zAgState;
 
-export const zTenantSeedResponse = zCommonResult;
-
 export const zChatMessagesListResponse = zChatMessageList;
 
 export const zChatSessionListResponse = zChatSessionList;

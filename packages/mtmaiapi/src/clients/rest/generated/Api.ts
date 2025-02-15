@@ -123,7 +123,6 @@ import {
   TenantParameter,
   TenantQueueMetrics,
   TenantResourcePolicy,
-  TenantSeedReq,
   TenantStepRunQueueMetrics,
   TriggerWorkflowRunRequest,
   UpdateBlogRequest,
@@ -3517,29 +3516,6 @@ export class Api<
       path: `/api/v1/tenants/${tenant}/agStates/${state}`,
       method: "GET",
       secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description 初始化租户
-   *
-   * @tags Tenant
-   * @name TenantSeed
-   * @summary 初始化租户
-   * @request POST:/api/v1/tenants/{tenant}/seed
-   * @secure
-   */
-  tenantSeed = (
-    tenant: string,
-    data: TenantSeedReq,
-    params: RequestParams = {},
-  ) =>
-    this.request<CommonResult, APIErrors>({
-      path: `/api/v1/tenants/${tenant}/seed`,
-      method: "POST",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
       format: "json",
       ...params,
     });

@@ -445,9 +445,6 @@ import type {
   AgStateGetData,
   AgStateGetResponse,
   AgStateGetError,
-  TenantSeedData,
-  TenantSeedResponse,
-  TenantSeedError,
   ChatMessagesListData,
   ChatMessagesListResponse,
   ChatSessionListData,
@@ -4613,37 +4610,6 @@ export const agStateGet = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/agStates/{state}",
     ...options,
-  });
-};
-
-/**
- * 初始化租户
- * 初始化租户
- */
-export const tenantSeed = <ThrowOnError extends boolean = false>(
-  options: Options<TenantSeedData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    TenantSeedResponse,
-    TenantSeedError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/seed",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
   });
 };
 

@@ -8923,47 +8923,6 @@ export type AgStateGetResponses = {
 
 export type AgStateGetResponse = AgStateGetResponses[keyof AgStateGetResponses];
 
-export type TenantSeedData = {
-  /**
-   * 租户种子消息
-   */
-  body: TenantSeedReq;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/seed";
-};
-
-export type TenantSeedErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type TenantSeedError = TenantSeedErrors[keyof TenantSeedErrors];
-
-export type TenantSeedResponses = {
-  /**
-   * Successfully retrieved the step run queue metrics
-   */
-  200: CommonResult;
-};
-
-export type TenantSeedResponse = TenantSeedResponses[keyof TenantSeedResponses];
-
 export type ChatMessagesListData = {
   body?: never;
   path: {

@@ -160,7 +160,6 @@ import {
   agStateList,
   agStateUpsert,
   agStateGet,
-  tenantSeed,
   chatMessagesList,
   chatSessionList,
   chatMessageUpsert,
@@ -471,9 +470,6 @@ import type {
   AgStateUpsertError,
   AgStateUpsertResponse,
   AgStateGetData,
-  TenantSeedData,
-  TenantSeedError,
-  TenantSeedResponse,
   ChatMessagesListData,
   ChatSessionListData,
   ChatMessageUpsertData,
@@ -4858,45 +4854,6 @@ export const agStateGetOptions = (options: Options<AgStateGetData>) => {
     },
     queryKey: agStateGetQueryKey(options),
   });
-};
-
-export const tenantSeedQueryKey = (options: Options<TenantSeedData>) => [
-  createQueryKey("tenantSeed", options),
-];
-
-export const tenantSeedOptions = (options: Options<TenantSeedData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await tenantSeed({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: tenantSeedQueryKey(options),
-  });
-};
-
-export const tenantSeedMutation = (
-  options?: Partial<Options<TenantSeedData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    TenantSeedResponse,
-    TenantSeedError,
-    Options<TenantSeedData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await tenantSeed({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
 };
 
 export const chatMessagesListQueryKey = (
