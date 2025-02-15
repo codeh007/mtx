@@ -2807,6 +2807,15 @@ export const zProxyUpdate = z.object({
   tags: z.array(z.string()).optional(),
 });
 
+export const zUiAgentState = z.unknown();
+
+export const zQuickStart = z.object({
+  team_id: z.string().optional(),
+  content: z.string(),
+});
+
+export const zUiAgentConfig = z.unknown();
+
 export const zMetadataGetResponse = zApiMeta;
 
 export const zCloudMetadataGetResponse = zApiErrors;
@@ -3117,4 +3126,4 @@ export const zChatSessionGetResponse = zChatSession;
 
 export const zChatSessionUpdateResponse = zChatSession;
 
-export const zUiAgentGetResponse = zChatMessageList;
+export const zUiAgentGetResponse = zUiAgentState;

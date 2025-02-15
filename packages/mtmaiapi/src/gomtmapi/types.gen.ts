@@ -3279,6 +3279,21 @@ export type ProxyUpdate = {
   tags?: Array<string>;
 };
 
+export type UiAgentState = unknown;
+
+export type QuickStart = {
+  /**
+   * 团队ID
+   */
+  team_id?: string;
+  /**
+   * 内容
+   */
+  content: string;
+};
+
+export type UiAgentConfig = unknown;
+
 export type ReadinessGetData = {
   body?: never;
   path?: never;
@@ -9100,11 +9115,11 @@ export type UiAgentGetData = {
     tenant: TenantParameter;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/ui_agent";
+  url: "/api/v1/tenants/{tenant}/ag_ui";
 };
 
 export type UiAgentGetResponses = {
-  200: ChatMessageList;
+  200: UiAgentState;
 };
 
 export type UiAgentGetResponse = UiAgentGetResponses[keyof UiAgentGetResponses];

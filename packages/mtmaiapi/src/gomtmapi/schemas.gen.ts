@@ -5975,3 +5975,34 @@ export const ProxyUpdateSchema = {
   },
   required: ["metadata", "name", "url"],
 } as const;
+
+export const UiAgentStateSchema = {
+  Properties: {
+    quick_start: {
+      $ref: "#/components/schemas/QuickStart",
+    },
+  },
+} as const;
+
+export const QuickStartSchema = {
+  required: ["content"],
+  properties: {
+    team_id: {
+      type: "string",
+      description: "团队ID",
+    },
+    content: {
+      type: "string",
+      description: "内容",
+    },
+  },
+} as const;
+
+export const UiAgentConfigSchema = {
+  Properties: {
+    someValue: {
+      type: "string",
+      description: "一些值",
+    },
+  },
+} as const;

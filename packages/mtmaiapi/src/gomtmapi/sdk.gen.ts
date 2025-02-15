@@ -4775,7 +4775,7 @@ export const uiAgentGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/tenants/{tenant}/ui_agent",
+    url: "/api/v1/tenants/{tenant}/ag_ui",
     ...options,
   });
 };

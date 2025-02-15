@@ -2687,3 +2687,14 @@ export interface ProxyUpdate {
   properties?: object;
   tags?: string[];
 }
+
+export type UiAgentState = any;
+
+export interface QuickStart {
+  /** 团队ID */
+  team_id?: string;
+  /** 内容 */
+  content: string;
+}
+
+export type UiAgentConfig = any;

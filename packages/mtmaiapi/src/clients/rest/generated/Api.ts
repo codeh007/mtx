@@ -125,6 +125,7 @@ import {
   TenantResourcePolicy,
   TenantStepRunQueueMetrics,
   TriggerWorkflowRunRequest,
+  UiAgentState,
   UpdateBlogRequest,
   UpdateEndpointRequest,
   UpdateSiteRequest,
@@ -3628,12 +3629,12 @@ export class Api<
    *
    * @tags ui_agent
    * @name UiAgentGet
-   * @request GET:/api/v1/tenants/{tenant}/ui_agent
+   * @request GET:/api/v1/tenants/{tenant}/ag_ui
    * @secure
    */
   uiAgentGet = (tenant: TenantParameter, params: RequestParams = {}) =>
-    this.request<ChatMessageList, any>({
-      path: `/api/v1/tenants/${tenant}/ui_agent`,
+    this.request<UiAgentState, any>({
+      path: `/api/v1/tenants/${tenant}/ag_ui`,
       method: "GET",
       secure: true,
       format: "json",
