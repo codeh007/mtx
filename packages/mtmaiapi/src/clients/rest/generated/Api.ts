@@ -35,7 +35,6 @@ import {
   ChatMessageUpsert,
   ChatSession,
   ChatSessionList,
-  ChatSessionUpdate,
   CommonResult,
   CreateAPITokenRequest,
   CreateAPITokenResponse,
@@ -3609,30 +3608,7 @@ export class Api<
       ...params,
     });
   /**
-   * @description 更新会话
-   *
-   * @tags chat
-   * @name ChatSessionUpdate
-   * @request PUT:/api/v1/tenants/{tenant}/chat/sessions/{session}
-   * @secure
-   */
-  chatSessionUpdate = (
-    tenant: TenantParameter,
-    session: string,
-    data: ChatSessionUpdate,
-    params: RequestParams = {},
-  ) =>
-    this.request<ChatSession, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/chat/sessions/${session}`,
-      method: "PUT",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description 发送聊天消息
+   * @description 获取聊天界面状态
    *
    * @tags ui_agent
    * @name UiAgentGet
@@ -3640,7 +3616,7 @@ export class Api<
    * @secure
    */
   uiAgentGet = (tenant: TenantParameter, params: RequestParams = {}) =>
-    this.request<UiAgentState, any>({
+    this.request<UiAgentState, APIErrors>({
       path: `/api/v1/tenants/${tenant}/ag_ui`,
       method: "GET",
       secure: true,

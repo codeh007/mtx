@@ -1439,12 +1439,6 @@ export interface ChatSession {
   team?: string;
 }
 
-/** 更新聊天 Session */
-export interface ChatSessionUpdate {
-  metadata?: APIResourceMeta;
-  name?: string;
-}
-
 /** 聊天 Session 列表 */
 export interface ChatSessionList {
   metadata?: APIResourceMeta;
@@ -2656,21 +2650,38 @@ export interface ProxyUpdate {
   tags?: string[];
 }
 
-export type UiAgentState = any;
+export interface UiAgentState {
+  welcome?: ChatWelcome;
+  /** 线程ID(sessionId) */
+  thread_id?: string;
+  /** 当前选定的 team id */
+  team_id?: string;
+}
 
 export interface QuickStart {
   /** 图标 */
   icon?: string;
-  /** 团队ID */
-  team_id?: string;
+  /** 组件ID (团队ID) */
+  com_id?: string;
   /** 摘要 */
-  summary?: string;
+  title?: string;
   /** 提交跟 agent 的内容 */
   content: string;
   /** html class name */
   cn?: string;
 }
 
-export type UiAgentConfig = any;
+export interface UiAgentConfig {
+  /** 一些值 */
+  someValue?: string;
+}
 
-export type ChatWelcome = any;
+export interface ChatWelcome {
+  /** 欢迎语标题 */
+  title?: string;
+  /** 欢迎语内容 */
+  content?: string;
+  /** 主标题 */
+  subTitle?: string;
+  quick_starts?: QuickStart[];
+}

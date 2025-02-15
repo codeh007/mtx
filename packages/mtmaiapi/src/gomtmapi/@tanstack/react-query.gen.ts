@@ -164,7 +164,6 @@ import {
   chatSessionList,
   chatMessageUpsert,
   chatSessionGet,
-  chatSessionUpdate,
   uiAgentGet,
 } from "../sdk.gen";
 import {
@@ -476,9 +475,6 @@ import type {
   ChatMessageUpsertError,
   ChatMessageUpsertResponse,
   ChatSessionGetData,
-  ChatSessionUpdateData,
-  ChatSessionUpdateError,
-  ChatSessionUpdateResponse,
   UiAgentGetData,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
@@ -4956,26 +4952,6 @@ export const chatSessionGetOptions = (options: Options<ChatSessionGetData>) => {
     },
     queryKey: chatSessionGetQueryKey(options),
   });
-};
-
-export const chatSessionUpdateMutation = (
-  options?: Partial<Options<ChatSessionUpdateData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    ChatSessionUpdateResponse,
-    ChatSessionUpdateError,
-    Options<ChatSessionUpdateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await chatSessionUpdate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
 };
 
 export const uiAgentGetQueryKey = (options: Options<UiAgentGetData>) => [

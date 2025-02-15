@@ -1407,11 +1407,6 @@ export const zChatSession = z.object({
   team: z.string().optional(),
 });
 
-export const zChatSessionUpdate = z.object({
-  metadata: zApiResourceMeta.optional(),
-  name: z.string().optional(),
-});
-
 export const zChatSessionList = z.object({
   metadata: zApiResourceMeta.optional(),
   rows: z.array(zChatSession).optional(),
@@ -2764,19 +2759,47 @@ export const zProxyUpdate = z.object({
   tags: z.array(z.string()).optional(),
 });
 
-export const zUiAgentState = z.unknown();
+export const zUiAgentState = z.object({
+  welcome: z
+    .object({
+      title: z.string().optional(),
+      content: z.string().optional(),
+      subTitle: z.string().optional(),
+      quick_starts: z
+        .array(
+          z.object({
+            icon: z.string().optional(),
+            com_id: z.string().optional(),
+            title: z.string().optional(),
+            content: z.string(),
+            cn: z.string().optional(),
+          }),
+        )
+        .optional(),
+    })
+    .optional(),
+  thread_id: z.string().optional(),
+  team_id: z.string().optional(),
+});
 
 export const zQuickStart = z.object({
   icon: z.string().optional(),
-  team_id: z.string().optional(),
-  summary: z.string().optional(),
+  com_id: z.string().optional(),
+  title: z.string().optional(),
   content: z.string(),
   cn: z.string().optional(),
 });
 
-export const zUiAgentConfig = z.unknown();
+export const zUiAgentConfig = z.object({
+  someValue: z.string().optional(),
+});
 
-export const zChatWelcome = z.unknown();
+export const zChatWelcome = z.object({
+  title: z.string().optional(),
+  content: z.string().optional(),
+  subTitle: z.string().optional(),
+  quick_starts: z.array(zQuickStart).optional(),
+});
 
 export const zMetadataGetResponse = zApiMeta;
 
@@ -3088,7 +3111,5 @@ export const zChatSessionListResponse = zChatSessionList;
 export const zChatMessageUpsertResponse = zChatMessage;
 
 export const zChatSessionGetResponse = zChatSession;
-
-export const zChatSessionUpdateResponse = zChatSession;
 
 export const zUiAgentGetResponse = zUiAgentState;

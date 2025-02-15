@@ -1691,14 +1691,6 @@ export type ChatSession = {
 };
 
 /**
- * 更新聊天 Session
- */
-export type ChatSessionUpdate = {
-  metadata?: ApiResourceMeta;
-  name?: string;
-};
-
-/**
  * 聊天 Session 列表
  */
 export type ChatSessionList = {
@@ -3239,7 +3231,17 @@ export type ProxyUpdate = {
   tags?: Array<string>;
 };
 
-export type UiAgentState = unknown;
+export type UiAgentState = {
+  welcome?: ChatWelcome;
+  /**
+   * 线程ID(sessionId)
+   */
+  thread_id?: string;
+  /**
+   * 当前选定的 team id
+   */
+  team_id?: string;
+};
 
 export type QuickStart = {
   /**
@@ -3247,13 +3249,13 @@ export type QuickStart = {
    */
   icon?: string;
   /**
-   * 团队ID
+   * 组件ID (团队ID)
    */
-  team_id?: string;
+  com_id?: string;
   /**
    * 摘要
    */
-  summary?: string;
+  title?: string;
   /**
    * 提交跟 agent 的内容
    */
@@ -3264,9 +3266,28 @@ export type QuickStart = {
   cn?: string;
 };
 
-export type UiAgentConfig = unknown;
+export type UiAgentConfig = {
+  /**
+   * 一些值
+   */
+  someValue?: string;
+};
 
-export type ChatWelcome = unknown;
+export type ChatWelcome = {
+  /**
+   * 欢迎语标题
+   */
+  title?: string;
+  /**
+   * 欢迎语内容
+   */
+  content?: string;
+  /**
+   * 主标题
+   */
+  subTitle?: string;
+  quick_starts?: Array<QuickStart>;
+};
 
 export type ReadinessGetData = {
   body?: never;
@@ -9049,43 +9070,6 @@ export type ChatSessionGetResponses = {
 export type ChatSessionGetResponse =
   ChatSessionGetResponses[keyof ChatSessionGetResponses];
 
-export type ChatSessionUpdateData = {
-  body: ChatSessionUpdate;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The session id
-     */
-    session: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/chat/sessions/{session}";
-};
-
-export type ChatSessionUpdateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type ChatSessionUpdateError =
-  ChatSessionUpdateErrors[keyof ChatSessionUpdateErrors];
-
-export type ChatSessionUpdateResponses = {
-  200: ChatSession;
-};
-
-export type ChatSessionUpdateResponse =
-  ChatSessionUpdateResponses[keyof ChatSessionUpdateResponses];
-
 export type UiAgentGetData = {
   body?: never;
   path: {
@@ -9097,6 +9081,13 @@ export type UiAgentGetData = {
   query?: never;
   url: "/api/v1/tenants/{tenant}/ag_ui";
 };
+
+export type UiAgentGetErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+};
+
+export type UiAgentGetError = UiAgentGetErrors[keyof UiAgentGetErrors];
 
 export type UiAgentGetResponses = {
   200: UiAgentState;

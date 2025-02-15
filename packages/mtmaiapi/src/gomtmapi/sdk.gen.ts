@@ -456,11 +456,9 @@ import type {
   ChatSessionGetData,
   ChatSessionGetResponse,
   ChatSessionGetError,
-  ChatSessionUpdateData,
-  ChatSessionUpdateResponse,
-  ChatSessionUpdateError,
   UiAgentGetData,
   UiAgentGetResponse,
+  UiAgentGetError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -4725,44 +4723,14 @@ export const chatSessionGet = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 更新会话
- */
-export const chatSessionUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<ChatSessionUpdateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).put<
-    ChatSessionUpdateResponse,
-    ChatSessionUpdateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/chat/sessions/{session}",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 发送聊天消息
+ * 获取聊天界面状态
  */
 export const uiAgentGet = <ThrowOnError extends boolean = false>(
   options: Options<UiAgentGetData, ThrowOnError>,
 ) => {
   return (options.client ?? _heyApiClient).get<
     UiAgentGetResponse,
-    unknown,
+    UiAgentGetError,
     ThrowOnError
   >({
     security: [

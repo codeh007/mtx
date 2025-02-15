@@ -3002,18 +3002,6 @@ export const ChatSessionSchema = {
   required: ["name", "version"],
 } as const;
 
-export const ChatSessionUpdateSchema = {
-  description: "更新聊天 Session",
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    name: {
-      type: "string",
-    },
-  },
-} as const;
-
 export const ChatSessionListSchema = {
   description: "聊天 Session 列表",
   properties: {
@@ -5898,7 +5886,7 @@ export const ProxyUpdateSchema = {
 } as const;
 
 export const UiAgentStateSchema = {
-  Properties: {
+  properties: {
     welcome: {
       $ref: "#/components/schemas/ChatWelcome",
     },
@@ -5920,11 +5908,11 @@ export const QuickStartSchema = {
       type: "string",
       description: "图标",
     },
-    team_id: {
+    com_id: {
       type: "string",
-      description: "团队ID",
+      description: "组件ID (团队ID)",
     },
-    summary: {
+    title: {
       type: "string",
       description: "摘要",
     },
@@ -5940,7 +5928,7 @@ export const QuickStartSchema = {
 } as const;
 
 export const UiAgentConfigSchema = {
-  Properties: {
+  properties: {
     someValue: {
       type: "string",
       description: "一些值",
@@ -5949,7 +5937,7 @@ export const UiAgentConfigSchema = {
 } as const;
 
 export const ChatWelcomeSchema = {
-  Properties: {
+  properties: {
     title: {
       type: "string",
       description: "欢迎语标题",
