@@ -58,7 +58,6 @@ const WorkflowsWorkflowIdLazyImport = createFileRoute(
   '/workflows/$workflowId',
 )()
 const TriggerIdLazyImport = createFileRoute('/trigger/$id')()
-const TeamCreateLazyImport = createFileRoute('/team/create')()
 const PostCreateLazyImport = createFileRoute('/post/create')()
 const TeamIndexLazyImport = createFileRoute('/team/')()
 const PostIndexLazyImport = createFileRoute('/post/')()
@@ -205,12 +204,6 @@ const TriggerIdLazyRoute = TriggerIdLazyImport.update({
   path: '/$id',
   getParentRoute: () => TriggerRouteLazyRoute,
 } as any).lazy(() => import('./routes/~trigger/~$id.lazy').then((d) => d.Route))
-
-const TeamCreateLazyRoute = TeamCreateLazyImport.update({
-  id: '/create',
-  path: '/create',
-  getParentRoute: () => TeamRouteLazyRoute,
-} as any).lazy(() => import('./routes/~team/~create.lazy').then((d) => d.Route))
 
 const PostCreateLazyRoute = PostCreateLazyImport.update({
   id: '/create',
@@ -698,13 +691,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostCreateLazyImport
       parentRoute: typeof PostRouteLazyImport
     }
-    '/team/create': {
-      id: '/team/create'
-      path: '/create'
-      fullPath: '/team/create'
-      preLoaderRoute: typeof TeamCreateLazyImport
-      parentRoute: typeof TeamRouteLazyImport
-    }
     '/trigger/$id': {
       id: '/trigger/$id'
       path: '/$id'
@@ -963,13 +949,11 @@ const SiteRouteLazyRouteWithChildren = SiteRouteLazyRoute._addFileChildren(
 interface TeamRouteLazyRouteChildren {
   TeamTeamIdRoute: typeof TeamTeamIdRoute
   TeamIndexLazyRoute: typeof TeamIndexLazyRoute
-  TeamCreateLazyRoute: typeof TeamCreateLazyRoute
 }
 
 const TeamRouteLazyRouteChildren: TeamRouteLazyRouteChildren = {
   TeamTeamIdRoute: TeamTeamIdRoute,
   TeamIndexLazyRoute: TeamIndexLazyRoute,
-  TeamCreateLazyRoute: TeamCreateLazyRoute,
 }
 
 const TeamRouteLazyRouteWithChildren = TeamRouteLazyRoute._addFileChildren(
@@ -1057,7 +1041,6 @@ export interface FileRoutesByFullPath {
   '/post/': typeof PostIndexLazyRoute
   '/team/': typeof TeamIndexLazyRoute
   '/post/create': typeof PostCreateLazyRoute
-  '/team/create': typeof TeamCreateLazyRoute
   '/trigger/$id': typeof TriggerIdLazyRoute
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdLazyRoute
   '/onboarding/create-tenant': typeof OnboardingCreateTenantIndexRoute
@@ -1096,7 +1079,6 @@ export interface FileRoutesByTo {
   '/post': typeof PostIndexLazyRoute
   '/team': typeof TeamIndexLazyRoute
   '/post/create': typeof PostCreateLazyRoute
-  '/team/create': typeof TeamCreateLazyRoute
   '/trigger/$id': typeof TriggerIdLazyRoute
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdLazyRoute
   '/onboarding/create-tenant': typeof OnboardingCreateTenantIndexRoute
@@ -1150,7 +1132,6 @@ export interface FileRoutesById {
   '/post/': typeof PostIndexLazyRoute
   '/team/': typeof TeamIndexLazyRoute
   '/post/create': typeof PostCreateLazyRoute
-  '/team/create': typeof TeamCreateLazyRoute
   '/trigger/$id': typeof TriggerIdLazyRoute
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdLazyRoute
   '/onboarding/create-tenant/': typeof OnboardingCreateTenantIndexRoute
@@ -1206,7 +1187,6 @@ export interface FileRouteTypes {
     | '/post/'
     | '/team/'
     | '/post/create'
-    | '/team/create'
     | '/trigger/$id'
     | '/workflows/$workflowId'
     | '/onboarding/create-tenant'
@@ -1244,7 +1224,6 @@ export interface FileRouteTypes {
     | '/post'
     | '/team'
     | '/post/create'
-    | '/team/create'
     | '/trigger/$id'
     | '/workflows/$workflowId'
     | '/onboarding/create-tenant'
@@ -1296,7 +1275,6 @@ export interface FileRouteTypes {
     | '/post/'
     | '/team/'
     | '/post/create'
-    | '/team/create'
     | '/trigger/$id'
     | '/workflows/$workflowId'
     | '/onboarding/create-tenant/'
@@ -1466,8 +1444,7 @@ export const routeTree = rootRoute
       "filePath": "~team/~route.lazy.tsx",
       "children": [
         "/team/$teamId",
-        "/team/",
-        "/team/create"
+        "/team/"
       ]
     },
     "/trigger": {
@@ -1593,10 +1570,6 @@ export const routeTree = rootRoute
     "/post/create": {
       "filePath": "~post/~create.lazy.tsx",
       "parent": "/post"
-    },
-    "/team/create": {
-      "filePath": "~team/~create.lazy.tsx",
-      "parent": "/team"
     },
     "/trigger/$id": {
       "filePath": "~trigger/~$id.lazy.tsx",

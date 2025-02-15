@@ -14,7 +14,6 @@ import {
   AgEvent,
   AgEventCreate,
   AgEventList,
-  AgEventV2,
   AgState,
   AgStateList,
   AgStateUpsert,
@@ -89,6 +88,7 @@ import {
   PromptList,
   Proxy,
   ProxyList,
+  QuickStart,
   RateLimitList,
   RateLimitOrderByDirection,
   RateLimitOrderByField,
@@ -2820,7 +2820,14 @@ export class Api<
     stream: string,
     params: RequestParams = {},
   ) =>
-    this.request<AgEventV2, APIErrors | APIError>({
+    this.request<
+      {
+        /** 事件类型 */
+        type?: string;
+        quick_start?: QuickStart;
+      },
+      APIErrors | APIError
+    >({
       path: `/api/v1/tenants/${tenant}/stream/${stream}`,
       method: "GET",
       secure: true,

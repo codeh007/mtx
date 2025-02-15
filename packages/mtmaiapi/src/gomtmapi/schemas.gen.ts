@@ -4067,58 +4067,6 @@ export const AgEventUpdateSchema = {
   ],
 } as const;
 
-export const AgEventV2Schema = {
-  oneOf: [
-    {
-      $ref: "#/components/schemas/EventNewAgentState",
-    },
-    {
-      $ref: "#/components/schemas/EventTypes",
-    },
-    {
-      $ref: "#/components/schemas/EventBase",
-    },
-    {
-      $ref: "#/components/schemas/StartWorkflowRunEvent",
-    },
-  ],
-} as const;
-
-export const EventNewAgentStateSchema = {
-  required: ["stateId"],
-  properties: {
-    stateId: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const EventBaseSchema = {
-  required: ["type"],
-  properties: {
-    type: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const StartWorkflowRunEventSchema = {
-  description:
-    "用户调用工作流后, 后端返回工作流启动状态的事件, 一般用于根据 Id,从 stream api 中进一步拉取更加详细的事件",
-  allOf: [
-    {
-      $ref: "#/components/schemas/EventBase",
-    },
-    {
-      properties: {
-        workflowRunId: {
-          type: "string",
-        },
-      },
-    },
-  ],
-} as const;
-
 export const OutlineSchema = {
   properties: {
     pageTitle: {
@@ -4135,24 +4083,6 @@ export const OutlineSchema = {
     },
   },
   required: ["pageTitle", "sections"],
-} as const;
-
-export const AgentTaskToolSchema = {
-  description: "agent 任务工具",
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    name: {
-      type: "string",
-      description: "工具名称",
-    },
-    description: {
-      type: "string",
-      description: "工具描述",
-    },
-  },
-  required: ["metadata", "name", "description"],
 } as const;
 
 export const AgentTaskStepSchema = {
@@ -5969,8 +5899,19 @@ export const ProxyUpdateSchema = {
 
 export const UiAgentStateSchema = {
   Properties: {
-    quick_start: {
-      $ref: "#/components/schemas/QuickStart",
+    quick_starts: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/QuickStart",
+      },
+    },
+    thread_id: {
+      type: "string",
+      description: "线程ID(sessionId)",
+    },
+    team_id: {
+      type: "string",
+      description: "当前选定的 team id",
     },
   },
 } as const;
@@ -5996,7 +5937,7 @@ export const QuickStartSchema = {
     },
     cn: {
       type: "string",
-      description: "中文内容",
+      description: "html class name",
     },
   },
 } as const;

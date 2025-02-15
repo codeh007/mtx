@@ -1953,39 +1953,6 @@ export const zAgEventCreate = zApiResourceMetaProperties.merge(zAgEvent);
 
 export const zAgEventUpdate = zApiResourceMetaProperties.merge(zAgEvent);
 
-export const zAgEventV2 = z.union([
-  z.object({
-    stateId: z.string(),
-  }),
-  zEventTypes,
-  z.object({
-    type: z.string(),
-  }),
-  z
-    .object({
-      type: z.string(),
-    })
-    .merge(
-      z.object({
-        workflowRunId: z.string().optional(),
-      }),
-    ),
-]);
-
-export const zEventNewAgentState = z.object({
-  stateId: z.string(),
-});
-
-export const zEventBase = z.object({
-  type: z.string(),
-});
-
-export const zStartWorkflowRunEvent = zEventBase.merge(
-  z.object({
-    workflowRunId: z.string().optional(),
-  }),
-);
-
 export const zOutline = z.object({
   pageTitle: z.string(),
   sections: z.array(
@@ -2002,12 +1969,6 @@ export const zOutline = z.object({
         .optional(),
     }),
   ),
-});
-
-export const zAgentTaskTool = z.object({
-  metadata: zApiResourceMeta,
-  name: z.string(),
-  description: z.string(),
 });
 
 export const zAgentTaskStep = z.object({
@@ -3035,7 +2996,10 @@ export const zGalleryCreateResponse = zGallery;
 
 export const zGalleryGetResponse = zGallery;
 
-export const zAgentStreamResponse = zAgEventV2;
+export const zAgentStreamResponse = z.object({
+  type: z.string().optional(),
+  quick_start: zQuickStart.optional(),
+});
 
 export const zAgEventListResponse = zAgEventList;
 

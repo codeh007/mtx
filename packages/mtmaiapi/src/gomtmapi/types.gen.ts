@@ -2310,27 +2310,6 @@ export type AgEventCreate = ApiResourceMetaProperties & AgEvent;
 
 export type AgEventUpdate = ApiResourceMetaProperties & AgEvent;
 
-export type AgEventV2 =
-  | EventNewAgentState
-  | EventTypes
-  | EventBase
-  | StartWorkflowRunEvent;
-
-export type EventNewAgentState = {
-  stateId: string;
-};
-
-export type EventBase = {
-  type: string;
-};
-
-/**
- * 用户调用工作流后, 后端返回工作流启动状态的事件, 一般用于根据 Id,从 stream api 中进一步拉取更加详细的事件
- */
-export type StartWorkflowRunEvent = EventBase & {
-  workflowRunId?: string;
-};
-
 export type Outline = {
   /**
    * Title of the Wikipedia page
@@ -2340,21 +2319,6 @@ export type Outline = {
    * Titles and descriptions for each section of the Wikipedia page
    */
   sections: Array<Section>;
-};
-
-/**
- * agent 任务工具
- */
-export type AgentTaskTool = {
-  metadata: ApiResourceMeta;
-  /**
-   * 工具名称
-   */
-  name: string;
-  /**
-   * 工具描述
-   */
-  description: string;
 };
 
 /**
@@ -3295,7 +3259,7 @@ export type QuickStart = {
    */
   content: string;
   /**
-   * 中文内容
+   * html class name
    */
   cn?: string;
 };
@@ -7760,7 +7724,13 @@ export type AgentStreamErrors = {
 export type AgentStreamError = AgentStreamErrors[keyof AgentStreamErrors];
 
 export type AgentStreamResponses = {
-  200: AgEventV2;
+  200: {
+    /**
+     * 事件类型
+     */
+    type?: string;
+    quick_start?: QuickStart;
+  };
 };
 
 export type AgentStreamResponse =
