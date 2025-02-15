@@ -1,14 +1,6 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
-import {
-  type ArtifactCodeV3,
-  type ArtifactMarkdownV3,
-  type ArtifactV3,
-  type ProgrammingLanguageOptions,
-  uiAgentGetOptions,
-} from "mtmaiapi";
-import { getLanguageTemplate } from "mtxuilib/agentutils/get_language_template";
+import type { ProgrammingLanguageOptions } from "mtmaiapi";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { cn } from "mtxuilib/lib/utils";
 import { useToast } from "mtxuilib/ui/use-toast";
@@ -41,14 +33,6 @@ export function CanvasComponent() {
   // }, [threadId, user]);
   const tenant = useTenant();
 
-  const uiAgentStateQuery = useSuspenseQuery({
-    ...uiAgentGetOptions({
-      path: {
-        tenant: tenant!.metadata.id,
-      },
-    }),
-  });
-
   const handleQuickStart = (
     type: "text" | "code",
     language?: ProgrammingLanguageOptions,
@@ -63,28 +47,28 @@ export function CanvasComponent() {
     }
     setChatStarted(true);
 
-    let artifactContent: ArtifactCodeV3 | ArtifactMarkdownV3;
-    if (type === "code" && language) {
-      artifactContent = {
-        index: 1,
-        type: "code",
-        title: `Quick start ${type}`,
-        code: getLanguageTemplate(language),
-        language,
-      };
-    } else {
-      artifactContent = {
-        index: 1,
-        type: "text",
-        title: `Quick start ${type}`,
-        fullMarkdown: "",
-      };
-    }
+    // let artifactContent: ArtifactCodeV3 | ArtifactMarkdownV3;
+    // if (type === "code" && language) {
+    //   artifactContent = {
+    //     index: 1,
+    //     type: "code",
+    //     title: `Quick start ${type}`,
+    //     code: getLanguageTemplate(language),
+    //     language,
+    //   };
+    // } else {
+    //   artifactContent = {
+    //     index: 1,
+    //     type: "text",
+    //     title: `Quick start ${type}`,
+    //     fullMarkdown: "",
+    //   };
+    // }
 
-    const newArtifact: ArtifactV3 = {
-      currentIndex: 1,
-      contents: [artifactContent],
-    };
+    // const newArtifact: ArtifactV3 = {
+    //   currentIndex: 1,
+    //   contents: [artifactContent],
+    // };
     // Do not worry about existing items in state. This should
     // never occur since this action can only be invoked if
     // there are no messages/artifacts in the thread.
