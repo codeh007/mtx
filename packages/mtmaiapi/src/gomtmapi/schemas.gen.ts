@@ -3780,6 +3780,10 @@ export const AgStateUpsertSchema = {
     {
       required: ["componentId", "runId"],
       properties: {
+        stateId: {
+          type: "string",
+          description: "状态id",
+        },
         componentId: {
           type: "string",
           description: "组件id",
@@ -3787,6 +3791,10 @@ export const AgStateUpsertSchema = {
         runId: {
           type: "string",
           description: "运行id",
+        },
+        tenantId: {
+          type: "string",
+          description: "租户id",
         },
       },
     },

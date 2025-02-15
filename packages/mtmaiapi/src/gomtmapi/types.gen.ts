@@ -2177,6 +2177,10 @@ export type AgStateList = {
 
 export type AgStateUpsert = AgStateProperties & {
   /**
+   * 状态id
+   */
+  stateId?: string;
+  /**
    * 组件id
    */
   componentId: string;
@@ -2184,6 +2188,10 @@ export type AgStateUpsert = AgStateProperties & {
    * 运行id
    */
   runId: string;
+  /**
+   * 租户id
+   */
+  tenantId?: string;
 };
 
 export type Team = TeamProperties & ApiResourceMetaProperties;
