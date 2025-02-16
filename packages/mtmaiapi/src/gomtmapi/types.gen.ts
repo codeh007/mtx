@@ -2554,7 +2554,7 @@ export type ChatMessageConfig =
 export type ChatMessageUpsert = {
   tenantId: string;
   content: string;
-  teamId: string;
+  componentId: string;
   threadId?: string;
   runId?: string;
   role?: ChatMessageRole;

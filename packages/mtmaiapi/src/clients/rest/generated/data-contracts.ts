@@ -2092,7 +2092,7 @@ export type ChatMessageConfig =
 export interface ChatMessageUpsert {
   tenantId: string;
   content: string;
-  teamId: string;
+  componentId: string;
   threadId?: string;
   runId?: string;
   role?: ChatMessageRole;

@@ -10,7 +10,7 @@ import {
   RefreshCcw,
   Trash2,
 } from "lucide-react";
-import type { Team } from "mtmaiapi";
+import type { MtComponent } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { cn } from "mtxuilib/lib/utils";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
@@ -22,11 +22,11 @@ import { useGalleryStore } from "../~gallery/store";
 
 interface TeamSidebarProps {
   isOpen: boolean;
-  teams: Team[];
-  currentTeam: Team | null;
+  teams: MtComponent[];
+  currentTeam: MtComponent | null;
   onToggle: () => void;
-  onCreateTeam: (team: Team) => void;
-  onEditTeam: (team: Team) => void;
+  onCreateTeam: (team: MtComponent) => void;
+  onEditTeam: (team: MtComponent) => void;
   onDeleteTeam: (teamId: number) => void;
   isLoading?: boolean;
 }

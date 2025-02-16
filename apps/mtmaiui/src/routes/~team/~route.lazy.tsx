@@ -2,11 +2,12 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { message } from "antd";
 import { ChevronRight } from "lucide-react";
-import { type Team, teamListOptions } from "mtmaiapi";
+// import { type Team, teamListOptions } from "mtmaiapi";
 import { useEffect, useState } from "react";
 import { useTenant, useUser } from "../../hooks/useAuth";
 import { teamAPI } from "../components/views/team/api";
 
+import { type MtComponent, comsListOptions } from "mtmaiapi";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import {
   Breadcrumb,
@@ -20,6 +21,7 @@ import { DashContent } from "../../components/DashContent";
 import { DashHeaders } from "../../components/DashHeaders";
 import { DashSidebar } from "../../components/sidebar/siderbar";
 import { RootAppWrapper } from "../components/RootAppWrapper";
+import type { Team } from "../components/types/datamodel";
 import { TeamSidebar } from "./sidebar";
 
 export const Route = createLazyFileRoute("/team")({
@@ -28,7 +30,7 @@ export const Route = createLazyFileRoute("/team")({
 
 function RouteComponent() {
   const [isLoading, setIsLoading] = useState(false);
-  const [currentTeam, setCurrentTeam] = useState<Team | null>(null);
+  const [currentTeam, setCurrentTeam] = useState<MtComponent | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem("teamSidebar");
@@ -49,7 +51,7 @@ function RouteComponent() {
   }, [isSidebarOpen]);
 
   const teamQuery = useSuspenseQuery({
-    ...teamListOptions({
+    ...comsListOptions({
       path: {
         tenant: tenant!.metadata?.id,
       },
@@ -132,7 +134,7 @@ function RouteComponent() {
     }
   };
 
-  const handleCreateTeam = (newTeam: Team) => {
+  const handleCreateTeam = (newTeam: MtComponent) => {
     console.log("newTeam", newTeam);
     setCurrentTeam(newTeam);
     // also save it to db

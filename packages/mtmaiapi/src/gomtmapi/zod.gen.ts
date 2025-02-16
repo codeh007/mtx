@@ -2041,7 +2041,7 @@ export const zChatMessageConfig = z.union([
 export const zChatMessageUpsert = z.object({
   tenantId: z.string(),
   content: z.string(),
-  teamId: z.string(),
+  componentId: z.string(),
   threadId: z.string().optional(),
   runId: z.string().optional(),
   role: zChatMessageRole.optional(),
