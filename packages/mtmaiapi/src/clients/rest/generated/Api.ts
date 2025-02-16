@@ -77,6 +77,8 @@ import {
   LogLineSearch,
   Model,
   ModelList,
+  MtComponent,
+  MtComponentList,
   Platform,
   PlatformAccount,
   PlatformAccountList,
@@ -108,8 +110,6 @@ import {
   StepRun,
   StepRunArchiveList,
   StepRunEventList,
-  Team,
-  TeamList,
   Tenant,
   TenantAlertEmailGroup,
   TenantAlertEmailGroupList,
@@ -2680,12 +2680,12 @@ export class Api<
   /**
    * @description 获取团队列表
    *
-   * @tags teams
-   * @name TeamList
-   * @request GET:/api/v1/tenants/{tenant}/teams
+   * @tags coms
+   * @name ComsList
+   * @request GET:/api/v1/tenants/{tenant}/comps
    * @secure
    */
-  teamList = (
+  comsList = (
     tenant: TenantParameter,
     query?: {
       /** The team label */
@@ -2693,8 +2693,8 @@ export class Api<
     },
     params: RequestParams = {},
   ) =>
-    this.request<TeamList, APIErrors>({
-      path: `/api/v1/tenants/${tenant}/teams`,
+    this.request<MtComponentList, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/comps`,
       method: "GET",
       query: query,
       secure: true,
@@ -2704,40 +2704,40 @@ export class Api<
   /**
    * @description 获取团队列表
    *
-   * @tags teams
-   * @name TeamGet
+   * @tags coms
+   * @name ComsGet
    * @summary 获取租户下的团队列表
-   * @request GET:/api/v1/tenants/{tenant}/teams/{team}
+   * @request GET:/api/v1/tenants/{tenant}/comps/{com}
    * @secure
    */
-  teamGet = (
+  comsGet = (
     tenant: TenantParameter,
-    team: string,
+    com: string,
     params: RequestParams = {},
   ) =>
-    this.request<Team, APIErrors>({
-      path: `/api/v1/tenants/${tenant}/teams/${team}`,
+    this.request<MtComponent, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/comps/${com}`,
       method: "GET",
       secure: true,
       format: "json",
       ...params,
     });
   /**
-   * @description Upsert an team
+   * @description Upsert an mtcomponent
    *
-   * @tags team
-   * @name TeamUpsert
-   * @request PATCH:/api/v1/tenants/{tenant}/teams/{team}
+   * @tags coms
+   * @name ComsUpsert
+   * @request PATCH:/api/v1/tenants/{tenant}/comps/{com}
    * @secure
    */
-  teamUpsert = (
+  comsUpsert = (
     tenant: TenantParameter,
-    team: string,
-    data: Team,
+    com: string,
+    data: MtComponent,
     params: RequestParams = {},
   ) =>
-    this.request<Team, APIErrors>({
-      path: `/api/v1/tenants/${tenant}/teams/${team}`,
+    this.request<MtComponent, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/comps/${com}`,
       method: "PATCH",
       body: data,
       secure: true,

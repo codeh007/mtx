@@ -3761,10 +3761,10 @@ export const AgStateUpsertSchema = {
   ],
 } as const;
 
-export const TeamSchema = {
+export const MtComponentSchema = {
   allOf: [
     {
-      $ref: "#/components/schemas/TeamProperties",
+      $ref: "#/components/schemas/MtComponentProperties",
     },
     {
       $ref: "#/components/schemas/APIResourceMetaProperties",
@@ -3772,7 +3772,7 @@ export const TeamSchema = {
   ],
 } as const;
 
-export const TeamListSchema = {
+export const MtComponentListSchema = {
   properties: {
     pagination: {
       $ref: "#/components/schemas/PaginationResponse",
@@ -3780,13 +3780,13 @@ export const TeamListSchema = {
     rows: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/Team",
+        $ref: "#/components/schemas/MtComponent",
       },
     },
   },
 } as const;
 
-export const TeamPropertiesSchema = {
+export const MtComponentPropertiesSchema = {
   required: ["type", "component"],
   properties: {
     componentType: {
@@ -3804,7 +3804,8 @@ export const TeamPropertiesSchema = {
       type: "string",
     },
     component: {
-      $ref: "#/components/schemas/TeamComponent",
+      type: "object",
+      additionalProperties: true,
     },
   },
 } as const;
@@ -4840,21 +4841,6 @@ export const SelectorGroupChatConfigSchema = {
   ],
 } as const;
 
-export const TeamComponentSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/ComponentModel",
-    },
-    {
-      properties: {
-        config: {
-          $ref: "#/components/schemas/TeamConfig",
-        },
-      },
-    },
-  ],
-} as const;
-
 export const TerminationComponentSchema = {
   allOf: [
     {
@@ -4962,23 +4948,6 @@ export const TeamTypesSchema = {
     "SelectorGroupChat",
     "MagenticOneGroupChat",
   ],
-} as const;
-
-export const TeamConfigSchema = {
-  properties: {
-    max_turns: {
-      type: "integer",
-    },
-    participants: {
-      type: "array",
-      items: {
-        type: "object",
-      },
-    },
-    termination_condition: {
-      $ref: "#/components/schemas/ComponentModel",
-    },
-  },
 } as const;
 
 export const TenantParameterSchema = {

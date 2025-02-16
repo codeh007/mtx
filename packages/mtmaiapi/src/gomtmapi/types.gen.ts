@@ -2176,19 +2176,21 @@ export type AgStateUpsert = AgStateProperties & {
   tenantId?: string;
 };
 
-export type Team = TeamProperties & ApiResourceMetaProperties;
+export type MtComponent = MtComponentProperties & ApiResourceMetaProperties;
 
-export type TeamList = {
+export type MtComponentList = {
   pagination?: PaginationResponse;
-  rows?: Array<Team>;
+  rows?: Array<MtComponent>;
 };
 
-export type TeamProperties = {
+export type MtComponentProperties = {
   componentType?: TeamTypes;
   version?: number;
   label?: string;
   description?: string;
-  component: TeamComponent;
+  component: {
+    [key: string]: unknown;
+  };
 };
 
 export type ComponentModel = {
@@ -2756,10 +2758,6 @@ export type SelectorGroupChatConfig = ComponentModel & {
   model_client?: ModelConfig;
 };
 
-export type TeamComponent = ComponentModel & {
-  config?: TeamConfig;
-};
-
 export type TerminationComponent = ComponentModel & {
   config: TerminationConfig;
 };
@@ -2802,14 +2800,6 @@ export const TeamTypes = {
   SELECTOR_GROUP_CHAT: "SelectorGroupChat",
   MAGENTIC_ONE_GROUP_CHAT: "MagenticOneGroupChat",
 } as const;
-
-export type TeamConfig = {
-  max_turns?: number;
-  participants?: Array<{
-    [key: string]: unknown;
-  }>;
-  termination_condition?: ComponentModel;
-};
 
 export type TenantParameter = string;
 
@@ -7524,7 +7514,7 @@ export type ArtifactGetResponses = {
 export type ArtifactGetResponse =
   ArtifactGetResponses[keyof ArtifactGetResponses];
 
-export type TeamListData = {
+export type ComsListData = {
   body?: never;
   path: {
     /**
@@ -7538,10 +7528,10 @@ export type TeamListData = {
      */
     label?: string;
   };
-  url: "/api/v1/tenants/{tenant}/teams";
+  url: "/api/v1/tenants/{tenant}/comps";
 };
 
-export type TeamListErrors = {
+export type ComsListErrors = {
   /**
    * A malformed or bad request
    */
@@ -7556,15 +7546,15 @@ export type TeamListErrors = {
   404: ApiErrors;
 };
 
-export type TeamListError = TeamListErrors[keyof TeamListErrors];
+export type ComsListError = ComsListErrors[keyof ComsListErrors];
 
-export type TeamListResponses = {
-  200: TeamList;
+export type ComsListResponses = {
+  200: MtComponentList;
 };
 
-export type TeamListResponse = TeamListResponses[keyof TeamListResponses];
+export type ComsListResponse = ComsListResponses[keyof ComsListResponses];
 
-export type TeamGetData = {
+export type ComsGetData = {
   body?: never;
   path: {
     /**
@@ -7572,15 +7562,15 @@ export type TeamGetData = {
      */
     tenant: TenantParameter;
     /**
-     * The team id
+     * The component id
      */
-    team: string;
+    com: string;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/teams/{team}";
+  url: "/api/v1/tenants/{tenant}/comps/{com}";
 };
 
-export type TeamGetErrors = {
+export type ComsGetErrors = {
   /**
    * A malformed or bad request
    */
@@ -7591,34 +7581,34 @@ export type TeamGetErrors = {
   403: ApiErrors;
 };
 
-export type TeamGetError = TeamGetErrors[keyof TeamGetErrors];
+export type ComsGetError = ComsGetErrors[keyof ComsGetErrors];
 
-export type TeamGetResponses = {
-  200: Team;
+export type ComsGetResponses = {
+  200: MtComponent;
 };
 
-export type TeamGetResponse = TeamGetResponses[keyof TeamGetResponses];
+export type ComsGetResponse = ComsGetResponses[keyof ComsGetResponses];
 
-export type TeamUpsertData = {
+export type ComsUpsertData = {
   /**
    * The model properties to update
    */
-  body: Team;
+  body: MtComponent;
   path: {
     /**
      * The tenant id
      */
     tenant: TenantParameter;
     /**
-     * The model id
+     * The mt component id
      */
-    team: string;
+    com: string;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/teams/{team}";
+  url: "/api/v1/tenants/{tenant}/comps/{com}";
 };
 
-export type TeamUpsertErrors = {
+export type ComsUpsertErrors = {
   /**
    * A malformed or bad request
    */
@@ -7629,16 +7619,16 @@ export type TeamUpsertErrors = {
   403: ApiErrors;
 };
 
-export type TeamUpsertError = TeamUpsertErrors[keyof TeamUpsertErrors];
+export type ComsUpsertError = ComsUpsertErrors[keyof ComsUpsertErrors];
 
-export type TeamUpsertResponses = {
+export type ComsUpsertResponses = {
   /**
-   * Successfully created the Team
+   * Successfully upserted the mt component
    */
-  200: Team;
+  200: MtComponent;
 };
 
-export type TeamUpsertResponse = TeamUpsertResponses[keyof TeamUpsertResponses];
+export type ComsUpsertResponse = ComsUpsertResponses[keyof ComsUpsertResponses];
 
 export type GalleryListData = {
   body?: never;

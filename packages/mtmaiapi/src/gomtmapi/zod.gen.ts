@@ -1753,7 +1753,7 @@ export const zAgStateUpsert = zAgStateProperties.merge(
   }),
 );
 
-export const zTeam = z
+export const zMtComponent = z
   .object({
     componentType: z
       .enum([
@@ -1766,58 +1766,16 @@ export const zTeam = z
     version: z.number().int().optional().default(1),
     label: z.string().optional(),
     description: z.string().optional(),
-    component: z
-      .object({
-        provider: z.string(),
-        component_type: z.enum([
-          "team",
-          "agent",
-          "model",
-          "tool",
-          "termination",
-        ]),
-        version: z.number().int().optional(),
-        component_version: z.number().int().optional(),
-        description: z.string().optional(),
-        label: z.string().optional(),
-        config: z.unknown(),
-      })
-      .merge(
-        z.object({
-          config: z
-            .object({
-              max_turns: z.number().int().optional(),
-              participants: z.array(z.object({})).optional(),
-              termination_condition: z
-                .object({
-                  provider: z.string(),
-                  component_type: z.enum([
-                    "team",
-                    "agent",
-                    "model",
-                    "tool",
-                    "termination",
-                  ]),
-                  version: z.number().int().optional(),
-                  component_version: z.number().int().optional(),
-                  description: z.string().optional(),
-                  label: z.string().optional(),
-                  config: z.unknown(),
-                })
-                .optional(),
-            })
-            .optional(),
-        }),
-      ),
+    component: z.object({}),
   })
   .merge(zApiResourceMetaProperties);
 
-export const zTeamList = z.object({
+export const zMtComponentList = z.object({
   pagination: zPaginationResponse.optional(),
-  rows: z.array(zTeam).optional(),
+  rows: z.array(zMtComponent).optional(),
 });
 
-export const zTeamProperties = z.object({
+export const zMtComponentProperties = z.object({
   componentType: z
     .enum([
       "Assisant",
@@ -1829,43 +1787,7 @@ export const zTeamProperties = z.object({
   version: z.number().int().optional().default(1),
   label: z.string().optional(),
   description: z.string().optional(),
-  component: z
-    .object({
-      provider: z.string(),
-      component_type: z.enum(["team", "agent", "model", "tool", "termination"]),
-      version: z.number().int().optional(),
-      component_version: z.number().int().optional(),
-      description: z.string().optional(),
-      label: z.string().optional(),
-      config: z.unknown(),
-    })
-    .merge(
-      z.object({
-        config: z
-          .object({
-            max_turns: z.number().int().optional(),
-            participants: z.array(z.object({})).optional(),
-            termination_condition: z
-              .object({
-                provider: z.string(),
-                component_type: z.enum([
-                  "team",
-                  "agent",
-                  "model",
-                  "tool",
-                  "termination",
-                ]),
-                version: z.number().int().optional(),
-                component_version: z.number().int().optional(),
-                description: z.string().optional(),
-                label: z.string().optional(),
-                config: z.unknown(),
-              })
-              .optional(),
-          })
-          .optional(),
-      }),
-    ),
+  component: z.object({}),
 });
 
 export const zComponentModel = z.object({
@@ -2327,18 +2249,6 @@ export const zSelectorGroupChatConfig = zComponentModel.merge(
   }),
 );
 
-export const zTeamComponent = zComponentModel.merge(
-  z.object({
-    config: z
-      .object({
-        max_turns: z.number().int().optional(),
-        participants: z.array(z.object({})).optional(),
-        termination_condition: zComponentModel.optional(),
-      })
-      .optional(),
-  }),
-);
-
 export const zTerminationComponent = zComponentModel.merge(
   z.object({
     config: z.object({
@@ -2436,12 +2346,6 @@ export const zTeamTypes = z.enum([
   "SelectorGroupChat",
   "MagenticOneGroupChat",
 ]);
-
-export const zTeamConfig = z.object({
-  max_turns: z.number().int().optional(),
-  participants: z.array(z.object({})).optional(),
-  termination_condition: zComponentModel.optional(),
-});
 
 export const zTenantParameter = z.string().uuid().length(36);
 
@@ -3005,11 +2909,11 @@ export const zArtifactCreateResponse = zArtifact;
 
 export const zArtifactGetResponse = zArtifact;
 
-export const zTeamListResponse = zTeamList;
+export const zComsListResponse = zMtComponentList;
 
-export const zTeamGetResponse = zTeam;
+export const zComsGetResponse = zMtComponent;
 
-export const zTeamUpsertResponse = zTeam;
+export const zComsUpsertResponse = zMtComponent;
 
 export const zGalleryListResponse = zGalleryList;
 

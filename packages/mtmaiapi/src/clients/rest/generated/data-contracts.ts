@@ -1817,20 +1817,20 @@ export type AgStateUpsert = AgStateProperties & {
   tenantId?: string;
 };
 
-export type Team = TeamProperties & APIResourceMetaProperties;
+export type MtComponent = MtComponentProperties & APIResourceMetaProperties;
 
-export interface TeamList {
+export interface MtComponentList {
   pagination?: PaginationResponse;
-  rows?: Team[];
+  rows?: MtComponent[];
 }
 
-export interface TeamProperties {
+export interface MtComponentProperties {
   componentType?: TeamTypes;
   /** @default 1 */
   version?: number;
   label?: string;
   description?: string;
-  component: TeamComponent;
+  component: Record<string, any>;
 }
 
 export interface ComponentModel {
@@ -2250,10 +2250,6 @@ export type SelectorGroupChatConfig = ComponentModel & {
   model_client?: ModelConfig;
 };
 
-export type TeamComponent = ComponentModel & {
-  config?: TeamConfig;
-};
-
 export type TerminationComponent = ComponentModel & {
   config: TerminationConfig;
 };
@@ -2289,12 +2285,6 @@ export enum TeamTypes {
   RoundRobinGroupChat = "RoundRobinGroupChat",
   SelectorGroupChat = "SelectorGroupChat",
   MagenticOneGroupChat = "MagenticOneGroupChat",
-}
-
-export interface TeamConfig {
-  max_turns?: number;
-  participants?: object[];
-  termination_condition?: ComponentModel;
 }
 
 /**

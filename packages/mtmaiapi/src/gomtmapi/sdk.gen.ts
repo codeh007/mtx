@@ -317,15 +317,15 @@ import type {
   ArtifactGetData,
   ArtifactGetResponse,
   ArtifactGetError,
-  TeamListData,
-  TeamListResponse,
-  TeamListError,
-  TeamGetData,
-  TeamGetResponse,
-  TeamGetError,
-  TeamUpsertData,
-  TeamUpsertResponse,
-  TeamUpsertError,
+  ComsListData,
+  ComsListResponse,
+  ComsListError,
+  ComsGetData,
+  ComsGetResponse,
+  ComsGetError,
+  ComsUpsertData,
+  ComsUpsertResponse,
+  ComsUpsertError,
   GalleryListData,
   GalleryListResponse,
   GalleryCreateData,
@@ -3406,12 +3406,12 @@ export const artifactGet = <ThrowOnError extends boolean = false>(
 /**
  * 获取团队列表
  */
-export const teamList = <ThrowOnError extends boolean = false>(
-  options: Options<TeamListData, ThrowOnError>,
+export const comsList = <ThrowOnError extends boolean = false>(
+  options: Options<ComsListData, ThrowOnError>,
 ) => {
   return (options.client ?? _heyApiClient).get<
-    TeamListResponse,
-    TeamListError,
+    ComsListResponse,
+    ComsListError,
     ThrowOnError
   >({
     security: [
@@ -3424,7 +3424,7 @@ export const teamList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/tenants/{tenant}/teams",
+    url: "/api/v1/tenants/{tenant}/comps",
     ...options,
   });
 };
@@ -3433,12 +3433,12 @@ export const teamList = <ThrowOnError extends boolean = false>(
  * 获取租户下的团队列表
  * 获取团队列表
  */
-export const teamGet = <ThrowOnError extends boolean = false>(
-  options: Options<TeamGetData, ThrowOnError>,
+export const comsGet = <ThrowOnError extends boolean = false>(
+  options: Options<ComsGetData, ThrowOnError>,
 ) => {
   return (options.client ?? _heyApiClient).get<
-    TeamGetResponse,
-    TeamGetError,
+    ComsGetResponse,
+    ComsGetError,
     ThrowOnError
   >({
     security: [
@@ -3451,20 +3451,20 @@ export const teamGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/tenants/{tenant}/teams/{team}",
+    url: "/api/v1/tenants/{tenant}/comps/{com}",
     ...options,
   });
 };
 
 /**
- * Upsert an team
+ * Upsert an mtcomponent
  */
-export const teamUpsert = <ThrowOnError extends boolean = false>(
-  options: Options<TeamUpsertData, ThrowOnError>,
+export const comsUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<ComsUpsertData, ThrowOnError>,
 ) => {
   return (options.client ?? _heyApiClient).patch<
-    TeamUpsertResponse,
-    TeamUpsertError,
+    ComsUpsertResponse,
+    ComsUpsertError,
     ThrowOnError
   >({
     security: [
@@ -3477,7 +3477,7 @@ export const teamUpsert = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/tenants/{tenant}/teams/{team}",
+    url: "/api/v1/tenants/{tenant}/comps/{com}",
     ...options,
     headers: {
       "Content-Type": "application/json",

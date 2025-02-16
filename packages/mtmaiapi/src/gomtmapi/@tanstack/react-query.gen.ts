@@ -114,9 +114,9 @@ import {
   artifactList,
   artifactCreate,
   artifactGet,
-  teamList,
-  teamGet,
-  teamUpsert,
+  comsList,
+  comsGet,
+  comsUpsert,
   galleryList,
   galleryCreate,
   galleryGet,
@@ -386,11 +386,11 @@ import type {
   ArtifactCreateError,
   ArtifactCreateResponse,
   ArtifactGetData,
-  TeamListData,
-  TeamGetData,
-  TeamUpsertData,
-  TeamUpsertError,
-  TeamUpsertResponse,
+  ComsListData,
+  ComsGetData,
+  ComsUpsertData,
+  ComsUpsertError,
+  ComsUpsertResponse,
   GalleryListData,
   GalleryCreateData,
   GalleryCreateError,
@@ -3794,14 +3794,14 @@ export const artifactGetOptions = (options: Options<ArtifactGetData>) => {
   });
 };
 
-export const teamListQueryKey = (options: Options<TeamListData>) => [
-  createQueryKey("teamList", options),
+export const comsListQueryKey = (options: Options<ComsListData>) => [
+  createQueryKey("comsList", options),
 ];
 
-export const teamListOptions = (options: Options<TeamListData>) => {
+export const comsListOptions = (options: Options<ComsListData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await teamList({
+      const { data } = await comsList({
         ...options,
         ...queryKey[0],
         signal,
@@ -3809,18 +3809,18 @@ export const teamListOptions = (options: Options<TeamListData>) => {
       });
       return data;
     },
-    queryKey: teamListQueryKey(options),
+    queryKey: comsListQueryKey(options),
   });
 };
 
-export const teamGetQueryKey = (options: Options<TeamGetData>) => [
-  createQueryKey("teamGet", options),
+export const comsGetQueryKey = (options: Options<ComsGetData>) => [
+  createQueryKey("comsGet", options),
 ];
 
-export const teamGetOptions = (options: Options<TeamGetData>) => {
+export const comsGetOptions = (options: Options<ComsGetData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await teamGet({
+      const { data } = await comsGet({
         ...options,
         ...queryKey[0],
         signal,
@@ -3828,20 +3828,20 @@ export const teamGetOptions = (options: Options<TeamGetData>) => {
       });
       return data;
     },
-    queryKey: teamGetQueryKey(options),
+    queryKey: comsGetQueryKey(options),
   });
 };
 
-export const teamUpsertMutation = (
-  options?: Partial<Options<TeamUpsertData>>,
+export const comsUpsertMutation = (
+  options?: Partial<Options<ComsUpsertData>>,
 ) => {
   const mutationOptions: UseMutationOptions<
-    TeamUpsertResponse,
-    TeamUpsertError,
-    Options<TeamUpsertData>
+    ComsUpsertResponse,
+    ComsUpsertError,
+    Options<ComsUpsertData>
   > = {
     mutationFn: async (localOptions) => {
-      const { data } = await teamUpsert({
+      const { data } = await comsUpsert({
         ...options,
         ...localOptions,
         throwOnError: true,
