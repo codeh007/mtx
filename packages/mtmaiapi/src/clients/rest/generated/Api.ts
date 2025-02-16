@@ -12,7 +12,6 @@
 import {
   AcceptInviteRequest,
   AgEvent,
-  AgEventCreate,
   AgEventList,
   AgState,
   AgStateList,
@@ -2850,28 +2849,6 @@ export class Api<
       ...params,
     });
   /**
-   * @description create agEvent
-   *
-   * @tags agEvents
-   * @name AgEventCreate
-   * @request POST:/api/v1/tenants/{tenant}/agEvents
-   * @secure
-   */
-  agEventCreate = (
-    tenant: TenantParameter,
-    data: AgEventCreate,
-    params: RequestParams = {},
-  ) =>
-    this.request<AgEvent, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/agEvents`,
-      method: "POST",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
-      format: "json",
-      ...params,
-    });
-  /**
    * @description 获取agEvent列表
    *
    * @tags agEvents
@@ -3552,7 +3529,6 @@ export class Api<
    *
    * @tags chat
    * @name ChatSessionList
-   * @summary 获取租户下的聊天列表
    * @request GET:/api/v1/tenants/{tenant}/chat/sessions
    * @secure
    */

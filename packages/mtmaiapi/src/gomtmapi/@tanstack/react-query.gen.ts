@@ -122,7 +122,6 @@ import {
   galleryGet,
   agentStream,
   agEventList,
-  agEventCreate,
   agEventGet,
   modelList,
   modelCreate,
@@ -399,9 +398,6 @@ import type {
   GalleryGetData,
   AgentStreamData,
   AgEventListData,
-  AgEventCreateData,
-  AgEventCreateError,
-  AgEventCreateResponse,
   AgEventGetData,
   ModelListData,
   ModelCreateData,
@@ -3969,45 +3965,6 @@ export const agEventListOptions = (options: Options<AgEventListData>) => {
     },
     queryKey: agEventListQueryKey(options),
   });
-};
-
-export const agEventCreateQueryKey = (options: Options<AgEventCreateData>) => [
-  createQueryKey("agEventCreate", options),
-];
-
-export const agEventCreateOptions = (options: Options<AgEventCreateData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agEventCreate({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: agEventCreateQueryKey(options),
-  });
-};
-
-export const agEventCreateMutation = (
-  options?: Partial<Options<AgEventCreateData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    AgEventCreateResponse,
-    AgEventCreateError,
-    Options<AgEventCreateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await agEventCreate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
 };
 
 export const agEventGetQueryKey = (options: Options<AgEventGetData>) => [

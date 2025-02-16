@@ -4033,28 +4033,6 @@ export const AgEventListSchema = {
   },
 } as const;
 
-export const AgEventCreateSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/APIResourceMetaProperties",
-    },
-    {
-      $ref: "#/components/schemas/AgEvent",
-    },
-  ],
-} as const;
-
-export const AgEventUpdateSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/APIResourceMetaProperties",
-    },
-    {
-      $ref: "#/components/schemas/AgEvent",
-    },
-  ],
-} as const;
-
 export const OutlineSchema = {
   properties: {
     pageTitle: {

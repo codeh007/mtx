@@ -2298,10 +2298,6 @@ export type AgEventList = {
   rows?: Array<AgEvent>;
 };
 
-export type AgEventCreate = ApiResourceMetaProperties & AgEvent;
-
-export type AgEventUpdate = ApiResourceMetaProperties & AgEvent;
-
 export type Outline = {
   /**
    * Title of the Wikipedia page
@@ -7778,38 +7774,6 @@ export type AgEventListResponses = {
 export type AgEventListResponse =
   AgEventListResponses[keyof AgEventListResponses];
 
-export type AgEventCreateData = {
-  body: AgEventCreate;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/agEvents";
-};
-
-export type AgEventCreateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type AgEventCreateError = AgEventCreateErrors[keyof AgEventCreateErrors];
-
-export type AgEventCreateResponses = {
-  200: AgEvent;
-};
-
-export type AgEventCreateResponse =
-  AgEventCreateResponses[keyof AgEventCreateResponses];
-
 export type AgEventGetData = {
   body?: never;
   path: {
@@ -8978,17 +8942,8 @@ export type ChatSessionListData = {
 };
 
 export type ChatSessionListErrors = {
-  /**
-   * A malformed or bad request
-   */
   400: ApiErrors;
-  /**
-   * Forbidden
-   */
   403: ApiErrors;
-  /**
-   * Not found
-   */
   404: ApiErrors;
 };
 
@@ -9015,13 +8970,7 @@ export type ChatMessageUpsertData = {
 };
 
 export type ChatMessageUpsertErrors = {
-  /**
-   * A malformed or bad request
-   */
   400: ApiErrors;
-  /**
-   * Forbidden
-   */
   403: ApiError;
 };
 

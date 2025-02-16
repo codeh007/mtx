@@ -1916,10 +1916,6 @@ export interface AgEventList {
   rows?: AgEvent[];
 }
 
-export type AgEventCreate = APIResourceMetaProperties & AgEvent;
-
-export type AgEventUpdate = APIResourceMetaProperties & AgEvent;
-
 export interface Outline {
   /** Title of the Wikipedia page */
   pageTitle: string;

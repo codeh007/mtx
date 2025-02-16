@@ -1944,10 +1944,6 @@ export const zAgEventList = z.object({
   rows: z.array(zAgEvent).optional(),
 });
 
-export const zAgEventCreate = zApiResourceMetaProperties.merge(zAgEvent);
-
-export const zAgEventUpdate = zApiResourceMetaProperties.merge(zAgEvent);
-
 export const zOutline = z.object({
   pageTitle: z.string(),
   sections: z.array(
@@ -3027,8 +3023,6 @@ export const zAgentStreamResponse = z.object({
 });
 
 export const zAgEventListResponse = zAgEventList;
-
-export const zAgEventCreateResponse = zAgEvent;
 
 export const zAgEventGetResponse = zAgEvent;
 

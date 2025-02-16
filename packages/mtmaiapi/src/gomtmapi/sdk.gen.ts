@@ -338,9 +338,6 @@ import type {
   AgentStreamError,
   AgEventListData,
   AgEventListResponse,
-  AgEventCreateData,
-  AgEventCreateResponse,
-  AgEventCreateError,
   AgEventGetData,
   AgEventGetResponse,
   ModelListData,
@@ -3627,36 +3624,6 @@ export const agEventList = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * create agEvent
- */
-export const agEventCreate = <ThrowOnError extends boolean = false>(
-  options: Options<AgEventCreateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    AgEventCreateResponse,
-    AgEventCreateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/agEvents",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
  * 获取租户下的agEvent列表
  * 获取agEvent列表
  */
@@ -4639,7 +4606,6 @@ export const chatMessagesList = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 获取租户下的聊天列表
  * 获取聊天列表
  */
 export const chatSessionList = <ThrowOnError extends boolean = false>(
