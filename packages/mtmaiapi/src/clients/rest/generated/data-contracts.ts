@@ -690,7 +690,7 @@ export interface WorkflowRun {
   workflowVersion?: WorkflowVersion;
   status: WorkflowRunStatus;
   displayName?: string;
-  jobRuns?: JobRun[];
+  jobRuns?: Record<string, any>[];
   triggeredBy: WorkflowRunTriggeredBy;
   input?: Record<string, any>;
   error?: string;
@@ -725,7 +725,7 @@ export interface WorkflowRunShape {
   workflowVersion?: WorkflowVersion;
   status: WorkflowRunStatus;
   displayName?: string;
-  jobRuns?: JobRun[];
+  jobRuns?: Record<string, any>[];
   triggeredBy: WorkflowRunTriggeredBy;
   input?: Record<string, any>;
   error?: string;
@@ -787,6 +787,7 @@ export interface ScheduledWorkflows {
    * @example "bb214807-246e-43a5-a25d-41761d1cff9e"
    */
   workflowRunId?: string;
+  method: "DEFAULT" | "API";
 }
 
 export interface ScheduledWorkflowsList {
@@ -816,8 +817,11 @@ export interface CronWorkflows {
   workflowId: string;
   workflowName: string;
   cron: string;
+  name?: string;
   input?: Record<string, any>;
   additionalMetadata?: Record<string, any>;
+  enabled: boolean;
+  method: "DEFAULT" | "API";
 }
 
 export interface CronWorkflowsList {
@@ -826,6 +830,7 @@ export interface CronWorkflowsList {
 }
 
 export enum CronWorkflowsOrderByField {
+  Name = "name",
   CreatedAt = "createdAt",
 }
 
@@ -851,6 +856,7 @@ export interface WorkflowRunsMetricsCounts {
   SUCCEEDED?: number;
   FAILED?: number;
   QUEUED?: number;
+  CANCELLED?: number;
 }
 
 export enum WorkflowRunStatus {
@@ -860,6 +866,7 @@ export enum WorkflowRunStatus {
   FAILED = "FAILED",
   CANCELLED = "CANCELLED",
   QUEUED = "QUEUED",
+  BACKOFF = "BACKOFF",
 }
 
 export type WorkflowRunStatusList = WorkflowRunStatus[];
@@ -882,6 +889,7 @@ export enum JobRunStatus {
   SUCCEEDED = "SUCCEEDED",
   FAILED = "FAILED",
   CANCELLED = "CANCELLED",
+  BACKOFF = "BACKOFF",
 }
 
 export enum StepRunStatus {
@@ -893,6 +901,7 @@ export enum StepRunStatus {
   FAILED = "FAILED",
   CANCELLED = "CANCELLED",
   CANCELLING = "CANCELLING",
+  BACKOFF = "BACKOFF",
 }
 
 export interface JobRun {
@@ -930,6 +939,7 @@ export interface StepRun {
   metadata: APIResourceMeta;
   tenantId: string;
   jobRunId: string;
+  jobRun?: JobRun;
   stepId: string;
   step?: Step;
   childWorkflowsCount?: number;

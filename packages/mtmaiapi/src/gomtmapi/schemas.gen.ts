@@ -1377,6 +1377,7 @@ export const WorkflowWorkersCountSchema = {
 } as const;
 
 export const WorkflowRunSchema = {
+  type: "object",
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -1399,7 +1400,8 @@ export const WorkflowRunSchema = {
     jobRuns: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/JobRun",
+        type: "object",
+        additionalProperties: true,
       },
     },
     triggeredBy: {
@@ -1453,6 +1455,7 @@ export const WorkflowRunSchema = {
 } as const;
 
 export const WorkflowRunShapeSchema = {
+  type: "object",
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -1478,7 +1481,8 @@ export const WorkflowRunShapeSchema = {
     jobRuns: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/JobRun",
+        type: "object",
+        additionalProperties: true,
       },
     },
     triggeredBy: {
@@ -1561,6 +1565,7 @@ export const ReplayWorkflowRunsResponseSchema = {
 } as const;
 
 export const WorkflowRunListSchema = {
+  type: "object",
   properties: {
     rows: {
       type: "array",
@@ -1621,6 +1626,10 @@ export const ScheduledWorkflowsSchema = {
       maxLength: 36,
       format: "uuid",
     },
+    method: {
+      type: "string",
+      enum: ["DEFAULT", "API"],
+    },
   },
   required: [
     "metadata",
@@ -1629,6 +1638,7 @@ export const ScheduledWorkflowsSchema = {
     "workflowName",
     "workflowId",
     "triggerAt",
+    "method",
   ],
 } as const;
 
@@ -1686,6 +1696,9 @@ export const CronWorkflowsSchema = {
     cron: {
       type: "string",
     },
+    name: {
+      type: "string",
+    },
     input: {
       type: "object",
       additionalProperties: true,
@@ -1693,6 +1706,13 @@ export const CronWorkflowsSchema = {
     additionalMetadata: {
       type: "object",
       additionalProperties: true,
+    },
+    enabled: {
+      type: "boolean",
+    },
+    method: {
+      type: "string",
+      enum: ["DEFAULT", "API"],
     },
   },
   required: [
@@ -1702,6 +1722,8 @@ export const CronWorkflowsSchema = {
     "workflowName",
     "workflowId",
     "cron",
+    "enabled",
+    "method",
   ],
 } as const;
 
@@ -1722,7 +1744,7 @@ export const CronWorkflowsListSchema = {
 
 export const CronWorkflowsOrderByFieldSchema = {
   type: "string",
-  enum: ["createdAt"],
+  enum: ["name", "createdAt"],
 } as const;
 
 export const WorkflowRunOrderByFieldSchema = {
@@ -1763,12 +1785,23 @@ export const WorkflowRunsMetricsCountsSchema = {
     QUEUED: {
       type: "integer",
     },
+    CANCELLED: {
+      type: "integer",
+    },
   },
 } as const;
 
 export const WorkflowRunStatusSchema = {
   type: "string",
-  enum: ["PENDING", "RUNNING", "SUCCEEDED", "FAILED", "CANCELLED", "QUEUED"],
+  enum: [
+    "PENDING",
+    "RUNNING",
+    "SUCCEEDED",
+    "FAILED",
+    "CANCELLED",
+    "QUEUED",
+    "BACKOFF",
+  ],
 } as const;
 
 export const WorkflowRunStatusListSchema = {
@@ -1808,7 +1841,7 @@ export const WorkflowRunsCancelRequestSchema = {
 
 export const JobRunStatusSchema = {
   type: "string",
-  enum: ["PENDING", "RUNNING", "SUCCEEDED", "FAILED", "CANCELLED"],
+  enum: ["PENDING", "RUNNING", "SUCCEEDED", "FAILED", "CANCELLED", "BACKOFF"],
 } as const;
 
 export const StepRunStatusSchema = {
@@ -1822,6 +1855,7 @@ export const StepRunStatusSchema = {
     "FAILED",
     "CANCELLED",
     "CANCELLING",
+    "BACKOFF",
   ],
 } as const;
 
@@ -1920,6 +1954,9 @@ export const StepRunSchema = {
     },
     jobRunId: {
       type: "string",
+    },
+    jobRun: {
+      $ref: "#/components/schemas/JobRun",
     },
     stepId: {
       type: "string",

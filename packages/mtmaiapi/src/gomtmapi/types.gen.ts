@@ -830,7 +830,9 @@ export type WorkflowRun = {
   workflowVersion?: WorkflowVersion;
   status: WorkflowRunStatus;
   displayName?: string;
-  jobRuns?: Array<JobRun>;
+  jobRuns?: Array<{
+    [key: string]: unknown;
+  }>;
   triggeredBy: WorkflowRunTriggeredBy;
   input?: {
     [key: string]: unknown;
@@ -854,7 +856,9 @@ export type WorkflowRunShape = {
   workflowVersion?: WorkflowVersion;
   status: WorkflowRunStatus;
   displayName?: string;
-  jobRuns?: Array<JobRun>;
+  jobRuns?: Array<{
+    [key: string]: unknown;
+  }>;
   triggeredBy: WorkflowRunTriggeredBy;
   input?: {
     [key: string]: unknown;
@@ -900,6 +904,7 @@ export type ScheduledWorkflows = {
   workflowRunName?: string;
   workflowRunStatus?: WorkflowRunStatus;
   workflowRunId?: string;
+  method: "DEFAULT" | "API";
 };
 
 export type ScheduledWorkflowsList = {
@@ -940,12 +945,15 @@ export type CronWorkflows = {
   workflowId: string;
   workflowName: string;
   cron: string;
+  name?: string;
   input?: {
     [key: string]: unknown;
   };
   additionalMetadata?: {
     [key: string]: unknown;
   };
+  enabled: boolean;
+  method: "DEFAULT" | "API";
 };
 
 export type CronWorkflowsList = {
@@ -953,9 +961,10 @@ export type CronWorkflowsList = {
   pagination?: PaginationResponse;
 };
 
-export type CronWorkflowsOrderByField = "createdAt";
+export type CronWorkflowsOrderByField = "name" | "createdAt";
 
 export const CronWorkflowsOrderByField = {
+  NAME: "name",
   CREATED_AT: "createdAt",
 } as const;
 
@@ -989,6 +998,7 @@ export type WorkflowRunsMetricsCounts = {
   SUCCEEDED?: number;
   FAILED?: number;
   QUEUED?: number;
+  CANCELLED?: number;
 };
 
 export type WorkflowRunStatus =
@@ -997,7 +1007,8 @@ export type WorkflowRunStatus =
   | "SUCCEEDED"
   | "FAILED"
   | "CANCELLED"
-  | "QUEUED";
+  | "QUEUED"
+  | "BACKOFF";
 
 export const WorkflowRunStatus = {
   PENDING: "PENDING",
@@ -1006,6 +1017,7 @@ export const WorkflowRunStatus = {
   FAILED: "FAILED",
   CANCELLED: "CANCELLED",
   QUEUED: "QUEUED",
+  BACKOFF: "BACKOFF",
 } as const;
 
 export type WorkflowRunStatusList = Array<WorkflowRunStatus>;
@@ -1029,7 +1041,8 @@ export type JobRunStatus =
   | "RUNNING"
   | "SUCCEEDED"
   | "FAILED"
-  | "CANCELLED";
+  | "CANCELLED"
+  | "BACKOFF";
 
 export const JobRunStatus = {
   PENDING: "PENDING",
@@ -1037,6 +1050,7 @@ export const JobRunStatus = {
   SUCCEEDED: "SUCCEEDED",
   FAILED: "FAILED",
   CANCELLED: "CANCELLED",
+  BACKOFF: "BACKOFF",
 } as const;
 
 export type StepRunStatus =
@@ -1047,7 +1061,8 @@ export type StepRunStatus =
   | "SUCCEEDED"
   | "FAILED"
   | "CANCELLED"
-  | "CANCELLING";
+  | "CANCELLING"
+  | "BACKOFF";
 
 export const StepRunStatus = {
   PENDING: "PENDING",
@@ -1058,6 +1073,7 @@ export const StepRunStatus = {
   FAILED: "FAILED",
   CANCELLED: "CANCELLED",
   CANCELLING: "CANCELLING",
+  BACKOFF: "BACKOFF",
 } as const;
 
 export type JobRun = {
@@ -1093,6 +1109,7 @@ export type StepRun = {
   metadata: ApiResourceMeta;
   tenantId: string;
   jobRunId: string;
+  jobRun?: JobRun;
   stepId: string;
   step?: Step;
   childWorkflowsCount?: number;
