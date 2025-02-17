@@ -3,7 +3,7 @@
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { teamListOptions } from "mtmaiapi";
+import { comsListOptions } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { Button } from "mtxuilib/ui/button";
 import {
@@ -26,7 +26,7 @@ export function TeamCombo(props: InputProps) {
   const tenant = useTenant();
 
   const teamsQuery = useSuspenseQuery({
-    ...teamListOptions({
+    ...comsListOptions({
       path: {
         tenant: tenant!.metadata.id,
       },

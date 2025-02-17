@@ -2,7 +2,6 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { message } from "antd";
 import { ChevronRight } from "lucide-react";
-// import { type Team, teamListOptions } from "mtmaiapi";
 import { useEffect, useState } from "react";
 import { useTenant, useUser } from "../../hooks/useAuth";
 import { teamAPI } from "../components/views/team/api";
