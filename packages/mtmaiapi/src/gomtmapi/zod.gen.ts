@@ -2590,6 +2590,25 @@ export const zChatWelcome = z.object({
   quick_starts: z.array(zQuickStart).optional(),
 });
 
+export const zAssignedAction = z.object({
+  tenantId: z.string(),
+  workflowRunId: z.string().optional(),
+  getGroupKeyRunId: z.string().optional(),
+  jobId: z.string(),
+  jobName: z.string().optional(),
+  stepId: z.string(),
+  stepRunId: z.string().optional(),
+  actionId: z.string(),
+  actionType: z.string(),
+  actionPayload: z.string(),
+  stepName: z.string(),
+  retryCount: z.number().int(),
+  additional_metadata: z.string().optional(),
+  child_workflow_index: z.number().int().optional(),
+  child_workflow_key: z.string().optional(),
+  parent_workflow_run_id: z.string().optional(),
+});
+
 export const zMetadataGetResponse = zApiMeta;
 
 export const zCloudMetadataGetResponse = zApiErrors;
@@ -2900,3 +2919,5 @@ export const zChatMessageUpsertResponse = zChatMessage;
 export const zChatSessionGetResponse = zChatSession;
 
 export const zUiAgentGetResponse = zUiAgentState;
+
+export const zDispatcherListenResponse = zAssignedAction;

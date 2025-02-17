@@ -164,6 +164,7 @@ import {
   chatMessageUpsert,
   chatSessionGet,
   uiAgentGet,
+  dispatcherListen,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -472,6 +473,9 @@ import type {
   ChatMessageUpsertResponse,
   ChatSessionGetData,
   UiAgentGetData,
+  DispatcherListenData,
+  DispatcherListenError,
+  DispatcherListenResponse,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -4928,4 +4932,45 @@ export const uiAgentGetOptions = (options: Options<UiAgentGetData>) => {
     },
     queryKey: uiAgentGetQueryKey(options),
   });
+};
+
+export const dispatcherListenQueryKey = (
+  options: Options<DispatcherListenData>,
+) => [createQueryKey("dispatcherListen", options)];
+
+export const dispatcherListenOptions = (
+  options: Options<DispatcherListenData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await dispatcherListen({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: dispatcherListenQueryKey(options),
+  });
+};
+
+export const dispatcherListenMutation = (
+  options?: Partial<Options<DispatcherListenData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    DispatcherListenResponse,
+    DispatcherListenError,
+    Options<DispatcherListenData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await dispatcherListen({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };

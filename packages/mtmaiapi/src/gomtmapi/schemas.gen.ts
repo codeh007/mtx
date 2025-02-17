@@ -5942,3 +5942,67 @@ export const ChatWelcomeSchema = {
     },
   },
 } as const;
+
+export const AssignedActionSchema = {
+  type: "object",
+  required: [
+    "tenantId",
+    "jobId",
+    "stepId",
+    "actionId",
+    "actionType",
+    "actionPayload",
+    "stepName",
+    "retryCount",
+  ],
+  properties: {
+    tenantId: {
+      type: "string",
+    },
+    workflowRunId: {
+      type: "string",
+    },
+    getGroupKeyRunId: {
+      type: "string",
+    },
+    jobId: {
+      type: "string",
+    },
+    jobName: {
+      type: "string",
+    },
+    stepId: {
+      type: "string",
+    },
+    stepRunId: {
+      type: "string",
+    },
+    actionId: {
+      type: "string",
+    },
+    actionType: {
+      type: "string",
+    },
+    actionPayload: {
+      type: "string",
+    },
+    stepName: {
+      type: "string",
+    },
+    retryCount: {
+      type: "integer",
+    },
+    additional_metadata: {
+      type: "string",
+    },
+    child_workflow_index: {
+      type: "integer",
+    },
+    child_workflow_key: {
+      type: "string",
+    },
+    parent_workflow_run_id: {
+      type: "string",
+    },
+  },
+} as const;

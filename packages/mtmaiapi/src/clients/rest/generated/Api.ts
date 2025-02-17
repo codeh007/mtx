@@ -21,6 +21,7 @@ import {
   APIMeta,
   Artifact,
   ArtifactList,
+  AssignedAction,
   Blog,
   BlogGenConfig,
   BlogList,
@@ -3595,6 +3596,35 @@ export class Api<
     this.request<UiAgentState, APIErrors>({
       path: `/api/v1/tenants/${tenant}/ag_ui`,
       method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @name TagsApi
+   * @request TAGS:/api/v1/dispatcher/listen/{workerId}
+   * @secure
+   */
+  tagsApi = (workerId: string, params: RequestParams = {}) =>
+    this.request<any, any>({
+      path: `/api/v1/dispatcher/listen/${workerId}`,
+      method: "TAGS",
+      secure: true,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @name DispatcherListen
+   * @request POST:/api/v1/dispatcher/listen/{workerId}
+   * @secure
+   */
+  dispatcherListen = (workerId: string, params: RequestParams = {}) =>
+    this.request<AssignedAction, APIErrors | APIError>({
+      path: `/api/v1/dispatcher/listen/${workerId}`,
+      method: "POST",
       secure: true,
       format: "json",
       ...params,

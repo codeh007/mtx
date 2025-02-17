@@ -456,6 +456,9 @@ import type {
   UiAgentGetData,
   UiAgentGetResponse,
   UiAgentGetError,
+  DispatcherListenData,
+  DispatcherListenResponse,
+  DispatcherListenError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -4710,6 +4713,29 @@ export const uiAgentGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/ag_ui",
+    ...options,
+  });
+};
+
+export const dispatcherListen = <ThrowOnError extends boolean = false>(
+  options: Options<DispatcherListenData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    DispatcherListenResponse,
+    DispatcherListenError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/dispatcher/listen/{workerId}",
     ...options,
   });
 };

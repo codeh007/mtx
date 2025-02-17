@@ -3292,6 +3292,25 @@ export type ChatWelcome = {
   quick_starts?: Array<QuickStart>;
 };
 
+export type AssignedAction = {
+  tenantId: string;
+  workflowRunId?: string;
+  getGroupKeyRunId?: string;
+  jobId: string;
+  jobName?: string;
+  stepId: string;
+  stepRunId?: string;
+  actionId: string;
+  actionType: string;
+  actionPayload: string;
+  stepName: string;
+  retryCount: number;
+  additional_metadata?: string;
+  child_workflow_index?: number;
+  child_workflow_key?: string;
+  parent_workflow_run_id?: string;
+};
+
 export type ReadinessGetData = {
   body?: never;
   path?: never;
@@ -9050,6 +9069,33 @@ export type UiAgentGetResponses = {
 };
 
 export type UiAgentGetResponse = UiAgentGetResponses[keyof UiAgentGetResponses];
+
+export type DispatcherListenData = {
+  body?: never;
+  path: {
+    /**
+     * The worker id
+     */
+    workerId: string;
+  };
+  query?: never;
+  url: "/api/v1/dispatcher/listen/{workerId}";
+};
+
+export type DispatcherListenErrors = {
+  400: ApiErrors;
+  403: ApiError;
+};
+
+export type DispatcherListenError =
+  DispatcherListenErrors[keyof DispatcherListenErrors];
+
+export type DispatcherListenResponses = {
+  200: AssignedAction;
+};
+
+export type DispatcherListenResponse =
+  DispatcherListenResponses[keyof DispatcherListenResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

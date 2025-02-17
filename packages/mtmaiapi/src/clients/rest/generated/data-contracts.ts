@@ -2681,3 +2681,22 @@ export interface ChatWelcome {
   subTitle?: string;
   quick_starts?: QuickStart[];
 }
+
+export interface AssignedAction {
+  tenantId: string;
+  workflowRunId?: string;
+  getGroupKeyRunId?: string;
+  jobId: string;
+  jobName?: string;
+  stepId: string;
+  stepRunId?: string;
+  actionId: string;
+  actionType: string;
+  actionPayload: string;
+  stepName: string;
+  retryCount: number;
+  additional_metadata?: string;
+  child_workflow_index?: number;
+  child_workflow_key?: string;
+  parent_workflow_run_id?: string;
+}
