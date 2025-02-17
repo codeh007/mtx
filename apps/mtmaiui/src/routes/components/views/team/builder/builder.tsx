@@ -21,6 +21,7 @@ import "@xyflow/react/dist/style.css";
 import { Switch, Tooltip, message } from "antd";
 import debounce from "lodash.debounce";
 import { Cable, Code2, Download, PlayCircle, Save } from "lucide-react";
+import type { MtComponent } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import type { ComponentTypes, Team } from "../../../types/datamodel";
@@ -34,7 +35,6 @@ import TestDrawer from "./testdrawer";
 import { TeamBuilderToolbar } from "./toolbar";
 import type { CustomEdge, CustomNode, DragItem } from "./types";
 
-// const { Sider, Content } = Layout;
 interface DragItemData {
   type: ComponentTypes;
   config: any;
@@ -43,7 +43,7 @@ interface DragItemData {
 }
 
 interface TeamBuilderProps {
-  team: Team;
+  team: MtComponent;
   onChange?: (team: Partial<Team>) => void;
   onDirtyStateChange?: (isDirty: boolean) => void;
 }

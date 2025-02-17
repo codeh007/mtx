@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { teamGetOptions } from "mtmaiapi";
+import { comsGetOptions } from "mtmaiapi";
 import { useTenant } from "../../hooks/useAuth";
 import { TeamBuilder } from "../components/views/team/builder/builder";
 
@@ -10,13 +10,12 @@ export const Route = createFileRoute("/team/$teamId")({
 
 function RouteComponent() {
   const { teamId } = Route.useParams();
-  // const [currentTeam, setCurrentTeam] = useState<Team | null>(null);
   const tenant = useTenant();
   const teamQuery = useSuspenseQuery({
-    ...teamGetOptions({
+    ...comsGetOptions({
       path: {
         tenant: tenant!.metadata.id,
-        team: teamId,
+        com: teamId,
       },
     }),
   });
