@@ -1,19 +1,19 @@
-// eslint-disable-next-line max-classes-per-file
-import { Channel, ClientFactory, Status } from "nice-grpc";
-import { EventEmitter, on } from "events";
+import type { ClientConfig } from "@clients/hatchet-client/client-config";
 import {
-  DispatcherClient as PbDispatcherClient,
+  type DispatcherClient,
   DispatcherDefinition,
+  type DispatcherClient as PbDispatcherClient,
   ResourceEventType,
   ResourceType,
-  DispatcherClient,
-  WorkflowEvent,
+  type WorkflowEvent,
 } from "@hatchet/protoc/dispatcher";
-import { ClientConfig } from "@clients/hatchet-client/client-config";
-import HatchetError from "@util/errors/hatchet-error";
 import { Logger } from "@hatchet/util/logger";
 import sleep from "@hatchet/util/sleep";
-import { Api } from "../rest";
+import HatchetError from "@util/errors/hatchet-error";
+import { EventEmitter, on } from "node:events";
+// eslint-disable-next-line max-classes-per-file
+import { type Channel, type ClientFactory, Status } from "nice-grpc";
+import type { Api } from "../rest";
 import { WorkflowRunStatus } from "../rest/generated/data-contracts";
 import { GrpcPooledListener } from "./child-listener-client";
 

@@ -1,13 +1,13 @@
+import { EventEmitter, on } from "node:events";
 // eslint-disable-next-line max-classes-per-file
-import { EventEmitter, on } from "events";
 import {
-  WorkflowRunEvent,
-  SubscribeToWorkflowRunsRequest,
+  type SubscribeToWorkflowRunsRequest,
+  type WorkflowRunEvent,
   WorkflowRunEventType,
 } from "@hatchet/protoc/dispatcher";
-import { isAbortError } from "abort-controller-x";
 import sleep from "@hatchet/util/sleep";
-import { ListenerClient } from "./listener-client";
+import { isAbortError } from "abort-controller-x";
+import type { ListenerClient } from "./listener-client";
 
 const DEFAULT_EVENT_LISTENER_RETRY_INTERVAL = 5; // seconds
 const DEFAULT_EVENT_LISTENER_RETRY_COUNT = 20;
