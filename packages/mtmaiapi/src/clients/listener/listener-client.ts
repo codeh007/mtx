@@ -14,7 +14,6 @@ import { EventEmitter, on } from "node:events";
 // eslint-disable-next-line max-classes-per-file
 import { type Channel, type ClientFactory, Status } from "nice-grpc";
 import type { Api } from "../rest";
-import { WorkflowRunStatus } from "../rest/generated/data-contracts";
 import { GrpcPooledListener } from "./child-listener-client";
 
 const DEFAULT_EVENT_LISTENER_RETRY_INTERVAL = 5; // seconds
@@ -82,14 +81,14 @@ const resourceTypeMap: Record<
   [ResourceType.UNRECOGNIZED]: undefined,
 };
 
-const workflowStatusMap: Record<WorkflowRunStatus, RunEventType | undefined> = {
-  [WorkflowRunStatus.SUCCEEDED]: RunEventType.WORKFLOW_RUN_EVENT_TYPE_COMPLETED,
-  [WorkflowRunStatus.FAILED]: RunEventType.WORKFLOW_RUN_EVENT_TYPE_FAILED,
-  [WorkflowRunStatus.CANCELLED]: RunEventType.WORKFLOW_RUN_EVENT_TYPE_CANCELLED,
-  [WorkflowRunStatus.PENDING]: undefined,
-  [WorkflowRunStatus.RUNNING]: undefined,
-  [WorkflowRunStatus.QUEUED]: undefined,
-};
+// const workflowStatusMap: Record<WorkflowRunStatus, RunEventType | undefined> = {
+//   [WorkflowRunStatus.SUCCEEDED]: RunEventType.WORKFLOW_RUN_EVENT_TYPE_COMPLETED,
+//   [WorkflowRunStatus.FAILED]: RunEventType.WORKFLOW_RUN_EVENT_TYPE_FAILED,
+//   [WorkflowRunStatus.CANCELLED]: RunEventType.WORKFLOW_RUN_EVENT_TYPE_CANCELLED,
+//   [WorkflowRunStatus.PENDING]: undefined,
+//   [WorkflowRunStatus.RUNNING]: undefined,
+//   [WorkflowRunStatus.QUEUED]: undefined,
+// };
 
 export interface StepRunEvent {
   type: RunEventType;
@@ -226,7 +225,7 @@ export class ListenerClient {
   ) {
     this.config = config;
     this.client = factory.create(DispatcherDefinition, channel);
-    this.logger = new Logger(`Listener`, config.log_level);
+    this.logger = new Logger("Listener", config.log_level);
     this.api = api;
   }
 
