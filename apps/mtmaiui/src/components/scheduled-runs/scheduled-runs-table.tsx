@@ -25,7 +25,6 @@ import { Button } from "mtxuilib/ui/button";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useTenant } from "../../hooks/useAuth";
-import { useBasePath } from "../../hooks/useBasePath";
 import { useMtmClient } from "../../hooks/useMtmapi";
 import { DeleteScheduledRun } from "./delete-scheduled-runs";
 import { columns } from "./scheduled-runs-columns";
@@ -56,7 +55,6 @@ export function ScheduledRunsTable({
   const router = useMtRouter();
   const tenant = useTenant();
 
-  const basePath = useBasePath();
   const mtmapi = useMtmClient();
   const [sorting, setSorting] = useState<SortingState>(() => {
     const sortParam = searchParams.get("sort");

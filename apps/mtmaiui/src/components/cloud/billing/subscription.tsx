@@ -15,11 +15,12 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useApiError } from "../../../hooks/useApi";
 import { useTenant } from "../../../hooks/useAuth";
 import { queryClient } from "../../../skyvern/api/QueryClient";
-import type {
-  TenantSubscription,
-  Coupon,
-} from "mtmaiapi/api/generated/cloud/data-contracts.js";
 import type { SubscriptionPlan } from "mtxuilib/types/index.js";
+// import type {
+//   TenantSubscription,
+//   Coupon,
+// } from "mtmaiapi/api/generated/cloud/data-contracts";
+// import type { SubscriptionPlan } from "mtxuilib/types/index.js";
 
 interface SubscriptionProps {
   active?: TenantSubscription;

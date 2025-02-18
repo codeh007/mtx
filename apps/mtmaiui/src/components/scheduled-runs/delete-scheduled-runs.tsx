@@ -38,7 +38,7 @@ export function DeleteScheduledRun({
       if (!scheduledRun) {
         return;
       }
-      await api.workflowScheduledDelete(tenant, scheduledRun.metadata.id);
+      // await api.workflowScheduledDelete(tenant, scheduledRun.metadata.id);
     },
     onSuccess: onSuccess,
     onError: handleApiError,
