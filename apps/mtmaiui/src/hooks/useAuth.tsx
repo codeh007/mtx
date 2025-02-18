@@ -24,6 +24,10 @@ export const useTenant = () => {
   return useMtmaiV2((x) => x.currentTenant);
 };
 
+export const useTenantId = () => {
+  return useMtmaiV2((x) => x.currentTenant?.metadata.id) as string;
+};
+
 export const useIsAdmin = () => {
   const tenant = useTenant();
   return ["default", "admin", "Default"].includes(tenant?.name || "");
