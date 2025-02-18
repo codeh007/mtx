@@ -7,7 +7,7 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "mtxuilib/ui/collapsible.jsx";
+} from "mtxuilib/ui/collapsible";
 import { useState } from "react";
 import { AiCompletion } from "../ui-messages/AiCompletion";
 import { ArtifactCode } from "../ui-messages/ArtifactCode";

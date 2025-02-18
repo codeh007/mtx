@@ -10,7 +10,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "mtxuilib/ui/form.jsx";
+} from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { z } from "zod";
 import { useTenant } from "../../hooks/useAuth";

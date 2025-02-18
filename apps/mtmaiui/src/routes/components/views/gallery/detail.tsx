@@ -12,7 +12,6 @@ import {
   Wrench,
   X,
 } from "lucide-react";
-import { message } from "mtxuilib/db/schema/message.js";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
@@ -129,8 +128,8 @@ export const GalleryDetail: React.FC<GalleryDetailProps> = ({
       onDirtyStateChange(false);
       setIsEditing(false);
       // message.success("Gallery updated successfully");
-    // } catch (error) {
-      message.error("Invalid JSON format");
+    } catch (error) {
+      // message.error("Invalid JSON format");
     }
   };
 

@@ -2,7 +2,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { type JobRun, RunStatus, type StepRun } from "mtmaiapi";
 import { DataTableColumnHeader } from "mtxuilib/data-table/data-table-column-header";
 import { relativeDate } from "mtxuilib/lib/utils.js";
-import { RelativeDate } from "mtxuilib/mt/relative-date.jsx";
+import { RelativeDate } from "mtxuilib/mt/relative-date";
 import type { JSX } from "react";
 
 type JobRunRow = {

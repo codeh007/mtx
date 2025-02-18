@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 
-// import { appContext } from "../../../../hooks/provider";
+import { Checkbox } from "mtxuilib/ui/checkbox";
 import type { Session, Team } from "../../../types/datamodel";
-import { message } from "mtxuilib/db/schema/message.js";
-import { Checkbox } from "mtxuilib/ui/checkbox.jsx";
-// import { sessionAPI } from "../../session/api";
-// import ChatView from "../../session/chat/chat";
 
 interface TestDrawerProps {
   isVisble: boolean;
@@ -18,7 +14,7 @@ const TestDrawer = ({ isVisble, onClose, team }: TestDrawerProps) => {
   //   const { user } = useContext(appContext);
   const [loading, setLoading] = useState(false);
   const [deleteOnClose, setDeleteOnClose] = useState(true);
-  const [messageApi, contextHolder] = message.useMessage();
+  // const [messageApi, contextHolder] = message.useMessage();
 
   const createSession = async (teamId: number, teamName: string) => {
     // if (!user?.email) return;
@@ -36,7 +32,7 @@ const TestDrawer = ({ isVisble, onClose, team }: TestDrawerProps) => {
       //   );
       //   setSession(created);
     } catch (error) {
-      messageApi.error("Error creating session");
+      // messageApi.error("Error creating session");
     }
   };
 

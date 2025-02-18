@@ -2,14 +2,14 @@
 
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
-import { Button } from "mtxuilib/ui/button.jsx";
+import { Button } from "mtxuilib/ui/button";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "mtxuilib/ui/form.jsx";
+} from "mtxuilib/ui/form";
 import { Input } from "postcss";
 import { useState } from "react";
 import { DiffView } from "../../../components/aichatbot/diffview";
