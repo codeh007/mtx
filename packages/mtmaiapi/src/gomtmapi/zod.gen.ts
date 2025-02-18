@@ -1280,6 +1280,7 @@ export const zAgentRunInput = z.object({
   content: z.string(),
   tenantId: z.string().optional(),
   runId: z.string().optional(),
+  stepRunId: z.string().optional(),
 });
 
 export const zChatMessageRole = z.enum(["system", "user", "assistant"]);
@@ -1949,7 +1950,7 @@ export const zMemoryConfig = zComponentModel;
 
 export const zModelContext = zComponentModel;
 
-export const zTaskResult = z.object({
+export const zMtTaskResult = z.object({
   messages: z.array(zAgentMessageConfig),
   stop_reason: z.string().optional(),
 });

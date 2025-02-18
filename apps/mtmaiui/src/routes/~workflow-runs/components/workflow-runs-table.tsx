@@ -55,7 +55,7 @@ import { useApiError } from "../../../hooks/useApi";
 import { useMtmClient } from "../../../hooks/useMtmapi";
 import { useMtmaiV2 } from "../../../stores/StoreProvider";
 import type { AdditionalMetadataClick } from "../../~events/additional-metadata";
-import { columns } from "./workflow-runs-columns";
+import { workflowRunsColumns } from "./workflow-runs-columns";
 import { WorkflowRunsMetricsView } from "./workflow-runs-metrics";
 
 export interface WorkflowRunsTableProps {
@@ -698,7 +698,7 @@ export function WorkflowRunsTable({
         emptyState={<>No workflow runs found with the given filters.</>}
         error={workflowKeysError}
         isLoading={isLoading}
-        columns={columns(onAdditionalMetadataClick)}
+        columns={workflowRunsColumns(onAdditionalMetadataClick)}
         columnVisibility={columnVisibility}
         setColumnVisibility={setColumnVisibility}
         data={listWorkflowRunsQuery.data?.rows || []}

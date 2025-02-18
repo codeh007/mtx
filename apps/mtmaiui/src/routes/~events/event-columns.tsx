@@ -1,8 +1,8 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import type { Event } from "mtmaiapi/api";
 
+import type { Event } from "mtmaiapi";
 import { DataTableColumnHeader } from "mtxuilib/data-table/data-table-column-header";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Badge } from "mtxuilib/ui/badge";
@@ -17,7 +17,7 @@ import { useMtmClient } from "../../hooks/useMtmapi";
 // import { useMtmClient } from "../../../hooks/useMtmapi";
 import { AdditionalMetadata } from "./additional-metadata";
 
-export const columns = ({
+export const eventColumns = ({
   onRowClick,
 }: {
   onRowClick?: (row: Event) => void;

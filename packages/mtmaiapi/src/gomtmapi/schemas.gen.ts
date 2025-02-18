@@ -2997,6 +2997,9 @@ export const AgentRunInputSchema = {
     runId: {
       type: "string",
     },
+    stepRunId: {
+      type: "string",
+    },
   },
 } as const;
 
@@ -4528,7 +4531,7 @@ export const ModelContextSchema = {
   ],
 } as const;
 
-export const TaskResultSchema = {
+export const MtTaskResultSchema = {
   properties: {
     messages: {
       type: "array",

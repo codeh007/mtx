@@ -14,7 +14,7 @@ import {
 } from "../../~events/additional-metadata";
 import { RunStatus } from "./run-statuses";
 
-export const columns: (
+export const workflowRunsColumns: (
   onAdditionalMetadataClick?: (click: AdditionalMetadataClick) => void,
 ) => ColumnDef<WorkflowRun>[] = (onAdditionalMetadataClick) => [
   {

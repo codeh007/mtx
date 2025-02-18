@@ -1682,6 +1682,7 @@ export type AgentRunInput = {
   content: string;
   tenantId?: string;
   runId?: string;
+  stepRunId?: string;
 };
 
 export type ChatMessageRole = "system" | "user" | "assistant";
@@ -2589,7 +2590,7 @@ export type MemoryConfig = ComponentModel;
 
 export type ModelContext = ComponentModel;
 
-export type TaskResult = {
+export type MtTaskResult = {
   messages: Array<AgentMessageConfig>;
   stop_reason?: string;
 };

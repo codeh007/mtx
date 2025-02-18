@@ -1428,6 +1428,7 @@ export interface AgentRunInput {
   content: string;
   tenantId?: string;
   runId?: string;
+  stepRunId?: string;
 }
 
 export enum ChatMessageRole {
@@ -2120,7 +2121,7 @@ export type MemoryConfig = ComponentModel;
 
 export type ModelContext = ComponentModel;
 
-export interface TaskResult {
+export interface MtTaskResult {
   messages: AgentMessageConfig[];
   stop_reason?: string;
 }

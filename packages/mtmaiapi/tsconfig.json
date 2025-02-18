@@ -42,7 +42,13 @@
     },
     "noImplicitAny": false
   },
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "src/api/index.ts--",
+    "src/api/api.ts--",
+    "src/api/queries.ts--"
+  ],
   "exclude": [
     "node_modules",
     "dist",

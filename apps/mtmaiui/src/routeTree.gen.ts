@@ -49,6 +49,7 @@ const PlatformAccountRouteLazyImport = createFileRoute('/platform-account')()
 const PlatformRouteLazyImport = createFileRoute('/platform')()
 const ModelRouteLazyImport = createFileRoute('/model')()
 const GalleryRouteLazyImport = createFileRoute('/gallery')()
+const EventsRouteLazyImport = createFileRoute('/events')()
 const EnvsRouteLazyImport = createFileRoute('/envs')()
 const EndpointRouteLazyImport = createFileRoute('/endpoint')()
 const ChatRouteLazyImport = createFileRoute('/chat')()
@@ -63,6 +64,7 @@ const TeamIndexLazyImport = createFileRoute('/team/')()
 const PostIndexLazyImport = createFileRoute('/post/')()
 const PlatformAccountIndexLazyImport = createFileRoute('/platform-account/')()
 const ModelIndexLazyImport = createFileRoute('/model/')()
+const EventsIndexLazyImport = createFileRoute('/events/')()
 const EnvsIndexLazyImport = createFileRoute('/envs/')()
 const EndpointIndexLazyImport = createFileRoute('/endpoint/')()
 const ChatIndexLazyImport = createFileRoute('/chat/')()
@@ -141,6 +143,14 @@ const GalleryRouteLazyRoute = GalleryRouteLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/~gallery/~route.lazy').then((d) => d.Route),
+)
+
+const EventsRouteLazyRoute = EventsRouteLazyImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/~events/~route.lazy').then((d) => d.Route),
 )
 
 const EnvsRouteLazyRoute = EnvsRouteLazyImport.update({
@@ -236,6 +246,14 @@ const ModelIndexLazyRoute = ModelIndexLazyImport.update({
   path: '/',
   getParentRoute: () => ModelRouteLazyRoute,
 } as any).lazy(() => import('./routes/~model/~index.lazy').then((d) => d.Route))
+
+const EventsIndexLazyRoute = EventsIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => EventsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~events/~index.lazy').then((d) => d.Route),
+)
 
 const EnvsIndexLazyRoute = EnvsIndexLazyImport.update({
   id: '/',
@@ -453,6 +471,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnvsRouteLazyImport
       parentRoute: typeof rootRoute
     }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/gallery': {
       id: '/gallery'
       path: '/gallery'
@@ -656,6 +681,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnvsIndexLazyImport
       parentRoute: typeof EnvsRouteLazyImport
     }
+    '/events/': {
+      id: '/events/'
+      path: '/'
+      fullPath: '/events/'
+      preLoaderRoute: typeof EventsIndexLazyImport
+      parentRoute: typeof EventsRouteLazyImport
+    }
     '/model/': {
       id: '/model/'
       path: '/'
@@ -835,6 +867,18 @@ const EnvsRouteLazyRouteWithChildren = EnvsRouteLazyRoute._addFileChildren(
   EnvsRouteLazyRouteChildren,
 )
 
+interface EventsRouteLazyRouteChildren {
+  EventsIndexLazyRoute: typeof EventsIndexLazyRoute
+}
+
+const EventsRouteLazyRouteChildren: EventsRouteLazyRouteChildren = {
+  EventsIndexLazyRoute: EventsIndexLazyRoute,
+}
+
+const EventsRouteLazyRouteWithChildren = EventsRouteLazyRoute._addFileChildren(
+  EventsRouteLazyRouteChildren,
+)
+
 interface GalleryRouteLazyRouteChildren {
   GalleryIndexRoute: typeof GalleryIndexRoute
   GalleryGalleryIdRoute: typeof GalleryGalleryIdRoute
@@ -1007,6 +1051,7 @@ export interface FileRoutesByFullPath {
   '/chat': typeof ChatRouteLazyRouteWithChildren
   '/endpoint': typeof EndpointRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
+  '/events': typeof EventsRouteLazyRouteWithChildren
   '/gallery': typeof GalleryRouteLazyRouteWithChildren
   '/model': typeof ModelRouteLazyRouteWithChildren
   '/platform': typeof PlatformRouteLazyRouteWithChildren
@@ -1036,6 +1081,7 @@ export interface FileRoutesByFullPath {
   '/chat/': typeof ChatIndexLazyRoute
   '/endpoint/': typeof EndpointIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
+  '/events/': typeof EventsIndexLazyRoute
   '/model/': typeof ModelIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/post/': typeof PostIndexLazyRoute
@@ -1074,6 +1120,7 @@ export interface FileRoutesByTo {
   '/chat': typeof ChatIndexLazyRoute
   '/endpoint': typeof EndpointIndexLazyRoute
   '/envs': typeof EnvsIndexLazyRoute
+  '/events': typeof EventsIndexLazyRoute
   '/model': typeof ModelIndexLazyRoute
   '/platform-account': typeof PlatformAccountIndexLazyRoute
   '/post': typeof PostIndexLazyRoute
@@ -1098,6 +1145,7 @@ export interface FileRoutesById {
   '/chat': typeof ChatRouteLazyRouteWithChildren
   '/endpoint': typeof EndpointRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
+  '/events': typeof EventsRouteLazyRouteWithChildren
   '/gallery': typeof GalleryRouteLazyRouteWithChildren
   '/model': typeof ModelRouteLazyRouteWithChildren
   '/platform': typeof PlatformRouteLazyRouteWithChildren
@@ -1127,6 +1175,7 @@ export interface FileRoutesById {
   '/chat/': typeof ChatIndexLazyRoute
   '/endpoint/': typeof EndpointIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
+  '/events/': typeof EventsIndexLazyRoute
   '/model/': typeof ModelIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/post/': typeof PostIndexLazyRoute
@@ -1153,6 +1202,7 @@ export interface FileRouteTypes {
     | '/chat'
     | '/endpoint'
     | '/envs'
+    | '/events'
     | '/gallery'
     | '/model'
     | '/platform'
@@ -1182,6 +1232,7 @@ export interface FileRouteTypes {
     | '/chat/'
     | '/endpoint/'
     | '/envs/'
+    | '/events/'
     | '/model/'
     | '/platform-account/'
     | '/post/'
@@ -1219,6 +1270,7 @@ export interface FileRouteTypes {
     | '/chat'
     | '/endpoint'
     | '/envs'
+    | '/events'
     | '/model'
     | '/platform-account'
     | '/post'
@@ -1241,6 +1293,7 @@ export interface FileRouteTypes {
     | '/chat'
     | '/endpoint'
     | '/envs'
+    | '/events'
     | '/gallery'
     | '/model'
     | '/platform'
@@ -1270,6 +1323,7 @@ export interface FileRouteTypes {
     | '/chat/'
     | '/endpoint/'
     | '/envs/'
+    | '/events/'
     | '/model/'
     | '/platform-account/'
     | '/post/'
@@ -1295,6 +1349,7 @@ export interface RootRouteChildren {
   ChatRouteLazyRoute: typeof ChatRouteLazyRouteWithChildren
   EndpointRouteLazyRoute: typeof EndpointRouteLazyRouteWithChildren
   EnvsRouteLazyRoute: typeof EnvsRouteLazyRouteWithChildren
+  EventsRouteLazyRoute: typeof EventsRouteLazyRouteWithChildren
   GalleryRouteLazyRoute: typeof GalleryRouteLazyRouteWithChildren
   ModelRouteLazyRoute: typeof ModelRouteLazyRouteWithChildren
   PlatformRouteLazyRoute: typeof PlatformRouteLazyRouteWithChildren
@@ -1316,6 +1371,7 @@ const rootRouteChildren: RootRouteChildren = {
   ChatRouteLazyRoute: ChatRouteLazyRouteWithChildren,
   EndpointRouteLazyRoute: EndpointRouteLazyRouteWithChildren,
   EnvsRouteLazyRoute: EnvsRouteLazyRouteWithChildren,
+  EventsRouteLazyRoute: EventsRouteLazyRouteWithChildren,
   GalleryRouteLazyRoute: GalleryRouteLazyRouteWithChildren,
   ModelRouteLazyRoute: ModelRouteLazyRouteWithChildren,
   PlatformRouteLazyRoute: PlatformRouteLazyRouteWithChildren,
@@ -1346,6 +1402,7 @@ export const routeTree = rootRoute
         "/chat",
         "/endpoint",
         "/envs",
+        "/events",
         "/gallery",
         "/model",
         "/platform",
@@ -1396,6 +1453,12 @@ export const routeTree = rootRoute
       "children": [
         "/envs/create",
         "/envs/"
+      ]
+    },
+    "/events": {
+      "filePath": "~events/~route.lazy.tsx",
+      "children": [
+        "/events/"
       ]
     },
     "/gallery": {
@@ -1550,6 +1613,10 @@ export const routeTree = rootRoute
     "/envs/": {
       "filePath": "~envs/~index.lazy.tsx",
       "parent": "/envs"
+    },
+    "/events/": {
+      "filePath": "~events/~index.lazy.tsx",
+      "parent": "/events"
     },
     "/model/": {
       "filePath": "~model/~index.lazy.tsx",
