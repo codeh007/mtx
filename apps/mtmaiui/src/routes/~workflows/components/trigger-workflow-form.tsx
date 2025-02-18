@@ -3,7 +3,6 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { workflowRunCreateMutation } from "mtmaiapi";
-import type { Workflow } from "mtmaiapi/api";
 import { cn } from "mtxuilib/lib/utils";
 import { CodeEditor } from "mtxuilib/mt/code-editor";
 import { Button } from "mtxuilib/ui/button";

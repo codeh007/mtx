@@ -1,10 +1,10 @@
 "use client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { tenantCreateMutation } from "mtmaiapi";
-import { queries } from "mtmaiapi/api/queries";
+import { tenantCreateMutation, tenantMemberListOptions } from "mtmaiapi";
 import { useState } from "react";
 import { useApiError } from "../../../hooks/useApi";
+import { useTenant } from "../../../hooks/useAuth";
 import { useBasePath } from "../../../hooks/useBasePath";
 import { TenantCreateForm } from "./_components/tenant-create-form";
 export const Route = createFileRoute("/onboarding/create-tenant/")({
@@ -17,11 +17,15 @@ function RouteComponent() {
   const { handleApiError } = useApiError({
     setFieldErrors: setFieldErrors,
   });
+  const { tenant } = useTenant();
 
   const listMembershipsQuery = useQuery({
-    ...queries.user.listTenantMemberships,
+    ...tenantMemberListOptions({
+      path: {
+        tenant: tenant.metadata.id,
+      },
+    }),
   });
-
   const createMutation = useMutation({
     // mutationKey: ["user:update:login"],
     // mutationFn: async (data: CreateTenantRequest) => {

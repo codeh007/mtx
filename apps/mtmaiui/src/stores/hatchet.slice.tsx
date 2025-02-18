@@ -1,6 +1,6 @@
 "use client";
 
-import type { Tenant } from "mtmaiapi/api";
+import type { Tenant } from "mtmaiapi";
 import type { StateCreator } from "zustand";
 export const lastTenantKey = "lastTenant";
 

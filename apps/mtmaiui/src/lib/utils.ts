@@ -5,9 +5,7 @@ import type {
   Message,
   ToolInvocation,
 } from "ai";
-
-import type { APIErrors } from "mtmaiapi/api";
-import type { Message as DBMessage, Document } from "../db/schema";
+import type { APIErrors } from "mtmaiapi/api/generated/cloud/data-contracts";
 
 export function getFieldErrors(apiErrors: APIErrors): Record<string, string> {
   const fieldErrors: Record<string, string> = {};

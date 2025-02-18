@@ -3,10 +3,10 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useSearch } from "@tanstack/react-router";
 import { metadataGetOptions, metadataListIntegrationsOptions } from "mtmaiapi";
-import type { APIErrors } from "mtmaiapi/api";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { type Dispatch, type SetStateAction, useEffect } from "react";
 import { getFieldErrors } from "../lib/utils";
+import type { APIErrors } from "mtmaiapi/api/generated/cloud/data-contracts.js";
 export function useApiError(props: {
   setFieldErrors?: Dispatch<SetStateAction<Record<string, string>>>;
   // if setErrors is passed, it will be used to pass the errors. otherwise,

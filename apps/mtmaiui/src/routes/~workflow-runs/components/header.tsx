@@ -12,7 +12,7 @@ import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { useQuery } from "@tanstack/react-query";
 import { formatDuration } from "date-fns";
 import { Link } from "lucide-react";
-import { WorkflowRunStatus, queries } from "mtmaiapi/api";
+import { WorkflowRunStatus } from "mtmaiapi";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
@@ -43,7 +43,6 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
 
   const { toast } = useToast();
   const mtmapi = useMtmClient();
-  const basePath = useBasePath();
 
   const { handleApiError } = useApiError({});
   const cancelWorkflowRunMutation = mtmapi.useMutation(

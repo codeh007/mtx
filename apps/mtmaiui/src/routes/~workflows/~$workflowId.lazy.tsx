@@ -12,13 +12,13 @@ import { ConfirmDialog } from "mtxuilib/mt/confirm-dialog";
 
 import { Square3Stack3DIcon } from "@heroicons/react/24/outline";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
-import api, { type WorkflowUpdateRequest } from "mtmaiapi/api";
 import { useState } from "react";
 import invariant from "tiny-invariant";
 
 import { createLazyFileRoute } from "@tanstack/react-router";
 import {
   type Tenant,
+  type WorkflowUpdateRequest,
   workflowDeleteMutation,
   workflowGetOptions,
   workflowVersionGetOptions,
@@ -63,7 +63,7 @@ export default function ExpandedWorkflow() {
     ...workflowGetOptions({
       path: {
         workflow: workflowId,
-        tenant: tenant!.metadata.id,
+        // tenant: tenant!.metadata.id,
       },
     }),
   });
@@ -102,11 +102,12 @@ export default function ExpandedWorkflow() {
     mutationKey: ["workflow:update", workflowQuery?.data?.metadata.id],
     mutationFn: async (data: WorkflowUpdateRequest) => {
       invariant(workflowQuery.data);
-      const res = await api.workflowUpdate(workflowQuery?.data?.metadata.id, {
-        ...data,
-      });
+      console.log("workflowQuery.data", workflowQuery.data);
+      // const res = await api.workflowUpdate(workflowQuery?.data?.metadata.id, {
+      //   ...data,
+      // });
 
-      return res.data;
+      // return res.data;
     },
     onError: handleApiError,
     onSuccess: () => {
@@ -282,12 +283,10 @@ export default function ExpandedWorkflow() {
                     submitLabel={"Delete"}
                     onSubmit={(): void => {
                       deleteWorkflowMutation.mutate({
-                        // params: {
                         path: {
                           workflow: workflowId,
-                          tenant: tenant.metadata.id,
+                          // tenant: tenant.metadata.id,
                         },
-                        // },
                       });
                     }}
                     onCancel={(): void => {

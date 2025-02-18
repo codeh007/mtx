@@ -9,11 +9,11 @@ import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 
 import { debounce } from "lodash";
-import type { Tenant } from "mtmaiapi/api";
 import type { components } from "mtmaiapi/query_client/generated";
 import type { Suggestion } from "mtxuilib/db/schema/suggestion";
 import { io } from "socket.io-client";
 import type { HubmanInput } from "../types/hatchet-types";
+import type { Tenant } from "mtmaiapi";
 export interface IAskForm {
   callback: (data) => void;
   // askForm: ThreadForm;

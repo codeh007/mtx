@@ -1,6 +1,5 @@
 "use client";
 import dagre from "dagre";
-import type { WorkflowVersion } from "mtmaiapi/api";
 import { useTheme } from "next-themes";
 import { useEffect, useMemo } from "react";
 import ReactFlow, {
@@ -13,6 +12,7 @@ import ReactFlow, {
 } from "reactflow";
 import "reactflow/dist/style.css";
 import StepNode from "./step-node";
+import type { WorkflowVersion } from "mtmaiapi";
 
 const initBgColorDark = "#050c1c";
 const initBgColorLight = "#ffffff";

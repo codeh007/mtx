@@ -19,11 +19,11 @@ import {
   EventOrderByField,
   type ReplayEventRequest,
   WorkflowRunStatus,
+  eventGetOptions,
   eventListOptions,
   workerListOptions,
+  workflowRunListOptions,
 } from "mtmaiapi";
-import api from "mtmaiapi/api/api";
-// import { queries } from "mtmaiapi/api/queries";
 import { DataTable } from "mtxuilib/data-table/data-table";
 import {
   type FilterOption,
@@ -299,7 +299,7 @@ function EventsTable() {
   const replayEventsMutation = useMutation({
     mutationKey: ["event:update:replay", tenant.metadata.id],
     mutationFn: async (data: ReplayEventRequest) => {
-      await api.eventUpdateReplay(tenant!.metadata.id, data);
+      // await api.eventUpdateReplay(tenant!.metadata.id, data);
     },
     onSuccess: () => {
       refetch();
@@ -581,8 +581,19 @@ function ExpandedEventContent({ event }: { event: Event }) {
 }
 
 function EventDataSection({ event }: { event: Event }) {
+  // const getEventDataQuery = useQuery({
+  //   ...queries.events.getData(event.metadata.id),
+  // });
   const getEventDataQuery = useQuery({
-    ...queries.events.getData(event.metadata.id),
+    ...eventGetOptions({
+      path: {
+        // tenant: tenant!.metadata.id,
+        event: event.metadata.id,
+      },
+      // query: {
+      //   eventId: event.metadata.id,
+      // },
+    }),
   });
 
   if (getEventDataQuery.isLoading || !getEventDataQuery.data) {
@@ -597,7 +608,7 @@ function EventDataSection({ event }: { event: Event }) {
         language="json"
         className="my-4"
         height="400px"
-        code={JSON.stringify(JSON.parse(eventData.data), null, 2)}
+        code={JSON.stringify(JSON.parse(eventData?.data), null, 2)}
       />
     </>
   );
@@ -608,11 +619,23 @@ function EventWorkflowRunsList({ event }: { event: Event }) {
   // invariant(tenant);
   const tenant = useTenant();
 
+  // const listWorkflowRunsQuery = useQuery({
+  //   ...queries.workflowRuns.list(tenant!.metadata.id, {
+  //     offset: 0,
+  //     limit: 10,
+  //     eventId: event.metadata.id,
+  //   }),
+  // });
   const listWorkflowRunsQuery = useQuery({
-    ...queries.workflowRuns.list(tenant!.metadata.id, {
-      offset: 0,
-      limit: 10,
-      eventId: event.metadata.id,
+    ...workflowRunListOptions({
+      path: {
+        tenant: tenant!.metadata.id,
+      },
+      query: {
+        eventId: event.metadata.id,
+        offset: 0,
+        limit: 10,
+      },
     }),
   });
 

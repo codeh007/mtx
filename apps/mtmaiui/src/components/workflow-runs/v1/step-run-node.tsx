@@ -1,12 +1,12 @@
 import { formatDuration } from "date-fns";
-import { type StepRun, StepRunStatus } from "mtmaiapi/api";
+import { RunStatus, type StepRun, StepRunStatus } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Card, CardContent } from "mtxuilib/ui/card";
 import { Label } from "mtxuilib/ui/label";
 import { memo } from "react";
 import { Handle, Position } from "reactflow";
-import { RunIndicator, RunStatus } from "../../../modules";
+import { RunIndicator } from "../../../routes/~workflow-runs/components/run-statuses";
 export interface StepRunNodeProps {
   stepRun: StepRun;
   variant: "default" | "input_only" | "output_only";

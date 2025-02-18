@@ -1,5 +1,4 @@
 "use client";
-import type { WorkflowTag } from "mtmaiapi/api";
 import { cn } from "mtxuilib/lib/utils";
 
 export function WorkflowTags({ tags }: { tags: WorkflowTag[] }) {

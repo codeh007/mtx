@@ -1,5 +1,5 @@
 "use client";
-import type { Step } from "mtmaiapi/api";
+import type { Step } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { Card, CardContent } from "mtxuilib/ui/card";
 import { memo } from "react";

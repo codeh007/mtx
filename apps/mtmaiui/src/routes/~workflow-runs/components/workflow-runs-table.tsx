@@ -19,13 +19,13 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import invariant from "tiny-invariant";
 
-import type { Tenant } from "mtmaiapi";
-import api, {
+import {
   type ReplayWorkflowRunsRequest,
   WorkflowRunOrderByDirection,
   WorkflowRunOrderByField,
   WorkflowRunStatus,
-} from "mtmaiapi/api";
+  type Tenant,
+} from "mtmaiapi";
 import { DateTimePicker } from "mtxuilib/components/time-picker/date-time-picker";
 import { DataTable } from "mtxuilib/data-table/data-table";
 import {

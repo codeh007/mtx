@@ -2,33 +2,28 @@
 import { QuestionMarkCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { PlayIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import api, {
-  type StepRun,
-  StepRunStatus,
-  type WorkflowRun,
-  queries,
-} from "mtmaiapi/api";
-import { useEffect, useMemo, useState } from "react";
-import { VscJson, VscNote } from "react-icons/vsc";
-import invariant from "tiny-invariant";
-import { StepRunEvents } from "./step-run-events";
-import { StepRunInputs } from "./step-run-inputs";
-import { StepRunLogs } from "./step-run-logs";
-import { StepRunOutput } from "./step-run-output";
 import { cn } from "mtxuilib/lib/utils";
 import { MtLoading } from "mtxuilib/mt/mtloading";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Button } from "mtxuilib/ui/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "mtxuilib/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "mtxuilib/ui/tabs";
 import {
-  TooltipProvider,
   Tooltip,
-  TooltipTrigger,
   TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
 } from "mtxuilib/ui/tooltip";
+import { useEffect, useMemo, useState } from "react";
+import { VscJson, VscNote } from "react-icons/vsc";
+import invariant from "tiny-invariant";
 import { useApiError } from "../../../hooks/useApi";
-import { RunStatus, WorkflowRunsTable } from "../../../modules";
 import { useTenant } from "../../../hooks/useAuth";
+import { RunStatus, WorkflowRunsTable } from "../../../modules";
+import { StepRunEvents } from "./step-run-events";
+import { StepRunInputs } from "./step-run-inputs";
+import { StepRunLogs } from "./step-run-logs";
+import { StepRunOutput } from "./step-run-output";
+import { type StepRun, type WorkflowRun, StepRunStatus } from "mtmaiapi";
 
 export function StepRunPlayground({
   stepRun,

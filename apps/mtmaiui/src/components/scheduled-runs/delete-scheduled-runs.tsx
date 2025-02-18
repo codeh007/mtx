@@ -1,6 +1,6 @@
 "use client";
 import { useMutation } from "@tanstack/react-query";
-import api, { type ScheduledWorkflows } from "mtmaiapi/api";
+import type { ScheduledWorkflows } from "mtmaiapi";
 import { Spinner } from "mtxuilib/mt/mtloading";
 import { Button } from "mtxuilib/ui/button";
 import {

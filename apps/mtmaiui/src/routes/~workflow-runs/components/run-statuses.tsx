@@ -1,10 +1,6 @@
 "use client";
 
-import type {
-  JobRunStatus,
-  StepRunStatus,
-  WorkflowRunStatus,
-} from "mtmaiapi/api";
+import type { StepRunStatus, WorkflowRunStatus, JobRunStatus } from "mtmaiapi";
 import { capitalize, cn } from "mtxuilib/lib/utils";
 import { Badge } from "mtxuilib/ui/badge";
 import {

@@ -5,24 +5,23 @@ import {
   XCircleIcon,
 } from "@heroicons/react/24/outline";
 import type { ColumnDef } from "@tanstack/react-table";
+import { RelativeDate } from "mtxuilib/mt/relative-date";
+
 import {
-  type APIResourceMeta,
   type Step,
   type StepRun,
   type StepRunEvent,
   StepRunEventReason,
   type StepRunEventSeverity,
-} from "mtmaiapi/api";
-
-import { RelativeDate } from "mtxuilib/mt/relative-date";
-
+} from "mtmaiapi";
+import type { APIResourceMeta } from "mtmaiapi/api/generated/cloud/data-contracts";
 import { DataTableColumnHeader } from "mtxuilib/data-table/data-table-column-header";
 import { cn } from "mtxuilib/lib/utils";
 import { Badge } from "mtxuilib/ui/badge";
 import { Button } from "mtxuilib/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "mtxuilib/ui/popover";
 import Link from "next/link";
-import { useMemo, useRef, useState } from "react";
+import { type JSX, useMemo, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { useTenant } from "../../../hooks/useAuth";
 import { useBasePath } from "../../../hooks/useBasePath";

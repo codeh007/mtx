@@ -1,10 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import {
-  LogLineOrderByDirection,
-  type StepRun,
-  StepRunStatus,
-  queries,
-} from "mtmaiapi/api";
 import { CodeEditor } from "mtxuilib/mt/code-editor";
 
 export function StepRunLogs({ stepRun }: { stepRun: StepRun | undefined }) {

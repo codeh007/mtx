@@ -1,6 +1,6 @@
 "use client";
 import CronPrettifier from "cronstrue";
-import type { WorkflowVersion } from "mtmaiapi/api";
+import type { WorkflowVersion } from "mtmaiapi";
 import { Input } from "mtxuilib/ui/input";
 import { Label } from "mtxuilib/ui/label";
 

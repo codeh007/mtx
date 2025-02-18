@@ -1,13 +1,6 @@
 "use client";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { useMutation } from "@tanstack/react-query";
-import { queries } from "mtmaiapi/api";
-import { cloudApi } from "mtmaiapi/api/api";
-import type {
-  Coupon,
-  SubscriptionPlan,
-  TenantSubscription,
-} from "mtmaiapi/api/generated/cloud/data-contracts";
 import { ConfirmDialog } from "mtxuilib/mt/confirm-dialog";
 import { Spinner } from "mtxuilib/mt/mtloading";
 import { Badge } from "mtxuilib/ui/badge";
@@ -16,12 +9,17 @@ import { Card, CardDescription, CardHeader, CardTitle } from "mtxuilib/ui/card";
 import { Label } from "mtxuilib/ui/label";
 
 import { Alert, AlertDescription, AlertTitle } from "mtxuilib/ui/alert";
+import { Switch } from "mtxuilib/ui/switch.jsx";
 import type React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useApiError } from "../../../hooks/useApi";
 import { useTenant } from "../../../hooks/useAuth";
 import { queryClient } from "../../../skyvern/api/QueryClient";
-import { Switch } from "mtxuilib/ui/switch.jsx";
+import type {
+  TenantSubscription,
+  Coupon,
+} from "mtmaiapi/api/generated/cloud/data-contracts.js";
+import type { SubscriptionPlan } from "mtxuilib/types/index.js";
 
 interface SubscriptionProps {
   active?: TenantSubscription;

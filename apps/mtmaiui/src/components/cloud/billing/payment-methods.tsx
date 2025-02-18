@@ -11,7 +11,6 @@ import {
 
 import { LuBanknote } from "react-icons/lu";
 
-import { cloudApi } from "mtmaiapi/api/api";
 import type { TenantPaymentMethod } from "mtmaiapi/api/generated/cloud/data-contracts";
 import { Spinner } from "mtxuilib/mt/mtloading";
 import { Button } from "mtxuilib/ui/button";

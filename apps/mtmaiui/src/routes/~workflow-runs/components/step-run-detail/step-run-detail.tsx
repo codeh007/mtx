@@ -5,11 +5,11 @@ import { formatDuration } from "date-fns";
 import { PlayIcon } from "lucide-react";
 import {
   type StepRun,
+  StepRunStatus,
   type Tenant,
   type WorkflowRunShape,
   stepRunGetSchemaOptions,
 } from "mtmaiapi";
-import { StepRunStatus, queries } from "mtmaiapi/api";
 import type { components } from "mtmaiapi/query_client/generated";
 import { CodeHighlighter } from "mtxuilib/mt/code-highlighter";
 import { RelativeDate } from "mtxuilib/mt/relative-date";

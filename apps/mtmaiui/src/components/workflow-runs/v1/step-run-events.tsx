@@ -1,38 +1,38 @@
 "use client";
 import { ArrowRightIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import { useQuery } from "@tanstack/react-query";
-import {
-  type StepRun,
-  type StepRunArchive,
-  type StepRunEvent,
-  StepRunEventReason,
-  type StepRunEventSeverity,
-  StepRunStatus,
-  queries,
-} from "mtmaiapi/api";
 import Link from "next/link";
 import type React from "react";
 import { useMemo, useState } from "react";
 
 import { DataTable } from "mtxuilib/data-table/data-table";
-import {
-  type SemaphoreEventData,
-  type SemaphoreExtra,
-  columns,
-  mapSemaphoreExtra,
-} from "./step-runs-worker-label-columns";
 import { cn } from "mtxuilib/lib/utils";
 import { Spinner } from "mtxuilib/mt/mtloading";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Button } from "mtxuilib/ui/button";
 import {
   Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  // Card,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
 } from "mtxuilib/ui/card";
+import {
+  type SemaphoreEventData,
+  type SemaphoreExtra,
+  columns,
+  mapSemaphoreExtra,
+} from "./step-runs-worker-label-columns";
+import {
+  type StepRun,
+  StepRunStatus,
+  type StepRunEvent,
+  type StepRunArchive,
+  StepRunEventReason,
+  type StepRunEventSeverity,
+} from "mtmaiapi";
 
 export function StepRunEvents({ stepRun }: { stepRun: StepRun | undefined }) {
   const getLogsQuery = useQuery({
