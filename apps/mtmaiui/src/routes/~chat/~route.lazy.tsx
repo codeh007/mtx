@@ -3,10 +3,16 @@ import { useTenant } from "../../hooks/useAuth";
 import { useMtmaiV2 } from "../../stores/StoreProvider";
 
 import { Outlet } from "@tanstack/react-router";
-
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+} from "mtxuilib/ui/breadcrumb";
 import { SidebarInset } from "mtxuilib/ui/sidebar";
-import { Suspense } from "react";
 import { DashContent } from "../../components/DashContent";
+import { DashHeaders } from "../../components/DashHeaders";
 import { DashSidebar } from "../../components/sidebar/siderbar";
 import { RootAppWrapper } from "../components/RootAppWrapper";
 
@@ -27,30 +33,19 @@ function RouteComponent() {
     <RootAppWrapper>
       <DashSidebar />
       <SidebarInset>
-        {/* <DashHeaders>
+        <DashHeaders>
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbPage>Workflows</BreadcrumbPage>
+                <BreadcrumbPage>chat</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
-        </DashHeaders> */}
+        </DashHeaders>
         <DashContent>
-          <Suspense fallback={<div>Loading...</div>}>
-            {/* <div className="fixed top-0 right-0 flex flex-col">
-              <CustomLink
-                className={cn(
-                  "text-lg",
-                  buttonVariants({ variant: "outline" }),
-                )}
-                to="/chat/canvas"
-              >
-                Canvas
-              </CustomLink>
-            </div> */}
+          <MtSuspenseBoundary>
             <Outlet />
-          </Suspense>
+          </MtSuspenseBoundary>
         </DashContent>
       </SidebarInset>
     </RootAppWrapper>

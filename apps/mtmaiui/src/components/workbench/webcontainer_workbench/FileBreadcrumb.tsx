@@ -9,7 +9,7 @@ import { memo, useEffect, useRef, useState } from "react";
 import { WORK_DIR } from "../../../lib/utils/constants";
 
 import { cubicEasingFn } from "mtxuilib/mt/easings";
-import type { FileMap } from "../../../stores/files";
+import type { FileMap } from "../../../stores/files.ts--";
 import FileTree from "./FileTree";
 
 const WORK_DIR_REGEX = new RegExp(

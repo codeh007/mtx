@@ -68,7 +68,6 @@ export interface AgentNodeState extends AgentNodeProps {
   setMessages: (messages: ChatMessage[]) => void;
   openWorkBench?: boolean;
   setOpenWorkBench: (openWorkBench: boolean) => void;
-  // agent 运行器名称
   runner?: string;
   setRunner: (runner: string) => void;
   teamId: string;
@@ -80,10 +79,6 @@ export interface AgentNodeState extends AgentNodeProps {
 
   addMessage: (message: ChatMessage) => void;
   submitHumanInput: (content: string) => void;
-
-  // selectedAssistant?: Assistant;
-  // setSelectedAssistant: (selectedAssistant?: Assistant) => void;
-
   feedbackSubmitted: boolean;
   setFeedbackSubmitted: (feedbackSubmitted: boolean) => void;
 

@@ -1,9 +1,8 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { useTenant } from "../../hooks/useAuth";
-import { useMtmaiV2 } from "../../stores/StoreProvider";
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary.jsx";
 import { Canvas } from "../../components/opencanvas/canvas";
+import { useTenant } from "../../hooks/useAuth";
 import { GraphProvider } from "../../stores/GraphContext";
+import { useMtmaiV2 } from "../../stores/StoreProvider";
 
 export const Route = createLazyFileRoute("/chat/")({
   component: RouteComponent,
@@ -20,14 +19,9 @@ function RouteComponent() {
   }
   return (
     <>
-      {/* <div className="flex items-center justify-center h-full">
-        No session selected. Create or select a session from the sidebar.
-      </div> */}
-      <MtSuspenseBoundary>
-        <GraphProvider agentEndpointBase={selfBackendend!} tenant={tenant!}>
-          <Canvas />
-        </GraphProvider>
-      </MtSuspenseBoundary>
+      <GraphProvider agentEndpointBase={selfBackendend!} tenant={tenant!}>
+        <Canvas />
+      </GraphProvider>
     </>
   );
 }

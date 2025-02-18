@@ -59,7 +59,6 @@ const WorkflowsWorkflowIdLazyImport = createFileRoute(
 )()
 const TriggerIdLazyImport = createFileRoute('/trigger/$id')()
 const PostCreateLazyImport = createFileRoute('/post/create')()
-const ChatCanvasLazyImport = createFileRoute('/chat/canvas')()
 const TeamIndexLazyImport = createFileRoute('/team/')()
 const PostIndexLazyImport = createFileRoute('/post/')()
 const PlatformAccountIndexLazyImport = createFileRoute('/platform-account/')()
@@ -220,12 +219,6 @@ const PostCreateLazyRoute = PostCreateLazyImport.update({
   path: '/create',
   getParentRoute: () => PostRouteLazyRoute,
 } as any).lazy(() => import('./routes/~post/~create.lazy').then((d) => d.Route))
-
-const ChatCanvasLazyRoute = ChatCanvasLazyImport.update({
-  id: '/canvas',
-  path: '/canvas',
-  getParentRoute: () => ChatRouteLazyRoute,
-} as any).lazy(() => import('./routes/~chat/~canvas.lazy').then((d) => d.Route))
 
 const TeamIndexLazyRoute = TeamIndexLazyImport.update({
   id: '/',
@@ -709,13 +702,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamIndexLazyImport
       parentRoute: typeof TeamRouteLazyImport
     }
-    '/chat/canvas': {
-      id: '/chat/canvas'
-      path: '/canvas'
-      fullPath: '/chat/canvas'
-      preLoaderRoute: typeof ChatCanvasLazyImport
-      parentRoute: typeof ChatRouteLazyImport
-    }
     '/post/create': {
       id: '/post/create'
       path: '/create'
@@ -829,13 +815,11 @@ const AgEventsRouteLazyRouteWithChildren =
 interface ChatRouteLazyRouteChildren {
   ChatChatSessionIdRoute: typeof ChatChatSessionIdRoute
   ChatIndexLazyRoute: typeof ChatIndexLazyRoute
-  ChatCanvasLazyRoute: typeof ChatCanvasLazyRoute
 }
 
 const ChatRouteLazyRouteChildren: ChatRouteLazyRouteChildren = {
   ChatChatSessionIdRoute: ChatChatSessionIdRoute,
   ChatIndexLazyRoute: ChatIndexLazyRoute,
-  ChatCanvasLazyRoute: ChatCanvasLazyRoute,
 }
 
 const ChatRouteLazyRouteWithChildren = ChatRouteLazyRoute._addFileChildren(
@@ -1085,7 +1069,6 @@ export interface FileRoutesByFullPath {
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/post/': typeof PostIndexLazyRoute
   '/team/': typeof TeamIndexLazyRoute
-  '/chat/canvas': typeof ChatCanvasLazyRoute
   '/post/create': typeof PostCreateLazyRoute
   '/trigger/$id': typeof TriggerIdLazyRoute
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdLazyRoute
@@ -1124,7 +1107,6 @@ export interface FileRoutesByTo {
   '/platform-account': typeof PlatformAccountIndexLazyRoute
   '/post': typeof PostIndexLazyRoute
   '/team': typeof TeamIndexLazyRoute
-  '/chat/canvas': typeof ChatCanvasLazyRoute
   '/post/create': typeof PostCreateLazyRoute
   '/trigger/$id': typeof TriggerIdLazyRoute
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdLazyRoute
@@ -1179,7 +1161,6 @@ export interface FileRoutesById {
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/post/': typeof PostIndexLazyRoute
   '/team/': typeof TeamIndexLazyRoute
-  '/chat/canvas': typeof ChatCanvasLazyRoute
   '/post/create': typeof PostCreateLazyRoute
   '/trigger/$id': typeof TriggerIdLazyRoute
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdLazyRoute
@@ -1236,7 +1217,6 @@ export interface FileRouteTypes {
     | '/platform-account/'
     | '/post/'
     | '/team/'
-    | '/chat/canvas'
     | '/post/create'
     | '/trigger/$id'
     | '/workflows/$workflowId'
@@ -1274,7 +1254,6 @@ export interface FileRouteTypes {
     | '/platform-account'
     | '/post'
     | '/team'
-    | '/chat/canvas'
     | '/post/create'
     | '/trigger/$id'
     | '/workflows/$workflowId'
@@ -1327,7 +1306,6 @@ export interface FileRouteTypes {
     | '/platform-account/'
     | '/post/'
     | '/team/'
-    | '/chat/canvas'
     | '/post/create'
     | '/trigger/$id'
     | '/workflows/$workflowId'
@@ -1438,8 +1416,7 @@ export const routeTree = rootRoute
       "filePath": "~chat/~route.lazy.tsx",
       "children": [
         "/chat/$chatSessionId",
-        "/chat/",
-        "/chat/canvas"
+        "/chat/"
       ]
     },
     "/endpoint": {
@@ -1629,10 +1606,6 @@ export const routeTree = rootRoute
     "/team/": {
       "filePath": "~team/~index.lazy.tsx",
       "parent": "/team"
-    },
-    "/chat/canvas": {
-      "filePath": "~chat/~canvas.lazy.tsx",
-      "parent": "/chat"
     },
     "/post/create": {
       "filePath": "~post/~create.lazy.tsx",

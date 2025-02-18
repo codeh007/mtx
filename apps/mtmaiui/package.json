@@ -86,7 +86,6 @@
     "@tanstack/router-devtools": "^1.93.0",
     "@tanstack/router-plugin": "^1.93.0",
     "@tanstack/start": "^1.93.0",
-    "antd": "^5.22.1",
     "get-port": "^7.1.0",
     "mtmaiapi": "*",
     "mtxuilib": "*",

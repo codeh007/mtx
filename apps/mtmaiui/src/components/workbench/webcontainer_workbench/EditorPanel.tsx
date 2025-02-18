@@ -22,7 +22,7 @@ import { PanelHeaderButton } from "../../ui/PanelHeaderButton";
 
 import { Icons } from "mtxuilib/icons/icons";
 import { WORK_DIR } from "../../../lib/utils/constants";
-import type { FileMap } from "../../../stores/files";
+import type { FileMap } from "../../../stores/files.ts--";
 import { FileBreadcrumb } from "./FileBreadcrumb";
 import { FileTree } from "./FileTree";
 import { Terminal, type TerminalRef } from "./terminal/Terminal";

@@ -6,7 +6,6 @@ import { cn } from "mtxuilib/lib/utils";
 import { useToast } from "mtxuilib/ui/use-toast";
 import dynamic from "next/dynamic";
 import React, { useState } from "react";
-import { useTenant } from "../../hooks/useAuth";
 import { useGraphStore } from "../../stores/GraphContext";
 import { ContentComposerChatInterface } from "./content-composer";
 
@@ -23,15 +22,16 @@ export function CanvasComponent() {
   const chatStarted = useGraphStore((x) => x.chatStarted);
   const setChatStarted = useGraphStore((x) => x.setChatStarted);
   const openWorkBench = useGraphStore((x) => x.openWorkBench);
-  const setOpenWorkBench = useGraphStore((x) => x.setOpenWorkBench);
+  // const setOpenWorkBench = useGraphStore((x) => x.setOpenWorkBench);
   const [isEditing, setIsEditing] = useState(false);
+  const runId = useGraphStore((x) => x.runId);
 
   // useEffect(() => {
   //   if (!threadId || !user) return;
   //   // Clear threads with no values
   //   clearThreadsWithNoValues(user.id);
   // }, [threadId, user]);
-  const tenant = useTenant();
+  // const tenant = useTenant();
 
   const handleQuickStart = (
     type: "text" | "code",
@@ -77,7 +77,7 @@ export function CanvasComponent() {
   };
 
   return (
-    <main className="h-screen flex flex-row">
+    <main className="flex flex-row h-full">
       <div
         className={cn(
           "transition-all duration-700",
@@ -85,6 +85,7 @@ export function CanvasComponent() {
           "h-full mr-auto bg-gray-50/70 shadow-inner-right",
         )}
       >
+        <div className="bg-blue-200 p-2">runId: {runId}</div>
         <ContentComposerChatInterface
           switchSelectedThreadCallback={(thread) => {
             // Chat should only be "started" if there are messages present

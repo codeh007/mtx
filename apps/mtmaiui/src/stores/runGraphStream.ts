@@ -113,18 +113,20 @@ export async function handleSseGraphStream(
         sessionId: threadId || "",
       } satisfies AgentRunInput,
     },
-    headers: {
-      Accept: "text/event-stream",
-      "Cache-Control": "no-cache",
-      Connection: "keep-alive",
-    },
-    parseAs: "stream",
+    // headers: {
+    //   Accept: "text/event-stream",
+    //   "Cache-Control": "no-cache",
+    //   Connection: "keep-alive",
+    // },
+    // parseAs: "stream",
   });
 
   if (response?.data) {
-    await handleStreamResponse(response.response, (line) =>
-      handleStreamLine(line, set, get),
-    );
+    console.log("new run ", response.data);
+    set({ runId: response.data?.metadata?.id });
+    // await handleStreamResponse(response.response, (line) =>
+    //   handleStreamLine(line, set, get),
+    // );
   }
 }
 
