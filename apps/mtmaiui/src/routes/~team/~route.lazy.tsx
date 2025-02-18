@@ -1,6 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
-import { message } from "antd";
 import { ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTenant, useUser } from "../../hooks/useAuth";
@@ -37,7 +36,7 @@ function RouteComponent() {
     }
   });
 
-  const [messageApi, contextHolder] = message.useMessage();
+  // const [messageApi, contextHolder] = message.useMessage();
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const user = useUser();
   const tenant = useTenant();
@@ -126,10 +125,10 @@ function RouteComponent() {
       // if (currentTeam?.id === teamId) {
       //   setCurrentTeam(null);
       // }
-      messageApi.success("Team deleted");
+      // messageApi.success("Team deleted");
     } catch (error) {
       console.error("Error deleting team:", error);
-      messageApi.error("Error deleting team");
+      // messageApi.error("Error deleting team");
     }
   };
 
