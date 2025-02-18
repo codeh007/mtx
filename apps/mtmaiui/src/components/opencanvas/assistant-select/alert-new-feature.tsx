@@ -6,7 +6,6 @@ import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { OC_HAS_SEEN_CUSTOM_ASSISTANTS_ALERT } from "mtxuilib/constants";
 import { TighterText } from "mtxuilib/mt/TighterText";
 import { Alert, AlertDescription, AlertTitle } from "mtxuilib/ui/alert";
-import { type Dispatch, type SetStateAction, useEffect } from "react";
 
 export const AlertNewAssistantsFeature = ({
   shouldRender,

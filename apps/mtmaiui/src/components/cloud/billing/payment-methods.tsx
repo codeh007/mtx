@@ -16,7 +16,6 @@ import { Spinner } from "mtxuilib/mt/mtloading";
 import { Button } from "mtxuilib/ui/button";
 import { useState } from "react";
 import type { IconType } from "react-icons/lib";
-import { useApiError } from "../../../hooks/useApi";
 import { useTenant } from "../../../hooks/useAuth";
 
 const ccIcons: Record<string, IconType> = {

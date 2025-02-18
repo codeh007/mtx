@@ -8,19 +8,13 @@ import { Button } from "mtxuilib/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "mtxuilib/ui/card";
 import { Label } from "mtxuilib/ui/label";
 
-import type { SubscriptionPlan } from "mtxuilib/types/index.js";
+import type { SubscriptionPlan } from "mtxuilib/types/index";
 import { Alert, AlertDescription, AlertTitle } from "mtxuilib/ui/alert";
 import { Switch } from "mtxuilib/ui/switch";
 import type React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useApiError } from "../../../hooks/useApi";
 import { useTenant } from "../../../hooks/useAuth";
 import { queryClient } from "../../../skyvern/api/QueryClient";
-// import type {
-//   TenantSubscription,
-//   Coupon,
-// } from "mtmaiapi/api/generated/cloud/data-contracts";
-// import type { SubscriptionPlan } from "mtxuilib/types/index.js";
 
 interface SubscriptionProps {
   active?: TenantSubscription;

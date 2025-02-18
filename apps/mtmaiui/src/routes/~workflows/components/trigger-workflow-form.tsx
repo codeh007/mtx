@@ -14,7 +14,6 @@ import {
   DialogTitle,
 } from "mtxuilib/ui/dialog";
 import { useState } from "react";
-import { useApiError } from "../../../hooks/useApi";
 import { useTenant } from "../../../hooks/useAuth";
 import { useBasePath } from "../../../hooks/useBasePath";
 export function TriggerWorkflowForm({

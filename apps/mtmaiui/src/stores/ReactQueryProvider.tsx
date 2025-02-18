@@ -20,7 +20,7 @@ export default function ReactQueryProvider({
   const queryClient = getQueryClient();
   useMemo(() => {
     // if (typeof window !== "undefined") {
-    //   console.log("query client serverUrl", serverUrl);
+      console.log("query client serverUrl", serverUrl);
     // }
     client?.setConfig({
       baseUrl: serverUrl,

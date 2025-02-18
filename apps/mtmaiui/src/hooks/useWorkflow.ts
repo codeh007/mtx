@@ -2,7 +2,6 @@
 
 import { useCallback, useState } from "react";
 import type { WorkflowRun } from "../types/hatchet-types";
-import { useApiError } from "./useApi";
 import { useTenant } from "./useAuth";
 import { useBasePath } from "./useBasePath";
 import { useMtmClient } from "./useMtmapi";

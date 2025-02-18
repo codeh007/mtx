@@ -16,7 +16,6 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { VscJson, VscNote } from "react-icons/vsc";
 import invariant from "tiny-invariant";
-import { useApiError } from "../../../hooks/useApi";
 import { useTenant } from "../../../hooks/useAuth";
 import { RunStatus, WorkflowRunsTable } from "../../../modules";
 import { StepRunEvents } from "./step-run-events";

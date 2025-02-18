@@ -25,7 +25,6 @@ import { Button } from "mtxuilib/ui/button";
 import { Separator } from "mtxuilib/ui/separator";
 import type React from "react";
 import { type JSX, useMemo, useState } from "react";
-import { useApiError } from "../../../../hooks/useApi";
 import { useMtmClient } from "../../../../hooks/useMtmapi";
 import { RunIndicator } from "../run-statuses";
 import { StepRunEvents } from "../step-run-events-for-workflow-run";

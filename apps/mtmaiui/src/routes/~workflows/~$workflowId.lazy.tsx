@@ -38,7 +38,6 @@ import {
   DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu";
 import { Separator } from "mtxuilib/ui/separator";
-import { useApiError, useApiMetaIntegrations } from "../../hooks/useApi";
 import { useTenant } from "../../hooks/useAuth";
 import { useBasePath } from "../../hooks/useBasePath";
 import { WorkflowRunsTable } from "../~workflow-runs/components/workflow-runs-table";

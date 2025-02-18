@@ -1,8 +1,8 @@
 import * as browsers from "@puppeteer/browsers";
 import os from "node:os";
 import puppeteer, { type Browser } from "puppeteer";
-import { PUPPETEER_REVISIONS } from "puppeteer-core/internal/revisions.js";
-import { exec } from "mtxuilib/lib/exec.js";
+import { PUPPETEER_REVISIONS } from "puppeteer-core/internal/revisions";
+import { exec } from "mtxuilib/lib/exec";
 // import { exec } from "../exec";
 
 /**

@@ -51,7 +51,6 @@ import {
 } from "mtxuilib/ui/select";
 import { Separator } from "mtxuilib/ui/separator";
 import { Skeleton } from "mtxuilib/ui/skeleton";
-import { useApiError } from "../../../hooks/useApi";
 import { useMtmClient } from "../../../hooks/useMtmapi";
 import { useMtmaiV2 } from "../../../stores/StoreProvider";
 import type { AdditionalMetadataClick } from "../../~events/additional-metadata";

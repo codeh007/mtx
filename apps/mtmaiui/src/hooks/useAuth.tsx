@@ -10,7 +10,6 @@ import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { setCookie } from "mtxuilib/lib/clientlib";
 import { useEffect, useMemo, useState } from "react";
 import { useMtmaiV2 } from "../stores/StoreProvider";
-import { useApiError } from "./useApi";
 
 import { useBasePath } from "./useBasePath";
 

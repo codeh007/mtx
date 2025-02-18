@@ -16,7 +16,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "mtxuilib/ui/popover";
 import Link from "next/link";
 import React from "react";
 import invariant from "tiny-invariant";
-import { useApiMeta } from "../../hooks/useApi";
 
 interface TenantSwitcherProps {
   className?: string;

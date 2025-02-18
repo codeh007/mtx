@@ -13,7 +13,6 @@ import { cn } from 'mtxuilib/lib/utils'
 import { CodeEditor } from 'mtxuilib/mt/code-editor'
 import { Button } from 'mtxuilib/ui/button'
 import { useState } from 'react'
-import { useApiError } from '../../hooks/useApi'
 export const Route = createLazyFileRoute('/trigger/$id')({
   component: RouteComponent,
 })

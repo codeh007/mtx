@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@langchain/groq": "^0.1.2",
-    "next": "^15.1.6",
+    "next": "^15.1.7",
     "prisma": "^5.22.0"
   },
   "devDependencies": {

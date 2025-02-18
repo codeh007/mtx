@@ -16,7 +16,6 @@ import { WorkflowRunStatus } from "mtmaiapi";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
-import { useApiError } from "../../../hooks/useApi";
 import { useTenant } from "../../../hooks/useAuth";
 import { useBasePath } from "../../../hooks/useBasePath";
 import { useMtmClient } from "../../../hooks/useMtmapi";

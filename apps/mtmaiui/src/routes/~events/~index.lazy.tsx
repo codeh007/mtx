@@ -44,7 +44,6 @@ import { Separator } from "mtxuilib/ui/separator";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { BiX } from "react-icons/bi";
-import { useApiError } from "../../hooks/useApi";
 import { useTenant } from "../../hooks/useAuth";
 import { workflowRunsColumns } from "../~workflow-runs/components/workflow-runs-columns";
 import { CreateEventForm } from "./create-event-form";
