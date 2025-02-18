@@ -18,11 +18,12 @@ import {
   useNodesState,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { Switch, Tooltip, message } from "antd";
 import debounce from "lodash.debounce";
 import { Cable, Code2, Download, PlayCircle, Save } from "lucide-react";
 import type { MtComponent } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
+import { Switch } from "mtxuilib/ui/switch";
+import { Tooltip } from "mtxuilib/ui/tooltip";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import type { ComponentTypes, Team } from "../../../types/datamodel";
 import { MonacoEditor } from "../../monaco";
@@ -62,7 +63,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   const [showMiniMap, setShowMiniMap] = useState(true);
   // const [isDirty, setIsDirty] = useState(false);
   const editorRef = useRef(null);
-  const [messageApi, contextHolder] = message.useMessage();
+  // const [messageApi, contextHolder] = message.useMessage();
   const [activeDragItem, setActiveDragItem] = useState<DragItemData | null>(
     null,
   );
@@ -183,11 +184,11 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
         resetHistory();
       }
     } catch (error) {
-      messageApi.error(
-        error instanceof Error
-          ? error.message
-          : "Failed to save team configuration",
-      );
+      // messageApi.error(
+      //   error instanceof Error
+      //     ? error.message
+      //     : "Failed to save team configuration",
+      // );
     }
   }, [syncToJson, onChange, resetHistory]);
 

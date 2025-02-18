@@ -1,7 +1,7 @@
-import React from "react";
-import { Alert } from "antd";
-import { CodeSection, copyToClipboard } from "./guides";
 import { Download } from "lucide-react";
+import { Alert } from "mtxuilib/ui/alert";
+import type React from "react";
+import { CodeSection, copyToClipboard } from "./guides";
 
 const PythonGuide: React.FC = () => {
   return (

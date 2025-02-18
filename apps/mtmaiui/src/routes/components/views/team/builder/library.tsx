@@ -1,6 +1,5 @@
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
-import { Collapse, type CollapseProps, Input } from "antd";
 import {
   Bot,
   Brain,
@@ -12,6 +11,7 @@ import {
 } from "lucide-react";
 import React from "react";
 import { useGalleryStore } from "../../../../~gallery/store";
+import { Input } from "postcss";
 
 interface ComponentConfigTypes {
   [key: string]: any;

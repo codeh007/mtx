@@ -1,11 +1,7 @@
-import { Input, Modal } from "antd";
-// edgemessagemodal.tsx
 import type React from "react";
 import { useMemo, useState } from "react";
 import { RenderMessage } from "../rendermessage";
 import type { CustomEdge } from "./edge";
-
-const { Search } = Input;
 
 interface EdgeMessageModalProps {
   open: boolean;
@@ -14,7 +10,6 @@ interface EdgeMessageModalProps {
 }
 
 export const EdgeMessageModal: React.FC<EdgeMessageModalProps> = ({
-  open,
   onClose,
   edge,
 }) => {

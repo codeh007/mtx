@@ -1,9 +1,7 @@
-import { Tooltip, message } from "antd";
 import {
   Bot,
   Brain,
   ChevronDown,
-  ChevronUp,
   Edit,
   Globe,
   Package,
@@ -14,11 +12,12 @@ import {
   Wrench,
   X,
 } from "lucide-react";
+import { message } from "mtxuilib/db/schema/message.js";
 import { Button } from "mtxuilib/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
 import { useRef, useState } from "react";
 import { useGalleryStore } from "../../../~gallery/store";
-import type { ComponentConfigTypes } from "../../datamodel.ts--";
 import { TruncatableText, getRelativeTimeString } from "../atoms";
 import { MonacoEditor } from "../monaco";
 import type { Gallery } from "./types";
@@ -102,9 +101,9 @@ export const GalleryDetail: React.FC<GalleryDetailProps> = ({
     setIsSyncing(true);
     try {
       await syncGallery(gallery.id);
-      message.success("Gallery synced successfully");
+      // message.success("Gallery synced successfully");
     } catch (error) {
-      message.error("Failed to sync gallery");
+      // message.error("Failed to sync gallery");
     } finally {
       setIsSyncing(false);
     }
@@ -129,8 +128,8 @@ export const GalleryDetail: React.FC<GalleryDetailProps> = ({
       await onSave(updatedGallery);
       onDirtyStateChange(false);
       setIsEditing(false);
-      message.success("Gallery updated successfully");
-    } catch (error) {
+      // message.success("Gallery updated successfully");
+    // } catch (error) {
       message.error("Invalid JSON format");
     }
   };
@@ -179,8 +178,13 @@ export const GalleryDetail: React.FC<GalleryDetailProps> = ({
                 {gallery.name}
               </h1>
               {gallery.url && (
-                <Tooltip title="Remote Gallery">
-                  <Globe className="w-5 h-5  " />
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Globe className="w-5 h-5  " />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Remote Gallery</p>
+                  </TooltipContent>
                 </Tooltip>
               )}
             </div>

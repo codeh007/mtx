@@ -1,10 +1,10 @@
-import { Tooltip } from "antd";
 import {
   InfoIcon,
   PanelLeftClose,
   PanelLeftOpen,
   RefreshCcw,
 } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
 import type { Guide } from "./types";
 
@@ -30,18 +30,23 @@ export const DeploySidebar: React.FC<DeploySidebarProps> = ({
     return (
       <div className="h-full border-r border-secondary">
         <div className="p-2 -ml-2">
-          <Tooltip title="Documentation">
-            <button
-              onClick={onToggle}
+          <Tooltip>
+            <TooltipTrigger>
+              <button
+                onClick={onToggle}
               className="p-2 rounded-md hover:bg-secondary hover:text-accent   transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
             >
               <PanelLeftOpen strokeWidth={1.5} className="h-6 w-6" />
             </button>
-          </Tooltip>
-        </div>
+          </TooltipTrigger>
+          <TooltipContent>
+            <span>Documentation</span>
+          </TooltipContent>
+        </Tooltip>
       </div>
-    );
-  }
+    </div>
+  );
+};
 
   return (
     <div className="h-full border-r border-secondary">

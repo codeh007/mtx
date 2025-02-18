@@ -1,11 +1,12 @@
-import { Breadcrumb, Drawer, Form } from "antd";
 import { ChevronLeft } from "lucide-react";
+import { Breadcrumb } from "mtxuilib/ui/breadcrumb.jsx";
 import { Button } from "mtxuilib/ui/button";
 import React from "react";
 import type { Component, ComponentConfig } from "../../../../types/datamodel";
 import { isComponent } from "../../../../types/guards";
 import type { NodeEditorProps } from "../types";
 import NodeEditorFields from "./fields";
+import { Form } from "mtxuilib/ui/form.jsx";
 
 interface EditPath {
   componentType: string;

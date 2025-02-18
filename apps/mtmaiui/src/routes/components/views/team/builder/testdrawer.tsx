@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { Checkbox, Drawer, message } from "antd";
 // import { appContext } from "../../../../hooks/provider";
 import type { Session, Team } from "../../../types/datamodel";
+import { message } from "mtxuilib/db/schema/message.js";
+import { Checkbox } from "mtxuilib/ui/checkbox.jsx";
 // import { sessionAPI } from "../../session/api";
 // import ChatView from "../../session/chat/chat";
 

@@ -1,5 +1,3 @@
-import type { MenuProps } from "antd";
-import { Button, Dropdown, Tooltip } from "antd";
 import {
   Cable,
   Code2,
@@ -13,6 +11,8 @@ import {
   Save,
   Undo2,
 } from "lucide-react";
+import { Button } from "mtxuilib/ui/button";
+import { Tooltip } from "mtxuilib/ui/tooltip";
 import type React from "react";
 
 interface TeamBuilderToolbarProps {
@@ -48,7 +48,7 @@ export const TeamBuilderToolbar: React.FC<TeamBuilderToolbarProps> = ({
   onAutoLayout,
   onToggleMiniMap,
 }) => {
-  const menuItems: MenuProps["items"] = [
+  const menuItems = [
     {
       key: "autoLayout",
       label: "Auto Layout",

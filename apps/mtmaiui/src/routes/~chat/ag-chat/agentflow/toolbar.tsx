@@ -1,5 +1,3 @@
-import type { MenuProps } from "antd";
-import { Dropdown, Tooltip } from "antd";
 import {
   ArrowDown,
   ArrowRight,
@@ -14,6 +12,7 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { Button } from "mtxuilib/ui/button";
+import { Tooltip } from "mtxuilib/ui/tooltip";
 import type React from "react";
 import { useGraphStore } from "../../../../stores/GraphContext";
 
@@ -38,7 +37,7 @@ export const AgentFlowToolbar: React.FC<AgentFlowToolbarProps> = ({
     });
   };
 
-  const menuItems: MenuProps["items"] = [
+  const menuItems = [
     {
       key: "grid",
       label: "Show Grid",

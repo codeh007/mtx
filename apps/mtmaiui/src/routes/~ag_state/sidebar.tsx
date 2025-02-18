@@ -5,13 +5,12 @@ import {
   Plus,
   RefreshCcw,
 } from "lucide-react";
-import type { Team } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
 import { CustomLink } from "../../components/CustomLink";
-// import { config } from "process";
+import { Team } from "../components/types/datamodel";
 
 interface TeamSidebarProps {
   isOpen: boolean;

@@ -16,7 +16,7 @@ import type { WorkflowRunApiResponse } from "../../api/types";
 import { StatusBadge } from "../../components/StatusBadge";
 
 import { useMtRouter } from "mtxuilib/hooks/use-router";
-import { basicTimeFormat, cn } from "mtxuilib/lib/utils";
+import { basicTimeFormat } from "mtxuilib/lib/utils";
 import { Alert, AlertDescription, AlertTitle } from "mtxuilib/ui/alert";
 import { Button } from "mtxuilib/ui/button";
 import {
@@ -37,7 +37,6 @@ import { ImportWorkflowButton } from "./ImportWorkflowButton";
 import { WorkflowActions } from "./WorkflowActions";
 import { WorkflowTitle } from "./WorkflowTitle";
 import type { WorkflowCreateYAMLRequest } from "./types/workflowYamlTypes";
-import { Pagination } from "antd";
 
 const emptyWorkflowRequest: WorkflowCreateYAMLRequest = {
   title: "New Workflow",
@@ -290,7 +289,7 @@ export function Workflows() {
             )}
           </TableBody>
         </Table>
-        <Pagination className="pt-2">
+        {/* <Pagination className="pt-2">
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious
@@ -321,7 +320,7 @@ export function Workflows() {
               />
             </PaginationItem>
           </PaginationContent>
-        </Pagination>
+        </Pagination> */}
       </div>
       <header>
         <h1 className="text-2xl font-semibold">Workflow Runs</h1>
@@ -389,7 +388,7 @@ export function Workflows() {
             )}
           </TableBody>
         </Table>
-        <Pagination className="pt-2">
+        {/* <Pagination className="pt-2">
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious
@@ -420,7 +419,7 @@ export function Workflows() {
               />
             </PaginationItem>
           </PaginationContent>
-        </Pagination>
+        </Pagination> */}
       </div>
     </div>
   );

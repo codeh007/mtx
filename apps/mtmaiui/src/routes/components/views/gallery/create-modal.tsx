@@ -1,6 +1,8 @@
-import type { InputRef, UploadFile, UploadProps } from "antd";
-import { Alert, Button, Input, Modal, Tabs, Upload } from "antd";
 import { Code, Globe, Upload as UploadIcon } from "lucide-react";
+import { Alert } from "mtxuilib/ui/alert";
+import { Button } from "mtxuilib/ui/button";
+import { Input } from "mtxuilib/ui/input";
+import { Tabs } from "mtxuilib/ui/tabs";
 import type React from "react";
 import { useRef, useState } from "react";
 import { MonacoEditor } from "../monaco";

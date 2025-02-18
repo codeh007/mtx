@@ -1,6 +1,6 @@
-import { Form, Input, InputNumber, Select, Switch } from "antd";
 import { Edit } from "lucide-react";
 import { Button } from "mtxuilib/ui/button";
+import { Input } from "mtxuilib/ui/input.jsx";
 import type React from "react";
 import type { Component, ComponentConfig } from "../../../../types/datamodel";
 import {
@@ -22,9 +22,12 @@ import {
   isWebSurferAgent,
 } from "../../../../types/guards";
 import DetailGroup from "./detailgroup";
+import { Form } from "mtxuilib/ui/form.jsx";
+import { Select } from "mtxuilib/ui/select.jsx";
+import { Switch } from "mtxuilib/ui/switch.jsx";
 
-const { TextArea } = Input;
-const { Option } = Select;
+// const { TextArea } = Input;
+// const { Option } = Select;
 
 interface NodeEditorFieldsProps {
   component: Component<ComponentConfig>;

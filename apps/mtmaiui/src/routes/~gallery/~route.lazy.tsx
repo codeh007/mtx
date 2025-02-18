@@ -1,5 +1,4 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
-import { Modal, message } from "antd";
 import { ChevronRight } from "lucide-react";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { useEffect, useState } from "react";
@@ -7,6 +6,7 @@ import GalleryCreateModal from "../components/views/gallery/create-modal";
 import type { Gallery } from "../components/views/gallery/types";
 import { GallerySidebar } from "./sidebar";
 import { useGalleryStore } from "./store";
+import { title } from "process";
 
 export const Route = createLazyFileRoute("/gallery")({
   component: RouteComponent,
@@ -36,7 +36,7 @@ function RouteComponent() {
     getDefaultGallery,
   } = useGalleryStore();
 
-  const [messageApi, contextHolder] = message.useMessage();
+  // const [messageApi, contextHolder] = message.useMessage();
   const currentGallery = getSelectedGallery();
 
   // Persist sidebar state
@@ -104,10 +104,10 @@ function RouteComponent() {
     try {
       setIsLoading(true);
       await addGallery(newGallery);
-      messageApi.success("Gallery created successfully");
+      // messageApi.success("Gallery created successfully");
       selectGallery(newGallery.id);
     } catch (error) {
-      messageApi.error("Failed to create gallery");
+      // messageApi.error("Failed to create gallery");
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -117,9 +117,9 @@ function RouteComponent() {
   const handleDeleteGallery = async (galleryId: string) => {
     try {
       await removeGallery(galleryId);
-      messageApi.success("Gallery deleted successfully");
+      // messageApi.success("Gallery deleted successfully");
     } catch (error) {
-      messageApi.error("Failed to delete gallery");
+      // messageApi.error("Failed to delete gallery");
       console.error(error);
     }
   };
@@ -131,9 +131,9 @@ function RouteComponent() {
     try {
       await updateGallery(galleryId, updates);
       setHasUnsavedChanges(false);
-      messageApi.success("Gallery updated successfully");
+      // messageApi.success("Gallery updated successfully");
     } catch (error) {
-      messageApi.error("Failed to update gallery");
+      // messageApi.error("Failed to update gallery");
       console.error(error);
     }
   };
@@ -141,7 +141,7 @@ function RouteComponent() {
     <main style={{ height: "100%" }} className=" h-full ">
       {/* <Outlet /> */}
       <div className="relative flex h-full w-full">
-        {contextHolder}
+        {/* {contextHolder} */}
 
         {/* Create Modal */}
         <GalleryCreateModal

@@ -1,5 +1,5 @@
-import React from "react";
-import { Alert } from "antd";
+import { Alert } from "mtxuilib/ui/alert";
+import type React from "react";
 import { CodeSection, copyToClipboard } from "./guides";
 
 const DockerGuide: React.FC = () => {

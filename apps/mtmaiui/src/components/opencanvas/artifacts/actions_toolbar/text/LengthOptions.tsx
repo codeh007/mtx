@@ -1,4 +1,3 @@
-import { Slider } from "antd";
 import type { ArtifactLengthOptions, CanvasGraphParams } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import {
