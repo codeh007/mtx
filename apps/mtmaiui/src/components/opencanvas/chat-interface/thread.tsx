@@ -6,7 +6,6 @@ import type { FC } from "react";
 
 import type { ProgrammingLanguageOptions } from "mtmaiapi";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
-import { TighterText } from "mtxuilib/mt/TighterText";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useGraphStore } from "../../../stores/GraphContext";
 import { CustomLink } from "../../CustomLink";
@@ -87,11 +86,11 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
   return (
     <ThreadPrimitive.Root className="flex flex-col h-full">
       <div className="pr-3 pl-6 pt-3 pb-2 flex flex-row gap-4 items-center justify-between">
+        {/* 聊天窗体顶部工具栏 */}
         <div className="flex items-center justify-start gap-2 text-gray-600">
           {/* <ThreadHistory
             switchSelectedThreadCallback={switchSelectedThreadCallback}
           /> */}
-          <TighterText className="text-xl">Open Canvas</TighterText>
           <div className="bg-red-100 w-full">
             <CustomLink to="/ag_state">查看状态</CustomLink>
           </div>

@@ -1,7 +1,7 @@
 import { Clock, Loader2, SendHorizontal } from "lucide-react";
 import { Button } from "mtxuilib/ui/button";
 import React, { useEffect, useRef } from "react";
-import { TIMEOUT_CONFIG } from "./consts";
+import { TIMEOUT_CONFIG } from "./consts.ts--";
 
 interface InputRequestProps {
   prompt: string;

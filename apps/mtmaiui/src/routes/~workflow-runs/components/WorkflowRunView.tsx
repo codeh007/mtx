@@ -1,14 +1,14 @@
 "use Client";
 
-import type { WorkflowRun } from "mtmaiapi";
-import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
+interface WorkflowRunViewProps {
+  runId: string;
+}
 
-export const WorkflowRunView = ({
-  workflowRun,
-}: { workflowRun: WorkflowRun }) => {
+export const WorkflowRunView = ({ runId }: WorkflowRunViewProps) => {
   return (
-    <div>
-      <DebugValue data={{ workflowRun }} />
-    </div>
+    <>
+      <div className="bg-slate-100 p-2">WorkflowRunViewerV2 runId: {runId}</div>
+      <div>{/* <DebugValue data={{ workflowRun }} /> */}</div>
+    </>
   );
 };

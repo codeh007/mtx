@@ -1,6 +1,5 @@
 import type { ProgrammingLanguageOptions } from "mtmaiapi";
 
-// open canvas
 export const getLanguageTemplate = (
   language: ProgrammingLanguageOptions,
 ): string => {

@@ -1,4 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
+import type { Session } from "inspector";
 import { ChevronRight, MessagesSquare } from "lucide-react";
 import {
   type AgentMessageConfig,
@@ -13,11 +14,10 @@ import { toast } from "mtxuilib/ui/use-toast";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useTenant, useUser } from "../../../hooks/useAuth";
-import ChatInput from "./chatinput";
-import { TIMEOUT_CONFIG } from "./consts";
-import { RunView } from "./runview";
-import type { Session } from "inspector";
 import type { WebSocketMessage } from "../../components/types/datamodel";
+import ChatInput from "./chatinput";
+import { TIMEOUT_CONFIG } from "./consts.ts--";
+import { RunView } from "./runview";
 // import { Session } from "inspector";
 
 interface ChatViewProps {

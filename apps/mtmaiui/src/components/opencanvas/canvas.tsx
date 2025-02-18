@@ -6,6 +6,7 @@ import { cn } from "mtxuilib/lib/utils";
 import { useToast } from "mtxuilib/ui/use-toast";
 import dynamic from "next/dynamic";
 import React, { useState } from "react";
+import { WorkflowRunView } from "../../routes/~workflow-runs/components/WorkflowRunView";
 import { useGraphStore } from "../../stores/GraphContext";
 import { ContentComposerChatInterface } from "./content-composer";
 
@@ -22,7 +23,6 @@ export function CanvasComponent() {
   const chatStarted = useGraphStore((x) => x.chatStarted);
   const setChatStarted = useGraphStore((x) => x.setChatStarted);
   const openWorkBench = useGraphStore((x) => x.openWorkBench);
-  // const setOpenWorkBench = useGraphStore((x) => x.setOpenWorkBench);
   const [isEditing, setIsEditing] = useState(false);
   const runId = useGraphStore((x) => x.runId);
 
@@ -85,7 +85,6 @@ export function CanvasComponent() {
           "h-full mr-auto bg-gray-50/70 shadow-inner-right",
         )}
       >
-        <div className="bg-blue-200 p-2">runId: {runId}</div>
         <ContentComposerChatInterface
           switchSelectedThreadCallback={(thread) => {
             // Chat should only be "started" if there are messages present
@@ -111,6 +110,13 @@ export function CanvasComponent() {
               setIsEditing={setIsEditing}
               isEditing={isEditing}
             />
+          </div>
+        </MtSuspenseBoundary>
+      )}
+      {runId && (
+        <MtSuspenseBoundary>
+          <div className="w-full ml-auto">
+            <WorkflowRunView runId={runId} />
           </div>
         </MtSuspenseBoundary>
       )}
