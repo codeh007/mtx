@@ -1,13 +1,14 @@
 "use client";
+import { useQuery } from "@tanstack/react-query";
 import {
   type Step,
   type StepRun,
   type WorkflowRunShape,
-  WorkflowRunStatus,
+  workflowRunListStepRunEventsOptions,
 } from "mtmaiapi";
 import { DataTable } from "mtxuilib/data-table/data-table";
 import { useMemo } from "react";
-import { useMtmClient } from "../../../hooks/useMtmapi";
+import { useTenantId } from "../../../hooks/useAuth";
 import { type ActivityEventData, columns } from "./events-columns";
 
 export function StepRunEvents({
@@ -19,27 +20,36 @@ export function StepRunEvents({
   filteredStepRunId?: string;
   onClick?: (stepRunId?: string) => void;
 }) {
-  const mtmapi = useMtmClient();
-  const eventsQuery = mtmapi.useQuery(
-    "get",
-    "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/step-run-events",
-    {
-      params: {
-        path: {
-          tenant: workflowRun.tenantId,
-          "workflow-run": workflowRun.metadata.id,
-        },
+  // const mtmapi = useMtmClient();
+  // const eventsQuery = mtmapi.useQuery(
+  //   "get",
+  //   "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/step-run-events",
+  //   {
+  //     params: {
+  //       path: {
+  //         tenant: workflowRun.tenantId,
+  //         "workflow-run": workflowRun.metadata.id,
+  //       },
+  //     },
+  //   },
+  //   {
+  //     refetchInterval: () => {
+  //       if (workflowRun.status === WorkflowRunStatus.RUNNING) {
+  //         return 1000;
+  //       }
+  //       return 5000;
+  //     },
+  //   },
+  // );
+  const tid = useTenantId();
+  const eventsQuery = useQuery({
+    ...workflowRunListStepRunEventsOptions({
+      path: {
+        tenant: tid,
+        "workflow-run": workflowRun.metadata.id,
       },
-    },
-    {
-      refetchInterval: () => {
-        if (workflowRun.status === WorkflowRunStatus.RUNNING) {
-          return 1000;
-        }
-        return 5000;
-      },
-    },
-  );
+    }),
+  });
 
   const filteredEvents = useMemo(() => {
     if (!filteredStepRunId) {
