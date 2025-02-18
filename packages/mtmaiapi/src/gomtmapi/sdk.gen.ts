@@ -4576,7 +4576,7 @@ export const agStateGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/tenants/{tenant}/agStates/{state}",
+    url: "/api/v1/tenants/{tenant}/agState",
     ...options,
   });
 };

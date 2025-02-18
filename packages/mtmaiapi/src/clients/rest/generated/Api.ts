@@ -3489,17 +3489,23 @@ export class Api<
    *
    * @tags agStates
    * @name AgStateGet
-   * @request GET:/api/v1/tenants/{tenant}/agStates/{state}
+   * @request GET:/api/v1/tenants/{tenant}/agState
    * @secure
    */
   agStateGet = (
     tenant: TenantParameter,
-    state: string,
+    query?: {
+      /** The agState id */
+      state?: string;
+      /** The run id */
+      run?: string;
+    },
     params: RequestParams = {},
   ) =>
     this.request<AgState, APIErrors>({
-      path: `/api/v1/tenants/${tenant}/agStates/${state}`,
+      path: `/api/v1/tenants/${tenant}/agState`,
       method: "GET",
+      query: query,
       secure: true,
       format: "json",
       ...params,

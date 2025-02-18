@@ -2,9 +2,9 @@
 
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import {
-  type WorkflowRun,
-  workflowRunGetMetricsOptions,
-  workflowRunGetOptions,
+	type WorkflowRun,
+	agStateGetOptions,
+	workflowRunGetOptions,
 } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useState } from "react";
@@ -12,40 +12,44 @@ import { useState } from "react";
 import { useTenantId } from "../../../hooks/useAuth";
 
 interface WorkflowRunViewProps {
-  runId: string;
+	runId: string;
 }
 
 export const WorkflowRunView = ({ runId }: WorkflowRunViewProps) => {
-  const tid = useTenantId();
+	const tid = useTenantId();
 
-  const [workflowRunData, setWorkflowRunData] = useState<WorkflowRun | null>(
-    null,
-  );
+	const [workflowRunData, setWorkflowRunData] = useState<WorkflowRun | null>(
+		null,
+	);
 
-  const workflowRun = useSuspenseQuery({
-    ...workflowRunGetOptions({
-      path: {
-        tenant: tid,
-        "workflow-run": runId,
-      },
-    }),
-  });
+	const workflowRun = useSuspenseQuery({
+		...workflowRunGetOptions({
+			path: {
+				tenant: tid,
+				"workflow-run": runId,
+			},
+		}),
+	});
 
-  const agStateQuery = useQuery({
-    ...workflowRunGetMetricsOptions({
-      path: {
-        tenant: tid,
-        // "workflow-run": runId,
-      },
-    }),
-    enabled: !!workflowRun.data,
-  });
-  return (
-    <>
-      <div className="bg-slate-100 p-2">WorkflowRunViewerV2 runId: {runId}</div>
-      <div>
-        <DebugValue data={{ workflowRun }} />
-      </div>
-    </>
-  );
+	const agStateQuery = useQuery({
+		...agStateGetOptions({
+			path: {
+				tenant: tid,
+			},
+			query: {
+				run: runId,
+				// state: "workflow-run",
+			},
+		}),
+		enabled: !!workflowRun.data,
+	});
+	return (
+		<>
+			<div className="bg-slate-100 p-2">WorkflowRunViewerV2 runId: {runId}</div>
+			<div>
+				<DebugValue data={{ workflowRun }} />
+				<DebugValue title="agState" data={{ state: agStateQuery.data }} />
+			</div>
+		</>
+	);
 };

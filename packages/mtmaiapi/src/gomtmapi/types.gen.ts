@@ -2531,10 +2531,6 @@ export type ImageContent = {
   data?: string;
 };
 
-export type TextMessageConfig = BaseMessageConfig & {
-  content?: string;
-};
-
 export type StopMessageConfig = BaseMessageConfig & {
   content: string;
 };
@@ -2564,10 +2560,7 @@ export type InnerMessageConfig =
   | ToolCallMessageConfig
   | ToolCallResultMessageConfig;
 
-export type ChatMessageConfig =
-  | TextMessageConfig
-  | StopMessageConfig
-  | HandoffMessageConfig;
+export type ChatMessageConfig = StopMessageConfig | HandoffMessageConfig;
 
 export type ChatMessageUpsert = {
   tenantId: string;
@@ -2580,7 +2573,6 @@ export type ChatMessageUpsert = {
 };
 
 export type AgentMessageConfig =
-  | TextMessageConfig
   | StopMessageConfig
   | HandoffMessageConfig
   | ToolCallMessageConfig
@@ -8902,13 +8894,18 @@ export type AgStateGetData = {
      * The tenant id
      */
     tenant: TenantParameter;
+  };
+  query?: {
     /**
      * The agState id
      */
-    state: string;
+    state?: string;
+    /**
+     * The run id
+     */
+    run?: string;
   };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/agStates/{state}";
+  url: "/api/v1/tenants/{tenant}/agState";
 };
 
 export type AgStateGetErrors = {

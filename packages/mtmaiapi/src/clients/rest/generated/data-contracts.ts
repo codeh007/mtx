@@ -2064,10 +2064,6 @@ export interface ImageContent {
   data?: string;
 }
 
-export type TextMessageConfig = BaseMessageConfig & {
-  content?: string;
-};
-
 export type StopMessageConfig = BaseMessageConfig & {
   content: string;
 };
@@ -2095,10 +2091,7 @@ export type InnerMessageConfig =
   | ToolCallMessageConfig
   | ToolCallResultMessageConfig;
 
-export type ChatMessageConfig =
-  | TextMessageConfig
-  | StopMessageConfig
-  | HandoffMessageConfig;
+export type ChatMessageConfig = StopMessageConfig | HandoffMessageConfig;
 
 export interface ChatMessageUpsert {
   tenantId: string;
@@ -2111,7 +2104,6 @@ export interface ChatMessageUpsert {
 }
 
 export type AgentMessageConfig =
-  | TextMessageConfig
   | StopMessageConfig
   | HandoffMessageConfig
   | ToolCallMessageConfig

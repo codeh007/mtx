@@ -1880,12 +1880,6 @@ export const zImageContent = z.object({
   data: z.string().optional(),
 });
 
-export const zTextMessageConfig = zBaseMessageConfig.merge(
-  z.object({
-    content: z.string().optional(),
-  }),
-);
-
 export const zStopMessageConfig = zBaseMessageConfig.merge(
   z.object({
     content: z.string(),
@@ -1923,7 +1917,6 @@ export const zInnerMessageConfig = z.union([
 ]);
 
 export const zChatMessageConfig = z.union([
-  zTextMessageConfig,
   zStopMessageConfig,
   zHandoffMessageConfig,
 ]);
@@ -1939,7 +1932,6 @@ export const zChatMessageUpsert = z.object({
 });
 
 export const zAgentMessageConfig = z.union([
-  zTextMessageConfig,
   zStopMessageConfig,
   zHandoffMessageConfig,
   zToolCallMessageConfig,

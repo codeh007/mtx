@@ -4339,21 +4339,6 @@ export const ImageContentSchema = {
   required: ["url"],
 } as const;
 
-export const TextMessageConfigSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/BaseMessageConfig",
-    },
-    {
-      properties: {
-        content: {
-          type: "string",
-        },
-      },
-    },
-  ],
-} as const;
-
 export const StopMessageConfigSchema = {
   allOf: [
     {
@@ -4456,9 +4441,6 @@ export const InnerMessageConfigSchema = {
 export const ChatMessageConfigSchema = {
   oneOf: [
     {
-      $ref: "#/components/schemas/TextMessageConfig",
-    },
-    {
       $ref: "#/components/schemas/StopMessageConfig",
     },
     {
@@ -4497,9 +4479,6 @@ export const ChatMessageUpsertSchema = {
 
 export const AgentMessageConfigSchema = {
   oneOf: [
-    {
-      $ref: "#/components/schemas/TextMessageConfig",
-    },
     {
       $ref: "#/components/schemas/StopMessageConfig",
     },
