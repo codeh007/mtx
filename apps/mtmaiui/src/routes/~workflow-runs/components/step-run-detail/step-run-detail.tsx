@@ -61,9 +61,6 @@ export const StepRunDetail = ({
 }: StepRunDetailProps) => {
   const [errors, setErrors] = useState<string[]>([]);
   const mtmapi = useMtmClient();
-  const { handleApiError } = useApiError({
-    setErrors,
-  });
 
   const queryClient = useQueryClient();
   const getStepRunQuery = mtmapi.useQuery(

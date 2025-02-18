@@ -38,7 +38,6 @@ export const Subscription: React.FC<SubscriptionProps> = ({
   >(undefined);
   const tenant = useTenant();
 
-  const { handleApiError } = useApiError({});
   const [portalLoading, setPortalLoading] = useState(false);
 
   const manageClicked = async () => {
@@ -47,10 +46,10 @@ export const Subscription: React.FC<SubscriptionProps> = ({
         return;
       }
       setPortalLoading(true);
-      const link = await cloudApi.billingPortalLinkGet(tenant.metadata.id);
-      window.open(link.data.url, "_blank");
+      // const link = await cloudApi.billingPortalLinkGet(tenant.metadata.id);
+      // window.open(link.data.url, "_blank");
     } catch (e) {
-      handleApiError(e as any);
+      // handleApiError(e as any);
     } finally {
       setPortalLoading(false);
     }

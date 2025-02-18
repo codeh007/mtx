@@ -19,11 +19,15 @@ export default function ReactQueryProvider({
 }: PropsWithChildren<ReactQueryProviderProps>) {
   const queryClient = getQueryClient();
   useMemo(() => {
-    // if (typeof window !== "undefined") {
+    let serverUrl2 = serverUrl
+    if (typeof window !== "undefined") {
+      serverUrl2=""
+      
+    }else{
       console.log("query client serverUrl", serverUrl);
-    // }
+    }
     client?.setConfig({
-      baseUrl: serverUrl,
+      baseUrl: serverUrl2,
       //允许跨站cookie，这样可以不用专门设置 Authorization header
       credentials: "include",
       fetch: async (req) => {

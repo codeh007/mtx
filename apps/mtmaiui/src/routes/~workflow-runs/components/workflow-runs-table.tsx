@@ -376,7 +376,6 @@ export function WorkflowRunsTable({
       .map(([id]) => (listWorkflowRunsQuery.data?.rows || [])[Number(id)]);
   }, [listWorkflowRunsQuery.data?.rows, rowSelection]);
 
-  const { handleApiError } = useApiError({});
 
   const cancelWorkflowRunMutation = useMutation({
     mutationKey: ["workflow-run:cancel", tenant.metadata.id, selectedRuns],
@@ -387,24 +386,24 @@ export function WorkflowRunsTable({
       invariant(tenantId, "has tenantId");
       invariant(workflowRunIds, "has runIds");
 
-      const res = await api.workflowRunCancel(tenantId, {
-        workflowRunIds,
-      });
+      // const res = await api.workflowRunCancel(tenantId, {
+      //   workflowRunIds,
+      // });
 
-      return res.data;
+      // return res.data;
     },
     onSuccess: () => {
       // queryClient.invalidateQueries({
       //   queryKey: queries.workflowRuns.list(tenant.metadata.id, {}).queryKey,
       // });
     },
-    onError: handleApiError,
+    // onError: handleApiError,
   });
 
   const replayWorkflowRunsMutation = useMutation({
     mutationKey: ["workflow-run:update:replay", tenant.metadata.id],
     mutationFn: async (data: ReplayWorkflowRunsRequest) => {
-      await api.workflowRunUpdateReplay(tenant.metadata.id, data);
+      // await api.workflowRunUpdateReplay(tenant.metadata.id, data);
     },
     onSuccess: () => {
       setRowSelection({});
@@ -414,7 +413,7 @@ export function WorkflowRunsTable({
         listWorkflowRunsQuery.refetch();
       }, 1000);
     },
-    onError: handleApiError,
+    // onError: handleApiError,
   });
 
   const workflowKeyFilters = useMemo((): FilterOption[] => {

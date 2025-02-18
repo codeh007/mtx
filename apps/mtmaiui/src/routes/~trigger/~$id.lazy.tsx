@@ -24,9 +24,6 @@ function RouteComponent() {
   const [input, setInput] = useState<string | undefined>('{}')
   const [addlMeta, setAddlMeta] = useState<string | undefined>('{}')
   const [errors, setErrors] = useState<string[]>([])
-  const { handleApiError } = useApiError({
-    setErrors,
-  })
 
   const triggerWorkflowMutation = useMutation({
     ...workflowRunCreateMutation(),
@@ -38,7 +35,7 @@ function RouteComponent() {
         },
       })
     },
-    onError: handleApiError,
+    // onError: handleApiError,
     onMutate: () => {
       setErrors([])
     },

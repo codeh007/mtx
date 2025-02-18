@@ -55,7 +55,6 @@ export default function ExpandedWorkflow() {
   const basePath = useBasePath();
   // TODO list previous versions and make selectable
   const [selectedVersion] = useState<string | undefined>();
-  const { handleApiError } = useApiError({});
   const [deleteWorkflow, setDeleteWorkflow] = useState(false);
 
   const workflowQuery = useSuspenseQuery({
@@ -108,7 +107,7 @@ export default function ExpandedWorkflow() {
 
       // return res.data;
     },
-    onError: handleApiError,
+    // onError: handleApiError,
     onSuccess: () => {
       workflowQuery.refetch();
     },

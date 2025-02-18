@@ -15,9 +15,6 @@ export const useWorkflow = (name: string) => {
   const [errors, setErrors] = useState<string[]>([]);
   const [currentWorkflowRun, setCurrentWorkflowRun] =
     useState<WorkflowRun | null>(null);
-  const { handleApiError } = useApiError({
-    setErrors,
-  });
   const currentWorkflow = mtmapi.useSuspenseQuery(
     "get",
     "/api/v1/tenants/{tenant}/workflows/byName/{name}",
@@ -39,7 +36,7 @@ export const useWorkflow = (name: string) => {
         setCurrentWorkflowRun(data);
         router.push(`${basePath}/workflow-runs/${data.metadata.id}?view=graph`);
       },
-      onError: handleApiError,
+      // onError: handleApiError,
       onMutate: () => {
         setErrors([]);
       },

@@ -29,8 +29,6 @@ export function DeleteScheduledRun({
   setShowScheduledRunRevoke: (show?: ScheduledWorkflows) => void;
   onSuccess: () => void;
 }) {
-  const { handleApiError } = useApiError({});
-
   const deleteMutation = useMutation({
     mutationKey: ["scheduled-run:delete", tenant, scheduledRun],
     mutationFn: async () => {
@@ -40,7 +38,7 @@ export function DeleteScheduledRun({
       // await api.workflowScheduledDelete(tenant, scheduledRun.metadata.id);
     },
     onSuccess: onSuccess,
-    onError: handleApiError,
+    // onError: handleApiError,
   });
 
   return (

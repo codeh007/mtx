@@ -14,37 +14,37 @@ export const Route = createLazyFileRoute("/auth/login/")({
 });
 
 function RouteComponent() {
-	useErrorParam();
+	// useErrorParam();
 
-	const meta = useApiMeta();
+	// const meta = useApiMeta();
 
-	if (meta.isLoading) {
-		return <MtLoading />;
-	}
+	// if (meta.isLoading) {
+	// 	return <MtLoading />;
+	// }
 
-	const schemes = meta.data?.auth?.schemes || [];
-	const basicEnabled = schemes.includes("basic");
-	const googleEnabled = schemes.includes("google");
-	const githubEnabled = schemes.includes("github");
+	// const schemes = meta.data?.auth?.schemes || [];
+	// const basicEnabled = schemes.includes("basic");
+	// const googleEnabled = schemes.includes("google");
+	// const githubEnabled = schemes.includes("github");
 
-	let prompt = "Enter your email and password below.";
+	// let prompt = "Enter your email and password below.";
 
-	if (basicEnabled && (googleEnabled || githubEnabled)) {
-		prompt =
-			"Enter your email and password below, or continue with a supported provider.";
-	} else if (googleEnabled || githubEnabled) {
-		prompt = "Continue with a supported provider.";
-	} else if (basicEnabled) {
-		prompt = "Enter your email and password below.";
-	} else {
-		prompt = "No login methods are enabled.";
-	}
+	// if (basicEnabled && (googleEnabled || githubEnabled)) {
+	// 	prompt =
+	// 		"Enter your email and password below, or continue with a supported provider.";
+	// } else if (googleEnabled || githubEnabled) {
+	// 	prompt = "Continue with a supported provider.";
+	// } else if (basicEnabled) {
+	// 	prompt = "Enter your email and password below.";
+	// } else {
+	// 	prompt = "No login methods are enabled.";
+	// }
 
 	const forms = [
 		// basicEnabled && <BasicLogin />,
 		<BasicLogin key="basic" />,
-		googleEnabled && <GoogleLogin key="google" />,
-		githubEnabled && <GithubLogin key="github" />,
+		// googleEnabled && <GoogleLogin key="google" />,
+		// githubEnabled && <GithubLogin key="github" />,
 	].filter(Boolean);
 
 	return (
@@ -55,14 +55,14 @@ function RouteComponent() {
 						<div className="flex flex-col space-y-2 text-center">
 							<h1 className="text-2xl font-semibold tracking-tight">Log in</h1>
 							<p className="text-sm text-gray-700 dark:text-gray-300">
-								{prompt}
+								{/* {prompt} */}
 							</p>
 						</div>
 						{forms.map((form, index) => (
 							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 							<Fragment key={index}>
 								{form}
-								{index < schemes.length - 1 && <OrContinueWith />}
+								{/* {index < schemes.length - 1 && <OrContinueWith />} */}
 							</Fragment>
 						))}
 
@@ -124,10 +124,6 @@ export function OrContinueWith() {
 }
 
 function BasicLogin() {
-	// const navigate = useNavigate();
-	// const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-	// const { handleApiError } = useApiError({ setFieldErrors });
-
 	const { loginHandler, isPending, fieldErrors } = useLoginHandler();
 
 	return (

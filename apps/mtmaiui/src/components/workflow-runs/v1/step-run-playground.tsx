@@ -17,7 +17,7 @@ import { useEffect, useMemo, useState } from "react";
 import { VscJson, VscNote } from "react-icons/vsc";
 import invariant from "tiny-invariant";
 import { useTenant } from "../../../hooks/useAuth";
-import { RunStatus, WorkflowRunsTable } from "../../../modules";
+// import { RunStatus, WorkflowRunsTable } from "../../../modules";
 import { StepRunEvents } from "./step-run-events";
 import { StepRunInputs } from "./step-run-inputs";
 import { StepRunLogs } from "./step-run-logs";
@@ -36,11 +36,6 @@ export function StepRunPlayground({
   const tenant = useTenant();
 
   const [errors, setErrors] = useState<string[]>([]);
-
-  const { handleApiError } = useApiError({
-    setErrors,
-  });
-
   const updateParentData = (input: any, workflowRun: WorkflowRun) => {
     if (!input || !input.parents) {
       return {};

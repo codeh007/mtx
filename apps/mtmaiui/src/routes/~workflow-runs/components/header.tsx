@@ -43,7 +43,6 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
   const { toast } = useToast();
   const mtmapi = useMtmClient();
 
-  const { handleApiError } = useApiError({});
   const cancelWorkflowRunMutation = mtmapi.useMutation(
     "post",
     "/api/v1/tenants/{tenant}/workflows/cancel",

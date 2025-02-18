@@ -68,15 +68,10 @@ function EventsTable() {
   const [showCreateEvent, setShowCreateEvent] = useState(false);
   const searchParams = useSearchParams();
   const [rotate, setRotate] = useState(false);
-  const { handleApiError } = useApiError({});
 
   const [createEventFieldErrors, setCreateEventFieldErrors] = useState<
     Record<string, string>
   >({});
-  const createEventApiError = useApiError({
-    setFieldErrors: setCreateEventFieldErrors,
-  });
-  const handleCreateEventApiError = createEventApiError.handleApiError;
   const tenant = useTenant();
   if (!tenant) {
     throw new Error("Tenant not found");
@@ -292,7 +287,7 @@ function EventsTable() {
     onSuccess: () => {
       refetch();
     },
-    onError: handleApiError,
+    // onError: handleApiError,
   });
 
   const replayEventsMutation = useMutation({
@@ -303,17 +298,17 @@ function EventsTable() {
     onSuccess: () => {
       refetch();
     },
-    onError: handleApiError,
+    // onError: handleApiError,
   });
 
   const createEventMutation = useMutation({
     mutationKey: ["event:create", tenant.metadata.id],
     mutationFn: async (input: CreateEventRequest) => {
-      const res = await api.eventCreate(tenant.metadata.id, input);
+      // const res = await api.eventCreate(tenant.metadata.id, input);
 
-      return res.data;
+      // return res.data;
     },
-    onError: handleCreateEventApiError,
+    // onError: handleCreateEventApiError,
     onSuccess: () => {
       refetch();
       setShowCreateEvent(false);

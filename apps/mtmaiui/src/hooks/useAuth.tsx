@@ -36,9 +36,6 @@ export const useLoginHandler = () => {
   const router = useMtRouter();
   const frontendConfig = useMtmaiV2((x) => x.frontendConfig);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-
-  const { handleApiError } = useApiError({ setFieldErrors });
-
   const cookieKey = frontendConfig?.cookieAccessToken || "access_token";
   const loginMutation = useMutation({
     ...userUpdateLoginMutation(),
@@ -49,7 +46,7 @@ export const useLoginHandler = () => {
         router.push("/");
       }
     },
-    onError: handleApiError,
+    // onError: handleApiError,
   });
 
   const loginHandler = async (values) => {

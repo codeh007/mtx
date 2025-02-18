@@ -250,7 +250,6 @@ export function ScheduledRunsTable({
   //     .map(([id]) => (listWorkflowRunsQuery.data?.rows || [])[Number(id)]);
   // }, [listWorkflowRunsQuery.data?.rows, rowSelection]);
 
-  // const { handleApiError } = useApiError({});
 
   // const cancelWorkflowRunMutation = useMutation({
   //   mutationKey: ['workflow-run:cancel', tenant.metadata.id, selectedRuns],

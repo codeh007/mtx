@@ -14,7 +14,6 @@ import {
   DialogTitle,
 } from "mtxuilib/ui/dialog";
 import { useState } from "react";
-import { useTenant } from "../../../hooks/useAuth";
 import { useBasePath } from "../../../hooks/useBasePath";
 export function TriggerWorkflowForm({
   workflow,
@@ -25,7 +24,7 @@ export function TriggerWorkflowForm({
   show: boolean;
   onClose: () => void;
 }) {
-  const tenant = useTenant();
+  // const tenant = useTenant();
 
   const navigate = useNavigate();
   const basePath = useBasePath();
@@ -33,10 +32,6 @@ export function TriggerWorkflowForm({
   const [input, setInput] = useState<string | undefined>("{}");
   const [addlMeta, setAddlMeta] = useState<string | undefined>("{}");
   const [errors, setErrors] = useState<string[]>([]);
-
-  const { handleApiError } = useApiError({
-    setErrors,
-  });
 
   const triggerWorkflowMutation = useMutation({
     ...workflowRunCreateMutation(),
@@ -48,7 +43,7 @@ export function TriggerWorkflowForm({
         },
       });
     },
-    onError: handleApiError,
+    // onError: handleApiError,
     onMutate: () => {
       setErrors([]);
     },

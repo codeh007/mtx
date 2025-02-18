@@ -40,21 +40,20 @@ export function PaymentMethods({
 }: PaymentMethodsProps) {
   const tenant = useTenant();
 
-  const { handleApiError } = useApiError({});
   const [loading, setLoading] = useState(false);
 
   const manageClicked = async () => {
-    try {
-      setLoading(true);
-      const link = await cloudApi.billingPortalLinkGet(tenant.metadata.id);
-      if (link.data.url) {
-        window.location.href = link.data.url;
-      }
-    } catch (e) {
-      handleApiError(e as any);
-    } finally {
-      setLoading(false);
-    }
+    // try {
+    //   setLoading(true);
+    //   const link = await cloudApi.billingPortalLinkGet(tenant.metadata.id);
+    //   if (link.data.url) {
+    //     window.location.href = link.data.url;
+    //   }
+    // } catch (e) {
+    //   handleApiError(e as any);
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (
