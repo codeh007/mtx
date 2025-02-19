@@ -53,7 +53,9 @@ export function newRProxy(options: RProxyOptions) {
     try {
       const requestHeaders = copyIncomeHeaders(r);
 
-      console.log("response.headers", requestHeaders);
+      for (const [key, value] of Array.from(requestHeaders.entries())) {
+        console.log(`rproxy request header:${key}: ${value}`);
+      }
 
       const response = await fetch(fullUrl, {
         method: r.method,
