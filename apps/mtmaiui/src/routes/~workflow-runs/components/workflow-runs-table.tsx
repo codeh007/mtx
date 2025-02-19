@@ -280,7 +280,7 @@ export function WorkflowRunsTable({
     }
   }, [sorting]);
 
-  const listWorkflowRunsQuery = useSuspenseQuery({
+  const listWorkflowRunsQuery = useQuery({
     ...workflowRunListOptions({
       path: {
         tenant: tenant.metadata.id,
@@ -300,11 +300,11 @@ export function WorkflowRunsTable({
         },
       
     }),
-    // placeholderData: (prev) => prev,
+    placeholderData: (prev) => prev,
       refetchInterval,
   });
 
-  const metricsQuery = useSuspenseQuery({
+  const metricsQuery = useQuery({
     ...workflowRunGetMetricsOptions({
       path:{
         tenant: tenant!.metadata.id,
@@ -317,7 +317,7 @@ export function WorkflowRunsTable({
       }
     }),
     refetchInterval,
-    // placeholderData: (prev) => prev,
+    placeholderData: (prev) => prev,
   });
 
   const tenantMetricsQuery = useQuery({

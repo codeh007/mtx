@@ -262,21 +262,6 @@ function ErrorHoverContents({
   // If this is the latest failure, we use the step run to get the error message on hover. Otherwise,
   // we look in the archives.
   const isLatestFailure = latestFailure.event.id === event.event.id;
-  // const getStepRunQuery = useQuery(
-  //   "get",
-  //   "/api/v1/tenants/{tenant}/step-runs/{step-run}",
-  //   {
-  //     params: {
-  //       path: {
-  //         "step-run": event.stepRun.metadata.id,
-  //         tenant: event.stepRun.tenantId,
-  //       },
-  //     },
-  //   },
-  //   {
-  //     enabled: isLatestFailure,
-  //   },
-  // );
   const getStepRunQuery = useQuery({
     ...stepRunGetOptions({
       path: {
@@ -286,21 +271,6 @@ function ErrorHoverContents({
     }),
     enabled: isLatestFailure,
   });
-
-  // const listStepRunArchiveQuery = useQuery(
-  //   "get",
-  //   "/api/v1/step-runs/{step-run}/archives",
-  //   {
-  //     params: {
-  //       path: {
-  //         "step-run": event.stepRun.metadata.id,
-  //       },
-  //     },
-  //   },
-  //   {
-  //     enabled: !isLatestFailure,
-  //   },
-  // );
   const listStepRunArchiveQuery = useQuery({
     ...stepRunListArchivesOptions({
       path: {
