@@ -23,7 +23,6 @@ import { Badge } from "mtxuilib/ui/badge";
 import { Button } from "mtxuilib/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "mtxuilib/ui/popover";
 import { type  useMemo, useRef, useState } from "react";
-import invariant from "tiny-invariant";
 import StepRunError from "./step-run-detail/step-run-error";
 import { CustomLink } from "../../../components/CustomLink";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";

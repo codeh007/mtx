@@ -9,6 +9,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { useTenant } from "../hooks/useAuth";
 import { useWorkbrenchStore } from "../stores/workbrench.store";
 import { Button } from "mtxuilib/ui/button";
+import { useQuery } from "@tanstack/react-query";
 
 interface ChatDevToolsProps {
   messages?: Message[];
@@ -62,12 +63,10 @@ export const DevAgentNodeState = () => {
     "get",
     "/api/v1/tenants/{tenant}/nodes/{node}",
     {
-      params: {
         path: {
           tenant: tenant?.metadata.id,
           node: threadId || "",
         },
-      },
     },
     {
       enabled: !!threadId,

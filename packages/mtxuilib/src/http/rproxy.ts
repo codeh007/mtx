@@ -53,7 +53,7 @@ export function newRProxy(options: RProxyOptions) {
     try {
       const requestHeaders = copyIncomeHeaders(r);
 
-      console.log("response.headers");
+      console.log("response.headers", requestHeaders);
 
       const response = await fetch(fullUrl, {
         method: r.method,

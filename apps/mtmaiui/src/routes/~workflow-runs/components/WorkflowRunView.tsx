@@ -2,13 +2,12 @@
 
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import {
-  type WorkflowRun,
   WorkflowRunStatus,
   agStateGetOptions,
   workflowRunGetOptions,
 } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTenantId } from "../../../hooks/useAuth";
 import { AgStateView } from "../../~ag_state/components/AgStateView";
 
@@ -18,11 +17,6 @@ interface WorkflowRunViewProps {
 
 export const WorkflowRunView = ({ runId }: WorkflowRunViewProps) => {
   const tid = useTenantId();
-
-  const [workflowRunData, setWorkflowRunData] = useState<WorkflowRun | null>(
-    null,
-  );
-
   const workflowRun = useSuspenseQuery({
     ...workflowRunGetOptions({
       path: {
