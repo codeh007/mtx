@@ -1,6 +1,6 @@
 "use client";
 import { ArrowPathIcon, XCircleIcon } from "@heroicons/react/24/outline";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { formatDuration } from "date-fns";
 import { PlayIcon } from "lucide-react";
 import {
@@ -10,6 +10,8 @@ import {
   type WorkflowRunShape,
   stepRunGetOptions,
   stepRunGetSchemaOptions,
+  stepRunUpdateCancelMutation,
+  stepRunUpdateRerunMutation,
 } from "mtmaiapi";
 import { CodeHighlighter } from "mtxuilib/mt/code-highlighter";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
@@ -60,29 +62,6 @@ export const StepRunDetail = ({
   defaultOpenTab = TabOption.Output,
 }: StepRunDetailProps) => {
   const [errors, setErrors] = useState<string[]>([]);
-
-  // const getStepRunQuery = mtmapi.useQuery(
-  //   "get",
-  //   "/api/v1/tenants/{tenant}/step-runs/{step-run}",
-  //   {
-  //     params: {
-  //       path: {
-  //         tenant: workflowRun.tenantId,
-  //         "step-run": stepRunId,
-  //       },
-  //     },
-  //   },
-  //   {
-  //     refetchInterval: (query) => {
-  //       const data = query.state.data;
-  //       if (data?.status === StepRunStatus.RUNNING) {
-  //         return 1000;
-  //       }
-  //       return 5000;
-  //     },
-  //   },
-  // );
-
   const getStepRunQuery = useQuery({
     ...stepRunGetOptions({
       path: {
@@ -109,10 +88,8 @@ export const StepRunDetail = ({
       .find((x) => x?.metadata.id === stepRun?.stepId);
   }, [workflowRun, stepRun]);
 
-  const rerunStepMutation = useMutation(
-    "post",
-    "/api/v1/tenants/{tenant}/step-runs/{step-run}/rerun",
-    {
+  const rerunStepMutation = useMutation({
+      ...stepRunUpdateRerunMutation(),
       onMutate: () => {
         setErrors([]);
       },
@@ -128,10 +105,8 @@ export const StepRunDetail = ({
     },
   );
 
-  const cancelStepMutation = mtmapi.useMutation(
-    "post",
-    "/api/v1/tenants/{tenant}/step-runs/{step-run}/cancel",
-    {
+  const cancelStepMutation = useMutation({
+    ...stepRunUpdateCancelMutation(),
       onMutate: () => {
         setErrors([]);
       },
@@ -195,12 +170,10 @@ export const StepRunDetail = ({
             }
 
             rerunStepMutation.mutate({
-              params: {
                 path: {
                   tenant: stepRun.tenantId,
                   "step-run": stepRun.metadata.id,
                 },
-              },
               body: {
                 input: parsedInput as Record<string, never>,
               },
@@ -217,12 +190,10 @@ export const StepRunDetail = ({
           disabled={STEP_RUN_TERMINAL_STATUSES.includes(stepRun.status)}
           onClick={() => {
             cancelStepMutation.mutate({
-              params: {
                 path: {
                   tenant: stepRun.tenantId,
                   "step-run": stepRun.metadata.id,
                 },
-              },
             });
           }}
         >
@@ -327,14 +298,14 @@ const StepRunSummary: React.FC<{ data: StepRun }> = ({ data }) => {
   if (data.startedAt) {
     timings.push(
       <div key="created" className="text-sm text-muted-foreground">
-        {"Started "}
+        已开始
         <RelativeDate date={data.startedAt} />
       </div>,
     );
   } else {
     timings.push(
       <div key="created" className="text-sm text-muted-foreground">
-        Running
+        运行中
       </div>,
     );
   }
@@ -342,7 +313,7 @@ const StepRunSummary: React.FC<{ data: StepRun }> = ({ data }) => {
   if (data.status === StepRunStatus.CANCELLED && data.cancelledAt) {
     timings.push(
       <div key="finished" className="text-sm text-muted-foreground">
-        {"Cancelled "}
+        已取消
         <RelativeDate date={data.cancelledAt} />
       </div>,
     );
@@ -351,7 +322,7 @@ const StepRunSummary: React.FC<{ data: StepRun }> = ({ data }) => {
   if (data.status === StepRunStatus.FAILED && data.finishedAt) {
     timings.push(
       <div key="finished" className="text-sm text-muted-foreground">
-        {"Failed "}
+        失败
         <RelativeDate date={data.finishedAt} />
       </div>,
     );
@@ -360,7 +331,7 @@ const StepRunSummary: React.FC<{ data: StepRun }> = ({ data }) => {
   if (data.status === StepRunStatus.SUCCEEDED && data.finishedAt) {
     timings.push(
       <div key="finished" className="text-sm text-muted-foreground">
-        {"Succeeded "}
+        成功
         <RelativeDate date={data.finishedAt} />
       </div>,
     );
@@ -369,7 +340,7 @@ const StepRunSummary: React.FC<{ data: StepRun }> = ({ data }) => {
   if (data.finishedAtEpoch && data.startedAtEpoch) {
     timings.push(
       <div key="duration" className="text-sm text-muted-foreground">
-        Run took {formatDuration({
+        运行耗时 {formatDuration({
           seconds: data.finishedAtEpoch - data.startedAtEpoch,
         })}
       </div>,
@@ -409,7 +380,6 @@ export function ChildWorkflowRuns({
 }: {
   tenant: Tenant;
   stepRun: StepRun | undefined;
-  // workflowRun: components["schemas"]["WorkflowRun"];
   workflowRun: WorkflowRunShape;
   refetchInterval?: number;
 }) {
