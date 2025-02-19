@@ -1,6 +1,6 @@
 "use client";
 import { ArrowPathIcon, XCircleIcon } from "@heroicons/react/24/outline";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { formatDuration } from "date-fns";
 import { PlayIcon } from "lucide-react";
 import {
@@ -16,7 +16,6 @@ import {
 import { CodeHighlighter } from "mtxuilib/mt/code-highlighter";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 
-import { MtLoading } from "mtxuilib/mt/mtloading";
 import {
   MtTabs,
   MtTabsContent,
@@ -31,7 +30,7 @@ import { RunIndicator } from "../run-statuses";
 import { StepRunEvents } from "../step-run-events-for-workflow-run";
 import { WorkflowRunsTable } from "../workflow-runs-table";
 import { StepRunLogs } from "./step-run-logs";
-import StepRunOutput from "./step-run-output";
+import {StepRunOutput} from "./step-run-output";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 export enum TabOption {
   Output = "output",
@@ -62,14 +61,14 @@ export const StepRunDetail = ({
   defaultOpenTab = TabOption.Output,
 }: StepRunDetailProps) => {
   const [errors, setErrors] = useState<string[]>([]);
-  const getStepRunQuery = useQuery({
+  const getStepRunQuery = useSuspenseQuery({
     ...stepRunGetOptions({
       path: {
         tenant: workflowRun.tenantId,
         "step-run": stepRunId,
       },
     }),
-    enabled: !!stepRunId,
+    // enabled: !!stepRunId,
     refetchInterval: (query) => {
       const data = query.state.data;
       if (data?.status === StepRunStatus.RUNNING) {
@@ -124,8 +123,7 @@ export const StepRunDetail = ({
     },
   );
 
-  // const tenant = useTenant();
-  const stepRunSchemaQuery = useQuery({
+  const stepRunSchemaQuery = useSuspenseQuery({
     ...stepRunGetSchemaOptions({
       path: {
         tenant: tenant.metadata.id,
@@ -134,9 +132,9 @@ export const StepRunDetail = ({
     }),
   });
 
-  if (!stepRun) {
-    return <MtLoading />;
-  }
+  // if (!stepRun) {
+  //   return <MtLoading />;
+  // }
 
   return (
     <div className="w-full h-screen overflow-y-scroll flex flex-col gap-4">
@@ -385,16 +383,16 @@ export function ChildWorkflowRuns({
 }) {
   return (
     <MtSuspenseBoundary>
-    <WorkflowRunsTable
-      tenant={tenant}
-      parentWorkflowRunId={workflowRun.metadata.id}
-      parentStepRunId={stepRun?.metadata.id}
-      refetchInterval={refetchInterval}
-      initColumnVisibility={{
-        "Triggered by": false,
-      }}
-        createdAfter={stepRun?.metadata.createdAt}
-      />
+      <WorkflowRunsTable
+        tenant={tenant}
+        parentWorkflowRunId={workflowRun.metadata.id}
+        parentStepRunId={stepRun?.metadata.id}
+        refetchInterval={refetchInterval}
+        initColumnVisibility={{
+          "Triggered by": false,
+        }}
+          createdAfter={stepRun?.metadata.createdAt}
+        />
     </MtSuspenseBoundary>
   );
 }

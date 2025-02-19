@@ -23,6 +23,7 @@ import { ViewToggle, hasChildSteps } from './components/view-toggle'
 import { WorkflowRunInputDialog } from './components/workflow-run-input'
 import WorkflowRunVisualizer from './components/workflow-run-visualizer-v2'
 import { MtSuspenseBoundary } from 'mtxuilib/components/MtSuspenseBoundary'
+import { DebugValue } from 'mtxuilib/components/devtools/DebugValue'
 
 export const Route = createLazyFileRoute('/workflow-runs/$workflowRunId')({
   component: RouteComponent,
@@ -93,7 +94,7 @@ function RouteComponent() {
         <MtTabs defaultValue="activity">
           <MtTabsList layout="underlined">
             <MtTabsTrigger variant="underlined" value="activity">
-              Activity
+              工作流活动
             </MtTabsTrigger>
             <MtTabsTrigger variant="underlined" value="input">
               输入
@@ -102,7 +103,7 @@ function RouteComponent() {
               元数据
             </MtTabsTrigger>
             <MtTabsTrigger variant="underlined" value="control">
-              控制
+              调试
             </MtTabsTrigger>
           </MtTabsList>
           <MtTabsContent value="activity">
@@ -138,7 +139,7 @@ function RouteComponent() {
           </MtTabsContent>
           <MtTabsContent value="control">
             <div className="h-4" />
-            TODO 交互
+            <DebugValue data={{workflowRunId, shape}}/>
           </MtTabsContent>
         </MtTabs>
       </div>

@@ -49,7 +49,7 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
   });
 
   if (loading || !data) {
-    return <div>Loading...</div>;
+    return <div>加载中...</div>;
   }
 
   return (
@@ -70,7 +70,7 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
             >
               <Button size={"sm"} className="px-2 py-2 gap-2" variant="outline">
                 <ArrowTopRightIcon className="w-4 h-4" />
-                Workflow Definition
+                工作流定义
               </Button>
             </a>
             <Button
@@ -110,7 +110,7 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
               }}
             >
               <XCircleIcon className="w-4 h-4" />
-              Cancel
+              取消
             </Button>
           </div>
         </div>
@@ -147,14 +147,14 @@ const RunSummary: React.FC<{ data: WorkflowRunShape }> = ({ data }) => {
 
   if (data.startedAt) {
     timings.push(
-      <div key="created" className="text-sm text-muted-foreground">
-        {"Started "}
+      <div key="started" className="text-sm text-muted-foreground">
+        {"开始 "}
         <RelativeDate date={data.startedAt} />
       </div>,
     );
   } else {
     timings.push(
-      <div key="created" className="text-sm text-muted-foreground">
+      <div key="running" className="text-sm text-muted-foreground">
         运行中
       </div>,
     );
@@ -162,7 +162,7 @@ const RunSummary: React.FC<{ data: WorkflowRunShape }> = ({ data }) => {
 
   if (data.status === WorkflowRunStatus.CANCELLED && data.finishedAt) {
     timings.push(
-      <div key="finished" className="text-sm text-muted-foreground">
+      <div key="cancelled" className="text-sm text-muted-foreground">
         已取消
         <RelativeDate date={data.finishedAt} />
       </div>,
@@ -171,7 +171,7 @@ const RunSummary: React.FC<{ data: WorkflowRunShape }> = ({ data }) => {
 
   if (data.status === WorkflowRunStatus.FAILED && data.finishedAt) {
     timings.push(
-      <div key="finished" className="text-sm text-muted-foreground">
+      <div key="failed" className="text-sm text-muted-foreground">
         失败
         <RelativeDate date={data.finishedAt} />
       </div>,

@@ -56,7 +56,6 @@ export const eventsColumns = ({
         }
         return (
           <div className="min-w-[120px] max-w-[180px]">
-            <DebugValue data={{row: row.original}}/>
             <Badge
               className="cursor-pointer text-xs font-mono py-1 bg-[#ffffff] dark:bg-[#050c1c] border-[#050c1c] dark:border-gray-400"
               variant="outline"

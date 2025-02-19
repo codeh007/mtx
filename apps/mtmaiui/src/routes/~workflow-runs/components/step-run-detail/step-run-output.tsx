@@ -30,17 +30,17 @@ const oneLiner = (text: string) => {
 };
 
 const StepRunOutputCancelled = ({ stepRun }: StepRunOutputProps) => {
-  let msg = "Step run was cancelled";
+  let msg = "步骤被取消";
 
   if (stepRun.cancelledReason) {
-    msg = `Step run was cancelled: ${readableReason(stepRun.cancelledReason)}`;
+    msg = `步骤被取消: ${readableReason(stepRun.cancelledReason)}`;
   }
 
   return oneLiner(msg);
 };
 
 const StepRunOutputPending = ({ stepRun }: StepRunOutputProps) => {
-  let msg = "Waiting to start...";
+  let msg = "等待开始...";
 
   if (stepRun.parents) {
     msg = `Waiting for parent steps to complete: ${stepRun.parents.join(", ")}`;
@@ -50,15 +50,15 @@ const StepRunOutputPending = ({ stepRun }: StepRunOutputProps) => {
 };
 
 const StepRunOutputPendingAssignment = () => {
-  return oneLiner("Step is waiting to be assigned to a worker");
+  return oneLiner("步骤等待分配...");
 };
 
 const StepRunOutputAssigned = () => {
-  return oneLiner("Step has been assigned and will start shortly");
+  return oneLiner("步骤已分配，即将开始...");
 };
 
 const StepRunOutputRunning = () => {
-  return oneLiner("Step is currently running...");
+  return oneLiner("步骤运行中...");
 };
 
 const StepRunOutputSucceeded = ({ stepRun }: StepRunOutputProps) => {
@@ -75,7 +75,7 @@ const StepRunOutputSucceeded = ({ stepRun }: StepRunOutputProps) => {
 
 const StepRunOutputFailed = ({ stepRun }: StepRunOutputProps) => {
   if (!stepRun.error) {
-    return oneLiner("Step run failed with no error message");
+    return oneLiner("步骤运行失败，没有错误信息");
   }
 
   return (
@@ -100,9 +100,7 @@ const OUTPUT_STATE_MAP: Record<StepRunStatus, React.FC<StepRunOutputProps>> = {
   [StepRunStatus.CANCELLING]: StepRunOutputCancelling,
 };
 
-const StepRunOutput: React.FC<StepRunOutputProps> = (props) => {
+export const StepRunOutput: React.FC<StepRunOutputProps> = (props) => {
   const Component = OUTPUT_STATE_MAP[props.stepRun.status];
   return <Component {...props} />;
 };
-
-export default StepRunOutput;
