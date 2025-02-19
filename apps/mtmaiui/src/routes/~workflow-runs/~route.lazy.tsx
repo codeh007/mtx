@@ -33,7 +33,7 @@ function RouteComponent() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbPage>workflow runs</BreadcrumbPage>
+                <BreadcrumbPage>运行记录</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>

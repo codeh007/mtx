@@ -6,7 +6,6 @@ import {
   MtTabsList,
   MtTabsTrigger,
 } from 'mtxuilib/mt/tabs'
-import { Separator } from 'mtxuilib/ui/separator'
 import { Sheet, SheetContent } from 'mtxuilib/ui/sheet'
 import { useEffect, useState } from 'react'
 import { useTenant } from '../../hooks/useAuth'
@@ -55,41 +54,7 @@ function RouteComponent() {
           loading={shape.isLoading}
           data={shape.data}
           refetch={() => shape.refetch()}
-        />
-        <Separator className="my-2" />
-        <div className="w-full h-fit flex overflow-auto relative bg-slate-100 dark:bg-slate-900">
-          {shape.data && view === 'graph' && hasChildSteps(shape.data) && (
-            <WorkflowRunVisualizer
-              shape={shape.data}
-              selectedStepRunId={sidebarState?.stepRunId}
-              setSelectedStepRunId={(stepRunId) => {
-                setSidebarState({
-                  stepRunId,
-                  defaultOpenTab: TabOption.Output,
-                  workflowRunId: workflowRunId,
-                })
-              }}
-            />
-          )}
-          {shape.data && (view === 'minimap' || !hasChildSteps(shape.data)) && (
-            <MiniMap
-              shape={shape.data}
-              selectedStepRunId={sidebarState?.stepRunId}
-              onClick={(stepRunId, defaultOpenTab?: TabOption) =>
-                setSidebarState(
-                  stepRunId === sidebarState?.stepRunId
-                    ? undefined
-                    : {
-                        stepRunId,
-                        defaultOpenTab,
-                        workflowRunId: workflowRunId,
-                      },
-                )
-              }
-            />
-          )}
-          {shape.data && <ViewToggle shape={shape.data} />}
-        </div>
+        />      
         <div className="h-4" />
         <MtTabs defaultValue="activity">
           <MtTabsList layout="underlined">
@@ -105,9 +70,15 @@ function RouteComponent() {
             <MtTabsTrigger variant="underlined" value="control">
               调试
             </MtTabsTrigger>
+            <MtTabsTrigger variant="underlined" value="visualization">
+            可视化
+            </MtTabsTrigger>
+            <MtTabsTrigger variant="underlined" value="agent_visualization">
+            智能体交互
+            </MtTabsTrigger>
           </MtTabsList>
+          
           <MtTabsContent value="activity">
-            <div className="h-4" />
             {!shape.isLoading && shape.data && (
               <MtSuspenseBoundary>
               <StepRunEvents
@@ -131,15 +102,56 @@ function RouteComponent() {
           <MtTabsContent value="additional-metadata">
             <MtSuspenseBoundary>
               <CodeHighlighter
-                className="my-4"
+                className="my-1"
                 language="json"
                 code={JSON.stringify(shape.data?.additionalMetadata, null, 2)}
               />
             </MtSuspenseBoundary>
           </MtTabsContent>
           <MtTabsContent value="control">
-            <div className="h-4" />
             <DebugValue data={{workflowRunId, shape}}/>
+          </MtTabsContent>
+          <MtTabsContent value="visualization">
+            <MtSuspenseBoundary>
+                  <div className="w-full h-fit flex overflow-auto relative bg-slate-100 dark:bg-slate-900">
+                {shape.data && view === 'graph' && hasChildSteps(shape.data) && (
+                  <WorkflowRunVisualizer
+                    shape={shape.data}
+                    selectedStepRunId={sidebarState?.stepRunId}
+                    setSelectedStepRunId={(stepRunId) => {
+                      setSidebarState({
+                        stepRunId,
+                        defaultOpenTab: TabOption.Output,
+                        workflowRunId: workflowRunId,
+                      })
+                    }}
+                  />
+                )}
+                {shape.data && (view === 'minimap' || !hasChildSteps(shape.data)) && (
+                  <MiniMap
+                    shape={shape.data}
+                    selectedStepRunId={sidebarState?.stepRunId}
+                    onClick={(stepRunId, defaultOpenTab?: TabOption) =>
+                      setSidebarState(
+                        stepRunId === sidebarState?.stepRunId
+                          ? undefined
+                          : {
+                              stepRunId,
+                              defaultOpenTab,
+                              workflowRunId: workflowRunId,
+                            },
+                      )
+                    }
+                  />
+                )}
+                {shape.data && <ViewToggle shape={shape.data} />}
+              </div>
+            </MtSuspenseBoundary>
+          </MtTabsContent>
+          <MtTabsContent value="agent_visualization">
+            <MtSuspenseBoundary>
+              智能体交互(未完成功能开发中)
+            </MtSuspenseBoundary>
           </MtTabsContent>
         </MtTabs>
       </div>
