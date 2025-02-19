@@ -92,7 +92,6 @@ export function WorkflowRunsTable({
   const defaultTimeRange = useMtmaiV2((x) => x.lastTimeRange);
   const setDefaultTimeRange = useMtmaiV2((x) => x.setLastTimeRange);
 
-  // customTimeRange does not get set in the atom,
   const [customTimeRange, setCustomTimeRange] = useState<string[] | undefined>(
     () => {
       const timeRangeParam = searchParams.get("customTimeRange");
@@ -280,36 +279,8 @@ export function WorkflowRunsTable({
         return WorkflowRunOrderByField.CREATED_AT;
     }
   }, [sorting]);
-  // const listWorkflowRunsQuery = mtmapi.useQuery(
-  //   "get",
-  //   "/api/v1/tenants/{tenant}/workflows/runs",
-  //   {
-  //     params: {
-  //       path: {
-  //         tenant: tenant.metadata.id,
-  //       },
-  //       query: {
-  //         offset,
-  //         limit: pageSize,
-  //         statuses,
-  //         workflowId: workflow,
-  //         parentWorkflowRunId,
-  //         parentStepRunId,
-  //         orderByDirection,
-  //         orderByField,
-  //         additionalMetadata: AdditionalMetadataFilter,
-  //         createdAfter,
-  //         finishedBefore,
-  //       },
-  //     },
-  //   },
-  //   {
-  //     placeholderData: (prev) => prev,
-  //     refetchInterval,
-  //   },
-  // );
 
-  const listWorkflowRunsQuery = useQuery({
+  const listWorkflowRunsQuery = useSuspenseQuery({
     ...workflowRunListOptions({
       path: {
         tenant: tenant.metadata.id,
@@ -329,34 +300,11 @@ export function WorkflowRunsTable({
         },
       
     }),
-    placeholderData: (prev) => prev,
+    // placeholderData: (prev) => prev,
       refetchInterval,
   });
 
-  // const metricsQuery = mtmapi.useQuery(
-  //   "get",
-  //   "/api/v1/tenants/{tenant}/workflows/runs/metrics",
-  //   {
-  //     params: {
-  //       path: {
-  //         tenant: tenant!.metadata.id,
-  //       },
-  //       query: {
-  //         workflowId: workflow,
-  //         parentWorkflowRunId,
-  //         parentStepRunId,
-  //         additionalMetadata: AdditionalMetadataFilter,
-  //         createdAfter,
-  //       },
-  //     },
-  //   },
-  //   {
-  //     placeholderData: (prev) => prev,
-  //     refetchInterval,
-  //   },
-  // );
-
-  const metricsQuery = useQuery({
+  const metricsQuery = useSuspenseQuery({
     ...workflowRunGetMetricsOptions({
       path:{
         tenant: tenant!.metadata.id,
@@ -369,24 +317,8 @@ export function WorkflowRunsTable({
       }
     }),
     refetchInterval,
-    placeholderData: (prev) => prev,
+    // placeholderData: (prev) => prev,
   });
-
-
-  // const tenantMetricsQuery = mtmapi.useQuery(
-  //   "get",
-  //   "/api/v1/tenants/{tenant}/step-run-queue-metrics",
-  //   {
-  //     params: {
-  //       path: {
-  //         tenant: tenant!.metadata.id,
-  //       },
-  //     },
-  //   },
-  //   {
-  //     refetchInterval,
-  //   },
-  // );
 
   const tenantMetricsQuery = useQuery({
     ...tenantGetStepRunQueueMetricsOptions({
@@ -397,19 +329,6 @@ export function WorkflowRunsTable({
     refetchInterval,
     placeholderData: (prev) => prev,
   });
-
-
-  // const {
-  //   data: workflowKeys,
-  //   isLoading: workflowKeysIsLoading,
-  //   error: workflowKeysError,
-  // } = mtmapi.useQuery("get", "/api/v1/tenants/{tenant}/workflows", {
-  //   params: {
-  //     path: {
-  //       tenant: tenant!.metadata.id,
-  //     },
-  //   },
-  // });
   const {
     data: workflowKeys,
     isLoading: workflowKeysIsLoading,

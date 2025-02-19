@@ -91,7 +91,7 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
               }}
             >
               <ArrowPathIcon className="w-4 h-4" />
-              Replay
+              重试
             </Button>
             <Button
               size={"sm"}
@@ -155,7 +155,7 @@ const RunSummary: React.FC<{ data: WorkflowRunShape }> = ({ data }) => {
   } else {
     timings.push(
       <div key="created" className="text-sm text-muted-foreground">
-        Running
+        运行中
       </div>,
     );
   }
@@ -163,7 +163,7 @@ const RunSummary: React.FC<{ data: WorkflowRunShape }> = ({ data }) => {
   if (data.status === WorkflowRunStatus.CANCELLED && data.finishedAt) {
     timings.push(
       <div key="finished" className="text-sm text-muted-foreground">
-        {"Cancelled "}
+        已取消
         <RelativeDate date={data.finishedAt} />
       </div>,
     );
@@ -172,7 +172,7 @@ const RunSummary: React.FC<{ data: WorkflowRunShape }> = ({ data }) => {
   if (data.status === WorkflowRunStatus.FAILED && data.finishedAt) {
     timings.push(
       <div key="finished" className="text-sm text-muted-foreground">
-        {"Failed "}
+        失败
         <RelativeDate date={data.finishedAt} />
       </div>,
     );
@@ -181,7 +181,7 @@ const RunSummary: React.FC<{ data: WorkflowRunShape }> = ({ data }) => {
   if (data.status === WorkflowRunStatus.SUCCEEDED && data.finishedAt) {
     timings.push(
       <div key="finished" className="text-sm text-muted-foreground">
-        {"Succeeded "}
+        已完成
         <RelativeDate date={data.finishedAt} />
       </div>,
     );
@@ -190,7 +190,7 @@ const RunSummary: React.FC<{ data: WorkflowRunShape }> = ({ data }) => {
   if (data.duration) {
     timings.push(
       <div key="duration" className="text-sm text-muted-foreground">
-        Run took {formatDuration(data.duration)}
+        耗时 {formatDuration(data.duration)}
       </div>,
     );
   }
@@ -227,7 +227,6 @@ function TriggeringParentWorkflowRunSection({
   tenantId: string;
   parentWorkflowRunId: string;
 }) {
-  // const basePath = useBasePath();
   const workflowRunQuery = useQuery({
     ...workflowRunGetOptions({
       path: {
@@ -257,10 +256,6 @@ function TriggeringParentWorkflowRunSection({
 }
 
 function TriggeringEventSection({ eventId }: { eventId: string }) {
-  // get the parent workflow run id
-  // const eventData = useQuery({
-  //   ...queries.events.get(eventId),
-  // });
   const eventData = useQuery({
     ...eventGetOptions({
       path: {
@@ -277,7 +272,7 @@ function TriggeringEventSection({ eventId }: { eventId: string }) {
 
   return (
     <div className="text-sm text-gray-700 dark:text-gray-300 flex flex-row gap-1">
-      Triggered by {event.key}
+      触发事件 {event.key}
     </div>
   );
 }
@@ -289,7 +284,7 @@ function TriggeringCronSection({ cron }: { cron: string }) {
 
   return (
     <div className="text-sm text-gray-700 dark:text-gray-300">
-      Triggered by cron {cron} which {prettyInterval}
+      定时任务 {cron} 每 {prettyInterval}
     </div>
   );
 }

@@ -7,12 +7,12 @@ import {
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
 import { SidebarInset } from "mtxuilib/ui/sidebar";
-import { Suspense } from "react";
 import { DashContent } from "../../components/DashContent";
 import { DashHeaders } from "../../components/DashHeaders";
 import { DashSidebar } from "../../components/sidebar/siderbar";
 import { useTenant } from "../../hooks/useAuth";
 import { RootAppWrapper } from "../components/RootAppWrapper";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 export const Route = createLazyFileRoute('/trigger')({
   component: RouteComponent,
 })
@@ -35,9 +35,9 @@ function RouteComponent() {
           </Breadcrumb>
         </DashHeaders>
         <DashContent>
-          <Suspense fallback={<div>Loading...</div>}>
+          <MtSuspenseBoundary>
             <Outlet />
-          </Suspense>
+          </MtSuspenseBoundary>
         </DashContent>
       </SidebarInset>
     </RootAppWrapper>

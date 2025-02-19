@@ -30,6 +30,7 @@ import { StepRunEvents } from "../step-run-events-for-workflow-run";
 import { WorkflowRunsTable } from "../workflow-runs-table";
 import { StepRunLogs } from "./step-run-logs";
 import StepRunOutput from "./step-run-output";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 export enum TabOption {
   Output = "output",
   ChildWorkflowRuns = "child-workflow-runs",
@@ -413,6 +414,7 @@ export function ChildWorkflowRuns({
   refetchInterval?: number;
 }) {
   return (
+    <MtSuspenseBoundary>
     <WorkflowRunsTable
       tenant={tenant}
       parentWorkflowRunId={workflowRun.metadata.id}
@@ -421,7 +423,8 @@ export function ChildWorkflowRuns({
       initColumnVisibility={{
         "Triggered by": false,
       }}
-      createdAfter={stepRun?.metadata.createdAt}
-    />
+        createdAfter={stepRun?.metadata.createdAt}
+      />
+    </MtSuspenseBoundary>
   );
 }

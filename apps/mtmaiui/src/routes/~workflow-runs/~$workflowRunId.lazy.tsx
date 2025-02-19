@@ -1,51 +1,51 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { CodeHighlighter } from "mtxuilib/mt/code-highlighter";
+import { createLazyFileRoute } from '@tanstack/react-router'
+import { CodeHighlighter } from 'mtxuilib/mt/code-highlighter'
 import {
   MtTabs,
   MtTabsContent,
   MtTabsList,
   MtTabsTrigger,
-} from "mtxuilib/mt/tabs";
-import { Separator } from "mtxuilib/ui/separator";
-import { Sheet, SheetContent } from "mtxuilib/ui/sheet";
-import { useEffect, useState } from "react";
-import { useTenant } from "../../hooks/useAuth";
-import { useWorkflowRunShape } from "../../hooks/useWorkflowRun";
-import { useMtmaiV2 } from "../../stores/StoreProvider";
-import RunDetailHeader from "./components/header";
-import { MiniMap } from "./components/mini-map";
+} from 'mtxuilib/mt/tabs'
+import { Separator } from 'mtxuilib/ui/separator'
+import { Sheet, SheetContent } from 'mtxuilib/ui/sheet'
+import { useEffect, useState } from 'react'
+import { useTenant } from '../../hooks/useAuth'
+import { useWorkflowRunShape } from '../../hooks/useWorkflowRun'
+import { useMtmaiV2 } from '../../stores/StoreProvider'
+import RunDetailHeader from './components/header'
+import { MiniMap } from './components/mini-map'
 import {
   StepRunDetail,
   TabOption,
-} from "./components/step-run-detail/step-run-detail";
-import { StepRunEvents } from "./components/step-run-events-for-workflow-run";
-import { ViewToggle, hasChildSteps } from "./components/view-toggle";
-import { WorkflowRunInputDialog } from "./components/workflow-run-input";
-import WorkflowRunVisualizer from "./components/workflow-run-visualizer-v2";
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
+} from './components/step-run-detail/step-run-detail'
+import { StepRunEvents } from './components/step-run-events-for-workflow-run'
+import { ViewToggle, hasChildSteps } from './components/view-toggle'
+import { WorkflowRunInputDialog } from './components/workflow-run-input'
+import WorkflowRunVisualizer from './components/workflow-run-visualizer-v2'
+import { MtSuspenseBoundary } from 'mtxuilib/components/MtSuspenseBoundary'
 
-export const Route = createFileRoute("/workflow-runs/$workflowRunId")({
+export const Route = createLazyFileRoute('/workflow-runs/$workflowRunId')({
   component: RouteComponent,
-});
+})
 interface WorkflowRunSidebarState {
-  workflowRunId?: string;
-  stepRunId?: string;
-  defaultOpenTab?: TabOption;
+  workflowRunId?: string
+  stepRunId?: string
+  defaultOpenTab?: TabOption
 }
 function RouteComponent() {
-  const { workflowRunId } = Route.useParams();
-  const [sidebarState, setSidebarState] = useState<WorkflowRunSidebarState>();
-  const { shape } = useWorkflowRunShape(workflowRunId);
-  const tenant = useTenant();
+  const { workflowRunId } = Route.useParams()
+  const [sidebarState, setSidebarState] = useState<WorkflowRunSidebarState>()
+  const { shape } = useWorkflowRunShape(workflowRunId)
+  const tenant = useTenant()
   useEffect(() => {
     if (
       sidebarState?.workflowRunId &&
       workflowRunId !== sidebarState?.workflowRunId
     ) {
-      setSidebarState(undefined);
+      setSidebarState(undefined)
     }
-  }, [workflowRunId, sidebarState]);
-  const view = useMtmaiV2((x) => x.preferredWorkflowRunView);
+  }, [workflowRunId, sidebarState])
+  const view = useMtmaiV2((x) => x.preferredWorkflowRunView)
 
   return (
     <div className="flex-grow h-full w-full">
@@ -57,7 +57,7 @@ function RouteComponent() {
         />
         <Separator className="my-2" />
         <div className="w-full h-fit flex overflow-auto relative bg-slate-100 dark:bg-slate-900">
-          {shape.data && view === "graph" && hasChildSteps(shape.data) && (
+          {shape.data && view === 'graph' && hasChildSteps(shape.data) && (
             <WorkflowRunVisualizer
               shape={shape.data}
               selectedStepRunId={sidebarState?.stepRunId}
@@ -66,11 +66,11 @@ function RouteComponent() {
                   stepRunId,
                   defaultOpenTab: TabOption.Output,
                   workflowRunId: workflowRunId,
-                });
+                })
               }}
             />
           )}
-          {shape.data && (view === "minimap" || !hasChildSteps(shape.data)) && (            
+          {shape.data && (view === 'minimap' || !hasChildSteps(shape.data)) && (
             <MiniMap
               shape={shape.data}
               selectedStepRunId={sidebarState?.stepRunId}
@@ -108,6 +108,7 @@ function RouteComponent() {
           <MtTabsContent value="activity">
             <div className="h-4" />
             {!shape.isLoading && shape.data && (
+              <MtSuspenseBoundary>
               <StepRunEvents
                 workflowRun={shape.data}
                 onClick={(stepRunId) =>
@@ -118,19 +119,20 @@ function RouteComponent() {
                   )
                 }
               />
+              </MtSuspenseBoundary>
             )}
           </MtTabsContent>
-          <MtTabsContent value="input">            
+          <MtTabsContent value="input">
             <MtSuspenseBoundary>
               {shape.data && <WorkflowRunInputDialog run={shape.data} />}
             </MtSuspenseBoundary>
           </MtTabsContent>
           <MtTabsContent value="additional-metadata">
-          <MtSuspenseBoundary>
-            <CodeHighlighter
-              className="my-4"
-              language="json"
-              code={JSON.stringify(shape.data?.additionalMetadata, null, 2)}
+            <MtSuspenseBoundary>
+              <CodeHighlighter
+                className="my-4"
+                language="json"
+                code={JSON.stringify(shape.data?.additionalMetadata, null, 2)}
               />
             </MtSuspenseBoundary>
           </MtTabsContent>
@@ -149,16 +151,18 @@ function RouteComponent() {
         >
           <SheetContent className="w-fit min-w-[56rem] max-w-4xl sm:max-w-2xl z-[60]">
             {sidebarState?.stepRunId && (
-              <StepRunDetail
-                tenant={tenant!}
-                stepRunId={sidebarState?.stepRunId}
-                workflowRun={shape.data}
-                defaultOpenTab={sidebarState?.defaultOpenTab}
-              />
+              <MtSuspenseBoundary>
+                <StepRunDetail
+                  tenant={tenant!}
+                  stepRunId={sidebarState?.stepRunId}
+                  workflowRun={shape.data}
+                  defaultOpenTab={sidebarState?.defaultOpenTab}
+                />
+              </MtSuspenseBoundary>
             )}
           </SheetContent>
         </Sheet>
       )}
     </div>
-  );
+  )
 }

@@ -13,6 +13,7 @@ import { DashHeaders } from "../../components/DashHeaders";
 import { DashSidebar } from "../../components/sidebar/siderbar";
 import { useTenant } from "../../hooks/useAuth";
 import { RootAppWrapper } from "../components/RootAppWrapper";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 export const Route = createLazyFileRoute("/workflows")({
   component: RouteComponent,
 });
@@ -36,9 +37,9 @@ function RouteComponent() {
           </Breadcrumb>
         </DashHeaders>
         <DashContent>
-          <Suspense fallback={<div>Loading...</div>}>
+          <MtSuspenseBoundary>
             <Outlet />
-          </Suspense>
+          </MtSuspenseBoundary>
         </DashContent>
       </SidebarInset>
     </RootAppWrapper>

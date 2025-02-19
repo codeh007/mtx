@@ -1,11 +1,11 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { workflowRunGetOptions, workflowRunGetShapeOptions } from "mtmaiapi";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { workflowRunGetShapeOptions } from "mtmaiapi";
 import { useTenantId } from "./useAuth";
 export const useWorkflowRunShape = (runId: string) => {
   const tid = useTenantId();
-  const shape = useQuery({
+  const shape = useSuspenseQuery({
     ...workflowRunGetShapeOptions({
       path:{
         tenant: tid,

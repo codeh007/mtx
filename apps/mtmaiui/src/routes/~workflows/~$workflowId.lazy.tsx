@@ -309,13 +309,13 @@ interface RecentRunsListProps {
 }
 function RecentRunsList({ workflowId, tenant }: RecentRunsListProps) {
   return (
-    <>
+    <MtSuspenseBoundary>
       <WorkflowRunsTable
         tenant={tenant}
         workflowId={workflowId}
         initColumnVisibility={{ Workflow: false }}
         filterVisibility={{ Workflow: false }}
       />
-    </>
+    </MtSuspenseBoundary>
   );
 }

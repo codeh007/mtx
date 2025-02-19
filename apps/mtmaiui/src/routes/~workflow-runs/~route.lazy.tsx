@@ -1,6 +1,5 @@
 "use client";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
-import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { SkeletonListview } from "mtxuilib/components/skeletons/SkeletonListView";
 import {
   Breadcrumb,
@@ -13,8 +12,8 @@ import { SidebarInset, SidebarTrigger } from "mtxuilib/ui/sidebar";
 import { Suspense } from "react";
 import { DashSidebar } from "../../components/sidebar/siderbar";
 import { useTenant } from "../../hooks/useAuth";
-import { useBasePath } from "../../hooks/useBasePath";
 import { RootAppWrapper } from "../components/RootAppWrapper";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 export const Route = createLazyFileRoute("/workflow-runs")({
   component: RouteComponent,
 });
@@ -41,9 +40,9 @@ function RouteComponent() {
         </header>
         <div className="flex flex-1 flex-col">
           <Suspense fallback={<SkeletonListview />}>
-            <MtErrorBoundary>              
+            <MtSuspenseBoundary>              
               <Outlet />
-            </MtErrorBoundary>
+            </MtSuspenseBoundary>
           </Suspense>
         </div>
       </SidebarInset>
