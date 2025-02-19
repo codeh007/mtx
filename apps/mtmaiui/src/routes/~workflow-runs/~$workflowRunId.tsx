@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { CodeHighlighter } from "mtxuilib/mt/code-highlighter";
 import {
   MtTabs,
@@ -23,6 +22,7 @@ import { StepRunEvents } from "./components/step-run-events-for-workflow-run";
 import { ViewToggle, hasChildSteps } from "./components/view-toggle";
 import { WorkflowRunInputDialog } from "./components/workflow-run-input";
 import WorkflowRunVisualizer from "./components/workflow-run-visualizer-v2";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 
 export const Route = createFileRoute("/workflow-runs/$workflowRunId")({
   component: RouteComponent,
@@ -123,17 +123,19 @@ function RouteComponent() {
               />
             )}
           </MtTabsContent>
-          <MtTabsContent value="input">
-            <MtErrorBoundary>
+          <MtTabsContent value="input">            
+            <MtSuspenseBoundary>
               {shape.data && <WorkflowRunInputDialog run={shape.data} />}
-            </MtErrorBoundary>
+            </MtSuspenseBoundary>
           </MtTabsContent>
           <MtTabsContent value="additional-metadata">
+          <MtSuspenseBoundary>
             <CodeHighlighter
               className="my-4"
               language="json"
               code={JSON.stringify(shape.data?.additionalMetadata, null, 2)}
-            />
+              />
+            </MtSuspenseBoundary>
           </MtTabsContent>
           <MtTabsContent value="control">
             <div className="h-4" />

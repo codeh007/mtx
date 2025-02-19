@@ -9,16 +9,15 @@ import {
   XCircleIcon,
 } from "@heroicons/react/24/outline";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { formatDuration } from "date-fns";
 import { Link } from "lucide-react";
-import { WorkflowRunStatus } from "mtmaiapi";
+import { eventGetOptions, workflowRunCancelMutation, workflowRunGetOptions, WorkflowRunStatus, workflowRunUpdateReplayMutation } from "mtmaiapi";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
-import { useTenant } from "../../../hooks/useAuth";
+import { useTenant, useTenantId } from "../../../hooks/useAuth";
 import { useBasePath } from "../../../hooks/useBasePath";
-import { useMtmClient } from "../../../hooks/useMtmapi";
 import type { WorkflowRunShape } from "../../../types/hatchet-types";
 
 interface RunDetailHeaderProps {
@@ -41,38 +40,14 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
   const tenant = useTenant();
 
   const { toast } = useToast();
-  const mtmapi = useMtmClient();
+  const tid = useTenantId();
 
-  const cancelWorkflowRunMutation = mtmapi.useMutation(
-    "post",
-    "/api/v1/tenants/{tenant}/workflows/cancel",
-    {
-      onMutate: () => {
-        toast({
-          title: "Cancelling workflow run...",
-          duration: 3000,
-        });
-      },
-      onError: handleApiError,
-    },
-  );
-
-  const replayWorkflowRunsMutation = mtmapi.useMutation(
-    "post",
-    "/api/v1/tenants/{tenant}/workflow-runs/replay",
-    {
-      onMutate: () => {
-        toast({
-          title: "Replaying workflow run...",
-          duration: 3000,
-        });
-      },
-      onSuccess: () => {
-        refetch();
-      },
-      onError: handleApiError,
-    },
-  );
+  const cancelWorkflowRunMutation = useMutation({
+    ...workflowRunCancelMutation()
+  });
+  const replayWorkflowRunsMutation = useMutation({
+    ...workflowRunUpdateReplayMutation()
+  });
 
   if (loading || !data) {
     return <div>Loading...</div>;
@@ -106,11 +81,10 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
               disabled={!WORKFLOW_RUN_TERMINAL_STATUSES.includes(data.status)}
               onClick={() => {
                 replayWorkflowRunsMutation.mutate({
-                  params: {
-                    path: {
+                  path: {
                       tenant: tenant!.metadata.id,
                     },
-                  },
+                  
                   body: {
                     workflowRunIds: [data.metadata.id],
                   },
@@ -126,13 +100,11 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
               variant={"outline"}
               disabled={WORKFLOW_RUN_TERMINAL_STATUSES.includes(data.status)}
               onClick={() => {
-                cancelWorkflowRunMutation.mutate({
-                  params: {
-                    path: {
-                      tenant: tenant!.metadata.id,
-                    },
+                cancelWorkflowRunMutation.mutate({                  
+                  path: {
+                    tenant: tid,
                   },
-                  body: {
+                  body:{
                     workflowRunIds: [data.metadata.id],
                   },
                 });
@@ -260,8 +232,20 @@ function TriggeringParentWorkflowRunSection({
 }) {
   const basePath = useBasePath();
   // get the parent workflow run id
+  // const workflowRunQuery = useQuery({
+  //   ...queries.workflowRuns.get(tenantId, parentWorkflowRunId),
+  // });
+  // const tid = useTenantId();
   const workflowRunQuery = useQuery({
-    ...queries.workflowRuns.get(tenantId, parentWorkflowRunId),
+    ...workflowRunGetOptions({
+      path: {
+        tenant: tenantId,
+        "workflow-run": parentWorkflowRunId,
+      },
+      // body: {
+      //   workflowRunIds: [parentWorkflowRunId],
+      // },
+    }),
   });
 
   if (workflowRunQuery.isLoading || !workflowRunQuery.data) {
@@ -285,8 +269,15 @@ function TriggeringParentWorkflowRunSection({
 
 function TriggeringEventSection({ eventId }: { eventId: string }) {
   // get the parent workflow run id
+  // const eventData = useQuery({
+  //   ...queries.events.get(eventId),
+  // });
   const eventData = useQuery({
-    ...queries.events.get(eventId),
+    ...eventGetOptions({
+      path: {
+        event: eventId,
+      },
+    }),
   });
 
   if (eventData.isLoading || !eventData.data) {

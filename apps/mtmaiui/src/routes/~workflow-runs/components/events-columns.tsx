@@ -8,34 +8,32 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 
 import {
+  type ApiResourceMeta,
   type Step,
   type StepRun,
   type StepRunEvent,
   StepRunEventReason,
   type StepRunEventSeverity,
 } from "mtmaiapi";
-import type { APIResourceMeta } from "mtmaiapi/api/generated/cloud/data-contracts";
 import { DataTableColumnHeader } from "mtxuilib/data-table/data-table-column-header";
 import { cn } from "mtxuilib/lib/utils";
 import { Badge } from "mtxuilib/ui/badge";
 import { Button } from "mtxuilib/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "mtxuilib/ui/popover";
-import Link from "next/link";
 import { type JSX, useMemo, useRef, useState } from "react";
 import invariant from "tiny-invariant";
-import { useTenant } from "../../../hooks/useAuth";
-import { useBasePath } from "../../../hooks/useBasePath";
 import { useMtmClient } from "../../../hooks/useMtmapi";
 import StepRunError from "./step-run-detail/step-run-error";
+import { CustomLink } from "../../../components/CustomLink";
 
 export type ActivityEventData = {
-  metadata: APIResourceMeta;
+  metadata: ApiResourceMeta
   event: StepRunEvent;
   stepRun?: StepRun;
   step?: Step;
 };
 
-export const columns = ({
+export const eventsColumns = ({
   onRowClick,
   allEvents,
 }: {
@@ -43,12 +41,11 @@ export const columns = ({
   allEvents: ActivityEventData[];
 }): ColumnDef<ActivityEventData>[] => {
   const res: ColumnDef<ActivityEventData>[] = [];
-  const basePath = useBasePath();
   if (onRowClick) {
     res.push({
       accessorKey: "resource",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Task" />
+        <DataTableColumnHeader column={column} title="任务" />
       ),
       cell: ({ row }) => {
         if (!row.original.stepRun) {
@@ -77,7 +74,7 @@ export const columns = ({
     {
       accessorKey: "createdAt",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Seen at" />
+        <DataTableColumnHeader column={column} title="始于" />
       ),
       cell: ({ row }) => (
         <div className="w-fit min-w-[120px]">
@@ -90,7 +87,7 @@ export const columns = ({
     {
       accessorKey: "event",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Event" />
+        <DataTableColumnHeader column={column} title="事件" />
       ),
       cell: ({ row }) => {
         const event = row.original;
@@ -109,7 +106,7 @@ export const columns = ({
     {
       accessorKey: "description",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Description" />
+        <DataTableColumnHeader column={column} title="时长" />
       ),
       cell: ({ row }) => {
         const items: JSX.Element[] = [];
@@ -122,12 +119,11 @@ export const columns = ({
         }
 
         if (event.data) {
-          // biome-ignore lint/suspicious/noExplicitAny: <explanation>
           const data = event.data as any;
 
           if (data.worker_id) {
             items.push(
-              <Link href={`${basePath}/workers/${data.worker_id}`}>
+              <CustomLink to={`/workers/${data.worker_id}`}>
                 <Button
                   variant="link"
                   size="xs"
@@ -136,7 +132,7 @@ export const columns = ({
                   <ServerStackIcon className="w-4 h-4 mr-1" />
                   View Worker
                 </Button>
-              </Link>,
+              </CustomLink>,
             );
           }
         }
@@ -209,8 +205,6 @@ function ErrorWithHoverCard({
   event: ActivityEventData;
   rows: ActivityEventData[];
 }) {
-  const tenant = useTenant();
-
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   // containerRef needed due to https://github.com/radix-ui/primitives/issues/1159#issuecomment-2105108943

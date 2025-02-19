@@ -70,18 +70,6 @@ export interface WorkflowRunsTableProps {
   showMetrics?: boolean;
 }
 
-// export const getCreatedAfterFromTimeRange = (timeRange?: string) => {
-//   switch (timeRange) {
-//     case "1h":
-//       return new Date(Date.now() - 60 * 60 * 1000).toISOString();
-//     case "6h":
-//       return new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString();
-//     case "1d":
-//       return new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
-//     case "7d":
-//       return new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-//   }
-// };
 
 export function WorkflowRunsTable({
   tenant,
@@ -280,15 +268,15 @@ export function WorkflowRunsTable({
 
     switch (sorting[0]?.id) {
       case "Duration":
-        return WorkflowRunOrderByField.Duration;
+        return WorkflowRunOrderByField.DURATION;
       case "Finished at":
-        return WorkflowRunOrderByField.FinishedAt;
+        return WorkflowRunOrderByField.FINISHED_AT;
       case "Started at":
-        return WorkflowRunOrderByField.StartedAt;
+        return WorkflowRunOrderByField.STARTED_AT;
       case "Seen at":
-        return WorkflowRunOrderByField.CreatedAt;
+        return WorkflowRunOrderByField.CREATED_AT;
       default:
-        return WorkflowRunOrderByField.CreatedAt;
+        return WorkflowRunOrderByField.CREATED_AT;
     }
   }, [sorting]);
   const listWorkflowRunsQuery = mtmapi.useQuery(
@@ -383,8 +371,8 @@ export function WorkflowRunsTable({
       const tenantId = tenant.metadata.id;
       const workflowRunIds = selectedRuns.map((wr) => wr.metadata.id);
 
-      invariant(tenantId, "has tenantId");
-      invariant(workflowRunIds, "has runIds");
+      // invariant(tenantId, "has tenantId");
+      // invariant(workflowRunIds, "has runIds");
 
       // const res = await api.workflowRunCancel(tenantId, {
       //   workflowRunIds,
@@ -490,7 +478,7 @@ export function WorkflowRunsTable({
       aria-label="Cancel Selected Runs"
     >
       <XMarkIcon className={"mr-2 h-4 w-4 transition-transform"} />
-      Cancel
+      取消
     </Button>,
     <Button
       disabled={!Object.values(rowSelection).some((selected) => !!selected)}
@@ -506,7 +494,7 @@ export function WorkflowRunsTable({
       aria-label="Replay Selected Runs"
     >
       <ArrowPathRoundedSquareIcon className="mr-2 h-4 w-4 transition-transform" />
-      Replay
+      重试
     </Button>,
     <Button
       key="refresh"
@@ -595,7 +583,7 @@ export function WorkflowRunsTable({
               className="text-xs h-9 py-2"
             >
               <XCircleIcon className="h-[18px] w-[18px] mr-2" />
-              Clear
+              清除
             </Button>,
             <DateTimePicker
               key="after"

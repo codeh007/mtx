@@ -13,10 +13,6 @@ export function WorkflowRunInputDialog({ run }: { run: WorkflowRun }) {
     }),
   });
 
-  // if (getInputQuery.isLoading) {
-  //   return <MtLoading />;
-  // }
-
   if (!getInputQuery.data) {
     return null;
   }

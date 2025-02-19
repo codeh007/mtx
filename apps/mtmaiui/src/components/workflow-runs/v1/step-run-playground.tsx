@@ -151,7 +151,7 @@ export function StepRunPlayground({
       setStepRun(stepRun);
       getStepRunQuery.refetch();
     },
-    onError: handleApiError,
+    // onError: handleApiError,
   });
 
   const cancelStepMutation = useMutation({

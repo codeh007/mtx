@@ -47,7 +47,6 @@ export const workflowRunsColumns: (
       <DataTableColumnHeader column={column} title="Run Id" />
     ),
     cell: ({ row }) => {
-      // const basePath = useBasePath();
       return (
         <CustomLink to={`/workflow-runs/${row.original.metadata.id}`}>
           <div className="cursor-pointer hover:underline min-w-fit whitespace-nowrap">
@@ -62,7 +61,7 @@ export const workflowRunsColumns: (
   {
     accessorKey: "status",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
+      <DataTableColumnHeader column={column} title="状态" />
     ),
     cell: ({ row }) => <RunStatus status={row.original.status} />,
     enableSorting: false,
@@ -133,7 +132,7 @@ export const workflowRunsColumns: (
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="Started at"
+        title="开始于"
         className="whitespace-nowrap"
       />
     ),
@@ -156,7 +155,7 @@ export const workflowRunsColumns: (
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="Finished at"
+        title="完成于"
         className="whitespace-nowrap"
       />
     ),
@@ -177,7 +176,7 @@ export const workflowRunsColumns: (
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="Duration (ms)"
+        title="时长(ms)"
         className="whitespace-nowrap"
       />
     ),

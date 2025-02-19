@@ -4,12 +4,13 @@ import {
   type Step,
   type StepRun,
   type WorkflowRunShape,
+  WorkflowRunStatus,
   workflowRunListStepRunEventsOptions,
 } from "mtmaiapi";
 import { DataTable } from "mtxuilib/data-table/data-table";
 import { useMemo } from "react";
 import { useTenantId } from "../../../hooks/useAuth";
-import { type ActivityEventData, columns } from "./events-columns";
+import { type ActivityEventData, eventsColumns } from "./events-columns";
 
 export function StepRunEvents({
   workflowRun,
@@ -20,27 +21,6 @@ export function StepRunEvents({
   filteredStepRunId?: string;
   onClick?: (stepRunId?: string) => void;
 }) {
-  // const mtmapi = useMtmClient();
-  // const eventsQuery = mtmapi.useQuery(
-  //   "get",
-  //   "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/step-run-events",
-  //   {
-  //     params: {
-  //       path: {
-  //         tenant: workflowRun.tenantId,
-  //         "workflow-run": workflowRun.metadata.id,
-  //       },
-  //     },
-  //   },
-  //   {
-  //     refetchInterval: () => {
-  //       if (workflowRun.status === WorkflowRunStatus.RUNNING) {
-  //         return 1000;
-  //       }
-  //       return 5000;
-  //     },
-  //   },
-  // );
   const tid = useTenantId();
   const eventsQuery = useQuery({
     ...workflowRunListStepRunEventsOptions({
@@ -49,6 +29,12 @@ export function StepRunEvents({
         "workflow-run": workflowRun.metadata.id,
       },
     }),
+    refetchInterval: () => {
+      if (workflowRun.status === WorkflowRunStatus.RUNNING) {
+        return 1000;
+      }
+      return 5000;
+    },
   });
 
   const filteredEvents = useMemo(() => {
@@ -127,7 +113,7 @@ export function StepRunEvents({
       };
     }) || [];
 
-  const cols = columns({
+  const cols = eventsColumns({
     onRowClick: onClick
       ? (row) => onClick(row.stepRun?.metadata.id)
       : undefined,
@@ -135,6 +121,8 @@ export function StepRunEvents({
   });
 
   return (
+    <>
+    events table
     <DataTable
       emptyState={<>No events found.</>}
       isLoading={eventsQuery.isLoading}
@@ -142,5 +130,6 @@ export function StepRunEvents({
       filters={[]}
       data={tableData}
     />
+    </>
   );
 }

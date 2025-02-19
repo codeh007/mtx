@@ -20,7 +20,6 @@ export const Route = createLazyFileRoute("/workflow-runs")({
 });
 
 function RouteComponent() {
-  const basePath = useBasePath();
   const tenant = useTenant();
   if (!tenant) {
     return <div>require tenant</div>;
@@ -42,15 +41,7 @@ function RouteComponent() {
         </header>
         <div className="flex flex-1 flex-col">
           <Suspense fallback={<SkeletonListview />}>
-            <MtErrorBoundary>
-              {/* <div>
-                <CustomLink to={`${basePath}/create/oneshot`}>
-                  <Button>
-                    <PlusIcon className="size-4" />
-                    oneshot
-                  </Button>
-                </CustomLink>
-              </div> */}
+            <MtErrorBoundary>              
               <Outlet />
             </MtErrorBoundary>
           </Suspense>

@@ -60,22 +60,22 @@ export const Subscription: React.FC<SubscriptionProps> = ({
     mutationFn: async ({ plan_code }: { plan_code: string }) => {
       const [plan, period] = plan_code.split(":");
       setLoading(plan_code);
-      await cloudApi.subscriptionUpsert(tenant.metadata.id, { plan, period });
+      // await cloudApi.subscriptionUpsert(tenant.metadata.id, { plan, period });
     },
     onSuccess: async () => {
-      await Promise.all([
-        queryClient.invalidateQueries({
-          queryKey: queries.tenantResourcePolicy.get(tenant.metadata.id)
-            .queryKey,
-        }),
-        queryClient.invalidateQueries({
-          queryKey: queries.cloud.billing(tenant.metadata.id).queryKey,
-        }),
-      ]);
+      // await Promise.all([
+      //   queryClient.invalidateQueries({
+      //     queryKey: queries.tenantResourcePolicy.get(tenant.metadata.id)
+      //       .queryKey,
+      //   }),
+      //   queryClient.invalidateQueries({
+      //     queryKey: queries.cloud.billing(tenant.metadata.id).queryKey,
+      //   }),
+      // ]);
 
       setLoading(undefined);
     },
-    onError: handleApiError,
+    // onError: handleApiError,
   });
 
   const activePlanCode = useMemo(
