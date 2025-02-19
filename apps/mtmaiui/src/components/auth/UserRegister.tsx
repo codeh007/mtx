@@ -1,22 +1,26 @@
 "use client";
+import { useMutation } from "@tanstack/react-query";
+import { userCreateMutation, UserRegisterRequest } from "mtmaiapi";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";
 import { Input } from "mtxuilib/ui/input";
 import Link from "next/link";
 import { z } from "zod";
-import { useMtmClient } from "../../hooks/useMtmapi";
 export function UserRegisterScreen() {
-  const mtmai = useMtmClient();
+  const register = useMutation({
+    ...userCreateMutation()
+  });
 
-  const register = mtmai.useMutation("post", "/api/v1/users/register");
   const form = useZodForm({
     schema: z.any(),
     defaultValues: {},
   });
 
-  const handleSubmit = (values) => {
+  const handleSubmit = (values:UserRegisterRequest) => {
     register.mutate({
-      body: values,
+      body: {
+        ...values
+      },
     });
   };
   return (

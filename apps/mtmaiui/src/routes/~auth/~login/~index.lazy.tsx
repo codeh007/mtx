@@ -1,13 +1,11 @@
 "use client";
 import { Link, createLazyFileRoute } from "@tanstack/react-router";
 import { Icons } from "mtxuilib/icons/icons";
-import { MtLoading } from "mtxuilib/mt/mtloading";
 import { Button } from "mtxuilib/ui/button";
 import { Fragment } from "react";
 import { CustomLink } from "../../../components/CustomLink";
 import { UserLoginForm } from "../../../components/auth/user-login-form";
 import { useLoginHandler } from "../../../hooks/useAuth";
-import { useGomtmnBackendUrl } from "../../../hooks/useMtmapi";
 
 export const Route = createLazyFileRoute("/auth/login/")({
 	component: RouteComponent,
@@ -136,10 +134,9 @@ function BasicLogin() {
 }
 
 export function GoogleLogin() {
-	const backendUrl = useGomtmnBackendUrl();
 
 	return (
-		<a href={`${backendUrl}/api/v1/users/google/start`} className="w-full">
+		<a href={"/api/v1/users/google/start"} className="w-full">
 			<Button variant="outline" type="button" className="w-full py-2">
 				<Icons.google className="mr-2 h-4 w-4" />
 				Google
@@ -149,11 +146,10 @@ export function GoogleLogin() {
 }
 
 export function GithubLogin() {
-	const backendUrl = useGomtmnBackendUrl();
 	const origin = window.location.origin;
 	return (
 		<a
-			href={`${backendUrl}/api/v1/users/github/start?origin=${origin}`}
+			href={`/api/v1/users/github/start?origin=${origin}`}
 			className="w-full"
 		>
 			<Button variant="outline" type="button" className="w-full py-2">

@@ -4,31 +4,46 @@ import { useCallback, useState } from "react";
 import type { WorkflowRun } from "../types/hatchet-types";
 import { useTenant } from "./useAuth";
 import { useBasePath } from "./useBasePath";
-import { useMtmClient } from "./useMtmapi";
 import { useMtRouter } from "mtxuilib/hooks/use-router";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { FlowNames, workflowGetByNameOptions } from "mtmaiapi";
 
 export const useWorkflow = (name: string) => {
-  const mtmapi = useMtmClient();
+  // const mtmapi = useMtmClient();
   const tenant = useTenant();
   const router = useMtRouter();
   const basePath = useBasePath();
-  const [errors, setErrors] = useState<string[]>([]);
+  // const [errors, setErrors] = useState<string[]>([]);
   const [currentWorkflowRun, setCurrentWorkflowRun] =
     useState<WorkflowRun | null>(null);
-  const currentWorkflow = mtmapi.useSuspenseQuery(
-    "get",
-    "/api/v1/tenants/{tenant}/workflows/byName/{name}",
-    {
-      params: {
-        path: {
-          name: name,
-          tenant: tenant.metadata.id,
-        },
-      },
+  // const currentWorkflow = useSuspenseQuery(
+  //   "get",
+  //   "/api/v1/tenants/{tenant}/workflows/byName/{name}",
+  //   {
+  //     params: {
+  //       path: {
+  //         name: name,
+  //         tenant: tenant.metadata.id,
+  //       },
+  //     },
+  //   },
+  // );
+  const tid = useTenantId();
+  const currentWorkflow = useSuspenseQuery(
+   {
+        ...workflowGetByNameOptions(
+          {
+            path: {
+              name: name as FlowNames,
+              tenant: tid,
+            },
+          }
+        )
     },
   );
+  
 
-  const triggerMutation = mtmapi.useMutation(
+  const triggerMutation = useMutation(
     "post",
     "/api/v1/workflows/{workflow}/trigger",
     {
@@ -38,13 +53,12 @@ export const useWorkflow = (name: string) => {
       },
       // onError: handleApiError,
       onMutate: () => {
-        setErrors([]);
+        // setErrors([]);
       },
     },
   );
 
   const trigger = useCallback(
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     (input: Record<string, any>, additionalMetadata?: Record<string, any>) => {
       triggerMutation.mutate({
         params: {

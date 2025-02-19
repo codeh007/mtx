@@ -16,7 +16,6 @@ import { DiffView } from "../../../components/aichatbot/diffview";
 import { Editor } from "../../../components/aichatbot/editor";
 import { AssistantLoader } from "../../../components/chat/AssistantLoader";
 import { useTenant } from "../../../hooks/useAuth";
-import { useMtmClient } from "../../../hooks/useMtmapi";
 import { useWorkbrenchStore } from "../../../stores/workbrench.store";
 
 const doc1 = `

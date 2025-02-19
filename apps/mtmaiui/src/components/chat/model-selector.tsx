@@ -6,7 +6,7 @@ import {
   CheckCirclFillIcon,
   ChevronDownIcon,
 } from "mtxuilib/icons/aichatbot.icons";
-import { models } from "../../lib/llm/ai/models";
+// import { models } from "../../lib/llm/ai/models";
 import { cn } from "mtxuilib/lib/utils";
 import { Button } from "mtxuilib/ui/button";
 import {
@@ -15,7 +15,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "mtxuilib/ui/dropdown-menu";
-import { useMtmClient } from "../../hooks/useMtmapi";
 import { useTenant } from "../../hooks/useAuth";
 
 export function ModelSelector({
@@ -32,17 +31,17 @@ export function ModelSelector({
 
   const mtmapi = useMtmClient();
 
-  const modelsQuery = mtmapi.useSuspenseQuery(
-    "get",
-    "/api/v1/tenants/{tenant}/chat/models",
-    {
-      params: {
-        path: {
-          tenant: tenant.metadata.id,
-        },
-      },
-    },
-  );
+  // const modelsQuery = mtmapi.useSuspenseQuery(
+  //   "get",
+  //   "/api/v1/tenants/{tenant}/chat/models",
+  //   {
+  //     params: {
+  //       path: {
+  //         tenant: tenant.metadata.id,
+  //       },
+  //     },
+  //   },
+  // );
   const selectModel = useMemo(
     () => models.find((model) => model.id === optimisticModelId),
     [optimisticModelId],

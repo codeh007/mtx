@@ -17,7 +17,6 @@ import { CodeHighlighter } from "mtxuilib/mt/code-highlighter";
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { DataPoint, ZoomableChart } from "mtxuilib/components/zoomable";
 
 import {
   type ReplayWorkflowRunsRequest,
@@ -26,6 +25,9 @@ import {
   WorkflowRunStatus,
   type Tenant,
   workflowRunGetMetricsOptions,
+  tenantGetStepRunQueueMetricsOptions,
+  workflowListOptions,
+  workflowRunListOptions,
 } from "mtmaiapi";
 import { DateTimePicker } from "mtxuilib/components/time-picker/date-time-picker";
 import { DataTable } from "mtxuilib/data-table/data-table";
@@ -52,7 +54,6 @@ import {
 } from "mtxuilib/ui/select";
 import { Separator } from "mtxuilib/ui/separator";
 import { Skeleton } from "mtxuilib/ui/skeleton";
-import { useMtmClient } from "../../../hooks/useMtmapi";
 import { useMtmaiV2 } from "../../../stores/StoreProvider";
 import type { AdditionalMetadataClick } from "../../~events/additional-metadata";
 import { workflowRunsColumns } from "./workflow-runs-columns";
@@ -85,7 +86,6 @@ export function WorkflowRunsTable({
 }: WorkflowRunsTableProps) {
   const searchParams = useSearchParams();
   const router = useMtRouter();
-  const mtmapi = useMtmClient();
 
   const [viewQueueMetrics, setViewQueueMetrics] = useState(false);
 
@@ -280,13 +280,39 @@ export function WorkflowRunsTable({
         return WorkflowRunOrderByField.CREATED_AT;
     }
   }, [sorting]);
-  const listWorkflowRunsQuery = mtmapi.useQuery(
-    "get",
-    "/api/v1/tenants/{tenant}/workflows/runs",
-    {
-      params: {
-        path: {
-          tenant: tenant.metadata.id,
+  // const listWorkflowRunsQuery = mtmapi.useQuery(
+  //   "get",
+  //   "/api/v1/tenants/{tenant}/workflows/runs",
+  //   {
+  //     params: {
+  //       path: {
+  //         tenant: tenant.metadata.id,
+  //       },
+  //       query: {
+  //         offset,
+  //         limit: pageSize,
+  //         statuses,
+  //         workflowId: workflow,
+  //         parentWorkflowRunId,
+  //         parentStepRunId,
+  //         orderByDirection,
+  //         orderByField,
+  //         additionalMetadata: AdditionalMetadataFilter,
+  //         createdAfter,
+  //         finishedBefore,
+  //       },
+  //     },
+  //   },
+  //   {
+  //     placeholderData: (prev) => prev,
+  //     refetchInterval,
+  //   },
+  // );
+
+  const listWorkflowRunsQuery = useQuery({
+    ...workflowRunListOptions({
+      path: {
+        tenant: tenant.metadata.id,
         },
         query: {
           offset,
@@ -301,60 +327,99 @@ export function WorkflowRunsTable({
           createdAfter,
           finishedBefore,
         },
-      },
-    },
-    {
-      placeholderData: (prev) => prev,
+      
+    }),
+    placeholderData: (prev) => prev,
       refetchInterval,
-    },
-  );
+  });
 
-  const metricsQuery = mtmapi.useQuery(
-    "get",
-    "/api/v1/tenants/{tenant}/workflows/runs/metrics",
-    {
-      params: {
-        path: {
-          tenant: tenant!.metadata.id,
-        },
-        query: {
-          workflowId: workflow,
-          parentWorkflowRunId,
+  // const metricsQuery = mtmapi.useQuery(
+  //   "get",
+  //   "/api/v1/tenants/{tenant}/workflows/runs/metrics",
+  //   {
+  //     params: {
+  //       path: {
+  //         tenant: tenant!.metadata.id,
+  //       },
+  //       query: {
+  //         workflowId: workflow,
+  //         parentWorkflowRunId,
+  //         parentStepRunId,
+  //         additionalMetadata: AdditionalMetadataFilter,
+  //         createdAfter,
+  //       },
+  //     },
+  //   },
+  //   {
+  //     placeholderData: (prev) => prev,
+  //     refetchInterval,
+  //   },
+  // );
+
+  const metricsQuery = useQuery({
+    ...workflowRunGetMetricsOptions({
+      path:{
+        tenant: tenant!.metadata.id,
+      },query:{
+        workflowId: workflow,
+        parentWorkflowRunId,
           parentStepRunId,
           additionalMetadata: AdditionalMetadataFilter,
           createdAfter,
-        },
-      },
-    },
-    {
-      placeholderData: (prev) => prev,
-      refetchInterval,
-    },
-  );
-  const tenantMetricsQuery = mtmapi.useQuery(
-    "get",
-    "/api/v1/tenants/{tenant}/step-run-queue-metrics",
-    {
-      params: {
-        path: {
-          tenant: tenant!.metadata.id,
-        },
-      },
-    },
-    {
-      refetchInterval,
-    },
-  );
+      }
+    }),
+    refetchInterval,
+    placeholderData: (prev) => prev,
+  });
+
+
+  // const tenantMetricsQuery = mtmapi.useQuery(
+  //   "get",
+  //   "/api/v1/tenants/{tenant}/step-run-queue-metrics",
+  //   {
+  //     params: {
+  //       path: {
+  //         tenant: tenant!.metadata.id,
+  //       },
+  //     },
+  //   },
+  //   {
+  //     refetchInterval,
+  //   },
+  // );
+
+  const tenantMetricsQuery = useQuery({
+    ...tenantGetStepRunQueueMetricsOptions({
+      path:{
+        tenant: tenant!.metadata.id,
+      }
+    }),
+    refetchInterval,
+    placeholderData: (prev) => prev,
+  });
+
+
+  // const {
+  //   data: workflowKeys,
+  //   isLoading: workflowKeysIsLoading,
+  //   error: workflowKeysError,
+  // } = mtmapi.useQuery("get", "/api/v1/tenants/{tenant}/workflows", {
+  //   params: {
+  //     path: {
+  //       tenant: tenant!.metadata.id,
+  //     },
+  //   },
+  // });
   const {
     data: workflowKeys,
     isLoading: workflowKeysIsLoading,
     error: workflowKeysError,
-  } = mtmapi.useQuery("get", "/api/v1/tenants/{tenant}/workflows", {
-    params: {
+  } = useQuery({
+    ...workflowListOptions({
       path: {
         tenant: tenant!.metadata.id,
       },
-    },
+    }),
   });
 
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -631,17 +696,6 @@ export function WorkflowRunsTable({
           </Select>
         </div>
       )}
-      {showMetrics && (
-        <GetWorkflowChart
-          tenantId={tenant.metadata.id}
-          createdAfter={createdAfter}
-          zoom={(createdAfter, createdBefore) => {
-            setCustomTimeRange([createdAfter, createdBefore]);
-          }}
-          finishedBefore={finishedBefore}
-          refetchInterval={refetchInterval}
-        />
-      )}
       <div className="flex flex-row justify-between items-center my-4">
         {metricsQuery.data ? (
           <WorkflowRunsMetricsView
@@ -706,103 +760,3 @@ export function WorkflowRunsTable({
     </>
   );
 }
-
-const GetWorkflowChart = ({
-  tenantId,
-  createdAfter,
-  finishedBefore,
-  refetchInterval,
-  zoom,
-}: {
-  tenantId: string;
-  createdAfter?: string;
-  finishedBefore?: string;
-  refetchInterval?: number;
-  zoom: (startTime: string, endTime: string) => void;
-}) => {
-  // const mtmapi = useMtmClient();
-  // const workflowRunEventsMetricsQuery = useQuery({
-  //   ...queries.cloud.workflowRunMetrics(tenantId, {
-  //     createdAfter,
-  //     finishedBefore,
-  //   }),
-  //   placeholderData: (prev) => prev,
-  //   refetchInterval,
-  // });
-
-  const workflowRunEventsMetricsQuery = useQuery({
-    ...workflowRunGetMetricsOptions({
-      path: {
-        tenant: tenantId,
-      },
-      query: {
-        createdAfter,
-        createdBefore: finishedBefore,
-      },
-    }),
-  })
-
-  // const workflowRunEventsMetricsQuery = mtmapi.useQuery(
-  //   "get",
-  //   "/api/v1/cloud/tenants/{tenant}/m",
-  //   {},
-  //   {
-  //     placeholderData: (prev) => prev,
-  //     refetchInterval,
-  //   },
-  // );
-  // const workflowRunEventsMetricsQuery = useSuspenseQuery({
-  //   ...workflowRunGetMetricsOptions({
-  //     path: {
-  //       tenant: tenantId,
-  //     },
-  //     query: {
-  //       createdAfter,
-  //       createdBefore: finishedBefore,
-  //     },
-  //   }),
-  // });
-
-  // const workflowRunEventsMetricsQuery = useSuspenseQuery({
-  //   ...workflowGetMetricsOptions({
-  //     path: {
-  //       workflow: tenantId,
-  //     },
-  //     query: {
-  //       // createdAfter,
-  //       // finishedBefore,
-  //     },
-  //   }),
-  //   // placeholderData: (prev) => prev,
-  //   refetchInterval,
-  // });
-
-  // /api/v1/cloud/tenants/${tenant}/runs-metrics
-  // if (workflowRunEventsMetricsQuery.isLoading) {
-  //   return <Skeleton className="w-full h-36" />;
-  // }
-
-  return (
-    <div className="">
-      TODO: ZoomableChart
-      {/* <ZoomableChart
-        kind="bar"
-        data={
-          workflowRunEventsMetricsQuery.data?.?.map(
-            (result): DataPoint<"SUCCEEDED" | "FAILED"> => ({
-              date: result.time,
-              SUCCEEDED: result.SUCCEEDED,
-              FAILED: result.FAILED,
-            }),
-          ) || []
-        }
-        colors={{
-          SUCCEEDED: "rgb(34 197 94 / 0.5)",
-          FAILED: "hsl(var(--destructive))",
-        }}
-        zoom={zoom}
-        showYAxis={false}
-      /> */}
-    </div>
-  );
-};

@@ -12,19 +12,24 @@ import {
 import { Input } from "mtxuilib/ui/input";
 import { z } from "zod";
 import { useTenant } from "../../hooks/useAuth";
-import { useMtmClient } from "../../hooks/useMtmapi";
 
 export const AgentNodeEditView = ({ id }: { id: string }) => {
-  const mtmapi = useMtmClient();
+  // const mtmapi = useMtmClient();
   const tenant = useTenant();
 
-  const agentNodeGetQuery = mtmapi.useSuspenseQuery(
-    "get",
-    "/api/v1/tenants/{tenant}/nodes/{node}",
-    {
-      params: { path: { tenant: tenant!.metadata.id, node: id } },
-    },
-  );
+  // const agentNodeGetQuery = mtmapi.useSuspenseQuery(
+  //   "get",
+  //   "/api/v1/tenants/{tenant}/nodes/{node}",
+  //   {
+  //     params: { path: { tenant: tenant!.metadata.id, node: id } },
+  //   },
+  // );
+
+  // const agentNodeGetQuery = useSuspenseQuery(
+  //   ...nodeopts
+  // );
+
+  const tid = useTenantId();
 
   const form = useZodForm({
     schema: z.object({
@@ -40,21 +45,25 @@ export const AgentNodeEditView = ({ id }: { id: string }) => {
   //   "post",
   //   "/api/v1/tenants/{tenant}/nodes",
   // );
-  const updateAgentNodeMutation = mtmapi.useMutation(
-    "patch",
-    "/api/v1/tenants/{tenant}/nodes/{node}",
-  );
-  const handleFormSubmit = (values) => {
-    updateAgentNodeMutation.mutate({
-      params: {
-        path: {
-          tenant: tenant.metadata.id,
-          node: id,
-        },
-      },
-      body: values,
-    });
-  };
+  // const updateAgentNodeMutation = useMutation(
+  //   "patch",
+  //   "/api/v1/tenants/{tenant}/nodes/{node}",
+  // );
+
+  // const updateAgentNodeMutation = useMutation({
+  //   ...nodemut
+  // });
+  // const handleFormSubmit = (values) => {
+  //   updateAgentNodeMutation.mutate({
+  //     params: {
+  //       path: {
+  //         tenant: tenant.metadata.id,
+  //         node: id,
+  //       },
+  //     },
+  //     body: values,
+  //   });
+  // };
   return (
     <>
       <ZForm

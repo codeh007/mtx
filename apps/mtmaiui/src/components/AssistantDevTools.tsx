@@ -7,7 +7,6 @@ import { ReactQueryDevtoolsProduction } from "mtxuilib/components/devtools/DevTo
 import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useTenant } from "../hooks/useAuth";
-import { useMtmClient } from "../hooks/useMtmapi";
 import { useWorkbrenchStore } from "../stores/workbrench.store";
 import { Button } from "mtxuilib/ui/button";
 
@@ -57,10 +56,9 @@ export const AssistantDevToolsPanel = ({
 };
 
 export const DevAgentNodeState = () => {
-  const mtmapi = useMtmClient();
   const tenant = useTenant();
   const threadId = useWorkbrenchStore((x) => x.threadId);
-  const nodeStateQuery = mtmapi.useQuery(
+  const nodeStateQuery = useQuery(
     "get",
     "/api/v1/tenants/{tenant}/nodes/{node}",
     {

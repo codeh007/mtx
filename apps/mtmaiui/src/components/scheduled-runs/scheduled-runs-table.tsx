@@ -12,7 +12,9 @@ import {
   ScheduledRunStatus,
   type ScheduledWorkflows,
   ScheduledWorkflowsOrderByField,
+  workflowListOptions,
   WorkflowRunOrderByDirection,
+  workflowScheduledListOptions,
 } from "mtmaiapi";
 import { DataTable } from "mtxuilib/data-table/data-table";
 import {
@@ -25,9 +27,9 @@ import { Button } from "mtxuilib/ui/button";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useTenant } from "../../hooks/useAuth";
-import { useMtmClient } from "../../hooks/useMtmapi";
 import { DeleteScheduledRun } from "./delete-scheduled-runs";
 import { columns } from "./scheduled-runs-columns";
+import { useQuery } from "@tanstack/react-query";
 
 export interface ScheduledWorkflowRunsTableProps {
   createdAfter?: string;
@@ -54,8 +56,8 @@ export function ScheduledRunsTable({
   const searchParams = useSearchParams();
   const router = useMtRouter();
   const tenant = useTenant();
+  const tid = useTenantId();
 
-  const mtmapi = useMtmClient();
   const [sorting, setSorting] = useState<SortingState>(() => {
     const sortParam = searchParams.get("sort");
     if (sortParam) {
@@ -173,9 +175,9 @@ export function ScheduledRunsTable({
 
     switch (sorting[0]?.id) {
       case "createdAt":
-        return ScheduledWorkflowsOrderByField.CreatedAt;
+        return ScheduledWorkflowsOrderByField.CREATED_AT;
       default:
-        return ScheduledWorkflowsOrderByField.TriggerAt;
+        return ScheduledWorkflowsOrderByField.TRIGGER_AT;
     }
   }, [sorting]);
 
@@ -195,13 +197,37 @@ export function ScheduledRunsTable({
   //   refetchInterval,
   // });
 
-  const listWorkflowRunsQuery = mtmapi.useQuery(
-    "get",
-    "/api/v1/tenants/{tenant}/workflows/scheduled",
-    {
-      params: {
-        path: {
-          tenant: tenant.metadata.id,
+  // const listWorkflowRunsQuery = useQuery(
+  //   "get",
+  //   "/api/v1/tenants/{tenant}/workflows/scheduled",
+  //   {
+  //     params: {
+  //       path: {
+  //         tenant: tenant.metadata.id,
+  //       },
+  //       query: {
+  //         offset,
+  //         limit: pageSize,
+  //         statuses,
+  //         workflowId: workflow,
+  //         parentWorkflowRunId,
+  //         parentStepRunId,
+  //         orderByDirection,
+  //         orderByField,
+  //         additionalMetadata: AdditionalMetadataFilter,
+  //       },
+  //     },
+  //   },
+  //   {
+  //     placeholderData: (prev) => prev,
+  //     refetchInterval,
+  //   },
+  // );
+
+  const listWorkflowRunsQuery = useQuery({
+      ...workflowScheduledListOptions({
+        path:{
+          tenant: tid,
         },
         query: {
           offset,
@@ -214,13 +240,10 @@ export function ScheduledRunsTable({
           orderByField,
           additionalMetadata: AdditionalMetadataFilter,
         },
-      },
-    },
-    {
+      }),
       placeholderData: (prev) => prev,
       refetchInterval,
-    },
-  );
+    });
 
   // const {
   //   data: workflowKeys,
@@ -230,16 +253,27 @@ export function ScheduledRunsTable({
   //   ...queries.workflows.list(tenant.metadata.id),
   // });
 
+  // const {
+  //   data: workflowKeys,
+  //   isLoading: workflowKeysIsLoading,
+  //   error: workflowKeysError,
+  // } = mtmapi.useQuery("get", "/api/v1/tenants/{tenant}/workflows", {
+  //   params: {
+  //     path: {
+  //       tenant: tenant.metadata.id,
+  //     },
+  //   },
+  // });
   const {
     data: workflowKeys,
     isLoading: workflowKeysIsLoading,
     error: workflowKeysError,
-  } = mtmapi.useQuery("get", "/api/v1/tenants/{tenant}/workflows", {
-    params: {
+  } = useQuery({
+    ...workflowListOptions({
       path: {
-        tenant: tenant.metadata.id,
+        tenant: tid,
       },
-    },
+    }),
   });
 
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -364,7 +398,7 @@ export function ScheduledRunsTable({
   return (
     <>
       <DeleteScheduledRun
-        tenant={tenant.metadata.id}
+        tenant={tid}
         scheduledRun={showScheduledRunRevoke}
         setShowScheduledRunRevoke={setShowScheduledRunRevoke}
         onSuccess={() => {

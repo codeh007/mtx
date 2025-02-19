@@ -28,7 +28,6 @@ import {
 } from "mtxuilib/ui/sidebar";
 import { useTheme } from "next-themes";
 import { useTenant } from "../../hooks/useAuth";
-import { useMtmClient } from "../../hooks/useMtmapi";
 import { ThemeToggle } from "../../skyvern/components/ThemeSwitch";
 
 export function NavUser() {
@@ -117,11 +116,9 @@ export function NavUser() {
 }
 
 const LogoutDropdownMenuItem = () => {
-  const mtmapi = useMtmClient();
-  const router = useMtRouter();
-  const logout = mtmapi.useMutation("post", "/api/v1/users/logout", {
+  const logout = useMutation("post", "/api/v1/users/logout", {
     onSuccess: () => {
-      router.push("/auth/login");
+      // router.push("/auth/login");
     },
   });
   return (

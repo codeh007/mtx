@@ -150,7 +150,7 @@ function RouteComponent() {
           <SheetContent className="w-fit min-w-[56rem] max-w-4xl sm:max-w-2xl z-[60]">
             {sidebarState?.stepRunId && (
               <StepRunDetail
-                tenant={tenant}
+                tenant={tenant!}
                 stepRunId={sidebarState?.stepRunId}
                 workflowRun={shape.data}
                 defaultOpenTab={sidebarState?.defaultOpenTab}

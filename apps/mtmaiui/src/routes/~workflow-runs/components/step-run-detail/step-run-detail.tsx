@@ -8,9 +8,9 @@ import {
   StepRunStatus,
   type Tenant,
   type WorkflowRunShape,
+  stepRunGetOptions,
   stepRunGetSchemaOptions,
 } from "mtmaiapi";
-// import type { components } from "mtmaiapi/query_client/generated";
 import { CodeHighlighter } from "mtxuilib/mt/code-highlighter";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 
@@ -25,7 +25,6 @@ import { Button } from "mtxuilib/ui/button";
 import { Separator } from "mtxuilib/ui/separator";
 import type React from "react";
 import {  useMemo, useState } from "react";
-import { useMtmClient } from "../../../../hooks/useMtmapi";
 import { RunIndicator } from "../run-statuses";
 import { StepRunEvents } from "../step-run-events-for-workflow-run";
 import { WorkflowRunsTable } from "../workflow-runs-table";
@@ -60,29 +59,45 @@ export const StepRunDetail = ({
   defaultOpenTab = TabOption.Output,
 }: StepRunDetailProps) => {
   const [errors, setErrors] = useState<string[]>([]);
-  const mtmapi = useMtmClient();
 
-  const getStepRunQuery = mtmapi.useQuery(
-    "get",
-    "/api/v1/tenants/{tenant}/step-runs/{step-run}",
-    {
-      params: {
-        path: {
-          tenant: workflowRun.tenantId,
-          "step-run": stepRunId,
-        },
+  // const getStepRunQuery = mtmapi.useQuery(
+  //   "get",
+  //   "/api/v1/tenants/{tenant}/step-runs/{step-run}",
+  //   {
+  //     params: {
+  //       path: {
+  //         tenant: workflowRun.tenantId,
+  //         "step-run": stepRunId,
+  //       },
+  //     },
+  //   },
+  //   {
+  //     refetchInterval: (query) => {
+  //       const data = query.state.data;
+  //       if (data?.status === StepRunStatus.RUNNING) {
+  //         return 1000;
+  //       }
+  //       return 5000;
+  //     },
+  //   },
+  // );
+
+  const getStepRunQuery = useQuery({
+    ...stepRunGetOptions({
+      path: {
+        tenant: workflowRun.tenantId,
+        "step-run": stepRunId,
       },
+    }),
+    enabled: !!stepRunId,
+    refetchInterval: (query) => {
+      const data = query.state.data;
+      if (data?.status === StepRunStatus.RUNNING) {
+        return 1000;
+      }
+      return 5000;
     },
-    {
-      refetchInterval: (query) => {
-        const data = query.state.data;
-        if (data?.status === StepRunStatus.RUNNING) {
-          return 1000;
-        }
-        return 5000;
-      },
-    },
-  );
+  });
 
   const stepRun = getStepRunQuery.data;
 
@@ -93,7 +108,7 @@ export const StepRunDetail = ({
       .find((x) => x?.metadata.id === stepRun?.stepId);
   }, [workflowRun, stepRun]);
 
-  const rerunStepMutation = mtmapi.useMutation(
+  const rerunStepMutation = useMutation(
     "post",
     "/api/v1/tenants/{tenant}/step-runs/{step-run}/rerun",
     {

@@ -14,18 +14,20 @@ import {
   type StepRunEvent,
   StepRunEventReason,
   type StepRunEventSeverity,
+  stepRunGetOptions,
+  stepRunListArchivesOptions,
 } from "mtmaiapi";
 import { DataTableColumnHeader } from "mtxuilib/data-table/data-table-column-header";
 import { cn } from "mtxuilib/lib/utils";
 import { Badge } from "mtxuilib/ui/badge";
 import { Button } from "mtxuilib/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "mtxuilib/ui/popover";
-import { type ReactNode, useMemo, useRef, useState } from "react";
+import { type  useMemo, useRef, useState } from "react";
 import invariant from "tiny-invariant";
-import { useMtmClient } from "../../../hooks/useMtmapi";
 import StepRunError from "./step-run-detail/step-run-error";
 import { CustomLink } from "../../../components/CustomLink";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
+import { useQuery } from "@tanstack/react-query";
 
 export type ActivityEventData = {
   metadata: ApiResourceMeta
@@ -250,8 +252,6 @@ function ErrorHoverContents({
   rows: ActivityEventData[];
 }) {
   // We cannot call this component without stepRun being defined.
-  invariant(event.stepRun);
-  const mtmapi = useMtmClient();
   const failureRows = rows.filter(
     (row) =>
       row.event.reason === StepRunEventReason.FAILED ||
@@ -263,36 +263,54 @@ function ErrorHoverContents({
   // If this is the latest failure, we use the step run to get the error message on hover. Otherwise,
   // we look in the archives.
   const isLatestFailure = latestFailure.event.id === event.event.id;
-  const getStepRunQuery = mtmapi.useQuery(
-    "get",
-    "/api/v1/tenants/{tenant}/step-runs/{step-run}",
-    {
-      params: {
-        path: {
-          "step-run": event.stepRun.metadata.id,
-          tenant: event.stepRun.tenantId,
-        },
+  // const getStepRunQuery = useQuery(
+  //   "get",
+  //   "/api/v1/tenants/{tenant}/step-runs/{step-run}",
+  //   {
+  //     params: {
+  //       path: {
+  //         "step-run": event.stepRun.metadata.id,
+  //         tenant: event.stepRun.tenantId,
+  //       },
+  //     },
+  //   },
+  //   {
+  //     enabled: isLatestFailure,
+  //   },
+  // );
+  const getStepRunQuery = useQuery({
+    ...stepRunGetOptions({
+      path: {
+        "step-run": event.stepRun!.metadata.id,
+        tenant: event.stepRun!.tenantId,
       },
-    },
-    {
-      enabled: isLatestFailure,
-    },
-  );
+    }),
+    enabled: isLatestFailure,
+  });
 
-  const listStepRunArchiveQuery = mtmapi.useQuery(
-    "get",
-    "/api/v1/step-runs/{step-run}/archives",
-    {
-      params: {
-        path: {
-          "step-run": event.stepRun.metadata.id,
-        },
+  // const listStepRunArchiveQuery = useQuery(
+  //   "get",
+  //   "/api/v1/step-runs/{step-run}/archives",
+  //   {
+  //     params: {
+  //       path: {
+  //         "step-run": event.stepRun.metadata.id,
+  //       },
+  //     },
+  //   },
+  //   {
+  //     enabled: !isLatestFailure,
+  //   },
+  // );
+  const listStepRunArchiveQuery = useQuery({
+    ...stepRunListArchivesOptions({
+      path: {
+        "step-run": event.stepRun!.metadata.id,
       },
-    },
-    {
-      enabled: !isLatestFailure,
-    },
-  );
+    }),
+    enabled: !isLatestFailure,
+  });
+
 
   const errorString = useMemo(() => {
     if (isLatestFailure && !getStepRunQuery.data) {

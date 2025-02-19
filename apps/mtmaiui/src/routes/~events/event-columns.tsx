@@ -2,7 +2,7 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 
-import type { Event } from "mtmaiapi";
+import { workflowRunListOptions, type Event } from "mtmaiapi";
 import { DataTableColumnHeader } from "mtxuilib/data-table/data-table-column-header";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Badge } from "mtxuilib/ui/badge";
@@ -11,11 +11,8 @@ import { Checkbox } from "mtxuilib/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "mtxuilib/ui/popover";
 import { useMemo, useState } from "react";
 import { useTenant } from "../../hooks/useAuth";
-import { useMtmClient } from "../../hooks/useMtmapi";
-// import { columns as workflowRunsColumns } from "../../../components/workflow-run/workflow-runs-columns";
-// import { useTenant } from "../../../hooks/useAuth";
-// import { useMtmClient } from "../../../hooks/useMtmapi";
 import { AdditionalMetadata } from "./additional-metadata";
+import { useQuery } from "@tanstack/react-query";
 
 export const eventColumns = ({
   onRowClick,
@@ -147,7 +144,6 @@ export const eventColumns = ({
 function WorkflowRunSummary({ event }: { event: Event }) {
   const tenant = useTenant();
 
-  const mtmapi = useMtmClient();
 
   const [hoverCardOpen, setPopoverOpen] = useState<
     "failed" | "succeeded" | "running" | "queued" | "pending"
@@ -159,20 +155,30 @@ function WorkflowRunSummary({ event }: { event: Event }) {
   const numPending = event.workflowRunSummary?.pending || 0;
   const numQueued = event.workflowRunSummary?.queued || 0;
 
-  const listWorkflowRunsQuery = mtmapi.useQuery(
-    "get",
-    "/api/v1/tenants/{tenant}/workflows/runs",
-    {
-      params: {
-        path: {
-          tenant: tenant!.metadata.id,
-        },
+  // const listWorkflowRunsQuery = mtmapi.useQuery(
+  //   "get",
+  //   "/api/v1/tenants/{tenant}/workflows/runs",
+  //   {
+  //     params: {
+  //       path: {
+  //         tenant: tenant!.metadata.id,
+  //       },
+  //     },
+  //   },
+  //   {
+  //     enabled: !!hoverCardOpen,
+  //   },
+  // );
+
+  const listWorkflowRunsQuery = useQuery({
+    ...workflowRunListOptions({
+      path: {
+        tenant: tenant!.metadata.id,
       },
-    },
-    {
-      enabled: !!hoverCardOpen,
-    },
-  );
+    }),
+    enabled: !!hoverCardOpen,
+  });
+
 
   const workflowRuns = useMemo(() => {
     return (

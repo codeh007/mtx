@@ -16,7 +16,8 @@ import { useState } from "react";
 import { z } from "zod";
 import { BlogSelector } from "../../../components/blog/blog-selector";
 import { useTenant, useUser } from "../../../hooks/useAuth";
-import { useMtmClient } from "../../../hooks/useMtmapi";
+import { blogCreateOptions } from "mtmaiapi";
+import { useMutation } from "@tanstack/react-query";
 
 const schema = z.object({
   blogId: z.string().uuid(),
@@ -47,12 +48,15 @@ export function CreateBlogPostForm({
   );
 
   const tenant = useTenant();
+  const tid = tenant?.metadata.id;
 
-  const mtmapi = useMtmClient();
-  const createBlogPostMutation = mtmapi.useMutation(
-    "post",
-    "/api/v1/tenants/{tenant}/posts",
-  );
+  // const createBlogPostMutation = useMutation(
+  //   "post",
+  //   "/api/v1/tenants/{tenant}/posts",
+  // );
+  const createBlogPostMutation = useMutation({
+    ...blogCreateOptions({})
+  });
 
   const form = useZodForm({
     schema: schema,
@@ -64,11 +68,9 @@ export function CreateBlogPostForm({
   const handleSubmit = (values) => {
     console.log("handleSubmit", values);
     createBlogPostMutation.mutate({
-      params: {
         path: {
-          tenant: tenant.metadata.id,
+          tenant: tid,
         },
-      },
       body: {
         ...values,
         blogId,

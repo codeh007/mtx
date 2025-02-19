@@ -1,7 +1,7 @@
 "use client";
-import { type StepRun, StepRunStatus } from "mtmaiapi";
+import { useQuery } from "@tanstack/react-query";
+import { logLineListOptions, type StepRun, StepRunStatus } from "mtmaiapi";
 import { LoggingComponent } from "mtxuilib/mt/logs";
-import { useMtmClient } from "../../../../hooks/useMtmapi";
 
 export function StepRunLogs({
   stepRun,
@@ -10,30 +10,20 @@ export function StepRunLogs({
   stepRun: StepRun | undefined;
   readableId: string;
 }) {
-  const mtmapi = useMtmClient();
-  const getLogsQuery = mtmapi.useQuery(
-    "get",
-    "/api/v1/step-runs/{step-run}/logs",
-    {
-      params: {
-        path: {
-          "step-run": stepRun!.metadata.id,
-        },
-        query: {
-          orderByDirection: "asc",
-        },
+  const getLogsQuery = useQuery({
+    ...logLineListOptions({
+      path: {
+        "step-run": stepRun!.metadata.id,
       },
-    },
-    {
-      enabled: !!stepRun,
+    }),
+    enabled: !!stepRun,
       refetchInterval: () => {
         if (stepRun?.status === StepRunStatus.RUNNING) {
           return 1000;
         }
         return 5000;
       },
-    },
-  );
+  });
 
   return (
     <div className="my-4">
