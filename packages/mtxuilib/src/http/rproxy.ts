@@ -57,7 +57,7 @@ export function newRProxy(options: RProxyOptions) {
       for (const [key, value] of Array.from(requestHeaders.entries())) {
         headersLogItem.push(`${key}: ${value}`);
       }
-      console.log(`rproxy request headers: ${headersLogItem.join("\n")}`);
+      // console.log(`rproxy request headers: ${headersLogItem.join("\n")}`);
 
       const response = await fetch(fullUrl, {
         method: r.method,
@@ -74,7 +74,7 @@ export function newRProxy(options: RProxyOptions) {
       });
 
       console.log(
-        `🚀 [rProxy] ${r.method}(${response.status}) \n${r.url}, \n===> ${fullUrl.toString()}`,
+        `🚀 [rProxy] ${r.method}(${response.status}) \n${r.url}, \n===> ${fullUrl.toString()} with headers: ${headersLogItem.join("\n")}`,
       );
       // console.log("response.headers");
       // for (const [key, value] of Array.from(response.headers.entries())) {
