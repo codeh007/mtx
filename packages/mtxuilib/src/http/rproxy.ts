@@ -59,7 +59,7 @@ export function newRProxy(options: RProxyOptions) {
         method: r.method,
         headers: requestHeaders,
         body: ["GET", "HEAD"].includes(r.method) ? undefined : r.body,
-        credentials: "include",
+        // credentials: "include", // 提示: 在 cloudflare worker 中不支持
       });
 
       // 创建新的响应，保留所有原始响应头

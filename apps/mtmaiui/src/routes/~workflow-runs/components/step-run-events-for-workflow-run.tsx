@@ -130,6 +130,7 @@ export function StepRunEvents({
     <DebugValue data={{tableData, cols}}/>
     <DebugValue data={{stepRuns, steps}}/>
     <DebugValue data={eventsQuery.data} title="eventsQuery.data"/>
+    <DebugValue data={workflowRun} title="workflowRun"/>
     <DataTable
       emptyState={<>No events found.</>}
       isLoading={eventsQuery.isLoading}
