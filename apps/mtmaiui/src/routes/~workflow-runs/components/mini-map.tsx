@@ -17,21 +17,22 @@ interface MiniMapProps {
 
 export const MiniMap: React.FC<MiniMapProps> = ({ shape, onClick }) => {
   return (
-    <div className={cn("grow", hasChildSteps(shape) && "pb-12")}>
-      <DebugValue title="mini map" data={shape} />
-      {shape.jobRuns?.map(({ job, stepRuns }, idx) => {
+    <div className={cn("grow", hasChildSteps(shape) && "pb-12")}>      
+      {shape.jobRuns?.map(({ job, stepRuns,metadata }) => {
         const steps = job?.steps;
 
-        if (!steps || !stepRuns) {
-          return null;
+        if (!steps) {
+          return <div>error no steps <DebugValue title="mini map" data={shape.jobRuns} /></div>
+        }
+        if (!stepRuns) {
+          return <div>error no steps runs <DebugValue title="mini map" data={shape.jobRuns} /></div>
         }
 
         return (
           <JobMiniMap
             steps={steps}
             stepRuns={stepRuns}
-            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-            key={idx}
+            key={metadata.id}
             onClick={(stepRunId, defaultOpenTab) =>
               onClick(stepRunId, defaultOpenTab)
             }

@@ -1884,8 +1884,7 @@ export const JobRunSchema = {
     stepRuns: {
       type: "array",
       items: {
-        type: "object",
-        additionalProperties: true,
+        $ref: "#/components/schemas/StepRun",
       },
     },
     status: {
@@ -1952,6 +1951,10 @@ export const StepRunSchema = {
     },
     jobRunId: {
       type: "string",
+    },
+    jobRun: {
+      type: "object",
+      additionalProperties: true,
     },
     stepId: {
       type: "string",

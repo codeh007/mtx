@@ -1080,9 +1080,7 @@ export type JobRun = {
   jobId: string;
   job?: Job;
   tickerId?: string;
-  stepRuns?: Array<{
-    [key: string]: unknown;
-  }>;
+  stepRuns?: Array<StepRun>;
   status: JobRunStatus;
   result?: {
     [key: string]: unknown;
@@ -1107,6 +1105,9 @@ export type StepRun = {
   metadata: ApiResourceMeta;
   tenantId: string;
   jobRunId: string;
+  jobRun?: {
+    [key: string]: unknown;
+  };
   stepId: string;
   step?: Step;
   childWorkflowsCount?: number;

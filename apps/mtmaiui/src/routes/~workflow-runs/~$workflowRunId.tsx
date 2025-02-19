@@ -9,7 +9,7 @@ import {
 import { Separator } from "mtxuilib/ui/separator";
 import { Sheet, SheetContent } from "mtxuilib/ui/sheet";
 import { useEffect, useState } from "react";
-import { useTenant, useTenantId } from "../../hooks/useAuth";
+import { useTenant } from "../../hooks/useAuth";
 import { useWorkflowRunShape } from "../../hooks/useWorkflowRun";
 import { useMtmaiV2 } from "../../stores/StoreProvider";
 import RunDetailHeader from "./components/header";
@@ -23,7 +23,6 @@ import { ViewToggle, hasChildSteps } from "./components/view-toggle";
 import { WorkflowRunInputDialog } from "./components/workflow-run-input";
 import WorkflowRunVisualizer from "./components/workflow-run-visualizer-v2";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
-import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 
 export const Route = createFileRoute("/workflow-runs/$workflowRunId")({
   component: RouteComponent,
@@ -37,6 +36,7 @@ function RouteComponent() {
   const { workflowRunId } = Route.useParams();
   const [sidebarState, setSidebarState] = useState<WorkflowRunSidebarState>();
   const { shape } = useWorkflowRunShape(workflowRunId);
+  const tenant = useTenant();
   useEffect(() => {
     if (
       sidebarState?.workflowRunId &&
@@ -55,7 +55,6 @@ function RouteComponent() {
           data={shape.data}
           refetch={() => shape.refetch()}
         />
-        <DebugValue data={shape.data} />
         <Separator className="my-2" />
         <div className="w-full h-fit flex overflow-auto relative bg-slate-100 dark:bg-slate-900">
           {shape.data && view === "graph" && hasChildSteps(shape.data) && (
@@ -71,8 +70,7 @@ function RouteComponent() {
               }}
             />
           )}
-          {shape.data && (view === "minimap" || !hasChildSteps(shape.data)) && (
-            
+          {shape.data && (view === "minimap" || !hasChildSteps(shape.data)) && (            
             <MiniMap
               shape={shape.data}
               selectedStepRunId={sidebarState?.stepRunId}

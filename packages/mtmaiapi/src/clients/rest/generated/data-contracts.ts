@@ -912,7 +912,7 @@ export interface JobRun {
   jobId: string;
   job?: Job;
   tickerId?: string;
-  stepRuns?: Record<string, any>[];
+  stepRuns?: StepRun[];
   status: JobRunStatus;
   result?: object;
   /** @format date-time */
@@ -939,6 +939,7 @@ export interface StepRun {
   metadata: APIResourceMeta;
   tenantId: string;
   jobRunId: string;
+  jobRun?: Record<string, any>;
   stepId: string;
   step?: Step;
   childWorkflowsCount?: number;
