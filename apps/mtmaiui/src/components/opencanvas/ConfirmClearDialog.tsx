@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from "mtxuilib/ui/dialog";
 import { useState } from "react";
@@ -27,6 +28,7 @@ export function ConfirmClearDialog(props: ReflectionsProps) {
       </DialogTrigger>
       <DialogContent className="max-w-xl p-8 bg-white rounded-lg shadow-xl">
         <DialogHeader>
+          <DialogTitle>Clear reflections</DialogTitle>
           <DialogDescription className="mt-2 text-md text-center font-light text-red-500">
             <TighterText>
               Are you sure you want to clear all reflections? This action can

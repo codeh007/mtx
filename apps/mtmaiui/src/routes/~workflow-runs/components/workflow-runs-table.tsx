@@ -535,6 +535,7 @@ export function WorkflowRunsTable({
           }}
         >
           <DialogContent className="w-fit max-w-[80%] min-w-[500px]">
+            <DialogTitle>队列指标</DialogTitle>
             <DialogHeader>
               <DialogTitle>Queue Metrics</DialogTitle>
             </DialogHeader>

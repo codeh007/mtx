@@ -131,6 +131,12 @@ export function RunIndicator({
   status: RunStatusType;
   reason?: string;
 }) {
+
+  const a = RUN_STATUS_VARIANTS[status]
+  if (!a) {
+    console.log("获取 status 出错123", status);
+    return null;
+  }
   const variant = RUN_STATUS_VARIANTS[status].variant;
 
   return (
