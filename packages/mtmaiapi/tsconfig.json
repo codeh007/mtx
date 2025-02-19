@@ -44,12 +44,7 @@
   },
   "include": [
     "**/*.ts",
-    "**/*.tsx",
-    "src/api/generated/cloud/http-client.ts--",
-    "src/api/generated/Api.ts--",
-    "src/api/generated/cloud/data-contracts.ts--",
-    "src/api/generated/cloud/Api.ts--"
-  ],
+    "**/*.tsx",  ],
   "exclude": [
     "node_modules",
     "dist",

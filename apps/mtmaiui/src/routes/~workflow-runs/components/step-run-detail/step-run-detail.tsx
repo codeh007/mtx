@@ -1,6 +1,6 @@
 "use client";
 import { ArrowPathIcon, XCircleIcon } from "@heroicons/react/24/outline";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { formatDuration } from "date-fns";
 import { PlayIcon } from "lucide-react";
 import {
@@ -10,7 +10,7 @@ import {
   type WorkflowRunShape,
   stepRunGetSchemaOptions,
 } from "mtmaiapi";
-import type { components } from "mtmaiapi/query_client/generated";
+// import type { components } from "mtmaiapi/query_client/generated";
 import { CodeHighlighter } from "mtxuilib/mt/code-highlighter";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 
@@ -62,7 +62,6 @@ export const StepRunDetail = ({
   const [errors, setErrors] = useState<string[]>([]);
   const mtmapi = useMtmClient();
 
-  const queryClient = useQueryClient();
   const getStepRunQuery = mtmapi.useQuery(
     "get",
     "/api/v1/tenants/{tenant}/step-runs/{step-run}",
@@ -354,7 +353,9 @@ const StepRunSummary: React.FC<{ data: StepRun }> = ({ data }) => {
   if (data.finishedAtEpoch && data.startedAtEpoch) {
     timings.push(
       <div key="duration" className="text-sm text-muted-foreground">
-        Run took {formatDuration(data.finishedAtEpoch - data.startedAtEpoch)}
+        Run took {formatDuration({
+          seconds: data.finishedAtEpoch - data.startedAtEpoch,
+        })}
       </div>,
     );
   }
@@ -392,7 +393,8 @@ export function ChildWorkflowRuns({
 }: {
   tenant: Tenant;
   stepRun: StepRun | undefined;
-  workflowRun: components["schemas"]["WorkflowRun"];
+  // workflowRun: components["schemas"]["WorkflowRun"];
+  workflowRun: WorkflowRunShape;
   refetchInterval?: number;
 }) {
   return (
