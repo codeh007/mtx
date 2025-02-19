@@ -24,7 +24,7 @@ import {
 import { Button } from "mtxuilib/ui/button";
 import { Separator } from "mtxuilib/ui/separator";
 import type React from "react";
-import { type JSX, useMemo, useState } from "react";
+import {  useMemo, useState } from "react";
 import { useMtmClient } from "../../../../hooks/useMtmapi";
 import { RunIndicator } from "../run-statuses";
 import { StepRunEvents } from "../step-run-events-for-workflow-run";
@@ -102,14 +102,14 @@ export const StepRunDetail = ({
         setErrors([]);
       },
       onSuccess: (stepRun: StepRun) => {
-        queryClient.invalidateQueries({
-          queryKey: queries.workflowRuns.get(
-            stepRun?.tenantId,
-            workflowRun.metadata.id,
-          ).queryKey,
-        });
+        // queryClient.invalidateQueries({
+        //   queryKey: queries.workflowRuns.get(
+        //     stepRun?.tenantId,
+        //     workflowRun.metadata.id,
+        //   ).queryKey,
+        // });
       },
-      onError: handleApiError,
+      // onError: handleApiError,
     },
   );
 
@@ -121,16 +121,16 @@ export const StepRunDetail = ({
         setErrors([]);
       },
       onSuccess: (stepRun: StepRun) => {
-        queryClient.invalidateQueries({
-          queryKey: queries.workflowRuns.get(
-            stepRun?.tenantId,
-            workflowRun.metadata.id,
-          ).queryKey,
-        });
+        // queryClient.invalidateQueries({
+        //   queryKey: queries.workflowRuns.get(
+        //     stepRun?.tenantId,
+        //     workflowRun.metadata.id,
+        //   ).queryKey,
+        // });
 
         getStepRunQuery.refetch();
       },
-      onError: handleApiError,
+      // onError: handleApiError,
     },
   );
 
@@ -306,10 +306,8 @@ export const StepRunDetail = ({
   );
 };
 
-// export default StepRunDetail;
-
 const StepRunSummary: React.FC<{ data: StepRun }> = ({ data }) => {
-  const timings: JSX.Element[] = [];
+  const timings: React.ReactNode[] = [];
 
   if (data.startedAt) {
     timings.push(
@@ -362,7 +360,7 @@ const StepRunSummary: React.FC<{ data: StepRun }> = ({ data }) => {
   }
 
   // interleave the timings with a dot
-  const interleavedTimings: JSX.Element[] = [];
+  const interleavedTimings: React.ReactNode[] = [];
 
   timings.forEach((timing, index) => {
     interleavedTimings.push(timing);
