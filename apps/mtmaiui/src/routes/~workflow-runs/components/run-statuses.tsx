@@ -20,23 +20,23 @@ type RunStatusVariant = {
 
 const RUN_STATUS_VARIANTS: Record<RunStatusType, RunStatusVariant> = {
   SUCCEEDED: {
-    text: "Succeeded",
+    text: "成功",
     variant: "successful",
   },
   FAILED: {
-    text: "Failed",
+    text: "失败",
     variant: "failed",
   },
   CANCELLED: {
-    text: "Cancelled",
+    text: "已取消",
     variant: "failed",
   },
   CANCELLING: {
-    text: "Cancelling",
+    text: "正取消",
     variant: "inProgress",
   },
   RUNNING: {
-    text: "Running",
+    text: "运行中",
     variant: "inProgress",
   },
   QUEUED: {

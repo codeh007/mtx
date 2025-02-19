@@ -155,21 +155,6 @@ function WorkflowRunSummary({ event }: { event: Event }) {
   const numPending = event.workflowRunSummary?.pending || 0;
   const numQueued = event.workflowRunSummary?.queued || 0;
 
-  // const listWorkflowRunsQuery = mtmapi.useQuery(
-  //   "get",
-  //   "/api/v1/tenants/{tenant}/workflows/runs",
-  //   {
-  //     params: {
-  //       path: {
-  //         tenant: tenant!.metadata.id,
-  //       },
-  //     },
-  //   },
-  //   {
-  //     enabled: !!hoverCardOpen,
-  //   },
-  // );
-
   const listWorkflowRunsQuery = useQuery({
     ...workflowRunListOptions({
       path: {
