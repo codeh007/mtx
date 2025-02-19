@@ -7,6 +7,7 @@ import { useMemo } from "react";
 import type { TabOption } from "./step-run-detail/step-run-detail";
 import StepRunNode from "./step-run-node";
 import { hasChildSteps } from "./view-toggle";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 
 interface MiniMapProps {
   shape: WorkflowRunShape;
@@ -17,6 +18,7 @@ interface MiniMapProps {
 export const MiniMap: React.FC<MiniMapProps> = ({ shape, onClick }) => {
   return (
     <div className={cn("grow", hasChildSteps(shape) && "pb-12")}>
+      <DebugValue title="mini map" data={shape} />
       {shape.jobRuns?.map(({ job, stepRuns }, idx) => {
         const steps = job?.steps;
 

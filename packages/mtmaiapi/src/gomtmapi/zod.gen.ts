@@ -575,7 +575,7 @@ export const zWorkflowWorkersCount = z.object({
   workflowRunId: z.string().optional(),
 });
 
-export const zWorkflowRun = z.object({
+export const zWorkflowRun: z.ZodTypeAny = z.object({
   metadata: zApiResourceMeta,
   tenantId: z.string(),
   workflowVersionId: z.string(),
@@ -590,7 +590,39 @@ export const zWorkflowRun = z.object({
     "BACKOFF",
   ]),
   displayName: z.string().optional(),
-  jobRuns: z.array(z.object({})).optional(),
+  jobRuns: z
+    .array(
+      z.object({
+        metadata: zApiResourceMeta,
+        tenantId: z.string(),
+        workflowRunId: z.string(),
+        workflowRun: z
+          .lazy(() => {
+            return zWorkflowRun;
+          })
+          .optional(),
+        jobId: z.string(),
+        job: zJob.optional(),
+        tickerId: z.string().optional(),
+        stepRuns: z.array(z.object({})).optional(),
+        status: z.enum([
+          "PENDING",
+          "RUNNING",
+          "SUCCEEDED",
+          "FAILED",
+          "CANCELLED",
+          "BACKOFF",
+        ]),
+        result: z.object({}).optional(),
+        startedAt: z.string().datetime().optional(),
+        finishedAt: z.string().datetime().optional(),
+        timeoutAt: z.string().datetime().optional(),
+        cancelledAt: z.string().datetime().optional(),
+        cancelledReason: z.string().optional(),
+        cancelledError: z.string().optional(),
+      }),
+    )
+    .optional(),
   triggeredBy: z.object({
     metadata: zApiResourceMeta,
     parentWorkflowRunId: z.string().optional(),
@@ -624,7 +656,35 @@ export const zWorkflowRunShape = z.object({
     "BACKOFF",
   ]),
   displayName: z.string().optional(),
-  jobRuns: z.array(z.object({})).optional(),
+  jobRuns: z
+    .array(
+      z.object({
+        metadata: zApiResourceMeta,
+        tenantId: z.string(),
+        workflowRunId: z.string(),
+        workflowRun: zWorkflowRun.optional(),
+        jobId: z.string(),
+        job: zJob.optional(),
+        tickerId: z.string().optional(),
+        stepRuns: z.array(z.object({})).optional(),
+        status: z.enum([
+          "PENDING",
+          "RUNNING",
+          "SUCCEEDED",
+          "FAILED",
+          "CANCELLED",
+          "BACKOFF",
+        ]),
+        result: z.object({}).optional(),
+        startedAt: z.string().datetime().optional(),
+        finishedAt: z.string().datetime().optional(),
+        timeoutAt: z.string().datetime().optional(),
+        cancelledAt: z.string().datetime().optional(),
+        cancelledReason: z.string().optional(),
+        cancelledError: z.string().optional(),
+      }),
+    )
+    .optional(),
   triggeredBy: z.object({
     metadata: zApiResourceMeta,
     parentWorkflowRunId: z.string().optional(),
@@ -794,7 +854,7 @@ export const zStepRunStatus = z.enum([
   "BACKOFF",
 ]);
 
-export const zJobRun: z.ZodTypeAny = z.object({
+export const zJobRun = z.object({
   metadata: zApiResourceMeta,
   tenantId: z.string(),
   workflowRunId: z.string(),
@@ -802,42 +862,7 @@ export const zJobRun: z.ZodTypeAny = z.object({
   jobId: z.string(),
   job: zJob.optional(),
   tickerId: z.string().optional(),
-  stepRuns: z
-    .array(
-      z.object({
-        metadata: zApiResourceMeta,
-        tenantId: z.string(),
-        jobRunId: z.string(),
-        jobRun: z
-          .lazy(() => {
-            return zJobRun;
-          })
-          .optional(),
-        stepId: z.string(),
-        step: zStep.optional(),
-        childWorkflowsCount: z.number().int().optional(),
-        parents: z.array(z.string()).optional(),
-        childWorkflowRuns: z.array(z.string()).optional(),
-        workerId: z.string().optional(),
-        input: z.string().optional(),
-        output: z.string().optional(),
-        status: zStepRunStatus,
-        requeueAfter: z.string().datetime().optional(),
-        result: z.object({}).optional(),
-        error: z.string().optional(),
-        startedAt: z.string().datetime().optional(),
-        startedAtEpoch: z.number().int().optional(),
-        finishedAt: z.string().datetime().optional(),
-        finishedAtEpoch: z.number().int().optional(),
-        timeoutAt: z.string().datetime().optional(),
-        timeoutAtEpoch: z.number().int().optional(),
-        cancelledAt: z.string().datetime().optional(),
-        cancelledAtEpoch: z.number().int().optional(),
-        cancelledReason: z.string().optional(),
-        cancelledError: z.string().optional(),
-      }),
-    )
-    .optional(),
+  stepRuns: z.array(z.object({})).optional(),
   status: zJobRunStatus,
   result: z.object({}).optional(),
   startedAt: z.string().datetime().optional(),
@@ -860,7 +885,6 @@ export const zStepRun = z.object({
   metadata: zApiResourceMeta,
   tenantId: z.string(),
   jobRunId: z.string(),
-  jobRun: zJobRun.optional(),
   stepId: z.string(),
   step: zStep.optional(),
   childWorkflowsCount: z.number().int().optional(),

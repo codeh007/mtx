@@ -830,9 +830,7 @@ export type WorkflowRun = {
   workflowVersion?: WorkflowVersion;
   status: WorkflowRunStatus;
   displayName?: string;
-  jobRuns?: Array<{
-    [key: string]: unknown;
-  }>;
+  jobRuns?: Array<JobRun>;
   triggeredBy: WorkflowRunTriggeredBy;
   input?: {
     [key: string]: unknown;
@@ -856,9 +854,7 @@ export type WorkflowRunShape = {
   workflowVersion?: WorkflowVersion;
   status: WorkflowRunStatus;
   displayName?: string;
-  jobRuns?: Array<{
-    [key: string]: unknown;
-  }>;
+  jobRuns?: Array<JobRun>;
   triggeredBy: WorkflowRunTriggeredBy;
   input?: {
     [key: string]: unknown;
@@ -1084,7 +1080,9 @@ export type JobRun = {
   jobId: string;
   job?: Job;
   tickerId?: string;
-  stepRuns?: Array<StepRun>;
+  stepRuns?: Array<{
+    [key: string]: unknown;
+  }>;
   status: JobRunStatus;
   result?: {
     [key: string]: unknown;
@@ -1109,7 +1107,6 @@ export type StepRun = {
   metadata: ApiResourceMeta;
   tenantId: string;
   jobRunId: string;
-  jobRun?: JobRun;
   stepId: string;
   step?: Step;
   childWorkflowsCount?: number;

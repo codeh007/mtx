@@ -690,7 +690,7 @@ export interface WorkflowRun {
   workflowVersion?: WorkflowVersion;
   status: WorkflowRunStatus;
   displayName?: string;
-  jobRuns?: Record<string, any>[];
+  jobRuns?: JobRun[];
   triggeredBy: WorkflowRunTriggeredBy;
   input?: Record<string, any>;
   error?: string;
@@ -725,7 +725,7 @@ export interface WorkflowRunShape {
   workflowVersion?: WorkflowVersion;
   status: WorkflowRunStatus;
   displayName?: string;
-  jobRuns?: Record<string, any>[];
+  jobRuns?: JobRun[];
   triggeredBy: WorkflowRunTriggeredBy;
   input?: Record<string, any>;
   error?: string;
@@ -912,7 +912,7 @@ export interface JobRun {
   jobId: string;
   job?: Job;
   tickerId?: string;
-  stepRuns?: StepRun[];
+  stepRuns?: Record<string, any>[];
   status: JobRunStatus;
   result?: object;
   /** @format date-time */
@@ -939,7 +939,6 @@ export interface StepRun {
   metadata: APIResourceMeta;
   tenantId: string;
   jobRunId: string;
-  jobRun?: JobRun;
   stepId: string;
   step?: Step;
   childWorkflowsCount?: number;

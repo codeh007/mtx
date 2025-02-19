@@ -23,8 +23,7 @@ import { ViewToggle, hasChildSteps } from "./components/view-toggle";
 import { WorkflowRunInputDialog } from "./components/workflow-run-input";
 import WorkflowRunVisualizer from "./components/workflow-run-visualizer-v2";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
-import { useQuery } from "@tanstack/react-query";
-import { workflowRunGetOptions } from "mtmaiapi";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 
 export const Route = createFileRoute("/workflow-runs/$workflowRunId")({
   component: RouteComponent,
@@ -48,11 +47,6 @@ function RouteComponent() {
   }, [workflowRunId, sidebarState]);
   const view = useMtmaiV2((x) => x.preferredWorkflowRunView);
 
-  // GetStepRunsForJobRuns
-  const tid = useTenantId();
-
-
-
   return (
     <div className="flex-grow h-full w-full">
       <div className="mx-auto max-w-7xl pt-2 px-4 sm:px-6 lg:px-8">
@@ -61,6 +55,7 @@ function RouteComponent() {
           data={shape.data}
           refetch={() => shape.refetch()}
         />
+        <DebugValue data={shape.data} />
         <Separator className="my-2" />
         <div className="w-full h-fit flex overflow-auto relative bg-slate-100 dark:bg-slate-900">
           {shape.data && view === "graph" && hasChildSteps(shape.data) && (
@@ -77,8 +72,7 @@ function RouteComponent() {
             />
           )}
           {shape.data && (view === "minimap" || !hasChildSteps(shape.data)) && (
-            <div className="w-full h-full">
-              mini map123
+            
             <MiniMap
               shape={shape.data}
               selectedStepRunId={sidebarState?.stepRunId}
@@ -94,7 +88,6 @@ function RouteComponent() {
                 )
               }
             />
-            </div>
           )}
           {shape.data && <ViewToggle shape={shape.data} />}
         </div>

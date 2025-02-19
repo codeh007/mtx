@@ -1400,8 +1400,7 @@ export const WorkflowRunSchema = {
     jobRuns: {
       type: "array",
       items: {
-        type: "object",
-        additionalProperties: true,
+        $ref: "#/components/schemas/JobRun",
       },
     },
     triggeredBy: {
@@ -1481,8 +1480,7 @@ export const WorkflowRunShapeSchema = {
     jobRuns: {
       type: "array",
       items: {
-        type: "object",
-        additionalProperties: true,
+        $ref: "#/components/schemas/JobRun",
       },
     },
     triggeredBy: {
@@ -1886,7 +1884,8 @@ export const JobRunSchema = {
     stepRuns: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/StepRun",
+        type: "object",
+        additionalProperties: true,
       },
     },
     status: {
@@ -1944,7 +1943,6 @@ export const WorkflowRunTriggeredBySchema = {
 } as const;
 
 export const StepRunSchema = {
-  type: "object",
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -1954,9 +1952,6 @@ export const StepRunSchema = {
     },
     jobRunId: {
       type: "string",
-    },
-    jobRun: {
-      $ref: "#/components/schemas/JobRun",
     },
     stepId: {
       type: "string",
