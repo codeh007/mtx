@@ -29,7 +29,7 @@ export default function ReactQueryProvider({
     client?.setConfig({
       baseUrl: serverUrl2,
       //允许跨站cookie，这样可以不用专门设置 Authorization header
-      // credentials: "include",// 提示: 在 cloudflare worker 中不支持
+      credentials: "include",// 提示: 在 cloudflare worker(后端) 中不支持
       fetch: async (req) => {
         console.debug(`🔄,${req.method} ${req.url}`);
         const response = await fetch(req, {

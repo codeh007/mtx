@@ -33,10 +33,6 @@ interface WorkflowRunSidebarState {
   defaultOpenTab?: TabOption;
 }
 function RouteComponent() {
-  const tenant = useTenant();
-  if (!tenant) {
-    return <div>require tenant</div>;
-  }
   const { workflowRunId } = Route.useParams();
   const [sidebarState, setSidebarState] = useState<WorkflowRunSidebarState>();
   const { shape } = useWorkflowRunShape(workflowRunId);
