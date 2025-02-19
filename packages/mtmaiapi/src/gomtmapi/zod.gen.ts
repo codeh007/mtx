@@ -1395,7 +1395,7 @@ export const zCommonResult = z.object({
 
 export const zChatMessage = z.object({
   metadata: zApiResourceMeta,
-  role: z.enum(["system", "user", "assistant"]),
+  role: z.string(),
   content: z.string(),
   source: z.string().optional(),
   config: z
@@ -1420,8 +1420,6 @@ export const zAgentRunInput = z.object({
   runId: z.string().optional(),
   stepRunId: z.string().optional(),
 });
-
-export const zChatMessageRole = z.enum(["system", "user", "assistant"]);
 
 export const zChatHistoryList = z.object({
   pagination: zPaginationResponse.optional(),
@@ -2065,8 +2063,12 @@ export const zChatMessageUpsert = z.object({
   componentId: z.string(),
   threadId: z.string().optional(),
   runId: z.string().optional(),
-  role: zChatMessageRole.optional(),
+  role: z.string().optional(),
+  source: z.string().optional().default("user"),
   messageType: z.string().optional(),
+  agentType: z.string().optional(),
+  workflowRunId: z.string().optional(),
+  stepRunId: z.string().optional(),
 });
 
 export const zAgentMessageConfig = z.union([

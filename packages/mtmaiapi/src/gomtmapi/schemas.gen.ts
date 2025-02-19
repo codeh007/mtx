@@ -2938,7 +2938,7 @@ export const ChatMessageSchema = {
       $ref: "#/components/schemas/APIResourceMeta",
     },
     role: {
-      $ref: "#/components/schemas/ChatMessageRole",
+      type: "string",
     },
     content: {
       type: "string",
@@ -2999,11 +2999,6 @@ export const AgentRunInputSchema = {
       type: "string",
     },
   },
-} as const;
-
-export const ChatMessageRoleSchema = {
-  type: "string",
-  enum: ["system", "user", "assistant"],
 } as const;
 
 export const ChatHistoryListSchema = {
@@ -4467,9 +4462,21 @@ export const ChatMessageUpsertSchema = {
     },
     role: {
       type: "string",
-      $ref: "#/components/schemas/ChatMessageRole",
+    },
+    source: {
+      type: "string",
+      default: "user",
     },
     messageType: {
+      type: "string",
+    },
+    agentType: {
+      type: "string",
+    },
+    workflowRunId: {
+      type: "string",
+    },
+    stepRunId: {
       type: "string",
     },
   },

@@ -1,7 +1,6 @@
 "use client";
 import { ArrowPathIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
-import { formatDuration } from "date-fns";
 import { PlayIcon } from "lucide-react";
 import {
   type StepRun,
@@ -23,7 +22,6 @@ import {
   MtTabsTrigger,
 } from "mtxuilib/mt/tabs";
 import { Button } from "mtxuilib/ui/button";
-import { Separator } from "mtxuilib/ui/separator";
 import type React from "react";
 import {  useMemo, useState } from "react";
 import { RunIndicator } from "../run-statuses";
@@ -229,7 +227,7 @@ export const StepRunDetail = ({
           <MtTabsTrigger variant="underlined" value={TabOption.Logs}>
             日志
           </MtTabsTrigger>
-          <MtTabsTrigger variant="underlined" value={TabOption.Events}> 事件</MtTabsTrigger>
+          <MtTabsTrigger variant="underlined" value={TabOption.Events}>事件</MtTabsTrigger>
           <MtTabsTrigger variant="underlined" value={TabOption.StepPlayground}>
             输入模式
           </MtTabsTrigger>

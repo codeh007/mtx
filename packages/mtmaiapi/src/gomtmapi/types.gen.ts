@@ -1659,7 +1659,7 @@ export type CommonResult = {
  */
 export type ChatMessage = {
   metadata: ApiResourceMeta;
-  role: ChatMessageRole;
+  role: string;
   content: string;
   source?: string;
   config?: {
@@ -1682,14 +1682,6 @@ export type AgentRunInput = {
   runId?: string;
   stepRunId?: string;
 };
-
-export type ChatMessageRole = "system" | "user" | "assistant";
-
-export const ChatMessageRole = {
-  SYSTEM: "system",
-  USER: "user",
-  ASSISTANT: "assistant",
-} as const;
 
 export type ChatHistoryList = {
   pagination?: PaginationResponse;
@@ -2566,8 +2558,12 @@ export type ChatMessageUpsert = {
   componentId: string;
   threadId?: string;
   runId?: string;
-  role?: ChatMessageRole;
+  role?: string;
+  source?: string;
   messageType?: string;
+  agentType?: string;
+  workflowRunId?: string;
+  stepRunId?: string;
 };
 
 export type AgentMessageConfig =

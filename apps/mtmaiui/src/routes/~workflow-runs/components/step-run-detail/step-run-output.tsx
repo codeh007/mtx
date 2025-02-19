@@ -66,8 +66,8 @@ const StepRunOutputSucceeded = ({ stepRun }: StepRunOutputProps) => {
     <CodeHighlighter
       className="my-4 h-[400px] max-h-[600px] overflow-y-auto"
       language="json"
-      // maxHeight="400px"
-      // minHeight="400px"
+      maxHeight="400px"
+      minHeight="400px"
       code={JSON.stringify(JSON.parse(stepRun?.output || "{}"), null, 2)}
     />
   );

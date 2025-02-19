@@ -1407,7 +1407,7 @@ export interface CommonResult {
 /** 单个聊天消息 */
 export interface ChatMessage {
   metadata: APIResourceMeta;
-  role: ChatMessageRole;
+  role: string;
   content: string;
   source?: string;
   config?: {
@@ -1429,12 +1429,6 @@ export interface AgentRunInput {
   tenantId?: string;
   runId?: string;
   stepRunId?: string;
-}
-
-export enum ChatMessageRole {
-  System = "system",
-  User = "user",
-  Assistant = "assistant",
 }
 
 export interface ChatHistoryList {
@@ -2099,8 +2093,13 @@ export interface ChatMessageUpsert {
   componentId: string;
   threadId?: string;
   runId?: string;
-  role?: ChatMessageRole;
+  role?: string;
+  /** @default "user" */
+  source?: string;
   messageType?: string;
+  agentType?: string;
+  workflowRunId?: string;
+  stepRunId?: string;
 }
 
 export type AgentMessageConfig =
