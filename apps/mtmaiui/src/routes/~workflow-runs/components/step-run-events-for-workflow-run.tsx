@@ -47,21 +47,21 @@ export function StepRunEvents({
     );
   }, [eventsQuery.data, filteredStepRunId]);
 
-  const stepRuns = useMemo(() => {
-    return (
-      workflowRun.jobRuns?.flatMap((jr) => jr.stepRuns).filter((x) => !!x) ||
-      ([] as StepRun[])
-    );
+  const stepRuns = useMemo(():StepRun[] => {
+    const a = workflowRun.jobRuns?.flatMap((jr) => jr.stepRuns).filter((x) => !!x) ||
+      ([] as StepRun[]) as StepRun[]
+    return a as StepRun[]
   }, [workflowRun]);
 
   const steps = useMemo(() => {
-    return (
+    const a= (
       (
         workflowRun.jobRuns
           ?.flatMap((jr) => jr.job?.steps)
           .filter((x) => !!x) || ([] as Step[])
       ).flat() || ([] as Step[])
     );
+    return a as Step[]
   }, [workflowRun]);
 
   const normalizedStepRunsByStepRunId = useMemo(() => {
@@ -122,7 +122,6 @@ export function StepRunEvents({
 
   return (
     <>
-    events table
     <DataTable
       emptyState={<>No events found.</>}
       isLoading={eventsQuery.isLoading}

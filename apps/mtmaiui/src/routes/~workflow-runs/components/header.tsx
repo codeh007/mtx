@@ -11,14 +11,13 @@ import {
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { formatDuration } from "date-fns";
-import { Link } from "lucide-react";
 import { eventGetOptions, workflowRunCancelMutation, workflowRunGetOptions, WorkflowRunStatus, workflowRunUpdateReplayMutation } from "mtmaiapi";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useTenant, useTenantId } from "../../../hooks/useAuth";
-import { useBasePath } from "../../../hooks/useBasePath";
 import type { WorkflowRunShape } from "../../../types/hatchet-types";
+import { CustomLink } from "../../../components/CustomLink";
 
 interface RunDetailHeaderProps {
   data?: WorkflowRunShape;
@@ -139,8 +138,6 @@ export default RunDetailHeader;
 
 const RunSummary: React.FC<{ data: WorkflowRunShape }> = ({ data }) => {
   const timings: React.ReactNode[] = [];
-  // const basePath = useBasePath();
-
   timings.push(
     <div key="created" className="text-sm text-muted-foreground">
       {"Created "}
@@ -230,21 +227,13 @@ function TriggeringParentWorkflowRunSection({
   tenantId: string;
   parentWorkflowRunId: string;
 }) {
-  const basePath = useBasePath();
-  // get the parent workflow run id
-  // const workflowRunQuery = useQuery({
-  //   ...queries.workflowRuns.get(tenantId, parentWorkflowRunId),
-  // });
-  // const tid = useTenantId();
+  // const basePath = useBasePath();
   const workflowRunQuery = useQuery({
     ...workflowRunGetOptions({
       path: {
         tenant: tenantId,
         "workflow-run": parentWorkflowRunId,
       },
-      // body: {
-      //   workflowRunIds: [parentWorkflowRunId],
-      // },
     }),
   });
 
@@ -257,12 +246,12 @@ function TriggeringParentWorkflowRunSection({
   return (
     <div className="text-sm text-gray-700 dark:text-gray-300 flex flex-row gap-1">
       Triggered by
-      <Link
-        to={`${basePath}/workflow-runs/${parentWorkflowRunId}`}
+      <CustomLink
+        to={`/workflow-runs/${parentWorkflowRunId}`}
         className="font-semibold hover:underline  text-indigo-500 dark:text-indigo-200"
       >
         {workflowRun.displayName} ➶
-      </Link>
+      </CustomLink>
     </div>
   );
 }

@@ -5,7 +5,7 @@ import {
   XCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import type {
   ColumnFiltersState,
   PaginationState,
@@ -17,7 +17,7 @@ import { CodeHighlighter } from "mtxuilib/mt/code-highlighter";
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import invariant from "tiny-invariant";
+import { DataPoint, ZoomableChart } from "mtxuilib/components/zoomable";
 
 import {
   type ReplayWorkflowRunsRequest,
@@ -25,6 +25,7 @@ import {
   WorkflowRunOrderByField,
   WorkflowRunStatus,
   type Tenant,
+  workflowRunGetMetricsOptions,
 } from "mtmaiapi";
 import { DateTimePicker } from "mtxuilib/components/time-picker/date-time-picker";
 import { DataTable } from "mtxuilib/data-table/data-table";
@@ -728,6 +729,19 @@ const GetWorkflowChart = ({
   //   placeholderData: (prev) => prev,
   //   refetchInterval,
   // });
+
+  const workflowRunEventsMetricsQuery = useQuery({
+    ...workflowRunGetMetricsOptions({
+      path: {
+        tenant: tenantId,
+      },
+      query: {
+        createdAfter,
+        createdBefore: finishedBefore,
+      },
+    }),
+  })
+
   // const workflowRunEventsMetricsQuery = mtmapi.useQuery(
   //   "get",
   //   "/api/v1/cloud/tenants/{tenant}/m",
@@ -737,6 +751,17 @@ const GetWorkflowChart = ({
   //     refetchInterval,
   //   },
   // );
+  // const workflowRunEventsMetricsQuery = useSuspenseQuery({
+  //   ...workflowRunGetMetricsOptions({
+  //     path: {
+  //       tenant: tenantId,
+  //     },
+  //     query: {
+  //       createdAfter,
+  //       createdBefore: finishedBefore,
+  //     },
+  //   }),
+  // });
 
   // const workflowRunEventsMetricsQuery = useSuspenseQuery({
   //   ...workflowGetMetricsOptions({
@@ -763,7 +788,7 @@ const GetWorkflowChart = ({
       {/* <ZoomableChart
         kind="bar"
         data={
-          workflowRunEventsMetricsQuery.data?.results?.map(
+          workflowRunEventsMetricsQuery.data?.?.map(
             (result): DataPoint<"SUCCEEDED" | "FAILED"> => ({
               date: result.time,
               SUCCEEDED: result.SUCCEEDED,
