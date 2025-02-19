@@ -57,8 +57,6 @@ export function newRProxy(options: RProxyOptions) {
       for (const [key, value] of Array.from(requestHeaders.entries())) {
         headersLogItem.push(`${key}: ${value}`);
       }
-      // console.log(`rproxy request headers: ${headersLogItem.join("\n")}`);
-
       const response = await fetch(fullUrl, {
         method: r.method,
         headers: requestHeaders,

@@ -209,7 +209,7 @@ export const StepRunDetail = ({
       <div className="flex flex-row gap-2 items-center">
         {stepRun && <StepRunSummary data={stepRun} />}
       </div>
-      <MtTabs defaultValue={defaultOpenTab} className="bg-blue-100 p-2 flex-1 h-full">
+      <MtTabs defaultValue={defaultOpenTab} className="flex-1 h-full">
         <MtTabsList layout="underlined">
           <MtTabsTrigger variant="underlined" value={TabOption.Output}>
             输出
@@ -340,16 +340,6 @@ const StepRunSummary: React.FC<{ data: StepRun }> = ({ data }) => {
     );
   }
 
-  if (data.finishedAtEpoch && data.startedAtEpoch) {
-    timings.push(
-      <div key="duration" className="text-sm text-muted-foreground">
-        运行耗时 {formatDuration({
-          seconds: data.finishedAtEpoch - data.startedAtEpoch,
-        })}
-      </div>,
-    );
-  }
-
   // interleave the timings with a dot
   const interleavedTimings: React.ReactNode[] = [];
 
@@ -371,7 +361,16 @@ const StepRunSummary: React.FC<{ data: StepRun }> = ({ data }) => {
   });
 
   return (
-    <div className="flex flex-row gap-4 items-center">{interleavedTimings}</div>
+    <div className="flex flex-row gap-4 items-center">
+      {interleavedTimings}
+      {
+        data.finishedAtEpoch && data.startedAtEpoch && (
+          <div className="text-sm text-muted-foreground">
+            耗时 {Math.floor((data.finishedAtEpoch - data.startedAtEpoch) / 1000)}秒
+          </div>
+        )
+      }
+    </div>
   );
 };
 
