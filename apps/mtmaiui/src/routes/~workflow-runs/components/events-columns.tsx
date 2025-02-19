@@ -20,11 +20,12 @@ import { cn } from "mtxuilib/lib/utils";
 import { Badge } from "mtxuilib/ui/badge";
 import { Button } from "mtxuilib/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "mtxuilib/ui/popover";
-import { type JSX, useMemo, useRef, useState } from "react";
+import { type ReactNode, useMemo, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { useMtmClient } from "../../../hooks/useMtmapi";
 import StepRunError from "./step-run-detail/step-run-error";
 import { CustomLink } from "../../../components/CustomLink";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 
 export type ActivityEventData = {
   metadata: ApiResourceMeta
@@ -45,14 +46,16 @@ export const eventsColumns = ({
     res.push({
       accessorKey: "resource",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="任务" />
+        <DataTableColumnHeader column={column} title="任务"  />
       ),
       cell: ({ row }) => {
         if (!row.original.stepRun) {
-          return null;
+          // return null;
+          return <><DebugValue title="缺少 stepRun" data={{row: row.original}}/></>
         }
         return (
           <div className="min-w-[120px] max-w-[180px]">
+            <DebugValue data={{row: row.original}}/>
             <Badge
               className="cursor-pointer text-xs font-mono py-1 bg-[#ffffff] dark:bg-[#050c1c] border-[#050c1c] dark:border-gray-400"
               variant="outline"
@@ -109,42 +112,28 @@ export const eventsColumns = ({
         <DataTableColumnHeader column={column} title="时长" />
       ),
       cell: ({ row }) => {
-        const items: JSX.Element[] = [];
         const event = row.original.event;
-
-        if (event.reason === StepRunEventReason.FAILED) {
-          items.push(
-            <ErrorWithHoverCard event={row.original} rows={allEvents} />,
-          );
-        }
-
-        if (event.data) {
-          const data = event.data as any;
-
-          if (data.worker_id) {
-            items.push(
-              <CustomLink to={`/workers/${data.worker_id}`}>
-                <Button
-                  variant="link"
-                  size="xs"
-                  className="font-mono text-xs text-muted-foreground tracking-tight brightness-150"
-                >
-                  <ServerStackIcon className="w-4 h-4 mr-1" />
-                  View Worker
-                </Button>
-              </CustomLink>,
-            );
-          }
-        }
-
         return (
           <div>
             <div className="text-xs text-muted-foreground font-mono tracking-tight">
               {row.original.event.message}
             </div>
-            {items.length > 0 && (
-              <div className="flex flex-col gap-2 mt-2">{items}</div>
-            )}
+            {
+              (event.reason === StepRunEventReason.FAILED) && <ErrorWithHoverCard event={row.original} rows={allEvents} />
+            }
+            {
+              (event.data?.worker_id as unknown as string) && <div><CustomLink to={`/workers/${event.data?.worker_id}`}>
+              <Button
+                variant="link"
+                size="xs"
+                className="font-mono text-xs text-muted-foreground tracking-tight brightness-150"
+              >
+                <ServerStackIcon className="w-4 h-4 mr-1" />
+                View Worker
+              </Button>
+            </CustomLink>
+            </div>
+            }
           </div>
         );
       },
@@ -230,14 +219,16 @@ function ErrorWithHoverCard({
           }}
           className="cursor-pointer"
         >
-          <Button
-            variant="link"
-            size="xs"
+          <CustomLink
+            // variant="link"
+            // size="xs"
+            // TODO 需要需要修正 link 地址
+            to={`/workflow-runs/${event.stepRun?.metadata.id}`}
             className="font-mono text-xs text-muted-foreground tracking-tight brightness-150"
           >
             <XCircleIcon className="w-4 h-4 mr-1" />
             View Error
-          </Button>
+          </CustomLink>
         </PopoverTrigger>
         <PopoverContent
           className="min-w-fit p-0 bg-background border-none z-[80]"

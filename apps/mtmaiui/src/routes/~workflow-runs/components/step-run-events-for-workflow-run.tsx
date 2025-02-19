@@ -11,6 +11,7 @@ import { DataTable } from "mtxuilib/data-table/data-table";
 import { useMemo } from "react";
 import { useTenantId } from "../../../hooks/useAuth";
 import { type ActivityEventData, eventsColumns } from "./events-columns";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 
 export function StepRunEvents({
   workflowRun,
@@ -65,6 +66,7 @@ export function StepRunEvents({
   }, [workflowRun]);
 
   const normalizedStepRunsByStepRunId = useMemo(() => {
+    console.log("normalizedStepRunsByStepRunId", stepRuns)
     return stepRuns.reduce(
       (acc, stepRun) => {
         if (!stepRun) {
@@ -95,6 +97,7 @@ export function StepRunEvents({
     );
   }, [steps, stepRuns]);
 
+  //合成数据,其中 重点是 stepRun 和 step
   const tableData: ActivityEventData[] =
     filteredEvents?.map((item) => {
       return {
@@ -114,14 +117,19 @@ export function StepRunEvents({
     }) || [];
 
   const cols = eventsColumns({
-    onRowClick: onClick
-      ? (row) => onClick(row.stepRun?.metadata.id)
-      : undefined,
+    onRowClick:(row)=>{
+      console.log("eventsColumns onRowClick", row)  
+      onClick?.(row.stepRun?.metadata.id)
+      // : undefined,
+    },
     allEvents: tableData,
   });
 
   return (
     <>
+    <DebugValue data={{tableData, cols}}/>
+    <DebugValue data={{stepRuns, steps}}/>
+    <DebugValue data={eventsQuery.data} title="eventsQuery.data"/>
     <DataTable
       emptyState={<>No events found.</>}
       isLoading={eventsQuery.isLoading}
