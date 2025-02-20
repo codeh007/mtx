@@ -9,12 +9,12 @@ import {
   RefreshCcw,
   Trash2,
 } from "lucide-react";
+import { type ChatSession, chatMessagesListOptions } from "mtmaiapi";
+import { getRelativeTimeString } from "mtxuilib/lib/utils";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import { CustomLink } from "../../components/CustomLink";
 import { useTenant } from "../../hooks/useAuth";
-import { getRelativeTimeString } from "mtxuilib/lib/utils";
-import { chatMessagesListOptions, ChatSession } from "mtmaiapi";
 
 interface SidebarProps {
   isOpen: boolean;

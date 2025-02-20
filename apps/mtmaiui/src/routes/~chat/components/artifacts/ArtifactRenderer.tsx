@@ -13,7 +13,7 @@ import { user } from "mtxuilib/db/schema/user";
 import { cn } from "mtxuilib/lib/utils";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useGraphStore } from "../../../stores/GraphContext";
+import { useGraphStore } from "../../../../stores/GraphContext";
 import { ReflectionsDialog } from "../ReflectionsDialog";
 import { ArtifactLoading } from "./ArtifactLoading";
 import { CodeRenderer } from "./CodeRenderer";

@@ -22,7 +22,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useGraphStore } from "../../../stores/GraphContext";
+import { useGraphStore } from "../../../../stores/GraphContext";
 import { CopyText } from "./components/CopyText";
 
 const cleanText = (text: string) => {

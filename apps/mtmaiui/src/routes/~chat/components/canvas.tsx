@@ -6,10 +6,10 @@ import { cn } from "mtxuilib/lib/utils";
 import { useToast } from "mtxuilib/ui/use-toast";
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
-import { WorkflowRunView } from "../../routes/~workflow-runs/components/WorkflowRunView";
-import { useGraphStore } from "../../stores/GraphContext";
+import { useGraphStore } from "../../../stores/GraphContext";
+import { Route } from "../../~__root";
+import { WorkflowRunView } from "../../~workflow-runs/components/WorkflowRunView";
 import { ContentComposerChatInterface } from "./content-composer";
-import { Route } from "../../routes/~__root";
 
 const LZArtifactRenderer = dynamic(
   () =>
@@ -85,7 +85,6 @@ export function CanvasComponent() {
     });
     nav({ to: `/chat/${threadId}` });
   }, [threadId, nav]);
-
 
   return (
     <main className="flex flex-row h-full">

@@ -18,7 +18,7 @@ import { getArtifactContent } from "mtxuilib/agentutils/opencanvas_utils";
 import { cleanContent } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
 import React, { type MutableRefObject } from "react";
-import { useGraphStore } from "../../../stores/GraphContext";
+import { useGraphStore } from "../../../../stores/GraphContext";
 import styles from "./CodeRenderer.module.css";
 import { CopyText } from "./components/CopyText";
 

@@ -9,16 +9,19 @@ import {
 } from "@assistant-ui/react";
 import type { ChatMessage, ProgrammingLanguageOptions } from "mtmaiapi";
 
-import type { Thread as ThreadType } from "@langchain/langgraph-sdk";
+// import type { Thread as ThreadType } from "@langchain/langgraph-sdk";
 import { Toaster } from "mtxuilib/ui/toaster";
 import { useToast } from "mtxuilib/ui/use-toast";
 import React, { useCallback, useState } from "react";
-import { useUser } from "../../hooks/useAuth";
-import { useGraphStore } from "../../stores/GraphContext";
+import { useUser } from "../../../hooks/useAuth";
+import { useGraphStore } from "../../../stores/GraphContext";
 import { Thread } from "./chat-interface/thread";
+import type { Chat } from "mtxuilib/db/schema/chat.js";
 
 export interface ContentComposerChatInterfaceProps {
-  switchSelectedThreadCallback: (thread: ThreadType) => void;
+  // switchSelectedThreadCallback: (thread: ThreadType) => void;
+  switchSelectedThreadCallback: (thread: Chat) => void;
+
   setChatStarted: (chatStarted: boolean) => void;
   hasChatStarted: boolean;
   handleQuickStart: (
