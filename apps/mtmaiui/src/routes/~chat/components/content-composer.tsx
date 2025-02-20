@@ -13,13 +13,11 @@ import type {
   ProgrammingLanguageOptions,
 } from "mtmaiapi";
 
-import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { Toaster } from "mtxuilib/ui/toaster";
 import { useToast } from "mtxuilib/ui/use-toast";
 import React, { useCallback, useState } from "react";
 import { useUser } from "../../../hooks/useAuth";
 import { useGraphStore } from "../../../stores/GraphContext";
-import { TeamCombo } from "../../~team/TeamCombo";
 import { Thread } from "./chat-interface/thread";
 
 export interface ContentComposerChatInterfaceProps {
@@ -100,13 +98,6 @@ export function ContentComposerChatInterfaceComponent(
   return (
     <div className="h-full">
       <AssistantRuntimeProvider runtime={runtime}>
-        <MtErrorBoundary>
-          <TeamCombo
-            onChange={(value) => {
-              setTeamId(value as string);
-            }}
-          />
-        </MtErrorBoundary>
         <Thread
           // userId={userData?.user?.id}
           userId={user?.metadata.id}

@@ -1,9 +1,9 @@
-import type { Assistant } from "@langchain/langgraph-sdk";
+import { cn } from "mtxuilib/lib/utils";
+import { DropdownMenuItem } from "mtxuilib/ui/dropdown-menu";
+// import type { Assistant } from "@langchain/langgraph-sdk";
 import type { Dispatch, MouseEventHandler, SetStateAction } from "react";
 import { EditDeleteDropdown } from "./edit-delete-dropdown";
 import { getIcon } from "./utils";
-import { cn } from "mtxuilib/lib/utils";
-import { DropdownMenuItem } from "mtxuilib/ui/dropdown-menu";
 
 interface AssistantItemProps {
   assistant: Assistant;

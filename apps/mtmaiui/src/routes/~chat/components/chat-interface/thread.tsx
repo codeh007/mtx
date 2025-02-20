@@ -1,14 +1,15 @@
 "use client";
 import { ThreadPrimitive } from "@assistant-ui/react";
-// import type { Thread as ThreadType } from "@langchain/langgraph-sdk";
 import { ArrowDownIcon, SquarePen } from "lucide-react";
 import type { FC } from "react";
 
 import type { ChatSession, ProgrammingLanguageOptions } from "mtmaiapi";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
+import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { CustomLink } from "../../../../components/CustomLink";
 import { useGraphStore } from "../../../../stores/GraphContext";
+import { TeamCombo } from "../../../~team/TeamCombo";
 import { useLangSmithLinkToolUI } from "../LangSmithLinkToolUI";
 import { Composer } from "./composer";
 import { AssistantMessage, UserMessage } from "./messages";
@@ -83,6 +84,7 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
   const feedbackSubmitted = useGraphStore((x) => x.feedbackSubmitted);
   const setFeedbackSubmitted = useGraphStore((x) => x.setFeedbackSubmitted);
   const runId = useGraphStore((x) => x.runId);
+  const setTeamId = useGraphStore((x) => x.setTeamId);
 
   return (
     <ThreadPrimitive.Root className="flex flex-col h-full">
@@ -95,6 +97,13 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
           <div className="bg-red-100 w-full">
             <CustomLink to="/ag_state">查看状态</CustomLink>
           </div>
+          <MtErrorBoundary>
+            <TeamCombo
+              onChange={(value) => {
+                setTeamId(value as string);
+              }}
+            />
+          </MtErrorBoundary>
           {/* {!hasChatStarted && (
             <ModelSelector
               chatStarted={false}
