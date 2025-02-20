@@ -12,12 +12,11 @@ import {
 } from "lucide-react";
 import type { MtComponent } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
-import { cn } from "mtxuilib/lib/utils";
+import { cn, getRelativeTimeString } from "mtxuilib/lib/utils";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
 import { CustomLink } from "../../components/CustomLink";
-import { getRelativeTimeString } from "../components/views/atoms";
 import { useGalleryStore } from "../~gallery/store";
 
 interface TeamSidebarProps {

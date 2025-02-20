@@ -12,8 +12,8 @@ import type { Gallery } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
-import { getRelativeTimeString } from "../components/views/atoms";
 import { useGalleryStore } from "./store";
+import { getRelativeTimeString } from "mtxuilib/lib/utils";
 
 interface GallerySidebarProps {
   isOpen: boolean;

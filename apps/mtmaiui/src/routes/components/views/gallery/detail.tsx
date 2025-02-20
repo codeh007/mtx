@@ -2,6 +2,7 @@ import {
   Bot,
   Brain,
   ChevronDown,
+  ChevronUp,
   Edit,
   Globe,
   Package,
@@ -17,9 +18,10 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
 import { useRef, useState } from "react";
 import { useGalleryStore } from "../../../~gallery/store";
-import { TruncatableText, getRelativeTimeString } from "../atoms";
+import { TruncatableText } from "../atoms";
 import { MonacoEditor } from "../monaco";
 import type { Gallery } from "./types";
+import { getRelativeTimeString } from "mtxuilib/lib/utils";
 
 const ComponentGrid: React.FC<{
   title: string;
