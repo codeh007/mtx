@@ -1,6 +1,5 @@
 "use client";
 
-// import type { Thread } from "@langchain/langgraph-sdk";
 import { isToday, isWithinInterval, isYesterday, subDays } from "date-fns";
 import { Trash2 } from "lucide-react";
 import type { ChatSession } from "mtmaiapi";

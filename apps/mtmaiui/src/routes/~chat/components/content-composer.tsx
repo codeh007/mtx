@@ -7,16 +7,18 @@ import {
   useExternalMessageConverter,
   useExternalStoreRuntime,
 } from "@assistant-ui/react";
-import type {
-  ChatMessage,
-  ChatSession,
-  ProgrammingLanguageOptions,
+import {
+  type ChatMessage,
+  type ChatSession,
+  type ProgrammingLanguageOptions,
+  chatMessagesListOptions,
 } from "mtmaiapi";
 
+import { useQuery } from "@tanstack/react-query";
 import { Toaster } from "mtxuilib/ui/toaster";
 import { useToast } from "mtxuilib/ui/use-toast";
-import React, { useCallback, useState } from "react";
-import { useUser } from "../../../hooks/useAuth";
+import React, { useCallback, useMemo, useState } from "react";
+import { useTenantId, useUser } from "../../../hooks/useAuth";
 import { useGraphStore } from "../../../stores/GraphContext";
 import { Thread } from "./chat-interface/thread";
 
@@ -38,6 +40,7 @@ export function ContentComposerChatInterfaceComponent(
   const user = useUser();
   const [isRunning, setIsRunning] = useState(false);
   const messages = useGraphStore((x) => x.messages);
+  const setMessages = useGraphStore((x) => x.setMessages);
   const submitHumanInput = useGraphStore((x) => x.submitHumanInput);
 
   const setTeamId = useGraphStore((x) => x.setTeamId);
@@ -62,6 +65,30 @@ export function ContentComposerChatInterfaceComponent(
       // await getUserThreads(user.id);
     }
   }
+  const tid = useTenantId();
+  const threadId = useGraphStore((x) => x.threadId);
+  const messagesQuery = useQuery({
+    ...chatMessagesListOptions({
+      path: {
+        tenant: tid,
+        chat: threadId!,
+      },
+    }),
+    enabled: !!threadId,
+  });
+
+  const messages2 = useMemo(() => {
+    const messages3 = messagesQuery.data?.rows?.map((x) => {
+      console.log("map message:", x);
+      return {
+        role: x.role === "user" ? "user" : "assistant",
+        id: x.metadata?.id,
+        content: [{ type: "text", text: x.content }],
+      };
+    });
+
+    setMessages(messages3 ?? []);
+  }, [messagesQuery.data]);
 
   /**
    * 原因:
@@ -74,7 +101,7 @@ export function ContentComposerChatInterfaceComponent(
       (message): ThreadMessage | ThreadMessage[] => {
         return {
           role: message.role,
-          id: message.metadata.id,
+          id: message.metadata?.id,
           content: [{ type: "text", text: message.content }],
           //   metadata: message.metadata,
         };
