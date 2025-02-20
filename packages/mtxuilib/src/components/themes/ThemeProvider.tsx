@@ -33,16 +33,22 @@ export const ThemeHeaderScript = () => {
   );
 };
 
-export const MtThemeProvider = (props: ThemeProviderProps) => {
-  return (
-    <NextThemesProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-      {...props}
-    >
-      {props.children}
-    </NextThemesProvider>
-  );
-};
+// export const MtThemeProvider = (props: ThemeProviderProps) => {
+//   return (
+//     <NextThemesProvider
+//       attribute="class"
+//       defaultTheme="system"
+//       enableSystem
+//       disableTransitionOnChange
+//       {...props}
+//     >
+//       {props.children}
+//     </NextThemesProvider>
+//   );
+// };
+export function MtThemeProvider({
+  children,
+  ...props
+}: React.ComponentProps<typeof NextThemesProvider>) {
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+}

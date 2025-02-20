@@ -10,11 +10,14 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
-import { SidebarInset } from "mtxuilib/ui/sidebar";
 import { DashContent } from "../../components/DashContent";
 import { DashHeaders } from "../../components/DashHeaders";
-import { DashSidebar } from "../../components/sidebar/siderbar";
 import { RootAppWrapper } from "../components/RootAppWrapper";
+import { DashSidebar } from "../../components/sidebar/siderbar";
+// import { DashSidebar } from "../../components/sidebar/siderbar";
+// import { SidebarInset } from "../../ui/sidebar";
+// import {DashSidebar} from "mtxuilib/ui/sidebar"
+import { SidebarInset } from "mtxuilib/ui/sidebar";
 
 export const Route = createLazyFileRoute("/chat")({
   component: RouteComponent,
@@ -30,9 +33,9 @@ function RouteComponent() {
     null;
   }
   return (
-    <RootAppWrapper>
-      
+    <RootAppWrapper className="flex w-full h-full flex-1">
       <DashSidebar />
+
       <SidebarInset>
         <DashHeaders>
           <Breadcrumb>

@@ -2,10 +2,10 @@
 
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
-import { type VariantProps, cva } from "class-variance-authority"
+import { VariantProps, cva } from "class-variance-authority"
 import { PanelLeftIcon } from "lucide-react"
 
-import { useIsMobile } from "../hooks/use-mobile"
+import { useIsMobile } from "mtxuilib/hooks/use-mobile"
 import { cn } from "../lib/utils"
 import { Button } from "./button"
 import { Input } from "./input"
@@ -465,7 +465,7 @@ function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) {
     <ul
       data-slot="sidebar-menu"
       data-sidebar="menu"
-      className={cn("flex w-full min-w-0 flex-col gap-1 bg-red-600", className)}
+      className={cn("flex w-full min-w-0 flex-col gap-1", className)}
       {...props}
     />
   )
@@ -476,7 +476,7 @@ function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
     <li
       data-slot="sidebar-menu-item"
       data-sidebar="menu-item"
-      className={cn("group/menu-item relative bg-red-400", className)}
+      className={cn("group/menu-item relative", className)}
       {...props}
     />
   )
