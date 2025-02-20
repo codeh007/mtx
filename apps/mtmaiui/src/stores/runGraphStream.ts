@@ -1,6 +1,5 @@
 "use client";
 
-import { generateId } from "ai";
 import {
   type AgentRunInput,
   EventTypes,
@@ -9,6 +8,7 @@ import {
   workflowRunCreate,
 } from "mtmaiapi";
 import type { AgentNodeState } from "./GraphContext";
+import { generateUUID } from "mtxuilib/lib/utils";
 
 const VERCEL_AI_EVENT_TYPES = {
   AI_REPLY: "0:",
@@ -91,7 +91,7 @@ export async function handleSseGraphStream(
 
   const messages = get().messages;
   const teamId = get().teamId;
-  const threadId = get().threadId;
+  let threadId = get().threadId;
   console.log("runGraphStream", {
     tenant,
     threadId,
@@ -101,6 +101,11 @@ export async function handleSseGraphStream(
   });
 
   const content = messages[messages.length - 1].content;
+
+  if (!threadId) {
+    threadId = generateUUID();
+    set({ threadId: threadId });
+  }
   const response = await workflowRunCreate({
     path: {
       workflow: FlowNames.AG,
@@ -110,8 +115,11 @@ export async function handleSseGraphStream(
         tenantId: tenant.metadata.id,
         content: content,
         teamId: teamId,
-        sessionId: threadId || "",
+        sessionId: threadId,
       } satisfies AgentRunInput,
+      additionalMetadata: {
+        sessionId: threadId,
+      },
     },
     // headers: {
     //   Accept: "text/event-stream",

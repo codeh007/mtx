@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/~__root'
 import { Route as IndexImport } from './routes/~index'
+import { Route as TriggerAgImport } from './routes/~trigger/~ag'
 import { Route as TeamTeamIdImport } from './routes/~team/~$teamId'
 import { Route as SiteSiteIdRouteImport } from './routes/~site/~$siteId/~route'
 import { Route as PlatformAccountCreateImport } from './routes/~platform-account/~create'
@@ -335,6 +336,12 @@ const AgEventsIndexLazyRoute = AgEventsIndexLazyImport.update({
   import('./routes/~agEvents/~index.lazy').then((d) => d.Route),
 )
 
+const TriggerAgRoute = TriggerAgImport.update({
+  id: '/ag',
+  path: '/ag',
+  getParentRoute: () => TriggerRouteLazyRoute,
+} as any)
+
 const TeamTeamIdRoute = TeamTeamIdImport.update({
   id: '/$teamId',
   path: '/$teamId',
@@ -646,6 +653,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/team/$teamId'
       preLoaderRoute: typeof TeamTeamIdImport
       parentRoute: typeof TeamRouteLazyImport
+    }
+    '/trigger/ag': {
+      id: '/trigger/ag'
+      path: '/ag'
+      fullPath: '/trigger/ag'
+      preLoaderRoute: typeof TriggerAgImport
+      parentRoute: typeof TriggerRouteLazyImport
     }
     '/agEvents/': {
       id: '/agEvents/'
@@ -1042,10 +1056,12 @@ const TeamRouteLazyRouteWithChildren = TeamRouteLazyRoute._addFileChildren(
 )
 
 interface TriggerRouteLazyRouteChildren {
+  TriggerAgRoute: typeof TriggerAgRoute
   TriggerIdLazyRoute: typeof TriggerIdLazyRoute
 }
 
 const TriggerRouteLazyRouteChildren: TriggerRouteLazyRouteChildren = {
+  TriggerAgRoute: TriggerAgRoute,
   TriggerIdLazyRoute: TriggerIdLazyRoute,
 }
 
@@ -1110,6 +1126,7 @@ export interface FileRoutesByFullPath {
   '/platform-account/create': typeof PlatformAccountCreateRoute
   '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
   '/team/$teamId': typeof TeamTeamIdRoute
+  '/trigger/ag': typeof TriggerAgRoute
   '/agEvents/': typeof AgEventsIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
   '/endpoint/': typeof EndpointIndexLazyRoute
@@ -1150,6 +1167,7 @@ export interface FileRoutesByTo {
   '/platform-account/$id': typeof PlatformAccountIdRoute
   '/platform-account/create': typeof PlatformAccountCreateRoute
   '/team/$teamId': typeof TeamTeamIdRoute
+  '/trigger/ag': typeof TriggerAgRoute
   '/agEvents': typeof AgEventsIndexLazyRoute
   '/chat': typeof ChatIndexLazyRoute
   '/endpoint': typeof EndpointIndexLazyRoute
@@ -1205,6 +1223,7 @@ export interface FileRoutesById {
   '/platform-account/create': typeof PlatformAccountCreateRoute
   '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
   '/team/$teamId': typeof TeamTeamIdRoute
+  '/trigger/ag': typeof TriggerAgRoute
   '/agEvents/': typeof AgEventsIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
   '/endpoint/': typeof EndpointIndexLazyRoute
@@ -1263,6 +1282,7 @@ export interface FileRouteTypes {
     | '/platform-account/create'
     | '/site/$siteId'
     | '/team/$teamId'
+    | '/trigger/ag'
     | '/agEvents/'
     | '/chat/'
     | '/endpoint/'
@@ -1302,6 +1322,7 @@ export interface FileRouteTypes {
     | '/platform-account/$id'
     | '/platform-account/create'
     | '/team/$teamId'
+    | '/trigger/ag'
     | '/agEvents'
     | '/chat'
     | '/endpoint'
@@ -1355,6 +1376,7 @@ export interface FileRouteTypes {
     | '/platform-account/create'
     | '/site/$siteId'
     | '/team/$teamId'
+    | '/trigger/ag'
     | '/agEvents/'
     | '/chat/'
     | '/endpoint/'
@@ -1562,6 +1584,7 @@ export const routeTree = rootRoute
     "/trigger": {
       "filePath": "~trigger/~route.lazy.tsx",
       "children": [
+        "/trigger/ag",
         "/trigger/$id"
       ]
     },
@@ -1623,6 +1646,10 @@ export const routeTree = rootRoute
     "/team/$teamId": {
       "filePath": "~team/~$teamId.tsx",
       "parent": "/team"
+    },
+    "/trigger/ag": {
+      "filePath": "~trigger/~ag.tsx",
+      "parent": "/trigger"
     },
     "/agEvents/": {
       "filePath": "~agEvents/~index.lazy.tsx",
