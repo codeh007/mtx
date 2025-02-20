@@ -10,14 +10,15 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
-import { DashContent } from "../../components/DashContent";
-import { DashHeaders } from "../../components/DashHeaders";
-import { RootAppWrapper } from "../components/RootAppWrapper";
-import { DashSidebar } from "../../components/sidebar/siderbar";
 // import { DashSidebar } from "../../components/sidebar/siderbar";
 // import { SidebarInset } from "../../ui/sidebar";
 // import {DashSidebar} from "mtxuilib/ui/sidebar"
 import { SidebarInset } from "mtxuilib/ui/sidebar";
+import { DashContent } from "../../components/DashContent";
+import { DashHeaders } from "../../components/DashHeaders";
+import { DashSidebar } from "../../components/sidebar/siderbar";
+import { GraphProvider } from "../../stores/GraphContext";
+import { RootAppWrapper } from "../components/RootAppWrapper";
 
 export const Route = createLazyFileRoute("/chat")({
   component: RouteComponent,
@@ -48,7 +49,9 @@ function RouteComponent() {
         </DashHeaders>
         <DashContent>
           <MtSuspenseBoundary>
-            <Outlet />
+            <GraphProvider agentEndpointBase={selfBackendend!} tenant={tenant!}>
+              <Outlet />
+            </GraphProvider>
           </MtSuspenseBoundary>
         </DashContent>
       </SidebarInset>
