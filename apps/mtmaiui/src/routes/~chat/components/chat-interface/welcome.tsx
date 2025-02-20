@@ -1,12 +1,10 @@
 import { ThreadPrimitive, useThreadRuntime } from "@assistant-ui/react";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { NotebookPen } from "lucide-react";
 import {
   type ProgrammingLanguageOptions,
   type QuickStart,
   uiAgentGetOptions,
 } from "mtmaiapi";
-import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { TighterText } from "mtxuilib/mt/TighterText";
 import { Avatar, AvatarFallback } from "mtxuilib/ui/avatar";
@@ -14,8 +12,6 @@ import { Button } from "mtxuilib/ui/button";
 import type { FC } from "react";
 import { useTenant } from "../../../../hooks/useAuth";
 import { useGraphStore } from "../../../../stores/GraphContext";
-import { TeamCombo } from "../../../~team/TeamCombo";
-import { ProgrammingLanguagesDropdown } from "../programming-lang-dropdown";
 
 interface QuickStartButtonsProps {
   quickStarts: QuickStart[];
@@ -44,7 +40,7 @@ const QuickStartButtons = (props: QuickStartButtonsProps) => {
       <div className="flex flex-col gap-6">
         <p className="text-gray-600 text-sm">Start with a blank canvas</p>
         <div className="flex flex-row gap-1 items-center justify-center w-full">
-          <Button
+          {/* <Button
             variant="outline"
             className="transition-colors text-gray-600 flex items-center justify-center gap-2 w-[250px] h-[64px]"
             onClick={() => props.handleQuickStart("text")}
@@ -52,7 +48,7 @@ const QuickStartButtons = (props: QuickStartButtonsProps) => {
             <TighterText>New Markdown</TighterText>
             <NotebookPen />
           </Button>
-          <ProgrammingLanguagesDropdown handleSubmit={handleLanguageSubmit} />
+          <ProgrammingLanguagesDropdown handleSubmit={handleLanguageSubmit} /> */}
         </div>
       </div>
       <div className="flex flex-col gap-6 mt-2 w-full">
@@ -111,13 +107,6 @@ export const ThreadWelcome: FC<ThreadWelcomeProps> = (
             <AvatarFallback>AI 小助理</AvatarFallback>
           </Avatar>
 
-          <MtErrorBoundary>
-            <TeamCombo
-              onChange={(value) => {
-                setTeamId(value as string);
-              }}
-            />
-          </MtErrorBoundary>
           <TighterText className="mt-4 text-lg font-medium">
             {uiAgentStateQuery.data?.welcome?.title || "此时此刻想做点什么?"}
           </TighterText>

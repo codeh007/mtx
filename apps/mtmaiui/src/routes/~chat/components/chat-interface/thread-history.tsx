@@ -1,8 +1,9 @@
 "use client";
 
-import type { Thread } from "@langchain/langgraph-sdk";
+// import type { Thread } from "@langchain/langgraph-sdk";
 import { isToday, isWithinInterval, isYesterday, subDays } from "date-fns";
 import { Trash2 } from "lucide-react";
+import type { ChatSession } from "mtmaiapi";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
 import { Button } from "mtxuilib/ui/button";
@@ -12,7 +13,8 @@ import React, { useState } from "react";
 import { PiChatsCircleLight } from "react-icons/pi";
 
 interface ThreadHistoryProps {
-  switchSelectedThreadCallback: (thread: Thread) => void;
+  // switchSelectedThreadCallback: (thread: Thread) => void;
+  switchSelectedThreadCallback: (thread: ChatSession) => void;
 }
 
 interface ThreadProps {
@@ -58,8 +60,8 @@ const ThreadItem = (props: ThreadProps) => {
 // const LoadingThread = () => <Skeleton className="w-full h-8" />;
 
 const convertThreadActualToThreadProps = (
-  thread: Thread,
-  switchSelectedThreadCallback: (thread: Thread) => void,
+  thread: ChatSession,
+  switchSelectedThreadCallback: (thread: ChatSession) => void,
   deleteThread: (id: string) => void,
 ): ThreadProps => ({
   id: thread.thread_id,

@@ -1,4 +1,5 @@
 import type { Edge, Node } from "@xyflow/react";
+import type { ComponentTypes } from "mtmaiapi";
 export interface NodeData extends Record<string, unknown> {
   label: string;
   type: ComponentTypes;
@@ -24,10 +25,10 @@ export interface Position {
   x: number;
   y: number;
 }
-export interface GraphState {
-  nodes: CustomNode[];
-  edges: CustomEdge[];
-}
+// export interface GraphState {
+//   nodes: CustomNode[];
+//   edges: CustomEdge[];
+// }
 
 export interface FormFieldMapping {
   fieldName: string;
@@ -38,10 +39,10 @@ export interface FormFieldMapping {
   validate?: (value: any) => boolean;
 }
 
-export interface DragItem {
-  type: ComponentTypes;
-  config: ComponentConfigTypes;
-}
+// export interface DragItem {
+//   type: ComponentTypes;
+//   config: ComponentConfigTypes;
+// }
 
 export interface NodeComponentProps {
   data: NodeData;

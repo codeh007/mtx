@@ -1,10 +1,10 @@
 "use client";
 import { ThreadPrimitive } from "@assistant-ui/react";
-import type { Thread as ThreadType } from "@langchain/langgraph-sdk";
+// import type { Thread as ThreadType } from "@langchain/langgraph-sdk";
 import { ArrowDownIcon, SquarePen } from "lucide-react";
 import type { FC } from "react";
 
-import type { ProgrammingLanguageOptions } from "mtmaiapi";
+import type { ChatSession, ProgrammingLanguageOptions } from "mtmaiapi";
 import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { CustomLink } from "../../../../components/CustomLink";
@@ -36,7 +36,8 @@ export interface ThreadProps {
     language?: ProgrammingLanguageOptions,
   ) => void;
   setChatStarted: (chatStarted: boolean) => void;
-  switchSelectedThreadCallback: (thread: ThreadType) => void;
+  // switchSelectedThreadCallback: (thread: ThreadType) => void;
+  switchSelectedThreadCallback: (thread: ChatSession) => void;
 }
 
 export const Thread: FC<ThreadProps> = (props: ThreadProps) => {

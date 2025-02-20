@@ -2,7 +2,7 @@
 
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import {
-  ChatMessage,
+  type ChatMessage,
   WorkflowRunStatus,
   agStateGetOptions,
   chatMessagesListOptions,
@@ -11,8 +11,8 @@ import {
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useMemo } from "react";
 import { useTenantId } from "../../../hooks/useAuth";
-import { AgStateView } from "../../~ag_state/components/AgStateView";
 import { useGraphStore } from "../../../stores/GraphContext";
+import { AgStateView } from "../../~ag_state/components/AgStateView";
 
 interface WorkflowRunViewProps {
   runId: string;
@@ -49,7 +49,9 @@ export const WorkflowRunView = ({ runId }: WorkflowRunViewProps) => {
 
   return (
     <>
-      <div className="bg-slate-100 p-2">{sessionId} / {runId}</div>
+      <div className="bg-slate-100 p-2">
+        {sessionId} / {runId}
+      </div>
       <div>
         <DebugValue data={{ workflowRun }} />
         {statusText === WorkflowRunStatus.RUNNING && <div>运行中</div>}
@@ -59,10 +61,8 @@ export const WorkflowRunView = ({ runId }: WorkflowRunViewProps) => {
           </div>
         )}
       </div>
-      {
-        sessionId && <AgChatView sessionId={sessionId} />
-      }
-      </>
+      {sessionId && <AgChatView sessionId={sessionId} />}
+    </>
   );
 };
 
@@ -79,17 +79,17 @@ const AgChatView = ({ sessionId }: AgChatViewProps) => {
       },
     }),
   });
-  return <div>
-     {sessionId}
-    <DebugValue data={{ messagesQuery }} />
-    {messagesQuery.data?.rows?.map((message) => (
-      <AgChatMessageView key={message.metadata.id} message={message} />
-    ))}
-  </div>
+  return (
+    <div>
+      {sessionId}
+      <DebugValue data={{ messagesQuery }} />
+      {messagesQuery.data?.rows?.map((message) => (
+        <AgChatMessageView key={message.metadata.id} message={message} />
+      ))}
+    </div>
+  );
 };
 
 const AgChatMessageView = ({ message }: { message: ChatMessage }) => {
-  return <div className="bg-slate-100 p-2">
-     {message.content}
-  </div>;
+  return <div className="bg-slate-100 p-2">{message.content}</div>;
 };

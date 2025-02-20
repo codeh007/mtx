@@ -2,7 +2,7 @@
 
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { Suspense, useEffect, useMemo } from "react";
-import { CopliotUserMenus } from "./CopliotUserMenus";
+import { CopliotUserMenus } from "./CopliotUserMenus.tsx--";
 
 import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { ReactQueryDevtoolsProduction } from "mtxuilib/components/devtools/DevToolsView";

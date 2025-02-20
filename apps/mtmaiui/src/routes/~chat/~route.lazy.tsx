@@ -10,9 +10,6 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
-// import { DashSidebar } from "../../components/sidebar/siderbar";
-// import { SidebarInset } from "../../ui/sidebar";
-// import {DashSidebar} from "mtxuilib/ui/sidebar"
 import { SidebarInset } from "mtxuilib/ui/sidebar";
 import { DashContent } from "../../components/DashContent";
 import { DashHeaders } from "../../components/DashHeaders";

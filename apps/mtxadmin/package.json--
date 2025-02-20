@@ -60,7 +60,6 @@
     "@assistant-ui/react": "^0.7.57",
     "@assistant-ui/react-ai-sdk": "^0.7.4",
     "@assistant-ui/react-langgraph": "^0.1.7",
-    "@assistant-ui/react-markdown": "^0.7.5",
     "@assistant-ui/react-syntax-highlighter": "^0.7.4",
     "@blocknote/core": "^0.21.0",
     "@blocknote/mantine": "^0.21.0",

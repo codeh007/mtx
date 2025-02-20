@@ -7,20 +7,23 @@ import {
   useExternalMessageConverter,
   useExternalStoreRuntime,
 } from "@assistant-ui/react";
-import type { ChatMessage, ProgrammingLanguageOptions } from "mtmaiapi";
+import type {
+  ChatMessage,
+  ChatSession,
+  ProgrammingLanguageOptions,
+} from "mtmaiapi";
 
-// import type { Thread as ThreadType } from "@langchain/langgraph-sdk";
+import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { Toaster } from "mtxuilib/ui/toaster";
 import { useToast } from "mtxuilib/ui/use-toast";
 import React, { useCallback, useState } from "react";
 import { useUser } from "../../../hooks/useAuth";
 import { useGraphStore } from "../../../stores/GraphContext";
+import { TeamCombo } from "../../~team/TeamCombo";
 import { Thread } from "./chat-interface/thread";
-import type { Chat } from "mtxuilib/db/schema/chat.js";
 
 export interface ContentComposerChatInterfaceProps {
-  // switchSelectedThreadCallback: (thread: ThreadType) => void;
-  switchSelectedThreadCallback: (thread: Chat) => void;
+  switchSelectedThreadCallback: (thread: ChatSession) => void;
 
   setChatStarted: (chatStarted: boolean) => void;
   hasChatStarted: boolean;
@@ -38,6 +41,8 @@ export function ContentComposerChatInterfaceComponent(
   const [isRunning, setIsRunning] = useState(false);
   const messages = useGraphStore((x) => x.messages);
   const submitHumanInput = useGraphStore((x) => x.submitHumanInput);
+
+  const setTeamId = useGraphStore((x) => x.setTeamId);
 
   async function onNew(message: AppendMessage): Promise<void> {
     if (message.content?.[0]?.type !== "text") {
@@ -95,6 +100,13 @@ export function ContentComposerChatInterfaceComponent(
   return (
     <div className="h-full">
       <AssistantRuntimeProvider runtime={runtime}>
+        <MtErrorBoundary>
+          <TeamCombo
+            onChange={(value) => {
+              setTeamId(value as string);
+            }}
+          />
+        </MtErrorBoundary>
         <Thread
           // userId={userData?.user?.id}
           userId={user?.metadata.id}

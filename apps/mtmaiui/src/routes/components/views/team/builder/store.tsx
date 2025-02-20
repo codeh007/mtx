@@ -1,13 +1,18 @@
 import type {
-  AgentConfig,
+  // AgentConfig,
   ModelConfig,
-  TeamConfig,
+  // TeamConfig,
   TerminationConfig,
   ToolConfig,
 } from "mtmaiapi";
 import { nanoid } from "nanoid";
 import type { Component } from "react";
 import { create } from "zustand";
+import type {
+  AgentConfig,
+  ComponentTypes,
+  TeamConfig,
+} from "../../../types/datamodel";
 import { isAgentComponent, isTeamComponent } from "../../../types/guards";
 import type {
   CustomEdge,
@@ -17,7 +22,6 @@ import type {
   Position,
 } from "./types";
 import { convertTeamConfigToGraph, getLayoutedElements } from "./utils";
-import type { ComponentTypes } from "../../../types/datamodel";
 
 const MAX_HISTORY = 50;
 

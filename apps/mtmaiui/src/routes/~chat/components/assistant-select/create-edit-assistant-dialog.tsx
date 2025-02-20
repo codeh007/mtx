@@ -1,4 +1,4 @@
-import type { Assistant } from "@langchain/langgraph-sdk";
+// import type { Assistant } from "@langchain/langgraph-sdk";
 import type * as Icons from "lucide-react";
 import type React from "react";
 import {
@@ -24,7 +24,7 @@ import { Input } from "mtxuilib/ui/input";
 import { Label } from "mtxuilib/ui/label";
 import { Textarea } from "mtxuilib/ui/textarea";
 import { useToast } from "mtxuilib/ui/use-toast";
-import type { CreateAssistantFields } from "../hooks/useAssistants";
+// import type { CreateAssistantFields } from "../hooks/useAssistants";
 import { ColorPicker } from "./color-picker";
 import { IconSelect } from "./icon-select";
 
