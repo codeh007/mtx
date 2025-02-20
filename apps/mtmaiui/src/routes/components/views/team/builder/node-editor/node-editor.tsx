@@ -253,7 +253,7 @@ export const NodeEditor: React.FC<
           {editPath.length > 0 && (
             <Button
               onClick={navigateBack}
-              icon={<ChevronLeft className="w-4 h-4" />}
+              icon={<ChevronLeft className="size-4" />}
               type="text"
             />
           )}

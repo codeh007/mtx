@@ -209,7 +209,7 @@ export function CustomQuickActions(props: CustomQuickActionsProps) {
 				{isLoadingQuickActions && !customQuickActions?.length ? (
 					<span className="text-sm text-gray-600 flex items-center justify-start gap-1 p-2">
 						Loading
-						<LoaderCircle className="w-4 h-4 animate-spin" />
+						<LoaderCircle className="size-4 animate-spin" />
 					</span>
 				) : !customQuickActions?.length ? (
 					<TighterText className="text-sm text-gray-600 p-2">
@@ -235,7 +235,7 @@ export function CustomQuickActions(props: CustomQuickActionsProps) {
 					onSelect={handleNewActionClick}
 					className="flex items-center justify-start gap-1"
 				>
-					<CirclePlus className="w-4 h-4" />
+					<CirclePlus className="size-4" />
 					<TighterText className="font-medium">New</TighterText>
 				</DropdownMenuItem>
 			</DropdownMenuContent>

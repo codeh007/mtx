@@ -34,7 +34,7 @@ export const DeploySidebar: React.FC<DeploySidebarProps> = ({
             <TooltipTrigger>
               <button
                 onClick={onToggle}
-              className="p-2 rounded-md hover:bg-secondary hover:text-accent   transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+              className="p-2 rounded-md hover:bg-secondary hover:text-accent   transition-colors focus:outline-hidden focus:ring-2 focus:ring-accent focus:ring-opacity-50"
             >
               <PanelLeftOpen strokeWidth={1.5} className="h-6 w-6" />
             </button>
@@ -53,7 +53,7 @@ export const DeploySidebar: React.FC<DeploySidebarProps> = ({
       {/* Header */}
       <div className="flex items-center justify-between pt-0 p-4 pl-2 pr-2 border-b border-secondary">
         <div className="flex items-center gap-2">
-          {/* <Book className="w-4 h-4" /> */}
+          {/* <Book className="size-4" /> */}
           <span className="text-primary font-medium">Guides</span>
           {/* <span className="px-2 py-0.5 text-xs bg-accent/10 text-accent rounded">
             {guides.length}
@@ -62,7 +62,7 @@ export const DeploySidebar: React.FC<DeploySidebarProps> = ({
         <Tooltip title="Close Sidebar">
           <button
             onClick={onToggle}
-            className="p-2 rounded-md hover:bg-secondary hover:text-accent   transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+            className="p-2 rounded-md hover:bg-secondary hover:text-accent   transition-colors focus:outline-hidden focus:ring-2 focus:ring-accent focus:ring-opacity-50"
           >
             <PanelLeftClose strokeWidth={1.5} className="h-6 w-6" />
           </button>
@@ -72,14 +72,14 @@ export const DeploySidebar: React.FC<DeploySidebarProps> = ({
       {/* Loading State */}
       {isLoading && (
         <div className="p-4">
-          <RefreshCcw className="w-4 h-4 inline-block animate-spin" />
+          <RefreshCcw className="size-4 inline-block animate-spin" />
         </div>
       )}
 
       {/* Empty State */}
       {!isLoading && guides.length === 0 && (
         <div className="p-2 m-2 text-center   text-sm border border-dashed rounded">
-          <InfoIcon className="w-4 h-4 inline-block mr-1.5 -mt-0.5" />
+          <InfoIcon className="size-4 inline-block mr-1.5 -mt-0.5" />
           No deployment guide available
         </div>
       )}

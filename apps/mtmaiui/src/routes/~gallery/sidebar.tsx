@@ -52,7 +52,7 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
               <Button
                 variant={"ghost"}
                 onClick={onToggle}
-                className="p-2 rounded-md hover:bg-secondary hover:text-accent   transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+                className="p-2 rounded-md hover:bg-secondary hover:text-accent   transition-colors focus:outline-hidden focus:ring-2 focus:ring-accent focus:ring-opacity-50"
               >
                 <PanelLeftOpen strokeWidth={1.5} className="h-6 w-6" />
               </Button>
@@ -70,7 +70,7 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
                 className="w-full p-2 flex justify-center"
                 onClick={onCreateGallery}
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="size-4" />
               </Button>
             </TooltipTrigger>
             <TooltipContent>
@@ -97,7 +97,7 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
           <TooltipTrigger asChild>
             <Button
               onClick={onToggle}
-              className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+              className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-hidden focus:ring-2 focus:ring-accent focus:ring-opacity-50"
             >
               <PanelLeftClose strokeWidth={1.5} className="h-6 w-6" />
             </Button>
@@ -114,7 +114,7 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
           <Tooltip>
             <TooltipTrigger asChild>
               <Button className="w-full" onClick={onCreateGallery}>
-                <Plus className="w-4 h-4" />
+                <Plus className="size-4" />
                 New Gallery
               </Button>
             </TooltipTrigger>
@@ -192,7 +192,7 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
                               syncGallery(gallery.metadata.id);
                             }}
                           >
-                            <RefreshCw className="w-4 h-4" />
+                            <RefreshCw className="size-4" />
                           </Button>
                         </TooltipTrigger>
                         <TooltipContent>
@@ -216,7 +216,7 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
                           }}
                         >
                           <Pin
-                            className={`w-4 h-4 ${
+                            className={`size-4 ${
                               defaultGalleryId === gallery.metadata.id
                                 ? "fill-accent"
                                 : ""
@@ -290,7 +290,7 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
 
           <div className="p-2 mt-2 border-dashed border rounded text-xs mr-2">
             Gallery items marked as default (
-            <Pin className="w-4 h-4 inline-block -mt-0.5" />) are available in
+            <Pin className="size-4 inline-block -mt-0.5" />) are available in
             the builder by default.
           </div>
         </div>

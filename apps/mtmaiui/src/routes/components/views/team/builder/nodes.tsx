@@ -141,7 +141,7 @@ const BaseNode = memo<BaseNodeProps>(
                 }}
                 className="p-1 hover:bg-secondary rounded"
               >
-                <Edit className="w-4 h-4 text-accent" />
+                <Edit className="size-4 text-accent" />
               </Button>
               {showDelete && (
                 <Button
@@ -152,7 +152,7 @@ const BaseNode = memo<BaseNodeProps>(
                   }}
                   className="p-1 hover:bg-red-100 rounded"
                 >
-                  <Trash2Icon className="w-4 h-4 text-red-500" />
+                  <Trash2Icon className="size-4 text-red-500" />
                 </Button>
               )}
             </div>
@@ -282,7 +282,7 @@ export const TeamNode = memo<NodeProps<CustomNode>>((props) => {
               key={index}
               className="relative text-sm py-1 px-2 bg-white rounded flex items-center gap-2"
             >
-              <Brain className="w-4 h-4 text-gray-500" />
+              <Brain className="size-4 text-gray-500" />
               <span>{participant.config.name}</span>
             </div>
           ))}
@@ -306,7 +306,7 @@ export const TeamNode = memo<NodeProps<CustomNode>>((props) => {
         <div className="space-y-1">
           {component.config.termination_condition && (
             <div className="text-sm py-1 px-2 bg-white rounded flex items-center gap-2">
-              <Timer className="w-4 h-4 text-gray-500" />
+              <Timer className="size-4 text-gray-500" />
               <span>
                 {component.config.termination_condition.label ||
                   component.config.termination_condition.component_type}
@@ -414,7 +414,7 @@ export const AgentNode = memo<NodeProps<CustomNode>>((props) => {
                         key={index}
                         className="relative text-sm py-1 px-2 bg-white rounded flex items-center gap-2"
                       >
-                        <Wrench className="w-4 h-4 text-gray-500" />
+                        <Wrench className="size-4 text-gray-500" />
                         <span>{tool.config.name}</span>
                       </div>
                     ))}

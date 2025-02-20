@@ -64,7 +64,7 @@ export const CodeSection: React.FC<CodeSectionProps> = ({
           onClick={() => onCopy(code)}
           className="absolute right-2 top-2 p-2  bg-secondary hover:bg-primary rounded-md"
         >
-          <Copy className="w-4 h-4 hover:text-accent transition duration-100" />
+          <Copy className="size-4 hover:text-accent transition duration-100" />
         </button>
         {/* overflow scroll custom style */}
         <SyntaxHighlighter language={language} wrapLines={true} style={oneDark}>

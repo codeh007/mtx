@@ -70,7 +70,7 @@ export const AlertNewModelSelectorFeature = ({
                   onClick={handleCloseAlert}
                   size="sm"
                 >
-                  <X className="w-4 h-4 text-gray-600" />
+                  <X className="size-4 text-gray-600" />
                 </TooltipIconButton>
               </AlertTitle>
               <AlertDescription className="inline-flex items-center gap-1 flex-wrap mt-2">

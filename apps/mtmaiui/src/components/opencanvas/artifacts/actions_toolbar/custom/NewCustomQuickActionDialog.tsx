@@ -64,9 +64,9 @@ const ViewOrHidePromptIcon = (props: ViewOrHidePromptIconProps) => (
     }}
   >
     {props.showFullPrompt ? (
-      <EyeOff className="w-4 h-4 text-gray-600" />
+      <EyeOff className="size-4 text-gray-600" />
     ) : (
-      <Eye className="w-4 h-4 text-gray-600" />
+      <Eye className="size-4 text-gray-600" />
     )}
   </TooltipIconButton>
 );

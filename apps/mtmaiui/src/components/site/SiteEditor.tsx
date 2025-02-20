@@ -129,7 +129,7 @@ const SiteEditorForm = (props: { site: Site }) => {
           control={form.control}
           name="enabledAutoGenArticle"
           render={({ field }) => (
-            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs">
               <div className="space-y-0.5">
                 <FormLabel>自动生产文章</FormLabel>
                 <FormDescription>

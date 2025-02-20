@@ -27,7 +27,7 @@ import { Tooltip } from "mtxuilib/ui/tooltip";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import type { ComponentTypes, Team } from "../../../types/datamodel";
 import { MonacoEditor } from "../../monaco";
-import "./builder.css";
+// import "./builder.css";
 import { ComponentLibrary } from "./library";
 import { NodeEditor } from "./node-editor/node-editor";
 import { edgeTypes, nodeTypes } from "./nodes";
@@ -392,7 +392,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
                 <div
                   className={`w-full h-full transition-all duration-200 ${
                     isFullscreen
-                      ? "fixed inset-4 z-50 shadow bg-tertiary  backdrop-blur-sm"
+                      ? "fixed inset-4 z-50 shadow-sm bg-tertiary  backdrop-blur-sm"
                       : ""
                   }`}
                 >

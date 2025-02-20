@@ -146,7 +146,7 @@ export const RunView = ({
           {!isFirstRun && (
             <>
               |
-              <TriangleAlertIcon className="w-4 h-4 -mt-1 inline-block mr-1 ml-1" />
+              <TriangleAlertIcon className="size-4 -mt-1 inline-block mr-1 ml-1" />
               Note: Each run does not share data with previous runs in the same
               session yet.
             </>
@@ -290,7 +290,7 @@ export const RunView = ({
                         </div>
                       )}
                       <div className="text-primary mt-2">
-                        <div className="w-4 h-4 inline-block  border-secondary rounded-bl-lg border-l-2 border-b-2"></div>{" "}
+                        <div className="size-4 inline-block  border-secondary rounded-bl-lg border-l-2 border-b-2"></div>{" "}
                         <div className="inline-block ">
                           {getStatusIcon(run.status)}
                         </div>

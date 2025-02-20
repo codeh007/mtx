@@ -243,7 +243,7 @@ export const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
                         onClick={() =>
                           setSidebarState({ isExpanded: !isExpanded })
                         }
-                        className="p-2 rounded-md hover:bg-secondary hover:text-accent   transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+                        className="p-2 rounded-md hover:bg-secondary hover:text-accent   transition-colors focus:outline-hidden focus:ring-2 focus:ring-accent focus:ring-opacity-50"
                       >
                         {isExpanded ? (
                           <PanelLeftClose
@@ -297,7 +297,7 @@ export const Sidebar = ({ link, meta, isMobile }: SidebarProps) => {
                         onClick={() =>
                           setSidebarState({ isExpanded: !isExpanded })
                         }
-                        className="p-2 rounded-md hover:bg-secondary hover:text-accent   transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+                        className="p-2 rounded-md hover:bg-secondary hover:text-accent   transition-colors focus:outline-hidden focus:ring-2 focus:ring-accent focus:ring-opacity-50"
                       >
                         {isExpanded ? (
                           <PanelLeftClose

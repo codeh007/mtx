@@ -58,7 +58,7 @@ export const NodeEditorFields: React.FC<NodeEditorFieldsProps> = ({
 							className="w-full flex justify-between items-center"
 						>
 							<span>{item.label}</span>
-							<Edit className="w-4 h-4" />
+							<Edit className="size-4" />
 						</Button>
 					))}
 				</div>
@@ -78,7 +78,7 @@ export const NodeEditorFields: React.FC<NodeEditorFieldsProps> = ({
 					className="w-full flex justify-between items-center"
 				>
 					<span>{label}</span>
-					<Edit className="w-4 h-4" />
+					<Edit className="size-4" />
 				</Button>
 			</div>
 		) : null;

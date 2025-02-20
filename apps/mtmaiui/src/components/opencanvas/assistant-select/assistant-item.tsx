@@ -44,7 +44,7 @@ export function AssistantItem({
       >
         <span
           style={{ color: metadata?.iconData?.iconColor || "#4b5563" }}
-          className="flex items-center justify-start w-4 h-4"
+          className="flex items-center justify-start size-4"
         >
           {getIcon(metadata?.iconData?.iconName as string | undefined)}
         </span>

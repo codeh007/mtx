@@ -61,7 +61,7 @@ export const eventsColumns = ({
               variant="outline"
               onClick={() => onRowClick(row.original)}
             >
-              <ArrowLeftEndOnRectangleIcon className="w-4 h-4 mr-1" />
+              <ArrowLeftEndOnRectangleIcon className="size-4 mr-1" />
               <div className="truncate max-w-[150px]">
                 {row.original.step?.readableId}
               </div>
@@ -128,7 +128,7 @@ export const eventsColumns = ({
                 size="xs"
                 className="font-mono text-xs text-muted-foreground tracking-tight brightness-150"
               >
-                <ServerStackIcon className="w-4 h-4 mr-1" />
+                <ServerStackIcon className="size-4 mr-1" />
                 View Worker
               </Button>
             </CustomLink>
@@ -226,7 +226,7 @@ function ErrorWithHoverCard({
             to={`/workflow-runs/${event.stepRun?.metadata.id}`}
             className="font-mono text-xs text-muted-foreground tracking-tight brightness-150"
           >
-            <XCircleIcon className="w-4 h-4 mr-1" />
+            <XCircleIcon className="size-4 mr-1" />
             View Error
           </CustomLink>
         </PopoverTrigger>

@@ -42,7 +42,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
               {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
               <button
                 onClick={onToggle}
-                className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+                className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-hidden focus:ring-2 focus:ring-accent focus:ring-opacity-50"
               >
                 <PanelLeftOpen strokeWidth={1.5} className="h-6 w-6" />
               </button>
@@ -61,7 +61,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                 className="w-full p-2 flex justify-center"
                 // onClick={handleSaveTeam}
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="size-4" />
               </Button>
             </TooltipTrigger>
             <TooltipContent>
@@ -89,7 +89,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
             {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
             <button
               onClick={onToggle}
-              className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+              className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-hidden focus:ring-2 focus:ring-accent focus:ring-opacity-50"
             >
               <PanelLeftClose strokeWidth={1.5} className="h-6 w-6" />
             </button>
@@ -125,14 +125,14 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
       {/* Section Label */}
       <div className="py-2 flex text-sm">
         <div className="flex">最近使用</div>
-        {isLoading && <RefreshCcw className="w-4 h-4 ml-2 animate-spin" />}
+        {isLoading && <RefreshCcw className="size-4 ml-2 animate-spin" />}
       </div>
 
       {/* Teams List */}
 
       {!isLoading && teams.length === 0 && (
         <div className="p-2 mr-2 text-center text-sm border border-dashed rounded ">
-          <InfoIcon className="w-4 h-4 inline-block mr-1.5 -mt-0.5" />
+          <InfoIcon className="size-4 inline-block mr-1.5 -mt-0.5" />
           No recent teams found
         </div>
       )}

@@ -41,9 +41,9 @@ const CopyToClipboard: React.FC<Props> = ({
       }}
     >
       {successCopy ? (
-        <CheckIcon className="w-4 h-4" />
+        <CheckIcon className="size-4" />
       ) : (
-        <CopyIcon className="w-4 h-4" />
+        <CopyIcon className="size-4" />
       )}
       {withText && (successCopy ? "Copied" : "Copy to clipboard")}
     </Button>

@@ -41,14 +41,14 @@ export const BoltPromptBox = ({
       >
         <div
           className={cn(
-            "shadow-sm border border-bolt-elements-borderColor bg-bolt-elements-prompt-background backdrop-filter backdrop-blur-[8px] rounded-lg overflow-hidden",
+            "shadow-xs border border-bolt-elements-borderColor bg-bolt-elements-prompt-background backdrop-filter backdrop-blur-[8px] rounded-lg overflow-hidden",
             "mx-4",
           )}
         >
           <textarea
             ref={textareaRef}
             className={
-              "w-full pl-4 pt-4 pr-16 focus:outline-none resize-none text-md text-bolt-elements-textPrimary placeholder-bolt-elements-textTertiary bg-transparent"
+              "w-full pl-4 pt-4 pr-16 focus:outline-hidden resize-none text-md text-bolt-elements-textPrimary placeholder-bolt-elements-textTertiary bg-transparent"
             }
             onKeyDown={(event) => {
               if (event.key === "Enter") {

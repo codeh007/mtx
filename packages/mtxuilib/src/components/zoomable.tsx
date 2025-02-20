@@ -90,14 +90,14 @@ export function ZoomableChart<T extends string>({
   const chartConfig = useMemo<ChartConfig>(() => {
     const keys = Object.keys(data[0] || {}).filter((key) => key !== "date");
     return keys.reduce<ChartConfig>((acc, key, index) => {
-      let color = `hsl(${(index * 360) / keys.length}, 70%, 50%)`;
+      let color = `${(index * 360) / keys.length}, 70%, 50%`;
 
       if (colors?.[key]) {
         color = colors[key];
       }
 
       if (index < 5) {
-        color = `hsl(var(--chart-${index + 1}))`;
+        color = `var(--chart-${index + 1})`;
       }
 
       acc[key] = {

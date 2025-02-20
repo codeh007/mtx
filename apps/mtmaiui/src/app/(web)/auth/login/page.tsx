@@ -10,7 +10,7 @@ export default function Page(props: {
   return (
     <ScreenPanel open={true}>
       <div className="size-screen container flex flex-col items-center justify-center">
-        <div className="absolute left-4 top-20 focus:z-10 focus:outline-none md:left-8 md:top-8">
+        <div className="absolute left-4 top-20 focus:z-10 focus:outline-hidden md:left-8 md:top-8">
           <GoBackButton />
         </div>
 

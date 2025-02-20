@@ -61,13 +61,13 @@ export const DeployManager: React.FC = () => {
             <span className="text-primary font-medium">Deploy</span>
             {currentGuide && (
               <>
-                <ChevronRight className="w-4 h-4  " />
+                <ChevronRight className="size-4  " />
                 <span className=" ">{currentGuide.title}</span>
               </>
             )}
           </div>
           <div className="rounded border border-secondary border-dashed p-2 text-sm mb-4">
-            <TriangleAlert className="w-4 h-4 inline-block mr-2 -mt-1   " /> The
+            <TriangleAlert className="size-4 inline-block mr-2 -mt-1   " /> The
             deployment guide section is work in progress.
           </div>
           {/* Content Area */}

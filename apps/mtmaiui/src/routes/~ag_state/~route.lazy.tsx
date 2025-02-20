@@ -218,7 +218,7 @@ function RouteComponent() {
                       <span className="text-primary font-medium"> Teams</span>
                       {currentTeam && (
                         <>
-                          <ChevronRight className="w-4 h-4  " />
+                          <ChevronRight className="size-4  " />
                           <span className=" ">
                             {/* {currentTeam.component?.config?.name} */}
                             {currentTeam.metadata?.id ? (

@@ -182,7 +182,7 @@ function RouteComponent() {
               <span className="text-primary font-medium">Galleries</span>
               {currentGallery && (
                 <>
-                  <ChevronRight className="w-4 h-4  " />
+                  <ChevronRight className="size-4  " />
                   <span className=" ">{currentGallery.name}</span>
                 </>
               )}

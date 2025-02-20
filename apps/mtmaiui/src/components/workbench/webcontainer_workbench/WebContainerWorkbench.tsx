@@ -99,7 +99,7 @@ export const WebContainerWorkbench = memo(({ isStreaming }: WorkspaceProps) => {
       )}
     >
       <div className="absolute inset-0 px-1">
-        <div className="h-full flex flex-col bg-bolt-elements-background-depth-2 border border-bolt-elements-borderColor shadow-sm rounded-lg overflow-hidden">
+        <div className="h-full flex flex-col bg-bolt-elements-background-depth-2 border border-bolt-elements-borderColor shadow-xs rounded-lg overflow-hidden">
           <div className="flex items-center px-3 py-2 border-b border-bolt-elements-borderColor">
             <MtSlider
               selected={currentView}

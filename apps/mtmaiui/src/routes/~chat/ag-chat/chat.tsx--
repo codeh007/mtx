@@ -492,7 +492,7 @@ export default function ChatView({ session }: ChatViewProps) {
         <span className="text-primary font-medium"> Sessions</span>
         {session && (
           <>
-            <ChevronRight className="w-4 h-4  " />
+            <ChevronRight className="size-4  " />
             <span className="">{session.name}</span>
           </>
         )}

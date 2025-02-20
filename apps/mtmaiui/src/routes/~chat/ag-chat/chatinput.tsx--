@@ -75,7 +75,7 @@ export default function ChatInput({
   return (
     <div className="mt-2 w-full">
       <div
-        className={`mt-2 rounded shadow-sm flex mb-1 ${
+        className={`mt-2 rounded shadow-xs flex mb-1 ${
           isInputDisabled ? "opacity-50" : ""
         }`}
       >

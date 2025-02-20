@@ -173,7 +173,7 @@ export const StepRunDetail = ({
             });
           }}
         >
-          <ArrowPathIcon className="w-4 h-4" />
+          <ArrowPathIcon className="size-4" />
           重试
         </Button>
         <Button
@@ -190,7 +190,7 @@ export const StepRunDetail = ({
             });
           }}
         >
-          <XCircleIcon className="w-4 h-4" />
+          <XCircleIcon className="size-4" />
           取消
         </Button>
       </div>
@@ -285,7 +285,7 @@ export const StepRunDetail = ({
               stepRunSchemaQuery.refetch();
             }}
           >
-            <PlayIcon className="w-4 h-4" />
+            <PlayIcon className="size-4" />
           </Button>
         </MtTabsContent>
       </MtTabs>     

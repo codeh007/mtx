@@ -134,7 +134,7 @@ export function ReflectionsDialog(props: ReflectionsDialogProps) {
                 }}
                 className="flex items-center justify-center gap-2 px-2 py-1"
               >
-                <span className="flex items-center justify-start w-4 h-4">
+                <span className="flex items-center justify-start size-4">
                   {getIcon(
                     (selectedAssistant?.metadata as Record<string, any>)
                       ?.iconData?.iconName,
@@ -211,7 +211,7 @@ export function ReflectionsDialog(props: ReflectionsDialogProps) {
           ) : null}
           <Button
             onClick={() => setOpen(false)}
-            className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded shadow transition"
+            className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded shadow-sm transition"
           >
             <TighterText>Close</TighterText>
           </Button>

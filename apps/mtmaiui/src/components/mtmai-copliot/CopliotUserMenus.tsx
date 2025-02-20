@@ -97,7 +97,7 @@ export function CopliotUserMenus() {
               key={i}
               // className="flex flex-col  p-2"
             >
-              {/* <div className="w-full space-y-4 border shadow-sm p-2"> */}
+              {/* <div className="w-full space-y-4 border shadow-xs p-2"> */}
               {x.markdown_description}
               {/* </div> */}
             </DropdownMenuItem>

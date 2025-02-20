@@ -14,7 +14,7 @@ interface ComposerProps {
 
 export const Composer: FC<ComposerProps> = (props: ComposerProps) => {
   return (
-    <ComposerPrimitive.Root className="focus-within:border-aui-ring/20 flex w-full min-h-[64px] flex-wrap items-center rounded-lg border px-2.5 shadow-sm transition-colors ease-in bg-white">
+    <ComposerPrimitive.Root className="focus-within:border-aui-ring/20 flex w-full min-h-[64px] flex-wrap items-center rounded-lg border px-2.5 shadow-xs transition-colors ease-in bg-white">
       {/* <AssistantSelect userId={props.userId} chatStarted={props.chatStarted} /> */}
       <ComposerPrimitive.Input
         autoFocus

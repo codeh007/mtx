@@ -103,7 +103,7 @@ export const ArticleFaceItem = (props: ArticleFaceItemProps) => {
     <Collapsible
       open={open}
       onOpenChange={setOpen}
-      className="relative w-full space-y-2 border-muted sm:rounded-lg sm:border shadow-sm"
+      className="relative w-full space-y-2 border-muted sm:rounded-lg sm:border shadow-xs"
     >
       <CollapsibleTrigger asChild>
         <div className="flex items-center justify-between p-1 px-2 cursor-pointer">

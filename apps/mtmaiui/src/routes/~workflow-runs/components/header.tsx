@@ -69,7 +69,7 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
               rel="noreferrer"
             >
               <Button size={"sm"} className="px-2 py-2 gap-2" variant="outline">
-                <ArrowTopRightIcon className="w-4 h-4" />
+                <ArrowTopRightIcon className="size-4" />
                 工作流定义
               </Button>
             </a>
@@ -90,7 +90,7 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
                 });
               }}
             >
-              <ArrowPathIcon className="w-4 h-4" />
+              <ArrowPathIcon className="size-4" />
               重试
             </Button>
             <Button
@@ -109,7 +109,7 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
                 });
               }}
             >
-              <XCircleIcon className="w-4 h-4" />
+              <XCircleIcon className="size-4" />
               取消
             </Button>
           </div>

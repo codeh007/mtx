@@ -53,7 +53,7 @@ export const Sidebar = ({
             <TooltipTrigger asChild>
               <Button
                 onClick={onToggle}
-                className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+                className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-hidden focus:ring-2 focus:ring-accent focus:ring-opacity-50"
               >
                 <PanelLeftOpen strokeWidth={1.5} className="h-6 w-6" />
               </Button>
@@ -73,7 +73,7 @@ export const Sidebar = ({
                 className="w-full p-2 flex justify-center"
                 onClick={() => onEditSession()}
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="size-4" />
               </Button>
             </TooltipTrigger>
             <TooltipContent>
@@ -99,7 +99,7 @@ export const Sidebar = ({
             <Button
               variant={"ghost"}
               onClick={onToggle}
-              className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
+              className="p-2 rounded-md hover:bg-secondary hover:text-accent transition-colors focus:outline-hidden focus:ring-2 focus:ring-accent focus:ring-opacity-50"
             >
               <PanelLeftClose strokeWidth={1.5} className="h-6 w-6" />
             </Button>
@@ -115,7 +115,7 @@ export const Sidebar = ({
           <Tooltip>
             <TooltipTrigger asChild>
               <Button className="w-full" onClick={() => onEditSession()}>
-                <Plus className="w-4 h-4" />
+                <Plus className="size-4" />
                 新建会话
               </Button>
             </TooltipTrigger>
@@ -129,7 +129,7 @@ export const Sidebar = ({
       <div className="py-2 flex text-sm">
         最近{" "}
         {isLoading && (
-          <RefreshCcw className="w-4 h-4 inline-block ml-2 animate-spin" />
+          <RefreshCcw className="size-4 inline-block ml-2 animate-spin" />
         )}
       </div>
 
@@ -137,7 +137,7 @@ export const Sidebar = ({
 
       {!isLoading && sessions.length === 0 && (
         <div className="p-2 mr-2 text-center text-sm border border-dashed rounded ">
-          <InfoIcon className="w-4 h-4 inline-block mr-1.5 -mt-0.5" />
+          <InfoIcon className="size-4 inline-block mr-1.5 -mt-0.5" />
           No recent sessions found
         </div>
       )}
@@ -177,7 +177,7 @@ export const Sidebar = ({
                           onEditSession(s);
                         }}
                       >
-                        <Edit className="w-4 h-4" />
+                        <Edit className="size-4" />
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
@@ -195,7 +195,7 @@ export const Sidebar = ({
                           // if (s.metadata.id) onDeleteSession(s.metadata.id);
                         }}
                       >
-                        <Trash2 className="w-4 h-4  text-red-500" />
+                        <Trash2 className="size-4  text-red-500" />
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>

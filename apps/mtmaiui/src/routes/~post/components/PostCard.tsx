@@ -13,7 +13,7 @@ export const PostCard = ({ data }: PostCardProps) => {
   return (
     <div
       key={data.metadata?.id}
-      className="border overflow-hidden shadow rounded-lg"
+      className="border overflow-hidden shadow-sm rounded-lg"
     >
       <div className="px-4 py-5 sm:p-6">
         <div className="flex flex-row justify-between items-center">

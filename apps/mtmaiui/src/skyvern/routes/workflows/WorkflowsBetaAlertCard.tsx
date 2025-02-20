@@ -4,7 +4,7 @@ import { Button } from "mtxuilib/ui/button";
 
 export function WorkflowsBetaAlertCard() {
   return (
-    <div className="flex flex-col items-center rounded-lg bg-slate-900 p-4 shadow">
+    <div className="flex flex-col items-center rounded-lg bg-slate-900 p-4 shadow-sm">
       <header>
         <h1 className="py-4 text-3xl">Workflows (Beta)</h1>
       </header>

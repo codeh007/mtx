@@ -53,7 +53,7 @@ export const AlertNewAssistantsFeature = ({
             <Alert className="max-w-xl bg-white rounded-lg hover:bg-gray-50 transition-colors duration-300 ease-in-out">
               <AlertTitle className="flex justify-between items-center">
                 <div className="flex items-center justify-start gap-1">
-                  <Users className="w-4 h-4" />
+                  <Users className="size-4" />
                   <TighterText>Multiple Assistants!</TighterText>
                 </div>
                 <TooltipIconButton
@@ -63,7 +63,7 @@ export const AlertNewAssistantsFeature = ({
                   onClick={handleCloseAlert}
                   size="sm"
                 >
-                  <X className="w-4 h-4 text-gray-600" />
+                  <X className="size-4 text-gray-600" />
                 </TooltipIconButton>
               </AlertTitle>
               <AlertDescription className="inline-flex items-center justify-start gap-1 flex-wrap mt-2">

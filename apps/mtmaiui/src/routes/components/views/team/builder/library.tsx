@@ -87,7 +87,7 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
           label: agent.name,
           config: agent,
         })),
-        icon: <Bot className="w-4 h-4" />,
+        icon: <Bot className="size-4" />,
       },
       {
         title: "Models",
@@ -96,7 +96,7 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
           label: `${model.model_type} - ${model.model}`,
           config: model,
         })),
-        icon: <Brain className="w-4 h-4" />,
+        icon: <Brain className="size-4" />,
       },
       {
         title: "Tools",
@@ -105,7 +105,7 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
           label: tool.name,
           config: tool,
         })),
-        icon: <Wrench className="w-4 h-4" />,
+        icon: <Wrench className="size-4" />,
       },
       {
         title: "Terminations",
@@ -116,7 +116,7 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
             config: termination,
           }),
         ),
-        icon: <Timer className="w-4 h-4" />,
+        icon: <Timer className="size-4" />,
       },
     ],
     [defaultGallery],
@@ -168,7 +168,7 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
           className="p-1 group-hover:bg-tertiary rounded transition-colors"
           title="Maximize Library"
         >
-          <Maximize2 className="w-4 h-4" />
+          <Maximize2 className="size-4" />
         </button>
       </div>
     );
@@ -185,7 +185,7 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
             className="p-1 hover:bg-tertiary rounded transition-colors"
             title="Minimize Library"
           >
-            <Minimize2 className="w-4 h-4" />
+            <Minimize2 className="size-4" />
           </button>
         </div>
 
@@ -206,7 +206,7 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
           expandIcon={({ isActive }) => (
             <ChevronDown
               strokeWidth={1}
-              className={`${isActive ? "transform rotate-180" : ""} w-4 h-4`}
+              className={`${isActive ? "transform rotate-180" : ""} size-4`}
             />
           )}
         />

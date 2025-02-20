@@ -93,7 +93,7 @@ function AssistantSelectComponent(props: AssistantSelectProps) {
             {isLoadingAllAssistants && !assistants?.length ? (
               <span className="text-sm text-gray-600 flex items-center justify-start gap-1 p-2">
                 Loading
-                <Icons.LoaderCircle className="w-4 h-4 animate-spin" />
+                <Icons.LoaderCircle className="size-4 animate-spin" />
               </span>
             ) : (
               <>
@@ -105,7 +105,7 @@ function AssistantSelectComponent(props: AssistantSelectProps) {
                   className="flex items-center justify-start gap-2"
                   disabled={allDisabled}
                 >
-                  <Icons.CirclePlus className="w-4 h-4" />
+                  <Icons.CirclePlus className="size-4" />
                   <TighterText className="font-medium">New</TighterText>
                 </DropdownMenuItem>
                 {assistants.map((assistant) => (

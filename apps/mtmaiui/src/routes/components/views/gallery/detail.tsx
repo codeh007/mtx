@@ -44,9 +44,9 @@ const ComponentGrid: React.FC<{
           </span>
         </div>
         {isExpanded ? (
-          <ChevronUp className="w-4 h-4 text-primary" />
+          <ChevronUp className="size-4 text-primary" />
         ) : (
-          <ChevronDown className="w-4 h-4 text-primary" />
+          <ChevronDown className="size-4 text-primary" />
         )}
       </div>
 
@@ -137,27 +137,27 @@ export const GalleryDetail: React.FC<GalleryDetailProps> = ({
 
   const gridItems = [
     {
-      icon: <Users className="w-4 h-4" />,
+      icon: <Users className="size-4" />,
       title: "team",
       items: gallery.items.teams,
     },
     {
-      icon: <Bot className="w-4 h-4" />,
+      icon: <Bot className="size-4" />,
       title: "agent",
       items: gallery.items.components.agents,
     },
     {
-      icon: <Wrench className="w-4 h-4" />,
+      icon: <Wrench className="size-4" />,
       title: "tool",
       items: gallery.items.components.tools,
     },
     {
-      icon: <Brain className="w-4 h-4" />,
+      icon: <Brain className="size-4" />,
       title: "model",
       items: gallery.items.components.models,
     },
     {
-      icon: <Timer className="w-4 h-4" />,
+      icon: <Timer className="size-4" />,
       title: "termination",
       items: gallery.items.components.terminations,
     },
@@ -197,7 +197,7 @@ export const GalleryDetail: React.FC<GalleryDetailProps> = ({
 
           <div className="flex gap-2">
             <div className="bg-tertiary backdrop-blur rounded p-2 flex items-center gap-2">
-              <Package className="w-4 h-4  " />
+              <Package className="size-4  " />
               <span className="text-sm">
                 {Object.values(gallery.items.components).reduce(
                   (sum, arr) => sum + arr.length,
@@ -235,7 +235,7 @@ export const GalleryDetail: React.FC<GalleryDetailProps> = ({
           >
             <Button loading={isSyncing} onClick={handleSync}>
               <RefreshCw
-                className={`${isSyncing ? "animate-spin" : ""} w-4 h-4`}
+                className={`${isSyncing ? "animate-spin" : ""} size-4`}
               />
               同步
             </Button>
@@ -243,13 +243,13 @@ export const GalleryDetail: React.FC<GalleryDetailProps> = ({
         )}
         {!isEditing ? (
           <Button onClick={() => setIsEditing(true)}>
-            <Edit className="w-4 h-4" />
+            <Edit className="size-4" />
             编辑
           </Button>
         ) : (
           <>
             <Button onClick={() => setIsEditing(false)}>
-              <X className="w-4 h-4" />
+              <X className="size-4" />
               取消
             </Button>
             <Button onClick={handleSave}>保存</Button>
@@ -280,12 +280,12 @@ export const GalleryDetail: React.FC<GalleryDetailProps> = ({
             <div className="inline-flex gap-2">
               <Tooltip title="保存">
                 <Button onClick={handleSave}>
-                  icon={<Save className="w-4 h-4" />}
+                  icon={<Save className="size-4" />}
                 </Button>
               </Tooltip>
               <Tooltip title="取消编辑">
                 <Button onClick={() => setIsEditing(false)}>
-                  <X className="w-4 h-4" />
+                  <X className="size-4" />
                   取消
                 </Button>
               </Tooltip>

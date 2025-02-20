@@ -94,7 +94,7 @@ export const GalleryCreateModal: React.FC<GalleryCreateModalProps> = ({
       key: "url",
       label: (
         <span className="flex items-center gap-2">
-          <Globe className="w-4 h-4" /> URL Import
+          <Globe className="size-4" /> URL Import
         </span>
       ),
       children: (
@@ -139,7 +139,7 @@ export const GalleryCreateModal: React.FC<GalleryCreateModalProps> = ({
       key: "file",
       label: (
         <span className="flex items-center gap-2">
-          <UploadIcon className="w-4 h-4" /> File Upload
+          <UploadIcon className="size-4" /> File Upload
         </span>
       ),
       children: (
@@ -159,7 +159,7 @@ export const GalleryCreateModal: React.FC<GalleryCreateModalProps> = ({
       key: "paste",
       label: (
         <span className="flex items-center gap-2">
-          <Code className="w-4 h-4" /> Paste JSON
+          <Code className="size-4" /> Paste JSON
         </span>
       ),
       children: (
