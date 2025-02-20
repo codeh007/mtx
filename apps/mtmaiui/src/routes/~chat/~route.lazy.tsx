@@ -22,10 +22,10 @@ export const Route = createLazyFileRoute("/chat")({
 
 function RouteComponent() {
   const tenant = useTenant();
-  const selfBackendend = useMtmaiV2((x) => x.selfBackendUrl);
   if (!tenant) {
     null;
   }
+  const selfBackendend = useMtmaiV2((x) => x.selfBackendUrl);
   if (!selfBackendend) {
     null;
   }
