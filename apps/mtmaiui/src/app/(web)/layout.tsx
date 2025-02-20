@@ -17,7 +17,7 @@ import {
 } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
 import "mtxuilib/styles/globals.css";
-import appCss from "../styles/app.css?url"
+// import appCss from "../styles/app.css?url"
 import { MtmaiProvider } from "../../stores/StoreProvider";
 import "./globals.css";
 export const runtime = "nodejs";

@@ -224,7 +224,7 @@ const graphEventHandler = async (
             role: "assistant", // 暂时全部设置为 assistant, 原因是 assisant ui ,仅支持 user + assisant
             content: event.content,
             metadata: {
-              id: generateId(),
+              id: generateUUID(),
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString(),
             },
@@ -252,7 +252,7 @@ const graphEventHandler = async (
               role: "assistant",
               content: event.content,
               metadata: {
-                id: generateId(),
+                id: generateUUID(),
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString(),
               },

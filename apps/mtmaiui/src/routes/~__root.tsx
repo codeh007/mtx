@@ -33,8 +33,8 @@ function RootComponent() {
   return (
     <>
     <MtSuspenseBoundary>
-      <UserFAB />
-      <Outlet />
+      {/* <UserFAB /> */}
+      {/* <Outlet /> */}
       </MtSuspenseBoundary>
     </>
   );
