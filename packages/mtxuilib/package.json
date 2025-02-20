@@ -62,6 +62,10 @@
         "./dist/*"
       ]
     },
+    "./styles/globals.css": {
+      "import": ["./src/styles/globals.css", "./dist/styles/globals.css"],
+      "require": ["./src/styles/globals.css", "./dist/styles/globals.css"]
+    },
     "./styles/*": {
       "import": ["./src/styles/*", "./dist/styles/*"],
       "require": ["./src/styles/*", "./dist/styles/*"]
@@ -294,7 +298,8 @@
     "@cloudflare/workers-types": "^4.20241216.0",
     "@shikijs/compat": "^1.12.1",
     "@sparticuz/chromium-min": "^131.0.1",
-    
+    "postcss": "^8.5.3",
+    "postcss-preset-env": "^10.1.4",
     "@tailwindcss/postcss": "^4.0.7",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/typography": "^0.5.16",
@@ -317,9 +322,7 @@
     "commander": "^12.1.0",
     "css-loader": "^6.11.0",
     "d3-scale": "^4.0.2",
-    "postcss": "^8.5.3",
     "postcss-loader": "^8.1.1",
-    "postcss-preset-env": "^9.6.0",
     "puppeteer": "^23.11.1",
     "puppeteer-core": "^23.11.1",
     "puppeteer-extra": "^3.3.6",

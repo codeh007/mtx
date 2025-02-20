@@ -1,5 +1,9 @@
-@import "tailwindcss";
-
+/* @import "tailwindcss"; */
+@import "tailwindcss" source("../../../");
+/* @import "mtxuilib/styles/globals.css"; */
+@import "../../../../../packages/mtxuilib/src/styles/globals.css";
+/* Explicitly registering sources */
+@source "../../../../../packages/mtxuilib/src";
 @plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));

@@ -16,7 +16,7 @@ import {
   initGomtmApp,
 } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
-import "mtxuilib/styles/globals.css";
+// import "mtxuilib/styles/globals.css";
 import { MtmaiProvider } from "../../stores/StoreProvider";
 import "./globals.css";
 export const runtime = "nodejs";

@@ -77,8 +77,6 @@ export const DashSidebar = (props: DashSidebarProps) => {
   return (
     // <Sidebar className="group-data-[side=left]:border-r-0" {...rest}>
     <Sidebar {...rest}>
-
-      DashSidebar
       <SidebarHeader>
         <SidebarMenuApp />
       </SidebarHeader>

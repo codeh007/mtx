@@ -76,8 +76,8 @@ export class MTMAIUILoader {
   //加载开发环境的脚本
   async loadLoadDevelopment(viteServerUrl: string, entrySrcName="/src/entry-client.tsx") {
     // css
-    const cssSrc="/src/styles/globals.css"
-    this.loadCSS(`${viteServerUrl}${cssSrc}`);
+    // const cssSrc="/src/styles/globals.css"
+    // this.loadCSS(`${viteServerUrl}${cssSrc}`);
     // 加载 Vite 客户端
     await import(`${viteServerUrl}/@vite/client`);
     const RefreshRuntime = (await import(`${viteServerUrl}/@react-refresh`)).default;
@@ -91,7 +91,7 @@ export class MTMAIUILoader {
     // 应用入口
     await import(`${viteServerUrl}${entrySrcName}`);
     
-    await this.loadCSS(`${viteServerUrl}/${cssSrc}`);
+    // await this.loadCSS(`${viteServerUrl}/${cssSrc}`);
     return;
   }
 }
