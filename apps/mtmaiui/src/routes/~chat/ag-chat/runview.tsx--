@@ -10,17 +10,17 @@ import {
   StopCircle,
   TriangleAlertIcon,
 } from "lucide-react";
-import type { ChatMessage, Run, TeamConfig } from "mtmaiapi";
+import type { ChatMessage } from "mtmaiapi";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import { useEffect, useRef, useState } from "react";
 import {
   LoadingDots,
   TruncatableText,
-  getRelativeTimeString,
+  
 } from "../../components/views/atoms";
 import AgentFlow from "./agentflow/agentflow";
-import { InputRequestView } from "./inputrequest";
-import { RenderMessage } from "./rendermessage";
+import { InputRequestView } from "./inputrequest.tsx--";
+import { RenderMessage } from "./rendermessage.tsx--";
 
 interface RunViewProps {
   run: Run;

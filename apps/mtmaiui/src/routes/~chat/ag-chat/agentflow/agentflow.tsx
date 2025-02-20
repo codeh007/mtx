@@ -12,10 +12,10 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import type {
-  AgentConfig,
+  
   AgentMessageConfig,
-  Run,
-  TeamConfig,
+  
+  
 } from "mtmaiapi";
 import type React from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";

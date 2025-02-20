@@ -9,19 +9,19 @@ import {
   RefreshCcw,
   Trash2,
 } from "lucide-react";
-import type { Session } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import { CustomLink } from "../../components/CustomLink";
 import { useTenant } from "../../hooks/useAuth";
-import { getRelativeTimeString } from "../components/views/atoms";
+import { getRelativeTimeString } from "mtxuilib/lib/utils";
+import { chatMessagesListOptions, ChatSession } from "mtmaiapi";
 
 interface SidebarProps {
   isOpen: boolean;
-  currentSession: Session | null;
+  currentSession: ChatSession | null;
   onToggle: () => void;
-  onSelectSession: (session: Session) => void;
-  onEditSession: (session?: Session) => void;
+  onSelectSession: (session: ChatSession) => void;
+  onEditSession: (session?: ChatSession) => void;
   onDeleteSession: (sessionId: number) => void;
   isLoading?: boolean;
 }
@@ -37,7 +37,7 @@ export const Sidebar = ({
 }: SidebarProps) => {
   const tenant = useTenant();
   const sessionQuery = useSuspenseQuery({
-    ...sessionListOptions({
+    ...chatMessagesListOptions({
       path: {
         tenant: tenant!.metadata.id,
       },

@@ -12,7 +12,7 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { Button } from "mtxuilib/ui/button";
-import { Tooltip } from "mtxuilib/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
 import { useGraphStore } from "../../../../stores/GraphContext";
 
@@ -87,11 +87,8 @@ export const AgentFlowToolbar: React.FC<AgentFlowToolbarProps> = ({
           </Button>
         </Tooltip>
 
-        <Tooltip
-          title={`Switch to ${
-            settings.direction === "TB" ? "Horizontal" : "Vertical"
-          } Layout`}
-        >
+        <Tooltip>
+          <TooltipTrigger>
           <Button
             variant="ghost"
             className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
@@ -107,23 +104,34 @@ export const AgentFlowToolbar: React.FC<AgentFlowToolbarProps> = ({
               <ArrowRight size={18} />
             )}
           </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+          {`Switch to ${
+            settings.direction === "TB" ? "Horizontal" : "Vertical"
+          } Layout`}
+          </TooltipContent>
         </Tooltip>
 
-        <Tooltip title={settings.showLabels ? "Hide Labels" : "Show Labels"}>
-          <Button
-            variant="ghost"
-            className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
-            onClick={toggleSetting("showLabels")}
-          >
-            {settings.showLabels ? (
-              <MessageSquareIcon size={18} />
-            ) : (
-              <MessageSquareOffIcon size={18} />
-            )}
-          </Button>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button
+              variant="ghost"
+              className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
+              onClick={toggleSetting("showLabels")}
+            >
+              {settings.showLabels ? (
+                <MessageSquareIcon size={18} />
+              ) : (
+                <MessageSquareOffIcon size={18} />
+              )}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+          {settings.showLabels ? "Hide Labels" : "Show Labels"}
+          </TooltipContent>
         </Tooltip>
 
-        <Dropdown
+        {/* <Dropdown
           menu={{ items: menuItems }}
           trigger={["click"]}
           getPopupContainer={(triggerNode) =>
@@ -138,7 +146,7 @@ export const AgentFlowToolbar: React.FC<AgentFlowToolbarProps> = ({
           >
             <MoreHorizontal size={18} />
           </Button>
-        </Dropdown>
+        </Dropdown> */}
       </div>
     </div>
   );

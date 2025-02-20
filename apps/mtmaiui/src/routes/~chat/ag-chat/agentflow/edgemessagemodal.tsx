@@ -1,6 +1,6 @@
 import type React from "react";
 import { useMemo, useState } from "react";
-import { RenderMessage } from "../rendermessage";
+// import { RenderMessage } from "../rendermessage.tsx--";
 import type { CustomEdge } from "./edge";
 
 interface EdgeMessageModalProps {

@@ -20,7 +20,6 @@ export const Route = createLazyFileRoute('/trigger/$id')({
 function RouteComponent() {
   const search = useSearch({ strict: false })
   const navigate = useNavigate()
-  // const tenant = useTenant()
   const [input, setInput] = useState<string | undefined>('{}')
   const [addlMeta, setAddlMeta] = useState<string | undefined>('{}')
   const [errors, setErrors] = useState<string[]>([])
