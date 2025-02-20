@@ -17,7 +17,7 @@ const MtProgressBarLazy = dynamic(
 );
 
 const SonnerToasterLazy = dynamic(
-  () => import("mtxuilib/ui/sonner").then((x) => x.SonnerToaster),
+  () => import("mtxuilib/ui/sonner").then((x) => x.Toaster),
   {
     ssr: false,
   },

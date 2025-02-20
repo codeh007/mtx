@@ -74,10 +74,11 @@ interface DashSidebarProps extends React.ComponentProps<typeof Sidebar> {
 export const DashSidebar = (props: DashSidebarProps) => {
   const { siteId, collapsed, chatProfileId, ...rest } = props;
   const { setOpenMobile } = useSidebar();
-  const router = useMtRouter();
-  const isAdmin = useIsAdmin();
   return (
-    <Sidebar className="group-data-[side=left]:border-r-0" {...rest}>
+    // <Sidebar className="group-data-[side=left]:border-r-0" {...rest}>
+    <Sidebar {...rest}>
+
+      DashSidebar
       <SidebarHeader>
         <SidebarMenuApp />
       </SidebarHeader>

@@ -31,6 +31,7 @@ function RouteComponent() {
   }
   return (
     <RootAppWrapper>
+      
       <DashSidebar />
       <SidebarInset>
         <DashHeaders>

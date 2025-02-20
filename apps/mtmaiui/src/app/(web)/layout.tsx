@@ -17,7 +17,6 @@ import {
 } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
 import "mtxuilib/styles/globals.css";
-// import appCss from "../styles/app.css?url"
 import { MtmaiProvider } from "../../stores/StoreProvider";
 import "./globals.css";
 export const runtime = "nodejs";
@@ -44,7 +43,7 @@ export default async function Layout(props: {
       <head>
         <ThemeHeaderScript />
         {/* <MtmaiuiLoaderScript uiUrl={selfUrl} /> */}
-        <link href="/dist/styles.css" rel="stylesheet" />
+        {/* <link href="/dist/styles.css" rel="stylesheet" /> */}
       </head>
       <body
         className={cn(

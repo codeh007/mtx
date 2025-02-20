@@ -3,7 +3,7 @@ import { Outlet, createRootRoute } from "@tanstack/react-router";
 import { UserFAB } from "../components/UserFAB";
 import { NotFound } from "../components/notFound";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
-import appCss from "../styles/app.css?url"
+// import appCss from "../styles/app.css?url"
 export const Route = createRootRoute({
   head: () => ({
     meta: [
@@ -18,12 +18,12 @@ export const Route = createRootRoute({
         title: "TanStack Start Starter",
       },
     ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-    ],
+    // links: [
+    //   {
+    //     rel: "stylesheet",
+    //     href: appCss,
+    //   },
+    // ],
   }),
   component: RootComponent,
   notFoundComponent: NotFound,
@@ -33,8 +33,8 @@ function RootComponent() {
   return (
     <>
     <MtSuspenseBoundary>
-      {/* <UserFAB /> */}
-      {/* <Outlet /> */}
+      <UserFAB />
+      <Outlet />
       </MtSuspenseBoundary>
     </>
   );
