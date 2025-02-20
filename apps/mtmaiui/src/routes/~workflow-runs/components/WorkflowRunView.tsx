@@ -2,8 +2,10 @@
 
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import {
+  ChatMessage,
   WorkflowRunStatus,
   agStateGetOptions,
+  chatMessagesListOptions,
   workflowRunGetOptions,
 } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
@@ -47,8 +49,7 @@ export const WorkflowRunView = ({ runId }: WorkflowRunViewProps) => {
 
   return (
     <>
-      <div className="bg-slate-100 p-2">runId: {runId}</div>
-      <div>sessionId: {sessionId}</div>
+      <div className="bg-slate-100 p-2">{sessionId} / {runId}</div>
       <div>
         <DebugValue data={{ workflowRun }} />
         {statusText === WorkflowRunStatus.RUNNING && <div>运行中</div>}
@@ -58,6 +59,37 @@ export const WorkflowRunView = ({ runId }: WorkflowRunViewProps) => {
           </div>
         )}
       </div>
-    </>
+      {
+        sessionId && <AgChatView sessionId={sessionId} />
+      }
+      </>
   );
+};
+
+interface AgChatViewProps {
+  sessionId: string;
+}
+const AgChatView = ({ sessionId }: AgChatViewProps) => {
+  const tid = useTenantId();
+  const messagesQuery = useQuery({
+    ...chatMessagesListOptions({
+      path: {
+        tenant: tid,
+        chat: sessionId,
+      },
+    }),
+  });
+  return <div>
+     {sessionId}
+    <DebugValue data={{ messagesQuery }} />
+    {messagesQuery.data?.rows?.map((message) => (
+      <AgChatMessageView key={message.metadata.id} message={message} />
+    ))}
+  </div>
+};
+
+const AgChatMessageView = ({ message }: { message: ChatMessage }) => {
+  return <div className="bg-slate-100 p-2">
+     {message.content}
+  </div>;
 };
