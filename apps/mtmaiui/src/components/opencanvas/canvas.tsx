@@ -5,10 +5,11 @@ import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { cn } from "mtxuilib/lib/utils";
 import { useToast } from "mtxuilib/ui/use-toast";
 import dynamic from "next/dynamic";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { WorkflowRunView } from "../../routes/~workflow-runs/components/WorkflowRunView";
 import { useGraphStore } from "../../stores/GraphContext";
 import { ContentComposerChatInterface } from "./content-composer";
+import { Route } from "../../routes/~__root";
 
 const LZArtifactRenderer = dynamic(
   () =>
@@ -75,6 +76,16 @@ export function CanvasComponent() {
     // setArtifact(newArtifact);
     setIsEditing(true);
   };
+  const threadId = useGraphStore((x) => x.threadId);
+  const nav = Route.useNavigate();
+  useEffect(() => {
+    if (!threadId) return;
+    console.log("CanvasComponent", {
+      threadId: threadId,
+    });
+    nav({ to: `/chat/${threadId}` });
+  }, [threadId, nav]);
+
 
   return (
     <main className="flex flex-row h-full">

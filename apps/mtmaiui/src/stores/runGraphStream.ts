@@ -104,6 +104,7 @@ export async function handleSseGraphStream(
 
   if (!threadId) {
     threadId = generateUUID();
+    
     set({ threadId: threadId });
   }
   const response = await workflowRunCreate({

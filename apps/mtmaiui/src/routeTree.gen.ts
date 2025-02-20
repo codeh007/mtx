@@ -21,7 +21,6 @@ import { Route as PlatformAccountCreateImport } from './routes/~platform-account
 import { Route as PlatformAccountIdImport } from './routes/~platform-account/~$id'
 import { Route as GalleryGalleryIdImport } from './routes/~gallery/~$galleryId'
 import { Route as EnvsCreateImport } from './routes/~envs/~create'
-import { Route as ChatChatSessionIdImport } from './routes/~chat/~$chatSessionId'
 import { Route as SiteIndexImport } from './routes/~site/~index'
 import { Route as PlatformIndexImport } from './routes/~platform/~index'
 import { Route as GalleryIndexImport } from './routes/~gallery/~index'
@@ -60,6 +59,7 @@ const WorkflowRunsWorkflowRunIdLazyImport = createFileRoute(
 )()
 const TriggerIdLazyImport = createFileRoute('/trigger/$id')()
 const PostCreateLazyImport = createFileRoute('/post/create')()
+const ChatSessionIdLazyImport = createFileRoute('/chat/$sessionId')()
 const AuthLoginRouteLazyImport = createFileRoute('/auth/login')()
 const WorkflowsIndexLazyImport = createFileRoute('/workflows/')()
 const WorkflowRunsIndexLazyImport = createFileRoute('/workflow-runs/')()
@@ -242,6 +242,14 @@ const PostCreateLazyRoute = PostCreateLazyImport.update({
   getParentRoute: () => PostRouteLazyRoute,
 } as any).lazy(() => import('./routes/~post/~create.lazy').then((d) => d.Route))
 
+const ChatSessionIdLazyRoute = ChatSessionIdLazyImport.update({
+  id: '/$sessionId',
+  path: '/$sessionId',
+  getParentRoute: () => ChatRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~chat/~$sessionId.lazy').then((d) => d.Route),
+)
+
 const AuthLoginRouteLazyRoute = AuthLoginRouteLazyImport.update({
   id: '/login',
   path: '/login',
@@ -376,12 +384,6 @@ const EnvsCreateRoute = EnvsCreateImport.update({
   id: '/create',
   path: '/create',
   getParentRoute: () => EnvsRouteLazyRoute,
-} as any)
-
-const ChatChatSessionIdRoute = ChatChatSessionIdImport.update({
-  id: '/$chatSessionId',
-  path: '/$chatSessionId',
-  getParentRoute: () => ChatRouteLazyRoute,
 } as any)
 
 const SiteIndexRoute = SiteIndexImport.update({
@@ -605,13 +607,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteIndexImport
       parentRoute: typeof SiteRouteLazyImport
     }
-    '/chat/$chatSessionId': {
-      id: '/chat/$chatSessionId'
-      path: '/$chatSessionId'
-      fullPath: '/chat/$chatSessionId'
-      preLoaderRoute: typeof ChatChatSessionIdImport
-      parentRoute: typeof ChatRouteLazyImport
-    }
     '/envs/create': {
       id: '/envs/create'
       path: '/create'
@@ -752,6 +747,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteLazyImport
       parentRoute: typeof AuthRouteLazyImport
     }
+    '/chat/$sessionId': {
+      id: '/chat/$sessionId'
+      path: '/$sessionId'
+      fullPath: '/chat/$sessionId'
+      preLoaderRoute: typeof ChatSessionIdLazyImport
+      parentRoute: typeof ChatRouteLazyImport
+    }
     '/post/create': {
       id: '/post/create'
       path: '/create'
@@ -869,13 +871,13 @@ const AuthRouteLazyRouteWithChildren = AuthRouteLazyRoute._addFileChildren(
 )
 
 interface ChatRouteLazyRouteChildren {
-  ChatChatSessionIdRoute: typeof ChatChatSessionIdRoute
   ChatIndexLazyRoute: typeof ChatIndexLazyRoute
+  ChatSessionIdLazyRoute: typeof ChatSessionIdLazyRoute
 }
 
 const ChatRouteLazyRouteChildren: ChatRouteLazyRouteChildren = {
-  ChatChatSessionIdRoute: ChatChatSessionIdRoute,
   ChatIndexLazyRoute: ChatIndexLazyRoute,
+  ChatSessionIdLazyRoute: ChatSessionIdLazyRoute,
 }
 
 const ChatRouteLazyRouteWithChildren = ChatRouteLazyRoute._addFileChildren(
@@ -1119,7 +1121,6 @@ export interface FileRoutesByFullPath {
   '/gallery/': typeof GalleryIndexRoute
   '/platform/': typeof PlatformIndexRoute
   '/site/': typeof SiteIndexRoute
-  '/chat/$chatSessionId': typeof ChatChatSessionIdRoute
   '/envs/create': typeof EnvsCreateRoute
   '/gallery/$galleryId': typeof GalleryGalleryIdRoute
   '/platform-account/$id': typeof PlatformAccountIdRoute
@@ -1140,6 +1141,7 @@ export interface FileRoutesByFullPath {
   '/workflow-runs/': typeof WorkflowRunsIndexLazyRoute
   '/workflows/': typeof WorkflowsIndexLazyRoute
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
+  '/chat/$sessionId': typeof ChatSessionIdLazyRoute
   '/post/create': typeof PostCreateLazyRoute
   '/trigger/$id': typeof TriggerIdLazyRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdLazyRoute
@@ -1161,7 +1163,6 @@ export interface FileRoutesByTo {
   '/gallery': typeof GalleryIndexRoute
   '/platform': typeof PlatformIndexRoute
   '/site': typeof SiteIndexRoute
-  '/chat/$chatSessionId': typeof ChatChatSessionIdRoute
   '/envs/create': typeof EnvsCreateRoute
   '/gallery/$galleryId': typeof GalleryGalleryIdRoute
   '/platform-account/$id': typeof PlatformAccountIdRoute
@@ -1180,6 +1181,7 @@ export interface FileRoutesByTo {
   '/team': typeof TeamIndexLazyRoute
   '/workflow-runs': typeof WorkflowRunsIndexLazyRoute
   '/workflows': typeof WorkflowsIndexLazyRoute
+  '/chat/$sessionId': typeof ChatSessionIdLazyRoute
   '/post/create': typeof PostCreateLazyRoute
   '/trigger/$id': typeof TriggerIdLazyRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdLazyRoute
@@ -1216,7 +1218,6 @@ export interface FileRoutesById {
   '/gallery/': typeof GalleryIndexRoute
   '/platform/': typeof PlatformIndexRoute
   '/site/': typeof SiteIndexRoute
-  '/chat/$chatSessionId': typeof ChatChatSessionIdRoute
   '/envs/create': typeof EnvsCreateRoute
   '/gallery/$galleryId': typeof GalleryGalleryIdRoute
   '/platform-account/$id': typeof PlatformAccountIdRoute
@@ -1237,6 +1238,7 @@ export interface FileRoutesById {
   '/workflow-runs/': typeof WorkflowRunsIndexLazyRoute
   '/workflows/': typeof WorkflowsIndexLazyRoute
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
+  '/chat/$sessionId': typeof ChatSessionIdLazyRoute
   '/post/create': typeof PostCreateLazyRoute
   '/trigger/$id': typeof TriggerIdLazyRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdLazyRoute
@@ -1275,7 +1277,6 @@ export interface FileRouteTypes {
     | '/gallery/'
     | '/platform/'
     | '/site/'
-    | '/chat/$chatSessionId'
     | '/envs/create'
     | '/gallery/$galleryId'
     | '/platform-account/$id'
@@ -1296,6 +1297,7 @@ export interface FileRouteTypes {
     | '/workflow-runs/'
     | '/workflows/'
     | '/auth/login'
+    | '/chat/$sessionId'
     | '/post/create'
     | '/trigger/$id'
     | '/workflow-runs/$workflowRunId'
@@ -1316,7 +1318,6 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/platform'
     | '/site'
-    | '/chat/$chatSessionId'
     | '/envs/create'
     | '/gallery/$galleryId'
     | '/platform-account/$id'
@@ -1335,6 +1336,7 @@ export interface FileRouteTypes {
     | '/team'
     | '/workflow-runs'
     | '/workflows'
+    | '/chat/$sessionId'
     | '/post/create'
     | '/trigger/$id'
     | '/workflow-runs/$workflowRunId'
@@ -1369,7 +1371,6 @@ export interface FileRouteTypes {
     | '/gallery/'
     | '/platform/'
     | '/site/'
-    | '/chat/$chatSessionId'
     | '/envs/create'
     | '/gallery/$galleryId'
     | '/platform-account/$id'
@@ -1390,6 +1391,7 @@ export interface FileRouteTypes {
     | '/workflow-runs/'
     | '/workflows/'
     | '/auth/login'
+    | '/chat/$sessionId'
     | '/post/create'
     | '/trigger/$id'
     | '/workflow-runs/$workflowRunId'
@@ -1503,8 +1505,8 @@ export const routeTree = rootRoute
     "/chat": {
       "filePath": "~chat/~route.lazy.tsx",
       "children": [
-        "/chat/$chatSessionId",
-        "/chat/"
+        "/chat/",
+        "/chat/$sessionId"
       ]
     },
     "/endpoint": {
@@ -1614,10 +1616,6 @@ export const routeTree = rootRoute
       "filePath": "~site/~index.tsx",
       "parent": "/site"
     },
-    "/chat/$chatSessionId": {
-      "filePath": "~chat/~$chatSessionId.tsx",
-      "parent": "/chat"
-    },
     "/envs/create": {
       "filePath": "~envs/~create.tsx",
       "parent": "/envs"
@@ -1705,6 +1703,10 @@ export const routeTree = rootRoute
       "children": [
         "/auth/login/"
       ]
+    },
+    "/chat/$sessionId": {
+      "filePath": "~chat/~$sessionId.lazy.tsx",
+      "parent": "/chat"
     },
     "/post/create": {
       "filePath": "~post/~create.lazy.tsx",

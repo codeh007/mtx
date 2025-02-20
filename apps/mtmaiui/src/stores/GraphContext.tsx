@@ -60,6 +60,7 @@ export interface AppContextType {
 export interface AgentNodeProps {
   agentEndpointBase: string;
   tenant: Tenant;
+  threadId?: string;
 }
 export interface AgentNodeState extends AgentNodeProps {
   chatStarted?: boolean;
@@ -109,7 +110,6 @@ export interface AgentNodeState extends AgentNodeProps {
   agentFlow: IAgentFlowSettings;
   setAgentFlowSettings: (settings: Partial<IAgentFlowSettings>) => void;
 
-  threadId?: string;
   setThreadId: (threadId: string) => void;
 }
 
