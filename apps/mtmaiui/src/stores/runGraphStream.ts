@@ -86,7 +86,7 @@ export async function handleSseGraphStream(
   const agentEndpointBase = get().agentEndpointBase;
   const tenant = get().tenant;
   if (!tenant?.metadata?.id) {
-    throw new Error("(runGraphStream)tenant is required");
+    throw new Error("(handleSseGraphStream)tenant is required");
   }
 
   const messages = get().messages;

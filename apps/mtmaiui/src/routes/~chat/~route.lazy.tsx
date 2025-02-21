@@ -52,7 +52,7 @@ function RouteComponent() {
               // chatProfile={chatProfile}
               // autoConnectWs={false}
               // threadId={threadId}
-              // tenant={tenant}
+              tenant={tenant!}
             >
               {/* <GraphProvider agentEndpointBase={selfBackendend!} tenant={tenant!}> */}
               <Outlet />

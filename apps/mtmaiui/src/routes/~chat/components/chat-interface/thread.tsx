@@ -8,12 +8,10 @@ import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { CustomLink } from "../../../../components/CustomLink";
-import { TeamCombo } from "../../../~team/TeamCombo";
-import { useLangSmithLinkToolUI } from "../LangSmithLinkToolUI";
-import { Composer } from "./composer";
-import { AssistantMessage, UserMessage } from "./messages";
-import { ThreadWelcome } from "./welcome";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
+import { TeamCombo } from "../../../~team/TeamCombo";
+// import { Composer } from "./composer.tsx--";
+import { AssistantMessage, UserMessage } from "./messages";
 
 const ThreadScrollToBottom: FC = () => {
   return (
@@ -86,6 +84,8 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
   const runId = useWorkbenchStore((x) => x.runId);
   const setTeamId = useWorkbenchStore((x) => x.setTeamId);
 
+  const messages = useWorkbenchStore((x) => x.messages);
+
   return (
     <ThreadPrimitive.Root className="flex flex-col h-full">
       <div className="pr-3 pl-6 pt-3 pb-2 flex flex-row gap-4 items-center justify-between">
@@ -130,12 +130,12 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
         )}
       </div>
       <ThreadPrimitive.Viewport className="flex-1 overflow-y-auto scroll-smooth bg-inherit px-2 pt-2 justify-center mx-auto">
-        {!hasChatStarted && (
+        {/* {!hasChatStarted && (
           <ThreadWelcome
             handleQuickStart={handleQuickStart}
             composer={<Composer chatStarted={false} userId={props.userId} />}
           />
-        )}
+        )} */}
         <ThreadPrimitive.Messages
           components={{
             UserMessage: UserMessage,
@@ -160,7 +160,7 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
                 modelName={modelName}
                 setModelName={setModelName}
               /> */}
-              <Composer chatStarted={true} userId={props.userId} />
+              {/* <Composer chatStarted={true} userId={props.userId} /> */}
             </div>
           )}
         </div>
