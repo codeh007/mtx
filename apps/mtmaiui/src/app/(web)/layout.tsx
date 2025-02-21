@@ -41,7 +41,6 @@ export default async function Layout(props: {
       <head>
         <ThemeHeaderScript />
         {/* <MtmaiuiLoaderScript uiUrl={selfUrl} /> */}
-        {/* <link href="/dist/styles.css" rel="stylesheet" /> */}
       </head>
       <body
         className={cn(
