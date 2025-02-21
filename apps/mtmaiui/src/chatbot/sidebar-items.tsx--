@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { SidebarActions } from "./sidebar-actions";
+import { SidebarActions } from "./sidebar-actions.tsx--";
 import { SidebarItem } from "./sidebar-item";
 
 interface SidebarItemsProps {

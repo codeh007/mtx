@@ -5,7 +5,7 @@ import { cookies, headers } from "next/headers";
 import type { ReactNode } from "react";
 
 import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
-import { WebLayoutHeader } from "mtxuilib/layouts/web/WebLayoutHeader";
+import { WebLayoutHeader } from "./Header";
 
 import {
   getAccessToken,

@@ -20,7 +20,7 @@ export const WebLayoutHeader = () => {
           <Link href="/">首页</Link>
           <Link href="/doc">文档</Link>
           <Link href="/ag#/chat">智能工作室</Link>
-          <Link href="/auth/register">用户注册</Link>
+          <Link href="/ag#a/uth/register">用户注册</Link>
         </nav>
       </div>
     </header>
