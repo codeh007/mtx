@@ -13,7 +13,7 @@ import { user } from "mtxuilib/db/schema/user";
 import { cn } from "mtxuilib/lib/utils";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useGraphStore } from "../../../../stores/GraphContext";
+import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 import { ReflectionsDialog } from "../ReflectionsDialog";
 import { ArtifactLoading } from "./ArtifactLoading";
 import { CodeRenderer } from "./CodeRenderer";
@@ -131,19 +131,19 @@ function ArtifactRendererComponent(props: ArtifactRendererProps) {
   const [isSelectionActive, setIsSelectionActive] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [isHoveringOverArtifact, setIsHoveringOverArtifact] = useState(false);
-  const artifact = useGraphStore((x) => x.artifact);
-  const setUpdateRenderedArtifactRequired = useGraphStore(
+  const artifact = useWorkbenchStore((x) => x.artifact);
+  const setUpdateRenderedArtifactRequired = useWorkbenchStore(
     (x) => x.setUpdateRenderedArtifactRequired,
   );
-  const isStreaming = useGraphStore((x) => x.isStreaming);
-  const setSelectedBlocks = useGraphStore((x) => x.setSelectedBlocks);
-  const selectedBlocks = useGraphStore((x) => x.selectedBlocks);
-  const setMessages = useGraphStore((x) => x.setMessages);
-  const isArtifactSaved = useGraphStore((x) => x.isArtifactSaved);
-  const setIsArtifactSaved = useGraphStore((x) => x.setIsArtifactSaved);
-  const selectedAssistant = useGraphStore((x) => x.selectedAssistant);
-  const setSelectedArtifact = useGraphStore((x) => x.setSelectedArtifact);
-  const streamMessage = useGraphStore((x) => x.streamMessage);
+  const isStreaming = useWorkbenchStore((x) => x.isStreaming);
+  const setSelectedBlocks = useWorkbenchStore((x) => x.setSelectedBlocks);
+  const selectedBlocks = useWorkbenchStore((x) => x.selectedBlocks);
+  const setMessages = useWorkbenchStore((x) => x.setMessages);
+  const isArtifactSaved = useWorkbenchStore((x) => x.isArtifactSaved);
+  const setIsArtifactSaved = useWorkbenchStore((x) => x.setIsArtifactSaved);
+  // const selectedAssistant = useWorkbenchStore((x) => x.selectedAssistant);
+  const setSelectedArtifact = useWorkbenchStore((x) => x.setSelectedArtifact);
+  const streamMessage = useWorkbenchStore((x) => x.streamMessage);
   const handleMouseUp = useCallback(() => {
     const selection = window.getSelection();
     if (selection && selection.rangeCount > 0 && contentRef.current) {

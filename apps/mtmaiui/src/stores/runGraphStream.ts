@@ -7,8 +7,8 @@ import {
   agentStream,
   workflowRunCreate,
 } from "mtmaiapi";
-import type { AgentNodeState } from "./GraphContext";
 import { generateUUID } from "mtxuilib/lib/utils";
+import type { WorkbrenchState } from "./workbrench.store";
 
 const VERCEL_AI_EVENT_TYPES = {
   AI_REPLY: "0:",
@@ -49,10 +49,10 @@ async function pullEvent(
   workflowRunId: string,
   set: (
     partial:
-      | Partial<AgentNodeState>
-      | ((state: AgentNodeState) => Partial<AgentNodeState>),
+      | Partial<WorkbrenchState>
+      | ((state: WorkbrenchState) => Partial<WorkbrenchState>),
   ) => void,
-  get: () => AgentNodeState,
+  get: () => WorkbrenchState,
 ) {
   console.log("pullEvent", { tenantId, workflowRunId });
   const response = await agentStream({
@@ -78,10 +78,10 @@ async function pullEvent(
 export async function handleSseGraphStream(
   set: (
     partial:
-      | Partial<AgentNodeState>
-      | ((state: AgentNodeState) => Partial<AgentNodeState>),
+      | Partial<WorkbrenchState>
+      | ((state: WorkbrenchState) => Partial<WorkbrenchState>),
   ) => void,
-  get: () => AgentNodeState,
+  get: () => WorkbrenchState,
 ) {
   const agentEndpointBase = get().agentEndpointBase;
   const tenant = get().tenant;
@@ -104,7 +104,7 @@ export async function handleSseGraphStream(
 
   if (!threadId) {
     threadId = generateUUID();
-    
+
     set({ threadId: threadId });
   }
   const response = await workflowRunCreate({
@@ -144,10 +144,10 @@ const handleStreamLine = (
   line: string,
   set: (
     partial:
-      | Partial<AgentNodeState>
-      | ((state: AgentNodeState) => Partial<AgentNodeState>),
+      | Partial<WorkbrenchState>
+      | ((state: WorkbrenchState) => Partial<WorkbrenchState>),
   ) => void,
-  get: () => AgentNodeState,
+  get: () => WorkbrenchState,
 ) => {
   try {
     if (line.trim()?.length === 0) return;
@@ -171,10 +171,10 @@ const graphEventHandler = async (
   event: Record<string, any>,
   set: (
     partial:
-      | Partial<AgentNodeState>
-      | ((state: AgentNodeState) => Partial<AgentNodeState>),
+      | Partial<WorkbrenchState>
+      | ((state: WorkbrenchState) => Partial<WorkbrenchState>),
   ) => void,
-  get: () => AgentNodeState,
+  get: () => WorkbrenchState,
 ) => {
   const eventType = (event.event || event.type) as EventTypes;
   switch (eventType) {

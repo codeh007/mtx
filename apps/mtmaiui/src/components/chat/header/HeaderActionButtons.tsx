@@ -6,17 +6,17 @@ import { cn } from "mtxuilib/lib/utils";
 import { buttonVariants } from "mtxuilib/ui/button";
 import { Separator } from "mtxuilib/ui/separator";
 import Link from "next/link";
-import { useWorkbrenchStore } from "../../../stores/workbrench.store";
+import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
 export function HeaderActionButtons() {
-  const showWorkbench = useWorkbrenchStore((x) => x.uiState.openWorkbench);
-  const setShowWorkbench = useWorkbrenchStore((x) => x.setShowWorkbench);
+  const showWorkbench = useWorkbenchStore((x) => x.uiState.openWorkbench);
+  const setShowWorkbench = useWorkbenchStore((x) => x.setShowWorkbench);
 
-  const openChat = useWorkbrenchStore((x) => x.uiState.openChat);
-  const setOpenChat = useWorkbrenchStore((x) => x.setOpenChat);
+  const openChat = useWorkbenchStore((x) => x.uiState.openChat);
+  const setOpenChat = useWorkbenchStore((x) => x.setOpenChat);
   const canHideChat = showWorkbench || !openChat;
 
-  const chatProfileId = useWorkbrenchStore((x) => x.chatProfile);
+  const chatProfileId = useWorkbenchStore((x) => x.chatProfile);
   return (
     <div className="flex">
       <div className="flex border border-bolt-elements-borderColor rounded-md overflow-hidden">

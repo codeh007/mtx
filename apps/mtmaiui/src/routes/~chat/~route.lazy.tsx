@@ -14,7 +14,7 @@ import { SidebarInset } from "mtxuilib/ui/sidebar";
 import { DashContent } from "../../components/DashContent";
 import { DashHeaders } from "../../components/DashHeaders";
 import { DashSidebar } from "../../components/sidebar/siderbar";
-import { GraphProvider } from "../../stores/GraphContext";
+import { WorkbrenchProvider } from "../../stores/workbrench.store";
 import { RootAppWrapper } from "../components/RootAppWrapper";
 
 export const Route = createLazyFileRoute("/chat")({
@@ -46,9 +46,18 @@ function RouteComponent() {
         </DashHeaders>
         <DashContent>
           <MtSuspenseBoundary>
-            <GraphProvider agentEndpointBase={selfBackendend!} tenant={tenant!}>
+            <WorkbrenchProvider
+              backendUrl={selfBackendend!}
+              // accessToken={accessToken}
+              // chatProfile={chatProfile}
+              // autoConnectWs={false}
+              // threadId={threadId}
+              // tenant={tenant}
+            >
+              {/* <GraphProvider agentEndpointBase={selfBackendend!} tenant={tenant!}> */}
               <Outlet />
-            </GraphProvider>
+              {/* </GraphProvider> */}
+            </WorkbrenchProvider>
           </MtSuspenseBoundary>
         </DashContent>
       </SidebarInset>

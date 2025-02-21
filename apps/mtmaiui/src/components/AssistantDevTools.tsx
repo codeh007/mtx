@@ -2,14 +2,14 @@
 
 import type { Message } from "ai";
 
+import { useQuery } from "@tanstack/react-query";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { ReactQueryDevtoolsProduction } from "mtxuilib/components/devtools/DevToolsView";
+import { Button } from "mtxuilib/ui/button";
 import { useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useTenant } from "../hooks/useAuth";
-import { useWorkbrenchStore } from "../stores/workbrench.store";
-import { Button } from "mtxuilib/ui/button";
-import { useQuery } from "@tanstack/react-query";
+import { useWorkbenchStore } from "../stores/workbrench.store";
 
 interface ChatDevToolsProps {
   messages?: Message[];
@@ -25,9 +25,9 @@ export const AssistantDevToolsPanel = ({
   });
   // const workbench = workbenchStore;
 
-  const openChat = useWorkbrenchStore((x) => x.uiState.openChat);
-  const setOpenChat = useWorkbrenchStore((x) => x.setOpenChat);
-  const threadId = useWorkbrenchStore((x) => x.threadId);
+  const openChat = useWorkbenchStore((x) => x.uiState.openChat);
+  const setOpenChat = useWorkbenchStore((x) => x.setOpenChat);
+  const threadId = useWorkbenchStore((x) => x.threadId);
   if (!open) {
     return null;
   }
@@ -58,15 +58,15 @@ export const AssistantDevToolsPanel = ({
 
 export const DevAgentNodeState = () => {
   const tenant = useTenant();
-  const threadId = useWorkbrenchStore((x) => x.threadId);
+  const threadId = useWorkbenchStore((x) => x.threadId);
   const nodeStateQuery = useQuery(
     "get",
     "/api/v1/tenants/{tenant}/nodes/{node}",
     {
-        path: {
-          tenant: tenant?.metadata.id,
-          node: threadId || "",
-        },
+      path: {
+        tenant: tenant?.metadata.id,
+        node: threadId || "",
+      },
     },
     {
       enabled: !!threadId,

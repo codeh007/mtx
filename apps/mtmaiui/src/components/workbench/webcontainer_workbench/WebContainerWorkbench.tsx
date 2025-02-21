@@ -15,7 +15,7 @@ import { useStore } from "@nanostores/react";
 import { Icons } from "mtxuilib/icons/icons";
 import { cn } from "mtxuilib/lib/utils";
 import { toast } from "react-toastify";
-import { useWorkbrenchStore } from "../../../stores/workbrench.store";
+import { useWorkbenchStore } from "../../../stores/workbrench.store";
 import { WorkbenchView } from "../../WorkbenchView";
 import { EditorPanel } from "./EditorPanel";
 import { Preview } from "./Preview";
@@ -42,14 +42,14 @@ export const WebContainerWorkbench = memo(({ isStreaming }: WorkspaceProps) => {
   const hasPreview = useStore(
     computed(workbenchStore.previews, (previews) => previews.length > 0),
   );
-  const showWorkbench = useWorkbrenchStore((x) => x.uiState.openWorkbench);
-  const setShowWorkbench = useWorkbrenchStore((x) => x.setShowWorkbench);
+  const showWorkbench = useWorkbenchStore((x) => x.uiState.openWorkbench);
+  const setShowWorkbench = useWorkbenchStore((x) => x.setShowWorkbench);
   const selectedFile = useStore(workbenchStore.selectedFile);
   const currentDocument = useStore(workbenchStore.currentDocument);
   const unsavedFiles = useStore(workbenchStore.unsavedFiles);
   const files = useStore(workbenchStore.files);
-  const currentView = useWorkbrenchStore((x) => x.currentView);
-  const setCurrentView = useWorkbrenchStore((x) => x.setCurrentView);
+  const currentView = useWorkbenchStore((x) => x.currentView);
+  const setCurrentView = useWorkbenchStore((x) => x.setCurrentView);
 
   // const setSelectedView = (view: WorkbenchViewType) => {
   // 	setCurrentView(view);

@@ -14,9 +14,9 @@ import { Input } from "postcss";
 import { useState } from "react";
 import { DiffView } from "../../../components/aichatbot/diffview";
 import { Editor } from "../../../components/aichatbot/editor";
-import { AssistantLoader } from "../../../components/chat/AssistantLoader";
+import { AssistantLoader } from "../../../components/chat/AssistantLoader.tsx--";
 import { useTenant } from "../../../hooks/useAuth";
-import { useWorkbrenchStore } from "../../../stores/workbrench.store";
+import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
 const doc1 = `
 # title1
@@ -106,7 +106,7 @@ const PostEditView = ({ postId }: PostDetailWithAiProps) => {
     {},
   );
 
-  const handleAgentSubmit = useWorkbrenchStore((x) => x.handleSubmit);
+  const handleAgentSubmit = useWorkbenchStore((x) => x.handleSubmit);
   const handleSubmit = (values) => {
     updateMutation.mutate({
       params: {

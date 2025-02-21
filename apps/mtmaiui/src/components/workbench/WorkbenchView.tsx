@@ -4,15 +4,15 @@ import { motion } from "framer-motion";
 import { cn } from "mtxuilib/lib/utils";
 
 import { type PropsWithChildren, memo } from "react";
-import { useWorkbrenchStore } from "../../stores/workbrench.store";
+import { useWorkbenchStore } from "../../stores/workbrench.store";
 
 export const WorkbenchWrapper = memo(function WorkbenchWrapper(props: {
   children: React.ReactNode;
 }) {
   const { children } = props;
 
-  const showWorkbench = useWorkbrenchStore((x) => x.uiState.openWorkbench);
-  const setShowWorkbench = useWorkbrenchStore((x) => x.setShowWorkbench);
+  const showWorkbench = useWorkbenchStore((x) => x.uiState.openWorkbench);
+  const setShowWorkbench = useWorkbenchStore((x) => x.setShowWorkbench);
   return (
     <div
       className={cn("relative w-full h-full overflow-hidden caret-lime-100", {

@@ -10,15 +10,15 @@ import { cn } from "mtxuilib/lib/utils";
 import { cubicEasingFn } from "mtxuilib/mt/easings";
 import { computed } from "nanostores";
 import { memo, useEffect, useRef, useState } from "react";
-import { useWorkbrenchStore } from "../../stores/workbrench.store";
+import { useWorkbenchStore } from "../../stores/workbrench.store";
 
 interface ArtifactProps {
   messageId: string;
 }
 
 export const Artifact = memo(({ messageId }: ArtifactProps) => {
-  const showWorkbench = useWorkbrenchStore((x) => x.uiState.openWorkbench);
-  const setShowWorkbench = useWorkbrenchStore((x) => x.setShowWorkbench);
+  const showWorkbench = useWorkbenchStore((x) => x.uiState.openWorkbench);
+  const setShowWorkbench = useWorkbenchStore((x) => x.setShowWorkbench);
   const userToggledActions = useRef(false);
   const [showActions, setShowActions] = useState(false);
 

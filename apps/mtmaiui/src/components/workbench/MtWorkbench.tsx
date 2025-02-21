@@ -6,7 +6,7 @@ import { Suspense, memo } from "react";
 
 import { SkeletonLoading } from "mtxuilib/components/skeletons/SkeletonLoading";
 import { cn } from "mtxuilib/lib/utils";
-import { useWorkbrenchStore } from "../../stores/workbrench.store";
+import { useWorkbenchStore } from "../../stores/workbrench.store";
 // import { getViewByName } from "../LzComponents";
 
 export interface WorkspaceProps {
@@ -34,14 +34,14 @@ export const workbenchVariants = {
 export const MtWorkbench = memo(
   ({ chatStarted, isStreaming }: WorkspaceProps) => {
     // renderLogger.trace("Workbench");
-    const showWorkbench = useWorkbrenchStore((x) => x.uiState.openWorkbench);
-    const currentWorkbench = useWorkbrenchStore(
+    const showWorkbench = useWorkbenchStore((x) => x.uiState.openWorkbench);
+    const currentWorkbench = useWorkbenchStore(
       (x) => x.uiState.currentWorkbenchView,
     );
 
     const currentView = getViewByName(currentWorkbench || "");
     const WorkbenchView = getViewByName(currentWorkbench || "");
-    const workbenchViewProps = useWorkbrenchStore((x) => x.workbenchViewProps);
+    const workbenchViewProps = useWorkbenchStore((x) => x.workbenchViewProps);
     return (
       <>
         <motion.div

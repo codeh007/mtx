@@ -1,6 +1,5 @@
 "use client";
 
-// import { SessionProvider } from "next-auth/react";
 import { useSessionLoader } from "../hooks/useAuth";
 
 export const MtSessionProvider = ({

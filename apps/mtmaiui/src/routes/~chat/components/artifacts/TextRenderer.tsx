@@ -22,8 +22,8 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useGraphStore } from "../../../../stores/GraphContext";
 import { CopyText } from "./components/CopyText";
+import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 
 const cleanText = (text: string) => {
   return text.replaceAll("\\\n", "\n");
@@ -77,10 +77,10 @@ export function TextRendererComponent(props: TextRendererProps) {
   //   setUpdateRenderedArtifactRequired,
   // } = graphData;
 
-  const artifact = useGraphStore((x) => x.artifact);
-  const selectedBlocks = useGraphStore((x) => x.selectedBlocks);
-  const setSelectedBlocks = useGraphStore((x) => x.setSelectedBlocks);
-  const isStreaming = useGraphStore((x) => x.isStreaming);
+  const artifact = useWorkbenchStore((x) => x.artifact);
+  const selectedBlocks = useWorkbenchStore((x) => x.selectedBlocks);
+  const setSelectedBlocks = useWorkbenchStore((x) => x.setSelectedBlocks);
+  const isStreaming = useWorkbenchStore((x) => x.isStreaming);
 
   const [rawMarkdown, setRawMarkdown] = useState("");
   const [isRawView, setIsRawView] = useState(false);

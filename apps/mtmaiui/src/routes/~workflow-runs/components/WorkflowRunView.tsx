@@ -11,8 +11,8 @@ import {
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useMemo } from "react";
 import { useTenantId } from "../../../hooks/useAuth";
-import { useGraphStore } from "../../../stores/GraphContext";
 import { AgStateView } from "../../~ag_state/components/AgStateView";
+import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
 interface WorkflowRunViewProps {
   runId: string;
@@ -20,7 +20,7 @@ interface WorkflowRunViewProps {
 
 export const WorkflowRunView = ({ runId }: WorkflowRunViewProps) => {
   const tid = useTenantId();
-  const sessionId = useGraphStore((x) => x.threadId);
+  const sessionId = useWorkbenchStore((x) => x.threadId);
   const workflowRun = useSuspenseQuery({
     ...workflowRunGetOptions({
       path: {

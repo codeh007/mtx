@@ -11,19 +11,19 @@ import {
   useReactFlow,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import type {
-  
-  AgentMessageConfig,
-  
-  
-} from "mtmaiapi";
+import type { AgentMessageConfig } from "mtmaiapi";
 import type React from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useGraphStore } from "../../../../stores/GraphContext";
+import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 import AgentNode from "./agentnode";
 import { CustomEdge } from "./edge";
 import { EdgeMessageModal } from "./edgemessagemodal";
 import { AgentFlowToolbar } from "./toolbar";
+import type {
+  TeamConfig,
+  Run,
+  AgentConfig,
+} from "../../../components/types/datamodel";
 
 interface AgentFlowProps {
   teamConfig: TeamConfig;
@@ -240,8 +240,8 @@ const AgentFlow: React.FC<AgentFlowProps> = ({ teamConfig, run }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   // const { agentFlow: settings } = useConfigStore();
-  const settings = useGraphStore((x) => x.agentFlow);
-  const setAgentFlowSettings = useGraphStore((x) => x.setAgentFlowSettings);
+  const settings = useWorkbenchStore((x) => x.agentFlow);
+  // const setAgentFlowSettings = useWorkbenchStore((x) => x.setAgentFlowSettings);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedEdge, setSelectedEdge] = useState<CustomEdge | null>(null);
 

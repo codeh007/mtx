@@ -8,13 +8,12 @@ import {
   MessageSquareIcon,
   MessageSquareOffIcon,
   Minimize2,
-  MoreHorizontal,
   RotateCcw,
 } from "lucide-react";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
-import { useGraphStore } from "../../../../stores/GraphContext";
+import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 
 interface AgentFlowToolbarProps {
   isFullscreen: boolean;
@@ -28,8 +27,8 @@ export const AgentFlowToolbar: React.FC<AgentFlowToolbarProps> = ({
   onResetView,
 }) => {
   // const { agentFlow: settings, setAgentFlowSettings } = useConfigStore();
-  const settings = useGraphStore((x) => x.agentFlow);
-  const setAgentFlowSettings = useGraphStore((x) => x.setAgentFlowSettings);
+  const settings = useWorkbenchStore((x) => x.agentFlow);
+  const setAgentFlowSettings = useWorkbenchStore((x) => x.setAgentFlowSettings);
 
   const toggleSetting = (setting: keyof typeof settings) => () => {
     setAgentFlowSettings({
@@ -89,26 +88,26 @@ export const AgentFlowToolbar: React.FC<AgentFlowToolbarProps> = ({
 
         <Tooltip>
           <TooltipTrigger>
-          <Button
-            variant="ghost"
-            className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
-            onClick={() =>
-              setAgentFlowSettings({
-                direction: settings.direction === "TB" ? "LR" : "TB",
-              })
-            }
-          >
-            {settings.direction === "TB" ? (
-              <ArrowDown size={18} />
-            ) : (
-              <ArrowRight size={18} />
-            )}
-          </Button>
+            <Button
+              variant="ghost"
+              className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
+              onClick={() =>
+                setAgentFlowSettings({
+                  direction: settings.direction === "TB" ? "LR" : "TB",
+                })
+              }
+            >
+              {settings.direction === "TB" ? (
+                <ArrowDown size={18} />
+              ) : (
+                <ArrowRight size={18} />
+              )}
+            </Button>
           </TooltipTrigger>
           <TooltipContent>
-          {`Switch to ${
-            settings.direction === "TB" ? "Horizontal" : "Vertical"
-          } Layout`}
+            {`Switch to ${
+              settings.direction === "TB" ? "Horizontal" : "Vertical"
+            } Layout`}
           </TooltipContent>
         </Tooltip>
 
@@ -127,7 +126,7 @@ export const AgentFlowToolbar: React.FC<AgentFlowToolbarProps> = ({
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-          {settings.showLabels ? "Hide Labels" : "Show Labels"}
+            {settings.showLabels ? "Hide Labels" : "Show Labels"}
           </TooltipContent>
         </Tooltip>
 

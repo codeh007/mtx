@@ -3,26 +3,26 @@
 import { useWindowSize } from "usehooks-ts";
 import { ModelSelector } from "../model-selector";
 
+import classNames from "classnames";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { PlusIcon } from "mtxuilib/icons/aichatbot.icons";
+import { Button } from "mtxuilib/ui/button";
+import { Separator } from "mtxuilib/ui/separator";
+import { SidebarTrigger, useSidebar } from "mtxuilib/ui/sidebar";
+import { BetterTooltip } from "mtxuilib/ui/tooltip";
 import { useRouter } from "next-nprogress-bar";
 import { Suspense } from "react";
 import { ChatDescription } from "../../../lib/persistence/ChatDescription.client";
+import { useWorkbenchStore } from "../../../stores/workbrench.store";
 import { HeaderActionButtons } from "./HeaderActionButtons";
-import classNames from "classnames";
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
-import { Button } from "mtxuilib/ui/button";
-import { Separator } from "mtxuilib/ui/separator";
-import { useSidebar, SidebarTrigger } from "mtxuilib/ui/sidebar";
-import { BetterTooltip } from "mtxuilib/ui/tooltip";
-import { useWorkbrenchStore } from "../../../stores/workbrench.store";
 
 export function Header() {
-  const started = useWorkbrenchStore((x) => x.started);
+  const started = useWorkbenchStore((x) => x.started);
 
   const router = useRouter();
   const { open } = useSidebar();
 
-  const selectedModelId = useWorkbrenchStore((x) => x.selectedModelId);
+  const selectedModelId = useWorkbenchStore((x) => x.selectedModelId);
 
   const { width: windowWidth } = useWindowSize();
 

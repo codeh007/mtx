@@ -1,12 +1,12 @@
 "use client";
 
 import { cn } from "mtxuilib/lib/utils";
-import { useWorkbrenchStore } from "../../stores/workbrench.store";
+import { useWorkbenchStore } from "../../stores/workbrench.store";
 
 export const ChatPanel = () => {
   // 这里主要处理打开关闭 中间的聊天窗口的动画效果。
   // const openChat = useWorkbrenchStore((x) => x.uiState.openChat);
-  const openWorkbench = useWorkbrenchStore((x) => x.uiState.openWorkbench);
+  const openWorkbench = useWorkbenchStore((x) => x.uiState.openWorkbench);
   const openChat = true;
   return (
     <div

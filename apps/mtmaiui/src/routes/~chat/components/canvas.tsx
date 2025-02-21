@@ -6,7 +6,7 @@ import { cn } from "mtxuilib/lib/utils";
 import { useToast } from "mtxuilib/ui/use-toast";
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
-import { useGraphStore } from "../../../stores/GraphContext";
+import { useWorkbenchStore } from "../../../stores/workbrench.store";
 import { Route } from "../../~__root";
 import { WorkflowRunView } from "../../~workflow-runs/components/WorkflowRunView";
 import { ContentComposerChatInterface } from "./content-composer";
@@ -21,11 +21,11 @@ const LZArtifactRenderer = dynamic(
 
 export function CanvasComponent() {
   const { toast } = useToast();
-  const chatStarted = useGraphStore((x) => x.chatStarted);
-  const setChatStarted = useGraphStore((x) => x.setChatStarted);
-  const openWorkBench = useGraphStore((x) => x.openWorkBench);
+  const chatStarted = useWorkbenchStore((x) => x.chatStarted);
+  const setChatStarted = useWorkbenchStore((x) => x.setChatStarted);
+  const openWorkBench = useWorkbenchStore((x) => x.openWorkBench);
   const [isEditing, setIsEditing] = useState(false);
-  const runId = useGraphStore((x) => x.runId);
+  const runId = useWorkbenchStore((x) => x.runId);
 
   // useEffect(() => {
   //   if (!threadId || !user) return;
@@ -76,7 +76,7 @@ export function CanvasComponent() {
     // setArtifact(newArtifact);
     setIsEditing(true);
   };
-  const threadId = useGraphStore((x) => x.threadId);
+  const threadId = useWorkbenchStore((x) => x.threadId);
   const nav = Route.useNavigate();
   useEffect(() => {
     if (!threadId) return;

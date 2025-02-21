@@ -1,5 +1,5 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { useGraphStore } from "../../stores/GraphContext";
+import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { Canvas } from "./components/canvas";
 
 export const Route = createLazyFileRoute("/chat/$sessionId")({
@@ -8,7 +8,7 @@ export const Route = createLazyFileRoute("/chat/$sessionId")({
 
 function RouteComponent() {
   const { sessionId } = Route.useParams();
-  const setThreadId = useGraphStore((x) => x.setThreadId);
+  const setThreadId = useWorkbenchStore((x) => x.setThreadId);
   setThreadId(sessionId);
   return <Canvas />;
 }

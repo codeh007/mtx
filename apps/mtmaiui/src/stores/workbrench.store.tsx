@@ -9,11 +9,18 @@ import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 
 import { debounce } from "lodash";
-import type { components } from "mtmaiapi/query_client/generated";
+import type {
+  AgentRunInput,
+  ArtifactV3,
+  ChatMessage,
+  Tenant,
+  TextHighlight,
+} from "mtmaiapi";
 import type { Suggestion } from "mtxuilib/db/schema/suggestion";
+import { generateUUID } from "mtxuilib/lib/utils";
 import { io } from "socket.io-client";
 import type { HubmanInput } from "../types/hatchet-types";
-import type { Tenant } from "mtmaiapi";
+import { handleSseGraphStream } from "./runGraphStream";
 export interface IAskForm {
   callback: (data) => void;
   // askForm: ThreadForm;
@@ -34,7 +41,14 @@ export type StreamingDelta = {
   type: "text-delta" | "title" | "id" | "suggestion" | "clear" | "finish";
   content: string | Suggestion;
 };
-
+const DEFAULT_AGENT_FLOW_SETTINGS: IAgentFlowSettings = {
+  direction: "TB",
+  showLabels: true,
+  showGrid: true,
+  showTokens: true,
+  showMessages: true,
+  showMiniMap: false,
+};
 // 新增聊天事件类型
 export type MtmaiChatEvent = {
   type: "newChatId" | "chatEnd";
@@ -99,17 +113,17 @@ export interface WorkbrenchState extends WorkbenchProps {
   // canConnect?: boolean;
   // setCanConnect: (canConnect: boolean) => void;
 
-  inputHistoryState: IInputHistory; // inputHistoryState 不知具体作用
-  setInputHistoryState: (inputHistoryState: IInputHistory) => void;
-  onUpdateMessage: (message: IStep) => void;
-  onNewMessage: (message: IStep) => void;
+  // inputHistoryState: IInputHistory; // inputHistoryState 不知具体作用
+  // setInputHistoryState: (inputHistoryState: IInputHistory) => void;
+  // onUpdateMessage: (message: IStep) => void;
+  // onNewMessage: (message: IStep) => void;
 
-  onDeleteMessage: (message: IStep) => void;
-  onStreamStart: (message: IStep) => void;
-  onStreamToken: (token: IToken) => void;
-  onAsk: (message: IStep) => void;
+  // onDeleteMessage: (message: IStep) => void;
+  // onStreamStart: (message: IStep) => void;
+  // onStreamToken: (token: IToken) => void;
+  // onAsk: (message: IStep) => void;
 
-  uiState: ThreadUIState;
+  // uiState: ThreadUIState;
   setUiState: (uiState) => void;
   sessionId: string;
   setSessionId: (sessionId: string) => void;
@@ -139,8 +153,8 @@ export interface WorkbrenchState extends WorkbenchProps {
   // actionState: IAction[];
   // setActionState: (actionState: IAction[]) => void;
   // connectWs: () => void;
-  askUserState?: IAsk;
-  setAskUserState: (askUserState?: IAsk) => void;
+  // askUserState?: IAsk;
+  // setAskUserState: (askUserState?: IAsk) => void;
   chatProfile?: string;
   setChatProfile: (chatProfileState?: string) => void;
   setChatProfileId: (chatProfileId: string) => void;
@@ -152,7 +166,7 @@ export interface WorkbrenchState extends WorkbenchProps {
   setIsWs: (isWs: boolean) => void;
   handleEvents: (eventName: string, data: any) => void;
   chatBotType: "";
-  nodeState?: components["schemas"]["AgentNode"];
+  // nodeState?: components["schemas"]["AgentNode"];
   subscribeEvents: (options: {
     runId: string;
   }) => void;
@@ -160,6 +174,52 @@ export interface WorkbrenchState extends WorkbenchProps {
   setResource: (resource: string) => void;
   resourceId?: string;
   setResourceId: (resourceId: string) => void;
+
+  ///=========================================================================================================================
+  chatStarted?: boolean;
+  setChatStarted: (chatStarted: boolean) => void;
+  messages: ChatMessage[];
+  setMessages: (messages: ChatMessage[]) => void;
+  openWorkBench?: boolean;
+  setOpenWorkBench: (openWorkBench: boolean) => void;
+  runner?: string;
+  setRunner: (runner: string) => void;
+  teamId: string;
+  setTeamId: (teamId: string) => void;
+  isStreaming: boolean;
+  setIsStreaming: (isStreaming: boolean) => void;
+  firstTokenReceived: boolean;
+  setFirstTokenReceived: (firstTokenReceived: boolean) => void;
+
+  addMessage: (message: ChatMessage) => void;
+  submitHumanInput: (content: string) => void;
+  feedbackSubmitted: boolean;
+  setFeedbackSubmitted: (feedbackSubmitted: boolean) => void;
+
+  runId: string;
+  setRunId: (runId: string) => void;
+
+  //可能放这里不合适
+  artifact: ArtifactV3 | undefined;
+  setArtifact: (artifact: ArtifactV3) => void;
+  isArtifactSaved: boolean;
+  setIsArtifactSaved: (isArtifactSaved: boolean) => void;
+  selectedArtifact: number;
+  setSelectedArtifact: (index: number) => void;
+  //可能放这里不合适
+  selectedBlocks: TextHighlight | undefined;
+  setSelectedBlocks: (selectedBlocks?: TextHighlight) => void;
+  streamMessage: (params: AgentRunInput) => Promise<void>;
+  updateRenderedArtifactRequired: boolean;
+  setUpdateRenderedArtifactRequired: (
+    updateRenderedArtifactRequired: boolean,
+  ) => void;
+  artifactContent: string[];
+  setArtifactContent: (index: number, content: string) => void;
+
+  // autogen studio =========================================================================
+  version: string | null;
+  setVersion: (version: string | null) => void;
 }
 
 export const createWorkbrenchSlice: StateCreator<
@@ -171,7 +231,6 @@ export const createWorkbrenchSlice: StateCreator<
   return {
     isDev: false,
     backendUrl: "",
-    nodeState: undefined,
     chatEndpoint: "/api/v1/chat/ws/socket.io",
     // use chat ----------------------------------------------------------------------------
     appendChatMessageCb: (message) => {
@@ -256,7 +315,7 @@ export const createWorkbrenchSlice: StateCreator<
     },
     setStarted: (started) => set({ started }),
     setAborted: (aborted) => set({ aborted }),
-    setThreadId: (threadId: string) => {
+    setThreadId: (threadId) => {
       set({ threadId });
       console.log("setThreadId", threadId);
     },
@@ -348,6 +407,117 @@ export const createWorkbrenchSlice: StateCreator<
     subscribeEvents: (options) => subscribeSse(options, set, get),
     setResource: (resource) => set({ resource }),
     setResourceId: (resourceId) => set({ resourceId }),
+
+    //-----------------------------------------------------------------------------------------------------===============================
+    // nodeState: undefined,
+    // messages: [],
+    // setMessages: (messages) => {
+    //   set({ messages });
+    // },
+    setChatStarted: (chatStarted: boolean) => {
+      set({ chatStarted });
+    },
+    setOpenWorkBench: (openWorkBench: boolean) => {
+      set({ openWorkBench });
+    },
+    setFeedbackSubmitted: (feedbackSubmitted: boolean) => {
+      set({ feedbackSubmitted });
+    },
+    setRunnerName: (runnerName: string) => {
+      set({ runner: runnerName });
+    },
+    setIsStreaming: (isStreaming: boolean) => {
+      set({ isStreaming });
+    },
+    setThreadId: (threadId: string) => {
+      set({ threadId });
+    },
+    setFirstTokenReceived: (firstTokenReceived: boolean) => {
+      set({ firstTokenReceived });
+    },
+    setRunId: (runId: string) => {
+      set({ runId });
+    },
+    setTeamId: (teamId: string) => {
+      set({ teamId });
+    },
+    setArtifact: (artifact: ArtifactV3) => {
+      set({ artifact });
+    },
+
+    setSelectedBlocks: (selectedBlocks: TextHighlight) => {
+      set({ selectedBlocks });
+    },
+    setIsArtifactSaved: (isArtifactSaved: boolean) => {
+      set({ isArtifactSaved });
+    },
+    setSelectedArtifact: (index: number) => {
+      set({ selectedArtifact: index });
+    },
+    streamMessage: (params) => {
+      return handleSseGraphStream({ ...params }, set, get);
+    },
+    addMessage: (message: ChatMessage) => {
+      const prevMessages = get().messages;
+      set({ messages: [...prevMessages, message] });
+    },
+    submitHumanInput: async (content: string) => {
+      const prevMessages = get().messages;
+      set({
+        messages: [
+          ...prevMessages,
+          {
+            metadata: {
+              id: generateUUID(),
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+            },
+            role: "user",
+            content,
+          },
+        ],
+      });
+
+      await handleSseGraphStream(set, get);
+    },
+    setUpdateRenderedArtifactRequired: (
+      updateRenderedArtifactRequired: boolean,
+    ) => {
+      set({ updateRenderedArtifactRequired });
+    },
+    setArtifactContent: (index: number, content: string) => {
+      //TODO: 不正确,以后修改
+      set({ artifactContent: [...get().artifactContent, content] });
+    },
+
+    // autogen studio =========================================================================
+    version: null,
+    setVersion: (version) => set({ version }),
+    connectionId: uuidv4(),
+    header: {
+      title: "",
+      breadcrumbs: [],
+    },
+    setHeader: (newHeader) =>
+      set((state) => ({
+        header: { ...state.header, ...newHeader },
+      })),
+    // Add AgentFlow settings
+    agentFlow: DEFAULT_AGENT_FLOW_SETTINGS,
+    setAgentFlowSettings: (newSettings) =>
+      set((state) => ({
+        agentFlow: { ...state.agentFlow, ...newSettings },
+      })),
+
+    // Sidebar state and actions
+    sidebar: {
+      isExpanded: true,
+      isPinned: false,
+    },
+    setSidebarState: (newState) =>
+      set((state) => ({
+        sidebar: { ...state.sidebar, ...newState },
+      })),
     ...init,
   };
 };
@@ -387,11 +557,11 @@ export const WorkbrenchProvider = (props: AppProviderProps) => {
 };
 
 const DEFAULT_USE_SHALLOW = false;
-export function useWorkbrenchStore(): WorkbrenchStoreState;
-export function useWorkbrenchStore<T>(
+export function useWorkbenchStore(): WorkbrenchStoreState;
+export function useWorkbenchStore<T>(
   selector: (state: WorkbrenchStoreState) => T,
 ): T;
-export function useWorkbrenchStore<T>(
+export function useWorkbenchStore<T>(
   selector?: (state: WorkbrenchStoreState) => T,
 ) {
   const store = useContext(mtmaiStoreContext);

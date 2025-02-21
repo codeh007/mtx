@@ -11,7 +11,7 @@ import { Avatar, AvatarFallback } from "mtxuilib/ui/avatar";
 import { Button } from "mtxuilib/ui/button";
 import type { FC } from "react";
 import { useTenant } from "../../../../hooks/useAuth";
-import { useGraphStore } from "../../../../stores/GraphContext";
+import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 
 interface QuickStartButtonsProps {
   quickStarts: QuickStart[];
@@ -88,7 +88,7 @@ interface ThreadWelcomeProps {
 export const ThreadWelcome: FC<ThreadWelcomeProps> = (
   props: ThreadWelcomeProps,
 ) => {
-  const setTeamId = useGraphStore((x) => x.setTeamId);
+  const setTeamId = useWorkbenchStore((x) => x.setTeamId);
   const tenant = useTenant();
   const uiAgentStateQuery = useSuspenseQuery({
     ...uiAgentGetOptions({

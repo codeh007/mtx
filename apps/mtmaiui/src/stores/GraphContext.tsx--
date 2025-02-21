@@ -1,12 +1,6 @@
 "use client";
 import { generateId } from "ai";
-import type {
-  AgentRunInput,
-  ArtifactV3,
-  ChatMessage,
-  Tenant,
-  TextHighlight,
-} from "mtmaiapi";
+import type { ArtifactV3, ChatMessage, Tenant, TextHighlight } from "mtmaiapi";
 import { createContext, useContext, useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { type StateCreator, createStore, useStore } from "zustand";
@@ -63,54 +57,49 @@ export interface AgentNodeProps {
   threadId?: string;
 }
 export interface AgentNodeState extends AgentNodeProps {
-  chatStarted?: boolean;
-  setChatStarted: (chatStarted: boolean) => void;
-  messages: ChatMessage[];
-  setMessages: (messages: ChatMessage[]) => void;
-  openWorkBench?: boolean;
-  setOpenWorkBench: (openWorkBench: boolean) => void;
-  runner?: string;
-  setRunner: (runner: string) => void;
-  teamId: string;
-  setTeamId: (teamId: string) => void;
-  isStreaming: boolean;
-  setIsStreaming: (isStreaming: boolean) => void;
-  firstTokenReceived: boolean;
-  setFirstTokenReceived: (firstTokenReceived: boolean) => void;
-
-  addMessage: (message: ChatMessage) => void;
-  submitHumanInput: (content: string) => void;
-  feedbackSubmitted: boolean;
-  setFeedbackSubmitted: (feedbackSubmitted: boolean) => void;
-
-  runId: string;
-  setRunId: (runId: string) => void;
-
-  //可能放这里不合适
-  artifact: ArtifactV3 | undefined;
-  setArtifact: (artifact: ArtifactV3) => void;
-  isArtifactSaved: boolean;
-  setIsArtifactSaved: (isArtifactSaved: boolean) => void;
-  selectedArtifact: number;
-  setSelectedArtifact: (index: number) => void;
-  //可能放这里不合适
-  selectedBlocks: TextHighlight | undefined;
-  setSelectedBlocks: (selectedBlocks?: TextHighlight) => void;
-  streamMessage: (params: AgentRunInput) => Promise<void>;
-  updateRenderedArtifactRequired: boolean;
-  setUpdateRenderedArtifactRequired: (
-    updateRenderedArtifactRequired: boolean,
-  ) => void;
-  artifactContent: string[];
-  setArtifactContent: (index: number, content: string) => void;
-
-  // autogen studio =========================================================================
-  version: string | null;
-  setVersion: (version: string | null) => void;
-  agentFlow: IAgentFlowSettings;
-  setAgentFlowSettings: (settings: Partial<IAgentFlowSettings>) => void;
-
-  setThreadId: (threadId: string) => void;
+  // chatStarted?: boolean;
+  // setChatStarted: (chatStarted: boolean) => void;
+  // messages: ChatMessage[];
+  // setMessages: (messages: ChatMessage[]) => void;
+  // openWorkBench?: boolean;
+  // setOpenWorkBench: (openWorkBench: boolean) => void;
+  // runner?: string;
+  // setRunner: (runner: string) => void;
+  // teamId: string;
+  // setTeamId: (teamId: string) => void;
+  // isStreaming: boolean;
+  // setIsStreaming: (isStreaming: boolean) => void;
+  // firstTokenReceived: boolean;
+  // setFirstTokenReceived: (firstTokenReceived: boolean) => void;
+  // addMessage: (message: ChatMessage) => void;
+  // submitHumanInput: (content: string) => void;
+  // feedbackSubmitted: boolean;
+  // setFeedbackSubmitted: (feedbackSubmitted: boolean) => void;
+  // runId: string;
+  // setRunId: (runId: string) => void;
+  // //可能放这里不合适
+  // artifact: ArtifactV3 | undefined;
+  // setArtifact: (artifact: ArtifactV3) => void;
+  // isArtifactSaved: boolean;
+  // setIsArtifactSaved: (isArtifactSaved: boolean) => void;
+  // selectedArtifact: number;
+  // setSelectedArtifact: (index: number) => void;
+  // //可能放这里不合适
+  // selectedBlocks: TextHighlight | undefined;
+  // setSelectedBlocks: (selectedBlocks?: TextHighlight) => void;
+  // streamMessage: (params: AgentRunInput) => Promise<void>;
+  // updateRenderedArtifactRequired: boolean;
+  // setUpdateRenderedArtifactRequired: (
+  //   updateRenderedArtifactRequired: boolean,
+  // ) => void;
+  // artifactContent: string[];
+  // setArtifactContent: (index: number, content: string) => void;
+  // // autogen studio =========================================================================
+  // version: string | null;
+  // setVersion: (version: string | null) => void;
+  // agentFlow: IAgentFlowSettings;
+  // setAgentFlowSettings: (settings: Partial<IAgentFlowSettings>) => void;
+  // setThreadId: (threadId: string) => void;
 }
 
 export const createGraphSlice: StateCreator<

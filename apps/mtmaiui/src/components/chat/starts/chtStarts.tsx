@@ -4,13 +4,13 @@ import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { Icons } from "mtxuilib/icons/icons";
 import { Skeleton } from "mtxuilib/ui/skeleton";
 import { Suspense } from "react";
-import { useWorkbrenchStore } from "../../../stores/workbrench.store";
+import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
 interface ChatStartsProps {
   onSelect: (item: AssisantStart) => void;
 }
 export const ChatStarts = ({ onSelect }: ChatStartsProps) => {
-  const assistantConfig = useWorkbrenchStore((x) => x.assisantConfig);
+  const assistantConfig = useWorkbenchStore((x) => x.assisantConfig);
 
   const starts = assistantConfig?.starts;
 

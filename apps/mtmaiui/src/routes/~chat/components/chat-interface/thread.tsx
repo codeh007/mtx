@@ -8,12 +8,12 @@ import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { CustomLink } from "../../../../components/CustomLink";
-import { useGraphStore } from "../../../../stores/GraphContext";
 import { TeamCombo } from "../../../~team/TeamCombo";
 import { useLangSmithLinkToolUI } from "../LangSmithLinkToolUI";
 import { Composer } from "./composer";
 import { AssistantMessage, UserMessage } from "./messages";
 import { ThreadWelcome } from "./welcome";
+import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 
 const ThreadScrollToBottom: FC = () => {
   return (
@@ -81,10 +81,10 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
     // }
   };
 
-  const feedbackSubmitted = useGraphStore((x) => x.feedbackSubmitted);
-  const setFeedbackSubmitted = useGraphStore((x) => x.setFeedbackSubmitted);
-  const runId = useGraphStore((x) => x.runId);
-  const setTeamId = useGraphStore((x) => x.setTeamId);
+  const feedbackSubmitted = useWorkbenchStore((x) => x.feedbackSubmitted);
+  const setFeedbackSubmitted = useWorkbenchStore((x) => x.setFeedbackSubmitted);
+  const runId = useWorkbenchStore((x) => x.runId);
+  const setTeamId = useWorkbenchStore((x) => x.setTeamId);
 
   return (
     <ThreadPrimitive.Root className="flex flex-col h-full">

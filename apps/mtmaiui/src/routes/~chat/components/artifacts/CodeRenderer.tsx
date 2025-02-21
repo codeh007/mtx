@@ -18,9 +18,9 @@ import { getArtifactContent } from "mtxuilib/agentutils/opencanvas_utils";
 import { cleanContent } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
 import React, { type MutableRefObject } from "react";
-import { useGraphStore } from "../../../../stores/GraphContext";
 import styles from "./CodeRenderer.module.css";
 import { CopyText } from "./components/CopyText";
+import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 
 export interface CodeRendererProps {
   editorRef: MutableRefObject<EditorView | null>;
@@ -81,11 +81,11 @@ export function CodeRendererComponent(props: Readonly<CodeRendererProps>) {
   //   return null;
   // }
 
-  const isStreaming = useGraphStore((x) => x.isStreaming);
-  const firstTokenReceived = useGraphStore((x) => x.firstTokenReceived);
+  const isStreaming = useWorkbenchStore((x) => x.isStreaming);
+  const firstTokenReceived = useWorkbenchStore((x) => x.firstTokenReceived);
   const artifactContent = getArtifactContent(artifact) as ArtifactCodeV3;
   const extensions = [getLanguageExtension(artifactContent.language)];
-  const setArtifactContent = useGraphStore((x) => x.setArtifactContent);
+  const setArtifactContent = useWorkbenchStore((x) => x.setArtifactContent);
   if (!artifactContent.code) {
     return null;
   }

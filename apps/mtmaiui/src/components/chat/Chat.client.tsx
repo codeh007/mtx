@@ -9,7 +9,7 @@ import { fileModificationsToHTML } from "../../lib/utils/diff";
 import { Icons } from "mtxuilib/icons/icons";
 import { usePromptEnhancer } from "../../hooks/usePromptEnhancer";
 import { useChatHistory } from "../../lib/persistence/useChatHistory";
-import { useWorkbrenchStore } from "../../stores/workbrench.store";
+import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { BaseChat } from "./BaseChat";
 import { Header } from "./header/header";
 
@@ -88,18 +88,18 @@ export const ChatImpl = memo(
 
     // const [chatStarted, setChatStarted] = useState(initialMessages?.length > 0);
 
-    const showChat = useWorkbrenchStore((x) => x.uiState.openChat);
+    const showChat = useWorkbenchStore((x) => x.uiState.openChat);
 
     const [animationScope, animate] = useAnimate();
 
-    const input = useWorkbrenchStore((x) => x.input);
-    const setInput = useWorkbrenchStore((x) => x.setInput);
+    const input = useWorkbenchStore((x) => x.input);
+    const setInput = useWorkbenchStore((x) => x.setInput);
 
     // const isLoading = useWorkbrenchStore((x) => x.aisdkIsLoading);
     const { enhancingPrompt, promptEnhanced, enhancePrompt, resetEnhancer } =
       usePromptEnhancer();
     // const { parsedMessages, parseMessages } = useMessageParser();
-    const started = useWorkbrenchStore((x) => x.started);
+    const started = useWorkbenchStore((x) => x.started);
     const TEXTAREA_MAX_HEIGHT = started ? 400 : 200;
     // const setStarted = useWorkbrenchStore((x) => x.setStarted);
     // const messages = useWorkbrenchStore((x) => x.messages);
@@ -113,7 +113,7 @@ export const ChatImpl = memo(
     // const append = useWorkbrenchStore((x) => x.aisdkAppend);
     // const setAborted = useWorkbrenchStore((x) => x.setAborted);
     // const handleSubmit = useWorkbrenchStore((x) => x.handleSubmit);
-    const handleHumanInput = useWorkbrenchStore((x) => x.handleHumanInput);
+    const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
     const scrollTextArea = () => {
       const textarea = textareaRef.current;
 
@@ -222,7 +222,7 @@ export const ChatImpl = memo(
 
     const [messageRef, scrollRef] = useSnapScroll();
 
-    const handleAisdkInputChange = useWorkbrenchStore(
+    const handleAisdkInputChange = useWorkbenchStore(
       (x) => x.handleAisdkInputChange,
     );
 

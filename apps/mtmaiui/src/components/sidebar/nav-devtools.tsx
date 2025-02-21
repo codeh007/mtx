@@ -17,14 +17,14 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "mtxuilib/ui/sidebar";
-import { useWorkbrenchStore } from "../../stores/workbrench.store";
+import { useWorkbenchStore } from "../../stores/workbrench.store";
 
 export function NavDevtools() {
-  const openChat = useWorkbrenchStore((x) => x.uiState.openChat);
-  const setOpenChat = useWorkbrenchStore((x) => x.setOpenChat);
+  const openChat = useWorkbenchStore((x) => x.uiState.openChat);
+  const setOpenChat = useWorkbenchStore((x) => x.setOpenChat);
 
-  const openWorkbench = useWorkbrenchStore((x) => x.uiState.openWorkbench);
-  const setOpenWorkbench = useWorkbrenchStore((x) => x.setShowWorkbench);
+  const openWorkbench = useWorkbenchStore((x) => x.uiState.openWorkbench);
+  const setOpenWorkbench = useWorkbenchStore((x) => x.setShowWorkbench);
 
   if (process.env.NODE_ENV === "production") {
     return null;

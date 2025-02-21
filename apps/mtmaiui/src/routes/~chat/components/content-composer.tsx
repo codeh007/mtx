@@ -19,7 +19,7 @@ import { Toaster } from "mtxuilib/ui/toaster";
 import { useToast } from "mtxuilib/ui/use-toast";
 import React, { useCallback, useMemo, useState } from "react";
 import { useTenantId, useUser } from "../../../hooks/useAuth";
-import { useGraphStore } from "../../../stores/GraphContext";
+import { useWorkbenchStore } from "../../../stores/workbrench.store";
 import { Thread } from "./chat-interface/thread";
 
 export interface ContentComposerChatInterfaceProps {
@@ -39,11 +39,11 @@ export function ContentComposerChatInterfaceComponent(
   const { toast } = useToast();
   const user = useUser();
   const [isRunning, setIsRunning] = useState(false);
-  const messages = useGraphStore((x) => x.messages);
-  const setMessages = useGraphStore((x) => x.setMessages);
-  const submitHumanInput = useGraphStore((x) => x.submitHumanInput);
+  const messages = useWorkbenchStore((x) => x.messages);
+  const setMessages = useWorkbenchStore((x) => x.setMessages);
+  const submitHumanInput = useWorkbenchStore((x) => x.submitHumanInput);
 
-  const setTeamId = useGraphStore((x) => x.setTeamId);
+  // const setTeamId = useWorkbenchStore((x) => x.setTeamId);
 
   async function onNew(message: AppendMessage): Promise<void> {
     if (message.content?.[0]?.type !== "text") {
@@ -66,7 +66,7 @@ export function ContentComposerChatInterfaceComponent(
     }
   }
   const tid = useTenantId();
-  const threadId = useGraphStore((x) => x.threadId);
+  const threadId = useWorkbenchStore((x) => x.threadId);
   const messagesQuery = useQuery({
     ...chatMessagesListOptions({
       path: {
