@@ -116,11 +116,12 @@
     "db_pull": "bun run withEnv -- bun run drizzle-kit pull"
   },
   "dependencies": {
+    "@connectrpc/connect": "^2.0.1",
+    "@connectrpc/connect-query": "^2.0.1",
+    "@connectrpc/connect-web": "^2.0.1",
     "@bufbuild/buf": "^1.50.0",
     "@bufbuild/protobuf": "^2.2.3",
     "@bufbuild/protoc-gen-es": "^2.2.3",
-    "@connectrpc/connect": "^1.6.1",
-    "@connectrpc/connect-web": "^2.0.1",
     "@hey-api/client-fetch": "^0.8.1",
     "@hey-api/openapi-ts": "^0.64.5",
     "@langchain/aws": "^0.1.2",
@@ -145,7 +146,6 @@
   },
   "devDependencies": {
     "@bufbuild/protoplugin": "^2.2.3",
-    "@connectrpc/protoc-gen-connect-es": "^1.6.1",
     "@types/node": "^22",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "autoprefixer": "^10.4.16",

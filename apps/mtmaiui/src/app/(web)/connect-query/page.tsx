@@ -1,7 +1,8 @@
 "use client";
 
 import { useQuery } from "@connectrpc/connect-query";
-import { teamGet } from "mtmaiapi/mtmclient/mtm/sppb/ag-AgService_connectquery";
+
+import { AgService } from "mtmaiapi/mtmclient/mtm/sppb/ag_pb";
 import { MtTransportProvider } from "../../../stores/TransportProvider";
 export default function ConnectQueryPage() {
   return (
@@ -13,6 +14,6 @@ export default function ConnectQueryPage() {
 }
 
 const HelloConnectQuery = () => {
-  const query1 = useQuery(teamGet, {});
+  const query1 = useQuery(AgService.method.teamGet, {});
   return <div>{JSON.stringify(query1.data, null, 2)}</div>;
 };
