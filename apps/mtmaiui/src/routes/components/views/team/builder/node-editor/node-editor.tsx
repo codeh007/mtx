@@ -1,8 +1,9 @@
+"use client";
 import { ChevronLeft } from "lucide-react";
 import { Breadcrumb } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
 import { Form } from "mtxuilib/ui/form";
-import React from "react";
+import React, { useEffect } from "react";
 import type { Component, ComponentConfig } from "../../../../types/datamodel";
 import { isComponent } from "../../../../types/guards";
 import type { NodeEditorProps } from "../types";
@@ -17,7 +18,7 @@ interface EditPath {
 export const NodeEditor: React.FC<
   NodeEditorProps & { onClose: () => void }
 > = ({ node, onUpdate, onClose }) => {
-  const [form] = Form.useForm();
+  // const [form] = Form.useForm();
   const [editPath, setEditPath] = React.useState<EditPath[]>([]);
 
   // Keep a working copy of the entire component structure
@@ -37,7 +38,7 @@ export const NodeEditor: React.FC<
   }, [node]);
 
   // Initialize form values when edit path changes
-  React.useEffect(() => {
+  useEffect(() => {
     if (workingCopy) {
       const currentComponent = getCurrentComponent(workingCopy);
       if (currentComponent) {
@@ -67,10 +68,10 @@ export const NodeEditor: React.FC<
           ),
         };
 
-        form.setFieldsValue(formValues);
+        // form.setFieldsValue(formValues);
       }
     }
-  }, [workingCopy, form, editPath]);
+  }, [workingCopy, editPath]);
 
   if (!node || !workingCopy) return null;
 
@@ -162,7 +163,7 @@ export const NodeEditor: React.FC<
     console.log("Navigating to:", { componentType, id, parentField });
 
     // Update working copy with current form values before navigating
-    const values = form.getFieldsValue();
+    // const values = form.getFieldsValue();
     const updatedCopy = updateComponentAtPath(workingCopy, editPath, {
       label: values.label,
       description: values.description,

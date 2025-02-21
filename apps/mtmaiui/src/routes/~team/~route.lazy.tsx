@@ -37,7 +37,7 @@ function RouteComponent() {
   });
 
   // const [messageApi, contextHolder] = message.useMessage();
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  // const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const user = useUser();
   const tenant = useTenant();
 
@@ -178,6 +178,10 @@ function RouteComponent() {
     //   setCurrentTeam(savedTeam);
     // }
   };
+
+  if (!tenant) {
+    return null;
+  }
 
   return (
     <RootAppWrapper>

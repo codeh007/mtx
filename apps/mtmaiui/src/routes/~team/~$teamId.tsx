@@ -11,6 +11,9 @@ export const Route = createFileRoute("/team/$teamId")({
 function RouteComponent() {
   const { teamId } = Route.useParams();
   const tenant = useTenant();
+  if (!tenant) {
+    return null;
+  }
   const teamQuery = useSuspenseQuery({
     ...comsGetOptions({
       path: {

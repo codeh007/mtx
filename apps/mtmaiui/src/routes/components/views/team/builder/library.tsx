@@ -3,15 +3,17 @@ import { CSS } from "@dnd-kit/utilities";
 import {
   Bot,
   Brain,
-  ChevronDown,
+  // ChevronDown,
   Maximize2,
   Minimize2,
   Timer,
   Wrench,
 } from "lucide-react";
+import { Button } from "mtxuilib/ui/button";
+// import { Collapse } from "mtxuilib/ui/collapsible";
+import { Input } from "mtxuilib/ui/input";
 import React from "react";
 import { useGalleryStore } from "../../../../~gallery/store";
-import { Input } from "postcss";
 
 interface ComponentConfigTypes {
   [key: string]: any;
@@ -122,7 +124,7 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
     [defaultGallery],
   );
 
-  const items: CollapseProps["items"] = sections.map((section) => {
+  const items = sections.map((section) => {
     const filteredItems = section.items.filter((item) =>
       item.label.toLowerCase().includes(searchTerm.toLowerCase()),
     );
@@ -158,18 +160,19 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
 
   if (isMinimized) {
     return (
+      // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
       <div
         onClick={() => setIsMinimized(false)}
         className="absolute group top-4 left-4 bg-primary shadow-md rounded px-4 pr-2 py-2 cursor-pointer transition-all duration-300 z-50 flex items-center gap-2"
       >
         <span>Show Component Library</span>
-        <button
+        <Button
           onClick={() => setIsMinimized(false)}
           className="p-1 group-hover:bg-tertiary rounded transition-colors"
           title="Maximize Library"
         >
           <Maximize2 className="size-4" />
-        </button>
+        </Button>
       </div>
     );
   }
@@ -199,7 +202,7 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
           />
         </div>
 
-        <Collapse
+        {/* <Collapse
           items={items}
           defaultActiveKey={["Agents"]}
           bordered={false}
@@ -209,7 +212,7 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
               className={`${isActive ? "transform rotate-180" : ""} size-4`}
             />
           )}
-        />
+        /> */}
       </div>
     </div>
   );

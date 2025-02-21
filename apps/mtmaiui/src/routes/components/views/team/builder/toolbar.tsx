@@ -6,7 +6,6 @@ import {
   Map,
   Maximize2,
   Minimize2,
-  MoreHorizontal,
   Redo2,
   Save,
   Undo2,
@@ -135,14 +134,13 @@ export const TeamBuilderToolbar: React.FC<TeamBuilderToolbarProps> = ({
 
         <Tooltip title={isJsonMode ? "Switch to Visual" : "Switch to JSON"}>
           <Button
-            type="text"
             icon={isJsonMode ? <Cable size={18} /> : <Code2 size={18} />}
             className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
             onClick={onToggleView}
           />
         </Tooltip>
 
-        {!isJsonMode && (
+        {/* {!isJsonMode && (
           <Dropdown
             menu={{ items: menuItems }}
             trigger={["click"]}
@@ -156,7 +154,7 @@ export const TeamBuilderToolbar: React.FC<TeamBuilderToolbarProps> = ({
               title="More Options"
             />
           </Dropdown>
-        )}
+        )} */}
       </div>
     </div>
   );
