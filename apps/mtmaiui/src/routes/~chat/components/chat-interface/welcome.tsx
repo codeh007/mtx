@@ -5,9 +5,7 @@ import {
   type QuickStart,
   uiAgentGetOptions,
 } from "mtmaiapi";
-import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { TighterText } from "mtxuilib/mt/TighterText";
-import { Avatar, AvatarFallback } from "mtxuilib/ui/avatar";
 import { Button } from "mtxuilib/ui/button";
 import type { FC } from "react";
 import { useTenant } from "../../../../hooks/useAuth";
@@ -38,7 +36,7 @@ const QuickStartButtons = (props: QuickStartButtonsProps) => {
   return (
     <div className="flex flex-col gap-8 items-center justify-center w-full">
       <div className="flex flex-col gap-6">
-        <p className="text-gray-600 text-sm">Start with a blank canvas</p>
+        {/* <p className="text-gray-600 text-sm">Start with a blank canvas</p> */}
         <div className="flex flex-row gap-1 items-center justify-center w-full">
           {/* <Button
             variant="outline"
@@ -101,11 +99,10 @@ export const ThreadWelcome: FC<ThreadWelcomeProps> = (
     <ThreadPrimitive.Empty>
       <div className="flex items-center justify-center mt-16 w-full">
         <div className="text-center max-w-3xl w-full">
-          <DebugValue data={uiAgentStateQuery.data} />
-          <Avatar className="mx-auto">
-            {/* <AvatarImage src="/lc_logo.jpg" alt="LangChain Logo" /> */}
+          {/* <DebugValue data={uiAgentStateQuery.data} /> */}
+          {/* <Avatar className="mx-auto">
             <AvatarFallback>AI 小助理</AvatarFallback>
-          </Avatar>
+          </Avatar> */}
 
           <TighterText className="mt-4 text-lg font-medium">
             {uiAgentStateQuery.data?.welcome?.title || "此时此刻想做点什么?"}
