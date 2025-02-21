@@ -10,7 +10,7 @@ import {
 
 import classNames from "classnames";
 import { Icons } from "mtxuilib/icons/icons";
-import { cn } from "mtxuilib/lib/utils";
+import { cn } from "../lib/utils";
 import styles from "./CodeBlock.module.scss";
 
 interface CodeBlockProps {

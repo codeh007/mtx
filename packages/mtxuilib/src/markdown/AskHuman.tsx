@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { cn } from "mtxuilib/lib/utils";
 import { memo } from "react";
+import { cn } from "../lib/utils";
 
 interface AskHumanProps {
   title: string;

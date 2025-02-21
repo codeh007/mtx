@@ -3,15 +3,12 @@ import Link from "next/link";
 import { memo, useMemo } from "react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import type { BundledLanguage } from "shiki";
-import {
-  allowedHTMLElements,
-  rehypePlugins,
-  remarkPlugins,
-} from "../../lib/utils/markdown";
-import { Artifact } from "../chat/Artifact";
-import { AskHuman } from "./AskHuman";
-import { CodeBlock } from "./CodeBlock";
+import { CodeBlock } from "../ui/codeblock";
+// import { Artifact } from "../../../../apps/mtmaiui/src/components/chat/Artifact";
+// import { AskHuman } from "../../../../apps/mtmaiui/src/components/markdown/AskHuman";
+// import { CodeBlock } from "../../../../apps/mtmaiui/src/components/markdown/CodeBlock";
 import styles from "./Markdown.module.scss";
+import { allowedHTMLElements, rehypePlugins, remarkPlugins } from "./markdown";
 
 interface MarkdownProps {
   children: string;
@@ -31,21 +28,21 @@ export const NonMemoizedMarkdown = ({
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const components = useMemo(() => {
     return {
-      askhuman: ({ className, children, node, ...props }) => {
-        return (
-          <>
-            <AskHuman className={className} {...props} />
-          </>
-        );
-      },
+      // askhuman: ({ className, children, node, ...props }) => {
+      //   return (
+      //     <>
+      //       <AskHuman className={className} {...props} />
+      //     </>
+      //   );
+      // },
       a({ children, ...props }) {
         // 参考 chainlit 前端的  markdown 实现。
         const name = children as string;
         const element = refElements?.find((e) => e.name === name);
 
-        if (element) {
-          return <ElementRef element={element} />;
-        }
+        // if (element) {
+        //   return <ElementRef element={element} />;
+        // }
         return (
           <Link {...props} target="_blank" href="">
             {children}
