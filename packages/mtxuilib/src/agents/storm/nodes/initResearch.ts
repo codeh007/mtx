@@ -1,7 +1,7 @@
 import { jsonrepair } from "jsonrepair";
 import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
-import { getModelFromConfig } from "../../../agentutils/agentutils";
+import { getModelFromConfig } from "../../../agentutils/agentutils.ts--";
 import type { MtmRunnableConfig } from "../../../agentutils/runableconfig.ts--";
 import { outlineSchema, perspectivesSchema, subsectionSchema } from "../schema";
 import type { StormGraphAnnotation } from "../state";

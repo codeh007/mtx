@@ -1,6 +1,6 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
 import { z } from "zod";
-import { getModelFromConfig } from "../../../agentutils/agentutils";
+import { getModelFromConfig } from "../../../agentutils/agentutils.ts--";
 import {
   formatArtifactContentWithTemplate,
   getArtifactContent,

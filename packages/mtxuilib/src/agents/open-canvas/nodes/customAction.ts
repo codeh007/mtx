@@ -7,12 +7,12 @@ import type {
   CustomQuickAction,
   Reflections,
 } from "mtmaiapi";
+import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types";
 import {
   ensureStoreInConfig,
   formatReflections,
   getModelFromConfig,
-} from "mtxuilib/agentutils/agentutils";
-import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types";
+} from "../../../agentutils/agentutils.ts--";
 import { getArtifactContent } from "../../../agentutils/opencanvas_utils";
 import {
   CUSTOM_QUICK_ACTION_ARTIFACT_CONTENT_PROMPT,

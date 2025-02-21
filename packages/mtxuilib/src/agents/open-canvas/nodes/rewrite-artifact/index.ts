@@ -4,7 +4,7 @@ import {
   getFormattedReflections,
   getModelFromConfig,
   optionallyGetSystemPromptFromConfig,
-} from "../../../../agentutils/agentutils";
+} from "../../../../agentutils/agentutils.ts--";
 
 import type {
   OpenCanvasGraphAnnotation,

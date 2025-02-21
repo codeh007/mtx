@@ -8,7 +8,7 @@ import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types";
 import {
   getModelConfig,
   getModelFromConfig,
-} from "../../../agentutils/agentutils";
+} from "../../../agentutils/agentutils.ts--";
 import { getArtifactContent } from "../../../agentutils/opencanvas_utils";
 import type {
   OpenCanvasGraphAnnotation,

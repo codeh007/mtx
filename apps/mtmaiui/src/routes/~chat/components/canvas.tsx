@@ -17,7 +17,6 @@ import {
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { cn } from "mtxuilib/lib/utils";
 import { useToast } from "mtxuilib/ui/use-toast";
-import dynamic from "next/dynamic";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTenantId, useUser } from "../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
@@ -25,13 +24,13 @@ import { Route } from "../../~__root";
 import { WorkflowRunView } from "../../~workflow-runs/components/WorkflowRunView";
 import { Thread } from "./chat-interface/thread";
 
-const LZArtifactRenderer = dynamic(
-  () =>
-    import("./artifacts/ArtifactRenderer").then((mod) => mod.ArtifactRenderer),
-  {
-    ssr: false,
-  },
-);
+// const LZArtifactRenderer = dynamic(
+//   () =>
+//     import("./artifacts/ArtifactRenderer.tsx--").then((mod) => mod.ArtifactRenderer),
+//   {
+//     ssr: false,
+//   },
+// );
 
 export function CanvasComponent() {
   const { toast } = useToast();
@@ -198,7 +197,7 @@ export function CanvasComponent() {
         </div>
       </div>
 
-      {openWorkBench && (
+      {/* {openWorkBench && (
         <MtSuspenseBoundary>
           <div className="w-full ml-auto">
             <LZArtifactRenderer
@@ -207,7 +206,7 @@ export function CanvasComponent() {
             />
           </div>
         </MtSuspenseBoundary>
-      )}
+      )} */}
       {runId && (
         <MtSuspenseBoundary>
           <div className="w-full ml-auto">

@@ -1,6 +1,6 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
 import type { ArtifactCodeV3, ArtifactV3 } from "mtmaiapi";
-import { getModelFromConfig } from "../../../agentutils/agentutils";
+import { getModelFromConfig } from "../../../agentutils/agentutils.ts--";
 import { getArtifactContent } from "../../../agentutils/opencanvas_utils";
 import { isArtifactCodeContent } from "../../../lib/artifact_content_types";
 import {

@@ -1,6 +1,6 @@
 import type { LangGraphRunnableConfig } from "@langchain/langgraph";
 import { z } from "zod";
-import { getModelFromConfig } from "../../../agentutils/agentutils";
+import { getModelFromConfig } from "../../../agentutils/agentutils.ts--";
 import {
   formatArtifactContentWithTemplate,
   getArtifactContent,
@@ -14,9 +14,6 @@ import {
 } from "../prompts";
 import type { StormGraphAnnotation } from "../state";
 
-
-
-
 /**
 
 /**
@@ -26,8 +23,6 @@ export const generatePath = async (
   state: typeof StormGraphAnnotation.State,
   config: LangGraphRunnableConfig,
 ) => {
-
-
   if (state.customQuickActionId) {
     return {
       next: "customAction",
@@ -98,7 +93,7 @@ export const generatePath = async (
   };
 };
 
-
-const initOutline = async (topic: string, config: LangGraphRunnableConfig) => {
-
-}
+const initOutline = async (
+  topic: string,
+  config: LangGraphRunnableConfig,
+) => {};

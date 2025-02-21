@@ -3,7 +3,7 @@ import type { LangGraphRunnableConfig } from "@langchain/langgraph";
 import {
   getFormattedReflections,
   getModelFromConfig,
-} from "../../../../agentutils/agentutils";
+} from "../../../../agentutils/agentutils.ts--";
 import {
   formatArtifactContent,
   getArtifactContent,

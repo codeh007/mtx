@@ -4,7 +4,7 @@ import {
   ensureStoreInConfig,
   formatReflections,
   getModelFromConfig,
-} from "../../../agentutils/agentutils";
+} from "../../../agentutils/agentutils.ts--";
 import {
   formatArtifactContentWithTemplate,
   getArtifactContent,

@@ -5,7 +5,7 @@ import {
   ensureStoreInConfig,
   formatReflections,
   getModelFromConfig,
-} from "../../../agentutils/agentutils";
+} from "../../../agentutils/agentutils.ts--";
 import { getArtifactContent } from "../../../agentutils/opencanvas_utils";
 import { FOLLOWUP_ARTIFACT_PROMPT } from "../prompts";
 import type {
