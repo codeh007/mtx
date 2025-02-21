@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import { Suspense } from "react";
 import { cn } from "../../lib/utils";
 import { SearchInput } from "../../mt/inputs/SearchInput";
 export const WebLayoutHeader = () => {
@@ -21,12 +20,10 @@ export const WebLayoutHeader = () => {
         <nav className="flex gap-4">
           <Link href="/">首页</Link>
           <Link href="/t/news">新闻</Link>
-          <Link href="/ag">智能体</Link>
+          <Link href="/ag#/chat">智能工作室</Link>
         </nav>
       </div>
       <SearchInput />
-
-      <Suspense>{/* <UserAvatorMenus /> */}</Suspense>
       {/* <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
