@@ -60,6 +60,7 @@ const WorkflowRunsWorkflowRunIdLazyImport = createFileRoute(
 const TriggerIdLazyImport = createFileRoute('/trigger/$id')()
 const PostCreateLazyImport = createFileRoute('/post/create')()
 const ChatSessionIdLazyImport = createFileRoute('/chat/$sessionId')()
+const AuthRegisterLazyImport = createFileRoute('/auth/register')()
 const AuthLoginRouteLazyImport = createFileRoute('/auth/login')()
 const WorkflowsIndexLazyImport = createFileRoute('/workflows/')()
 const WorkflowRunsIndexLazyImport = createFileRoute('/workflow-runs/')()
@@ -248,6 +249,14 @@ const ChatSessionIdLazyRoute = ChatSessionIdLazyImport.update({
   getParentRoute: () => ChatRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~chat/~$sessionId.lazy').then((d) => d.Route),
+)
+
+const AuthRegisterLazyRoute = AuthRegisterLazyImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => AuthRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~auth/~register.lazy').then((d) => d.Route),
 )
 
 const AuthLoginRouteLazyRoute = AuthLoginRouteLazyImport.update({
@@ -747,6 +756,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteLazyImport
       parentRoute: typeof AuthRouteLazyImport
     }
+    '/auth/register': {
+      id: '/auth/register'
+      path: '/register'
+      fullPath: '/auth/register'
+      preLoaderRoute: typeof AuthRegisterLazyImport
+      parentRoute: typeof AuthRouteLazyImport
+    }
     '/chat/$sessionId': {
       id: '/chat/$sessionId'
       path: '/$sessionId'
@@ -860,10 +876,12 @@ const AuthLoginRouteLazyRouteWithChildren =
 
 interface AuthRouteLazyRouteChildren {
   AuthLoginRouteLazyRoute: typeof AuthLoginRouteLazyRouteWithChildren
+  AuthRegisterLazyRoute: typeof AuthRegisterLazyRoute
 }
 
 const AuthRouteLazyRouteChildren: AuthRouteLazyRouteChildren = {
   AuthLoginRouteLazyRoute: AuthLoginRouteLazyRouteWithChildren,
+  AuthRegisterLazyRoute: AuthRegisterLazyRoute,
 }
 
 const AuthRouteLazyRouteWithChildren = AuthRouteLazyRoute._addFileChildren(
@@ -1141,6 +1159,7 @@ export interface FileRoutesByFullPath {
   '/workflow-runs/': typeof WorkflowRunsIndexLazyRoute
   '/workflows/': typeof WorkflowsIndexLazyRoute
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
+  '/auth/register': typeof AuthRegisterLazyRoute
   '/chat/$sessionId': typeof ChatSessionIdLazyRoute
   '/post/create': typeof PostCreateLazyRoute
   '/trigger/$id': typeof TriggerIdLazyRoute
@@ -1181,6 +1200,7 @@ export interface FileRoutesByTo {
   '/team': typeof TeamIndexLazyRoute
   '/workflow-runs': typeof WorkflowRunsIndexLazyRoute
   '/workflows': typeof WorkflowsIndexLazyRoute
+  '/auth/register': typeof AuthRegisterLazyRoute
   '/chat/$sessionId': typeof ChatSessionIdLazyRoute
   '/post/create': typeof PostCreateLazyRoute
   '/trigger/$id': typeof TriggerIdLazyRoute
@@ -1238,6 +1258,7 @@ export interface FileRoutesById {
   '/workflow-runs/': typeof WorkflowRunsIndexLazyRoute
   '/workflows/': typeof WorkflowsIndexLazyRoute
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
+  '/auth/register': typeof AuthRegisterLazyRoute
   '/chat/$sessionId': typeof ChatSessionIdLazyRoute
   '/post/create': typeof PostCreateLazyRoute
   '/trigger/$id': typeof TriggerIdLazyRoute
@@ -1297,6 +1318,7 @@ export interface FileRouteTypes {
     | '/workflow-runs/'
     | '/workflows/'
     | '/auth/login'
+    | '/auth/register'
     | '/chat/$sessionId'
     | '/post/create'
     | '/trigger/$id'
@@ -1336,6 +1358,7 @@ export interface FileRouteTypes {
     | '/team'
     | '/workflow-runs'
     | '/workflows'
+    | '/auth/register'
     | '/chat/$sessionId'
     | '/post/create'
     | '/trigger/$id'
@@ -1391,6 +1414,7 @@ export interface FileRouteTypes {
     | '/workflow-runs/'
     | '/workflows/'
     | '/auth/login'
+    | '/auth/register'
     | '/chat/$sessionId'
     | '/post/create'
     | '/trigger/$id'
@@ -1499,7 +1523,8 @@ export const routeTree = rootRoute
     "/auth": {
       "filePath": "~auth/~route.lazy.tsx",
       "children": [
-        "/auth/login"
+        "/auth/login",
+        "/auth/register"
       ]
     },
     "/chat": {
@@ -1703,6 +1728,10 @@ export const routeTree = rootRoute
       "children": [
         "/auth/login/"
       ]
+    },
+    "/auth/register": {
+      "filePath": "~auth/~register.lazy.tsx",
+      "parent": "/auth"
     },
     "/chat/$sessionId": {
       "filePath": "~chat/~$sessionId.lazy.tsx",
