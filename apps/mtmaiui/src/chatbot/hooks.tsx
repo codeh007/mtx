@@ -159,7 +159,6 @@ export const useCompletionInput = (props?: UseCompletionInputProps) => {
       // 确保仅执行一次
       console.log("handlerStreamData", completion);
       handlerStreamData(completion?.data);
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       completion?.data?.map((item: any, i) => {
         if (item?.artifacts?.length) {
           setArtifacts(item.artifacts);

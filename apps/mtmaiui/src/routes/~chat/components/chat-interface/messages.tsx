@@ -10,7 +10,6 @@ import React, { type FC } from "react";
 import { makeMarkdownText } from "@assistant-ui/react-markdown";
 import { TighterText } from "mtxuilib/mt/TighterText";
 import { Avatar, AvatarFallback } from "mtxuilib/ui/avatar";
-// import { FeedbackButton } from "./feedback.tsx--";
 
 const MarkdownText = makeMarkdownText({});
 
