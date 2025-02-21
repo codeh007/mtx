@@ -21,7 +21,7 @@ export const WebLayoutHeader = () => {
         <nav className="flex gap-4">
           <Link href="/">首页</Link>
           <Link href="/t/news">新闻</Link>
-          <Link href="/t/aigc">AIGC</Link>
+          <Link href="/ag">智能体</Link>
         </nav>
       </div>
       <SearchInput />

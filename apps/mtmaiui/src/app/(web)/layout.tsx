@@ -16,7 +16,6 @@ import {
   initGomtmApp,
 } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
-// import "mtxuilib/styles/globals.css";
 import { MtmaiProvider } from "../../stores/StoreProvider";
 import "./globals.css";
 export const runtime = "nodejs";
@@ -58,11 +57,11 @@ export default async function Layout(props: {
           selfBackendUrl={await getBackendUrl()}
           accessToken={await getAccessToken()}
         >
-            <UIProviders>
-              <WebLayout>
-                <WebLayoutHeader />
-                {children}
-              </WebLayout>
+          <UIProviders>
+            <WebLayout>
+              <WebLayoutHeader />
+              {children}
+            </WebLayout>
           </UIProviders>
         </MtmaiProvider>
       </body>

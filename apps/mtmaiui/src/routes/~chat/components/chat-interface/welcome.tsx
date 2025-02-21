@@ -50,7 +50,6 @@ const QuickStartButtons = (props: QuickStartButtonsProps) => {
         </div>
       </div>
       <div className="flex flex-col gap-6 mt-2 w-full">
-        <p className="text-gray-600 text-sm">or with a message</p>
         <div className="flex flex-col w-full gap-2 text-gray-700">
           {props.quickStarts.map((quickStart, i) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
