@@ -3,33 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import {
-  Sp2FetchReq,
-  Sp2FetchRes,
-  SpContentmodi,
-  SpContentmodiCreateReq,
-  SpContentmodiGetReq,
-  SpContentmodiListReply,
-  SpContentmodiListReq,
-  SpContentmodiUpdateReq,
-  SpiderProjectRunReq,
-  SpiderProjectVisitReq,
-  SpOption,
-  SpOptionGetReq,
-  SpProject,
-  SpProjectCreateReq,
-  SpProjectGetReq,
-  SpProjectListReply,
-  SpProjectListReq,
-  SpProjectReloadReq,
-  SpProjectUpdateReq,
-  SpRoute,
-  SpRouteCreateReq,
-  SpRouteGetReq,
-  SpRouteListReply,
-  SpRouteListReq,
-  SpRouteUpdateReq,
-} from "./sp_pb";
+import { Sp2FetchReq, Sp2FetchRes, SpContentmodi, SpContentmodiCreateReq, SpContentmodiGetReq, SpContentmodiListReply, SpContentmodiListReq, SpContentmodiUpdateReq, SpiderProjectRunReq, SpiderProjectVisitReq, SpOption, SpOptionGetReq, SpProject, SpProjectCreateReq, SpProjectGetReq, SpProjectListReply, SpProjectListReq, SpProjectReloadReq, SpProjectUpdateReq, SpRoute, SpRouteCreateReq, SpRouteGetReq, SpRouteListReply, SpRouteListReq, SpRouteUpdateReq } from "./sp_pb";
 import { MethodKind } from "@bufbuild/protobuf";
 import { ResDeleteReq, Result } from "./mtm_pb";
 
@@ -238,5 +212,6 @@ export const SpService = {
       O: Sp2FetchRes,
       kind: MethodKind.Unary,
     },
-  },
+  }
 } as const;
+

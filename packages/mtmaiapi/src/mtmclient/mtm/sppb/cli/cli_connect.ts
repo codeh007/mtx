@@ -21,5 +21,6 @@ export const MtCliService = {
       O: ListCliRes,
       kind: MethodKind.Unary,
     },
-  },
+  }
 } as const;
+

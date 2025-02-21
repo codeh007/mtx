@@ -3,31 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import {
-  ActionEventResponse,
-  AssignedAction,
-  GroupKeyActionEvent,
-  HeartbeatRequest,
-  HeartbeatResponse,
-  OverridesData,
-  OverridesDataResponse,
-  RefreshTimeoutRequest,
-  RefreshTimeoutResponse,
-  ReleaseSlotRequest,
-  ReleaseSlotResponse,
-  StepActionEvent,
-  SubscribeToWorkflowEventsRequest,
-  SubscribeToWorkflowRunsRequest,
-  UpsertWorkerLabelsRequest,
-  UpsertWorkerLabelsResponse,
-  WorkerListenRequest,
-  WorkerRegisterRequest,
-  WorkerRegisterResponse,
-  WorkerUnsubscribeRequest,
-  WorkerUnsubscribeResponse,
-  WorkflowEvent,
-  WorkflowRunEvent,
-} from "./dispatcher_pb";
+import { ActionEventResponse, AssignedAction, GroupKeyActionEvent, HeartbeatRequest, HeartbeatResponse, OverridesData, OverridesDataResponse, RefreshTimeoutRequest, RefreshTimeoutResponse, ReleaseSlotRequest, ReleaseSlotResponse, StepActionEvent, SubscribeToWorkflowEventsRequest, SubscribeToWorkflowRunsRequest, UpsertWorkerLabelsRequest, UpsertWorkerLabelsResponse, WorkerListenRequest, WorkerRegisterRequest, WorkerRegisterResponse, WorkerUnsubscribeRequest, WorkerUnsubscribeResponse, WorkflowEvent, WorkflowRunEvent } from "./dispatcher_pb";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -55,8 +31,8 @@ export const Dispatcher = {
       kind: MethodKind.ServerStreaming,
     },
     /**
-     * ListenV2 is like listen, but implementation does not include heartbeats. This should only used by SDKs
-     * against engine version v0.18.1+
+     * ListenV2 is like listen, but implementation does not include heartbeats.
+     * This should only used by SDKs against engine version v0.18.1+
      *
      * @generated from rpc Dispatcher.ListenV2
      */
@@ -158,5 +134,6 @@ export const Dispatcher = {
       O: UpsertWorkerLabelsResponse,
       kind: MethodKind.Unary,
     },
-  },
+  }
 } as const;
+

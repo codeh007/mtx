@@ -25,8 +25,7 @@ export const sendStepActionEvent = Dispatcher.method.sendStepActionEvent;
 /**
  * @generated from rpc Dispatcher.SendGroupKeyActionEvent
  */
-export const sendGroupKeyActionEvent =
-  Dispatcher.method.sendGroupKeyActionEvent;
+export const sendGroupKeyActionEvent = Dispatcher.method.sendGroupKeyActionEvent;
 
 /**
  * @generated from rpc Dispatcher.PutOverridesData

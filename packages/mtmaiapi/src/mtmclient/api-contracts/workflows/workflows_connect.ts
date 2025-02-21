@@ -3,17 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import {
-  BulkTriggerWorkflowRequest,
-  BulkTriggerWorkflowResponse,
-  PutRateLimitRequest,
-  PutRateLimitResponse,
-  PutWorkflowRequest,
-  ScheduleWorkflowRequest,
-  TriggerWorkflowRequest,
-  TriggerWorkflowResponse,
-  WorkflowVersion,
-} from "./workflows_pb";
+import { BulkTriggerWorkflowRequest, BulkTriggerWorkflowResponse, PutRateLimitRequest, PutRateLimitResponse, PutWorkflowRequest, ScheduleWorkflowRequest, TriggerWorkflowRequest, TriggerWorkflowResponse, WorkflowVersion } from "./workflows_pb";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -69,5 +59,6 @@ export const WorkflowService = {
       O: PutRateLimitResponse,
       kind: MethodKind.Unary,
     },
-  },
+  }
 } as const;
+

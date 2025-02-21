@@ -5,18 +5,7 @@
 
 import { CommontListReq, CommontListRes } from "./mtm_pb";
 import { MethodKind } from "@bufbuild/protobuf";
-import {
-  GitGetReq,
-  GitInfo,
-  GitPullReq,
-  GitPullRes,
-  GitSetupReq,
-  GitSetupRes,
-  GitStartReq,
-  GitStartRes,
-  GitStopReq,
-  GitStopRes,
-} from "./git_pb";
+import { GitGetReq, GitInfo, GitPullReq, GitPullRes, GitSetupReq, GitSetupRes, GitStartReq, GitStartRes, GitStopReq, GitStopRes } from "./git_pb";
 
 /**
  * @generated from service sppb.GitService
@@ -80,5 +69,6 @@ export const GitService = {
       O: GitStopRes,
       kind: MethodKind.Unary,
     },
-  },
+  }
 } as const;
+

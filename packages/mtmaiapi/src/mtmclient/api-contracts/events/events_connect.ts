@@ -3,17 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import {
-  BulkPushEventRequest,
-  Event,
-  Events,
-  PushEventRequest,
-  PutLogRequest,
-  PutLogResponse,
-  PutStreamEventRequest,
-  PutStreamEventResponse,
-  ReplayEventRequest,
-} from "./events_pb";
+import { BulkPushEventRequest, Event, Events, PushEventRequest, PutLogRequest, PutLogResponse, PutStreamEventRequest, PutStreamEventResponse, ReplayEventRequest } from "./events_pb";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -67,5 +57,6 @@ export const EventsService = {
       O: PutStreamEventResponse,
       kind: MethodKind.Unary,
     },
-  },
+  }
 } as const;
+
