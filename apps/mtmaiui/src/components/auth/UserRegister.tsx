@@ -1,6 +1,6 @@
 "use client";
 import { useMutation } from "@tanstack/react-query";
-import { userCreateMutation, UserRegisterRequest } from "mtmaiapi";
+import { type UserRegisterRequest, userCreateMutation } from "mtmaiapi";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";
 import { Input } from "mtxuilib/ui/input";
@@ -8,7 +8,7 @@ import Link from "next/link";
 import { z } from "zod";
 export function UserRegisterScreen() {
   const register = useMutation({
-    ...userCreateMutation()
+    ...userCreateMutation(),
   });
 
   const form = useZodForm({
@@ -16,10 +16,10 @@ export function UserRegisterScreen() {
     defaultValues: {},
   });
 
-  const handleSubmit = (values:UserRegisterRequest) => {
+  const handleSubmit = (values: UserRegisterRequest) => {
     register.mutate({
       body: {
-        ...values
+        ...values,
       },
     });
   };
