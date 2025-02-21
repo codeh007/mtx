@@ -2,16 +2,8 @@
 // @generated from file api-contracts/events/events.proto (syntax proto3)
 /* eslint-disable */
 
-import type {
-  GenFile,
-  GenMessage,
-  GenService,
-} from "@bufbuild/protobuf/codegenv1";
-import {
-  fileDesc,
-  messageDesc,
-  serviceDesc,
-} from "@bufbuild/protobuf/codegenv1";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
@@ -19,12 +11,8 @@ import type { Message } from "@bufbuild/protobuf";
 /**
  * Describes the file api-contracts/events/events.proto.
  */
-export const file_api_contracts_events_events: GenFile =
-  /*@__PURE__*/
-  fileDesc(
-    "CiFhcGktY29udHJhY3RzL2V2ZW50cy9ldmVudHMucHJvdG8itAEKBUV2ZW50EhAKCHRlbmFudElkGAEgASgJEg8KB2V2ZW50SWQYAiABKAkSCwoDa2V5GAMgASgJEg8KB3BheWxvYWQYBCABKAkSMgoOZXZlbnRUaW1lc3RhbXAYBSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEh8KEmFkZGl0aW9uYWxNZXRhZGF0YRgGIAEoCUgAiAEBQhUKE19hZGRpdGlvbmFsTWV0YWRhdGEiIAoGRXZlbnRzEhYKBmV2ZW50cxgBIAMoCzIGLkV2ZW50IpIBCg1QdXRMb2dSZXF1ZXN0EhEKCXN0ZXBSdW5JZBgBIAEoCRItCgljcmVhdGVkQXQYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEg8KB21lc3NhZ2UYAyABKAkSEgoFbGV2ZWwYBCABKAlIAIgBARIQCghtZXRhZGF0YRgFIAEoCUIICgZfbGV2ZWwiEAoOUHV0TG9nUmVzcG9uc2UifAoVUHV0U3RyZWFtRXZlbnRSZXF1ZXN0EhEKCXN0ZXBSdW5JZBgBIAEoCRItCgljcmVhdGVkQXQYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEg8KB21lc3NhZ2UYAyABKAwSEAoIbWV0YWRhdGEYBSABKAkiGAoWUHV0U3RyZWFtRXZlbnRSZXNwb25zZSI5ChRCdWxrUHVzaEV2ZW50UmVxdWVzdBIhCgZldmVudHMYASADKAsyES5QdXNoRXZlbnRSZXF1ZXN0IpwBChBQdXNoRXZlbnRSZXF1ZXN0EgsKA2tleRgBIAEoCRIPCgdwYXlsb2FkGAIgASgJEjIKDmV2ZW50VGltZXN0YW1wGAMgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIfChJhZGRpdGlvbmFsTWV0YWRhdGEYBCABKAlIAIgBAUIVChNfYWRkaXRpb25hbE1ldGFkYXRhIiUKElJlcGxheUV2ZW50UmVxdWVzdBIPCgdldmVudElkGAEgASgJMogCCg1FdmVudHNTZXJ2aWNlEiMKBFB1c2gSES5QdXNoRXZlbnRSZXF1ZXN0GgYuRXZlbnQiABIsCghCdWxrUHVzaBIVLkJ1bGtQdXNoRXZlbnRSZXF1ZXN0GgcuRXZlbnRzIgASMgoRUmVwbGF5U2luZ2xlRXZlbnQSEy5SZXBsYXlFdmVudFJlcXVlc3QaBi5FdmVudCIAEisKBlB1dExvZxIOLlB1dExvZ1JlcXVlc3QaDy5QdXRMb2dSZXNwb25zZSIAEkMKDlB1dFN0cmVhbUV2ZW50EhYuUHV0U3RyZWFtRXZlbnRSZXF1ZXN0GhcuUHV0U3RyZWFtRXZlbnRSZXNwb25zZSIAQj9CC0V2ZW50c1Byb3RvUAFaLmdpdGh1Yi5jb20vY29kZWgwMDcvZ29tdG0vYXBpLWNvbnRyYWN0cy9ldmVudHNiBnByb3RvMw",
-    [file_google_protobuf_timestamp],
-  );
+export const file_api_contracts_events_events: GenFile = /*@__PURE__*/
+  fileDesc("CiFhcGktY29udHJhY3RzL2V2ZW50cy9ldmVudHMucHJvdG8itAEKBUV2ZW50EhAKCHRlbmFudElkGAEgASgJEg8KB2V2ZW50SWQYAiABKAkSCwoDa2V5GAMgASgJEg8KB3BheWxvYWQYBCABKAkSMgoOZXZlbnRUaW1lc3RhbXAYBSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEh8KEmFkZGl0aW9uYWxNZXRhZGF0YRgGIAEoCUgAiAEBQhUKE19hZGRpdGlvbmFsTWV0YWRhdGEiIAoGRXZlbnRzEhYKBmV2ZW50cxgBIAMoCzIGLkV2ZW50IpIBCg1QdXRMb2dSZXF1ZXN0EhEKCXN0ZXBSdW5JZBgBIAEoCRItCgljcmVhdGVkQXQYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEg8KB21lc3NhZ2UYAyABKAkSEgoFbGV2ZWwYBCABKAlIAIgBARIQCghtZXRhZGF0YRgFIAEoCUIICgZfbGV2ZWwiEAoOUHV0TG9nUmVzcG9uc2UifAoVUHV0U3RyZWFtRXZlbnRSZXF1ZXN0EhEKCXN0ZXBSdW5JZBgBIAEoCRItCgljcmVhdGVkQXQYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEg8KB21lc3NhZ2UYAyABKAwSEAoIbWV0YWRhdGEYBSABKAkiGAoWUHV0U3RyZWFtRXZlbnRSZXNwb25zZSI5ChRCdWxrUHVzaEV2ZW50UmVxdWVzdBIhCgZldmVudHMYASADKAsyES5QdXNoRXZlbnRSZXF1ZXN0IpwBChBQdXNoRXZlbnRSZXF1ZXN0EgsKA2tleRgBIAEoCRIPCgdwYXlsb2FkGAIgASgJEjIKDmV2ZW50VGltZXN0YW1wGAMgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIfChJhZGRpdGlvbmFsTWV0YWRhdGEYBCABKAlIAIgBAUIVChNfYWRkaXRpb25hbE1ldGFkYXRhIiUKElJlcGxheUV2ZW50UmVxdWVzdBIPCgdldmVudElkGAEgASgJMogCCg1FdmVudHNTZXJ2aWNlEiMKBFB1c2gSES5QdXNoRXZlbnRSZXF1ZXN0GgYuRXZlbnQiABIsCghCdWxrUHVzaBIVLkJ1bGtQdXNoRXZlbnRSZXF1ZXN0GgcuRXZlbnRzIgASMgoRUmVwbGF5U2luZ2xlRXZlbnQSEy5SZXBsYXlFdmVudFJlcXVlc3QaBi5FdmVudCIAEisKBlB1dExvZxIOLlB1dExvZ1JlcXVlc3QaDy5QdXRMb2dSZXNwb25zZSIAEkMKDlB1dFN0cmVhbUV2ZW50EhYuUHV0U3RyZWFtRXZlbnRSZXF1ZXN0GhcuUHV0U3RyZWFtRXZlbnRSZXNwb25zZSIAQj9CC0V2ZW50c1Byb3RvUAFaLmdpdGh1Yi5jb20vY29kZWgwMDcvZ29tdG0vYXBpLWNvbnRyYWN0cy9ldmVudHNiBnByb3RvMw", [file_google_protobuf_timestamp]);
 
 /**
  * @generated from message Event
@@ -77,8 +65,7 @@ export type Event = Message<"Event"> & {
  * Describes the message Event.
  * Use `create(EventSchema)` to create a new message.
  */
-export const EventSchema: GenMessage<Event> =
-  /*@__PURE__*/
+export const EventSchema: GenMessage<Event> = /*@__PURE__*/
   messageDesc(file_api_contracts_events_events, 0);
 
 /**
@@ -95,8 +82,7 @@ export type Events = Message<"Events"> & {
  * Describes the message Events.
  * Use `create(EventsSchema)` to create a new message.
  */
-export const EventsSchema: GenMessage<Events> =
-  /*@__PURE__*/
+export const EventsSchema: GenMessage<Events> = /*@__PURE__*/
   messageDesc(file_api_contracts_events_events, 1);
 
 /**
@@ -143,21 +129,20 @@ export type PutLogRequest = Message<"PutLogRequest"> & {
  * Describes the message PutLogRequest.
  * Use `create(PutLogRequestSchema)` to create a new message.
  */
-export const PutLogRequestSchema: GenMessage<PutLogRequest> =
-  /*@__PURE__*/
+export const PutLogRequestSchema: GenMessage<PutLogRequest> = /*@__PURE__*/
   messageDesc(file_api_contracts_events_events, 2);
 
 /**
  * @generated from message PutLogResponse
  */
-export type PutLogResponse = Message<"PutLogResponse"> & {};
+export type PutLogResponse = Message<"PutLogResponse"> & {
+};
 
 /**
  * Describes the message PutLogResponse.
  * Use `create(PutLogResponseSchema)` to create a new message.
  */
-export const PutLogResponseSchema: GenMessage<PutLogResponse> =
-  /*@__PURE__*/
+export const PutLogResponseSchema: GenMessage<PutLogResponse> = /*@__PURE__*/
   messageDesc(file_api_contracts_events_events, 3);
 
 /**
@@ -197,21 +182,20 @@ export type PutStreamEventRequest = Message<"PutStreamEventRequest"> & {
  * Describes the message PutStreamEventRequest.
  * Use `create(PutStreamEventRequestSchema)` to create a new message.
  */
-export const PutStreamEventRequestSchema: GenMessage<PutStreamEventRequest> =
-  /*@__PURE__*/
+export const PutStreamEventRequestSchema: GenMessage<PutStreamEventRequest> = /*@__PURE__*/
   messageDesc(file_api_contracts_events_events, 4);
 
 /**
  * @generated from message PutStreamEventResponse
  */
-export type PutStreamEventResponse = Message<"PutStreamEventResponse"> & {};
+export type PutStreamEventResponse = Message<"PutStreamEventResponse"> & {
+};
 
 /**
  * Describes the message PutStreamEventResponse.
  * Use `create(PutStreamEventResponseSchema)` to create a new message.
  */
-export const PutStreamEventResponseSchema: GenMessage<PutStreamEventResponse> =
-  /*@__PURE__*/
+export const PutStreamEventResponseSchema: GenMessage<PutStreamEventResponse> = /*@__PURE__*/
   messageDesc(file_api_contracts_events_events, 5);
 
 /**
@@ -228,8 +212,7 @@ export type BulkPushEventRequest = Message<"BulkPushEventRequest"> & {
  * Describes the message BulkPushEventRequest.
  * Use `create(BulkPushEventRequestSchema)` to create a new message.
  */
-export const BulkPushEventRequestSchema: GenMessage<BulkPushEventRequest> =
-  /*@__PURE__*/
+export const BulkPushEventRequestSchema: GenMessage<BulkPushEventRequest> = /*@__PURE__*/
   messageDesc(file_api_contracts_events_events, 6);
 
 /**
@@ -269,8 +252,7 @@ export type PushEventRequest = Message<"PushEventRequest"> & {
  * Describes the message PushEventRequest.
  * Use `create(PushEventRequestSchema)` to create a new message.
  */
-export const PushEventRequestSchema: GenMessage<PushEventRequest> =
-  /*@__PURE__*/
+export const PushEventRequestSchema: GenMessage<PushEventRequest> = /*@__PURE__*/
   messageDesc(file_api_contracts_events_events, 7);
 
 /**
@@ -289,8 +271,7 @@ export type ReplayEventRequest = Message<"ReplayEventRequest"> & {
  * Describes the message ReplayEventRequest.
  * Use `create(ReplayEventRequestSchema)` to create a new message.
  */
-export const ReplayEventRequestSchema: GenMessage<ReplayEventRequest> =
-  /*@__PURE__*/
+export const ReplayEventRequestSchema: GenMessage<ReplayEventRequest> = /*@__PURE__*/
   messageDesc(file_api_contracts_events_events, 8);
 
 /**
@@ -304,7 +285,7 @@ export const EventsService: GenService<{
     methodKind: "unary";
     input: typeof PushEventRequestSchema;
     output: typeof EventSchema;
-  };
+  },
   /**
    * @generated from rpc EventsService.BulkPush
    */
@@ -312,7 +293,7 @@ export const EventsService: GenService<{
     methodKind: "unary";
     input: typeof BulkPushEventRequestSchema;
     output: typeof EventsSchema;
-  };
+  },
   /**
    * @generated from rpc EventsService.ReplaySingleEvent
    */
@@ -320,7 +301,7 @@ export const EventsService: GenService<{
     methodKind: "unary";
     input: typeof ReplayEventRequestSchema;
     output: typeof EventSchema;
-  };
+  },
   /**
    * @generated from rpc EventsService.PutLog
    */
@@ -328,7 +309,7 @@ export const EventsService: GenService<{
     methodKind: "unary";
     input: typeof PutLogRequestSchema;
     output: typeof PutLogResponseSchema;
-  };
+  },
   /**
    * @generated from rpc EventsService.PutStreamEvent
    */
@@ -336,5 +317,7 @@ export const EventsService: GenService<{
     methodKind: "unary";
     input: typeof PutStreamEventRequestSchema;
     output: typeof PutStreamEventResponseSchema;
-  };
-}> = /*@__PURE__*/ serviceDesc(file_api_contracts_events_events, 0);
+  },
+}> = /*@__PURE__*/
+  serviceDesc(file_api_contracts_events_events, 0);
+
