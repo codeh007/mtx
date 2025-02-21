@@ -5,7 +5,6 @@ import { cookies, headers } from "next/headers";
 import type { ReactNode } from "react";
 
 import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
-import { WebLayout } from "mtxuilib/layouts/web/WebLayout";
 import { WebLayoutHeader } from "mtxuilib/layouts/web/WebLayoutHeader";
 
 import {
@@ -58,10 +57,10 @@ export default async function Layout(props: {
           accessToken={await getAccessToken()}
         >
           <UIProviders>
-            <WebLayout>
+            <div className="flex flex-col min-h-screen h-full w-full">
               <WebLayoutHeader />
               {children}
-            </WebLayout>
+            </div>
           </UIProviders>
         </MtmaiProvider>
       </body>

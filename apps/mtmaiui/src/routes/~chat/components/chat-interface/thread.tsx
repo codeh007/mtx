@@ -145,7 +145,7 @@ export const Thread = (props: ThreadProps) => {
       <ThreadPrimitive.Viewport
         className={cn(
           "flex-1 overflow-y-auto scroll-smooth bg-inherit px-2 pt-2 justify-center mx-auto",
-          hasChatStarted ? "bg-amber-100" : "bg-inherit",
+          hasChatStarted ? "" : "bg-inherit",
           "max-h-[calc(100vh-200px)]",
         )}
       >
