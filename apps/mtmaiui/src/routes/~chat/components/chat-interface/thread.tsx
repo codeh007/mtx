@@ -8,7 +8,6 @@ import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { cn } from "mtxuilib/lib/utils";
 import { TooltipIconButton } from "mtxuilib/mt/tooltip-icon-button";
 import { useToast } from "mtxuilib/ui/use-toast";
-import { CustomLink } from "../../../../components/CustomLink";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 import { TeamCombo } from "../../../~team/TeamCombo";
 import { AssistantMessage, UserMessage } from "./messages";
@@ -108,9 +107,9 @@ export const Thread = (props: ThreadProps) => {
           {/* <ThreadHistory
             switchSelectedThreadCallback={switchSelectedThreadCallback}
           /> */}
-          <div className="bg-red-100 w-full">
+          {/* <div className="bg-red-100 w-full">
             <CustomLink to="/ag_state">查看状态</CustomLink>
-          </div>
+          </div> */}
           <MtErrorBoundary>
             <TeamCombo
               onChange={(value) => {
