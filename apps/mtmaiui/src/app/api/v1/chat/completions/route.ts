@@ -1,5 +1,5 @@
 import type { ChatCompletionCreateParams } from "openai/resources/chat/completions";
-import { getLlmConfig } from "../config";
+import { getLlmConfig } from "../config.ts--";
 
 export const runtime = "edge";
 
