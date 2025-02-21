@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Copy } from "lucide-react";
 import { isArtifactCodeContent } from "mtxuilib/lib/artifact_content_types";
 
-import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
+import { TooltipIconButton } from "mtxuilib/mt/tooltip-icon-button";
 
 import { useToast } from "mtxuilib/ui/use-toast";
 

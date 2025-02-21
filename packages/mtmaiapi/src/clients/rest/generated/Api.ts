@@ -3515,7 +3515,6 @@ export class Api<
    *
    * @tags chat
    * @name ChatMessagesList
-   * @summary 获取聊天消息
    * @request GET:/api/v1/tenants/{tenant}/chat/{chat}/messages
    * @secure
    */

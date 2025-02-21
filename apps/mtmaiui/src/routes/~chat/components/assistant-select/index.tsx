@@ -3,8 +3,8 @@ import * as Icons from "lucide-react";
 import { OC_HAS_SEEN_CUSTOM_ASSISTANTS_ALERT } from "mtxuilib/constants";
 import React, { useState } from "react";
 
-import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
+import { TooltipIconButton } from "mtxuilib/mt/tooltip-icon-button";
 import {
   DropdownMenu,
   DropdownMenuContent,

@@ -3,7 +3,7 @@
 import { forwardRef } from "react";
 
 import { cn } from "../lib/utils";
-import { Button, type ButtonProps } from "../ui/button";
+import { Button } from "../ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -11,7 +11,7 @@ import {
   TooltipTrigger,
 } from "../ui/tooltip";
 
-export type TooltipIconButtonProps = ButtonProps & {
+export type TooltipIconButtonProps = React.ComponentProps<typeof Button> & {
   tooltip: string | React.ReactNode;
   side?: "top" | "bottom" | "left" | "right";
   /**

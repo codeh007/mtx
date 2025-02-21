@@ -4,9 +4,9 @@ import { LlmIcon } from "mtxuilib/icons/llm";
 
 import { AnimatePresence, motion } from "framer-motion";
 import { ExternalLink, X } from "lucide-react";
-import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { LS_HAS_SEEN_MODEL_DROPDOWN_ALERT } from "mtxuilib/constants";
 import { TighterText } from "mtxuilib/mt/TighterText";
+import { TooltipIconButton } from "mtxuilib/mt/tooltip-icon-button";
 import { Alert, AlertDescription, AlertTitle } from "mtxuilib/ui/alert";
 import { type Dispatch, type SetStateAction, useEffect } from "react";
 

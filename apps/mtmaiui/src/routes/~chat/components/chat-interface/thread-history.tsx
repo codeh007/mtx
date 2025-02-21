@@ -3,8 +3,8 @@
 import { isToday, isWithinInterval, isYesterday, subDays } from "date-fns";
 import { Trash2 } from "lucide-react";
 import type { ChatSession } from "mtmaiapi";
-import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
+import { TooltipIconButton } from "mtxuilib/mt/tooltip-icon-button";
 import { Button } from "mtxuilib/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "mtxuilib/ui/sheet";
 import { useToast } from "mtxuilib/ui/use-toast";

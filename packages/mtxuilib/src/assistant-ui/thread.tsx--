@@ -56,38 +56,3 @@ const Composer: FC = () => {
   );
 };
 
-const UserMessage: FC = () => {
-  return (
-    <MessagePrimitive.Root className="relative flex w-full max-w-2xl gap-3 pb-12">
-      <Avatar>
-        <AvatarFallback>Y</AvatarFallback>
-      </Avatar>
-
-      <div className="flex-grow">
-        <p className="font-semibold">You</p>
-
-        <p className="whitespace-pre-line text-foreground">
-          <MessagePrimitive.Content />
-        </p>
-      </div>
-    </MessagePrimitive.Root>
-  );
-};
-
-const AssistantMessage: FC = () => {
-  return (
-    <MessagePrimitive.Root className="relative flex w-full max-w-2xl gap-3 pb-12">
-      <Avatar>
-        <AvatarFallback>A</AvatarFallback>
-      </Avatar>
-
-      <div className="flex-grow">
-        <p className="font-semibold">Assistant</p>
-
-        <p className="whitespace-pre-line text-foreground">
-          <MessagePrimitive.Content />
-        </p>
-      </div>
-    </MessagePrimitive.Root>
-  );
-};

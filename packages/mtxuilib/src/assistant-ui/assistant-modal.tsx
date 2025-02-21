@@ -3,17 +3,16 @@
 import { BotIcon, ChevronDownIcon } from "lucide-react";
 
 import { TooltipProvider } from "@radix-ui/react-tooltip";
-import dynamic from "next/dynamic";
 import { forwardRef, useState } from "react";
 import { cn } from "../lib/utils";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { Thread } from "./thread";
+import { Thread } from "@assistant-ui/react";
 
-const LzThread = dynamic(() => import("./thread").then((mod) => mod.Thread), {
-  ssr: false,
-});
+// const LzThread = dynamic(() => import("./thread.tsx--").then((mod) => mod.Thread), {
+//   ssr: false,
+// });
 export const AssistantModal = () => {
   const [open, setOpen] = useState(false);
 

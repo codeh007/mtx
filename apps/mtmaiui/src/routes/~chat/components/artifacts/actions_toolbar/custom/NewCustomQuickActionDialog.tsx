@@ -10,9 +10,9 @@ import {
 } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
 import { InlineContextTooltip } from "mtxuilib/mt/inline-context-tooltip";
+import { TooltipIconButton } from "mtxuilib/mt/tooltip-icon-button";
 import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { FullPrompt } from "./FullPrompt";

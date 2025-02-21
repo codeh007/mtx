@@ -5,9 +5,9 @@ import {
   Trash2,
   WandSparkles,
 } from "lucide-react";
-import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { cn } from "mtxuilib/lib/utils";
 import { TighterText } from "mtxuilib/mt/TighterText";
+import { TooltipIconButton } from "mtxuilib/mt/tooltip-icon-button";
 
 import type { CanvasGraphParams, CustomQuickAction, User } from "mtmaiapi";
 import {

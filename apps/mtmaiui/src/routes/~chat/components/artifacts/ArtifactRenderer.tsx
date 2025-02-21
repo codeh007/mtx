@@ -8,9 +8,9 @@ import type {
   ProgrammingLanguageOptions,
 } from "mtmaiapi";
 import { getArtifactContent } from "mtxuilib/agentutils/opencanvas_utils";
-import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { user } from "mtxuilib/db/schema/user";
 import { cn } from "mtxuilib/lib/utils";
+import { TooltipIconButton } from "mtxuilib/mt/tooltip-icon-button";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";

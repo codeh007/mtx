@@ -1,11 +1,11 @@
-'use client'
+"use client";
 
-import { CodeHeaderProps } from "@assistant-ui/react-markdown";
+import type { CodeHeaderProps } from "@assistant-ui/react-markdown";
 import { CheckIcon, CopyIcon } from "lucide-react";
 
-import { FC } from "react";
+import type { FC } from "react";
 import { useCopyToClipboard } from "../hooks/use-copy-to-clipboard";
-import { TooltipIconButton } from "./tooltip-icon-button";
+import { TooltipIconButton } from "../mt/tooltip-icon-button";
 
 export const CodeHeader: FC<CodeHeaderProps> = ({ language, code }) => {
   const { isCopied, copyToClipboard } = useCopyToClipboard();
@@ -24,4 +24,3 @@ export const CodeHeader: FC<CodeHeaderProps> = ({ language, code }) => {
     </div>
   );
 };
-

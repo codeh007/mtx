@@ -12,8 +12,8 @@ import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
 import type { ArtifactMarkdownV3 } from "mtmaiapi";
 import { getArtifactContent } from "mtxuilib/agentutils/opencanvas_utils";
-import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { isArtifactMarkdownContent } from "mtxuilib/lib/artifact_content_types";
+import { TooltipIconButton } from "mtxuilib/mt/tooltip-icon-button";
 import { Textarea } from "mtxuilib/ui/textarea";
 import React, {
   type Dispatch,
@@ -22,8 +22,8 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { CopyText } from "./components/CopyText";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
+import { CopyText } from "./components/CopyText";
 
 const cleanText = (text: string) => {
   return text.replaceAll("\\\n", "\n");

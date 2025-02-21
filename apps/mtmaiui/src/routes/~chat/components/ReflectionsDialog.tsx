@@ -1,7 +1,7 @@
 "use client";
 import { BrainCog, Loader } from "lucide-react";
-import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { TighterText } from "mtxuilib/mt/TighterText";
+import { TooltipIconButton } from "mtxuilib/mt/tooltip-icon-button";
 import { Badge } from "mtxuilib/ui/badge";
 import { Button } from "mtxuilib/ui/button";
 import {

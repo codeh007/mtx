@@ -1,5 +1,4 @@
 import type { CanvasGraphParams, LanguageOptions } from "mtmaiapi";
-import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import {
   ChinaFlag,
   FrenchFlag,
@@ -7,6 +6,7 @@ import {
   SpanishFlag,
   UsaFlag,
 } from "mtxuilib/icons/flags";
+import { TooltipIconButton } from "mtxuilib/mt/tooltip-icon-button";
 
 export interface TranslateOptionsProps {
   streamMessage: (params: CanvasGraphParams) => Promise<void>;

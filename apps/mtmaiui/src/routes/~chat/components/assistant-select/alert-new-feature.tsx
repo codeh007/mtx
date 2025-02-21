@@ -2,9 +2,9 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Users, X } from "lucide-react";
-import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { OC_HAS_SEEN_CUSTOM_ASSISTANTS_ALERT } from "mtxuilib/constants";
 import { TighterText } from "mtxuilib/mt/TighterText";
+import { TooltipIconButton } from "mtxuilib/mt/tooltip-icon-button";
 import { Alert, AlertDescription, AlertTitle } from "mtxuilib/ui/alert";
 
 export const AlertNewAssistantsFeature = ({

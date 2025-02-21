@@ -4583,7 +4583,6 @@ export const agStateGet = <ThrowOnError extends boolean = false>(
 
 /**
  * 获取聊天消息
- * 获取聊天消息
  */
 export const chatMessagesList = <ThrowOnError extends boolean = false>(
   options: Options<ChatMessagesListData, ThrowOnError>,

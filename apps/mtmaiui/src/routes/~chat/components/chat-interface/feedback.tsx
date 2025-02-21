@@ -2,8 +2,8 @@
 import { ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
 import type { FC } from "react";
 
-import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { cn } from "mtxuilib/lib/utils";
+import { TooltipIconButton } from "mtxuilib/mt/tooltip-icon-button";
 import { useToast } from "mtxuilib/ui/use-toast";
 import type { FeedbackResponse } from "../../../../hooks/useFeedback";
 

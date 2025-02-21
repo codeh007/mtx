@@ -4,16 +4,18 @@ import {
   MarkdownTextPrimitive,
   useIsMarkdownCodeBlock,
 } from "@assistant-ui/react-markdown";
-// 警告: 不要这样直接导入,后果是 构建出来的 (tailwinddcss css 文件体积非常大,里面包含了内联的katex字体)
-// import "katex/dist/katex.min.css";
+
 import { memo } from "react";
 import rehypeKatex from "rehype-katex";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
+import { CodeHeader } from "../assistant-ui/CodeHeader";
 import { cn } from "../lib/utils";
-// import { TooltipIconButton } from "./tooltip-icon-button";
-import { CodeHeader } from "./CodeHeader";
-import { SyntaxHighlighter } from "./syntax-highlighter";
+import { SyntaxHighlighter } from "../mt/syntax-highlighter";
+
+// 警告: 不要这样直接导入,后果是 构建出来的 (tailwinddcss css 文件体积非常大,里面包含了内联的katex字体)
+// import "katex/dist/katex.min.css";
+
 const MarkdownTextImpl = () => {
   return (
     <MarkdownTextPrimitive

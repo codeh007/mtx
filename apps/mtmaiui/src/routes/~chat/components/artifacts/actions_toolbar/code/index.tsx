@@ -1,7 +1,7 @@
 import { Bug, Code, MessageCircleCode, ScrollText } from "lucide-react";
 import type { CanvasGraphParams, ProgrammingLanguageOptions } from "mtmaiapi";
-import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { cn } from "mtxuilib/lib/utils";
+import { TooltipIconButton } from "mtxuilib/mt/tooltip-icon-button";
 import { useEffect, useRef, useState } from "react";
 
 type SharedComponentProps = {

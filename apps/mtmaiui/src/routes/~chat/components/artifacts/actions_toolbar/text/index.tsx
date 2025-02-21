@@ -1,12 +1,12 @@
 import { BookOpen, Languages, SlidersVertical, SmilePlus } from "lucide-react";
-import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
+import type { CanvasGraphParams } from "mtmaiapi/gomtmapi";
 import { MagicPencilSVG } from "mtxuilib/icons/magic_pencil";
 import { cn } from "mtxuilib/lib/utils";
+import { TooltipIconButton } from "mtxuilib/mt/tooltip-icon-button";
 import { useEffect, useRef, useState } from "react";
 import { LengthOptions } from "./LengthOptions";
 import { ReadingLevelOptions } from "./ReadingLevelOptions";
 import { TranslateOptions } from "./TranslateOptions";
-import type { CanvasGraphParams } from "mtmaiapi/gomtmapi";
 
 type SharedComponentProps = {
   streamMessage: (params: CanvasGraphParams) => Promise<void>;

@@ -2,7 +2,7 @@ import type { Assistant } from "@langchain/langgraph-sdk";
 import { EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { type Dispatch, type SetStateAction, useState } from "react";
 
-import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
+import { TooltipIconButton } from "mtxuilib/mt/tooltip-icon-button";
 import {
   DropdownMenu,
   DropdownMenuContent,

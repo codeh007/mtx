@@ -1,17 +1,29 @@
 "use client";
-import { ThreadPrimitive } from "@assistant-ui/react";
-import { ArrowDownIcon, SquarePen } from "lucide-react";
+import { ArrowDownIcon, SendHorizonalIcon, SquarePen } from "lucide-react";
 import type { FC } from "react";
 
+import { ComposerPrimitive, ThreadPrimitive } from "@assistant-ui/react";
 import type { ChatSession, ProgrammingLanguageOptions } from "mtmaiapi";
-import { TooltipIconButton } from "mtxuilib/assistant-ui/tooltip-icon-button";
 import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
+import { TooltipIconButton } from "mtxuilib/mt/tooltip-icon-button";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { CustomLink } from "../../../../components/CustomLink";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 import { TeamCombo } from "../../../~team/TeamCombo";
-// import { Composer } from "./composer.tsx--";
 import { AssistantMessage, UserMessage } from "./messages";
+const Composer: FC = () => {
+  return (
+    <ComposerPrimitive.Root className="flex w-[calc(100%-32px)] max-w-[40rem] items-end rounded-lg border p-0.5 transition-shadow focus-within:shadow-sm">
+      <ComposerPrimitive.Input
+        placeholder="Write a message..."
+        className="h-12 max-h-40 flex-grow resize-none bg-transparent p-3.5 text-sm outline-none placeholder:text-foreground/50"
+      />
+      <ComposerPrimitive.Send className="m-2 flex h-8 w-8 items-center justify-center rounded-md bg-foreground font-bold text-2xl shadow transition-opacity disabled:opacity-10">
+        <SendHorizonalIcon className="size-4 text-background" />
+      </ComposerPrimitive.Send>
+    </ComposerPrimitive.Root>
+  );
+};
 
 const ThreadScrollToBottom: FC = () => {
   return (
@@ -54,7 +66,7 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
   //   graphData: { clearState, runId, feedbackSubmitted, setFeedbackSubmitted },
   // } = useGraphContext();
 
-  useLangSmithLinkToolUI();
+  // useLangSmithLinkToolUI();
 
   const handleCreateThread = async () => {
     // if (!user) {
@@ -160,7 +172,7 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
                 modelName={modelName}
                 setModelName={setModelName}
               /> */}
-              {/* <Composer chatStarted={true} userId={props.userId} /> */}
+              <Composer chatStarted={true} userId={props.userId} />
             </div>
           )}
         </div>

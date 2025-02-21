@@ -13,7 +13,7 @@ import {
   type ProgrammingLanguageOptions,
   chatMessagesListOptions,
 } from "mtmaiapi";
-import { Thread } from "mtxuilib/assistant-ui/thread";
+// import { Thread } from "mtxuilib/assistant-ui/thread";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { cn } from "mtxuilib/lib/utils";
 import { useToast } from "mtxuilib/ui/use-toast";
@@ -23,6 +23,7 @@ import { useTenantId, useUser } from "../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
 import { Route } from "../../~__root";
 import { WorkflowRunView } from "../../~workflow-runs/components/WorkflowRunView";
+import { Thread } from "./chat-interface/thread";
 
 const LZArtifactRenderer = dynamic(
   () =>
@@ -97,9 +98,6 @@ export function CanvasComponent() {
   const messages = useWorkbenchStore((x) => x.messages);
   const setMessages = useWorkbenchStore((x) => x.setMessages);
   const submitHumanInput = useWorkbenchStore((x) => x.submitHumanInput);
-
-  // const setTeamId = useWorkbenchStore((x) => x.setTeamId);
-
   async function onNew(message: AppendMessage): Promise<void> {
     if (message.content?.[0]?.type !== "text") {
       toast({
@@ -186,22 +184,6 @@ export function CanvasComponent() {
           "h-full mr-auto bg-gray-50/70 shadow-inner-right",
         )}
       >
-        {/* <ContentComposerChatInterface
-          switchSelectedThreadCallback={(thread) => {
-            // Chat should only be "started" if there are messages present
-            if ((thread.values as Record<string, any>)?.messages?.length) {
-              setChatStarted(true);
-              // setModelName(
-              //   thread?.metadata?.customModelName as ALL_MODEL_NAMES,
-              // );
-            } else {
-              setChatStarted(false);
-            }
-          }}
-          setChatStarted={setChatStarted}
-          hasChatStarted={chatStarted ?? false}
-          handleQuickStart={handleQuickStart}
-        /> */}
         <div className="h-full">
           <AssistantRuntimeProvider runtime={runtime}>
             <Thread
@@ -213,7 +195,6 @@ export function CanvasComponent() {
               switchSelectedThreadCallback={() => {}}
             />
           </AssistantRuntimeProvider>
-          {/* <Toaster /> */}
         </div>
       </div>
 
