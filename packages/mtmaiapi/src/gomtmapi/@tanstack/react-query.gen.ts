@@ -479,7 +479,7 @@ import type {
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
-type QueryKey<TOptions extends Options> = [
+export type QueryKey<TOptions extends Options> = [
   Pick<TOptions, "baseUrl" | "body" | "headers" | "path" | "query"> & {
     _id: string;
     _infinite?: boolean;
@@ -490,7 +490,7 @@ const createQueryKey = <TOptions extends Options>(
   id: string,
   options?: TOptions,
   infinite?: boolean,
-): QueryKey<TOptions>[0] => {
+): [QueryKey<TOptions>[0]] => {
   const params: QueryKey<TOptions>[0] = {
     _id: id,
     baseUrl: (options?.client ?? _heyApiClient).getConfig().baseUrl,
@@ -510,12 +510,11 @@ const createQueryKey = <TOptions extends Options>(
   if (options?.query) {
     params.query = options.query;
   }
-  return params;
+  return [params];
 };
 
-export const readinessGetQueryKey = (options?: Options<ReadinessGetData>) => [
-  createQueryKey("readinessGet", options),
-];
+export const readinessGetQueryKey = (options?: Options<ReadinessGetData>) =>
+  createQueryKey("readinessGet", options);
 
 export const readinessGetOptions = (options?: Options<ReadinessGetData>) => {
   return queryOptions({
@@ -532,9 +531,8 @@ export const readinessGetOptions = (options?: Options<ReadinessGetData>) => {
   });
 };
 
-export const livenessGetQueryKey = (options?: Options<LivenessGetData>) => [
-  createQueryKey("livenessGet", options),
-];
+export const livenessGetQueryKey = (options?: Options<LivenessGetData>) =>
+  createQueryKey("livenessGet", options);
 
 export const livenessGetOptions = (options?: Options<LivenessGetData>) => {
   return queryOptions({
@@ -551,9 +549,8 @@ export const livenessGetOptions = (options?: Options<LivenessGetData>) => {
   });
 };
 
-export const metadataGetQueryKey = (options?: Options<MetadataGetData>) => [
-  createQueryKey("metadataGet", options),
-];
+export const metadataGetQueryKey = (options?: Options<MetadataGetData>) =>
+  createQueryKey("metadataGet", options);
 
 export const metadataGetOptions = (options?: Options<MetadataGetData>) => {
   return queryOptions({
@@ -572,7 +569,7 @@ export const metadataGetOptions = (options?: Options<MetadataGetData>) => {
 
 export const cloudMetadataGetQueryKey = (
   options?: Options<CloudMetadataGetData>,
-) => [createQueryKey("cloudMetadataGet", options)];
+) => createQueryKey("cloudMetadataGet", options);
 
 export const cloudMetadataGetOptions = (
   options?: Options<CloudMetadataGetData>,
@@ -593,7 +590,7 @@ export const cloudMetadataGetOptions = (
 
 export const metadataListIntegrationsQueryKey = (
   options?: Options<MetadataListIntegrationsData>,
-) => [createQueryKey("metadataListIntegrations", options)];
+) => createQueryKey("metadataListIntegrations", options);
 
 export const metadataListIntegrationsOptions = (
   options?: Options<MetadataListIntegrationsData>,
@@ -614,7 +611,7 @@ export const metadataListIntegrationsOptions = (
 
 export const userUpdateLoginQueryKey = (
   options?: Options<UserUpdateLoginData>,
-) => [createQueryKey("userUpdateLogin", options)];
+) => createQueryKey("userUpdateLogin", options);
 
 export const userUpdateLoginOptions = (
   options?: Options<UserUpdateLoginData>,
@@ -655,7 +652,7 @@ export const userUpdateLoginMutation = (
 
 export const userUpdateGoogleOauthStartQueryKey = (
   options?: Options<UserUpdateGoogleOauthStartData>,
-) => [createQueryKey("userUpdateGoogleOauthStart", options)];
+) => createQueryKey("userUpdateGoogleOauthStart", options);
 
 export const userUpdateGoogleOauthStartOptions = (
   options?: Options<UserUpdateGoogleOauthStartData>,
@@ -676,7 +673,7 @@ export const userUpdateGoogleOauthStartOptions = (
 
 export const userUpdateGoogleOauthCallbackQueryKey = (
   options?: Options<UserUpdateGoogleOauthCallbackData>,
-) => [createQueryKey("userUpdateGoogleOauthCallback", options)];
+) => createQueryKey("userUpdateGoogleOauthCallback", options);
 
 export const userUpdateGoogleOauthCallbackOptions = (
   options?: Options<UserUpdateGoogleOauthCallbackData>,
@@ -697,7 +694,7 @@ export const userUpdateGoogleOauthCallbackOptions = (
 
 export const userUpdateGithubOauthStartQueryKey = (
   options?: Options<UserUpdateGithubOauthStartData>,
-) => [createQueryKey("userUpdateGithubOauthStart", options)];
+) => createQueryKey("userUpdateGithubOauthStart", options);
 
 export const userUpdateGithubOauthStartOptions = (
   options?: Options<UserUpdateGithubOauthStartData>,
@@ -718,7 +715,7 @@ export const userUpdateGithubOauthStartOptions = (
 
 export const userUpdateGithubOauthCallbackQueryKey = (
   options?: Options<UserUpdateGithubOauthCallbackData>,
-) => [createQueryKey("userUpdateGithubOauthCallback", options)];
+) => createQueryKey("userUpdateGithubOauthCallback", options);
 
 export const userUpdateGithubOauthCallbackOptions = (
   options?: Options<UserUpdateGithubOauthCallbackData>,
@@ -739,7 +736,7 @@ export const userUpdateGithubOauthCallbackOptions = (
 
 export const userUpdateSlackOauthStartQueryKey = (
   options: Options<UserUpdateSlackOauthStartData>,
-) => [createQueryKey("userUpdateSlackOauthStart", options)];
+) => createQueryKey("userUpdateSlackOauthStart", options);
 
 export const userUpdateSlackOauthStartOptions = (
   options: Options<UserUpdateSlackOauthStartData>,
@@ -760,7 +757,7 @@ export const userUpdateSlackOauthStartOptions = (
 
 export const userUpdateSlackOauthCallbackQueryKey = (
   options?: Options<UserUpdateSlackOauthCallbackData>,
-) => [createQueryKey("userUpdateSlackOauthCallback", options)];
+) => createQueryKey("userUpdateSlackOauthCallback", options);
 
 export const userUpdateSlackOauthCallbackOptions = (
   options?: Options<UserUpdateSlackOauthCallbackData>,
@@ -779,9 +776,8 @@ export const userUpdateSlackOauthCallbackOptions = (
   });
 };
 
-export const snsUpdateQueryKey = (options: Options<SnsUpdateData>) => [
-  createQueryKey("snsUpdate", options),
-];
+export const snsUpdateQueryKey = (options: Options<SnsUpdateData>) =>
+  createQueryKey("snsUpdate", options);
 
 export const snsUpdateOptions = (options: Options<SnsUpdateData>) => {
   return queryOptions({
@@ -818,9 +814,8 @@ export const snsUpdateMutation = (
   return mutationOptions;
 };
 
-export const snsListQueryKey = (options: Options<SnsListData>) => [
-  createQueryKey("snsList", options),
-];
+export const snsListQueryKey = (options: Options<SnsListData>) =>
+  createQueryKey("snsList", options);
 
 export const snsListOptions = (options: Options<SnsListData>) => {
   return queryOptions({
@@ -837,9 +832,8 @@ export const snsListOptions = (options: Options<SnsListData>) => {
   });
 };
 
-export const snsCreateQueryKey = (options: Options<SnsCreateData>) => [
-  createQueryKey("snsCreate", options),
-];
+export const snsCreateQueryKey = (options: Options<SnsCreateData>) =>
+  createQueryKey("snsCreate", options);
 
 export const snsCreateOptions = (options: Options<SnsCreateData>) => {
   return queryOptions({
@@ -878,7 +872,7 @@ export const snsCreateMutation = (
 
 export const alertEmailGroupListQueryKey = (
   options: Options<AlertEmailGroupListData>,
-) => [createQueryKey("alertEmailGroupList", options)];
+) => createQueryKey("alertEmailGroupList", options);
 
 export const alertEmailGroupListOptions = (
   options: Options<AlertEmailGroupListData>,
@@ -899,7 +893,7 @@ export const alertEmailGroupListOptions = (
 
 export const alertEmailGroupCreateQueryKey = (
   options: Options<AlertEmailGroupCreateData>,
-) => [createQueryKey("alertEmailGroupCreate", options)];
+) => createQueryKey("alertEmailGroupCreate", options);
 
 export const alertEmailGroupCreateOptions = (
   options: Options<AlertEmailGroupCreateData>,
@@ -940,7 +934,7 @@ export const alertEmailGroupCreateMutation = (
 
 export const tenantResourcePolicyGetQueryKey = (
   options: Options<TenantResourcePolicyGetData>,
-) => [createQueryKey("tenantResourcePolicyGet", options)];
+) => createQueryKey("tenantResourcePolicyGet", options);
 
 export const tenantResourcePolicyGetOptions = (
   options: Options<TenantResourcePolicyGetData>,
@@ -1021,7 +1015,7 @@ export const snsDeleteMutation = (
 
 export const slackWebhookListQueryKey = (
   options: Options<SlackWebhookListData>,
-) => [createQueryKey("slackWebhookList", options)];
+) => createQueryKey("slackWebhookList", options);
 
 export const slackWebhookListOptions = (
   options: Options<SlackWebhookListData>,
@@ -1060,9 +1054,8 @@ export const slackWebhookDeleteMutation = (
   return mutationOptions;
 };
 
-export const userGetCurrentQueryKey = (
-  options?: Options<UserGetCurrentData>,
-) => [createQueryKey("userGetCurrent", options)];
+export const userGetCurrentQueryKey = (options?: Options<UserGetCurrentData>) =>
+  createQueryKey("userGetCurrent", options);
 
 export const userGetCurrentOptions = (
   options?: Options<UserGetCurrentData>,
@@ -1083,7 +1076,7 @@ export const userGetCurrentOptions = (
 
 export const userUpdatePasswordQueryKey = (
   options?: Options<UserUpdatePasswordData>,
-) => [createQueryKey("userUpdatePassword", options)];
+) => createQueryKey("userUpdatePassword", options);
 
 export const userUpdatePasswordOptions = (
   options?: Options<UserUpdatePasswordData>,
@@ -1122,9 +1115,8 @@ export const userUpdatePasswordMutation = (
   return mutationOptions;
 };
 
-export const userCreateQueryKey = (options?: Options<UserCreateData>) => [
-  createQueryKey("userCreate", options),
-];
+export const userCreateQueryKey = (options?: Options<UserCreateData>) =>
+  createQueryKey("userCreate", options);
 
 export const userCreateOptions = (options?: Options<UserCreateData>) => {
   return queryOptions({
@@ -1163,7 +1155,7 @@ export const userCreateMutation = (
 
 export const userUpdateLogoutQueryKey = (
   options?: Options<UserUpdateLogoutData>,
-) => [createQueryKey("userUpdateLogout", options)];
+) => createQueryKey("userUpdateLogout", options);
 
 export const userUpdateLogoutOptions = (
   options?: Options<UserUpdateLogoutData>,
@@ -1204,7 +1196,7 @@ export const userUpdateLogoutMutation = (
 
 export const tenantMembershipsListQueryKey = (
   options?: Options<TenantMembershipsListData>,
-) => [createQueryKey("tenantMembershipsList", options)];
+) => createQueryKey("tenantMembershipsList", options);
 
 export const tenantMembershipsListOptions = (
   options?: Options<TenantMembershipsListData>,
@@ -1225,7 +1217,7 @@ export const tenantMembershipsListOptions = (
 
 export const userListTenantInvitesQueryKey = (
   options?: Options<UserListTenantInvitesData>,
-) => [createQueryKey("userListTenantInvites", options)];
+) => createQueryKey("userListTenantInvites", options);
 
 export const userListTenantInvitesOptions = (
   options?: Options<UserListTenantInvitesData>,
@@ -1246,7 +1238,7 @@ export const userListTenantInvitesOptions = (
 
 export const tenantInviteAcceptQueryKey = (
   options?: Options<TenantInviteAcceptData>,
-) => [createQueryKey("tenantInviteAccept", options)];
+) => createQueryKey("tenantInviteAccept", options);
 
 export const tenantInviteAcceptOptions = (
   options?: Options<TenantInviteAcceptData>,
@@ -1287,7 +1279,7 @@ export const tenantInviteAcceptMutation = (
 
 export const tenantInviteRejectQueryKey = (
   options?: Options<TenantInviteRejectData>,
-) => [createQueryKey("tenantInviteReject", options)];
+) => createQueryKey("tenantInviteReject", options);
 
 export const tenantInviteRejectOptions = (
   options?: Options<TenantInviteRejectData>,
@@ -1326,9 +1318,8 @@ export const tenantInviteRejectMutation = (
   return mutationOptions;
 };
 
-export const tenantCreateQueryKey = (options: Options<TenantCreateData>) => [
-  createQueryKey("tenantCreate", options),
-];
+export const tenantCreateQueryKey = (options: Options<TenantCreateData>) =>
+  createQueryKey("tenantCreate", options);
 
 export const tenantCreateOptions = (options: Options<TenantCreateData>) => {
   return queryOptions({
@@ -1387,7 +1378,7 @@ export const tenantUpdateMutation = (
 
 export const tenantAlertingSettingsGetQueryKey = (
   options: Options<TenantAlertingSettingsGetData>,
-) => [createQueryKey("tenantAlertingSettingsGet", options)];
+) => createQueryKey("tenantAlertingSettingsGet", options);
 
 export const tenantAlertingSettingsGetOptions = (
   options: Options<TenantAlertingSettingsGetData>,
@@ -1408,7 +1399,7 @@ export const tenantAlertingSettingsGetOptions = (
 
 export const tenantInviteListQueryKey = (
   options: Options<TenantInviteListData>,
-) => [createQueryKey("tenantInviteList", options)];
+) => createQueryKey("tenantInviteList", options);
 
 export const tenantInviteListOptions = (
   options: Options<TenantInviteListData>,
@@ -1429,7 +1420,7 @@ export const tenantInviteListOptions = (
 
 export const tenantInviteCreateQueryKey = (
   options: Options<TenantInviteCreateData>,
-) => [createQueryKey("tenantInviteCreate", options)];
+) => createQueryKey("tenantInviteCreate", options);
 
 export const tenantInviteCreateOptions = (
   options: Options<TenantInviteCreateData>,
@@ -1508,9 +1499,8 @@ export const tenantInviteUpdateMutation = (
   return mutationOptions;
 };
 
-export const apiTokenListQueryKey = (options: Options<ApiTokenListData>) => [
-  createQueryKey("apiTokenList", options),
-];
+export const apiTokenListQueryKey = (options: Options<ApiTokenListData>) =>
+  createQueryKey("apiTokenList", options);
 
 export const apiTokenListOptions = (options: Options<ApiTokenListData>) => {
   return queryOptions({
@@ -1527,9 +1517,8 @@ export const apiTokenListOptions = (options: Options<ApiTokenListData>) => {
   });
 };
 
-export const apiTokenCreateQueryKey = (
-  options: Options<ApiTokenCreateData>,
-) => [createQueryKey("apiTokenCreate", options)];
+export const apiTokenCreateQueryKey = (options: Options<ApiTokenCreateData>) =>
+  createQueryKey("apiTokenCreate", options);
 
 export const apiTokenCreateOptions = (options: Options<ApiTokenCreateData>) => {
   return queryOptions({
@@ -1568,7 +1557,7 @@ export const apiTokenCreateMutation = (
 
 export const apiTokenUpdateRevokeQueryKey = (
   options: Options<ApiTokenUpdateRevokeData>,
-) => [createQueryKey("apiTokenUpdateRevoke", options)];
+) => createQueryKey("apiTokenUpdateRevoke", options);
 
 export const apiTokenUpdateRevokeOptions = (
   options: Options<ApiTokenUpdateRevokeData>,
@@ -1609,7 +1598,7 @@ export const apiTokenUpdateRevokeMutation = (
 
 export const tenantGetQueueMetricsQueryKey = (
   options: Options<TenantGetQueueMetricsData>,
-) => [createQueryKey("tenantGetQueueMetrics", options)];
+) => createQueryKey("tenantGetQueueMetrics", options);
 
 export const tenantGetQueueMetricsOptions = (
   options: Options<TenantGetQueueMetricsData>,
@@ -1630,7 +1619,7 @@ export const tenantGetQueueMetricsOptions = (
 
 export const tenantGetStepRunQueueMetricsQueryKey = (
   options: Options<TenantGetStepRunQueueMetricsData>,
-) => [createQueryKey("tenantGetStepRunQueueMetrics", options)];
+) => createQueryKey("tenantGetStepRunQueueMetrics", options);
 
 export const tenantGetStepRunQueueMetricsOptions = (
   options: Options<TenantGetStepRunQueueMetricsData>,
@@ -1649,9 +1638,8 @@ export const tenantGetStepRunQueueMetricsOptions = (
   });
 };
 
-export const eventListQueryKey = (options: Options<EventListData>) => [
-  createQueryKey("eventList", options),
-];
+export const eventListQueryKey = (options: Options<EventListData>) =>
+  createQueryKey("eventList", options);
 
 export const eventListOptions = (options: Options<EventListData>) => {
   return queryOptions({
@@ -1704,9 +1692,8 @@ const createInfiniteParams = <
 
 export const eventListInfiniteQueryKey = (
   options: Options<EventListData>,
-): QueryKey<Options<EventListData>> => [
-  createQueryKey("eventList", options, true),
-];
+): QueryKey<Options<EventListData>> =>
+  createQueryKey("eventList", options, true);
 
 export const eventListInfiniteOptions = (options: Options<EventListData>) => {
   return infiniteQueryOptions<
@@ -1749,9 +1736,8 @@ export const eventListInfiniteOptions = (options: Options<EventListData>) => {
   );
 };
 
-export const eventCreateQueryKey = (options: Options<EventCreateData>) => [
-  createQueryKey("eventCreate", options),
-];
+export const eventCreateQueryKey = (options: Options<EventCreateData>) =>
+  createQueryKey("eventCreate", options);
 
 export const eventCreateOptions = (options: Options<EventCreateData>) => {
   return queryOptions({
@@ -1790,7 +1776,7 @@ export const eventCreateMutation = (
 
 export const eventCreateBulkQueryKey = (
   options: Options<EventCreateBulkData>,
-) => [createQueryKey("eventCreateBulk", options)];
+) => createQueryKey("eventCreateBulk", options);
 
 export const eventCreateBulkOptions = (
   options: Options<EventCreateBulkData>,
@@ -1831,7 +1817,7 @@ export const eventCreateBulkMutation = (
 
 export const eventUpdateReplayQueryKey = (
   options: Options<EventUpdateReplayData>,
-) => [createQueryKey("eventUpdateReplay", options)];
+) => createQueryKey("eventUpdateReplay", options);
 
 export const eventUpdateReplayOptions = (
   options: Options<EventUpdateReplayData>,
@@ -1872,7 +1858,7 @@ export const eventUpdateReplayMutation = (
 
 export const eventUpdateCancelQueryKey = (
   options: Options<EventUpdateCancelData>,
-) => [createQueryKey("eventUpdateCancel", options)];
+) => createQueryKey("eventUpdateCancel", options);
 
 export const eventUpdateCancelOptions = (
   options: Options<EventUpdateCancelData>,
@@ -1911,9 +1897,8 @@ export const eventUpdateCancelMutation = (
   return mutationOptions;
 };
 
-export const rateLimitListQueryKey = (options: Options<RateLimitListData>) => [
-  createQueryKey("rateLimitList", options),
-];
+export const rateLimitListQueryKey = (options: Options<RateLimitListData>) =>
+  createQueryKey("rateLimitList", options);
 
 export const rateLimitListOptions = (options: Options<RateLimitListData>) => {
   return queryOptions({
@@ -1932,9 +1917,8 @@ export const rateLimitListOptions = (options: Options<RateLimitListData>) => {
 
 export const rateLimitListInfiniteQueryKey = (
   options: Options<RateLimitListData>,
-): QueryKey<Options<RateLimitListData>> => [
-  createQueryKey("rateLimitList", options, true),
-];
+): QueryKey<Options<RateLimitListData>> =>
+  createQueryKey("rateLimitList", options, true);
 
 export const rateLimitListInfiniteOptions = (
   options: Options<RateLimitListData>,
@@ -1981,7 +1965,7 @@ export const rateLimitListInfiniteOptions = (
 
 export const tenantMemberListQueryKey = (
   options: Options<TenantMemberListData>,
-) => [createQueryKey("tenantMemberList", options)];
+) => createQueryKey("tenantMemberList", options);
 
 export const tenantMemberListOptions = (
   options: Options<TenantMemberListData>,
@@ -2020,9 +2004,8 @@ export const tenantMemberDeleteMutation = (
   return mutationOptions;
 };
 
-export const eventGetQueryKey = (options: Options<EventGetData>) => [
-  createQueryKey("eventGet", options),
-];
+export const eventGetQueryKey = (options: Options<EventGetData>) =>
+  createQueryKey("eventGet", options);
 
 export const eventGetOptions = (options: Options<EventGetData>) => {
   return queryOptions({
@@ -2039,9 +2022,8 @@ export const eventGetOptions = (options: Options<EventGetData>) => {
   });
 };
 
-export const eventDataGetQueryKey = (options: Options<EventDataGetData>) => [
-  createQueryKey("eventDataGet", options),
-];
+export const eventDataGetQueryKey = (options: Options<EventDataGetData>) =>
+  createQueryKey("eventDataGet", options);
 
 export const eventDataGetOptions = (options: Options<EventDataGetData>) => {
   return queryOptions({
@@ -2058,9 +2040,8 @@ export const eventDataGetOptions = (options: Options<EventDataGetData>) => {
   });
 };
 
-export const eventKeyListQueryKey = (options: Options<EventKeyListData>) => [
-  createQueryKey("eventKeyList", options),
-];
+export const eventKeyListQueryKey = (options: Options<EventKeyListData>) =>
+  createQueryKey("eventKeyList", options);
 
 export const eventKeyListOptions = (options: Options<EventKeyListData>) => {
   return queryOptions({
@@ -2077,9 +2058,8 @@ export const eventKeyListOptions = (options: Options<EventKeyListData>) => {
   });
 };
 
-export const workflowListQueryKey = (options: Options<WorkflowListData>) => [
-  createQueryKey("workflowList", options),
-];
+export const workflowListQueryKey = (options: Options<WorkflowListData>) =>
+  createQueryKey("workflowList", options);
 
 export const workflowListOptions = (options: Options<WorkflowListData>) => {
   return queryOptions({
@@ -2098,7 +2078,7 @@ export const workflowListOptions = (options: Options<WorkflowListData>) => {
 
 export const workflowScheduledListQueryKey = (
   options: Options<WorkflowScheduledListData>,
-) => [createQueryKey("workflowScheduledList", options)];
+) => createQueryKey("workflowScheduledList", options);
 
 export const workflowScheduledListOptions = (
   options: Options<WorkflowScheduledListData>,
@@ -2119,9 +2099,8 @@ export const workflowScheduledListOptions = (
 
 export const workflowScheduledListInfiniteQueryKey = (
   options: Options<WorkflowScheduledListData>,
-): QueryKey<Options<WorkflowScheduledListData>> => [
-  createQueryKey("workflowScheduledList", options, true),
-];
+): QueryKey<Options<WorkflowScheduledListData>> =>
+  createQueryKey("workflowScheduledList", options, true);
 
 export const workflowScheduledListInfiniteOptions = (
   options: Options<WorkflowScheduledListData>,
@@ -2188,7 +2167,7 @@ export const workflowScheduledDeleteMutation = (
 
 export const workflowScheduledGetQueryKey = (
   options: Options<WorkflowScheduledGetData>,
-) => [createQueryKey("workflowScheduledGet", options)];
+) => createQueryKey("workflowScheduledGet", options);
 
 export const workflowScheduledGetOptions = (
   options: Options<WorkflowScheduledGetData>,
@@ -2209,7 +2188,7 @@ export const workflowScheduledGetOptions = (
 
 export const cronWorkflowListQueryKey = (
   options: Options<CronWorkflowListData>,
-) => [createQueryKey("cronWorkflowList", options)];
+) => createQueryKey("cronWorkflowList", options);
 
 export const cronWorkflowListOptions = (
   options: Options<CronWorkflowListData>,
@@ -2230,9 +2209,8 @@ export const cronWorkflowListOptions = (
 
 export const cronWorkflowListInfiniteQueryKey = (
   options: Options<CronWorkflowListData>,
-): QueryKey<Options<CronWorkflowListData>> => [
-  createQueryKey("cronWorkflowList", options, true),
-];
+): QueryKey<Options<CronWorkflowListData>> =>
+  createQueryKey("cronWorkflowList", options, true);
 
 export const cronWorkflowListInfiniteOptions = (
   options: Options<CronWorkflowListData>,
@@ -2279,7 +2257,7 @@ export const cronWorkflowListInfiniteOptions = (
 
 export const workflowRunCancelQueryKey = (
   options: Options<WorkflowRunCancelData>,
-) => [createQueryKey("workflowRunCancel", options)];
+) => createQueryKey("workflowRunCancel", options);
 
 export const workflowRunCancelOptions = (
   options: Options<WorkflowRunCancelData>,
@@ -2338,9 +2316,8 @@ export const workflowDeleteMutation = (
   return mutationOptions;
 };
 
-export const workflowGetQueryKey = (options: Options<WorkflowGetData>) => [
-  createQueryKey("workflowGet", options),
-];
+export const workflowGetQueryKey = (options: Options<WorkflowGetData>) =>
+  createQueryKey("workflowGet", options);
 
 export const workflowGetOptions = (options: Options<WorkflowGetData>) => {
   return queryOptions({
@@ -2379,7 +2356,7 @@ export const workflowUpdateMutation = (
 
 export const workflowVersionGetQueryKey = (
   options: Options<WorkflowVersionGetData>,
-) => [createQueryKey("workflowVersionGet", options)];
+) => createQueryKey("workflowVersionGet", options);
 
 export const workflowVersionGetOptions = (
   options: Options<WorkflowVersionGetData>,
@@ -2400,7 +2377,7 @@ export const workflowVersionGetOptions = (
 
 export const workflowRunCreateQueryKey = (
   options: Options<WorkflowRunCreateData>,
-) => [createQueryKey("workflowRunCreate", options)];
+) => createQueryKey("workflowRunCreate", options);
 
 export const workflowRunCreateOptions = (
   options: Options<WorkflowRunCreateData>,
@@ -2441,7 +2418,7 @@ export const workflowRunCreateMutation = (
 
 export const workflowGetMetricsQueryKey = (
   options: Options<WorkflowGetMetricsData>,
-) => [createQueryKey("workflowGetMetrics", options)];
+) => createQueryKey("workflowGetMetrics", options);
 
 export const workflowGetMetricsOptions = (
   options: Options<WorkflowGetMetricsData>,
@@ -2460,9 +2437,8 @@ export const workflowGetMetricsOptions = (
   });
 };
 
-export const logLineListQueryKey = (options: Options<LogLineListData>) => [
-  createQueryKey("logLineList", options),
-];
+export const logLineListQueryKey = (options: Options<LogLineListData>) =>
+  createQueryKey("logLineList", options);
 
 export const logLineListOptions = (options: Options<LogLineListData>) => {
   return queryOptions({
@@ -2481,9 +2457,8 @@ export const logLineListOptions = (options: Options<LogLineListData>) => {
 
 export const logLineListInfiniteQueryKey = (
   options: Options<LogLineListData>,
-): QueryKey<Options<LogLineListData>> => [
-  createQueryKey("logLineList", options, true),
-];
+): QueryKey<Options<LogLineListData>> =>
+  createQueryKey("logLineList", options, true);
 
 export const logLineListInfiniteOptions = (
   options: Options<LogLineListData>,
@@ -2530,7 +2505,7 @@ export const logLineListInfiniteOptions = (
 
 export const stepRunListEventsQueryKey = (
   options: Options<StepRunListEventsData>,
-) => [createQueryKey("stepRunListEvents", options)];
+) => createQueryKey("stepRunListEvents", options);
 
 export const stepRunListEventsOptions = (
   options: Options<StepRunListEventsData>,
@@ -2551,9 +2526,8 @@ export const stepRunListEventsOptions = (
 
 export const stepRunListEventsInfiniteQueryKey = (
   options: Options<StepRunListEventsData>,
-): QueryKey<Options<StepRunListEventsData>> => [
-  createQueryKey("stepRunListEvents", options, true),
-];
+): QueryKey<Options<StepRunListEventsData>> =>
+  createQueryKey("stepRunListEvents", options, true);
 
 export const stepRunListEventsInfiniteOptions = (
   options: Options<StepRunListEventsData>,
@@ -2600,7 +2574,7 @@ export const stepRunListEventsInfiniteOptions = (
 
 export const workflowRunListStepRunEventsQueryKey = (
   options: Options<WorkflowRunListStepRunEventsData>,
-) => [createQueryKey("workflowRunListStepRunEvents", options)];
+) => createQueryKey("workflowRunListStepRunEvents", options);
 
 export const workflowRunListStepRunEventsOptions = (
   options: Options<WorkflowRunListStepRunEventsData>,
@@ -2621,7 +2595,7 @@ export const workflowRunListStepRunEventsOptions = (
 
 export const stepRunListArchivesQueryKey = (
   options: Options<StepRunListArchivesData>,
-) => [createQueryKey("stepRunListArchives", options)];
+) => createQueryKey("stepRunListArchives", options);
 
 export const stepRunListArchivesOptions = (
   options: Options<StepRunListArchivesData>,
@@ -2642,9 +2616,8 @@ export const stepRunListArchivesOptions = (
 
 export const stepRunListArchivesInfiniteQueryKey = (
   options: Options<StepRunListArchivesData>,
-): QueryKey<Options<StepRunListArchivesData>> => [
-  createQueryKey("stepRunListArchives", options, true),
-];
+): QueryKey<Options<StepRunListArchivesData>> =>
+  createQueryKey("stepRunListArchives", options, true);
 
 export const stepRunListArchivesInfiniteOptions = (
   options: Options<StepRunListArchivesData>,
@@ -2691,7 +2664,7 @@ export const stepRunListArchivesInfiniteOptions = (
 
 export const workflowGetWorkersCountQueryKey = (
   options: Options<WorkflowGetWorkersCountData>,
-) => [createQueryKey("workflowGetWorkersCount", options)];
+) => createQueryKey("workflowGetWorkersCount", options);
 
 export const workflowGetWorkersCountOptions = (
   options: Options<WorkflowGetWorkersCountData>,
@@ -2712,7 +2685,7 @@ export const workflowGetWorkersCountOptions = (
 
 export const workflowRunListQueryKey = (
   options: Options<WorkflowRunListData>,
-) => [createQueryKey("workflowRunList", options)];
+) => createQueryKey("workflowRunList", options);
 
 export const workflowRunListOptions = (
   options: Options<WorkflowRunListData>,
@@ -2733,9 +2706,8 @@ export const workflowRunListOptions = (
 
 export const workflowRunListInfiniteQueryKey = (
   options: Options<WorkflowRunListData>,
-): QueryKey<Options<WorkflowRunListData>> => [
-  createQueryKey("workflowRunList", options, true),
-];
+): QueryKey<Options<WorkflowRunListData>> =>
+  createQueryKey("workflowRunList", options, true);
 
 export const workflowRunListInfiniteOptions = (
   options: Options<WorkflowRunListData>,
@@ -2782,7 +2754,7 @@ export const workflowRunListInfiniteOptions = (
 
 export const workflowRunUpdateReplayQueryKey = (
   options: Options<WorkflowRunUpdateReplayData>,
-) => [createQueryKey("workflowRunUpdateReplay", options)];
+) => createQueryKey("workflowRunUpdateReplay", options);
 
 export const workflowRunUpdateReplayOptions = (
   options: Options<WorkflowRunUpdateReplayData>,
@@ -2823,7 +2795,7 @@ export const workflowRunUpdateReplayMutation = (
 
 export const workflowRunGetMetricsQueryKey = (
   options: Options<WorkflowRunGetMetricsData>,
-) => [createQueryKey("workflowRunGetMetrics", options)];
+) => createQueryKey("workflowRunGetMetrics", options);
 
 export const workflowRunGetMetricsOptions = (
   options: Options<WorkflowRunGetMetricsData>,
@@ -2842,9 +2814,8 @@ export const workflowRunGetMetricsOptions = (
   });
 };
 
-export const workflowRunGetQueryKey = (
-  options: Options<WorkflowRunGetData>,
-) => [createQueryKey("workflowRunGet", options)];
+export const workflowRunGetQueryKey = (options: Options<WorkflowRunGetData>) =>
+  createQueryKey("workflowRunGet", options);
 
 export const workflowRunGetOptions = (options: Options<WorkflowRunGetData>) => {
   return queryOptions({
@@ -2863,7 +2834,7 @@ export const workflowRunGetOptions = (options: Options<WorkflowRunGetData>) => {
 
 export const workflowRunGetShapeQueryKey = (
   options: Options<WorkflowRunGetShapeData>,
-) => [createQueryKey("workflowRunGetShape", options)];
+) => createQueryKey("workflowRunGetShape", options);
 
 export const workflowRunGetShapeOptions = (
   options: Options<WorkflowRunGetShapeData>,
@@ -2882,9 +2853,8 @@ export const workflowRunGetShapeOptions = (
   });
 };
 
-export const stepRunGetQueryKey = (options: Options<StepRunGetData>) => [
-  createQueryKey("stepRunGet", options),
-];
+export const stepRunGetQueryKey = (options: Options<StepRunGetData>) =>
+  createQueryKey("stepRunGet", options);
 
 export const stepRunGetOptions = (options: Options<StepRunGetData>) => {
   return queryOptions({
@@ -2903,7 +2873,7 @@ export const stepRunGetOptions = (options: Options<StepRunGetData>) => {
 
 export const stepRunUpdateRerunQueryKey = (
   options: Options<StepRunUpdateRerunData>,
-) => [createQueryKey("stepRunUpdateRerun", options)];
+) => createQueryKey("stepRunUpdateRerun", options);
 
 export const stepRunUpdateRerunOptions = (
   options: Options<StepRunUpdateRerunData>,
@@ -2944,7 +2914,7 @@ export const stepRunUpdateRerunMutation = (
 
 export const stepRunUpdateCancelQueryKey = (
   options: Options<StepRunUpdateCancelData>,
-) => [createQueryKey("stepRunUpdateCancel", options)];
+) => createQueryKey("stepRunUpdateCancel", options);
 
 export const stepRunUpdateCancelOptions = (
   options: Options<StepRunUpdateCancelData>,
@@ -2985,7 +2955,7 @@ export const stepRunUpdateCancelMutation = (
 
 export const stepRunGetSchemaQueryKey = (
   options: Options<StepRunGetSchemaData>,
-) => [createQueryKey("stepRunGetSchema", options)];
+) => createQueryKey("stepRunGetSchema", options);
 
 export const stepRunGetSchemaOptions = (
   options: Options<StepRunGetSchemaData>,
@@ -3004,9 +2974,8 @@ export const stepRunGetSchemaOptions = (
   });
 };
 
-export const workerListQueryKey = (options: Options<WorkerListData>) => [
-  createQueryKey("workerList", options),
-];
+export const workerListQueryKey = (options: Options<WorkerListData>) =>
+  createQueryKey("workerList", options);
 
 export const workerListOptions = (options: Options<WorkerListData>) => {
   return queryOptions({
@@ -3023,9 +2992,8 @@ export const workerListOptions = (options: Options<WorkerListData>) => {
   });
 };
 
-export const workerGetQueryKey = (options: Options<WorkerGetData>) => [
-  createQueryKey("workerGet", options),
-];
+export const workerGetQueryKey = (options: Options<WorkerGetData>) =>
+  createQueryKey("workerGet", options);
 
 export const workerGetOptions = (options: Options<WorkerGetData>) => {
   return queryOptions({
@@ -3062,9 +3030,8 @@ export const workerUpdateMutation = (
   return mutationOptions;
 };
 
-export const webhookListQueryKey = (options: Options<WebhookListData>) => [
-  createQueryKey("webhookList", options),
-];
+export const webhookListQueryKey = (options: Options<WebhookListData>) =>
+  createQueryKey("webhookList", options);
 
 export const webhookListOptions = (options: Options<WebhookListData>) => {
   return queryOptions({
@@ -3081,9 +3048,8 @@ export const webhookListOptions = (options: Options<WebhookListData>) => {
   });
 };
 
-export const webhookCreateQueryKey = (options: Options<WebhookCreateData>) => [
-  createQueryKey("webhookCreate", options),
-];
+export const webhookCreateQueryKey = (options: Options<WebhookCreateData>) =>
+  createQueryKey("webhookCreate", options);
 
 export const webhookCreateOptions = (options: Options<WebhookCreateData>) => {
   return queryOptions({
@@ -3142,7 +3108,7 @@ export const webhookDeleteMutation = (
 
 export const webhookRequestsListQueryKey = (
   options: Options<WebhookRequestsListData>,
-) => [createQueryKey("webhookRequestsList", options)];
+) => createQueryKey("webhookRequestsList", options);
 
 export const webhookRequestsListOptions = (
   options: Options<WebhookRequestsListData>,
@@ -3163,7 +3129,7 @@ export const webhookRequestsListOptions = (
 
 export const workflowRunGetInputQueryKey = (
   options: Options<WorkflowRunGetInputData>,
-) => [createQueryKey("workflowRunGetInput", options)];
+) => createQueryKey("workflowRunGetInput", options);
 
 export const workflowRunGetInputOptions = (
   options: Options<WorkflowRunGetInputData>,
@@ -3184,7 +3150,7 @@ export const workflowRunGetInputOptions = (
 
 export const workflowGetByNameQueryKey = (
   options: Options<WorkflowGetByNameData>,
-) => [createQueryKey("workflowGetByName", options)];
+) => createQueryKey("workflowGetByName", options);
 
 export const workflowGetByNameOptions = (
   options: Options<WorkflowGetByNameData>,
@@ -3203,9 +3169,8 @@ export const workflowGetByNameOptions = (
   });
 };
 
-export const workerConfigQueryKey = (options?: Options<WorkerConfigData>) => [
-  createQueryKey("workerConfig", options),
-];
+export const workerConfigQueryKey = (options?: Options<WorkerConfigData>) =>
+  createQueryKey("workerConfig", options);
 
 export const workerConfigOptions = (options?: Options<WorkerConfigData>) => {
   return queryOptions({
@@ -3224,7 +3189,7 @@ export const workerConfigOptions = (options?: Options<WorkerConfigData>) => {
 
 export const mtmaiBloggenconfigQueryKey = (
   options?: Options<MtmaiBloggenconfigData>,
-) => [createQueryKey("mtmaiBloggenconfig", options)];
+) => createQueryKey("mtmaiBloggenconfig", options);
 
 export const mtmaiBloggenconfigOptions = (
   options?: Options<MtmaiBloggenconfigData>,
@@ -3245,7 +3210,7 @@ export const mtmaiBloggenconfigOptions = (
 
 export const mtmaiWorkerConfigQueryKey = (
   options?: Options<MtmaiWorkerConfigData>,
-) => [createQueryKey("mtmaiWorkerConfig", options)];
+) => createQueryKey("mtmaiWorkerConfig", options);
 
 export const mtmaiWorkerConfigOptions = (
   options?: Options<MtmaiWorkerConfigData>,
@@ -3264,9 +3229,8 @@ export const mtmaiWorkerConfigOptions = (
   });
 };
 
-export const blogListQueryKey = (options: Options<BlogListData>) => [
-  createQueryKey("blogList", options),
-];
+export const blogListQueryKey = (options: Options<BlogListData>) =>
+  createQueryKey("blogList", options);
 
 export const blogListOptions = (options: Options<BlogListData>) => {
   return queryOptions({
@@ -3283,9 +3247,8 @@ export const blogListOptions = (options: Options<BlogListData>) => {
   });
 };
 
-export const blogCreateQueryKey = (options: Options<BlogCreateData>) => [
-  createQueryKey("blogCreate", options),
-];
+export const blogCreateQueryKey = (options: Options<BlogCreateData>) =>
+  createQueryKey("blogCreate", options);
 
 export const blogCreateOptions = (options: Options<BlogCreateData>) => {
   return queryOptions({
@@ -3322,9 +3285,8 @@ export const blogCreateMutation = (
   return mutationOptions;
 };
 
-export const blogGetQueryKey = (options: Options<BlogGetData>) => [
-  createQueryKey("blogGet", options),
-];
+export const blogGetQueryKey = (options: Options<BlogGetData>) =>
+  createQueryKey("blogGet", options);
 
 export const blogGetOptions = (options: Options<BlogGetData>) => {
   return queryOptions({
@@ -3361,9 +3323,8 @@ export const blogUpdateMutation = (
   return mutationOptions;
 };
 
-export const siteListQueryKey = (options: Options<SiteListData>) => [
-  createQueryKey("siteList", options),
-];
+export const siteListQueryKey = (options: Options<SiteListData>) =>
+  createQueryKey("siteList", options);
 
 export const siteListOptions = (options: Options<SiteListData>) => {
   return queryOptions({
@@ -3380,9 +3341,8 @@ export const siteListOptions = (options: Options<SiteListData>) => {
   });
 };
 
-export const siteCreateQueryKey = (options: Options<SiteCreateData>) => [
-  createQueryKey("siteCreate", options),
-];
+export const siteCreateQueryKey = (options: Options<SiteCreateData>) =>
+  createQueryKey("siteCreate", options);
 
 export const siteCreateOptions = (options: Options<SiteCreateData>) => {
   return queryOptions({
@@ -3419,9 +3379,8 @@ export const siteCreateMutation = (
   return mutationOptions;
 };
 
-export const siteGetQueryKey = (options: Options<SiteGetData>) => [
-  createQueryKey("siteGet", options),
-];
+export const siteGetQueryKey = (options: Options<SiteGetData>) =>
+  createQueryKey("siteGet", options);
 
 export const siteGetOptions = (options: Options<SiteGetData>) => {
   return queryOptions({
@@ -3458,9 +3417,8 @@ export const siteUpdateMutation = (
   return mutationOptions;
 };
 
-export const siteGetByHostQueryKey = (options: Options<SiteGetByHostData>) => [
-  createQueryKey("siteGetByHost", options),
-];
+export const siteGetByHostQueryKey = (options: Options<SiteGetByHostData>) =>
+  createQueryKey("siteGetByHost", options);
 
 export const siteGetByHostOptions = (options: Options<SiteGetByHostData>) => {
   return queryOptions({
@@ -3477,9 +3435,8 @@ export const siteGetByHostOptions = (options: Options<SiteGetByHostData>) => {
   });
 };
 
-export const siteHostListQueryKey = (options: Options<SiteHostListData>) => [
-  createQueryKey("siteHostList", options),
-];
+export const siteHostListQueryKey = (options: Options<SiteHostListData>) =>
+  createQueryKey("siteHostList", options);
 
 export const siteHostListOptions = (options: Options<SiteHostListData>) => {
   return queryOptions({
@@ -3498,9 +3455,8 @@ export const siteHostListOptions = (options: Options<SiteHostListData>) => {
 
 export const siteHostListInfiniteQueryKey = (
   options: Options<SiteHostListData>,
-): QueryKey<Options<SiteHostListData>> => [
-  createQueryKey("siteHostList", options, true),
-];
+): QueryKey<Options<SiteHostListData>> =>
+  createQueryKey("siteHostList", options, true);
 
 export const siteHostListInfiniteOptions = (
   options: Options<SiteHostListData>,
@@ -3545,9 +3501,8 @@ export const siteHostListInfiniteOptions = (
   );
 };
 
-export const siteHostCreateQueryKey = (
-  options: Options<SiteHostCreateData>,
-) => [createQueryKey("siteHostCreate", options)];
+export const siteHostCreateQueryKey = (options: Options<SiteHostCreateData>) =>
+  createQueryKey("siteHostCreate", options);
 
 export const siteHostCreateOptions = (options: Options<SiteHostCreateData>) => {
   return queryOptions({
@@ -3584,9 +3539,8 @@ export const siteHostCreateMutation = (
   return mutationOptions;
 };
 
-export const siteHostGetQueryKey = (options: Options<SiteHostGetData>) => [
-  createQueryKey("siteHostGet", options),
-];
+export const siteHostGetQueryKey = (options: Options<SiteHostGetData>) =>
+  createQueryKey("siteHostGet", options);
 
 export const siteHostGetOptions = (options: Options<SiteHostGetData>) => {
   return queryOptions({
@@ -3623,9 +3577,8 @@ export const siteHostUpdateMutation = (
   return mutationOptions;
 };
 
-export const postListPublicQueryKey = (
-  options?: Options<PostListPublicData>,
-) => [createQueryKey("postListPublic", options)];
+export const postListPublicQueryKey = (options?: Options<PostListPublicData>) =>
+  createQueryKey("postListPublic", options);
 
 export const postListPublicOptions = (
   options?: Options<PostListPublicData>,
@@ -3644,9 +3597,8 @@ export const postListPublicOptions = (
   });
 };
 
-export const postGetQueryKey = (options: Options<PostGetData>) => [
-  createQueryKey("postGet", options),
-];
+export const postGetQueryKey = (options: Options<PostGetData>) =>
+  createQueryKey("postGet", options);
 
 export const postGetOptions = (options: Options<PostGetData>) => {
   return queryOptions({
@@ -3663,9 +3615,8 @@ export const postGetOptions = (options: Options<PostGetData>) => {
   });
 };
 
-export const postListQueryKey = (options: Options<PostListData>) => [
-  createQueryKey("postList", options),
-];
+export const postListQueryKey = (options: Options<PostListData>) =>
+  createQueryKey("postList", options);
 
 export const postListOptions = (options: Options<PostListData>) => {
   return queryOptions({
@@ -3682,9 +3633,8 @@ export const postListOptions = (options: Options<PostListData>) => {
   });
 };
 
-export const postCreateQueryKey = (options: Options<PostCreateData>) => [
-  createQueryKey("postCreate", options),
-];
+export const postCreateQueryKey = (options: Options<PostCreateData>) =>
+  createQueryKey("postCreate", options);
 
 export const postCreateOptions = (options: Options<PostCreateData>) => {
   return queryOptions({
@@ -3721,9 +3671,8 @@ export const postCreateMutation = (
   return mutationOptions;
 };
 
-export const artifactListQueryKey = (options: Options<ArtifactListData>) => [
-  createQueryKey("artifactList", options),
-];
+export const artifactListQueryKey = (options: Options<ArtifactListData>) =>
+  createQueryKey("artifactList", options);
 
 export const artifactListOptions = (options: Options<ArtifactListData>) => {
   return queryOptions({
@@ -3740,9 +3689,8 @@ export const artifactListOptions = (options: Options<ArtifactListData>) => {
   });
 };
 
-export const artifactCreateQueryKey = (
-  options: Options<ArtifactCreateData>,
-) => [createQueryKey("artifactCreate", options)];
+export const artifactCreateQueryKey = (options: Options<ArtifactCreateData>) =>
+  createQueryKey("artifactCreate", options);
 
 export const artifactCreateOptions = (options: Options<ArtifactCreateData>) => {
   return queryOptions({
@@ -3779,9 +3727,8 @@ export const artifactCreateMutation = (
   return mutationOptions;
 };
 
-export const artifactGetQueryKey = (options: Options<ArtifactGetData>) => [
-  createQueryKey("artifactGet", options),
-];
+export const artifactGetQueryKey = (options: Options<ArtifactGetData>) =>
+  createQueryKey("artifactGet", options);
 
 export const artifactGetOptions = (options: Options<ArtifactGetData>) => {
   return queryOptions({
@@ -3798,9 +3745,8 @@ export const artifactGetOptions = (options: Options<ArtifactGetData>) => {
   });
 };
 
-export const comsListQueryKey = (options: Options<ComsListData>) => [
-  createQueryKey("comsList", options),
-];
+export const comsListQueryKey = (options: Options<ComsListData>) =>
+  createQueryKey("comsList", options);
 
 export const comsListOptions = (options: Options<ComsListData>) => {
   return queryOptions({
@@ -3837,9 +3783,8 @@ export const comsUpsertMutation = (
   return mutationOptions;
 };
 
-export const comsGetQueryKey = (options: Options<ComsGetData>) => [
-  createQueryKey("comsGet", options),
-];
+export const comsGetQueryKey = (options: Options<ComsGetData>) =>
+  createQueryKey("comsGet", options);
 
 export const comsGetOptions = (options: Options<ComsGetData>) => {
   return queryOptions({
@@ -3856,9 +3801,8 @@ export const comsGetOptions = (options: Options<ComsGetData>) => {
   });
 };
 
-export const galleryListQueryKey = (options: Options<GalleryListData>) => [
-  createQueryKey("galleryList", options),
-];
+export const galleryListQueryKey = (options: Options<GalleryListData>) =>
+  createQueryKey("galleryList", options);
 
 export const galleryListOptions = (options: Options<GalleryListData>) => {
   return queryOptions({
@@ -3875,9 +3819,8 @@ export const galleryListOptions = (options: Options<GalleryListData>) => {
   });
 };
 
-export const galleryCreateQueryKey = (options: Options<GalleryCreateData>) => [
-  createQueryKey("galleryCreate", options),
-];
+export const galleryCreateQueryKey = (options: Options<GalleryCreateData>) =>
+  createQueryKey("galleryCreate", options);
 
 export const galleryCreateOptions = (options: Options<GalleryCreateData>) => {
   return queryOptions({
@@ -3914,9 +3857,8 @@ export const galleryCreateMutation = (
   return mutationOptions;
 };
 
-export const galleryGetQueryKey = (options: Options<GalleryGetData>) => [
-  createQueryKey("galleryGet", options),
-];
+export const galleryGetQueryKey = (options: Options<GalleryGetData>) =>
+  createQueryKey("galleryGet", options);
 
 export const galleryGetOptions = (options: Options<GalleryGetData>) => {
   return queryOptions({
@@ -3933,9 +3875,8 @@ export const galleryGetOptions = (options: Options<GalleryGetData>) => {
   });
 };
 
-export const agentStreamQueryKey = (options: Options<AgentStreamData>) => [
-  createQueryKey("agentStream", options),
-];
+export const agentStreamQueryKey = (options: Options<AgentStreamData>) =>
+  createQueryKey("agentStream", options);
 
 export const agentStreamOptions = (options: Options<AgentStreamData>) => {
   return queryOptions({
@@ -3952,9 +3893,8 @@ export const agentStreamOptions = (options: Options<AgentStreamData>) => {
   });
 };
 
-export const agEventListQueryKey = (options: Options<AgEventListData>) => [
-  createQueryKey("agEventList", options),
-];
+export const agEventListQueryKey = (options: Options<AgEventListData>) =>
+  createQueryKey("agEventList", options);
 
 export const agEventListOptions = (options: Options<AgEventListData>) => {
   return queryOptions({
@@ -3971,9 +3911,8 @@ export const agEventListOptions = (options: Options<AgEventListData>) => {
   });
 };
 
-export const agEventGetQueryKey = (options: Options<AgEventGetData>) => [
-  createQueryKey("agEventGet", options),
-];
+export const agEventGetQueryKey = (options: Options<AgEventGetData>) =>
+  createQueryKey("agEventGet", options);
 
 export const agEventGetOptions = (options: Options<AgEventGetData>) => {
   return queryOptions({
@@ -3990,9 +3929,8 @@ export const agEventGetOptions = (options: Options<AgEventGetData>) => {
   });
 };
 
-export const modelListQueryKey = (options: Options<ModelListData>) => [
-  createQueryKey("modelList", options),
-];
+export const modelListQueryKey = (options: Options<ModelListData>) =>
+  createQueryKey("modelList", options);
 
 export const modelListOptions = (options: Options<ModelListData>) => {
   return queryOptions({
@@ -4009,9 +3947,8 @@ export const modelListOptions = (options: Options<ModelListData>) => {
   });
 };
 
-export const modelCreateQueryKey = (options: Options<ModelCreateData>) => [
-  createQueryKey("modelCreate", options),
-];
+export const modelCreateQueryKey = (options: Options<ModelCreateData>) =>
+  createQueryKey("modelCreate", options);
 
 export const modelCreateOptions = (options: Options<ModelCreateData>) => {
   return queryOptions({
@@ -4048,9 +3985,8 @@ export const modelCreateMutation = (
   return mutationOptions;
 };
 
-export const modelGetQueryKey = (options: Options<ModelGetData>) => [
-  createQueryKey("modelGet", options),
-];
+export const modelGetQueryKey = (options: Options<ModelGetData>) =>
+  createQueryKey("modelGet", options);
 
 export const modelGetOptions = (options: Options<ModelGetData>) => {
   return queryOptions({
@@ -4087,9 +4023,8 @@ export const modelUpdateMutation = (
   return mutationOptions;
 };
 
-export const promptListQueryKey = (options: Options<PromptListData>) => [
-  createQueryKey("promptList", options),
-];
+export const promptListQueryKey = (options: Options<PromptListData>) =>
+  createQueryKey("promptList", options);
 
 export const promptListOptions = (options: Options<PromptListData>) => {
   return queryOptions({
@@ -4106,9 +4041,8 @@ export const promptListOptions = (options: Options<PromptListData>) => {
   });
 };
 
-export const promptGetQueryKey = (options: Options<PromptGetData>) => [
-  createQueryKey("promptGet", options),
-];
+export const promptGetQueryKey = (options: Options<PromptGetData>) =>
+  createQueryKey("promptGet", options);
 
 export const promptGetOptions = (options: Options<PromptGetData>) => {
   return queryOptions({
@@ -4127,7 +4061,7 @@ export const promptGetOptions = (options: Options<PromptGetData>) => {
 
 export const adminReleaseConnQueryKey = (
   options?: Options<AdminReleaseConnData>,
-) => [createQueryKey("adminReleaseConn", options)];
+) => createQueryKey("adminReleaseConn", options);
 
 export const adminReleaseConnOptions = (
   options?: Options<AdminReleaseConnData>,
@@ -4168,7 +4102,7 @@ export const adminReleaseConnMutation = (
 
 export const frontendGetConfigQueryKey = (
   options?: Options<FrontendGetConfigData>,
-) => [createQueryKey("frontendGetConfig", options)];
+) => createQueryKey("frontendGetConfig", options);
 
 export const frontendGetConfigOptions = (
   options?: Options<FrontendGetConfigData>,
@@ -4189,7 +4123,7 @@ export const frontendGetConfigOptions = (
 
 export const frontendGetSiderbarQueryKey = (
   options?: Options<FrontendGetSiderbarData>,
-) => [createQueryKey("frontendGetSiderbar", options)];
+) => createQueryKey("frontendGetSiderbar", options);
 
 export const frontendGetSiderbarOptions = (
   options?: Options<FrontendGetSiderbarData>,
@@ -4208,9 +4142,8 @@ export const frontendGetSiderbarOptions = (
   });
 };
 
-export const hfAccountGetQueryKey = (options?: Options<HfAccountGetData>) => [
-  createQueryKey("hfAccountGet", options),
-];
+export const hfAccountGetQueryKey = (options?: Options<HfAccountGetData>) =>
+  createQueryKey("hfAccountGet", options);
 
 export const hfAccountGetOptions = (options?: Options<HfAccountGetData>) => {
   return queryOptions({
@@ -4227,9 +4160,8 @@ export const hfAccountGetOptions = (options?: Options<HfAccountGetData>) => {
   });
 };
 
-export const envListQueryKey = (options?: Options<EnvListData>) => [
-  createQueryKey("envList", options),
-];
+export const envListQueryKey = (options?: Options<EnvListData>) =>
+  createQueryKey("envList", options);
 
 export const envListOptions = (options?: Options<EnvListData>) => {
   return queryOptions({
@@ -4266,9 +4198,8 @@ export const envUpdateMutation = (
   return mutationOptions;
 };
 
-export const envGetQueryKey = (options: Options<EnvGetData>) => [
-  createQueryKey("envGet", options),
-];
+export const envGetQueryKey = (options: Options<EnvGetData>) =>
+  createQueryKey("envGet", options);
 
 export const envGetOptions = (options: Options<EnvGetData>) => {
   return queryOptions({
@@ -4303,9 +4234,8 @@ export const kvUpdateMutation = (options?: Partial<Options<KvUpdateData>>) => {
   return mutationOptions;
 };
 
-export const kvGetQueryKey = (options: Options<KvGetData>) => [
-  createQueryKey("kvGet", options),
-];
+export const kvGetQueryKey = (options: Options<KvGetData>) =>
+  createQueryKey("kvGet", options);
 
 export const kvGetOptions = (options: Options<KvGetData>) => {
   return queryOptions({
@@ -4322,9 +4252,8 @@ export const kvGetOptions = (options: Options<KvGetData>) => {
   });
 };
 
-export const endpointListQueryKey = (options?: Options<EndpointListData>) => [
-  createQueryKey("endpointList", options),
-];
+export const endpointListQueryKey = (options?: Options<EndpointListData>) =>
+  createQueryKey("endpointList", options);
 
 export const endpointListOptions = (options?: Options<EndpointListData>) => {
   return queryOptions({
@@ -4361,9 +4290,8 @@ export const endpointUpdateMutation = (
   return mutationOptions;
 };
 
-export const platformListQueryKey = (options?: Options<PlatformListData>) => [
-  createQueryKey("platformList", options),
-];
+export const platformListQueryKey = (options?: Options<PlatformListData>) =>
+  createQueryKey("platformList", options);
 
 export const platformListOptions = (options?: Options<PlatformListData>) => {
   return queryOptions({
@@ -4380,9 +4308,8 @@ export const platformListOptions = (options?: Options<PlatformListData>) => {
   });
 };
 
-export const platformCreateQueryKey = (
-  options: Options<PlatformCreateData>,
-) => [createQueryKey("platformCreate", options)];
+export const platformCreateQueryKey = (options: Options<PlatformCreateData>) =>
+  createQueryKey("platformCreate", options);
 
 export const platformCreateOptions = (options: Options<PlatformCreateData>) => {
   return queryOptions({
@@ -4419,9 +4346,8 @@ export const platformCreateMutation = (
   return mutationOptions;
 };
 
-export const platformGetQueryKey = (options: Options<PlatformGetData>) => [
-  createQueryKey("platformGet", options),
-];
+export const platformGetQueryKey = (options: Options<PlatformGetData>) =>
+  createQueryKey("platformGet", options);
 
 export const platformGetOptions = (options: Options<PlatformGetData>) => {
   return queryOptions({
@@ -4460,7 +4386,7 @@ export const platformUpdateMutation = (
 
 export const platformAccountListQueryKey = (
   options?: Options<PlatformAccountListData>,
-) => [createQueryKey("platformAccountList", options)];
+) => createQueryKey("platformAccountList", options);
 
 export const platformAccountListOptions = (
   options?: Options<PlatformAccountListData>,
@@ -4481,7 +4407,7 @@ export const platformAccountListOptions = (
 
 export const platformAccountCreateQueryKey = (
   options: Options<PlatformAccountCreateData>,
-) => [createQueryKey("platformAccountCreate", options)];
+) => createQueryKey("platformAccountCreate", options);
 
 export const platformAccountCreateOptions = (
   options: Options<PlatformAccountCreateData>,
@@ -4522,7 +4448,7 @@ export const platformAccountCreateMutation = (
 
 export const platformAccountGetQueryKey = (
   options: Options<PlatformAccountGetData>,
-) => [createQueryKey("platformAccountGet", options)];
+) => createQueryKey("platformAccountGet", options);
 
 export const platformAccountGetOptions = (
   options: Options<PlatformAccountGetData>,
@@ -4561,9 +4487,8 @@ export const platformAccountUpdateMutation = (
   return mutationOptions;
 };
 
-export const browserListQueryKey = (options?: Options<BrowserListData>) => [
-  createQueryKey("browserList", options),
-];
+export const browserListQueryKey = (options?: Options<BrowserListData>) =>
+  createQueryKey("browserList", options);
 
 export const browserListOptions = (options?: Options<BrowserListData>) => {
   return queryOptions({
@@ -4580,9 +4505,8 @@ export const browserListOptions = (options?: Options<BrowserListData>) => {
   });
 };
 
-export const browserCreateQueryKey = (options: Options<BrowserCreateData>) => [
-  createQueryKey("browserCreate", options),
-];
+export const browserCreateQueryKey = (options: Options<BrowserCreateData>) =>
+  createQueryKey("browserCreate", options);
 
 export const browserCreateOptions = (options: Options<BrowserCreateData>) => {
   return queryOptions({
@@ -4619,9 +4543,8 @@ export const browserCreateMutation = (
   return mutationOptions;
 };
 
-export const browserGetQueryKey = (options: Options<BrowserGetData>) => [
-  createQueryKey("browserGet", options),
-];
+export const browserGetQueryKey = (options: Options<BrowserGetData>) =>
+  createQueryKey("browserGet", options);
 
 export const browserGetOptions = (options: Options<BrowserGetData>) => {
   return queryOptions({
@@ -4658,9 +4581,8 @@ export const browserUpdateMutation = (
   return mutationOptions;
 };
 
-export const proxyListQueryKey = (options?: Options<ProxyListData>) => [
-  createQueryKey("proxyList", options),
-];
+export const proxyListQueryKey = (options?: Options<ProxyListData>) =>
+  createQueryKey("proxyList", options);
 
 export const proxyListOptions = (options?: Options<ProxyListData>) => {
   return queryOptions({
@@ -4677,9 +4599,8 @@ export const proxyListOptions = (options?: Options<ProxyListData>) => {
   });
 };
 
-export const proxyCreateQueryKey = (options: Options<ProxyCreateData>) => [
-  createQueryKey("proxyCreate", options),
-];
+export const proxyCreateQueryKey = (options: Options<ProxyCreateData>) =>
+  createQueryKey("proxyCreate", options);
 
 export const proxyCreateOptions = (options: Options<ProxyCreateData>) => {
   return queryOptions({
@@ -4716,9 +4637,8 @@ export const proxyCreateMutation = (
   return mutationOptions;
 };
 
-export const proxyGetQueryKey = (options: Options<ProxyGetData>) => [
-  createQueryKey("proxyGet", options),
-];
+export const proxyGetQueryKey = (options: Options<ProxyGetData>) =>
+  createQueryKey("proxyGet", options);
 
 export const proxyGetOptions = (options: Options<ProxyGetData>) => {
   return queryOptions({
@@ -4755,9 +4675,8 @@ export const proxyUpdateMutation = (
   return mutationOptions;
 };
 
-export const agStateListQueryKey = (options: Options<AgStateListData>) => [
-  createQueryKey("agStateList", options),
-];
+export const agStateListQueryKey = (options: Options<AgStateListData>) =>
+  createQueryKey("agStateList", options);
 
 export const agStateListOptions = (options: Options<AgStateListData>) => {
   return queryOptions({
@@ -4794,9 +4713,8 @@ export const agStateUpsertMutation = (
   return mutationOptions;
 };
 
-export const agStateGetQueryKey = (options: Options<AgStateGetData>) => [
-  createQueryKey("agStateGet", options),
-];
+export const agStateGetQueryKey = (options: Options<AgStateGetData>) =>
+  createQueryKey("agStateGet", options);
 
 export const agStateGetOptions = (options: Options<AgStateGetData>) => {
   return queryOptions({
@@ -4815,7 +4733,7 @@ export const agStateGetOptions = (options: Options<AgStateGetData>) => {
 
 export const chatMessagesListQueryKey = (
   options: Options<ChatMessagesListData>,
-) => [createQueryKey("chatMessagesList", options)];
+) => createQueryKey("chatMessagesList", options);
 
 export const chatMessagesListOptions = (
   options: Options<ChatMessagesListData>,
@@ -4836,7 +4754,7 @@ export const chatMessagesListOptions = (
 
 export const chatSessionListQueryKey = (
   options: Options<ChatSessionListData>,
-) => [createQueryKey("chatSessionList", options)];
+) => createQueryKey("chatSessionList", options);
 
 export const chatSessionListOptions = (
   options: Options<ChatSessionListData>,
@@ -4857,7 +4775,7 @@ export const chatSessionListOptions = (
 
 export const chatMessageUpsertQueryKey = (
   options: Options<ChatMessageUpsertData>,
-) => [createQueryKey("chatMessageUpsert", options)];
+) => createQueryKey("chatMessageUpsert", options);
 
 export const chatMessageUpsertOptions = (
   options: Options<ChatMessageUpsertData>,
@@ -4896,9 +4814,8 @@ export const chatMessageUpsertMutation = (
   return mutationOptions;
 };
 
-export const chatSessionGetQueryKey = (
-  options: Options<ChatSessionGetData>,
-) => [createQueryKey("chatSessionGet", options)];
+export const chatSessionGetQueryKey = (options: Options<ChatSessionGetData>) =>
+  createQueryKey("chatSessionGet", options);
 
 export const chatSessionGetOptions = (options: Options<ChatSessionGetData>) => {
   return queryOptions({
@@ -4915,9 +4832,8 @@ export const chatSessionGetOptions = (options: Options<ChatSessionGetData>) => {
   });
 };
 
-export const uiAgentGetQueryKey = (options: Options<UiAgentGetData>) => [
-  createQueryKey("uiAgentGet", options),
-];
+export const uiAgentGetQueryKey = (options: Options<UiAgentGetData>) =>
+  createQueryKey("uiAgentGet", options);
 
 export const uiAgentGetOptions = (options: Options<UiAgentGetData>) => {
   return queryOptions({
@@ -4936,7 +4852,7 @@ export const uiAgentGetOptions = (options: Options<UiAgentGetData>) => {
 
 export const dispatcherListenQueryKey = (
   options: Options<DispatcherListenData>,
-) => [createQueryKey("dispatcherListen", options)];
+) => createQueryKey("dispatcherListen", options);
 
 export const dispatcherListenOptions = (
   options: Options<DispatcherListenData>,

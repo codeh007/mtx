@@ -5,14 +5,21 @@
 import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv1";
 import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv1";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
-import { file_google_protobuf_descriptor, file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
+import {
+  file_google_protobuf_descriptor,
+  file_google_protobuf_timestamp,
+} from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file mtm/sppb/flowevents.proto.
  */
-export const file_mtm_sppb_flowevents: GenFile = /*@__PURE__*/
-  fileDesc("ChltdG0vc3BwYi9mbG93ZXZlbnRzLnByb3RvEgRzcHBiImgKC0NoYXRNZXNzYWdlEgoKAmlkGAEgASgJEg8KB2NvbnRlbnQYAiABKAkSDAoEcm9sZRgDIAEoCRIuCgpjcmVhdGVkX2F0GAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCItCg5FdmVudEVtYmVkZGluZxIMCgRjb2xsGAEgASgJEg0KBXRleHRzGAIgAygJQnQKCGNvbS5zcHBiQg9GbG93ZXZlbnRzUHJvdG9QAVonZ2l0aHViLmNvbS9jb2RlaDAwNy9nb210bS9tdG0vc3BwYjtzcHBiogIDU1hYqgIEU3BwYsoCBFNwcGLiAhBTcHBiXEdQQk1ldGFkYXRh6gIEU3BwYmIGcHJvdG8z", [file_google_protobuf_timestamp, file_google_protobuf_descriptor]);
+export const file_mtm_sppb_flowevents: GenFile =
+  /*@__PURE__*/
+  fileDesc(
+    "ChltdG0vc3BwYi9mbG93ZXZlbnRzLnByb3RvEgRzcHBiImgKC0NoYXRNZXNzYWdlEgoKAmlkGAEgASgJEg8KB2NvbnRlbnQYAiABKAkSDAoEcm9sZRgDIAEoCRIuCgpjcmVhdGVkX2F0GAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCItCg5FdmVudEVtYmVkZGluZxIMCgRjb2xsGAEgASgJEg0KBXRleHRzGAIgAygJQnQKCGNvbS5zcHBiQg9GbG93ZXZlbnRzUHJvdG9QAVonZ2l0aHViLmNvbS9jb2RlaDAwNy9nb210bS9tdG0vc3BwYjtzcHBiogIDU1hYqgIEU3BwYsoCBFNwcGLiAhBTcHBiXEdQQk1ldGFkYXRh6gIEU3BwYmIGcHJvdG8z",
+    [file_google_protobuf_timestamp, file_google_protobuf_descriptor],
+  );
 
 /**
  * 聊天消息
@@ -45,7 +52,8 @@ export type ChatMessage = Message<"sppb.ChatMessage"> & {
  * Describes the message sppb.ChatMessage.
  * Use `create(ChatMessageSchema)` to create a new message.
  */
-export const ChatMessageSchema: GenMessage<ChatMessage> = /*@__PURE__*/
+export const ChatMessageSchema: GenMessage<ChatMessage> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_flowevents, 0);
 
 /**
@@ -67,6 +75,6 @@ export type EventEmbedding = Message<"sppb.EventEmbedding"> & {
  * Describes the message sppb.EventEmbedding.
  * Use `create(EventEmbeddingSchema)` to create a new message.
  */
-export const EventEmbeddingSchema: GenMessage<EventEmbedding> = /*@__PURE__*/
+export const EventEmbeddingSchema: GenMessage<EventEmbedding> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_flowevents, 1);
-
