@@ -48,6 +48,11 @@ export function CanvasComponent() {
   };
   const threadId = useWorkbenchStore((x) => x.threadId);
   const nav = Route.useNavigate();
+  const user = useUser();
+  const [isRunning, setIsRunning] = useState(false);
+  const messages = useWorkbenchStore((x) => x.messages);
+  const setMessages = useWorkbenchStore((x) => x.setMessages);
+  const submitHumanInput = useWorkbenchStore((x) => x.submitHumanInput);
   useEffect(() => {
     if (!threadId) return;
     console.log("CanvasComponent", {
@@ -55,12 +60,6 @@ export function CanvasComponent() {
     });
     nav({ to: `/chat/${threadId}` });
   }, [threadId, nav]);
-
-  const user = useUser();
-  const [isRunning, setIsRunning] = useState(false);
-  const messages = useWorkbenchStore((x) => x.messages);
-  const setMessages = useWorkbenchStore((x) => x.setMessages);
-  const submitHumanInput = useWorkbenchStore((x) => x.submitHumanInput);
   async function onNew(message: AppendMessage): Promise<void> {
     if (message.content?.[0]?.type !== "text") {
       toast({
@@ -82,7 +81,6 @@ export function CanvasComponent() {
     }
   }
   const tid = useTenantId();
-  // const threadId = useWorkbenchStore((x) => x.threadId);
   const messagesQuery = useQuery({
     ...chatMessagesListOptions({
       path: {
@@ -94,6 +92,9 @@ export function CanvasComponent() {
   });
 
   const messages2 = useMemo(() => {
+    if (messagesQuery.data?.rows) {
+      setChatStarted(true);
+    }
     const messages3 = messagesQuery.data?.rows?.map((x) => {
       console.log("map message:", x);
       return {

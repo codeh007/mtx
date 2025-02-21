@@ -5,6 +5,7 @@ import type { FC } from "react";
 import { ComposerPrimitive, ThreadPrimitive } from "@assistant-ui/react";
 import type { ChatSession, ProgrammingLanguageOptions } from "mtmaiapi";
 import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
+import { cn } from "mtxuilib/lib/utils";
 import { TooltipIconButton } from "mtxuilib/mt/tooltip-icon-button";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { CustomLink } from "../../../../components/CustomLink";
@@ -100,8 +101,8 @@ export const Thread = (props: ThreadProps) => {
   const messages = useWorkbenchStore((x) => x.messages);
 
   return (
-    <ThreadPrimitive.Root className="flex flex-col h-full bg-red-400 p-1">
-      <div className="pr-3 pl-6 pt-3 pb-2 flex flex-row gap-4 items-center justify-between bg-red-700 p-1">
+    <ThreadPrimitive.Root className="flex flex-col h-full">
+      <div className="pr-3 pl-6 pt-3 pb-2 flex flex-row gap-4 items-center justify-between ">
         {/* 聊天窗体顶部工具栏 */}
         <div className="flex items-center justify-start gap-2 text-gray-600">
           {/* <ThreadHistory
@@ -142,7 +143,13 @@ export const Thread = (props: ThreadProps) => {
           </div>
         )}
       </div>
-      <ThreadPrimitive.Viewport className="flex-1 overflow-y-auto scroll-smooth bg-inherit px-2 pt-2 justify-center mx-auto bg-amber-100 p-2">
+      <ThreadPrimitive.Viewport
+        className={cn(
+          "flex-1 overflow-y-auto scroll-smooth bg-inherit px-2 pt-2 justify-center mx-auto",
+          hasChatStarted ? "bg-amber-100" : "bg-inherit",
+          "max-h-[calc(100vh-200px)]",
+        )}
+      >
         {!hasChatStarted && (
           <ThreadWelcome
             handleQuickStart={handleQuickStart}
@@ -166,7 +173,6 @@ export const Thread = (props: ThreadProps) => {
       <div className="mt-4 flex w-full flex-col items-center justify-end rounded-t-lg bg-inherit pb-4 px-4">
         <ThreadScrollToBottom />
         <div className="w-full max-w-2xl">
-          hasChatStarted:{JSON.stringify(hasChatStarted)}
           {hasChatStarted && (
             <div className="flex flex-col space-y-2">
               {/* <ModelSelector
