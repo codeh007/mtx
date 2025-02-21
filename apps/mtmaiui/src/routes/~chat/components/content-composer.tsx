@@ -83,7 +83,7 @@ export function ContentComposerChatInterfaceComponent(
       return {
         role: x.role === "user" ? "user" : "assistant",
         id: x.metadata?.id,
-        content: [{ type: "text", text: x.content }],
+        content: x.content,
       };
     });
 

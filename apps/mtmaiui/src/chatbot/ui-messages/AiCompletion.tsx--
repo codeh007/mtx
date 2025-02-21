@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import { CodeBlock } from "../codeblock";
 import { useCompletionInput } from "../hooks";
-import { MemoizedReactMarkdown } from "../markdown";
+// import { MemoizedReactMarkdown } from "../markdown";
 import { ArticleFaceItem } from "../ui-core/ui-core";
+import React from "react";
 
 export interface AiCompletionProps {
   userInput: any;

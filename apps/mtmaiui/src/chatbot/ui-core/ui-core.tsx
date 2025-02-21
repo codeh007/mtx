@@ -9,12 +9,12 @@ import {
   CollapsibleTrigger,
 } from "mtxuilib/ui/collapsible";
 import { useState } from "react";
-import { AiCompletion } from "../ui-messages/AiCompletion";
+import { AiCompletion } from "../ui-messages/AiCompletion.tsx--";
 import { ArtifactCode } from "../ui-messages/ArtifactCode";
 import { ArtifactSearchResults } from "../ui-messages/ArtifactSearchResults";
 import { ArtifactTaskSelect } from "../ui-messages/ArtifactTaskSelect";
 import { DocsAdminPanel } from "../ui-messages/DocAdminPanel";
-import { Image } from "../ui-messages/Image";
+import { Image } from "../ui-messages/Image.tsx--";
 import { UserInputMessage } from "../ui-messages/UserInputMessage";
 
 export const UiItem = (props: {
