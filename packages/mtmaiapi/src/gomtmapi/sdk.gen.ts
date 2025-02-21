@@ -320,12 +320,12 @@ import type {
   ComsListData,
   ComsListResponse,
   ComsListError,
-  ComsGetData,
-  ComsGetResponse,
-  ComsGetError,
   ComsUpsertData,
   ComsUpsertResponse,
   ComsUpsertError,
+  ComsGetData,
+  ComsGetResponse,
+  ComsGetError,
   GalleryListData,
   GalleryListResponse,
   GalleryCreateData,
@@ -3433,33 +3433,6 @@ export const comsList = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 获取租户下的团队列表
- * 获取团队列表
- */
-export const comsGet = <ThrowOnError extends boolean = false>(
-  options: Options<ComsGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    ComsGetResponse,
-    ComsGetError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/comps/{com}",
-    ...options,
-  });
-};
-
-/**
  * Upsert an mtcomponent
  */
 export const comsUpsert = <ThrowOnError extends boolean = false>(
@@ -3486,6 +3459,33 @@ export const comsUpsert = <ThrowOnError extends boolean = false>(
       "Content-Type": "application/json",
       ...options?.headers,
     },
+  });
+};
+
+/**
+ * 获取租户下的团队列表
+ * 获取团队列表
+ */
+export const comsGet = <ThrowOnError extends boolean = false>(
+  options: Options<ComsGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    ComsGetResponse,
+    ComsGetError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/comps/get",
+    ...options,
   });
 };
 

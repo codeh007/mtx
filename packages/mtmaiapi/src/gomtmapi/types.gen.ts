@@ -2821,6 +2821,10 @@ export type PromptList = {
   rows?: Array<Artifact>;
 };
 
+export type ComponentGet = {
+  id?: string;
+};
+
 export type BadRequest = unknown;
 
 /**
@@ -7577,41 +7581,6 @@ export type ComsListResponses = {
 
 export type ComsListResponse = ComsListResponses[keyof ComsListResponses];
 
-export type ComsGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The component id
-     */
-    com: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/comps/{com}";
-};
-
-export type ComsGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-};
-
-export type ComsGetError = ComsGetErrors[keyof ComsGetErrors];
-
-export type ComsGetResponses = {
-  200: MtComponent;
-};
-
-export type ComsGetResponse = ComsGetResponses[keyof ComsGetResponses];
-
 export type ComsUpsertData = {
   /**
    * The model properties to update
@@ -7652,6 +7621,42 @@ export type ComsUpsertResponses = {
 };
 
 export type ComsUpsertResponse = ComsUpsertResponses[keyof ComsUpsertResponses];
+
+export type ComsGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query: {
+    /**
+     * The component id
+     */
+    com: string;
+  };
+  url: "/api/v1/tenants/{tenant}/comps/get";
+};
+
+export type ComsGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type ComsGetError = ComsGetErrors[keyof ComsGetErrors];
+
+export type ComsGetResponses = {
+  200: MtComponent;
+};
+
+export type ComsGetResponse = ComsGetResponses[keyof ComsGetResponses];
 
 export type GalleryListData = {
   body?: never;

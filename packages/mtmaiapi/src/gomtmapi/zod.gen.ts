@@ -2385,6 +2385,10 @@ export const zPromptList = z.object({
   rows: z.array(zArtifact).optional(),
 });
 
+export const zComponentGet = z.object({
+  id: z.string().optional(),
+});
+
 export const zBadRequest = z.unknown();
 
 export const zForbidden = z.unknown();
@@ -2952,9 +2956,9 @@ export const zArtifactGetResponse = zArtifact;
 
 export const zComsListResponse = zMtComponentList;
 
-export const zComsGetResponse = zMtComponent;
-
 export const zComsUpsertResponse = zMtComponent;
+
+export const zComsGetResponse = zMtComponent;
 
 export const zGalleryListResponse = zGalleryList;
 
