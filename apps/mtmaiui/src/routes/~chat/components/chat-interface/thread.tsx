@@ -11,6 +11,7 @@ import { CustomLink } from "../../../../components/CustomLink";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 import { TeamCombo } from "../../../~team/TeamCombo";
 import { AssistantMessage, UserMessage } from "./messages";
+import { ThreadWelcome } from "./welcome";
 const Composer: FC = () => {
   return (
     <ComposerPrimitive.Root className="flex w-[calc(100%-32px)] max-w-[40rem] items-end rounded-lg border p-0.5 transition-shadow focus-within:shadow-sm">
@@ -51,7 +52,7 @@ export interface ThreadProps {
   switchSelectedThreadCallback: (thread: ChatSession) => void;
 }
 
-export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
+export const Thread = (props: ThreadProps) => {
   const {
     setChatStarted,
     hasChatStarted,
@@ -99,8 +100,8 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
   const messages = useWorkbenchStore((x) => x.messages);
 
   return (
-    <ThreadPrimitive.Root className="flex flex-col h-full">
-      <div className="pr-3 pl-6 pt-3 pb-2 flex flex-row gap-4 items-center justify-between">
+    <ThreadPrimitive.Root className="flex flex-col h-full bg-red-400 p-1">
+      <div className="pr-3 pl-6 pt-3 pb-2 flex flex-row gap-4 items-center justify-between bg-red-700 p-1">
         {/* 聊天窗体顶部工具栏 */}
         <div className="flex items-center justify-start gap-2 text-gray-600">
           {/* <ThreadHistory
@@ -141,13 +142,13 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
           </div>
         )}
       </div>
-      <ThreadPrimitive.Viewport className="flex-1 overflow-y-auto scroll-smooth bg-inherit px-2 pt-2 justify-center mx-auto">
-        {/* {!hasChatStarted && (
+      <ThreadPrimitive.Viewport className="flex-1 overflow-y-auto scroll-smooth bg-inherit px-2 pt-2 justify-center mx-auto bg-amber-100 p-2">
+        {!hasChatStarted && (
           <ThreadWelcome
             handleQuickStart={handleQuickStart}
             composer={<Composer chatStarted={false} userId={props.userId} />}
           />
-        )} */}
+        )}
         <ThreadPrimitive.Messages
           components={{
             UserMessage: UserMessage,
@@ -165,6 +166,7 @@ export const Thread: FC<ThreadProps> = (props: ThreadProps) => {
       <div className="mt-4 flex w-full flex-col items-center justify-end rounded-t-lg bg-inherit pb-4 px-4">
         <ThreadScrollToBottom />
         <div className="w-full max-w-2xl">
+          hasChatStarted:{JSON.stringify(hasChatStarted)}
           {hasChatStarted && (
             <div className="flex flex-col space-y-2">
               {/* <ModelSelector

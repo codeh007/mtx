@@ -13,7 +13,6 @@ import {
   type ProgrammingLanguageOptions,
   chatMessagesListOptions,
 } from "mtmaiapi";
-// import { Thread } from "mtxuilib/assistant-ui/thread";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { cn } from "mtxuilib/lib/utils";
 import { useToast } from "mtxuilib/ui/use-toast";
@@ -23,14 +22,6 @@ import { useWorkbenchStore } from "../../../stores/workbrench.store";
 import { Route } from "../../~__root";
 import { WorkflowRunView } from "../../~workflow-runs/components/WorkflowRunView";
 import { Thread } from "./chat-interface/thread";
-
-// const LZArtifactRenderer = dynamic(
-//   () =>
-//     import("./artifacts/ArtifactRenderer.tsx--").then((mod) => mod.ArtifactRenderer),
-//   {
-//     ssr: false,
-//   },
-// );
 
 export function CanvasComponent() {
   const { toast } = useToast();
@@ -53,33 +44,6 @@ export function CanvasComponent() {
       return;
     }
     setChatStarted(true);
-
-    // let artifactContent: ArtifactCodeV3 | ArtifactMarkdownV3;
-    // if (type === "code" && language) {
-    //   artifactContent = {
-    //     index: 1,
-    //     type: "code",
-    //     title: `Quick start ${type}`,
-    //     code: getLanguageTemplate(language),
-    //     language,
-    //   };
-    // } else {
-    //   artifactContent = {
-    //     index: 1,
-    //     type: "text",
-    //     title: `Quick start ${type}`,
-    //     fullMarkdown: "",
-    //   };
-    // }
-
-    // const newArtifact: ArtifactV3 = {
-    //   currentIndex: 1,
-    //   contents: [artifactContent],
-    // };
-    // Do not worry about existing items in state. This should
-    // never occur since this action can only be invoked if
-    // there are no messages/artifacts in the thread.
-    // setArtifact(newArtifact);
     setIsEditing(true);
   };
   const threadId = useWorkbenchStore((x) => x.threadId);
@@ -106,7 +70,7 @@ export function CanvasComponent() {
       });
       return;
     }
-    // props.setChatStarted(true);
+    setChatStarted(true);
     setIsRunning(true);
 
     try {
