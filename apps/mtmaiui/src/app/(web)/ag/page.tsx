@@ -5,7 +5,9 @@ export default async function Page(props: { params }) {
   const queryClient = getQueryClient();
   return (
     <>
-      <HydrationBoundary state={dehydrate(queryClient)}>AG</HydrationBoundary>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        AG 加载中...
+      </HydrationBoundary>
     </>
   );
 }
