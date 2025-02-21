@@ -10,8 +10,7 @@ import React, { type FC } from "react";
 import { makeMarkdownText } from "@assistant-ui/react-markdown";
 import { TighterText } from "mtxuilib/mt/TighterText";
 import { Avatar, AvatarFallback } from "mtxuilib/ui/avatar";
-import { useFeedback } from "../../../../hooks/useFeedback";
-import { FeedbackButton } from "./feedback";
+// import { FeedbackButton } from "./feedback.tsx--";
 
 const MarkdownText = makeMarkdownText({});
 
@@ -70,7 +69,7 @@ const AssistantMessageBarComponent = ({
   feedbackSubmitted,
   setFeedbackSubmitted,
 }: AssistantMessageBarProps) => {
-  const { isLoading, sendFeedback } = useFeedback();
+  // const { isLoading, sendFeedback } = useFeedback();
   return (
     <ActionBarPrimitive.Root
       hideWhenRunning
@@ -84,24 +83,24 @@ const AssistantMessageBarComponent = ({
       ) : (
         <>
           <ActionBarPrimitive.FeedbackPositive asChild>
-            <FeedbackButton
+            {/* <FeedbackButton
               isLoading={isLoading}
               sendFeedback={sendFeedback}
               setFeedbackSubmitted={setFeedbackSubmitted}
               runId={runId}
               feedbackValue={1.0}
               icon="thumbs-up"
-            />
+            /> */}
           </ActionBarPrimitive.FeedbackPositive>
           <ActionBarPrimitive.FeedbackNegative asChild>
-            <FeedbackButton
+            {/* <FeedbackButton
               isLoading={isLoading}
               sendFeedback={sendFeedback}
               setFeedbackSubmitted={setFeedbackSubmitted}
               runId={runId}
               feedbackValue={0.0}
               icon="thumbs-down"
-            />
+            /> */}
           </ActionBarPrimitive.FeedbackNegative>
         </>
       )}
