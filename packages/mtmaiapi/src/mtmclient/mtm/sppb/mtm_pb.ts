@@ -26,7 +26,6 @@ import type {
 import {
   file_google_protobuf_any,
   file_google_protobuf_descriptor,
-  file_google_protobuf_field_mask,
   file_google_protobuf_timestamp,
 } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
@@ -42,7 +41,6 @@ export const file_mtm_sppb_mtm: GenFile =
       file_google_protobuf_any,
       file_google_protobuf_timestamp,
       file_google_protobuf_descriptor,
-      file_google_protobuf_field_mask,
     ],
   );
 
