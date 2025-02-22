@@ -21,7 +21,7 @@ import type { Message } from "@bufbuild/protobuf";
 export const file_mtm_sppb_ag: GenFile =
   /*@__PURE__*/
   fileDesc(
-    "ChFtdG0vc3BwYi9hZy5wcm90bxIIbXRtYWkucGIiNAoOVGVhbUdldFJlcXVlc3QSEQoJdGVuYW50X2lkGAEgASgJEg8KB3RlYW1faWQYAiABKAkiHwoMVGVhbUdldFJlcGx5Eg8KB3RlYW1faWQYASABKAkySgoJQWdTZXJ2aWNlEj0KB1RlYW1HZXQSGC5tdG1haS5wYi5UZWFtR2V0UmVxdWVzdBoWLm10bWFpLnBiLlRlYW1HZXRSZXBseSIAQoEBCgxjb20ubXRtYWkucGJCB0FnUHJvdG9QAVonZ2l0aHViLmNvbS9jb2RlaDAwNy9nb210bS9tdG0vc3BwYjtzcHBiogIDTVBYqgIITXRtYWkuUGLKAghNdG1haVxQYuICFE10bWFpXFBiXEdQQk1ldGFkYXRh6gIJTXRtYWk6OlBiYgZwcm90bzM",
+    "ChFtdG0vc3BwYi9hZy5wcm90bxIIbXRtYWkucGIiNAoOVGVhbUdldFJlcXVlc3QSEQoJdGVuYW50X2lkGAEgASgJEg8KB3RlYW1faWQYAiABKAkiHwoMVGVhbUdldFJlcGx5Eg8KB3RlYW1faWQYASABKAkiIgoSRGVtb1N0cmVhbTFSZXF1ZXN0EgwKBG5hbWUYASABKAkiIAoQRGVtb1N0cmVhbTFSZXBseRIMCgRuYW1lGAEgASgJIhwKDEdyZWV0UmVxdWVzdBIMCgRuYW1lGAEgASgJIiEKDUdyZWV0UmVzcG9uc2USEAoIZ3JlZXRpbmcYASABKAkylAIKCUFnU2VydmljZRI9CgdUZWFtR2V0EhgubXRtYWkucGIuVGVhbUdldFJlcXVlc3QaFi5tdG1haS5wYi5UZWFtR2V0UmVwbHkiABJLCgtEZW1vU3RyZWFtMRIcLm10bWFpLnBiLkRlbW9TdHJlYW0xUmVxdWVzdBoaLm10bWFpLnBiLkRlbW9TdHJlYW0xUmVwbHkiADABEjwKBUdyZWV0EhYubXRtYWkucGIuR3JlZXRSZXF1ZXN0GhcubXRtYWkucGIuR3JlZXRSZXNwb25zZSIAKAESPQoGR3JlZXQyEhYubXRtYWkucGIuR3JlZXRSZXF1ZXN0GhcubXRtYWkucGIuR3JlZXRSZXNwb25zZSIAMAFCgQEKDGNvbS5tdG1haS5wYkIHQWdQcm90b1ABWidnaXRodWIuY29tL2NvZGVoMDA3L2dvbXRtL210bS9zcHBiO3NwcGKiAgNNUFiqAghNdG1haS5QYsoCCE10bWFpXFBi4gIUTXRtYWlcUGJcR1BCTWV0YWRhdGHqAglNdG1haTo6UGJiBnByb3RvMw",
     [file_google_protobuf_descriptor],
   );
 
@@ -67,6 +67,78 @@ export const TeamGetReplySchema: GenMessage<TeamGetReply> =
   messageDesc(file_mtm_sppb_ag, 1);
 
 /**
+ * @generated from message mtmai.pb.DemoStream1Request
+ */
+export type DemoStream1Request = Message<"mtmai.pb.DemoStream1Request"> & {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name: string;
+};
+
+/**
+ * Describes the message mtmai.pb.DemoStream1Request.
+ * Use `create(DemoStream1RequestSchema)` to create a new message.
+ */
+export const DemoStream1RequestSchema: GenMessage<DemoStream1Request> =
+  /*@__PURE__*/
+  messageDesc(file_mtm_sppb_ag, 2);
+
+/**
+ * @generated from message mtmai.pb.DemoStream1Reply
+ */
+export type DemoStream1Reply = Message<"mtmai.pb.DemoStream1Reply"> & {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name: string;
+};
+
+/**
+ * Describes the message mtmai.pb.DemoStream1Reply.
+ * Use `create(DemoStream1ReplySchema)` to create a new message.
+ */
+export const DemoStream1ReplySchema: GenMessage<DemoStream1Reply> =
+  /*@__PURE__*/
+  messageDesc(file_mtm_sppb_ag, 3);
+
+/**
+ * @generated from message mtmai.pb.GreetRequest
+ */
+export type GreetRequest = Message<"mtmai.pb.GreetRequest"> & {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name: string;
+};
+
+/**
+ * Describes the message mtmai.pb.GreetRequest.
+ * Use `create(GreetRequestSchema)` to create a new message.
+ */
+export const GreetRequestSchema: GenMessage<GreetRequest> =
+  /*@__PURE__*/
+  messageDesc(file_mtm_sppb_ag, 4);
+
+/**
+ * @generated from message mtmai.pb.GreetResponse
+ */
+export type GreetResponse = Message<"mtmai.pb.GreetResponse"> & {
+  /**
+   * @generated from field: string greeting = 1;
+   */
+  greeting: string;
+};
+
+/**
+ * Describes the message mtmai.pb.GreetResponse.
+ * Use `create(GreetResponseSchema)` to create a new message.
+ */
+export const GreetResponseSchema: GenMessage<GreetResponse> =
+  /*@__PURE__*/
+  messageDesc(file_mtm_sppb_ag, 5);
+
+/**
  * @generated from service mtmai.pb.AgService
  */
 export const AgService: GenService<{
@@ -77,5 +149,31 @@ export const AgService: GenService<{
     methodKind: "unary";
     input: typeof TeamGetRequestSchema;
     output: typeof TeamGetReplySchema;
+  };
+  /**
+   * demos
+   *
+   * @generated from rpc mtmai.pb.AgService.DemoStream1
+   */
+  demoStream1: {
+    methodKind: "server_streaming";
+    input: typeof DemoStream1RequestSchema;
+    output: typeof DemoStream1ReplySchema;
+  };
+  /**
+   * @generated from rpc mtmai.pb.AgService.Greet
+   */
+  greet: {
+    methodKind: "client_streaming";
+    input: typeof GreetRequestSchema;
+    output: typeof GreetResponseSchema;
+  };
+  /**
+   * @generated from rpc mtmai.pb.AgService.Greet2
+   */
+  greet2: {
+    methodKind: "server_streaming";
+    input: typeof GreetRequestSchema;
+    output: typeof GreetResponseSchema;
   };
 }> = /*@__PURE__*/ serviceDesc(file_mtm_sppb_ag, 0);
