@@ -2,16 +2,8 @@
 // @generated from file mtm/sppb/git.proto (package sppb, syntax proto3)
 /* eslint-disable */
 
-import type {
-  GenFile,
-  GenMessage,
-  GenService,
-} from "@bufbuild/protobuf/codegenv1";
-import {
-  fileDesc,
-  messageDesc,
-  serviceDesc,
-} from "@bufbuild/protobuf/codegenv1";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
 import type { CommontListReqSchema, CommontListResSchema } from "./mtm_pb";
 import { file_mtm_sppb_mtm } from "./mtm_pb";
 import { file_google_protobuf_any } from "@bufbuild/protobuf/wkt";
@@ -20,12 +12,8 @@ import type { Message } from "@bufbuild/protobuf";
 /**
  * Describes the file mtm/sppb/git.proto.
  */
-export const file_mtm_sppb_git: GenFile =
-  /*@__PURE__*/
-  fileDesc(
-    "ChJtdG0vc3BwYi9naXQucHJvdG8SBHNwcGIiGAoKR2l0UHVsbFJlcRIKCgJpZBgBIAEoCSIZCgtHaXRTZXR1cFJlcRIKCgJpZBgBIAEoCSINCgtHaXRTZXR1cFJlcyIMCgpHaXRQdWxsUmVzIhoKCUdpdEdldFJlcRINCgVzbHVncxgBIAEoCSIVCgdHaXRJbmZvEgoKAmlkGAEgASgJIhkKC0dpdFN0YXJ0UmVxEgoKAmlkGAEgASgJIg0KC0dpdFN0YXJ0UmVzIhgKCkdpdFN0b3BSZXESCgoCaWQYASABKAkiDAoKR2l0U3RvcFJlczK7AgoKR2l0U2VydmljZRI3CgdHaXRMaXN0EhQuc3BwYi5Db21tb250TGlzdFJlcRoULnNwcGIuQ29tbW9udExpc3RSZXMiABIqCgZHaXRHZXQSDy5zcHBiLkdpdEdldFJlcRoNLnNwcGIuR2l0SW5mbyIAEi8KB0dpdFB1bGwSEC5zcHBiLkdpdFB1bGxSZXEaEC5zcHBiLkdpdFB1bGxSZXMiABIyCghHaXRTZXR1cBIRLnNwcGIuR2l0U2V0dXBSZXEaES5zcHBiLkdpdFNldHVwUmVzIgASMgoIR2l0U3RhcnQSES5zcHBiLkdpdFN0YXJ0UmVxGhEuc3BwYi5HaXRTdGFydFJlcyIAEi8KB0dpdFN0b3ASEC5zcHBiLkdpdFN0b3BSZXEaEC5zcHBiLkdpdFN0b3BSZXMiAEJtCghjb20uc3BwYkIIR2l0UHJvdG9QAVonZ2l0aHViLmNvbS9jb2RlaDAwNy9nb210bS9tdG0vc3BwYjtzcHBiogIDU1hYqgIEU3BwYsoCBFNwcGLiAhBTcHBiXEdQQk1ldGFkYXRh6gIEU3BwYmIGcHJvdG8z",
-    [file_mtm_sppb_mtm, file_google_protobuf_any],
-  );
+export const file_mtm_sppb_git: GenFile = /*@__PURE__*/
+  fileDesc("ChJtdG0vc3BwYi9naXQucHJvdG8SBHNwcGIiGAoKR2l0UHVsbFJlcRIKCgJpZBgBIAEoCSIZCgtHaXRTZXR1cFJlcRIKCgJpZBgBIAEoCSINCgtHaXRTZXR1cFJlcyIMCgpHaXRQdWxsUmVzIhoKCUdpdEdldFJlcRINCgVzbHVncxgBIAEoCSIVCgdHaXRJbmZvEgoKAmlkGAEgASgJIhkKC0dpdFN0YXJ0UmVxEgoKAmlkGAEgASgJIg0KC0dpdFN0YXJ0UmVzIhgKCkdpdFN0b3BSZXESCgoCaWQYASABKAkiDAoKR2l0U3RvcFJlczK7AgoKR2l0U2VydmljZRI3CgdHaXRMaXN0EhQuc3BwYi5Db21tb250TGlzdFJlcRoULnNwcGIuQ29tbW9udExpc3RSZXMiABIqCgZHaXRHZXQSDy5zcHBiLkdpdEdldFJlcRoNLnNwcGIuR2l0SW5mbyIAEi8KB0dpdFB1bGwSEC5zcHBiLkdpdFB1bGxSZXEaEC5zcHBiLkdpdFB1bGxSZXMiABIyCghHaXRTZXR1cBIRLnNwcGIuR2l0U2V0dXBSZXEaES5zcHBiLkdpdFNldHVwUmVzIgASMgoIR2l0U3RhcnQSES5zcHBiLkdpdFN0YXJ0UmVxGhEuc3BwYi5HaXRTdGFydFJlcyIAEi8KB0dpdFN0b3ASEC5zcHBiLkdpdFN0b3BSZXEaEC5zcHBiLkdpdFN0b3BSZXMiAEJtCghjb20uc3BwYkIIR2l0UHJvdG9QAVonZ2l0aHViLmNvbS9jb2RlaDAwNy9nb210bS9tdG0vc3BwYjtzcHBiogIDU1hYqgIEU3BwYsoCBFNwcGLiAhBTcHBiXEdQQk1ldGFkYXRh6gIEU3BwYmIGcHJvdG8z", [file_mtm_sppb_mtm, file_google_protobuf_any]);
 
 /**
  * @generated from message sppb.GitPullReq
@@ -41,8 +29,7 @@ export type GitPullReq = Message<"sppb.GitPullReq"> & {
  * Describes the message sppb.GitPullReq.
  * Use `create(GitPullReqSchema)` to create a new message.
  */
-export const GitPullReqSchema: GenMessage<GitPullReq> =
-  /*@__PURE__*/
+export const GitPullReqSchema: GenMessage<GitPullReq> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_git, 0);
 
 /**
@@ -59,34 +46,33 @@ export type GitSetupReq = Message<"sppb.GitSetupReq"> & {
  * Describes the message sppb.GitSetupReq.
  * Use `create(GitSetupReqSchema)` to create a new message.
  */
-export const GitSetupReqSchema: GenMessage<GitSetupReq> =
-  /*@__PURE__*/
+export const GitSetupReqSchema: GenMessage<GitSetupReq> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_git, 1);
 
 /**
  * @generated from message sppb.GitSetupRes
  */
-export type GitSetupRes = Message<"sppb.GitSetupRes"> & {};
+export type GitSetupRes = Message<"sppb.GitSetupRes"> & {
+};
 
 /**
  * Describes the message sppb.GitSetupRes.
  * Use `create(GitSetupResSchema)` to create a new message.
  */
-export const GitSetupResSchema: GenMessage<GitSetupRes> =
-  /*@__PURE__*/
+export const GitSetupResSchema: GenMessage<GitSetupRes> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_git, 2);
 
 /**
  * @generated from message sppb.GitPullRes
  */
-export type GitPullRes = Message<"sppb.GitPullRes"> & {};
+export type GitPullRes = Message<"sppb.GitPullRes"> & {
+};
 
 /**
  * Describes the message sppb.GitPullRes.
  * Use `create(GitPullResSchema)` to create a new message.
  */
-export const GitPullResSchema: GenMessage<GitPullRes> =
-  /*@__PURE__*/
+export const GitPullResSchema: GenMessage<GitPullRes> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_git, 3);
 
 /**
@@ -103,8 +89,7 @@ export type GitGetReq = Message<"sppb.GitGetReq"> & {
  * Describes the message sppb.GitGetReq.
  * Use `create(GitGetReqSchema)` to create a new message.
  */
-export const GitGetReqSchema: GenMessage<GitGetReq> =
-  /*@__PURE__*/
+export const GitGetReqSchema: GenMessage<GitGetReq> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_git, 4);
 
 /**
@@ -121,8 +106,7 @@ export type GitInfo = Message<"sppb.GitInfo"> & {
  * Describes the message sppb.GitInfo.
  * Use `create(GitInfoSchema)` to create a new message.
  */
-export const GitInfoSchema: GenMessage<GitInfo> =
-  /*@__PURE__*/
+export const GitInfoSchema: GenMessage<GitInfo> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_git, 5);
 
 /**
@@ -139,21 +123,20 @@ export type GitStartReq = Message<"sppb.GitStartReq"> & {
  * Describes the message sppb.GitStartReq.
  * Use `create(GitStartReqSchema)` to create a new message.
  */
-export const GitStartReqSchema: GenMessage<GitStartReq> =
-  /*@__PURE__*/
+export const GitStartReqSchema: GenMessage<GitStartReq> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_git, 6);
 
 /**
  * @generated from message sppb.GitStartRes
  */
-export type GitStartRes = Message<"sppb.GitStartRes"> & {};
+export type GitStartRes = Message<"sppb.GitStartRes"> & {
+};
 
 /**
  * Describes the message sppb.GitStartRes.
  * Use `create(GitStartResSchema)` to create a new message.
  */
-export const GitStartResSchema: GenMessage<GitStartRes> =
-  /*@__PURE__*/
+export const GitStartResSchema: GenMessage<GitStartRes> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_git, 7);
 
 /**
@@ -170,21 +153,20 @@ export type GitStopReq = Message<"sppb.GitStopReq"> & {
  * Describes the message sppb.GitStopReq.
  * Use `create(GitStopReqSchema)` to create a new message.
  */
-export const GitStopReqSchema: GenMessage<GitStopReq> =
-  /*@__PURE__*/
+export const GitStopReqSchema: GenMessage<GitStopReq> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_git, 8);
 
 /**
  * @generated from message sppb.GitStopRes
  */
-export type GitStopRes = Message<"sppb.GitStopRes"> & {};
+export type GitStopRes = Message<"sppb.GitStopRes"> & {
+};
 
 /**
  * Describes the message sppb.GitStopRes.
  * Use `create(GitStopResSchema)` to create a new message.
  */
-export const GitStopResSchema: GenMessage<GitStopRes> =
-  /*@__PURE__*/
+export const GitStopResSchema: GenMessage<GitStopRes> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_git, 9);
 
 /**
@@ -200,7 +182,7 @@ export const GitService: GenService<{
     methodKind: "unary";
     input: typeof CommontListReqSchema;
     output: typeof CommontListResSchema;
-  };
+  },
   /**
    * @generated from rpc sppb.GitService.GitGet
    */
@@ -208,7 +190,7 @@ export const GitService: GenService<{
     methodKind: "unary";
     input: typeof GitGetReqSchema;
     output: typeof GitInfoSchema;
-  };
+  },
   /**
    * @generated from rpc sppb.GitService.GitPull
    */
@@ -216,7 +198,7 @@ export const GitService: GenService<{
     methodKind: "unary";
     input: typeof GitPullReqSchema;
     output: typeof GitPullResSchema;
-  };
+  },
   /**
    * @generated from rpc sppb.GitService.GitSetup
    */
@@ -224,7 +206,7 @@ export const GitService: GenService<{
     methodKind: "unary";
     input: typeof GitSetupReqSchema;
     output: typeof GitSetupResSchema;
-  };
+  },
   /**
    * @generated from rpc sppb.GitService.GitStart
    */
@@ -232,7 +214,7 @@ export const GitService: GenService<{
     methodKind: "unary";
     input: typeof GitStartReqSchema;
     output: typeof GitStartResSchema;
-  };
+  },
   /**
    * @generated from rpc sppb.GitService.GitStop
    */
@@ -240,5 +222,7 @@ export const GitService: GenService<{
     methodKind: "unary";
     input: typeof GitStopReqSchema;
     output: typeof GitStopResSchema;
-  };
-}> = /*@__PURE__*/ serviceDesc(file_mtm_sppb_git, 0);
+  },
+}> = /*@__PURE__*/
+  serviceDesc(file_mtm_sppb_git, 0);
+

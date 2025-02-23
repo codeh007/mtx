@@ -21,7 +21,7 @@ import {
   eventCreateMutation,
   eventGetOptions,
   eventListOptions,
-  workerListOptions,
+  workflowListOptions,
   workflowRunListOptions,
 } from "mtmaiapi";
 import { DataTable } from "mtxuilib/data-table/data-table";
@@ -44,7 +44,7 @@ import { Separator } from "mtxuilib/ui/separator";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { BiX } from "react-icons/bi";
-import { useTenant } from "../../hooks/useAuth";
+import { useTenant, useTenantId } from "../../hooks/useAuth";
 import { workflowRunsColumns } from "../~workflow-runs/components/workflow-runs-columns";
 import { CreateEventForm } from "./create-event-form";
 import { eventColumns } from "./event-columns";
@@ -332,9 +332,12 @@ function EventsTable() {
     isLoading: workflowKeysIsLoading,
     error: workflowKeysError,
   } = useQuery({
-    ...workerListOptions({
+    ...workflowListOptions({
       path: {
         tenant: tenant!.metadata.id,
+      },
+      query: {
+        limit: 200,
       },
     }),
   });
@@ -560,18 +563,11 @@ function ExpandedEventContent({ event }: { event: Event }) {
 }
 
 function EventDataSection({ event }: { event: Event }) {
-  // const getEventDataQuery = useQuery({
-  //   ...queries.events.getData(event.metadata.id),
-  // });
   const getEventDataQuery = useQuery({
     ...eventGetOptions({
       path: {
-        // tenant: tenant!.metadata.id,
         event: event.metadata.id,
       },
-      // query: {
-      //   eventId: event.metadata.id,
-      // },
     }),
   });
 
@@ -594,21 +590,11 @@ function EventDataSection({ event }: { event: Event }) {
 }
 
 function EventWorkflowRunsList({ event }: { event: Event }) {
-  // const { tenant } = useOutletContext<TenantContextType>();
-  // invariant(tenant);
-  const tenant = useTenant();
-
-  // const listWorkflowRunsQuery = useQuery({
-  //   ...queries.workflowRuns.list(tenant!.metadata.id, {
-  //     offset: 0,
-  //     limit: 10,
-  //     eventId: event.metadata.id,
-  //   }),
-  // });
+  const tid = useTenantId();
   const listWorkflowRunsQuery = useQuery({
     ...workflowRunListOptions({
       path: {
-        tenant: tenant!.metadata.id,
+        tenant: tid,
       },
       query: {
         eventId: event.metadata.id,

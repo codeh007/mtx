@@ -2,28 +2,16 @@
 // @generated from file mtm/sppb/ag.proto (package mtmai.mtm.sppb, syntax proto3)
 /* eslint-disable */
 
-import type {
-  GenFile,
-  GenMessage,
-  GenService,
-} from "@bufbuild/protobuf/codegenv1";
-import {
-  fileDesc,
-  messageDesc,
-  serviceDesc,
-} from "@bufbuild/protobuf/codegenv1";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
 import { file_google_protobuf_descriptor } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file mtm/sppb/ag.proto.
  */
-export const file_mtm_sppb_ag: GenFile =
-  /*@__PURE__*/
-  fileDesc(
-    "ChFtdG0vc3BwYi9hZy5wcm90bxIObXRtYWkubXRtLnNwcGIiNAoOVGVhbUdldFJlcXVlc3QSEQoJdGVuYW50X2lkGAEgASgJEg8KB3RlYW1faWQYAiABKAkiHwoMVGVhbUdldFJlcGx5Eg8KB3RlYW1faWQYASABKAkiIgoSRGVtb1N0cmVhbTFSZXF1ZXN0EgwKBG5hbWUYASABKAkiIAoQRGVtb1N0cmVhbTFSZXBseRIMCgRuYW1lGAEgASgJIhwKDEdyZWV0UmVxdWVzdBIMCgRuYW1lGAEgASgJIiEKDUdyZWV0UmVzcG9uc2USEAoIZ3JlZXRpbmcYASABKAkiPgoTTXNnR2V0VGVhbUNvbXBvbmVudBIRCgl0ZW5hbnRfaWQYASABKAkSFAoMY29tcG9uZW50X2lkGAMgASgJMusBCglBZ1NlcnZpY2USSQoHVGVhbUdldBIeLm10bWFpLm10bS5zcHBiLlRlYW1HZXRSZXF1ZXN0GhwubXRtYWkubXRtLnNwcGIuVGVhbUdldFJlcGx5IgASSAoFR3JlZXQSHC5tdG1haS5tdG0uc3BwYi5HcmVldFJlcXVlc3QaHS5tdG1haS5tdG0uc3BwYi5HcmVldFJlc3BvbnNlIgAoARJJCgZHcmVldDISHC5tdG1haS5tdG0uc3BwYi5HcmVldFJlcXVlc3QaHS5tdG1haS5tdG0uc3BwYi5HcmVldFJlc3BvbnNlIgAwAUKgAQoSY29tLm10bWFpLm10bS5zcHBiQgdBZ1Byb3RvUAFaJ2dpdGh1Yi5jb20vY29kZWgwMDcvZ29tdG0vbXRtL3NwcGI7c3BwYqICA01NU6oCDk10bWFpLk10bS5TcHBiygIOTXRtYWlcTXRtXFNwcGLiAhpNdG1haVxNdG1cU3BwYlxHUEJNZXRhZGF0YeoCEE10bWFpOjpNdG06OlNwcGJiBnByb3RvMw",
-    [file_google_protobuf_descriptor],
-  );
+export const file_mtm_sppb_ag: GenFile = /*@__PURE__*/
+  fileDesc("ChFtdG0vc3BwYi9hZy5wcm90bxIObXRtYWkubXRtLnNwcGIiNAoOVGVhbUdldFJlcXVlc3QSEQoJdGVuYW50X2lkGAEgASgJEg8KB3RlYW1faWQYAiABKAkiHwoMVGVhbUdldFJlcGx5Eg8KB3RlYW1faWQYASABKAkiIgoSRGVtb1N0cmVhbTFSZXF1ZXN0EgwKBG5hbWUYASABKAkiIAoQRGVtb1N0cmVhbTFSZXBseRIMCgRuYW1lGAEgASgJIhwKDEdyZWV0UmVxdWVzdBIMCgRuYW1lGAEgASgJIiEKDUdyZWV0UmVzcG9uc2USEAoIZ3JlZXRpbmcYASABKAkiPgoTTXNnR2V0VGVhbUNvbXBvbmVudBIRCgl0ZW5hbnRfaWQYASABKAkSFAoMY29tcG9uZW50X2lkGAMgASgJMusBCglBZ1NlcnZpY2USSQoHVGVhbUdldBIeLm10bWFpLm10bS5zcHBiLlRlYW1HZXRSZXF1ZXN0GhwubXRtYWkubXRtLnNwcGIuVGVhbUdldFJlcGx5IgASSAoFR3JlZXQSHC5tdG1haS5tdG0uc3BwYi5HcmVldFJlcXVlc3QaHS5tdG1haS5tdG0uc3BwYi5HcmVldFJlc3BvbnNlIgAoARJJCgZHcmVldDISHC5tdG1haS5tdG0uc3BwYi5HcmVldFJlcXVlc3QaHS5tdG1haS5tdG0uc3BwYi5HcmVldFJlc3BvbnNlIgAwAUKgAQoSY29tLm10bWFpLm10bS5zcHBiQgdBZ1Byb3RvUAFaJ2dpdGh1Yi5jb20vY29kZWgwMDcvZ29tdG0vbXRtL3NwcGI7c3BwYqICA01NU6oCDk10bWFpLk10bS5TcHBiygIOTXRtYWlcTXRtXFNwcGLiAhpNdG1haVxNdG1cU3BwYlxHUEJNZXRhZGF0YeoCEE10bWFpOjpNdG06OlNwcGJiBnByb3RvMw", [file_google_protobuf_descriptor]);
 
 /**
  * @generated from message mtmai.mtm.sppb.TeamGetRequest
@@ -44,8 +32,7 @@ export type TeamGetRequest = Message<"mtmai.mtm.sppb.TeamGetRequest"> & {
  * Describes the message mtmai.mtm.sppb.TeamGetRequest.
  * Use `create(TeamGetRequestSchema)` to create a new message.
  */
-export const TeamGetRequestSchema: GenMessage<TeamGetRequest> =
-  /*@__PURE__*/
+export const TeamGetRequestSchema: GenMessage<TeamGetRequest> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_ag, 0);
 
 /**
@@ -62,27 +49,24 @@ export type TeamGetReply = Message<"mtmai.mtm.sppb.TeamGetReply"> & {
  * Describes the message mtmai.mtm.sppb.TeamGetReply.
  * Use `create(TeamGetReplySchema)` to create a new message.
  */
-export const TeamGetReplySchema: GenMessage<TeamGetReply> =
-  /*@__PURE__*/
+export const TeamGetReplySchema: GenMessage<TeamGetReply> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_ag, 1);
 
 /**
  * @generated from message mtmai.mtm.sppb.DemoStream1Request
  */
-export type DemoStream1Request =
-  Message<"mtmai.mtm.sppb.DemoStream1Request"> & {
-    /**
-     * @generated from field: string name = 1;
-     */
-    name: string;
-  };
+export type DemoStream1Request = Message<"mtmai.mtm.sppb.DemoStream1Request"> & {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name: string;
+};
 
 /**
  * Describes the message mtmai.mtm.sppb.DemoStream1Request.
  * Use `create(DemoStream1RequestSchema)` to create a new message.
  */
-export const DemoStream1RequestSchema: GenMessage<DemoStream1Request> =
-  /*@__PURE__*/
+export const DemoStream1RequestSchema: GenMessage<DemoStream1Request> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_ag, 2);
 
 /**
@@ -99,8 +83,7 @@ export type DemoStream1Reply = Message<"mtmai.mtm.sppb.DemoStream1Reply"> & {
  * Describes the message mtmai.mtm.sppb.DemoStream1Reply.
  * Use `create(DemoStream1ReplySchema)` to create a new message.
  */
-export const DemoStream1ReplySchema: GenMessage<DemoStream1Reply> =
-  /*@__PURE__*/
+export const DemoStream1ReplySchema: GenMessage<DemoStream1Reply> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_ag, 3);
 
 /**
@@ -117,8 +100,7 @@ export type GreetRequest = Message<"mtmai.mtm.sppb.GreetRequest"> & {
  * Describes the message mtmai.mtm.sppb.GreetRequest.
  * Use `create(GreetRequestSchema)` to create a new message.
  */
-export const GreetRequestSchema: GenMessage<GreetRequest> =
-  /*@__PURE__*/
+export const GreetRequestSchema: GenMessage<GreetRequest> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_ag, 4);
 
 /**
@@ -135,32 +117,29 @@ export type GreetResponse = Message<"mtmai.mtm.sppb.GreetResponse"> & {
  * Describes the message mtmai.mtm.sppb.GreetResponse.
  * Use `create(GreetResponseSchema)` to create a new message.
  */
-export const GreetResponseSchema: GenMessage<GreetResponse> =
-  /*@__PURE__*/
+export const GreetResponseSchema: GenMessage<GreetResponse> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_ag, 5);
 
 /**
  * @generated from message mtmai.mtm.sppb.MsgGetTeamComponent
  */
-export type MsgGetTeamComponent =
-  Message<"mtmai.mtm.sppb.MsgGetTeamComponent"> & {
-    /**
-     * @generated from field: string tenant_id = 1;
-     */
-    tenantId: string;
+export type MsgGetTeamComponent = Message<"mtmai.mtm.sppb.MsgGetTeamComponent"> & {
+  /**
+   * @generated from field: string tenant_id = 1;
+   */
+  tenantId: string;
 
-    /**
-     * @generated from field: string component_id = 3;
-     */
-    componentId: string;
-  };
+  /**
+   * @generated from field: string component_id = 3;
+   */
+  componentId: string;
+};
 
 /**
  * Describes the message mtmai.mtm.sppb.MsgGetTeamComponent.
  * Use `create(MsgGetTeamComponentSchema)` to create a new message.
  */
-export const MsgGetTeamComponentSchema: GenMessage<MsgGetTeamComponent> =
-  /*@__PURE__*/
+export const MsgGetTeamComponentSchema: GenMessage<MsgGetTeamComponent> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_ag, 6);
 
 /**
@@ -174,7 +153,7 @@ export const AgService: GenService<{
     methodKind: "unary";
     input: typeof TeamGetRequestSchema;
     output: typeof TeamGetReplySchema;
-  };
+  },
   /**
    * demos
    *
@@ -184,7 +163,7 @@ export const AgService: GenService<{
     methodKind: "client_streaming";
     input: typeof GreetRequestSchema;
     output: typeof GreetResponseSchema;
-  };
+  },
   /**
    * @generated from rpc mtmai.mtm.sppb.AgService.Greet2
    */
@@ -192,5 +171,7 @@ export const AgService: GenService<{
     methodKind: "server_streaming";
     input: typeof GreetRequestSchema;
     output: typeof GreetResponseSchema;
-  };
-}> = /*@__PURE__*/ serviceDesc(file_mtm_sppb_ag, 0);
+  },
+}> = /*@__PURE__*/
+  serviceDesc(file_mtm_sppb_ag, 0);
+

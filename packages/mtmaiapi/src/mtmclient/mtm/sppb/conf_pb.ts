@@ -2,38 +2,19 @@
 // @generated from file mtm/sppb/conf.proto (package sppb, syntax proto3)
 /* eslint-disable */
 
-import type {
-  GenFile,
-  GenMessage,
-  GenService,
-} from "@bufbuild/protobuf/codegenv1";
-import {
-  fileDesc,
-  messageDesc,
-  serviceDesc,
-} from "@bufbuild/protobuf/codegenv1";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
 import type { Paging, ResDeleteReqSchema, ResultSchema } from "./mtm_pb";
 import { file_mtm_sppb_mtm } from "./mtm_pb";
 import type { Duration } from "@bufbuild/protobuf/wkt";
-import {
-  file_google_protobuf_duration,
-  file_google_protobuf_timestamp,
-} from "@bufbuild/protobuf/wkt";
+import { file_google_protobuf_duration, file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file mtm/sppb/conf.proto.
  */
-export const file_mtm_sppb_conf: GenFile =
-  /*@__PURE__*/
-  fileDesc(
-    "ChNtdG0vc3BwYi9jb25mLnByb3RvEgRzcHBiItQFCgZDb25maWcSDgoGc2VjcmV0GAEgASgJEhYKDmRpc2FibGVfd29ya2VyGB8gASgIEg8KB3Byb2ZpbGUYICABKAkSEgoKYm9vdHN0cmFwcxghIAMoCRITCgttYWluX2RvbWFpbhgiIAEoCRIQCghib3RfdHlwZRgjIAEoCRIaCgJtcRgCIAEoCzIOLnNwcGIuQ29uZmlnTXESGgoCZGIYAyABKAsyDi5zcHBiLkNvbmZpZ0RCEiIKBnNlcnZlchgFIAEoCzISLnNwcGIuQ29uZmlnU2VydmVyEh4KBG90ZWwYBiABKAsyEC5zcHBiLkNvbmZpZ090ZWwSHAoDbXRnGAcgASgLMg8uc3BwYi5Db25maWdNdGcSIgoGZ2l0aHViGAggASgLMhIuc3BwYi5Db25maWdHaXRodWISKQoNbG9jYWxfc3RvcmFnZRgJIAEoCzISLnNwcGIuTG9jYWxTdG9yYWdlEh4KBHNpdGUYDCABKAsyEC5zcHBiLkNvbmZpZ1NpdGUSIwoKY2Z0X2NvbmZpZxgQIAEoCzIPLnNwcGIuQ2Z0Q29uZmlnEhwKA2xvZxgSIAEoCzIPLnNwcGIuQ29uZmlnTG9nEh4KBGF1dGgYEyABKAsyEC5zcHBiLkNvbmZpZ0F1dGgSHAoDd2ViGBUgASgLMg8uc3BwYi5Db25maWdXZWISHgoEc3NoZBgXIAEoCzIQLnNwcGIuQ29uZmlnU3NoZBIcCgNwMnAYGCABKAsyDy5zcHBiLkNvbmZpZ1AycBIlCghjcm9uX2pvYhgbIAEoCzITLnNwcGIuQ29uZmlnQ3JvbmpvYhImCghsaW5lc2xvZxgcIAEoCzIULnNwcGIuQ29uZmlnTGluZXNsb2cSGgoCcHMYHSABKAsyDi5zcHBiLkNvbmZpZ1BzEiMKB3dlYl9hcHAYHiABKAsyEi5zcHBiLkNvbmZpZ1dlYkFwcCIyCgxDb25maWdXZWJBcHASDwoHYmFja2VuZBgCIAEoCRIRCglzaXRlX2hvc3QYAyABKAkimQMKCUNmdENvbmZpZxIPCgdlbmFibGVkGAEgASgIEiwKB2luZ3Jlc3MYAiADKAsyGy5zcHBiLkNmdENvbmZpZy5JbmdyZXNzSXRlbRITCgt0dW5uZWxfbmFtZRgDIAEoCRIYChBzdWJEb21haW5fcHJlZml4GAQgASgJEhQKDGNmX2FwaV90b2tlbhgFIAEoCRIVCg1jZl9hY2NvdW50X2lkGAYgASgJEhQKDGNmX2FwaV9lbWFpbBgHIAEoCRpnCgtJbmdyZXNzSXRlbRIQCghob3N0bmFtZRgBIAEoCRIPCgdzZXJ2aWNlGAIgASgJEjUKDm9yaWdpbl9yZXF1ZXN0GAMgASgLMh0uc3BwYi5DZnRDb25maWcuT3JpZ2luUmVxdWVzdBpyCg1PcmlnaW5SZXF1ZXN0EhMKC3Rsc190aW1lb3V0GAEgASgJEhQKDG5vVExTX3ZlcmlmeRgCIAEoCBIUCgxodHRwMl9vcmlnaW4YAyABKAgSIAoYZGlzYWJsZV9jaHVua2VkX2VuY29kaW5nGAQgASgIIlgKD0NvbmZpZ1RhaWxzY2FsZRIPCgdlbmFibGVkGAEgASgIEg8KB2FwaV9rZXkYAiABKAkSEAoIYXV0aF9rZXkYAyABKAkSEQoJaG9zdF9uYW1lGAQgASgJItwBCgxDb25maWdTZXJ2ZXISDwoHZW5hYmxlZBgBIAEoCBIlCgRodHRwGAIgASgLMhcuc3BwYi5Db25maWdTZXJ2ZXIuSHR0cBIOCgZkb21haW4YAyABKAkagwEKBEh0dHASDAoEYWRkchgBIAEoCRILCgN0bHMYAiABKAgSKgoHdGltZW91dBgDIAEoCzIZLmdvb2dsZS5wcm90b2J1Zi5EdXJhdGlvbhISCgphcGlfcHJlZml4GAQgASgJEiAKBW9uaW9uGAUgASgLMhEuc3BwYi5PbmlvbkNvbmZpZyKJAQoIQ29uZmlnREISDgoGZGJfdXJsGAEgASgJEg8KB2RiX3VybDIYAiABKAkSEQoJbG9nX2xldmVsGAMgASgJEhQKDGF1dG9fbWlncmF0ZRgEIAEoCBIXCg9wcm9kdWN0X2RiX3VybHMYBSADKAkSGgoSZGV2bG9wbWVudF9kYl91cmxzGAYgAygJIogBCghDb25maWdNcRINCgVncm91cBgBIAEoCRIQCghhbXFwX3VybBgCIAEoCRIZChFxdWV1ZV9uYW1lX3ByZWZpeBgDIAEoCRIRCgluc3FkX2FkZHIYBCABKAkSFAoMbnNxZF9hcGlfdXJsGAUgASgJEhcKD25zcWRfbG9va3VwX3VybBgGIAEoCSKHAQoJQ29uZmlnTG9nEg0KBWxldmVsGAEgASgJEhUKDWxva2lfcHVzaF91cmwYAiABKAkSGAoQZmlsZV9sb2dfZW5hYmxlZBgDIAEoCBIUCgxmaWxlX2xvZ19kaXIYBCABKAkSFgoJd2l0aF9uYW1lGAUgASgJSACIAQFCDAoKX3dpdGhfbmFtZSKOAQoKQ29uZmlnT3RlbBIPCgdlbmFibGVkGAEgASgIEh4KFmV4cG9ydGVyX290bHBfcHJvdG9jb2wYAiABKAkSHgoWZXhwb3J0ZXJfb3RscF9lbmRwb2ludBgDIAEoCRIdChVleHBvcnRlcl9vdGxwX2hlYWRlcnMYBCABKAkSEAoIc3ZjX25hbWUYBSABKAkiQQoJQ29uZmlnTXRnEhcKD2h0dHBfcHJveHlfYWRkchgBIAEoCRIbChNodHRwX3Byb3h5X2FkZHJfdGxzGAIgASgJIpwBCgxDb25maWdHaXRodWISEAoIZ2hfdG9rZW4YASABKAkSDwoHZ2hfdXNlchgCIAEoCRIUCgxnaF9tYWluX3JlcG8YAyABKAkSEAoId29ya19kaXIYBCABKAkSEQoJZ2hfYXBwX2lkGAUgASgJEhQKDGdoX2NsaWVudF9pZBgGIAEoCRIYChBnaF9jbGllbnRfc2VjcmV0GAcgASgJIj0KCkNvbmZpZ1NpdGUSFgoOZGVmYXVsdF9kb21haW4YASABKAkSFwoPZGVmYXVsdF9zaXRlX2lkGAIgASgNIhwKCkNvbmZpZ0F1dGgSDgoGc2VjcmV0GAEgASgJInUKCUNvbmZpZ1dlYhIOCgZlbmFibGUYASABKAgSDAoEYWRkchgCIAEoCRILCgNkaXIYAyABKAkSEQoJZnJhbWV3b3JrGAQgASgJEhUKDWJ1aWxkX2NvbW1hbmQYBSABKAkSEwoLcnVuX2NvbW1hbmQYBiABKAkiIgoKQ29uZmlnTXRrdhIUCgxmb3JjZV9tZW1vcnkYASABKAgiWgoLT25pb25Db25maWcSDwoHZW5hYmxlZBgBIAEoCBITCgtwcml2YXRlX2tleRgCIAEoCRIQCghvbmlvbl9pZBgDIAEoCRITCgtsaXN0ZW5fYWRkchgEIAEoCSJzCgpDb25maWdTc2hkEg8KB2VuYWJsZWQYASABKAgSDAoEYWRkchgCIAEoCRIbChNhZG1pbl91c2VyX3Bhc3N3b3JkGAMgASgJEhMKC21heF90aW1lb3V0GAQgASgNEhQKDGlkbGVfdGltZW91dBgFIAEoDSJaCglDb25maWdQMnASDwoHZW5hYmxlZBgBIAEoCBITCgtwcml2YXRlX2tleRgCIAEoCRISCgpyZW5kZXp2b3VzGAMgASgJEhMKC2VuYWJsZWRfZGh0GAYgASgIIiAKDUNvbmZpZ0Nyb25qb2ISDwoHZW5hYmxlZBgBIAEoCCIkCg5Db25maWdMaW5lc2xvZxISCgp1c2VfbWVtb3J5GAEgASgIIjEKDExvY2FsU3RvcmFnZRIQCghkaXJfYmFzZRgBIAEoCRIPCgdkaXJfYmluGAIgASgJIkgKCENvbmZpZ1BzEiYKDGNtZF9jaGFubmVscxgBIAMoCzIQLnNwcGIuQ21kQ2hhbm5lbBIUCgxldmVudHNfdG9waWMYAiABKAkiRQoKQ21kQ2hhbm5lbBIMCgR0eXBlGAEgASgJEgsKA3VybBgCIAEoCRINCgVncm91cBgDIAEoCRINCgV0b3BpYxgEIAEoCSJMCgpDb25mR2V0UmVxEgoKAmlkGAEgASgNEg8KB3Byb2ZpbGUYAiABKAkSDwoHaG9zdF9pZBgDIAEoCRIQCghib3RfdHlwZRgEIAEoCSI6CgtDb25mTGlzdFJlcRIgCgpQYWdpbmF0aW9uGAEgASgLMgwuc3BwYi5QYWdpbmcSCQoBcRgCIAEoCSI6CgpDb25maWdJdGVtEgoKAmlkGAEgASgNEg8KB2NvbnRlbnQYAiABKAkSDwoHZW5hYmxlZBgDIAEoCCJfCgtDb25mTGlzdFJlcxIgCgpQYWdpbmF0aW9uGAEgASgLMgwuc3BwYi5QYWdpbmcSDQoFVG90YWwYAiABKAUSHwoFaXRlbXMYAyADKAsyEC5zcHBiLkNvbmZpZ0l0ZW0iLAoNQ29uZkNyZWF0ZVJlcRIKCgJpZBgBIAEoCRIPCgdjb250ZW50GAIgASgJIj0KDUNvbmZVcGRhdGVSZXESCgoCaWQYASABKAkSDwoHY29udGVudBgCIAEoCRIPCgdlbmFibGVkGAMgASgIIlgKCkNvbmZHZXRSZXMSCgoCaWQYASABKA0SDwoHY29udGVudBgCIAEoCRIPCgdlbmFibGVkGAMgASgIEhwKBmNvbmZpZxgEIAEoCzIMLnNwcGIuQ29uZmlnMooCCgtDb25mU2VydmljZRIyCghDb25mTGlzdBIRLnNwcGIuQ29uZkxpc3RSZXEaES5zcHBiLkNvbmZMaXN0UmVzIgASLwoHQ29uZkdldBIQLnNwcGIuQ29uZkdldFJlcRoQLnNwcGIuQ29uZkdldFJlcyIAEjEKCkNvbmZDcmVhdGUSEy5zcHBiLkNvbmZDcmVhdGVSZXEaDC5zcHBiLlJlc3VsdCIAEjEKCkNvbmZVcGRhdGUSEy5zcHBiLkNvbmZVcGRhdGVSZXEaDC5zcHBiLlJlc3VsdCIAEjAKCkNvbmZEZWxldGUSEi5zcHBiLlJlc0RlbGV0ZVJlcRoMLnNwcGIuUmVzdWx0IgBCbgoIY29tLnNwcGJCCUNvbmZQcm90b1ABWidnaXRodWIuY29tL2NvZGVoMDA3L2dvbXRtL210bS9zcHBiO3NwcGKiAgNTWFiqAgRTcHBiygIEU3BwYuICEFNwcGJcR1BCTWV0YWRhdGHqAgRTcHBiYgZwcm90bzM",
-    [
-      file_mtm_sppb_mtm,
-      file_google_protobuf_timestamp,
-      file_google_protobuf_duration,
-    ],
-  );
+export const file_mtm_sppb_conf: GenFile = /*@__PURE__*/
+  fileDesc("ChNtdG0vc3BwYi9jb25mLnByb3RvEgRzcHBiItQFCgZDb25maWcSDgoGc2VjcmV0GAEgASgJEhYKDmRpc2FibGVfd29ya2VyGB8gASgIEg8KB3Byb2ZpbGUYICABKAkSEgoKYm9vdHN0cmFwcxghIAMoCRITCgttYWluX2RvbWFpbhgiIAEoCRIQCghib3RfdHlwZRgjIAEoCRIaCgJtcRgCIAEoCzIOLnNwcGIuQ29uZmlnTXESGgoCZGIYAyABKAsyDi5zcHBiLkNvbmZpZ0RCEiIKBnNlcnZlchgFIAEoCzISLnNwcGIuQ29uZmlnU2VydmVyEh4KBG90ZWwYBiABKAsyEC5zcHBiLkNvbmZpZ090ZWwSHAoDbXRnGAcgASgLMg8uc3BwYi5Db25maWdNdGcSIgoGZ2l0aHViGAggASgLMhIuc3BwYi5Db25maWdHaXRodWISKQoNbG9jYWxfc3RvcmFnZRgJIAEoCzISLnNwcGIuTG9jYWxTdG9yYWdlEh4KBHNpdGUYDCABKAsyEC5zcHBiLkNvbmZpZ1NpdGUSIwoKY2Z0X2NvbmZpZxgQIAEoCzIPLnNwcGIuQ2Z0Q29uZmlnEhwKA2xvZxgSIAEoCzIPLnNwcGIuQ29uZmlnTG9nEh4KBGF1dGgYEyABKAsyEC5zcHBiLkNvbmZpZ0F1dGgSHAoDd2ViGBUgASgLMg8uc3BwYi5Db25maWdXZWISHgoEc3NoZBgXIAEoCzIQLnNwcGIuQ29uZmlnU3NoZBIcCgNwMnAYGCABKAsyDy5zcHBiLkNvbmZpZ1AycBIlCghjcm9uX2pvYhgbIAEoCzITLnNwcGIuQ29uZmlnQ3JvbmpvYhImCghsaW5lc2xvZxgcIAEoCzIULnNwcGIuQ29uZmlnTGluZXNsb2cSGgoCcHMYHSABKAsyDi5zcHBiLkNvbmZpZ1BzEiMKB3dlYl9hcHAYHiABKAsyEi5zcHBiLkNvbmZpZ1dlYkFwcCIyCgxDb25maWdXZWJBcHASDwoHYmFja2VuZBgCIAEoCRIRCglzaXRlX2hvc3QYAyABKAkimQMKCUNmdENvbmZpZxIPCgdlbmFibGVkGAEgASgIEiwKB2luZ3Jlc3MYAiADKAsyGy5zcHBiLkNmdENvbmZpZy5JbmdyZXNzSXRlbRITCgt0dW5uZWxfbmFtZRgDIAEoCRIYChBzdWJEb21haW5fcHJlZml4GAQgASgJEhQKDGNmX2FwaV90b2tlbhgFIAEoCRIVCg1jZl9hY2NvdW50X2lkGAYgASgJEhQKDGNmX2FwaV9lbWFpbBgHIAEoCRpnCgtJbmdyZXNzSXRlbRIQCghob3N0bmFtZRgBIAEoCRIPCgdzZXJ2aWNlGAIgASgJEjUKDm9yaWdpbl9yZXF1ZXN0GAMgASgLMh0uc3BwYi5DZnRDb25maWcuT3JpZ2luUmVxdWVzdBpyCg1PcmlnaW5SZXF1ZXN0EhMKC3Rsc190aW1lb3V0GAEgASgJEhQKDG5vVExTX3ZlcmlmeRgCIAEoCBIUCgxodHRwMl9vcmlnaW4YAyABKAgSIAoYZGlzYWJsZV9jaHVua2VkX2VuY29kaW5nGAQgASgIIlgKD0NvbmZpZ1RhaWxzY2FsZRIPCgdlbmFibGVkGAEgASgIEg8KB2FwaV9rZXkYAiABKAkSEAoIYXV0aF9rZXkYAyABKAkSEQoJaG9zdF9uYW1lGAQgASgJItwBCgxDb25maWdTZXJ2ZXISDwoHZW5hYmxlZBgBIAEoCBIlCgRodHRwGAIgASgLMhcuc3BwYi5Db25maWdTZXJ2ZXIuSHR0cBIOCgZkb21haW4YAyABKAkagwEKBEh0dHASDAoEYWRkchgBIAEoCRILCgN0bHMYAiABKAgSKgoHdGltZW91dBgDIAEoCzIZLmdvb2dsZS5wcm90b2J1Zi5EdXJhdGlvbhISCgphcGlfcHJlZml4GAQgASgJEiAKBW9uaW9uGAUgASgLMhEuc3BwYi5PbmlvbkNvbmZpZyKJAQoIQ29uZmlnREISDgoGZGJfdXJsGAEgASgJEg8KB2RiX3VybDIYAiABKAkSEQoJbG9nX2xldmVsGAMgASgJEhQKDGF1dG9fbWlncmF0ZRgEIAEoCBIXCg9wcm9kdWN0X2RiX3VybHMYBSADKAkSGgoSZGV2bG9wbWVudF9kYl91cmxzGAYgAygJIogBCghDb25maWdNcRINCgVncm91cBgBIAEoCRIQCghhbXFwX3VybBgCIAEoCRIZChFxdWV1ZV9uYW1lX3ByZWZpeBgDIAEoCRIRCgluc3FkX2FkZHIYBCABKAkSFAoMbnNxZF9hcGlfdXJsGAUgASgJEhcKD25zcWRfbG9va3VwX3VybBgGIAEoCSKHAQoJQ29uZmlnTG9nEg0KBWxldmVsGAEgASgJEhUKDWxva2lfcHVzaF91cmwYAiABKAkSGAoQZmlsZV9sb2dfZW5hYmxlZBgDIAEoCBIUCgxmaWxlX2xvZ19kaXIYBCABKAkSFgoJd2l0aF9uYW1lGAUgASgJSACIAQFCDAoKX3dpdGhfbmFtZSKOAQoKQ29uZmlnT3RlbBIPCgdlbmFibGVkGAEgASgIEh4KFmV4cG9ydGVyX290bHBfcHJvdG9jb2wYAiABKAkSHgoWZXhwb3J0ZXJfb3RscF9lbmRwb2ludBgDIAEoCRIdChVleHBvcnRlcl9vdGxwX2hlYWRlcnMYBCABKAkSEAoIc3ZjX25hbWUYBSABKAkiQQoJQ29uZmlnTXRnEhcKD2h0dHBfcHJveHlfYWRkchgBIAEoCRIbChNodHRwX3Byb3h5X2FkZHJfdGxzGAIgASgJIpwBCgxDb25maWdHaXRodWISEAoIZ2hfdG9rZW4YASABKAkSDwoHZ2hfdXNlchgCIAEoCRIUCgxnaF9tYWluX3JlcG8YAyABKAkSEAoId29ya19kaXIYBCABKAkSEQoJZ2hfYXBwX2lkGAUgASgJEhQKDGdoX2NsaWVudF9pZBgGIAEoCRIYChBnaF9jbGllbnRfc2VjcmV0GAcgASgJIj0KCkNvbmZpZ1NpdGUSFgoOZGVmYXVsdF9kb21haW4YASABKAkSFwoPZGVmYXVsdF9zaXRlX2lkGAIgASgNIhwKCkNvbmZpZ0F1dGgSDgoGc2VjcmV0GAEgASgJInUKCUNvbmZpZ1dlYhIOCgZlbmFibGUYASABKAgSDAoEYWRkchgCIAEoCRILCgNkaXIYAyABKAkSEQoJZnJhbWV3b3JrGAQgASgJEhUKDWJ1aWxkX2NvbW1hbmQYBSABKAkSEwoLcnVuX2NvbW1hbmQYBiABKAkiIgoKQ29uZmlnTXRrdhIUCgxmb3JjZV9tZW1vcnkYASABKAgiWgoLT25pb25Db25maWcSDwoHZW5hYmxlZBgBIAEoCBITCgtwcml2YXRlX2tleRgCIAEoCRIQCghvbmlvbl9pZBgDIAEoCRITCgtsaXN0ZW5fYWRkchgEIAEoCSJzCgpDb25maWdTc2hkEg8KB2VuYWJsZWQYASABKAgSDAoEYWRkchgCIAEoCRIbChNhZG1pbl91c2VyX3Bhc3N3b3JkGAMgASgJEhMKC21heF90aW1lb3V0GAQgASgNEhQKDGlkbGVfdGltZW91dBgFIAEoDSJaCglDb25maWdQMnASDwoHZW5hYmxlZBgBIAEoCBITCgtwcml2YXRlX2tleRgCIAEoCRISCgpyZW5kZXp2b3VzGAMgASgJEhMKC2VuYWJsZWRfZGh0GAYgASgIIiAKDUNvbmZpZ0Nyb25qb2ISDwoHZW5hYmxlZBgBIAEoCCIkCg5Db25maWdMaW5lc2xvZxISCgp1c2VfbWVtb3J5GAEgASgIIjEKDExvY2FsU3RvcmFnZRIQCghkaXJfYmFzZRgBIAEoCRIPCgdkaXJfYmluGAIgASgJIkgKCENvbmZpZ1BzEiYKDGNtZF9jaGFubmVscxgBIAMoCzIQLnNwcGIuQ21kQ2hhbm5lbBIUCgxldmVudHNfdG9waWMYAiABKAkiRQoKQ21kQ2hhbm5lbBIMCgR0eXBlGAEgASgJEgsKA3VybBgCIAEoCRINCgVncm91cBgDIAEoCRINCgV0b3BpYxgEIAEoCSJMCgpDb25mR2V0UmVxEgoKAmlkGAEgASgNEg8KB3Byb2ZpbGUYAiABKAkSDwoHaG9zdF9pZBgDIAEoCRIQCghib3RfdHlwZRgEIAEoCSI6CgtDb25mTGlzdFJlcRIgCgpQYWdpbmF0aW9uGAEgASgLMgwuc3BwYi5QYWdpbmcSCQoBcRgCIAEoCSI6CgpDb25maWdJdGVtEgoKAmlkGAEgASgNEg8KB2NvbnRlbnQYAiABKAkSDwoHZW5hYmxlZBgDIAEoCCJfCgtDb25mTGlzdFJlcxIgCgpQYWdpbmF0aW9uGAEgASgLMgwuc3BwYi5QYWdpbmcSDQoFVG90YWwYAiABKAUSHwoFaXRlbXMYAyADKAsyEC5zcHBiLkNvbmZpZ0l0ZW0iLAoNQ29uZkNyZWF0ZVJlcRIKCgJpZBgBIAEoCRIPCgdjb250ZW50GAIgASgJIj0KDUNvbmZVcGRhdGVSZXESCgoCaWQYASABKAkSDwoHY29udGVudBgCIAEoCRIPCgdlbmFibGVkGAMgASgIIlgKCkNvbmZHZXRSZXMSCgoCaWQYASABKA0SDwoHY29udGVudBgCIAEoCRIPCgdlbmFibGVkGAMgASgIEhwKBmNvbmZpZxgEIAEoCzIMLnNwcGIuQ29uZmlnMooCCgtDb25mU2VydmljZRIyCghDb25mTGlzdBIRLnNwcGIuQ29uZkxpc3RSZXEaES5zcHBiLkNvbmZMaXN0UmVzIgASLwoHQ29uZkdldBIQLnNwcGIuQ29uZkdldFJlcRoQLnNwcGIuQ29uZkdldFJlcyIAEjEKCkNvbmZDcmVhdGUSEy5zcHBiLkNvbmZDcmVhdGVSZXEaDC5zcHBiLlJlc3VsdCIAEjEKCkNvbmZVcGRhdGUSEy5zcHBiLkNvbmZVcGRhdGVSZXEaDC5zcHBiLlJlc3VsdCIAEjAKCkNvbmZEZWxldGUSEi5zcHBiLlJlc0RlbGV0ZVJlcRoMLnNwcGIuUmVzdWx0IgBCbgoIY29tLnNwcGJCCUNvbmZQcm90b1ABWidnaXRodWIuY29tL2NvZGVoMDA3L2dvbXRtL210bS9zcHBiO3NwcGKiAgNTWFiqAgRTcHBiygIEU3BwYuICEFNwcGJcR1BCTWV0YWRhdGHqAgRTcHBiYgZwcm90bzM", [file_mtm_sppb_mtm, file_google_protobuf_timestamp, file_google_protobuf_duration]);
 
 /**
  * @generated from message sppb.Config
@@ -213,8 +194,7 @@ export type Config = Message<"sppb.Config"> & {
  * Describes the message sppb.Config.
  * Use `create(ConfigSchema)` to create a new message.
  */
-export const ConfigSchema: GenMessage<Config> =
-  /*@__PURE__*/
+export const ConfigSchema: GenMessage<Config> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 0);
 
 /**
@@ -238,8 +218,7 @@ export type ConfigWebApp = Message<"sppb.ConfigWebApp"> & {
  * Describes the message sppb.ConfigWebApp.
  * Use `create(ConfigWebAppSchema)` to create a new message.
  */
-export const ConfigWebAppSchema: GenMessage<ConfigWebApp> =
-  /*@__PURE__*/
+export const ConfigWebAppSchema: GenMessage<ConfigWebApp> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 1);
 
 /**
@@ -300,8 +279,7 @@ export type CftConfig = Message<"sppb.CftConfig"> & {
  * Describes the message sppb.CftConfig.
  * Use `create(CftConfigSchema)` to create a new message.
  */
-export const CftConfigSchema: GenMessage<CftConfig> =
-  /*@__PURE__*/
+export const CftConfigSchema: GenMessage<CftConfig> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 2);
 
 /**
@@ -337,52 +315,49 @@ export type CftConfig_IngressItem = Message<"sppb.CftConfig.IngressItem"> & {
  * Describes the message sppb.CftConfig.IngressItem.
  * Use `create(CftConfig_IngressItemSchema)` to create a new message.
  */
-export const CftConfig_IngressItemSchema: GenMessage<CftConfig_IngressItem> =
-  /*@__PURE__*/
+export const CftConfig_IngressItemSchema: GenMessage<CftConfig_IngressItem> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 2, 0);
 
 /**
  * @generated from message sppb.CftConfig.OriginRequest
  */
-export type CftConfig_OriginRequest =
-  Message<"sppb.CftConfig.OriginRequest"> & {
-    /**
-     * e.g: 10s
-     *
-     * @gotags: yaml:"tlsTimeout,omitempty"
-     *
-     * @generated from field: string tls_timeout = 1;
-     */
-    tlsTimeout: string;
+export type CftConfig_OriginRequest = Message<"sppb.CftConfig.OriginRequest"> & {
+  /**
+   * e.g: 10s
+   *
+   * @gotags: yaml:"tlsTimeout,omitempty"
+   *
+   * @generated from field: string tls_timeout = 1;
+   */
+  tlsTimeout: string;
 
-    /**
-     * @gotags: yaml:"noTLSVerify,omitempty"
-     *
-     * @generated from field: bool noTLS_verify = 2;
-     */
-    noTLSVerify: boolean;
+  /**
+   * @gotags: yaml:"noTLSVerify,omitempty"
+   *
+   * @generated from field: bool noTLS_verify = 2;
+   */
+  noTLSVerify: boolean;
 
-    /**
-     * @gotags: yaml:"http2Origin,omitempty"
-     *
-     * @generated from field: bool http2_origin = 3;
-     */
-    http2Origin: boolean;
+  /**
+   * @gotags: yaml:"http2Origin,omitempty"
+   *
+   * @generated from field: bool http2_origin = 3;
+   */
+  http2Origin: boolean;
 
-    /**
-     * gotags: yaml:"disableChunkedEncoding,omitempty"
-     *
-     * @generated from field: bool disable_chunked_encoding = 4;
-     */
-    disableChunkedEncoding: boolean;
-  };
+  /**
+   * gotags: yaml:"disableChunkedEncoding,omitempty"
+   *
+   * @generated from field: bool disable_chunked_encoding = 4;
+   */
+  disableChunkedEncoding: boolean;
+};
 
 /**
  * Describes the message sppb.CftConfig.OriginRequest.
  * Use `create(CftConfig_OriginRequestSchema)` to create a new message.
  */
-export const CftConfig_OriginRequestSchema: GenMessage<CftConfig_OriginRequest> =
-  /*@__PURE__*/
+export const CftConfig_OriginRequestSchema: GenMessage<CftConfig_OriginRequest> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 2, 1);
 
 /**
@@ -422,8 +397,7 @@ export type ConfigTailscale = Message<"sppb.ConfigTailscale"> & {
  * Describes the message sppb.ConfigTailscale.
  * Use `create(ConfigTailscaleSchema)` to create a new message.
  */
-export const ConfigTailscaleSchema: GenMessage<ConfigTailscale> =
-  /*@__PURE__*/
+export const ConfigTailscaleSchema: GenMessage<ConfigTailscale> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 3);
 
 /**
@@ -459,8 +433,7 @@ export type ConfigServer = Message<"sppb.ConfigServer"> & {
  * Describes the message sppb.ConfigServer.
  * Use `create(ConfigServerSchema)` to create a new message.
  */
-export const ConfigServerSchema: GenMessage<ConfigServer> =
-  /*@__PURE__*/
+export const ConfigServerSchema: GenMessage<ConfigServer> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 4);
 
 /**
@@ -507,8 +480,7 @@ export type ConfigServer_Http = Message<"sppb.ConfigServer.Http"> & {
  * Describes the message sppb.ConfigServer.Http.
  * Use `create(ConfigServer_HttpSchema)` to create a new message.
  */
-export const ConfigServer_HttpSchema: GenMessage<ConfigServer_Http> =
-  /*@__PURE__*/
+export const ConfigServer_HttpSchema: GenMessage<ConfigServer_Http> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 4, 0);
 
 /**
@@ -562,8 +534,7 @@ export type ConfigDB = Message<"sppb.ConfigDB"> & {
  * Describes the message sppb.ConfigDB.
  * Use `create(ConfigDBSchema)` to create a new message.
  */
-export const ConfigDBSchema: GenMessage<ConfigDB> =
-  /*@__PURE__*/
+export const ConfigDBSchema: GenMessage<ConfigDB> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 5);
 
 /**
@@ -617,8 +588,7 @@ export type ConfigMq = Message<"sppb.ConfigMq"> & {
  * Describes the message sppb.ConfigMq.
  * Use `create(ConfigMqSchema)` to create a new message.
  */
-export const ConfigMqSchema: GenMessage<ConfigMq> =
-  /*@__PURE__*/
+export const ConfigMqSchema: GenMessage<ConfigMq> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 6);
 
 /**
@@ -667,8 +637,7 @@ export type ConfigLog = Message<"sppb.ConfigLog"> & {
  * Describes the message sppb.ConfigLog.
  * Use `create(ConfigLogSchema)` to create a new message.
  */
-export const ConfigLogSchema: GenMessage<ConfigLog> =
-  /*@__PURE__*/
+export const ConfigLogSchema: GenMessage<ConfigLog> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 7);
 
 /**
@@ -715,8 +684,7 @@ export type ConfigOtel = Message<"sppb.ConfigOtel"> & {
  * Describes the message sppb.ConfigOtel.
  * Use `create(ConfigOtelSchema)` to create a new message.
  */
-export const ConfigOtelSchema: GenMessage<ConfigOtel> =
-  /*@__PURE__*/
+export const ConfigOtelSchema: GenMessage<ConfigOtel> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 8);
 
 /**
@@ -742,8 +710,7 @@ export type ConfigMtg = Message<"sppb.ConfigMtg"> & {
  * Describes the message sppb.ConfigMtg.
  * Use `create(ConfigMtgSchema)` to create a new message.
  */
-export const ConfigMtgSchema: GenMessage<ConfigMtg> =
-  /*@__PURE__*/
+export const ConfigMtgSchema: GenMessage<ConfigMtg> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 9);
 
 /**
@@ -806,8 +773,7 @@ export type ConfigGithub = Message<"sppb.ConfigGithub"> & {
  * Describes the message sppb.ConfigGithub.
  * Use `create(ConfigGithubSchema)` to create a new message.
  */
-export const ConfigGithubSchema: GenMessage<ConfigGithub> =
-  /*@__PURE__*/
+export const ConfigGithubSchema: GenMessage<ConfigGithub> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 10);
 
 /**
@@ -829,8 +795,7 @@ export type ConfigSite = Message<"sppb.ConfigSite"> & {
  * Describes the message sppb.ConfigSite.
  * Use `create(ConfigSiteSchema)` to create a new message.
  */
-export const ConfigSiteSchema: GenMessage<ConfigSite> =
-  /*@__PURE__*/
+export const ConfigSiteSchema: GenMessage<ConfigSite> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 11);
 
 /**
@@ -849,8 +814,7 @@ export type ConfigAuth = Message<"sppb.ConfigAuth"> & {
  * Describes the message sppb.ConfigAuth.
  * Use `create(ConfigAuthSchema)` to create a new message.
  */
-export const ConfigAuthSchema: GenMessage<ConfigAuth> =
-  /*@__PURE__*/
+export const ConfigAuthSchema: GenMessage<ConfigAuth> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 12);
 
 /**
@@ -904,8 +868,7 @@ export type ConfigWeb = Message<"sppb.ConfigWeb"> & {
  * Describes the message sppb.ConfigWeb.
  * Use `create(ConfigWebSchema)` to create a new message.
  */
-export const ConfigWebSchema: GenMessage<ConfigWeb> =
-  /*@__PURE__*/
+export const ConfigWebSchema: GenMessage<ConfigWeb> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 13);
 
 /**
@@ -924,8 +887,7 @@ export type ConfigMtkv = Message<"sppb.ConfigMtkv"> & {
  * Describes the message sppb.ConfigMtkv.
  * Use `create(ConfigMtkvSchema)` to create a new message.
  */
-export const ConfigMtkvSchema: GenMessage<ConfigMtkv> =
-  /*@__PURE__*/
+export const ConfigMtkvSchema: GenMessage<ConfigMtkv> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 14);
 
 /**
@@ -967,8 +929,7 @@ export type OnionConfig = Message<"sppb.OnionConfig"> & {
  * Describes the message sppb.OnionConfig.
  * Use `create(OnionConfigSchema)` to create a new message.
  */
-export const OnionConfigSchema: GenMessage<OnionConfig> =
-  /*@__PURE__*/
+export const OnionConfigSchema: GenMessage<OnionConfig> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 15);
 
 /**
@@ -1015,8 +976,7 @@ export type ConfigSshd = Message<"sppb.ConfigSshd"> & {
  * Describes the message sppb.ConfigSshd.
  * Use `create(ConfigSshdSchema)` to create a new message.
  */
-export const ConfigSshdSchema: GenMessage<ConfigSshd> =
-  /*@__PURE__*/
+export const ConfigSshdSchema: GenMessage<ConfigSshd> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 16);
 
 /**
@@ -1056,8 +1016,7 @@ export type ConfigP2p = Message<"sppb.ConfigP2p"> & {
  * Describes the message sppb.ConfigP2p.
  * Use `create(ConfigP2pSchema)` to create a new message.
  */
-export const ConfigP2pSchema: GenMessage<ConfigP2p> =
-  /*@__PURE__*/
+export const ConfigP2pSchema: GenMessage<ConfigP2p> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 17);
 
 /**
@@ -1076,8 +1035,7 @@ export type ConfigCronjob = Message<"sppb.ConfigCronjob"> & {
  * Describes the message sppb.ConfigCronjob.
  * Use `create(ConfigCronjobSchema)` to create a new message.
  */
-export const ConfigCronjobSchema: GenMessage<ConfigCronjob> =
-  /*@__PURE__*/
+export const ConfigCronjobSchema: GenMessage<ConfigCronjob> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 18);
 
 /**
@@ -1096,8 +1054,7 @@ export type ConfigLineslog = Message<"sppb.ConfigLineslog"> & {
  * Describes the message sppb.ConfigLineslog.
  * Use `create(ConfigLineslogSchema)` to create a new message.
  */
-export const ConfigLineslogSchema: GenMessage<ConfigLineslog> =
-  /*@__PURE__*/
+export const ConfigLineslogSchema: GenMessage<ConfigLineslog> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 19);
 
 /**
@@ -1123,8 +1080,7 @@ export type LocalStorage = Message<"sppb.LocalStorage"> & {
  * Describes the message sppb.LocalStorage.
  * Use `create(LocalStorageSchema)` to create a new message.
  */
-export const LocalStorageSchema: GenMessage<LocalStorage> =
-  /*@__PURE__*/
+export const LocalStorageSchema: GenMessage<LocalStorage> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 20);
 
 /**
@@ -1150,8 +1106,7 @@ export type ConfigPs = Message<"sppb.ConfigPs"> & {
  * Describes the message sppb.ConfigPs.
  * Use `create(ConfigPsSchema)` to create a new message.
  */
-export const ConfigPsSchema: GenMessage<ConfigPs> =
-  /*@__PURE__*/
+export const ConfigPsSchema: GenMessage<ConfigPs> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 21);
 
 /**
@@ -1183,8 +1138,7 @@ export type CmdChannel = Message<"sppb.CmdChannel"> & {
  * Describes the message sppb.CmdChannel.
  * Use `create(CmdChannelSchema)` to create a new message.
  */
-export const CmdChannelSchema: GenMessage<CmdChannel> =
-  /*@__PURE__*/
+export const CmdChannelSchema: GenMessage<CmdChannel> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 22);
 
 /**
@@ -1220,8 +1174,7 @@ export type ConfGetReq = Message<"sppb.ConfGetReq"> & {
  * Describes the message sppb.ConfGetReq.
  * Use `create(ConfGetReqSchema)` to create a new message.
  */
-export const ConfGetReqSchema: GenMessage<ConfGetReq> =
-  /*@__PURE__*/
+export const ConfGetReqSchema: GenMessage<ConfGetReq> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 23);
 
 /**
@@ -1243,8 +1196,7 @@ export type ConfListReq = Message<"sppb.ConfListReq"> & {
  * Describes the message sppb.ConfListReq.
  * Use `create(ConfListReqSchema)` to create a new message.
  */
-export const ConfListReqSchema: GenMessage<ConfListReq> =
-  /*@__PURE__*/
+export const ConfListReqSchema: GenMessage<ConfListReq> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 24);
 
 /**
@@ -1271,8 +1223,7 @@ export type ConfigItem = Message<"sppb.ConfigItem"> & {
  * Describes the message sppb.ConfigItem.
  * Use `create(ConfigItemSchema)` to create a new message.
  */
-export const ConfigItemSchema: GenMessage<ConfigItem> =
-  /*@__PURE__*/
+export const ConfigItemSchema: GenMessage<ConfigItem> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 25);
 
 /**
@@ -1299,8 +1250,7 @@ export type ConfListRes = Message<"sppb.ConfListRes"> & {
  * Describes the message sppb.ConfListRes.
  * Use `create(ConfListResSchema)` to create a new message.
  */
-export const ConfListResSchema: GenMessage<ConfListRes> =
-  /*@__PURE__*/
+export const ConfListResSchema: GenMessage<ConfListRes> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 26);
 
 /**
@@ -1322,8 +1272,7 @@ export type ConfCreateReq = Message<"sppb.ConfCreateReq"> & {
  * Describes the message sppb.ConfCreateReq.
  * Use `create(ConfCreateReqSchema)` to create a new message.
  */
-export const ConfCreateReqSchema: GenMessage<ConfCreateReq> =
-  /*@__PURE__*/
+export const ConfCreateReqSchema: GenMessage<ConfCreateReq> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 27);
 
 /**
@@ -1350,8 +1299,7 @@ export type ConfUpdateReq = Message<"sppb.ConfUpdateReq"> & {
  * Describes the message sppb.ConfUpdateReq.
  * Use `create(ConfUpdateReqSchema)` to create a new message.
  */
-export const ConfUpdateReqSchema: GenMessage<ConfUpdateReq> =
-  /*@__PURE__*/
+export const ConfUpdateReqSchema: GenMessage<ConfUpdateReq> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 28);
 
 /**
@@ -1383,8 +1331,7 @@ export type ConfGetRes = Message<"sppb.ConfGetRes"> & {
  * Describes the message sppb.ConfGetRes.
  * Use `create(ConfGetResSchema)` to create a new message.
  */
-export const ConfGetResSchema: GenMessage<ConfGetRes> =
-  /*@__PURE__*/
+export const ConfGetResSchema: GenMessage<ConfGetRes> = /*@__PURE__*/
   messageDesc(file_mtm_sppb_conf, 29);
 
 /**
@@ -1398,7 +1345,7 @@ export const ConfService: GenService<{
     methodKind: "unary";
     input: typeof ConfListReqSchema;
     output: typeof ConfListResSchema;
-  };
+  },
   /**
    * @generated from rpc sppb.ConfService.ConfGet
    */
@@ -1406,7 +1353,7 @@ export const ConfService: GenService<{
     methodKind: "unary";
     input: typeof ConfGetReqSchema;
     output: typeof ConfGetResSchema;
-  };
+  },
   /**
    * @generated from rpc sppb.ConfService.ConfCreate
    */
@@ -1414,7 +1361,7 @@ export const ConfService: GenService<{
     methodKind: "unary";
     input: typeof ConfCreateReqSchema;
     output: typeof ResultSchema;
-  };
+  },
   /**
    * @generated from rpc sppb.ConfService.ConfUpdate
    */
@@ -1422,7 +1369,7 @@ export const ConfService: GenService<{
     methodKind: "unary";
     input: typeof ConfUpdateReqSchema;
     output: typeof ResultSchema;
-  };
+  },
   /**
    * @generated from rpc sppb.ConfService.ConfDelete
    */
@@ -1430,5 +1377,7 @@ export const ConfService: GenService<{
     methodKind: "unary";
     input: typeof ResDeleteReqSchema;
     output: typeof ResultSchema;
-  };
-}> = /*@__PURE__*/ serviceDesc(file_mtm_sppb_conf, 0);
+  },
+}> = /*@__PURE__*/
+  serviceDesc(file_mtm_sppb_conf, 0);
+
