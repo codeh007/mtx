@@ -1,6 +1,6 @@
 "use client";
 
-import { EventTypes, agentStream } from "mtmaiapi";
+import { type AgentRunInput, EventTypes, agentStream } from "mtmaiapi";
 import { generateUUID } from "mtxuilib/lib/utils";
 import type { WorkbrenchState } from "./workbrench.store";
 
@@ -133,7 +133,10 @@ export async function handleSseGraphStream(
   const eventClient = get().eventClient;
   await eventClient.push({
     key: "ag:run",
-    payload: JSON.stringify({ content: content }),
+    payload: JSON.stringify({
+      content: content,
+      tenantId: get().tenant.metadata.id,
+    } satisfies AgentRunInput),
   });
 }
 
