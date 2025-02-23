@@ -127,7 +127,7 @@ export async function handleSseGraphStream(
   // }
   const runtimeClient = get().runtimeClient;
   const response = await runtimeClient.sendMessage({
-    message: "hello_message from client 181717262",
+    message: content,
   });
   console.log("response123", response);
 }
