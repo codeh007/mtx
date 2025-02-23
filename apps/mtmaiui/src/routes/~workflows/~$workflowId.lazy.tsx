@@ -252,7 +252,7 @@ export default function ExpandedWorkflow() {
                       workflow={workflowVersionQuery.data}
                     />
                   )}
-                  <Separator className="my-4" />
+                  {/* <Separator className="my-4" />
                   {hasGithubIntegration && (
                     <div className="hidden">
                       <h3 className="hidden text-xl font-bold leading-tight text-foreground mt-8">
@@ -260,7 +260,7 @@ export default function ExpandedWorkflow() {
                       </h3>
                       <Separator className="hidden my-4" />
                     </div>
-                  )}
+                  )} */}
                   <h4 className="text-lg font-bold leading-tight text-foreground mt-8">
                     Danger Zone
                   </h4>
