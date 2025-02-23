@@ -52,14 +52,24 @@ export function useGomtmTransport({ accessToken }: { accessToken?: string }) {
         // Optional override of the fetch implementation used by the transport.
         // fetch: globalThis.fetch,
         fetch: (input: RequestInfo | URL, init?: RequestInit) => {
+          console.log("fetching", input, init?.headers);
+          const oldHeaders = init?.headers as Headers;
+          const newHeaders = new Headers();
+          console.log("oldHeaders", oldHeaders);
+
+          for (const [k, v] of Object.entries(oldHeaders.entries())) {
+            // if (k.startsWith("x-")) {
+            console.log("setting header", k, v);
+            newHeaders.set(k, v);
+            // }
+          }
+          if (accessToken) {
+            newHeaders.set("Authorization", `Bearer ${accessToken}`);
+          }
+          newHeaders.set("Content-Type", "application/json");
           return globalThis.fetch(input, {
             ...init,
-            headers: {
-              ...init?.headers,
-              // ...(accessToken && {
-              //   Authorization: `Bearer ${accessToken}`,
-              // }),
-            },
+            headers: newHeaders,
           });
         },
 
