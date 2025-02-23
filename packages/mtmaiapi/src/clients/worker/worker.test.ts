@@ -1,13 +1,13 @@
+import { ActionListener } from "@clients/dispatcher/action-listener";
 import { HatchetClient } from "@clients/hatchet-client";
 import {
-  StepActionEventType,
   ActionType,
-  AssignedAction,
-} from "@hatchet/protoc/dispatcher";
-import { ActionListener } from "@clients/dispatcher/action-listener";
-import { never } from "zod";
+  type AssignedAction,
+  StepActionEventType,
+} from "@hatchet/protoc--/dispatcher";
 import sleep from "@util/sleep";
 import { ChannelCredentials } from "nice-grpc";
+import { never } from "zod";
 import { Worker } from "./worker";
 
 type AssignActionMock = AssignedAction | Error;

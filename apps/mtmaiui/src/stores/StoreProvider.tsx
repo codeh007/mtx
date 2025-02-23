@@ -9,6 +9,7 @@ import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { MtSessionProvider } from "./MtSessionProvider";
 import ReactQueryProvider from "./ReactQueryProvider";
+import { MtTransportProvider } from "./TransportProvider";
 import { type HatchetSliceState, createHatchetSlice } from "./hatchet.slice";
 
 interface MtmaiBotProps {
@@ -144,7 +145,9 @@ export const MtmaiProvider = (props: AppProviderProps) => {
         accessToken={etc.accessToken as string}
         host={etc.hostName as string}
       >
-        <MtSessionProvider>{children}</MtSessionProvider>
+        <MtTransportProvider>
+          <MtSessionProvider>{children}</MtSessionProvider>
+        </MtTransportProvider>
       </ReactQueryProvider>
     </mtmaiStoreContext.Provider>
   );

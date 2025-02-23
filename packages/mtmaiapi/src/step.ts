@@ -10,7 +10,7 @@ import {
   type CreateStepRateLimit,
   RateLimitDuration,
   WorkerLabelComparator,
-} from "./protoc/workflows";
+} from "./protoc--/workflows";
 import { Logger } from "./util/logger";
 import { parseJSON } from "./util/parse";
 import type WorkflowRunRef from "./util/workflow-run-ref";

@@ -1,15 +1,15 @@
-import {
-  DispatcherClient as PbDispatcherClient,
+import type {
   AssignedAction,
-} from "@hatchet/protoc/dispatcher";
+  DispatcherClient as PbDispatcherClient,
+} from "@hatchet/protoc--/dispatcher";
 
-import { Status } from "nice-grpc";
-import { ClientConfig } from "@clients/hatchet-client/client-config";
-import sleep from "@util/sleep";
-import HatchetError from "@util/errors/hatchet-error";
+import type { ClientConfig } from "@clients/hatchet-client/client-config";
 import { Logger } from "@hatchet/util/logger";
+import HatchetError from "@util/errors/hatchet-error";
+import sleep from "@util/sleep";
+import { Status } from "nice-grpc";
 
-import { DispatcherClient } from "./dispatcher-client";
+import type { DispatcherClient } from "./dispatcher-client";
 import { Heartbeat } from "./heartbeat/heartbeat-controller";
 
 const DEFAULT_ACTION_LISTENER_RETRY_INTERVAL = 5000; // milliseconds
@@ -28,8 +28,8 @@ export class ActionListener {
   client: PbDispatcherClient;
   workerId: string;
   logger: Logger;
-  lastConnectionAttempt: number = 0;
-  retries: number = 0;
+  lastConnectionAttempt = 0;
+  retries = 0;
   retryInterval: number = DEFAULT_ACTION_LISTENER_RETRY_INTERVAL;
   retryCount: number = DEFAULT_ACTION_LISTENER_RETRY_COUNT;
   done = false;

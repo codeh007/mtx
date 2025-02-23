@@ -4,7 +4,7 @@ import {
   type EventsServiceClient,
   EventsServiceDefinition,
   type PushEventRequest,
-} from "@hatchet/protoc/events/events";
+} from "@hatchet/protoc--/events/events";
 import { Logger } from "@hatchet/util/logger";
 import { retrier } from "@hatchet/util/retrier";
 import HatchetError from "@util/errors/hatchet-error";

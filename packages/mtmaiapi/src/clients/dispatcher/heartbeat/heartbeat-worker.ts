@@ -1,13 +1,13 @@
-import { parentPort, workerData } from "worker_threads";
-import { Logger } from "@util/logger";
 import {
-  ClientConfig,
+  type ClientConfig,
   addTokenMiddleware,
   channelFactory,
 } from "@hatchet/clients/hatchet-client";
-import { DispatcherClient as PbDispatcherClient } from "@hatchet/protoc/dispatcher";
+import type { DispatcherClient as PbDispatcherClient } from "@hatchet/protoc--/dispatcher";
 import { ConfigLoader } from "@hatchet/util/config-loader";
+import { Logger } from "@util/logger";
 import { Status, createClientFactory } from "nice-grpc";
+import { parentPort, workerData } from "worker_threads";
 import { DispatcherClient } from "../dispatcher-client";
 
 const HEARTBEAT_INTERVAL = 4000;

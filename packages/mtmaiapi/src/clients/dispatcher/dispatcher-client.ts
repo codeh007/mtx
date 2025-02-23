@@ -1,16 +1,16 @@
-import { Channel, ClientFactory } from "nice-grpc";
+import type { ClientConfig } from "@clients/hatchet-client/client-config";
 import {
-  DispatcherClient as PbDispatcherClient,
+  type DeepPartial,
   DispatcherDefinition,
-  StepActionEvent,
-  GroupKeyActionEvent,
-  OverridesData,
-  DeepPartial,
-  WorkerLabels as PbWorkerAffinityConfig,
-} from "@hatchet/protoc/dispatcher";
-import { ClientConfig } from "@clients/hatchet-client/client-config";
-import HatchetError from "@util/errors/hatchet-error";
+  type GroupKeyActionEvent,
+  type OverridesData,
+  type DispatcherClient as PbDispatcherClient,
+  type WorkerLabels as PbWorkerAffinityConfig,
+  type StepActionEvent,
+} from "@hatchet/protoc--/dispatcher";
 import { Logger } from "@hatchet/util/logger";
+import HatchetError from "@util/errors/hatchet-error";
+import type { Channel, ClientFactory } from "nice-grpc";
 
 import { retrier } from "@hatchet/util/retrier";
 import { ActionListener } from "./action-listener";

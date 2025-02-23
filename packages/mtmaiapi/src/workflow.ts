@@ -3,7 +3,7 @@ import * as z from "zod";
 import {
   ConcurrencyLimitStrategy as PbConcurrencyLimitStrategy,
   StickyStrategy as PbStickyStrategy,
-} from "./protoc/workflows";
+} from "./protoc--/workflows";
 import { type CreateStep, CreateStepSchema } from "./step";
 
 const CronConfigSchema = z.object({

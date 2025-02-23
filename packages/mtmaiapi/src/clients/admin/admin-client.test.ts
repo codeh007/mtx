@@ -1,13 +1,13 @@
-import {
+import type {
   CreateWorkflowVersionOpts,
   WorkflowVersion,
-} from "@hatchet/protoc/workflows";
-import { AdminClient } from "./admin-client";
+} from "@hatchet/protoc--/workflows";
 import {
   mockChannel,
   mockFactory,
 } from "../hatchet-client/hatchet-client.test";
 import { ListenerClient } from "../listener/listener-client";
+import { AdminClient } from "./admin-client";
 
 describe("AdminClient", () => {
   let client: AdminClient;

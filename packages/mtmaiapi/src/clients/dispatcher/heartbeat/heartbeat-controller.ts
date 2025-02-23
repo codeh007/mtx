@@ -1,10 +1,10 @@
+import type { DispatcherClient as PbDispatcherClient } from "@hatchet/protoc--/dispatcher";
 import { Logger } from "@hatchet/util/logger";
-import { DispatcherClient as PbDispatcherClient } from "@hatchet/protoc/dispatcher";
-import { Worker } from "worker_threads";
-import path from "path";
 import { runThreaded } from "@hatchet/util/thread-helper";
-import { ClientConfig } from "../../hatchet-client";
-import { DispatcherClient } from "../dispatcher-client";
+import path from "path";
+import type { Worker } from "worker_threads";
+import type { ClientConfig } from "../../hatchet-client";
+import type { DispatcherClient } from "../dispatcher-client";
 
 export class Heartbeat {
   config: ClientConfig;

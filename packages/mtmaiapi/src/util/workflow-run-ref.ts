@@ -1,10 +1,10 @@
 /* eslint-disable max-classes-per-file */
-import {
+import type {
   ListenerClient,
   StepRunEvent,
 } from "@hatchet/clients/listener/listener-client";
 import { Status } from "nice-grpc";
-import { WorkflowRunEventType } from "../protoc/dispatcher";
+import { WorkflowRunEventType } from "../protoc--/dispatcher";
 
 type EventualWorkflowRunId =
   | string

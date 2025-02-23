@@ -5,7 +5,7 @@ import {
   RateLimitDuration,
   type WorkflowServiceClient,
   WorkflowServiceDefinition,
-} from "@hatchet/protoc/workflows";
+} from "@hatchet/protoc--/workflows";
 import { Logger } from "@hatchet/util/logger";
 import { retrier } from "@hatchet/util/retrier";
 import WorkflowRunRef from "@hatchet/util/workflow-run-ref";

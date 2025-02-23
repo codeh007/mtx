@@ -1,12 +1,12 @@
-import { ActionType, AssignedAction } from "@hatchet/protoc/dispatcher";
+import { ActionType, type AssignedAction } from "@hatchet/protoc--/dispatcher";
 import sleep from "@util/sleep";
-// import { ServerError, Status } from 'nice-grpc-common';
-import { DispatcherClient } from "./dispatcher-client";
-import { ActionListener } from "./action-listener";
 import {
   mockChannel,
   mockFactory,
 } from "../hatchet-client/hatchet-client.test";
+import { ActionListener } from "./action-listener";
+// import { ServerError, Status } from 'nice-grpc-common';
+import { DispatcherClient } from "./dispatcher-client";
 
 let dispatcher: DispatcherClient;
 

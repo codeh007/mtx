@@ -1,9 +1,9 @@
-import { StepActionEventType } from "@hatchet/protoc/dispatcher";
-import { DispatcherClient } from "./dispatcher-client";
+import { StepActionEventType } from "@hatchet/protoc--/dispatcher";
 import {
   mockChannel,
   mockFactory,
 } from "../hatchet-client/hatchet-client.test";
+import { DispatcherClient } from "./dispatcher-client";
 
 let client: DispatcherClient;
 

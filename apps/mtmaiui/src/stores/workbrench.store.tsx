@@ -8,6 +8,7 @@ import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 
+import type { Client } from "@connectrpc/connect";
 import { debounce } from "lodash";
 import type {
   AgentRunInput,
@@ -16,11 +17,14 @@ import type {
   Tenant,
   TextHighlight,
 } from "mtmaiapi";
+import type { AgService } from "mtmaiapi/mtmclient/mtm/sppb/ag_pb";
 import type { Suggestion } from "mtxuilib/db/schema/suggestion";
 import { generateUUID } from "mtxuilib/lib/utils";
 import { io } from "socket.io-client";
 import type { HubmanInput } from "../types/hatchet-types";
 import { handleSseGraphStream } from "./runGraphStream";
+
+
 export interface IAskForm {
   callback: (data) => void;
   // askForm: ThreadForm;
@@ -36,6 +40,7 @@ export interface WorkbenchProps {
   openDebugPanel?: boolean;
   threadId?: string;
   tenant: Tenant;
+  agClient: Client<typeof AgService>;
 }
 export type StreamingDelta = {
   type: "text-delta" | "title" | "id" | "suggestion" | "clear" | "finish";

@@ -4,7 +4,7 @@ import {
   type SubscribeToWorkflowRunsRequest,
   type WorkflowRunEvent,
   WorkflowRunEventType,
-} from "@hatchet/protoc/dispatcher";
+} from "@hatchet/protoc--/dispatcher";
 import sleep from "@hatchet/util/sleep";
 import { isAbortError } from "abort-controller-x";
 import type { ListenerClient } from "./listener-client";

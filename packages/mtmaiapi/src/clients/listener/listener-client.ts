@@ -6,7 +6,7 @@ import {
   ResourceEventType,
   ResourceType,
   type WorkflowEvent,
-} from "@hatchet/protoc/dispatcher";
+} from "@hatchet/protoc--/dispatcher";
 import { Logger } from "@hatchet/util/logger";
 import sleep from "@hatchet/util/sleep";
 import HatchetError from "@util/errors/hatchet-error";

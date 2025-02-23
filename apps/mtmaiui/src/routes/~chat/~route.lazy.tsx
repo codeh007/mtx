@@ -3,6 +3,7 @@ import { useTenant } from "../../hooks/useAuth";
 import { useMtmaiV2 } from "../../stores/StoreProvider";
 
 import { Outlet } from "@tanstack/react-router";
+import { AgService } from "mtmaiapi/mtmclient/mtm/sppb/ag_pb";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import {
   Breadcrumb,
@@ -14,6 +15,7 @@ import { SidebarInset } from "mtxuilib/ui/sidebar";
 import { DashContent } from "../../components/DashContent";
 import { DashHeaders } from "../../components/DashHeaders";
 import { DashSidebar } from "../../components/sidebar/siderbar";
+import { useGomtmClient } from "../../stores/TransportProvider";
 import { WorkbrenchProvider } from "../../stores/workbrench.store";
 import { RootAppWrapper } from "../components/RootAppWrapper";
 
@@ -30,6 +32,8 @@ function RouteComponent() {
   if (!selfBackendend) {
     null;
   }
+
+  const mtmAgClient = useGomtmClient(AgService);
   return (
     <RootAppWrapper className="flex w-full h-full flex-1">
       <DashSidebar />
@@ -47,6 +51,7 @@ function RouteComponent() {
         <DashContent>
           <MtSuspenseBoundary>
             <WorkbrenchProvider
+              agClient={mtmAgClient}
               backendUrl={selfBackendend!}
               // accessToken={accessToken}
               // chatProfile={chatProfile}
