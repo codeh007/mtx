@@ -14,14 +14,21 @@
 import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv1";
 import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv1";
 import type { Any, Timestamp } from "@bufbuild/protobuf/wkt";
-import { file_google_protobuf_any, file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
+import {
+  file_google_protobuf_any,
+  file_google_protobuf_timestamp,
+} from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file mtm/sppb/cloudevent.proto.
  */
-export const file_mtm_sppb_cloudevent: GenFile = /*@__PURE__*/
-  fileDesc("ChltdG0vc3BwYi9jbG91ZGV2ZW50LnByb3RvEhFpby5jbG91ZGV2ZW50cy52MSKwBAoKQ2xvdWRFdmVudBIKCgJpZBgBIAEoCRIOCgZzb3VyY2UYAiABKAkSFAoMc3BlY192ZXJzaW9uGAMgASgJEgwKBHR5cGUYBCABKAkSQQoKYXR0cmlidXRlcxgFIAMoCzItLmlvLmNsb3VkZXZlbnRzLnYxLkNsb3VkRXZlbnQuQXR0cmlidXRlc0VudHJ5EhUKC2JpbmFyeV9kYXRhGAYgASgMSAASEwoJdGV4dF9kYXRhGAcgASgJSAASKgoKcHJvdG9fZGF0YRgIIAEoCzIULmdvb2dsZS5wcm90b2J1Zi5BbnlIABppCg9BdHRyaWJ1dGVzRW50cnkSCwoDa2V5GAEgASgJEkUKBXZhbHVlGAIgASgLMjYuaW8uY2xvdWRldmVudHMudjEuQ2xvdWRFdmVudC5DbG91ZEV2ZW50QXR0cmlidXRlVmFsdWU6AjgBGtMBChhDbG91ZEV2ZW50QXR0cmlidXRlVmFsdWUSFAoKY2VfYm9vbGVhbhgBIAEoCEgAEhQKCmNlX2ludGVnZXIYAiABKAVIABITCgljZV9zdHJpbmcYAyABKAlIABISCghjZV9ieXRlcxgEIAEoDEgAEhAKBmNlX3VyaRgFIAEoCUgAEhQKCmNlX3VyaV9yZWYYBiABKAlIABIyCgxjZV90aW1lc3RhbXAYByABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wSABCBgoEYXR0ckIGCgRkYXRhQrcBChVjb20uaW8uY2xvdWRldmVudHMudjFCD0Nsb3VkZXZlbnRQcm90b1ABWidnaXRodWIuY29tL2NvZGVoMDA3L2dvbXRtL210bS9zcHBiO3NwcGKiAgNJQ1iqAhFJby5DbG91ZGV2ZW50cy5WMcoCEUlvXENsb3VkZXZlbnRzXFYx4gIdSW9cQ2xvdWRldmVudHNcVjFcR1BCTWV0YWRhdGHqAhNJbzo6Q2xvdWRldmVudHM6OlYxYgZwcm90bzM", [file_google_protobuf_any, file_google_protobuf_timestamp]);
+export const file_mtm_sppb_cloudevent: GenFile =
+  /*@__PURE__*/
+  fileDesc(
+    "ChltdG0vc3BwYi9jbG91ZGV2ZW50LnByb3RvEhFpby5jbG91ZGV2ZW50cy52MSKwBAoKQ2xvdWRFdmVudBIKCgJpZBgBIAEoCRIOCgZzb3VyY2UYAiABKAkSFAoMc3BlY192ZXJzaW9uGAMgASgJEgwKBHR5cGUYBCABKAkSQQoKYXR0cmlidXRlcxgFIAMoCzItLmlvLmNsb3VkZXZlbnRzLnYxLkNsb3VkRXZlbnQuQXR0cmlidXRlc0VudHJ5EhUKC2JpbmFyeV9kYXRhGAYgASgMSAASEwoJdGV4dF9kYXRhGAcgASgJSAASKgoKcHJvdG9fZGF0YRgIIAEoCzIULmdvb2dsZS5wcm90b2J1Zi5BbnlIABppCg9BdHRyaWJ1dGVzRW50cnkSCwoDa2V5GAEgASgJEkUKBXZhbHVlGAIgASgLMjYuaW8uY2xvdWRldmVudHMudjEuQ2xvdWRFdmVudC5DbG91ZEV2ZW50QXR0cmlidXRlVmFsdWU6AjgBGtMBChhDbG91ZEV2ZW50QXR0cmlidXRlVmFsdWUSFAoKY2VfYm9vbGVhbhgBIAEoCEgAEhQKCmNlX2ludGVnZXIYAiABKAVIABITCgljZV9zdHJpbmcYAyABKAlIABISCghjZV9ieXRlcxgEIAEoDEgAEhAKBmNlX3VyaRgFIAEoCUgAEhQKCmNlX3VyaV9yZWYYBiABKAlIABIyCgxjZV90aW1lc3RhbXAYByABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wSABCBgoEYXR0ckIGCgRkYXRhQrcBChVjb20uaW8uY2xvdWRldmVudHMudjFCD0Nsb3VkZXZlbnRQcm90b1ABWidnaXRodWIuY29tL2NvZGVoMDA3L2dvbXRtL210bS9zcHBiO3NwcGKiAgNJQ1iqAhFJby5DbG91ZGV2ZW50cy5WMcoCEUlvXENsb3VkZXZlbnRzXFYx4gIdSW9cQ2xvdWRldmVudHNcVjFcR1BCTWV0YWRhdGHqAhNJbzo6Q2xvdWRldmVudHM6OlYxYgZwcm90bzM",
+    [file_google_protobuf_any, file_google_protobuf_timestamp],
+  );
 
 /**
  * @generated from message io.cloudevents.v1.CloudEvent
@@ -63,90 +70,104 @@ export type CloudEvent = Message<"io.cloudevents.v1.CloudEvent"> & {
    *
    * @generated from oneof io.cloudevents.v1.CloudEvent.data
    */
-  data: {
-    /**
-     * @generated from field: bytes binary_data = 6;
-     */
-    value: Uint8Array;
-    case: "binaryData";
-  } | {
-    /**
-     * @generated from field: string text_data = 7;
-     */
-    value: string;
-    case: "textData";
-  } | {
-    /**
-     * @generated from field: google.protobuf.Any proto_data = 8;
-     */
-    value: Any;
-    case: "protoData";
-  } | { case: undefined; value?: undefined };
+  data:
+    | {
+        /**
+         * @generated from field: bytes binary_data = 6;
+         */
+        value: Uint8Array;
+        case: "binaryData";
+      }
+    | {
+        /**
+         * @generated from field: string text_data = 7;
+         */
+        value: string;
+        case: "textData";
+      }
+    | {
+        /**
+         * @generated from field: google.protobuf.Any proto_data = 8;
+         */
+        value: Any;
+        case: "protoData";
+      }
+    | { case: undefined; value?: undefined };
 };
 
 /**
  * Describes the message io.cloudevents.v1.CloudEvent.
  * Use `create(CloudEventSchema)` to create a new message.
  */
-export const CloudEventSchema: GenMessage<CloudEvent> = /*@__PURE__*/
+export const CloudEventSchema: GenMessage<CloudEvent> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_cloudevent, 0);
 
 /**
  * @generated from message io.cloudevents.v1.CloudEvent.CloudEventAttributeValue
  */
-export type CloudEvent_CloudEventAttributeValue = Message<"io.cloudevents.v1.CloudEvent.CloudEventAttributeValue"> & {
-  /**
-   * @generated from oneof io.cloudevents.v1.CloudEvent.CloudEventAttributeValue.attr
-   */
-  attr: {
+export type CloudEvent_CloudEventAttributeValue =
+  Message<"io.cloudevents.v1.CloudEvent.CloudEventAttributeValue"> & {
     /**
-     * @generated from field: bool ce_boolean = 1;
+     * @generated from oneof io.cloudevents.v1.CloudEvent.CloudEventAttributeValue.attr
      */
-    value: boolean;
-    case: "ceBoolean";
-  } | {
-    /**
-     * @generated from field: int32 ce_integer = 2;
-     */
-    value: number;
-    case: "ceInteger";
-  } | {
-    /**
-     * @generated from field: string ce_string = 3;
-     */
-    value: string;
-    case: "ceString";
-  } | {
-    /**
-     * @generated from field: bytes ce_bytes = 4;
-     */
-    value: Uint8Array;
-    case: "ceBytes";
-  } | {
-    /**
-     * @generated from field: string ce_uri = 5;
-     */
-    value: string;
-    case: "ceUri";
-  } | {
-    /**
-     * @generated from field: string ce_uri_ref = 6;
-     */
-    value: string;
-    case: "ceUriRef";
-  } | {
-    /**
-     * @generated from field: google.protobuf.Timestamp ce_timestamp = 7;
-     */
-    value: Timestamp;
-    case: "ceTimestamp";
-  } | { case: undefined; value?: undefined };
-};
+    attr:
+      | {
+          /**
+           * @generated from field: bool ce_boolean = 1;
+           */
+          value: boolean;
+          case: "ceBoolean";
+        }
+      | {
+          /**
+           * @generated from field: int32 ce_integer = 2;
+           */
+          value: number;
+          case: "ceInteger";
+        }
+      | {
+          /**
+           * @generated from field: string ce_string = 3;
+           */
+          value: string;
+          case: "ceString";
+        }
+      | {
+          /**
+           * @generated from field: bytes ce_bytes = 4;
+           */
+          value: Uint8Array;
+          case: "ceBytes";
+        }
+      | {
+          /**
+           * @generated from field: string ce_uri = 5;
+           */
+          value: string;
+          case: "ceUri";
+        }
+      | {
+          /**
+           * @generated from field: string ce_uri_ref = 6;
+           */
+          value: string;
+          case: "ceUriRef";
+        }
+      | {
+          /**
+           * @generated from field: google.protobuf.Timestamp ce_timestamp = 7;
+           */
+          value: Timestamp;
+          case: "ceTimestamp";
+        }
+      | { case: undefined; value?: undefined };
+  };
 
 /**
  * Describes the message io.cloudevents.v1.CloudEvent.CloudEventAttributeValue.
  * Use `create(CloudEvent_CloudEventAttributeValueSchema)` to create a new message.
  */
-export const CloudEvent_CloudEventAttributeValueSchema: GenMessage<CloudEvent_CloudEventAttributeValue> = /*@__PURE__*/
+export const CloudEvent_CloudEventAttributeValueSchema: GenMessage<CloudEvent_CloudEventAttributeValue> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_cloudevent, 0, 0);
-

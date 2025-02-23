@@ -279,6 +279,8 @@ import type {
   EventDataGetData,
   EventKeyListData,
   WorkflowListData,
+  WorkflowListError,
+  WorkflowListResponse,
   WorkflowScheduledListData,
   WorkflowScheduledListError,
   WorkflowScheduledListResponse,
@@ -2074,6 +2076,54 @@ export const workflowListOptions = (options: Options<WorkflowListData>) => {
     },
     queryKey: workflowListQueryKey(options),
   });
+};
+
+export const workflowListInfiniteQueryKey = (
+  options: Options<WorkflowListData>,
+): QueryKey<Options<WorkflowListData>> =>
+  createQueryKey("workflowList", options, true);
+
+export const workflowListInfiniteOptions = (
+  options: Options<WorkflowListData>,
+) => {
+  return infiniteQueryOptions<
+    WorkflowListResponse,
+    WorkflowListError,
+    InfiniteData<WorkflowListResponse>,
+    QueryKey<Options<WorkflowListData>>,
+    | number
+    | Pick<
+        QueryKey<Options<WorkflowListData>>[0],
+        "body" | "headers" | "path" | "query"
+      >
+  >(
+    // @ts-ignore
+    {
+      queryFn: async ({ pageParam, queryKey, signal }) => {
+        // @ts-ignore
+        const page: Pick<
+          QueryKey<Options<WorkflowListData>>[0],
+          "body" | "headers" | "path" | "query"
+        > =
+          typeof pageParam === "object"
+            ? pageParam
+            : {
+                query: {
+                  offset: pageParam,
+                },
+              };
+        const params = createInfiniteParams(queryKey, page);
+        const { data } = await workflowList({
+          ...options,
+          ...params,
+          signal,
+          throwOnError: true,
+        });
+        return data;
+      },
+      queryKey: workflowListInfiniteQueryKey(options),
+    },
+  );
 };
 
 export const workflowScheduledListQueryKey = (

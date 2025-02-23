@@ -2,15 +2,26 @@
 // @generated from file mtm/sppb/cli.proto (package sppb, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
-import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
+import type {
+  GenFile,
+  GenMessage,
+  GenService,
+} from "@bufbuild/protobuf/codegenv1";
+import {
+  fileDesc,
+  messageDesc,
+  serviceDesc,
+} from "@bufbuild/protobuf/codegenv1";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file mtm/sppb/cli.proto.
  */
-export const file_mtm_sppb_cli: GenFile = /*@__PURE__*/
-  fileDesc("ChJtdG0vc3BwYi9jbGkucHJvdG8SBHNwcGIiPAoOQ2xpQ29tbWFuZEl0ZW0SCgoCaWQYASABKAkSDwoHY21kTGluZRgCIAEoCRINCgVsYWJlbBgDIAEoCSIMCgpMaXN0Q2xpUmVxIkAKCkxpc3RDbGlSZXMSIwoFaXRlbXMYASADKAsyFC5zcHBiLkNsaUNvbW1hbmRJdGVtEg0KBWNvdW50GAIgASgNMksKDE10Q2xpU2VydmljZRI7ChNDbGlDb21tYW5kVGVtcGxhdGVzEhAuc3BwYi5MaXN0Q2xpUmVxGhAuc3BwYi5MaXN0Q2xpUmVzIgBCbQoIY29tLnNwcGJCCENsaVByb3RvUAFaJ2dpdGh1Yi5jb20vY29kZWgwMDcvZ29tdG0vbXRtL3NwcGI7c3BwYqICA1NYWKoCBFNwcGLKAgRTcHBi4gIQU3BwYlxHUEJNZXRhZGF0YeoCBFNwcGJiBnByb3RvMw");
+export const file_mtm_sppb_cli: GenFile =
+  /*@__PURE__*/
+  fileDesc(
+    "ChJtdG0vc3BwYi9jbGkucHJvdG8SBHNwcGIiPAoOQ2xpQ29tbWFuZEl0ZW0SCgoCaWQYASABKAkSDwoHY21kTGluZRgCIAEoCRINCgVsYWJlbBgDIAEoCSIMCgpMaXN0Q2xpUmVxIkAKCkxpc3RDbGlSZXMSIwoFaXRlbXMYASADKAsyFC5zcHBiLkNsaUNvbW1hbmRJdGVtEg0KBWNvdW50GAIgASgNMksKDE10Q2xpU2VydmljZRI7ChNDbGlDb21tYW5kVGVtcGxhdGVzEhAuc3BwYi5MaXN0Q2xpUmVxGhAuc3BwYi5MaXN0Q2xpUmVzIgBCbQoIY29tLnNwcGJCCENsaVByb3RvUAFaJ2dpdGh1Yi5jb20vY29kZWgwMDcvZ29tdG0vbXRtL3NwcGI7c3BwYqICA1NYWKoCBFNwcGLKAgRTcHBi4gIQU3BwYlxHUEJNZXRhZGF0YeoCBFNwcGJiBnByb3RvMw",
+  );
 
 /**
  * @generated from message sppb.CliCommandItem
@@ -36,20 +47,21 @@ export type CliCommandItem = Message<"sppb.CliCommandItem"> & {
  * Describes the message sppb.CliCommandItem.
  * Use `create(CliCommandItemSchema)` to create a new message.
  */
-export const CliCommandItemSchema: GenMessage<CliCommandItem> = /*@__PURE__*/
+export const CliCommandItemSchema: GenMessage<CliCommandItem> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_cli, 0);
 
 /**
  * @generated from message sppb.ListCliReq
  */
-export type ListCliReq = Message<"sppb.ListCliReq"> & {
-};
+export type ListCliReq = Message<"sppb.ListCliReq"> & {};
 
 /**
  * Describes the message sppb.ListCliReq.
  * Use `create(ListCliReqSchema)` to create a new message.
  */
-export const ListCliReqSchema: GenMessage<ListCliReq> = /*@__PURE__*/
+export const ListCliReqSchema: GenMessage<ListCliReq> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_cli, 1);
 
 /**
@@ -71,7 +83,8 @@ export type ListCliRes = Message<"sppb.ListCliRes"> & {
  * Describes the message sppb.ListCliRes.
  * Use `create(ListCliResSchema)` to create a new message.
  */
-export const ListCliResSchema: GenMessage<ListCliRes> = /*@__PURE__*/
+export const ListCliResSchema: GenMessage<ListCliRes> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_cli, 2);
 
 /**
@@ -85,7 +98,5 @@ export const MtCliService: GenService<{
     methodKind: "unary";
     input: typeof ListCliReqSchema;
     output: typeof ListCliResSchema;
-  },
-}> = /*@__PURE__*/
-  serviceDesc(file_mtm_sppb_cli, 0);
-
+  };
+}> = /*@__PURE__*/ serviceDesc(file_mtm_sppb_cli, 0);

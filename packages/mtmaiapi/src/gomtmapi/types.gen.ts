@@ -5131,7 +5131,20 @@ export type WorkflowListData = {
      */
     tenant: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * The number to skip
+     */
+    offset?: number;
+    /**
+     * The number to limit by
+     */
+    limit?: number;
+    /**
+     * Search by name
+     */
+    name?: string;
+  };
   url: "/api/v1/tenants/{tenant}/workflows";
 };
 

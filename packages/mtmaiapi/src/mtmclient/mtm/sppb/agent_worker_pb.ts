@@ -2,8 +2,16 @@
 // @generated from file mtm/sppb/agent_worker.proto (package agents, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
-import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
+import type {
+  GenFile,
+  GenMessage,
+  GenService,
+} from "@bufbuild/protobuf/codegenv1";
+import {
+  fileDesc,
+  messageDesc,
+  serviceDesc,
+} from "@bufbuild/protobuf/codegenv1";
 import type { CloudEvent } from "./cloudevent_pb";
 import { file_mtm_sppb_cloudevent } from "./cloudevent_pb";
 import type { Any } from "@bufbuild/protobuf/wkt";
@@ -13,8 +21,12 @@ import type { Message as Message$1 } from "@bufbuild/protobuf";
 /**
  * Describes the file mtm/sppb/agent_worker.proto.
  */
-export const file_mtm_sppb_agent_worker: GenFile = /*@__PURE__*/
-  fileDesc("ChttdG0vc3BwYi9hZ2VudF93b3JrZXIucHJvdG8SBmFnZW50cyIkCgdBZ2VudElkEgwKBHR5cGUYASABKAkSCwoDa2V5GAIgASgJIkUKB1BheWxvYWQSEQoJZGF0YV90eXBlGAEgASgJEhkKEWRhdGFfY29udGVudF90eXBlGAIgASgJEgwKBGRhdGEYAyABKAwiiQIKClJwY1JlcXVlc3QSEgoKcmVxdWVzdF9pZBgBIAEoCRIkCgZzb3VyY2UYAiABKAsyDy5hZ2VudHMuQWdlbnRJZEgAiAEBEh8KBnRhcmdldBgDIAEoCzIPLmFnZW50cy5BZ2VudElkEg4KBm1ldGhvZBgEIAEoCRIgCgdwYXlsb2FkGAUgASgLMg8uYWdlbnRzLlBheWxvYWQSMgoIbWV0YWRhdGEYBiADKAsyIC5hZ2VudHMuUnBjUmVxdWVzdC5NZXRhZGF0YUVudHJ5Gi8KDU1ldGFkYXRhRW50cnkSCwoDa2V5GAEgASgJEg0KBXZhbHVlGAIgASgJOgI4AUIJCgdfc291cmNlIrgBCgtScGNSZXNwb25zZRISCgpyZXF1ZXN0X2lkGAEgASgJEiAKB3BheWxvYWQYAiABKAsyDy5hZ2VudHMuUGF5bG9hZBINCgVlcnJvchgDIAEoCRIzCghtZXRhZGF0YRgEIAMoCzIhLmFnZW50cy5ScGNSZXNwb25zZS5NZXRhZGF0YUVudHJ5Gi8KDU1ldGFkYXRhRW50cnkSCwoDa2V5GAEgASgJEg0KBXZhbHVlGAIgASgJOgI4ASIoChhSZWdpc3RlckFnZW50VHlwZVJlcXVlc3QSDAoEdHlwZRgBIAEoCSIbChlSZWdpc3RlckFnZW50VHlwZVJlc3BvbnNlIjoKEFR5cGVTdWJzY3JpcHRpb24SEgoKdG9waWNfdHlwZRgBIAEoCRISCgphZ2VudF90eXBlGAIgASgJIkcKFlR5cGVQcmVmaXhTdWJzY3JpcHRpb24SGQoRdG9waWNfdHlwZV9wcmVmaXgYASABKAkSEgoKYWdlbnRfdHlwZRgCIAEoCSKiAQoMU3Vic2NyaXB0aW9uEgoKAmlkGAEgASgJEjQKEHR5cGVTdWJzY3JpcHRpb24YAiABKAsyGC5hZ2VudHMuVHlwZVN1YnNjcmlwdGlvbkgAEkAKFnR5cGVQcmVmaXhTdWJzY3JpcHRpb24YAyABKAsyHi5hZ2VudHMuVHlwZVByZWZpeFN1YnNjcmlwdGlvbkgAQg4KDHN1YnNjcmlwdGlvbiJEChZBZGRTdWJzY3JpcHRpb25SZXF1ZXN0EioKDHN1YnNjcmlwdGlvbhgBIAEoCzIULmFnZW50cy5TdWJzY3JpcHRpb24iGQoXQWRkU3Vic2NyaXB0aW9uUmVzcG9uc2UiJwoZUmVtb3ZlU3Vic2NyaXB0aW9uUmVxdWVzdBIKCgJpZBgBIAEoCSIcChpSZW1vdmVTdWJzY3JpcHRpb25SZXNwb25zZSIZChdHZXRTdWJzY3JpcHRpb25zUmVxdWVzdCJHChhHZXRTdWJzY3JpcHRpb25zUmVzcG9uc2USKwoNc3Vic2NyaXB0aW9ucxgBIAMoCzIULmFnZW50cy5TdWJzY3JpcHRpb24imQEKB01lc3NhZ2USJQoHcmVxdWVzdBgBIAEoCzISLmFnZW50cy5ScGNSZXF1ZXN0SAASJwoIcmVzcG9uc2UYAiABKAsyEy5hZ2VudHMuUnBjUmVzcG9uc2VIABIzCgpjbG91ZEV2ZW50GAMgASgLMh0uaW8uY2xvdWRldmVudHMudjEuQ2xvdWRFdmVudEgAQgkKB21lc3NhZ2UiNAoQU2F2ZVN0YXRlUmVxdWVzdBIgCgdhZ2VudElkGAEgASgLMg8uYWdlbnRzLkFnZW50SWQiQAoRU2F2ZVN0YXRlUmVzcG9uc2USDQoFc3RhdGUYASABKAkSEgoFZXJyb3IYAiABKAlIAIgBAUIICgZfZXJyb3IiQwoQTG9hZFN0YXRlUmVxdWVzdBIgCgdhZ2VudElkGAEgASgLMg8uYWdlbnRzLkFnZW50SWQSDQoFc3RhdGUYAiABKAkiMQoRTG9hZFN0YXRlUmVzcG9uc2USEgoFZXJyb3IYASABKAlIAIgBAUIICgZfZXJyb3IihwEKDkNvbnRyb2xNZXNzYWdlEg4KBnJwY19pZBgBIAEoCRITCgtkZXN0aW5hdGlvbhgCIAEoCRIXCgpyZXNwb25kX3RvGAMgASgJSACIAQESKAoKcnBjTWVzc2FnZRgEIAEoCzIULmdvb2dsZS5wcm90b2J1Zi5BbnlCDQoLX3Jlc3BvbmRfdG8iJQoSU2VuZE1lc3NhZ2VSZXF1ZXN0Eg8KB21lc3NhZ2UYASABKAkiJgoTU2VuZE1lc3NhZ2VSZXNwb25zZRIPCgdtZXNzYWdlGAEgASgJMq8ECghBZ2VudFJwYxIzCgtPcGVuQ2hhbm5lbBIPLmFnZW50cy5NZXNzYWdlGg8uYWdlbnRzLk1lc3NhZ2UoATABEkgKEk9wZW5Db250cm9sQ2hhbm5lbBIWLmFnZW50cy5Db250cm9sTWVzc2FnZRoWLmFnZW50cy5Db250cm9sTWVzc2FnZSgBMAESVAoNUmVnaXN0ZXJBZ2VudBIgLmFnZW50cy5SZWdpc3RlckFnZW50VHlwZVJlcXVlc3QaIS5hZ2VudHMuUmVnaXN0ZXJBZ2VudFR5cGVSZXNwb25zZRJSCg9BZGRTdWJzY3JpcHRpb24SHi5hZ2VudHMuQWRkU3Vic2NyaXB0aW9uUmVxdWVzdBofLmFnZW50cy5BZGRTdWJzY3JpcHRpb25SZXNwb25zZRJbChJSZW1vdmVTdWJzY3JpcHRpb24SIS5hZ2VudHMuUmVtb3ZlU3Vic2NyaXB0aW9uUmVxdWVzdBoiLmFnZW50cy5SZW1vdmVTdWJzY3JpcHRpb25SZXNwb25zZRJVChBHZXRTdWJzY3JpcHRpb25zEh8uYWdlbnRzLkdldFN1YnNjcmlwdGlvbnNSZXF1ZXN0GiAuYWdlbnRzLkdldFN1YnNjcmlwdGlvbnNSZXNwb25zZRJGCgtTZW5kTWVzc2FnZRIaLmFnZW50cy5TZW5kTWVzc2FnZVJlcXVlc3QaGy5hZ2VudHMuU2VuZE1lc3NhZ2VSZXNwb25zZUJ/Cgpjb20uYWdlbnRzQhBBZ2VudFdvcmtlclByb3RvUAFaJ2dpdGh1Yi5jb20vY29kZWgwMDcvZ29tdG0vbXRtL3NwcGI7c3BwYqICA0FYWKoCBkFnZW50c8oCBkFnZW50c+ICEkFnZW50c1xHUEJNZXRhZGF0YeoCBkFnZW50c2IGcHJvdG8z", [file_mtm_sppb_cloudevent, file_google_protobuf_any]);
+export const file_mtm_sppb_agent_worker: GenFile =
+  /*@__PURE__*/
+  fileDesc(
+    "ChttdG0vc3BwYi9hZ2VudF93b3JrZXIucHJvdG8SBmFnZW50cyIkCgdBZ2VudElkEgwKBHR5cGUYASABKAkSCwoDa2V5GAIgASgJIkUKB1BheWxvYWQSEQoJZGF0YV90eXBlGAEgASgJEhkKEWRhdGFfY29udGVudF90eXBlGAIgASgJEgwKBGRhdGEYAyABKAwiiQIKClJwY1JlcXVlc3QSEgoKcmVxdWVzdF9pZBgBIAEoCRIkCgZzb3VyY2UYAiABKAsyDy5hZ2VudHMuQWdlbnRJZEgAiAEBEh8KBnRhcmdldBgDIAEoCzIPLmFnZW50cy5BZ2VudElkEg4KBm1ldGhvZBgEIAEoCRIgCgdwYXlsb2FkGAUgASgLMg8uYWdlbnRzLlBheWxvYWQSMgoIbWV0YWRhdGEYBiADKAsyIC5hZ2VudHMuUnBjUmVxdWVzdC5NZXRhZGF0YUVudHJ5Gi8KDU1ldGFkYXRhRW50cnkSCwoDa2V5GAEgASgJEg0KBXZhbHVlGAIgASgJOgI4AUIJCgdfc291cmNlIrgBCgtScGNSZXNwb25zZRISCgpyZXF1ZXN0X2lkGAEgASgJEiAKB3BheWxvYWQYAiABKAsyDy5hZ2VudHMuUGF5bG9hZBINCgVlcnJvchgDIAEoCRIzCghtZXRhZGF0YRgEIAMoCzIhLmFnZW50cy5ScGNSZXNwb25zZS5NZXRhZGF0YUVudHJ5Gi8KDU1ldGFkYXRhRW50cnkSCwoDa2V5GAEgASgJEg0KBXZhbHVlGAIgASgJOgI4ASIoChhSZWdpc3RlckFnZW50VHlwZVJlcXVlc3QSDAoEdHlwZRgBIAEoCSIbChlSZWdpc3RlckFnZW50VHlwZVJlc3BvbnNlIjoKEFR5cGVTdWJzY3JpcHRpb24SEgoKdG9waWNfdHlwZRgBIAEoCRISCgphZ2VudF90eXBlGAIgASgJIkcKFlR5cGVQcmVmaXhTdWJzY3JpcHRpb24SGQoRdG9waWNfdHlwZV9wcmVmaXgYASABKAkSEgoKYWdlbnRfdHlwZRgCIAEoCSKiAQoMU3Vic2NyaXB0aW9uEgoKAmlkGAEgASgJEjQKEHR5cGVTdWJzY3JpcHRpb24YAiABKAsyGC5hZ2VudHMuVHlwZVN1YnNjcmlwdGlvbkgAEkAKFnR5cGVQcmVmaXhTdWJzY3JpcHRpb24YAyABKAsyHi5hZ2VudHMuVHlwZVByZWZpeFN1YnNjcmlwdGlvbkgAQg4KDHN1YnNjcmlwdGlvbiJEChZBZGRTdWJzY3JpcHRpb25SZXF1ZXN0EioKDHN1YnNjcmlwdGlvbhgBIAEoCzIULmFnZW50cy5TdWJzY3JpcHRpb24iGQoXQWRkU3Vic2NyaXB0aW9uUmVzcG9uc2UiJwoZUmVtb3ZlU3Vic2NyaXB0aW9uUmVxdWVzdBIKCgJpZBgBIAEoCSIcChpSZW1vdmVTdWJzY3JpcHRpb25SZXNwb25zZSIZChdHZXRTdWJzY3JpcHRpb25zUmVxdWVzdCJHChhHZXRTdWJzY3JpcHRpb25zUmVzcG9uc2USKwoNc3Vic2NyaXB0aW9ucxgBIAMoCzIULmFnZW50cy5TdWJzY3JpcHRpb24imQEKB01lc3NhZ2USJQoHcmVxdWVzdBgBIAEoCzISLmFnZW50cy5ScGNSZXF1ZXN0SAASJwoIcmVzcG9uc2UYAiABKAsyEy5hZ2VudHMuUnBjUmVzcG9uc2VIABIzCgpjbG91ZEV2ZW50GAMgASgLMh0uaW8uY2xvdWRldmVudHMudjEuQ2xvdWRFdmVudEgAQgkKB21lc3NhZ2UiNAoQU2F2ZVN0YXRlUmVxdWVzdBIgCgdhZ2VudElkGAEgASgLMg8uYWdlbnRzLkFnZW50SWQiQAoRU2F2ZVN0YXRlUmVzcG9uc2USDQoFc3RhdGUYASABKAkSEgoFZXJyb3IYAiABKAlIAIgBAUIICgZfZXJyb3IiQwoQTG9hZFN0YXRlUmVxdWVzdBIgCgdhZ2VudElkGAEgASgLMg8uYWdlbnRzLkFnZW50SWQSDQoFc3RhdGUYAiABKAkiMQoRTG9hZFN0YXRlUmVzcG9uc2USEgoFZXJyb3IYASABKAlIAIgBAUIICgZfZXJyb3IihwEKDkNvbnRyb2xNZXNzYWdlEg4KBnJwY19pZBgBIAEoCRITCgtkZXN0aW5hdGlvbhgCIAEoCRIXCgpyZXNwb25kX3RvGAMgASgJSACIAQESKAoKcnBjTWVzc2FnZRgEIAEoCzIULmdvb2dsZS5wcm90b2J1Zi5BbnlCDQoLX3Jlc3BvbmRfdG8iJQoSU2VuZE1lc3NhZ2VSZXF1ZXN0Eg8KB21lc3NhZ2UYASABKAkiJgoTU2VuZE1lc3NhZ2VSZXNwb25zZRIPCgdtZXNzYWdlGAEgASgJMq8ECghBZ2VudFJwYxIzCgtPcGVuQ2hhbm5lbBIPLmFnZW50cy5NZXNzYWdlGg8uYWdlbnRzLk1lc3NhZ2UoATABEkgKEk9wZW5Db250cm9sQ2hhbm5lbBIWLmFnZW50cy5Db250cm9sTWVzc2FnZRoWLmFnZW50cy5Db250cm9sTWVzc2FnZSgBMAESVAoNUmVnaXN0ZXJBZ2VudBIgLmFnZW50cy5SZWdpc3RlckFnZW50VHlwZVJlcXVlc3QaIS5hZ2VudHMuUmVnaXN0ZXJBZ2VudFR5cGVSZXNwb25zZRJSCg9BZGRTdWJzY3JpcHRpb24SHi5hZ2VudHMuQWRkU3Vic2NyaXB0aW9uUmVxdWVzdBofLmFnZW50cy5BZGRTdWJzY3JpcHRpb25SZXNwb25zZRJbChJSZW1vdmVTdWJzY3JpcHRpb24SIS5hZ2VudHMuUmVtb3ZlU3Vic2NyaXB0aW9uUmVxdWVzdBoiLmFnZW50cy5SZW1vdmVTdWJzY3JpcHRpb25SZXNwb25zZRJVChBHZXRTdWJzY3JpcHRpb25zEh8uYWdlbnRzLkdldFN1YnNjcmlwdGlvbnNSZXF1ZXN0GiAuYWdlbnRzLkdldFN1YnNjcmlwdGlvbnNSZXNwb25zZRJGCgtTZW5kTWVzc2FnZRIaLmFnZW50cy5TZW5kTWVzc2FnZVJlcXVlc3QaGy5hZ2VudHMuU2VuZE1lc3NhZ2VSZXNwb25zZUJ/Cgpjb20uYWdlbnRzQhBBZ2VudFdvcmtlclByb3RvUAFaJ2dpdGh1Yi5jb20vY29kZWgwMDcvZ29tdG0vbXRtL3NwcGI7c3BwYqICA0FYWKoCBkFnZW50c8oCBkFnZW50c+ICEkFnZW50c1xHUEJNZXRhZGF0YeoCBkFnZW50c2IGcHJvdG8z",
+    [file_mtm_sppb_cloudevent, file_google_protobuf_any],
+  );
 
 /**
  * @generated from message agents.AgentId
@@ -35,7 +47,8 @@ export type AgentId = Message$1<"agents.AgentId"> & {
  * Describes the message agents.AgentId.
  * Use `create(AgentIdSchema)` to create a new message.
  */
-export const AgentIdSchema: GenMessage<AgentId> = /*@__PURE__*/
+export const AgentIdSchema: GenMessage<AgentId> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 0);
 
 /**
@@ -62,7 +75,8 @@ export type Payload = Message$1<"agents.Payload"> & {
  * Describes the message agents.Payload.
  * Use `create(PayloadSchema)` to create a new message.
  */
-export const PayloadSchema: GenMessage<Payload> = /*@__PURE__*/
+export const PayloadSchema: GenMessage<Payload> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 1);
 
 /**
@@ -104,7 +118,8 @@ export type RpcRequest = Message$1<"agents.RpcRequest"> & {
  * Describes the message agents.RpcRequest.
  * Use `create(RpcRequestSchema)` to create a new message.
  */
-export const RpcRequestSchema: GenMessage<RpcRequest> = /*@__PURE__*/
+export const RpcRequestSchema: GenMessage<RpcRequest> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 2);
 
 /**
@@ -136,37 +151,41 @@ export type RpcResponse = Message$1<"agents.RpcResponse"> & {
  * Describes the message agents.RpcResponse.
  * Use `create(RpcResponseSchema)` to create a new message.
  */
-export const RpcResponseSchema: GenMessage<RpcResponse> = /*@__PURE__*/
+export const RpcResponseSchema: GenMessage<RpcResponse> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 3);
 
 /**
  * @generated from message agents.RegisterAgentTypeRequest
  */
-export type RegisterAgentTypeRequest = Message$1<"agents.RegisterAgentTypeRequest"> & {
-  /**
-   * @generated from field: string type = 1;
-   */
-  type: string;
-};
+export type RegisterAgentTypeRequest =
+  Message$1<"agents.RegisterAgentTypeRequest"> & {
+    /**
+     * @generated from field: string type = 1;
+     */
+    type: string;
+  };
 
 /**
  * Describes the message agents.RegisterAgentTypeRequest.
  * Use `create(RegisterAgentTypeRequestSchema)` to create a new message.
  */
-export const RegisterAgentTypeRequestSchema: GenMessage<RegisterAgentTypeRequest> = /*@__PURE__*/
+export const RegisterAgentTypeRequestSchema: GenMessage<RegisterAgentTypeRequest> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 4);
 
 /**
  * @generated from message agents.RegisterAgentTypeResponse
  */
-export type RegisterAgentTypeResponse = Message$1<"agents.RegisterAgentTypeResponse"> & {
-};
+export type RegisterAgentTypeResponse =
+  Message$1<"agents.RegisterAgentTypeResponse"> & {};
 
 /**
  * Describes the message agents.RegisterAgentTypeResponse.
  * Use `create(RegisterAgentTypeResponseSchema)` to create a new message.
  */
-export const RegisterAgentTypeResponseSchema: GenMessage<RegisterAgentTypeResponse> = /*@__PURE__*/
+export const RegisterAgentTypeResponseSchema: GenMessage<RegisterAgentTypeResponse> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 5);
 
 /**
@@ -188,29 +207,32 @@ export type TypeSubscription = Message$1<"agents.TypeSubscription"> & {
  * Describes the message agents.TypeSubscription.
  * Use `create(TypeSubscriptionSchema)` to create a new message.
  */
-export const TypeSubscriptionSchema: GenMessage<TypeSubscription> = /*@__PURE__*/
+export const TypeSubscriptionSchema: GenMessage<TypeSubscription> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 6);
 
 /**
  * @generated from message agents.TypePrefixSubscription
  */
-export type TypePrefixSubscription = Message$1<"agents.TypePrefixSubscription"> & {
-  /**
-   * @generated from field: string topic_type_prefix = 1;
-   */
-  topicTypePrefix: string;
+export type TypePrefixSubscription =
+  Message$1<"agents.TypePrefixSubscription"> & {
+    /**
+     * @generated from field: string topic_type_prefix = 1;
+     */
+    topicTypePrefix: string;
 
-  /**
-   * @generated from field: string agent_type = 2;
-   */
-  agentType: string;
-};
+    /**
+     * @generated from field: string agent_type = 2;
+     */
+    agentType: string;
+  };
 
 /**
  * Describes the message agents.TypePrefixSubscription.
  * Use `create(TypePrefixSubscriptionSchema)` to create a new message.
  */
-export const TypePrefixSubscriptionSchema: GenMessage<TypePrefixSubscription> = /*@__PURE__*/
+export const TypePrefixSubscriptionSchema: GenMessage<TypePrefixSubscription> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 7);
 
 /**
@@ -225,116 +247,129 @@ export type Subscription = Message$1<"agents.Subscription"> & {
   /**
    * @generated from oneof agents.Subscription.subscription
    */
-  subscription: {
-    /**
-     * @generated from field: agents.TypeSubscription typeSubscription = 2;
-     */
-    value: TypeSubscription;
-    case: "typeSubscription";
-  } | {
-    /**
-     * @generated from field: agents.TypePrefixSubscription typePrefixSubscription = 3;
-     */
-    value: TypePrefixSubscription;
-    case: "typePrefixSubscription";
-  } | { case: undefined; value?: undefined };
+  subscription:
+    | {
+        /**
+         * @generated from field: agents.TypeSubscription typeSubscription = 2;
+         */
+        value: TypeSubscription;
+        case: "typeSubscription";
+      }
+    | {
+        /**
+         * @generated from field: agents.TypePrefixSubscription typePrefixSubscription = 3;
+         */
+        value: TypePrefixSubscription;
+        case: "typePrefixSubscription";
+      }
+    | { case: undefined; value?: undefined };
 };
 
 /**
  * Describes the message agents.Subscription.
  * Use `create(SubscriptionSchema)` to create a new message.
  */
-export const SubscriptionSchema: GenMessage<Subscription> = /*@__PURE__*/
+export const SubscriptionSchema: GenMessage<Subscription> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 8);
 
 /**
  * @generated from message agents.AddSubscriptionRequest
  */
-export type AddSubscriptionRequest = Message$1<"agents.AddSubscriptionRequest"> & {
-  /**
-   * @generated from field: agents.Subscription subscription = 1;
-   */
-  subscription?: Subscription;
-};
+export type AddSubscriptionRequest =
+  Message$1<"agents.AddSubscriptionRequest"> & {
+    /**
+     * @generated from field: agents.Subscription subscription = 1;
+     */
+    subscription?: Subscription;
+  };
 
 /**
  * Describes the message agents.AddSubscriptionRequest.
  * Use `create(AddSubscriptionRequestSchema)` to create a new message.
  */
-export const AddSubscriptionRequestSchema: GenMessage<AddSubscriptionRequest> = /*@__PURE__*/
+export const AddSubscriptionRequestSchema: GenMessage<AddSubscriptionRequest> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 9);
 
 /**
  * @generated from message agents.AddSubscriptionResponse
  */
-export type AddSubscriptionResponse = Message$1<"agents.AddSubscriptionResponse"> & {
-};
+export type AddSubscriptionResponse =
+  Message$1<"agents.AddSubscriptionResponse"> & {};
 
 /**
  * Describes the message agents.AddSubscriptionResponse.
  * Use `create(AddSubscriptionResponseSchema)` to create a new message.
  */
-export const AddSubscriptionResponseSchema: GenMessage<AddSubscriptionResponse> = /*@__PURE__*/
+export const AddSubscriptionResponseSchema: GenMessage<AddSubscriptionResponse> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 10);
 
 /**
  * @generated from message agents.RemoveSubscriptionRequest
  */
-export type RemoveSubscriptionRequest = Message$1<"agents.RemoveSubscriptionRequest"> & {
-  /**
-   * @generated from field: string id = 1;
-   */
-  id: string;
-};
+export type RemoveSubscriptionRequest =
+  Message$1<"agents.RemoveSubscriptionRequest"> & {
+    /**
+     * @generated from field: string id = 1;
+     */
+    id: string;
+  };
 
 /**
  * Describes the message agents.RemoveSubscriptionRequest.
  * Use `create(RemoveSubscriptionRequestSchema)` to create a new message.
  */
-export const RemoveSubscriptionRequestSchema: GenMessage<RemoveSubscriptionRequest> = /*@__PURE__*/
+export const RemoveSubscriptionRequestSchema: GenMessage<RemoveSubscriptionRequest> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 11);
 
 /**
  * @generated from message agents.RemoveSubscriptionResponse
  */
-export type RemoveSubscriptionResponse = Message$1<"agents.RemoveSubscriptionResponse"> & {
-};
+export type RemoveSubscriptionResponse =
+  Message$1<"agents.RemoveSubscriptionResponse"> & {};
 
 /**
  * Describes the message agents.RemoveSubscriptionResponse.
  * Use `create(RemoveSubscriptionResponseSchema)` to create a new message.
  */
-export const RemoveSubscriptionResponseSchema: GenMessage<RemoveSubscriptionResponse> = /*@__PURE__*/
+export const RemoveSubscriptionResponseSchema: GenMessage<RemoveSubscriptionResponse> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 12);
 
 /**
  * @generated from message agents.GetSubscriptionsRequest
  */
-export type GetSubscriptionsRequest = Message$1<"agents.GetSubscriptionsRequest"> & {
-};
+export type GetSubscriptionsRequest =
+  Message$1<"agents.GetSubscriptionsRequest"> & {};
 
 /**
  * Describes the message agents.GetSubscriptionsRequest.
  * Use `create(GetSubscriptionsRequestSchema)` to create a new message.
  */
-export const GetSubscriptionsRequestSchema: GenMessage<GetSubscriptionsRequest> = /*@__PURE__*/
+export const GetSubscriptionsRequestSchema: GenMessage<GetSubscriptionsRequest> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 13);
 
 /**
  * @generated from message agents.GetSubscriptionsResponse
  */
-export type GetSubscriptionsResponse = Message$1<"agents.GetSubscriptionsResponse"> & {
-  /**
-   * @generated from field: repeated agents.Subscription subscriptions = 1;
-   */
-  subscriptions: Subscription[];
-};
+export type GetSubscriptionsResponse =
+  Message$1<"agents.GetSubscriptionsResponse"> & {
+    /**
+     * @generated from field: repeated agents.Subscription subscriptions = 1;
+     */
+    subscriptions: Subscription[];
+  };
 
 /**
  * Describes the message agents.GetSubscriptionsResponse.
  * Use `create(GetSubscriptionsResponseSchema)` to create a new message.
  */
-export const GetSubscriptionsResponseSchema: GenMessage<GetSubscriptionsResponse> = /*@__PURE__*/
+export const GetSubscriptionsResponseSchema: GenMessage<GetSubscriptionsResponse> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 14);
 
 /**
@@ -344,32 +379,37 @@ export type Message = Message$1<"agents.Message"> & {
   /**
    * @generated from oneof agents.Message.message
    */
-  message: {
-    /**
-     * @generated from field: agents.RpcRequest request = 1;
-     */
-    value: RpcRequest;
-    case: "request";
-  } | {
-    /**
-     * @generated from field: agents.RpcResponse response = 2;
-     */
-    value: RpcResponse;
-    case: "response";
-  } | {
-    /**
-     * @generated from field: io.cloudevents.v1.CloudEvent cloudEvent = 3;
-     */
-    value: CloudEvent;
-    case: "cloudEvent";
-  } | { case: undefined; value?: undefined };
+  message:
+    | {
+        /**
+         * @generated from field: agents.RpcRequest request = 1;
+         */
+        value: RpcRequest;
+        case: "request";
+      }
+    | {
+        /**
+         * @generated from field: agents.RpcResponse response = 2;
+         */
+        value: RpcResponse;
+        case: "response";
+      }
+    | {
+        /**
+         * @generated from field: io.cloudevents.v1.CloudEvent cloudEvent = 3;
+         */
+        value: CloudEvent;
+        case: "cloudEvent";
+      }
+    | { case: undefined; value?: undefined };
 };
 
 /**
  * Describes the message agents.Message.
  * Use `create(MessageSchema)` to create a new message.
  */
-export const MessageSchema: GenMessage<Message> = /*@__PURE__*/
+export const MessageSchema: GenMessage<Message> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 15);
 
 /**
@@ -386,7 +426,8 @@ export type SaveStateRequest = Message$1<"agents.SaveStateRequest"> & {
  * Describes the message agents.SaveStateRequest.
  * Use `create(SaveStateRequestSchema)` to create a new message.
  */
-export const SaveStateRequestSchema: GenMessage<SaveStateRequest> = /*@__PURE__*/
+export const SaveStateRequestSchema: GenMessage<SaveStateRequest> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 16);
 
 /**
@@ -408,7 +449,8 @@ export type SaveStateResponse = Message$1<"agents.SaveStateResponse"> & {
  * Describes the message agents.SaveStateResponse.
  * Use `create(SaveStateResponseSchema)` to create a new message.
  */
-export const SaveStateResponseSchema: GenMessage<SaveStateResponse> = /*@__PURE__*/
+export const SaveStateResponseSchema: GenMessage<SaveStateResponse> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 17);
 
 /**
@@ -430,7 +472,8 @@ export type LoadStateRequest = Message$1<"agents.LoadStateRequest"> & {
  * Describes the message agents.LoadStateRequest.
  * Use `create(LoadStateRequestSchema)` to create a new message.
  */
-export const LoadStateRequestSchema: GenMessage<LoadStateRequest> = /*@__PURE__*/
+export const LoadStateRequestSchema: GenMessage<LoadStateRequest> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 18);
 
 /**
@@ -447,7 +490,8 @@ export type LoadStateResponse = Message$1<"agents.LoadStateResponse"> & {
  * Describes the message agents.LoadStateResponse.
  * Use `create(LoadStateResponseSchema)` to create a new message.
  */
-export const LoadStateResponseSchema: GenMessage<LoadStateResponse> = /*@__PURE__*/
+export const LoadStateResponseSchema: GenMessage<LoadStateResponse> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 19);
 
 /**
@@ -496,7 +540,8 @@ export type ControlMessage = Message$1<"agents.ControlMessage"> & {
  * Describes the message agents.ControlMessage.
  * Use `create(ControlMessageSchema)` to create a new message.
  */
-export const ControlMessageSchema: GenMessage<ControlMessage> = /*@__PURE__*/
+export const ControlMessageSchema: GenMessage<ControlMessage> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 20);
 
 /**
@@ -515,7 +560,8 @@ export type SendMessageRequest = Message$1<"agents.SendMessageRequest"> & {
  * Describes the message agents.SendMessageRequest.
  * Use `create(SendMessageRequestSchema)` to create a new message.
  */
-export const SendMessageRequestSchema: GenMessage<SendMessageRequest> = /*@__PURE__*/
+export const SendMessageRequestSchema: GenMessage<SendMessageRequest> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 21);
 
 /**
@@ -532,7 +578,8 @@ export type SendMessageResponse = Message$1<"agents.SendMessageResponse"> & {
  * Describes the message agents.SendMessageResponse.
  * Use `create(SendMessageResponseSchema)` to create a new message.
  */
-export const SendMessageResponseSchema: GenMessage<SendMessageResponse> = /*@__PURE__*/
+export const SendMessageResponseSchema: GenMessage<SendMessageResponse> =
+  /*@__PURE__*/
   messageDesc(file_mtm_sppb_agent_worker, 22);
 
 /**
@@ -546,7 +593,7 @@ export const AgentRpc: GenService<{
     methodKind: "bidi_streaming";
     input: typeof MessageSchema;
     output: typeof MessageSchema;
-  },
+  };
   /**
    * @generated from rpc agents.AgentRpc.OpenControlChannel
    */
@@ -554,7 +601,7 @@ export const AgentRpc: GenService<{
     methodKind: "bidi_streaming";
     input: typeof ControlMessageSchema;
     output: typeof ControlMessageSchema;
-  },
+  };
   /**
    * @generated from rpc agents.AgentRpc.RegisterAgent
    */
@@ -562,7 +609,7 @@ export const AgentRpc: GenService<{
     methodKind: "unary";
     input: typeof RegisterAgentTypeRequestSchema;
     output: typeof RegisterAgentTypeResponseSchema;
-  },
+  };
   /**
    * @generated from rpc agents.AgentRpc.AddSubscription
    */
@@ -570,7 +617,7 @@ export const AgentRpc: GenService<{
     methodKind: "unary";
     input: typeof AddSubscriptionRequestSchema;
     output: typeof AddSubscriptionResponseSchema;
-  },
+  };
   /**
    * @generated from rpc agents.AgentRpc.RemoveSubscription
    */
@@ -578,7 +625,7 @@ export const AgentRpc: GenService<{
     methodKind: "unary";
     input: typeof RemoveSubscriptionRequestSchema;
     output: typeof RemoveSubscriptionResponseSchema;
-  },
+  };
   /**
    * @generated from rpc agents.AgentRpc.GetSubscriptions
    */
@@ -586,7 +633,7 @@ export const AgentRpc: GenService<{
     methodKind: "unary";
     input: typeof GetSubscriptionsRequestSchema;
     output: typeof GetSubscriptionsResponseSchema;
-  },
+  };
   /**
    * 新增
    *
@@ -596,7 +643,5 @@ export const AgentRpc: GenService<{
     methodKind: "unary";
     input: typeof SendMessageRequestSchema;
     output: typeof SendMessageResponseSchema;
-  },
-}> = /*@__PURE__*/
-  serviceDesc(file_mtm_sppb_agent_worker, 0);
-
+  };
+}> = /*@__PURE__*/ serviceDesc(file_mtm_sppb_agent_worker, 0);
