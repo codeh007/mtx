@@ -13,12 +13,12 @@ import type {
   VisibilityState,
 } from "@tanstack/react-table";
 import {
-  type CreateEventRequest,
   type Event,
   EventOrderByDirection,
   EventOrderByField,
   type ReplayEventRequest,
   WorkflowRunStatus,
+  eventCreateMutation,
   eventGetOptions,
   eventListOptions,
   workerListOptions,
@@ -233,27 +233,6 @@ function EventsTable() {
     return pagination.pageIndex * pagination.pageSize;
   }, [pagination]);
 
-  // const {
-  //   data,
-  //   isLoading: eventsIsLoading,
-  //   refetch,
-  //   error: eventsError,
-  // } = useQuery({
-  //   ...queries.events.list(tenant!.metadata.id, {
-  //     keys,
-  //     workflows,
-  //     orderByField,
-  //     orderByDirection,
-  //     offset,
-  //     limit: pageSize,
-  //     search,
-  //     statuses,
-  //     additionalMetadata: AdditionalMetadataFilter,
-  //     eventIds: eventIds,
-  //   }),
-  //   refetchInterval: 2000,
-  // });
-
   const {
     data,
     isLoading: eventsIsLoading,
@@ -277,6 +256,7 @@ function EventsTable() {
         eventIds: eventIds,
       },
     }),
+    refetchInterval: 2000,
   });
 
   const cancelEventsMutation = useMutation({
@@ -301,26 +281,22 @@ function EventsTable() {
     // onError: handleApiError,
   });
 
-  const createEventMutation = useMutation({
-    mutationKey: ["event:create", tenant.metadata.id],
-    mutationFn: async (input: CreateEventRequest) => {
-      // const res = await api.eventCreate(tenant.metadata.id, input);
-      // return res.data;
-    },
-    // onError: handleCreateEventApiError,
-    onSuccess: () => {
-      refetch();
-      setShowCreateEvent(false);
-    },
-  });
-
-  // const {
-  //   data: eventKeys,
-  //   isLoading: eventKeysIsLoading,
-  //   error: eventKeysError,
-  // } = useQuery({
-  //   ...queries.events.listKeys(tenant.metadata.id),
+  // const createEventMutation = useMutation({
+  //   mutationKey: ["event:create", tenant.metadata.id],
+  //   mutationFn: async (input: CreateEventRequest) => {
+  //     // const res = await api.eventCreate(tenant.metadata.id, input);
+  //     // return res.data;
+  //   },
+  //   // onError: handleCreateEventApiError,
+  //   onSuccess: () => {
+  //     refetch();
+  //     setShowCreateEvent(false);
+  //   },
   // });
+
+  const createEventMutation = useMutation({
+    ...eventCreateMutation(),
+  });
 
   const {
     data: eventKeys,
@@ -487,8 +463,18 @@ function EventsTable() {
           }
         }}
       >
+        <DialogHeader>
+          <DialogTitle>Create a new event</DialogTitle>
+        </DialogHeader>
         <CreateEventForm
-          onSubmit={createEventMutation.mutate}
+          onSubmit={(data) => {
+            createEventMutation.mutate({
+              path: {
+                tenant: tenant!.metadata.id,
+              },
+              body: data,
+            });
+          }}
           isLoading={createEventMutation.isPending}
           fieldErrors={createEventFieldErrors}
         />
