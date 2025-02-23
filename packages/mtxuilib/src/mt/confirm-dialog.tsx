@@ -31,6 +31,7 @@ export function ConfirmDialog({
   return (
     <Dialog open={isOpen}>
       <DialogContent className="w-fit max-w-[80%] min-w-[500px]">
+        <DialogTitle>{title}</DialogTitle>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>

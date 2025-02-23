@@ -1,7 +1,12 @@
 "use client";
 
 import { Button } from "mtxuilib/ui/button";
-import { Dialog, DialogContent } from "mtxuilib/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "mtxuilib/ui/dialog";
 import { toast } from "mtxuilib/ui/use-toast";
 import { type ComponentType, type PropsWithChildren, useState } from "react";
 
@@ -44,6 +49,9 @@ export const TaskFormOpener = (props: SimpleTaskFormOpenerProps) => {
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{title}</DialogTitle>
+          </DialogHeader>
           <Form
             onSubmit={handlerSubmit}
             onCancel={() => {

@@ -305,7 +305,6 @@ function EventsTable() {
     mutationKey: ["event:create", tenant.metadata.id],
     mutationFn: async (input: CreateEventRequest) => {
       // const res = await api.eventCreate(tenant.metadata.id, input);
-
       // return res.data;
     },
     // onError: handleCreateEventApiError,
@@ -602,7 +601,7 @@ function EventDataSection({ event }: { event: Event }) {
         language="json"
         className="my-4"
         height="400px"
-        code={JSON.stringify(JSON.parse(eventData?.data), null, 2)}
+        code={JSON.stringify(eventData, null, 2)}
       />
     </>
   );

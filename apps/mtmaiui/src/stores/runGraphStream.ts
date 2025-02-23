@@ -125,10 +125,10 @@ export async function handleSseGraphStream(
   //   //   handleStreamLine(line, set, get),
   //   // );
   // }
-  const runtimeClient = get().runtimeClient;
-  const response = await runtimeClient.sendMessage({
-    message: content,
-  });
+  // const runtimeClient = get().runtimeClient;
+  // const response = await runtimeClient.sendMessage({
+  //   message: content,
+  // });
 
   const eventClient = get().eventClient;
   const event = await eventClient.push({

@@ -28,6 +28,7 @@ export const DeleteConformDlg = (props: {
         <Button>删除</Button>
       </DialogTrigger>
       <DialogContent>
+        <DialogTitle>确认删除</DialogTitle>
         <div className="flex items-center gap-2">
           <Button
             onClick={(e) => {

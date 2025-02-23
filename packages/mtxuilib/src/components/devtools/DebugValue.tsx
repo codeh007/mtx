@@ -46,8 +46,9 @@ export const DebugValue = (props: {
         </Tooltip>
       </DialogTrigger>
       <DialogContent className="max-h-lvh w-full overflow-scroll min-w-xl ">
+        <DialogTitle>{title}</DialogTitle>
+
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
           <DialogDescription className="text-sm"> </DialogDescription>
         </DialogHeader>
         <pre className=" text-xs">{JSON.stringify(data, null, 2)}</pre>
