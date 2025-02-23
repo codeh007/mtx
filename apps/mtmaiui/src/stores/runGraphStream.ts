@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  type AgentRunInput,
-  EventTypes,
-  FlowNames,
-  agentStream,
-  workflowRunCreate,
-} from "mtmaiapi";
+import { EventTypes, agentStream } from "mtmaiapi";
 import { generateUUID } from "mtxuilib/lib/utils";
 import type { WorkbrenchState } from "./workbrench.store";
 
@@ -107,36 +101,35 @@ export async function handleSseGraphStream(
 
     set({ threadId: threadId });
   }
-  const response = await workflowRunCreate({
-    path: {
-      workflow: FlowNames.AG,
-    },
-    body: {
-      input: {
-        tenantId: tenant.metadata.id,
-        content: content,
-        teamId: teamId,
-        sessionId: threadId,
-      } satisfies AgentRunInput,
-      additionalMetadata: {
-        sessionId: threadId,
-      },
-    },
-    // headers: {
-    //   Accept: "text/event-stream",
-    //   "Cache-Control": "no-cache",
-    //   Connection: "keep-alive",
-    // },
-    // parseAs: "stream",
-  });
+  // const response = await workflowRunCreate({
+  //   path: {
+  //     workflow: FlowNames.AG,
+  //   },
+  //   body: {
+  //     input: {
+  //       tenantId: tenant.metadata.id,
+  //       content: content,
+  //       teamId: teamId,
+  //       sessionId: threadId,
+  //     } satisfies AgentRunInput,
+  //     additionalMetadata: {
+  //       sessionId: threadId,
+  //     },
+  //   },
+  // });
 
-  if (response?.data) {
-    console.log("new run ", response.data);
-    set({ runId: response.data?.metadata?.id });
-    // await handleStreamResponse(response.response, (line) =>
-    //   handleStreamLine(line, set, get),
-    // );
-  }
+  // if (response?.data) {
+  //   console.log("new run ", response.data);
+  //   set({ runId: response.data?.metadata?.id });
+  //   // await handleStreamResponse(response.response, (line) =>
+  //   //   handleStreamLine(line, set, get),
+  //   // );
+  // }
+  const runtimeClient = get().runtimeClient;
+  const response = await runtimeClient.sendMessage({
+    message: "hello_message from client 181717262",
+  });
+  console.log("response123", response);
 }
 
 // 处理单行数据
@@ -178,38 +171,6 @@ const graphEventHandler = async (
 ) => {
   const eventType = (event.event || event.type) as EventTypes;
   switch (eventType) {
-    // case EventTypes.ASSISANT_REPLY: {
-    //   console.log("[Event] ASSISANT_REPLY", event);
-    //   const content = event.data;
-    //   if (!content) return;
-    //   const lastMessage = get().messages[get().messages.length - 1];
-    //   if (lastMessage.role === "user") {
-    //     set({
-    //       messages: [
-    //         ...get().messages,
-    //         {
-    //           role: "assistant",
-    //           content,
-    //           metadata: {
-    //             id: generateId(),
-    //             createdAt: new Date().toISOString(),
-    //             updatedAt: new Date().toISOString(),
-    //           },
-    //         },
-    //       ],
-    //     });
-    //   }
-    //   if (lastMessage?.role === "assistant") {
-    //     lastMessage.content = lastMessage?.content?.concat(content);
-    //     if (lastMessage.content) {
-    //       const messagesWithoutLast = get().messages.slice(0, -1);
-    //       set({
-    //         messages: [...messagesWithoutLast, lastMessage],
-    //       });
-    //     }
-    //   }
-    //   break;
-    // }
     case EventTypes.TEXT_MESSAGE: {
       console.log("[Event] TextMessage", event);
 

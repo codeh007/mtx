@@ -18,12 +18,12 @@ import type {
   TextHighlight,
 } from "mtmaiapi";
 import type { AgService } from "mtmaiapi/mtmclient/mtm/sppb/ag_pb";
+import type { AgentRpc } from "mtmaiapi/mtmclient/mtm/sppb/agent_worker_pb";
 import type { Suggestion } from "mtxuilib/db/schema/suggestion";
 import { generateUUID } from "mtxuilib/lib/utils";
 import { io } from "socket.io-client";
 import type { HubmanInput } from "../types/hatchet-types";
 import { handleSseGraphStream } from "./runGraphStream";
-
 
 export interface IAskForm {
   callback: (data) => void;
@@ -41,6 +41,7 @@ export interface WorkbenchProps {
   threadId?: string;
   tenant: Tenant;
   agClient: Client<typeof AgService>;
+  runtimeClient: Client<typeof AgentRpc>;
 }
 export type StreamingDelta = {
   type: "text-delta" | "title" | "id" | "suggestion" | "clear" | "finish";
