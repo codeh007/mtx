@@ -19,6 +19,7 @@ import type {
 } from "mtmaiapi";
 import type { AgService } from "mtmaiapi/mtmclient/mtm/sppb/ag_pb";
 import type { AgentRpc } from "mtmaiapi/mtmclient/mtm/sppb/agent_worker_pb";
+import type { EventsService } from "mtmaiapi/mtmclient/mtm/sppb/events_pb";
 import type { Suggestion } from "mtxuilib/db/schema/suggestion";
 import { generateUUID } from "mtxuilib/lib/utils";
 import { io } from "socket.io-client";
@@ -27,7 +28,6 @@ import { handleSseGraphStream } from "./runGraphStream";
 
 export interface IAskForm {
   callback: (data) => void;
-  // askForm: ThreadForm;
 }
 export interface WorkbenchProps {
   backendUrl: string;
@@ -42,6 +42,7 @@ export interface WorkbenchProps {
   tenant: Tenant;
   agClient: Client<typeof AgService>;
   runtimeClient: Client<typeof AgentRpc>;
+  eventClient: Client<typeof EventsService>;
 }
 export type StreamingDelta = {
   type: "text-delta" | "title" | "id" | "suggestion" | "clear" | "finish";

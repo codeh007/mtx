@@ -129,7 +129,13 @@ export async function handleSseGraphStream(
   const response = await runtimeClient.sendMessage({
     message: content,
   });
-  console.log("response123", response);
+
+  const eventClient = get().eventClient;
+  const event = await eventClient.push({
+    key: "ag:run",
+    payload: JSON.stringify({ hello: "some hello payload" }),
+  });
+  console.log("新 推送事件", event);
 }
 
 // 处理单行数据

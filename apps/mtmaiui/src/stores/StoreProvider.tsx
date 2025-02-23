@@ -67,10 +67,6 @@ const createMtAppStore = (initProps?: Partial<MainStoreStateV2>) => {
       devtools(
         immer((...a) => ({
           ...createAppSlice(...a),
-          // ...createDashSlice(...a),
-          // ...createCopilotSlice(...a),
-          // ...createCoreSlice(...a),
-          // ...createSiderbarSlice(...a),
           ...createHatchetSlice(...a),
           ...initialState,
         })),

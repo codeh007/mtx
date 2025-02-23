@@ -5,6 +5,7 @@ import { useMtmaiV2 } from "../../stores/StoreProvider";
 import { Outlet } from "@tanstack/react-router";
 import { AgService } from "mtmaiapi/mtmclient/mtm/sppb/ag_pb";
 import { AgentRpc } from "mtmaiapi/mtmclient/mtm/sppb/agent_worker_pb";
+import { EventsService } from "mtmaiapi/mtmclient/mtm/sppb/events_pb";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import {
   Breadcrumb,
@@ -36,6 +37,7 @@ function RouteComponent() {
 
   const mtmAgClient = useGomtmClient(AgService);
   const agrpcClient = useGomtmClient(AgentRpc);
+  const eventClient = useGomtmClient(EventsService);
   return (
     <RootAppWrapper className="flex w-full h-full flex-1">
       <DashSidebar />
@@ -54,6 +56,7 @@ function RouteComponent() {
           <MtSuspenseBoundary>
             <WorkbrenchProvider
               agClient={mtmAgClient}
+              eventClient={eventClient}
               runtimeClient={agrpcClient}
               backendUrl={selfBackendend!}
               // accessToken={accessToken}
