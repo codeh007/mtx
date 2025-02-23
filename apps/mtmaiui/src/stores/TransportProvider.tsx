@@ -8,6 +8,7 @@ import { TransportProvider } from "@connectrpc/connect-query";
 import { createConnectTransport } from "@connectrpc/connect-web";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useMemo } from "react";
+import { useTenantId } from "../hooks/useAuth";
 import { useMtmaiV2 } from "./StoreProvider";
 
 const queryClient = new QueryClient();
@@ -33,7 +34,13 @@ const logger: Interceptor = (next) => async (req) => {
   return await next(req);
 };
 
-export function useGomtmTransport({ accessToken }: { accessToken?: string }) {
+export function useGomtmTransport({
+  accessToken,
+  tenantId,
+}: {
+  accessToken?: string;
+  tenantId?: string;
+}) {
   const transport = useMemo(
     () =>
       createConnectTransport({
@@ -66,6 +73,9 @@ export function useGomtmTransport({ accessToken }: { accessToken?: string }) {
           if (accessToken) {
             newHeaders.set("Authorization", `Bearer ${accessToken}`);
           }
+          if (tenantId) {
+            newHeaders.set("X-Tid", tenantId);
+          }
           newHeaders.set("Content-Type", "application/json");
           return globalThis.fetch(input, {
             ...init,
@@ -76,7 +86,7 @@ export function useGomtmTransport({ accessToken }: { accessToken?: string }) {
         // Options for Protobuf JSON serialization.
         // jsonOptions: {},
       }),
-    [accessToken],
+    [accessToken, tenantId],
   );
   return transport;
 }
@@ -86,6 +96,7 @@ export function useGomtmTransport({ accessToken }: { accessToken?: string }) {
 export function useGomtmClient<T extends DescService>(service: T): Client<T> {
   // We memoize the client, so that we only create one instance per service.
   const accessToken = useMtmaiV2((x) => x.accessToken);
-  const transport = useGomtmTransport({ accessToken });
+  const tenantId = useTenantId();
+  const transport = useGomtmTransport({ accessToken, tenantId });
   return useMemo(() => createClient(service, transport), [service, transport]);
 }
