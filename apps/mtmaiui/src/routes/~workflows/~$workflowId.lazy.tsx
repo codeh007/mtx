@@ -119,7 +119,7 @@ export default function ExpandedWorkflow() {
     },
   });
 
-  const integrations = useApiMetaIntegrations();
+  // const integrations = useApiMetaIntegrations();
 
   const workflow = workflowQuery.data;
 
@@ -127,7 +127,7 @@ export default function ExpandedWorkflow() {
   //   return <Loading />;
   // }
 
-  const hasGithubIntegration = integrations?.find((i) => i.name === "github");
+  // const hasGithubIntegration = integrations?.find((i) => i.name === "github");
   const currVersion = workflow.versions?.[0].version;
 
   return (

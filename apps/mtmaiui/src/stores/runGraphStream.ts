@@ -131,11 +131,10 @@ export async function handleSseGraphStream(
   // });
 
   const eventClient = get().eventClient;
-  const event = await eventClient.push({
+  await eventClient.push({
     key: "ag:run",
-    payload: JSON.stringify({ hello: "some hello payload" }),
+    payload: JSON.stringify({ content: content }),
   });
-  console.log("新 推送事件", event);
 }
 
 // 处理单行数据
