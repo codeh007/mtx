@@ -1,5 +1,5 @@
 "use client";
-import { AgService } from "mtmaiapi/mtmclient/mtm/sppb/ag_pb";
+import { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
 import { Button } from "mtxuilib/ui/button";
 import { useState } from "react";
 import { useGomtmClient } from "../../../stores/TransportProvider";

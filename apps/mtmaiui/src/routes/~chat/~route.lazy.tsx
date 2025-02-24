@@ -3,9 +3,9 @@ import { useTenant } from "../../hooks/useAuth";
 import { useMtmaiV2 } from "../../stores/StoreProvider";
 
 import { Outlet } from "@tanstack/react-router";
-import { AgService } from "mtmaiapi/mtmclient/mtm/sppb/ag_pb";
-import { AgentRpc } from "mtmaiapi/mtmclient/mtm/sppb/agent_worker_pb";
-import { EventsService } from "mtmaiapi/mtmclient/mtm/sppb/events_pb";
+import { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
+import { AgentRpc } from "mtmaiapi/mtmclient/mtmai/mtmpb/agent_worker_pb";
+import { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import {
   Breadcrumb,

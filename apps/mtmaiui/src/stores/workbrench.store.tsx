@@ -17,9 +17,9 @@ import type {
   Tenant,
   TextHighlight,
 } from "mtmaiapi";
-import type { AgService } from "mtmaiapi/mtmclient/mtm/sppb/ag_pb";
-import type { AgentRpc } from "mtmaiapi/mtmclient/mtm/sppb/agent_worker_pb";
-import type { EventsService } from "mtmaiapi/mtmclient/mtm/sppb/events_pb";
+import type { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
+import type { AgentRpc } from "mtmaiapi/mtmclient/mtmai/mtmpb/agent_worker_pb";
+import type { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
 import type { Suggestion } from "mtxuilib/db/schema/suggestion";
 import { generateUUID } from "mtxuilib/lib/utils";
 import { io } from "socket.io-client";
