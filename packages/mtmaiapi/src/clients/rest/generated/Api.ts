@@ -2746,31 +2746,6 @@ export class Api<
       ...params,
     });
   /**
-   * @description 获取团队列表
-   *
-   * @tags coms
-   * @name ComsGet
-   * @summary 获取租户下的团队列表
-   * @request GET:/api/v1/tenants/{tenant}/comps/get
-   * @secure
-   */
-  comsGet = (
-    tenant: TenantParameter,
-    query: {
-      /** The component id */
-      com: string;
-    },
-    params: RequestParams = {},
-  ) =>
-    this.request<MtComponent, APIErrors>({
-      path: `/api/v1/tenants/${tenant}/comps/get`,
-      method: "GET",
-      query: query,
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
    * @description 获取画廊列表
    *
    * @tags galleries
@@ -3111,40 +3086,6 @@ export class Api<
       method: "GET",
       secure: true,
       format: "json",
-      ...params,
-    });
-  /**
-   * @description Update an existing env
-   *
-   * @tags kv
-   * @name KvUpdate
-   * @summary Update blog
-   * @request PATCH:/api/v1/kv
-   * @secure
-   */
-  kvUpdate = (data: UpdateBlogRequest, params: RequestParams = {}) =>
-    this.request<Blog, APIErrors | APIError>({
-      path: `/api/v1/kv`,
-      method: "PATCH",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
-      format: "json",
-      ...params,
-    });
-  /**
-   * No description
-   *
-   * @tags kv
-   * @name KvGet
-   * @request GET:/api/v1/kv/{key}
-   * @secure
-   */
-  kvGet = (key: string, params: RequestParams = {}) =>
-    this.request<EventSearch, APIErrors>({
-      path: `/api/v1/kv/${key}`,
-      method: "GET",
-      secure: true,
       ...params,
     });
   /**

@@ -116,7 +116,6 @@ import {
   artifactGet,
   comsList,
   comsUpsert,
-  comsGet,
   galleryList,
   galleryCreate,
   galleryGet,
@@ -136,8 +135,6 @@ import {
   envList,
   envUpdate,
   envGet,
-  kvUpdate,
-  kvGet,
   endpointList,
   endpointUpdate,
   platformList,
@@ -393,7 +390,6 @@ import type {
   ComsUpsertData,
   ComsUpsertError,
   ComsUpsertResponse,
-  ComsGetData,
   GalleryListData,
   GalleryCreateData,
   GalleryCreateError,
@@ -423,10 +419,6 @@ import type {
   EnvUpdateError,
   EnvUpdateResponse,
   EnvGetData,
-  KvUpdateData,
-  KvUpdateError,
-  KvUpdateResponse,
-  KvGetData,
   EndpointListData,
   EndpointUpdateData,
   EndpointUpdateError,
@@ -3833,24 +3825,6 @@ export const comsUpsertMutation = (
   return mutationOptions;
 };
 
-export const comsGetQueryKey = (options: Options<ComsGetData>) =>
-  createQueryKey("comsGet", options);
-
-export const comsGetOptions = (options: Options<ComsGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await comsGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: comsGetQueryKey(options),
-  });
-};
-
 export const galleryListQueryKey = (options: Options<GalleryListData>) =>
   createQueryKey("galleryList", options);
 
@@ -4263,42 +4237,6 @@ export const envGetOptions = (options: Options<EnvGetData>) => {
       return data;
     },
     queryKey: envGetQueryKey(options),
-  });
-};
-
-export const kvUpdateMutation = (options?: Partial<Options<KvUpdateData>>) => {
-  const mutationOptions: UseMutationOptions<
-    KvUpdateResponse,
-    KvUpdateError,
-    Options<KvUpdateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await kvUpdate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const kvGetQueryKey = (options: Options<KvGetData>) =>
-  createQueryKey("kvGet", options);
-
-export const kvGetOptions = (options: Options<KvGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await kvGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: kvGetQueryKey(options),
   });
 };
 

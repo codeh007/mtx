@@ -2958,8 +2958,6 @@ export const zComsListResponse = zMtComponentList;
 
 export const zComsUpsertResponse = zMtComponent;
 
-export const zComsGetResponse = zMtComponent;
-
 export const zGalleryListResponse = zGalleryList;
 
 export const zGalleryCreateResponse = zGallery;
@@ -3000,10 +2998,6 @@ export const zEnvListResponse = zEnvList;
 export const zEnvUpdateResponse = zBlog;
 
 export const zEnvGetResponse = zEnv;
-
-export const zKvUpdateResponse = zBlog;
-
-export const zKvGetResponse = z.string();
 
 export const zEndpointListResponse = zEndpointList;
 

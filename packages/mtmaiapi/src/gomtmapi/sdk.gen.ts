@@ -323,9 +323,6 @@ import type {
   ComsUpsertData,
   ComsUpsertResponse,
   ComsUpsertError,
-  ComsGetData,
-  ComsGetResponse,
-  ComsGetError,
   GalleryListData,
   GalleryListResponse,
   GalleryCreateData,
@@ -377,12 +374,6 @@ import type {
   EnvGetData,
   EnvGetResponse,
   EnvGetError,
-  KvUpdateData,
-  KvUpdateResponse,
-  KvUpdateError,
-  KvGetData,
-  KvGetResponse,
-  KvGetError,
   EndpointListData,
   EndpointListResponse,
   EndpointListError,
@@ -3468,33 +3459,6 @@ export const comsUpsert = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 获取租户下的团队列表
- * 获取团队列表
- */
-export const comsGet = <ThrowOnError extends boolean = false>(
-  options: Options<ComsGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    ComsGetResponse,
-    ComsGetError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/comps/get",
-    ...options,
-  });
-};
-
-/**
  * 获取租户下的画廊列表
  * 获取画廊列表
  */
@@ -3964,60 +3928,6 @@ export const envGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/env/{name}",
-    ...options,
-  });
-};
-
-/**
- * Update blog
- * Update an existing env
- */
-export const kvUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<KvUpdateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).patch<
-    KvUpdateResponse,
-    KvUpdateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/kv",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-export const kvGet = <ThrowOnError extends boolean = false>(
-  options: Options<KvGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    KvGetResponse,
-    KvGetError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/kv/{key}",
     ...options,
   });
 };

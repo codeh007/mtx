@@ -7635,42 +7635,6 @@ export type ComsUpsertResponses = {
 
 export type ComsUpsertResponse = ComsUpsertResponses[keyof ComsUpsertResponses];
 
-export type ComsGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query: {
-    /**
-     * The component id
-     */
-    com: string;
-  };
-  url: "/api/v1/tenants/{tenant}/comps/get";
-};
-
-export type ComsGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-};
-
-export type ComsGetError = ComsGetErrors[keyof ComsGetErrors];
-
-export type ComsGetResponses = {
-  200: MtComponent;
-};
-
-export type ComsGetResponse = ComsGetResponses[keyof ComsGetResponses];
-
 export type GalleryListData = {
   body?: never;
   path: {
@@ -8242,65 +8206,6 @@ export type EnvGetResponses = {
 };
 
 export type EnvGetResponse = EnvGetResponses[keyof EnvGetResponses];
-
-export type KvUpdateData = {
-  /**
-   * The tenant properties to update
-   */
-  body: UpdateBlogRequest;
-  path?: never;
-  query?: never;
-  url: "/api/v1/kv";
-};
-
-export type KvUpdateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type KvUpdateError = KvUpdateErrors[keyof KvUpdateErrors];
-
-export type KvUpdateResponses = {
-  /**
-   * Successfully created the tenant
-   */
-  200: Blog;
-};
-
-export type KvUpdateResponse = KvUpdateResponses[keyof KvUpdateResponses];
-
-export type KvGetData = {
-  body?: never;
-  path: {
-    /**
-     * kv key
-     */
-    key: string;
-  };
-  query?: never;
-  url: "/api/v1/kv/{key}";
-};
-
-export type KvGetErrors = {
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type KvGetError = KvGetErrors[keyof KvGetErrors];
-
-export type KvGetResponses = {
-  200: string;
-};
-
-export type KvGetResponse = KvGetResponses[keyof KvGetResponses];
 
 export type EndpointListData = {
   body?: never;
