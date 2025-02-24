@@ -44,7 +44,7 @@ export function useGomtmTransport({
   const transport = useMemo(
     () =>
       createConnectTransport({
-        baseUrl: "http://localhost:8383",
+        baseUrl: "http://localhost:8383/api/v1",
         // By default, this transport uses the JSON format.
         // Set this option to true to use the binary format.
         useBinaryFormat: false,

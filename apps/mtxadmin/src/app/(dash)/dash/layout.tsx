@@ -2,7 +2,6 @@ import "@xterm/xterm/css/xterm.css";
 import { frontendGetConfig } from "mtmaiapi";
 import { MtmaiProvider } from "mtmaiui/stores/StoreProvider";
 import { UIProviders } from "mtmaiui/stores/UIProviders";
-import { GomtmRuntimeProvider } from "mtmaiui/stores/gomtm-runtime-privider";
 import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
 import { fontSans } from "mtxuilib/fonts";
 import { cn } from "mtxuilib/lib/utils";
@@ -13,8 +12,6 @@ import { cookies, headers } from "next/headers";
 import { type ReactNode, Suspense } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import "../../../styles/globals.css";
-// import "../../../styles/index.scss";
-
 export const runtime = "nodejs"; //nodejs
 
 export const viewport: Viewport = {
@@ -68,20 +65,20 @@ export default async function Layout(props: {
           <MustLogin>
             <Suspense>
               <HatchatLoader>
-                <GomtmRuntimeProvider>
-                  <UIProviders>
-                    <SidebarProvider
-                      style={
-                        {
-                          // "--sidebar-width": "350px", //如果需要左侧双侧边栏 就设置为 350px
-                        } as React.CSSProperties
-                      }
-                    >
-                      {children}
-                    </SidebarProvider>
-                    {/* <ServerSwitch /> */}
-                  </UIProviders>
-                </GomtmRuntimeProvider>
+                {/* <GomtmRuntimeProvider> */}
+                <UIProviders>
+                  <SidebarProvider
+                    style={
+                      {
+                        // "--sidebar-width": "350px", //如果需要左侧双侧边栏 就设置为 350px
+                      } as React.CSSProperties
+                    }
+                  >
+                    {children}
+                  </SidebarProvider>
+                  {/* <ServerSwitch /> */}
+                </UIProviders>
+                {/* </GomtmRuntimeProvider> */}
               </HatchatLoader>
             </Suspense>
           </MustLogin>
