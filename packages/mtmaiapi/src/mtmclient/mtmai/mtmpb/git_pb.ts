@@ -12,7 +12,7 @@ import {
   messageDesc,
   serviceDesc,
 } from "@bufbuild/protobuf/codegenv1";
-import { file_mtmai_mtmpb_sppb } from "./sppb_pb";
+import { file_mtmai_mtmpb_mtm } from "./mtm_pb";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
@@ -22,7 +22,7 @@ export const file_mtmai_mtmpb_git: GenFile =
   /*@__PURE__*/
   fileDesc(
     "ChVtdG1haS9tdG1wYi9naXQucHJvdG8SD210bWFpLm10bXBiLmdpdCIYCgpHaXRQdWxsUmVxEgoKAmlkGAEgASgJIhkKC0dpdFNldHVwUmVxEgoKAmlkGAEgASgJIg0KC0dpdFNldHVwUmVzIgwKCkdpdFB1bGxSZXMiGgoJR2l0R2V0UmVxEg0KBXNsdWdzGAEgASgJIhUKB0dpdEluZm8SCgoCaWQYASABKAkiGQoLR2l0U3RhcnRSZXESCgoCaWQYASABKAkiDQoLR2l0U3RhcnRSZXMiGAoKR2l0U3RvcFJlcRIKCgJpZBgBIAEoCSIMCgpHaXRTdG9wUmVzMvACCgpHaXRTZXJ2aWNlEkAKBkdpdEdldBIaLm10bWFpLm10bXBiLmdpdC5HaXRHZXRSZXEaGC5tdG1haS5tdG1wYi5naXQuR2l0SW5mbyIAEkUKB0dpdFB1bGwSGy5tdG1haS5tdG1wYi5naXQuR2l0UHVsbFJlcRobLm10bWFpLm10bXBiLmdpdC5HaXRQdWxsUmVzIgASSAoIR2l0U2V0dXASHC5tdG1haS5tdG1wYi5naXQuR2l0U2V0dXBSZXEaHC5tdG1haS5tdG1wYi5naXQuR2l0U2V0dXBSZXMiABJICghHaXRTdGFydBIcLm10bWFpLm10bXBiLmdpdC5HaXRTdGFydFJlcRocLm10bWFpLm10bXBiLmdpdC5HaXRTdGFydFJlcyIAEkUKB0dpdFN0b3ASGy5tdG1haS5tdG1wYi5naXQuR2l0U3RvcFJlcRobLm10bWFpLm10bXBiLmdpdC5HaXRTdG9wUmVzIgBCswEKE2NvbS5tdG1haS5tdG1wYi5naXRCCEdpdFByb3RvUAFaNGdpdGh1Yi5jb20vY29kZWgwMDcvZ29tdG0vbXRtL3NwcGIvbXRtYWkvbXRtcGI7bXRtcGKiAgNNTUeqAg9NdG1haS5NdG1wYi5HaXTKAg9NdG1haVxNdG1wYlxHaXTiAhtNdG1haVxNdG1wYlxHaXRcR1BCTWV0YWRhdGHqAhFNdG1haTo6TXRtcGI6OkdpdGIGcHJvdG8z",
-    [file_mtmai_mtmpb_sppb],
+    [file_mtmai_mtmpb_mtm],
   );
 
 /**
