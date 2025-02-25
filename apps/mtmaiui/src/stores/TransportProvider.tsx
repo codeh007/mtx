@@ -7,6 +7,8 @@ import {
 import { TransportProvider } from "@connectrpc/connect-query";
 import { createConnectTransport } from "@connectrpc/connect-web";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
+import { MtmService } from "mtmaiapi/mtmclient/mtmai/mtmpb/mtm_pb";
 import { useMemo } from "react";
 import { useTenantId } from "../hooks/useAuth";
 import { useMtmaiV2 } from "./StoreProvider";
@@ -100,4 +102,12 @@ export function useGomtmClient<T extends DescService>(service: T): Client<T> {
   const tenantId = useTenantId();
   const transport = useGomtmTransport({ accessToken, tenantId });
   return useMemo(() => createClient(service, transport), [service, transport]);
+}
+
+export function useAgService() {
+  return useGomtmClient(AgService);
+}
+
+export function useMtmService() {
+  return useGomtmClient(MtmService);
 }

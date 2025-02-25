@@ -1,15 +1,22 @@
 "use client";
-import { useMutation } from "@tanstack/react-query";
-import { type UserRegisterRequest, userCreateMutation } from "mtmaiapi";
+import { useMutation } from "@connectrpc/connect-query";
+import type { UserRegisterRequest } from "mtmaiapi";
+import { MtmService } from "mtmaiapi/mtmclient/mtmai/mtmpb/mtm_pb";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";
 import { Input } from "mtxuilib/ui/input";
 import Link from "next/link";
 import { z } from "zod";
+
 export function UserRegisterScreen() {
-  const register = useMutation({
-    ...userCreateMutation(),
-  });
+  // const register = useMutation({
+  //   ...userCreateMutation(),
+  // });
+
+  // const mtmService = useMtmService();
+
+  // const regi = useMutation
+  const registerMutation = useMutation(MtmService.method.register);
 
   const form = useZodForm({
     schema: z.any(),
@@ -17,11 +24,14 @@ export function UserRegisterScreen() {
   });
 
   const handleSubmit = (values: UserRegisterRequest) => {
-    register.mutate({
-      body: {
-        ...values,
-      },
+    registerMutation.mutate({
+      ...values,
     });
+    // register.mutate({
+    //   body: {
+    //     ...values,
+    //   },
+    // });
   };
   return (
     <div className="mx-auto max-w-md w-full">
