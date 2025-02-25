@@ -14,7 +14,6 @@ import {
   userUpdateGithubOauthCallback,
   userUpdateSlackOauthStart,
   userUpdateSlackOauthCallback,
-  snsUpdate,
   snsList,
   snsCreate,
   alertEmailGroupList,
@@ -46,9 +45,6 @@ import {
   tenantGetQueueMetrics,
   tenantGetStepRunQueueMetrics,
   eventList,
-  eventCreate,
-  eventCreateBulk,
-  eventUpdateReplay,
   eventUpdateCancel,
   rateLimitList,
   tenantMemberList,
@@ -184,8 +180,6 @@ import type {
   UserUpdateGithubOauthCallbackData,
   UserUpdateSlackOauthStartData,
   UserUpdateSlackOauthCallbackData,
-  SnsUpdateData,
-  SnsUpdateError,
   SnsListData,
   SnsCreateData,
   SnsCreateError,
@@ -253,15 +247,6 @@ import type {
   EventListData,
   EventListError,
   EventListResponse,
-  EventCreateData,
-  EventCreateError,
-  EventCreateResponse,
-  EventCreateBulkData,
-  EventCreateBulkError,
-  EventCreateBulkResponse,
-  EventUpdateReplayData,
-  EventUpdateReplayError,
-  EventUpdateReplayResponse,
   EventUpdateCancelData,
   EventUpdateCancelError,
   EventUpdateCancelResponse,
@@ -768,44 +753,6 @@ export const userUpdateSlackOauthCallbackOptions = (
     },
     queryKey: userUpdateSlackOauthCallbackQueryKey(options),
   });
-};
-
-export const snsUpdateQueryKey = (options: Options<SnsUpdateData>) =>
-  createQueryKey("snsUpdate", options);
-
-export const snsUpdateOptions = (options: Options<SnsUpdateData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await snsUpdate({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: snsUpdateQueryKey(options),
-  });
-};
-
-export const snsUpdateMutation = (
-  options?: Partial<Options<SnsUpdateData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    unknown,
-    SnsUpdateError,
-    Options<SnsUpdateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await snsUpdate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
 };
 
 export const snsListQueryKey = (options: Options<SnsListData>) =>
@@ -1728,126 +1675,6 @@ export const eventListInfiniteOptions = (options: Options<EventListData>) => {
       queryKey: eventListInfiniteQueryKey(options),
     },
   );
-};
-
-export const eventCreateQueryKey = (options: Options<EventCreateData>) =>
-  createQueryKey("eventCreate", options);
-
-export const eventCreateOptions = (options: Options<EventCreateData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await eventCreate({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: eventCreateQueryKey(options),
-  });
-};
-
-export const eventCreateMutation = (
-  options?: Partial<Options<EventCreateData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    EventCreateResponse,
-    EventCreateError,
-    Options<EventCreateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await eventCreate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const eventCreateBulkQueryKey = (
-  options: Options<EventCreateBulkData>,
-) => createQueryKey("eventCreateBulk", options);
-
-export const eventCreateBulkOptions = (
-  options: Options<EventCreateBulkData>,
-) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await eventCreateBulk({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: eventCreateBulkQueryKey(options),
-  });
-};
-
-export const eventCreateBulkMutation = (
-  options?: Partial<Options<EventCreateBulkData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    EventCreateBulkResponse,
-    EventCreateBulkError,
-    Options<EventCreateBulkData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await eventCreateBulk({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const eventUpdateReplayQueryKey = (
-  options: Options<EventUpdateReplayData>,
-) => createQueryKey("eventUpdateReplay", options);
-
-export const eventUpdateReplayOptions = (
-  options: Options<EventUpdateReplayData>,
-) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await eventUpdateReplay({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: eventUpdateReplayQueryKey(options),
-  });
-};
-
-export const eventUpdateReplayMutation = (
-  options?: Partial<Options<EventUpdateReplayData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    EventUpdateReplayResponse,
-    EventUpdateReplayError,
-    Options<EventUpdateReplayData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await eventUpdateReplay({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
 };
 
 export const eventUpdateCancelQueryKey = (

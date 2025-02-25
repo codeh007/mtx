@@ -2812,12 +2812,6 @@ export const zTenantGetStepRunQueueMetricsResponse = zTenantStepRunQueueMetrics;
 
 export const zEventListResponse = zEventList;
 
-export const zEventCreateResponse = zEvent;
-
-export const zEventCreateBulkResponse = zBulkCreateEventResponse;
-
-export const zEventUpdateReplayResponse = zEventList;
-
 export const zEventUpdateCancelResponse = z.object({
   workflowRunIds: z.array(z.string().uuid().length(36)).optional(),
 });

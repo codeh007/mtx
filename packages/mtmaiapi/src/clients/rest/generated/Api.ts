@@ -27,8 +27,6 @@ import {
   BlogList,
   Browser,
   BrowserList,
-  BulkCreateEventRequest,
-  BulkCreateEventResponse,
   CancelEventRequest,
   ChatMessage,
   ChatMessageList,
@@ -40,7 +38,6 @@ import {
   CreateAPITokenResponse,
   CreateArtifacttRequest,
   CreateBlogRequest,
-  CreateEventRequest,
   CreatePostRequest,
   CreateSiteHostRequest,
   CreateSiteRequest,
@@ -94,7 +91,6 @@ import {
   RateLimitOrderByDirection,
   RateLimitOrderByField,
   RejectInviteRequest,
-  ReplayEventRequest,
   ReplayWorkflowRunsRequest,
   ReplayWorkflowRunsResponse,
   RerunStepRunRequest,
@@ -345,20 +341,6 @@ export class Api<
       path: `/api/v1/users/slack/callback`,
       method: "GET",
       secure: true,
-      ...params,
-    });
-  /**
-   * @description SNS event
-   *
-   * @tags Github
-   * @name SnsUpdate
-   * @summary Github app tenant webhook
-   * @request POST:/api/v1/sns/{tenant}/{event}
-   */
-  snsUpdate = (tenant: string, event: string, params: RequestParams = {}) =>
-    this.request<void, APIErrors>({
-      path: `/api/v1/sns/${tenant}/${event}`,
-      method: "POST",
       ...params,
     });
   /**
@@ -992,75 +974,6 @@ export class Api<
       method: "GET",
       query: query,
       secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description Creates a new event.
-   *
-   * @tags Event
-   * @name EventCreate
-   * @summary Create event
-   * @request POST:/api/v1/tenants/{tenant}/events
-   * @secure
-   */
-  eventCreate = (
-    tenant: string,
-    data: CreateEventRequest,
-    params: RequestParams = {},
-  ) =>
-    this.request<Event, APIErrors>({
-      path: `/api/v1/tenants/${tenant}/events`,
-      method: "POST",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description Bulk creates new events.
-   *
-   * @tags Event
-   * @name EventCreateBulk
-   * @summary Bulk Create events
-   * @request POST:/api/v1/tenants/{tenant}/events/bulk
-   * @secure
-   */
-  eventCreateBulk = (
-    tenant: string,
-    data: BulkCreateEventRequest,
-    params: RequestParams = {},
-  ) =>
-    this.request<BulkCreateEventResponse, APIErrors>({
-      path: `/api/v1/tenants/${tenant}/events/bulk`,
-      method: "POST",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description Replays a list of events.
-   *
-   * @tags Event
-   * @name EventUpdateReplay
-   * @summary Replay events
-   * @request POST:/api/v1/tenants/{tenant}/events/replay
-   * @secure
-   */
-  eventUpdateReplay = (
-    tenant: string,
-    data: ReplayEventRequest,
-    params: RequestParams = {},
-  ) =>
-    this.request<EventList, APIErrors>({
-      path: `/api/v1/tenants/${tenant}/events/replay`,
-      method: "POST",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
       format: "json",
       ...params,
     });

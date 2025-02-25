@@ -26,8 +26,6 @@ import type {
   UserUpdateGithubOauthCallbackData,
   UserUpdateSlackOauthStartData,
   UserUpdateSlackOauthCallbackData,
-  SnsUpdateData,
-  SnsUpdateError,
   SnsListData,
   SnsListResponse,
   SnsListError,
@@ -119,15 +117,6 @@ import type {
   EventListData,
   EventListResponse,
   EventListError,
-  EventCreateData,
-  EventCreateResponse,
-  EventCreateError,
-  EventCreateBulkData,
-  EventCreateBulkResponse,
-  EventCreateBulkError,
-  EventUpdateReplayData,
-  EventUpdateReplayResponse,
-  EventUpdateReplayError,
   EventUpdateCancelData,
   EventUpdateCancelResponse,
   EventUpdateCancelError,
@@ -678,23 +667,6 @@ export const userUpdateSlackOauthCallback = <
       ...options,
     },
   );
-};
-
-/**
- * Github app tenant webhook
- * SNS event
- */
-export const snsUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<SnsUpdateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    unknown,
-    SnsUpdateError,
-    ThrowOnError
-  >({
-    url: "/api/v1/sns/{tenant}/{event}",
-    ...options,
-  });
 };
 
 /**
@@ -1521,99 +1493,6 @@ export const eventList = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/events",
     ...options,
-  });
-};
-
-/**
- * Create event
- * Creates a new event.
- */
-export const eventCreate = <ThrowOnError extends boolean = false>(
-  options: Options<EventCreateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    EventCreateResponse,
-    EventCreateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/events",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * Bulk Create events
- * Bulk creates new events.
- */
-export const eventCreateBulk = <ThrowOnError extends boolean = false>(
-  options: Options<EventCreateBulkData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    EventCreateBulkResponse,
-    EventCreateBulkError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/events/bulk",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * Replay events
- * Replays a list of events.
- */
-export const eventUpdateReplay = <ThrowOnError extends boolean = false>(
-  options: Options<EventUpdateReplayData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    EventUpdateReplayResponse,
-    EventUpdateReplayError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/events/replay",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
   });
 };
 
