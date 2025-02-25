@@ -316,7 +316,6 @@ export class Api<
    *
    * @tags User
    * @name UserUpdateSlackOauthStart
-   * @summary Start OAuth flow
    * @request GET:/api/v1/tenants/{tenant}/slack/start
    * @secure
    */
@@ -609,7 +608,6 @@ export class Api<
    *
    * @tags User
    * @name TenantMembershipsList
-   * @summary List tenant memberships
    * @request GET:/api/v1/users/memberships
    * @secure
    */

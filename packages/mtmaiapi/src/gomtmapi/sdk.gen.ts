@@ -640,13 +640,22 @@ export const userUpdateGithubOauthCallback = <
 };
 
 /**
- * Start OAuth flow
  * Starts the OAuth flow
  */
 export const userUpdateSlackOauthStart = <ThrowOnError extends boolean = false>(
   options: Options<UserUpdateSlackOauthStartData, ThrowOnError>,
 ) => {
   return (options.client ?? _heyApiClient).get<unknown, unknown, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/tenants/{tenant}/slack/start",
     ...options,
   });
@@ -663,6 +672,16 @@ export const userUpdateSlackOauthCallback = <
 ) => {
   return (options?.client ?? _heyApiClient).get<unknown, unknown, ThrowOnError>(
     {
+      security: [
+        {
+          scheme: "bearer",
+          type: "http",
+        },
+        {
+          scheme: "basic",
+          type: "http",
+        },
+      ],
       url: "/api/v1/users/slack/callback",
       ...options,
     },
@@ -1022,13 +1041,22 @@ export const userUpdateLogout = <ThrowOnError extends boolean = false>(
     UserUpdateLogoutError,
     ThrowOnError
   >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/users/logout",
     ...options,
   });
 };
 
 /**
- * List tenant memberships
  * Lists all tenant memberships for the current user
  */
 export const tenantMembershipsList = <ThrowOnError extends boolean = false>(
@@ -1039,6 +1067,16 @@ export const tenantMembershipsList = <ThrowOnError extends boolean = false>(
     TenantMembershipsListError,
     ThrowOnError
   >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/users/memberships",
     ...options,
   });
@@ -1056,6 +1094,16 @@ export const userListTenantInvites = <ThrowOnError extends boolean = false>(
     UserListTenantInvitesError,
     ThrowOnError
   >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
     url: "/api/v1/users/invites",
     ...options,
   });
