@@ -17,13 +17,13 @@ const queryClient = new QueryClient();
 
 interface MtTransportProviderProps {
   children: React.ReactNode;
-  accessToken: string;
 }
-export function MtTransportProvider({
-  children,
-  accessToken,
-}: MtTransportProviderProps) {
-  const transport = useGomtmTransport({ accessToken });
+export function MtTransportProvider({ children }: MtTransportProviderProps) {
+  const accessToken = useMtmaiV2((x) => x.accessToken);
+
+  const tid = useTenantId();
+
+  const transport = useGomtmTransport({ accessToken, tenantId: tid });
   return (
     <TransportProvider transport={transport}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
@@ -59,10 +59,13 @@ export function useGomtmTransport({
         // for side-effect free RPCs.
         useHttpGet: false,
 
-        // Optional override of the fetch implementation used by the transport.
         // fetch: globalThis.fetch,
         fetch: (input: RequestInfo | URL, init?: RequestInit) => {
-          console.log("fetching", input, init?.headers);
+          console.log("fetching(GomtmTransport)", {
+            input,
+            tenantId,
+            headers: init?.headers,
+          });
           const oldHeaders = init?.headers as Headers;
           const newHeaders = new Headers();
           console.log("oldHeaders", oldHeaders);
@@ -89,7 +92,7 @@ export function useGomtmTransport({
         // Options for Protobuf JSON serialization.
         // jsonOptions: {},
       }),
-    [accessToken, tenantId],
+    [accessToken, tenantId, backendUrl],
   );
   return transport;
 }

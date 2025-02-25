@@ -9,7 +9,6 @@ import { useMtmaiV2 } from "../stores/StoreProvider";
 
 import { MtmService } from "mtmaiapi/mtmclient/mtmai/mtmpb/mtm_pb";
 import { useMtmMutation } from "./mtmQuery";
-import { useBasePath } from "./useBasePath";
 
 export const useUser = () => {
   const userQuery = useQuery({
@@ -24,6 +23,16 @@ export const useTenant = () => {
 export const useTenantId = () => {
   return useMtmaiV2((x) => x.currentTenant?.metadata.id) as string;
 };
+
+// export const useTenantV2 = () => {
+//   const user = useUser();
+
+//   const membersQuery = useQuery({
+//     ...tenantMembershipsListOptions(),
+//   });
+
+//   const members = useMemo(() => {}, [user]);
+// };
 
 export const useIsAdmin = () => {
   const tenant = useTenant();
@@ -60,11 +69,11 @@ export const useLoginHandler = () => {
  * @returns
  */
 export function useSessionLoader() {
+  // const nav = Route.useNavigate();
   const currentTenant = useMtmaiV2((x) => x.currentTenant);
   const setCurrentTenant = useMtmaiV2((x) => x.setCurrentTenant);
   const lastTenant = useMtmaiV2((x) => x.lastTenant);
 
-  const basePath = useBasePath();
   const listMembershipsQuery = useQuery({
     ...tenantMembershipsListOptions(),
   });
@@ -100,20 +109,19 @@ export function useSessionLoader() {
       }
     }
 
-    // if (memberships?.length === 0) {
-    //   // 如果没有任何租户，则创建一个默认租户
-    //   // const tenant = await api.tenantCreate({
-    //   //   name: "Default",
-    //   //   slug: "default",
-    //   // });
-    //   // return tenant.data;
-
-    //   navigate({
-    //     to: `${basePath}/onboarding/create-tenant`,
-    //   });
-    // }
+    if (listMembershipsQuery.isFetched && memberships?.length === 0) {
+      // 如果没有任何租户，则创建一个默认租户
+      // const tenant = await api.tenantCreate({
+      //   name: "Default",
+      //   slug: "default",
+      // });
+      // return tenant.data;
+      // nav({
+      //   to: "/onboarding/create-tenant",
+      // });
+    }
     return memberships?.[0]?.tenant;
-  }, [basePath, memberships, lastTenant?.metadata.id]);
+  }, [memberships, lastTenant?.metadata.id]);
 
   useEffect(() => {
     if (computedCurrTenant && !currentTenant) {

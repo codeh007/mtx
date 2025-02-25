@@ -281,23 +281,7 @@ function EventsTable() {
     },
     // onError: handleApiError,
   });
-
-  // const createEventMutation = useMutation({
-  //   mutationKey: ["event:create", tenant.metadata.id],
-  //   mutationFn: async (input: CreateEventRequest) => {
-  //     // const res = await api.eventCreate(tenant.metadata.id, input);
-  //     // return res.data;
-  //   },
-  //   // onError: handleCreateEventApiError,
-  //   onSuccess: () => {
-  //     refetch();
-  //     setShowCreateEvent(false);
-  //   },
-  // });
-
-  const createEventMutation = useMtmMutation(EventsService.method.push, {
-    // ...eventCreateMutation(),
-  });
+  const createEventMutation = useMtmMutation(EventsService.method.push);
 
   const {
     data: eventKeys,
@@ -472,6 +456,7 @@ function EventsTable() {
         </DialogHeader>
         <CreateEventForm
           onSubmit={(data) => {
+            console.log("createEventMutation.mutate", data);
             createEventMutation.mutate({
               // path: {
               // tenant: tenant!.metadata.id,

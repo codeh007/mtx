@@ -141,9 +141,9 @@ export const MtmaiProvider = (props: AppProviderProps) => {
         accessToken={etc.accessToken as string}
         host={etc.hostName as string}
       >
-        <MtTransportProvider>
-          <MtSessionProvider>{children}</MtSessionProvider>
-        </MtTransportProvider>
+        <MtSessionProvider>
+          <MtTransportProvider>{children}</MtTransportProvider>
+        </MtSessionProvider>
       </ReactQueryProvider>
     </mtmaiStoreContext.Provider>
   );
