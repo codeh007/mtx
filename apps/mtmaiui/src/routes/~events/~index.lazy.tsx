@@ -18,12 +18,12 @@ import {
   EventOrderByField,
   type ReplayEventRequest,
   WorkflowRunStatus,
-  eventCreateMutation,
   eventGetOptions,
   eventListOptions,
   workflowListOptions,
   workflowRunListOptions,
 } from "mtmaiapi";
+import { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
 import { DataTable } from "mtxuilib/data-table/data-table";
 import {
   type FilterOption,
@@ -44,6 +44,7 @@ import { Separator } from "mtxuilib/ui/separator";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { BiX } from "react-icons/bi";
+import { useMtmMutation } from "../../hooks/mtmQuery";
 import { useTenant, useTenantId } from "../../hooks/useAuth";
 import { workflowRunsColumns } from "../~workflow-runs/components/workflow-runs-columns";
 import { CreateEventForm } from "./create-event-form";
@@ -294,8 +295,8 @@ function EventsTable() {
   //   },
   // });
 
-  const createEventMutation = useMutation({
-    ...eventCreateMutation(),
+  const createEventMutation = useMtmMutation(EventsService.method.push, {
+    // ...eventCreateMutation(),
   });
 
   const {
@@ -472,10 +473,11 @@ function EventsTable() {
         <CreateEventForm
           onSubmit={(data) => {
             createEventMutation.mutate({
-              path: {
-                tenant: tenant!.metadata.id,
-              },
-              body: data,
+              // path: {
+              // tenant: tenant!.metadata.id,
+              // },
+              // body: data,
+              ...data,
             });
           }}
           isLoading={createEventMutation.isPending}
