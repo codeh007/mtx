@@ -7,16 +7,16 @@ import { Button } from "mtxuilib/ui/button";
 import { Input } from "mtxuilib/ui/input";
 import Link from "next/link";
 import { z } from "zod";
+import { Route } from "../../routes/~__root";
 
 export function UserRegisterScreen() {
-  // const register = useMutation({
-  //   ...userCreateMutation(),
-  // });
-
-  // const mtmService = useMtmService();
-
-  // const regi = useMutation
-  const registerMutation = useMutation(MtmService.method.register);
+  const nav = Route.useNavigate();
+  const registerMutation = useMutation(MtmService.method.register, {
+    onSuccess: (data) => {
+      console.log(data);
+      nav({ to: "/auth/login" });
+    },
+  });
 
   const form = useZodForm({
     schema: z.any(),
@@ -27,11 +27,6 @@ export function UserRegisterScreen() {
     registerMutation.mutate({
       ...values,
     });
-    // register.mutate({
-    //   body: {
-    //     ...values,
-    //   },
-    // });
   };
   return (
     <div className="mx-auto max-w-md w-full">

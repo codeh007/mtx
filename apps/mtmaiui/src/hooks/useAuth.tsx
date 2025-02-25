@@ -1,16 +1,14 @@
 "use client";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
-import {
-  tenantMembershipsListOptions,
-  userGetCurrentOptions,
-  userUpdateLoginMutation,
-} from "mtmaiapi";
+import { useQuery } from "@tanstack/react-query";
+import { tenantMembershipsListOptions, userGetCurrentOptions } from "mtmaiapi";
 import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { setCookie } from "mtxuilib/lib/clientlib";
 import { useEffect, useMemo, useState } from "react";
 import { useMtmaiV2 } from "../stores/StoreProvider";
 
+import { MtmService } from "mtmaiapi/mtmclient/mtmai/mtmpb/mtm_pb";
+import { useMtmMutation } from "./mtmQuery";
 import { useBasePath } from "./useBasePath";
 
 export const useUser = () => {
@@ -37,24 +35,19 @@ export const useLoginHandler = () => {
   const frontendConfig = useMtmaiV2((x) => x.frontendConfig);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const cookieKey = frontendConfig?.cookieAccessToken || "access_token";
-  const loginMutation = useMutation({
-    ...userUpdateLoginMutation(),
+  const loginMutation = useMtmMutation(MtmService.method.login, {
     onSuccess: (data) => {
       console.log("login success", data);
-      if (data.userToken) {
-        setCookie(cookieKey, data.userToken);
+      if (data.accessToken) {
+        setCookie(cookieKey, data.accessToken);
         router.push("/");
       }
     },
-    // onError: handleApiError,
   });
-
   const loginHandler = async (values) => {
-    const loginResult = await loginMutation.mutateAsync({
-      body: {
-        email: values.email,
-        password: values.password,
-      },
+    loginMutation.mutate({
+      username: values.email,
+      password: values.password,
     });
   };
 
