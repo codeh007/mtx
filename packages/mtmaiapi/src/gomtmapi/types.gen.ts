@@ -6597,7 +6597,7 @@ export type WorkflowStreamData = {
      */
     meta?: string;
   };
-  url: "/api/v1/tenants/{tenant}/workflows/stream";
+  url: "/api/v1/tenants/{tenant}/stream";
 };
 
 export type WorkflowStreamErrors = {

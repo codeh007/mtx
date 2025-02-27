@@ -82,7 +82,8 @@ export function useGomtmTransport({
           if (tenantId) {
             newHeaders.set("X-Tid", tenantId);
           }
-          newHeaders.set("Content-Type", "application/json");
+          // newHeaders.set("Content-Type", "application/json");
+          newHeaders.set("Content-Type", "application/connect+json");
           return globalThis.fetch(input, {
             ...init,
             headers: newHeaders,

@@ -2135,7 +2135,7 @@ export class Api<
    * @description Stream a workflow run
    *
    * @name WorkflowStream
-   * @request GET:/api/v1/tenants/{tenant}/workflows/stream
+   * @request GET:/api/v1/tenants/{tenant}/stream
    * @secure
    */
   workflowStream = (
@@ -2161,7 +2161,7 @@ export class Api<
       },
       APIErrors | APIError
     >({
-      path: `/api/v1/tenants/${tenant}/workflows/stream`,
+      path: `/api/v1/tenants/${tenant}/stream`,
       method: "GET",
       query: query,
       secure: true,

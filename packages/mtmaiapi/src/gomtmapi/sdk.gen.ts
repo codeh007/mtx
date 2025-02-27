@@ -2736,7 +2736,7 @@ export const workflowStream = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/tenants/{tenant}/workflows/stream",
+    url: "/api/v1/tenants/{tenant}/stream",
     ...options,
   });
 };

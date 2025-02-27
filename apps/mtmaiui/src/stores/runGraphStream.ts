@@ -87,7 +87,7 @@ export async function handleSseGraphStream(
   ) => void,
   get: () => WorkbrenchState,
 ) {
-  const agentEndpointBase = get().agentEndpointBase;
+  // const agentEndpointBase = get().agentEndpointBase;
   const tenant = get().tenant;
   if (!tenant?.metadata?.id) {
     throw new Error("(handleSseGraphStream)tenant is required");
@@ -96,13 +96,13 @@ export async function handleSseGraphStream(
   const messages = get().messages;
   const teamId = get().teamId;
   let threadId = get().threadId;
-  console.log("runGraphStream", {
-    tenant,
-    threadId,
-    agentEndpointBase,
-    messages,
-    teamId,
-  });
+  // console.log("runGraphStream", {
+  //   tenant,
+  //   threadId,
+  //   agentEndpointBase,
+  //   messages,
+  //   teamId,
+  // });
 
   const content = messages[messages.length - 1].content;
 
