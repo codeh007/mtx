@@ -9,10 +9,10 @@ import {
   workflowRunGetOptions,
 } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useTenantId } from "../../../hooks/useAuth";
-import { AgStateView } from "../../~ag_state/components/AgStateView";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
+import { AgStateView } from "../../~ag_state/components/AgStateView";
 
 interface WorkflowRunViewProps {
   runId: string;
@@ -42,6 +42,13 @@ export const WorkflowRunView = ({ runId }: WorkflowRunViewProps) => {
     }),
     enabled: !!workflowRun.data,
   });
+
+  useEffect(() => {
+    if (agStateQuery.data?.metadata?.id) {
+      const workflowRunId = agStateQuery.data.metadata?.id;
+      console.log("开始拉取stream, workflowRunId:", workflowRunId);
+    }
+  }, [agStateQuery.data]);
 
   const statusText = useMemo(() => {
     return workflowRun.data?.status;

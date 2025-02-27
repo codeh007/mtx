@@ -2898,6 +2898,11 @@ export const zWorkflowRunGetInputResponse = z.object({});
 
 export const zWorkflowGetByNameResponse = zWorkflow;
 
+export const zWorkflowStreamResponse = z.object({
+  type: z.string().optional(),
+  quick_start: zQuickStart.optional(),
+});
+
 export const zWorkerConfigResponse = zWorkerConfig;
 
 export const zMtmaiBloggenconfigResponse = zBlogGenConfig;
@@ -2959,11 +2964,6 @@ export const zGalleryListResponse = zGalleryList;
 export const zGalleryCreateResponse = zGallery;
 
 export const zGalleryGetResponse = zGallery;
-
-export const zAgentStreamResponse = z.object({
-  type: z.string().optional(),
-  quick_start: zQuickStart.optional(),
-});
 
 export const zAgEventListResponse = zAgEventList;
 

@@ -242,6 +242,9 @@ import type {
   WorkflowGetByNameData,
   WorkflowGetByNameResponse,
   WorkflowGetByNameError,
+  WorkflowStreamData,
+  WorkflowStreamResponse,
+  WorkflowStreamError,
   WorkerConfigData,
   WorkerConfigResponse,
   MtmaiBloggenconfigData,
@@ -322,9 +325,6 @@ import type {
   GalleryCreateError,
   GalleryGetData,
   GalleryGetResponse,
-  AgentStreamData,
-  AgentStreamResponse,
-  AgentStreamError,
   AgEventListData,
   AgEventListResponse,
   AgEventGetData,
@@ -2716,6 +2716,32 @@ export const workflowGetByName = <ThrowOnError extends boolean = false>(
 };
 
 /**
+ * Stream a workflow run
+ */
+export const workflowStream = <ThrowOnError extends boolean = false>(
+  options: Options<WorkflowStreamData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    WorkflowStreamResponse,
+    WorkflowStreamError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/workflows/stream",
+    ...options,
+  });
+};
+
+/**
  * 获取worker配置, 内部使用免去配置 token环境变量的麻烦
  * 获取worker配置
  */
@@ -3495,32 +3521,6 @@ export const galleryGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/gallery/{gallery}",
-    ...options,
-  });
-};
-
-/**
- * 拉取事件
- */
-export const agentStream = <ThrowOnError extends boolean = false>(
-  options: Options<AgentStreamData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    AgentStreamResponse,
-    AgentStreamError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/stream/{stream}",
     ...options,
   });
 };

@@ -2132,6 +2132,42 @@ export class Api<
       ...params,
     });
   /**
+   * @description Stream a workflow run
+   *
+   * @name WorkflowStream
+   * @request GET:/api/v1/tenants/{tenant}/workflows/stream
+   * @secure
+   */
+  workflowStream = (
+    tenant: string,
+    query?: {
+      /**
+       * The workflow run id
+       * @format uuid
+       * @minLength 36
+       * @maxLength 36
+       */
+      run?: string;
+      /** query by meta */
+      meta?: string;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      {
+        /** 事件类型 */
+        type?: string;
+        quick_start?: QuickStart;
+      },
+      APIErrors | APIError
+    >({
+      path: `/api/v1/tenants/${tenant}/workflows/stream`,
+      method: "GET",
+      query: query,
+      secure: true,
+      ...params,
+    });
+  /**
    * @description 获取worker配置
    *
    * @name WorkerConfig
@@ -2739,32 +2775,6 @@ export class Api<
       method: "GET",
       secure: true,
       format: "json",
-      ...params,
-    });
-  /**
-   * @description 拉取事件
-   *
-   * @tags agent
-   * @name AgentStream
-   * @request GET:/api/v1/tenants/{tenant}/stream/{stream}
-   * @secure
-   */
-  agentStream = (
-    tenant: TenantParameter,
-    stream: string,
-    params: RequestParams = {},
-  ) =>
-    this.request<
-      {
-        /** 事件类型 */
-        type?: string;
-        quick_start?: QuickStart;
-      },
-      APIErrors | APIError
-    >({
-      path: `/api/v1/tenants/${tenant}/stream/${stream}`,
-      method: "GET",
-      secure: true,
       ...params,
     });
   /**

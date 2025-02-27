@@ -6579,6 +6579,54 @@ export type WorkflowGetByNameResponses = {
 export type WorkflowGetByNameResponse =
   WorkflowGetByNameResponses[keyof WorkflowGetByNameResponses];
 
+export type WorkflowStreamData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+  };
+  query?: {
+    /**
+     * The workflow run id
+     */
+    run?: string;
+    /**
+     * query by meta
+     */
+    meta?: string;
+  };
+  url: "/api/v1/tenants/{tenant}/workflows/stream";
+};
+
+export type WorkflowStreamErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type WorkflowStreamError =
+  WorkflowStreamErrors[keyof WorkflowStreamErrors];
+
+export type WorkflowStreamResponses = {
+  200: {
+    /**
+     * 事件类型
+     */
+    type?: string;
+    quick_start?: QuickStart;
+  };
+};
+
+export type WorkflowStreamResponse =
+  WorkflowStreamResponses[keyof WorkflowStreamResponses];
+
 export type WorkerConfigData = {
   body?: never;
   path?: never;
@@ -7575,48 +7623,6 @@ export type GalleryGetResponses = {
 };
 
 export type GalleryGetResponse = GalleryGetResponses[keyof GalleryGetResponses];
-
-export type AgentStreamData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The stream id
-     */
-    stream: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/stream/{stream}";
-};
-
-export type AgentStreamErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type AgentStreamError = AgentStreamErrors[keyof AgentStreamErrors];
-
-export type AgentStreamResponses = {
-  200: {
-    /**
-     * 事件类型
-     */
-    type?: string;
-    quick_start?: QuickStart;
-  };
-};
-
-export type AgentStreamResponse =
-  AgentStreamResponses[keyof AgentStreamResponses];
 
 export type AgEventListData = {
   body?: never;

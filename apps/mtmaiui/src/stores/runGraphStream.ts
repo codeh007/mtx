@@ -1,6 +1,12 @@
 "use client";
 
-import { type AgentRunInput, EventTypes, agentStream } from "mtmaiapi";
+import {
+  type AgentRunInput,
+  EventTypes,
+  FlowNames,
+  workflowRunCreate,
+  workflowStream,
+} from "mtmaiapi";
 import { generateUUID } from "mtxuilib/lib/utils";
 import type { WorkbrenchState } from "./workbrench.store";
 
@@ -38,6 +44,7 @@ async function handleStreamResponse(
     reader.releaseLock();
   }
 }
+
 async function pullEvent(
   tenantId: string,
   workflowRunId: string,
@@ -49,10 +56,13 @@ async function pullEvent(
   get: () => WorkbrenchState,
 ) {
   console.log("pullEvent", { tenantId, workflowRunId });
-  const response = await agentStream({
+  const response = await workflowStream({
     path: {
       tenant: tenantId,
-      stream: workflowRunId,
+      // stream: workflowRunId,
+    },
+    query: {
+      run: workflowRunId,
     },
     headers: {
       Accept: "text/event-stream",
@@ -101,43 +111,50 @@ export async function handleSseGraphStream(
 
     set({ threadId: threadId });
   }
-  // const response = await workflowRunCreate({
-  //   path: {
-  //     workflow: FlowNames.AG,
-  //   },
-  //   body: {
-  //     input: {
-  //       tenantId: tenant.metadata.id,
-  //       content: content,
-  //       teamId: teamId,
-  //       sessionId: threadId,
-  //     } satisfies AgentRunInput,
-  //     additionalMetadata: {
-  //       sessionId: threadId,
-  //     },
-  //   },
-  // });
+  const response = await workflowRunCreate({
+    path: {
+      workflow: FlowNames.AG,
+    },
+    body: {
+      input: {
+        tenantId: tenant.metadata.id,
+        content: content,
+        teamId: teamId,
+        sessionId: threadId,
+      } satisfies AgentRunInput,
+      additionalMetadata: {
+        sessionId: threadId,
+      },
+    },
+  });
 
-  // if (response?.data) {
-  //   console.log("new run ", response.data);
-  //   set({ runId: response.data?.metadata?.id });
-  //   // await handleStreamResponse(response.response, (line) =>
-  //   //   handleStreamLine(line, set, get),
-  //   // );
-  // }
+  if (response?.data) {
+    console.log("new run ", response.data);
+    const runId = response.data?.metadata?.id;
+    set({ runId: runId });
+    // await handleStreamResponse(response.response, (line) =>
+    //   handleStreamLine(line, set, get),
+    // );
+    // pull stream event
+    if (response.data?.metadata?.id) {
+      const workflowRunId = response.data.metadata?.id;
+      console.log("开始拉取stream, workflowRunId:", workflowRunId);
+      await pullEvent(tenant.metadata.id, workflowRunId, set, get);
+    }
+  }
   // const runtimeClient = get().runtimeClient;
   // const response = await runtimeClient.sendMessage({
   //   message: content,
   // });
 
-  const eventClient = get().eventClient;
-  await eventClient.push({
-    key: "ag:run",
-    payload: JSON.stringify({
-      content: content,
-      tenantId: get().tenant.metadata.id,
-    } satisfies AgentRunInput),
-  });
+  // const eventClient = get().eventClient;
+  // await eventClient.push({
+  //   key: "ag:run",
+  //   payload: JSON.stringify({
+  //     content: content,
+  //     tenantId: get().tenant.metadata.id,
+  //   } satisfies AgentRunInput),
+  // });
 }
 
 // 处理单行数据

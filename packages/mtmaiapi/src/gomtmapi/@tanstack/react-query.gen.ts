@@ -87,6 +87,7 @@ import {
   webhookRequestsList,
   workflowRunGetInput,
   workflowGetByName,
+  workflowStream,
   workerConfig,
   mtmaiBloggenconfig,
   mtmaiWorkerConfig,
@@ -116,7 +117,6 @@ import {
   galleryList,
   galleryCreate,
   galleryGet,
-  agentStream,
   agEventList,
   agEventGet,
   modelList,
@@ -331,6 +331,7 @@ import type {
   WebhookRequestsListData,
   WorkflowRunGetInputData,
   WorkflowGetByNameData,
+  WorkflowStreamData,
   WorkerConfigData,
   MtmaiBloggenconfigData,
   MtmaiWorkerConfigData,
@@ -382,7 +383,6 @@ import type {
   GalleryCreateError,
   GalleryCreateResponse,
   GalleryGetData,
-  AgentStreamData,
   AgEventListData,
   AgEventGetData,
   ModelListData,
@@ -3040,6 +3040,24 @@ export const workflowGetByNameOptions = (
   });
 };
 
+export const workflowStreamQueryKey = (options: Options<WorkflowStreamData>) =>
+  createQueryKey("workflowStream", options);
+
+export const workflowStreamOptions = (options: Options<WorkflowStreamData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await workflowStream({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: workflowStreamQueryKey(options),
+  });
+};
+
 export const workerConfigQueryKey = (options?: Options<WorkerConfigData>) =>
   createQueryKey("workerConfig", options);
 
@@ -3743,24 +3761,6 @@ export const galleryGetOptions = (options: Options<GalleryGetData>) => {
       return data;
     },
     queryKey: galleryGetQueryKey(options),
-  });
-};
-
-export const agentStreamQueryKey = (options: Options<AgentStreamData>) =>
-  createQueryKey("agentStream", options);
-
-export const agentStreamOptions = (options: Options<AgentStreamData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agentStream({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: agentStreamQueryKey(options),
   });
 };
 
