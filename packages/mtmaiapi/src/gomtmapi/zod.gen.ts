@@ -2952,6 +2952,8 @@ export const zComsListResponse = zMtComponentList;
 
 export const zComsUpsertResponse = zMtComponent;
 
+export const zComsGetResponse = zMtComponent;
+
 export const zGalleryListResponse = zGalleryList;
 
 export const zGalleryCreateResponse = zGallery;

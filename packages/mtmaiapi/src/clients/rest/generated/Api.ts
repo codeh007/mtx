@@ -2657,6 +2657,31 @@ export class Api<
       ...params,
     });
   /**
+   * @description 获取团队列表
+   *
+   * @tags coms
+   * @name ComsGet
+   * @summary 获取租户下的团队列表
+   * @request GET:/api/v1/tenants/{tenant}/comps/get
+   * @secure
+   */
+  comsGet = (
+    tenant: TenantParameter,
+    query: {
+      /** The component id */
+      com: string;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<MtComponent, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/comps/get`,
+      method: "GET",
+      query: query,
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
    * @description 获取画廊列表
    *
    * @tags galleries

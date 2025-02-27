@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-// import { comsGetOptions } from "mtmaiapi";
+import { comsGetOptions } from "mtmaiapi";
 import { useTenant } from "../../hooks/useAuth";
 import { TeamBuilder } from "../components/views/team/builder/builder";
 
@@ -18,6 +18,8 @@ function RouteComponent() {
     ...comsGetOptions({
       path: {
         tenant: tenant!.metadata.id,
+      },
+      query: {
         com: teamId,
       },
     }),

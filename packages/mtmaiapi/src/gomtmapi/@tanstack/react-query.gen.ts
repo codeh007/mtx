@@ -112,6 +112,7 @@ import {
   artifactGet,
   comsList,
   comsUpsert,
+  comsGet,
   galleryList,
   galleryCreate,
   galleryGet,
@@ -375,6 +376,7 @@ import type {
   ComsUpsertData,
   ComsUpsertError,
   ComsUpsertResponse,
+  ComsGetData,
   GalleryListData,
   GalleryCreateData,
   GalleryCreateError,
@@ -3650,6 +3652,24 @@ export const comsUpsertMutation = (
     },
   };
   return mutationOptions;
+};
+
+export const comsGetQueryKey = (options: Options<ComsGetData>) =>
+  createQueryKey("comsGet", options);
+
+export const comsGetOptions = (options: Options<ComsGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await comsGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: comsGetQueryKey(options),
+  });
 };
 
 export const galleryListQueryKey = (options: Options<GalleryListData>) =>
