@@ -50,7 +50,7 @@ function RouteComponent() {
 
   return (
     <div className="flex-grow h-full w-full">
-      <SubscribeWorkflowEvents />
+      <SubscribeWorkflowEvents workflowRunId={workflowRunId} />
 
       <div className="mx-auto max-w-7xl pt-2 px-4 sm:px-6 lg:px-8">
         <RunDetailHeader

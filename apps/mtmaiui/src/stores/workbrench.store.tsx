@@ -19,6 +19,7 @@ import type {
 } from "mtmaiapi";
 import type { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
 import type { AgentRpc } from "mtmaiapi/mtmclient/mtmai/mtmpb/agent_worker_pb";
+import type { Dispatcher } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
 import type { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
 import type { Suggestion } from "mtxuilib/db/schema/suggestion";
 import { generateUUID } from "mtxuilib/lib/utils";
@@ -43,6 +44,7 @@ export interface WorkbenchProps {
   agClient: Client<typeof AgService>;
   runtimeClient: Client<typeof AgentRpc>;
   eventClient: Client<typeof EventsService>;
+  dispatcherClient: Client<typeof Dispatcher>;
 }
 export type StreamingDelta = {
   type: "text-delta" | "title" | "id" | "suggestion" | "clear" | "finish";

@@ -3,15 +3,18 @@ import { Button } from "mtxuilib/ui/button";
 import { useState } from "react";
 import { useGomtmClient } from "../../stores/TransportProvider";
 
-export const SubscribeWorkflowEvents = () => {
+interface SubscribeWorkflowEventsProps {
+  workflowRunId: string;
+}
+export const SubscribeWorkflowEvents = ({
+  workflowRunId,
+}: SubscribeWorkflowEventsProps) => {
   const client = useGomtmClient(Dispatcher);
 
   const [results, setResults] = useState<string[]>([]);
   const handleClient = async () => {
     const stream = client.subscribeToWorkflowEvents({
-      // workerId: "123",
-      // workflowId: "123",
-      workflowRunId: "123",
+      workflowRunId: workflowRunId,
     });
     for await (const response of stream) {
       console.log("Received dispatcher:", response);
@@ -19,7 +22,7 @@ export const SubscribeWorkflowEvents = () => {
   };
   return (
     <div>
-      <Button onClick={handleClient}>StreamExample2</Button>
+      <Button onClick={handleClient}>SubscribeWorkflowEvents</Button>
       <div>
         {results.map((result, index) => (
           // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>

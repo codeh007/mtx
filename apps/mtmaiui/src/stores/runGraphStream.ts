@@ -7,6 +7,10 @@ import {
   workflowRunCreate,
   workflowStream,
 } from "mtmaiapi";
+import {
+  ResourceEventType,
+  type WorkflowEvent,
+} from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
 import { generateUUID } from "mtxuilib/lib/utils";
 import type { WorkbrenchState } from "./workbrench.store";
 
@@ -139,7 +143,15 @@ export async function handleSseGraphStream(
     if (response.data?.metadata?.id) {
       const workflowRunId = response.data.metadata?.id;
       console.log("开始拉取stream, workflowRunId:", workflowRunId);
-      await pullEvent(tenant.metadata.id, workflowRunId, set, get);
+      // 旧
+      // await pullEvent(tenant.metadata.id, workflowRunId, set, get);
+      // 新
+      const result = await get().dispatcherClient.subscribeToWorkflowEvents({
+        workflowRunId: workflowRunId,
+      });
+      for await (const event of result) {
+        handleWorkflowRunEvent(event);
+      }
     }
   }
   // const runtimeClient = get().runtimeClient;
@@ -180,6 +192,33 @@ const handleStreamLine = (
     }
   } catch (error) {
     console.error("Error processing stream line:", error, { line });
+  }
+};
+
+const handleWorkflowRunEvent = (event: WorkflowEvent) => {
+  // console.log("handleWorkflowRunEvent", event);
+  // switch (event.resourceType) {
+  //   case ResourceType.STEP_RUN:
+  //     console.log("step run event", event);
+  //     break;
+  //   case ResourceType.WORKFLOW_RUN:
+  //     console.log("workflow run event", event);
+  //     break;
+  //   default:
+  //     console.log("unknown resource type", event.resourceType);
+  //     break;
+  // }
+
+  switch (event.eventType) {
+    case ResourceEventType.STREAM:
+      console.log("stream event", event);
+      break;
+    case ResourceEventType.STARTED:
+      console.log("started event", event);
+      break;
+    default:
+      console.log("unknown event type", event.eventType);
+      break;
   }
 };
 

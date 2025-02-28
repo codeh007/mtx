@@ -1225,9 +1225,6 @@ export const Dispatcher: GenService<{
     output: typeof AssignedActionSchema;
   };
   /**
-   * ListenV2 is like listen, but implementation does not include heartbeats.
-   * This should only used by SDKs against engine version v0.18.1+
-   *
    * @generated from rpc mtmai.mtmpb.Dispatcher.ListenV2
    */
   listenV2: {

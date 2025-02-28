@@ -5,6 +5,7 @@ import { useMtmaiV2 } from "../../stores/StoreProvider";
 import { Outlet } from "@tanstack/react-router";
 import { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
 import { AgentRpc } from "mtmaiapi/mtmclient/mtmai/mtmpb/agent_worker_pb";
+import { Dispatcher } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
 import { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import {
@@ -38,6 +39,7 @@ function RouteComponent() {
   const mtmAgClient = useGomtmClient(AgService);
   const agrpcClient = useGomtmClient(AgentRpc);
   const eventClient = useGomtmClient(EventsService);
+  const dispatcherClient = useGomtmClient(Dispatcher);
   return (
     <RootAppWrapper className="flex w-full h-full flex-1">
       <DashSidebar />
@@ -57,17 +59,12 @@ function RouteComponent() {
             <WorkbrenchProvider
               agClient={mtmAgClient}
               eventClient={eventClient}
+              dispatcherClient={dispatcherClient}
               runtimeClient={agrpcClient}
               backendUrl={selfBackendend!}
-              // accessToken={accessToken}
-              // chatProfile={chatProfile}
-              // autoConnectWs={false}
-              // threadId={threadId}
               tenant={tenant!}
             >
-              {/* <GraphProvider agentEndpointBase={selfBackendend!} tenant={tenant!}> */}
               <Outlet />
-              {/* </GraphProvider> */}
             </WorkbrenchProvider>
           </MtSuspenseBoundary>
         </DashContent>
