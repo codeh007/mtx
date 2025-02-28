@@ -97,6 +97,7 @@ export interface WorkbrenchState extends WorkbenchProps {
     | undefined;
   //-----------------------------------
   setShowWorkbench: (openWorkbench: boolean) => void;
+  openChat?: boolean;
   setOpenChat: (openChat: boolean) => void;
   // openView: (
   //   viewName: string,

@@ -1,9 +1,11 @@
 "use client";
 
-import { exampleCases } from "../../../skyvern/routes/tasks/data/exampleCases";
+import { useWorkbenchStore } from "../../../stores/workbrench.store";
+
+// import { exampleCases } from "../../../skyvern/routes/tasks/data/exampleCases";
 
 export const ChatStarts = () => {
-  const handleHumanInput = useWorkbrenchStore((x) => x.handleHumanInput);
+  const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
 
   const handleClick = (example: (typeof exampleCases)[0]) => {
     // router.push(`${basePath}/create/${example.key}`);

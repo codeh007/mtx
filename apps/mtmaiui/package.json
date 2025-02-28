@@ -78,6 +78,7 @@
   "dependencies": {
     "@ai-sdk/openai": "^1.1.5",
     "@codemirror/lang-sql": "^6.8.0",
+    "@nanostores/react": "^0.8.4",
     "@radix-ui/react-accessible-icon": "^1.1.2",
     "@radix-ui/react-accordion": "^1.2.3",
     "@radix-ui/react-alert-dialog": "^1.1.6",
@@ -128,7 +129,7 @@
     "lucide-react": "^0.475.0",
     "mtmaiapi": "*",
     "mtxuilib": "*",
-    "next": "^15.1.7",
+    "next": "^15.2.0",
     "next-themes": "^0.4.4",
     "react": "^19",
     "react-day-picker": "^9.5.1",
