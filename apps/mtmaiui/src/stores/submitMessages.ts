@@ -132,6 +132,8 @@ const onStreamEvent = (
 
   console.log("on stream event", event);
 
+  // 是 protobuf 消息
+  // eventPayload: "\u0012$a33f7357-1784-4534-8f74-3cf2b5e5ce45"
   const agTextMessage = JSON.parse(payload) as AgTextMessage;
   if (agTextMessage.source === "user") {
     return;

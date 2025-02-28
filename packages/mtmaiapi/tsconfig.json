@@ -42,9 +42,7 @@
     },
     "noImplicitAny": false
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx", "src/clients/listener/child-listener-client.ts--", "src/clients/listener/listener-client.ts--",  ],
+  "include": ["**/*.ts", "**/*.tsx"],
   "exclude": [
     "node_modules",
     "dist",

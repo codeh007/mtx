@@ -4,7 +4,7 @@ import {
   ConcurrencyLimitStrategy as PbConcurrencyLimitStrategy,
   StickyStrategy as PbStickyStrategy,
 } from "./protoc--/workflows";
-import { type CreateStep, CreateStepSchema } from "./step";
+import { type CreateStep, CreateStepSchema } from "./step.ts--";
 
 const CronConfigSchema = z.object({
   cron: z.string(),
