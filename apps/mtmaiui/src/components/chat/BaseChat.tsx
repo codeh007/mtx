@@ -5,6 +5,7 @@ import { type RefCallback, forwardRef, useMemo } from "react";
 
 import { classNames } from "mtxuilib/lib/utils";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
+import { MtMessages } from "./MtMessages";
 import { BoltPromptBox } from "./prompt-input/BoltPromptBox";
 
 interface BaseChatProps {
@@ -20,7 +21,6 @@ interface BaseChatProps {
   input?: string;
   handleStop?: () => void;
   sendMessage?: (messageInput?: string) => void;
-  // handleInputChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   enhancePrompt?: () => void;
 }
 
@@ -36,7 +36,6 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
       promptEnhanced = false,
       input = "",
       sendMessage,
-      // handleInputChange,
       enhancePrompt,
       handleStop,
     },
@@ -51,6 +50,7 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
     const setInput = useWorkbenchStore((x) => x.setInput);
 
     const TEXTAREA_MAX_HEIGHT = chatStarted ? 400 : 200;
+
     return (
       <div
         ref={ref}
@@ -82,15 +82,15 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
 										messages={messages}
 										isStreaming={isStreaming}
 									/> */}
-                  {/* <MtMessages
+                  <MtMessages
                     ref={messageRef}
                     messages={messages}
-                    elements={elements || []}
+                    elements={[]}
                     actions={[]}
                     indent={0}
                     isStreaming={isStreaming}
                     className="flex flex-col w-full flex-1 max-w-chat pb-3 mx-auto z-1 mb-6"
-                  /> */}
+                  />
                 </>
               ) : null}
 
@@ -101,9 +101,7 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
                 sendMessage={sendMessage}
                 isStreaming={isStreaming}
                 chatStarted={chatStarted}
-                handleInputChange={(message) =>
-                  setInput(message )
-                }
+                handleInputChange={(message) => setInput(message)}
                 // handleStop={handleStop}
                 textareaRef={textareaRef}
               />
