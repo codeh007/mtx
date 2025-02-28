@@ -1,11 +1,14 @@
 "use client";
 
+import { fromBinary } from "@bufbuild/protobuf";
+// import { type Any, anyPack, anyIs } from "@bufbuild/protobuf/wkt";
 import {
   type AgentRunInput,
   EventTypes,
   FlowNames,
   workflowRunCreate,
 } from "mtmaiapi";
+import { CloudEventSchema } from "mtmaiapi/mtmclient/mtmai/mtmpb/cloudevent_pb";
 import {
   ResourceEventType,
   type WorkflowEvent,
@@ -124,16 +127,19 @@ const onStreamEvent = (
       | ((state: WorkbrenchState) => Partial<WorkbrenchState>),
   ) => void,
 ) => {
+  // 相关 protobuf 文档: https://github.com/bufbuild/protobuf-es/blob/main/MANUAL.md
   const payload = event.eventPayload;
   if (!payload) {
     console.error("⚠️ ⚠️ ⚠️ stream event payload is empty", event);
     return;
   }
-
-  console.log("on stream event", event);
+  const encoder = new TextEncoder();
+  const uint8Array = encoder.encode(payload);
+  console.log("on stream event22", event);
+  const cloudEventData = fromBinary(CloudEventSchema, uint8Array);
+  console.log("cloudEventData", cloudEventData);
 
   // 是 protobuf 消息
-  // eventPayload: "\u0012$a33f7357-1784-4534-8f74-3cf2b5e5ce45"
   const agTextMessage = JSON.parse(payload) as AgTextMessage;
   if (agTextMessage.source === "user") {
     return;
