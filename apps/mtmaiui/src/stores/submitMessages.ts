@@ -13,40 +13,40 @@ import {
 import { generateUUID } from "mtxuilib/lib/utils";
 import type { WorkbrenchState } from "./workbrench.store";
 
-const VERCEL_AI_EVENT_TYPES = {
-  AI_REPLY: "0:",
-  DATA: "2:",
-  FINISH: "d:",
-} as const;
+// const VERCEL_AI_EVENT_TYPES = {
+//   AI_REPLY: "0:",
+//   DATA: "2:",
+//   FINISH: "d:",
+// } as const;
 
 // 处理流式响应
-async function handleStreamResponse(
-  response: Response,
-  lineHandler: (line: string) => void,
-) {
-  const reader = response.body?.getReader();
-  if (!reader) {
-    throw new Error("Stream reader not found");
-  }
+// async function handleStreamResponse(
+//   response: Response,
+//   lineHandler: (line: string) => void,
+// ) {
+//   const reader = response.body?.getReader();
+//   if (!reader) {
+//     throw new Error("Stream reader not found");
+//   }
 
-  const decoder = new TextDecoder();
-  try {
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
+//   const decoder = new TextDecoder();
+//   try {
+//     while (true) {
+//       const { done, value } = await reader.read();
+//       if (done) break;
 
-      const chunk = decoder.decode(value, { stream: true });
-      const lines = chunk.split("\n");
-      for (const line of lines) {
-        if (line.trim()) {
-          lineHandler(line);
-        }
-      }
-    }
-  } finally {
-    reader.releaseLock();
-  }
-}
+//       const chunk = decoder.decode(value, { stream: true });
+//       const lines = chunk.split("\n");
+//       for (const line of lines) {
+//         if (line.trim()) {
+//           lineHandler(line);
+//         }
+//       }
+//     }
+//   } finally {
+//     reader.releaseLock();
+//   }
+// }
 
 // async function pullEvent(
 //   tenantId: string,
@@ -82,7 +82,7 @@ async function handleStreamResponse(
 //   }
 // }
 
-export async function handleSseGraphStream(
+export async function submitMessages(
   set: (
     partial:
       | Partial<WorkbrenchState>
@@ -99,14 +99,6 @@ export async function handleSseGraphStream(
   const messages = get().messages;
   const teamId = get().teamId;
   let threadId = get().threadId;
-  // console.log("runGraphStream", {
-  //   tenant,
-  //   threadId,
-  //   agentEndpointBase,
-  //   messages,
-  //   teamId,
-  // });
-
   const content = messages[messages.length - 1].content;
 
   if (!threadId) {
@@ -141,10 +133,6 @@ export async function handleSseGraphStream(
     // pull stream event
     if (response.data?.metadata?.id) {
       const workflowRunId = response.data.metadata?.id;
-      // console.log("开始拉取stream, workflowRunId:", workflowRunId);
-      // 旧
-      // await pullEvent(tenant.metadata.id, workflowRunId, set, get);
-      // 新
       const result = await get().dispatcherClient.subscribeToWorkflowEvents({
         workflowRunId: workflowRunId,
       });
@@ -169,30 +157,30 @@ export async function handleSseGraphStream(
 }
 
 // 处理单行数据
-const handleStreamLine = (
-  line: string,
-  set: (
-    partial:
-      | Partial<WorkbrenchState>
-      | ((state: WorkbrenchState) => Partial<WorkbrenchState>),
-  ) => void,
-  get: () => WorkbrenchState,
-) => {
-  try {
-    if (line.trim()?.length === 0) return;
-    if (line.startsWith(VERCEL_AI_EVENT_TYPES.DATA)) {
-      const lineData = JSON.parse(line.substring(2));
-      graphEventHandler(lineData, set, get);
-    } else if (line.startsWith(VERCEL_AI_EVENT_TYPES.FINISH)) {
-      // const lineData = JSON.parse(line.substring(2));
-      // 处理完成消息，如果需要的话
-    } else {
-      graphEventHandler(JSON.parse(line), set, get);
-    }
-  } catch (error) {
-    console.error("Error processing stream line:", error, { line });
-  }
-};
+// const handleStreamLine = (
+//   line: string,
+//   set: (
+//     partial:
+//       | Partial<WorkbrenchState>
+//       | ((state: WorkbrenchState) => Partial<WorkbrenchState>),
+//   ) => void,
+//   get: () => WorkbrenchState,
+// ) => {
+//   try {
+//     if (line.trim()?.length === 0) return;
+//     if (line.startsWith(VERCEL_AI_EVENT_TYPES.DATA)) {
+//       const lineData = JSON.parse(line.substring(2));
+//       graphEventHandler(lineData, set, get);
+//     } else if (line.startsWith(VERCEL_AI_EVENT_TYPES.FINISH)) {
+//       // const lineData = JSON.parse(line.substring(2));
+//       // 处理完成消息，如果需要的话
+//     } else {
+//       graphEventHandler(JSON.parse(line), set, get);
+//     }
+//   } catch (error) {
+//     console.error("Error processing stream line:", error, { line });
+//   }
+// };
 
 const handleWorkflowRunEvent = (event: WorkflowEvent) => {
   switch (event.eventType) {
