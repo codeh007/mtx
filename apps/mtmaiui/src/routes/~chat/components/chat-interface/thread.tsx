@@ -92,8 +92,8 @@ export const Thread = (props: ThreadProps) => {
     // }
   };
 
-  const feedbackSubmitted = useWorkbenchStore((x) => x.feedbackSubmitted);
-  const setFeedbackSubmitted = useWorkbenchStore((x) => x.setFeedbackSubmitted);
+  // const feedbackSubmitted = useWorkbenchStore((x) => x.feedbackSubmitted);
+  // const setFeedbackSubmitted = useWorkbenchStore((x) => x.setFeedbackSubmitted);
   const runId = useWorkbenchStore((x) => x.runId);
   const setTeamId = useWorkbenchStore((x) => x.setTeamId);
 
@@ -161,8 +161,8 @@ export const Thread = (props: ThreadProps) => {
             AssistantMessage: (prop) => (
               <AssistantMessage
                 {...prop}
-                feedbackSubmitted={feedbackSubmitted}
-                setFeedbackSubmitted={setFeedbackSubmitted}
+                // feedbackSubmitted={feedbackSubmitted}
+                // setFeedbackSubmitted={setFeedbackSubmitted}
                 runId={runId}
               />
             ),

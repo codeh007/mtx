@@ -1,5 +1,6 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { Canvas } from "./components/canvas";
+import { ChatClient } from "../../components/chat/Chat.client";
+// import { Canvas } from "./components/canvas";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 
 export const Route = createLazyFileRoute("/chat/")({
@@ -11,7 +12,8 @@ function RouteComponent() {
   setThreadId("");
   return (
     <>
-      <Canvas />
+      {/* <Canvas /> */}
+      <ChatClient />
     </>
   );
 }

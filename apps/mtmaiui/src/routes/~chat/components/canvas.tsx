@@ -1,17 +1,11 @@
 "use client";
 
-import {
-  type AppendMessage,
-  AssistantRuntimeProvider,
-  type ThreadMessage,
-  useExternalMessageConverter,
-  useExternalStoreRuntime,
-} from "@assistant-ui/react";
-import type { ChatMessage, ProgrammingLanguageOptions } from "mtmaiapi";
+import type { AppendMessage } from "@assistant-ui/react";
+import type { ProgrammingLanguageOptions } from "mtmaiapi";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { cn } from "mtxuilib/lib/utils";
 import { useToast } from "mtxuilib/ui/use-toast";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTenantId, useUser } from "../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
 import { Route } from "../../~__root";
@@ -107,32 +101,32 @@ export function CanvasComponent() {
    *  zustand 的 messages 内部刷新了，但是 useExternalMessageConverter 依赖 callback 的更新来刷新消息。
    *  如果使用官方范例的 convertToChatMessage ，则会导致 zustand 的 messages 内部刷新不及时，只看到前面几个token。
    */
-  const callback: useExternalMessageConverter.Callback<ChatMessage> =
-    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-    useCallback(
-      (message): ThreadMessage | ThreadMessage[] => {
-        return {
-          role: message.role,
-          id: message.metadata?.id,
-          content: [{ type: "text", text: message.content }],
-          //   metadata: message.metadata,
-        };
-      },
-      [messages],
-    );
+  // const callback: useExternalMessageConverter.Callback<ChatMessage> =
+  //   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  //   useCallback(
+  //     (message): ThreadMessage | ThreadMessage[] => {
+  //       return {
+  //         role: message.role,
+  //         id: message.metadata?.id,
+  //         content: [{ type: "text", text: message.content }],
+  //         //   metadata: message.metadata,
+  //       };
+  //     },
+  //     [messages],
+  //   );
 
-  const threadMessages = useExternalMessageConverter<ChatMessage>({
-    // callback: convertToChatMessage,
-    callback,
-    messages: messages,
-    isRunning,
-  });
+  // const threadMessages = useExternalMessageConverter<ChatMessage>({
+  //   // callback: convertToChatMessage,
+  //   callback,
+  //   messages: messages,
+  //   isRunning,
+  // });
 
-  const runtime = useExternalStoreRuntime({
-    messages: threadMessages,
-    isRunning,
-    onNew,
-  });
+  // const runtime = useExternalStoreRuntime({
+  //   messages: threadMessages,
+  //   isRunning,
+  //   onNew,
+  // });
 
   return (
     <main className="flex flex-row h-full">
@@ -144,16 +138,16 @@ export function CanvasComponent() {
         )}
       >
         <div className="h-full">
-          <AssistantRuntimeProvider runtime={runtime}>
-            <Thread
-              // userId={userData?.user?.id}
-              userId={user?.metadata.id}
-              setChatStarted={setChatStarted}
-              handleQuickStart={handleQuickStart}
-              hasChatStarted={chatStarted}
-              switchSelectedThreadCallback={() => {}}
-            />
-          </AssistantRuntimeProvider>
+          {/* <AssistantRuntimeProvider> */}
+          <Thread
+            // userId={userData?.user?.id}
+            userId={user?.metadata.id}
+            setChatStarted={setChatStarted}
+            handleQuickStart={handleQuickStart}
+            hasChatStarted={chatStarted}
+            switchSelectedThreadCallback={() => {}}
+          />
+          {/* </AssistantRuntimeProvider> */}
         </div>
       </div>
 
