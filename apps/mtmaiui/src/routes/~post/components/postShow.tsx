@@ -82,7 +82,7 @@ interface PostDetailWithAiProps {
   onChange: (value: string) => void;
 }
 const PostEditView = ({ postId }: PostDetailWithAiProps) => {
-  const mtmapi = useMtmClient();
+  // const mtmapi = useMtmClient();
   const tenant = useTenant();
 
   const [mode, setMode] = useState<"edit" | "diff">("edit");

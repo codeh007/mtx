@@ -4,6 +4,7 @@ import type React from "react";
 import { type RefCallback, forwardRef, useMemo } from "react";
 
 import { classNames } from "mtxuilib/lib/utils";
+import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { BoltPromptBox } from "./prompt-input/BoltPromptBox";
 
 interface BaseChatProps {
@@ -41,7 +42,7 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
     },
     ref,
   ) => {
-    const messages = useWorkbrenchStore((x) => x.messages);
+    const messages = useWorkbenchStore((x) => x.messages);
     const chatStarted = useMemo(() => {
       return messages?.length > 0;
     }, [messages]);

@@ -1,19 +1,15 @@
 "use client";
 
-import { startTransition, useMemo, useOptimistic, useState } from "react";
+import { useMemo, useOptimistic, useState } from "react";
 
-import {
-  CheckCirclFillIcon,
-  ChevronDownIcon,
-} from "mtxuilib/icons/aichatbot.icons";
+import { ChevronDownIcon } from "mtxuilib/icons/aichatbot.icons";
 // import { models } from "../../lib/llm/ai/models";
 import { cn } from "mtxuilib/lib/utils";
 import { Button } from "mtxuilib/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuItem,
+  DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu";
 import { useTenant } from "../../hooks/useAuth";
 
@@ -29,7 +25,7 @@ export function ModelSelector({
 
   const tenant = useTenant();
 
-  const mtmapi = useMtmClient();
+  // const mtmapi = useMtmClient();
 
   // const modelsQuery = mtmapi.useSuspenseQuery(
   //   "get",
@@ -62,7 +58,7 @@ export function ModelSelector({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="min-w-[300px]">
-        {modelsQuery.data?.rows?.map((model) => (
+        {/* {modelsQuery.data?.rows?.map((model) => (
           <DropdownMenuItem
             key={model.id}
             onSelect={() => {
@@ -88,7 +84,7 @@ export function ModelSelector({
               <CheckCirclFillIcon />
             </div>
           </DropdownMenuItem>
-        ))}
+        ))} */}
       </DropdownMenuContent>
     </DropdownMenu>
   );

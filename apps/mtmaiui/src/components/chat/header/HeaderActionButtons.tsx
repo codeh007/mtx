@@ -9,10 +9,10 @@ import Link from "next/link";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
 export function HeaderActionButtons() {
-  const showWorkbench = useWorkbenchStore((x) => x.uiState.openWorkbench);
+  const showWorkbench = useWorkbenchStore((x) => x.openWorkbench);
   const setShowWorkbench = useWorkbenchStore((x) => x.setShowWorkbench);
 
-  const openChat = useWorkbenchStore((x) => x.uiState.openChat);
+  const openChat = useWorkbenchStore((x) => x.openChat);
   const setOpenChat = useWorkbenchStore((x) => x.setOpenChat);
   const canHideChat = showWorkbench || !openChat;
 

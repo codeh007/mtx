@@ -2,6 +2,7 @@
 
 import classNames from "classnames";
 import { cn } from "mtxuilib/lib/utils";
+import { IconButton } from "mtxuilib/mt/IconButton";
 import { SendButton } from "./SendButton.client";
 
 const TEXTAREA_MIN_HEIGHT = 76;

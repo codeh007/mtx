@@ -1,11 +1,10 @@
 "use client";
-import { useWorkbrenchStore } from "mtmaiui/stores/workbrench.store";
 
 // export const dynamic = "force-dynamic";
 
 export default function Page() {
-  const openChat = useWorkbrenchStore((x) => x.uiState.openChat);
-  const setOpenChat = useWorkbrenchStore((x) => x.setOpenChat);
+  const openChat = useWorkbenchStore((x) => x.uiState.openChat);
+  const setOpenChat = useWorkbenchStore((x) => x.setOpenChat);
 
   // useEffect(() => {
   //   if (!openChat) {

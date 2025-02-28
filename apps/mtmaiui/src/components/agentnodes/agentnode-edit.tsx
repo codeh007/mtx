@@ -11,10 +11,9 @@ import {
 } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { z } from "zod";
-import { useTenant } from "../../hooks/useAuth";
+import { useTenant, useTenantId } from "../../hooks/useAuth";
 
 export const AgentNodeEditView = ({ id }: { id: string }) => {
-  // const mtmapi = useMtmClient();
   const tenant = useTenant();
 
   // const agentNodeGetQuery = mtmapi.useSuspenseQuery(

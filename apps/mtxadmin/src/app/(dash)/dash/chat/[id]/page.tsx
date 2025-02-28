@@ -1,19 +1,18 @@
 "use client";
 
-import { useWorkbrenchStore } from "mtmaiui/stores/workbrench.store";
-
+import { useWorkbenchStore } from "mtmaiui/stores/workbrench.store";
 import { useEffect } from "react";
 
 export default function SiteAutoPage(props: {
   params: { id: string };
 }) {
-  const setShowWorkbench = useWorkbrenchStore((x) => x.setShowWorkbench);
-  const showWorkbench = useWorkbrenchStore((x) => x.uiState.openWorkbench);
+  const setShowWorkbench = useWorkbenchStore((x) => x.setShowWorkbench);
+  const showWorkbench = useWorkbenchStore((x) => x.openWorkbench);
 
-  const openChat = useWorkbrenchStore((x) => x.uiState.openChat);
-  const setOpenChat = useWorkbrenchStore((x) => x.setOpenChat);
+  const openChat = useWorkbenchStore((x) => x.openChat);
+  const setOpenChat = useWorkbenchStore((x) => x.setOpenChat);
 
-  const setThreadId = useWorkbrenchStore((x) => x.setThreadId);
+  const setThreadId = useWorkbenchStore((x) => x.setThreadId);
 
   useEffect(() => {
     if (showWorkbench) {

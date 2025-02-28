@@ -1,4 +1,4 @@
-import { useStore } from "@nanostores/react";
+// import { useStore } from "@nanostores/react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import type { ActionState } from "../../lib/runtime";
@@ -11,13 +11,14 @@ import { cubicEasingFn } from "mtxuilib/mt/easings";
 import { computed } from "nanostores";
 import { memo, useEffect, useRef, useState } from "react";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
+import { useStore } from "@nanostores/react";
 
 interface ArtifactProps {
   messageId: string;
 }
 
 export const Artifact = memo(({ messageId }: ArtifactProps) => {
-  const showWorkbench = useWorkbenchStore((x) => x.uiState.openWorkbench);
+  const showWorkbench = useWorkbenchStore((x) => x.openWorkbench);
   const setShowWorkbench = useWorkbenchStore((x) => x.setShowWorkbench);
   const userToggledActions = useRef(false);
   const [showActions, setShowActions] = useState(false);

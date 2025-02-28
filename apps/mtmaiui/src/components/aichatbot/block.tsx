@@ -232,8 +232,6 @@ export function Block({
 
   const [isToolbarVisible, setIsToolbarVisible] = useState(false);
 
-  // const mtmapi = useMtmClient();
-
   /*
    * NOTE: if there are no documents, or if
    * the documents are being fetched, then

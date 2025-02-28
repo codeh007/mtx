@@ -6,6 +6,13 @@ import { ModelSelector } from "../model-selector";
 import classNames from "classnames";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { PlusIcon } from "mtxuilib/icons/aichatbot.icons";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
 import { Separator } from "mtxuilib/ui/separator";
 import { SidebarTrigger, useSidebar } from "mtxuilib/ui/sidebar";

@@ -11,7 +11,7 @@ export const WorkbenchWrapper = memo(function WorkbenchWrapper(props: {
 }) {
   const { children } = props;
 
-  const showWorkbench = useWorkbenchStore((x) => x.uiState.openWorkbench);
+  const showWorkbench = useWorkbenchStore((x) => x.openWorkbench);
   const setShowWorkbench = useWorkbenchStore((x) => x.setShowWorkbench);
   return (
     <div

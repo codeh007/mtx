@@ -131,12 +131,15 @@ export interface WorkbrenchState extends WorkbenchProps {
   chatProfile?: string;
   setChatProfile: (chatProfileState?: string) => void;
   setChatProfileId: (chatProfileId: string) => void;
-
+  input?: string;
+  setInput: (input: string) => void;
   handleHumanInput: (input: HubmanInput) => void;
 
   // mtrouter: { push: (path: string) => void };
   // isWs?: boolean;
-  setIsWs: (isWs: boolean) => void;
+  // setIsWs: (isWs: boolean) => void;
+  started: boolean;
+  setStarted: (started: boolean) => void;
   handleEvents: (eventName: string, data: any) => void;
   chatBotType: "";
   subscribeEvents: (options: {
@@ -145,6 +148,8 @@ export interface WorkbrenchState extends WorkbenchProps {
   resource?: string;
   setResource: (resource: string) => void;
   resourceId?: string;
+  selectedModelId?: string;
+  setSelectedModelId: (selectedModelId: string) => void;
   setResourceId: (resourceId: string) => void;
   chatStarted?: boolean;
   setChatStarted: (chatStarted: boolean) => void;
@@ -211,10 +216,8 @@ export const createWorkbrenchSlice: StateCreator<
     setWorkbenchViewProps: (props) => set({ workbenchViewProps: props }),
     // assisantConfig: undefined,
     // setAssisantConfig: (config) => set({ assisantConfig: config }),
-
-    setIsWs: (isWs) => set({ isWs }),
-    //---------------------------------------------------------------------------------------------
-
+    setSelectedModelId: (selectedModelId) => set({ selectedModelId }),
+    setInput: (input) => set({ input }),
     messages: [],
     // elementState: [],
     // setElementState: (elementState) => {
@@ -224,7 +227,6 @@ export const createWorkbrenchSlice: StateCreator<
     // setActionState: (actionState) => {
     //   set({ actionState });
     // },
-    input: "",
     firstUserInteraction: undefined,
     setFirstUserInteraction: (firstUserInteraction) =>
       set({ firstUserInteraction }),
@@ -243,6 +245,10 @@ export const createWorkbrenchSlice: StateCreator<
     },
     setMessageParser: (messageParser: (messages: Message[]) => void) => {
       set({ messageParser });
+    },
+    openChat: false,
+    setOpenChat: (openChat: boolean) => {
+      set({ openChat });
     },
 
     // handleAisdkInputChange: (event: ChangeEvent<HTMLTextAreaElement>) =>
@@ -502,7 +508,7 @@ export function useWorkbenchStore<T>(
   selector?: (state: WorkbrenchStoreState) => T,
 ) {
   const store = useContext(mtmaiStoreContext);
-  if (!store) throw new Error("useWorkbrenchStore must in WorkbrenchProvider");
+  if (!store) throw new Error("useWorkbenchStore must in WorkbrenchProvider");
   if (selector) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useStore(

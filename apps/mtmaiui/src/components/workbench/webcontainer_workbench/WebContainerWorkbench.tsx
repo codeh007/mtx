@@ -42,7 +42,7 @@ export const WebContainerWorkbench = memo(({ isStreaming }: WorkspaceProps) => {
   const hasPreview = useStore(
     computed(workbenchStore.previews, (previews) => previews.length > 0),
   );
-  const showWorkbench = useWorkbenchStore((x) => x.uiState.openWorkbench);
+  const showWorkbench = useWorkbenchStore((x) => x.openWorkbench);
   const setShowWorkbench = useWorkbenchStore((x) => x.setShowWorkbench);
   const selectedFile = useStore(workbenchStore.selectedFile);
   const currentDocument = useStore(workbenchStore.currentDocument);

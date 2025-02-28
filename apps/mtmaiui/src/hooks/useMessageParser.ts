@@ -4,14 +4,14 @@ import type { Message } from "ai";
 
 import { useCallback, useMemo, useState } from "react";
 import { StreamingMessageParser } from "../lib/runtime/message-parser";
+import { useWorkbenchStore } from "../stores/workbrench.store";
 
 export function useMessageParser() {
   const [parsedMessages, setParsedMessages] = useState<{
     [key: number]: string;
   }>({});
 
-  // const showWorkbench = useWorkbrenchStore((x) => x.uiState.openWorkbench);
-  const setShowWorkbench = useWorkbrenchStore((x) => x.setShowWorkbench);
+  const setShowWorkbench = useWorkbenchStore((x) => x.setShowWorkbench);
   const messageParser = useMemo(() => {
     return new StreamingMessageParser({
       callbacks: {

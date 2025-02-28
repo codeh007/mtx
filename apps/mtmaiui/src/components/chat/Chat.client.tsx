@@ -1,6 +1,7 @@
 "use client";
 import type { Message } from "ai";
 import { useAnimate } from "framer-motion";
+import { useSnapScroll } from "mtxuilib/hooks/useSnapScroll";
 import { Suspense, memo, useEffect, useRef } from "react";
 import { ToastContainer, cssTransition } from "react-toastify";
 
@@ -82,13 +83,13 @@ export function ChatClient(props: ChatProps) {
 
 export const ChatImpl = memo(
   ({ initialMessages = [], storeMessageHistory }: ChatProps) => {
-    useShortcuts();
+    // useShortcuts();
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     // const [chatStarted, setChatStarted] = useState(initialMessages?.length > 0);
 
-    const showChat = useWorkbenchStore((x) => x.uiState.openChat);
+    const showChat = useWorkbenchStore((x) => x.openChat);
 
     const [animationScope, animate] = useAnimate();
 
@@ -185,7 +186,7 @@ export const ChatImpl = memo(
        */
       // await workbenchStore.saveAllFiles();
 
-      const fileModifications = workbenchStore.getFileModifcations();
+      // const fileModifications = workbenchStore.getFileModifcations();
 
       // chatStore.setKey("aborted", false);
       // setAborted(false);
@@ -208,7 +209,7 @@ export const ChatImpl = memo(
          * After sending a new message we reset all modifications since the model
          * should now be aware of all the changes.
          */
-        workbenchStore.resetAllFileModifications();
+        // workbenchStore.resetAllFileModifications();
       } else {
         // append({ role: "user", content: _input });
       }
