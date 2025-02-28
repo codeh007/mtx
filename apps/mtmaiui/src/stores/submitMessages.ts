@@ -11,44 +11,8 @@ import {
   type WorkflowEvent,
 } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
 import { generateUUID } from "mtxuilib/lib/utils";
-import { AgTextMessage } from "../types/event";
+import type { AgTextMessage } from "../types/event";
 import type { WorkbrenchState } from "./workbrench.store";
-
-// const VERCEL_AI_EVENT_TYPES = {
-//   AI_REPLY: "0:",
-//   DATA: "2:",
-//   FINISH: "d:",
-// } as const;
-
-// 处理流式响应
-// async function handleStreamResponse(
-//   response: Response,
-//   lineHandler: (line: string) => void,
-// ) {
-//   const reader = response.body?.getReader();
-//   if (!reader) {
-//     throw new Error("Stream reader not found");
-//   }
-
-//   const decoder = new TextDecoder();
-//   try {
-//     while (true) {
-//       const { done, value } = await reader.read();
-//       if (done) break;
-
-//       const chunk = decoder.decode(value, { stream: true });
-//       const lines = chunk.split("\n");
-//       for (const line of lines) {
-//         if (line.trim()) {
-//           lineHandler(line);
-//         }
-//       }
-//     }
-//   } finally {
-//     reader.releaseLock();
-//   }
-// }
-
 export async function submitMessages(
   set: (
     partial:
@@ -57,7 +21,6 @@ export async function submitMessages(
   ) => void,
   get: () => WorkbrenchState,
 ) {
-  // const agentEndpointBase = get().agentEndpointBase;
   const tenant = get().tenant;
   if (!tenant?.metadata?.id) {
     throw new Error("(handleSseGraphStream)tenant is required");
@@ -166,9 +129,13 @@ const onStreamEvent = (
     console.error("⚠️ ⚠️ ⚠️ stream event payload is empty", event);
     return;
   }
+
   console.log("on stream event", event);
 
   const agTextMessage = JSON.parse(payload) as AgTextMessage;
+  if (agTextMessage.source === "user") {
+    return;
+  }
   const newChatMessage = {
     role: agTextMessage.source,
     content: agTextMessage.content,
