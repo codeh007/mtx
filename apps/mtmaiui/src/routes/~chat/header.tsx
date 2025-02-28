@@ -1,7 +1,7 @@
 "use client";
 
 import { useWindowSize } from "usehooks-ts";
-import { ModelSelector } from "../model-selector";
+import { ModelSelector } from "../../components/chat/model-selector";
 
 import classNames from "classnames";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
@@ -19,8 +19,8 @@ import { SidebarTrigger, useSidebar } from "mtxuilib/ui/sidebar";
 import { BetterTooltip } from "mtxuilib/ui/tooltip";
 import { useRouter } from "next-nprogress-bar";
 import { Suspense } from "react";
-import { ChatDescription } from "../../../lib/persistence/ChatDescription.client";
-import { useWorkbenchStore } from "../../../stores/workbrench.store";
+import { ChatDescription } from "../../lib/persistence/ChatDescription.client";
+import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { HeaderActionButtons } from "./HeaderActionButtons";
 
 export function Header() {

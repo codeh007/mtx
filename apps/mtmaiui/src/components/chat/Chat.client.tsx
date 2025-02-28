@@ -9,7 +9,6 @@ import { Icons } from "mtxuilib/icons/icons";
 import { usePromptEnhancer } from "../../hooks/usePromptEnhancer";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { BaseChat } from "./BaseChat";
-import { Header } from "./header/header";
 
 const toastAnimation = cssTransition({
   enter: "animated fadeInRight",
@@ -24,7 +23,7 @@ interface ChatProps {
 export function ChatClient(props: ChatProps) {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <ChatImpl
       // chatProfile={chatProfile}
       // initialMessages={initialMessages}

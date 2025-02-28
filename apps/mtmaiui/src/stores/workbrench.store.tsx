@@ -78,7 +78,8 @@ export interface WorkbrenchState extends WorkbenchProps {
   // workbenchConfig: AssisantWorkbenchConfig | undefined;
   // setWorkbenchConfig: (config: AssisantWorkbenchConfig) => void;
   // setAssisantConfig: (config: AssisantConfig) => void;
-  openWorkbench: (viewName: string, viewProps?: Record<string, any>) => void;
+  // openWorkbench: (viewName: string, viewProps?: Record<string, any>) => void;
+  openWorkbench: boolean;
   // started: boolean;
   // setStarted: (started: boolean) => void;
   // aborted: boolean;
@@ -269,10 +270,12 @@ export const createWorkbrenchSlice: StateCreator<
         },
       } as ChatMessage;
       set({ messages: [...preMessages, newChatMessage] });
-    }, 200),
+    }, 100),
     setMessages: (messages) => set({ messages }),
-    // setShowWorkbench: (openWorkbench) =>
-    //   set({ uiState: { ...get().uiState, openWorkbench } }),
+    openWorkbench: false,
+    setShowWorkbench: (openWorkbench) => {
+      set({ openWorkbench });
+    },
     // setOpenChat: (openChat) => {
     //   set({ uiState: { ...get().uiState, openChat: openChat } });
     // },
@@ -281,10 +284,9 @@ export const createWorkbrenchSlice: StateCreator<
     setThreadId: (threadId) => {
       set({ threadId });
     },
-    isOpenWorkbenchChat: false,
-    setIsOpenWorkbenchChat: (isOpenWorkbenchChat: boolean) => {
-      set({ isOpenWorkbenchChat });
-    },
+    // setIsOpenWorkbenchChat: (isOpenWorkbenchChat: boolean) => {
+    //   set({ isOpenWorkbenchChat });
+    // },
     // openView: (viewName, viewProps, targetView) => {
     //   console.log("openListView", viewName, viewProps, targetView);
     //   const target = targetView || "workbench";

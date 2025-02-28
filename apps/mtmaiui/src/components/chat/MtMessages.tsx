@@ -8,7 +8,6 @@ interface MtMessagesProps {
 export const MtMessages = ({ messages }: MtMessagesProps) => {
   return (
     <div className="p-1">
-      MtMessages
       {messages.map((message) => (
         <ChatMessageItemView key={message.metadata.id} message={message} />
       ))}

@@ -6,7 +6,7 @@ import { cn } from "mtxuilib/lib/utils";
 import { buttonVariants } from "mtxuilib/ui/button";
 import { Separator } from "mtxuilib/ui/separator";
 import Link from "next/link";
-import { useWorkbenchStore } from "../../../stores/workbrench.store";
+import { useWorkbenchStore } from "../../stores/workbrench.store";
 
 export function HeaderActionButtons() {
   const showWorkbench = useWorkbenchStore((x) => x.openWorkbench);

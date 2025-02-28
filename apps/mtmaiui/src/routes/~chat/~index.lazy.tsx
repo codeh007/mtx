@@ -1,7 +1,9 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
+import { DashContent } from "../../components/DashContent";
 import { ChatClient } from "../../components/chat/Chat.client";
-// import { Canvas } from "./components/canvas";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
+import { Header } from "./header";
 
 export const Route = createLazyFileRoute("/chat/")({
   component: RouteComponent,
@@ -12,8 +14,12 @@ function RouteComponent() {
   setThreadId("");
   return (
     <>
-      {/* <Canvas /> */}
-      <ChatClient />
+      <Header />
+      <DashContent>
+        <MtSuspenseBoundary>
+          <ChatClient />
+        </MtSuspenseBoundary>
+      </DashContent>
     </>
   );
 }

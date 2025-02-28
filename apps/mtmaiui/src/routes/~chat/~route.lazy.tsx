@@ -7,16 +7,7 @@ import { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
 import { AgentRpc } from "mtmaiapi/mtmclient/mtmai/mtmpb/agent_worker_pb";
 import { Dispatcher } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
 import { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-} from "mtxuilib/ui/breadcrumb";
 import { SidebarInset } from "mtxuilib/ui/sidebar";
-import { DashContent } from "../../components/DashContent";
-import { DashHeaders } from "../../components/DashHeaders";
 import { DashSidebar } from "../../components/sidebar/siderbar";
 import { useGomtmClient } from "../../stores/TransportProvider";
 import { WorkbrenchProvider } from "../../stores/workbrench.store";
@@ -45,7 +36,7 @@ function RouteComponent() {
       <DashSidebar />
 
       <SidebarInset>
-        <DashHeaders>
+        {/* <DashHeaders>
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
@@ -53,21 +44,18 @@ function RouteComponent() {
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
-        </DashHeaders>
-        <DashContent>
-          <MtSuspenseBoundary>
-            <WorkbrenchProvider
-              agClient={mtmAgClient}
-              eventClient={eventClient}
-              dispatcherClient={dispatcherClient}
-              runtimeClient={agrpcClient}
-              backendUrl={selfBackendend!}
-              tenant={tenant!}
-            >
-              <Outlet />
-            </WorkbrenchProvider>
-          </MtSuspenseBoundary>
-        </DashContent>
+
+        </DashHeaders> */}
+        <WorkbrenchProvider
+          agClient={mtmAgClient}
+          eventClient={eventClient}
+          dispatcherClient={dispatcherClient}
+          runtimeClient={agrpcClient}
+          backendUrl={selfBackendend!}
+          tenant={tenant!}
+        >
+          <Outlet />
+        </WorkbrenchProvider>
       </SidebarInset>
     </RootAppWrapper>
   );
