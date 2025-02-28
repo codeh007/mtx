@@ -71,16 +71,12 @@ export function newRProxy(options: RProxyOptions) {
         headers: response.headers,
       });
 
+      // console.log(
+      //   `🚀 [rProxy] ${r.method}(${response.status}) \n${r.url}, \n===> ${fullUrl.toString()} with headers: ${headersLogItem.join("\n")}`,
+      // );
       console.log(
-        `🚀 [rProxy] ${r.method}(${response.status}) \n${r.url}, \n===> ${fullUrl.toString()} with headers: ${headersLogItem.join("\n")}`,
+        `🚀 [rProxy] ${r.method}(${response.status}) \n${r.url}, \n===> ${fullUrl.toString()}`,
       );
-      // console.log("response.headers");
-      // for (const [key, value] of Array.from(response.headers.entries())) {
-      //   console.log(`${key}: ${value}`);
-      // }
-
-      // newResponse.headers.set("content-encoding", "zstd");
-
       return newResponse;
     } catch (e) {
       return new Response(`error ${e} ${fullUrl.toString()}`);

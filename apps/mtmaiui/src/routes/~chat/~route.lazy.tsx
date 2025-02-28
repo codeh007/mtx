@@ -32,31 +32,21 @@ function RouteComponent() {
   const eventClient = useGomtmClient(EventsService);
   const dispatcherClient = useGomtmClient(Dispatcher);
   return (
-    <RootAppWrapper className="flex w-full h-full flex-1">
-      <DashSidebar />
+    <WorkbrenchProvider
+      agClient={mtmAgClient}
+      eventClient={eventClient}
+      dispatcherClient={dispatcherClient}
+      runtimeClient={agrpcClient}
+      backendUrl={selfBackendend!}
+      tenant={tenant!}
+    >
+      <RootAppWrapper className="flex w-full h-full flex-1">
+        <DashSidebar />
 
-      <SidebarInset>
-        {/* <DashHeaders>
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbPage>chat</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-
-        </DashHeaders> */}
-        <WorkbrenchProvider
-          agClient={mtmAgClient}
-          eventClient={eventClient}
-          dispatcherClient={dispatcherClient}
-          runtimeClient={agrpcClient}
-          backendUrl={selfBackendend!}
-          tenant={tenant!}
-        >
+        <SidebarInset>
           <Outlet />
-        </WorkbrenchProvider>
-      </SidebarInset>
-    </RootAppWrapper>
+        </SidebarInset>
+      </RootAppWrapper>
+    </WorkbrenchProvider>
   );
 }

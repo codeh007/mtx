@@ -23,6 +23,7 @@ import type { Dispatcher } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
 import type { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
 import type { Suggestion } from "mtxuilib/db/schema/suggestion";
 import { generateUUID } from "mtxuilib/lib/utils";
+import { submitMessages } from "./submitMessages";
 
 export interface IAskForm {
   callback: (data) => void;
@@ -72,63 +73,25 @@ export interface WorkbrenchState extends WorkbenchProps {
   setOpenDebugPanel: (openDebugPanel: boolean) => void;
   workbenchViewProps?: Record<string, any>;
   setWorkbenchViewProps: (props?: Record<string, any>) => void;
-  // currentView: string;
-  // setCurrentView: (view: string) => void;
-
-  // workbenchConfig: AssisantWorkbenchConfig | undefined;
-  // setWorkbenchConfig: (config: AssisantWorkbenchConfig) => void;
-  // setAssisantConfig: (config: AssisantConfig) => void;
-  // openWorkbench: (viewName: string, viewProps?: Record<string, any>) => void;
   openWorkbench: boolean;
-  // started: boolean;
-  // setStarted: (started: boolean) => void;
-  // aborted: boolean;
-  // setAborted: (aborted: boolean) => void;
-  //--------------------------------------------------------------------------------------
-  // useChat 状态提升到这里
   appendChatMessageCb?: (message) => void;
-  //--------------------------------------------------------------------------------------
-  // messages: IStep[];
-  // setMessages: (messagesState: IStep[]) => void;
-
   setAccessToken: (accessToken: string) => void;
-  // setParams: (params: Record<string, any>) => void;
   messageParser?: (messages: Message[]) => void;
   setMessageParser: (messageParser: (messages: Message[]) => void) => void;
-  // input: string;
-  // setInput: (input: string) => void;
-  // handleAisdkInputChange:
-  //   | ((event: ChangeEvent<HTMLTextAreaElement>) => void)
-  //   | undefined;
-  //-----------------------------------
   setShowWorkbench: (openWorkbench: boolean) => void;
   openChat?: boolean;
   setOpenChat: (openChat: boolean) => void;
-  // openView: (
-  //   viewName: string,
-  //   viewProps?: Record<string, any>,
-  //   target?: AssisantMenus["target"],
-  // ) => void;
   setCurrentWorkbenchView: (id: string) => void;
-
-  //--------------------------------------------------------------------------------------------
-  // socket?: Socket | null;
-  // setSocket: (socket: Socket | null) => void;
-  // messageContext: IMessageContext;
-  // setMessageContext: (messageContext: IMessageContext) => void;
-
+  started: boolean;
+  setStarted: (started: boolean) => void;
   chatEndpoint: string;
   setChatEndpoint: (chatEndpoint: string) => void;
   isConnected: boolean;
   setIsConnected: (isConnected: boolean) => void;
-  // uiState: ThreadUIState;
-  // setUiState: (uiState) => void;
   sessionId: string;
   setSessionId: (sessionId: string) => void;
-
   firstUserInteraction?: string;
   setFirstUserInteraction: (firstUserInteraction: string) => void;
-
   loading: boolean;
   setLoading: (loading: boolean) => void;
   askForm?: IAskForm;
@@ -139,12 +102,6 @@ export interface WorkbrenchState extends WorkbenchProps {
   input?: string;
   setInput: (input: string) => void;
   handleHumanInput: (input: HubmanInput) => void;
-
-  // mtrouter: { push: (path: string) => void };
-  // isWs?: boolean;
-  // setIsWs: (isWs: boolean) => void;
-  started: boolean;
-  setStarted: (started: boolean) => void;
   handleEvents: (eventName: string, data: any) => void;
   chatBotType: "";
   subscribeEvents: (options: {
@@ -170,8 +127,7 @@ export interface WorkbrenchState extends WorkbenchProps {
   setIsStreaming: (isStreaming: boolean) => void;
   firstTokenReceived: boolean;
   setFirstTokenReceived: (firstTokenReceived: boolean) => void;
-
-  // addMessage: (message: ChatMessage) => void;
+  addMessage: (message: ChatMessage) => void;
   runId: string;
   setRunId: (runId: string) => void;
   //可能放这里不合适
@@ -258,7 +214,7 @@ export const createWorkbrenchSlice: StateCreator<
 
     handleHumanInput: debounce(async ({ content, resource, resourceId }) => {
       // set({ input: message, resource, resourceId });
-      console.log("message", content);
+      // console.log("message", content);
       const preMessages = get().messages;
       const newChatMessage = {
         role: "user",
@@ -270,9 +226,10 @@ export const createWorkbrenchSlice: StateCreator<
         },
       } as ChatMessage;
       set({ messages: [...preMessages, newChatMessage] });
+      submitMessages(set, get);
     }, 100),
     setMessages: (messages) => set({ messages }),
-    openWorkbench: false,
+    // openWorkbench: false,
     setShowWorkbench: (openWorkbench) => {
       set({ openWorkbench });
     },
@@ -405,13 +362,10 @@ export const createWorkbrenchSlice: StateCreator<
     setSelectedArtifact: (index: number) => {
       set({ selectedArtifact: index });
     },
-    // streamMessage: (params) => {
-    //   return handleSseGraphStream({ ...params }, set, get);
-    // },
-    // addMessage: (message: ChatMessage) => {
-    //   const prevMessages = get().messages;
-    //   set({ messages: [...prevMessages, message] });
-    // },
+    addMessage: (message: ChatMessage) => {
+      const prevMessages = get().messages;
+      set({ messages: [...prevMessages, message] });
+    },
     // submitHumanInput: async (content: string) => {
     //   const prevMessages = get().messages;
     //   set({

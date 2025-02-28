@@ -68,7 +68,7 @@ export function useGomtmTransport({
           });
           const oldHeaders = init?.headers as Headers;
           const newHeaders = new Headers();
-          console.log("oldHeaders", oldHeaders);
+          // console.log("oldHeaders", oldHeaders);
 
           for (const [k, v] of Object.entries(oldHeaders.entries())) {
             // if (k.startsWith("x-")) {

@@ -11,6 +11,7 @@ import {
   type WorkflowEvent,
 } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
 import { generateUUID } from "mtxuilib/lib/utils";
+import { AgTextMessage } from "../types/event";
 import type { WorkbrenchState } from "./workbrench.store";
 
 // const VERCEL_AI_EVENT_TYPES = {
@@ -45,40 +46,6 @@ import type { WorkbrenchState } from "./workbrench.store";
 //     }
 //   } finally {
 //     reader.releaseLock();
-//   }
-// }
-
-// async function pullEvent(
-//   tenantId: string,
-//   workflowRunId: string,
-//   set: (
-//     partial:
-//       | Partial<WorkbrenchState>
-//       | ((state: WorkbrenchState) => Partial<WorkbrenchState>),
-//   ) => void,
-//   get: () => WorkbrenchState,
-// ) {
-//   console.log("pullEvent", { tenantId, workflowRunId });
-//   const response = await workflowStream({
-//     path: {
-//       tenant: tenantId,
-//       // stream: workflowRunId,
-//     },
-//     query: {
-//       run: workflowRunId,
-//     },
-//     headers: {
-//       Accept: "text/event-stream",
-//       "Cache-Control": "no-cache",
-//       Connection: "keep-alive",
-//     },
-//     parseAs: "stream",
-//   });
-
-//   if (response?.data) {
-//     await handleStreamResponse(response.response, (line) =>
-//       handleStreamLine(line, set, get),
-//     );
 //   }
 // }
 
@@ -137,14 +104,10 @@ export async function submitMessages(
         workflowRunId: workflowRunId,
       });
       for await (const event of result) {
-        handleWorkflowRunEvent(event);
+        handleWorkflowRunEvent(event, get, set);
       }
     }
   }
-  // const runtimeClient = get().runtimeClient;
-  // const response = await runtimeClient.sendMessage({
-  //   message: content,
-  // });
 
   // const eventClient = get().eventClient;
   // await eventClient.push({
@@ -156,36 +119,18 @@ export async function submitMessages(
   // });
 }
 
-// 处理单行数据
-// const handleStreamLine = (
-//   line: string,
-//   set: (
-//     partial:
-//       | Partial<WorkbrenchState>
-//       | ((state: WorkbrenchState) => Partial<WorkbrenchState>),
-//   ) => void,
-//   get: () => WorkbrenchState,
-// ) => {
-//   try {
-//     if (line.trim()?.length === 0) return;
-//     if (line.startsWith(VERCEL_AI_EVENT_TYPES.DATA)) {
-//       const lineData = JSON.parse(line.substring(2));
-//       graphEventHandler(lineData, set, get);
-//     } else if (line.startsWith(VERCEL_AI_EVENT_TYPES.FINISH)) {
-//       // const lineData = JSON.parse(line.substring(2));
-//       // 处理完成消息，如果需要的话
-//     } else {
-//       graphEventHandler(JSON.parse(line), set, get);
-//     }
-//   } catch (error) {
-//     console.error("Error processing stream line:", error, { line });
-//   }
-// };
-
-const handleWorkflowRunEvent = (event: WorkflowEvent) => {
+const handleWorkflowRunEvent = (
+  event: WorkflowEvent,
+  get: () => WorkbrenchState,
+  set: (
+    partial:
+      | Partial<WorkbrenchState>
+      | ((state: WorkbrenchState) => Partial<WorkbrenchState>),
+  ) => void,
+) => {
   switch (event.eventType) {
     case ResourceEventType.STREAM:
-      return onStreamEvent(event);
+      return onStreamEvent(event, get, set);
     case ResourceEventType.STARTED:
       console.log(`started run: ${event.workflowRunId}`);
       break;
@@ -207,13 +152,34 @@ const handleWorkflowRunEvent = (event: WorkflowEvent) => {
   }
 };
 
-const onStreamEvent = (event: WorkflowEvent) => {
+const onStreamEvent = (
+  event: WorkflowEvent,
+  get: () => WorkbrenchState,
+  set: (
+    partial:
+      | Partial<WorkbrenchState>
+      | ((state: WorkbrenchState) => Partial<WorkbrenchState>),
+  ) => void,
+) => {
   const payload = event.eventPayload;
   if (!payload) {
     console.error("⚠️ ⚠️ ⚠️ stream event payload is empty", event);
     return;
   }
-  console.log("stream event", payload);
+  console.log("on stream event", event);
+
+  const agTextMessage = JSON.parse(payload) as AgTextMessage;
+  const newChatMessage = {
+    role: agTextMessage.source,
+    content: agTextMessage.content,
+    metadata: {
+      id: generateUUID(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+  };
+  get().addMessage(newChatMessage);
+  // console.log("stream event", payload);
 };
 
 // 最终的事件处理
@@ -291,10 +257,10 @@ const graphEventHandler = async (
       }
       break;
     }
-    case EventTypes.WORKFLOW_RUN_START:
-      console.log("[Event] startWorkflowRun", event);
-      pullEvent(get().tenant?.metadata?.id, event.data.id, set, get);
-      break;
+    // case EventTypes.WORKFLOW_RUN_START:
+    //   console.log("[Event] startWorkflowRun", event);
+    //   pullEvent(get().tenant?.metadata?.id, event.data.id, set, get);
+    //   break;
     default:
       console.debug("unknown event:", eventType);
       break;

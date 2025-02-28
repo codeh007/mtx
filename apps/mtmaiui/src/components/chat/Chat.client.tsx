@@ -23,12 +23,7 @@ interface ChatProps {
 export function ChatClient(props: ChatProps) {
   return (
     <>
-      {/* <Header /> */}
-      <ChatImpl
-      // chatProfile={chatProfile}
-      // initialMessages={initialMessages}
-      // storeMessageHistory={storeMessageHistory}
-      />
+      <ChatImpl />
       <ToastContainer
         closeButton={({ closeToast }) => {
           return (
@@ -156,7 +151,7 @@ export const ChatImpl = memo(
     };
 
     const sendMessage = async (messageInput?: string) => {
-      console.log("sendMessage", messageInput, input);
+      // console.log("sendMessage", messageInput, input);
       const _input = messageInput || input;
 
       if (!_input) {
