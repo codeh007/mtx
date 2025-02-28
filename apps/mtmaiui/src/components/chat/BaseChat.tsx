@@ -20,7 +20,7 @@ interface BaseChatProps {
   input?: string;
   handleStop?: () => void;
   sendMessage?: (messageInput?: string) => void;
-  handleInputChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  // handleInputChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   enhancePrompt?: () => void;
 }
 
@@ -36,7 +36,7 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
       promptEnhanced = false,
       input = "",
       sendMessage,
-      handleInputChange,
+      // handleInputChange,
       enhancePrompt,
       handleStop,
     },
@@ -46,6 +46,9 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
     const chatStarted = useMemo(() => {
       return messages?.length > 0;
     }, [messages]);
+
+    const handleInputChange = useWorkbenchStore((x) => x.handleHumanInput);
+    const setInput = useWorkbenchStore((x) => x.setInput);
 
     const TEXTAREA_MAX_HEIGHT = chatStarted ? 400 : 200;
     return (
@@ -98,7 +101,9 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
                 sendMessage={sendMessage}
                 isStreaming={isStreaming}
                 chatStarted={chatStarted}
-                handleInputChange={handleInputChange}
+                handleInputChange={(message) =>
+                  setInput(message )
+                }
                 // handleStop={handleStop}
                 textareaRef={textareaRef}
               />

@@ -5,11 +5,8 @@ import { useSnapScroll } from "mtxuilib/hooks/useSnapScroll";
 import { Suspense, memo, useEffect, useRef } from "react";
 import { ToastContainer, cssTransition } from "react-toastify";
 
-import { fileModificationsToHTML } from "../../lib/utils/diff";
-
 import { Icons } from "mtxuilib/icons/icons";
 import { usePromptEnhancer } from "../../hooks/usePromptEnhancer";
-import { useChatHistory } from "../../lib/persistence/useChatHistory";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { BaseChat } from "./BaseChat";
 import { Header } from "./header/header";
@@ -25,19 +22,14 @@ interface ChatProps {
 }
 
 export function ChatClient(props: ChatProps) {
-  const { ready, initialMessages, storeMessageHistory } = useChatHistory();
-  // const openChat = useWorkbrenchStore((x) => x.uiState.openChat);
-
   return (
     <>
       <Header />
-      {ready && (
-        <ChatImpl
-          // chatProfile={chatProfile}
-          initialMessages={initialMessages}
-          storeMessageHistory={storeMessageHistory}
-        />
-      )}
+      <ChatImpl
+      // chatProfile={chatProfile}
+      // initialMessages={initialMessages}
+      // storeMessageHistory={storeMessageHistory}
+      />
       <ToastContainer
         closeButton={({ closeToast }) => {
           return (
@@ -127,7 +119,7 @@ export const ChatImpl = memo(
       stop();
       // chatStore.setKey("aborted", true);
       // setAborted(true);
-      workbenchStore.abortAllActions();
+      // workbenchStore.abortAllActions();
     };
 
     // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
@@ -164,18 +156,14 @@ export const ChatImpl = memo(
       // ]);
     };
 
-    const sendMessage = async (
-      // _event: React.UIEvent,
-      messageInput?: string,
-    ) => {
-      // console.log("sendMessage", messageInput, input);
+    const sendMessage = async (messageInput?: string) => {
+      console.log("sendMessage", messageInput, input);
       const _input = messageInput || input;
 
-      // handleHumanInput(_input);
-
-      if (_input.length === 0) {
+      if (!_input) {
         return;
       }
+      handleHumanInput({ content: _input });
 
       /**
        * @note (delm) Usually saving files shouldn't take long but it may take longer if there
@@ -193,26 +181,26 @@ export const ChatImpl = memo(
 
       runAnimation();
 
-      if (fileModifications !== undefined) {
-        const diff = fileModificationsToHTML(fileModifications);
+      // if (fileModifications !== undefined) {
+      //   const diff = fileModificationsToHTML(fileModifications);
 
-        /**
-         * If we have file modifications we append a new user message manually since we have to prefix
-         * the user input with the file modifications and we don't want the new user input to appear
-         * in the prompt. Using `append` is almost the same as `handleSubmit` except that we have to
-         * manually reset the input and we'd have to manually pass in file attachments. However, those
-         * aren't relevant here.
-         */
-        // append({ role: "user", content: `${diff}\n\n${_input}` });
+      //   /**
+      //    * If we have file modifications we append a new user message manually since we have to prefix
+      //    * the user input with the file modifications and we don't want the new user input to appear
+      //    * in the prompt. Using `append` is almost the same as `handleSubmit` except that we have to
+      //    * manually reset the input and we'd have to manually pass in file attachments. However, those
+      //    * aren't relevant here.
+      //    */
+      //   // append({ role: "user", content: `${diff}\n\n${_input}` });
 
-        /**
-         * After sending a new message we reset all modifications since the model
-         * should now be aware of all the changes.
-         */
-        // workbenchStore.resetAllFileModifications();
-      } else {
-        // append({ role: "user", content: _input });
-      }
+      //   /**
+      //    * After sending a new message we reset all modifications since the model
+      //    * should now be aware of all the changes.
+      //    */
+      //   // workbenchStore.resetAllFileModifications();
+      // } else {
+      //   // append({ role: "user", content: _input });
+      // }
 
       setInput("");
 
@@ -223,12 +211,9 @@ export const ChatImpl = memo(
 
     const [messageRef, scrollRef] = useSnapScroll();
 
-    const handleAisdkInputChange = useWorkbenchStore(
-      (x) => x.handleAisdkInputChange,
-    );
-
-    // const messages = useWorkbrenchStore((x) => x.aisdkMessages);
-
+    // const handleAisdkInputChange = useWorkbenchStore(
+    //   (x) => x.handleHumanInput,
+    // );
     return (
       <Suspense fallback={<div>Loading chatbot...</div>}>
         {/* 聊天窗口 */}
@@ -244,7 +229,7 @@ export const ChatImpl = memo(
           sendMessage={sendMessage}
           messageRef={messageRef}
           scrollRef={scrollRef}
-          handleInputChange={handleAisdkInputChange}
+          // handleInputChange={handleAisdkInputChange}
           handleStop={abort}
           // messages={messages.map((message, i) => {
           // 	if (message.role === "user") {
@@ -256,12 +241,12 @@ export const ChatImpl = memo(
           // 		// content: parsedMessages[i] || "",
           // 	};
           // })}
-          enhancePrompt={() => {
-            enhancePrompt(input, (input) => {
-              setInput(input);
-              scrollTextArea();
-            });
-          }}
+          // enhancePrompt={() => {
+          //   enhancePrompt(input, (input) => {
+          //     setInput(input);
+          //     scrollTextArea();
+          //   });
+          // }}
         />
       </Suspense>
     );

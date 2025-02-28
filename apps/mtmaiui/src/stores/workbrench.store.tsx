@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { type ChangeEvent, createContext, useContext, useMemo } from "react";
+import { createContext, useContext, useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
@@ -22,7 +22,7 @@ import type { AgentRpc } from "mtmaiapi/mtmclient/mtmai/mtmpb/agent_worker_pb";
 import type { Dispatcher } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
 import type { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
 import type { Suggestion } from "mtxuilib/db/schema/suggestion";
-import type { HubmanInput } from "../types/hatchet-types";
+import { generateUUID } from "mtxuilib/lib/utils";
 
 export interface IAskForm {
   callback: (data) => void;
@@ -32,9 +32,6 @@ export interface WorkbenchProps {
   accessToken?: string;
   chatProfile?: string;
   params?: Record<string, any>;
-  // assisantConfig?: AssisantConfig;
-  // onFnCalls?: (fn_call: ICallFn) => any;
-  // autoConnectWs?: boolean;
   openDebugPanel?: boolean;
   threadId?: string;
   tenant: Tenant;
@@ -55,6 +52,13 @@ const DEFAULT_AGENT_FLOW_SETTINGS = {
   showMessages: true,
   showMiniMap: false,
 };
+
+export interface HubmanInput {
+  content: string;
+  resource?: string;
+  resourceId?: string;
+}
+
 // 新增聊天事件类型
 export type MtmaiChatEvent = {
   type: "newChatId" | "chatEnd";
@@ -92,9 +96,9 @@ export interface WorkbrenchState extends WorkbenchProps {
   setMessageParser: (messageParser: (messages: Message[]) => void) => void;
   // input: string;
   // setInput: (input: string) => void;
-  handleAisdkInputChange:
-    | ((event: ChangeEvent<HTMLTextAreaElement>) => void)
-    | undefined;
+  // handleAisdkInputChange:
+  //   | ((event: ChangeEvent<HTMLTextAreaElement>) => void)
+  //   | undefined;
   //-----------------------------------
   setShowWorkbench: (openWorkbench: boolean) => void;
   openChat?: boolean;
@@ -166,7 +170,7 @@ export interface WorkbrenchState extends WorkbenchProps {
   firstTokenReceived: boolean;
   setFirstTokenReceived: (firstTokenReceived: boolean) => void;
 
-  addMessage: (message: ChatMessage) => void;
+  // addMessage: (message: ChatMessage) => void;
   runId: string;
   setRunId: (runId: string) => void;
   //可能放这里不合适
@@ -203,10 +207,10 @@ export const createWorkbrenchSlice: StateCreator<
     backendUrl: "",
     // chatEndpoint: "/api/v1/chat/ws/socket.io",
     // use chat ----------------------------------------------------------------------------
-    appendChatMessageCb: (message) => {
-      // set({ messages: [...get().messages, message] });
-      console.log("append", message);
-    },
+    // appendChatMessageCb: (message) => {
+    //   // set({ messages: [...get().messages, message] });
+    //   console.log("append", message);
+    // },
     setOpenDebugPanel: (openDebugPanel) => set({ openDebugPanel }),
     // currentView: "",
     // setCurrentView: (view) => set({ currentView: view }),
@@ -251,19 +255,20 @@ export const createWorkbrenchSlice: StateCreator<
       set({ openChat });
     },
 
-    // handleAisdkInputChange: (event: ChangeEvent<HTMLTextAreaElement>) =>
-    //   set({ input: event.target.value }),
-    handleHumanInput: debounce(async ({ message, resource, resourceId }) => {
+    handleHumanInput: debounce(async ({ content, resource, resourceId }) => {
       // set({ input: message, resource, resourceId });
+      console.log("message", content);
+      const preMessages = get().messages;
       const newChatMessage = {
-        threadId: "",
-        id: uuidv4(),
-        name: "User", //实际的用户名
-        type: "user_message",
-        output: message,
-        createdAt: new Date().toISOString(),
-      };
-      set({ messages: [...(message || []), newChatMessage] });
+        role: "user",
+        content: content,
+        metadata: {
+          id: generateUUID(),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+      } as ChatMessage;
+      set({ messages: [...preMessages, newChatMessage] });
     }, 200),
     setMessages: (messages) => set({ messages }),
     // setShowWorkbench: (openWorkbench) =>
@@ -361,10 +366,8 @@ export const createWorkbrenchSlice: StateCreator<
 
     // setAskUserState: (askUserState) => set({ askUserState }),
     setChatProfile: (chatProfile) => set({ chatProfile }),
-    // subscribeEvents: (options) => subscribeSse(options, set, get),
     setResource: (resource) => set({ resource }),
     setResourceId: (resourceId) => set({ resourceId }),
-
     //-----------------------------------------------------------------------------------------------------===============================
     setChatStarted: (chatStarted: boolean) => {
       set({ chatStarted });
@@ -372,9 +375,6 @@ export const createWorkbrenchSlice: StateCreator<
     setOpenWorkBench: (openWorkBench: boolean) => {
       set({ openWorkBench });
     },
-    // setFeedbackSubmitted: (feedbackSubmitted: boolean) => {
-    //   set({ feedbackSubmitted });
-    // },
     setRunnerName: (runnerName: string) => {
       set({ runner: runnerName });
     },
@@ -406,10 +406,10 @@ export const createWorkbrenchSlice: StateCreator<
     // streamMessage: (params) => {
     //   return handleSseGraphStream({ ...params }, set, get);
     // },
-    addMessage: (message: ChatMessage) => {
-      const prevMessages = get().messages;
-      set({ messages: [...prevMessages, message] });
-    },
+    // addMessage: (message: ChatMessage) => {
+    //   const prevMessages = get().messages;
+    //   set({ messages: [...prevMessages, message] });
+    // },
     // submitHumanInput: async (content: string) => {
     //   const prevMessages = get().messages;
     //   set({
@@ -429,15 +429,15 @@ export const createWorkbrenchSlice: StateCreator<
 
     //   await handleSseGraphStream(set, get);
     // },
-    setUpdateRenderedArtifactRequired: (
-      updateRenderedArtifactRequired: boolean,
-    ) => {
-      set({ updateRenderedArtifactRequired });
-    },
-    setArtifactContent: (index: number, content: string) => {
-      //TODO: 不正确,以后修改
-      set({ artifactContent: [...get().artifactContent, content] });
-    },
+    // setUpdateRenderedArtifactRequired: (
+    //   updateRenderedArtifactRequired: boolean,
+    // ) => {
+    //   set({ updateRenderedArtifactRequired });
+    // },
+    // setArtifactContent: (index: number, content: string) => {
+    //   //TODO: 不正确,以后修改
+    //   set({ artifactContent: [...get().artifactContent, content] });
+    // },
 
     // autogen studio =========================================================================
     version: null,

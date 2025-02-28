@@ -11,7 +11,7 @@ interface BoltPromptBoxProps {
   chatStarted: boolean;
   textareaRef?: React.RefObject<HTMLTextAreaElement> | undefined;
   sendMessage?: (messageInput?: string) => void;
-  handleInputChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  handleInputChange?: (msg: string) => void;
   isStreaming?: boolean;
   input?: string;
   stop?: () => void;
@@ -64,7 +64,7 @@ export const BoltPromptBox = ({
             }}
             value={input}
             onChange={(event) => {
-              handleInputChange?.(event);
+              handleInputChange?.(event.target.value);
             }}
             style={{
               minHeight: TEXTAREA_MIN_HEIGHT,

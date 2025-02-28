@@ -1,9 +1,8 @@
 "use client";
 
-import { useMemo, useOptimistic, useState } from "react";
+import { useOptimistic, useState } from "react";
 
 import { ChevronDownIcon } from "mtxuilib/icons/aichatbot.icons";
-// import { models } from "../../lib/llm/ai/models";
 import { cn } from "mtxuilib/lib/utils";
 import { Button } from "mtxuilib/ui/button";
 import {
@@ -38,10 +37,10 @@ export function ModelSelector({
   //     },
   //   },
   // );
-  const selectModel = useMemo(
-    () => models.find((model) => model.id === optimisticModelId),
-    [optimisticModelId],
-  );
+  // const selectModel = useMemo(
+  //   () => models.find((model) => model.id === optimisticModelId),
+  //   [optimisticModelId],
+  // );
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -53,7 +52,7 @@ export function ModelSelector({
         )}
       >
         <Button variant="outline" className="md:px-2 md:h-[34px]">
-          {selectModel?.label}
+          {/* {selectModel?.label} */}
           <ChevronDownIcon />
         </Button>
       </DropdownMenuTrigger>
