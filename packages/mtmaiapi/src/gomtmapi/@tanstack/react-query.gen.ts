@@ -87,7 +87,6 @@ import {
   webhookRequestsList,
   workflowRunGetInput,
   workflowGetByName,
-  workflowStream,
   workerConfig,
   mtmaiBloggenconfig,
   mtmaiWorkerConfig,
@@ -331,7 +330,6 @@ import type {
   WebhookRequestsListData,
   WorkflowRunGetInputData,
   WorkflowGetByNameData,
-  WorkflowStreamData,
   WorkerConfigData,
   MtmaiBloggenconfigData,
   MtmaiWorkerConfigData,
@@ -3037,24 +3035,6 @@ export const workflowGetByNameOptions = (
       return data;
     },
     queryKey: workflowGetByNameQueryKey(options),
-  });
-};
-
-export const workflowStreamQueryKey = (options: Options<WorkflowStreamData>) =>
-  createQueryKey("workflowStream", options);
-
-export const workflowStreamOptions = (options: Options<WorkflowStreamData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await workflowStream({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: workflowStreamQueryKey(options),
   });
 };
 

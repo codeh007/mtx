@@ -7,16 +7,11 @@ import {
   useExternalMessageConverter,
   useExternalStoreRuntime,
 } from "@assistant-ui/react";
-import { useQuery } from "@tanstack/react-query";
-import {
-  type ChatMessage,
-  type ProgrammingLanguageOptions,
-  chatMessagesListOptions,
-} from "mtmaiapi";
+import type { ChatMessage, ProgrammingLanguageOptions } from "mtmaiapi";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { cn } from "mtxuilib/lib/utils";
 import { useToast } from "mtxuilib/ui/use-toast";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useTenantId, useUser } from "../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
 import { Route } from "../../~__root";
@@ -29,7 +24,15 @@ export function CanvasComponent() {
   const setChatStarted = useWorkbenchStore((x) => x.setChatStarted);
   const openWorkBench = useWorkbenchStore((x) => x.openWorkBench);
   const [isEditing, setIsEditing] = useState(false);
+  const tid = useTenantId();
   const runId = useWorkbenchStore((x) => x.runId);
+  const threadId = useWorkbenchStore((x) => x.threadId);
+  const nav = Route.useNavigate();
+  const user = useUser();
+  const [isRunning, setIsRunning] = useState(false);
+  const messages = useWorkbenchStore((x) => x.messages);
+  const setMessages = useWorkbenchStore((x) => x.setMessages);
+  const submitHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
 
   const handleQuickStart = (
     type: "text" | "code",
@@ -46,13 +49,6 @@ export function CanvasComponent() {
     setChatStarted(true);
     setIsEditing(true);
   };
-  const threadId = useWorkbenchStore((x) => x.threadId);
-  const nav = Route.useNavigate();
-  const user = useUser();
-  const [isRunning, setIsRunning] = useState(false);
-  const messages = useWorkbenchStore((x) => x.messages);
-  const setMessages = useWorkbenchStore((x) => x.setMessages);
-  const submitHumanInput = useWorkbenchStore((x) => x.submitHumanInput);
   useEffect(() => {
     if (!threadId) return;
     console.log("CanvasComponent", {
@@ -80,32 +76,31 @@ export function CanvasComponent() {
       // await getUserThreads(user.id);
     }
   }
-  const tid = useTenantId();
-  const messagesQuery = useQuery({
-    ...chatMessagesListOptions({
-      path: {
-        tenant: tid,
-        chat: threadId!,
-      },
-    }),
-    enabled: !!threadId,
-  });
+  // const messagesQuery = useQuery({
+  //   ...chatMessagesListOptions({
+  //     path: {
+  //       tenant: tid,
+  //       chat: threadId!,
+  //     },
+  //   }),
+  //   enabled: !!threadId,
+  // });
 
-  const messages2 = useMemo(() => {
-    if (messagesQuery.data?.rows) {
-      setChatStarted(true);
-    }
-    const messages3 = messagesQuery.data?.rows?.map((x) => {
-      console.log("map message:", x);
-      return {
-        role: x.role === "user" ? "user" : "assistant",
-        id: x.metadata?.id,
-        content: x.content,
-      };
-    });
+  // const messages2 = useMemo(() => {
+  //   if (messagesQuery.data?.rows) {
+  //     setChatStarted(true);
+  //   }
+  //   const messages3 = messagesQuery.data?.rows?.map((x) => {
+  //     console.log("map message:", x);
+  //     return {
+  //       role: x.role === "user" ? "user" : "assistant",
+  //       id: x.metadata?.id,
+  //       content: x.content,
+  //     };
+  //   });
 
-    setMessages(messages3 ?? []);
-  }, [messagesQuery.data]);
+  //   setMessages(messages3 ?? []);
+  // }, [messagesQuery.data]);
 
   /**
    * 原因:

@@ -6579,54 +6579,6 @@ export type WorkflowGetByNameResponses = {
 export type WorkflowGetByNameResponse =
   WorkflowGetByNameResponses[keyof WorkflowGetByNameResponses];
 
-export type WorkflowStreamData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-  };
-  query?: {
-    /**
-     * The workflow run id
-     */
-    run?: string;
-    /**
-     * query by meta
-     */
-    meta?: string;
-  };
-  url: "/api/v1/tenants/{tenant}/stream";
-};
-
-export type WorkflowStreamErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type WorkflowStreamError =
-  WorkflowStreamErrors[keyof WorkflowStreamErrors];
-
-export type WorkflowStreamResponses = {
-  200: {
-    /**
-     * 事件类型
-     */
-    type?: string;
-    quick_start?: QuickStart;
-  };
-};
-
-export type WorkflowStreamResponse =
-  WorkflowStreamResponses[keyof WorkflowStreamResponses];
-
 export type WorkerConfigData = {
   body?: never;
   path?: never;

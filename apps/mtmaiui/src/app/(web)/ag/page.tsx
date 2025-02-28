@@ -1,5 +1,5 @@
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
-import { getQueryClient } from "mtmaiui/stores/get-query-client";
+import { getQueryClient } from "../../../lib/get-query-client";
 
 export default async function Page(props: { params }) {
   const queryClient = getQueryClient();

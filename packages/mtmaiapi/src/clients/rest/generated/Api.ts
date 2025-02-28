@@ -86,7 +86,6 @@ import {
   PromptList,
   Proxy,
   ProxyList,
-  QuickStart,
   RateLimitList,
   RateLimitOrderByDirection,
   RateLimitOrderByField,
@@ -2129,42 +2128,6 @@ export class Api<
       method: "GET",
       secure: true,
       format: "json",
-      ...params,
-    });
-  /**
-   * @description Stream a workflow run
-   *
-   * @name WorkflowStream
-   * @request GET:/api/v1/tenants/{tenant}/stream
-   * @secure
-   */
-  workflowStream = (
-    tenant: string,
-    query?: {
-      /**
-       * The workflow run id
-       * @format uuid
-       * @minLength 36
-       * @maxLength 36
-       */
-      run?: string;
-      /** query by meta */
-      meta?: string;
-    },
-    params: RequestParams = {},
-  ) =>
-    this.request<
-      {
-        /** 事件类型 */
-        type?: string;
-        quick_start?: QuickStart;
-      },
-      APIErrors | APIError
-    >({
-      path: `/api/v1/tenants/${tenant}/stream`,
-      method: "GET",
-      query: query,
-      secure: true,
       ...params,
     });
   /**

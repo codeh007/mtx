@@ -2898,11 +2898,6 @@ export const zWorkflowRunGetInputResponse = z.object({});
 
 export const zWorkflowGetByNameResponse = zWorkflow;
 
-export const zWorkflowStreamResponse = z.object({
-  type: z.string().optional(),
-  quick_start: zQuickStart.optional(),
-});
-
 export const zWorkerConfigResponse = zWorkerConfig;
 
 export const zMtmaiBloggenconfigResponse = zBlogGenConfig;

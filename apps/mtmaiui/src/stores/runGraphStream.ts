@@ -5,7 +5,6 @@ import {
   EventTypes,
   FlowNames,
   workflowRunCreate,
-  workflowStream,
 } from "mtmaiapi";
 import {
   ResourceEventType,
@@ -49,39 +48,39 @@ async function handleStreamResponse(
   }
 }
 
-async function pullEvent(
-  tenantId: string,
-  workflowRunId: string,
-  set: (
-    partial:
-      | Partial<WorkbrenchState>
-      | ((state: WorkbrenchState) => Partial<WorkbrenchState>),
-  ) => void,
-  get: () => WorkbrenchState,
-) {
-  console.log("pullEvent", { tenantId, workflowRunId });
-  const response = await workflowStream({
-    path: {
-      tenant: tenantId,
-      // stream: workflowRunId,
-    },
-    query: {
-      run: workflowRunId,
-    },
-    headers: {
-      Accept: "text/event-stream",
-      "Cache-Control": "no-cache",
-      Connection: "keep-alive",
-    },
-    parseAs: "stream",
-  });
+// async function pullEvent(
+//   tenantId: string,
+//   workflowRunId: string,
+//   set: (
+//     partial:
+//       | Partial<WorkbrenchState>
+//       | ((state: WorkbrenchState) => Partial<WorkbrenchState>),
+//   ) => void,
+//   get: () => WorkbrenchState,
+// ) {
+//   console.log("pullEvent", { tenantId, workflowRunId });
+//   const response = await workflowStream({
+//     path: {
+//       tenant: tenantId,
+//       // stream: workflowRunId,
+//     },
+//     query: {
+//       run: workflowRunId,
+//     },
+//     headers: {
+//       Accept: "text/event-stream",
+//       "Cache-Control": "no-cache",
+//       Connection: "keep-alive",
+//     },
+//     parseAs: "stream",
+//   });
 
-  if (response?.data) {
-    await handleStreamResponse(response.response, (line) =>
-      handleStreamLine(line, set, get),
-    );
-  }
-}
+//   if (response?.data) {
+//     await handleStreamResponse(response.response, (line) =>
+//       handleStreamLine(line, set, get),
+//     );
+//   }
+// }
 
 export async function handleSseGraphStream(
   set: (
@@ -142,7 +141,7 @@ export async function handleSseGraphStream(
     // pull stream event
     if (response.data?.metadata?.id) {
       const workflowRunId = response.data.metadata?.id;
-      console.log("开始拉取stream, workflowRunId:", workflowRunId);
+      // console.log("开始拉取stream, workflowRunId:", workflowRunId);
       // 旧
       // await pullEvent(tenant.metadata.id, workflowRunId, set, get);
       // 新
@@ -196,30 +195,37 @@ const handleStreamLine = (
 };
 
 const handleWorkflowRunEvent = (event: WorkflowEvent) => {
-  // console.log("handleWorkflowRunEvent", event);
-  // switch (event.resourceType) {
-  //   case ResourceType.STEP_RUN:
-  //     console.log("step run event", event);
-  //     break;
-  //   case ResourceType.WORKFLOW_RUN:
-  //     console.log("workflow run event", event);
-  //     break;
-  //   default:
-  //     console.log("unknown resource type", event.resourceType);
-  //     break;
-  // }
-
   switch (event.eventType) {
     case ResourceEventType.STREAM:
-      console.log("stream event", event);
-      break;
+      return onStreamEvent(event);
     case ResourceEventType.STARTED:
-      console.log("started event", event);
+      console.log(`started run: ${event.workflowRunId}`);
+      break;
+    case ResourceEventType.COMPLETED:
+      console.log(`completed run: ${event.workflowRunId}`);
+      break;
+    case ResourceEventType.FAILED:
+      console.log(`failed run: ${event.workflowRunId}`);
+      break;
+    case ResourceEventType.CANCELLED:
+      console.log(`cancelled run: ${event.workflowRunId}`);
+      break;
+    case ResourceEventType.TIMED_OUT:
+      console.log(`timed out run: ${event.workflowRunId}`);
       break;
     default:
-      console.log("unknown event type", event.eventType);
+      console.error("⚠️ ⚠️ ⚠️ unknown workflow event type", event.eventType);
       break;
   }
+};
+
+const onStreamEvent = (event: WorkflowEvent) => {
+  const payload = event.eventPayload;
+  if (!payload) {
+    console.error("⚠️ ⚠️ ⚠️ stream event payload is empty", event);
+    return;
+  }
+  console.log("stream event", payload);
 };
 
 // 最终的事件处理

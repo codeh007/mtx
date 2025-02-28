@@ -242,9 +242,6 @@ import type {
   WorkflowGetByNameData,
   WorkflowGetByNameResponse,
   WorkflowGetByNameError,
-  WorkflowStreamData,
-  WorkflowStreamResponse,
-  WorkflowStreamError,
   WorkerConfigData,
   WorkerConfigResponse,
   MtmaiBloggenconfigData,
@@ -2711,32 +2708,6 @@ export const workflowGetByName = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflows/byName/{name}",
-    ...options,
-  });
-};
-
-/**
- * Stream a workflow run
- */
-export const workflowStream = <ThrowOnError extends boolean = false>(
-  options: Options<WorkflowStreamData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    WorkflowStreamResponse,
-    WorkflowStreamError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/stream",
     ...options,
   });
 };
