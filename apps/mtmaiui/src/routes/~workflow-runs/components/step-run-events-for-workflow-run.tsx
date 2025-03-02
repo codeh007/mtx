@@ -11,8 +11,6 @@ import { DataTable } from "mtxuilib/data-table/data-table";
 import { useMemo } from "react";
 import { useTenantId } from "../../../hooks/useAuth";
 import { type ActivityEventData, eventsColumns } from "./events-columns";
-import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
-
 export function StepRunEvents({
   workflowRun,
   filteredStepRunId,
@@ -48,25 +46,25 @@ export function StepRunEvents({
     );
   }, [eventsQuery.data, filteredStepRunId]);
 
-  const stepRuns = useMemo(():StepRun[] => {
-    const a = workflowRun.jobRuns?.flatMap((jr) => jr.stepRuns).filter((x) => !!x) ||
-      ([] as StepRun[]) as StepRun[]
-    return a as StepRun[]
+  const stepRuns = useMemo((): StepRun[] => {
+    const a =
+      workflowRun.jobRuns?.flatMap((jr) => jr.stepRuns).filter((x) => !!x) ||
+      ([] as StepRun[] as StepRun[]);
+    return a as StepRun[];
   }, [workflowRun]);
 
   const steps = useMemo(() => {
-    const a= (
+    const a =
       (
         workflowRun.jobRuns
           ?.flatMap((jr) => jr.job?.steps)
           .filter((x) => !!x) || ([] as Step[])
-      ).flat() || ([] as Step[])
-    );
-    return a as Step[]
+      ).flat() || ([] as Step[]);
+    return a as Step[];
   }, [workflowRun]);
 
   const normalizedStepRunsByStepRunId = useMemo(() => {
-    console.log("normalizedStepRunsByStepRunId", stepRuns)
+    console.log("normalizedStepRunsByStepRunId", stepRuns);
     return stepRuns.reduce(
       (acc, stepRun) => {
         if (!stepRun) {
@@ -117,9 +115,9 @@ export function StepRunEvents({
     }) || [];
 
   const cols = eventsColumns({
-    onRowClick:(row)=>{
-      console.log("eventsColumns onRowClick", row)  
-      onClick?.(row.stepRun?.metadata.id)
+    onRowClick: (row) => {
+      console.log("eventsColumns onRowClick", row);
+      onClick?.(row.stepRun?.metadata.id);
       // : undefined,
     },
     allEvents: tableData,
@@ -127,14 +125,13 @@ export function StepRunEvents({
 
   return (
     <>
-
-    <DataTable
-      emptyState={<>No events found.</>}
-      isLoading={eventsQuery.isLoading}
-      columns={cols}
-      filters={[]}
-      data={tableData}
-    />
+      <DataTable
+        emptyState={<>No events found.</>}
+        isLoading={eventsQuery.isLoading}
+        columns={cols}
+        filters={[]}
+        data={tableData}
+      />
     </>
   );
 }

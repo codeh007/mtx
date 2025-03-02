@@ -1,11 +1,13 @@
 "use client";
 
 import classNames from "classnames";
+import { type AgentRunInput, workflowRunCreate } from "mtmaiapi";
 import { Icons } from "mtxuilib/icons/icons";
 import { cn } from "mtxuilib/lib/utils";
 import { buttonVariants } from "mtxuilib/ui/button";
 import { Separator } from "mtxuilib/ui/separator";
 import Link from "next/link";
+import { useTenantId } from "../../hooks/useAuth";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 
 export function HeaderActionButtons() {
@@ -17,9 +19,31 @@ export function HeaderActionButtons() {
   const canHideChat = showWorkbench || !openChat;
 
   const chatProfileId = useWorkbenchStore((x) => x.chatProfile);
+
+  const tid = useTenantId();
+  const handleAg2 = async () => {
+    const response = await workflowRunCreate({
+      path: {
+        workflow: "ag2",
+      },
+      body: {
+        input: {
+          tenantId: tid,
+          content: "hello",
+          // teamId: teamId,
+          // sessionId: threadId,
+        } satisfies AgentRunInput,
+        additionalMetadata: {
+          // sessionId: threadId,
+        },
+      },
+    });
+  };
   return (
     <div className="flex">
       <div className="flex border border-bolt-elements-borderColor rounded-md overflow-hidden">
+        <Button onClick={handleAg2}>ag2</Button>
+
         <Button
           active={!!openChat}
           disabled={!canHideChat}
