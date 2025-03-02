@@ -62,7 +62,7 @@ function RouteComponent() {
         <MtTabs defaultValue="activity">
           <MtTabsList layout="underlined">
             <MtTabsTrigger variant="underlined" value="activity">
-              工作流活动
+              活动
             </MtTabsTrigger>
             <MtTabsTrigger variant="underlined" value="input">
               输入

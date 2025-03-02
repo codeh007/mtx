@@ -57,7 +57,7 @@ export async function submitMessages(
   });
 
   if (response?.data) {
-    console.log("new run ", response.data);
+    // console.log("new run ", response.data);
     const runId = response.data?.metadata?.id;
     set({ runId: runId });
     // await handleStreamResponse(response.response, (line) =>

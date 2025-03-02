@@ -7,6 +7,7 @@ import {
 import type { ColumnDef } from "@tanstack/react-table";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 
+import { useQuery } from "@tanstack/react-query";
 import {
   type ApiResourceMeta,
   type Step,
@@ -17,19 +18,18 @@ import {
   stepRunGetOptions,
   stepRunListArchivesOptions,
 } from "mtmaiapi";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { DataTableColumnHeader } from "mtxuilib/data-table/data-table-column-header";
 import { cn } from "mtxuilib/lib/utils";
 import { Badge } from "mtxuilib/ui/badge";
 import { Button } from "mtxuilib/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "mtxuilib/ui/popover";
-import { type  useMemo, useRef, useState } from "react";
-import StepRunError from "./step-run-detail/step-run-error";
+import { type useMemo, useRef, useState } from "react";
 import { CustomLink } from "../../../components/CustomLink";
-import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
-import { useQuery } from "@tanstack/react-query";
+import StepRunError from "./step-run-detail/step-run-error";
 
 export type ActivityEventData = {
-  metadata: ApiResourceMeta
+  metadata: ApiResourceMeta;
   event: StepRunEvent;
   stepRun?: StepRun;
   step?: Step;
@@ -47,12 +47,16 @@ export const eventsColumns = ({
     res.push({
       accessorKey: "resource",
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="任务"  />
+        <DataTableColumnHeader column={column} title="任务" />
       ),
       cell: ({ row }) => {
         if (!row.original.stepRun) {
           // return null;
-          return <><DebugValue title="缺少 stepRun" data={{row: row.original}}/></>
+          return (
+            <>
+              <DebugValue title="缺少 stepRun" data={{ row: row.original }} />
+            </>
+          );
         }
         return (
           <div className="min-w-[120px] max-w-[180px]">
@@ -118,22 +122,23 @@ export const eventsColumns = ({
             <div className="text-xs text-muted-foreground font-mono tracking-tight">
               {row.original.event.message}
             </div>
-            {
-              (event.reason === StepRunEventReason.FAILED) && <ErrorWithHoverCard event={row.original} rows={allEvents} />
-            }
-            {
-              (event.data?.worker_id as unknown as string) && <div><CustomLink to={`/workers/${event.data?.worker_id}`}>
-              <Button
-                variant="link"
-                size="xs"
-                className="font-mono text-xs text-muted-foreground tracking-tight brightness-150"
-              >
-                <ServerStackIcon className="size-4 mr-1" />
-                View Worker
-              </Button>
-            </CustomLink>
-            </div>
-            }
+            {event.reason === StepRunEventReason.FAILED && (
+              <ErrorWithHoverCard event={row.original} rows={allEvents} />
+            )}
+            {(event.data?.worker_id as unknown as string) && (
+              <div>
+                <CustomLink to={`/workers/${event.data?.worker_id}`}>
+                  <Button
+                    variant="link"
+                    size="sm"
+                    className="font-mono text-xs text-muted-foreground tracking-tight brightness-150"
+                  >
+                    <ServerStackIcon className="size-4 mr-1" />
+                    View Worker
+                  </Button>
+                </CustomLink>
+              </div>
+            )}
           </div>
         );
       },
@@ -278,7 +283,6 @@ function ErrorHoverContents({
     }),
     enabled: !isLatestFailure,
   });
-
 
   const errorString = useMemo(() => {
     if (isLatestFailure && !getStepRunQuery.data) {
