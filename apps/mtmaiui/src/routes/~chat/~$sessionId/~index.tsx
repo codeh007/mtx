@@ -5,5 +5,5 @@ export const Route = createFileRoute("/chat/$sessionId/")({
 });
 
 function RouteComponent() {
-  return <>workbench(default view)</>;
+  return <></>;
 }

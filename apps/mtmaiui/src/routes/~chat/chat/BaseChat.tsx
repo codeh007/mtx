@@ -51,6 +51,7 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
     }, [messages]);
 
     const setInput = useWorkbenchStore((x) => x.setInput);
+    const openWorkbench = useWorkbenchStore((x) => x.openWorkbench);
 
     const TEXTAREA_MAX_HEIGHT = chatStarted ? 400 : 200;
 
@@ -106,12 +107,13 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
             </div>
           </div>
 
-          {/* {workbrenchChildren} */}
-          <MtWorkbench
-            chatStarted={chatStarted}
-            isStreaming={isStreaming}
-            outlet={workbrenchChildren}
-          />
+          {openWorkbench && (
+            <MtWorkbench
+              chatStarted={chatStarted}
+              isStreaming={isStreaming}
+              outlet={workbrenchChildren}
+            />
+          )}
         </div>
       </>
     );

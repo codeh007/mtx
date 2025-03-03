@@ -2,7 +2,7 @@
 import type { Message } from "ai";
 import { useAnimate } from "framer-motion";
 import { useSnapScroll } from "mtxuilib/hooks/useSnapScroll";
-import { Suspense, memo, useEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 import { ToastContainer, cssTransition } from "react-toastify";
 
 import { Icons } from "mtxuilib/icons/icons";
@@ -221,41 +221,38 @@ export const ChatImpl = memo(
 
     const [messageRef, scrollRef] = useSnapScroll();
     return (
-      <Suspense fallback={<div>Loading chatbot...</div>}>
-        {/* 聊天窗口 */}
-        <BaseChat
-          ref={animationScope}
-          // textareaRef={textareaRef}
-          input={input}
-          showChat={!!showChat}
-          // chatStarted={chatStarted}
-          isStreaming={false}
-          enhancingPrompt={enhancingPrompt}
-          promptEnhanced={promptEnhanced}
-          sendMessage={sendMessage}
-          messageRef={messageRef}
-          scrollRef={scrollRef}
-          // handleInputChange={handleAisdkInputChange}
-          handleStop={abort}
-          workbrenchChildren={workbrenchChildren}
-          // messages={messages.map((message, i) => {
-          // 	if (message.role === "user") {
-          // 		return message;
-          // 	}
+      <BaseChat
+        ref={animationScope}
+        // textareaRef={textareaRef}
+        input={input}
+        showChat={!!showChat}
+        // chatStarted={chatStarted}
+        isStreaming={false}
+        enhancingPrompt={enhancingPrompt}
+        promptEnhanced={promptEnhanced}
+        sendMessage={sendMessage}
+        messageRef={messageRef}
+        scrollRef={scrollRef}
+        // handleInputChange={handleAisdkInputChange}
+        handleStop={abort}
+        workbrenchChildren={workbrenchChildren}
+        // messages={messages.map((message, i) => {
+        // 	if (message.role === "user") {
+        // 		return message;
+        // 	}
 
-          // 	return {
-          // 		...message,
-          // 		// content: parsedMessages[i] || "",
-          // 	};
-          // })}
-          // enhancePrompt={() => {
-          //   enhancePrompt(input, (input) => {
-          //     setInput(input);
-          //     scrollTextArea();
-          //   });
-          // }}
-        />
-      </Suspense>
+        // 	return {
+        // 		...message,
+        // 		// content: parsedMessages[i] || "",
+        // 	};
+        // })}
+        // enhancePrompt={() => {
+        //   enhancePrompt(input, (input) => {
+        //     setInput(input);
+        //     scrollTextArea();
+        //   });
+        // }}
+      />
     );
   },
 );
