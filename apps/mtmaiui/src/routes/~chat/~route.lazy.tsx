@@ -31,6 +31,10 @@ function RouteComponent() {
   const agrpcClient = useGomtmClient(AgentRpc);
   const eventClient = useGomtmClient(EventsService);
   const dispatcherClient = useGomtmClient(Dispatcher);
+
+  // const nav = Route.useNavigate();
+  const nav = Route.useNavigate();
+
   return (
     <WorkbrenchProvider
       agClient={mtmAgClient}
@@ -39,6 +43,7 @@ function RouteComponent() {
       runtimeClient={agrpcClient}
       backendUrl={selfBackendend!}
       tenant={tenant!}
+      nav={nav}
     >
       <RootAppWrapper className="flex w-full h-full flex-1">
         <DashSidebar />

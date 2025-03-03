@@ -11,7 +11,7 @@ export const Route = createLazyFileRoute("/chat/")({
 
 function RouteComponent() {
   const setThreadId = useWorkbenchStore((x) => x.setThreadId);
-  setThreadId("");
+  setThreadId(undefined);
   return (
     <>
       <Header />

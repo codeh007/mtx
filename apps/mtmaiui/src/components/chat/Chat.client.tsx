@@ -7,8 +7,10 @@ import { ToastContainer, cssTransition } from "react-toastify";
 
 import { Icons } from "mtxuilib/icons/icons";
 import { usePromptEnhancer } from "../../hooks/usePromptEnhancer";
+import { Route } from "../../routes/~__root";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { BaseChat } from "./BaseChat";
+// import { Route } from "@tanstack/react-router";
 
 const toastAnimation = cssTransition({
   enter: "animated fadeInRight",
@@ -21,6 +23,17 @@ interface ChatProps {
 }
 
 export function ChatClient(props: ChatProps) {
+  const threadId = useWorkbenchStore((x) => x.threadId);
+  const nav = Route.useNavigate();
+  // console.log("ChatClient", threadId);
+  useEffect(() => {
+    console.log("ChatClient", threadId);
+    if (threadId) {
+      nav({
+        to: `/chat/${threadId}`,
+      });
+    }
+  }, [threadId, nav]);
   return (
     <>
       <ChatImpl />

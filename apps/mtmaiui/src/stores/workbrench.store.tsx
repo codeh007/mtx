@@ -9,6 +9,7 @@ import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 
 import type { Client } from "@connectrpc/connect";
+import type { UseNavigateResult } from "@tanstack/react-router";
 import { debounce } from "lodash";
 import type {
   AgentRunInput,
@@ -40,6 +41,7 @@ export interface WorkbenchProps {
   runtimeClient: Client<typeof AgentRpc>;
   eventClient: Client<typeof EventsService>;
   dispatcherClient: Client<typeof Dispatcher>;
+  nav: UseNavigateResult<string>;
 }
 export type StreamingDelta = {
   type: "text-delta" | "title" | "id" | "suggestion" | "clear" | "finish";
@@ -67,7 +69,7 @@ export type MtmaiChatEvent = {
 };
 
 export interface WorkbrenchState extends WorkbenchProps {
-  setThreadId: (threadId: string) => void;
+  setThreadId: (threadId?: string) => void;
   isOpenWorkbenchChat: boolean;
   setIsOpenWorkbenchChat: (isOpenWorkbenchChat: boolean) => void;
   setOpenDebugPanel: (openDebugPanel: boolean) => void;
@@ -213,8 +215,6 @@ export const createWorkbrenchSlice: StateCreator<
     },
 
     handleHumanInput: debounce(async ({ content, resource, resourceId }) => {
-      // set({ input: message, resource, resourceId });
-      // console.log("message", content);
       const preMessages = get().messages;
       const newChatMessage = {
         role: "user",
@@ -229,7 +229,6 @@ export const createWorkbrenchSlice: StateCreator<
       submitMessages(set, get);
     }, 100),
     setMessages: (messages) => set({ messages }),
-    // openWorkbench: false,
     setShowWorkbench: (openWorkbench) => {
       set({ openWorkbench });
     },
@@ -239,7 +238,20 @@ export const createWorkbrenchSlice: StateCreator<
     // setStarted: (started) => set({ started }),
     // setAborted: (aborted) => set({ aborted }),
     setThreadId: (threadId) => {
-      set({ threadId });
+      const prevThreadId = get().threadId;
+      console.log("setThreadId", threadId, prevThreadId);
+
+      if (prevThreadId !== threadId && threadId) {
+        console.log("new chat session:", prevThreadId, threadId);
+        set({ threadId });
+        // if (!window.location.pathname.includes(`#/chat/${threadId}`)) {
+        //   window.history.replaceState(null, "", `#/chat/${threadId}`);
+        // }
+        console.log("nav", `/chat/${threadId}`);
+        // get().nav({
+        //   to: `/chat/${threadId}`,
+        // });
+      }
     },
     // setIsOpenWorkbenchChat: (isOpenWorkbenchChat: boolean) => {
     //   set({ isOpenWorkbenchChat });

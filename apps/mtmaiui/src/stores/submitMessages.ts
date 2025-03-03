@@ -1,8 +1,8 @@
 "use client";
 
-import { fromBinary } from "@bufbuild/protobuf";
 // import { type Any, anyPack, anyIs } from "@bufbuild/protobuf/wkt";
-import { createRegistry, isMessage } from "@bufbuild/protobuf";
+import { create, createRegistry } from "@bufbuild/protobuf";
+import type { GenMessage } from "@bufbuild/protobuf/codegenv1";
 import {
   type AgentRunInput,
   EventTypes,
@@ -131,53 +131,48 @@ const onStreamEvent = (
   ) => void,
 ) => {
   // 相关 protobuf 文档: https://github.com/bufbuild/protobuf-es/blob/main/MANUAL.md
-  const payload = event.eventPayload;
+  const payload = JSON.parse(event.eventPayload);
   if (!payload) {
-    console.error("⚠️ ⚠️ ⚠️ stream event payload is empty", event);
+    console.error("⚠️ ⚠️ ⚠️ payload error", event);
     return;
   }
-  const encoder = new TextEncoder();
-  const uint8Array = encoder.encode(payload);
-  console.log("on stream event22", event);
+  console.log("payload", payload);
 
-  if (isMessage(uint8Array, CloudEventSchema)) {
-    // msg.firstName; // string
-    console.log("是 CloudEventSchema");
+  if (isMatchPbSchema(payload, ChatSessionStartEventSchema)) {
+    const chatSessionStart = create(ChatSessionStartEventSchema, payload);
+    console.log("chatSessionStart", chatSessionStart);
+    get().setThreadId(chatSessionStart.threadId);
+  } else {
+    const agTextMessage = payload as AgTextMessage;
+    if (agTextMessage.source === "user") {
+      return;
+    }
+    const newChatMessage = {
+      role: agTextMessage.source,
+      content: agTextMessage.content,
+      metadata: {
+        id: generateUUID(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+    };
+    get().addMessage(newChatMessage);
   }
-  if (isMessage(uint8Array, ChatSessionStartEventSchema)) {
-    // msg.firstName; // string
-    console.log("是 ChatSessionStartEventSchema");
-  }
-
-  const cloudEventData = fromBinary(CloudEventSchema, uint8Array);
-  console.log("cloudEventData", cloudEventData);
-
-  // const aaa: Any = {
-  //   typeUrl: "mtmai.mtmpb.ChatSessionStartEvent",
-  //   // value: "123",
-  // };
-  // anyUnpack(aaa, registry); // Message | undefined
-  // cloudEventData.data;
-  // console.log("aaa", aaa);
-
-  // 是 protobuf 消息
-  const agTextMessage = JSON.parse(payload) as AgTextMessage;
-  if (agTextMessage.source === "user") {
-    return;
-  }
-  const newChatMessage = {
-    role: agTextMessage.source,
-    content: agTextMessage.content,
-    metadata: {
-      id: generateUUID(),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    },
-  };
-  get().addMessage(newChatMessage);
-  // console.log("stream event", payload);
 };
 
+function isMatchPbSchema(
+  payload: Record<string, any>,
+  schema: GenMessage<any>,
+) {
+  if (
+    payload["@type"] === schema.typeName ||
+    payload["@typeName"] === schema.typeName
+  ) {
+    return true;
+  }
+  // console.log("not match", payload, schema.typeName);
+  return false;
+}
 // 最终的事件处理
 const graphEventHandler = async (
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
