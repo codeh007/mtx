@@ -7,8 +7,6 @@ import { Suspense, memo } from "react";
 import { SkeletonLoading } from "mtxuilib/components/skeletons/SkeletonLoading";
 import { cn } from "mtxuilib/lib/utils";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
-// import { getViewByName } from "../LzComponents";
-
 export interface WorkspaceProps {
   chatStarted?: boolean;
   isStreaming?: boolean;
@@ -34,14 +32,14 @@ export const workbenchVariants = {
 export const MtWorkbench = memo(
   ({ chatStarted, isStreaming }: WorkspaceProps) => {
     // renderLogger.trace("Workbench");
-    const showWorkbench = useWorkbenchStore((x) => x.uiState.openWorkbench);
-    const currentWorkbench = useWorkbenchStore(
-      (x) => x.uiState.currentWorkbenchView,
-    );
+    const showWorkbench = useWorkbenchStore((x) => x.openWorkbench);
+    // const currentWorkbench = useWorkbenchStore(
+    //   (x) => x.currentWorkbenchView,
+    // );
 
-    const currentView = getViewByName(currentWorkbench || "");
-    const WorkbenchView = getViewByName(currentWorkbench || "");
-    const workbenchViewProps = useWorkbenchStore((x) => x.workbenchViewProps);
+    // const currentView = getViewByName(currentWorkbench || "");
+    // const WorkbenchView = getViewByName(currentWorkbench || "");
+    // const workbenchViewProps = useWorkbenchStore((x) => x.workbenchViewProps);
     return (
       <>
         <motion.div
@@ -55,12 +53,12 @@ export const MtWorkbench = memo(
         >
           {/* <DebugValue data={{ workbenchViewProps }} /> */}
           <Suspense fallback={<SkeletonLoading />}>
-            {currentView?.length > 0 && (
+            {/* {currentView?.length > 0 && (
               <WorkbenchView
                 isStreaming={isStreaming}
                 {...workbenchViewProps}
               />
-            )}
+            )} */}
           </Suspense>
         </motion.div>
       </>

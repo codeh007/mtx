@@ -5,13 +5,13 @@ import { useSnapScroll } from "mtxuilib/hooks/useSnapScroll";
 import { Suspense, memo, useEffect, useRef } from "react";
 import { ToastContainer, cssTransition } from "react-toastify";
 
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { Icons } from "mtxuilib/icons/icons";
 import { usePromptEnhancer } from "../../hooks/usePromptEnhancer";
 import { Route } from "../../routes/~__root";
+import { AgStateView2 } from "../../routes/~ag_state/components/AgStateView";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { BaseChat } from "./BaseChat";
-// import { Route } from "@tanstack/react-router";
-
 const toastAnimation = cssTransition({
   enter: "animated fadeInRight",
   exit: "animated fadeOutRight",
@@ -25,6 +25,7 @@ interface ChatProps {
 export function ChatClient(props: ChatProps) {
   const threadId = useWorkbenchStore((x) => x.threadId);
   const nav = Route.useNavigate();
+  const chatSessionId = useWorkbenchStore((x) => x.threadId);
   // console.log("ChatClient", threadId);
   useEffect(() => {
     console.log("ChatClient", threadId);
@@ -36,6 +37,11 @@ export function ChatClient(props: ChatProps) {
   }, [threadId, nav]);
   return (
     <>
+      <div>
+        <MtSuspenseBoundary>
+          {chatSessionId && <AgStateView2 agStateId={chatSessionId} />}
+        </MtSuspenseBoundary>
+      </div>
       <ChatImpl />
       <ToastContainer
         closeButton={({ closeToast }) => {
@@ -85,9 +91,6 @@ export const ChatImpl = memo(
     // useShortcuts();
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-    // const [chatStarted, setChatStarted] = useState(initialMessages?.length > 0);
-
     const showChat = useWorkbenchStore((x) => x.openChat);
 
     const [animationScope, animate] = useAnimate();

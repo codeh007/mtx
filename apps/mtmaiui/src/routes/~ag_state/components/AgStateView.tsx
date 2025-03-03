@@ -1,7 +1,32 @@
 "use client";
 
-import type { AgState } from "mtmaiapi";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { type AgState, agStateGetOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
+import { useTenantId } from "../../../hooks/useAuth";
+
+interface AgStateView2Props {
+  agStateId: string;
+}
+export const AgStateView2 = ({ agStateId }: AgStateView2Props) => {
+  const tid = useTenantId();
+  const agStateQuery = useSuspenseQuery({
+    ...agStateGetOptions({
+      path: {
+        tenant: tid,
+      },
+      query: {
+        state: agStateId,
+      },
+    }),
+  });
+
+  return (
+    <div>
+      <DebugValue title="agState" data={{ state: agStateQuery.data }} />
+    </div>
+  );
+};
 
 interface AgStateViewProps {
   agState: AgState;
