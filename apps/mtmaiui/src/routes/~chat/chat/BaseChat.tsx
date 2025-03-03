@@ -4,8 +4,8 @@ import type React from "react";
 import { type RefCallback, forwardRef, useMemo } from "react";
 
 import { classNames } from "mtxuilib/lib/utils";
-import { useWorkbenchStore } from "../../stores/workbrench.store";
-import { MtWorkbench } from "../workbench/MtWorkbench";
+import { useWorkbenchStore } from "../../../stores/workbrench.store";
+import { Header } from "../header";
 import { MtMessages } from "./MtMessages";
 import { BoltPromptBox } from "./prompt-input/BoltPromptBox";
 
@@ -23,6 +23,7 @@ interface BaseChatProps {
   handleStop?: () => void;
   sendMessage?: (messageInput?: string) => void;
   enhancePrompt?: () => void;
+  workbrenchChildren?: React.ReactNode;
 }
 
 export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
@@ -37,6 +38,7 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
       promptEnhanced = false,
       input = "",
       sendMessage,
+      workbrenchChildren,
       // enhancePrompt,
       // handleStop,
     },
@@ -66,15 +68,13 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
                 "flex flex-col flex-grow min-w-[var(--chat-min-width)] h-full",
               )}
             >
-              {/* <DebugValue title="elements" data={elements} /> */}
-              {/* {!chatStarted && assistantConfig?.welcome && (
-              <ChatWelcome welcome={assistantConfig.welcome} />
-            )} */}
               <div
                 className={classNames("pt-2 px-1", {
                   "h-full flex flex-col": chatStarted,
                 })}
               >
+                <Header />
+
                 {chatStarted ? (
                   <>
                     <MtMessages
@@ -104,7 +104,8 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
               {/* {!chatStarted && <ChatStarts onSelect={handleSelectStart} />} */}
             </div>
           </div>
-          <MtWorkbench chatStarted={chatStarted} isStreaming={isStreaming} />
+
+          {workbrenchChildren}
         </div>
       </>
     );

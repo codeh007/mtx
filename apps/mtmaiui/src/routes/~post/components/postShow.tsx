@@ -14,9 +14,9 @@ import { Input } from "postcss";
 import { useState } from "react";
 import { DiffView } from "../../../components/aichatbot/diffview";
 import { Editor } from "../../../components/aichatbot/editor";
-import { AssistantLoader } from "../../../components/chat/AssistantLoader.tsx--";
 import { useTenant } from "../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
+import { AssistantLoader } from "../../~chat/chat/AssistantLoader.tsx--";
 
 const doc1 = `
 # title1

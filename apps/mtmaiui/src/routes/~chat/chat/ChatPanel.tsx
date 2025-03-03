@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "mtxuilib/lib/utils";
-import { useWorkbenchStore } from "../../stores/workbrench.store";
+import { useWorkbenchStore } from "../../../stores/workbrench.store";
 import { ChatClient } from "./Chat.client";
 
 export const ChatPanel = () => {

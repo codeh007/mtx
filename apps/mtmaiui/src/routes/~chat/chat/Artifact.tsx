@@ -1,17 +1,17 @@
 // import { useStore } from "@nanostores/react";
 import { AnimatePresence, motion } from "framer-motion";
 
-import type { ActionState } from "../../lib/runtime";
+import type { ActionState } from "../../../lib/runtime";
 
 import { Icons } from "mtxuilib/icons/icons";
 
+import { useStore } from "@nanostores/react";
 import classNames from "classnames";
 import { cn } from "mtxuilib/lib/utils";
 import { cubicEasingFn } from "mtxuilib/mt/easings";
 import { computed } from "nanostores";
 import { memo, useEffect, useRef, useState } from "react";
-import { useWorkbenchStore } from "../../stores/workbrench.store";
-import { useStore } from "@nanostores/react";
+import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
 interface ArtifactProps {
   messageId: string;

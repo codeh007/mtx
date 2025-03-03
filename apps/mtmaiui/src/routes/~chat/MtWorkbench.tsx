@@ -7,8 +7,8 @@ import { Suspense, memo } from "react";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { SkeletonLoading } from "mtxuilib/components/skeletons/SkeletonLoading";
 import { cn } from "mtxuilib/lib/utils";
-import { AgStateView2 } from "../../routes/~ag_state/components/AgStateView";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
+import { AgStateView2 } from "../~ag_state/components/AgStateView";
 export interface WorkspaceProps {
   chatStarted?: boolean;
   isStreaming?: boolean;
@@ -42,11 +42,10 @@ export const MtWorkbench = memo(
           animate={showWorkbench ? "open" : "closed"}
           variants={workbenchVariants}
           className={cn("z-workbench", {
-            "bg-red-100": true,
+            "bg-slate-100": true,
             "w-0": !showWorkbench,
           })}
         >
-          {/* <DebugValue data={{ workbenchViewProps }} /> */}
           <Suspense fallback={<SkeletonLoading />}>
             {/* {currentView?.length > 0 && (
               <WorkbenchView
@@ -54,7 +53,7 @@ export const MtWorkbench = memo(
                 {...workbenchViewProps}
               />
             )} */}
-            <div>
+            <div className="min-w-64">
               <MtSuspenseBoundary>
                 {chatSessionId && <AgStateView2 chatId={chatSessionId} />}
               </MtSuspenseBoundary>

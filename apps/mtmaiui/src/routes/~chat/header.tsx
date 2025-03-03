@@ -1,7 +1,7 @@
 "use client";
 
 import { useWindowSize } from "usehooks-ts";
-import { ModelSelector } from "../../components/chat/model-selector";
+import { ModelSelector } from "./chat/model-selector";
 
 import classNames from "classnames";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
@@ -36,7 +36,7 @@ export function Header() {
   return (
     <header
       className={classNames(
-        "flex items-center bg-bolt-elements-background-depth-1 p-5 border-b h-[var(--header-height)]",
+        "flex items-center bg-bolt-elements-background-depth-1 mb-2 border-b h-[var(--header-height)]",
         {
           "border-transparent": !started,
           "border-bolt-elements-borderColor": started,
@@ -103,8 +103,6 @@ export function Header() {
       <div className="mr-1">
         <HeaderActionButtons />
       </div>
-      {/*  )} */}
-      {/* <ThemeSwitch /> */}
       <Suspense>{/* <UserAvatorMenus /> */}</Suspense>
     </header>
   );

@@ -1,9 +1,8 @@
-import { createLazyFileRoute } from "@tanstack/react-router";
+import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
-import { DashContent } from "../../components/DashContent";
-import { ChatClient } from "../../components/chat/Chat.client";
-import { useWorkbenchStore } from "../../stores/workbrench.store";
-import { Header } from "./header";
+import { DashContent } from "../../../components/DashContent";
+import { useWorkbenchStore } from "../../../stores/workbrench.store";
+import { ChatClient } from "../chat/Chat.client";
 export const Route = createLazyFileRoute("/chat/$sessionId")({
   component: RouteComponent,
 });
@@ -14,10 +13,9 @@ function RouteComponent() {
   setThreadId(sessionId);
   return (
     <>
-      <Header />
       <DashContent>
         <MtSuspenseBoundary>
-          <ChatClient />
+          <ChatClient workbrenchChildren={<Outlet />} />
         </MtSuspenseBoundary>
       </DashContent>
     </>

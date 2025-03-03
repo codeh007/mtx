@@ -10,7 +10,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu";
-import { useTenant } from "../../hooks/useAuth";
+import { useTenant } from "../../../hooks/useAuth";
 
 export function ModelSelector({
   selectedModelId,

@@ -18,6 +18,7 @@ const toastAnimation = cssTransition({
 interface ChatProps {
   initialMessages?: Message[];
   storeMessageHistory?: (messages: Message[]) => Promise<void>;
+  workbrenchChildren?: React.ReactNode;
 }
 
 export function ChatClient(props: ChatProps) {
@@ -37,7 +38,7 @@ export function ChatClient(props: ChatProps) {
   }, [threadId, nav]);
   return (
     <>
-      <ChatImpl />
+      <ChatImpl workbrenchChildren={props.workbrenchChildren} />
       <ToastContainer
         closeButton={({ closeToast }) => {
           return (
@@ -82,7 +83,11 @@ export function ChatClient(props: ChatProps) {
 }
 
 export const ChatImpl = memo(
-  ({ initialMessages = [], storeMessageHistory }: ChatProps) => {
+  ({
+    initialMessages = [],
+    storeMessageHistory,
+    workbrenchChildren,
+  }: ChatProps) => {
     // useShortcuts();
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -232,6 +237,7 @@ export const ChatImpl = memo(
           scrollRef={scrollRef}
           // handleInputChange={handleAisdkInputChange}
           handleStop={abort}
+          workbrenchChildren={workbrenchChildren}
           // messages={messages.map((message, i) => {
           // 	if (message.role === "user") {
           // 		return message;

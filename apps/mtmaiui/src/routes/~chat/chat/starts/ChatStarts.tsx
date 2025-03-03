@@ -1,6 +1,6 @@
 "use client";
 
-import { useWorkbenchStore } from "../../../stores/workbrench.store";
+import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 
 // import { exampleCases } from "../../../skyvern/routes/tasks/data/exampleCases";
 
