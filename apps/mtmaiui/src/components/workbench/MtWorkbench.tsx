@@ -4,8 +4,10 @@ import { type Variants, motion } from "framer-motion";
 import { cubicEasingFn } from "mtxuilib/mt/easings";
 import { Suspense, memo } from "react";
 
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { SkeletonLoading } from "mtxuilib/components/skeletons/SkeletonLoading";
 import { cn } from "mtxuilib/lib/utils";
+import { AgStateView2 } from "../../routes/~ag_state/components/AgStateView";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 export interface WorkspaceProps {
   chatStarted?: boolean;
@@ -31,15 +33,8 @@ export const workbenchVariants = {
 
 export const MtWorkbench = memo(
   ({ chatStarted, isStreaming }: WorkspaceProps) => {
-    // renderLogger.trace("Workbench");
     const showWorkbench = useWorkbenchStore((x) => x.openWorkbench);
-    // const currentWorkbench = useWorkbenchStore(
-    //   (x) => x.currentWorkbenchView,
-    // );
-
-    // const currentView = getViewByName(currentWorkbench || "");
-    // const WorkbenchView = getViewByName(currentWorkbench || "");
-    // const workbenchViewProps = useWorkbenchStore((x) => x.workbenchViewProps);
+    const chatSessionId = useWorkbenchStore((x) => x.threadId);
     return (
       <>
         <motion.div
@@ -59,6 +54,11 @@ export const MtWorkbench = memo(
                 {...workbenchViewProps}
               />
             )} */}
+            <div>
+              <MtSuspenseBoundary>
+                {chatSessionId && <AgStateView2 chatId={chatSessionId} />}
+              </MtSuspenseBoundary>
+            </div>
           </Suspense>
         </motion.div>
       </>

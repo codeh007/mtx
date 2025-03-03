@@ -70,17 +70,15 @@ export type MtmaiChatEvent = {
 
 export interface WorkbrenchState extends WorkbenchProps {
   setThreadId: (threadId?: string) => void;
-  isOpenWorkbenchChat: boolean;
-  setIsOpenWorkbenchChat: (isOpenWorkbenchChat: boolean) => void;
+
   setOpenDebugPanel: (openDebugPanel: boolean) => void;
   workbenchViewProps?: Record<string, any>;
   setWorkbenchViewProps: (props?: Record<string, any>) => void;
-  openWorkbench: boolean;
   appendChatMessageCb?: (message) => void;
   setAccessToken: (accessToken: string) => void;
   messageParser?: (messages: Message[]) => void;
   setMessageParser: (messageParser: (messages: Message[]) => void) => void;
-  setShowWorkbench: (openWorkbench: boolean) => void;
+
   openChat?: boolean;
   setOpenChat: (openChat: boolean) => void;
   setCurrentWorkbenchView: (id: string) => void;
@@ -98,9 +96,6 @@ export interface WorkbrenchState extends WorkbenchProps {
   setLoading: (loading: boolean) => void;
   askForm?: IAskForm;
   setAskForm: (askForm?: IAskForm) => void;
-  chatProfile?: string;
-  setChatProfile: (chatProfileState?: string) => void;
-  setChatProfileId: (chatProfileId: string) => void;
   input?: string;
   setInput: (input: string) => void;
   handleHumanInput: (input: HubmanInput) => void;
@@ -119,8 +114,10 @@ export interface WorkbrenchState extends WorkbenchProps {
   setChatStarted: (chatStarted: boolean) => void;
   messages: ChatMessage[];
   setMessages: (messages: ChatMessage[]) => void;
-  openWorkBench?: boolean;
-  setOpenWorkBench: (openWorkBench: boolean) => void;
+  openWorkbench?: boolean;
+  setOpenWorkbench: (openWorkbench: boolean) => void;
+  isOpenWorkbenchChat: boolean;
+  setIsOpenWorkbenchChat: (isOpenWorkbenchChat: boolean) => void;
   runner?: string;
   setRunner: (runner: string) => void;
   teamId: string;
@@ -132,14 +129,12 @@ export interface WorkbrenchState extends WorkbenchProps {
   addMessage: (message: ChatMessage) => void;
   runId: string;
   setRunId: (runId: string) => void;
-  //可能放这里不合适
   artifact: ArtifactV3 | undefined;
   setArtifact: (artifact: ArtifactV3) => void;
   isArtifactSaved: boolean;
   setIsArtifactSaved: (isArtifactSaved: boolean) => void;
   selectedArtifact: number;
   setSelectedArtifact: (index: number) => void;
-  //可能放这里不合适
   selectedBlocks: TextHighlight | undefined;
   setSelectedBlocks: (selectedBlocks?: TextHighlight) => void;
   streamMessage: (params: AgentRunInput) => Promise<void>;
@@ -175,8 +170,8 @@ export const createWorkbrenchSlice: StateCreator<
     // setCurrentView: (view) => set({ currentView: view }),
     // workbenchConfig: undefined,
     // setWorkbenchConfig: (config) => set({ workbenchConfig: config }),
-    workbenchViewProps: {},
-    setWorkbenchViewProps: (props) => set({ workbenchViewProps: props }),
+    // workbenchViewProps: {},
+    // setWorkbenchViewProps: (props) => set({ workbenchViewProps: props }),
     // assisantConfig: undefined,
     // setAssisantConfig: (config) => set({ assisantConfig: config }),
     setSelectedModelId: (selectedModelId) => set({ selectedModelId }),
@@ -336,15 +331,15 @@ export const createWorkbrenchSlice: StateCreator<
     // },
 
     // setAskUserState: (askUserState) => set({ askUserState }),
-    setChatProfile: (chatProfile) => set({ chatProfile }),
-    setResource: (resource) => set({ resource }),
-    setResourceId: (resourceId) => set({ resourceId }),
-    //-----------------------------------------------------------------------------------------------------===============================
+    // setChatProfile: (chatProfile) => set({ chatProfile }),
+    // setResource: (resource) => set({ resource }),
+    // setResourceId: (resourceId) => set({ resourceId }),
     setChatStarted: (chatStarted: boolean) => {
       set({ chatStarted });
     },
-    setOpenWorkBench: (openWorkBench: boolean) => {
-      set({ openWorkBench });
+    setOpenWorkbench: (openWorkbench: boolean) => {
+      console.log("setOpenWorkbench", openWorkbench);
+      set({ openWorkbench });
     },
     setRunnerName: (runnerName: string) => {
       set({ runner: runnerName });

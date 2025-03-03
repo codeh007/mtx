@@ -3323,7 +3323,7 @@ export class Api<
   /**
    * @description 获取租户下的 agent 状态
    *
-   * @tags agStates
+   * @tags agState
    * @name AgStateList
    * @request GET:/api/v1/tenants/{tenant}/agStates
    * @secure
@@ -3361,7 +3361,7 @@ export class Api<
   /**
    * @description 获取租户下的 agent 状态
    *
-   * @tags agStates
+   * @tags agState
    * @name AgStateGet
    * @request GET:/api/v1/tenants/{tenant}/agState
    * @secure
@@ -3371,8 +3371,8 @@ export class Api<
     query?: {
       /** The agState id */
       state?: string;
-      /** The run id */
-      run?: string;
+      /** The chat id */
+      chat?: string;
     },
     params: RequestParams = {},
   ) =>

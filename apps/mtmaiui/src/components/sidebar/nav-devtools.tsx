@@ -20,11 +20,11 @@ import {
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 
 export function NavDevtools() {
-  const openChat = useWorkbenchStore((x) => x.uiState.openChat);
+  const openChat = useWorkbenchStore((x) => x.openChat);
   const setOpenChat = useWorkbenchStore((x) => x.setOpenChat);
 
-  const openWorkbench = useWorkbenchStore((x) => x.uiState.openWorkbench);
-  const setOpenWorkbench = useWorkbenchStore((x) => x.setShowWorkbench);
+  const openWorkbench = useWorkbenchStore((x) => x.openWorkbench);
+  const setOpenWorkbench = useWorkbenchStore((x) => x.setOpenWorkbench);
 
   if (process.env.NODE_ENV === "production") {
     return null;

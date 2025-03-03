@@ -1774,7 +1774,7 @@ export const zAgStateUpsert = zAgStateProperties.merge(
   z.object({
     stateId: z.string().optional(),
     componentId: z.string(),
-    runId: z.string(),
+    chatId: z.string(),
     tenantId: z.string().optional(),
   }),
 );

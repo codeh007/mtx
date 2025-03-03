@@ -3771,7 +3771,7 @@ export const AgStateUpsertSchema = {
       $ref: "#/components/schemas/AgStateProperties",
     },
     {
-      required: ["componentId", "runId"],
+      required: ["componentId", "chatId"],
       properties: {
         stateId: {
           type: "string",
@@ -3781,9 +3781,9 @@ export const AgStateUpsertSchema = {
           type: "string",
           description: "组件id",
         },
-        runId: {
+        chatId: {
           type: "string",
-          description: "运行id",
+          description: "聊天id",
         },
         tenantId: {
           type: "string",

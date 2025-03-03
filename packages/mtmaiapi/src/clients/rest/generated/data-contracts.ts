@@ -1816,8 +1816,8 @@ export type AgStateUpsert = AgStateProperties & {
   stateId?: string;
   /** 组件id */
   componentId: string;
-  /** 运行id */
-  runId: string;
+  /** 聊天id */
+  chatId: string;
   /** 租户id */
   tenantId?: string;
 };

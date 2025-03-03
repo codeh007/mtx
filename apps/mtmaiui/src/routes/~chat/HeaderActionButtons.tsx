@@ -6,17 +6,18 @@ import { Icons } from "mtxuilib/icons/icons";
 import { cn } from "mtxuilib/lib/utils";
 import { buttonVariants } from "mtxuilib/ui/button";
 import { Separator } from "mtxuilib/ui/separator";
-import Link from "next/link";
+import { CustomLink } from "../../components/CustomLink";
 import { useTenantId } from "../../hooks/useAuth";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 
 export function HeaderActionButtons() {
-  const showWorkbench = useWorkbenchStore((x) => x.openWorkbench);
-  const setShowWorkbench = useWorkbenchStore((x) => x.setShowWorkbench);
+  const openWorkbench = useWorkbenchStore((x) => x.openWorkbench);
+  const setOpenWorkbench = useWorkbenchStore((x) => x.setOpenWorkbench);
 
+  console.log("setOpenWorkbench", setOpenWorkbench);
   const openChat = useWorkbenchStore((x) => x.openChat);
   const setOpenChat = useWorkbenchStore((x) => x.setOpenChat);
-  const canHideChat = showWorkbench || !openChat;
+  const canHideChat = openWorkbench || !openChat;
 
   const chatProfileId = useWorkbenchStore((x) => x.chatProfile);
 
@@ -57,30 +58,31 @@ export function HeaderActionButtons() {
         </Button>
         <div className="w-[1px] bg-bolt-elements-borderColor" />
         <Button
-          active={!!showWorkbench}
+          active={!!openWorkbench}
           onClick={() => {
-            if (showWorkbench && !openChat) {
-              setOpenChat(true);
-            }
-            setShowWorkbench(!showWorkbench);
+            console.log("openWorkbench", openWorkbench);
+            // if (openWorkbench && !openChat) {
+            //   setOpenChat(true);
+            // }
+            setOpenWorkbench(!openWorkbench);
           }}
         >
           <Icons.code />
         </Button>
         <Separator orientation="vertical" className="mr-2 h-4" />
-        <Link
+        <CustomLink
           // active={!!showWorkbench}
           className={cn(buttonVariants({ variant: "ghost" }))}
-          href={`/dash/chat-profile/${chatProfileId}/edit`}
+          to={`/chat/${chatProfileId}/edit`}
           onClick={() => {
-            if (showWorkbench && !openChat) {
+            if (openWorkbench && !openChat) {
               setOpenChat(true);
             }
-            setShowWorkbench(!showWorkbench);
+            setOpenWorkbench(!openWorkbench);
           }}
         >
           <Icons.settings className="size-4" />
-        </Link>
+        </CustomLink>
       </div>
     </div>
   );

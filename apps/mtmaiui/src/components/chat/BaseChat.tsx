@@ -37,8 +37,8 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
       promptEnhanced = false,
       input = "",
       sendMessage,
-      enhancePrompt,
-      handleStop,
+      // enhancePrompt,
+      // handleStop,
     },
     ref,
   ) => {
@@ -47,72 +47,66 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
       return messages?.length > 0;
     }, [messages]);
 
-    // const handleInputChange = useWorkbenchStore((x) => x.handleHumanInput);
     const setInput = useWorkbenchStore((x) => x.setInput);
 
     const TEXTAREA_MAX_HEIGHT = chatStarted ? 400 : 200;
 
     return (
-      <div
-        ref={ref}
-        className={classNames(
-          "relative flex h-full w-full bg-bolt-elements-background-depth-1 ",
-        )}
-        data-chat-visible={showChat}
-      >
-        <div ref={scrollRef} className="flex overflow-scroll w-full h-full">
-          <div
-            className={classNames(
-              "flex flex-col flex-grow min-w-[var(--chat-min-width)] h-full",
-            )}
-          >
-            {/* <DebugValue title="elements" data={elements} /> */}
-            {/* {!chatStarted && assistantConfig?.welcome && (
+      <>
+        <div
+          ref={ref}
+          className={classNames(
+            "relative flex h-full w-full bg-bolt-elements-background-depth-1 ",
+          )}
+          data-chat-visible={showChat}
+        >
+          <div ref={scrollRef} className="flex overflow-scroll w-full h-full">
+            <div
+              className={classNames(
+                "flex flex-col flex-grow min-w-[var(--chat-min-width)] h-full",
+              )}
+            >
+              {/* <DebugValue title="elements" data={elements} /> */}
+              {/* {!chatStarted && assistantConfig?.welcome && (
               <ChatWelcome welcome={assistantConfig.welcome} />
             )} */}
-            <div
-              className={classNames("pt-2 px-1", {
-                "h-full flex flex-col": chatStarted,
-              })}
-            >
-              {chatStarted ? (
-                <>
-                  {/* <Messages
-										ref={messageRef}
-										className="flex flex-col w-full flex-1 max-w-chat px-4 pb-6 mx-auto z-1"
-										messages={messages}
-										isStreaming={isStreaming}
-									/> */}
-                  <MtMessages
-                    ref={messageRef}
-                    messages={messages}
-                    elements={[]}
-                    actions={[]}
-                    indent={0}
-                    isStreaming={isStreaming}
-                    className="flex flex-col w-full flex-1 max-w-chat pb-3 mx-auto z-1 mb-6"
-                  />
-                </>
-              ) : null}
+              <div
+                className={classNames("pt-2 px-1", {
+                  "h-full flex flex-col": chatStarted,
+                })}
+              >
+                {chatStarted ? (
+                  <>
+                    <MtMessages
+                      ref={messageRef}
+                      messages={messages}
+                      elements={[]}
+                      actions={[]}
+                      indent={0}
+                      isStreaming={isStreaming}
+                      className="flex flex-col w-full flex-1 max-w-chat pb-3 mx-auto z-1 mb-6"
+                    />
+                  </>
+                ) : null}
 
-              <BoltPromptBox
-                enhancingPrompt={enhancingPrompt}
-                promptEnhanced={promptEnhanced}
-                input={input}
-                sendMessage={sendMessage}
-                isStreaming={isStreaming}
-                chatStarted={chatStarted}
-                handleInputChange={(message) => setInput(message)}
-                // handleStop={handleStop}
-                textareaRef={textareaRef}
-              />
+                <BoltPromptBox
+                  enhancingPrompt={enhancingPrompt}
+                  promptEnhanced={promptEnhanced}
+                  input={input}
+                  sendMessage={sendMessage}
+                  isStreaming={isStreaming}
+                  chatStarted={chatStarted}
+                  handleInputChange={(message) => setInput(message)}
+                  // handleStop={handleStop}
+                  textareaRef={textareaRef}
+                />
+              </div>
+              {/* {!chatStarted && <ChatStarts onSelect={handleSelectStart} />} */}
             </div>
-            {/* {!chatStarted && <ChatStarts onSelect={handleSelectStart} />} */}
           </div>
-
           <MtWorkbench chatStarted={chatStarted} isStreaming={isStreaming} />
         </div>
-      </div>
+      </>
     );
   },
 );

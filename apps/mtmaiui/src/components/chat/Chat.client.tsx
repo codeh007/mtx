@@ -5,11 +5,9 @@ import { useSnapScroll } from "mtxuilib/hooks/useSnapScroll";
 import { Suspense, memo, useEffect, useRef } from "react";
 import { ToastContainer, cssTransition } from "react-toastify";
 
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { Icons } from "mtxuilib/icons/icons";
 import { usePromptEnhancer } from "../../hooks/usePromptEnhancer";
 import { Route } from "../../routes/~__root";
-import { AgStateView2 } from "../../routes/~ag_state/components/AgStateView";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { BaseChat } from "./BaseChat";
 const toastAnimation = cssTransition({
@@ -37,11 +35,6 @@ export function ChatClient(props: ChatProps) {
   }, [threadId, nav]);
   return (
     <>
-      <div>
-        <MtSuspenseBoundary>
-          {chatSessionId && <AgStateView2 agStateId={chatSessionId} />}
-        </MtSuspenseBoundary>
-      </div>
       <ChatImpl />
       <ToastContainer
         closeButton={({ closeToast }) => {

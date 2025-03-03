@@ -8,7 +8,6 @@ export const ChatPanel = () => {
   // 打开关闭 中间的聊天窗口的动画效果。
   const openChat = useWorkbenchStore((x) => x.openChat);
   const openWorkbench = useWorkbenchStore((x) => x.openWorkbench);
-  // const openChat = true;
   return (
     <div
       className={cn(

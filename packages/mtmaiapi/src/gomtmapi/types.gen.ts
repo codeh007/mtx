@@ -2175,9 +2175,9 @@ export type AgStateUpsert = AgStateProperties & {
    */
   componentId: string;
   /**
-   * 运行id
+   * 聊天id
    */
-  runId: string;
+  chatId: string;
   /**
    * 租户id
    */
@@ -8644,9 +8644,9 @@ export type AgStateGetData = {
      */
     state?: string;
     /**
-     * The run id
+     * The chat id
      */
-    run?: string;
+    chat?: string;
   };
   url: "/api/v1/tenants/{tenant}/agState";
 };
