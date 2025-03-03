@@ -31,10 +31,9 @@ function RouteComponent() {
   });
 
   const agState = agStateQuery.data as AgStateProperties;
-  const componentId = agState.componentId;
   return (
     <div className="bg-blug-200 p-2">
-      team view
+      <div>type : {agState.type}</div>
       <DebugValue title="agState" data={{ state: agStateQuery.data }} />
       <div>
         <div>state id: {agStateQuery.data?.metadata?.id}</div>
