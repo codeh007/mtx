@@ -1760,6 +1760,8 @@ export const zCanvasGraphParams = z.object({
 export const zAgStateProperties = z.object({
   version: z.string().optional().default("1.0.0"),
   type: z.string().optional().default("TeamState"),
+  componentId: z.string().optional(),
+  chatId: z.string().optional(),
   state: z.object({}).default({}),
 });
 

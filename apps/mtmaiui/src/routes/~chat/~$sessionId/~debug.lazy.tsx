@@ -1,8 +1,6 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
-import { AgStateView2 } from "../../~ag_state/components/AgStateView";
-
 export const Route = createLazyFileRoute("/chat/$sessionId/debug")({
   component: RouteComponent,
 });
@@ -16,5 +14,5 @@ function RouteComponent() {
     console.log("chatStarted", chatStarted);
     console.log("isStreaming", isStreaming);
   }, [chatStarted, isStreaming]);
-  return <>{chatSessionId && <AgStateView2 chatId={chatSessionId} />}</>;
+  return <>debug view</>;
 }

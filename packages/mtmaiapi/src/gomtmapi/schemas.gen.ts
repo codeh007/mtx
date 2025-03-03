@@ -3732,6 +3732,14 @@ export const AgStatePropertiesSchema = {
       type: "string",
       default: "TeamState",
     },
+    componentId: {
+      type: "string",
+      description: "组件id",
+    },
+    chatId: {
+      type: "string",
+      description: "聊天id",
+    },
     state: {
       type: "object",
       additionalProperties: true,

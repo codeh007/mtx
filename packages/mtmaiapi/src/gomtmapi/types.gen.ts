@@ -2153,6 +2153,14 @@ export type CanvasGraphParams = {
 export type AgStateProperties = {
   version?: string;
   type?: string;
+  /**
+   * 组件id
+   */
+  componentId?: string;
+  /**
+   * 聊天id
+   */
+  chatId?: string;
   state: {
     [key: string]: unknown;
   };

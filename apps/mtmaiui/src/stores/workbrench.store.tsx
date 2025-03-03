@@ -338,7 +338,7 @@ export const createWorkbrenchSlice: StateCreator<
       set({ chatStarted });
     },
     setOpenWorkbench: (openWorkbench: boolean) => {
-      console.log("setOpenWorkbench", openWorkbench);
+      // console.log("setOpenWorkbench", openWorkbench);
       set({ openWorkbench });
     },
     setRunnerName: (runnerName: string) => {

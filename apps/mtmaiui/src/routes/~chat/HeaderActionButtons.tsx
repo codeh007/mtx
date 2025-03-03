@@ -14,7 +14,7 @@ export function HeaderActionButtons() {
   const openWorkbench = useWorkbenchStore((x) => x.openWorkbench);
   const setOpenWorkbench = useWorkbenchStore((x) => x.setOpenWorkbench);
 
-  console.log("setOpenWorkbench", setOpenWorkbench);
+  // console.log("setOpenWorkbench", setOpenWorkbench);
   const openChat = useWorkbenchStore((x) => x.openChat);
   const setOpenChat = useWorkbenchStore((x) => x.setOpenChat);
   const canHideChat = openWorkbench || !openChat;

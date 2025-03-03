@@ -1800,6 +1800,10 @@ export interface AgStateProperties {
   version?: string;
   /** @default "TeamState" */
   type?: string;
+  /** 组件id */
+  componentId?: string;
+  /** 聊天id */
+  chatId?: string;
   /** @default {} */
   state: Record<string, any>;
 }
