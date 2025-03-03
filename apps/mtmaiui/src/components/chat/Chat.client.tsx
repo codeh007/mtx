@@ -220,10 +220,6 @@ export const ChatImpl = memo(
     };
 
     const [messageRef, scrollRef] = useSnapScroll();
-
-    // const handleAisdkInputChange = useWorkbenchStore(
-    //   (x) => x.handleHumanInput,
-    // );
     return (
       <Suspense fallback={<div>Loading chatbot...</div>}>
         {/* 聊天窗口 */}

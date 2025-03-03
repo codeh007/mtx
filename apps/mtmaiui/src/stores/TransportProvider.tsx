@@ -31,11 +31,6 @@ export function MtTransportProvider({ children }: MtTransportProviderProps) {
   );
 }
 
-const logger: Interceptor = (next) => async (req) => {
-  console.log(`sending message to ${req.url}`);
-  return await next(req);
-};
-
 export function useGomtmTransport({
   accessToken,
   tenantId,
@@ -44,6 +39,21 @@ export function useGomtmTransport({
   tenantId?: string;
 }) {
   const backendUrl = useMtmaiV2((x) => x.serverUrl);
+
+  const logger: Interceptor = useMemo(
+    () => (next) => async (req) => {
+      console.log(`sending message to ${req.url}`);
+      if (tenantId) {
+        req.header.set("X-Tid", tenantId);
+      }
+      if (accessToken) {
+        req.header.set("Authorization", `Bearer ${accessToken}`);
+      }
+      return await next(req);
+    },
+    [tenantId, accessToken],
+  );
+
   const transport = useMemo(
     () =>
       createConnectTransport({
@@ -59,36 +69,36 @@ export function useGomtmTransport({
         // for side-effect free RPCs.
         useHttpGet: false,
 
-        // fetch: globalThis.fetch,
-        fetch: (input: RequestInfo | URL, init?: RequestInit) => {
-          console.log("fetching(GomtmTransport)", {
-            input,
-            tenantId,
-            headers: init?.headers,
-          });
-          const oldHeaders = init?.headers as Headers;
-          const newHeaders = new Headers();
-          // console.log("oldHeaders", oldHeaders);
+        // // fetch: globalThis.fetch,
+        // fetch: (input: RequestInfo | URL, init?: RequestInit) => {
+        //   console.log("fetching(GomtmTransport)", {
+        //     input,
+        //     tenantId,
+        //     headers: init?.headers,
+        //   });
+        //   const oldHeaders = init?.headers as Headers;
+        //   const newHeaders = new Headers();
+        //   // console.log("oldHeaders", oldHeaders);
 
-          for (const [k, v] of Object.entries(oldHeaders.entries())) {
-            // if (k.startsWith("x-")) {
-            console.log("setting header", k, v);
-            newHeaders.set(k, v);
-            // }
-          }
-          if (accessToken) {
-            newHeaders.set("Authorization", `Bearer ${accessToken}`);
-          }
-          if (tenantId) {
-            newHeaders.set("X-Tid", tenantId);
-          }
-          // newHeaders.set("Content-Type", "application/json");
-          newHeaders.set("Content-Type", "application/connect+json");
-          return globalThis.fetch(input, {
-            ...init,
-            headers: newHeaders,
-          });
-        },
+        //   for (const [k, v] of Object.entries(oldHeaders.entries())) {
+        //     // if (k.startsWith("x-")) {
+        //     console.log("setting header", k, v);
+        //     newHeaders.set(k, v);
+        //     // }
+        //   }
+        //   if (accessToken) {
+        //     newHeaders.set("Authorization", `Bearer ${accessToken}`);
+        //   }
+        //   if (tenantId) {
+        //     newHeaders.set("X-Tid", tenantId);
+        //   }
+        //   // newHeaders.set("Content-Type", "application/json");
+        //   newHeaders.set("Content-Type", "application/connect+json");
+        //   return globalThis.fetch(input, {
+        //     ...init,
+        //     headers: newHeaders,
+        //   });
+        // },
 
         // Options for Protobuf JSON serialization.
         // jsonOptions: {},
