@@ -30,7 +30,8 @@ function RouteComponent() {
     }),
   });
 
-  const agState = agStateQuery.data.state as AgStateProperties;
+  const agState = agStateQuery.data as AgStateProperties;
+  const componentId = agState.componentId;
   return (
     <div className="bg-blug-200 p-2">
       team view
@@ -52,22 +53,20 @@ interface TeamViewProps {
 }
 const TeamView = ({ agState }: TeamViewProps) => {
   const tid = useTenantId();
-  // const state = agState.state as any;
   const componsenQuery = useSuspenseQuery({
     ...comsGetOptions({
       path: {
         tenant: tid,
       },
       query: {
-        com: agState.teamId,
+        com: agState.componentId!,
       },
     }),
   });
   return (
     <div className="bg-amber-100 p-1">
-      {/* teamId: {agState.metadata?.id} */}
       <div>type: {agState.type}</div>
-      <div>team_id: {agState.teamId}</div>
+      <div>componentId: {agState.componentId}</div>
       <DebugValue title="team_component" data={{ agState: agState }} />
       <DebugValue title="team_component" data={{ coms: componsenQuery.data }} />
     </div>
