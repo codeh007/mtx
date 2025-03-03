@@ -2,6 +2,7 @@
 
 import { fromBinary } from "@bufbuild/protobuf";
 // import { type Any, anyPack, anyIs } from "@bufbuild/protobuf/wkt";
+import { createRegistry, isMessage } from "@bufbuild/protobuf";
 import {
   type AgentRunInput,
   EventTypes,
@@ -13,9 +14,11 @@ import {
   ResourceEventType,
   type WorkflowEvent,
 } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
+import { ChatSessionStartEventSchema } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
 import { generateUUID } from "mtxuilib/lib/utils";
 import type { AgTextMessage } from "../types/event";
 import type { WorkbrenchState } from "./workbrench.store";
+const registry = createRegistry(CloudEventSchema, ChatSessionStartEventSchema);
 export async function submitMessages(
   set: (
     partial:
@@ -136,8 +139,26 @@ const onStreamEvent = (
   const encoder = new TextEncoder();
   const uint8Array = encoder.encode(payload);
   console.log("on stream event22", event);
+
+  if (isMessage(uint8Array, CloudEventSchema)) {
+    // msg.firstName; // string
+    console.log("是 CloudEventSchema");
+  }
+  if (isMessage(uint8Array, ChatSessionStartEventSchema)) {
+    // msg.firstName; // string
+    console.log("是 ChatSessionStartEventSchema");
+  }
+
   const cloudEventData = fromBinary(CloudEventSchema, uint8Array);
   console.log("cloudEventData", cloudEventData);
+
+  // const aaa: Any = {
+  //   typeUrl: "mtmai.mtmpb.ChatSessionStartEvent",
+  //   // value: "123",
+  // };
+  // anyUnpack(aaa, registry); // Message | undefined
+  // cloudEventData.data;
+  // console.log("aaa", aaa);
 
   // 是 protobuf 消息
   const agTextMessage = JSON.parse(payload) as AgTextMessage;
