@@ -26,7 +26,6 @@ import { Route as PlatformIndexImport } from './routes/~platform/~index'
 import { Route as GalleryIndexImport } from './routes/~gallery/~index'
 import { Route as SiteSiteIdHostRouteImport } from './routes/~site/~$siteId/~host/~route'
 import { Route as SiteSiteIdEditImport } from './routes/~site/~$siteId/~edit'
-import { Route as ChatSessionIdDebugImport } from './routes/~chat/~$sessionId/~debug'
 import { Route as SiteCreateIndexImport } from './routes/~site/~create/~index'
 import { Route as SiteSiteIdIndexImport } from './routes/~site/~$siteId/~index'
 import { Route as OnboardingCreateTenantIndexImport } from './routes/~onboarding/~create-tenant/~index'
@@ -76,6 +75,8 @@ const EnvsIndexLazyImport = createFileRoute('/envs/')()
 const EndpointIndexLazyImport = createFileRoute('/endpoint/')()
 const ChatIndexLazyImport = createFileRoute('/chat/')()
 const AgEventsIndexLazyImport = createFileRoute('/agEvents/')()
+const ChatSessionIdTeamLazyImport = createFileRoute('/chat/$sessionId/team')()
+const ChatSessionIdDebugLazyImport = createFileRoute('/chat/$sessionId/debug')()
 const AuthLoginIndexLazyImport = createFileRoute('/auth/login/')()
 
 // Create/Update Routes
@@ -415,6 +416,22 @@ const GalleryIndexRoute = GalleryIndexImport.update({
   getParentRoute: () => GalleryRouteLazyRoute,
 } as any)
 
+const ChatSessionIdTeamLazyRoute = ChatSessionIdTeamLazyImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => ChatSessionIdRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~chat/~$sessionId/~team.lazy').then((d) => d.Route),
+)
+
+const ChatSessionIdDebugLazyRoute = ChatSessionIdDebugLazyImport.update({
+  id: '/debug',
+  path: '/debug',
+  getParentRoute: () => ChatSessionIdRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~chat/~$sessionId/~debug.lazy').then((d) => d.Route),
+)
+
 const AuthLoginIndexLazyRoute = AuthLoginIndexLazyImport.update({
   id: '/',
   path: '/',
@@ -433,12 +450,6 @@ const SiteSiteIdEditRoute = SiteSiteIdEditImport.update({
   id: '/edit',
   path: '/edit',
   getParentRoute: () => SiteSiteIdRouteRoute,
-} as any)
-
-const ChatSessionIdDebugRoute = ChatSessionIdDebugImport.update({
-  id: '/debug',
-  path: '/debug',
-  getParentRoute: () => ChatSessionIdRouteLazyRoute,
 } as any)
 
 const SiteCreateIndexRoute = SiteCreateIndexImport.update({
@@ -840,13 +851,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteCreateIndexImport
       parentRoute: typeof SiteRouteLazyImport
     }
-    '/chat/$sessionId/debug': {
-      id: '/chat/$sessionId/debug'
-      path: '/debug'
-      fullPath: '/chat/$sessionId/debug'
-      preLoaderRoute: typeof ChatSessionIdDebugImport
-      parentRoute: typeof ChatSessionIdRouteLazyImport
-    }
     '/site/$siteId/edit': {
       id: '/site/$siteId/edit'
       path: '/edit'
@@ -867,6 +871,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/auth/login/'
       preLoaderRoute: typeof AuthLoginIndexLazyImport
       parentRoute: typeof AuthLoginRouteLazyImport
+    }
+    '/chat/$sessionId/debug': {
+      id: '/chat/$sessionId/debug'
+      path: '/debug'
+      fullPath: '/chat/$sessionId/debug'
+      preLoaderRoute: typeof ChatSessionIdDebugLazyImport
+      parentRoute: typeof ChatSessionIdRouteLazyImport
+    }
+    '/chat/$sessionId/team': {
+      id: '/chat/$sessionId/team'
+      path: '/team'
+      fullPath: '/chat/$sessionId/team'
+      preLoaderRoute: typeof ChatSessionIdTeamLazyImport
+      parentRoute: typeof ChatSessionIdRouteLazyImport
     }
     '/site/$siteId/host/': {
       id: '/site/$siteId/host/'
@@ -918,13 +936,15 @@ const AuthRouteLazyRouteWithChildren = AuthRouteLazyRoute._addFileChildren(
 
 interface ChatSessionIdRouteLazyRouteChildren {
   ChatSessionIdIndexRoute: typeof ChatSessionIdIndexRoute
-  ChatSessionIdDebugRoute: typeof ChatSessionIdDebugRoute
+  ChatSessionIdDebugLazyRoute: typeof ChatSessionIdDebugLazyRoute
+  ChatSessionIdTeamLazyRoute: typeof ChatSessionIdTeamLazyRoute
 }
 
 const ChatSessionIdRouteLazyRouteChildren: ChatSessionIdRouteLazyRouteChildren =
   {
     ChatSessionIdIndexRoute: ChatSessionIdIndexRoute,
-    ChatSessionIdDebugRoute: ChatSessionIdDebugRoute,
+    ChatSessionIdDebugLazyRoute: ChatSessionIdDebugLazyRoute,
+    ChatSessionIdTeamLazyRoute: ChatSessionIdTeamLazyRoute,
   }
 
 const ChatSessionIdRouteLazyRouteWithChildren =
@@ -1213,10 +1233,11 @@ export interface FileRoutesByFullPath {
   '/onboarding/create-tenant': typeof OnboardingCreateTenantIndexRoute
   '/site/$siteId/': typeof SiteSiteIdIndexRoute
   '/site/create': typeof SiteCreateIndexRoute
-  '/chat/$sessionId/debug': typeof ChatSessionIdDebugRoute
   '/site/$siteId/edit': typeof SiteSiteIdEditRoute
   '/site/$siteId/host': typeof SiteSiteIdHostRouteRouteWithChildren
   '/auth/login/': typeof AuthLoginIndexLazyRoute
+  '/chat/$sessionId/debug': typeof ChatSessionIdDebugLazyRoute
+  '/chat/$sessionId/team': typeof ChatSessionIdTeamLazyRoute
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexRoute
 }
 
@@ -1255,9 +1276,10 @@ export interface FileRoutesByTo {
   '/onboarding/create-tenant': typeof OnboardingCreateTenantIndexRoute
   '/site/$siteId': typeof SiteSiteIdIndexRoute
   '/site/create': typeof SiteCreateIndexRoute
-  '/chat/$sessionId/debug': typeof ChatSessionIdDebugRoute
   '/site/$siteId/edit': typeof SiteSiteIdEditRoute
   '/auth/login': typeof AuthLoginIndexLazyRoute
+  '/chat/$sessionId/debug': typeof ChatSessionIdDebugLazyRoute
+  '/chat/$sessionId/team': typeof ChatSessionIdTeamLazyRoute
   '/site/$siteId/host': typeof SiteSiteIdHostIndexRoute
 }
 
@@ -1315,10 +1337,11 @@ export interface FileRoutesById {
   '/onboarding/create-tenant/': typeof OnboardingCreateTenantIndexRoute
   '/site/$siteId/': typeof SiteSiteIdIndexRoute
   '/site/create/': typeof SiteCreateIndexRoute
-  '/chat/$sessionId/debug': typeof ChatSessionIdDebugRoute
   '/site/$siteId/edit': typeof SiteSiteIdEditRoute
   '/site/$siteId/host': typeof SiteSiteIdHostRouteRouteWithChildren
   '/auth/login/': typeof AuthLoginIndexLazyRoute
+  '/chat/$sessionId/debug': typeof ChatSessionIdDebugLazyRoute
+  '/chat/$sessionId/team': typeof ChatSessionIdTeamLazyRoute
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexRoute
 }
 
@@ -1377,10 +1400,11 @@ export interface FileRouteTypes {
     | '/onboarding/create-tenant'
     | '/site/$siteId/'
     | '/site/create'
-    | '/chat/$sessionId/debug'
     | '/site/$siteId/edit'
     | '/site/$siteId/host'
     | '/auth/login/'
+    | '/chat/$sessionId/debug'
+    | '/chat/$sessionId/team'
     | '/site/$siteId/host/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -1418,9 +1442,10 @@ export interface FileRouteTypes {
     | '/onboarding/create-tenant'
     | '/site/$siteId'
     | '/site/create'
-    | '/chat/$sessionId/debug'
     | '/site/$siteId/edit'
     | '/auth/login'
+    | '/chat/$sessionId/debug'
+    | '/chat/$sessionId/team'
     | '/site/$siteId/host'
   id:
     | '__root__'
@@ -1476,10 +1501,11 @@ export interface FileRouteTypes {
     | '/onboarding/create-tenant/'
     | '/site/$siteId/'
     | '/site/create/'
-    | '/chat/$sessionId/debug'
     | '/site/$siteId/edit'
     | '/site/$siteId/host'
     | '/auth/login/'
+    | '/chat/$sessionId/debug'
+    | '/chat/$sessionId/team'
     | '/site/$siteId/host/'
   fileRoutesById: FileRoutesById
 }
@@ -1792,7 +1818,8 @@ export const routeTree = rootRoute
       "parent": "/chat",
       "children": [
         "/chat/$sessionId/",
-        "/chat/$sessionId/debug"
+        "/chat/$sessionId/debug",
+        "/chat/$sessionId/team"
       ]
     },
     "/post/create": {
@@ -1826,10 +1853,6 @@ export const routeTree = rootRoute
       "filePath": "~site/~create/~index.tsx",
       "parent": "/site"
     },
-    "/chat/$sessionId/debug": {
-      "filePath": "~chat/~$sessionId/~debug.tsx",
-      "parent": "/chat/$sessionId"
-    },
     "/site/$siteId/edit": {
       "filePath": "~site/~$siteId/~edit.tsx",
       "parent": "/site/$siteId"
@@ -1844,6 +1867,14 @@ export const routeTree = rootRoute
     "/auth/login/": {
       "filePath": "~auth/~login/~index.lazy.tsx",
       "parent": "/auth/login"
+    },
+    "/chat/$sessionId/debug": {
+      "filePath": "~chat/~$sessionId/~debug.lazy.tsx",
+      "parent": "/chat/$sessionId"
+    },
+    "/chat/$sessionId/team": {
+      "filePath": "~chat/~$sessionId/~team.lazy.tsx",
+      "parent": "/chat/$sessionId"
     },
     "/site/$siteId/host/": {
       "filePath": "~site/~$siteId/~host/~index.tsx",

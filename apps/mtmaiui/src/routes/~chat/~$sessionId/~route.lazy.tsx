@@ -15,7 +15,7 @@ function RouteComponent() {
     <>
       <DashContent>
         <MtSuspenseBoundary>
-          <ChatClient workbrenchChildren={<Outlet />} />
+          <ChatClient outlet={<Outlet />} />
         </MtSuspenseBoundary>
       </DashContent>
     </>

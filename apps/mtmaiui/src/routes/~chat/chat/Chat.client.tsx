@@ -18,7 +18,7 @@ const toastAnimation = cssTransition({
 interface ChatProps {
   initialMessages?: Message[];
   storeMessageHistory?: (messages: Message[]) => Promise<void>;
-  workbrenchChildren?: React.ReactNode;
+  outlet?: React.ReactNode;
 }
 
 export function ChatClient(props: ChatProps) {
@@ -38,7 +38,7 @@ export function ChatClient(props: ChatProps) {
   }, [threadId, nav]);
   return (
     <>
-      <ChatImpl workbrenchChildren={props.workbrenchChildren} />
+      <ChatImpl outlet={props.outlet} />
       <ToastContainer
         closeButton={({ closeToast }) => {
           return (
@@ -86,7 +86,7 @@ export const ChatImpl = memo(
   ({
     initialMessages = [],
     storeMessageHistory,
-    workbrenchChildren,
+    outlet: workbrenchChildren,
   }: ChatProps) => {
     // useShortcuts();
 

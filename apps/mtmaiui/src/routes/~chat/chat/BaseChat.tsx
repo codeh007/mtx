@@ -5,6 +5,7 @@ import { type RefCallback, forwardRef, useMemo } from "react";
 
 import { classNames } from "mtxuilib/lib/utils";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
+import { MtWorkbench } from "../MtWorkbench";
 import { Header } from "../header";
 import { MtMessages } from "./MtMessages";
 import { BoltPromptBox } from "./prompt-input/BoltPromptBox";
@@ -105,7 +106,12 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
             </div>
           </div>
 
-          {workbrenchChildren}
+          {/* {workbrenchChildren} */}
+          <MtWorkbench
+            chatStarted={chatStarted}
+            isStreaming={isStreaming}
+            outlet={workbrenchChildren}
+          />
         </div>
       </>
     );
