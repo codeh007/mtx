@@ -6,7 +6,6 @@ import GalleryCreateModal from "../components/views/gallery/create-modal";
 import type { Gallery } from "../components/views/gallery/types";
 import { GallerySidebar } from "./sidebar";
 import { useGalleryStore } from "./store";
-import { title } from "process";
 
 export const Route = createLazyFileRoute("/gallery")({
   component: RouteComponent,
@@ -141,8 +140,6 @@ function RouteComponent() {
     <main style={{ height: "100%" }} className=" h-full ">
       {/* <Outlet /> */}
       <div className="relative flex h-full w-full">
-        {/* {contextHolder} */}
-
         {/* Create Modal */}
         <GalleryCreateModal
           open={isCreateModalOpen}

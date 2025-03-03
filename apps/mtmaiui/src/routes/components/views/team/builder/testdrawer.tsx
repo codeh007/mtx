@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 
-import { Checkbox } from "mtxuilib/ui/checkbox";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+} from "mtxuilib/ui/drawer";
 import type { Session, Team } from "../../../types/datamodel";
 
 interface TestDrawerProps {
@@ -11,10 +16,8 @@ interface TestDrawerProps {
 
 const TestDrawer = ({ isVisble, onClose, team }: TestDrawerProps) => {
   const [session, setSession] = useState<Session | null>(null);
-  //   const { user } = useContext(appContext);
   const [loading, setLoading] = useState(false);
   const [deleteOnClose, setDeleteOnClose] = useState(true);
-  // const [messageApi, contextHolder] = message.useMessage();
 
   const createSession = async (teamId: number, teamName: string) => {
     // if (!user?.email) return;
@@ -70,22 +73,26 @@ const TestDrawer = ({ isVisble, onClose, team }: TestDrawerProps) => {
 
   return (
     <div>
-      {contextHolder}
       <Drawer
-        title={<span>Test Team: {team.component.label}</span>}
-        size="large"
-        placement="right"
+        // title={<span>Test Team: {team.component.label}</span>}
+        // size="large"
+        // placement="right"
         onClose={handleClose}
         open={isVisble}
-        extra={
-          <Checkbox
-            checked={deleteOnClose}
-            onChange={(e) => setDeleteOnClose(e.target.checked)}
-          >
-            Delete session on close
-          </Checkbox>
-        }
+        // extra={
+        //   <Checkbox
+        //     checked={deleteOnClose}
+        //     // onChange={(e) => setDeleteOnClose(e.target.checked)}
+        //   >
+        //     Delete session on close
+        //   </Checkbox>
+        // }
       >
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Test Team: {team.component.label}</DrawerTitle>
+          </DrawerHeader>
+        </DrawerContent>
         {loading && <p>Creating a test session...</p>}
         {/* {session && <ChatView session={session} />} */}
       </Drawer>

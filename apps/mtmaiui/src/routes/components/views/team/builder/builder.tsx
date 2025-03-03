@@ -61,9 +61,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showGrid, setShowGrid] = useState(true);
   const [showMiniMap, setShowMiniMap] = useState(true);
-  // const [isDirty, setIsDirty] = useState(false);
   const editorRef = useRef(null);
-  // const [messageApi, contextHolder] = message.useMessage();
   const [activeDragItem, setActiveDragItem] = useState<DragItemData | null>(
     null,
   );
@@ -295,8 +293,6 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   };
   return (
     <div>
-      {/* <DebugValue data={{ team }} /> */}
-      {/* {contextHolder} */}
       <div className="flex gap-2 text-xs rounded border-dashed border p-2 mb-2 items-center">
         <div className="flex-1">
           <Switch
