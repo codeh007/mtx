@@ -59,6 +59,7 @@ export interface HubmanInput {
   content: string;
   resource?: string;
   resourceId?: string;
+  chatId?: string;
 }
 
 // 新增聊天事件类型

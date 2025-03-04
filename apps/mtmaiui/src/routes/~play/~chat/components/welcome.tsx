@@ -4,11 +4,14 @@ import {
   type QuickStart,
   uiAgentGetOptions,
 } from "mtmaiapi";
+import { generateUUID } from "mtxuilib/lib/utils";
 import { TighterText } from "mtxuilib/mt/TighterText";
 import { Button } from "mtxuilib/ui/button";
 import type { FC } from "react";
 import { useTenant } from "../../../../hooks/useAuth";
+import { useNav } from "../../../../hooks/useNav";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
+import { useHumanInput } from "../chat/hooks/useHumenInput";
 
 interface QuickStartButtonsProps {
   quickStarts: QuickStart[];
@@ -19,15 +22,19 @@ interface QuickStartButtonsProps {
   ) => void;
 }
 const QuickStartButtons = (props: QuickStartButtonsProps) => {
-  const handleLanguageSubmit = (language: ProgrammingLanguageOptions) => {
-    props.handleQuickStart("code", language);
-  };
+  // const handleLanguageSubmit = (language: ProgrammingLanguageOptions) => {
+  //   props.handleQuickStart("code", language);
+  // };
+  // const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
+  const { handleInput } = useHumanInput();
+  const nav = useNav();
 
   const handleClick = (text: string) => {
-    // threadRuntime.append({
-    //   role: "user",
-    //   content: [{ type: "text", text }],
-    // });
+    const newChatId = generateUUID();
+    handleInput({ chatId: newChatId, content: text });
+    nav({
+      to: `/play/chat/${newChatId}`,
+    });
   };
 
   return (
@@ -65,7 +72,6 @@ const QuickStartButtons = (props: QuickStartButtonsProps) => {
             </div>
           ))}
         </div>
-        {/* {props.composer} */}
       </div>
     </div>
   );
@@ -106,7 +112,6 @@ export const ThreadWelcome: FC<ThreadWelcomeProps> = (
           <div className="mt-8 w-full">
             <QuickStartButtons
               quickStarts={uiAgentStateQuery.data?.welcome?.quick_starts || []}
-              // composer={props.composer}
               handleQuickStart={props.handleQuickStart}
             />
           </div>

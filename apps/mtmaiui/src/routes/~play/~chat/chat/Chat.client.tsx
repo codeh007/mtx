@@ -8,7 +8,6 @@ import { ToastContainer, cssTransition } from "react-toastify";
 import { Icons } from "mtxuilib/icons/icons";
 import { usePromptEnhancer } from "../../../../hooks/usePromptEnhancer";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
-import { Route } from "../../../~__root";
 import { BaseChat } from "./BaseChat";
 const toastAnimation = cssTransition({
   enter: "animated fadeInRight",
@@ -21,20 +20,11 @@ interface ChatProps {
 }
 
 export function ChatClient(props: ChatProps) {
-  const threadId = useWorkbenchStore((x) => x.threadId);
-  const nav = Route.useNavigate();
-  const chatSessionId = useWorkbenchStore((x) => x.threadId);
-  const chatStarted = useWorkbenchStore((x) => x.started);
-  const isStreaming = useWorkbenchStore((x) => x.isStreaming);
-  // console.log("ChatClient", threadId);
-  // useEffect(() => {
-  //   console.log("ChatClient", threadId);
-  //   if (threadId) {
-  //     nav({
-  //       to: `/chat/${threadId}`,
-  //     });
-  //   }
-  // }, [threadId, nav]);
+  // const threadId = useWorkbenchStore((x) => x.threadId);
+  // const nav = Route.useNavigate();
+  // const chatSessionId = useWorkbenchStore((x) => x.threadId);
+  // const chatStarted = useWorkbenchStore((x) => x.started);
+  // const isStreaming = useWorkbenchStore((x) => x.isStreaming);
   return (
     <>
       <ChatImpl />
