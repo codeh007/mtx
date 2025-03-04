@@ -12,8 +12,9 @@ import { cn } from "mtxuilib/lib/utils";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
 
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { useMemo, useState } from "react";
-import { CustomLink } from "../../components/CustomLink";
+
 import { EnvCard } from "./_components/EnvCard";
 import { envColumns } from "./_components/EnvColumn";
 import { EnvEmptyState } from "./_components/emptyState";
@@ -43,8 +44,6 @@ function RouteComponent() {
       desc: true,
     },
   ]);
-
-
 
   const actions = [
     <Button

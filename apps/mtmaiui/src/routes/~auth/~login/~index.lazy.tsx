@@ -1,9 +1,10 @@
 "use client";
 import { Link, createLazyFileRoute } from "@tanstack/react-router";
 import { Icons } from "mtxuilib/icons/icons";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button } from "mtxuilib/ui/button";
 import { Fragment } from "react";
-import { CustomLink } from "../../../components/CustomLink";
+
 import { UserLoginForm } from "../../../components/auth/user-login-form";
 import { useLoginHandler } from "../../../hooks/useAuth";
 

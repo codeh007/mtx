@@ -15,6 +15,7 @@ import {
 import { frontendGetSiderbarOptions } from "mtmaiapi";
 import { useIsMobile } from "mtxuilib/hooks/use-mobile";
 import { IconX } from "mtxuilib/icons/icons";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import {
   Collapsible,
   CollapsibleContent,
@@ -46,7 +47,7 @@ import {
 } from "mtxuilib/ui/sidebar";
 import Link from "next/link";
 import React from "react";
-import { CustomLink } from "../CustomLink";
+
 import { example_data } from "./example_data";
 import { NavUser } from "./siderbarnav-user";
 

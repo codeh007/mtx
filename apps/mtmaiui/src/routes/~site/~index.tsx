@@ -3,8 +3,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { type Site, siteListOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { useMemo } from "react";
-import { CustomLink } from "../../components/CustomLink";
+
 import { SiteListViewHeader } from "../../components/site/SiteListViewHeader";
 import { useTenant } from "../../hooks/useAuth";
 

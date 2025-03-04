@@ -6,8 +6,9 @@ import { RelativeDate } from "mtxuilib/mt/relative-date";
 
 import type { WorkflowRun } from "mtmaiapi";
 import { DataTableColumnHeader } from "mtxuilib/data-table/data-table-column-header";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Checkbox } from "mtxuilib/ui/checkbox";
-import { CustomLink } from "../../../components/CustomLink";
+
 import {
   AdditionalMetadata,
   type AdditionalMetadataClick,

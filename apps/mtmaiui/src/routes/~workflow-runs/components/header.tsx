@@ -11,13 +11,19 @@ import {
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { formatDuration } from "date-fns";
-import { eventGetOptions, workflowRunCancelMutation, workflowRunGetOptions, WorkflowRunStatus, workflowRunUpdateReplayMutation } from "mtmaiapi";
+import {
+  WorkflowRunStatus,
+  eventGetOptions,
+  workflowRunCancelMutation,
+  workflowRunGetOptions,
+  workflowRunUpdateReplayMutation,
+} from "mtmaiapi";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useTenant, useTenantId } from "../../../hooks/useAuth";
 import type { WorkflowRunShape } from "../../../types/hatchet-types";
-import { CustomLink } from "../../../components/CustomLink";
 
 interface RunDetailHeaderProps {
   data?: WorkflowRunShape;
@@ -42,10 +48,10 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
   const tid = useTenantId();
 
   const cancelWorkflowRunMutation = useMutation({
-    ...workflowRunCancelMutation()
+    ...workflowRunCancelMutation(),
   });
   const replayWorkflowRunsMutation = useMutation({
-    ...workflowRunUpdateReplayMutation()
+    ...workflowRunUpdateReplayMutation(),
   });
 
   if (loading || !data) {
@@ -81,9 +87,9 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
               onClick={() => {
                 replayWorkflowRunsMutation.mutate({
                   path: {
-                      tenant: tenant!.metadata.id,
-                    },
-                  
+                    tenant: tenant!.metadata.id,
+                  },
+
                   body: {
                     workflowRunIds: [data.metadata.id],
                   },
@@ -99,11 +105,11 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
               variant={"outline"}
               disabled={WORKFLOW_RUN_TERMINAL_STATUSES.includes(data.status)}
               onClick={() => {
-                cancelWorkflowRunMutation.mutate({                  
+                cancelWorkflowRunMutation.mutate({
                   path: {
                     tenant: tid,
                   },
-                  body:{
+                  body: {
                     workflowRunIds: [data.metadata.id],
                   },
                 });

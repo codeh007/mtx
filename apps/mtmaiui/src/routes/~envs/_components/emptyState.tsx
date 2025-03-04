@@ -1,5 +1,6 @@
 "use client";
 
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button } from "mtxuilib/ui/button";
 import {
   Card,
@@ -8,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "mtxuilib/ui/card";
-import { CustomLink } from "../../../components/CustomLink";
 
 export const EnvEmptyState = (
   <Card className="w-full text-justify">

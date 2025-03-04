@@ -3,8 +3,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { siteHostListOptions } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button } from "mtxuilib/ui/button";
-import { CustomLink } from "../../../../components/CustomLink";
+
 import { useTenant } from "../../../../hooks/useAuth";
 
 export const Route = createFileRoute("/site/$siteId/host/")({

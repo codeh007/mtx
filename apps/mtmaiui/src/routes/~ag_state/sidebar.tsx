@@ -6,10 +6,11 @@ import {
   RefreshCcw,
 } from "lucide-react";
 import { cn } from "mtxuilib/lib/utils";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
-import { CustomLink } from "../../components/CustomLink";
+
 import type { Team } from "../../types/datamodel";
 
 interface TeamSidebarProps {

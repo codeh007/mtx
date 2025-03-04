@@ -14,6 +14,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { chatSessionListOptions } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
 import {
   DropdownMenu,
@@ -36,7 +37,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "mtxuilib/ui/sidebar";
-import { CustomLink } from "../../components/CustomLink";
+
 import { useTenantId } from "../../hooks/useAuth";
 
 export function NavPlayground() {

@@ -1,11 +1,11 @@
 import { Outlet, createFileRoute } from "@tanstack/react-router";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import {
   MtTabs,
   MtTabsContent,
   MtTabsList,
   MtTabsTrigger,
 } from "mtxuilib/mt/tabs";
-import { CustomLink } from "../../../components/CustomLink";
 
 export const Route = createFileRoute("/site/$siteId/")({
   component: RouteComponent,

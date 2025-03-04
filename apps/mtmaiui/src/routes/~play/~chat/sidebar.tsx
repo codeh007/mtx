@@ -11,9 +11,10 @@ import {
 } from "lucide-react";
 import { type ChatSession, chatMessagesListOptions } from "mtmaiapi";
 import { getRelativeTimeString } from "mtxuilib/lib/utils";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
-import { CustomLink } from "../../../components/CustomLink";
+
 import { useTenant } from "../../../hooks/useAuth";
 
 interface SidebarProps {

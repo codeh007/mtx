@@ -21,11 +21,12 @@ import {
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { DataTableColumnHeader } from "mtxuilib/data-table/data-table-column-header";
 import { cn } from "mtxuilib/lib/utils";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Badge } from "mtxuilib/ui/badge";
 import { Button } from "mtxuilib/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "mtxuilib/ui/popover";
 import { type useMemo, useRef, useState } from "react";
-import { CustomLink } from "../../../components/CustomLink";
+
 import StepRunError from "./step-run-detail/step-run-error";
 
 export type ActivityEventData = {

@@ -24,6 +24,7 @@ import {
   PlusIcon,
   TrashIcon,
 } from "mtxuilib/icons/aichatbot.icons";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button } from "mtxuilib/ui/button";
 import {
   DropdownMenu,
@@ -43,7 +44,6 @@ import {
 import { BetterTooltip } from "mtxuilib/ui/tooltip";
 import { useTenant } from "../../hooks/useAuth";
 import { useBasePath } from "../../hooks/useBasePath";
-import { CustomLink } from "../CustomLink";
 
 type GroupedChats = {
   today: Chat[];

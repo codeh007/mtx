@@ -13,10 +13,11 @@ import {
 import type { MtComponent } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { cn, getRelativeTimeString } from "mtxuilib/lib/utils";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
-import { CustomLink } from "../../components/CustomLink";
+
 import { useGalleryStore } from "../~gallery/store";
 
 interface TeamSidebarProps {

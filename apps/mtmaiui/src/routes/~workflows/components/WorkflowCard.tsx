@@ -1,10 +1,11 @@
 "use client";
 
 import type { Workflow } from "mtmaiapi";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Badge } from "mtxuilib/ui/badge";
 import { Button } from "mtxuilib/ui/button";
-import { CustomLink } from "../../../components/CustomLink";
+
 import { WorkflowTriggerBtn } from "./WorkflowTriggerBtn";
 
 export const WorkflowCard = ({ data }: { data: Workflow }) => {

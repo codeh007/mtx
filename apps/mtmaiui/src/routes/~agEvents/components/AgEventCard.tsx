@@ -1,8 +1,8 @@
 "use client";
 import type { AgEvent } from "mtmaiapi";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Button } from "mtxuilib/ui/button";
-import { CustomLink } from "../../../components/CustomLink";
 
 interface AgEventCardProps {
   data: AgEvent;

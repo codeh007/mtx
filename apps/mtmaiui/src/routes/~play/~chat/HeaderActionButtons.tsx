@@ -3,9 +3,10 @@
 import classNames from "classnames";
 import { Icons } from "mtxuilib/icons/icons";
 import { cn } from "mtxuilib/lib/utils";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
-import { Separator } from "mtxuilib/ui/separator";
-import { CustomLink } from "../../../components/CustomLink";
+import { Separator, Separator } from "mtxuilib/ui/separator";
+
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
 export function HeaderActionButtons() {

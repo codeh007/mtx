@@ -7,6 +7,7 @@ import { BiCard, BiTable } from "react-icons/bi";
 
 import { agEventListOptions } from "mtmaiapi";
 import { DataTable } from "mtxuilib/data-table/data-table";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button } from "mtxuilib/ui/button";
 import {
   Card,
@@ -15,7 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "mtxuilib/ui/card";
-import { CustomLink } from "../../components/CustomLink";
+
 import { useTenant } from "../../hooks/useAuth";
 import { AgEventCard } from "./components/AgEventCard";
 import { AgEventsColumns } from "./components/ag-events-columns";
