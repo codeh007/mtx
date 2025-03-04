@@ -47,7 +47,7 @@ export const UIProviders = (props: PropsWithChildren) => {
       <SidebarProvider
         style={
           {
-            // "--sidebar-width": "350px", //如果需要左侧双侧边栏 就设置为 350px
+            "--sidebar-width": "350px", //如果需要左侧双侧边栏 就设置为 350px
           } as React.CSSProperties
         }
       >
