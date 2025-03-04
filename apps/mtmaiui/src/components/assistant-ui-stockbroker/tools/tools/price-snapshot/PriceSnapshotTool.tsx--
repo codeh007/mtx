@@ -1,7 +1,7 @@
 "use client";
 
-import { PriceSnapshot } from "./price-snapshot";
 import { makeAssistantToolUI } from "@assistant-ui/react";
+import { PriceSnapshot } from "./price-snapshot.tsx--";
 
 type PriceSnapshotToolArgs = {
   ticker: string;

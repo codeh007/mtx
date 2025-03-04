@@ -1,4 +1,3 @@
-import { ThreadPrimitive, useThreadRuntime } from "@assistant-ui/react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   type ProgrammingLanguageOptions,
@@ -8,8 +7,8 @@ import {
 import { TighterText } from "mtxuilib/mt/TighterText";
 import { Button } from "mtxuilib/ui/button";
 import type { FC } from "react";
-import { useTenant } from "../../../../../hooks/useAuth";
-import { useWorkbenchStore } from "../../../../../stores/workbrench.store";
+import { useTenant } from "../../../../hooks/useAuth";
+import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 
 interface QuickStartButtonsProps {
   quickStarts: QuickStart[];
@@ -18,19 +17,17 @@ interface QuickStartButtonsProps {
     type: "text" | "code",
     language?: ProgrammingLanguageOptions,
   ) => void;
-  composer: React.ReactNode;
 }
 const QuickStartButtons = (props: QuickStartButtonsProps) => {
   const handleLanguageSubmit = (language: ProgrammingLanguageOptions) => {
     props.handleQuickStart("code", language);
   };
-  const threadRuntime = useThreadRuntime();
 
   const handleClick = (text: string) => {
-    threadRuntime.append({
-      role: "user",
-      content: [{ type: "text", text }],
-    });
+    // threadRuntime.append({
+    //   role: "user",
+    //   content: [{ type: "text", text }],
+    // });
   };
 
   return (
@@ -68,7 +65,7 @@ const QuickStartButtons = (props: QuickStartButtonsProps) => {
             </div>
           ))}
         </div>
-        {props.composer}
+        {/* {props.composer} */}
       </div>
     </div>
   );
@@ -79,7 +76,7 @@ interface ThreadWelcomeProps {
     type: "text" | "code",
     language?: ProgrammingLanguageOptions,
   ) => void;
-  composer: React.ReactNode;
+  // composer: React.ReactNode;
 }
 
 export const ThreadWelcome: FC<ThreadWelcomeProps> = (
@@ -95,7 +92,7 @@ export const ThreadWelcome: FC<ThreadWelcomeProps> = (
     }),
   });
   return (
-    <ThreadPrimitive.Empty>
+    <>
       <div className="flex items-center justify-center mt-16 w-full">
         <div className="text-center max-w-3xl w-full">
           {/* <DebugValue data={uiAgentStateQuery.data} /> */}
@@ -109,12 +106,12 @@ export const ThreadWelcome: FC<ThreadWelcomeProps> = (
           <div className="mt-8 w-full">
             <QuickStartButtons
               quickStarts={uiAgentStateQuery.data?.welcome?.quick_starts || []}
-              composer={props.composer}
+              // composer={props.composer}
               handleQuickStart={props.handleQuickStart}
             />
           </div>
         </div>
       </div>
-    </ThreadPrimitive.Empty>
+    </>
   );
 };

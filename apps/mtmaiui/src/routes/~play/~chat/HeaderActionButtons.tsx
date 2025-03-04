@@ -56,6 +56,16 @@ export function HeaderActionButtons() {
         </CustomLink>
         <Separator orientation="vertical" className="mr-2 h-4" />
         <CustomLink
+          to={`/play/chat/${chatSessionId}/state`}
+          className={cn(buttonVariants({ variant: "ghost" }))}
+          activeProps={{
+            className: "outline outline-1 outline-offset-2 outline-red-500",
+          }}
+        >
+          ST
+        </CustomLink>
+        <Separator orientation="vertical" className="mr-2 h-4" />
+        <CustomLink
           to={`/play/chat/${chatSessionId}/team`}
           className={cn(buttonVariants({ variant: "ghost" }))}
           activeProps={{

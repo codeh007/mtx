@@ -13,6 +13,8 @@ import {
 
 import { useQuery } from "@tanstack/react-query";
 import { chatSessionListOptions } from "mtmaiapi";
+import { cn } from "mtxuilib/lib/utils";
+import { buttonVariants } from "mtxuilib/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -54,7 +56,12 @@ export function NavPlayground() {
         <div className="flex w-full items-center justify-between">
           <div className="text-base font-medium text-foreground">Title</div>
           <Label className="flex items-center gap-2 text-sm">
-            <span>Unreads</span>
+            <CustomLink
+              to={"/play/chat"}
+              className={cn(buttonVariants({ variant: "ghost" }))}
+            >
+              <span>New</span>
+            </CustomLink>
             <Switch className="shadow-none" />
           </Label>
         </div>

@@ -1,8 +1,8 @@
 "use client";
 
 import { makeAssistantToolUI } from "@assistant-ui/react";
-import { TransactionConfirmationFinal } from "./transaction-confirmation-final";
-import { TransactionConfirmationPending } from "./transaction-confirmation-pending";
+import { TransactionConfirmationFinal } from "./transaction-confirmation-final.tsx--";
+import { TransactionConfirmationPending } from "./transaction-confirmation-pending.tsx--";
 
 type PurchaseStockArgs = {
   ticker: string;

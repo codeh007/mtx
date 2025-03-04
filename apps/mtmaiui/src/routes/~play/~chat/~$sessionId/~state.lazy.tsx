@@ -11,7 +11,7 @@ import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useTenantId } from "../../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 
-export const Route = createLazyFileRoute("/play/chat/$sessionId/team")({
+export const Route = createLazyFileRoute("/play/chat/$sessionId/state")({
   component: RouteComponent,
 });
 
@@ -58,11 +58,12 @@ const TeamView = ({ agState }: TeamViewProps) => {
     }),
   });
   return (
-    <div className="bg-amber-100 p-1">
+    <div className="bg-amber-200 p-1">
       <div>type: {agState.type}</div>
-      <div>componentId: {agState.componentId}</div>
-      <DebugValue title="team_component" data={{ agState: agState }} />
-      <DebugValue title="team_component" data={{ coms: componsenQuery.data }} />
+      <DebugValue
+        title="team state"
+        data={{ agState: agState, coms: componsenQuery.data }}
+      />
     </div>
   );
 };
