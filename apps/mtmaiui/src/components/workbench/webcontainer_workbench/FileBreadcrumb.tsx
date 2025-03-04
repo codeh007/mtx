@@ -6,7 +6,7 @@ import { classNames } from "mtxuilib/lib/utils";
 
 import { memo, useEffect, useRef, useState } from "react";
 
-import { WORK_DIR } from "../../../lib/utils/constants";
+import { WORK_DIR } from "../../../lib/constants";
 
 import { cubicEasingFn } from "mtxuilib/mt/easings";
 import type { FileMap } from "../../../stores/files.ts--";

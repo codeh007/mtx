@@ -1,6 +1,6 @@
 import { createTwoFilesPatch } from "diff";
 import type { FileMap } from "../../stores/files.ts--";
-import { MODIFICATIONS_TAG_NAME } from "./constants";
+import { MODIFICATIONS_TAG_NAME } from "../constants";
 
 export const modificationsRegex = new RegExp(
   `^<${MODIFICATIONS_TAG_NAME}>[\\s\\S]*?<\\/${MODIFICATIONS_TAG_NAME}>\\s+`,

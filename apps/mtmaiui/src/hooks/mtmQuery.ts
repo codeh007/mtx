@@ -10,4 +10,3 @@ export const useMtmQuery = useQuery;
 export const useMtmSuspenseQuery = useSuspenseQuery;
 export const useMtmMutation = useMutation;
 export const useMtmInfiniteQuery = useInfiniteQuery;
-// export const useMtmQueryClient = useQueryClient;

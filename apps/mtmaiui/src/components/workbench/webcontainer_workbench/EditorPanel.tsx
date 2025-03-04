@@ -21,7 +21,7 @@ import { PanelHeader } from "../../ui/PanelHeader";
 import { PanelHeaderButton } from "../../ui/PanelHeaderButton";
 
 import { Icons } from "mtxuilib/icons/icons";
-import { WORK_DIR } from "../../../lib/utils/constants";
+import { WORK_DIR } from "../../../lib/constants";
 import type { FileMap } from "../../../stores/files.ts--";
 import { FileBreadcrumb } from "./FileBreadcrumb";
 import { FileTree } from "./FileTree";

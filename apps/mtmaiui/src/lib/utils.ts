@@ -3,25 +3,24 @@ import type {
   CoreMessage,
   CoreToolMessage,
   Message,
-  ToolInvocation,
 } from "ai";
-import type { APIErrors } from "mtmaiapi/api/generated/cloud/data-contracts";
+// import type { APIErrors } from "mtmaiapi/api/generated/cloud/data-contracts";
 
-export function getFieldErrors(apiErrors: APIErrors): Record<string, string> {
-  const fieldErrors: Record<string, string> = {};
+// export function getFieldErrors(apiErrors: APIErrors): Record<string, string> {
+//   const fieldErrors: Record<string, string> = {};
 
-  if (!apiErrors.errors) {
-    return fieldErrors;
-  }
+//   if (!apiErrors.errors) {
+//     return fieldErrors;
+//   }
 
-  for (const error of apiErrors.errors) {
-    if (error.field && error.description) {
-      fieldErrors[error.field] = error.description;
-    }
-  }
+//   for (const error of apiErrors.errors) {
+//     if (error.field && error.description) {
+//       fieldErrors[error.field] = error.description;
+//     }
+//   }
 
-  return fieldErrors;
-}
+//   return fieldErrors;
+// }
 
 interface ApplicationError extends Error {
   info: string;
@@ -45,90 +44,113 @@ export const fetcher = async (url: string) => {
   return res.json();
 };
 
-export function getLocalStorage(key: string) {
+// export function getLocalStorage(key: string) {
+//   if (typeof window !== "undefined") {
+//     return JSON.parse(localStorage.getItem(key) || "[]");
+//   }
+//   return [];
+// }
+
+export function getLocalStorage(name: string, stringify = true): any {
   if (typeof window !== "undefined") {
-    return JSON.parse(localStorage.getItem(key) || "[]");
-  }
-  return [];
-}
-
-function addToolMessageToChat({
-  toolMessage,
-  messages,
-}: {
-  toolMessage: CoreToolMessage;
-  messages: Array<Message>;
-}): Array<Message> {
-  return messages.map((message) => {
-    if (message.toolInvocations) {
-      return {
-        ...message,
-        toolInvocations: message.toolInvocations.map((toolInvocation) => {
-          const toolResult = toolMessage.content.find(
-            (tool) => tool.toolCallId === toolInvocation.toolCallId,
-          );
-
-          if (toolResult) {
-            return {
-              ...toolInvocation,
-              state: "result",
-              result: toolResult.result,
-            };
-          }
-
-          return toolInvocation;
-        }),
-      };
-    }
-
-    return message;
-  });
-}
-
-export function convertToUIMessages(
-  messages: Array<DBMessage>,
-): Array<Message> {
-  return messages.reduce((chatMessages: Array<Message>, message) => {
-    if (message.role === "tool") {
-      return addToolMessageToChat({
-        toolMessage: message as CoreToolMessage,
-        messages: chatMessages,
-      });
-    }
-
-    let textContent = "";
-    const toolInvocations: Array<ToolInvocation> = [];
-
-    if (typeof message.content === "string") {
-      textContent = message.content;
-    } else if (Array.isArray(message.content)) {
-      for (const content of message.content) {
-        if (content.type === "text") {
-          textContent += content.text;
-        } else if (
-          content.type === "tool-call" ||
-          content.type === "tool_call"
-        ) {
-          toolInvocations.push({
-            state: "call",
-            toolCallId: content.toolCallId || content.tool_call?.id,
-            toolName: content.toolName,
-            args: content.args,
-          });
-        }
+    const value = localStorage.getItem(name);
+    try {
+      if (stringify) {
+        return JSON.parse(value!);
       }
+      return value;
+    } catch (e) {
+      return null;
     }
-
-    chatMessages.push({
-      id: message.id,
-      role: message.role as Message["role"],
-      content: textContent,
-      toolInvocations,
-    });
-
-    return chatMessages;
-  }, []);
+  } else {
+    return null;
+  }
 }
+export function setLocalStorage(name: string, value: any, stringify = true) {
+  if (stringify) {
+    localStorage.setItem(name, JSON.stringify(value));
+  } else {
+    localStorage.setItem(name, value);
+  }
+}
+
+// function addToolMessageToChat({
+//   toolMessage,
+//   messages,
+// }: {
+//   toolMessage: CoreToolMessage;
+//   messages: Array<Message>;
+// }): Array<Message> {
+//   return messages.map((message) => {
+//     if (message.toolInvocations) {
+//       return {
+//         ...message,
+//         toolInvocations: message.toolInvocations.map((toolInvocation) => {
+//           const toolResult = toolMessage.content.find(
+//             (tool) => tool.toolCallId === toolInvocation.toolCallId,
+//           );
+
+//           if (toolResult) {
+//             return {
+//               ...toolInvocation,
+//               state: "result",
+//               result: toolResult.result,
+//             };
+//           }
+
+//           return toolInvocation;
+//         }),
+//       };
+//     }
+
+//     return message;
+//   });
+// }
+
+// export function convertToUIMessages(
+//   messages: Array<DBMessage>,
+// ): Array<Message> {
+//   return messages.reduce((chatMessages: Array<Message>, message) => {
+//     if (message.role === "tool") {
+//       return addToolMessageToChat({
+//         toolMessage: message as CoreToolMessage,
+//         messages: chatMessages,
+//       });
+//     }
+
+//     let textContent = "";
+//     const toolInvocations: Array<ToolInvocation> = [];
+
+//     if (typeof message.content === "string") {
+//       textContent = message.content;
+//     } else if (Array.isArray(message.content)) {
+//       for (const content of message.content) {
+//         if (content.type === "text") {
+//           textContent += content.text;
+//         } else if (
+//           content.type === "tool-call" ||
+//           content.type === "tool_call"
+//         ) {
+//           toolInvocations.push({
+//             state: "call",
+//             toolCallId: content.toolCallId || content.tool_call?.id,
+//             toolName: content.toolName,
+//             args: content.args,
+//           });
+//         }
+//       }
+//     }
+
+//     chatMessages.push({
+//       id: message.id,
+//       role: message.role as Message["role"],
+//       content: textContent,
+//       toolInvocations,
+//     });
+
+//     return chatMessages;
+//   }, []);
+// }
 
 export function sanitizeResponseMessages(
   messages: Array<CoreToolMessage | CoreAssistantMessage>,
@@ -207,25 +229,25 @@ export function getMostRecentUserMessage(messages: Array<CoreMessage>) {
   return userMessages.at(-1);
 }
 
-export function getDocumentTimestampByIndex(
-  documents: Array<Document>,
-  index: number,
-) {
-  if (!documents) return new Date();
-  if (index > documents.length) return new Date();
+// export function getDocumentTimestampByIndex(
+//   documents: Array<Document>,
+//   index: number,
+// ) {
+//   if (!documents) return new Date();
+//   if (index > documents.length) return new Date();
 
-  return documents[index].createdAt;
-}
+//   return documents[index].createdAt;
+// }
 
-export function getMessageIdFromAnnotations(message: Message) {
-  if (!message.annotations) return message.id;
+// export function getMessageIdFromAnnotations(message: Message) {
+//   if (!message.annotations) return message.id;
 
-  const [annotation] = message.annotations;
-  if (!annotation) return message.id;
+//   const [annotation] = message.annotations;
+//   if (!annotation) return message.id;
 
-  // @ts-expect-error messageIdFromServer is not defined in MessageAnnotation
-  return annotation.messageIdFromServer;
-}
+//   // @ts-expect-error messageIdFromServer is not defined in MessageAnnotation
+//   return annotation.messageIdFromServer;
+// }
 
 const actualNewline = `
 `;
@@ -246,3 +268,10 @@ export const emptyLineCount = (content: string): number => {
   const liens = content.split("\n");
   return liens.filter((line) => line.trim() === "").length;
 };
+
+export function truncateText(text: string, length = 50) {
+  if (text.length > length) {
+    return `${text.substring(0, length)} ...`;
+  }
+  return text;
+}

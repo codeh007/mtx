@@ -143,10 +143,6 @@ export interface WorkbrenchState extends WorkbenchProps {
   ) => void;
   artifactContent: string[];
   setArtifactContent: (index: number, content: string) => void;
-
-  // autogen studio =========================================================================
-  // version: string | null;
-  // setVersion: (version: string | null) => void;
 }
 
 export const createWorkbrenchSlice: StateCreator<
@@ -240,9 +236,6 @@ export const createWorkbrenchSlice: StateCreator<
       const prevMessages = get().messages;
       set({ messages: [...prevMessages, message] });
     },
-
-    // version: null,
-    // setVersion: (version) => set({ version }),
     connectionId: uuidv4(),
     header: {
       title: "",
