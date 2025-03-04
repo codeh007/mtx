@@ -1412,32 +1412,6 @@ export const zChatMessageList = z.object({
   pagination: zPaginationResponse.optional(),
 });
 
-export const zAgentRunInput = z.object({
-  teamId: z.string().optional(),
-  sessionId: z.string().optional(),
-  content: z.string(),
-  tenantId: z.string().optional(),
-  runId: z.string().optional(),
-  stepRunId: z.string().optional(),
-});
-
-export const zChatHistoryList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z.array(zChatMessage).optional(),
-});
-
-export const zChatSession = z.object({
-  metadata: zApiResourceMeta.optional(),
-  name: z.string(),
-  version: z.string(),
-  team: z.string().optional(),
-});
-
-export const zChatSessionList = z.object({
-  metadata: zApiResourceMeta.optional(),
-  rows: z.array(zChatSession).optional(),
-});
-
 export const zWorkerConfig = z.object({
   workerToken: z.string().optional(),
 });
@@ -1573,10 +1547,30 @@ export const zArtifact = z.object({
   prevId: z.string().optional(),
 });
 
-export const zCreateArtifacttRequest = z.object({
-  artId: z.string().uuid().length(36),
-  title: z.string().min(3).max(200),
-  state: z.object({}),
+export const zAgentRunInput = z.object({
+  teamId: z.string().optional(),
+  sessionId: z.string().optional(),
+  content: z.string(),
+  tenantId: z.string().optional(),
+  runId: z.string().optional(),
+  stepRunId: z.string().optional(),
+});
+
+export const zChatHistoryList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zChatMessage).optional(),
+});
+
+export const zChatSession = z.object({
+  metadata: zApiResourceMeta.optional(),
+  name: z.string(),
+  version: z.string(),
+  team: z.string().optional(),
+});
+
+export const zChatSessionList = z.object({
+  metadata: zApiResourceMeta.optional(),
+  rows: z.array(zChatSession).optional(),
 });
 
 export const zFlowTenantPayload = z.object({
@@ -1733,29 +1727,21 @@ export const zProgrammingLanguageOptions = z.enum([
   "other",
 ]);
 
-export const zCanvasGraphParams = z.object({
-  stepLimit: z.number().optional(),
-  messages: z.array(zChatMessage).optional(),
-  action: z
-    .object({
-      action: z.string().optional(),
-      input: z.object({}).optional(),
-    })
-    .optional(),
-  language: z.string().optional(),
-  customQuickActionId: z.string().optional(),
-  artifactId: z.string().optional(),
-  fixBugs: z.boolean().optional(),
-  highlightedCode: zCodeHighlight.optional(),
-  highlightedText: zTextHighlight.optional(),
-  regenerateWithEmojis: z.boolean().optional(),
-  readingLevel: zReadingLevelOptions.optional(),
-  artifactLength: zArtifactLengthOptions.optional(),
-  artifact: zArtifactV3.optional(),
-  addComments: z.boolean().optional(),
-  addLogs: z.boolean().optional(),
-  portLanguage: zProgrammingLanguageOptions.optional(),
-});
+export const zTeamComponent = z
+  .object({
+    provider: z.string(),
+    component_type: z.enum(["team", "agent", "model", "tool", "termination"]),
+    version: z.number().int().optional(),
+    component_version: z.number().int().optional(),
+    description: z.string().optional(),
+    label: z.string().optional(),
+    config: z.unknown(),
+  })
+  .merge(
+    z.object({
+      config: z.object({}),
+    }),
+  );
 
 export const zAgStateProperties = z.object({
   version: z.string().optional().default("1.0.0"),
@@ -2945,8 +2931,6 @@ export const zPostListResponse = zPostList;
 export const zPostCreateResponse = zPost;
 
 export const zArtifactListResponse = zArtifactList;
-
-export const zArtifactCreateResponse = zArtifact;
 
 export const zArtifactGetResponse = zArtifact;
 

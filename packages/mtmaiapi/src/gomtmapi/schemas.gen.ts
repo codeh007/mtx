@@ -2977,79 +2977,6 @@ export const ChatMessageListSchema = {
   },
 } as const;
 
-export const AgentRunInputSchema = {
-  required: ["content"],
-  properties: {
-    teamId: {
-      type: "string",
-    },
-    sessionId: {
-      type: "string",
-    },
-    content: {
-      type: "string",
-    },
-    tenantId: {
-      type: "string",
-    },
-    runId: {
-      type: "string",
-    },
-    stepRunId: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const ChatHistoryListSchema = {
-  properties: {
-    pagination: {
-      $ref: "#/components/schemas/PaginationResponse",
-    },
-    rows: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/ChatMessage",
-      },
-      "x-go-name": "Rows",
-    },
-  },
-} as const;
-
-export const ChatSessionSchema = {
-  description: "聊天 Session",
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    name: {
-      type: "string",
-    },
-    version: {
-      type: "string",
-    },
-    team: {
-      type: "string",
-    },
-  },
-  required: ["name", "version"],
-} as const;
-
-export const ChatSessionListSchema = {
-  description: "聊天 Session 列表",
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    rows: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/ChatSession",
-      },
-    },
-  },
-} as const;
-
 export const WorkerConfigSchema = {
   properties: {
     workerToken: {
@@ -3379,27 +3306,77 @@ export const ArtifactSchema = {
   type: "object",
 } as const;
 
-export const CreateArtifacttRequestSchema = {
-  type: "object",
+export const AgentRunInputSchema = {
+  required: ["content"],
   properties: {
-    artId: {
+    teamId: {
       type: "string",
-      description: "The blog id.",
-      format: "uuid",
-      minLength: 36,
-      maxLength: 36,
     },
-    title: {
+    sessionId: {
       type: "string",
-      minLength: 3,
-      maxLength: 200,
     },
-    state: {
-      type: "object",
-      description: "The tenant associated with this tenant blog.",
+    content: {
+      type: "string",
+    },
+    tenantId: {
+      type: "string",
+    },
+    runId: {
+      type: "string",
+    },
+    stepRunId: {
+      type: "string",
     },
   },
-  required: ["artId", "title", "state"],
+} as const;
+
+export const ChatHistoryListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ChatMessage",
+      },
+      "x-go-name": "Rows",
+    },
+  },
+} as const;
+
+export const ChatSessionSchema = {
+  description: "聊天 Session",
+  properties: {
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+    name: {
+      type: "string",
+    },
+    version: {
+      type: "string",
+    },
+    team: {
+      type: "string",
+    },
+  },
+  required: ["name", "version"],
+} as const;
+
+export const ChatSessionListSchema = {
+  description: "聊天 Session 列表",
+  properties: {
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+    rows: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ChatSession",
+      },
+    },
+  },
 } as const;
 
 export const FlowTenantPayloadSchema = {
@@ -3654,71 +3631,21 @@ export const ProgrammingLanguageOptionsSchema = {
   ],
 } as const;
 
-export const CanvasGraphParamsSchema = {
-  properties: {
-    stepLimit: {
-      type: "number",
-      description: "步骤限制(没用上)",
+export const TeamComponentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
     },
-    messages: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/ChatMessage",
+    {
+      required: ["config"],
+      properties: {
+        config: {
+          type: "object",
+          additionalProperties: true,
+        },
       },
     },
-    action: {
-      $ref: "#/components/schemas/NodeRunAction",
-    },
-    language: {
-      type: "string",
-      description: "语言",
-    },
-    customQuickActionId: {
-      type: "string",
-      description: "自定义快速动作ID",
-    },
-    artifactId: {
-      type: "string",
-      description: "工件ID",
-    },
-    fixBugs: {
-      type: "boolean",
-      description: "是否修复bug",
-    },
-    highlightedCode: {
-      $ref: "#/components/schemas/CodeHighlight",
-    },
-    highlightedText: {
-      $ref: "#/components/schemas/TextHighlight",
-    },
-    regenerateWithEmojis: {
-      type: "boolean",
-      description: "是否使用表情符号重新生成",
-    },
-    readingLevel: {
-      type: "string",
-      description: "阅读级别",
-      $ref: "#/components/schemas/ReadingLevelOptions",
-    },
-    artifactLength: {
-      type: "string",
-      description: "工具内容长度,(文章,代码内容长度)",
-      $ref: "#/components/schemas/ArtifactLengthOptions",
-    },
-    artifact: {
-      $ref: "#/components/schemas/ArtifactV3",
-    },
-    addComments: {
-      type: "boolean",
-    },
-    addLogs: {
-      type: "boolean",
-    },
-    portLanguage: {
-      type: "string",
-      $ref: "#/components/schemas/ProgrammingLanguageOptions",
-    },
-  },
+  ],
 } as const;
 
 export const AgStatePropertiesSchema = {

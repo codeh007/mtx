@@ -15,7 +15,10 @@ function RouteComponent() {
     <>
       <DashContent>
         <MtSuspenseBoundary>
-          <ChatClient outlet={<Outlet />} />
+          <div className="flex w-full h-full">
+            <ChatClient />
+            <Outlet />
+          </div>
         </MtSuspenseBoundary>
       </DashContent>
     </>

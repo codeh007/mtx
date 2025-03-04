@@ -11,6 +11,7 @@ import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useTenantId } from "../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
+import { MtWorkbench } from "../MtWorkbench";
 
 export const Route = createLazyFileRoute("/chat/$sessionId/team")({
   component: RouteComponent,
@@ -19,6 +20,8 @@ export const Route = createLazyFileRoute("/chat/$sessionId/team")({
 function RouteComponent() {
   const tid = useTenantId();
   const chatId = useWorkbenchStore((x) => x.threadId);
+  const chatStarted = useWorkbenchStore((x) => x.chatStarted);
+  const isStreaming = useWorkbenchStore((x) => x.isStreaming);
   const agStateQuery = useSuspenseQuery({
     ...agStateGetOptions({
       path: {
@@ -37,11 +40,14 @@ function RouteComponent() {
       <DebugValue title="agState" data={{ state: agStateQuery.data }} />
       <div>
         <div>state id: {agStateQuery.data?.metadata?.id}</div>
-        {agState && agState.type === "TeamState" && (
-          <MtSuspenseBoundary>
-            <TeamView agState={agState} />
-          </MtSuspenseBoundary>
-        )}
+        {/* {agState && agState.type === "TeamState" && ( */}
+        <MtSuspenseBoundary>
+          <MtWorkbench
+            chatStarted={chatStarted}
+            isStreaming={isStreaming}
+            outlet={<TeamView agState={agState} />}
+          />
+        </MtSuspenseBoundary>
       </div>
     </div>
   );

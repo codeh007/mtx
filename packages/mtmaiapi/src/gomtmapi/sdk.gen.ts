@@ -300,9 +300,6 @@ import type {
   PostCreateError,
   ArtifactListData,
   ArtifactListResponse,
-  ArtifactCreateData,
-  ArtifactCreateResponse,
-  ArtifactCreateError,
   ArtifactGetData,
   ArtifactGetResponse,
   ArtifactGetError,
@@ -3268,37 +3265,6 @@ export const artifactList = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/artifacts",
     ...options,
-  });
-};
-
-/**
- * Create blog post
- * Creates a new artifact
- */
-export const artifactCreate = <ThrowOnError extends boolean = false>(
-  options: Options<ArtifactCreateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    ArtifactCreateResponse,
-    ArtifactCreateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/artifacts",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
   });
 };
 

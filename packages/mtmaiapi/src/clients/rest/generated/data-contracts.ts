@@ -1422,34 +1422,6 @@ export interface ChatMessageList {
   pagination?: PaginationResponse;
 }
 
-export interface AgentRunInput {
-  teamId?: string;
-  sessionId?: string;
-  content: string;
-  tenantId?: string;
-  runId?: string;
-  stepRunId?: string;
-}
-
-export interface ChatHistoryList {
-  pagination?: PaginationResponse;
-  rows?: ChatMessage[];
-}
-
-/** 聊天 Session */
-export interface ChatSession {
-  metadata?: APIResourceMeta;
-  name: string;
-  version: string;
-  team?: string;
-}
-
-/** 聊天 Session 列表 */
-export interface ChatSessionList {
-  metadata?: APIResourceMeta;
-  rows?: ChatSession[];
-}
-
 export interface WorkerConfig {
   workerToken?: string;
 }
@@ -1630,21 +1602,32 @@ export interface Artifact {
   prevId?: string;
 }
 
-export interface CreateArtifacttRequest {
-  /**
-   * The blog id.
-   * @format uuid
-   * @minLength 36
-   * @maxLength 36
-   */
-  artId: string;
-  /**
-   * @minLength 3
-   * @maxLength 200
-   */
-  title: string;
-  /** The tenant associated with this tenant blog. */
-  state: object;
+export interface AgentRunInput {
+  teamId?: string;
+  sessionId?: string;
+  content: string;
+  tenantId?: string;
+  runId?: string;
+  stepRunId?: string;
+}
+
+export interface ChatHistoryList {
+  pagination?: PaginationResponse;
+  rows?: ChatMessage[];
+}
+
+/** 聊天 Session */
+export interface ChatSession {
+  metadata?: APIResourceMeta;
+  name: string;
+  version: string;
+  team?: string;
+}
+
+/** 聊天 Session 列表 */
+export interface ChatSessionList {
+  metadata?: APIResourceMeta;
+  rows?: ChatSession[];
 }
 
 export interface FlowTenantPayload {
@@ -1767,33 +1750,9 @@ export enum ProgrammingLanguageOptions {
   Other = "other",
 }
 
-export interface CanvasGraphParams {
-  /** 步骤限制(没用上) */
-  stepLimit?: number;
-  messages?: ChatMessage[];
-  /** 节点运行 */
-  action?: NodeRunAction;
-  /** 语言 */
-  language?: string;
-  /** 自定义快速动作ID */
-  customQuickActionId?: string;
-  /** 工件ID */
-  artifactId?: string;
-  /** 是否修复bug */
-  fixBugs?: boolean;
-  highlightedCode?: CodeHighlight;
-  highlightedText?: TextHighlight;
-  /** 是否使用表情符号重新生成 */
-  regenerateWithEmojis?: boolean;
-  /** 阅读级别 */
-  readingLevel?: ReadingLevelOptions;
-  /** 工具内容长度,(文章,代码内容长度) */
-  artifactLength?: ArtifactLengthOptions;
-  artifact?: ArtifactV3;
-  addComments?: boolean;
-  addLogs?: boolean;
-  portLanguage?: ProgrammingLanguageOptions;
-}
+export type TeamComponent = ComponentModel & {
+  config: Record<string, any>;
+};
 
 export interface AgStateProperties {
   /** @default "1.0.0" */

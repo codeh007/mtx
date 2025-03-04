@@ -36,7 +36,6 @@ import {
   CommonResult,
   CreateAPITokenRequest,
   CreateAPITokenResponse,
-  CreateArtifacttRequest,
   CreateBlogRequest,
   CreatePostRequest,
   CreateSiteHostRequest,
@@ -2561,29 +2560,6 @@ export class Api<
       path: `/api/v1/tenants/${tenant}/artifacts`,
       method: "GET",
       secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description Creates a new artifact
-   *
-   * @tags artifact
-   * @name ArtifactCreate
-   * @summary Create blog post
-   * @request POST:/api/v1/tenants/{tenant}/artifacts
-   * @secure
-   */
-  artifactCreate = (
-    tenant: string,
-    data: CreateArtifacttRequest,
-    params: RequestParams = {},
-  ) =>
-    this.request<Artifact, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/artifacts`,
-      method: "POST",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
       format: "json",
       ...params,
     });

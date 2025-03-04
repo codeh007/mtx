@@ -108,7 +108,6 @@ import {
   postList,
   postCreate,
   artifactList,
-  artifactCreate,
   artifactGet,
   comsList,
   comsUpsert,
@@ -367,9 +366,6 @@ import type {
   PostCreateError,
   PostCreateResponse,
   ArtifactListData,
-  ArtifactCreateData,
-  ArtifactCreateError,
-  ArtifactCreateResponse,
   ArtifactGetData,
   ComsListData,
   ComsUpsertData,
@@ -3556,44 +3552,6 @@ export const artifactListOptions = (options: Options<ArtifactListData>) => {
     },
     queryKey: artifactListQueryKey(options),
   });
-};
-
-export const artifactCreateQueryKey = (options: Options<ArtifactCreateData>) =>
-  createQueryKey("artifactCreate", options);
-
-export const artifactCreateOptions = (options: Options<ArtifactCreateData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await artifactCreate({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: artifactCreateQueryKey(options),
-  });
-};
-
-export const artifactCreateMutation = (
-  options?: Partial<Options<ArtifactCreateData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    ArtifactCreateResponse,
-    ArtifactCreateError,
-    Options<ArtifactCreateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await artifactCreate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
 };
 
 export const artifactGetQueryKey = (options: Options<ArtifactGetData>) =>

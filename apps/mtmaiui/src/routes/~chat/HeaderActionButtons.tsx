@@ -13,13 +13,11 @@ import { useWorkbenchStore } from "../../stores/workbrench.store";
 export function HeaderActionButtons() {
   const openWorkbench = useWorkbenchStore((x) => x.openWorkbench);
   const setOpenWorkbench = useWorkbenchStore((x) => x.setOpenWorkbench);
-
-  // console.log("setOpenWorkbench", setOpenWorkbench);
   const openChat = useWorkbenchStore((x) => x.openChat);
   const setOpenChat = useWorkbenchStore((x) => x.setOpenChat);
   const canHideChat = openWorkbench || !openChat;
 
-  const chatProfileId = useWorkbenchStore((x) => x.chatProfile);
+  const chatSessionId = useWorkbenchStore((x) => x.threadId);
 
   const tid = useTenantId();
   const handleAg2 = async () => {
@@ -69,11 +67,28 @@ export function HeaderActionButtons() {
         >
           <Icons.code />
         </Button>
+        <CustomLink
+          // active={!!openWorkbench}
+          // onClick={() => {
+          //   console.log("openWorkbench", openWorkbench);
+          //   // if (openWorkbench && !openChat) {
+          //   //   setOpenChat(true);
+          //   // }
+          //   setOpenWorkbench(!openWorkbench);
+          // }}
+          to={`/chat/${chatSessionId}/team`}
+          className={cn(buttonVariants({ variant: "ghost" }))}
+          activeProps={{
+            className: "outline outline-1 outline-offset-2 outline-red-500",
+          }}
+        >
+          team
+        </CustomLink>
         <Separator orientation="vertical" className="mr-2 h-4" />
         <CustomLink
           // active={!!showWorkbench}
           className={cn(buttonVariants({ variant: "ghost" }))}
-          to={`/chat/${chatProfileId}/edit`}
+          to={`/chat/${chatSessionId}/edit`}
           onClick={() => {
             if (openWorkbench && !openChat) {
               setOpenChat(true);

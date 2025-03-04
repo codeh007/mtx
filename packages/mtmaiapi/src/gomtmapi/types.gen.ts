@@ -1674,38 +1674,6 @@ export type ChatMessageList = {
   pagination?: PaginationResponse;
 };
 
-export type AgentRunInput = {
-  teamId?: string;
-  sessionId?: string;
-  content: string;
-  tenantId?: string;
-  runId?: string;
-  stepRunId?: string;
-};
-
-export type ChatHistoryList = {
-  pagination?: PaginationResponse;
-  rows?: Array<ChatMessage>;
-};
-
-/**
- * 聊天 Session
- */
-export type ChatSession = {
-  metadata?: ApiResourceMeta;
-  name: string;
-  version: string;
-  team?: string;
-};
-
-/**
- * 聊天 Session 列表
- */
-export type ChatSessionList = {
-  metadata?: ApiResourceMeta;
-  rows?: Array<ChatSession>;
-};
-
 export type WorkerConfig = {
   workerToken?: string;
 };
@@ -1911,18 +1879,36 @@ export type Artifact = {
   prevId?: string;
 };
 
-export type CreateArtifacttRequest = {
-  /**
-   * The blog id.
-   */
-  artId: string;
-  title: string;
-  /**
-   * The tenant associated with this tenant blog.
-   */
-  state: {
-    [key: string]: unknown;
-  };
+export type AgentRunInput = {
+  teamId?: string;
+  sessionId?: string;
+  content: string;
+  tenantId?: string;
+  runId?: string;
+  stepRunId?: string;
+};
+
+export type ChatHistoryList = {
+  pagination?: PaginationResponse;
+  rows?: Array<ChatMessage>;
+};
+
+/**
+ * 聊天 Session
+ */
+export type ChatSession = {
+  metadata?: ApiResourceMeta;
+  name: string;
+  version: string;
+  team?: string;
+};
+
+/**
+ * 聊天 Session 列表
+ */
+export type ChatSessionList = {
+  metadata?: ApiResourceMeta;
+  rows?: Array<ChatSession>;
 };
 
 export type FlowTenantPayload = {
@@ -2107,47 +2093,10 @@ export const ProgrammingLanguageOptions = {
   OTHER: "other",
 } as const;
 
-export type CanvasGraphParams = {
-  /**
-   * 步骤限制(没用上)
-   */
-  stepLimit?: number;
-  messages?: Array<ChatMessage>;
-  action?: NodeRunAction;
-  /**
-   * 语言
-   */
-  language?: string;
-  /**
-   * 自定义快速动作ID
-   */
-  customQuickActionId?: string;
-  /**
-   * 工件ID
-   */
-  artifactId?: string;
-  /**
-   * 是否修复bug
-   */
-  fixBugs?: boolean;
-  highlightedCode?: CodeHighlight;
-  highlightedText?: TextHighlight;
-  /**
-   * 是否使用表情符号重新生成
-   */
-  regenerateWithEmojis?: boolean;
-  /**
-   * 阅读级别
-   */
-  readingLevel?: ReadingLevelOptions;
-  /**
-   * 工具内容长度,(文章,代码内容长度)
-   */
-  artifactLength?: ArtifactLengthOptions;
-  artifact?: ArtifactV3;
-  addComments?: boolean;
-  addLogs?: boolean;
-  portLanguage?: ProgrammingLanguageOptions;
+export type TeamComponent = ComponentModel & {
+  config: {
+    [key: string]: unknown;
+  };
 };
 
 export type AgStateProperties = {
@@ -7311,45 +7260,6 @@ export type ArtifactListResponses = {
 
 export type ArtifactListResponse =
   ArtifactListResponses[keyof ArtifactListResponses];
-
-export type ArtifactCreateData = {
-  /**
-   * 创建artifact
-   */
-  body: CreateArtifacttRequest;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/artifacts";
-};
-
-export type ArtifactCreateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type ArtifactCreateError =
-  ArtifactCreateErrors[keyof ArtifactCreateErrors];
-
-export type ArtifactCreateResponses = {
-  /**
-   * Successfully created the blog post
-   */
-  200: Artifact;
-};
-
-export type ArtifactCreateResponse =
-  ArtifactCreateResponses[keyof ArtifactCreateResponses];
 
 export type ArtifactGetData = {
   body?: never;

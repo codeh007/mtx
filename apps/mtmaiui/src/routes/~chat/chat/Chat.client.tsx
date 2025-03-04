@@ -18,7 +18,7 @@ const toastAnimation = cssTransition({
 interface ChatProps {
   initialMessages?: Message[];
   storeMessageHistory?: (messages: Message[]) => Promise<void>;
-  outlet?: React.ReactNode;
+  // outlet?: React.ReactNode;
 }
 
 export function ChatClient(props: ChatProps) {
@@ -38,7 +38,7 @@ export function ChatClient(props: ChatProps) {
   }, [threadId, nav]);
   return (
     <>
-      <ChatImpl outlet={props.outlet} />
+      <ChatImpl />
       <ToastContainer
         closeButton={({ closeToast }) => {
           return (
@@ -82,177 +82,171 @@ export function ChatClient(props: ChatProps) {
   );
 }
 
-export const ChatImpl = memo(
-  ({
-    initialMessages = [],
-    storeMessageHistory,
-    outlet: workbrenchChildren,
-  }: ChatProps) => {
-    // useShortcuts();
+export const ChatImpl = memo((props: ChatProps) => {
+  // useShortcuts();
 
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const showChat = useWorkbenchStore((x) => x.openChat);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const showChat = useWorkbenchStore((x) => x.openChat);
 
-    const [animationScope, animate] = useAnimate();
+  const [animationScope, animate] = useAnimate();
 
-    const input = useWorkbenchStore((x) => x.input);
-    const setInput = useWorkbenchStore((x) => x.setInput);
+  const input = useWorkbenchStore((x) => x.input);
+  const setInput = useWorkbenchStore((x) => x.setInput);
 
-    // const isLoading = useWorkbrenchStore((x) => x.aisdkIsLoading);
-    const { enhancingPrompt, promptEnhanced, enhancePrompt, resetEnhancer } =
-      usePromptEnhancer();
-    // const { parsedMessages, parseMessages } = useMessageParser();
-    const started = useWorkbenchStore((x) => x.started);
-    const TEXTAREA_MAX_HEIGHT = started ? 400 : 200;
-    // const setStarted = useWorkbrenchStore((x) => x.setStarted);
-    // const messages = useWorkbrenchStore((x) => x.messages);
-    // const started = useMemo(() => {
-    // 	return messages?.length > 0;
-    // }, [messages]);
-    // useEffect(() => {
-    // 	setStarted(initialMessages?.length > 0 || false);
-    // }, []);
+  // const isLoading = useWorkbrenchStore((x) => x.aisdkIsLoading);
+  const { enhancingPrompt, promptEnhanced, enhancePrompt, resetEnhancer } =
+    usePromptEnhancer();
+  // const { parsedMessages, parseMessages } = useMessageParser();
+  const started = useWorkbenchStore((x) => x.started);
+  const TEXTAREA_MAX_HEIGHT = started ? 400 : 200;
+  // const setStarted = useWorkbrenchStore((x) => x.setStarted);
+  // const messages = useWorkbrenchStore((x) => x.messages);
+  // const started = useMemo(() => {
+  // 	return messages?.length > 0;
+  // }, [messages]);
+  // useEffect(() => {
+  // 	setStarted(initialMessages?.length > 0 || false);
+  // }, []);
 
-    // const append = useWorkbrenchStore((x) => x.aisdkAppend);
-    // const setAborted = useWorkbrenchStore((x) => x.setAborted);
-    // const handleSubmit = useWorkbrenchStore((x) => x.handleSubmit);
-    const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
-    const scrollTextArea = () => {
-      const textarea = textareaRef.current;
+  // const append = useWorkbrenchStore((x) => x.aisdkAppend);
+  // const setAborted = useWorkbrenchStore((x) => x.setAborted);
+  // const handleSubmit = useWorkbrenchStore((x) => x.handleSubmit);
+  const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
+  const scrollTextArea = () => {
+    const textarea = textareaRef.current;
 
-      if (textarea) {
-        textarea.scrollTop = textarea.scrollHeight;
-      }
-    };
+    if (textarea) {
+      textarea.scrollTop = textarea.scrollHeight;
+    }
+  };
 
-    const abort = () => {
-      stop();
-      // chatStore.setKey("aborted", true);
-      // setAborted(true);
-      // workbenchStore.abortAllActions();
-    };
+  const abort = () => {
+    stop();
+    // chatStore.setKey("aborted", true);
+    // setAborted(true);
+    // workbenchStore.abortAllActions();
+  };
 
-    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-    useEffect(() => {
-      const textarea = textareaRef.current;
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    const textarea = textareaRef.current;
 
-      if (textarea) {
-        textarea.style.height = "auto";
+    if (textarea) {
+      textarea.style.height = "auto";
 
-        const scrollHeight = textarea.scrollHeight;
+      const scrollHeight = textarea.scrollHeight;
 
-        textarea.style.height = `${Math.min(scrollHeight, TEXTAREA_MAX_HEIGHT)}px`;
-        textarea.style.overflowY =
-          scrollHeight > TEXTAREA_MAX_HEIGHT ? "auto" : "hidden";
-      }
-    }, [input, textareaRef]);
+      textarea.style.height = `${Math.min(scrollHeight, TEXTAREA_MAX_HEIGHT)}px`;
+      textarea.style.overflowY =
+        scrollHeight > TEXTAREA_MAX_HEIGHT ? "auto" : "hidden";
+    }
+  }, [input, textareaRef]);
 
-    const runAnimation = async () => {
-      if (started) {
-        return;
-      }
+  const runAnimation = async () => {
+    if (started) {
+      return;
+    }
 
-      // await Promise.all([
-      //   animate(
-      //     "#examples",
-      //     { opacity: 0, display: "none" },
-      //     { duration: 0.1 },
-      //   ),
-      //   animate(
-      //     "#intro",
-      //     { opacity: 0, flex: 1 },
-      //     { duration: 0.2, ease: cubicEasingFn },
-      //   ),
-      // ]);
-    };
+    // await Promise.all([
+    //   animate(
+    //     "#examples",
+    //     { opacity: 0, display: "none" },
+    //     { duration: 0.1 },
+    //   ),
+    //   animate(
+    //     "#intro",
+    //     { opacity: 0, flex: 1 },
+    //     { duration: 0.2, ease: cubicEasingFn },
+    //   ),
+    // ]);
+  };
 
-    const sendMessage = async (messageInput?: string) => {
-      // console.log("sendMessage", messageInput, input);
-      const _input = messageInput || input;
+  const sendMessage = async (messageInput?: string) => {
+    // console.log("sendMessage", messageInput, input);
+    const _input = messageInput || input;
 
-      if (!_input) {
-        return;
-      }
-      handleHumanInput({ content: _input });
+    if (!_input) {
+      return;
+    }
+    handleHumanInput({ content: _input });
 
-      /**
-       * @note (delm) Usually saving files shouldn't take long but it may take longer if there
-       * many unsaved files. In that case we need to block user input and show an indicator
-       * of some kind so the user is aware that something is happening. But I consider the
-       * happy case to be no unsaved files and I would expect users to save their changes
-       * before they send another message.
-       */
-      // await workbenchStore.saveAllFiles();
+    /**
+     * @note (delm) Usually saving files shouldn't take long but it may take longer if there
+     * many unsaved files. In that case we need to block user input and show an indicator
+     * of some kind so the user is aware that something is happening. But I consider the
+     * happy case to be no unsaved files and I would expect users to save their changes
+     * before they send another message.
+     */
+    // await workbenchStore.saveAllFiles();
 
-      // const fileModifications = workbenchStore.getFileModifcations();
+    // const fileModifications = workbenchStore.getFileModifcations();
 
-      // chatStore.setKey("aborted", false);
-      // setAborted(false);
+    // chatStore.setKey("aborted", false);
+    // setAborted(false);
 
-      runAnimation();
+    runAnimation();
 
-      // if (fileModifications !== undefined) {
-      //   const diff = fileModificationsToHTML(fileModifications);
+    // if (fileModifications !== undefined) {
+    //   const diff = fileModificationsToHTML(fileModifications);
 
-      //   /**
-      //    * If we have file modifications we append a new user message manually since we have to prefix
-      //    * the user input with the file modifications and we don't want the new user input to appear
-      //    * in the prompt. Using `append` is almost the same as `handleSubmit` except that we have to
-      //    * manually reset the input and we'd have to manually pass in file attachments. However, those
-      //    * aren't relevant here.
-      //    */
-      //   // append({ role: "user", content: `${diff}\n\n${_input}` });
+    //   /**
+    //    * If we have file modifications we append a new user message manually since we have to prefix
+    //    * the user input with the file modifications and we don't want the new user input to appear
+    //    * in the prompt. Using `append` is almost the same as `handleSubmit` except that we have to
+    //    * manually reset the input and we'd have to manually pass in file attachments. However, those
+    //    * aren't relevant here.
+    //    */
+    //   // append({ role: "user", content: `${diff}\n\n${_input}` });
 
-      //   /**
-      //    * After sending a new message we reset all modifications since the model
-      //    * should now be aware of all the changes.
-      //    */
-      //   // workbenchStore.resetAllFileModifications();
-      // } else {
-      //   // append({ role: "user", content: _input });
-      // }
+    //   /**
+    //    * After sending a new message we reset all modifications since the model
+    //    * should now be aware of all the changes.
+    //    */
+    //   // workbenchStore.resetAllFileModifications();
+    // } else {
+    //   // append({ role: "user", content: _input });
+    // }
 
-      setInput("");
+    setInput("");
 
-      resetEnhancer();
+    resetEnhancer();
 
-      textareaRef.current?.blur();
-    };
+    textareaRef.current?.blur();
+  };
 
-    const [messageRef, scrollRef] = useSnapScroll();
-    return (
-      <BaseChat
-        ref={animationScope}
-        // textareaRef={textareaRef}
-        input={input}
-        showChat={!!showChat}
-        // chatStarted={chatStarted}
-        isStreaming={false}
-        enhancingPrompt={enhancingPrompt}
-        promptEnhanced={promptEnhanced}
-        sendMessage={sendMessage}
-        messageRef={messageRef}
-        scrollRef={scrollRef}
-        // handleInputChange={handleAisdkInputChange}
-        handleStop={abort}
-        workbrenchChildren={workbrenchChildren}
-        // messages={messages.map((message, i) => {
-        // 	if (message.role === "user") {
-        // 		return message;
-        // 	}
+  const [messageRef, scrollRef] = useSnapScroll();
+  return (
+    <BaseChat
+      ref={animationScope}
+      // textareaRef={textareaRef}
+      input={input}
+      showChat={!!showChat}
+      // chatStarted={chatStarted}
+      isStreaming={false}
+      enhancingPrompt={enhancingPrompt}
+      promptEnhanced={promptEnhanced}
+      sendMessage={sendMessage}
+      messageRef={messageRef}
+      scrollRef={scrollRef}
+      // handleInputChange={handleAisdkInputChange}
+      handleStop={abort}
+      // workbrenchChildren={workbrenchChildren}
+      // messages={messages.map((message, i) => {
+      // 	if (message.role === "user") {
+      // 		return message;
+      // 	}
 
-        // 	return {
-        // 		...message,
-        // 		// content: parsedMessages[i] || "",
-        // 	};
-        // })}
-        // enhancePrompt={() => {
-        //   enhancePrompt(input, (input) => {
-        //     setInput(input);
-        //     scrollTextArea();
-        //   });
-        // }}
-      />
-    );
-  },
-);
+      // 	return {
+      // 		...message,
+      // 		// content: parsedMessages[i] || "",
+      // 	};
+      // })}
+      // enhancePrompt={() => {
+      //   enhancePrompt(input, (input) => {
+      //     setInput(input);
+      //     scrollTextArea();
+      //   });
+      // }}
+    />
+  );
+});

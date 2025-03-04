@@ -5,7 +5,6 @@ import { type RefCallback, forwardRef, useMemo } from "react";
 
 import { classNames } from "mtxuilib/lib/utils";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
-import { MtWorkbench } from "../MtWorkbench";
 import { Header } from "../header";
 import { MtMessages } from "./MtMessages";
 import { BoltPromptBox } from "./prompt-input/BoltPromptBox";
@@ -39,7 +38,7 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
       promptEnhanced = false,
       input = "",
       sendMessage,
-      workbrenchChildren,
+      // workbrenchChildren,
       // enhancePrompt,
       // handleStop,
     },
@@ -51,7 +50,7 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
     }, [messages]);
 
     const setInput = useWorkbenchStore((x) => x.setInput);
-    const openWorkbench = useWorkbenchStore((x) => x.openWorkbench);
+    // const openWorkbench = useWorkbenchStore((x) => x.openWorkbench);
 
     const TEXTAREA_MAX_HEIGHT = chatStarted ? 400 : 200;
 
@@ -106,14 +105,6 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
               {/* {!chatStarted && <ChatStarts onSelect={handleSelectStart} />} */}
             </div>
           </div>
-
-          {openWorkbench && (
-            <MtWorkbench
-              chatStarted={chatStarted}
-              isStreaming={isStreaming}
-              outlet={workbrenchChildren}
-            />
-          )}
         </div>
       </>
     );

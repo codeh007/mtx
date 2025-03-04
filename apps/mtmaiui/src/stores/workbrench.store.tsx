@@ -32,7 +32,7 @@ export interface IAskForm {
 export interface WorkbenchProps {
   backendUrl: string;
   accessToken?: string;
-  chatProfile?: string;
+  // chatProfile?: string;
   params?: Record<string, any>;
   openDebugPanel?: boolean;
   threadId?: string;
