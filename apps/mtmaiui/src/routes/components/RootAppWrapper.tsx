@@ -7,13 +7,13 @@ import type { PropsWithChildren } from "react";
 import { DashSidebar } from "../../components/sidebar/siderbar";
 
 interface RootAppWrapperProps extends PropsWithChildren {
-  secoundSidebar?: React.ReactNode;
+  secondSidebar?: React.ReactNode;
   className?: string;
 }
 export function RootAppWrapper({
   children,
   className,
-  secoundSidebar,
+  secondSidebar,
 }: RootAppWrapperProps) {
   return (
     <div
@@ -22,7 +22,7 @@ export function RootAppWrapper({
         className,
       )}
     >
-      <DashSidebar />
+      <DashSidebar secondSidebar={secondSidebar} />
       <SidebarInset>
         <MtSuspenseBoundary>{children}</MtSuspenseBoundary>
       </SidebarInset>

@@ -8,6 +8,7 @@ import { useMtmaiV2 } from "../../stores/StoreProvider";
 import { useGomtmClient } from "../../stores/TransportProvider";
 import { WorkbrenchProvider } from "../../stores/workbrench.store";
 import { RootAppWrapper } from "../components/RootAppWrapper";
+import { NavPlayground } from "./sidebar";
 // import { SessionManager } from "./manager";
 
 export const Route = createLazyFileRoute("/play")({
@@ -39,7 +40,7 @@ function RouteComponent() {
       tenant={tenant!}
       nav={nav}
     >
-      <RootAppWrapper>
+      <RootAppWrapper secondSidebar={<NavPlayground />}>
         <Outlet />
       </RootAppWrapper>
     </WorkbrenchProvider>
