@@ -4971,6 +4971,9 @@ export const ComponentGetSchema = {
     id: {
       type: "string",
     },
+    label: {
+      type: "string",
+    },
   },
 } as const;
 

@@ -2780,6 +2780,7 @@ export type PromptList = {
 
 export type ComponentGet = {
   id?: string;
+  label?: string;
 };
 
 export type BadRequest = unknown;

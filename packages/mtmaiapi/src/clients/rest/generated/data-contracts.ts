@@ -2275,6 +2275,7 @@ export interface PromptList {
 
 export interface ComponentGet {
   id?: string;
+  label?: string;
 }
 
 export type BadRequest = APIErrors;
