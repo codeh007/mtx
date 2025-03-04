@@ -38,9 +38,6 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
       promptEnhanced = false,
       input = "",
       sendMessage,
-      // workbrenchChildren,
-      // enhancePrompt,
-      // handleStop,
     },
     ref,
   ) => {
@@ -50,8 +47,6 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
     }, [messages]);
 
     const setInput = useWorkbenchStore((x) => x.setInput);
-    // const openWorkbench = useWorkbenchStore((x) => x.openWorkbench);
-
     const TEXTAREA_MAX_HEIGHT = chatStarted ? 400 : 200;
 
     return (
@@ -102,7 +97,6 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
                   textareaRef={textareaRef}
                 />
               </div>
-              {/* {!chatStarted && <ChatStarts onSelect={handleSelectStart} />} */}
             </div>
           </div>
         </div>

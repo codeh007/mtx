@@ -32,7 +32,6 @@ export interface IAskForm {
 export interface WorkbenchProps {
   backendUrl: string;
   accessToken?: string;
-  // chatProfile?: string;
   params?: Record<string, any>;
   openDebugPanel?: boolean;
   threadId?: string;
@@ -158,42 +157,13 @@ export const createWorkbrenchSlice: StateCreator<
   return {
     isDev: false,
     backendUrl: "",
-    // chatEndpoint: "/api/v1/chat/ws/socket.io",
-    // use chat ----------------------------------------------------------------------------
-    // appendChatMessageCb: (message) => {
-    //   // set({ messages: [...get().messages, message] });
-    //   console.log("append", message);
-    // },
     setOpenDebugPanel: (openDebugPanel) => set({ openDebugPanel }),
-    // currentView: "",
-    // setCurrentView: (view) => set({ currentView: view }),
-    // workbenchConfig: undefined,
-    // setWorkbenchConfig: (config) => set({ workbenchConfig: config }),
-    // workbenchViewProps: {},
-    // setWorkbenchViewProps: (props) => set({ workbenchViewProps: props }),
-    // assisantConfig: undefined,
-    // setAssisantConfig: (config) => set({ assisantConfig: config }),
     setSelectedModelId: (selectedModelId) => set({ selectedModelId }),
     setInput: (input) => set({ input }),
     messages: [],
-    // elementState: [],
-    // setElementState: (elementState) => {
-    //   set({ elementState });
-    // },
-    // actionState: [],
-    // setActionState: (actionState) => {
-    //   set({ actionState });
-    // },
     firstUserInteraction: undefined,
     setFirstUserInteraction: (firstUserInteraction) =>
       set({ firstUserInteraction }),
-    // uiState: {},
-    // setUistate: (uiState) => {
-    //   set({ uiState });
-    // },
-    // setInput: (input: string) => {
-    //   set({ input });
-    // },
     setAccessToken: (accessToken: string) => {
       set({ accessToken });
     },
@@ -277,16 +247,7 @@ export const createWorkbrenchSlice: StateCreator<
       title: "",
       breadcrumbs: [],
     },
-    // setHeader: (newHeader) =>
-    //   set((state) => ({
-    //     header: { ...state.header, ...newHeader },
-    //   })),
-    // Add AgentFlow settings
     agentFlow: DEFAULT_AGENT_FLOW_SETTINGS,
-    // setAgentFlowSettings: (newSettings) =>
-    //   set((state) => ({
-    //     agentFlow: { ...state.agentFlow, ...newSettings },
-    //   })),
     sidebar: {
       isExpanded: true,
       isPinned: false,

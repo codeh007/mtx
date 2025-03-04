@@ -1,13 +1,11 @@
 "use client";
 
 import classNames from "classnames";
-import { type AgentRunInput, workflowRunCreate } from "mtmaiapi";
 import { Icons } from "mtxuilib/icons/icons";
 import { cn } from "mtxuilib/lib/utils";
 import { buttonVariants } from "mtxuilib/ui/button";
 import { Separator } from "mtxuilib/ui/separator";
 import { CustomLink } from "../../../components/CustomLink";
-import { useTenantId } from "../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
 export function HeaderActionButtons() {
@@ -19,30 +17,9 @@ export function HeaderActionButtons() {
 
   const chatSessionId = useWorkbenchStore((x) => x.threadId);
 
-  const tid = useTenantId();
-  const handleAg2 = async () => {
-    const response = await workflowRunCreate({
-      path: {
-        workflow: "ag2",
-      },
-      body: {
-        input: {
-          tenantId: tid,
-          content: "hello",
-          // teamId: teamId,
-          // sessionId: threadId,
-        } satisfies AgentRunInput,
-        additionalMetadata: {
-          // sessionId: threadId,
-        },
-      },
-    });
-  };
   return (
     <div className="flex">
       <div className="flex border border-bolt-elements-borderColor rounded-md overflow-hidden">
-        <Button onClick={handleAg2}>ag2</Button>
-
         <Button
           active={!!openChat}
           disabled={!canHideChat}
@@ -67,6 +44,17 @@ export function HeaderActionButtons() {
         >
           <Icons.code />
         </Button>
+        <Separator orientation="vertical" className="mr-2 h-4" />
+        <CustomLink
+          to={`/play/chat/${chatSessionId}/debug`}
+          className={cn(buttonVariants({ variant: "ghost" }))}
+          activeProps={{
+            className: "outline outline-1 outline-offset-2 outline-red-500",
+          }}
+        >
+          D
+        </CustomLink>
+        <Separator orientation="vertical" className="mr-2 h-4" />
         <CustomLink
           to={`/play/chat/${chatSessionId}/team`}
           className={cn(buttonVariants({ variant: "ghost" }))}
@@ -78,7 +66,26 @@ export function HeaderActionButtons() {
         </CustomLink>
         <Separator orientation="vertical" className="mr-2 h-4" />
         <CustomLink
-          // active={!!showWorkbench}
+          to={`/play/chat/${chatSessionId}/edit`}
+          className={cn(buttonVariants({ variant: "ghost" }))}
+          activeProps={{
+            className: "outline outline-1 outline-offset-2 outline-red-500",
+          }}
+        >
+          <Icons.settings className="size-4" />
+        </CustomLink>
+        <Separator orientation="vertical" className="mr-2 h-4" />
+        <CustomLink
+          to={`/play/chat/${chatSessionId}/result`}
+          className={cn(buttonVariants({ variant: "ghost" }))}
+          activeProps={{
+            className: "outline outline-1 outline-offset-2 outline-red-500",
+          }}
+        >
+          result
+        </CustomLink>
+        <Separator orientation="vertical" className="mr-2 h-4" />
+        {/* <CustomLink
           className={cn(buttonVariants({ variant: "ghost" }))}
           to={`/play/chat/${chatSessionId}/edit`}
           onClick={() => {
@@ -89,7 +96,7 @@ export function HeaderActionButtons() {
           }}
         >
           <Icons.settings className="size-4" />
-        </CustomLink>
+        </CustomLink> */}
       </div>
     </div>
   );
