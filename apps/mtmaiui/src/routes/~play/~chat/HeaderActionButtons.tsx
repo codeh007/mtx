@@ -5,7 +5,7 @@ import { Icons } from "mtxuilib/icons/icons";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
-import { Separator, Separator } from "mtxuilib/ui/separator";
+import { Separator } from "mtxuilib/ui/separator";
 
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
 

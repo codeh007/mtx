@@ -28,8 +28,9 @@ function RouteComponent() {
   return (
     <div className="flex flex-col h-full w-full ">
       {isEmpty ? (
-        // <ListViewEmpty message="没有可用数据" linkToCreate="/dash/site/new" />
-        <></>
+        <>
+          <span>没有可用数据</span>
+        </>
       ) : (
         <>
           <SiteListViewHeader />

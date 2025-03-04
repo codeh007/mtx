@@ -1,8 +1,8 @@
 "use client";
 import { Outlet, createRootRoute } from "@tanstack/react-router";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { UserFAB } from "../components/UserFAB";
 import { NotFound } from "../components/notFound";
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 // import appCss from "../styles/app.css?url"
 export const Route = createRootRoute({
   head: () => ({
@@ -32,9 +32,9 @@ export const Route = createRootRoute({
 function RootComponent() {
   return (
     <>
-    <MtSuspenseBoundary>
-      <UserFAB />
-      <Outlet />
+      <MtSuspenseBoundary>
+        <UserFAB />
+        <Outlet />
       </MtSuspenseBoundary>
     </>
   );

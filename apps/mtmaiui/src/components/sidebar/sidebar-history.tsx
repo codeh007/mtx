@@ -17,7 +17,6 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-// import { chatListOptions } from "mtmaiapi";
 import type { Chat } from "mtxuilib/db/schema";
 import {
   MoreHorizontalIcon,
