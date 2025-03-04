@@ -26,12 +26,9 @@ import { useNavigate } from "@tanstack/react-router";
 import { frontendGetSiderbarOptions } from "mtmaiapi";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { useUser } from "../hooks/useAuth";
-import { useBasePath } from "../hooks/useBasePath";
 export const UserFAB = () => {
   const [openCmdk, setOpenCmdk] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
-  const basePath = useBasePath();
-
   const user = useUser();
   const navigate = useNavigate();
 
