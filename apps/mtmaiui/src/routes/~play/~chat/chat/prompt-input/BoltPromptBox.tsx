@@ -37,7 +37,7 @@ export const BoltPromptBox = ({
     <>
       <div
         className={cn("relative w-full max-w-chat mx-auto z-prompt", {
-          "sticky bottom-6": chatStarted,
+          "sticky bottom-1": chatStarted,
         })}
       >
         <div
@@ -49,7 +49,7 @@ export const BoltPromptBox = ({
           <textarea
             ref={textareaRef}
             className={
-              "w-full pl-4 pt-4 pr-16 focus:outline-hidden resize-none text-md text-bolt-elements-textPrimary placeholder-bolt-elements-textTertiary bg-transparent"
+              "w-full pl-4 pt-2 pr-16 focus:outline-hidden resize-none text-md text-bolt-elements-textPrimary placeholder-bolt-elements-textTertiary bg-transparent"
             }
             onKeyDown={(event) => {
               if (event.key === "Enter") {
@@ -122,9 +122,9 @@ export const BoltPromptBox = ({
             ) : null}
           </div>
         </div>
-        <div className="bg-bolt-elements-background-depth-1 pb-6">
-          {/* Ghost Element */}
-        </div>
+        {/* <div className="bg-bolt-elements-background-depth-1 pb-6">
+          Ghost Element
+        </div> */}
       </div>
     </>
   );
