@@ -3,7 +3,6 @@
 import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { TailwindIndicator } from "mtxuilib/components/tailwind-indicator";
 import { MtThemeProvider } from "mtxuilib/components/themes/ThemeProvider";
-import { SidebarProvider } from "mtxuilib/ui/sidebar";
 import { TooltipProvider } from "mtxuilib/ui/tooltip";
 import dynamic from "next/dynamic";
 import type { PropsWithChildren } from "react";
@@ -44,29 +43,21 @@ export const UIProviders = (props: PropsWithChildren) => {
   const { children } = props;
   return (
     <MtThemeProvider>
-      <SidebarProvider
-        style={
-          {
-            "--sidebar-width": "350px", //如果需要左侧双侧边栏 就设置为 350px
-          } as React.CSSProperties
-        }
-      >
-        <MtErrorBoundary>
-          <MtProgressBarLazy />
-          <TooltipProvider delayDuration={0}>
-            {/* <ConfirmModalProvider> */}
-            {/* <I18nProvider> */}
-            {children}
-            {/* </I18nProvider> */}
-            {/* </ConfirmModalProvider> */}
-            <SonnerToasterLazy position="top-center" />
-            <ToasterLazy />
-            <TailwindIndicator />
-            <AppLazy />
-            <DevToolsLazy />
-          </TooltipProvider>
-        </MtErrorBoundary>
-      </SidebarProvider>
+      <MtErrorBoundary>
+        <MtProgressBarLazy />
+        <TooltipProvider delayDuration={0}>
+          {/* <ConfirmModalProvider> */}
+          {/* <I18nProvider> */}
+          {children}
+          {/* </I18nProvider> */}
+          {/* </ConfirmModalProvider> */}
+          <SonnerToasterLazy position="top-center" />
+          <ToasterLazy />
+          <TailwindIndicator />
+          <AppLazy />
+          <DevToolsLazy />
+        </TooltipProvider>
+      </MtErrorBoundary>
     </MtThemeProvider>
   );
 };

@@ -9,8 +9,8 @@ import { useWindowSize } from "usehooks-ts";
 
 import type { Vote } from "mtxuilib/db/schema";
 import { fetcher } from "../../lib/utils";
-import { ThinkingMessage } from "../../routes/~chat/chat/ThinkingMessage";
-import { MultimodalInput } from "../../routes/~chat/chat/prompt-input/multimodal-input";
+import { ThinkingMessage } from "../../routes/~play/~chat/chat/ThinkingMessage";
+import { MultimodalInput } from "../../routes/~play/~chat/chat/prompt-input/multimodal-input";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { Block, type UIBlock } from "./block";
 import { BlockStreamHandler } from "./block-stream-handler";

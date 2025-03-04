@@ -1626,7 +1626,7 @@ export interface ChatSession {
 
 /** 聊天 Session 列表 */
 export interface ChatSessionList {
-  metadata?: APIResourceMeta;
+  pagination?: PaginationResponse;
   rows?: ChatSession[];
 }
 

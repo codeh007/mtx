@@ -26,7 +26,7 @@ import {
 } from "mtxuilib/icons/aichatbot.icons";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
-import { MultimodalInput } from "../../routes/~chat/chat/prompt-input/multimodal-input";
+import { MultimodalInput } from "../../routes/~play/~chat/chat/prompt-input/multimodal-input";
 import { DiffView } from "./diffview";
 import { Editor } from "./editor";
 import { Toolbar } from "./toolbar";

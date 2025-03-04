@@ -1907,7 +1907,7 @@ export type ChatSession = {
  * 聊天 Session 列表
  */
 export type ChatSessionList = {
-  metadata?: ApiResourceMeta;
+  pagination?: PaginationResponse;
   rows?: Array<ChatSession>;
 };
 
@@ -8603,6 +8603,18 @@ export type ChatMessagesListData = {
   query?: never;
   url: "/api/v1/tenants/{tenant}/chat/{chat}/messages";
 };
+
+export type ChatMessagesListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  403: ApiError;
+  404: ApiErrors;
+};
+
+export type ChatMessagesListError =
+  ChatMessagesListErrors[keyof ChatMessagesListErrors];
 
 export type ChatMessagesListResponses = {
   /**

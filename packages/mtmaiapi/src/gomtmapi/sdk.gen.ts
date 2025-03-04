@@ -421,6 +421,7 @@ import type {
   AgStateGetError,
   ChatMessagesListData,
   ChatMessagesListResponse,
+  ChatMessagesListError,
   ChatSessionListData,
   ChatSessionListResponse,
   ChatSessionListError,
@@ -4398,7 +4399,7 @@ export const chatMessagesList = <ThrowOnError extends boolean = false>(
 ) => {
   return (options.client ?? _heyApiClient).get<
     ChatMessagesListResponse,
-    unknown,
+    ChatMessagesListError,
     ThrowOnError
   >({
     security: [

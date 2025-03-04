@@ -1569,7 +1569,7 @@ export const zChatSession = z.object({
 });
 
 export const zChatSessionList = z.object({
-  metadata: zApiResourceMeta.optional(),
+  pagination: zPaginationResponse.optional(),
   rows: z.array(zChatSession).optional(),
 });
 

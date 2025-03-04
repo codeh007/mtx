@@ -39,8 +39,6 @@ import { useTenantId } from "../../hooks/useAuth";
 
 export function NavPlayground() {
   const { isMobile } = useSidebar();
-  // const [mails, setMails] = React.useState(data.mails);
-
   const tid = useTenantId();
   const chatQuery = useQuery({
     ...chatSessionListOptions({
@@ -145,7 +143,7 @@ export function NavPlayground() {
                 </div>
                 <span className="font-medium">{chat.name}</span>
                 <span className="line-clamp-2 w-[260px] whitespace-break-spaces text-xs">
-                  {chat.name}
+                  {chat.name || chat.metadata?.id}
                 </span>
               </CustomLink>
             ))}

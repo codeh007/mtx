@@ -3373,7 +3373,7 @@ export class Api<
     chat: string,
     params: RequestParams = {},
   ) =>
-    this.request<ChatMessageList, any>({
+    this.request<ChatMessageList, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/chat/${chat}/messages`,
       method: "GET",
       secure: true,

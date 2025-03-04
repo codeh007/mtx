@@ -3367,8 +3367,8 @@ export const ChatSessionSchema = {
 export const ChatSessionListSchema = {
   description: "聊天 Session 列表",
   properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
     },
     rows: {
       type: "array",
