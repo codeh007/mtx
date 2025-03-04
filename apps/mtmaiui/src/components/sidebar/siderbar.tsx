@@ -16,7 +16,6 @@ import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { user } from "mtxuilib/db/schema";
 import { useIsMobile } from "mtxuilib/hooks/use-mobile";
-import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { IconX, Icons } from "mtxuilib/icons/icons";
 import {
   Collapsible,
@@ -50,7 +49,6 @@ import {
 } from "mtxuilib/ui/sidebar";
 import Link from "next/link";
 import { Suspense } from "react";
-import { useIsAdmin } from "../../hooks/useAuth";
 import { CustomLink } from "../CustomLink";
 import { SidebarMenuApp } from "./SidebarMenuApp";
 import { NavChat } from "./nav-chatprofile";
@@ -74,9 +72,14 @@ interface DashSidebarProps extends React.ComponentProps<typeof Sidebar> {
 export const DashSidebar = (props: DashSidebarProps) => {
   const { siteId, collapsed, chatProfileId, ...rest } = props;
   const { setOpenMobile } = useSidebar();
+  // const [activeItem, setActiveItem] = useState(data.navMain[0])
   return (
     // <Sidebar className="group-data-[side=left]:border-r-0" {...rest}>
-    <Sidebar {...rest}>
+    <Sidebar
+      collapsible="icon"
+      className="overflow-hidden [&>[data-sidebar=sidebar]]:flex-row"
+      {...rest}
+    >
       <SidebarHeader>
         <SidebarMenuApp />
       </SidebarHeader>

@@ -41,6 +41,7 @@ const TeamRouteLazyImport = createFileRoute('/team')()
 const SiteRouteLazyImport = createFileRoute('/site')()
 const SettingsRouteLazyImport = createFileRoute('/settings')()
 const PostRouteLazyImport = createFileRoute('/post')()
+const PlayRouteLazyImport = createFileRoute('/play')()
 const PlatformAccountRouteLazyImport = createFileRoute('/platform-account')()
 const PlatformRouteLazyImport = createFileRoute('/platform')()
 const ModelRouteLazyImport = createFileRoute('/model')()
@@ -68,6 +69,7 @@ const WorkflowRunsIndexLazyImport = createFileRoute('/workflow-runs/')()
 const TeamIndexLazyImport = createFileRoute('/team/')()
 const SettingsIndexLazyImport = createFileRoute('/settings/')()
 const PostIndexLazyImport = createFileRoute('/post/')()
+const PlayIndexLazyImport = createFileRoute('/play/')()
 const PlatformAccountIndexLazyImport = createFileRoute('/platform-account/')()
 const ModelIndexLazyImport = createFileRoute('/model/')()
 const EventsIndexLazyImport = createFileRoute('/events/')()
@@ -130,6 +132,12 @@ const PostRouteLazyRoute = PostRouteLazyImport.update({
   path: '/post',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~post/~route.lazy').then((d) => d.Route))
+
+const PlayRouteLazyRoute = PlayRouteLazyImport.update({
+  id: '/play',
+  path: '/play',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/~play/~route.lazy').then((d) => d.Route))
 
 const PlatformAccountRouteLazyRoute = PlatformAccountRouteLazyImport.update({
   id: '/platform-account',
@@ -305,6 +313,12 @@ const PostIndexLazyRoute = PostIndexLazyImport.update({
   path: '/',
   getParentRoute: () => PostRouteLazyRoute,
 } as any).lazy(() => import('./routes/~post/~index.lazy').then((d) => d.Route))
+
+const PlayIndexLazyRoute = PlayIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PlayRouteLazyRoute,
+} as any).lazy(() => import('./routes/~play/~index.lazy').then((d) => d.Route))
 
 const PlatformAccountIndexLazyRoute = PlatformAccountIndexLazyImport.update({
   id: '/',
@@ -571,6 +585,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlatformAccountRouteLazyImport
       parentRoute: typeof rootRoute
     }
+    '/play': {
+      id: '/play'
+      path: '/play'
+      fullPath: '/play'
+      preLoaderRoute: typeof PlayRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/post': {
       id: '/post'
       path: '/post'
@@ -738,6 +759,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/platform-account/'
       preLoaderRoute: typeof PlatformAccountIndexLazyImport
       parentRoute: typeof PlatformAccountRouteLazyImport
+    }
+    '/play/': {
+      id: '/play/'
+      path: '/'
+      fullPath: '/play/'
+      preLoaderRoute: typeof PlayIndexLazyImport
+      parentRoute: typeof PlayRouteLazyImport
     }
     '/post/': {
       id: '/post/'
@@ -1057,6 +1085,18 @@ const PlatformAccountRouteLazyRouteWithChildren =
     PlatformAccountRouteLazyRouteChildren,
   )
 
+interface PlayRouteLazyRouteChildren {
+  PlayIndexLazyRoute: typeof PlayIndexLazyRoute
+}
+
+const PlayRouteLazyRouteChildren: PlayRouteLazyRouteChildren = {
+  PlayIndexLazyRoute: PlayIndexLazyRoute,
+}
+
+const PlayRouteLazyRouteWithChildren = PlayRouteLazyRoute._addFileChildren(
+  PlayRouteLazyRouteChildren,
+)
+
 interface PostRouteLazyRouteChildren {
   PostIndexLazyRoute: typeof PostIndexLazyRoute
   PostCreateLazyRoute: typeof PostCreateLazyRoute
@@ -1193,6 +1233,7 @@ export interface FileRoutesByFullPath {
   '/model': typeof ModelRouteLazyRouteWithChildren
   '/platform': typeof PlatformRouteLazyRouteWithChildren
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
+  '/play': typeof PlayRouteLazyRouteWithChildren
   '/post': typeof PostRouteLazyRouteWithChildren
   '/settings': typeof SettingsRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
@@ -1217,6 +1258,7 @@ export interface FileRoutesByFullPath {
   '/events/': typeof EventsIndexLazyRoute
   '/model/': typeof ModelIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
+  '/play/': typeof PlayIndexLazyRoute
   '/post/': typeof PostIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
   '/team/': typeof TeamIndexLazyRoute
@@ -1262,6 +1304,7 @@ export interface FileRoutesByTo {
   '/events': typeof EventsIndexLazyRoute
   '/model': typeof ModelIndexLazyRoute
   '/platform-account': typeof PlatformAccountIndexLazyRoute
+  '/play': typeof PlayIndexLazyRoute
   '/post': typeof PostIndexLazyRoute
   '/settings': typeof SettingsIndexLazyRoute
   '/team': typeof TeamIndexLazyRoute
@@ -1297,6 +1340,7 @@ export interface FileRoutesById {
   '/model': typeof ModelRouteLazyRouteWithChildren
   '/platform': typeof PlatformRouteLazyRouteWithChildren
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
+  '/play': typeof PlayRouteLazyRouteWithChildren
   '/post': typeof PostRouteLazyRouteWithChildren
   '/settings': typeof SettingsRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
@@ -1321,6 +1365,7 @@ export interface FileRoutesById {
   '/events/': typeof EventsIndexLazyRoute
   '/model/': typeof ModelIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
+  '/play/': typeof PlayIndexLazyRoute
   '/post/': typeof PostIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
   '/team/': typeof TeamIndexLazyRoute
@@ -1360,6 +1405,7 @@ export interface FileRouteTypes {
     | '/model'
     | '/platform'
     | '/platform-account'
+    | '/play'
     | '/post'
     | '/settings'
     | '/site'
@@ -1384,6 +1430,7 @@ export interface FileRouteTypes {
     | '/events/'
     | '/model/'
     | '/platform-account/'
+    | '/play/'
     | '/post/'
     | '/settings/'
     | '/team/'
@@ -1428,6 +1475,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/model'
     | '/platform-account'
+    | '/play'
     | '/post'
     | '/settings'
     | '/team'
@@ -1461,6 +1509,7 @@ export interface FileRouteTypes {
     | '/model'
     | '/platform'
     | '/platform-account'
+    | '/play'
     | '/post'
     | '/settings'
     | '/site'
@@ -1485,6 +1534,7 @@ export interface FileRouteTypes {
     | '/events/'
     | '/model/'
     | '/platform-account/'
+    | '/play/'
     | '/post/'
     | '/settings/'
     | '/team/'
@@ -1523,6 +1573,7 @@ export interface RootRouteChildren {
   ModelRouteLazyRoute: typeof ModelRouteLazyRouteWithChildren
   PlatformRouteLazyRoute: typeof PlatformRouteLazyRouteWithChildren
   PlatformAccountRouteLazyRoute: typeof PlatformAccountRouteLazyRouteWithChildren
+  PlayRouteLazyRoute: typeof PlayRouteLazyRouteWithChildren
   PostRouteLazyRoute: typeof PostRouteLazyRouteWithChildren
   SettingsRouteLazyRoute: typeof SettingsRouteLazyRouteWithChildren
   SiteRouteLazyRoute: typeof SiteRouteLazyRouteWithChildren
@@ -1546,6 +1597,7 @@ const rootRouteChildren: RootRouteChildren = {
   ModelRouteLazyRoute: ModelRouteLazyRouteWithChildren,
   PlatformRouteLazyRoute: PlatformRouteLazyRouteWithChildren,
   PlatformAccountRouteLazyRoute: PlatformAccountRouteLazyRouteWithChildren,
+  PlayRouteLazyRoute: PlayRouteLazyRouteWithChildren,
   PostRouteLazyRoute: PostRouteLazyRouteWithChildren,
   SettingsRouteLazyRoute: SettingsRouteLazyRouteWithChildren,
   SiteRouteLazyRoute: SiteRouteLazyRouteWithChildren,
@@ -1578,6 +1630,7 @@ export const routeTree = rootRoute
         "/model",
         "/platform",
         "/platform-account",
+        "/play",
         "/post",
         "/settings",
         "/site",
@@ -1658,6 +1711,12 @@ export const routeTree = rootRoute
         "/platform-account/$id",
         "/platform-account/create",
         "/platform-account/"
+      ]
+    },
+    "/play": {
+      "filePath": "~play/~route.lazy.tsx",
+      "children": [
+        "/play/"
       ]
     },
     "/post": {
@@ -1781,6 +1840,10 @@ export const routeTree = rootRoute
     "/platform-account/": {
       "filePath": "~platform-account/~index.lazy.tsx",
       "parent": "/platform-account"
+    },
+    "/play/": {
+      "filePath": "~play/~index.lazy.tsx",
+      "parent": "/play"
     },
     "/post/": {
       "filePath": "~post/~index.lazy.tsx",

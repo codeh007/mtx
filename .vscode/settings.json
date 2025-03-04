@@ -8,7 +8,14 @@
     "**/.pytest_cache": true,
     "**/dist": true,
     "mtm/web/static": true,
-    "**/.next.dev": true
+    "**/.next.dev": true,
+    "**/routeTree.gen.ts": true
+  },
+  "files.watcherExclude": {
+    "**/routeTree.gen.ts": true
+  },
+  "files.readonlyInclude": {
+    "**/routeTree.gen.ts": true
   },
   "editor.fontFamily": "JetBrains Mono, 'Fira Code', Consolas, 'Courier New', monospace",
   "workbench.settings.editor": "ui",
