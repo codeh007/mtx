@@ -70,7 +70,6 @@ export type MtmaiChatEvent = {
 
 export interface WorkbrenchState extends WorkbenchProps {
   setThreadId: (threadId?: string) => void;
-
   setOpenDebugPanel: (openDebugPanel: boolean) => void;
   workbenchViewProps?: Record<string, any>;
   setWorkbenchViewProps: (props?: Record<string, any>) => void;
@@ -146,8 +145,8 @@ export interface WorkbrenchState extends WorkbenchProps {
   setArtifactContent: (index: number, content: string) => void;
 
   // autogen studio =========================================================================
-  version: string | null;
-  setVersion: (version: string | null) => void;
+  // version: string | null;
+  // setVersion: (version: string | null) => void;
 }
 
 export const createWorkbrenchSlice: StateCreator<
@@ -227,113 +226,10 @@ export const createWorkbrenchSlice: StateCreator<
     setShowWorkbench: (openWorkbench) => {
       set({ openWorkbench });
     },
-    // setOpenChat: (openChat) => {
-    //   set({ uiState: { ...get().uiState, openChat: openChat } });
-    // },
-    // setStarted: (started) => set({ started }),
-    // setAborted: (aborted) => set({ aborted }),
     setThreadId: (threadId) => {
-      const prevThreadId = get().threadId;
-      console.log("setThreadId", threadId, prevThreadId);
-
-      if (prevThreadId !== threadId && threadId) {
-        console.log("new chat session:", prevThreadId, threadId);
-        set({ threadId });
-        // if (!window.location.pathname.includes(`#/chat/${threadId}`)) {
-        //   window.history.replaceState(null, "", `#/chat/${threadId}`);
-        // }
-        console.log("nav", `/chat/${threadId}`);
-        // get().nav({
-        //   to: `/chat/${threadId}`,
-        // });
-      }
+      set({ threadId });
     },
-    // setIsOpenWorkbenchChat: (isOpenWorkbenchChat: boolean) => {
-    //   set({ isOpenWorkbenchChat });
-    // },
-    // openView: (viewName, viewProps, targetView) => {
-    //   console.log("openListView", viewName, viewProps, targetView);
-    //   const target = targetView || "workbench";
-    //   if (target === "asider") {
-    //     console.log("todo openListView asider");
-    //   } else if (targetView === "workbench") {
-    //     set({
-    //       uiState: {
-    //         ...get().uiState,
-    //         openWorkbench: true,
-    //         // currentWorkbenchView: viewName,
-    //       },
-    //       // currentWorkbenchView: viewName,
-    //       workbenchViewProps: viewProps,
-    //     });
-    //   } else if (targetView === "cmdk") {
-    //     console.log("todo openListView cmdk");
-    //   }
-    // },
-    // setCurrentWorkbenchView: (viewName: string) => {
-    //   set({
-    //     uiState: {
-    //       ...get().uiState,
-    //       // currentWorkbenchView: viewName,
-    //     },
-    //   });
-    // },
-    // openWorkbench: (viewName, viewProps) => {
-    //   console.log("openWorkbench", viewName, viewProps);
-    //   set({
-    //     uiState: {
-    //       ...get().uiState,
-    //       openWorkbench: true,
-    //       // currentWorkbenchView: viewName,
-    //     },
-    //     workbenchViewProps: viewProps,
-    //   });
-    // },
 
-    // connect: async () => {
-    //   // 拉取消息
-    //   console.log("拉取消息 connect");
-    //   const response = await fetch(
-    //     `${get().backendUrl}/api/v1/chat/completions`,
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         Authorization: `Bearer ${get().accessToken}`,
-    //       },
-    //       body: JSON.stringify({
-    //         messages: [],
-    //         chatProfile: get().chatProfile,
-    //         isChat: true,
-    //         params: get().params,
-    //         isPull: true,
-    //       }),
-    //     },
-    //   );
-    //   if (response.ok) {
-    //   }
-    // },
-    // setIsConnected: (isConnected) => set({ isConnected }),
-    // setSocket: (socket) => set({ socket }),
-    // connectWs: () => connectWs(null, set, get),
-    // onNewMessage: (message) => {
-    //   const preMessages = get().messages;
-    //   const newMessages = addMessage(preMessages, message);
-    //   set({ messages: newMessages });
-    // },
-    // onUpdateMessage: (message) => {
-    //   const preMessages = get().messages;
-    //   const newMessages = updateMessageById(preMessages, message.id, message);
-    //   set({ messages: newMessages });
-    // },
-    // onDeleteMessage: (msg) => {
-    //   const newMessages = deleteMessageById(get().messages, msg.id);
-    //   set({ messages: newMessages });
-    // },
-
-    // setAskUserState: (askUserState) => set({ askUserState }),
-    // setChatProfile: (chatProfile) => set({ chatProfile }),
-    // setResource: (resource) => set({ resource }),
-    // setResourceId: (resourceId) => set({ resourceId }),
     setChatStarted: (chatStarted: boolean) => {
       set({ chatStarted });
     },
@@ -373,38 +269,9 @@ export const createWorkbrenchSlice: StateCreator<
       const prevMessages = get().messages;
       set({ messages: [...prevMessages, message] });
     },
-    // submitHumanInput: async (content: string) => {
-    //   const prevMessages = get().messages;
-    //   set({
-    //     messages: [
-    //       ...prevMessages,
-    //       {
-    //         metadata: {
-    //           id: generateUUID(),
-    //           createdAt: new Date().toISOString(),
-    //           updatedAt: new Date().toISOString(),
-    //         },
-    //         role: "user",
-    //         content,
-    //       },
-    //     ],
-    //   });
 
-    //   await handleSseGraphStream(set, get);
-    // },
-    // setUpdateRenderedArtifactRequired: (
-    //   updateRenderedArtifactRequired: boolean,
-    // ) => {
-    //   set({ updateRenderedArtifactRequired });
-    // },
-    // setArtifactContent: (index: number, content: string) => {
-    //   //TODO: 不正确,以后修改
-    //   set({ artifactContent: [...get().artifactContent, content] });
-    // },
-
-    // autogen studio =========================================================================
-    version: null,
-    setVersion: (version) => set({ version }),
+    // version: null,
+    // setVersion: (version) => set({ version }),
     connectionId: uuidv4(),
     header: {
       title: "",

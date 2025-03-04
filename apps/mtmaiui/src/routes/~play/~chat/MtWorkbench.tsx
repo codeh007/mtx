@@ -14,19 +14,17 @@ export interface WorkspaceProps {
 export const MtWorkbench = memo(
   ({ chatStarted, isStreaming, outlet }: WorkspaceProps) => {
     return (
-      <>
-        <motion.div
-          // initial="closed"
-          // animate={showWorkbench ? "open" : "closed"}
-          // variants={workbenchVariants}
-          className={cn("z-workbench min-w-64", {
-            // "w-0": !showWorkbench,
-            // "min-w-64": showWorkbench,
-          })}
-        >
-          <MtSuspenseBoundary>{outlet}</MtSuspenseBoundary>
-        </motion.div>
-      </>
+      <motion.div
+        // initial="closed"
+        // animate={showWorkbench ? "open" : "closed"}
+        // variants={workbenchVariants}
+        className={cn("z-workbench min-w-32", {
+          // "w-0": !showWorkbench,
+          // "min-w-64": showWorkbench,
+        })}
+      >
+        <MtSuspenseBoundary>{outlet}</MtSuspenseBoundary>
+      </motion.div>
     );
   },
 );

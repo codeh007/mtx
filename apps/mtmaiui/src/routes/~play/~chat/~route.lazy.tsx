@@ -41,13 +41,7 @@ function RouteComponent() {
       tenant={tenant!}
       nav={nav}
     >
-      {/* <RootAppWrapper className="flex w-full h-full flex-1"> */}
-      {/* <DashSidebar /> */}
-
-      {/* <SidebarInset> */}
       <Outlet />
-      {/* </SidebarInset> */}
-      {/* </RootAppWrapper> */}
     </WorkbrenchProvider>
   );
 }

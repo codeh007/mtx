@@ -49,7 +49,7 @@ export function Header() {
         <BreadcrumbList>
           <BreadcrumbSeparator className="hidden md:block" />
           <BreadcrumbItem>
-            <BreadcrumbPage>交互执行</BreadcrumbPage>
+            <BreadcrumbPage>Chat</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>

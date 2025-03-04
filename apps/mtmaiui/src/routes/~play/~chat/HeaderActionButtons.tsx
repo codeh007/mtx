@@ -68,15 +68,7 @@ export function HeaderActionButtons() {
           <Icons.code />
         </Button>
         <CustomLink
-          // active={!!openWorkbench}
-          // onClick={() => {
-          //   console.log("openWorkbench", openWorkbench);
-          //   // if (openWorkbench && !openChat) {
-          //   //   setOpenChat(true);
-          //   // }
-          //   setOpenWorkbench(!openWorkbench);
-          // }}
-          to={`/chat/${chatSessionId}/team`}
+          to={`/play/chat/${chatSessionId}/team`}
           className={cn(buttonVariants({ variant: "ghost" }))}
           activeProps={{
             className: "outline outline-1 outline-offset-2 outline-red-500",
@@ -88,7 +80,7 @@ export function HeaderActionButtons() {
         <CustomLink
           // active={!!showWorkbench}
           className={cn(buttonVariants({ variant: "ghost" }))}
-          to={`/chat/${chatSessionId}/edit`}
+          to={`/play/chat/${chatSessionId}/edit`}
           onClick={() => {
             if (openWorkbench && !openChat) {
               setOpenChat(true);
