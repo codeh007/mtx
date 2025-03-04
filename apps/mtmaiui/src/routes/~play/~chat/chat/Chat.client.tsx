@@ -6,6 +6,7 @@ import { memo, useEffect, useRef } from "react";
 import { ToastContainer, cssTransition } from "react-toastify";
 
 import { Icons } from "mtxuilib/icons/icons";
+import { cn } from "mtxuilib/lib/utils";
 import { usePromptEnhancer } from "../../../../hooks/usePromptEnhancer";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 import { BaseChat } from "./BaseChat";
@@ -20,53 +21,84 @@ interface ChatProps {
 }
 
 export function ChatClient(props: ChatProps) {
-  // const threadId = useWorkbenchStore((x) => x.threadId);
-  // const nav = Route.useNavigate();
-  // const chatSessionId = useWorkbenchStore((x) => x.threadId);
-  // const chatStarted = useWorkbenchStore((x) => x.started);
-  // const isStreaming = useWorkbenchStore((x) => x.isStreaming);
+  // 打开关闭 中间的聊天窗口的动画效果。
+  const openChat = useWorkbenchStore((x) => x.openChat);
+  const setOpenChat = useWorkbenchStore((x) => x.setOpenChat);
+  const openWorkbench = useWorkbenchStore((x) => x.openWorkbench);
+  useEffect(() => {
+    setOpenChat(true);
+  }, [setOpenChat]);
   return (
     <>
-      <ChatImpl />
-      <ToastContainer
-        closeButton={({ closeToast }) => {
-          return (
-            <button
-              type="button"
-              className="Toastify__close-button"
-              onClick={closeToast}
-            >
-              <Icons.X className="size-4" />
-            </button>
-          );
-        }}
-        icon={({ type }) => {
-          /**
-           * @todo Handle more types if we need them. This may require extra color palettes.
-           */
-          switch (type) {
-            case "success": {
-              return (
-                <div className="i-ph:check-bold text-bolt-elements-icon-success text-2xl">
-                  <Icons.check className="size-4" />
-                </div>
-              );
-            }
-            case "error": {
-              return (
-                <div className="i-ph:warning-circle-bold text-bolt-elements-icon-error text-2xl">
-                  <Icons.warning className="size-4" />
-                </div>
-              );
-            }
+      <div
+        className={cn(
+          "transition-all duration-300 ease-in-out min-w-min w-full",
+          {
+            "h-screen": true, //保持滚动条在容器内
+            "w-0": !openChat,
+          },
+        )}
+      >
+        <div
+          className={cn(
+            "transition-all duration-300 ease-in-out h-full  border-gray-300/50 overflow-scroll mx-auto",
+            {
+              "opacity-100 visible": openChat,
+              "opacity-0 invisible": !openChat,
+              "border-r-[1px]": openWorkbench,
+              // "overflow-hidden": true,
+            },
+          )}
+          style={
+            {
+              width: openChat ? "100%" : "0",
+              overflow: "hidden",
+              "--chat-max-width": "52rem", // 根据实际情况设置 chat 视图的最大宽度
+            } as React.CSSProperties
           }
+        >
+          <ChatImpl />
+          <ToastContainer
+            closeButton={({ closeToast }) => {
+              return (
+                <button
+                  type="button"
+                  className="Toastify__close-button"
+                  onClick={closeToast}
+                >
+                  <Icons.X className="size-4" />
+                </button>
+              );
+            }}
+            icon={({ type }) => {
+              /**
+               * @todo Handle more types if we need them. This may require extra color palettes.
+               */
+              switch (type) {
+                case "success": {
+                  return (
+                    <div className="i-ph:check-bold text-bolt-elements-icon-success text-2xl">
+                      <Icons.check className="size-4" />
+                    </div>
+                  );
+                }
+                case "error": {
+                  return (
+                    <div className="i-ph:warning-circle-bold text-bolt-elements-icon-error text-2xl">
+                      <Icons.warning className="size-4" />
+                    </div>
+                  );
+                }
+              }
 
-          return undefined;
-        }}
-        position="bottom-right"
-        pauseOnFocusLoss
-        transition={toastAnimation}
-      />
+              return undefined;
+            }}
+            position="bottom-right"
+            pauseOnFocusLoss
+            transition={toastAnimation}
+          />
+        </div>
+      </div>
     </>
   );
 }
@@ -76,30 +108,14 @@ export const ChatImpl = memo((props: ChatProps) => {
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const showChat = useWorkbenchStore((x) => x.openChat);
-
   const [animationScope, animate] = useAnimate();
-
   const input = useWorkbenchStore((x) => x.input);
   const setInput = useWorkbenchStore((x) => x.setInput);
-
-  // const isLoading = useWorkbrenchStore((x) => x.aisdkIsLoading);
   const { enhancingPrompt, promptEnhanced, enhancePrompt, resetEnhancer } =
     usePromptEnhancer();
   // const { parsedMessages, parseMessages } = useMessageParser();
   const started = useWorkbenchStore((x) => x.started);
   const TEXTAREA_MAX_HEIGHT = started ? 400 : 200;
-  // const setStarted = useWorkbrenchStore((x) => x.setStarted);
-  // const messages = useWorkbrenchStore((x) => x.messages);
-  // const started = useMemo(() => {
-  // 	return messages?.length > 0;
-  // }, [messages]);
-  // useEffect(() => {
-  // 	setStarted(initialMessages?.length > 0 || false);
-  // }, []);
-
-  // const append = useWorkbrenchStore((x) => x.aisdkAppend);
-  // const setAborted = useWorkbrenchStore((x) => x.setAborted);
-  // const handleSubmit = useWorkbrenchStore((x) => x.handleSubmit);
   const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
   const scrollTextArea = () => {
     const textarea = textareaRef.current;
@@ -158,48 +174,9 @@ export const ChatImpl = memo((props: ChatProps) => {
       return;
     }
     handleHumanInput({ content: _input });
-
-    /**
-     * @note (delm) Usually saving files shouldn't take long but it may take longer if there
-     * many unsaved files. In that case we need to block user input and show an indicator
-     * of some kind so the user is aware that something is happening. But I consider the
-     * happy case to be no unsaved files and I would expect users to save their changes
-     * before they send another message.
-     */
-    // await workbenchStore.saveAllFiles();
-
-    // const fileModifications = workbenchStore.getFileModifcations();
-
-    // chatStore.setKey("aborted", false);
-    // setAborted(false);
-
     runAnimation();
-
-    // if (fileModifications !== undefined) {
-    //   const diff = fileModificationsToHTML(fileModifications);
-
-    //   /**
-    //    * If we have file modifications we append a new user message manually since we have to prefix
-    //    * the user input with the file modifications and we don't want the new user input to appear
-    //    * in the prompt. Using `append` is almost the same as `handleSubmit` except that we have to
-    //    * manually reset the input and we'd have to manually pass in file attachments. However, those
-    //    * aren't relevant here.
-    //    */
-    //   // append({ role: "user", content: `${diff}\n\n${_input}` });
-
-    //   /**
-    //    * After sending a new message we reset all modifications since the model
-    //    * should now be aware of all the changes.
-    //    */
-    //   // workbenchStore.resetAllFileModifications();
-    // } else {
-    //   // append({ role: "user", content: _input });
-    // }
-
     setInput("");
-
     resetEnhancer();
-
     textareaRef.current?.blur();
   };
 
@@ -210,32 +187,13 @@ export const ChatImpl = memo((props: ChatProps) => {
       // textareaRef={textareaRef}
       input={input}
       showChat={!!showChat}
-      // chatStarted={chatStarted}
       isStreaming={false}
       enhancingPrompt={enhancingPrompt}
       promptEnhanced={promptEnhanced}
       sendMessage={sendMessage}
       messageRef={messageRef}
       scrollRef={scrollRef}
-      // handleInputChange={handleAisdkInputChange}
       handleStop={abort}
-      // workbrenchChildren={workbrenchChildren}
-      // messages={messages.map((message, i) => {
-      // 	if (message.role === "user") {
-      // 		return message;
-      // 	}
-
-      // 	return {
-      // 		...message,
-      // 		// content: parsedMessages[i] || "",
-      // 	};
-      // })}
-      // enhancePrompt={() => {
-      //   enhancePrompt(input, (input) => {
-      //     setInput(input);
-      //     scrollTextArea();
-      //   });
-      // }}
     />
   );
 });
