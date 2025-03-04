@@ -1,6 +1,7 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import type { ChatMessage } from "mtmaiapi";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
+import { generateUUID } from "mtxuilib/lib/utils";
 import { useEffect } from "react";
 import { DashContent } from "../../../../components/DashContent";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
@@ -38,7 +39,8 @@ function RouteComponent() {
               for (const chat_message of chat_messages) {
                 const newChatMessage = {
                   metadata: {
-                    id: chat_message.id,
+                    //注意: 这里的message 没有id
+                    id: chat_message.id || generateUUID(),
                     createdAt: chat_message.created_at,
                     updatedAt: chat_message.updated_at,
                   },
