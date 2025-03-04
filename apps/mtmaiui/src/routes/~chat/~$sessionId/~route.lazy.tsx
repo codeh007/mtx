@@ -12,15 +12,15 @@ function RouteComponent() {
   const setThreadId = useWorkbenchStore((x) => x.setThreadId);
   setThreadId(sessionId);
   return (
-    <>
-      <DashContent>
-        <MtSuspenseBoundary>
-          <div className="flex w-full h-full">
-            <ChatClient />
+    <DashContent>
+      <MtSuspenseBoundary>
+        <div className="flex w-full h-full">
+          <ChatClient />
+          <MtSuspenseBoundary>
             <Outlet />
-          </div>
-        </MtSuspenseBoundary>
-      </DashContent>
-    </>
+          </MtSuspenseBoundary>
+        </div>
+      </MtSuspenseBoundary>
+    </DashContent>
   );
 }
