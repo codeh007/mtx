@@ -6,7 +6,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "mtxuilib/ui/drawer";
-import type { Session, Team } from "../../../types/datamodel";
+import type { Session, Team } from "../../../../../types/datamodel";
 
 interface TestDrawerProps {
   isVisble: boolean;

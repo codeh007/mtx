@@ -12,8 +12,8 @@ import type {
   AgentConfig,
   ComponentTypes,
   TeamConfig,
-} from "../../../types/datamodel";
-import { isAgentComponent, isTeamComponent } from "../../../types/guards";
+} from "../../../../../types/datamodel";
+import { isAgentComponent, isTeamComponent } from "../../../../../types/guards";
 import type {
   CustomEdge,
   CustomNode,

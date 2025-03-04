@@ -26,12 +26,12 @@ import type {
   ComponentConfig,
   ComponentTypes,
   TeamConfig,
-} from "../../../types/datamodel";
+} from "../../../../../types/datamodel";
 import {
   isAssistantAgent,
   isSelectorTeam,
   isWebSurferAgent,
-} from "../../../types/guards";
+} from "../../../../../types/guards";
 import { TruncatableText } from "../../atoms";
 import { useTeamBuilderStore } from "./store";
 import type { CustomNode } from "./types";

@@ -18,8 +18,8 @@ import { Suspense } from "react";
 import { DashContent } from "../../components/DashContent";
 import { DashHeaders } from "../../components/DashHeaders";
 import { DashSidebar } from "../../components/sidebar/siderbar";
+import type { Team } from "../../types/datamodel";
 import { RootAppWrapper } from "../components/RootAppWrapper";
-import type { Team } from "../components/types/datamodel";
 import { TeamSidebar } from "./sidebar";
 
 export const Route = createLazyFileRoute("/ag_state")({

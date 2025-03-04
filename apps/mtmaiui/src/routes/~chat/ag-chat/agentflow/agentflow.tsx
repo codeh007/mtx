@@ -15,15 +15,11 @@ import type { AgentMessageConfig } from "mtmaiapi";
 import type React from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
+import type { AgentConfig, Run, TeamConfig } from "../../../../types/datamodel";
 import AgentNode from "./agentnode";
 import { CustomEdge } from "./edge";
 import { EdgeMessageModal } from "./edgemessagemodal";
 import { AgentFlowToolbar } from "./toolbar";
-import type {
-  TeamConfig,
-  Run,
-  AgentConfig,
-} from "../../../components/types/datamodel";
 
 interface AgentFlowProps {
   teamConfig: TeamConfig;

@@ -3,12 +3,12 @@ import type {
   Component,
   ComponentConfig,
   TeamConfig,
-} from "../../../types/datamodel";
+} from "../../../../../types/datamodel";
 import {
   isAssistantAgent,
   isUserProxyAgent,
   isWebSurferAgent,
-} from "../../../types/guards";
+} from "../../../../../types/guards";
 import type { CustomEdge, CustomNode } from "./types";
 
 interface Position {

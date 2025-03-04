@@ -25,7 +25,7 @@ import { Button } from "mtxuilib/ui/button";
 import { Switch } from "mtxuilib/ui/switch";
 import { Tooltip } from "mtxuilib/ui/tooltip";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import type { ComponentTypes, Team } from "../../../types/datamodel";
+import type { ComponentTypes, Team } from "../../../../../types/datamodel";
 import { MonacoEditor } from "../../monaco";
 // import "./builder.css";
 import { ComponentLibrary } from "./library";
