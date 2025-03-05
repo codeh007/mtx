@@ -1,9 +1,9 @@
 "use client";
 import { RouterProvider } from "@tanstack/react-router";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { useMemo } from "react";
 import { createRoot } from "react-dom/client";
 import { createRouter } from "./router";
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 
 export function App() {
   const mainRouter = useMemo(() => {
