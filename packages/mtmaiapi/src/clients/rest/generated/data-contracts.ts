@@ -2053,12 +2053,12 @@ export type ChatMessageConfig = StopMessageConfig | HandoffMessageConfig;
 export interface ChatMessageUpsert {
   tenantId: string;
   content: string;
-  componentId: string;
+  componentId?: string;
   threadId?: string;
   runId?: string;
   role?: string;
   /** @default "user" */
-  source?: string;
+  source: string;
   messageType?: string;
   agentType?: string;
   workflowRunId?: string;

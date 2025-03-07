@@ -2048,11 +2048,11 @@ export const zChatMessageConfig = z.union([
 export const zChatMessageUpsert = z.object({
   tenantId: z.string(),
   content: z.string(),
-  componentId: z.string(),
+  componentId: z.string().optional(),
   threadId: z.string().optional(),
   runId: z.string().optional(),
   role: z.string().optional(),
-  source: z.string().optional().default("user"),
+  source: z.string().default("user"),
   messageType: z.string().optional(),
   agentType: z.string().optional(),
   workflowRunId: z.string().optional(),

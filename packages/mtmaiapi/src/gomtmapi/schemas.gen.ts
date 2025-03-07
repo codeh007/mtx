@@ -4378,7 +4378,7 @@ export const ChatMessageConfigSchema = {
 } as const;
 
 export const ChatMessageUpsertSchema = {
-  required: ["tenantId", "componentId", "content"],
+  required: ["tenantId", "source", "content"],
   properties: {
     tenantId: {
       type: "string",
