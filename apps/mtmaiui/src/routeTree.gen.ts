@@ -17,8 +17,6 @@ import { Route as IndexImport } from './routes/~index'
 import { Route as TriggerAgImport } from './routes/~trigger/~ag'
 import { Route as TeamTeamIdImport } from './routes/~team/~$teamId'
 import { Route as SiteSiteIdRouteImport } from './routes/~site/~$siteId/~route'
-import { Route as PlatformAccountCreateImport } from './routes/~platform-account/~create'
-import { Route as PlatformAccountIdImport } from './routes/~platform-account/~$id'
 import { Route as GalleryGalleryIdImport } from './routes/~gallery/~$galleryId'
 import { Route as EnvsCreateImport } from './routes/~envs/~create'
 import { Route as SiteIndexImport } from './routes/~site/~index'
@@ -61,6 +59,10 @@ const WorkflowRunsWorkflowRunIdLazyImport = createFileRoute(
 const TriggerIdLazyImport = createFileRoute('/trigger/$id')()
 const PostCreateLazyImport = createFileRoute('/post/create')()
 const PlayChatRouteLazyImport = createFileRoute('/play/chat')()
+const PlatformAccountCreateLazyImport = createFileRoute(
+  '/platform-account/create',
+)()
+const PlatformAccountIdLazyImport = createFileRoute('/platform-account/$id')()
 const AuthRegisterLazyImport = createFileRoute('/auth/register')()
 const AuthLoginRouteLazyImport = createFileRoute('/auth/login')()
 const WorkflowsIndexLazyImport = createFileRoute('/workflows/')()
@@ -271,6 +273,22 @@ const PlayChatRouteLazyRoute = PlayChatRouteLazyImport.update({
   import('./routes/~play/~chat/~route.lazy').then((d) => d.Route),
 )
 
+const PlatformAccountCreateLazyRoute = PlatformAccountCreateLazyImport.update({
+  id: '/create',
+  path: '/create',
+  getParentRoute: () => PlatformAccountRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~platform-account/~create.lazy').then((d) => d.Route),
+)
+
+const PlatformAccountIdLazyRoute = PlatformAccountIdLazyImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => PlatformAccountRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~platform-account/~$id.lazy').then((d) => d.Route),
+)
+
 const AuthRegisterLazyRoute = AuthRegisterLazyImport.update({
   id: '/register',
   path: '/register',
@@ -389,18 +407,6 @@ const SiteSiteIdRouteRoute = SiteSiteIdRouteImport.update({
   id: '/$siteId',
   path: '/$siteId',
   getParentRoute: () => SiteRouteLazyRoute,
-} as any)
-
-const PlatformAccountCreateRoute = PlatformAccountCreateImport.update({
-  id: '/create',
-  path: '/create',
-  getParentRoute: () => PlatformAccountRouteLazyRoute,
-} as any)
-
-const PlatformAccountIdRoute = PlatformAccountIdImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => PlatformAccountRouteLazyRoute,
 } as any)
 
 const GalleryGalleryIdRoute = GalleryGalleryIdImport.update({
@@ -721,20 +727,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GalleryGalleryIdImport
       parentRoute: typeof GalleryRouteLazyImport
     }
-    '/platform-account/$id': {
-      id: '/platform-account/$id'
-      path: '/$id'
-      fullPath: '/platform-account/$id'
-      preLoaderRoute: typeof PlatformAccountIdImport
-      parentRoute: typeof PlatformAccountRouteLazyImport
-    }
-    '/platform-account/create': {
-      id: '/platform-account/create'
-      path: '/create'
-      fullPath: '/platform-account/create'
-      preLoaderRoute: typeof PlatformAccountCreateImport
-      parentRoute: typeof PlatformAccountRouteLazyImport
-    }
     '/site/$siteId': {
       id: '/site/$siteId'
       path: '/$siteId'
@@ -853,6 +845,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/auth/register'
       preLoaderRoute: typeof AuthRegisterLazyImport
       parentRoute: typeof AuthRouteLazyImport
+    }
+    '/platform-account/$id': {
+      id: '/platform-account/$id'
+      path: '/$id'
+      fullPath: '/platform-account/$id'
+      preLoaderRoute: typeof PlatformAccountIdLazyImport
+      parentRoute: typeof PlatformAccountRouteLazyImport
+    }
+    '/platform-account/create': {
+      id: '/platform-account/create'
+      path: '/create'
+      fullPath: '/platform-account/create'
+      preLoaderRoute: typeof PlatformAccountCreateLazyImport
+      parentRoute: typeof PlatformAccountRouteLazyImport
     }
     '/play/chat': {
       id: '/play/chat'
@@ -1109,16 +1115,16 @@ const PlatformRouteLazyRouteWithChildren =
   PlatformRouteLazyRoute._addFileChildren(PlatformRouteLazyRouteChildren)
 
 interface PlatformAccountRouteLazyRouteChildren {
-  PlatformAccountIdRoute: typeof PlatformAccountIdRoute
-  PlatformAccountCreateRoute: typeof PlatformAccountCreateRoute
   PlatformAccountIndexLazyRoute: typeof PlatformAccountIndexLazyRoute
+  PlatformAccountIdLazyRoute: typeof PlatformAccountIdLazyRoute
+  PlatformAccountCreateLazyRoute: typeof PlatformAccountCreateLazyRoute
 }
 
 const PlatformAccountRouteLazyRouteChildren: PlatformAccountRouteLazyRouteChildren =
   {
-    PlatformAccountIdRoute: PlatformAccountIdRoute,
-    PlatformAccountCreateRoute: PlatformAccountCreateRoute,
     PlatformAccountIndexLazyRoute: PlatformAccountIndexLazyRoute,
+    PlatformAccountIdLazyRoute: PlatformAccountIdLazyRoute,
+    PlatformAccountCreateLazyRoute: PlatformAccountCreateLazyRoute,
   }
 
 const PlatformAccountRouteLazyRouteWithChildren =
@@ -1325,8 +1331,6 @@ export interface FileRoutesByFullPath {
   '/site/': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
   '/gallery/$galleryId': typeof GalleryGalleryIdRoute
-  '/platform-account/$id': typeof PlatformAccountIdRoute
-  '/platform-account/create': typeof PlatformAccountCreateRoute
   '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
   '/team/$teamId': typeof TeamTeamIdRoute
   '/trigger/ag': typeof TriggerAgRoute
@@ -1344,6 +1348,8 @@ export interface FileRoutesByFullPath {
   '/workflows/': typeof WorkflowsIndexLazyRoute
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
   '/auth/register': typeof AuthRegisterLazyRoute
+  '/platform-account/$id': typeof PlatformAccountIdLazyRoute
+  '/platform-account/create': typeof PlatformAccountCreateLazyRoute
   '/play/chat': typeof PlayChatRouteLazyRouteWithChildren
   '/post/create': typeof PostCreateLazyRoute
   '/trigger/$id': typeof TriggerIdLazyRoute
@@ -1376,8 +1382,6 @@ export interface FileRoutesByTo {
   '/site': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
   '/gallery/$galleryId': typeof GalleryGalleryIdRoute
-  '/platform-account/$id': typeof PlatformAccountIdRoute
-  '/platform-account/create': typeof PlatformAccountCreateRoute
   '/team/$teamId': typeof TeamTeamIdRoute
   '/trigger/ag': typeof TriggerAgRoute
   '/agEvents': typeof AgEventsIndexLazyRoute
@@ -1393,6 +1397,8 @@ export interface FileRoutesByTo {
   '/workflow-runs': typeof WorkflowRunsIndexLazyRoute
   '/workflows': typeof WorkflowsIndexLazyRoute
   '/auth/register': typeof AuthRegisterLazyRoute
+  '/platform-account/$id': typeof PlatformAccountIdLazyRoute
+  '/platform-account/create': typeof PlatformAccountCreateLazyRoute
   '/post/create': typeof PostCreateLazyRoute
   '/trigger/$id': typeof TriggerIdLazyRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdLazyRoute
@@ -1438,8 +1444,6 @@ export interface FileRoutesById {
   '/site/': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
   '/gallery/$galleryId': typeof GalleryGalleryIdRoute
-  '/platform-account/$id': typeof PlatformAccountIdRoute
-  '/platform-account/create': typeof PlatformAccountCreateRoute
   '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
   '/team/$teamId': typeof TeamTeamIdRoute
   '/trigger/ag': typeof TriggerAgRoute
@@ -1457,6 +1461,8 @@ export interface FileRoutesById {
   '/workflows/': typeof WorkflowsIndexLazyRoute
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
   '/auth/register': typeof AuthRegisterLazyRoute
+  '/platform-account/$id': typeof PlatformAccountIdLazyRoute
+  '/platform-account/create': typeof PlatformAccountCreateLazyRoute
   '/play/chat': typeof PlayChatRouteLazyRouteWithChildren
   '/post/create': typeof PostCreateLazyRoute
   '/trigger/$id': typeof TriggerIdLazyRoute
@@ -1506,8 +1512,6 @@ export interface FileRouteTypes {
     | '/site/'
     | '/envs/create'
     | '/gallery/$galleryId'
-    | '/platform-account/$id'
-    | '/platform-account/create'
     | '/site/$siteId'
     | '/team/$teamId'
     | '/trigger/ag'
@@ -1525,6 +1529,8 @@ export interface FileRouteTypes {
     | '/workflows/'
     | '/auth/login'
     | '/auth/register'
+    | '/platform-account/$id'
+    | '/platform-account/create'
     | '/play/chat'
     | '/post/create'
     | '/trigger/$id'
@@ -1556,8 +1562,6 @@ export interface FileRouteTypes {
     | '/site'
     | '/envs/create'
     | '/gallery/$galleryId'
-    | '/platform-account/$id'
-    | '/platform-account/create'
     | '/team/$teamId'
     | '/trigger/ag'
     | '/agEvents'
@@ -1573,6 +1577,8 @@ export interface FileRouteTypes {
     | '/workflow-runs'
     | '/workflows'
     | '/auth/register'
+    | '/platform-account/$id'
+    | '/platform-account/create'
     | '/post/create'
     | '/trigger/$id'
     | '/workflow-runs/$workflowRunId'
@@ -1616,8 +1622,6 @@ export interface FileRouteTypes {
     | '/site/'
     | '/envs/create'
     | '/gallery/$galleryId'
-    | '/platform-account/$id'
-    | '/platform-account/create'
     | '/site/$siteId'
     | '/team/$teamId'
     | '/trigger/ag'
@@ -1635,6 +1639,8 @@ export interface FileRouteTypes {
     | '/workflows/'
     | '/auth/login'
     | '/auth/register'
+    | '/platform-account/$id'
+    | '/platform-account/create'
     | '/play/chat'
     | '/post/create'
     | '/trigger/$id'
@@ -1796,9 +1802,9 @@ export const routeTree = rootRoute
     "/platform-account": {
       "filePath": "~platform-account/~route.lazy.tsx",
       "children": [
+        "/platform-account/",
         "/platform-account/$id",
-        "/platform-account/create",
-        "/platform-account/"
+        "/platform-account/create"
       ]
     },
     "/play": {
@@ -1877,14 +1883,6 @@ export const routeTree = rootRoute
       "filePath": "~gallery/~$galleryId.tsx",
       "parent": "/gallery"
     },
-    "/platform-account/$id": {
-      "filePath": "~platform-account/~$id.tsx",
-      "parent": "/platform-account"
-    },
-    "/platform-account/create": {
-      "filePath": "~platform-account/~create.tsx",
-      "parent": "/platform-account"
-    },
     "/site/$siteId": {
       "filePath": "~site/~$siteId/~route.tsx",
       "parent": "/site",
@@ -1960,6 +1958,14 @@ export const routeTree = rootRoute
     "/auth/register": {
       "filePath": "~auth/~register.lazy.tsx",
       "parent": "/auth"
+    },
+    "/platform-account/$id": {
+      "filePath": "~platform-account/~$id.lazy.tsx",
+      "parent": "/platform-account"
+    },
+    "/platform-account/create": {
+      "filePath": "~platform-account/~create.lazy.tsx",
+      "parent": "/platform-account"
     },
     "/play/chat": {
       "filePath": "~play/~chat/~route.lazy.tsx",
