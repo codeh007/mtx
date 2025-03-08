@@ -12,6 +12,7 @@ import {
   FormMessage,
 } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
+import { Controller } from "react-hook-form";
 import { useTenantId } from "../../../../hooks/useAuth";
 
 export const Route = createLazyFileRoute("/resource/create/res/browser")({
@@ -59,9 +60,53 @@ function RouteComponent() {
             )}
           />
 
+          <FormField
+            control={form.control}
+            name="content"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>content</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="content" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="type"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>type</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="type" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <EditFormToolbar form={form} />
+          {/* {form.formState.errors && (
+            <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
+          )} */}
         </ZForm>
       </div>
     </div>
   );
 }
+
+const ControllerPlus = ({ control, transform, name, defaultValue }) => (
+  <Controller
+    defaultValue={defaultValue}
+    control={control}
+    name={name}
+    render={({ field }) => (
+      <input
+        onChange={(e) => field.onChange(transform.output(e))}
+        value={transform.input(field.value)}
+      />
+    )}
+  />
+);
