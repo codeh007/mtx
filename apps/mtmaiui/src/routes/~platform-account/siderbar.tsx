@@ -54,7 +54,7 @@ export function NavPlatformAccount() {
           <SidebarGroupContent>
             {platformAccountQuery.data?.rows?.map((item) => (
               <CustomLink
-                to={`/platform-account/${item.metadata?.id}`}
+                to={`${item.metadata?.id}`}
                 key={item.metadata?.id}
                 className="flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
               >
