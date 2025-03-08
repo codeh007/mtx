@@ -431,6 +431,9 @@ import type {
   ChatSessionGetData,
   ChatSessionGetResponse,
   ChatSessionGetError,
+  UiAgentGetData,
+  UiAgentGetResponse,
+  UiAgentGetError,
   DispatcherListenData,
   DispatcherListenResponse,
   DispatcherListenError,
@@ -3879,9 +3882,9 @@ export const endpointUpdate = <ThrowOnError extends boolean = false>(
 };
 
 export const platformList = <ThrowOnError extends boolean = false>(
-  options?: Options<PlatformListData, ThrowOnError>,
+  options: Options<PlatformListData, ThrowOnError>,
 ) => {
-  return (options?.client ?? _heyApiClient).get<
+  return (options.client ?? _heyApiClient).get<
     PlatformListResponse,
     PlatformListError,
     ThrowOnError
@@ -3896,7 +3899,7 @@ export const platformList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/platforms",
+    url: "/api/v1/tenants/{tenant}/platforms",
     ...options,
   });
 };
@@ -3922,7 +3925,7 @@ export const platformCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/platforms",
+    url: "/api/v1/tenants/{tenant}/platforms",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -3949,7 +3952,7 @@ export const platformGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/platforms/{platform}",
+    url: "/api/v1/tenants/{tenant}/platforms/{platform}",
     ...options,
   });
 };
@@ -3976,7 +3979,7 @@ export const platformUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/platforms/{platform}",
+    url: "/api/v1/tenants/{tenant}/platforms/{platform}",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -3986,9 +3989,9 @@ export const platformUpdate = <ThrowOnError extends boolean = false>(
 };
 
 export const platformAccountList = <ThrowOnError extends boolean = false>(
-  options?: Options<PlatformAccountListData, ThrowOnError>,
+  options: Options<PlatformAccountListData, ThrowOnError>,
 ) => {
-  return (options?.client ?? _heyApiClient).get<
+  return (options.client ?? _heyApiClient).get<
     PlatformAccountListResponse,
     PlatformAccountListError,
     ThrowOnError
@@ -4003,7 +4006,7 @@ export const platformAccountList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/platform_accounts",
+    url: "/api/v1/tenants/{tenant}/platform_accounts",
     ...options,
   });
 };
@@ -4029,7 +4032,7 @@ export const platformAccountCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/platform_accounts",
+    url: "/api/v1/tenants/{tenant}/platform_accounts",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -4056,7 +4059,7 @@ export const platformAccountGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/platform_accounts/{platform_account}",
+    url: "/api/v1/tenants/{tenant}/platform_accounts/{platform_account}",
     ...options,
   });
 };
@@ -4083,7 +4086,7 @@ export const platformAccountUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/platform_accounts/{platform_account}",
+    url: "/api/v1/tenants/{tenant}/platform_accounts/{platform_account}",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -4093,9 +4096,9 @@ export const platformAccountUpdate = <ThrowOnError extends boolean = false>(
 };
 
 export const browserList = <ThrowOnError extends boolean = false>(
-  options?: Options<BrowserListData, ThrowOnError>,
+  options: Options<BrowserListData, ThrowOnError>,
 ) => {
-  return (options?.client ?? _heyApiClient).get<
+  return (options.client ?? _heyApiClient).get<
     BrowserListResponse,
     BrowserListError,
     ThrowOnError
@@ -4110,7 +4113,7 @@ export const browserList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/browsers",
+    url: "/api/v1/tenants/{tenant}/browsers",
     ...options,
   });
 };
@@ -4136,7 +4139,7 @@ export const browserCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/browsers",
+    url: "/api/v1/tenants/{tenant}/browsers",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -4163,7 +4166,7 @@ export const browserGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/browsers/{browser}",
+    url: "/api/v1/tenants/{tenant}/browsers/{browser}",
     ...options,
   });
 };
@@ -4190,7 +4193,7 @@ export const browserUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/browsers/{browser}",
+    url: "/api/v1/tenants/{tenant}/browsers/{browser}",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -4493,6 +4496,32 @@ export const chatSessionGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/chat/sessions/{session}",
+    ...options,
+  });
+};
+
+/**
+ * 获取聊天界面状态
+ */
+export const uiAgentGet = <ThrowOnError extends boolean = false>(
+  options: Options<UiAgentGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    UiAgentGetResponse,
+    UiAgentGetError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/ag_ui",
     ...options,
   });
 };

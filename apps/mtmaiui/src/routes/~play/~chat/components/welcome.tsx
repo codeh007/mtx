@@ -22,10 +22,6 @@ interface QuickStartButtonsProps {
   ) => void;
 }
 const QuickStartButtons = (props: QuickStartButtonsProps) => {
-  // const handleLanguageSubmit = (language: ProgrammingLanguageOptions) => {
-  //   props.handleQuickStart("code", language);
-  // };
-  // const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
   const { handleInput } = useHumanInput();
   const nav = useNav();
 
@@ -82,7 +78,6 @@ interface ThreadWelcomeProps {
     type: "text" | "code",
     language?: ProgrammingLanguageOptions,
   ) => void;
-  // composer: React.ReactNode;
 }
 
 export const ThreadWelcome: FC<ThreadWelcomeProps> = (

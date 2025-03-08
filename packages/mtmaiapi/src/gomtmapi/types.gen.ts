@@ -8021,9 +8021,14 @@ export type EndpointUpdateResponse =
 
 export type PlatformListData = {
   body?: never;
-  path?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
   query?: never;
-  url: "/api/v1/platforms";
+  url: "/api/v1/tenants/{tenant}/platforms";
 };
 
 export type PlatformListErrors = {
@@ -8052,9 +8057,14 @@ export type PlatformListResponse =
 
 export type PlatformCreateData = {
   body: Platform;
-  path?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
   query?: never;
-  url: "/api/v1/platforms";
+  url: "/api/v1/tenants/{tenant}/platforms";
 };
 
 export type PlatformCreateErrors = {
@@ -8082,12 +8092,16 @@ export type PlatformGetData = {
   body?: never;
   path: {
     /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
      * The platform id
      */
     platform: string;
   };
   query?: never;
-  url: "/api/v1/platforms/{platform}";
+  url: "/api/v1/tenants/{tenant}/platforms/{platform}";
 };
 
 export type PlatformGetResponses = {
@@ -8104,12 +8118,16 @@ export type PlatformUpdateData = {
   body: Platform;
   path: {
     /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
      * The platform id
      */
     platform: string;
   };
   query?: never;
-  url: "/api/v1/platforms/{platform}";
+  url: "/api/v1/tenants/{tenant}/platforms/{platform}";
 };
 
 export type PlatformUpdateErrors = {
@@ -8138,9 +8156,14 @@ export type PlatformUpdateResponse =
 
 export type PlatformAccountListData = {
   body?: never;
-  path?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
   query?: never;
-  url: "/api/v1/platform_accounts";
+  url: "/api/v1/tenants/{tenant}/platform_accounts";
 };
 
 export type PlatformAccountListErrors = {
@@ -8170,9 +8193,14 @@ export type PlatformAccountListResponse =
 
 export type PlatformAccountCreateData = {
   body: PlatformAccount;
-  path?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
   query?: never;
-  url: "/api/v1/platform_accounts";
+  url: "/api/v1/tenants/{tenant}/platform_accounts";
 };
 
 export type PlatformAccountCreateErrors = {
@@ -8200,12 +8228,16 @@ export type PlatformAccountGetData = {
   body?: never;
   path: {
     /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
      * The platform_account id
      */
     platform_account: string;
   };
   query?: never;
-  url: "/api/v1/platform_accounts/{platform_account}";
+  url: "/api/v1/tenants/{tenant}/platform_accounts/{platform_account}";
 };
 
 export type PlatformAccountGetResponses = {
@@ -8222,12 +8254,16 @@ export type PlatformAccountUpdateData = {
   body: PlatformAccount;
   path: {
     /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
      * The platform_account id
      */
     platform_account: string;
   };
   query?: never;
-  url: "/api/v1/platform_accounts/{platform_account}";
+  url: "/api/v1/tenants/{tenant}/platform_accounts/{platform_account}";
 };
 
 export type PlatformAccountUpdateErrors = {
@@ -8256,9 +8292,14 @@ export type PlatformAccountUpdateResponse =
 
 export type BrowserListData = {
   body?: never;
-  path?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
   query?: never;
-  url: "/api/v1/browsers";
+  url: "/api/v1/tenants/{tenant}/browsers";
 };
 
 export type BrowserListErrors = {
@@ -8287,9 +8328,14 @@ export type BrowserListResponse =
 
 export type BrowserCreateData = {
   body: Browser;
-  path?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
   query?: never;
-  url: "/api/v1/browsers";
+  url: "/api/v1/tenants/{tenant}/browsers";
 };
 
 export type BrowserCreateErrors = {
@@ -8316,12 +8362,16 @@ export type BrowserGetData = {
   body?: never;
   path: {
     /**
-     * The platform id
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The browser id
      */
     browser: string;
   };
   query?: never;
-  url: "/api/v1/browsers/{browser}";
+  url: "/api/v1/tenants/{tenant}/browsers/{browser}";
 };
 
 export type BrowserGetResponses = {
@@ -8337,12 +8387,16 @@ export type BrowserUpdateData = {
   body: Browser;
   path: {
     /**
-     * The platform id
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The browser id
      */
     browser: string;
   };
   query?: never;
-  url: "/api/v1/browsers/{browser}";
+  url: "/api/v1/tenants/{tenant}/browsers/{browser}";
 };
 
 export type BrowserUpdateErrors = {
@@ -8739,6 +8793,31 @@ export type ChatSessionGetResponses = {
 
 export type ChatSessionGetResponse =
   ChatSessionGetResponses[keyof ChatSessionGetResponses];
+
+export type UiAgentGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/ag_ui";
+};
+
+export type UiAgentGetErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+};
+
+export type UiAgentGetError = UiAgentGetErrors[keyof UiAgentGetErrors];
+
+export type UiAgentGetResponses = {
+  200: UiAgentState;
+};
+
+export type UiAgentGetResponse = UiAgentGetResponses[keyof UiAgentGetResponses];
 
 export type DispatcherListenData = {
   body?: never;

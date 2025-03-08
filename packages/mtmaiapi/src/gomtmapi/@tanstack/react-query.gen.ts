@@ -155,6 +155,7 @@ import {
   chatSessionList,
   chatMessageUpsert,
   chatSessionGet,
+  uiAgentGet,
   dispatcherListen,
 } from "../sdk.gen";
 import {
@@ -446,6 +447,7 @@ import type {
   ChatMessageUpsertError,
   ChatMessageUpsertResponse,
   ChatSessionGetData,
+  UiAgentGetData,
   DispatcherListenData,
   DispatcherListenError,
   DispatcherListenResponse,
@@ -4061,10 +4063,10 @@ export const endpointUpdateMutation = (
   return mutationOptions;
 };
 
-export const platformListQueryKey = (options?: Options<PlatformListData>) =>
+export const platformListQueryKey = (options: Options<PlatformListData>) =>
   createQueryKey("platformList", options);
 
-export const platformListOptions = (options?: Options<PlatformListData>) => {
+export const platformListOptions = (options: Options<PlatformListData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
       const { data } = await platformList({
@@ -4156,11 +4158,11 @@ export const platformUpdateMutation = (
 };
 
 export const platformAccountListQueryKey = (
-  options?: Options<PlatformAccountListData>,
+  options: Options<PlatformAccountListData>,
 ) => createQueryKey("platformAccountList", options);
 
 export const platformAccountListOptions = (
-  options?: Options<PlatformAccountListData>,
+  options: Options<PlatformAccountListData>,
 ) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
@@ -4258,10 +4260,10 @@ export const platformAccountUpdateMutation = (
   return mutationOptions;
 };
 
-export const browserListQueryKey = (options?: Options<BrowserListData>) =>
+export const browserListQueryKey = (options: Options<BrowserListData>) =>
   createQueryKey("browserList", options);
 
-export const browserListOptions = (options?: Options<BrowserListData>) => {
+export const browserListOptions = (options: Options<BrowserListData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
       const { data } = await browserList({
@@ -4600,6 +4602,24 @@ export const chatSessionGetOptions = (options: Options<ChatSessionGetData>) => {
       return data;
     },
     queryKey: chatSessionGetQueryKey(options),
+  });
+};
+
+export const uiAgentGetQueryKey = (options: Options<UiAgentGetData>) =>
+  createQueryKey("uiAgentGet", options);
+
+export const uiAgentGetOptions = (options: Options<UiAgentGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await uiAgentGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: uiAgentGetQueryKey(options),
   });
 };
 

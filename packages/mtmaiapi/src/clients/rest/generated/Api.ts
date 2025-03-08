@@ -118,6 +118,7 @@ import {
   TenantResourcePolicy,
   TenantStepRunQueueMetrics,
   TriggerWorkflowRunRequest,
+  UiAgentState,
   UpdateBlogRequest,
   UpdateEndpointRequest,
   UpdateSiteRequest,
@@ -3012,12 +3013,12 @@ export class Api<
    *
    * @tags platform
    * @name PlatformList
-   * @request GET:/api/v1/platforms
+   * @request GET:/api/v1/tenants/{tenant}/platforms
    * @secure
    */
-  platformList = (params: RequestParams = {}) =>
+  platformList = (tenant: TenantParameter, params: RequestParams = {}) =>
     this.request<PlatformList, APIErrors>({
-      path: `/api/v1/platforms`,
+      path: `/api/v1/tenants/${tenant}/platforms`,
       method: "GET",
       secure: true,
       format: "json",
@@ -3028,12 +3029,16 @@ export class Api<
    *
    * @tags platform
    * @name PlatformCreate
-   * @request POST:/api/v1/platforms
+   * @request POST:/api/v1/tenants/{tenant}/platforms
    * @secure
    */
-  platformCreate = (data: Platform, params: RequestParams = {}) =>
+  platformCreate = (
+    tenant: TenantParameter,
+    data: Platform,
+    params: RequestParams = {},
+  ) =>
     this.request<Platform, APIErrors | APIError>({
-      path: `/api/v1/platforms`,
+      path: `/api/v1/tenants/${tenant}/platforms`,
       method: "POST",
       body: data,
       secure: true,
@@ -3046,12 +3051,16 @@ export class Api<
    *
    * @tags platform
    * @name PlatformGet
-   * @request GET:/api/v1/platforms/{platform}
+   * @request GET:/api/v1/tenants/{tenant}/platforms/{platform}
    * @secure
    */
-  platformGet = (platform: string, params: RequestParams = {}) =>
+  platformGet = (
+    tenant: TenantParameter,
+    platform: string,
+    params: RequestParams = {},
+  ) =>
     this.request<Platform, any>({
-      path: `/api/v1/platforms/${platform}`,
+      path: `/api/v1/tenants/${tenant}/platforms/${platform}`,
       method: "GET",
       secure: true,
       format: "json",
@@ -3063,16 +3072,17 @@ export class Api<
    * @tags platform
    * @name PlatformUpdate
    * @summary Update platform
-   * @request PATCH:/api/v1/platforms/{platform}
+   * @request PATCH:/api/v1/tenants/{tenant}/platforms/{platform}
    * @secure
    */
   platformUpdate = (
+    tenant: TenantParameter,
     platform: string,
     data: Platform,
     params: RequestParams = {},
   ) =>
     this.request<Platform, APIErrors>({
-      path: `/api/v1/platforms/${platform}`,
+      path: `/api/v1/tenants/${tenant}/platforms/${platform}`,
       method: "PATCH",
       body: data,
       secure: true,
@@ -3085,12 +3095,12 @@ export class Api<
    *
    * @tags platform_account
    * @name PlatformAccountList
-   * @request GET:/api/v1/platform_accounts
+   * @request GET:/api/v1/tenants/{tenant}/platform_accounts
    * @secure
    */
-  platformAccountList = (params: RequestParams = {}) =>
+  platformAccountList = (tenant: TenantParameter, params: RequestParams = {}) =>
     this.request<PlatformAccountList, APIErrors>({
-      path: `/api/v1/platform_accounts`,
+      path: `/api/v1/tenants/${tenant}/platform_accounts`,
       method: "GET",
       secure: true,
       format: "json",
@@ -3101,12 +3111,16 @@ export class Api<
    *
    * @tags platform_account
    * @name PlatformAccountCreate
-   * @request POST:/api/v1/platform_accounts
+   * @request POST:/api/v1/tenants/{tenant}/platform_accounts
    * @secure
    */
-  platformAccountCreate = (data: PlatformAccount, params: RequestParams = {}) =>
+  platformAccountCreate = (
+    tenant: TenantParameter,
+    data: PlatformAccount,
+    params: RequestParams = {},
+  ) =>
     this.request<PlatformAccount, APIErrors | APIError>({
-      path: `/api/v1/platform_accounts`,
+      path: `/api/v1/tenants/${tenant}/platform_accounts`,
       method: "POST",
       body: data,
       secure: true,
@@ -3119,12 +3133,16 @@ export class Api<
    *
    * @tags platform_account
    * @name PlatformAccountGet
-   * @request GET:/api/v1/platform_accounts/{platform_account}
+   * @request GET:/api/v1/tenants/{tenant}/platform_accounts/{platform_account}
    * @secure
    */
-  platformAccountGet = (platformAccount: string, params: RequestParams = {}) =>
+  platformAccountGet = (
+    tenant: TenantParameter,
+    platformAccount: string,
+    params: RequestParams = {},
+  ) =>
     this.request<PlatformAccount, any>({
-      path: `/api/v1/platform_accounts/${platformAccount}`,
+      path: `/api/v1/tenants/${tenant}/platform_accounts/${platformAccount}`,
       method: "GET",
       secure: true,
       format: "json",
@@ -3136,16 +3154,17 @@ export class Api<
    * @tags platform_account
    * @name PlatformAccountUpdate
    * @summary Update platform_account
-   * @request PATCH:/api/v1/platform_accounts/{platform_account}
+   * @request PATCH:/api/v1/tenants/{tenant}/platform_accounts/{platform_account}
    * @secure
    */
   platformAccountUpdate = (
+    tenant: TenantParameter,
     platformAccount: string,
     data: PlatformAccount,
     params: RequestParams = {},
   ) =>
     this.request<PlatformAccount, APIErrors>({
-      path: `/api/v1/platform_accounts/${platformAccount}`,
+      path: `/api/v1/tenants/${tenant}/platform_accounts/${platformAccount}`,
       method: "PATCH",
       body: data,
       secure: true,
@@ -3158,12 +3177,12 @@ export class Api<
    *
    * @tags browser
    * @name BrowserList
-   * @request GET:/api/v1/browsers
+   * @request GET:/api/v1/tenants/{tenant}/browsers
    * @secure
    */
-  browserList = (params: RequestParams = {}) =>
+  browserList = (tenant: TenantParameter, params: RequestParams = {}) =>
     this.request<BrowserList, APIErrors>({
-      path: `/api/v1/browsers`,
+      path: `/api/v1/tenants/${tenant}/browsers`,
       method: "GET",
       secure: true,
       format: "json",
@@ -3174,12 +3193,16 @@ export class Api<
    *
    * @tags browser
    * @name BrowserCreate
-   * @request POST:/api/v1/browsers
+   * @request POST:/api/v1/tenants/{tenant}/browsers
    * @secure
    */
-  browserCreate = (data: Browser, params: RequestParams = {}) =>
+  browserCreate = (
+    tenant: TenantParameter,
+    data: Browser,
+    params: RequestParams = {},
+  ) =>
     this.request<Browser, APIErrors | APIError>({
-      path: `/api/v1/browsers`,
+      path: `/api/v1/tenants/${tenant}/browsers`,
       method: "POST",
       body: data,
       secure: true,
@@ -3192,12 +3215,16 @@ export class Api<
    *
    * @tags browser
    * @name BrowserGet
-   * @request GET:/api/v1/browsers/{browser}
+   * @request GET:/api/v1/tenants/{tenant}/browsers/{browser}
    * @secure
    */
-  browserGet = (browser: string, params: RequestParams = {}) =>
+  browserGet = (
+    tenant: TenantParameter,
+    browser: string,
+    params: RequestParams = {},
+  ) =>
     this.request<Browser, any>({
-      path: `/api/v1/browsers/${browser}`,
+      path: `/api/v1/tenants/${tenant}/browsers/${browser}`,
       method: "GET",
       secure: true,
       format: "json",
@@ -3209,16 +3236,17 @@ export class Api<
    * @tags browser
    * @name BrowserUpdate
    * @summary Update browser
-   * @request PATCH:/api/v1/browsers/{browser}
+   * @request PATCH:/api/v1/tenants/{tenant}/browsers/{browser}
    * @secure
    */
   browserUpdate = (
+    tenant: TenantParameter,
     browser: string,
     data: Browser,
     params: RequestParams = {},
   ) =>
     this.request<Browser, APIErrors>({
-      path: `/api/v1/browsers/${browser}`,
+      path: `/api/v1/tenants/${tenant}/browsers/${browser}`,
       method: "PATCH",
       body: data,
       secure: true,
@@ -3447,6 +3475,22 @@ export class Api<
       path: `/api/v1/tenants/${tenant}/chat/sessions/${session}`,
       method: "GET",
       query: query,
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取聊天界面状态
+   *
+   * @tags ui_agent
+   * @name UiAgentGet
+   * @request GET:/api/v1/tenants/{tenant}/ag_ui
+   * @secure
+   */
+  uiAgentGet = (tenant: TenantParameter, params: RequestParams = {}) =>
+    this.request<UiAgentState, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/ag_ui`,
+      method: "GET",
       secure: true,
       format: "json",
       ...params,
