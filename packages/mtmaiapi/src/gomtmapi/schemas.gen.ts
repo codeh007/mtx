@@ -2946,6 +2946,9 @@ export const ChatMessageSchema = {
     source: {
       type: "string",
     },
+    topic: {
+      type: "string",
+    },
     config: {
       properties: {
         message_type: {
@@ -2957,7 +2960,7 @@ export const ChatMessageSchema = {
       },
     },
   },
-  required: ["metadata", "role", "content"],
+  required: ["metadata", "role", "content", "topic"],
 } as const;
 
 export const ChatMessageListSchema = {
@@ -4396,6 +4399,9 @@ export const ChatMessageUpsertSchema = {
       type: "string",
     },
     role: {
+      type: "string",
+    },
+    topic: {
       type: "string",
     },
     source: {

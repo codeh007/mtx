@@ -1398,6 +1398,7 @@ export const zChatMessage = z.object({
   role: z.string(),
   content: z.string(),
   source: z.string().optional(),
+  topic: z.string(),
   config: z
     .object({
       message_type: z.string().optional(),
@@ -2052,6 +2053,7 @@ export const zChatMessageUpsert = z.object({
   threadId: z.string().optional(),
   runId: z.string().optional(),
   role: z.string().optional(),
+  topic: z.string().optional(),
   source: z.string().default("user"),
   messageType: z.string().optional(),
   agentType: z.string().optional(),

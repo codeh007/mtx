@@ -1662,6 +1662,7 @@ export type ChatMessage = {
   role: string;
   content: string;
   source?: string;
+  topic: string;
   config?: {
     message_type?: string;
     source?: string;
@@ -2516,6 +2517,7 @@ export type ChatMessageUpsert = {
   threadId?: string;
   runId?: string;
   role?: string;
+  topic?: string;
   source: string;
   messageType?: string;
   agentType?: string;

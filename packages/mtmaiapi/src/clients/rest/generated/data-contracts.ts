@@ -1410,6 +1410,7 @@ export interface ChatMessage {
   role: string;
   content: string;
   source?: string;
+  topic: string;
   config?: {
     message_type?: string;
     source?: string;
@@ -2057,6 +2058,7 @@ export interface ChatMessageUpsert {
   threadId?: string;
   runId?: string;
   role?: string;
+  topic?: string;
   /** @default "user" */
   source: string;
   messageType?: string;
