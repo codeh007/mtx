@@ -1,35 +1,33 @@
-import { useMutation } from "@tanstack/react-query";
-import { createLazyFileRoute } from "@tanstack/react-router";
-import { platformAccountCreateMutation } from "mtmaiapi";
-import { zPlatformAccount } from "mtmaiapi/gomtmapi/zod.gen";
-import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
-import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
-import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
+import { useMutation } from '@tanstack/react-query'
+import { createLazyFileRoute } from '@tanstack/react-router'
+import { platformAccountCreateMutation } from 'mtmaiapi'
+import { zPlatformAccount } from 'mtmaiapi/gomtmapi/zod.gen'
+import { EditFormToolbar } from 'mtxuilib/mt/form/EditFormToolbar'
+import { ZForm, useZodForm } from 'mtxuilib/mt/form/ZodForm'
+import { TagsInput } from 'mtxuilib/mt/inputs/TagsInput'
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "mtxuilib/ui/form";
-import { Input } from "mtxuilib/ui/input";
-import { Switch } from "mtxuilib/ui/switch";
-import { useTenantId } from "../../../../hooks/useAuth";
-export const Route = createLazyFileRoute(
-  "/resource/create/res/platform_account",
-)({
+} from 'mtxuilib/ui/form'
+import { Input } from 'mtxuilib/ui/input'
+import { Switch } from 'mtxuilib/ui/switch'
+import { useTenantId } from '../../../../hooks/useAuth'
+export const Route = createLazyFileRoute('/resource/new/res/platform_account')({
   component: RouteComponent,
-});
+})
 
 function RouteComponent() {
   const createPlatformAccountMutation = useMutation({
     ...platformAccountCreateMutation(),
-  });
-  const tid = useTenantId();
+  })
+  const tid = useTenantId()
   const form = useZodForm({
     schema: zPlatformAccount,
     defaultValues: {},
-  });
+  })
 
   return (
     <div>
@@ -44,7 +42,7 @@ function RouteComponent() {
               body: {
                 ...values,
               },
-            });
+            })
           }}
           className="space-y-2"
         >
@@ -140,7 +138,7 @@ function RouteComponent() {
         /> */}
 
           <FormField
-            name={"enabled"}
+            name={'enabled'}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>enabled</FormLabel>
@@ -148,7 +146,7 @@ function RouteComponent() {
                   <Switch
                     checked={!!field.value}
                     onCheckedChange={(checked) => {
-                      form.setValue("enabled", checked);
+                      form.setValue('enabled', checked)
                     }}
                   />
                 </FormControl>
@@ -161,5 +159,5 @@ function RouteComponent() {
         </ZForm>
       </div>
     </div>
-  );
+  )
 }

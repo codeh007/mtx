@@ -1,33 +1,33 @@
-import { useMutation } from "@tanstack/react-query";
-import { createLazyFileRoute } from "@tanstack/react-router";
-import { resourceUpsertMutation } from "mtmaiapi";
-import { zMtResourceUpsert } from "mtmaiapi/gomtmapi/zod.gen";
-import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
-import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
+import { useMutation } from '@tanstack/react-query'
+import { createLazyFileRoute } from '@tanstack/react-router'
+import { resourceUpsertMutation } from 'mtmaiapi'
+import { zMtResourceUpsert } from 'mtmaiapi/gomtmapi/zod.gen'
+import { EditFormToolbar } from 'mtxuilib/mt/form/EditFormToolbar'
+import { ZForm, useZodForm } from 'mtxuilib/mt/form/ZodForm'
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "mtxuilib/ui/form";
-import { Input } from "mtxuilib/ui/input";
-import { Controller } from "react-hook-form";
-import { useTenantId } from "../../../../hooks/useAuth";
+} from 'mtxuilib/ui/form'
+import { Input } from 'mtxuilib/ui/input'
+import { Controller } from 'react-hook-form'
+import { useTenantId } from '../../../../hooks/useAuth'
 
-export const Route = createLazyFileRoute("/resource/create/res/browser")({
+export const Route = createLazyFileRoute('/resource/new/res/browser')({
   component: RouteComponent,
-});
+})
 
 function RouteComponent() {
   const createBrowserMutation = useMutation({
     ...resourceUpsertMutation(),
-  });
-  const tid = useTenantId();
+  })
+  const tid = useTenantId()
   const form = useZodForm({
     schema: zMtResourceUpsert,
     defaultValues: {},
-  });
+  })
   return (
     <div>
       <h1>浏览器配置</h1>
@@ -42,7 +42,7 @@ function RouteComponent() {
               body: {
                 ...values,
               },
-            });
+            })
           }}
           className="space-y-2"
         >
@@ -94,7 +94,7 @@ function RouteComponent() {
         </ZForm>
       </div>
     </div>
-  );
+  )
 }
 
 const ControllerPlus = ({ control, transform, name, defaultValue }) => (
@@ -109,4 +109,4 @@ const ControllerPlus = ({ control, transform, name, defaultValue }) => (
       />
     )}
   />
-);
+)

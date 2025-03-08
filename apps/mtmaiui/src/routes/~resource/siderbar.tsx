@@ -4,7 +4,7 @@ import { Label } from "@radix-ui/react-dropdown-menu";
 import { Switch } from "@radix-ui/react-switch";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { resourceListOptions } from "mtmaiapi";
+import { MtResource, resourceListOptions } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
@@ -18,6 +18,7 @@ import {
   useSidebar,
 } from "mtxuilib/ui/sidebar";
 
+import { useMemo } from "react";
 import { useTenantId } from "../../hooks/useAuth";
 
 export function NavResource() {
@@ -35,10 +36,10 @@ export function NavResource() {
     <Sidebar collapsible="none" className="hidden flex-1 md:flex">
       <SidebarHeader className="gap-3.5 border-b p-4">
         <div className="flex w-full items-center justify-between">
-          <div className="text-base font-medium text-foreground">账号</div>
+          <div className="text-base font-medium text-foreground">资源</div>
           <Label className="flex items-center gap-2 text-sm">
             <CustomLink
-              to={"create"}
+              to={"new"}
               className={cn(buttonVariants({ variant: "ghost" }))}
             >
               <span>+</span>
@@ -51,9 +52,22 @@ export function NavResource() {
       <SidebarContent>
         <SidebarGroup className="px-0">
           <SidebarGroupContent>
-            {platformAccountQuery.data?.rows?.map((item) => (
-              <CustomLink
-                to={`${item.metadata?.id}`}
+            {platformAccountQuery.data?.rows?.map((item) => <NavResourceItem key={item.metadata?.id} item={item}/>)}
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+    </Sidebar>
+  );
+}
+
+
+const NavResourceItem = ({item}: {item: MtResource}) => {
+  const linkTo  = useMemo(() => {
+    return `${item.metadata?.id}/${item.type || ''}`
+  }, [item.metadata?.id, item.type])
+  return <>
+  <CustomLink
+                to={linkTo}
                 key={item.metadata?.id}
                 className="flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
               >
@@ -66,10 +80,5 @@ export function NavResource() {
                   {item.title || item.metadata?.id}
                 </span>
               </CustomLink>
-            ))}
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
-  );
-}
+              </>;
+};

@@ -1,9 +1,9 @@
-import { createLazyFileRoute } from "@tanstack/react-router";
-import { CustomLink } from "mtxuilib/mt/CustomLink";
+import { createLazyFileRoute } from '@tanstack/react-router'
+import { CustomLink } from 'mtxuilib/mt/CustomLink'
 
-export const Route = createLazyFileRoute("/resource/create/res/")({
+export const Route = createLazyFileRoute('/resource/new/res/')({
   component: RouteComponent,
-});
+})
 
 function RouteComponent() {
   return (
@@ -12,5 +12,5 @@ function RouteComponent() {
         <CustomLink to="platform_account">平台账号</CustomLink>
       </div>
     </div>
-  );
+  )
 }
