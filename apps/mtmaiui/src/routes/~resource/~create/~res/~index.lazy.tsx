@@ -7,9 +7,7 @@ export const Route = createLazyFileRoute("/resource/create/res/")({
 
 function RouteComponent() {
   return (
-    <div>
-      <h1>选定资源类型</h1>
-
+    <div className="bg-blue-100 p-2">
       <div>
         <CustomLink to="platform_account">平台账号</CustomLink>
       </div>

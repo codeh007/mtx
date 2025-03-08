@@ -22,10 +22,7 @@ function RouteComponent() {
   });
   return (
     <div className="flex flex-col h-full w-full px-2">
-      <h1>创建资源</h1>
-      <div>
-        <h1>选定资源类型</h1>
-
+      <div className="bg-blue-100 p-2">
         <div>
           <CustomLink to="res/platform_account">平台账号</CustomLink>
         </div>

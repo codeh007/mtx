@@ -38,7 +38,7 @@ export function NavResource() {
           <div className="text-base font-medium text-foreground">账号</div>
           <Label className="flex items-center gap-2 text-sm">
             <CustomLink
-              to={"/platform-account/create"}
+              to={"create"}
               className={cn(buttonVariants({ variant: "ghost" }))}
             >
               <span>+</span>
