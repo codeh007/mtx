@@ -76,6 +76,7 @@ import {
   ModelList,
   MtComponent,
   MtComponentList,
+  MtResourceList,
   Platform,
   PlatformAccount,
   PlatformAccountList,
@@ -3520,6 +3521,65 @@ export class Api<
     this.request<AssignedAction, APIErrors | APIError>({
       path: `/api/v1/dispatcher/listen/${workerId}`,
       method: "POST",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取资源列表
+   *
+   * @tags resource
+   * @name ResourceList
+   * @request GET:/api/v1/tenants/{tenant}/resources
+   * @secure
+   */
+  resourceList = (tenant: TenantParameter, params: RequestParams = {}) =>
+    this.request<MtResourceList, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/resources`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 保存 资源
+   *
+   * @tags resource
+   * @name ResourceUpsert
+   * @request POST:/api/v1/tenants/{tenant}/resources
+   * @secure
+   */
+  resourceUpsert = (
+    tenant: TenantParameter,
+    data: ChatMessageUpsert,
+    params: RequestParams = {},
+  ) =>
+    this.request<ChatMessage, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/resources`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取资源
+   *
+   * @tags resource
+   * @name ResourceGet
+   * @summary 获取租户下的资源
+   * @request GET:/api/v1/tenants/{tenant}/resources/{resource}
+   * @secure
+   */
+  resourceGet = (
+    tenant: TenantParameter,
+    resource?: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<ChatSession, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/resources/${resource}`,
+      method: "GET",
       secure: true,
       format: "json",
       ...params,

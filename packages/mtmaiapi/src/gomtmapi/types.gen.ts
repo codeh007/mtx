@@ -3090,8 +3090,7 @@ export type PlatformUpdate = {
   tags?: Array<string>;
 };
 
-export type PlatformAccount = {
-  metadata: ApiResourceMeta;
+export type PlatformAccountProperties = {
   username: string;
   email?: string;
   password?: string;
@@ -3101,31 +3100,18 @@ export type PlatformAccount = {
   enabled?: boolean;
   comment?: string;
   tags?: Array<string>;
-  properties?: {
-    [key: string]: unknown;
-  };
+  properties?: unknown;
 };
+
+export type PlatformAccount = ApiResourceMetaProperties &
+  PlatformAccountProperties;
 
 export type PlatformAccountList = {
   pagination?: PaginationResponse;
   rows?: Array<PlatformAccount>;
 };
 
-export type PlatformAccountUpdate = {
-  metadata?: ApiResourceMeta;
-  username?: string;
-  email?: string;
-  password?: string;
-  token?: string;
-  type?: string;
-  platform?: string;
-  enabled?: boolean;
-  comment?: string;
-  tags?: Array<string>;
-  properties?: {
-    [key: string]: unknown;
-  };
-};
+export type PlatformAccountUpdate = PlatformAccountProperties;
 
 export type Browser = {
   metadata: ApiResourceMeta;
@@ -3260,6 +3246,26 @@ export type AssignedAction = {
   child_workflow_index?: number;
   child_workflow_key?: string;
   parent_workflow_run_id?: string;
+};
+
+export type MtResourceProperties = {
+  /**
+   * The resource id
+   */
+  id?: string;
+};
+
+export type MtResource = {
+  /**
+   * The resource id
+   */
+  id?: string;
+};
+
+export type MtResourceList = {
+  metadata?: ApiResourceMeta;
+  rows?: Array<MtResource>;
+  pagination?: PaginationResponse;
 };
 
 export type ReadinessGetData = {
@@ -8845,6 +8851,94 @@ export type DispatcherListenResponses = {
 
 export type DispatcherListenResponse =
   DispatcherListenResponses[keyof DispatcherListenResponses];
+
+export type ResourceListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/resources";
+};
+
+export type ResourceListErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+  404: ApiErrors;
+};
+
+export type ResourceListError = ResourceListErrors[keyof ResourceListErrors];
+
+export type ResourceListResponses = {
+  200: MtResourceList;
+};
+
+export type ResourceListResponse =
+  ResourceListResponses[keyof ResourceListResponses];
+
+export type ResourceUpsertData = {
+  body: ChatMessageUpsert;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/resources";
+};
+
+export type ResourceUpsertErrors = {
+  400: ApiErrors;
+  403: ApiError;
+};
+
+export type ResourceUpsertError =
+  ResourceUpsertErrors[keyof ResourceUpsertErrors];
+
+export type ResourceUpsertResponses = {
+  200: ChatMessage;
+};
+
+export type ResourceUpsertResponse =
+  ResourceUpsertResponses[keyof ResourceUpsertResponses];
+
+export type ResourceGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The resource id
+     */
+    resource?: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/resources/{resource}";
+};
+
+export type ResourceGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  403: ApiError;
+  404: ApiErrors;
+};
+
+export type ResourceGetError = ResourceGetErrors[keyof ResourceGetErrors];
+
+export type ResourceGetResponses = {
+  200: ChatSession;
+};
+
+export type ResourceGetResponse =
+  ResourceGetResponses[keyof ResourceGetResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

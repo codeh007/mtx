@@ -2,9 +2,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { platformAccountCreateMutation } from "mtmaiapi";
+import { zPlatformAccount } from "mtmaiapi/gomtmapi/zod.gen";
 import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
-import { JsonObjectInput } from "mtxuilib/mt/inputs/JsonObjectInput";
 import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
 import {
   FormControl,
@@ -15,7 +15,6 @@ import {
 } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { Switch } from "mtxuilib/ui/switch";
-import { z } from "zod";
 import { useTenantId } from "../../hooks/useAuth";
 
 export const Route = createLazyFileRoute("/platform-account/create")({
@@ -28,26 +27,8 @@ function RouteComponent() {
   });
   const tid = useTenantId();
   const form = useZodForm({
-    schema: z.object({
-      username: z.string(),
-      password: z.string().optional(),
-      type: z.string().optional(),
-      email: z.string().optional(),
-      platform: z.string().optional(),
-      tags: z.array(z.string()).optional(),
-      enabled: z.boolean().optional(),
-      properties: z.record(z.string(), z.any()).optional(),
-    }),
-    defaultValues: {
-      username: "",
-      password: "",
-      type: "",
-      email: "",
-      platform: "",
-      tags: [],
-      enabled: true,
-      properties: {},
-    },
+    schema: zPlatformAccount,
+    defaultValues: {},
   });
   return (
     <div className="flex flex-col h-full w-full px-2">
@@ -60,9 +41,6 @@ function RouteComponent() {
             },
             body: {
               ...values,
-              // metadata: {
-              //   tenant: tid,
-              // },
             },
           });
         }}
@@ -146,7 +124,7 @@ function RouteComponent() {
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           name={"properties"}
           render={({ field }) => (
             <FormItem>
@@ -157,7 +135,7 @@ function RouteComponent() {
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
 
         <FormField
           name={"enabled"}

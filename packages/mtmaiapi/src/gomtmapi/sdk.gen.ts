@@ -437,6 +437,15 @@ import type {
   DispatcherListenData,
   DispatcherListenResponse,
   DispatcherListenError,
+  ResourceListData,
+  ResourceListResponse,
+  ResourceListError,
+  ResourceUpsertData,
+  ResourceUpsertResponse,
+  ResourceUpsertError,
+  ResourceGetData,
+  ResourceGetResponse,
+  ResourceGetError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -4545,6 +4554,89 @@ export const dispatcherListen = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/dispatcher/listen/{workerId}",
+    ...options,
+  });
+};
+
+/**
+ * 获取资源列表
+ */
+export const resourceList = <ThrowOnError extends boolean = false>(
+  options: Options<ResourceListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    ResourceListResponse,
+    ResourceListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/resources",
+    ...options,
+  });
+};
+
+/**
+ * 保存 资源
+ */
+export const resourceUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<ResourceUpsertData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    ResourceUpsertResponse,
+    ResourceUpsertError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/resources",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * 获取租户下的资源
+ * 获取资源
+ */
+export const resourceGet = <ThrowOnError extends boolean = false>(
+  options: Options<ResourceGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    ResourceGetResponse,
+    ResourceGetError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/resources/{resource}",
     ...options,
   });
 };

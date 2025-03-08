@@ -5559,12 +5559,9 @@ export const PlatformUpdateSchema = {
   required: ["metadata", "name", "url"],
 } as const;
 
-export const PlatformAccountSchema = {
-  type: "object",
+export const PlatformAccountPropertiesSchema = {
+  required: ["metadata", "username", "platform"],
   properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
     username: {
       type: "string",
     },
@@ -5596,10 +5593,20 @@ export const PlatformAccountSchema = {
       },
     },
     properties: {
-      type: "object",
+      additionalProperties: true,
     },
   },
-  required: ["metadata", "username", "platform"],
+} as const;
+
+export const PlatformAccountSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/PlatformAccountProperties",
+    },
+  ],
 } as const;
 
 export const PlatformAccountListSchema = {
@@ -5617,45 +5624,11 @@ export const PlatformAccountListSchema = {
 } as const;
 
 export const PlatformAccountUpdateSchema = {
-  type: "object",
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
+  allOf: [
+    {
+      $ref: "#/components/schemas/PlatformAccountProperties",
     },
-    username: {
-      type: "string",
-    },
-    email: {
-      type: "string",
-    },
-    password: {
-      type: "string",
-    },
-    token: {
-      type: "string",
-    },
-    type: {
-      type: "string",
-    },
-    platform: {
-      type: "string",
-    },
-    enabled: {
-      type: "boolean",
-    },
-    comment: {
-      type: "string",
-    },
-    tags: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-    },
-    properties: {
-      type: "object",
-    },
-  },
+  ],
 } as const;
 
 export const BrowserSchema = {
@@ -5942,6 +5915,41 @@ export const AssignedActionSchema = {
     },
     parent_workflow_run_id: {
       type: "string",
+    },
+  },
+} as const;
+
+export const MtResourcePropertiesSchema = {
+  properties: {
+    id: {
+      type: "string",
+      description: "The resource id",
+    },
+  },
+} as const;
+
+export const MtResourceSchema = {
+  properties: {
+    id: {
+      type: "string",
+      description: "The resource id",
+    },
+  },
+} as const;
+
+export const MtResourceListSchema = {
+  properties: {
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+    rows: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/MtResource",
+      },
+    },
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
     },
   },
 } as const;

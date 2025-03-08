@@ -2593,8 +2593,7 @@ export const zPlatformUpdate = z.object({
   tags: z.array(z.string()).optional(),
 });
 
-export const zPlatformAccount = z.object({
-  metadata: zApiResourceMeta,
+export const zPlatformAccountProperties = z.object({
   username: z.string(),
   email: z.string().optional(),
   password: z.string().optional(),
@@ -2604,27 +2603,19 @@ export const zPlatformAccount = z.object({
   enabled: z.boolean().optional(),
   comment: z.string().optional(),
   tags: z.array(z.string()).optional(),
-  properties: z.object({}).optional(),
+  properties: z.unknown().optional(),
 });
+
+export const zPlatformAccount = zApiResourceMetaProperties.merge(
+  zPlatformAccountProperties,
+);
 
 export const zPlatformAccountList = z.object({
   pagination: zPaginationResponse.optional(),
   rows: z.array(zPlatformAccount).optional(),
 });
 
-export const zPlatformAccountUpdate = z.object({
-  metadata: zApiResourceMeta.optional(),
-  username: z.string().optional(),
-  email: z.string().optional(),
-  password: z.string().optional(),
-  token: z.string().optional(),
-  type: z.string().optional(),
-  platform: z.string().optional(),
-  enabled: z.boolean().optional(),
-  comment: z.string().optional(),
-  tags: z.array(z.string()).optional(),
-  properties: z.object({}).optional(),
-});
+export const zPlatformAccountUpdate = zPlatformAccountProperties;
 
 export const zBrowser = z.object({
   metadata: zApiResourceMeta,
@@ -2735,6 +2726,20 @@ export const zAssignedAction = z.object({
   child_workflow_index: z.number().int().optional(),
   child_workflow_key: z.string().optional(),
   parent_workflow_run_id: z.string().optional(),
+});
+
+export const zMtResourceProperties = z.object({
+  id: z.string().optional(),
+});
+
+export const zMtResource = z.object({
+  id: z.string().optional(),
+});
+
+export const zMtResourceList = z.object({
+  metadata: zApiResourceMeta.optional(),
+  rows: z.array(zMtResource).optional(),
+  pagination: zPaginationResponse.optional(),
 });
 
 export const zMetadataGetResponse = zApiMeta;
@@ -3032,3 +3037,9 @@ export const zChatSessionGetResponse = zChatSession;
 export const zUiAgentGetResponse = zUiAgentState;
 
 export const zDispatcherListenResponse = zAssignedAction;
+
+export const zResourceListResponse = zMtResourceList;
+
+export const zResourceUpsertResponse = zChatMessage;
+
+export const zResourceGetResponse = zChatSession;

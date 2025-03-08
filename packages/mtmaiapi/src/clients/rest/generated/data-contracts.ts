@@ -2525,8 +2525,7 @@ export interface PlatformUpdate {
   tags?: string[];
 }
 
-export interface PlatformAccount {
-  metadata: APIResourceMeta;
+export interface PlatformAccountProperties {
   username: string;
   email?: string;
   password?: string;
@@ -2536,27 +2535,18 @@ export interface PlatformAccount {
   enabled?: boolean;
   comment?: string;
   tags?: string[];
-  properties?: object;
+  properties?: any;
 }
+
+export type PlatformAccount = APIResourceMetaProperties &
+  PlatformAccountProperties;
 
 export interface PlatformAccountList {
   pagination?: PaginationResponse;
   rows?: PlatformAccount[];
 }
 
-export interface PlatformAccountUpdate {
-  metadata?: APIResourceMeta;
-  username?: string;
-  email?: string;
-  password?: string;
-  token?: string;
-  type?: string;
-  platform?: string;
-  enabled?: boolean;
-  comment?: string;
-  tags?: string[];
-  properties?: object;
-}
+export type PlatformAccountUpdate = PlatformAccountProperties;
 
 export interface Browser {
   metadata: APIResourceMeta;
@@ -2661,4 +2651,20 @@ export interface AssignedAction {
   child_workflow_index?: number;
   child_workflow_key?: string;
   parent_workflow_run_id?: string;
+}
+
+export interface MtResourceProperties {
+  /** The resource id */
+  id?: string;
+}
+
+export interface MtResource {
+  /** The resource id */
+  id?: string;
+}
+
+export interface MtResourceList {
+  metadata?: APIResourceMeta;
+  rows?: MtResource[];
+  pagination?: PaginationResponse;
 }

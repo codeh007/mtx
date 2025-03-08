@@ -157,6 +157,9 @@ import {
   chatSessionGet,
   uiAgentGet,
   dispatcherListen,
+  resourceList,
+  resourceUpsert,
+  resourceGet,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -451,6 +454,11 @@ import type {
   DispatcherListenData,
   DispatcherListenError,
   DispatcherListenResponse,
+  ResourceListData,
+  ResourceUpsertData,
+  ResourceUpsertError,
+  ResourceUpsertResponse,
+  ResourceGetData,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -4662,4 +4670,78 @@ export const dispatcherListenMutation = (
     },
   };
   return mutationOptions;
+};
+
+export const resourceListQueryKey = (options: Options<ResourceListData>) =>
+  createQueryKey("resourceList", options);
+
+export const resourceListOptions = (options: Options<ResourceListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await resourceList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: resourceListQueryKey(options),
+  });
+};
+
+export const resourceUpsertQueryKey = (options: Options<ResourceUpsertData>) =>
+  createQueryKey("resourceUpsert", options);
+
+export const resourceUpsertOptions = (options: Options<ResourceUpsertData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await resourceUpsert({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: resourceUpsertQueryKey(options),
+  });
+};
+
+export const resourceUpsertMutation = (
+  options?: Partial<Options<ResourceUpsertData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    ResourceUpsertResponse,
+    ResourceUpsertError,
+    Options<ResourceUpsertData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await resourceUpsert({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const resourceGetQueryKey = (options: Options<ResourceGetData>) =>
+  createQueryKey("resourceGet", options);
+
+export const resourceGetOptions = (options: Options<ResourceGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await resourceGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: resourceGetQueryKey(options),
+  });
 };
