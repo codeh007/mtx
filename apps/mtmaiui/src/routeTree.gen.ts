@@ -96,6 +96,9 @@ const AuthLoginIndexLazyImport = createFileRoute('/auth/login/')()
 const ResourceCreateResPlatformaccountLazyImport = createFileRoute(
   '/resource/create/res/platform_account',
 )()
+const ResourceCreateResBrowserLazyImport = createFileRoute(
+  '/resource/create/res/browser',
+)()
 const PlayChatSessionIdTeamLazyImport = createFileRoute(
   '/play/chat/$sessionId/team',
 )()
@@ -568,6 +571,17 @@ const ResourceCreateResPlatformaccountLazyRoute =
     getParentRoute: () => ResourceCreateResRouteLazyRoute,
   } as any).lazy(() =>
     import('./routes/~resource/~create/~res/~platform_account.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+
+const ResourceCreateResBrowserLazyRoute =
+  ResourceCreateResBrowserLazyImport.update({
+    id: '/browser',
+    path: '/browser',
+    getParentRoute: () => ResourceCreateResRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/~resource/~create/~res/~browser.lazy').then(
       (d) => d.Route,
     ),
   )
@@ -1128,6 +1142,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlayChatSessionIdTeamLazyImport
       parentRoute: typeof PlayChatSessionIdRouteLazyImport
     }
+    '/resource/create/res/browser': {
+      id: '/resource/create/res/browser'
+      path: '/browser'
+      fullPath: '/resource/create/res/browser'
+      preLoaderRoute: typeof ResourceCreateResBrowserLazyImport
+      parentRoute: typeof ResourceCreateResRouteLazyImport
+    }
     '/resource/create/res/platform_account': {
       id: '/resource/create/res/platform_account'
       path: '/platform_account'
@@ -1350,12 +1371,14 @@ const PostRouteLazyRouteWithChildren = PostRouteLazyRoute._addFileChildren(
 
 interface ResourceCreateResRouteLazyRouteChildren {
   ResourceCreateResIndexLazyRoute: typeof ResourceCreateResIndexLazyRoute
+  ResourceCreateResBrowserLazyRoute: typeof ResourceCreateResBrowserLazyRoute
   ResourceCreateResPlatformaccountLazyRoute: typeof ResourceCreateResPlatformaccountLazyRoute
 }
 
 const ResourceCreateResRouteLazyRouteChildren: ResourceCreateResRouteLazyRouteChildren =
   {
     ResourceCreateResIndexLazyRoute: ResourceCreateResIndexLazyRoute,
+    ResourceCreateResBrowserLazyRoute: ResourceCreateResBrowserLazyRoute,
     ResourceCreateResPlatformaccountLazyRoute:
       ResourceCreateResPlatformaccountLazyRoute,
   }
@@ -1572,6 +1595,7 @@ export interface FileRoutesByFullPath {
   '/play/chat/$sessionId/result': typeof PlayChatSessionIdResultLazyRoute
   '/play/chat/$sessionId/state': typeof PlayChatSessionIdStateLazyRoute
   '/play/chat/$sessionId/team': typeof PlayChatSessionIdTeamLazyRoute
+  '/resource/create/res/browser': typeof ResourceCreateResBrowserLazyRoute
   '/resource/create/res/platform_account': typeof ResourceCreateResPlatformaccountLazyRoute
 }
 
@@ -1622,6 +1646,7 @@ export interface FileRoutesByTo {
   '/play/chat/$sessionId/result': typeof PlayChatSessionIdResultLazyRoute
   '/play/chat/$sessionId/state': typeof PlayChatSessionIdStateLazyRoute
   '/play/chat/$sessionId/team': typeof PlayChatSessionIdTeamLazyRoute
+  '/resource/create/res/browser': typeof ResourceCreateResBrowserLazyRoute
   '/resource/create/res/platform_account': typeof ResourceCreateResPlatformaccountLazyRoute
 }
 
@@ -1696,6 +1721,7 @@ export interface FileRoutesById {
   '/play/chat/$sessionId/result': typeof PlayChatSessionIdResultLazyRoute
   '/play/chat/$sessionId/state': typeof PlayChatSessionIdStateLazyRoute
   '/play/chat/$sessionId/team': typeof PlayChatSessionIdTeamLazyRoute
+  '/resource/create/res/browser': typeof ResourceCreateResBrowserLazyRoute
   '/resource/create/res/platform_account': typeof ResourceCreateResPlatformaccountLazyRoute
 }
 
@@ -1771,6 +1797,7 @@ export interface FileRouteTypes {
     | '/play/chat/$sessionId/result'
     | '/play/chat/$sessionId/state'
     | '/play/chat/$sessionId/team'
+    | '/resource/create/res/browser'
     | '/resource/create/res/platform_account'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -1820,6 +1847,7 @@ export interface FileRouteTypes {
     | '/play/chat/$sessionId/result'
     | '/play/chat/$sessionId/state'
     | '/play/chat/$sessionId/team'
+    | '/resource/create/res/browser'
     | '/resource/create/res/platform_account'
   id:
     | '__root__'
@@ -1892,6 +1920,7 @@ export interface FileRouteTypes {
     | '/play/chat/$sessionId/result'
     | '/play/chat/$sessionId/state'
     | '/play/chat/$sessionId/team'
+    | '/resource/create/res/browser'
     | '/resource/create/res/platform_account'
   fileRoutesById: FileRoutesById
 }
@@ -2298,6 +2327,7 @@ export const routeTree = rootRoute
       "parent": "/resource/create",
       "children": [
         "/resource/create/res/",
+        "/resource/create/res/browser",
         "/resource/create/res/platform_account"
       ]
     },
@@ -2332,6 +2362,10 @@ export const routeTree = rootRoute
     "/play/chat/$sessionId/team": {
       "filePath": "~play/~chat/~$sessionId/~team.lazy.tsx",
       "parent": "/play/chat/$sessionId"
+    },
+    "/resource/create/res/browser": {
+      "filePath": "~resource/~create/~res/~browser.lazy.tsx",
+      "parent": "/resource/create/res"
     },
     "/resource/create/res/platform_account": {
       "filePath": "~resource/~create/~res/~platform_account.lazy.tsx",

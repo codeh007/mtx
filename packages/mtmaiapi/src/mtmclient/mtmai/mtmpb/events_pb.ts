@@ -2,16 +2,8 @@
 // @generated from file mtmai/mtmpb/events.proto (package mtmai.mtmpb, syntax proto3)
 /* eslint-disable */
 
-import type {
-  GenFile,
-  GenMessage,
-  GenService,
-} from "@bufbuild/protobuf/codegenv1";
-import {
-  fileDesc,
-  messageDesc,
-  serviceDesc,
-} from "@bufbuild/protobuf/codegenv1";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
@@ -19,12 +11,8 @@ import type { Message } from "@bufbuild/protobuf";
 /**
  * Describes the file mtmai/mtmpb/events.proto.
  */
-export const file_mtmai_mtmpb_events: GenFile =
-  /*@__PURE__*/
-  fileDesc(
-    "ChhtdG1haS9tdG1wYi9ldmVudHMucHJvdG8SC210bWFpLm10bXBiIrQBCgVFdmVudBIQCgh0ZW5hbnRJZBgBIAEoCRIPCgdldmVudElkGAIgASgJEgsKA2tleRgDIAEoCRIPCgdwYXlsb2FkGAQgASgJEjIKDmV2ZW50VGltZXN0YW1wGAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIfChJhZGRpdGlvbmFsTWV0YWRhdGEYBiABKAlIAIgBAUIVChNfYWRkaXRpb25hbE1ldGFkYXRhIiwKBkV2ZW50cxIiCgZldmVudHMYASADKAsyEi5tdG1haS5tdG1wYi5FdmVudCKSAQoNUHV0TG9nUmVxdWVzdBIRCglzdGVwUnVuSWQYASABKAkSLQoJY3JlYXRlZEF0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIPCgdtZXNzYWdlGAMgASgJEhIKBWxldmVsGAQgASgJSACIAQESEAoIbWV0YWRhdGEYBSABKAlCCAoGX2xldmVsIhAKDlB1dExvZ1Jlc3BvbnNlInwKFVB1dFN0cmVhbUV2ZW50UmVxdWVzdBIRCglzdGVwUnVuSWQYASABKAkSLQoJY3JlYXRlZEF0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIPCgdtZXNzYWdlGAMgASgMEhAKCG1ldGFkYXRhGAUgASgJIhgKFlB1dFN0cmVhbUV2ZW50UmVzcG9uc2UiRQoUQnVsa1B1c2hFdmVudFJlcXVlc3QSLQoGZXZlbnRzGAEgAygLMh0ubXRtYWkubXRtcGIuUHVzaEV2ZW50UmVxdWVzdCKcAQoQUHVzaEV2ZW50UmVxdWVzdBILCgNrZXkYASABKAkSDwoHcGF5bG9hZBgCIAEoCRIyCg5ldmVudFRpbWVzdGFtcBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASHwoSYWRkaXRpb25hbE1ldGFkYXRhGAQgASgJSACIAQFCFQoTX2FkZGl0aW9uYWxNZXRhZGF0YSIlChJSZXBsYXlFdmVudFJlcXVlc3QSDwoHZXZlbnRJZBgBIAEoCSI3ChVDaGF0U2Vzc2lvblN0YXJ0RXZlbnQSDAoEdHlwZRgBIAEoCRIQCgh0aHJlYWRJZBgCIAEoCTKAAwoNRXZlbnRzU2VydmljZRI7CgRQdXNoEh0ubXRtYWkubXRtcGIuUHVzaEV2ZW50UmVxdWVzdBoSLm10bWFpLm10bXBiLkV2ZW50IgASRAoIQnVsa1B1c2gSIS5tdG1haS5tdG1wYi5CdWxrUHVzaEV2ZW50UmVxdWVzdBoTLm10bWFpLm10bXBiLkV2ZW50cyIAEkoKEVJlcGxheVNpbmdsZUV2ZW50Eh8ubXRtYWkubXRtcGIuUmVwbGF5RXZlbnRSZXF1ZXN0GhIubXRtYWkubXRtcGIuRXZlbnQiABJDCgZQdXRMb2cSGi5tdG1haS5tdG1wYi5QdXRMb2dSZXF1ZXN0GhsubXRtYWkubXRtcGIuUHV0TG9nUmVzcG9uc2UiABJbCg5QdXRTdHJlYW1FdmVudBIiLm10bWFpLm10bXBiLlB1dFN0cmVhbUV2ZW50UmVxdWVzdBojLm10bWFpLm10bXBiLlB1dFN0cmVhbUV2ZW50UmVzcG9uc2UiAEKhAQoPY29tLm10bWFpLm10bXBiQgtFdmVudHNQcm90b1ABWjRnaXRodWIuY29tL2NvZGVoMDA3L2dvbXRtL210bS9zcHBiL210bWFpL210bXBiO210bXBiogIDTU1YqgILTXRtYWkuTXRtcGLKAgtNdG1haVxNdG1wYuICF010bWFpXE10bXBiXEdQQk1ldGFkYXRh6gIMTXRtYWk6Ok10bXBiYgZwcm90bzM",
-    [file_google_protobuf_timestamp],
-  );
+export const file_mtmai_mtmpb_events: GenFile = /*@__PURE__*/
+  fileDesc("ChhtdG1haS9tdG1wYi9ldmVudHMucHJvdG8SC210bWFpLm10bXBiIrQBCgVFdmVudBIQCgh0ZW5hbnRJZBgBIAEoCRIPCgdldmVudElkGAIgASgJEgsKA2tleRgDIAEoCRIPCgdwYXlsb2FkGAQgASgJEjIKDmV2ZW50VGltZXN0YW1wGAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIfChJhZGRpdGlvbmFsTWV0YWRhdGEYBiABKAlIAIgBAUIVChNfYWRkaXRpb25hbE1ldGFkYXRhIiwKBkV2ZW50cxIiCgZldmVudHMYASADKAsyEi5tdG1haS5tdG1wYi5FdmVudCKSAQoNUHV0TG9nUmVxdWVzdBIRCglzdGVwUnVuSWQYASABKAkSLQoJY3JlYXRlZEF0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIPCgdtZXNzYWdlGAMgASgJEhIKBWxldmVsGAQgASgJSACIAQESEAoIbWV0YWRhdGEYBSABKAlCCAoGX2xldmVsIhAKDlB1dExvZ1Jlc3BvbnNlInwKFVB1dFN0cmVhbUV2ZW50UmVxdWVzdBIRCglzdGVwUnVuSWQYASABKAkSLQoJY3JlYXRlZEF0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIPCgdtZXNzYWdlGAMgASgMEhAKCG1ldGFkYXRhGAUgASgJIhgKFlB1dFN0cmVhbUV2ZW50UmVzcG9uc2UiRQoUQnVsa1B1c2hFdmVudFJlcXVlc3QSLQoGZXZlbnRzGAEgAygLMh0ubXRtYWkubXRtcGIuUHVzaEV2ZW50UmVxdWVzdCKcAQoQUHVzaEV2ZW50UmVxdWVzdBILCgNrZXkYASABKAkSDwoHcGF5bG9hZBgCIAEoCRIyCg5ldmVudFRpbWVzdGFtcBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASHwoSYWRkaXRpb25hbE1ldGFkYXRhGAQgASgJSACIAQFCFQoTX2FkZGl0aW9uYWxNZXRhZGF0YSIlChJSZXBsYXlFdmVudFJlcXVlc3QSDwoHZXZlbnRJZBgBIAEoCSI3ChVDaGF0U2Vzc2lvblN0YXJ0RXZlbnQSDAoEdHlwZRgBIAEoCRIQCgh0aHJlYWRJZBgCIAEoCTKAAwoNRXZlbnRzU2VydmljZRI7CgRQdXNoEh0ubXRtYWkubXRtcGIuUHVzaEV2ZW50UmVxdWVzdBoSLm10bWFpLm10bXBiLkV2ZW50IgASRAoIQnVsa1B1c2gSIS5tdG1haS5tdG1wYi5CdWxrUHVzaEV2ZW50UmVxdWVzdBoTLm10bWFpLm10bXBiLkV2ZW50cyIAEkoKEVJlcGxheVNpbmdsZUV2ZW50Eh8ubXRtYWkubXRtcGIuUmVwbGF5RXZlbnRSZXF1ZXN0GhIubXRtYWkubXRtcGIuRXZlbnQiABJDCgZQdXRMb2cSGi5tdG1haS5tdG1wYi5QdXRMb2dSZXF1ZXN0GhsubXRtYWkubXRtcGIuUHV0TG9nUmVzcG9uc2UiABJbCg5QdXRTdHJlYW1FdmVudBIiLm10bWFpLm10bXBiLlB1dFN0cmVhbUV2ZW50UmVxdWVzdBojLm10bWFpLm10bXBiLlB1dFN0cmVhbUV2ZW50UmVzcG9uc2UiAEKhAQoPY29tLm10bWFpLm10bXBiQgtFdmVudHNQcm90b1ABWjRnaXRodWIuY29tL2NvZGVoMDA3L2dvbXRtL210bS9zcHBiL210bWFpL210bXBiO210bXBiogIDTU1YqgILTXRtYWkuTXRtcGLKAgtNdG1haVxNdG1wYuICF010bWFpXE10bXBiXEdQQk1ldGFkYXRh6gIMTXRtYWk6Ok10bXBiYgZwcm90bzM", [file_google_protobuf_timestamp]);
 
 /**
  * @generated from message mtmai.mtmpb.Event
@@ -77,8 +65,7 @@ export type Event = Message<"mtmai.mtmpb.Event"> & {
  * Describes the message mtmai.mtmpb.Event.
  * Use `create(EventSchema)` to create a new message.
  */
-export const EventSchema: GenMessage<Event> =
-  /*@__PURE__*/
+export const EventSchema: GenMessage<Event> = /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_events, 0);
 
 /**
@@ -95,8 +82,7 @@ export type Events = Message<"mtmai.mtmpb.Events"> & {
  * Describes the message mtmai.mtmpb.Events.
  * Use `create(EventsSchema)` to create a new message.
  */
-export const EventsSchema: GenMessage<Events> =
-  /*@__PURE__*/
+export const EventsSchema: GenMessage<Events> = /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_events, 1);
 
 /**
@@ -143,96 +129,90 @@ export type PutLogRequest = Message<"mtmai.mtmpb.PutLogRequest"> & {
  * Describes the message mtmai.mtmpb.PutLogRequest.
  * Use `create(PutLogRequestSchema)` to create a new message.
  */
-export const PutLogRequestSchema: GenMessage<PutLogRequest> =
-  /*@__PURE__*/
+export const PutLogRequestSchema: GenMessage<PutLogRequest> = /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_events, 2);
 
 /**
  * @generated from message mtmai.mtmpb.PutLogResponse
  */
-export type PutLogResponse = Message<"mtmai.mtmpb.PutLogResponse"> & {};
+export type PutLogResponse = Message<"mtmai.mtmpb.PutLogResponse"> & {
+};
 
 /**
  * Describes the message mtmai.mtmpb.PutLogResponse.
  * Use `create(PutLogResponseSchema)` to create a new message.
  */
-export const PutLogResponseSchema: GenMessage<PutLogResponse> =
-  /*@__PURE__*/
+export const PutLogResponseSchema: GenMessage<PutLogResponse> = /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_events, 3);
 
 /**
  * @generated from message mtmai.mtmpb.PutStreamEventRequest
  */
-export type PutStreamEventRequest =
-  Message<"mtmai.mtmpb.PutStreamEventRequest"> & {
-    /**
-     * the step run id for the request
-     *
-     * @generated from field: string stepRunId = 1;
-     */
-    stepRunId: string;
+export type PutStreamEventRequest = Message<"mtmai.mtmpb.PutStreamEventRequest"> & {
+  /**
+   * the step run id for the request
+   *
+   * @generated from field: string stepRunId = 1;
+   */
+  stepRunId: string;
 
-    /**
-     * when the stream event was created
-     *
-     * @generated from field: google.protobuf.Timestamp createdAt = 2;
-     */
-    createdAt?: Timestamp;
+  /**
+   * when the stream event was created
+   *
+   * @generated from field: google.protobuf.Timestamp createdAt = 2;
+   */
+  createdAt?: Timestamp;
 
-    /**
-     * the stream event message
-     *
-     * @generated from field: bytes message = 3;
-     */
-    message: Uint8Array;
+  /**
+   * the stream event message
+   *
+   * @generated from field: bytes message = 3;
+   */
+  message: Uint8Array;
 
-    /**
-     * associated stream event metadata
-     *
-     * @generated from field: string metadata = 5;
-     */
-    metadata: string;
-  };
+  /**
+   * associated stream event metadata
+   *
+   * @generated from field: string metadata = 5;
+   */
+  metadata: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.PutStreamEventRequest.
  * Use `create(PutStreamEventRequestSchema)` to create a new message.
  */
-export const PutStreamEventRequestSchema: GenMessage<PutStreamEventRequest> =
-  /*@__PURE__*/
+export const PutStreamEventRequestSchema: GenMessage<PutStreamEventRequest> = /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_events, 4);
 
 /**
  * @generated from message mtmai.mtmpb.PutStreamEventResponse
  */
-export type PutStreamEventResponse =
-  Message<"mtmai.mtmpb.PutStreamEventResponse"> & {};
+export type PutStreamEventResponse = Message<"mtmai.mtmpb.PutStreamEventResponse"> & {
+};
 
 /**
  * Describes the message mtmai.mtmpb.PutStreamEventResponse.
  * Use `create(PutStreamEventResponseSchema)` to create a new message.
  */
-export const PutStreamEventResponseSchema: GenMessage<PutStreamEventResponse> =
-  /*@__PURE__*/
+export const PutStreamEventResponseSchema: GenMessage<PutStreamEventResponse> = /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_events, 5);
 
 /**
  * @generated from message mtmai.mtmpb.BulkPushEventRequest
  */
-export type BulkPushEventRequest =
-  Message<"mtmai.mtmpb.BulkPushEventRequest"> & {
-    /**
-     * @generated from field: repeated mtmai.mtmpb.PushEventRequest events = 1;
-     */
-    events: PushEventRequest[];
-  };
+export type BulkPushEventRequest = Message<"mtmai.mtmpb.BulkPushEventRequest"> & {
+  /**
+   * @generated from field: repeated mtmai.mtmpb.PushEventRequest events = 1;
+   */
+  events: PushEventRequest[];
+};
 
 /**
  * Describes the message mtmai.mtmpb.BulkPushEventRequest.
  * Use `create(BulkPushEventRequestSchema)` to create a new message.
  */
-export const BulkPushEventRequestSchema: GenMessage<BulkPushEventRequest> =
-  /*@__PURE__*/
+export const BulkPushEventRequestSchema: GenMessage<BulkPushEventRequest> = /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_events, 6);
 
 /**
@@ -272,8 +252,7 @@ export type PushEventRequest = Message<"mtmai.mtmpb.PushEventRequest"> & {
  * Describes the message mtmai.mtmpb.PushEventRequest.
  * Use `create(PushEventRequestSchema)` to create a new message.
  */
-export const PushEventRequestSchema: GenMessage<PushEventRequest> =
-  /*@__PURE__*/
+export const PushEventRequestSchema: GenMessage<PushEventRequest> = /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_events, 7);
 
 /**
@@ -292,32 +271,29 @@ export type ReplayEventRequest = Message<"mtmai.mtmpb.ReplayEventRequest"> & {
  * Describes the message mtmai.mtmpb.ReplayEventRequest.
  * Use `create(ReplayEventRequestSchema)` to create a new message.
  */
-export const ReplayEventRequestSchema: GenMessage<ReplayEventRequest> =
-  /*@__PURE__*/
+export const ReplayEventRequestSchema: GenMessage<ReplayEventRequest> = /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_events, 8);
 
 /**
  * @generated from message mtmai.mtmpb.ChatSessionStartEvent
  */
-export type ChatSessionStartEvent =
-  Message<"mtmai.mtmpb.ChatSessionStartEvent"> & {
-    /**
-     * @generated from field: string type = 1;
-     */
-    type: string;
+export type ChatSessionStartEvent = Message<"mtmai.mtmpb.ChatSessionStartEvent"> & {
+  /**
+   * @generated from field: string type = 1;
+   */
+  type: string;
 
-    /**
-     * @generated from field: string threadId = 2;
-     */
-    threadId: string;
-  };
+  /**
+   * @generated from field: string threadId = 2;
+   */
+  threadId: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.ChatSessionStartEvent.
  * Use `create(ChatSessionStartEventSchema)` to create a new message.
  */
-export const ChatSessionStartEventSchema: GenMessage<ChatSessionStartEvent> =
-  /*@__PURE__*/
+export const ChatSessionStartEventSchema: GenMessage<ChatSessionStartEvent> = /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_events, 9);
 
 /**
@@ -331,7 +307,7 @@ export const EventsService: GenService<{
     methodKind: "unary";
     input: typeof PushEventRequestSchema;
     output: typeof EventSchema;
-  };
+  },
   /**
    * @generated from rpc mtmai.mtmpb.EventsService.BulkPush
    */
@@ -339,7 +315,7 @@ export const EventsService: GenService<{
     methodKind: "unary";
     input: typeof BulkPushEventRequestSchema;
     output: typeof EventsSchema;
-  };
+  },
   /**
    * @generated from rpc mtmai.mtmpb.EventsService.ReplaySingleEvent
    */
@@ -347,7 +323,7 @@ export const EventsService: GenService<{
     methodKind: "unary";
     input: typeof ReplayEventRequestSchema;
     output: typeof EventSchema;
-  };
+  },
   /**
    * @generated from rpc mtmai.mtmpb.EventsService.PutLog
    */
@@ -355,7 +331,7 @@ export const EventsService: GenService<{
     methodKind: "unary";
     input: typeof PutLogRequestSchema;
     output: typeof PutLogResponseSchema;
-  };
+  },
   /**
    * @generated from rpc mtmai.mtmpb.EventsService.PutStreamEvent
    */
@@ -363,5 +339,7 @@ export const EventsService: GenService<{
     methodKind: "unary";
     input: typeof PutStreamEventRequestSchema;
     output: typeof PutStreamEventResponseSchema;
-  };
-}> = /*@__PURE__*/ serviceDesc(file_mtmai_mtmpb_events, 0);
+  },
+}> = /*@__PURE__*/
+  serviceDesc(file_mtmai_mtmpb_events, 0);
+
