@@ -3029,6 +3029,4 @@ export const zChatMessageUpsertResponse = zChatMessage;
 
 export const zChatSessionGetResponse = zChatSession;
 
-export const zUiAgentGetResponse = zUiAgentState;
-
 export const zDispatcherListenResponse = zAssignedAction;

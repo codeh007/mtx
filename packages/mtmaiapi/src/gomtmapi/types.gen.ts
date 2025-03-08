@@ -8696,7 +8696,28 @@ export type ChatSessionGetData = {
      */
     session?: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * The topic id
+     */
+    topic?: string;
+    /**
+     * The message type
+     */
+    messageType?: string;
+    /**
+     * The role
+     */
+    role?: string;
+    /**
+     * The source
+     */
+    source?: string;
+    /**
+     * The step run id
+     */
+    stepRunId?: string;
+  };
   url: "/api/v1/tenants/{tenant}/chat/sessions/{session}";
 };
 
@@ -8718,31 +8739,6 @@ export type ChatSessionGetResponses = {
 
 export type ChatSessionGetResponse =
   ChatSessionGetResponses[keyof ChatSessionGetResponses];
-
-export type UiAgentGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/ag_ui";
-};
-
-export type UiAgentGetErrors = {
-  400: ApiErrors;
-  403: ApiErrors;
-};
-
-export type UiAgentGetError = UiAgentGetErrors[keyof UiAgentGetErrors];
-
-export type UiAgentGetResponses = {
-  200: UiAgentState;
-};
-
-export type UiAgentGetResponse = UiAgentGetResponses[keyof UiAgentGetResponses];
 
 export type DispatcherListenData = {
   body?: never;

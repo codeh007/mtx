@@ -118,7 +118,6 @@ import {
   TenantResourcePolicy,
   TenantStepRunQueueMetrics,
   TriggerWorkflowRunRequest,
-  UiAgentState,
   UpdateBlogRequest,
   UpdateEndpointRequest,
   UpdateSiteRequest,
@@ -3430,27 +3429,24 @@ export class Api<
   chatSessionGet = (
     tenant: TenantParameter,
     session?: string,
+    query?: {
+      /** The topic id */
+      topic?: string;
+      /** The message type */
+      messageType?: string;
+      /** The role */
+      role?: string;
+      /** The source */
+      source?: string;
+      /** The step run id */
+      stepRunId?: string;
+    },
     params: RequestParams = {},
   ) =>
     this.request<ChatSession, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/chat/sessions/${session}`,
       method: "GET",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description 获取聊天界面状态
-   *
-   * @tags ui_agent
-   * @name UiAgentGet
-   * @request GET:/api/v1/tenants/{tenant}/ag_ui
-   * @secure
-   */
-  uiAgentGet = (tenant: TenantParameter, params: RequestParams = {}) =>
-    this.request<UiAgentState, APIErrors>({
-      path: `/api/v1/tenants/${tenant}/ag_ui`,
-      method: "GET",
+      query: query,
       secure: true,
       format: "json",
       ...params,

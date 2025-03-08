@@ -431,9 +431,6 @@ import type {
   ChatSessionGetData,
   ChatSessionGetResponse,
   ChatSessionGetError,
-  UiAgentGetData,
-  UiAgentGetResponse,
-  UiAgentGetError,
   DispatcherListenData,
   DispatcherListenResponse,
   DispatcherListenError,
@@ -4496,32 +4493,6 @@ export const chatSessionGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/chat/sessions/{session}",
-    ...options,
-  });
-};
-
-/**
- * 获取聊天界面状态
- */
-export const uiAgentGet = <ThrowOnError extends boolean = false>(
-  options: Options<UiAgentGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    UiAgentGetResponse,
-    UiAgentGetError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/ag_ui",
     ...options,
   });
 };

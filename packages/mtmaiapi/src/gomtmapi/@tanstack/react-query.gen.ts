@@ -155,7 +155,6 @@ import {
   chatSessionList,
   chatMessageUpsert,
   chatSessionGet,
-  uiAgentGet,
   dispatcherListen,
 } from "../sdk.gen";
 import {
@@ -447,7 +446,6 @@ import type {
   ChatMessageUpsertError,
   ChatMessageUpsertResponse,
   ChatSessionGetData,
-  UiAgentGetData,
   DispatcherListenData,
   DispatcherListenError,
   DispatcherListenResponse,
@@ -4602,24 +4600,6 @@ export const chatSessionGetOptions = (options: Options<ChatSessionGetData>) => {
       return data;
     },
     queryKey: chatSessionGetQueryKey(options),
-  });
-};
-
-export const uiAgentGetQueryKey = (options: Options<UiAgentGetData>) =>
-  createQueryKey("uiAgentGet", options);
-
-export const uiAgentGetOptions = (options: Options<UiAgentGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await uiAgentGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: uiAgentGetQueryKey(options),
   });
 };
 
