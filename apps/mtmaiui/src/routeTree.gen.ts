@@ -27,7 +27,9 @@ import { Route as SiteSiteIdEditImport } from './routes/~site/~$siteId/~edit'
 import { Route as SiteCreateIndexImport } from './routes/~site/~create/~index'
 import { Route as SiteSiteIdIndexImport } from './routes/~site/~$siteId/~index'
 import { Route as OnboardingCreateTenantIndexImport } from './routes/~onboarding/~create-tenant/~index'
+import { Route as ResourceCreateResPlatformaccountImport } from './routes/~resource/~create/~res/~platform_account'
 import { Route as SiteSiteIdHostIndexImport } from './routes/~site/~$siteId/~host/~index'
+import { Route as ResourceCreateResIndexImport } from './routes/~resource/~create/~res/~index'
 import { Route as PlayChatSessionIdIndexImport } from './routes/~play/~chat/~$sessionId/~index'
 
 // Create Virtual Routes
@@ -58,7 +60,7 @@ const WorkflowRunsWorkflowRunIdLazyImport = createFileRoute(
   '/workflow-runs/$workflowRunId',
 )()
 const TriggerIdLazyImport = createFileRoute('/trigger/$id')()
-const ResourceCreateLazyImport = createFileRoute('/resource/create')()
+const ResourceCreateRouteLazyImport = createFileRoute('/resource/create')()
 const PostCreateLazyImport = createFileRoute('/post/create')()
 const PlayChatRouteLazyImport = createFileRoute('/play/chat')()
 const PlatformAccountCreateLazyImport = createFileRoute(
@@ -82,6 +84,9 @@ const EventsIndexLazyImport = createFileRoute('/events/')()
 const EnvsIndexLazyImport = createFileRoute('/envs/')()
 const EndpointIndexLazyImport = createFileRoute('/endpoint/')()
 const AgEventsIndexLazyImport = createFileRoute('/agEvents/')()
+const ResourceCreateResRouteLazyImport = createFileRoute(
+  '/resource/create/res',
+)()
 const PlayChatSessionIdRouteLazyImport = createFileRoute(
   '/play/chat/$sessionId',
 )()
@@ -275,12 +280,12 @@ const TriggerIdLazyRoute = TriggerIdLazyImport.update({
   getParentRoute: () => TriggerRouteLazyRoute,
 } as any).lazy(() => import('./routes/~trigger/~$id.lazy').then((d) => d.Route))
 
-const ResourceCreateLazyRoute = ResourceCreateLazyImport.update({
+const ResourceCreateRouteLazyRoute = ResourceCreateRouteLazyImport.update({
   id: '/create',
   path: '/create',
   getParentRoute: () => ResourceRouteLazyRoute,
 } as any).lazy(() =>
-  import('./routes/~resource/~create.lazy').then((d) => d.Route),
+  import('./routes/~resource/~create/~route.lazy').then((d) => d.Route),
 )
 
 const PostCreateLazyRoute = PostCreateLazyImport.update({
@@ -474,6 +479,16 @@ const GalleryIndexRoute = GalleryIndexImport.update({
   getParentRoute: () => GalleryRouteLazyRoute,
 } as any)
 
+const ResourceCreateResRouteLazyRoute = ResourceCreateResRouteLazyImport.update(
+  {
+    id: '/res',
+    path: '/res',
+    getParentRoute: () => ResourceCreateRouteLazyRoute,
+  } as any,
+).lazy(() =>
+  import('./routes/~resource/~create/~res/~route.lazy').then((d) => d.Route),
+)
+
 const PlayChatSessionIdRouteLazyRoute = PlayChatSessionIdRouteLazyImport.update(
   {
     id: '/$sessionId',
@@ -589,10 +604,23 @@ const PlayChatSessionIdDebugLazyRoute = PlayChatSessionIdDebugLazyImport.update(
   import('./routes/~play/~chat/~$sessionId/~debug.lazy').then((d) => d.Route),
 )
 
+const ResourceCreateResPlatformaccountRoute =
+  ResourceCreateResPlatformaccountImport.update({
+    id: '/platform_account',
+    path: '/platform_account',
+    getParentRoute: () => ResourceCreateResRouteLazyRoute,
+  } as any)
+
 const SiteSiteIdHostIndexRoute = SiteSiteIdHostIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => SiteSiteIdHostRouteRoute,
+} as any)
+
+const ResourceCreateResIndexRoute = ResourceCreateResIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ResourceCreateResRouteLazyRoute,
 } as any)
 
 const PlayChatSessionIdIndexRoute = PlayChatSessionIdIndexImport.update({
@@ -938,7 +966,7 @@ declare module '@tanstack/react-router' {
       id: '/resource/create'
       path: '/create'
       fullPath: '/resource/create'
-      preLoaderRoute: typeof ResourceCreateLazyImport
+      preLoaderRoute: typeof ResourceCreateRouteLazyImport
       parentRoute: typeof ResourceRouteLazyImport
     }
     '/trigger/$id': {
@@ -1025,6 +1053,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlayChatSessionIdRouteLazyImport
       parentRoute: typeof PlayChatRouteLazyImport
     }
+    '/resource/create/res': {
+      id: '/resource/create/res'
+      path: '/res'
+      fullPath: '/resource/create/res'
+      preLoaderRoute: typeof ResourceCreateResRouteLazyImport
+      parentRoute: typeof ResourceCreateRouteLazyImport
+    }
     '/play/chat/$sessionId/': {
       id: '/play/chat/$sessionId/'
       path: '/'
@@ -1032,12 +1067,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlayChatSessionIdIndexImport
       parentRoute: typeof PlayChatSessionIdRouteLazyImport
     }
+    '/resource/create/res/': {
+      id: '/resource/create/res/'
+      path: '/'
+      fullPath: '/resource/create/res/'
+      preLoaderRoute: typeof ResourceCreateResIndexImport
+      parentRoute: typeof ResourceCreateResRouteLazyImport
+    }
     '/site/$siteId/host/': {
       id: '/site/$siteId/host/'
       path: '/'
       fullPath: '/site/$siteId/host/'
       preLoaderRoute: typeof SiteSiteIdHostIndexImport
       parentRoute: typeof SiteSiteIdHostRouteImport
+    }
+    '/resource/create/res/platform_account': {
+      id: '/resource/create/res/platform_account'
+      path: '/platform_account'
+      fullPath: '/resource/create/res/platform_account'
+      preLoaderRoute: typeof ResourceCreateResPlatformaccountImport
+      parentRoute: typeof ResourceCreateResRouteLazyImport
     }
     '/play/chat/$sessionId/debug': {
       id: '/play/chat/$sessionId/debug'
@@ -1287,14 +1336,46 @@ const PostRouteLazyRouteWithChildren = PostRouteLazyRoute._addFileChildren(
   PostRouteLazyRouteChildren,
 )
 
+interface ResourceCreateResRouteLazyRouteChildren {
+  ResourceCreateResIndexRoute: typeof ResourceCreateResIndexRoute
+  ResourceCreateResPlatformaccountRoute: typeof ResourceCreateResPlatformaccountRoute
+}
+
+const ResourceCreateResRouteLazyRouteChildren: ResourceCreateResRouteLazyRouteChildren =
+  {
+    ResourceCreateResIndexRoute: ResourceCreateResIndexRoute,
+    ResourceCreateResPlatformaccountRoute:
+      ResourceCreateResPlatformaccountRoute,
+  }
+
+const ResourceCreateResRouteLazyRouteWithChildren =
+  ResourceCreateResRouteLazyRoute._addFileChildren(
+    ResourceCreateResRouteLazyRouteChildren,
+  )
+
+interface ResourceCreateRouteLazyRouteChildren {
+  ResourceCreateResRouteLazyRoute: typeof ResourceCreateResRouteLazyRouteWithChildren
+}
+
+const ResourceCreateRouteLazyRouteChildren: ResourceCreateRouteLazyRouteChildren =
+  {
+    ResourceCreateResRouteLazyRoute:
+      ResourceCreateResRouteLazyRouteWithChildren,
+  }
+
+const ResourceCreateRouteLazyRouteWithChildren =
+  ResourceCreateRouteLazyRoute._addFileChildren(
+    ResourceCreateRouteLazyRouteChildren,
+  )
+
 interface ResourceRouteLazyRouteChildren {
   ResourceIndexLazyRoute: typeof ResourceIndexLazyRoute
-  ResourceCreateLazyRoute: typeof ResourceCreateLazyRoute
+  ResourceCreateRouteLazyRoute: typeof ResourceCreateRouteLazyRouteWithChildren
 }
 
 const ResourceRouteLazyRouteChildren: ResourceRouteLazyRouteChildren = {
   ResourceIndexLazyRoute: ResourceIndexLazyRoute,
-  ResourceCreateLazyRoute: ResourceCreateLazyRoute,
+  ResourceCreateRouteLazyRoute: ResourceCreateRouteLazyRouteWithChildren,
 }
 
 const ResourceRouteLazyRouteWithChildren =
@@ -1457,7 +1538,7 @@ export interface FileRoutesByFullPath {
   '/platform-account/create': typeof PlatformAccountCreateLazyRoute
   '/play/chat': typeof PlayChatRouteLazyRouteWithChildren
   '/post/create': typeof PostCreateLazyRoute
-  '/resource/create': typeof ResourceCreateLazyRoute
+  '/resource/create': typeof ResourceCreateRouteLazyRouteWithChildren
   '/trigger/$id': typeof TriggerIdLazyRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdLazyRoute
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdLazyRoute
@@ -1470,8 +1551,11 @@ export interface FileRoutesByFullPath {
   '/platform-account/$platformAccountId/': typeof PlatformAccountPlatformAccountIdIndexLazyRoute
   '/play/chat/': typeof PlayChatIndexLazyRoute
   '/play/chat/$sessionId': typeof PlayChatSessionIdRouteLazyRouteWithChildren
+  '/resource/create/res': typeof ResourceCreateResRouteLazyRouteWithChildren
   '/play/chat/$sessionId/': typeof PlayChatSessionIdIndexRoute
+  '/resource/create/res/': typeof ResourceCreateResIndexRoute
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexRoute
+  '/resource/create/res/platform_account': typeof ResourceCreateResPlatformaccountRoute
   '/play/chat/$sessionId/debug': typeof PlayChatSessionIdDebugLazyRoute
   '/play/chat/$sessionId/edit': typeof PlayChatSessionIdEditLazyRoute
   '/play/chat/$sessionId/result': typeof PlayChatSessionIdResultLazyRoute
@@ -1507,7 +1591,7 @@ export interface FileRoutesByTo {
   '/auth/register': typeof AuthRegisterLazyRoute
   '/platform-account/create': typeof PlatformAccountCreateLazyRoute
   '/post/create': typeof PostCreateLazyRoute
-  '/resource/create': typeof ResourceCreateLazyRoute
+  '/resource/create': typeof ResourceCreateRouteLazyRouteWithChildren
   '/trigger/$id': typeof TriggerIdLazyRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdLazyRoute
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdLazyRoute
@@ -1519,7 +1603,9 @@ export interface FileRoutesByTo {
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdIndexLazyRoute
   '/play/chat': typeof PlayChatIndexLazyRoute
   '/play/chat/$sessionId': typeof PlayChatSessionIdIndexRoute
+  '/resource/create/res': typeof ResourceCreateResIndexRoute
   '/site/$siteId/host': typeof SiteSiteIdHostIndexRoute
+  '/resource/create/res/platform_account': typeof ResourceCreateResPlatformaccountRoute
   '/play/chat/$sessionId/debug': typeof PlayChatSessionIdDebugLazyRoute
   '/play/chat/$sessionId/edit': typeof PlayChatSessionIdEditLazyRoute
   '/play/chat/$sessionId/result': typeof PlayChatSessionIdResultLazyRoute
@@ -1576,7 +1662,7 @@ export interface FileRoutesById {
   '/platform-account/create': typeof PlatformAccountCreateLazyRoute
   '/play/chat': typeof PlayChatRouteLazyRouteWithChildren
   '/post/create': typeof PostCreateLazyRoute
-  '/resource/create': typeof ResourceCreateLazyRoute
+  '/resource/create': typeof ResourceCreateRouteLazyRouteWithChildren
   '/trigger/$id': typeof TriggerIdLazyRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdLazyRoute
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdLazyRoute
@@ -1589,8 +1675,11 @@ export interface FileRoutesById {
   '/platform-account/$platformAccountId/': typeof PlatformAccountPlatformAccountIdIndexLazyRoute
   '/play/chat/': typeof PlayChatIndexLazyRoute
   '/play/chat/$sessionId': typeof PlayChatSessionIdRouteLazyRouteWithChildren
+  '/resource/create/res': typeof ResourceCreateResRouteLazyRouteWithChildren
   '/play/chat/$sessionId/': typeof PlayChatSessionIdIndexRoute
+  '/resource/create/res/': typeof ResourceCreateResIndexRoute
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexRoute
+  '/resource/create/res/platform_account': typeof ResourceCreateResPlatformaccountRoute
   '/play/chat/$sessionId/debug': typeof PlayChatSessionIdDebugLazyRoute
   '/play/chat/$sessionId/edit': typeof PlayChatSessionIdEditLazyRoute
   '/play/chat/$sessionId/result': typeof PlayChatSessionIdResultLazyRoute
@@ -1661,8 +1750,11 @@ export interface FileRouteTypes {
     | '/platform-account/$platformAccountId/'
     | '/play/chat/'
     | '/play/chat/$sessionId'
+    | '/resource/create/res'
     | '/play/chat/$sessionId/'
+    | '/resource/create/res/'
     | '/site/$siteId/host/'
+    | '/resource/create/res/platform_account'
     | '/play/chat/$sessionId/debug'
     | '/play/chat/$sessionId/edit'
     | '/play/chat/$sessionId/result'
@@ -1709,7 +1801,9 @@ export interface FileRouteTypes {
     | '/platform-account/$platformAccountId'
     | '/play/chat'
     | '/play/chat/$sessionId'
+    | '/resource/create/res'
     | '/site/$siteId/host'
+    | '/resource/create/res/platform_account'
     | '/play/chat/$sessionId/debug'
     | '/play/chat/$sessionId/edit'
     | '/play/chat/$sessionId/result'
@@ -1777,8 +1871,11 @@ export interface FileRouteTypes {
     | '/platform-account/$platformAccountId/'
     | '/play/chat/'
     | '/play/chat/$sessionId'
+    | '/resource/create/res'
     | '/play/chat/$sessionId/'
+    | '/resource/create/res/'
     | '/site/$siteId/host/'
+    | '/resource/create/res/platform_account'
     | '/play/chat/$sessionId/debug'
     | '/play/chat/$sessionId/edit'
     | '/play/chat/$sessionId/result'
@@ -2120,8 +2217,11 @@ export const routeTree = rootRoute
       "parent": "/post"
     },
     "/resource/create": {
-      "filePath": "~resource/~create.lazy.tsx",
-      "parent": "/resource"
+      "filePath": "~resource/~create/~route.lazy.tsx",
+      "parent": "/resource",
+      "children": [
+        "/resource/create/res"
+      ]
     },
     "/trigger/$id": {
       "filePath": "~trigger/~$id.lazy.tsx",
@@ -2181,13 +2281,29 @@ export const routeTree = rootRoute
         "/play/chat/$sessionId/team"
       ]
     },
+    "/resource/create/res": {
+      "filePath": "~resource/~create/~res/~route.lazy.tsx",
+      "parent": "/resource/create",
+      "children": [
+        "/resource/create/res/",
+        "/resource/create/res/platform_account"
+      ]
+    },
     "/play/chat/$sessionId/": {
       "filePath": "~play/~chat/~$sessionId/~index.tsx",
       "parent": "/play/chat/$sessionId"
     },
+    "/resource/create/res/": {
+      "filePath": "~resource/~create/~res/~index.tsx",
+      "parent": "/resource/create/res"
+    },
     "/site/$siteId/host/": {
       "filePath": "~site/~$siteId/~host/~index.tsx",
       "parent": "/site/$siteId/host"
+    },
+    "/resource/create/res/platform_account": {
+      "filePath": "~resource/~create/~res/~platform_account.tsx",
+      "parent": "/resource/create/res"
     },
     "/play/chat/$sessionId/debug": {
       "filePath": "~play/~chat/~$sessionId/~debug.lazy.tsx",

@@ -20,7 +20,7 @@ import {
 
 import { useTenantId } from "../../hooks/useAuth";
 
-export function NavPlatformAccount() {
+export function NavResource() {
   const { isMobile } = useSidebar();
   const tid = useTenantId();
   const platformAccountQuery = useSuspenseQuery({
@@ -49,7 +49,6 @@ export function NavPlatformAccount() {
         <SidebarInput placeholder="Type to search..." />
       </SidebarHeader>
       <SidebarContent>
-        {" "}
         <SidebarGroup className="px-0">
           <SidebarGroupContent>
             {platformAccountQuery.data?.rows?.map((item) => (
@@ -59,12 +58,12 @@ export function NavPlatformAccount() {
                 className="flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
               >
                 <div className="flex w-full items-center gap-2">
-                  <span>{item.email}</span>{" "}
+                  <span>{item.title}</span>{" "}
                   {/* <span className="ml-auto text-xs">{chat.createdAt}</span> */}
                 </div>
-                <span className="font-medium">{item.email}</span>
+                <span className="font-medium">{item.title}</span>
                 <span className="line-clamp-2 w-[260px] whitespace-break-spaces text-xs">
-                  {item.email || item.metadata?.id}
+                  {item.title || item.metadata?.id}
                 </span>
               </CustomLink>
             ))}

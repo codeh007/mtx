@@ -3250,17 +3250,20 @@ export type AssignedAction = {
 
 export type MtResourceProperties = {
   /**
-   * The resource id
+   * The resource title
    */
-  id?: string;
+  title?: string;
+  /**
+   * The resource type
+   */
+  type?: string;
+  /**
+   * The resource content
+   */
+  content?: unknown;
 };
 
-export type MtResource = {
-  /**
-   * The resource id
-   */
-  id?: string;
-};
+export type MtResource = ApiResourceMetaProperties & MtResourceProperties;
 
 export type MtResourceList = {
   metadata?: ApiResourceMeta;

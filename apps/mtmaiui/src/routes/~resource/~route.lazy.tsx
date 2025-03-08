@@ -1,12 +1,12 @@
-import { Outlet, createLazyFileRoute } from '@tanstack/react-router'
+import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 
-import { SidebarProvider } from 'mtxuilib/ui/sidebar'
-import { RootAppWrapper } from '../components/RootAppWrapper'
-import { NavPlatformAccount } from './siderbar'
+import { SidebarProvider } from "mtxuilib/ui/sidebar";
+import { RootAppWrapper } from "../components/RootAppWrapper";
+import { NavResource } from "./siderbar";
 
-export const Route = createLazyFileRoute('/resource')({
+export const Route = createLazyFileRoute("/resource")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
   return (
@@ -14,13 +14,13 @@ function RouteComponent() {
       className="min-h-none"
       style={
         {
-          '--sidebar-width': '350px', //如果需要左侧双侧边栏 就设置为 350px
+          "--sidebar-width": "350px", //如果需要左侧双侧边栏 就设置为 350px
         } as React.CSSProperties
       }
     >
-      <RootAppWrapper secondSidebar={<NavPlatformAccount />}>
+      <RootAppWrapper secondSidebar={<NavResource />}>
         <Outlet />
       </RootAppWrapper>
     </SidebarProvider>
-  )
+  );
 }

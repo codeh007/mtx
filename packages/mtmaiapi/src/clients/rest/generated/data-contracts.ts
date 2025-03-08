@@ -2654,14 +2654,15 @@ export interface AssignedAction {
 }
 
 export interface MtResourceProperties {
-  /** The resource id */
-  id?: string;
+  /** The resource title */
+  title?: string;
+  /** The resource type */
+  type?: string;
+  /** The resource content */
+  content?: any;
 }
 
-export interface MtResource {
-  /** The resource id */
-  id?: string;
-}
+export type MtResource = APIResourceMetaProperties & MtResourceProperties;
 
 export interface MtResourceList {
   metadata?: APIResourceMeta;

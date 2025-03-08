@@ -5921,20 +5921,29 @@ export const AssignedActionSchema = {
 
 export const MtResourcePropertiesSchema = {
   properties: {
-    id: {
+    title: {
       type: "string",
-      description: "The resource id",
+      description: "The resource title",
+    },
+    type: {
+      type: "string",
+      description: "The resource type",
+    },
+    content: {
+      description: "The resource content",
     },
   },
 } as const;
 
 export const MtResourceSchema = {
-  properties: {
-    id: {
-      type: "string",
-      description: "The resource id",
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
     },
-  },
+    {
+      $ref: "#/components/schemas/MtResourceProperties",
+    },
+  ],
 } as const;
 
 export const MtResourceListSchema = {

@@ -19,23 +19,6 @@ function RouteComponent() {
         } as React.CSSProperties
       }
     >
-      {/* <RootAppWrapper>
-        <DashSidebar secondSidebar={<NavPlatformAccount />} />
-        <SidebarInset>
-          <DashHeaders>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbPage>账号</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </DashHeaders>
-          <DashContent>
-            <Outlet />
-          </DashContent>
-        </SidebarInset>
-      </RootAppWrapper> */}
       <RootAppWrapper secondSidebar={<NavPlatformAccount />}>
         <Outlet />
       </RootAppWrapper>

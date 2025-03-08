@@ -2729,12 +2729,14 @@ export const zAssignedAction = z.object({
 });
 
 export const zMtResourceProperties = z.object({
-  id: z.string().optional(),
+  title: z.string().optional(),
+  type: z.string().optional(),
+  content: z.unknown().optional(),
 });
 
-export const zMtResource = z.object({
-  id: z.string().optional(),
-});
+export const zMtResource = zApiResourceMetaProperties.merge(
+  zMtResourceProperties,
+);
 
 export const zMtResourceList = z.object({
   metadata: zApiResourceMeta.optional(),
