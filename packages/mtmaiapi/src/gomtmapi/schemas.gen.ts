@@ -5953,3 +5953,12 @@ export const MtResourceListSchema = {
     },
   },
 } as const;
+
+export const MtResourceUpsertSchema = {
+  properties: {
+    id: {
+      type: "string",
+      description: "The resource id",
+    },
+  },
+} as const;

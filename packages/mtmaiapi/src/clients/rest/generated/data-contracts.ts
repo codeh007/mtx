@@ -2668,3 +2668,8 @@ export interface MtResourceList {
   rows?: MtResource[];
   pagination?: PaginationResponse;
 }
+
+export interface MtResourceUpsert {
+  /** The resource id */
+  id?: string;
+}

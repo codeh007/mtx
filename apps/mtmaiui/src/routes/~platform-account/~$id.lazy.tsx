@@ -1,42 +1,44 @@
-'use client'
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
-import { createLazyFileRoute } from '@tanstack/react-router'
+"use client";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { createLazyFileRoute } from "@tanstack/react-router";
 import {
   platformAccountGetOptions,
   platformAccountUpdateMutation,
-} from 'mtmaiapi'
-import { DebugValue } from 'mtxuilib/components/devtools/DebugValue'
-import { EditFormToolbar } from 'mtxuilib/mt/form/EditFormToolbar'
-import { ZForm, useZodForm } from 'mtxuilib/mt/form/ZodForm'
-import { JsonObjectInput } from 'mtxuilib/mt/inputs/JsonObjectInput'
-import { TagsInput } from 'mtxuilib/mt/inputs/TagsInput'
+} from "mtmaiapi";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
+import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
+import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
+import { JsonObjectInput } from "mtxuilib/mt/inputs/JsonObjectInput";
+import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from 'mtxuilib/ui/form'
-import { Input } from 'mtxuilib/ui/input'
-import { z } from 'zod'
-export const Route = createLazyFileRoute('/platform-account/$id')({
+} from "mtxuilib/ui/form";
+import { Input } from "mtxuilib/ui/input";
+import { z } from "zod";
+import { useTenantId } from "../../hooks/useAuth";
+export const Route = createLazyFileRoute("/platform-account/$id")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  const { id } = Route.useParams()
-
+  const { id } = Route.useParams();
+  const tid = useTenantId();
   const query = useSuspenseQuery({
     ...platformAccountGetOptions({
       path: {
+        tenant: tid,
         platform_account: id,
       },
     }),
-  })
+  });
 
   const updatePlatformAccountMutation = useMutation({
     ...platformAccountUpdateMutation(),
-  })
+  });
   const form = useZodForm({
     schema: z.object({
       username: z.string().optional(),
@@ -47,7 +49,7 @@ function RouteComponent() {
       tags: z.array(z.string()).optional(),
     }),
     defaultValues: query.data,
-  })
+  });
   return (
     <>
       <ZForm
@@ -56,13 +58,13 @@ function RouteComponent() {
           const convertedValues = {
             ...values,
             tags: values.tags,
-          }
+          };
           updatePlatformAccountMutation.mutate({
             path: {
               platform_account: id,
             },
             body: convertedValues,
-          })
+          });
         }}
         className="space-y-2"
       >
@@ -145,7 +147,7 @@ function RouteComponent() {
           )}
         />
         <FormField
-          name={'properties'}
+          name={"properties"}
           render={({ field }) => (
             <FormItem>
               <FormLabel>properties</FormLabel>
@@ -160,5 +162,5 @@ function RouteComponent() {
         <EditFormToolbar form={form} />
       </ZForm>
     </>
-  )
+  );
 }

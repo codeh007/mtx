@@ -3268,6 +3268,13 @@ export type MtResourceList = {
   pagination?: PaginationResponse;
 };
 
+export type MtResourceUpsert = {
+  /**
+   * The resource id
+   */
+  id?: string;
+};
+
 export type ReadinessGetData = {
   body?: never;
   path?: never;
@@ -8880,7 +8887,7 @@ export type ResourceListResponse =
   ResourceListResponses[keyof ResourceListResponses];
 
 export type ResourceUpsertData = {
-  body: ChatMessageUpsert;
+  body: MtResourceUpsert;
   path: {
     /**
      * The tenant id
@@ -8900,7 +8907,7 @@ export type ResourceUpsertError =
   ResourceUpsertErrors[keyof ResourceUpsertErrors];
 
 export type ResourceUpsertResponses = {
-  200: ChatMessage;
+  200: MtResource;
 };
 
 export type ResourceUpsertResponse =

@@ -78,6 +78,7 @@ import {
   MtComponentList,
   MtResource,
   MtResourceList,
+  MtResourceUpsert,
   Platform,
   PlatformAccount,
   PlatformAccountList,
@@ -3552,10 +3553,10 @@ export class Api<
    */
   resourceUpsert = (
     tenant: TenantParameter,
-    data: ChatMessageUpsert,
+    data: MtResourceUpsert,
     params: RequestParams = {},
   ) =>
-    this.request<ChatMessage, APIErrors | APIError>({
+    this.request<MtResource, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/resources`,
       method: "POST",
       body: data,

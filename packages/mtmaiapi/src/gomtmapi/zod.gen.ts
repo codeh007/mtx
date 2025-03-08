@@ -2742,6 +2742,10 @@ export const zMtResourceList = z.object({
   pagination: zPaginationResponse.optional(),
 });
 
+export const zMtResourceUpsert = z.object({
+  id: z.string().optional(),
+});
+
 export const zMetadataGetResponse = zApiMeta;
 
 export const zCloudMetadataGetResponse = zApiErrors;
@@ -3040,6 +3044,6 @@ export const zDispatcherListenResponse = zAssignedAction;
 
 export const zResourceListResponse = zMtResourceList;
 
-export const zResourceUpsertResponse = zChatMessage;
+export const zResourceUpsertResponse = zMtResource;
 
 export const zResourceGetResponse = zMtResource;
