@@ -8,8 +8,10 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "mtxuilib/ui/form";
+import { Input } from "mtxuilib/ui/input";
 import { useTenantId } from "../../../../hooks/useAuth";
 export const Route = createLazyFileRoute("/resource/new/res")({
   component: RouteComponent,
@@ -24,12 +26,6 @@ function RouteComponent() {
     schema: zMtResourceUpsert,
     defaultValues: {},
   });
-
-  // const match = useMatch({ from: "/resource/new/res/browser" });
-
-  // const resourceType = useMemo(() => {
-  //   return form.getValues("type");
-  // }, [form]);
   return (
     <div className="flex flex-col h-full w-full px-2">
       <ZForm
@@ -47,7 +43,6 @@ function RouteComponent() {
         }}
         className="space-y-2"
       >
-        {/* <pre>{JSON.stringify(match, null, 2)}</pre> */}
         <FormField
           control={form.control}
           name="type"
@@ -55,6 +50,19 @@ function RouteComponent() {
             <FormItem>
               <FormControl>
                 <input type="hidden" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>title</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="title" />
               </FormControl>
               <FormMessage />
             </FormItem>

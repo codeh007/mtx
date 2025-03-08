@@ -60,19 +60,6 @@ function RouteComponent() {
             </FormItem>
           )}
         /> */}
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>title</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="title" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
         <FormField
           control={form.control}

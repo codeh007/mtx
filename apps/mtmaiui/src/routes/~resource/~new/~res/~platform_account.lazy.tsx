@@ -1,6 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { resourceUpsertMutation } from "mtmaiapi";
 import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
 import {
   FormControl,
@@ -12,7 +10,6 @@ import {
 import { Input } from "mtxuilib/ui/input";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import { useTenantId } from "../../../../hooks/useAuth";
 export const Route = createLazyFileRoute("/resource/new/res/platform_account")({
   component: RouteComponent,
 });
@@ -21,35 +18,21 @@ function RouteComponent() {
   // const createPlatformAccountMutation = useMutation({
   //   ...platformAccountCreateMutation(),
   // })
-  const resourceUpsert = useMutation({
-    ...resourceUpsertMutation(),
-  });
-  const tid = useTenantId();
-  // const form = useZodForm({
-  //   // schema: zPlatformAccount,
-  //   schema: zMtResourceUpsert,
-
-  //   defaultValues: {},
+  // const resourceUpsert = useMutation({
+  //   ...resourceUpsertMutation(),
   // });
+  // const tid = useTenantId();
 
   const form = useFormContext();
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     form.reset();
     form.setValue("type", "platform_account");
-    form.setValue("content", {
-      username: "user1",
-      password: "password1",
-      email: "user1@example.com",
-      platform: "platform1",
-      tags: ["tag1", "tag2"],
-    });
+    form.setValue("title", "账号");
   }, []);
 
   return (
     <div className="flex flex-col h-full w-full px-2">
-      {/* <PlateformAccountContentForm defaultValues={form.getValues().content} /> */}
-
       <h1>platform account content form</h1>
       <FormField
         control={form.control}
