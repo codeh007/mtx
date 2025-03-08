@@ -3042,4 +3042,4 @@ export const zResourceListResponse = zMtResourceList;
 
 export const zResourceUpsertResponse = zChatMessage;
 
-export const zResourceGetResponse = zChatSession;
+export const zResourceGetResponse = zMtResource;

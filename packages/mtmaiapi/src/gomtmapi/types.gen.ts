@@ -8934,7 +8934,7 @@ export type ResourceGetErrors = {
 export type ResourceGetError = ResourceGetErrors[keyof ResourceGetErrors];
 
 export type ResourceGetResponses = {
-  200: ChatSession;
+  200: MtResource;
 };
 
 export type ResourceGetResponse =

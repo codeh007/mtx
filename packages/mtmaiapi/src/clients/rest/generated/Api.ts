@@ -76,6 +76,7 @@ import {
   ModelList,
   MtComponent,
   MtComponentList,
+  MtResource,
   MtResourceList,
   Platform,
   PlatformAccount,
@@ -3577,7 +3578,7 @@ export class Api<
     resource?: string,
     params: RequestParams = {},
   ) =>
-    this.request<ChatSession, APIErrors | APIError>({
+    this.request<MtResource, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/resources/${resource}`,
       method: "GET",
       secure: true,
