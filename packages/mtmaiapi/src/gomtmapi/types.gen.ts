@@ -3262,9 +3262,17 @@ export type MtResourceProperties = {
    */
   content?: unknown;
   /**
+   * The resource description
+   */
+  description?: string;
+  /**
    * The resource version
    */
   version?: string;
+  /**
+   * The resource url
+   */
+  url?: string;
 };
 
 export type MtResource = ApiResourceMetaProperties & MtResourceProperties;

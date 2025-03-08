@@ -5933,9 +5933,17 @@ export const MtResourcePropertiesSchema = {
     content: {
       description: "The resource content",
     },
+    description: {
+      type: "string",
+      description: "The resource description",
+    },
     version: {
       type: "string",
       description: "The resource version",
+    },
+    url: {
+      type: "string",
+      description: "The resource url",
     },
   },
 } as const;

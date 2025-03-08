@@ -2660,8 +2660,12 @@ export interface MtResourceProperties {
   type: string;
   /** The resource content */
   content?: any;
+  /** The resource description */
+  description?: string;
   /** The resource version */
   version?: string;
+  /** The resource url */
+  url?: string;
 }
 
 export type MtResource = APIResourceMetaProperties & MtResourceProperties;

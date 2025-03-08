@@ -48,6 +48,19 @@ function RouteComponent() {
         >
           <FormField
             control={form.control}
+            name="type"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>type</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="type" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="title"
             render={({ field }) => (
               <FormItem>
@@ -68,19 +81,6 @@ function RouteComponent() {
                 <FormLabel>content</FormLabel>
                 <FormControl>
                   <Input {...field} placeholder="content" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="type"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>type</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="type" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

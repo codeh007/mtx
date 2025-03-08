@@ -2732,7 +2732,9 @@ export const zMtResourceProperties = z.object({
   title: z.string(),
   type: z.string(),
   content: z.unknown().optional(),
+  description: z.string().optional(),
   version: z.string().optional(),
+  url: z.string().optional(),
 });
 
 export const zMtResource = zApiResourceMetaProperties.merge(
