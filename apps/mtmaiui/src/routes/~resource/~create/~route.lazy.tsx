@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { platformAccountCreateMutation } from "mtmaiapi";
 import { zPlatformAccount } from "mtmaiapi/gomtmapi/zod.gen";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { useTenantId } from "../../../hooks/useAuth";
 
@@ -22,6 +23,13 @@ function RouteComponent() {
   return (
     <div className="flex flex-col h-full w-full px-2">
       <h1>创建资源</h1>
+      <div>
+        <h1>选定资源类型</h1>
+
+        <div>
+          <CustomLink to="res/platform_account">平台账号</CustomLink>
+        </div>
+      </div>
       <Outlet />
     </div>
   );

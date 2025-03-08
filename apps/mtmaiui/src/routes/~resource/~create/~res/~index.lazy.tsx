@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createLazyFileRoute } from "@tanstack/react-router";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 
-export const Route = createFileRoute("/resource/create/res/")({
+export const Route = createLazyFileRoute("/resource/create/res/")({
   component: RouteComponent,
 });
 
