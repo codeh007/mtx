@@ -1,38 +1,39 @@
-import { useMutation } from '@tanstack/react-query'
-import { createLazyFileRoute } from '@tanstack/react-router'
-import { resourceUpsertMutation } from 'mtmaiapi'
-import { zMtResourceUpsert } from 'mtmaiapi/gomtmapi/zod.gen'
-import { EditFormToolbar } from 'mtxuilib/mt/form/EditFormToolbar'
-import { ZForm, useZodForm } from 'mtxuilib/mt/form/ZodForm'
+import { createLazyFileRoute } from "@tanstack/react-router";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from 'mtxuilib/ui/form'
-import { Input } from 'mtxuilib/ui/input'
-import { Controller } from 'react-hook-form'
-import { useTenantId } from '../../../../hooks/useAuth'
+} from "mtxuilib/ui/form";
+import { Input } from "mtxuilib/ui/input";
+import { useEffect } from "react";
+import { useFormContext } from "react-hook-form";
 
-export const Route = createLazyFileRoute('/resource/new/res/browser')({
+export const Route = createLazyFileRoute("/resource/new/res/browser")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  const createBrowserMutation = useMutation({
-    ...resourceUpsertMutation(),
-  })
-  const tid = useTenantId()
-  const form = useZodForm({
-    schema: zMtResourceUpsert,
-    defaultValues: {},
-  })
+  // const createBrowserMutation = useMutation({
+  //   ...resourceUpsertMutation(),
+  // });
+  // const tid = useTenantId();
+  // const form = useZodForm({
+  //   schema: zMtResourceUpsert,
+  //   defaultValues: {},
+  // });
+  const form = useFormContext();
+  console.log(form.getValues());
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    form.setValue("type", "browser");
+  }, []);
   return (
     <div>
       <h1>浏览器配置</h1>
       <div className="flex flex-col h-full w-full px-2">
-        <ZForm
+        {/* <ZForm
           form={form}
           handleSubmit={(values) => {
             createBrowserMutation.mutate({
@@ -42,71 +43,54 @@ function RouteComponent() {
               body: {
                 ...values,
               },
-            })
+            });
           }}
           className="space-y-2"
-        >
-          <FormField
-            control={form.control}
-            name="type"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>type</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="type" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>title</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="title" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        > */}
+        {/* <FormField
+          control={form.control}
+          name="type"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>type</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="type" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        /> */}
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>title</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="title" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <FormField
-            control={form.control}
-            name="content"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>content</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="content" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <FormField
+          control={form.control}
+          name="content"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>content</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="content" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <EditFormToolbar form={form} />
-          {/* {form.formState.errors && (
-            <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
-          )} */}
-        </ZForm>
+        {/* <EditFormToolbar form={form} />
+        </ZForm> */}
       </div>
     </div>
-  )
+  );
 }
-
-const ControllerPlus = ({ control, transform, name, defaultValue }) => (
-  <Controller
-    defaultValue={defaultValue}
-    control={control}
-    name={name}
-    render={({ field }) => (
-      <input
-        onChange={(e) => field.onChange(transform.output(e))}
-        value={transform.input(field.value)}
-      />
-    )}
-  />
-)
