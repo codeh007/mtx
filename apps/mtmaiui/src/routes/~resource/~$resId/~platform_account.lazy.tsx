@@ -4,13 +4,14 @@ import { workflowRunCreateMutation } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import { useTenantId } from "../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
+import { ChatClient } from "../../~play/~chat/chat/Chat.client";
 
 export const Route = createLazyFileRoute("/resource/$resId/platform_account")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const resId = Route.useParams();
+  const { resId } = Route.useParams();
   const trigger = useMutation({
     ...workflowRunCreateMutation(),
   });
@@ -31,7 +32,6 @@ function RouteComponent() {
   const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
   return (
     <div>
-      <h1>账号</h1>
       <Button
         onClick={() => {
           handleHumanInput({
@@ -40,8 +40,11 @@ function RouteComponent() {
           });
         }}
       >
-        运行 FlowPlatformAccount
+        运行platform_account
       </Button>
+      <div>
+        <ChatClient />
+      </div>
     </div>
   );
 }

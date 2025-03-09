@@ -35,11 +35,11 @@ export async function submitMessages(
   const messages = get().messages;
   const teamId = get().teamId;
   let threadId = get().threadId;
+  const resourceId = get().resourceId;
   const content = messages[messages.length - 1].content;
 
   if (!threadId) {
     threadId = generateUUID();
-
     set({ threadId: threadId });
   }
   const response = await workflowRunCreate({
@@ -52,6 +52,9 @@ export async function submitMessages(
         content: content,
         teamId: teamId,
         sessionId: threadId,
+        topic: "default",
+        source: "web",
+        resourceId: resourceId,
       } satisfies AgentRunInput,
       additionalMetadata: {
         sessionId: threadId,

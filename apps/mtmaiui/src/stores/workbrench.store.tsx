@@ -106,9 +106,9 @@ export interface WorkbrenchState extends WorkbenchProps {
   resource?: string;
   setResource: (resource: string) => void;
   resourceId?: string;
+  setResourceId: (resourceId: string) => void;
   selectedModelId?: string;
   setSelectedModelId: (selectedModelId: string) => void;
-  setResourceId: (resourceId: string) => void;
   chatStarted?: boolean;
   setChatStarted: (chatStarted: boolean) => void;
   messages: ChatMessage[];
@@ -181,6 +181,8 @@ export const createWorkbrenchSlice: StateCreator<
         role: "user",
         content: content,
         resourceId,
+        topic: "default",
+        source: "web",
         metadata: {
           id: generateUUID(),
           createdAt: new Date().toISOString(),
@@ -188,6 +190,7 @@ export const createWorkbrenchSlice: StateCreator<
         },
       } as ChatMessage;
       set({ messages: [...preMessages, newChatMessage] });
+      set({ resourceId });
       submitMessages(set, get);
     }, 100),
     setMessages: (messages) => set({ messages }),
