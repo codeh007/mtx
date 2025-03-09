@@ -1654,15 +1654,13 @@ export type CommonResult = {
   Message: string;
 };
 
-/**
- * 单个聊天消息
- */
 export type ChatMessage = {
   metadata: ApiResourceMeta;
   role: string;
   content: string;
   source?: string;
   topic: string;
+  resourceId?: string;
   config?: {
     message_type?: string;
     source?: string;

@@ -10,6 +10,13 @@ import { DashHeaders } from "../../components/DashHeaders";
 import { RootAppWrapper } from "../components/RootAppWrapper";
 export const Route = createLazyFileRoute("/workflows")({
   component: RouteComponent,
+
+  // loader: async () => {
+  //   // const queryClient = useQueryClient();
+  //   // return {
+  //   //   queryClient,
+  //   // };
+  // },
 });
 
 function RouteComponent() {

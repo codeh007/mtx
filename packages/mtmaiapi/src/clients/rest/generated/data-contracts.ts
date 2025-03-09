@@ -1404,13 +1404,13 @@ export interface CommonResult {
   Message: string;
 }
 
-/** 单个聊天消息 */
 export interface ChatMessage {
   metadata: APIResourceMeta;
   role: string;
   content: string;
   source?: string;
   topic: string;
+  resourceId?: string;
   config?: {
     message_type?: string;
     source?: string;

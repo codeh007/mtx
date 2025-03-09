@@ -1399,6 +1399,7 @@ export const zChatMessage = z.object({
   content: z.string(),
   source: z.string().optional(),
   topic: z.string(),
+  resourceId: z.string().optional(),
   config: z
     .object({
       message_type: z.string().optional(),

@@ -4,17 +4,19 @@ import { type PlatformAccount, platformAccountListOptions } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
+import { useTenantId } from "../../hooks/useAuth";
 
 export const Route = createLazyFileRoute("/platform-account/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const tid = useTenantId();
   const query = useSuspenseQuery({
     ...platformAccountListOptions({
-      // path: {
-      // 	tenant: tenant!.metadata.id,
-      // },
+      path: {
+        tenant: tid,
+      },
     }),
   });
   return (
@@ -30,7 +32,7 @@ function RouteComponent() {
       <div>
         {/* 响应式列表视图 */}
         {query.data?.rows?.map((item) => (
-          <PlatformAccountListItem key={item.metadata.id} item={item} />
+          <PlatformAccountListItem key={item.metadata?.id} item={item} />
         ))}
       </div>
     </div>
@@ -38,5 +40,5 @@ function RouteComponent() {
 }
 
 function PlatformAccountListItem({ item }: { item: PlatformAccount }) {
-  return <div>{item.metadata.id}</div>;
+  return <div>{item.metadata?.id}</div>;
 }

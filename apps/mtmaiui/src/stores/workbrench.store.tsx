@@ -175,11 +175,12 @@ export const createWorkbrenchSlice: StateCreator<
       set({ openChat });
     },
 
-    handleHumanInput: debounce(async ({ content, resource, resourceId }) => {
+    handleHumanInput: debounce(async ({ content, resourceId }) => {
       const preMessages = get().messages;
       const newChatMessage = {
         role: "user",
         content: content,
+        resourceId,
         metadata: {
           id: generateUUID(),
           createdAt: new Date().toISOString(),

@@ -1,4 +1,5 @@
 "use client";
+import type { QueryClient } from "@tanstack/react-query";
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { UserFAB } from "../components/UserFAB";
@@ -7,6 +8,7 @@ import { NotFound } from "../components/notFound";
 
 interface MyRouterContext {
   tid: string;
+  queryClient: QueryClient;
 }
 
 // Use the routerContext to create your root route

@@ -2932,7 +2932,7 @@ export const CommonResultSchema = {
 } as const;
 
 export const ChatMessageSchema = {
-  description: "单个聊天消息",
+  required: ["metadata", "role", "content", "topic"],
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -2949,6 +2949,9 @@ export const ChatMessageSchema = {
     topic: {
       type: "string",
     },
+    resourceId: {
+      type: "string",
+    },
     config: {
       properties: {
         message_type: {
@@ -2960,7 +2963,6 @@ export const ChatMessageSchema = {
       },
     },
   },
-  required: ["metadata", "role", "content", "topic"],
 } as const;
 
 export const ChatMessageListSchema = {
