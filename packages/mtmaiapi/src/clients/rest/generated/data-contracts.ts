@@ -1605,6 +1605,7 @@ export interface Artifact {
 
 export interface AgentRunInput {
   teamId?: string;
+  teamName?: string;
   sessionId?: string;
   content: string;
   tenantId?: string;
@@ -1620,7 +1621,8 @@ export interface AgentRunInput {
     | PlatformAccountTask
     | BrowserData
     | PlatformAccountData
-    | InstagramTask;
+    | InstagramTask
+    | ChatSessionStartEvent;
 }
 
 export interface ChatHistoryList {
@@ -2724,4 +2726,10 @@ export interface BrowserData {
 export interface InstagramTask {
   resourceId?: string;
   content?: string;
+}
+
+export interface ChatSessionStartEvent {
+  type?: string;
+  threadId?: string;
+  source?: string;
 }

@@ -1880,6 +1880,7 @@ export type Artifact = {
 
 export type AgentRunInput = {
   teamId?: string;
+  teamName?: string;
   sessionId?: string;
   content: string;
   tenantId?: string;
@@ -1895,7 +1896,8 @@ export type AgentRunInput = {
     | PlatformAccountTask
     | BrowserData
     | PlatformAccountData
-    | InstagramTask;
+    | InstagramTask
+    | ChatSessionStartEvent;
 };
 
 export type ChatHistoryList = {
@@ -3329,6 +3331,12 @@ export type BrowserData = {
 export type InstagramTask = {
   resourceId?: string;
   content?: string;
+};
+
+export type ChatSessionStartEvent = {
+  type?: string;
+  threadId?: string;
+  source?: string;
 };
 
 export type ReadinessGetData = {

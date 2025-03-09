@@ -22,7 +22,7 @@ function RouteComponent() {
   const handleRunWorkflow = () => {
     trigger.mutate({
       path: {
-        workflow: "instagram",
+        workflow: "resource",
       },
       body: {
         input: {

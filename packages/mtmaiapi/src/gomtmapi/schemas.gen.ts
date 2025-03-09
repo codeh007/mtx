@@ -3317,6 +3317,9 @@ export const AgentRunInputSchema = {
     teamId: {
       type: "string",
     },
+    teamName: {
+      type: "string",
+    },
     sessionId: {
       type: "string",
     },
@@ -3356,9 +3359,6 @@ export const AgentRunInputSchema = {
           $ref: "#/components/schemas/PlatformAccountTask",
         },
         {
-          $ref: "#/components/schemas/CodeWritingTask",
-        },
-        {
           $ref: "#/components/schemas/PlatformAccountTask",
         },
         {
@@ -3369,6 +3369,9 @@ export const AgentRunInputSchema = {
         },
         {
           $ref: "#/components/schemas/InstagramTask",
+        },
+        {
+          $ref: "#/components/schemas/ChatSessionStartEvent",
         },
       ],
     },
@@ -6113,6 +6116,20 @@ export const InstagramTaskSchema = {
       type: "string",
     },
     content: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const ChatSessionStartEventSchema = {
+  properties: {
+    type: {
+      type: "string",
+    },
+    threadId: {
+      type: "string",
+    },
+    source: {
       type: "string",
     },
   },

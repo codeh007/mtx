@@ -1,7 +1,6 @@
 "use client";
 
 // import { type Any, anyPack, anyIs } from "@bufbuild/protobuf/wkt";
-import { create, createRegistry } from "@bufbuild/protobuf";
 import type { GenMessage } from "@bufbuild/protobuf/codegenv1";
 import {
   type AgentRunInput,
@@ -9,16 +8,15 @@ import {
   FlowNames,
   workflowRunCreate,
 } from "mtmaiapi";
-import { CloudEventSchema } from "mtmaiapi/mtmclient/mtmai/mtmpb/cloudevent_pb";
 import {
   ResourceEventType,
   type WorkflowEvent,
 } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
-import { ChatSessionStartEventSchema } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
+// import { ChatSessionStartEventSchema } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
 import { generateUUID } from "mtxuilib/lib/utils";
 import type { AgTextMessage } from "../types/event";
 import type { WorkbrenchState } from "./workbrench.store";
-const registry = createRegistry(CloudEventSchema, ChatSessionStartEventSchema);
+// const registry = createRegistry(CloudEventSchema, ChatSessionStartEventSchema);
 export async function submitMessages(
   set: (
     partial:
@@ -141,26 +139,27 @@ const onStreamEvent = (
   }
   console.log("payload", payload);
 
-  if (isMatchPbSchema(payload, ChatSessionStartEventSchema)) {
-    const chatSessionStart = create(ChatSessionStartEventSchema, payload);
-    console.log("chatSessionStart", chatSessionStart);
-    get().setThreadId(chatSessionStart.threadId);
-  } else {
-    const agTextMessage = payload as AgTextMessage;
-    if (agTextMessage.source === "user") {
-      return;
-    }
-    const newChatMessage = {
-      role: agTextMessage.source,
-      content: agTextMessage.content,
-      metadata: {
-        id: generateUUID(),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
-    };
-    get().addMessage(newChatMessage);
+  // if (isMatchPbSchema(payload, ChatSessionStartEventSchema)) {
+  //   const chatSessionStart = create(ChatSessionStartEventSchema, payload);
+  //   console.log("chatSessionStart", chatSessionStart);
+  //   get().setThreadId(chatSessionStart.threadId);
+  // } else {
+  const agTextMessage = payload as AgTextMessage;
+  if (agTextMessage.source === "user") {
+    return;
   }
+  const newChatMessage = {
+    role: agTextMessage.source,
+    content: agTextMessage.content,
+    topic: "default",
+    metadata: {
+      id: generateUUID(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+  };
+  get().addMessage(newChatMessage);
+  // }
 };
 
 function isMatchPbSchema(
@@ -202,6 +201,7 @@ const graphEventHandler = async (
             // role: event.source || "assistant",
             role: "assistant", // 暂时全部设置为 assistant, 原因是 assisant ui ,仅支持 user + assisant
             content: event.content,
+            topic: "default",
             metadata: {
               id: generateUUID(),
               createdAt: new Date().toISOString(),
@@ -230,6 +230,7 @@ const graphEventHandler = async (
             {
               role: "assistant",
               content: event.content,
+              topic: "default",
               metadata: {
                 id: generateUUID(),
                 createdAt: new Date().toISOString(),

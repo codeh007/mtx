@@ -1551,6 +1551,7 @@ export const zArtifact = z.object({
 
 export const zAgentRunInput = z.object({
   teamId: z.string().optional(),
+  teamName: z.string().optional(),
   sessionId: z.string().optional(),
   content: z.string(),
   tenantId: z.string().optional(),
@@ -1591,6 +1592,11 @@ export const zAgentRunInput = z.object({
       z.object({
         resourceId: z.string().optional(),
         content: z.string().optional(),
+      }),
+      z.object({
+        type: z.string().optional(),
+        threadId: z.string().optional(),
+        source: z.string().optional(),
       }),
     ])
     .optional(),
@@ -2826,6 +2832,12 @@ export const zBrowserData = z.object({
 export const zInstagramTask = z.object({
   resourceId: z.string().optional(),
   content: z.string().optional(),
+});
+
+export const zChatSessionStartEvent = z.object({
+  type: z.string().optional(),
+  threadId: z.string().optional(),
+  source: z.string().optional(),
 });
 
 export const zMetadataGetResponse = zApiMeta;

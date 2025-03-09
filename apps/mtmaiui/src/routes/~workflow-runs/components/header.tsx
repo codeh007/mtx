@@ -12,6 +12,7 @@ import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { formatDuration } from "date-fns";
 import {
+  type WorkflowRunShape,
   WorkflowRunStatus,
   eventGetOptions,
   workflowRunCancelMutation,
@@ -23,7 +24,6 @@ import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useTenant, useTenantId } from "../../../hooks/useAuth";
-import type { WorkflowRunShape } from "../../../types/hatchet-types";
 
 interface RunDetailHeaderProps {
   data?: WorkflowRunShape;
