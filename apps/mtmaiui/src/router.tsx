@@ -27,7 +27,7 @@ export function createRouter() {
     defaultPreload: "intent",
     defaultStaleTime: 5000,
     context: {
-      head: "",
+      tid: "",
     },
     // transformer: SuperJSON,
     history: createAppRouter("memory"),

@@ -1,10 +1,18 @@
 "use client";
-import { Outlet, createRootRoute } from "@tanstack/react-router";
+import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { UserFAB } from "../components/UserFAB";
 import { NotFound } from "../components/notFound";
 // import appCss from "../styles/app.css?url"
-export const Route = createRootRoute({
+
+interface MyRouterContext {
+  tid: string;
+}
+
+// Use the routerContext to create your root route
+export const Route = createRootRouteWithContext<MyRouterContext>()({
+  component: RootComponent,
+  notFoundComponent: NotFound,
   head: () => ({
     meta: [
       {
@@ -15,7 +23,7 @@ export const Route = createRootRoute({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "TanStack Start Starter",
+        title: "MtmAI UI",
       },
     ],
     // links: [
@@ -25,9 +33,32 @@ export const Route = createRootRoute({
     //   },
     // ],
   }),
-  component: RootComponent,
-  notFoundComponent: NotFound,
 });
+
+// export const Route = createRootRoute({
+//   head: () => ({
+//     meta: [
+//       {
+//         charSet: "utf-8",
+//       },
+//       {
+//         name: "viewport",
+//         content: "width=device-width, initial-scale=1",
+//       },
+//       {
+//         title: "TanStack Start Starter",
+//       },
+//     ],
+//     // links: [
+//     //   {
+//     //     rel: "stylesheet",
+//     //     href: appCss,
+//     //   },
+//     // ],
+//   }),
+//   component: RootComponent,
+//   notFoundComponent: NotFound,
+// });
 
 function RootComponent() {
   return (

@@ -1,4 +1,6 @@
 "use client";
+import { useRouterState } from "@tanstack/react-router";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { cn } from "mtxuilib/lib/utils";
 import { Separator } from "mtxuilib/ui/separator";
 import { Suspense } from "react";
@@ -9,6 +11,15 @@ interface DashHeadersProps {
   children?: React.ReactNode;
 }
 export const DashHeaders = (props: DashHeadersProps) => {
+  const matches = useRouterState({ select: (s) => s.matches });
+  const breadcrumbs = matches
+    .filter((match) => match.context.getTitle)
+    .map(({ pathname, context }) => {
+      return {
+        title: context.getTitle(),
+        path: pathname,
+      };
+    });
   return (
     <Suspense fallback={<>loading...</>}>
       <header
@@ -23,6 +34,7 @@ export const DashHeaders = (props: DashHeadersProps) => {
         <SidebarToggle className="-ml-1" />
         <Separator orientation="vertical" className="mr-2 h-4" />
         {props.children}
+        <DebugValue data={{ matches, breadcrumbs }} />
       </header>
     </Suspense>
   );

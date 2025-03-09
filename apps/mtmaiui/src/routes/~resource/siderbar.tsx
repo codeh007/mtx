@@ -1,10 +1,10 @@
 "use client";
 
 import { Label } from "@radix-ui/react-dropdown-menu";
-import { Switch } from "@radix-ui/react-switch";
+// import { Switch } from "@radix-ui/react-switch";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { MtResource, resourceListOptions } from "mtmaiapi";
+import { type MtResource, resourceListOptions } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
@@ -18,6 +18,7 @@ import {
   useSidebar,
 } from "mtxuilib/ui/sidebar";
 
+import { Switch } from "mtxuilib/ui/switch";
 import { useMemo } from "react";
 import { useTenantId } from "../../hooks/useAuth";
 
@@ -52,7 +53,9 @@ export function NavResource() {
       <SidebarContent>
         <SidebarGroup className="px-0">
           <SidebarGroupContent>
-            {platformAccountQuery.data?.rows?.map((item) => <NavResourceItem key={item.metadata?.id} item={item}/>)}
+            {platformAccountQuery.data?.rows?.map((item) => (
+              <NavResourceItem key={item.metadata?.id} item={item} />
+            ))}
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
@@ -60,25 +63,26 @@ export function NavResource() {
   );
 }
 
-
-const NavResourceItem = ({item}: {item: MtResource}) => {
-  const linkTo  = useMemo(() => {
-    return `${item.metadata?.id}/${item.type || ''}`
-  }, [item.metadata?.id, item.type])
-  return <>
-  <CustomLink
-                to={linkTo}
-                key={item.metadata?.id}
-                className="flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-              >
-                <div className="flex w-full items-center gap-2">
-                  <span>{item.title}</span>{" "}
-                  {/* <span className="ml-auto text-xs">{chat.createdAt}</span> */}
-                </div>
-                <span className="font-medium">{item.title}</span>
-                <span className="line-clamp-2 w-[260px] whitespace-break-spaces text-xs">
-                  {item.title || item.metadata?.id}
-                </span>
-              </CustomLink>
-              </>;
+const NavResourceItem = ({ item }: { item: MtResource }) => {
+  const linkTo = useMemo(() => {
+    return `${item.metadata?.id}/${item.type || ""}`;
+  }, [item.metadata?.id, item.type]);
+  return (
+    <>
+      <CustomLink
+        to={linkTo}
+        key={item.metadata?.id}
+        className="flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+      >
+        <div className="flex w-full items-center gap-2">
+          <span>{item.title}</span>{" "}
+          {/* <span className="ml-auto text-xs">{chat.createdAt}</span> */}
+        </div>
+        <span className="font-medium">{item.title}</span>
+        <span className="line-clamp-2 w-[260px] whitespace-break-spaces text-xs">
+          {item.title || item.metadata?.id}
+        </span>
+      </CustomLink>
+    </>
+  );
 };

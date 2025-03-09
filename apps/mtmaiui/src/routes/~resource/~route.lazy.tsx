@@ -1,6 +1,16 @@
-import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
+import {
+  Outlet,
+  createLazyFileRoute,
+  useRouterState,
+} from "@tanstack/react-router";
 
-import { SidebarProvider } from "mtxuilib/ui/sidebar";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+} from "mtxuilib/ui/breadcrumb";
+import { DashHeaders } from "../../components/DashHeaders";
 import { RootAppWrapper } from "../components/RootAppWrapper";
 import { NavResource } from "./siderbar";
 
@@ -9,18 +19,27 @@ export const Route = createLazyFileRoute("/resource")({
 });
 
 function RouteComponent() {
+  const matches = useRouterState({ select: (s) => s.matches });
+  const breadcrumbs = matches
+    .filter((match) => match.context.getTitle)
+    .map(({ pathname, context }) => {
+      return {
+        title: context.getTitle(),
+        path: pathname,
+      };
+    });
   return (
-    <SidebarProvider
-      className="min-h-none"
-      style={
-        {
-          "--sidebar-width": "350px", //如果需要左侧双侧边栏 就设置为 350px
-        } as React.CSSProperties
-      }
-    >
-      <RootAppWrapper secondSidebar={<NavResource />}>
-        <Outlet />
-      </RootAppWrapper>
-    </SidebarProvider>
+    <RootAppWrapper secondSidebar={<NavResource />}>
+      <DashHeaders>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbPage>资源</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </DashHeaders>
+      <Outlet />
+    </RootAppWrapper>
   );
 }
