@@ -1885,6 +1885,10 @@ export type AgentRunInput = {
   tenantId?: string;
   runId?: string;
   stepRunId?: string;
+  resourceId?: string;
+  source?: string;
+  topic?: string;
+  other?: CodeWritingTask | CodeWritingResult | MyMessage;
 };
 
 export type ChatHistoryList = {
@@ -3282,6 +3286,20 @@ export type MtResourceList = {
 };
 
 export type MtResourceUpsert = ApiResourceMetaProperties & MtResourceProperties;
+
+export type CodeWritingTask = {
+  task?: string;
+};
+
+export type CodeWritingResult = {
+  task?: string;
+  code?: string;
+  review?: string;
+};
+
+export type MyMessage = {
+  content?: string;
+};
 
 export type ReadinessGetData = {
   body?: never;

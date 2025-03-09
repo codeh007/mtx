@@ -1556,6 +1556,24 @@ export const zAgentRunInput = z.object({
   tenantId: z.string().optional(),
   runId: z.string().optional(),
   stepRunId: z.string().optional(),
+  resourceId: z.string().optional(),
+  source: z.string().optional(),
+  topic: z.string().optional(),
+  other: z
+    .union([
+      z.object({
+        task: z.string().optional(),
+      }),
+      z.object({
+        task: z.string().optional(),
+        code: z.string().optional(),
+        review: z.string().optional(),
+      }),
+      z.object({
+        content: z.string().optional(),
+      }),
+    ])
+    .optional(),
 });
 
 export const zChatHistoryList = z.object({
@@ -2751,6 +2769,20 @@ export const zMtResourceList = z.object({
 export const zMtResourceUpsert = zApiResourceMetaProperties.merge(
   zMtResourceProperties,
 );
+
+export const zCodeWritingTask = z.object({
+  task: z.string().optional(),
+});
+
+export const zCodeWritingResult = z.object({
+  task: z.string().optional(),
+  code: z.string().optional(),
+  review: z.string().optional(),
+});
+
+export const zMyMessage = z.object({
+  content: z.string().optional(),
+});
 
 export const zMetadataGetResponse = zApiMeta;
 

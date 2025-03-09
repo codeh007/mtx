@@ -3332,6 +3332,28 @@ export const AgentRunInputSchema = {
     stepRunId: {
       type: "string",
     },
+    resourceId: {
+      type: "string",
+    },
+    source: {
+      type: "string",
+    },
+    topic: {
+      type: "string",
+    },
+    other: {
+      oneOf: [
+        {
+          $ref: "#/components/schemas/CodeWritingTask",
+        },
+        {
+          $ref: "#/components/schemas/CodeWritingResult",
+        },
+        {
+          $ref: "#/components/schemas/MyMessage",
+        },
+      ],
+    },
   },
 } as const;
 
@@ -5987,4 +6009,34 @@ export const MtResourceUpsertSchema = {
       $ref: "#/components/schemas/MtResourceProperties",
     },
   ],
+} as const;
+
+export const CodeWritingTaskSchema = {
+  properties: {
+    task: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const CodeWritingResultSchema = {
+  properties: {
+    task: {
+      type: "string",
+    },
+    code: {
+      type: "string",
+    },
+    review: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const MyMessageSchema = {
+  properties: {
+    content: {
+      type: "string",
+    },
+  },
 } as const;

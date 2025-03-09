@@ -1610,6 +1610,10 @@ export interface AgentRunInput {
   tenantId?: string;
   runId?: string;
   stepRunId?: string;
+  resourceId?: string;
+  source?: string;
+  topic?: string;
+  other?: CodeWritingTask | CodeWritingResult | MyMessage;
 }
 
 export interface ChatHistoryList {
@@ -2677,3 +2681,17 @@ export interface MtResourceList {
 }
 
 export type MtResourceUpsert = APIResourceMetaProperties & MtResourceProperties;
+
+export interface CodeWritingTask {
+  task?: string;
+}
+
+export interface CodeWritingResult {
+  task?: string;
+  code?: string;
+  review?: string;
+}
+
+export interface MyMessage {
+  content?: string;
+}
