@@ -200,6 +200,9 @@ export const createWorkbrenchSlice: StateCreator<
     setThreadId: (threadId) => {
       set({ threadId });
     },
+    setResourceId: (resourceId) => {
+      set({ resourceId });
+    },
 
     setChatStarted: (chatStarted: boolean) => {
       set({ chatStarted });

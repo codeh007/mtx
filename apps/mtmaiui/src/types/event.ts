@@ -3,8 +3,8 @@ export interface MtEventMessage {
   payload: any;
 }
 
-
 export interface AgTextMessage {
   source: string;
   content: string;
+  type: string;
 }
