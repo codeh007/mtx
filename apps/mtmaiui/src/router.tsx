@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-router";
 // import SuperJSON from "superjson";
 
+import { getQueryClient } from "./lib/get-query-client";
 import { routeTree } from "./routeTree.gen";
 
 export type RouterMode = "memory" | "browser" | "hash";
@@ -21,6 +22,7 @@ export function createAppRouter(mode: RouterMode = "memory") {
       return createHashHistory();
   }
 }
+const queryClient = getQueryClient();
 export function createRouter() {
   const router = createTanstackRouter({
     routeTree,
@@ -28,6 +30,7 @@ export function createRouter() {
     defaultStaleTime: 5000,
     context: {
       tid: "",
+      queryClient: queryClient,
     },
     // transformer: SuperJSON,
     history: createAppRouter("memory"),
