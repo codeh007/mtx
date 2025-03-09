@@ -3,6 +3,7 @@ import { RouterProvider } from "@tanstack/react-router";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { useMemo } from "react";
 import { createRoot } from "react-dom/client";
+import { getQueryClient } from "./lib/get-query-client";
 import { createRouter } from "./router";
 
 export function App() {
@@ -10,9 +11,14 @@ export function App() {
     return createRouter();
   }, []);
 
+  const ctx = {
+    tid: "",
+    queryClient: getQueryClient(),
+  };
+
   return (
     <MtSuspenseBoundary>
-      <RouterProvider router={mainRouter} />
+      <RouterProvider router={mainRouter} context={ctx} />
     </MtSuspenseBoundary>
   );
 }
