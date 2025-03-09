@@ -166,6 +166,7 @@ export const ChatImpl = memo((props: ChatProps) => {
     // ]);
   };
 
+  const resourceId = useWorkbenchStore((x) => x.resourceId);
   const sendMessage = async (messageInput?: string) => {
     // console.log("sendMessage", messageInput, input);
     const _input = messageInput || input;
@@ -173,7 +174,7 @@ export const ChatImpl = memo((props: ChatProps) => {
     if (!_input) {
       return;
     }
-    handleHumanInput({ content: _input });
+    handleHumanInput({ content: _input, resourceId });
     runAnimation();
     setInput("");
     resetEnhancer();

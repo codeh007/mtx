@@ -139,6 +139,7 @@ const onStreamEvent = (
     };
     get().addMessage(newChatMessage);
   } else {
+    console.log("AgTextMessage", payload);
     const agTextMessage = payload as AgTextMessage;
     if (agTextMessage.source === "user") {
       return;
