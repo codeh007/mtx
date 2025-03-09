@@ -23,8 +23,8 @@ function RouteComponent() {
   }, [resId, setResourceId]);
   return (
     <>
-      threadId:{threadId}
-      resourceId:{resourceId}
+      {/* threadId:{threadId} */}
+      {/* resourceId:{resourceId} */}
       <ChatClient />
     </>
   );

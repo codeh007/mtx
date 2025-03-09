@@ -23,7 +23,7 @@ function RouteComponent() {
   }, [resId, setResourceId]);
   return (
     <>
-      resourceId:{resourceId}
+      {/* resourceId:{resourceId} */}
       <Outlet />
     </>
   );

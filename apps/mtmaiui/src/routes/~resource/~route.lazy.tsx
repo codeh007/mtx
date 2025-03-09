@@ -8,13 +8,6 @@ import { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
 import { AgentRpc } from "mtmaiapi/mtmclient/mtmai/mtmpb/agent_worker_pb";
 import { Dispatcher } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
 import { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-} from "mtxuilib/ui/breadcrumb";
-import { DashHeaders } from "../../components/DashHeaders";
 import { useTenant } from "../../hooks/useAuth";
 import { useMtmaiV2 } from "../../stores/StoreProvider";
 import { useGomtmClient } from "../../stores/TransportProvider";
@@ -62,7 +55,7 @@ function RouteComponent() {
       nav={nav}
     >
       <RootAppWrapper secondSidebar={<NavResource />}>
-        <DashHeaders>
+        {/* <DashHeaders>
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
@@ -70,7 +63,7 @@ function RouteComponent() {
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
-        </DashHeaders>
+        </DashHeaders> */}
         <Outlet />
       </RootAppWrapper>
     </WorkbrenchProvider>
