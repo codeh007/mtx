@@ -1613,7 +1613,14 @@ export interface AgentRunInput {
   resourceId?: string;
   source?: string;
   topic?: string;
-  other?: CodeWritingTask | CodeWritingResult | MyMessage;
+  other?:
+    | CodeWritingTask
+    | CodeWritingResult
+    | MyMessage
+    | PlatformAccountTask
+    | BrowserData
+    | PlatformAccountData
+    | InstagramTask;
 }
 
 export interface ChatHistoryList {
@@ -2660,16 +2667,15 @@ export interface AssignedAction {
 export interface MtResourceProperties {
   /** The resource title */
   title: string;
-  /** The resource type */
-  type: string;
-  /** The resource content */
-  content?: any;
   /** The resource description */
   description?: string;
   /** The resource version */
   version?: string;
   /** The resource url */
   url?: string;
+  /** The resource type */
+  type: string;
+  content?: Record<string, any>;
 }
 
 export type MtResource = APIResourceMetaProperties & MtResourceProperties;
@@ -2693,5 +2699,29 @@ export interface CodeWritingResult {
 }
 
 export interface MyMessage {
+  content?: string;
+}
+
+export interface PlatformAccountTask {
+  id?: string;
+  task?: string;
+}
+
+export interface PlatformAccountData {
+  type?: "platform_account";
+  email?: string;
+  password?: string;
+  username?: string;
+  api_token?: string;
+}
+
+export interface BrowserData {
+  type?: "browser";
+  cookies?: string;
+  session?: string;
+}
+
+export interface InstagramTask {
+  resourceId?: string;
   content?: string;
 }

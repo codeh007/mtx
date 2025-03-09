@@ -3342,7 +3342,7 @@ export const AgentRunInputSchema = {
       type: "string",
     },
     other: {
-      oneOf: [
+      anyOf: [
         {
           $ref: "#/components/schemas/CodeWritingTask",
         },
@@ -3351,6 +3351,24 @@ export const AgentRunInputSchema = {
         },
         {
           $ref: "#/components/schemas/MyMessage",
+        },
+        {
+          $ref: "#/components/schemas/PlatformAccountTask",
+        },
+        {
+          $ref: "#/components/schemas/CodeWritingTask",
+        },
+        {
+          $ref: "#/components/schemas/PlatformAccountTask",
+        },
+        {
+          $ref: "#/components/schemas/BrowserData",
+        },
+        {
+          $ref: "#/components/schemas/PlatformAccountData",
+        },
+        {
+          $ref: "#/components/schemas/InstagramTask",
         },
       ],
     },
@@ -5950,13 +5968,6 @@ export const MtResourcePropertiesSchema = {
       type: "string",
       description: "The resource title",
     },
-    type: {
-      type: "string",
-      description: "The resource type",
-    },
-    content: {
-      description: "The resource content",
-    },
     description: {
       type: "string",
       description: "The resource description",
@@ -5968,6 +5979,14 @@ export const MtResourcePropertiesSchema = {
     url: {
       type: "string",
       description: "The resource url",
+    },
+    type: {
+      type: "string",
+      description: "The resource type",
+    },
+    content: {
+      type: "object",
+      additionalProperties: true,
     },
   },
 } as const;
@@ -6035,6 +6054,64 @@ export const CodeWritingResultSchema = {
 
 export const MyMessageSchema = {
   properties: {
+    content: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const PlatformAccountTaskSchema = {
+  properties: {
+    id: {
+      type: "string",
+    },
+    task: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const PlatformAccountDataSchema = {
+  properties: {
+    type: {
+      type: "string",
+      enum: ["platform_account"],
+    },
+    email: {
+      type: "string",
+    },
+    password: {
+      type: "string",
+    },
+    username: {
+      type: "string",
+    },
+    api_token: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const BrowserDataSchema = {
+  properties: {
+    type: {
+      type: "string",
+      enum: ["browser"],
+    },
+    cookies: {
+      type: "string",
+    },
+    session: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const InstagramTaskSchema = {
+  properties: {
+    resourceId: {
+      type: "string",
+    },
     content: {
       type: "string",
     },

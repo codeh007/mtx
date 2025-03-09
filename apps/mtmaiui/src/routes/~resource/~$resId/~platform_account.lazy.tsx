@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { workflowRunCreateMutation } from "mtmaiapi";
+import { type InstagramTask, workflowRunCreateMutation } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import { useTenantId } from "../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
@@ -16,32 +16,41 @@ function RouteComponent() {
     ...workflowRunCreateMutation(),
   });
   const tid = useTenantId();
-  const triggerFlow = () => {
-    console.log("triggerFlow");
+
+  const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
+
+  const handleRunWorkflow = () => {
     trigger.mutate({
       path: {
-        workflow: "platform_account",
+        workflow: "instagram",
       },
       body: {
-        input: {},
+        input: {
+          content: "你好",
+          resourceId: resId,
+        } satisfies InstagramTask,
+
         // additionalMetadata: addlMetaObj,
       },
     });
   };
 
-  const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
   return (
     <div>
-      <Button
-        onClick={() => {
-          handleHumanInput({
-            content: "运行这个资源",
-            resourceId: resId,
-          });
-        }}
-      >
-        运行platform_account
-      </Button>
+      <div className="flex flex-row gap-2">
+        <Button
+          onClick={() => {
+            handleHumanInput({
+              content: "运行这个资源",
+              resourceId: resId,
+            });
+          }}
+        >
+          运行platform_account
+        </Button>
+
+        <Button onClick={handleRunWorkflow}>运行工作流</Button>
+      </div>
       <div>
         <ChatClient />
       </div>

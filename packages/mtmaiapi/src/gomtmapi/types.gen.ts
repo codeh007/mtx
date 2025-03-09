@@ -1888,7 +1888,14 @@ export type AgentRunInput = {
   resourceId?: string;
   source?: string;
   topic?: string;
-  other?: CodeWritingTask | CodeWritingResult | MyMessage;
+  other?:
+    | CodeWritingTask
+    | CodeWritingResult
+    | MyMessage
+    | PlatformAccountTask
+    | BrowserData
+    | PlatformAccountData
+    | InstagramTask;
 };
 
 export type ChatHistoryList = {
@@ -3256,14 +3263,6 @@ export type MtResourceProperties = {
    */
   title: string;
   /**
-   * The resource type
-   */
-  type: string;
-  /**
-   * The resource content
-   */
-  content?: unknown;
-  /**
    * The resource description
    */
   description?: string;
@@ -3275,6 +3274,13 @@ export type MtResourceProperties = {
    * The resource url
    */
   url?: string;
+  /**
+   * The resource type
+   */
+  type: string;
+  content?: {
+    [key: string]: unknown;
+  };
 };
 
 export type MtResource = ApiResourceMetaProperties & MtResourceProperties;
@@ -3298,6 +3304,30 @@ export type CodeWritingResult = {
 };
 
 export type MyMessage = {
+  content?: string;
+};
+
+export type PlatformAccountTask = {
+  id?: string;
+  task?: string;
+};
+
+export type PlatformAccountData = {
+  type?: "platform_account";
+  email?: string;
+  password?: string;
+  username?: string;
+  api_token?: string;
+};
+
+export type BrowserData = {
+  type?: "browser";
+  cookies?: string;
+  session?: string;
+};
+
+export type InstagramTask = {
+  resourceId?: string;
   content?: string;
 };
 

@@ -1572,6 +1572,26 @@ export const zAgentRunInput = z.object({
       z.object({
         content: z.string().optional(),
       }),
+      z.object({
+        id: z.string().optional(),
+        task: z.string().optional(),
+      }),
+      z.object({
+        type: z.enum(["browser"]).optional(),
+        cookies: z.string().optional(),
+        session: z.string().optional(),
+      }),
+      z.object({
+        type: z.enum(["platform_account"]).optional(),
+        email: z.string().optional(),
+        password: z.string().optional(),
+        username: z.string().optional(),
+        api_token: z.string().optional(),
+      }),
+      z.object({
+        resourceId: z.string().optional(),
+        content: z.string().optional(),
+      }),
     ])
     .optional(),
 });
@@ -2749,11 +2769,11 @@ export const zAssignedAction = z.object({
 
 export const zMtResourceProperties = z.object({
   title: z.string(),
-  type: z.string(),
-  content: z.unknown().optional(),
   description: z.string().optional(),
   version: z.string().optional(),
   url: z.string().optional(),
+  type: z.string(),
+  content: z.object({}).optional(),
 });
 
 export const zMtResource = zApiResourceMetaProperties.merge(
@@ -2781,6 +2801,30 @@ export const zCodeWritingResult = z.object({
 });
 
 export const zMyMessage = z.object({
+  content: z.string().optional(),
+});
+
+export const zPlatformAccountTask = z.object({
+  id: z.string().optional(),
+  task: z.string().optional(),
+});
+
+export const zPlatformAccountData = z.object({
+  type: z.enum(["platform_account"]).optional(),
+  email: z.string().optional(),
+  password: z.string().optional(),
+  username: z.string().optional(),
+  api_token: z.string().optional(),
+});
+
+export const zBrowserData = z.object({
+  type: z.enum(["browser"]).optional(),
+  cookies: z.string().optional(),
+  session: z.string().optional(),
+});
+
+export const zInstagramTask = z.object({
+  resourceId: z.string().optional(),
   content: z.string().optional(),
 });
 
