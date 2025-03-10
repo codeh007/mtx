@@ -1944,40 +1944,6 @@ export const zOutline = z.object({
   ),
 });
 
-export const zAgentTaskStep = z.object({
-  metadata: zApiResourceMeta,
-  name: z.string(),
-  createAt: z.string(),
-  inputType: z.string().optional(),
-  input: z.string(),
-  output: z.string(),
-  isFinal: z.boolean().optional(),
-  reason: z.string(),
-});
-
-export const zAgentStep = z.object({
-  metadata: zApiResourceMeta,
-  Action: z.object({
-    Tool: z.string(),
-    ToolInput: z.string(),
-    Log: z.string(),
-    ToolID: z.string(),
-  }),
-  Observation: z.string(),
-});
-
-export const zAgentAction = z.object({
-  Tool: z.string(),
-  ToolInput: z.string(),
-  Log: z.string(),
-  ToolID: z.string(),
-});
-
-export const zAgentFinish = z.object({
-  ReturnValues: z.object({}),
-  Log: z.string(),
-});
-
 export const zAgentNodeCreateRequest = z.object({
   title: z.string().optional(),
   prompt: z.string(),

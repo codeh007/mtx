@@ -1905,54 +1905,6 @@ export interface Outline {
   sections: Section[];
 }
 
-/** 任务执行步骤 */
-export interface AgentTaskStep {
-  metadata: APIResourceMeta;
-  /** 工具名称 */
-  name: string;
-  /** 步骤启动时间 */
-  createAt: string;
-  /** 步骤输入类型(human,ai,tool) */
-  inputType?: string;
-  /** 步骤输入 */
-  input: string;
-  /** 步骤输出 */
-  output: string;
-  /** 是否是最终步骤 */
-  isFinal?: boolean;
-  /** 步骤执行原因 */
-  reason: string;
-}
-
-/** agent 执行步骤 */
-export interface AgentStep {
-  metadata: APIResourceMeta;
-  /** agent 执行动作 */
-  Action: AgentAction;
-  /** 步骤观察 */
-  Observation: string;
-}
-
-/** agent 执行动作 */
-export interface AgentAction {
-  /** 工具名称 */
-  Tool: string;
-  /** 工具输入 */
-  ToolInput: string;
-  /** 工具日志 */
-  Log: string;
-  /** 工具ID */
-  ToolID: string;
-}
-
-/** agent 完成 */
-export interface AgentFinish {
-  /** 返回值 */
-  ReturnValues: object;
-  /** 日志 */
-  Log: string;
-}
-
 /** 创建agent节点请求 */
 export interface AgentNodeCreateRequest {
   /** agent 节点名称, 或者作为工具名称 */
