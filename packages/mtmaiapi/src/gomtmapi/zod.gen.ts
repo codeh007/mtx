@@ -1601,6 +1601,7 @@ export const zAgentRunInput = z.object({
       z.object({
         content: z.string(),
         team: z.string(),
+        resourceId: z.string().optional(),
       }),
       z.object({
         reason: z.string().optional(),
@@ -1615,6 +1616,12 @@ export const zAgentRunInput = z.object({
         review: z.string(),
         session_id: z.string(),
         approved: z.boolean(),
+      }),
+      z.object({
+        content: z.string(),
+      }),
+      z.object({
+        url: z.string(),
       }),
     ])
     .optional(),
@@ -2827,6 +2834,7 @@ export const zChatSessionStartEvent = z.object({
 export const zTeamRunnerTask = z.object({
   content: z.string(),
   team: z.string(),
+  resourceId: z.string().optional(),
 });
 
 export const zTerminationMessage = z.object({
@@ -2844,6 +2852,14 @@ export const zCodeReviewResult = z.object({
   review: z.string(),
   session_id: z.string(),
   approved: z.boolean(),
+});
+
+export const zBrowserTask = z.object({
+  content: z.string(),
+});
+
+export const zBrowserOpenTask = z.object({
+  url: z.string(),
 });
 
 export const zMetadataGetResponse = zApiMeta;

@@ -1901,7 +1901,9 @@ export type AgentRunInput = {
     | TeamRunnerTask
     | TerminationMessage
     | CodeReviewTask
-    | CodeReviewResult;
+    | CodeReviewResult
+    | BrowserTask
+    | BrowserOpenTask;
 };
 
 export type ChatHistoryList = {
@@ -3261,6 +3263,7 @@ export type ChatSessionStartEvent = {
 export type TeamRunnerTask = {
   content: string;
   team: string;
+  resourceId?: string;
 };
 
 export type TerminationMessage = {
@@ -3278,6 +3281,20 @@ export type CodeReviewResult = {
   review: string;
   session_id: string;
   approved: boolean;
+};
+
+/**
+ * 浏览器(browser use)任务
+ */
+export type BrowserTask = {
+  content: string;
+};
+
+/**
+ * 打开浏览器备用,一般用于调试目的Open a browser and navigate to a URL.
+ */
+export type BrowserOpenTask = {
+  url: string;
 };
 
 export type ReadinessGetData = {

@@ -1626,7 +1626,9 @@ export interface AgentRunInput {
     | TeamRunnerTask
     | TerminationMessage
     | CodeReviewTask
-    | CodeReviewResult;
+    | CodeReviewResult
+    | BrowserTask
+    | BrowserOpenTask;
 }
 
 export interface ChatHistoryList {
@@ -2693,6 +2695,7 @@ export interface ChatSessionStartEvent {
 export interface TeamRunnerTask {
   content: string;
   team: string;
+  resourceId?: string;
 }
 
 export interface TerminationMessage {
@@ -2710,4 +2713,14 @@ export interface CodeReviewResult {
   review: string;
   session_id: string;
   approved: boolean;
+}
+
+/** 浏览器(browser use)任务 */
+export interface BrowserTask {
+  content: string;
+}
+
+/** 打开浏览器备用,一般用于调试目的Open a browser and navigate to a URL. */
+export interface BrowserOpenTask {
+  url: string;
 }

@@ -3359,9 +3359,6 @@ export const AgentRunInputSchema = {
           $ref: "#/components/schemas/PlatformAccountTask",
         },
         {
-          $ref: "#/components/schemas/PlatformAccountTask",
-        },
-        {
           $ref: "#/components/schemas/BrowserData",
         },
         {
@@ -3384,6 +3381,12 @@ export const AgentRunInputSchema = {
         },
         {
           $ref: "#/components/schemas/CodeReviewResult",
+        },
+        {
+          $ref: "#/components/schemas/BrowserTask",
+        },
+        {
+          $ref: "#/components/schemas/BrowserOpenTask",
         },
       ],
     },
@@ -6055,6 +6058,9 @@ export const TeamRunnerTaskSchema = {
     team: {
       type: "string",
     },
+    resourceId: {
+      type: "string",
+    },
   },
 } as const;
 
@@ -6100,6 +6106,27 @@ export const CodeReviewResultSchema = {
     },
     approved: {
       type: "boolean",
+    },
+  },
+} as const;
+
+export const BrowserTaskSchema = {
+  description: "浏览器(browser use)任务",
+  required: ["content"],
+  properties: {
+    content: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const BrowserOpenTaskSchema = {
+  description:
+    "打开浏览器备用,一般用于调试目的Open a browser and navigate to a URL.",
+  required: ["url"],
+  properties: {
+    url: {
+      type: "string",
     },
   },
 } as const;
