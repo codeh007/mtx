@@ -3373,6 +3373,18 @@ export const AgentRunInputSchema = {
         {
           $ref: "#/components/schemas/ChatSessionStartEvent",
         },
+        {
+          $ref: "#/components/schemas/TeamRunnerTask",
+        },
+        {
+          $ref: "#/components/schemas/TerminationMessage",
+        },
+        {
+          $ref: "#/components/schemas/CodeReviewTask",
+        },
+        {
+          $ref: "#/components/schemas/CodeReviewResult",
+        },
       ],
     },
   },
@@ -6030,6 +6042,64 @@ export const ChatSessionStartEventSchema = {
     },
     source: {
       type: "string",
+    },
+  },
+} as const;
+
+export const TeamRunnerTaskSchema = {
+  required: ["content", "team"],
+  properties: {
+    content: {
+      type: "string",
+    },
+    team: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const TerminationMessageSchema = {
+  properties: {
+    reason: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const CodeReviewTaskSchema = {
+  required: [
+    "session_id",
+    "code_writing_task",
+    "code_writing_scratchpad",
+    "code",
+  ],
+  properties: {
+    session_id: {
+      type: "string",
+    },
+    code_writing_task: {
+      type: "string",
+    },
+    code_writing_scratchpad: {
+      type: "string",
+    },
+    code: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const CodeReviewResultSchema = {
+  required: ["review", "session_id", "approved"],
+  properties: {
+    review: {
+      type: "string",
+    },
+    session_id: {
+      type: "string",
+    },
+    approved: {
+      type: "boolean",
     },
   },
 } as const;

@@ -1622,7 +1622,11 @@ export interface AgentRunInput {
     | BrowserData
     | PlatformAccountData
     | InstagramTask
-    | ChatSessionStartEvent;
+    | ChatSessionStartEvent
+    | TeamRunnerTask
+    | TerminationMessage
+    | CodeReviewTask
+    | CodeReviewResult;
 }
 
 export interface ChatHistoryList {
@@ -2684,4 +2688,26 @@ export interface ChatSessionStartEvent {
   type?: string;
   threadId?: string;
   source?: string;
+}
+
+export interface TeamRunnerTask {
+  content: string;
+  team: string;
+}
+
+export interface TerminationMessage {
+  reason?: string;
+}
+
+export interface CodeReviewTask {
+  session_id: string;
+  code_writing_task: string;
+  code_writing_scratchpad: string;
+  code: string;
+}
+
+export interface CodeReviewResult {
+  review: string;
+  session_id: string;
+  approved: boolean;
 }

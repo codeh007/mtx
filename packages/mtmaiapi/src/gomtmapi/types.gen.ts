@@ -1897,7 +1897,11 @@ export type AgentRunInput = {
     | BrowserData
     | PlatformAccountData
     | InstagramTask
-    | ChatSessionStartEvent;
+    | ChatSessionStartEvent
+    | TeamRunnerTask
+    | TerminationMessage
+    | CodeReviewTask
+    | CodeReviewResult;
 };
 
 export type ChatHistoryList = {
@@ -3252,6 +3256,28 @@ export type ChatSessionStartEvent = {
   type?: string;
   threadId?: string;
   source?: string;
+};
+
+export type TeamRunnerTask = {
+  content: string;
+  team: string;
+};
+
+export type TerminationMessage = {
+  reason?: string;
+};
+
+export type CodeReviewTask = {
+  session_id: string;
+  code_writing_task: string;
+  code_writing_scratchpad: string;
+  code: string;
+};
+
+export type CodeReviewResult = {
+  review: string;
+  session_id: string;
+  approved: boolean;
 };
 
 export type ReadinessGetData = {

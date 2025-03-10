@@ -1598,6 +1598,24 @@ export const zAgentRunInput = z.object({
         threadId: z.string().optional(),
         source: z.string().optional(),
       }),
+      z.object({
+        content: z.string(),
+        team: z.string(),
+      }),
+      z.object({
+        reason: z.string().optional(),
+      }),
+      z.object({
+        session_id: z.string(),
+        code_writing_task: z.string(),
+        code_writing_scratchpad: z.string(),
+        code: z.string(),
+      }),
+      z.object({
+        review: z.string(),
+        session_id: z.string(),
+        approved: z.boolean(),
+      }),
     ])
     .optional(),
 });
@@ -2804,6 +2822,28 @@ export const zChatSessionStartEvent = z.object({
   type: z.string().optional(),
   threadId: z.string().optional(),
   source: z.string().optional(),
+});
+
+export const zTeamRunnerTask = z.object({
+  content: z.string(),
+  team: z.string(),
+});
+
+export const zTerminationMessage = z.object({
+  reason: z.string().optional(),
+});
+
+export const zCodeReviewTask = z.object({
+  session_id: z.string(),
+  code_writing_task: z.string(),
+  code_writing_scratchpad: z.string(),
+  code: z.string(),
+});
+
+export const zCodeReviewResult = z.object({
+  review: z.string(),
+  session_id: z.string(),
+  approved: z.boolean(),
 });
 
 export const zMetadataGetResponse = zApiMeta;
