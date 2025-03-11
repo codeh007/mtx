@@ -2149,7 +2149,7 @@ export type AgStateUpsert = AgStateProperties & {
   /**
    * 组件id
    */
-  componentId: string;
+  componentId?: string;
   /**
    * 聊天id
    */
