@@ -2523,6 +2523,18 @@ export const zSchemaForm = z.object({
   fields: z.array(zFormField),
 });
 
+export const zModelRunProperties = z.object({
+  title: z.string().optional(),
+  status: z.string().optional(),
+});
+
+export const zModelRun = zApiResourceMetaProperties.merge(zModelRunProperties);
+
+export const zModelRunUpsert = z.object({
+  metadata: zApiResourceMeta.optional(),
+  name: z.string().optional(),
+});
+
 export const zSite = z.object({
   metadata: zApiResourceMeta,
   title: z.string(),
@@ -3166,6 +3178,12 @@ export const zModelCreateResponse = zModel;
 export const zModelGetResponse = zModel;
 
 export const zModelUpdateResponse = zModel;
+
+export const zModelRunsListResponse = zModelList;
+
+export const zModelRunGetResponse = zModel;
+
+export const zModelRunUpsertResponse = zModel;
 
 export const zPromptListResponse = zPromptList;
 

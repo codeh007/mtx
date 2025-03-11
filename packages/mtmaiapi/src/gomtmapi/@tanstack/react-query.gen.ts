@@ -121,6 +121,9 @@ import {
   modelCreate,
   modelGet,
   modelUpdate,
+  modelRunsList,
+  modelRunGet,
+  modelRunUpsert,
   promptList,
   promptGet,
   adminReleaseConn,
@@ -390,6 +393,11 @@ import type {
   ModelUpdateData,
   ModelUpdateError,
   ModelUpdateResponse,
+  ModelRunsListData,
+  ModelRunGetData,
+  ModelRunUpsertData,
+  ModelRunUpsertError,
+  ModelRunUpsertResponse,
   PromptListData,
   PromptGetData,
   AdminReleaseConnData,
@@ -3830,6 +3838,62 @@ export const modelUpdateMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await modelUpdate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const modelRunsListQueryKey = (options: Options<ModelRunsListData>) =>
+  createQueryKey("modelRunsList", options);
+
+export const modelRunsListOptions = (options: Options<ModelRunsListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await modelRunsList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: modelRunsListQueryKey(options),
+  });
+};
+
+export const modelRunGetQueryKey = (options: Options<ModelRunGetData>) =>
+  createQueryKey("modelRunGet", options);
+
+export const modelRunGetOptions = (options: Options<ModelRunGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await modelRunGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: modelRunGetQueryKey(options),
+  });
+};
+
+export const modelRunUpsertMutation = (
+  options?: Partial<Options<ModelRunUpsertData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    ModelRunUpsertResponse,
+    ModelRunUpsertError,
+    Options<ModelRunUpsertData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await modelRunUpsert({
         ...options,
         ...localOptions,
         throwOnError: true,

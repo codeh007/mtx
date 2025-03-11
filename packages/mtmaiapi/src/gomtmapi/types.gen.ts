@@ -2751,6 +2751,18 @@ export type SchemaForm = {
   fields: Array<FormField>;
 };
 
+export type ModelRunProperties = {
+  title?: string;
+  status?: string;
+};
+
+export type ModelRun = ApiResourceMetaProperties & ModelRunProperties;
+
+export type ModelRunUpsert = {
+  metadata?: ApiResourceMeta;
+  name?: string;
+};
+
 /**
  * site
  */
@@ -7721,6 +7733,121 @@ export type ModelUpdateResponses = {
 
 export type ModelUpdateResponse =
   ModelUpdateResponses[keyof ModelUpdateResponses];
+
+export type ModelRunsListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/model_runs";
+};
+
+export type ModelRunsListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type ModelRunsListError = ModelRunsListErrors[keyof ModelRunsListErrors];
+
+export type ModelRunsListResponses = {
+  200: ModelList;
+};
+
+export type ModelRunsListResponse =
+  ModelRunsListResponses[keyof ModelRunsListResponses];
+
+export type ModelRunGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The model run id
+     */
+    model_run: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/model_runs/{model_run}";
+};
+
+export type ModelRunGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type ModelRunGetError = ModelRunGetErrors[keyof ModelRunGetErrors];
+
+export type ModelRunGetResponses = {
+  200: Model;
+};
+
+export type ModelRunGetResponse =
+  ModelRunGetResponses[keyof ModelRunGetResponses];
+
+export type ModelRunUpsertData = {
+  /**
+   * The model properties to update
+   */
+  body: Model;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The model run id
+     */
+    model_run: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/model_runs/{model_run}";
+};
+
+export type ModelRunUpsertErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type ModelRunUpsertError =
+  ModelRunUpsertErrors[keyof ModelRunUpsertErrors];
+
+export type ModelRunUpsertResponses = {
+  /**
+   * Successfully created the model
+   */
+  200: Model;
+};
+
+export type ModelRunUpsertResponse =
+  ModelRunUpsertResponses[keyof ModelRunUpsertResponses];
 
 export type PromptListData = {
   body?: never;

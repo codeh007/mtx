@@ -2281,6 +2281,18 @@ export interface SchemaForm {
   fields: FormField[];
 }
 
+export interface ModelRunProperties {
+  title?: string;
+  status?: string;
+}
+
+export type ModelRun = APIResourceMetaProperties & ModelRunProperties;
+
+export interface ModelRunUpsert {
+  metadata?: APIResourceMeta;
+  name?: string;
+}
+
 /** site */
 export interface Site {
   metadata: APIResourceMeta;

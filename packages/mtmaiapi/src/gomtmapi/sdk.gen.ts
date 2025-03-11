@@ -335,6 +335,15 @@ import type {
   ModelUpdateData,
   ModelUpdateResponse,
   ModelUpdateError,
+  ModelRunsListData,
+  ModelRunsListResponse,
+  ModelRunsListError,
+  ModelRunGetData,
+  ModelRunGetResponse,
+  ModelRunGetError,
+  ModelRunUpsertData,
+  ModelRunUpsertResponse,
+  ModelRunUpsertError,
   PromptListData,
   PromptListResponse,
   PromptListError,
@@ -3620,6 +3629,82 @@ export const modelUpdate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/models/{model}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+export const modelRunsList = <ThrowOnError extends boolean = false>(
+  options: Options<ModelRunsListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    ModelRunsListResponse,
+    ModelRunsListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/model_runs",
+    ...options,
+  });
+};
+
+export const modelRunGet = <ThrowOnError extends boolean = false>(
+  options: Options<ModelRunGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    ModelRunGetResponse,
+    ModelRunGetError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/model_runs/{model_run}",
+    ...options,
+  });
+};
+
+/**
+ * Update an model
+ */
+export const modelRunUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<ModelRunUpsertData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).patch<
+    ModelRunUpsertResponse,
+    ModelRunUpsertError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/model_runs/{model_run}",
     ...options,
     headers: {
       "Content-Type": "application/json",

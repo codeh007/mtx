@@ -2833,6 +2833,65 @@ export class Api<
       ...params,
     });
   /**
+   * No description
+   *
+   * @tags model_run
+   * @name ModelRunsList
+   * @request GET:/api/v1/tenants/{tenant}/model_runs
+   * @secure
+   */
+  modelRunsList = (tenant: TenantParameter, params: RequestParams = {}) =>
+    this.request<ModelList, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/model_runs`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags model_run
+   * @name ModelRunGet
+   * @request GET:/api/v1/tenants/{tenant}/model_runs/{model_run}
+   * @secure
+   */
+  modelRunGet = (
+    tenant: TenantParameter,
+    modelRun: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<Model, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/model_runs/${modelRun}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Update an model
+   *
+   * @tags model_run
+   * @name ModelRunUpsert
+   * @request PATCH:/api/v1/tenants/{tenant}/model_runs/{model_run}
+   * @secure
+   */
+  modelRunUpsert = (
+    tenant: TenantParameter,
+    modelRun: string,
+    data: Model,
+    params: RequestParams = {},
+  ) =>
+    this.request<Model, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/model_runs/${modelRun}`,
+      method: "PATCH",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
    * @description Get the blogs for the tenant
    *
    * @tags prompt

@@ -5033,6 +5033,40 @@ export const SchemaFormSchema = {
   required: ["title", "fields"],
 } as const;
 
+export const ModelRunPropertiesSchema = {
+  type: "object",
+  properties: {
+    title: {
+      type: "string",
+    },
+    status: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const ModelRunSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/ModelRunProperties",
+    },
+  ],
+} as const;
+
+export const ModelRunUpsertSchema = {
+  properties: {
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+    name: {
+      type: "string",
+    },
+  },
+} as const;
+
 export const SiteSchema = {
   type: "object",
   description: "site",
