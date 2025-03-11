@@ -156,9 +156,9 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
   );
 };
 
-export default RunDetailHeader;
+// export default RunDetailHeader;
 
-const RunSummary: React.FC<{ data: WorkflowRunShape }> = ({ data }) => {
+export const RunSummary: React.FC<{ data: WorkflowRunShape }> = ({ data }) => {
   const timings: React.ReactNode[] = [];
   timings.push(
     <div key="created" className="text-sm text-muted-foreground">
