@@ -3,11 +3,7 @@ import type React from "react";
 
 import CronPrettifier from "cronstrue";
 
-import {
-  AdjustmentsHorizontalIcon,
-  ArrowPathIcon,
-  XCircleIcon,
-} from "@heroicons/react/24/outline";
+import { ArrowPathIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { formatDuration } from "date-fns";
@@ -21,8 +17,15 @@ import {
 } from "mtmaiapi";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+} from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
+import { DashHeaders } from "../../../components/DashHeaders";
 import { useTenant, useTenantId } from "../../../hooks/useAuth";
 
 interface RunDetailHeaderProps {
@@ -59,84 +62,97 @@ const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-row justify-between items-center">
-        <div className="flex flex-row justify-between items-center w-full">
-          <div>
-            <h2 className="text-2xl font-bold leading-tight text-foreground flex flex-row gap-4 items-center">
-              <AdjustmentsHorizontalIcon className="w-5 h-5 mt-1" />
-              {data?.displayName}
-            </h2>
-          </div>
-          <div className="flex flex-row gap-2 items-center">
-            <a
-              href={`/workflows/${data.workflowId}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Button size={"sm"} className="px-2 py-2 gap-2" variant="outline">
-                <ArrowTopRightIcon className="size-4" />
-                工作流定义
-              </Button>
-            </a>
-            <Button
-              size={"sm"}
-              className="px-2 py-2 gap-2"
-              variant={"outline"}
-              disabled={!WORKFLOW_RUN_TERMINAL_STATUSES.includes(data.status)}
-              onClick={() => {
-                replayWorkflowRunsMutation.mutate({
-                  path: {
-                    tenant: tenant!.metadata.id,
-                  },
+    <DashHeaders>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbPage>{data?.displayName}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row justify-between items-center w-full">
+            {/* <div>
+              <h2 className="text-2xl font-bold leading-tight text-foreground flex flex-row gap-4 items-center">
+                <AdjustmentsHorizontalIcon className="w-5 h-5 mt-1" />
+                {data?.displayName}
+              </h2>
+            </div> */}
+            <div className="flex flex-row gap-2 items-center">
+              <a
+                href={`/workflows/${data.workflowId}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Button
+                  size={"sm"}
+                  className="px-2 py-2 gap-2"
+                  variant="outline"
+                >
+                  <ArrowTopRightIcon className="size-4" />
+                  工作流定义
+                </Button>
+              </a>
+              <Button
+                size={"sm"}
+                className="px-2 py-2 gap-2"
+                variant={"outline"}
+                disabled={!WORKFLOW_RUN_TERMINAL_STATUSES.includes(data.status)}
+                onClick={() => {
+                  replayWorkflowRunsMutation.mutate({
+                    path: {
+                      tenant: tenant!.metadata.id,
+                    },
 
-                  body: {
-                    workflowRunIds: [data.metadata.id],
-                  },
-                });
-              }}
-            >
-              <ArrowPathIcon className="size-4" />
-              重试
-            </Button>
-            <Button
-              size={"sm"}
-              className="px-2 py-2 gap-2"
-              variant={"outline"}
-              disabled={WORKFLOW_RUN_TERMINAL_STATUSES.includes(data.status)}
-              onClick={() => {
-                cancelWorkflowRunMutation.mutate({
-                  path: {
-                    tenant: tid,
-                  },
-                  body: {
-                    workflowRunIds: [data.metadata.id],
-                  },
-                });
-              }}
-            >
-              <XCircleIcon className="size-4" />
-              取消
-            </Button>
+                    body: {
+                      workflowRunIds: [data.metadata.id],
+                    },
+                  });
+                }}
+              >
+                <ArrowPathIcon className="size-4" />
+                重试
+              </Button>
+              <Button
+                size={"sm"}
+                className="px-2 py-2 gap-2"
+                variant={"outline"}
+                disabled={WORKFLOW_RUN_TERMINAL_STATUSES.includes(data.status)}
+                onClick={() => {
+                  cancelWorkflowRunMutation.mutate({
+                    path: {
+                      tenant: tid,
+                    },
+                    body: {
+                      workflowRunIds: [data.metadata.id],
+                    },
+                  });
+                }}
+              >
+                <XCircleIcon className="size-4" />
+                取消
+              </Button>
+            </div>
           </div>
         </div>
+        {data.triggeredBy?.parentWorkflowRunId && (
+          <TriggeringParentWorkflowRunSection
+            tenantId={data.tenantId}
+            parentWorkflowRunId={data.triggeredBy.parentWorkflowRunId}
+          />
+        )}
+        {data.triggeredBy?.eventId && (
+          <TriggeringEventSection eventId={data.triggeredBy.eventId} />
+        )}
+        {data.triggeredBy?.cronSchedule && (
+          <TriggeringCronSection cron={data.triggeredBy.cronSchedule} />
+        )}
+        <div className="flex flex-row gap-2 items-center">
+          <RunSummary data={data} />
+        </div>
       </div>
-      {data.triggeredBy?.parentWorkflowRunId && (
-        <TriggeringParentWorkflowRunSection
-          tenantId={data.tenantId}
-          parentWorkflowRunId={data.triggeredBy.parentWorkflowRunId}
-        />
-      )}
-      {data.triggeredBy?.eventId && (
-        <TriggeringEventSection eventId={data.triggeredBy.eventId} />
-      )}
-      {data.triggeredBy?.cronSchedule && (
-        <TriggeringCronSection cron={data.triggeredBy.cronSchedule} />
-      )}
-      <div className="flex flex-row gap-2 items-center">
-        <RunSummary data={data} />
-      </div>
-    </div>
+    </DashHeaders>
   );
 };
 

@@ -21,6 +21,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   type ReplayWorkflowRunsRequest,
   type Tenant,
+  type WorkflowRun,
   WorkflowRunOrderByDirection,
   WorkflowRunOrderByField,
   WorkflowRunStatus,
@@ -39,6 +40,7 @@ import {
 } from "mtxuilib/data-table/data-table-toolbar";
 import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { getCreatedAfterFromTimeRange } from "mtxuilib/lib/utils";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button } from "mtxuilib/ui/button";
 import {
   Dialog,
@@ -71,6 +73,7 @@ export interface WorkflowRunsTableProps {
   filterVisibility?: { [key: string]: boolean };
   refetchInterval?: number;
   showMetrics?: boolean;
+  viewType?: "table" | "sidebar" | "cmd";
 }
 
 export function WorkflowRunsTable({
@@ -83,6 +86,7 @@ export function WorkflowRunsTable({
   parentStepRunId,
   refetchInterval = 5000,
   showMetrics = false,
+  viewType = "table",
 }: WorkflowRunsTableProps) {
   const searchParams = useSearchParams();
   const router = useMtRouter();
@@ -513,158 +517,199 @@ export function WorkflowRunsTable({
 
   return (
     <>
-      {showMetrics && (
-        <Dialog
-          open={viewQueueMetrics}
-          onOpenChange={(open) => {
-            if (!open) {
-              setViewQueueMetrics(false);
-            }
-          }}
-        >
-          <DialogContent className="w-fit max-w-[80%] min-w-[500px]">
-            <DialogTitle>队列指标</DialogTitle>
-            <DialogHeader>
-              <DialogTitle>Queue Metrics</DialogTitle>
-            </DialogHeader>
-            <Separator />
-            {tenantMetricsQuery.data?.queues && (
-              <CodeHighlighter
-                language="json"
-                code={JSON.stringify(
-                  tenantMetricsQuery.data?.queues || "{}",
-                  null,
-                  2,
-                )}
-              />
-            )}
-            {tenantMetricsQuery.isLoading && (
-              <Skeleton className="w-full h-36" />
-            )}
-          </DialogContent>
-        </Dialog>
-      )}
-      {!createdAfterProp && (
-        <div className="flex flex-row justify-end items-center gap-2">
-          {customTimeRange && [
-            <Button
-              key="clear"
-              onClick={() => {
-                setCustomTimeRange(undefined);
+      {viewType === "table" && (
+        <>
+          {showMetrics && (
+            <Dialog
+              open={viewQueueMetrics}
+              onOpenChange={(open) => {
+                if (!open) {
+                  setViewQueueMetrics(false);
+                }
               }}
-              variant="outline"
-              size="sm"
-              className="text-xs h-9 py-2"
             >
-              <XCircleIcon className="h-[18px] w-[18px] mr-2" />
-              清除
-            </Button>,
-            <DateTimePicker
-              key="after"
-              label="After"
-              date={createdAfter ? new Date(createdAfter) : undefined}
-              setDate={(date) => {
-                setCreatedAfter(date?.toISOString());
-              }}
-            />,
-            <DateTimePicker
-              key="before"
-              label="Before"
-              date={finishedBefore ? new Date(finishedBefore) : undefined}
-              setDate={(date) => {
-                setFinishedBefore(date?.toISOString());
-              }}
-            />,
-          ]}
-          <Select
-            value={customTimeRange ? "custom" : defaultTimeRange}
-            onValueChange={(value) => {
-              if (value !== "custom") {
-                setDefaultTimeRange(value);
-                setCustomTimeRange(undefined);
-              } else {
-                setCustomTimeRange([
-                  getCreatedAfterFromTimeRange(value) ||
-                    new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
-                  new Date().toISOString(),
-                ]);
-              }
-            }}
-          >
-            <SelectTrigger className="w-fit">
-              <SelectValue id="timerange" placeholder="Choose time range" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1h">1 hour</SelectItem>
-              <SelectItem value="6h">6 hours</SelectItem>
-              <SelectItem value="1d">1 day</SelectItem>
-              <SelectItem value="7d">7 days</SelectItem>
-              <SelectItem value="custom">Custom</SelectItem>
-            </SelectContent>
-          </Select>
+              <DialogContent className="w-fit max-w-[80%] min-w-[500px]">
+                <DialogTitle>队列指标</DialogTitle>
+                <DialogHeader>
+                  <DialogTitle>Queue Metrics</DialogTitle>
+                </DialogHeader>
+                <Separator />
+                {tenantMetricsQuery.data?.queues && (
+                  <CodeHighlighter
+                    language="json"
+                    code={JSON.stringify(
+                      tenantMetricsQuery.data?.queues || "{}",
+                      null,
+                      2,
+                    )}
+                  />
+                )}
+                {tenantMetricsQuery.isLoading && (
+                  <Skeleton className="w-full h-36" />
+                )}
+              </DialogContent>
+            </Dialog>
+          )}
+          {!createdAfterProp && (
+            <div className="flex flex-row justify-end items-center gap-2">
+              {customTimeRange && [
+                <Button
+                  key="clear"
+                  onClick={() => {
+                    setCustomTimeRange(undefined);
+                  }}
+                  variant="outline"
+                  size="sm"
+                  className="text-xs h-9 py-2"
+                >
+                  <XCircleIcon className="h-[18px] w-[18px] mr-2" />
+                  清除
+                </Button>,
+                <DateTimePicker
+                  key="after"
+                  label="After"
+                  date={createdAfter ? new Date(createdAfter) : undefined}
+                  setDate={(date) => {
+                    setCreatedAfter(date?.toISOString());
+                  }}
+                />,
+                <DateTimePicker
+                  key="before"
+                  label="Before"
+                  date={finishedBefore ? new Date(finishedBefore) : undefined}
+                  setDate={(date) => {
+                    setFinishedBefore(date?.toISOString());
+                  }}
+                />,
+              ]}
+              <Select
+                value={customTimeRange ? "custom" : defaultTimeRange}
+                onValueChange={(value) => {
+                  if (value !== "custom") {
+                    setDefaultTimeRange(value);
+                    setCustomTimeRange(undefined);
+                  } else {
+                    setCustomTimeRange([
+                      getCreatedAfterFromTimeRange(value) ||
+                        new Date(
+                          Date.now() - 24 * 60 * 60 * 1000,
+                        ).toISOString(),
+                      new Date().toISOString(),
+                    ]);
+                  }
+                }}
+              >
+                <SelectTrigger className="w-fit">
+                  <SelectValue id="timerange" placeholder="Choose time range" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1h">1 hour</SelectItem>
+                  <SelectItem value="6h">6 hours</SelectItem>
+                  <SelectItem value="1d">1 day</SelectItem>
+                  <SelectItem value="7d">7 days</SelectItem>
+                  <SelectItem value="custom">Custom</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+          <div className="flex flex-row justify-between items-center my-4">
+            {metricsQuery.data ? (
+              <WorkflowRunsMetricsView
+                metrics={metricsQuery.data}
+                onViewQueueMetricsClick={() => {
+                  setViewQueueMetrics(true);
+                }}
+                showQueueMetrics={showMetrics}
+                onClick={(status) => {
+                  setColumnFilters((prev) => {
+                    let newFilters = prev;
+                    const statusFilter = prev.find(
+                      (filter) => filter.id === "status",
+                    );
+                    if (statusFilter) {
+                      newFilters = prev.filter(
+                        (filter) => filter.id !== "status",
+                      );
+                    }
+
+                    if (
+                      JSON.stringify(statusFilter?.value) ===
+                      JSON.stringify([status])
+                    ) {
+                      return newFilters;
+                    }
+
+                    return [
+                      ...newFilters,
+                      {
+                        id: "status",
+                        value: [status],
+                      },
+                    ];
+                  });
+                }}
+              />
+            ) : (
+              <Skeleton className="max-w-[800px] w-[40vw] h-8" />
+            )}
+          </div>
+          <DataTable
+            emptyState={<>No workflow runs found with the given filters.</>}
+            error={workflowKeysError}
+            isLoading={isLoading}
+            columns={workflowRunsColumns(onAdditionalMetadataClick)}
+            columnVisibility={columnVisibility}
+            setColumnVisibility={setColumnVisibility}
+            data={listWorkflowRunsQuery.data?.rows || []}
+            filters={filters}
+            actions={actions}
+            sorting={sorting}
+            setSorting={setSorting}
+            columnFilters={columnFilters}
+            setColumnFilters={setColumnFilters}
+            pagination={pagination}
+            setPagination={setPagination}
+            onSetPageSize={setPageSize}
+            rowSelection={rowSelection}
+            setRowSelection={setRowSelection}
+            pageCount={listWorkflowRunsQuery.data?.pagination?.num_pages || 0}
+            showColumnToggle={true}
+          />
+        </>
+      )}
+
+      {viewType === "sidebar" && (
+        <div className="flex flex-col gap-2">
+          {listWorkflowRunsQuery.data?.rows?.map((workflowRun) => (
+            <WorkflowRunsSideBarItem
+              key={workflowRun.metadata.id}
+              workflowRun={workflowRun}
+            />
+          ))}
         </div>
       )}
-      <div className="flex flex-row justify-between items-center my-4">
-        {metricsQuery.data ? (
-          <WorkflowRunsMetricsView
-            metrics={metricsQuery.data}
-            onViewQueueMetricsClick={() => {
-              setViewQueueMetrics(true);
-            }}
-            showQueueMetrics={showMetrics}
-            onClick={(status) => {
-              setColumnFilters((prev) => {
-                let newFilters = prev;
-                const statusFilter = prev.find(
-                  (filter) => filter.id === "status",
-                );
-                if (statusFilter) {
-                  newFilters = prev.filter((filter) => filter.id !== "status");
-                }
-
-                if (
-                  JSON.stringify(statusFilter?.value) ===
-                  JSON.stringify([status])
-                ) {
-                  return newFilters;
-                }
-
-                return [
-                  ...newFilters,
-                  {
-                    id: "status",
-                    value: [status],
-                  },
-                ];
-              });
-            }}
-          />
-        ) : (
-          <Skeleton className="max-w-[800px] w-[40vw] h-8" />
-        )}
-      </div>
-      <DataTable
-        emptyState={<>No workflow runs found with the given filters.</>}
-        error={workflowKeysError}
-        isLoading={isLoading}
-        columns={workflowRunsColumns(onAdditionalMetadataClick)}
-        columnVisibility={columnVisibility}
-        setColumnVisibility={setColumnVisibility}
-        data={listWorkflowRunsQuery.data?.rows || []}
-        filters={filters}
-        actions={actions}
-        sorting={sorting}
-        setSorting={setSorting}
-        columnFilters={columnFilters}
-        setColumnFilters={setColumnFilters}
-        pagination={pagination}
-        setPagination={setPagination}
-        onSetPageSize={setPageSize}
-        rowSelection={rowSelection}
-        setRowSelection={setRowSelection}
-        pageCount={listWorkflowRunsQuery.data?.pagination?.num_pages || 0}
-        showColumnToggle={true}
-      />
     </>
   );
 }
+
+interface WorkflowRunsSideBarItemProps {
+  workflowRun: WorkflowRun;
+}
+const WorkflowRunsSideBarItem = ({
+  workflowRun,
+}: WorkflowRunsSideBarItemProps) => {
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="text-base font-medium text-foreground bg-amber-100 p-2">
+        <div>
+          <CustomLink to={`${workflowRun.metadata.id}`} className="text-sm">
+            <span className="font-semibold">ID:</span> {workflowRun.metadata.id}
+          </CustomLink>
+        </div>
+        <div>
+          <span className="font-semibold">Status:</span> {workflowRun.status}
+        </div>
+      </div>
+    </div>
+  );
+};

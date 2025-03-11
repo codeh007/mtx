@@ -11,8 +11,6 @@ import {
   Sparkles,
 } from "lucide-react";
 
-import { useQuery } from "@tanstack/react-query";
-import { chatSessionListOptions } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
@@ -38,24 +36,19 @@ import {
   useSidebar,
 } from "mtxuilib/ui/sidebar";
 
-import { useTenantId } from "../../hooks/useAuth";
+import { useTenant, useTenantId } from "../../hooks/useAuth";
+import { WorkflowRunsTable } from "./components/workflow-runs-table";
 
 export function NavWorkflowRuns() {
   const { isMobile } = useSidebar();
   const tid = useTenantId();
-  const chatQuery = useQuery({
-    ...chatSessionListOptions({
-      path: {
-        tenant: tid!,
-      },
-    }),
-  });
+  const tenant = useTenant();
 
   return (
     <Sidebar collapsible="none" className="hidden flex-1 md:flex">
       <SidebarHeader className="gap-3.5 border-b p-4">
         <div className="flex w-full items-center justify-between">
-          <div className="text-base font-medium text-foreground">Title</div>
+          <div className="text-base font-medium text-foreground">运行历史</div>
           <Label className="flex items-center gap-2 text-sm">
             <CustomLink
               to={"/play/chat"}
@@ -139,22 +132,11 @@ export function NavWorkflowRuns() {
         </SidebarMenu>
         <SidebarGroup className="px-0">
           <SidebarGroupContent>
-            {chatQuery.data?.rows?.map((chat) => (
-              <CustomLink
-                to={`/play/chat/${chat.metadata?.id}`}
-                key={chat.metadata?.id}
-                className="flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-              >
-                <div className="flex w-full items-center gap-2">
-                  <span>{chat.name}</span>{" "}
-                  {/* <span className="ml-auto text-xs">{chat.createdAt}</span> */}
-                </div>
-                <span className="font-medium">{chat.name}</span>
-                <span className="line-clamp-2 w-[260px] whitespace-break-spaces text-xs">
-                  {chat.name || chat.metadata?.id}
-                </span>
-              </CustomLink>
-            ))}
+            <WorkflowRunsTable
+              tenant={tenant!}
+              viewType="sidebar"
+              showMetrics={true}
+            />
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

@@ -1,6 +1,5 @@
 "use client";
 import { useRouterState } from "@tanstack/react-router";
-import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { cn } from "mtxuilib/lib/utils";
 import { Separator } from "mtxuilib/ui/separator";
 import { Suspense } from "react";
@@ -34,7 +33,7 @@ export const DashHeaders = (props: DashHeadersProps) => {
         <SidebarToggle className="-ml-1" />
         <Separator orientation="vertical" className="mr-2 h-4" />
         {props.children}
-        <DebugValue data={{ matches, breadcrumbs }} />
+        {/* <DebugValue data={{ matches, breadcrumbs }} /> */}
       </header>
     </Suspense>
   );

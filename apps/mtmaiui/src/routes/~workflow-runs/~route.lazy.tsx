@@ -1,12 +1,5 @@
 "use client";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-} from "mtxuilib/ui/breadcrumb";
-import { DashHeaders } from "../../components/DashHeaders";
 import { useTenant } from "../../hooks/useAuth";
 import { RootAppWrapper } from "../components/RootAppWrapper";
 import { NavWorkflowRuns } from "./siderbar";
@@ -21,7 +14,7 @@ function RouteComponent() {
   }
   return (
     <RootAppWrapper secondSidebar={<NavWorkflowRuns />}>
-      <DashHeaders>
+      {/* <DashHeaders>
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -29,7 +22,7 @@ function RouteComponent() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-      </DashHeaders>
+      </DashHeaders> */}
       <Outlet />
     </RootAppWrapper>
   );
