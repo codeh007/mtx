@@ -1903,7 +1903,8 @@ export type AgentRunInput = {
     | CodeReviewTask
     | CodeReviewResult
     | BrowserTask
-    | BrowserOpenTask;
+    | BrowserOpenTask
+    | MtTaskResult;
 };
 
 export type ChatHistoryList = {
@@ -2469,7 +2470,7 @@ export type ModelContext = ComponentModel;
 
 export type MtTaskResult = {
   messages: Array<AgentMessageConfig>;
-  stop_reason?: string;
+  stop_reason: string;
 };
 
 export type AgentTypes =
@@ -3268,6 +3269,7 @@ export type TeamRunnerTask = {
 
 export type TerminationMessage = {
   reason?: string;
+  content?: string;
 };
 
 export type CodeReviewTask = {

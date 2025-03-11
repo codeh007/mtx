@@ -1605,6 +1605,7 @@ export const zAgentRunInput = z.object({
       }),
       z.object({
         reason: z.string().optional(),
+        content: z.string().optional(),
       }),
       z.object({
         session_id: z.string(),
@@ -1622,6 +1623,85 @@ export const zAgentRunInput = z.object({
       }),
       z.object({
         url: z.string(),
+      }),
+      z.object({
+        messages: z.array(
+          z.union([
+            z
+              .object({
+                source: z.string().optional(),
+                models_usage: z
+                  .object({
+                    prompt_tokens: z.number(),
+                    completion_tokens: z.number(),
+                  })
+                  .optional(),
+              })
+              .merge(
+                z.object({
+                  content: z.string(),
+                }),
+              ),
+            z
+              .object({
+                source: z.string().optional(),
+                models_usage: z
+                  .object({
+                    prompt_tokens: z.number(),
+                    completion_tokens: z.number(),
+                  })
+                  .optional(),
+              })
+              .merge(
+                z.object({
+                  content: z.string(),
+                  target: z.string(),
+                }),
+              ),
+            z
+              .object({
+                source: z.string().optional(),
+                models_usage: z
+                  .object({
+                    prompt_tokens: z.number(),
+                    completion_tokens: z.number(),
+                  })
+                  .optional(),
+              })
+              .merge(
+                z.object({
+                  content: z.array(
+                    z.object({
+                      id: z.string(),
+                      arguments: z.string(),
+                      name: z.string(),
+                    }),
+                  ),
+                }),
+              ),
+            z
+              .object({
+                source: z.string().optional(),
+                models_usage: z
+                  .object({
+                    prompt_tokens: z.number(),
+                    completion_tokens: z.number(),
+                  })
+                  .optional(),
+              })
+              .merge(
+                z.object({
+                  content: z.array(
+                    z.object({
+                      call_id: z.string(),
+                      content: z.string(),
+                    }),
+                  ),
+                }),
+              ),
+          ]),
+        ),
+        stop_reason: z.string(),
       }),
     ])
     .optional(),
@@ -2110,7 +2190,7 @@ export const zModelContext = zComponentModel;
 
 export const zMtTaskResult = z.object({
   messages: z.array(zAgentMessageConfig),
-  stop_reason: z.string().optional(),
+  stop_reason: z.string(),
 });
 
 export const zAgentTypes = z.enum([
@@ -2839,6 +2919,7 @@ export const zTeamRunnerTask = z.object({
 
 export const zTerminationMessage = z.object({
   reason: z.string().optional(),
+  content: z.string().optional(),
 });
 
 export const zCodeReviewTask = z.object({

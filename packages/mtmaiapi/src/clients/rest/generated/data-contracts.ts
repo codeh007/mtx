@@ -1628,7 +1628,8 @@ export interface AgentRunInput {
     | CodeReviewTask
     | CodeReviewResult
     | BrowserTask
-    | BrowserOpenTask;
+    | BrowserOpenTask
+    | MtTaskResult;
 }
 
 export interface ChatHistoryList {
@@ -2050,7 +2051,7 @@ export type ModelContext = ComponentModel;
 
 export interface MtTaskResult {
   messages: AgentMessageConfig[];
-  stop_reason?: string;
+  stop_reason: string;
 }
 
 export enum AgentTypes {
@@ -2700,6 +2701,7 @@ export interface TeamRunnerTask {
 
 export interface TerminationMessage {
   reason?: string;
+  content?: string;
 }
 
 export interface CodeReviewTask {

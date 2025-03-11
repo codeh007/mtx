@@ -3388,6 +3388,9 @@ export const AgentRunInputSchema = {
         {
           $ref: "#/components/schemas/BrowserOpenTask",
         },
+        {
+          $ref: "#/components/schemas/MtTaskResult",
+        },
       ],
     },
   },
@@ -4427,7 +4430,7 @@ export const MtTaskResultSchema = {
       type: "string",
     },
   },
-  required: ["messages"],
+  required: ["messages", "stop_reason"],
 } as const;
 
 export const AgentTypesSchema = {
@@ -6067,6 +6070,9 @@ export const TeamRunnerTaskSchema = {
 export const TerminationMessageSchema = {
   properties: {
     reason: {
+      type: "string",
+    },
+    content: {
       type: "string",
     },
   },
