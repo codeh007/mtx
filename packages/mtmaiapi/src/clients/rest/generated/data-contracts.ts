@@ -2050,7 +2050,7 @@ export type MemoryConfig = ComponentModel;
 export type ModelContext = ComponentModel;
 
 export interface MtTaskResult {
-  messages: AgentMessageConfig[];
+  messages: Record<string, any>[];
   stop_reason: string;
 }
 
@@ -2282,16 +2282,13 @@ export interface SchemaForm {
 }
 
 export interface ModelRunProperties {
-  title?: string;
-  status?: string;
+  request?: Record<string, string>;
+  response?: Record<string, string>;
 }
 
 export type ModelRun = APIResourceMetaProperties & ModelRunProperties;
 
-export interface ModelRunUpsert {
-  metadata?: APIResourceMeta;
-  name?: string;
-}
+export type ModelRunUpsert = ModelRunProperties;
 
 /** site */
 export interface Site {

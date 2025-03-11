@@ -2469,7 +2469,9 @@ export type MemoryConfig = ComponentModel;
 export type ModelContext = ComponentModel;
 
 export type MtTaskResult = {
-  messages: Array<AgentMessageConfig>;
+  messages: Array<{
+    [key: string]: unknown;
+  }>;
   stop_reason: string;
 };
 
@@ -2752,16 +2754,17 @@ export type SchemaForm = {
 };
 
 export type ModelRunProperties = {
-  title?: string;
-  status?: string;
+  request?: {
+    [key: string]: string;
+  };
+  response?: {
+    [key: string]: string;
+  };
 };
 
 export type ModelRun = ApiResourceMetaProperties & ModelRunProperties;
 
-export type ModelRunUpsert = {
-  metadata?: ApiResourceMeta;
-  name?: string;
-};
+export type ModelRunUpsert = ModelRunProperties;
 
 /**
  * site
@@ -7800,7 +7803,7 @@ export type ModelRunGetErrors = {
 export type ModelRunGetError = ModelRunGetErrors[keyof ModelRunGetErrors];
 
 export type ModelRunGetResponses = {
-  200: Model;
+  200: ModelRun;
 };
 
 export type ModelRunGetResponse =
@@ -7810,7 +7813,7 @@ export type ModelRunUpsertData = {
   /**
    * The model properties to update
    */
-  body: Model;
+  body: ModelRun;
   path: {
     /**
      * The tenant id
@@ -7843,7 +7846,7 @@ export type ModelRunUpsertResponses = {
   /**
    * Successfully created the model
    */
-  200: Model;
+  200: ModelRun;
 };
 
 export type ModelRunUpsertResponse =

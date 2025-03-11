@@ -104,8 +104,6 @@ export function ChatClient(props: ChatProps) {
 }
 
 export const ChatImpl = memo((props: ChatProps) => {
-  // useShortcuts();
-
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const showChat = useWorkbenchStore((x) => x.openChat);
   const [animationScope, animate] = useAnimate();

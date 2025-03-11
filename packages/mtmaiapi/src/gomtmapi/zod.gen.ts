@@ -1625,82 +1625,7 @@ export const zAgentRunInput = z.object({
         url: z.string(),
       }),
       z.object({
-        messages: z.array(
-          z.union([
-            z
-              .object({
-                source: z.string().optional(),
-                models_usage: z
-                  .object({
-                    prompt_tokens: z.number(),
-                    completion_tokens: z.number(),
-                  })
-                  .optional(),
-              })
-              .merge(
-                z.object({
-                  content: z.string(),
-                }),
-              ),
-            z
-              .object({
-                source: z.string().optional(),
-                models_usage: z
-                  .object({
-                    prompt_tokens: z.number(),
-                    completion_tokens: z.number(),
-                  })
-                  .optional(),
-              })
-              .merge(
-                z.object({
-                  content: z.string(),
-                  target: z.string(),
-                }),
-              ),
-            z
-              .object({
-                source: z.string().optional(),
-                models_usage: z
-                  .object({
-                    prompt_tokens: z.number(),
-                    completion_tokens: z.number(),
-                  })
-                  .optional(),
-              })
-              .merge(
-                z.object({
-                  content: z.array(
-                    z.object({
-                      id: z.string(),
-                      arguments: z.string(),
-                      name: z.string(),
-                    }),
-                  ),
-                }),
-              ),
-            z
-              .object({
-                source: z.string().optional(),
-                models_usage: z
-                  .object({
-                    prompt_tokens: z.number(),
-                    completion_tokens: z.number(),
-                  })
-                  .optional(),
-              })
-              .merge(
-                z.object({
-                  content: z.array(
-                    z.object({
-                      call_id: z.string(),
-                      content: z.string(),
-                    }),
-                  ),
-                }),
-              ),
-          ]),
-        ),
+        messages: z.array(z.object({})),
         stop_reason: z.string(),
       }),
     ])
@@ -2189,7 +2114,7 @@ export const zMemoryConfig = zComponentModel;
 export const zModelContext = zComponentModel;
 
 export const zMtTaskResult = z.object({
-  messages: z.array(zAgentMessageConfig),
+  messages: z.array(z.object({})),
   stop_reason: z.string(),
 });
 
@@ -2524,16 +2449,13 @@ export const zSchemaForm = z.object({
 });
 
 export const zModelRunProperties = z.object({
-  title: z.string().optional(),
-  status: z.string().optional(),
+  request: z.object({}).optional(),
+  response: z.object({}).optional(),
 });
 
 export const zModelRun = zApiResourceMetaProperties.merge(zModelRunProperties);
 
-export const zModelRunUpsert = z.object({
-  metadata: zApiResourceMeta.optional(),
-  name: z.string().optional(),
-});
+export const zModelRunUpsert = zModelRunProperties;
 
 export const zSite = z.object({
   metadata: zApiResourceMeta,
@@ -3181,9 +3103,9 @@ export const zModelUpdateResponse = zModel;
 
 export const zModelRunsListResponse = zModelList;
 
-export const zModelRunGetResponse = zModel;
+export const zModelRunGetResponse = zModelRun;
 
-export const zModelRunUpsertResponse = zModel;
+export const zModelRunUpsertResponse = zModelRun;
 
 export const zPromptListResponse = zPromptList;
 

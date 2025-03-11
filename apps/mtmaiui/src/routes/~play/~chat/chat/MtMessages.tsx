@@ -2,6 +2,7 @@
 
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import type { ChatMessage } from "mtmaiapi";
+import { Markdown } from "mtxuilib/markdown/Markdown";
 
 interface MtMessagesProps {
   messages: ChatMessage[];
@@ -41,12 +42,21 @@ export const UserMessage = ({ msg }: UserMessageProps) => {
       <div className="flex-grow">
         <p className="font-semibold">You</p>
 
-        <p className="whitespace-pre-line text-foreground">{msg.content}</p>
+        <div className="whitespace-pre-line text-foreground">
+          <Markdown>{msg.content}</Markdown>
+        </div>
       </div>
     </div>
   );
 };
 
 export const AssistantMessage = ({ msg }: { msg: ChatMessage }) => {
-  return <div className="bg-blue-200 p-1">{msg.content}</div>;
+  return (
+    <div className="bg-slate-200 p-1">
+      <div className="text-sm text-slate-500">
+        {msg.topic}/{msg.source}
+      </div>
+      <Markdown>{msg.content}</Markdown>
+    </div>
+  );
 };

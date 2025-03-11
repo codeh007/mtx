@@ -74,6 +74,7 @@ import {
   LogLineSearch,
   Model,
   ModelList,
+  ModelRun,
   MtComponent,
   MtComponentList,
   MtResource,
@@ -2861,7 +2862,7 @@ export class Api<
     modelRun: string,
     params: RequestParams = {},
   ) =>
-    this.request<Model, APIErrors>({
+    this.request<ModelRun, APIErrors>({
       path: `/api/v1/tenants/${tenant}/model_runs/${modelRun}`,
       method: "GET",
       secure: true,
@@ -2879,10 +2880,10 @@ export class Api<
   modelRunUpsert = (
     tenant: TenantParameter,
     modelRun: string,
-    data: Model,
+    data: ModelRun,
     params: RequestParams = {},
   ) =>
-    this.request<Model, APIErrors>({
+    this.request<ModelRun, APIErrors>({
       path: `/api/v1/tenants/${tenant}/model_runs/${modelRun}`,
       method: "PATCH",
       body: data,

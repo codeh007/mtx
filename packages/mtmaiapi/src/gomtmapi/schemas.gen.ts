@@ -4423,7 +4423,8 @@ export const MtTaskResultSchema = {
     messages: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/AgentMessageConfig",
+        type: "object",
+        additionalProperties: true,
       },
     },
     stop_reason: {
@@ -5036,11 +5037,17 @@ export const SchemaFormSchema = {
 export const ModelRunPropertiesSchema = {
   type: "object",
   properties: {
-    title: {
-      type: "string",
+    request: {
+      type: "object",
+      additionalProperties: {
+        type: "string",
+      },
     },
-    status: {
-      type: "string",
+    response: {
+      type: "object",
+      additionalProperties: {
+        type: "string",
+      },
     },
   },
 } as const;
@@ -5057,14 +5064,11 @@ export const ModelRunSchema = {
 } as const;
 
 export const ModelRunUpsertSchema = {
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
+  anyOf: [
+    {
+      $ref: "#/components/schemas/ModelRunProperties",
     },
-    name: {
-      type: "string",
-    },
-  },
+  ],
 } as const;
 
 export const SiteSchema = {

@@ -2,12 +2,9 @@
 import Link from "next/link";
 import { memo, useMemo } from "react";
 import ReactMarkdown, { type Components } from "react-markdown";
-import type { BundledLanguage } from "shiki";
-import { CodeBlock } from "../ui/codeblock";
 // import { Artifact } from "../../../../apps/mtmaiui/src/components/chat/Artifact";
 // import { AskHuman } from "../../../../apps/mtmaiui/src/components/markdown/AskHuman";
 // import { CodeBlock } from "../../../../apps/mtmaiui/src/components/markdown/CodeBlock";
-import styles from "./Markdown.module.scss";
 import { allowedHTMLElements, rehypePlugins, remarkPlugins } from "./markdown";
 
 interface MarkdownProps {
@@ -49,106 +46,106 @@ export const NonMemoizedMarkdown = ({
           </Link>
         );
       },
-      div: ({ className, children, node, ...props }) => {
-        if (className?.includes("__boltArtifact__")) {
-          const messageId = node?.properties.dataMessageId as string;
+      // div: ({ className, children, node, ...props }) => {
+      //   if (className?.includes("__boltArtifact__")) {
+      //     const messageId = node?.properties.dataMessageId as string;
 
-          if (!messageId) {
-            // logger.error(`Invalid message id ${messageId}`);
-          }
+      //     if (!messageId) {
+      //       // logger.error(`Invalid message id ${messageId}`);
+      //     }
 
-          return <Artifact messageId={messageId} />;
-        }
-        if (className?.includes("__boltAskHuman__")) {
-          const title = node?.properties.title as string;
+      //     return <Artifact messageId={messageId} />;
+      //   }
+      //   if (className?.includes("__boltAskHuman__")) {
+      //     const title = node?.properties.title as string;
 
-          if (!title) {
-            // logger.error(`Invalid ask human title ${title}`);
-          }
+      //     if (!title) {
+      //       // logger.error(`Invalid ask human title ${title}`);
+      //     }
 
-          return <AskHuman title={"title1"} />;
-        }
+      //     return <AskHuman title={"title1"} />;
+      //   }
 
-        return (
-          <div className={className} {...props}>
-            {children}
-          </div>
-        );
-      },
-      pre: (props) => {
-        const { children, node, ...rest } = props;
+      //   return (
+      //     <div className={className} {...props}>
+      //       {children}
+      //     </div>
+      //   );
+      // },
+      // pre: (props) => {
+      //   const { children, node, ...rest } = props;
 
-        const [firstChild] = node?.children ?? [];
+      //   const [firstChild] = node?.children ?? [];
 
-        if (
-          firstChild &&
-          firstChild.type === "element" &&
-          firstChild.tagName === "code" &&
-          firstChild.children[0].type === "text"
-        ) {
-          const { className, ...rest } = firstChild.properties;
-          const [, language = "plaintext"] =
-            /language-(\w+)/.exec(String(className) || "") ?? [];
+      //   if (
+      //     firstChild &&
+      //     firstChild.type === "element" &&
+      //     firstChild.tagName === "code" &&
+      //     firstChild.children[0].type === "text"
+      //   ) {
+      //     const { className, ...rest } = firstChild.properties;
+      //     const [, language = "plaintext"] =
+      //       /language-(\w+)/.exec(String(className) || "") ?? [];
 
-          return (
-            <CodeBlock
-              code={firstChild.children[0].value}
-              language={language as BundledLanguage}
-              {...rest}
-            />
-          );
-        }
+      //     return (
+      //       <CodeBlock
+      //         code={firstChild.children[0].value}
+      //         language={language as BundledLanguage}
+      //         {...rest}
+      //       />
+      //     );
+      //   }
 
-        return <pre {...rest}>{children}</pre>;
-      },
+      //   return <pre {...rest}>{children}</pre>;
+      // },
 
       //=================================================================================
-      code: ({ node, inline, className, children, ...props }) => {
-        const match = /language-(\w+)/.exec(className || "");
-        return !inline && match ? (
-          <pre
-            {...props}
-            className={`${className} text-sm w-[80dvw] md:max-w-[500px] overflow-x-scroll bg-zinc-100 p-3 rounded-lg mt-2 dark:bg-zinc-800`}
-          >
-            <code className={match[1]}>{children}</code>
-          </pre>
-        ) : (
-          <code
-            className={`${className} text-sm bg-zinc-100 dark:bg-zinc-800 py-0.5 px-1 rounded-md`}
-            {...props}
-          >
-            {children}
-          </code>
-        );
-      },
-      ol: ({ node, children, ...props }) => {
-        return (
-          <ol className="list-decimal list-outside ml-4" {...props}>
-            {children}
-          </ol>
-        );
-      },
-      li: ({ node, children, ...props }) => {
-        return (
-          <li className="py-1" {...props}>
-            {children}
-          </li>
-        );
-      },
-      ul: ({ node, children, ...props }) => {
-        return (
-          <ul className="list-decimal list-outside ml-4" {...props}>
-            {children}
-          </ul>
-        );
-      },
-      strong: ({ node, children, ...props }) => {
-        return (
-          <span className="font-semibold" {...props}>
-            {children}
-          </span>
-        );
-      },
+      // code: ({ node, inline, className, children, ...props }) => {
+      //   const match = /language-(\w+)/.exec(className || "");
+      //   return !inline && match ? (
+      //     <pre
+      //       {...props}
+      //       className={`${className} text-sm w-[80dvw] md:max-w-[500px] overflow-x-scroll bg-zinc-100 p-3 rounded-lg mt-2 dark:bg-zinc-800`}
+      //     >
+      //       <code className={match[1]}>{children}</code>
+      //     </pre>
+      //   ) : (
+      //     <code
+      //       className={`${className} text-sm bg-zinc-100 dark:bg-zinc-800 py-0.5 px-1 rounded-md`}
+      //       {...props}
+      //     >
+      //       {children}
+      //     </code>
+      //   );
+      // },
+      // ol: ({ node, children, ...props }) => {
+      //   return (
+      //     <ol className="list-decimal list-outside ml-4" {...props}>
+      //       {children}
+      //     </ol>
+      //   );
+      // },
+      // li: ({ node, children, ...props }) => {
+      //   return (
+      //     <li className="py-1" {...props}>
+      //       {children}
+      //     </li>
+      //   );
+      // },
+      // ul: ({ node, children, ...props }) => {
+      //   return (
+      //     <ul className="list-decimal list-outside ml-4" {...props}>
+      //       {children}
+      //     </ul>
+      //   );
+      // },
+      // strong: ({ node, children, ...props }) => {
+      //   return (
+      //     <span className="font-semibold" {...props}>
+      //       {children}
+      //     </span>
+      //   );
+      // },
       // a: ({ node, children, ...props }) => {
       //   return (
       //     <Link
@@ -209,7 +206,7 @@ export const NonMemoizedMarkdown = ({
   return (
     <ReactMarkdown
       allowedElements={allowedHTMLElements}
-      className={styles.MarkdownContent}
+      // className={styles.MarkdownContent}
       components={components}
       remarkPlugins={remarkPlugins(limitedMarkdown)}
       rehypePlugins={rehypePlugins(html)}
