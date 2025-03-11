@@ -9,6 +9,7 @@ import {
 import { DashHeaders } from "../../components/DashHeaders";
 import { useTenant } from "../../hooks/useAuth";
 import { RootAppWrapper } from "../components/RootAppWrapper";
+import { NavWorkflowRuns } from "./siderbar";
 export const Route = createLazyFileRoute("/workflow-runs")({
   component: RouteComponent,
 });
@@ -19,7 +20,7 @@ function RouteComponent() {
     return null;
   }
   return (
-    <RootAppWrapper>
+    <RootAppWrapper secondSidebar={<NavWorkflowRuns />}>
       <DashHeaders>
         <Breadcrumb>
           <BreadcrumbList>

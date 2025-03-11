@@ -173,9 +173,6 @@ export function searchString(
   return cleanSearchParams(searchParameters)?.toString();
 }
 
-// export function getUserLevel(blood: number) {
-//   return Math.floor(blood / 5)
-// }
 export const sleep = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 export const delay = sleep;
@@ -242,16 +239,6 @@ export const isEdgeRuntime = () => {
   //@ts-ignore
   return typeof EdgeRuntime === "string";
 };
-// export function isWebWorker() {
-// 	//@ts-ignore
-// 	return (
-// 		typeof WorkerGlobalScope !== "undefined" &&
-// 		self instanceof WorkerGlobalScope
-// 	);
-// }
-// export const isSsr = () => {
-//   return typeof window == "undefined";
-// };
 
 export const convertToArray = <T>(maybeArray: T | T[]): T[] => {
   return Array.isArray(maybeArray) ? maybeArray : [maybeArray];

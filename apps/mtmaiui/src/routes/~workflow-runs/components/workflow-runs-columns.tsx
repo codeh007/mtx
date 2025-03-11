@@ -9,6 +9,7 @@ import { DataTableColumnHeader } from "mtxuilib/data-table/data-table-column-hea
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Checkbox } from "mtxuilib/ui/checkbox";
 
+import { formatDuration } from "mtxuilib/lib/utils";
 import {
   AdditionalMetadata,
   type AdditionalMetadataClick,
@@ -177,12 +178,18 @@ export const workflowRunsColumns: (
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="时长(ms)"
+        title="时长"
         className="whitespace-nowrap"
       />
     ),
     cell: ({ row }) => {
-      return <div className="whitespace-nowrap">{row.original.duration}</div>;
+      return (
+        <div className="whitespace-nowrap">
+          {row.original.duration
+            ? formatDuration(row.original.duration)
+            : "N/A"}
+        </div>
+      );
     },
     enableSorting: true,
     enableHiding: true,

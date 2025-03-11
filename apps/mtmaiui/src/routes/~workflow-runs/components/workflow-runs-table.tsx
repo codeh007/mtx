@@ -5,7 +5,7 @@ import {
   XCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type {
   ColumnFiltersState,
   PaginationState,
@@ -20,13 +20,14 @@ import { useEffect, useMemo, useState } from "react";
 
 import {
   type ReplayWorkflowRunsRequest,
+  type Tenant,
   WorkflowRunOrderByDirection,
   WorkflowRunOrderByField,
   WorkflowRunStatus,
-  type Tenant,
-  workflowRunGetMetricsOptions,
   tenantGetStepRunQueueMetricsOptions,
   workflowListOptions,
+  workflowRunCancelMutation,
+  workflowRunGetMetricsOptions,
   workflowRunListOptions,
 } from "mtmaiapi";
 import { DateTimePicker } from "mtxuilib/components/time-picker/date-time-picker";
@@ -54,11 +55,11 @@ import {
 } from "mtxuilib/ui/select";
 import { Separator } from "mtxuilib/ui/separator";
 import { Skeleton } from "mtxuilib/ui/skeleton";
+import { useTenantId } from "../../../hooks/useAuth";
 import { useMtmaiV2 } from "../../../stores/StoreProvider";
 import type { AdditionalMetadataClick } from "../../~events/additional-metadata";
 import { workflowRunsColumns } from "./workflow-runs-columns";
 import { WorkflowRunsMetricsView } from "./workflow-runs-metrics";
-
 export interface WorkflowRunsTableProps {
   tenant: Tenant;
   createdAfter?: string;
@@ -71,7 +72,6 @@ export interface WorkflowRunsTableProps {
   refetchInterval?: number;
   showMetrics?: boolean;
 }
-
 
 export function WorkflowRunsTable({
   tenant,
@@ -284,37 +284,37 @@ export function WorkflowRunsTable({
     ...workflowRunListOptions({
       path: {
         tenant: tenant.metadata.id,
-        },
-        query: {
-          offset,
-          limit: pageSize,
-          statuses,
-          workflowId: workflow,
-          parentWorkflowRunId,
-          parentStepRunId,
-          orderByDirection,
-          orderByField,
-          additionalMetadata: AdditionalMetadataFilter,
-          createdAfter,
-          finishedBefore,
-        },
-      
+      },
+      query: {
+        offset,
+        limit: pageSize,
+        statuses,
+        workflowId: workflow,
+        parentWorkflowRunId,
+        parentStepRunId,
+        orderByDirection,
+        orderByField,
+        additionalMetadata: AdditionalMetadataFilter,
+        createdAfter,
+        finishedBefore,
+      },
     }),
     placeholderData: (prev) => prev,
-      refetchInterval,
+    refetchInterval,
   });
 
   const metricsQuery = useQuery({
     ...workflowRunGetMetricsOptions({
-      path:{
+      path: {
         tenant: tenant!.metadata.id,
-      },query:{
+      },
+      query: {
         workflowId: workflow,
         parentWorkflowRunId,
-          parentStepRunId,
-          additionalMetadata: AdditionalMetadataFilter,
-          createdAfter,
-      }
+        parentStepRunId,
+        additionalMetadata: AdditionalMetadataFilter,
+        createdAfter,
+      },
     }),
     refetchInterval,
     placeholderData: (prev) => prev,
@@ -322,9 +322,9 @@ export function WorkflowRunsTable({
 
   const tenantMetricsQuery = useQuery({
     ...tenantGetStepRunQueueMetricsOptions({
-      path:{
+      path: {
         tenant: tenant!.metadata.id,
-      }
+      },
     }),
     refetchInterval,
     placeholderData: (prev) => prev,
@@ -349,28 +349,9 @@ export function WorkflowRunsTable({
       .map(([id]) => (listWorkflowRunsQuery.data?.rows || [])[Number(id)]);
   }, [listWorkflowRunsQuery.data?.rows, rowSelection]);
 
-
+  const tid = useTenantId();
   const cancelWorkflowRunMutation = useMutation({
-    mutationKey: ["workflow-run:cancel", tenant.metadata.id, selectedRuns],
-    mutationFn: async () => {
-      const tenantId = tenant.metadata.id;
-      const workflowRunIds = selectedRuns.map((wr) => wr.metadata.id);
-
-      // invariant(tenantId, "has tenantId");
-      // invariant(workflowRunIds, "has runIds");
-
-      // const res = await api.workflowRunCancel(tenantId, {
-      //   workflowRunIds,
-      // });
-
-      // return res.data;
-    },
-    onSuccess: () => {
-      // queryClient.invalidateQueries({
-      //   queryKey: queries.workflowRuns.list(tenant.metadata.id, {}).queryKey,
-      // });
-    },
-    // onError: handleApiError,
+    ...workflowRunCancelMutation(),
   });
 
   const replayWorkflowRunsMutation = useMutation({
@@ -457,7 +438,14 @@ export function WorkflowRunsTable({
       className="h-8 px-2 lg:px-3"
       size="sm"
       onClick={() => {
-        cancelWorkflowRunMutation.mutate();
+        cancelWorkflowRunMutation.mutate({
+          path: {
+            tenant: tid,
+          },
+          body: {
+            workflowRunIds: selectedRuns.map((run) => run.metadata.id),
+          },
+        });
       }}
       variant={"outline"}
       aria-label="Cancel Selected Runs"
