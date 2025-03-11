@@ -40,7 +40,7 @@ export const WORKFLOW_RUN_TERMINAL_STATUSES = [
   WorkflowRunStatus.SUCCEEDED,
 ];
 
-const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
+export const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
   data,
   loading,
   refetch,

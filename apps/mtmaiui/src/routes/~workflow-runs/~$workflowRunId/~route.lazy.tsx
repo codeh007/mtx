@@ -8,7 +8,7 @@ import { useTenant } from "../../../hooks/useAuth";
 import { useWorkflowRunShape } from "../../../hooks/useWorkflowRun";
 import { useMtmaiV2 } from "../../../stores/StoreProvider";
 import type { WorkflowRunSidebarState } from "../../../types/types";
-import RunDetailHeader from "../components/header";
+import { RunDetailHeader } from "../components/header";
 import { StepRunDetail } from "../components/step-run-detail/step-run-detail";
 
 export const Route = createLazyFileRoute("/workflow-runs/$workflowRunId")({
