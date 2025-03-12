@@ -2601,6 +2601,11 @@ export class Api<
     query?: {
       /** The team label */
       label?: string;
+      /**
+       * The gallery name
+       * @default "default"
+       */
+      gallery?: string;
     },
     params: RequestParams = {},
   ) =>

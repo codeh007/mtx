@@ -7398,6 +7398,10 @@ export type ComsListData = {
      * The team label
      */
     label?: string;
+    /**
+     * The gallery name
+     */
+    gallery?: string;
   };
   url: "/api/v1/tenants/{tenant}/comps";
 };
