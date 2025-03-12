@@ -3,7 +3,7 @@
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { type MtComponent, comsListOptions } from "mtmaiapi";
-import { cn } from "mtxuilib/lib/utils";
+import { cn, generateUUID } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
 import {
@@ -29,6 +29,11 @@ export function NavComs() {
     }),
   });
 
+  const linkToNew = useMemo(() => {
+    const newUUID = generateUUID();
+    return `/coms/${newUUID}/new`;
+  }, []);
+
   return (
     <Sidebar collapsible="none" className="hidden flex-1 md:flex">
       <SidebarHeader className="gap-3.5 border-b p-4">
@@ -36,7 +41,7 @@ export function NavComs() {
           <div className="text-base font-medium text-foreground">资源</div>
           <Label className="flex items-center gap-2 text-sm">
             <CustomLink
-              to={"new"}
+              to={linkToNew}
               className={cn(buttonVariants({ variant: "ghost" }))}
             >
               <span>+</span>

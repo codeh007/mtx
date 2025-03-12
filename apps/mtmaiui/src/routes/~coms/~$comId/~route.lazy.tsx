@@ -3,7 +3,6 @@ import { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
 import { AgentRpc } from "mtmaiapi/mtmclient/mtmai/mtmpb/agent_worker_pb";
 import { Dispatcher } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
 import { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
-import { Button } from "mtxuilib/ui/button";
 import { useTenant } from "../../../hooks/useAuth";
 import { useMtmaiV2 } from "../../../stores/StoreProvider";
 import { useGomtmClient } from "../../../stores/TransportProvider";
@@ -14,11 +13,6 @@ export const Route = createLazyFileRoute("/coms/$comId")({
 });
 
 function RouteComponent() {
-  const { comId } = Route.useParams();
-
-  const handleRun = () => {
-    console.log("run");
-  };
   const tenant = useTenant();
   if (!tenant) {
     null;
@@ -44,7 +38,6 @@ function RouteComponent() {
         tenant={tenant!}
         nav={nav}
       >
-        <Button onClick={handleRun}>运行</Button>
         <Outlet />
       </WorkbrenchProvider>
     </>
