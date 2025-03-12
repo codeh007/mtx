@@ -10,6 +10,7 @@ function RouteComponent() {
     <div className="flex w-full flex-col gap-2 justify-center items-center">
       <CustomLink to={"../type/instagramTeam"}>instagram 团队</CustomLink>
       <CustomLink to={"../type/assisant"}>Assisant 团队</CustomLink>
+      <CustomLink to={"../type/modelClient"}>模型客户端</CustomLink>
     </div>
   );
 }

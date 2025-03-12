@@ -22,9 +22,9 @@ export async function submitMessages(
   }
 
   const messages = get().messages;
-  const teamId = get().teamId;
   let threadId = get().threadId;
   const resourceId = get().resourceId;
+  const componentId = get().componentId;
   const content = messages[messages.length - 1].content;
 
   if (!threadId) {
@@ -39,11 +39,11 @@ export async function submitMessages(
       input: {
         tenantId: tenant.metadata.id,
         content: content,
-        teamId: teamId,
         sessionId: threadId,
         topic: "default",
         source: "web",
         resourceId: resourceId,
+        componentId: componentId,
       } satisfies AgentRunInput,
       additionalMetadata: {
         sessionId: threadId,

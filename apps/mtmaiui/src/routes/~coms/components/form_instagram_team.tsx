@@ -8,15 +8,21 @@ import {
   FormMessage,
 } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
 export const FormInstagramTeam = () => {
   const form = useFormContext();
 
-  // const componentSchema = z.object({
-  //   name: z.string(),
-  //   description: z.string(),
-  // });
+  useEffect(() => {
+    form.setValue(
+      "component.provider",
+      "mtmai.teams.instagram_team.InstagramTeam",
+    );
+    form.setValue("component.config", {
+      max_turns: 10,
+    });
+  }, [form]);
   return (
     <div>
       <h1>instagram 团队配置</h1>
@@ -51,7 +57,7 @@ export const FormInstagramTeam = () => {
 
         <FormField
           control={form.control}
-          name="component.title"
+          name="component.config.title"
           render={({ field }) => (
             <FormItem>
               <FormLabel>任务</FormLabel>
@@ -64,7 +70,7 @@ export const FormInstagramTeam = () => {
         />
         <FormField
           control={form.control}
-          name="component.max_turns"
+          name="component.config.max_turns"
           render={({ field }) => (
             <FormItem>
               <FormLabel>轮次限制</FormLabel>
