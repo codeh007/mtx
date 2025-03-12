@@ -3839,6 +3839,9 @@ export const MtComponentPropertiesSchema = {
       type: "object",
       additionalProperties: true,
     },
+    galleryId: {
+      type: "string",
+    },
     component2: {
       oneOf: [
         {

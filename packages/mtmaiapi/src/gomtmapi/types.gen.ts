@@ -2174,6 +2174,7 @@ export type MtComponentProperties = {
   config: {
     [key: string]: unknown;
   };
+  galleryId?: string;
   component2?: InstagramTeamConfig | BrowserConfig | TeamConfig;
 };
 

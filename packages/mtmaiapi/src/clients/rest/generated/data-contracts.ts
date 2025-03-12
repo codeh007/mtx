@@ -1821,6 +1821,7 @@ export interface MtComponentProperties {
   /** @default 1 */
   componentVersion?: number;
   config: Record<string, any>;
+  galleryId?: string;
   component2?: InstagramTeamConfig | BrowserConfig | TeamConfig;
 }
 

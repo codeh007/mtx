@@ -1845,6 +1845,7 @@ export const zMtComponent = z
     version: z.number().int().optional().default(1),
     componentVersion: z.number().int().optional().default(1),
     config: z.object({}),
+    galleryId: z.string().optional(),
     component2: z
       .union([
         z.object({
@@ -2111,6 +2112,7 @@ export const zMtComponentProperties = z.object({
   version: z.number().int().optional().default(1),
   componentVersion: z.number().int().optional().default(1),
   config: z.object({}),
+  galleryId: z.string().optional(),
   component2: z
     .union([
       z.object({
