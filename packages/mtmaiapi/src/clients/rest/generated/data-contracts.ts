@@ -1821,7 +1821,7 @@ export interface MtComponentProperties {
   /** @default 1 */
   componentVersion?: number;
   config: Record<string, any>;
-  component2?: InstagramTeamConfig | BrowserConfig;
+  component2?: InstagramTeamConfig | BrowserConfig | TeamConfig;
 }
 
 export interface ComponentModel {
@@ -1857,9 +1857,11 @@ export interface Gallery {
   metadata: APIResourceMeta;
   name: string;
   url: string;
-  userId: string;
-  meta: GalleryMetadata;
-  items: GalleryItems;
+  author: string;
+  homepage: string;
+  description: string;
+  tags: string[];
+  license: string;
 }
 
 export interface GalleryList {

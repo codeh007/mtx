@@ -3847,6 +3847,9 @@ export const MtComponentPropertiesSchema = {
         {
           $ref: "#/components/schemas/BrowserConfig",
         },
+        {
+          $ref: "#/components/schemas/TeamConfig",
+        },
       ],
     },
   },
@@ -3941,7 +3944,16 @@ export const GalleryItemsSchema = {
 } as const;
 
 export const GallerySchema = {
-  type: "object",
+  required: [
+    "metadata",
+    "name",
+    "url",
+    "author",
+    "homepage",
+    "description",
+    "tags",
+    "license",
+  ],
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -3952,17 +3964,25 @@ export const GallerySchema = {
     url: {
       type: "string",
     },
-    userId: {
+    author: {
       type: "string",
     },
-    meta: {
-      $ref: "#/components/schemas/GalleryMetadata",
+    homepage: {
+      type: "string",
     },
-    items: {
-      $ref: "#/components/schemas/GalleryItems",
+    description: {
+      type: "string",
+    },
+    tags: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+    license: {
+      type: "string",
     },
   },
-  required: ["metadata", "name", "url", "userId", "meta", "items"],
 } as const;
 
 export const GalleryListSchema = {

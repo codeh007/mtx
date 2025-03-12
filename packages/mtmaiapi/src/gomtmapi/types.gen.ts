@@ -2174,7 +2174,7 @@ export type MtComponentProperties = {
   config: {
     [key: string]: unknown;
   };
-  component2?: InstagramTeamConfig | BrowserConfig;
+  component2?: InstagramTeamConfig | BrowserConfig | TeamConfig;
 };
 
 export type ComponentModel = {
@@ -2226,9 +2226,11 @@ export type Gallery = {
   metadata: ApiResourceMeta;
   name: string;
   url: string;
-  userId: string;
-  meta: GalleryMetadata;
-  items: GalleryItems;
+  author: string;
+  homepage: string;
+  description: string;
+  tags: Array<string>;
+  license: string;
 };
 
 export type GalleryList = {

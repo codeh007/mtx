@@ -2,17 +2,36 @@
 // @generated from file mtmai/mtmpb/user.proto (package mtmai.mtmpb, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
-import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
-import { file_google_protobuf_descriptor, file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
+import type {
+  GenFile,
+  GenMessage,
+  GenService,
+} from "@bufbuild/protobuf/codegenv1";
+import {
+  fileDesc,
+  messageDesc,
+  serviceDesc,
+} from "@bufbuild/protobuf/codegenv1";
+import {
+  file_google_protobuf_descriptor,
+  file_google_protobuf_timestamp,
+} from "@bufbuild/protobuf/wkt";
 import { file_mtmai_mtmpb_mtm } from "./mtm_pb";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file mtmai/mtmpb/user.proto.
  */
-export const file_mtmai_mtmpb_user: GenFile = /*@__PURE__*/
-  fileDesc("ChZtdG1haS9tdG1wYi91c2VyLnByb3RvEgttdG1haS5tdG1wYiIPCg1MaXN0TWVtYmVyUmVxIhsKCk1lbWJlckxpc3QSDQoFdG9rZW4YASABKAkyUwoLVXNlclNlcnZpY2USRAoLTGlzdE1lbWJlcnMSGi5tdG1haS5tdG1wYi5MaXN0TWVtYmVyUmVxGhcubXRtYWkubXRtcGIuTWVtYmVyTGlzdCIAQp8BCg9jb20ubXRtYWkubXRtcGJCCVVzZXJQcm90b1ABWjRnaXRodWIuY29tL2NvZGVoMDA3L2dvbXRtL210bS9zcHBiL210bWFpL210bXBiO210bXBiogIDTU1YqgILTXRtYWkuTXRtcGLKAgtNdG1haVxNdG1wYuICF010bWFpXE10bXBiXEdQQk1ldGFkYXRh6gIMTXRtYWk6Ok10bXBiYgZwcm90bzM", [file_google_protobuf_descriptor, file_mtmai_mtmpb_mtm, file_google_protobuf_timestamp]);
+export const file_mtmai_mtmpb_user: GenFile =
+  /*@__PURE__*/
+  fileDesc(
+    "ChZtdG1haS9tdG1wYi91c2VyLnByb3RvEgttdG1haS5tdG1wYiIPCg1MaXN0TWVtYmVyUmVxIhsKCk1lbWJlckxpc3QSDQoFdG9rZW4YASABKAkyUwoLVXNlclNlcnZpY2USRAoLTGlzdE1lbWJlcnMSGi5tdG1haS5tdG1wYi5MaXN0TWVtYmVyUmVxGhcubXRtYWkubXRtcGIuTWVtYmVyTGlzdCIAQp8BCg9jb20ubXRtYWkubXRtcGJCCVVzZXJQcm90b1ABWjRnaXRodWIuY29tL2NvZGVoMDA3L2dvbXRtL210bS9zcHBiL210bWFpL210bXBiO210bXBiogIDTU1YqgILTXRtYWkuTXRtcGLKAgtNdG1haVxNdG1wYuICF010bWFpXE10bXBiXEdQQk1ldGFkYXRh6gIMTXRtYWk6Ok10bXBiYgZwcm90bzM",
+    [
+      file_google_protobuf_descriptor,
+      file_mtmai_mtmpb_mtm,
+      file_google_protobuf_timestamp,
+    ],
+  );
 
 /**
  * string email = 1;
@@ -20,14 +39,14 @@ export const file_mtmai_mtmpb_user: GenFile = /*@__PURE__*/
  *
  * @generated from message mtmai.mtmpb.ListMemberReq
  */
-export type ListMemberReq = Message<"mtmai.mtmpb.ListMemberReq"> & {
-};
+export type ListMemberReq = Message<"mtmai.mtmpb.ListMemberReq"> & {};
 
 /**
  * Describes the message mtmai.mtmpb.ListMemberReq.
  * Use `create(ListMemberReqSchema)` to create a new message.
  */
-export const ListMemberReqSchema: GenMessage<ListMemberReq> = /*@__PURE__*/
+export const ListMemberReqSchema: GenMessage<ListMemberReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_user, 0);
 
 /**
@@ -44,7 +63,8 @@ export type MemberList = Message<"mtmai.mtmpb.MemberList"> & {
  * Describes the message mtmai.mtmpb.MemberList.
  * Use `create(MemberListSchema)` to create a new message.
  */
-export const MemberListSchema: GenMessage<MemberList> = /*@__PURE__*/
+export const MemberListSchema: GenMessage<MemberList> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_user, 1);
 
 /**
@@ -60,7 +80,5 @@ export const UserService: GenService<{
     methodKind: "unary";
     input: typeof ListMemberReqSchema;
     output: typeof MemberListSchema;
-  },
-}> = /*@__PURE__*/
-  serviceDesc(file_mtmai_mtmpb_user, 0);
-
+  };
+}> = /*@__PURE__*/ serviceDesc(file_mtmai_mtmpb_user, 0);
