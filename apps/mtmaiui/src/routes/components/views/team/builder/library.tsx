@@ -13,7 +13,7 @@ import { Button } from "mtxuilib/ui/button";
 // import { Collapse } from "mtxuilib/ui/collapsible";
 import { Input } from "mtxuilib/ui/input";
 import React from "react";
-import { useGalleryStore } from "../../../../~gallery/store";
+import { useGalleryStore } from "../../../../../stores/gallerySstore";
 
 interface ComponentConfigTypes {
   [key: string]: any;

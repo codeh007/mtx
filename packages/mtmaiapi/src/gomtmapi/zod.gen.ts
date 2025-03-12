@@ -2386,8 +2386,6 @@ export const zAgentMessageConfig = z.union([
 
 export const zMemoryConfig = zComponentModel;
 
-export const zModelContext = zComponentModel;
-
 export const zMtTaskResult = z.object({
   messages: z.array(z.object({})),
   stop_reason: z.string(),
@@ -2501,18 +2499,6 @@ export const zAzureOpenAiModelConfig = zModelConfig.merge(
 export const zOpenAiModelConfig = zModelConfig.merge(
   z.object({
     model_type: z.enum(["OpenAIChatCompletionClient"]),
-  }),
-);
-
-export const zToolComponent = zComponentModel.merge(
-  z.object({
-    config: z.object({
-      name: z.string(),
-      description: z.string().optional(),
-      source_code: z.string().optional(),
-      global_imports: z.array(z.string()).optional(),
-      has_cancellation_support: z.boolean().optional(),
-    }),
   }),
 );
 
@@ -3164,12 +3150,12 @@ export const zTeamConfig = z.union([
 export const zAgentConfig = z.object({
   name: z.string(),
   description: z.string(),
-  model_context: zModelContext.optional(),
+  model_context: z.object({}).optional(),
   memory: zMemoryConfig.optional(),
   model_client_stream: z.boolean().default(false),
   system_message: z.string().optional(),
   model_client: zModelComponent,
-  tools: z.array(zToolComponent).default([]),
+  tools: z.array(z.object({})).default([]),
   handoffs: z.array(z.string()).default([]),
   reflect_on_tool_use: z.boolean().default(false),
   tool_call_summary_format: z.string().default("{result}"),

@@ -1,9 +1,9 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { GalleryProvider } from "../../stores/gallerySstore";
 import { RootAppWrapper } from "../components/RootAppWrapper";
 import type { Gallery } from "../components/views/gallery/types";
 import { NavComs } from "../~coms/siderbar";
-import { useGalleryStore } from "./store";
 
 export const Route = createLazyFileRoute("/gallery")({
   component: RouteComponent,
@@ -21,20 +21,20 @@ function RouteComponent() {
     return true;
   });
 
-  const {
-    galleries,
-    selectedGalleryId,
-    selectGallery,
-    addGallery,
-    updateGallery,
-    removeGallery,
-    setDefaultGallery,
-    getSelectedGallery,
-    getDefaultGallery,
-  } = useGalleryStore();
+  // const {
+  //   galleries,
+  //   selectedGalleryId,
+  //   selectGallery,
+  //   addGallery,
+  //   updateGallery,
+  //   removeGallery,
+  //   setDefaultGallery,
+  //   getSelectedGallery,
+  //   getDefaultGallery,
+  // } = useGalleryStore();
 
   // const [messageApi, contextHolder] = message.useMessage();
-  const currentGallery = getSelectedGallery();
+  // const currentGallery = getSelectedGallery();
 
   // Persist sidebar state
   useEffect(() => {
@@ -44,14 +44,14 @@ function RouteComponent() {
   }, [isSidebarOpen]);
 
   // Handle URL params
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const galleryId = params.get("galleryId");
+  // useEffect(() => {
+  //   const params = new URLSearchParams(window.location.search);
+  //   const galleryId = params.get("galleryId");
 
-    if (galleryId && !selectedGalleryId) {
-      handleSelectGallery(galleryId);
-    }
-  }, [selectedGalleryId]);
+  //   if (galleryId && !selectedGalleryId) {
+  //     handleSelectGallery(galleryId);
+  //   }
+  // }, [selectedGalleryId]);
 
   // Update URL when gallery changes
   // useEffect(() => {
@@ -98,17 +98,17 @@ function RouteComponent() {
       },
     };
 
-    try {
-      setIsLoading(true);
-      await addGallery(newGallery);
-      // messageApi.success("Gallery created successfully");
-      selectGallery(newGallery.id);
-    } catch (error) {
-      // messageApi.error("Failed to create gallery");
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+    // try {
+    //   setIsLoading(true);
+    //   await addGallery(newGallery);
+    //   // messageApi.success("Gallery created successfully");
+    //   selectGallery(newGallery.id);
+    // } catch (error) {
+    //   // messageApi.error("Failed to create gallery");
+    //   console.error(error);
+    // } finally {
+    //   setIsLoading(false);
+    // }
   };
 
   const handleDeleteGallery = async (galleryId: string) => {
@@ -136,7 +136,9 @@ function RouteComponent() {
   };
   return (
     <RootAppWrapper secondSidebar={<NavComs />}>
-      <Outlet />
+      <GalleryProvider>
+        <Outlet />
+      </GalleryProvider>
     </RootAppWrapper>
   );
 }

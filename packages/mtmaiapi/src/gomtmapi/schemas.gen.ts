@@ -4423,14 +4423,6 @@ export const MemoryConfigSchema = {
   ],
 } as const;
 
-export const ModelContextSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/ComponentModel",
-    },
-  ],
-} as const;
-
 export const MtTaskResultSchema = {
   properties: {
     messages: {
@@ -4623,22 +4615,6 @@ export const OpenAIModelConfigSchema = {
         },
       },
       required: ["model_type"],
-    },
-  ],
-} as const;
-
-export const ToolComponentSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/ComponentModel",
-    },
-    {
-      required: ["config"],
-      properties: {
-        config: {
-          $ref: "#/components/schemas/ToolConfig",
-        },
-      },
     },
   ],
 } as const;
@@ -6233,7 +6209,8 @@ export const AgentConfigSchema = {
       type: "string",
     },
     model_context: {
-      $ref: "#/components/schemas/ModelContext",
+      type: "object",
+      additionalProperties: true,
     },
     memory: {
       $ref: "#/components/schemas/MemoryConfig",
@@ -6252,7 +6229,8 @@ export const AgentConfigSchema = {
     tools: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/ToolComponent",
+        type: "object",
+        additionalProperties: true,
       },
       default: [],
     },

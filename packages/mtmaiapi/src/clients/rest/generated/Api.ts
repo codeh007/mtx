@@ -2704,7 +2704,6 @@ export class Api<
    *
    * @tags galleries
    * @name GalleryGet
-   * @summary 获取租户下的画廊列表
    * @request GET:/api/v1/tenants/{tenant}/gallery/{gallery}
    * @secure
    */

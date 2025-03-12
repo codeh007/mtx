@@ -2469,8 +2469,6 @@ export type AgentMessageConfig =
 
 export type MemoryConfig = ComponentModel;
 
-export type ModelContext = ComponentModel;
-
 export type MtTaskResult = {
   messages: Array<{
     [key: string]: unknown;
@@ -2563,10 +2561,6 @@ export type AzureOpenAiModelConfig = ModelConfig & {
 
 export type OpenAiModelConfig = ModelConfig & {
   model_type: "OpenAIChatCompletionClient";
-};
-
-export type ToolComponent = ComponentModel & {
-  config: ToolConfig;
 };
 
 export type ToolConfig = {
@@ -3328,12 +3322,16 @@ export type TeamConfig =
 export type AgentConfig = {
   name: string;
   description: string;
-  model_context?: ModelContext;
+  model_context?: {
+    [key: string]: unknown;
+  };
   memory?: MemoryConfig;
   model_client_stream: boolean;
   system_message?: string;
   model_client: ModelComponent;
-  tools: Array<ToolComponent>;
+  tools: Array<{
+    [key: string]: unknown;
+  }>;
   handoffs: Array<string>;
   reflect_on_tool_use: boolean;
   tool_call_summary_format: string;

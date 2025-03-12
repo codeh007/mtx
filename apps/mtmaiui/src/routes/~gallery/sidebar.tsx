@@ -14,7 +14,7 @@ import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
-import { useGalleryStore } from "./store";
+import { useGalleryStore } from "../../stores/gallerySstore";
 
 interface GallerySidebarProps {
   isOpen: boolean;

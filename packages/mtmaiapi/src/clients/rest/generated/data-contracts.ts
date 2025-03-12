@@ -2049,8 +2049,6 @@ export type AgentMessageConfig =
 
 export type MemoryConfig = ComponentModel;
 
-export type ModelContext = ComponentModel;
-
 export interface MtTaskResult {
   messages: Record<string, any>[];
   stop_reason: string;
@@ -2124,10 +2122,6 @@ export type AzureOpenAIModelConfig = ModelConfig & {
 
 export type OpenAIModelConfig = ModelConfig & {
   model_type: "OpenAIChatCompletionClient";
-};
-
-export type ToolComponent = ComponentModel & {
-  config: ToolConfig;
 };
 
 export interface ToolConfig {
@@ -2749,14 +2743,14 @@ export type TeamConfig =
 export interface AgentConfig {
   name: string;
   description: string;
-  model_context?: ModelContext;
+  model_context?: Record<string, any>;
   memory?: MemoryConfig;
   /** @default false */
   model_client_stream: boolean;
   system_message?: string;
   model_client: ModelComponent;
   /** @default [] */
-  tools: ToolComponent[];
+  tools: Record<string, any>[];
   /** @default [] */
   handoffs: string[];
   /** @default false */

@@ -3455,7 +3455,6 @@ export const galleryCreate = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 获取租户下的画廊列表
  * 获取画廊列表
  */
 export const galleryGet = <ThrowOnError extends boolean = false>(

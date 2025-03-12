@@ -19,7 +19,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
 
 import { useMemo } from "react";
-import { useGalleryStore } from "../~gallery/store";
+import { useGalleryStore } from "../../stores/gallerySstore";
 
 interface TeamSidebarProps {
   isOpen: boolean;

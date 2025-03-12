@@ -3,10 +3,10 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { useEffect, useState } from "react";
+import { useGalleryStore } from "../../stores/gallerySstore";
 import { GalleryCreateModal } from "../components/views/gallery/create-modal";
 import type { Gallery } from "../components/views/gallery/types";
 import { GallerySidebar } from "./sidebar";
-import { useGalleryStore } from "./store";
 
 export const Route = createLazyFileRoute("/gallery/")({
   component: RouteComponent,
