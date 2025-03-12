@@ -1550,7 +1550,6 @@ export const zArtifact = z.object({
 });
 
 export const zAgentRunInput = z.object({
-  teamName: z.string().optional(),
   sessionId: z.string().optional(),
   content: z.string(),
   tenantId: z.string().optional(),
@@ -1558,8 +1557,8 @@ export const zAgentRunInput = z.object({
   stepRunId: z.string().optional(),
   resourceId: z.string().optional(),
   componentId: z.string().optional(),
-  source: z.string().optional(),
   topic: z.string().optional(),
+  source: z.string().optional(),
   other: z
     .union([
       z.object({
@@ -1597,11 +1596,6 @@ export const zAgentRunInput = z.object({
         type: z.string().optional(),
         threadId: z.string().optional(),
         source: z.string().optional(),
-      }),
-      z.object({
-        content: z.string(),
-        team: z.string(),
-        resourceId: z.string().optional(),
       }),
       z.object({
         reason: z.string().optional(),
@@ -1854,7 +1848,6 @@ export const zMtComponent = z
       .union([
         z.object({
           max_turns: z.number().int().optional(),
-          max_messages: z.number().int().optional(),
           max_tokens: z.number().optional(),
           termination_condition: z
             .object({
@@ -1948,7 +1941,6 @@ export const zMtComponentProperties = z.object({
     .union([
       z.object({
         max_turns: z.number().int().optional(),
-        max_messages: z.number().int().optional(),
         max_tokens: z.number().optional(),
         termination_condition: z
           .object({
@@ -2991,12 +2983,6 @@ export const zChatSessionStartEvent = z.object({
   source: z.string().optional(),
 });
 
-export const zTeamRunnerTask = z.object({
-  content: z.string(),
-  team: z.string(),
-  resourceId: z.string().optional(),
-});
-
 export const zTerminationMessage = z.object({
   reason: z.string().optional(),
   content: z.string().optional(),
@@ -3025,7 +3011,6 @@ export const zBrowserOpenTask = z.object({
 
 export const zInstagramTeamConfig = z.object({
   max_turns: z.number().int().optional(),
-  max_messages: z.number().int().optional(),
   max_tokens: z.number().optional(),
   termination_condition: zTerminationConfig.optional(),
   task: z.string().optional(),

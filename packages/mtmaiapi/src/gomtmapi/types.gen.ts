@@ -1879,7 +1879,6 @@ export type Artifact = {
 };
 
 export type AgentRunInput = {
-  teamName?: string;
   sessionId?: string;
   content: string;
   tenantId?: string;
@@ -1887,8 +1886,8 @@ export type AgentRunInput = {
   stepRunId?: string;
   resourceId?: string;
   componentId?: string;
-  source?: string;
   topic?: string;
+  source?: string;
   other?:
     | CodeWritingTask
     | CodeWritingResult
@@ -1898,7 +1897,6 @@ export type AgentRunInput = {
     | PlatformAccountData
     | InstagramTask
     | ChatSessionStartEvent
-    | TeamRunnerTask
     | TerminationMessage
     | CodeReviewTask
     | CodeReviewResult
@@ -3277,12 +3275,6 @@ export type ChatSessionStartEvent = {
   source?: string;
 };
 
-export type TeamRunnerTask = {
-  content: string;
-  team: string;
-  resourceId?: string;
-};
-
 export type TerminationMessage = {
   reason?: string;
   content?: string;
@@ -3317,7 +3309,6 @@ export type BrowserOpenTask = {
 
 export type InstagramTeamConfig = {
   max_turns?: number;
-  max_messages?: number;
   max_tokens?: number;
   termination_condition?: TerminationConfig;
   task?: string;

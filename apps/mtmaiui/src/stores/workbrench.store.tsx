@@ -2,7 +2,6 @@
 
 import type React from "react";
 import { createContext, useContext, useMemo } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -13,7 +12,6 @@ import type { UseNavigateResult } from "@tanstack/react-router";
 import { debounce } from "lodash";
 import type {
   AgentRunInput,
-  ArtifactV3,
   ChatMessage,
   Tenant,
   TextHighlight,
@@ -55,19 +53,6 @@ const DEFAULT_AGENT_FLOW_SETTINGS = {
   showMiniMap: false,
 };
 
-export interface HubmanInput {
-  content: string;
-  resource?: string;
-  resourceId?: string;
-  chatId?: string;
-}
-
-// 新增聊天事件类型
-export type MtmaiChatEvent = {
-  type: "newChatId" | "chatEnd";
-  data: any;
-};
-
 export interface WorkbrenchState extends WorkbenchProps {
   setThreadId: (threadId?: string) => void;
   setOpenDebugPanel: (openDebugPanel: boolean) => void;
@@ -93,20 +78,24 @@ export interface WorkbrenchState extends WorkbenchProps {
   setFirstUserInteraction: (firstUserInteraction: string) => void;
   loading: boolean;
   setLoading: (loading: boolean) => void;
-  askForm?: IAskForm;
-  setAskForm: (askForm?: IAskForm) => void;
+  // askForm?: IAskForm;
+  // setAskForm: (askForm?: IAskForm) => void;
   input?: string;
   setInput: (input: string) => void;
-  handleHumanInput: (input: HubmanInput) => void;
+  handleHumanInput: (input: AgentRunInput) => void;
   handleEvents: (eventName: string, data: any) => void;
   chatBotType: "";
   subscribeEvents: (options: {
     runId: string;
   }) => void;
-  resource?: string;
-  setResource: (resource: string) => void;
+  // resource?: string;
   resourceId?: string;
+  // setResource: (resource: string) => void;
   setResourceId: (resourceId: string) => void;
+
+  componentId?: string;
+  setComponentId: (componentId: string) => void;
+
   selectedModelId?: string;
   setSelectedModelId: (selectedModelId: string) => void;
   chatStarted?: boolean;
@@ -119,8 +108,8 @@ export interface WorkbrenchState extends WorkbenchProps {
   setIsOpenWorkbenchChat: (isOpenWorkbenchChat: boolean) => void;
   runner?: string;
   setRunner: (runner: string) => void;
-  teamId: string;
-  setTeamId: (teamId: string) => void;
+  // teamId: string;
+  // setTeamId: (teamId: string) => void;
   isStreaming: boolean;
   setIsStreaming: (isStreaming: boolean) => void;
   firstTokenReceived: boolean;
@@ -128,8 +117,8 @@ export interface WorkbrenchState extends WorkbenchProps {
   addMessage: (message: ChatMessage) => void;
   runId: string;
   setRunId: (runId: string) => void;
-  artifact: ArtifactV3 | undefined;
-  setArtifact: (artifact: ArtifactV3) => void;
+  // artifact: ArtifactV3 | undefined;
+  // setArtifact: (artifact: ArtifactV3) => void;
   isArtifactSaved: boolean;
   setIsArtifactSaved: (isArtifactSaved: boolean) => void;
   selectedArtifact: number;
@@ -175,12 +164,13 @@ export const createWorkbrenchSlice: StateCreator<
       set({ openChat });
     },
 
-    handleHumanInput: debounce(async ({ content, resourceId }) => {
+    handleHumanInput: debounce(async ({ content, resourceId, componentId }) => {
       const preMessages = get().messages;
       const newChatMessage = {
         role: "user",
-        content: content,
+        content,
         resourceId,
+        componentId,
         topic: "default",
         source: "web",
         metadata: {
@@ -189,8 +179,11 @@ export const createWorkbrenchSlice: StateCreator<
           updatedAt: new Date().toISOString(),
         },
       } as ChatMessage;
-      set({ messages: [...preMessages, newChatMessage] });
-      set({ resourceId });
+      set({
+        resourceId,
+        componentId,
+        messages: [...preMessages, newChatMessage],
+      });
       submitMessages(set, get);
     }, 100),
     setMessages: (messages) => set({ messages }),
@@ -202,6 +195,9 @@ export const createWorkbrenchSlice: StateCreator<
     },
     setResourceId: (resourceId) => {
       set({ resourceId });
+    },
+    setComponentId: (componentId) => {
+      set({ componentId });
     },
 
     setChatStarted: (chatStarted: boolean) => {
@@ -223,19 +219,19 @@ export const createWorkbrenchSlice: StateCreator<
     setRunId: (runId: string) => {
       set({ runId });
     },
-    setTeamId: (teamId: string) => {
-      set({ teamId });
-    },
-    setArtifact: (artifact: ArtifactV3) => {
-      set({ artifact });
-    },
+    // setTeamId: (teamId: string) => {
+    //   set({ teamId });
+    // },
+    // setArtifact: (artifact: ArtifactV3) => {
+    //   set({ artifact });
+    // },
 
     setSelectedBlocks: (selectedBlocks: TextHighlight) => {
       set({ selectedBlocks });
     },
-    setIsArtifactSaved: (isArtifactSaved: boolean) => {
-      set({ isArtifactSaved });
-    },
+    // setIsArtifactSaved: (isArtifactSaved: boolean) => {
+    //   set({ isArtifactSaved });
+    // },
     setSelectedArtifact: (index: number) => {
       set({ selectedArtifact: index });
     },
@@ -243,11 +239,11 @@ export const createWorkbrenchSlice: StateCreator<
       const prevMessages = get().messages;
       set({ messages: [...prevMessages, message] });
     },
-    connectionId: uuidv4(),
-    header: {
-      title: "",
-      breadcrumbs: [],
-    },
+    // connectionId: uuidv4(),
+    // header: {
+    //   title: "",
+    //   breadcrumbs: [],
+    // },
     agentFlow: DEFAULT_AGENT_FLOW_SETTINGS,
     sidebar: {
       isExpanded: true,

@@ -3314,9 +3314,6 @@ export const ArtifactSchema = {
 export const AgentRunInputSchema = {
   required: ["content"],
   properties: {
-    teamName: {
-      type: "string",
-    },
     sessionId: {
       type: "string",
     },
@@ -3338,10 +3335,10 @@ export const AgentRunInputSchema = {
     componentId: {
       type: "string",
     },
-    source: {
+    topic: {
       type: "string",
     },
-    topic: {
+    source: {
       type: "string",
     },
     other: {
@@ -3369,9 +3366,6 @@ export const AgentRunInputSchema = {
         },
         {
           $ref: "#/components/schemas/ChatSessionStartEvent",
-        },
-        {
-          $ref: "#/components/schemas/TeamRunnerTask",
         },
         {
           $ref: "#/components/schemas/TerminationMessage",
@@ -6100,21 +6094,6 @@ export const ChatSessionStartEventSchema = {
   },
 } as const;
 
-export const TeamRunnerTaskSchema = {
-  required: ["content", "team"],
-  properties: {
-    content: {
-      type: "string",
-    },
-    team: {
-      type: "string",
-    },
-    resourceId: {
-      type: "string",
-    },
-  },
-} as const;
-
 export const TerminationMessageSchema = {
   properties: {
     reason: {
@@ -6188,9 +6167,6 @@ export const BrowserOpenTaskSchema = {
 export const InstagramTeamConfigSchema = {
   properties: {
     max_turns: {
-      type: "integer",
-    },
-    max_messages: {
       type: "integer",
     },
     max_tokens: {
