@@ -3,7 +3,6 @@ import { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
 import { AgentRpc } from "mtmaiapi/mtmclient/mtmai/mtmpb/agent_worker_pb";
 import { Dispatcher } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
 import { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
-import { SidebarProvider } from "mtxuilib/ui/sidebar";
 import { useTenant } from "../../hooks/useAuth";
 import { useMtmaiV2 } from "../../stores/StoreProvider";
 import { useGomtmClient } from "../../stores/TransportProvider";
@@ -40,18 +39,18 @@ function RouteComponent() {
       tenant={tenant!}
       nav={nav}
     >
-      <SidebarProvider
+      {/* <SidebarProvider
         className="min-h-none"
         style={
           {
             "--sidebar-width": "350px", //如果需要左侧双侧边栏 就设置为 350px
           } as React.CSSProperties
         }
-      >
-        <RootAppWrapper secondSidebar={<NavPlayground />}>
-          <Outlet />
-        </RootAppWrapper>
-      </SidebarProvider>
+      > */}
+      <RootAppWrapper secondSidebar={<NavPlayground />}>
+        <Outlet />
+      </RootAppWrapper>
+      {/* </SidebarProvider> */}
     </WorkbrenchProvider>
   );
 }

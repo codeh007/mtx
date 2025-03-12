@@ -55,15 +55,6 @@ function RouteComponent() {
       nav={nav}
     >
       <RootAppWrapper secondSidebar={<NavResource />}>
-        {/* <DashHeaders>
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbPage>资源</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </DashHeaders> */}
         <Outlet />
       </RootAppWrapper>
     </WorkbrenchProvider>

@@ -58,9 +58,22 @@ function RouteComponent() {
           name="component.title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>标题</FormLabel>
+              <FormLabel>任务</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="标题" />
+                <Input {...field} placeholder="任务" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="component.max_turns"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>轮次限制</FormLabel>
+              <FormControl>
+                <Input {...field} type="number" placeholder="轮次限制" />
               </FormControl>
               <FormMessage />
             </FormItem>

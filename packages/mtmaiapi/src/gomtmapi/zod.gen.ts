@@ -1923,6 +1923,7 @@ export const zMtComponent = z
                 .optional(),
             })
             .optional(),
+          task: z.string().optional(),
         }),
         z.object({
           persistent: z.boolean().optional(),
@@ -2016,6 +2017,7 @@ export const zMtComponentProperties = z.object({
               .optional(),
           })
           .optional(),
+        task: z.string().optional(),
       }),
       z.object({
         persistent: z.boolean().optional(),
@@ -3026,6 +3028,7 @@ export const zInstagramTeamConfig = z.object({
   max_messages: z.number().int().optional(),
   max_tokens: z.number().optional(),
   termination_condition: zTerminationConfig.optional(),
+  task: z.string().optional(),
 });
 
 export const zBrowserConfig = z.object({

@@ -6199,6 +6199,9 @@ export const InstagramTeamConfigSchema = {
     termination_condition: {
       $ref: "#/components/schemas/TerminationConfig",
     },
+    task: {
+      type: "string",
+    },
   },
 } as const;
 

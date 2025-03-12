@@ -2743,6 +2743,7 @@ export interface InstagramTeamConfig {
   max_messages?: number;
   max_tokens?: number;
   termination_condition?: TerminationConfig;
+  task?: string;
 }
 
 /** 浏览器配置(未完成) */

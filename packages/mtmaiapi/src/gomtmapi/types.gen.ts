@@ -3320,6 +3320,7 @@ export type InstagramTeamConfig = {
   max_messages?: number;
   max_tokens?: number;
   termination_condition?: TerminationConfig;
+  task?: string;
 };
 
 /**
