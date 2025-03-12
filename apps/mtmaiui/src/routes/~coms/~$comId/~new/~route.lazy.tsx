@@ -11,7 +11,7 @@ function RouteComponent() {
       <CustomLink to={"../type/instagramTeam"}>instagram 团队</CustomLink>
       <CustomLink to={"../type/assisant"}>Assisant 团队</CustomLink>
       <CustomLink to={"../type/modelClient"}>模型客户端</CustomLink>
-      <CustomLink to={"../../builder"}>Builder</CustomLink>
+      <CustomLink to={"/builder"}>Builder</CustomLink>
     </div>
   );
 }

@@ -3815,7 +3815,7 @@ export const MtComponentListSchema = {
 } as const;
 
 export const MtComponentPropertiesSchema = {
-  required: ["type", "component"],
+  required: ["type", "config"],
   properties: {
     type: {
       type: "string",
@@ -3831,7 +3831,11 @@ export const MtComponentPropertiesSchema = {
       type: "integer",
       default: 1,
     },
-    component: {
+    componentVersion: {
+      type: "integer",
+      default: 1,
+    },
+    config: {
       type: "object",
       additionalProperties: true,
     },

@@ -56,15 +56,6 @@ function RouteComponent() {
       nav={nav}
     >
       <RootAppWrapper secondSidebar={<NavComs />}>
-        {/* <DashHeaders>
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbPage>组件</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </DashHeaders> */}
         <GalleryProvider>
           <Outlet />
         </GalleryProvider>

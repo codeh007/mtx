@@ -1843,7 +1843,8 @@ export const zMtComponent = z
     label: z.string().optional(),
     description: z.string().optional(),
     version: z.number().int().optional().default(1),
-    component: z.object({}),
+    componentVersion: z.number().int().optional().default(1),
+    config: z.object({}),
     component2: z
       .union([
         z.object({
@@ -1953,7 +1954,8 @@ export const zMtComponentProperties = z.object({
   label: z.string().optional(),
   description: z.string().optional(),
   version: z.number().int().optional().default(1),
-  component: z.object({}),
+  componentVersion: z.number().int().optional().default(1),
+  config: z.object({}),
   component2: z
     .union([
       z.object({

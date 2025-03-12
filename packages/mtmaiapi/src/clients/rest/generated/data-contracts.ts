@@ -1818,7 +1818,9 @@ export interface MtComponentProperties {
   description?: string;
   /** @default 1 */
   version?: number;
-  component: Record<string, any>;
+  /** @default 1 */
+  componentVersion?: number;
+  config: Record<string, any>;
   component2?: InstagramTeamConfig | BrowserConfig;
 }
 

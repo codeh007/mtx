@@ -47,6 +47,7 @@ const EventsRouteLazyImport = createFileRoute('/events')()
 const EnvsRouteLazyImport = createFileRoute('/envs')()
 const EndpointRouteLazyImport = createFileRoute('/endpoint')()
 const ComsRouteLazyImport = createFileRoute('/coms')()
+const BuilderRouteLazyImport = createFileRoute('/builder')()
 const AuthRouteLazyImport = createFileRoute('/auth')()
 const AgstateRouteLazyImport = createFileRoute('/ag_state')()
 const AgEventsRouteLazyImport = createFileRoute('/agEvents')()
@@ -70,7 +71,6 @@ const PlatformAccountPlatformAccountIdRouteLazyImport = createFileRoute(
 )()
 const GalleryGalleryIdRouteLazyImport = createFileRoute('/gallery/$galleryId')()
 const ComsNewRouteLazyImport = createFileRoute('/coms/new')()
-const ComsBuilderLazyImport = createFileRoute('/coms/builder')()
 const ComsComIdRouteLazyImport = createFileRoute('/coms/$comId')()
 const AuthRegisterLazyImport = createFileRoute('/auth/register')()
 const AuthLoginRouteLazyImport = createFileRoute('/auth/login')()
@@ -88,6 +88,7 @@ const EventsIndexLazyImport = createFileRoute('/events/')()
 const EnvsIndexLazyImport = createFileRoute('/envs/')()
 const EndpointIndexLazyImport = createFileRoute('/endpoint/')()
 const ComsIndexLazyImport = createFileRoute('/coms/')()
+const BuilderIndexLazyImport = createFileRoute('/builder/')()
 const AgEventsIndexLazyImport = createFileRoute('/agEvents/')()
 const WorkflowRunsWorkflowRunIdSummaryLazyImport = createFileRoute(
   '/workflow-runs/$workflowRunId/summary',
@@ -275,6 +276,14 @@ const ComsRouteLazyRoute = ComsRouteLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~coms/~route.lazy').then((d) => d.Route))
 
+const BuilderRouteLazyRoute = BuilderRouteLazyImport.update({
+  id: '/builder',
+  path: '/builder',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/~builder/~route.lazy').then((d) => d.Route),
+)
+
 const AuthRouteLazyRoute = AuthRouteLazyImport.update({
   id: '/auth',
   path: '/auth',
@@ -401,14 +410,6 @@ const ComsNewRouteLazyRoute = ComsNewRouteLazyImport.update({
   import('./routes/~coms/~new/~route.lazy').then((d) => d.Route),
 )
 
-const ComsBuilderLazyRoute = ComsBuilderLazyImport.update({
-  id: '/builder',
-  path: '/builder',
-  getParentRoute: () => ComsRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~coms/~builder.lazy').then((d) => d.Route),
-)
-
 const ComsComIdRouteLazyRoute = ComsComIdRouteLazyImport.update({
   id: '/$comId',
   path: '/$comId',
@@ -532,6 +533,14 @@ const ComsIndexLazyRoute = ComsIndexLazyImport.update({
   path: '/',
   getParentRoute: () => ComsRouteLazyRoute,
 } as any).lazy(() => import('./routes/~coms/~index.lazy').then((d) => d.Route))
+
+const BuilderIndexLazyRoute = BuilderIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BuilderRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~builder/~index.lazy').then((d) => d.Route),
+)
 
 const AgEventsIndexLazyRoute = AgEventsIndexLazyImport.update({
   id: '/',
@@ -901,6 +910,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteLazyImport
       parentRoute: typeof rootRoute
     }
+    '/builder': {
+      id: '/builder'
+      path: '/builder'
+      fullPath: '/builder'
+      preLoaderRoute: typeof BuilderRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/coms': {
       id: '/coms'
       path: '/coms'
@@ -1062,6 +1078,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgEventsIndexLazyImport
       parentRoute: typeof AgEventsRouteLazyImport
     }
+    '/builder/': {
+      id: '/builder/'
+      path: '/'
+      fullPath: '/builder/'
+      preLoaderRoute: typeof BuilderIndexLazyImport
+      parentRoute: typeof BuilderRouteLazyImport
+    }
     '/coms/': {
       id: '/coms/'
       path: '/'
@@ -1179,13 +1202,6 @@ declare module '@tanstack/react-router' {
       path: '/$comId'
       fullPath: '/coms/$comId'
       preLoaderRoute: typeof ComsComIdRouteLazyImport
-      parentRoute: typeof ComsRouteLazyImport
-    }
-    '/coms/builder': {
-      id: '/coms/builder'
-      path: '/builder'
-      fullPath: '/coms/builder'
-      preLoaderRoute: typeof ComsBuilderLazyImport
       parentRoute: typeof ComsRouteLazyImport
     }
     '/coms/new': {
@@ -1558,6 +1574,17 @@ const AuthRouteLazyRouteWithChildren = AuthRouteLazyRoute._addFileChildren(
   AuthRouteLazyRouteChildren,
 )
 
+interface BuilderRouteLazyRouteChildren {
+  BuilderIndexLazyRoute: typeof BuilderIndexLazyRoute
+}
+
+const BuilderRouteLazyRouteChildren: BuilderRouteLazyRouteChildren = {
+  BuilderIndexLazyRoute: BuilderIndexLazyRoute,
+}
+
+const BuilderRouteLazyRouteWithChildren =
+  BuilderRouteLazyRoute._addFileChildren(BuilderRouteLazyRouteChildren)
+
 interface ComsComIdTypeRouteLazyRouteChildren {
   ComsComIdTypeModelClientRoute: typeof ComsComIdTypeModelClientRoute
   ComsComIdTypeAssisantLazyRoute: typeof ComsComIdTypeAssisantLazyRoute
@@ -1605,14 +1632,12 @@ const ComsNewRouteLazyRouteWithChildren =
 interface ComsRouteLazyRouteChildren {
   ComsIndexLazyRoute: typeof ComsIndexLazyRoute
   ComsComIdRouteLazyRoute: typeof ComsComIdRouteLazyRouteWithChildren
-  ComsBuilderLazyRoute: typeof ComsBuilderLazyRoute
   ComsNewRouteLazyRoute: typeof ComsNewRouteLazyRouteWithChildren
 }
 
 const ComsRouteLazyRouteChildren: ComsRouteLazyRouteChildren = {
   ComsIndexLazyRoute: ComsIndexLazyRoute,
   ComsComIdRouteLazyRoute: ComsComIdRouteLazyRouteWithChildren,
-  ComsBuilderLazyRoute: ComsBuilderLazyRoute,
   ComsNewRouteLazyRoute: ComsNewRouteLazyRouteWithChildren,
 }
 
@@ -2005,6 +2030,7 @@ export interface FileRoutesByFullPath {
   '/agEvents': typeof AgEventsRouteLazyRouteWithChildren
   '/ag_state': typeof AgstateRouteLazyRoute
   '/auth': typeof AuthRouteLazyRouteWithChildren
+  '/builder': typeof BuilderRouteLazyRouteWithChildren
   '/coms': typeof ComsRouteLazyRouteWithChildren
   '/endpoint': typeof EndpointRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
@@ -2028,6 +2054,7 @@ export interface FileRoutesByFullPath {
   '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
   '/trigger/ag': typeof TriggerAgRoute
   '/agEvents/': typeof AgEventsIndexLazyRoute
+  '/builder/': typeof BuilderIndexLazyRoute
   '/coms/': typeof ComsIndexLazyRoute
   '/endpoint/': typeof EndpointIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
@@ -2045,7 +2072,6 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
   '/auth/register': typeof AuthRegisterLazyRoute
   '/coms/$comId': typeof ComsComIdRouteLazyRouteWithChildren
-  '/coms/builder': typeof ComsBuilderLazyRoute
   '/coms/new': typeof ComsNewRouteLazyRouteWithChildren
   '/gallery/$galleryId': typeof GalleryGalleryIdRouteLazyRoute
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
@@ -2105,6 +2131,7 @@ export interface FileRoutesByTo {
   '/envs/create': typeof EnvsCreateRoute
   '/trigger/ag': typeof TriggerAgRoute
   '/agEvents': typeof AgEventsIndexLazyRoute
+  '/builder': typeof BuilderIndexLazyRoute
   '/coms': typeof ComsIndexLazyRoute
   '/endpoint': typeof EndpointIndexLazyRoute
   '/envs': typeof EnvsIndexLazyRoute
@@ -2121,7 +2148,6 @@ export interface FileRoutesByTo {
   '/workflows': typeof WorkflowsIndexLazyRoute
   '/auth/register': typeof AuthRegisterLazyRoute
   '/coms/$comId': typeof ComsComIdRouteLazyRouteWithChildren
-  '/coms/builder': typeof ComsBuilderLazyRoute
   '/coms/new': typeof ComsNewRouteLazyRouteWithChildren
   '/gallery/$galleryId': typeof GalleryGalleryIdRouteLazyRoute
   '/platform-account/create': typeof PlatformAccountCreateLazyRoute
@@ -2170,6 +2196,7 @@ export interface FileRoutesById {
   '/agEvents': typeof AgEventsRouteLazyRouteWithChildren
   '/ag_state': typeof AgstateRouteLazyRoute
   '/auth': typeof AuthRouteLazyRouteWithChildren
+  '/builder': typeof BuilderRouteLazyRouteWithChildren
   '/coms': typeof ComsRouteLazyRouteWithChildren
   '/endpoint': typeof EndpointRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
@@ -2193,6 +2220,7 @@ export interface FileRoutesById {
   '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
   '/trigger/ag': typeof TriggerAgRoute
   '/agEvents/': typeof AgEventsIndexLazyRoute
+  '/builder/': typeof BuilderIndexLazyRoute
   '/coms/': typeof ComsIndexLazyRoute
   '/endpoint/': typeof EndpointIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
@@ -2210,7 +2238,6 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
   '/auth/register': typeof AuthRegisterLazyRoute
   '/coms/$comId': typeof ComsComIdRouteLazyRouteWithChildren
-  '/coms/builder': typeof ComsBuilderLazyRoute
   '/coms/new': typeof ComsNewRouteLazyRouteWithChildren
   '/gallery/$galleryId': typeof GalleryGalleryIdRouteLazyRoute
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
@@ -2267,6 +2294,7 @@ export interface FileRouteTypes {
     | '/agEvents'
     | '/ag_state'
     | '/auth'
+    | '/builder'
     | '/coms'
     | '/endpoint'
     | '/envs'
@@ -2290,6 +2318,7 @@ export interface FileRouteTypes {
     | '/site/$siteId'
     | '/trigger/ag'
     | '/agEvents/'
+    | '/builder/'
     | '/coms/'
     | '/endpoint/'
     | '/envs/'
@@ -2307,7 +2336,6 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/coms/$comId'
-    | '/coms/builder'
     | '/coms/new'
     | '/gallery/$galleryId'
     | '/platform-account/$platformAccountId'
@@ -2366,6 +2394,7 @@ export interface FileRouteTypes {
     | '/envs/create'
     | '/trigger/ag'
     | '/agEvents'
+    | '/builder'
     | '/coms'
     | '/endpoint'
     | '/envs'
@@ -2382,7 +2411,6 @@ export interface FileRouteTypes {
     | '/workflows'
     | '/auth/register'
     | '/coms/$comId'
-    | '/coms/builder'
     | '/coms/new'
     | '/gallery/$galleryId'
     | '/platform-account/create'
@@ -2429,6 +2457,7 @@ export interface FileRouteTypes {
     | '/agEvents'
     | '/ag_state'
     | '/auth'
+    | '/builder'
     | '/coms'
     | '/endpoint'
     | '/envs'
@@ -2452,6 +2481,7 @@ export interface FileRouteTypes {
     | '/site/$siteId'
     | '/trigger/ag'
     | '/agEvents/'
+    | '/builder/'
     | '/coms/'
     | '/endpoint/'
     | '/envs/'
@@ -2469,7 +2499,6 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/coms/$comId'
-    | '/coms/builder'
     | '/coms/new'
     | '/gallery/$galleryId'
     | '/platform-account/$platformAccountId'
@@ -2525,6 +2554,7 @@ export interface RootRouteChildren {
   AgEventsRouteLazyRoute: typeof AgEventsRouteLazyRouteWithChildren
   AgstateRouteLazyRoute: typeof AgstateRouteLazyRoute
   AuthRouteLazyRoute: typeof AuthRouteLazyRouteWithChildren
+  BuilderRouteLazyRoute: typeof BuilderRouteLazyRouteWithChildren
   ComsRouteLazyRoute: typeof ComsRouteLazyRouteWithChildren
   EndpointRouteLazyRoute: typeof EndpointRouteLazyRouteWithChildren
   EnvsRouteLazyRoute: typeof EnvsRouteLazyRouteWithChildren
@@ -2550,6 +2580,7 @@ const rootRouteChildren: RootRouteChildren = {
   AgEventsRouteLazyRoute: AgEventsRouteLazyRouteWithChildren,
   AgstateRouteLazyRoute: AgstateRouteLazyRoute,
   AuthRouteLazyRoute: AuthRouteLazyRouteWithChildren,
+  BuilderRouteLazyRoute: BuilderRouteLazyRouteWithChildren,
   ComsRouteLazyRoute: ComsRouteLazyRouteWithChildren,
   EndpointRouteLazyRoute: EndpointRouteLazyRouteWithChildren,
   EnvsRouteLazyRoute: EnvsRouteLazyRouteWithChildren,
@@ -2584,6 +2615,7 @@ export const routeTree = rootRoute
         "/agEvents",
         "/ag_state",
         "/auth",
+        "/builder",
         "/coms",
         "/endpoint",
         "/envs",
@@ -2623,12 +2655,17 @@ export const routeTree = rootRoute
         "/auth/register"
       ]
     },
+    "/builder": {
+      "filePath": "~builder/~route.lazy.tsx",
+      "children": [
+        "/builder/"
+      ]
+    },
     "/coms": {
       "filePath": "~coms/~route.lazy.tsx",
       "children": [
         "/coms/",
         "/coms/$comId",
-        "/coms/builder",
         "/coms/new"
       ]
     },
@@ -2771,6 +2808,10 @@ export const routeTree = rootRoute
       "filePath": "~agEvents/~index.lazy.tsx",
       "parent": "/agEvents"
     },
+    "/builder/": {
+      "filePath": "~builder/~index.lazy.tsx",
+      "parent": "/builder"
+    },
     "/coms/": {
       "filePath": "~coms/~index.lazy.tsx",
       "parent": "/coms"
@@ -2846,10 +2887,6 @@ export const routeTree = rootRoute
         "/coms/$comId/type",
         "/coms/$comId/view"
       ]
-    },
-    "/coms/builder": {
-      "filePath": "~coms/~builder.lazy.tsx",
-      "parent": "/coms"
     },
     "/coms/new": {
       "filePath": "~coms/~new/~route.lazy.tsx",

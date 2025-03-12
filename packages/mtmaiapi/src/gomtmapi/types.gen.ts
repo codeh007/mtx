@@ -2170,7 +2170,8 @@ export type MtComponentProperties = {
   label?: string;
   description?: string;
   version?: number;
-  component: {
+  componentVersion?: number;
+  config: {
     [key: string]: unknown;
   };
   component2?: InstagramTeamConfig | BrowserConfig;

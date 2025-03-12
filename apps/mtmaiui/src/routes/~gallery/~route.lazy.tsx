@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { GalleryProvider } from "../../stores/gallerySstore";
 import { RootAppWrapper } from "../components/RootAppWrapper";
 import type { Gallery } from "../components/views/gallery/types";
-import { NavComs } from "../~coms/siderbar";
 
 export const Route = createLazyFileRoute("/gallery")({
   component: RouteComponent,
@@ -135,7 +134,9 @@ function RouteComponent() {
     }
   };
   return (
-    <RootAppWrapper secondSidebar={<NavComs />}>
+    <RootAppWrapper
+    // secondSidebar={<NavComs />}
+    >
       <GalleryProvider>
         <Outlet />
       </GalleryProvider>
