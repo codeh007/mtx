@@ -17,7 +17,7 @@ import { useShallow } from "zustand/react/shallow";
 import { useTenantId } from "../hooks/useAuth";
 
 export interface GalleryStoreProps {
-  defaultGallery: Gallery;
+  defaultGallery?: Gallery;
   galleries?: Gallery[];
 }
 

@@ -70,6 +70,7 @@ const PlatformAccountPlatformAccountIdRouteLazyImport = createFileRoute(
 )()
 const GalleryGalleryIdRouteLazyImport = createFileRoute('/gallery/$galleryId')()
 const ComsNewRouteLazyImport = createFileRoute('/coms/new')()
+const ComsBuilderLazyImport = createFileRoute('/coms/builder')()
 const ComsComIdRouteLazyImport = createFileRoute('/coms/$comId')()
 const AuthRegisterLazyImport = createFileRoute('/auth/register')()
 const AuthLoginRouteLazyImport = createFileRoute('/auth/login')()
@@ -398,6 +399,14 @@ const ComsNewRouteLazyRoute = ComsNewRouteLazyImport.update({
   getParentRoute: () => ComsRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~coms/~new/~route.lazy').then((d) => d.Route),
+)
+
+const ComsBuilderLazyRoute = ComsBuilderLazyImport.update({
+  id: '/builder',
+  path: '/builder',
+  getParentRoute: () => ComsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~coms/~builder.lazy').then((d) => d.Route),
 )
 
 const ComsComIdRouteLazyRoute = ComsComIdRouteLazyImport.update({
@@ -1172,6 +1181,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComsComIdRouteLazyImport
       parentRoute: typeof ComsRouteLazyImport
     }
+    '/coms/builder': {
+      id: '/coms/builder'
+      path: '/builder'
+      fullPath: '/coms/builder'
+      preLoaderRoute: typeof ComsBuilderLazyImport
+      parentRoute: typeof ComsRouteLazyImport
+    }
     '/coms/new': {
       id: '/coms/new'
       path: '/new'
@@ -1589,12 +1605,14 @@ const ComsNewRouteLazyRouteWithChildren =
 interface ComsRouteLazyRouteChildren {
   ComsIndexLazyRoute: typeof ComsIndexLazyRoute
   ComsComIdRouteLazyRoute: typeof ComsComIdRouteLazyRouteWithChildren
+  ComsBuilderLazyRoute: typeof ComsBuilderLazyRoute
   ComsNewRouteLazyRoute: typeof ComsNewRouteLazyRouteWithChildren
 }
 
 const ComsRouteLazyRouteChildren: ComsRouteLazyRouteChildren = {
   ComsIndexLazyRoute: ComsIndexLazyRoute,
   ComsComIdRouteLazyRoute: ComsComIdRouteLazyRouteWithChildren,
+  ComsBuilderLazyRoute: ComsBuilderLazyRoute,
   ComsNewRouteLazyRoute: ComsNewRouteLazyRouteWithChildren,
 }
 
@@ -2027,6 +2045,7 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
   '/auth/register': typeof AuthRegisterLazyRoute
   '/coms/$comId': typeof ComsComIdRouteLazyRouteWithChildren
+  '/coms/builder': typeof ComsBuilderLazyRoute
   '/coms/new': typeof ComsNewRouteLazyRouteWithChildren
   '/gallery/$galleryId': typeof GalleryGalleryIdRouteLazyRoute
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
@@ -2102,6 +2121,7 @@ export interface FileRoutesByTo {
   '/workflows': typeof WorkflowsIndexLazyRoute
   '/auth/register': typeof AuthRegisterLazyRoute
   '/coms/$comId': typeof ComsComIdRouteLazyRouteWithChildren
+  '/coms/builder': typeof ComsBuilderLazyRoute
   '/coms/new': typeof ComsNewRouteLazyRouteWithChildren
   '/gallery/$galleryId': typeof GalleryGalleryIdRouteLazyRoute
   '/platform-account/create': typeof PlatformAccountCreateLazyRoute
@@ -2190,6 +2210,7 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
   '/auth/register': typeof AuthRegisterLazyRoute
   '/coms/$comId': typeof ComsComIdRouteLazyRouteWithChildren
+  '/coms/builder': typeof ComsBuilderLazyRoute
   '/coms/new': typeof ComsNewRouteLazyRouteWithChildren
   '/gallery/$galleryId': typeof GalleryGalleryIdRouteLazyRoute
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
@@ -2286,6 +2307,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/coms/$comId'
+    | '/coms/builder'
     | '/coms/new'
     | '/gallery/$galleryId'
     | '/platform-account/$platformAccountId'
@@ -2360,6 +2382,7 @@ export interface FileRouteTypes {
     | '/workflows'
     | '/auth/register'
     | '/coms/$comId'
+    | '/coms/builder'
     | '/coms/new'
     | '/gallery/$galleryId'
     | '/platform-account/create'
@@ -2446,6 +2469,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/coms/$comId'
+    | '/coms/builder'
     | '/coms/new'
     | '/gallery/$galleryId'
     | '/platform-account/$platformAccountId'
@@ -2604,6 +2628,7 @@ export const routeTree = rootRoute
       "children": [
         "/coms/",
         "/coms/$comId",
+        "/coms/builder",
         "/coms/new"
       ]
     },
@@ -2821,6 +2846,10 @@ export const routeTree = rootRoute
         "/coms/$comId/type",
         "/coms/$comId/view"
       ]
+    },
+    "/coms/builder": {
+      "filePath": "~coms/~builder.lazy.tsx",
+      "parent": "/coms"
     },
     "/coms/new": {
       "filePath": "~coms/~new/~route.lazy.tsx",

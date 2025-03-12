@@ -11,6 +11,7 @@ import { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
 import { useTenant } from "../../hooks/useAuth";
 import { useMtmaiV2 } from "../../stores/StoreProvider";
 import { useGomtmClient } from "../../stores/TransportProvider";
+import { GalleryProvider } from "../../stores/gallerySstore";
 import { WorkbrenchProvider } from "../../stores/workbrench.store";
 import { RootAppWrapper } from "../components/RootAppWrapper";
 import { NavComs } from "./siderbar";
@@ -64,7 +65,9 @@ function RouteComponent() {
             </BreadcrumbList>
           </Breadcrumb>
         </DashHeaders> */}
-        <Outlet />
+        <GalleryProvider>
+          <Outlet />
+        </GalleryProvider>
       </RootAppWrapper>
     </WorkbrenchProvider>
   );
