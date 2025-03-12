@@ -15,7 +15,6 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/~__root'
 import { Route as IndexImport } from './routes/~index'
 import { Route as TriggerAgImport } from './routes/~trigger/~ag'
-import { Route as TeamTeamIdImport } from './routes/~team/~$teamId'
 import { Route as SiteSiteIdRouteImport } from './routes/~site/~$siteId/~route'
 import { Route as GalleryGalleryIdImport } from './routes/~gallery/~$galleryId'
 import { Route as EnvsCreateImport } from './routes/~envs/~create'
@@ -60,6 +59,7 @@ const WorkflowRunsWorkflowRunIdRouteLazyImport = createFileRoute(
   '/workflow-runs/$workflowRunId',
 )()
 const TriggerIdLazyImport = createFileRoute('/trigger/$id')()
+const TeamTeamIdRouteLazyImport = createFileRoute('/team/$teamId')()
 const ResourceNewRouteLazyImport = createFileRoute('/resource/new')()
 const ResourceResIdRouteLazyImport = createFileRoute('/resource/$resId')()
 const PostCreateLazyImport = createFileRoute('/post/create')()
@@ -143,6 +143,7 @@ const ComsComIdTypeInstagramTeamLazyImport = createFileRoute(
 const ComsComIdTypeAssisantLazyImport = createFileRoute(
   '/coms/$comId/type/assisant',
 )()
+const TeamTeamIdNewIndexLazyImport = createFileRoute('/team/$teamId/new/')()
 const ResourceNewResIndexLazyImport = createFileRoute('/resource/new/res/')()
 const ResourceResIdSessionIdIndexLazyImport = createFileRoute(
   '/resource/$resId/$sessionId/',
@@ -324,6 +325,14 @@ const TriggerIdLazyRoute = TriggerIdLazyImport.update({
   path: '/$id',
   getParentRoute: () => TriggerRouteLazyRoute,
 } as any).lazy(() => import('./routes/~trigger/~$id.lazy').then((d) => d.Route))
+
+const TeamTeamIdRouteLazyRoute = TeamTeamIdRouteLazyImport.update({
+  id: '/$teamId',
+  path: '/$teamId',
+  getParentRoute: () => TeamRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~team/~$teamId/~route.lazy').then((d) => d.Route),
+)
 
 const ResourceNewRouteLazyRoute = ResourceNewRouteLazyImport.update({
   id: '/new',
@@ -510,12 +519,6 @@ const TriggerAgRoute = TriggerAgImport.update({
   id: '/ag',
   path: '/ag',
   getParentRoute: () => TriggerRouteLazyRoute,
-} as any)
-
-const TeamTeamIdRoute = TeamTeamIdImport.update({
-  id: '/$teamId',
-  path: '/$teamId',
-  getParentRoute: () => TeamRouteLazyRoute,
 } as any)
 
 const SiteSiteIdRouteRoute = SiteSiteIdRouteImport.update({
@@ -799,6 +802,14 @@ const ComsComIdTypeAssisantLazyRoute = ComsComIdTypeAssisantLazyImport.update({
   import('./routes/~coms/~$comId/~type/~assisant.lazy').then((d) => d.Route),
 )
 
+const TeamTeamIdNewIndexLazyRoute = TeamTeamIdNewIndexLazyImport.update({
+  id: '/new/',
+  path: '/new/',
+  getParentRoute: () => TeamTeamIdRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~team/~$teamId/~new/~index.lazy').then((d) => d.Route),
+)
+
 const ResourceNewResIndexLazyRoute = ResourceNewResIndexLazyImport.update({
   id: '/',
   path: '/',
@@ -1029,13 +1040,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteSiteIdRouteImport
       parentRoute: typeof SiteRouteLazyImport
     }
-    '/team/$teamId': {
-      id: '/team/$teamId'
-      path: '/$teamId'
-      fullPath: '/team/$teamId'
-      preLoaderRoute: typeof TeamTeamIdImport
-      parentRoute: typeof TeamRouteLazyImport
-    }
     '/trigger/ag': {
       id: '/trigger/ag'
       path: '/ag'
@@ -1210,6 +1214,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/resource/new'
       preLoaderRoute: typeof ResourceNewRouteLazyImport
       parentRoute: typeof ResourceRouteLazyImport
+    }
+    '/team/$teamId': {
+      id: '/team/$teamId'
+      path: '/$teamId'
+      fullPath: '/team/$teamId'
+      preLoaderRoute: typeof TeamTeamIdRouteLazyImport
+      parentRoute: typeof TeamRouteLazyImport
     }
     '/trigger/$id': {
       id: '/trigger/$id'
@@ -1392,6 +1403,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/resource/new/res/'
       preLoaderRoute: typeof ResourceNewResIndexLazyImport
       parentRoute: typeof ResourceNewResRouteLazyImport
+    }
+    '/team/$teamId/new/': {
+      id: '/team/$teamId/new/'
+      path: '/new'
+      fullPath: '/team/$teamId/new'
+      preLoaderRoute: typeof TeamTeamIdNewIndexLazyImport
+      parentRoute: typeof TeamTeamIdRouteLazyImport
     }
     '/coms/$comId/type/assisant': {
       id: '/coms/$comId/type/assisant'
@@ -1851,14 +1869,25 @@ const SiteRouteLazyRouteWithChildren = SiteRouteLazyRoute._addFileChildren(
   SiteRouteLazyRouteChildren,
 )
 
+interface TeamTeamIdRouteLazyRouteChildren {
+  TeamTeamIdNewIndexLazyRoute: typeof TeamTeamIdNewIndexLazyRoute
+}
+
+const TeamTeamIdRouteLazyRouteChildren: TeamTeamIdRouteLazyRouteChildren = {
+  TeamTeamIdNewIndexLazyRoute: TeamTeamIdNewIndexLazyRoute,
+}
+
+const TeamTeamIdRouteLazyRouteWithChildren =
+  TeamTeamIdRouteLazyRoute._addFileChildren(TeamTeamIdRouteLazyRouteChildren)
+
 interface TeamRouteLazyRouteChildren {
-  TeamTeamIdRoute: typeof TeamTeamIdRoute
   TeamIndexLazyRoute: typeof TeamIndexLazyRoute
+  TeamTeamIdRouteLazyRoute: typeof TeamTeamIdRouteLazyRouteWithChildren
 }
 
 const TeamRouteLazyRouteChildren: TeamRouteLazyRouteChildren = {
-  TeamTeamIdRoute: TeamTeamIdRoute,
   TeamIndexLazyRoute: TeamIndexLazyRoute,
+  TeamTeamIdRouteLazyRoute: TeamTeamIdRouteLazyRouteWithChildren,
 }
 
 const TeamRouteLazyRouteWithChildren = TeamRouteLazyRoute._addFileChildren(
@@ -1959,7 +1988,6 @@ export interface FileRoutesByFullPath {
   '/envs/create': typeof EnvsCreateRoute
   '/gallery/$galleryId': typeof GalleryGalleryIdRoute
   '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
-  '/team/$teamId': typeof TeamTeamIdRoute
   '/trigger/ag': typeof TriggerAgRoute
   '/agEvents/': typeof AgEventsIndexLazyRoute
   '/coms/': typeof ComsIndexLazyRoute
@@ -1985,6 +2013,7 @@ export interface FileRoutesByFullPath {
   '/post/create': typeof PostCreateLazyRoute
   '/resource/$resId': typeof ResourceResIdRouteLazyRouteWithChildren
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
+  '/team/$teamId': typeof TeamTeamIdRouteLazyRouteWithChildren
   '/trigger/$id': typeof TriggerIdLazyRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdLazyRoute
@@ -2011,6 +2040,7 @@ export interface FileRoutesByFullPath {
   '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
   '/resource/$resId/$sessionId': typeof ResourceResIdSessionIdIndexLazyRoute
   '/resource/new/res/': typeof ResourceNewResIndexLazyRoute
+  '/team/$teamId/new': typeof TeamTeamIdNewIndexLazyRoute
   '/coms/$comId/type/assisant': typeof ComsComIdTypeAssisantLazyRoute
   '/coms/$comId/type/instagramTeam': typeof ComsComIdTypeInstagramTeamLazyRoute
   '/play/chat/$sessionId/debug': typeof PlayChatSessionIdDebugLazyRoute
@@ -2033,7 +2063,6 @@ export interface FileRoutesByTo {
   '/site': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
   '/gallery/$galleryId': typeof GalleryGalleryIdRoute
-  '/team/$teamId': typeof TeamTeamIdRoute
   '/trigger/ag': typeof TriggerAgRoute
   '/agEvents': typeof AgEventsIndexLazyRoute
   '/coms': typeof ComsIndexLazyRoute
@@ -2055,6 +2084,7 @@ export interface FileRoutesByTo {
   '/platform-account/create': typeof PlatformAccountCreateLazyRoute
   '/post/create': typeof PostCreateLazyRoute
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
+  '/team/$teamId': typeof TeamTeamIdRouteLazyRouteWithChildren
   '/trigger/$id': typeof TriggerIdLazyRoute
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdLazyRoute
   '/onboarding/create-tenant': typeof OnboardingCreateTenantIndexRoute
@@ -2077,6 +2107,7 @@ export interface FileRoutesByTo {
   '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
   '/resource/$resId/$sessionId': typeof ResourceResIdSessionIdIndexLazyRoute
   '/resource/new/res': typeof ResourceNewResIndexLazyRoute
+  '/team/$teamId/new': typeof TeamTeamIdNewIndexLazyRoute
   '/coms/$comId/type/assisant': typeof ComsComIdTypeAssisantLazyRoute
   '/coms/$comId/type/instagramTeam': typeof ComsComIdTypeInstagramTeamLazyRoute
   '/play/chat/$sessionId/debug': typeof PlayChatSessionIdDebugLazyRoute
@@ -2118,7 +2149,6 @@ export interface FileRoutesById {
   '/envs/create': typeof EnvsCreateRoute
   '/gallery/$galleryId': typeof GalleryGalleryIdRoute
   '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
-  '/team/$teamId': typeof TeamTeamIdRoute
   '/trigger/ag': typeof TriggerAgRoute
   '/agEvents/': typeof AgEventsIndexLazyRoute
   '/coms/': typeof ComsIndexLazyRoute
@@ -2144,6 +2174,7 @@ export interface FileRoutesById {
   '/post/create': typeof PostCreateLazyRoute
   '/resource/$resId': typeof ResourceResIdRouteLazyRouteWithChildren
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
+  '/team/$teamId': typeof TeamTeamIdRouteLazyRouteWithChildren
   '/trigger/$id': typeof TriggerIdLazyRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdLazyRoute
@@ -2170,6 +2201,7 @@ export interface FileRoutesById {
   '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
   '/resource/$resId/$sessionId/': typeof ResourceResIdSessionIdIndexLazyRoute
   '/resource/new/res/': typeof ResourceNewResIndexLazyRoute
+  '/team/$teamId/new/': typeof TeamTeamIdNewIndexLazyRoute
   '/coms/$comId/type/assisant': typeof ComsComIdTypeAssisantLazyRoute
   '/coms/$comId/type/instagramTeam': typeof ComsComIdTypeInstagramTeamLazyRoute
   '/play/chat/$sessionId/debug': typeof PlayChatSessionIdDebugLazyRoute
@@ -2212,7 +2244,6 @@ export interface FileRouteTypes {
     | '/envs/create'
     | '/gallery/$galleryId'
     | '/site/$siteId'
-    | '/team/$teamId'
     | '/trigger/ag'
     | '/agEvents/'
     | '/coms/'
@@ -2238,6 +2269,7 @@ export interface FileRouteTypes {
     | '/post/create'
     | '/resource/$resId'
     | '/resource/new'
+    | '/team/$teamId'
     | '/trigger/$id'
     | '/workflow-runs/$workflowRunId'
     | '/workflows/$workflowId'
@@ -2264,6 +2296,7 @@ export interface FileRouteTypes {
     | '/coms/$comId/type/modelClient'
     | '/resource/$resId/$sessionId'
     | '/resource/new/res/'
+    | '/team/$teamId/new'
     | '/coms/$comId/type/assisant'
     | '/coms/$comId/type/instagramTeam'
     | '/play/chat/$sessionId/debug'
@@ -2285,7 +2318,6 @@ export interface FileRouteTypes {
     | '/site'
     | '/envs/create'
     | '/gallery/$galleryId'
-    | '/team/$teamId'
     | '/trigger/ag'
     | '/agEvents'
     | '/coms'
@@ -2307,6 +2339,7 @@ export interface FileRouteTypes {
     | '/platform-account/create'
     | '/post/create'
     | '/resource/new'
+    | '/team/$teamId'
     | '/trigger/$id'
     | '/workflows/$workflowId'
     | '/onboarding/create-tenant'
@@ -2329,6 +2362,7 @@ export interface FileRouteTypes {
     | '/coms/$comId/type/modelClient'
     | '/resource/$resId/$sessionId'
     | '/resource/new/res'
+    | '/team/$teamId/new'
     | '/coms/$comId/type/assisant'
     | '/coms/$comId/type/instagramTeam'
     | '/play/chat/$sessionId/debug'
@@ -2368,7 +2402,6 @@ export interface FileRouteTypes {
     | '/envs/create'
     | '/gallery/$galleryId'
     | '/site/$siteId'
-    | '/team/$teamId'
     | '/trigger/ag'
     | '/agEvents/'
     | '/coms/'
@@ -2394,6 +2427,7 @@ export interface FileRouteTypes {
     | '/post/create'
     | '/resource/$resId'
     | '/resource/new'
+    | '/team/$teamId'
     | '/trigger/$id'
     | '/workflow-runs/$workflowRunId'
     | '/workflows/$workflowId'
@@ -2420,6 +2454,7 @@ export interface FileRouteTypes {
     | '/coms/$comId/type/modelClient'
     | '/resource/$resId/$sessionId/'
     | '/resource/new/res/'
+    | '/team/$teamId/new/'
     | '/coms/$comId/type/assisant'
     | '/coms/$comId/type/instagramTeam'
     | '/play/chat/$sessionId/debug'
@@ -2629,8 +2664,8 @@ export const routeTree = rootRoute
     "/team": {
       "filePath": "~team/~route.lazy.tsx",
       "children": [
-        "/team/$teamId",
-        "/team/"
+        "/team/",
+        "/team/$teamId"
       ]
     },
     "/trigger": {
@@ -2682,10 +2717,6 @@ export const routeTree = rootRoute
         "/site/$siteId/edit",
         "/site/$siteId/host"
       ]
-    },
-    "/team/$teamId": {
-      "filePath": "~team/~$teamId.tsx",
-      "parent": "/team"
     },
     "/trigger/ag": {
       "filePath": "~trigger/~ag.tsx",
@@ -2809,6 +2840,13 @@ export const routeTree = rootRoute
       "parent": "/resource",
       "children": [
         "/resource/new/res"
+      ]
+    },
+    "/team/$teamId": {
+      "filePath": "~team/~$teamId/~route.lazy.tsx",
+      "parent": "/team",
+      "children": [
+        "/team/$teamId/new/"
       ]
     },
     "/trigger/$id": {
@@ -2941,6 +2979,10 @@ export const routeTree = rootRoute
     "/resource/new/res/": {
       "filePath": "~resource/~new/~res/~index.lazy.tsx",
       "parent": "/resource/new/res"
+    },
+    "/team/$teamId/new/": {
+      "filePath": "~team/~$teamId/~new/~index.lazy.tsx",
+      "parent": "/team/$teamId"
     },
     "/coms/$comId/type/assisant": {
       "filePath": "~coms/~$comId/~type/~assisant.lazy.tsx",

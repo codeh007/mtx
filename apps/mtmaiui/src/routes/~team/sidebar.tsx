@@ -12,12 +12,13 @@ import {
 } from "lucide-react";
 import type { MtComponent } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
-import { cn, getRelativeTimeString } from "mtxuilib/lib/utils";
+import { cn, generateUUID, getRelativeTimeString } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
 
+import { useMemo } from "react";
 import { useGalleryStore } from "../~gallery/store";
 
 interface TeamSidebarProps {
@@ -105,6 +106,11 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
     // }
   };
 
+  const newLink = useMemo(() => {
+    const newTeamId = generateUUID();
+    return `${newTeamId}/new`;
+  }, []);
+
   // Render collapsed state
   if (!isOpen) {
     return (
@@ -121,7 +127,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
               </button>
             </TooltipTrigger>
             <TooltipContent>
-              <span>Teams ({teams.length})</span>
+              <span>Teams ({teams?.length})</span>
             </TooltipContent>
           </Tooltip>
         </div>
@@ -129,13 +135,16 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
         <div className="mt-4 px-2 -ml-1">
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button
-                // type="text"
-                className="w-full p-2 flex justify-center"
+              <CustomLink
+                to={newLink}
+                className={cn(
+                  "w-full p-2 flex justify-center",
+                  buttonVariants({ variant: "ghost" }),
+                )}
                 onClick={handleSaveTeam}
               >
                 <Plus className="size-4" />
-              </Button>
+              </CustomLink>
             </TooltipTrigger>
             <TooltipContent>
               <span>创建团队</span>
@@ -180,7 +189,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
           <Tooltip>
             <TooltipTrigger asChild>
               <CustomLink
-                to="/team/create"
+                to={newLink}
                 className={cn("w-full", buttonVariants())}
                 onClick={handleSaveTeam}
               >
@@ -219,7 +228,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
             >
               {teams.map((team) => (
                 <div
-                  key={team.metadata.id}
+                  key={team?.metadata.id}
                   className="relative border-secondary"
                 >
                   <DebugValue data={team} />
@@ -227,7 +236,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                     <div
                       className={` absolute top-1 left-0.5 z-50 h-[calc(100%-8px)]
                w-1 bg-opacity-80  rounded ${
-                 currentTeam?.metadata.id === team.metadata.id
+                 currentTeam?.metadata.id === team?.metadata.id
                    ? "bg-accent"
                    : "bg-tertiary"
                }`}
@@ -241,7 +250,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
                     }`}
                     // onClick={() => onSelectTeam(team)}
                   >
-                    <CustomLink to={`${team.metadata.id}`}>
+                    <CustomLink to={`${team?.metadata.id}`}>
                       {/* Team Name and Actions Row */}
                       <div className="flex items-center justify-between">
                         <span className="font-medium truncate">

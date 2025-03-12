@@ -1,10 +1,10 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createLazyFileRoute } from "@tanstack/react-router";
 import { comsGetOptions } from "mtmaiapi";
-import { useTenant } from "../../hooks/useAuth";
-import { TeamBuilder } from "../components/views/team/builder/builder";
+import { useTenant } from "../../../hooks/useAuth";
+import { TeamBuilder } from "../../components/views/team/builder/builder";
 
-export const Route = createFileRoute("/team/$teamId")({
+export const Route = createLazyFileRoute("/team/$teamId")({
   component: RouteComponent,
 });
 
