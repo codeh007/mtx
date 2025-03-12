@@ -139,6 +139,9 @@ const PlayChatSessionIdDebugLazyImport = createFileRoute(
 const ComsComIdTypeInstagramTeamLazyImport = createFileRoute(
   '/coms/$comId/type/instagramTeam',
 )()
+const ComsComIdTypeAssisantLazyImport = createFileRoute(
+  '/coms/$comId/type/assisant',
+)()
 const ResourceNewResIndexLazyImport = createFileRoute('/resource/new/res/')()
 const ResourceResIdSessionIdIndexLazyImport = createFileRoute(
   '/resource/$resId/$sessionId/',
@@ -787,6 +790,14 @@ const ComsComIdTypeInstagramTeamLazyRoute =
     ),
   )
 
+const ComsComIdTypeAssisantLazyRoute = ComsComIdTypeAssisantLazyImport.update({
+  id: '/assisant',
+  path: '/assisant',
+  getParentRoute: () => ComsComIdTypeRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~coms/~$comId/~type/~assisant.lazy').then((d) => d.Route),
+)
+
 const ResourceNewResIndexLazyRoute = ResourceNewResIndexLazyImport.update({
   id: '/',
   path: '/',
@@ -1368,6 +1379,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResourceNewResIndexLazyImport
       parentRoute: typeof ResourceNewResRouteLazyImport
     }
+    '/coms/$comId/type/assisant': {
+      id: '/coms/$comId/type/assisant'
+      path: '/assisant'
+      fullPath: '/coms/$comId/type/assisant'
+      preLoaderRoute: typeof ComsComIdTypeAssisantLazyImport
+      parentRoute: typeof ComsComIdTypeRouteLazyImport
+    }
     '/coms/$comId/type/instagramTeam': {
       id: '/coms/$comId/type/instagramTeam'
       path: '/instagramTeam'
@@ -1473,11 +1491,13 @@ const AuthRouteLazyRouteWithChildren = AuthRouteLazyRoute._addFileChildren(
 )
 
 interface ComsComIdTypeRouteLazyRouteChildren {
+  ComsComIdTypeAssisantLazyRoute: typeof ComsComIdTypeAssisantLazyRoute
   ComsComIdTypeInstagramTeamLazyRoute: typeof ComsComIdTypeInstagramTeamLazyRoute
 }
 
 const ComsComIdTypeRouteLazyRouteChildren: ComsComIdTypeRouteLazyRouteChildren =
   {
+    ComsComIdTypeAssisantLazyRoute: ComsComIdTypeAssisantLazyRoute,
     ComsComIdTypeInstagramTeamLazyRoute: ComsComIdTypeInstagramTeamLazyRoute,
   }
 
@@ -1974,6 +1994,7 @@ export interface FileRoutesByFullPath {
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexRoute
   '/resource/$resId/$sessionId': typeof ResourceResIdSessionIdIndexLazyRoute
   '/resource/new/res/': typeof ResourceNewResIndexLazyRoute
+  '/coms/$comId/type/assisant': typeof ComsComIdTypeAssisantLazyRoute
   '/coms/$comId/type/instagramTeam': typeof ComsComIdTypeInstagramTeamLazyRoute
   '/play/chat/$sessionId/debug': typeof PlayChatSessionIdDebugLazyRoute
   '/play/chat/$sessionId/edit': typeof PlayChatSessionIdEditLazyRoute
@@ -2038,6 +2059,7 @@ export interface FileRoutesByTo {
   '/site/$siteId/host': typeof SiteSiteIdHostIndexRoute
   '/resource/$resId/$sessionId': typeof ResourceResIdSessionIdIndexLazyRoute
   '/resource/new/res': typeof ResourceNewResIndexLazyRoute
+  '/coms/$comId/type/assisant': typeof ComsComIdTypeAssisantLazyRoute
   '/coms/$comId/type/instagramTeam': typeof ComsComIdTypeInstagramTeamLazyRoute
   '/play/chat/$sessionId/debug': typeof PlayChatSessionIdDebugLazyRoute
   '/play/chat/$sessionId/edit': typeof PlayChatSessionIdEditLazyRoute
@@ -2129,6 +2151,7 @@ export interface FileRoutesById {
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexRoute
   '/resource/$resId/$sessionId/': typeof ResourceResIdSessionIdIndexLazyRoute
   '/resource/new/res/': typeof ResourceNewResIndexLazyRoute
+  '/coms/$comId/type/assisant': typeof ComsComIdTypeAssisantLazyRoute
   '/coms/$comId/type/instagramTeam': typeof ComsComIdTypeInstagramTeamLazyRoute
   '/play/chat/$sessionId/debug': typeof PlayChatSessionIdDebugLazyRoute
   '/play/chat/$sessionId/edit': typeof PlayChatSessionIdEditLazyRoute
@@ -2221,6 +2244,7 @@ export interface FileRouteTypes {
     | '/site/$siteId/host/'
     | '/resource/$resId/$sessionId'
     | '/resource/new/res/'
+    | '/coms/$comId/type/assisant'
     | '/coms/$comId/type/instagramTeam'
     | '/play/chat/$sessionId/debug'
     | '/play/chat/$sessionId/edit'
@@ -2284,6 +2308,7 @@ export interface FileRouteTypes {
     | '/site/$siteId/host'
     | '/resource/$resId/$sessionId'
     | '/resource/new/res'
+    | '/coms/$comId/type/assisant'
     | '/coms/$comId/type/instagramTeam'
     | '/play/chat/$sessionId/debug'
     | '/play/chat/$sessionId/edit'
@@ -2373,6 +2398,7 @@ export interface FileRouteTypes {
     | '/site/$siteId/host/'
     | '/resource/$resId/$sessionId/'
     | '/resource/new/res/'
+    | '/coms/$comId/type/assisant'
     | '/coms/$comId/type/instagramTeam'
     | '/play/chat/$sessionId/debug'
     | '/play/chat/$sessionId/edit'
@@ -2831,6 +2857,7 @@ export const routeTree = rootRoute
       "filePath": "~coms/~$comId/~type/~route.lazy.tsx",
       "parent": "/coms/$comId",
       "children": [
+        "/coms/$comId/type/assisant",
         "/coms/$comId/type/instagramTeam"
       ]
     },
@@ -2887,6 +2914,10 @@ export const routeTree = rootRoute
     "/resource/new/res/": {
       "filePath": "~resource/~new/~res/~index.lazy.tsx",
       "parent": "/resource/new/res"
+    },
+    "/coms/$comId/type/assisant": {
+      "filePath": "~coms/~$comId/~type/~assisant.lazy.tsx",
+      "parent": "/coms/$comId/type"
     },
     "/coms/$comId/type/instagramTeam": {
       "filePath": "~coms/~$comId/~type/~instagramTeam.lazy.tsx",

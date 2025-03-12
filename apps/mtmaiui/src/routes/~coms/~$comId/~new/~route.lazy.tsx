@@ -7,8 +7,9 @@ export const Route = createLazyFileRoute("/coms/$comId/new")({
 
 function RouteComponent() {
   return (
-    <div>
+    <div className="flex w-full flex-col gap-2 justify-center items-center">
       <CustomLink to={"../type/instagramTeam"}>instagram 团队</CustomLink>
+      <CustomLink to={"../type/assisant"}>Assisant 团队</CustomLink>
     </div>
   );
 }
