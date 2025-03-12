@@ -1628,6 +1628,81 @@ export const zAgentRunInput = z.object({
         messages: z.array(z.object({})),
         stop_reason: z.string(),
       }),
+      z.object({
+        max_turns: z.number().int().optional(),
+        max_messages: z.number().int().optional(),
+        max_tokens: z.number().optional(),
+        termination_condition: z
+          .object({
+            termination_type: z
+              .enum([
+                "MaxMessageTermination",
+                "StopMessageTermination",
+                "TextMentionTermination",
+                "TimeoutTermination",
+              ])
+              .optional(),
+            conditions: z
+              .array(
+                z.union([
+                  z
+                    .object({
+                      provider: z.string(),
+                      component_type: z.enum([
+                        "team",
+                        "agent",
+                        "model",
+                        "tool",
+                        "termination",
+                      ]),
+                      version: z.number().int().optional(),
+                      component_version: z.number().int().optional(),
+                      description: z.string().optional(),
+                      label: z.string().optional(),
+                      config: z.unknown(),
+                    })
+                    .merge(
+                      z.object({
+                        config: z.object({
+                          termination_type: z.enum(["MaxMessageTermination"]),
+                          max_messages: z.number().int(),
+                        }),
+                      }),
+                    ),
+                  z
+                    .object({
+                      provider: z.string(),
+                      component_type: z.enum([
+                        "team",
+                        "agent",
+                        "model",
+                        "tool",
+                        "termination",
+                      ]),
+                      version: z.number().int().optional(),
+                      component_version: z.number().int().optional(),
+                      description: z.string().optional(),
+                      label: z.string().optional(),
+                      config: z.unknown(),
+                    })
+                    .merge(
+                      z.object({
+                        config: z
+                          .object({
+                            text: z.string(),
+                          })
+                          .optional(),
+                      }),
+                    ),
+                ]),
+              )
+              .optional(),
+          })
+          .optional(),
+      }),
+      z.object({
+        persistent: z.boolean().optional(),
+      }),
     ])
     .optional(),
 });
@@ -1857,6 +1932,85 @@ export const zMtComponent = z
     label: z.string().optional(),
     description: z.string().optional(),
     component: z.object({}),
+    component2: z
+      .union([
+        z.object({
+          max_turns: z.number().int().optional(),
+          max_messages: z.number().int().optional(),
+          max_tokens: z.number().optional(),
+          termination_condition: z
+            .object({
+              termination_type: z
+                .enum([
+                  "MaxMessageTermination",
+                  "StopMessageTermination",
+                  "TextMentionTermination",
+                  "TimeoutTermination",
+                ])
+                .optional(),
+              conditions: z
+                .array(
+                  z.union([
+                    z
+                      .object({
+                        provider: z.string(),
+                        component_type: z.enum([
+                          "team",
+                          "agent",
+                          "model",
+                          "tool",
+                          "termination",
+                        ]),
+                        version: z.number().int().optional(),
+                        component_version: z.number().int().optional(),
+                        description: z.string().optional(),
+                        label: z.string().optional(),
+                        config: z.unknown(),
+                      })
+                      .merge(
+                        z.object({
+                          config: z.object({
+                            termination_type: z.enum(["MaxMessageTermination"]),
+                            max_messages: z.number().int(),
+                          }),
+                        }),
+                      ),
+                    z
+                      .object({
+                        provider: z.string(),
+                        component_type: z.enum([
+                          "team",
+                          "agent",
+                          "model",
+                          "tool",
+                          "termination",
+                        ]),
+                        version: z.number().int().optional(),
+                        component_version: z.number().int().optional(),
+                        description: z.string().optional(),
+                        label: z.string().optional(),
+                        config: z.unknown(),
+                      })
+                      .merge(
+                        z.object({
+                          config: z
+                            .object({
+                              text: z.string(),
+                            })
+                            .optional(),
+                        }),
+                      ),
+                  ]),
+                )
+                .optional(),
+            })
+            .optional(),
+        }),
+        z.object({
+          persistent: z.boolean().optional(),
+        }),
+      ])
+      .optional(),
   })
   .merge(zApiResourceMetaProperties);
 
@@ -1878,6 +2032,85 @@ export const zMtComponentProperties = z.object({
   label: z.string().optional(),
   description: z.string().optional(),
   component: z.object({}),
+  component2: z
+    .union([
+      z.object({
+        max_turns: z.number().int().optional(),
+        max_messages: z.number().int().optional(),
+        max_tokens: z.number().optional(),
+        termination_condition: z
+          .object({
+            termination_type: z
+              .enum([
+                "MaxMessageTermination",
+                "StopMessageTermination",
+                "TextMentionTermination",
+                "TimeoutTermination",
+              ])
+              .optional(),
+            conditions: z
+              .array(
+                z.union([
+                  z
+                    .object({
+                      provider: z.string(),
+                      component_type: z.enum([
+                        "team",
+                        "agent",
+                        "model",
+                        "tool",
+                        "termination",
+                      ]),
+                      version: z.number().int().optional(),
+                      component_version: z.number().int().optional(),
+                      description: z.string().optional(),
+                      label: z.string().optional(),
+                      config: z.unknown(),
+                    })
+                    .merge(
+                      z.object({
+                        config: z.object({
+                          termination_type: z.enum(["MaxMessageTermination"]),
+                          max_messages: z.number().int(),
+                        }),
+                      }),
+                    ),
+                  z
+                    .object({
+                      provider: z.string(),
+                      component_type: z.enum([
+                        "team",
+                        "agent",
+                        "model",
+                        "tool",
+                        "termination",
+                      ]),
+                      version: z.number().int().optional(),
+                      component_version: z.number().int().optional(),
+                      description: z.string().optional(),
+                      label: z.string().optional(),
+                      config: z.unknown(),
+                    })
+                    .merge(
+                      z.object({
+                        config: z
+                          .object({
+                            text: z.string(),
+                          })
+                          .optional(),
+                      }),
+                    ),
+                ]),
+              )
+              .optional(),
+          })
+          .optional(),
+      }),
+      z.object({
+        persistent: z.boolean().optional(),
+      }),
+    ])
+    .optional(),
 });
 
 export const zComponentModel = z.object({
@@ -2875,6 +3108,17 @@ export const zBrowserTask = z.object({
 
 export const zBrowserOpenTask = z.object({
   url: z.string(),
+});
+
+export const zInstagramTeamConfig = z.object({
+  max_turns: z.number().int().optional(),
+  max_messages: z.number().int().optional(),
+  max_tokens: z.number().optional(),
+  termination_condition: zTerminationConfig.optional(),
+});
+
+export const zBrowserConfig = z.object({
+  persistent: z.boolean().optional(),
 });
 
 export const zMetadataGetResponse = zApiMeta;

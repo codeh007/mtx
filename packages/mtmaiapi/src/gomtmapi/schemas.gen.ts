@@ -3391,6 +3391,12 @@ export const AgentRunInputSchema = {
         {
           $ref: "#/components/schemas/MtTaskResult",
         },
+        {
+          $ref: "#/components/schemas/InstagramTeamConfig",
+        },
+        {
+          $ref: "#/components/schemas/BrowserConfig",
+        },
       ],
     },
   },
@@ -3840,6 +3846,16 @@ export const MtComponentPropertiesSchema = {
     component: {
       type: "object",
       additionalProperties: true,
+    },
+    component2: {
+      oneOf: [
+        {
+          $ref: "#/components/schemas/InstagramTeamConfig",
+        },
+        {
+          $ref: "#/components/schemas/BrowserConfig",
+        },
+      ],
     },
   },
 } as const;
@@ -6171,6 +6187,32 @@ export const BrowserOpenTaskSchema = {
   properties: {
     url: {
       type: "string",
+    },
+  },
+} as const;
+
+export const InstagramTeamConfigSchema = {
+  properties: {
+    max_turns: {
+      type: "integer",
+    },
+    max_messages: {
+      type: "integer",
+    },
+    max_tokens: {
+      type: "number",
+    },
+    termination_condition: {
+      $ref: "#/components/schemas/TerminationConfig",
+    },
+  },
+} as const;
+
+export const BrowserConfigSchema = {
+  description: "浏览器配置(未完成)",
+  properties: {
+    persistent: {
+      type: "boolean",
     },
   },
 } as const;

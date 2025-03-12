@@ -1904,7 +1904,9 @@ export type AgentRunInput = {
     | CodeReviewResult
     | BrowserTask
     | BrowserOpenTask
-    | MtTaskResult;
+    | MtTaskResult
+    | InstagramTeamConfig
+    | BrowserConfig;
 };
 
 export type ChatHistoryList = {
@@ -2175,6 +2177,7 @@ export type MtComponentProperties = {
   component: {
     [key: string]: unknown;
   };
+  component2?: InstagramTeamConfig | BrowserConfig;
 };
 
 export type ComponentModel = {
@@ -3312,6 +3315,20 @@ export type BrowserTask = {
  */
 export type BrowserOpenTask = {
   url: string;
+};
+
+export type InstagramTeamConfig = {
+  max_turns?: number;
+  max_messages?: number;
+  max_tokens?: number;
+  termination_condition?: TerminationConfig;
+};
+
+/**
+ * 浏览器配置(未完成)
+ */
+export type BrowserConfig = {
+  persistent?: boolean;
 };
 
 export type ReadinessGetData = {

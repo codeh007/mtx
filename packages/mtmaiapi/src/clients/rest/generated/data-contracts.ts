@@ -1629,7 +1629,9 @@ export interface AgentRunInput {
     | CodeReviewResult
     | BrowserTask
     | BrowserOpenTask
-    | MtTaskResult;
+    | MtTaskResult
+    | InstagramTeamConfig
+    | BrowserConfig;
 }
 
 export interface ChatHistoryList {
@@ -1820,6 +1822,7 @@ export interface MtComponentProperties {
   label?: string;
   description?: string;
   component: Record<string, any>;
+  component2?: InstagramTeamConfig | BrowserConfig;
 }
 
 export interface ComponentModel {
@@ -2734,4 +2737,16 @@ export interface BrowserTask {
 /** 打开浏览器备用,一般用于调试目的Open a browser and navigate to a URL. */
 export interface BrowserOpenTask {
   url: string;
+}
+
+export interface InstagramTeamConfig {
+  max_turns?: number;
+  max_messages?: number;
+  max_tokens?: number;
+  termination_condition?: TerminationConfig;
+}
+
+/** 浏览器配置(未完成) */
+export interface BrowserConfig {
+  persistent?: boolean;
 }
