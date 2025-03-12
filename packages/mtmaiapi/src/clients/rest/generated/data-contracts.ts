@@ -1836,7 +1836,7 @@ export interface ComponentModel {
   /** Human readable label for the component. If missing the component assumes the class name of the provider. */
   label?: string;
   /** The schema validated config field is passed to a given class's implmentation of :py:meth:`autogen_core.ComponentConfigImpl._from_config` to create a new instance of the component class. */
-  config: any;
+  config: Record<string, any>;
 }
 
 export interface GalleryComponents {
@@ -1847,7 +1847,7 @@ export interface GalleryComponents {
 }
 
 export interface GalleryItems {
-  teams: ComponentModel[];
+  teams: TeamConfig[];
   components: GalleryComponents;
 }
 
@@ -1877,7 +1877,7 @@ export interface GalleryMetadata {
   updated_at: string;
   version: string;
   description?: string;
-  tags?: any[];
+  tags?: string[];
   license?: string;
   homepage?: string;
   category?: string;

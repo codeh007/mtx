@@ -3881,6 +3881,8 @@ export const ComponentModelSchema = {
         "Human readable label for the component. If missing the component assumes the class name of the provider.",
     },
     config: {
+      type: "object",
+      additionalProperties: true,
       description:
         "The schema validated config field is passed to a given class's implmentation of :py:meth:`autogen_core.ComponentConfigImpl._from_config` to create a new instance of the component class.",
     },
@@ -3922,10 +3924,10 @@ export const GalleryItemsSchema = {
   type: "object",
   properties: {
     teams: {
-      items: {
-        $ref: "#/components/schemas/ComponentModel",
-      },
       type: "array",
+      items: {
+        $ref: "#/components/schemas/TeamConfig",
+      },
     },
     components: {
       $ref: "#/components/schemas/GalleryComponents",
@@ -4009,6 +4011,9 @@ export const GalleryMetadataSchema = {
     },
     tags: {
       type: "array",
+      items: {
+        type: "string",
+      },
     },
     license: {
       type: "string",

@@ -2204,7 +2204,9 @@ export type ComponentModel = {
   /**
    * The schema validated config field is passed to a given class's implmentation of :py:meth:`autogen_core.ComponentConfigImpl._from_config` to create a new instance of the component class.
    */
-  config: unknown;
+  config: {
+    [key: string]: unknown;
+  };
 };
 
 export type GalleryComponents = {
@@ -2215,7 +2217,7 @@ export type GalleryComponents = {
 };
 
 export type GalleryItems = {
-  teams: Array<ComponentModel>;
+  teams: Array<TeamConfig>;
   components: GalleryComponents;
 };
 
@@ -2245,7 +2247,7 @@ export type GalleryMetadata = {
   updated_at: string;
   version: string;
   description?: string;
-  tags?: Array<unknown>;
+  tags?: Array<string>;
   license?: string;
   homepage?: string;
   category?: string;
