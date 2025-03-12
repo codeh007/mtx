@@ -2105,6 +2105,19 @@ export const zGalleryUpdate = z.object({
   userId: z.string(),
 });
 
+export const zGalleryMetadata = z.object({
+  author: z.string(),
+  created_at: z.string(),
+  updated_at: z.string(),
+  version: z.string(),
+  description: z.string().optional(),
+  tags: z.array(z.unknown()).optional(),
+  license: z.string().optional(),
+  homepage: z.string().optional(),
+  category: z.string().optional(),
+  last_synced: z.string().optional(),
+});
+
 export const zAgEvent = z.object({
   metadata: zApiResourceMeta.optional(),
   userId: z.string().optional(),

@@ -3950,40 +3950,7 @@ export const GallerySchema = {
       type: "string",
     },
     meta: {
-      type: "object",
-      properties: {
-        author: {
-          type: "string",
-        },
-        created_at: {
-          type: "string",
-        },
-        updated_at: {
-          type: "string",
-        },
-        version: {
-          type: "string",
-        },
-        description: {
-          type: "string",
-        },
-        tags: {
-          type: "array",
-        },
-        license: {
-          type: "string",
-        },
-        homepage: {
-          type: "string",
-        },
-        category: {
-          type: "string",
-        },
-        last_synced: {
-          type: "string",
-        },
-      },
-      required: ["author", "created_at", "updated_at", "version"],
+      $ref: "#/components/schemas/GalleryMetadata",
     },
     items: {
       $ref: "#/components/schemas/GalleryItems",
@@ -4020,6 +3987,43 @@ export const GalleryUpdateSchema = {
     },
   },
   required: ["metadata", "name", "userId"],
+} as const;
+
+export const GalleryMetadataSchema = {
+  type: "object",
+  properties: {
+    author: {
+      type: "string",
+    },
+    created_at: {
+      type: "string",
+    },
+    updated_at: {
+      type: "string",
+    },
+    version: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    tags: {
+      type: "array",
+    },
+    license: {
+      type: "string",
+    },
+    homepage: {
+      type: "string",
+    },
+    category: {
+      type: "string",
+    },
+    last_synced: {
+      type: "string",
+    },
+  },
+  required: ["author", "created_at", "updated_at", "version"],
 } as const;
 
 export const AgEventSchema = {

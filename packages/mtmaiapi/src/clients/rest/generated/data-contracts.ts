@@ -1856,18 +1856,7 @@ export interface Gallery {
   name: string;
   url: string;
   userId: string;
-  meta: {
-    author: string;
-    created_at: string;
-    updated_at: string;
-    version: string;
-    description?: string;
-    tags?: any[];
-    license?: string;
-    homepage?: string;
-    category?: string;
-    last_synced?: string;
-  };
+  meta: GalleryMetadata;
   items: GalleryItems;
 }
 
@@ -1880,6 +1869,19 @@ export interface GalleryUpdate {
   metadata: APIResourceMeta;
   name: string;
   userId: string;
+}
+
+export interface GalleryMetadata {
+  author: string;
+  created_at: string;
+  updated_at: string;
+  version: string;
+  description?: string;
+  tags?: any[];
+  license?: string;
+  homepage?: string;
+  category?: string;
+  last_synced?: string;
 }
 
 export interface AgEvent {

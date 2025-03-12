@@ -2224,18 +2224,7 @@ export type Gallery = {
   name: string;
   url: string;
   userId: string;
-  meta: {
-    author: string;
-    created_at: string;
-    updated_at: string;
-    version: string;
-    description?: string;
-    tags?: Array<unknown>;
-    license?: string;
-    homepage?: string;
-    category?: string;
-    last_synced?: string;
-  };
+  meta: GalleryMetadata;
   items: GalleryItems;
 };
 
@@ -2248,6 +2237,19 @@ export type GalleryUpdate = {
   metadata: ApiResourceMeta;
   name: string;
   userId: string;
+};
+
+export type GalleryMetadata = {
+  author: string;
+  created_at: string;
+  updated_at: string;
+  version: string;
+  description?: string;
+  tags?: Array<unknown>;
+  license?: string;
+  homepage?: string;
+  category?: string;
+  last_synced?: string;
 };
 
 export type AgEvent = {
