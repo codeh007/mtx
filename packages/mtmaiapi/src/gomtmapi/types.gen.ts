@@ -2170,10 +2170,10 @@ export type MtComponentList = {
 };
 
 export type MtComponentProperties = {
-  componentType?: TeamTypes;
-  version?: number;
+  type: string;
   label?: string;
   description?: string;
+  version?: number;
   component: {
     [key: string]: unknown;
   };

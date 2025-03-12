@@ -15,16 +15,8 @@ export const Route = createLazyFileRoute("/resource/new/res/browser")({
 });
 
 function RouteComponent() {
-  // const createBrowserMutation = useMutation({
-  //   ...resourceUpsertMutation(),
-  // });
-  // const tid = useTenantId();
-  // const form = useZodForm({
-  //   schema: zMtResourceUpsert,
-  //   defaultValues: {},
-  // });
   const form = useFormContext();
-  console.log(form.getValues());
+  // console.log(form.getValues());
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     form.setValue("type", "browser");

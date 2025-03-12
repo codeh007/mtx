@@ -70,13 +70,22 @@ export function NavComs() {
 }
 
 const NavResourceItem = ({ item }: { item: MtComponent }) => {
-  const linkTo = useMemo(() => {
-    return `${item.metadata?.id}/${item.label || ""}`;
-  }, [item.metadata?.id, item.label]);
+  // const linkTo = useMemo(() => {
+  //   return `${item.metadata?.id}/${item.label || ""}`;
+  // }, [item.metadata?.id, item.label]);
+
+  // const componentType = useMemo(() => {
+  //   return item.componentType;
+  // }, [item.componentType]);
+
+  const detailLink = useMemo(() => {
+    return `${item.metadata?.id}/${item.componentType}`;
+  }, [item.metadata?.id, item.componentType]);
+
   return (
     <>
       <CustomLink
-        to={linkTo}
+        to={detailLink}
         key={item.metadata?.id}
         className="flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
       >

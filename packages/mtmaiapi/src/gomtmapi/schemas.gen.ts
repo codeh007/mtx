@@ -3829,19 +3829,19 @@ export const MtComponentListSchema = {
 export const MtComponentPropertiesSchema = {
   required: ["type", "component"],
   properties: {
-    componentType: {
+    type: {
       type: "string",
-      $ref: "#/components/schemas/TeamTypes",
-    },
-    version: {
-      type: "integer",
-      default: 1,
+      default: "Assisant",
     },
     label: {
       type: "string",
     },
     description: {
       type: "string",
+    },
+    version: {
+      type: "integer",
+      default: 1,
     },
     component: {
       type: "object",

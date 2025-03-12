@@ -1816,11 +1816,12 @@ export interface MtComponentList {
 }
 
 export interface MtComponentProperties {
-  componentType?: TeamTypes;
-  /** @default 1 */
-  version?: number;
+  /** @default "Assisant" */
+  type: string;
   label?: string;
   description?: string;
+  /** @default 1 */
+  version?: number;
   component: Record<string, any>;
   component2?: InstagramTeamConfig | BrowserConfig;
 }

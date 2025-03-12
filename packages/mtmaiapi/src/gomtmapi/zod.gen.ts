@@ -1920,17 +1920,10 @@ export const zAgStateUpsert = zAgStateProperties.merge(
 
 export const zMtComponent = z
   .object({
-    componentType: z
-      .enum([
-        "Assisant",
-        "RoundRobinGroupChat",
-        "SelectorGroupChat",
-        "MagenticOneGroupChat",
-      ])
-      .optional(),
-    version: z.number().int().optional().default(1),
+    type: z.string().default("Assisant"),
     label: z.string().optional(),
     description: z.string().optional(),
+    version: z.number().int().optional().default(1),
     component: z.object({}),
     component2: z
       .union([
@@ -2020,17 +2013,10 @@ export const zMtComponentList = z.object({
 });
 
 export const zMtComponentProperties = z.object({
-  componentType: z
-    .enum([
-      "Assisant",
-      "RoundRobinGroupChat",
-      "SelectorGroupChat",
-      "MagenticOneGroupChat",
-    ])
-    .optional(),
-  version: z.number().int().optional().default(1),
+  type: z.string().default("Assisant"),
   label: z.string().optional(),
   description: z.string().optional(),
+  version: z.number().int().optional().default(1),
   component: z.object({}),
   component2: z
     .union([
