@@ -91,7 +91,7 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
         <div className="flex items-center gap-2">
           <span className="text-primary font-medium">Galleries</span>
           <span className="px-2 py-0.5 text-xs bg-accent/10 text-accent rounded">
-            {galleries.length}
+            {galleries?.length}
           </span>
         </div>
         <Tooltip>
@@ -132,11 +132,11 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
       {/* Galleries List */}
       {isLoading ? (
         <div className="p-4 text-center   text-sm">Loading...</div>
-      ) : galleries.length === 0 ? (
+      ) : galleries?.length === 0 ? (
         <div className="p-4 text-center   text-sm">No galleries found</div>
       ) : (
         <div className="scroll overflow-y-auto h-[calc(100%-170px)]">
-          {galleries.map((gallery) => (
+          {galleries?.map((gallery) => (
             <div
               key={gallery.metadata.id}
               className="relative border-secondary"
@@ -148,7 +148,6 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
                     : "bg-tertiary"
                 }`}
               />
-              {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
               <div
                 className={`group ml-1 flex flex-col p-3 rounded-l cursor-pointer hover:bg-secondary ${
                   currentGallery?.metadata.id === gallery.metadata.id
@@ -227,7 +226,7 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent>
-                        {gallery.metadata.id
+                        {gallery?.metadata.id
                           ? "Default gallery"
                           : "Set as default gallery"}
                       </TooltipContent>
@@ -238,17 +237,17 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
                           size="sm"
                           className="p-0 min-w-[24px] h-6"
                           variant={"destructive"}
-                          disabled={galleries.length === 1}
+                          disabled={galleries?.length === 1}
                           onClick={(e) => {
                             e.stopPropagation();
-                            onDeleteGallery(gallery.metadata.id);
+                            onDeleteGallery(gallery?.metadata.id);
                           }}
                         >
                           <Trash2 className="size-4" />
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent>
-                        {galleries.length === 1
+                        {galleries?.length === 1
                           ? "Cannot delete the last gallery"
                           : "Delete gallery"}
                       </TooltipContent>
@@ -264,10 +263,10 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
                   <div className="flex items-center gap-1">
                     <Package className="w-3 h-3" />
                     <span>
-                      {Object.values(gallery.items.components).reduce(
-                        (sum, arr) => sum + arr.length,
+                      {Object.values(gallery?.items?.components || {}).reduce(
+                        (sum, arr) => sum + arr?.length,
                         0,
-                      )}{" "}
+                      )}
                       components
                     </span>
                   </div>
@@ -276,8 +275,8 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
                 {/* Updated Timestamp */}
                 <div className="mt-1 flex items-center gap-1 text-xs  ">
                   <span>
-                    {getRelativeTimeString(gallery.metadata.updatedAt)}
-                    {defaultGalleryId === gallery.metadata.id ? (
+                    {getRelativeTimeString(gallery?.metadata?.updated_at)}
+                    {defaultGalleryId === gallery?.metadata?.id ? (
                       <span className="text-accent border-accent border rounded px-1 ml-1 py-0.5">
                         default
                       </span>
