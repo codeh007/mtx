@@ -1604,7 +1604,6 @@ export interface Artifact {
 }
 
 export interface AgentRunInput {
-  teamId?: string;
   teamName?: string;
   sessionId?: string;
   content: string;
@@ -1612,6 +1611,7 @@ export interface AgentRunInput {
   runId?: string;
   stepRunId?: string;
   resourceId?: string;
+  componentId?: string;
   source?: string;
   topic?: string;
   other?:
@@ -1629,9 +1629,7 @@ export interface AgentRunInput {
     | CodeReviewResult
     | BrowserTask
     | BrowserOpenTask
-    | MtTaskResult
-    | InstagramTeamConfig
-    | BrowserConfig;
+    | MtTaskResult;
 }
 
 export interface ChatHistoryList {

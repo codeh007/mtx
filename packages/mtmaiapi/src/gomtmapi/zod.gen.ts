@@ -1550,7 +1550,6 @@ export const zArtifact = z.object({
 });
 
 export const zAgentRunInput = z.object({
-  teamId: z.string().optional(),
   teamName: z.string().optional(),
   sessionId: z.string().optional(),
   content: z.string(),
@@ -1558,6 +1557,7 @@ export const zAgentRunInput = z.object({
   runId: z.string().optional(),
   stepRunId: z.string().optional(),
   resourceId: z.string().optional(),
+  componentId: z.string().optional(),
   source: z.string().optional(),
   topic: z.string().optional(),
   other: z
@@ -1627,81 +1627,6 @@ export const zAgentRunInput = z.object({
       z.object({
         messages: z.array(z.object({})),
         stop_reason: z.string(),
-      }),
-      z.object({
-        max_turns: z.number().int().optional(),
-        max_messages: z.number().int().optional(),
-        max_tokens: z.number().optional(),
-        termination_condition: z
-          .object({
-            termination_type: z
-              .enum([
-                "MaxMessageTermination",
-                "StopMessageTermination",
-                "TextMentionTermination",
-                "TimeoutTermination",
-              ])
-              .optional(),
-            conditions: z
-              .array(
-                z.union([
-                  z
-                    .object({
-                      provider: z.string(),
-                      component_type: z.enum([
-                        "team",
-                        "agent",
-                        "model",
-                        "tool",
-                        "termination",
-                      ]),
-                      version: z.number().int().optional(),
-                      component_version: z.number().int().optional(),
-                      description: z.string().optional(),
-                      label: z.string().optional(),
-                      config: z.unknown(),
-                    })
-                    .merge(
-                      z.object({
-                        config: z.object({
-                          termination_type: z.enum(["MaxMessageTermination"]),
-                          max_messages: z.number().int(),
-                        }),
-                      }),
-                    ),
-                  z
-                    .object({
-                      provider: z.string(),
-                      component_type: z.enum([
-                        "team",
-                        "agent",
-                        "model",
-                        "tool",
-                        "termination",
-                      ]),
-                      version: z.number().int().optional(),
-                      component_version: z.number().int().optional(),
-                      description: z.string().optional(),
-                      label: z.string().optional(),
-                      config: z.unknown(),
-                    })
-                    .merge(
-                      z.object({
-                        config: z
-                          .object({
-                            text: z.string(),
-                          })
-                          .optional(),
-                      }),
-                    ),
-                ]),
-              )
-              .optional(),
-          })
-          .optional(),
-      }),
-      z.object({
-        persistent: z.boolean().optional(),
       }),
     ])
     .optional(),

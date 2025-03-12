@@ -1879,7 +1879,6 @@ export type Artifact = {
 };
 
 export type AgentRunInput = {
-  teamId?: string;
   teamName?: string;
   sessionId?: string;
   content: string;
@@ -1887,6 +1886,7 @@ export type AgentRunInput = {
   runId?: string;
   stepRunId?: string;
   resourceId?: string;
+  componentId?: string;
   source?: string;
   topic?: string;
   other?:
@@ -1904,9 +1904,7 @@ export type AgentRunInput = {
     | CodeReviewResult
     | BrowserTask
     | BrowserOpenTask
-    | MtTaskResult
-    | InstagramTeamConfig
-    | BrowserConfig;
+    | MtTaskResult;
 };
 
 export type ChatHistoryList = {

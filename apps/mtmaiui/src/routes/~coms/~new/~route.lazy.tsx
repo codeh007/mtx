@@ -22,6 +22,7 @@ import { Input } from "mtxuilib/ui/input";
 import { toast } from "sonner";
 import { DashHeaders } from "../../../components/DashHeaders";
 import { useTenantId } from "../../../hooks/useAuth";
+import { ComTypeInput } from "../components/com_type_select";
 
 export const Route = createLazyFileRoute("/coms/new")({
   component: RouteComponent,
@@ -77,7 +78,8 @@ function RouteComponent() {
               <FormItem>
                 <FormLabel>类型</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  {/* <Input {...field} /> */}
+                  <ComTypeInput {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -3314,9 +3314,6 @@ export const ArtifactSchema = {
 export const AgentRunInputSchema = {
   required: ["content"],
   properties: {
-    teamId: {
-      type: "string",
-    },
     teamName: {
       type: "string",
     },
@@ -3336,6 +3333,9 @@ export const AgentRunInputSchema = {
       type: "string",
     },
     resourceId: {
+      type: "string",
+    },
+    componentId: {
       type: "string",
     },
     source: {
@@ -3390,12 +3390,6 @@ export const AgentRunInputSchema = {
         },
         {
           $ref: "#/components/schemas/MtTaskResult",
-        },
-        {
-          $ref: "#/components/schemas/InstagramTeamConfig",
-        },
-        {
-          $ref: "#/components/schemas/BrowserConfig",
         },
       ],
     },

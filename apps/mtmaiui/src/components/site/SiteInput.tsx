@@ -7,17 +7,17 @@ import { cn } from "mtxuilib/lib/utils";
 import { Button } from "mtxuilib/ui/button";
 import {
   Command,
-  CommandInput,
-  CommandList,
   CommandEmpty,
   CommandGroup,
+  CommandInput,
   CommandItem,
+  CommandList,
 } from "mtxuilib/ui/command";
-import type { InputProps } from "mtxuilib/ui/input";
-import { Popover, PopoverTrigger, PopoverContent } from "mtxuilib/ui/popover";
+// import type { InputProps } from "mtxuilib/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "mtxuilib/ui/popover";
 import React, { Suspense, useMemo } from "react";
 
-export const SiteInput = (props: InputProps) => {
+export const SiteInput = (props: React.ComponentProps<"input">) => {
   return (
     <Suspense>
       <MtErrorBoundary>
@@ -27,7 +27,7 @@ export const SiteInput = (props: InputProps) => {
   );
 };
 
-const SiteInputImpl = (props: InputProps) => {
+const SiteInputImpl = (props: React.ComponentProps<"input">) => {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
 

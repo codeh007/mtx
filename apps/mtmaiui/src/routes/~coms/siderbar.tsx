@@ -13,7 +13,6 @@ import {
   SidebarGroupContent,
   SidebarHeader,
   SidebarInput,
-  useSidebar,
 } from "mtxuilib/ui/sidebar";
 
 import { Switch } from "mtxuilib/ui/switch";
@@ -21,16 +20,7 @@ import { useMemo } from "react";
 import { useTenantId } from "../../hooks/useAuth";
 
 export function NavComs() {
-  const { isMobile } = useSidebar();
   const tid = useTenantId();
-  // const platformAccountQuery = useSuspenseQuery({
-  //   ...resourceListOptions({
-  //     path: {
-  //       tenant: tid!,
-  //     },
-  //   }),
-  // });
-
   const comsQuery = useSuspenseQuery({
     ...comsListOptions({
       path: {
@@ -70,17 +60,9 @@ export function NavComs() {
 }
 
 const NavResourceItem = ({ item }: { item: MtComponent }) => {
-  // const linkTo = useMemo(() => {
-  //   return `${item.metadata?.id}/${item.label || ""}`;
-  // }, [item.metadata?.id, item.label]);
-
-  // const componentType = useMemo(() => {
-  //   return item.componentType;
-  // }, [item.componentType]);
-
   const detailLink = useMemo(() => {
-    return `${item.metadata?.id}/${item.componentType}`;
-  }, [item.metadata?.id, item.componentType]);
+    return `${item.metadata?.id}/${item.type}`;
+  }, [item.metadata?.id, item.type]);
 
   return (
     <>
