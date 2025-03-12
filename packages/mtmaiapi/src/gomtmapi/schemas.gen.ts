@@ -5827,15 +5827,6 @@ export const QuickStartSchema = {
   },
 } as const;
 
-export const UiAgentConfigSchema = {
-  properties: {
-    someValue: {
-      type: "string",
-      description: "一些值",
-    },
-  },
-} as const;
-
 export const ChatWelcomeSchema = {
   properties: {
     title: {
@@ -6165,6 +6156,7 @@ export const BrowserOpenTaskSchema = {
 } as const;
 
 export const InstagramTeamConfigSchema = {
+  required: ["task", "participants"],
   properties: {
     max_turns: {
       type: "integer",
@@ -6178,6 +6170,12 @@ export const InstagramTeamConfigSchema = {
     task: {
       type: "string",
     },
+    participants: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ComponentModel",
+      },
+    },
   },
 } as const;
 
@@ -6186,6 +6184,83 @@ export const BrowserConfigSchema = {
   properties: {
     persistent: {
       type: "boolean",
+    },
+  },
+} as const;
+
+export const TeamConfigSchema = {
+  anyOf: [
+    {
+      $ref: "#/components/schemas/RoundRobinGroupChatConfig",
+    },
+    {
+      $ref: "#/components/schemas/SelectorGroupChatConfig",
+    },
+    {
+      $ref: "#/components/schemas/InstagramTeamConfig",
+    },
+    {
+      $ref: "#/components/schemas/BrowserConfig",
+    },
+  ],
+} as const;
+
+export const AgentConfigSchema = {
+  required: [
+    "name",
+    "description",
+    "model_client",
+    "reflect_on_tool_use",
+    "tool_call_summary_format",
+    "model_client_stream",
+    "tools",
+    "handoffs",
+  ],
+  properties: {
+    name: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    model_context: {
+      $ref: "#/components/schemas/ModelContext",
+    },
+    memory: {
+      $ref: "#/components/schemas/MemoryConfig",
+    },
+    model_client_stream: {
+      type: "boolean",
+      default: false,
+    },
+    system_message: {
+      type: "string",
+    },
+    model_client: {
+      type: "object",
+      $ref: "#/components/schemas/ModelComponent",
+    },
+    tools: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ToolComponent",
+      },
+      default: [],
+    },
+    handoffs: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+      default: [],
+    },
+    reflect_on_tool_use: {
+      type: "boolean",
+      default: false,
+    },
+    tool_call_summary_format: {
+      type: "string",
+      default: "{result}",
     },
   },
 } as const;

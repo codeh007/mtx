@@ -1,11 +1,14 @@
-import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
+import { createLazyFileRoute } from "@tanstack/react-router";
+
+import { ChevronRight } from "lucide-react";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { useEffect, useState } from "react";
-import { RootAppWrapper } from "../components/RootAppWrapper";
+import { GalleryCreateModal } from "../components/views/gallery/create-modal";
 import type { Gallery } from "../components/views/gallery/types";
-import { NavComs } from "../~coms/siderbar";
+import { GallerySidebar } from "./sidebar";
 import { useGalleryStore } from "./store";
 
-export const Route = createLazyFileRoute("/gallery")({
+export const Route = createLazyFileRoute("/gallery/")({
   component: RouteComponent,
 });
 
@@ -134,9 +137,79 @@ function RouteComponent() {
       console.error(error);
     }
   };
+
   return (
-    <RootAppWrapper secondSidebar={<NavComs />}>
-      <Outlet />
-    </RootAppWrapper>
+    <>
+      <main style={{ height: "100%" }} className=" h-full ">
+        <div className="relative flex h-full w-full">
+          {/* Create Modal */}
+          <GalleryCreateModal
+            open={isCreateModalOpen}
+            onCancel={() => setIsCreateModalOpen(false)}
+            onCreateGallery={handleCreateGallery}
+          />
+
+          {/* Sidebar */}
+          <div
+            className={`absolute left-0 top-0 h-full transition-all duration-200 ease-in-out ${
+              isSidebarOpen ? "w-64" : "w-12"
+            }`}
+          >
+            <GallerySidebar
+              isOpen={isSidebarOpen}
+              galleries={galleries}
+              currentGallery={currentGallery}
+              onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
+              onSelectGallery={(gallery) => handleSelectGallery(gallery.id)}
+              onCreateGallery={() => setIsCreateModalOpen(true)}
+              onDeleteGallery={handleDeleteGallery}
+              defaultGalleryId={getDefaultGallery()?.id}
+              onSetDefault={setDefaultGallery}
+              isLoading={isLoading}
+            />
+          </div>
+
+          {/* Main Content */}
+          <div
+            className={`flex-1 transition-all max-w-5xl -mr-6 duration-200 ${
+              isSidebarOpen ? "ml-64" : "ml-12"
+            }`}
+          >
+            <div className="p-4 pt-2">
+              {/* Breadcrumb */}
+              <div className="flex items-center gap-2 mb-4 text-sm">
+                <span className="text-primary font-medium">Galleries</span>
+                {currentGallery && (
+                  <>
+                    <ChevronRight className="size-4  " />
+                    <span className=" ">{currentGallery.name}</span>
+                  </>
+                )}
+              </div>
+
+              {/* Content Area */}
+              {/* {currentGallery ? (
+              <GalleryDetail
+                gallery={currentGallery}
+                onSave={(updates) =>
+                  handleUpdateGallery(currentGallery.id, updates)
+                }
+                onDirtyStateChange={setHasUnsavedChanges}
+              />
+            ) : (
+              <div className="flex items-center justify-center h-[calc(100vh-120px)]  ">
+                Select a gallery from the sidebar or create a new one
+              </div>
+            )} */}
+              <MtSuspenseBoundary>
+                <div className="flex items-center justify-center h-[calc(100vh-120px)]">
+                  Select a gallery from the sidebar or create a new one
+                </div>
+              </MtSuspenseBoundary>
+            </div>
+          </div>
+        </div>
+      </main>
+    </>
   );
 }

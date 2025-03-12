@@ -9,11 +9,12 @@ import {
   Trash2,
 } from "lucide-react";
 import type { Gallery } from "mtmaiapi";
+import { getRelativeTimeString } from "mtxuilib/lib/utils";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
 import { useGalleryStore } from "./store";
-import { getRelativeTimeString } from "mtxuilib/lib/utils";
 
 interface GallerySidebarProps {
   isOpen: boolean;
@@ -154,7 +155,7 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
                     ? "border-accent bg-secondary"
                     : "border-transparent"
                 }`}
-                onClick={() => onSelectGallery(gallery)}
+                // onClick={() => onSelectGallery(gallery)}
               >
                 {/* Gallery Name and Actions Row */}
                 <div className="flex items-center justify-between min-w-0">
@@ -163,11 +164,12 @@ export const GallerySidebar: React.FC<GallerySidebarProps> = ({
                   <div className="flex items-center gap-2 min-w-0 flex-1">
                     {" "}
                     {/* Added min-w-0 and flex-1 */}
-                    <div className="truncate flex-1">
-                      {" "}
-                      {/* Wrapped name in div with truncate and flex-1 */}
-                      <span className="font-medium">{gallery.name}</span>
-                    </div>
+                    <CustomLink to={`${gallery.metadata.id}`}>
+                      <div className="truncate flex-1">
+                        {/* Wrapped name in div with truncate and flex-1 */}
+                        <span className="font-medium">{gallery.name}</span>
+                      </div>
+                    </CustomLink>
                     {gallery.url && (
                       <Tooltip>
                         <TooltipTrigger asChild>

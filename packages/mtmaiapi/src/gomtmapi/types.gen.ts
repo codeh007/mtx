@@ -3153,13 +3153,6 @@ export type QuickStart = {
   cn?: string;
 };
 
-export type UiAgentConfig = {
-  /**
-   * 一些值
-   */
-  someValue?: string;
-};
-
 export type ChatWelcome = {
   /**
    * 欢迎语标题
@@ -3311,7 +3304,8 @@ export type InstagramTeamConfig = {
   max_turns?: number;
   max_tokens?: number;
   termination_condition?: TerminationConfig;
-  task?: string;
+  task: string;
+  participants: Array<ComponentModel>;
 };
 
 /**
@@ -3319,6 +3313,26 @@ export type InstagramTeamConfig = {
  */
 export type BrowserConfig = {
   persistent?: boolean;
+};
+
+export type TeamConfig =
+  | RoundRobinGroupChatConfig
+  | SelectorGroupChatConfig
+  | InstagramTeamConfig
+  | BrowserConfig;
+
+export type AgentConfig = {
+  name: string;
+  description: string;
+  model_context?: ModelContext;
+  memory?: MemoryConfig;
+  model_client_stream: boolean;
+  system_message?: string;
+  model_client: ModelComponent;
+  tools: Array<ToolComponent>;
+  handoffs: Array<string>;
+  reflect_on_tool_use: boolean;
+  tool_call_summary_format: string;
 };
 
 export type ReadinessGetData = {

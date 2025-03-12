@@ -1916,7 +1916,24 @@ export const zMtComponent = z
                 .optional(),
             })
             .optional(),
-          task: z.string().optional(),
+          task: z.string(),
+          participants: z.array(
+            z.object({
+              provider: z.string(),
+              component_type: z.enum([
+                "team",
+                "agent",
+                "model",
+                "tool",
+                "termination",
+              ]),
+              version: z.number().int().optional(),
+              component_version: z.number().int().optional(),
+              description: z.string().optional(),
+              label: z.string().optional(),
+              config: z.unknown(),
+            }),
+          ),
         }),
         z.object({
           persistent: z.boolean().optional(),
@@ -2009,7 +2026,24 @@ export const zMtComponentProperties = z.object({
               .optional(),
           })
           .optional(),
-        task: z.string().optional(),
+        task: z.string(),
+        participants: z.array(
+          z.object({
+            provider: z.string(),
+            component_type: z.enum([
+              "team",
+              "agent",
+              "model",
+              "tool",
+              "termination",
+            ]),
+            version: z.number().int().optional(),
+            component_version: z.number().int().optional(),
+            description: z.string().optional(),
+            label: z.string().optional(),
+            config: z.unknown(),
+          }),
+        ),
       }),
       z.object({
         persistent: z.boolean().optional(),
@@ -2886,10 +2920,6 @@ export const zQuickStart = z.object({
   cn: z.string().optional(),
 });
 
-export const zUiAgentConfig = z.object({
-  someValue: z.string().optional(),
-});
-
 export const zChatWelcome = z.object({
   title: z.string().optional(),
   content: z.string().optional(),
@@ -3013,11 +3043,33 @@ export const zInstagramTeamConfig = z.object({
   max_turns: z.number().int().optional(),
   max_tokens: z.number().optional(),
   termination_condition: zTerminationConfig.optional(),
-  task: z.string().optional(),
+  task: z.string(),
+  participants: z.array(zComponentModel),
 });
 
 export const zBrowserConfig = z.object({
   persistent: z.boolean().optional(),
+});
+
+export const zTeamConfig = z.union([
+  zRoundRobinGroupChatConfig,
+  zSelectorGroupChatConfig,
+  zInstagramTeamConfig,
+  zBrowserConfig,
+]);
+
+export const zAgentConfig = z.object({
+  name: z.string(),
+  description: z.string(),
+  model_context: zModelContext.optional(),
+  memory: zMemoryConfig.optional(),
+  model_client_stream: z.boolean().default(false),
+  system_message: z.string().optional(),
+  model_client: zModelComponent,
+  tools: z.array(zToolComponent).default([]),
+  handoffs: z.array(z.string()).default([]),
+  reflect_on_tool_use: z.boolean().default(false),
+  tool_call_summary_format: z.string().default("{result}"),
 });
 
 export const zMetadataGetResponse = zApiMeta;

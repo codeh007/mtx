@@ -1,8 +1,7 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { DashContent } from "../../../components/DashContent";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
-import { TeamListView } from "../../~team/TeamListView";
-import { ThreadWelcome } from "./components/welcome";
+// import { TeamListView } from "../../~team/TeamListView";
 
 export const Route = createLazyFileRoute("/play/chat/")({
   component: RouteComponent,
@@ -13,8 +12,8 @@ function RouteComponent() {
   setThreadId(undefined);
   return (
     <DashContent>
-      <TeamListView />
-      <ThreadWelcome />
+      {/* <TeamListView /> */}
+      {/* <ThreadWelcome /> */}
     </DashContent>
   );
 }

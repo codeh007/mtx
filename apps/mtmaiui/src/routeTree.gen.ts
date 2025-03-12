@@ -16,11 +16,9 @@ import { Route as rootRoute } from './routes/~__root'
 import { Route as IndexImport } from './routes/~index'
 import { Route as TriggerAgImport } from './routes/~trigger/~ag'
 import { Route as SiteSiteIdRouteImport } from './routes/~site/~$siteId/~route'
-import { Route as GalleryGalleryIdImport } from './routes/~gallery/~$galleryId'
 import { Route as EnvsCreateImport } from './routes/~envs/~create'
 import { Route as SiteIndexImport } from './routes/~site/~index'
 import { Route as PlatformIndexImport } from './routes/~platform/~index'
-import { Route as GalleryIndexImport } from './routes/~gallery/~index'
 import { Route as SiteSiteIdHostRouteImport } from './routes/~site/~$siteId/~host/~route'
 import { Route as SiteSiteIdEditImport } from './routes/~site/~$siteId/~edit'
 import { Route as SiteCreateIndexImport } from './routes/~site/~create/~index'
@@ -70,6 +68,7 @@ const PlatformAccountCreateLazyImport = createFileRoute(
 const PlatformAccountPlatformAccountIdRouteLazyImport = createFileRoute(
   '/platform-account/$platformAccountId',
 )()
+const GalleryGalleryIdRouteLazyImport = createFileRoute('/gallery/$galleryId')()
 const ComsNewRouteLazyImport = createFileRoute('/coms/new')()
 const ComsComIdRouteLazyImport = createFileRoute('/coms/$comId')()
 const AuthRegisterLazyImport = createFileRoute('/auth/register')()
@@ -83,6 +82,7 @@ const PostIndexLazyImport = createFileRoute('/post/')()
 const PlayIndexLazyImport = createFileRoute('/play/')()
 const PlatformAccountIndexLazyImport = createFileRoute('/platform-account/')()
 const ModelIndexLazyImport = createFileRoute('/model/')()
+const GalleryIndexLazyImport = createFileRoute('/gallery/')()
 const EventsIndexLazyImport = createFileRoute('/events/')()
 const EnvsIndexLazyImport = createFileRoute('/envs/')()
 const EndpointIndexLazyImport = createFileRoute('/endpoint/')()
@@ -104,6 +104,7 @@ const PlayChatSessionIdRouteLazyImport = createFileRoute(
 const ComsNewInstagramteamLazyImport = createFileRoute(
   '/coms/new/instagram_team',
 )()
+const ComsComIdViewRouteLazyImport = createFileRoute('/coms/$comId/view')()
 const ComsComIdTypeRouteLazyImport = createFileRoute('/coms/$comId/type')()
 const ComsComIdNewRouteLazyImport = createFileRoute('/coms/$comId/new')()
 const WorkflowRunsWorkflowRunIdIndexLazyImport = createFileRoute(
@@ -383,6 +384,14 @@ const PlatformAccountPlatformAccountIdRouteLazyRoute =
     ),
   )
 
+const GalleryGalleryIdRouteLazyRoute = GalleryGalleryIdRouteLazyImport.update({
+  id: '/$galleryId',
+  path: '/$galleryId',
+  getParentRoute: () => GalleryRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~gallery/~$galleryId/~route.lazy').then((d) => d.Route),
+)
+
 const ComsNewRouteLazyRoute = ComsNewRouteLazyImport.update({
   id: '/new',
   path: '/new',
@@ -479,6 +488,14 @@ const ModelIndexLazyRoute = ModelIndexLazyImport.update({
   getParentRoute: () => ModelRouteLazyRoute,
 } as any).lazy(() => import('./routes/~model/~index.lazy').then((d) => d.Route))
 
+const GalleryIndexLazyRoute = GalleryIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => GalleryRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~gallery/~index.lazy').then((d) => d.Route),
+)
+
 const EventsIndexLazyRoute = EventsIndexLazyImport.update({
   id: '/',
   path: '/',
@@ -527,12 +544,6 @@ const SiteSiteIdRouteRoute = SiteSiteIdRouteImport.update({
   getParentRoute: () => SiteRouteLazyRoute,
 } as any)
 
-const GalleryGalleryIdRoute = GalleryGalleryIdImport.update({
-  id: '/$galleryId',
-  path: '/$galleryId',
-  getParentRoute: () => GalleryRouteLazyRoute,
-} as any)
-
 const EnvsCreateRoute = EnvsCreateImport.update({
   id: '/create',
   path: '/create',
@@ -549,12 +560,6 @@ const PlatformIndexRoute = PlatformIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => PlatformRouteLazyRoute,
-} as any)
-
-const GalleryIndexRoute = GalleryIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => GalleryRouteLazyRoute,
 } as any)
 
 const WorkflowRunsWorkflowRunIdSummaryLazyRoute =
@@ -614,6 +619,14 @@ const ComsNewInstagramteamLazyRoute = ComsNewInstagramteamLazyImport.update({
   getParentRoute: () => ComsNewRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~coms/~new/~instagram_team.lazy').then((d) => d.Route),
+)
+
+const ComsComIdViewRouteLazyRoute = ComsComIdViewRouteLazyImport.update({
+  id: '/view',
+  path: '/view',
+  getParentRoute: () => ComsComIdRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~coms/~$comId/~view/~route.lazy').then((d) => d.Route),
 )
 
 const ComsComIdTypeRouteLazyRoute = ComsComIdTypeRouteLazyImport.update({
@@ -998,13 +1011,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkflowsRouteLazyImport
       parentRoute: typeof rootRoute
     }
-    '/gallery/': {
-      id: '/gallery/'
-      path: '/'
-      fullPath: '/gallery/'
-      preLoaderRoute: typeof GalleryIndexImport
-      parentRoute: typeof GalleryRouteLazyImport
-    }
     '/platform/': {
       id: '/platform/'
       path: '/'
@@ -1025,13 +1031,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/envs/create'
       preLoaderRoute: typeof EnvsCreateImport
       parentRoute: typeof EnvsRouteLazyImport
-    }
-    '/gallery/$galleryId': {
-      id: '/gallery/$galleryId'
-      path: '/$galleryId'
-      fullPath: '/gallery/$galleryId'
-      preLoaderRoute: typeof GalleryGalleryIdImport
-      parentRoute: typeof GalleryRouteLazyImport
     }
     '/site/$siteId': {
       id: '/site/$siteId'
@@ -1081,6 +1080,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/events/'
       preLoaderRoute: typeof EventsIndexLazyImport
       parentRoute: typeof EventsRouteLazyImport
+    }
+    '/gallery/': {
+      id: '/gallery/'
+      path: '/'
+      fullPath: '/gallery/'
+      preLoaderRoute: typeof GalleryIndexLazyImport
+      parentRoute: typeof GalleryRouteLazyImport
     }
     '/model/': {
       id: '/model/'
@@ -1172,6 +1178,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/coms/new'
       preLoaderRoute: typeof ComsNewRouteLazyImport
       parentRoute: typeof ComsRouteLazyImport
+    }
+    '/gallery/$galleryId': {
+      id: '/gallery/$galleryId'
+      path: '/$galleryId'
+      fullPath: '/gallery/$galleryId'
+      preLoaderRoute: typeof GalleryGalleryIdRouteLazyImport
+      parentRoute: typeof GalleryRouteLazyImport
     }
     '/platform-account/$platformAccountId': {
       id: '/platform-account/$platformAccountId'
@@ -1325,6 +1338,13 @@ declare module '@tanstack/react-router' {
       path: '/type'
       fullPath: '/coms/$comId/type'
       preLoaderRoute: typeof ComsComIdTypeRouteLazyImport
+      parentRoute: typeof ComsComIdRouteLazyImport
+    }
+    '/coms/$comId/view': {
+      id: '/coms/$comId/view'
+      path: '/view'
+      fullPath: '/coms/$comId/view'
+      preLoaderRoute: typeof ComsComIdViewRouteLazyImport
       parentRoute: typeof ComsComIdRouteLazyImport
     }
     '/coms/new/instagram_team': {
@@ -1543,11 +1563,13 @@ const ComsComIdTypeRouteLazyRouteWithChildren =
 interface ComsComIdRouteLazyRouteChildren {
   ComsComIdNewRouteLazyRoute: typeof ComsComIdNewRouteLazyRoute
   ComsComIdTypeRouteLazyRoute: typeof ComsComIdTypeRouteLazyRouteWithChildren
+  ComsComIdViewRouteLazyRoute: typeof ComsComIdViewRouteLazyRoute
 }
 
 const ComsComIdRouteLazyRouteChildren: ComsComIdRouteLazyRouteChildren = {
   ComsComIdNewRouteLazyRoute: ComsComIdNewRouteLazyRoute,
   ComsComIdTypeRouteLazyRoute: ComsComIdTypeRouteLazyRouteWithChildren,
+  ComsComIdViewRouteLazyRoute: ComsComIdViewRouteLazyRoute,
 }
 
 const ComsComIdRouteLazyRouteWithChildren =
@@ -1618,13 +1640,13 @@ const EventsRouteLazyRouteWithChildren = EventsRouteLazyRoute._addFileChildren(
 )
 
 interface GalleryRouteLazyRouteChildren {
-  GalleryIndexRoute: typeof GalleryIndexRoute
-  GalleryGalleryIdRoute: typeof GalleryGalleryIdRoute
+  GalleryIndexLazyRoute: typeof GalleryIndexLazyRoute
+  GalleryGalleryIdRouteLazyRoute: typeof GalleryGalleryIdRouteLazyRoute
 }
 
 const GalleryRouteLazyRouteChildren: GalleryRouteLazyRouteChildren = {
-  GalleryIndexRoute: GalleryIndexRoute,
-  GalleryGalleryIdRoute: GalleryGalleryIdRoute,
+  GalleryIndexLazyRoute: GalleryIndexLazyRoute,
+  GalleryGalleryIdRouteLazyRoute: GalleryGalleryIdRouteLazyRoute,
 }
 
 const GalleryRouteLazyRouteWithChildren =
@@ -1982,11 +2004,9 @@ export interface FileRoutesByFullPath {
   '/trigger': typeof TriggerRouteLazyRouteWithChildren
   '/workflow-runs': typeof WorkflowRunsRouteLazyRouteWithChildren
   '/workflows': typeof WorkflowsRouteLazyRouteWithChildren
-  '/gallery/': typeof GalleryIndexRoute
   '/platform/': typeof PlatformIndexRoute
   '/site/': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
-  '/gallery/$galleryId': typeof GalleryGalleryIdRoute
   '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
   '/trigger/ag': typeof TriggerAgRoute
   '/agEvents/': typeof AgEventsIndexLazyRoute
@@ -1994,6 +2014,7 @@ export interface FileRoutesByFullPath {
   '/endpoint/': typeof EndpointIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/events/': typeof EventsIndexLazyRoute
+  '/gallery/': typeof GalleryIndexLazyRoute
   '/model/': typeof ModelIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/play/': typeof PlayIndexLazyRoute
@@ -2007,6 +2028,7 @@ export interface FileRoutesByFullPath {
   '/auth/register': typeof AuthRegisterLazyRoute
   '/coms/$comId': typeof ComsComIdRouteLazyRouteWithChildren
   '/coms/new': typeof ComsNewRouteLazyRouteWithChildren
+  '/gallery/$galleryId': typeof GalleryGalleryIdRouteLazyRoute
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
   '/platform-account/create': typeof PlatformAccountCreateLazyRoute
   '/play/chat': typeof PlayChatRouteLazyRouteWithChildren
@@ -2029,6 +2051,7 @@ export interface FileRoutesByFullPath {
   '/workflow-runs/$workflowRunId/': typeof WorkflowRunsWorkflowRunIdIndexLazyRoute
   '/coms/$comId/new': typeof ComsComIdNewRouteLazyRoute
   '/coms/$comId/type': typeof ComsComIdTypeRouteLazyRouteWithChildren
+  '/coms/$comId/view': typeof ComsComIdViewRouteLazyRoute
   '/coms/new/instagram_team': typeof ComsNewInstagramteamLazyRoute
   '/play/chat/$sessionId': typeof PlayChatSessionIdRouteLazyRouteWithChildren
   '/resource/new/res': typeof ResourceNewResRouteLazyRouteWithChildren
@@ -2058,17 +2081,16 @@ export interface FileRoutesByTo {
   '/ag_state': typeof AgstateRouteLazyRoute
   '/auth': typeof AuthRouteLazyRouteWithChildren
   '/trigger': typeof TriggerRouteLazyRouteWithChildren
-  '/gallery': typeof GalleryIndexRoute
   '/platform': typeof PlatformIndexRoute
   '/site': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
-  '/gallery/$galleryId': typeof GalleryGalleryIdRoute
   '/trigger/ag': typeof TriggerAgRoute
   '/agEvents': typeof AgEventsIndexLazyRoute
   '/coms': typeof ComsIndexLazyRoute
   '/endpoint': typeof EndpointIndexLazyRoute
   '/envs': typeof EnvsIndexLazyRoute
   '/events': typeof EventsIndexLazyRoute
+  '/gallery': typeof GalleryIndexLazyRoute
   '/model': typeof ModelIndexLazyRoute
   '/platform-account': typeof PlatformAccountIndexLazyRoute
   '/play': typeof PlayIndexLazyRoute
@@ -2081,6 +2103,7 @@ export interface FileRoutesByTo {
   '/auth/register': typeof AuthRegisterLazyRoute
   '/coms/$comId': typeof ComsComIdRouteLazyRouteWithChildren
   '/coms/new': typeof ComsNewRouteLazyRouteWithChildren
+  '/gallery/$galleryId': typeof GalleryGalleryIdRouteLazyRoute
   '/platform-account/create': typeof PlatformAccountCreateLazyRoute
   '/post/create': typeof PostCreateLazyRoute
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
@@ -2098,6 +2121,7 @@ export interface FileRoutesByTo {
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdIndexLazyRoute
   '/coms/$comId/new': typeof ComsComIdNewRouteLazyRoute
   '/coms/$comId/type': typeof ComsComIdTypeRouteLazyRouteWithChildren
+  '/coms/$comId/view': typeof ComsComIdViewRouteLazyRoute
   '/coms/new/instagram_team': typeof ComsNewInstagramteamLazyRoute
   '/workflow-runs/$workflowRunId/additional-metadata': typeof WorkflowRunsWorkflowRunIdAdditionalMetadataLazyRoute
   '/workflow-runs/$workflowRunId/input': typeof WorkflowRunsWorkflowRunIdInputLazyRoute
@@ -2143,11 +2167,9 @@ export interface FileRoutesById {
   '/trigger': typeof TriggerRouteLazyRouteWithChildren
   '/workflow-runs': typeof WorkflowRunsRouteLazyRouteWithChildren
   '/workflows': typeof WorkflowsRouteLazyRouteWithChildren
-  '/gallery/': typeof GalleryIndexRoute
   '/platform/': typeof PlatformIndexRoute
   '/site/': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
-  '/gallery/$galleryId': typeof GalleryGalleryIdRoute
   '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
   '/trigger/ag': typeof TriggerAgRoute
   '/agEvents/': typeof AgEventsIndexLazyRoute
@@ -2155,6 +2177,7 @@ export interface FileRoutesById {
   '/endpoint/': typeof EndpointIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/events/': typeof EventsIndexLazyRoute
+  '/gallery/': typeof GalleryIndexLazyRoute
   '/model/': typeof ModelIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/play/': typeof PlayIndexLazyRoute
@@ -2168,6 +2191,7 @@ export interface FileRoutesById {
   '/auth/register': typeof AuthRegisterLazyRoute
   '/coms/$comId': typeof ComsComIdRouteLazyRouteWithChildren
   '/coms/new': typeof ComsNewRouteLazyRouteWithChildren
+  '/gallery/$galleryId': typeof GalleryGalleryIdRouteLazyRoute
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
   '/platform-account/create': typeof PlatformAccountCreateLazyRoute
   '/play/chat': typeof PlayChatRouteLazyRouteWithChildren
@@ -2190,6 +2214,7 @@ export interface FileRoutesById {
   '/workflow-runs/$workflowRunId/': typeof WorkflowRunsWorkflowRunIdIndexLazyRoute
   '/coms/$comId/new': typeof ComsComIdNewRouteLazyRoute
   '/coms/$comId/type': typeof ComsComIdTypeRouteLazyRouteWithChildren
+  '/coms/$comId/view': typeof ComsComIdViewRouteLazyRoute
   '/coms/new/instagram_team': typeof ComsNewInstagramteamLazyRoute
   '/play/chat/$sessionId': typeof PlayChatSessionIdRouteLazyRouteWithChildren
   '/resource/new/res': typeof ResourceNewResRouteLazyRouteWithChildren
@@ -2238,11 +2263,9 @@ export interface FileRouteTypes {
     | '/trigger'
     | '/workflow-runs'
     | '/workflows'
-    | '/gallery/'
     | '/platform/'
     | '/site/'
     | '/envs/create'
-    | '/gallery/$galleryId'
     | '/site/$siteId'
     | '/trigger/ag'
     | '/agEvents/'
@@ -2250,6 +2273,7 @@ export interface FileRouteTypes {
     | '/endpoint/'
     | '/envs/'
     | '/events/'
+    | '/gallery/'
     | '/model/'
     | '/platform-account/'
     | '/play/'
@@ -2263,6 +2287,7 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/coms/$comId'
     | '/coms/new'
+    | '/gallery/$galleryId'
     | '/platform-account/$platformAccountId'
     | '/platform-account/create'
     | '/play/chat'
@@ -2285,6 +2310,7 @@ export interface FileRouteTypes {
     | '/workflow-runs/$workflowRunId/'
     | '/coms/$comId/new'
     | '/coms/$comId/type'
+    | '/coms/$comId/view'
     | '/coms/new/instagram_team'
     | '/play/chat/$sessionId'
     | '/resource/new/res'
@@ -2313,17 +2339,16 @@ export interface FileRouteTypes {
     | '/ag_state'
     | '/auth'
     | '/trigger'
-    | '/gallery'
     | '/platform'
     | '/site'
     | '/envs/create'
-    | '/gallery/$galleryId'
     | '/trigger/ag'
     | '/agEvents'
     | '/coms'
     | '/endpoint'
     | '/envs'
     | '/events'
+    | '/gallery'
     | '/model'
     | '/platform-account'
     | '/play'
@@ -2336,6 +2361,7 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/coms/$comId'
     | '/coms/new'
+    | '/gallery/$galleryId'
     | '/platform-account/create'
     | '/post/create'
     | '/resource/new'
@@ -2353,6 +2379,7 @@ export interface FileRouteTypes {
     | '/workflow-runs/$workflowRunId'
     | '/coms/$comId/new'
     | '/coms/$comId/type'
+    | '/coms/$comId/view'
     | '/coms/new/instagram_team'
     | '/workflow-runs/$workflowRunId/additional-metadata'
     | '/workflow-runs/$workflowRunId/input'
@@ -2396,11 +2423,9 @@ export interface FileRouteTypes {
     | '/trigger'
     | '/workflow-runs'
     | '/workflows'
-    | '/gallery/'
     | '/platform/'
     | '/site/'
     | '/envs/create'
-    | '/gallery/$galleryId'
     | '/site/$siteId'
     | '/trigger/ag'
     | '/agEvents/'
@@ -2408,6 +2433,7 @@ export interface FileRouteTypes {
     | '/endpoint/'
     | '/envs/'
     | '/events/'
+    | '/gallery/'
     | '/model/'
     | '/platform-account/'
     | '/play/'
@@ -2421,6 +2447,7 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/coms/$comId'
     | '/coms/new'
+    | '/gallery/$galleryId'
     | '/platform-account/$platformAccountId'
     | '/platform-account/create'
     | '/play/chat'
@@ -2443,6 +2470,7 @@ export interface FileRouteTypes {
     | '/workflow-runs/$workflowRunId/'
     | '/coms/$comId/new'
     | '/coms/$comId/type'
+    | '/coms/$comId/view'
     | '/coms/new/instagram_team'
     | '/play/chat/$sessionId'
     | '/resource/new/res'
@@ -2689,10 +2717,6 @@ export const routeTree = rootRoute
         "/workflows/$workflowId"
       ]
     },
-    "/gallery/": {
-      "filePath": "~gallery/~index.tsx",
-      "parent": "/gallery"
-    },
     "/platform/": {
       "filePath": "~platform/~index.tsx",
       "parent": "/platform"
@@ -2704,10 +2728,6 @@ export const routeTree = rootRoute
     "/envs/create": {
       "filePath": "~envs/~create.tsx",
       "parent": "/envs"
-    },
-    "/gallery/$galleryId": {
-      "filePath": "~gallery/~$galleryId.tsx",
-      "parent": "/gallery"
     },
     "/site/$siteId": {
       "filePath": "~site/~$siteId/~route.tsx",
@@ -2741,6 +2761,10 @@ export const routeTree = rootRoute
     "/events/": {
       "filePath": "~events/~index.lazy.tsx",
       "parent": "/events"
+    },
+    "/gallery/": {
+      "filePath": "~gallery/~index.lazy.tsx",
+      "parent": "/gallery"
     },
     "/model/": {
       "filePath": "~model/~index.lazy.tsx",
@@ -2794,7 +2818,8 @@ export const routeTree = rootRoute
       "parent": "/coms",
       "children": [
         "/coms/$comId/new",
-        "/coms/$comId/type"
+        "/coms/$comId/type",
+        "/coms/$comId/view"
       ]
     },
     "/coms/new": {
@@ -2803,6 +2828,10 @@ export const routeTree = rootRoute
       "children": [
         "/coms/new/instagram_team"
       ]
+    },
+    "/gallery/$galleryId": {
+      "filePath": "~gallery/~$galleryId/~route.lazy.tsx",
+      "parent": "/gallery"
     },
     "/platform-account/$platformAccountId": {
       "filePath": "~platform-account/~$platformAccountId/~route.lazy.tsx",
@@ -2921,6 +2950,10 @@ export const routeTree = rootRoute
         "/coms/$comId/type/assisant",
         "/coms/$comId/type/instagramTeam"
       ]
+    },
+    "/coms/$comId/view": {
+      "filePath": "~coms/~$comId/~view/~route.lazy.tsx",
+      "parent": "/coms/$comId"
     },
     "/coms/new/instagram_team": {
       "filePath": "~coms/~new/~instagram_team.lazy.tsx",

@@ -188,7 +188,7 @@ export const convertTeamConfigToGraph = (
 
   // Create agent nodes first to calculate their positions
   const agentNodes: CustomNode[] = [];
-  teamComponent.config.participants.forEach((participant, index) => {
+  teamComponent.config?.participants?.forEach((participant, index) => {
     const position = calculateAgentPosition(index, agentNodes);
     const agentNode = createNode(position, participant);
     agentNodes.push(agentNode);
@@ -199,8 +199,8 @@ export const convertTeamConfigToGraph = (
 
   // Add all nodes and create edges
   nodes.push(teamNode, ...agentNodes);
-  agentNodes.forEach((agentNode) => {
-    edges.push(createEdge(teamNode.id, agentNode.id, "agent-connection"));
+  agentNodes?.forEach((agentNode) => {
+    edges?.push(createEdge(teamNode.id, agentNode.id, "agent-connection"));
   });
 
   return { nodes, edges };
@@ -238,7 +238,7 @@ export const getLayoutedElements = (
       ...teamNode.data,
       dimensions: {
         width: LAYOUT_CONFIG.NODE.WIDTH,
-        height: calculateNodeHeight(teamNode.data.component),
+        height: calculateNodeHeight(teamNode.data?.component),
       },
     },
   };

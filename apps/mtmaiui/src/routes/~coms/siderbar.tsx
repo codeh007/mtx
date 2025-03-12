@@ -66,7 +66,8 @@ export function NavComs() {
 
 const NavResourceItem = ({ item }: { item: MtComponent }) => {
   const detailLink = useMemo(() => {
-    return `${item.metadata?.id}/type/${item.type}`;
+    // return `${item.metadata?.id}/type/${item.type}`;
+    return `${item.metadata?.id}/view`;
   }, [item.metadata?.id, item.type]);
 
   return (

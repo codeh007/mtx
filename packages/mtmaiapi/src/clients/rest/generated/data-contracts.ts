@@ -2600,11 +2600,6 @@ export interface QuickStart {
   cn?: string;
 }
 
-export interface UiAgentConfig {
-  /** 一些值 */
-  someValue?: string;
-}
-
 export interface ChatWelcome {
   /** 欢迎语标题 */
   title?: string;
@@ -2734,10 +2729,36 @@ export interface InstagramTeamConfig {
   max_turns?: number;
   max_tokens?: number;
   termination_condition?: TerminationConfig;
-  task?: string;
+  task: string;
+  participants: ComponentModel[];
 }
 
 /** 浏览器配置(未完成) */
 export interface BrowserConfig {
   persistent?: boolean;
+}
+
+export type TeamConfig =
+  | RoundRobinGroupChatConfig
+  | SelectorGroupChatConfig
+  | InstagramTeamConfig
+  | BrowserConfig;
+
+export interface AgentConfig {
+  name: string;
+  description: string;
+  model_context?: ModelContext;
+  memory?: MemoryConfig;
+  /** @default false */
+  model_client_stream: boolean;
+  system_message?: string;
+  model_client: ModelComponent;
+  /** @default [] */
+  tools: ToolComponent[];
+  /** @default [] */
+  handoffs: string[];
+  /** @default false */
+  reflect_on_tool_use: boolean;
+  /** @default "{result}" */
+  tool_call_summary_format: string;
 }

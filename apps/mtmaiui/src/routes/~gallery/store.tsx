@@ -1,12 +1,12 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
 import type {
   AgentConfig,
   ModelConfig,
   TeamConfig,
   TerminationConfig,
   ToolConfig,
-} from "../components/datamodel.ts--";
+} from "mtmaiapi";
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import type { Gallery } from "../components/views/gallery/types";
 import { defaultGallery } from "../components/views/gallery/utils";
 

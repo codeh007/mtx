@@ -1,8 +1,12 @@
 import { Code, Globe, Upload as UploadIcon } from "lucide-react";
-import { Alert } from "mtxuilib/ui/alert";
 import { Button } from "mtxuilib/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "mtxuilib/ui/dialog";
 import { Input } from "mtxuilib/ui/input";
-import { Tabs } from "mtxuilib/ui/tabs";
 import type React from "react";
 import { useRef, useState } from "react";
 import { MonacoEditor } from "../monaco";
@@ -144,14 +148,15 @@ export const GalleryCreateModal: React.FC<GalleryCreateModalProps> = ({
       ),
       children: (
         <div className="border-2 border-dashed rounded-lg p-8 text-center space-y-4">
-          <Upload.Dragger {...uploadProps}>
+          {/* <Upload.Dragger {...uploadProps}>
             <p className="ant-upload-drag-icon">
               <UploadIcon className="w-8 h-8 mx-auto  " />
             </p>
             <p className="ant-upload-text">
               Click or drag JSON file to this area
             </p>
-          </Upload.Dragger>
+          </Upload.Dragger> */}
+          TODO: 上传
         </div>
       ),
     },
@@ -182,22 +187,25 @@ export const GalleryCreateModal: React.FC<GalleryCreateModalProps> = ({
   ];
 
   return (
-    <Modal
-      title="Create New Gallery"
+    <Dialog
       open={open}
-      onCancel={onCancel}
-      footer={null}
-      width={800}
+      // onCancel={onCancel}
+      // width={800}
     >
-      <div className="mt-4">
-        <Tabs activeKey={activeTab} onChange={setActiveTab} items={items} />
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Create New Gallery</DialogTitle>
+        </DialogHeader>
+        <div className="mt-4">
+          {/* <Tabs activeKey={activeTab} onChange={setActiveTab} items={items} /> */}
 
-        {error && (
+          {/* {error && (
           <Alert message={error} type="error" showIcon className="mt-4" />
-        )}
-      </div>
-    </Modal>
+        )} */}
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 
-export default GalleryCreateModal;
+// export default GalleryCreateModal;
