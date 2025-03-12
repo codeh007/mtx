@@ -7,6 +7,7 @@ import {
   type TerminationConfig,
   type ToolConfig,
   galleryGetOptions,
+  galleryListOptions,
 } from "mtmaiapi";
 import { createContext, useContext, useMemo } from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
@@ -14,15 +15,14 @@ import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { useTenantId } from "../hooks/useAuth";
-import { defaultGallery } from "../routes/components/views/gallery/utils";
 
 export interface GalleryStoreProps {
   defaultGallery: Gallery;
+  galleries?: Gallery[];
 }
 
 interface GalleryState extends GalleryStoreProps {
-  galleries: Gallery[];
-  // defaultGalleryId: string;
+  defaultGalleryId: string;
   selectedGalleryId: string | null;
 
   addGallery: (gallery: Gallery) => void;
@@ -55,17 +55,19 @@ export const createGallerySlice: StateCreator<
     //   persist(
     //     (set, get) => ({
     galleries: [],
-    // defaultGalleryId: defaultGallery.id,
-    selectedGalleryId: defaultGallery.id,
+    defaultGalleryId: "system_default",
+    selectedGalleryId: "system_default",
 
     addGallery: (gallery) =>
       set((state) => {
         if (
-          state.galleries.find((g) => g.metadata?.id === gallery.metadata?.id)
+          (state.galleries || []).find(
+            (g) => g.metadata?.id === gallery.metadata?.id,
+          )
         )
           return state;
         return {
-          galleries: [gallery, ...state.galleries],
+          galleries: [gallery, ...(state.galleries || [])],
           // defaultGalleryId: state.defaultGalleryId || gallery.id,
           selectedGalleryId: state.selectedGalleryId || gallery.metadata?.id,
         };
@@ -73,7 +75,7 @@ export const createGallerySlice: StateCreator<
 
     updateGallery: (id, updates) =>
       set((state) => ({
-        galleries: state.galleries.map((gallery) =>
+        galleries: state.galleries?.map((gallery) =>
           gallery.metadata?.id === id
             ? {
                 ...gallery,
@@ -117,26 +119,26 @@ export const createGallerySlice: StateCreator<
 
     selectGallery: (id) =>
       set((state) => {
-        const gallery = state.galleries.find((g) => g.id === id);
+        const gallery = state.galleries?.find((g) => g.id === id);
         if (!gallery) return state;
         return { selectedGalleryId: id };
       }),
 
-    // getDefaultGallery: () => {
-    //   const { galleries, defaultGalleryId } = get();
-    //   return galleries.find((g) => g.id === defaultGalleryId)!;
-    // },
+    getDefaultGallery: () => {
+      const { galleries, defaultGalleryId } = get();
+      return galleries?.find((g) => g.metadata?.id === defaultGalleryId)!;
+    },
 
     getSelectedGallery: () => {
       const { galleries, selectedGalleryId } = get();
       if (!selectedGalleryId) return null;
       return (
-        galleries.find((g) => g.metadata?.id === selectedGalleryId) || null
+        galleries?.find((g) => g.metadata?.id === selectedGalleryId) || null
       );
     },
 
     syncGallery: async (id) => {
-      const gallery = get().galleries.find((g) => g.id === id);
+      const gallery = get().galleries?.find((g) => g.id === id);
       if (!gallery?.url) return;
 
       try {
@@ -158,7 +160,7 @@ export const createGallerySlice: StateCreator<
     },
 
     getLastSyncTime: (id) => {
-      const gallery = get().galleries.find((g) => g.id === id);
+      const gallery = get().galleries?.find((g) => g.metadata?.id === id);
       return gallery?.metadata?.lastSynced ?? null;
     },
 
@@ -211,6 +213,16 @@ export const GalleryProvider = (props: AppProviderProps) => {
   });
 
   etc.defaultGallery = gralleryGetQuery.data;
+
+  const { data: galleriesData } = useSuspenseQuery({
+    ...galleryListOptions({
+      path: {
+        tenant: tid,
+      },
+    }),
+  });
+
+  etc.galleries = galleriesData.rows;
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const mystore = useMemo(() => createGalleryStore(etc), [etc]);
