@@ -1685,7 +1685,21 @@ export interface ArtifactCodeV3 {
   index: number;
   type: string;
   title: string;
-  language: ProgrammingLanguageOptions;
+  language:
+    | "typescript"
+    | "javascript"
+    | "cpp"
+    | "java"
+    | "php"
+    | "python"
+    | "html"
+    | "sql"
+    | "json"
+    | "rust"
+    | "xml"
+    | "clojure"
+    | "csharp"
+    | "other";
   code: string;
 }
 
@@ -1719,14 +1733,6 @@ export interface Reflections {
   content: string[];
 }
 
-export enum LanguageOptions {
-  Chinese = "chinese",
-  English = "english",
-  Spanish = "spanish",
-  French = "french",
-  Hindi = "hindi",
-}
-
 /** 工具内容长度,(文章,代码内容长度) */
 export enum ArtifactLengthOptions {
   Shortest = "shortest",
@@ -1739,12 +1745,12 @@ export type RewriteArtifactMetaToolResponse =
   | {
       type: "text";
       title?: string;
-      language: ProgrammingLanguageOptions;
+      language: string;
     }
   | {
       type: "code";
       title: string;
-      language: ProgrammingLanguageOptions;
+      language: string;
     };
 
 export interface ArtifactToolResponse {
@@ -1761,23 +1767,6 @@ export enum ReadingLevelOptions {
   Teenager = "teenager",
   College = "college",
   Phd = "phd",
-}
-
-export enum ProgrammingLanguageOptions {
-  Typescript = "typescript",
-  Javascript = "javascript",
-  Cpp = "cpp",
-  Java = "java",
-  Php = "php",
-  Python = "python",
-  Html = "html",
-  Sql = "sql",
-  Json = "json",
-  Rust = "rust",
-  Xml = "xml",
-  Clojure = "clojure",
-  Csharp = "csharp",
-  Other = "other",
 }
 
 export type TeamComponent = ComponentModel & TeamConfig;
@@ -1870,8 +1859,6 @@ export interface ComponentModel {
   description?: string;
   /** Human readable label for the component. If missing the component assumes the class name of the provider. */
   label?: string;
-  /** The schema validated config field is passed to a given class's implmentation of :py:meth:`autogen_core.ComponentConfigImpl._from_config` to create a new instance of the component class. */
-  config: Record<string, any>;
 }
 
 export interface GalleryComponents {
@@ -2170,9 +2157,7 @@ export interface ToolConfig {
   has_cancellation_support?: boolean;
 }
 
-export type HandoffComponent = ComponentModel & {
-  config: HandoffConfig;
-};
+export type HandoffComponent = ComponentModel & HandoffConfig;
 
 export interface HandoffConfig {
   target: string;

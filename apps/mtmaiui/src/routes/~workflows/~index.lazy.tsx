@@ -1,5 +1,4 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { useTenant } from "../../hooks/useAuth";
 import { WorkflowTable } from "./components/workflow-table";
 
@@ -14,9 +13,7 @@ function RouteComponent() {
   }
   return (
     <>
-      <MtSuspenseBoundary>
         <WorkflowTable tenant={tenant} />
-      </MtSuspenseBoundary>
     </>
   );
 }

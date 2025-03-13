@@ -3543,7 +3543,22 @@ export const ArtifactCodeV3Schema = {
     },
     language: {
       type: "string",
-      $ref: "#/components/schemas/ProgrammingLanguageOptions",
+      enum: [
+        "typescript",
+        "javascript",
+        "cpp",
+        "java",
+        "php",
+        "python",
+        "html",
+        "sql",
+        "json",
+        "rust",
+        "xml",
+        "clojure",
+        "csharp",
+        "other",
+      ],
     },
     code: {
       type: "string",
@@ -3634,11 +3649,6 @@ export const ReflectionsSchema = {
   required: ["styleRules", "content"],
 } as const;
 
-export const LanguageOptionsSchema = {
-  type: "string",
-  enum: ["chinese", "english", "spanish", "french", "hindi"],
-} as const;
-
 export const ArtifactLengthOptionsSchema = {
   type: "string",
   description: "工具内容长度,(文章,代码内容长度)",
@@ -3658,7 +3668,7 @@ export const RewriteArtifactMetaToolResponseSchema = {
         },
         language: {
           type: "string",
-          $ref: "#/components/schemas/ProgrammingLanguageOptions",
+          $ref: "#/components/schemas/ArtifactCodeV3/properties/language",
         },
       },
       required: ["type", "language"],
@@ -3674,7 +3684,7 @@ export const RewriteArtifactMetaToolResponseSchema = {
         },
         language: {
           type: "string",
-          $ref: "#/components/schemas/ProgrammingLanguageOptions",
+          $ref: "#/components/schemas/ArtifactCodeV3/properties/language",
         },
       },
       required: ["type", "title", "language"],
@@ -3703,26 +3713,6 @@ export const ReadingLevelOptionsSchema = {
   type: "string",
   description: "阅读级别",
   enum: ["pirate", "child", "teenager", "college", "phd"],
-} as const;
-
-export const ProgrammingLanguageOptionsSchema = {
-  type: "string",
-  enum: [
-    "typescript",
-    "javascript",
-    "cpp",
-    "java",
-    "php",
-    "python",
-    "html",
-    "sql",
-    "json",
-    "rust",
-    "xml",
-    "clojure",
-    "csharp",
-    "other",
-  ],
 } as const;
 
 export const TeamComponentSchema = {
@@ -3763,12 +3753,12 @@ export const TerminationComponentSchema = {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
-      required: ["config"],
       properties: {
         config: {
           $ref: "#/components/schemas/TerminationConfig",
         },
       },
+      required: ["config"],
     },
   ],
 } as const;
@@ -3980,12 +3970,6 @@ export const ComponentModelSchema = {
       type: "string",
       description:
         "Human readable label for the component. If missing the component assumes the class name of the provider.",
-    },
-    config: {
-      type: "object",
-      additionalProperties: true,
-      description:
-        "The schema validated config field is passed to a given class's implmentation of :py:meth:`autogen_core.ComponentConfigImpl._from_config` to create a new instance of the component class.",
     },
   },
 } as const;
@@ -4735,12 +4719,12 @@ export const ToolComponentSchema = {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
-      required: ["config"],
       properties: {
         config: {
           $ref: "#/components/schemas/ToolConfig",
         },
       },
+      required: ["config"],
     },
   ],
 } as const;
@@ -4775,12 +4759,7 @@ export const HandoffComponentSchema = {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
-      required: ["config"],
-      properties: {
-        config: {
-          $ref: "#/components/schemas/HandoffConfig",
-        },
-      },
+      $ref: "#/components/schemas/HandoffConfig",
     },
   ],
 } as const;
@@ -6299,12 +6278,12 @@ export const AgentComponentSchema = {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
-      required: ["config"],
       properties: {
         config: {
           $ref: "#/components/schemas/AgentConfig",
         },
       },
+      required: ["config"],
     },
   ],
 } as const;
@@ -6342,7 +6321,6 @@ export const AgentConfigSchema = {
       type: "string",
     },
     model_client: {
-      type: "object",
       $ref: "#/components/schemas/ModelComponent",
     },
     tools: {

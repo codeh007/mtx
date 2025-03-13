@@ -1966,7 +1966,21 @@ export type ArtifactCodeV3 = {
   index: number;
   type: string;
   title: string;
-  language: ProgrammingLanguageOptions;
+  language:
+    | "typescript"
+    | "javascript"
+    | "cpp"
+    | "java"
+    | "php"
+    | "python"
+    | "html"
+    | "sql"
+    | "json"
+    | "rust"
+    | "xml"
+    | "clojure"
+    | "csharp"
+    | "other";
   code: string;
 };
 
@@ -2018,21 +2032,6 @@ export type Reflections = {
   content: Array<string>;
 };
 
-export type LanguageOptions =
-  | "chinese"
-  | "english"
-  | "spanish"
-  | "french"
-  | "hindi";
-
-export const LanguageOptions = {
-  CHINESE: "chinese",
-  ENGLISH: "english",
-  SPANISH: "spanish",
-  FRENCH: "french",
-  HINDI: "hindi",
-} as const;
-
 /**
  * 工具内容长度,(文章,代码内容长度)
  */
@@ -2052,12 +2051,12 @@ export type RewriteArtifactMetaToolResponse =
   | {
       type: "text";
       title?: string;
-      language: ProgrammingLanguageOptions;
+      language: Language;
     }
   | {
       type: "code";
       title: string;
-      language: ProgrammingLanguageOptions;
+      language: Language;
     };
 
 export type ArtifactToolResponse = {
@@ -2086,39 +2085,6 @@ export const ReadingLevelOptions = {
   TEENAGER: "teenager",
   COLLEGE: "college",
   PHD: "phd",
-} as const;
-
-export type ProgrammingLanguageOptions =
-  | "typescript"
-  | "javascript"
-  | "cpp"
-  | "java"
-  | "php"
-  | "python"
-  | "html"
-  | "sql"
-  | "json"
-  | "rust"
-  | "xml"
-  | "clojure"
-  | "csharp"
-  | "other";
-
-export const ProgrammingLanguageOptions = {
-  TYPESCRIPT: "typescript",
-  JAVASCRIPT: "javascript",
-  CPP: "cpp",
-  JAVA: "java",
-  PHP: "php",
-  PYTHON: "python",
-  HTML: "html",
-  SQL: "sql",
-  JSON: "json",
-  RUST: "rust",
-  XML: "xml",
-  CLOJURE: "clojure",
-  CSHARP: "csharp",
-  OTHER: "other",
 } as const;
 
 export type TeamComponent = ComponentModel & TeamConfig;
@@ -2234,12 +2200,6 @@ export type ComponentModel = {
    * Human readable label for the component. If missing the component assumes the class name of the provider.
    */
   label?: string;
-  /**
-   * The schema validated config field is passed to a given class's implmentation of :py:meth:`autogen_core.ComponentConfigImpl._from_config` to create a new instance of the component class.
-   */
-  config: {
-    [key: string]: unknown;
-  };
 };
 
 export type GalleryComponents = {
@@ -2607,9 +2567,7 @@ export type ToolConfig = {
   has_cancellation_support?: boolean;
 };
 
-export type HandoffComponent = ComponentModel & {
-  config: HandoffConfig;
-};
+export type HandoffComponent = ComponentModel & HandoffConfig;
 
 export type HandoffConfig = {
   target: string;

@@ -1,7 +1,16 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { comsGetOptions } from "mtmaiapi";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+} from "mtxuilib/ui/breadcrumb";
+import { Button } from "mtxuilib/ui/button";
+import { DashHeaders } from "../../../../components/DashHeaders";
 import { useTenantId } from "../../../../hooks/useAuth";
+import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 import { TeamBuilder } from "../../../components/views/team/builder/builder";
 
 export const Route = createLazyFileRoute("/coms/$comId/view")({
@@ -22,9 +31,28 @@ function RouteComponent() {
     }),
   });
 
+  const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
+  const handleRun = () => {
+    handleHumanInput({
+      content: "你好",
+      componentId: comId,
+    });
+  };
   return (
-    <div className="flex flex-col gap-4 w-full h-full">
-      <TeamBuilder team={teamQuery.data} />
-    </div>
+    <>
+      <DashHeaders>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbPage>查看</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <Button onClick={handleRun}>运行</Button>
+      </DashHeaders>
+      <div className="flex flex-col gap-4 w-full h-full">
+        <TeamBuilder team={teamQuery.data} />
+      </div>
+    </>
   );
 }
