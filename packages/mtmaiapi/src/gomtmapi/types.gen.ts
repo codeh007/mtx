@@ -2041,18 +2041,15 @@ export const ReadingLevelOptions = {
   PHD: "phd",
 } as const;
 
-export type TeamComponent = ComponentModel &
-  TeamConfig & {
-    componentType: "team";
-  };
-
-export type TeamConfig = {
-  config?:
-    | RoundRobinGroupChatConfig
-    | SelectorGroupChatConfig
-    | InstagramTeamConfig
-    | BrowserConfig;
+export type TeamComponent = ComponentModel & {
+  componentType: "team";
+  config: TeamConfig;
 };
+
+export type TeamConfig =
+  | RoundRobinGroupChatConfig
+  | SelectorGroupChatConfig
+  | InstagramTeamConfig;
 
 export type TerminationComponent = ComponentModel & {
   componentType: "termination";
@@ -2106,7 +2103,10 @@ export type AgStateUpsert = AgStateProperties & {
   tenantId?: string;
 };
 
-export type MtComponent = ApiResourceMetaProperties & MtComponentProperties2;
+export type MtComponent = ApiResourceMetaProperties & {
+  componentType?: ComponentTypes;
+  component?: TeamComponent | TerminationComponent | AgentComponent;
+};
 
 export type MtComponentList = {
   pagination?: PaginationResponse;
@@ -2602,13 +2602,15 @@ export type NodeRunAction = {
 };
 
 export type RoundRobinGroupChatConfig = {
-  participants?: Array<AgentComponent>;
-  termination_condition?: TerminationComponent;
+  provider: "autogen_core.team.RoundRobinGroupChat";
+  participants: Array<AgentComponent>;
+  termination_condition: TerminationComponent;
 };
 
 export type SelectorGroupChatConfig = {
-  participants?: Array<AgentComponent>;
-  termination_condition?: TerminationComponent;
+  provider: "autogen_core.team.SelectorGroupChat";
+  participants: Array<AgentComponent>;
+  termination_condition: TerminationComponent;
   model_client?: ModelComponent;
 };
 
@@ -3255,6 +3257,7 @@ export type BrowserOpenTask = {
 };
 
 export type InstagramTeamConfig = {
+  configType: "InstagramTeamConfig";
   max_turns?: number;
   max_tokens?: number;
   termination_condition?: TerminationComponent;
@@ -3288,11 +3291,6 @@ export type AgentConfig = {
   handoffs: Array<string>;
   reflect_on_tool_use: boolean;
   tool_call_summary_format: string;
-};
-
-export type MtComponentProperties2 = {
-  componentType?: ComponentTypes;
-  component?: TeamComponent | TerminationComponent | AgentComponent;
 };
 
 export type ReadinessGetData = {

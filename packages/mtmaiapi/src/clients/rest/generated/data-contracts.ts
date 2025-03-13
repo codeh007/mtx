@@ -1723,18 +1723,15 @@ export enum ReadingLevelOptions {
   Phd = "phd",
 }
 
-export type TeamComponent = ComponentModel &
-  TeamConfig & {
-    componentType: "team";
-  };
+export type TeamComponent = ComponentModel & {
+  componentType: "team";
+  config: TeamConfig;
+};
 
-export interface TeamConfig {
-  config?:
-    | RoundRobinGroupChatConfig
-    | SelectorGroupChatConfig
-    | InstagramTeamConfig
-    | BrowserConfig;
-}
+export type TeamConfig =
+  | RoundRobinGroupChatConfig
+  | SelectorGroupChatConfig
+  | InstagramTeamConfig;
 
 export type TerminationComponent = ComponentModel & {
   componentType: "termination";
@@ -1777,7 +1774,10 @@ export type AgStateUpsert = AgStateProperties & {
   tenantId?: string;
 };
 
-export type MtComponent = APIResourceMetaProperties & MtComponentProperties2;
+export type MtComponent = APIResourceMetaProperties & {
+  componentType?: ComponentTypes;
+  component?: TeamComponent | TerminationComponent | AgentComponent;
+};
 
 export interface MtComponentList {
   pagination?: PaginationResponse;
@@ -2165,13 +2165,15 @@ export interface NodeRunAction {
 }
 
 export interface RoundRobinGroupChatConfig {
-  participants?: AgentComponent[];
-  termination_condition?: TerminationComponent;
+  provider: "autogen_core.team.RoundRobinGroupChat";
+  participants: AgentComponent[];
+  termination_condition: TerminationComponent;
 }
 
 export interface SelectorGroupChatConfig {
-  participants?: AgentComponent[];
-  termination_condition?: TerminationComponent;
+  provider: "autogen_core.team.SelectorGroupChat";
+  participants: AgentComponent[];
+  termination_condition: TerminationComponent;
   model_client?: ModelComponent;
 }
 
@@ -2709,6 +2711,7 @@ export interface BrowserOpenTask {
 }
 
 export interface InstagramTeamConfig {
+  configType: "InstagramTeamConfig";
   max_turns?: number;
   max_tokens?: number;
   termination_condition?: TerminationComponent;
@@ -2743,9 +2746,4 @@ export interface AgentConfig {
   reflect_on_tool_use: boolean;
   /** @default "{result}" */
   tool_call_summary_format: string;
-}
-
-export interface MtComponentProperties2 {
-  componentType?: ComponentTypes;
-  component?: TeamComponent | TerminationComponent | AgentComponent;
 }

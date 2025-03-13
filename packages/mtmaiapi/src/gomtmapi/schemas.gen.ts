@@ -3608,14 +3608,14 @@ export const TeamComponentSchema = {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
-      $ref: "#/components/schemas/TeamConfig",
-    },
-    {
       required: ["componentType", "config"],
       properties: {
         componentType: {
           type: "string",
           enum: ["team"],
+        },
+        config: {
+          $ref: "#/components/schemas/TeamConfig",
         },
       },
     },
@@ -3623,24 +3623,17 @@ export const TeamComponentSchema = {
 } as const;
 
 export const TeamConfigSchema = {
-  properties: {
-    config: {
-      oneOf: [
-        {
-          $ref: "#/components/schemas/RoundRobinGroupChatConfig",
-        },
-        {
-          $ref: "#/components/schemas/SelectorGroupChatConfig",
-        },
-        {
-          $ref: "#/components/schemas/InstagramTeamConfig",
-        },
-        {
-          $ref: "#/components/schemas/BrowserConfig",
-        },
-      ],
+  oneOf: [
+    {
+      $ref: "#/components/schemas/RoundRobinGroupChatConfig",
     },
-  },
+    {
+      $ref: "#/components/schemas/SelectorGroupChatConfig",
+    },
+    {
+      $ref: "#/components/schemas/InstagramTeamConfig",
+    },
+  ],
 } as const;
 
 export const TerminationComponentSchema = {
@@ -3765,7 +3758,24 @@ export const MtComponentSchema = {
       $ref: "#/components/schemas/APIResourceMetaProperties",
     },
     {
-      $ref: "#/components/schemas/MtComponentProperties2",
+      properties: {
+        componentType: {
+          $ref: "#/components/schemas/ComponentTypes",
+        },
+        component: {
+          oneOf: [
+            {
+              $ref: "#/components/schemas/TeamComponent",
+            },
+            {
+              $ref: "#/components/schemas/TerminationComponent",
+            },
+            {
+              $ref: "#/components/schemas/AgentComponent",
+            },
+          ],
+        },
+      },
     },
   ],
 } as const;
@@ -4760,7 +4770,12 @@ export const NodeRunActionSchema = {
 } as const;
 
 export const RoundRobinGroupChatConfigSchema = {
+  required: ["participants", "termination_condition", "provider"],
   properties: {
+    provider: {
+      type: "string",
+      enum: ["autogen_core.team.RoundRobinGroupChat"],
+    },
     participants: {
       type: "array",
       items: {
@@ -4774,7 +4789,12 @@ export const RoundRobinGroupChatConfigSchema = {
 } as const;
 
 export const SelectorGroupChatConfigSchema = {
+  required: ["participants", "termination_condition", "provider"],
   properties: {
+    provider: {
+      type: "string",
+      enum: ["autogen_core.team.SelectorGroupChat"],
+    },
     participants: {
       type: "array",
       items: {
@@ -6157,8 +6177,12 @@ export const BrowserOpenTaskSchema = {
 } as const;
 
 export const InstagramTeamConfigSchema = {
-  required: ["task", "participants"],
+  required: ["task", "participants", "configType"],
   properties: {
+    configType: {
+      type: "string",
+      enum: ["InstagramTeamConfig"],
+    },
     max_turns: {
       type: "integer",
     },
@@ -6265,27 +6289,6 @@ export const AgentConfigSchema = {
     tool_call_summary_format: {
       type: "string",
       default: "{result}",
-    },
-  },
-} as const;
-
-export const MtComponentProperties2Schema = {
-  properties: {
-    componentType: {
-      $ref: "#/components/schemas/ComponentTypes",
-    },
-    component: {
-      oneOf: [
-        {
-          $ref: "#/components/schemas/TeamComponent",
-        },
-        {
-          $ref: "#/components/schemas/TerminationComponent",
-        },
-        {
-          $ref: "#/components/schemas/AgentComponent",
-        },
-      ],
     },
   },
 } as const;

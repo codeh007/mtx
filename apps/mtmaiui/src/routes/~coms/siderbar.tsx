@@ -77,7 +77,7 @@ const NavResourceItem = ({ item }: { item: MtComponent }) => {
   const team = item.component as TeamComponent;
   return (
     <>
-      <NavTeamItem item={team} rowId={item.metadata.id} />
+      <NavTeamItem item={team} rowId={item.metadata?.id || ""} />
     </>
   );
 };
