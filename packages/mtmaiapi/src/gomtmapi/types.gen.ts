@@ -2631,6 +2631,11 @@ export type TerminationConditions =
   | MaxMessageTerminationConfigComponent
   | TextMentionTerminationComponent;
 
+export type InstagramAgentConfig = {
+  max_turns?: number;
+  max_tokens?: number;
+};
+
 export type TeamTypes =
   | "Assisant"
   | "RoundRobinGroupChat"
@@ -3283,7 +3288,11 @@ export type AgentConfig = {
 
 export type MtComponentProperties2 = {
   componentType?: ComponentTypes;
-  component?: TeamComponent | TerminationComponent | AgentComponent;
+  component?:
+    | TeamComponent
+    | TerminationComponent
+    | AgentComponent
+    | ModelComponent;
 };
 
 export type ReadinessGetData = {

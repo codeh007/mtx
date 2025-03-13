@@ -2192,6 +2192,11 @@ export type TerminationConditions =
   | MaxMessageTerminationConfigComponent
   | TextMentionTerminationComponent;
 
+export interface InstagramAgentConfig {
+  max_turns?: number;
+  max_tokens?: number;
+}
+
 export enum TeamTypes {
   Assisant = "Assisant",
   RoundRobinGroupChat = "RoundRobinGroupChat",
@@ -2736,5 +2741,9 @@ export interface AgentConfig {
 
 export interface MtComponentProperties2 {
   componentType?: ComponentTypes;
-  component?: TeamComponent | TerminationComponent | AgentComponent;
+  component?:
+    | TeamComponent
+    | TerminationComponent
+    | AgentComponent
+    | ModelComponent;
 }

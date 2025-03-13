@@ -4843,6 +4843,17 @@ export const TerminationConditionsSchema = {
   ],
 } as const;
 
+export const InstagramAgentConfigSchema = {
+  properties: {
+    max_turns: {
+      type: "integer",
+    },
+    max_tokens: {
+      type: "integer",
+    },
+  },
+} as const;
+
 export const TeamTypesSchema = {
   type: "string",
   enum: [
@@ -6241,7 +6252,7 @@ export const MtComponentProperties2Schema = {
       $ref: "#/components/schemas/ComponentTypes",
     },
     component: {
-      anyOf: [
+      oneOf: [
         {
           $ref: "#/components/schemas/TeamComponent",
         },
@@ -6250,6 +6261,9 @@ export const MtComponentProperties2Schema = {
         },
         {
           $ref: "#/components/schemas/AgentComponent",
+        },
+        {
+          $ref: "#/components/schemas/ModelComponent",
         },
       ],
     },
