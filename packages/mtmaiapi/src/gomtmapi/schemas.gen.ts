@@ -2979,6 +2979,40 @@ export const ChatMessageListSchema = {
     pagination: {
       $ref: "#/components/schemas/PaginationResponse",
     },
+    other: {
+      oneOf: [
+        {
+          $ref: "#/components/schemas/InstagramTeamConfig",
+        },
+        {
+          $ref: "#/components/schemas/BrowserConfig",
+        },
+        {
+          $ref: "#/components/schemas/TeamConfig",
+        },
+        {
+          $ref: "#/components/schemas/RoundRobinGroupChatConfig",
+        },
+        {
+          $ref: "#/components/schemas/SelectorGroupChatConfig",
+        },
+        {
+          $ref: "#/components/schemas/TerminationComponent",
+        },
+        {
+          $ref: "#/components/schemas/TeamComponent",
+        },
+        {
+          $ref: "#/components/schemas/AgentComponent",
+        },
+        {
+          $ref: "#/components/schemas/ModelComponent",
+        },
+        {
+          $ref: "#/components/schemas/MtComponent",
+        },
+      ],
+    },
   },
 } as const;
 
@@ -3837,12 +3871,21 @@ export const AgStateUpsertSchema = {
 } as const;
 
 export const MtComponentSchema = {
-  allOf: [
+  anyOf: [
     {
-      $ref: "#/components/schemas/MtComponentProperties",
+      $ref: "#/components/schemas/TeamComponent",
     },
     {
-      $ref: "#/components/schemas/APIResourceMetaProperties",
+      $ref: "#/components/schemas/RoundRobinGroupChatConfig",
+    },
+    {
+      $ref: "#/components/schemas/SelectorGroupChatConfig",
+    },
+    {
+      $ref: "#/components/schemas/TerminationComponent",
+    },
+    {
+      $ref: "#/components/schemas/AgentComponent",
     },
   ],
 } as const;
@@ -3903,6 +3946,18 @@ export const MtComponentPropertiesSchema = {
         },
         {
           $ref: "#/components/schemas/TeamConfig",
+        },
+        {
+          $ref: "#/components/schemas/RoundRobinGroupChatConfig",
+        },
+        {
+          $ref: "#/components/schemas/SelectorGroupChatConfig",
+        },
+        {
+          $ref: "#/components/schemas/TerminationComponent",
+        },
+        {
+          $ref: "#/components/schemas/TeamComponent",
         },
       ],
     },
@@ -4034,6 +4089,9 @@ export const GallerySchema = {
       },
     },
     license: {
+      type: "string",
+    },
+    lastSynced: {
       type: "string",
     },
   },

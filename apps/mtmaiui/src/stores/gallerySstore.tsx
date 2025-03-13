@@ -161,7 +161,7 @@ export const createGallerySlice: StateCreator<
 
     getLastSyncTime: (id) => {
       const gallery = get().galleries?.find((g) => g.metadata?.id === id);
-      return gallery?.metadata?.lastSynced ?? null;
+      return gallery?.lastSynced ?? null;
     },
 
     getGalleryComponents: () => {

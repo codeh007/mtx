@@ -1421,6 +1421,17 @@ export interface ChatMessageList {
   metadata?: APIResourceMeta;
   rows?: ChatMessage[];
   pagination?: PaginationResponse;
+  other?:
+    | InstagramTeamConfig
+    | BrowserConfig
+    | TeamConfig
+    | RoundRobinGroupChatConfig
+    | SelectorGroupChatConfig
+    | TerminationComponent
+    | TeamComponent
+    | AgentComponent
+    | ModelComponent
+    | MtComponent;
 }
 
 export interface WorkerConfig {
@@ -1819,7 +1830,12 @@ export type AgStateUpsert = AgStateProperties & {
   tenantId?: string;
 };
 
-export type MtComponent = MtComponentProperties & APIResourceMetaProperties;
+export type MtComponent =
+  | TeamComponent
+  | RoundRobinGroupChatConfig
+  | SelectorGroupChatConfig
+  | TerminationComponent
+  | AgentComponent;
 
 export interface MtComponentList {
   pagination?: PaginationResponse;
@@ -1838,7 +1854,14 @@ export interface MtComponentProperties {
   componentVersion?: number;
   config: Record<string, any>;
   galleryId?: string;
-  component2?: InstagramTeamConfig | BrowserConfig | TeamConfig;
+  component2?:
+    | InstagramTeamConfig
+    | BrowserConfig
+    | TeamConfig
+    | RoundRobinGroupChatConfig
+    | SelectorGroupChatConfig
+    | TerminationComponent
+    | TeamComponent;
 }
 
 export interface ComponentModel {
@@ -1879,6 +1902,7 @@ export interface Gallery {
   description: string;
   tags: string[];
   license: string;
+  lastSynced?: string;
 }
 
 export interface GalleryList {

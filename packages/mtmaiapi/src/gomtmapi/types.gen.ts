@@ -1671,6 +1671,17 @@ export type ChatMessageList = {
   metadata?: ApiResourceMeta;
   rows?: Array<ChatMessage>;
   pagination?: PaginationResponse;
+  other?:
+    | InstagramTeamConfig
+    | BrowserConfig
+    | TeamConfig
+    | RoundRobinGroupChatConfig
+    | SelectorGroupChatConfig
+    | TerminationComponent
+    | TeamComponent
+    | AgentComponent
+    | ModelComponent
+    | MtComponent;
 };
 
 export type WorkerConfig = {
@@ -2171,7 +2182,12 @@ export type AgStateUpsert = AgStateProperties & {
   tenantId?: string;
 };
 
-export type MtComponent = MtComponentProperties & ApiResourceMetaProperties;
+export type MtComponent =
+  | TeamComponent
+  | RoundRobinGroupChatConfig
+  | SelectorGroupChatConfig
+  | TerminationComponent
+  | AgentComponent;
 
 export type MtComponentList = {
   pagination?: PaginationResponse;
@@ -2189,7 +2205,14 @@ export type MtComponentProperties = {
     [key: string]: unknown;
   };
   galleryId?: string;
-  component2?: InstagramTeamConfig | BrowserConfig | TeamConfig;
+  component2?:
+    | InstagramTeamConfig
+    | BrowserConfig
+    | TeamConfig
+    | RoundRobinGroupChatConfig
+    | SelectorGroupChatConfig
+    | TerminationComponent
+    | TeamComponent;
 };
 
 export type ComponentModel = {
@@ -2246,6 +2269,7 @@ export type Gallery = {
   description: string;
   tags: Array<string>;
   license: string;
+  lastSynced?: string;
 };
 
 export type GalleryList = {

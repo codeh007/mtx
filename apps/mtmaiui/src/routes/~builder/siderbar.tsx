@@ -2,7 +2,7 @@
 
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { type MtComponent, comsListOptions, galleryGetOptions } from "mtmaiapi";
+import { type MtComponent, comsListOptions } from "mtmaiapi";
 import { cn, generateUUID } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
@@ -29,14 +29,7 @@ export function NavBuilder() {
     }),
   });
 
-  const defaultGallery = useSuspenseQuery({
-    ...galleryGetOptions({
-      path: {
-        tenant: tid,
-        gallery: "default",
-      },
-    }),
-  });
+  
 
   const linkToNew = useMemo(() => {
     const newUUID = generateUUID();
