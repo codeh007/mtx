@@ -3375,12 +3375,7 @@ export type AgentConfig = {
 
 export type MtComponentProperties2 = {
   componentType?: ComponentTypes;
-  component?:
-    | TeamComponent
-    | RoundRobinGroupChatConfig
-    | SelectorGroupChatConfig
-    | TerminationComponent
-    | AgentComponent;
+  component?: TeamComponent | TerminationComponent | AgentComponent;
 };
 
 export type ReadinessGetData = {

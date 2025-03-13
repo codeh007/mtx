@@ -22,9 +22,9 @@
   }
 
 .my-left-handle{
-    @apply bg-accent w-1 h-3 rounded-r-sm -ml-1 border-0; 
+    /* @apply bg-accent w-1 h-3 rounded-r-sm -ml-1 border-0;  */
 }
 
 .my-right-handle{
-    @apply bg-accent w-1 h-3  rounded-l-sm -mr-1 border-0; 
+    /* @apply bg-accent w-1 h-3  rounded-l-sm -mr-1 border-0;  */
 } 

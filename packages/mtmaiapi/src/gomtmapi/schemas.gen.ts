@@ -6393,12 +6393,6 @@ export const MtComponentProperties2Schema = {
           $ref: "#/components/schemas/TeamComponent",
         },
         {
-          $ref: "#/components/schemas/RoundRobinGroupChatConfig",
-        },
-        {
-          $ref: "#/components/schemas/SelectorGroupChatConfig",
-        },
-        {
           $ref: "#/components/schemas/TerminationComponent",
         },
         {

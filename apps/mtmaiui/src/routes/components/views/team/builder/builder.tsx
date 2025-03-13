@@ -21,13 +21,14 @@ import "@xyflow/react/dist/style.css";
 import debounce from "lodash.debounce";
 import { Cable, Code2, Download, PlayCircle, Save } from "lucide-react";
 import type { MtComponent } from "mtmaiapi";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
 import { Switch } from "mtxuilib/ui/switch";
 import { Tooltip } from "mtxuilib/ui/tooltip";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import type { ComponentTypes, Team } from "../../../../../types/datamodel";
 import { MonacoEditor } from "../../monaco";
-// import "./builder.css";
+import "./builder.css";
 import { ComponentLibrary } from "./library";
 import { NodeEditor } from "./node-editor/node-editor";
 import { edgeTypes, nodeTypes } from "./nodes";
@@ -309,6 +310,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
               <Code2 className="w-3 h-3 mt-1 inline-block mr-1" />
             </div>
           />
+          <DebugValue data={team} />
           {isJsonMode ? (
             "JSON "
           ) : (

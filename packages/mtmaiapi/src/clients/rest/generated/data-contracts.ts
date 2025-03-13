@@ -2801,10 +2801,5 @@ export interface AgentConfig {
 
 export interface MtComponentProperties2 {
   componentType?: ComponentTypes;
-  component?:
-    | TeamComponent
-    | RoundRobinGroupChatConfig
-    | SelectorGroupChatConfig
-    | TerminationComponent
-    | AgentComponent;
+  component?: TeamComponent | TerminationComponent | AgentComponent;
 }
