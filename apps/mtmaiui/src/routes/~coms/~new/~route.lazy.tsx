@@ -39,7 +39,7 @@ function RouteComponent() {
   const form = useZodForm({
     schema: zMtComponent,
     defaultValues: {
-      type: "RoundRobinGroupChat",
+      componentType: "RoundRobinGroupChat",
       component: {},
     },
   });

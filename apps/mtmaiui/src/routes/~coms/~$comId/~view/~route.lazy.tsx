@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { comsGetOptions } from "mtmaiapi";
+import { type TeamComponent, comsGetOptions } from "mtmaiapi";
 import { useTenantId } from "../../../../hooks/useAuth";
 import { TeamBuilder } from "../../../components/views/team/builder/builder";
 
@@ -24,7 +24,7 @@ function RouteComponent() {
 
   return (
     <div className="flex flex-col gap-4 w-full h-full">
-      <TeamBuilder team={teamQuery.data} />
+      <TeamBuilder team={teamQuery.data?.component as TeamComponent} />
     </div>
   );
 }

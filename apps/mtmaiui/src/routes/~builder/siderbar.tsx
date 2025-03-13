@@ -2,7 +2,11 @@
 
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { type MtComponent, comsListOptions } from "mtmaiapi";
+import {
+  type MtComponent,
+  type TeamComponent,
+  comsListOptions,
+} from "mtmaiapi";
 import { cn, generateUUID } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
@@ -28,8 +32,6 @@ export function NavBuilder() {
       },
     }),
   });
-
-  
 
   const linkToNew = useMemo(() => {
     const newUUID = generateUUID();
@@ -57,7 +59,7 @@ export function NavBuilder() {
         <SidebarGroup className="px-0">
           <SidebarGroupContent>
             {comsQuery.data?.rows?.map((item) => (
-              <NavResourceItem key={item.metadata?.id} item={item} />
+              <NavResourceItem key={item?.metadata?.id} item={item} />
             ))}
           </SidebarGroupContent>
         </SidebarGroup>
@@ -72,6 +74,7 @@ const NavResourceItem = ({ item }: { item: MtComponent }) => {
     return `${item.metadata?.id}/view`;
   }, [item.metadata]);
 
+  const team = item.component as TeamComponent;
   return (
     <>
       <CustomLink
@@ -80,12 +83,12 @@ const NavResourceItem = ({ item }: { item: MtComponent }) => {
         className="flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
       >
         <div className="flex w-full items-center gap-2">
-          <span>{item.label}</span>{" "}
+          <span>{team.label}</span>{" "}
           {/* <span className="ml-auto text-xs">{chat.createdAt}</span> */}
         </div>
-        <span className="font-medium">{item.label}</span>
+        <span className="font-medium">{team.label}</span>
         <span className="line-clamp-2 w-[260px] whitespace-break-spaces text-xs">
-          {item.description || item.metadata?.id}
+          {team.description || item.metadata?.id}
         </span>
       </CustomLink>
     </>

@@ -1830,30 +1830,11 @@ export type AgStateUpsert = AgStateProperties & {
   tenantId?: string;
 };
 
-export type MtComponent =
-  | TeamComponent
-  | RoundRobinGroupChatConfig
-  | SelectorGroupChatConfig
-  | TerminationComponent
-  | AgentComponent;
+export type MtComponent = APIResourceMetaProperties & MtComponentProperties2;
 
 export interface MtComponentList {
   pagination?: PaginationResponse;
   rows?: MtComponent[];
-}
-
-export interface MtComponentProperties {
-  /** @default "Assisant" */
-  type: string;
-  componentType?: "team" | "agent" | "model" | "tool" | "termination";
-  label?: string;
-  description?: string;
-  /** @default 1 */
-  version?: number;
-  /** @default 1 */
-  componentVersion?: number;
-  config: Record<string, any>;
-  galleryId?: string;
   component2?:
     | InstagramTeamConfig
     | BrowserConfig
@@ -1862,6 +1843,18 @@ export interface MtComponentProperties {
     | SelectorGroupChatConfig
     | TerminationComponent
     | TeamComponent;
+}
+
+export interface MtComponentProperties {
+  componentType: ComponentTypes;
+  label?: string;
+  description?: string;
+  /** @default 1 */
+  version?: number;
+  /** @default 1 */
+  componentVersion?: number;
+  config?: Record<string, any>;
+  galleryId?: string;
 }
 
 export interface ComponentModel {
@@ -2804,4 +2797,14 @@ export interface AgentConfig {
   reflect_on_tool_use: boolean;
   /** @default "{result}" */
   tool_call_summary_format: string;
+}
+
+export interface MtComponentProperties2 {
+  componentType?: ComponentTypes;
+  component?:
+    | TeamComponent
+    | RoundRobinGroupChatConfig
+    | SelectorGroupChatConfig
+    | TerminationComponent
+    | AgentComponent;
 }

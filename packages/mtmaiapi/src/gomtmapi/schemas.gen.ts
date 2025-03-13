@@ -3871,21 +3871,12 @@ export const AgStateUpsertSchema = {
 } as const;
 
 export const MtComponentSchema = {
-  anyOf: [
+  allOf: [
     {
-      $ref: "#/components/schemas/TeamComponent",
+      $ref: "#/components/schemas/APIResourceMetaProperties",
     },
     {
-      $ref: "#/components/schemas/RoundRobinGroupChatConfig",
-    },
-    {
-      $ref: "#/components/schemas/SelectorGroupChatConfig",
-    },
-    {
-      $ref: "#/components/schemas/TerminationComponent",
-    },
-    {
-      $ref: "#/components/schemas/AgentComponent",
+      $ref: "#/components/schemas/MtComponentProperties2",
     },
   ],
 } as const;
@@ -3900,41 +3891,6 @@ export const MtComponentListSchema = {
       items: {
         $ref: "#/components/schemas/MtComponent",
       },
-    },
-  },
-} as const;
-
-export const MtComponentPropertiesSchema = {
-  required: ["type", "config"],
-  properties: {
-    type: {
-      type: "string",
-      default: "Assisant",
-    },
-    componentType: {
-      type: "string",
-      enum: ["team", "agent", "model", "tool", "termination"],
-    },
-    label: {
-      type: "string",
-    },
-    description: {
-      type: "string",
-    },
-    version: {
-      type: "integer",
-      default: 1,
-    },
-    componentVersion: {
-      type: "integer",
-      default: 1,
-    },
-    config: {
-      type: "object",
-      additionalProperties: true,
-    },
-    galleryId: {
-      type: "string",
     },
     component2: {
       oneOf: [
@@ -3960,6 +3916,36 @@ export const MtComponentPropertiesSchema = {
           $ref: "#/components/schemas/TeamComponent",
         },
       ],
+    },
+  },
+} as const;
+
+export const MtComponentPropertiesSchema = {
+  required: ["componentType", "component"],
+  properties: {
+    componentType: {
+      $ref: "#/components/schemas/ComponentTypes",
+    },
+    label: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    version: {
+      type: "integer",
+      default: 1,
+    },
+    componentVersion: {
+      type: "integer",
+      default: 1,
+    },
+    config: {
+      type: "object",
+      additionalProperties: true,
+    },
+    galleryId: {
+      type: "string",
     },
   },
 } as const;
@@ -6392,6 +6378,33 @@ export const AgentConfigSchema = {
     tool_call_summary_format: {
       type: "string",
       default: "{result}",
+    },
+  },
+} as const;
+
+export const MtComponentProperties2Schema = {
+  properties: {
+    componentType: {
+      $ref: "#/components/schemas/ComponentTypes",
+    },
+    component: {
+      anyOf: [
+        {
+          $ref: "#/components/schemas/TeamComponent",
+        },
+        {
+          $ref: "#/components/schemas/RoundRobinGroupChatConfig",
+        },
+        {
+          $ref: "#/components/schemas/SelectorGroupChatConfig",
+        },
+        {
+          $ref: "#/components/schemas/TerminationComponent",
+        },
+        {
+          $ref: "#/components/schemas/AgentComponent",
+        },
+      ],
     },
   },
 } as const;
