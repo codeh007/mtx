@@ -3700,12 +3700,59 @@ export const TeamComponentSchema = {
       required: ["config"],
       properties: {
         config: {
-          type: "object",
-          additionalProperties: true,
+          $ref: "#/components/schemas/TeamConfig",
         },
       },
     },
   ],
+} as const;
+
+export const TeamConfigSchema = {
+  anyOf: [
+    {
+      $ref: "#/components/schemas/RoundRobinGroupChatConfig",
+    },
+    {
+      $ref: "#/components/schemas/SelectorGroupChatConfig",
+    },
+    {
+      $ref: "#/components/schemas/InstagramTeamConfig",
+    },
+    {
+      $ref: "#/components/schemas/BrowserConfig",
+    },
+  ],
+} as const;
+
+export const TerminationComponentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
+    {
+      required: ["config"],
+      properties: {
+        config: {
+          $ref: "#/components/schemas/TerminationConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const TerminationConfigSchema = {
+  properties: {
+    termination_type: {
+      type: "string",
+      $ref: "#/components/schemas/TerminationTypes",
+    },
+    conditions: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/TerminationConditions",
+      },
+    },
+  },
 } as const;
 
 export const AgStatePropertiesSchema = {
@@ -3820,6 +3867,10 @@ export const MtComponentPropertiesSchema = {
     type: {
       type: "string",
       default: "Assisant",
+    },
+    componentType: {
+      type: "string",
+      enum: ["team", "agent", "model", "tool", "termination"],
     },
     label: {
       type: "string",
@@ -4646,6 +4697,22 @@ export const OpenAIModelConfigSchema = {
   ],
 } as const;
 
+export const ToolComponentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
+    {
+      required: ["config"],
+      properties: {
+        config: {
+          $ref: "#/components/schemas/ToolConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
 export const ToolConfigSchema = {
   required: ["name"],
   properties: {
@@ -4666,6 +4733,31 @@ export const ToolConfigSchema = {
     },
     has_cancellation_support: {
       type: "boolean",
+    },
+  },
+} as const;
+
+export const HandoffComponentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
+    {
+      required: ["config"],
+      properties: {
+        config: {
+          $ref: "#/components/schemas/HandoffConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const HandoffConfigSchema = {
+  required: ["target"],
+  properties: {
+    target: {
+      type: "string",
     },
   },
 } as const;
@@ -4756,62 +4848,31 @@ export const NodeRunActionSchema = {
 
 export const RoundRobinGroupChatConfigSchema = {
   properties: {
-    team_type: {
-      type: "string",
-      enum: ["RoundRobinGroupChat"],
+    participants: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/AgentComponent",
+      },
+    },
+    termination_condition: {
+      $ref: "#/components/schemas/TerminationComponent",
     },
   },
 } as const;
 
 export const SelectorGroupChatConfigSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/ComponentModel",
-    },
-    {
-      properties: {
-        team_type: {
-          type: "string",
-          enum: ["SelectorGroupChat"],
-        },
-        selector_prompt: {
-          type: "string",
-        },
-        model_client: {
-          $ref: "#/components/schemas/ModelConfig",
-        },
-      },
-    },
-  ],
-} as const;
-
-export const TerminationComponentSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/ComponentModel",
-    },
-    {
-      required: ["config"],
-      properties: {
-        config: {
-          $ref: "#/components/schemas/TerminationConfig",
-        },
-      },
-    },
-  ],
-} as const;
-
-export const TerminationConfigSchema = {
   properties: {
-    termination_type: {
-      type: "string",
-      $ref: "#/components/schemas/TerminationTypes",
-    },
-    conditions: {
+    participants: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/TerminationConditions",
+        $ref: "#/components/schemas/AgentComponent",
       },
+    },
+    termination_condition: {
+      $ref: "#/components/schemas/TerminationComponent",
+    },
+    model_client: {
+      $ref: "#/components/schemas/ModelComponent",
     },
   },
 } as const;
@@ -6200,19 +6261,18 @@ export const BrowserConfigSchema = {
   },
 } as const;
 
-export const TeamConfigSchema = {
-  anyOf: [
+export const AgentComponentSchema = {
+  allOf: [
     {
-      $ref: "#/components/schemas/RoundRobinGroupChatConfig",
+      $ref: "#/components/schemas/ComponentModel",
     },
     {
-      $ref: "#/components/schemas/SelectorGroupChatConfig",
-    },
-    {
-      $ref: "#/components/schemas/InstagramTeamConfig",
-    },
-    {
-      $ref: "#/components/schemas/BrowserConfig",
+      required: ["config"],
+      properties: {
+        config: {
+          $ref: "#/components/schemas/AgentConfig",
+        },
+      },
     },
   ],
 } as const;
@@ -6256,8 +6316,7 @@ export const AgentConfigSchema = {
     tools: {
       type: "array",
       items: {
-        type: "object",
-        additionalProperties: true,
+        $ref: "#/components/schemas/ToolComponent",
       },
       default: [],
     },

@@ -2111,9 +2111,22 @@ export const ProgrammingLanguageOptions = {
 } as const;
 
 export type TeamComponent = ComponentModel & {
-  config: {
-    [key: string]: unknown;
-  };
+  config: TeamConfig;
+};
+
+export type TeamConfig =
+  | RoundRobinGroupChatConfig
+  | SelectorGroupChatConfig
+  | InstagramTeamConfig
+  | BrowserConfig;
+
+export type TerminationComponent = ComponentModel & {
+  config: TerminationConfig;
+};
+
+export type TerminationConfig = {
+  termination_type?: TerminationTypes;
+  conditions?: Array<TerminationConditions>;
 };
 
 export type AgStateProperties = {
@@ -2167,6 +2180,7 @@ export type MtComponentList = {
 
 export type MtComponentProperties = {
   type: string;
+  componentType?: "team" | "agent" | "model" | "tool" | "termination";
   label?: string;
   description?: string;
   version?: number;
@@ -2567,12 +2581,24 @@ export type OpenAiModelConfig = ModelConfig & {
   model_type: "OpenAIChatCompletionClient";
 };
 
+export type ToolComponent = ComponentModel & {
+  config: ToolConfig;
+};
+
 export type ToolConfig = {
   name: string;
   description?: string;
   source_code?: string;
   global_imports?: Array<string>;
   has_cancellation_support?: boolean;
+};
+
+export type HandoffComponent = ComponentModel & {
+  config: HandoffConfig;
+};
+
+export type HandoffConfig = {
+  target: string;
 };
 
 export type ModelComponent = ComponentModel & {
@@ -2648,22 +2674,14 @@ export type NodeRunAction = {
 };
 
 export type RoundRobinGroupChatConfig = {
-  team_type?: "RoundRobinGroupChat";
+  participants?: Array<AgentComponent>;
+  termination_condition?: TerminationComponent;
 };
 
-export type SelectorGroupChatConfig = ComponentModel & {
-  team_type?: "SelectorGroupChat";
-  selector_prompt?: string;
-  model_client?: ModelConfig;
-};
-
-export type TerminationComponent = ComponentModel & {
-  config: TerminationConfig;
-};
-
-export type TerminationConfig = {
-  termination_type?: TerminationTypes;
-  conditions?: Array<TerminationConditions>;
+export type SelectorGroupChatConfig = {
+  participants?: Array<AgentComponent>;
+  termination_condition?: TerminationComponent;
+  model_client?: ModelComponent;
 };
 
 export type MaxMessageTerminationConfigComponent = ComponentModel & {
@@ -3317,11 +3335,9 @@ export type BrowserConfig = {
   persistent?: boolean;
 };
 
-export type TeamConfig =
-  | RoundRobinGroupChatConfig
-  | SelectorGroupChatConfig
-  | InstagramTeamConfig
-  | BrowserConfig;
+export type AgentComponent = ComponentModel & {
+  config: AgentConfig;
+};
 
 export type AgentConfig = {
   name: string;
@@ -3333,9 +3349,7 @@ export type AgentConfig = {
   model_client_stream: boolean;
   system_message?: string;
   model_client: ModelComponent;
-  tools: Array<{
-    [key: string]: unknown;
-  }>;
+  tools: Array<ToolComponent>;
   handoffs: Array<string>;
   reflect_on_tool_use: boolean;
   tool_call_summary_format: string;
