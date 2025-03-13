@@ -1781,7 +1781,7 @@ export enum ProgrammingLanguageOptions {
 }
 
 export type TeamComponent = ComponentModel & {
-  config: TeamConfig;
+  config: any;
 };
 
 export type TeamConfig =

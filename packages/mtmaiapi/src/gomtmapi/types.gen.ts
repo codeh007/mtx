@@ -2122,7 +2122,7 @@ export const ProgrammingLanguageOptions = {
 } as const;
 
 export type TeamComponent = ComponentModel & {
-  config: TeamConfig;
+  config: unknown;
 };
 
 export type TeamConfig =

@@ -77,18 +77,33 @@ const NavResourceItem = ({ item }: { item: MtComponent }) => {
   const team = item.component as TeamComponent;
   return (
     <>
+      <NavTeamItem item={team} rowId={item.metadata.id} />
+    </>
+  );
+};
+
+const NavTeamItem = ({
+  item,
+  rowId,
+}: { item: TeamComponent; rowId: string }) => {
+  const detailLink = useMemo(() => {
+    // return `${item.metadata?.id}/type/${item.type}`;
+    return `${rowId}/view`;
+  }, [rowId]);
+  return (
+    <>
       <CustomLink
         to={detailLink}
-        key={item.metadata?.id}
+        key={rowId}
         className="flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
       >
         <div className="flex w-full items-center gap-2">
-          <span>{team.label}</span>{" "}
+          <span>{item.label}</span>{" "}
           {/* <span className="ml-auto text-xs">{chat.createdAt}</span> */}
         </div>
-        <span className="font-medium">{team.label}</span>
+        <span className="font-medium">{item.label}</span>
         <span className="line-clamp-2 w-[260px] whitespace-break-spaces text-xs">
-          {team.description || item.metadata?.id}
+          {item.description || rowId}
         </span>
       </CustomLink>
     </>

@@ -3733,16 +3733,18 @@ export const TeamComponentSchema = {
     {
       required: ["config"],
       properties: {
-        config: {
-          $ref: "#/components/schemas/TeamConfig",
-        },
+        config: [
+          {
+            $ref: "#/components/schemas/TeamConfig",
+          },
+        ],
       },
     },
   ],
 } as const;
 
 export const TeamConfigSchema = {
-  anyOf: [
+  oneOf: [
     {
       $ref: "#/components/schemas/RoundRobinGroupChatConfig",
     },
