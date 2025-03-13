@@ -1676,40 +1676,6 @@ export interface CodeHighlight {
   endCharIndex: number;
 }
 
-export interface ArtifactV3 {
-  currentIndex?: number;
-  contents?: (ArtifactMarkdownV3 | ArtifactCodeV3)[];
-}
-
-export interface ArtifactCodeV3 {
-  index: number;
-  type: string;
-  title: string;
-  language:
-    | "typescript"
-    | "javascript"
-    | "cpp"
-    | "java"
-    | "php"
-    | "python"
-    | "html"
-    | "sql"
-    | "json"
-    | "rust"
-    | "xml"
-    | "clojure"
-    | "csharp"
-    | "other";
-  code: string;
-}
-
-export interface ArtifactMarkdownV3 {
-  index: number;
-  type: string;
-  title: string;
-  fullMarkdown: string;
-}
-
 export interface CustomQuickAction {
   /** A UUID for the quick action. Used to identify the quick action. */
   id: string;
@@ -1740,18 +1706,6 @@ export enum ArtifactLengthOptions {
   Long = "long",
   Longest = "longest",
 }
-
-export type RewriteArtifactMetaToolResponse =
-  | {
-      type: "text";
-      title?: string;
-      language: string;
-    }
-  | {
-      type: "code";
-      title: string;
-      language: string;
-    };
 
 export interface ArtifactToolResponse {
   artifact?: string;
@@ -1858,7 +1812,7 @@ export interface ComponentModel {
   /** Description of the component. */
   description?: string;
   /** Human readable label for the component. If missing the component assumes the class name of the provider. */
-  label?: string;
+  label: string;
 }
 
 export interface GalleryComponents {

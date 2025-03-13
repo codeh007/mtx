@@ -3509,82 +3509,6 @@ export const CodeHighlightSchema = {
   required: ["startCharIndex", "endCharIndex"],
 } as const;
 
-export const ArtifactV3Schema = {
-  properties: {
-    currentIndex: {
-      type: "number",
-    },
-    contents: {
-      type: "array",
-      items: {
-        oneOf: [
-          {
-            $ref: "#/components/schemas/ArtifactMarkdownV3",
-          },
-          {
-            $ref: "#/components/schemas/ArtifactCodeV3",
-          },
-        ],
-      },
-    },
-  },
-} as const;
-
-export const ArtifactCodeV3Schema = {
-  properties: {
-    index: {
-      type: "number",
-    },
-    type: {
-      type: "string",
-    },
-    title: {
-      type: "string",
-    },
-    language: {
-      type: "string",
-      enum: [
-        "typescript",
-        "javascript",
-        "cpp",
-        "java",
-        "php",
-        "python",
-        "html",
-        "sql",
-        "json",
-        "rust",
-        "xml",
-        "clojure",
-        "csharp",
-        "other",
-      ],
-    },
-    code: {
-      type: "string",
-    },
-  },
-  required: ["index", "type", "title", "language", "code"],
-} as const;
-
-export const ArtifactMarkdownV3Schema = {
-  properties: {
-    index: {
-      type: "number",
-    },
-    type: {
-      type: "string",
-    },
-    title: {
-      type: "string",
-    },
-    fullMarkdown: {
-      type: "string",
-    },
-  },
-  required: ["index", "type", "title", "fullMarkdown"],
-} as const;
-
 export const CustomQuickActionSchema = {
   properties: {
     id: {
@@ -3653,43 +3577,6 @@ export const ArtifactLengthOptionsSchema = {
   type: "string",
   description: "工具内容长度,(文章,代码内容长度)",
   enum: ["shortest", "short", "long", "longest"],
-} as const;
-
-export const RewriteArtifactMetaToolResponseSchema = {
-  oneOf: [
-    {
-      properties: {
-        type: {
-          type: "string",
-          enum: ["text"],
-        },
-        title: {
-          type: "string",
-        },
-        language: {
-          type: "string",
-          $ref: "#/components/schemas/ArtifactCodeV3/properties/language",
-        },
-      },
-      required: ["type", "language"],
-    },
-    {
-      properties: {
-        type: {
-          type: "string",
-          enum: ["code"],
-        },
-        title: {
-          type: "string",
-        },
-        language: {
-          type: "string",
-          $ref: "#/components/schemas/ArtifactCodeV3/properties/language",
-        },
-      },
-      required: ["type", "title", "language"],
-    },
-  ],
 } as const;
 
 export const ArtifactToolResponseSchema = {
@@ -3940,7 +3827,7 @@ export const MtComponentPropertiesSchema = {
 } as const;
 
 export const ComponentModelSchema = {
-  required: ["provider", "component_type", "config"],
+  required: ["provider", "component_type", "config", "label"],
   properties: {
     provider: {
       type: "string",

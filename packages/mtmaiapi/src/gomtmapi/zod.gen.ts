@@ -1430,7 +1430,7 @@ export const zChatMessageList = z.object({
             version: z.number().int().optional(),
             component_version: z.number().int().optional(),
             description: z.string().optional(),
-            label: z.string().optional(),
+            label: z.string(),
           })
           .merge(
             z.object({
@@ -1459,7 +1459,7 @@ export const zChatMessageList = z.object({
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .merge(
                           z.object({
@@ -1484,7 +1484,7 @@ export const zChatMessageList = z.object({
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .merge(
                           z.object({
@@ -1517,7 +1517,7 @@ export const zChatMessageList = z.object({
               version: z.number().int().optional(),
               component_version: z.number().int().optional(),
               description: z.string().optional(),
-              label: z.string().optional(),
+              label: z.string(),
             })
             .merge(
               z.object({
@@ -1538,7 +1538,7 @@ export const zChatMessageList = z.object({
                       version: z.number().int().optional(),
                       component_version: z.number().int().optional(),
                       description: z.string().optional(),
-                      label: z.string().optional(),
+                      label: z.string(),
                     })
                     .optional(),
                   model_client_stream: z.boolean().default(false),
@@ -1556,7 +1556,7 @@ export const zChatMessageList = z.object({
                       version: z.number().int().optional(),
                       component_version: z.number().int().optional(),
                       description: z.string().optional(),
-                      label: z.string().optional(),
+                      label: z.string(),
                     })
                     .merge(
                       z.object({
@@ -1611,7 +1611,7 @@ export const zChatMessageList = z.object({
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .merge(
                           z.object({
@@ -1656,7 +1656,7 @@ export const zChatMessageList = z.object({
                       version: z.number().int().optional(),
                       component_version: z.number().int().optional(),
                       description: z.string().optional(),
-                      label: z.string().optional(),
+                      label: z.string(),
                     })
                     .merge(
                       z.object({
@@ -1677,7 +1677,7 @@ export const zChatMessageList = z.object({
                               version: z.number().int().optional(),
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
-                              label: z.string().optional(),
+                              label: z.string(),
                             })
                             .optional(),
                           model_client_stream: z.boolean().default(false),
@@ -1695,7 +1695,7 @@ export const zChatMessageList = z.object({
                               version: z.number().int().optional(),
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
-                              label: z.string().optional(),
+                              label: z.string(),
                             })
                             .merge(
                               z.object({
@@ -1757,7 +1757,7 @@ export const zChatMessageList = z.object({
                                     .int()
                                     .optional(),
                                   description: z.string().optional(),
-                                  label: z.string().optional(),
+                                  label: z.string(),
                                 })
                                 .merge(
                                   z.object({
@@ -1799,7 +1799,7 @@ export const zChatMessageList = z.object({
                   version: z.number().int().optional(),
                   component_version: z.number().int().optional(),
                   description: z.string().optional(),
-                  label: z.string().optional(),
+                  label: z.string(),
                 })
                 .merge(
                   z.object({
@@ -1828,7 +1828,7 @@ export const zChatMessageList = z.object({
                                 version: z.number().int().optional(),
                                 component_version: z.number().int().optional(),
                                 description: z.string().optional(),
-                                label: z.string().optional(),
+                                label: z.string(),
                               })
                               .merge(
                                 z.object({
@@ -1853,7 +1853,7 @@ export const zChatMessageList = z.object({
                                 version: z.number().int().optional(),
                                 component_version: z.number().int().optional(),
                                 description: z.string().optional(),
-                                label: z.string().optional(),
+                                label: z.string(),
                               })
                               .merge(
                                 z.object({
@@ -1888,7 +1888,7 @@ export const zChatMessageList = z.object({
                       version: z.number().int().optional(),
                       component_version: z.number().int().optional(),
                       description: z.string().optional(),
-                      label: z.string().optional(),
+                      label: z.string(),
                     })
                     .merge(
                       z.object({
@@ -1909,7 +1909,7 @@ export const zChatMessageList = z.object({
                               version: z.number().int().optional(),
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
-                              label: z.string().optional(),
+                              label: z.string(),
                             })
                             .optional(),
                           model_client_stream: z.boolean().default(false),
@@ -1927,7 +1927,7 @@ export const zChatMessageList = z.object({
                               version: z.number().int().optional(),
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
-                              label: z.string().optional(),
+                              label: z.string(),
                             })
                             .merge(
                               z.object({
@@ -1989,7 +1989,7 @@ export const zChatMessageList = z.object({
                                     .int()
                                     .optional(),
                                   description: z.string().optional(),
-                                  label: z.string().optional(),
+                                  label: z.string(),
                                 })
                                 .merge(
                                   z.object({
@@ -2031,7 +2031,7 @@ export const zChatMessageList = z.object({
                   version: z.number().int().optional(),
                   component_version: z.number().int().optional(),
                   description: z.string().optional(),
-                  label: z.string().optional(),
+                  label: z.string(),
                 })
                 .merge(
                   z.object({
@@ -2060,7 +2060,7 @@ export const zChatMessageList = z.object({
                                 version: z.number().int().optional(),
                                 component_version: z.number().int().optional(),
                                 description: z.string().optional(),
-                                label: z.string().optional(),
+                                label: z.string(),
                               })
                               .merge(
                                 z.object({
@@ -2085,7 +2085,7 @@ export const zChatMessageList = z.object({
                                 version: z.number().int().optional(),
                                 component_version: z.number().int().optional(),
                                 description: z.string().optional(),
-                                label: z.string().optional(),
+                                label: z.string(),
                               })
                               .merge(
                                 z.object({
@@ -2116,7 +2116,7 @@ export const zChatMessageList = z.object({
                   version: z.number().int().optional(),
                   component_version: z.number().int().optional(),
                   description: z.string().optional(),
-                  label: z.string().optional(),
+                  label: z.string(),
                 })
                 .merge(
                   z.object({
@@ -2174,7 +2174,7 @@ export const zChatMessageList = z.object({
                   version: z.number().int().optional(),
                   component_version: z.number().int().optional(),
                   description: z.string().optional(),
-                  label: z.string().optional(),
+                  label: z.string(),
                 })
                 .merge(
                   z.object({
@@ -2203,7 +2203,7 @@ export const zChatMessageList = z.object({
                                 version: z.number().int().optional(),
                                 component_version: z.number().int().optional(),
                                 description: z.string().optional(),
-                                label: z.string().optional(),
+                                label: z.string(),
                               })
                               .merge(
                                 z.object({
@@ -2228,7 +2228,7 @@ export const zChatMessageList = z.object({
                                 version: z.number().int().optional(),
                                 component_version: z.number().int().optional(),
                                 description: z.string().optional(),
-                                label: z.string().optional(),
+                                label: z.string(),
                               })
                               .merge(
                                 z.object({
@@ -2261,7 +2261,7 @@ export const zChatMessageList = z.object({
                     version: z.number().int().optional(),
                     component_version: z.number().int().optional(),
                     description: z.string().optional(),
-                    label: z.string().optional(),
+                    label: z.string(),
                   })
                   .merge(
                     z.object({
@@ -2282,7 +2282,7 @@ export const zChatMessageList = z.object({
                             version: z.number().int().optional(),
                             component_version: z.number().int().optional(),
                             description: z.string().optional(),
-                            label: z.string().optional(),
+                            label: z.string(),
                           })
                           .optional(),
                         model_client_stream: z.boolean().default(false),
@@ -2300,7 +2300,7 @@ export const zChatMessageList = z.object({
                             version: z.number().int().optional(),
                             component_version: z.number().int().optional(),
                             description: z.string().optional(),
-                            label: z.string().optional(),
+                            label: z.string(),
                           })
                           .merge(
                             z.object({
@@ -2355,7 +2355,7 @@ export const zChatMessageList = z.object({
                                 version: z.number().int().optional(),
                                 component_version: z.number().int().optional(),
                                 description: z.string().optional(),
-                                label: z.string().optional(),
+                                label: z.string(),
                               })
                               .merge(
                                 z.object({
@@ -2406,7 +2406,7 @@ export const zChatMessageList = z.object({
                 version: z.number().int().optional(),
                 component_version: z.number().int().optional(),
                 description: z.string().optional(),
-                label: z.string().optional(),
+                label: z.string(),
               })
               .merge(
                 z.object({
@@ -2427,7 +2427,7 @@ export const zChatMessageList = z.object({
                         version: z.number().int().optional(),
                         component_version: z.number().int().optional(),
                         description: z.string().optional(),
-                        label: z.string().optional(),
+                        label: z.string(),
                       })
                       .optional(),
                     model_client_stream: z.boolean().default(false),
@@ -2445,7 +2445,7 @@ export const zChatMessageList = z.object({
                         version: z.number().int().optional(),
                         component_version: z.number().int().optional(),
                         description: z.string().optional(),
-                        label: z.string().optional(),
+                        label: z.string(),
                       })
                       .merge(
                         z.object({
@@ -2500,7 +2500,7 @@ export const zChatMessageList = z.object({
                             version: z.number().int().optional(),
                             component_version: z.number().int().optional(),
                             description: z.string().optional(),
-                            label: z.string().optional(),
+                            label: z.string(),
                           })
                           .merge(
                             z.object({
@@ -2538,7 +2538,7 @@ export const zChatMessageList = z.object({
             version: z.number().int().optional(),
             component_version: z.number().int().optional(),
             description: z.string().optional(),
-            label: z.string().optional(),
+            label: z.string(),
           })
           .merge(
             z.object({
@@ -2567,7 +2567,7 @@ export const zChatMessageList = z.object({
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .merge(
                           z.object({
@@ -2592,7 +2592,7 @@ export const zChatMessageList = z.object({
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .merge(
                           z.object({
@@ -2627,7 +2627,7 @@ export const zChatMessageList = z.object({
                 version: z.number().int().optional(),
                 component_version: z.number().int().optional(),
                 description: z.string().optional(),
-                label: z.string().optional(),
+                label: z.string(),
               })
               .merge(
                 z.object({
@@ -2648,7 +2648,7 @@ export const zChatMessageList = z.object({
                         version: z.number().int().optional(),
                         component_version: z.number().int().optional(),
                         description: z.string().optional(),
-                        label: z.string().optional(),
+                        label: z.string(),
                       })
                       .optional(),
                     model_client_stream: z.boolean().default(false),
@@ -2666,7 +2666,7 @@ export const zChatMessageList = z.object({
                         version: z.number().int().optional(),
                         component_version: z.number().int().optional(),
                         description: z.string().optional(),
-                        label: z.string().optional(),
+                        label: z.string(),
                       })
                       .merge(
                         z.object({
@@ -2721,7 +2721,7 @@ export const zChatMessageList = z.object({
                             version: z.number().int().optional(),
                             component_version: z.number().int().optional(),
                             description: z.string().optional(),
-                            label: z.string().optional(),
+                            label: z.string(),
                           })
                           .merge(
                             z.object({
@@ -2759,7 +2759,7 @@ export const zChatMessageList = z.object({
             version: z.number().int().optional(),
             component_version: z.number().int().optional(),
             description: z.string().optional(),
-            label: z.string().optional(),
+            label: z.string(),
           })
           .merge(
             z.object({
@@ -2788,7 +2788,7 @@ export const zChatMessageList = z.object({
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .merge(
                           z.object({
@@ -2813,7 +2813,7 @@ export const zChatMessageList = z.object({
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .merge(
                           z.object({
@@ -2844,7 +2844,7 @@ export const zChatMessageList = z.object({
             version: z.number().int().optional(),
             component_version: z.number().int().optional(),
             description: z.string().optional(),
-            label: z.string().optional(),
+            label: z.string(),
           })
           .merge(
             z.object({
@@ -2897,7 +2897,7 @@ export const zChatMessageList = z.object({
           version: z.number().int().optional(),
           component_version: z.number().int().optional(),
           description: z.string().optional(),
-          label: z.string().optional(),
+          label: z.string(),
         })
         .merge(
           z.object({
@@ -2926,7 +2926,7 @@ export const zChatMessageList = z.object({
                         version: z.number().int().optional(),
                         component_version: z.number().int().optional(),
                         description: z.string().optional(),
-                        label: z.string().optional(),
+                        label: z.string(),
                       })
                       .merge(
                         z.object({
@@ -2949,7 +2949,7 @@ export const zChatMessageList = z.object({
                         version: z.number().int().optional(),
                         component_version: z.number().int().optional(),
                         description: z.string().optional(),
-                        label: z.string().optional(),
+                        label: z.string(),
                       })
                       .merge(
                         z.object({
@@ -2979,7 +2979,7 @@ export const zChatMessageList = z.object({
           version: z.number().int().optional(),
           component_version: z.number().int().optional(),
           description: z.string().optional(),
-          label: z.string().optional(),
+          label: z.string(),
         })
         .merge(
           z.object({
@@ -3001,7 +3001,7 @@ export const zChatMessageList = z.object({
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .merge(
                           z.object({
@@ -3025,7 +3025,7 @@ export const zChatMessageList = z.object({
                                     .int()
                                     .optional(),
                                   description: z.string().optional(),
-                                  label: z.string().optional(),
+                                  label: z.string(),
                                 })
                                 .optional(),
                               model_client_stream: z.boolean().default(false),
@@ -3046,7 +3046,7 @@ export const zChatMessageList = z.object({
                                     .int()
                                     .optional(),
                                   description: z.string().optional(),
-                                  label: z.string().optional(),
+                                  label: z.string(),
                                 })
                                 .merge(
                                   z.object({
@@ -3108,7 +3108,7 @@ export const zChatMessageList = z.object({
                                         .int()
                                         .optional(),
                                       description: z.string().optional(),
-                                      label: z.string().optional(),
+                                      label: z.string(),
                                     })
                                     .merge(
                                       z.object({
@@ -3150,7 +3150,7 @@ export const zChatMessageList = z.object({
                       version: z.number().int().optional(),
                       component_version: z.number().int().optional(),
                       description: z.string().optional(),
-                      label: z.string().optional(),
+                      label: z.string(),
                     })
                     .merge(
                       z.object({
@@ -3182,7 +3182,7 @@ export const zChatMessageList = z.object({
                                       .int()
                                       .optional(),
                                     description: z.string().optional(),
-                                    label: z.string().optional(),
+                                    label: z.string(),
                                   })
                                   .merge(
                                     z.object({
@@ -3210,7 +3210,7 @@ export const zChatMessageList = z.object({
                                       .int()
                                       .optional(),
                                     description: z.string().optional(),
-                                    label: z.string().optional(),
+                                    label: z.string(),
                                   })
                                   .merge(
                                     z.object({
@@ -3245,7 +3245,7 @@ export const zChatMessageList = z.object({
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .merge(
                           z.object({
@@ -3269,7 +3269,7 @@ export const zChatMessageList = z.object({
                                     .int()
                                     .optional(),
                                   description: z.string().optional(),
-                                  label: z.string().optional(),
+                                  label: z.string(),
                                 })
                                 .optional(),
                               model_client_stream: z.boolean().default(false),
@@ -3290,7 +3290,7 @@ export const zChatMessageList = z.object({
                                     .int()
                                     .optional(),
                                   description: z.string().optional(),
-                                  label: z.string().optional(),
+                                  label: z.string(),
                                 })
                                 .merge(
                                   z.object({
@@ -3352,7 +3352,7 @@ export const zChatMessageList = z.object({
                                         .int()
                                         .optional(),
                                       description: z.string().optional(),
-                                      label: z.string().optional(),
+                                      label: z.string(),
                                     })
                                     .merge(
                                       z.object({
@@ -3394,7 +3394,7 @@ export const zChatMessageList = z.object({
                       version: z.number().int().optional(),
                       component_version: z.number().int().optional(),
                       description: z.string().optional(),
-                      label: z.string().optional(),
+                      label: z.string(),
                     })
                     .merge(
                       z.object({
@@ -3426,7 +3426,7 @@ export const zChatMessageList = z.object({
                                       .int()
                                       .optional(),
                                     description: z.string().optional(),
-                                    label: z.string().optional(),
+                                    label: z.string(),
                                   })
                                   .merge(
                                     z.object({
@@ -3454,7 +3454,7 @@ export const zChatMessageList = z.object({
                                       .int()
                                       .optional(),
                                     description: z.string().optional(),
-                                    label: z.string().optional(),
+                                    label: z.string(),
                                   })
                                   .merge(
                                     z.object({
@@ -3485,7 +3485,7 @@ export const zChatMessageList = z.object({
                       version: z.number().int().optional(),
                       component_version: z.number().int().optional(),
                       description: z.string().optional(),
-                      label: z.string().optional(),
+                      label: z.string(),
                     })
                     .merge(
                       z.object({
@@ -3543,7 +3543,7 @@ export const zChatMessageList = z.object({
                       version: z.number().int().optional(),
                       component_version: z.number().int().optional(),
                       description: z.string().optional(),
-                      label: z.string().optional(),
+                      label: z.string(),
                     })
                     .merge(
                       z.object({
@@ -3575,7 +3575,7 @@ export const zChatMessageList = z.object({
                                       .int()
                                       .optional(),
                                     description: z.string().optional(),
-                                    label: z.string().optional(),
+                                    label: z.string(),
                                   })
                                   .merge(
                                     z.object({
@@ -3603,7 +3603,7 @@ export const zChatMessageList = z.object({
                                       .int()
                                       .optional(),
                                     description: z.string().optional(),
-                                    label: z.string().optional(),
+                                    label: z.string(),
                                   })
                                   .merge(
                                     z.object({
@@ -3636,7 +3636,7 @@ export const zChatMessageList = z.object({
                         version: z.number().int().optional(),
                         component_version: z.number().int().optional(),
                         description: z.string().optional(),
-                        label: z.string().optional(),
+                        label: z.string(),
                       })
                       .merge(
                         z.object({
@@ -3657,7 +3657,7 @@ export const zChatMessageList = z.object({
                                 version: z.number().int().optional(),
                                 component_version: z.number().int().optional(),
                                 description: z.string().optional(),
-                                label: z.string().optional(),
+                                label: z.string(),
                               })
                               .optional(),
                             model_client_stream: z.boolean().default(false),
@@ -3675,7 +3675,7 @@ export const zChatMessageList = z.object({
                                 version: z.number().int().optional(),
                                 component_version: z.number().int().optional(),
                                 description: z.string().optional(),
-                                label: z.string().optional(),
+                                label: z.string(),
                               })
                               .merge(
                                 z.object({
@@ -3737,7 +3737,7 @@ export const zChatMessageList = z.object({
                                       .int()
                                       .optional(),
                                     description: z.string().optional(),
-                                    label: z.string().optional(),
+                                    label: z.string(),
                                   })
                                   .merge(
                                     z.object({
@@ -3786,7 +3786,7 @@ export const zChatMessageList = z.object({
           version: z.number().int().optional(),
           component_version: z.number().int().optional(),
           description: z.string().optional(),
-          label: z.string().optional(),
+          label: z.string(),
         })
         .merge(
           z.object({
@@ -3807,7 +3807,7 @@ export const zChatMessageList = z.object({
                   version: z.number().int().optional(),
                   component_version: z.number().int().optional(),
                   description: z.string().optional(),
-                  label: z.string().optional(),
+                  label: z.string(),
                 })
                 .optional(),
               model_client_stream: z.boolean().default(false),
@@ -3825,7 +3825,7 @@ export const zChatMessageList = z.object({
                   version: z.number().int().optional(),
                   component_version: z.number().int().optional(),
                   description: z.string().optional(),
-                  label: z.string().optional(),
+                  label: z.string(),
                 })
                 .merge(
                   z.object({
@@ -3880,7 +3880,7 @@ export const zChatMessageList = z.object({
                       version: z.number().int().optional(),
                       component_version: z.number().int().optional(),
                       description: z.string().optional(),
-                      label: z.string().optional(),
+                      label: z.string(),
                     })
                     .merge(
                       z.object({
@@ -3914,7 +3914,7 @@ export const zChatMessageList = z.object({
           version: z.number().int().optional(),
           component_version: z.number().int().optional(),
           description: z.string().optional(),
-          label: z.string().optional(),
+          label: z.string(),
         })
         .merge(
           z.object({
@@ -3972,7 +3972,7 @@ export const zChatMessageList = z.object({
                   version: z.number().int().optional(),
                   component_version: z.number().int().optional(),
                   description: z.string().optional(),
-                  label: z.string().optional(),
+                  label: z.string(),
                 })
                 .merge(
                   z.object({
@@ -3997,7 +3997,7 @@ export const zChatMessageList = z.object({
                                     .int()
                                     .optional(),
                                   description: z.string().optional(),
-                                  label: z.string().optional(),
+                                  label: z.string(),
                                 })
                                 .merge(
                                   z.object({
@@ -4021,7 +4021,7 @@ export const zChatMessageList = z.object({
                                             .int()
                                             .optional(),
                                           description: z.string().optional(),
-                                          label: z.string().optional(),
+                                          label: z.string(),
                                         })
                                         .optional(),
                                       model_client_stream: z
@@ -4044,7 +4044,7 @@ export const zChatMessageList = z.object({
                                             .int()
                                             .optional(),
                                           description: z.string().optional(),
-                                          label: z.string().optional(),
+                                          label: z.string(),
                                         })
                                         .merge(
                                           z.object({
@@ -4132,7 +4132,7 @@ export const zChatMessageList = z.object({
                                               description: z
                                                 .string()
                                                 .optional(),
-                                              label: z.string().optional(),
+                                              label: z.string(),
                                             })
                                             .merge(
                                               z.object({
@@ -4180,7 +4180,7 @@ export const zChatMessageList = z.object({
                               version: z.number().int().optional(),
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
-                              label: z.string().optional(),
+                              label: z.string(),
                             })
                             .merge(
                               z.object({
@@ -4215,7 +4215,7 @@ export const zChatMessageList = z.object({
                                               .int()
                                               .optional(),
                                             description: z.string().optional(),
-                                            label: z.string().optional(),
+                                            label: z.string(),
                                           })
                                           .merge(
                                             z.object({
@@ -4246,7 +4246,7 @@ export const zChatMessageList = z.object({
                                               .int()
                                               .optional(),
                                             description: z.string().optional(),
-                                            label: z.string().optional(),
+                                            label: z.string(),
                                           })
                                           .merge(
                                             z.object({
@@ -4284,7 +4284,7 @@ export const zChatMessageList = z.object({
                                     .int()
                                     .optional(),
                                   description: z.string().optional(),
-                                  label: z.string().optional(),
+                                  label: z.string(),
                                 })
                                 .merge(
                                   z.object({
@@ -4308,7 +4308,7 @@ export const zChatMessageList = z.object({
                                             .int()
                                             .optional(),
                                           description: z.string().optional(),
-                                          label: z.string().optional(),
+                                          label: z.string(),
                                         })
                                         .optional(),
                                       model_client_stream: z
@@ -4331,7 +4331,7 @@ export const zChatMessageList = z.object({
                                             .int()
                                             .optional(),
                                           description: z.string().optional(),
-                                          label: z.string().optional(),
+                                          label: z.string(),
                                         })
                                         .merge(
                                           z.object({
@@ -4419,7 +4419,7 @@ export const zChatMessageList = z.object({
                                               description: z
                                                 .string()
                                                 .optional(),
-                                              label: z.string().optional(),
+                                              label: z.string(),
                                             })
                                             .merge(
                                               z.object({
@@ -4467,7 +4467,7 @@ export const zChatMessageList = z.object({
                               version: z.number().int().optional(),
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
-                              label: z.string().optional(),
+                              label: z.string(),
                             })
                             .merge(
                               z.object({
@@ -4502,7 +4502,7 @@ export const zChatMessageList = z.object({
                                               .int()
                                               .optional(),
                                             description: z.string().optional(),
-                                            label: z.string().optional(),
+                                            label: z.string(),
                                           })
                                           .merge(
                                             z.object({
@@ -4533,7 +4533,7 @@ export const zChatMessageList = z.object({
                                               .int()
                                               .optional(),
                                             description: z.string().optional(),
-                                            label: z.string().optional(),
+                                            label: z.string(),
                                           })
                                           .merge(
                                             z.object({
@@ -4564,7 +4564,7 @@ export const zChatMessageList = z.object({
                               version: z.number().int().optional(),
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
-                              label: z.string().optional(),
+                              label: z.string(),
                             })
                             .merge(
                               z.object({
@@ -4626,7 +4626,7 @@ export const zChatMessageList = z.object({
                               version: z.number().int().optional(),
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
-                              label: z.string().optional(),
+                              label: z.string(),
                             })
                             .merge(
                               z.object({
@@ -4661,7 +4661,7 @@ export const zChatMessageList = z.object({
                                               .int()
                                               .optional(),
                                             description: z.string().optional(),
-                                            label: z.string().optional(),
+                                            label: z.string(),
                                           })
                                           .merge(
                                             z.object({
@@ -4692,7 +4692,7 @@ export const zChatMessageList = z.object({
                                               .int()
                                               .optional(),
                                             description: z.string().optional(),
-                                            label: z.string().optional(),
+                                            label: z.string(),
                                           })
                                           .merge(
                                             z.object({
@@ -4725,7 +4725,7 @@ export const zChatMessageList = z.object({
                                 version: z.number().int().optional(),
                                 component_version: z.number().int().optional(),
                                 description: z.string().optional(),
-                                label: z.string().optional(),
+                                label: z.string(),
                               })
                               .merge(
                                 z.object({
@@ -4749,7 +4749,7 @@ export const zChatMessageList = z.object({
                                           .int()
                                           .optional(),
                                         description: z.string().optional(),
-                                        label: z.string().optional(),
+                                        label: z.string(),
                                       })
                                       .optional(),
                                     model_client_stream: z
@@ -4772,7 +4772,7 @@ export const zChatMessageList = z.object({
                                           .int()
                                           .optional(),
                                         description: z.string().optional(),
-                                        label: z.string().optional(),
+                                        label: z.string(),
                                       })
                                       .merge(
                                         z.object({
@@ -4854,7 +4854,7 @@ export const zChatMessageList = z.object({
                                               .int()
                                               .optional(),
                                             description: z.string().optional(),
-                                            label: z.string().optional(),
+                                            label: z.string(),
                                           })
                                           .merge(
                                             z.object({
@@ -4909,7 +4909,7 @@ export const zChatMessageList = z.object({
                   version: z.number().int().optional(),
                   component_version: z.number().int().optional(),
                   description: z.string().optional(),
-                  label: z.string().optional(),
+                  label: z.string(),
                 })
                 .merge(
                   z.object({
@@ -4938,7 +4938,7 @@ export const zChatMessageList = z.object({
                                 version: z.number().int().optional(),
                                 component_version: z.number().int().optional(),
                                 description: z.string().optional(),
-                                label: z.string().optional(),
+                                label: z.string(),
                               })
                               .merge(
                                 z.object({
@@ -4963,7 +4963,7 @@ export const zChatMessageList = z.object({
                                 version: z.number().int().optional(),
                                 component_version: z.number().int().optional(),
                                 description: z.string().optional(),
-                                label: z.string().optional(),
+                                label: z.string(),
                               })
                               .merge(
                                 z.object({
@@ -4993,7 +4993,7 @@ export const zChatMessageList = z.object({
                   version: z.number().int().optional(),
                   component_version: z.number().int().optional(),
                   description: z.string().optional(),
-                  label: z.string().optional(),
+                  label: z.string(),
                 })
                 .merge(
                   z.object({
@@ -5014,7 +5014,7 @@ export const zChatMessageList = z.object({
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .optional(),
                       model_client_stream: z.boolean().default(false),
@@ -5032,7 +5032,7 @@ export const zChatMessageList = z.object({
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .merge(
                           z.object({
@@ -5087,7 +5087,7 @@ export const zChatMessageList = z.object({
                               version: z.number().int().optional(),
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
-                              label: z.string().optional(),
+                              label: z.string(),
                             })
                             .merge(
                               z.object({
@@ -5364,41 +5364,6 @@ export const zCodeHighlight = z.object({
   endCharIndex: z.number(),
 });
 
-export const zArtifactV3 = z.object({
-  currentIndex: z.number().optional(),
-  contents: z.array(z.unknown()).optional(),
-});
-
-export const zArtifactCodeV3 = z.object({
-  index: z.number(),
-  type: z.string(),
-  title: z.string(),
-  language: z.enum([
-    "typescript",
-    "javascript",
-    "cpp",
-    "java",
-    "php",
-    "python",
-    "html",
-    "sql",
-    "json",
-    "rust",
-    "xml",
-    "clojure",
-    "csharp",
-    "other",
-  ]),
-  code: z.string(),
-});
-
-export const zArtifactMarkdownV3 = z.object({
-  index: z.number(),
-  type: z.string(),
-  title: z.string(),
-  fullMarkdown: z.string(),
-});
-
 export const zCustomQuickAction = z.object({
   id: z.string(),
   title: z.string(),
@@ -5418,49 +5383,6 @@ export const zArtifactLengthOptions = z.enum([
   "short",
   "long",
   "longest",
-]);
-
-export const zRewriteArtifactMetaToolResponse = z.union([
-  z.object({
-    type: z.enum(["text"]),
-    title: z.string().optional(),
-    language: z.enum([
-      "typescript",
-      "javascript",
-      "cpp",
-      "java",
-      "php",
-      "python",
-      "html",
-      "sql",
-      "json",
-      "rust",
-      "xml",
-      "clojure",
-      "csharp",
-      "other",
-    ]),
-  }),
-  z.object({
-    type: z.enum(["code"]),
-    title: z.string(),
-    language: z.enum([
-      "typescript",
-      "javascript",
-      "cpp",
-      "java",
-      "php",
-      "python",
-      "html",
-      "sql",
-      "json",
-      "rust",
-      "xml",
-      "clojure",
-      "csharp",
-      "other",
-    ]),
-  }),
 ]);
 
 export const zArtifactToolResponse = z.object({
@@ -5485,7 +5407,7 @@ export const zTeamComponent = z
     version: z.number().int().optional(),
     component_version: z.number().int().optional(),
     description: z.string().optional(),
-    label: z.string().optional(),
+    label: z.string(),
   })
   .merge(
     z.object({
@@ -5507,7 +5429,7 @@ export const zTeamComponent = z
                     version: z.number().int().optional(),
                     component_version: z.number().int().optional(),
                     description: z.string().optional(),
-                    label: z.string().optional(),
+                    label: z.string(),
                   })
                   .merge(
                     z.object({
@@ -5528,7 +5450,7 @@ export const zTeamComponent = z
                             version: z.number().int().optional(),
                             component_version: z.number().int().optional(),
                             description: z.string().optional(),
-                            label: z.string().optional(),
+                            label: z.string(),
                           })
                           .optional(),
                         model_client_stream: z.boolean().default(false),
@@ -5546,7 +5468,7 @@ export const zTeamComponent = z
                             version: z.number().int().optional(),
                             component_version: z.number().int().optional(),
                             description: z.string().optional(),
-                            label: z.string().optional(),
+                            label: z.string(),
                           })
                           .merge(
                             z.object({
@@ -5601,7 +5523,7 @@ export const zTeamComponent = z
                                 version: z.number().int().optional(),
                                 component_version: z.number().int().optional(),
                                 description: z.string().optional(),
-                                label: z.string().optional(),
+                                label: z.string(),
                               })
                               .merge(
                                 z.object({
@@ -5643,7 +5565,7 @@ export const zTeamComponent = z
                 version: z.number().int().optional(),
                 component_version: z.number().int().optional(),
                 description: z.string().optional(),
-                label: z.string().optional(),
+                label: z.string(),
               })
               .merge(
                 z.object({
@@ -5672,7 +5594,7 @@ export const zTeamComponent = z
                               version: z.number().int().optional(),
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
-                              label: z.string().optional(),
+                              label: z.string(),
                             })
                             .merge(
                               z.object({
@@ -5697,7 +5619,7 @@ export const zTeamComponent = z
                               version: z.number().int().optional(),
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
-                              label: z.string().optional(),
+                              label: z.string(),
                             })
                             .merge(
                               z.object({
@@ -5732,7 +5654,7 @@ export const zTeamComponent = z
                     version: z.number().int().optional(),
                     component_version: z.number().int().optional(),
                     description: z.string().optional(),
-                    label: z.string().optional(),
+                    label: z.string(),
                   })
                   .merge(
                     z.object({
@@ -5753,7 +5675,7 @@ export const zTeamComponent = z
                             version: z.number().int().optional(),
                             component_version: z.number().int().optional(),
                             description: z.string().optional(),
-                            label: z.string().optional(),
+                            label: z.string(),
                           })
                           .optional(),
                         model_client_stream: z.boolean().default(false),
@@ -5771,7 +5693,7 @@ export const zTeamComponent = z
                             version: z.number().int().optional(),
                             component_version: z.number().int().optional(),
                             description: z.string().optional(),
-                            label: z.string().optional(),
+                            label: z.string(),
                           })
                           .merge(
                             z.object({
@@ -5826,7 +5748,7 @@ export const zTeamComponent = z
                                 version: z.number().int().optional(),
                                 component_version: z.number().int().optional(),
                                 description: z.string().optional(),
-                                label: z.string().optional(),
+                                label: z.string(),
                               })
                               .merge(
                                 z.object({
@@ -5868,7 +5790,7 @@ export const zTeamComponent = z
                 version: z.number().int().optional(),
                 component_version: z.number().int().optional(),
                 description: z.string().optional(),
-                label: z.string().optional(),
+                label: z.string(),
               })
               .merge(
                 z.object({
@@ -5897,7 +5819,7 @@ export const zTeamComponent = z
                               version: z.number().int().optional(),
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
-                              label: z.string().optional(),
+                              label: z.string(),
                             })
                             .merge(
                               z.object({
@@ -5922,7 +5844,7 @@ export const zTeamComponent = z
                               version: z.number().int().optional(),
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
-                              label: z.string().optional(),
+                              label: z.string(),
                             })
                             .merge(
                               z.object({
@@ -5953,7 +5875,7 @@ export const zTeamComponent = z
                 version: z.number().int().optional(),
                 component_version: z.number().int().optional(),
                 description: z.string().optional(),
-                label: z.string().optional(),
+                label: z.string(),
               })
               .merge(
                 z.object({
@@ -6009,7 +5931,7 @@ export const zTeamComponent = z
                 version: z.number().int().optional(),
                 component_version: z.number().int().optional(),
                 description: z.string().optional(),
-                label: z.string().optional(),
+                label: z.string(),
               })
               .merge(
                 z.object({
@@ -6038,7 +5960,7 @@ export const zTeamComponent = z
                               version: z.number().int().optional(),
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
-                              label: z.string().optional(),
+                              label: z.string(),
                             })
                             .merge(
                               z.object({
@@ -6063,7 +5985,7 @@ export const zTeamComponent = z
                               version: z.number().int().optional(),
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
-                              label: z.string().optional(),
+                              label: z.string(),
                             })
                             .merge(
                               z.object({
@@ -6096,7 +6018,7 @@ export const zTeamComponent = z
                   version: z.number().int().optional(),
                   component_version: z.number().int().optional(),
                   description: z.string().optional(),
-                  label: z.string().optional(),
+                  label: z.string(),
                 })
                 .merge(
                   z.object({
@@ -6117,7 +6039,7 @@ export const zTeamComponent = z
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .optional(),
                       model_client_stream: z.boolean().default(false),
@@ -6135,7 +6057,7 @@ export const zTeamComponent = z
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .merge(
                           z.object({
@@ -6190,7 +6112,7 @@ export const zTeamComponent = z
                               version: z.number().int().optional(),
                               component_version: z.number().int().optional(),
                               description: z.string().optional(),
-                              label: z.string().optional(),
+                              label: z.string(),
                             })
                             .merge(
                               z.object({
@@ -6244,7 +6166,7 @@ export const zTeamConfig = z.object({
                 version: z.number().int().optional(),
                 component_version: z.number().int().optional(),
                 description: z.string().optional(),
-                label: z.string().optional(),
+                label: z.string(),
               })
               .merge(
                 z.object({
@@ -6265,7 +6187,7 @@ export const zTeamConfig = z.object({
                         version: z.number().int().optional(),
                         component_version: z.number().int().optional(),
                         description: z.string().optional(),
-                        label: z.string().optional(),
+                        label: z.string(),
                       })
                       .optional(),
                     model_client_stream: z.boolean().default(false),
@@ -6283,7 +6205,7 @@ export const zTeamConfig = z.object({
                         version: z.number().int().optional(),
                         component_version: z.number().int().optional(),
                         description: z.string().optional(),
-                        label: z.string().optional(),
+                        label: z.string(),
                       })
                       .merge(
                         z.object({
@@ -6338,7 +6260,7 @@ export const zTeamConfig = z.object({
                             version: z.number().int().optional(),
                             component_version: z.number().int().optional(),
                             description: z.string().optional(),
-                            label: z.string().optional(),
+                            label: z.string(),
                           })
                           .merge(
                             z.object({
@@ -6376,7 +6298,7 @@ export const zTeamConfig = z.object({
             version: z.number().int().optional(),
             component_version: z.number().int().optional(),
             description: z.string().optional(),
-            label: z.string().optional(),
+            label: z.string(),
           })
           .merge(
             z.object({
@@ -6405,7 +6327,7 @@ export const zTeamConfig = z.object({
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .merge(
                           z.object({
@@ -6430,7 +6352,7 @@ export const zTeamConfig = z.object({
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .merge(
                           z.object({
@@ -6465,7 +6387,7 @@ export const zTeamConfig = z.object({
                 version: z.number().int().optional(),
                 component_version: z.number().int().optional(),
                 description: z.string().optional(),
-                label: z.string().optional(),
+                label: z.string(),
               })
               .merge(
                 z.object({
@@ -6486,7 +6408,7 @@ export const zTeamConfig = z.object({
                         version: z.number().int().optional(),
                         component_version: z.number().int().optional(),
                         description: z.string().optional(),
-                        label: z.string().optional(),
+                        label: z.string(),
                       })
                       .optional(),
                     model_client_stream: z.boolean().default(false),
@@ -6504,7 +6426,7 @@ export const zTeamConfig = z.object({
                         version: z.number().int().optional(),
                         component_version: z.number().int().optional(),
                         description: z.string().optional(),
-                        label: z.string().optional(),
+                        label: z.string(),
                       })
                       .merge(
                         z.object({
@@ -6559,7 +6481,7 @@ export const zTeamConfig = z.object({
                             version: z.number().int().optional(),
                             component_version: z.number().int().optional(),
                             description: z.string().optional(),
-                            label: z.string().optional(),
+                            label: z.string(),
                           })
                           .merge(
                             z.object({
@@ -6597,7 +6519,7 @@ export const zTeamConfig = z.object({
             version: z.number().int().optional(),
             component_version: z.number().int().optional(),
             description: z.string().optional(),
-            label: z.string().optional(),
+            label: z.string(),
           })
           .merge(
             z.object({
@@ -6626,7 +6548,7 @@ export const zTeamConfig = z.object({
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .merge(
                           z.object({
@@ -6651,7 +6573,7 @@ export const zTeamConfig = z.object({
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .merge(
                           z.object({
@@ -6682,7 +6604,7 @@ export const zTeamConfig = z.object({
             version: z.number().int().optional(),
             component_version: z.number().int().optional(),
             description: z.string().optional(),
-            label: z.string().optional(),
+            label: z.string(),
           })
           .merge(
             z.object({
@@ -6738,7 +6660,7 @@ export const zTeamConfig = z.object({
             version: z.number().int().optional(),
             component_version: z.number().int().optional(),
             description: z.string().optional(),
-            label: z.string().optional(),
+            label: z.string(),
           })
           .merge(
             z.object({
@@ -6767,7 +6689,7 @@ export const zTeamConfig = z.object({
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .merge(
                           z.object({
@@ -6792,7 +6714,7 @@ export const zTeamConfig = z.object({
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .merge(
                           z.object({
@@ -6825,7 +6747,7 @@ export const zTeamConfig = z.object({
               version: z.number().int().optional(),
               component_version: z.number().int().optional(),
               description: z.string().optional(),
-              label: z.string().optional(),
+              label: z.string(),
             })
             .merge(
               z.object({
@@ -6846,7 +6768,7 @@ export const zTeamConfig = z.object({
                       version: z.number().int().optional(),
                       component_version: z.number().int().optional(),
                       description: z.string().optional(),
-                      label: z.string().optional(),
+                      label: z.string(),
                     })
                     .optional(),
                   model_client_stream: z.boolean().default(false),
@@ -6864,7 +6786,7 @@ export const zTeamConfig = z.object({
                       version: z.number().int().optional(),
                       component_version: z.number().int().optional(),
                       description: z.string().optional(),
-                      label: z.string().optional(),
+                      label: z.string(),
                     })
                     .merge(
                       z.object({
@@ -6919,7 +6841,7 @@ export const zTeamConfig = z.object({
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .merge(
                           z.object({
@@ -6956,7 +6878,7 @@ export const zTerminationComponent = z
     version: z.number().int().optional(),
     component_version: z.number().int().optional(),
     description: z.string().optional(),
-    label: z.string().optional(),
+    label: z.string(),
   })
   .merge(
     z.object({
@@ -6985,7 +6907,7 @@ export const zTerminationComponent = z
                   version: z.number().int().optional(),
                   component_version: z.number().int().optional(),
                   description: z.string().optional(),
-                  label: z.string().optional(),
+                  label: z.string(),
                 })
                 .merge(
                   z.object({
@@ -7008,7 +6930,7 @@ export const zTerminationComponent = z
                   version: z.number().int().optional(),
                   component_version: z.number().int().optional(),
                   description: z.string().optional(),
-                  label: z.string().optional(),
+                  label: z.string(),
                 })
                 .merge(
                   z.object({
@@ -7051,7 +6973,7 @@ export const zTerminationConfig = z.object({
             version: z.number().int().optional(),
             component_version: z.number().int().optional(),
             description: z.string().optional(),
-            label: z.string().optional(),
+            label: z.string(),
           })
           .merge(
             z.object({
@@ -7074,7 +6996,7 @@ export const zTerminationConfig = z.object({
             version: z.number().int().optional(),
             component_version: z.number().int().optional(),
             description: z.string().optional(),
-            label: z.string().optional(),
+            label: z.string(),
           })
           .merge(
             z.object({
@@ -7136,7 +7058,7 @@ export const zMtComponent = zApiResourceMetaProperties.merge(
             version: z.number().int().optional(),
             component_version: z.number().int().optional(),
             description: z.string().optional(),
-            label: z.string().optional(),
+            label: z.string(),
           })
           .merge(
             z.object({
@@ -7157,7 +7079,7 @@ export const zMtComponent = zApiResourceMetaProperties.merge(
                     version: z.number().int().optional(),
                     component_version: z.number().int().optional(),
                     description: z.string().optional(),
-                    label: z.string().optional(),
+                    label: z.string(),
                   })
                   .optional(),
                 model_client_stream: z.boolean().default(false),
@@ -7175,7 +7097,7 @@ export const zMtComponent = zApiResourceMetaProperties.merge(
                     version: z.number().int().optional(),
                     component_version: z.number().int().optional(),
                     description: z.string().optional(),
-                    label: z.string().optional(),
+                    label: z.string(),
                   })
                   .merge(
                     z.object({
@@ -7230,7 +7152,7 @@ export const zMtComponent = zApiResourceMetaProperties.merge(
                         version: z.number().int().optional(),
                         component_version: z.number().int().optional(),
                         description: z.string().optional(),
-                        label: z.string().optional(),
+                        label: z.string(),
                       })
                       .merge(
                         z.object({
@@ -7280,7 +7202,7 @@ export const zMtComponentList = z.object({
               version: z.number().int().optional(),
               component_version: z.number().int().optional(),
               description: z.string().optional(),
-              label: z.string().optional(),
+              label: z.string(),
             })
             .merge(
               z.object({
@@ -7301,7 +7223,7 @@ export const zMtComponentList = z.object({
                       version: z.number().int().optional(),
                       component_version: z.number().int().optional(),
                       description: z.string().optional(),
-                      label: z.string().optional(),
+                      label: z.string(),
                     })
                     .optional(),
                   model_client_stream: z.boolean().default(false),
@@ -7319,7 +7241,7 @@ export const zMtComponentList = z.object({
                       version: z.number().int().optional(),
                       component_version: z.number().int().optional(),
                       description: z.string().optional(),
-                      label: z.string().optional(),
+                      label: z.string(),
                     })
                     .merge(
                       z.object({
@@ -7374,7 +7296,7 @@ export const zMtComponentList = z.object({
                           version: z.number().int().optional(),
                           component_version: z.number().int().optional(),
                           description: z.string().optional(),
-                          label: z.string().optional(),
+                          label: z.string(),
                         })
                         .merge(
                           z.object({
@@ -7417,7 +7339,7 @@ export const zMtComponentList = z.object({
                 version: z.number().int().optional(),
                 component_version: z.number().int().optional(),
                 description: z.string().optional(),
-                label: z.string().optional(),
+                label: z.string(),
               })
               .merge(
                 z.object({
@@ -7438,7 +7360,7 @@ export const zMtComponentList = z.object({
                         version: z.number().int().optional(),
                         component_version: z.number().int().optional(),
                         description: z.string().optional(),
-                        label: z.string().optional(),
+                        label: z.string(),
                       })
                       .optional(),
                     model_client_stream: z.boolean().default(false),
@@ -7456,7 +7378,7 @@ export const zMtComponentList = z.object({
                         version: z.number().int().optional(),
                         component_version: z.number().int().optional(),
                         description: z.string().optional(),
-                        label: z.string().optional(),
+                        label: z.string(),
                       })
                       .merge(
                         z.object({
@@ -7511,7 +7433,7 @@ export const zMtComponentList = z.object({
                             version: z.number().int().optional(),
                             component_version: z.number().int().optional(),
                             description: z.string().optional(),
-                            label: z.string().optional(),
+                            label: z.string(),
                           })
                           .merge(
                             z.object({
@@ -7554,7 +7476,7 @@ export const zMtComponentList = z.object({
                 version: z.number().int().optional(),
                 component_version: z.number().int().optional(),
                 description: z.string().optional(),
-                label: z.string().optional(),
+                label: z.string(),
               })
               .merge(
                 z.object({
@@ -7575,7 +7497,7 @@ export const zMtComponentList = z.object({
                         version: z.number().int().optional(),
                         component_version: z.number().int().optional(),
                         description: z.string().optional(),
-                        label: z.string().optional(),
+                        label: z.string(),
                       })
                       .optional(),
                     model_client_stream: z.boolean().default(false),
@@ -7593,7 +7515,7 @@ export const zMtComponentList = z.object({
                         version: z.number().int().optional(),
                         component_version: z.number().int().optional(),
                         description: z.string().optional(),
-                        label: z.string().optional(),
+                        label: z.string(),
                       })
                       .merge(
                         z.object({
@@ -7648,7 +7570,7 @@ export const zMtComponentList = z.object({
                             version: z.number().int().optional(),
                             component_version: z.number().int().optional(),
                             description: z.string().optional(),
-                            label: z.string().optional(),
+                            label: z.string(),
                           })
                           .merge(
                             z.object({
@@ -7687,7 +7609,7 @@ export const zMtComponentList = z.object({
             version: z.number().int().optional(),
             component_version: z.number().int().optional(),
             description: z.string().optional(),
-            label: z.string().optional(),
+            label: z.string(),
           })
           .merge(
             z.object({
@@ -7749,7 +7671,7 @@ export const zComponentModel = z.object({
   version: z.number().int().optional(),
   component_version: z.number().int().optional(),
   description: z.string().optional(),
-  label: z.string().optional(),
+  label: z.string(),
 });
 
 export const zGalleryComponents = z.object({

@@ -1957,40 +1957,6 @@ export type CodeHighlight = {
   endCharIndex: number;
 };
 
-export type ArtifactV3 = {
-  currentIndex?: number;
-  contents?: Array<ArtifactMarkdownV3 | ArtifactCodeV3>;
-};
-
-export type ArtifactCodeV3 = {
-  index: number;
-  type: string;
-  title: string;
-  language:
-    | "typescript"
-    | "javascript"
-    | "cpp"
-    | "java"
-    | "php"
-    | "python"
-    | "html"
-    | "sql"
-    | "json"
-    | "rust"
-    | "xml"
-    | "clojure"
-    | "csharp"
-    | "other";
-  code: string;
-};
-
-export type ArtifactMarkdownV3 = {
-  index: number;
-  type: string;
-  title: string;
-  fullMarkdown: string;
-};
-
 export type CustomQuickAction = {
   /**
    * A UUID for the quick action. Used to identify the quick action.
@@ -2046,18 +2012,6 @@ export const ArtifactLengthOptions = {
   LONG: "long",
   LONGEST: "longest",
 } as const;
-
-export type RewriteArtifactMetaToolResponse =
-  | {
-      type: "text";
-      title?: string;
-      language: Language;
-    }
-  | {
-      type: "code";
-      title: string;
-      language: Language;
-    };
 
 export type ArtifactToolResponse = {
   artifact?: string;
@@ -2199,7 +2153,7 @@ export type ComponentModel = {
   /**
    * Human readable label for the component. If missing the component assumes the class name of the provider.
    */
-  label?: string;
+  label: string;
 };
 
 export type GalleryComponents = {
