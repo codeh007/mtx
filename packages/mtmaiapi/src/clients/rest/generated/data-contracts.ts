@@ -1723,7 +1723,10 @@ export enum ReadingLevelOptions {
   Phd = "phd",
 }
 
-export type TeamComponent = ComponentModel & TeamConfig;
+export type TeamComponent = ComponentModel &
+  TeamConfig & {
+    componentType: "team";
+  };
 
 export interface TeamConfig {
   config?:
@@ -1734,6 +1737,7 @@ export interface TeamConfig {
 }
 
 export type TerminationComponent = ComponentModel & {
+  componentType: "termination";
   config: TerminationConfig;
 };
 
@@ -1803,14 +1807,12 @@ export interface MtComponentProperties {
 export interface ComponentModel {
   /** Describes how the component can be instantiated. */
   provider: string;
-  /** Logical type of the component. If missing, the component assumes the default type of the provider. */
-  component_type: ComponentTypes;
   /** Version of the component specification. If missing, the component assumes whatever is the current version of the library used to load it. This is obviously dangerous and should be used for user authored ephmeral config. For all other configs version should be specified. */
   version?: number;
   /** Version of the component. If missing, the component assumes the default version of the provider. */
-  component_version?: number;
+  componentVersion?: number;
   /** Description of the component. */
-  description?: string;
+  description: string;
   /** Human readable label for the component. If missing the component assumes the class name of the provider. */
   label: string;
 }
@@ -2100,6 +2102,7 @@ export type OpenAIModelConfig = ModelConfig & {
 };
 
 export type ToolComponent = ComponentModel & {
+  componentType: "tool";
   config: ToolConfig;
 };
 
@@ -2119,6 +2122,7 @@ export interface HandoffConfig {
 
 export type ModelComponent = ComponentModel & {
   config: ModelConfig;
+  componentType: "model";
 };
 
 export enum ResponseFormat {
@@ -2182,6 +2186,7 @@ export type MaxMessageTerminationConfig = {
 
 export type TextMentionTerminationComponent = ComponentModel & {
   config?: TextMentionTerminationConfig;
+  componentType?: "termination";
 };
 
 export interface TextMentionTerminationConfig {
@@ -2718,6 +2723,7 @@ export interface BrowserConfig {
 
 export type AgentComponent = ComponentModel & {
   config: AgentConfig;
+  componentType: "agent";
 };
 
 export interface AgentConfig {
@@ -2741,9 +2747,5 @@ export interface AgentConfig {
 
 export interface MtComponentProperties2 {
   componentType?: ComponentTypes;
-  component?:
-    | TeamComponent
-    | TerminationComponent
-    | AgentComponent
-    | ModelComponent;
+  component?: TeamComponent | TerminationComponent | AgentComponent;
 }

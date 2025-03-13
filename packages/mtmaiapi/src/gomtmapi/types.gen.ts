@@ -2041,7 +2041,10 @@ export const ReadingLevelOptions = {
   PHD: "phd",
 } as const;
 
-export type TeamComponent = ComponentModel & TeamConfig;
+export type TeamComponent = ComponentModel &
+  TeamConfig & {
+    componentType: "team";
+  };
 
 export type TeamConfig = {
   config?:
@@ -2052,6 +2055,7 @@ export type TeamConfig = {
 };
 
 export type TerminationComponent = ComponentModel & {
+  componentType: "termination";
   config: TerminationConfig;
 };
 
@@ -2135,21 +2139,17 @@ export type ComponentModel = {
    */
   provider: string;
   /**
-   * Logical type of the component. If missing, the component assumes the default type of the provider.
-   */
-  component_type: ComponentTypes;
-  /**
    * Version of the component specification. If missing, the component assumes whatever is the current version of the library used to load it. This is obviously dangerous and should be used for user authored ephmeral config. For all other configs version should be specified.
    */
   version?: number;
   /**
    * Version of the component. If missing, the component assumes the default version of the provider.
    */
-  component_version?: number;
+  componentVersion?: number;
   /**
    * Description of the component.
    */
-  description?: string;
+  description: string;
   /**
    * Human readable label for the component. If missing the component assumes the class name of the provider.
    */
@@ -2510,6 +2510,7 @@ export type OpenAiModelConfig = ModelConfig & {
 };
 
 export type ToolComponent = ComponentModel & {
+  componentType: "tool";
   config: ToolConfig;
 };
 
@@ -2529,6 +2530,7 @@ export type HandoffConfig = {
 
 export type ModelComponent = ComponentModel & {
   config: ModelConfig;
+  componentType: "model";
 };
 
 export type ResponseFormat = "json_object" | "text";
@@ -2621,6 +2623,7 @@ export type MaxMessageTerminationConfig = {
 
 export type TextMentionTerminationComponent = ComponentModel & {
   config?: TextMentionTerminationConfig;
+  componentType?: "termination";
 };
 
 export type TextMentionTerminationConfig = {
@@ -3268,6 +3271,7 @@ export type BrowserConfig = {
 
 export type AgentComponent = ComponentModel & {
   config: AgentConfig;
+  componentType: "agent";
 };
 
 export type AgentConfig = {
@@ -3288,11 +3292,7 @@ export type AgentConfig = {
 
 export type MtComponentProperties2 = {
   componentType?: ComponentTypes;
-  component?:
-    | TeamComponent
-    | TerminationComponent
-    | AgentComponent
-    | ModelComponent;
+  component?: TeamComponent | TerminationComponent | AgentComponent;
 };
 
 export type ReadinessGetData = {

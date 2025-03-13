@@ -3610,6 +3610,15 @@ export const TeamComponentSchema = {
     {
       $ref: "#/components/schemas/TeamConfig",
     },
+    {
+      required: ["componentType", "config"],
+      properties: {
+        componentType: {
+          type: "string",
+          enum: ["team"],
+        },
+      },
+    },
   ],
 } as const;
 
@@ -3641,11 +3650,15 @@ export const TerminationComponentSchema = {
     },
     {
       properties: {
+        componentType: {
+          type: "string",
+          enum: ["termination"],
+        },
         config: {
           $ref: "#/components/schemas/TerminationConfig",
         },
       },
-      required: ["config"],
+      required: ["config", "componentType"],
     },
   ],
 } as const;
@@ -3827,24 +3840,18 @@ export const MtComponentPropertiesSchema = {
 } as const;
 
 export const ComponentModelSchema = {
-  required: ["provider", "component_type", "config", "label"],
+  required: ["provider", "description", "label"],
   properties: {
     provider: {
       type: "string",
       description: "Describes how the component can be instantiated.",
-    },
-    component_type: {
-      type: "string",
-      description:
-        "Logical type of the component. If missing, the component assumes the default type of the provider.",
-      $ref: "#/components/schemas/ComponentTypes",
     },
     version: {
       type: "integer",
       description:
         "Version of the component specification. If missing, the component assumes whatever is the current version of the library used to load it. This is obviously dangerous and should be used for user authored ephmeral config. For all other configs version should be specified.",
     },
-    component_version: {
+    componentVersion: {
       type: "integer",
       description:
         "Version of the component. If missing, the component assumes the default version of the provider.",
@@ -4607,11 +4614,15 @@ export const ToolComponentSchema = {
     },
     {
       properties: {
+        componentType: {
+          type: "string",
+          enum: ["tool"],
+        },
         config: {
           $ref: "#/components/schemas/ToolConfig",
         },
       },
-      required: ["config"],
+      required: ["config", "componentType"],
     },
   ],
 } as const;
@@ -4666,10 +4677,14 @@ export const ModelComponentSchema = {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
-      required: ["config"],
+      required: ["config", "componentType"],
       properties: {
         config: {
           $ref: "#/components/schemas/ModelConfig",
+        },
+        componentType: {
+          type: "string",
+          enum: ["model"],
         },
       },
     },
@@ -4817,6 +4832,10 @@ export const TextMentionTerminationComponentSchema = {
       properties: {
         config: {
           $ref: "#/components/schemas/TextMentionTerminationConfig",
+        },
+        componentType: {
+          type: "string",
+          enum: ["termination"],
         },
       },
     },
@@ -6176,12 +6195,16 @@ export const AgentComponentSchema = {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
+      required: ["config", "componentType"],
       properties: {
         config: {
           $ref: "#/components/schemas/AgentConfig",
         },
+        componentType: {
+          type: "string",
+          enum: ["agent"],
+        },
       },
-      required: ["config"],
     },
   ],
 } as const;
@@ -6261,9 +6284,6 @@ export const MtComponentProperties2Schema = {
         },
         {
           $ref: "#/components/schemas/AgentComponent",
-        },
-        {
-          $ref: "#/components/schemas/ModelComponent",
         },
       ],
     },

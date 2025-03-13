@@ -1420,20 +1420,14 @@ export const zChatMessageList = z.object({
         termination_condition: z
           .object({
             provider: z.string(),
-            component_type: z.enum([
-              "team",
-              "agent",
-              "model",
-              "tool",
-              "termination",
-            ]),
             version: z.number().int().optional(),
-            component_version: z.number().int().optional(),
-            description: z.string().optional(),
+            componentVersion: z.number().int().optional(),
+            description: z.string(),
             label: z.string(),
           })
           .merge(
             z.object({
+              componentType: z.enum(["termination"]),
               config: z.object({
                 termination_type: z
                   .enum([
@@ -1449,16 +1443,9 @@ export const zChatMessageList = z.object({
                       z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .merge(
@@ -1474,16 +1461,9 @@ export const zChatMessageList = z.object({
                       z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .merge(
@@ -1493,6 +1473,7 @@ export const zChatMessageList = z.object({
                                 text: z.string(),
                               })
                               .optional(),
+                            componentType: z.enum(["termination"]).optional(),
                           }),
                         ),
                     ]),
@@ -1507,16 +1488,9 @@ export const zChatMessageList = z.object({
           z
             .object({
               provider: z.string(),
-              component_type: z.enum([
-                "team",
-                "agent",
-                "model",
-                "tool",
-                "termination",
-              ]),
               version: z.number().int().optional(),
-              component_version: z.number().int().optional(),
-              description: z.string().optional(),
+              componentVersion: z.number().int().optional(),
+              description: z.string(),
               label: z.string(),
             })
             .merge(
@@ -1528,16 +1502,9 @@ export const zChatMessageList = z.object({
                   memory: z
                     .object({
                       provider: z.string(),
-                      component_type: z.enum([
-                        "team",
-                        "agent",
-                        "model",
-                        "tool",
-                        "termination",
-                      ]),
                       version: z.number().int().optional(),
-                      component_version: z.number().int().optional(),
-                      description: z.string().optional(),
+                      componentVersion: z.number().int().optional(),
+                      description: z.string(),
                       label: z.string(),
                     })
                     .optional(),
@@ -1546,16 +1513,9 @@ export const zChatMessageList = z.object({
                   model_client: z
                     .object({
                       provider: z.string(),
-                      component_type: z.enum([
-                        "team",
-                        "agent",
-                        "model",
-                        "tool",
-                        "termination",
-                      ]),
                       version: z.number().int().optional(),
-                      component_version: z.number().int().optional(),
-                      description: z.string().optional(),
+                      componentVersion: z.number().int().optional(),
+                      description: z.string(),
                       label: z.string(),
                     })
                     .merge(
@@ -1594,6 +1554,7 @@ export const zChatMessageList = z.object({
                             })
                             .optional(),
                         }),
+                        componentType: z.enum(["model"]),
                       }),
                     ),
                   tools: z
@@ -1601,20 +1562,14 @@ export const zChatMessageList = z.object({
                       z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .merge(
                           z.object({
+                            componentType: z.enum(["tool"]),
                             config: z.object({
                               name: z.string(),
                               description: z.string().optional(),
@@ -1630,6 +1585,7 @@ export const zChatMessageList = z.object({
                   reflect_on_tool_use: z.boolean().default(false),
                   tool_call_summary_format: z.string().default("{result}"),
                 }),
+                componentType: z.enum(["agent"]),
               }),
             ),
         ),
@@ -1646,16 +1602,9 @@ export const zChatMessageList = z.object({
                   z
                     .object({
                       provider: z.string(),
-                      component_type: z.enum([
-                        "team",
-                        "agent",
-                        "model",
-                        "tool",
-                        "termination",
-                      ]),
                       version: z.number().int().optional(),
-                      component_version: z.number().int().optional(),
-                      description: z.string().optional(),
+                      componentVersion: z.number().int().optional(),
+                      description: z.string(),
                       label: z.string(),
                     })
                     .merge(
@@ -1667,16 +1616,9 @@ export const zChatMessageList = z.object({
                           memory: z
                             .object({
                               provider: z.string(),
-                              component_type: z.enum([
-                                "team",
-                                "agent",
-                                "model",
-                                "tool",
-                                "termination",
-                              ]),
                               version: z.number().int().optional(),
-                              component_version: z.number().int().optional(),
-                              description: z.string().optional(),
+                              componentVersion: z.number().int().optional(),
+                              description: z.string(),
                               label: z.string(),
                             })
                             .optional(),
@@ -1685,16 +1627,9 @@ export const zChatMessageList = z.object({
                           model_client: z
                             .object({
                               provider: z.string(),
-                              component_type: z.enum([
-                                "team",
-                                "agent",
-                                "model",
-                                "tool",
-                                "termination",
-                              ]),
                               version: z.number().int().optional(),
-                              component_version: z.number().int().optional(),
-                              description: z.string().optional(),
+                              componentVersion: z.number().int().optional(),
+                              description: z.string(),
                               label: z.string(),
                             })
                             .merge(
@@ -1737,6 +1672,7 @@ export const zChatMessageList = z.object({
                                     })
                                     .optional(),
                                 }),
+                                componentType: z.enum(["model"]),
                               }),
                             ),
                           tools: z
@@ -1744,23 +1680,14 @@ export const zChatMessageList = z.object({
                               z
                                 .object({
                                   provider: z.string(),
-                                  component_type: z.enum([
-                                    "team",
-                                    "agent",
-                                    "model",
-                                    "tool",
-                                    "termination",
-                                  ]),
                                   version: z.number().int().optional(),
-                                  component_version: z
-                                    .number()
-                                    .int()
-                                    .optional(),
-                                  description: z.string().optional(),
+                                  componentVersion: z.number().int().optional(),
+                                  description: z.string(),
                                   label: z.string(),
                                 })
                                 .merge(
                                   z.object({
+                                    componentType: z.enum(["tool"]),
                                     config: z.object({
                                       name: z.string(),
                                       description: z.string().optional(),
@@ -1782,6 +1709,7 @@ export const zChatMessageList = z.object({
                             .string()
                             .default("{result}"),
                         }),
+                        componentType: z.enum(["agent"]),
                       }),
                     ),
                 )
@@ -1789,20 +1717,14 @@ export const zChatMessageList = z.object({
               termination_condition: z
                 .object({
                   provider: z.string(),
-                  component_type: z.enum([
-                    "team",
-                    "agent",
-                    "model",
-                    "tool",
-                    "termination",
-                  ]),
                   version: z.number().int().optional(),
-                  component_version: z.number().int().optional(),
-                  description: z.string().optional(),
+                  componentVersion: z.number().int().optional(),
+                  description: z.string(),
                   label: z.string(),
                 })
                 .merge(
                   z.object({
+                    componentType: z.enum(["termination"]),
                     config: z.object({
                       termination_type: z
                         .enum([
@@ -1818,16 +1740,9 @@ export const zChatMessageList = z.object({
                             z
                               .object({
                                 provider: z.string(),
-                                component_type: z.enum([
-                                  "team",
-                                  "agent",
-                                  "model",
-                                  "tool",
-                                  "termination",
-                                ]),
                                 version: z.number().int().optional(),
-                                component_version: z.number().int().optional(),
-                                description: z.string().optional(),
+                                componentVersion: z.number().int().optional(),
+                                description: z.string(),
                                 label: z.string(),
                               })
                               .merge(
@@ -1843,16 +1758,9 @@ export const zChatMessageList = z.object({
                             z
                               .object({
                                 provider: z.string(),
-                                component_type: z.enum([
-                                  "team",
-                                  "agent",
-                                  "model",
-                                  "tool",
-                                  "termination",
-                                ]),
                                 version: z.number().int().optional(),
-                                component_version: z.number().int().optional(),
-                                description: z.string().optional(),
+                                componentVersion: z.number().int().optional(),
+                                description: z.string(),
                                 label: z.string(),
                               })
                               .merge(
@@ -1861,6 +1769,9 @@ export const zChatMessageList = z.object({
                                     .object({
                                       text: z.string(),
                                     })
+                                    .optional(),
+                                  componentType: z
+                                    .enum(["termination"])
                                     .optional(),
                                 }),
                               ),
@@ -1878,16 +1789,9 @@ export const zChatMessageList = z.object({
                   z
                     .object({
                       provider: z.string(),
-                      component_type: z.enum([
-                        "team",
-                        "agent",
-                        "model",
-                        "tool",
-                        "termination",
-                      ]),
                       version: z.number().int().optional(),
-                      component_version: z.number().int().optional(),
-                      description: z.string().optional(),
+                      componentVersion: z.number().int().optional(),
+                      description: z.string(),
                       label: z.string(),
                     })
                     .merge(
@@ -1899,16 +1803,9 @@ export const zChatMessageList = z.object({
                           memory: z
                             .object({
                               provider: z.string(),
-                              component_type: z.enum([
-                                "team",
-                                "agent",
-                                "model",
-                                "tool",
-                                "termination",
-                              ]),
                               version: z.number().int().optional(),
-                              component_version: z.number().int().optional(),
-                              description: z.string().optional(),
+                              componentVersion: z.number().int().optional(),
+                              description: z.string(),
                               label: z.string(),
                             })
                             .optional(),
@@ -1917,16 +1814,9 @@ export const zChatMessageList = z.object({
                           model_client: z
                             .object({
                               provider: z.string(),
-                              component_type: z.enum([
-                                "team",
-                                "agent",
-                                "model",
-                                "tool",
-                                "termination",
-                              ]),
                               version: z.number().int().optional(),
-                              component_version: z.number().int().optional(),
-                              description: z.string().optional(),
+                              componentVersion: z.number().int().optional(),
+                              description: z.string(),
                               label: z.string(),
                             })
                             .merge(
@@ -1969,6 +1859,7 @@ export const zChatMessageList = z.object({
                                     })
                                     .optional(),
                                 }),
+                                componentType: z.enum(["model"]),
                               }),
                             ),
                           tools: z
@@ -1976,23 +1867,14 @@ export const zChatMessageList = z.object({
                               z
                                 .object({
                                   provider: z.string(),
-                                  component_type: z.enum([
-                                    "team",
-                                    "agent",
-                                    "model",
-                                    "tool",
-                                    "termination",
-                                  ]),
                                   version: z.number().int().optional(),
-                                  component_version: z
-                                    .number()
-                                    .int()
-                                    .optional(),
-                                  description: z.string().optional(),
+                                  componentVersion: z.number().int().optional(),
+                                  description: z.string(),
                                   label: z.string(),
                                 })
                                 .merge(
                                   z.object({
+                                    componentType: z.enum(["tool"]),
                                     config: z.object({
                                       name: z.string(),
                                       description: z.string().optional(),
@@ -2014,6 +1896,7 @@ export const zChatMessageList = z.object({
                             .string()
                             .default("{result}"),
                         }),
+                        componentType: z.enum(["agent"]),
                       }),
                     ),
                 )
@@ -2021,20 +1904,14 @@ export const zChatMessageList = z.object({
               termination_condition: z
                 .object({
                   provider: z.string(),
-                  component_type: z.enum([
-                    "team",
-                    "agent",
-                    "model",
-                    "tool",
-                    "termination",
-                  ]),
                   version: z.number().int().optional(),
-                  component_version: z.number().int().optional(),
-                  description: z.string().optional(),
+                  componentVersion: z.number().int().optional(),
+                  description: z.string(),
                   label: z.string(),
                 })
                 .merge(
                   z.object({
+                    componentType: z.enum(["termination"]),
                     config: z.object({
                       termination_type: z
                         .enum([
@@ -2050,16 +1927,9 @@ export const zChatMessageList = z.object({
                             z
                               .object({
                                 provider: z.string(),
-                                component_type: z.enum([
-                                  "team",
-                                  "agent",
-                                  "model",
-                                  "tool",
-                                  "termination",
-                                ]),
                                 version: z.number().int().optional(),
-                                component_version: z.number().int().optional(),
-                                description: z.string().optional(),
+                                componentVersion: z.number().int().optional(),
+                                description: z.string(),
                                 label: z.string(),
                               })
                               .merge(
@@ -2075,16 +1945,9 @@ export const zChatMessageList = z.object({
                             z
                               .object({
                                 provider: z.string(),
-                                component_type: z.enum([
-                                  "team",
-                                  "agent",
-                                  "model",
-                                  "tool",
-                                  "termination",
-                                ]),
                                 version: z.number().int().optional(),
-                                component_version: z.number().int().optional(),
-                                description: z.string().optional(),
+                                componentVersion: z.number().int().optional(),
+                                description: z.string(),
                                 label: z.string(),
                               })
                               .merge(
@@ -2093,6 +1956,9 @@ export const zChatMessageList = z.object({
                                     .object({
                                       text: z.string(),
                                     })
+                                    .optional(),
+                                  componentType: z
+                                    .enum(["termination"])
                                     .optional(),
                                 }),
                               ),
@@ -2106,16 +1972,9 @@ export const zChatMessageList = z.object({
               model_client: z
                 .object({
                   provider: z.string(),
-                  component_type: z.enum([
-                    "team",
-                    "agent",
-                    "model",
-                    "tool",
-                    "termination",
-                  ]),
                   version: z.number().int().optional(),
-                  component_version: z.number().int().optional(),
-                  description: z.string().optional(),
+                  componentVersion: z.number().int().optional(),
+                  description: z.string(),
                   label: z.string(),
                 })
                 .merge(
@@ -2154,6 +2013,7 @@ export const zChatMessageList = z.object({
                         })
                         .optional(),
                     }),
+                    componentType: z.enum(["model"]),
                   }),
                 )
                 .optional(),
@@ -2164,20 +2024,14 @@ export const zChatMessageList = z.object({
               termination_condition: z
                 .object({
                   provider: z.string(),
-                  component_type: z.enum([
-                    "team",
-                    "agent",
-                    "model",
-                    "tool",
-                    "termination",
-                  ]),
                   version: z.number().int().optional(),
-                  component_version: z.number().int().optional(),
-                  description: z.string().optional(),
+                  componentVersion: z.number().int().optional(),
+                  description: z.string(),
                   label: z.string(),
                 })
                 .merge(
                   z.object({
+                    componentType: z.enum(["termination"]),
                     config: z.object({
                       termination_type: z
                         .enum([
@@ -2193,16 +2047,9 @@ export const zChatMessageList = z.object({
                             z
                               .object({
                                 provider: z.string(),
-                                component_type: z.enum([
-                                  "team",
-                                  "agent",
-                                  "model",
-                                  "tool",
-                                  "termination",
-                                ]),
                                 version: z.number().int().optional(),
-                                component_version: z.number().int().optional(),
-                                description: z.string().optional(),
+                                componentVersion: z.number().int().optional(),
+                                description: z.string(),
                                 label: z.string(),
                               })
                               .merge(
@@ -2218,16 +2065,9 @@ export const zChatMessageList = z.object({
                             z
                               .object({
                                 provider: z.string(),
-                                component_type: z.enum([
-                                  "team",
-                                  "agent",
-                                  "model",
-                                  "tool",
-                                  "termination",
-                                ]),
                                 version: z.number().int().optional(),
-                                component_version: z.number().int().optional(),
-                                description: z.string().optional(),
+                                componentVersion: z.number().int().optional(),
+                                description: z.string(),
                                 label: z.string(),
                               })
                               .merge(
@@ -2236,6 +2076,9 @@ export const zChatMessageList = z.object({
                                     .object({
                                       text: z.string(),
                                     })
+                                    .optional(),
+                                  componentType: z
+                                    .enum(["termination"])
                                     .optional(),
                                 }),
                               ),
@@ -2251,16 +2094,9 @@ export const zChatMessageList = z.object({
                 z
                   .object({
                     provider: z.string(),
-                    component_type: z.enum([
-                      "team",
-                      "agent",
-                      "model",
-                      "tool",
-                      "termination",
-                    ]),
                     version: z.number().int().optional(),
-                    component_version: z.number().int().optional(),
-                    description: z.string().optional(),
+                    componentVersion: z.number().int().optional(),
+                    description: z.string(),
                     label: z.string(),
                   })
                   .merge(
@@ -2272,16 +2108,9 @@ export const zChatMessageList = z.object({
                         memory: z
                           .object({
                             provider: z.string(),
-                            component_type: z.enum([
-                              "team",
-                              "agent",
-                              "model",
-                              "tool",
-                              "termination",
-                            ]),
                             version: z.number().int().optional(),
-                            component_version: z.number().int().optional(),
-                            description: z.string().optional(),
+                            componentVersion: z.number().int().optional(),
+                            description: z.string(),
                             label: z.string(),
                           })
                           .optional(),
@@ -2290,16 +2119,9 @@ export const zChatMessageList = z.object({
                         model_client: z
                           .object({
                             provider: z.string(),
-                            component_type: z.enum([
-                              "team",
-                              "agent",
-                              "model",
-                              "tool",
-                              "termination",
-                            ]),
                             version: z.number().int().optional(),
-                            component_version: z.number().int().optional(),
-                            description: z.string().optional(),
+                            componentVersion: z.number().int().optional(),
+                            description: z.string(),
                             label: z.string(),
                           })
                           .merge(
@@ -2338,6 +2160,7 @@ export const zChatMessageList = z.object({
                                   })
                                   .optional(),
                               }),
+                              componentType: z.enum(["model"]),
                             }),
                           ),
                         tools: z
@@ -2345,20 +2168,14 @@ export const zChatMessageList = z.object({
                             z
                               .object({
                                 provider: z.string(),
-                                component_type: z.enum([
-                                  "team",
-                                  "agent",
-                                  "model",
-                                  "tool",
-                                  "termination",
-                                ]),
                                 version: z.number().int().optional(),
-                                component_version: z.number().int().optional(),
-                                description: z.string().optional(),
+                                componentVersion: z.number().int().optional(),
+                                description: z.string(),
                                 label: z.string(),
                               })
                               .merge(
                                 z.object({
+                                  componentType: z.enum(["tool"]),
                                   config: z.object({
                                     name: z.string(),
                                     description: z.string().optional(),
@@ -2380,6 +2197,7 @@ export const zChatMessageList = z.object({
                           .string()
                           .default("{result}"),
                       }),
+                      componentType: z.enum(["agent"]),
                     }),
                   ),
               ),
@@ -2396,16 +2214,9 @@ export const zChatMessageList = z.object({
             z
               .object({
                 provider: z.string(),
-                component_type: z.enum([
-                  "team",
-                  "agent",
-                  "model",
-                  "tool",
-                  "termination",
-                ]),
                 version: z.number().int().optional(),
-                component_version: z.number().int().optional(),
-                description: z.string().optional(),
+                componentVersion: z.number().int().optional(),
+                description: z.string(),
                 label: z.string(),
               })
               .merge(
@@ -2417,16 +2228,9 @@ export const zChatMessageList = z.object({
                     memory: z
                       .object({
                         provider: z.string(),
-                        component_type: z.enum([
-                          "team",
-                          "agent",
-                          "model",
-                          "tool",
-                          "termination",
-                        ]),
                         version: z.number().int().optional(),
-                        component_version: z.number().int().optional(),
-                        description: z.string().optional(),
+                        componentVersion: z.number().int().optional(),
+                        description: z.string(),
                         label: z.string(),
                       })
                       .optional(),
@@ -2435,16 +2239,9 @@ export const zChatMessageList = z.object({
                     model_client: z
                       .object({
                         provider: z.string(),
-                        component_type: z.enum([
-                          "team",
-                          "agent",
-                          "model",
-                          "tool",
-                          "termination",
-                        ]),
                         version: z.number().int().optional(),
-                        component_version: z.number().int().optional(),
-                        description: z.string().optional(),
+                        componentVersion: z.number().int().optional(),
+                        description: z.string(),
                         label: z.string(),
                       })
                       .merge(
@@ -2483,6 +2280,7 @@ export const zChatMessageList = z.object({
                               })
                               .optional(),
                           }),
+                          componentType: z.enum(["model"]),
                         }),
                       ),
                     tools: z
@@ -2490,20 +2288,14 @@ export const zChatMessageList = z.object({
                         z
                           .object({
                             provider: z.string(),
-                            component_type: z.enum([
-                              "team",
-                              "agent",
-                              "model",
-                              "tool",
-                              "termination",
-                            ]),
                             version: z.number().int().optional(),
-                            component_version: z.number().int().optional(),
-                            description: z.string().optional(),
+                            componentVersion: z.number().int().optional(),
+                            description: z.string(),
                             label: z.string(),
                           })
                           .merge(
                             z.object({
+                              componentType: z.enum(["tool"]),
                               config: z.object({
                                 name: z.string(),
                                 description: z.string().optional(),
@@ -2521,6 +2313,7 @@ export const zChatMessageList = z.object({
                     reflect_on_tool_use: z.boolean().default(false),
                     tool_call_summary_format: z.string().default("{result}"),
                   }),
+                  componentType: z.enum(["agent"]),
                 }),
               ),
           )
@@ -2528,20 +2321,14 @@ export const zChatMessageList = z.object({
         termination_condition: z
           .object({
             provider: z.string(),
-            component_type: z.enum([
-              "team",
-              "agent",
-              "model",
-              "tool",
-              "termination",
-            ]),
             version: z.number().int().optional(),
-            component_version: z.number().int().optional(),
-            description: z.string().optional(),
+            componentVersion: z.number().int().optional(),
+            description: z.string(),
             label: z.string(),
           })
           .merge(
             z.object({
+              componentType: z.enum(["termination"]),
               config: z.object({
                 termination_type: z
                   .enum([
@@ -2557,16 +2344,9 @@ export const zChatMessageList = z.object({
                       z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .merge(
@@ -2582,16 +2362,9 @@ export const zChatMessageList = z.object({
                       z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .merge(
@@ -2601,6 +2374,7 @@ export const zChatMessageList = z.object({
                                 text: z.string(),
                               })
                               .optional(),
+                            componentType: z.enum(["termination"]).optional(),
                           }),
                         ),
                     ]),
@@ -2617,16 +2391,9 @@ export const zChatMessageList = z.object({
             z
               .object({
                 provider: z.string(),
-                component_type: z.enum([
-                  "team",
-                  "agent",
-                  "model",
-                  "tool",
-                  "termination",
-                ]),
                 version: z.number().int().optional(),
-                component_version: z.number().int().optional(),
-                description: z.string().optional(),
+                componentVersion: z.number().int().optional(),
+                description: z.string(),
                 label: z.string(),
               })
               .merge(
@@ -2638,16 +2405,9 @@ export const zChatMessageList = z.object({
                     memory: z
                       .object({
                         provider: z.string(),
-                        component_type: z.enum([
-                          "team",
-                          "agent",
-                          "model",
-                          "tool",
-                          "termination",
-                        ]),
                         version: z.number().int().optional(),
-                        component_version: z.number().int().optional(),
-                        description: z.string().optional(),
+                        componentVersion: z.number().int().optional(),
+                        description: z.string(),
                         label: z.string(),
                       })
                       .optional(),
@@ -2656,16 +2416,9 @@ export const zChatMessageList = z.object({
                     model_client: z
                       .object({
                         provider: z.string(),
-                        component_type: z.enum([
-                          "team",
-                          "agent",
-                          "model",
-                          "tool",
-                          "termination",
-                        ]),
                         version: z.number().int().optional(),
-                        component_version: z.number().int().optional(),
-                        description: z.string().optional(),
+                        componentVersion: z.number().int().optional(),
+                        description: z.string(),
                         label: z.string(),
                       })
                       .merge(
@@ -2704,6 +2457,7 @@ export const zChatMessageList = z.object({
                               })
                               .optional(),
                           }),
+                          componentType: z.enum(["model"]),
                         }),
                       ),
                     tools: z
@@ -2711,20 +2465,14 @@ export const zChatMessageList = z.object({
                         z
                           .object({
                             provider: z.string(),
-                            component_type: z.enum([
-                              "team",
-                              "agent",
-                              "model",
-                              "tool",
-                              "termination",
-                            ]),
                             version: z.number().int().optional(),
-                            component_version: z.number().int().optional(),
-                            description: z.string().optional(),
+                            componentVersion: z.number().int().optional(),
+                            description: z.string(),
                             label: z.string(),
                           })
                           .merge(
                             z.object({
+                              componentType: z.enum(["tool"]),
                               config: z.object({
                                 name: z.string(),
                                 description: z.string().optional(),
@@ -2742,6 +2490,7 @@ export const zChatMessageList = z.object({
                     reflect_on_tool_use: z.boolean().default(false),
                     tool_call_summary_format: z.string().default("{result}"),
                   }),
+                  componentType: z.enum(["agent"]),
                 }),
               ),
           )
@@ -2749,20 +2498,14 @@ export const zChatMessageList = z.object({
         termination_condition: z
           .object({
             provider: z.string(),
-            component_type: z.enum([
-              "team",
-              "agent",
-              "model",
-              "tool",
-              "termination",
-            ]),
             version: z.number().int().optional(),
-            component_version: z.number().int().optional(),
-            description: z.string().optional(),
+            componentVersion: z.number().int().optional(),
+            description: z.string(),
             label: z.string(),
           })
           .merge(
             z.object({
+              componentType: z.enum(["termination"]),
               config: z.object({
                 termination_type: z
                   .enum([
@@ -2778,16 +2521,9 @@ export const zChatMessageList = z.object({
                       z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .merge(
@@ -2803,16 +2539,9 @@ export const zChatMessageList = z.object({
                       z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .merge(
@@ -2822,6 +2551,7 @@ export const zChatMessageList = z.object({
                                 text: z.string(),
                               })
                               .optional(),
+                            componentType: z.enum(["termination"]).optional(),
                           }),
                         ),
                     ]),
@@ -2834,16 +2564,9 @@ export const zChatMessageList = z.object({
         model_client: z
           .object({
             provider: z.string(),
-            component_type: z.enum([
-              "team",
-              "agent",
-              "model",
-              "tool",
-              "termination",
-            ]),
             version: z.number().int().optional(),
-            component_version: z.number().int().optional(),
-            description: z.string().optional(),
+            componentVersion: z.number().int().optional(),
+            description: z.string(),
             label: z.string(),
           })
           .merge(
@@ -2880,6 +2603,7 @@ export const zChatMessageList = z.object({
                   })
                   .optional(),
               }),
+              componentType: z.enum(["model"]),
             }),
           )
           .optional(),
@@ -2887,20 +2611,14 @@ export const zChatMessageList = z.object({
       z
         .object({
           provider: z.string(),
-          component_type: z.enum([
-            "team",
-            "agent",
-            "model",
-            "tool",
-            "termination",
-          ]),
           version: z.number().int().optional(),
-          component_version: z.number().int().optional(),
-          description: z.string().optional(),
+          componentVersion: z.number().int().optional(),
+          description: z.string(),
           label: z.string(),
         })
         .merge(
           z.object({
+            componentType: z.enum(["termination"]),
             config: z.object({
               termination_type: z
                 .enum([
@@ -2916,16 +2634,9 @@ export const zChatMessageList = z.object({
                     z
                       .object({
                         provider: z.string(),
-                        component_type: z.enum([
-                          "team",
-                          "agent",
-                          "model",
-                          "tool",
-                          "termination",
-                        ]),
                         version: z.number().int().optional(),
-                        component_version: z.number().int().optional(),
-                        description: z.string().optional(),
+                        componentVersion: z.number().int().optional(),
+                        description: z.string(),
                         label: z.string(),
                       })
                       .merge(
@@ -2939,16 +2650,9 @@ export const zChatMessageList = z.object({
                     z
                       .object({
                         provider: z.string(),
-                        component_type: z.enum([
-                          "team",
-                          "agent",
-                          "model",
-                          "tool",
-                          "termination",
-                        ]),
                         version: z.number().int().optional(),
-                        component_version: z.number().int().optional(),
-                        description: z.string().optional(),
+                        componentVersion: z.number().int().optional(),
+                        description: z.string(),
                         label: z.string(),
                       })
                       .merge(
@@ -2958,6 +2662,7 @@ export const zChatMessageList = z.object({
                               text: z.string(),
                             })
                             .optional(),
+                          componentType: z.enum(["termination"]).optional(),
                         }),
                       ),
                   ]),
@@ -2969,16 +2674,9 @@ export const zChatMessageList = z.object({
       z
         .object({
           provider: z.string(),
-          component_type: z.enum([
-            "team",
-            "agent",
-            "model",
-            "tool",
-            "termination",
-          ]),
           version: z.number().int().optional(),
-          component_version: z.number().int().optional(),
-          description: z.string().optional(),
+          componentVersion: z.number().int().optional(),
+          description: z.string(),
           label: z.string(),
         })
         .merge(
@@ -2991,16 +2689,9 @@ export const zChatMessageList = z.object({
                       z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .merge(
@@ -3012,19 +2703,9 @@ export const zChatMessageList = z.object({
                               memory: z
                                 .object({
                                   provider: z.string(),
-                                  component_type: z.enum([
-                                    "team",
-                                    "agent",
-                                    "model",
-                                    "tool",
-                                    "termination",
-                                  ]),
                                   version: z.number().int().optional(),
-                                  component_version: z
-                                    .number()
-                                    .int()
-                                    .optional(),
-                                  description: z.string().optional(),
+                                  componentVersion: z.number().int().optional(),
+                                  description: z.string(),
                                   label: z.string(),
                                 })
                                 .optional(),
@@ -3033,19 +2714,9 @@ export const zChatMessageList = z.object({
                               model_client: z
                                 .object({
                                   provider: z.string(),
-                                  component_type: z.enum([
-                                    "team",
-                                    "agent",
-                                    "model",
-                                    "tool",
-                                    "termination",
-                                  ]),
                                   version: z.number().int().optional(),
-                                  component_version: z
-                                    .number()
-                                    .int()
-                                    .optional(),
-                                  description: z.string().optional(),
+                                  componentVersion: z.number().int().optional(),
+                                  description: z.string(),
                                   label: z.string(),
                                 })
                                 .merge(
@@ -3088,6 +2759,7 @@ export const zChatMessageList = z.object({
                                         })
                                         .optional(),
                                     }),
+                                    componentType: z.enum(["model"]),
                                   }),
                                 ),
                               tools: z
@@ -3095,23 +2767,17 @@ export const zChatMessageList = z.object({
                                   z
                                     .object({
                                       provider: z.string(),
-                                      component_type: z.enum([
-                                        "team",
-                                        "agent",
-                                        "model",
-                                        "tool",
-                                        "termination",
-                                      ]),
                                       version: z.number().int().optional(),
-                                      component_version: z
+                                      componentVersion: z
                                         .number()
                                         .int()
                                         .optional(),
-                                      description: z.string().optional(),
+                                      description: z.string(),
                                       label: z.string(),
                                     })
                                     .merge(
                                       z.object({
+                                        componentType: z.enum(["tool"]),
                                         config: z.object({
                                           name: z.string(),
                                           description: z.string().optional(),
@@ -3133,6 +2799,7 @@ export const zChatMessageList = z.object({
                                 .string()
                                 .default("{result}"),
                             }),
+                            componentType: z.enum(["agent"]),
                           }),
                         ),
                     )
@@ -3140,20 +2807,14 @@ export const zChatMessageList = z.object({
                   termination_condition: z
                     .object({
                       provider: z.string(),
-                      component_type: z.enum([
-                        "team",
-                        "agent",
-                        "model",
-                        "tool",
-                        "termination",
-                      ]),
                       version: z.number().int().optional(),
-                      component_version: z.number().int().optional(),
-                      description: z.string().optional(),
+                      componentVersion: z.number().int().optional(),
+                      description: z.string(),
                       label: z.string(),
                     })
                     .merge(
                       z.object({
+                        componentType: z.enum(["termination"]),
                         config: z.object({
                           termination_type: z
                             .enum([
@@ -3169,19 +2830,12 @@ export const zChatMessageList = z.object({
                                 z
                                   .object({
                                     provider: z.string(),
-                                    component_type: z.enum([
-                                      "team",
-                                      "agent",
-                                      "model",
-                                      "tool",
-                                      "termination",
-                                    ]),
                                     version: z.number().int().optional(),
-                                    component_version: z
+                                    componentVersion: z
                                       .number()
                                       .int()
                                       .optional(),
-                                    description: z.string().optional(),
+                                    description: z.string(),
                                     label: z.string(),
                                   })
                                   .merge(
@@ -3197,19 +2851,12 @@ export const zChatMessageList = z.object({
                                 z
                                   .object({
                                     provider: z.string(),
-                                    component_type: z.enum([
-                                      "team",
-                                      "agent",
-                                      "model",
-                                      "tool",
-                                      "termination",
-                                    ]),
                                     version: z.number().int().optional(),
-                                    component_version: z
+                                    componentVersion: z
                                       .number()
                                       .int()
                                       .optional(),
-                                    description: z.string().optional(),
+                                    description: z.string(),
                                     label: z.string(),
                                   })
                                   .merge(
@@ -3218,6 +2865,9 @@ export const zChatMessageList = z.object({
                                         .object({
                                           text: z.string(),
                                         })
+                                        .optional(),
+                                      componentType: z
+                                        .enum(["termination"])
                                         .optional(),
                                     }),
                                   ),
@@ -3235,16 +2885,9 @@ export const zChatMessageList = z.object({
                       z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .merge(
@@ -3256,19 +2899,9 @@ export const zChatMessageList = z.object({
                               memory: z
                                 .object({
                                   provider: z.string(),
-                                  component_type: z.enum([
-                                    "team",
-                                    "agent",
-                                    "model",
-                                    "tool",
-                                    "termination",
-                                  ]),
                                   version: z.number().int().optional(),
-                                  component_version: z
-                                    .number()
-                                    .int()
-                                    .optional(),
-                                  description: z.string().optional(),
+                                  componentVersion: z.number().int().optional(),
+                                  description: z.string(),
                                   label: z.string(),
                                 })
                                 .optional(),
@@ -3277,19 +2910,9 @@ export const zChatMessageList = z.object({
                               model_client: z
                                 .object({
                                   provider: z.string(),
-                                  component_type: z.enum([
-                                    "team",
-                                    "agent",
-                                    "model",
-                                    "tool",
-                                    "termination",
-                                  ]),
                                   version: z.number().int().optional(),
-                                  component_version: z
-                                    .number()
-                                    .int()
-                                    .optional(),
-                                  description: z.string().optional(),
+                                  componentVersion: z.number().int().optional(),
+                                  description: z.string(),
                                   label: z.string(),
                                 })
                                 .merge(
@@ -3332,6 +2955,7 @@ export const zChatMessageList = z.object({
                                         })
                                         .optional(),
                                     }),
+                                    componentType: z.enum(["model"]),
                                   }),
                                 ),
                               tools: z
@@ -3339,23 +2963,17 @@ export const zChatMessageList = z.object({
                                   z
                                     .object({
                                       provider: z.string(),
-                                      component_type: z.enum([
-                                        "team",
-                                        "agent",
-                                        "model",
-                                        "tool",
-                                        "termination",
-                                      ]),
                                       version: z.number().int().optional(),
-                                      component_version: z
+                                      componentVersion: z
                                         .number()
                                         .int()
                                         .optional(),
-                                      description: z.string().optional(),
+                                      description: z.string(),
                                       label: z.string(),
                                     })
                                     .merge(
                                       z.object({
+                                        componentType: z.enum(["tool"]),
                                         config: z.object({
                                           name: z.string(),
                                           description: z.string().optional(),
@@ -3377,6 +2995,7 @@ export const zChatMessageList = z.object({
                                 .string()
                                 .default("{result}"),
                             }),
+                            componentType: z.enum(["agent"]),
                           }),
                         ),
                     )
@@ -3384,20 +3003,14 @@ export const zChatMessageList = z.object({
                   termination_condition: z
                     .object({
                       provider: z.string(),
-                      component_type: z.enum([
-                        "team",
-                        "agent",
-                        "model",
-                        "tool",
-                        "termination",
-                      ]),
                       version: z.number().int().optional(),
-                      component_version: z.number().int().optional(),
-                      description: z.string().optional(),
+                      componentVersion: z.number().int().optional(),
+                      description: z.string(),
                       label: z.string(),
                     })
                     .merge(
                       z.object({
+                        componentType: z.enum(["termination"]),
                         config: z.object({
                           termination_type: z
                             .enum([
@@ -3413,19 +3026,12 @@ export const zChatMessageList = z.object({
                                 z
                                   .object({
                                     provider: z.string(),
-                                    component_type: z.enum([
-                                      "team",
-                                      "agent",
-                                      "model",
-                                      "tool",
-                                      "termination",
-                                    ]),
                                     version: z.number().int().optional(),
-                                    component_version: z
+                                    componentVersion: z
                                       .number()
                                       .int()
                                       .optional(),
-                                    description: z.string().optional(),
+                                    description: z.string(),
                                     label: z.string(),
                                   })
                                   .merge(
@@ -3441,19 +3047,12 @@ export const zChatMessageList = z.object({
                                 z
                                   .object({
                                     provider: z.string(),
-                                    component_type: z.enum([
-                                      "team",
-                                      "agent",
-                                      "model",
-                                      "tool",
-                                      "termination",
-                                    ]),
                                     version: z.number().int().optional(),
-                                    component_version: z
+                                    componentVersion: z
                                       .number()
                                       .int()
                                       .optional(),
-                                    description: z.string().optional(),
+                                    description: z.string(),
                                     label: z.string(),
                                   })
                                   .merge(
@@ -3462,6 +3061,9 @@ export const zChatMessageList = z.object({
                                         .object({
                                           text: z.string(),
                                         })
+                                        .optional(),
+                                      componentType: z
+                                        .enum(["termination"])
                                         .optional(),
                                     }),
                                   ),
@@ -3475,16 +3077,9 @@ export const zChatMessageList = z.object({
                   model_client: z
                     .object({
                       provider: z.string(),
-                      component_type: z.enum([
-                        "team",
-                        "agent",
-                        "model",
-                        "tool",
-                        "termination",
-                      ]),
                       version: z.number().int().optional(),
-                      component_version: z.number().int().optional(),
-                      description: z.string().optional(),
+                      componentVersion: z.number().int().optional(),
+                      description: z.string(),
                       label: z.string(),
                     })
                     .merge(
@@ -3523,6 +3118,7 @@ export const zChatMessageList = z.object({
                             })
                             .optional(),
                         }),
+                        componentType: z.enum(["model"]),
                       }),
                     )
                     .optional(),
@@ -3533,20 +3129,14 @@ export const zChatMessageList = z.object({
                   termination_condition: z
                     .object({
                       provider: z.string(),
-                      component_type: z.enum([
-                        "team",
-                        "agent",
-                        "model",
-                        "tool",
-                        "termination",
-                      ]),
                       version: z.number().int().optional(),
-                      component_version: z.number().int().optional(),
-                      description: z.string().optional(),
+                      componentVersion: z.number().int().optional(),
+                      description: z.string(),
                       label: z.string(),
                     })
                     .merge(
                       z.object({
+                        componentType: z.enum(["termination"]),
                         config: z.object({
                           termination_type: z
                             .enum([
@@ -3562,19 +3152,12 @@ export const zChatMessageList = z.object({
                                 z
                                   .object({
                                     provider: z.string(),
-                                    component_type: z.enum([
-                                      "team",
-                                      "agent",
-                                      "model",
-                                      "tool",
-                                      "termination",
-                                    ]),
                                     version: z.number().int().optional(),
-                                    component_version: z
+                                    componentVersion: z
                                       .number()
                                       .int()
                                       .optional(),
-                                    description: z.string().optional(),
+                                    description: z.string(),
                                     label: z.string(),
                                   })
                                   .merge(
@@ -3590,19 +3173,12 @@ export const zChatMessageList = z.object({
                                 z
                                   .object({
                                     provider: z.string(),
-                                    component_type: z.enum([
-                                      "team",
-                                      "agent",
-                                      "model",
-                                      "tool",
-                                      "termination",
-                                    ]),
                                     version: z.number().int().optional(),
-                                    component_version: z
+                                    componentVersion: z
                                       .number()
                                       .int()
                                       .optional(),
-                                    description: z.string().optional(),
+                                    description: z.string(),
                                     label: z.string(),
                                   })
                                   .merge(
@@ -3611,6 +3187,9 @@ export const zChatMessageList = z.object({
                                         .object({
                                           text: z.string(),
                                         })
+                                        .optional(),
+                                      componentType: z
+                                        .enum(["termination"])
                                         .optional(),
                                     }),
                                   ),
@@ -3626,16 +3205,9 @@ export const zChatMessageList = z.object({
                     z
                       .object({
                         provider: z.string(),
-                        component_type: z.enum([
-                          "team",
-                          "agent",
-                          "model",
-                          "tool",
-                          "termination",
-                        ]),
                         version: z.number().int().optional(),
-                        component_version: z.number().int().optional(),
-                        description: z.string().optional(),
+                        componentVersion: z.number().int().optional(),
+                        description: z.string(),
                         label: z.string(),
                       })
                       .merge(
@@ -3647,16 +3219,9 @@ export const zChatMessageList = z.object({
                             memory: z
                               .object({
                                 provider: z.string(),
-                                component_type: z.enum([
-                                  "team",
-                                  "agent",
-                                  "model",
-                                  "tool",
-                                  "termination",
-                                ]),
                                 version: z.number().int().optional(),
-                                component_version: z.number().int().optional(),
-                                description: z.string().optional(),
+                                componentVersion: z.number().int().optional(),
+                                description: z.string(),
                                 label: z.string(),
                               })
                               .optional(),
@@ -3665,16 +3230,9 @@ export const zChatMessageList = z.object({
                             model_client: z
                               .object({
                                 provider: z.string(),
-                                component_type: z.enum([
-                                  "team",
-                                  "agent",
-                                  "model",
-                                  "tool",
-                                  "termination",
-                                ]),
                                 version: z.number().int().optional(),
-                                component_version: z.number().int().optional(),
-                                description: z.string().optional(),
+                                componentVersion: z.number().int().optional(),
+                                description: z.string(),
                                 label: z.string(),
                               })
                               .merge(
@@ -3717,6 +3275,7 @@ export const zChatMessageList = z.object({
                                       })
                                       .optional(),
                                   }),
+                                  componentType: z.enum(["model"]),
                                 }),
                               ),
                             tools: z
@@ -3724,23 +3283,17 @@ export const zChatMessageList = z.object({
                                 z
                                   .object({
                                     provider: z.string(),
-                                    component_type: z.enum([
-                                      "team",
-                                      "agent",
-                                      "model",
-                                      "tool",
-                                      "termination",
-                                    ]),
                                     version: z.number().int().optional(),
-                                    component_version: z
+                                    componentVersion: z
                                       .number()
                                       .int()
                                       .optional(),
-                                    description: z.string().optional(),
+                                    description: z.string(),
                                     label: z.string(),
                                   })
                                   .merge(
                                     z.object({
+                                      componentType: z.enum(["tool"]),
                                       config: z.object({
                                         name: z.string(),
                                         description: z.string().optional(),
@@ -3762,6 +3315,7 @@ export const zChatMessageList = z.object({
                               .string()
                               .default("{result}"),
                           }),
+                          componentType: z.enum(["agent"]),
                         }),
                       ),
                   ),
@@ -3772,20 +3326,18 @@ export const zChatMessageList = z.object({
               ])
               .optional(),
           }),
+        )
+        .merge(
+          z.object({
+            componentType: z.enum(["team"]),
+          }),
         ),
       z
         .object({
           provider: z.string(),
-          component_type: z.enum([
-            "team",
-            "agent",
-            "model",
-            "tool",
-            "termination",
-          ]),
           version: z.number().int().optional(),
-          component_version: z.number().int().optional(),
-          description: z.string().optional(),
+          componentVersion: z.number().int().optional(),
+          description: z.string(),
           label: z.string(),
         })
         .merge(
@@ -3797,16 +3349,9 @@ export const zChatMessageList = z.object({
               memory: z
                 .object({
                   provider: z.string(),
-                  component_type: z.enum([
-                    "team",
-                    "agent",
-                    "model",
-                    "tool",
-                    "termination",
-                  ]),
                   version: z.number().int().optional(),
-                  component_version: z.number().int().optional(),
-                  description: z.string().optional(),
+                  componentVersion: z.number().int().optional(),
+                  description: z.string(),
                   label: z.string(),
                 })
                 .optional(),
@@ -3815,16 +3360,9 @@ export const zChatMessageList = z.object({
               model_client: z
                 .object({
                   provider: z.string(),
-                  component_type: z.enum([
-                    "team",
-                    "agent",
-                    "model",
-                    "tool",
-                    "termination",
-                  ]),
                   version: z.number().int().optional(),
-                  component_version: z.number().int().optional(),
-                  description: z.string().optional(),
+                  componentVersion: z.number().int().optional(),
+                  description: z.string(),
                   label: z.string(),
                 })
                 .merge(
@@ -3863,6 +3401,7 @@ export const zChatMessageList = z.object({
                         })
                         .optional(),
                     }),
+                    componentType: z.enum(["model"]),
                   }),
                 ),
               tools: z
@@ -3870,20 +3409,14 @@ export const zChatMessageList = z.object({
                   z
                     .object({
                       provider: z.string(),
-                      component_type: z.enum([
-                        "team",
-                        "agent",
-                        "model",
-                        "tool",
-                        "termination",
-                      ]),
                       version: z.number().int().optional(),
-                      component_version: z.number().int().optional(),
-                      description: z.string().optional(),
+                      componentVersion: z.number().int().optional(),
+                      description: z.string(),
                       label: z.string(),
                     })
                     .merge(
                       z.object({
+                        componentType: z.enum(["tool"]),
                         config: z.object({
                           name: z.string(),
                           description: z.string().optional(),
@@ -3899,21 +3432,15 @@ export const zChatMessageList = z.object({
               reflect_on_tool_use: z.boolean().default(false),
               tool_call_summary_format: z.string().default("{result}"),
             }),
+            componentType: z.enum(["agent"]),
           }),
         ),
       z
         .object({
           provider: z.string(),
-          component_type: z.enum([
-            "team",
-            "agent",
-            "model",
-            "tool",
-            "termination",
-          ]),
           version: z.number().int().optional(),
-          component_version: z.number().int().optional(),
-          description: z.string().optional(),
+          componentVersion: z.number().int().optional(),
+          description: z.string(),
           label: z.string(),
         })
         .merge(
@@ -3950,6 +3477,7 @@ export const zChatMessageList = z.object({
                 })
                 .optional(),
             }),
+            componentType: z.enum(["model"]),
           }),
         ),
       zApiResourceMetaProperties.merge(
@@ -3962,16 +3490,9 @@ export const zChatMessageList = z.object({
               z
                 .object({
                   provider: z.string(),
-                  component_type: z.enum([
-                    "team",
-                    "agent",
-                    "model",
-                    "tool",
-                    "termination",
-                  ]),
                   version: z.number().int().optional(),
-                  component_version: z.number().int().optional(),
-                  description: z.string().optional(),
+                  componentVersion: z.number().int().optional(),
+                  description: z.string(),
                   label: z.string(),
                 })
                 .merge(
@@ -3984,19 +3505,9 @@ export const zChatMessageList = z.object({
                               z
                                 .object({
                                   provider: z.string(),
-                                  component_type: z.enum([
-                                    "team",
-                                    "agent",
-                                    "model",
-                                    "tool",
-                                    "termination",
-                                  ]),
                                   version: z.number().int().optional(),
-                                  component_version: z
-                                    .number()
-                                    .int()
-                                    .optional(),
-                                  description: z.string().optional(),
+                                  componentVersion: z.number().int().optional(),
+                                  description: z.string(),
                                   label: z.string(),
                                 })
                                 .merge(
@@ -4008,19 +3519,12 @@ export const zChatMessageList = z.object({
                                       memory: z
                                         .object({
                                           provider: z.string(),
-                                          component_type: z.enum([
-                                            "team",
-                                            "agent",
-                                            "model",
-                                            "tool",
-                                            "termination",
-                                          ]),
                                           version: z.number().int().optional(),
-                                          component_version: z
+                                          componentVersion: z
                                             .number()
                                             .int()
                                             .optional(),
-                                          description: z.string().optional(),
+                                          description: z.string(),
                                           label: z.string(),
                                         })
                                         .optional(),
@@ -4031,19 +3535,12 @@ export const zChatMessageList = z.object({
                                       model_client: z
                                         .object({
                                           provider: z.string(),
-                                          component_type: z.enum([
-                                            "team",
-                                            "agent",
-                                            "model",
-                                            "tool",
-                                            "termination",
-                                          ]),
                                           version: z.number().int().optional(),
-                                          component_version: z
+                                          componentVersion: z
                                             .number()
                                             .int()
                                             .optional(),
-                                          description: z.string().optional(),
+                                          description: z.string(),
                                           label: z.string(),
                                         })
                                         .merge(
@@ -4107,6 +3604,7 @@ export const zChatMessageList = z.object({
                                                 })
                                                 .optional(),
                                             }),
+                                            componentType: z.enum(["model"]),
                                           }),
                                         ),
                                       tools: z
@@ -4114,28 +3612,20 @@ export const zChatMessageList = z.object({
                                           z
                                             .object({
                                               provider: z.string(),
-                                              component_type: z.enum([
-                                                "team",
-                                                "agent",
-                                                "model",
-                                                "tool",
-                                                "termination",
-                                              ]),
                                               version: z
                                                 .number()
                                                 .int()
                                                 .optional(),
-                                              component_version: z
+                                              componentVersion: z
                                                 .number()
                                                 .int()
                                                 .optional(),
-                                              description: z
-                                                .string()
-                                                .optional(),
+                                              description: z.string(),
                                               label: z.string(),
                                             })
                                             .merge(
                                               z.object({
+                                                componentType: z.enum(["tool"]),
                                                 config: z.object({
                                                   name: z.string(),
                                                   description: z
@@ -4163,6 +3653,7 @@ export const zChatMessageList = z.object({
                                         .string()
                                         .default("{result}"),
                                     }),
+                                    componentType: z.enum(["agent"]),
                                   }),
                                 ),
                             )
@@ -4170,20 +3661,14 @@ export const zChatMessageList = z.object({
                           termination_condition: z
                             .object({
                               provider: z.string(),
-                              component_type: z.enum([
-                                "team",
-                                "agent",
-                                "model",
-                                "tool",
-                                "termination",
-                              ]),
                               version: z.number().int().optional(),
-                              component_version: z.number().int().optional(),
-                              description: z.string().optional(),
+                              componentVersion: z.number().int().optional(),
+                              description: z.string(),
                               label: z.string(),
                             })
                             .merge(
                               z.object({
+                                componentType: z.enum(["termination"]),
                                 config: z.object({
                                   termination_type: z
                                     .enum([
@@ -4199,22 +3684,15 @@ export const zChatMessageList = z.object({
                                         z
                                           .object({
                                             provider: z.string(),
-                                            component_type: z.enum([
-                                              "team",
-                                              "agent",
-                                              "model",
-                                              "tool",
-                                              "termination",
-                                            ]),
                                             version: z
                                               .number()
                                               .int()
                                               .optional(),
-                                            component_version: z
+                                            componentVersion: z
                                               .number()
                                               .int()
                                               .optional(),
-                                            description: z.string().optional(),
+                                            description: z.string(),
                                             label: z.string(),
                                           })
                                           .merge(
@@ -4230,22 +3708,15 @@ export const zChatMessageList = z.object({
                                         z
                                           .object({
                                             provider: z.string(),
-                                            component_type: z.enum([
-                                              "team",
-                                              "agent",
-                                              "model",
-                                              "tool",
-                                              "termination",
-                                            ]),
                                             version: z
                                               .number()
                                               .int()
                                               .optional(),
-                                            component_version: z
+                                            componentVersion: z
                                               .number()
                                               .int()
                                               .optional(),
-                                            description: z.string().optional(),
+                                            description: z.string(),
                                             label: z.string(),
                                           })
                                           .merge(
@@ -4254,6 +3725,9 @@ export const zChatMessageList = z.object({
                                                 .object({
                                                   text: z.string(),
                                                 })
+                                                .optional(),
+                                              componentType: z
+                                                .enum(["termination"])
                                                 .optional(),
                                             }),
                                           ),
@@ -4271,19 +3745,9 @@ export const zChatMessageList = z.object({
                               z
                                 .object({
                                   provider: z.string(),
-                                  component_type: z.enum([
-                                    "team",
-                                    "agent",
-                                    "model",
-                                    "tool",
-                                    "termination",
-                                  ]),
                                   version: z.number().int().optional(),
-                                  component_version: z
-                                    .number()
-                                    .int()
-                                    .optional(),
-                                  description: z.string().optional(),
+                                  componentVersion: z.number().int().optional(),
+                                  description: z.string(),
                                   label: z.string(),
                                 })
                                 .merge(
@@ -4295,19 +3759,12 @@ export const zChatMessageList = z.object({
                                       memory: z
                                         .object({
                                           provider: z.string(),
-                                          component_type: z.enum([
-                                            "team",
-                                            "agent",
-                                            "model",
-                                            "tool",
-                                            "termination",
-                                          ]),
                                           version: z.number().int().optional(),
-                                          component_version: z
+                                          componentVersion: z
                                             .number()
                                             .int()
                                             .optional(),
-                                          description: z.string().optional(),
+                                          description: z.string(),
                                           label: z.string(),
                                         })
                                         .optional(),
@@ -4318,19 +3775,12 @@ export const zChatMessageList = z.object({
                                       model_client: z
                                         .object({
                                           provider: z.string(),
-                                          component_type: z.enum([
-                                            "team",
-                                            "agent",
-                                            "model",
-                                            "tool",
-                                            "termination",
-                                          ]),
                                           version: z.number().int().optional(),
-                                          component_version: z
+                                          componentVersion: z
                                             .number()
                                             .int()
                                             .optional(),
-                                          description: z.string().optional(),
+                                          description: z.string(),
                                           label: z.string(),
                                         })
                                         .merge(
@@ -4394,6 +3844,7 @@ export const zChatMessageList = z.object({
                                                 })
                                                 .optional(),
                                             }),
+                                            componentType: z.enum(["model"]),
                                           }),
                                         ),
                                       tools: z
@@ -4401,28 +3852,20 @@ export const zChatMessageList = z.object({
                                           z
                                             .object({
                                               provider: z.string(),
-                                              component_type: z.enum([
-                                                "team",
-                                                "agent",
-                                                "model",
-                                                "tool",
-                                                "termination",
-                                              ]),
                                               version: z
                                                 .number()
                                                 .int()
                                                 .optional(),
-                                              component_version: z
+                                              componentVersion: z
                                                 .number()
                                                 .int()
                                                 .optional(),
-                                              description: z
-                                                .string()
-                                                .optional(),
+                                              description: z.string(),
                                               label: z.string(),
                                             })
                                             .merge(
                                               z.object({
+                                                componentType: z.enum(["tool"]),
                                                 config: z.object({
                                                   name: z.string(),
                                                   description: z
@@ -4450,6 +3893,7 @@ export const zChatMessageList = z.object({
                                         .string()
                                         .default("{result}"),
                                     }),
+                                    componentType: z.enum(["agent"]),
                                   }),
                                 ),
                             )
@@ -4457,20 +3901,14 @@ export const zChatMessageList = z.object({
                           termination_condition: z
                             .object({
                               provider: z.string(),
-                              component_type: z.enum([
-                                "team",
-                                "agent",
-                                "model",
-                                "tool",
-                                "termination",
-                              ]),
                               version: z.number().int().optional(),
-                              component_version: z.number().int().optional(),
-                              description: z.string().optional(),
+                              componentVersion: z.number().int().optional(),
+                              description: z.string(),
                               label: z.string(),
                             })
                             .merge(
                               z.object({
+                                componentType: z.enum(["termination"]),
                                 config: z.object({
                                   termination_type: z
                                     .enum([
@@ -4486,22 +3924,15 @@ export const zChatMessageList = z.object({
                                         z
                                           .object({
                                             provider: z.string(),
-                                            component_type: z.enum([
-                                              "team",
-                                              "agent",
-                                              "model",
-                                              "tool",
-                                              "termination",
-                                            ]),
                                             version: z
                                               .number()
                                               .int()
                                               .optional(),
-                                            component_version: z
+                                            componentVersion: z
                                               .number()
                                               .int()
                                               .optional(),
-                                            description: z.string().optional(),
+                                            description: z.string(),
                                             label: z.string(),
                                           })
                                           .merge(
@@ -4517,22 +3948,15 @@ export const zChatMessageList = z.object({
                                         z
                                           .object({
                                             provider: z.string(),
-                                            component_type: z.enum([
-                                              "team",
-                                              "agent",
-                                              "model",
-                                              "tool",
-                                              "termination",
-                                            ]),
                                             version: z
                                               .number()
                                               .int()
                                               .optional(),
-                                            component_version: z
+                                            componentVersion: z
                                               .number()
                                               .int()
                                               .optional(),
-                                            description: z.string().optional(),
+                                            description: z.string(),
                                             label: z.string(),
                                           })
                                           .merge(
@@ -4541,6 +3965,9 @@ export const zChatMessageList = z.object({
                                                 .object({
                                                   text: z.string(),
                                                 })
+                                                .optional(),
+                                              componentType: z
+                                                .enum(["termination"])
                                                 .optional(),
                                             }),
                                           ),
@@ -4554,16 +3981,9 @@ export const zChatMessageList = z.object({
                           model_client: z
                             .object({
                               provider: z.string(),
-                              component_type: z.enum([
-                                "team",
-                                "agent",
-                                "model",
-                                "tool",
-                                "termination",
-                              ]),
                               version: z.number().int().optional(),
-                              component_version: z.number().int().optional(),
-                              description: z.string().optional(),
+                              componentVersion: z.number().int().optional(),
+                              description: z.string(),
                               label: z.string(),
                             })
                             .merge(
@@ -4606,6 +4026,7 @@ export const zChatMessageList = z.object({
                                     })
                                     .optional(),
                                 }),
+                                componentType: z.enum(["model"]),
                               }),
                             )
                             .optional(),
@@ -4616,20 +4037,14 @@ export const zChatMessageList = z.object({
                           termination_condition: z
                             .object({
                               provider: z.string(),
-                              component_type: z.enum([
-                                "team",
-                                "agent",
-                                "model",
-                                "tool",
-                                "termination",
-                              ]),
                               version: z.number().int().optional(),
-                              component_version: z.number().int().optional(),
-                              description: z.string().optional(),
+                              componentVersion: z.number().int().optional(),
+                              description: z.string(),
                               label: z.string(),
                             })
                             .merge(
                               z.object({
+                                componentType: z.enum(["termination"]),
                                 config: z.object({
                                   termination_type: z
                                     .enum([
@@ -4645,22 +4060,15 @@ export const zChatMessageList = z.object({
                                         z
                                           .object({
                                             provider: z.string(),
-                                            component_type: z.enum([
-                                              "team",
-                                              "agent",
-                                              "model",
-                                              "tool",
-                                              "termination",
-                                            ]),
                                             version: z
                                               .number()
                                               .int()
                                               .optional(),
-                                            component_version: z
+                                            componentVersion: z
                                               .number()
                                               .int()
                                               .optional(),
-                                            description: z.string().optional(),
+                                            description: z.string(),
                                             label: z.string(),
                                           })
                                           .merge(
@@ -4676,22 +4084,15 @@ export const zChatMessageList = z.object({
                                         z
                                           .object({
                                             provider: z.string(),
-                                            component_type: z.enum([
-                                              "team",
-                                              "agent",
-                                              "model",
-                                              "tool",
-                                              "termination",
-                                            ]),
                                             version: z
                                               .number()
                                               .int()
                                               .optional(),
-                                            component_version: z
+                                            componentVersion: z
                                               .number()
                                               .int()
                                               .optional(),
-                                            description: z.string().optional(),
+                                            description: z.string(),
                                             label: z.string(),
                                           })
                                           .merge(
@@ -4700,6 +4101,9 @@ export const zChatMessageList = z.object({
                                                 .object({
                                                   text: z.string(),
                                                 })
+                                                .optional(),
+                                              componentType: z
+                                                .enum(["termination"])
                                                 .optional(),
                                             }),
                                           ),
@@ -4715,16 +4119,9 @@ export const zChatMessageList = z.object({
                             z
                               .object({
                                 provider: z.string(),
-                                component_type: z.enum([
-                                  "team",
-                                  "agent",
-                                  "model",
-                                  "tool",
-                                  "termination",
-                                ]),
                                 version: z.number().int().optional(),
-                                component_version: z.number().int().optional(),
-                                description: z.string().optional(),
+                                componentVersion: z.number().int().optional(),
+                                description: z.string(),
                                 label: z.string(),
                               })
                               .merge(
@@ -4736,19 +4133,12 @@ export const zChatMessageList = z.object({
                                     memory: z
                                       .object({
                                         provider: z.string(),
-                                        component_type: z.enum([
-                                          "team",
-                                          "agent",
-                                          "model",
-                                          "tool",
-                                          "termination",
-                                        ]),
                                         version: z.number().int().optional(),
-                                        component_version: z
+                                        componentVersion: z
                                           .number()
                                           .int()
                                           .optional(),
-                                        description: z.string().optional(),
+                                        description: z.string(),
                                         label: z.string(),
                                       })
                                       .optional(),
@@ -4759,19 +4149,12 @@ export const zChatMessageList = z.object({
                                     model_client: z
                                       .object({
                                         provider: z.string(),
-                                        component_type: z.enum([
-                                          "team",
-                                          "agent",
-                                          "model",
-                                          "tool",
-                                          "termination",
-                                        ]),
                                         version: z.number().int().optional(),
-                                        component_version: z
+                                        componentVersion: z
                                           .number()
                                           .int()
                                           .optional(),
-                                        description: z.string().optional(),
+                                        description: z.string(),
                                         label: z.string(),
                                       })
                                       .merge(
@@ -4831,6 +4214,7 @@ export const zChatMessageList = z.object({
                                               })
                                               .optional(),
                                           }),
+                                          componentType: z.enum(["model"]),
                                         }),
                                       ),
                                     tools: z
@@ -4838,26 +4222,20 @@ export const zChatMessageList = z.object({
                                         z
                                           .object({
                                             provider: z.string(),
-                                            component_type: z.enum([
-                                              "team",
-                                              "agent",
-                                              "model",
-                                              "tool",
-                                              "termination",
-                                            ]),
                                             version: z
                                               .number()
                                               .int()
                                               .optional(),
-                                            component_version: z
+                                            componentVersion: z
                                               .number()
                                               .int()
                                               .optional(),
-                                            description: z.string().optional(),
+                                            description: z.string(),
                                             label: z.string(),
                                           })
                                           .merge(
                                             z.object({
+                                              componentType: z.enum(["tool"]),
                                               config: z.object({
                                                 name: z.string(),
                                                 description: z
@@ -4885,6 +4263,7 @@ export const zChatMessageList = z.object({
                                       .string()
                                       .default("{result}"),
                                   }),
+                                  componentType: z.enum(["agent"]),
                                 }),
                               ),
                           ),
@@ -4895,24 +4274,23 @@ export const zChatMessageList = z.object({
                       ])
                       .optional(),
                   }),
+                )
+                .merge(
+                  z.object({
+                    componentType: z.enum(["team"]),
+                  }),
                 ),
               z
                 .object({
                   provider: z.string(),
-                  component_type: z.enum([
-                    "team",
-                    "agent",
-                    "model",
-                    "tool",
-                    "termination",
-                  ]),
                   version: z.number().int().optional(),
-                  component_version: z.number().int().optional(),
-                  description: z.string().optional(),
+                  componentVersion: z.number().int().optional(),
+                  description: z.string(),
                   label: z.string(),
                 })
                 .merge(
                   z.object({
+                    componentType: z.enum(["termination"]),
                     config: z.object({
                       termination_type: z
                         .enum([
@@ -4928,16 +4306,9 @@ export const zChatMessageList = z.object({
                             z
                               .object({
                                 provider: z.string(),
-                                component_type: z.enum([
-                                  "team",
-                                  "agent",
-                                  "model",
-                                  "tool",
-                                  "termination",
-                                ]),
                                 version: z.number().int().optional(),
-                                component_version: z.number().int().optional(),
-                                description: z.string().optional(),
+                                componentVersion: z.number().int().optional(),
+                                description: z.string(),
                                 label: z.string(),
                               })
                               .merge(
@@ -4953,16 +4324,9 @@ export const zChatMessageList = z.object({
                             z
                               .object({
                                 provider: z.string(),
-                                component_type: z.enum([
-                                  "team",
-                                  "agent",
-                                  "model",
-                                  "tool",
-                                  "termination",
-                                ]),
                                 version: z.number().int().optional(),
-                                component_version: z.number().int().optional(),
-                                description: z.string().optional(),
+                                componentVersion: z.number().int().optional(),
+                                description: z.string(),
                                 label: z.string(),
                               })
                               .merge(
@@ -4971,6 +4335,9 @@ export const zChatMessageList = z.object({
                                     .object({
                                       text: z.string(),
                                     })
+                                    .optional(),
+                                  componentType: z
+                                    .enum(["termination"])
                                     .optional(),
                                 }),
                               ),
@@ -4983,16 +4350,9 @@ export const zChatMessageList = z.object({
               z
                 .object({
                   provider: z.string(),
-                  component_type: z.enum([
-                    "team",
-                    "agent",
-                    "model",
-                    "tool",
-                    "termination",
-                  ]),
                   version: z.number().int().optional(),
-                  component_version: z.number().int().optional(),
-                  description: z.string().optional(),
+                  componentVersion: z.number().int().optional(),
+                  description: z.string(),
                   label: z.string(),
                 })
                 .merge(
@@ -5004,16 +4364,9 @@ export const zChatMessageList = z.object({
                       memory: z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .optional(),
@@ -5022,16 +4375,9 @@ export const zChatMessageList = z.object({
                       model_client: z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .merge(
@@ -5070,6 +4416,7 @@ export const zChatMessageList = z.object({
                                 })
                                 .optional(),
                             }),
+                            componentType: z.enum(["model"]),
                           }),
                         ),
                       tools: z
@@ -5077,20 +4424,14 @@ export const zChatMessageList = z.object({
                           z
                             .object({
                               provider: z.string(),
-                              component_type: z.enum([
-                                "team",
-                                "agent",
-                                "model",
-                                "tool",
-                                "termination",
-                              ]),
                               version: z.number().int().optional(),
-                              component_version: z.number().int().optional(),
-                              description: z.string().optional(),
+                              componentVersion: z.number().int().optional(),
+                              description: z.string(),
                               label: z.string(),
                             })
                             .merge(
                               z.object({
+                                componentType: z.enum(["tool"]),
                                 config: z.object({
                                   name: z.string(),
                                   description: z.string().optional(),
@@ -5110,59 +4451,7 @@ export const zChatMessageList = z.object({
                       reflect_on_tool_use: z.boolean().default(false),
                       tool_call_summary_format: z.string().default("{result}"),
                     }),
-                  }),
-                ),
-              z
-                .object({
-                  provider: z.string(),
-                  component_type: z.enum([
-                    "team",
-                    "agent",
-                    "model",
-                    "tool",
-                    "termination",
-                  ]),
-                  version: z.number().int().optional(),
-                  component_version: z.number().int().optional(),
-                  description: z.string().optional(),
-                  label: z.string(),
-                })
-                .merge(
-                  z.object({
-                    config: z.object({
-                      model: z.string(),
-                      model_type: z.enum([
-                        "OpenAIChatCompletionClient",
-                        "AzureOpenAIChatCompletionClient",
-                      ]),
-                      api_key: z.string().optional(),
-                      base_url: z.string().optional(),
-                      timeout: z.number().optional(),
-                      max_retries: z.number().int().optional(),
-                      frequency_penalty: z.number().optional(),
-                      logit_bias: z.number().int().optional(),
-                      max_tokens: z.number().int().optional(),
-                      n: z.number().int().optional(),
-                      presence_penalty: z.number().optional(),
-                      response_format: z
-                        .enum(["json_object", "text"])
-                        .optional(),
-                      seed: z.number().int().optional(),
-                      stop: z.array(z.string()).optional(),
-                      temperature: z.number().optional(),
-                      top_p: z.number().optional(),
-                      user: z.string().optional(),
-                      organization: z.string().optional(),
-                      default_headers: z.object({}).optional(),
-                      model_info: z
-                        .object({
-                          family: z.enum(["r1", "openai", "unknown"]),
-                          vision: z.boolean(),
-                          function_calling: z.boolean(),
-                          json_output: z.boolean(),
-                        })
-                        .optional(),
-                    }),
+                    componentType: z.enum(["agent"]),
                   }),
                 ),
             ])
@@ -5456,10 +4745,9 @@ export const zReadingLevelOptions = z.enum([
 export const zTeamComponent = z
   .object({
     provider: z.string(),
-    component_type: z.enum(["team", "agent", "model", "tool", "termination"]),
     version: z.number().int().optional(),
-    component_version: z.number().int().optional(),
-    description: z.string().optional(),
+    componentVersion: z.number().int().optional(),
+    description: z.string(),
     label: z.string(),
   })
   .merge(
@@ -5472,16 +4760,9 @@ export const zTeamComponent = z
                 z
                   .object({
                     provider: z.string(),
-                    component_type: z.enum([
-                      "team",
-                      "agent",
-                      "model",
-                      "tool",
-                      "termination",
-                    ]),
                     version: z.number().int().optional(),
-                    component_version: z.number().int().optional(),
-                    description: z.string().optional(),
+                    componentVersion: z.number().int().optional(),
+                    description: z.string(),
                     label: z.string(),
                   })
                   .merge(
@@ -5493,16 +4774,9 @@ export const zTeamComponent = z
                         memory: z
                           .object({
                             provider: z.string(),
-                            component_type: z.enum([
-                              "team",
-                              "agent",
-                              "model",
-                              "tool",
-                              "termination",
-                            ]),
                             version: z.number().int().optional(),
-                            component_version: z.number().int().optional(),
-                            description: z.string().optional(),
+                            componentVersion: z.number().int().optional(),
+                            description: z.string(),
                             label: z.string(),
                           })
                           .optional(),
@@ -5511,16 +4785,9 @@ export const zTeamComponent = z
                         model_client: z
                           .object({
                             provider: z.string(),
-                            component_type: z.enum([
-                              "team",
-                              "agent",
-                              "model",
-                              "tool",
-                              "termination",
-                            ]),
                             version: z.number().int().optional(),
-                            component_version: z.number().int().optional(),
-                            description: z.string().optional(),
+                            componentVersion: z.number().int().optional(),
+                            description: z.string(),
                             label: z.string(),
                           })
                           .merge(
@@ -5559,6 +4826,7 @@ export const zTeamComponent = z
                                   })
                                   .optional(),
                               }),
+                              componentType: z.enum(["model"]),
                             }),
                           ),
                         tools: z
@@ -5566,20 +4834,14 @@ export const zTeamComponent = z
                             z
                               .object({
                                 provider: z.string(),
-                                component_type: z.enum([
-                                  "team",
-                                  "agent",
-                                  "model",
-                                  "tool",
-                                  "termination",
-                                ]),
                                 version: z.number().int().optional(),
-                                component_version: z.number().int().optional(),
-                                description: z.string().optional(),
+                                componentVersion: z.number().int().optional(),
+                                description: z.string(),
                                 label: z.string(),
                               })
                               .merge(
                                 z.object({
+                                  componentType: z.enum(["tool"]),
                                   config: z.object({
                                     name: z.string(),
                                     description: z.string().optional(),
@@ -5601,6 +4863,7 @@ export const zTeamComponent = z
                           .string()
                           .default("{result}"),
                       }),
+                      componentType: z.enum(["agent"]),
                     }),
                   ),
               )
@@ -5608,20 +4871,14 @@ export const zTeamComponent = z
             termination_condition: z
               .object({
                 provider: z.string(),
-                component_type: z.enum([
-                  "team",
-                  "agent",
-                  "model",
-                  "tool",
-                  "termination",
-                ]),
                 version: z.number().int().optional(),
-                component_version: z.number().int().optional(),
-                description: z.string().optional(),
+                componentVersion: z.number().int().optional(),
+                description: z.string(),
                 label: z.string(),
               })
               .merge(
                 z.object({
+                  componentType: z.enum(["termination"]),
                   config: z.object({
                     termination_type: z
                       .enum([
@@ -5637,16 +4894,9 @@ export const zTeamComponent = z
                           z
                             .object({
                               provider: z.string(),
-                              component_type: z.enum([
-                                "team",
-                                "agent",
-                                "model",
-                                "tool",
-                                "termination",
-                              ]),
                               version: z.number().int().optional(),
-                              component_version: z.number().int().optional(),
-                              description: z.string().optional(),
+                              componentVersion: z.number().int().optional(),
+                              description: z.string(),
                               label: z.string(),
                             })
                             .merge(
@@ -5662,16 +4912,9 @@ export const zTeamComponent = z
                           z
                             .object({
                               provider: z.string(),
-                              component_type: z.enum([
-                                "team",
-                                "agent",
-                                "model",
-                                "tool",
-                                "termination",
-                              ]),
                               version: z.number().int().optional(),
-                              component_version: z.number().int().optional(),
-                              description: z.string().optional(),
+                              componentVersion: z.number().int().optional(),
+                              description: z.string(),
                               label: z.string(),
                             })
                             .merge(
@@ -5680,6 +4923,9 @@ export const zTeamComponent = z
                                   .object({
                                     text: z.string(),
                                   })
+                                  .optional(),
+                                componentType: z
+                                  .enum(["termination"])
                                   .optional(),
                               }),
                             ),
@@ -5697,16 +4943,9 @@ export const zTeamComponent = z
                 z
                   .object({
                     provider: z.string(),
-                    component_type: z.enum([
-                      "team",
-                      "agent",
-                      "model",
-                      "tool",
-                      "termination",
-                    ]),
                     version: z.number().int().optional(),
-                    component_version: z.number().int().optional(),
-                    description: z.string().optional(),
+                    componentVersion: z.number().int().optional(),
+                    description: z.string(),
                     label: z.string(),
                   })
                   .merge(
@@ -5718,16 +4957,9 @@ export const zTeamComponent = z
                         memory: z
                           .object({
                             provider: z.string(),
-                            component_type: z.enum([
-                              "team",
-                              "agent",
-                              "model",
-                              "tool",
-                              "termination",
-                            ]),
                             version: z.number().int().optional(),
-                            component_version: z.number().int().optional(),
-                            description: z.string().optional(),
+                            componentVersion: z.number().int().optional(),
+                            description: z.string(),
                             label: z.string(),
                           })
                           .optional(),
@@ -5736,16 +4968,9 @@ export const zTeamComponent = z
                         model_client: z
                           .object({
                             provider: z.string(),
-                            component_type: z.enum([
-                              "team",
-                              "agent",
-                              "model",
-                              "tool",
-                              "termination",
-                            ]),
                             version: z.number().int().optional(),
-                            component_version: z.number().int().optional(),
-                            description: z.string().optional(),
+                            componentVersion: z.number().int().optional(),
+                            description: z.string(),
                             label: z.string(),
                           })
                           .merge(
@@ -5784,6 +5009,7 @@ export const zTeamComponent = z
                                   })
                                   .optional(),
                               }),
+                              componentType: z.enum(["model"]),
                             }),
                           ),
                         tools: z
@@ -5791,20 +5017,14 @@ export const zTeamComponent = z
                             z
                               .object({
                                 provider: z.string(),
-                                component_type: z.enum([
-                                  "team",
-                                  "agent",
-                                  "model",
-                                  "tool",
-                                  "termination",
-                                ]),
                                 version: z.number().int().optional(),
-                                component_version: z.number().int().optional(),
-                                description: z.string().optional(),
+                                componentVersion: z.number().int().optional(),
+                                description: z.string(),
                                 label: z.string(),
                               })
                               .merge(
                                 z.object({
+                                  componentType: z.enum(["tool"]),
                                   config: z.object({
                                     name: z.string(),
                                     description: z.string().optional(),
@@ -5826,6 +5046,7 @@ export const zTeamComponent = z
                           .string()
                           .default("{result}"),
                       }),
+                      componentType: z.enum(["agent"]),
                     }),
                   ),
               )
@@ -5833,20 +5054,14 @@ export const zTeamComponent = z
             termination_condition: z
               .object({
                 provider: z.string(),
-                component_type: z.enum([
-                  "team",
-                  "agent",
-                  "model",
-                  "tool",
-                  "termination",
-                ]),
                 version: z.number().int().optional(),
-                component_version: z.number().int().optional(),
-                description: z.string().optional(),
+                componentVersion: z.number().int().optional(),
+                description: z.string(),
                 label: z.string(),
               })
               .merge(
                 z.object({
+                  componentType: z.enum(["termination"]),
                   config: z.object({
                     termination_type: z
                       .enum([
@@ -5862,16 +5077,9 @@ export const zTeamComponent = z
                           z
                             .object({
                               provider: z.string(),
-                              component_type: z.enum([
-                                "team",
-                                "agent",
-                                "model",
-                                "tool",
-                                "termination",
-                              ]),
                               version: z.number().int().optional(),
-                              component_version: z.number().int().optional(),
-                              description: z.string().optional(),
+                              componentVersion: z.number().int().optional(),
+                              description: z.string(),
                               label: z.string(),
                             })
                             .merge(
@@ -5887,16 +5095,9 @@ export const zTeamComponent = z
                           z
                             .object({
                               provider: z.string(),
-                              component_type: z.enum([
-                                "team",
-                                "agent",
-                                "model",
-                                "tool",
-                                "termination",
-                              ]),
                               version: z.number().int().optional(),
-                              component_version: z.number().int().optional(),
-                              description: z.string().optional(),
+                              componentVersion: z.number().int().optional(),
+                              description: z.string(),
                               label: z.string(),
                             })
                             .merge(
@@ -5905,6 +5106,9 @@ export const zTeamComponent = z
                                   .object({
                                     text: z.string(),
                                   })
+                                  .optional(),
+                                componentType: z
+                                  .enum(["termination"])
                                   .optional(),
                               }),
                             ),
@@ -5918,16 +5122,9 @@ export const zTeamComponent = z
             model_client: z
               .object({
                 provider: z.string(),
-                component_type: z.enum([
-                  "team",
-                  "agent",
-                  "model",
-                  "tool",
-                  "termination",
-                ]),
                 version: z.number().int().optional(),
-                component_version: z.number().int().optional(),
-                description: z.string().optional(),
+                componentVersion: z.number().int().optional(),
+                description: z.string(),
                 label: z.string(),
               })
               .merge(
@@ -5964,6 +5161,7 @@ export const zTeamComponent = z
                       })
                       .optional(),
                   }),
+                  componentType: z.enum(["model"]),
                 }),
               )
               .optional(),
@@ -5974,20 +5172,14 @@ export const zTeamComponent = z
             termination_condition: z
               .object({
                 provider: z.string(),
-                component_type: z.enum([
-                  "team",
-                  "agent",
-                  "model",
-                  "tool",
-                  "termination",
-                ]),
                 version: z.number().int().optional(),
-                component_version: z.number().int().optional(),
-                description: z.string().optional(),
+                componentVersion: z.number().int().optional(),
+                description: z.string(),
                 label: z.string(),
               })
               .merge(
                 z.object({
+                  componentType: z.enum(["termination"]),
                   config: z.object({
                     termination_type: z
                       .enum([
@@ -6003,16 +5195,9 @@ export const zTeamComponent = z
                           z
                             .object({
                               provider: z.string(),
-                              component_type: z.enum([
-                                "team",
-                                "agent",
-                                "model",
-                                "tool",
-                                "termination",
-                              ]),
                               version: z.number().int().optional(),
-                              component_version: z.number().int().optional(),
-                              description: z.string().optional(),
+                              componentVersion: z.number().int().optional(),
+                              description: z.string(),
                               label: z.string(),
                             })
                             .merge(
@@ -6028,16 +5213,9 @@ export const zTeamComponent = z
                           z
                             .object({
                               provider: z.string(),
-                              component_type: z.enum([
-                                "team",
-                                "agent",
-                                "model",
-                                "tool",
-                                "termination",
-                              ]),
                               version: z.number().int().optional(),
-                              component_version: z.number().int().optional(),
-                              description: z.string().optional(),
+                              componentVersion: z.number().int().optional(),
+                              description: z.string(),
                               label: z.string(),
                             })
                             .merge(
@@ -6046,6 +5224,9 @@ export const zTeamComponent = z
                                   .object({
                                     text: z.string(),
                                   })
+                                  .optional(),
+                                componentType: z
+                                  .enum(["termination"])
                                   .optional(),
                               }),
                             ),
@@ -6061,16 +5242,9 @@ export const zTeamComponent = z
               z
                 .object({
                   provider: z.string(),
-                  component_type: z.enum([
-                    "team",
-                    "agent",
-                    "model",
-                    "tool",
-                    "termination",
-                  ]),
                   version: z.number().int().optional(),
-                  component_version: z.number().int().optional(),
-                  description: z.string().optional(),
+                  componentVersion: z.number().int().optional(),
+                  description: z.string(),
                   label: z.string(),
                 })
                 .merge(
@@ -6082,16 +5256,9 @@ export const zTeamComponent = z
                       memory: z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .optional(),
@@ -6100,16 +5267,9 @@ export const zTeamComponent = z
                       model_client: z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .merge(
@@ -6148,6 +5308,7 @@ export const zTeamComponent = z
                                 })
                                 .optional(),
                             }),
+                            componentType: z.enum(["model"]),
                           }),
                         ),
                       tools: z
@@ -6155,20 +5316,14 @@ export const zTeamComponent = z
                           z
                             .object({
                               provider: z.string(),
-                              component_type: z.enum([
-                                "team",
-                                "agent",
-                                "model",
-                                "tool",
-                                "termination",
-                              ]),
                               version: z.number().int().optional(),
-                              component_version: z.number().int().optional(),
-                              description: z.string().optional(),
+                              componentVersion: z.number().int().optional(),
+                              description: z.string(),
                               label: z.string(),
                             })
                             .merge(
                               z.object({
+                                componentType: z.enum(["tool"]),
                                 config: z.object({
                                   name: z.string(),
                                   description: z.string().optional(),
@@ -6188,6 +5343,7 @@ export const zTeamComponent = z
                       reflect_on_tool_use: z.boolean().default(false),
                       tool_call_summary_format: z.string().default("{result}"),
                     }),
+                    componentType: z.enum(["agent"]),
                   }),
                 ),
             ),
@@ -6197,6 +5353,11 @@ export const zTeamComponent = z
           }),
         ])
         .optional(),
+    }),
+  )
+  .merge(
+    z.object({
+      componentType: z.enum(["team"]),
     }),
   );
 
@@ -6209,16 +5370,9 @@ export const zTeamConfig = z.object({
             z
               .object({
                 provider: z.string(),
-                component_type: z.enum([
-                  "team",
-                  "agent",
-                  "model",
-                  "tool",
-                  "termination",
-                ]),
                 version: z.number().int().optional(),
-                component_version: z.number().int().optional(),
-                description: z.string().optional(),
+                componentVersion: z.number().int().optional(),
+                description: z.string(),
                 label: z.string(),
               })
               .merge(
@@ -6230,16 +5384,9 @@ export const zTeamConfig = z.object({
                     memory: z
                       .object({
                         provider: z.string(),
-                        component_type: z.enum([
-                          "team",
-                          "agent",
-                          "model",
-                          "tool",
-                          "termination",
-                        ]),
                         version: z.number().int().optional(),
-                        component_version: z.number().int().optional(),
-                        description: z.string().optional(),
+                        componentVersion: z.number().int().optional(),
+                        description: z.string(),
                         label: z.string(),
                       })
                       .optional(),
@@ -6248,16 +5395,9 @@ export const zTeamConfig = z.object({
                     model_client: z
                       .object({
                         provider: z.string(),
-                        component_type: z.enum([
-                          "team",
-                          "agent",
-                          "model",
-                          "tool",
-                          "termination",
-                        ]),
                         version: z.number().int().optional(),
-                        component_version: z.number().int().optional(),
-                        description: z.string().optional(),
+                        componentVersion: z.number().int().optional(),
+                        description: z.string(),
                         label: z.string(),
                       })
                       .merge(
@@ -6296,6 +5436,7 @@ export const zTeamConfig = z.object({
                               })
                               .optional(),
                           }),
+                          componentType: z.enum(["model"]),
                         }),
                       ),
                     tools: z
@@ -6303,20 +5444,14 @@ export const zTeamConfig = z.object({
                         z
                           .object({
                             provider: z.string(),
-                            component_type: z.enum([
-                              "team",
-                              "agent",
-                              "model",
-                              "tool",
-                              "termination",
-                            ]),
                             version: z.number().int().optional(),
-                            component_version: z.number().int().optional(),
-                            description: z.string().optional(),
+                            componentVersion: z.number().int().optional(),
+                            description: z.string(),
                             label: z.string(),
                           })
                           .merge(
                             z.object({
+                              componentType: z.enum(["tool"]),
                               config: z.object({
                                 name: z.string(),
                                 description: z.string().optional(),
@@ -6334,6 +5469,7 @@ export const zTeamConfig = z.object({
                     reflect_on_tool_use: z.boolean().default(false),
                     tool_call_summary_format: z.string().default("{result}"),
                   }),
+                  componentType: z.enum(["agent"]),
                 }),
               ),
           )
@@ -6341,20 +5477,14 @@ export const zTeamConfig = z.object({
         termination_condition: z
           .object({
             provider: z.string(),
-            component_type: z.enum([
-              "team",
-              "agent",
-              "model",
-              "tool",
-              "termination",
-            ]),
             version: z.number().int().optional(),
-            component_version: z.number().int().optional(),
-            description: z.string().optional(),
+            componentVersion: z.number().int().optional(),
+            description: z.string(),
             label: z.string(),
           })
           .merge(
             z.object({
+              componentType: z.enum(["termination"]),
               config: z.object({
                 termination_type: z
                   .enum([
@@ -6370,16 +5500,9 @@ export const zTeamConfig = z.object({
                       z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .merge(
@@ -6395,16 +5518,9 @@ export const zTeamConfig = z.object({
                       z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .merge(
@@ -6414,6 +5530,7 @@ export const zTeamConfig = z.object({
                                 text: z.string(),
                               })
                               .optional(),
+                            componentType: z.enum(["termination"]).optional(),
                           }),
                         ),
                     ]),
@@ -6430,16 +5547,9 @@ export const zTeamConfig = z.object({
             z
               .object({
                 provider: z.string(),
-                component_type: z.enum([
-                  "team",
-                  "agent",
-                  "model",
-                  "tool",
-                  "termination",
-                ]),
                 version: z.number().int().optional(),
-                component_version: z.number().int().optional(),
-                description: z.string().optional(),
+                componentVersion: z.number().int().optional(),
+                description: z.string(),
                 label: z.string(),
               })
               .merge(
@@ -6451,16 +5561,9 @@ export const zTeamConfig = z.object({
                     memory: z
                       .object({
                         provider: z.string(),
-                        component_type: z.enum([
-                          "team",
-                          "agent",
-                          "model",
-                          "tool",
-                          "termination",
-                        ]),
                         version: z.number().int().optional(),
-                        component_version: z.number().int().optional(),
-                        description: z.string().optional(),
+                        componentVersion: z.number().int().optional(),
+                        description: z.string(),
                         label: z.string(),
                       })
                       .optional(),
@@ -6469,16 +5572,9 @@ export const zTeamConfig = z.object({
                     model_client: z
                       .object({
                         provider: z.string(),
-                        component_type: z.enum([
-                          "team",
-                          "agent",
-                          "model",
-                          "tool",
-                          "termination",
-                        ]),
                         version: z.number().int().optional(),
-                        component_version: z.number().int().optional(),
-                        description: z.string().optional(),
+                        componentVersion: z.number().int().optional(),
+                        description: z.string(),
                         label: z.string(),
                       })
                       .merge(
@@ -6517,6 +5613,7 @@ export const zTeamConfig = z.object({
                               })
                               .optional(),
                           }),
+                          componentType: z.enum(["model"]),
                         }),
                       ),
                     tools: z
@@ -6524,20 +5621,14 @@ export const zTeamConfig = z.object({
                         z
                           .object({
                             provider: z.string(),
-                            component_type: z.enum([
-                              "team",
-                              "agent",
-                              "model",
-                              "tool",
-                              "termination",
-                            ]),
                             version: z.number().int().optional(),
-                            component_version: z.number().int().optional(),
-                            description: z.string().optional(),
+                            componentVersion: z.number().int().optional(),
+                            description: z.string(),
                             label: z.string(),
                           })
                           .merge(
                             z.object({
+                              componentType: z.enum(["tool"]),
                               config: z.object({
                                 name: z.string(),
                                 description: z.string().optional(),
@@ -6555,6 +5646,7 @@ export const zTeamConfig = z.object({
                     reflect_on_tool_use: z.boolean().default(false),
                     tool_call_summary_format: z.string().default("{result}"),
                   }),
+                  componentType: z.enum(["agent"]),
                 }),
               ),
           )
@@ -6562,20 +5654,14 @@ export const zTeamConfig = z.object({
         termination_condition: z
           .object({
             provider: z.string(),
-            component_type: z.enum([
-              "team",
-              "agent",
-              "model",
-              "tool",
-              "termination",
-            ]),
             version: z.number().int().optional(),
-            component_version: z.number().int().optional(),
-            description: z.string().optional(),
+            componentVersion: z.number().int().optional(),
+            description: z.string(),
             label: z.string(),
           })
           .merge(
             z.object({
+              componentType: z.enum(["termination"]),
               config: z.object({
                 termination_type: z
                   .enum([
@@ -6591,16 +5677,9 @@ export const zTeamConfig = z.object({
                       z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .merge(
@@ -6616,16 +5695,9 @@ export const zTeamConfig = z.object({
                       z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .merge(
@@ -6635,6 +5707,7 @@ export const zTeamConfig = z.object({
                                 text: z.string(),
                               })
                               .optional(),
+                            componentType: z.enum(["termination"]).optional(),
                           }),
                         ),
                     ]),
@@ -6647,16 +5720,9 @@ export const zTeamConfig = z.object({
         model_client: z
           .object({
             provider: z.string(),
-            component_type: z.enum([
-              "team",
-              "agent",
-              "model",
-              "tool",
-              "termination",
-            ]),
             version: z.number().int().optional(),
-            component_version: z.number().int().optional(),
-            description: z.string().optional(),
+            componentVersion: z.number().int().optional(),
+            description: z.string(),
             label: z.string(),
           })
           .merge(
@@ -6693,6 +5759,7 @@ export const zTeamConfig = z.object({
                   })
                   .optional(),
               }),
+              componentType: z.enum(["model"]),
             }),
           )
           .optional(),
@@ -6703,20 +5770,14 @@ export const zTeamConfig = z.object({
         termination_condition: z
           .object({
             provider: z.string(),
-            component_type: z.enum([
-              "team",
-              "agent",
-              "model",
-              "tool",
-              "termination",
-            ]),
             version: z.number().int().optional(),
-            component_version: z.number().int().optional(),
-            description: z.string().optional(),
+            componentVersion: z.number().int().optional(),
+            description: z.string(),
             label: z.string(),
           })
           .merge(
             z.object({
+              componentType: z.enum(["termination"]),
               config: z.object({
                 termination_type: z
                   .enum([
@@ -6732,16 +5793,9 @@ export const zTeamConfig = z.object({
                       z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .merge(
@@ -6757,16 +5811,9 @@ export const zTeamConfig = z.object({
                       z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .merge(
@@ -6776,6 +5823,7 @@ export const zTeamConfig = z.object({
                                 text: z.string(),
                               })
                               .optional(),
+                            componentType: z.enum(["termination"]).optional(),
                           }),
                         ),
                     ]),
@@ -6790,16 +5838,9 @@ export const zTeamConfig = z.object({
           z
             .object({
               provider: z.string(),
-              component_type: z.enum([
-                "team",
-                "agent",
-                "model",
-                "tool",
-                "termination",
-              ]),
               version: z.number().int().optional(),
-              component_version: z.number().int().optional(),
-              description: z.string().optional(),
+              componentVersion: z.number().int().optional(),
+              description: z.string(),
               label: z.string(),
             })
             .merge(
@@ -6811,16 +5852,9 @@ export const zTeamConfig = z.object({
                   memory: z
                     .object({
                       provider: z.string(),
-                      component_type: z.enum([
-                        "team",
-                        "agent",
-                        "model",
-                        "tool",
-                        "termination",
-                      ]),
                       version: z.number().int().optional(),
-                      component_version: z.number().int().optional(),
-                      description: z.string().optional(),
+                      componentVersion: z.number().int().optional(),
+                      description: z.string(),
                       label: z.string(),
                     })
                     .optional(),
@@ -6829,16 +5863,9 @@ export const zTeamConfig = z.object({
                   model_client: z
                     .object({
                       provider: z.string(),
-                      component_type: z.enum([
-                        "team",
-                        "agent",
-                        "model",
-                        "tool",
-                        "termination",
-                      ]),
                       version: z.number().int().optional(),
-                      component_version: z.number().int().optional(),
-                      description: z.string().optional(),
+                      componentVersion: z.number().int().optional(),
+                      description: z.string(),
                       label: z.string(),
                     })
                     .merge(
@@ -6877,6 +5904,7 @@ export const zTeamConfig = z.object({
                             })
                             .optional(),
                         }),
+                        componentType: z.enum(["model"]),
                       }),
                     ),
                   tools: z
@@ -6884,20 +5912,14 @@ export const zTeamConfig = z.object({
                       z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .merge(
                           z.object({
+                            componentType: z.enum(["tool"]),
                             config: z.object({
                               name: z.string(),
                               description: z.string().optional(),
@@ -6913,6 +5935,7 @@ export const zTeamConfig = z.object({
                   reflect_on_tool_use: z.boolean().default(false),
                   tool_call_summary_format: z.string().default("{result}"),
                 }),
+                componentType: z.enum(["agent"]),
               }),
             ),
         ),
@@ -6927,14 +5950,14 @@ export const zTeamConfig = z.object({
 export const zTerminationComponent = z
   .object({
     provider: z.string(),
-    component_type: z.enum(["team", "agent", "model", "tool", "termination"]),
     version: z.number().int().optional(),
-    component_version: z.number().int().optional(),
-    description: z.string().optional(),
+    componentVersion: z.number().int().optional(),
+    description: z.string(),
     label: z.string(),
   })
   .merge(
     z.object({
+      componentType: z.enum(["termination"]),
       config: z.object({
         termination_type: z
           .enum([
@@ -6950,16 +5973,9 @@ export const zTerminationComponent = z
               z
                 .object({
                   provider: z.string(),
-                  component_type: z.enum([
-                    "team",
-                    "agent",
-                    "model",
-                    "tool",
-                    "termination",
-                  ]),
                   version: z.number().int().optional(),
-                  component_version: z.number().int().optional(),
-                  description: z.string().optional(),
+                  componentVersion: z.number().int().optional(),
+                  description: z.string(),
                   label: z.string(),
                 })
                 .merge(
@@ -6973,16 +5989,9 @@ export const zTerminationComponent = z
               z
                 .object({
                   provider: z.string(),
-                  component_type: z.enum([
-                    "team",
-                    "agent",
-                    "model",
-                    "tool",
-                    "termination",
-                  ]),
                   version: z.number().int().optional(),
-                  component_version: z.number().int().optional(),
-                  description: z.string().optional(),
+                  componentVersion: z.number().int().optional(),
+                  description: z.string(),
                   label: z.string(),
                 })
                 .merge(
@@ -6992,6 +6001,7 @@ export const zTerminationComponent = z
                         text: z.string(),
                       })
                       .optional(),
+                    componentType: z.enum(["termination"]).optional(),
                   }),
                 ),
             ]),
@@ -7016,16 +6026,9 @@ export const zTerminationConfig = z.object({
         z
           .object({
             provider: z.string(),
-            component_type: z.enum([
-              "team",
-              "agent",
-              "model",
-              "tool",
-              "termination",
-            ]),
             version: z.number().int().optional(),
-            component_version: z.number().int().optional(),
-            description: z.string().optional(),
+            componentVersion: z.number().int().optional(),
+            description: z.string(),
             label: z.string(),
           })
           .merge(
@@ -7039,16 +6042,9 @@ export const zTerminationConfig = z.object({
         z
           .object({
             provider: z.string(),
-            component_type: z.enum([
-              "team",
-              "agent",
-              "model",
-              "tool",
-              "termination",
-            ]),
             version: z.number().int().optional(),
-            component_version: z.number().int().optional(),
-            description: z.string().optional(),
+            componentVersion: z.number().int().optional(),
+            description: z.string(),
             label: z.string(),
           })
           .merge(
@@ -7058,6 +6054,7 @@ export const zTerminationConfig = z.object({
                   text: z.string(),
                 })
                 .optional(),
+              componentType: z.enum(["termination"]).optional(),
             }),
           ),
       ]),
@@ -7101,16 +6098,9 @@ export const zMtComponent = zApiResourceMetaProperties.merge(
         z
           .object({
             provider: z.string(),
-            component_type: z.enum([
-              "team",
-              "agent",
-              "model",
-              "tool",
-              "termination",
-            ]),
             version: z.number().int().optional(),
-            component_version: z.number().int().optional(),
-            description: z.string().optional(),
+            componentVersion: z.number().int().optional(),
+            description: z.string(),
             label: z.string(),
           })
           .merge(
@@ -7122,16 +6112,9 @@ export const zMtComponent = zApiResourceMetaProperties.merge(
                 memory: z
                   .object({
                     provider: z.string(),
-                    component_type: z.enum([
-                      "team",
-                      "agent",
-                      "model",
-                      "tool",
-                      "termination",
-                    ]),
                     version: z.number().int().optional(),
-                    component_version: z.number().int().optional(),
-                    description: z.string().optional(),
+                    componentVersion: z.number().int().optional(),
+                    description: z.string(),
                     label: z.string(),
                   })
                   .optional(),
@@ -7140,16 +6123,9 @@ export const zMtComponent = zApiResourceMetaProperties.merge(
                 model_client: z
                   .object({
                     provider: z.string(),
-                    component_type: z.enum([
-                      "team",
-                      "agent",
-                      "model",
-                      "tool",
-                      "termination",
-                    ]),
                     version: z.number().int().optional(),
-                    component_version: z.number().int().optional(),
-                    description: z.string().optional(),
+                    componentVersion: z.number().int().optional(),
+                    description: z.string(),
                     label: z.string(),
                   })
                   .merge(
@@ -7188,6 +6164,7 @@ export const zMtComponent = zApiResourceMetaProperties.merge(
                           })
                           .optional(),
                       }),
+                      componentType: z.enum(["model"]),
                     }),
                   ),
                 tools: z
@@ -7195,20 +6172,14 @@ export const zMtComponent = zApiResourceMetaProperties.merge(
                     z
                       .object({
                         provider: z.string(),
-                        component_type: z.enum([
-                          "team",
-                          "agent",
-                          "model",
-                          "tool",
-                          "termination",
-                        ]),
                         version: z.number().int().optional(),
-                        component_version: z.number().int().optional(),
-                        description: z.string().optional(),
+                        componentVersion: z.number().int().optional(),
+                        description: z.string(),
                         label: z.string(),
                       })
                       .merge(
                         z.object({
+                          componentType: z.enum(["tool"]),
                           config: z.object({
                             name: z.string(),
                             description: z.string().optional(),
@@ -7224,57 +6195,7 @@ export const zMtComponent = zApiResourceMetaProperties.merge(
                 reflect_on_tool_use: z.boolean().default(false),
                 tool_call_summary_format: z.string().default("{result}"),
               }),
-            }),
-          ),
-        z
-          .object({
-            provider: z.string(),
-            component_type: z.enum([
-              "team",
-              "agent",
-              "model",
-              "tool",
-              "termination",
-            ]),
-            version: z.number().int().optional(),
-            component_version: z.number().int().optional(),
-            description: z.string().optional(),
-            label: z.string(),
-          })
-          .merge(
-            z.object({
-              config: z.object({
-                model: z.string(),
-                model_type: z.enum([
-                  "OpenAIChatCompletionClient",
-                  "AzureOpenAIChatCompletionClient",
-                ]),
-                api_key: z.string().optional(),
-                base_url: z.string().optional(),
-                timeout: z.number().optional(),
-                max_retries: z.number().int().optional(),
-                frequency_penalty: z.number().optional(),
-                logit_bias: z.number().int().optional(),
-                max_tokens: z.number().int().optional(),
-                n: z.number().int().optional(),
-                presence_penalty: z.number().optional(),
-                response_format: z.enum(["json_object", "text"]).optional(),
-                seed: z.number().int().optional(),
-                stop: z.array(z.string()).optional(),
-                temperature: z.number().optional(),
-                top_p: z.number().optional(),
-                user: z.string().optional(),
-                organization: z.string().optional(),
-                default_headers: z.object({}).optional(),
-                model_info: z
-                  .object({
-                    family: z.enum(["r1", "openai", "unknown"]),
-                    vision: z.boolean(),
-                    function_calling: z.boolean(),
-                    json_output: z.boolean(),
-                  })
-                  .optional(),
-              }),
+              componentType: z.enum(["agent"]),
             }),
           ),
       ])
@@ -7296,16 +6217,9 @@ export const zMtComponentList = z.object({
           z
             .object({
               provider: z.string(),
-              component_type: z.enum([
-                "team",
-                "agent",
-                "model",
-                "tool",
-                "termination",
-              ]),
               version: z.number().int().optional(),
-              component_version: z.number().int().optional(),
-              description: z.string().optional(),
+              componentVersion: z.number().int().optional(),
+              description: z.string(),
               label: z.string(),
             })
             .merge(
@@ -7317,16 +6231,9 @@ export const zMtComponentList = z.object({
                   memory: z
                     .object({
                       provider: z.string(),
-                      component_type: z.enum([
-                        "team",
-                        "agent",
-                        "model",
-                        "tool",
-                        "termination",
-                      ]),
                       version: z.number().int().optional(),
-                      component_version: z.number().int().optional(),
-                      description: z.string().optional(),
+                      componentVersion: z.number().int().optional(),
+                      description: z.string(),
                       label: z.string(),
                     })
                     .optional(),
@@ -7335,16 +6242,9 @@ export const zMtComponentList = z.object({
                   model_client: z
                     .object({
                       provider: z.string(),
-                      component_type: z.enum([
-                        "team",
-                        "agent",
-                        "model",
-                        "tool",
-                        "termination",
-                      ]),
                       version: z.number().int().optional(),
-                      component_version: z.number().int().optional(),
-                      description: z.string().optional(),
+                      componentVersion: z.number().int().optional(),
+                      description: z.string(),
                       label: z.string(),
                     })
                     .merge(
@@ -7383,6 +6283,7 @@ export const zMtComponentList = z.object({
                             })
                             .optional(),
                         }),
+                        componentType: z.enum(["model"]),
                       }),
                     ),
                   tools: z
@@ -7390,20 +6291,14 @@ export const zMtComponentList = z.object({
                       z
                         .object({
                           provider: z.string(),
-                          component_type: z.enum([
-                            "team",
-                            "agent",
-                            "model",
-                            "tool",
-                            "termination",
-                          ]),
                           version: z.number().int().optional(),
-                          component_version: z.number().int().optional(),
-                          description: z.string().optional(),
+                          componentVersion: z.number().int().optional(),
+                          description: z.string(),
                           label: z.string(),
                         })
                         .merge(
                           z.object({
+                            componentType: z.enum(["tool"]),
                             config: z.object({
                               name: z.string(),
                               description: z.string().optional(),
@@ -7419,6 +6314,7 @@ export const zMtComponentList = z.object({
                   reflect_on_tool_use: z.boolean().default(false),
                   tool_call_summary_format: z.string().default("{result}"),
                 }),
+                componentType: z.enum(["agent"]),
               }),
             ),
         ),
@@ -7433,16 +6329,9 @@ export const zMtComponentList = z.object({
             z
               .object({
                 provider: z.string(),
-                component_type: z.enum([
-                  "team",
-                  "agent",
-                  "model",
-                  "tool",
-                  "termination",
-                ]),
                 version: z.number().int().optional(),
-                component_version: z.number().int().optional(),
-                description: z.string().optional(),
+                componentVersion: z.number().int().optional(),
+                description: z.string(),
                 label: z.string(),
               })
               .merge(
@@ -7454,16 +6343,9 @@ export const zMtComponentList = z.object({
                     memory: z
                       .object({
                         provider: z.string(),
-                        component_type: z.enum([
-                          "team",
-                          "agent",
-                          "model",
-                          "tool",
-                          "termination",
-                        ]),
                         version: z.number().int().optional(),
-                        component_version: z.number().int().optional(),
-                        description: z.string().optional(),
+                        componentVersion: z.number().int().optional(),
+                        description: z.string(),
                         label: z.string(),
                       })
                       .optional(),
@@ -7472,16 +6354,9 @@ export const zMtComponentList = z.object({
                     model_client: z
                       .object({
                         provider: z.string(),
-                        component_type: z.enum([
-                          "team",
-                          "agent",
-                          "model",
-                          "tool",
-                          "termination",
-                        ]),
                         version: z.number().int().optional(),
-                        component_version: z.number().int().optional(),
-                        description: z.string().optional(),
+                        componentVersion: z.number().int().optional(),
+                        description: z.string(),
                         label: z.string(),
                       })
                       .merge(
@@ -7520,6 +6395,7 @@ export const zMtComponentList = z.object({
                               })
                               .optional(),
                           }),
+                          componentType: z.enum(["model"]),
                         }),
                       ),
                     tools: z
@@ -7527,20 +6403,14 @@ export const zMtComponentList = z.object({
                         z
                           .object({
                             provider: z.string(),
-                            component_type: z.enum([
-                              "team",
-                              "agent",
-                              "model",
-                              "tool",
-                              "termination",
-                            ]),
                             version: z.number().int().optional(),
-                            component_version: z.number().int().optional(),
-                            description: z.string().optional(),
+                            componentVersion: z.number().int().optional(),
+                            description: z.string(),
                             label: z.string(),
                           })
                           .merge(
                             z.object({
+                              componentType: z.enum(["tool"]),
                               config: z.object({
                                 name: z.string(),
                                 description: z.string().optional(),
@@ -7558,6 +6428,7 @@ export const zMtComponentList = z.object({
                     reflect_on_tool_use: z.boolean().default(false),
                     tool_call_summary_format: z.string().default("{result}"),
                   }),
+                  componentType: z.enum(["agent"]),
                 }),
               ),
           )
@@ -7570,16 +6441,9 @@ export const zMtComponentList = z.object({
             z
               .object({
                 provider: z.string(),
-                component_type: z.enum([
-                  "team",
-                  "agent",
-                  "model",
-                  "tool",
-                  "termination",
-                ]),
                 version: z.number().int().optional(),
-                component_version: z.number().int().optional(),
-                description: z.string().optional(),
+                componentVersion: z.number().int().optional(),
+                description: z.string(),
                 label: z.string(),
               })
               .merge(
@@ -7591,16 +6455,9 @@ export const zMtComponentList = z.object({
                     memory: z
                       .object({
                         provider: z.string(),
-                        component_type: z.enum([
-                          "team",
-                          "agent",
-                          "model",
-                          "tool",
-                          "termination",
-                        ]),
                         version: z.number().int().optional(),
-                        component_version: z.number().int().optional(),
-                        description: z.string().optional(),
+                        componentVersion: z.number().int().optional(),
+                        description: z.string(),
                         label: z.string(),
                       })
                       .optional(),
@@ -7609,16 +6466,9 @@ export const zMtComponentList = z.object({
                     model_client: z
                       .object({
                         provider: z.string(),
-                        component_type: z.enum([
-                          "team",
-                          "agent",
-                          "model",
-                          "tool",
-                          "termination",
-                        ]),
                         version: z.number().int().optional(),
-                        component_version: z.number().int().optional(),
-                        description: z.string().optional(),
+                        componentVersion: z.number().int().optional(),
+                        description: z.string(),
                         label: z.string(),
                       })
                       .merge(
@@ -7657,6 +6507,7 @@ export const zMtComponentList = z.object({
                               })
                               .optional(),
                           }),
+                          componentType: z.enum(["model"]),
                         }),
                       ),
                     tools: z
@@ -7664,20 +6515,14 @@ export const zMtComponentList = z.object({
                         z
                           .object({
                             provider: z.string(),
-                            component_type: z.enum([
-                              "team",
-                              "agent",
-                              "model",
-                              "tool",
-                              "termination",
-                            ]),
                             version: z.number().int().optional(),
-                            component_version: z.number().int().optional(),
-                            description: z.string().optional(),
+                            componentVersion: z.number().int().optional(),
+                            description: z.string(),
                             label: z.string(),
                           })
                           .merge(
                             z.object({
+                              componentType: z.enum(["tool"]),
                               config: z.object({
                                 name: z.string(),
                                 description: z.string().optional(),
@@ -7695,6 +6540,7 @@ export const zMtComponentList = z.object({
                     reflect_on_tool_use: z.boolean().default(false),
                     tool_call_summary_format: z.string().default("{result}"),
                   }),
+                  componentType: z.enum(["agent"]),
                 }),
               ),
           )
@@ -7703,16 +6549,9 @@ export const zMtComponentList = z.object({
         model_client: z
           .object({
             provider: z.string(),
-            component_type: z.enum([
-              "team",
-              "agent",
-              "model",
-              "tool",
-              "termination",
-            ]),
             version: z.number().int().optional(),
-            component_version: z.number().int().optional(),
-            description: z.string().optional(),
+            componentVersion: z.number().int().optional(),
+            description: z.string(),
             label: z.string(),
           })
           .merge(
@@ -7749,6 +6588,7 @@ export const zMtComponentList = z.object({
                   })
                   .optional(),
               }),
+              componentType: z.enum(["model"]),
             }),
           )
           .optional(),
@@ -7771,10 +6611,9 @@ export const zMtComponentProperties = z.object({
 
 export const zComponentModel = z.object({
   provider: z.string(),
-  component_type: z.enum(["team", "agent", "model", "tool", "termination"]),
   version: z.number().int().optional(),
-  component_version: z.number().int().optional(),
-  description: z.string().optional(),
+  componentVersion: z.number().int().optional(),
+  description: z.string(),
   label: z.string(),
 });
 
@@ -8117,6 +6956,7 @@ export const zOpenAiModelConfig = zModelConfig.merge(
 
 export const zToolComponent = zComponentModel.merge(
   z.object({
+    componentType: z.enum(["tool"]),
     config: z.object({
       name: z.string(),
       description: z.string().optional(),
@@ -8148,6 +6988,7 @@ export const zHandoffConfig = z.object({
 export const zModelComponent = zComponentModel.merge(
   z.object({
     config: zModelConfig,
+    componentType: z.enum(["model"]),
   }),
 );
 
@@ -8204,6 +7045,7 @@ export const zRoundRobinGroupChatConfig = z.object({
             reflect_on_tool_use: z.boolean().default(false),
             tool_call_summary_format: z.string().default("{result}"),
           }),
+          componentType: z.enum(["agent"]),
         }),
       ),
     )
@@ -8229,6 +7071,7 @@ export const zSelectorGroupChatConfig = z.object({
             reflect_on_tool_use: z.boolean().default(false),
             tool_call_summary_format: z.string().default("{result}"),
           }),
+          componentType: z.enum(["agent"]),
         }),
       ),
     )
@@ -8258,6 +7101,7 @@ export const zTextMentionTerminationComponent = zComponentModel.merge(
         text: z.string(),
       })
       .optional(),
+    componentType: z.enum(["termination"]).optional(),
   }),
 );
 
@@ -8770,6 +7614,7 @@ export const zInstagramTeamConfig = z.object({
           reflect_on_tool_use: z.boolean().default(false),
           tool_call_summary_format: z.string().default("{result}"),
         }),
+        componentType: z.enum(["agent"]),
       }),
     ),
   ),
@@ -8794,6 +7639,7 @@ export const zAgentComponent = zComponentModel.merge(
       reflect_on_tool_use: z.boolean().default(false),
       tool_call_summary_format: z.string().default("{result}"),
     }),
+    componentType: z.enum(["agent"]),
   }),
 );
 
@@ -8814,12 +7660,7 @@ export const zAgentConfig = z.object({
 export const zMtComponentProperties2 = z.object({
   componentType: zComponentTypes.optional(),
   component: z
-    .union([
-      zTeamComponent,
-      zTerminationComponent,
-      zAgentComponent,
-      zModelComponent,
-    ])
+    .union([zTeamComponent, zTerminationComponent, zAgentComponent])
     .optional(),
 });
 
