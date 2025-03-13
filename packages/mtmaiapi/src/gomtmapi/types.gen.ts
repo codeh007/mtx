@@ -2121,15 +2121,15 @@ export const ProgrammingLanguageOptions = {
   OTHER: "other",
 } as const;
 
-export type TeamComponent = ComponentModel & {
-  config: unknown;
-};
+export type TeamComponent = ComponentModel & TeamConfig;
 
-export type TeamConfig =
-  | RoundRobinGroupChatConfig
-  | SelectorGroupChatConfig
-  | InstagramTeamConfig
-  | BrowserConfig;
+export type TeamConfig = {
+  config?:
+    | RoundRobinGroupChatConfig
+    | SelectorGroupChatConfig
+    | InstagramTeamConfig
+    | BrowserConfig;
+};
 
 export type TerminationComponent = ComponentModel & {
   config: TerminationConfig;
@@ -2475,10 +2475,6 @@ export type TeamResult = {
   usage: string;
   duration: number;
 };
-
-export type InnerMessageConfig =
-  | ToolCallMessageConfig
-  | ToolCallResultMessageConfig;
 
 export type ChatMessageConfig = StopMessageConfig | HandoffMessageConfig;
 
@@ -3341,9 +3337,9 @@ export type BrowserOpenTask = {
 export type InstagramTeamConfig = {
   max_turns?: number;
   max_tokens?: number;
-  termination_condition?: TerminationConfig;
+  termination_condition?: TerminationComponent;
   task: string;
-  participants: Array<ComponentModel>;
+  participants: Array<AgentComponent>;
 };
 
 /**

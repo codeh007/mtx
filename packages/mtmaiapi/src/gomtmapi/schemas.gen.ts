@@ -3731,33 +3731,30 @@ export const TeamComponentSchema = {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
-      required: ["config"],
-      properties: {
-        config: [
-          {
-            $ref: "#/components/schemas/TeamConfig",
-          },
-        ],
-      },
+      $ref: "#/components/schemas/TeamConfig",
     },
   ],
 } as const;
 
 export const TeamConfigSchema = {
-  oneOf: [
-    {
-      $ref: "#/components/schemas/RoundRobinGroupChatConfig",
+  properties: {
+    config: {
+      oneOf: [
+        {
+          $ref: "#/components/schemas/RoundRobinGroupChatConfig",
+        },
+        {
+          $ref: "#/components/schemas/SelectorGroupChatConfig",
+        },
+        {
+          $ref: "#/components/schemas/InstagramTeamConfig",
+        },
+        {
+          $ref: "#/components/schemas/BrowserConfig",
+        },
+      ],
     },
-    {
-      $ref: "#/components/schemas/SelectorGroupChatConfig",
-    },
-    {
-      $ref: "#/components/schemas/InstagramTeamConfig",
-    },
-    {
-      $ref: "#/components/schemas/BrowserConfig",
-    },
-  ],
+  },
 } as const;
 
 export const TerminationComponentSchema = {
@@ -4455,17 +4452,6 @@ export const TeamResultSchema = {
     },
   },
   required: ["task_result", "usage", "duration"],
-} as const;
-
-export const InnerMessageConfigSchema = {
-  oneOf: [
-    {
-      $ref: "#/components/schemas/ToolCallMessageConfig",
-    },
-    {
-      $ref: "#/components/schemas/ToolCallResultMessageConfig",
-    },
-  ],
 } as const;
 
 export const ChatMessageConfigSchema = {
@@ -6284,7 +6270,7 @@ export const InstagramTeamConfigSchema = {
       type: "number",
     },
     termination_condition: {
-      $ref: "#/components/schemas/TerminationConfig",
+      $ref: "#/components/schemas/TerminationComponent",
     },
     task: {
       type: "string",
@@ -6292,7 +6278,7 @@ export const InstagramTeamConfigSchema = {
     participants: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/ComponentModel",
+        $ref: "#/components/schemas/AgentComponent",
       },
     },
   },

@@ -1780,15 +1780,15 @@ export enum ProgrammingLanguageOptions {
   Other = "other",
 }
 
-export type TeamComponent = ComponentModel & {
-  config: any;
-};
+export type TeamComponent = ComponentModel & TeamConfig;
 
-export type TeamConfig =
-  | RoundRobinGroupChatConfig
-  | SelectorGroupChatConfig
-  | InstagramTeamConfig
-  | BrowserConfig;
+export interface TeamConfig {
+  config?:
+    | RoundRobinGroupChatConfig
+    | SelectorGroupChatConfig
+    | InstagramTeamConfig
+    | BrowserConfig;
+}
 
 export type TerminationComponent = ComponentModel & {
   config: TerminationConfig;
@@ -2056,10 +2056,6 @@ export interface TeamResult {
   usage: string;
   duration: number;
 }
-
-export type InnerMessageConfig =
-  | ToolCallMessageConfig
-  | ToolCallResultMessageConfig;
 
 export type ChatMessageConfig = StopMessageConfig | HandoffMessageConfig;
 
@@ -2766,9 +2762,9 @@ export interface BrowserOpenTask {
 export interface InstagramTeamConfig {
   max_turns?: number;
   max_tokens?: number;
-  termination_condition?: TerminationConfig;
+  termination_condition?: TerminationComponent;
   task: string;
-  participants: ComponentModel[];
+  participants: AgentComponent[];
 }
 
 /** 浏览器配置(未完成) */
