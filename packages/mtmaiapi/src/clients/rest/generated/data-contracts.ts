@@ -1771,13 +1771,13 @@ export interface MtComponentList {
 
 export interface MtComponentProperties {
   componentType: ComponentTypes;
-  label?: string;
-  description?: string;
+  label: string;
+  description: string;
   /** @default 1 */
-  version?: number;
+  version: number;
   /** @default 1 */
-  componentVersion?: number;
-  config?: Record<string, any>;
+  componentVersion: number;
+  config: Record<string, any>;
   galleryId?: string;
   component:
     | TerminationComponent

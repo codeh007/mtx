@@ -3747,7 +3747,15 @@ export const MtComponentListSchema = {
 } as const;
 
 export const MtComponentPropertiesSchema = {
-  required: ["componentType", "component"],
+  required: [
+    "componentType",
+    "component",
+    "label",
+    "description",
+    "version",
+    "componentVersion",
+    "config",
+  ],
   properties: {
     componentType: {
       $ref: "#/components/schemas/ComponentTypes",

@@ -2387,11 +2387,11 @@ export const zAgStateUpsert = zAgStateProperties.merge(
 export const zMtComponent = zApiResourceMetaProperties.merge(
   z.object({
     componentType: z.enum(["team", "agent", "model", "tool", "termination"]),
-    label: z.string().optional(),
-    description: z.string().optional(),
-    version: z.number().int().optional().default(1),
-    componentVersion: z.number().int().optional().default(1),
-    config: z.object({}).optional(),
+    label: z.string(),
+    description: z.string(),
+    version: z.number().int().default(1),
+    componentVersion: z.number().int().default(1),
+    config: z.object({}),
     galleryId: z.string().optional(),
     component: z.union([
       zTerminationComponent,
@@ -2810,11 +2810,11 @@ export const zMtComponentList = z.object({
 
 export const zMtComponentProperties = z.object({
   componentType: z.enum(["team", "agent", "model", "tool", "termination"]),
-  label: z.string().optional(),
-  description: z.string().optional(),
-  version: z.number().int().optional().default(1),
-  componentVersion: z.number().int().optional().default(1),
-  config: z.object({}).optional(),
+  label: z.string(),
+  description: z.string(),
+  version: z.number().int().default(1),
+  componentVersion: z.number().int().default(1),
+  config: z.object({}),
   galleryId: z.string().optional(),
   component: z.union([
     zTerminationComponent,

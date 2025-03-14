@@ -2100,11 +2100,11 @@ export type MtComponentList = {
 
 export type MtComponentProperties = {
   componentType: ComponentTypes;
-  label?: string;
-  description?: string;
-  version?: number;
-  componentVersion?: number;
-  config?: {
+  label: string;
+  description: string;
+  version: number;
+  componentVersion: number;
+  config: {
     [key: string]: unknown;
   };
   galleryId?: string;
