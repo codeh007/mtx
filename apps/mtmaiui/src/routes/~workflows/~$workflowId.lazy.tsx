@@ -40,7 +40,7 @@ import {
 import { Separator } from "mtxuilib/ui/separator";
 import { useTenant } from "../../hooks/useAuth";
 import { useBasePath } from "../../hooks/useBasePath";
-import { WorkflowRunsTable } from "../~workflow-runs/components/workflow-runs-table";
+// import { WorkflowRunsTable } from "../~workflow-runs/components/workflow-runs-table.tsx--";
 import { WorkflowTriggerBtn } from "./components/WorkflowTriggerBtn";
 import WorkflowGeneralSettings from "./components/workflow-general-settings";
 import { WorkflowTags } from "./components/workflow-tags";
@@ -310,12 +310,13 @@ interface RecentRunsListProps {
 function RecentRunsList({ workflowId, tenant }: RecentRunsListProps) {
   return (
     <MtSuspenseBoundary>
-      <WorkflowRunsTable
+      {/* <WorkflowRunsTable
         tenant={tenant}
         workflowId={workflowId}
         initColumnVisibility={{ Workflow: false }}
         filterVisibility={{ Workflow: false }}
-      />
+      /> */}
+      WorkflowRunsTable
     </MtSuspenseBoundary>
   );
 }

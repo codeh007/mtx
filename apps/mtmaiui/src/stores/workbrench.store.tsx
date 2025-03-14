@@ -1,12 +1,5 @@
 "use client";
 
-import type React from "react";
-import { createContext, useContext, useMemo } from "react";
-import { type StateCreator, createStore, useStore } from "zustand";
-import { devtools, subscribeWithSelector } from "zustand/middleware";
-import { immer } from "zustand/middleware/immer";
-import { useShallow } from "zustand/react/shallow";
-
 import type { Client } from "@connectrpc/connect";
 import type { UseNavigateResult } from "@tanstack/react-router";
 import { debounce } from "lodash";
@@ -17,15 +10,18 @@ import { Dispatcher } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
 import { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
 import type { Suggestion } from "mtxuilib/db/schema/suggestion";
 import { generateUUID } from "mtxuilib/lib/utils";
+import type React from "react";
+import { createContext, useContext, useMemo } from "react";
+import { type StateCreator, createStore, useStore } from "zustand";
+import { devtools, subscribeWithSelector } from "zustand/middleware";
+import { immer } from "zustand/middleware/immer";
+import { useShallow } from "zustand/react/shallow";
 import { useTenant } from "../hooks/useAuth";
 import { useNav } from "../hooks/useNav";
 import { useMtmaiV2 } from "./StoreProvider";
 import { useGomtmClient } from "./TransportProvider";
 import { submitMessages } from "./submitMessages";
 
-export interface IAskForm {
-  callback: (data) => void;
-}
 export interface WorkbenchProps {
   some123?: string;
 }
@@ -98,8 +94,6 @@ export interface WorkbrenchState extends WorkbenchProps {
   setOpenWorkbench: (openWorkbench: boolean) => void;
   isOpenWorkbenchChat: boolean;
   setIsOpenWorkbenchChat: (isOpenWorkbenchChat: boolean) => void;
-  // runner?: string;
-  // setRunner: (runner: string) => void;
   isStreaming: boolean;
   setIsStreaming: (isStreaming: boolean) => void;
   firstTokenReceived: boolean;
@@ -109,15 +103,7 @@ export interface WorkbrenchState extends WorkbenchProps {
   setRunId: (runId: string) => void;
   isArtifactSaved: boolean;
   setIsArtifactSaved: (isArtifactSaved: boolean) => void;
-  // selectedArtifact: number;
-  // setSelectedArtifact: (index: number) => void;
-  // selectedBlocks: TextHighlight | undefined;
-  // setSelectedBlocks: (selectedBlocks?: TextHighlight) => void;
   streamMessage: (params: AgentRunInput) => Promise<void>;
-  updateRenderedArtifactRequired: boolean;
-  setUpdateRenderedArtifactRequired: (
-    updateRenderedArtifactRequired: boolean,
-  ) => void;
   artifactContent: string[];
   setArtifactContent: (index: number, content: string) => void;
 }
@@ -194,9 +180,6 @@ export const createWorkbrenchSlice: StateCreator<
     setOpenWorkbench: (openWorkbench: boolean) => {
       set({ openWorkbench });
     },
-    // setRunnerName: (runnerName: string) => {
-    //   set({ runner: runnerName });
-    // },
     setIsStreaming: (isStreaming: boolean) => {
       set({ isStreaming });
     },
@@ -206,21 +189,11 @@ export const createWorkbrenchSlice: StateCreator<
     setRunId: (runId: string) => {
       set({ runId });
     },
-    // setSelectedBlocks: (selectedBlocks: TextHighlight) => {
-    //   set({ selectedBlocks });
-    // },
-    // setSelectedArtifact: (index: number) => {
-    //   set({ selectedArtifact: index });
-    // },
     addMessage: (message: ChatMessage) => {
       const prevMessages = get().messages;
       set({ messages: [...prevMessages, message] });
     },
     agentFlow: DEFAULT_AGENT_FLOW_SETTINGS,
-    // sidebar: {
-    //   isExpanded: true,
-    //   isPinned: false,
-    // },
     ...init,
   };
 };
@@ -235,7 +208,6 @@ const createWordbrenchStore = (initProps?: Partial<WorkbrenchStoreState>) => {
       devtools(
         immer((...a) => ({
           ...createWorkbrenchSlice(...a),
-          // ...createMessageParserSlice(...a),
           ...initProps,
         })),
         {
@@ -250,33 +222,35 @@ const mtmaiStoreContext = createContext<mtappStore | null>(null);
 type AppProviderProps = React.PropsWithChildren<WorkbenchProps>;
 export const WorkbrenchProvider = (props: AppProviderProps) => {
   const { children, ...etc } = props;
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  const mystore = useMemo(() => createWordbrenchStore(etc), [etc]);
+  const nav = useNav();
   const eventClient = useGomtmClient(EventsService);
   const dispatcherClient = useGomtmClient(Dispatcher);
   const agrpcClient = useGomtmClient(AgentRpc);
   const mtmAgClient = useGomtmClient(AgService);
-
-  etc.eventClient = eventClient;
-  etc.eventClient = eventClient;
-  etc.dispatcherClient = dispatcherClient;
-  etc.runtimeClient = agrpcClient;
-
   const selfBackendend = useMtmaiV2((x) => x.selfBackendUrl);
-  if (!selfBackendend) {
-    null;
-  }
-  etc.backendUrl = selfBackendend!;
-
   const tenant = useTenant();
-  if (!tenant) {
-    null;
-  }
-  etc.tenant = tenant!;
-
-  const nav = useNav();
-  etc.nav = nav;
-
+  const mystore = useMemo(
+    () =>
+      createWordbrenchStore({
+        ...etc,
+        nav: nav,
+        tenant: tenant,
+        backendUrl: selfBackendend,
+        eventClient: eventClient,
+        dispatcherClient: dispatcherClient,
+        runtimeClient: agrpcClient,
+        agClient: mtmAgClient,
+      }),
+    [
+      nav,
+      tenant,
+      selfBackendend,
+      eventClient,
+      dispatcherClient,
+      agrpcClient,
+      mtmAgClient,
+    ],
+  );
   return (
     <mtmaiStoreContext.Provider value={mystore}>
       {children}

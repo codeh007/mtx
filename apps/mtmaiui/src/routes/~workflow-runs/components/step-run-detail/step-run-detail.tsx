@@ -1,6 +1,6 @@
 "use client";
 import { ArrowPathIcon, XCircleIcon } from "@heroicons/react/24/outline";
-import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { PlayIcon } from "lucide-react";
 import {
   type StepRun,
@@ -15,6 +15,7 @@ import {
 import { CodeHighlighter } from "mtxuilib/mt/code-highlighter";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import {
   MtTabs,
   MtTabsContent,
@@ -23,13 +24,12 @@ import {
 } from "mtxuilib/mt/tabs";
 import { Button } from "mtxuilib/ui/button";
 import type React from "react";
-import {  useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { RunIndicator } from "../run-statuses";
 import { StepRunEvents } from "../step-run-events-for-workflow-run";
-import { WorkflowRunsTable } from "../workflow-runs-table";
+// import { WorkflowRunsTable } from "../workflow-runs-table.tsx--";
 import { StepRunLogs } from "./step-run-logs";
-import {StepRunOutput} from "./step-run-output";
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
+import { StepRunOutput } from "./step-run-output";
 export enum TabOption {
   Output = "output",
   ChildWorkflowRuns = "child-workflow-runs",
@@ -87,40 +87,38 @@ export const StepRunDetail = ({
   }, [workflowRun, stepRun]);
 
   const rerunStepMutation = useMutation({
-      ...stepRunUpdateRerunMutation(),
-      onMutate: () => {
-        setErrors([]);
-      },
-      onSuccess: (stepRun: StepRun) => {
-        // queryClient.invalidateQueries({
-        //   queryKey: queries.workflowRuns.get(
-        //     stepRun?.tenantId,
-        //     workflowRun.metadata.id,
-        //   ).queryKey,
-        // });
-      },
-      // onError: handleApiError,
+    ...stepRunUpdateRerunMutation(),
+    onMutate: () => {
+      setErrors([]);
     },
-  );
+    onSuccess: (stepRun: StepRun) => {
+      // queryClient.invalidateQueries({
+      //   queryKey: queries.workflowRuns.get(
+      //     stepRun?.tenantId,
+      //     workflowRun.metadata.id,
+      //   ).queryKey,
+      // });
+    },
+    // onError: handleApiError,
+  });
 
   const cancelStepMutation = useMutation({
     ...stepRunUpdateCancelMutation(),
-      onMutate: () => {
-        setErrors([]);
-      },
-      onSuccess: (stepRun: StepRun) => {
-        // queryClient.invalidateQueries({
-        //   queryKey: queries.workflowRuns.get(
-        //     stepRun?.tenantId,
-        //     workflowRun.metadata.id,
-        //   ).queryKey,
-        // });
-
-        getStepRunQuery.refetch();
-      },
-      // onError: handleApiError,
+    onMutate: () => {
+      setErrors([]);
     },
-  );
+    onSuccess: (stepRun: StepRun) => {
+      // queryClient.invalidateQueries({
+      //   queryKey: queries.workflowRuns.get(
+      //     stepRun?.tenantId,
+      //     workflowRun.metadata.id,
+      //   ).queryKey,
+      // });
+
+      getStepRunQuery.refetch();
+    },
+    // onError: handleApiError,
+  });
 
   const stepRunSchemaQuery = useSuspenseQuery({
     ...stepRunGetSchemaOptions({
@@ -163,10 +161,10 @@ export const StepRunDetail = ({
             }
 
             rerunStepMutation.mutate({
-                path: {
-                  tenant: stepRun.tenantId,
-                  "step-run": stepRun.metadata.id,
-                },
+              path: {
+                tenant: stepRun.tenantId,
+                "step-run": stepRun.metadata.id,
+              },
               body: {
                 input: parsedInput as Record<string, never>,
               },
@@ -183,10 +181,10 @@ export const StepRunDetail = ({
           disabled={STEP_RUN_TERMINAL_STATUSES.includes(stepRun.status)}
           onClick={() => {
             cancelStepMutation.mutate({
-                path: {
-                  tenant: stepRun.tenantId,
-                  "step-run": stepRun.metadata.id,
-                },
+              path: {
+                tenant: stepRun.tenantId,
+                "step-run": stepRun.metadata.id,
+              },
             });
           }}
         >
@@ -227,37 +225,52 @@ export const StepRunDetail = ({
           <MtTabsTrigger variant="underlined" value={TabOption.Logs}>
             日志
           </MtTabsTrigger>
-          <MtTabsTrigger variant="underlined" value={TabOption.Events}>事件</MtTabsTrigger>
+          <MtTabsTrigger variant="underlined" value={TabOption.Events}>
+            事件
+          </MtTabsTrigger>
           <MtTabsTrigger variant="underlined" value={TabOption.StepPlayground}>
             输入模式
           </MtTabsTrigger>
         </MtTabsList>
-        <MtTabsContent value={TabOption.Output} className="bg-red-200 p-1 h-full">
+        <MtTabsContent
+          value={TabOption.Output}
+          className="bg-red-200 p-1 h-full"
+        >
           <div className="flex-1 h-full flex">
-          <StepRunOutput stepRun={stepRun} workflowRun={workflowRun} />
+            <StepRunOutput stepRun={stepRun} workflowRun={workflowRun} />
           </div>
         </MtTabsContent>
-        <MtTabsContent value={TabOption.ChildWorkflowRuns} className="bg-green-200 p-1 h-full">
-        <div className="flex-1 h-full flex">
-          <ChildWorkflowRuns
-            tenant={tenant}
-            stepRun={stepRun}
-            workflowRun={workflowRun}
-            refetchInterval={5000}
-          />
-          </div>
-        </MtTabsContent>
-        <MtTabsContent value={TabOption.Input} className="bg-slate-200 p-1 h-full">
+        <MtTabsContent
+          value={TabOption.ChildWorkflowRuns}
+          className="bg-green-200 p-1 h-full"
+        >
           <div className="flex-1 h-full flex">
-          {stepRun.input && (
-            <CodeHighlighter
-              className="my-4 h-[400px] max-h-[400px] overflow-y-auto"
-              maxHeight="400px"
-              minHeight="400px"
-              language="json"
-              code={JSON.stringify(JSON.parse(stepRun?.input || "{}"), null, 2)}
+            <ChildWorkflowRuns
+              tenant={tenant}
+              stepRun={stepRun}
+              workflowRun={workflowRun}
+              refetchInterval={5000}
             />
-          )}
+          </div>
+        </MtTabsContent>
+        <MtTabsContent
+          value={TabOption.Input}
+          className="bg-slate-200 p-1 h-full"
+        >
+          <div className="flex-1 h-full flex">
+            {stepRun.input && (
+              <CodeHighlighter
+                className="my-4 h-[400px] max-h-[400px] overflow-y-auto"
+                maxHeight="400px"
+                minHeight="400px"
+                language="json"
+                code={JSON.stringify(
+                  JSON.parse(stepRun?.input || "{}"),
+                  null,
+                  2,
+                )}
+              />
+            )}
           </div>
         </MtTabsContent>
         <MtTabsContent value={TabOption.Logs}>
@@ -288,7 +301,7 @@ export const StepRunDetail = ({
             <PlayIcon className="size-4" />
           </Button>
         </MtTabsContent>
-      </MtTabs>     
+      </MtTabs>
     </div>
   );
 };
@@ -361,13 +374,12 @@ const StepRunSummary: React.FC<{ data: StepRun }> = ({ data }) => {
   return (
     <div className="flex flex-row gap-4 items-center">
       {interleavedTimings}
-      {
-        data.finishedAtEpoch && data.startedAtEpoch && (
-          <div className="text-sm text-muted-foreground">
-            耗时 {Math.floor((data.finishedAtEpoch - data.startedAtEpoch) / 1000)}秒
-          </div>
-        )
-      }
+      {data.finishedAtEpoch && data.startedAtEpoch && (
+        <div className="text-sm text-muted-foreground">
+          耗时 {Math.floor((data.finishedAtEpoch - data.startedAtEpoch) / 1000)}
+          秒
+        </div>
+      )}
     </div>
   );
 };
@@ -385,7 +397,7 @@ export function ChildWorkflowRuns({
 }) {
   return (
     <MtSuspenseBoundary>
-      <WorkflowRunsTable
+      {/* <WorkflowRunsTable
         tenant={tenant}
         parentWorkflowRunId={workflowRun.metadata.id}
         parentStepRunId={stepRun?.metadata.id}
@@ -393,8 +405,9 @@ export function ChildWorkflowRuns({
         initColumnVisibility={{
           "Triggered by": false,
         }}
-          createdAfter={stepRun?.metadata.createdAt}
-        />
+        createdAfter={stepRun?.metadata.createdAt}
+      /> */}
+      WorkflowRunsTable
     </MtSuspenseBoundary>
   );
 }

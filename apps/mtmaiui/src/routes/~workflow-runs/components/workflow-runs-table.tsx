@@ -21,7 +21,6 @@ import { useEffect, useMemo, useState } from "react";
 import {
   type ReplayWorkflowRunsRequest,
   type Tenant,
-  type WorkflowRun,
   WorkflowRunOrderByDirection,
   WorkflowRunOrderByField,
   WorkflowRunStatus,
@@ -38,9 +37,8 @@ import {
   type ToolbarFilters,
   ToolbarType,
 } from "mtxuilib/data-table/data-table-toolbar";
-import { useMtRouter } from "mtxuilib/hooks/use-router";
+// import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { getCreatedAfterFromTimeRange } from "mtxuilib/lib/utils";
-import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button } from "mtxuilib/ui/button";
 import {
   Dialog,
@@ -60,6 +58,7 @@ import { Skeleton } from "mtxuilib/ui/skeleton";
 import { useTenantId } from "../../../hooks/useAuth";
 import { useMtmaiV2 } from "../../../stores/StoreProvider";
 import type { AdditionalMetadataClick } from "../../~events/additional-metadata";
+import { WorkflowRunsSideBarItem } from "./WorkflowRunsSideBarItem";
 import { workflowRunsColumns } from "./workflow-runs-columns";
 import { WorkflowRunsMetricsView } from "./workflow-runs-metrics";
 export interface WorkflowRunsTableProps {
@@ -89,7 +88,7 @@ export function WorkflowRunsTable({
   viewType = "table",
 }: WorkflowRunsTableProps) {
   const searchParams = useSearchParams();
-  const router = useMtRouter();
+  // const router = useMtRouter();
 
   const [viewQueueMetrics, setViewQueueMetrics] = useState(false);
 
@@ -197,14 +196,14 @@ export function WorkflowRunsTable({
     }
 
     if (newSearchParams.toString() !== searchParams.toString()) {
-      router.setSearchParams(newSearchParams);
+      // router.setSearchParams(newSearchParams);
     }
   }, [
     sorting,
     columnFilters,
     pagination,
     customTimeRange,
-    router.setSearchParams,
+    // router.setSearchParams,
     searchParams,
   ]);
 
@@ -551,37 +550,42 @@ export function WorkflowRunsTable({
             </Dialog>
           )}
           {!createdAfterProp && (
-            <div className="flex flex-row justify-end items-center gap-2">
-              {customTimeRange && [
-                <Button
-                  key="clear"
-                  onClick={() => {
-                    setCustomTimeRange(undefined);
-                  }}
-                  variant="outline"
-                  size="sm"
-                  className="text-xs h-9 py-2"
-                >
-                  <XCircleIcon className="h-[18px] w-[18px] mr-2" />
-                  清除
-                </Button>,
-                <DateTimePicker
-                  key="after"
-                  label="After"
-                  date={createdAfter ? new Date(createdAfter) : undefined}
-                  setDate={(date) => {
-                    setCreatedAfter(date?.toISOString());
-                  }}
-                />,
-                <DateTimePicker
-                  key="before"
-                  label="Before"
-                  date={finishedBefore ? new Date(finishedBefore) : undefined}
-                  setDate={(date) => {
-                    setFinishedBefore(date?.toISOString());
-                  }}
-                />,
-              ]}
+            <>
+              {customTimeRange && (
+                <div className="flex flex-row justify-end items-center gap-2">
+                  <Button
+                    key="clear"
+                    onClick={() => {
+                      setCustomTimeRange(undefined);
+                    }}
+                    variant="outline"
+                    size="sm"
+                    className="text-xs h-9 py-2"
+                  >
+                    <XCircleIcon className="h-[18px] w-[18px] mr-2" />
+                    清除
+                  </Button>
+                  ,
+                  <DateTimePicker
+                    key="after"
+                    label="After"
+                    date={createdAfter ? new Date(createdAfter) : undefined}
+                    setDate={(date) => {
+                      setCreatedAfter(date?.toISOString());
+                    }}
+                  />
+                  ,
+                  <DateTimePicker
+                    key="before"
+                    label="Before"
+                    date={finishedBefore ? new Date(finishedBefore) : undefined}
+                    setDate={(date) => {
+                      setFinishedBefore(date?.toISOString());
+                    }}
+                  />
+                  ,
+                </div>
+              )}
               <Select
                 value={customTimeRange ? "custom" : defaultTimeRange}
                 onValueChange={(value) => {
@@ -610,7 +614,7 @@ export function WorkflowRunsTable({
                   <SelectItem value="custom">Custom</SelectItem>
                 </SelectContent>
               </Select>
-            </div>
+            </>
           )}
           <div className="flex flex-row justify-between items-center my-4">
             {metricsQuery.data ? (
@@ -691,25 +695,3 @@ export function WorkflowRunsTable({
     </>
   );
 }
-
-interface WorkflowRunsSideBarItemProps {
-  workflowRun: WorkflowRun;
-}
-const WorkflowRunsSideBarItem = ({
-  workflowRun,
-}: WorkflowRunsSideBarItemProps) => {
-  return (
-    <div className="flex flex-col gap-2">
-      <div className="text-base font-medium text-foreground bg-amber-100 p-2">
-        <div>
-          <CustomLink to={`${workflowRun.metadata.id}`} className="text-sm">
-            <span className="font-semibold">ID:</span> {workflowRun.metadata.id}
-          </CustomLink>
-        </div>
-        <div>
-          <span className="font-semibold">Status:</span> {workflowRun.status}
-        </div>
-      </div>
-    </div>
-  );
-};

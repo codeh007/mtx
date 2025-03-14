@@ -42,11 +42,14 @@ export async function submitMessages(
         sessionId: threadId,
         topic: "default",
         source: "web",
-        resourceId: resourceId,
+        // resourceId: resourceId,
         componentId: componentId,
       } satisfies AgentRunInput,
       additionalMetadata: {
         sessionId: threadId,
+        componentId: componentId,
+        source: "web",
+        topic: "default",
       },
     },
   });

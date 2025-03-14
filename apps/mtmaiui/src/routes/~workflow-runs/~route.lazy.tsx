@@ -1,5 +1,6 @@
 "use client";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { useTenant } from "../../hooks/useAuth";
 import { RootAppWrapper } from "../components/RootAppWrapper";
 import { NavWorkflowRuns } from "./siderbar";
@@ -14,16 +15,9 @@ function RouteComponent() {
   }
   return (
     <RootAppWrapper secondSidebar={<NavWorkflowRuns />}>
-      {/* <DashHeaders>
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbPage>运行记录</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </DashHeaders> */}
-      <Outlet />
+      <MtSuspenseBoundary>
+        <Outlet />
+      </MtSuspenseBoundary>
     </RootAppWrapper>
   );
 }
