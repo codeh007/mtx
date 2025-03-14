@@ -2391,9 +2391,7 @@ export const zMtComponent = zApiResourceMetaProperties.merge(
     description: z.string(),
     version: z.number().int().default(1),
     componentVersion: z.number().int().default(1),
-    config: z.object({}),
-    galleryId: z.string().optional(),
-    component: z.union([
+    config: z.union([
       zTerminationComponent,
       z
         .object({
@@ -2800,6 +2798,7 @@ export const zMtComponent = zApiResourceMetaProperties.merge(
           }),
         ),
     ]),
+    galleryId: z.string().optional(),
   }),
 );
 
@@ -2814,9 +2813,7 @@ export const zMtComponentProperties = z.object({
   description: z.string(),
   version: z.number().int().default(1),
   componentVersion: z.number().int().default(1),
-  config: z.object({}),
-  galleryId: z.string().optional(),
-  component: z.union([
+  config: z.union([
     zTerminationComponent,
     z
       .object({
@@ -3217,6 +3214,7 @@ export const zMtComponentProperties = z.object({
         }),
       ),
   ]),
+  galleryId: z.string().optional(),
 });
 
 export const zComponentModel = z.object({

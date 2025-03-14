@@ -3749,7 +3749,6 @@ export const MtComponentListSchema = {
 export const MtComponentPropertiesSchema = {
   required: [
     "componentType",
-    "component",
     "label",
     "description",
     "version",
@@ -3775,13 +3774,6 @@ export const MtComponentPropertiesSchema = {
       default: 1,
     },
     config: {
-      type: "object",
-      additionalProperties: true,
-    },
-    galleryId: {
-      type: "string",
-    },
-    component: {
       oneOf: [
         {
           $ref: "#/components/schemas/TerminationComponent",
@@ -3802,6 +3794,9 @@ export const MtComponentPropertiesSchema = {
           $ref: "#/components/schemas/InstagramTeamComponent",
         },
       ],
+    },
+    galleryId: {
+      type: "string",
     },
   },
 } as const;

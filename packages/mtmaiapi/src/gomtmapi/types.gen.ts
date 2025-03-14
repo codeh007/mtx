@@ -2104,17 +2104,14 @@ export type MtComponentProperties = {
   description: string;
   version: number;
   componentVersion: number;
-  config: {
-    [key: string]: unknown;
-  };
-  galleryId?: string;
-  component:
+  config:
     | TerminationComponent
     | AgentComponent
     | InstagramAgentComponent
     | RoundRobinGroupChatComponent
     | SelectorGroupChatComponent
     | InstagramTeamComponent;
+  galleryId?: string;
 };
 
 export type ComponentModel = {

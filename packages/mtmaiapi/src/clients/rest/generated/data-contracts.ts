@@ -1777,15 +1777,14 @@ export interface MtComponentProperties {
   version: number;
   /** @default 1 */
   componentVersion: number;
-  config: Record<string, any>;
-  galleryId?: string;
-  component:
+  config:
     | TerminationComponent
     | AgentComponent
     | InstagramAgentComponent
     | RoundRobinGroupChatComponent
     | SelectorGroupChatComponent
     | InstagramTeamComponent;
+  galleryId?: string;
 }
 
 export interface ComponentModel {
