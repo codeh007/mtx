@@ -11,12 +11,15 @@ import type { Client } from "@connectrpc/connect";
 import type { UseNavigateResult } from "@tanstack/react-router";
 import { debounce } from "lodash";
 import type { AgentRunInput, ChatMessage, Tenant } from "mtmaiapi";
-import type { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
-import type { AgentRpc } from "mtmaiapi/mtmclient/mtmai/mtmpb/agent_worker_pb";
-import type { Dispatcher } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
+import { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
+import { AgentRpc } from "mtmaiapi/mtmclient/mtmai/mtmpb/agent_worker_pb";
+import { Dispatcher } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
 import { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
 import type { Suggestion } from "mtxuilib/db/schema/suggestion";
 import { generateUUID } from "mtxuilib/lib/utils";
+import { useTenant } from "../hooks/useAuth";
+import { useNav } from "../hooks/useNav";
+import { useMtmaiV2 } from "./StoreProvider";
 import { useGomtmClient } from "./TransportProvider";
 import { submitMessages } from "./submitMessages";
 
@@ -24,17 +27,7 @@ export interface IAskForm {
   callback: (data) => void;
 }
 export interface WorkbenchProps {
-  backendUrl: string;
-  accessToken?: string;
-  params?: Record<string, any>;
-  openDebugPanel?: boolean;
-  threadId?: string;
-  tenant: Tenant;
-  agClient: Client<typeof AgService>;
-  runtimeClient: Client<typeof AgentRpc>;
-  eventClient: Client<typeof EventsService>;
-  dispatcherClient: Client<typeof Dispatcher>;
-  nav: UseNavigateResult<string>;
+  some123?: string;
 }
 export type StreamingDelta = {
   type: "text-delta" | "title" | "id" | "suggestion" | "clear" | "finish";
@@ -50,6 +43,17 @@ const DEFAULT_AGENT_FLOW_SETTINGS = {
 };
 
 export interface WorkbrenchState extends WorkbenchProps {
+  backendUrl: string;
+  accessToken?: string;
+  params?: Record<string, any>;
+  openDebugPanel?: boolean;
+  threadId?: string;
+  tenant: Tenant;
+  agClient: Client<typeof AgService>;
+  runtimeClient: Client<typeof AgentRpc>;
+  eventClient: Client<typeof EventsService>;
+  dispatcherClient: Client<typeof Dispatcher>;
+  nav: UseNavigateResult<string>;
   setThreadId: (threadId?: string) => void;
   setOpenDebugPanel: (openDebugPanel: boolean) => void;
   workbenchViewProps?: Record<string, any>;
@@ -77,7 +81,6 @@ export interface WorkbrenchState extends WorkbenchProps {
   setInput: (input: string) => void;
   handleHumanInput: (input: AgentRunInput) => void;
   handleEvents: (eventName: string, data: any) => void;
-  // chatBotType: "";
   subscribeEvents: (options: {
     runId: string;
   }) => void;
@@ -250,7 +253,30 @@ export const WorkbrenchProvider = (props: AppProviderProps) => {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const mystore = useMemo(() => createWordbrenchStore(etc), [etc]);
   const eventClient = useGomtmClient(EventsService);
+  const dispatcherClient = useGomtmClient(Dispatcher);
+  const agrpcClient = useGomtmClient(AgentRpc);
+  const mtmAgClient = useGomtmClient(AgService);
+
   etc.eventClient = eventClient;
+  etc.eventClient = eventClient;
+  etc.dispatcherClient = dispatcherClient;
+  etc.runtimeClient = agrpcClient;
+
+  const selfBackendend = useMtmaiV2((x) => x.selfBackendUrl);
+  if (!selfBackendend) {
+    null;
+  }
+  etc.backendUrl = selfBackendend!;
+
+  const tenant = useTenant();
+  if (!tenant) {
+    null;
+  }
+  etc.tenant = tenant!;
+
+  const nav = useNav();
+  etc.nav = nav;
+
   return (
     <mtmaiStoreContext.Provider value={mystore}>
       {children}
