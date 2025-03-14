@@ -565,7 +565,7 @@ export function WorkflowRunsTable({
                     <XCircleIcon className="h-[18px] w-[18px] mr-2" />
                     清除
                   </Button>
-                  ,
+
                   <DateTimePicker
                     key="after"
                     label="After"
@@ -574,7 +574,6 @@ export function WorkflowRunsTable({
                       setCreatedAfter(date?.toISOString());
                     }}
                   />
-                  ,
                   <DateTimePicker
                     key="before"
                     label="Before"
@@ -583,7 +582,6 @@ export function WorkflowRunsTable({
                       setFinishedBefore(date?.toISOString());
                     }}
                   />
-                  ,
                 </div>
               )}
               <Select
