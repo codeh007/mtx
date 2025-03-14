@@ -1722,16 +1722,6 @@ export type RoundRobinGroupChatComponent = ComponentModel & {
   config: RoundRobinGroupChatConfig;
 };
 
-export type TerminationComponent = ComponentModel & {
-  componentType: "termination";
-  config: TerminationConfig;
-};
-
-export interface TerminationConfig {
-  termination_type?: TerminationTypes;
-  conditions?: TerminationConditions[];
-}
-
 export interface AgStateProperties {
   /** @default "1.0.0" */
   version?: string;
@@ -2137,16 +2127,18 @@ export interface NodeRunAction {
 
 export interface RoundRobinGroupChatConfig {
   participants: AgentComponent[];
-  termination_condition: TerminationComponent;
+  termination_condition: TextMentionTerminationComponent;
 }
 
 export interface SelectorGroupChatConfig {
   participants: AgentComponent[];
-  termination_condition: TerminationComponent;
+  termination_condition: TextMentionTerminationComponent;
   model_client?: ModelComponent;
 }
 
 export type MaxMessageTerminationConfigComponent = ComponentModel & {
+  componentType: "termination";
+  provider: "autogen_agentchat.conditions.MaxMessageTermination";
   config: MaxMessageTerminationConfig;
 };
 
@@ -2156,17 +2148,14 @@ export type MaxMessageTerminationConfig = {
 };
 
 export type TextMentionTerminationComponent = ComponentModel & {
-  config?: TextMentionTerminationConfig;
-  componentType?: "termination";
+  componentType: "termination";
+  provider: "autogen_agentchat.conditions.TextMentionTermination";
+  config: TextMentionTerminationConfig;
 };
 
 export interface TextMentionTerminationConfig {
   text: string;
 }
-
-export type TerminationConditions =
-  | MaxMessageTerminationConfigComponent
-  | TextMentionTerminationComponent;
 
 export type InstagramAgentComponent = AgentComponent & {
   provider: "mtmai.agents.instagram_agent.InstagramAgent";
@@ -2688,7 +2677,7 @@ export type InstagramTeamComponent = ComponentModel & {
 
 export interface InstagramTeamConfig {
   participants: InstagramAgentComponent[];
-  termination_condition: TerminationComponent;
+  termination_condition: TextMentionTerminationComponent;
 }
 
 /** 浏览器配置(未完成) */

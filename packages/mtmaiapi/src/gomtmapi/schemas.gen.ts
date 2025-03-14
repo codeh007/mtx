@@ -2930,7 +2930,7 @@ export const CommonResultSchema = {
     other: {
       anyof: [
         {
-          $ref: "#/components/schemas/TerminationComponent",
+          $ref: "#/components/schemas/TextMentionTerminationComponent",
         },
         {
           $ref: "#/components/schemas/AgentComponent",
@@ -3625,41 +3625,6 @@ export const RoundRobinGroupChatComponentSchema = {
       },
     },
   ],
-} as const;
-
-export const TerminationComponentSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/ComponentModel",
-    },
-    {
-      properties: {
-        componentType: {
-          type: "string",
-          enum: ["termination"],
-        },
-        config: {
-          $ref: "#/components/schemas/TerminationConfig",
-        },
-      },
-      required: ["config", "componentType"],
-    },
-  ],
-} as const;
-
-export const TerminationConfigSchema = {
-  properties: {
-    termination_type: {
-      type: "string",
-      $ref: "#/components/schemas/TerminationTypes",
-    },
-    conditions: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/TerminationConditions",
-      },
-    },
-  },
 } as const;
 
 export const AgStatePropertiesSchema = {
@@ -4726,7 +4691,7 @@ export const RoundRobinGroupChatConfigSchema = {
       },
     },
     termination_condition: {
-      $ref: "#/components/schemas/TerminationComponent",
+      $ref: "#/components/schemas/TextMentionTerminationComponent",
     },
   },
 } as const;
@@ -4741,7 +4706,7 @@ export const SelectorGroupChatConfigSchema = {
       },
     },
     termination_condition: {
-      $ref: "#/components/schemas/TerminationComponent",
+      $ref: "#/components/schemas/TextMentionTerminationComponent",
     },
     model_client: {
       $ref: "#/components/schemas/ModelComponent",
@@ -4755,8 +4720,16 @@ export const MaxMessageTerminationConfigComponentSchema = {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
-      required: ["config"],
+      required: ["config", "componentType", "provider"],
       properties: {
+        componentType: {
+          type: "string",
+          enum: ["termination"],
+        },
+        provider: {
+          type: "string",
+          enum: ["autogen_agentchat.conditions.MaxMessageTermination"],
+        },
         config: {
           $ref: "#/components/schemas/MaxMessageTerminationConfig",
         },
@@ -4788,13 +4761,18 @@ export const TextMentionTerminationComponentSchema = {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
+      required: ["provider", "config", "componentType"],
       properties: {
-        config: {
-          $ref: "#/components/schemas/TextMentionTerminationConfig",
-        },
         componentType: {
           type: "string",
           enum: ["termination"],
+        },
+        provider: {
+          type: "string",
+          enum: ["autogen_agentchat.conditions.TextMentionTermination"],
+        },
+        config: {
+          $ref: "#/components/schemas/TextMentionTerminationConfig",
         },
       },
     },
@@ -4808,17 +4786,6 @@ export const TextMentionTerminationConfigSchema = {
       type: "string",
     },
   },
-} as const;
-
-export const TerminationConditionsSchema = {
-  oneOf: [
-    {
-      $ref: "#/components/schemas/MaxMessageTerminationConfigComponent",
-    },
-    {
-      $ref: "#/components/schemas/TextMentionTerminationComponent",
-    },
-  ],
 } as const;
 
 export const InstagramAgentComponentSchema = {
@@ -6162,7 +6129,7 @@ export const InstagramTeamConfigSchema = {
       },
     },
     termination_condition: {
-      $ref: "#/components/schemas/TerminationComponent",
+      $ref: "#/components/schemas/TextMentionTerminationComponent",
     },
   },
 } as const;

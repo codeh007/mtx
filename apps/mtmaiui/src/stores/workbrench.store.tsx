@@ -14,9 +14,10 @@ import type { AgentRunInput, ChatMessage, Tenant } from "mtmaiapi";
 import type { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
 import type { AgentRpc } from "mtmaiapi/mtmclient/mtmai/mtmpb/agent_worker_pb";
 import type { Dispatcher } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
-import type { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
+import { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
 import type { Suggestion } from "mtxuilib/db/schema/suggestion";
 import { generateUUID } from "mtxuilib/lib/utils";
+import { useGomtmClient } from "./TransportProvider";
 import { submitMessages } from "./submitMessages";
 
 export interface IAskForm {
@@ -248,6 +249,8 @@ export const WorkbrenchProvider = (props: AppProviderProps) => {
   const { children, ...etc } = props;
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const mystore = useMemo(() => createWordbrenchStore(etc), [etc]);
+  const eventClient = useGomtmClient(EventsService);
+  etc.eventClient = eventClient;
   return (
     <mtmaiStoreContext.Provider value={mystore}>
       {children}

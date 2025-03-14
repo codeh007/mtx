@@ -2040,16 +2040,6 @@ export type RoundRobinGroupChatComponent = ComponentModel & {
   config: RoundRobinGroupChatConfig;
 };
 
-export type TerminationComponent = ComponentModel & {
-  componentType: "termination";
-  config: TerminationConfig;
-};
-
-export type TerminationConfig = {
-  termination_type?: TerminationTypes;
-  conditions?: Array<TerminationConditions>;
-};
-
 export type AgStateProperties = {
   version?: string;
   type?: string;
@@ -2578,16 +2568,18 @@ export type NodeRunAction = {
 
 export type RoundRobinGroupChatConfig = {
   participants: Array<AgentComponent>;
-  termination_condition: TerminationComponent;
+  termination_condition: TextMentionTerminationComponent;
 };
 
 export type SelectorGroupChatConfig = {
   participants: Array<AgentComponent>;
-  termination_condition: TerminationComponent;
+  termination_condition: TextMentionTerminationComponent;
   model_client?: ModelComponent;
 };
 
 export type MaxMessageTerminationConfigComponent = ComponentModel & {
+  componentType: "termination";
+  provider: "autogen_agentchat.conditions.MaxMessageTermination";
   config: MaxMessageTerminationConfig;
 };
 
@@ -2597,17 +2589,14 @@ export type MaxMessageTerminationConfig = {
 };
 
 export type TextMentionTerminationComponent = ComponentModel & {
-  config?: TextMentionTerminationConfig;
-  componentType?: "termination";
+  componentType: "termination";
+  provider: "autogen_agentchat.conditions.TextMentionTermination";
+  config: TextMentionTerminationConfig;
 };
 
 export type TextMentionTerminationConfig = {
   text: string;
 };
-
-export type TerminationConditions =
-  | MaxMessageTerminationConfigComponent
-  | TextMentionTerminationComponent;
 
 export type InstagramAgentComponent = AgentComponent & {
   provider: "mtmai.agents.instagram_agent.InstagramAgent";
@@ -3238,7 +3227,7 @@ export type InstagramTeamComponent = ComponentModel & {
 
 export type InstagramTeamConfig = {
   participants: Array<InstagramAgentComponent>;
-  termination_condition: TerminationComponent;
+  termination_condition: TextMentionTerminationComponent;
 };
 
 /**
