@@ -1484,7 +1484,7 @@ export const zChatMessageList = z.object({
             }),
           )
           .optional(),
-        task: z.string(),
+        task: z.string().optional(),
         participants: z.array(
           z
             .object({
@@ -2061,7 +2061,7 @@ export const zChatMessageList = z.object({
               }),
             )
             .optional(),
-          task: z.string(),
+          task: z.string().optional(),
           participants: z.array(
             z
               .object({
@@ -3128,7 +3128,7 @@ export const zChatMessageList = z.object({
                     }),
                   )
                   .optional(),
-                task: z.string(),
+                task: z.string().optional(),
                 participants: z.array(
                   z
                     .object({
@@ -3991,7 +3991,7 @@ export const zChatMessageList = z.object({
                             }),
                           )
                           .optional(),
-                        task: z.string(),
+                        task: z.string().optional(),
                         participants: z.array(
                           z
                             .object({
@@ -4479,9 +4479,6 @@ export const zAgentRunInput = z.object({
         task: z.string().optional(),
         code: z.string().optional(),
         review: z.string().optional(),
-      }),
-      z.object({
-        content: z.string().optional(),
       }),
       z.object({
         id: z.string().optional(),
@@ -5083,7 +5080,7 @@ export const zTeamComponent = z
               }),
             )
             .optional(),
-          task: z.string(),
+          task: z.string().optional(),
           participants: z.array(
             z
               .object({
@@ -5653,7 +5650,7 @@ export const zTeamConfig = z.union([
         }),
       )
       .optional(),
-    task: z.string(),
+    task: z.string().optional(),
     participants: z.array(
       z
         .object({
@@ -6028,7 +6025,7 @@ export const zMtComponentList = z.object({
         max_turns: z.number().int().optional(),
         max_tokens: z.number().optional(),
         termination_condition: zTerminationComponent.optional(),
-        task: z.string(),
+        task: z.string().optional(),
         participants: z.array(
           z
             .object({
@@ -6537,14 +6534,6 @@ export const zFlowNames = z.enum([
   "tenant",
   "news",
 ]);
-
-export const zScrapeGraphParams = z.object({
-  input: z.string().optional(),
-});
-
-export const zBrowserParams = z.object({
-  input: z.string().optional(),
-});
 
 export const zTerminationTypes = z.enum([
   "MaxMessageTermination",
@@ -7341,10 +7330,6 @@ export const zCodeWritingResult = z.object({
   review: z.string().optional(),
 });
 
-export const zMyMessage = z.object({
-  content: z.string().optional(),
-});
-
 export const zPlatformAccountTask = z.object({
   id: z.string().optional(),
   task: z.string().optional(),
@@ -7406,7 +7391,7 @@ export const zInstagramTeamConfig = z.object({
   max_turns: z.number().int().optional(),
   max_tokens: z.number().optional(),
   termination_condition: zTerminationComponent.optional(),
-  task: z.string(),
+  task: z.string().optional(),
   participants: z.array(
     zComponentModel.merge(
       z.object({

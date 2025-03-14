@@ -1627,7 +1627,6 @@ export interface AgentRunInput {
   other?:
     | CodeWritingTask
     | CodeWritingResult
-    | MyMessage
     | PlatformAccountTask
     | BrowserData
     | PlatformAccountData
@@ -1925,14 +1924,6 @@ export enum FlowNames {
   Browser = "browser",
   Tenant = "tenant",
   News = "news",
-}
-
-export interface ScrapeGraphParams {
-  input?: string;
-}
-
-export interface BrowserParams {
-  input?: string;
 }
 
 export enum TerminationTypes {
@@ -2648,10 +2639,6 @@ export interface CodeWritingResult {
   review?: string;
 }
 
-export interface MyMessage {
-  content?: string;
-}
-
 export interface PlatformAccountTask {
   id?: string;
   task?: string;
@@ -2715,7 +2702,7 @@ export interface InstagramTeamConfig {
   max_turns?: number;
   max_tokens?: number;
   termination_condition?: TerminationComponent;
-  task: string;
+  task?: string;
   participants: AgentComponent[];
 }
 

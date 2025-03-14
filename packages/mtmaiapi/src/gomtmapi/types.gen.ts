@@ -1902,7 +1902,6 @@ export type AgentRunInput = {
   other?:
     | CodeWritingTask
     | CodeWritingResult
-    | MyMessage
     | PlatformAccountTask
     | BrowserData
     | PlatformAccountData
@@ -2301,14 +2300,6 @@ export const FlowNames = {
   TENANT: "tenant",
   NEWS: "news",
 } as const;
-
-export type ScrapeGraphParams = {
-  input?: string;
-};
-
-export type BrowserParams = {
-  input?: string;
-};
 
 export type TerminationTypes =
   | "MaxMessageTermination"
@@ -3190,10 +3181,6 @@ export type CodeWritingResult = {
   review?: string;
 };
 
-export type MyMessage = {
-  content?: string;
-};
-
 export type PlatformAccountTask = {
   id?: string;
   task?: string;
@@ -3261,7 +3248,7 @@ export type InstagramTeamConfig = {
   max_turns?: number;
   max_tokens?: number;
   termination_condition?: TerminationComponent;
-  task: string;
+  task?: string;
   participants: Array<AgentComponent>;
 };
 

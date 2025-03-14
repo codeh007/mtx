@@ -3384,9 +3384,6 @@ export const AgentRunInputSchema = {
           $ref: "#/components/schemas/CodeWritingResult",
         },
         {
-          $ref: "#/components/schemas/MyMessage",
-        },
-        {
           $ref: "#/components/schemas/PlatformAccountTask",
         },
         {
@@ -4156,22 +4153,6 @@ export const AgentNodeUpdateRequestSchema = {
 export const FlowNamesSchema = {
   type: "string",
   enum: ["assisant", "ag", "browser", "tenant", "news"],
-} as const;
-
-export const ScrapeGraphParamsSchema = {
-  properties: {
-    input: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const BrowserParamsSchema = {
-  properties: {
-    input: {
-      type: "string",
-    },
-  },
 } as const;
 
 export const TerminationTypesSchema = {
@@ -6026,14 +6007,6 @@ export const CodeWritingResultSchema = {
   },
 } as const;
 
-export const MyMessageSchema = {
-  properties: {
-    content: {
-      type: "string",
-    },
-  },
-} as const;
-
 export const PlatformAccountTaskSchema = {
   properties: {
     id: {
@@ -6177,7 +6150,7 @@ export const BrowserOpenTaskSchema = {
 } as const;
 
 export const InstagramTeamConfigSchema = {
-  required: ["task", "participants", "configType"],
+  required: ["participants", "configType"],
   properties: {
     configType: {
       type: "string",
