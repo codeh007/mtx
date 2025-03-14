@@ -2172,8 +2172,8 @@ export type TerminationConditions =
   | TextMentionTerminationComponent;
 
 export type InstagramAgentComponent = AgentComponent & {
+  provider: "mtmai.agents.instagram_agent.InstagramAgent";
   config: InstagramAgentConfig;
-  componentType: "agent";
 };
 
 export type InstagramAgentConfig = AgentConfig & {
@@ -2184,6 +2184,11 @@ export enum TeamTypes {
   RoundRobinGroupChat = "RoundRobinGroupChat",
   SelectorGroupChat = "SelectorGroupChat",
   MagenticOneGroupChat = "MagenticOneGroupChat",
+  InstagramTeam = "InstagramTeam",
+}
+
+export interface ModelContext {
+  some?: string;
 }
 
 /**
@@ -2681,14 +2686,11 @@ export interface BrowserOpenTask {
   url: string;
 }
 
-export type InstagramTeamConfig = {
-  configType: "InstagramTeamConfig";
-  max_turns?: number;
-  max_tokens?: number;
-  termination_condition?: TerminationComponent;
-  task?: string;
-  participants?: (AgentComponent | InstagramAgentComponent)[];
-};
+export interface InstagramTeamConfig {
+  participants: AgentComponent[];
+  termination_condition: TerminationComponent;
+  model_client?: ModelComponent;
+}
 
 /** 浏览器配置(未完成) */
 export interface BrowserConfig {
@@ -2696,8 +2698,8 @@ export interface BrowserConfig {
 }
 
 export type AgentComponent = ComponentModel & {
-  config: AgentConfig;
   componentType: "agent";
+  config: AgentConfig;
 };
 
 export interface AgentConfig {

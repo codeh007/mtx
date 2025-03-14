@@ -2609,8 +2609,8 @@ export type TerminationConditions =
   | TextMentionTerminationComponent;
 
 export type InstagramAgentComponent = AgentComponent & {
+  provider: "mtmai.agents.instagram_agent.InstagramAgent";
   config: InstagramAgentConfig;
-  componentType: "agent";
 };
 
 export type InstagramAgentConfig = AgentConfig & {
@@ -2620,13 +2620,19 @@ export type InstagramAgentConfig = AgentConfig & {
 export type TeamTypes =
   | "RoundRobinGroupChat"
   | "SelectorGroupChat"
-  | "MagenticOneGroupChat";
+  | "MagenticOneGroupChat"
+  | "InstagramTeam";
 
 export const TeamTypes = {
   ROUND_ROBIN_GROUP_CHAT: "RoundRobinGroupChat",
   SELECTOR_GROUP_CHAT: "SelectorGroupChat",
   MAGENTIC_ONE_GROUP_CHAT: "MagenticOneGroupChat",
+  INSTAGRAM_TEAM: "InstagramTeam",
 } as const;
+
+export type ModelContext = {
+  some?: string;
+};
 
 export type TenantParameter = string;
 
@@ -3227,12 +3233,9 @@ export type BrowserOpenTask = {
 };
 
 export type InstagramTeamConfig = {
-  configType: "InstagramTeamConfig";
-  max_turns?: number;
-  max_tokens?: number;
-  termination_condition?: TerminationComponent;
-  task?: string;
-  participants?: Array<AgentComponent | InstagramAgentComponent>;
+  participants: Array<AgentComponent>;
+  termination_condition: TerminationComponent;
+  model_client?: ModelComponent;
 };
 
 /**
@@ -3243,8 +3246,8 @@ export type BrowserConfig = {
 };
 
 export type AgentComponent = ComponentModel & {
-  config: AgentConfig;
   componentType: "agent";
+  config: AgentConfig;
 };
 
 export type AgentConfig = {

@@ -4810,14 +4810,14 @@ export const InstagramAgentComponentSchema = {
       $ref: "#/components/schemas/AgentComponent",
     },
     {
-      required: ["config", "componentType"],
+      required: ["config", "provider"],
       properties: {
+        provider: {
+          type: "string",
+          enum: ["mtmai.agents.instagram_agent.InstagramAgent"],
+        },
         config: {
           $ref: "#/components/schemas/InstagramAgentConfig",
-        },
-        componentType: {
-          type: "string",
-          enum: ["agent"],
         },
       },
     },
@@ -4843,7 +4843,20 @@ export const InstagramAgentConfigSchema = {
 
 export const TeamTypesSchema = {
   type: "string",
-  enum: ["RoundRobinGroupChat", "SelectorGroupChat", "MagenticOneGroupChat"],
+  enum: [
+    "RoundRobinGroupChat",
+    "SelectorGroupChat",
+    "MagenticOneGroupChat",
+    "InstagramTeam",
+  ],
+} as const;
+
+export const ModelContextSchema = {
+  properties: {
+    some: {
+      type: "string",
+    },
+  },
 } as const;
 
 export const TenantParameterSchema = {
@@ -6112,42 +6125,25 @@ export const BrowserOpenTaskSchema = {
 } as const;
 
 export const InstagramTeamConfigSchema = {
-  allOf: [
-    {
-      required: ["configType"],
-      properties: {
-        configType: {
-          type: "string",
-          enum: ["InstagramTeamConfig"],
-        },
-        max_turns: {
-          type: "integer",
-        },
-        max_tokens: {
-          type: "number",
-        },
-        termination_condition: {
-          $ref: "#/components/schemas/TerminationComponent",
-        },
-        task: {
-          type: "string",
-        },
-        participants: {
-          type: "array",
-          items: {
-            oneOf: [
-              {
-                $ref: "#/components/schemas/AgentComponent",
-              },
-              {
-                $ref: "#/components/schemas/InstagramAgentComponent",
-              },
-            ],
+  required: ["participants", "termination_condition"],
+  properties: {
+    participants: {
+      type: "array",
+      items: {
+        oneOf: [
+          {
+            $ref: "#/components/schemas/AgentComponent",
           },
-        },
+        ],
       },
     },
-  ],
+    termination_condition: {
+      $ref: "#/components/schemas/TerminationComponent",
+    },
+    model_client: {
+      $ref: "#/components/schemas/ModelComponent",
+    },
+  },
 } as const;
 
 export const BrowserConfigSchema = {
@@ -6167,12 +6163,12 @@ export const AgentComponentSchema = {
     {
       required: ["config", "componentType"],
       properties: {
-        config: {
-          $ref: "#/components/schemas/AgentConfig",
-        },
         componentType: {
           type: "string",
           enum: ["agent"],
+        },
+        config: {
+          $ref: "#/components/schemas/AgentConfig",
         },
       },
     },
