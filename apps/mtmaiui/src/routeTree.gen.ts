@@ -152,6 +152,7 @@ const ResourceNewResIndexLazyImport = createFileRoute('/resource/new/res/')()
 const ResourceResIdSessionIdIndexLazyImport = createFileRoute(
   '/resource/$resId/$sessionId/',
 )()
+const ComsComIdRunIndexLazyImport = createFileRoute('/coms/$comId/run/')()
 
 // Create/Update Routes
 
@@ -869,6 +870,14 @@ const ResourceResIdSessionIdIndexLazyRoute =
     ),
   )
 
+const ComsComIdRunIndexLazyRoute = ComsComIdRunIndexLazyImport.update({
+  id: '/run/',
+  path: '/run/',
+  getParentRoute: () => ComsComIdRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~coms/~$comId/~run/~index.lazy').then((d) => d.Route),
+)
+
 const ComsComIdTypeModelClientRoute = ComsComIdTypeModelClientImport.update({
   id: '/modelClient',
   path: '/modelClient',
@@ -1451,6 +1460,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComsComIdTypeModelClientImport
       parentRoute: typeof ComsComIdTypeRouteLazyImport
     }
+    '/coms/$comId/run/': {
+      id: '/coms/$comId/run/'
+      path: '/run'
+      fullPath: '/coms/$comId/run'
+      preLoaderRoute: typeof ComsComIdRunIndexLazyImport
+      parentRoute: typeof ComsComIdRouteLazyImport
+    }
     '/resource/$resId/$sessionId/': {
       id: '/resource/$resId/$sessionId/'
       path: '/$sessionId'
@@ -1623,6 +1639,7 @@ interface ComsComIdRouteLazyRouteChildren {
   ComsComIdNewRouteLazyRoute: typeof ComsComIdNewRouteLazyRoute
   ComsComIdTypeRouteLazyRoute: typeof ComsComIdTypeRouteLazyRouteWithChildren
   ComsComIdViewRouteLazyRoute: typeof ComsComIdViewRouteLazyRoute
+  ComsComIdRunIndexLazyRoute: typeof ComsComIdRunIndexLazyRoute
   ComsComIdRunRouetLazyRoute: typeof ComsComIdRunRouetLazyRoute
 }
 
@@ -1630,6 +1647,7 @@ const ComsComIdRouteLazyRouteChildren: ComsComIdRouteLazyRouteChildren = {
   ComsComIdNewRouteLazyRoute: ComsComIdNewRouteLazyRoute,
   ComsComIdTypeRouteLazyRoute: ComsComIdTypeRouteLazyRouteWithChildren,
   ComsComIdViewRouteLazyRoute: ComsComIdViewRouteLazyRoute,
+  ComsComIdRunIndexLazyRoute: ComsComIdRunIndexLazyRoute,
   ComsComIdRunRouetLazyRoute: ComsComIdRunRouetLazyRoute,
 }
 
@@ -2124,6 +2142,7 @@ export interface FileRoutesByFullPath {
   '/play/chat/$sessionId/': typeof PlayChatSessionIdIndexRoute
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexRoute
   '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
+  '/coms/$comId/run': typeof ComsComIdRunIndexLazyRoute
   '/resource/$resId/$sessionId': typeof ResourceResIdSessionIdIndexLazyRoute
   '/resource/new/res/': typeof ResourceNewResIndexLazyRoute
   '/team/$teamId/new': typeof TeamTeamIdNewIndexLazyRoute
@@ -2194,6 +2213,7 @@ export interface FileRoutesByTo {
   '/play/chat/$sessionId': typeof PlayChatSessionIdIndexRoute
   '/site/$siteId/host': typeof SiteSiteIdHostIndexRoute
   '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
+  '/coms/$comId/run': typeof ComsComIdRunIndexLazyRoute
   '/resource/$resId/$sessionId': typeof ResourceResIdSessionIdIndexLazyRoute
   '/resource/new/res': typeof ResourceNewResIndexLazyRoute
   '/team/$teamId/new': typeof TeamTeamIdNewIndexLazyRoute
@@ -2292,6 +2312,7 @@ export interface FileRoutesById {
   '/play/chat/$sessionId/': typeof PlayChatSessionIdIndexRoute
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexRoute
   '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
+  '/coms/$comId/run/': typeof ComsComIdRunIndexLazyRoute
   '/resource/$resId/$sessionId/': typeof ResourceResIdSessionIdIndexLazyRoute
   '/resource/new/res/': typeof ResourceNewResIndexLazyRoute
   '/team/$teamId/new/': typeof TeamTeamIdNewIndexLazyRoute
@@ -2391,6 +2412,7 @@ export interface FileRouteTypes {
     | '/play/chat/$sessionId/'
     | '/site/$siteId/host/'
     | '/coms/$comId/type/modelClient'
+    | '/coms/$comId/run'
     | '/resource/$resId/$sessionId'
     | '/resource/new/res/'
     | '/team/$teamId/new'
@@ -2460,6 +2482,7 @@ export interface FileRouteTypes {
     | '/play/chat/$sessionId'
     | '/site/$siteId/host'
     | '/coms/$comId/type/modelClient'
+    | '/coms/$comId/run'
     | '/resource/$resId/$sessionId'
     | '/resource/new/res'
     | '/team/$teamId/new'
@@ -2556,6 +2579,7 @@ export interface FileRouteTypes {
     | '/play/chat/$sessionId/'
     | '/site/$siteId/host/'
     | '/coms/$comId/type/modelClient'
+    | '/coms/$comId/run/'
     | '/resource/$resId/$sessionId/'
     | '/resource/new/res/'
     | '/team/$teamId/new/'
@@ -2910,6 +2934,7 @@ export const routeTree = rootRoute
         "/coms/$comId/new",
         "/coms/$comId/type",
         "/coms/$comId/view",
+        "/coms/$comId/run/",
         "/coms/$comId/run/rouet"
       ]
     },
@@ -3095,6 +3120,10 @@ export const routeTree = rootRoute
     "/coms/$comId/type/modelClient": {
       "filePath": "~coms/~$comId/~type/~modelClient.tsx",
       "parent": "/coms/$comId/type"
+    },
+    "/coms/$comId/run/": {
+      "filePath": "~coms/~$comId/~run/~index.lazy.tsx",
+      "parent": "/coms/$comId"
     },
     "/resource/$resId/$sessionId/": {
       "filePath": "~resource/~$resId/~$sessionId/~index.lazy.tsx",

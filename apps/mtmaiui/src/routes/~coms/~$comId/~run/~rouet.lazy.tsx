@@ -1,4 +1,4 @@
-import { createLazyFileRoute } from "@tanstack/react-router";
+import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import {
   Breadcrumb,
@@ -26,6 +26,7 @@ function RouteComponent() {
         <CustomLink to={".."}>返回</CustomLink>
       </DashHeaders>
       <h1>运行记录</h1>
+      <Outlet />
     </>
   );
 }

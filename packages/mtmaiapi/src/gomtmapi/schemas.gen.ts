@@ -2979,40 +2979,6 @@ export const ChatMessageListSchema = {
     pagination: {
       $ref: "#/components/schemas/PaginationResponse",
     },
-    other: {
-      oneOf: [
-        {
-          $ref: "#/components/schemas/InstagramTeamConfig",
-        },
-        {
-          $ref: "#/components/schemas/BrowserConfig",
-        },
-        {
-          $ref: "#/components/schemas/TeamConfig",
-        },
-        {
-          $ref: "#/components/schemas/RoundRobinGroupChatConfig",
-        },
-        {
-          $ref: "#/components/schemas/SelectorGroupChatConfig",
-        },
-        {
-          $ref: "#/components/schemas/TerminationComponent",
-        },
-        {
-          $ref: "#/components/schemas/TeamComponent",
-        },
-        {
-          $ref: "#/components/schemas/AgentComponent",
-        },
-        {
-          $ref: "#/components/schemas/ModelComponent",
-        },
-        {
-          $ref: "#/components/schemas/MtComponent",
-        },
-      ],
-    },
   },
 } as const;
 
@@ -3787,31 +3753,6 @@ export const MtComponentListSchema = {
       items: {
         $ref: "#/components/schemas/MtComponent",
       },
-    },
-    component2: {
-      oneOf: [
-        {
-          $ref: "#/components/schemas/InstagramTeamConfig",
-        },
-        {
-          $ref: "#/components/schemas/BrowserConfig",
-        },
-        {
-          $ref: "#/components/schemas/TeamConfig",
-        },
-        {
-          $ref: "#/components/schemas/RoundRobinGroupChatConfig",
-        },
-        {
-          $ref: "#/components/schemas/SelectorGroupChatConfig",
-        },
-        {
-          $ref: "#/components/schemas/TerminationComponent",
-        },
-        {
-          $ref: "#/components/schemas/TeamComponent",
-        },
-      ],
     },
   },
 } as const;
@@ -4863,25 +4804,46 @@ export const TerminationConditionsSchema = {
   ],
 } as const;
 
+export const InstagramAgentComponentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AgentComponent",
+    },
+    {
+      required: ["config", "componentType"],
+      properties: {
+        config: {
+          $ref: "#/components/schemas/InstagramAgentConfig",
+        },
+        componentType: {
+          type: "string",
+          enum: ["agent"],
+        },
+      },
+    },
+  ],
+} as const;
+
 export const InstagramAgentConfigSchema = {
-  properties: {
-    max_turns: {
-      type: "integer",
+  allOf: [
+    {
+      $ref: "#/components/schemas/AgentConfig",
     },
-    max_tokens: {
-      type: "integer",
+    {
+      required: ["configType"],
+      properties: {
+        configType: {
+          type: "string",
+          enum: ["InstagramAgentConfig"],
+        },
+      },
     },
-  },
+  ],
 } as const;
 
 export const TeamTypesSchema = {
   type: "string",
-  enum: [
-    "Assisant",
-    "RoundRobinGroupChat",
-    "SelectorGroupChat",
-    "MagenticOneGroupChat",
-  ],
+  enum: ["RoundRobinGroupChat", "SelectorGroupChat", "MagenticOneGroupChat"],
 } as const;
 
 export const TenantParameterSchema = {
@@ -6150,31 +6112,42 @@ export const BrowserOpenTaskSchema = {
 } as const;
 
 export const InstagramTeamConfigSchema = {
-  required: ["participants", "configType"],
-  properties: {
-    configType: {
-      type: "string",
-      enum: ["InstagramTeamConfig"],
-    },
-    max_turns: {
-      type: "integer",
-    },
-    max_tokens: {
-      type: "number",
-    },
-    termination_condition: {
-      $ref: "#/components/schemas/TerminationComponent",
-    },
-    task: {
-      type: "string",
-    },
-    participants: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/AgentComponent",
+  allOf: [
+    {
+      required: ["configType"],
+      properties: {
+        configType: {
+          type: "string",
+          enum: ["InstagramTeamConfig"],
+        },
+        max_turns: {
+          type: "integer",
+        },
+        max_tokens: {
+          type: "number",
+        },
+        termination_condition: {
+          $ref: "#/components/schemas/TerminationComponent",
+        },
+        task: {
+          type: "string",
+        },
+        participants: {
+          type: "array",
+          items: {
+            oneOf: [
+              {
+                $ref: "#/components/schemas/AgentComponent",
+              },
+              {
+                $ref: "#/components/schemas/InstagramAgentComponent",
+              },
+            ],
+          },
+        },
       },
     },
-  },
+  ],
 } as const;
 
 export const BrowserConfigSchema = {

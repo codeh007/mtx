@@ -1421,17 +1421,6 @@ export interface ChatMessageList {
   metadata?: APIResourceMeta;
   rows?: ChatMessage[];
   pagination?: PaginationResponse;
-  other?:
-    | InstagramTeamConfig
-    | BrowserConfig
-    | TeamConfig
-    | RoundRobinGroupChatConfig
-    | SelectorGroupChatConfig
-    | TerminationComponent
-    | TeamComponent
-    | AgentComponent
-    | ModelComponent
-    | MtComponent;
 }
 
 export interface WorkerConfig {
@@ -1781,14 +1770,6 @@ export type MtComponent = APIResourceMetaProperties & {
 export interface MtComponentList {
   pagination?: PaginationResponse;
   rows?: MtComponent[];
-  component2?:
-    | InstagramTeamConfig
-    | BrowserConfig
-    | TeamConfig
-    | RoundRobinGroupChatConfig
-    | SelectorGroupChatConfig
-    | TerminationComponent
-    | TeamComponent;
 }
 
 export interface MtComponentProperties {
@@ -2190,13 +2171,16 @@ export type TerminationConditions =
   | MaxMessageTerminationConfigComponent
   | TextMentionTerminationComponent;
 
-export interface InstagramAgentConfig {
-  max_turns?: number;
-  max_tokens?: number;
-}
+export type InstagramAgentComponent = AgentComponent & {
+  config: InstagramAgentConfig;
+  componentType: "agent";
+};
+
+export type InstagramAgentConfig = AgentConfig & {
+  configType: "InstagramAgentConfig";
+};
 
 export enum TeamTypes {
-  Assisant = "Assisant",
   RoundRobinGroupChat = "RoundRobinGroupChat",
   SelectorGroupChat = "SelectorGroupChat",
   MagenticOneGroupChat = "MagenticOneGroupChat",
@@ -2697,14 +2681,14 @@ export interface BrowserOpenTask {
   url: string;
 }
 
-export interface InstagramTeamConfig {
+export type InstagramTeamConfig = {
   configType: "InstagramTeamConfig";
   max_turns?: number;
   max_tokens?: number;
   termination_condition?: TerminationComponent;
   task?: string;
-  participants: AgentComponent[];
-}
+  participants?: (AgentComponent | InstagramAgentComponent)[];
+};
 
 /** 浏览器配置(未完成) */
 export interface BrowserConfig {

@@ -1671,17 +1671,6 @@ export type ChatMessageList = {
   metadata?: ApiResourceMeta;
   rows?: Array<ChatMessage>;
   pagination?: PaginationResponse;
-  other?:
-    | InstagramTeamConfig
-    | BrowserConfig
-    | TeamConfig
-    | RoundRobinGroupChatConfig
-    | SelectorGroupChatConfig
-    | TerminationComponent
-    | TeamComponent
-    | AgentComponent
-    | ModelComponent
-    | MtComponent;
 };
 
 export type WorkerConfig = {
@@ -2110,14 +2099,6 @@ export type MtComponent = ApiResourceMetaProperties & {
 export type MtComponentList = {
   pagination?: PaginationResponse;
   rows?: Array<MtComponent>;
-  component2?:
-    | InstagramTeamConfig
-    | BrowserConfig
-    | TeamConfig
-    | RoundRobinGroupChatConfig
-    | SelectorGroupChatConfig
-    | TerminationComponent
-    | TeamComponent;
 };
 
 export type MtComponentProperties = {
@@ -2627,19 +2608,21 @@ export type TerminationConditions =
   | MaxMessageTerminationConfigComponent
   | TextMentionTerminationComponent;
 
-export type InstagramAgentConfig = {
-  max_turns?: number;
-  max_tokens?: number;
+export type InstagramAgentComponent = AgentComponent & {
+  config: InstagramAgentConfig;
+  componentType: "agent";
+};
+
+export type InstagramAgentConfig = AgentConfig & {
+  configType: "InstagramAgentConfig";
 };
 
 export type TeamTypes =
-  | "Assisant"
   | "RoundRobinGroupChat"
   | "SelectorGroupChat"
   | "MagenticOneGroupChat";
 
 export const TeamTypes = {
-  ASSISANT: "Assisant",
   ROUND_ROBIN_GROUP_CHAT: "RoundRobinGroupChat",
   SELECTOR_GROUP_CHAT: "SelectorGroupChat",
   MAGENTIC_ONE_GROUP_CHAT: "MagenticOneGroupChat",
@@ -3249,7 +3232,7 @@ export type InstagramTeamConfig = {
   max_tokens?: number;
   termination_condition?: TerminationComponent;
   task?: string;
-  participants: Array<AgentComponent>;
+  participants?: Array<AgentComponent | InstagramAgentComponent>;
 };
 
 /**

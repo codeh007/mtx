@@ -10,12 +10,7 @@ import { useShallow } from "zustand/react/shallow";
 import type { Client } from "@connectrpc/connect";
 import type { UseNavigateResult } from "@tanstack/react-router";
 import { debounce } from "lodash";
-import type {
-  AgentRunInput,
-  ChatMessage,
-  Tenant,
-  TextHighlight,
-} from "mtmaiapi";
+import type { AgentRunInput, ChatMessage, Tenant } from "mtmaiapi";
 import type { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
 import type { AgentRpc } from "mtmaiapi/mtmclient/mtmai/mtmpb/agent_worker_pb";
 import type { Dispatcher } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
@@ -62,7 +57,6 @@ export interface WorkbrenchState extends WorkbenchProps {
   setAccessToken: (accessToken: string) => void;
   messageParser?: (messages: Message[]) => void;
   setMessageParser: (messageParser: (messages: Message[]) => void) => void;
-
   openChat?: boolean;
   setOpenChat: (openChat: boolean) => void;
   setCurrentWorkbenchView: (id: string) => void;
@@ -78,24 +72,18 @@ export interface WorkbrenchState extends WorkbenchProps {
   setFirstUserInteraction: (firstUserInteraction: string) => void;
   loading: boolean;
   setLoading: (loading: boolean) => void;
-  // askForm?: IAskForm;
-  // setAskForm: (askForm?: IAskForm) => void;
   input?: string;
   setInput: (input: string) => void;
   handleHumanInput: (input: AgentRunInput) => void;
   handleEvents: (eventName: string, data: any) => void;
-  chatBotType: "";
+  // chatBotType: "";
   subscribeEvents: (options: {
     runId: string;
   }) => void;
-  // resource?: string;
   resourceId?: string;
-  // setResource: (resource: string) => void;
   setResourceId: (resourceId: string) => void;
-
   componentId?: string;
   setComponentId: (componentId: string) => void;
-
   selectedModelId?: string;
   setSelectedModelId: (selectedModelId: string) => void;
   chatStarted?: boolean;
@@ -106,10 +94,8 @@ export interface WorkbrenchState extends WorkbenchProps {
   setOpenWorkbench: (openWorkbench: boolean) => void;
   isOpenWorkbenchChat: boolean;
   setIsOpenWorkbenchChat: (isOpenWorkbenchChat: boolean) => void;
-  runner?: string;
-  setRunner: (runner: string) => void;
-  // teamId: string;
-  // setTeamId: (teamId: string) => void;
+  // runner?: string;
+  // setRunner: (runner: string) => void;
   isStreaming: boolean;
   setIsStreaming: (isStreaming: boolean) => void;
   firstTokenReceived: boolean;
@@ -117,14 +103,12 @@ export interface WorkbrenchState extends WorkbenchProps {
   addMessage: (message: ChatMessage) => void;
   runId: string;
   setRunId: (runId: string) => void;
-  // artifact: ArtifactV3 | undefined;
-  // setArtifact: (artifact: ArtifactV3) => void;
   isArtifactSaved: boolean;
   setIsArtifactSaved: (isArtifactSaved: boolean) => void;
-  selectedArtifact: number;
-  setSelectedArtifact: (index: number) => void;
-  selectedBlocks: TextHighlight | undefined;
-  setSelectedBlocks: (selectedBlocks?: TextHighlight) => void;
+  // selectedArtifact: number;
+  // setSelectedArtifact: (index: number) => void;
+  // selectedBlocks: TextHighlight | undefined;
+  // setSelectedBlocks: (selectedBlocks?: TextHighlight) => void;
   streamMessage: (params: AgentRunInput) => Promise<void>;
   updateRenderedArtifactRequired: boolean;
   setUpdateRenderedArtifactRequired: (
@@ -204,12 +188,11 @@ export const createWorkbrenchSlice: StateCreator<
       set({ chatStarted });
     },
     setOpenWorkbench: (openWorkbench: boolean) => {
-      // console.log("setOpenWorkbench", openWorkbench);
       set({ openWorkbench });
     },
-    setRunnerName: (runnerName: string) => {
-      set({ runner: runnerName });
-    },
+    // setRunnerName: (runnerName: string) => {
+    //   set({ runner: runnerName });
+    // },
     setIsStreaming: (isStreaming: boolean) => {
       set({ isStreaming });
     },
@@ -219,36 +202,21 @@ export const createWorkbrenchSlice: StateCreator<
     setRunId: (runId: string) => {
       set({ runId });
     },
-    // setTeamId: (teamId: string) => {
-    //   set({ teamId });
+    // setSelectedBlocks: (selectedBlocks: TextHighlight) => {
+    //   set({ selectedBlocks });
     // },
-    // setArtifact: (artifact: ArtifactV3) => {
-    //   set({ artifact });
+    // setSelectedArtifact: (index: number) => {
+    //   set({ selectedArtifact: index });
     // },
-
-    setSelectedBlocks: (selectedBlocks: TextHighlight) => {
-      set({ selectedBlocks });
-    },
-    // setIsArtifactSaved: (isArtifactSaved: boolean) => {
-    //   set({ isArtifactSaved });
-    // },
-    setSelectedArtifact: (index: number) => {
-      set({ selectedArtifact: index });
-    },
     addMessage: (message: ChatMessage) => {
       const prevMessages = get().messages;
       set({ messages: [...prevMessages, message] });
     },
-    // connectionId: uuidv4(),
-    // header: {
-    //   title: "",
-    //   breadcrumbs: [],
-    // },
     agentFlow: DEFAULT_AGENT_FLOW_SETTINGS,
-    sidebar: {
-      isExpanded: true,
-      isPinned: false,
-    },
+    // sidebar: {
+    //   isExpanded: true,
+    //   isPinned: false,
+    // },
     ...init,
   };
 };
