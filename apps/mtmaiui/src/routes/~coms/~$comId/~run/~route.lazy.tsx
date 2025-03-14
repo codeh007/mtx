@@ -1,4 +1,5 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
+import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import {
   Breadcrumb,
@@ -6,9 +7,10 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
+import { buttonVariants } from "mtxuilib/ui/button";
 import { DashHeaders } from "../../../../components/DashHeaders";
 
-export const Route = createLazyFileRoute("/coms/$comId/run/rouet")({
+export const Route = createLazyFileRoute("/coms/$comId/run")({
   component: RouteComponent,
 });
 
@@ -19,13 +21,19 @@ function RouteComponent() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
+              <CustomLink
+                to={".."}
+                className={cn(buttonVariants({ variant: "ghost" }))}
+              >
+                返回
+              </CustomLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
               <BreadcrumbPage>运行记录</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <CustomLink to={".."}>返回</CustomLink>
       </DashHeaders>
-      <h1>运行记录</h1>
       <Outlet />
     </>
   );
