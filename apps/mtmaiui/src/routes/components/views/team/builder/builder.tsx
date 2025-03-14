@@ -129,10 +129,8 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   // Load initial config
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if (team?.component) {
-      const { nodes: initialNodes, edges: initialEdges } = loadFromJson(
-        team.component,
-      );
+    if (team) {
+      const { nodes: initialNodes, edges: initialEdges } = loadFromJson(team);
       setNodes(initialNodes);
       setEdges(initialEdges);
     }
@@ -239,7 +237,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
 
     const isValid = validateDropTarget(
       draggedType,
-      targetNode.data.component.component_type,
+      targetNode.data?.component_type,
     );
     // Add visual feedback class to target node
     if (isValid) {
@@ -264,7 +262,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
     // Validate drop
     const isValid = validateDropTarget(
       draggedItem.type,
-      targetNode.data.component.component_type,
+      targetNode.data?.component_type,
     );
     if (!isValid) return;
 

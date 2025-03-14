@@ -2,11 +2,7 @@
 
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import {
-  type MtComponent,
-  type TeamComponent,
-  comsListOptions,
-} from "mtmaiapi";
+import { type MtComponent, comsListOptions } from "mtmaiapi";
 import { cn, generateUUID } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
@@ -74,7 +70,7 @@ const NavResourceItem = ({ item }: { item: MtComponent }) => {
     return `${item.metadata?.id}/view`;
   }, [item]);
 
-  const team = item.component as TeamComponent;
+  const team = item;
   return (
     <>
       <NavTeamItem item={team} rowId={item.metadata?.id || ""} />
@@ -82,10 +78,7 @@ const NavResourceItem = ({ item }: { item: MtComponent }) => {
   );
 };
 
-const NavTeamItem = ({
-  item,
-  rowId,
-}: { item: TeamComponent; rowId: string }) => {
+const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
   const detailLink = useMemo(() => {
     // return `${item.metadata?.id}/type/${item.type}`;
     return `${rowId}/view`;
@@ -98,7 +91,7 @@ const NavTeamItem = ({
         className="flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
       >
         <div className="flex w-full items-center gap-2">
-          <span>{item.label}</span>{" "}
+          <span>{item.label}</span>
           {/* <span className="ml-auto text-xs">{chat.createdAt}</span> */}
         </div>
         <span className="font-medium">{item.label}</span>

@@ -1652,6 +1652,7 @@ export type ApiResourceMetaProperties = {
 export type CommonResult = {
   Success: boolean;
   Message: string;
+  other?: unknown;
 };
 
 export type ChatMessage = {
@@ -2100,18 +2101,15 @@ export type MtComponentList = {
 
 export type MtComponentProperties = {
   componentType: ComponentTypes;
+  provider: string;
   label: string;
   description: string;
   version: number;
   componentVersion: number;
-  config:
-    | TerminationComponent
-    | AgentComponent
-    | InstagramAgentComponent
-    | RoundRobinGroupChatComponent
-    | SelectorGroupChatComponent
-    | InstagramTeamComponent;
   galleryId?: string;
+  config: {
+    [key: string]: unknown;
+  };
 };
 
 export type ComponentModel = {

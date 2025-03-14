@@ -50,7 +50,7 @@ function RouteComponent() {
           </BreadcrumbList>
         </Breadcrumb>
         <Button onClick={handleRun}>运行</Button>
-        <CustomLink to={`/coms/$comId/run`}>运行记录</CustomLink>
+        <CustomLink to={`/coms/${comId}/run`}>运行记录</CustomLink>
       </DashHeaders>
       <div className="flex flex-col gap-4 w-full h-full">
         <TeamBuilder team={teamQuery.data} />

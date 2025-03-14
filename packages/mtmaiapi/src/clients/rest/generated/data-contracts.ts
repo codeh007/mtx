@@ -1402,6 +1402,7 @@ export interface APIResourceMetaProperties {
 export interface CommonResult {
   Success: boolean;
   Message: string;
+  other?: any;
 }
 
 export interface ChatMessage {
@@ -1771,20 +1772,15 @@ export interface MtComponentList {
 
 export interface MtComponentProperties {
   componentType: ComponentTypes;
+  provider: string;
   label: string;
   description: string;
   /** @default 1 */
   version: number;
   /** @default 1 */
   componentVersion: number;
-  config:
-    | TerminationComponent
-    | AgentComponent
-    | InstagramAgentComponent
-    | RoundRobinGroupChatComponent
-    | SelectorGroupChatComponent
-    | InstagramTeamComponent;
   galleryId?: string;
+  config: Record<string, any>;
 }
 
 export interface ComponentModel {

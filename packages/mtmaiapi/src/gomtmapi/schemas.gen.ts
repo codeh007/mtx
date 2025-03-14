@@ -2927,6 +2927,28 @@ export const CommonResultSchema = {
     Message: {
       type: "string",
     },
+    other: {
+      anyof: [
+        {
+          $ref: "#/components/schemas/TerminationComponent",
+        },
+        {
+          $ref: "#/components/schemas/AgentComponent",
+        },
+        {
+          $ref: "#/components/schemas/InstagramAgentComponent",
+        },
+        {
+          $ref: "#/components/schemas/RoundRobinGroupChatComponent",
+        },
+        {
+          $ref: "#/components/schemas/SelectorGroupChatComponent",
+        },
+        {
+          $ref: "#/components/schemas/InstagramTeamComponent",
+        },
+      ],
+    },
   },
   required: ["Success", "Message"],
 } as const;
@@ -3754,10 +3776,14 @@ export const MtComponentPropertiesSchema = {
     "version",
     "componentVersion",
     "config",
+    "provider",
   ],
   properties: {
     componentType: {
       $ref: "#/components/schemas/ComponentTypes",
+    },
+    provider: {
+      type: "string",
     },
     label: {
       type: "string",
@@ -3773,30 +3799,12 @@ export const MtComponentPropertiesSchema = {
       type: "integer",
       default: 1,
     },
-    config: {
-      oneOf: [
-        {
-          $ref: "#/components/schemas/TerminationComponent",
-        },
-        {
-          $ref: "#/components/schemas/AgentComponent",
-        },
-        {
-          $ref: "#/components/schemas/InstagramAgentComponent",
-        },
-        {
-          $ref: "#/components/schemas/RoundRobinGroupChatComponent",
-        },
-        {
-          $ref: "#/components/schemas/SelectorGroupChatComponent",
-        },
-        {
-          $ref: "#/components/schemas/InstagramTeamComponent",
-        },
-      ],
-    },
     galleryId: {
       type: "string",
+    },
+    config: {
+      type: "object",
+      additionalProperties: true,
     },
   },
 } as const;
