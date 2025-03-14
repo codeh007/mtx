@@ -1704,9 +1704,145 @@ export const zSelectorGroupChatComponent = z
   .merge(
     z.object({
       provider: z.enum(["autogen_agentchat.teams.SelectorGroupChat"]),
-      config: z.object({
-        participants: z.array(
-          z
+      config: z
+        .object({
+          participants: z.array(
+            z
+              .object({
+                provider: z.string(),
+                componentType: z.enum([
+                  "team",
+                  "agent",
+                  "model",
+                  "tool",
+                  "termination",
+                ]),
+                version: z.number().int(),
+                componentVersion: z.number().int(),
+                description: z.string(),
+                label: z.string(),
+              })
+              .merge(
+                z.object({
+                  componentType: z.enum(["agent"]),
+                  config: z.object({
+                    name: z.string(),
+                    description: z.string(),
+                    model_context: z.object({}).optional(),
+                    memory: z
+                      .object({
+                        provider: z.string(),
+                        componentType: z.enum([
+                          "team",
+                          "agent",
+                          "model",
+                          "tool",
+                          "termination",
+                        ]),
+                        version: z.number().int(),
+                        componentVersion: z.number().int(),
+                        description: z.string(),
+                        label: z.string(),
+                      })
+                      .optional(),
+                    model_client_stream: z.boolean().default(false),
+                    system_message: z.string().optional(),
+                    model_client: z
+                      .object({
+                        provider: z.string(),
+                        componentType: z.enum([
+                          "team",
+                          "agent",
+                          "model",
+                          "tool",
+                          "termination",
+                        ]),
+                        version: z.number().int(),
+                        componentVersion: z.number().int(),
+                        description: z.string(),
+                        label: z.string(),
+                      })
+                      .merge(
+                        z.object({
+                          componentType: z.enum(["model"]),
+                          config: z.object({
+                            model: z.string(),
+                            model_type: z.enum([
+                              "OpenAIChatCompletionClient",
+                              "AzureOpenAIChatCompletionClient",
+                            ]),
+                            api_key: z.string().optional(),
+                            base_url: z.string().optional(),
+                            timeout: z.number().optional(),
+                            max_retries: z.number().int().optional(),
+                            frequency_penalty: z.number().optional(),
+                            logit_bias: z.number().int().optional(),
+                            max_tokens: z.number().int().optional(),
+                            n: z.number().int().optional(),
+                            presence_penalty: z.number().optional(),
+                            response_format: z
+                              .enum(["json_object", "text"])
+                              .optional(),
+                            seed: z.number().int().optional(),
+                            stop: z.array(z.string()).optional(),
+                            temperature: z.number().optional(),
+                            top_p: z.number().optional(),
+                            user: z.string().optional(),
+                            organization: z.string().optional(),
+                            default_headers: z.object({}).optional(),
+                            model_info: z
+                              .object({
+                                family: z.enum(["r1", "openai", "unknown"]),
+                                vision: z.boolean(),
+                                function_calling: z.boolean(),
+                                json_output: z.boolean(),
+                              })
+                              .optional(),
+                          }),
+                        }),
+                      ),
+                    tools: z
+                      .array(
+                        z
+                          .object({
+                            provider: z.string(),
+                            componentType: z.enum([
+                              "team",
+                              "agent",
+                              "model",
+                              "tool",
+                              "termination",
+                            ]),
+                            version: z.number().int(),
+                            componentVersion: z.number().int(),
+                            description: z.string(),
+                            label: z.string(),
+                          })
+                          .merge(
+                            z.object({
+                              componentType: z.enum(["tool"]),
+                              config: z.object({
+                                name: z.string(),
+                                description: z.string().optional(),
+                                source_code: z.string().optional(),
+                                global_imports: z.array(z.string()).optional(),
+                                has_cancellation_support: z
+                                  .boolean()
+                                  .optional(),
+                              }),
+                            }),
+                          ),
+                      )
+                      .default([]),
+                    handoffs: z.array(z.string()).default([]),
+                    reflect_on_tool_use: z.boolean().default(false),
+                    tool_call_summary_format: z.string().default("{result}"),
+                  }),
+                }),
+              ),
+          ),
+          max_turns: z.number().int(),
+          termination_condition: z
             .object({
               provider: z.string(),
               componentType: z.enum([
@@ -1723,86 +1859,60 @@ export const zSelectorGroupChatComponent = z
             })
             .merge(
               z.object({
-                componentType: z.enum(["agent"]),
+                componentType: z.enum(["termination"]),
+                provider: z.enum([
+                  "autogen_agentchat.conditions.TextMentionTermination",
+                ]),
                 config: z.object({
-                  name: z.string(),
+                  text: z.string(),
+                }),
+              }),
+            ),
+        })
+        .merge(
+          z.object({
+            participants: z.array(
+              z
+                .object({
+                  provider: z.string(),
+                  componentType: z.enum([
+                    "team",
+                    "agent",
+                    "model",
+                    "tool",
+                    "termination",
+                  ]),
+                  version: z.number().int(),
+                  componentVersion: z.number().int(),
                   description: z.string(),
-                  model_context: z.object({}).optional(),
-                  memory: z
-                    .object({
-                      provider: z.string(),
-                      componentType: z.enum([
-                        "team",
-                        "agent",
-                        "model",
-                        "tool",
-                        "termination",
-                      ]),
-                      version: z.number().int(),
-                      componentVersion: z.number().int(),
+                  label: z.string(),
+                })
+                .merge(
+                  z.object({
+                    componentType: z.enum(["agent"]),
+                    config: z.object({
+                      name: z.string(),
                       description: z.string(),
-                      label: z.string(),
-                    })
-                    .optional(),
-                  model_client_stream: z.boolean().default(false),
-                  system_message: z.string().optional(),
-                  model_client: z
-                    .object({
-                      provider: z.string(),
-                      componentType: z.enum([
-                        "team",
-                        "agent",
-                        "model",
-                        "tool",
-                        "termination",
-                      ]),
-                      version: z.number().int(),
-                      componentVersion: z.number().int(),
-                      description: z.string(),
-                      label: z.string(),
-                    })
-                    .merge(
-                      z.object({
-                        componentType: z.enum(["model"]),
-                        config: z.object({
-                          model: z.string(),
-                          model_type: z.enum([
-                            "OpenAIChatCompletionClient",
-                            "AzureOpenAIChatCompletionClient",
+                      model_context: z.object({}).optional(),
+                      memory: z
+                        .object({
+                          provider: z.string(),
+                          componentType: z.enum([
+                            "team",
+                            "agent",
+                            "model",
+                            "tool",
+                            "termination",
                           ]),
-                          api_key: z.string().optional(),
-                          base_url: z.string().optional(),
-                          timeout: z.number().optional(),
-                          max_retries: z.number().int().optional(),
-                          frequency_penalty: z.number().optional(),
-                          logit_bias: z.number().int().optional(),
-                          max_tokens: z.number().int().optional(),
-                          n: z.number().int().optional(),
-                          presence_penalty: z.number().optional(),
-                          response_format: z
-                            .enum(["json_object", "text"])
-                            .optional(),
-                          seed: z.number().int().optional(),
-                          stop: z.array(z.string()).optional(),
-                          temperature: z.number().optional(),
-                          top_p: z.number().optional(),
-                          user: z.string().optional(),
-                          organization: z.string().optional(),
-                          default_headers: z.object({}).optional(),
-                          model_info: z
-                            .object({
-                              family: z.enum(["r1", "openai", "unknown"]),
-                              vision: z.boolean(),
-                              function_calling: z.boolean(),
-                              json_output: z.boolean(),
-                            })
-                            .optional(),
-                        }),
-                      }),
-                    ),
-                  tools: z
-                    .array(
-                      z
+                          version: z.number().int(),
+                          componentVersion: z.number().int(),
+                          description: z.string(),
+                          label: z.string(),
+                        })
+                        .optional(),
+                      model_client_stream: z.boolean().default(false),
+                      system_message: z.string().optional(),
+                      model_client: z
                         .object({
                           provider: z.string(),
                           componentType: z.enum([
@@ -1819,105 +1929,166 @@ export const zSelectorGroupChatComponent = z
                         })
                         .merge(
                           z.object({
-                            componentType: z.enum(["tool"]),
+                            componentType: z.enum(["model"]),
                             config: z.object({
-                              name: z.string(),
-                              description: z.string().optional(),
-                              source_code: z.string().optional(),
-                              global_imports: z.array(z.string()).optional(),
-                              has_cancellation_support: z.boolean().optional(),
+                              model: z.string(),
+                              model_type: z.enum([
+                                "OpenAIChatCompletionClient",
+                                "AzureOpenAIChatCompletionClient",
+                              ]),
+                              api_key: z.string().optional(),
+                              base_url: z.string().optional(),
+                              timeout: z.number().optional(),
+                              max_retries: z.number().int().optional(),
+                              frequency_penalty: z.number().optional(),
+                              logit_bias: z.number().int().optional(),
+                              max_tokens: z.number().int().optional(),
+                              n: z.number().int().optional(),
+                              presence_penalty: z.number().optional(),
+                              response_format: z
+                                .enum(["json_object", "text"])
+                                .optional(),
+                              seed: z.number().int().optional(),
+                              stop: z.array(z.string()).optional(),
+                              temperature: z.number().optional(),
+                              top_p: z.number().optional(),
+                              user: z.string().optional(),
+                              organization: z.string().optional(),
+                              default_headers: z.object({}).optional(),
+                              model_info: z
+                                .object({
+                                  family: z.enum(["r1", "openai", "unknown"]),
+                                  vision: z.boolean(),
+                                  function_calling: z.boolean(),
+                                  json_output: z.boolean(),
+                                })
+                                .optional(),
                             }),
                           }),
                         ),
-                    )
-                    .default([]),
-                  handoffs: z.array(z.string()).default([]),
-                  reflect_on_tool_use: z.boolean().default(false),
-                  tool_call_summary_format: z.string().default("{result}"),
-                }),
-              }),
+                      tools: z
+                        .array(
+                          z
+                            .object({
+                              provider: z.string(),
+                              componentType: z.enum([
+                                "team",
+                                "agent",
+                                "model",
+                                "tool",
+                                "termination",
+                              ]),
+                              version: z.number().int(),
+                              componentVersion: z.number().int(),
+                              description: z.string(),
+                              label: z.string(),
+                            })
+                            .merge(
+                              z.object({
+                                componentType: z.enum(["tool"]),
+                                config: z.object({
+                                  name: z.string(),
+                                  description: z.string().optional(),
+                                  source_code: z.string().optional(),
+                                  global_imports: z
+                                    .array(z.string())
+                                    .optional(),
+                                  has_cancellation_support: z
+                                    .boolean()
+                                    .optional(),
+                                }),
+                              }),
+                            ),
+                        )
+                        .default([]),
+                      handoffs: z.array(z.string()).default([]),
+                      reflect_on_tool_use: z.boolean().default(false),
+                      tool_call_summary_format: z.string().default("{result}"),
+                    }),
+                  }),
+                ),
             ),
-        ),
-        termination_condition: z
-          .object({
-            provider: z.string(),
-            componentType: z.enum([
-              "team",
-              "agent",
-              "model",
-              "tool",
-              "termination",
-            ]),
-            version: z.number().int(),
-            componentVersion: z.number().int(),
-            description: z.string(),
-            label: z.string(),
-          })
-          .merge(
-            z.object({
-              componentType: z.enum(["termination"]),
-              provider: z.enum([
-                "autogen_agentchat.conditions.TextMentionTermination",
-              ]),
-              config: z.object({
-                text: z.string(),
-              }),
-            }),
-          ),
-        model_client: z
-          .object({
-            provider: z.string(),
-            componentType: z.enum([
-              "team",
-              "agent",
-              "model",
-              "tool",
-              "termination",
-            ]),
-            version: z.number().int(),
-            componentVersion: z.number().int(),
-            description: z.string(),
-            label: z.string(),
-          })
-          .merge(
-            z.object({
-              componentType: z.enum(["model"]),
-              config: z.object({
-                model: z.string(),
-                model_type: z.enum([
-                  "OpenAIChatCompletionClient",
-                  "AzureOpenAIChatCompletionClient",
+            termination_condition: z
+              .object({
+                provider: z.string(),
+                componentType: z.enum([
+                  "team",
+                  "agent",
+                  "model",
+                  "tool",
+                  "termination",
                 ]),
-                api_key: z.string().optional(),
-                base_url: z.string().optional(),
-                timeout: z.number().optional(),
-                max_retries: z.number().int().optional(),
-                frequency_penalty: z.number().optional(),
-                logit_bias: z.number().int().optional(),
-                max_tokens: z.number().int().optional(),
-                n: z.number().int().optional(),
-                presence_penalty: z.number().optional(),
-                response_format: z.enum(["json_object", "text"]).optional(),
-                seed: z.number().int().optional(),
-                stop: z.array(z.string()).optional(),
-                temperature: z.number().optional(),
-                top_p: z.number().optional(),
-                user: z.string().optional(),
-                organization: z.string().optional(),
-                default_headers: z.object({}).optional(),
-                model_info: z
-                  .object({
-                    family: z.enum(["r1", "openai", "unknown"]),
-                    vision: z.boolean(),
-                    function_calling: z.boolean(),
-                    json_output: z.boolean(),
-                  })
-                  .optional(),
-              }),
-            }),
-          )
-          .optional(),
-      }),
+                version: z.number().int(),
+                componentVersion: z.number().int(),
+                description: z.string(),
+                label: z.string(),
+              })
+              .merge(
+                z.object({
+                  componentType: z.enum(["termination"]),
+                  provider: z.enum([
+                    "autogen_agentchat.conditions.TextMentionTermination",
+                  ]),
+                  config: z.object({
+                    text: z.string(),
+                  }),
+                }),
+              ),
+            model_client: z
+              .object({
+                provider: z.string(),
+                componentType: z.enum([
+                  "team",
+                  "agent",
+                  "model",
+                  "tool",
+                  "termination",
+                ]),
+                version: z.number().int(),
+                componentVersion: z.number().int(),
+                description: z.string(),
+                label: z.string(),
+              })
+              .merge(
+                z.object({
+                  componentType: z.enum(["model"]),
+                  config: z.object({
+                    model: z.string(),
+                    model_type: z.enum([
+                      "OpenAIChatCompletionClient",
+                      "AzureOpenAIChatCompletionClient",
+                    ]),
+                    api_key: z.string().optional(),
+                    base_url: z.string().optional(),
+                    timeout: z.number().optional(),
+                    max_retries: z.number().int().optional(),
+                    frequency_penalty: z.number().optional(),
+                    logit_bias: z.number().int().optional(),
+                    max_tokens: z.number().int().optional(),
+                    n: z.number().int().optional(),
+                    presence_penalty: z.number().optional(),
+                    response_format: z.enum(["json_object", "text"]).optional(),
+                    seed: z.number().int().optional(),
+                    stop: z.array(z.string()).optional(),
+                    temperature: z.number().optional(),
+                    top_p: z.number().optional(),
+                    user: z.string().optional(),
+                    organization: z.string().optional(),
+                    default_headers: z.object({}).optional(),
+                    model_info: z
+                      .object({
+                        family: z.enum(["r1", "openai", "unknown"]),
+                        vision: z.boolean(),
+                        function_calling: z.boolean(),
+                        json_output: z.boolean(),
+                      })
+                      .optional(),
+                  }),
+                }),
+              )
+              .optional(),
+          }),
+        ),
     }),
   );
 
@@ -1933,9 +2104,145 @@ export const zRoundRobinGroupChatComponent = z
   .merge(
     z.object({
       provider: z.enum(["autogen_agentchat.teams.RoundRobinGroupChat"]),
-      config: z.object({
-        participants: z.array(
-          z
+      config: z
+        .object({
+          participants: z.array(
+            z
+              .object({
+                provider: z.string(),
+                componentType: z.enum([
+                  "team",
+                  "agent",
+                  "model",
+                  "tool",
+                  "termination",
+                ]),
+                version: z.number().int(),
+                componentVersion: z.number().int(),
+                description: z.string(),
+                label: z.string(),
+              })
+              .merge(
+                z.object({
+                  componentType: z.enum(["agent"]),
+                  config: z.object({
+                    name: z.string(),
+                    description: z.string(),
+                    model_context: z.object({}).optional(),
+                    memory: z
+                      .object({
+                        provider: z.string(),
+                        componentType: z.enum([
+                          "team",
+                          "agent",
+                          "model",
+                          "tool",
+                          "termination",
+                        ]),
+                        version: z.number().int(),
+                        componentVersion: z.number().int(),
+                        description: z.string(),
+                        label: z.string(),
+                      })
+                      .optional(),
+                    model_client_stream: z.boolean().default(false),
+                    system_message: z.string().optional(),
+                    model_client: z
+                      .object({
+                        provider: z.string(),
+                        componentType: z.enum([
+                          "team",
+                          "agent",
+                          "model",
+                          "tool",
+                          "termination",
+                        ]),
+                        version: z.number().int(),
+                        componentVersion: z.number().int(),
+                        description: z.string(),
+                        label: z.string(),
+                      })
+                      .merge(
+                        z.object({
+                          componentType: z.enum(["model"]),
+                          config: z.object({
+                            model: z.string(),
+                            model_type: z.enum([
+                              "OpenAIChatCompletionClient",
+                              "AzureOpenAIChatCompletionClient",
+                            ]),
+                            api_key: z.string().optional(),
+                            base_url: z.string().optional(),
+                            timeout: z.number().optional(),
+                            max_retries: z.number().int().optional(),
+                            frequency_penalty: z.number().optional(),
+                            logit_bias: z.number().int().optional(),
+                            max_tokens: z.number().int().optional(),
+                            n: z.number().int().optional(),
+                            presence_penalty: z.number().optional(),
+                            response_format: z
+                              .enum(["json_object", "text"])
+                              .optional(),
+                            seed: z.number().int().optional(),
+                            stop: z.array(z.string()).optional(),
+                            temperature: z.number().optional(),
+                            top_p: z.number().optional(),
+                            user: z.string().optional(),
+                            organization: z.string().optional(),
+                            default_headers: z.object({}).optional(),
+                            model_info: z
+                              .object({
+                                family: z.enum(["r1", "openai", "unknown"]),
+                                vision: z.boolean(),
+                                function_calling: z.boolean(),
+                                json_output: z.boolean(),
+                              })
+                              .optional(),
+                          }),
+                        }),
+                      ),
+                    tools: z
+                      .array(
+                        z
+                          .object({
+                            provider: z.string(),
+                            componentType: z.enum([
+                              "team",
+                              "agent",
+                              "model",
+                              "tool",
+                              "termination",
+                            ]),
+                            version: z.number().int(),
+                            componentVersion: z.number().int(),
+                            description: z.string(),
+                            label: z.string(),
+                          })
+                          .merge(
+                            z.object({
+                              componentType: z.enum(["tool"]),
+                              config: z.object({
+                                name: z.string(),
+                                description: z.string().optional(),
+                                source_code: z.string().optional(),
+                                global_imports: z.array(z.string()).optional(),
+                                has_cancellation_support: z
+                                  .boolean()
+                                  .optional(),
+                              }),
+                            }),
+                          ),
+                      )
+                      .default([]),
+                    handoffs: z.array(z.string()).default([]),
+                    reflect_on_tool_use: z.boolean().default(false),
+                    tool_call_summary_format: z.string().default("{result}"),
+                  }),
+                }),
+              ),
+          ),
+          max_turns: z.number().int(),
+          termination_condition: z
             .object({
               provider: z.string(),
               componentType: z.enum([
@@ -1952,86 +2259,60 @@ export const zRoundRobinGroupChatComponent = z
             })
             .merge(
               z.object({
-                componentType: z.enum(["agent"]),
+                componentType: z.enum(["termination"]),
+                provider: z.enum([
+                  "autogen_agentchat.conditions.TextMentionTermination",
+                ]),
                 config: z.object({
-                  name: z.string(),
+                  text: z.string(),
+                }),
+              }),
+            ),
+        })
+        .merge(
+          z.object({
+            participants: z.array(
+              z
+                .object({
+                  provider: z.string(),
+                  componentType: z.enum([
+                    "team",
+                    "agent",
+                    "model",
+                    "tool",
+                    "termination",
+                  ]),
+                  version: z.number().int(),
+                  componentVersion: z.number().int(),
                   description: z.string(),
-                  model_context: z.object({}).optional(),
-                  memory: z
-                    .object({
-                      provider: z.string(),
-                      componentType: z.enum([
-                        "team",
-                        "agent",
-                        "model",
-                        "tool",
-                        "termination",
-                      ]),
-                      version: z.number().int(),
-                      componentVersion: z.number().int(),
+                  label: z.string(),
+                })
+                .merge(
+                  z.object({
+                    componentType: z.enum(["agent"]),
+                    config: z.object({
+                      name: z.string(),
                       description: z.string(),
-                      label: z.string(),
-                    })
-                    .optional(),
-                  model_client_stream: z.boolean().default(false),
-                  system_message: z.string().optional(),
-                  model_client: z
-                    .object({
-                      provider: z.string(),
-                      componentType: z.enum([
-                        "team",
-                        "agent",
-                        "model",
-                        "tool",
-                        "termination",
-                      ]),
-                      version: z.number().int(),
-                      componentVersion: z.number().int(),
-                      description: z.string(),
-                      label: z.string(),
-                    })
-                    .merge(
-                      z.object({
-                        componentType: z.enum(["model"]),
-                        config: z.object({
-                          model: z.string(),
-                          model_type: z.enum([
-                            "OpenAIChatCompletionClient",
-                            "AzureOpenAIChatCompletionClient",
+                      model_context: z.object({}).optional(),
+                      memory: z
+                        .object({
+                          provider: z.string(),
+                          componentType: z.enum([
+                            "team",
+                            "agent",
+                            "model",
+                            "tool",
+                            "termination",
                           ]),
-                          api_key: z.string().optional(),
-                          base_url: z.string().optional(),
-                          timeout: z.number().optional(),
-                          max_retries: z.number().int().optional(),
-                          frequency_penalty: z.number().optional(),
-                          logit_bias: z.number().int().optional(),
-                          max_tokens: z.number().int().optional(),
-                          n: z.number().int().optional(),
-                          presence_penalty: z.number().optional(),
-                          response_format: z
-                            .enum(["json_object", "text"])
-                            .optional(),
-                          seed: z.number().int().optional(),
-                          stop: z.array(z.string()).optional(),
-                          temperature: z.number().optional(),
-                          top_p: z.number().optional(),
-                          user: z.string().optional(),
-                          organization: z.string().optional(),
-                          default_headers: z.object({}).optional(),
-                          model_info: z
-                            .object({
-                              family: z.enum(["r1", "openai", "unknown"]),
-                              vision: z.boolean(),
-                              function_calling: z.boolean(),
-                              json_output: z.boolean(),
-                            })
-                            .optional(),
-                        }),
-                      }),
-                    ),
-                  tools: z
-                    .array(
-                      z
+                          version: z.number().int(),
+                          componentVersion: z.number().int(),
+                          description: z.string(),
+                          label: z.string(),
+                        })
+                        .optional(),
+                      model_client_stream: z.boolean().default(false),
+                      system_message: z.string().optional(),
+                      model_client: z
                         .object({
                           provider: z.string(),
                           componentType: z.enum([
@@ -2048,54 +2329,270 @@ export const zRoundRobinGroupChatComponent = z
                         })
                         .merge(
                           z.object({
-                            componentType: z.enum(["tool"]),
+                            componentType: z.enum(["model"]),
                             config: z.object({
-                              name: z.string(),
-                              description: z.string().optional(),
-                              source_code: z.string().optional(),
-                              global_imports: z.array(z.string()).optional(),
-                              has_cancellation_support: z.boolean().optional(),
+                              model: z.string(),
+                              model_type: z.enum([
+                                "OpenAIChatCompletionClient",
+                                "AzureOpenAIChatCompletionClient",
+                              ]),
+                              api_key: z.string().optional(),
+                              base_url: z.string().optional(),
+                              timeout: z.number().optional(),
+                              max_retries: z.number().int().optional(),
+                              frequency_penalty: z.number().optional(),
+                              logit_bias: z.number().int().optional(),
+                              max_tokens: z.number().int().optional(),
+                              n: z.number().int().optional(),
+                              presence_penalty: z.number().optional(),
+                              response_format: z
+                                .enum(["json_object", "text"])
+                                .optional(),
+                              seed: z.number().int().optional(),
+                              stop: z.array(z.string()).optional(),
+                              temperature: z.number().optional(),
+                              top_p: z.number().optional(),
+                              user: z.string().optional(),
+                              organization: z.string().optional(),
+                              default_headers: z.object({}).optional(),
+                              model_info: z
+                                .object({
+                                  family: z.enum(["r1", "openai", "unknown"]),
+                                  vision: z.boolean(),
+                                  function_calling: z.boolean(),
+                                  json_output: z.boolean(),
+                                })
+                                .optional(),
                             }),
                           }),
                         ),
-                    )
-                    .default([]),
-                  handoffs: z.array(z.string()).default([]),
-                  reflect_on_tool_use: z.boolean().default(false),
-                  tool_call_summary_format: z.string().default("{result}"),
-                }),
-              }),
+                      tools: z
+                        .array(
+                          z
+                            .object({
+                              provider: z.string(),
+                              componentType: z.enum([
+                                "team",
+                                "agent",
+                                "model",
+                                "tool",
+                                "termination",
+                              ]),
+                              version: z.number().int(),
+                              componentVersion: z.number().int(),
+                              description: z.string(),
+                              label: z.string(),
+                            })
+                            .merge(
+                              z.object({
+                                componentType: z.enum(["tool"]),
+                                config: z.object({
+                                  name: z.string(),
+                                  description: z.string().optional(),
+                                  source_code: z.string().optional(),
+                                  global_imports: z
+                                    .array(z.string())
+                                    .optional(),
+                                  has_cancellation_support: z
+                                    .boolean()
+                                    .optional(),
+                                }),
+                              }),
+                            ),
+                        )
+                        .default([]),
+                      handoffs: z.array(z.string()).default([]),
+                      reflect_on_tool_use: z.boolean().default(false),
+                      tool_call_summary_format: z.string().default("{result}"),
+                    }),
+                  }),
+                ),
             ),
+            termination_condition: z
+              .object({
+                provider: z.string(),
+                componentType: z.enum([
+                  "team",
+                  "agent",
+                  "model",
+                  "tool",
+                  "termination",
+                ]),
+                version: z.number().int(),
+                componentVersion: z.number().int(),
+                description: z.string(),
+                label: z.string(),
+              })
+              .merge(
+                z.object({
+                  componentType: z.enum(["termination"]),
+                  provider: z.enum([
+                    "autogen_agentchat.conditions.TextMentionTermination",
+                  ]),
+                  config: z.object({
+                    text: z.string(),
+                  }),
+                }),
+              ),
+          }),
         ),
-        termination_condition: z
-          .object({
-            provider: z.string(),
-            componentType: z.enum([
-              "team",
-              "agent",
-              "model",
-              "tool",
-              "termination",
-            ]),
-            version: z.number().int(),
-            componentVersion: z.number().int(),
-            description: z.string(),
-            label: z.string(),
-          })
-          .merge(
-            z.object({
-              componentType: z.enum(["termination"]),
-              provider: z.enum([
-                "autogen_agentchat.conditions.TextMentionTermination",
-              ]),
-              config: z.object({
-                text: z.string(),
-              }),
-            }),
-          ),
-      }),
     }),
   );
+
+export const zTeamConfigBase = z.object({
+  participants: z.array(
+    z
+      .object({
+        provider: z.string(),
+        componentType: z.enum([
+          "team",
+          "agent",
+          "model",
+          "tool",
+          "termination",
+        ]),
+        version: z.number().int(),
+        componentVersion: z.number().int(),
+        description: z.string(),
+        label: z.string(),
+      })
+      .merge(
+        z.object({
+          componentType: z.enum(["agent"]),
+          config: z.object({
+            name: z.string(),
+            description: z.string(),
+            model_context: z.object({}).optional(),
+            memory: z
+              .object({
+                provider: z.string(),
+                componentType: z.enum([
+                  "team",
+                  "agent",
+                  "model",
+                  "tool",
+                  "termination",
+                ]),
+                version: z.number().int(),
+                componentVersion: z.number().int(),
+                description: z.string(),
+                label: z.string(),
+              })
+              .optional(),
+            model_client_stream: z.boolean().default(false),
+            system_message: z.string().optional(),
+            model_client: z
+              .object({
+                provider: z.string(),
+                componentType: z.enum([
+                  "team",
+                  "agent",
+                  "model",
+                  "tool",
+                  "termination",
+                ]),
+                version: z.number().int(),
+                componentVersion: z.number().int(),
+                description: z.string(),
+                label: z.string(),
+              })
+              .merge(
+                z.object({
+                  componentType: z.enum(["model"]),
+                  config: z.object({
+                    model: z.string(),
+                    model_type: z.enum([
+                      "OpenAIChatCompletionClient",
+                      "AzureOpenAIChatCompletionClient",
+                    ]),
+                    api_key: z.string().optional(),
+                    base_url: z.string().optional(),
+                    timeout: z.number().optional(),
+                    max_retries: z.number().int().optional(),
+                    frequency_penalty: z.number().optional(),
+                    logit_bias: z.number().int().optional(),
+                    max_tokens: z.number().int().optional(),
+                    n: z.number().int().optional(),
+                    presence_penalty: z.number().optional(),
+                    response_format: z.enum(["json_object", "text"]).optional(),
+                    seed: z.number().int().optional(),
+                    stop: z.array(z.string()).optional(),
+                    temperature: z.number().optional(),
+                    top_p: z.number().optional(),
+                    user: z.string().optional(),
+                    organization: z.string().optional(),
+                    default_headers: z.object({}).optional(),
+                    model_info: z
+                      .object({
+                        family: z.enum(["r1", "openai", "unknown"]),
+                        vision: z.boolean(),
+                        function_calling: z.boolean(),
+                        json_output: z.boolean(),
+                      })
+                      .optional(),
+                  }),
+                }),
+              ),
+            tools: z
+              .array(
+                z
+                  .object({
+                    provider: z.string(),
+                    componentType: z.enum([
+                      "team",
+                      "agent",
+                      "model",
+                      "tool",
+                      "termination",
+                    ]),
+                    version: z.number().int(),
+                    componentVersion: z.number().int(),
+                    description: z.string(),
+                    label: z.string(),
+                  })
+                  .merge(
+                    z.object({
+                      componentType: z.enum(["tool"]),
+                      config: z.object({
+                        name: z.string(),
+                        description: z.string().optional(),
+                        source_code: z.string().optional(),
+                        global_imports: z.array(z.string()).optional(),
+                        has_cancellation_support: z.boolean().optional(),
+                      }),
+                    }),
+                  ),
+              )
+              .default([]),
+            handoffs: z.array(z.string()).default([]),
+            reflect_on_tool_use: z.boolean().default(false),
+            tool_call_summary_format: z.string().default("{result}"),
+          }),
+        }),
+      ),
+  ),
+  max_turns: z.number().int(),
+  termination_condition: z
+    .object({
+      provider: z.string(),
+      componentType: z.enum(["team", "agent", "model", "tool", "termination"]),
+      version: z.number().int(),
+      componentVersion: z.number().int(),
+      description: z.string(),
+      label: z.string(),
+    })
+    .merge(
+      z.object({
+        componentType: z.enum(["termination"]),
+        provider: z.enum([
+          "autogen_agentchat.conditions.TextMentionTermination",
+        ]),
+        config: z.object({
+          text: z.string(),
+        }),
+      }),
+    ),
+});
 
 export const zAgStateProperties = z.object({
   version: z.string().optional().default("1.0.0"),
@@ -2556,70 +3053,78 @@ export const zNodeRunAction = z.object({
   input: z.object({}).optional(),
 });
 
-export const zRoundRobinGroupChatConfig = z.object({
-  participants: z.array(
-    zComponentModel.merge(
+export const zRoundRobinGroupChatConfig = zTeamConfigBase.merge(
+  z.object({
+    participants: z.array(
+      zComponentModel.merge(
+        z.object({
+          componentType: z.enum(["agent"]),
+          config: z.object({
+            name: z.string(),
+            description: z.string(),
+            model_context: z.object({}).optional(),
+            memory: zMemoryConfig.optional(),
+            model_client_stream: z.boolean().default(false),
+            system_message: z.string().optional(),
+            model_client: zModelComponent,
+            tools: z.array(zToolComponent).default([]),
+            handoffs: z.array(z.string()).default([]),
+            reflect_on_tool_use: z.boolean().default(false),
+            tool_call_summary_format: z.string().default("{result}"),
+          }),
+        }),
+      ),
+    ),
+    termination_condition: zComponentModel.merge(
       z.object({
-        componentType: z.enum(["agent"]),
+        componentType: z.enum(["termination"]),
+        provider: z.enum([
+          "autogen_agentchat.conditions.TextMentionTermination",
+        ]),
         config: z.object({
-          name: z.string(),
-          description: z.string(),
-          model_context: z.object({}).optional(),
-          memory: zMemoryConfig.optional(),
-          model_client_stream: z.boolean().default(false),
-          system_message: z.string().optional(),
-          model_client: zModelComponent,
-          tools: z.array(zToolComponent).default([]),
-          handoffs: z.array(z.string()).default([]),
-          reflect_on_tool_use: z.boolean().default(false),
-          tool_call_summary_format: z.string().default("{result}"),
+          text: z.string(),
         }),
       }),
     ),
-  ),
-  termination_condition: zComponentModel.merge(
-    z.object({
-      componentType: z.enum(["termination"]),
-      provider: z.enum(["autogen_agentchat.conditions.TextMentionTermination"]),
-      config: z.object({
-        text: z.string(),
-      }),
-    }),
-  ),
-});
+  }),
+);
 
-export const zSelectorGroupChatConfig = z.object({
-  participants: z.array(
-    zComponentModel.merge(
+export const zSelectorGroupChatConfig = zTeamConfigBase.merge(
+  z.object({
+    participants: z.array(
+      zComponentModel.merge(
+        z.object({
+          componentType: z.enum(["agent"]),
+          config: z.object({
+            name: z.string(),
+            description: z.string(),
+            model_context: z.object({}).optional(),
+            memory: zMemoryConfig.optional(),
+            model_client_stream: z.boolean().default(false),
+            system_message: z.string().optional(),
+            model_client: zModelComponent,
+            tools: z.array(zToolComponent).default([]),
+            handoffs: z.array(z.string()).default([]),
+            reflect_on_tool_use: z.boolean().default(false),
+            tool_call_summary_format: z.string().default("{result}"),
+          }),
+        }),
+      ),
+    ),
+    termination_condition: zComponentModel.merge(
       z.object({
-        componentType: z.enum(["agent"]),
+        componentType: z.enum(["termination"]),
+        provider: z.enum([
+          "autogen_agentchat.conditions.TextMentionTermination",
+        ]),
         config: z.object({
-          name: z.string(),
-          description: z.string(),
-          model_context: z.object({}).optional(),
-          memory: zMemoryConfig.optional(),
-          model_client_stream: z.boolean().default(false),
-          system_message: z.string().optional(),
-          model_client: zModelComponent,
-          tools: z.array(zToolComponent).default([]),
-          handoffs: z.array(z.string()).default([]),
-          reflect_on_tool_use: z.boolean().default(false),
-          tool_call_summary_format: z.string().default("{result}"),
+          text: z.string(),
         }),
       }),
     ),
-  ),
-  termination_condition: zComponentModel.merge(
-    z.object({
-      componentType: z.enum(["termination"]),
-      provider: z.enum(["autogen_agentchat.conditions.TextMentionTermination"]),
-      config: z.object({
-        text: z.string(),
-      }),
-    }),
-  ),
-  model_client: zModelComponent.optional(),
-});
+    model_client: zModelComponent.optional(),
+  }),
+);
 
 export const zMaxMessageTerminationConfigComponent = zComponentModel.merge(
   z.object({
@@ -3180,17 +3685,21 @@ export const zBrowserOpenTask = z.object({
 export const zInstagramTeamComponent = zComponentModel.merge(
   z.object({
     provider: z.enum(["mtmai.teams.instagram_team.InstagramTeam"]),
-    config: z.object({
-      participants: z.array(zInstagramAgentComponent),
-      termination_condition: zTextMentionTerminationComponent,
-    }),
+    config: zTeamConfigBase.merge(
+      z.object({
+        participants: z.array(zInstagramAgentComponent),
+        termination_condition: zTextMentionTerminationComponent,
+      }),
+    ),
   }),
 );
 
-export const zInstagramTeamConfig = z.object({
-  participants: z.array(zInstagramAgentComponent),
-  termination_condition: zTextMentionTerminationComponent,
-});
+export const zInstagramTeamConfig = zTeamConfigBase.merge(
+  z.object({
+    participants: z.array(zInstagramAgentComponent),
+    termination_condition: zTextMentionTerminationComponent,
+  }),
+);
 
 export const zBrowserConfig = z.object({
   persistent: z.boolean().optional(),

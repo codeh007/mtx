@@ -2040,6 +2040,12 @@ export type RoundRobinGroupChatComponent = ComponentModel & {
   config: RoundRobinGroupChatConfig;
 };
 
+export type TeamConfigBase = {
+  participants: Array<AgentComponent>;
+  max_turns: number;
+  termination_condition: TextMentionTerminationComponent;
+};
+
 export type AgStateProperties = {
   version?: string;
   type?: string;
@@ -2566,12 +2572,12 @@ export type NodeRunAction = {
   };
 };
 
-export type RoundRobinGroupChatConfig = {
+export type RoundRobinGroupChatConfig = TeamConfigBase & {
   participants: Array<AgentComponent>;
   termination_condition: TextMentionTerminationComponent;
 };
 
-export type SelectorGroupChatConfig = {
+export type SelectorGroupChatConfig = TeamConfigBase & {
   participants: Array<AgentComponent>;
   termination_condition: TextMentionTerminationComponent;
   model_client?: ModelComponent;
@@ -3225,7 +3231,7 @@ export type InstagramTeamComponent = ComponentModel & {
   config: InstagramTeamConfig;
 };
 
-export type InstagramTeamConfig = {
+export type InstagramTeamConfig = TeamConfigBase & {
   participants: Array<InstagramAgentComponent>;
   termination_condition: TextMentionTerminationComponent;
 };

@@ -3627,6 +3627,24 @@ export const RoundRobinGroupChatComponentSchema = {
   ],
 } as const;
 
+export const TeamConfigBaseSchema = {
+  required: ["participants", "max_turns", "termination_condition"],
+  properties: {
+    participants: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/AgentComponent",
+      },
+    },
+    max_turns: {
+      type: "integer",
+    },
+    termination_condition: {
+      $ref: "#/components/schemas/TextMentionTerminationComponent",
+    },
+  },
+} as const;
+
 export const AgStatePropertiesSchema = {
   required: ["state"],
   properties: {
@@ -4682,36 +4700,50 @@ export const NodeRunActionSchema = {
 } as const;
 
 export const RoundRobinGroupChatConfigSchema = {
-  required: ["participants", "termination_condition"],
-  properties: {
-    participants: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/AgentComponent",
+  allOf: [
+    {
+      $ref: "#/components/schemas/TeamConfigBase",
+    },
+    {
+      required: ["participants", "termination_condition"],
+      properties: {
+        participants: {
+          type: "array",
+          items: {
+            $ref: "#/components/schemas/AgentComponent",
+          },
+        },
+        termination_condition: {
+          $ref: "#/components/schemas/TextMentionTerminationComponent",
+        },
       },
     },
-    termination_condition: {
-      $ref: "#/components/schemas/TextMentionTerminationComponent",
-    },
-  },
+  ],
 } as const;
 
 export const SelectorGroupChatConfigSchema = {
-  required: ["participants", "termination_condition"],
-  properties: {
-    participants: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/AgentComponent",
+  allOf: [
+    {
+      $ref: "#/components/schemas/TeamConfigBase",
+    },
+    {
+      required: ["participants", "termination_condition"],
+      properties: {
+        participants: {
+          type: "array",
+          items: {
+            $ref: "#/components/schemas/AgentComponent",
+          },
+        },
+        termination_condition: {
+          $ref: "#/components/schemas/TextMentionTerminationComponent",
+        },
+        model_client: {
+          $ref: "#/components/schemas/ModelComponent",
+        },
       },
     },
-    termination_condition: {
-      $ref: "#/components/schemas/TextMentionTerminationComponent",
-    },
-    model_client: {
-      $ref: "#/components/schemas/ModelComponent",
-    },
-  },
+  ],
 } as const;
 
 export const MaxMessageTerminationConfigComponentSchema = {
@@ -6120,18 +6152,25 @@ export const InstagramTeamComponentSchema = {
 } as const;
 
 export const InstagramTeamConfigSchema = {
-  required: ["participants", "termination_condition"],
-  properties: {
-    participants: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/InstagramAgentComponent",
+  allOf: [
+    {
+      $ref: "#/components/schemas/TeamConfigBase",
+    },
+    {
+      required: ["participants", "termination_condition"],
+      properties: {
+        participants: {
+          type: "array",
+          items: {
+            $ref: "#/components/schemas/InstagramAgentComponent",
+          },
+        },
+        termination_condition: {
+          $ref: "#/components/schemas/TextMentionTerminationComponent",
+        },
       },
     },
-    termination_condition: {
-      $ref: "#/components/schemas/TextMentionTerminationComponent",
-    },
-  },
+  ],
 } as const;
 
 export const BrowserConfigSchema = {
