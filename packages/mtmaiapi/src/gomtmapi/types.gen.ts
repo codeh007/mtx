@@ -3237,7 +3237,7 @@ export type InstagramTeamComponent = ComponentModel & {
 };
 
 export type InstagramTeamConfig = {
-  participants: Array<AgentComponent | InstagramAgentComponent>;
+  participants: Array<InstagramAgentComponent>;
   termination_condition: TerminationComponent;
 };
 

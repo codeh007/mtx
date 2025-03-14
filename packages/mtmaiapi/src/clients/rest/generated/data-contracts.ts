@@ -2687,7 +2687,7 @@ export type InstagramTeamComponent = ComponentModel & {
 };
 
 export interface InstagramTeamConfig {
-  participants: (AgentComponent | InstagramAgentComponent)[];
+  participants: InstagramAgentComponent[];
   termination_condition: TerminationComponent;
 }
 

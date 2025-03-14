@@ -3433,14 +3433,14 @@ export const zInstagramTeamComponent = zComponentModel.merge(
   z.object({
     provider: z.enum(["mtmai.teams.instagram_team.InstagramTeam"]),
     config: z.object({
-      participants: z.array(z.unknown()),
+      participants: z.array(zInstagramAgentComponent),
       termination_condition: zTerminationComponent,
     }),
   }),
 );
 
 export const zInstagramTeamConfig = z.object({
-  participants: z.array(z.unknown()),
+  participants: z.array(zInstagramAgentComponent),
   termination_condition: zTerminationComponent,
 });
 

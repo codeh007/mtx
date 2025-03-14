@@ -6158,14 +6158,7 @@ export const InstagramTeamConfigSchema = {
     participants: {
       type: "array",
       items: {
-        oneOf: [
-          {
-            $ref: "#/components/schemas/AgentComponent",
-          },
-          {
-            $ref: "#/components/schemas/InstagramAgentComponent",
-          },
-        ],
+        $ref: "#/components/schemas/InstagramAgentComponent",
       },
     },
     termination_condition: {
