@@ -1,6 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { comsGetOptions } from "mtmaiapi";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -49,6 +50,7 @@ function RouteComponent() {
           </BreadcrumbList>
         </Breadcrumb>
         <Button onClick={handleRun}>运行</Button>
+        <CustomLink to={`/coms/$comId/run`}>运行记录</CustomLink>
       </DashHeaders>
       <div className="flex flex-col gap-4 w-full h-full">
         <TeamBuilder team={teamQuery.data} />
