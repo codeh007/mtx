@@ -1711,15 +1711,15 @@ export enum ReadingLevelOptions {
   Phd = "phd",
 }
 
-export type TeamComponent = ComponentModel & {
-  componentType: "team";
-  config: TeamConfig;
+export type SelectorGroupChatComponent = ComponentModel & {
+  provider: "autogen_agentchat.teams.SelectorGroupChat";
+  config: SelectorGroupChatConfig;
 };
 
-export type TeamConfig =
-  | RoundRobinGroupChatConfig
-  | SelectorGroupChatConfig
-  | InstagramTeamConfig;
+export type RoundRobinGroupChatComponent = ComponentModel & {
+  provider: "autogen_agentchat.teams.RoundRobinGroupChat";
+  config: RoundRobinGroupChatConfig;
+};
 
 export type TerminationComponent = ComponentModel & {
   componentType: "termination";
@@ -1764,7 +1764,13 @@ export type AgStateUpsert = AgStateProperties & {
 
 export type MtComponent = APIResourceMetaProperties & {
   componentType?: ComponentTypes;
-  component?: TeamComponent | TerminationComponent | AgentComponent;
+  component?:
+    | TerminationComponent
+    | AgentComponent
+    | InstagramAgentComponent
+    | RoundRobinGroupChatComponent
+    | SelectorGroupChatComponent
+    | InstagramTeamComponent;
 };
 
 export interface MtComponentList {
@@ -1787,10 +1793,12 @@ export interface MtComponentProperties {
 export interface ComponentModel {
   /** Describes how the component can be instantiated. */
   provider: string;
+  /** Logical type of the component. If missing, the component assumes the default type of the provider. */
+  componentType: ComponentTypes;
   /** Version of the component specification. If missing, the component assumes whatever is the current version of the library used to load it. This is obviously dangerous and should be used for user authored ephmeral config. For all other configs version should be specified. */
-  version?: number;
+  version: number;
   /** Version of the component. If missing, the component assumes the default version of the provider. */
-  componentVersion?: number;
+  componentVersion: number;
   /** Description of the component. */
   description: string;
   /** Human readable label for the component. If missing the component assumes the class name of the provider. */
@@ -1805,7 +1813,7 @@ export interface GalleryComponents {
 }
 
 export interface GalleryItems {
-  teams: TeamConfig[];
+  teams: object[];
   components: GalleryComponents;
 }
 
@@ -1972,8 +1980,6 @@ export interface TeamResult {
   duration: number;
 }
 
-export type ChatMessageConfig = StopMessageConfig | HandoffMessageConfig;
-
 export interface ChatMessageUpsert {
   tenantId: string;
   content: string;
@@ -2093,8 +2099,8 @@ export interface HandoffConfig {
 }
 
 export type ModelComponent = ComponentModel & {
-  config: ModelConfig;
   componentType: "model";
+  config: ModelConfig;
 };
 
 export enum ResponseFormat {
@@ -2137,13 +2143,11 @@ export interface NodeRunAction {
 }
 
 export interface RoundRobinGroupChatConfig {
-  provider: "autogen_core.team.RoundRobinGroupChat";
   participants: AgentComponent[];
   termination_condition: TerminationComponent;
 }
 
 export interface SelectorGroupChatConfig {
-  provider: "autogen_core.team.SelectorGroupChat";
   participants: AgentComponent[];
   termination_condition: TerminationComponent;
   model_client?: ModelComponent;
@@ -2176,9 +2180,7 @@ export type InstagramAgentComponent = AgentComponent & {
   config: InstagramAgentConfig;
 };
 
-export type InstagramAgentConfig = AgentConfig & {
-  configType: "InstagramAgentConfig";
-};
+export type InstagramAgentConfig = AgentConfig;
 
 export enum TeamTypes {
   RoundRobinGroupChat = "RoundRobinGroupChat",
@@ -2686,8 +2688,13 @@ export interface BrowserOpenTask {
   url: string;
 }
 
+export type InstagramTeamComponent = ComponentModel & {
+  provider: "mtmai.teams.instagram_team.InstagramTeam";
+  config: InstagramTeamConfig;
+};
+
 export interface InstagramTeamConfig {
-  participants: AgentComponent[];
+  participants: (AgentComponent | InstagramAgentComponent)[];
   termination_condition: TerminationComponent;
   model_client?: ModelComponent;
 }

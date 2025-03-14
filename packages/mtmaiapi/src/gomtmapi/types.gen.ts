@@ -2029,15 +2029,15 @@ export const ReadingLevelOptions = {
   PHD: "phd",
 } as const;
 
-export type TeamComponent = ComponentModel & {
-  componentType: "team";
-  config: TeamConfig;
+export type SelectorGroupChatComponent = ComponentModel & {
+  provider: "autogen_agentchat.teams.SelectorGroupChat";
+  config: SelectorGroupChatConfig;
 };
 
-export type TeamConfig =
-  | RoundRobinGroupChatConfig
-  | SelectorGroupChatConfig
-  | InstagramTeamConfig;
+export type RoundRobinGroupChatComponent = ComponentModel & {
+  provider: "autogen_agentchat.teams.RoundRobinGroupChat";
+  config: RoundRobinGroupChatConfig;
+};
 
 export type TerminationComponent = ComponentModel & {
   componentType: "termination";
@@ -2093,7 +2093,13 @@ export type AgStateUpsert = AgStateProperties & {
 
 export type MtComponent = ApiResourceMetaProperties & {
   componentType?: ComponentTypes;
-  component?: TeamComponent | TerminationComponent | AgentComponent;
+  component?:
+    | TerminationComponent
+    | AgentComponent
+    | InstagramAgentComponent
+    | RoundRobinGroupChatComponent
+    | SelectorGroupChatComponent
+    | InstagramTeamComponent;
 };
 
 export type MtComponentList = {
@@ -2119,13 +2125,17 @@ export type ComponentModel = {
    */
   provider: string;
   /**
+   * Logical type of the component. If missing, the component assumes the default type of the provider.
+   */
+  componentType: ComponentTypes;
+  /**
    * Version of the component specification. If missing, the component assumes whatever is the current version of the library used to load it. This is obviously dangerous and should be used for user authored ephmeral config. For all other configs version should be specified.
    */
-  version?: number;
+  version: number;
   /**
    * Version of the component. If missing, the component assumes the default version of the provider.
    */
-  componentVersion?: number;
+  componentVersion: number;
   /**
    * Description of the component.
    */
@@ -2144,7 +2154,9 @@ export type GalleryComponents = {
 };
 
 export type GalleryItems = {
-  teams: Array<TeamConfig>;
+  teams: Array<{
+    [key: string]: unknown;
+  }>;
   components: GalleryComponents;
 };
 
@@ -2362,8 +2374,6 @@ export type TeamResult = {
   duration: number;
 };
 
-export type ChatMessageConfig = StopMessageConfig | HandoffMessageConfig;
-
 export type ChatMessageUpsert = {
   tenantId: string;
   content: string;
@@ -2501,8 +2511,8 @@ export type HandoffConfig = {
 };
 
 export type ModelComponent = ComponentModel & {
-  config: ModelConfig;
   componentType: "model";
+  config: ModelConfig;
 };
 
 export type ResponseFormat = "json_object" | "text";
@@ -2574,13 +2584,11 @@ export type NodeRunAction = {
 };
 
 export type RoundRobinGroupChatConfig = {
-  provider: "autogen_core.team.RoundRobinGroupChat";
   participants: Array<AgentComponent>;
   termination_condition: TerminationComponent;
 };
 
 export type SelectorGroupChatConfig = {
-  provider: "autogen_core.team.SelectorGroupChat";
   participants: Array<AgentComponent>;
   termination_condition: TerminationComponent;
   model_client?: ModelComponent;
@@ -2613,9 +2621,7 @@ export type InstagramAgentComponent = AgentComponent & {
   config: InstagramAgentConfig;
 };
 
-export type InstagramAgentConfig = AgentConfig & {
-  configType: "InstagramAgentConfig";
-};
+export type InstagramAgentConfig = AgentConfig;
 
 export type TeamTypes =
   | "RoundRobinGroupChat"
@@ -3232,8 +3238,13 @@ export type BrowserOpenTask = {
   url: string;
 };
 
+export type InstagramTeamComponent = ComponentModel & {
+  provider: "mtmai.teams.instagram_team.InstagramTeam";
+  config: InstagramTeamConfig;
+};
+
 export type InstagramTeamConfig = {
-  participants: Array<AgentComponent>;
+  participants: Array<AgentComponent | InstagramAgentComponent>;
   termination_condition: TerminationComponent;
   model_client?: ModelComponent;
 };

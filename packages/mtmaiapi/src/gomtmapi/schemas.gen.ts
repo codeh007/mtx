@@ -3565,36 +3565,42 @@ export const ReadingLevelOptionsSchema = {
   enum: ["pirate", "child", "teenager", "college", "phd"],
 } as const;
 
-export const TeamComponentSchema = {
+export const SelectorGroupChatComponentSchema = {
   allOf: [
     {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
-      required: ["componentType", "config"],
+      required: ["provider", "config", "termination_condition"],
       properties: {
-        componentType: {
+        provider: {
           type: "string",
-          enum: ["team"],
+          enum: ["autogen_agentchat.teams.SelectorGroupChat"],
         },
         config: {
-          $ref: "#/components/schemas/TeamConfig",
+          $ref: "#/components/schemas/SelectorGroupChatConfig",
         },
       },
     },
   ],
 } as const;
 
-export const TeamConfigSchema = {
-  oneOf: [
+export const RoundRobinGroupChatComponentSchema = {
+  allOf: [
     {
-      $ref: "#/components/schemas/RoundRobinGroupChatConfig",
+      $ref: "#/components/schemas/ComponentModel",
     },
     {
-      $ref: "#/components/schemas/SelectorGroupChatConfig",
-    },
-    {
-      $ref: "#/components/schemas/InstagramTeamConfig",
+      required: ["provider", "config"],
+      properties: {
+        provider: {
+          type: "string",
+          enum: ["autogen_agentchat.teams.RoundRobinGroupChat"],
+        },
+        config: {
+          $ref: "#/components/schemas/RoundRobinGroupChatConfig",
+        },
+      },
     },
   ],
 } as const;
@@ -3728,13 +3734,22 @@ export const MtComponentSchema = {
         component: {
           oneOf: [
             {
-              $ref: "#/components/schemas/TeamComponent",
-            },
-            {
               $ref: "#/components/schemas/TerminationComponent",
             },
             {
               $ref: "#/components/schemas/AgentComponent",
+            },
+            {
+              $ref: "#/components/schemas/InstagramAgentComponent",
+            },
+            {
+              $ref: "#/components/schemas/RoundRobinGroupChatComponent",
+            },
+            {
+              $ref: "#/components/schemas/SelectorGroupChatComponent",
+            },
+            {
+              $ref: "#/components/schemas/InstagramTeamComponent",
             },
           ],
         },
@@ -3788,11 +3803,25 @@ export const MtComponentPropertiesSchema = {
 } as const;
 
 export const ComponentModelSchema = {
-  required: ["provider", "description", "label"],
+  required: [
+    "componentType",
+    "provider",
+    "description",
+    "label",
+    "provider",
+    "version",
+    "componentVersion",
+  ],
   properties: {
     provider: {
       type: "string",
       description: "Describes how the component can be instantiated.",
+    },
+    componentType: {
+      type: "string",
+      description:
+        "Logical type of the component. If missing, the component assumes the default type of the provider.",
+      $ref: "#/components/schemas/ComponentTypes",
     },
     version: {
       type: "integer",
@@ -3853,7 +3882,7 @@ export const GalleryItemsSchema = {
     teams: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/TeamConfig",
+        type: "object",
       },
     },
     components: {
@@ -4264,17 +4293,6 @@ export const TeamResultSchema = {
   required: ["task_result", "usage", "duration"],
 } as const;
 
-export const ChatMessageConfigSchema = {
-  oneOf: [
-    {
-      $ref: "#/components/schemas/StopMessageConfig",
-    },
-    {
-      $ref: "#/components/schemas/HandoffMessageConfig",
-    },
-  ],
-} as const;
-
 export const ChatMessageUpsertSchema = {
   required: ["tenantId", "source", "content"],
   properties: {
@@ -4611,12 +4629,12 @@ export const ModelComponentSchema = {
     {
       required: ["config", "componentType"],
       properties: {
-        config: {
-          $ref: "#/components/schemas/ModelConfig",
-        },
         componentType: {
           type: "string",
           enum: ["model"],
+        },
+        config: {
+          $ref: "#/components/schemas/ModelConfig",
         },
       },
     },
@@ -4692,12 +4710,8 @@ export const NodeRunActionSchema = {
 } as const;
 
 export const RoundRobinGroupChatConfigSchema = {
-  required: ["participants", "termination_condition", "provider"],
+  required: ["participants", "termination_condition"],
   properties: {
-    provider: {
-      type: "string",
-      enum: ["autogen_core.team.RoundRobinGroupChat"],
-    },
     participants: {
       type: "array",
       items: {
@@ -4711,12 +4725,8 @@ export const RoundRobinGroupChatConfigSchema = {
 } as const;
 
 export const SelectorGroupChatConfigSchema = {
-  required: ["participants", "termination_condition", "provider"],
+  required: ["participants", "termination_condition"],
   properties: {
-    provider: {
-      type: "string",
-      enum: ["autogen_core.team.SelectorGroupChat"],
-    },
     participants: {
       type: "array",
       items: {
@@ -4828,15 +4838,6 @@ export const InstagramAgentConfigSchema = {
   allOf: [
     {
       $ref: "#/components/schemas/AgentConfig",
-    },
-    {
-      required: ["configType"],
-      properties: {
-        configType: {
-          type: "string",
-          enum: ["InstagramAgentConfig"],
-        },
-      },
     },
   ],
 } as const;
@@ -6124,6 +6125,26 @@ export const BrowserOpenTaskSchema = {
   },
 } as const;
 
+export const InstagramTeamComponentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
+    {
+      required: ["provider", "config"],
+      properties: {
+        provider: {
+          type: "string",
+          enum: ["mtmai.teams.instagram_team.InstagramTeam"],
+        },
+        config: {
+          $ref: "#/components/schemas/InstagramTeamConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
 export const InstagramTeamConfigSchema = {
   required: ["participants", "termination_condition"],
   properties: {
@@ -6133,6 +6154,9 @@ export const InstagramTeamConfigSchema = {
         oneOf: [
           {
             $ref: "#/components/schemas/AgentComponent",
+          },
+          {
+            $ref: "#/components/schemas/InstagramAgentComponent",
           },
         ],
       },
