@@ -3727,33 +3727,7 @@ export const MtComponentSchema = {
       $ref: "#/components/schemas/APIResourceMetaProperties",
     },
     {
-      properties: {
-        componentType: {
-          $ref: "#/components/schemas/ComponentTypes",
-        },
-        component: {
-          oneOf: [
-            {
-              $ref: "#/components/schemas/TerminationComponent",
-            },
-            {
-              $ref: "#/components/schemas/AgentComponent",
-            },
-            {
-              $ref: "#/components/schemas/InstagramAgentComponent",
-            },
-            {
-              $ref: "#/components/schemas/RoundRobinGroupChatComponent",
-            },
-            {
-              $ref: "#/components/schemas/SelectorGroupChatComponent",
-            },
-            {
-              $ref: "#/components/schemas/InstagramTeamComponent",
-            },
-          ],
-        },
-      },
+      $ref: "#/components/schemas/MtComponentProperties",
     },
   ],
 } as const;
@@ -3798,6 +3772,28 @@ export const MtComponentPropertiesSchema = {
     },
     galleryId: {
       type: "string",
+    },
+    component: {
+      oneOf: [
+        {
+          $ref: "#/components/schemas/TerminationComponent",
+        },
+        {
+          $ref: "#/components/schemas/AgentComponent",
+        },
+        {
+          $ref: "#/components/schemas/InstagramAgentComponent",
+        },
+        {
+          $ref: "#/components/schemas/RoundRobinGroupChatComponent",
+        },
+        {
+          $ref: "#/components/schemas/SelectorGroupChatComponent",
+        },
+        {
+          $ref: "#/components/schemas/InstagramTeamComponent",
+        },
+      ],
     },
   },
 } as const;
@@ -6163,9 +6159,6 @@ export const InstagramTeamConfigSchema = {
     },
     termination_condition: {
       $ref: "#/components/schemas/TerminationComponent",
-    },
-    model_client: {
-      $ref: "#/components/schemas/ModelComponent",
     },
   },
 } as const;

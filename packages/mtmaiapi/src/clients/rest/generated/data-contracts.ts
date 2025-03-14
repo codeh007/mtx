@@ -1762,16 +1762,7 @@ export type AgStateUpsert = AgStateProperties & {
   tenantId?: string;
 };
 
-export type MtComponent = APIResourceMetaProperties & {
-  componentType?: ComponentTypes;
-  component?:
-    | TerminationComponent
-    | AgentComponent
-    | InstagramAgentComponent
-    | RoundRobinGroupChatComponent
-    | SelectorGroupChatComponent
-    | InstagramTeamComponent;
-};
+export type MtComponent = APIResourceMetaProperties & MtComponentProperties;
 
 export interface MtComponentList {
   pagination?: PaginationResponse;
@@ -1788,6 +1779,13 @@ export interface MtComponentProperties {
   componentVersion?: number;
   config?: Record<string, any>;
   galleryId?: string;
+  component:
+    | TerminationComponent
+    | AgentComponent
+    | InstagramAgentComponent
+    | RoundRobinGroupChatComponent
+    | SelectorGroupChatComponent
+    | InstagramTeamComponent;
 }
 
 export interface ComponentModel {
@@ -2696,7 +2694,6 @@ export type InstagramTeamComponent = ComponentModel & {
 export interface InstagramTeamConfig {
   participants: (AgentComponent | InstagramAgentComponent)[];
   termination_condition: TerminationComponent;
-  model_client?: ModelComponent;
 }
 
 /** 浏览器配置(未完成) */
