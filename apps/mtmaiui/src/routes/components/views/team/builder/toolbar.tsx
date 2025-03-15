@@ -8,6 +8,7 @@ import {
   Code2,
   Grid,
   LayoutGrid,
+  // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
   Map,
   Maximize2,
   Minimize2,

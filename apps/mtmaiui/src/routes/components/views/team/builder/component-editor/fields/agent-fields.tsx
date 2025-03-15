@@ -1,8 +1,8 @@
-import { Switch } from "@radix-ui/react-switch";
 import { TooltipContent, TooltipTrigger } from "@radix-ui/react-tooltip";
 import { Edit, HelpCircle, PlusCircle, Trash2 } from "lucide-react";
 import { Button } from "mtxuilib/ui/button";
 import { Input } from "mtxuilib/ui/input";
+import { Switch } from "mtxuilib/ui/switch";
 import { Textarea } from "mtxuilib/ui/textarea";
 import { Tooltip } from "mtxuilib/ui/tooltip";
 import React, { useCallback } from "react";
@@ -18,8 +18,6 @@ import {
   isWebSurferAgent,
 } from "../../../../types/guards";
 import DetailGroup from "../detailgroup";
-
-// const { TextArea } = Input;
 
 interface AgentFieldsProps {
   component: Component<AgentConfig>;

@@ -29,6 +29,12 @@ import {
 } from "lucide-react";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "mtxuilib/ui/sheet";
 import { Switch } from "mtxuilib/ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -36,6 +42,7 @@ import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
 import { MonacoEditor } from "../../monaco";
 import type { ComponentTypes, Team } from "../../types/datamodel";
 import "./builder.css";
+import ComponentEditor from "./component-editor/component-editor";
 import defaultGallery from "./default_gallery.json";
 import { ComponentLibrary } from "./library";
 import { edgeTypes, nodeTypes } from "./nodes";
@@ -554,35 +561,39 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
             </div>
           </div>
 
-          {/* {selectedNodeId && (
-            <Drawer
-              title="Edit Component"
-              placement="right"
-              size="large"
-              onClose={() => setSelectedNode(null)}
+          {selectedNodeId && (
+            <Sheet
+              // placement="right"
+              // size="large"
+              // onClose={() => setSelectedNode(null)}
               open={!!selectedNodeId}
-              className="component-editor-drawer"
+              // className="component-editor-drawer"
             >
-              {nodes.find((n) => n.id === selectedNodeId)?.data.component && (
-                <ComponentEditor
-                  component={
-                    nodes.find((n) => n.id === selectedNodeId)!.data.component
-                  }
-                  onChange={(updatedComponent) => {
-                    // console.log("builder updating component", updatedComponent);
-                    if (selectedNodeId) {
-                      updateNode(selectedNodeId, {
-                        component: updatedComponent,
-                      });
-                      handleSave();
+              <SheetContent>
+                <SheetHeader>
+                  <SheetTitle>Edit Component</SheetTitle>
+                </SheetHeader>
+                {nodes.find((n) => n.id === selectedNodeId)?.data.component && (
+                  <ComponentEditor
+                    component={
+                      nodes.find((n) => n.id === selectedNodeId)!.data.component
                     }
-                  }}
-                  onClose={() => setSelectedNode(null)}
-                  navigationDepth={true}
-                />
-              )}
-            </Drawer>
-          )} */}
+                    onChange={(updatedComponent) => {
+                      // console.log("builder updating component", updatedComponent);
+                      if (selectedNodeId) {
+                        updateNode(selectedNodeId, {
+                          component: updatedComponent,
+                        });
+                        handleSave();
+                      }
+                    }}
+                    onClose={() => setSelectedNode(null)}
+                    navigationDepth={true}
+                  />
+                )}
+              </SheetContent>
+            </Sheet>
+          )}
         </div>
         <DragOverlay
           dropAnimation={{
