@@ -132,7 +132,7 @@ const BaseNode = memo<BaseNodeProps>(
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
               <span className="text-xs px-2 py-1 bg-gray-200 rounded text-gray-700">
-                {data.component.component_type}
+                {data.component.component_type || data.component.componentType}
               </span>
               <Button
                 onClick={(e) => {
