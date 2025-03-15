@@ -34,8 +34,7 @@ import {
   type ToolbarFilters,
   ToolbarType,
 } from "mtxuilib/data-table/data-table-toolbar";
-import { cn, getCreatedAfterFromTimeRange } from "mtxuilib/lib/utils";
-import { CustomLink } from "mtxuilib/mt/CustomLink";
+import { getCreatedAfterFromTimeRange } from "mtxuilib/lib/utils";
 import { CodeHighlighter } from "mtxuilib/mt/code-highlighter";
 import {
   Breadcrumb,
@@ -43,7 +42,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
-import { Button, buttonVariants } from "mtxuilib/ui/button";
+import { Button } from "mtxuilib/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -61,7 +60,8 @@ import { Separator } from "mtxuilib/ui/separator";
 import { Skeleton } from "mtxuilib/ui/skeleton";
 import { useEffect, useMemo, useState } from "react";
 import { DashHeaders } from "../../components/DashHeaders";
-import { useTenant, useTenantId } from "../../hooks/useAuth";
+import { GoBack } from "../../components/GoBack";
+import { useTenantId } from "../../hooks/useAuth";
 import { useNav } from "../../hooks/useNav";
 import { useMtmaiV2 } from "../../stores/StoreProvider";
 import type { AdditionalMetadataClick } from "../~events/additional-metadata";
@@ -74,9 +74,12 @@ export const Route = createLazyFileRoute("/workflow-runs/")({
 });
 
 function RouteComponent() {
-  const tenant = useTenant();
+  // const tenant = useTenant();
 
   const tid = useTenantId();
+  const search = Route.useSearch();
+  const nav = useNav();
+
   const {
     createdAfter,
     initColumnVisibility,
@@ -97,18 +100,6 @@ function RouteComponent() {
     backTo = "/workflow-runs",
   } = Route.useSearch();
 
-  const nav = useNav();
-  const search = Route.useSearch();
-
-  // const createdAfterProp = search.get("createdAfter");
-  // const initColumnVisibility = search.get("initColumnVisibility");
-  // const showMetrics = search.get("showMetrics") || true;
-  // const viewType = search.get("viewType") || "table";
-  // const workflowId = search.get("workflowId");
-  // const parentWorkflowRunId = search.get("parentWorkflowRunId");
-  // const parentStepRunId = search.get("parentStepRunId");
-  // const refetchInterval = search.get("refetchInterval") || 5000;
-  // const filterVisibility = search.get("filterVisibility") || {};
   const [viewQueueMetrics, setViewQueueMetrics] = useState(false);
   const defaultTimeRange = useMtmaiV2((x) => x.lastTimeRange);
   const setDefaultTimeRange = useMtmaiV2((x) => x.setLastTimeRange);
@@ -326,7 +317,7 @@ function RouteComponent() {
   const metricsQuery = useQuery({
     ...workflowRunGetMetricsOptions({
       path: {
-        tenant: tenant!.metadata.id,
+        tenant: tid,
       },
       query: {
         workflowId: workflow,
@@ -356,7 +347,7 @@ function RouteComponent() {
   } = useQuery({
     ...workflowListOptions({
       path: {
-        tenant: tenant!.metadata.id,
+        tenant: tid,
       },
     }),
   });
@@ -536,14 +527,7 @@ function RouteComponent() {
       <DashHeaders>
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>
-              <CustomLink
-                to={backTo}
-                className={cn(buttonVariants({ variant: "ghost" }))}
-              >
-                返回
-              </CustomLink>
-            </BreadcrumbItem>
+            <GoBack to={backTo} />
             <BreadcrumbItem>
               <BreadcrumbPage>运行记录</BreadcrumbPage>
             </BreadcrumbItem>
@@ -565,7 +549,6 @@ function RouteComponent() {
       >
         set1
       </Button> */}
-      {/* <WorkflowRunsTable tenant={tenant!} showMetrics={true} /> */}
       {viewType === "table" && (
         <>
           {showMetrics && (
