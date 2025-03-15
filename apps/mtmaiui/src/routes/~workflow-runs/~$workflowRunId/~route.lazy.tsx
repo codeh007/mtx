@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useWorkflowRunShape } from "../../../hooks/useWorkflowRun";
 import { WorkbrenchProvider } from "../../../stores/workbrench.store";
 import type { WorkflowRunSidebarState } from "../../../types/types";
-import { RunDetailHeader } from "../components/header";
+import { RunDetailHeader } from "./header";
 
 export const Route = createLazyFileRoute("/workflow-runs/$workflowRunId")({
   component: RouteComponent,

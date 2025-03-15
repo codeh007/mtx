@@ -13,3 +13,9 @@ export const useNav = () => {
 
 //   return a;
 // };
+
+export const useParams = () => {
+  const params = Route.useParams();
+
+  return params;
+};

@@ -36,9 +36,9 @@ export async function submitMessages(
     },
     body: {
       input: {
-        tenantId: tenant.metadata.id,
+        // tenantId: tenant.metadata.id,
         content: content,
-        sessionId: threadId,
+        // sessionId: threadId,
         topic: "default",
         source: "web",
         componentId: componentId,

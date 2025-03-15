@@ -6,9 +6,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
-import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
-import { useEffect } from "react";
 import { DashHeaders } from "../../../../components/DashHeaders";
 import { useNav } from "../../../../hooks/useNav";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
@@ -22,34 +20,7 @@ function RouteComponent() {
   const nav = useNav();
   const { toast } = useToast();
 
-  const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
-  const handleRun = () => {
-    handleHumanInput({
-      content: "你好",
-      componentId: comId,
-    });
-  };
-
-  const workflowRunId = useWorkbenchStore((x) => x.workflowRunId);
-
-  useEffect(() => {
-    if (workflowRunId) {
-      toast({
-        title: "操作成功",
-        description: (
-          <div className="mt-1 w-[240px] rounded-md p-4 flex justify-center items-center">
-            <Button
-              onClick={() => {
-                nav({ to: `/workflow-runs/${workflowRunId}` });
-              }}
-            >
-              <span>查看运行</span>
-            </Button>
-          </div>
-        ),
-      });
-    }
-  }, [workflowRunId, toast, nav]);
+  // const workflowRunId = useWorkbenchStore((x) => x.workflowRunId);
 
   return (
     <>
@@ -61,16 +32,7 @@ function RouteComponent() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <Button onClick={handleRun}>运行</Button>
-        <CustomLink
-          to={"/workflow-runs"}
-          search={{
-            backTo: `/coms/${comId}/view`,
-            metadataFilter: [`componentId:${comId}`],
-          }}
-        >
-          运行记录, workflowRunId: {workflowRunId}
-        </CustomLink>
+        <CustomLink to={`/coms/${comId}/new_session`}>新任务</CustomLink>
       </DashHeaders>
       <Outlet />
     </>

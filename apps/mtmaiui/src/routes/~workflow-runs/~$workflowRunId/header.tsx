@@ -18,12 +18,16 @@ import { MtTabs, MtTabsList, MtTabsTrigger } from "mtxuilib/mt/tabs";
 import {
   Breadcrumb,
   BreadcrumbItem,
+  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
+  BreadcrumbSeparator,
 } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
 import { DashHeaders } from "../../../components/DashHeaders";
 import { useTenant, useTenantId } from "../../../hooks/useAuth";
+import { useParams } from "../../../hooks/useNav";
+import { useWorkflowRunShape } from "../../../hooks/useWorkflowRun";
 
 interface RunDetailHeaderProps {
   data?: WorkflowRunShape;
@@ -40,7 +44,6 @@ export const WORKFLOW_RUN_TERMINAL_STATUSES = [
 export const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
   data,
   loading,
-  // refetch,
 }) => {
   const tenant = useTenant();
   const tid = useTenantId();
@@ -52,14 +55,22 @@ export const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
     ...workflowRunUpdateReplayMutation(),
   });
 
-  if (loading || !data) {
-    return <div>加载中...</div>;
-  }
+  const { workflowRunId } = useParams();
+  const { shape } = useWorkflowRunShape(workflowRunId);
+
+  const additionalMetadata = shape.data?.additionalMetadata;
+  const componentId = additionalMetadata?.componentId;
 
   return (
     <DashHeaders>
       <Breadcrumb>
         <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <CustomLink to={`/coms/${componentId}/view`}>组件</CustomLink>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
           <BreadcrumbItem>
             <BreadcrumbPage>{data?.displayName}</BreadcrumbPage>
           </BreadcrumbItem>
