@@ -1,3 +1,4 @@
+import { TooltipContent, TooltipTrigger } from "@radix-ui/react-tooltip";
 import {
   Cable,
   Code2,
@@ -77,67 +78,99 @@ export const TeamBuilderToolbar: React.FC<TeamBuilderToolbarProps> = ({
       <div className="p-1 flex items-center gap-1">
         {!isJsonMode && (
           <>
-            <Tooltip title="Undo">
-              <Button
-                type="text"
-                icon={<Undo2 size={18} />}
-                className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
-                onClick={onUndo}
-                disabled={!canUndo}
-              />
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  // className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={onUndo}
+                  disabled={!canUndo}
+                  size="icon"
+                >
+                  <Undo2 className="size-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <span>Undo</span>
+              </TooltipContent>
             </Tooltip>
 
-            <Tooltip title="Redo">
-              <Button
-                type="text"
-                icon={<Redo2 size={18} />}
-                className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
-                onClick={onRedo}
-                disabled={!canRedo}
-              />
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  // className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={onRedo}
+                  size="icon"
+                  disabled={!canRedo}
+                >
+                  <Redo2 className="size-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <span>Redo</span>
+              </TooltipContent>
             </Tooltip>
-            <Tooltip
-              title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
-            >
-              <Button
-                type="text"
-                icon={
-                  isFullscreen ? (
-                    <Minimize2 size={18} />
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  // className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
+                  onClick={onToggleFullscreen}
+                  size="icon"
+                >
+                  {isFullscreen ? (
+                    <Minimize2 className="size-4" />
                   ) : (
-                    <Maximize2 size={18} />
-                  )
-                }
-                className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
-                onClick={onToggleFullscreen}
-              />
+                    <Maximize2 className="size-4" />
+                  )}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <span>
+                  {isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+                </span>
+              </TooltipContent>
             </Tooltip>
           </>
         )}
 
-        <Tooltip title="Save Changes">
-          <Button
-            type="text"
-            icon={
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              // className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={onSave}
+              // disabled={!isDirty}
+              size="icon"
+            >
               <div className="relative">
-                <Save size={18} />
+                <Save className="size-4" />
                 {isDirty && (
-                  <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></div>
+                  <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full" />
                 )}
               </div>
-            }
-            className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
-            onClick={onSave}
-            // disabled={!isDirty}
-          />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <span>Save Changes</span>
+          </TooltipContent>
         </Tooltip>
 
-        <Tooltip title={isJsonMode ? "Switch to Visual" : "Switch to JSON"}>
-          <Button
-            icon={isJsonMode ? <Cable size={18} /> : <Code2 size={18} />}
-            className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
-            onClick={onToggleView}
-          />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              // icon={isJsonMode ? <Cable size={18} /> : <Code2 size={18} />}
+              // className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
+              onClick={onToggleView}
+              size="icon"
+            >
+              {isJsonMode ? (
+                <Cable className="size-4" />
+              ) : (
+                <Code2 className="size-4" />
+              )}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <span>{isJsonMode ? "Switch to Visual" : "Switch to JSON"}</span>
+          </TooltipContent>
         </Tooltip>
 
         {/* {!isJsonMode && (
@@ -159,5 +192,3 @@ export const TeamBuilderToolbar: React.FC<TeamBuilderToolbarProps> = ({
     </div>
   );
 };
-
-export default TeamBuilderToolbar;

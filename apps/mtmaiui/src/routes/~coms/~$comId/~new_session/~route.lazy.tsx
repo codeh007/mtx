@@ -8,7 +8,11 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "mtxuilib/ui/breadcrumb";
-import { DashHeaders } from "../../../../components/DashHeaders";
+import { Button } from "mtxuilib/ui/button";
+import {
+  DashHeaders,
+  HeaderActionConainer,
+} from "../../../../components/DashHeaders";
 import { useParams } from "../../../../hooks/useNav";
 
 export const Route = createLazyFileRoute("/coms/$comId/new_session")({
@@ -34,7 +38,10 @@ function RouteComponent() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        {/* <CustomLink to={`/coms/${comId}/new_session`}>新任务</CustomLink> */}
+
+        <HeaderActionConainer>
+          <Button>立即运行</Button>
+        </HeaderActionConainer>
       </DashHeaders>
       <Outlet />
     </>

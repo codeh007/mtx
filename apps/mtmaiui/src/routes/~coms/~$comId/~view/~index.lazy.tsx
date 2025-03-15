@@ -22,10 +22,8 @@ function RouteComponent() {
     }),
   });
   return (
-    <>
-      <div className="flex flex-col gap-4 w-full h-full">
-        <TeamBuilder team={teamQuery.data} />
-      </div>
-    </>
+    <div className="flex flex-col gap-4 w-full h-full">
+      <TeamBuilder team={teamQuery.data} />
+    </div>
   );
 }

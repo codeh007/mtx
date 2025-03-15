@@ -39,10 +39,11 @@ export interface FormFieldMapping {
   validate?: (value: any) => boolean;
 }
 
-// export interface DragItem {
-//   type: ComponentTypes;
-//   config: ComponentConfigTypes;
-// }
+export interface DragItem {
+  type: ComponentTypes;
+  // config: ComponentConfigTypes;
+  config: any;
+}
 
 export interface NodeComponentProps {
   data: NodeData;

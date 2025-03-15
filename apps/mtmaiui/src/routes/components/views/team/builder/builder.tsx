@@ -8,6 +8,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
+import { TooltipContent } from "@radix-ui/react-tooltip";
 import {
   Background,
   type Connection,
@@ -24,7 +25,7 @@ import type { MtComponent } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
 import { Switch } from "mtxuilib/ui/switch";
-import { Tooltip } from "mtxuilib/ui/tooltip";
+import { Tooltip, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import type { ComponentTypes, Team } from "../../../../../types/datamodel";
 import { MonacoEditor } from "../../monaco";
@@ -130,7 +131,9 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (team) {
-      const { nodes: initialNodes, edges: initialEdges } = loadFromJson(team);
+      const { nodes: initialNodes, edges: initialEdges } = loadFromJson(
+        team.config,
+      );
       setNodes(initialNodes);
       setEdges(initialEdges);
     }
@@ -161,31 +164,23 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
 
   // Handle save
   const handleSave = useCallback(async () => {
-    try {
-      const component = syncToJson();
-      if (!component) {
-        throw new Error("Unable to generate valid configuration");
-      }
+    const component = syncToJson();
+    if (!component) {
+      throw new Error("Unable to generate valid configuration");
+    }
 
-      if (onChange) {
-        console.log("Saving team configuration", component);
-        const teamData: Partial<Team> = team
-          ? {
-              ...team,
-              component,
-              created_at: undefined,
-              updated_at: undefined,
-            }
-          : { component };
-        await onChange(teamData);
-        resetHistory();
-      }
-    } catch (error) {
-      // messageApi.error(
-      //   error instanceof Error
-      //     ? error.message
-      //     : "Failed to save team configuration",
-      // );
+    if (onChange) {
+      console.log("Saving team configuration", component);
+      const teamData: Partial<Team> = team
+        ? {
+            ...team,
+            component,
+            created_at: undefined,
+            updated_at: undefined,
+          }
+        : { component };
+      await onChange(teamData);
+      resetHistory();
     }
   }, [syncToJson, onChange, resetHistory]);
 
@@ -313,7 +308,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
             "JSON "
           ) : (
             <>
-              Visual builder{" "}
+              Visual builder
               {/* <span className="text-xs text-orange-500  border border-orange-400 rounded-lg px-2 mx-1">
               {" "}
               experimental{" "}
@@ -326,37 +321,47 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
           </span>
         </div>
         <div>
-          <Tooltip title="Test Team">
-            <Button
-              className="p-1.5 mr-2 px-2.5 rounded-md"
-              onClick={() => {
-                setTestDrawerVisible(true);
-              }}
-            >
-              <PlayCircle size={18} />
-              Test Team
-            </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                className="p-1.5 mr-2 px-2.5 rounded-md"
+                onClick={() => {
+                  setTestDrawerVisible(true);
+                }}
+              >
+                <PlayCircle size={18} />
+                Test Team
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <span>Test Team</span>
+            </TooltipContent>
           </Tooltip>
-          <Tooltip title="Download Team">
-            <Button
-              className="p-1.5 rounded-md"
-              onClick={() => {
-                const json = JSON.stringify(syncToJson(), null, 2);
-                const blob = new Blob([json], { type: "application/json" });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = "team-config.json";
-                a.click();
-                URL.revokeObjectURL(url);
-              }}
-            >
-              <Download size={18} />
-              Download Team
-            </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                className="p-1.5 rounded-md"
+                onClick={() => {
+                  const json = JSON.stringify(syncToJson(), null, 2);
+                  const blob = new Blob([json], { type: "application/json" });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = "team-config.json";
+                  a.click();
+                  URL.revokeObjectURL(url);
+                }}
+              >
+                <Download size={18} />
+                Download Team
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <span>Download Team</span>
+            </TooltipContent>
           </Tooltip>
 
-          <Tooltip title="Save Changes">
+          <Tooltip>
             <Button
               className="p-1.5 rounded-md"
               onClick={handleSave}
