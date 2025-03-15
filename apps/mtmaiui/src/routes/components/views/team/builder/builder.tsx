@@ -18,6 +18,7 @@ import {
   useNodesState,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
+import debounce from "lodash.debounce";
 import {
   Cable,
   Code2,
@@ -26,23 +27,21 @@ import {
   PlayCircle,
   Save,
 } from "lucide-react";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
-import type { ComponentTypes, Team } from "../../types/datamodel";
-import { edgeTypes, nodeTypes } from "./nodes";
-import type { CustomEdge, CustomNode, DragItem } from "./types";
-
-import { Switch } from "@radix-ui/react-switch";
-import debounce from "lodash.debounce";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
+import { Switch } from "mtxuilib/ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
 import { MonacoEditor } from "../../monaco";
+import type { ComponentTypes, Team } from "../../types/datamodel";
 import "./builder.css";
 import defaultGallery from "./default_gallery.json";
 import { ComponentLibrary } from "./library";
+import { edgeTypes, nodeTypes } from "./nodes";
 import { TestDrawer } from "./testdrawer";
-import TeamBuilderToolbar from "./toolbar";
+import { TeamBuilderToolbar } from "./toolbar";
+import type { CustomEdge, CustomNode, DragItem } from "./types";
 import { ValidationErrors } from "./validationerrors";
 
 interface DragItemData {
@@ -70,16 +69,12 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showGrid, setShowGrid] = useState(true);
   const [showMiniMap, setShowMiniMap] = useState(true);
-  // const [isDirty, setIsDirty] = useState(false);
   const editorRef = useRef(null);
-  // const [messageApi, contextHolder] = message.useMessage();
   const [activeDragItem, setActiveDragItem] = useState<DragItemData | null>(
     null,
   );
   const [validationResults, setValidationResults] = useState<any | null>(null);
-
   const [validationLoading, setValidationLoading] = useState(false);
-
   const [testDrawerVisible, setTestDrawerVisible] = useState(false);
   // const defaultGallery = useGalleryStore((state) => state.getSelectedGallery());
   const {

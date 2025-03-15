@@ -76,7 +76,7 @@ export const TeamBuilderToolbar: React.FC<TeamBuilderToolbarProps> = ({
     <div
       className={`${
         isFullscreen ? "fixed top-6 right-6" : "absolute top-2 right-2"
-      } bg-secondary hover:bg-secondary rounded shadow-sm min-w-[200px] z-[60]`}
+      } hover:bg-secondary rounded shadow-sm min-w-[200px] z-[60]`}
     >
       <div className="p-1 flex items-center gap-1">
         {!isJsonMode && (
@@ -196,5 +196,3 @@ export const TeamBuilderToolbar: React.FC<TeamBuilderToolbarProps> = ({
     </div>
   );
 };
-
-export default TeamBuilderToolbar;
