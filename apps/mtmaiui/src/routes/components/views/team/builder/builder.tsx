@@ -42,7 +42,7 @@ import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
 import { MonacoEditor } from "../../monaco";
 import type { ComponentTypes, Team } from "../../types/datamodel";
 import "./builder.css";
-import ComponentEditor from "./component-editor/component-editor";
+import { ComponentEditor } from "./component-editor/component-editor";
 import defaultGallery from "./default_gallery.json";
 import { ComponentLibrary } from "./library";
 import { edgeTypes, nodeTypes } from "./nodes";
@@ -186,7 +186,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   const handleValidate = useCallback(async () => {
     const component = syncToJson();
     if (!component) {
-      throw new Error("Unable to generate valid configuration");
+      throw new Error("Unable to generate valid configuration(handleValidate)");
     }
 
     try {
@@ -210,7 +210,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
     try {
       const component = syncToJson();
       if (!component) {
-        throw new Error("Unable to generate valid configuration");
+        throw new Error("Unable to generate valid configuration(handleSave)");
       }
 
       if (onChange) {

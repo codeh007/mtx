@@ -496,7 +496,9 @@ export const useTeamBuilderStore = create<TeamBuilderState>((set, get) => ({
     const state = get();
     // console.log("xxxxsyncToJson", state.nodes);
     const teamNodes = state.nodes.filter(
-      (node) => node.data.component.componentType === "team",
+      (node) =>
+        node.data.component.componentType === "team" ||
+        node.data.component.component_ype === "team",
     );
     if (teamNodes.length === 0) return null;
 
