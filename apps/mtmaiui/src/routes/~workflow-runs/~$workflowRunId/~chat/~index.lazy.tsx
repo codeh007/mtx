@@ -1,5 +1,4 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 import { ChatClient } from "../../../~play/~chat/chat/Chat.client";
 
 export const Route = createLazyFileRoute("/workflow-runs/$workflowRunId/chat/")(
@@ -9,8 +8,8 @@ export const Route = createLazyFileRoute("/workflow-runs/$workflowRunId/chat/")(
 );
 
 function RouteComponent() {
-  const componentId = useWorkbenchStore((x) => x.componentId);
-  const sessionId = useWorkbenchStore((x) => x.sessionId);
+  // const componentId = useWorkbenchStore((x) => x.componentId);
+  // const sessionId = useWorkbenchStore((x) => x.sessionId);
   return (
     <>
       <ChatClient />

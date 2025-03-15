@@ -43,7 +43,6 @@ function RouteComponent() {
   }, [workflowRunId, toast, nav]);
   return (
     <div>
-      <h1>new run session</h1>
       <Button onClick={handleRun}>运行</Button>
     </div>
   );

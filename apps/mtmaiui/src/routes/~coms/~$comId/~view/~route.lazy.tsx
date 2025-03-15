@@ -1,4 +1,5 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
+import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import {
   Breadcrumb,
@@ -6,10 +7,11 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
-import { useToast } from "mtxuilib/ui/use-toast";
-import { DashHeaders } from "../../../../components/DashHeaders";
-import { useNav } from "../../../../hooks/useNav";
-import { useWorkbenchStore } from "../../../../stores/workbrench.store";
+import { buttonVariants } from "mtxuilib/ui/button";
+import {
+  DashHeaders,
+  HeaderActionConainer,
+} from "../../../../components/DashHeaders";
 
 export const Route = createLazyFileRoute("/coms/$comId/view")({
   component: RouteComponent,
@@ -17,8 +19,8 @@ export const Route = createLazyFileRoute("/coms/$comId/view")({
 
 function RouteComponent() {
   const { comId } = Route.useParams();
-  const nav = useNav();
-  const { toast } = useToast();
+  // const nav = useNav();
+  // const { toast } = useToast();
 
   // const workflowRunId = useWorkbenchStore((x) => x.workflowRunId);
 
@@ -32,7 +34,14 @@ function RouteComponent() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <CustomLink to={`/coms/${comId}/new_session`}>新任务</CustomLink>
+        <HeaderActionConainer>
+          <CustomLink
+            to={`/coms/${comId}/new_session`}
+            className={cn(buttonVariants({ variant: "outline" }))}
+          >
+            新任务
+          </CustomLink>
+        </HeaderActionConainer>
       </DashHeaders>
       <Outlet />
     </>
