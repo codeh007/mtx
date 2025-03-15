@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
 import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-} from "mtxuilib/ui/drawer";
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "mtxuilib/ui/sheet";
 import type { Session, Team } from "../../../../../types/datamodel";
 
 interface TestDrawerProps {
@@ -14,7 +14,7 @@ interface TestDrawerProps {
   onClose: () => void;
 }
 
-const TestDrawer = ({ isVisble, onClose, team }: TestDrawerProps) => {
+export const TestDrawer = ({ isVisble, onClose, team }: TestDrawerProps) => {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(false);
   const [deleteOnClose, setDeleteOnClose] = useState(true);
@@ -72,8 +72,8 @@ const TestDrawer = ({ isVisble, onClose, team }: TestDrawerProps) => {
   };
 
   return (
-    <div>
-      <Drawer
+    <>
+      <Sheet
         // title={<span>Test Team: {team.component.label}</span>}
         // size="large"
         // placement="right"
@@ -88,15 +88,14 @@ const TestDrawer = ({ isVisble, onClose, team }: TestDrawerProps) => {
         //   </Checkbox>
         // }
       >
-        <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>Test Team: {team.component.label}</DrawerTitle>
-          </DrawerHeader>
-        </DrawerContent>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Test Team: {team.component.label}</SheetTitle>
+          </SheetHeader>
+        </SheetContent>
         {loading && <p>Creating a test session...</p>}
         {/* {session && <ChatView session={session} />} */}
-      </Drawer>
-    </div>
+      </Sheet>
+    </>
   );
 };
-export default TestDrawer;

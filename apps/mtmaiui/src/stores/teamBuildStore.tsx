@@ -2,11 +2,23 @@ import { isEqual } from "lodash";
 import { nanoid } from "nanoid";
 import { create } from "zustand";
 import type {
+  CustomEdge,
+  CustomNode,
+  GraphState,
+  NodeData,
+  Position,
+} from "../routes/components/views/team/builder/types";
+import {
+  convertTeamConfigToGraph,
+  getLayoutedElements,
+  getUniqueName,
+} from "../routes/components/views/team/builder/utils";
+import type {
   AgentConfig,
   Component,
   ComponentConfig,
   TeamConfig,
-} from "../../types/datamodel";
+} from "../routes/components/views/types/datamodel";
 import {
   isAgentComponent,
   isAssistantAgent,
@@ -16,19 +28,7 @@ import {
   isTerminationComponent,
   isToolComponent,
   isWebSurferAgent,
-} from "../../types/guards";
-import type {
-  CustomEdge,
-  CustomNode,
-  GraphState,
-  NodeData,
-  Position,
-} from "./types";
-import {
-  convertTeamConfigToGraph,
-  getLayoutedElements,
-  getUniqueName,
-} from "./utils";
+} from "../routes/components/views/types/guards";
 
 const MAX_HISTORY = 50;
 

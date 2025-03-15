@@ -21,6 +21,7 @@ import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
 import type React from "react";
 import { memo } from "react";
+import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
 import type {
   AgentConfig,
   Component,
@@ -34,7 +35,6 @@ import {
   isWebSurferAgent,
 } from "../../../../../types/guards";
 import { TruncatableText } from "../../atoms";
-import { useTeamBuilderStore } from "./store";
 import type { CustomNode } from "./types";
 
 // Icon mapping for different node types
