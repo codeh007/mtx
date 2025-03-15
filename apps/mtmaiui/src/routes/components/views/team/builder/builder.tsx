@@ -19,22 +19,9 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import debounce from "lodash.debounce";
-import {
-  Cable,
-  Code2,
-  Download,
-  ListCheck,
-  PlayCircle,
-  Save,
-} from "lucide-react";
+import { Download, ListCheck, PlayCircle, Save } from "lucide-react";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "mtxuilib/ui/sheet";
 import { Switch } from "mtxuilib/ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -42,7 +29,6 @@ import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
 import { MonacoEditor } from "../../monaco";
 import type { ComponentTypes, Team } from "../../types/datamodel";
 import "./builder.css";
-import { ComponentEditor } from "./component-editor/component-editor";
 import defaultGallery from "./default_gallery.json";
 import { ComponentLibrary } from "./library";
 import { edgeTypes, nodeTypes } from "./nodes";
@@ -59,13 +45,13 @@ interface DragItemData {
 }
 
 interface TeamBuilderProps {
-  team: Team;
+  // team: Team;
   onChange?: (team: Partial<Team>) => void;
   onDirtyStateChange?: (isDirty: boolean) => void;
 }
 
 export const TeamBuilder: React.FC<TeamBuilderProps> = ({
-  team,
+  // team,
   onChange,
   onDirtyStateChange,
 }) => {
@@ -124,12 +110,12 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   );
 
   // Need to notify parent whenever isDirty changes
-  React.useEffect(() => {
+  useEffect(() => {
     onDirtyStateChange?.(isDirty);
   }, [isDirty, onDirtyStateChange]);
 
   // Add beforeunload handler when dirty
-  React.useEffect(() => {
+  useEffect(() => {
     if (isDirty) {
       const handleBeforeUnload = (e: BeforeUnloadEvent) => {
         e.preventDefault();
@@ -141,8 +127,10 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
     }
   }, [isDirty]);
 
+  const team = useTeamBuilderStore((x) => x.team);
+
   // Load initial config
-  React.useEffect(() => {
+  useEffect(() => {
     if (team) {
       const { nodes: initialNodes, edges: initialEdges } = loadFromJson(
         // team.component,
@@ -249,14 +237,15 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isFullscreen]);
 
-  React.useEffect(() => {
-    const unsubscribe = useTeamBuilderStore.subscribe((state) => {
-      setNodes(state.nodes);
-      setEdges(state.edges);
-      // console.log("nodes updated", state);
-    });
-    return unsubscribe;
-  }, [setNodes, setEdges]);
+  // TODO: 这里需要注意,暂时删除了. subscribe
+  // React.useEffect(() => {
+  //   const unsubscribe = useTeamBuilderStore.subscribe((state) => {
+  //     setNodes(state.nodes);
+  //     setEdges(state.edges);
+  //     // console.log("nodes updated", state);
+  //   });
+  //   return unsubscribe;
+  // }, [setNodes, setEdges]);
 
   const validateDropTarget = (
     draggedType: ComponentTypes,
@@ -339,21 +328,14 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   };
   return (
     <div className="h-full flex-1">
-      <div className="flex gap-2 text-xs rounded border-dashed border p-2 mb-2 items-center gap-2">
+      <div className="flex gap-2 text-xs rounded border-dashed border p-2 mb-2 items-center">
         <div className="flex-1 gap-2">
           <Switch
             onChange={() => {
               setIsJsonMode(!isJsonMode);
             }}
             className="mr-2"
-            // size="small"
             defaultChecked={!isJsonMode}
-            checkedChildren=<div className=" text-xs">
-              <Cable className="w-3 h-3 inline-block mt-1 mr-1" />
-            </div>
-            unCheckedChildren=<div className=" text-xs">
-              <Code2 className="w-3 h-3 mt-1 inline-block mr-1" />
-            </div>
           />
           {isJsonMode ? "View JSON" : <>Visual Builder</>}{" "}
         </div>
@@ -498,7 +480,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
           />
 
           <div className=" rounded bg-amber-100 w-full h-full">
-            <div className="relative rounded bg-amber-200  w-full h-full">
+            <div className="relative rounded bg-blue-600  w-full h-full">
               <div
                 className={`w-full h-full transition-all duration-200 ${
                   isFullscreen
@@ -561,7 +543,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
             </div>
           </div>
 
-          {selectedNodeId && (
+          {/* {selectedNodeId && (
             <Sheet
               open={!!selectedNodeId}
               onOpenChange={() => setSelectedNode(null)}
@@ -590,7 +572,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
                 )}
               </SheetContent>
             </Sheet>
-          )}
+          )} */}
         </div>
         <DragOverlay
           dropAnimation={{

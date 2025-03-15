@@ -17,27 +17,28 @@ import {
   Users,
   Wrench,
 } from "lucide-react";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
 import type React from "react";
 import { memo } from "react";
 import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
-import { TruncatableText } from "../../atoms";
 import type {
   AgentConfig,
   Component,
   ComponentConfig,
   ComponentTypes,
   TeamConfig,
-} from "../../types/datamodel";
+} from "../../../../../types/datamodel";
 import {
   isAssistantAgent,
   isSelectorTeam,
   isWebSurferAgent,
-} from "../../types/guards";
+} from "../../../../../types/guards";
+import { TruncatableText } from "../../atoms";
 import type { CustomNode } from "./types";
 
 // Icon mapping for different node types
-export const iconMap: Record<
+const iconMap: Record<
   Component<ComponentConfig>["component_type"],
   LucideIcon
 > = {
@@ -122,26 +123,29 @@ const BaseNode = memo<BaseNodeProps>(
         transition-all duration-200
       `}
       >
+        <DebugValue data={data} />
         <div className="border-b p-3 bg-gray-50 rounded-t-lg">
           <div className="flex items-center justify-between min-w-0">
             <div className="flex items-center gap-2 min-w-0 flex-1">
               <Icon className="flex-shrink-0 w-5 h-5 text-gray-600" />
               <span className="font-medium text-gray-800 truncate">
-                {data.component.label}
+                {data.component?.label}
               </span>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
               <span className="text-xs px-2 py-1 bg-gray-200 rounded text-gray-700">
-                {data.component.component_type}
+                {data.component?.component_type}
               </span>
               <Button
                 onClick={(e) => {
                   e.stopPropagation();
                   setSelectedNode(id);
                 }}
-                className="p-1 hover:bg-secondary rounded"
+                className="hover:bg-secondary rounded"
+                size="icon"
+                variant="ghost"
               >
-                <Edit className="w-4 h-4 text-accent" />
+                <Edit className="size-4 text-accent" />
               </Button>
               {showDelete && (
                 <Button
@@ -151,8 +155,10 @@ const BaseNode = memo<BaseNodeProps>(
                     if (id) removeNode(id);
                   }}
                   className="p-1 hover:bg-red-100 rounded"
+                  size="icon"
+                  variant="ghost"
                 >
-                  <Trash2Icon className="w-4 h-4 text-red-500" />
+                  <Trash2Icon className="size-4 text-red-500" />
                 </Button>
               )}
             </div>
@@ -224,7 +230,6 @@ export const TeamNode = memo<NodeProps<CustomNode>>((props) => {
             <TruncatableText
               content={component.description || component.label || ""}
               textThreshold={150}
-              showFullscreen={false}
             />
           </div>
           {isSelectorTeam(component) && component.config.selector_prompt && (
@@ -233,7 +238,6 @@ export const TeamNode = memo<NodeProps<CustomNode>>((props) => {
               <TruncatableText
                 content={component.config.selector_prompt}
                 textThreshold={150}
-                showFullscreen={false}
               />
             </div>
           )}
@@ -284,7 +288,7 @@ export const TeamNode = memo<NodeProps<CustomNode>>((props) => {
               key={index}
               className="relative text-sm py-1 px-2 bg-white rounded flex items-center gap-2"
             >
-              <Brain className="w-4 h-4 text-gray-500" />
+              <Brain className="size-4 text-gray-500" />
               <span>{participant.config.name}</span>
             </div>
           ))}
@@ -308,7 +312,7 @@ export const TeamNode = memo<NodeProps<CustomNode>>((props) => {
         <div className="space-y-1">
           {component.config.termination_condition && (
             <div className="text-sm py-1 px-2 bg-white rounded flex items-center gap-2">
-              <Timer className="w-4 h-4 text-gray-500" />
+              <Timer className="size-4 text-gray-500" />
               <span>
                 {component.config.termination_condition.label ||
                   component.config.termination_condition.component_type}
@@ -384,9 +388,9 @@ export const AgentNode = memo<NodeProps<CustomNode>>((props) => {
             /> */}
 
             <div className="relative">
-              {component.config?.model_client && (
+              {component.config.model_client && (
                 <div className="text-sm">
-                  {component.config?.model_client.config?.model}
+                  {component.config.model_client.config.model}
                 </div>
               )}
               <DroppableZone
@@ -416,7 +420,7 @@ export const AgentNode = memo<NodeProps<CustomNode>>((props) => {
                         key={index}
                         className="relative text-sm py-1 px-2 bg-white rounded flex items-center gap-2"
                       >
-                        <Wrench className="w-4 h-4 text-gray-500" />
+                        <Wrench className="size-4 text-gray-500" />
                         <span>{tool.config.name}</span>
                       </div>
                     ))}

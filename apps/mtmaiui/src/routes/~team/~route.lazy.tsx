@@ -2,7 +2,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useTenant, useUser } from "../../hooks/useAuth";
-import { teamAPI } from "../components/views/team/api";
+// import { teamAPI } from "../components/views/team/api.ts--";
 
 import { type MtComponent, comsListOptions } from "mtmaiapi";
 import type { Team } from "../../types/datamodel";
@@ -107,7 +107,7 @@ function RouteComponent() {
     if (!user?.email) return;
 
     try {
-      await teamAPI.deleteTeam(teamId, user.email);
+      // await teamAPI.deleteTeam(teamId, user.email);
       // setTeams(teams.filter((t) => t.id !== teamId));
       // if (currentTeam?.id === teamId) {
       //   setCurrentTeam(null);
