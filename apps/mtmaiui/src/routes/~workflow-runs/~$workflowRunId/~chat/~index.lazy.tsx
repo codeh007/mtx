@@ -13,11 +13,7 @@ function RouteComponent() {
   const sessionId = useWorkbenchStore((x) => x.sessionId);
   return (
     <>
-      <div>
-        <div>component: {componentId}</div>
-        <div>session: {sessionId}</div>
-        <ChatClient />
-      </div>
+      <ChatClient />
     </>
   );
 }
