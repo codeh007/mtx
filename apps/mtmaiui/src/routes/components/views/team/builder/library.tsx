@@ -125,7 +125,7 @@ export const ComponentLibrary: React.FC<LibraryProps> = ({
     [defaultGallery],
   );
 
-  const items = sections.map((section) => {
+  const items = sections?.map((section) => {
     const filteredItems = section.items?.filter((item) =>
       item.label?.toLowerCase().includes(searchTerm.toLowerCase()),
     );
@@ -143,7 +143,7 @@ export const ComponentLibrary: React.FC<LibraryProps> = ({
       ),
       children: (
         <div className="space-y-2">
-          {filteredItems.map((item, itemIndex) => (
+          {filteredItems?.map((item, itemIndex) => (
             <PresetItem
               // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
               key={itemIndex}

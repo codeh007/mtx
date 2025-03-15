@@ -39,6 +39,7 @@ import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
 import { MonacoEditor } from "../../monaco";
 import "./builder.css";
+import defaultGallery from "./default_gallery.json";
 import { ComponentLibrary } from "./library";
 import TestDrawer from "./testdrawer";
 import TeamBuilderToolbar from "./toolbar";
@@ -464,14 +465,18 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
           )} */}
           <ComponentLibrary
             defaultGallery={{
-              // defaultGallery: {},
               config: {
-                teams: [],
-                agents: [],
-                models: [],
-                tools: [],
-                terminations: [],
+                id: "fake-id",
+                name: "fake-name",
+                url: "fake-url",
+                metadata: {
+                  author: "fake-author",
+                  created_at: "fake-created-at",
+                  updated_at: "fake-updated-at",
+                  version: "fake-version",
+                },
               },
+              ...defaultGallery,
             }}
           />
 
