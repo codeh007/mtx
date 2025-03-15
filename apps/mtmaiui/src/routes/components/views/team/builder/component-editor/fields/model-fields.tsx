@@ -1,18 +1,20 @@
-import React, { useCallback } from "react";
-import { Input, InputNumber, Select, Tooltip } from "antd";
 import { HelpCircle } from "lucide-react";
-import {
+import { Input } from "mtxuilib/ui/input";
+import { Select } from "mtxuilib/ui/select";
+import { Textarea } from "mtxuilib/ui/textarea";
+import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
+import React, { useCallback } from "react";
+import type {
   Component,
   ComponentConfig,
   ModelConfig,
-} from "../../../../../types/datamodel";
+} from "../../../../types/datamodel";
 import {
-  isOpenAIModel,
-  isAzureOpenAIModel,
   isAnthropicModel,
-} from "../../../../../types/guards";
+  isAzureOpenAIModel,
+  isOpenAIModel,
+} from "../../../../types/guards";
 import DetailGroup from "../detailgroup";
-import TextArea from "antd/es/input/TextArea";
 
 interface ModelFieldsProps {
   component: Component<ModelConfig>;
@@ -24,11 +26,16 @@ const InputWithTooltip: React.FC<{
   tooltip: string;
   children: React.ReactNode;
 }> = ({ label, tooltip, children }) => (
-  <label className="block">
+  <label className="block" htmlFor={label}>
     <div className="flex items-center gap-2 mb-1">
       <span className="text-sm font-medium text-primary">{label}</span>
-      <Tooltip title={tooltip}>
-        <HelpCircle className="w-4 h-4 text-secondary" />
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <HelpCircle className="w-4 h-4 text-secondary" />
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>{tooltip}</p>
+        </TooltipContent>
       </Tooltip>
     </div>
     {children}
@@ -78,41 +85,47 @@ const fieldSpecs: Record<FieldName, FieldSpec> = {
     label: "Temperature",
     tooltip:
       "Controls randomness in the model's output. Higher values make output more random, lower values make it more focused.",
-    component: InputNumber,
+    // component: InputNumber,
+    component: Input,
     props: { min: 0, max: 2, step: 0.1, className: "w-full" },
   },
   max_tokens: {
     label: "Max Tokens",
     tooltip: "Maximum length of the model's output in tokens",
-    component: InputNumber,
+    // component: InputNumber,
+    component: Input,
     props: { min: 1, className: "w-full" },
   },
   top_p: {
     label: "Top P",
     tooltip:
       "Controls diversity via nucleus sampling. Lower values make output more focused, higher values make it more diverse.",
-    component: InputNumber,
+    // component: InputNumber,
+    component: Input,
     props: { min: 0, max: 1, step: 0.1, className: "w-full" },
   },
   top_k: {
     label: "Top K",
     tooltip:
       "Limits the next token selection to the K most likely tokens. Only used by some models.",
-    component: InputNumber,
+    // component: InputNumber,
+    component: Input,
     props: { min: 0, className: "w-full" },
   },
   frequency_penalty: {
     label: "Frequency Penalty",
     tooltip:
       "Decreases the model's likelihood to repeat the same information. Values range from -2.0 to 2.0.",
-    component: InputNumber,
+    // component: InputNumber,
+    component: Input,
     props: { min: -2, max: 2, step: 0.1, className: "w-full" },
   },
   presence_penalty: {
     label: "Presence Penalty",
     tooltip:
       "Increases the model's likelihood to talk about new topics. Values range from -2.0 to 2.0.",
-    component: InputNumber,
+    // component: InputNumber,
+    component: Input,
     props: { min: -2, max: 2, step: 0.1, className: "w-full" },
   },
   stop: {
@@ -146,7 +159,8 @@ const fieldSpecs: Record<FieldName, FieldSpec> = {
   api_key: {
     label: "API Key",
     tooltip: "Your API key",
-    component: Input.Password,
+    // component: Input.Password,
+    component: Input,
     props: {},
   },
   organization: {
@@ -164,13 +178,15 @@ const fieldSpecs: Record<FieldName, FieldSpec> = {
   timeout: {
     label: "Timeout",
     tooltip: "Request timeout in seconds",
-    component: InputNumber,
+    // component: InputNumber,
+    component: Input,
     props: { min: 1, className: "w-full" },
   },
   max_retries: {
     label: "Max Retries",
     tooltip: "Maximum number of retry attempts for failed requests",
-    component: InputNumber,
+    // component: InputNumber,
+    component: Input,
     props: { min: 0, className: "w-full" },
   },
 
@@ -196,7 +212,8 @@ const fieldSpecs: Record<FieldName, FieldSpec> = {
   azure_ad_token: {
     label: "Azure AD Token",
     tooltip: "Optional: Azure Active Directory token for authentication",
-    component: Input.Password,
+    // component: Input.Password,
+    component: Input,
     props: {},
   },
 
@@ -204,7 +221,7 @@ const fieldSpecs: Record<FieldName, FieldSpec> = {
   tools: {
     label: "Tools",
     tooltip: "JSON definition of tools the model can use",
-    component: TextArea,
+    component: Textarea,
     props: { rows: 4, placeholder: "Enter tools JSON definition" },
     transform: {
       fromConfig: (value: any) => (value ? JSON.stringify(value, null, 2) : ""),
@@ -246,7 +263,7 @@ const fieldSpecs: Record<FieldName, FieldSpec> = {
   metadata: {
     label: "Metadata",
     tooltip: "Optional: Custom metadata to include with the request",
-    component: TextArea,
+    component: Textarea,
     props: { rows: 2, placeholder: "Enter metadata as JSON" },
     transform: {
       fromConfig: (value: any) => (value ? JSON.stringify(value, null, 2) : ""),
@@ -352,7 +369,7 @@ export const ModelFields: React.FC<ModelFieldsProps> = ({
         },
       });
     },
-    [component, onChange]
+    [component, onChange],
   );
 
   const handleConfigUpdate = useCallback(
@@ -370,7 +387,7 @@ export const ModelFields: React.FC<ModelFieldsProps> = ({
         },
       });
     },
-    [component, handleComponentUpdate]
+    [component, handleComponentUpdate],
   );
 
   // Function to render a single field
@@ -394,7 +411,7 @@ export const ModelFields: React.FC<ModelFieldsProps> = ({
           value={value}
           onChange={(val: any) => {
             // For some components like Input, the value is in e.target.value
-            const newValue = val && val.target ? val.target.value : val;
+            const newValue = val?.target ? val.target.value : val;
             handleConfigUpdate(fieldName, newValue);
           }}
         />
@@ -415,7 +432,7 @@ export const ModelFields: React.FC<ModelFieldsProps> = ({
     <div className="space-y-6">
       <DetailGroup title="Component Details">
         <div className="space-y-4">
-          <label className="block">
+          <label className="block" htmlFor="name">
             <span className="text-sm font-medium text-primary">Name</span>
             <Input
               value={component.label || ""}
@@ -425,11 +442,11 @@ export const ModelFields: React.FC<ModelFieldsProps> = ({
             />
           </label>
 
-          <label className="block">
+          <label className="block" htmlFor="description">
             <span className="text-sm font-medium text-primary">
               Description
             </span>
-            <TextArea
+            <Textarea
               value={component.description || ""}
               onChange={(e) =>
                 handleComponentUpdate({ description: e.target.value })
@@ -461,11 +478,11 @@ export const ModelFields: React.FC<ModelFieldsProps> = ({
         (component.config as any).tool_choice === "custom" && (
           <DetailGroup title="Custom Tool Choice">
             <div className="space-y-4">
-              <TextArea
+              <Textarea
                 value={JSON.stringify(
                   (component.config as any).tool_choice,
                   null,
-                  2
+                  2,
                 )}
                 onChange={(e) => {
                   try {

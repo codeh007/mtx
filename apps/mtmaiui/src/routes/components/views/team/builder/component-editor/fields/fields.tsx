@@ -1,7 +1,7 @@
 import type React from "react";
-// import { Button, Form, Input } from "antd";
 
 import { Edit, MinusCircle, PlusCircle } from "lucide-react";
+import { Button } from "mtxuilib/ui/button";
 import type {
   Component,
   ComponentConfig,
@@ -14,16 +14,16 @@ import {
   isTerminationComponent,
   isToolComponent,
 } from "../../../../types/guards";
+import type { EditPath } from "../component-editor";
 import DetailGroup from "../detailgroup";
-import type { EditPath } from "../node-editor";
 import { AgentFields } from "./agent-fields";
 import { ModelFields } from "./model-fields";
 import { TeamFields } from "./team-fields";
 import { TerminationFields } from "./termination-fields";
 import { ToolFields } from "./tool-fields";
 
-const { TextArea } = Input;
-
+import { Input } from "mtxuilib/ui/input";
+import { Textarea } from "mtxuilib/ui/textarea";
 export interface NodeEditorFieldsProps {
   component: Component<ComponentConfig>;
   onNavigate: (componentType: string, id: string, parentField: string) => void;
@@ -131,12 +131,12 @@ export default NodeEditorFields;
 export const CommonFields: React.FC = () => {
   return (
     <>
-      <Form.Item label="Label" name="label">
-        <Input />
-      </Form.Item>
-      <Form.Item label="Description" name="description">
-        <TextArea rows={4} />
-      </Form.Item>
+      {/* <Form.Item label="Label" name="label"> */}
+      <Input />
+      {/* </Form.Item> */}
+      {/* <Form.Item label="Description" name="description"> */}
+      <Textarea rows={4} />
+      {/* </Form.Item> */}
     </>
   );
 };
@@ -171,8 +171,8 @@ export const NestedComponentButton: React.FC<NestedComponentButtonProps> = ({
           <span className="text-sm font-medium">{label}</span>
           {parentField === "tools" && (
             <Button
-              type="dashed"
-              size="small"
+              // type="dashed"
+              // size="small"
               onClick={() => {
                 const blankTool: Component<FunctionToolConfig> = {
                   provider: "autogen_core.tools.FunctionTool",
@@ -214,8 +214,9 @@ export const NestedComponentButton: React.FC<NestedComponentButtonProps> = ({
                   setWorkingCopy(updatedCopy);
                 }
               }}
-              icon={<PlusCircle className="w-4 h-4" />}
+              // icon={}
             >
+              <PlusCircle className="w-4 h-4" />
               Add Tool
             </Button>
           )}
@@ -233,9 +234,8 @@ export const NestedComponentButton: React.FC<NestedComponentButtonProps> = ({
             </Button>
             {parentField === "tools" && (
               <Button
-                type="text"
-                danger
-                icon={<MinusCircle className="w-4 h-4" />}
+                variant="destructive"
+                size="icon"
                 onClick={() => {
                   if (
                     workingCopy &&
@@ -262,7 +262,9 @@ export const NestedComponentButton: React.FC<NestedComponentButtonProps> = ({
                     setWorkingCopy(updatedCopy);
                   }
                 }}
-              />
+              >
+                <MinusCircle className="w-4 h-4" />
+              </Button>
             )}
           </div>
         ))}

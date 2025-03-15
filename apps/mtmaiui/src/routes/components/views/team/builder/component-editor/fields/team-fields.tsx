@@ -1,4 +1,3 @@
-// import { Input, Button } from "antd";
 import { Edit, Timer } from "lucide-react";
 import { Button } from "mtxuilib/ui/button";
 import { Input } from "mtxuilib/ui/input";
@@ -13,8 +12,6 @@ import type {
 } from "../../../../types/datamodel";
 import { isRoundRobinTeam, isSelectorTeam } from "../../../../types/guards";
 import DetailGroup from "../detailgroup";
-
-// const { TextArea } = Input;
 
 interface TeamFieldsProps {
   component: Component<TeamConfig>;

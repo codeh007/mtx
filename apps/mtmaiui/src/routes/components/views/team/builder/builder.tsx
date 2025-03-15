@@ -563,11 +563,8 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
 
           {selectedNodeId && (
             <Sheet
-              // placement="right"
-              // size="large"
-              // onClose={() => setSelectedNode(null)}
               open={!!selectedNodeId}
-              // className="component-editor-drawer"
+              onOpenChange={() => setSelectedNode(null)}
             >
               <SheetContent>
                 <SheetHeader>
