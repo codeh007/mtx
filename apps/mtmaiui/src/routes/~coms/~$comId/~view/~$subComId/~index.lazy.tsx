@@ -56,23 +56,17 @@ function RouteComponent() {
     }
   }, [syncToJson]);
 
-  // const handleClose = () => {
-  //   setOpen(false);
-  //   setSelectedNode(null);
-  //   nav({ to: ".." });
-  // };
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedNode(null);
+    nav({ to: ".." });
+  };
 
   return (
     <>
+      {/* selectedNodeId:{selectedNodeId} */}
       {/* sub component editor: {subComId} */}
-      <Sheet
-        open={!!selectedNodeId}
-        onOpenChange={(open) => {
-          if (!open) {
-            setSelectedNode(null);
-          }
-        }}
-      >
+      <Sheet open={!!selectedNodeId} onOpenChange={handleClose}>
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Edit Component</SheetTitle>

@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createLazyFileRoute } from "@tanstack/react-router";
+import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { comsGetOptions } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
@@ -18,7 +18,6 @@ import {
 import { useTenantId } from "../../../../hooks/useAuth";
 import { useNav } from "../../../../hooks/useNav";
 import { useTeamBuilderStore } from "../../../../stores/teamBuildStore";
-import { TeamBuilder } from "../../../components/views/team/builder/builder";
 
 export const Route = createLazyFileRoute("/coms/$comId/view")({
   component: RouteComponent,
@@ -72,9 +71,7 @@ function RouteComponent() {
         </HeaderActionConainer>
       </DashHeaders>
 
-      <div className="flex flex-col gap-4 w-full h-full">
-        <TeamBuilder team={teamQuery.data} />
-      </div>
+      <Outlet />
     </>
   );
 }

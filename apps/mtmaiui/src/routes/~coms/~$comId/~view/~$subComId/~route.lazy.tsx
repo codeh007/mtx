@@ -1,23 +1,23 @@
-import { Outlet, createLazyFileRoute } from '@tanstack/react-router'
-import { cn } from 'mtxuilib/lib/utils'
+import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
+import { cn } from "mtxuilib/lib/utils";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
   BreadcrumbPage,
-} from 'mtxuilib/ui/breadcrumb'
-import { Button, buttonVariants } from 'mtxuilib/ui/button'
+} from "mtxuilib/ui/breadcrumb";
+import { Button, buttonVariants } from "mtxuilib/ui/button";
 import {
   DashHeaders,
   HeaderActionConainer,
-} from '../../../../../components/DashHeaders'
+} from "../../../../../components/DashHeaders";
 
-export const Route = createLazyFileRoute('/coms/$comId/view/$subComId')({
+export const Route = createLazyFileRoute("/coms/$comId/view/$subComId")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  const { comId } = Route.useParams()
+  const { comId } = Route.useParams();
   // const nav = useNav();
   // const { toast } = useToast();
 
@@ -36,7 +36,7 @@ function RouteComponent() {
         <HeaderActionConainer>
           <Button
             // to={`/coms/${comId}/new_session`}
-            className={cn(buttonVariants({ variant: 'outline' }))}
+            className={cn(buttonVariants({ variant: "outline" }))}
           >
             保存
           </Button>
@@ -44,5 +44,5 @@ function RouteComponent() {
       </DashHeaders>
       <Outlet />
     </>
-  )
+  );
 }

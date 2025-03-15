@@ -1,4 +1,5 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
+import { TeamBuilder } from "../../../components/views/team/builder/builder";
 
 export const Route = createLazyFileRoute("/coms/$comId/view/")({
   component: RouteComponent,
@@ -26,5 +27,11 @@ function RouteComponent() {
   //     nav({ to: `${selectedNodeId}` });
   //   }
   // }, [selectedNodeId, nav]);
-  return <></>;
+  return (
+    <>
+      <div className="flex flex-col gap-4 w-full h-full">
+        <TeamBuilder />
+      </div>
+    </>
+  );
 }
