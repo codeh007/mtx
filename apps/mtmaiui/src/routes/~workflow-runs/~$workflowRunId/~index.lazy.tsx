@@ -1,7 +1,7 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { useNav } from "../../../hooks/useNav";
 import { useWorkflowRunShape } from "../../../hooks/useWorkflowRun";
-import { RunSummary } from "../components/header";
+import { RunSummary } from "../components/RunSummary";
 import { StepRunEvents } from "../components/step-run-events-for-workflow-run";
 
 export const Route = createLazyFileRoute("/workflow-runs/$workflowRunId/")({

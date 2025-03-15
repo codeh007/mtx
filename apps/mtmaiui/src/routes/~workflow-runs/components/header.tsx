@@ -4,9 +4,7 @@ import type React from "react";
 import CronPrettifier from "cronstrue";
 
 import { ArrowPathIcon, XCircleIcon } from "@heroicons/react/24/outline";
-import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { formatDuration } from "date-fns";
 import {
   type WorkflowRunShape,
   WorkflowRunStatus,
@@ -16,7 +14,7 @@ import {
   workflowRunUpdateReplayMutation,
 } from "mtmaiapi";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
-import { RelativeDate } from "mtxuilib/mt/relative-date";
+import { MtTabs, MtTabsList, MtTabsTrigger } from "mtxuilib/mt/tabs";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -24,7 +22,6 @@ import {
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
-import { useToast } from "mtxuilib/ui/use-toast";
 import { DashHeaders } from "../../../components/DashHeaders";
 import { useTenant, useTenantId } from "../../../hooks/useAuth";
 
@@ -43,11 +40,9 @@ export const WORKFLOW_RUN_TERMINAL_STATUSES = [
 export const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
   data,
   loading,
-  refetch,
+  // refetch,
 }) => {
   const tenant = useTenant();
-
-  const { toast } = useToast();
   const tid = useTenantId();
 
   const cancelWorkflowRunMutation = useMutation({
@@ -80,20 +75,6 @@ export const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
               </h2>
             </div> */}
             <div className="flex flex-row gap-2 items-center">
-              <a
-                href={`/workflows/${data.workflowId}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Button
-                  size={"sm"}
-                  className="px-2 py-2 gap-2"
-                  variant="outline"
-                >
-                  <ArrowTopRightIcon className="size-4" />
-                  工作流定义
-                </Button>
-              </a>
               <Button
                 size={"sm"}
                 className="px-2 py-2 gap-2"
@@ -133,6 +114,45 @@ export const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
                 <XCircleIcon className="size-4" />
                 取消
               </Button>
+
+              <MtTabs defaultValue="activity">
+                <MtTabsList layout="underlined">
+                  <CustomLink to="">
+                    <MtTabsTrigger variant="underlined" value="activity">
+                      活动
+                    </MtTabsTrigger>
+                  </CustomLink>
+                  <CustomLink to="input">
+                    <MtTabsTrigger variant="underlined" value="input">
+                      输入
+                    </MtTabsTrigger>
+                  </CustomLink>
+                  <CustomLink to="additional-metadata">
+                    <MtTabsTrigger
+                      variant="underlined"
+                      value="additional-metadata"
+                    >
+                      元数据
+                    </MtTabsTrigger>
+                  </CustomLink>
+                  <MtTabsTrigger variant="underlined" value="control">
+                    调试
+                  </MtTabsTrigger>
+                  <CustomLink to="visualization">
+                    <MtTabsTrigger variant="underlined" value="visualization">
+                      可视化
+                    </MtTabsTrigger>
+                  </CustomLink>
+                  <CustomLink to="chat">
+                    <MtTabsTrigger
+                      variant="underlined"
+                      value="agent_visualization"
+                    >
+                      智能体交互
+                    </MtTabsTrigger>
+                  </CustomLink>
+                </MtTabsList>
+              </MtTabs>
             </div>
           </div>
         </div>
@@ -148,97 +168,8 @@ export const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
         {data.triggeredBy?.cronSchedule && (
           <TriggeringCronSection cron={data.triggeredBy.cronSchedule} />
         )}
-        <div className="flex flex-row gap-2 items-center">
-          <RunSummary data={data} />
-        </div>
       </div>
     </DashHeaders>
-  );
-};
-
-// export default RunDetailHeader;
-
-export const RunSummary: React.FC<{ data: WorkflowRunShape }> = ({ data }) => {
-  const timings: React.ReactNode[] = [];
-  timings.push(
-    <div key="created" className="text-sm text-muted-foreground">
-      {"Created "}
-      <RelativeDate date={data.metadata.createdAt} />
-    </div>,
-  );
-
-  if (data.startedAt) {
-    timings.push(
-      <div key="started" className="text-sm text-muted-foreground">
-        {"开始 "}
-        <RelativeDate date={data.startedAt} />
-      </div>,
-    );
-  } else {
-    timings.push(
-      <div key="running" className="text-sm text-muted-foreground">
-        运行中
-      </div>,
-    );
-  }
-
-  if (data.status === WorkflowRunStatus.CANCELLED && data.finishedAt) {
-    timings.push(
-      <div key="cancelled" className="text-sm text-muted-foreground">
-        已取消
-        <RelativeDate date={data.finishedAt} />
-      </div>,
-    );
-  }
-
-  if (data.status === WorkflowRunStatus.FAILED && data.finishedAt) {
-    timings.push(
-      <div key="failed" className="text-sm text-muted-foreground">
-        失败
-        <RelativeDate date={data.finishedAt} />
-      </div>,
-    );
-  }
-
-  if (data.status === WorkflowRunStatus.SUCCEEDED && data.finishedAt) {
-    timings.push(
-      <div key="finished" className="text-sm text-muted-foreground">
-        已完成
-        <RelativeDate date={data.finishedAt} />
-      </div>,
-    );
-  }
-
-  if (data.duration) {
-    timings.push(
-      <div key="duration" className="text-sm text-muted-foreground">
-        耗时 {formatDuration(data.duration)}
-      </div>,
-    );
-  }
-
-  // interleave the timings with a dot
-  const interleavedTimings: React.ReactNode[] = [];
-
-  timings.forEach((timing, index) => {
-    interleavedTimings.push(timing);
-    if (index < timings.length - 1) {
-      interleavedTimings.push(
-        <div
-          key={`dot-${
-            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-            index
-          }`}
-          className="text-sm text-muted-foreground"
-        >
-          |
-        </div>,
-      );
-    }
-  });
-
-  return (
-    <div className="flex flex-row gap-4 items-center">{interleavedTimings}</div>
   );
 };
 
