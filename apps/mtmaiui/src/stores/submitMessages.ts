@@ -23,7 +23,6 @@ export async function submitMessages(
 
   const messages = get().messages;
   let threadId = get().threadId;
-  // const resourceId = get().resourceId;
   const componentId = get().componentId;
   const content = messages[messages.length - 1].content;
 
@@ -42,7 +41,6 @@ export async function submitMessages(
         sessionId: threadId,
         topic: "default",
         source: "web",
-        // resourceId: resourceId,
         componentId: componentId,
       } satisfies AgentRunInput,
       additionalMetadata: {

@@ -1,13 +1,13 @@
 "use client";
 
 import type { Step, StepRun, WorkflowRunShape } from "mtmaiapi";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { cn } from "mtxuilib/lib/utils";
 import type React from "react";
 import { useMemo } from "react";
 import type { TabOption } from "./step-run-detail/step-run-detail";
 import StepRunNode from "./step-run-node";
-import { hasChildSteps } from "./view-toggle";
-import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
+import { hasChildSteps } from "./workflow_utils";
 
 interface MiniMapProps {
   shape: WorkflowRunShape;
@@ -17,15 +17,25 @@ interface MiniMapProps {
 
 export const MiniMap: React.FC<MiniMapProps> = ({ shape, onClick }) => {
   return (
-    <div className={cn("grow", hasChildSteps(shape) && "pb-12")}>      
-      {shape.jobRuns?.map(({ job, stepRuns,metadata }) => {
+    <div className={cn("grow", hasChildSteps(shape) && "pb-12")}>
+      {shape.jobRuns?.map(({ job, stepRuns, metadata }) => {
         const steps = job?.steps;
 
         if (!steps) {
-          return <div>error no steps <DebugValue title="mini map" data={shape.jobRuns} /></div>
+          return (
+            <div>
+              error no steps{" "}
+              <DebugValue title="mini map" data={shape.jobRuns} />
+            </div>
+          );
         }
         if (!stepRuns) {
-          return <div>error no steps runs <DebugValue title="mini map" data={shape.jobRuns} /></div>
+          return (
+            <div>
+              error no steps runs{" "}
+              <DebugValue title="mini map" data={shape.jobRuns} />
+            </div>
+          );
         }
 
         return (

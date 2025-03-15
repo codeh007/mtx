@@ -23,7 +23,7 @@ import { useGomtmClient } from "./TransportProvider";
 import { submitMessages } from "./submitMessages";
 
 export interface WorkbenchProps {
-  some123?: string;
+  componentId?: string;
 }
 export type StreamingDelta = {
   type: "text-delta" | "title" | "id" | "suggestion" | "clear" | "finish";
@@ -77,12 +77,8 @@ export interface WorkbrenchState extends WorkbenchProps {
   setInput: (input: string) => void;
   handleHumanInput: (input: AgentRunInput) => void;
   handleEvents: (eventName: string, data: any) => void;
-  // subscribeEvents: (options: {
-  //   runId: string;
-  // }) => void;
   resourceId?: string;
   setResourceId: (resourceId: string) => void;
-  componentId?: string;
   setComponentId: (componentId: string) => void;
   workflowRunId?: string;
   setWorkflowRunId: (workflowRunId: string) => void;
@@ -157,9 +153,11 @@ export const createWorkbrenchSlice: StateCreator<
       } as ChatMessage;
       set({
         resourceId,
-        componentId,
         messages: [...preMessages, newChatMessage],
       });
+      if (componentId) {
+        set({ componentId });
+      }
       submitMessages(set, get);
     }, 100),
     setMessages: (messages) => set({ messages }),

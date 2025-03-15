@@ -3669,6 +3669,14 @@ export const AgStatePropertiesSchema = {
       additionalProperties: true,
       default: {},
     },
+    topic: {
+      type: "string",
+      description: "主题",
+    },
+    source: {
+      type: "string",
+      description: "来源",
+    },
   },
 } as const;
 

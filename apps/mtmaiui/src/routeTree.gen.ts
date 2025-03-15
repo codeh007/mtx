@@ -25,7 +25,6 @@ import { Route as SiteCreateIndexImport } from './routes/~site/~create/~index'
 import { Route as SiteSiteIdIndexImport } from './routes/~site/~$siteId/~index'
 import { Route as OnboardingCreateTenantIndexImport } from './routes/~onboarding/~create-tenant/~index'
 import { Route as ComsComIdTypeModelClientImport } from './routes/~coms/~$comId/~type/~modelClient'
-import { Route as WorkflowRunsWorkflowRunIdChatIndexImport } from './routes/~workflow-runs/~$workflowRunId/~chat/~index'
 import { Route as SiteSiteIdHostIndexImport } from './routes/~site/~$siteId/~host/~index'
 import { Route as PlayChatSessionIdIndexImport } from './routes/~play/~chat/~$sessionId/~index'
 
@@ -158,6 +157,9 @@ const ComsComIdTypeAssisantLazyImport = createFileRoute(
 )()
 const WorkflowRunsWorkflowRunIdVisualizationIndexLazyImport = createFileRoute(
   '/workflow-runs/$workflowRunId/visualization/',
+)()
+const WorkflowRunsWorkflowRunIdChatIndexLazyImport = createFileRoute(
+  '/workflow-runs/$workflowRunId/chat/',
 )()
 const TeamTeamIdNewIndexLazyImport = createFileRoute('/team/$teamId/new/')()
 const ResourceNewResIndexLazyImport = createFileRoute('/resource/new/res/')()
@@ -902,6 +904,17 @@ const WorkflowRunsWorkflowRunIdVisualizationIndexLazyRoute =
     ).then((d) => d.Route),
   )
 
+const WorkflowRunsWorkflowRunIdChatIndexLazyRoute =
+  WorkflowRunsWorkflowRunIdChatIndexLazyImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => WorkflowRunsWorkflowRunIdChatRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/~workflow-runs/~$workflowRunId/~chat/~index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+
 const TeamTeamIdNewIndexLazyRoute = TeamTeamIdNewIndexLazyImport.update({
   id: '/new/',
   path: '/new/',
@@ -950,13 +963,6 @@ const ComsComIdTypeModelClientRoute = ComsComIdTypeModelClientImport.update({
   path: '/modelClient',
   getParentRoute: () => ComsComIdTypeRouteLazyRoute,
 } as any)
-
-const WorkflowRunsWorkflowRunIdChatIndexRoute =
-  WorkflowRunsWorkflowRunIdChatIndexImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => WorkflowRunsWorkflowRunIdChatRouteLazyRoute,
-  } as any)
 
 const SiteSiteIdHostIndexRoute = SiteSiteIdHostIndexImport.update({
   id: '/',
@@ -1560,13 +1566,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteSiteIdHostIndexImport
       parentRoute: typeof SiteSiteIdHostRouteImport
     }
-    '/workflow-runs/$workflowRunId/chat/': {
-      id: '/workflow-runs/$workflowRunId/chat/'
-      path: '/'
-      fullPath: '/workflow-runs/$workflowRunId/chat/'
-      preLoaderRoute: typeof WorkflowRunsWorkflowRunIdChatIndexImport
-      parentRoute: typeof WorkflowRunsWorkflowRunIdChatRouteLazyImport
-    }
     '/coms/$comId/type/modelClient': {
       id: '/coms/$comId/type/modelClient'
       path: '/modelClient'
@@ -1608,6 +1607,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/team/$teamId/new'
       preLoaderRoute: typeof TeamTeamIdNewIndexLazyImport
       parentRoute: typeof TeamTeamIdRouteLazyImport
+    }
+    '/workflow-runs/$workflowRunId/chat/': {
+      id: '/workflow-runs/$workflowRunId/chat/'
+      path: '/'
+      fullPath: '/workflow-runs/$workflowRunId/chat/'
+      preLoaderRoute: typeof WorkflowRunsWorkflowRunIdChatIndexLazyImport
+      parentRoute: typeof WorkflowRunsWorkflowRunIdChatRouteLazyImport
     }
     '/workflow-runs/$workflowRunId/visualization/': {
       id: '/workflow-runs/$workflowRunId/visualization/'
@@ -2169,13 +2175,13 @@ const TriggerRouteLazyRouteWithChildren =
   TriggerRouteLazyRoute._addFileChildren(TriggerRouteLazyRouteChildren)
 
 interface WorkflowRunsWorkflowRunIdChatRouteLazyRouteChildren {
-  WorkflowRunsWorkflowRunIdChatIndexRoute: typeof WorkflowRunsWorkflowRunIdChatIndexRoute
+  WorkflowRunsWorkflowRunIdChatIndexLazyRoute: typeof WorkflowRunsWorkflowRunIdChatIndexLazyRoute
 }
 
 const WorkflowRunsWorkflowRunIdChatRouteLazyRouteChildren: WorkflowRunsWorkflowRunIdChatRouteLazyRouteChildren =
   {
-    WorkflowRunsWorkflowRunIdChatIndexRoute:
-      WorkflowRunsWorkflowRunIdChatIndexRoute,
+    WorkflowRunsWorkflowRunIdChatIndexLazyRoute:
+      WorkflowRunsWorkflowRunIdChatIndexLazyRoute,
   }
 
 const WorkflowRunsWorkflowRunIdChatRouteLazyRouteWithChildren =
@@ -2358,13 +2364,13 @@ export interface FileRoutesByFullPath {
   '/workflow-runs/$workflowRunId/visualization': typeof WorkflowRunsWorkflowRunIdVisualizationRouteLazyRouteWithChildren
   '/play/chat/$sessionId/': typeof PlayChatSessionIdIndexRoute
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexRoute
-  '/workflow-runs/$workflowRunId/chat/': typeof WorkflowRunsWorkflowRunIdChatIndexRoute
   '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
   '/coms/$comId/run/': typeof ComsComIdRunIndexLazyRoute
   '/coms/$comId/view/': typeof ComsComIdViewIndexLazyRoute
   '/resource/$resId/$sessionId': typeof ResourceResIdSessionIdIndexLazyRoute
   '/resource/new/res/': typeof ResourceNewResIndexLazyRoute
   '/team/$teamId/new': typeof TeamTeamIdNewIndexLazyRoute
+  '/workflow-runs/$workflowRunId/chat/': typeof WorkflowRunsWorkflowRunIdChatIndexLazyRoute
   '/workflow-runs/$workflowRunId/visualization/': typeof WorkflowRunsWorkflowRunIdVisualizationIndexLazyRoute
   '/coms/$comId/type/assisant': typeof ComsComIdTypeAssisantLazyRoute
   '/coms/$comId/type/instagramTeam': typeof ComsComIdTypeInstagramTeamLazyRoute
@@ -2432,13 +2438,13 @@ export interface FileRoutesByTo {
   '/workflow-runs/$workflowRunId/summary': typeof WorkflowRunsWorkflowRunIdSummaryLazyRoute
   '/play/chat/$sessionId': typeof PlayChatSessionIdIndexRoute
   '/site/$siteId/host': typeof SiteSiteIdHostIndexRoute
-  '/workflow-runs/$workflowRunId/chat': typeof WorkflowRunsWorkflowRunIdChatIndexRoute
   '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
   '/coms/$comId/run': typeof ComsComIdRunIndexLazyRoute
   '/coms/$comId/view': typeof ComsComIdViewIndexLazyRoute
   '/resource/$resId/$sessionId': typeof ResourceResIdSessionIdIndexLazyRoute
   '/resource/new/res': typeof ResourceNewResIndexLazyRoute
   '/team/$teamId/new': typeof TeamTeamIdNewIndexLazyRoute
+  '/workflow-runs/$workflowRunId/chat': typeof WorkflowRunsWorkflowRunIdChatIndexLazyRoute
   '/workflow-runs/$workflowRunId/visualization': typeof WorkflowRunsWorkflowRunIdVisualizationIndexLazyRoute
   '/coms/$comId/type/assisant': typeof ComsComIdTypeAssisantLazyRoute
   '/coms/$comId/type/instagramTeam': typeof ComsComIdTypeInstagramTeamLazyRoute
@@ -2537,13 +2543,13 @@ export interface FileRoutesById {
   '/workflow-runs/$workflowRunId/visualization': typeof WorkflowRunsWorkflowRunIdVisualizationRouteLazyRouteWithChildren
   '/play/chat/$sessionId/': typeof PlayChatSessionIdIndexRoute
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexRoute
-  '/workflow-runs/$workflowRunId/chat/': typeof WorkflowRunsWorkflowRunIdChatIndexRoute
   '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
   '/coms/$comId/run/': typeof ComsComIdRunIndexLazyRoute
   '/coms/$comId/view/': typeof ComsComIdViewIndexLazyRoute
   '/resource/$resId/$sessionId/': typeof ResourceResIdSessionIdIndexLazyRoute
   '/resource/new/res/': typeof ResourceNewResIndexLazyRoute
   '/team/$teamId/new/': typeof TeamTeamIdNewIndexLazyRoute
+  '/workflow-runs/$workflowRunId/chat/': typeof WorkflowRunsWorkflowRunIdChatIndexLazyRoute
   '/workflow-runs/$workflowRunId/visualization/': typeof WorkflowRunsWorkflowRunIdVisualizationIndexLazyRoute
   '/coms/$comId/type/assisant': typeof ComsComIdTypeAssisantLazyRoute
   '/coms/$comId/type/instagramTeam': typeof ComsComIdTypeInstagramTeamLazyRoute
@@ -2644,13 +2650,13 @@ export interface FileRouteTypes {
     | '/workflow-runs/$workflowRunId/visualization'
     | '/play/chat/$sessionId/'
     | '/site/$siteId/host/'
-    | '/workflow-runs/$workflowRunId/chat/'
     | '/coms/$comId/type/modelClient'
     | '/coms/$comId/run/'
     | '/coms/$comId/view/'
     | '/resource/$resId/$sessionId'
     | '/resource/new/res/'
     | '/team/$teamId/new'
+    | '/workflow-runs/$workflowRunId/chat/'
     | '/workflow-runs/$workflowRunId/visualization/'
     | '/coms/$comId/type/assisant'
     | '/coms/$comId/type/instagramTeam'
@@ -2717,13 +2723,13 @@ export interface FileRouteTypes {
     | '/workflow-runs/$workflowRunId/summary'
     | '/play/chat/$sessionId'
     | '/site/$siteId/host'
-    | '/workflow-runs/$workflowRunId/chat'
     | '/coms/$comId/type/modelClient'
     | '/coms/$comId/run'
     | '/coms/$comId/view'
     | '/resource/$resId/$sessionId'
     | '/resource/new/res'
     | '/team/$teamId/new'
+    | '/workflow-runs/$workflowRunId/chat'
     | '/workflow-runs/$workflowRunId/visualization'
     | '/coms/$comId/type/assisant'
     | '/coms/$comId/type/instagramTeam'
@@ -2820,13 +2826,13 @@ export interface FileRouteTypes {
     | '/workflow-runs/$workflowRunId/visualization'
     | '/play/chat/$sessionId/'
     | '/site/$siteId/host/'
-    | '/workflow-runs/$workflowRunId/chat/'
     | '/coms/$comId/type/modelClient'
     | '/coms/$comId/run/'
     | '/coms/$comId/view/'
     | '/resource/$resId/$sessionId/'
     | '/resource/new/res/'
     | '/team/$teamId/new/'
+    | '/workflow-runs/$workflowRunId/chat/'
     | '/workflow-runs/$workflowRunId/visualization/'
     | '/coms/$comId/type/assisant'
     | '/coms/$comId/type/instagramTeam'
@@ -3389,10 +3395,6 @@ export const routeTree = rootRoute
       "filePath": "~site/~$siteId/~host/~index.tsx",
       "parent": "/site/$siteId/host"
     },
-    "/workflow-runs/$workflowRunId/chat/": {
-      "filePath": "~workflow-runs/~$workflowRunId/~chat/~index.tsx",
-      "parent": "/workflow-runs/$workflowRunId/chat"
-    },
     "/coms/$comId/type/modelClient": {
       "filePath": "~coms/~$comId/~type/~modelClient.tsx",
       "parent": "/coms/$comId/type"
@@ -3416,6 +3418,10 @@ export const routeTree = rootRoute
     "/team/$teamId/new/": {
       "filePath": "~team/~$teamId/~new/~index.lazy.tsx",
       "parent": "/team/$teamId"
+    },
+    "/workflow-runs/$workflowRunId/chat/": {
+      "filePath": "~workflow-runs/~$workflowRunId/~chat/~index.lazy.tsx",
+      "parent": "/workflow-runs/$workflowRunId/chat"
     },
     "/workflow-runs/$workflowRunId/visualization/": {
       "filePath": "~workflow-runs/~$workflowRunId/~visualization/~index.lazy.tsx",

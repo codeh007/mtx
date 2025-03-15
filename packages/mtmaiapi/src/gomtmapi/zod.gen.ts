@@ -2600,6 +2600,8 @@ export const zAgStateProperties = z.object({
   componentId: z.string().optional(),
   chatId: z.string().optional(),
   state: z.object({}).default({}),
+  topic: z.string().optional(),
+  source: z.string().optional(),
 });
 
 export const zAgState = zApiResourceMetaProperties.merge(zAgStateProperties);

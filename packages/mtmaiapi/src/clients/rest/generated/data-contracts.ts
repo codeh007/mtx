@@ -1739,6 +1739,10 @@ export interface AgStateProperties {
   chatId?: string;
   /** @default {} */
   state: Record<string, any>;
+  /** 主题 */
+  topic?: string;
+  /** 来源 */
+  source?: string;
 }
 
 export type AgState = APIResourceMetaProperties & AgStateProperties;

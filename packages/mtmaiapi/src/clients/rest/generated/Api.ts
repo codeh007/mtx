@@ -3398,10 +3398,20 @@ export class Api<
    * @request GET:/api/v1/tenants/{tenant}/agStates
    * @secure
    */
-  agStateList = (tenant: TenantParameter, params: RequestParams = {}) =>
+  agStateList = (
+    tenant: TenantParameter,
+    query?: {
+      /** The topic */
+      topic?: string;
+      /** The source */
+      source?: string;
+    },
+    params: RequestParams = {},
+  ) =>
     this.request<AgStateList, any>({
       path: `/api/v1/tenants/${tenant}/agStates`,
       method: "GET",
+      query: query,
       secure: true,
       format: "json",
       ...params,

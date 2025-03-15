@@ -2060,6 +2060,14 @@ export type AgStateProperties = {
   state: {
     [key: string]: unknown;
   };
+  /**
+   * 主题
+   */
+  topic?: string;
+  /**
+   * 来源
+   */
+  source?: string;
 };
 
 export type AgState = ApiResourceMetaProperties & AgStateProperties;
@@ -8677,7 +8685,16 @@ export type AgStateListData = {
      */
     tenant: TenantParameter;
   };
-  query?: never;
+  query?: {
+    /**
+     * The topic
+     */
+    topic?: string;
+    /**
+     * The source
+     */
+    source?: string;
+  };
   url: "/api/v1/tenants/{tenant}/agStates";
 };
 
