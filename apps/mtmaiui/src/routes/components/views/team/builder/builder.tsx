@@ -8,7 +8,6 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { TooltipContent } from "@radix-ui/react-tooltip";
 import {
   Background,
   type Connection,
@@ -19,24 +18,31 @@ import {
   useNodesState,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
+import {
+  Cable,
+  Code2,
+  Download,
+  ListCheck,
+  PlayCircle,
+  Save,
+} from "lucide-react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import type { ComponentTypes, Team } from "../../types/datamodel";
+import { edgeTypes, nodeTypes } from "./nodes";
+import { useTeamBuilderStore } from "./store";
+import type { CustomEdge, CustomNode, DragItem } from "./types";
+
+import { Switch } from "@radix-ui/react-switch";
+import { Tooltip } from "@radix-ui/react-tooltip";
 import debounce from "lodash.debounce";
-import { Cable, Code2, Download, PlayCircle, Save } from "lucide-react";
-import type { MtComponent } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
-import { Switch } from "mtxuilib/ui/switch";
-import { Tooltip, TooltipTrigger } from "mtxuilib/ui/tooltip";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import type { ComponentTypes, Team } from "../../../../../types/datamodel";
 import { MonacoEditor } from "../../monaco";
 import "./builder.css";
 import { ComponentLibrary } from "./library";
-import { NodeEditor } from "./node-editor/node-editor";
-import { edgeTypes, nodeTypes } from "./nodes";
-import { useTeamBuilderStore } from "./store";
 import TestDrawer from "./testdrawer";
-import { TeamBuilderToolbar } from "./toolbar";
-import type { CustomEdge, CustomNode, DragItem } from "./types";
+import TeamBuilderToolbar from "./toolbar";
+import { ValidationErrors } from "./validationerrors";
 
 interface DragItemData {
   type: ComponentTypes;
@@ -46,7 +52,7 @@ interface DragItemData {
 }
 
 interface TeamBuilderProps {
-  team: MtComponent;
+  team: Team;
   onChange?: (team: Partial<Team>) => void;
   onDirtyStateChange?: (isDirty: boolean) => void;
 }
@@ -63,13 +69,18 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showGrid, setShowGrid] = useState(true);
   const [showMiniMap, setShowMiniMap] = useState(true);
+  // const [isDirty, setIsDirty] = useState(false);
   const editorRef = useRef(null);
+  // const [messageApi, contextHolder] = message.useMessage();
   const [activeDragItem, setActiveDragItem] = useState<DragItemData | null>(
     null,
   );
+  const [validationResults, setValidationResults] = useState<any | null>(null);
+
+  const [validationLoading, setValidationLoading] = useState(false);
 
   const [testDrawerVisible, setTestDrawerVisible] = useState(false);
-
+  // const defaultGallery = useGalleryStore((state) => state.getSelectedGallery());
   const {
     undo,
     redo,
@@ -128,15 +139,21 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   }, [isDirty]);
 
   // Load initial config
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
+  React.useEffect(() => {
     if (team) {
       const { nodes: initialNodes, edges: initialEdges } = loadFromJson(
-        team.config,
+        // team.component,
+        team,
       );
       setNodes(initialNodes);
       setEdges(initialEdges);
     }
+    handleValidate();
+
+    return () => {
+      // console.log("cleanup component");
+      setValidationResults(null);
+    };
   }, [team, setNodes, setEdges]);
 
   // Handle JSON changes
@@ -159,28 +176,58 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   useEffect(() => {
     return () => {
       handleJsonChange.cancel();
+      setValidationResults(null);
     };
   }, [handleJsonChange]);
 
-  // Handle save
-  const handleSave = useCallback(async () => {
+  const handleValidate = useCallback(async () => {
     const component = syncToJson();
     if (!component) {
       throw new Error("Unable to generate valid configuration");
     }
 
-    if (onChange) {
-      console.log("Saving team configuration", component);
-      const teamData: Partial<Team> = team
-        ? {
-            ...team,
-            component,
-            created_at: undefined,
-            updated_at: undefined,
-          }
-        : { component };
-      await onChange(teamData);
-      resetHistory();
+    try {
+      setValidationLoading(true);
+      // const validationResult = await validationAPI.validateComponent(component);
+
+      // setValidationResults(validationResult);
+      // if (validationResult.is_valid) {
+      //   messageApi.success("Validation successful");
+      // }
+    } catch (error) {
+      console.error("Validation error:", error);
+      // messageApi.error("Validation failed");
+    } finally {
+      setValidationLoading(false);
+    }
+  }, [syncToJson]);
+
+  // Handle save
+  const handleSave = useCallback(async () => {
+    try {
+      const component = syncToJson();
+      if (!component) {
+        throw new Error("Unable to generate valid configuration");
+      }
+
+      if (onChange) {
+        const teamData: Partial<Team> = team
+          ? {
+              ...team,
+              component,
+              created_at: undefined,
+              updated_at: undefined,
+            }
+          : { component };
+        await onChange(teamData);
+        resetHistory();
+      }
+    } catch (error) {
+      // messageApi.error(
+      //   error instanceof Error
+      //     ? error.message
+      //     : "Failed to save team configuration",
+      // );
     }
   }, [syncToJson, onChange, resetHistory]);
 
@@ -232,7 +279,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
 
     const isValid = validateDropTarget(
       draggedType,
-      targetNode.data?.component_type,
+      targetNode.data.component.component_type,
     );
     // Add visual feedback class to target node
     if (isValid) {
@@ -257,7 +304,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
     // Validate drop
     const isValid = validateDropTarget(
       draggedItem.type,
-      targetNode.data?.component_type,
+      targetNode.data.component.component_type,
     );
     if (!isValid) return;
 
@@ -272,9 +319,11 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   };
 
   const handleTestDrawerClose = () => {
-    console.log("TestDrawer closed");
+    // console.log("TestDrawer closed");
     setTestDrawerVisible(false);
   };
+
+  // const teamValidated = validationResults && validationResults.is_valid;
 
   const onDragStart = (item: DragItem) => {
     // We can add any drag start logic here if needed
@@ -286,7 +335,8 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
     }
   };
   return (
-    <div>
+    <div className="h-full flex-1 bg-amber-100 p-2">
+      <DebugValue data={{ nodes, team }} />
       <div className="flex gap-2 text-xs rounded border-dashed border p-2 mb-2 items-center">
         <div className="flex-1">
           <Switch
@@ -303,167 +353,220 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
               <Code2 className="w-3 h-3 mt-1 inline-block mr-1" />
             </div>
           />
-          <DebugValue data={team} />
-          {isJsonMode ? (
-            "JSON "
-          ) : (
-            <>
-              Visual builder
-              {/* <span className="text-xs text-orange-500  border border-orange-400 rounded-lg px-2 mx-1">
-              {" "}
-              experimental{" "}
-            </span> */}
-            </>
-          )}
-          mode
-          <span className="text-xs text-orange-500 ml-1 underline">
-            (experimental)
-          </span>
+          {isJsonMode ? "View JSON" : <>Visual Builder</>}{" "}
         </div>
+
         <div>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                className="p-1.5 mr-2 px-2.5 rounded-md"
-                onClick={() => {
-                  setTestDrawerVisible(true);
-                }}
-              >
-                <PlayCircle size={18} />
-                Test Team
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <span>Test Team</span>
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                className="p-1.5 rounded-md"
-                onClick={() => {
-                  const json = JSON.stringify(syncToJson(), null, 2);
-                  const blob = new Blob([json], { type: "application/json" });
-                  const url = URL.createObjectURL(blob);
-                  const a = document.createElement("a");
-                  a.href = url;
-                  a.download = "team-config.json";
-                  a.click();
-                  URL.revokeObjectURL(url);
-                }}
-              >
-                <Download size={18} />
-                Download Team
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <span>Download Team</span>
-            </TooltipContent>
+          {validationResults && !validationResults.is_valid && (
+            <div className="inline-block mr-2">
+              {" "}
+              <ValidationErrors validation={validationResults} />
+            </div>
+          )}
+          <Tooltip title="Download Team">
+            <Button
+              type="text"
+              icon={<Download size={18} />}
+              // className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
+              onClick={() => {
+                const json = JSON.stringify(syncToJson(), null, 2);
+                const blob = new Blob([json], { type: "application/json" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "team-config.json";
+                a.click();
+                URL.revokeObjectURL(url);
+              }}
+            />
           </Tooltip>
 
-          <Tooltip>
+          <Tooltip title="Save Changes">
             <Button
-              className="p-1.5 rounded-md"
+              type="text"
+              icon={
+                <div className="relative">
+                  <Save size={18} />
+                  {isDirty && (
+                    <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></div>
+                  )}
+                </div>
+              }
+              className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={handleSave}
               // disabled={!isDirty}
+            />
+          </Tooltip>
+
+          <Tooltip
+            title=<div>
+              Validate Team
+              {validationResults && (
+                <div className="text-xs text-center my-1">
+                  {/* {teamValidated ? (
+                    <span>
+                      <CheckCircle className="w-3 h-3 text-green-500 inline-block mr-1" />
+                      success
+                    </span>
+                  ) : (
+                    <div className="">
+                      <CircleX className="w-3 h-3 text-red-500 inline-block mr-1" />
+                      errors
+                    </div>
+                  )} */}
+                </div>
+              )}
+            </div>
+          >
+            <Button
+              type="text"
+              loading={validationLoading}
+              icon={
+                <div className="relative">
+                  <ListCheck size={18} />
+                  {validationResults && (
+                    <div
+                      className={` ${
+                        teamValidated ? "bg-green-500" : "bg-red-500"
+                      } absolute top-0 right-0 w-2 h-2  rounded-full`}
+                    ></div>
+                  )}
+                </div>
+              }
+              className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={handleValidate}
+            />
+          </Tooltip>
+
+          <Tooltip title="Run Team">
+            <Button
+              type="primary"
+              icon={<PlayCircle size={18} />}
+              className="p-1.5 ml-2 px-2.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
+              onClick={() => {
+                setTestDrawerVisible(true);
+              }}
             >
-              <div className="relative">
-                <Save size={18} />
-                {isDirty && (
-                  <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full" />
-                )}
-              </div>
-              Save Changes
+              Run
             </Button>
           </Tooltip>
         </div>
       </div>
-
       <DndContext
         sensors={sensors}
         onDragEnd={handleDragEnd}
         onDragOver={handleDragOver}
         onDragStart={handleDragStart}
       >
-        <div className="flex relative h-[calc(100vh-239px)] rounded">
-          {!isJsonMode && <ComponentLibrary />}
-          <div className="flex-1 flex w-full h-full">
-            <div className="flex-1 flex rounded  w-full h-full">
-              <div className="relative rounded bg-tertiary  w-full h-full">
-                <div
-                  className={`w-full h-full transition-all duration-200 ${
-                    isFullscreen
-                      ? "fixed inset-4 z-50 shadow-sm bg-tertiary  backdrop-blur-sm"
-                      : ""
-                  }`}
-                >
-                  {isJsonMode ? (
-                    <MonacoEditor
-                      value={JSON.stringify(syncToJson(), null, 2)}
-                      onChange={handleJsonChange}
-                      editorRef={editorRef}
-                      language="json"
-                      minimap={false}
-                    />
-                  ) : (
-                    <ReactFlow
-                      nodes={nodes}
-                      edges={edges}
-                      onNodesChange={onNodesChange}
-                      onEdgesChange={onEdgesChange}
-                      onConnect={onConnect}
-                      // onNodeClick={(_, node) => setSelectedNode(node.id)}
-                      nodeTypes={nodeTypes}
-                      edgeTypes={edgeTypes}
-                      onDrop={(event) => event.preventDefault()}
-                      onDragOver={(event) => event.preventDefault()}
-                      className="rounded"
-                      fitView
-                      fitViewOptions={{ padding: 10 }}
-                    >
-                      {showGrid && <Background />}
-                      {showMiniMap && <MiniMap />}
-                    </ReactFlow>
-                  )}
-                </div>
-                {isFullscreen && (
-                  // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-                  <div
-                    className="fixed inset-0 -z-10 bg-opacity-80 backdrop-blur-sm"
-                    onClick={handleToggleFullscreen}
-                  />
-                )}
-                <TeamBuilderToolbar
-                  isJsonMode={isJsonMode}
-                  isFullscreen={isFullscreen}
-                  showGrid={showGrid}
-                  onToggleMiniMap={() => setShowMiniMap(!showMiniMap)}
-                  canUndo={canUndo}
-                  canRedo={canRedo}
-                  isDirty={isDirty}
-                  onToggleView={() => setIsJsonMode(!isJsonMode)}
-                  onUndo={undo}
-                  onRedo={redo}
-                  onSave={handleSave}
-                  onToggleGrid={() => setShowGrid(!showGrid)}
-                  onToggleFullscreen={handleToggleFullscreen}
-                  onAutoLayout={layoutNodes}
-                />
-              </div>
-            </div>
+        <div className=" relative h-[calc(100vh-239px)] flex-1">
+          {/* {!isJsonMode && defaultGallery && (
+            <ComponentLibrary defaultGallery={defaultGallery} />
+          )} */}
+          <ComponentLibrary
+            defaultGallery={{
+              // defaultGallery: {},
+              config: {
+                teams: [],
+                agents: [],
+                models: [],
+                tools: [],
+                terminations: [],
+              },
+            }}
+          />
 
-            <NodeEditor
-              node={nodes.find((n) => n.id === selectedNodeId) || null}
-              onUpdate={(updates) => {
-                if (selectedNodeId) {
-                  console.log("updating node", selectedNodeId, updates);
-                  updateNode(selectedNodeId, updates);
-                  handleSave();
-                }
-              }}
-              onClose={() => setSelectedNode(null)}
-            />
+          <div className=" rounded bg-amber-100 w-full h-full">
+            <div className="relative rounded bg-amber-200  w-full h-full">
+              <div
+                className={`w-full h-full transition-all duration-200 ${
+                  isFullscreen
+                    ? "fixed inset-4 z-50 shadow bg-tertiary  backdrop-blur-sm"
+                    : ""
+                }`}
+              >
+                {isJsonMode ? (
+                  <MonacoEditor
+                    value={JSON.stringify(syncToJson(), null, 2)}
+                    onChange={handleJsonChange}
+                    editorRef={editorRef}
+                    language="json"
+                    minimap={false}
+                  />
+                ) : (
+                  <ReactFlow
+                    nodes={nodes}
+                    edges={edges}
+                    onNodesChange={onNodesChange}
+                    onEdgesChange={onEdgesChange}
+                    onConnect={onConnect}
+                    // onNodeClick={(_, node) => setSelectedNode(node.id)}
+                    nodeTypes={nodeTypes}
+                    edgeTypes={edgeTypes}
+                    onDrop={(event) => event.preventDefault()}
+                    onDragOver={(event) => event.preventDefault()}
+                    className="rounded"
+                    fitView
+                    fitViewOptions={{ padding: 10 }}
+                  >
+                    {showGrid && <Background />}
+                    {showMiniMap && <MiniMap />}
+                  </ReactFlow>
+                )}
+              </div>
+              {isFullscreen && (
+                <div
+                  className="fixed inset-0 -z-10 bg-background bg-opacity-80 backdrop-blur-sm"
+                  onClick={handleToggleFullscreen}
+                />
+              )}
+              <TeamBuilderToolbar
+                isJsonMode={isJsonMode}
+                isFullscreen={isFullscreen}
+                showGrid={showGrid}
+                onToggleMiniMap={() => setShowMiniMap(!showMiniMap)}
+                canUndo={canUndo}
+                canRedo={canRedo}
+                isDirty={isDirty}
+                onToggleView={() => setIsJsonMode(!isJsonMode)}
+                onUndo={undo}
+                onRedo={redo}
+                onSave={handleSave}
+                onToggleGrid={() => setShowGrid(!showGrid)}
+                onToggleFullscreen={handleToggleFullscreen}
+                onAutoLayout={layoutNodes}
+              />
+            </div>
           </div>
+
+          {/* {selectedNodeId && (
+            <Drawer
+              title="Edit Component"
+              placement="right"
+              size="large"
+              onClose={() => setSelectedNode(null)}
+              open={!!selectedNodeId}
+              className="component-editor-drawer"
+            >
+              {nodes.find((n) => n.id === selectedNodeId)?.data.component && (
+                <ComponentEditor
+                  component={
+                    nodes.find((n) => n.id === selectedNodeId)!.data.component
+                  }
+                  onChange={(updatedComponent) => {
+                    // console.log("builder updating component", updatedComponent);
+                    if (selectedNodeId) {
+                      updateNode(selectedNodeId, {
+                        component: updatedComponent,
+                      });
+                      handleSave();
+                    }
+                  }}
+                  onClose={() => setSelectedNode(null)}
+                  navigationDepth={true}
+                />
+              )}
+            </Drawer>
+          )} */}
         </div>
         <DragOverlay
           dropAnimation={{

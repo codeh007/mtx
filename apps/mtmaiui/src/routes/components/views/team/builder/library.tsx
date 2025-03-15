@@ -1,27 +1,28 @@
+// import { Input, Collapse, type CollapseProps } from "antd";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import {
   Bot,
   Brain,
-  // ChevronDown,
+  GripVertical,
   Maximize2,
   Minimize2,
   Timer,
   Wrench,
 } from "lucide-react";
 import { Button } from "mtxuilib/ui/button";
-// import { Collapse } from "mtxuilib/ui/collapsible";
+import { Collapsible } from "mtxuilib/ui/collapsible";
 import { Input } from "mtxuilib/ui/input";
 import React from "react";
-import { useGalleryStore } from "../../../../../stores/gallerySstore";
+import type { ComponentTypes, Gallery } from "../../types/datamodel";
 
 interface ComponentConfigTypes {
   [key: string]: any;
 }
 
-type ComponentTypes = "agent" | "model" | "tool" | "termination";
-
-type LibraryProps = {};
+interface LibraryProps {
+  defaultGallery: Gallery;
+}
 
 interface PresetItemProps {
   id: string;
@@ -52,7 +53,7 @@ const PresetItem: React.FC<PresetItemProps> = ({
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    opacity: isDragging ? 0.5 : undefined,
+    opacity: isDragging ? 0.8 : undefined,
   };
 
   return (
@@ -61,72 +62,72 @@ const PresetItem: React.FC<PresetItemProps> = ({
       style={style}
       {...attributes}
       {...listeners}
-      className="p-2 text-primary mb-2 border border-secondary rounded cursor-move hover:bg-secondary transition-colors"
+      // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
+      className={`p-2 text-primary mb-2 border  rounded cursor-move  bg-secondary transition-colors`}
     >
       <div className="flex items-center gap-2">
+        <GripVertical className="w-4 h-4 inline-block" />
         {icon}
-        <span>{label}</span>
+        <span className=" text-sm">{label}</span>
       </div>
     </div>
   );
 };
 
-export const ComponentLibrary: React.FC<LibraryProps> = () => {
+export const ComponentLibrary: React.FC<LibraryProps> = ({
+  defaultGallery,
+}) => {
   const [searchTerm, setSearchTerm] = React.useState("");
   const [isMinimized, setIsMinimized] = React.useState(false);
-  const defaultGallery = useGalleryStore((state) => state.getDefaultGallery());
 
-  if (!defaultGallery) {
-    return null;
-  }
   // Map gallery components to sections format
   const sections = React.useMemo(
     () => [
       {
         title: "Agents",
         type: "agent" as ComponentTypes,
-        items: defaultGallery.items.components.agents.map((agent) => ({
-          label: agent.name,
+        items: defaultGallery.config.components?.agents?.map((agent) => ({
+          label: agent.label,
           config: agent,
         })),
-        icon: <Bot className="size-4" />,
+        icon: <Bot className="w-4 h-4" />,
       },
       {
         title: "Models",
         type: "model" as ComponentTypes,
-        items: defaultGallery.items.components.models.map((model) => ({
-          label: `${model.model_type} - ${model.model}`,
+        items: defaultGallery.config.components?.models?.map((model) => ({
+          label: `${model.label || model.config.model}`,
           config: model,
         })),
-        icon: <Brain className="size-4" />,
+        icon: <Brain className="w-4 h-4" />,
       },
       {
         title: "Tools",
         type: "tool" as ComponentTypes,
-        items: defaultGallery.items.components.tools.map((tool) => ({
-          label: tool.name,
+        items: defaultGallery.config.components?.tools?.map((tool) => ({
+          label: tool.config.name,
           config: tool,
         })),
-        icon: <Wrench className="size-4" />,
+        icon: <Wrench className="w-4 h-4" />,
       },
       {
         title: "Terminations",
         type: "termination" as ComponentTypes,
-        items: defaultGallery.items.components.terminations.map(
+        items: defaultGallery.config.components?.terminations?.map(
           (termination) => ({
-            label: `${termination.termination_type}`,
+            label: `${termination.label}`,
             config: termination,
           }),
         ),
-        icon: <Timer className="size-4" />,
+        icon: <Timer className="w-4 h-4" />,
       },
     ],
     [defaultGallery],
   );
 
   const items = sections.map((section) => {
-    const filteredItems = section.items.filter((item) =>
-      item.label.toLowerCase().includes(searchTerm.toLowerCase()),
+    const filteredItems = section.items?.filter((item) =>
+      item.label?.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
     return {
@@ -134,9 +135,9 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
       label: (
         <div className="flex items-center gap-2 font-medium">
           {section.icon}
-          <span>{section.title}</span>
+          <span>{section?.title}</span>
           <span className="text-xs text-gray-500">
-            ({filteredItems.length})
+            ({filteredItems?.length})
           </span>
         </div>
       ),
@@ -146,11 +147,11 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
             <PresetItem
               // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
               key={itemIndex}
-              id={`${section.title.toLowerCase()}-${itemIndex}`}
-              type={section.type}
-              config={item.config}
-              label={item.label}
-              icon={section.icon}
+              id={`${section?.title?.toLowerCase()}-${itemIndex}`}
+              type={section?.type}
+              config={item?.config}
+              label={item?.label || ""}
+              icon={section?.icon}
             />
           ))}
         </div>
@@ -160,9 +161,8 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
 
   if (isMinimized) {
     return (
-      // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
       <div
-        onClick={() => setIsMinimized(false)}
+        // onClick={() => setIsMinimized(false)}
         className="absolute group top-4 left-4 bg-primary shadow-md rounded px-4 pr-2 py-2 cursor-pointer transition-all duration-300 z-50 flex items-center gap-2"
       >
         <span>Show Component Library</span>
@@ -171,28 +171,32 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
           className="p-1 group-hover:bg-tertiary rounded transition-colors"
           title="Maximize Library"
         >
-          <Maximize2 className="size-4" />
+          <Maximize2 className="w-4 h-4" />
         </Button>
       </div>
     );
   }
 
   return (
-    <div className="z-10 mr-2 border-r border-secondary w-64">
+    <div
+      width={300}
+      className="bg-primary border z-10 mr-2 border-r border-secondary"
+    >
       <div className="rounded p-2 pt-2">
         <div className="flex justify-between items-center mb-2">
           <div className="text-normal">Component Library</div>
-          {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-          <button
-            onClick={() => setIsMinimized(true)}
+          <Button
+            // onClick={() => setIsMinimized(true)}
             className="p-1 hover:bg-tertiary rounded transition-colors"
             title="Minimize Library"
           >
-            <Minimize2 className="size-4" />
-          </button>
+            <Minimize2 className="w-4 h-4" />
+          </Button>
         </div>
 
-        <div className="mb-4">Drag a component to add it to the team</div>
+        <div className="mb-4 text-secondary">
+          Drag a component to add it to the team
+        </div>
 
         <div className="flex items-center gap-2 mb-4">
           <Input
@@ -202,18 +206,21 @@ export const ComponentLibrary: React.FC<LibraryProps> = () => {
           />
         </div>
 
-        {/* <Collapse
-          items={items}
-          defaultActiveKey={["Agents"]}
-          bordered={false}
-          expandIcon={({ isActive }) => (
-            <ChevronDown
-              strokeWidth={1}
-              className={`${isActive ? "transform rotate-180" : ""} size-4`}
-            />
-          )}
-        /> */}
+        <Collapsible
+        // accordion
+        // items={items}
+        // defaultActiveKey={["Agents"]}
+        // bordered={false}
+        // expandIcon={({ isActive }) => (
+        //   <ChevronDown
+        //     strokeWidth={1}
+        //     className={(isActive ? "transform rotate-180" : "") + " w-4 h-4"}
+        //   />
+        // )}
+        />
       </div>
     </div>
   );
 };
+
+export default ComponentLibrary;

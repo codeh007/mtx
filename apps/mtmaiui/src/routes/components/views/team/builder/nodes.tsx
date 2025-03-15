@@ -17,6 +17,7 @@ import {
   Users,
   Wrench,
 } from "lucide-react";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
 import type React from "react";
 import { memo } from "react";
@@ -122,6 +123,7 @@ const BaseNode = memo<BaseNodeProps>(
         transition-all duration-200
       `}
       >
+        <DebugValue data={data} />
         <div className="border-b p-3 bg-gray-50 rounded-t-lg">
           <div className="flex items-center justify-between min-w-0">
             <div className="flex items-center gap-2 min-w-0 flex-1">

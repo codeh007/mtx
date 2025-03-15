@@ -61,7 +61,7 @@ const calculateNodeHeight = (component: Component<ComponentConfig>): number => {
   }
 
   // Add heights for specific component types
-  switch (component.component_type) {
+  switch (component.componentType) {
     case "team":
       const teamConfig = component as Component<TeamConfig>;
       // Add height for agents section
@@ -153,11 +153,11 @@ const createNode = (
 ): CustomNode => ({
   id: nanoid(),
   position,
-  type: component.component_type,
+  type: component.componentType,
   data: {
-    label: label || component.label || component.component_type,
+    label: label || component.label || component.componentType,
     component,
-    type: component.component_type,
+    type: component.componentType,
     dimensions: {
       width: LAYOUT_CONFIG.NODE.WIDTH,
       height: calculateNodeHeight(component),
@@ -186,6 +186,7 @@ export const convertTeamConfigToGraph = (
   const nodes: CustomNode[] = [];
   const edges: CustomEdge[] = [];
 
+  console.log("xxxxteamComponent", teamComponent);
   // Create agent nodes first to calculate their positions
   const agentNodes: CustomNode[] = [];
   teamComponent.config?.participants?.forEach((participant, index) => {
@@ -199,9 +200,9 @@ export const convertTeamConfigToGraph = (
 
   // Add all nodes and create edges
   nodes.push(teamNode, ...agentNodes);
-  agentNodes?.forEach((agentNode) => {
-    edges?.push(createEdge(teamNode.id, agentNode.id, "agent-connection"));
-  });
+  for (const agentNode of agentNodes) {
+    edges.push(createEdge(teamNode.id, agentNode.id, "agent-connection"));
+  }
 
   return { nodes, edges };
 };

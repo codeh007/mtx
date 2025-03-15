@@ -1,9 +1,15 @@
+// builder/types.ts
 import type { Edge, Node } from "@xyflow/react";
-import type { ComponentTypes } from "mtmaiapi";
+import type { Component, ComponentConfig } from "../../types/datamodel";
+
 export interface NodeData extends Record<string, unknown> {
-  label: string;
-  type: ComponentTypes;
-  config: ComponentConfigTypes;
+  component: Component<ComponentConfig>;
+}
+
+export interface EditingState {
+  component: Component<ComponentConfig>;
+  path: string[];
+  changes?: Partial<Component<ComponentConfig>>;
 }
 
 // Define our node type that extends the XYFlow Node type
@@ -25,10 +31,10 @@ export interface Position {
   x: number;
   y: number;
 }
-// export interface GraphState {
-//   nodes: CustomNode[];
-//   edges: CustomEdge[];
-// }
+export interface GraphState {
+  nodes: CustomNode[];
+  edges: CustomEdge[];
+}
 
 export interface FormFieldMapping {
   fieldName: string;
@@ -40,9 +46,7 @@ export interface FormFieldMapping {
 }
 
 export interface DragItem {
-  type: ComponentTypes;
-  // config: ComponentConfigTypes;
-  config: any;
+  config: ComponentConfig;
 }
 
 export interface NodeComponentProps {
@@ -54,6 +58,7 @@ export interface NodeComponentProps {
 export interface NodeEditorProps {
   node: CustomNode | null;
   onUpdate: (updates: Partial<NodeData>) => void;
+  onClose: () => void;
 }
 
 export interface LibraryProps {
