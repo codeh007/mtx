@@ -27,9 +27,9 @@ import type React from "react";
 import { useMemo, useState } from "react";
 import { RunIndicator } from "../run-statuses";
 import { StepRunEvents } from "../step-run-events-for-workflow-run";
-// import { WorkflowRunsTable } from "../workflow-runs-table.tsx--";
 import { StepRunLogs } from "./step-run-logs";
 import { StepRunOutput } from "./step-run-output";
+import { useTenant } from "../../../../hooks/useAuth";
 export enum TabOption {
   Output = "output",
   ChildWorkflowRuns = "child-workflow-runs",
@@ -40,7 +40,7 @@ export enum TabOption {
 }
 
 interface StepRunDetailProps {
-  tenant: Tenant;
+  // tenant: Tenant;
   stepRunId: string;
   workflowRun: WorkflowRunShape;
   defaultOpenTab?: TabOption;
@@ -54,12 +54,13 @@ export const STEP_RUN_TERMINAL_STATUSES = [
 ];
 
 export const StepRunDetail = ({
-  tenant,
+  // tenant,
   stepRunId,
   workflowRun,
   defaultOpenTab = TabOption.Output,
 }: StepRunDetailProps) => {
   const [errors, setErrors] = useState<string[]>([]);
+  const tenant = useTenant();
   const getStepRunQuery = useSuspenseQuery({
     ...stepRunGetOptions({
       path: {

@@ -6,7 +6,6 @@ import { Sheet, SheetContent } from "mtxuilib/ui/sheet";
 import { useEffect, useState } from "react";
 import { useTenant } from "../../../hooks/useAuth";
 import { useWorkflowRunShape } from "../../../hooks/useWorkflowRun";
-import { useMtmaiV2 } from "../../../stores/StoreProvider";
 import type { WorkflowRunSidebarState } from "../../../types/types";
 import { RunDetailHeader } from "../components/header";
 import { StepRunDetail } from "../components/step-run-detail/step-run-detail";
@@ -28,7 +27,7 @@ function RouteComponent() {
       setSidebarState(undefined);
     }
   }, [workflowRunId, sidebarState]);
-  const view = useMtmaiV2((x) => x.preferredWorkflowRunView);
+  // const view = useMtmaiV2((x) => x.preferredWorkflowRunView);
   return (
     <>
       <RunDetailHeader
@@ -56,12 +55,16 @@ function RouteComponent() {
           <MtTabsTrigger variant="underlined" value="control">
             调试
           </MtTabsTrigger>
-          <MtTabsTrigger variant="underlined" value="visualization">
-            可视化
-          </MtTabsTrigger>
-          <MtTabsTrigger variant="underlined" value="agent_visualization">
-            智能体交互
-          </MtTabsTrigger>
+          <CustomLink to="visualization">
+            <MtTabsTrigger variant="underlined" value="visualization">
+              可视化
+            </MtTabsTrigger>
+          </CustomLink>
+          <CustomLink to="chat">
+            <MtTabsTrigger variant="underlined" value="agent_visualization">
+              智能体交互
+            </MtTabsTrigger>
+          </CustomLink>
         </MtTabsList>
 
         {/* <MtTabsContent value="activity">
@@ -155,7 +158,7 @@ function RouteComponent() {
               {sidebarState?.stepRunId && (
                 <MtSuspenseBoundary>
                   <StepRunDetail
-                    tenant={tenant!}
+                    // tenant={tenant!}
                     stepRunId={sidebarState?.stepRunId}
                     workflowRun={shape.data}
                     defaultOpenTab={sidebarState?.defaultOpenTab}

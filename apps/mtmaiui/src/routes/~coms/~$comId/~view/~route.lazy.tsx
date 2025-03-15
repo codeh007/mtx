@@ -1,6 +1,4 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { createLazyFileRoute } from "@tanstack/react-router";
-import { comsGetOptions } from "mtmaiapi";
+import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import {
   Breadcrumb,
@@ -9,10 +7,11 @@ import {
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
+import { useToast } from "mtxuilib/ui/use-toast";
+import { useEffect } from "react";
 import { DashHeaders } from "../../../../components/DashHeaders";
-import { useTenantId } from "../../../../hooks/useAuth";
+import { useNav } from "../../../../hooks/useNav";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
-import { TeamBuilder } from "../../../components/views/team/builder/builder";
 
 export const Route = createLazyFileRoute("/coms/$comId/view")({
   component: RouteComponent,
@@ -20,17 +19,8 @@ export const Route = createLazyFileRoute("/coms/$comId/view")({
 
 function RouteComponent() {
   const { comId } = Route.useParams();
-  const tid = useTenantId();
-  const teamQuery = useSuspenseQuery({
-    ...comsGetOptions({
-      path: {
-        tenant: tid,
-      },
-      query: {
-        com: comId,
-      },
-    }),
-  });
+  const nav = useNav();
+  const { toast } = useToast();
 
   const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
   const handleRun = () => {
@@ -39,6 +29,28 @@ function RouteComponent() {
       componentId: comId,
     });
   };
+
+  const workflowRunId = useWorkbenchStore((x) => x.workflowRunId);
+
+  useEffect(() => {
+    if (workflowRunId) {
+      toast({
+        title: "操作成功",
+        description: (
+          <div className="mt-1 w-[240px] rounded-md p-4 flex justify-center items-center">
+            <Button
+              onClick={() => {
+                nav({ to: `/workflow-runs/${workflowRunId}` });
+              }}
+            >
+              <span>查看运行</span>
+            </Button>
+          </div>
+        ),
+      });
+    }
+  }, [workflowRunId, toast, nav]);
+
   return (
     <>
       <DashHeaders>
@@ -51,18 +63,16 @@ function RouteComponent() {
         </Breadcrumb>
         <Button onClick={handleRun}>运行</Button>
         <CustomLink
-          to={`/workflow-runs`}
+          to={"/workflow-runs"}
           search={{
-            backTo: "/coms/$comId/view",
+            backTo: `/coms/${comId}/view`,
             metadataFilter: [`componentId:${comId}`],
           }}
         >
-          运行记录
+          运行记录, workflowRunId: {workflowRunId}
         </CustomLink>
       </DashHeaders>
-      <div className="flex flex-col gap-4 w-full h-full">
-        <TeamBuilder team={teamQuery.data} />
-      </div>
+      <Outlet />
     </>
   );
 }

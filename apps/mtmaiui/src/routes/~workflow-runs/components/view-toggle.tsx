@@ -4,6 +4,7 @@ import type { WorkflowRunShape } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import { BiExitFullscreen, BiExpand } from "react-icons/bi";
 import { useMtmaiV2 } from "../../../stores/StoreProvider";
+import { hasChildSteps } from "./workflow_utils";
 
 type Props = {
   shape: WorkflowRunShape;
@@ -29,10 +30,10 @@ export const ViewToggle: React.FC<Props> = ({ shape }) => {
   );
 };
 
-export function hasChildSteps(shape: WorkflowRunShape) {
-  return shape.jobRuns?.some((jobRun) => {
-    return jobRun.job?.steps.some((step) => {
-      return step?.parents?.length;
-    });
-  });
-}
+// export function hasChildSteps(shape: WorkflowRunShape) {
+//   return shape.jobRuns?.some((jobRun) => {
+//     return jobRun.job?.steps.some((step) => {
+//       return step?.parents?.length;
+//     });
+//   });
+// }

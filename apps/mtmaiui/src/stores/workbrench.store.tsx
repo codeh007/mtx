@@ -77,13 +77,15 @@ export interface WorkbrenchState extends WorkbenchProps {
   setInput: (input: string) => void;
   handleHumanInput: (input: AgentRunInput) => void;
   handleEvents: (eventName: string, data: any) => void;
-  subscribeEvents: (options: {
-    runId: string;
-  }) => void;
+  // subscribeEvents: (options: {
+  //   runId: string;
+  // }) => void;
   resourceId?: string;
   setResourceId: (resourceId: string) => void;
   componentId?: string;
   setComponentId: (componentId: string) => void;
+  workflowRunId?: string;
+  setWorkflowRunId: (workflowRunId: string) => void;
   selectedModelId?: string;
   setSelectedModelId: (selectedModelId: string) => void;
   chatStarted?: boolean;
@@ -173,7 +175,9 @@ export const createWorkbrenchSlice: StateCreator<
     setComponentId: (componentId) => {
       set({ componentId });
     },
-
+    setWorkflowRunId: (workflowRunId) => {
+      set({ workflowRunId });
+    },
     setChatStarted: (chatStarted: boolean) => {
       set({ chatStarted });
     },

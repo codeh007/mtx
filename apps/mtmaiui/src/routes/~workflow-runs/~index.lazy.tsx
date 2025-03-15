@@ -251,14 +251,16 @@ function RouteComponent() {
   }, [columnFilters]);
 
   const AdditionalMetadataFilter = useMemo(() => {
-    const filter = columnFilters.find((filter) => filter.id === "Metadata");
+    // const filter = columnFilters.find((filter) => filter.id === "Metadata");
 
-    if (!filter) {
-      return;
-    }
+    // if (!filter) {
+    //   return;
+    // }
 
-    return filter?.value as Array<string>;
-  }, [columnFilters]);
+    // return filter?.value as Array<string>;
+    // return [`componentId:${search.componentId}`];
+    return search.metadataFilter;
+  }, [search.metadataFilter]);
 
   const orderByDirection = useMemo(():
     | WorkflowRunOrderByDirection
@@ -334,7 +336,7 @@ function RouteComponent() {
   const tenantMetricsQuery = useQuery({
     ...tenantGetStepRunQueueMetricsOptions({
       path: {
-        tenant: tenant!.metadata.id,
+        tenant: tid,
       },
     }),
     refetchInterval,
@@ -531,24 +533,10 @@ function RouteComponent() {
             <BreadcrumbItem>
               <BreadcrumbPage>运行记录</BreadcrumbPage>
             </BreadcrumbItem>
-            <DebugValue data={{ search }} />
+            <DebugValue data={{ search, AdditionalMetadataFilter }} />
           </BreadcrumbList>
         </Breadcrumb>
       </DashHeaders>
-
-      {/* <Button
-        onClick={() => {
-          nav({
-            to: ".",
-            search: {
-              ...search,
-              some1: "set2",
-            },
-          });
-        }}
-      >
-        set1
-      </Button> */}
       {viewType === "table" && (
         <>
           {showMetrics && (

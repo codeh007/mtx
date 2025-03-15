@@ -23,7 +23,7 @@ export async function submitMessages(
 
   const messages = get().messages;
   let threadId = get().threadId;
-  const resourceId = get().resourceId;
+  // const resourceId = get().resourceId;
   const componentId = get().componentId;
   const content = messages[messages.length - 1].content;
 
@@ -60,6 +60,7 @@ export async function submitMessages(
     // pull stream event
     if (response.data?.metadata?.id) {
       const workflowRunId = response.data.metadata?.id;
+      set({ workflowRunId: workflowRunId });
       const result = await get().dispatcherClient.subscribeToWorkflowEvents({
         workflowRunId: workflowRunId,
       });
