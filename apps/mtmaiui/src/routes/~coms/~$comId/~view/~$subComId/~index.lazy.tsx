@@ -5,8 +5,8 @@ import {
   SheetHeader,
   SheetTitle,
 } from "mtxuilib/ui/sheet";
-import { useCallback, useEffect, useState } from "react";
-import { useParams } from "../../../../../hooks/useNav";
+import { useCallback, useState } from "react";
+import { useNav, useParams } from "../../../../../hooks/useNav";
 import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
 import { ComponentEditor } from "../../../../components/views/team/builder/component-editor/component-editor";
 
@@ -16,27 +16,16 @@ export const Route = createLazyFileRoute("/coms/$comId/view/$subComId/")({
 
 function RouteComponent() {
   const { subComId } = useParams();
-
+  const nav = useNav();
   const [open, setOpen] = useState(true);
   const loadFromJson = useTeamBuilderStore((x) => x.loadFromJson);
   const team = useTeamBuilderStore((x) => x.team);
-  useEffect(() => {
-    if (team) {
-      const { nodes: initialNodes, edges: initialEdges } = loadFromJson(
-        // team.component,
-        team,
-      );
-      setNodes(initialNodes);
-      setEdges(initialEdges);
-    }
-    handleValidate();
-
-    return () => {
-      // console.log("cleanup component");
-      setValidationResults(null);
-    };
-  }, [team, setNodes, setEdges]);
   const syncToJson = useTeamBuilderStore((x) => x.syncToJson);
+  const nodes = useTeamBuilderStore((x) => x.nodes);
+  const edges = useTeamBuilderStore((x) => x.edges);
+  const updateNode = useTeamBuilderStore((x) => x.updateNode);
+  const selectedNodeId = useTeamBuilderStore((x) => x.selectedNodeId);
+  const setSelectedNode = useTeamBuilderStore((x) => x.setSelectedNode);
 
   // Handle save
   const handleSave = useCallback(async () => {
@@ -66,10 +55,24 @@ function RouteComponent() {
       // );
     }
   }, [syncToJson]);
+
+  // const handleClose = () => {
+  //   setOpen(false);
+  //   setSelectedNode(null);
+  //   nav({ to: ".." });
+  // };
+
   return (
-    <div>
-      sub component editor: {subComId}
-      <Sheet open={open} onOpenChange={setOpen}>
+    <>
+      {/* sub component editor: {subComId} */}
+      <Sheet
+        open={!!selectedNodeId}
+        onOpenChange={(open) => {
+          if (!open) {
+            setSelectedNode(null);
+          }
+        }}
+      >
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Edit Component</SheetTitle>
@@ -92,6 +95,6 @@ function RouteComponent() {
           )}
         </SheetContent>
       </Sheet>
-    </div>
+    </>
   );
 }

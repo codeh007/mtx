@@ -107,9 +107,7 @@ const BaseNode = memo<BaseNodeProps>(
     onEditClick,
   }) => {
     const removeNode = useTeamBuilderStore((state) => state.removeNode);
-    const setSelectedNode = useTeamBuilderStore(
-      (state) => state.setSelectedNode,
-    );
+    const setSelectedNode = useTeamBuilderStore((x) => x.setSelectedNode);
     const showDelete = data.type !== "team";
 
     return (
@@ -267,7 +265,7 @@ export const TeamNode = memo<NodeProps<CustomNode>>((props) => {
       <NodeSection
         title={
           <div>
-            Agents{" "}
+            Agents
             <span className="text-xs text-accent">({participantCount})</span>
           </div>
         }
@@ -281,6 +279,7 @@ export const TeamNode = memo<NodeProps<CustomNode>>((props) => {
         <div className="space-y-1">
           {component.config.participants?.map((participant, index) => (
             <div
+              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
               key={index}
               className="relative text-sm py-1 px-2 bg-white rounded flex items-center gap-2"
             >
@@ -359,7 +358,6 @@ export const AgentNode = memo<NodeProps<CustomNode>>((props) => {
       descriptionContent={
         <div>
           <div className="break-words truncate mb-1">
-            {" "}
             {component.config.name}
           </div>
           <div className="break-words"> {component.description}</div>

@@ -80,9 +80,10 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
     resetHistory,
     history,
     updateNode,
-    selectedNodeId,
-    setSelectedNode,
   } = useTeamBuilderStore();
+
+  // const selectedNodeId = useTeamBuilderStore((x) => x.selectedNodeId);
+  const setSelectedNode = useTeamBuilderStore((x) => x.setSelectedNode);
 
   const currentHistoryIndex = useTeamBuilderStore(
     (state) => state.currentHistoryIndex,
@@ -380,7 +381,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
                 // disabled={!isDirty}
               >
                 <div className="relative">
-                  <Save size={18} />
+                  <Save className="size-4" />
                   {isDirty && (
                     <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full" />
                   )}
@@ -503,7 +504,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
                     onNodesChange={onNodesChange}
                     onEdgesChange={onEdgesChange}
                     onConnect={onConnect}
-                    // onNodeClick={(_, node) => setSelectedNode(node.id)}
+                    onNodeClick={(_, node) => setSelectedNode(node.id)}
                     nodeTypes={nodeTypes}
                     edgeTypes={edgeTypes}
                     onDrop={(event) => event.preventDefault()}
