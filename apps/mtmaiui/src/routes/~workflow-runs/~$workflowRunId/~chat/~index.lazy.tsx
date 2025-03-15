@@ -10,10 +10,14 @@ export const Route = createLazyFileRoute("/workflow-runs/$workflowRunId/chat/")(
 
 function RouteComponent() {
   const componentId = useWorkbenchStore((x) => x.componentId);
+  const sessionId = useWorkbenchStore((x) => x.sessionId);
   return (
     <>
-      componentId: {componentId}
-      <ChatClient />
+      <div>
+        <div>component: {componentId}</div>
+        <div>session: {sessionId}</div>
+        <ChatClient />
+      </div>
     </>
   );
 }

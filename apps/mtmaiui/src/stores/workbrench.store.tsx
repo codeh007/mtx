@@ -24,6 +24,7 @@ import { submitMessages } from "./submitMessages";
 
 export interface WorkbenchProps {
   componentId?: string;
+  sessionId?: string;
 }
 export type StreamingDelta = {
   type: "text-delta" | "title" | "id" | "suggestion" | "clear" | "finish";
@@ -67,7 +68,6 @@ export interface WorkbrenchState extends WorkbenchProps {
   setChatEndpoint: (chatEndpoint: string) => void;
   isConnected: boolean;
   setIsConnected: (isConnected: boolean) => void;
-  sessionId: string;
   setSessionId: (sessionId: string) => void;
   firstUserInteraction?: string;
   setFirstUserInteraction: (firstUserInteraction: string) => void;
@@ -76,14 +76,14 @@ export interface WorkbrenchState extends WorkbenchProps {
   input?: string;
   setInput: (input: string) => void;
   handleHumanInput: (input: AgentRunInput) => void;
-  handleEvents: (eventName: string, data: any) => void;
-  resourceId?: string;
-  setResourceId: (resourceId: string) => void;
+  // handleEvents: (eventName: string, data: any) => void;
+  // resourceId?: string;
+  // setResourceId: (resourceId: string) => void;
   setComponentId: (componentId: string) => void;
   workflowRunId?: string;
   setWorkflowRunId: (workflowRunId: string) => void;
-  selectedModelId?: string;
-  setSelectedModelId: (selectedModelId: string) => void;
+  // selectedModelId?: string;
+  // setSelectedModelId: (selectedModelId: string) => void;
   chatStarted?: boolean;
   setChatStarted: (chatStarted: boolean) => void;
   messages: ChatMessage[];
@@ -99,11 +99,11 @@ export interface WorkbrenchState extends WorkbenchProps {
   addMessage: (message: ChatMessage) => void;
   runId: string;
   setRunId: (runId: string) => void;
-  isArtifactSaved: boolean;
-  setIsArtifactSaved: (isArtifactSaved: boolean) => void;
+  // isArtifactSaved: boolean;
+  // setIsArtifactSaved: (isArtifactSaved: boolean) => void;
   streamMessage: (params: AgentRunInput) => Promise<void>;
-  artifactContent: string[];
-  setArtifactContent: (index: number, content: string) => void;
+  // artifactContent: string[];
+  // setArtifactContent: (index: number, content: string) => void;
 }
 
 export const createWorkbrenchSlice: StateCreator<
@@ -136,12 +136,12 @@ export const createWorkbrenchSlice: StateCreator<
       set({ openChat });
     },
 
-    handleHumanInput: debounce(async ({ content, resourceId, componentId }) => {
+    handleHumanInput: debounce(async ({ content, componentId }) => {
       const preMessages = get().messages;
       const newChatMessage = {
         role: "user",
         content,
-        resourceId,
+        // resourceId,
         componentId,
         topic: "default",
         source: "web",
@@ -152,7 +152,7 @@ export const createWorkbrenchSlice: StateCreator<
         },
       } as ChatMessage;
       set({
-        resourceId,
+        // resourceId,
         messages: [...preMessages, newChatMessage],
       });
       if (componentId) {

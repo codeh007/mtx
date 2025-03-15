@@ -16,6 +16,7 @@ function RouteComponent() {
     <>
       <WorkbrenchProvider
         componentId={additionalMetadata?.componentId as string}
+        sessionId={additionalMetadata?.sessionId as string}
       >
         <Outlet />
       </WorkbrenchProvider>
