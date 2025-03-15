@@ -15,7 +15,7 @@ import {
   isOrTermination,
   isTextMentionTermination,
 } from "../../../../types/guards";
-import DetailGroup from "../detailgroup";
+import { DetailGroup } from "../detailgroup";
 
 interface TerminationFieldsProps {
   component: Component<TerminationConfig>;

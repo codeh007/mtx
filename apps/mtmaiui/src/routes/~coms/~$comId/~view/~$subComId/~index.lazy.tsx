@@ -6,7 +6,7 @@ import {
   SheetTitle,
 } from "mtxuilib/ui/sheet";
 import { useCallback, useState } from "react";
-import { useNav, useParams } from "../../../../../hooks/useNav";
+import { useParams } from "../../../../../hooks/useNav";
 import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
 import { ComponentEditor } from "../../../../components/views/team/builder/component-editor/component-editor";
 
@@ -16,7 +16,7 @@ export const Route = createLazyFileRoute("/coms/$comId/view/$subComId/")({
 
 function RouteComponent() {
   const { subComId } = useParams();
-  const nav = useNav();
+  const nav = Route.useNavigate();
   const [open, setOpen] = useState(true);
   const loadFromJson = useTeamBuilderStore((x) => x.loadFromJson);
   const team = useTeamBuilderStore((x) => x.team);
@@ -64,10 +64,8 @@ function RouteComponent() {
 
   return (
     <>
-      {/* selectedNodeId:{selectedNodeId} */}
-      {/* sub component editor: {subComId} */}
       <Sheet open={!!selectedNodeId} onOpenChange={handleClose}>
-        <SheetContent>
+        <SheetContent className="w-full sm:max-w-5xl">
           <SheetHeader>
             <SheetTitle>Edit Component</SheetTitle>
           </SheetHeader>

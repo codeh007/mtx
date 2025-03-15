@@ -106,31 +106,42 @@ function isComponentOfType<P extends Provider>(
 export function isTeamComponent(
   component: Component<ComponentConfig>,
 ): component is Component<TeamConfig> {
-  return component.component_type === "team";
+  return (
+    component.component_type === "team" || component.componentType === "team"
+  );
 }
 
 export function isAgentComponent(
   component: Component<ComponentConfig>,
 ): component is Component<AgentConfig> {
-  return component.component_type === "agent";
+  return (
+    component.component_type === "agent" || component.componentType === "agent"
+  );
 }
 
 export function isModelComponent(
   component: Component<ComponentConfig>,
 ): component is Component<ModelConfig> {
-  return component.component_type === "model";
+  return (
+    component.component_type === "model" || component.componentType === "model"
+  );
 }
 
 export function isToolComponent(
   component: Component<ComponentConfig>,
 ): component is Component<ToolConfig> {
-  return component.component_type === "tool";
+  return (
+    component.component_type === "tool" || component.componentType === "tool"
+  );
 }
 
 export function isTerminationComponent(
   component: Component<ComponentConfig>,
 ): component is Component<TerminationConfig> {
-  return component.component_type === "termination";
+  return (
+    component.component_type === "termination" ||
+    component.componentType === "termination"
+  );
 }
 
 // export function isChatCompletionContextComponent(

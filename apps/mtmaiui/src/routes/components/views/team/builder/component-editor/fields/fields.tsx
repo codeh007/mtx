@@ -15,7 +15,7 @@ import {
   isToolComponent,
 } from "../../../../types/guards";
 import type { EditPath } from "../component-editor";
-import DetailGroup from "../detailgroup";
+import { DetailGroup } from "../detailgroup";
 import { AgentFields } from "./agent-fields";
 import { ModelFields } from "./model-fields";
 import { TeamFields } from "./team-fields";

@@ -11,7 +11,7 @@ import type {
   TeamConfig,
 } from "../../../../types/datamodel";
 import { isRoundRobinTeam, isSelectorTeam } from "../../../../types/guards";
-import DetailGroup from "../detailgroup";
+import { DetailGroup } from "../detailgroup";
 
 interface TeamFieldsProps {
   component: Component<TeamConfig>;
@@ -24,7 +24,7 @@ export const TeamFields: React.FC<TeamFieldsProps> = ({
   onChange,
   onNavigate,
 }) => {
-  if (!isSelectorTeam(component) && !isRoundRobinTeam(component)) return null;
+  // if (!isSelectorTeam(component) && !isRoundRobinTeam(component)) return null;
 
   const handleComponentUpdate = useCallback(
     (updates: Partial<Component<ComponentConfig>>) => {
@@ -79,7 +79,7 @@ export const TeamFields: React.FC<TeamFieldsProps> = ({
             <span className="text-sm font-medium text-primary">
               Description
             </span>
-            <TextArea
+            <Textarea
               value={component.description || ""}
               onChange={(e) =>
                 handleComponentUpdate({ description: e.target.value })

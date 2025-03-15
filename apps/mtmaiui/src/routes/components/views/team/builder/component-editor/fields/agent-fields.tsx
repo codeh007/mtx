@@ -17,7 +17,7 @@ import {
   isUserProxyAgent,
   isWebSurferAgent,
 } from "../../../../types/guards";
-import DetailGroup from "../detailgroup";
+import { DetailGroup } from "../detailgroup";
 
 interface AgentFieldsProps {
   component: Component<AgentConfig>;

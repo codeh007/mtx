@@ -1,5 +1,4 @@
 import Editor from "@monaco-editor/react";
-import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useState } from "react";
 
 export const MonacoEditor = ({
@@ -24,7 +23,6 @@ export const MonacoEditor = ({
   };
   return (
     <div id="monaco-editor" className={`h-full rounded ${className}`}>
-      <DebugValue data={value} />
       <Editor
         height="100%"
         className="h-full rounded"

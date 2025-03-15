@@ -215,6 +215,11 @@ export const ComponentEditor: React.FC<ComponentEditorProps> = ({
   const currentComponent = getCurrentComponent(workingCopy) || workingCopy;
 
   const renderFields = useCallback(() => {
+    console.log(
+      "current component",
+      isTeamComponent(currentComponent),
+      currentComponent,
+    );
     const commonProps = {
       component: currentComponent,
       onChange: handleComponentUpdate,
@@ -258,8 +263,13 @@ export const ComponentEditor: React.FC<ComponentEditorProps> = ({
         />
       );
     }
+    return (
+      <div>
+        No fields for this component type: {currentComponent.componentType}
+      </div>
+    );
 
-    return null;
+    // return null;
   }, [currentComponent, handleComponentUpdate, handleNavigate]);
 
   const breadcrumbItems = React.useMemo(
@@ -280,10 +290,10 @@ export const ComponentEditor: React.FC<ComponentEditorProps> = ({
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center gap-4 mb-6">
+      <div className="flex">
         {navigationDepth && editPath.length > 0 && (
-          <Button onClick={handleNavigateBack}>
-            <ChevronLeft className="w-4 h-4" />
+          <Button onClick={handleNavigateBack} variant="ghost" size="icon">
+            <ChevronLeft className="size-4" />
           </Button>
         )}
         <div className="flex-1">
@@ -291,17 +301,18 @@ export const ComponentEditor: React.FC<ComponentEditorProps> = ({
         </div>
         <Button
           onClick={() => setIsJsonEditing((prev) => !prev)}
-          className="flex text-accent items-center gap-2 text-xs "
+          variant="ghost"
+          // size="icon"
         >
           {isJsonEditing ? (
             <>
-              <FormInput className="w-4 text-accent h-4 mr-1 inline-block" />
-              Switch to Form Editor
+              <FormInput className="size-4 text-accent mr-1 inline-block" />
+              Form
             </>
           ) : (
             <>
-              <Code className="w-4 text-accent h-4 mr-1 inline-block" />
-              Switch to JSON Editor
+              <Code className="size-4 text-accent mr-1 inline-block" />
+              JSON
             </>
           )}
         </Button>

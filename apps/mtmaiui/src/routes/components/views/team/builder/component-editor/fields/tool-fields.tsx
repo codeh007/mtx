@@ -1,4 +1,3 @@
-// import { Input, Switch, Select, Button, Space } from "antd";
 import { MinusCircle, PlusCircle } from "lucide-react";
 import { Button } from "mtxuilib/ui/button";
 import { Input } from "mtxuilib/ui/input";
@@ -12,10 +11,7 @@ import type {
   Import,
 } from "../../../../types/datamodel";
 import { isFunctionTool } from "../../../../types/guards";
-import DetailGroup from "../detailgroup";
-
-// const { TextArea } = Input;
-// const { Option } = Select;
+import { DetailGroup } from "../detailgroup";
 
 interface ToolFieldsProps {
   component: Component<ComponentConfig>;

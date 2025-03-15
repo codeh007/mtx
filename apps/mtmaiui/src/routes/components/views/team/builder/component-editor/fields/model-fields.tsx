@@ -14,7 +14,7 @@ import {
   isAzureOpenAIModel,
   isOpenAIModel,
 } from "../../../../types/guards";
-import DetailGroup from "../detailgroup";
+import { DetailGroup } from "../detailgroup";
 
 interface ModelFieldsProps {
   component: Component<ModelConfig>;
