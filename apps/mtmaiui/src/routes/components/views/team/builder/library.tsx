@@ -1,4 +1,3 @@
-// import { Input, Collapse, type CollapseProps } from "antd";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import {
@@ -178,10 +177,7 @@ export const ComponentLibrary: React.FC<LibraryProps> = ({
   }
 
   return (
-    <div
-      width={300}
-      className="bg-primary border z-10 mr-2 border-r border-secondary"
-    >
+    <div className="w-[300px] bg-primary border z-10 mr-2 border-r border-secondary">
       <div className="rounded p-2 pt-2">
         <div className="flex justify-between items-center mb-2">
           <div className="text-normal">Component Library</div>
@@ -222,5 +218,3 @@ export const ComponentLibrary: React.FC<LibraryProps> = ({
     </div>
   );
 };
-
-export default ComponentLibrary;

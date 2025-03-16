@@ -17,7 +17,7 @@ import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { useTenantId } from "../hooks/useAuth";
-import { useNav, useParams, useSearch } from "../hooks/useNav";
+import { useNav, useSearch } from "../hooks/useNav";
 
 export interface ComponentsProps {
   queryParams?: Record<string, any>;
@@ -70,12 +70,9 @@ export const ComponentsProvider = (
   const tid = useTenantId();
   const nav = useNav();
   const [isPending, startTransition] = useTransition();
-  const params = useParams();
   const search = useSearch();
-  console.log("params:", params);
   const [queryParams, setQueryParams] = useState({
     ...etc.queryParams,
-    ...params,
     ...search,
   });
   const mystore = useMemo(
@@ -94,7 +91,6 @@ export const ComponentsProvider = (
       },
       query: {
         ...queryParams,
-        ...params,
         ...search,
       },
     }),
