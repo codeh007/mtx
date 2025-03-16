@@ -1,6 +1,7 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
+import debounce from "lodash.debounce";
 import { type MtComponent, comsListOptions } from "mtmaiapi";
 import type React from "react";
 import { createContext, useContext, useMemo } from "react";
@@ -9,6 +10,7 @@ import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { useTenantId } from "../hooks/useAuth";
+import { useNav } from "../hooks/useNav";
 
 export interface ComponentsProps {
   queryParams?: Record<string, any>;
@@ -16,6 +18,7 @@ export interface ComponentsProps {
 
 export interface ComponentsState extends ComponentsProps {
   components: MtComponent[];
+  setQueryParams: (queryParams: Record<string, any>) => void;
 }
 
 export const createWorkbrenchSlice: StateCreator<
@@ -25,13 +28,14 @@ export const createWorkbrenchSlice: StateCreator<
   ComponentsState
 > = (set, get, init) => {
   return {
+    setQueryParams: (queryParams: Record<string, any>) => {
+      set({ queryParams });
+    },
     ...init,
   };
 };
 
 type mtappStore = ReturnType<typeof createComponentsStore>;
-// export type WorkbrenchStoreState = ComponentsState;
-
 const createComponentsStore = (initProps?: Partial<ComponentsState>) => {
   return createStore<ComponentsState>()(
     subscribeWithSelector(
@@ -42,7 +46,7 @@ const createComponentsStore = (initProps?: Partial<ComponentsState>) => {
           ...initProps,
         })),
         {
-          name: "workbench-store",
+          name: "components-store",
         },
       ),
     ),
@@ -54,7 +58,9 @@ export const ComponentsProvider = (
   props: React.PropsWithChildren<ComponentsProps>,
 ) => {
   const { children, ...etc } = props;
+  // const [queryParams, setQueryParams] = useState(etc.queryParams);
   const tid = useTenantId();
+  const nav = useNav();
   const componentsQuery = useSuspenseQuery({
     ...comsListOptions({
       path: {
@@ -73,6 +79,15 @@ export const ComponentsProvider = (
         components: componsents || [],
       }),
     [etc, componsents],
+  );
+  mystore.subscribe(
+    (state) => {
+      return state.queryParams;
+    },
+    debounce((cur, prev) => {
+      console.log("queryParams:", cur);
+      nav(cur);
+    }, 500),
   );
   return (
     <componentsStoreContext.Provider value={mystore}>

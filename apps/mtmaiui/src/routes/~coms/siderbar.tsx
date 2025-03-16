@@ -27,6 +27,8 @@ export function NavComs() {
     return `${newUUID}/new`;
   }, []);
 
+  const setQueryParams = useComponentsStore((x) => x.setQueryParams);
+
   return (
     <Sidebar collapsible="none" className="hidden flex-1 md:flex">
       <SidebarHeader className="gap-3.5 border-b p-4">
@@ -45,7 +47,10 @@ export function NavComs() {
         <SidebarInput
           placeholder="Type to search..."
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            console.log("sidebar input", e.target.value);
+            // console.log("sidebar input", e.target.value);
+            setQueryParams({
+              label: e.target.value,
+            });
           }}
         />
       </SidebarHeader>
