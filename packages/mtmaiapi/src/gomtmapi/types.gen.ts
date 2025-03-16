@@ -2260,6 +2260,24 @@ export type OrTerminationConfig = {
   }>;
 };
 
+export type TenantComponent = ComponentModel & {
+  provider: "mtmai.tenant.Tenant";
+  config: TenantComponentConfig;
+};
+
+export type TenantComponentConfig = {
+  default_openai_api_key?: string;
+};
+
+export type SystemComponent = ComponentModel & {
+  provider: "mtmai.system.System";
+  config: SystemConfig;
+};
+
+export type SystemConfig = {
+  default_openai_api_key?: string;
+};
+
 export type ComponentTypes =
   | "team"
   | "agent"

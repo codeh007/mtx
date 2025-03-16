@@ -6,7 +6,10 @@ import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { comsGetOptions } from "mtmaiapi";
 import { createContext, useContext, useMemo } from "react";
+import { useTenantId } from "../hooks/useAuth";
 import type {
   CustomEdge,
   CustomNode,
@@ -36,15 +39,15 @@ import {
   isToolComponent,
   isWebSurferAgent,
 } from "../routes/components/views/types/guards";
-// import { mtmaiStoreContext } from "../components/cmdshell/xterm.store";
 
 const MAX_HISTORY = 50;
 
 export interface TeamBuilderProps {
-  some?: string;
-  team: Team;
+  componentId: string;
 }
 export interface TeamBuilderState extends TeamBuilderProps {
+  team?: Team;
+
   nodes: CustomNode[];
   edges: CustomEdge[];
   selectedNodeId: string | null;
@@ -522,8 +525,8 @@ export const createWorkbrenchSlice: StateCreator<
       const state = get();
       const teamNodes = state.nodes.filter(
         (node) =>
-          node.data.component.componentType === "team" ||
-          node.data.component.component_ype === "team",
+          node.data.component.component_type === "team" ||
+          node.data.component?.componentType === "team",
       );
       if (teamNodes.length === 0) {
         console.log("syncToJson error", state.nodes);
@@ -609,7 +612,7 @@ export const createWorkbrenchSlice: StateCreator<
   };
 };
 
-type mtappStore = ReturnType<typeof createWordbrenchStore>;
+type teamBuilderStore = ReturnType<typeof createWordbrenchStore>;
 export type WorkbrenchStoreState = TeamBuilderState;
 
 const createWordbrenchStore = (initProps?: Partial<TeamBuilderState>) => {
@@ -628,40 +631,31 @@ const createWordbrenchStore = (initProps?: Partial<TeamBuilderState>) => {
     ),
   );
 };
-const mtmaiStoreContext = createContext<mtappStore | null>(null);
+const mtmaiStoreContext = createContext<teamBuilderStore | null>(null);
 
 type AppProviderProps = React.PropsWithChildren<TeamBuilderProps>;
 export const TeamBuilderProvider = (props: AppProviderProps) => {
   const { children, ...etc } = props;
-  // const nav = useNav();
-  // const eventClient = useGomtmClient(EventsService);
-  // const dispatcherClient = useGomtmClient(Dispatcher);
-  // const agrpcClient = useGomtmClient(AgentRpc);
-  // const mtmAgClient = useGomtmClient(AgService);
-  // const selfBackendend = useMtmaiV2((x) => x.selfBackendUrl);
-  // const tenant = useTenant();
-  const mystore = useMemo(
-    () =>
-      createWordbrenchStore({
-        ...etc,
-        // nav: nav,
-        // tenant: tenant,
-        // backendUrl: selfBackendend,
-        // eventClient: eventClient,
-        // dispatcherClient: dispatcherClient,
-        // runtimeClient: agrpcClient,
-        // agClient: mtmAgClient,
-      }),
-    [
-      // nav,
-      // tenant,
-      // selfBackendend,
-      // eventClient,
-      // dispatcherClient,
-      // agrpcClient,
-      // mtmAgClient,
-    ],
-  );
+  const tid = useTenantId();
+  const componentsQuery = useSuspenseQuery({
+    ...comsGetOptions({
+      path: {
+        tenant: tid,
+      },
+      query: {
+        com: props.componentId,
+      },
+    }),
+  });
+  const mystore = useMemo(() => {
+    const team = componentsQuery.data as unknown as Team;
+    const store = createWordbrenchStore({
+      ...etc,
+      team: team,
+    });
+    return store;
+  }, [etc, componentsQuery.data]);
+
   return (
     <mtmaiStoreContext.Provider value={mystore}>
       {children}

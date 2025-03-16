@@ -2920,6 +2920,7 @@ export const APIResourceMetaPropertiesSchema = {
 } as const;
 
 export const CommonResultSchema = {
+  required: ["Success", "Message"],
   properties: {
     Success: {
       type: "boolean",
@@ -2929,6 +2930,9 @@ export const CommonResultSchema = {
     },
     other: {
       anyof: [
+        {
+          $ref: "#/components/schemas/SystemComponent",
+        },
         {
           $ref: "#/components/schemas/TextMentionTerminationComponent",
         },
@@ -2947,10 +2951,12 @@ export const CommonResultSchema = {
         {
           $ref: "#/components/schemas/InstagramTeamComponent",
         },
+        {
+          $ref: "#/components/schemas/TenantComponent",
+        },
       ],
     },
   },
-  required: ["Success", "Message"],
 } as const;
 
 export const ChatMessageSchema = {
@@ -4099,6 +4105,62 @@ export const OrTerminationConfigSchema = {
         type: "object",
         additionalProperties: true,
       },
+    },
+  },
+} as const;
+
+export const TenantComponentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
+    {
+      required: ["config", "provider"],
+      properties: {
+        provider: {
+          type: "string",
+          enum: ["mtmai.tenant.Tenant"],
+        },
+        config: {
+          $ref: "#/components/schemas/TenantComponentConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const TenantComponentConfigSchema = {
+  properties: {
+    default_openai_api_key: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const SystemComponentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
+    {
+      required: ["config", "provider"],
+      properties: {
+        provider: {
+          type: "string",
+          enum: ["mtmai.system.System"],
+        },
+        config: {
+          $ref: "#/components/schemas/SystemConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const SystemConfigSchema = {
+  properties: {
+    default_openai_api_key: {
+      type: "string",
     },
   },
 } as const;

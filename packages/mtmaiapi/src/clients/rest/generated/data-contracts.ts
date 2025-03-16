@@ -1891,6 +1891,24 @@ export interface OrTerminationConfig {
   conditions: Record<string, any>[];
 }
 
+export type TenantComponent = ComponentModel & {
+  provider: "mtmai.tenant.Tenant";
+  config: TenantComponentConfig;
+};
+
+export interface TenantComponentConfig {
+  default_openai_api_key?: string;
+}
+
+export type SystemComponent = ComponentModel & {
+  provider: "mtmai.system.System";
+  config: SystemConfig;
+};
+
+export interface SystemConfig {
+  default_openai_api_key?: string;
+}
+
 export enum ComponentTypes {
   Team = "team",
   Agent = "agent",

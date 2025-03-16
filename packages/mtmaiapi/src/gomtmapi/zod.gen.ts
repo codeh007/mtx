@@ -2758,6 +2758,32 @@ export const zOrTerminationConfig = z.object({
   conditions: z.array(z.object({})),
 });
 
+export const zTenantComponent = zComponentModel.merge(
+  z.object({
+    provider: z.enum(["mtmai.tenant.Tenant"]),
+    config: z.object({
+      default_openai_api_key: z.string().optional(),
+    }),
+  }),
+);
+
+export const zTenantComponentConfig = z.object({
+  default_openai_api_key: z.string().optional(),
+});
+
+export const zSystemComponent = zComponentModel.merge(
+  z.object({
+    provider: z.enum(["mtmai.system.System"]),
+    config: z.object({
+      default_openai_api_key: z.string().optional(),
+    }),
+  }),
+);
+
+export const zSystemConfig = z.object({
+  default_openai_api_key: z.string().optional(),
+});
+
 export const zComponentTypes = z.enum([
   "team",
   "agent",
