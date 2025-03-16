@@ -91,7 +91,7 @@ export function NavComsWithLibrary() {
 
 const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
   const detailLink = useMemo(() => {
-    return `${rowId}`;
+    return `/coms/${rowId}`;
   }, [rowId]);
   return (
     <>

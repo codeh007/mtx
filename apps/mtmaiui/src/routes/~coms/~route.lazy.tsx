@@ -1,4 +1,5 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { ComponentsProvider } from "../../stores/componentsProvider";
 import { GalleryProvider } from "../../stores/gallerySstore";
 import { WorkbrenchProvider } from "../../stores/workbrench.store";
@@ -11,11 +12,11 @@ function RouteComponent() {
   return (
     <WorkbrenchProvider>
       <ComponentsProvider>
-        {/* <RootAppWrapper secondSidebar={<NavComs />}> */}
         <GalleryProvider>
-          <Outlet />
+          <MtSuspenseBoundary>
+            <Outlet />
+          </MtSuspenseBoundary>
         </GalleryProvider>
-        {/* </RootAppWrapper> */}
       </ComponentsProvider>
     </WorkbrenchProvider>
   );

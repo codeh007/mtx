@@ -1,5 +1,4 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { useTeamBuilderStore } from "../../../stores/teamBuildStore";
 
 import { TeamBuilder } from "../../components/views/team/builder/builder";
 export const Route = createLazyFileRoute("/coms/$comId/")({
@@ -7,7 +6,7 @@ export const Route = createLazyFileRoute("/coms/$comId/")({
 });
 
 function RouteComponent() {
-  const team = useTeamBuilderStore((x) => x.team);
+  // const team = useTeamBuilderStore((x) => x.team);
   return (
     <>
       <TeamBuilder />
