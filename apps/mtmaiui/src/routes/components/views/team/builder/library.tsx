@@ -9,18 +9,19 @@ import {
   Timer,
   Wrench,
 } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "mtxuilib/ui/accordion";
 import { Button } from "mtxuilib/ui/button";
-import { Collapsible } from "mtxuilib/ui/collapsible";
 import { Input } from "mtxuilib/ui/input";
 import React from "react";
 import type { ComponentTypes, Gallery } from "../../types/datamodel";
 
 interface ComponentConfigTypes {
   [key: string]: any;
-}
-
-interface LibraryProps {
-  defaultGallery: Gallery;
 }
 
 interface PresetItemProps {
@@ -31,13 +32,7 @@ interface PresetItemProps {
   icon: React.ReactNode;
 }
 
-const PresetItem: React.FC<PresetItemProps> = ({
-  id,
-  type,
-  config,
-  label,
-  icon,
-}) => {
+const PresetItem = ({ id, type, config, label, icon }: PresetItemProps) => {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id,
@@ -73,23 +68,40 @@ const PresetItem: React.FC<PresetItemProps> = ({
   );
 };
 
-export const ComponentLibrary: React.FC<LibraryProps> = ({
-  defaultGallery,
-}) => {
+interface LibraryProps {
+  defaultGallery: Gallery;
+}
+
+export const ComponentLibrary = ({ defaultGallery }: LibraryProps) => {
   const [searchTerm, setSearchTerm] = React.useState("");
   const [isMinimized, setIsMinimized] = React.useState(false);
 
+  const exampleAgents = [
+    {
+      label: "Agent 1",
+      config: {
+        name: "Agent 1",
+      },
+    },
+    {
+      label: "Agent 2",
+      config: {
+        name: "Agent 2",
+      },
+    },
+  ];
   // Map gallery components to sections format
   const sections = React.useMemo(
     () => [
       {
         title: "Agents",
         type: "agent" as ComponentTypes,
-        items: defaultGallery.config.components?.agents?.map((agent) => ({
-          label: agent.label,
-          config: agent,
-        })),
+        // items: defaultGallery.config.components?.agents?.map((agent) => ({
+        //   label: agent.label,
+        //   config: agent,
+        // })),
         icon: <Bot className="w-4 h-4" />,
+        items: exampleAgents,
       },
       {
         title: "Models",
@@ -162,7 +174,7 @@ export const ComponentLibrary: React.FC<LibraryProps> = ({
     return (
       <div
         // onClick={() => setIsMinimized(false)}
-        className="absolute group top-4 left-4 bg-primary shadow-md rounded px-4 pr-2 py-2 cursor-pointer transition-all duration-300 z-50 flex items-center gap-2"
+        className="absolute group top-4 left-4 shadow-md rounded px-4 pr-2 py-2 cursor-pointer transition-all duration-300 z-50 flex items-center gap-2"
       >
         <span>Show Component Library</span>
         <Button
@@ -177,7 +189,7 @@ export const ComponentLibrary: React.FC<LibraryProps> = ({
   }
 
   return (
-    <div className="w-[300px] bg-primary border z-10 mr-2 border-r border-secondary">
+    <div className="w-[300px] border z-10 mr-2 border-r border-secondary">
       <div className="rounded p-2 pt-2">
         <div className="flex justify-between items-center mb-2">
           <div className="text-normal">Component Library</div>
@@ -202,18 +214,33 @@ export const ComponentLibrary: React.FC<LibraryProps> = ({
           />
         </div>
 
-        <Collapsible
-        // accordion
-        // items={items}
-        // defaultActiveKey={["Agents"]}
-        // bordered={false}
-        // expandIcon={({ isActive }) => (
-        //   <ChevronDown
-        //     strokeWidth={1}
-        //     className={(isActive ? "transform rotate-180" : "") + " w-4 h-4"}
-        //   />
-        // )}
-        />
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="agents">
+            <AccordionTrigger>Agents</AccordionTrigger>
+            <AccordionContent>
+              {exampleAgents.map((agent, index) => (
+                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                // <div key={index}>{agent.label}</div>
+                <PresetItem
+                  // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                  key={index}
+                  id={`${agent.label?.toLowerCase()}-${index}`}
+                  type={"agent"}
+                  config={agent.config}
+                  label={agent.label || ""}
+                  icon={<Bot className="w-4 h-4" />}
+                />
+              ))}
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="tools">
+            <AccordionTrigger>Tools</AccordionTrigger>
+            <AccordionContent>{/* Tools content */}</AccordionContent>
+          </AccordionItem>
+
+          {/* Add more AccordionItems as needed */}
+        </Accordion>
       </div>
     </div>
   );
