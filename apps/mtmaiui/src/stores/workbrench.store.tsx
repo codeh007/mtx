@@ -76,14 +76,9 @@ export interface WorkbrenchState extends WorkbenchProps {
   input?: string;
   setInput: (input: string) => void;
   handleHumanInput: (input: AgentRunInput) => void;
-  // handleEvents: (eventName: string, data: any) => void;
-  // resourceId?: string;
-  // setResourceId: (resourceId: string) => void;
   setComponentId: (componentId: string) => void;
   workflowRunId?: string;
   setWorkflowRunId: (workflowRunId: string) => void;
-  // selectedModelId?: string;
-  // setSelectedModelId: (selectedModelId: string) => void;
   chatStarted?: boolean;
   setChatStarted: (chatStarted: boolean) => void;
   messages: ChatMessage[];
@@ -99,11 +94,7 @@ export interface WorkbrenchState extends WorkbenchProps {
   addMessage: (message: ChatMessage) => void;
   runId: string;
   setRunId: (runId: string) => void;
-  // isArtifactSaved: boolean;
-  // setIsArtifactSaved: (isArtifactSaved: boolean) => void;
   streamMessage: (params: AgentRunInput) => Promise<void>;
-  // artifactContent: string[];
-  // setArtifactContent: (index: number, content: string) => void;
 }
 
 export const createWorkbrenchSlice: StateCreator<
@@ -116,7 +107,7 @@ export const createWorkbrenchSlice: StateCreator<
     isDev: false,
     backendUrl: "",
     setOpenDebugPanel: (openDebugPanel) => set({ openDebugPanel }),
-    setSelectedModelId: (selectedModelId) => set({ selectedModelId }),
+    // setSelectedModelId: (selectedModelId) => set({ selectedModelId }),
     setInput: (input) => set({ input }),
     messages: [],
     firstUserInteraction: undefined,
@@ -201,10 +192,9 @@ export const createWorkbrenchSlice: StateCreator<
 };
 
 type mtappStore = ReturnType<typeof createWordbrenchStore>;
-export type WorkbrenchStoreState = WorkbrenchState;
 
-const createWordbrenchStore = (initProps?: Partial<WorkbrenchStoreState>) => {
-  return createStore<WorkbrenchStoreState>()(
+const createWordbrenchStore = (initProps?: Partial<WorkbrenchState>) => {
+  return createStore<WorkbrenchState>()(
     subscribeWithSelector(
       // persist(
       devtools(
@@ -261,13 +251,11 @@ export const WorkbrenchProvider = (props: AppProviderProps) => {
 };
 
 const DEFAULT_USE_SHALLOW = false;
-export function useWorkbenchStore(): WorkbrenchStoreState;
+export function useWorkbenchStore(): WorkbrenchState;
 export function useWorkbenchStore<T>(
-  selector: (state: WorkbrenchStoreState) => T,
+  selector: (state: WorkbrenchState) => T,
 ): T;
-export function useWorkbenchStore<T>(
-  selector?: (state: WorkbrenchStoreState) => T,
-) {
+export function useWorkbenchStore<T>(selector?: (state: WorkbrenchState) => T) {
   const store = useContext(mtmaiStoreContext);
   if (!store) throw new Error("useWorkbenchStore must in WorkbrenchProvider");
   if (selector) {

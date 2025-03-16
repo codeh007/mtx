@@ -1,8 +1,7 @@
 "use client";
 
 import { Label } from "@radix-ui/react-dropdown-menu";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { type MtComponent, comsListOptions } from "mtmaiapi";
+import type { MtComponent } from "mtmaiapi";
 import { cn, generateUUID } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
@@ -15,23 +14,17 @@ import {
   SidebarInput,
 } from "mtxuilib/ui/sidebar";
 
+import { IconPlus } from "mtxuilib/icons/icons-ai";
 import { Switch } from "mtxuilib/ui/switch";
-import { useMemo } from "react";
-import { useTenantId } from "../../hooks/useAuth";
+import { type ChangeEvent, useMemo } from "react";
+import { useComponentsStore } from "../../stores/componentsProvider";
 
 export function NavComs() {
-  const tid = useTenantId();
-  const comsQuery = useSuspenseQuery({
-    ...comsListOptions({
-      path: {
-        tenant: tid!,
-      },
-    }),
-  });
+  const components = useComponentsStore((x) => x.components);
 
   const linkToNew = useMemo(() => {
     const newUUID = generateUUID();
-    return `/coms/${newUUID}/new`;
+    return `${newUUID}/new`;
   }, []);
 
   return (
@@ -42,20 +35,29 @@ export function NavComs() {
           <Label className="flex items-center gap-2 text-sm">
             <CustomLink
               to={linkToNew}
-              className={cn(buttonVariants({ variant: "ghost" }))}
+              className={cn(buttonVariants({ variant: "ghost", size: "icon" }))}
             >
-              <span>+</span>
+              <IconPlus />
             </CustomLink>
             <Switch className="shadow-none" />
           </Label>
         </div>
-        <SidebarInput placeholder="Type to search..." />
+        <SidebarInput
+          placeholder="Type to search..."
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            console.log("sidebar input", e.target.value);
+          }}
+        />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup className="px-0">
           <SidebarGroupContent>
-            {comsQuery.data?.rows?.map((item) => (
-              <NavResourceItem key={item.metadata?.id} item={item} />
+            {components?.map((item) => (
+              <NavTeamItem
+                key={item.metadata?.id}
+                item={item}
+                rowId={item.metadata?.id || ""}
+              />
             ))}
           </SidebarGroupContent>
         </SidebarGroup>
@@ -64,24 +66,9 @@ export function NavComs() {
   );
 }
 
-const NavResourceItem = ({ item }: { item: MtComponent }) => {
-  const detailLink = useMemo(() => {
-    // return `${item.metadata?.id}/type/${item.type}`;
-    return `${item.metadata?.id}/view`;
-  }, [item]);
-
-  const team = item;
-  return (
-    <>
-      <NavTeamItem item={team} rowId={item.metadata?.id || ""} />
-    </>
-  );
-};
-
 const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
   const detailLink = useMemo(() => {
-    // return `${item.metadata?.id}/type/${item.type}`;
-    return `${rowId}/view`;
+    return `${rowId}`;
   }, [rowId]);
   return (
     <>

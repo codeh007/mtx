@@ -4,6 +4,7 @@ import {
   useRouterState,
 } from "@tanstack/react-router";
 
+import { ComponentsProvider } from "../../stores/componentsProvider";
 import { GalleryProvider } from "../../stores/gallerySstore";
 import { WorkbrenchProvider } from "../../stores/workbrench.store";
 import { RootAppWrapper } from "../components/RootAppWrapper";
@@ -24,17 +25,15 @@ function RouteComponent() {
       };
     });
 
-  // const tenant = useTenant();
-  // if (!tenant) {
-  //   null;
-  // }
   return (
     <WorkbrenchProvider>
-      <RootAppWrapper secondSidebar={<NavComs />}>
-        <GalleryProvider>
-          <Outlet />
-        </GalleryProvider>
-      </RootAppWrapper>
+      <ComponentsProvider>
+        <RootAppWrapper secondSidebar={<NavComs />}>
+          <GalleryProvider>
+            <Outlet />
+          </GalleryProvider>
+        </RootAppWrapper>
+      </ComponentsProvider>
     </WorkbrenchProvider>
   );
 }

@@ -46,11 +46,7 @@ export const UIProviders = (props: PropsWithChildren) => {
       <MtErrorBoundary>
         <MtProgressBarLazy />
         <TooltipProvider delayDuration={0}>
-          {/* <ConfirmModalProvider> */}
-          {/* <I18nProvider> */}
           {children}
-          {/* </I18nProvider> */}
-          {/* </ConfirmModalProvider> */}
           <SonnerToasterLazy position="top-center" />
           <ToasterLazy />
           <TailwindIndicator />

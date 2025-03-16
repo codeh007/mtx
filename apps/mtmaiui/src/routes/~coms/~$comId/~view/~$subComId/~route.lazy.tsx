@@ -18,11 +18,6 @@ export const Route = createLazyFileRoute("/coms/$comId/view/$subComId")({
 
 function RouteComponent() {
   const { comId } = Route.useParams();
-  // const nav = useNav();
-  // const { toast } = useToast();
-
-  // const workflowRunId = useWorkbenchStore((x) => x.workflowRunId);
-
   return (
     <>
       <DashHeaders>
