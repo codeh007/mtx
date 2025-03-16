@@ -16,10 +16,10 @@ import { cn, generateUUID, getRelativeTimeString } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
-import type React from "react";
 
 import { useMemo } from "react";
 import { useGalleryStore } from "../../stores/gallerySstore";
+import { config } from "process";
 
 interface TeamSidebarProps {
   isOpen: boolean;
@@ -32,7 +32,7 @@ interface TeamSidebarProps {
   isLoading?: boolean;
 }
 
-export const TeamSidebar: React.FC<TeamSidebarProps> = ({
+export const TeamSidebar = ({
   isOpen,
   teams,
   currentTeam,
@@ -40,7 +40,7 @@ export const TeamSidebar: React.FC<TeamSidebarProps> = ({
   onEditTeam,
   onDeleteTeam,
   isLoading = false,
-}) => {
+}: TeamSidebarProps) => {
   const defaultGallery = useGalleryStore((state) => state.getDefaultGallery());
   // const [messageApi, contextHolder] = message.useMessage();
 
