@@ -1615,9 +1615,6 @@ export interface AgentRunInput {
   topic?: string;
   source?: string;
   other?:
-    | CodeWritingTask
-    | CodeWritingResult
-    | PlatformAccountTask
     | BrowserData
     | PlatformAccountData
     | InstagramTask
@@ -1647,11 +1644,6 @@ export interface ChatSession {
 export interface ChatSessionList {
   pagination?: PaginationResponse;
   rows?: ChatSession[];
-}
-
-export interface FlowTenantPayload {
-  /** 输入 */
-  input?: string;
 }
 
 export interface TextHighlight {
@@ -1874,30 +1866,6 @@ export interface Outline {
   pageTitle: string;
   /** Titles and descriptions for each section of the Wikipedia page */
   sections: Section[];
-}
-
-/** 创建agent节点请求 */
-export interface AgentNodeCreateRequest {
-  /** agent 节点名称, 或者作为工具名称 */
-  title?: string;
-  /** agent 节点提示词 */
-  prompt: string;
-  /** agent 节点描述, 或者作为工具描述 */
-  description?: string;
-}
-
-/** 创建agent节点请求 */
-export interface AgentNodeUpdateRequest {
-  /** agent 节点名称, 或者作为工具名称 */
-  title?: string;
-  /** agent 节点提示词 */
-  prompt: string;
-  /** agent 节点类型 */
-  type?: string;
-  /** agent 节点描述 */
-  description?: string;
-  /** agent 节点状态 */
-  state?: any;
 }
 
 export enum FlowNames {
@@ -2124,14 +2092,6 @@ export interface Subsection {
   subsectionTitle: string;
   /** Content of the subsection */
   description: string;
-}
-
-/** 节点运行 */
-export interface NodeRunAction {
-  /** 动作 */
-  action?: string;
-  /** 输入 */
-  input?: object;
 }
 
 export type RoundRobinGroupChatConfig = TeamConfigBase & {
@@ -2610,21 +2570,6 @@ export interface MtResourceList {
 }
 
 export type MtResourceUpsert = APIResourceMetaProperties & MtResourceProperties;
-
-export interface CodeWritingTask {
-  task?: string;
-}
-
-export interface CodeWritingResult {
-  task?: string;
-  code?: string;
-  review?: string;
-}
-
-export interface PlatformAccountTask {
-  id?: string;
-  task?: string;
-}
 
 export interface PlatformAccountData {
   type?: "platform_account";

@@ -1890,9 +1890,6 @@ export type AgentRunInput = {
   topic?: string;
   source?: string;
   other?:
-    | CodeWritingTask
-    | CodeWritingResult
-    | PlatformAccountTask
     | BrowserData
     | PlatformAccountData
     | InstagramTask
@@ -1926,13 +1923,6 @@ export type ChatSession = {
 export type ChatSessionList = {
   pagination?: PaginationResponse;
   rows?: Array<ChatSession>;
-};
-
-export type FlowTenantPayload = {
-  /**
-   * 输入
-   */
-  input?: string;
 };
 
 export type TextHighlight = {
@@ -2237,50 +2227,6 @@ export type Outline = {
   sections: Array<Section>;
 };
 
-/**
- * 创建agent节点请求
- */
-export type AgentNodeCreateRequest = {
-  /**
-   * agent 节点名称, 或者作为工具名称
-   */
-  title?: string;
-  /**
-   * agent 节点提示词
-   */
-  prompt: string;
-  /**
-   * agent 节点描述, 或者作为工具描述
-   */
-  description?: string;
-};
-
-/**
- * 创建agent节点请求
- */
-export type AgentNodeUpdateRequest = {
-  /**
-   * agent 节点名称, 或者作为工具名称
-   */
-  title?: string;
-  /**
-   * agent 节点提示词
-   */
-  prompt: string;
-  /**
-   * agent 节点类型
-   */
-  type?: string;
-  /**
-   * agent 节点描述
-   */
-  description?: string;
-  /**
-   * agent 节点状态
-   */
-  state?: unknown;
-};
-
 export type FlowNames = "assisant" | "ag" | "browser" | "tenant_settings";
 
 export const FlowNames = {
@@ -2561,22 +2507,6 @@ export type Subsection = {
    * Content of the subsection
    */
   description: string;
-};
-
-/**
- * 节点运行
- */
-export type NodeRunAction = {
-  /**
-   * 动作
-   */
-  action?: string;
-  /**
-   * 输入
-   */
-  input?: {
-    [key: string]: unknown;
-  };
 };
 
 export type RoundRobinGroupChatConfig = TeamConfigBase & {
@@ -3160,21 +3090,6 @@ export type MtResourceList = {
 };
 
 export type MtResourceUpsert = ApiResourceMetaProperties & MtResourceProperties;
-
-export type CodeWritingTask = {
-  task?: string;
-};
-
-export type CodeWritingResult = {
-  task?: string;
-  code?: string;
-  review?: string;
-};
-
-export type PlatformAccountTask = {
-  id?: string;
-  task?: string;
-};
 
 export type PlatformAccountData = {
   type?: "platform_account";

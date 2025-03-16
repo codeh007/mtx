@@ -1563,18 +1563,6 @@ export const zAgentRunInput = z.object({
   other: z
     .union([
       z.object({
-        task: z.string().optional(),
-      }),
-      z.object({
-        task: z.string().optional(),
-        code: z.string().optional(),
-        review: z.string().optional(),
-      }),
-      z.object({
-        id: z.string().optional(),
-        task: z.string().optional(),
-      }),
-      z.object({
         type: z.enum(["browser"]).optional(),
         cookies: z.string().optional(),
         session: z.string().optional(),
@@ -1639,10 +1627,6 @@ export const zChatSession = z.object({
 export const zChatSessionList = z.object({
   pagination: zPaginationResponse.optional(),
   rows: z.array(zChatSession).optional(),
-});
-
-export const zFlowTenantPayload = z.object({
-  input: z.string().optional(),
 });
 
 export const zTextHighlight = z.object({
@@ -2747,20 +2731,6 @@ export const zOutline = z.object({
   ),
 });
 
-export const zAgentNodeCreateRequest = z.object({
-  title: z.string().optional(),
-  prompt: z.string(),
-  description: z.string().optional(),
-});
-
-export const zAgentNodeUpdateRequest = z.object({
-  title: z.string().optional(),
-  prompt: z.string(),
-  type: z.string().optional(),
-  description: z.string().optional(),
-  state: z.unknown().optional(),
-});
-
 export const zFlowNames = z.enum([
   "assisant",
   "ag",
@@ -3047,11 +3017,6 @@ export const zSection = z.object({
 export const zSubsection = z.object({
   subsectionTitle: z.string(),
   description: z.string(),
-});
-
-export const zNodeRunAction = z.object({
-  action: z.string().optional(),
-  input: z.object({}).optional(),
 });
 
 export const zRoundRobinGroupChatConfig = zTeamConfigBase.merge(
@@ -3616,21 +3581,6 @@ export const zMtResourceList = z.object({
 export const zMtResourceUpsert = zApiResourceMetaProperties.merge(
   zMtResourceProperties,
 );
-
-export const zCodeWritingTask = z.object({
-  task: z.string().optional(),
-});
-
-export const zCodeWritingResult = z.object({
-  task: z.string().optional(),
-  code: z.string().optional(),
-  review: z.string().optional(),
-});
-
-export const zPlatformAccountTask = z.object({
-  id: z.string().optional(),
-  task: z.string().optional(),
-});
 
 export const zPlatformAccountData = z.object({
   type: z.enum(["platform_account"]).optional(),

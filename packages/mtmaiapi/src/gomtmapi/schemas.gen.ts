@@ -3366,15 +3366,6 @@ export const AgentRunInputSchema = {
     other: {
       anyOf: [
         {
-          $ref: "#/components/schemas/CodeWritingTask",
-        },
-        {
-          $ref: "#/components/schemas/CodeWritingResult",
-        },
-        {
-          $ref: "#/components/schemas/PlatformAccountTask",
-        },
-        {
           $ref: "#/components/schemas/BrowserData",
         },
         {
@@ -3454,15 +3445,6 @@ export const ChatSessionListSchema = {
       items: {
         $ref: "#/components/schemas/ChatSession",
       },
-    },
-  },
-} as const;
-
-export const FlowTenantPayloadSchema = {
-  properties: {
-    input: {
-      type: "string",
-      description: "输入",
     },
   },
 } as const;
@@ -4073,51 +4055,6 @@ export const OutlineSchema = {
   required: ["pageTitle", "sections"],
 } as const;
 
-export const AgentNodeCreateRequestSchema = {
-  description: "创建agent节点请求",
-  properties: {
-    title: {
-      type: "string",
-      description: "agent 节点名称, 或者作为工具名称",
-    },
-    prompt: {
-      type: "string",
-      description: "agent 节点提示词",
-    },
-    description: {
-      type: "string",
-      description: "agent 节点描述, 或者作为工具描述",
-    },
-  },
-  required: ["prompt"],
-} as const;
-
-export const AgentNodeUpdateRequestSchema = {
-  description: "创建agent节点请求",
-  properties: {
-    title: {
-      type: "string",
-      description: "agent 节点名称, 或者作为工具名称",
-    },
-    prompt: {
-      type: "string",
-      description: "agent 节点提示词",
-    },
-    type: {
-      type: "string",
-      description: "agent 节点类型",
-    },
-    description: {
-      type: "string",
-      description: "agent 节点描述",
-    },
-    state: {
-      description: "agent 节点状态",
-    },
-  },
-  required: ["prompt"],
-} as const;
-
 export const FlowNamesSchema = {
   type: "string",
   enum: ["assisant", "ag", "browser", "tenant_settings"],
@@ -4691,20 +4628,6 @@ export const SubsectionSchema = {
     },
   },
   required: ["subsectionTitle", "description"],
-} as const;
-
-export const NodeRunActionSchema = {
-  description: "节点运行",
-  properties: {
-    action: {
-      type: "string",
-      description: "动作",
-    },
-    input: {
-      type: "object",
-      description: "输入",
-    },
-  },
 } as const;
 
 export const RoundRobinGroupChatConfigSchema = {
@@ -5973,39 +5896,6 @@ export const MtResourceUpsertSchema = {
       $ref: "#/components/schemas/MtResourceProperties",
     },
   ],
-} as const;
-
-export const CodeWritingTaskSchema = {
-  properties: {
-    task: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const CodeWritingResultSchema = {
-  properties: {
-    task: {
-      type: "string",
-    },
-    code: {
-      type: "string",
-    },
-    review: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const PlatformAccountTaskSchema = {
-  properties: {
-    id: {
-      type: "string",
-    },
-    task: {
-      type: "string",
-    },
-  },
 } as const;
 
 export const PlatformAccountDataSchema = {

@@ -16,11 +16,7 @@ export const Route = createLazyFileRoute("/tenant_settings/")({
 
 function RouteComponent() {
   const mutateWorkflowRun = useMutation({
-    ...workflowRunCreateMutation({
-      path: {
-        workflow: FlowNames.TENANT_SETTINGS,
-      },
-    }),
+    ...workflowRunCreateMutation({}),
   });
   const handleResetTenandSetting = () => {
     console.log("handleResetTenandSetting", FlowNames.TENANT_SETTINGS);
@@ -31,6 +27,11 @@ function RouteComponent() {
       body: {
         input: {
           content: "重置租户配置",
+        },
+        additionalMetadata: {
+          source: "web",
+          // topic: "default",
+          // componentId: "tenant_settings",
         },
       },
     });
