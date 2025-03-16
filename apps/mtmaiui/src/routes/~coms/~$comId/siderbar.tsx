@@ -85,13 +85,13 @@ const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
   }, [rowId]);
 
   return (
-    <>
+    <div className="w-full">
       <Collapsible
         open={isOpen}
         onOpenChange={setIsOpen}
-        className={cn(isOpen && "border border-blue-600 mb-2 rounded-md m-1")}
+        className={cn(isOpen && "border-green-400 border mb-2 rounded-md pt-1")}
       >
-        <div className="flex items-center justify-between space-x-2 px-2">
+        <div className="flex items-center justify-between px-2">
           <PresetItem
             id={`${rowId}`}
             type={"agent"}
@@ -110,19 +110,17 @@ const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
         {/* <div className="rounded-md border px-4 py-3 font-mono text-sm">
           @radix-ui/primitives
         </div> */}
-        <CollapsibleContent className="space-y-2">
+        <CollapsibleContent className="space-y-1">
           <div
             // to={detailLink}
             key={rowId}
-            className="flex flex-col items-start gap-2 whitespace-nowrap p-2 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+            // className="flex flex-col items-start gap-2 whitespace-nowrap p-2 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
           >
             <div className="flex w-full items-center gap-2">
               <span>{item.label}</span>
             </div>
-            <span className="font-medium">{item.provider}</span>
-            <span className="line-clamp-2 w-[260px] whitespace-break-spaces text-xs">
-              {item.description || rowId}
-            </span>
+            {/* <span className="text-sm">{item.provider}</span> */}
+            <span className="text-xs">{item.description || rowId}</span>
           </div>
           <div className="flex gap-2 justify-end px-1.5">
             <CustomLink
@@ -134,6 +132,6 @@ const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
           </div>
         </CollapsibleContent>
       </Collapsible>
-    </>
+    </div>
   );
 };
