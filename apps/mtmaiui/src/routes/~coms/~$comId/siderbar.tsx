@@ -17,9 +17,11 @@ import {
 import { IconPlus } from "mtxuilib/icons/icons-ai";
 import { Switch } from "mtxuilib/ui/switch";
 import { type ChangeEvent, useMemo } from "react";
-import { useComponentsStore } from "../../stores/componentsProvider";
+import { useComponentsStore } from "../../../stores/componentsProvider";
+import { ComponentLibrary } from "../../components/views/team/builder/library";
+import defaultGallery from "../default_gallery.json";
 
-export function NavComs() {
+export function NavComsWithLibrary() {
   const components = useComponentsStore((x) => x.components);
 
   const linkToNew = useMemo(() => {
@@ -66,6 +68,22 @@ export function NavComs() {
             ))}
           </SidebarGroupContent>
         </SidebarGroup>
+        <ComponentLibrary
+          defaultGallery={{
+            config: {
+              id: "fake-id",
+              name: "fake-name",
+              url: "fake-url",
+              metadata: {
+                author: "fake-author",
+                created_at: "fake-created-at",
+                updated_at: "fake-updated-at",
+                version: "fake-version",
+              },
+            },
+            ...defaultGallery,
+          }}
+        />
       </SidebarContent>
     </Sidebar>
   );

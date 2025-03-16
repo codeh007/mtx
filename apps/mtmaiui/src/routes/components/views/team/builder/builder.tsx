@@ -1,4 +1,4 @@
-import { DndContext, DragOverlay } from "@dnd-kit/core";
+import { DragOverlay } from "@dnd-kit/core";
 import {
   Background,
   type Connection,
@@ -15,12 +15,12 @@ import { Button } from "mtxuilib/ui/button";
 import { Switch } from "mtxuilib/ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useComponentDndStore } from "../../../../../stores/ComponentDndProvider";
 import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
 import { MonacoEditor } from "../../monaco";
 import type { ComponentTypes, Team } from "../../types/datamodel";
 import "./builder.css";
 import { edgeTypes, nodeTypes } from "./nodes";
-import { TestDrawer } from "./testdrawer";
 import { TeamBuilderToolbar } from "./toolbar";
 import type { CustomEdge, CustomNode } from "./types";
 import { ValidationErrors } from "./validationerrors";
@@ -83,7 +83,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   // Compute undo/redo capability from history state
   const canUndo = currentHistoryIndex > 0;
   const canRedo = currentHistoryIndex < history.length - 1;
-
+  const activeDragItem = useComponentDndStore((x) => x.activeDragItem);
   const onConnect = useCallback(
     (params: Connection) =>
       setEdges((eds: CustomEdge[]) => addEdge(params, eds)),
@@ -421,7 +421,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
                 className="w-16"
                 // className="p-1.5 ml-2 px-2.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
                 onClick={() => {
-                  setTestDrawerVisible(true);
+                  // setTestDrawerVisible(true);
                 }}
               >
                 <PlayCircle className="size-4" /> Run
@@ -433,119 +433,87 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
           </Tooltip>
         </div>
       </div>
-      <DndContext
-        sensors={sensors}
-        onDragEnd={handleDragEnd}
-        onDragOver={handleDragOver}
-        onDragStart={handleDragStart}
-      >
-        <div className=" relative h-[calc(100vh-239px)] flex-1">
-          {/* <ComponentLibrary
-            defaultGallery={{
-              config: {
-                id: "fake-id",
-                name: "fake-name",
-                url: "fake-url",
-                metadata: {
-                  author: "fake-author",
-                  created_at: "fake-created-at",
-                  updated_at: "fake-updated-at",
-                  version: "fake-version",
-                },
-              },
-              ...defaultGallery,
-            }}
-          /> */}
-
-          <div className=" rounded bg-amber-100 w-full h-full">
-            <div className="relative rounded w-full h-full">
-              <div
-                className={`w-full h-full transition-all duration-200 ${
-                  isFullscreen
-                    ? "fixed inset-4 z-50 shadow bg-tertiary  backdrop-blur-sm"
-                    : ""
-                }`}
-              >
-                {isJsonMode ? (
-                  <MonacoEditor
-                    value={JSON.stringify(syncToJson(), null, 2)}
-                    onChange={handleJsonChange}
-                    editorRef={editorRef}
-                    language="json"
-                    minimap={false}
-                  />
-                ) : (
-                  <ReactFlow
-                    nodes={nodes}
-                    edges={edges}
-                    onNodesChange={onNodesChange}
-                    onEdgesChange={onEdgesChange}
-                    onConnect={onConnect}
-                    onNodeClick={(_, node) => setSelectedNode(node.id)}
-                    nodeTypes={nodeTypes}
-                    edgeTypes={edgeTypes}
-                    onDrop={(event) => event.preventDefault()}
-                    onDragOver={(event) => event.preventDefault()}
-                    className="rounded"
-                    fitView
-                    fitViewOptions={{ padding: 10 }}
-                  >
-                    {showGrid && <Background />}
-                    {showMiniMap && <MiniMap />}
-                  </ReactFlow>
-                )}
-              </div>
-              {isFullscreen && (
-                <Button
-                  variant="ghost"
-                  className="fixed inset-0 -z-10 bg-background bg-opacity-80 backdrop-blur-sm"
-                  onClick={handleToggleFullscreen}
+      <div className=" relative h-[calc(100vh-239px)] flex-1">
+        <div className=" rounded bg-amber-100 w-full h-full">
+          <div className="relative rounded w-full h-full">
+            <div
+              className={`w-full h-full transition-all duration-200 ${
+                isFullscreen
+                  ? "fixed inset-4 z-50 shadow bg-tertiary  backdrop-blur-sm"
+                  : ""
+              }`}
+            >
+              {isJsonMode ? (
+                <MonacoEditor
+                  value={JSON.stringify(syncToJson(), null, 2)}
+                  onChange={handleJsonChange}
+                  editorRef={editorRef}
+                  language="json"
+                  minimap={false}
                 />
+              ) : (
+                <ReactFlow
+                  nodes={nodes}
+                  edges={edges}
+                  onNodesChange={onNodesChange}
+                  onEdgesChange={onEdgesChange}
+                  onConnect={onConnect}
+                  onNodeClick={(_, node) => setSelectedNode(node.id)}
+                  nodeTypes={nodeTypes}
+                  edgeTypes={edgeTypes}
+                  onDrop={(event) => event.preventDefault()}
+                  onDragOver={(event) => event.preventDefault()}
+                  className="rounded"
+                  fitView
+                  fitViewOptions={{ padding: 10 }}
+                >
+                  {showGrid && <Background />}
+                  {showMiniMap && <MiniMap />}
+                </ReactFlow>
               )}
-              <TeamBuilderToolbar
-                isJsonMode={isJsonMode}
-                isFullscreen={isFullscreen}
-                showGrid={showGrid}
-                onToggleMiniMap={() => setShowMiniMap(!showMiniMap)}
-                canUndo={canUndo}
-                canRedo={canRedo}
-                isDirty={isDirty}
-                onToggleView={() => setIsJsonMode(!isJsonMode)}
-                onUndo={undo}
-                onRedo={redo}
-                onSave={handleSave}
-                onToggleGrid={() => setShowGrid(!showGrid)}
-                onToggleFullscreen={handleToggleFullscreen}
-                onAutoLayout={layoutNodes}
-              />
             </div>
+            {isFullscreen && (
+              <Button
+                variant="ghost"
+                className="fixed inset-0 -z-10 bg-background bg-opacity-80 backdrop-blur-sm"
+                onClick={handleToggleFullscreen}
+              />
+            )}
+            <TeamBuilderToolbar
+              isJsonMode={isJsonMode}
+              isFullscreen={isFullscreen}
+              showGrid={showGrid}
+              onToggleMiniMap={() => setShowMiniMap(!showMiniMap)}
+              canUndo={canUndo}
+              canRedo={canRedo}
+              isDirty={isDirty}
+              onToggleView={() => setIsJsonMode(!isJsonMode)}
+              onUndo={undo}
+              onRedo={redo}
+              onSave={handleSave}
+              onToggleGrid={() => setShowGrid(!showGrid)}
+              onToggleFullscreen={handleToggleFullscreen}
+              onAutoLayout={layoutNodes}
+            />
           </div>
         </div>
-        <DragOverlay
-          dropAnimation={{
-            duration: 250,
-            easing: "cubic-bezier(0.18, 0.67, 0.6, 1.22)",
-          }}
-        >
-          DragOverlay
-          {activeDragItem ? (
-            <div className="p-2 text-primary h-full     rounded    ">
-              <div className="flex items-center gap-2">
-                {activeDragItem.icon}
-                <span className="text-sm">{activeDragItem.label}</span>
-              </div>
+      </div>
+      <DragOverlay
+        dropAnimation={{
+          duration: 250,
+          easing: "cubic-bezier(0.18, 0.67, 0.6, 1.22)",
+        }}
+      >
+        DragOverlay
+        {activeDragItem ? (
+          <div className="p-2 h-full     rounded   bg-red-300 ">
+            <div className="flex items-center gap-2">
+              {activeDragItem.icon}
+              <span className="text-sm">{activeDragItem.label}</span>
             </div>
-          ) : null}
-        </DragOverlay>
-      </DndContext>
-
-      {testDrawerVisible && (
-        <TestDrawer
-          isVisble={testDrawerVisible}
-          team={team}
-          onClose={() => handleTestDrawerClose()}
-        />
-      )}
+          </div>
+        ) : null}
+      </DragOverlay>
     </div>
   );
 };

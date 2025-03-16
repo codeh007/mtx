@@ -3,13 +3,7 @@
 import { useRouterState } from "@tanstack/react-router";
 import { useEdgesState, useNodesState } from "@xyflow/react";
 import type React from "react";
-import {
-  createContext,
-  useContext,
-  useMemo,
-  useState,
-  useTransition,
-} from "react";
+import { createContext, useContext, useMemo, useTransition } from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -41,6 +35,8 @@ export interface ComponentsProps {
 
 export interface ComponentDndState extends ComponentsProps {
   isPending: boolean;
+  activeDragItem: DragItemData | null;
+  setActiveDragItem: (activeDragItem: DragItemData | null) => void;
 }
 
 export const createComponentDndSlice: StateCreator<
@@ -87,7 +83,7 @@ export const ComponentDndProvider = (
   const matches = useRouterState({ select: (s) => s.matches });
   const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
-  const [testDrawerVisible, setTestDrawerVisible] = useState(false);
+
   const {
     undo,
     redo,
@@ -100,9 +96,19 @@ export const ComponentDndProvider = (
     updateNode,
   } = useTeamBuilderStore();
 
-  const [activeDragItem, setActiveDragItem] = useState<DragItemData | null>(
-    null,
+  const mystore = useMemo(
+    () =>
+      createComponentsStore({
+        ...etc,
+        // components: [],
+        isPending,
+      }),
+    [etc, isPending],
   );
+
+  // const [activeDragItem, setActiveDragItem] = useState<DragItemData | null>(
+  //   null,
+  // );
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -118,7 +124,8 @@ export const ComponentDndProvider = (
     console.log("handleDragStart", event);
     const { active } = event;
     if (active.data.current) {
-      setActiveDragItem(active.data.current as DragItemData);
+      // setActiveDragItem(active.data.current as DragItemData);
+      mystore.setState({ activeDragItem: active.data.current as DragItemData });
     }
   };
 
@@ -187,15 +194,7 @@ export const ComponentDndProvider = (
       targetNode.className = "drop-target-invalid";
     }
   };
-  const mystore = useMemo(
-    () =>
-      createComponentsStore({
-        ...etc,
-        components: [],
-        isPending,
-      }),
-    [etc, isPending],
-  );
+
   return (
     <DndContext
       sensors={sensors}
