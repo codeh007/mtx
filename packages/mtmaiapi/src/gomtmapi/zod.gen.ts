@@ -2765,8 +2765,7 @@ export const zFlowNames = z.enum([
   "assisant",
   "ag",
   "browser",
-  "tenant",
-  "news",
+  "tenant_settings",
 ]);
 
 export const zTerminationTypes = z.enum([

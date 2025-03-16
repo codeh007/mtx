@@ -1904,8 +1904,7 @@ export enum FlowNames {
   Assisant = "assisant",
   Ag = "ag",
   Browser = "browser",
-  Tenant = "tenant",
-  News = "news",
+  TenantSettings = "tenant_settings",
 }
 
 export enum TerminationTypes {

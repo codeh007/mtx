@@ -4120,7 +4120,7 @@ export const AgentNodeUpdateRequestSchema = {
 
 export const FlowNamesSchema = {
   type: "string",
-  enum: ["assisant", "ag", "browser", "tenant", "news"],
+  enum: ["assisant", "ag", "browser", "tenant_settings"],
 } as const;
 
 export const TerminationTypesSchema = {

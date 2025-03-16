@@ -2281,14 +2281,13 @@ export type AgentNodeUpdateRequest = {
   state?: unknown;
 };
 
-export type FlowNames = "assisant" | "ag" | "browser" | "tenant" | "news";
+export type FlowNames = "assisant" | "ag" | "browser" | "tenant_settings";
 
 export const FlowNames = {
   ASSISANT: "assisant",
   AG: "ag",
   BROWSER: "browser",
-  TENANT: "tenant",
-  NEWS: "news",
+  TENANT_SETTINGS: "tenant_settings",
 } as const;
 
 export type TerminationTypes =

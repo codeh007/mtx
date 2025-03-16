@@ -32,7 +32,7 @@ export async function submitMessages(
   }
   const response = await workflowRunCreate({
     path: {
-      workflow: FlowNames.AG,
+      workflow: FlowNames.TENANT_SETTINGS,
     },
     body: {
       input: {
