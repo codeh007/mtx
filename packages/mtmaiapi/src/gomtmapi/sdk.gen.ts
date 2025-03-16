@@ -455,6 +455,15 @@ import type {
   ResourceGetData,
   ResourceGetResponse,
   ResourceGetError,
+  SettingsListData,
+  SettingsListResponse,
+  SettingsListError,
+  SettingsUpsertData,
+  SettingsUpsertResponse,
+  SettingsUpsertError,
+  SettingsGetData,
+  SettingsGetResponse,
+  SettingsGetError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -4721,6 +4730,75 @@ export const resourceGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/resources/{resource}",
+    ...options,
+  });
+};
+
+export const settingsList = <ThrowOnError extends boolean = false>(
+  options: Options<SettingsListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    SettingsListResponse,
+    SettingsListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/settings",
+    ...options,
+  });
+};
+
+export const settingsUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<SettingsUpsertData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    SettingsUpsertResponse,
+    SettingsUpsertError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/settings",
+    ...options,
+  });
+};
+
+export const settingsGet = <ThrowOnError extends boolean = false>(
+  options: Options<SettingsGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    SettingsGetResponse,
+    SettingsGetError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/settings/{setting}",
     ...options,
   });
 };

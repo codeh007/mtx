@@ -2085,7 +2085,7 @@ export type AgStateUpsert = AgStateProperties & {
   /**
    * 组件id
    */
-  componentId?: string;
+  componentId: string;
   /**
    * 聊天id
    */
@@ -3270,6 +3270,13 @@ export type AgentConfig = {
   handoffs: Array<string>;
   reflect_on_tool_use: boolean;
   tool_call_summary_format: string;
+};
+
+export type TenantSetting = {
+  /**
+   * The id of the tenant setting
+   */
+  id?: string;
 };
 
 export type ReadinessGetData = {
@@ -9071,6 +9078,114 @@ export type ResourceGetResponses = {
 
 export type ResourceGetResponse =
   ResourceGetResponses[keyof ResourceGetResponses];
+
+export type SettingsListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/settings";
+};
+
+export type SettingsListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type SettingsListError = SettingsListErrors[keyof SettingsListErrors];
+
+export type SettingsListResponses = {
+  200: ModelList;
+};
+
+export type SettingsListResponse =
+  SettingsListResponses[keyof SettingsListResponses];
+
+export type SettingsUpsertData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/settings";
+};
+
+export type SettingsUpsertErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type SettingsUpsertError =
+  SettingsUpsertErrors[keyof SettingsUpsertErrors];
+
+export type SettingsUpsertResponses = {
+  /**
+   * 获取大语言模型配置
+   */
+  200: TenantSetting;
+};
+
+export type SettingsUpsertResponse =
+  SettingsUpsertResponses[keyof SettingsUpsertResponses];
+
+export type SettingsGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The setting id
+     */
+    setting: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/settings/{setting}";
+};
+
+export type SettingsGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type SettingsGetError = SettingsGetErrors[keyof SettingsGetErrors];
+
+export type SettingsGetResponses = {
+  200: TenantSetting;
+};
+
+export type SettingsGetResponse =
+  SettingsGetResponses[keyof SettingsGetResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

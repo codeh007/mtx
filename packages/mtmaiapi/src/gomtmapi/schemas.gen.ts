@@ -3711,7 +3711,7 @@ export const AgStateUpsertSchema = {
       $ref: "#/components/schemas/AgStateProperties",
     },
     {
-      required: ["chatId"],
+      required: ["componentId", "chatId"],
       properties: {
         stateId: {
           type: "string",
@@ -6266,6 +6266,16 @@ export const AgentConfigSchema = {
     tool_call_summary_format: {
       type: "string",
       default: "{result}",
+    },
+  },
+} as const;
+
+export const TenantSettingSchema = {
+  type: "object",
+  properties: {
+    id: {
+      type: "string",
+      description: "The id of the tenant setting",
     },
   },
 } as const;

@@ -1756,7 +1756,7 @@ export type AgStateUpsert = AgStateProperties & {
   /** 状态id */
   stateId?: string;
   /** 组件id */
-  componentId?: string;
+  componentId: string;
   /** 聊天id */
   chatId: string;
   /** 租户id */
@@ -2717,4 +2717,9 @@ export interface AgentConfig {
   reflect_on_tool_use: boolean;
   /** @default "{result}" */
   tool_call_summary_format: string;
+}
+
+export interface TenantSetting {
+  /** The id of the tenant setting */
+  id?: string;
 }

@@ -163,6 +163,9 @@ import {
   resourceList,
   resourceUpsert,
   resourceGet,
+  settingsList,
+  settingsUpsert,
+  settingsGet,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -467,6 +470,11 @@ import type {
   ResourceUpsertError,
   ResourceUpsertResponse,
   ResourceGetData,
+  SettingsListData,
+  SettingsUpsertData,
+  SettingsUpsertError,
+  SettingsUpsertResponse,
+  SettingsGetData,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -4807,5 +4815,79 @@ export const resourceGetOptions = (options: Options<ResourceGetData>) => {
       return data;
     },
     queryKey: resourceGetQueryKey(options),
+  });
+};
+
+export const settingsListQueryKey = (options: Options<SettingsListData>) =>
+  createQueryKey("settingsList", options);
+
+export const settingsListOptions = (options: Options<SettingsListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await settingsList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: settingsListQueryKey(options),
+  });
+};
+
+export const settingsUpsertQueryKey = (options: Options<SettingsUpsertData>) =>
+  createQueryKey("settingsUpsert", options);
+
+export const settingsUpsertOptions = (options: Options<SettingsUpsertData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await settingsUpsert({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: settingsUpsertQueryKey(options),
+  });
+};
+
+export const settingsUpsertMutation = (
+  options?: Partial<Options<SettingsUpsertData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    SettingsUpsertResponse,
+    SettingsUpsertError,
+    Options<SettingsUpsertData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await settingsUpsert({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const settingsGetQueryKey = (options: Options<SettingsGetData>) =>
+  createQueryKey("settingsGet", options);
+
+export const settingsGetOptions = (options: Options<SettingsGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await settingsGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: settingsGetQueryKey(options),
   });
 };

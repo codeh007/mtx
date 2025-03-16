@@ -2614,7 +2614,7 @@ export const zAgStateList = z.object({
 export const zAgStateUpsert = zAgStateProperties.merge(
   z.object({
     stateId: z.string().optional(),
-    componentId: z.string().optional(),
+    componentId: z.string(),
     chatId: z.string(),
     tenantId: z.string().optional(),
   }),
@@ -3740,6 +3740,10 @@ export const zAgentConfig = z.object({
   tool_call_summary_format: z.string().default("{result}"),
 });
 
+export const zTenantSetting = z.object({
+  id: z.string().optional(),
+});
+
 export const zMetadataGetResponse = zApiMeta;
 
 export const zCloudMetadataGetResponse = zApiErrors;
@@ -4047,3 +4051,9 @@ export const zResourceListResponse = zMtResourceList;
 export const zResourceUpsertResponse = zMtResource;
 
 export const zResourceGetResponse = zMtResource;
+
+export const zSettingsListResponse = zModelList;
+
+export const zSettingsUpsertResponse = zTenantSetting;
+
+export const zSettingsGetResponse = zTenantSetting;

@@ -120,6 +120,7 @@ import {
   TenantParameter,
   TenantQueueMetrics,
   TenantResourcePolicy,
+  TenantSetting,
   TenantStepRunQueueMetrics,
   TriggerWorkflowRunRequest,
   UiAgentState,
@@ -3655,6 +3656,58 @@ export class Api<
   ) =>
     this.request<MtResource, APIErrors | APIError>({
       path: `/api/v1/tenants/${tenant}/resources/${resource}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags settings
+   * @name SettingsList
+   * @request GET:/api/v1/tenants/{tenant}/settings
+   * @secure
+   */
+  settingsList = (tenant: TenantParameter, params: RequestParams = {}) =>
+    this.request<ModelList, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/settings`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags settings
+   * @name SettingsUpsert
+   * @request POST:/api/v1/tenants/{tenant}/settings
+   * @secure
+   */
+  settingsUpsert = (tenant: TenantParameter, params: RequestParams = {}) =>
+    this.request<TenantSetting, APIErrors | APIError>({
+      path: `/api/v1/tenants/${tenant}/settings`,
+      method: "POST",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags settings
+   * @name SettingsGet
+   * @request GET:/api/v1/tenants/{tenant}/settings/{setting}
+   * @secure
+   */
+  settingsGet = (
+    tenant: TenantParameter,
+    setting: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<TenantSetting, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/settings/${setting}`,
       method: "GET",
       secure: true,
       format: "json",
