@@ -4,7 +4,7 @@ import { Label } from "@radix-ui/react-dropdown-menu";
 import type { MtComponent } from "mtmaiapi";
 import { cn, generateUUID } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
-import { buttonVariants } from "mtxuilib/ui/button";
+import { Button, buttonVariants } from "mtxuilib/ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -14,12 +14,17 @@ import {
   SidebarInput,
 } from "mtxuilib/ui/sidebar";
 
+import { Bot, ChevronsUpDown, Edit } from "lucide-react";
 import { IconPlus } from "mtxuilib/icons/icons-ai";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "mtxuilib/ui/collapsible";
 import { Switch } from "mtxuilib/ui/switch";
-import { type ChangeEvent, useMemo } from "react";
+import { type ChangeEvent, useMemo, useState } from "react";
 import { useComponentsStore } from "../../../stores/componentsProvider";
-import { ComponentLibrary } from "../../components/views/team/builder/library";
-import defaultGallery from "../default_gallery.json";
+import { PresetItem } from "../../components/views/team/builder/library";
 
 export function NavComsWithLibrary() {
   const components = useComponentsStore((x) => x.components);
@@ -68,47 +73,67 @@ export function NavComsWithLibrary() {
             ))}
           </SidebarGroupContent>
         </SidebarGroup>
-        <ComponentLibrary
-          defaultGallery={{
-            config: {
-              id: "fake-id",
-              name: "fake-name",
-              url: "fake-url",
-              metadata: {
-                author: "fake-author",
-                created_at: "fake-created-at",
-                updated_at: "fake-updated-at",
-                version: "fake-version",
-              },
-            },
-            ...defaultGallery,
-          }}
-        />
       </SidebarContent>
     </Sidebar>
   );
 }
 
 const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const detailLink = useMemo(() => {
     return `/coms/${rowId}`;
   }, [rowId]);
+
   return (
     <>
-      <CustomLink
-        to={detailLink}
-        key={rowId}
-        className="flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+      <Collapsible
+        open={isOpen}
+        onOpenChange={setIsOpen}
+        className={cn(isOpen && "border border-blue-600 mb-2 rounded-md m-1")}
       >
-        <div className="flex w-full items-center gap-2">
-          <span>{item.label}</span>
-          {/* <span className="ml-auto text-xs">{chat.createdAt}</span> */}
+        <div className="flex items-center justify-between space-x-2 px-2">
+          <PresetItem
+            id={`${rowId}`}
+            type={"agent"}
+            config={item.config}
+            label={item.label || ""}
+            icon={<Bot className="w-4 h-4" />}
+            className="w-full"
+          />
+          <CollapsibleTrigger asChild>
+            <Button variant="ghost" size="sm" className="w-9 p-0">
+              <ChevronsUpDown className="h-4 w-4" />
+              <span className="sr-only">Toggle</span>
+            </Button>
+          </CollapsibleTrigger>
         </div>
-        <span className="font-medium">{item.label}</span>
-        <span className="line-clamp-2 w-[260px] whitespace-break-spaces text-xs">
-          {item.description || rowId}
-        </span>
-      </CustomLink>
+        {/* <div className="rounded-md border px-4 py-3 font-mono text-sm">
+          @radix-ui/primitives
+        </div> */}
+        <CollapsibleContent className="space-y-2">
+          <div
+            // to={detailLink}
+            key={rowId}
+            className="flex flex-col items-start gap-2 whitespace-nowrap p-2 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+          >
+            <div className="flex w-full items-center gap-2">
+              <span>{item.label}</span>
+            </div>
+            <span className="font-medium">{item.provider}</span>
+            <span className="line-clamp-2 w-[260px] whitespace-break-spaces text-xs">
+              {item.description || rowId}
+            </span>
+          </div>
+          <div className="flex gap-2 justify-end px-1.5">
+            <CustomLink
+              to={detailLink}
+              className={cn(buttonVariants({ variant: "ghost", size: "icon" }))}
+            >
+              <Edit className="w-4 h-4" />
+            </CustomLink>
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
     </>
   );
 };

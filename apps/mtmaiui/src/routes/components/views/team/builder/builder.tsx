@@ -51,13 +51,8 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   const [showGrid, setShowGrid] = useState(true);
   const [showMiniMap, setShowMiniMap] = useState(true);
   const editorRef = useRef(null);
-  // const [activeDragItem, setActiveDragItem] = useState<DragItemData | null>(
-  //   null,
-  // );
   const [validationResults, setValidationResults] = useState<any | null>(null);
   const [validationLoading, setValidationLoading] = useState(false);
-  // const [testDrawerVisible, setTestDrawerVisible] = useState(false);
-  // const defaultGallery = useGalleryStore((state) => state.getSelectedGallery());
   const {
     undo,
     redo,
@@ -70,7 +65,6 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
     updateNode,
   } = useTeamBuilderStore();
 
-  // const selectedNodeId = useTeamBuilderStore((x) => x.selectedNodeId);
   const setSelectedNode = useTeamBuilderStore((x) => x.setSelectedNode);
 
   const currentHistoryIndex = useTeamBuilderStore(
@@ -89,14 +83,6 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
       setEdges((eds: CustomEdge[]) => addEdge(params, eds)),
     [setEdges],
   );
-
-  // const sensors = useSensors(
-  //   useSensor(PointerSensor, {
-  //     activationConstraint: {
-  //       distance: 8,
-  //     },
-  //   }),
-  // );
 
   // Need to notify parent whenever isDirty changes
   useEffect(() => {
@@ -242,72 +228,6 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
     return validTargets[draggedType]?.includes(targetType) || false;
   };
 
-  // const handleDragOver = (event: DragOverEvent) => {
-  //   const { active, over } = event;
-  //   if (!over?.id || !active.data.current) return;
-
-  //   const draggedType = active.data.current.type;
-  //   const targetNode = nodes.find((node) => node.id === over.id);
-  //   if (!targetNode) return;
-
-  //   const isValid = validateDropTarget(
-  //     draggedType,
-  //     targetNode.data.component.component_type,
-  //   );
-  //   // Add visual feedback class to target node
-  //   if (isValid) {
-  //     targetNode.className = "drop-target-valid";
-  //   } else {
-  //     targetNode.className = "drop-target-invalid";
-  //   }
-  // };
-
-  // const handleDragEnd = (event: DragEndEvent) => {
-  //   const { active, over } = event;
-  //   if (!over || !active.data?.current?.current) return;
-
-  //   const draggedItem = active.data.current.current;
-  //   const dropZoneId = over.id as string;
-
-  //   const [nodeId] = dropZoneId.split("@@@");
-  //   // Find target node
-  //   const targetNode = nodes.find((node) => node.id === nodeId);
-  //   if (!targetNode) return;
-
-  //   // Validate drop
-  //   const isValid = validateDropTarget(
-  //     draggedItem.type,
-  //     targetNode.data.component.component_type,
-  //   );
-  //   if (!isValid) return;
-
-  //   const position = {
-  //     x: event.delta.x,
-  //     y: event.delta.y,
-  //   };
-
-  //   // Pass both new node data AND target node id
-  //   addNode(position, draggedItem.config, nodeId);
-  //   setActiveDragItem(null);
-  // };
-
-  // const handleTestDrawerClose = () => {
-  //   // console.log("TestDrawer closed");
-  //   setTestDrawerVisible(false);
-  // };
-
-  // // const teamValidated = validationResults && validationResults.is_valid;
-
-  // const onDragStart = (item: DragItem) => {
-  //   // We can add any drag start logic here if needed
-  // };
-  // const handleDragStart = (event: DragStartEvent) => {
-  //   console.log("handleDragStart", event);
-  //   const { active } = event;
-  //   if (active.data.current) {
-  //     setActiveDragItem(active.data.current as DragItemData);
-  //   }
-  // };
   return (
     <div className="h-full flex-1">
       <div className="flex gap-2 text-xs rounded border-dashed border p-2 mb-2 items-center">
@@ -504,9 +424,8 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
           easing: "cubic-bezier(0.18, 0.67, 0.6, 1.22)",
         }}
       >
-        DragOverlay
         {activeDragItem ? (
-          <div className="p-2 h-full     rounded   bg-red-300 ">
+          <div className="p-1 h-full rounded bg-slate-100 border border-dashed border-slate-400">
             <div className="flex items-center gap-2">
               {activeDragItem.icon}
               <span className="text-sm">{activeDragItem.label}</span>

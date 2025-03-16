@@ -1,5 +1,4 @@
 import { useDraggable } from "@dnd-kit/core";
-import { CSS } from "@dnd-kit/utilities";
 import {
   Bot,
   Brain,
@@ -9,6 +8,7 @@ import {
   Timer,
   Wrench,
 } from "lucide-react";
+import { cn } from "mtxuilib/lib/utils";
 import {
   Accordion,
   AccordionContent,
@@ -16,7 +16,6 @@ import {
   AccordionTrigger,
 } from "mtxuilib/ui/accordion";
 import { Button } from "mtxuilib/ui/button";
-import { Input } from "mtxuilib/ui/input";
 import React from "react";
 import type { ComponentTypes, Gallery } from "../../types/datamodel";
 
@@ -30,9 +29,17 @@ interface PresetItemProps {
   config: ComponentConfigTypes;
   label: string;
   icon: React.ReactNode;
+  className?: string;
 }
 
-const PresetItem = ({ id, type, config, label, icon }: PresetItemProps) => {
+export const PresetItem = ({
+  id,
+  type,
+  config,
+  label,
+  icon,
+  className,
+}: PresetItemProps) => {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id,
@@ -44,21 +51,17 @@ const PresetItem = ({ id, type, config, label, icon }: PresetItemProps) => {
         },
       },
     });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    opacity: isDragging ? 0.8 : undefined,
-  };
-
   return (
     <div
       ref={setNodeRef}
-      style={style}
       {...attributes}
       {...listeners}
-      className={
-        "p-2 text-primary mb-2 border  rounded cursor-move  bg-secondary transition-colors"
-      }
+      className={cn(
+        "p-2 text-primary mb-2 border  rounded cursor-move  bg-secondary transition-colors",
+        isDragging && "opacity-70",
+        "border-dashed border-slate-400",
+        className,
+      )}
     >
       <div className="flex items-center gap-2">
         <GripVertical className="w-4 h-4 inline-block" />
@@ -74,7 +77,7 @@ interface LibraryProps {
 }
 
 export const ComponentLibrary = ({ defaultGallery }: LibraryProps) => {
-  const [searchTerm, setSearchTerm] = React.useState("");
+  // const [searchTerm, setSearchTerm] = React.useState("");
   const [isMinimized, setIsMinimized] = React.useState(false);
 
   const exampleAgents = [
@@ -137,39 +140,39 @@ export const ComponentLibrary = ({ defaultGallery }: LibraryProps) => {
     [defaultGallery],
   );
 
-  const items = sections?.map((section) => {
-    const filteredItems = section.items?.filter((item) =>
-      item.label?.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
+  // const items = sections?.map((section) => {
+  //   const filteredItems = section.items?.filter((item) =>
+  //     item.label?.toLowerCase().includes(searchTerm.toLowerCase()),
+  //   );
 
-    return {
-      key: section.title,
-      label: (
-        <div className="flex items-center gap-2 font-medium">
-          {section.icon}
-          <span>{section?.title}</span>
-          <span className="text-xs text-gray-500">
-            ({filteredItems?.length})
-          </span>
-        </div>
-      ),
-      children: (
-        <div className="space-y-2">
-          {filteredItems?.map((item, itemIndex) => (
-            <PresetItem
-              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-              key={itemIndex}
-              id={`${section?.title?.toLowerCase()}-${itemIndex}`}
-              type={section?.type}
-              config={item?.config}
-              label={item?.label || ""}
-              icon={section?.icon}
-            />
-          ))}
-        </div>
-      ),
-    };
-  });
+  //   return {
+  //     key: section.title,
+  //     label: (
+  //       <div className="flex items-center gap-2 font-medium">
+  //         {section.icon}
+  //         <span>{section?.title}</span>
+  //         <span className="text-xs text-gray-500">
+  //           ({filteredItems?.length})
+  //         </span>
+  //       </div>
+  //     ),
+  //     children: (
+  //       <div className="space-y-2">
+  //         {filteredItems?.map((item, itemIndex) => (
+  //           <PresetItem
+  //             // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+  //             key={itemIndex}
+  //             id={`${section?.title?.toLowerCase()}-${itemIndex}`}
+  //             type={section?.type}
+  //             config={item?.config}
+  //             label={item?.label || ""}
+  //             icon={section?.icon}
+  //           />
+  //         ))}
+  //       </div>
+  //     ),
+  //   };
+  // });
 
   if (isMinimized) {
     return (
@@ -202,13 +205,13 @@ export const ComponentLibrary = ({ defaultGallery }: LibraryProps) => {
             <Minimize2 className="w-4 h-4" />
           </Button>
         </div>
-        <div className="flex items-center gap-2 mb-2">
+        {/* <div className="flex items-center gap-2 mb-2">
           <Input
             placeholder="Search components..."
             onChange={(e) => setSearchTerm(e.target.value)}
             className="flex-1 p-2"
           />
-        </div>
+        </div> */}
 
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="agents">
