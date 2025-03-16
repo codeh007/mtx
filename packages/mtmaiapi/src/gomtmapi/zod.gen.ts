@@ -2745,6 +2745,19 @@ export const zTerminationTypes = z.enum([
   "TimeoutTermination",
 ]);
 
+export const zOrTerminationComponent = zComponentModel.merge(
+  z.object({
+    componentType: z.enum(["termination"]),
+    config: z.object({
+      conditions: z.array(z.object({})),
+    }),
+  }),
+);
+
+export const zOrTerminationConfig = z.object({
+  conditions: z.array(z.object({})),
+});
+
 export const zComponentTypes = z.enum([
   "team",
   "agent",
@@ -3639,7 +3652,7 @@ export const zInstagramTeamComponent = zComponentModel.merge(
     config: zTeamConfigBase.merge(
       z.object({
         participants: z.array(zInstagramAgentComponent),
-        termination_condition: zTextMentionTerminationComponent,
+        termination_condition: zOrTerminationComponent,
       }),
     ),
   }),
@@ -3648,7 +3661,7 @@ export const zInstagramTeamComponent = zComponentModel.merge(
 export const zInstagramTeamConfig = zTeamConfigBase.merge(
   z.object({
     participants: z.array(zInstagramAgentComponent),
-    termination_condition: zTextMentionTerminationComponent,
+    termination_condition: zOrTerminationComponent,
   }),
 );
 

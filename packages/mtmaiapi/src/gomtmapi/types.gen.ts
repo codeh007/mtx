@@ -2249,6 +2249,17 @@ export const TerminationTypes = {
   TIMEOUT_TERMINATION: "TimeoutTermination",
 } as const;
 
+export type OrTerminationComponent = ComponentModel & {
+  componentType: "termination";
+  config: OrTerminationConfig;
+};
+
+export type OrTerminationConfig = {
+  conditions: Array<{
+    [key: string]: unknown;
+  }>;
+};
+
 export type ComponentTypes =
   | "team"
   | "agent"
@@ -3155,7 +3166,7 @@ export type InstagramTeamComponent = ComponentModel & {
 
 export type InstagramTeamConfig = TeamConfigBase & {
   participants: Array<InstagramAgentComponent>;
-  termination_condition: TextMentionTerminationComponent;
+  termination_condition: OrTerminationComponent;
 };
 
 /**

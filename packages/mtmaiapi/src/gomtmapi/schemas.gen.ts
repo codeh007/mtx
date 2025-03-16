@@ -4070,6 +4070,39 @@ export const TerminationTypesSchema = {
   ],
 } as const;
 
+export const OrTerminationComponentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
+    {
+      required: ["provider", "config", "componentType"],
+      properties: {
+        componentType: {
+          type: "string",
+          enum: ["termination"],
+        },
+        config: {
+          $ref: "#/components/schemas/OrTerminationConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const OrTerminationConfigSchema = {
+  required: ["conditions"],
+  properties: {
+    conditions: {
+      type: "array",
+      items: {
+        type: "object",
+        additionalProperties: true,
+      },
+    },
+  },
+} as const;
+
 export const ComponentTypesSchema = {
   type: "string",
   enum: ["team", "agent", "model", "tool", "termination"],
@@ -6064,7 +6097,7 @@ export const InstagramTeamConfigSchema = {
           },
         },
         termination_condition: {
-          $ref: "#/components/schemas/TextMentionTerminationComponent",
+          $ref: "#/components/schemas/OrTerminationComponent",
         },
       },
     },

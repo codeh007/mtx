@@ -1882,6 +1882,15 @@ export enum TerminationTypes {
   TimeoutTermination = "TimeoutTermination",
 }
 
+export type OrTerminationComponent = ComponentModel & {
+  componentType: "termination";
+  config: OrTerminationConfig;
+};
+
+export interface OrTerminationConfig {
+  conditions: Record<string, any>[];
+}
+
 export enum ComponentTypes {
   Team = "team",
   Agent = "agent",
@@ -2631,7 +2640,7 @@ export type InstagramTeamComponent = ComponentModel & {
 
 export type InstagramTeamConfig = TeamConfigBase & {
   participants: InstagramAgentComponent[];
-  termination_condition: TextMentionTerminationComponent;
+  termination_condition: OrTerminationComponent;
 };
 
 /** 浏览器配置(未完成) */
