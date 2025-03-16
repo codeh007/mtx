@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { FlowNames, workflowRunCreateMutation } from "mtmaiapi";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -49,6 +50,9 @@ function RouteComponent() {
       </DashHeaders>
       <div className="flex flex-col h-full w-full px-2">
         <Button onClick={handleResetTenandSetting}>重置租户配置</Button>
+      </div>
+      <div className="flex flex-col h-full w-full px-2">
+        <CustomLink to={"model_client_settings"}>模型客户端设置</CustomLink>
       </div>
     </>
   );
