@@ -7284,6 +7284,18 @@ export type ComsListData = {
      * The gallery name
      */
     gallery?: string;
+    /**
+     * The component type
+     */
+    type?: string;
+    /**
+     * The component provider
+     */
+    provider?: string;
+    /**
+     * The component description
+     */
+    description?: string;
   };
   url: "/api/v1/tenants/{tenant}/comps";
 };

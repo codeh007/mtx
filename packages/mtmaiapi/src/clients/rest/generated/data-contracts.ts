@@ -576,11 +576,7 @@ export interface WorkflowConcurrency {
    */
   maxRuns: number;
   /** The strategy to use when the concurrency limit is reached. */
-  limitStrategy:
-    | "CANCEL_IN_PROGRESS"
-    | "DROP_NEWEST"
-    | "QUEUE_NEWEST"
-    | "GROUP_ROUND_ROBIN";
+  limitStrategy: "CANCEL_IN_PROGRESS" | "DROP_NEWEST" | "QUEUE_NEWEST" | "GROUP_ROUND_ROBIN";
   /** An action which gets the concurrency group for the WorkflowRun. */
   getConcurrencyGroup: string;
 }
@@ -2464,8 +2460,7 @@ export interface PlatformAccountProperties {
   properties?: any;
 }
 
-export type PlatformAccount = APIResourceMetaProperties &
-  PlatformAccountProperties;
+export type PlatformAccount = APIResourceMetaProperties & PlatformAccountProperties;
 
 export interface PlatformAccountList {
   pagination?: PaginationResponse;

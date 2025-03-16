@@ -4,7 +4,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import debounce from "lodash.debounce";
 import { type MtComponent, comsListOptions } from "mtmaiapi";
 import type React from "react";
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -60,34 +60,48 @@ export const ComponentsProvider = (
   const { children, ...etc } = props;
   const tid = useTenantId();
   const nav = useNav();
+  // const params = useParams();
+  const [queryParams, setQueryParams] = useState(etc.queryParams);
+  const mystore = useMemo(
+    () =>
+      createComponentsStore({
+        ...etc,
+        components: [],
+      }),
+    [etc],
+  );
   const componentsQuery = useSuspenseQuery({
     ...comsListOptions({
       path: {
         tenant: tid!,
       },
       query: {
-        ...etc.queryParams,
+        // ...etc.queryParams,
+        // ...mystore.getState().queryParams,
+        ...queryParams,
       },
     }),
   });
-  const componsents = componentsQuery.data?.rows;
-  const mystore = useMemo(
-    () =>
-      createComponentsStore({
-        ...etc,
-        components: componsents || [],
-      }),
-    [etc, componsents],
-  );
+  // const componsents = componentsQuery.data?.rows;
+
   mystore.subscribe(
     (state) => {
       return state.queryParams;
     },
     debounce((cur, prev) => {
       // console.log("queryParams:", cur);
+      setQueryParams(cur);
       nav({ search: cur });
+      // componentsQuery.refetch();
     }, 500),
   );
+  useEffect(() => {
+    if (componentsQuery.data) {
+      mystore.setState({
+        components: componentsQuery.data.rows,
+      });
+    }
+  }, [componentsQuery.data, mystore]);
   return (
     <componentsStoreContext.Provider value={mystore}>
       {children}
