@@ -4,19 +4,27 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import debounce from "lodash.debounce";
 import { type MtComponent, comsListOptions } from "mtmaiapi";
 import type React from "react";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  useTransition,
+} from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { useTenantId } from "../hooks/useAuth";
-import { useNav } from "../hooks/useNav";
+import { useNav, useParams, useSearch } from "../hooks/useNav";
 
 export interface ComponentsProps {
   queryParams?: Record<string, any>;
 }
 
 export interface ComponentsState extends ComponentsProps {
+  isPending: boolean;
   components: MtComponent[];
   setQueryParams: (queryParams: Record<string, any>) => void;
 }
@@ -28,6 +36,7 @@ export const createWorkbrenchSlice: StateCreator<
   ComponentsState
 > = (set, get, init) => {
   return {
+    isPending: false,
     setQueryParams: (queryParams: Record<string, any>) => {
       set({ queryParams });
     },
@@ -60,15 +69,23 @@ export const ComponentsProvider = (
   const { children, ...etc } = props;
   const tid = useTenantId();
   const nav = useNav();
-  // const params = useParams();
-  const [queryParams, setQueryParams] = useState(etc.queryParams);
+  const [isPending, startTransition] = useTransition();
+  const params = useParams();
+  const search = useSearch();
+  console.log("params:", params);
+  const [queryParams, setQueryParams] = useState({
+    ...etc.queryParams,
+    ...params,
+    ...search,
+  });
   const mystore = useMemo(
     () =>
       createComponentsStore({
         ...etc,
         components: [],
+        isPending,
       }),
-    [etc],
+    [etc, isPending],
   );
   const componentsQuery = useSuspenseQuery({
     ...comsListOptions({
@@ -76,23 +93,21 @@ export const ComponentsProvider = (
         tenant: tid!,
       },
       query: {
-        // ...etc.queryParams,
-        // ...mystore.getState().queryParams,
         ...queryParams,
+        ...params,
+        ...search,
       },
     }),
   });
-  // const componsents = componentsQuery.data?.rows;
-
   mystore.subscribe(
     (state) => {
       return state.queryParams;
     },
     debounce((cur, prev) => {
-      // console.log("queryParams:", cur);
-      setQueryParams(cur);
-      nav({ search: cur });
-      // componentsQuery.refetch();
+      startTransition(() => {
+        setQueryParams(cur);
+        nav({ search: cur });
+      });
     }, 500),
   );
   useEffect(() => {

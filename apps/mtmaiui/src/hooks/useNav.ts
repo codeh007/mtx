@@ -19,3 +19,9 @@ export const useParams = () => {
 
   return params;
 };
+
+export const useSearch = () => {
+  const search = Route.useSearch();
+
+  return search;
+};
