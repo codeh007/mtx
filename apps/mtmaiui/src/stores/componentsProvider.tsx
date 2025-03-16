@@ -58,7 +58,6 @@ export const ComponentsProvider = (
   props: React.PropsWithChildren<ComponentsProps>,
 ) => {
   const { children, ...etc } = props;
-  // const [queryParams, setQueryParams] = useState(etc.queryParams);
   const tid = useTenantId();
   const nav = useNav();
   const componentsQuery = useSuspenseQuery({
@@ -85,8 +84,8 @@ export const ComponentsProvider = (
       return state.queryParams;
     },
     debounce((cur, prev) => {
-      console.log("queryParams:", cur);
-      nav(cur);
+      // console.log("queryParams:", cur);
+      nav({ search: cur });
     }, 500),
   );
   return (
