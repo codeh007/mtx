@@ -2,7 +2,6 @@
 
 import { useRouterState } from "@tanstack/react-router";
 import { useEdgesState, useNodesState } from "@xyflow/react";
-import type { MtComponent } from "mtmaiapi";
 import type React from "react";
 import {
   createContext,
@@ -18,18 +17,6 @@ import { useShallow } from "zustand/react/shallow";
 import { useTenantId } from "../hooks/useAuth";
 import { useNav } from "../hooks/useNav";
 import { useTeamBuilderStore } from "./teamBuildStore";
-
-const {
-  undo,
-  redo,
-  loadFromJson,
-  syncToJson,
-  addNode,
-  layoutNodes,
-  resetHistory,
-  history,
-  updateNode,
-} = useTeamBuilderStore();
 
 import {
   DndContext,
@@ -54,8 +41,6 @@ export interface ComponentsProps {
 
 export interface ComponentDndState extends ComponentsProps {
   isPending: boolean;
-  components: MtComponent[];
-  setQueryParams: (queryParams: Record<string, any>) => void;
 }
 
 export const createComponentDndSlice: StateCreator<
@@ -73,7 +58,7 @@ export const createComponentDndSlice: StateCreator<
   };
 };
 
-type mtappStore = ReturnType<typeof createComponentsStore>;
+type componentDndStore = ReturnType<typeof createComponentsStore>;
 const createComponentsStore = (initProps?: Partial<ComponentDndState>) => {
   return createStore<ComponentDndState>()(
     subscribeWithSelector(
@@ -84,13 +69,13 @@ const createComponentsStore = (initProps?: Partial<ComponentDndState>) => {
           ...initProps,
         })),
         {
-          name: "components-store",
+          name: "component-dnd-store",
         },
       ),
     ),
   );
 };
-const componentsStoreContext = createContext<mtappStore | null>(null);
+const componentsStoreContext = createContext<componentDndStore | null>(null);
 
 export const ComponentDndProvider = (
   props: React.PropsWithChildren<ComponentsProps>,
@@ -103,6 +88,17 @@ export const ComponentDndProvider = (
   const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
   const [testDrawerVisible, setTestDrawerVisible] = useState(false);
+  const {
+    undo,
+    redo,
+    loadFromJson,
+    syncToJson,
+    addNode,
+    layoutNodes,
+    resetHistory,
+    history,
+    updateNode,
+  } = useTeamBuilderStore();
 
   const [activeDragItem, setActiveDragItem] = useState<DragItemData | null>(
     null,
