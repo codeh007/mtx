@@ -56,8 +56,9 @@ const PresetItem = ({ id, type, config, label, icon }: PresetItemProps) => {
       style={style}
       {...attributes}
       {...listeners}
-      // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
-      className={`p-2 text-primary mb-2 border  rounded cursor-move  bg-secondary transition-colors`}
+      className={
+        "p-2 text-primary mb-2 border  rounded cursor-move  bg-secondary transition-colors"
+      }
     >
       <div className="flex items-center gap-2">
         <GripVertical className="w-4 h-4 inline-block" />
@@ -201,12 +202,7 @@ export const ComponentLibrary = ({ defaultGallery }: LibraryProps) => {
             <Minimize2 className="w-4 h-4" />
           </Button>
         </div>
-
-        <div className="mb-4 text-secondary">
-          Drag a component to add it to the team
-        </div>
-
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex items-center gap-2 mb-2">
           <Input
             placeholder="Search components..."
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -219,11 +215,8 @@ export const ComponentLibrary = ({ defaultGallery }: LibraryProps) => {
             <AccordionTrigger>Agents</AccordionTrigger>
             <AccordionContent>
               {exampleAgents.map((agent, index) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                // <div key={index}>{agent.label}</div>
                 <PresetItem
-                  // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                  key={index}
+                  key={`${agent.label?.toLowerCase()}-${index}`}
                   id={`${agent.label?.toLowerCase()}-${index}`}
                   type={"agent"}
                   config={agent.config}

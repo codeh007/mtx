@@ -1,13 +1,4 @@
-import {
-  DndContext,
-  type DragEndEvent,
-  type DragOverEvent,
-  DragOverlay,
-  type DragStartEvent,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
+import { DndContext, DragOverlay } from "@dnd-kit/core";
 import {
   Background,
   type Connection,
@@ -20,7 +11,6 @@ import {
 import "@xyflow/react/dist/style.css";
 import debounce from "lodash.debounce";
 import { Download, ListCheck, PlayCircle, Save } from "lucide-react";
-import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
 import { Switch } from "mtxuilib/ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
@@ -29,20 +19,18 @@ import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
 import { MonacoEditor } from "../../monaco";
 import type { ComponentTypes, Team } from "../../types/datamodel";
 import "./builder.css";
-import defaultGallery from "./default_gallery.json";
-import { ComponentLibrary } from "./library";
 import { edgeTypes, nodeTypes } from "./nodes";
 import { TestDrawer } from "./testdrawer";
 import { TeamBuilderToolbar } from "./toolbar";
-import type { CustomEdge, CustomNode, DragItem } from "./types";
+import type { CustomEdge, CustomNode } from "./types";
 import { ValidationErrors } from "./validationerrors";
 
-interface DragItemData {
-  type: ComponentTypes;
-  config: any;
-  label: string;
-  icon: React.ReactNode;
-}
+// interface DragItemData {
+//   type: ComponentTypes;
+//   config: any;
+//   label: string;
+//   icon: React.ReactNode;
+// }
 
 interface TeamBuilderProps {
   // team: Team;
@@ -63,12 +51,12 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   const [showGrid, setShowGrid] = useState(true);
   const [showMiniMap, setShowMiniMap] = useState(true);
   const editorRef = useRef(null);
-  const [activeDragItem, setActiveDragItem] = useState<DragItemData | null>(
-    null,
-  );
+  // const [activeDragItem, setActiveDragItem] = useState<DragItemData | null>(
+  //   null,
+  // );
   const [validationResults, setValidationResults] = useState<any | null>(null);
   const [validationLoading, setValidationLoading] = useState(false);
-  const [testDrawerVisible, setTestDrawerVisible] = useState(false);
+  // const [testDrawerVisible, setTestDrawerVisible] = useState(false);
   // const defaultGallery = useGalleryStore((state) => state.getSelectedGallery());
   const {
     undo,
@@ -102,13 +90,13 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
     [setEdges],
   );
 
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8,
-      },
-    }),
-  );
+  // const sensors = useSensors(
+  //   useSensor(PointerSensor, {
+  //     activationConstraint: {
+  //       distance: 8,
+  //     },
+  //   }),
+  // );
 
   // Need to notify parent whenever isDirty changes
   useEffect(() => {
@@ -196,30 +184,22 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
 
   // Handle save
   const handleSave = useCallback(async () => {
-    try {
-      const component = syncToJson();
-      if (!component) {
-        throw new Error("Unable to generate valid configuration(handleSave)");
-      }
+    const component = syncToJson();
+    if (!component) {
+      throw new Error("Unable to generate valid configuration(handleSave)");
+    }
 
-      if (onChange) {
-        const teamData: Partial<Team> = team
-          ? {
-              ...team,
-              component,
-              created_at: undefined,
-              updated_at: undefined,
-            }
-          : { component };
-        await onChange(teamData);
-        resetHistory();
-      }
-    } catch (error) {
-      // messageApi.error(
-      //   error instanceof Error
-      //     ? error.message
-      //     : "Failed to save team configuration",
-      // );
+    if (onChange) {
+      const teamData: Partial<Team> = team
+        ? {
+            ...team,
+            component,
+            created_at: undefined,
+            updated_at: undefined,
+          }
+        : { component };
+      await onChange(teamData);
+      resetHistory();
     }
   }, [syncToJson, onChange, resetHistory]);
 
@@ -262,71 +242,72 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
     return validTargets[draggedType]?.includes(targetType) || false;
   };
 
-  const handleDragOver = (event: DragOverEvent) => {
-    const { active, over } = event;
-    if (!over?.id || !active.data.current) return;
+  // const handleDragOver = (event: DragOverEvent) => {
+  //   const { active, over } = event;
+  //   if (!over?.id || !active.data.current) return;
 
-    const draggedType = active.data.current.type;
-    const targetNode = nodes.find((node) => node.id === over.id);
-    if (!targetNode) return;
+  //   const draggedType = active.data.current.type;
+  //   const targetNode = nodes.find((node) => node.id === over.id);
+  //   if (!targetNode) return;
 
-    const isValid = validateDropTarget(
-      draggedType,
-      targetNode.data.component.component_type,
-    );
-    // Add visual feedback class to target node
-    if (isValid) {
-      targetNode.className = "drop-target-valid";
-    } else {
-      targetNode.className = "drop-target-invalid";
-    }
-  };
+  //   const isValid = validateDropTarget(
+  //     draggedType,
+  //     targetNode.data.component.component_type,
+  //   );
+  //   // Add visual feedback class to target node
+  //   if (isValid) {
+  //     targetNode.className = "drop-target-valid";
+  //   } else {
+  //     targetNode.className = "drop-target-invalid";
+  //   }
+  // };
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (!over || !active.data?.current?.current) return;
+  // const handleDragEnd = (event: DragEndEvent) => {
+  //   const { active, over } = event;
+  //   if (!over || !active.data?.current?.current) return;
 
-    const draggedItem = active.data.current.current;
-    const dropZoneId = over.id as string;
+  //   const draggedItem = active.data.current.current;
+  //   const dropZoneId = over.id as string;
 
-    const [nodeId] = dropZoneId.split("@@@");
-    // Find target node
-    const targetNode = nodes.find((node) => node.id === nodeId);
-    if (!targetNode) return;
+  //   const [nodeId] = dropZoneId.split("@@@");
+  //   // Find target node
+  //   const targetNode = nodes.find((node) => node.id === nodeId);
+  //   if (!targetNode) return;
 
-    // Validate drop
-    const isValid = validateDropTarget(
-      draggedItem.type,
-      targetNode.data.component.component_type,
-    );
-    if (!isValid) return;
+  //   // Validate drop
+  //   const isValid = validateDropTarget(
+  //     draggedItem.type,
+  //     targetNode.data.component.component_type,
+  //   );
+  //   if (!isValid) return;
 
-    const position = {
-      x: event.delta.x,
-      y: event.delta.y,
-    };
+  //   const position = {
+  //     x: event.delta.x,
+  //     y: event.delta.y,
+  //   };
 
-    // Pass both new node data AND target node id
-    addNode(position, draggedItem.config, nodeId);
-    setActiveDragItem(null);
-  };
+  //   // Pass both new node data AND target node id
+  //   addNode(position, draggedItem.config, nodeId);
+  //   setActiveDragItem(null);
+  // };
 
-  const handleTestDrawerClose = () => {
-    // console.log("TestDrawer closed");
-    setTestDrawerVisible(false);
-  };
+  // const handleTestDrawerClose = () => {
+  //   // console.log("TestDrawer closed");
+  //   setTestDrawerVisible(false);
+  // };
 
-  // const teamValidated = validationResults && validationResults.is_valid;
+  // // const teamValidated = validationResults && validationResults.is_valid;
 
-  const onDragStart = (item: DragItem) => {
-    // We can add any drag start logic here if needed
-  };
-  const handleDragStart = (event: DragStartEvent) => {
-    const { active } = event;
-    if (active.data.current) {
-      setActiveDragItem(active.data.current as DragItemData);
-    }
-  };
+  // const onDragStart = (item: DragItem) => {
+  //   // We can add any drag start logic here if needed
+  // };
+  // const handleDragStart = (event: DragStartEvent) => {
+  //   console.log("handleDragStart", event);
+  //   const { active } = event;
+  //   if (active.data.current) {
+  //     setActiveDragItem(active.data.current as DragItemData);
+  //   }
+  // };
   return (
     <div className="h-full flex-1">
       <div className="flex gap-2 text-xs rounded border-dashed border p-2 mb-2 items-center">
@@ -351,7 +332,6 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
             <TooltipTrigger asChild>
               <Button
                 size="icon"
-                // className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
                 onClick={() => {
                   const json = JSON.stringify(syncToJson(), null, 2);
                   const blob = new Blob([json], { type: "application/json" });
@@ -371,7 +351,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
             </TooltipContent>
           </Tooltip>
 
-          <DebugValue data={{ nodes, team }} />
+          {/* <DebugValue data={{ nodes, team }} /> */}
 
           <Tooltip>
             <TooltipTrigger asChild>
@@ -460,10 +440,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
         onDragStart={handleDragStart}
       >
         <div className=" relative h-[calc(100vh-239px)] flex-1">
-          {/* {!isJsonMode && defaultGallery && (
-            <ComponentLibrary defaultGallery={defaultGallery} />
-          )} */}
-          <ComponentLibrary
+          {/* <ComponentLibrary
             defaultGallery={{
               config: {
                 id: "fake-id",
@@ -478,10 +455,10 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
               },
               ...defaultGallery,
             }}
-          />
+          /> */}
 
           <div className=" rounded bg-amber-100 w-full h-full">
-            <div className="relative rounded bg-blue-600  w-full h-full">
+            <div className="relative rounded w-full h-full">
               <div
                 className={`w-full h-full transition-all duration-200 ${
                   isFullscreen
@@ -543,37 +520,6 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
               />
             </div>
           </div>
-
-          {/* {selectedNodeId && (
-            <Sheet
-              open={!!selectedNodeId}
-              onOpenChange={() => setSelectedNode(null)}
-            >
-              <SheetContent>
-                <SheetHeader>
-                  <SheetTitle>Edit Component</SheetTitle>
-                </SheetHeader>
-                {nodes.find((n) => n.id === selectedNodeId)?.data.component && (
-                  <ComponentEditor
-                    component={
-                      nodes.find((n) => n.id === selectedNodeId)!.data.component
-                    }
-                    onChange={(updatedComponent) => {
-                      // console.log("builder updating component", updatedComponent);
-                      if (selectedNodeId) {
-                        updateNode(selectedNodeId, {
-                          component: updatedComponent,
-                        });
-                        handleSave();
-                      }
-                    }}
-                    onClose={() => setSelectedNode(null)}
-                    navigationDepth={true}
-                  />
-                )}
-              </SheetContent>
-            </Sheet>
-          )} */}
         </div>
         <DragOverlay
           dropAnimation={{
@@ -581,6 +527,7 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
             easing: "cubic-bezier(0.18, 0.67, 0.6, 1.22)",
           }}
         >
+          DragOverlay
           {activeDragItem ? (
             <div className="p-2 text-primary h-full     rounded    ">
               <div className="flex items-center gap-2">

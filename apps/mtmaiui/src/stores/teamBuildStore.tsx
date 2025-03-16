@@ -26,6 +26,7 @@ import type {
   AgentConfig,
   Component,
   ComponentConfig,
+  ComponentTypes,
   Team,
   TeamConfig,
 } from "../routes/components/views/types/datamodel";
@@ -41,7 +42,12 @@ import {
 } from "../routes/components/views/types/guards";
 
 const MAX_HISTORY = 50;
-
+export interface DragItemData {
+  type: ComponentTypes;
+  config: any;
+  label: string;
+  icon: React.ReactNode;
+}
 export interface TeamBuilderProps {
   componentId: string;
 }

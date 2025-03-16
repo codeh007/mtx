@@ -1,9 +1,5 @@
-import {
-  Outlet,
-  createLazyFileRoute,
-  useRouterState,
-} from "@tanstack/react-router";
-
+import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
+import { ComponentDndProvider } from "../../stores/ComponentDndProvider";
 import { ComponentsProvider } from "../../stores/componentsProvider";
 import { GalleryProvider } from "../../stores/gallerySstore";
 import { WorkbrenchProvider } from "../../stores/workbrench.store";
@@ -15,24 +11,16 @@ export const Route = createLazyFileRoute("/coms")({
 });
 
 function RouteComponent() {
-  const matches = useRouterState({ select: (s) => s.matches });
-  const breadcrumbs = matches
-    .filter((match) => match.context.getTitle)
-    .map(({ pathname, context }) => {
-      return {
-        title: context.getTitle(),
-        path: pathname,
-      };
-    });
-
   return (
     <WorkbrenchProvider>
       <ComponentsProvider>
-        <RootAppWrapper secondSidebar={<NavComs />}>
-          <GalleryProvider>
-            <Outlet />
-          </GalleryProvider>
-        </RootAppWrapper>
+        <ComponentDndProvider>
+          <RootAppWrapper secondSidebar={<NavComs />}>
+            <GalleryProvider>
+              <Outlet />
+            </GalleryProvider>
+          </RootAppWrapper>
+        </ComponentDndProvider>
       </ComponentsProvider>
     </WorkbrenchProvider>
   );
