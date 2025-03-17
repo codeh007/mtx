@@ -1,5 +1,6 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import {
+  type AssistantAgentState,
   type ChatAgentContainerState,
   type RoundRobinManagerState,
   StateType,
@@ -33,30 +34,12 @@ const TeamStateView = ({ teamState }: { teamState: TeamState }) => {
   return (
     <div className="flex flex-col gap-2">
       {Object.entries(
-        teamState.agent_states ||
-          (teamState.agentStates as Record<string, ChatAgentContainerState>),
+        teamState?.agent_states ||
+          (teamState?.agentStates as Record<string, ChatAgentContainerState>),
       ).map(([key, value]) => {
-        return <ChatAgentContainerStateView key={key} agentState={value} />;
-      })}
-    </div>
-  );
-};
-
-const ChatAgentContainerStateView = ({
-  agentState,
-}: { agentState: ChatAgentContainerState }) => {
-  if (!agentState) return null;
-  return (
-    <div className="flex flex-col gap-2 bg-gray-100 p-2 rounded-md">
-      <div className="text-sm font-bold">ChatAgentContainerStateView</div>
-      <DebugValue data={{ agentState }} />
-
-      {Object.entries(
-        (agentState.agent_state || agentState.agentState) as Record<
-          string,
-          any
-        >,
-      ).map(([key, value]) => {
+        if (value.type === StateType.CHAT_AGENT_CONTAINER_STATE) {
+          return <ChatAgentContainerStateView key={key} agentState={value} />;
+        }
         if (value.type === StateType.ROUND_ROBIN_MANAGER_STATE) {
           return (
             <RoundRobinManagerStateView
@@ -66,11 +49,46 @@ const ChatAgentContainerStateView = ({
           );
         }
         return (
-          <div key={key} className="bg-red-100 ">
-            {key}
+          <div key={key} className="bg-red-100">
+            unknown state type: key: {key} type: {value.type}{" "}
+            <span>{StateType.CHAT_AGENT_CONTAINER_STATE}</span>
           </div>
         );
       })}
+    </div>
+  );
+};
+
+const ChatAgentContainerStateView = ({
+  agentState,
+}: { agentState: ChatAgentContainerState }) => {
+  if (!agentState?.agent_state && !agentState?.agentState) return null;
+  return (
+    <div className="flex flex-col gap-2 bg-gray-100 p-2 rounded-md">
+      <div className="text-sm font-bold">ChatAgentContainerStateView</div>
+      <DebugValue data={agentState} />
+      <AgentStateView agentState={agentState} />
+      {/* {Object.entries(
+        (agentState?.agent_state || agentState?.agentState) as Record<
+          string,
+          ChatAgentContainerState
+        >,
+      )?.map(([key, value]) => {
+        // if (value.type === StateType.ASSISTANT_AGENT_STATE) {
+        //   return (
+        //     <AssistantAgentStateView
+        //       key={key}
+        //       assistantAgentState={value as AssistantAgentState}
+        //     />
+        //   );
+        // }
+        // return (
+        //   <div key={key} className="bg-red-100 ">
+        //     <DebugValue data={value} />
+        //   </div>
+        // );
+        
+      })} */}
     </div>
   );
 };
@@ -82,6 +100,47 @@ const RoundRobinManagerStateView = ({
     <div className="flex flex-col gap-2 bg-gray-200 p-2 rounded-md">
       <div className="text-sm font-bold">RoundRobinManagerStateView</div>
       <DebugValue data={{ roundRobinManagerState }} />
+    </div>
+  );
+};
+
+// const ChatAgentContainerStateView = ({
+//   chatAgentContainerState,
+// }: { chatAgentContainerState: ChatAgentContainerState }) => {
+//   return (
+//     <div className="flex flex-col gap-2 bg-yellow-200 p-2 rounded-md">
+//       <div className="text-sm font-bold">ChatAgentContainerStateView</div>
+//       <DebugValue data={{ chatAgentContainerState }} />
+//     </div>
+//   );
+// };
+
+const AgentStateView = ({ agentState }: { agentState: any }) => {
+  return (
+    <div className="flex flex-col gap-2 bg-red-500 p-2 rounded-md">
+      <div className="text-sm font-bold">AgentStateView</div>
+      <DebugValue data={agentState} />
+      {agentState.type === StateType.ASSISTANT_AGENT_STATE && (
+        <AssistantAgentStateView
+          assistantAgentState={agentState as AssistantAgentState}
+        />
+      )}
+      {agentState.type === StateType.CHAT_AGENT_CONTAINER_STATE && (
+        <ChatAgentContainerStateView
+          agentState={agentState as ChatAgentContainerState}
+        />
+      )}
+    </div>
+  );
+};
+
+const AssistantAgentStateView = ({
+  assistantAgentState,
+}: { assistantAgentState: AssistantAgentState }) => {
+  return (
+    <div className="flex flex-col gap-2 bg-yellow-500 p-2 rounded-md">
+      <div className="text-sm font-bold">AssistantAgentStateView</div>
+      <DebugValue data={{ assistantAgentState }} />
     </div>
   );
 };
