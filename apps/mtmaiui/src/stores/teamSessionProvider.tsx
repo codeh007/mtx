@@ -1,17 +1,7 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
-import debounce from "lodash.debounce";
-import { type MtComponent, comsListOptions } from "mtmaiapi";
 import type React from "react";
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  useTransition,
-} from "react";
+import { createContext, useContext, useMemo, useTransition } from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -20,13 +10,13 @@ import { useTenantId } from "../hooks/useAuth";
 import { useNav, useSearch } from "../hooks/useNav";
 
 export interface ComponentsProps {
-  queryParams?: Record<string, any>;
+  componentId: string;
 }
 
 export interface ComponentsState extends ComponentsProps {
+  setComponentId: (componentId: string) => void;
   isPending: boolean;
-  components: MtComponent[];
-  setQueryParams: (queryParams: Record<string, any>) => void;
+  runComponent: () => void;
 }
 
 export const createWorkbrenchSlice: StateCreator<
@@ -37,15 +27,19 @@ export const createWorkbrenchSlice: StateCreator<
 > = (set, get, init) => {
   return {
     isPending: false,
-    setQueryParams: (queryParams: Record<string, any>) => {
-      set({ queryParams });
+    componentId: "",
+    setComponentId: (componentId: string) => {
+      set({ componentId });
+    },
+    runComponent: () => {
+      set({ isPending: true });
     },
     ...init,
   };
 };
 
-type mtappStore = ReturnType<typeof createComponentsStore>;
-const createComponentsStore = (initProps?: Partial<ComponentsState>) => {
+// type mtappStore = ReturnType<typeof createTeamSessionStore>;
+const createTeamSessionStore = (initProps?: Partial<ComponentsState>) => {
   return createStore<ComponentsState>()(
     subscribeWithSelector(
       // persist(
@@ -55,15 +49,17 @@ const createComponentsStore = (initProps?: Partial<ComponentsState>) => {
           ...initProps,
         })),
         {
-          name: "components-store",
+          name: "team-session-store",
         },
       ),
     ),
   );
 };
-const componentsStoreContext = createContext<mtappStore | null>(null);
+const componentsStoreContext = createContext<ReturnType<
+  typeof createTeamSessionStore
+> | null>(null);
 
-export const ComponentsProvider = (
+export const TeamSessionProvider = (
   props: React.PropsWithChildren<ComponentsProps>,
 ) => {
   const { children, ...etc } = props;
@@ -71,48 +67,13 @@ export const ComponentsProvider = (
   const nav = useNav();
   const [isPending, startTransition] = useTransition();
   const search = useSearch();
-  const [queryParams, setQueryParams] = useState({
-    ...etc.queryParams,
-    ...search,
-  });
   const mystore = useMemo(
     () =>
-      createComponentsStore({
+      createTeamSessionStore({
         ...etc,
-        components: [],
-        // isPending,
       }),
     [],
   );
-  const componentsQuery = useSuspenseQuery({
-    ...comsListOptions({
-      path: {
-        tenant: tid!,
-      },
-      query: {
-        ...queryParams,
-        ...search,
-      },
-    }),
-  });
-  mystore.subscribe(
-    (state) => {
-      return state.queryParams;
-    },
-    debounce((cur, prev) => {
-      startTransition(() => {
-        setQueryParams(cur);
-        nav({ search: cur });
-      });
-    }, 500),
-  );
-  useEffect(() => {
-    if (componentsQuery.data) {
-      mystore.setState({
-        components: componentsQuery.data.rows,
-      });
-    }
-  }, [componentsQuery.data, mystore]);
   return (
     <componentsStoreContext.Provider value={mystore}>
       {children}
@@ -121,15 +82,16 @@ export const ComponentsProvider = (
 };
 
 const DEFAULT_USE_SHALLOW = false;
-export function useComponentsStore(): ComponentsState;
-export function useComponentsStore<T>(
+export function useTeamSessionStore(): ComponentsState;
+export function useTeamSessionStore<T>(
   selector: (state: ComponentsState) => T,
 ): T;
-export function useComponentsStore<T>(
+export function useTeamSessionStore<T>(
   selector?: (state: ComponentsState) => T,
 ) {
   const store = useContext(componentsStoreContext);
-  if (!store) throw new Error("useComponentsStore must in WorkbrenchProvider");
+  if (!store)
+    throw new Error("useTeamSessionStore must in TeamSessionProvider");
   if (selector) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useStore(

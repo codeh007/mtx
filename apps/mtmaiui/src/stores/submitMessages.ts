@@ -36,9 +36,7 @@ export async function submitMessages(
     },
     body: {
       input: {
-        // tenantId: tenant.metadata.id,
         content: content,
-        // sessionId: threadId,
         topic: "default",
         source: "web",
         componentId: componentId,
@@ -53,8 +51,7 @@ export async function submitMessages(
   });
 
   if (response?.data) {
-    const runId = response.data?.metadata?.id;
-    set({ runId: runId });
+    // console.log("response", response);
     // pull stream event
     if (response.data?.metadata?.id) {
       const workflowRunId = response.data.metadata?.id;

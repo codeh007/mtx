@@ -24,11 +24,6 @@ export const Route = createLazyFileRoute("/coms/$comId/view")({
 });
 
 function RouteComponent() {
-  // const nav = useNav();
-  // const { toast } = useToast();
-
-  // const workflowRunId = useWorkbenchStore((x) => x.workflowRunId);
-
   const { comId } = Route.useParams();
   const tid = useTenantId();
   const teamQuery = useSuspenseQuery({
@@ -46,7 +41,6 @@ function RouteComponent() {
   const selectedNodeId = useTeamBuilderStore((x) => x.selectedNodeId);
   useEffect(() => {
     if (selectedNodeId) {
-      // setSelectedNode(selectedNodeId);
       nav({ to: `${selectedNodeId}` });
     }
   }, [selectedNodeId, nav]);

@@ -53,7 +53,16 @@ export interface TeamBuilderProps {
 }
 export interface TeamBuilderState extends TeamBuilderProps {
   team?: Team;
-
+  isJsonMode: boolean;
+  setIsJsonMode: (isJsonMode: boolean) => void;
+  isFullscreen: boolean;
+  setIsFullscreen: (isFullscreen: boolean) => void;
+  isDirty: boolean;
+  setIsDirty: (isDirty: boolean) => void;
+  teamValidated: boolean;
+  setTeamValidated: (teamValidated: boolean) => void;
+  validationResults: any;
+  setValidationResults: (validationResults: any) => void;
   nodes: CustomNode[];
   edges: CustomEdge[];
   selectedNodeId: string | null;
@@ -129,7 +138,21 @@ export const createWorkbrenchSlice: StateCreator<
     history: [],
     currentHistoryIndex: -1,
     originalComponent: null,
-
+    setIsJsonMode: (isJsonMode: boolean) => {
+      set({ isJsonMode });
+    },
+    setIsFullscreen: (isFullscreen: boolean) => {
+      set({ isFullscreen });
+    },
+    setIsDirty: (isDirty: boolean) => {
+      set({ isDirty });
+    },
+    setTeamValidated: (teamValidated: boolean) => {
+      set({ teamValidated });
+    },
+    setValidationResults: (validationResults: any[]) => {
+      set({ validationResults });
+    },
     addNode: (
       position: Position,
       component: Component<ComponentConfig>,
@@ -660,7 +683,7 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
       team: team,
     });
     return store;
-  }, [etc, componentsQuery.data]);
+  }, [componentsQuery.data]);
 
   return (
     <mtmaiStoreContext.Provider value={mystore}>

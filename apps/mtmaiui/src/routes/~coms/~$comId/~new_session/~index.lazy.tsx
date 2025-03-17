@@ -1,7 +1,6 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
-import { useEffect } from "react";
 import { useNav, useParams } from "../../../../hooks/useNav";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 
@@ -22,25 +21,25 @@ function RouteComponent() {
     });
   };
 
-  useEffect(() => {
-    if (workflowRunId) {
-      toast.toast({
-        title: "操作成功",
-        description: (
-          <div className="mt-1 w-[240px] rounded-md p-4 flex justify-center items-center">
-            <Button
-              onClick={() => {
-                toast.dismiss();
-                nav({ to: `/workflow-runs/${workflowRunId}` });
-              }}
-            >
-              <span>查看运行</span>
-            </Button>
-          </div>
-        ),
-      });
-    }
-  }, [workflowRunId, toast, nav]);
+  // useEffect(() => {
+  //   if (workflowRunId) {
+  //     toast.toast({
+  //       title: "操作成功",
+  //       description: (
+  //         <div className="mt-1 w-[240px] rounded-md p-4 flex justify-center items-center">
+  //           <Button
+  //             onClick={() => {
+  //               toast.dismiss();
+  //               // nav({ to: `/workflow-runs/${workflowRunId}` });
+  //             }}
+  //           >
+  //             <span>查看运行</span>
+  //           </Button>
+  //         </div>
+  //       ),
+  //     });
+  //   }
+  // }, [workflowRunId, toast]);
 
   return (
     <div>

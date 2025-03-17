@@ -85,11 +85,14 @@ const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
   }, [rowId]);
 
   return (
-    <div className="w-full">
+    <>
       <Collapsible
         open={isOpen}
         onOpenChange={setIsOpen}
-        className={cn(isOpen && "border-green-400 border mb-2 rounded-md pt-1")}
+        className={cn(
+          "w-full",
+          isOpen && "border-slate-400 border mb-2 rounded-md pt-1",
+        )}
       >
         <div className="flex items-center justify-between px-2">
           <PresetItem
@@ -132,6 +135,6 @@ const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
           </div>
         </CollapsibleContent>
       </Collapsible>
-    </div>
+    </>
   );
 };

@@ -5,9 +5,9 @@ import fetchToCurl from "fetch-to-curl";
 import Link from "next/link";
 import type { PropsWithChildren } from "react";
 import { useBasePath } from "../../../../hooks/useBasePath";
-import { queryClient } from "../../../api/QueryClient";
+import { queryClient } from "../../../api/QueryClient.ts--";
 import { Status, type TaskApiResponse } from "../../../api/types";
-import { taskIsFinalized } from "../../../api/utils";
+import { taskIsFinalized } from "../../../api/utils.ts--";
 import { StatusBadge } from "../../../components/StatusBadge";
 
 import { cn, copyText } from "mtxuilib/lib/utils";

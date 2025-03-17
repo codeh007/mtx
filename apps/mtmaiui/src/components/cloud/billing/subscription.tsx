@@ -14,7 +14,6 @@ import { Switch } from "mtxuilib/ui/switch";
 import type React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTenant } from "../../../hooks/useAuth";
-import { queryClient } from "../../../skyvern/api/QueryClient";
 
 interface SubscriptionProps {
   active?: TenantSubscription;

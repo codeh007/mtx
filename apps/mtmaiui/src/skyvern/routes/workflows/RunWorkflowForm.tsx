@@ -21,7 +21,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useBasePath } from "../../../hooks/useBasePath";
-import { queryClient } from "../../api/QueryClient";
+import { queryClient } from "../../api/QueryClient.ts--";
 import { WorkflowParameterInput } from "./WorkflowParameterInput";
 import type { WorkflowParameter } from "./types/workflowTypes";
 

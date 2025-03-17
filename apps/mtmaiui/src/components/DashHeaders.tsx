@@ -37,6 +37,15 @@ export const DashHeaders = (props: DashHeadersProps) => {
   );
 };
 
-export const HeaderActionConainer = (props: { children: React.ReactNode }) => {
-  return <div className="flex flex-1 gap-2 justify-end">{props.children}</div>;
+interface HeaderActionConainerProps {
+  className?: string;
+}
+export const HeaderActionConainer = (
+  props: HeaderActionConainerProps & { children: React.ReactNode },
+) => {
+  return (
+    <div className={cn("flex flex-1 gap-2 justify-end", props.className)}>
+      {props.children}
+    </div>
+  );
 };

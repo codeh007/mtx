@@ -8,7 +8,6 @@ import { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
 import { AgentRpc } from "mtmaiapi/mtmclient/mtmai/mtmpb/agent_worker_pb";
 import { Dispatcher } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
 import { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
-import type { Suggestion } from "mtxuilib/db/schema/suggestion";
 import { generateUUID } from "mtxuilib/lib/utils";
 import type React from "react";
 import { createContext, useContext, useMemo } from "react";
@@ -26,10 +25,10 @@ export interface WorkbenchProps {
   componentId?: string;
   sessionId?: string;
 }
-export type StreamingDelta = {
-  type: "text-delta" | "title" | "id" | "suggestion" | "clear" | "finish";
-  content: string | Suggestion;
-};
+// export type StreamingDelta = {
+//   type: "text-delta" | "title" | "id" | "suggestion" | "clear" | "finish";
+//   content: string | Suggestion;
+// };
 const DEFAULT_AGENT_FLOW_SETTINGS = {
   direction: "TB",
   showLabels: true,
@@ -92,8 +91,6 @@ export interface WorkbrenchState extends WorkbenchProps {
   firstTokenReceived: boolean;
   setFirstTokenReceived: (firstTokenReceived: boolean) => void;
   addMessage: (message: ChatMessage) => void;
-  runId: string;
-  setRunId: (runId: string) => void;
   streamMessage: (params: AgentRunInput) => Promise<void>;
 }
 
@@ -107,7 +104,6 @@ export const createWorkbrenchSlice: StateCreator<
     isDev: false,
     backendUrl: "",
     setOpenDebugPanel: (openDebugPanel) => set({ openDebugPanel }),
-    // setSelectedModelId: (selectedModelId) => set({ selectedModelId }),
     setInput: (input) => set({ input }),
     messages: [],
     firstUserInteraction: undefined,
@@ -132,7 +128,6 @@ export const createWorkbrenchSlice: StateCreator<
       const newChatMessage = {
         role: "user",
         content,
-        // resourceId,
         componentId,
         topic: "default",
         source: "web",
@@ -143,7 +138,6 @@ export const createWorkbrenchSlice: StateCreator<
         },
       } as ChatMessage;
       set({
-        // resourceId,
         messages: [...preMessages, newChatMessage],
       });
       if (componentId) {
@@ -157,9 +151,6 @@ export const createWorkbrenchSlice: StateCreator<
     },
     setThreadId: (threadId) => {
       set({ threadId });
-    },
-    setResourceId: (resourceId) => {
-      set({ resourceId });
     },
     setComponentId: (componentId) => {
       set({ componentId });
@@ -178,9 +169,6 @@ export const createWorkbrenchSlice: StateCreator<
     },
     setFirstTokenReceived: (firstTokenReceived: boolean) => {
       set({ firstTokenReceived });
-    },
-    setRunId: (runId: string) => {
-      set({ runId });
     },
     addMessage: (message: ChatMessage) => {
       const prevMessages = get().messages;
