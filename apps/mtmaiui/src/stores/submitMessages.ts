@@ -117,6 +117,20 @@ const onStreamEvent = (
   console.log("payload", payload);
   if (payload.type === "ChatSessionStartEvent") {
     get().setThreadId(payload.threadId);
+  } else if (payload.type === "ThoughtEvent") {
+    const newChatMessage = {
+      role: "assistant",
+      content: `ThoughtEvent:${payload.content}`,
+      topic: "default",
+      source: "assistant",
+      type: "text",
+      metadata: {
+        id: generateUUID(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+    };
+    get().addMessage(newChatMessage);
   } else if (payload.type === "UserInputRequestedEvent") {
     const newChatMessage = {
       role: "user",

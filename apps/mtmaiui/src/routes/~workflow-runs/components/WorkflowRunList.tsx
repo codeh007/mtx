@@ -32,21 +32,7 @@ function WorkflowRunListItem({ row }: { row: WorkflowRun }) {
         </CustomLink>
       </div>
 
-      <div className="whitespace-nowrap">
-        {/* <span className="text-sm text-muted-foreground">用时:</span>
-        {row.duration ? formatDuration(row.duration) : "N/A"}
-        <div>
-          完成于: {row.finishedAt && <RelativeDate date={row.finishedAt} />}
-        </div>
-        <div>
-          开始于: {row.startedAt && <RelativeDate date={row.startedAt} />}
-        </div>
-        <div>
-          创建于:{" "}
-          {row.metadata.createdAt && (
-            <RelativeDate date={row.metadata.createdAt} />
-          )}
-        </div> */}
+      <div>
         <TaskDateBadge
           date_created_at={row.metadata.createdAt}
           date_updated_at={row.metadata.updatedAt}
