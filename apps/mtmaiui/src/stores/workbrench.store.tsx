@@ -3,7 +3,13 @@
 import type { Client } from "@connectrpc/connect";
 import type { UseNavigateResult } from "@tanstack/react-router";
 import { debounce } from "lodash";
-import type { AgentRunInput, ChatMessage, Tenant } from "mtmaiapi";
+import type {
+  AgState,
+  AgentRunInput,
+  ChatMessage,
+  TeamState,
+  Tenant,
+} from "mtmaiapi";
 import { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
 import { AgentRpc } from "mtmaiapi/mtmclient/mtmai/mtmpb/agent_worker_pb";
 import { Dispatcher } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
@@ -24,11 +30,8 @@ import { submitMessages } from "./submitMessages";
 export interface WorkbenchProps {
   componentId?: string;
   sessionId?: string;
+  teamState?: AgState;
 }
-// export type StreamingDelta = {
-//   type: "text-delta" | "title" | "id" | "suggestion" | "clear" | "finish";
-//   content: string | Suggestion;
-// };
 const DEFAULT_AGENT_FLOW_SETTINGS = {
   direction: "TB",
   showLabels: true,
@@ -92,6 +95,8 @@ export interface WorkbrenchState extends WorkbenchProps {
   setFirstTokenReceived: (firstTokenReceived: boolean) => void;
   addMessage: (message: ChatMessage) => void;
   streamMessage: (params: AgentRunInput) => Promise<void>;
+
+  setTeamState: (teamState: AgState) => void;
 }
 
 export const createWorkbrenchSlice: StateCreator<
@@ -175,6 +180,9 @@ export const createWorkbrenchSlice: StateCreator<
       set({ messages: [...prevMessages, message] });
     },
     agentFlow: DEFAULT_AGENT_FLOW_SETTINGS,
+    setTeamState: (teamState: TeamState) => {
+      set({ teamState });
+    },
     ...init,
   };
 };
