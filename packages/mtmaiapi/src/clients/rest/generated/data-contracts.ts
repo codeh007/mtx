@@ -1734,7 +1734,16 @@ export interface AgStateProperties {
   source?: string;
   /** @default {} */
   state: Record<string, any>;
-  stateV2?: BaseState | AssistantAgentState | TeamState;
+  stateV2?:
+    | AssistantAgentState
+    | TeamState
+    | RoundRobinManagerState
+    | SelectorManagerState
+    | SwarmManagerState
+    | MagenticOneOrchestratorState
+    | SocietyOfMindAgentState
+    | ChatAgentContainerState
+    | BaseGroupChatManagerState;
 }
 
 export type AgState = APIResourceMetaProperties & AgStateProperties;
@@ -1758,6 +1767,13 @@ export type AgStateUpsert = AgStateProperties & {
 export enum StateType {
   AssistantAgentState = "AssistantAgentState",
   TeamState = "TeamState",
+  RoundRobinManagerState = "RoundRobinManagerState",
+  SelectorManagerState = "SelectorManagerState",
+  SwarmManagerState = "SwarmManagerState",
+  MagenticOneOrchestratorState = "MagenticOneOrchestratorState",
+  SocietyOfMindAgentState = "SocietyOfMindAgentState",
+  ChatAgentContainerState = "ChatAgentContainerState",
+  BaseGroupChatManagerState = "BaseGroupChatManagerState",
 }
 
 export interface BaseState {
@@ -1774,6 +1790,55 @@ export type TeamState = BaseState & {
   type?: "TeamState";
   agent_states?: any;
 };
+
+export type RoundRobinManagerState = BaseState & {
+  type?: "RoundRobinManagerState";
+  next_speaker_index?: number;
+};
+
+export type SelectorManagerState = BaseState & {
+  type?: "SelectorManagerState";
+  previous_speaker?: string;
+};
+
+export type SwarmManagerState = BaseState & {
+  type?: "SwarmManagerState";
+  current_speaker?: string;
+};
+
+export type MagenticOneOrchestratorState = BaseState & {
+  type?: "MagenticOneOrchestratorState";
+  task?: string;
+  facts?: string;
+  plan?: string;
+  n_rounds?: number;
+  n_stalls?: number;
+};
+
+export type SocietyOfMindAgentState = BaseState & {
+  type?: "SocietyOfMindAgentState";
+  inner_team_state?: any;
+};
+
+export type ChatAgentContainerState = BaseState & {
+  type?: "ChatAgentContainerState";
+  agent_state?: any;
+  message_buffer?: ChatMessage[];
+};
+
+export type BaseGroupChatManagerState = BaseState & {
+  type?: "BaseGroupChatManagerState";
+  message_thread?: AgentMessage[];
+  current_turn?: number;
+};
+
+export interface AgentMessage {
+  type?: "AgentMessage";
+}
+
+export interface AgentEvent {
+  type?: "AgentEvent";
+}
 
 export type MtComponent = APIResourceMetaProperties & MtComponentProperties;
 

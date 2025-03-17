@@ -3677,13 +3677,31 @@ export const AgStatePropertiesSchema = {
       type: "object",
       oneOf: [
         {
-          $ref: "#/components/schemas/BaseState",
-        },
-        {
           $ref: "#/components/schemas/AssistantAgentState",
         },
         {
           $ref: "#/components/schemas/TeamState",
+        },
+        {
+          $ref: "#/components/schemas/RoundRobinManagerState",
+        },
+        {
+          $ref: "#/components/schemas/SelectorManagerState",
+        },
+        {
+          $ref: "#/components/schemas/SwarmManagerState",
+        },
+        {
+          $ref: "#/components/schemas/MagenticOneOrchestratorState",
+        },
+        {
+          $ref: "#/components/schemas/SocietyOfMindAgentState",
+        },
+        {
+          $ref: "#/components/schemas/ChatAgentContainerState",
+        },
+        {
+          $ref: "#/components/schemas/BaseGroupChatManagerState",
         },
       ],
     },
@@ -3746,7 +3764,17 @@ export const AgStateUpsertSchema = {
 
 export const StateTypeSchema = {
   type: "string",
-  enum: ["AssistantAgentState", "TeamState"],
+  enum: [
+    "AssistantAgentState",
+    "TeamState",
+    "RoundRobinManagerState",
+    "SelectorManagerState",
+    "SwarmManagerState",
+    "MagenticOneOrchestratorState",
+    "SocietyOfMindAgentState",
+    "ChatAgentContainerState",
+    "BaseGroupChatManagerState",
+  ],
 } as const;
 
 export const BaseStateSchema = {
@@ -3797,6 +3825,183 @@ export const TeamStateSchema = {
       },
     },
   ],
+} as const;
+
+export const RoundRobinManagerStateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseState",
+    },
+    {
+      properties: {
+        type: {
+          type: "string",
+          enum: ["RoundRobinManagerState"],
+        },
+        next_speaker_index: {
+          type: "integer",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const SelectorManagerStateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseState",
+    },
+    {
+      properties: {
+        type: {
+          type: "string",
+          enum: ["SelectorManagerState"],
+        },
+        previous_speaker: {
+          type: "string",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const SwarmManagerStateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseState",
+    },
+    {
+      properties: {
+        type: {
+          type: "string",
+          enum: ["SwarmManagerState"],
+        },
+        current_speaker: {
+          type: "string",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const MagenticOneOrchestratorStateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseState",
+    },
+    {
+      properties: {
+        type: {
+          type: "string",
+          enum: ["MagenticOneOrchestratorState"],
+        },
+        task: {
+          type: "string",
+        },
+        facts: {
+          type: "string",
+        },
+        plan: {
+          type: "string",
+        },
+        n_rounds: {
+          type: "integer",
+        },
+        n_stalls: {
+          type: "integer",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const SocietyOfMindAgentStateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseState",
+    },
+    {
+      properties: {
+        type: {
+          type: "string",
+          enum: ["SocietyOfMindAgentState"],
+        },
+        inner_team_state: {
+          additionalProperties: true,
+        },
+      },
+    },
+  ],
+} as const;
+
+export const ChatAgentContainerStateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseState",
+    },
+    {
+      properties: {
+        type: {
+          type: "string",
+          enum: ["ChatAgentContainerState"],
+        },
+        agent_state: {
+          additionalProperties: true,
+        },
+        message_buffer: {
+          type: "array",
+          items: {
+            $ref: "#/components/schemas/ChatMessage",
+          },
+        },
+      },
+    },
+  ],
+} as const;
+
+export const BaseGroupChatManagerStateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseState",
+    },
+    {
+      properties: {
+        type: {
+          type: "string",
+          enum: ["BaseGroupChatManagerState"],
+        },
+        message_thread: {
+          type: "array",
+          items: {
+            $ref: "#/components/schemas/AgentMessage",
+          },
+        },
+        current_turn: {
+          type: "integer",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const AgentMessageSchema = {
+  type: "object",
+  properties: {
+    type: {
+      type: "string",
+      enum: ["AgentMessage"],
+    },
+  },
+} as const;
+
+export const AgentEventSchema = {
+  type: "object",
+  properties: {
+    type: {
+      type: "string",
+      enum: ["AgentEvent"],
+    },
+  },
 } as const;
 
 export const MtComponentSchema = {

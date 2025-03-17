@@ -2580,7 +2580,17 @@ export const zTeamConfigBase = z.object({
 
 export const zAgStateProperties = z.object({
   version: z.string().optional().default("1.0.0"),
-  type: z.enum(["AssistantAgentState", "TeamState"]),
+  type: z.enum([
+    "AssistantAgentState",
+    "TeamState",
+    "RoundRobinManagerState",
+    "SelectorManagerState",
+    "SwarmManagerState",
+    "MagenticOneOrchestratorState",
+    "SocietyOfMindAgentState",
+    "ChatAgentContainerState",
+    "BaseGroupChatManagerState",
+  ]),
   componentId: z.string().optional(),
   chatId: z.string().optional(),
   topic: z.string().optional(),
@@ -2588,13 +2598,21 @@ export const zAgStateProperties = z.object({
   state: z.object({}).default({}),
   stateV2: z
     .union([
-      z.object({
-        type: z.enum(["AssistantAgentState", "TeamState"]).optional(),
-        version: z.string().optional(),
-      }),
       z
         .object({
-          type: z.enum(["AssistantAgentState", "TeamState"]).optional(),
+          type: z
+            .enum([
+              "AssistantAgentState",
+              "TeamState",
+              "RoundRobinManagerState",
+              "SelectorManagerState",
+              "SwarmManagerState",
+              "MagenticOneOrchestratorState",
+              "SocietyOfMindAgentState",
+              "ChatAgentContainerState",
+              "BaseGroupChatManagerState",
+            ])
+            .optional(),
           version: z.string().optional(),
         })
         .merge(
@@ -2605,13 +2623,198 @@ export const zAgStateProperties = z.object({
         ),
       z
         .object({
-          type: z.enum(["AssistantAgentState", "TeamState"]).optional(),
+          type: z
+            .enum([
+              "AssistantAgentState",
+              "TeamState",
+              "RoundRobinManagerState",
+              "SelectorManagerState",
+              "SwarmManagerState",
+              "MagenticOneOrchestratorState",
+              "SocietyOfMindAgentState",
+              "ChatAgentContainerState",
+              "BaseGroupChatManagerState",
+            ])
+            .optional(),
           version: z.string().optional(),
         })
         .merge(
           z.object({
             type: z.enum(["TeamState"]).optional(),
             agent_states: z.unknown().optional(),
+          }),
+        ),
+      z
+        .object({
+          type: z
+            .enum([
+              "AssistantAgentState",
+              "TeamState",
+              "RoundRobinManagerState",
+              "SelectorManagerState",
+              "SwarmManagerState",
+              "MagenticOneOrchestratorState",
+              "SocietyOfMindAgentState",
+              "ChatAgentContainerState",
+              "BaseGroupChatManagerState",
+            ])
+            .optional(),
+          version: z.string().optional(),
+        })
+        .merge(
+          z.object({
+            type: z.enum(["RoundRobinManagerState"]).optional(),
+            next_speaker_index: z.number().int().optional(),
+          }),
+        ),
+      z
+        .object({
+          type: z
+            .enum([
+              "AssistantAgentState",
+              "TeamState",
+              "RoundRobinManagerState",
+              "SelectorManagerState",
+              "SwarmManagerState",
+              "MagenticOneOrchestratorState",
+              "SocietyOfMindAgentState",
+              "ChatAgentContainerState",
+              "BaseGroupChatManagerState",
+            ])
+            .optional(),
+          version: z.string().optional(),
+        })
+        .merge(
+          z.object({
+            type: z.enum(["SelectorManagerState"]).optional(),
+            previous_speaker: z.string().optional(),
+          }),
+        ),
+      z
+        .object({
+          type: z
+            .enum([
+              "AssistantAgentState",
+              "TeamState",
+              "RoundRobinManagerState",
+              "SelectorManagerState",
+              "SwarmManagerState",
+              "MagenticOneOrchestratorState",
+              "SocietyOfMindAgentState",
+              "ChatAgentContainerState",
+              "BaseGroupChatManagerState",
+            ])
+            .optional(),
+          version: z.string().optional(),
+        })
+        .merge(
+          z.object({
+            type: z.enum(["SwarmManagerState"]).optional(),
+            current_speaker: z.string().optional(),
+          }),
+        ),
+      z
+        .object({
+          type: z
+            .enum([
+              "AssistantAgentState",
+              "TeamState",
+              "RoundRobinManagerState",
+              "SelectorManagerState",
+              "SwarmManagerState",
+              "MagenticOneOrchestratorState",
+              "SocietyOfMindAgentState",
+              "ChatAgentContainerState",
+              "BaseGroupChatManagerState",
+            ])
+            .optional(),
+          version: z.string().optional(),
+        })
+        .merge(
+          z.object({
+            type: z.enum(["MagenticOneOrchestratorState"]).optional(),
+            task: z.string().optional(),
+            facts: z.string().optional(),
+            plan: z.string().optional(),
+            n_rounds: z.number().int().optional(),
+            n_stalls: z.number().int().optional(),
+          }),
+        ),
+      z
+        .object({
+          type: z
+            .enum([
+              "AssistantAgentState",
+              "TeamState",
+              "RoundRobinManagerState",
+              "SelectorManagerState",
+              "SwarmManagerState",
+              "MagenticOneOrchestratorState",
+              "SocietyOfMindAgentState",
+              "ChatAgentContainerState",
+              "BaseGroupChatManagerState",
+            ])
+            .optional(),
+          version: z.string().optional(),
+        })
+        .merge(
+          z.object({
+            type: z.enum(["SocietyOfMindAgentState"]).optional(),
+            inner_team_state: z.unknown().optional(),
+          }),
+        ),
+      z
+        .object({
+          type: z
+            .enum([
+              "AssistantAgentState",
+              "TeamState",
+              "RoundRobinManagerState",
+              "SelectorManagerState",
+              "SwarmManagerState",
+              "MagenticOneOrchestratorState",
+              "SocietyOfMindAgentState",
+              "ChatAgentContainerState",
+              "BaseGroupChatManagerState",
+            ])
+            .optional(),
+          version: z.string().optional(),
+        })
+        .merge(
+          z.object({
+            type: z.enum(["ChatAgentContainerState"]).optional(),
+            agent_state: z.unknown().optional(),
+            message_buffer: z.array(zChatMessage).optional(),
+          }),
+        ),
+      z
+        .object({
+          type: z
+            .enum([
+              "AssistantAgentState",
+              "TeamState",
+              "RoundRobinManagerState",
+              "SelectorManagerState",
+              "SwarmManagerState",
+              "MagenticOneOrchestratorState",
+              "SocietyOfMindAgentState",
+              "ChatAgentContainerState",
+              "BaseGroupChatManagerState",
+            ])
+            .optional(),
+          version: z.string().optional(),
+        })
+        .merge(
+          z.object({
+            type: z.enum(["BaseGroupChatManagerState"]).optional(),
+            message_thread: z
+              .array(
+                z.object({
+                  type: z.enum(["AgentMessage"]).optional(),
+                }),
+              )
+              .optional(),
+            current_turn: z.number().int().optional(),
           }),
         ),
     ])
@@ -2634,7 +2837,17 @@ export const zAgStateUpsert = zAgStateProperties.merge(
   }),
 );
 
-export const zStateType = z.enum(["AssistantAgentState", "TeamState"]);
+export const zStateType = z.enum([
+  "AssistantAgentState",
+  "TeamState",
+  "RoundRobinManagerState",
+  "SelectorManagerState",
+  "SwarmManagerState",
+  "MagenticOneOrchestratorState",
+  "SocietyOfMindAgentState",
+  "ChatAgentContainerState",
+  "BaseGroupChatManagerState",
+]);
 
 export const zBaseState = z.object({
   type: zStateType.optional(),
@@ -2654,6 +2867,75 @@ export const zTeamState = zBaseState.merge(
     agent_states: z.unknown().optional(),
   }),
 );
+
+export const zRoundRobinManagerState = zBaseState.merge(
+  z.object({
+    type: z.enum(["RoundRobinManagerState"]).optional(),
+    next_speaker_index: z.number().int().optional(),
+  }),
+);
+
+export const zSelectorManagerState = zBaseState.merge(
+  z.object({
+    type: z.enum(["SelectorManagerState"]).optional(),
+    previous_speaker: z.string().optional(),
+  }),
+);
+
+export const zSwarmManagerState = zBaseState.merge(
+  z.object({
+    type: z.enum(["SwarmManagerState"]).optional(),
+    current_speaker: z.string().optional(),
+  }),
+);
+
+export const zMagenticOneOrchestratorState = zBaseState.merge(
+  z.object({
+    type: z.enum(["MagenticOneOrchestratorState"]).optional(),
+    task: z.string().optional(),
+    facts: z.string().optional(),
+    plan: z.string().optional(),
+    n_rounds: z.number().int().optional(),
+    n_stalls: z.number().int().optional(),
+  }),
+);
+
+export const zSocietyOfMindAgentState = zBaseState.merge(
+  z.object({
+    type: z.enum(["SocietyOfMindAgentState"]).optional(),
+    inner_team_state: z.unknown().optional(),
+  }),
+);
+
+export const zChatAgentContainerState = zBaseState.merge(
+  z.object({
+    type: z.enum(["ChatAgentContainerState"]).optional(),
+    agent_state: z.unknown().optional(),
+    message_buffer: z.array(zChatMessage).optional(),
+  }),
+);
+
+export const zBaseGroupChatManagerState = zBaseState.merge(
+  z.object({
+    type: z.enum(["BaseGroupChatManagerState"]).optional(),
+    message_thread: z
+      .array(
+        z.object({
+          type: z.enum(["AgentMessage"]).optional(),
+        }),
+      )
+      .optional(),
+    current_turn: z.number().int().optional(),
+  }),
+);
+
+export const zAgentMessage = z.object({
+  type: z.enum(["AgentMessage"]).optional(),
+});
+
+export const zAgentEvent = z.object({
+  type: z.enum(["AgentEvent"]).optional(),
+});
 
 export const zMtComponent = zApiResourceMetaProperties.merge(
   z.object({

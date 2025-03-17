@@ -2058,7 +2058,16 @@ export type AgStateProperties = {
   state: {
     [key: string]: unknown;
   };
-  stateV2?: BaseState | AssistantAgentState | TeamState;
+  stateV2?:
+    | AssistantAgentState
+    | TeamState
+    | RoundRobinManagerState
+    | SelectorManagerState
+    | SwarmManagerState
+    | MagenticOneOrchestratorState
+    | SocietyOfMindAgentState
+    | ChatAgentContainerState
+    | BaseGroupChatManagerState;
 };
 
 export type AgState = ApiResourceMetaProperties & AgStateProperties;
@@ -2087,11 +2096,27 @@ export type AgStateUpsert = AgStateProperties & {
   tenantId?: string;
 };
 
-export type StateType = "AssistantAgentState" | "TeamState";
+export type StateType =
+  | "AssistantAgentState"
+  | "TeamState"
+  | "RoundRobinManagerState"
+  | "SelectorManagerState"
+  | "SwarmManagerState"
+  | "MagenticOneOrchestratorState"
+  | "SocietyOfMindAgentState"
+  | "ChatAgentContainerState"
+  | "BaseGroupChatManagerState";
 
 export const StateType = {
   ASSISTANT_AGENT_STATE: "AssistantAgentState",
   TEAM_STATE: "TeamState",
+  ROUND_ROBIN_MANAGER_STATE: "RoundRobinManagerState",
+  SELECTOR_MANAGER_STATE: "SelectorManagerState",
+  SWARM_MANAGER_STATE: "SwarmManagerState",
+  MAGENTIC_ONE_ORCHESTRATOR_STATE: "MagenticOneOrchestratorState",
+  SOCIETY_OF_MIND_AGENT_STATE: "SocietyOfMindAgentState",
+  CHAT_AGENT_CONTAINER_STATE: "ChatAgentContainerState",
+  BASE_GROUP_CHAT_MANAGER_STATE: "BaseGroupChatManagerState",
 } as const;
 
 export type BaseState = {
@@ -2107,6 +2132,55 @@ export type AssistantAgentState = BaseState & {
 export type TeamState = BaseState & {
   type?: "TeamState";
   agent_states?: unknown;
+};
+
+export type RoundRobinManagerState = BaseState & {
+  type?: "RoundRobinManagerState";
+  next_speaker_index?: number;
+};
+
+export type SelectorManagerState = BaseState & {
+  type?: "SelectorManagerState";
+  previous_speaker?: string;
+};
+
+export type SwarmManagerState = BaseState & {
+  type?: "SwarmManagerState";
+  current_speaker?: string;
+};
+
+export type MagenticOneOrchestratorState = BaseState & {
+  type?: "MagenticOneOrchestratorState";
+  task?: string;
+  facts?: string;
+  plan?: string;
+  n_rounds?: number;
+  n_stalls?: number;
+};
+
+export type SocietyOfMindAgentState = BaseState & {
+  type?: "SocietyOfMindAgentState";
+  inner_team_state?: unknown;
+};
+
+export type ChatAgentContainerState = BaseState & {
+  type?: "ChatAgentContainerState";
+  agent_state?: unknown;
+  message_buffer?: Array<ChatMessage>;
+};
+
+export type BaseGroupChatManagerState = BaseState & {
+  type?: "BaseGroupChatManagerState";
+  message_thread?: Array<AgentMessage>;
+  current_turn?: number;
+};
+
+export type AgentMessage = {
+  type?: "AgentMessage";
+};
+
+export type AgentEvent = {
+  type?: "AgentEvent";
 };
 
 export type MtComponent = ApiResourceMetaProperties & MtComponentProperties;
