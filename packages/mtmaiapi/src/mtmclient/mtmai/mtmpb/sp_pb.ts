@@ -2,8 +2,16 @@
 // @generated from file mtmai/mtmpb/sp.proto (package mtmai.mtmpb, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
-import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
+import type {
+  GenFile,
+  GenMessage,
+  GenService,
+} from "@bufbuild/protobuf/codegenv1";
+import {
+  fileDesc,
+  messageDesc,
+  serviceDesc,
+} from "@bufbuild/protobuf/codegenv1";
 import type { Paging, ResDeleteReqSchema, ResultSchema } from "./mtm_pb";
 import { file_mtmai_mtmpb_mtm } from "./mtm_pb";
 import type { Message } from "@bufbuild/protobuf";
@@ -11,8 +19,12 @@ import type { Message } from "@bufbuild/protobuf";
 /**
  * Describes the file mtmai/mtmpb/sp.proto.
  */
-export const file_mtmai_mtmpb_sp: GenFile = /*@__PURE__*/
-  fileDesc("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IAEoDSJzChJTcFByb2plY3RMaXN0UmVwbHkSJwoKUGFnaW5hdGlvbhgBIAEoCzITLm10bWFpLm10bXBiLlBhZ2luZxINCgVUb3RhbBgCIAEoBRIlCgVpdGVtcxgDIAMoCzIWLm10bWFpLm10bXBiLlNwUHJvamVjdCIhChNTcGlkZXJQcm9qZWN0UnVuUmVxEgoKAmlkGAEgASgJIkMKGFNwUHJvamVjdEJpbmRIb3N0bmFtZVJlcRIQCghob3N0bmFtZRgBIAEoCRIVCg1zcF9wcm9qZWN0X2lkGAIgASgJIjkKC1NwaWRlclRyYWNlEgoKAmlkGAEgASgJEgsKA3VybBgCIAEoCRIRCglQcm9qZWN0SWQYAyABKAkiTgoSU3BpZGVyVHJhY2VMaXN0UmVxEg8KB2tleXdvcmQYASABKAkSJwoKUGFnaW5hdGlvbhgCIAEoCzITLm10bWFpLm10bXBiLlBhZ2luZyJoChRTcGlkZXJUcmFjZUxpc3RSZXBseRInCgpQYWdpbmF0aW9uGAIgASgLMhMubXRtYWkubXRtcGIuUGFnaW5nEicKBWl0ZW1zGAQgAygLMhgubXRtYWkubXRtcGIuU3BpZGVyVHJhY2UiHwoRU3BpZGVyVHJhY2VHZXRSZXESCgoCaWQYASABKAkiKQoTU3BpZGVyVHJhY2VHZXRSZXBseRISCgpyYXdSZXNCb2R5GAEgASgJIkIKFFNwaWRlclRyYWNlQ3JlYXRlUmVxEgoKAmlkGAEgASgJEgsKA3VybBgCIAEoCRIRCglQcm9qZWN0SWQYAyABKAkiOAoVU3BpZGVyUHJvamVjdFZpc2l0UmVxEhIKCnByb2plY3RfaWQYASABKAkSCwoDdXJsGAIgASgJIiwKDFNwaWRlclJlc3VsdBILCgNrZXkYASABKAkSDwoHY29udGVudBgCIAEoCSI+ChNTcGlkZXJSZXN1bHRMaXN0UmVxEicKClBhZ2luYXRpb24YAiABKAsyEy5tdG1haS5tdG1wYi5QYWdpbmciagoVU3BpZGVyUmVzdWx0TGlzdFJlcGx5EicKClBhZ2luYXRpb24YAiABKAsyEy5tdG1haS5tdG1wYi5QYWdpbmcSKAoFaXRlbXMYBCADKAsyGS5tdG1haS5tdG1wYi5TcGlkZXJSZXN1bHQiIQoSU3BpZGVyUmVzdWx0R2V0UmVxEgsKA2tleRgBIAEoCSI0ChRTcGlkZXJSZXN1bHRHZXRSZXBseRILCgNrZXkYASABKAkSDwoHY29udGVudBgCIAEoCSKnAQoHU3BSb3V0ZRIKCgJpZBgBIAEoDRINCgV0aXRsZRgDIAEoCRIUCgxob3N0X3BhdHRlcm4YBSABKAkSFAoMcGF0aF9wYXR0ZXJuGAQgASgJEg8KB2VuYWJsZWQYCCABKAgSEAoIcHJpb3JpdHkYCSABKAUSFQoNc3BfcHJvamVjdF9pZBgOIAEoDRIMCgR0eXBlGA8gASgJEg0KBXZhbHVlGBAgASgJImwKDlNwUm91dGVMaXN0UmVxEicKClBhZ2luYXRpb24YASABKAsyEy5tdG1haS5tdG1wYi5QYWdpbmcSFQoNc3BfcHJvamVjdF9pZBgCIAEoDRIPCgdzaXRlX2lkGAMgASgNEgkKAXEYBCABKAkibwoQU3BSb3V0ZUxpc3RSZXBseRInCgpQYWdpbmF0aW9uGAEgASgLMhMubXRtYWkubXRtcGIuUGFnaW5nEg0KBVRvdGFsGAIgASgFEiMKBWl0ZW1zGAMgAygLMhQubXRtYWkubXRtcGIuU3BSb3V0ZSIbCg1TcFJvdXRlR2V0UmVxEgoKAmlkGAEgASgNInsKEFNwUm91dGVDcmVhdGVSZXESDwoHc2l0ZV9pZBgCIAEoDRINCgV0aXRsZRgDIAEoCRIUCgxob3N0X3BhdHRlcm4YBSABKAkSFAoMcGF0aF9wYXR0ZXJuGAQgASgJEgwKBHR5cGUYBiABKAkSDQoFdmFsdWUYByABKAkimQEKEFNwUm91dGVVcGRhdGVSZXESCgoCaWQYASABKA0SDQoFdGl0bGUYAyABKAkSFAoMaG9zdF9wYXR0ZXJuGAUgASgJEhQKDHBhdGhfcGF0dGVybhgEIAEoCRIPCgdlbmFibGVkGAggASgIEhAKCHByaW9yaXR5GAkgASgFEgwKBHR5cGUYDCABKAkSDQoFdmFsdWUYDSABKAkiIQoOU3BPcHRpb25HZXRSZXESDwoHc2l0ZV9pZBgBIAEoDSJZCghTcE9wdGlvbhIPCgdzaXRlX2lkGAEgASgNEhwKFGVuYWJsZWRfZnJvbnRfc2NyaXB0GAIgASgIEh4KFmVuYWJsZWRfcmVzcG9uc2VfY2FjaGUYAyABKAgiKAoJU3BDcmF3bGVyEgoKAmlkGAEgASgNEg8KB3NpdGVfaWQYAiABKA0iVwoQU3BDcmF3bGVyTGlzdFJlcRInCgpQYWdpbmF0aW9uGAEgASgLMhMubXRtYWkubXRtcGIuUGFnaW5nEg8KB3NpdGVfaWQYAiABKA0SCQoBcRgDIAEoCSJzChJTcENyYXdsZXJMaXN0UmVwbHkSJwoKUGFnaW5hdGlvbhgBIAEoCzITLm10bWFpLm10bXBiLlBhZ2luZxIlCgVpdGVtcxgCIAMoCzIWLm10bWFpLm10bXBiLlNwQ3Jhd2xlchINCgVUb3RhbBgDIAEoBSIdCg9TcENyYXdsZXJHZXRSZXESCgoCaWQYASABKA0iMQoSU3BDcmF3bGVyQ3JlYXRlUmVxEgoKAmlkGAEgASgNEg8KB3NpdGVfaWQYAiABKA0iMQoSU3BDcmF3bGVyVXBkYXRlUmVxEgoKAmlkGAEgASgNEg8KB3NpdGVfaWQYAyABKA0iXAoOU3BTaXRlTGlzdEl0ZW0SDAoEaGFzaBgBIAEoCRIVCg10YXJnZXRfZG9tYWluGAIgASgJEg0KBXRpdGxlGAMgASgJEhYKDnNlcnZlX2hvbWVfdXJsGAQgASgJIjMKCFNwQ29uZmlnEhIKCmJpbmRfaG9zdHMYASADKAkSEwoLdGFyZ2V0X2hvc3QYAiABKAkiGgoLU3AyRmV0Y2hSZXESCwoDdXJsGAEgASgJIhsKC1NwMkZldGNoUmVzEgwKBGJvZHkYASABKAkyqQwKCVNwU2VydmljZRJRCg1TcFByb2plY3RMaXN0Eh0ubXRtYWkubXRtcGIuU3BQcm9qZWN0TGlzdFJlcRofLm10bWFpLm10bXBiLlNwUHJvamVjdExpc3RSZXBseSIAEkYKDFNwUHJvamVjdEdldBIcLm10bWFpLm10bXBiLlNwUHJvamVjdEdldFJlcRoWLm10bWFpLm10bXBiLlNwUHJvamVjdCIAEkkKD1NwUHJvamVjdENyZWF0ZRIfLm10bWFpLm10bXBiLlNwUHJvamVjdENyZWF0ZVJlcRoTLm10bWFpLm10bXBiLlJlc3VsdCIAEkkKD1NwUHJvamVjdFVwZGF0ZRIfLm10bWFpLm10bXBiLlNwUHJvamVjdFVwZGF0ZVJlcRoTLm10bWFpLm10bXBiLlJlc3VsdCIAEkMKD1NwUHJvamVjdERlbGV0ZRIZLm10bWFpLm10bXBiLlJlc0RlbGV0ZVJlcRoTLm10bWFpLm10bXBiLlJlc3VsdCIAEkcKDFNwUHJvamVjdFJ1bhIgLm10bWFpLm10bXBiLlNwaWRlclByb2plY3RSdW5SZXEaEy5tdG1haS5tdG1wYi5SZXN1bHQiABJLCg5TcFByb2plY3RWaXNpdBIiLm10bWFpLm10bXBiLlNwaWRlclByb2plY3RWaXNpdFJlcRoTLm10bWFpLm10bXBiLlJlc3VsdCIAEkkKD1NwUHJvamVjdFJlbG9hZBIfLm10bWFpLm10bXBiLlNwUHJvamVjdFJlbG9hZFJlcRoTLm10bWFpLm10bXBiLlJlc3VsdCIAEksKC1NwUm91dGVMaXN0EhsubXRtYWkubXRtcGIuU3BSb3V0ZUxpc3RSZXEaHS5tdG1haS5tdG1wYi5TcFJvdXRlTGlzdFJlcGx5IgASQAoKU3BSb3V0ZUdldBIaLm10bWFpLm10bXBiLlNwUm91dGVHZXRSZXEaFC5tdG1haS5tdG1wYi5TcFJvdXRlIgASRQoNU3BSb3V0ZUNyZWF0ZRIdLm10bWFpLm10bXBiLlNwUm91dGVDcmVhdGVSZXEaEy5tdG1haS5tdG1wYi5SZXN1bHQiABJFCg1TcFJvdXRlVXBkYXRlEh0ubXRtYWkubXRtcGIuU3BSb3V0ZVVwZGF0ZVJlcRoTLm10bWFpLm10bXBiLlJlc3VsdCIAEkEKDVNwUm91dGVEZWxldGUSGS5tdG1haS5tdG1wYi5SZXNEZWxldGVSZXEaEy5tdG1haS5tdG1wYi5SZXN1bHQiABJdChFTcENvbnRlbnRtb2RpTGlzdBIhLm10bWFpLm10bXBiLlNwQ29udGVudG1vZGlMaXN0UmVxGiMubXRtYWkubXRtcGIuU3BDb250ZW50bW9kaUxpc3RSZXBseSIAElIKEFNwQ29udGVudG1vZGlHZXQSIC5tdG1haS5tdG1wYi5TcENvbnRlbnRtb2RpR2V0UmVxGhoubXRtYWkubXRtcGIuU3BDb250ZW50bW9kaSIAElEKE1NwQ29udGVudG1vZGlDcmVhdGUSIy5tdG1haS5tdG1wYi5TcENvbnRlbnRtb2RpQ3JlYXRlUmVxGhMubXRtYWkubXRtcGIuUmVzdWx0IgASUQoTU3BDb250ZW50bW9kaVVwZGF0ZRIjLm10bWFpLm10bXBiLlNwQ29udGVudG1vZGlVcGRhdGVSZXEaEy5tdG1haS5tdG1wYi5SZXN1bHQiABJHChNTcENvbnRlbnRtb2RpRGVsZXRlEhkubXRtYWkubXRtcGIuUmVzRGVsZXRlUmVxGhMubXRtYWkubXRtcGIuUmVzdWx0IgASQwoLU3BPcHRpb25HZXQSGy5tdG1haS5tdG1wYi5TcE9wdGlvbkdldFJlcRoVLm10bWFpLm10bXBiLlNwT3B0aW9uIgASPAoMU3BPcHRpb25TYXZlEhUubXRtYWkubXRtcGIuU3BPcHRpb24aEy5tdG1haS5tdG1wYi5SZXN1bHQiABJACghTcDJGZXRjaBIYLm10bWFpLm10bXBiLlNwMkZldGNoUmVxGhgubXRtYWkubXRtcGIuU3AyRmV0Y2hSZXMiAEKdAQoPY29tLm10bWFpLm10bXBiQgdTcFByb3RvUAFaNGdpdGh1Yi5jb20vY29kZWgwMDcvZ29tdG0vbXRtL3NwcGIvbXRtYWkvbXRtcGI7bXRtcGKiAgNNTViqAgtNdG1haS5NdG1wYsoCC010bWFpXE10bXBi4gIXTXRtYWlcTXRtcGJcR1BCTWV0YWRhdGHqAgxNdG1haTo6TXRtcGJiBnByb3RvMw", [file_mtmai_mtmpb_mtm]);
+export const file_mtmai_mtmpb_sp: GenFile =
+  /*@__PURE__*/
+  fileDesc(
+    "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IAEoDSJzChJTcFByb2plY3RMaXN0UmVwbHkSJwoKUGFnaW5hdGlvbhgBIAEoCzITLm10bWFpLm10bXBiLlBhZ2luZxINCgVUb3RhbBgCIAEoBRIlCgVpdGVtcxgDIAMoCzIWLm10bWFpLm10bXBiLlNwUHJvamVjdCIhChNTcGlkZXJQcm9qZWN0UnVuUmVxEgoKAmlkGAEgASgJIkMKGFNwUHJvamVjdEJpbmRIb3N0bmFtZVJlcRIQCghob3N0bmFtZRgBIAEoCRIVCg1zcF9wcm9qZWN0X2lkGAIgASgJIjkKC1NwaWRlclRyYWNlEgoKAmlkGAEgASgJEgsKA3VybBgCIAEoCRIRCglQcm9qZWN0SWQYAyABKAkiTgoSU3BpZGVyVHJhY2VMaXN0UmVxEg8KB2tleXdvcmQYASABKAkSJwoKUGFnaW5hdGlvbhgCIAEoCzITLm10bWFpLm10bXBiLlBhZ2luZyJoChRTcGlkZXJUcmFjZUxpc3RSZXBseRInCgpQYWdpbmF0aW9uGAIgASgLMhMubXRtYWkubXRtcGIuUGFnaW5nEicKBWl0ZW1zGAQgAygLMhgubXRtYWkubXRtcGIuU3BpZGVyVHJhY2UiHwoRU3BpZGVyVHJhY2VHZXRSZXESCgoCaWQYASABKAkiKQoTU3BpZGVyVHJhY2VHZXRSZXBseRISCgpyYXdSZXNCb2R5GAEgASgJIkIKFFNwaWRlclRyYWNlQ3JlYXRlUmVxEgoKAmlkGAEgASgJEgsKA3VybBgCIAEoCRIRCglQcm9qZWN0SWQYAyABKAkiOAoVU3BpZGVyUHJvamVjdFZpc2l0UmVxEhIKCnByb2plY3RfaWQYASABKAkSCwoDdXJsGAIgASgJIiwKDFNwaWRlclJlc3VsdBILCgNrZXkYASABKAkSDwoHY29udGVudBgCIAEoCSI+ChNTcGlkZXJSZXN1bHRMaXN0UmVxEicKClBhZ2luYXRpb24YAiABKAsyEy5tdG1haS5tdG1wYi5QYWdpbmciagoVU3BpZGVyUmVzdWx0TGlzdFJlcGx5EicKClBhZ2luYXRpb24YAiABKAsyEy5tdG1haS5tdG1wYi5QYWdpbmcSKAoFaXRlbXMYBCADKAsyGS5tdG1haS5tdG1wYi5TcGlkZXJSZXN1bHQiIQoSU3BpZGVyUmVzdWx0R2V0UmVxEgsKA2tleRgBIAEoCSI0ChRTcGlkZXJSZXN1bHRHZXRSZXBseRILCgNrZXkYASABKAkSDwoHY29udGVudBgCIAEoCSKnAQoHU3BSb3V0ZRIKCgJpZBgBIAEoDRINCgV0aXRsZRgDIAEoCRIUCgxob3N0X3BhdHRlcm4YBSABKAkSFAoMcGF0aF9wYXR0ZXJuGAQgASgJEg8KB2VuYWJsZWQYCCABKAgSEAoIcHJpb3JpdHkYCSABKAUSFQoNc3BfcHJvamVjdF9pZBgOIAEoDRIMCgR0eXBlGA8gASgJEg0KBXZhbHVlGBAgASgJImwKDlNwUm91dGVMaXN0UmVxEicKClBhZ2luYXRpb24YASABKAsyEy5tdG1haS5tdG1wYi5QYWdpbmcSFQoNc3BfcHJvamVjdF9pZBgCIAEoDRIPCgdzaXRlX2lkGAMgASgNEgkKAXEYBCABKAkibwoQU3BSb3V0ZUxpc3RSZXBseRInCgpQYWdpbmF0aW9uGAEgASgLMhMubXRtYWkubXRtcGIuUGFnaW5nEg0KBVRvdGFsGAIgASgFEiMKBWl0ZW1zGAMgAygLMhQubXRtYWkubXRtcGIuU3BSb3V0ZSIbCg1TcFJvdXRlR2V0UmVxEgoKAmlkGAEgASgNInsKEFNwUm91dGVDcmVhdGVSZXESDwoHc2l0ZV9pZBgCIAEoDRINCgV0aXRsZRgDIAEoCRIUCgxob3N0X3BhdHRlcm4YBSABKAkSFAoMcGF0aF9wYXR0ZXJuGAQgASgJEgwKBHR5cGUYBiABKAkSDQoFdmFsdWUYByABKAkimQEKEFNwUm91dGVVcGRhdGVSZXESCgoCaWQYASABKA0SDQoFdGl0bGUYAyABKAkSFAoMaG9zdF9wYXR0ZXJuGAUgASgJEhQKDHBhdGhfcGF0dGVybhgEIAEoCRIPCgdlbmFibGVkGAggASgIEhAKCHByaW9yaXR5GAkgASgFEgwKBHR5cGUYDCABKAkSDQoFdmFsdWUYDSABKAkiIQoOU3BPcHRpb25HZXRSZXESDwoHc2l0ZV9pZBgBIAEoDSJZCghTcE9wdGlvbhIPCgdzaXRlX2lkGAEgASgNEhwKFGVuYWJsZWRfZnJvbnRfc2NyaXB0GAIgASgIEh4KFmVuYWJsZWRfcmVzcG9uc2VfY2FjaGUYAyABKAgiKAoJU3BDcmF3bGVyEgoKAmlkGAEgASgNEg8KB3NpdGVfaWQYAiABKA0iVwoQU3BDcmF3bGVyTGlzdFJlcRInCgpQYWdpbmF0aW9uGAEgASgLMhMubXRtYWkubXRtcGIuUGFnaW5nEg8KB3NpdGVfaWQYAiABKA0SCQoBcRgDIAEoCSJzChJTcENyYXdsZXJMaXN0UmVwbHkSJwoKUGFnaW5hdGlvbhgBIAEoCzITLm10bWFpLm10bXBiLlBhZ2luZxIlCgVpdGVtcxgCIAMoCzIWLm10bWFpLm10bXBiLlNwQ3Jhd2xlchINCgVUb3RhbBgDIAEoBSIdCg9TcENyYXdsZXJHZXRSZXESCgoCaWQYASABKA0iMQoSU3BDcmF3bGVyQ3JlYXRlUmVxEgoKAmlkGAEgASgNEg8KB3NpdGVfaWQYAiABKA0iMQoSU3BDcmF3bGVyVXBkYXRlUmVxEgoKAmlkGAEgASgNEg8KB3NpdGVfaWQYAyABKA0iXAoOU3BTaXRlTGlzdEl0ZW0SDAoEaGFzaBgBIAEoCRIVCg10YXJnZXRfZG9tYWluGAIgASgJEg0KBXRpdGxlGAMgASgJEhYKDnNlcnZlX2hvbWVfdXJsGAQgASgJIjMKCFNwQ29uZmlnEhIKCmJpbmRfaG9zdHMYASADKAkSEwoLdGFyZ2V0X2hvc3QYAiABKAkiGgoLU3AyRmV0Y2hSZXESCwoDdXJsGAEgASgJIhsKC1NwMkZldGNoUmVzEgwKBGJvZHkYASABKAkyqQwKCVNwU2VydmljZRJRCg1TcFByb2plY3RMaXN0Eh0ubXRtYWkubXRtcGIuU3BQcm9qZWN0TGlzdFJlcRofLm10bWFpLm10bXBiLlNwUHJvamVjdExpc3RSZXBseSIAEkYKDFNwUHJvamVjdEdldBIcLm10bWFpLm10bXBiLlNwUHJvamVjdEdldFJlcRoWLm10bWFpLm10bXBiLlNwUHJvamVjdCIAEkkKD1NwUHJvamVjdENyZWF0ZRIfLm10bWFpLm10bXBiLlNwUHJvamVjdENyZWF0ZVJlcRoTLm10bWFpLm10bXBiLlJlc3VsdCIAEkkKD1NwUHJvamVjdFVwZGF0ZRIfLm10bWFpLm10bXBiLlNwUHJvamVjdFVwZGF0ZVJlcRoTLm10bWFpLm10bXBiLlJlc3VsdCIAEkMKD1NwUHJvamVjdERlbGV0ZRIZLm10bWFpLm10bXBiLlJlc0RlbGV0ZVJlcRoTLm10bWFpLm10bXBiLlJlc3VsdCIAEkcKDFNwUHJvamVjdFJ1bhIgLm10bWFpLm10bXBiLlNwaWRlclByb2plY3RSdW5SZXEaEy5tdG1haS5tdG1wYi5SZXN1bHQiABJLCg5TcFByb2plY3RWaXNpdBIiLm10bWFpLm10bXBiLlNwaWRlclByb2plY3RWaXNpdFJlcRoTLm10bWFpLm10bXBiLlJlc3VsdCIAEkkKD1NwUHJvamVjdFJlbG9hZBIfLm10bWFpLm10bXBiLlNwUHJvamVjdFJlbG9hZFJlcRoTLm10bWFpLm10bXBiLlJlc3VsdCIAEksKC1NwUm91dGVMaXN0EhsubXRtYWkubXRtcGIuU3BSb3V0ZUxpc3RSZXEaHS5tdG1haS5tdG1wYi5TcFJvdXRlTGlzdFJlcGx5IgASQAoKU3BSb3V0ZUdldBIaLm10bWFpLm10bXBiLlNwUm91dGVHZXRSZXEaFC5tdG1haS5tdG1wYi5TcFJvdXRlIgASRQoNU3BSb3V0ZUNyZWF0ZRIdLm10bWFpLm10bXBiLlNwUm91dGVDcmVhdGVSZXEaEy5tdG1haS5tdG1wYi5SZXN1bHQiABJFCg1TcFJvdXRlVXBkYXRlEh0ubXRtYWkubXRtcGIuU3BSb3V0ZVVwZGF0ZVJlcRoTLm10bWFpLm10bXBiLlJlc3VsdCIAEkEKDVNwUm91dGVEZWxldGUSGS5tdG1haS5tdG1wYi5SZXNEZWxldGVSZXEaEy5tdG1haS5tdG1wYi5SZXN1bHQiABJdChFTcENvbnRlbnRtb2RpTGlzdBIhLm10bWFpLm10bXBiLlNwQ29udGVudG1vZGlMaXN0UmVxGiMubXRtYWkubXRtcGIuU3BDb250ZW50bW9kaUxpc3RSZXBseSIAElIKEFNwQ29udGVudG1vZGlHZXQSIC5tdG1haS5tdG1wYi5TcENvbnRlbnRtb2RpR2V0UmVxGhoubXRtYWkubXRtcGIuU3BDb250ZW50bW9kaSIAElEKE1NwQ29udGVudG1vZGlDcmVhdGUSIy5tdG1haS5tdG1wYi5TcENvbnRlbnRtb2RpQ3JlYXRlUmVxGhMubXRtYWkubXRtcGIuUmVzdWx0IgASUQoTU3BDb250ZW50bW9kaVVwZGF0ZRIjLm10bWFpLm10bXBiLlNwQ29udGVudG1vZGlVcGRhdGVSZXEaEy5tdG1haS5tdG1wYi5SZXN1bHQiABJHChNTcENvbnRlbnRtb2RpRGVsZXRlEhkubXRtYWkubXRtcGIuUmVzRGVsZXRlUmVxGhMubXRtYWkubXRtcGIuUmVzdWx0IgASQwoLU3BPcHRpb25HZXQSGy5tdG1haS5tdG1wYi5TcE9wdGlvbkdldFJlcRoVLm10bWFpLm10bXBiLlNwT3B0aW9uIgASPAoMU3BPcHRpb25TYXZlEhUubXRtYWkubXRtcGIuU3BPcHRpb24aEy5tdG1haS5tdG1wYi5SZXN1bHQiABJACghTcDJGZXRjaBIYLm10bWFpLm10bXBiLlNwMkZldGNoUmVxGhgubXRtYWkubXRtcGIuU3AyRmV0Y2hSZXMiAEKdAQoPY29tLm10bWFpLm10bXBiQgdTcFByb3RvUAFaNGdpdGh1Yi5jb20vY29kZWgwMDcvZ29tdG0vbXRtL3NwcGIvbXRtYWkvbXRtcGI7bXRtcGKiAgNNTViqAgtNdG1haS5NdG1wYsoCC010bWFpXE10bXBi4gIXTXRtYWlcTXRtcGJcR1BCTWV0YWRhdGHqAgxNdG1haTo6TXRtcGJiBnByb3RvMw",
+    [file_mtmai_mtmpb_mtm],
+  );
 
 /**
  * @generated from message mtmai.mtmpb.SpSiteConfig
@@ -38,7 +50,8 @@ export type SpSiteConfig = Message<"mtmai.mtmpb.SpSiteConfig"> & {
  * Describes the message mtmai.mtmpb.SpSiteConfig.
  * Use `create(SpSiteConfigSchema)` to create a new message.
  */
-export const SpSiteConfigSchema: GenMessage<SpSiteConfig> = /*@__PURE__*/
+export const SpSiteConfigSchema: GenMessage<SpSiteConfig> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 0);
 
 /**
@@ -110,7 +123,8 @@ export type SpField = Message<"mtmai.mtmpb.SpField"> & {
  * Describes the message mtmai.mtmpb.SpField.
  * Use `create(SpFieldSchema)` to create a new message.
  */
-export const SpFieldSchema: GenMessage<SpField> = /*@__PURE__*/
+export const SpFieldSchema: GenMessage<SpField> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 1);
 
 /**
@@ -132,7 +146,8 @@ export type SpSlugsReq = Message<"mtmai.mtmpb.SpSlugsReq"> & {
  * Describes the message mtmai.mtmpb.SpSlugsReq.
  * Use `create(SpSlugsReqSchema)` to create a new message.
  */
-export const SpSlugsReqSchema: GenMessage<SpSlugsReq> = /*@__PURE__*/
+export const SpSlugsReqSchema: GenMessage<SpSlugsReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 2);
 
 /**
@@ -161,7 +176,8 @@ export type SpPageHead = Message<"mtmai.mtmpb.SpPageHead"> & {
  * Describes the message mtmai.mtmpb.SpPageHead.
  * Use `create(SpPageHeadSchema)` to create a new message.
  */
-export const SpPageHeadSchema: GenMessage<SpPageHead> = /*@__PURE__*/
+export const SpPageHeadSchema: GenMessage<SpPageHead> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 3);
 
 /**
@@ -187,7 +203,8 @@ export type SpPage = Message<"mtmai.mtmpb.SpPage"> & {
  * Describes the message mtmai.mtmpb.SpPage.
  * Use `create(SpPageSchema)` to create a new message.
  */
-export const SpPageSchema: GenMessage<SpPage> = /*@__PURE__*/
+export const SpPageSchema: GenMessage<SpPage> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 4);
 
 /**
@@ -209,7 +226,8 @@ export type SpSiteEnableReq = Message<"mtmai.mtmpb.SpSiteEnableReq"> & {
  * Describes the message mtmai.mtmpb.SpSiteEnableReq.
  * Use `create(SpSiteEnableReqSchema)` to create a new message.
  */
-export const SpSiteEnableReqSchema: GenMessage<SpSiteEnableReq> = /*@__PURE__*/
+export const SpSiteEnableReqSchema: GenMessage<SpSiteEnableReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 5);
 
 /**
@@ -263,61 +281,66 @@ export type SpContentmodi = Message<"mtmai.mtmpb.SpContentmodi"> & {
  * Describes the message mtmai.mtmpb.SpContentmodi.
  * Use `create(SpContentmodiSchema)` to create a new message.
  */
-export const SpContentmodiSchema: GenMessage<SpContentmodi> = /*@__PURE__*/
+export const SpContentmodiSchema: GenMessage<SpContentmodi> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 6);
 
 /**
  * @generated from message mtmai.mtmpb.SpContentmodiListReq
  */
-export type SpContentmodiListReq = Message<"mtmai.mtmpb.SpContentmodiListReq"> & {
-  /**
-   * @generated from field: mtmai.mtmpb.Paging Pagination = 1;
-   */
-  Pagination?: Paging;
+export type SpContentmodiListReq =
+  Message<"mtmai.mtmpb.SpContentmodiListReq"> & {
+    /**
+     * @generated from field: mtmai.mtmpb.Paging Pagination = 1;
+     */
+    Pagination?: Paging;
 
-  /**
-   * @generated from field: uint32 site_id = 2;
-   */
-  siteId: number;
+    /**
+     * @generated from field: uint32 site_id = 2;
+     */
+    siteId: number;
 
-  /**
-   * @generated from field: string q = 3;
-   */
-  q: string;
-};
+    /**
+     * @generated from field: string q = 3;
+     */
+    q: string;
+  };
 
 /**
  * Describes the message mtmai.mtmpb.SpContentmodiListReq.
  * Use `create(SpContentmodiListReqSchema)` to create a new message.
  */
-export const SpContentmodiListReqSchema: GenMessage<SpContentmodiListReq> = /*@__PURE__*/
+export const SpContentmodiListReqSchema: GenMessage<SpContentmodiListReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 7);
 
 /**
  * @generated from message mtmai.mtmpb.SpContentmodiListReply
  */
-export type SpContentmodiListReply = Message<"mtmai.mtmpb.SpContentmodiListReply"> & {
-  /**
-   * @generated from field: mtmai.mtmpb.Paging Pagination = 1;
-   */
-  Pagination?: Paging;
+export type SpContentmodiListReply =
+  Message<"mtmai.mtmpb.SpContentmodiListReply"> & {
+    /**
+     * @generated from field: mtmai.mtmpb.Paging Pagination = 1;
+     */
+    Pagination?: Paging;
 
-  /**
-   * @generated from field: repeated mtmai.mtmpb.SpContentmodi items = 2;
-   */
-  items: SpContentmodi[];
+    /**
+     * @generated from field: repeated mtmai.mtmpb.SpContentmodi items = 2;
+     */
+    items: SpContentmodi[];
 
-  /**
-   * @generated from field: int32 Total = 3;
-   */
-  Total: number;
-};
+    /**
+     * @generated from field: int32 Total = 3;
+     */
+    Total: number;
+  };
 
 /**
  * Describes the message mtmai.mtmpb.SpContentmodiListReply.
  * Use `create(SpContentmodiListReplySchema)` to create a new message.
  */
-export const SpContentmodiListReplySchema: GenMessage<SpContentmodiListReply> = /*@__PURE__*/
+export const SpContentmodiListReplySchema: GenMessage<SpContentmodiListReply> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 8);
 
 /**
@@ -334,111 +357,116 @@ export type SpContentmodiGetReq = Message<"mtmai.mtmpb.SpContentmodiGetReq"> & {
  * Describes the message mtmai.mtmpb.SpContentmodiGetReq.
  * Use `create(SpContentmodiGetReqSchema)` to create a new message.
  */
-export const SpContentmodiGetReqSchema: GenMessage<SpContentmodiGetReq> = /*@__PURE__*/
+export const SpContentmodiGetReqSchema: GenMessage<SpContentmodiGetReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 9);
 
 /**
  * @generated from message mtmai.mtmpb.SpContentmodiCreateReq
  */
-export type SpContentmodiCreateReq = Message<"mtmai.mtmpb.SpContentmodiCreateReq"> & {
-  /**
-   * @generated from field: uint32 id = 1;
-   */
-  id: number;
+export type SpContentmodiCreateReq =
+  Message<"mtmai.mtmpb.SpContentmodiCreateReq"> & {
+    /**
+     * @generated from field: uint32 id = 1;
+     */
+    id: number;
 
-  /**
-   * @generated from field: uint32 site_id = 2;
-   */
-  siteId: number;
+    /**
+     * @generated from field: uint32 site_id = 2;
+     */
+    siteId: number;
 
-  /**
-   * @generated from field: string action = 3;
-   */
-  action: string;
+    /**
+     * @generated from field: string action = 3;
+     */
+    action: string;
 
-  /**
-   * @generated from field: string sel = 4;
-   */
-  sel: string;
+    /**
+     * @generated from field: string sel = 4;
+     */
+    sel: string;
 
-  /**
-   * @generated from field: string value = 5;
-   */
-  value: string;
+    /**
+     * @generated from field: string value = 5;
+     */
+    value: string;
 
-  /**
-   * @generated from field: string description = 6;
-   */
-  description: string;
+    /**
+     * @generated from field: string description = 6;
+     */
+    description: string;
 
-  /**
-   * @generated from field: uint32 priority = 7;
-   */
-  priority: number;
+    /**
+     * @generated from field: uint32 priority = 7;
+     */
+    priority: number;
 
-  /**
-   * @generated from field: string title = 8;
-   */
-  title: string;
-};
+    /**
+     * @generated from field: string title = 8;
+     */
+    title: string;
+  };
 
 /**
  * Describes the message mtmai.mtmpb.SpContentmodiCreateReq.
  * Use `create(SpContentmodiCreateReqSchema)` to create a new message.
  */
-export const SpContentmodiCreateReqSchema: GenMessage<SpContentmodiCreateReq> = /*@__PURE__*/
+export const SpContentmodiCreateReqSchema: GenMessage<SpContentmodiCreateReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 10);
 
 /**
  * @generated from message mtmai.mtmpb.SpContentmodiUpdateReq
  */
-export type SpContentmodiUpdateReq = Message<"mtmai.mtmpb.SpContentmodiUpdateReq"> & {
-  /**
-   * @generated from field: uint32 id = 1;
-   */
-  id: number;
+export type SpContentmodiUpdateReq =
+  Message<"mtmai.mtmpb.SpContentmodiUpdateReq"> & {
+    /**
+     * @generated from field: uint32 id = 1;
+     */
+    id: number;
 
-  /**
-   * @generated from field: string title = 2;
-   */
-  title: string;
+    /**
+     * @generated from field: string title = 2;
+     */
+    title: string;
 
-  /**
-   * @generated from field: uint32 site_id = 3;
-   */
-  siteId: number;
+    /**
+     * @generated from field: uint32 site_id = 3;
+     */
+    siteId: number;
 
-  /**
-   * @generated from field: string action = 4;
-   */
-  action: string;
+    /**
+     * @generated from field: string action = 4;
+     */
+    action: string;
 
-  /**
-   * @generated from field: string sel = 5;
-   */
-  sel: string;
+    /**
+     * @generated from field: string sel = 5;
+     */
+    sel: string;
 
-  /**
-   * @generated from field: string value = 6;
-   */
-  value: string;
+    /**
+     * @generated from field: string value = 6;
+     */
+    value: string;
 
-  /**
-   * @generated from field: string description = 7;
-   */
-  description: string;
+    /**
+     * @generated from field: string description = 7;
+     */
+    description: string;
 
-  /**
-   * @generated from field: uint32 priority = 8;
-   */
-  priority: number;
-};
+    /**
+     * @generated from field: uint32 priority = 8;
+     */
+    priority: number;
+  };
 
 /**
  * Describes the message mtmai.mtmpb.SpContentmodiUpdateReq.
  * Use `create(SpContentmodiUpdateReqSchema)` to create a new message.
  */
-export const SpContentmodiUpdateReqSchema: GenMessage<SpContentmodiUpdateReq> = /*@__PURE__*/
+export const SpContentmodiUpdateReqSchema: GenMessage<SpContentmodiUpdateReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 11);
 
 /**
@@ -469,7 +497,8 @@ export type SpiderField = Message<"mtmai.mtmpb.SpiderField"> & {
  * Describes the message mtmai.mtmpb.SpiderField.
  * Use `create(SpiderFieldSchema)` to create a new message.
  */
-export const SpiderFieldSchema: GenMessage<SpiderField> = /*@__PURE__*/
+export const SpiderFieldSchema: GenMessage<SpiderField> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 12);
 
 /**
@@ -491,7 +520,8 @@ export type SpProjectReloadReq = Message<"mtmai.mtmpb.SpProjectReloadReq"> & {
  * Describes the message mtmai.mtmpb.SpProjectReloadReq.
  * Use `create(SpProjectReloadReqSchema)` to create a new message.
  */
-export const SpProjectReloadReqSchema: GenMessage<SpProjectReloadReq> = /*@__PURE__*/
+export const SpProjectReloadReqSchema: GenMessage<SpProjectReloadReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 13);
 
 /**
@@ -522,7 +552,8 @@ export type SpProject = Message<"mtmai.mtmpb.SpProject"> & {
  * Describes the message mtmai.mtmpb.SpProject.
  * Use `create(SpProjectSchema)` to create a new message.
  */
-export const SpProjectSchema: GenMessage<SpProject> = /*@__PURE__*/
+export const SpProjectSchema: GenMessage<SpProject> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 14);
 
 /**
@@ -553,7 +584,8 @@ export type SpProjectGetReq = Message<"mtmai.mtmpb.SpProjectGetReq"> & {
  * Describes the message mtmai.mtmpb.SpProjectGetReq.
  * Use `create(SpProjectGetReqSchema)` to create a new message.
  */
-export const SpProjectGetReqSchema: GenMessage<SpProjectGetReq> = /*@__PURE__*/
+export const SpProjectGetReqSchema: GenMessage<SpProjectGetReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 15);
 
 /**
@@ -572,7 +604,8 @@ export type SpProjectCreateReq = Message<"mtmai.mtmpb.SpProjectCreateReq"> & {
  * Describes the message mtmai.mtmpb.SpProjectCreateReq.
  * Use `create(SpProjectCreateReqSchema)` to create a new message.
  */
-export const SpProjectCreateReqSchema: GenMessage<SpProjectCreateReq> = /*@__PURE__*/
+export const SpProjectCreateReqSchema: GenMessage<SpProjectCreateReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 16);
 
 /**
@@ -609,7 +642,8 @@ export type SpProjectUpdateReq = Message<"mtmai.mtmpb.SpProjectUpdateReq"> & {
  * Describes the message mtmai.mtmpb.SpProjectUpdateReq.
  * Use `create(SpProjectUpdateReqSchema)` to create a new message.
  */
-export const SpProjectUpdateReqSchema: GenMessage<SpProjectUpdateReq> = /*@__PURE__*/
+export const SpProjectUpdateReqSchema: GenMessage<SpProjectUpdateReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 17);
 
 /**
@@ -636,7 +670,8 @@ export type SpProjectListReq = Message<"mtmai.mtmpb.SpProjectListReq"> & {
  * Describes the message mtmai.mtmpb.SpProjectListReq.
  * Use `create(SpProjectListReqSchema)` to create a new message.
  */
-export const SpProjectListReqSchema: GenMessage<SpProjectListReq> = /*@__PURE__*/
+export const SpProjectListReqSchema: GenMessage<SpProjectListReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 18);
 
 /**
@@ -663,7 +698,8 @@ export type SpProjectListReply = Message<"mtmai.mtmpb.SpProjectListReply"> & {
  * Describes the message mtmai.mtmpb.SpProjectListReply.
  * Use `create(SpProjectListReplySchema)` to create a new message.
  */
-export const SpProjectListReplySchema: GenMessage<SpProjectListReply> = /*@__PURE__*/
+export const SpProjectListReplySchema: GenMessage<SpProjectListReply> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 19);
 
 /**
@@ -680,29 +716,32 @@ export type SpiderProjectRunReq = Message<"mtmai.mtmpb.SpiderProjectRunReq"> & {
  * Describes the message mtmai.mtmpb.SpiderProjectRunReq.
  * Use `create(SpiderProjectRunReqSchema)` to create a new message.
  */
-export const SpiderProjectRunReqSchema: GenMessage<SpiderProjectRunReq> = /*@__PURE__*/
+export const SpiderProjectRunReqSchema: GenMessage<SpiderProjectRunReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 20);
 
 /**
  * @generated from message mtmai.mtmpb.SpProjectBindHostnameReq
  */
-export type SpProjectBindHostnameReq = Message<"mtmai.mtmpb.SpProjectBindHostnameReq"> & {
-  /**
-   * @generated from field: string hostname = 1;
-   */
-  hostname: string;
+export type SpProjectBindHostnameReq =
+  Message<"mtmai.mtmpb.SpProjectBindHostnameReq"> & {
+    /**
+     * @generated from field: string hostname = 1;
+     */
+    hostname: string;
 
-  /**
-   * @generated from field: string sp_project_id = 2;
-   */
-  spProjectId: string;
-};
+    /**
+     * @generated from field: string sp_project_id = 2;
+     */
+    spProjectId: string;
+  };
 
 /**
  * Describes the message mtmai.mtmpb.SpProjectBindHostnameReq.
  * Use `create(SpProjectBindHostnameReqSchema)` to create a new message.
  */
-export const SpProjectBindHostnameReqSchema: GenMessage<SpProjectBindHostnameReq> = /*@__PURE__*/
+export const SpProjectBindHostnameReqSchema: GenMessage<SpProjectBindHostnameReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 21);
 
 /**
@@ -729,7 +768,8 @@ export type SpiderTrace = Message<"mtmai.mtmpb.SpiderTrace"> & {
  * Describes the message mtmai.mtmpb.SpiderTrace.
  * Use `create(SpiderTraceSchema)` to create a new message.
  */
-export const SpiderTraceSchema: GenMessage<SpiderTrace> = /*@__PURE__*/
+export const SpiderTraceSchema: GenMessage<SpiderTrace> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 22);
 
 /**
@@ -751,31 +791,34 @@ export type SpiderTraceListReq = Message<"mtmai.mtmpb.SpiderTraceListReq"> & {
  * Describes the message mtmai.mtmpb.SpiderTraceListReq.
  * Use `create(SpiderTraceListReqSchema)` to create a new message.
  */
-export const SpiderTraceListReqSchema: GenMessage<SpiderTraceListReq> = /*@__PURE__*/
+export const SpiderTraceListReqSchema: GenMessage<SpiderTraceListReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 23);
 
 /**
  * @generated from message mtmai.mtmpb.SpiderTraceListReply
  */
-export type SpiderTraceListReply = Message<"mtmai.mtmpb.SpiderTraceListReply"> & {
-  /**
-   * @generated from field: mtmai.mtmpb.Paging Pagination = 2;
-   */
-  Pagination?: Paging;
+export type SpiderTraceListReply =
+  Message<"mtmai.mtmpb.SpiderTraceListReply"> & {
+    /**
+     * @generated from field: mtmai.mtmpb.Paging Pagination = 2;
+     */
+    Pagination?: Paging;
 
-  /**
-   * string SpiderTrace = 3;
-   *
-   * @generated from field: repeated mtmai.mtmpb.SpiderTrace items = 4;
-   */
-  items: SpiderTrace[];
-};
+    /**
+     * string SpiderTrace = 3;
+     *
+     * @generated from field: repeated mtmai.mtmpb.SpiderTrace items = 4;
+     */
+    items: SpiderTrace[];
+  };
 
 /**
  * Describes the message mtmai.mtmpb.SpiderTraceListReply.
  * Use `create(SpiderTraceListReplySchema)` to create a new message.
  */
-export const SpiderTraceListReplySchema: GenMessage<SpiderTraceListReply> = /*@__PURE__*/
+export const SpiderTraceListReplySchema: GenMessage<SpiderTraceListReply> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 24);
 
 /**
@@ -792,7 +835,8 @@ export type SpiderTraceGetReq = Message<"mtmai.mtmpb.SpiderTraceGetReq"> & {
  * Describes the message mtmai.mtmpb.SpiderTraceGetReq.
  * Use `create(SpiderTraceGetReqSchema)` to create a new message.
  */
-export const SpiderTraceGetReqSchema: GenMessage<SpiderTraceGetReq> = /*@__PURE__*/
+export const SpiderTraceGetReqSchema: GenMessage<SpiderTraceGetReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 25);
 
 /**
@@ -809,58 +853,63 @@ export type SpiderTraceGetReply = Message<"mtmai.mtmpb.SpiderTraceGetReply"> & {
  * Describes the message mtmai.mtmpb.SpiderTraceGetReply.
  * Use `create(SpiderTraceGetReplySchema)` to create a new message.
  */
-export const SpiderTraceGetReplySchema: GenMessage<SpiderTraceGetReply> = /*@__PURE__*/
+export const SpiderTraceGetReplySchema: GenMessage<SpiderTraceGetReply> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 26);
 
 /**
  * @generated from message mtmai.mtmpb.SpiderTraceCreateReq
  */
-export type SpiderTraceCreateReq = Message<"mtmai.mtmpb.SpiderTraceCreateReq"> & {
-  /**
-   * @generated from field: string id = 1;
-   */
-  id: string;
+export type SpiderTraceCreateReq =
+  Message<"mtmai.mtmpb.SpiderTraceCreateReq"> & {
+    /**
+     * @generated from field: string id = 1;
+     */
+    id: string;
 
-  /**
-   * @generated from field: string url = 2;
-   */
-  url: string;
+    /**
+     * @generated from field: string url = 2;
+     */
+    url: string;
 
-  /**
-   * 其他字段
-   *
-   * @generated from field: string ProjectId = 3;
-   */
-  ProjectId: string;
-};
+    /**
+     * 其他字段
+     *
+     * @generated from field: string ProjectId = 3;
+     */
+    ProjectId: string;
+  };
 
 /**
  * Describes the message mtmai.mtmpb.SpiderTraceCreateReq.
  * Use `create(SpiderTraceCreateReqSchema)` to create a new message.
  */
-export const SpiderTraceCreateReqSchema: GenMessage<SpiderTraceCreateReq> = /*@__PURE__*/
+export const SpiderTraceCreateReqSchema: GenMessage<SpiderTraceCreateReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 27);
 
 /**
  * @generated from message mtmai.mtmpb.SpiderProjectVisitReq
  */
-export type SpiderProjectVisitReq = Message<"mtmai.mtmpb.SpiderProjectVisitReq"> & {
-  /**
-   * @generated from field: string project_id = 1;
-   */
-  projectId: string;
+export type SpiderProjectVisitReq =
+  Message<"mtmai.mtmpb.SpiderProjectVisitReq"> & {
+    /**
+     * @generated from field: string project_id = 1;
+     */
+    projectId: string;
 
-  /**
-   * @generated from field: string url = 2;
-   */
-  url: string;
-};
+    /**
+     * @generated from field: string url = 2;
+     */
+    url: string;
+  };
 
 /**
  * Describes the message mtmai.mtmpb.SpiderProjectVisitReq.
  * Use `create(SpiderProjectVisitReqSchema)` to create a new message.
  */
-export const SpiderProjectVisitReqSchema: GenMessage<SpiderProjectVisitReq> = /*@__PURE__*/
+export const SpiderProjectVisitReqSchema: GenMessage<SpiderProjectVisitReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 28);
 
 /**
@@ -882,7 +931,8 @@ export type SpiderResult = Message<"mtmai.mtmpb.SpiderResult"> & {
  * Describes the message mtmai.mtmpb.SpiderResult.
  * Use `create(SpiderResultSchema)` to create a new message.
  */
-export const SpiderResultSchema: GenMessage<SpiderResult> = /*@__PURE__*/
+export const SpiderResultSchema: GenMessage<SpiderResult> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 29);
 
 /**
@@ -899,29 +949,32 @@ export type SpiderResultListReq = Message<"mtmai.mtmpb.SpiderResultListReq"> & {
  * Describes the message mtmai.mtmpb.SpiderResultListReq.
  * Use `create(SpiderResultListReqSchema)` to create a new message.
  */
-export const SpiderResultListReqSchema: GenMessage<SpiderResultListReq> = /*@__PURE__*/
+export const SpiderResultListReqSchema: GenMessage<SpiderResultListReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 30);
 
 /**
  * @generated from message mtmai.mtmpb.SpiderResultListReply
  */
-export type SpiderResultListReply = Message<"mtmai.mtmpb.SpiderResultListReply"> & {
-  /**
-   * @generated from field: mtmai.mtmpb.Paging Pagination = 2;
-   */
-  Pagination?: Paging;
+export type SpiderResultListReply =
+  Message<"mtmai.mtmpb.SpiderResultListReply"> & {
+    /**
+     * @generated from field: mtmai.mtmpb.Paging Pagination = 2;
+     */
+    Pagination?: Paging;
 
-  /**
-   * @generated from field: repeated mtmai.mtmpb.SpiderResult items = 4;
-   */
-  items: SpiderResult[];
-};
+    /**
+     * @generated from field: repeated mtmai.mtmpb.SpiderResult items = 4;
+     */
+    items: SpiderResult[];
+  };
 
 /**
  * Describes the message mtmai.mtmpb.SpiderResultListReply.
  * Use `create(SpiderResultListReplySchema)` to create a new message.
  */
-export const SpiderResultListReplySchema: GenMessage<SpiderResultListReply> = /*@__PURE__*/
+export const SpiderResultListReplySchema: GenMessage<SpiderResultListReply> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 31);
 
 /**
@@ -938,29 +991,32 @@ export type SpiderResultGetReq = Message<"mtmai.mtmpb.SpiderResultGetReq"> & {
  * Describes the message mtmai.mtmpb.SpiderResultGetReq.
  * Use `create(SpiderResultGetReqSchema)` to create a new message.
  */
-export const SpiderResultGetReqSchema: GenMessage<SpiderResultGetReq> = /*@__PURE__*/
+export const SpiderResultGetReqSchema: GenMessage<SpiderResultGetReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 32);
 
 /**
  * @generated from message mtmai.mtmpb.SpiderResultGetReply
  */
-export type SpiderResultGetReply = Message<"mtmai.mtmpb.SpiderResultGetReply"> & {
-  /**
-   * @generated from field: string key = 1;
-   */
-  key: string;
+export type SpiderResultGetReply =
+  Message<"mtmai.mtmpb.SpiderResultGetReply"> & {
+    /**
+     * @generated from field: string key = 1;
+     */
+    key: string;
 
-  /**
-   * @generated from field: string content = 2;
-   */
-  content: string;
-};
+    /**
+     * @generated from field: string content = 2;
+     */
+    content: string;
+  };
 
 /**
  * Describes the message mtmai.mtmpb.SpiderResultGetReply.
  * Use `create(SpiderResultGetReplySchema)` to create a new message.
  */
-export const SpiderResultGetReplySchema: GenMessage<SpiderResultGetReply> = /*@__PURE__*/
+export const SpiderResultGetReplySchema: GenMessage<SpiderResultGetReply> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 33);
 
 /**
@@ -1017,7 +1073,8 @@ export type SpRoute = Message<"mtmai.mtmpb.SpRoute"> & {
  * Describes the message mtmai.mtmpb.SpRoute.
  * Use `create(SpRouteSchema)` to create a new message.
  */
-export const SpRouteSchema: GenMessage<SpRoute> = /*@__PURE__*/
+export const SpRouteSchema: GenMessage<SpRoute> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 34);
 
 /**
@@ -1051,7 +1108,8 @@ export type SpRouteListReq = Message<"mtmai.mtmpb.SpRouteListReq"> & {
  * Describes the message mtmai.mtmpb.SpRouteListReq.
  * Use `create(SpRouteListReqSchema)` to create a new message.
  */
-export const SpRouteListReqSchema: GenMessage<SpRouteListReq> = /*@__PURE__*/
+export const SpRouteListReqSchema: GenMessage<SpRouteListReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 35);
 
 /**
@@ -1078,7 +1136,8 @@ export type SpRouteListReply = Message<"mtmai.mtmpb.SpRouteListReply"> & {
  * Describes the message mtmai.mtmpb.SpRouteListReply.
  * Use `create(SpRouteListReplySchema)` to create a new message.
  */
-export const SpRouteListReplySchema: GenMessage<SpRouteListReply> = /*@__PURE__*/
+export const SpRouteListReplySchema: GenMessage<SpRouteListReply> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 36);
 
 /**
@@ -1095,7 +1154,8 @@ export type SpRouteGetReq = Message<"mtmai.mtmpb.SpRouteGetReq"> & {
  * Describes the message mtmai.mtmpb.SpRouteGetReq.
  * Use `create(SpRouteGetReqSchema)` to create a new message.
  */
-export const SpRouteGetReqSchema: GenMessage<SpRouteGetReq> = /*@__PURE__*/
+export const SpRouteGetReqSchema: GenMessage<SpRouteGetReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 37);
 
 /**
@@ -1139,7 +1199,8 @@ export type SpRouteCreateReq = Message<"mtmai.mtmpb.SpRouteCreateReq"> & {
  * Describes the message mtmai.mtmpb.SpRouteCreateReq.
  * Use `create(SpRouteCreateReqSchema)` to create a new message.
  */
-export const SpRouteCreateReqSchema: GenMessage<SpRouteCreateReq> = /*@__PURE__*/
+export const SpRouteCreateReqSchema: GenMessage<SpRouteCreateReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 38);
 
 /**
@@ -1191,7 +1252,8 @@ export type SpRouteUpdateReq = Message<"mtmai.mtmpb.SpRouteUpdateReq"> & {
  * Describes the message mtmai.mtmpb.SpRouteUpdateReq.
  * Use `create(SpRouteUpdateReqSchema)` to create a new message.
  */
-export const SpRouteUpdateReqSchema: GenMessage<SpRouteUpdateReq> = /*@__PURE__*/
+export const SpRouteUpdateReqSchema: GenMessage<SpRouteUpdateReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 39);
 
 /**
@@ -1208,7 +1270,8 @@ export type SpOptionGetReq = Message<"mtmai.mtmpb.SpOptionGetReq"> & {
  * Describes the message mtmai.mtmpb.SpOptionGetReq.
  * Use `create(SpOptionGetReqSchema)` to create a new message.
  */
-export const SpOptionGetReqSchema: GenMessage<SpOptionGetReq> = /*@__PURE__*/
+export const SpOptionGetReqSchema: GenMessage<SpOptionGetReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 40);
 
 /**
@@ -1235,7 +1298,8 @@ export type SpOption = Message<"mtmai.mtmpb.SpOption"> & {
  * Describes the message mtmai.mtmpb.SpOption.
  * Use `create(SpOptionSchema)` to create a new message.
  */
-export const SpOptionSchema: GenMessage<SpOption> = /*@__PURE__*/
+export const SpOptionSchema: GenMessage<SpOption> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 41);
 
 /**
@@ -1259,7 +1323,8 @@ export type SpCrawler = Message<"mtmai.mtmpb.SpCrawler"> & {
  * Describes the message mtmai.mtmpb.SpCrawler.
  * Use `create(SpCrawlerSchema)` to create a new message.
  */
-export const SpCrawlerSchema: GenMessage<SpCrawler> = /*@__PURE__*/
+export const SpCrawlerSchema: GenMessage<SpCrawler> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 42);
 
 /**
@@ -1286,7 +1351,8 @@ export type SpCrawlerListReq = Message<"mtmai.mtmpb.SpCrawlerListReq"> & {
  * Describes the message mtmai.mtmpb.SpCrawlerListReq.
  * Use `create(SpCrawlerListReqSchema)` to create a new message.
  */
-export const SpCrawlerListReqSchema: GenMessage<SpCrawlerListReq> = /*@__PURE__*/
+export const SpCrawlerListReqSchema: GenMessage<SpCrawlerListReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 43);
 
 /**
@@ -1313,7 +1379,8 @@ export type SpCrawlerListReply = Message<"mtmai.mtmpb.SpCrawlerListReply"> & {
  * Describes the message mtmai.mtmpb.SpCrawlerListReply.
  * Use `create(SpCrawlerListReplySchema)` to create a new message.
  */
-export const SpCrawlerListReplySchema: GenMessage<SpCrawlerListReply> = /*@__PURE__*/
+export const SpCrawlerListReplySchema: GenMessage<SpCrawlerListReply> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 44);
 
 /**
@@ -1330,7 +1397,8 @@ export type SpCrawlerGetReq = Message<"mtmai.mtmpb.SpCrawlerGetReq"> & {
  * Describes the message mtmai.mtmpb.SpCrawlerGetReq.
  * Use `create(SpCrawlerGetReqSchema)` to create a new message.
  */
-export const SpCrawlerGetReqSchema: GenMessage<SpCrawlerGetReq> = /*@__PURE__*/
+export const SpCrawlerGetReqSchema: GenMessage<SpCrawlerGetReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 45);
 
 /**
@@ -1352,7 +1420,8 @@ export type SpCrawlerCreateReq = Message<"mtmai.mtmpb.SpCrawlerCreateReq"> & {
  * Describes the message mtmai.mtmpb.SpCrawlerCreateReq.
  * Use `create(SpCrawlerCreateReqSchema)` to create a new message.
  */
-export const SpCrawlerCreateReqSchema: GenMessage<SpCrawlerCreateReq> = /*@__PURE__*/
+export const SpCrawlerCreateReqSchema: GenMessage<SpCrawlerCreateReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 46);
 
 /**
@@ -1374,7 +1443,8 @@ export type SpCrawlerUpdateReq = Message<"mtmai.mtmpb.SpCrawlerUpdateReq"> & {
  * Describes the message mtmai.mtmpb.SpCrawlerUpdateReq.
  * Use `create(SpCrawlerUpdateReqSchema)` to create a new message.
  */
-export const SpCrawlerUpdateReqSchema: GenMessage<SpCrawlerUpdateReq> = /*@__PURE__*/
+export const SpCrawlerUpdateReqSchema: GenMessage<SpCrawlerUpdateReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 47);
 
 /**
@@ -1413,7 +1483,8 @@ export type SpSiteListItem = Message<"mtmai.mtmpb.SpSiteListItem"> & {
  * Describes the message mtmai.mtmpb.SpSiteListItem.
  * Use `create(SpSiteListItemSchema)` to create a new message.
  */
-export const SpSiteListItemSchema: GenMessage<SpSiteListItem> = /*@__PURE__*/
+export const SpSiteListItemSchema: GenMessage<SpSiteListItem> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 48);
 
 /**
@@ -1439,7 +1510,8 @@ export type SpConfig = Message<"mtmai.mtmpb.SpConfig"> & {
  * Describes the message mtmai.mtmpb.SpConfig.
  * Use `create(SpConfigSchema)` to create a new message.
  */
-export const SpConfigSchema: GenMessage<SpConfig> = /*@__PURE__*/
+export const SpConfigSchema: GenMessage<SpConfig> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 49);
 
 /**
@@ -1456,7 +1528,8 @@ export type Sp2FetchReq = Message<"mtmai.mtmpb.Sp2FetchReq"> & {
  * Describes the message mtmai.mtmpb.Sp2FetchReq.
  * Use `create(Sp2FetchReqSchema)` to create a new message.
  */
-export const Sp2FetchReqSchema: GenMessage<Sp2FetchReq> = /*@__PURE__*/
+export const Sp2FetchReqSchema: GenMessage<Sp2FetchReq> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 50);
 
 /**
@@ -1473,7 +1546,8 @@ export type Sp2FetchRes = Message<"mtmai.mtmpb.Sp2FetchRes"> & {
  * Describes the message mtmai.mtmpb.Sp2FetchRes.
  * Use `create(Sp2FetchResSchema)` to create a new message.
  */
-export const Sp2FetchResSchema: GenMessage<Sp2FetchRes> = /*@__PURE__*/
+export const Sp2FetchResSchema: GenMessage<Sp2FetchRes> =
+  /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_sp, 51);
 
 /**
@@ -1489,7 +1563,7 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof SpProjectListReqSchema;
     output: typeof SpProjectListReplySchema;
-  },
+  };
   /**
    * @generated from rpc mtmai.mtmpb.SpService.SpProjectGet
    */
@@ -1497,7 +1571,7 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof SpProjectGetReqSchema;
     output: typeof SpProjectSchema;
-  },
+  };
   /**
    * @generated from rpc mtmai.mtmpb.SpService.SpProjectCreate
    */
@@ -1505,7 +1579,7 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof SpProjectCreateReqSchema;
     output: typeof ResultSchema;
-  },
+  };
   /**
    * @generated from rpc mtmai.mtmpb.SpService.SpProjectUpdate
    */
@@ -1513,7 +1587,7 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof SpProjectUpdateReqSchema;
     output: typeof ResultSchema;
-  },
+  };
   /**
    * @generated from rpc mtmai.mtmpb.SpService.SpProjectDelete
    */
@@ -1521,7 +1595,7 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof ResDeleteReqSchema;
     output: typeof ResultSchema;
-  },
+  };
   /**
    * @generated from rpc mtmai.mtmpb.SpService.SpProjectRun
    */
@@ -1529,7 +1603,7 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof SpiderProjectRunReqSchema;
     output: typeof ResultSchema;
-  },
+  };
   /**
    * 发起单个页面的爬取动作。
    *
@@ -1539,7 +1613,7 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof SpiderProjectVisitReqSchema;
     output: typeof ResultSchema;
-  },
+  };
   /**
    * @generated from rpc mtmai.mtmpb.SpService.SpProjectReload
    */
@@ -1547,7 +1621,7 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof SpProjectReloadReqSchema;
     output: typeof ResultSchema;
-  },
+  };
   /**
    * sp-route
    *
@@ -1557,7 +1631,7 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof SpRouteListReqSchema;
     output: typeof SpRouteListReplySchema;
-  },
+  };
   /**
    * @generated from rpc mtmai.mtmpb.SpService.SpRouteGet
    */
@@ -1565,7 +1639,7 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof SpRouteGetReqSchema;
     output: typeof SpRouteSchema;
-  },
+  };
   /**
    * @generated from rpc mtmai.mtmpb.SpService.SpRouteCreate
    */
@@ -1573,7 +1647,7 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof SpRouteCreateReqSchema;
     output: typeof ResultSchema;
-  },
+  };
   /**
    * @generated from rpc mtmai.mtmpb.SpService.SpRouteUpdate
    */
@@ -1581,7 +1655,7 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof SpRouteUpdateReqSchema;
     output: typeof ResultSchema;
-  },
+  };
   /**
    * @generated from rpc mtmai.mtmpb.SpService.SpRouteDelete
    */
@@ -1589,7 +1663,7 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof ResDeleteReqSchema;
     output: typeof ResultSchema;
-  },
+  };
   /**
    * contentmodi
    *
@@ -1599,7 +1673,7 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof SpContentmodiListReqSchema;
     output: typeof SpContentmodiListReplySchema;
-  },
+  };
   /**
    * @generated from rpc mtmai.mtmpb.SpService.SpContentmodiGet
    */
@@ -1607,7 +1681,7 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof SpContentmodiGetReqSchema;
     output: typeof SpContentmodiSchema;
-  },
+  };
   /**
    * @generated from rpc mtmai.mtmpb.SpService.SpContentmodiCreate
    */
@@ -1615,7 +1689,7 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof SpContentmodiCreateReqSchema;
     output: typeof ResultSchema;
-  },
+  };
   /**
    * @generated from rpc mtmai.mtmpb.SpService.SpContentmodiUpdate
    */
@@ -1623,7 +1697,7 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof SpContentmodiUpdateReqSchema;
     output: typeof ResultSchema;
-  },
+  };
   /**
    * @generated from rpc mtmai.mtmpb.SpService.SpContentmodiDelete
    */
@@ -1631,7 +1705,7 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof ResDeleteReqSchema;
     output: typeof ResultSchema;
-  },
+  };
   /**
    * @generated from rpc mtmai.mtmpb.SpService.SpOptionGet
    */
@@ -1639,7 +1713,7 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof SpOptionGetReqSchema;
     output: typeof SpOptionSchema;
-  },
+  };
   /**
    * @generated from rpc mtmai.mtmpb.SpService.SpOptionSave
    */
@@ -1647,7 +1721,7 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof SpOptionSchema;
     output: typeof ResultSchema;
-  },
+  };
   /**
    * 新的设计方式开始(sp2Case)
    *
@@ -1657,7 +1731,5 @@ export const SpService: GenService<{
     methodKind: "unary";
     input: typeof Sp2FetchReqSchema;
     output: typeof Sp2FetchResSchema;
-  },
-}> = /*@__PURE__*/
-  serviceDesc(file_mtmai_mtmpb_sp, 0);
-
+  };
+}> = /*@__PURE__*/ serviceDesc(file_mtmai_mtmpb_sp, 0);
