@@ -3682,6 +3682,9 @@ export const AgStatePropertiesSchema = {
         {
           $ref: "#/components/schemas/AssistantAgentState",
         },
+        {
+          $ref: "#/components/schemas/TeamState",
+        },
       ],
     },
   },
@@ -3743,7 +3746,7 @@ export const AgStateUpsertSchema = {
 
 export const StateTypeSchema = {
   type: "string",
-  enum: ["BaseState", "AssistantAgentState"],
+  enum: ["AssistantAgentState", "TeamState"],
 } as const;
 
 export const BaseStateSchema = {
@@ -3770,6 +3773,25 @@ export const AssistantAgentStateSchema = {
           enum: ["AssistantAgentState"],
         },
         llm_context: {
+          additionalProperties: true,
+        },
+      },
+    },
+  ],
+} as const;
+
+export const TeamStateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseState",
+    },
+    {
+      properties: {
+        type: {
+          type: "string",
+          enum: ["TeamState"],
+        },
+        agent_states: {
           additionalProperties: true,
         },
       },

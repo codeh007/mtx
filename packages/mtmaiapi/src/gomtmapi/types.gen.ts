@@ -2058,7 +2058,7 @@ export type AgStateProperties = {
   state: {
     [key: string]: unknown;
   };
-  stateV2?: BaseState | AssistantAgentState;
+  stateV2?: BaseState | AssistantAgentState | TeamState;
 };
 
 export type AgState = ApiResourceMetaProperties & AgStateProperties;
@@ -2087,11 +2087,11 @@ export type AgStateUpsert = AgStateProperties & {
   tenantId?: string;
 };
 
-export type StateType = "BaseState" | "AssistantAgentState";
+export type StateType = "AssistantAgentState" | "TeamState";
 
 export const StateType = {
-  BASE_STATE: "BaseState",
   ASSISTANT_AGENT_STATE: "AssistantAgentState",
+  TEAM_STATE: "TeamState",
 } as const;
 
 export type BaseState = {
@@ -2102,6 +2102,11 @@ export type BaseState = {
 export type AssistantAgentState = BaseState & {
   type?: "AssistantAgentState";
   llm_context?: unknown;
+};
+
+export type TeamState = BaseState & {
+  type?: "TeamState";
+  agent_states?: unknown;
 };
 
 export type MtComponent = ApiResourceMetaProperties & MtComponentProperties;

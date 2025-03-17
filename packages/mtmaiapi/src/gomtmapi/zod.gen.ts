@@ -2580,7 +2580,7 @@ export const zTeamConfigBase = z.object({
 
 export const zAgStateProperties = z.object({
   version: z.string().optional().default("1.0.0"),
-  type: z.enum(["BaseState", "AssistantAgentState"]),
+  type: z.enum(["AssistantAgentState", "TeamState"]),
   componentId: z.string().optional(),
   chatId: z.string().optional(),
   topic: z.string().optional(),
@@ -2589,18 +2589,29 @@ export const zAgStateProperties = z.object({
   stateV2: z
     .union([
       z.object({
-        type: z.enum(["BaseState", "AssistantAgentState"]).optional(),
+        type: z.enum(["AssistantAgentState", "TeamState"]).optional(),
         version: z.string().optional(),
       }),
       z
         .object({
-          type: z.enum(["BaseState", "AssistantAgentState"]).optional(),
+          type: z.enum(["AssistantAgentState", "TeamState"]).optional(),
           version: z.string().optional(),
         })
         .merge(
           z.object({
             type: z.enum(["AssistantAgentState"]).optional(),
             llm_context: z.unknown().optional(),
+          }),
+        ),
+      z
+        .object({
+          type: z.enum(["AssistantAgentState", "TeamState"]).optional(),
+          version: z.string().optional(),
+        })
+        .merge(
+          z.object({
+            type: z.enum(["TeamState"]).optional(),
+            agent_states: z.unknown().optional(),
           }),
         ),
     ])
@@ -2623,7 +2634,7 @@ export const zAgStateUpsert = zAgStateProperties.merge(
   }),
 );
 
-export const zStateType = z.enum(["BaseState", "AssistantAgentState"]);
+export const zStateType = z.enum(["AssistantAgentState", "TeamState"]);
 
 export const zBaseState = z.object({
   type: zStateType.optional(),
@@ -2634,6 +2645,13 @@ export const zAssistantAgentState = zBaseState.merge(
   z.object({
     type: z.enum(["AssistantAgentState"]).optional(),
     llm_context: z.unknown().optional(),
+  }),
+);
+
+export const zTeamState = zBaseState.merge(
+  z.object({
+    type: z.enum(["TeamState"]).optional(),
+    agent_states: z.unknown().optional(),
   }),
 );
 

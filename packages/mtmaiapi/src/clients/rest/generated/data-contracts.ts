@@ -1734,7 +1734,7 @@ export interface AgStateProperties {
   source?: string;
   /** @default {} */
   state: Record<string, any>;
-  stateV2?: BaseState | AssistantAgentState;
+  stateV2?: BaseState | AssistantAgentState | TeamState;
 }
 
 export type AgState = APIResourceMetaProperties & AgStateProperties;
@@ -1756,8 +1756,8 @@ export type AgStateUpsert = AgStateProperties & {
 };
 
 export enum StateType {
-  BaseState = "BaseState",
   AssistantAgentState = "AssistantAgentState",
+  TeamState = "TeamState",
 }
 
 export interface BaseState {
@@ -1768,6 +1768,11 @@ export interface BaseState {
 export type AssistantAgentState = BaseState & {
   type?: "AssistantAgentState";
   llm_context?: any;
+};
+
+export type TeamState = BaseState & {
+  type?: "TeamState";
+  agent_states?: any;
 };
 
 export type MtComponent = APIResourceMetaProperties & MtComponentProperties;
