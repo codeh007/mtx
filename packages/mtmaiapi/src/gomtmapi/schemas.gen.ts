@@ -3770,7 +3770,7 @@ export const TeamStateSchema = {
 export const RoundRobinManagerStateSchema = {
   allOf: [
     {
-      $ref: "#/components/schemas/BaseState",
+      $ref: "#/components/schemas/BaseGroupChatManagerState",
     },
     {
       properties: {
@@ -3913,8 +3913,7 @@ export const BaseGroupChatManagerStateSchema = {
         message_thread: {
           type: "array",
           items: {
-            type: "object",
-            additionalProperties: true,
+            $ref: "#/components/schemas/AgentEvent",
           },
         },
         current_turn: {
@@ -6550,13 +6549,14 @@ export const AgentEventTypeSchema = {
 } as const;
 
 export const AgentEventSchema = {
-  required: ["type"],
-  properties: {
-    type: {
-      type: "string",
-      $ref: "#/components/schemas/AgentEventType",
+  oneOf: [
+    {
+      $ref: "#/components/schemas/ThoughtEvent",
     },
-  },
+    {
+      $ref: "#/components/schemas/TextMessage",
+    },
+  ],
 } as const;
 
 export const TextMessageSchema = {

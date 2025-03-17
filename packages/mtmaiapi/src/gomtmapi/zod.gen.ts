@@ -2646,6 +2646,32 @@ export const zAgStateProperties = z.object({
       })
       .merge(
         z.object({
+          type: z.enum(["BaseGroupChatManagerState"]).optional(),
+          message_thread: z
+            .array(
+              z.union([
+                z.object({
+                  type: z.enum(["ThoughtEvent"]),
+                  source: z.string(),
+                  content: z.string().optional(),
+                  metadata: z.object({}).optional(),
+                  models_usage: z.object({}).optional(),
+                }),
+                z.object({
+                  type: z.enum(["TextMessage"]).optional(),
+                  source: z.string().optional(),
+                  content: z.string().optional(),
+                  metadata: z.object({}).optional(),
+                  models_usage: z.object({}).optional(),
+                }),
+              ]),
+            )
+            .optional(),
+          current_turn: z.number().int().optional(),
+        }),
+      )
+      .merge(
+        z.object({
           type: z.enum(["RoundRobinManagerState"]).optional(),
           next_speaker_index: z.number().int().optional(),
         }),
@@ -2790,7 +2816,26 @@ export const zAgStateProperties = z.object({
       .merge(
         z.object({
           type: z.enum(["BaseGroupChatManagerState"]).optional(),
-          message_thread: z.array(z.object({})).optional(),
+          message_thread: z
+            .array(
+              z.union([
+                z.object({
+                  type: z.enum(["ThoughtEvent"]),
+                  source: z.string(),
+                  content: z.string().optional(),
+                  metadata: z.object({}).optional(),
+                  models_usage: z.object({}).optional(),
+                }),
+                z.object({
+                  type: z.enum(["TextMessage"]).optional(),
+                  source: z.string().optional(),
+                  content: z.string().optional(),
+                  metadata: z.object({}).optional(),
+                  models_usage: z.object({}).optional(),
+                }),
+              ]),
+            )
+            .optional(),
           current_turn: z.number().int().optional(),
         }),
       ),
@@ -2844,12 +2889,39 @@ export const zTeamState = zBaseState.merge(
   }),
 );
 
-export const zRoundRobinManagerState = zBaseState.merge(
-  z.object({
-    type: z.enum(["RoundRobinManagerState"]).optional(),
-    next_speaker_index: z.number().int().optional(),
-  }),
-);
+export const zRoundRobinManagerState = zBaseState
+  .merge(
+    z.object({
+      type: z.enum(["BaseGroupChatManagerState"]).optional(),
+      message_thread: z
+        .array(
+          z.union([
+            z.object({
+              type: z.enum(["ThoughtEvent"]),
+              source: z.string(),
+              content: z.string().optional(),
+              metadata: z.object({}).optional(),
+              models_usage: z.object({}).optional(),
+            }),
+            z.object({
+              type: z.enum(["TextMessage"]).optional(),
+              source: z.string().optional(),
+              content: z.string().optional(),
+              metadata: z.object({}).optional(),
+              models_usage: z.object({}).optional(),
+            }),
+          ]),
+        )
+        .optional(),
+      current_turn: z.number().int().optional(),
+    }),
+  )
+  .merge(
+    z.object({
+      type: z.enum(["RoundRobinManagerState"]).optional(),
+      next_speaker_index: z.number().int().optional(),
+    }),
+  );
 
 export const zSelectorManagerState = zBaseState.merge(
   z.object({
@@ -2894,7 +2966,26 @@ export const zChatAgentContainerState = zBaseState.merge(
 export const zBaseGroupChatManagerState = zBaseState.merge(
   z.object({
     type: z.enum(["BaseGroupChatManagerState"]).optional(),
-    message_thread: z.array(z.object({})).optional(),
+    message_thread: z
+      .array(
+        z.union([
+          z.object({
+            type: z.enum(["ThoughtEvent"]),
+            source: z.string(),
+            content: z.string().optional(),
+            metadata: z.object({}).optional(),
+            models_usage: z.object({}).optional(),
+          }),
+          z.object({
+            type: z.enum(["TextMessage"]).optional(),
+            source: z.string().optional(),
+            content: z.string().optional(),
+            metadata: z.object({}).optional(),
+            models_usage: z.object({}).optional(),
+          }),
+        ]),
+      )
+      .optional(),
     current_turn: z.number().int().optional(),
   }),
 );
@@ -4107,9 +4198,22 @@ export const zTenantSetting = z.object({
 
 export const zAgentEventType = z.enum(["ThoughtEvent", "TextMessage"]);
 
-export const zAgentEvent = z.object({
-  type: zAgentEventType,
-});
+export const zAgentEvent = z.union([
+  z.object({
+    type: z.enum(["ThoughtEvent"]),
+    source: z.string(),
+    content: z.string().optional(),
+    metadata: z.object({}).optional(),
+    models_usage: z.object({}).optional(),
+  }),
+  z.object({
+    type: z.enum(["TextMessage"]).optional(),
+    source: z.string().optional(),
+    content: z.string().optional(),
+    metadata: z.object({}).optional(),
+    models_usage: z.object({}).optional(),
+  }),
+]);
 
 export const zTextMessage = z.object({
   type: z.enum(["TextMessage"]).optional(),

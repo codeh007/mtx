@@ -1,5 +1,6 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import {
+  AgentEvent,
   type AssistantAgentState,
   type ChatAgentContainerState,
   type RoundRobinManagerState,
@@ -87,9 +88,10 @@ const RoundRobinManagerStateView = ({
   roundRobinManagerState,
 }: { roundRobinManagerState: RoundRobinManagerState }) => {
   return (
-    <div className="flex flex-col gap-2 bg-gray-200 p-2 rounded-md">
+    <div className="flex flex-col gap-2 bg-slate-50 p-1 rounded-md">
       <div className="text-sm font-bold">RoundRobinManagerStateView</div>
-      <DebugValue data={{ roundRobinManagerState }} />
+      {/* <DebugValue data={{ roundRobinManagerState }} /> */}
+      <ChatEventsView agentEvents={roundRobinManagerState.message_thread || []} />
     </div>
   );
 };
@@ -101,6 +103,26 @@ const AssistantAgentStateView = ({
     <div className="flex flex-col gap-2 bg-yellow-500 p-2 rounded-md">
       <div className="text-sm font-bold">AssistantAgentStateView</div>
       <DebugValue data={{ assistantAgentState }} />
+    </div>
+  );
+};
+
+
+const ChatEventsView = ({ agentEvents }: { agentEvents: AgentEvent[] }) => {
+  return (
+    <div className="flex flex-col gap-2 bg-blue-500 p-2 rounded-md">
+      <div className="text-sm font-bold">ChatEventsView</div>
+      <DebugValue data={{ agentEvents }} />
+      {
+        agentEvents.map((agentEvent, index) => {
+          return (
+            <div key={index} className="bg-slate-100 p-1 rounded-md">
+              <DebugValue data={{ agentEvent }} />
+              <div className="text-sm">{agentEvent.content}</div>
+            </div>
+          );
+        })
+      }
     </div>
   );
 };

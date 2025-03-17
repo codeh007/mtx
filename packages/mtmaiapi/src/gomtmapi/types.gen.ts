@@ -2080,7 +2080,7 @@ export type TeamState = BaseState & {
   agent_states?: unknown;
 };
 
-export type RoundRobinManagerState = BaseState & {
+export type RoundRobinManagerState = BaseGroupChatManagerState & {
   type?: "RoundRobinManagerState";
   next_speaker_index?: number;
 };
@@ -2117,9 +2117,7 @@ export type ChatAgentContainerState = BaseState & {
 
 export type BaseGroupChatManagerState = BaseState & {
   type?: "BaseGroupChatManagerState";
-  message_thread?: Array<{
-    [key: string]: unknown;
-  }>;
+  message_thread?: Array<AgentEvent>;
   current_turn?: number;
 };
 
@@ -3285,9 +3283,7 @@ export const AgentEventType = {
   TEXT_MESSAGE: "TextMessage",
 } as const;
 
-export type AgentEvent = {
-  type: AgentEventType;
-};
+export type AgentEvent = ThoughtEvent | TextMessage;
 
 export type TextMessage = {
   type?: "TextMessage";

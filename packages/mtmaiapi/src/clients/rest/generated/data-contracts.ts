@@ -1759,7 +1759,7 @@ export type TeamState = BaseState & {
   agent_states?: any;
 };
 
-export type RoundRobinManagerState = BaseState & {
+export type RoundRobinManagerState = BaseGroupChatManagerState & {
   type?: "RoundRobinManagerState";
   next_speaker_index?: number;
 };
@@ -1796,7 +1796,7 @@ export type ChatAgentContainerState = BaseState & {
 
 export type BaseGroupChatManagerState = BaseState & {
   type?: "BaseGroupChatManagerState";
-  message_thread?: Record<string, any>[];
+  message_thread?: AgentEvent[];
   current_turn?: number;
 };
 
@@ -2764,9 +2764,7 @@ export enum AgentEventType {
   TextMessage = "TextMessage",
 }
 
-export interface AgentEvent {
-  type: AgentEventType;
-}
+export type AgentEvent = ThoughtEvent | TextMessage;
 
 export interface TextMessage {
   type?: "TextMessage";
