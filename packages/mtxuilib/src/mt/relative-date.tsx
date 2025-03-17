@@ -1,7 +1,7 @@
 "use client";
-import type React from "react";
 import { useEffect, useMemo, useState } from "react";
 import TimeAgo from "timeago-react";
+import { formatDuration } from "../lib/utils";
 import {
   Tooltip,
   TooltipContent,
@@ -14,10 +14,10 @@ interface RelativeDateProps {
   future?: boolean;
 }
 
-export const RelativeDate: React.FC<RelativeDateProps> = ({
+export const RelativeDate = ({
   date = "",
   future = false,
-}) => {
+}: RelativeDateProps) => {
   const formattedDate = useMemo(
     () => (typeof date === "string" ? new Date(date) : date),
     [date],
@@ -86,5 +86,50 @@ export const RelativeDate: React.FC<RelativeDateProps> = ({
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
+  );
+};
+
+interface RelativeDateLineProps {
+  date_created_at: Date | string;
+  date_updated_at?: Date | string;
+  date_finished_at?: Date | string;
+  date_started_at?: Date | string;
+  duration?: number;
+}
+export const TaskDateBadge = ({
+  date_created_at,
+  date_updated_at,
+  date_finished_at,
+  date_started_at,
+  duration,
+}: RelativeDateLineProps) => {
+  return (
+    <div>
+      <span className="text-sm text-muted-foreground">
+        {duration && `用时:${formatDuration(duration)}`}
+      </span>
+
+      <div>
+        {date_finished_at && (
+          <>
+            完成于: <RelativeDate date={date_finished_at} />
+          </>
+        )}
+      </div>
+      <div>
+        {date_started_at && (
+          <>
+            开始于: <RelativeDate date={date_started_at} />
+          </>
+        )}
+      </div>
+      <div>
+        {date_created_at && (
+          <>
+            创建于: <RelativeDate date={date_created_at} />
+          </>
+        )}
+      </div>
+    </div>
   );
 };
