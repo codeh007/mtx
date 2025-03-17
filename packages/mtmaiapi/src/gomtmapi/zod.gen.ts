@@ -1419,21 +1419,6 @@ export const zWorkerConfig = z.object({
   workerToken: z.string().optional(),
 });
 
-export const zBlogGenConfig = z.object({
-  name: z.string().max(255),
-  description: z.string(),
-  seo_keywords: z.string().optional(),
-  dayPublishCountHint: z.number().optional(),
-});
-
-export const zGenTopicResult = z.object({
-  topics: z.array(z.string()),
-});
-
-export const zGenArticleInput = z.object({
-  topic: z.string(),
-});
-
 export const zRunNewTaskResponse = z.object({
   description: z.string().optional(),
 });
@@ -2805,13 +2790,7 @@ export const zAgStateProperties = z.object({
       .merge(
         z.object({
           type: z.enum(["BaseGroupChatManagerState"]).optional(),
-          message_thread: z
-            .array(
-              z.object({
-                type: z.enum(["AgentMessage"]).optional(),
-              }),
-            )
-            .optional(),
+          message_thread: z.array(z.object({})).optional(),
           current_turn: z.number().int().optional(),
         }),
       ),
@@ -2915,24 +2894,10 @@ export const zChatAgentContainerState = zBaseState.merge(
 export const zBaseGroupChatManagerState = zBaseState.merge(
   z.object({
     type: z.enum(["BaseGroupChatManagerState"]).optional(),
-    message_thread: z
-      .array(
-        z.object({
-          type: z.enum(["AgentMessage"]).optional(),
-        }),
-      )
-      .optional(),
+    message_thread: z.array(z.object({})).optional(),
     current_turn: z.number().int().optional(),
   }),
 );
-
-export const zAgentMessage = z.object({
-  type: z.enum(["AgentMessage"]).optional(),
-});
-
-export const zAgentEvent = z.object({
-  type: z.enum(["AgentEvent"]).optional(),
-});
 
 export const zMtComponent = zApiResourceMetaProperties.merge(
   z.object({
@@ -4140,6 +4105,28 @@ export const zTenantSetting = z.object({
   id: z.string().optional(),
 });
 
+export const zAgentEventType = z.enum(["ThoughtEvent", "TextMessage"]);
+
+export const zAgentEvent = z.object({
+  type: zAgentEventType,
+});
+
+export const zTextMessage = z.object({
+  type: z.enum(["TextMessage"]).optional(),
+  source: z.string().optional(),
+  content: z.string().optional(),
+  metadata: z.object({}).optional(),
+  models_usage: z.object({}).optional(),
+});
+
+export const zThoughtEvent = z.object({
+  type: z.enum(["ThoughtEvent"]),
+  source: z.string(),
+  content: z.string().optional(),
+  metadata: z.object({}).optional(),
+  models_usage: z.object({}).optional(),
+});
+
 export const zMetadataGetResponse = zApiMeta;
 
 export const zCloudMetadataGetResponse = zApiErrors;
@@ -4293,8 +4280,6 @@ export const zWorkflowRunGetInputResponse = z.object({});
 export const zWorkflowGetByNameResponse = zWorkflow;
 
 export const zWorkerConfigResponse = zWorkerConfig;
-
-export const zMtmaiBloggenconfigResponse = zBlogGenConfig;
 
 export const zMtmaiWorkerConfigResponse = z.object({
   token: z.string(),

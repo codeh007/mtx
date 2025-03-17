@@ -2961,6 +2961,12 @@ export const CommonResultSchema = {
         {
           $ref: "#/components/schemas/StopMessageTerminationComponent",
         },
+        {
+          $ref: "#/components/schemas/TextMessage",
+        },
+        {
+          $ref: "#/components/schemas/ThoughtEvent",
+        },
       ],
     },
   },
@@ -3023,60 +3029,6 @@ export const WorkerConfigSchema = {
       type: "string",
     },
   },
-} as const;
-
-export const BlogGenConfigSchema = {
-  type: "object",
-  description: "博客站点生成基本配置",
-  properties: {
-    name: {
-      type: "string",
-      description: "站点名称.",
-      maxLength: 255,
-    },
-    description: {
-      description: "博客站点介绍.",
-      type: "string",
-    },
-    seo_keywords: {
-      description: "站点关键字列表",
-      type: "string",
-    },
-    dayPublishCountHint: {
-      description: "站点建议日更帖子数量",
-      type: "number",
-    },
-  },
-  required: ["name", "description"],
-} as const;
-
-export const GenTopicResultSchema = {
-  type: "object",
-  description: "topics 生成结果",
-  properties: {
-    topics: {
-      type: "array",
-      description: "主题列表，按优先顺序，更好的更靠前",
-      items: {
-        type: "string",
-      },
-    },
-  },
-  required: ["topics"],
-} as const;
-
-export const GenArticleInputSchema = {
-  type: "object",
-  description: "文章生成输入",
-  properties: {
-    topic: {
-      type: "string",
-      items: {
-        type: "string",
-      },
-    },
-  },
-  required: ["topic"],
 } as const;
 
 export const RunNewTaskResponseSchema = {
@@ -3961,7 +3913,8 @@ export const BaseGroupChatManagerStateSchema = {
         message_thread: {
           type: "array",
           items: {
-            $ref: "#/components/schemas/AgentMessage",
+            type: "object",
+            additionalProperties: true,
           },
         },
         current_turn: {
@@ -3970,26 +3923,6 @@ export const BaseGroupChatManagerStateSchema = {
       },
     },
   ],
-} as const;
-
-export const AgentMessageSchema = {
-  type: "object",
-  properties: {
-    type: {
-      type: "string",
-      enum: ["AgentMessage"],
-    },
-  },
-} as const;
-
-export const AgentEventSchema = {
-  type: "object",
-  properties: {
-    type: {
-      type: "string",
-      enum: ["AgentEvent"],
-    },
-  },
 } as const;
 
 export const MtComponentSchema = {
@@ -6607,6 +6540,68 @@ export const TenantSettingSchema = {
     id: {
       type: "string",
       description: "The id of the tenant setting",
+    },
+  },
+} as const;
+
+export const AgentEventTypeSchema = {
+  type: "string",
+  enum: ["ThoughtEvent", "TextMessage"],
+} as const;
+
+export const AgentEventSchema = {
+  required: ["type"],
+  properties: {
+    type: {
+      type: "string",
+      $ref: "#/components/schemas/AgentEventType",
+    },
+  },
+} as const;
+
+export const TextMessageSchema = {
+  properties: {
+    type: {
+      type: "string",
+      enum: ["TextMessage"],
+    },
+    source: {
+      type: "string",
+    },
+    content: {
+      type: "string",
+    },
+    metadata: {
+      type: "object",
+      additionalProperties: true,
+    },
+    models_usage: {
+      type: "object",
+      additionalProperties: true,
+    },
+  },
+} as const;
+
+export const ThoughtEventSchema = {
+  required: ["type", "source"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["ThoughtEvent"],
+    },
+    source: {
+      type: "string",
+    },
+    content: {
+      type: "string",
+    },
+    metadata: {
+      type: "object",
+      additionalProperties: true,
+    },
+    models_usage: {
+      type: "object",
+      additionalProperties: true,
     },
   },
 } as const;

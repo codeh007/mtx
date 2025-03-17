@@ -244,8 +244,6 @@ import type {
   WorkflowGetByNameError,
   WorkerConfigData,
   WorkerConfigResponse,
-  MtmaiBloggenconfigData,
-  MtmaiBloggenconfigResponse,
   MtmaiWorkerConfigData,
   MtmaiWorkerConfigResponse,
   BlogListData,
@@ -2760,33 +2758,6 @@ export const workerConfig = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/worker/config",
-    ...options,
-  });
-};
-
-/**
- * 获取博客生成配置
- * 获取博客生成配置
- */
-export const mtmaiBloggenconfig = <ThrowOnError extends boolean = false>(
-  options?: Options<MtmaiBloggenconfigData, ThrowOnError>,
-) => {
-  return (options?.client ?? _heyApiClient).get<
-    MtmaiBloggenconfigResponse,
-    unknown,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/mtmai/bloggenconfig",
     ...options,
   });
 };

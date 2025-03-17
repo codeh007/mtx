@@ -88,7 +88,6 @@ import {
   workflowRunGetInput,
   workflowGetByName,
   workerConfig,
-  mtmaiBloggenconfig,
   mtmaiWorkerConfig,
   blogList,
   blogCreate,
@@ -339,7 +338,6 @@ import type {
   WorkflowRunGetInputData,
   WorkflowGetByNameData,
   WorkerConfigData,
-  MtmaiBloggenconfigData,
   MtmaiWorkerConfigData,
   BlogListData,
   BlogCreateData,
@@ -3073,27 +3071,6 @@ export const workerConfigOptions = (options?: Options<WorkerConfigData>) => {
       return data;
     },
     queryKey: workerConfigQueryKey(options),
-  });
-};
-
-export const mtmaiBloggenconfigQueryKey = (
-  options?: Options<MtmaiBloggenconfigData>,
-) => createQueryKey("mtmaiBloggenconfig", options);
-
-export const mtmaiBloggenconfigOptions = (
-  options?: Options<MtmaiBloggenconfigData>,
-) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await mtmaiBloggenconfig({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: mtmaiBloggenconfigQueryKey(options),
   });
 };
 

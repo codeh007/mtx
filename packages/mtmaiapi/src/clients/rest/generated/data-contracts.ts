@@ -1428,32 +1428,6 @@ export interface WorkerConfig {
   workerToken?: string;
 }
 
-/** 博客站点生成基本配置 */
-export interface BlogGenConfig {
-  /**
-   * 站点名称.
-   * @maxLength 255
-   */
-  name: string;
-  /** 博客站点介绍. */
-  description: string;
-  /** 站点关键字列表 */
-  seo_keywords?: string;
-  /** 站点建议日更帖子数量 */
-  dayPublishCountHint?: number;
-}
-
-/** topics 生成结果 */
-export interface GenTopicResult {
-  /** 主题列表，按优先顺序，更好的更靠前 */
-  topics: string[];
-}
-
-/** 文章生成输入 */
-export interface GenArticleInput {
-  topic: string;
-}
-
 /** 运行新任务的结果 */
 export interface RunNewTaskResponse {
   description?: string;
@@ -1822,17 +1796,9 @@ export type ChatAgentContainerState = BaseState & {
 
 export type BaseGroupChatManagerState = BaseState & {
   type?: "BaseGroupChatManagerState";
-  message_thread?: AgentMessage[];
+  message_thread?: Record<string, any>[];
   current_turn?: number;
 };
-
-export interface AgentMessage {
-  type?: "AgentMessage";
-}
-
-export interface AgentEvent {
-  type?: "AgentEvent";
-}
 
 export type MtComponent = APIResourceMetaProperties & MtComponentProperties;
 
@@ -2791,4 +2757,29 @@ export interface AgentConfig {
 export interface TenantSetting {
   /** The id of the tenant setting */
   id?: string;
+}
+
+export enum AgentEventType {
+  ThoughtEvent = "ThoughtEvent",
+  TextMessage = "TextMessage",
+}
+
+export interface AgentEvent {
+  type: AgentEventType;
+}
+
+export interface TextMessage {
+  type?: "TextMessage";
+  source?: string;
+  content?: string;
+  metadata?: Record<string, any>;
+  models_usage?: Record<string, any>;
+}
+
+export interface ThoughtEvent {
+  type: "ThoughtEvent";
+  source: string;
+  content?: string;
+  metadata?: Record<string, any>;
+  models_usage?: Record<string, any>;
 }

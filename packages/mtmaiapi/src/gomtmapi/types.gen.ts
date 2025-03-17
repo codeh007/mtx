@@ -1679,45 +1679,6 @@ export type WorkerConfig = {
 };
 
 /**
- * 博客站点生成基本配置
- */
-export type BlogGenConfig = {
-  /**
-   * 站点名称.
-   */
-  name: string;
-  /**
-   * 博客站点介绍.
-   */
-  description: string;
-  /**
-   * 站点关键字列表
-   */
-  seo_keywords?: string;
-  /**
-   * 站点建议日更帖子数量
-   */
-  dayPublishCountHint?: number;
-};
-
-/**
- * topics 生成结果
- */
-export type GenTopicResult = {
-  /**
-   * 主题列表，按优先顺序，更好的更靠前
-   */
-  topics: Array<string>;
-};
-
-/**
- * 文章生成输入
- */
-export type GenArticleInput = {
-  topic: string;
-};
-
-/**
  * 运行新任务的结果
  */
 export type RunNewTaskResponse = {
@@ -2156,16 +2117,10 @@ export type ChatAgentContainerState = BaseState & {
 
 export type BaseGroupChatManagerState = BaseState & {
   type?: "BaseGroupChatManagerState";
-  message_thread?: Array<AgentMessage>;
+  message_thread?: Array<{
+    [key: string]: unknown;
+  }>;
   current_turn?: number;
-};
-
-export type AgentMessage = {
-  type?: "AgentMessage";
-};
-
-export type AgentEvent = {
-  type?: "AgentEvent";
 };
 
 export type MtComponent = ApiResourceMetaProperties & MtComponentProperties;
@@ -3321,6 +3276,41 @@ export type TenantSetting = {
    * The id of the tenant setting
    */
   id?: string;
+};
+
+export type AgentEventType = "ThoughtEvent" | "TextMessage";
+
+export const AgentEventType = {
+  THOUGHT_EVENT: "ThoughtEvent",
+  TEXT_MESSAGE: "TextMessage",
+} as const;
+
+export type AgentEvent = {
+  type: AgentEventType;
+};
+
+export type TextMessage = {
+  type?: "TextMessage";
+  source?: string;
+  content?: string;
+  metadata?: {
+    [key: string]: unknown;
+  };
+  models_usage?: {
+    [key: string]: unknown;
+  };
+};
+
+export type ThoughtEvent = {
+  type: "ThoughtEvent";
+  source: string;
+  content?: string;
+  metadata?: {
+    [key: string]: unknown;
+  };
+  models_usage?: {
+    [key: string]: unknown;
+  };
 };
 
 export type ReadinessGetData = {
@@ -6616,23 +6606,6 @@ export type WorkerConfigResponses = {
 
 export type WorkerConfigResponse =
   WorkerConfigResponses[keyof WorkerConfigResponses];
-
-export type MtmaiBloggenconfigData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: "/api/v1/mtmai/bloggenconfig";
-};
-
-export type MtmaiBloggenconfigResponses = {
-  /**
-   * 博客生成配置
-   */
-  200: BlogGenConfig;
-};
-
-export type MtmaiBloggenconfigResponse =
-  MtmaiBloggenconfigResponses[keyof MtmaiBloggenconfigResponses];
 
 export type MtmaiWorkerConfigData = {
   body?: never;

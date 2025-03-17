@@ -23,7 +23,6 @@ import {
   ArtifactList,
   AssignedAction,
   Blog,
-  BlogGenConfig,
   BlogList,
   Browser,
   BrowserList,
@@ -2145,23 +2144,6 @@ export class Api<
   workerConfig = (params: RequestParams = {}) =>
     this.request<WorkerConfig, any>({
       path: `/api/v1/worker/config`,
-      method: "GET",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description 获取博客生成配置
-   *
-   * @tags mtmai
-   * @name MtmaiBloggenconfig
-   * @summary 获取博客生成配置
-   * @request GET:/api/v1/mtmai/bloggenconfig
-   * @secure
-   */
-  mtmaiBloggenconfig = (params: RequestParams = {}) =>
-    this.request<BlogGenConfig, any>({
-      path: `/api/v1/mtmai/bloggenconfig`,
       method: "GET",
       secure: true,
       format: "json",
