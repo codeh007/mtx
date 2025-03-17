@@ -3643,15 +3643,14 @@ export const TeamConfigBaseSchema = {
 } as const;
 
 export const AgStatePropertiesSchema = {
-  required: ["state"],
+  required: ["state", "type"],
   properties: {
     version: {
       type: "string",
       default: "1.0.0",
     },
     type: {
-      type: "string",
-      default: "TeamState",
+      $ref: "#/components/schemas/StateType",
     },
     componentId: {
       type: "string",
@@ -3661,11 +3660,6 @@ export const AgStatePropertiesSchema = {
       type: "string",
       description: "聊天id",
     },
-    state: {
-      type: "object",
-      additionalProperties: true,
-      default: {},
-    },
     topic: {
       type: "string",
       description: "主题",
@@ -3673,6 +3667,22 @@ export const AgStatePropertiesSchema = {
     source: {
       type: "string",
       description: "来源",
+    },
+    state: {
+      type: "object",
+      additionalProperties: true,
+      default: {},
+    },
+    stateV2: {
+      type: "object",
+      oneOf: [
+        {
+          $ref: "#/components/schemas/BaseState",
+        },
+        {
+          $ref: "#/components/schemas/AssistantAgentState",
+        },
+      ],
     },
   },
 } as const;
@@ -3725,6 +3735,42 @@ export const AgStateUpsertSchema = {
         tenantId: {
           type: "string",
           description: "租户id",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const StateTypeSchema = {
+  type: "string",
+  enum: ["BaseState", "AssistantAgentState"],
+} as const;
+
+export const BaseStateSchema = {
+  properties: {
+    type: {
+      type: "string",
+      $ref: "#/components/schemas/StateType",
+    },
+    version: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const AssistantAgentStateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseState",
+    },
+    {
+      properties: {
+        type: {
+          type: "string",
+          enum: ["AssistantAgentState"],
+        },
+        llm_context: {
+          additionalProperties: true,
         },
       },
     },

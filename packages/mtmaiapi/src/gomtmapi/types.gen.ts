@@ -2038,7 +2038,7 @@ export type TeamConfigBase = {
 
 export type AgStateProperties = {
   version?: string;
-  type?: string;
+  type: StateType;
   /**
    * 组件id
    */
@@ -2047,9 +2047,6 @@ export type AgStateProperties = {
    * 聊天id
    */
   chatId?: string;
-  state: {
-    [key: string]: unknown;
-  };
   /**
    * 主题
    */
@@ -2058,6 +2055,10 @@ export type AgStateProperties = {
    * 来源
    */
   source?: string;
+  state: {
+    [key: string]: unknown;
+  };
+  stateV2?: BaseState | AssistantAgentState;
 };
 
 export type AgState = ApiResourceMetaProperties & AgStateProperties;
@@ -2084,6 +2085,23 @@ export type AgStateUpsert = AgStateProperties & {
    * 租户id
    */
   tenantId?: string;
+};
+
+export type StateType = "BaseState" | "AssistantAgentState";
+
+export const StateType = {
+  BASE_STATE: "BaseState",
+  ASSISTANT_AGENT_STATE: "AssistantAgentState",
+} as const;
+
+export type BaseState = {
+  type?: StateType;
+  version?: string;
+};
+
+export type AssistantAgentState = BaseState & {
+  type?: "AssistantAgentState";
+  llm_context?: unknown;
 };
 
 export type MtComponent = ApiResourceMetaProperties & MtComponentProperties;

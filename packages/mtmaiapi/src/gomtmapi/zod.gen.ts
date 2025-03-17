@@ -2580,12 +2580,31 @@ export const zTeamConfigBase = z.object({
 
 export const zAgStateProperties = z.object({
   version: z.string().optional().default("1.0.0"),
-  type: z.string().optional().default("TeamState"),
+  type: z.enum(["BaseState", "AssistantAgentState"]),
   componentId: z.string().optional(),
   chatId: z.string().optional(),
-  state: z.object({}).default({}),
   topic: z.string().optional(),
   source: z.string().optional(),
+  state: z.object({}).default({}),
+  stateV2: z
+    .union([
+      z.object({
+        type: z.enum(["BaseState", "AssistantAgentState"]).optional(),
+        version: z.string().optional(),
+      }),
+      z
+        .object({
+          type: z.enum(["BaseState", "AssistantAgentState"]).optional(),
+          version: z.string().optional(),
+        })
+        .merge(
+          z.object({
+            type: z.enum(["AssistantAgentState"]).optional(),
+            llm_context: z.unknown().optional(),
+          }),
+        ),
+    ])
+    .optional(),
 });
 
 export const zAgState = zApiResourceMetaProperties.merge(zAgStateProperties);
@@ -2601,6 +2620,20 @@ export const zAgStateUpsert = zAgStateProperties.merge(
     componentId: z.string(),
     chatId: z.string(),
     tenantId: z.string().optional(),
+  }),
+);
+
+export const zStateType = z.enum(["BaseState", "AssistantAgentState"]);
+
+export const zBaseState = z.object({
+  type: zStateType.optional(),
+  version: z.string().optional(),
+});
+
+export const zAssistantAgentState = zBaseState.merge(
+  z.object({
+    type: z.enum(["AssistantAgentState"]).optional(),
+    llm_context: z.unknown().optional(),
   }),
 );
 

@@ -576,11 +576,7 @@ export interface WorkflowConcurrency {
    */
   maxRuns: number;
   /** The strategy to use when the concurrency limit is reached. */
-  limitStrategy:
-    | "CANCEL_IN_PROGRESS"
-    | "DROP_NEWEST"
-    | "QUEUE_NEWEST"
-    | "GROUP_ROUND_ROBIN";
+  limitStrategy: "CANCEL_IN_PROGRESS" | "DROP_NEWEST" | "QUEUE_NEWEST" | "GROUP_ROUND_ROBIN";
   /** An action which gets the concurrency group for the WorkflowRun. */
   getConcurrencyGroup: string;
 }
@@ -1723,18 +1719,18 @@ export interface TeamConfigBase {
 export interface AgStateProperties {
   /** @default "1.0.0" */
   version?: string;
-  /** @default "TeamState" */
-  type?: string;
+  type: StateType;
   /** 组件id */
   componentId?: string;
   /** 聊天id */
   chatId?: string;
-  /** @default {} */
-  state: Record<string, any>;
   /** 主题 */
   topic?: string;
   /** 来源 */
   source?: string;
+  /** @default {} */
+  state: Record<string, any>;
+  stateV2?: BaseState | AssistantAgentState;
 }
 
 export type AgState = APIResourceMetaProperties & AgStateProperties;
@@ -1753,6 +1749,21 @@ export type AgStateUpsert = AgStateProperties & {
   chatId: string;
   /** 租户id */
   tenantId?: string;
+};
+
+export enum StateType {
+  BaseState = "BaseState",
+  AssistantAgentState = "AssistantAgentState",
+}
+
+export interface BaseState {
+  type?: StateType;
+  version?: string;
+}
+
+export type AssistantAgentState = BaseState & {
+  type?: "AssistantAgentState";
+  llm_context?: any;
 };
 
 export type MtComponent = APIResourceMetaProperties & MtComponentProperties;
@@ -2483,8 +2494,7 @@ export interface PlatformAccountProperties {
   properties?: any;
 }
 
-export type PlatformAccount = APIResourceMetaProperties &
-  PlatformAccountProperties;
+export type PlatformAccount = APIResourceMetaProperties & PlatformAccountProperties;
 
 export interface PlatformAccountList {
   pagination?: PaginationResponse;
