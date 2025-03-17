@@ -84,6 +84,10 @@ const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
     return `/coms/${rowId}`;
   }, [rowId]);
 
+  const editLink = useMemo(() => {
+    return `/coms/${rowId}/team_builder`;
+  }, [rowId]);
+
   return (
     <>
       <Collapsible
@@ -110,9 +114,6 @@ const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
             </Button>
           </CollapsibleTrigger>
         </div>
-        {/* <div className="rounded-md border px-4 py-3 font-mono text-sm">
-          @radix-ui/primitives
-        </div> */}
         <CollapsibleContent className="space-y-1">
           <div
             // to={detailLink}
@@ -127,7 +128,7 @@ const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
           </div>
           <div className="flex gap-2 justify-end px-1.5">
             <CustomLink
-              to={detailLink}
+              to={editLink}
               className={cn(buttonVariants({ variant: "ghost", size: "icon" }))}
             >
               <Edit className="w-4 h-4" />
