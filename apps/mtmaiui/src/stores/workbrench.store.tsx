@@ -10,13 +10,13 @@ import { Dispatcher } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
 import { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
 import { generateUUID } from "mtxuilib/lib/utils";
 import type React from "react";
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useContext, useMemo, useTransition } from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { useTenant } from "../hooks/useAuth";
-import { useNav } from "../hooks/useNav";
+import { useNav, useSearch } from "../hooks/useNav";
 import { useMtmaiV2 } from "./StoreProvider";
 import { useGomtmClient } from "./TransportProvider";
 import { submitMessages } from "./submitMessages";
@@ -208,6 +208,8 @@ export const WorkbrenchProvider = (props: AppProviderProps) => {
   const agrpcClient = useGomtmClient(AgentRpc);
   const mtmAgClient = useGomtmClient(AgService);
   const selfBackendend = useMtmaiV2((x) => x.selfBackendUrl);
+  const [isPending, startTransition] = useTransition();
+  const search = useSearch();
   const tenant = useTenant();
   const mystore = useMemo(
     () =>
@@ -230,6 +232,19 @@ export const WorkbrenchProvider = (props: AppProviderProps) => {
       agrpcClient,
       mtmAgClient,
     ],
+  );
+  mystore.subscribe(
+    (state) => {
+      return state.threadId;
+    },
+    debounce((cur, prev) => {
+      startTransition(() => {
+        nav({
+          to: `/session/${cur}`,
+          search: search,
+        });
+      });
+    }, 100),
   );
   return (
     <mtmaiStoreContext.Provider value={mystore}>

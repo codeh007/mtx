@@ -1,6 +1,6 @@
 import { createLazyFileRoute, Outlet } from '@tanstack/react-router'
 
-export const Route = createLazyFileRoute('/session/$ssessionId')({
+export const Route = createLazyFileRoute('/session/$sessionId')({
   component: RouteComponent,
 })
 
