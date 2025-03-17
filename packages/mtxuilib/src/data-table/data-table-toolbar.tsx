@@ -60,7 +60,7 @@ export function DataTableToolbar<TData>({
             className="h-8 w-[150px] lg:w-[250px]"
           />
         )}
-        {filters.map((filter) => (
+        {filters?.map((filter) => (
           <DataTableFacetedFilter
             key={filter.columnId}
             column={table.getColumn(filter.columnId)}
@@ -72,7 +72,7 @@ export function DataTableToolbar<TData>({
         {isFiltered && (
           <Button
             variant="ghost"
-            onClick={() => table.resetColumnFilters()}
+            onClick={() => table?.resetColumnFilters()}
             className="h-8 px-2 lg:px-3"
           >
             Reset
