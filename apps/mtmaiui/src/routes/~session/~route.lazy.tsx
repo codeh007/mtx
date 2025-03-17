@@ -13,7 +13,7 @@ export const Route = createLazyFileRoute("/session")({
 function RouteComponent() {
   const { comId } = Route.useSearch();
   return (
-    <WorkbrenchProvider>
+    <WorkbrenchProvider componentId={comId}>
       <TeamSessionProvider componentId={comId}>
         <RootAppWrapper secondSidebar={<NavSession />}>
           <MtSuspenseBoundary>
