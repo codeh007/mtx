@@ -3131,7 +3131,7 @@ export const zSelectorGroupChatConfig = zTeamConfigBase.merge(
   }),
 );
 
-export const zMaxMessageTerminationConfigComponent = zComponentModel.merge(
+export const zMaxMessageTerminationComponent = zComponentModel.merge(
   z.object({
     componentType: z.enum(["termination"]),
     provider: z.enum(["autogen_agentchat.conditions.MaxMessageTermination"]),
@@ -3141,6 +3141,20 @@ export const zMaxMessageTerminationConfigComponent = zComponentModel.merge(
     }),
   }),
 );
+
+export const zStopMessageTerminationComponent = zComponentModel.merge(
+  z.object({
+    componentType: z.enum(["termination"]),
+    provider: z.enum(["autogen_agentchat.conditions.StopMessageTermination"]),
+    config: z.object({
+      text: z.string(),
+    }),
+  }),
+);
+
+export const zStopMessageTerminationConfig = z.object({
+  text: z.string(),
+});
 
 export const zMaxMessageTerminationConfig = z.object({
   termination_type: z.enum(["MaxMessageTermination"]),
@@ -3160,6 +3174,70 @@ export const zTextMentionTerminationComponent = zComponentModel.merge(
 export const zTextMentionTerminationConfig = z.object({
   text: z.string(),
 });
+
+export const zAssistantAgentComponent = zComponentModel
+  .merge(
+    z.object({
+      componentType: z.enum(["agent"]),
+      config: z.object({
+        name: z.string(),
+        description: z.string(),
+        model_context: z.object({}).optional(),
+        memory: zMemoryConfig.optional(),
+        model_client_stream: z.boolean().default(false),
+        system_message: z.string().optional(),
+        model_client: zModelComponent,
+        tools: z.array(zToolComponent).default([]),
+        handoffs: z.array(z.string()).default([]),
+        reflect_on_tool_use: z.boolean().default(false),
+        tool_call_summary_format: z.string().default("{result}"),
+      }),
+    }),
+  )
+  .merge(
+    z.object({
+      provider: z.enum(["mtmai.agents.assistant_agent.AssistantAgent"]),
+      config: z
+        .object({
+          name: z.string(),
+          description: z.string(),
+          model_context: z.object({}).optional(),
+          memory: zMemoryConfig.optional(),
+          model_client_stream: z.boolean().default(false),
+          system_message: z.string().optional(),
+          model_client: zModelComponent,
+          tools: z.array(zToolComponent).default([]),
+          handoffs: z.array(z.string()).default([]),
+          reflect_on_tool_use: z.boolean().default(false),
+          tool_call_summary_format: z.string().default("{result}"),
+        })
+        .merge(
+          z.object({
+            model_client: zModelComponent,
+          }),
+        ),
+    }),
+  );
+
+export const zAssistantAgentConfig = z
+  .object({
+    name: z.string(),
+    description: z.string(),
+    model_context: z.object({}).optional(),
+    memory: zMemoryConfig.optional(),
+    model_client_stream: z.boolean().default(false),
+    system_message: z.string().optional(),
+    model_client: zModelComponent,
+    tools: z.array(zToolComponent).default([]),
+    handoffs: z.array(z.string()).default([]),
+    reflect_on_tool_use: z.boolean().default(false),
+    tool_call_summary_format: z.string().default("{result}"),
+  })
+  .merge(
+    z.object({
+      model_client: zModelComponent,
+    }),
+  );
 
 export const zInstagramAgentComponent = zComponentModel
   .merge(
@@ -3677,7 +3755,7 @@ export const zInstagramTeamComponent = zComponentModel.merge(
     provider: z.enum(["mtmai.teams.instagram_team.InstagramTeam"]),
     config: zTeamConfigBase.merge(
       z.object({
-        participants: z.array(zInstagramAgentComponent),
+        participants: z.array(z.unknown()),
         termination_condition: zOrTerminationComponent,
       }),
     ),
@@ -3686,7 +3764,7 @@ export const zInstagramTeamComponent = zComponentModel.merge(
 
 export const zInstagramTeamConfig = zTeamConfigBase.merge(
   z.object({
-    participants: z.array(zInstagramAgentComponent),
+    participants: z.array(z.unknown()),
     termination_condition: zOrTerminationComponent,
   }),
 );

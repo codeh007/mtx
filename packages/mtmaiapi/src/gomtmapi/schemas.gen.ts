@@ -2943,6 +2943,9 @@ export const CommonResultSchema = {
           $ref: "#/components/schemas/InstagramAgentComponent",
         },
         {
+          $ref: "#/components/schemas/AssistantAgentComponent",
+        },
+        {
           $ref: "#/components/schemas/RoundRobinGroupChatComponent",
         },
         {
@@ -2953,6 +2956,12 @@ export const CommonResultSchema = {
         },
         {
           $ref: "#/components/schemas/TenantComponent",
+        },
+        {
+          $ref: "#/components/schemas/MaxMessageTerminationComponent",
+        },
+        {
+          $ref: "#/components/schemas/StopMessageTerminationComponent",
         },
       ],
     },
@@ -4772,7 +4781,7 @@ export const SelectorGroupChatConfigSchema = {
   ],
 } as const;
 
-export const MaxMessageTerminationConfigComponentSchema = {
+export const MaxMessageTerminationComponentSchema = {
   allOf: [
     {
       $ref: "#/components/schemas/ComponentModel",
@@ -4794,6 +4803,39 @@ export const MaxMessageTerminationConfigComponentSchema = {
       },
     },
   ],
+} as const;
+
+export const StopMessageTerminationComponentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
+    {
+      required: ["provider", "config", "componentType"],
+      properties: {
+        componentType: {
+          type: "string",
+          enum: ["termination"],
+        },
+        provider: {
+          type: "string",
+          enum: ["autogen_agentchat.conditions.StopMessageTermination"],
+        },
+        config: {
+          $ref: "#/components/schemas/StopMessageTerminationConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const StopMessageTerminationConfigSchema = {
+  required: ["text"],
+  properties: {
+    text: {
+      type: "string",
+    },
+  },
 } as const;
 
 export const MaxMessageTerminationConfigSchema = {
@@ -4844,6 +4886,42 @@ export const TextMentionTerminationConfigSchema = {
       type: "string",
     },
   },
+} as const;
+
+export const AssistantAgentComponentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AgentComponent",
+    },
+    {
+      required: ["config", "provider"],
+      properties: {
+        provider: {
+          type: "string",
+          enum: ["mtmai.agents.assistant_agent.AssistantAgent"],
+        },
+        config: {
+          $ref: "#/components/schemas/AssistantAgentConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const AssistantAgentConfigSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AgentConfig",
+    },
+    {
+      required: ["model_client"],
+      properties: {
+        model_client: {
+          $ref: "#/components/schemas/ModelComponent",
+        },
+      },
+    },
+  ],
 } as const;
 
 export const InstagramAgentComponentSchema = {
@@ -6155,7 +6233,14 @@ export const InstagramTeamConfigSchema = {
         participants: {
           type: "array",
           items: {
-            $ref: "#/components/schemas/InstagramAgentComponent",
+            oneOf: [
+              {
+                $ref: "#/components/schemas/InstagramAgentComponent",
+              },
+              {
+                $ref: "#/components/schemas/AssistantAgentComponent",
+              },
+            ],
           },
         },
         termination_condition: {

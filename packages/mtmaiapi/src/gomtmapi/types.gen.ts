@@ -2549,10 +2549,20 @@ export type SelectorGroupChatConfig = TeamConfigBase & {
   model_client?: ModelComponent;
 };
 
-export type MaxMessageTerminationConfigComponent = ComponentModel & {
+export type MaxMessageTerminationComponent = ComponentModel & {
   componentType: "termination";
   provider: "autogen_agentchat.conditions.MaxMessageTermination";
   config: MaxMessageTerminationConfig;
+};
+
+export type StopMessageTerminationComponent = ComponentModel & {
+  componentType: "termination";
+  provider: "autogen_agentchat.conditions.StopMessageTermination";
+  config: StopMessageTerminationConfig;
+};
+
+export type StopMessageTerminationConfig = {
+  text: string;
 };
 
 export type MaxMessageTerminationConfig = {
@@ -2568,6 +2578,15 @@ export type TextMentionTerminationComponent = ComponentModel & {
 
 export type TextMentionTerminationConfig = {
   text: string;
+};
+
+export type AssistantAgentComponent = AgentComponent & {
+  provider: "mtmai.agents.assistant_agent.AssistantAgent";
+  config: AssistantAgentConfig;
+};
+
+export type AssistantAgentConfig = AgentConfig & {
+  model_client: ModelComponent;
 };
 
 export type InstagramAgentComponent = AgentComponent & {
@@ -3183,7 +3202,7 @@ export type InstagramTeamComponent = ComponentModel & {
 };
 
 export type InstagramTeamConfig = TeamConfigBase & {
-  participants: Array<InstagramAgentComponent>;
+  participants: Array<InstagramAgentComponent | AssistantAgentComponent>;
   termination_condition: OrTerminationComponent;
 };
 
