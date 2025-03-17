@@ -85,11 +85,10 @@ export const TeamBuilderToolbar: React.FC<TeamBuilderToolbarProps> = ({
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  // icon={}
-                  // className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={onUndo}
                   disabled={!canUndo}
                   size="sm"
+                  variant="outline"
                 >
                   <Undo2 className="size-4" />
                 </Button>
@@ -102,10 +101,10 @@ export const TeamBuilderToolbar: React.FC<TeamBuilderToolbarProps> = ({
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  // className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={onRedo}
                   disabled={!canRedo}
                   size="sm"
+                  variant="outline"
                 >
                   <Redo2 className="size-4" />
                 </Button>
@@ -117,9 +116,9 @@ export const TeamBuilderToolbar: React.FC<TeamBuilderToolbarProps> = ({
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  // className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
                   onClick={onToggleFullscreen}
                   size="sm"
+                  variant="outline"
                 >
                   {isFullscreen ? (
                     <Minimize2 className="size-4" />
@@ -140,9 +139,9 @@ export const TeamBuilderToolbar: React.FC<TeamBuilderToolbarProps> = ({
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              // className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={onSave}
               size="sm"
+              variant="outline"
               // disabled={!isDirty}
             >
               <div className="relative">
@@ -160,12 +159,7 @@ export const TeamBuilderToolbar: React.FC<TeamBuilderToolbarProps> = ({
 
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              // icon={isJsonMode ? <Cable size={18} /> : <Code2 size={18} />}
-              // className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
-              onClick={onToggleView}
-              size="sm"
-            >
+            <Button onClick={onToggleView} size="sm" variant="outline">
               {isJsonMode ? (
                 <Cable className="size-4" />
               ) : (

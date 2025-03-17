@@ -10,7 +10,7 @@ import { useTenantId } from "../hooks/useAuth";
 import { useNav, useSearch } from "../hooks/useNav";
 
 export interface ComponentsProps {
-  componentId: string;
+  componentId?: string;
 }
 
 export interface ComponentsState extends ComponentsProps {
@@ -38,7 +38,6 @@ export const createWorkbrenchSlice: StateCreator<
   };
 };
 
-// type mtappStore = ReturnType<typeof createTeamSessionStore>;
 const createTeamSessionStore = (initProps?: Partial<ComponentsState>) => {
   return createStore<ComponentsState>()(
     subscribeWithSelector(

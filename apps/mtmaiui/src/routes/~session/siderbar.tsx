@@ -23,24 +23,24 @@ import {
 } from "mtxuilib/ui/collapsible";
 import { Switch } from "mtxuilib/ui/switch";
 import { type ChangeEvent, useMemo, useState } from "react";
-import { useComponentsStore } from "../../../stores/componentsProvider";
-import { PresetItem } from "../../components/views/team/builder/library";
+// import { useComponentsStore } from "../../stores/componentsProvider";
+import { PresetItem } from "../components/views/team/builder/library";
 
-export function NavComsWithLibrary() {
-  const components = useComponentsStore((x) => x.components);
+export function NavSession() {
+  // const components = useComponentsStore((x) => x.components);
 
   const linkToNew = useMemo(() => {
     const newUUID = generateUUID();
     return `${newUUID}/new`;
   }, []);
 
-  const setQueryParams = useComponentsStore((x) => x.setQueryParams);
+  // const setQueryParams = useComponentsStore((x) => x.setQueryParams);
 
   return (
     <Sidebar collapsible="none" className="hidden flex-1 md:flex">
       <SidebarHeader className="gap-3.5 border-b p-4">
         <div className="flex w-full items-center justify-between">
-          <div className="text-base font-medium text-foreground">组件</div>
+          <div className="text-base font-medium text-foreground">对话</div>
           <Label className="flex items-center gap-2 text-sm">
             <CustomLink
               to={linkToNew}
@@ -55,22 +55,22 @@ export function NavComsWithLibrary() {
           placeholder="Type to search..."
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
             // console.log("sidebar input", e.target.value);
-            setQueryParams({
-              label: e.target.value,
-            });
+            // setQueryParams({
+            //   label: e.target.value,
+            // });
           }}
         />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup className="px-0">
           <SidebarGroupContent>
-            {components?.map((item) => (
+            {/* {components?.map((item) => (
               <NavTeamItem
                 key={item.metadata?.id}
                 item={item}
                 rowId={item.metadata?.id || ""}
               />
-            ))}
+            ))} */}
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

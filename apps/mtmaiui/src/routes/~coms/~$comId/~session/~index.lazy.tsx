@@ -1,18 +1,18 @@
-import { createLazyFileRoute } from "@tanstack/react-router";
-import { useToast } from "mtxuilib/ui/use-toast";
-import { useNav, useParams } from "../../../../hooks/useNav";
-import { useWorkbenchStore } from "../../../../stores/workbrench.store";
+import { createLazyFileRoute } from '@tanstack/react-router'
+import { useToast } from 'mtxuilib/ui/use-toast'
+import { useNav, useParams } from '../../../../hooks/useNav'
+import { useWorkbenchStore } from '../../../../stores/workbrench.store'
 
-export const Route = createLazyFileRoute("/coms/$comId/new_session/")({
+export const Route = createLazyFileRoute('/coms/$comId/session/')({
   component: RouteComponent,
-});
+})
 
 function RouteComponent() {
-  const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
-  const toast = useToast();
-  const nav = useNav();
-  const workflowRunId = useWorkbenchStore((x) => x.workflowRunId);
-  const { comId } = useParams();
+  const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput)
+  const toast = useToast()
+  const nav = useNav()
+  const workflowRunId = useWorkbenchStore((x) => x.workflowRunId)
+  const { comId } = useParams()
 
   // useEffect(() => {
   //   if (workflowRunId) {
@@ -34,5 +34,5 @@ function RouteComponent() {
   //   }
   // }, [workflowRunId, toast]);
 
-  return <div>session 首页</div>;
+  return <div>session 首页</div>
 }

@@ -18,7 +18,6 @@ import {
   DashHeaders,
   HeaderActionConainer,
 } from "../../../../components/DashHeaders";
-import { GoBack } from "../../../../components/GoBack";
 import { useNav } from "../../../../hooks/useNav";
 import { useTeamBuilderStore } from "../../../../stores/teamBuildStore";
 import { ValidationErrors } from "../../../components/views/team/builder/validationerrors";
@@ -30,8 +29,8 @@ export const Route = createLazyFileRoute("/coms/$comId/team_builder")({
 function RouteComponent() {
   const isJsonMode = useTeamBuilderStore((x) => x.isJsonMode);
   const setIsJsonMode = useTeamBuilderStore((x) => x.setIsJsonMode);
-  const isFullscreen = useTeamBuilderStore((x) => x.isFullscreen);
-  const setIsFullscreen = useTeamBuilderStore((x) => x.setIsFullscreen);
+  // const isFullscreen = useTeamBuilderStore((x) => x.isFullscreen);
+  // const setIsFullscreen = useTeamBuilderStore((x) => x.setIsFullscreen);
   const isDirty = useTeamBuilderStore((x) => x.isDirty);
   const setIsDirty = useTeamBuilderStore((x) => x.setIsDirty);
   const validationResults = useTeamBuilderStore((x) => x.validationResults);
@@ -39,7 +38,7 @@ function RouteComponent() {
   const syncToJson = useTeamBuilderStore((x) => x.syncToJson);
   const resetHistory = useTeamBuilderStore((x) => x.resetHistory);
   const nav = useNav();
-
+  const { comId } = Route.useParams();
   // Handle save
   const handleSave = useCallback(async () => {
     const component = syncToJson();
@@ -86,9 +85,8 @@ function RouteComponent() {
       <DashHeaders>
         <Breadcrumb>
           <BreadcrumbList>
-            <GoBack to={".."} />
             <BreadcrumbItem>
-              <BreadcrumbPage>组件</BreadcrumbPage>
+              <BreadcrumbPage>编辑团队</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -114,6 +112,7 @@ function RouteComponent() {
               <TooltipTrigger asChild>
                 <Button
                   size="icon"
+                  variant="outline"
                   onClick={() => {
                     const json = JSON.stringify(syncToJson(), null, 2);
                     const blob = new Blob([json], {
@@ -134,14 +133,12 @@ function RouteComponent() {
                 <span>Download Team</span>
               </TooltipContent>
             </Tooltip>
-
-            {/* <DebugValue data={{ nodes, team }} /> */}
-
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
                   // className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={handleSave}
+                  variant="outline"
                   // disabled={!isDirty}
                 >
                   <div className="relative">
@@ -163,6 +160,7 @@ function RouteComponent() {
                   // loading={validationLoading}
                   // className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={handleValidate}
+                  variant="outline"
                 >
                   <div className="relative">
                     <ListCheck size={18} />
@@ -205,8 +203,7 @@ function RouteComponent() {
                   className="w-16"
                   // className="p-1.5 ml-2 px-2.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary"
                   onClick={() => {
-                    // setTestDrawerVisible(true);
-                    nav({ to: "../new_session" });
+                    nav({ to: "/session", search: { comId } });
                   }}
                 >
                   <PlayCircle className="size-4" /> Run
