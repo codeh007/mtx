@@ -46,8 +46,9 @@ import {
   useSidebar,
 } from "mtxuilib/ui/sidebar";
 import Link from "next/link";
-import React from "react";
+import React, { useTransition } from "react";
 
+import { useNav } from "../../hooks/useNav";
 import { example_data } from "./example_data";
 import { NavUser } from "./siderbarnav-user";
 
@@ -57,10 +58,12 @@ interface DashSidebarProps extends React.ComponentProps<typeof Sidebar> {
 }
 export const DashSidebar = (props: DashSidebarProps) => {
   const { collapsed, secondSidebar, ...rest } = props;
+  const [isPending, startTransition] = useTransition();
   const { setOpenMobile } = useSidebar();
   const [mails, setMails] = React.useState(example_data.mails);
   const [activeItem, setActiveItem] = React.useState(example_data.navMain[0]);
   const { setOpen } = useSidebar();
+  const nav = useNav();
   return (
     <Sidebar
       collapsible="icon"
@@ -114,6 +117,9 @@ export const DashSidebar = (props: DashSidebarProps) => {
                           ),
                         );
                         setOpen(true);
+                        startTransition(() => {
+                          nav({ to: item.url });
+                        });
                       }}
                       isActive={activeItem.title === item.title}
                       className="px-2.5 md:px-2"

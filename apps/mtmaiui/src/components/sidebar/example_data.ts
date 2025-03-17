@@ -8,26 +8,26 @@ export const example_data = {
   },
   navMain: [
     {
-      title: "Inbox",
-      url: "#",
+      title: "Runs",
+      url: "/workflow-runs",
       icon: Inbox,
       isActive: true,
     },
     {
-      title: "Drafts",
+      title: "Sessions",
       url: "#",
       icon: File,
       isActive: false,
     },
     {
-      title: "Sent",
-      url: "#",
+      title: "Components",
+      url: "/coms",
       icon: Send,
       isActive: false,
     },
     {
-      title: "Junk",
-      url: "#",
+      title: "workflows",
+      url: "/workflows",
       icon: ArchiveX,
       isActive: false,
     },

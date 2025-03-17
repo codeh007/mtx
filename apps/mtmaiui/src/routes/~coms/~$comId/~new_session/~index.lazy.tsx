@@ -1,5 +1,4 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useNav, useParams } from "../../../../hooks/useNav";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
@@ -14,12 +13,6 @@ function RouteComponent() {
   const nav = useNav();
   const workflowRunId = useWorkbenchStore((x) => x.workflowRunId);
   const { comId } = useParams();
-  const handleRun = () => {
-    handleHumanInput({
-      content: "你好",
-      componentId: comId,
-    });
-  };
 
   // useEffect(() => {
   //   if (workflowRunId) {
@@ -41,9 +34,5 @@ function RouteComponent() {
   //   }
   // }, [workflowRunId, toast]);
 
-  return (
-    <div>
-      <Button onClick={handleRun}>运行</Button>
-    </div>
-  );
+  return <div>session 首页</div>;
 }

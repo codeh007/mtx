@@ -1,6 +1,6 @@
 "use client";
 
-import { CustomLink } from "mtxuilib/mt/CustomLink.jsx";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,19 +8,22 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "mtxuilib/ui/breadcrumb.jsx";
+} from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
 import {
   DashHeaders,
   HeaderActionConainer,
 } from "../../../../components/DashHeaders";
 import { useTeamSessionStore } from "../../../../stores/teamSessionProvider";
+import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 
 interface TeamSessionHeaderProps {
   componentId: string;
 }
 export const TeamSessionHeader = ({ componentId }: TeamSessionHeaderProps) => {
   const runComponent = useTeamSessionStore((x) => x.runComponent);
+  const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
+
   return (
     <DashHeaders>
       <Breadcrumb>
@@ -31,7 +34,6 @@ export const TeamSessionHeader = ({ componentId }: TeamSessionHeaderProps) => {
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
-
           <BreadcrumbItem>
             <BreadcrumbPage>新任务</BreadcrumbPage>
           </BreadcrumbItem>
@@ -39,7 +41,16 @@ export const TeamSessionHeader = ({ componentId }: TeamSessionHeaderProps) => {
       </Breadcrumb>
 
       <HeaderActionConainer>
-        <Button onClick={() => runComponent()}>立即运行</Button>
+        <Button
+          onClick={() => {
+            handleHumanInput({
+              content: "你好",
+              componentId: componentId,
+            });
+          }}
+        >
+          立即运行
+        </Button>
       </HeaderActionConainer>
     </DashHeaders>
   );
