@@ -114,13 +114,13 @@ const onStreamEvent = (
     console.error("⚠️ ⚠️ ⚠️ payload error", event);
     return;
   }
-  console.log("payload", payload);
+  // console.log("payload", payload);
   if (payload.type === "ChatSessionStartEvent") {
     get().setThreadId(payload.threadId);
   } else if (payload.type === "ThoughtEvent") {
     const newChatMessage = {
       role: "assistant",
-      content: `ThoughtEvent:${payload.content}`,
+      content: `**思考:**${payload.content}`,
       topic: "default",
       source: "assistant",
       type: "text",
@@ -145,8 +145,8 @@ const onStreamEvent = (
       },
     };
     get().addMessage(newChatMessage);
-  } else {
-    console.log("AgTextMessage", payload);
+  } else if (payload.type === "TextMessage") {
+    // console.log("event", payload);
     const agTextMessage = payload as AgTextMessage;
     if (agTextMessage.source === "user") {
       return;
@@ -164,5 +164,7 @@ const onStreamEvent = (
       },
     };
     get().addMessage(newChatMessage);
+  } else {
+    console.warn("unknown event", payload);
   }
 };
