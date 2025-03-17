@@ -37,7 +37,7 @@ import {
 } from "mtxuilib/ui/sidebar";
 
 import { useTenant, useTenantId } from "../../hooks/useAuth";
-// import { WorkflowRunsTable } from "./components/workflow-runs-table.tsx--";
+import { WorkflowRunList } from "./components/WorkflowRunList";
 
 export function NavWorkflowRuns() {
   const { isMobile } = useSidebar();
@@ -137,6 +137,7 @@ export function NavWorkflowRuns() {
               viewType="sidebar"
               showMetrics={true}
             /> */}
+            <WorkflowRunList />
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
