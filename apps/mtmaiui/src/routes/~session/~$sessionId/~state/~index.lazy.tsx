@@ -33,7 +33,8 @@ const TeamStateView = ({ teamState }: { teamState: TeamState }) => {
   return (
     <div className="flex flex-col gap-2">
       {Object.entries(
-        teamState.agent_states as Record<string, ChatAgentContainerState>,
+        teamState.agent_states ||
+          (teamState.agentStates as Record<string, ChatAgentContainerState>),
       ).map(([key, value]) => {
         return <ChatAgentContainerStateView key={key} agentState={value} />;
       })}
@@ -44,6 +45,7 @@ const TeamStateView = ({ teamState }: { teamState: TeamState }) => {
 const ChatAgentContainerStateView = ({
   agentState,
 }: { agentState: ChatAgentContainerState }) => {
+  if (!agentState) return null;
   return (
     <div className="flex flex-col gap-2 bg-gray-100 p-2 rounded-md">
       <div className="text-sm font-bold">ChatAgentContainerStateView</div>
