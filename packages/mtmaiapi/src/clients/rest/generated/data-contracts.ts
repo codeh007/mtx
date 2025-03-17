@@ -1724,17 +1724,11 @@ export interface AgStateProperties {
   /** @default "1.0.0" */
   version?: string;
   type: StateType;
-  /** 组件id */
   componentId?: string;
-  /** 聊天id */
   chatId?: string;
-  /** 主题 */
   topic?: string;
-  /** 来源 */
   source?: string;
-  /** @default {} */
-  state: Record<string, any>;
-  stateV2?:
+  state:
     | AssistantAgentState
     | TeamState
     | RoundRobinManagerState

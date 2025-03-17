@@ -2039,26 +2039,11 @@ export type TeamConfigBase = {
 export type AgStateProperties = {
   version?: string;
   type: StateType;
-  /**
-   * 组件id
-   */
   componentId?: string;
-  /**
-   * 聊天id
-   */
   chatId?: string;
-  /**
-   * 主题
-   */
   topic?: string;
-  /**
-   * 来源
-   */
   source?: string;
-  state: {
-    [key: string]: unknown;
-  };
-  stateV2?:
+  state:
     | AssistantAgentState
     | TeamState
     | RoundRobinManagerState

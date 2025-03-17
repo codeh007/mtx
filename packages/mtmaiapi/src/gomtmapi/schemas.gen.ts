@@ -3643,7 +3643,7 @@ export const TeamConfigBaseSchema = {
 } as const;
 
 export const AgStatePropertiesSchema = {
-  required: ["state", "type"],
+  required: ["type", "state"],
   properties: {
     version: {
       type: "string",
@@ -3654,27 +3654,17 @@ export const AgStatePropertiesSchema = {
     },
     componentId: {
       type: "string",
-      description: "组件id",
     },
     chatId: {
       type: "string",
-      description: "聊天id",
     },
     topic: {
       type: "string",
-      description: "主题",
     },
     source: {
       type: "string",
-      description: "来源",
     },
     state: {
-      type: "object",
-      additionalProperties: true,
-      default: {},
-    },
-    stateV2: {
-      type: "object",
       oneOf: [
         {
           $ref: "#/components/schemas/AssistantAgentState",

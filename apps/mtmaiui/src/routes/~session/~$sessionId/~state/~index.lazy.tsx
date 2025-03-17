@@ -16,15 +16,15 @@ export const Route = createLazyFileRoute("/session/$sessionId/state/")({
 function RouteComponent() {
   const agState = useWorkbenchStore((x) => x.teamState);
   const hello1 = () => {
-    if (agState?.stateV2?.type === StateType.TEAM_STATE) {
-      const teamState = agState.stateV2 as TeamState;
+    if (agState?.state?.type === StateType.TEAM_STATE) {
+      const teamState = agState.state as TeamState;
     }
   };
   return (
     <div>
       <DebugValue data={{ agState }} />
-      {agState?.stateV2?.type === StateType.TEAM_STATE && (
-        <TeamStateView teamState={agState.stateV2 as TeamState} />
+      {agState?.state?.type === StateType.TEAM_STATE && (
+        <TeamStateView teamState={agState.state as TeamState} />
       )}
     </div>
   );
@@ -68,27 +68,6 @@ const ChatAgentContainerStateView = ({
       <div className="text-sm font-bold">ChatAgentContainerStateView</div>
       <DebugValue data={agentState} />
       <AgentStateView agentState={agentState} />
-      {/* {Object.entries(
-        (agentState?.agent_state || agentState?.agentState) as Record<
-          string,
-          ChatAgentContainerState
-        >,
-      )?.map(([key, value]) => {
-        // if (value.type === StateType.ASSISTANT_AGENT_STATE) {
-        //   return (
-        //     <AssistantAgentStateView
-        //       key={key}
-        //       assistantAgentState={value as AssistantAgentState}
-        //     />
-        //   );
-        // }
-        // return (
-        //   <div key={key} className="bg-red-100 ">
-        //     <DebugValue data={value} />
-        //   </div>
-        // );
-        
-      })} */}
     </div>
   );
 };
@@ -104,16 +83,7 @@ const RoundRobinManagerStateView = ({
   );
 };
 
-// const ChatAgentContainerStateView = ({
-//   chatAgentContainerState,
-// }: { chatAgentContainerState: ChatAgentContainerState }) => {
-//   return (
-//     <div className="flex flex-col gap-2 bg-yellow-200 p-2 rounded-md">
-//       <div className="text-sm font-bold">ChatAgentContainerStateView</div>
-//       <DebugValue data={{ chatAgentContainerState }} />
-//     </div>
-//   );
-// };
+
 
 const AgentStateView = ({ agentState }: { agentState: any }) => {
   return (

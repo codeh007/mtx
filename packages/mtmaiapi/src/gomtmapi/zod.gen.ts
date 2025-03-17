@@ -2595,230 +2595,227 @@ export const zAgStateProperties = z.object({
   chatId: z.string().optional(),
   topic: z.string().optional(),
   source: z.string().optional(),
-  state: z.object({}).default({}),
-  stateV2: z
-    .union([
-      z
-        .object({
-          type: z
-            .enum([
-              "AssistantAgentState",
-              "TeamState",
-              "RoundRobinManagerState",
-              "SelectorManagerState",
-              "SwarmManagerState",
-              "MagenticOneOrchestratorState",
-              "SocietyOfMindAgentState",
-              "ChatAgentContainerState",
-              "BaseGroupChatManagerState",
-            ])
+  state: z.union([
+    z
+      .object({
+        type: z
+          .enum([
+            "AssistantAgentState",
+            "TeamState",
+            "RoundRobinManagerState",
+            "SelectorManagerState",
+            "SwarmManagerState",
+            "MagenticOneOrchestratorState",
+            "SocietyOfMindAgentState",
+            "ChatAgentContainerState",
+            "BaseGroupChatManagerState",
+          ])
+          .optional(),
+        version: z.string().optional(),
+      })
+      .merge(
+        z.object({
+          type: z.enum(["AssistantAgentState"]).optional(),
+          llm_context: z.unknown().optional(),
+        }),
+      ),
+    z
+      .object({
+        type: z
+          .enum([
+            "AssistantAgentState",
+            "TeamState",
+            "RoundRobinManagerState",
+            "SelectorManagerState",
+            "SwarmManagerState",
+            "MagenticOneOrchestratorState",
+            "SocietyOfMindAgentState",
+            "ChatAgentContainerState",
+            "BaseGroupChatManagerState",
+          ])
+          .optional(),
+        version: z.string().optional(),
+      })
+      .merge(
+        z.object({
+          type: z.enum(["TeamState"]).optional(),
+          agent_states: z.unknown().optional(),
+        }),
+      ),
+    z
+      .object({
+        type: z
+          .enum([
+            "AssistantAgentState",
+            "TeamState",
+            "RoundRobinManagerState",
+            "SelectorManagerState",
+            "SwarmManagerState",
+            "MagenticOneOrchestratorState",
+            "SocietyOfMindAgentState",
+            "ChatAgentContainerState",
+            "BaseGroupChatManagerState",
+          ])
+          .optional(),
+        version: z.string().optional(),
+      })
+      .merge(
+        z.object({
+          type: z.enum(["RoundRobinManagerState"]).optional(),
+          next_speaker_index: z.number().int().optional(),
+        }),
+      ),
+    z
+      .object({
+        type: z
+          .enum([
+            "AssistantAgentState",
+            "TeamState",
+            "RoundRobinManagerState",
+            "SelectorManagerState",
+            "SwarmManagerState",
+            "MagenticOneOrchestratorState",
+            "SocietyOfMindAgentState",
+            "ChatAgentContainerState",
+            "BaseGroupChatManagerState",
+          ])
+          .optional(),
+        version: z.string().optional(),
+      })
+      .merge(
+        z.object({
+          type: z.enum(["SelectorManagerState"]).optional(),
+          previous_speaker: z.string().optional(),
+        }),
+      ),
+    z
+      .object({
+        type: z
+          .enum([
+            "AssistantAgentState",
+            "TeamState",
+            "RoundRobinManagerState",
+            "SelectorManagerState",
+            "SwarmManagerState",
+            "MagenticOneOrchestratorState",
+            "SocietyOfMindAgentState",
+            "ChatAgentContainerState",
+            "BaseGroupChatManagerState",
+          ])
+          .optional(),
+        version: z.string().optional(),
+      })
+      .merge(
+        z.object({
+          type: z.enum(["SwarmManagerState"]).optional(),
+          current_speaker: z.string().optional(),
+        }),
+      ),
+    z
+      .object({
+        type: z
+          .enum([
+            "AssistantAgentState",
+            "TeamState",
+            "RoundRobinManagerState",
+            "SelectorManagerState",
+            "SwarmManagerState",
+            "MagenticOneOrchestratorState",
+            "SocietyOfMindAgentState",
+            "ChatAgentContainerState",
+            "BaseGroupChatManagerState",
+          ])
+          .optional(),
+        version: z.string().optional(),
+      })
+      .merge(
+        z.object({
+          type: z.enum(["MagenticOneOrchestratorState"]).optional(),
+          task: z.string().optional(),
+          facts: z.string().optional(),
+          plan: z.string().optional(),
+          n_rounds: z.number().int().optional(),
+          n_stalls: z.number().int().optional(),
+        }),
+      ),
+    z
+      .object({
+        type: z
+          .enum([
+            "AssistantAgentState",
+            "TeamState",
+            "RoundRobinManagerState",
+            "SelectorManagerState",
+            "SwarmManagerState",
+            "MagenticOneOrchestratorState",
+            "SocietyOfMindAgentState",
+            "ChatAgentContainerState",
+            "BaseGroupChatManagerState",
+          ])
+          .optional(),
+        version: z.string().optional(),
+      })
+      .merge(
+        z.object({
+          type: z.enum(["SocietyOfMindAgentState"]).optional(),
+          inner_team_state: z.unknown().optional(),
+        }),
+      ),
+    z
+      .object({
+        type: z
+          .enum([
+            "AssistantAgentState",
+            "TeamState",
+            "RoundRobinManagerState",
+            "SelectorManagerState",
+            "SwarmManagerState",
+            "MagenticOneOrchestratorState",
+            "SocietyOfMindAgentState",
+            "ChatAgentContainerState",
+            "BaseGroupChatManagerState",
+          ])
+          .optional(),
+        version: z.string().optional(),
+      })
+      .merge(
+        z.object({
+          type: z.enum(["ChatAgentContainerState"]).optional(),
+          agent_state: z.unknown().optional(),
+          message_buffer: z.array(zChatMessage).optional(),
+        }),
+      ),
+    z
+      .object({
+        type: z
+          .enum([
+            "AssistantAgentState",
+            "TeamState",
+            "RoundRobinManagerState",
+            "SelectorManagerState",
+            "SwarmManagerState",
+            "MagenticOneOrchestratorState",
+            "SocietyOfMindAgentState",
+            "ChatAgentContainerState",
+            "BaseGroupChatManagerState",
+          ])
+          .optional(),
+        version: z.string().optional(),
+      })
+      .merge(
+        z.object({
+          type: z.enum(["BaseGroupChatManagerState"]).optional(),
+          message_thread: z
+            .array(
+              z.object({
+                type: z.enum(["AgentMessage"]).optional(),
+              }),
+            )
             .optional(),
-          version: z.string().optional(),
-        })
-        .merge(
-          z.object({
-            type: z.enum(["AssistantAgentState"]).optional(),
-            llm_context: z.unknown().optional(),
-          }),
-        ),
-      z
-        .object({
-          type: z
-            .enum([
-              "AssistantAgentState",
-              "TeamState",
-              "RoundRobinManagerState",
-              "SelectorManagerState",
-              "SwarmManagerState",
-              "MagenticOneOrchestratorState",
-              "SocietyOfMindAgentState",
-              "ChatAgentContainerState",
-              "BaseGroupChatManagerState",
-            ])
-            .optional(),
-          version: z.string().optional(),
-        })
-        .merge(
-          z.object({
-            type: z.enum(["TeamState"]).optional(),
-            agent_states: z.unknown().optional(),
-          }),
-        ),
-      z
-        .object({
-          type: z
-            .enum([
-              "AssistantAgentState",
-              "TeamState",
-              "RoundRobinManagerState",
-              "SelectorManagerState",
-              "SwarmManagerState",
-              "MagenticOneOrchestratorState",
-              "SocietyOfMindAgentState",
-              "ChatAgentContainerState",
-              "BaseGroupChatManagerState",
-            ])
-            .optional(),
-          version: z.string().optional(),
-        })
-        .merge(
-          z.object({
-            type: z.enum(["RoundRobinManagerState"]).optional(),
-            next_speaker_index: z.number().int().optional(),
-          }),
-        ),
-      z
-        .object({
-          type: z
-            .enum([
-              "AssistantAgentState",
-              "TeamState",
-              "RoundRobinManagerState",
-              "SelectorManagerState",
-              "SwarmManagerState",
-              "MagenticOneOrchestratorState",
-              "SocietyOfMindAgentState",
-              "ChatAgentContainerState",
-              "BaseGroupChatManagerState",
-            ])
-            .optional(),
-          version: z.string().optional(),
-        })
-        .merge(
-          z.object({
-            type: z.enum(["SelectorManagerState"]).optional(),
-            previous_speaker: z.string().optional(),
-          }),
-        ),
-      z
-        .object({
-          type: z
-            .enum([
-              "AssistantAgentState",
-              "TeamState",
-              "RoundRobinManagerState",
-              "SelectorManagerState",
-              "SwarmManagerState",
-              "MagenticOneOrchestratorState",
-              "SocietyOfMindAgentState",
-              "ChatAgentContainerState",
-              "BaseGroupChatManagerState",
-            ])
-            .optional(),
-          version: z.string().optional(),
-        })
-        .merge(
-          z.object({
-            type: z.enum(["SwarmManagerState"]).optional(),
-            current_speaker: z.string().optional(),
-          }),
-        ),
-      z
-        .object({
-          type: z
-            .enum([
-              "AssistantAgentState",
-              "TeamState",
-              "RoundRobinManagerState",
-              "SelectorManagerState",
-              "SwarmManagerState",
-              "MagenticOneOrchestratorState",
-              "SocietyOfMindAgentState",
-              "ChatAgentContainerState",
-              "BaseGroupChatManagerState",
-            ])
-            .optional(),
-          version: z.string().optional(),
-        })
-        .merge(
-          z.object({
-            type: z.enum(["MagenticOneOrchestratorState"]).optional(),
-            task: z.string().optional(),
-            facts: z.string().optional(),
-            plan: z.string().optional(),
-            n_rounds: z.number().int().optional(),
-            n_stalls: z.number().int().optional(),
-          }),
-        ),
-      z
-        .object({
-          type: z
-            .enum([
-              "AssistantAgentState",
-              "TeamState",
-              "RoundRobinManagerState",
-              "SelectorManagerState",
-              "SwarmManagerState",
-              "MagenticOneOrchestratorState",
-              "SocietyOfMindAgentState",
-              "ChatAgentContainerState",
-              "BaseGroupChatManagerState",
-            ])
-            .optional(),
-          version: z.string().optional(),
-        })
-        .merge(
-          z.object({
-            type: z.enum(["SocietyOfMindAgentState"]).optional(),
-            inner_team_state: z.unknown().optional(),
-          }),
-        ),
-      z
-        .object({
-          type: z
-            .enum([
-              "AssistantAgentState",
-              "TeamState",
-              "RoundRobinManagerState",
-              "SelectorManagerState",
-              "SwarmManagerState",
-              "MagenticOneOrchestratorState",
-              "SocietyOfMindAgentState",
-              "ChatAgentContainerState",
-              "BaseGroupChatManagerState",
-            ])
-            .optional(),
-          version: z.string().optional(),
-        })
-        .merge(
-          z.object({
-            type: z.enum(["ChatAgentContainerState"]).optional(),
-            agent_state: z.unknown().optional(),
-            message_buffer: z.array(zChatMessage).optional(),
-          }),
-        ),
-      z
-        .object({
-          type: z
-            .enum([
-              "AssistantAgentState",
-              "TeamState",
-              "RoundRobinManagerState",
-              "SelectorManagerState",
-              "SwarmManagerState",
-              "MagenticOneOrchestratorState",
-              "SocietyOfMindAgentState",
-              "ChatAgentContainerState",
-              "BaseGroupChatManagerState",
-            ])
-            .optional(),
-          version: z.string().optional(),
-        })
-        .merge(
-          z.object({
-            type: z.enum(["BaseGroupChatManagerState"]).optional(),
-            message_thread: z
-              .array(
-                z.object({
-                  type: z.enum(["AgentMessage"]).optional(),
-                }),
-              )
-              .optional(),
-            current_turn: z.number().int().optional(),
-          }),
-        ),
-    ])
-    .optional(),
+          current_turn: z.number().int().optional(),
+        }),
+      ),
+  ]),
 });
 
 export const zAgState = zApiResourceMetaProperties.merge(zAgStateProperties);
