@@ -2665,7 +2665,6 @@ export const LogLineLevelFieldSchema = {
 } as const;
 
 export const SNSIntegrationSchema = {
-  type: "object",
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -2689,7 +2688,6 @@ export const SNSIntegrationSchema = {
 } as const;
 
 export const ListSNSIntegrationsSchema = {
-  type: "object",
   properties: {
     pagination: {
       $ref: "#/components/schemas/PaginationResponse",
