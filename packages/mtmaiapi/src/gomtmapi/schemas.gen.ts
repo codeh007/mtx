@@ -2973,7 +2973,7 @@ export const CommonResultSchema = {
 } as const;
 
 export const ChatMessageSchema = {
-  required: ["metadata", "role", "content", "topic"],
+  required: ["metadata", "role", "content"],
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -2990,8 +2990,15 @@ export const ChatMessageSchema = {
     topic: {
       type: "string",
     },
+    thought: {
+      type: "string",
+    },
     resourceId: {
       type: "string",
+    },
+    msg_meta: {
+      type: "object",
+      additionalProperties: true,
     },
     config: {
       properties: {
@@ -3002,6 +3009,23 @@ export const ChatMessageSchema = {
           type: "string",
         },
       },
+    },
+    model_usage: {
+      $ref: "#/components/schemas/ModelUsage",
+    },
+  },
+} as const;
+
+export const ModelUsageSchema = {
+  properties: {
+    model: {
+      type: "string",
+    },
+    prompt_tokens: {
+      type: "integer",
+    },
+    completion_tokens: {
+      type: "integer",
     },
   },
 } as const;
@@ -4563,6 +4587,9 @@ export const ChatMessageUpsertSchema = {
       type: "string",
     },
     stepRunId: {
+      type: "string",
+    },
+    thought: {
       type: "string",
     },
   },

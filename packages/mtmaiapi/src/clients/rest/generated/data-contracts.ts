@@ -1410,12 +1410,21 @@ export interface ChatMessage {
   role: string;
   content: string;
   source?: string;
-  topic: string;
+  topic?: string;
+  thought?: string;
   resourceId?: string;
+  msg_meta?: Record<string, any>;
   config?: {
     message_type?: string;
     source?: string;
   };
+  model_usage?: ModelUsage;
+}
+
+export interface ModelUsage {
+  model?: string;
+  prompt_tokens?: number;
+  completion_tokens?: number;
 }
 
 export interface ChatMessageList {
@@ -2026,6 +2035,7 @@ export interface ChatMessageUpsert {
   agentType?: string;
   workflowRunId?: string;
   stepRunId?: string;
+  thought?: string;
 }
 
 export type AgentMessageConfig =

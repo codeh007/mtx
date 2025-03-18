@@ -1660,12 +1660,23 @@ export type ChatMessage = {
   role: string;
   content: string;
   source?: string;
-  topic: string;
+  topic?: string;
+  thought?: string;
   resourceId?: string;
+  msg_meta?: {
+    [key: string]: unknown;
+  };
   config?: {
     message_type?: string;
     source?: string;
   };
+  model_usage?: ModelUsage;
+};
+
+export type ModelUsage = {
+  model?: string;
+  prompt_tokens?: number;
+  completion_tokens?: number;
 };
 
 export type ChatMessageList = {
@@ -2393,6 +2404,7 @@ export type ChatMessageUpsert = {
   agentType?: string;
   workflowRunId?: string;
   stepRunId?: string;
+  thought?: string;
 };
 
 export type AgentMessageConfig =

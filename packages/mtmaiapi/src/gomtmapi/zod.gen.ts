@@ -1399,14 +1399,29 @@ export const zChatMessage = z.object({
   role: z.string(),
   content: z.string(),
   source: z.string().optional(),
-  topic: z.string(),
+  topic: z.string().optional(),
+  thought: z.string().optional(),
   resourceId: z.string().optional(),
+  msg_meta: z.object({}).optional(),
   config: z
     .object({
       message_type: z.string().optional(),
       source: z.string().optional(),
     })
     .optional(),
+  model_usage: z
+    .object({
+      model: z.string().optional(),
+      prompt_tokens: z.number().int().optional(),
+      completion_tokens: z.number().int().optional(),
+    })
+    .optional(),
+});
+
+export const zModelUsage = z.object({
+  model: z.string().optional(),
+  prompt_tokens: z.number().int().optional(),
+  completion_tokens: z.number().int().optional(),
 });
 
 export const zChatMessageList = z.object({
@@ -3249,6 +3264,7 @@ export const zChatMessageUpsert = z.object({
   agentType: z.string().optional(),
   workflowRunId: z.string().optional(),
   stepRunId: z.string().optional(),
+  thought: z.string().optional(),
 });
 
 export const zAgentMessageConfig = z.union([
