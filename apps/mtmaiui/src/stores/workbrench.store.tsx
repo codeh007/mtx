@@ -50,15 +50,14 @@ export interface WorkbrenchState extends WorkbenchProps {
   backendUrl: string;
   accessToken?: string;
   params?: Record<string, any>;
-  openDebugPanel?: boolean;
+  // openDebugPanel?: boolean;
   tenant: Tenant;
   agClient: Client<typeof AgService>;
   runtimeClient: Client<typeof AgentRpc>;
   eventClient: Client<typeof EventsService>;
   dispatcherClient: Client<typeof Dispatcher>;
-  // nav: UseNavigateResult<string>;
   setThreadId: (threadId?: string) => void;
-  setOpenDebugPanel: (openDebugPanel: boolean) => void;
+  // setOpenDebugPanel: (openDebugPanel: boolean) => void;
   workbenchViewProps?: Record<string, any>;
   setWorkbenchViewProps: (props?: Record<string, any>) => void;
   appendChatMessageCb?: (message) => void;
@@ -100,7 +99,7 @@ export interface WorkbrenchState extends WorkbenchProps {
   addMessage: (message: ChatMessage) => void;
   streamMessage: (params: AgentRunInput) => Promise<void>;
   setTeamState: (teamState: AgState) => void;
-  loadChatMessageList: (response: ChatMessageList) => void;
+  loadChatMessageList: (response?: ChatMessageList) => void;
 }
 
 export const createWorkbrenchSlice: StateCreator<
@@ -112,7 +111,7 @@ export const createWorkbrenchSlice: StateCreator<
   return {
     isDev: false,
     backendUrl: "",
-    setOpenDebugPanel: (openDebugPanel) => set({ openDebugPanel }),
+    // setOpenDebugPanel: (openDebugPanel) => set({ openDebugPanel }),
     setInput: (input) => set({ input }),
     messages: [],
     firstUserInteraction: undefined,
@@ -187,9 +186,8 @@ export const createWorkbrenchSlice: StateCreator<
     setTeamState: (teamState) => {
       set({ teamState });
     },
-    loadChatMessageList: (chatMessageList?: ChatMessageList) => {
+    loadChatMessageList: (chatMessageList) => {
       if (!chatMessageList?.rows?.length) {
-        // return;
         set({ messages: [] });
         return;
       }
@@ -200,8 +198,6 @@ export const createWorkbrenchSlice: StateCreator<
           content: row.content,
         };
       });
-      // console.log("loadChatMessageList", chatMessageList.rows?.length);
-      // console.log("loadChatMessageList", messages);
       set({ messages: messages });
     },
     ...init,
