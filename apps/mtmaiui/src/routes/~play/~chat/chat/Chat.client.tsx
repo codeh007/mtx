@@ -149,30 +149,14 @@ export const ChatImpl = memo((props: ChatProps) => {
     if (started) {
       return;
     }
-
-    // await Promise.all([
-    //   animate(
-    //     "#examples",
-    //     { opacity: 0, display: "none" },
-    //     { duration: 0.1 },
-    //   ),
-    //   animate(
-    //     "#intro",
-    //     { opacity: 0, flex: 1 },
-    //     { duration: 0.2, ease: cubicEasingFn },
-    //   ),
-    // ]);
   };
 
-  const resourceId = useWorkbenchStore((x) => x.resourceId);
   const sendMessage = async (messageInput?: string) => {
-    // console.log("sendMessage", messageInput, input);
     const _input = messageInput || input;
-
     if (!_input) {
       return;
     }
-    handleHumanInput({ content: _input, resourceId });
+    handleHumanInput({ content: _input });
     runAnimation();
     setInput("");
     resetEnhancer();

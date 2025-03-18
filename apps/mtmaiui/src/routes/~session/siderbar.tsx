@@ -1,7 +1,7 @@
 "use client";
 
 import { Label } from "@radix-ui/react-dropdown-menu";
-import type { MtComponent } from "mtmaiapi";
+import { type ChatSession, chatSessionListOptions } from "mtmaiapi";
 import { cn, generateUUID } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
@@ -14,7 +14,8 @@ import {
   SidebarInput,
 } from "mtxuilib/ui/sidebar";
 
-import { Bot, ChevronsUpDown, Edit } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { ChevronsUpDown, Edit } from "lucide-react";
 import { IconPlus } from "mtxuilib/icons/icons-ai";
 import {
   Collapsible,
@@ -23,18 +24,23 @@ import {
 } from "mtxuilib/ui/collapsible";
 import { Switch } from "mtxuilib/ui/switch";
 import { type ChangeEvent, useMemo, useState } from "react";
-// import { useComponentsStore } from "../../stores/componentsProvider";
-import { PresetItem } from "../components/views/team/builder/library";
+import { useTenantId } from "../../hooks/useAuth";
 
 export function NavSession() {
-  // const components = useComponentsStore((x) => x.components);
-
   const linkToNew = useMemo(() => {
     const newUUID = generateUUID();
     return `${newUUID}/new`;
   }, []);
 
   // const setQueryParams = useComponentsStore((x) => x.setQueryParams);
+  const tid = useTenantId();
+  const chatQuery = useQuery({
+    ...chatSessionListOptions({
+      path: {
+        tenant: tid,
+      },
+    }),
+  });
 
   return (
     <Sidebar collapsible="none" className="hidden flex-1 md:flex">
@@ -64,13 +70,13 @@ export function NavSession() {
       <SidebarContent>
         <SidebarGroup className="px-0">
           <SidebarGroupContent>
-            {/* {components?.map((item) => (
-              <NavTeamItem
+            {chatQuery.data?.rows?.map((item) => (
+              <NavChatSessionItem
                 key={item.metadata?.id}
                 item={item}
                 rowId={item.metadata?.id || ""}
               />
-            ))} */}
+            ))}
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
@@ -78,7 +84,10 @@ export function NavSession() {
   );
 }
 
-const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
+const NavChatSessionItem = ({
+  item,
+  rowId,
+}: { item: ChatSession; rowId: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   const detailLink = useMemo(() => {
     return `/coms/${rowId}`;
@@ -99,14 +108,15 @@ const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
         )}
       >
         <div className="flex items-center justify-between px-2">
-          <PresetItem
+          {/* <PresetItem
             id={`${rowId}`}
             type={"agent"}
             config={item.config}
             label={item.label || ""}
             icon={<Bot className="w-4 h-4" />}
             className="w-full"
-          />
+          /> */}
+          {item.name}
           <CollapsibleTrigger asChild>
             <Button variant="ghost" size="sm" className="w-9 p-0">
               <ChevronsUpDown className="h-4 w-4" />
@@ -121,10 +131,10 @@ const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
             // className="flex flex-col items-start gap-2 whitespace-nowrap p-2 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
           >
             <div className="flex w-full items-center gap-2">
-              <span>{item.label}</span>
+              {/* <span>{item.label}</span> */}
             </div>
             {/* <span className="text-sm">{item.provider}</span> */}
-            <span className="text-xs">{item.description || rowId}</span>
+            {/* <span className="text-xs">{item.description || rowId}</span> */}
           </div>
           <div className="flex gap-2 justify-end px-1.5">
             <CustomLink
