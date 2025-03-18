@@ -111,6 +111,9 @@ const WorkflowRunsWorkflowRunIdChatRouteLazyImport = createFileRoute(
 const WorkflowRunsWorkflowRunIdAdditionalMetadataLazyImport = createFileRoute(
   '/workflow-runs/$workflowRunId/additional-metadata',
 )()
+const SessionSessionIdTeamstateRouteLazyImport = createFileRoute(
+  '/session/$sessionId/team_state',
+)()
 const ResourceNewResRouteLazyImport = createFileRoute('/resource/new/res')()
 const PlayChatSessionIdRouteLazyImport = createFileRoute(
   '/play/chat/$sessionId',
@@ -180,6 +183,9 @@ const WorkflowRunsWorkflowRunIdChatIndexLazyImport = createFileRoute(
   '/workflow-runs/$workflowRunId/chat/',
 )()
 const TeamTeamIdNewIndexLazyImport = createFileRoute('/team/$teamId/new/')()
+const SessionSessionIdTeamstateIndexLazyImport = createFileRoute(
+  '/session/$sessionId/team_state/',
+)()
 const ResourceNewResIndexLazyImport = createFileRoute('/resource/new/res/')()
 const ResourceResIdSessionIdIndexLazyImport = createFileRoute(
   '/resource/$resId/$sessionId/',
@@ -699,6 +705,17 @@ const WorkflowRunsWorkflowRunIdAdditionalMetadataLazyRoute =
     ).then((d) => d.Route),
   )
 
+const SessionSessionIdTeamstateRouteLazyRoute =
+  SessionSessionIdTeamstateRouteLazyImport.update({
+    id: '/team_state',
+    path: '/team_state',
+    getParentRoute: () => SessionSessionIdRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/~session/~$sessionId/~team_state/~route.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+
 const ResourceNewResRouteLazyRoute = ResourceNewResRouteLazyImport.update({
   id: '/res',
   path: '/res',
@@ -1009,6 +1026,17 @@ const TeamTeamIdNewIndexLazyRoute = TeamTeamIdNewIndexLazyImport.update({
 } as any).lazy(() =>
   import('./routes/~team/~$teamId/~new/~index.lazy').then((d) => d.Route),
 )
+
+const SessionSessionIdTeamstateIndexLazyRoute =
+  SessionSessionIdTeamstateIndexLazyImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => SessionSessionIdTeamstateRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/~session/~$sessionId/~team_state/~index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 
 const ResourceNewResIndexLazyRoute = ResourceNewResIndexLazyImport.update({
   id: '/',
@@ -1660,6 +1688,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResourceNewResRouteLazyImport
       parentRoute: typeof ResourceNewRouteLazyImport
     }
+    '/session/$sessionId/team_state': {
+      id: '/session/$sessionId/team_state'
+      path: '/team_state'
+      fullPath: '/session/$sessionId/team_state'
+      preLoaderRoute: typeof SessionSessionIdTeamstateRouteLazyImport
+      parentRoute: typeof SessionSessionIdRouteLazyImport
+    }
     '/workflow-runs/$workflowRunId/additional-metadata': {
       id: '/workflow-runs/$workflowRunId/additional-metadata'
       path: '/additional-metadata'
@@ -1743,6 +1778,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/resource/new/res/'
       preLoaderRoute: typeof ResourceNewResIndexLazyImport
       parentRoute: typeof ResourceNewResRouteLazyImport
+    }
+    '/session/$sessionId/team_state/': {
+      id: '/session/$sessionId/team_state/'
+      path: '/'
+      fullPath: '/session/$sessionId/team_state/'
+      preLoaderRoute: typeof SessionSessionIdTeamstateIndexLazyImport
+      parentRoute: typeof SessionSessionIdTeamstateRouteLazyImport
     }
     '/team/$teamId/new/': {
       id: '/team/$teamId/new/'
@@ -2240,13 +2282,31 @@ const ResourceRouteLazyRouteChildren: ResourceRouteLazyRouteChildren = {
 const ResourceRouteLazyRouteWithChildren =
   ResourceRouteLazyRoute._addFileChildren(ResourceRouteLazyRouteChildren)
 
+interface SessionSessionIdTeamstateRouteLazyRouteChildren {
+  SessionSessionIdTeamstateIndexLazyRoute: typeof SessionSessionIdTeamstateIndexLazyRoute
+}
+
+const SessionSessionIdTeamstateRouteLazyRouteChildren: SessionSessionIdTeamstateRouteLazyRouteChildren =
+  {
+    SessionSessionIdTeamstateIndexLazyRoute:
+      SessionSessionIdTeamstateIndexLazyRoute,
+  }
+
+const SessionSessionIdTeamstateRouteLazyRouteWithChildren =
+  SessionSessionIdTeamstateRouteLazyRoute._addFileChildren(
+    SessionSessionIdTeamstateRouteLazyRouteChildren,
+  )
+
 interface SessionSessionIdRouteLazyRouteChildren {
   SessionSessionIdIndexLazyRoute: typeof SessionSessionIdIndexLazyRoute
+  SessionSessionIdTeamstateRouteLazyRoute: typeof SessionSessionIdTeamstateRouteLazyRouteWithChildren
 }
 
 const SessionSessionIdRouteLazyRouteChildren: SessionSessionIdRouteLazyRouteChildren =
   {
     SessionSessionIdIndexLazyRoute: SessionSessionIdIndexLazyRoute,
+    SessionSessionIdTeamstateRouteLazyRoute:
+      SessionSessionIdTeamstateRouteLazyRouteWithChildren,
   }
 
 const SessionSessionIdRouteLazyRouteWithChildren =
@@ -2598,6 +2658,7 @@ export interface FileRoutesByFullPath {
   '/coms/new/instagram_team': typeof ComsNewInstagramteamLazyRoute
   '/play/chat/$sessionId': typeof PlayChatSessionIdRouteLazyRouteWithChildren
   '/resource/new/res': typeof ResourceNewResRouteLazyRouteWithChildren
+  '/session/$sessionId/team_state': typeof SessionSessionIdTeamstateRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId/additional-metadata': typeof WorkflowRunsWorkflowRunIdAdditionalMetadataLazyRoute
   '/workflow-runs/$workflowRunId/chat': typeof WorkflowRunsWorkflowRunIdChatRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId/input': typeof WorkflowRunsWorkflowRunIdInputLazyRoute
@@ -2610,6 +2671,7 @@ export interface FileRoutesByFullPath {
   '/coms/$comId/team_builder/': typeof ComsComIdTeambuilderIndexLazyRoute
   '/resource/$resId/$sessionId': typeof ResourceResIdSessionIdIndexLazyRoute
   '/resource/new/res/': typeof ResourceNewResIndexLazyRoute
+  '/session/$sessionId/team_state/': typeof SessionSessionIdTeamstateIndexLazyRoute
   '/team/$teamId/new': typeof TeamTeamIdNewIndexLazyRoute
   '/workflow-runs/$workflowRunId/chat/': typeof WorkflowRunsWorkflowRunIdChatIndexLazyRoute
   '/workflow-runs/$workflowRunId/visualization/': typeof WorkflowRunsWorkflowRunIdVisualizationIndexLazyRoute
@@ -2687,6 +2749,7 @@ export interface FileRoutesByTo {
   '/coms/$comId/team_builder': typeof ComsComIdTeambuilderIndexLazyRoute
   '/resource/$resId/$sessionId': typeof ResourceResIdSessionIdIndexLazyRoute
   '/resource/new/res': typeof ResourceNewResIndexLazyRoute
+  '/session/$sessionId/team_state': typeof SessionSessionIdTeamstateIndexLazyRoute
   '/team/$teamId/new': typeof TeamTeamIdNewIndexLazyRoute
   '/workflow-runs/$workflowRunId/chat': typeof WorkflowRunsWorkflowRunIdChatIndexLazyRoute
   '/workflow-runs/$workflowRunId/visualization': typeof WorkflowRunsWorkflowRunIdVisualizationIndexLazyRoute
@@ -2786,6 +2849,7 @@ export interface FileRoutesById {
   '/coms/new/instagram_team': typeof ComsNewInstagramteamLazyRoute
   '/play/chat/$sessionId': typeof PlayChatSessionIdRouteLazyRouteWithChildren
   '/resource/new/res': typeof ResourceNewResRouteLazyRouteWithChildren
+  '/session/$sessionId/team_state': typeof SessionSessionIdTeamstateRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId/additional-metadata': typeof WorkflowRunsWorkflowRunIdAdditionalMetadataLazyRoute
   '/workflow-runs/$workflowRunId/chat': typeof WorkflowRunsWorkflowRunIdChatRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId/input': typeof WorkflowRunsWorkflowRunIdInputLazyRoute
@@ -2798,6 +2862,7 @@ export interface FileRoutesById {
   '/coms/$comId/team_builder/': typeof ComsComIdTeambuilderIndexLazyRoute
   '/resource/$resId/$sessionId/': typeof ResourceResIdSessionIdIndexLazyRoute
   '/resource/new/res/': typeof ResourceNewResIndexLazyRoute
+  '/session/$sessionId/team_state/': typeof SessionSessionIdTeamstateIndexLazyRoute
   '/team/$teamId/new/': typeof TeamTeamIdNewIndexLazyRoute
   '/workflow-runs/$workflowRunId/chat/': typeof WorkflowRunsWorkflowRunIdChatIndexLazyRoute
   '/workflow-runs/$workflowRunId/visualization/': typeof WorkflowRunsWorkflowRunIdVisualizationIndexLazyRoute
@@ -2900,6 +2965,7 @@ export interface FileRouteTypes {
     | '/coms/new/instagram_team'
     | '/play/chat/$sessionId'
     | '/resource/new/res'
+    | '/session/$sessionId/team_state'
     | '/workflow-runs/$workflowRunId/additional-metadata'
     | '/workflow-runs/$workflowRunId/chat'
     | '/workflow-runs/$workflowRunId/input'
@@ -2912,6 +2978,7 @@ export interface FileRouteTypes {
     | '/coms/$comId/team_builder/'
     | '/resource/$resId/$sessionId'
     | '/resource/new/res/'
+    | '/session/$sessionId/team_state/'
     | '/team/$teamId/new'
     | '/workflow-runs/$workflowRunId/chat/'
     | '/workflow-runs/$workflowRunId/visualization/'
@@ -2988,6 +3055,7 @@ export interface FileRouteTypes {
     | '/coms/$comId/team_builder'
     | '/resource/$resId/$sessionId'
     | '/resource/new/res'
+    | '/session/$sessionId/team_state'
     | '/team/$teamId/new'
     | '/workflow-runs/$workflowRunId/chat'
     | '/workflow-runs/$workflowRunId/visualization'
@@ -3085,6 +3153,7 @@ export interface FileRouteTypes {
     | '/coms/new/instagram_team'
     | '/play/chat/$sessionId'
     | '/resource/new/res'
+    | '/session/$sessionId/team_state'
     | '/workflow-runs/$workflowRunId/additional-metadata'
     | '/workflow-runs/$workflowRunId/chat'
     | '/workflow-runs/$workflowRunId/input'
@@ -3097,6 +3166,7 @@ export interface FileRouteTypes {
     | '/coms/$comId/team_builder/'
     | '/resource/$resId/$sessionId/'
     | '/resource/new/res/'
+    | '/session/$sessionId/team_state/'
     | '/team/$teamId/new/'
     | '/workflow-runs/$workflowRunId/chat/'
     | '/workflow-runs/$workflowRunId/visualization/'
@@ -3507,7 +3577,8 @@ export const routeTree = rootRoute
       "filePath": "~session/~$sessionId/~route.lazy.tsx",
       "parent": "/session",
       "children": [
-        "/session/$sessionId/"
+        "/session/$sessionId/",
+        "/session/$sessionId/team_state"
       ]
     },
     "/team/$teamId": {
@@ -3665,6 +3736,13 @@ export const routeTree = rootRoute
         "/resource/new/res/platform_account"
       ]
     },
+    "/session/$sessionId/team_state": {
+      "filePath": "~session/~$sessionId/~team_state/~route.lazy.tsx",
+      "parent": "/session/$sessionId",
+      "children": [
+        "/session/$sessionId/team_state/"
+      ]
+    },
     "/workflow-runs/$workflowRunId/additional-metadata": {
       "filePath": "~workflow-runs/~$workflowRunId/~additional-metadata.lazy.tsx",
       "parent": "/workflow-runs/$workflowRunId"
@@ -3718,6 +3796,10 @@ export const routeTree = rootRoute
     "/resource/new/res/": {
       "filePath": "~resource/~new/~res/~index.lazy.tsx",
       "parent": "/resource/new/res"
+    },
+    "/session/$sessionId/team_state/": {
+      "filePath": "~session/~$sessionId/~team_state/~index.lazy.tsx",
+      "parent": "/session/$sessionId/team_state"
     },
     "/team/$teamId/new/": {
       "filePath": "~team/~$teamId/~new/~index.lazy.tsx",

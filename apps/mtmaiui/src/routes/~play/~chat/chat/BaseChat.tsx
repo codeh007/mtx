@@ -3,11 +3,9 @@ import type { Message } from "ai";
 import type React from "react";
 import { type RefCallback, forwardRef, useMemo } from "react";
 
-import { StateType, type TeamState } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { classNames } from "mtxuilib/lib/utils";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
-import { TeamStateView } from "./AgEventViews";
 import { MtMessages } from "./MtMessages";
 import { Header } from "./chat-header";
 import { BoltPromptBox } from "./prompt-input/BoltPromptBox";
@@ -74,6 +72,7 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
                 })}
               >
                 <Header />
+                <DebugValue data={{ messages }} />
 
                 {chatStarted ? (
                   <>
@@ -88,10 +87,7 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
                     />
                   </>
                 ) : null}
-                <DebugValue data={{ agState }} />
-                {agState?.state?.type === StateType.TEAM_STATE && (
-                  <TeamStateView teamState={agState.state as TeamState} />
-                )}
+
                 <BoltPromptBox
                   enhancingPrompt={enhancingPrompt}
                   promptEnhanced={promptEnhanced}

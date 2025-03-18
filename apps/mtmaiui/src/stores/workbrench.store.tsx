@@ -1,13 +1,12 @@
 "use client";
 
 import type { Client } from "@connectrpc/connect";
-import type { UseNavigateResult } from "@tanstack/react-router";
 import { debounce } from "lodash";
 import type {
   AgState,
   AgentRunInput,
   ChatMessage,
-  TeamState,
+  ChatMessageList,
   Tenant,
 } from "mtmaiapi";
 import { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
@@ -16,7 +15,13 @@ import { Dispatcher } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
 import { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
 import { generateUUID } from "mtxuilib/lib/utils";
 import type React from "react";
-import { createContext, useContext, useMemo, useTransition } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useTransition,
+} from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -29,7 +34,7 @@ import { submitMessages } from "./submitMessages";
 
 export interface WorkbenchProps {
   componentId?: string;
-  sessionId?: string;
+  threadId?: string;
   teamState?: AgState;
 }
 const DEFAULT_AGENT_FLOW_SETTINGS = {
@@ -46,13 +51,12 @@ export interface WorkbrenchState extends WorkbenchProps {
   accessToken?: string;
   params?: Record<string, any>;
   openDebugPanel?: boolean;
-  threadId?: string;
   tenant: Tenant;
   agClient: Client<typeof AgService>;
   runtimeClient: Client<typeof AgentRpc>;
   eventClient: Client<typeof EventsService>;
   dispatcherClient: Client<typeof Dispatcher>;
-  nav: UseNavigateResult<string>;
+  // nav: UseNavigateResult<string>;
   setThreadId: (threadId?: string) => void;
   setOpenDebugPanel: (openDebugPanel: boolean) => void;
   workbenchViewProps?: Record<string, any>;
@@ -95,8 +99,8 @@ export interface WorkbrenchState extends WorkbenchProps {
   setFirstTokenReceived: (firstTokenReceived: boolean) => void;
   addMessage: (message: ChatMessage) => void;
   streamMessage: (params: AgentRunInput) => Promise<void>;
-
   setTeamState: (teamState: AgState) => void;
+  loadChatMessageList: (response: ChatMessageList) => void;
 }
 
 export const createWorkbrenchSlice: StateCreator<
@@ -180,14 +184,29 @@ export const createWorkbrenchSlice: StateCreator<
       set({ messages: [...prevMessages, message] });
     },
     agentFlow: DEFAULT_AGENT_FLOW_SETTINGS,
-    setTeamState: (teamState: TeamState) => {
+    setTeamState: (teamState) => {
       set({ teamState });
+    },
+    loadChatMessageList: (chatMessageList?: ChatMessageList) => {
+      if (!chatMessageList?.rows?.length) {
+        // return;
+        set({ messages: [] });
+        return;
+      }
+      const messages = chatMessageList.rows.map((row) => {
+        return {
+          ...row,
+          role: row.role,
+          content: row.content,
+        };
+      });
+      // console.log("loadChatMessageList", chatMessageList.rows?.length);
+      // console.log("loadChatMessageList", messages);
+      set({ messages: messages });
     },
     ...init,
   };
 };
-
-type mtappStore = ReturnType<typeof createWordbrenchStore>;
 
 const createWordbrenchStore = (initProps?: Partial<WorkbrenchState>) => {
   return createStore<WorkbrenchState>()(
@@ -205,7 +224,9 @@ const createWordbrenchStore = (initProps?: Partial<WorkbrenchState>) => {
     ),
   );
 };
-const mtmaiStoreContext = createContext<mtappStore | null>(null);
+const mtmaiStoreContext = createContext<ReturnType<
+  typeof createWordbrenchStore
+> | null>(null);
 
 type AppProviderProps = React.PropsWithChildren<WorkbenchProps>;
 export const WorkbrenchProvider = (props: AppProviderProps) => {
@@ -223,7 +244,6 @@ export const WorkbrenchProvider = (props: AppProviderProps) => {
     () =>
       createWordbrenchStore({
         ...etc,
-        nav: nav,
         tenant: tenant,
         backendUrl: selfBackendend,
         eventClient: eventClient,
@@ -232,7 +252,6 @@ export const WorkbrenchProvider = (props: AppProviderProps) => {
         agClient: mtmAgClient,
       }),
     [
-      nav,
       tenant,
       selfBackendend,
       eventClient,
@@ -241,19 +260,24 @@ export const WorkbrenchProvider = (props: AppProviderProps) => {
       mtmAgClient,
     ],
   );
-  mystore.subscribe(
-    (state) => {
-      return state.threadId;
-    },
-    debounce((cur, prev) => {
-      startTransition(() => {
-        nav({
-          to: `/session/${cur}`,
-          search: search,
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    return mystore.subscribe(
+      (state) => {
+        return state.threadId;
+      },
+      debounce((cur, prev) => {
+        console.log("threadId changed", cur, "prev", prev);
+        startTransition(() => {
+          nav({
+            to: `/session/${cur}`,
+            search: search,
+          });
         });
-      });
-    }, 100),
-  );
+      }, 100),
+    );
+  }, []);
+
   return (
     <mtmaiStoreContext.Provider value={mystore}>
       {children}
