@@ -11,7 +11,7 @@ import type { FC } from "react";
 import { useTenant } from "../../../../hooks/useAuth";
 import { useNav } from "../../../../hooks/useNav";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
-import { useHumanInput } from "../hooks/useHumenInput";
+import { useHumanInput } from "../hooks/useHumenInput.tsx--";
 
 interface QuickStartButtonsProps {
   quickStarts: QuickStart[];

@@ -17,7 +17,10 @@ import {
   Users,
   Wrench,
 } from "lucide-react";
-import { Button } from "mtxuilib/ui/button";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
+import { cn } from "mtxuilib/lib/utils";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
+import { Button, buttonVariants } from "mtxuilib/ui/button";
 import type React from "react";
 import { memo } from "react";
 import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
@@ -109,6 +112,7 @@ const BaseNode = memo<BaseNodeProps>(
     const removeNode = useTeamBuilderStore((state) => state.removeNode);
     const setSelectedNode = useTeamBuilderStore((x) => x.setSelectedNode);
     const showDelete = data.type !== "team";
+    const componentId = useTeamBuilderStore((x) => x.componentId);
 
     return (
       <div
@@ -132,15 +136,19 @@ const BaseNode = memo<BaseNodeProps>(
               <span className="text-xs px-2 py-1 bg-gray-200 rounded text-gray-700">
                 {data.component.component_type || data.component.componentType}
               </span>
-              <Button
+              <CustomLink
+                to={`/coms/${componentId}/team_builder/component_editor`}
+                className={cn(
+                  "p-1 hover:bg-secondary rounded",
+                  buttonVariants({ variant: "outline" }),
+                )}
                 onClick={(e) => {
                   e.stopPropagation();
                   setSelectedNode(id);
                 }}
-                className="p-1 hover:bg-secondary rounded"
               >
-                <Edit className="w-4 h-4 text-accent" />
-              </Button>
+                <Edit className="size-4" />
+              </CustomLink>
               {showDelete && (
                 <Button
                   onClick={(e) => {
@@ -150,7 +158,7 @@ const BaseNode = memo<BaseNodeProps>(
                   }}
                   className="p-1 hover:bg-red-100 rounded"
                 >
-                  <Trash2Icon className="w-4 h-4 text-red-500" />
+                  <Trash2Icon className="size-4" />
                 </Button>
               )}
             </div>
@@ -200,7 +208,7 @@ export const TeamNode = memo<NodeProps<CustomNode>>((props) => {
   const component = props.data.component as Component<TeamConfig>;
   const hasModel = isSelectorTeam(component) && !!component.config.model_client;
   const participantCount = component.config.participants?.length || 0;
-
+  const componentId = useTeamBuilderStore((x) => x.componentId);
   return (
     <BaseNode
       {...props}
@@ -284,7 +292,19 @@ export const TeamNode = memo<NodeProps<CustomNode>>((props) => {
               className="relative text-sm py-1 px-2 bg-white rounded flex items-center gap-2"
             >
               <Brain className="w-4 h-4 text-gray-500" />
-              <span>{participant.config.name}</span>
+              <span>
+                {participant.config.name}
+                <CustomLink
+                  to={`/coms/${componentId}/team_builder/component`}
+                  className={cn(
+                    "p-1 hover:bg-secondary rounded",
+                    buttonVariants({ variant: "outline" }),
+                  )}
+                >
+                  <Edit className="size-4" />{" "}
+                </CustomLink>
+                <DebugValue data={participant} />
+              </span>
             </div>
           ))}
           <DroppableZone id={`${props.id}@@@agent-zone`} accepts={["agent"]}>
