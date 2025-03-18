@@ -518,7 +518,8 @@ export const createWorkbrenchSlice: StateCreator<
       }));
     },
 
-    setSelectedNode: (nodeId: string | null) => {
+    setSelectedNode: (nodeId) => {
+      console.log("setSelectedNode", nodeId);
       set({ selectedNodeId: nodeId });
     },
 

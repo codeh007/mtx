@@ -30,11 +30,8 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
   onChange,
   onDirtyStateChange,
 }) => {
-  // Replace store state with React Flow hooks
   const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
-  // const [isJsonMode, setIsJsonMode] = useState(false);
-  // const [isFullscreen, setIsFullscreen] = useState(false);
   const [showGrid, setShowGrid] = useState(true);
   const [showMiniMap, setShowMiniMap] = useState(true);
   const editorRef = useRef(null);

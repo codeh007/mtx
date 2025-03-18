@@ -5,6 +5,5 @@ export const Route = createLazyFileRoute("/coms/$comId/")({
 });
 
 function RouteComponent() {
-  // const team = useTeamBuilderStore((x) => x.team);
   return <></>;
 }
