@@ -1619,9 +1619,8 @@ export const zChatHistoryList = z.object({
 
 export const zChatSession = z.object({
   metadata: zApiResourceMeta.optional(),
-  name: z.string(),
-  version: z.string(),
-  team: z.string().optional(),
+  title: z.string(),
+  componentId: z.string().optional(),
 });
 
 export const zChatSessionList = z.object({

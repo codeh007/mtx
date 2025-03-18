@@ -3405,22 +3405,18 @@ export const ChatHistoryListSchema = {
 } as const;
 
 export const ChatSessionSchema = {
-  description: "聊天 Session",
+  required: ["title", "version"],
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
     },
-    name: {
+    title: {
       type: "string",
     },
-    version: {
-      type: "string",
-    },
-    team: {
+    componentId: {
       type: "string",
     },
   },
-  required: ["name", "version"],
 } as const;
 
 export const ChatSessionListSchema = {

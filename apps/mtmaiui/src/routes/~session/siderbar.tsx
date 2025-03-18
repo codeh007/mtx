@@ -15,8 +15,9 @@ import {
 } from "mtxuilib/ui/sidebar";
 
 import { useQuery } from "@tanstack/react-query";
-import { ChevronsUpDown, Edit } from "lucide-react";
+import { ChevronsUpDown } from "lucide-react";
 import { IconPlus } from "mtxuilib/icons/icons-ai";
+import { RelativeDate } from "mtxuilib/mt/relative-date";
 import {
   Collapsible,
   CollapsibleContent,
@@ -25,6 +26,7 @@ import {
 import { Switch } from "mtxuilib/ui/switch";
 import { type ChangeEvent, useMemo, useState } from "react";
 import { useTenantId } from "../../hooks/useAuth";
+import { useSearch } from "../../hooks/useNav";
 
 export function NavSession() {
   const linkToNew = useMemo(() => {
@@ -89,12 +91,13 @@ const NavChatSessionItem = ({
   rowId,
 }: { item: ChatSession; rowId: string }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const search = useSearch();
   const detailLink = useMemo(() => {
-    return `/coms/${rowId}`;
+    return `/session/${rowId}`;
   }, [rowId]);
 
   const editLink = useMemo(() => {
-    return `/coms/${rowId}/team_builder`;
+    return `/session/${rowId}/edit`;
   }, [rowId]);
 
   return (
@@ -116,7 +119,10 @@ const NavChatSessionItem = ({
             icon={<Bot className="w-4 h-4" />}
             className="w-full"
           /> */}
-          {item.name}
+          <CustomLink to={detailLink} search={search}>
+            {item.title}
+          </CustomLink>
+          <RelativeDate date={item.metadata?.updatedAt} />
           <CollapsibleTrigger asChild>
             <Button variant="ghost" size="sm" className="w-9 p-0">
               <ChevronsUpDown className="h-4 w-4" />
@@ -130,19 +136,15 @@ const NavChatSessionItem = ({
             key={rowId}
             // className="flex flex-col items-start gap-2 whitespace-nowrap p-2 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
           >
-            <div className="flex w-full items-center gap-2">
-              {/* <span>{item.label}</span> */}
-            </div>
-            {/* <span className="text-sm">{item.provider}</span> */}
-            {/* <span className="text-xs">{item.description || rowId}</span> */}
+            <div className="flex w-full items-center gap-2">{item.title}</div>
           </div>
           <div className="flex gap-2 justify-end px-1.5">
-            <CustomLink
+            {/* <CustomLink
               to={editLink}
               className={cn(buttonVariants({ variant: "ghost", size: "icon" }))}
             >
               <Edit className="w-4 h-4" />
-            </CustomLink>
+            </CustomLink> */}
           </div>
         </CollapsibleContent>
       </Collapsible>

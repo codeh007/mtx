@@ -1879,14 +1879,10 @@ export type ChatHistoryList = {
   rows?: Array<ChatMessage>;
 };
 
-/**
- * 聊天 Session
- */
 export type ChatSession = {
   metadata?: ApiResourceMeta;
-  name: string;
-  version: string;
-  team?: string;
+  title: string;
+  componentId?: string;
 };
 
 /**

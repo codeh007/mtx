@@ -1615,12 +1615,10 @@ export interface ChatHistoryList {
   rows?: ChatMessage[];
 }
 
-/** 聊天 Session */
 export interface ChatSession {
   metadata?: APIResourceMeta;
-  name: string;
-  version: string;
-  team?: string;
+  title: string;
+  componentId?: string;
 }
 
 /** 聊天 Session 列表 */
