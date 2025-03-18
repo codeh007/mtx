@@ -64,7 +64,9 @@ export interface TeamBuilderState extends TeamBuilderProps {
   validationResults: any;
   setValidationResults: (validationResults: any) => void;
   nodes: CustomNode[];
+  setNodes: (nodes: CustomNode[]) => void;
   edges: CustomEdge[];
+  setEdges: (edges: CustomEdge[]) => void;
   selectedNodeId: string | null;
   history: Array<{ nodes: CustomNode[]; edges: CustomEdge[] }>;
   currentHistoryIndex: number;
@@ -97,6 +99,10 @@ export interface TeamBuilderState extends TeamBuilderProps {
   layoutNodes: () => void;
   resetHistory: () => void;
   addToHistory: () => void;
+
+  activeDragItem?: DragItemData | null;
+  setActiveDragItem: (activeDragItem: DragItemData | null) => void;
+  handleValidate: () => Promise<void>;
 }
 
 const buildTeamComponent = (
@@ -133,7 +139,13 @@ export const createWorkbrenchSlice: StateCreator<
 > = (set, get, init) => {
   return {
     nodes: [],
+    setNodes: (nodes: CustomNode[]) => {
+      set({ nodes });
+    },
     edges: [],
+    setEdges: (edges: CustomEdge[]) => {
+      set({ edges });
+    },
     selectedNodeId: null,
     history: [],
     currentHistoryIndex: -1,
@@ -158,6 +170,7 @@ export const createWorkbrenchSlice: StateCreator<
       component: Component<ComponentConfig>,
       targetNodeId: string,
     ) => {
+      console.log("addNode", component, targetNodeId);
       set((state) => {
         // Deep clone the incoming component to avoid reference issues
         const clonedComponent = JSON.parse(JSON.stringify(component));
@@ -167,7 +180,7 @@ export const createWorkbrenchSlice: StateCreator<
         if (targetNodeId) {
           const targetNode = state.nodes.find((n) => n.id === targetNodeId);
 
-          // console.log("Target node", targetNode);
+          console.log("Target node", targetNode);
           if (!targetNode) return state;
 
           // Handle configuration updates based on component type
@@ -266,6 +279,7 @@ export const createWorkbrenchSlice: StateCreator<
 
         // Handle team and agent nodes
         if (isTeamComponent(clonedComponent)) {
+          console.log("Team component added", clonedComponent);
           const newNode: CustomNode = {
             id: nanoid(),
             position,
@@ -278,6 +292,7 @@ export const createWorkbrenchSlice: StateCreator<
           };
           newNodes.push(newNode);
         } else if (isAgentComponent(clonedComponent)) {
+          console.log("Agent component added", clonedComponent);
           // Find the team node to connect to
           const teamNode = newNodes.find((n) =>
             isTeamComponent(n.data.component),
@@ -638,6 +653,30 @@ export const createWorkbrenchSlice: StateCreator<
       }));
     },
 
+    setActiveDragItem: (activeDragItem: DragItemData | null) => {
+      set({ activeDragItem });
+    },
+    handleValidate: async () => {
+      console.log("handleValidate");
+      const component = get().syncToJson();
+      if (!component) {
+        throw new Error("Unable to generate valid configuration");
+      }
+
+      try {
+        //   setValidationLoading(true);
+        //   const validationResult = await validationAPI.validateComponent(component);
+        //   setValidationResults(validationResult);
+        //   // if (validationResult.is_valid) {
+        //   //   messageApi.success("Validation successful");
+        //   // }
+        // } catch (error) {
+        //   console.error("Validation error:", error);
+        //   messageApi.error("Validation failed");
+      } finally {
+        // setValidationLoading(false);
+      }
+    },
     ...init,
   };
 };

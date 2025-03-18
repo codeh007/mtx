@@ -4021,6 +4021,10 @@ export const ComponentModelSchema = {
     "componentVersion",
   ],
   properties: {
+    id: {
+      type: "string",
+      description: "Unique identifier for the component.",
+    },
     provider: {
       type: "string",
       description: "Describes how the component can be instantiated.",

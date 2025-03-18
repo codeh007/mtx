@@ -2150,6 +2150,10 @@ export type MtComponentProperties = {
 
 export type ComponentModel = {
   /**
+   * Unique identifier for the component.
+   */
+  id?: string;
+  /**
    * Describes how the component can be instantiated.
    */
   provider: string;

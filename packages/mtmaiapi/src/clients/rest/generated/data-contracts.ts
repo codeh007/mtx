@@ -1828,6 +1828,8 @@ export interface MtComponentProperties {
 }
 
 export interface ComponentModel {
+  /** Unique identifier for the component. */
+  id?: string;
   /** Describes how the component can be instantiated. */
   provider: string;
   /** Logical type of the component. If missing, the component assumes the default type of the provider. */

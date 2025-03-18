@@ -1677,6 +1677,7 @@ export const zReadingLevelOptions = z.enum([
 
 export const zSelectorGroupChatComponent = z
   .object({
+    id: z.string().optional(),
     provider: z.string(),
     componentType: z.enum(["team", "agent", "model", "tool", "termination"]),
     version: z.number().int(),
@@ -1692,6 +1693,7 @@ export const zSelectorGroupChatComponent = z
           participants: z.array(
             z
               .object({
+                id: z.string().optional(),
                 provider: z.string(),
                 componentType: z.enum([
                   "team",
@@ -1714,6 +1716,7 @@ export const zSelectorGroupChatComponent = z
                     model_context: z.object({}).optional(),
                     memory: z
                       .object({
+                        id: z.string().optional(),
                         provider: z.string(),
                         componentType: z.enum([
                           "team",
@@ -1732,6 +1735,7 @@ export const zSelectorGroupChatComponent = z
                     system_message: z.string().optional(),
                     model_client: z
                       .object({
+                        id: z.string().optional(),
                         provider: z.string(),
                         componentType: z.enum([
                           "team",
@@ -1788,6 +1792,7 @@ export const zSelectorGroupChatComponent = z
                       .array(
                         z
                           .object({
+                            id: z.string().optional(),
                             provider: z.string(),
                             componentType: z.enum([
                               "team",
@@ -1827,6 +1832,7 @@ export const zSelectorGroupChatComponent = z
           max_turns: z.number().int(),
           termination_condition: z
             .object({
+              id: z.string().optional(),
               provider: z.string(),
               componentType: z.enum([
                 "team",
@@ -1857,6 +1863,7 @@ export const zSelectorGroupChatComponent = z
             participants: z.array(
               z
                 .object({
+                  id: z.string().optional(),
                   provider: z.string(),
                   componentType: z.enum([
                     "team",
@@ -1879,6 +1886,7 @@ export const zSelectorGroupChatComponent = z
                       model_context: z.object({}).optional(),
                       memory: z
                         .object({
+                          id: z.string().optional(),
                           provider: z.string(),
                           componentType: z.enum([
                             "team",
@@ -1897,6 +1905,7 @@ export const zSelectorGroupChatComponent = z
                       system_message: z.string().optional(),
                       model_client: z
                         .object({
+                          id: z.string().optional(),
                           provider: z.string(),
                           componentType: z.enum([
                             "team",
@@ -1953,6 +1962,7 @@ export const zSelectorGroupChatComponent = z
                         .array(
                           z
                             .object({
+                              id: z.string().optional(),
                               provider: z.string(),
                               componentType: z.enum([
                                 "team",
@@ -1993,6 +2003,7 @@ export const zSelectorGroupChatComponent = z
             ),
             termination_condition: z
               .object({
+                id: z.string().optional(),
                 provider: z.string(),
                 componentType: z.enum([
                   "team",
@@ -2019,6 +2030,7 @@ export const zSelectorGroupChatComponent = z
               ),
             model_client: z
               .object({
+                id: z.string().optional(),
                 provider: z.string(),
                 componentType: z.enum([
                   "team",
@@ -2077,6 +2089,7 @@ export const zSelectorGroupChatComponent = z
 
 export const zRoundRobinGroupChatComponent = z
   .object({
+    id: z.string().optional(),
     provider: z.string(),
     componentType: z.enum(["team", "agent", "model", "tool", "termination"]),
     version: z.number().int(),
@@ -2092,6 +2105,7 @@ export const zRoundRobinGroupChatComponent = z
           participants: z.array(
             z
               .object({
+                id: z.string().optional(),
                 provider: z.string(),
                 componentType: z.enum([
                   "team",
@@ -2114,6 +2128,7 @@ export const zRoundRobinGroupChatComponent = z
                     model_context: z.object({}).optional(),
                     memory: z
                       .object({
+                        id: z.string().optional(),
                         provider: z.string(),
                         componentType: z.enum([
                           "team",
@@ -2132,6 +2147,7 @@ export const zRoundRobinGroupChatComponent = z
                     system_message: z.string().optional(),
                     model_client: z
                       .object({
+                        id: z.string().optional(),
                         provider: z.string(),
                         componentType: z.enum([
                           "team",
@@ -2188,6 +2204,7 @@ export const zRoundRobinGroupChatComponent = z
                       .array(
                         z
                           .object({
+                            id: z.string().optional(),
                             provider: z.string(),
                             componentType: z.enum([
                               "team",
@@ -2227,6 +2244,7 @@ export const zRoundRobinGroupChatComponent = z
           max_turns: z.number().int(),
           termination_condition: z
             .object({
+              id: z.string().optional(),
               provider: z.string(),
               componentType: z.enum([
                 "team",
@@ -2257,6 +2275,7 @@ export const zRoundRobinGroupChatComponent = z
             participants: z.array(
               z
                 .object({
+                  id: z.string().optional(),
                   provider: z.string(),
                   componentType: z.enum([
                     "team",
@@ -2279,6 +2298,7 @@ export const zRoundRobinGroupChatComponent = z
                       model_context: z.object({}).optional(),
                       memory: z
                         .object({
+                          id: z.string().optional(),
                           provider: z.string(),
                           componentType: z.enum([
                             "team",
@@ -2297,6 +2317,7 @@ export const zRoundRobinGroupChatComponent = z
                       system_message: z.string().optional(),
                       model_client: z
                         .object({
+                          id: z.string().optional(),
                           provider: z.string(),
                           componentType: z.enum([
                             "team",
@@ -2353,6 +2374,7 @@ export const zRoundRobinGroupChatComponent = z
                         .array(
                           z
                             .object({
+                              id: z.string().optional(),
                               provider: z.string(),
                               componentType: z.enum([
                                 "team",
@@ -2393,6 +2415,7 @@ export const zRoundRobinGroupChatComponent = z
             ),
             termination_condition: z
               .object({
+                id: z.string().optional(),
                 provider: z.string(),
                 componentType: z.enum([
                   "team",
@@ -2426,6 +2449,7 @@ export const zTeamConfigBase = z.object({
   participants: z.array(
     z
       .object({
+        id: z.string().optional(),
         provider: z.string(),
         componentType: z.enum([
           "team",
@@ -2448,6 +2472,7 @@ export const zTeamConfigBase = z.object({
             model_context: z.object({}).optional(),
             memory: z
               .object({
+                id: z.string().optional(),
                 provider: z.string(),
                 componentType: z.enum([
                   "team",
@@ -2466,6 +2491,7 @@ export const zTeamConfigBase = z.object({
             system_message: z.string().optional(),
             model_client: z
               .object({
+                id: z.string().optional(),
                 provider: z.string(),
                 componentType: z.enum([
                   "team",
@@ -2520,6 +2546,7 @@ export const zTeamConfigBase = z.object({
               .array(
                 z
                   .object({
+                    id: z.string().optional(),
                     provider: z.string(),
                     componentType: z.enum([
                       "team",
@@ -2557,6 +2584,7 @@ export const zTeamConfigBase = z.object({
   max_turns: z.number().int(),
   termination_condition: z
     .object({
+      id: z.string().optional(),
       provider: z.string(),
       componentType: z.enum(["team", "agent", "model", "tool", "termination"]),
       version: z.number().int(),
@@ -3034,6 +3062,7 @@ export const zMtComponentProperties = z.object({
 });
 
 export const zComponentModel = z.object({
+  id: z.string().optional(),
   provider: z.string(),
   componentType: z.enum(["team", "agent", "model", "tool", "termination"]),
   version: z.number().int(),

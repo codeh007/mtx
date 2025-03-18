@@ -1,9 +1,14 @@
 "use client";
 
 import { useRouterState } from "@tanstack/react-router";
-import { useEdgesState, useNodesState } from "@xyflow/react";
 import type React from "react";
-import { createContext, useContext, useMemo, useTransition } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useTransition,
+} from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -21,11 +26,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import type {
-  CustomEdge,
-  CustomNode,
-  DragItem,
-} from "../routes/components/views/team/builder/types";
+import type { DragItem } from "../routes/components/views/team/builder/types";
 import type { ComponentTypes } from "../types/datamodel";
 import type { DragItemData } from "./teamBuildStore";
 
@@ -81,8 +82,17 @@ export const ComponentDndProvider = (
   const nav = useNav();
   const [isPending, startTransition] = useTransition();
   const matches = useRouterState({ select: (s) => s.matches });
-  const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
+  // const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
+  // const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
+  const team = useTeamBuilderStore((state) => state.team);
+  const handleValidate = useTeamBuilderStore((state) => state.handleValidate);
+  const setActiveDragItem = useTeamBuilderStore(
+    (state) => state.setActiveDragItem,
+  );
+  const nodes = useTeamBuilderStore((state) => state.nodes);
+  const setNodes = useTeamBuilderStore((state) => state.setNodes);
+  const edges = useTeamBuilderStore((state) => state.edges);
+  const setEdges = useTeamBuilderStore((state) => state.setEdges);
 
   const {
     undo,
@@ -106,10 +116,6 @@ export const ComponentDndProvider = (
     [etc, isPending],
   );
 
-  // const [activeDragItem, setActiveDragItem] = useState<DragItemData | null>(
-  //   null,
-  // );
-
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -130,23 +136,30 @@ export const ComponentDndProvider = (
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
+    console.log("handleDragEnd", event);
     const { active, over } = event;
     if (!over || !active.data?.current?.current) return;
 
     const draggedItem = active.data.current.current;
     const dropZoneId = over.id as string;
-
+    console.log("dropZoneId", dropZoneId);
     const [nodeId] = dropZoneId.split("@@@");
     // Find target node
     const targetNode = nodes.find((node) => node.id === nodeId);
-    if (!targetNode) return;
+    if (!targetNode) {
+      console.log("No target node", nodes, nodeId);
+      return;
+    }
 
     // Validate drop
     const isValid = validateDropTarget(
       draggedItem.type,
       targetNode.data.component.component_type,
     );
-    if (!isValid) return;
+    if (!isValid) {
+      console.log("Invalid drop");
+      return;
+    }
 
     const position = {
       x: event.delta.x,
@@ -160,7 +173,7 @@ export const ComponentDndProvider = (
 
   const handleTestDrawerClose = () => {
     // console.log("TestDrawer closed");
-    setTestDrawerVisible(false);
+    // setTestDrawerVisible(false);
   };
   const validateDropTarget = (
     draggedType: ComponentTypes,
@@ -176,6 +189,7 @@ export const ComponentDndProvider = (
     return validTargets[draggedType]?.includes(targetType) || false;
   };
   const handleDragOver = (event: DragOverEvent) => {
+    console.log("handleDragOver", event);
     const { active, over } = event;
     if (!over?.id || !active.data.current) return;
 
@@ -194,6 +208,22 @@ export const ComponentDndProvider = (
       targetNode.className = "drop-target-invalid";
     }
   };
+  // Load initial config
+  useEffect(() => {
+    console.log("useEffect(load team nodes and edges)", team);
+    if (team) {
+      const { nodes: initialNodes, edges: initialEdges } = loadFromJson(team);
+      console.log("initialNodes", initialNodes, initialEdges);
+      setNodes(initialNodes);
+      setEdges(initialEdges);
+    }
+    handleValidate();
+
+    return () => {
+      // console.log("cleanup component");
+      // setValidationResults(null);
+    };
+  }, [team, setNodes, setEdges]);
 
   return (
     <DndContext

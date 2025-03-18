@@ -29,9 +29,6 @@ import {
 } from "../../../../../../types/guards";
 import DetailGroup from "./detailgroup";
 
-// const { TextArea } = Input;
-// const { Option } = Select;
-
 interface NodeEditorFieldsProps {
   component: Component<ComponentConfig>;
   onNavigate: (componentType: string, id: string, parentField: string) => void;
