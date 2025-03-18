@@ -1,14 +1,14 @@
 "use client";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { useEdgesState, useNodesState } from "@xyflow/react";
 import { isEqual } from "lodash";
+import { comsGetOptions } from "mtmaiapi";
 import { nanoid } from "nanoid";
+import { createContext, useContext, useMemo } from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
-
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { comsGetOptions } from "mtmaiapi";
-import { createContext, useContext, useMemo } from "react";
 import { useTenantId } from "../hooks/useAuth";
 import type {
   CustomEdge,
@@ -706,6 +706,8 @@ type AppProviderProps = React.PropsWithChildren<TeamBuilderProps>;
 export const TeamBuilderProvider = (props: AppProviderProps) => {
   const { children, ...etc } = props;
   const tid = useTenantId();
+  const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
   const componentsQuery = useSuspenseQuery({
     ...comsGetOptions({
       path: {

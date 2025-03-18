@@ -5,8 +5,6 @@ import {
   MiniMap,
   ReactFlow,
   addEdge,
-  useEdgesState,
-  useNodesState,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import debounce from "lodash.debounce";
@@ -19,19 +17,23 @@ import type { ComponentTypes, Team } from "../../types/datamodel";
 import "./builder.css";
 import { edgeTypes, nodeTypes } from "./nodes";
 import { TeamBuilderToolbar } from "./toolbar";
-import type { CustomEdge, CustomNode } from "./types";
+import type { CustomEdge } from "./types";
 
 interface TeamBuilderProps {
   onChange?: (team: Partial<Team>) => void;
   onDirtyStateChange?: (isDirty: boolean) => void;
 }
 
-export const TeamBuilder: React.FC<TeamBuilderProps> = ({
+export const TeamBuilder = ({
   onChange,
   onDirtyStateChange,
-}) => {
-  const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
+}: TeamBuilderProps) => {
+  // const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
+  // const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
+  const nodes = useTeamBuilderStore((state) => state.nodes);
+  const setNodes = useTeamBuilderStore((state) => state.setNodes);
+  const edges = useTeamBuilderStore((state) => state.edges);
+  const setEdges = useTeamBuilderStore((state) => state.setEdges);
   const [showGrid, setShowGrid] = useState(true);
   const [showMiniMap, setShowMiniMap] = useState(true);
   const editorRef = useRef(null);
@@ -238,8 +240,8 @@ export const TeamBuilder: React.FC<TeamBuilderProps> = ({
                 <ReactFlow
                   nodes={nodes}
                   edges={edges}
-                  onNodesChange={onNodesChange}
-                  onEdgesChange={onEdgesChange}
+                  // onNodesChange={onNodesChange}
+                  // onEdgesChange={onEdgesChange}
                   onConnect={onConnect}
                   onNodeClick={(_, node) => setSelectedNode(node.id)}
                   nodeTypes={nodeTypes}

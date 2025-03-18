@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouterState } from "@tanstack/react-router";
 import type React from "react";
 import {
   createContext,
@@ -13,8 +12,6 @@ import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
-import { useTenantId } from "../hooks/useAuth";
-import { useNav } from "../hooks/useNav";
 import { useTeamBuilderStore } from "./teamBuildStore";
 
 import {
@@ -78,10 +75,10 @@ export const ComponentDndProvider = (
   props: React.PropsWithChildren<ComponentsProps>,
 ) => {
   const { children, ...etc } = props;
-  const tid = useTenantId();
-  const nav = useNav();
+  // const tid = useTenantId();
+  // const nav = useNav();
   const [isPending, startTransition] = useTransition();
-  const matches = useRouterState({ select: (s) => s.matches });
+  // const matches = useRouterState({ select: (s) => s.matches });
   // const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
   // const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
   const team = useTeamBuilderStore((state) => state.team);
@@ -154,7 +151,8 @@ export const ComponentDndProvider = (
     // Validate drop
     const isValid = validateDropTarget(
       draggedItem.type,
-      targetNode.data.component.component_type,
+      targetNode.data.component.component_type ||
+        targetNode.data.component.componentType,
     );
     if (!isValid) {
       console.log("Invalid drop");

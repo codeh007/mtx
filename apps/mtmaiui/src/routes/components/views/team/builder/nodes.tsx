@@ -309,7 +309,7 @@ export const TeamNode = memo<NodeProps<CustomNode>>((props) => {
           ))}
           <DroppableZone id={`${props.id}@@@agent-zone`} accepts={["agent"]}>
             <div className="text-secondary text-xs my-1 text-center">
-              Drop agents here
+              Drop agents here: {props.id} <DebugValue data={props} />
             </div>
           </DroppableZone>
         </div>
