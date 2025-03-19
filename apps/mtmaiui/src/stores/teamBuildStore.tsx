@@ -801,6 +801,7 @@ export const createWorkbrenchSlice: StateCreator<
       }
     }, 1000),
     loadFromJson: (config: Component<TeamConfig>, isInitialLoad = true) => {
+      console.log("loadFromJson", config);
       // Get graph representation of team config
       const { nodes, edges } = convertTeamConfigToGraph(config);
       const { nodes: layoutedNodes, edges: layoutedEdges } =
@@ -955,17 +956,10 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
 
   useEffect(() => {
     // mystore.setState({ component: componentsQuery.data });
-    mystore.getState().loadFromJson(componentsQuery.data);
+    if (componentsQuery.data) {
+      mystore.getState().loadFromJson(componentsQuery.data);
+    }
   }, [componentsQuery.data]);
-
-  // const handleDragStart = (event: DragStartEvent) => {
-  //   console.log("handleDragStart", event);
-  //   const { active } = event;
-  //   if (active.data.current) {
-  //     // setActiveDragItem(active.data.current as DragItemData);
-  //     mystore.setState({ activeDragItem: active.data.current as DragItemData });
-  //   }
-  // };
 
   // const handleDragEnd = (event: DragEndEvent) => {
   //   console.log("handleDragEnd", event);

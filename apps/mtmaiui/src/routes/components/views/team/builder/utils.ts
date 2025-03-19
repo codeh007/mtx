@@ -186,7 +186,7 @@ export const convertTeamConfigToGraph = (
   const nodes: CustomNode[] = [];
   const edges: CustomEdge[] = [];
 
-  // console.log("xxxxteamComponent", teamComponent);
+  console.log("xxxxteamComponent", teamComponent);
   // Create agent nodes first to calculate their positions
   const agentNodes: CustomNode[] = [];
   teamComponent.config?.participants?.forEach((participant, index) => {
