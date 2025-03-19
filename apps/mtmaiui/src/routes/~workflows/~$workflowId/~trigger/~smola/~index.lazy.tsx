@@ -15,13 +15,15 @@ function RouteComponent() {
   );
   const handleClick = async () => {
     workflowRunCreate(
-      FlowNames.SMOLA,
+      FlowNames.AG,
       {
         content: "你好",
         topic: "default",
         source: "web",
       },
-      {},
+      {
+        componentId: "123",
+      },
     );
   };
   return (

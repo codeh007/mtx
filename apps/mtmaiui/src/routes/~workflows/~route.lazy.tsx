@@ -7,6 +7,7 @@ import {
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
 import { DashHeaders } from "../../components/DashHeaders";
+import { WorkbrenchProvider } from "../../stores/workbrench.store";
 import { WorkflowsProvider } from "../../stores/workflow-store";
 import { RootAppWrapper } from "../components/RootAppWrapper";
 import { NavWorkflow } from "./siderbar";
@@ -16,19 +17,21 @@ export const Route = createLazyFileRoute("/workflows")({
 
 function RouteComponent() {
   return (
-    <WorkflowsProvider>
-      <RootAppWrapper secondSidebar={<NavWorkflow />}>
-        <DashHeaders>
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbPage>工作流</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </DashHeaders>
-        <Outlet />
-      </RootAppWrapper>
-    </WorkflowsProvider>
+    <WorkbrenchProvider>
+      <WorkflowsProvider>
+        <RootAppWrapper secondSidebar={<NavWorkflow />}>
+          <DashHeaders>
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbPage>工作流</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </DashHeaders>
+          <Outlet />
+        </RootAppWrapper>
+      </WorkflowsProvider>
+    </WorkbrenchProvider>
   );
 }
