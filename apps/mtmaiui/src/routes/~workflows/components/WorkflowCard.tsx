@@ -6,7 +6,7 @@ import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Badge } from "mtxuilib/ui/badge";
 import { Button } from "mtxuilib/ui/button";
 
-import { WorkflowTriggerBtn } from "./WorkflowTriggerBtn";
+import { WorkflowTriggerBtn } from "../WorkflowTriggerBtn";
 
 export const WorkflowCard = ({ data }: { data: Workflow }) => {
   return (
@@ -39,7 +39,7 @@ export const WorkflowCard = ({ data }: { data: Workflow }) => {
           <CustomLink to={`/workflows/${data.metadata?.id}`}>
             <Button>View</Button>
           </CustomLink>
-          <WorkflowTriggerBtn workflowId={data.metadata.id} />
+          <WorkflowTriggerBtn workflow={data} />
         </div>
       </div>
     </div>

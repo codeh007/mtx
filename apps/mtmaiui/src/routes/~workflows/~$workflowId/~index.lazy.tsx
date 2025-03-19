@@ -17,7 +17,6 @@ import invariant from "tiny-invariant";
 
 import { createLazyFileRoute } from "@tanstack/react-router";
 import {
-  type Tenant,
   type WorkflowUpdateRequest,
   workflowDeleteMutation,
   workflowGetOptions,
@@ -26,7 +25,6 @@ import {
 import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { SkeletonListview } from "mtxuilib/components/skeletons/SkeletonListView";
-import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { relativeDate } from "mtxuilib/lib/utils";
 import { MtLoading } from "mtxuilib/mt/mtloading";
 import { Badge } from "mtxuilib/ui/badge";
@@ -38,22 +36,17 @@ import {
   DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu";
 import { Separator } from "mtxuilib/ui/separator";
-import { useTenant } from "../../hooks/useAuth";
-import { useBasePath } from "../../hooks/useBasePath";
-// import { WorkflowRunsTable } from "../~workflow-runs/components/workflow-runs-table.tsx--";
-import { WorkflowTriggerBtn } from "./components/WorkflowTriggerBtn";
-import WorkflowGeneralSettings from "./components/workflow-general-settings";
-import { WorkflowTags } from "./components/workflow-tags";
-export const Route = createLazyFileRoute("/workflows/$workflowId")({
+import { useNav } from "../../../hooks/useNav";
+import { WorkflowTriggerBtn } from "../WorkflowTriggerBtn";
+import WorkflowGeneralSettings from "../components/workflow-general-settings";
+import { WorkflowTags } from "../components/workflow-tags";
+export const Route = createLazyFileRoute("/workflows/$workflowId/")({
   component: ExpandedWorkflow,
 });
 
 export default function ExpandedWorkflow() {
   const { workflowId } = Route.useParams();
-  const router = useMtRouter();
-  const tenant = useTenant();
-  const basePath = useBasePath();
-  // TODO list previous versions and make selectable
+  const nav = useNav();
   const [selectedVersion] = useState<string | undefined>();
   const [deleteWorkflow, setDeleteWorkflow] = useState(false);
 
@@ -115,11 +108,9 @@ export default function ExpandedWorkflow() {
   const deleteWorkflowMutation = useMutation({
     ...workflowDeleteMutation(),
     onSuccess: () => {
-      router.push(`${basePath}/workflows`);
+      nav({ to: "/workflows" });
     },
   });
-
-  // const integrations = useApiMetaIntegrations();
 
   const workflow = workflowQuery.data;
 
@@ -206,7 +197,7 @@ export default function ExpandedWorkflow() {
                 </div>
                 <WorkflowTags tags={workflow.tags || []} />
                 <div className="flex flex-row gap-2">
-                  <WorkflowTriggerBtn workflowId={workflowId} />
+                  <WorkflowTriggerBtn workflow={workflow} />
                 </div>
               </div>
               <div className="flex flex-row justify-start items-center mt-4">
@@ -236,7 +227,7 @@ export default function ExpandedWorkflow() {
                   </h3>
                   <Separator className="my-4" />
                   <MtSuspenseBoundary>
-                    <RecentRunsList tenant={tenant!} workflowId={workflowId} />
+                    <RecentRunsList workflowId={workflowId} />
                   </MtSuspenseBoundary>
                 </MtTabsContent>
                 <MtTabsContent value="settings">
@@ -305,9 +296,9 @@ export default function ExpandedWorkflow() {
 
 interface RecentRunsListProps {
   workflowId: string;
-  tenant: Tenant;
+  // tenant: Tenant;
 }
-function RecentRunsList({ workflowId, tenant }: RecentRunsListProps) {
+function RecentRunsList({ workflowId }: RecentRunsListProps) {
   return (
     <MtSuspenseBoundary>
       {/* <WorkflowRunsTable

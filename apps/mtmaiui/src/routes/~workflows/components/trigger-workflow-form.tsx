@@ -2,6 +2,7 @@
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
+import type { Workflow } from "mtmaiapi";
 import { workflowRunCreateMutation } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { CodeEditor } from "mtxuilib/mt/code-editor";
@@ -24,8 +25,6 @@ export function TriggerWorkflowForm({
   show: boolean;
   onClose: () => void;
 }) {
-  // const tenant = useTenant();
-
   const navigate = useNavigate();
   const basePath = useBasePath();
 

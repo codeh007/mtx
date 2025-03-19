@@ -4,6 +4,7 @@ import type { Workflow } from "mtmaiapi";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { TaskDateBadge } from "mtxuilib/mt/relative-date";
 import { useWorkflowsStore } from "../../stores/workflow-store";
+import { WorkflowTriggerBtn } from "./WorkflowTriggerBtn";
 
 export function WorkflowListView() {
   const listWorkflowQuery = useWorkflowsStore((x) => x.listWorkflowQuery);
@@ -17,14 +18,11 @@ export function WorkflowListView() {
 }
 
 function WorkflowListItem({ row }: { row: Workflow }) {
-  // const workflow = row.workflowVersion?.workflow;
   return (
     <div className="flex flex-col gap-2 mb-2 bg-blue-50 p-2 rounded-md">
       <div>
         <span>{/* <RunStatus status={row.status} /> */}</span>
-        <CustomLink to={`/workflow-runs/${row.metadata.id}`}>
-          {row.name}
-        </CustomLink>
+        <CustomLink to={`/workflows/${row.metadata.id}`}>{row.name}</CustomLink>
       </div>
 
       <div>
@@ -40,6 +38,9 @@ function WorkflowListItem({ row }: { row: Workflow }) {
         </span>
         <span className="text-sm text-muted-foreground">
           workflow:{row.name}
+        </span>
+        <span>
+          <WorkflowTriggerBtn workflow={row} />
         </span>
       </div>
     </div>
