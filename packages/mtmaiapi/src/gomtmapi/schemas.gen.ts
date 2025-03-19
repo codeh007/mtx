@@ -5297,17 +5297,6 @@ export const PromptListSchema = {
   },
 } as const;
 
-export const ComponentGetSchema = {
-  properties: {
-    id: {
-      type: "string",
-    },
-    label: {
-      type: "string",
-    },
-  },
-} as const;
-
 export const BadRequestSchema = {
   content: {
     "application/json": {

@@ -2294,11 +2294,6 @@ export interface PromptList {
   rows?: Artifact[];
 }
 
-export interface ComponentGet {
-  id?: string;
-  label?: string;
-}
-
 export type BadRequest = APIErrors;
 
 /** Forbidden */

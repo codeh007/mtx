@@ -6556,11 +6556,6 @@ export const zPromptList = z.object({
   rows: z.array(zArtifact).optional(),
 });
 
-export const zComponentGet = z.object({
-  id: z.string().optional(),
-  label: z.string().optional(),
-});
-
 export const zBadRequest = z.unknown();
 
 export const zForbidden = z.unknown();

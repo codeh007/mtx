@@ -1,5 +1,5 @@
 "use client";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import {
   type Connection,
   addEdge,
@@ -815,7 +815,7 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
   const tid = useTenantId();
   const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
-  const componentsQuery = useSuspenseQuery({
+  const componentsQuery = useQuery({
     ...comsGetOptions({
       path: {
         tenant: tid,

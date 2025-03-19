@@ -2709,11 +2709,6 @@ export type PromptList = {
   rows?: Array<Artifact>;
 };
 
-export type ComponentGet = {
-  id?: string;
-  label?: string;
-};
-
 export type BadRequest = unknown;
 
 /**

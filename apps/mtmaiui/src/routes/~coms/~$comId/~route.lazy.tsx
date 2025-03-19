@@ -7,7 +7,7 @@ import { NavComsWithLibrary } from "./siderbar";
 
 export const Route = createLazyFileRoute("/coms/$comId")({
   component: RouteComponent,
-  pendingComponent: (a) => <div>Loading...{JSON.stringify(a, null, 2)}</div>,
+  // pendingComponent: (a) => <div>Loading...{JSON.stringify(a, null, 2)}</div>,
 });
 
 function RouteComponent() {
