@@ -1,18 +1,36 @@
 "use client";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useEdgesState, useNodesState } from "@xyflow/react";
-import { isEqual } from "lodash";
+import { debounce, isEqual } from "lodash";
 import { comsGetOptions } from "mtmaiapi";
 import { nanoid } from "nanoid";
-import { createContext, useContext, useMemo } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+} from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { useTenantId } from "../hooks/useAuth";
+
+import {
+  DndContext,
+  type DragEndEvent,
+  type DragOverEvent,
+  type DragStartEvent,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+
 import type {
   CustomEdge,
   CustomNode,
+  DragItem,
   GraphState,
   NodeData,
   Position,
@@ -50,19 +68,28 @@ export interface DragItemData {
 }
 export interface TeamBuilderProps {
   componentId: string;
+  queryParams?: Record<string, any>;
 }
 export interface TeamBuilderState extends TeamBuilderProps {
+  // activeDragItem: DragItemData | null;
+  // setActiveDragItem: (activeDragItem: DragItemData | null) => void;
   team?: Team;
   isJsonMode: boolean;
   setIsJsonMode: (isJsonMode: boolean) => void;
   isFullscreen: boolean;
   setIsFullscreen: (isFullscreen: boolean) => void;
+  validationLoading: boolean;
+  setValidationLoading: (validationLoading: boolean) => void;
   isDirty: boolean;
   setIsDirty: (isDirty: boolean) => void;
   teamValidated: boolean;
   setTeamValidated: (teamValidated: boolean) => void;
   validationResults: any;
   setValidationResults: (validationResults: any) => void;
+  showGrid: boolean;
+  setShowGrid: (showGrid: boolean) => void;
+  showMiniMap: boolean;
+  setShowMiniMap: (showMiniMap: boolean) => void;
   nodes: CustomNode[];
   setNodes: (nodes: CustomNode[]) => void;
   edges: CustomEdge[];
@@ -103,6 +130,12 @@ export interface TeamBuilderState extends TeamBuilderProps {
   activeDragItem?: DragItemData | null;
   setActiveDragItem: (activeDragItem: DragItemData | null) => void;
   handleValidate: () => Promise<void>;
+  // validationLoading: boolean;
+  // setValidationLoading: (validationLoading: boolean) => void;
+  // showGrid: boolean;
+  // setShowGrid: (showGrid: boolean) => void;
+  // showMiniMap: boolean;
+  // setShowMiniMap: (showMiniMap: boolean) => void;
 }
 
 const buildTeamComponent = (
@@ -150,12 +183,26 @@ export const createWorkbrenchSlice: StateCreator<
     history: [],
     currentHistoryIndex: -1,
     originalComponent: null,
+    isJsonMode: false,
+    isFullscreen: false,
+    showGrid: true,
+    showMiniMap: true,
     setIsJsonMode: (isJsonMode: boolean) => {
+      console.log("setIsJsonMode", isJsonMode);
       set({ isJsonMode });
     },
     setIsFullscreen: (isFullscreen: boolean) => {
       set({ isFullscreen });
     },
+    setShowGrid: (showGrid: boolean) => {
+      console.log("setShowGrid", showGrid);
+      set({ showGrid });
+    },
+    setShowMiniMap: (showMiniMap: boolean) => {
+      console.log("setShowMiniMap", showMiniMap);
+      set({ showMiniMap });
+    },
+
     setIsDirty: (isDirty: boolean) => {
       set({ isDirty });
     },
@@ -165,201 +212,213 @@ export const createWorkbrenchSlice: StateCreator<
     setValidationResults: (validationResults: any[]) => {
       set({ validationResults });
     },
+    setValidationLoading: (validationLoading: boolean) => {
+      set({ validationLoading });
+    },
     addNode: (
       position: Position,
       component: Component<ComponentConfig>,
       targetNodeId: string,
     ) => {
       console.log("addNode", component, targetNodeId);
-      set((state) => {
-        // Deep clone the incoming component to avoid reference issues
-        const clonedComponent = JSON.parse(JSON.stringify(component));
-        let newNodes = [...state.nodes];
-        const newEdges = [...state.edges];
+      // set((state) => {
+      // Deep clone the incoming component to avoid reference issues
+      const clonedComponent = JSON.parse(JSON.stringify(component));
+      console.log("clonedComponent", clonedComponent);
+      let newNodes = [...get().nodes];
+      const newEdges = [...get().edges];
 
-        if (targetNodeId) {
-          const targetNode = state.nodes.find((n) => n.id === targetNodeId);
+      if (targetNodeId) {
+        const targetNode = get().nodes.find((n) => n.id === targetNodeId);
 
-          console.log("Target node", targetNode);
-          if (!targetNode) return state;
-
-          // Handle configuration updates based on component type
-          if (isModelComponent(clonedComponent)) {
-            if (
-              isTeamComponent(targetNode.data.component) &&
-              isSelectorTeam(targetNode.data.component)
-            ) {
-              targetNode.data.component.config.model_client = clonedComponent;
-              return {
-                nodes: newNodes,
-                edges: newEdges,
-                history: [
-                  ...state.history.slice(0, state.currentHistoryIndex + 1),
-                  { nodes: newNodes, edges: newEdges },
-                ].slice(-MAX_HISTORY),
-                currentHistoryIndex: state.currentHistoryIndex + 1,
-              };
-              // biome-ignore lint/style/noUselessElse: <explanation>
-            } else if (
-              isAgentComponent(targetNode.data.component) &&
-              (isAssistantAgent(targetNode.data.component) ||
-                isWebSurferAgent(targetNode.data.component))
-            ) {
-              targetNode.data.component.config.model_client = clonedComponent;
-              return {
-                nodes: newNodes,
-                edges: newEdges,
-                history: [
-                  ...state.history.slice(0, state.currentHistoryIndex + 1),
-                  { nodes: newNodes, edges: newEdges },
-                ].slice(-MAX_HISTORY),
-                currentHistoryIndex: state.currentHistoryIndex + 1,
-              };
-            }
-          } else if (isToolComponent(clonedComponent)) {
-            if (
-              isAgentComponent(targetNode.data.component) &&
-              isAssistantAgent(targetNode.data.component)
-            ) {
-              if (!targetNode.data.component.config.tools) {
-                targetNode.data.component.config.tools = [];
-              }
-              const toolName = getUniqueName(
-                clonedComponent.config.name,
-                targetNode.data.component.config.tools.map(
-                  (t) => t.config.name,
-                ),
-              );
-              clonedComponent.config.name = toolName;
-              targetNode.data.component.config.tools.push(clonedComponent);
-              return {
-                nodes: newNodes,
-                edges: newEdges,
-                history: [
-                  ...state.history.slice(0, state.currentHistoryIndex + 1),
-                  { nodes: newNodes, edges: newEdges },
-                ].slice(-MAX_HISTORY),
-                currentHistoryIndex: state.currentHistoryIndex + 1,
-              };
-            }
-          } else if (isTerminationComponent(clonedComponent)) {
-            console.log("Termination component added", clonedComponent);
-            if (isTeamComponent(targetNode.data.component)) {
-              newNodes = state.nodes.map((node) => {
-                if (node.id === targetNodeId) {
-                  return {
-                    ...node,
-                    data: {
-                      ...node.data,
-                      component: {
-                        ...node.data.component,
-                        config: {
-                          ...node.data.component.config,
-                          termination_condition: clonedComponent,
-                        },
-                      },
-                    },
-                  };
-                }
-                return node;
-              });
-
-              return {
-                nodes: newNodes,
-                edges: newEdges,
-                history: [
-                  ...state.history.slice(0, state.currentHistoryIndex + 1),
-                  { nodes: newNodes, edges: newEdges },
-                ].slice(-MAX_HISTORY),
-                currentHistoryIndex: state.currentHistoryIndex + 1,
-              };
-            }
-          }
+        console.log("Target node data", targetNode?.data);
+        if (!targetNode) {
+          console.log("No target node", targetNodeId);
+          // return state;
+          return;
         }
 
-        // Handle team and agent nodes
-        if (isTeamComponent(clonedComponent)) {
-          console.log("Team component added", clonedComponent);
+        // Handle configuration updates based on component type
+        if (isModelComponent(clonedComponent)) {
+          if (
+            isTeamComponent(targetNode.data.component) &&
+            isSelectorTeam(targetNode.data.component)
+          ) {
+            targetNode.data.component.config.model_client = clonedComponent;
+            return {
+              nodes: newNodes,
+              edges: newEdges,
+              history: [
+                ...get().history.slice(0, get().currentHistoryIndex + 1),
+                { nodes: newNodes, edges: newEdges },
+              ].slice(-MAX_HISTORY),
+              currentHistoryIndex: get().currentHistoryIndex + 1,
+            };
+            // biome-ignore lint/style/noUselessElse: <explanation>
+          } else if (
+            isAgentComponent(targetNode.data.component) &&
+            (isAssistantAgent(targetNode.data.component) ||
+              isWebSurferAgent(targetNode.data.component))
+          ) {
+            targetNode.data.component.config.model_client = clonedComponent;
+            return {
+              nodes: newNodes,
+              edges: newEdges,
+              history: [
+                ...get().history.slice(0, get().currentHistoryIndex + 1),
+                { nodes: newNodes, edges: newEdges },
+              ].slice(-MAX_HISTORY),
+              currentHistoryIndex: get().currentHistoryIndex + 1,
+            };
+          }
+        } else if (isToolComponent(clonedComponent)) {
+          if (
+            isAgentComponent(targetNode.data.component) &&
+            isAssistantAgent(targetNode.data.component)
+          ) {
+            if (!targetNode.data.component.config.tools) {
+              targetNode.data.component.config.tools = [];
+            }
+            const toolName = getUniqueName(
+              clonedComponent.config.name,
+              targetNode.data.component.config.tools.map((t) => t.config.name),
+            );
+            clonedComponent.config.name = toolName;
+            targetNode.data.component.config.tools.push(clonedComponent);
+            return {
+              nodes: newNodes,
+              edges: newEdges,
+              history: [
+                ...get().history.slice(0, get().currentHistoryIndex + 1),
+                { nodes: newNodes, edges: newEdges },
+              ].slice(-MAX_HISTORY),
+              currentHistoryIndex: get().currentHistoryIndex + 1,
+            };
+          }
+        } else if (isTerminationComponent(clonedComponent)) {
+          console.log("Termination component added", clonedComponent);
+          if (isTeamComponent(targetNode.data.component)) {
+            newNodes = get().nodes.map((node) => {
+              if (node.id === targetNodeId) {
+                return {
+                  ...node,
+                  data: {
+                    ...node.data,
+                    component: {
+                      ...node.data.component,
+                      config: {
+                        ...node.data.component.config,
+                        termination_condition: clonedComponent,
+                      },
+                    },
+                  },
+                };
+              }
+              return node;
+            });
+
+            // return {
+            //   nodes: newNodes,
+            //   edges: newEdges,
+            //   history: [
+            //     ...get().history.slice(0, get().currentHistoryIndex + 1),
+            //     { nodes: newNodes, edges: newEdges },
+            //   ].slice(-MAX_HISTORY),
+            //   currentHistoryIndex: get().currentHistoryIndex + 1,
+            // };
+          }
+        }
+      }
+
+      // Handle team and agent nodes
+      if (isTeamComponent(clonedComponent)) {
+        console.log("Team component added", clonedComponent);
+        const newNode: CustomNode = {
+          id: nanoid(),
+          position,
+          type: clonedComponent.component_type,
+          data: {
+            label: clonedComponent.label || "Team",
+            component: clonedComponent,
+            type: clonedComponent.component_type as NodeData["type"],
+          },
+        };
+        newNodes.push(newNode);
+      } else if (isAgentComponent(clonedComponent)) {
+        console.log("Agent component added", clonedComponent);
+        // Find the team node to connect to
+        const teamNode = newNodes.find((n) =>
+          isTeamComponent(n.data.component),
+        );
+        if (teamNode) {
+          // Ensure unique agent name
+          if (
+            isAssistantAgent(clonedComponent) &&
+            isTeamComponent(teamNode.data.component)
+          ) {
+            console.log("teamNode222", teamNode);
+            const existingAgents =
+              teamNode.data.component.config.participants || [];
+            const existingNames = existingAgents.map((p) => p.config.name);
+            clonedComponent.config.name = getUniqueName(
+              clonedComponent.config.name,
+              existingNames,
+            );
+          }
+
+          const componentType =
+            clonedComponent.component_type || clonedComponent.componentType;
           const newNode: CustomNode = {
             id: nanoid(),
             position,
-            type: clonedComponent.component_type,
+            type: componentType,
             data: {
-              label: clonedComponent.label || "Team",
+              label: clonedComponent.label || clonedComponent.config.name,
               component: clonedComponent,
-              type: clonedComponent.component_type as NodeData["type"],
+              // type: componentType as NodeData["type"],
+              type: "agent",
             },
           };
-          newNodes.push(newNode);
-        } else if (isAgentComponent(clonedComponent)) {
-          console.log("Agent component added", clonedComponent);
-          // Find the team node to connect to
-          const teamNode = newNodes.find((n) =>
-            isTeamComponent(n.data.component),
-          );
-          if (teamNode) {
-            // Ensure unique agent name
-            if (
-              isAssistantAgent(clonedComponent) &&
-              isTeamComponent(teamNode.data.component)
-            ) {
-              const existingAgents =
-                teamNode.data.component.config.participants || [];
-              const existingNames = existingAgents.map((p) => p.config.name);
-              clonedComponent.config.name = getUniqueName(
-                clonedComponent.config.name,
-                existingNames,
-              );
+          console.log("newNode", newNode);
+
+          // newNodes.push(newNode);
+          set({ nodes: [...get().nodes, newNode] });
+          // Add connection to team
+          newEdges.push({
+            id: nanoid(),
+            source: teamNode.id,
+            target: newNode.id,
+            sourceHandle: `${teamNode.id}-agent-output-handle`,
+            targetHandle: `${newNode.id}-agent-input-handle`,
+            type: "agent-connection",
+          });
+          set({ edges: newEdges });
+          // Update team's participants
+          if (isTeamComponent(teamNode.data.component)) {
+            if (!teamNode.data.component.config.participants) {
+              teamNode.data.component.config.participants = [];
             }
-
-            const newNode: CustomNode = {
-              id: nanoid(),
-              position,
-              type: clonedComponent.component_type,
-              data: {
-                label: clonedComponent.label || clonedComponent.config.name,
-                component: clonedComponent,
-                type: clonedComponent.component_type as NodeData["type"],
-              },
-            };
-
-            newNodes.push(newNode);
-
-            // Add connection to team
-            newEdges.push({
-              id: nanoid(),
-              source: teamNode.id,
-              target: newNode.id,
-              sourceHandle: `${teamNode.id}-agent-output-handle`,
-              targetHandle: `${newNode.id}-agent-input-handle`,
-              type: "agent-connection",
-            });
-
-            // Update team's participants
-            if (isTeamComponent(teamNode.data.component)) {
-              if (!teamNode.data.component.config.participants) {
-                teamNode.data.component.config.participants = [];
-              }
-              teamNode.data.component.config.participants.push(
-                newNode.data.component as Component<AgentConfig>,
-              );
-            }
+            console.log("teamNode2222", teamNode.data.component.config);
+            // teamNode.data.component.config.participants.push(
+            //   newNode.data.component as Component<AgentConfig>,
+            // );
           }
         }
+      }
 
-        const { nodes: layoutedNodes, edges: layoutedEdges } =
-          getLayoutedElements(newNodes, newEdges);
+      // const { nodes: layoutedNodes, edges: layoutedEdges } =
+      //   getLayoutedElements(newNodes, newEdges);
 
-        return {
-          nodes: layoutedNodes,
-          edges: layoutedEdges,
-          history: [
-            ...state.history.slice(0, state.currentHistoryIndex + 1),
-            { nodes: layoutedNodes, edges: layoutedEdges },
-          ].slice(-MAX_HISTORY),
-          currentHistoryIndex: state.currentHistoryIndex + 1,
-        };
-      });
+      // return {
+      //   // nodes: layoutedNodes,
+      //   // edges: layoutedEdges,
+      //   history: [
+      //     ...state.history.slice(0, state.currentHistoryIndex + 1),
+      //     { nodes: layoutedNodes, edges: layoutedEdges },
+      //   ].slice(-MAX_HISTORY),
+      //   currentHistoryIndex: state.currentHistoryIndex + 1,
+      // };
+      // });
     },
 
     updateNode: (nodeId: string, updates: Partial<NodeData>) => {
@@ -534,7 +593,7 @@ export const createWorkbrenchSlice: StateCreator<
     },
 
     setSelectedNode: (nodeId) => {
-      console.log("setSelectedNode", nodeId);
+      console.log("setSelectedNodeId", nodeId);
       set({ selectedNodeId: nodeId });
     },
 
@@ -641,6 +700,9 @@ export const createWorkbrenchSlice: StateCreator<
         history: [{ nodes: state.nodes, edges: state.edges }],
         currentHistoryIndex: 0,
       }));
+      set({
+        isDirty: false,
+      });
     },
 
     addToHistory: () => {
@@ -651,6 +713,12 @@ export const createWorkbrenchSlice: StateCreator<
         ].slice(-MAX_HISTORY),
         currentHistoryIndex: state.currentHistoryIndex + 1,
       }));
+
+      if (get().history.length) {
+        set({
+          isDirty: true,
+        });
+      }
     },
 
     setActiveDragItem: (activeDragItem: DragItemData | null) => {
@@ -681,10 +749,10 @@ export const createWorkbrenchSlice: StateCreator<
   };
 };
 
-type teamBuilderStore = ReturnType<typeof createWordbrenchStore>;
+type teamBuilderStore = ReturnType<typeof createTeamBuilderStore>;
 export type WorkbrenchStoreState = TeamBuilderState;
 
-const createWordbrenchStore = (initProps?: Partial<TeamBuilderState>) => {
+const createTeamBuilderStore = (initProps?: Partial<TeamBuilderState>) => {
   return createStore<TeamBuilderState>()(
     subscribeWithSelector(
       // persist(
@@ -720,16 +788,170 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
   });
   const mystore = useMemo(() => {
     const team = componentsQuery.data as unknown as Team;
-    const store = createWordbrenchStore({
+    const store = createTeamBuilderStore({
       ...etc,
       team: team,
     });
     return store;
   }, [componentsQuery.data]);
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+  );
+  const onDragStart = (item: DragItem) => {
+    // We can add any drag start logic here if needed
+  };
+  const handleDragStart = (event: DragStartEvent) => {
+    console.log("handleDragStart", event);
+    const { active } = event;
+    if (active.data.current) {
+      // setActiveDragItem(active.data.current as DragItemData);
+      mystore.setState({ activeDragItem: active.data.current as DragItemData });
+    }
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    console.log("handleDragEnd", event);
+    const { active, over } = event;
+    if (!over || !active.data?.current?.current) return;
+
+    const draggedItem = active.data.current.current;
+    const dropZoneId = over.id as string;
+    console.log("dropZoneId", dropZoneId);
+    const [nodeId] = dropZoneId.split("@@@");
+    // Find target node
+    const targetNode = nodes.find((node) => node.id === nodeId);
+    if (!targetNode) {
+      console.log("No target node", nodes, nodeId);
+      return;
+    }
+
+    // Validate drop
+    const isValid = validateDropTarget(
+      draggedItem.type,
+      targetNode.data.component.component_type ||
+        targetNode.data.component.componentType,
+    );
+    if (!isValid) {
+      console.log("Invalid drop");
+      return;
+    }
+
+    const position = {
+      x: event.delta.x,
+      y: event.delta.y,
+    };
+
+    // Pass both new node data AND target node id
+    // addNode(position, draggedItem.config, nodeId);
+    mystore.getState().addNode(position, draggedItem, nodeId);
+
+    mystore.setState({ activeDragItem: null });
+  };
+
+  const handleTestDrawerClose = () => {
+    // console.log("TestDrawer closed");
+    // setTestDrawerVisible(false);
+  };
+  const validateDropTarget = (
+    draggedType: ComponentTypes,
+    targetType: ComponentTypes,
+  ): boolean => {
+    const validTargets: Record<ComponentTypes, ComponentTypes[]> = {
+      model: ["team", "agent"],
+      tool: ["agent"],
+      agent: ["team"],
+      team: [],
+      termination: ["team"],
+    };
+    return validTargets[draggedType]?.includes(targetType) || false;
+  };
+  const handleDragOver = (event: DragOverEvent) => {
+    console.log("handleDragOver", event);
+    const { active, over } = event;
+    if (!over?.id || !active.data.current) return;
+
+    const draggedType = active.data.current.type;
+    const targetNode = nodes.find((node) => node.id === over.id);
+    if (!targetNode) return;
+
+    const isValid = validateDropTarget(
+      draggedType,
+      targetNode.data.component.component_type,
+    );
+    // Add visual feedback class to target node
+    if (isValid) {
+      targetNode.className = "drop-target-valid";
+    } else {
+      targetNode.className = "drop-target-invalid";
+    }
+  };
+  // Load initial config
+  useEffect(() => {
+    console.log(
+      "useEffect(load team nodes and edges)",
+      mystore.getState().team,
+    );
+    if (mystore.getState().team) {
+      const { nodes: initialNodes, edges: initialEdges } = mystore
+        .getState()
+        .loadFromJson(mystore.getState().team);
+      console.log("initialNodes", initialNodes, initialEdges);
+      setNodes(initialNodes);
+      setEdges(initialEdges);
+    }
+    mystore.getState().handleValidate();
+
+    return () => {
+      // console.log("cleanup component");
+      // setValidationResults(null);
+    };
+  }, [mystore.getState().team, setNodes, setEdges]);
+  useEffect(() => {
+    if (!mystore.getState().isFullscreen) return;
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        mystore.setState({ isFullscreen: false });
+      }
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [mystore.getState().isFullscreen, mystore]);
+
+  const handleJsonChange = useCallback(
+    debounce((value: string) => {
+      try {
+        const config = JSON.parse(value);
+        // Always consider JSON edits as changes that should affect isDirty state
+        mystore.getState().loadFromJson(config, false);
+        // Force history update even if nodes/edges appear same
+        mystore.getState().addToHistory();
+      } catch (error) {
+        console.error("Invalid JSON:", error);
+      }
+    }, 1000),
+    [mystore],
+  );
+  useEffect(() => {
+    return () => {
+      handleJsonChange.cancel();
+      mystore.getState().setValidationResults(null);
+    };
+  }, [handleJsonChange]);
   return (
     <mtmaiStoreContext.Provider value={mystore}>
-      {children}
+      <DndContext
+        sensors={sensors}
+        onDragEnd={handleDragEnd}
+        onDragOver={handleDragOver}
+        onDragStart={handleDragStart}
+      >
+        {children}
+      </DndContext>
     </mtmaiStoreContext.Provider>
   );
 };

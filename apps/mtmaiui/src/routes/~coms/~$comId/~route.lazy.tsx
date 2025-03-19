@@ -1,6 +1,5 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
-import { ComponentDndProvider } from "../../../stores/ComponentDndProvider";
 import { TeamBuilderProvider } from "../../../stores/teamBuildStore";
 import { WorkbrenchProvider } from "../../../stores/workbrench.store";
 import { RootAppWrapper } from "../../components/RootAppWrapper";
@@ -17,13 +16,11 @@ function RouteComponent() {
   return (
     <WorkbrenchProvider>
       <TeamBuilderProvider componentId={comId}>
-        <ComponentDndProvider>
-          <RootAppWrapper secondSidebar={<NavComsWithLibrary />}>
-            <MtSuspenseBoundary>
-              <Outlet />
-            </MtSuspenseBoundary>
-          </RootAppWrapper>
-        </ComponentDndProvider>
+        <RootAppWrapper secondSidebar={<NavComsWithLibrary />}>
+          <MtSuspenseBoundary>
+            <Outlet />
+          </MtSuspenseBoundary>
+        </RootAppWrapper>
       </TeamBuilderProvider>
     </WorkbrenchProvider>
   );

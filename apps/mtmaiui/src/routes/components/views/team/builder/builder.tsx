@@ -7,13 +7,11 @@ import {
   addEdge,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import debounce from "lodash.debounce";
+import { MonacoEditor } from "mtxuilib/mt/monaco";
 import { Button } from "mtxuilib/ui/button";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useComponentDndStore } from "../../../../../stores/ComponentDndProvider";
+import { useCallback, useEffect, useRef } from "react";
 import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
-import { MonacoEditor } from "../../monaco";
-import type { ComponentTypes, Team } from "../../types/datamodel";
+import type { Team } from "../../types/datamodel";
 import "./builder.css";
 import { edgeTypes, nodeTypes } from "./nodes";
 import { TeamBuilderToolbar } from "./toolbar";
@@ -28,19 +26,27 @@ export const TeamBuilder = ({
   onChange,
   onDirtyStateChange,
 }: TeamBuilderProps) => {
-  // const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
-  // const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
   const nodes = useTeamBuilderStore((state) => state.nodes);
   const setNodes = useTeamBuilderStore((state) => state.setNodes);
   const edges = useTeamBuilderStore((state) => state.edges);
   const setEdges = useTeamBuilderStore((state) => state.setEdges);
-  const [showGrid, setShowGrid] = useState(true);
-  const [showMiniMap, setShowMiniMap] = useState(true);
+  const showGrid = useTeamBuilderStore((x) => x.showGrid);
+  const setShowGrid = useTeamBuilderStore((x) => x.setShowGrid);
+  const showMiniMap = useTeamBuilderStore((x) => x.showMiniMap);
+  const setShowMiniMap = useTeamBuilderStore((x) => x.setShowMiniMap);
   const editorRef = useRef(null);
-  const [validationResults, setValidationResults] = useState<any | null>(null);
-  const [validationLoading, setValidationLoading] = useState(false);
-  const [isJsonMode, setIsJsonMode] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const isJsonMode = useTeamBuilderStore((x) => x.isJsonMode);
+  const setIsJsonMode = useTeamBuilderStore((x) => x.setIsJsonMode);
+  const isFullscreen = useTeamBuilderStore((x) => x.isFullscreen);
+  const setIsFullscreen = useTeamBuilderStore((x) => x.setIsFullscreen);
+  // const validationLoading = useTeamBuilderStore((x) => x.validationLoading);
+  const setValidationLoading = useTeamBuilderStore(
+    (x) => x.setValidationLoading,
+  );
+  // const validationResults = useTeamBuilderStore((x) => x.validationResults);
+  const setValidationResults = useTeamBuilderStore(
+    (x) => x.setValidationResults,
+  );
   const {
     undo,
     redo,
@@ -54,18 +60,17 @@ export const TeamBuilder = ({
   } = useTeamBuilderStore();
 
   const setSelectedNode = useTeamBuilderStore((x) => x.setSelectedNode);
-
+  const addToHistory = useTeamBuilderStore((x) => x.addToHistory);
+  const team = useTeamBuilderStore((x) => x.team);
+  const isDirty = useTeamBuilderStore((x) => x.isDirty);
   const currentHistoryIndex = useTeamBuilderStore(
     (state) => state.currentHistoryIndex,
   );
 
-  // Compute isDirty based on the store value
-  const isDirty = currentHistoryIndex > 0;
-
   // Compute undo/redo capability from history state
   const canUndo = currentHistoryIndex > 0;
   const canRedo = currentHistoryIndex < history.length - 1;
-  const activeDragItem = useComponentDndStore((x) => x.activeDragItem);
+  const activeDragItem = useTeamBuilderStore((x) => x.activeDragItem);
   const onConnect = useCallback(
     (params: Connection) =>
       setEdges((eds: CustomEdge[]) => addEdge(params, eds)),
@@ -90,8 +95,6 @@ export const TeamBuilder = ({
     }
   }, [isDirty]);
 
-  const team = useTeamBuilderStore((x) => x.team);
-
   // Load initial config
   useEffect(() => {
     if (team) {
@@ -111,28 +114,28 @@ export const TeamBuilder = ({
   }, [team, setNodes, setEdges]);
 
   // Handle JSON changes
-  const handleJsonChange = useCallback(
-    debounce((value: string) => {
-      try {
-        const config = JSON.parse(value);
-        // Always consider JSON edits as changes that should affect isDirty state
-        loadFromJson(config, false);
-        // Force history update even if nodes/edges appear same
-        useTeamBuilderStore.getState().addToHistory();
-      } catch (error) {
-        console.error("Invalid JSON:", error);
-      }
-    }, 1000),
-    [loadFromJson],
-  );
+  // const handleJsonChange = useCallback(
+  //   debounce((value: string) => {
+  //     try {
+  //       const config = JSON.parse(value);
+  //       // Always consider JSON edits as changes that should affect isDirty state
+  //       loadFromJson(config, false);
+  //       // Force history update even if nodes/edges appear same
+  //       addToHistory();
+  //     } catch (error) {
+  //       console.error("Invalid JSON:", error);
+  //     }
+  //   }, 1000),
+  //   [loadFromJson],
+  // );
 
   // Cleanup debounced function
-  useEffect(() => {
-    return () => {
-      handleJsonChange.cancel();
-      setValidationResults(null);
-    };
-  }, [handleJsonChange]);
+  // useEffect(() => {
+  //   return () => {
+  //     handleJsonChange.cancel();
+  //     setValidationResults(null);
+  //   };
+  // }, [handleJsonChange]);
 
   const handleValidate = useCallback(async () => {
     const component = syncToJson();
@@ -154,7 +157,7 @@ export const TeamBuilder = ({
     } finally {
       setValidationLoading(false);
     }
-  }, [syncToJson]);
+  }, [syncToJson, setValidationLoading]);
 
   // Handle save
   const handleSave = useCallback(async () => {
@@ -175,22 +178,11 @@ export const TeamBuilder = ({
       await onChange(teamData);
       resetHistory();
     }
-  }, [syncToJson, onChange, resetHistory]);
+  }, [syncToJson, onChange, resetHistory, team]);
 
   const handleToggleFullscreen = useCallback(() => {
     setIsFullscreen((prev) => !prev);
-  }, []);
-
-  React.useEffect(() => {
-    if (!isFullscreen) return;
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setIsFullscreen(false);
-      }
-    };
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, [isFullscreen]);
+  }, [setIsFullscreen]);
 
   // TODO: 这里需要注意,暂时删除了. subscribe
   // React.useEffect(() => {
@@ -202,19 +194,19 @@ export const TeamBuilder = ({
   //   return unsubscribe;
   // }, [setNodes, setEdges]);
 
-  const validateDropTarget = (
-    draggedType: ComponentTypes,
-    targetType: ComponentTypes,
-  ): boolean => {
-    const validTargets: Record<ComponentTypes, ComponentTypes[]> = {
-      model: ["team", "agent"],
-      tool: ["agent"],
-      agent: ["team"],
-      team: [],
-      termination: ["team"],
-    };
-    return validTargets[draggedType]?.includes(targetType) || false;
-  };
+  // const validateDropTarget = (
+  //   draggedType: ComponentTypes,
+  //   targetType: ComponentTypes,
+  // ): boolean => {
+  //   const validTargets: Record<ComponentTypes, ComponentTypes[]> = {
+  //     model: ["team", "agent"],
+  //     tool: ["agent"],
+  //     agent: ["team"],
+  //     team: [],
+  //     termination: ["team"],
+  //   };
+  //   return validTargets[draggedType]?.includes(targetType) || false;
+  // };
 
   return (
     <div className="h-full flex-1">

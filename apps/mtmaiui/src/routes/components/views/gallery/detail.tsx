@@ -14,13 +14,13 @@ import {
   X,
 } from "lucide-react";
 import { getRelativeTimeString } from "mtxuilib/lib/utils";
+import { MonacoEditor } from "mtxuilib/mt/monaco";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
 import { useRef, useState } from "react";
 import { useGalleryStore } from "../../../../stores/gallerySstore";
 import { TruncatableText } from "../atoms";
-import { MonacoEditor } from "../monaco";
 import type { Gallery } from "./types";
 
 const ComponentGrid: React.FC<{

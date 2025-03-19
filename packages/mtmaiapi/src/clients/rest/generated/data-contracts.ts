@@ -1927,6 +1927,7 @@ export enum FlowNames {
   Ag = "ag",
   Browser = "browser",
   TenantSettings = "tenant_settings",
+  Smola = "smola",
 }
 
 export enum TerminationTypes {

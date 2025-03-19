@@ -1,4 +1,5 @@
 import { Code, Globe, Upload as UploadIcon } from "lucide-react";
+import { MonacoEditor } from "mtxuilib/mt/monaco";
 import { Button } from "mtxuilib/ui/button";
 import {
   Dialog,
@@ -9,10 +10,7 @@ import {
 import { Input } from "mtxuilib/ui/input";
 import type React from "react";
 import { useRef, useState } from "react";
-import { MonacoEditor } from "../monaco";
 import type { Gallery } from "./types";
-import { defaultGallery } from "./utils";
-
 interface GalleryCreateModalProps {
   open: boolean;
   onCancel: () => void;

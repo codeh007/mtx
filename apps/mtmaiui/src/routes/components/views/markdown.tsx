@@ -1,4 +1,3 @@
-import type React from "react";
 import Markdown from "react-markdown";
 
 interface MarkdownViewProps {
@@ -6,10 +5,10 @@ interface MarkdownViewProps {
   className?: string;
 }
 
-export const MarkdownView: React.FC<MarkdownViewProps> = ({
+export const MarkdownView = ({
   content,
   className = "",
-}) => {
+}: MarkdownViewProps) => {
   return (
     <div className={`text-sm w-full text-primary rounded   ${className}`}>
       <Markdown>{content}</Markdown>

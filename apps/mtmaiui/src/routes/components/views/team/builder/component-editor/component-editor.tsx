@@ -1,8 +1,8 @@
 import debounce from "lodash.debounce";
 import { ChevronLeft, Code, FormInput } from "lucide-react";
+import { MonacoEditor } from "mtxuilib/mt/monaco";
 import { Button } from "mtxuilib/ui/button";
 import React, { useCallback, useRef, useState } from "react";
-import { MonacoEditor } from "../../../monaco";
 import type { Component, ComponentConfig } from "../../../types/datamodel";
 import {
   isAgentComponent,

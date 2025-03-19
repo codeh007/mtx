@@ -22,7 +22,7 @@ export const DashHeaders = (props: DashHeadersProps) => {
   return (
     <header
       className={cn(
-        "sticky top-0 flex flex-row shrink-0 items-center gap-2 bg-background p-4",
+        "sticky top-0 flex flex-row shrink-0 items-center gap-2 bg-background px-4 py-2",
         {
           // TODO: 默认没下划线，滚动后有下划线
           // "border-b": props.borderBottom,
@@ -31,7 +31,7 @@ export const DashHeaders = (props: DashHeadersProps) => {
       )}
     >
       <SidebarToggle className="-ml-1" />
-      <Separator orientation="vertical" className="mr-2 h-4" />
+      <Separator orientation="vertical" className="mr-2 h-2" />
       {props.children}
     </header>
   );

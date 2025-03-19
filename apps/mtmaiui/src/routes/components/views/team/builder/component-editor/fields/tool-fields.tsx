@@ -1,10 +1,10 @@
 import { MinusCircle, PlusCircle } from "lucide-react";
+import { MonacoEditor } from "mtxuilib/mt/monaco";
 import { Button } from "mtxuilib/ui/button";
 import { Input } from "mtxuilib/ui/input";
 import { Switch } from "mtxuilib/ui/switch";
 import { Textarea } from "mtxuilib/ui/textarea";
 import React, { useCallback, useRef, useState } from "react";
-import { MonacoEditor } from "../../../../monaco";
 import type {
   Component,
   ComponentConfig,

@@ -2273,13 +2273,19 @@ export type Outline = {
   sections: Array<Section>;
 };
 
-export type FlowNames = "assisant" | "ag" | "browser" | "tenant_settings";
+export type FlowNames =
+  | "assisant"
+  | "ag"
+  | "browser"
+  | "tenant_settings"
+  | "smola";
 
 export const FlowNames = {
   ASSISANT: "assisant",
   AG: "ag",
   BROWSER: "browser",
   TENANT_SETTINGS: "tenant_settings",
+  SMOLA: "smola",
 } as const;
 
 export type TerminationTypes =

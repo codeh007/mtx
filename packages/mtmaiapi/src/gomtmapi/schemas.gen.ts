@@ -4289,7 +4289,7 @@ export const OutlineSchema = {
 
 export const FlowNamesSchema = {
   type: "string",
-  enum: ["assisant", "ag", "browser", "tenant_settings"],
+  enum: ["assisant", "ag", "browser", "tenant_settings", "smola"],
 } as const;
 
 export const TerminationTypesSchema = {

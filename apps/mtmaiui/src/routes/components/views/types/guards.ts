@@ -114,8 +114,11 @@ export function isTeamComponent(
 export function isAgentComponent(
   component: Component<ComponentConfig>,
 ): component is Component<AgentConfig> {
+  console.log("isAgentComponent", component);
   return (
-    component.component_type === "agent" || component.componentType === "agent"
+    component.component_type === "agent" ||
+    component.componentType === "agent" ||
+    component.type === "agent"
   );
 }
 

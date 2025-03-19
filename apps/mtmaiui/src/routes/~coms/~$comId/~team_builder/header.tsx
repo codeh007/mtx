@@ -81,7 +81,7 @@ export function TeamBuilderHeader({ comId }: TeamBuilderHeaderProps) {
       <HeaderActionConainer className="gap-2 flex gap-2 text-xs rounded border-dashed items-center">
         <div className="flex-1 gap-2">
           <Switch
-            onChange={() => {
+            onCheckedChange={() => {
               setIsJsonMode(!isJsonMode);
             }}
             className="mr-2"
