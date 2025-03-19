@@ -1,13 +1,8 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import {
-  type Connection,
-  addEdge,
-  useEdgesState,
-  useNodesState,
-} from "@xyflow/react";
+import { type Connection, addEdge, useNodesState } from "@xyflow/react";
 import { type DebouncedFunc, debounce, isEqual } from "lodash";
-import { comsGetOptions } from "mtmaiapi";
+import { type MtComponent, comsGetOptions } from "mtmaiapi";
 import { nanoid } from "nanoid";
 import { createContext, useContext, useEffect, useMemo } from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
@@ -44,7 +39,6 @@ import type {
   Component,
   ComponentConfig,
   ComponentTypes,
-  Team,
   TeamConfig,
 } from "../routes/components/views/types/datamodel";
 import {
@@ -70,9 +64,7 @@ export interface TeamBuilderProps {
   queryParams?: Record<string, any>;
 }
 export interface TeamBuilderState extends TeamBuilderProps {
-  // activeDragItem: DragItemData | null;
-  // setActiveDragItem: (activeDragItem: DragItemData | null) => void;
-  team?: Team;
+  component?: MtComponent;
   isJsonMode: boolean;
   setIsJsonMode: (isJsonMode: boolean) => void;
   isFullscreen: boolean;
@@ -132,12 +124,7 @@ export interface TeamBuilderState extends TeamBuilderProps {
   handleJsonChange: DebouncedFunc<(value: string) => void>;
   handleSave: () => Promise<void>;
   onConnect: (params: Connection) => void;
-  // validationLoading: boolean;
-  // setValidationLoading: (validationLoading: boolean) => void;
-  // showGrid: boolean;
-  // setShowGrid: (showGrid: boolean) => void;
-  // showMiniMap: boolean;
-  // setShowMiniMap: (showMiniMap: boolean) => void;
+  onDragStart: (item: DragItem) => void;
 }
 
 const buildTeamComponent = (
@@ -216,6 +203,9 @@ export const createWorkbrenchSlice: StateCreator<
     },
     setValidationLoading: (validationLoading: boolean) => {
       set({ validationLoading });
+    },
+    onDragStart: (item: DragItem) => {
+      console.log("onDragStart", item);
     },
     onConnect: (params: Connection) => {
       // set((state) => {
@@ -814,7 +804,7 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
   const { children, ...etc } = props;
   const tid = useTenantId();
   const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
+  // const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
   const componentsQuery = useQuery({
     ...comsGetOptions({
       path: {
@@ -826,10 +816,9 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
     }),
   });
   const mystore = useMemo(() => {
-    const team = componentsQuery.data as unknown as Team;
     const store = createTeamBuilderStore({
       ...etc,
-      team: team,
+      component: componentsQuery.data,
     });
     return store;
   }, [componentsQuery.data]);
@@ -841,9 +830,9 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
       },
     }),
   );
-  const onDragStart = (item: DragItem) => {
-    // We can add any drag start logic here if needed
-  };
+  // const onDragStart = (item: DragItem) => {
+  //   // We can add any drag start logic here if needed
+  // };
   const handleDragStart = (event: DragStartEvent) => {
     console.log("handleDragStart", event);
     const { active } = event;
@@ -892,10 +881,6 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
     mystore.setState({ activeDragItem: null });
   };
 
-  const handleTestDrawerClose = () => {
-    // console.log("TestDrawer closed");
-    // setTestDrawerVisible(false);
-  };
   const validateDropTarget = (
     draggedType: ComponentTypes,
     targetType: ComponentTypes,
@@ -933,15 +918,15 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
   useEffect(() => {
     console.log(
       "useEffect(load team nodes and edges)",
-      mystore.getState().team,
+      mystore.getState().component,
     );
-    if (mystore.getState().team) {
+    if (mystore.getState().component) {
       const { nodes: initialNodes, edges: initialEdges } = mystore
         .getState()
-        .loadFromJson(mystore.getState().team);
+        .loadFromJson(mystore.getState().component);
       console.log("initialNodes", initialNodes, initialEdges);
       setNodes(initialNodes);
-      setEdges(initialEdges);
+      mystore.setState({ edges: initialEdges });
     }
     mystore.getState().handleValidate();
 
@@ -949,7 +934,7 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
       // console.log("cleanup component");
       // setValidationResults(null);
     };
-  }, [mystore.getState().team, setNodes, setEdges]);
+  }, [mystore.getState().component, setNodes]);
   useEffect(() => {
     if (!mystore.getState().isFullscreen) return;
     const handleEscape = (event: KeyboardEvent) => {
@@ -962,12 +947,12 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
   }, [mystore.getState().isFullscreen, mystore]);
 
   useEffect(() => {
-    if (mystore.getState().team) {
+    if (mystore.getState().component) {
       const { nodes: initialNodes, edges: initialEdges } = mystore
         .getState()
-        .loadFromJson(mystore.getState().team);
+        .loadFromJson(mystore.getState().component);
       setNodes(initialNodes);
-      setEdges(initialEdges);
+      mystore.setState({ edges: initialEdges });
     }
     mystore.getState().handleValidate();
 
@@ -976,9 +961,9 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
       mystore.getState().setValidationResults(null);
     };
   }, [
-    mystore.getState().team,
+    mystore.getState().component,
     setNodes,
-    setEdges,
+    // setEdges,
     mystore.getState().handleValidate,
   ]);
   // Need to notify parent whenever isDirty changes
@@ -994,26 +979,6 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
         window.removeEventListener("beforeunload", handleBeforeUnload);
     }
   }, [mystore.getState().isDirty]);
-  // const handleJsonChange = useCallback(
-  //   debounce((value: string) => {
-  //     try {
-  //       const config = JSON.parse(value);
-  //       // Always consider JSON edits as changes that should affect isDirty state
-  //       mystore.getState().loadFromJson(config, false);
-  //       // Force history update even if nodes/edges appear same
-  //       mystore.getState().addToHistory();
-  //     } catch (error) {
-  //       console.error("Invalid JSON:", error);
-  //     }
-  //   }, 1000),
-  //   [mystore],
-  // );
-  // useEffect(() => {
-  //   return () => {
-  //     mystore.getState().handleJsonChange.cancel();
-  //     mystore.getState().setValidationResults(null);
-  //   };
-  // }, [mystore.getState().handleJsonChange]);
   return (
     <mtmaiStoreContext.Provider value={mystore}>
       <DndContext

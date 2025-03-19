@@ -24,7 +24,7 @@ export function NavComs() {
 
   const linkToNew = useMemo(() => {
     const newUUID = generateUUID();
-    return `${newUUID}/new`;
+    return `/coms/${newUUID}`;
     // return "/coms/new";
   }, []);
 

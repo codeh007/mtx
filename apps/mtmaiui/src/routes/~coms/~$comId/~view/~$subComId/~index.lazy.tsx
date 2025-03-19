@@ -19,7 +19,7 @@ function RouteComponent() {
   const nav = Route.useNavigate();
   const [open, setOpen] = useState(true);
   const loadFromJson = useTeamBuilderStore((x) => x.loadFromJson);
-  const team = useTeamBuilderStore((x) => x.team);
+  const team = useTeamBuilderStore((x) => x.component);
   const syncToJson = useTeamBuilderStore((x) => x.syncToJson);
   const nodes = useTeamBuilderStore((x) => x.nodes);
   const edges = useTeamBuilderStore((x) => x.edges);
