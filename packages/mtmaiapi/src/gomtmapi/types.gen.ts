@@ -1652,7 +1652,6 @@ export type ApiResourceMetaProperties = {
 export type CommonResult = {
   Success: boolean;
   Message: string;
-  other?: unknown;
 };
 
 export type ChatMessage = {
@@ -2004,6 +2003,16 @@ export type TeamConfigBase = {
   termination_condition: TextMentionTerminationComponent;
 };
 
+export type SmolAgentComponent = AgentComponent & {
+  provider: "mtmai.agents.smol_agent.SmolAgent";
+  config: SmolAgentConfig;
+};
+
+export type SmolAgentConfig = AgentConfig & {
+  model_client: ModelComponent;
+  api_key?: string;
+};
+
 export type AgStateProperties = {
   version?: string;
   type: StateType;
@@ -2146,6 +2155,19 @@ export type MtComponentProperties = {
   config: {
     [key: string]: unknown;
   };
+  component?:
+    | SystemComponent
+    | TextMentionTerminationComponent
+    | AgentComponent
+    | InstagramAgentComponent
+    | AssistantAgentComponent
+    | RoundRobinGroupChatComponent
+    | SelectorGroupChatComponent
+    | InstagramTeamComponent
+    | TenantComponent
+    | MaxMessageTerminationComponent
+    | StopMessageTerminationComponent
+    | SmolAgentComponent;
 };
 
 export type ComponentModel = {

@@ -2926,49 +2926,6 @@ export const CommonResultSchema = {
     Message: {
       type: "string",
     },
-    other: {
-      anyof: [
-        {
-          $ref: "#/components/schemas/SystemComponent",
-        },
-        {
-          $ref: "#/components/schemas/TextMentionTerminationComponent",
-        },
-        {
-          $ref: "#/components/schemas/AgentComponent",
-        },
-        {
-          $ref: "#/components/schemas/InstagramAgentComponent",
-        },
-        {
-          $ref: "#/components/schemas/AssistantAgentComponent",
-        },
-        {
-          $ref: "#/components/schemas/RoundRobinGroupChatComponent",
-        },
-        {
-          $ref: "#/components/schemas/SelectorGroupChatComponent",
-        },
-        {
-          $ref: "#/components/schemas/InstagramTeamComponent",
-        },
-        {
-          $ref: "#/components/schemas/TenantComponent",
-        },
-        {
-          $ref: "#/components/schemas/MaxMessageTerminationComponent",
-        },
-        {
-          $ref: "#/components/schemas/StopMessageTerminationComponent",
-        },
-        {
-          $ref: "#/components/schemas/TextMessage",
-        },
-        {
-          $ref: "#/components/schemas/ThoughtEvent",
-        },
-      ],
-    },
   },
 } as const;
 
@@ -3612,6 +3569,45 @@ export const TeamConfigBaseSchema = {
   },
 } as const;
 
+export const SmolAgentComponentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AgentComponent",
+    },
+    {
+      required: ["config", "provider"],
+      properties: {
+        provider: {
+          type: "string",
+          enum: ["mtmai.agents.smol_agent.SmolAgent"],
+        },
+        config: {
+          $ref: "#/components/schemas/SmolAgentConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const SmolAgentConfigSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AgentConfig",
+    },
+    {
+      required: ["model_client"],
+      properties: {
+        model_client: {
+          $ref: "#/components/schemas/ModelComponent",
+        },
+        api_key: {
+          type: "string",
+        },
+      },
+    },
+  ],
+} as const;
+
 export const AgStatePropertiesSchema = {
   required: ["type", "state"],
   properties: {
@@ -4006,6 +4002,46 @@ export const MtComponentPropertiesSchema = {
     config: {
       type: "object",
       additionalProperties: true,
+    },
+    component: {
+      oneOf: [
+        {
+          $ref: "#/components/schemas/SystemComponent",
+        },
+        {
+          $ref: "#/components/schemas/TextMentionTerminationComponent",
+        },
+        {
+          $ref: "#/components/schemas/AgentComponent",
+        },
+        {
+          $ref: "#/components/schemas/InstagramAgentComponent",
+        },
+        {
+          $ref: "#/components/schemas/AssistantAgentComponent",
+        },
+        {
+          $ref: "#/components/schemas/RoundRobinGroupChatComponent",
+        },
+        {
+          $ref: "#/components/schemas/SelectorGroupChatComponent",
+        },
+        {
+          $ref: "#/components/schemas/InstagramTeamComponent",
+        },
+        {
+          $ref: "#/components/schemas/TenantComponent",
+        },
+        {
+          $ref: "#/components/schemas/MaxMessageTerminationComponent",
+        },
+        {
+          $ref: "#/components/schemas/StopMessageTerminationComponent",
+        },
+        {
+          $ref: "#/components/schemas/SmolAgentComponent",
+        },
+      ],
     },
   },
 } as const;

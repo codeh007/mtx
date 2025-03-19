@@ -41,6 +41,14 @@ function WorkflowListItem({ row }: { row: Workflow }) {
             启动
           </CustomLink>
         </span>
+        {/* <span>
+          <CustomLink
+            to={`/workflows/${workflowId}/trigger/${workflowName}`}
+            className={cn(buttonVariants({ variant: "outline" }))}
+          >
+            删除
+          </CustomLink>
+        </span> */}
       </div>
     </div>
   );

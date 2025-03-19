@@ -1,13 +1,19 @@
 "use client";
 
 import type { Client } from "@connectrpc/connect";
+import { type UseMutationResult, useMutation } from "@tanstack/react-query";
 import { debounce } from "lodash";
-import type {
-  AgState,
-  AgentRunInput,
-  ChatMessage,
-  ChatMessageList,
-  Tenant,
+import {
+  type AgState,
+  type AgentRunInput,
+  type ApiErrors,
+  type ChatMessage,
+  type ChatMessageList,
+  type Options,
+  type Tenant,
+  type WorkflowRun,
+  type WorkflowRunCreateData,
+  workflowRunCreateMutation,
 } from "mtmaiapi";
 import { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
 import { AgentRpc } from "mtmaiapi/mtmclient/mtmai/mtmpb/agent_worker_pb";
@@ -50,14 +56,12 @@ export interface WorkbrenchState extends WorkbenchProps {
   backendUrl: string;
   accessToken?: string;
   params?: Record<string, any>;
-  // openDebugPanel?: boolean;
   tenant: Tenant;
   agClient: Client<typeof AgService>;
   runtimeClient: Client<typeof AgentRpc>;
   eventClient: Client<typeof EventsService>;
   dispatcherClient: Client<typeof Dispatcher>;
   setThreadId: (threadId?: string) => void;
-  // setOpenDebugPanel: (openDebugPanel: boolean) => void;
   workbenchViewProps?: Record<string, any>;
   setWorkbenchViewProps: (props?: Record<string, any>) => void;
   appendChatMessageCb?: (message) => void;
@@ -100,6 +104,17 @@ export interface WorkbrenchState extends WorkbenchProps {
   streamMessage: (params: AgentRunInput) => Promise<void>;
   setTeamState: (teamState: AgState) => void;
   loadChatMessageList: (response?: ChatMessageList) => void;
+  workflowRunCreateMut: UseMutationResult<
+    WorkflowRun,
+    ApiErrors,
+    Options<WorkflowRunCreateData>,
+    unknown
+  >;
+  workflowRunCreate: (
+    name: string,
+    input: Record<string, any>,
+    additionalMetadata: Record<string, any>,
+  ) => Promise<WorkflowRun>;
 }
 
 export const createWorkbrenchSlice: StateCreator<
@@ -200,6 +215,18 @@ export const createWorkbrenchSlice: StateCreator<
       });
       set({ messages: messages });
     },
+    workflowRunCreate: async (name, input, additionalMetadata) => {
+      const response = await get().workflowRunCreateMut.mutateAsync({
+        path: {
+          workflow: name,
+        },
+        body: {
+          input,
+          additionalMetadata,
+        },
+      });
+      return response;
+    },
     ...init,
   };
 };
@@ -236,6 +263,9 @@ export const WorkbrenchProvider = (props: AppProviderProps) => {
   const [isPending, startTransition] = useTransition();
   const search = useSearch();
   const tenant = useTenant();
+  const workflowRunCreate = useMutation({
+    ...workflowRunCreateMutation(),
+  });
   const mystore = useMemo(
     () =>
       createWordbrenchStore({
@@ -246,6 +276,7 @@ export const WorkbrenchProvider = (props: AppProviderProps) => {
         dispatcherClient: dispatcherClient,
         runtimeClient: agrpcClient,
         agClient: mtmAgClient,
+        workflowRunCreateMut: workflowRunCreate,
       }),
     [
       tenant,

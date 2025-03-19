@@ -1402,7 +1402,6 @@ export interface APIResourceMetaProperties {
 export interface CommonResult {
   Success: boolean;
   Message: string;
-  other?: any;
 }
 
 export interface ChatMessage {
@@ -1701,6 +1700,16 @@ export interface TeamConfigBase {
   termination_condition: TextMentionTerminationComponent;
 }
 
+export type SmolAgentComponent = AgentComponent & {
+  provider: "mtmai.agents.smol_agent.SmolAgent";
+  config: SmolAgentConfig;
+};
+
+export type SmolAgentConfig = AgentConfig & {
+  model_client: ModelComponent;
+  api_key?: string;
+};
+
 export interface AgStateProperties {
   /** @default "1.0.0" */
   version?: string;
@@ -1825,6 +1834,19 @@ export interface MtComponentProperties {
   componentVersion: number;
   galleryId?: string;
   config: Record<string, any>;
+  component?:
+    | SystemComponent
+    | TextMentionTerminationComponent
+    | AgentComponent
+    | InstagramAgentComponent
+    | AssistantAgentComponent
+    | RoundRobinGroupChatComponent
+    | SelectorGroupChatComponent
+    | InstagramTeamComponent
+    | TenantComponent
+    | MaxMessageTerminationComponent
+    | StopMessageTerminationComponent
+    | SmolAgentComponent;
 }
 
 export interface ComponentModel {
