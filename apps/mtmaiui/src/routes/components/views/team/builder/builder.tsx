@@ -25,7 +25,8 @@ export const TeamBuilder = () => {
   const undo = useTeamBuilderStore((x) => x.undo);
   const redo = useTeamBuilderStore((x) => x.redo);
   const layoutNodes = useTeamBuilderStore((x) => x.layoutNodes);
-  const syncToJson = useTeamBuilderStore((x) => x.syncToJson);
+  // const syncToJson = useTeamBuilderStore((x) => x.syncToJson);
+  const teamJson = useTeamBuilderStore((x) => x.teamJson);
   const setSelectedNode = useTeamBuilderStore((x) => x.setSelectedNode);
   const isDirty = useTeamBuilderStore((x) => x.isDirty);
   const currentHistoryIndex = useTeamBuilderStore((x) => x.currentHistoryIndex);
@@ -47,7 +48,7 @@ export const TeamBuilder = () => {
             >
               {isJsonMode ? (
                 <MonacoEditor
-                  value={JSON.stringify(syncToJson(), null, 2)}
+                  value={teamJson}
                   onChange={handleJsonChange}
                   editorRef={editorRef}
                   language="json"

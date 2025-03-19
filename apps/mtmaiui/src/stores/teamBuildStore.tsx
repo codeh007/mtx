@@ -110,6 +110,8 @@ export interface TeamBuilderState extends TeamBuilderProps {
 
   // Sync with JSON
   syncToJson: () => Component<TeamConfig> | null;
+  teamJson: string;
+  setTeamJson: (teamJson: string) => void;
   loadFromJson: (
     config: Component<TeamConfig>,
     isInitialLoad?: boolean,
@@ -132,10 +134,11 @@ const buildTeamComponent = (
   nodes: CustomNode[],
   edges: CustomEdge[],
 ): Component<TeamConfig> | null => {
-  console.log("buildTeamComponent", teamNode);
-  if (!isTeamComponent(teamNode.data.component)) return null;
+  console.log("buildTeamComponent", teamNode.data);
+  const componentObj = teamNode.data.component;
+  if (!isTeamComponent(componentObj)) return null;
 
-  const component = { ...teamNode.data.component };
+  const component = { ...componentObj };
 
   // Get participants using edges
   const participantEdges = edges.filter(
@@ -149,6 +152,7 @@ const buildTeamComponent = (
       return agentNode.data.component;
     })
     .filter((agent): agent is Component<AgentConfig> => agent !== null);
+  console.log("builded component", component);
 
   return component;
 };
@@ -176,6 +180,7 @@ export const createWorkbrenchSlice: StateCreator<
     isFullscreen: false,
     showGrid: true,
     showMiniMap: true,
+
     setIsJsonMode: (isJsonMode: boolean) => {
       console.log("setIsJsonMode", isJsonMode);
       set({ isJsonMode });
@@ -184,11 +189,9 @@ export const createWorkbrenchSlice: StateCreator<
       set({ isFullscreen });
     },
     setShowGrid: (showGrid: boolean) => {
-      console.log("setShowGrid", showGrid);
       set({ showGrid });
     },
     setShowMiniMap: (showMiniMap: boolean) => {
-      console.log("setShowMiniMap", showMiniMap);
       set({ showMiniMap });
     },
 
@@ -203,6 +206,10 @@ export const createWorkbrenchSlice: StateCreator<
     },
     setValidationLoading: (validationLoading: boolean) => {
       set({ validationLoading });
+    },
+    teamJson: "",
+    setTeamJson: (teamJson: string) => {
+      set({ teamJson });
     },
     onDragStart: (item: DragItem) => {
       console.log("onDragStart", item);
@@ -625,19 +632,23 @@ export const createWorkbrenchSlice: StateCreator<
     },
 
     syncToJson: () => {
-      const state = get();
-      const teamNodes = state.nodes.filter(
+      // const state = get();
+      // console.log("syncToJson", get().nodes);
+      const teamNodes = get().nodes.filter(
         (node) =>
           node.data.component.component_type === "team" ||
           node.data.component?.componentType === "team",
       );
       if (teamNodes.length === 0) {
-        console.log("syncToJson error", state.nodes);
-        return null;
+        console.log("syncToJson error", get().nodes);
+        return;
       }
 
       const teamNode = teamNodes[0];
-      return buildTeamComponent(teamNode, state.nodes, state.edges);
+      const team = buildTeamComponent(teamNode, get().nodes, get().edges);
+      // return buildTeamComponent(teamNode, get().nodes, get().edges);
+      set({ component: team });
+      set({ teamJson: JSON.stringify(team) });
     },
 
     layoutNodes: () => {
@@ -658,7 +669,7 @@ export const createWorkbrenchSlice: StateCreator<
     handleSave: async () => {
       const component = get().syncToJson();
       if (!component) {
-        throw new Error("Unable to generate valid configuration");
+        throw new Error("(handleSave)Unable to generate valid configuration");
       }
       // if (onChange) {
       //   const teamData: Partial<Team> = team
@@ -754,11 +765,12 @@ export const createWorkbrenchSlice: StateCreator<
       set({ activeDragItem });
     },
     handleValidate: async () => {
-      console.log("handleValidate");
-      const component = get().syncToJson();
-      if (!component) {
-        throw new Error("Unable to generate valid configuration");
-      }
+      // const component = get().syncToJson();
+      // console.log("handleValidate", component);
+
+      // if (!component) {
+      //   throw new Error("Unable to generate valid configuration");
+      // }
 
       try {
         //   setValidationLoading(true);

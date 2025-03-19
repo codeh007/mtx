@@ -1,13 +1,12 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { TeamBuilderProvider } from "../../../stores/teamBuildStore";
 import { WorkbrenchProvider } from "../../../stores/workbrench.store";
 import { RootAppWrapper } from "../../components/RootAppWrapper";
 import { NavComsWithLibrary } from "./siderbar";
+import { TeamBuilderHeader } from "./~team_builder/header";
 
 export const Route = createLazyFileRoute("/coms/$comId")({
   component: RouteComponent,
-  // pendingComponent: (a) => <div>Loading...{JSON.stringify(a, null, 2)}</div>,
 });
 
 function RouteComponent() {
@@ -17,9 +16,9 @@ function RouteComponent() {
     <WorkbrenchProvider>
       <TeamBuilderProvider componentId={comId}>
         <RootAppWrapper secondSidebar={<NavComsWithLibrary />}>
-          <MtSuspenseBoundary>
-            <Outlet />
-          </MtSuspenseBoundary>
+          <TeamBuilderHeader comId={comId} />
+
+          <Outlet />
         </RootAppWrapper>
       </TeamBuilderProvider>
     </WorkbrenchProvider>
