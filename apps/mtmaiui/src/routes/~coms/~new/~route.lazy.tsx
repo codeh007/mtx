@@ -22,6 +22,7 @@ import { Input } from "mtxuilib/ui/input";
 import { toast } from "sonner";
 import { DashHeaders } from "../../../components/DashHeaders";
 import { useTenantId } from "../../../hooks/useAuth";
+import { RootAppWrapper } from "../../components/RootAppWrapper";
 import { ComTypeInput } from "../components/com_type_select";
 
 export const Route = createLazyFileRoute("/coms/new")({
@@ -44,7 +45,7 @@ function RouteComponent() {
     },
   });
   return (
-    <>
+    <RootAppWrapper secondSidebar={<NavComs />}>
       <DashHeaders>
         <Breadcrumb>
           <BreadcrumbList>
@@ -121,6 +122,6 @@ function RouteComponent() {
           )}
         </ZForm>
       </div>
-    </>
+    </RootAppWrapper>
   );
 }

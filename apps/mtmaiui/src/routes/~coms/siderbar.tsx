@@ -25,6 +25,7 @@ export function NavComs() {
   const linkToNew = useMemo(() => {
     const newUUID = generateUUID();
     return `${newUUID}/new`;
+    // return "/coms/new";
   }, []);
 
   const setQueryParams = useComponentsStore((x) => x.setQueryParams);
@@ -33,7 +34,7 @@ export function NavComs() {
     <Sidebar collapsible="none" className="hidden flex-1 md:flex">
       <SidebarHeader className="gap-3.5 border-b p-4">
         <div className="flex w-full items-center justify-between">
-          <div className="text-base font-medium text-foreground">资源</div>
+          <div className="text-base font-medium text-foreground">组件</div>
           <Label className="flex items-center gap-2 text-sm">
             <CustomLink
               to={linkToNew}
