@@ -3569,7 +3569,7 @@ export const TeamConfigBaseSchema = {
   },
 } as const;
 
-export const SmolAgentComponentSchema = {
+export const SmolaAgentComponentSchema = {
   allOf: [
     {
       $ref: "#/components/schemas/AgentComponent",
@@ -3582,14 +3582,14 @@ export const SmolAgentComponentSchema = {
           enum: ["mtmai.agents.smol_agent.SmolAgent"],
         },
         config: {
-          $ref: "#/components/schemas/SmolAgentConfig",
+          $ref: "#/components/schemas/SmolaAgentConfig",
         },
       },
     },
   ],
 } as const;
 
-export const SmolAgentConfigSchema = {
+export const SmolaAgentConfigSchema = {
   allOf: [
     {
       $ref: "#/components/schemas/AgentConfig",
@@ -3604,6 +3604,20 @@ export const SmolAgentConfigSchema = {
           type: "string",
         },
       },
+    },
+  ],
+} as const;
+
+export const ParticipantsPropertySchema = {
+  oneOf: [
+    {
+      $ref: "#/components/schemas/InstagramAgentComponent",
+    },
+    {
+      $ref: "#/components/schemas/AssistantAgentComponent",
+    },
+    {
+      $ref: "#/components/schemas/SmolaAgentComponent",
     },
   ],
 } as const;
@@ -4039,7 +4053,7 @@ export const MtComponentPropertiesSchema = {
           $ref: "#/components/schemas/StopMessageTerminationComponent",
         },
         {
-          $ref: "#/components/schemas/SmolAgentComponent",
+          $ref: "#/components/schemas/SmolaAgentComponent",
         },
       ],
     },
@@ -6489,14 +6503,7 @@ export const InstagramTeamConfigSchema = {
         participants: {
           type: "array",
           items: {
-            oneOf: [
-              {
-                $ref: "#/components/schemas/InstagramAgentComponent",
-              },
-              {
-                $ref: "#/components/schemas/AssistantAgentComponent",
-              },
-            ],
+            $ref: "#/components/schemas/ParticipantsProperty",
           },
         },
         termination_condition: {

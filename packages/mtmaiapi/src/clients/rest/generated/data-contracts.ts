@@ -1700,15 +1700,20 @@ export interface TeamConfigBase {
   termination_condition: TextMentionTerminationComponent;
 }
 
-export type SmolAgentComponent = AgentComponent & {
+export type SmolaAgentComponent = AgentComponent & {
   provider: "mtmai.agents.smol_agent.SmolAgent";
-  config: SmolAgentConfig;
+  config: SmolaAgentConfig;
 };
 
-export type SmolAgentConfig = AgentConfig & {
+export type SmolaAgentConfig = AgentConfig & {
   model_client: ModelComponent;
   api_key?: string;
 };
+
+export type ParticipantsProperty =
+  | InstagramAgentComponent
+  | AssistantAgentComponent
+  | SmolaAgentComponent;
 
 export interface AgStateProperties {
   /** @default "1.0.0" */
@@ -1846,7 +1851,7 @@ export interface MtComponentProperties {
     | TenantComponent
     | MaxMessageTerminationComponent
     | StopMessageTerminationComponent
-    | SmolAgentComponent;
+    | SmolaAgentComponent;
 }
 
 export interface ComponentModel {
@@ -2754,7 +2759,7 @@ export type InstagramTeamComponent = ComponentModel & {
 };
 
 export type InstagramTeamConfig = TeamConfigBase & {
-  participants: (InstagramAgentComponent | AssistantAgentComponent)[];
+  participants: ParticipantsProperty[];
   termination_condition: OrTerminationComponent;
 };
 
