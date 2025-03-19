@@ -20,10 +20,10 @@ export function WorkflowListView() {
 
 function WorkflowListItem({ row }: { row: Workflow }) {
   const workflowId = row.metadata.id;
+  const workflowName = row.name;
   return (
     <div className="flex flex-col gap-2 mb-2 bg-blue-50 p-2 rounded-md">
       <div>
-        <span>{/* <RunStatus status={row.status} /> */}</span>
         <CustomLink to={`/workflows/${row.metadata.id}`}>{row.name}</CustomLink>
       </div>
 
@@ -32,16 +32,13 @@ function WorkflowListItem({ row }: { row: Workflow }) {
           date_created_at={row.metadata.createdAt}
           date_updated_at={row.metadata.updatedAt}
         />
-        <span className="text-sm text-muted-foreground">
-          {/* triggerBy:{row.triggeredBy.eventId} */}
-        </span>
         <span className="text-sm text-muted-foreground">{row.name}</span>
         <span>
           <CustomLink
-            to={`/workflows/${workflowId}/trigger`}
+            to={`/workflows/${workflowId}/trigger/${workflowName}`}
             className={cn(buttonVariants({ variant: "outline" }))}
           >
-            Trigger
+            启动
           </CustomLink>
         </span>
       </div>
