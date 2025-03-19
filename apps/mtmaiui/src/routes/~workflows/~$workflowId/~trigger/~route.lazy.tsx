@@ -11,10 +11,9 @@ import { DashContent } from "../../components/DashContent";
 import { DashHeaders } from "../../components/DashHeaders";
 import { DashSidebar } from "../../components/sidebar/siderbar";
 import { RootAppWrapper } from "../components/RootAppWrapper";
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
-export const Route = createLazyFileRoute('/trigger')({
+export const Route = createLazyFileRoute("/workflows/$workflowId/trigger")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
   return (
@@ -31,11 +30,9 @@ function RouteComponent() {
           </Breadcrumb>
         </DashHeaders>
         <DashContent>
-          <MtSuspenseBoundary>
-            <Outlet />
-          </MtSuspenseBoundary>
+          <Outlet />
         </DashContent>
       </SidebarInset>
     </RootAppWrapper>
-  )
+  );
 }

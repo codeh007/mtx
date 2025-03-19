@@ -1,10 +1,11 @@
 "use client";
 
 import type { Workflow } from "mtmaiapi";
+import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { TaskDateBadge } from "mtxuilib/mt/relative-date";
+import { buttonVariants } from "mtxuilib/ui/button";
 import { useWorkflowsStore } from "../../stores/workflow-store";
-import { WorkflowTriggerBtn } from "./WorkflowTriggerBtn";
 
 export function WorkflowListView() {
   const listWorkflowQuery = useWorkflowsStore((x) => x.listWorkflowQuery);
@@ -18,6 +19,7 @@ export function WorkflowListView() {
 }
 
 function WorkflowListItem({ row }: { row: Workflow }) {
+  const workflowId = row.metadata.id;
   return (
     <div className="flex flex-col gap-2 mb-2 bg-blue-50 p-2 rounded-md">
       <div>
@@ -29,18 +31,18 @@ function WorkflowListItem({ row }: { row: Workflow }) {
         <TaskDateBadge
           date_created_at={row.metadata.createdAt}
           date_updated_at={row.metadata.updatedAt}
-          // date_finished_at={row.finishedAt}
-          // date_started_at={row.startedAt}
-          // duration={row.duration}
         />
         <span className="text-sm text-muted-foreground">
           {/* triggerBy:{row.triggeredBy.eventId} */}
         </span>
-        <span className="text-sm text-muted-foreground">
-          workflow:{row.name}
-        </span>
+        <span className="text-sm text-muted-foreground">{row.name}</span>
         <span>
-          <WorkflowTriggerBtn workflow={row} />
+          <CustomLink
+            to={`/workflows/${workflowId}/trigger`}
+            className={cn(buttonVariants({ variant: "outline" }))}
+          >
+            Trigger
+          </CustomLink>
         </span>
       </div>
     </div>

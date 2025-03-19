@@ -7,7 +7,7 @@ import { useZodForm } from 'mtxuilib/mt/form/ZodForm'
 import { toast } from 'mtxuilib/ui/use-toast'
 import type { z } from 'zod'
 
-export const Route = createFileRoute('/trigger/ag')({
+export const Route = createFileRoute('/workflows/$workflowId/trigger/ag')({
   component: RouteComponent,
 })
 

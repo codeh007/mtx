@@ -13,7 +13,7 @@ import { cn } from 'mtxuilib/lib/utils'
 import { CodeEditor } from 'mtxuilib/mt/code-editor'
 import { Button } from 'mtxuilib/ui/button'
 import { useState } from 'react'
-export const Route = createLazyFileRoute('/trigger/$id')({
+export const Route = createLazyFileRoute('/workflows/$workflowId/trigger/$id')({
   component: RouteComponent,
 })
 
