@@ -1,6 +1,13 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { type Connection, addEdge, useNodesState } from "@xyflow/react";
+import {
+  type Connection,
+  type OnEdgesChange,
+  type OnNodesChange,
+  addEdge,
+  useEdgesState,
+  useNodesState,
+} from "@xyflow/react";
 import { type DebouncedFunc, debounce, isEqual } from "lodash";
 import { type MtComponent, comsGetOptions } from "mtmaiapi";
 import { nanoid } from "nanoid";
@@ -62,6 +69,12 @@ export interface DragItemData {
 export interface TeamBuilderProps {
   componentId: string;
   queryParams?: Record<string, any>;
+  nodes: CustomNode[];
+  edges: CustomEdge[];
+  onNodesChange: OnNodesChange<CustomNode>;
+  onEdgesChange: OnEdgesChange<CustomEdge>;
+  setNodes: (nodes: CustomNode[]) => void;
+  setEdges: (edges: CustomEdge[]) => void;
 }
 export interface TeamBuilderState extends TeamBuilderProps {
   component?: MtComponent;
@@ -81,10 +94,12 @@ export interface TeamBuilderState extends TeamBuilderProps {
   setShowGrid: (showGrid: boolean) => void;
   showMiniMap: boolean;
   setShowMiniMap: (showMiniMap: boolean) => void;
-  nodes: CustomNode[];
-  setNodes: (nodes: CustomNode[]) => void;
-  edges: CustomEdge[];
-  setEdges: (edges: CustomEdge[]) => void;
+  // nodes: CustomNode[];
+  // setNodes: (nodes: CustomNode[]) => void;
+  // onNodesChange: OnNodesChange<CustomNode>;
+  // edges: CustomEdge[];
+  // setEdges: (edges: CustomEdge[]) => void;
+  // onEdgesChange: OnEdgesChange<CustomEdge>;
   selectedNodeId: string | null;
   history: Array<{ nodes: CustomNode[]; edges: CustomEdge[] }>;
   currentHistoryIndex: number;
@@ -164,14 +179,23 @@ export const createWorkbrenchSlice: StateCreator<
   TeamBuilderState
 > = (set, get, init) => {
   return {
-    nodes: [],
-    setNodes: (nodes: CustomNode[]) => {
-      set({ nodes });
-    },
-    edges: [],
-    setEdges: (edges: CustomEdge[]) => {
-      set({ edges });
-    },
+    // nodes: [],
+    // setNodes: (nodes: CustomNode[]) => {
+    //   set({ nodes });
+    //   get().syncToJson();
+    // },
+    // onNodesChange: (nodes: CustomNode[]) => {
+    //   console.log("onNodesChange", nodes);
+    //   set({ nodes });
+    // },
+    // edges: [],
+    // setEdges: (edges: CustomEdge[]) => {
+    //   set({ edges });
+    // },
+    // onEdgesChange: (edges: CustomEdge[]) => {
+    //   console.log("onEdgesChange", edges);
+    //   set({ edges });
+    // },
     selectedNodeId: null,
     history: [],
     currentHistoryIndex: -1,
@@ -181,30 +205,29 @@ export const createWorkbrenchSlice: StateCreator<
     showGrid: true,
     showMiniMap: true,
 
-    setIsJsonMode: (isJsonMode: boolean) => {
-      console.log("setIsJsonMode", isJsonMode);
+    setIsJsonMode: (isJsonMode) => {
       set({ isJsonMode });
     },
-    setIsFullscreen: (isFullscreen: boolean) => {
+    setIsFullscreen: (isFullscreen) => {
       set({ isFullscreen });
     },
-    setShowGrid: (showGrid: boolean) => {
+    setShowGrid: (showGrid) => {
       set({ showGrid });
     },
-    setShowMiniMap: (showMiniMap: boolean) => {
+    setShowMiniMap: (showMiniMap) => {
       set({ showMiniMap });
     },
 
-    setIsDirty: (isDirty: boolean) => {
+    setIsDirty: (isDirty) => {
       set({ isDirty });
     },
-    setTeamValidated: (teamValidated: boolean) => {
+    setTeamValidated: (teamValidated) => {
       set({ teamValidated });
     },
-    setValidationResults: (validationResults: any[]) => {
+    setValidationResults: (validationResults) => {
       set({ validationResults });
     },
-    setValidationLoading: (validationLoading: boolean) => {
+    setValidationLoading: (validationLoading) => {
       set({ validationLoading });
     },
     teamJson: "",
@@ -647,8 +670,9 @@ export const createWorkbrenchSlice: StateCreator<
       const teamNode = teamNodes[0];
       const team = buildTeamComponent(teamNode, get().nodes, get().edges);
       // return buildTeamComponent(teamNode, get().nodes, get().edges);
-      set({ component: team });
-      set({ teamJson: JSON.stringify(team) });
+      // set({ component: team });
+      // console.log("syncToJson", team);
+      set({ teamJson: JSON.stringify(team, null, 2) });
     },
 
     layoutNodes: () => {
@@ -665,10 +689,11 @@ export const createWorkbrenchSlice: StateCreator<
         ].slice(-MAX_HISTORY),
         currentHistoryIndex: get().currentHistoryIndex + 1,
       });
+      // get().syncToJson();
     },
     handleSave: async () => {
-      const component = get().syncToJson();
-      if (!component) {
+      // const component = get().syncToJson();
+      if (!get().component) {
         throw new Error("(handleSave)Unable to generate valid configuration");
       }
       // if (onChange) {
@@ -684,7 +709,7 @@ export const createWorkbrenchSlice: StateCreator<
       //   resetHistory();
       // }
       // TODO: 保存到后端
-      console.log("handleSave", component);
+      console.log("handleSave", get().component);
     },
     handleJsonChange: debounce((value: string) => {
       try {
@@ -731,7 +756,8 @@ export const createWorkbrenchSlice: StateCreator<
           }));
         }
       }
-
+      get().syncToJson();
+      get().handleValidate();
       return { nodes: layoutedNodes, edges: layoutedEdges };
     },
 
@@ -814,9 +840,9 @@ const mtmaiStoreContext = createContext<teamBuilderStore | null>(null);
 type AppProviderProps = React.PropsWithChildren<TeamBuilderProps>;
 export const TeamBuilderProvider = (props: AppProviderProps) => {
   const { children, ...etc } = props;
-  const tid = useTenantId();
   const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
-  // const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
+  const tid = useTenantId();
   const componentsQuery = useQuery({
     ...comsGetOptions({
       path: {
@@ -831,9 +857,15 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
     const store = createTeamBuilderStore({
       ...etc,
       component: componentsQuery.data,
+      nodes,
+      edges,
+      onNodesChange,
+      onEdgesChange,
+      setNodes,
+      setEdges,
     });
     return store;
-  }, [componentsQuery.data]);
+  }, [componentsQuery.data, nodes, edges, onNodesChange, onEdgesChange]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -842,9 +874,6 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
       },
     }),
   );
-  // const onDragStart = (item: DragItem) => {
-  //   // We can add any drag start logic here if needed
-  // };
   const handleDragStart = (event: DragStartEvent) => {
     console.log("handleDragStart", event);
     const { active } = event;
@@ -864,9 +893,11 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
     console.log("dropZoneId", dropZoneId);
     const [nodeId] = dropZoneId.split("@@@");
     // Find target node
-    const targetNode = nodes.find((node) => node.id === nodeId);
+    const targetNode = mystore
+      .getState()
+      .nodes.find((node) => node.id === nodeId);
     if (!targetNode) {
-      console.log("No target node", nodes, nodeId);
+      console.log("No target node", mystore.getState().nodes, nodeId);
       return;
     }
 
@@ -912,7 +943,9 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
     if (!over?.id || !active.data.current) return;
 
     const draggedType = active.data.current.type;
-    const targetNode = nodes.find((node) => node.id === over.id);
+    const targetNode = mystore
+      .getState()
+      .nodes.find((node) => node.id === over.id);
     if (!targetNode) return;
 
     const isValid = validateDropTarget(
@@ -936,17 +969,8 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
       const { nodes: initialNodes, edges: initialEdges } = mystore
         .getState()
         .loadFromJson(mystore.getState().component);
-      console.log("initialNodes", initialNodes, initialEdges);
-      setNodes(initialNodes);
-      mystore.setState({ edges: initialEdges });
     }
-    mystore.getState().handleValidate();
-
-    return () => {
-      // console.log("cleanup component");
-      // setValidationResults(null);
-    };
-  }, [mystore.getState().component, setNodes]);
+  }, [mystore.getState().component]);
   useEffect(() => {
     if (!mystore.getState().isFullscreen) return;
     const handleEscape = (event: KeyboardEvent) => {
@@ -957,28 +981,6 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
   }, [mystore.getState().isFullscreen, mystore]);
-
-  useEffect(() => {
-    if (mystore.getState().component) {
-      const { nodes: initialNodes, edges: initialEdges } = mystore
-        .getState()
-        .loadFromJson(mystore.getState().component);
-      setNodes(initialNodes);
-      mystore.setState({ edges: initialEdges });
-    }
-    mystore.getState().handleValidate();
-
-    return () => {
-      // console.log("cleanup component");
-      mystore.getState().setValidationResults(null);
-    };
-  }, [
-    mystore.getState().component,
-    setNodes,
-    // setEdges,
-    mystore.getState().handleValidate,
-  ]);
-  // Need to notify parent whenever isDirty changes
 
   useEffect(() => {
     if (mystore.getState().isDirty) {

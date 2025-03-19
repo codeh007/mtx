@@ -25,7 +25,6 @@ export const TeamBuilder = () => {
   const undo = useTeamBuilderStore((x) => x.undo);
   const redo = useTeamBuilderStore((x) => x.redo);
   const layoutNodes = useTeamBuilderStore((x) => x.layoutNodes);
-  // const syncToJson = useTeamBuilderStore((x) => x.syncToJson);
   const teamJson = useTeamBuilderStore((x) => x.teamJson);
   const setSelectedNode = useTeamBuilderStore((x) => x.setSelectedNode);
   const isDirty = useTeamBuilderStore((x) => x.isDirty);
@@ -34,6 +33,8 @@ export const TeamBuilder = () => {
   const handleJsonChange = useTeamBuilderStore((x) => x.handleJsonChange);
   const onConnect = useTeamBuilderStore((x) => x.onConnect);
   const handleSave = useTeamBuilderStore((x) => x.handleSave);
+  const onNodesChange = useTeamBuilderStore((x) => x.onNodesChange);
+  const onEdgesChange = useTeamBuilderStore((x) => x.onEdgesChange);
   return (
     <div className="h-full flex-1">
       <div className=" relative h-[calc(100vh-239px)] flex-1">
@@ -58,8 +59,8 @@ export const TeamBuilder = () => {
                 <ReactFlow
                   nodes={nodes}
                   edges={edges}
-                  // onNodesChange={onNodesChange}
-                  // onEdgesChange={onEdgesChange}
+                  onNodesChange={onNodesChange}
+                  onEdgesChange={onEdgesChange}
                   onConnect={onConnect}
                   onNodeClick={(_, node) => setSelectedNode(node.id)}
                   nodeTypes={nodeTypes}
