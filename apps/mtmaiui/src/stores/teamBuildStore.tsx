@@ -31,7 +31,6 @@ import {
 import type {
   CustomEdge,
   CustomNode,
-  DragItem,
   GraphState,
   NodeData,
   Position,
@@ -94,16 +93,13 @@ export interface TeamBuilderState extends TeamBuilderProps {
   setShowGrid: (showGrid: boolean) => void;
   showMiniMap: boolean;
   setShowMiniMap: (showMiniMap: boolean) => void;
-  // nodes: CustomNode[];
-  // setNodes: (nodes: CustomNode[]) => void;
-  // onNodesChange: OnNodesChange<CustomNode>;
-  // edges: CustomEdge[];
-  // setEdges: (edges: CustomEdge[]) => void;
-  // onEdgesChange: OnEdgesChange<CustomEdge>;
   selectedNodeId: string | null;
   history: Array<{ nodes: CustomNode[]; edges: CustomEdge[] }>;
   currentHistoryIndex: number;
   originalComponent: Component<TeamConfig> | null;
+  handleDragStart: (event: DragStartEvent) => void;
+  handleDragEnd: (event: DragEndEvent) => void;
+  handleDragOver: (event: DragOverEvent) => void;
 
   // Simplified actions
   addNode: (
@@ -141,7 +137,11 @@ export interface TeamBuilderState extends TeamBuilderProps {
   handleJsonChange: DebouncedFunc<(value: string) => void>;
   handleSave: () => Promise<void>;
   onConnect: (params: Connection) => void;
-  onDragStart: (item: DragItem) => void;
+  // onDragStart: (item: DragItem) => void;
+  validateDropTarget: (
+    draggedType: ComponentTypes,
+    targetType: ComponentTypes,
+  ) => boolean;
 }
 
 const buildTeamComponent = (
@@ -234,9 +234,87 @@ export const createWorkbrenchSlice: StateCreator<
     setTeamJson: (teamJson: string) => {
       set({ teamJson });
     },
-    onDragStart: (item: DragItem) => {
-      console.log("onDragStart", item);
+    validateDropTarget: (
+      draggedType: ComponentTypes,
+      targetType: ComponentTypes,
+    ): boolean => {
+      const validTargets: Record<ComponentTypes, ComponentTypes[]> = {
+        model: ["team", "agent"],
+        tool: ["agent"],
+        agent: ["team"],
+        team: [],
+        termination: ["team"],
+      };
+      return validTargets[draggedType]?.includes(targetType) || false;
     },
+
+    handleDragStart: (event: DragStartEvent) => {
+      console.log("handleDragStart", event);
+      const { active } = event;
+      if (active.data.current) {
+        // setActiveDragItem(active.data.current as DragItemData);
+        set({ activeDragItem: active.data.current as DragItemData });
+      }
+    },
+    handleDragEnd: (event: DragEndEvent) => {
+      console.log("handleDragEnd", event);
+      const { active, over } = event;
+      if (!over || !active.data?.current?.current) return;
+
+      const draggedItem = active.data.current.current;
+      const dropZoneId = over.id as string;
+      console.log("dropZoneId", dropZoneId);
+      const [nodeId] = dropZoneId.split("@@@");
+      // Find target node
+      const targetNode = get().nodes.find((node) => node.id === nodeId);
+      if (!targetNode) {
+        console.log("No target node", get().nodes, nodeId);
+        return;
+      }
+
+      // Validate drop
+      const isValid = get().validateDropTarget(
+        draggedItem.type,
+        targetNode.data.component.component_type ||
+          targetNode.data.component.componentType,
+      );
+      if (!isValid) {
+        console.log("Invalid drop");
+        return;
+      }
+
+      const position = {
+        x: event.delta.x,
+        y: event.delta.y,
+      };
+
+      // Pass both new node data AND target node id
+      // addNode(position, draggedItem.config, nodeId);
+      get().addNode(position, draggedItem, nodeId);
+
+      set({ activeDragItem: null });
+    },
+    handleDragOver: (event: DragOverEvent) => {
+      console.log("handleDragOver", event);
+      const { active, over } = event;
+      if (!over?.id || !active.data.current) return;
+
+      const draggedType = active.data.current.type;
+      const targetNode = get().nodes.find((node) => node.id === over.id);
+      if (!targetNode) return;
+
+      const isValid = get().validateDropTarget(
+        draggedType,
+        targetNode.data.component.component_type,
+      );
+      // Add visual feedback class to target node
+      if (isValid) {
+        targetNode.className = "drop-target-valid";
+      } else {
+        targetNode.className = "drop-target-invalid";
+      }
+    },
+
     onConnect: (params: Connection) => {
       // set((state) => {
       //   return addEdge(params, state.edges);
@@ -670,7 +748,7 @@ export const createWorkbrenchSlice: StateCreator<
       const teamNode = teamNodes[0];
       const team = buildTeamComponent(teamNode, get().nodes, get().edges);
       // return buildTeamComponent(teamNode, get().nodes, get().edges);
-      // set({ component: team });
+      set({ component: team });
       // console.log("syncToJson", team);
       set({ teamJson: JSON.stringify(team, null, 2) });
     },
@@ -853,6 +931,14 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
       },
     }),
   });
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+  );
+
   const mystore = useMemo(() => {
     const store = createTeamBuilderStore({
       ...etc,
@@ -867,110 +953,108 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
     return store;
   }, [componentsQuery.data, nodes, edges, onNodesChange, onEdgesChange]);
 
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8,
-      },
-    }),
-  );
-  const handleDragStart = (event: DragStartEvent) => {
-    console.log("handleDragStart", event);
-    const { active } = event;
-    if (active.data.current) {
-      // setActiveDragItem(active.data.current as DragItemData);
-      mystore.setState({ activeDragItem: active.data.current as DragItemData });
-    }
-  };
-
-  const handleDragEnd = (event: DragEndEvent) => {
-    console.log("handleDragEnd", event);
-    const { active, over } = event;
-    if (!over || !active.data?.current?.current) return;
-
-    const draggedItem = active.data.current.current;
-    const dropZoneId = over.id as string;
-    console.log("dropZoneId", dropZoneId);
-    const [nodeId] = dropZoneId.split("@@@");
-    // Find target node
-    const targetNode = mystore
-      .getState()
-      .nodes.find((node) => node.id === nodeId);
-    if (!targetNode) {
-      console.log("No target node", mystore.getState().nodes, nodeId);
-      return;
-    }
-
-    // Validate drop
-    const isValid = validateDropTarget(
-      draggedItem.type,
-      targetNode.data.component.component_type ||
-        targetNode.data.component.componentType,
-    );
-    if (!isValid) {
-      console.log("Invalid drop");
-      return;
-    }
-
-    const position = {
-      x: event.delta.x,
-      y: event.delta.y,
-    };
-
-    // Pass both new node data AND target node id
-    // addNode(position, draggedItem.config, nodeId);
-    mystore.getState().addNode(position, draggedItem, nodeId);
-
-    mystore.setState({ activeDragItem: null });
-  };
-
-  const validateDropTarget = (
-    draggedType: ComponentTypes,
-    targetType: ComponentTypes,
-  ): boolean => {
-    const validTargets: Record<ComponentTypes, ComponentTypes[]> = {
-      model: ["team", "agent"],
-      tool: ["agent"],
-      agent: ["team"],
-      team: [],
-      termination: ["team"],
-    };
-    return validTargets[draggedType]?.includes(targetType) || false;
-  };
-  const handleDragOver = (event: DragOverEvent) => {
-    console.log("handleDragOver", event);
-    const { active, over } = event;
-    if (!over?.id || !active.data.current) return;
-
-    const draggedType = active.data.current.type;
-    const targetNode = mystore
-      .getState()
-      .nodes.find((node) => node.id === over.id);
-    if (!targetNode) return;
-
-    const isValid = validateDropTarget(
-      draggedType,
-      targetNode.data.component.component_type,
-    );
-    // Add visual feedback class to target node
-    if (isValid) {
-      targetNode.className = "drop-target-valid";
-    } else {
-      targetNode.className = "drop-target-invalid";
-    }
-  };
-  // Load initial config
   useEffect(() => {
-    console.log(
-      "useEffect(load team nodes and edges)",
-      mystore.getState().component,
-    );
-    if (mystore.getState().component) {
-      const { nodes: initialNodes, edges: initialEdges } = mystore
-        .getState()
-        .loadFromJson(mystore.getState().component);
-    }
-  }, [mystore.getState().component]);
+    // mystore.setState({ component: componentsQuery.data });
+    mystore.getState().loadFromJson(componentsQuery.data);
+  }, [componentsQuery.data]);
+
+  // const handleDragStart = (event: DragStartEvent) => {
+  //   console.log("handleDragStart", event);
+  //   const { active } = event;
+  //   if (active.data.current) {
+  //     // setActiveDragItem(active.data.current as DragItemData);
+  //     mystore.setState({ activeDragItem: active.data.current as DragItemData });
+  //   }
+  // };
+
+  // const handleDragEnd = (event: DragEndEvent) => {
+  //   console.log("handleDragEnd", event);
+  //   const { active, over } = event;
+  //   if (!over || !active.data?.current?.current) return;
+
+  //   const draggedItem = active.data.current.current;
+  //   const dropZoneId = over.id as string;
+  //   console.log("dropZoneId", dropZoneId);
+  //   const [nodeId] = dropZoneId.split("@@@");
+  //   // Find target node
+  //   const targetNode = mystore
+  //     .getState()
+  //     .nodes.find((node) => node.id === nodeId);
+  //   if (!targetNode) {
+  //     console.log("No target node", mystore.getState().nodes, nodeId);
+  //     return;
+  //   }
+
+  //   // Validate drop
+  //   const isValid = validateDropTarget(
+  //     draggedItem.type,
+  //     targetNode.data.component.component_type ||
+  //       targetNode.data.component.componentType,
+  //   );
+  //   if (!isValid) {
+  //     console.log("Invalid drop");
+  //     return;
+  //   }
+
+  //   const position = {
+  //     x: event.delta.x,
+  //     y: event.delta.y,
+  //   };
+
+  //   // Pass both new node data AND target node id
+  //   // addNode(position, draggedItem.config, nodeId);
+  //   mystore.getState().addNode(position, draggedItem, nodeId);
+
+  //   mystore.setState({ activeDragItem: null });
+  // };
+
+  // const validateDropTarget = (
+  //   draggedType: ComponentTypes,
+  //   targetType: ComponentTypes,
+  // ): boolean => {
+  //   const validTargets: Record<ComponentTypes, ComponentTypes[]> = {
+  //     model: ["team", "agent"],
+  //     tool: ["agent"],
+  //     agent: ["team"],
+  //     team: [],
+  //     termination: ["team"],
+  //   };
+  //   return validTargets[draggedType]?.includes(targetType) || false;
+  // };
+  // const handleDragOver = (event: DragOverEvent) => {
+  //   console.log("handleDragOver", event);
+  //   const { active, over } = event;
+  //   if (!over?.id || !active.data.current) return;
+
+  //   const draggedType = active.data.current.type;
+  //   const targetNode = mystore
+  //     .getState()
+  //     .nodes.find((node) => node.id === over.id);
+  //   if (!targetNode) return;
+
+  //   const isValid = validateDropTarget(
+  //     draggedType,
+  //     targetNode.data.component.component_type,
+  //   );
+  //   // Add visual feedback class to target node
+  //   if (isValid) {
+  //     targetNode.className = "drop-target-valid";
+  //   } else {
+  //     targetNode.className = "drop-target-invalid";
+  //   }
+  // };
+  // Load initial config
+  // useEffect(() => {
+  //   console.log(
+  //     "useEffect(load team nodes and edges)",
+  //     mystore.getState().component,
+  //   );
+  //   if (mystore.getState().component) {
+  //     const { nodes: initialNodes, edges: initialEdges } = mystore
+  //       .getState()
+  //       .loadFromJson(mystore.getState().component);
+  //   }
+  // }, [mystore.getState().component]);
   useEffect(() => {
     if (!mystore.getState().isFullscreen) return;
     const handleEscape = (event: KeyboardEvent) => {
@@ -997,9 +1081,9 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
     <mtmaiStoreContext.Provider value={mystore}>
       <DndContext
         sensors={sensors}
-        onDragEnd={handleDragEnd}
-        onDragOver={handleDragOver}
-        onDragStart={handleDragStart}
+        onDragEnd={mystore.getState().handleDragEnd}
+        onDragOver={mystore.getState().handleDragOver}
+        onDragStart={mystore.getState().handleDragStart}
       >
         {children}
       </DndContext>
