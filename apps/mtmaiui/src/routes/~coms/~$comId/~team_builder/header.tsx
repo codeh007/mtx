@@ -13,7 +13,6 @@ import {
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
-import { useCallback } from "react";
 import {
   DashHeaders,
   HeaderActionConainer,
@@ -26,48 +25,13 @@ interface TeamBuilderHeaderProps {
   comId: string;
 }
 export function TeamBuilderHeader({ comId }: TeamBuilderHeaderProps) {
-  const isJsonMode = useTeamBuilderStore((x) => x.isJsonMode);
-  const setIsJsonMode = useTeamBuilderStore((x) => x.setIsJsonMode);
   const isDirty = useTeamBuilderStore((x) => x.isDirty);
-  const setIsDirty = useTeamBuilderStore((x) => x.setIsDirty);
   const validationResults = useTeamBuilderStore((x) => x.validationResults);
   const teamValidated = useTeamBuilderStore((x) => x.teamValidated);
   const syncToJson = useTeamBuilderStore((x) => x.syncToJson);
-  const resetHistory = useTeamBuilderStore((x) => x.resetHistory);
+  const handleSave = useTeamBuilderStore((x) => x.handleSave);
+  const handleValidate = useTeamBuilderStore((x) => x.handleValidate);
   const nav = useNav();
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  const handleSave = useCallback(async () => {
-    const component = syncToJson();
-    if (!component) {
-      throw new Error("Unable to generate valid configuration(handleSave)");
-    }
-
-    // if (onChange) {
-    //   const teamData: Partial<Team> = team
-    //     ? {
-    //         ...team,
-    //         component,
-    //         created_at: undefined,
-    //         updated_at: undefined,
-    //       }
-    //     : { component };
-    //   await onChange(teamData);
-    //   resetHistory();
-    // }
-  }, [syncToJson, resetHistory]);
-
-  const handleValidate = useCallback(async () => {
-    const component = syncToJson();
-    if (!component) {
-      throw new Error("Unable to generate valid configuration(handleValidate)");
-    }
-    // setValidationLoading(true);
-    // const validationResult = await validationAPI.validateComponent(component);
-    // setValidationResults(validationResult);
-    // if (validationResult.is_valid) {
-    //   messageApi.success("Validation successful");
-    // }
-  }, [syncToJson]);
   return (
     <DashHeaders>
       <Breadcrumb>
@@ -78,17 +42,6 @@ export function TeamBuilderHeader({ comId }: TeamBuilderHeaderProps) {
         </BreadcrumbList>
       </Breadcrumb>
       <HeaderActionConainer className="gap-2 flex gap-2 text-xs rounded border-dashed items-center">
-        {/* <div className="flex-1 gap-2">
-          <Switch
-            onCheckedChange={() => {
-              setIsJsonMode(!isJsonMode);
-            }}
-            className="mr-2"
-            defaultChecked={!isJsonMode}
-          />
-          {isJsonMode ? "View JSON" : <>Visual Builder</>}{" "}
-        </div> */}
-
         <div className="flex items-center gap-2">
           {validationResults && !validationResults.is_valid && (
             <div className="inline-block mr-2">
