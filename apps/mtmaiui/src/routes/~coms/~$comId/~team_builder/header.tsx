@@ -13,7 +13,6 @@ import {
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
-import { Switch } from "mtxuilib/ui/switch";
 import { useCallback } from "react";
 import {
   DashHeaders,
@@ -79,7 +78,7 @@ export function TeamBuilderHeader({ comId }: TeamBuilderHeaderProps) {
         </BreadcrumbList>
       </Breadcrumb>
       <HeaderActionConainer className="gap-2 flex gap-2 text-xs rounded border-dashed items-center">
-        <div className="flex-1 gap-2">
+        {/* <div className="flex-1 gap-2">
           <Switch
             onCheckedChange={() => {
               setIsJsonMode(!isJsonMode);
@@ -88,7 +87,7 @@ export function TeamBuilderHeader({ comId }: TeamBuilderHeaderProps) {
             defaultChecked={!isJsonMode}
           />
           {isJsonMode ? "View JSON" : <>Visual Builder</>}{" "}
-        </div>
+        </div> */}
 
         <div className="flex items-center gap-2">
           {validationResults && !validationResults.is_valid && (

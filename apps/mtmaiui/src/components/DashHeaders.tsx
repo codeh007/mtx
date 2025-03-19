@@ -11,14 +11,14 @@ interface DashHeadersProps {
 }
 export const DashHeaders = (props: DashHeadersProps) => {
   const matches = useRouterState({ select: (s) => s.matches });
-  const breadcrumbs = matches
-    .filter((match) => match.context.getTitle)
-    .map(({ pathname, context }) => {
-      return {
-        title: context.getTitle(),
-        path: pathname,
-      };
-    });
+  // const breadcrumbs = matches
+  //   .filter((match) => match.context.getTitle)
+  //   .map(({ pathname, context }) => {
+  //     return {
+  //       title: context.getTitle(),
+  //       path: pathname,
+  //     };
+  //   });
   return (
     <header
       className={cn(

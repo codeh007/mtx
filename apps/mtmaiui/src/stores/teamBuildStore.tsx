@@ -1,16 +1,15 @@
 "use client";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useEdgesState, useNodesState } from "@xyflow/react";
-import { debounce, isEqual } from "lodash";
+import {
+  type Connection,
+  addEdge,
+  useEdgesState,
+  useNodesState,
+} from "@xyflow/react";
+import { type DebouncedFunc, debounce, isEqual } from "lodash";
 import { comsGetOptions } from "mtmaiapi";
 import { nanoid } from "nanoid";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-} from "react";
+import { createContext, useContext, useEffect, useMemo } from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -130,6 +129,9 @@ export interface TeamBuilderState extends TeamBuilderProps {
   activeDragItem?: DragItemData | null;
   setActiveDragItem: (activeDragItem: DragItemData | null) => void;
   handleValidate: () => Promise<void>;
+  handleJsonChange: DebouncedFunc<(value: string) => void>;
+  handleSave: () => Promise<void>;
+  onConnect: (params: Connection) => void;
   // validationLoading: boolean;
   // setValidationLoading: (validationLoading: boolean) => void;
   // showGrid: boolean;
@@ -214,6 +216,13 @@ export const createWorkbrenchSlice: StateCreator<
     },
     setValidationLoading: (validationLoading: boolean) => {
       set({ validationLoading });
+    },
+    onConnect: (params: Connection) => {
+      // set((state) => {
+      //   return addEdge(params, state.edges);
+      // });
+      // setEdges((eds: CustomEdge[]) => addEdge(params, eds)),
+      get().setEdges((eds: CustomEdge[]) => addEdge(params, eds));
     },
     addNode: (
       position: Position,
@@ -656,7 +665,37 @@ export const createWorkbrenchSlice: StateCreator<
         currentHistoryIndex: get().currentHistoryIndex + 1,
       });
     },
-
+    handleSave: async () => {
+      const component = get().syncToJson();
+      if (!component) {
+        throw new Error("Unable to generate valid configuration");
+      }
+      // if (onChange) {
+      //   const teamData: Partial<Team> = team
+      //     ? {
+      //         ...team,
+      //         component,
+      //         created_at: undefined,
+      //         updated_at: undefined,
+      //       }
+      //     : { component };
+      //   await onChange(teamData);
+      //   resetHistory();
+      // }
+      // TODO: 保存到后端
+      console.log("handleSave", component);
+    },
+    handleJsonChange: debounce((value: string) => {
+      try {
+        const config = JSON.parse(value);
+        // Always consider JSON edits as changes that should affect isDirty state
+        get().loadFromJson(config, false);
+        // Force history update even if nodes/edges appear same
+        get().addToHistory();
+      } catch (error) {
+        console.error("Invalid JSON:", error);
+      }
+    }, 1000),
     loadFromJson: (config: Component<TeamConfig>, isInitialLoad = true) => {
       // Get graph representation of team config
       const { nodes, edges } = convertTeamConfigToGraph(config);
@@ -922,26 +961,59 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
     return () => document.removeEventListener("keydown", handleEscape);
   }, [mystore.getState().isFullscreen, mystore]);
 
-  const handleJsonChange = useCallback(
-    debounce((value: string) => {
-      try {
-        const config = JSON.parse(value);
-        // Always consider JSON edits as changes that should affect isDirty state
-        mystore.getState().loadFromJson(config, false);
-        // Force history update even if nodes/edges appear same
-        mystore.getState().addToHistory();
-      } catch (error) {
-        console.error("Invalid JSON:", error);
-      }
-    }, 1000),
-    [mystore],
-  );
   useEffect(() => {
+    if (mystore.getState().team) {
+      const { nodes: initialNodes, edges: initialEdges } = mystore
+        .getState()
+        .loadFromJson(mystore.getState().team);
+      setNodes(initialNodes);
+      setEdges(initialEdges);
+    }
+    mystore.getState().handleValidate();
+
     return () => {
-      handleJsonChange.cancel();
+      // console.log("cleanup component");
       mystore.getState().setValidationResults(null);
     };
-  }, [handleJsonChange]);
+  }, [
+    mystore.getState().team,
+    setNodes,
+    setEdges,
+    mystore.getState().handleValidate,
+  ]);
+  // Need to notify parent whenever isDirty changes
+
+  useEffect(() => {
+    if (mystore.getState().isDirty) {
+      const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+        e.preventDefault();
+        e.returnValue = "";
+      };
+      window.addEventListener("beforeunload", handleBeforeUnload);
+      return () =>
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+    }
+  }, [mystore.getState().isDirty]);
+  // const handleJsonChange = useCallback(
+  //   debounce((value: string) => {
+  //     try {
+  //       const config = JSON.parse(value);
+  //       // Always consider JSON edits as changes that should affect isDirty state
+  //       mystore.getState().loadFromJson(config, false);
+  //       // Force history update even if nodes/edges appear same
+  //       mystore.getState().addToHistory();
+  //     } catch (error) {
+  //       console.error("Invalid JSON:", error);
+  //     }
+  //   }, 1000),
+  //   [mystore],
+  // );
+  // useEffect(() => {
+  //   return () => {
+  //     mystore.getState().handleJsonChange.cancel();
+  //     mystore.getState().setValidationResults(null);
+  //   };
+  // }, [mystore.getState().handleJsonChange]);
   return (
     <mtmaiStoreContext.Provider value={mystore}>
       <DndContext
