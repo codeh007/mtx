@@ -76,6 +76,7 @@ import {
   ModelRun,
   MtComponent,
   MtComponentList,
+  MtComponentNew,
   MtResource,
   MtResourceList,
   MtResourceUpsert,
@@ -2630,11 +2631,10 @@ export class Api<
       ...params,
     });
   /**
-   * @description 获取团队列表
+   * No description
    *
    * @tags coms
    * @name ComsGet
-   * @summary 获取租户下的团队列表
    * @request GET:/api/v1/tenants/{tenant}/comps/get
    * @secure
    */
@@ -2643,6 +2643,8 @@ export class Api<
     query: {
       /** The component id */
       com: string;
+      /** The component type */
+      type?: string;
     },
     params: RequestParams = {},
   ) =>
@@ -2651,6 +2653,28 @@ export class Api<
       method: "GET",
       query: query,
       secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags coms
+   * @name ComsNew
+   * @request POST:/api/v1/tenants/{tenant}/comps/new
+   * @secure
+   */
+  comsNew = (
+    tenant: TenantParameter,
+    data: MtComponentNew,
+    params: RequestParams = {},
+  ) =>
+    this.request<MtComponent, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/comps/new`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
       format: "json",
       ...params,
     });

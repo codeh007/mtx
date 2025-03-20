@@ -1433,12 +1433,6 @@ export const zWorkerConfig = z.object({
   workerToken: z.string().optional(),
 });
 
-export const zRunNewTaskResponse = z.object({
-  description: z.string().optional(),
-});
-
-export const zOperationEnum = z.enum(["startBlogTask", "stopBlogTask"]);
-
 export const zCreateBlogPostRequest = z.object({
   blogId: z.string().uuid().length(36),
   authorId: z.string().uuid().length(36).optional(),
@@ -4962,6 +4956,11 @@ export const zMtComponent = zApiResourceMetaProperties.merge(
   }),
 );
 
+export const zMtComponentNew = z.object({
+  label: z.string().optional(),
+  description: z.string().optional(),
+});
+
 export const zMtComponentList = z.object({
   pagination: zPaginationResponse.optional(),
   rows: z.array(zMtComponent).optional(),
@@ -7281,6 +7280,8 @@ export const zComsListResponse = zMtComponentList;
 export const zComsUpsertResponse = zMtComponent;
 
 export const zComsGetResponse = zMtComponent;
+
+export const zComsNewResponse = zMtComponent;
 
 export const zGalleryListResponse = zGalleryList;
 

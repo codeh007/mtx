@@ -111,6 +111,7 @@ import {
   comsList,
   comsUpsert,
   comsGet,
+  comsNew,
   galleryList,
   galleryCreate,
   galleryGet,
@@ -379,6 +380,9 @@ import type {
   ComsUpsertError,
   ComsUpsertResponse,
   ComsGetData,
+  ComsNewData,
+  ComsNewError,
+  ComsNewResponse,
   GalleryListData,
   GalleryCreateData,
   GalleryCreateError,
@@ -3627,6 +3631,42 @@ export const comsGetOptions = (options: Options<ComsGetData>) => {
     },
     queryKey: comsGetQueryKey(options),
   });
+};
+
+export const comsNewQueryKey = (options: Options<ComsNewData>) =>
+  createQueryKey("comsNew", options);
+
+export const comsNewOptions = (options: Options<ComsNewData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await comsNew({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: comsNewQueryKey(options),
+  });
+};
+
+export const comsNewMutation = (options?: Partial<Options<ComsNewData>>) => {
+  const mutationOptions: UseMutationOptions<
+    ComsNewResponse,
+    ComsNewError,
+    Options<ComsNewData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await comsNew({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };
 
 export const galleryListQueryKey = (options: Options<GalleryListData>) =>

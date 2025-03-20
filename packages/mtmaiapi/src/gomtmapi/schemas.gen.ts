@@ -3012,25 +3012,6 @@ export const WorkerConfigSchema = {
   },
 } as const;
 
-export const RunNewTaskResponseSchema = {
-  type: "object",
-  description: "运行新任务的结果",
-  properties: {
-    description: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const OperationEnumSchema = {
-  type: "string",
-  enum: ["startBlogTask", "stopBlogTask"],
-  description: `可用的操作名称枚举：
-- **startBlogTask**: 启动单个博客自动化操作任务
-- **stopBlogTask**: 停止单个博客自动化操作任务
-`,
-} as const;
-
 export const CreateBlogPostRequestSchema = {
   type: "object",
   properties: {
@@ -3963,6 +3944,17 @@ export const MtComponentSchema = {
       $ref: "#/components/schemas/MtComponentProperties",
     },
   ],
+} as const;
+
+export const MtComponentNewSchema = {
+  properties: {
+    label: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+  },
 } as const;
 
 export const MtComponentListSchema = {

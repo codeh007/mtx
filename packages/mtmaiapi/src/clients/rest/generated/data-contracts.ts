@@ -1436,21 +1436,6 @@ export interface WorkerConfig {
   workerToken?: string;
 }
 
-/** 运行新任务的结果 */
-export interface RunNewTaskResponse {
-  description?: string;
-}
-
-/**
- * 可用的操作名称枚举：
- * - **startBlogTask**: 启动单个博客自动化操作任务
- * - **stopBlogTask**: 停止单个博客自动化操作任务
- */
-export enum OperationEnum {
-  StartBlogTask = "startBlogTask",
-  StopBlogTask = "stopBlogTask",
-}
-
 export interface CreateBlogPostRequest {
   /**
    * The blog id.
@@ -1822,6 +1807,11 @@ export type BaseGroupChatManagerState = BaseState & {
 };
 
 export type MtComponent = APIResourceMetaProperties & MtComponentProperties;
+
+export interface MtComponentNew {
+  label?: string;
+  description?: string;
+}
 
 export interface MtComponentList {
   pagination?: PaginationResponse;

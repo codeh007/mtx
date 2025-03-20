@@ -59,9 +59,9 @@ const calculateNodeHeight = (component: Component<ComponentConfig>): number => {
   if (component.description) {
     height += LAYOUT_CONFIG.CONTENT_HEIGHTS.DESCRIPTION;
   }
-
+  const componentType = component.component_type || component.componentType;
   // Add heights for specific component types
-  switch (component.componentType) {
+  switch (componentType) {
     case "team":
       const teamConfig = component as Component<TeamConfig>;
       // Add height for agents section
@@ -153,11 +153,11 @@ const createNode = (
 ): CustomNode => ({
   id: nanoid(),
   position,
-  type: component.componentType,
+  type: component.componentType || component.component_type,
   data: {
     label: label || component.label || component.componentType,
     component,
-    type: component.componentType,
+    type: component.componentType || component.component_type,
     dimensions: {
       width: LAYOUT_CONFIG.NODE.WIDTH,
       height: calculateNodeHeight(component),

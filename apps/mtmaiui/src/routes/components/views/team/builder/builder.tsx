@@ -1,6 +1,7 @@
 import { DragOverlay } from "@dnd-kit/core";
 import { Background, MiniMap, ReactFlow } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { MonacoEditor } from "mtxuilib/mt/monaco";
 import { Button } from "mtxuilib/ui/button";
 import { useRef } from "react";
@@ -10,8 +11,8 @@ import { edgeTypes, nodeTypes } from "./nodes";
 import { TeamBuilderToolbar } from "./toolbar";
 
 export const TeamBuilder = () => {
-  const nodes = useTeamBuilderStore((state) => state.nodes);
-  const edges = useTeamBuilderStore((state) => state.edges);
+  const nodes = useTeamBuilderStore((x) => x.nodes);
+  const edges = useTeamBuilderStore((x) => x.edges);
   const showGrid = useTeamBuilderStore((x) => x.showGrid);
   const setShowGrid = useTeamBuilderStore((x) => x.setShowGrid);
   const showMiniMap = useTeamBuilderStore((x) => x.showMiniMap);
@@ -35,10 +36,11 @@ export const TeamBuilder = () => {
   const handleSave = useTeamBuilderStore((x) => x.handleSave);
   const onNodesChange = useTeamBuilderStore((x) => x.onNodesChange);
   const onEdgesChange = useTeamBuilderStore((x) => x.onEdgesChange);
+  const onNodeClick = useTeamBuilderStore((x) => x.onNodeClick);
   return (
     <div className="h-full flex-1">
       <div className=" relative h-[calc(100vh-239px)] flex-1">
-        <div className=" rounded bg-amber-100 w-full h-full">
+        <div className=" rounded bg-slate-50 w-full h-full">
           <div className="relative rounded w-full h-full">
             <div
               className={`w-full h-full transition-all duration-200 ${
@@ -47,6 +49,7 @@ export const TeamBuilder = () => {
                   : ""
               }`}
             >
+              <DebugValue data={{ nodes, edges }} />
               {isJsonMode ? (
                 <MonacoEditor
                   value={teamJson}
@@ -62,7 +65,7 @@ export const TeamBuilder = () => {
                   onNodesChange={onNodesChange}
                   onEdgesChange={onEdgesChange}
                   onConnect={onConnect}
-                  onNodeClick={(_, node) => setSelectedNode(node.id)}
+                  onNodeClick={(_, node) => setSelectedNode(node)}
                   nodeTypes={nodeTypes}
                   edgeTypes={edgeTypes}
                   onDrop={(event) => event.preventDefault()}

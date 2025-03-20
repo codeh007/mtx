@@ -1688,32 +1688,6 @@ export type WorkerConfig = {
   workerToken?: string;
 };
 
-/**
- * 运行新任务的结果
- */
-export type RunNewTaskResponse = {
-  description?: string;
-};
-
-/**
- * 可用的操作名称枚举：
- * - **startBlogTask**: 启动单个博客自动化操作任务
- * - **stopBlogTask**: 停止单个博客自动化操作任务
- *
- */
-export type OperationEnum = "startBlogTask" | "stopBlogTask";
-
-/**
- * 可用的操作名称枚举：
- * - **startBlogTask**: 启动单个博客自动化操作任务
- * - **stopBlogTask**: 停止单个博客自动化操作任务
- *
- */
-export const OperationEnum = {
-  START_BLOG_TASK: "startBlogTask",
-  STOP_BLOG_TASK: "stopBlogTask",
-} as const;
-
 export type CreateBlogPostRequest = {
   /**
    * The blog id.
@@ -2143,6 +2117,11 @@ export type BaseGroupChatManagerState = BaseState & {
 };
 
 export type MtComponent = ApiResourceMetaProperties & MtComponentProperties;
+
+export type MtComponentNew = {
+  label?: string;
+  description?: string;
+};
 
 export type MtComponentList = {
   pagination?: PaginationResponse;
@@ -7487,6 +7466,10 @@ export type ComsGetData = {
      * The component id
      */
     com: string;
+    /**
+     * The component type
+     */
+    type?: string;
   };
   url: "/api/v1/tenants/{tenant}/comps/get";
 };
@@ -7509,6 +7492,40 @@ export type ComsGetResponses = {
 };
 
 export type ComsGetResponse = ComsGetResponses[keyof ComsGetResponses];
+
+export type ComsNewData = {
+  /**
+   * The model properties to update
+   */
+  body: MtComponentNew;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/comps/new";
+};
+
+export type ComsNewErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type ComsNewError = ComsNewErrors[keyof ComsNewErrors];
+
+export type ComsNewResponses = {
+  200: MtComponent;
+};
+
+export type ComsNewResponse = ComsNewResponses[keyof ComsNewResponses];
 
 export type GalleryListData = {
   body?: never;

@@ -2,16 +2,23 @@
 import { useQuery } from "@tanstack/react-query";
 import {
   type Connection,
+  type NodeMouseHandler,
   type OnEdgesChange,
   type OnNodesChange,
   addEdge,
-  useEdgesState,
   useNodesState,
 } from "@xyflow/react";
 import { type DebouncedFunc, debounce, isEqual } from "lodash";
 import { type MtComponent, comsGetOptions } from "mtmaiapi";
 import { nanoid } from "nanoid";
-import { createContext, useContext, useEffect, useMemo } from "react";
+import {
+  type Dispatch,
+  type SetStateAction,
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+} from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -68,14 +75,17 @@ export interface DragItemData {
 export interface TeamBuilderProps {
   componentId: string;
   queryParams?: Record<string, any>;
+}
+export interface TeamBuilderState extends TeamBuilderProps {
   nodes: CustomNode[];
   edges: CustomEdge[];
   onNodesChange: OnNodesChange<CustomNode>;
   onEdgesChange: OnEdgesChange<CustomEdge>;
-  setNodes: (nodes: CustomNode[]) => void;
+  // setNodes: (nodes: CustomNode[]) => void;
+  setNodes: Dispatch<SetStateAction<CustomNode[]>>;
   setEdges: (edges: CustomEdge[]) => void;
-}
-export interface TeamBuilderState extends TeamBuilderProps {
+  onNodeClick: NodeMouseHandler<CustomNode>;
+
   component?: MtComponent;
   isJsonMode: boolean;
   setIsJsonMode: (isJsonMode: boolean) => void;
@@ -114,7 +124,7 @@ export interface TeamBuilderState extends TeamBuilderProps {
   addEdge: (edge: CustomEdge) => void;
   removeEdge: (edgeId: string) => void;
 
-  setSelectedNode: (nodeId: string | null) => void;
+  setSelectedNode: (node: CustomNode) => void;
 
   undo: () => void;
   redo: () => void;
@@ -123,10 +133,7 @@ export interface TeamBuilderState extends TeamBuilderProps {
   syncToJson: () => Component<TeamConfig> | null;
   teamJson: string;
   setTeamJson: (teamJson: string) => void;
-  loadFromJson: (
-    config: Component<TeamConfig>,
-    isInitialLoad?: boolean,
-  ) => GraphState;
+  loadFromJson: (config: MtComponent, isInitialLoad?: boolean) => GraphState;
   layoutNodes: () => void;
   resetHistory: () => void;
   addToHistory: () => void;
@@ -179,23 +186,20 @@ export const createWorkbrenchSlice: StateCreator<
   TeamBuilderState
 > = (set, get, init) => {
   return {
-    // nodes: [],
-    // setNodes: (nodes: CustomNode[]) => {
-    //   set({ nodes });
-    //   get().syncToJson();
-    // },
-    // onNodesChange: (nodes: CustomNode[]) => {
-    //   console.log("onNodesChange", nodes);
-    //   set({ nodes });
-    // },
-    // edges: [],
-    // setEdges: (edges: CustomEdge[]) => {
-    //   set({ edges });
-    // },
-    // onEdgesChange: (edges: CustomEdge[]) => {
-    //   console.log("onEdgesChange", edges);
-    //   set({ edges });
-    // },
+    setNodes: (nodes: CustomNode[]) => {
+      console.log("setNodes", nodes);
+      set({ nodes });
+    },
+    setEdges: (edges: CustomEdge[]) => {
+      console.log("setEdges", edges);
+      set({ edges });
+    },
+    onNodesChange: (nodes: CustomNode[]) => {
+      console.log("onNodesChange", nodes);
+    },
+    onEdgesChange: (edges: CustomEdge[]) => {
+      console.log("onEdgesChange", edges);
+    },
     selectedNodeId: null,
     history: [],
     currentHistoryIndex: -1,
@@ -320,11 +324,12 @@ export const createWorkbrenchSlice: StateCreator<
       //   return addEdge(params, state.edges);
       // });
       // setEdges((eds: CustomEdge[]) => addEdge(params, eds)),
-      get().setEdges((eds: CustomEdge[]) => addEdge(params, eds));
+      // get().setEdges((eds: CustomEdge[]) => addEdge(params, eds));
+      set({ edges: addEdge(params, get().edges) });
     },
     addNode: (
       position: Position,
-      component: Component<ComponentConfig>,
+      component: MtComponent,
       targetNodeId: string,
     ) => {
       console.log("addNode", component, targetNodeId);
@@ -463,7 +468,7 @@ export const createWorkbrenchSlice: StateCreator<
             isAssistantAgent(clonedComponent) &&
             isTeamComponent(teamNode.data.component)
           ) {
-            console.log("teamNode222", teamNode);
+            // console.log("teamNode222", teamNode);
             const existingAgents =
               teamNode.data.component.config.participants || [];
             const existingNames = existingAgents.map((p) => p.config.name);
@@ -699,9 +704,9 @@ export const createWorkbrenchSlice: StateCreator<
       }));
     },
 
-    setSelectedNode: (nodeId) => {
-      console.log("setSelectedNodeId", nodeId);
-      set({ selectedNodeId: nodeId });
+    setSelectedNode: (node: CustomNode) => {
+      console.log("setSelectedNode", node);
+      set({ selectedNodeId: node.id });
     },
 
     undo: () => {
@@ -837,16 +842,21 @@ export const createWorkbrenchSlice: StateCreator<
       }
       get().syncToJson();
       get().handleValidate();
-      return { nodes: layoutedNodes, edges: layoutedEdges };
+      console.log("loadFromJson", layoutedNodes, layoutedEdges);
+      // return { nodes: layoutedNodes, edges: layoutedEdges };
+      set({
+        nodes: layoutedNodes,
+        edges: layoutedEdges,
+        history: [{ nodes: layoutedNodes, edges: layoutedEdges }],
+        currentHistoryIndex: 0,
+      });
     },
 
     resetHistory: () => {
-      set((state) => ({
-        history: [{ nodes: state.nodes, edges: state.edges }],
-        currentHistoryIndex: 0,
-      }));
       set({
+        history: [{ nodes: get().nodes, edges: get().edges }],
         isDirty: false,
+        currentHistoryIndex: 0,
       });
     },
 
@@ -920,7 +930,7 @@ type AppProviderProps = React.PropsWithChildren<TeamBuilderProps>;
 export const TeamBuilderProvider = (props: AppProviderProps) => {
   const { children, ...etc } = props;
   const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
+  // const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
   const tid = useTenantId();
   const componentsQuery = useQuery({
     ...comsGetOptions({
@@ -944,111 +954,22 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
     const store = createTeamBuilderStore({
       ...etc,
       component: componentsQuery.data,
-      nodes,
-      edges,
-      onNodesChange,
-      onEdgesChange,
-      setNodes,
-      setEdges,
+      // nodes,
+      // edges,
+      // onNodesChange,
+      // onEdgesChange,
+      // setNodes,
+      // setEdges,
     });
     return store;
-  }, [componentsQuery.data, nodes, edges, onNodesChange, onEdgesChange]);
+  }, [componentsQuery.data]);
 
   useEffect(() => {
-    // mystore.setState({ component: componentsQuery.data });
     if (componentsQuery.data) {
       mystore.getState().loadFromJson(componentsQuery.data);
     }
-  }, [componentsQuery.data]);
+  }, [componentsQuery.data, mystore]);
 
-  // const handleDragEnd = (event: DragEndEvent) => {
-  //   console.log("handleDragEnd", event);
-  //   const { active, over } = event;
-  //   if (!over || !active.data?.current?.current) return;
-
-  //   const draggedItem = active.data.current.current;
-  //   const dropZoneId = over.id as string;
-  //   console.log("dropZoneId", dropZoneId);
-  //   const [nodeId] = dropZoneId.split("@@@");
-  //   // Find target node
-  //   const targetNode = mystore
-  //     .getState()
-  //     .nodes.find((node) => node.id === nodeId);
-  //   if (!targetNode) {
-  //     console.log("No target node", mystore.getState().nodes, nodeId);
-  //     return;
-  //   }
-
-  //   // Validate drop
-  //   const isValid = validateDropTarget(
-  //     draggedItem.type,
-  //     targetNode.data.component.component_type ||
-  //       targetNode.data.component.componentType,
-  //   );
-  //   if (!isValid) {
-  //     console.log("Invalid drop");
-  //     return;
-  //   }
-
-  //   const position = {
-  //     x: event.delta.x,
-  //     y: event.delta.y,
-  //   };
-
-  //   // Pass both new node data AND target node id
-  //   // addNode(position, draggedItem.config, nodeId);
-  //   mystore.getState().addNode(position, draggedItem, nodeId);
-
-  //   mystore.setState({ activeDragItem: null });
-  // };
-
-  // const validateDropTarget = (
-  //   draggedType: ComponentTypes,
-  //   targetType: ComponentTypes,
-  // ): boolean => {
-  //   const validTargets: Record<ComponentTypes, ComponentTypes[]> = {
-  //     model: ["team", "agent"],
-  //     tool: ["agent"],
-  //     agent: ["team"],
-  //     team: [],
-  //     termination: ["team"],
-  //   };
-  //   return validTargets[draggedType]?.includes(targetType) || false;
-  // };
-  // const handleDragOver = (event: DragOverEvent) => {
-  //   console.log("handleDragOver", event);
-  //   const { active, over } = event;
-  //   if (!over?.id || !active.data.current) return;
-
-  //   const draggedType = active.data.current.type;
-  //   const targetNode = mystore
-  //     .getState()
-  //     .nodes.find((node) => node.id === over.id);
-  //   if (!targetNode) return;
-
-  //   const isValid = validateDropTarget(
-  //     draggedType,
-  //     targetNode.data.component.component_type,
-  //   );
-  //   // Add visual feedback class to target node
-  //   if (isValid) {
-  //     targetNode.className = "drop-target-valid";
-  //   } else {
-  //     targetNode.className = "drop-target-invalid";
-  //   }
-  // };
-  // Load initial config
-  // useEffect(() => {
-  //   console.log(
-  //     "useEffect(load team nodes and edges)",
-  //     mystore.getState().component,
-  //   );
-  //   if (mystore.getState().component) {
-  //     const { nodes: initialNodes, edges: initialEdges } = mystore
-  //       .getState()
-  //       .loadFromJson(mystore.getState().component);
-  //   }
-  // }, [mystore.getState().component]);
   useEffect(() => {
     if (!mystore.getState().isFullscreen) return;
     const handleEscape = (event: KeyboardEvent) => {
@@ -1058,7 +979,7 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
     };
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [mystore.getState().isFullscreen, mystore]);
+  }, [mystore]);
 
   useEffect(() => {
     if (mystore.getState().isDirty) {
@@ -1070,7 +991,7 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
       return () =>
         window.removeEventListener("beforeunload", handleBeforeUnload);
     }
-  }, [mystore.getState().isDirty]);
+  }, [mystore]);
   return (
     <mtmaiStoreContext.Provider value={mystore}>
       <DndContext
