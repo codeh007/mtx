@@ -2131,7 +2131,9 @@ export type MtComponent = ApiResourceMetaProperties &
       | InstagramAgentConfig
       | AssistantAgentConfig
       | RoundRobinGroupChatConfig
-      | SelectorGroupChatConfig;
+      | SelectorGroupChatConfig
+      | ModelConfig
+      | TenantComponentConfig;
   };
 
 export type MtComponentNew = {

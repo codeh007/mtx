@@ -5721,6 +5721,41 @@ export const zMtComponent = zApiResourceMetaProperties
               .optional(),
           }),
         ),
+        z.object({
+          model: z.string(),
+          model_type: z.enum([
+            "OpenAIChatCompletionClient",
+            "AzureOpenAIChatCompletionClient",
+          ]),
+          api_key: z.string().optional(),
+          base_url: z.string().optional(),
+          timeout: z.number().optional(),
+          max_retries: z.number().int().optional(),
+          frequency_penalty: z.number().optional(),
+          logit_bias: z.number().int().optional(),
+          max_tokens: z.number().int().optional(),
+          n: z.number().int().optional(),
+          presence_penalty: z.number().optional(),
+          response_format: z.enum(["json_object", "text"]).optional(),
+          seed: z.number().int().optional(),
+          stop: z.array(z.string()).optional(),
+          temperature: z.number().optional(),
+          top_p: z.number().optional(),
+          user: z.string().optional(),
+          organization: z.string().optional(),
+          default_headers: z.object({}).optional(),
+          model_info: z
+            .object({
+              family: z.enum(["r1", "openai", "unknown"]),
+              vision: z.boolean(),
+              function_calling: z.boolean(),
+              json_output: z.boolean(),
+            })
+            .optional(),
+        }),
+        z.object({
+          default_openai_api_key: z.string().optional(),
+        }),
       ]),
     }),
   );

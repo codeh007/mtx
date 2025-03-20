@@ -3996,6 +3996,12 @@ export const MtComponentSchema = {
             {
               $ref: "#/components/schemas/SelectorGroupChatConfig",
             },
+            {
+              $ref: "#/components/schemas/ModelConfig",
+            },
+            {
+              $ref: "#/components/schemas/TenantComponentConfig",
+            },
           ],
         },
       },
