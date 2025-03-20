@@ -2590,6 +2590,8 @@ export class Api<
        * @default "default"
        */
       gallery?: string;
+      /** The gallery id */
+      galleryId?: string;
       /** The component type */
       type?: string;
       /** The component provider */

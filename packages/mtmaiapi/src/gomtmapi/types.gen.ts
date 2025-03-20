@@ -7374,6 +7374,10 @@ export type ComsListData = {
      */
     gallery?: string;
     /**
+     * The gallery id
+     */
+    galleryId?: string;
+    /**
      * The component type
      */
     type?: string;
