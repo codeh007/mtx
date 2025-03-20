@@ -1984,7 +1984,7 @@ export type SmolaAgentComponent = AgentComponent & {
 
 export type SmolaAgentConfig = AgentConfig & {
   model_client: ModelComponent;
-  api_key?: string;
+  configType: "smol_agent";
 };
 
 export type ParticipantsProperty =
@@ -2320,6 +2320,7 @@ export type OrTerminationComponent = ComponentModel & {
 };
 
 export type OrTerminationConfig = {
+  configType: "or_termination";
   conditions: Array<{
     [key: string]: unknown;
   }>;
@@ -2331,6 +2332,7 @@ export type TenantComponent = ComponentModel & {
 };
 
 export type TenantComponentConfig = {
+  configType: "tenant";
   default_openai_api_key?: string;
 };
 
@@ -2340,6 +2342,7 @@ export type SystemComponent = ComponentModel & {
 };
 
 export type SystemConfig = {
+  configType: "system";
   default_openai_api_key?: string;
 };
 
@@ -2629,9 +2632,11 @@ export type StopMessageTerminationComponent = ComponentModel & {
 
 export type StopMessageTerminationConfig = {
   text: string;
+  configType: "stop_message_termination";
 };
 
 export type MaxMessageTerminationConfig = {
+  configType: "max_message_termination";
   termination_type: "MaxMessageTermination";
   max_messages: number;
 };
@@ -2644,6 +2649,7 @@ export type TextMentionTerminationComponent = ComponentModel & {
 
 export type TextMentionTerminationConfig = {
   text: string;
+  configType: "text_mention_termination";
 };
 
 export type AssistantAgentComponent = AgentComponent & {
@@ -2653,6 +2659,7 @@ export type AssistantAgentComponent = AgentComponent & {
 
 export type AssistantAgentConfig = AgentConfig & {
   model_client: ModelComponent;
+  configType: "assistant_agent";
 };
 
 export type InstagramAgentComponent = AgentComponent & {
@@ -3263,6 +3270,7 @@ export type InstagramTeamComponent = ComponentModel & {
 };
 
 export type InstagramTeamConfig = TeamConfigBase & {
+  configType: "instagram_team";
   participants: Array<ParticipantsProperty>;
   termination_condition: OrTerminationComponent;
 };

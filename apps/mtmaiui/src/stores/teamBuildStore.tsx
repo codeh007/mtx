@@ -161,7 +161,6 @@ export interface TeamBuilderState extends TeamBuilderProps {
   handleJsonChange: DebouncedFunc<(value: string) => void>;
   handleSave: () => Promise<void>;
   onConnect: (params: Connection) => void;
-  // onDragStart: (item: DragItem) => void;
   validateDropTarget: (
     draggedType: ComponentTypes,
     targetType: ComponentTypes,
@@ -172,18 +171,18 @@ const buildTeamComponent = (
   teamNode: CustomNode,
   nodes: CustomNode[],
   edges: CustomEdge[],
-): Component<TeamConfig> | null => {
+): MtComponent | null => {
   console.log("buildTeamComponent", teamNode.data);
   const componentObj = teamNode.data.component;
   if (!isTeamComponent(componentObj)) return null;
 
-  const component = { ...componentObj };
+  // const component = { ...componentObj };
 
   // Get participants using edges
   const participantEdges = edges.filter(
     (e) => e.source === teamNode.id && e.type === "agent-connection",
   );
-  component.config.participants = participantEdges
+  componentObj.config.participants = participantEdges
     .map((edge) => {
       const agentNode = nodes.find((n) => n.id === edge.target);
       if (!agentNode || !isAgentComponent(agentNode.data.component))
@@ -191,9 +190,9 @@ const buildTeamComponent = (
       return agentNode.data.component;
     })
     .filter((agent): agent is Component<AgentConfig> => agent !== null);
-  console.log("builded component", component);
+  console.log("builded component", componentObj);
 
-  return component;
+  return componentObj;
 };
 
 export const createWorkbrenchSlice: StateCreator<
@@ -314,8 +313,7 @@ export const createWorkbrenchSlice: StateCreator<
       // Validate drop
       const isValid = get().validateDropTarget(
         draggedItem.type,
-        targetNode.data.component.component_type ||
-          targetNode.data.component.componentType,
+        targetNode.data.component_type || targetNode.data.componentType,
       );
       if (!isValid) {
         console.log("Invalid drop");
@@ -504,8 +502,7 @@ export const createWorkbrenchSlice: StateCreator<
             isTeamComponent(teamNode.data.component)
           ) {
             // console.log("teamNode222", teamNode);
-            const existingAgents =
-              teamNode.data.component.config.participants || [];
+            const existingAgents = teamNode.data.config.participants || [];
             const existingNames = existingAgents.map((p) => p.config.name);
             clonedComponent.config.name = getUniqueName(
               clonedComponent.config.name,
@@ -543,12 +540,12 @@ export const createWorkbrenchSlice: StateCreator<
 
           // Update team's participants
           if (isTeamComponent(teamNode.data.component)) {
-            if (!teamNode.data.component.config.participants) {
-              teamNode.data.component.config.participants = [];
+            if (!teamNode.data.config.participants) {
+              teamNode.data.config.participants = [];
             }
             console.log("update teamNode", teamNode);
-            teamNode.data.component.config.participants.push(
-              newNode.data.component as Component<AgentConfig>,
+            teamNode.data.config.participants.push(
+              newNode.data as Component<AgentConfig>,
             );
             set({
               // nodes: newNodes,
@@ -589,7 +586,7 @@ export const createWorkbrenchSlice: StateCreator<
           if (node.id !== nodeId) {
             // If this isn't the directly updated node, check if it needs related updates
             const isTeamWithUpdatedAgent =
-              isTeamComponent(node.data.component) &&
+              isTeamComponent(node.data) &&
               state.edges.some(
                 (e) =>
                   e.type === "agent-connection" &&
@@ -605,19 +602,17 @@ export const createWorkbrenchSlice: StateCreator<
                 ...node,
                 data: {
                   ...node.data,
-                  component: {
-                    ...node.data.component,
-                    config: {
-                      ...node.data.component.config,
-                      participants: node.data.component.config.participants.map(
-                        (participant) =>
-                          participant ===
-                          state.nodes.find((n) => n.id === nodeId)?.data
-                            .component
-                            ? updates.component
-                            : participant,
-                      ),
-                    },
+                  // component: {
+                  //   ...node.data,
+                  config: {
+                    ...node.data.component.config,
+                    participants: node.data.config.participants.map(
+                      (participant) =>
+                        participant ===
+                        state.nodes.find((n) => n.id === nodeId)?.data.component
+                          ? updates.component
+                          : participant,
+                    ),
                   },
                 },
               };
@@ -792,7 +787,7 @@ export const createWorkbrenchSlice: StateCreator<
       // console.log("syncToJson", get().nodes);
       const teamNodes = get().nodes.filter(
         (node) =>
-          node.data.component.component_type === "team" ||
+          // node.data.component.component_type === "team" ||
           node.data.component?.componentType === "team",
       );
       if (teamNodes.length === 0) {
@@ -864,7 +859,7 @@ export const createWorkbrenchSlice: StateCreator<
         console.error("Invalid JSON:", error);
       }
     }, 1000),
-    loadFromJson: (config: Component<TeamConfig>, isInitialLoad = true) => {
+    loadFromJson: (config, isInitialLoad = true) => {
       console.log("loadFromJson", config);
       // Get graph representation of team config
       const { nodes, edges } = convertTeamConfigToGraph(config);

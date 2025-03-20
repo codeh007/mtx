@@ -3576,13 +3576,14 @@ export const SmolaAgentConfigSchema = {
       $ref: "#/components/schemas/AgentConfig",
     },
     {
-      required: ["model_client"],
+      required: ["model_client", "configType"],
       properties: {
         model_client: {
           $ref: "#/components/schemas/ModelComponent",
         },
-        api_key: {
+        configType: {
           type: "string",
+          enum: ["smol_agent"],
         },
       },
     },
@@ -4391,8 +4392,12 @@ export const OrTerminationComponentSchema = {
 } as const;
 
 export const OrTerminationConfigSchema = {
-  required: ["conditions"],
+  required: ["conditions", "configType"],
   properties: {
+    configType: {
+      type: "string",
+      enum: ["or_termination"],
+    },
     conditions: {
       type: "array",
       items: {
@@ -4424,7 +4429,12 @@ export const TenantComponentSchema = {
 } as const;
 
 export const TenantComponentConfigSchema = {
+  required: ["configType"],
   properties: {
+    configType: {
+      type: "string",
+      enum: ["tenant"],
+    },
     default_openai_api_key: {
       type: "string",
     },
@@ -4452,7 +4462,12 @@ export const SystemComponentSchema = {
 } as const;
 
 export const SystemConfigSchema = {
+  required: ["configType"],
   properties: {
+    configType: {
+      type: "string",
+      enum: ["system"],
+    },
     default_openai_api_key: {
       type: "string",
     },
@@ -5118,10 +5133,14 @@ export const StopMessageTerminationComponentSchema = {
 } as const;
 
 export const StopMessageTerminationConfigSchema = {
-  required: ["text"],
+  required: ["text", "configType"],
   properties: {
     text: {
       type: "string",
+    },
+    configType: {
+      type: "string",
+      enum: ["stop_message_termination"],
     },
   },
 } as const;
@@ -5129,8 +5148,12 @@ export const StopMessageTerminationConfigSchema = {
 export const MaxMessageTerminationConfigSchema = {
   allOf: [
     {
-      required: ["termination_type", "max_messages"],
+      required: ["configType", "termination_type", "max_messages"],
       properties: {
+        configType: {
+          type: "string",
+          enum: ["max_message_termination"],
+        },
         termination_type: {
           type: "string",
           enum: ["MaxMessageTermination"],
@@ -5168,10 +5191,14 @@ export const TextMentionTerminationComponentSchema = {
 } as const;
 
 export const TextMentionTerminationConfigSchema = {
-  required: ["text"],
+  required: ["text", "configType"],
   properties: {
     text: {
       type: "string",
+    },
+    configType: {
+      type: "string",
+      enum: ["text_mention_termination"],
     },
   },
 } as const;
@@ -5202,10 +5229,14 @@ export const AssistantAgentConfigSchema = {
       $ref: "#/components/schemas/AgentConfig",
     },
     {
-      required: ["model_client"],
+      required: ["model_client", "configType"],
       properties: {
         model_client: {
           $ref: "#/components/schemas/ModelComponent",
+        },
+        configType: {
+          type: "string",
+          enum: ["assistant_agent"],
         },
       },
     },
@@ -6505,8 +6536,12 @@ export const InstagramTeamConfigSchema = {
       $ref: "#/components/schemas/TeamConfigBase",
     },
     {
-      required: ["participants", "termination_condition"],
+      required: ["participants", "termination_condition", "configType"],
       properties: {
+        configType: {
+          type: "string",
+          enum: ["instagram_team"],
+        },
         participants: {
           type: "array",
           items: {

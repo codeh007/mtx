@@ -1,9 +1,11 @@
 // builder/types.ts
 import type { Edge, Node } from "@xyflow/react";
+import type { MtComponent } from "mtmaiapi";
 import type { Component, ComponentConfig } from "../../types/datamodel";
 
 export interface NodeData extends Record<string, unknown> {
-  component: Component<ComponentConfig>;
+  // component: Component<ComponentConfig>;
+  component: MtComponent;
 }
 
 export interface EditingState {
