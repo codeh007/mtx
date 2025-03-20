@@ -1,5 +1,9 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
+import {
+  type UseMutationResult,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query";
 import {
   type Connection,
   type NodeChange,
@@ -10,7 +14,14 @@ import {
   useNodesState,
 } from "@xyflow/react";
 import { type DebouncedFunc, debounce, isEqual } from "lodash";
-import { type MtComponent, comsGetOptions } from "mtmaiapi";
+import {
+  type ApiErrors,
+  type ComsUpsertData,
+  type MtComponent,
+  type Options,
+  comsGetOptions,
+  comsUpsertMutation,
+} from "mtmaiapi";
 import { nanoid } from "nanoid";
 import {
   type Dispatch,
@@ -76,17 +87,22 @@ export interface DragItemData {
 export interface TeamBuilderProps {
   componentId: string;
   queryParams?: Record<string, any>;
+  tid: string;
+  upsertComponent: UseMutationResult<
+    MtComponent,
+    ApiErrors,
+    Options<ComsUpsertData>,
+    unknown
+  >;
 }
 export interface TeamBuilderState extends TeamBuilderProps {
   nodes: CustomNode[];
   edges: CustomEdge[];
   onNodesChange: OnNodesChange<CustomNode>;
   onEdgesChange: OnEdgesChange<CustomEdge>;
-  // setNodes: (nodes: CustomNode[]) => void;
   setNodes: Dispatch<SetStateAction<CustomNode[]>>;
   setEdges: (edges: CustomEdge[]) => void;
   onNodeClick: NodeMouseHandler<CustomNode>;
-
   component?: MtComponent;
   isJsonMode: boolean;
   setIsJsonMode: (isJsonMode: boolean) => void;
@@ -499,21 +515,22 @@ export const createWorkbrenchSlice: StateCreator<
 
           const componentType =
             clonedComponent.component_type || clonedComponent.componentType;
-          const newNode: CustomNode = {
+          console.log("clonedComponent", clonedComponent);
+          const newNode = {
             id: nanoid(),
             position,
-            type: componentType,
+            type: "agent",
             data: {
               label: clonedComponent.label || clonedComponent.config.name,
               component: clonedComponent,
               // type: componentType as NodeData["type"],
               type: "agent",
             },
-          };
+          } as CustomNode;
           console.log("newNode", newNode);
 
-          // newNodes.push(newNode);
-          set({ nodes: [...get().nodes, newNode] });
+          newNodes.push(newNode);
+          // set({ nodes: [...get().nodes, newNode] });
           // Add connection to team
           newEdges.push({
             id: nanoid(),
@@ -523,23 +540,37 @@ export const createWorkbrenchSlice: StateCreator<
             targetHandle: `${newNode.id}-agent-input-handle`,
             type: "agent-connection",
           });
-          set({ edges: newEdges });
+
           // Update team's participants
           if (isTeamComponent(teamNode.data.component)) {
             if (!teamNode.data.component.config.participants) {
               teamNode.data.component.config.participants = [];
             }
-            console.log("teamNode2222", teamNode.data.component.config);
-            // teamNode.data.component.config.participants.push(
-            //   newNode.data.component as Component<AgentConfig>,
-            // );
+            console.log("update teamNode", teamNode);
+            teamNode.data.component.config.participants.push(
+              newNode.data.component as Component<AgentConfig>,
+            );
+            set({
+              // nodes: newNodes,
+              // edges: newEdges,
+              // history: [
+              //   ...get().history.slice(0, get().currentHistoryIndex + 1),
+              //   { nodes: newNodes, edges: newEdges },
+              // ].slice(-MAX_HISTORY),
+              // currentHistoryIndex: get().currentHistoryIndex + 1,
+            });
           }
+          set({ edges: newEdges, nodes: newNodes });
         }
       }
 
-      // const { nodes: layoutedNodes, edges: layoutedEdges } =
-      //   getLayoutedElements(newNodes, newEdges);
+      const { nodes: layoutedNodes, edges: layoutedEdges } =
+        getLayoutedElements(newNodes, newEdges);
 
+      set({
+        nodes: layoutedNodes,
+        edges: layoutedEdges,
+      });
       // return {
       //   // nodes: layoutedNodes,
       //   // edges: layoutedEdges,
@@ -812,6 +843,15 @@ export const createWorkbrenchSlice: StateCreator<
       // }
       // TODO: 保存到后端
       console.log("handleSave", get().component);
+      get().upsertComponent.mutate({
+        path: {
+          tenant: get().tid,
+          com: get().componentId,
+        },
+        body: {
+          ...get().component,
+        },
+      });
     },
     handleJsonChange: debounce((value: string) => {
       try {
@@ -951,6 +991,9 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
   const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
   // const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
   const tid = useTenantId();
+  const upsertComponent = useMutation({
+    ...comsUpsertMutation(),
+  });
   const componentsQuery = useQuery({
     ...comsGetOptions({
       path: {
@@ -973,12 +1016,8 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
     const store = createTeamBuilderStore({
       ...etc,
       component: componentsQuery.data,
-      // nodes,
-      // edges,
-      // onNodesChange,
-      // onEdgesChange,
-      // setNodes,
-      // setEdges,
+      upsertComponent,
+      tid,
     });
     return store;
   }, [componentsQuery.data]);
