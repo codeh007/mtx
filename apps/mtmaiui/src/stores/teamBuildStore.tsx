@@ -2,6 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import {
   type Connection,
+  type NodeChange,
   type NodeMouseHandler,
   type OnEdgesChange,
   type OnNodesChange,
@@ -194,8 +195,26 @@ export const createWorkbrenchSlice: StateCreator<
       console.log("setEdges", edges);
       set({ edges });
     },
-    onNodesChange: (nodes: CustomNode[]) => {
-      console.log("onNodesChange", nodes);
+    onNodesChange: (nodes: NodeChange<CustomNode>[]) => {
+      for (const node of nodes) {
+        if (node.type === "position") {
+          const targetNode = get().nodes.find((n) => n.id === node.id);
+          if (targetNode && node.position?.x && node.position?.y) {
+            // 更新节点位置
+            const updatedNode = {
+              ...targetNode,
+              position: node.position,
+            };
+            // 更新所有节点
+            const updatedNodes = get().nodes.map((n) =>
+              n.id === node.id ? updatedNode : n,
+            );
+            set({ nodes: updatedNodes });
+            // 添加到历史记录
+            get().addToHistory();
+          }
+        }
+      }
     },
     onEdgesChange: (edges: CustomEdge[]) => {
       console.log("onEdgesChange", edges);
