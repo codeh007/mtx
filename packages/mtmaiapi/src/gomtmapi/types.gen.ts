@@ -2116,7 +2116,23 @@ export type BaseGroupChatManagerState = BaseState & {
   current_turn?: number;
 };
 
-export type MtComponent = ApiResourceMetaProperties & MtComponentProperties;
+export type MtComponent = ApiResourceMetaProperties &
+  MtComponentProperties & {
+    label: string;
+    description: string;
+    provider: string;
+    componentType: string;
+    version: number;
+    componentVersion: number;
+    galleryId: string;
+    config:
+      | SystemConfig
+      | InstagramTeamConfig
+      | InstagramAgentConfig
+      | AssistantAgentConfig
+      | RoundRobinGroupChatConfig
+      | SelectorGroupChatConfig;
+  };
 
 export type MtComponentNew = {
   label?: string;
@@ -2128,31 +2144,20 @@ export type MtComponentList = {
   rows?: Array<MtComponent>;
 };
 
-export type MtComponentProperties = {
-  componentType: ComponentTypes;
-  provider: string;
-  label: string;
-  description: string;
-  version: number;
-  componentVersion: number;
-  galleryId?: string;
-  config: {
-    [key: string]: unknown;
-  };
-  component?:
-    | SystemComponent
-    | TextMentionTerminationComponent
-    | AgentComponent
-    | InstagramAgentComponent
-    | AssistantAgentComponent
-    | RoundRobinGroupChatComponent
-    | SelectorGroupChatComponent
-    | InstagramTeamComponent
-    | TenantComponent
-    | MaxMessageTerminationComponent
-    | StopMessageTerminationComponent
-    | SmolaAgentComponent;
-};
+export type MtComponentProperties =
+  | SystemComponent
+  | TextMentionTerminationComponent
+  | AgentComponent
+  | InstagramAgentComponent
+  | AssistantAgentComponent
+  | RoundRobinGroupChatComponent
+  | SelectorGroupChatComponent
+  | InstagramTeamComponent
+  | TenantComponent
+  | MaxMessageTerminationComponent
+  | StopMessageTerminationComponent
+  | SmolaAgentComponent
+  | ModelComponent;
 
 export type ComponentModel = {
   /**

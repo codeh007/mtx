@@ -3943,6 +3943,63 @@ export const MtComponentSchema = {
     {
       $ref: "#/components/schemas/MtComponentProperties",
     },
+    {
+      required: [
+        "label",
+        "description",
+        "provider",
+        "componentType",
+        "version",
+        "componentVersion",
+        "galleryId",
+        "config",
+      ],
+      properties: {
+        label: {
+          type: "string",
+        },
+        description: {
+          type: "string",
+        },
+        provider: {
+          type: "string",
+        },
+        componentType: {
+          type: "string",
+        },
+        version: {
+          type: "integer",
+        },
+        componentVersion: {
+          type: "integer",
+        },
+        galleryId: {
+          type: "string",
+        },
+        config: {
+          oneOf: [
+            {
+              $ref: "#/components/schemas/SystemConfig",
+            },
+            {
+              $ref: "#/components/schemas/InstagramTeamConfig",
+            },
+            {
+              $ref: "#/components/schemas/InstagramAgentConfig",
+            },
+            {
+              $ref: "#/components/schemas/AssistantAgentConfig",
+            },
+            {
+              $ref: "#/components/schemas/RoundRobinGroupChatConfig",
+            },
+            {
+              $ref: "#/components/schemas/SelectorGroupChatConfig",
+            },
+          ],
+        },
+      },
+    },
   ],
 } as const;
 
@@ -3972,84 +4029,47 @@ export const MtComponentListSchema = {
 } as const;
 
 export const MtComponentPropertiesSchema = {
-  required: [
-    "componentType",
-    "label",
-    "description",
-    "version",
-    "componentVersion",
-    "config",
-    "provider",
+  oneOf: [
+    {
+      $ref: "#/components/schemas/SystemComponent",
+    },
+    {
+      $ref: "#/components/schemas/TextMentionTerminationComponent",
+    },
+    {
+      $ref: "#/components/schemas/AgentComponent",
+    },
+    {
+      $ref: "#/components/schemas/InstagramAgentComponent",
+    },
+    {
+      $ref: "#/components/schemas/AssistantAgentComponent",
+    },
+    {
+      $ref: "#/components/schemas/RoundRobinGroupChatComponent",
+    },
+    {
+      $ref: "#/components/schemas/SelectorGroupChatComponent",
+    },
+    {
+      $ref: "#/components/schemas/InstagramTeamComponent",
+    },
+    {
+      $ref: "#/components/schemas/TenantComponent",
+    },
+    {
+      $ref: "#/components/schemas/MaxMessageTerminationComponent",
+    },
+    {
+      $ref: "#/components/schemas/StopMessageTerminationComponent",
+    },
+    {
+      $ref: "#/components/schemas/SmolaAgentComponent",
+    },
+    {
+      $ref: "#/components/schemas/ModelComponent",
+    },
   ],
-  properties: {
-    componentType: {
-      $ref: "#/components/schemas/ComponentTypes",
-    },
-    provider: {
-      type: "string",
-    },
-    label: {
-      type: "string",
-    },
-    description: {
-      type: "string",
-    },
-    version: {
-      type: "integer",
-      default: 1,
-    },
-    componentVersion: {
-      type: "integer",
-      default: 1,
-    },
-    galleryId: {
-      type: "string",
-    },
-    config: {
-      type: "object",
-      additionalProperties: true,
-    },
-    component: {
-      oneOf: [
-        {
-          $ref: "#/components/schemas/SystemComponent",
-        },
-        {
-          $ref: "#/components/schemas/TextMentionTerminationComponent",
-        },
-        {
-          $ref: "#/components/schemas/AgentComponent",
-        },
-        {
-          $ref: "#/components/schemas/InstagramAgentComponent",
-        },
-        {
-          $ref: "#/components/schemas/AssistantAgentComponent",
-        },
-        {
-          $ref: "#/components/schemas/RoundRobinGroupChatComponent",
-        },
-        {
-          $ref: "#/components/schemas/SelectorGroupChatComponent",
-        },
-        {
-          $ref: "#/components/schemas/InstagramTeamComponent",
-        },
-        {
-          $ref: "#/components/schemas/TenantComponent",
-        },
-        {
-          $ref: "#/components/schemas/MaxMessageTerminationComponent",
-        },
-        {
-          $ref: "#/components/schemas/StopMessageTerminationComponent",
-        },
-        {
-          $ref: "#/components/schemas/SmolaAgentComponent",
-        },
-      ],
-    },
-  },
 } as const;
 
 export const ComponentModelSchema = {

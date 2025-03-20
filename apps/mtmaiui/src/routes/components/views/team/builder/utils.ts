@@ -1,3 +1,4 @@
+import type { MtComponent } from "mtmaiapi";
 import { nanoid } from "nanoid";
 import type {
   Component,
@@ -181,7 +182,8 @@ const createEdge = (
 
 // Convert team configuration to graph structure with dynamic layout
 export const convertTeamConfigToGraph = (
-  teamComponent: Component<TeamConfig>,
+  // teamComponent: Component<TeamConfig>,
+  teamComponent: MtComponent,
 ): { nodes: CustomNode[]; edges: CustomEdge[] } => {
   const nodes: CustomNode[] = [];
   const edges: CustomEdge[] = [];
