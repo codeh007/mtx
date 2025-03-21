@@ -1652,6 +1652,10 @@ export type ApiResourceMetaProperties = {
 export type CommonResult = {
   Success: boolean;
   Message: string;
+  other?:
+    | "mtmai.agents.assistant_agent.AssistantAgent"
+    | "mtmai.agents.instagram_agent.InstagramAgent"
+    | "mtmai.agents.smola_agent.SmolaAgent";
 };
 
 export type ChatMessage = {
@@ -1684,8 +1688,23 @@ export type ChatMessageList = {
   pagination?: PaginationResponse;
 };
 
+/**
+ * worker 启动时所需的关键配置
+ */
 export type WorkerConfig = {
   workerToken?: string;
+  /**
+   * token
+   */
+  token: string;
+  /**
+   * grpcHostPort
+   */
+  grpcHostPort: string;
+  /**
+   * searxng url
+   */
+  searxng?: string;
 };
 
 export type CreateBlogPostRequest = {
@@ -1978,7 +1997,7 @@ export type TeamConfigBase = {
 };
 
 export type SmolaAgentComponent = AgentComponent & {
-  provider: "mtmai.agents.smol_agent.SmolAgent";
+  provider: "mtmai.agents.smola_agent.SmolaAgent";
   config: SmolaAgentConfig;
 };
 
@@ -2334,7 +2353,6 @@ export type SystemComponent = ComponentModel & {
 };
 
 export type SystemConfig = {
-  configType: "system";
   default_openai_api_key?: string;
 };
 
@@ -6608,53 +6626,6 @@ export type WorkflowGetByNameResponses = {
 
 export type WorkflowGetByNameResponse =
   WorkflowGetByNameResponses[keyof WorkflowGetByNameResponses];
-
-export type WorkerConfigData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: "/api/v1/worker/config";
-};
-
-export type WorkerConfigResponses = {
-  /**
-   * 返回模型列表
-   */
-  200: WorkerConfig;
-};
-
-export type WorkerConfigResponse =
-  WorkerConfigResponses[keyof WorkerConfigResponses];
-
-export type MtmaiWorkerConfigData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: "/api/v1/mtmai/worker_config";
-};
-
-export type MtmaiWorkerConfigResponses = {
-  /**
-   * worker 启动时所需的关键配置
-   */
-  200: {
-    /**
-     * token
-     */
-    token: string;
-    /**
-     * grpcHostPort
-     */
-    grpcHostPort: string;
-    /**
-     * searxng url
-     */
-    searxng?: string;
-  };
-};
-
-export type MtmaiWorkerConfigResponse =
-  MtmaiWorkerConfigResponses[keyof MtmaiWorkerConfigResponses];
 
 export type BlogListData = {
   body?: never;

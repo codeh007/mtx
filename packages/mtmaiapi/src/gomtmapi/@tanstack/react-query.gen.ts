@@ -87,8 +87,6 @@ import {
   webhookRequestsList,
   workflowRunGetInput,
   workflowGetByName,
-  workerConfig,
-  mtmaiWorkerConfig,
   blogList,
   blogCreate,
   blogGet,
@@ -338,8 +336,6 @@ import type {
   WebhookRequestsListData,
   WorkflowRunGetInputData,
   WorkflowGetByNameData,
-  WorkerConfigData,
-  MtmaiWorkerConfigData,
   BlogListData,
   BlogCreateData,
   BlogCreateError,
@@ -3057,45 +3053,6 @@ export const workflowGetByNameOptions = (
       return data;
     },
     queryKey: workflowGetByNameQueryKey(options),
-  });
-};
-
-export const workerConfigQueryKey = (options?: Options<WorkerConfigData>) =>
-  createQueryKey("workerConfig", options);
-
-export const workerConfigOptions = (options?: Options<WorkerConfigData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await workerConfig({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: workerConfigQueryKey(options),
-  });
-};
-
-export const mtmaiWorkerConfigQueryKey = (
-  options?: Options<MtmaiWorkerConfigData>,
-) => createQueryKey("mtmaiWorkerConfig", options);
-
-export const mtmaiWorkerConfigOptions = (
-  options?: Options<MtmaiWorkerConfigData>,
-) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await mtmaiWorkerConfig({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: mtmaiWorkerConfigQueryKey(options),
   });
 };
 

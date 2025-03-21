@@ -141,7 +141,6 @@ import {
   WebhookWorkerListResponse,
   WebhookWorkerRequestListResponse,
   Worker,
-  WorkerConfig,
   WorkerList,
   Workflow,
   WorkflowID,
@@ -2131,46 +2130,6 @@ export class Api<
       path: `/api/v1/tenants/${tenant}/workflows/byName/${name}`,
       method: "GET",
       secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description 获取worker配置
-   *
-   * @name WorkerConfig
-   * @summary 获取worker配置, 内部使用免去配置 token环境变量的麻烦
-   * @request GET:/api/v1/worker/config
-   * @secure
-   */
-  workerConfig = (params: RequestParams = {}) =>
-    this.request<WorkerConfig, any>({
-      path: `/api/v1/worker/config`,
-      method: "GET",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * No description
-   *
-   * @tags mtmai
-   * @name MtmaiWorkerConfig
-   * @request GET:/api/v1/mtmai/worker_config
-   */
-  mtmaiWorkerConfig = (params: RequestParams = {}) =>
-    this.request<
-      {
-        /** token */
-        token: string;
-        /** grpcHostPort */
-        grpcHostPort: string;
-        /** searxng url */
-        searxng?: string;
-      },
-      any
-    >({
-      path: `/api/v1/mtmai/worker_config`,
-      method: "GET",
       format: "json",
       ...params,
     });

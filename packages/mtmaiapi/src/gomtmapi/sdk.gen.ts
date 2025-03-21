@@ -242,10 +242,6 @@ import type {
   WorkflowGetByNameData,
   WorkflowGetByNameResponse,
   WorkflowGetByNameError,
-  WorkerConfigData,
-  WorkerConfigResponse,
-  MtmaiWorkerConfigData,
-  MtmaiWorkerConfigResponse,
   BlogListData,
   BlogListResponse,
   BlogCreateData,
@@ -2734,46 +2730,6 @@ export const workflowGetByName = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflows/byName/{name}",
-    ...options,
-  });
-};
-
-/**
- * 获取worker配置, 内部使用免去配置 token环境变量的麻烦
- * 获取worker配置
- */
-export const workerConfig = <ThrowOnError extends boolean = false>(
-  options?: Options<WorkerConfigData, ThrowOnError>,
-) => {
-  return (options?.client ?? _heyApiClient).get<
-    WorkerConfigResponse,
-    unknown,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/worker/config",
-    ...options,
-  });
-};
-
-export const mtmaiWorkerConfig = <ThrowOnError extends boolean = false>(
-  options?: Options<MtmaiWorkerConfigData, ThrowOnError>,
-) => {
-  return (options?.client ?? _heyApiClient).get<
-    MtmaiWorkerConfigResponse,
-    unknown,
-    ThrowOnError
-  >({
-    url: "/api/v1/mtmai/worker_config",
     ...options,
   });
 };

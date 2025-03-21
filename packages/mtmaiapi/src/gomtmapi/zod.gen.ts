@@ -1391,6 +1391,13 @@ export const zApiResourceMetaProperties = z.object({
 export const zCommonResult = z.object({
   Success: z.boolean(),
   Message: z.string(),
+  other: z
+    .union([
+      z.literal("mtmai.agents.assistant_agent.AssistantAgent"),
+      z.literal("mtmai.agents.instagram_agent.InstagramAgent"),
+      z.literal("mtmai.agents.smola_agent.SmolaAgent"),
+    ])
+    .optional(),
 });
 
 export const zChatMessage = z.object({
@@ -1431,6 +1438,9 @@ export const zChatMessageList = z.object({
 
 export const zWorkerConfig = z.object({
   workerToken: z.string().optional(),
+  token: z.string(),
+  grpcHostPort: z.string(),
+  searxng: z.string().optional(),
 });
 
 export const zCreateBlogPostRequest = z.object({
@@ -3081,7 +3091,7 @@ export const zSmolaAgentComponent = z
   )
   .merge(
     z.object({
-      provider: z.enum(["mtmai.agents.smol_agent.SmolAgent"]),
+      provider: z.enum(["mtmai.agents.smola_agent.SmolaAgent"]),
       config: z
         .object({
           name: z.string(),
@@ -4431,7 +4441,6 @@ export const zMtComponent = zApiResourceMetaProperties
           z.object({
             provider: z.enum(["mtmai.system.System"]),
             config: z.object({
-              configType: z.enum(["system"]),
               default_openai_api_key: z.string().optional(),
             }),
           }),
@@ -5392,7 +5401,6 @@ export const zMtComponentProperties = z.union([
       z.object({
         provider: z.enum(["mtmai.system.System"]),
         config: z.object({
-          configType: z.enum(["system"]),
           default_openai_api_key: z.string().optional(),
         }),
       }),
@@ -6395,14 +6403,12 @@ export const zSystemComponent = zComponentModel.merge(
   z.object({
     provider: z.enum(["mtmai.system.System"]),
     config: z.object({
-      configType: z.enum(["system"]),
       default_openai_api_key: z.string().optional(),
     }),
   }),
 );
 
 export const zSystemConfig = z.object({
-  configType: z.enum(["system"]),
   default_openai_api_key: z.string().optional(),
 });
 
@@ -7618,14 +7624,6 @@ export const zWebhookRequestsListResponse = zWebhookWorkerRequestListResponse;
 export const zWorkflowRunGetInputResponse = z.object({});
 
 export const zWorkflowGetByNameResponse = zWorkflow;
-
-export const zWorkerConfigResponse = zWorkerConfig;
-
-export const zMtmaiWorkerConfigResponse = z.object({
-  token: z.string(),
-  grpcHostPort: z.string(),
-  searxng: z.string().optional(),
-});
 
 export const zBlogListResponse = zBlogList;
 

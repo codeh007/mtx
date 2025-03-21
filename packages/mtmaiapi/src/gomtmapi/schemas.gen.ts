@@ -2926,6 +2926,18 @@ export const CommonResultSchema = {
     Message: {
       type: "string",
     },
+    other: {
+      oneOf: [
+        {
+          type: "string",
+          enum: [
+            "mtmai.agents.assistant_agent.AssistantAgent",
+            "mtmai.agents.instagram_agent.InstagramAgent",
+            "mtmai.agents.smola_agent.SmolaAgent",
+          ],
+        },
+      ],
+    },
   },
 } as const;
 
@@ -3005,9 +3017,23 @@ export const ChatMessageListSchema = {
 } as const;
 
 export const WorkerConfigSchema = {
+  required: ["token", "grpcHostPort"],
+  description: "worker 启动时所需的关键配置",
   properties: {
     workerToken: {
       type: "string",
+    },
+    token: {
+      type: "string",
+      description: "token",
+    },
+    grpcHostPort: {
+      type: "string",
+      description: "grpcHostPort",
+    },
+    searxng: {
+      type: "string",
+      description: "searxng url",
     },
   },
 } as const;
@@ -3560,7 +3586,7 @@ export const SmolaAgentComponentSchema = {
       properties: {
         provider: {
           type: "string",
-          enum: ["mtmai.agents.smol_agent.SmolAgent"],
+          enum: ["mtmai.agents.smola_agent.SmolaAgent"],
         },
         config: {
           $ref: "#/components/schemas/SmolaAgentConfig",
@@ -4429,12 +4455,7 @@ export const SystemComponentSchema = {
 } as const;
 
 export const SystemConfigSchema = {
-  required: ["configType"],
   properties: {
-    configType: {
-      type: "string",
-      enum: ["system"],
-    },
     default_openai_api_key: {
       type: "string",
     },

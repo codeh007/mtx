@@ -1402,6 +1402,10 @@ export interface APIResourceMetaProperties {
 export interface CommonResult {
   Success: boolean;
   Message: string;
+  other?:
+    | "mtmai.agents.assistant_agent.AssistantAgent"
+    | "mtmai.agents.instagram_agent.InstagramAgent"
+    | "mtmai.agents.smola_agent.SmolaAgent";
 }
 
 export interface ChatMessage {
@@ -1432,8 +1436,15 @@ export interface ChatMessageList {
   pagination?: PaginationResponse;
 }
 
+/** worker 启动时所需的关键配置 */
 export interface WorkerConfig {
   workerToken?: string;
+  /** token */
+  token: string;
+  /** grpcHostPort */
+  grpcHostPort: string;
+  /** searxng url */
+  searxng?: string;
 }
 
 export interface CreateBlogPostRequest {
@@ -1686,7 +1697,7 @@ export interface TeamConfigBase {
 }
 
 export type SmolaAgentComponent = AgentComponent & {
-  provider: "mtmai.agents.smol_agent.SmolAgent";
+  provider: "mtmai.agents.smola_agent.SmolaAgent";
   config: SmolaAgentConfig;
 };
 
@@ -1977,7 +1988,6 @@ export type SystemComponent = ComponentModel & {
 };
 
 export interface SystemConfig {
-  configType: "system";
   default_openai_api_key?: string;
 }
 

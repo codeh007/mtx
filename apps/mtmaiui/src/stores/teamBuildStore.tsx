@@ -579,6 +579,7 @@ export const createWorkbrenchSlice: StateCreator<
             currentHistoryIndex: get().currentHistoryIndex + 1,
           });
           set({ isDirty: true });
+          get().syncToJson();
         }
       }
 
