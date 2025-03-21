@@ -28,6 +28,7 @@ const PROVIDERS = {
 
   // Agents
   ASSISTANT_AGENT: "autogen_agentchat.agents.AssistantAgent",
+  MT_ASSISTANT_AGENT: "mtmai.agents.assistant_agent.AssistantAgent",
   USER_PROXY: "autogen_agentchat.agents.UserProxyAgent",
   WEB_SURFER: "autogen_ext.agents.web_surfer.MultimodalWebSurfer",
 
@@ -165,24 +166,18 @@ export function isSelectorTeam(
 }
 
 // Agent provider guards with proper type narrowing
-export function isAssistantAgent(
-  // component: Component<ComponentConfig>,
-  component: MtComponent,
-) {
-  // console.log("isAssistantAgent", component);
-  return isComponentOfType(component, PROVIDERS.ASSISTANT_AGENT);
+export function isAssistantAgent(component: MtComponent) {
+  const ok =
+    isComponentOfType(component, PROVIDERS.ASSISTANT_AGENT) ||
+    isComponentOfType(component, PROVIDERS.MT_ASSISTANT_AGENT);
+  return ok;
 }
 
-export function isUserProxyAgent(
-  // component: Component<ComponentConfig>,
-  component: MtComponent,
-) {
+export function isUserProxyAgent(component: MtComponent) {
   return isComponentOfType(component, PROVIDERS.USER_PROXY);
 }
 
-export function isWebSurferAgent(
-  component: Component<ComponentConfig>,
-): component is Component<MultimodalWebSurferConfig> {
+export function isWebSurferAgent(component: MtComponent) {
   return isComponentOfType(component, PROVIDERS.WEB_SURFER);
 }
 
