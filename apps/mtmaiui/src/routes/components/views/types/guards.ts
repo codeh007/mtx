@@ -195,21 +195,21 @@ export function isAnthropicModel(component: MtComponent) {
 
 // Tool provider guards with proper type narrowing
 export function isFunctionTool(
-  component: Component<ComponentConfig>,
-): component is Component<FunctionToolConfig> {
+  component: MtComponent,
+): component is MtComponent {
   return isComponentOfType(component, PROVIDERS.FUNCTION_TOOL);
 }
 
 // Termination provider guards with proper type narrowing
 export function isOrTermination(
-  component: Component<ComponentConfig>,
-): component is Component<OrTerminationConfig> {
+  component: MtComponent,
+): component is MtComponent {
   return isComponentOfType(component, PROVIDERS.OR_TERMINATION);
 }
 
 export function isMaxMessageTermination(
-  component: Component<ComponentConfig>,
-): component is Component<MaxMessageTerminationConfig> {
+  component: MtComponent,
+): component is MtComponent {
   return isComponentOfType(component, PROVIDERS.MAX_MESSAGE);
 }
 
