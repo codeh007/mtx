@@ -54,7 +54,7 @@ const InputWithTooltip: React.FC<{
   </label>
 );
 
-export const AgentFields: React.FC<AgentFieldsProps> = ({
+export const AgentFields = ({
   component,
   onChange,
   onNavigate,
@@ -63,7 +63,7 @@ export const AgentFields: React.FC<AgentFieldsProps> = ({
   editPath,
   updateComponentAtPath,
   getCurrentComponent,
-}) => {
+}: AgentFieldsProps) => {
   if (!component) return null;
 
   const handleComponentUpdate = useCallback(
@@ -156,6 +156,7 @@ export const AgentFields: React.FC<AgentFieldsProps> = ({
 
   return (
     <div className="space-y-6">
+      agent fields
       <DetailGroup title="Component Details">
         <div className="space-y-4">
           <label className="block" htmlFor="name">
@@ -184,7 +185,6 @@ export const AgentFields: React.FC<AgentFieldsProps> = ({
           </label>
         </div>
       </DetailGroup>
-
       <DetailGroup title="Configuration">
         <div className="space-y-4">
           {isAssistantAgent(component) && (

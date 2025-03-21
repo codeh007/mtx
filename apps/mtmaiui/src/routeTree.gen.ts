@@ -26,6 +26,9 @@ import { Route as OnboardingCreateTenantIndexImport } from './routes/~onboarding
 import { Route as ComsComIdTypeModelClientImport } from './routes/~coms/~$comId/~type/~modelClient'
 import { Route as SiteSiteIdHostIndexImport } from './routes/~site/~$siteId/~host/~index'
 import { Route as PlayChatSessionIdIndexImport } from './routes/~play/~chat/~$sessionId/~index'
+import { Route as ComsComIdTeambuilderComponenteditorSmolaAgentImport } from './routes/~coms/~$comId/~team_builder/~component_editor/~SmolaAgent'
+import { Route as ComsComIdTeambuilderComponenteditorAssistantAgentImport } from './routes/~coms/~$comId/~team_builder/~component_editor/~AssistantAgent'
+import { Route as ComsComIdTeambuilderComponenteditorSplatImport } from './routes/~coms/~$comId/~team_builder/~component_editor/~$'
 import { Route as ComsComIdTeambuilderComponenteditorIndexImport } from './routes/~coms/~$comId/~team_builder/~component_editor/~index'
 
 // Create Virtual Routes
@@ -1242,6 +1245,27 @@ const ComsComIdTeambuilderJsonviewIndexLazyRoute =
     ),
   )
 
+const ComsComIdTeambuilderComponenteditorSmolaAgentRoute =
+  ComsComIdTeambuilderComponenteditorSmolaAgentImport.update({
+    id: '/SmolaAgent',
+    path: '/SmolaAgent',
+    getParentRoute: () => ComsComIdTeambuilderComponenteditorRouteLazyRoute,
+  } as any)
+
+const ComsComIdTeambuilderComponenteditorAssistantAgentRoute =
+  ComsComIdTeambuilderComponenteditorAssistantAgentImport.update({
+    id: '/AssistantAgent',
+    path: '/AssistantAgent',
+    getParentRoute: () => ComsComIdTeambuilderComponenteditorRouteLazyRoute,
+  } as any)
+
+const ComsComIdTeambuilderComponenteditorSplatRoute =
+  ComsComIdTeambuilderComponenteditorSplatImport.update({
+    id: '/$',
+    path: '/$',
+    getParentRoute: () => ComsComIdTeambuilderComponenteditorRouteLazyRoute,
+  } as any)
+
 const ComsComIdTeambuilderComponenteditorIndexRoute =
   ComsComIdTeambuilderComponenteditorIndexImport.update({
     id: '/',
@@ -2044,6 +2068,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComsComIdTeambuilderComponenteditorIndexImport
       parentRoute: typeof ComsComIdTeambuilderComponenteditorRouteLazyImport
     }
+    '/coms/$comId/team_builder/component_editor/$': {
+      id: '/coms/$comId/team_builder/component_editor/$'
+      path: '/$'
+      fullPath: '/coms/$comId/team_builder/component_editor/$'
+      preLoaderRoute: typeof ComsComIdTeambuilderComponenteditorSplatImport
+      parentRoute: typeof ComsComIdTeambuilderComponenteditorRouteLazyImport
+    }
+    '/coms/$comId/team_builder/component_editor/AssistantAgent': {
+      id: '/coms/$comId/team_builder/component_editor/AssistantAgent'
+      path: '/AssistantAgent'
+      fullPath: '/coms/$comId/team_builder/component_editor/AssistantAgent'
+      preLoaderRoute: typeof ComsComIdTeambuilderComponenteditorAssistantAgentImport
+      parentRoute: typeof ComsComIdTeambuilderComponenteditorRouteLazyImport
+    }
+    '/coms/$comId/team_builder/component_editor/SmolaAgent': {
+      id: '/coms/$comId/team_builder/component_editor/SmolaAgent'
+      path: '/SmolaAgent'
+      fullPath: '/coms/$comId/team_builder/component_editor/SmolaAgent'
+      preLoaderRoute: typeof ComsComIdTeambuilderComponenteditorSmolaAgentImport
+      parentRoute: typeof ComsComIdTeambuilderComponenteditorRouteLazyImport
+    }
     '/coms/$comId/team_builder/jsonview/': {
       id: '/coms/$comId/team_builder/jsonview/'
       path: '/'
@@ -2146,12 +2191,21 @@ const ComsComIdTeambuilderComponentRouteLazyRouteWithChildren =
 
 interface ComsComIdTeambuilderComponenteditorRouteLazyRouteChildren {
   ComsComIdTeambuilderComponenteditorIndexRoute: typeof ComsComIdTeambuilderComponenteditorIndexRoute
+  ComsComIdTeambuilderComponenteditorSplatRoute: typeof ComsComIdTeambuilderComponenteditorSplatRoute
+  ComsComIdTeambuilderComponenteditorAssistantAgentRoute: typeof ComsComIdTeambuilderComponenteditorAssistantAgentRoute
+  ComsComIdTeambuilderComponenteditorSmolaAgentRoute: typeof ComsComIdTeambuilderComponenteditorSmolaAgentRoute
 }
 
 const ComsComIdTeambuilderComponenteditorRouteLazyRouteChildren: ComsComIdTeambuilderComponenteditorRouteLazyRouteChildren =
   {
     ComsComIdTeambuilderComponenteditorIndexRoute:
       ComsComIdTeambuilderComponenteditorIndexRoute,
+    ComsComIdTeambuilderComponenteditorSplatRoute:
+      ComsComIdTeambuilderComponenteditorSplatRoute,
+    ComsComIdTeambuilderComponenteditorAssistantAgentRoute:
+      ComsComIdTeambuilderComponenteditorAssistantAgentRoute,
+    ComsComIdTeambuilderComponenteditorSmolaAgentRoute:
+      ComsComIdTeambuilderComponenteditorSmolaAgentRoute,
   }
 
 const ComsComIdTeambuilderComponenteditorRouteLazyRouteWithChildren =
@@ -2976,6 +3030,9 @@ export interface FileRoutesByFullPath {
   '/workflows/$workflowId/trigger/ag': typeof WorkflowsWorkflowIdTriggerAgRouteLazyRouteWithChildren
   '/workflows/$workflowId/trigger/smola': typeof WorkflowsWorkflowIdTriggerSmolaRouteLazyRouteWithChildren
   '/coms/$comId/team_builder/component_editor/': typeof ComsComIdTeambuilderComponenteditorIndexRoute
+  '/coms/$comId/team_builder/component_editor/$': typeof ComsComIdTeambuilderComponenteditorSplatRoute
+  '/coms/$comId/team_builder/component_editor/AssistantAgent': typeof ComsComIdTeambuilderComponenteditorAssistantAgentRoute
+  '/coms/$comId/team_builder/component_editor/SmolaAgent': typeof ComsComIdTeambuilderComponenteditorSmolaAgentRoute
   '/coms/$comId/team_builder/jsonview/': typeof ComsComIdTeambuilderJsonviewIndexLazyRoute
   '/coms/$comId/view/$subComId/': typeof ComsComIdViewSubComIdIndexLazyRoute
   '/workflow-runs/$workflowRunId/stepRun/$stepRunId/': typeof WorkflowRunsWorkflowRunIdStepRunStepRunIdIndexLazyRoute
@@ -3055,6 +3112,9 @@ export interface FileRoutesByTo {
   '/resource/new/res/platform_account': typeof ResourceNewResPlatformaccountLazyRoute
   '/workflows/$workflowId/trigger/$id': typeof WorkflowsWorkflowIdTriggerIdLazyRoute
   '/coms/$comId/team_builder/component_editor': typeof ComsComIdTeambuilderComponenteditorIndexRoute
+  '/coms/$comId/team_builder/component_editor/$': typeof ComsComIdTeambuilderComponenteditorSplatRoute
+  '/coms/$comId/team_builder/component_editor/AssistantAgent': typeof ComsComIdTeambuilderComponenteditorAssistantAgentRoute
+  '/coms/$comId/team_builder/component_editor/SmolaAgent': typeof ComsComIdTeambuilderComponenteditorSmolaAgentRoute
   '/coms/$comId/team_builder/jsonview': typeof ComsComIdTeambuilderJsonviewIndexLazyRoute
   '/coms/$comId/view/$subComId': typeof ComsComIdViewSubComIdIndexLazyRoute
   '/workflow-runs/$workflowRunId/stepRun/$stepRunId': typeof WorkflowRunsWorkflowRunIdStepRunStepRunIdIndexLazyRoute
@@ -3178,6 +3238,9 @@ export interface FileRoutesById {
   '/workflows/$workflowId/trigger/ag': typeof WorkflowsWorkflowIdTriggerAgRouteLazyRouteWithChildren
   '/workflows/$workflowId/trigger/smola': typeof WorkflowsWorkflowIdTriggerSmolaRouteLazyRouteWithChildren
   '/coms/$comId/team_builder/component_editor/': typeof ComsComIdTeambuilderComponenteditorIndexRoute
+  '/coms/$comId/team_builder/component_editor/$': typeof ComsComIdTeambuilderComponenteditorSplatRoute
+  '/coms/$comId/team_builder/component_editor/AssistantAgent': typeof ComsComIdTeambuilderComponenteditorAssistantAgentRoute
+  '/coms/$comId/team_builder/component_editor/SmolaAgent': typeof ComsComIdTeambuilderComponenteditorSmolaAgentRoute
   '/coms/$comId/team_builder/jsonview/': typeof ComsComIdTeambuilderJsonviewIndexLazyRoute
   '/coms/$comId/view/$subComId/': typeof ComsComIdViewSubComIdIndexLazyRoute
   '/workflow-runs/$workflowRunId/stepRun/$stepRunId/': typeof WorkflowRunsWorkflowRunIdStepRunStepRunIdIndexLazyRoute
@@ -3302,6 +3365,9 @@ export interface FileRouteTypes {
     | '/workflows/$workflowId/trigger/ag'
     | '/workflows/$workflowId/trigger/smola'
     | '/coms/$comId/team_builder/component_editor/'
+    | '/coms/$comId/team_builder/component_editor/$'
+    | '/coms/$comId/team_builder/component_editor/AssistantAgent'
+    | '/coms/$comId/team_builder/component_editor/SmolaAgent'
     | '/coms/$comId/team_builder/jsonview/'
     | '/coms/$comId/view/$subComId/'
     | '/workflow-runs/$workflowRunId/stepRun/$stepRunId/'
@@ -3380,6 +3446,9 @@ export interface FileRouteTypes {
     | '/resource/new/res/platform_account'
     | '/workflows/$workflowId/trigger/$id'
     | '/coms/$comId/team_builder/component_editor'
+    | '/coms/$comId/team_builder/component_editor/$'
+    | '/coms/$comId/team_builder/component_editor/AssistantAgent'
+    | '/coms/$comId/team_builder/component_editor/SmolaAgent'
     | '/coms/$comId/team_builder/jsonview'
     | '/coms/$comId/view/$subComId'
     | '/workflow-runs/$workflowRunId/stepRun/$stepRunId'
@@ -3501,6 +3570,9 @@ export interface FileRouteTypes {
     | '/workflows/$workflowId/trigger/ag'
     | '/workflows/$workflowId/trigger/smola'
     | '/coms/$comId/team_builder/component_editor/'
+    | '/coms/$comId/team_builder/component_editor/$'
+    | '/coms/$comId/team_builder/component_editor/AssistantAgent'
+    | '/coms/$comId/team_builder/component_editor/SmolaAgent'
     | '/coms/$comId/team_builder/jsonview/'
     | '/coms/$comId/view/$subComId/'
     | '/workflow-runs/$workflowRunId/stepRun/$stepRunId/'
@@ -4138,7 +4210,10 @@ export const routeTree = rootRoute
       "filePath": "~coms/~$comId/~team_builder/~component_editor/~route.lazy.tsx",
       "parent": "/coms/$comId/team_builder",
       "children": [
-        "/coms/$comId/team_builder/component_editor/"
+        "/coms/$comId/team_builder/component_editor/",
+        "/coms/$comId/team_builder/component_editor/$",
+        "/coms/$comId/team_builder/component_editor/AssistantAgent",
+        "/coms/$comId/team_builder/component_editor/SmolaAgent"
       ]
     },
     "/coms/$comId/team_builder/jsonview": {
@@ -4218,6 +4293,18 @@ export const routeTree = rootRoute
     },
     "/coms/$comId/team_builder/component_editor/": {
       "filePath": "~coms/~$comId/~team_builder/~component_editor/~index.tsx",
+      "parent": "/coms/$comId/team_builder/component_editor"
+    },
+    "/coms/$comId/team_builder/component_editor/$": {
+      "filePath": "~coms/~$comId/~team_builder/~component_editor/~$.tsx",
+      "parent": "/coms/$comId/team_builder/component_editor"
+    },
+    "/coms/$comId/team_builder/component_editor/AssistantAgent": {
+      "filePath": "~coms/~$comId/~team_builder/~component_editor/~AssistantAgent.tsx",
+      "parent": "/coms/$comId/team_builder/component_editor"
+    },
+    "/coms/$comId/team_builder/component_editor/SmolaAgent": {
+      "filePath": "~coms/~$comId/~team_builder/~component_editor/~SmolaAgent.tsx",
       "parent": "/coms/$comId/team_builder/component_editor"
     },
     "/coms/$comId/team_builder/jsonview/": {

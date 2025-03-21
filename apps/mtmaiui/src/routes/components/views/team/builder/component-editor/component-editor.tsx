@@ -237,11 +237,14 @@ export const ComponentEditor = ({
     }
     if (isAgentComponent(currentComponent)) {
       return (
-        <AgentFields
-          component={currentComponent}
-          onChange={handleComponentUpdate}
-          onNavigate={handleNavigate}
-        />
+        <>
+          isAgentComponent
+          <AgentFields
+            component={currentComponent}
+            onChange={handleComponentUpdate}
+            onNavigate={handleNavigate}
+          />
+        </>
       );
     }
     if (isModelComponent(currentComponent)) {

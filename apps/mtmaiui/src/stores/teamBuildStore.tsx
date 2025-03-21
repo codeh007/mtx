@@ -47,6 +47,7 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 
+import { useNav } from "../hooks/useNav";
 import type {
   CustomEdge,
   CustomNode,
@@ -96,6 +97,8 @@ export interface TeamBuilderProps {
   >;
 }
 export interface TeamBuilderState extends TeamBuilderProps {
+  modelContent: React.ReactNode;
+  setModelContent: (modelContent: React.ReactNode) => void;
   nodes: CustomNode[];
   edges: CustomEdge[];
   onNodesChange: OnNodesChange<CustomNode>;
@@ -166,6 +169,7 @@ export interface TeamBuilderState extends TeamBuilderProps {
     draggedType: ComponentTypes,
     targetType: ComponentTypes,
   ) => boolean;
+  nav: ReturnType<typeof useNav>;
 }
 
 const buildTeamComponent = (
@@ -266,6 +270,9 @@ export const createWorkbrenchSlice: StateCreator<
     },
     setValidationLoading: (validationLoading) => {
       set({ validationLoading });
+    },
+    setModelContent: (modelContent) => {
+      set({ modelContent });
     },
     teamJson: "",
     setTeamJson: (teamJson: string) => {
@@ -516,8 +523,8 @@ export const createWorkbrenchSlice: StateCreator<
             );
           }
 
-          const componentType =
-            clonedComponent.component_type || clonedComponent.componentType;
+          // const componentType =
+          //   clonedComponent.component_type || clonedComponent.componentType;
           console.log("clonedComponent", clonedComponent);
           const newNode = {
             id: nanoid(),
@@ -756,9 +763,12 @@ export const createWorkbrenchSlice: StateCreator<
     },
 
     setSelectedNode: (node) => {
-      // console.log("setSelectedNode", node);
-      // set({ selectedNodeId: node.id });
       set({ selectedNode: node });
+      const provider = node?.data.component.provider;
+      const providerName = provider?.split(".").pop();
+      get().nav({
+        to: `/coms/${get().componentId}/team_builder/component_editor/${providerName}`,
+      });
     },
 
     undo: () => {
@@ -993,6 +1003,7 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
   const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
   // const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
   const tid = useTenantId();
+  const nav = useNav();
   const upsertComponent = useMutation({
     ...comsUpsertMutation(),
   });
@@ -1020,6 +1031,7 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
       component: componentsQuery.data,
       upsertComponent,
       tid,
+      nav,
     });
     return store;
   }, [componentsQuery.data]);

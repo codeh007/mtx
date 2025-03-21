@@ -4,16 +4,9 @@ import "@xyflow/react/dist/style.css";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { MonacoEditor } from "mtxuilib/mt/monaco";
 import { Button } from "mtxuilib/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "mtxuilib/ui/sheet";
 import { useRef } from "react";
 import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
 import "./builder.css";
-import { ComponentEditor } from "./component-editor/component-editor";
 import { edgeTypes, nodeTypes } from "./nodes";
 import { TeamBuilderToolbar } from "./toolbar";
 
@@ -129,29 +122,6 @@ export const TeamBuilder = () => {
           </div>
         ) : null}
       </DragOverlay>
-
-      <Sheet open={!!selectedNode} onOpenChange={() => setSelectedNode(null)}>
-        <SheetContent className="w-full sm:max-w-5xl">
-          <SheetHeader>
-            <SheetTitle>Edit Component</SheetTitle>
-          </SheetHeader>
-          {selectedNode?.data.component && (
-            <ComponentEditor
-              component={selectedNode.data.component}
-              onChange={(updatedComponent) => {
-                // console.log("builder updating component", updatedComponent);
-                if (selectedNode) {
-                  updateNode(selectedNode.id, {
-                    component: updatedComponent,
-                  });
-                  handleSave();
-                }
-              }}
-              navigationDepth={true}
-            />
-          )}
-        </SheetContent>
-      </Sheet>
     </>
   );
 };
