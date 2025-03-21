@@ -331,8 +331,6 @@ export const createWorkbrenchSlice: StateCreator<
         y: event.delta.y,
       };
 
-      // Pass both new node data AND target node id
-      // addNode(position, draggedItem.config, nodeId);
       get().addNode(position, draggedItem, nodeId);
 
       set({ activeDragItem: null });
@@ -580,6 +578,11 @@ export const createWorkbrenchSlice: StateCreator<
       set({
         nodes: layoutedNodes,
         edges: layoutedEdges,
+        history: [
+          ...get().history.slice(0, get().currentHistoryIndex + 1),
+          { nodes: layoutedNodes, edges: layoutedEdges },
+        ].slice(-MAX_HISTORY),
+        currentHistoryIndex: get().currentHistoryIndex + 1,
       });
       // return {
       //   // nodes: layoutedNodes,

@@ -20,6 +20,7 @@ function RouteComponent() {
         <RootAppWrapper secondSidebar={<NavComsWithLibrary />}>
           <ModalProvider>
             <TeamBuilderHeader comId={comId} />
+
             <TeamBuilder />
 
             <Outlet />

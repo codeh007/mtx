@@ -1,14 +1,12 @@
 import { DragOverlay } from "@dnd-kit/core";
-import { Background, MiniMap, ReactFlow } from "@xyflow/react";
+import { Background, Controls, MiniMap, ReactFlow } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { MonacoEditor } from "mtxuilib/mt/monaco";
 import { Button } from "mtxuilib/ui/button";
 import { useRef } from "react";
 import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
 import "./builder.css";
 import { edgeTypes, nodeTypes } from "./nodes";
-import { TeamBuilderToolbar } from "./toolbar";
 
 export const TeamBuilder = () => {
   const nodes = useTeamBuilderStore((x) => x.nodes);
@@ -51,7 +49,7 @@ export const TeamBuilder = () => {
                   : ""
               }`}
             >
-              <DebugValue data={{ nodes, edges }} />
+              {/* <DebugValue data={{ nodes, edges }} /> */}
               {isJsonMode ? (
                 <MonacoEditor
                   value={teamJson}
@@ -78,6 +76,7 @@ export const TeamBuilder = () => {
                 >
                   {showGrid && <Background />}
                   {showMiniMap && <MiniMap />}
+                  <Controls />
                 </ReactFlow>
               )}
             </div>
@@ -88,7 +87,7 @@ export const TeamBuilder = () => {
                 onClick={() => setIsFullscreen(!isFullscreen)}
               />
             )}
-            <TeamBuilderToolbar
+            {/* <TeamBuilderToolbar
               isJsonMode={isJsonMode}
               isFullscreen={isFullscreen}
               showGrid={showGrid}
@@ -103,7 +102,7 @@ export const TeamBuilder = () => {
               onToggleGrid={() => setShowGrid(!showGrid)}
               onToggleFullscreen={() => setIsFullscreen(!isFullscreen)}
               onAutoLayout={layoutNodes}
-            />
+            /> */}
           </div>
         </div>
       </div>

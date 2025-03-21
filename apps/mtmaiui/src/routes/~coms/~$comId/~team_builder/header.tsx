@@ -5,7 +5,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@radix-ui/react-tooltip";
-import { Download, ListCheck, Play, Save } from "lucide-react";
+import { Download, Play, Save } from "lucide-react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -19,6 +19,7 @@ import {
 } from "../../../../components/DashHeaders";
 import { useNav } from "../../../../hooks/useNav";
 import { useTeamBuilderStore } from "../../../../stores/teamBuildStore";
+import { TeamBuilderToolbar } from "../../../components/views/team/builder/toolbar";
 import { ValidationErrors } from "../../../components/views/team/builder/validationerrors";
 
 interface TeamBuilderHeaderProps {
@@ -32,6 +33,20 @@ export function TeamBuilderHeader({ comId }: TeamBuilderHeaderProps) {
   const handleSave = useTeamBuilderStore((x) => x.handleSave);
   const handleValidate = useTeamBuilderStore((x) => x.handleValidate);
   const nav = useNav();
+  const isJsonMode = useTeamBuilderStore((x) => x.isJsonMode);
+  const isFullscreen = useTeamBuilderStore((x) => x.isFullscreen);
+  const showGrid = useTeamBuilderStore((x) => x.showGrid);
+  const showMiniMap = useTeamBuilderStore((x) => x.showMiniMap);
+  const currentHistoryIndex = useTeamBuilderStore((x) => x.currentHistoryIndex);
+  const history = useTeamBuilderStore((x) => x.history);
+  const setShowMiniMap = useTeamBuilderStore((x) => x.setShowMiniMap);
+  const setIsJsonMode = useTeamBuilderStore((x) => x.setIsJsonMode);
+  const undo = useTeamBuilderStore((x) => x.undo);
+  const redo = useTeamBuilderStore((x) => x.redo);
+  const layoutNodes = useTeamBuilderStore((x) => x.layoutNodes);
+  const setShowGrid = useTeamBuilderStore((x) => x.setShowGrid);
+  const setIsFullscreen = useTeamBuilderStore((x) => x.setIsFullscreen);
+
   return (
     <DashHeaders>
       <Breadcrumb>
@@ -48,6 +63,22 @@ export function TeamBuilderHeader({ comId }: TeamBuilderHeaderProps) {
               <ValidationErrors validation={validationResults} />
             </div>
           )}
+          <TeamBuilderToolbar
+            isJsonMode={isJsonMode}
+            isFullscreen={isFullscreen}
+            showGrid={showGrid}
+            onToggleMiniMap={() => setShowMiniMap(!showMiniMap)}
+            canUndo={currentHistoryIndex > 0}
+            canRedo={currentHistoryIndex < history.length - 1}
+            isDirty={isDirty}
+            onToggleView={() => setIsJsonMode(!isJsonMode)}
+            onUndo={undo}
+            onRedo={redo}
+            onSave={handleSave}
+            onToggleGrid={() => setShowGrid(!showGrid)}
+            onToggleFullscreen={() => setIsFullscreen(!isFullscreen)}
+            onAutoLayout={layoutNodes}
+          />
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
@@ -76,10 +107,10 @@ export function TeamBuilderHeader({ comId }: TeamBuilderHeaderProps) {
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-                // className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={handleSave}
                 variant="outline"
-                // disabled={!isDirty}
+                disabled={!isDirty}
+                size="icon"
               >
                 <div className="relative">
                   <Save className="size-4" />
@@ -91,48 +122,6 @@ export function TeamBuilderHeader({ comId }: TeamBuilderHeaderProps) {
             </TooltipTrigger>
             <TooltipContent>
               <span>Save Team</span>
-            </TooltipContent>
-          </Tooltip>
-
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                // loading={validationLoading}
-                // className="p-1.5 hover:bg-primary/10 rounded-md text-primary/75 hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
-                onClick={handleValidate}
-                variant="outline"
-              >
-                <div className="relative">
-                  <ListCheck size={18} />
-                  {validationResults && (
-                    <div
-                      className={` ${
-                        teamValidated ? "bg-green-500" : "bg-red-500"
-                      } absolute top-0 right-0 w-2 h-2  rounded-full`}
-                    />
-                  )}
-                </div>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <div>
-                Validate Team
-                {validationResults && (
-                  <div className="text-xs text-center my-1">
-                    {/* {teamValidated ? (
-              <span>
-                <CheckCircle className="w-3 h-3 text-green-500 inline-block mr-1" />
-                success
-              </span>
-            ) : (
-              <div className="">
-                <CircleX className="w-3 h-3 text-red-500 inline-block mr-1" />
-                errors
-              </div>
-            )} */}
-                  </div>
-                )}
-              </div>
             </TooltipContent>
           </Tooltip>
 

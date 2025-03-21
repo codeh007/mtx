@@ -55,7 +55,7 @@ export const createModelStoreSlice: StateCreator<
     backLink: { to: "../.." },
     setBackLink: (backLink: { to: string }) => set({ backLink }),
     variant: "modal",
-    setVariant: (variant: "modal" | "sheet") => set({ variant }),
+    setVariant: (variant) => set({ variant }),
     children: null,
     setChildren: (children: React.ReactNode) => set({ children }),
     ...init,

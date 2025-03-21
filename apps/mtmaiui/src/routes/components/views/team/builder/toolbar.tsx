@@ -13,7 +13,6 @@ import {
   Maximize2,
   Minimize2,
   Redo2,
-  Save,
   Undo2,
 } from "lucide-react";
 import { Button } from "mtxuilib/ui/button";
@@ -76,8 +75,8 @@ export const TeamBuilderToolbar: React.FC<TeamBuilderToolbarProps> = ({
   return (
     <div
       className={`${
-        isFullscreen ? "fixed top-6 right-6" : "absolute top-2 right-2"
-      } hover:bg-secondary rounded shadow-sm min-w-[200px] z-[60]`}
+        isFullscreen ? "fixed top-6 right-6" : ""
+      } hover:bg-secondary rounded shadow-sm`}
     >
       <div className="p-1 flex items-center gap-1">
         {!isJsonMode && (
@@ -136,7 +135,7 @@ export const TeamBuilderToolbar: React.FC<TeamBuilderToolbarProps> = ({
           </>
         )}
 
-        <Tooltip>
+        {/* <Tooltip>
           <TooltipTrigger asChild>
             <Button
               onClick={onSave}
@@ -155,7 +154,7 @@ export const TeamBuilderToolbar: React.FC<TeamBuilderToolbarProps> = ({
           <TooltipContent>
             <span>Save Changes</span>
           </TooltipContent>
-        </Tooltip>
+        </Tooltip> */}
 
         <Tooltip>
           <TooltipTrigger asChild>
