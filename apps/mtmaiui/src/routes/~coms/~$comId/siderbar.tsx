@@ -15,6 +15,7 @@ import {
 } from "mtxuilib/ui/sidebar";
 
 import { Bot, ChevronsUpDown, Edit } from "lucide-react";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { IconPlus } from "mtxuilib/icons/icons-ai";
 import {
   Collapsible,
@@ -102,11 +103,12 @@ const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
           <PresetItem
             id={`${rowId}`}
             type={"agent"}
-            config={item.config}
+            config={item}
             label={item.label || ""}
             icon={<Bot className="w-4 h-4" />}
             className="w-full"
           />
+          <DebugValue data={item} />
           <CollapsibleTrigger asChild>
             <Button variant="ghost" size="sm" className="w-9 p-0">
               <ChevronsUpDown className="h-4 w-4" />

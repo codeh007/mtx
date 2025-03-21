@@ -141,7 +141,8 @@ export interface TeamBuilderState extends TeamBuilderProps {
   addEdge: (edge: CustomEdge) => void;
   removeEdge: (edgeId: string) => void;
 
-  setSelectedNode: (node: CustomNode) => void;
+  selectedNode: CustomNode | null;
+  setSelectedNode: (node: CustomNode | null) => void;
 
   undo: () => void;
   redo: () => void;
@@ -299,12 +300,12 @@ export const createWorkbrenchSlice: StateCreator<
 
       const draggedItem = active.data.current.current;
       const dropZoneId = over.id as string;
-      console.log({ message: "handleDragEnd", dropZoneId });
+      console.log({ message: "handleDragEnd", dropZoneId, draggedItem });
       const [nodeId] = dropZoneId.split("@@@");
       // Find target node
       const targetNode = get().nodes.find((node) => node.id === nodeId);
       if (!targetNode) {
-        console.log("No target node", get().nodes, nodeId);
+        console.error("No target node", get().nodes, nodeId);
         return;
       }
 
@@ -314,7 +315,7 @@ export const createWorkbrenchSlice: StateCreator<
         targetNode.data.component.componentType,
       );
       if (!isValid) {
-        console.error("Invalid drop");
+        console.error("Invalid drop", draggedItem, targetNode);
         return;
       }
 
@@ -370,9 +371,8 @@ export const createWorkbrenchSlice: StateCreator<
       targetNodeId: string,
     ) => {
       console.log("addNode", component, targetNodeId);
-      // set((state) => {
       // Deep clone the incoming component to avoid reference issues
-      const clonedComponent = JSON.parse(JSON.stringify(component));
+      const clonedComponent = JSON.parse(JSON.stringify(component.config));
       console.log("clonedComponent", clonedComponent);
       let newNodes = [...get().nodes];
       const newEdges = [...get().edges];
@@ -409,6 +409,7 @@ export const createWorkbrenchSlice: StateCreator<
             (isAssistantAgent(targetNode.data.component) ||
               isWebSurferAgent(targetNode.data.component))
           ) {
+            console.log("添加agent 组件");
             targetNode.data.component.config.model_client = clonedComponent;
             return {
               nodes: newNodes,
@@ -506,8 +507,9 @@ export const createWorkbrenchSlice: StateCreator<
             isTeamComponent(teamNode.data.component)
           ) {
             // console.log("teamNode222", teamNode);
-            const existingAgents = teamNode.data.config.participants || [];
-            const existingNames = existingAgents.map((p) => p.config.name);
+            const existingAgents =
+              teamNode.data.component.config.participants || [];
+            const existingNames = existingAgents?.map((p) => p.config.name);
             clonedComponent.config.name = getUniqueName(
               clonedComponent.config.name,
               existingNames,
@@ -544,12 +546,12 @@ export const createWorkbrenchSlice: StateCreator<
 
           // Update team's participants
           if (isTeamComponent(teamNode.data.component)) {
-            if (!teamNode.data.config.participants) {
-              teamNode.data.config.participants = [];
+            if (!teamNode.data.component.config.participants) {
+              teamNode.data.component.config.participants = [];
             }
             console.log("update teamNode", teamNode);
-            teamNode.data.config.participants.push(
-              newNode.data as Component<AgentConfig>,
+            teamNode.data.component.config.participants.push(
+              newNode.data.component as Component<AgentConfig>,
             );
             set({
               // nodes: newNodes,
@@ -753,9 +755,10 @@ export const createWorkbrenchSlice: StateCreator<
       }));
     },
 
-    setSelectedNode: (node: CustomNode) => {
-      console.log("setSelectedNode", node);
-      set({ selectedNodeId: node.id });
+    setSelectedNode: (node) => {
+      // console.log("setSelectedNode", node);
+      // set({ selectedNodeId: node.id });
+      set({ selectedNode: node });
     },
 
     undo: () => {

@@ -4,9 +4,16 @@ import "@xyflow/react/dist/style.css";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { MonacoEditor } from "mtxuilib/mt/monaco";
 import { Button } from "mtxuilib/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "mtxuilib/ui/sheet";
 import { useRef } from "react";
 import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
 import "./builder.css";
+import { ComponentEditor } from "./component-editor/component-editor";
 import { edgeTypes, nodeTypes } from "./nodes";
 import { TeamBuilderToolbar } from "./toolbar";
 
@@ -27,6 +34,7 @@ export const TeamBuilder = () => {
   const redo = useTeamBuilderStore((x) => x.redo);
   const layoutNodes = useTeamBuilderStore((x) => x.layoutNodes);
   const teamJson = useTeamBuilderStore((x) => x.teamJson);
+  const selectedNode = useTeamBuilderStore((x) => x.selectedNode);
   const setSelectedNode = useTeamBuilderStore((x) => x.setSelectedNode);
   const isDirty = useTeamBuilderStore((x) => x.isDirty);
   const currentHistoryIndex = useTeamBuilderStore((x) => x.currentHistoryIndex);
@@ -36,11 +44,12 @@ export const TeamBuilder = () => {
   const handleSave = useTeamBuilderStore((x) => x.handleSave);
   const onNodesChange = useTeamBuilderStore((x) => x.onNodesChange);
   const onEdgesChange = useTeamBuilderStore((x) => x.onEdgesChange);
-  const onNodeClick = useTeamBuilderStore((x) => x.onNodeClick);
+  const updateNode = useTeamBuilderStore((x) => x.updateNode);
+
   return (
-    <div className="h-full flex-1">
-      <div className=" relative h-[calc(100vh-239px)] flex-1">
-        <div className=" rounded bg-slate-50 w-full h-full">
+    <>
+      <div className=" relative h-[calc(100vh-50px)] flex-1">
+        <div className=" rounded bg-slate-500 w-full h-full">
           <div className="relative rounded w-full h-full">
             <div
               className={`w-full h-full transition-all duration-200 ${
@@ -120,6 +129,29 @@ export const TeamBuilder = () => {
           </div>
         ) : null}
       </DragOverlay>
-    </div>
+
+      <Sheet open={!!selectedNode} onOpenChange={() => setSelectedNode(null)}>
+        <SheetContent className="w-full sm:max-w-5xl">
+          <SheetHeader>
+            <SheetTitle>Edit Component</SheetTitle>
+          </SheetHeader>
+          {selectedNode?.data.component && (
+            <ComponentEditor
+              component={selectedNode.data.component}
+              onChange={(updatedComponent) => {
+                // console.log("builder updating component", updatedComponent);
+                if (selectedNode) {
+                  updateNode(selectedNode.id, {
+                    component: updatedComponent,
+                  });
+                  handleSave();
+                }
+              }}
+              navigationDepth={true}
+            />
+          )}
+        </SheetContent>
+      </Sheet>
+    </>
   );
 };

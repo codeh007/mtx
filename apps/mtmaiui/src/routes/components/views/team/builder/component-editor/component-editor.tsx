@@ -1,5 +1,6 @@
 import debounce from "lodash.debounce";
 import { ChevronLeft, Code, FormInput } from "lucide-react";
+import type { MtComponent } from "mtmaiapi";
 import { MonacoEditor } from "mtxuilib/mt/monaco";
 import { Button } from "mtxuilib/ui/button";
 import React, { useCallback, useRef, useState } from "react";
@@ -25,18 +26,18 @@ export interface EditPath {
 }
 
 export interface ComponentEditorProps {
-  component: Component<ComponentConfig>;
-  onChange: (updatedComponent: Component<ComponentConfig>) => void;
+  component: MtComponent;
+  onChange: (updatedComponent: MtComponent) => void;
   onClose?: () => void;
   navigationDepth?: boolean;
 }
 
-export const ComponentEditor: React.FC<ComponentEditorProps> = ({
+export const ComponentEditor = ({
   component,
   onChange,
   onClose,
   navigationDepth = false,
-}) => {
+}: ComponentEditorProps) => {
   const [editPath, setEditPath] = useState<EditPath[]>([]);
   const [workingCopy, setWorkingCopy] = useState<Component<ComponentConfig>>(
     Object.assign({}, component),

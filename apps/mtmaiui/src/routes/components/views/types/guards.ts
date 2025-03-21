@@ -119,8 +119,7 @@ export function isAgentComponent(
   console.log("isAgentComponent", component);
   return (
     // component.component_type === "agent" ||
-    component.componentType === "agent"
-    // component.type === "agent"
+    component.componentType === "agent" || component.type === "agent"
   );
 }
 
@@ -170,14 +169,17 @@ export function isSelectorTeam(
 
 // Agent provider guards with proper type narrowing
 export function isAssistantAgent(
-  component: Component<ComponentConfig>,
-): component is Component<AssistantAgentConfig> {
+  // component: Component<ComponentConfig>,
+  component: MtComponent,
+) {
+  console.log("isAssistantAgent", component);
   return isComponentOfType(component, PROVIDERS.ASSISTANT_AGENT);
 }
 
 export function isUserProxyAgent(
-  component: Component<ComponentConfig>,
-): component is Component<UserProxyAgentConfig> {
+  // component: Component<ComponentConfig>,
+  component: MtComponent,
+) {
   return isComponentOfType(component, PROVIDERS.USER_PROXY);
 }
 
