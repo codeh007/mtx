@@ -4,7 +4,6 @@ import type { MtComponent } from "mtmaiapi";
 import { MonacoEditor } from "mtxuilib/mt/monaco";
 import { Button } from "mtxuilib/ui/button";
 import React, { useCallback, useRef, useState } from "react";
-import type { Component, ComponentConfig } from "../../../types/datamodel";
 import {
   isAgentComponent,
   isModelComponent,
@@ -162,7 +161,7 @@ export const ComponentEditor = ({
   );
 
   const handleComponentUpdate = useCallback(
-    (updates: Partial<Component<ComponentConfig>>) => {
+    (updates: Partial<MtComponent>) => {
       const updatedComponent = updateComponentAtPath(
         workingCopy,
         editPath,

@@ -1,21 +1,18 @@
 import { MinusCircle, PlusCircle } from "lucide-react";
+import type { MtComponent } from "mtmaiapi";
 import { MonacoEditor } from "mtxuilib/mt/monaco";
 import { Button } from "mtxuilib/ui/button";
 import { Input } from "mtxuilib/ui/input";
 import { Switch } from "mtxuilib/ui/switch";
 import { Textarea } from "mtxuilib/ui/textarea";
 import React, { useCallback, useRef, useState } from "react";
-import type {
-  Component,
-  ComponentConfig,
-  Import,
-} from "../../../../types/datamodel";
+import type { Import } from "../../../../types/datamodel";
 import { isFunctionTool } from "../../../../types/guards";
 import { DetailGroup } from "../detailgroup";
 
 interface ToolFieldsProps {
-  component: Component<ComponentConfig>;
-  onChange: (updates: Partial<Component<ComponentConfig>>) => void;
+  component: MtComponent;
+  onChange: (updates: Partial<MtComponent>) => void;
 }
 
 interface ImportState {
@@ -23,10 +20,7 @@ interface ImportState {
   imports: string;
 }
 
-export const ToolFields: React.FC<ToolFieldsProps> = ({
-  component,
-  onChange,
-}) => {
+export const ToolFields = ({ component, onChange }: ToolFieldsProps) => {
   if (!isFunctionTool(component)) return null;
 
   const editorRef = useRef(null);
@@ -41,7 +35,7 @@ export const ToolFields: React.FC<ToolFieldsProps> = ({
   });
 
   const handleComponentUpdate = useCallback(
-    (updates: Partial<Component<ComponentConfig>>) => {
+    (updates: Partial<MtComponent>) => {
       onChange({
         ...component,
         ...updates,

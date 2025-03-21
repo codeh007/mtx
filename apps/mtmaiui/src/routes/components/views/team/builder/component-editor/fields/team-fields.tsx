@@ -1,21 +1,19 @@
 import { Edit, Timer } from "lucide-react";
+import type { MtComponent } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import { Input } from "mtxuilib/ui/input";
 import { Textarea } from "mtxuilib/ui/textarea";
 import React, { useCallback } from "react";
 import type {
-  Component,
-  ComponentConfig,
   RoundRobinGroupChatConfig,
   SelectorGroupChatConfig,
-  TeamConfig,
 } from "../../../../types/datamodel";
 import { isRoundRobinTeam, isSelectorTeam } from "../../../../types/guards";
 import { DetailGroup } from "../detailgroup";
 
 interface TeamFieldsProps {
-  component: Component<TeamConfig>;
-  onChange: (updates: Partial<Component<ComponentConfig>>) => void;
+  component: MtComponent;
+  onChange: (updates: Partial<MtComponent>) => void;
   onNavigate?: (componentType: string, id: string, parentField: string) => void;
 }
 
@@ -27,7 +25,7 @@ export const TeamFields = ({
   // if (!isSelectorTeam(component) && !isRoundRobinTeam(component)) return null;
 
   const handleComponentUpdate = useCallback(
-    (updates: Partial<Component<ComponentConfig>>) => {
+    (updates: Partial<MtComponent>) => {
       onChange({
         ...component,
         ...updates,
