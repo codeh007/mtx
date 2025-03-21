@@ -19,11 +19,11 @@ interface TeamFieldsProps {
   onNavigate?: (componentType: string, id: string, parentField: string) => void;
 }
 
-export const TeamFields: React.FC<TeamFieldsProps> = ({
+export const TeamFields = ({
   component,
   onChange,
   onNavigate,
-}) => {
+}: TeamFieldsProps) => {
   // if (!isSelectorTeam(component) && !isRoundRobinTeam(component)) return null;
 
   const handleComponentUpdate = useCallback(

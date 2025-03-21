@@ -39,7 +39,7 @@ export const ComponentEditor = ({
   navigationDepth = false,
 }: ComponentEditorProps) => {
   const [editPath, setEditPath] = useState<EditPath[]>([]);
-  const [workingCopy, setWorkingCopy] = useState<Component<ComponentConfig>>(
+  const [workingCopy, setWorkingCopy] = useState<MtComponent>(
     Object.assign({}, component),
   );
   const [isJsonEditing, setIsJsonEditing] = useState(false);
@@ -53,54 +53,48 @@ export const ComponentEditor = ({
   }, [component]);
 
   const getCurrentComponent = useCallback(
-    (root: Component<ComponentConfig>) => {
-      return editPath.reduce<Component<ComponentConfig> | null>(
-        (current, path) => {
-          if (!current) return null;
+    (root: MtComponent) => {
+      return editPath.reduce<MtComponent | null>((current, path) => {
+        if (!current) return null;
 
-          const field = current.config[
-            path.parentField as keyof typeof current.config
-          ] as
-            | Component<ComponentConfig>[]
-            | Component<ComponentConfig>
-            | undefined;
+        const field = current.config[
+          path.parentField as keyof typeof current.config
+        ] as MtComponent[] | MtComponent | undefined;
 
-          if (Array.isArray(field)) {
-            // If index is provided, use it directly (preferred method)
-            if (
-              typeof path.index === "number" &&
-              path.index >= 0 &&
-              path.index < field.length
-            ) {
-              return field[path.index];
-            }
-
-            // Fallback to label/name lookup for backward compatibility
-            return (
-              field.find(
-                (item) =>
-                  item.label === path.id ||
-                  (item.config &&
-                    "name" in item.config &&
-                    item.config.name === path.id),
-              ) || null
-            );
+        if (Array.isArray(field)) {
+          // If index is provided, use it directly (preferred method)
+          if (
+            typeof path.index === "number" &&
+            path.index >= 0 &&
+            path.index < field.length
+          ) {
+            return field[path.index];
           }
 
-          return field || null;
-        },
-        root,
-      );
+          // Fallback to label/name lookup for backward compatibility
+          return (
+            field.find(
+              (item) =>
+                item.label === path.id ||
+                (item.config &&
+                  "name" in item.config &&
+                  item.config.name === path.id),
+            ) || null
+          );
+        }
+
+        return field || null;
+      }, root);
     },
     [editPath],
   );
 
   const updateComponentAtPath = useCallback(
     (
-      root: Component<ComponentConfig>,
+      root: MtComponent,
       path: EditPath[],
-      updates: Partial<Component<ComponentConfig>>,
-    ): Component<ComponentConfig> => {
+      updates: Partial<MtComponent>,
+    ): MtComponent => {
       if (path.length === 0) {
         return {
           ...root,
@@ -147,7 +141,7 @@ export const ComponentEditor = ({
 
         if (fieldValue && "component_type" in fieldValue) {
           return updateComponentAtPath(
-            fieldValue as Component<ComponentConfig>,
+            fieldValue as MtComponent,
             remainingPath,
             updates,
           );

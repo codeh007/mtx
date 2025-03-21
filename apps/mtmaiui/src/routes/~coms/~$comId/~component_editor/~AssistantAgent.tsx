@@ -18,6 +18,9 @@ export const Route = createFileRoute(
 function RouteComponent() {
   const selectedNode = useTeamBuilderStore((x) => x.selectedNode);
   const handleChange = useTeamBuilderStore((x) => x.updateNode);
+  if (!selectedNode?.data.component) {
+    return <div>no component selected</div>;
+  }
   return (
     <MtModal>
       <ModelContent>

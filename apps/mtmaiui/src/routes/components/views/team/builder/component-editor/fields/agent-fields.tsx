@@ -1,5 +1,7 @@
 import { TooltipContent, TooltipTrigger } from "@radix-ui/react-tooltip";
 import { Edit, HelpCircle, PlusCircle, Trash2 } from "lucide-react";
+import type { MtComponent } from "mtmaiapi";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
 import { Input } from "mtxuilib/ui/input";
 import { Switch } from "mtxuilib/ui/switch";
@@ -7,7 +9,6 @@ import { Textarea } from "mtxuilib/ui/textarea";
 import { Tooltip } from "mtxuilib/ui/tooltip";
 import React, { useCallback } from "react";
 import type {
-  AgentConfig,
   Component,
   ComponentConfig,
   FunctionToolConfig,
@@ -20,11 +21,11 @@ import {
 import { DetailGroup } from "../detailgroup";
 
 interface AgentFieldsProps {
-  component: Component<AgentConfig>;
-  onChange: (updates: Partial<Component<ComponentConfig>>) => void;
+  component: MtComponent;
+  onChange: (updates: Partial<MtComponent>) => void;
   onNavigate?: (componentType: string, id: string, parentField: string) => void;
-  workingCopy?: Component<ComponentConfig> | null;
-  setWorkingCopy?: (component: Component<ComponentConfig> | null) => void;
+  workingCopy?: MtComponent | null;
+  setWorkingCopy?: (component: MtComponent | null) => void;
   editPath?: any[];
   updateComponentAtPath?: any;
   getCurrentComponent?: any;
@@ -187,6 +188,12 @@ export const AgentFields = ({
       </DetailGroup>
       <DetailGroup title="Configuration">
         <div className="space-y-4">
+          {!isAssistantAgent(component) && (
+            <div className="text-sm text-center bg-secondary/50 p-4 rounded-md">
+              No agent configuration
+              <DebugValue data={component} />
+            </div>
+          )}
           {isAssistantAgent(component) && (
             <>
               <InputWithTooltip
@@ -301,7 +308,7 @@ export const AgentFields = ({
                     </div>
                   ))}
                   {(!component.config.tools ||
-                    component.config.tools.length === 0) && (
+                    component.config.tools?.length === 0) && (
                     <div className="text-sm text-secondary text-center bg-secondary/50 p-4 rounded-md">
                       No tools configured
                     </div>

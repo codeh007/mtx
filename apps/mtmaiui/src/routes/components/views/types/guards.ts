@@ -95,17 +95,14 @@ export function isComponent(value: any): value is Component<ComponentConfig> {
 }
 // Generic component type guard
 function isComponentOfType<P extends Provider>(
-  component: Component<ComponentConfig>,
+  component: MtComponent,
   provider: P,
-): component is Component<ConfigForProvider<P>> {
+): component is MtComponent {
   return component.provider === provider;
 }
 
 // Base component type guards
-export function isTeamComponent(
-  // component: Component<ComponentConfig>,
-  component: MtComponent,
-) {
+export function isTeamComponent(component: MtComponent) {
   return (
     // component.component_type === "team" ||
     component.componentType === "team"
@@ -172,7 +169,7 @@ export function isAssistantAgent(
   // component: Component<ComponentConfig>,
   component: MtComponent,
 ) {
-  console.log("isAssistantAgent", component);
+  // console.log("isAssistantAgent", component);
   return isComponentOfType(component, PROVIDERS.ASSISTANT_AGENT);
 }
 
