@@ -1,10 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
-import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
+import { useTeamBuilderStore } from "../../../../stores/teamBuildStore";
 
-export const Route = createFileRoute(
-  "/coms/$comId/team_builder/component_editor/$",
-)({
+export const Route = createFileRoute("/coms/$comId/component_editor/$")({
   component: RouteComponent,
 });
 

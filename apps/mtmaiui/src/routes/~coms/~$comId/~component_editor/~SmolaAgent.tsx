@@ -5,10 +5,10 @@ import {
   ModelHeader,
   ModelTitle,
   MtModal,
-} from "../../../../../stores/model.store";
+} from "../../../../stores/model.store";
 
 export const Route = createFileRoute(
-  "/coms/$comId/team_builder/component_editor/SmolaAgent",
+  "/coms/$comId/component_editor/SmolaAgent",
 )({
   component: RouteComponent,
 });

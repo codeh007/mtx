@@ -767,7 +767,7 @@ export const createWorkbrenchSlice: StateCreator<
       const provider = node?.data.component.provider;
       const providerName = provider?.split(".").pop();
       get().nav({
-        to: `/coms/${get().componentId}/team_builder/component_editor/${providerName}`,
+        to: `/coms/${get().componentId}/component_editor/${providerName}`,
       });
     },
 
