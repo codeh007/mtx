@@ -681,6 +681,7 @@ export interface WorkflowWorkersCount {
   freeSlotCount?: number;
   maxSlotCount?: number;
   workflowRunId?: string;
+  other?: ProviderTypes;
 }
 
 export interface WorkflowRun {
@@ -1402,10 +1403,6 @@ export interface APIResourceMetaProperties {
 export interface CommonResult {
   Success: boolean;
   Message: string;
-  other?:
-    | "mtmai.agents.assistant_agent.AssistantAgent"
-    | "mtmai.agents.instagram_agent.InstagramAgent"
-    | "mtmai.agents.smola_agent.SmolaAgent";
 }
 
 export interface ChatMessage {
@@ -1710,6 +1707,12 @@ export type ParticipantsProperty =
   | InstagramAgentComponent
   | AssistantAgentComponent
   | SmolaAgentComponent;
+
+export enum ProviderTypes {
+  MtmaiAgentsAssistantAgentAssistantAgent = "mtmai.agents.assistant_agent.AssistantAgent",
+  MtmaiAgentsInstagramAgentInstagramAgent = "mtmai.agents.instagram_agent.InstagramAgent",
+  MtmaiAgentsSmolaAgentSmolaAgent = "mtmai.agents.smola_agent.SmolaAgent",
+}
 
 export interface AgStateProperties {
   /** @default "1.0.0" */

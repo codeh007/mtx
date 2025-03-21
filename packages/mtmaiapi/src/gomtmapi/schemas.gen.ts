@@ -1361,7 +1361,7 @@ export const StepSchema = {
 } as const;
 
 export const WorkflowWorkersCountSchema = {
-  type: "object",
+  required: ["count"],
   properties: {
     freeSlotCount: {
       type: "integer",
@@ -1372,8 +1372,14 @@ export const WorkflowWorkersCountSchema = {
     workflowRunId: {
       type: "string",
     },
+    other: {
+      oneOf: [
+        {
+          $ref: "#/components/schemas/ProviderTypes",
+        },
+      ],
+    },
   },
-  required: ["count"],
 } as const;
 
 export const WorkflowRunSchema = {
@@ -2926,18 +2932,6 @@ export const CommonResultSchema = {
     Message: {
       type: "string",
     },
-    other: {
-      oneOf: [
-        {
-          type: "string",
-          enum: [
-            "mtmai.agents.assistant_agent.AssistantAgent",
-            "mtmai.agents.instagram_agent.InstagramAgent",
-            "mtmai.agents.smola_agent.SmolaAgent",
-          ],
-        },
-      ],
-    },
   },
 } as const;
 
@@ -3626,6 +3620,15 @@ export const ParticipantsPropertySchema = {
     {
       $ref: "#/components/schemas/SmolaAgentComponent",
     },
+  ],
+} as const;
+
+export const ProviderTypesSchema = {
+  type: "string",
+  enum: [
+    "mtmai.agents.assistant_agent.AssistantAgent",
+    "mtmai.agents.instagram_agent.InstagramAgent",
+    "mtmai.agents.smola_agent.SmolaAgent",
   ],
 } as const;
 

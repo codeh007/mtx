@@ -821,6 +821,7 @@ export type WorkflowWorkersCount = {
   freeSlotCount?: number;
   maxSlotCount?: number;
   workflowRunId?: string;
+  other?: ProviderTypes;
 };
 
 export type WorkflowRun = {
@@ -1652,10 +1653,6 @@ export type ApiResourceMetaProperties = {
 export type CommonResult = {
   Success: boolean;
   Message: string;
-  other?:
-    | "mtmai.agents.assistant_agent.AssistantAgent"
-    | "mtmai.agents.instagram_agent.InstagramAgent"
-    | "mtmai.agents.smola_agent.SmolaAgent";
 };
 
 export type ChatMessage = {
@@ -2010,6 +2007,19 @@ export type ParticipantsProperty =
   | InstagramAgentComponent
   | AssistantAgentComponent
   | SmolaAgentComponent;
+
+export type ProviderTypes =
+  | "mtmai.agents.assistant_agent.AssistantAgent"
+  | "mtmai.agents.instagram_agent.InstagramAgent"
+  | "mtmai.agents.smola_agent.SmolaAgent";
+
+export const ProviderTypes = {
+  MTMAI_AGENTS_ASSISTANT_AGENT_ASSISTANT_AGENT:
+    "mtmai.agents.assistant_agent.AssistantAgent",
+  MTMAI_AGENTS_INSTAGRAM_AGENT_INSTAGRAM_AGENT:
+    "mtmai.agents.instagram_agent.InstagramAgent",
+  MTMAI_AGENTS_SMOLA_AGENT_SMOLA_AGENT: "mtmai.agents.smola_agent.SmolaAgent",
+} as const;
 
 export type AgStateProperties = {
   version?: string;

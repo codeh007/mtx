@@ -573,6 +573,13 @@ export const zWorkflowWorkersCount = z.object({
   freeSlotCount: z.number().int().optional(),
   maxSlotCount: z.number().int().optional(),
   workflowRunId: z.string().optional(),
+  other: z
+    .enum([
+      "mtmai.agents.assistant_agent.AssistantAgent",
+      "mtmai.agents.instagram_agent.InstagramAgent",
+      "mtmai.agents.smola_agent.SmolaAgent",
+    ])
+    .optional(),
 });
 
 export const zWorkflowRun: z.ZodTypeAny = z.object({
@@ -1391,13 +1398,6 @@ export const zApiResourceMetaProperties = z.object({
 export const zCommonResult = z.object({
   Success: z.boolean(),
   Message: z.string(),
-  other: z
-    .union([
-      z.literal("mtmai.agents.assistant_agent.AssistantAgent"),
-      z.literal("mtmai.agents.instagram_agent.InstagramAgent"),
-      z.literal("mtmai.agents.smola_agent.SmolaAgent"),
-    ])
-    .optional(),
 });
 
 export const zChatMessage = z.object({
@@ -3989,6 +3989,12 @@ export const zParticipantsProperty = z.union([
       }),
     ),
   zSmolaAgentComponent,
+]);
+
+export const zProviderTypes = z.enum([
+  "mtmai.agents.assistant_agent.AssistantAgent",
+  "mtmai.agents.instagram_agent.InstagramAgent",
+  "mtmai.agents.smola_agent.SmolaAgent",
 ]);
 
 export const zAgStateProperties = z.object({
