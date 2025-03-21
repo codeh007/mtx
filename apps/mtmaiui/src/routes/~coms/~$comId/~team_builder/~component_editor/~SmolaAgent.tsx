@@ -1,7 +1,11 @@
 import { createFileRoute, useRouterState } from "@tanstack/react-router";
-import { Button } from "mtxuilib/ui/button";
 import { useMemo } from "react";
-import { ModelWrapper } from "../../../../../stores/model.store";
+import {
+  ModelContent,
+  ModelHeader,
+  ModelTitle,
+  MtModal,
+} from "../../../../../stores/model.store";
 
 export const Route = createFileRoute(
   "/coms/$comId/team_builder/component_editor/SmolaAgent",
@@ -18,8 +22,13 @@ function RouteComponent() {
   }, []);
 
   return (
-    <ModelWrapper>
-      <Button onClick={() => nav({ to: backLink })}>Back</Button>
-    </ModelWrapper>
+    <MtModal>
+      <ModelContent>
+        <ModelHeader>
+          <ModelTitle>title</ModelTitle>
+        </ModelHeader>
+        <div>content</div>
+      </ModelContent>
+    </MtModal>
   );
 }

@@ -22,8 +22,10 @@ export interface ModalProps {
 interface ModalState extends ModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  children: React.ReactNode;
-  setChildren: (children: React.ReactNode) => void;
+  content: React.ReactNode;
+  setContent: (children: React.ReactNode) => void;
+  header: React.ReactNode;
+  setHeader: (children: React.ReactNode) => void;
 }
 export const createModelStoreSlice: StateCreator<
   ModalState,
@@ -34,14 +36,11 @@ export const createModelStoreSlice: StateCreator<
   return {
     open: false,
     setOpen: (open: boolean) => set({ open }),
-    children: null,
-    setChildren: (children: React.ReactNode) => set({ children }),
+    content: null,
+    setContent: (children: React.ReactNode) => set({ content: children }),
     ...init,
   };
 };
-
-// type galleryStore = ReturnType<typeof createModalStore>;
-// export type GalleryStoreState = ModalState;
 
 const createModalStore = (initProps?: Partial<ModalState>) => {
   return createStore<ModalState>()(
@@ -50,7 +49,6 @@ const createModalStore = (initProps?: Partial<ModalState>) => {
       devtools(
         immer((...a) => ({
           ...createModelStoreSlice(...a),
-          // ...createMessageParserSlice(...a),
           ...initProps,
         })),
         {
@@ -98,11 +96,15 @@ export function useModelStore<T>(selector?: (state: ModalState) => T) {
 const ModalDisplay = () => {
   const open = useModelStore((x) => x.open);
   const setOpen = useModelStore((x) => x.setOpen);
-  const children = useModelStore((x) => x.children);
+  const children = useModelStore((x) => x.content);
 
+  const handleClose = () => {
+    setOpen(false);
+    window.history.back();
+  };
   return (
-    <Sheet open={open} onOpenChange={() => setOpen(false)}>
-      <SheetContent className="w-full sm:max-w-5xl">{children}</SheetContent>
+    <Sheet open={open} onOpenChange={handleClose}>
+      {children}
     </Sheet>
   );
 };
@@ -110,20 +112,36 @@ const ModalDisplay = () => {
 interface TeamBuilderModelWrapperProps {
   children: React.ReactNode;
 }
-export function ModelWrapper({ children }: TeamBuilderModelWrapperProps) {
+export function MtModal({ children }: TeamBuilderModelWrapperProps) {
   const setOpen = useModelStore((x) => x.setOpen);
-  const setChildren = useModelStore((x) => x.setChildren);
+  const setChildren = useModelStore((x) => x.setContent);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     setOpen(true);
-    setChildren(<div>hello</div>);
-  }, [setOpen, setChildren]);
-
-  return (
-    <>
-      <SheetHeader>
-        <SheetTitle>Edit Component</SheetTitle>
-      </SheetHeader>
-      <div className="bg-blue-400 p-2">{children}</div>
-    </>
-  );
+    setChildren(children);
+  }, []);
+  return null;
 }
+
+interface ModelHeaderProps {
+  children: React.ReactNode;
+}
+export const ModelHeader = ({ children }: ModelHeaderProps) => {
+  return <SheetHeader>{children}</SheetHeader>;
+};
+
+interface ModelTitleProps {
+  children: React.ReactNode;
+}
+export const ModelTitle = ({ children }: ModelTitleProps) => {
+  return <SheetTitle>{children}</SheetTitle>;
+};
+
+interface ModelContentProps {
+  children: React.ReactNode;
+}
+export const ModelContent = ({ children }: ModelContentProps) => {
+  return (
+    <SheetContent className="w-full sm:max-w-5xl">{children}</SheetContent>
+  );
+};
