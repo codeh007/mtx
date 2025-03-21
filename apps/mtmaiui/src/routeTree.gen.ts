@@ -211,9 +211,6 @@ const ResourceNewResIndexLazyImport = createFileRoute('/resource/new/res/')()
 const ResourceResIdSessionIdIndexLazyImport = createFileRoute(
   '/resource/$resId/$sessionId/',
 )()
-const ComsComIdTeambuilderIndexLazyImport = createFileRoute(
-  '/coms/$comId/team_builder/',
-)()
 const ComsComIdRunIndexLazyImport = createFileRoute('/coms/$comId/run/')()
 const ComsComIdTeambuilderComponentNodeIdLazyImport = createFileRoute(
   '/coms/$comId/team_builder/component/$nodeId',
@@ -1152,17 +1149,6 @@ const ResourceResIdSessionIdIndexLazyRoute =
     ),
   )
 
-const ComsComIdTeambuilderIndexLazyRoute =
-  ComsComIdTeambuilderIndexLazyImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => ComsComIdTeambuilderRouteLazyRoute,
-  } as any).lazy(() =>
-    import('./routes/~coms/~$comId/~team_builder/~index.lazy').then(
-      (d) => d.Route,
-    ),
-  )
-
 const ComsComIdRunIndexLazyRoute = ComsComIdRunIndexLazyImport.update({
   id: '/',
   path: '/',
@@ -1883,13 +1869,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComsComIdRunIndexLazyImport
       parentRoute: typeof ComsComIdRunRouteLazyImport
     }
-    '/coms/$comId/team_builder/': {
-      id: '/coms/$comId/team_builder/'
-      path: '/'
-      fullPath: '/coms/$comId/team_builder/'
-      preLoaderRoute: typeof ComsComIdTeambuilderIndexLazyImport
-      parentRoute: typeof ComsComIdTeambuilderRouteLazyImport
-    }
     '/resource/$resId/$sessionId/': {
       id: '/resource/$resId/$sessionId/'
       path: '/$sessionId'
@@ -2196,7 +2175,6 @@ const ComsComIdTeambuilderJsonviewRouteLazyRouteWithChildren =
   )
 
 interface ComsComIdTeambuilderRouteLazyRouteChildren {
-  ComsComIdTeambuilderIndexLazyRoute: typeof ComsComIdTeambuilderIndexLazyRoute
   ComsComIdTeambuilderComponentRouteLazyRoute: typeof ComsComIdTeambuilderComponentRouteLazyRouteWithChildren
   ComsComIdTeambuilderComponenteditorRouteLazyRoute: typeof ComsComIdTeambuilderComponenteditorRouteLazyRouteWithChildren
   ComsComIdTeambuilderJsonviewRouteLazyRoute: typeof ComsComIdTeambuilderJsonviewRouteLazyRouteWithChildren
@@ -2204,7 +2182,6 @@ interface ComsComIdTeambuilderRouteLazyRouteChildren {
 
 const ComsComIdTeambuilderRouteLazyRouteChildren: ComsComIdTeambuilderRouteLazyRouteChildren =
   {
-    ComsComIdTeambuilderIndexLazyRoute: ComsComIdTeambuilderIndexLazyRoute,
     ComsComIdTeambuilderComponentRouteLazyRoute:
       ComsComIdTeambuilderComponentRouteLazyRouteWithChildren,
     ComsComIdTeambuilderComponenteditorRouteLazyRoute:
@@ -2974,7 +2951,6 @@ export interface FileRoutesByFullPath {
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexRoute
   '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
   '/coms/$comId/run/': typeof ComsComIdRunIndexLazyRoute
-  '/coms/$comId/team_builder/': typeof ComsComIdTeambuilderIndexLazyRoute
   '/resource/$resId/$sessionId': typeof ResourceResIdSessionIdIndexLazyRoute
   '/resource/new/res/': typeof ResourceNewResIndexLazyRoute
   '/session/$sessionId/team_state/': typeof SessionSessionIdTeamstateIndexLazyRoute
@@ -3050,6 +3026,7 @@ export interface FileRoutesByTo {
   '/tenant_settings/model_client_settings': typeof TenantsettingsModelclientsettingsIndexLazyRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdIndexLazyRoute
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdIndexLazyRoute
+  '/coms/$comId/team_builder': typeof ComsComIdTeambuilderRouteLazyRouteWithChildren
   '/coms/$comId/type': typeof ComsComIdTypeRouteLazyRouteWithChildren
   '/coms/$comId/view': typeof ComsComIdViewRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId/additional-metadata': typeof WorkflowRunsWorkflowRunIdAdditionalMetadataLazyRoute
@@ -3059,7 +3036,6 @@ export interface FileRoutesByTo {
   '/site/$siteId/host': typeof SiteSiteIdHostIndexRoute
   '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
   '/coms/$comId/run': typeof ComsComIdRunIndexLazyRoute
-  '/coms/$comId/team_builder': typeof ComsComIdTeambuilderIndexLazyRoute
   '/resource/$resId/$sessionId': typeof ResourceResIdSessionIdIndexLazyRoute
   '/resource/new/res': typeof ResourceNewResIndexLazyRoute
   '/session/$sessionId/team_state': typeof SessionSessionIdTeamstateIndexLazyRoute
@@ -3177,7 +3153,6 @@ export interface FileRoutesById {
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexRoute
   '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
   '/coms/$comId/run/': typeof ComsComIdRunIndexLazyRoute
-  '/coms/$comId/team_builder/': typeof ComsComIdTeambuilderIndexLazyRoute
   '/resource/$resId/$sessionId/': typeof ResourceResIdSessionIdIndexLazyRoute
   '/resource/new/res/': typeof ResourceNewResIndexLazyRoute
   '/session/$sessionId/team_state/': typeof SessionSessionIdTeamstateIndexLazyRoute
@@ -3302,7 +3277,6 @@ export interface FileRouteTypes {
     | '/site/$siteId/host/'
     | '/coms/$comId/type/modelClient'
     | '/coms/$comId/run/'
-    | '/coms/$comId/team_builder/'
     | '/resource/$resId/$sessionId'
     | '/resource/new/res/'
     | '/session/$sessionId/team_state/'
@@ -3377,6 +3351,7 @@ export interface FileRouteTypes {
     | '/tenant_settings/model_client_settings'
     | '/workflow-runs/$workflowRunId'
     | '/workflows/$workflowId'
+    | '/coms/$comId/team_builder'
     | '/coms/$comId/type'
     | '/coms/$comId/view'
     | '/workflow-runs/$workflowRunId/additional-metadata'
@@ -3386,7 +3361,6 @@ export interface FileRouteTypes {
     | '/site/$siteId/host'
     | '/coms/$comId/type/modelClient'
     | '/coms/$comId/run'
-    | '/coms/$comId/team_builder'
     | '/resource/$resId/$sessionId'
     | '/resource/new/res'
     | '/session/$sessionId/team_state'
@@ -3502,7 +3476,6 @@ export interface FileRouteTypes {
     | '/site/$siteId/host/'
     | '/coms/$comId/type/modelClient'
     | '/coms/$comId/run/'
-    | '/coms/$comId/team_builder/'
     | '/resource/$resId/$sessionId/'
     | '/resource/new/res/'
     | '/session/$sessionId/team_state/'
@@ -4025,7 +3998,6 @@ export const routeTree = rootRoute
       "filePath": "~coms/~$comId/~team_builder/~route.lazy.tsx",
       "parent": "/coms/$comId",
       "children": [
-        "/coms/$comId/team_builder/",
         "/coms/$comId/team_builder/component",
         "/coms/$comId/team_builder/component_editor",
         "/coms/$comId/team_builder/jsonview"
@@ -4126,10 +4098,6 @@ export const routeTree = rootRoute
     "/coms/$comId/run/": {
       "filePath": "~coms/~$comId/~run/~index.lazy.tsx",
       "parent": "/coms/$comId/run"
-    },
-    "/coms/$comId/team_builder/": {
-      "filePath": "~coms/~$comId/~team_builder/~index.lazy.tsx",
-      "parent": "/coms/$comId/team_builder"
     },
     "/resource/$resId/$sessionId/": {
       "filePath": "~resource/~$resId/~$sessionId/~index.lazy.tsx",

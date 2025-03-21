@@ -172,26 +172,24 @@ const buildTeamComponent = (
   nodes: CustomNode[],
   edges: CustomEdge[],
 ): MtComponent | null => {
-  console.log("buildTeamComponent", teamNode.data);
   const componentObj = teamNode.data.component;
+  console.log("componentObj", teamNode.data.component);
   if (!isTeamComponent(componentObj)) return null;
-
-  // const component = { ...componentObj };
 
   // Get participants using edges
   const participantEdges = edges.filter(
     (e) => e.source === teamNode.id && e.type === "agent-connection",
   );
-  componentObj.config.participants = participantEdges
+  const participants = participantEdges
     .map((edge) => {
       const agentNode = nodes.find((n) => n.id === edge.target);
       if (!agentNode || !isAgentComponent(agentNode.data.component))
         return null;
       return agentNode.data.component;
     })
-    .filter((agent): agent is Component<AgentConfig> => agent !== null);
-  console.log("builded component", componentObj);
-
+    .filter((agent) => agent !== null);
+  console.log("builded component", componentObj, participants);
+  componentObj.config.participants = participants;
   return componentObj;
 };
 
@@ -276,6 +274,7 @@ export const createWorkbrenchSlice: StateCreator<
       draggedType: ComponentTypes,
       targetType: ComponentTypes,
     ): boolean => {
+      console.log("validateDropTarget", draggedType, targetType);
       const validTargets: Record<ComponentTypes, ComponentTypes[]> = {
         model: ["team", "agent"],
         tool: ["agent"],
@@ -295,13 +294,12 @@ export const createWorkbrenchSlice: StateCreator<
       }
     },
     handleDragEnd: (event: DragEndEvent) => {
-      console.log("handleDragEnd", event);
       const { active, over } = event;
       if (!over || !active.data?.current?.current) return;
 
       const draggedItem = active.data.current.current;
       const dropZoneId = over.id as string;
-      console.log("dropZoneId", dropZoneId);
+      console.log({ message: "handleDragEnd", dropZoneId });
       const [nodeId] = dropZoneId.split("@@@");
       // Find target node
       const targetNode = get().nodes.find((node) => node.id === nodeId);
@@ -313,10 +311,10 @@ export const createWorkbrenchSlice: StateCreator<
       // Validate drop
       const isValid = get().validateDropTarget(
         draggedItem.type,
-        targetNode.data.component_type || targetNode.data.componentType,
+        targetNode.data.component.componentType,
       );
       if (!isValid) {
-        console.log("Invalid drop");
+        console.error("Invalid drop");
         return;
       }
 
@@ -332,17 +330,23 @@ export const createWorkbrenchSlice: StateCreator<
       set({ activeDragItem: null });
     },
     handleDragOver: (event: DragOverEvent) => {
-      console.log("handleDragOver", event);
       const { active, over } = event;
       if (!over?.id || !active.data.current) return;
 
       const draggedType = active.data.current.type;
       const targetNode = get().nodes.find((node) => node.id === over.id);
+      console.log({
+        message: "handleDragOver",
+        event,
+        draggedType,
+        targetNode,
+        targetNodeType: targetNode?.data.component.componentType,
+      });
       if (!targetNode) return;
 
       const isValid = get().validateDropTarget(
         draggedType,
-        targetNode.data.component.component_type,
+        targetNode.data.component.componentType,
       );
       // Add visual feedback class to target node
       if (isValid) {

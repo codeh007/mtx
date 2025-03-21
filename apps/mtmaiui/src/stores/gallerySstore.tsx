@@ -3,8 +3,8 @@ import {
   type AgentConfig,
   type Gallery,
   type ModelConfig,
-  type TeamConfig,
-  type TerminationConfig,
+  // type TeamConfig,
+  // type TerminationConfig,
   type ToolConfig,
   galleryGetOptions,
   galleryListOptions,
@@ -15,6 +15,7 @@ import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { useTenantId } from "../hooks/useAuth";
+import type { TeamConfig, TerminationConfig } from "../types/datamodel";
 
 export interface GalleryStoreProps {
   defaultGallery?: Gallery;

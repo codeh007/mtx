@@ -2125,15 +2125,9 @@ export type MtComponent = ApiResourceMetaProperties &
     version: number;
     componentVersion: number;
     galleryId: string;
-    config:
-      | SystemConfig
-      | InstagramTeamConfig
-      | InstagramAgentConfig
-      | AssistantAgentConfig
-      | RoundRobinGroupChatConfig
-      | SelectorGroupChatConfig
-      | ModelConfig
-      | TenantComponentConfig;
+    config: {
+      [key: string]: unknown;
+    };
   };
 
 export type MtComponentNew = {
@@ -2612,11 +2606,12 @@ export type RoundRobinGroupChatConfig = TeamConfigBase & {
   termination_condition: TextMentionTerminationComponent;
 };
 
-export type SelectorGroupChatConfig = TeamConfigBase & {
-  participants: Array<AgentComponent>;
-  termination_condition: TextMentionTerminationComponent;
-  model_client?: ModelComponent;
-};
+export type SelectorGroupChatConfig = TeamConfigBase &
+  RoundRobinGroupChatConfig & {
+    participants: Array<AgentComponent>;
+    termination_condition: TextMentionTerminationComponent;
+    model_client?: ModelComponent;
+  };
 
 export type MaxMessageTerminationComponent = ComponentModel & {
   componentType: "termination";

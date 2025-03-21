@@ -1,5 +1,5 @@
+import type { MtComponent } from "mtmaiapi";
 import type {
-  AgentConfig,
   AnthropicClientConfig,
   AssistantAgentConfig,
   AzureOpenAIClientConfig,
@@ -13,7 +13,6 @@ import type {
   OrTerminationConfig,
   RoundRobinGroupChatConfig,
   SelectorGroupChatConfig,
-  TeamConfig,
   TerminationConfig,
   TextMentionTerminationConfig,
   ToolConfig,
@@ -104,21 +103,24 @@ function isComponentOfType<P extends Provider>(
 
 // Base component type guards
 export function isTeamComponent(
-  component: Component<ComponentConfig>,
-): component is Component<TeamConfig> {
+  // component: Component<ComponentConfig>,
+  component: MtComponent,
+) {
   return (
-    component.component_type === "team" || component.componentType === "team"
+    // component.component_type === "team" ||
+    component.componentType === "team"
   );
 }
 
 export function isAgentComponent(
-  component: Component<ComponentConfig>,
-): component is Component<AgentConfig> {
+  // component: Component<ComponentConfig>,
+  component: MtComponent,
+) {
   console.log("isAgentComponent", component);
   return (
-    component.component_type === "agent" ||
-    component.componentType === "agent" ||
-    component.type === "agent"
+    // component.component_type === "agent" ||
+    component.componentType === "agent"
+    // component.type === "agent"
   );
 }
 

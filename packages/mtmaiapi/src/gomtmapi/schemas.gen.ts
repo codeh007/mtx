@@ -3953,6 +3953,7 @@ export const MtComponentSchema = {
         "version",
         "componentVersion",
         "galleryId",
+        "component",
         "config",
       ],
       properties: {
@@ -3978,32 +3979,8 @@ export const MtComponentSchema = {
           type: "string",
         },
         config: {
-          oneOf: [
-            {
-              $ref: "#/components/schemas/SystemConfig",
-            },
-            {
-              $ref: "#/components/schemas/InstagramTeamConfig",
-            },
-            {
-              $ref: "#/components/schemas/InstagramAgentConfig",
-            },
-            {
-              $ref: "#/components/schemas/AssistantAgentConfig",
-            },
-            {
-              $ref: "#/components/schemas/RoundRobinGroupChatConfig",
-            },
-            {
-              $ref: "#/components/schemas/SelectorGroupChatConfig",
-            },
-            {
-              $ref: "#/components/schemas/ModelConfig",
-            },
-            {
-              $ref: "#/components/schemas/TenantComponentConfig",
-            },
-          ],
+          type: "object",
+          additionalProperties: true,
         },
       },
     },
@@ -5063,6 +5040,9 @@ export const SelectorGroupChatConfigSchema = {
   allOf: [
     {
       $ref: "#/components/schemas/TeamConfigBase",
+    },
+    {
+      $ref: "#/components/schemas/RoundRobinGroupChatConfig",
     },
     {
       required: ["participants", "termination_condition"],
