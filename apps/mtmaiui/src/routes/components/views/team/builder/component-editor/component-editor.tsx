@@ -170,7 +170,7 @@ export const ComponentEditor = ({
       );
 
       setWorkingCopy(updatedComponent);
-      //   onChange(updatedComponent);
+      onChange?.(updatedComponent);
     },
     [workingCopy, editPath, updateComponentAtPath],
   );
@@ -210,11 +210,11 @@ export const ComponentEditor = ({
   const currentComponent = getCurrentComponent(workingCopy) || workingCopy;
 
   const renderFields = useCallback(() => {
-    console.log(
-      "current component",
-      isTeamComponent(currentComponent),
-      currentComponent,
-    );
+    // console.log(
+    //   "current component",
+    //   isTeamComponent(currentComponent),
+    //   currentComponent,
+    // );
     const commonProps = {
       component: currentComponent,
       onChange: handleComponentUpdate,
@@ -232,7 +232,6 @@ export const ComponentEditor = ({
     if (isAgentComponent(currentComponent)) {
       return (
         <>
-          isAgentComponent
           <AgentFields
             component={currentComponent}
             onChange={handleComponentUpdate}
@@ -281,7 +280,7 @@ export const ComponentEditor = ({
   );
 
   const handleSave = useCallback(() => {
-    console.log("working copy", workingCopy.config);
+    console.log("(handleSave)working copy", workingCopy);
     onChange(workingCopy);
     onClose?.();
   }, [workingCopy, onChange, onClose]);

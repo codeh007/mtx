@@ -7,15 +7,12 @@ import type {
   ComponentConfig,
   FunctionToolConfig,
   MaxMessageTerminationConfig,
-  ModelConfig,
   MultimodalWebSurferConfig,
   OpenAIClientConfig,
   OrTerminationConfig,
   RoundRobinGroupChatConfig,
   SelectorGroupChatConfig,
-  TerminationConfig,
   TextMentionTerminationConfig,
-  ToolConfig,
   UnboundedChatCompletionContextConfig,
   UserProxyAgentConfig,
 } from "./datamodel";
@@ -104,46 +101,29 @@ function isComponentOfType<P extends Provider>(
 
 // Base component type guards
 export function isTeamComponent(component: MtComponent) {
-  return (
-    // component.component_type === "team" ||
-    component.componentType === "team"
-  );
+  return component.componentType === "team";
 }
 
-export function isAgentComponent(
-  // component: Component<ComponentConfig>,
-  component: MtComponent,
-) {
-  console.log("isAgentComponent", component);
-  return (
-    // component.component_type === "agent" ||
-    component.componentType === "agent" || component.type === "agent"
-  );
+export function isAgentComponent(component: MtComponent) {
+  return component.componentType === "agent";
 }
 
 export function isModelComponent(
-  component: Component<ComponentConfig>,
-): component is Component<ModelConfig> {
-  return (
-    component.component_type === "model" || component.componentType === "model"
-  );
+  component: MtComponent,
+): component is MtComponent {
+  return component.componentType === "model";
 }
 
 export function isToolComponent(
-  component: Component<ComponentConfig>,
-): component is Component<ToolConfig> {
-  return (
-    component.component_type === "tool" || component.componentType === "tool"
-  );
+  component: MtComponent,
+): component is MtComponent {
+  return component.componentType === "tool";
 }
 
 export function isTerminationComponent(
-  component: Component<ComponentConfig>,
-): component is Component<TerminationConfig> {
-  return (
-    component.component_type === "termination" ||
-    component.componentType === "termination"
-  );
+  component: MtComponent,
+): component is MtComponent {
+  return component.componentType === "termination";
 }
 
 // export function isChatCompletionContextComponent(
@@ -154,14 +134,14 @@ export function isTerminationComponent(
 
 // Team provider guards with proper type narrowing
 export function isRoundRobinTeam(
-  component: Component<ComponentConfig>,
-): component is Component<RoundRobinGroupChatConfig> {
+  component: MtComponent,
+): component is MtComponent {
   return isComponentOfType(component, PROVIDERS.ROUND_ROBIN_TEAM);
 }
 
 export function isSelectorTeam(
-  component: Component<ComponentConfig>,
-): component is Component<SelectorGroupChatConfig> {
+  component: MtComponent,
+): component is MtComponent {
   return isComponentOfType(component, PROVIDERS.SELECTOR_TEAM);
 }
 
@@ -214,26 +194,26 @@ export function isMaxMessageTermination(
 }
 
 export function isTextMentionTermination(
-  component: Component<ComponentConfig>,
-): component is Component<TextMentionTerminationConfig> {
+  component: MtComponent,
+): component is MtComponent {
   return isComponentOfType(component, PROVIDERS.TEXT_MENTION);
 }
 
 // Context provider guards with proper type narrowing
 export function isUnboundedContext(
-  component: Component<ComponentConfig>,
-): component is Component<UnboundedChatCompletionContextConfig> {
+  component: MtComponent,
+): component is MtComponent {
   return isComponentOfType(component, PROVIDERS.UNBOUNDED_CONTEXT);
 }
 
 // Runtime assertions
 export function assertComponentType<P extends Provider>(
-  component: Component<ComponentConfig>,
+  component: MtComponent,
   provider: P,
-): asserts component is Component<ConfigForProvider<P>> {
+): asserts component is MtComponent {
   if (!isComponentOfType(component, provider)) {
     throw new Error(
-      `Expected component with provider ${provider}, got ${component.provider}`,
+      `Expected component with provider ${provider}, got ${component as MtComponent}.provider}`,
     );
   }
 }

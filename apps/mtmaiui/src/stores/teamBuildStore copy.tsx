@@ -175,7 +175,7 @@ const buildTeamComponent = (
   nodes: CustomNode[],
   edges: CustomEdge[],
 ): MtComponent | null => {
-  const componentObj = { ...teamNode.data.component };
+  const componentObj = teamNode.data.component;
   console.log("componentObj", teamNode.data.component);
   if (!isTeamComponent(componentObj)) return null;
 
@@ -192,15 +192,8 @@ const buildTeamComponent = (
     })
     .filter((agent) => agent !== null);
   console.log("builded component", componentObj, participants);
-
-  // Create a new object instead of modifying the original
-  return {
-    ...componentObj,
-    config: {
-      ...componentObj.config,
-      participants,
-    },
-  };
+  componentObj.config.participants = participants;
+  return componentObj;
 };
 
 export const createWorkbrenchSlice: StateCreator<
@@ -596,18 +589,13 @@ export const createWorkbrenchSlice: StateCreator<
       // });
     },
 
-    /**
-     * 更像节点
-     * TODO: 建议步骤,
-     * @param nodeId
-     * @param updates
-     */
     updateNode: (nodeId: string, updates: Partial<NodeData>) => {
+      // set((state) => {
       const newNodes = get().nodes.map((node) => {
         if (node.id !== nodeId) {
           // If this isn't the directly updated node, check if it needs related updates
           const isTeamWithUpdatedAgent =
-            isTeamComponent(node.data.component) &&
+            isTeamComponent(node.data) &&
             get().edges.some(
               (e) =>
                 e.type === "agent-connection" &&
@@ -617,24 +605,21 @@ export const createWorkbrenchSlice: StateCreator<
 
           if (isTeamWithUpdatedAgent && isTeamComponent(node.data.component)) {
             console.log("isTeamWithUpdatedAgent", node);
-            // Update team node with the updated agent component
             return {
               ...node,
               data: {
                 ...node.data,
                 component: {
-                  ...node.data.component,
+                  ...node.data,
                   config: {
                     ...node.data.component.config,
-                    participants:
-                      node.data.component.config.participants?.map(
-                        (participant) =>
-                          participant ===
-                          get().nodes.find((n) => n.id === nodeId)?.data
-                            .component
-                            ? updates.component
-                            : participant,
-                      ) || [],
+                    participants: node.data.component.config.participants.map(
+                      (participant) =>
+                        participant ===
+                        get().nodes.find((n) => n.id === nodeId)?.data.component
+                          ? updates.component
+                          : participant,
+                    ),
                   },
                 },
               },
@@ -642,39 +627,29 @@ export const createWorkbrenchSlice: StateCreator<
           }
           return node;
         }
-
+        console.log("This is the directly updated node", node);
         // This is the directly updated node
         const updatedComponent = updates.component || node.data.component;
-        console.log("This is the directly updated node", {
-          node,
-          updates,
-          updatedComponent,
-        });
-
-        return {
+        const newNode = {
           ...node,
           data: {
             ...node.data,
-            // ...updates,
-            component: {
-              ...node.data.component,
-              ...updatedComponent,
-            },
+            ...updates,
+            component: updatedComponent,
           },
         };
       });
 
-      console.log("newNodes", newNodes);
-      get().syncToJson();
       set({
-        nodes: newNodes,
-        history: [
-          ...get().history.slice(0, get().currentHistoryIndex + 1),
-          { nodes: newNodes, edges: get().edges },
-        ].slice(-MAX_HISTORY),
+        // nodes: newNodes,
+        // history: [
+        //   ...get().history.slice(0, get().currentHistoryIndex + 1),
+        //   { nodes: newNodes, edges: get().edges },
+        // ].slice(-MAX_HISTORY),
         currentHistoryIndex: get().currentHistoryIndex + 1,
         isDirty: true,
       });
+      // });
     },
 
     removeNode: (nodeId: string) => {

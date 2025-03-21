@@ -12,30 +12,30 @@ export const TeamBuilder = () => {
   const nodes = useTeamBuilderStore((x) => x.nodes);
   const edges = useTeamBuilderStore((x) => x.edges);
   const showGrid = useTeamBuilderStore((x) => x.showGrid);
-  const setShowGrid = useTeamBuilderStore((x) => x.setShowGrid);
+  // const setShowGrid = useTeamBuilderStore((x) => x.setShowGrid);
   const showMiniMap = useTeamBuilderStore((x) => x.showMiniMap);
-  const setShowMiniMap = useTeamBuilderStore((x) => x.setShowMiniMap);
+  // const setShowMiniMap = useTeamBuilderStore((x) => x.setShowMiniMap);
   const editorRef = useRef(null);
   const isJsonMode = useTeamBuilderStore((x) => x.isJsonMode);
-  const setIsJsonMode = useTeamBuilderStore((x) => x.setIsJsonMode);
+  // const setIsJsonMode = useTeamBuilderStore((x) => x.setIsJsonMode);
   const isFullscreen = useTeamBuilderStore((x) => x.isFullscreen);
   const setIsFullscreen = useTeamBuilderStore((x) => x.setIsFullscreen);
-  const history = useTeamBuilderStore((x) => x.history);
-  const undo = useTeamBuilderStore((x) => x.undo);
-  const redo = useTeamBuilderStore((x) => x.redo);
-  const layoutNodes = useTeamBuilderStore((x) => x.layoutNodes);
+  // const history = useTeamBuilderStore((x) => x.history);
+  // const undo = useTeamBuilderStore((x) => x.undo);
+  // const redo = useTeamBuilderStore((x) => x.redo);
+  // const layoutNodes = useTeamBuilderStore((x) => x.layoutNodes);
   const teamJson = useTeamBuilderStore((x) => x.teamJson);
-  const selectedNode = useTeamBuilderStore((x) => x.selectedNode);
+  // const selectedNode = useTeamBuilderStore((x) => x.selectedNode);
   const setSelectedNode = useTeamBuilderStore((x) => x.setSelectedNode);
-  const isDirty = useTeamBuilderStore((x) => x.isDirty);
-  const currentHistoryIndex = useTeamBuilderStore((x) => x.currentHistoryIndex);
+  // const isDirty = useTeamBuilderStore((x) => x.isDirty);
+  // const currentHistoryIndex = useTeamBuilderStore((x) => x.currentHistoryIndex);
   const activeDragItem = useTeamBuilderStore((x) => x.activeDragItem);
   const handleJsonChange = useTeamBuilderStore((x) => x.handleJsonChange);
   const onConnect = useTeamBuilderStore((x) => x.onConnect);
-  const handleSave = useTeamBuilderStore((x) => x.handleSave);
+  // const handleSave = useTeamBuilderStore((x) => x.handleSave);
   const onNodesChange = useTeamBuilderStore((x) => x.onNodesChange);
   const onEdgesChange = useTeamBuilderStore((x) => x.onEdgesChange);
-  const updateNode = useTeamBuilderStore((x) => x.updateNode);
+  // const updateNode = useTeamBuilderStore((x) => x.updateNode);
 
   return (
     <>
@@ -87,22 +87,6 @@ export const TeamBuilder = () => {
                 onClick={() => setIsFullscreen(!isFullscreen)}
               />
             )}
-            {/* <TeamBuilderToolbar
-              isJsonMode={isJsonMode}
-              isFullscreen={isFullscreen}
-              showGrid={showGrid}
-              onToggleMiniMap={() => setShowMiniMap(!showMiniMap)}
-              canUndo={currentHistoryIndex > 0}
-              canRedo={currentHistoryIndex < history.length - 1}
-              isDirty={isDirty}
-              onToggleView={() => setIsJsonMode(!isJsonMode)}
-              onUndo={undo}
-              onRedo={redo}
-              onSave={handleSave}
-              onToggleGrid={() => setShowGrid(!showGrid)}
-              onToggleFullscreen={() => setIsFullscreen(!isFullscreen)}
-              onAutoLayout={layoutNodes}
-            /> */}
           </div>
         </div>
       </div>

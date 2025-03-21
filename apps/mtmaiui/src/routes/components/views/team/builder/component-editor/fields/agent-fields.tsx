@@ -156,10 +156,9 @@ export const AgentFields = ({
   ]);
 
   return (
-    <div className="space-y-6">
-      agent fields
+    <div className="space-y-4">
       <DetailGroup title="Component Details">
-        <div className="space-y-4">
+        <div className="space-y-2">
           <label className="block" htmlFor="name">
             <span className="text-sm font-medium text-primary">Name</span>
           </label>
@@ -187,7 +186,7 @@ export const AgentFields = ({
         </div>
       </DetailGroup>
       <DetailGroup title="Configuration">
-        <div className="space-y-4">
+        <div className="space-y-2">
           {!isAssistantAgent(component) && (
             <div className="text-sm text-center bg-secondary/50 p-4 rounded-md">
               No agent configuration
@@ -231,7 +230,7 @@ export const AgentFields = ({
                               )
                             }
                           >
-                            <Edit className="w-4 h-4" /> Configure Model
+                            <Edit className="size-4" /> Configure Model
                           </Button>
                         )}
                       </div>
