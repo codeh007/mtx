@@ -17,6 +17,7 @@ import {
   Users,
   Wrench,
 } from "lucide-react";
+import type { MtComponent } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
@@ -26,11 +27,9 @@ import { memo } from "react";
 import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
 import { TruncatableText } from "../../atoms";
 import type {
-  AgentConfig,
   Component,
   ComponentConfig,
   ComponentTypes,
-  TeamConfig,
 } from "../../types/datamodel";
 import {
   isAssistantAgent,
@@ -93,7 +92,7 @@ interface BaseNodeProps extends NodeProps<CustomNode> {
   headerContent?: React.ReactNode;
   descriptionContent?: React.ReactNode;
   className?: string;
-  onEditClick?: (id: string) => void;
+  // onEditClick?: (id: string) => void;
 }
 
 const BaseNode = memo<BaseNodeProps>(
@@ -107,7 +106,7 @@ const BaseNode = memo<BaseNodeProps>(
     headerContent,
     descriptionContent,
     className,
-    onEditClick,
+    // onEditClick,
   }) => {
     const removeNode = useTeamBuilderStore((state) => state.removeNode);
     const setSelectedNode = useTeamBuilderStore((x) => x.setSelectedNode);
@@ -134,10 +133,10 @@ const BaseNode = memo<BaseNodeProps>(
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
               <span className="text-xs px-2 py-1 bg-gray-200 rounded text-gray-700">
-                {data.component.component_type || data.component.componentType}
+                {data.component.componentType}
               </span>
               <CustomLink
-                to={`/coms/${componentId}/team_builder/component_editor`}
+                to={`/coms/${componentId}/component_editor`}
                 className={cn(
                   "p-1 hover:bg-secondary rounded",
                   buttonVariants({ variant: "outline" }),
@@ -205,7 +204,7 @@ const ConnectionBadge: React.FC<{
 
 // Team Node
 export const TeamNode = memo<NodeProps<CustomNode>>((props) => {
-  const component = props.data.component as Component<TeamConfig>;
+  const component = props.data.component as MtComponent;
   const hasModel = isSelectorTeam(component) && !!component.config.model_client;
   const participantCount = component.config.participants?.length || 0;
   const componentId = useTeamBuilderStore((x) => x.componentId);
@@ -351,7 +350,7 @@ export const TeamNode = memo<NodeProps<CustomNode>>((props) => {
 TeamNode.displayName = "TeamNode";
 
 export const AgentNode = memo<NodeProps<CustomNode>>((props) => {
-  const component = props.data.component as Component<AgentConfig>;
+  const component = props.data.component as MtComponent;
   const hasModel =
     isAssistantAgent(component) && !!component.config.model_client;
   const toolCount = isAssistantAgent(component)
@@ -420,12 +419,6 @@ export const AgentNode = memo<NodeProps<CustomNode>>((props) => {
 
           {isAssistantAgent(component) && (
             <NodeSection title="Tools">
-              {/* <Handle
-              type="target"
-              position={Position.Left}
-              id={`${props.id}-tool-input-handle`}
-              className="my-left-handle"
-            /> */}
               <div className="space-y-1">
                 {component.config.tools && toolCount > 0 && (
                   <div className="space-y-1">

@@ -603,6 +603,7 @@ export const createWorkbrenchSlice: StateCreator<
      * @param updates
      */
     updateNode: (nodeId: string, updates: Partial<NodeData>) => {
+      console.log("updateNode: ", nodeId, updates);
       const newNodes = get().nodes.map((node) => {
         if (node.id !== nodeId) {
           // If this isn't the directly updated node, check if it needs related updates
@@ -645,17 +646,16 @@ export const createWorkbrenchSlice: StateCreator<
 
         // This is the directly updated node
         const updatedComponent = updates.component || node.data.component;
-        console.log("This is the directly updated node", {
-          node,
-          updates,
-          updatedComponent,
-        });
+        // console.log("This is the directly updated node", {
+        //   node,
+        //   updates,
+        //   updatedComponent,
+        // });
 
         return {
           ...node,
           data: {
             ...node.data,
-            // ...updates,
             component: {
               ...node.data.component,
               ...updatedComponent,
@@ -664,7 +664,7 @@ export const createWorkbrenchSlice: StateCreator<
         };
       });
 
-      console.log("newNodes", newNodes);
+      // console.log("newNodes", newNodes);
       get().syncToJson();
       set({
         nodes: newNodes,

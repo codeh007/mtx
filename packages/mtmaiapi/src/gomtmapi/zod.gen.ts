@@ -1847,7 +1847,6 @@ export const zSelectorGroupChatComponent = z
                 ]),
                 config: z.object({
                   text: z.string(),
-                  configType: z.enum(["text_mention_termination"]),
                 }),
               }),
             ),
@@ -2023,7 +2022,6 @@ export const zSelectorGroupChatComponent = z
                     ]),
                     config: z.object({
                       text: z.string(),
-                      configType: z.enum(["text_mention_termination"]),
                     }),
                   }),
                 ),
@@ -2201,7 +2199,6 @@ export const zSelectorGroupChatComponent = z
                       ]),
                       config: z.object({
                         text: z.string(),
-                        configType: z.enum(["text_mention_termination"]),
                       }),
                     }),
                   ),
@@ -2375,7 +2372,6 @@ export const zSelectorGroupChatComponent = z
                   ]),
                   config: z.object({
                     text: z.string(),
-                    configType: z.enum(["text_mention_termination"]),
                   }),
                 }),
               ),
@@ -2617,7 +2613,6 @@ export const zRoundRobinGroupChatComponent = z
                 ]),
                 config: z.object({
                   text: z.string(),
-                  configType: z.enum(["text_mention_termination"]),
                 }),
               }),
             ),
@@ -2789,7 +2784,6 @@ export const zRoundRobinGroupChatComponent = z
                   ]),
                   config: z.object({
                     text: z.string(),
-                    configType: z.enum(["text_mention_termination"]),
                   }),
                 }),
               ),
@@ -2953,7 +2947,6 @@ export const zTeamConfigBase = z.object({
         ]),
         config: z.object({
           text: z.string(),
-          configType: z.enum(["text_mention_termination"]),
         }),
       }),
     ),
@@ -3257,7 +3250,7 @@ export const zSmolaAgentComponent = z
                   }),
                 }),
               ),
-            configType: z.enum(["smol_agent"]),
+            name: z.string().optional(),
           }),
         ),
     }),
@@ -3431,7 +3424,7 @@ export const zSmolaAgentConfig = z
             }),
           }),
         ),
-      configType: z.enum(["smol_agent"]),
+      name: z.string().optional(),
     }),
   );
 
@@ -3980,7 +3973,7 @@ export const zParticipantsProperty = z.union([
                     }),
                   }),
                 ),
-              configType: z.enum(["assistant_agent"]),
+              name: z.string().optional(),
             }),
           ),
       }),
@@ -4467,7 +4460,6 @@ export const zMtComponent = zApiResourceMetaProperties
             ]),
             config: z.object({
               text: z.string(),
-              configType: z.enum(["text_mention_termination"]),
             }),
           }),
         ),
@@ -5170,7 +5162,7 @@ export const zMtComponent = zApiResourceMetaProperties
                         }),
                       }),
                     ),
-                  configType: z.enum(["assistant_agent"]),
+                  name: z.string().optional(),
                 }),
               ),
           }),
@@ -5198,7 +5190,6 @@ export const zMtComponent = zApiResourceMetaProperties
             provider: z.enum(["mtmai.teams.instagram_team.InstagramTeam"]),
             config: zTeamConfigBase.merge(
               z.object({
-                configType: z.enum(["instagram_team"]),
                 participants: z.array(zParticipantsProperty),
                 termination_condition: z
                   .object({
@@ -5220,7 +5211,6 @@ export const zMtComponent = zApiResourceMetaProperties
                     z.object({
                       componentType: z.enum(["termination"]),
                       config: z.object({
-                        configType: z.enum(["or_termination"]),
                         conditions: z.array(z.object({})),
                       }),
                     }),
@@ -5249,7 +5239,6 @@ export const zMtComponent = zApiResourceMetaProperties
           z.object({
             provider: z.enum(["mtmai.tenant.Tenant"]),
             config: z.object({
-              configType: z.enum(["tenant"]),
               default_openai_api_key: z.string().optional(),
             }),
           }),
@@ -5277,7 +5266,6 @@ export const zMtComponent = zApiResourceMetaProperties
               "autogen_agentchat.conditions.MaxMessageTermination",
             ]),
             config: z.object({
-              configType: z.enum(["max_message_termination"]),
               termination_type: z.enum(["MaxMessageTermination"]),
               max_messages: z.number().int(),
             }),
@@ -5307,7 +5295,6 @@ export const zMtComponent = zApiResourceMetaProperties
             ]),
             config: z.object({
               text: z.string(),
-              configType: z.enum(["stop_message_termination"]),
             }),
           }),
         ),
@@ -5428,7 +5415,6 @@ export const zMtComponentProperties = z.union([
         ]),
         config: z.object({
           text: z.string(),
-          configType: z.enum(["text_mention_termination"]),
         }),
       }),
     ),
@@ -6103,7 +6089,7 @@ export const zMtComponentProperties = z.union([
                     }),
                   }),
                 ),
-              configType: z.enum(["assistant_agent"]),
+              name: z.string().optional(),
             }),
           ),
       }),
@@ -6125,7 +6111,6 @@ export const zMtComponentProperties = z.union([
         provider: z.enum(["mtmai.teams.instagram_team.InstagramTeam"]),
         config: zTeamConfigBase.merge(
           z.object({
-            configType: z.enum(["instagram_team"]),
             participants: z.array(zParticipantsProperty),
             termination_condition: z
               .object({
@@ -6147,7 +6132,6 @@ export const zMtComponentProperties = z.union([
                 z.object({
                   componentType: z.enum(["termination"]),
                   config: z.object({
-                    configType: z.enum(["or_termination"]),
                     conditions: z.array(z.object({})),
                   }),
                 }),
@@ -6170,7 +6154,6 @@ export const zMtComponentProperties = z.union([
       z.object({
         provider: z.enum(["mtmai.tenant.Tenant"]),
         config: z.object({
-          configType: z.enum(["tenant"]),
           default_openai_api_key: z.string().optional(),
         }),
       }),
@@ -6192,7 +6175,6 @@ export const zMtComponentProperties = z.union([
           "autogen_agentchat.conditions.MaxMessageTermination",
         ]),
         config: z.object({
-          configType: z.enum(["max_message_termination"]),
           termination_type: z.enum(["MaxMessageTermination"]),
           max_messages: z.number().int(),
         }),
@@ -6216,7 +6198,6 @@ export const zMtComponentProperties = z.union([
         ]),
         config: z.object({
           text: z.string(),
-          configType: z.enum(["stop_message_termination"]),
         }),
       }),
     ),
@@ -6388,14 +6369,12 @@ export const zOrTerminationComponent = zComponentModel.merge(
   z.object({
     componentType: z.enum(["termination"]),
     config: z.object({
-      configType: z.enum(["or_termination"]),
       conditions: z.array(z.object({})),
     }),
   }),
 );
 
 export const zOrTerminationConfig = z.object({
-  configType: z.enum(["or_termination"]),
   conditions: z.array(z.object({})),
 });
 
@@ -6403,14 +6382,12 @@ export const zTenantComponent = zComponentModel.merge(
   z.object({
     provider: z.enum(["mtmai.tenant.Tenant"]),
     config: z.object({
-      configType: z.enum(["tenant"]),
       default_openai_api_key: z.string().optional(),
     }),
   }),
 );
 
 export const zTenantComponentConfig = z.object({
-  configType: z.enum(["tenant"]),
   default_openai_api_key: z.string().optional(),
 });
 
@@ -6734,7 +6711,6 @@ export const zRoundRobinGroupChatConfig = zTeamConfigBase.merge(
         ]),
         config: z.object({
           text: z.string(),
-          configType: z.enum(["text_mention_termination"]),
         }),
       }),
     ),
@@ -6773,7 +6749,6 @@ export const zSelectorGroupChatConfig = zTeamConfigBase
           ]),
           config: z.object({
             text: z.string(),
-            configType: z.enum(["text_mention_termination"]),
           }),
         }),
       ),
@@ -6786,7 +6761,6 @@ export const zMaxMessageTerminationComponent = zComponentModel.merge(
     componentType: z.enum(["termination"]),
     provider: z.enum(["autogen_agentchat.conditions.MaxMessageTermination"]),
     config: z.object({
-      configType: z.enum(["max_message_termination"]),
       termination_type: z.enum(["MaxMessageTermination"]),
       max_messages: z.number().int(),
     }),
@@ -6799,18 +6773,15 @@ export const zStopMessageTerminationComponent = zComponentModel.merge(
     provider: z.enum(["autogen_agentchat.conditions.StopMessageTermination"]),
     config: z.object({
       text: z.string(),
-      configType: z.enum(["stop_message_termination"]),
     }),
   }),
 );
 
 export const zStopMessageTerminationConfig = z.object({
   text: z.string(),
-  configType: z.enum(["stop_message_termination"]),
 });
 
 export const zMaxMessageTerminationConfig = z.object({
-  configType: z.enum(["max_message_termination"]),
   termination_type: z.enum(["MaxMessageTermination"]),
   max_messages: z.number().int(),
 });
@@ -6821,14 +6792,12 @@ export const zTextMentionTerminationComponent = zComponentModel.merge(
     provider: z.enum(["autogen_agentchat.conditions.TextMentionTermination"]),
     config: z.object({
       text: z.string(),
-      configType: z.enum(["text_mention_termination"]),
     }),
   }),
 );
 
 export const zTextMentionTerminationConfig = z.object({
   text: z.string(),
-  configType: z.enum(["text_mention_termination"]),
 });
 
 export const zAssistantAgentComponent = zComponentModel
@@ -6870,7 +6839,7 @@ export const zAssistantAgentComponent = zComponentModel
         .merge(
           z.object({
             model_client: zModelComponent,
-            configType: z.enum(["assistant_agent"]),
+            name: z.string().optional(),
           }),
         ),
     }),
@@ -6893,7 +6862,7 @@ export const zAssistantAgentConfig = z
   .merge(
     z.object({
       model_client: zModelComponent,
-      configType: z.enum(["assistant_agent"]),
+      name: z.string().optional(),
     }),
   );
 
@@ -7408,7 +7377,6 @@ export const zInstagramTeamComponent = zComponentModel.merge(
     provider: z.enum(["mtmai.teams.instagram_team.InstagramTeam"]),
     config: zTeamConfigBase.merge(
       z.object({
-        configType: z.enum(["instagram_team"]),
         participants: z.array(zParticipantsProperty),
         termination_condition: zOrTerminationComponent,
       }),
@@ -7418,7 +7386,6 @@ export const zInstagramTeamComponent = zComponentModel.merge(
 
 export const zInstagramTeamConfig = zTeamConfigBase.merge(
   z.object({
-    configType: z.enum(["instagram_team"]),
     participants: z.array(zParticipantsProperty),
     termination_condition: zOrTerminationComponent,
   }),
