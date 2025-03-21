@@ -3,7 +3,6 @@ import type { Message } from "ai";
 import type React from "react";
 import { type RefCallback, forwardRef, useMemo } from "react";
 
-import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { classNames } from "mtxuilib/lib/utils";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 import { MtMessages } from "./MtMessages";
@@ -72,8 +71,7 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
                 })}
               >
                 <Header />
-                <DebugValue data={{ messages }} />
-
+                {/* <DebugValue data={{ messages }} /> */}
                 {chatStarted ? (
                   <>
                     <MtMessages

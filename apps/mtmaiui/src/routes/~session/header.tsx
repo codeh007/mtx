@@ -13,7 +13,6 @@ import {
   BreadcrumbSeparator,
 } from "mtxuilib/ui/breadcrumb";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
-import { Switch } from "mtxuilib/ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import {
   DashHeaders,
@@ -32,7 +31,6 @@ export function SessionHeader() {
     <DashHeaders>
       <Breadcrumb>
         <BreadcrumbList>
-          {/* <GoBack to={".."} /> */}
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
               <CustomLink to={`/coms/${componentId}/view`}>组件</CustomLink>
@@ -45,17 +43,6 @@ export function SessionHeader() {
         </BreadcrumbList>
       </Breadcrumb>
       <HeaderActionConainer className="gap-2 flex text-xs rounded border-dashed items-center">
-        <div className="flex-1 gap-2">
-          <Switch
-            onChange={() => {
-              // setIsJsonMode(!isJsonMode);
-            }}
-            className="mr-2"
-            //   defaultChecked={!isJsonMode}
-          />
-          {/* {isJsonMode ? "View JSON" : <>Visual Builder</>}{" "} */}
-        </div>
-
         <div className="flex items-center gap-2">
           {/* {validationResults && !validationResults.is_valid && (
               <div className="inline-block mr-2">

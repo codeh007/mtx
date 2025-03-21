@@ -61,7 +61,6 @@ import {
   getUniqueName,
 } from "../routes/components/views/team/builder/utils";
 import type {
-  AgentConfig,
   Component,
   ComponentConfig,
   ComponentTypes,
@@ -502,9 +501,7 @@ export const createWorkbrenchSlice: StateCreator<
       } else if (isAgentComponent(clonedComponent)) {
         console.log("Agent component added", clonedComponent);
         // Find the team node to connect to
-        const teamNode = newNodes.find((n) =>
-          isTeamComponent(n.data.component),
-        );
+        let teamNode = newNodes.find((n) => isTeamComponent(n.data.component));
         if (teamNode) {
           // Ensure unique agent name
           if (
@@ -555,20 +552,33 @@ export const createWorkbrenchSlice: StateCreator<
               teamNode.data.component.config.participants = [];
             }
             console.log("update teamNode", teamNode);
-            teamNode.data.component.config.participants.push(
-              newNode.data.component as Component<AgentConfig>,
-            );
-            set({
-              // nodes: newNodes,
-              // edges: newEdges,
-              // history: [
-              //   ...get().history.slice(0, get().currentHistoryIndex + 1),
-              //   { nodes: newNodes, edges: newEdges },
-              // ].slice(-MAX_HISTORY),
-              // currentHistoryIndex: get().currentHistoryIndex + 1,
-            });
+            teamNode = {
+              ...teamNode,
+              data: {
+                ...teamNode.data,
+                component: {
+                  ...teamNode.data.component,
+                  config: {
+                    ...teamNode.data.component.config,
+                    participants: [
+                      ...(teamNode.data.component.config?.participants || []),
+                      newNode.data.component,
+                    ],
+                  },
+                },
+              },
+            };
           }
-          set({ edges: newEdges, nodes: newNodes });
+          set({
+            edges: newEdges,
+            nodes: newNodes,
+            history: [
+              ...get().history.slice(0, get().currentHistoryIndex + 1),
+              { nodes: newNodes, edges: newEdges },
+            ].slice(-MAX_HISTORY),
+            currentHistoryIndex: get().currentHistoryIndex + 1,
+          });
+          set({ isDirty: true });
         }
       }
 
