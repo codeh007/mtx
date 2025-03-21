@@ -7,6 +7,12 @@ import {
   SheetTitle,
 } from "mtxuilib/ui/sheet";
 
+import {
+  useCanGoBack,
+  useLocation,
+  useNavigate,
+  useRouterState,
+} from "@tanstack/react-router";
 import type { Gallery } from "mtmaiapi";
 import {
   Dialog,
@@ -19,6 +25,7 @@ import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
+import { useNav } from "../hooks/useNav";
 
 export interface ModalProps {
   defaultGallery?: Gallery;
@@ -29,10 +36,8 @@ type ModalVariant = "modal" | "sheet" | "drawer";
 interface ModalState extends ModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  content: React.ReactNode;
-  setContent: (children: React.ReactNode) => void;
-  header: React.ReactNode;
-  setHeader: (children: React.ReactNode) => void;
+  backLink: { to: string };
+  setBackLink: (backLink: { to: string }) => void;
   variant: ModalVariant;
   setVariant: (variant: ModalVariant) => void;
   children: React.ReactNode;
@@ -47,14 +52,12 @@ export const createModelStoreSlice: StateCreator<
   return {
     open: false,
     setOpen: (open: boolean) => set({ open }),
-    // content: null,
-    // setContent: (children: React.ReactNode) => set({ content: children }),
+    backLink: { to: "../.." },
+    setBackLink: (backLink: { to: string }) => set({ backLink }),
     variant: "modal",
     setVariant: (variant: "modal" | "sheet") => set({ variant }),
     children: null,
     setChildren: (children: React.ReactNode) => set({ children }),
-    // header: null,
-    // setHeader: (header: React.ReactNode) => set({ header }),
     ...init,
   };
 };
@@ -113,12 +116,19 @@ export function useModelStore<T>(selector?: (state: ModalState) => T) {
 const ModalDisplay = () => {
   const open = useModelStore((x) => x.open);
   const setOpen = useModelStore((x) => x.setOpen);
-  const children = useModelStore((x) => x.content);
+  const children = useModelStore((x) => x.children);
   const variant = useModelStore((x) => x.variant);
+  const nav = useNav();
+  const backLink = useModelStore((x) => x.backLink);
+  const r = useRouterState();
+  const n = useNavigate();
+  const canGoBack = useCanGoBack();
+  const loc = useLocation();
 
   const handleClose = () => {
     setOpen(false);
-    window.history.back();
+    // window.history.back();
+    nav({ to: backLink.to });
   };
   if (variant === "modal") {
     return (
@@ -139,7 +149,7 @@ interface TeamBuilderModelWrapperProps {
 }
 export function MtModal({ children }: TeamBuilderModelWrapperProps) {
   const setOpen = useModelStore((x) => x.setOpen);
-  const setChildren = useModelStore((x) => x.setContent);
+  const setChildren = useModelStore((x) => x.setChildren);
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     setOpen(true);
