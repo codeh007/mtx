@@ -182,21 +182,15 @@ export function isWebSurferAgent(component: MtComponent) {
 }
 
 // Model provider guards with proper type narrowing
-export function isOpenAIModel(
-  component: Component<ComponentConfig>,
-): component is Component<OpenAIClientConfig> {
+export function isOpenAIModel(component: MtComponent) {
   return isComponentOfType(component, PROVIDERS.OPENAI);
 }
 
-export function isAzureOpenAIModel(
-  component: Component<ComponentConfig>,
-): component is Component<AzureOpenAIClientConfig> {
+export function isAzureOpenAIModel(component: MtComponent) {
   return isComponentOfType(component, PROVIDERS.AZURE_OPENAI);
 }
-export function isAnthropicModel(
-  component: Component<ComponentConfig>,
-): component is Component<AnthropicClientConfig> {
-  return component.provider === PROVIDERS.ANTHROPIC;
+export function isAnthropicModel(component: MtComponent) {
+  return isComponentOfType(component, PROVIDERS.ANTHROPIC);
 }
 
 // Tool provider guards with proper type narrowing
