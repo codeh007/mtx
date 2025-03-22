@@ -2,22 +2,13 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import { Terminal } from "lucide-react";
 import { cn } from "mtxuilib/lib/utils";
 import { MtTabsContent } from "mtxuilib/mt/tabs";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "mtxuilib/ui/form";
-import { Input } from "mtxuilib/ui/input";
-import { useFormContext } from "react-hook-form";
 
 export const Route = createLazyFileRoute("/coms/$comId/team_builder/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const form = useFormContext();
+  // const form = useFormContext();
   return (
     <>
       <MtTabsContent value="team">
@@ -56,7 +47,7 @@ function RouteComponent() {
           ) : null} */}
       </MtTabsContent>
 
-      <FormField
+      {/* <FormField
         control={form.control}
         name="label"
         render={({ field }) => (
@@ -65,7 +56,7 @@ function RouteComponent() {
             <FormControl>
               <Input placeholder="label" {...field} />
             </FormControl>
-            {/* <FormDescription>标题</FormDescription> */}
+            <FormDescription>label</FormDescription>
             <FormMessage />
           </FormItem>
         )}
@@ -79,11 +70,11 @@ function RouteComponent() {
             <FormControl>
               <Input placeholder="provider" {...field} />
             </FormControl>
-            {/* <FormDescription>标题</FormDescription> */}
+            <FormDescription>provider</FormDescription>
             <FormMessage />
           </FormItem>
         )}
-      />
+      /> */}
     </>
   );
 }
