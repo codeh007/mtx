@@ -3,6 +3,7 @@
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { Switch } from "@radix-ui/react-switch";
 
+import { PlusIcon } from "lucide-react";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
@@ -16,8 +17,6 @@ import {
   useSidebar,
 } from "mtxuilib/ui/sidebar";
 import { ModelListView } from "./ModelList";
-
-// import { WorkflowListView } from "./WorkflowList";
 export function NavModel() {
   const { isMobile } = useSidebar();
   return (
@@ -27,10 +26,10 @@ export function NavModel() {
           <div className="text-base font-medium text-foreground">运行历史</div>
           <Label className="flex items-center gap-2 text-sm">
             <CustomLink
-              to={"/play/chat"}
-              className={cn(buttonVariants({ variant: "ghost" }))}
+              to={"/model/new"}
+              className={cn(buttonVariants({ variant: "ghost", size: "icon" }))}
             >
-              <span>New</span>
+              <PlusIcon className="size-4" />
             </CustomLink>
             <Switch className="shadow-none" />
           </Label>

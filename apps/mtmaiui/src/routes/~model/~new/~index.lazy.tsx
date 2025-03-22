@@ -1,4 +1,5 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
+import { ModelClientForm } from "../../../components/model/ModelForm";
 
 export const Route = createLazyFileRoute("/model/new/")({
   component: RouteComponent,
@@ -6,8 +7,8 @@ export const Route = createLazyFileRoute("/model/new/")({
 
 function RouteComponent() {
   return (
-    <div>
-      <h1>new model view</h1>
-    </div>
+    <>
+      <ModelClientForm />
+    </>
   );
 }
