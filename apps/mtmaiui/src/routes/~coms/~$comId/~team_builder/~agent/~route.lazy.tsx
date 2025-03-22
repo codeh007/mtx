@@ -47,5 +47,14 @@ function RouteComponent() {
 }
 
 function AgentItem({ agent }: { agent: Agent }) {
-  return <div className="bg-blue-100 p-2 mb-2">{agent.name}</div>;
+  const { comId } = Route.useParams();
+  return (
+    <div className="bg-blue-100 p-2 mb-2">
+      <CustomLink
+        to={`/coms/${comId}/team_builder/agent/${agent.metadata?.id}`}
+      >
+        {agent.name}
+      </CustomLink>
+    </div>
+  );
 }
