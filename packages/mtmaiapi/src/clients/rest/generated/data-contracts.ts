@@ -2844,3 +2844,12 @@ export interface TeamList {
   pagination?: PaginationResponse;
   rows?: Team[];
 }
+
+export interface TeamRun {
+  teamId?: string;
+  task?: string;
+}
+
+export interface TeamRunResult {
+  workflowRun?: WorkflowRun;
+}

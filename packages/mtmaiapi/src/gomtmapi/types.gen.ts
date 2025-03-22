@@ -3393,6 +3393,15 @@ export type TeamList = {
   rows?: Array<Team>;
 };
 
+export type TeamRun = {
+  teamId?: string;
+  task?: string;
+};
+
+export type TeamRunResult = {
+  workflowRun?: WorkflowRun;
+};
+
 export type ReadinessGetData = {
   body?: never;
   path?: never;
@@ -9387,9 +9396,6 @@ export type TeamGetResponses = {
 export type TeamGetResponse = TeamGetResponses[keyof TeamGetResponses];
 
 export type TeamUpsertData = {
-  /**
-   * The model properties to update
-   */
   body: Team;
   path: {
     /**
@@ -9406,22 +9412,13 @@ export type TeamUpsertData = {
 };
 
 export type TeamUpsertErrors = {
-  /**
-   * A malformed or bad request
-   */
   400: ApiErrors;
-  /**
-   * Forbidden
-   */
   403: ApiErrors;
 };
 
 export type TeamUpsertError = TeamUpsertErrors[keyof TeamUpsertErrors];
 
 export type TeamUpsertResponses = {
-  /**
-   * Successfully upserted the mt component
-   */
   200: Team;
 };
 
@@ -9543,6 +9540,35 @@ export type AgentUpsertResponses = {
 
 export type AgentUpsertResponse =
   AgentUpsertResponses[keyof AgentUpsertResponses];
+
+export type TeamRunData = {
+  body: TeamRun;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The team id
+     */
+    team: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/teams/{team}/run";
+};
+
+export type TeamRunErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+};
+
+export type TeamRunError = TeamRunErrors[keyof TeamRunErrors];
+
+export type TeamRunResponses = {
+  200: TeamRunResult;
+};
+
+export type TeamRunResponse = TeamRunResponses[keyof TeamRunResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

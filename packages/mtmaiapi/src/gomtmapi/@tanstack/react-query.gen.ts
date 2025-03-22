@@ -170,6 +170,7 @@ import {
   agentList,
   agentGet,
   agentUpsert,
+  teamRun,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -489,6 +490,9 @@ import type {
   AgentUpsertData,
   AgentUpsertError,
   AgentUpsertResponse,
+  TeamRunData,
+  TeamRunError,
+  TeamRunResponse,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -4984,6 +4988,42 @@ export const agentUpsertMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await agentUpsert({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const teamRunQueryKey = (options: Options<TeamRunData>) =>
+  createQueryKey("teamRun", options);
+
+export const teamRunOptions = (options: Options<TeamRunData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await teamRun({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: teamRunQueryKey(options),
+  });
+};
+
+export const teamRunMutation = (options?: Partial<Options<TeamRunData>>) => {
+  const mutationOptions: UseMutationOptions<
+    TeamRunResponse,
+    TeamRunError,
+    Options<TeamRunData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await teamRun({
         ...options,
         ...localOptions,
         throwOnError: true,

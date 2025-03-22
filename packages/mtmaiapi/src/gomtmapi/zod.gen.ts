@@ -6630,6 +6630,15 @@ export const zTeamList = z.object({
   rows: z.array(zTeam).optional(),
 });
 
+export const zTeamRun = z.object({
+  teamId: z.string().optional(),
+  task: z.string().optional(),
+});
+
+export const zTeamRunResult = z.object({
+  workflowRun: zWorkflowRun.optional(),
+});
+
 export const zMetadataGetResponse = zApiMeta;
 
 export const zCloudMetadataGetResponse = zApiErrors;
@@ -6947,3 +6956,5 @@ export const zAgentListResponse = zAgentList;
 export const zAgentGetResponse = zAgent;
 
 export const zAgentUpsertResponse = zAgent;
+
+export const zTeamRunResponse = zTeamRunResult;

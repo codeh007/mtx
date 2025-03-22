@@ -6765,3 +6765,24 @@ export const TeamListSchema = {
     },
   },
 } as const;
+
+export const TeamRunSchema = {
+  type: "object",
+  properties: {
+    teamId: {
+      type: "string",
+    },
+    task: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const TeamRunResultSchema = {
+  type: "object",
+  properties: {
+    workflowRun: {
+      $ref: "#/components/schemas/WorkflowRun",
+    },
+  },
+} as const;
