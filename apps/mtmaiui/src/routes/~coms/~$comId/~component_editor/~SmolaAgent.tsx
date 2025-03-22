@@ -75,6 +75,48 @@ export const SmolaAgentConfigFormFields = () => {
           </FormItem>
         )}
       />
+      <FormField
+        control={form.control}
+        name="label"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>label</FormLabel>
+            <FormControl>
+              <Input placeholder="label" {...field} />
+            </FormControl>
+            <FormDescription>label</FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="config.name"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>name</FormLabel>
+            <FormControl>
+              <Input placeholder="name" {...field} />
+            </FormControl>
+            <FormDescription>name</FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="description"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>description</FormLabel>
+            <FormControl>
+              <Input placeholder="description" {...field} />
+            </FormControl>
+            <FormDescription>description</FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </>
   );
 };

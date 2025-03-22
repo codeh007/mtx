@@ -2,13 +2,25 @@
 
 import type { MtComponent } from "mtmaiapi";
 import type React from "react";
-import { createContext, useContext, useMemo, useTransition } from "react";
+import { createContext, useContext, useMemo } from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
-import { useTenantId } from "../../hooks/useAuth";
-import { useNav } from "../../hooks/useNav";
+
+export interface EditPath {
+  componentType: string;
+  id: string;
+  parentField: string;
+  index?: number; // Added index for array items
+}
+
+export interface ComponentEditorProps {
+  component: MtComponent;
+  onChange: (updatedComponent: MtComponent) => void;
+  onClose?: () => void;
+  navigationDepth?: boolean;
+}
 
 export interface ComponentsProps {
   queryParams?: Record<string, any>;
@@ -18,9 +30,15 @@ export interface ComponentsState extends ComponentsProps {
   isPending: boolean;
   components: MtComponent[];
   setQueryParams: (queryParams: Record<string, any>) => void;
+  isJsonEditing: boolean;
+  setIsJsonEditing: (isJsonEditing: boolean) => void;
+  editPath: EditPath[];
+  setEditPath: (editPath: EditPath[]) => void;
+  workingCopy: MtComponent;
+  setWorkingCopy: (workingCopy: MtComponent) => void;
 }
 
-export const createWorkbrenchSlice: StateCreator<
+export const createComponentEditorStoreSlice: StateCreator<
   ComponentsState,
   [],
   [],
@@ -30,6 +48,18 @@ export const createWorkbrenchSlice: StateCreator<
     isPending: false,
     setQueryParams: (queryParams: Record<string, any>) => {
       set({ queryParams });
+    },
+    isJsonEditing: false,
+    setIsJsonEditing: (isJsonEditing: boolean) => {
+      set({ isJsonEditing });
+    },
+    editPath: [],
+    setEditPath: (editPath: EditPath[]) => {
+      set({ editPath });
+    },
+    workingCopy: {},
+    setWorkingCopy: (workingCopy: MtComponent) => {
+      set({ workingCopy });
     },
     ...init,
   };
@@ -41,11 +71,11 @@ const createComponentEditStore = (initProps?: Partial<ComponentsState>) => {
       // persist(
       devtools(
         immer((...a) => ({
-          ...createWorkbrenchSlice(...a),
+          ...createComponentEditorStoreSlice(...a),
           ...initProps,
         })),
         {
-          name: "components-store",
+          name: "components-editor-store",
         },
       ),
     ),
@@ -59,9 +89,9 @@ export const ComponentEditProvider = (
   props: React.PropsWithChildren<ComponentsProps>,
 ) => {
   const { children, ...etc } = props;
-  const tid = useTenantId();
-  const nav = useNav();
-  const [isPending, startTransition] = useTransition();
+  // const tid = useTenantId();
+  // const nav = useNav();
+  // const [isPending, startTransition] = useTransition();
   // const search = useSearch();
   // const [queryParams, setQueryParams] = useState({
   //   ...etc.queryParams,

@@ -2,8 +2,9 @@ import debounce from "lodash.debounce";
 import { ChevronLeft, Code, FormInput } from "lucide-react";
 import type { MtComponent } from "mtmaiapi";
 import { MonacoEditor } from "mtxuilib/mt/monaco";
+import { Breadcrumb } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
-import React, { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   isAgentComponent,
   isModelComponent,
@@ -11,25 +12,16 @@ import {
   isTerminationComponent,
   isToolComponent,
 } from "../../routes/components/views/types/guards";
+import {
+  type ComponentEditorProps,
+  type EditPath,
+  useComponentEditStore,
+} from "./ComponentEditor.store";
 import { AgentFields } from "./fields/agent-fields";
 import { ModelFields } from "./fields/model-fields";
 import { TeamFields } from "./fields/team-fields";
 import { TerminationFields } from "./fields/termination-fields";
 import { ToolFields } from "./fields/tool-fields";
-
-export interface EditPath {
-  componentType: string;
-  id: string;
-  parentField: string;
-  index?: number; // Added index for array items
-}
-
-export interface ComponentEditorProps {
-  component: MtComponent;
-  onChange: (updatedComponent: MtComponent) => void;
-  onClose?: () => void;
-  navigationDepth?: boolean;
-}
 
 export const ComponentEditor = ({
   component,
@@ -37,11 +29,13 @@ export const ComponentEditor = ({
   onClose,
   navigationDepth = false,
 }: ComponentEditorProps) => {
-  const [editPath, setEditPath] = useState<EditPath[]>([]);
+  const editPath = useComponentEditStore((x) => x.editPath);
+  const setEditPath = useComponentEditStore((x) => x.setEditPath);
   const [workingCopy, setWorkingCopy] = useState<MtComponent>(
     Object.assign({}, component),
   );
-  const [isJsonEditing, setIsJsonEditing] = useState(false);
+  const isJsonEditing = useComponentEditStore((x) => x.isJsonEditing);
+  const setIsJsonEditing = useComponentEditStore((x) => x.setIsJsonEditing);
 
   const editorRef = useRef(null);
 
@@ -268,7 +262,7 @@ export const ComponentEditor = ({
     // return null;
   }, [currentComponent, handleComponentUpdate, handleNavigate]);
 
-  const breadcrumbItems = React.useMemo(
+  const breadcrumbItems = useMemo(
     () => [
       { title: workingCopy.label || "Root" },
       ...editPath.map((path) => ({
@@ -293,7 +287,7 @@ export const ComponentEditor = ({
           </Button>
         )}
         <div className="flex-1">
-          {/* <Breadcrumb items={breadcrumbItems} /> */}
+          <Breadcrumb items={breadcrumbItems} />
         </div>
         <Button
           onClick={() => setIsJsonEditing((prev) => !prev)}
