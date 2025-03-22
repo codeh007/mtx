@@ -6,9 +6,9 @@ import {
   SheetTitle,
 } from "mtxuilib/ui/sheet";
 import { useState } from "react";
+import { ComponentEditor } from "../../../../../components/component-editor/component-editor";
 import { useParams } from "../../../../../hooks/useNav";
 import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
-import { ComponentEditor } from "../../../../components/views/team/builder/component-editor/component-editor";
 
 export const Route = createLazyFileRoute("/coms/$comId/view/$subComId/")({
   component: RouteComponent,

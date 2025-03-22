@@ -6,9 +6,9 @@ import { Input } from "mtxuilib/ui/input";
 import { Switch } from "mtxuilib/ui/switch";
 import { Textarea } from "mtxuilib/ui/textarea";
 import React, { useCallback, useRef, useState } from "react";
-import type { Import } from "../../../../types/datamodel";
-import { isFunctionTool } from "../../../../types/guards";
-import { DetailGroup } from "../detailgroup";
+import type { Import } from "../../../routes/components/views/types/datamodel";
+import { isFunctionTool } from "../../../routes/components/views/types/guards";
+import { DetailGroup } from "../../detailgroup";
 
 interface ToolFieldsProps {
   component: MtComponent;

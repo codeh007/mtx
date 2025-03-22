@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { ComponentEditor } from "../../../../components/component-editor/component-editor";
 import { useNav } from "../../../../hooks/useNav";
 import {
   ModelContent,
@@ -8,7 +9,6 @@ import {
   useModelStore,
 } from "../../../../stores/model.store";
 import { useTeamBuilderStore } from "../../../../stores/teamBuildStore";
-import { ComponentEditor } from "../../../components/views/team/builder/component-editor/component-editor";
 
 export const Route = createFileRoute(
   "/coms/$comId/component_editor/AssistantAgent",

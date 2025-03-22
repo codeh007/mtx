@@ -6,16 +6,16 @@ import type {
   Component,
   ComponentConfig,
   FunctionToolConfig,
-} from "../../../../types/datamodel";
+} from "../../../routes/components/views/types/datamodel";
 import {
   isAgentComponent,
   isModelComponent,
   isTeamComponent,
   isTerminationComponent,
   isToolComponent,
-} from "../../../../types/guards";
+} from "../../../routes/components/views/types/guards";
+import { DetailGroup } from "../../detailgroup";
 import type { EditPath } from "../component-editor";
-import { DetailGroup } from "../detailgroup";
 import { AgentFields } from "./agent-fields";
 import { ModelFields } from "./model-fields";
 import { TeamFields } from "./team-fields";

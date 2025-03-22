@@ -8,14 +8,14 @@ import type {
   Component,
   ComponentConfig,
   TerminationConfig,
-} from "../../../../types/datamodel";
+} from "../../../routes/components/views/types/datamodel";
 import {
   PROVIDERS,
   isMaxMessageTermination,
   isOrTermination,
   isTextMentionTermination,
-} from "../../../../types/guards";
-import { DetailGroup } from "../detailgroup";
+} from "../../../routes/components/views/types/guards";
+import { DetailGroup } from "../../detailgroup";
 
 interface TerminationFieldsProps {
   component: Component<TerminationConfig>;

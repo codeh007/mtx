@@ -10,7 +10,7 @@ import {
   isTeamComponent,
   isTerminationComponent,
   isToolComponent,
-} from "../../../types/guards";
+} from "../../routes/components/views/types/guards";
 import { AgentFields } from "./fields/agent-fields";
 import { ModelFields } from "./fields/model-fields";
 import { TeamFields } from "./fields/team-fields";
@@ -46,7 +46,7 @@ export const ComponentEditor = ({
   const editorRef = useRef(null);
 
   // Reset working copy when component changes
-  React.useEffect(() => {
+  useEffect(() => {
     setWorkingCopy(component);
     setEditPath([]);
   }, [component]);

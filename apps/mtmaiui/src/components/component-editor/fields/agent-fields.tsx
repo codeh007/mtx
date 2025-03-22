@@ -12,13 +12,13 @@ import type {
   Component,
   ComponentConfig,
   FunctionToolConfig,
-} from "../../../../types/datamodel";
+} from "../../../routes/components/views/types/datamodel";
 import {
   isAssistantAgent,
   isUserProxyAgent,
   isWebSurferAgent,
-} from "../../../../types/guards";
-import { DetailGroup } from "../detailgroup";
+} from "../../../routes/components/views/types/guards";
+import { DetailGroup } from "../../detailgroup";
 
 interface AgentFieldsProps {
   component: MtComponent;

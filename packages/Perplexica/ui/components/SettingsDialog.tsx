@@ -1,19 +1,20 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 import {
   Dialog,
   DialogPanel,
   DialogTitle,
   Transition,
   TransitionChild,
-} from '@headlessui/react';
-import { CloudUpload, RefreshCcw, RefreshCw } from 'lucide-react';
-import React, {
+} from "@headlessui/react";
+import { CloudUpload, RefreshCcw, RefreshCw } from "lucide-react";
+import type React from "react";
+import {
   Fragment,
   useEffect,
   useState,
   type SelectHTMLAttributes,
-} from 'react';
-import ThemeSwitcher from './theme/Switcher';
+} from "react";
+import ThemeSwitcher from "./theme/Switcher";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
@@ -22,7 +23,7 @@ const Input = ({ className, ...restProps }: InputProps) => {
     <input
       {...restProps}
       className={cn(
-        'bg-light-secondary dark:bg-dark-secondary px-3 py-2 flex items-center overflow-hidden border border-light-200 dark:border-dark-200 dark:text-white rounded-lg text-sm',
+        "bg-light-secondary dark:bg-dark-secondary px-3 py-2 flex items-center overflow-hidden border border-light-200 dark:border-dark-200 dark:text-white rounded-lg text-sm",
         className,
       )}
     />
@@ -38,7 +39,7 @@ export const Select = ({ className, options, ...restProps }: SelectProps) => {
     <select
       {...restProps}
       className={cn(
-        'bg-light-secondary dark:bg-dark-secondary px-3 py-2 flex items-center overflow-hidden border border-light-200 dark:border-dark-200 dark:text-white rounded-lg text-sm',
+        "bg-light-secondary dark:bg-dark-secondary px-3 py-2 flex items-center overflow-hidden border border-light-200 dark:border-dark-200 dark:text-white rounded-lg text-sm",
         className,
       )}
     >
@@ -90,8 +91,8 @@ const SettingsDialog = ({
   const [selectedEmbeddingModel, setSelectedEmbeddingModel] = useState<
     string | null
   >(null);
-  const [customOpenAIApiKey, setCustomOpenAIApiKey] = useState<string>('');
-  const [customOpenAIBaseURL, setCustomOpenAIBaseURL] = useState<string>('');
+  const [customOpenAIApiKey, setCustomOpenAIApiKey] = useState<string>("");
+  const [customOpenAIBaseURL, setCustomOpenAIBaseURL] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -101,7 +102,7 @@ const SettingsDialog = ({
         setIsLoading(true);
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/config`, {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         });
 
@@ -116,39 +117,39 @@ const SettingsDialog = ({
         );
 
         const defaultChatModelProvider =
-          chatModelProvidersKeys.length > 0 ? chatModelProvidersKeys[0] : '';
+          chatModelProvidersKeys.length > 0 ? chatModelProvidersKeys[0] : "";
         const defaultEmbeddingModelProvider =
           embeddingModelProvidersKeys.length > 0
             ? embeddingModelProvidersKeys[0]
-            : '';
+            : "";
 
         const chatModelProvider =
-          localStorage.getItem('chatModelProvider') ||
+          localStorage.getItem("chatModelProvider") ||
           defaultChatModelProvider ||
-          '';
+          "";
         const chatModel =
-          localStorage.getItem('chatModel') ||
+          localStorage.getItem("chatModel") ||
           (data.chatModelProviders &&
           data.chatModelProviders[chatModelProvider]?.length > 0
             ? data.chatModelProviders[chatModelProvider][0].name
             : undefined) ||
-          '';
+          "";
         const embeddingModelProvider =
-          localStorage.getItem('embeddingModelProvider') ||
+          localStorage.getItem("embeddingModelProvider") ||
           defaultEmbeddingModelProvider ||
-          '';
+          "";
         const embeddingModel =
-          localStorage.getItem('embeddingModel') ||
+          localStorage.getItem("embeddingModel") ||
           (data.embeddingModelProviders &&
             data.embeddingModelProviders[embeddingModelProvider]?.[0].name) ||
-          '';
+          "";
 
         setSelectedChatModelProvider(chatModelProvider);
         setSelectedChatModel(chatModel);
         setSelectedEmbeddingModelProvider(embeddingModelProvider);
         setSelectedEmbeddingModel(embeddingModel);
-        setCustomOpenAIApiKey(localStorage.getItem('openAIApiKey') || '');
-        setCustomOpenAIBaseURL(localStorage.getItem('openAIBaseURL') || '');
+        setCustomOpenAIApiKey(localStorage.getItem("openAIApiKey") || "");
+        setCustomOpenAIBaseURL(localStorage.getItem("openAIBaseURL") || "");
         setChatModels(data.chatModelProviders || {});
         setEmbeddingModels(data.embeddingModelProviders || {});
         setIsLoading(false);
@@ -164,22 +165,22 @@ const SettingsDialog = ({
 
     try {
       await fetch(`${process.env.NEXT_PUBLIC_API_URL}/config`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(config),
       });
 
-      localStorage.setItem('chatModelProvider', selectedChatModelProvider!);
-      localStorage.setItem('chatModel', selectedChatModel!);
+      localStorage.setItem("chatModelProvider", selectedChatModelProvider!);
+      localStorage.setItem("chatModel", selectedChatModel!);
       localStorage.setItem(
-        'embeddingModelProvider',
+        "embeddingModelProvider",
         selectedEmbeddingModelProvider!,
       );
-      localStorage.setItem('embeddingModel', selectedEmbeddingModel!);
-      localStorage.setItem('openAIApiKey', customOpenAIApiKey!);
-      localStorage.setItem('openAIBaseURL', customOpenAIBaseURL!);
+      localStorage.setItem("embeddingModel", selectedEmbeddingModel!);
+      localStorage.setItem("openAIApiKey", customOpenAIApiKey!);
+      localStorage.setItem("openAIBaseURL", customOpenAIBaseURL!);
     } catch (err) {
       console.log(err);
     } finally {
@@ -240,8 +241,8 @@ const SettingsDialog = ({
                           value={selectedChatModelProvider ?? undefined}
                           onChange={(e) => {
                             setSelectedChatModelProvider(e.target.value);
-                            if (e.target.value === 'custom_openai') {
-                              setSelectedChatModel('');
+                            if (e.target.value === "custom_openai") {
+                              setSelectedChatModel("");
                             } else {
                               setSelectedChatModel(
                                 config.chatModelProviders[e.target.value][0]
@@ -261,7 +262,7 @@ const SettingsDialog = ({
                       </div>
                     )}
                     {selectedChatModelProvider &&
-                      selectedChatModelProvider != 'custom_openai' && (
+                      selectedChatModelProvider != "custom_openai" && (
                         <div className="flex flex-col space-y-1">
                           <p className="text-black/70 dark:text-white/70 text-sm">
                             Chat Model
@@ -285,16 +286,16 @@ const SettingsDialog = ({
                                     }))
                                   : [
                                       {
-                                        value: '',
-                                        label: 'No models available',
+                                        value: "",
+                                        label: "No models available",
                                         disabled: true,
                                       },
                                     ]
                                 : [
                                     {
-                                      value: '',
+                                      value: "",
                                       label:
-                                        'Invalid provider, please check backend logs',
+                                        "Invalid provider, please check backend logs",
                                       disabled: true,
                                     },
                                   ];
@@ -303,7 +304,7 @@ const SettingsDialog = ({
                         </div>
                       )}
                     {selectedChatModelProvider &&
-                      selectedChatModelProvider === 'custom_openai' && (
+                      selectedChatModelProvider === "custom_openai" && (
                         <>
                           <div className="flex flex-col space-y-1">
                             <p className="text-black/70 dark:text-white/70 text-sm">
@@ -396,16 +397,16 @@ const SettingsDialog = ({
                                   }))
                                 : [
                                     {
-                                      label: 'No embedding models available',
-                                      value: '',
+                                      label: "No embedding models available",
+                                      value: "",
                                       disabled: true,
                                     },
                                   ]
                               : [
                                   {
                                     label:
-                                      'Invalid provider, please check backend logs',
-                                    value: '',
+                                      "Invalid provider, please check backend logs",
+                                    value: "",
                                     disabled: true,
                                   },
                                 ];

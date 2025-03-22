@@ -1,4 +1,5 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
+import { ComponentEditProvider } from "../../../components/component-editor/ComponentEditor.store";
 import { ModalProvider } from "../../../stores/model.store";
 import { TeamBuilderProvider } from "../../../stores/teamBuildStore";
 import { WorkbrenchProvider } from "../../../stores/workbrench.store";
@@ -18,13 +19,15 @@ function RouteComponent() {
     <WorkbrenchProvider>
       <TeamBuilderProvider componentId={comId}>
         <RootAppWrapper secondSidebar={<NavComsWithLibrary />}>
-          <ModalProvider>
-            <TeamBuilderHeader comId={comId} />
+          <ComponentEditProvider>
+            <ModalProvider>
+              <TeamBuilderHeader comId={comId} />
 
-            <TeamBuilder />
+              <TeamBuilder />
 
-            <Outlet />
-          </ModalProvider>
+              <Outlet />
+            </ModalProvider>
+          </ComponentEditProvider>
         </RootAppWrapper>
       </TeamBuilderProvider>
     </WorkbrenchProvider>

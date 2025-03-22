@@ -8,13 +8,13 @@ import type {
   Component,
   ComponentConfig,
   ModelConfig,
-} from "../../../../types/datamodel";
+} from "../../../routes/components/views/types/datamodel";
 import {
   isAnthropicModel,
   isAzureOpenAIModel,
   isOpenAIModel,
-} from "../../../../types/guards";
-import { DetailGroup } from "../detailgroup";
+} from "../../../routes/components/views/types/guards";
+import { DetailGroup } from "../../detailgroup";
 
 interface ModelFieldsProps {
   component: Component<ModelConfig>;

@@ -9,7 +9,6 @@ import {
   Sparkles,
 } from "lucide-react";
 import { user } from "mtxuilib/db/schema";
-import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { Avatar, AvatarFallback, AvatarImage } from "mtxuilib/ui/avatar";
 import {
   DropdownMenu,
@@ -28,8 +27,7 @@ import {
 } from "mtxuilib/ui/sidebar";
 import { useTheme } from "next-themes";
 import { useTenant } from "../../hooks/useAuth";
-import { ThemeToggle } from "../../skyvern/components/ThemeSwitch";
-
+import { useMutation } from "@tanstack/react-query";
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { setTheme, theme } = useTheme();
@@ -85,7 +83,7 @@ export function NavUser() {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <ThemeToggle />
+              {/* <ThemeToggle /> */}
               <DropdownMenuItem>
                 <BadgeCheck />
                 Account
