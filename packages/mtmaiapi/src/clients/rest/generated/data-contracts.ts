@@ -2814,3 +2814,18 @@ export interface ThoughtEvent {
   metadata?: Record<string, any>;
   models_usage?: Record<string, any>;
 }
+
+export type Agent = APIResourceMetaProperties & AgentProperties;
+
+export interface AgentProperties {
+  name: string;
+  description: string;
+}
+
+export type Team = APIResourceMetaProperties & MtResourceProperties;
+
+export interface TeamProperties {
+  id: string;
+  name: string;
+  description: string;
+}

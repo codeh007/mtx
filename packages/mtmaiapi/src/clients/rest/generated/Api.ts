@@ -11,6 +11,7 @@
 
 import {
   AcceptInviteRequest,
+  Agent,
   AgEvent,
   AgEventList,
   AgState,
@@ -109,6 +110,7 @@ import {
   StepRun,
   StepRunArchiveList,
   StepRunEventList,
+  Team,
   Tenant,
   TenantAlertEmailGroup,
   TenantAlertEmailGroupList,
@@ -3683,6 +3685,145 @@ export class Api<
       path: `/api/v1/tenants/${tenant}/settings/${setting}`,
       method: "GET",
       secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description 获取团队列表
+   *
+   * @tags team
+   * @name TeamList
+   * @request GET:/api/v1/tenants/{tenant}/teams
+   * @secure
+   */
+  teamList = (
+    tenant: TenantParameter,
+    query?: {
+      /** The team label */
+      label?: string;
+      /**
+       * The gallery name
+       * @default "default"
+       */
+      gallery?: string;
+      /** The gallery id */
+      galleryId?: string;
+      /** The component type */
+      type?: string;
+      /** The component provider */
+      provider?: string;
+      /** The component description */
+      description?: string;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<MtComponentList, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/teams`,
+      method: "GET",
+      query: query,
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Get a team
+   *
+   * @tags team
+   * @name TeamGet
+   * @request GET:/api/v1/tenants/{tenant}/teams/{team}
+   * @secure
+   */
+  teamGet = (
+    tenant: TenantParameter,
+    team: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<Team, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/teams/${team}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Upsert an mtcomponent
+   *
+   * @tags team
+   * @name TeamUpsert
+   * @request PATCH:/api/v1/tenants/{tenant}/teams/{team}
+   * @secure
+   */
+  teamUpsert = (
+    tenant: TenantParameter,
+    team: string,
+    data: MtComponent,
+    params: RequestParams = {},
+  ) =>
+    this.request<MtComponent, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/teams/${team}`,
+      method: "PATCH",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags agent
+   * @name AgentList
+   * @request GET:/api/v1/tenants/{tenant}/agents
+   * @secure
+   */
+  agentList = (tenant: TenantParameter, params: RequestParams = {}) =>
+    this.request<MtComponentList, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/agents`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Get an agent
+   *
+   * @tags agent
+   * @name AgentGet
+   * @request GET:/api/v1/tenants/{tenant}/agents/{agent}
+   * @secure
+   */
+  agentGet = (
+    tenant: TenantParameter,
+    agent: string,
+    params: RequestParams = {},
+  ) =>
+    this.request<Agent, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/agents/${agent}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * @description Upsert an agent
+   *
+   * @tags agent
+   * @name AgentUpsert
+   * @request PATCH:/api/v1/tenants/{tenant}/agents/{agent}
+   * @secure
+   */
+  agentUpsert = (
+    tenant: TenantParameter,
+    agent: string,
+    data: MtComponent,
+    params: RequestParams = {},
+  ) =>
+    this.request<MtComponent, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/agents/${agent}`,
+      method: "PATCH",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
       format: "json",
       ...params,
     });

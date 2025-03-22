@@ -461,6 +461,24 @@ import type {
   SettingsGetData,
   SettingsGetResponse,
   SettingsGetError,
+  TeamListData,
+  TeamListResponse,
+  TeamListError,
+  TeamGetData,
+  TeamGetResponse,
+  TeamGetError,
+  TeamUpsertData,
+  TeamUpsertResponse,
+  TeamUpsertError,
+  AgentListData,
+  AgentListResponse,
+  AgentListError,
+  AgentGetData,
+  AgentGetResponse,
+  AgentGetError,
+  AgentUpsertData,
+  AgentUpsertResponse,
+  AgentUpsertError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -4753,5 +4771,166 @@ export const settingsGet = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/settings/{setting}",
     ...options,
+  });
+};
+
+/**
+ * 获取团队列表
+ */
+export const teamList = <ThrowOnError extends boolean = false>(
+  options: Options<TeamListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    TeamListResponse,
+    TeamListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/teams",
+    ...options,
+  });
+};
+
+/**
+ * Get a team
+ */
+export const teamGet = <ThrowOnError extends boolean = false>(
+  options: Options<TeamGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    TeamGetResponse,
+    TeamGetError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/teams/{team}",
+    ...options,
+  });
+};
+
+/**
+ * Upsert an mtcomponent
+ */
+export const teamUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<TeamUpsertData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).patch<
+    TeamUpsertResponse,
+    TeamUpsertError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/teams/{team}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+export const agentList = <ThrowOnError extends boolean = false>(
+  options: Options<AgentListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    AgentListResponse,
+    AgentListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/agents",
+    ...options,
+  });
+};
+
+/**
+ * Get an agent
+ */
+export const agentGet = <ThrowOnError extends boolean = false>(
+  options: Options<AgentGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    AgentGetResponse,
+    AgentGetError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/agents/{agent}",
+    ...options,
+  });
+};
+
+/**
+ * Upsert an agent
+ */
+export const agentUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<AgentUpsertData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).patch<
+    AgentUpsertResponse,
+    AgentUpsertError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/agents/{agent}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };

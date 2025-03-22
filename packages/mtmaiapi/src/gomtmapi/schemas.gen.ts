@@ -6672,3 +6672,53 @@ export const ThoughtEventSchema = {
     },
   },
 } as const;
+
+export const AgentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/AgentProperties",
+    },
+  ],
+} as const;
+
+export const AgentPropertiesSchema = {
+  required: ["name", "description"],
+  properties: {
+    name: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const TeamSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/MtResourceProperties",
+    },
+  ],
+} as const;
+
+export const TeamPropertiesSchema = {
+  type: "object",
+  properties: {
+    id: {
+      type: "string",
+    },
+    name: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+  },
+  required: ["id", "name", "description"],
+} as const;

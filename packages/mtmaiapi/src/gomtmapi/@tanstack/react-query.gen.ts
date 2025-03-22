@@ -164,6 +164,12 @@ import {
   settingsList,
   settingsUpsert,
   settingsGet,
+  teamList,
+  teamGet,
+  teamUpsert,
+  agentList,
+  agentGet,
+  agentUpsert,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -473,6 +479,16 @@ import type {
   SettingsUpsertError,
   SettingsUpsertResponse,
   SettingsGetData,
+  TeamListData,
+  TeamGetData,
+  TeamUpsertData,
+  TeamUpsertError,
+  TeamUpsertResponse,
+  AgentListData,
+  AgentGetData,
+  AgentUpsertData,
+  AgentUpsertError,
+  AgentUpsertResponse,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -4864,4 +4880,116 @@ export const settingsGetOptions = (options: Options<SettingsGetData>) => {
     },
     queryKey: settingsGetQueryKey(options),
   });
+};
+
+export const teamListQueryKey = (options: Options<TeamListData>) =>
+  createQueryKey("teamList", options);
+
+export const teamListOptions = (options: Options<TeamListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await teamList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: teamListQueryKey(options),
+  });
+};
+
+export const teamGetQueryKey = (options: Options<TeamGetData>) =>
+  createQueryKey("teamGet", options);
+
+export const teamGetOptions = (options: Options<TeamGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await teamGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: teamGetQueryKey(options),
+  });
+};
+
+export const teamUpsertMutation = (
+  options?: Partial<Options<TeamUpsertData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    TeamUpsertResponse,
+    TeamUpsertError,
+    Options<TeamUpsertData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await teamUpsert({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const agentListQueryKey = (options: Options<AgentListData>) =>
+  createQueryKey("agentList", options);
+
+export const agentListOptions = (options: Options<AgentListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await agentList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: agentListQueryKey(options),
+  });
+};
+
+export const agentGetQueryKey = (options: Options<AgentGetData>) =>
+  createQueryKey("agentGet", options);
+
+export const agentGetOptions = (options: Options<AgentGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await agentGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: agentGetQueryKey(options),
+  });
+};
+
+export const agentUpsertMutation = (
+  options?: Partial<Options<AgentUpsertData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    AgentUpsertResponse,
+    AgentUpsertError,
+    Options<AgentUpsertData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await agentUpsert({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };

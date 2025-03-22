@@ -3359,6 +3359,21 @@ export type ThoughtEvent = {
   };
 };
 
+export type Agent = ApiResourceMetaProperties & AgentProperties;
+
+export type AgentProperties = {
+  name: string;
+  description: string;
+};
+
+export type Team = ApiResourceMetaProperties & MtResourceProperties;
+
+export type TeamProperties = {
+  id: string;
+  name: string;
+  description: string;
+};
+
 export type ReadinessGetData = {
   body?: never;
   path?: never;
@@ -9256,6 +9271,254 @@ export type SettingsGetResponses = {
 
 export type SettingsGetResponse =
   SettingsGetResponses[keyof SettingsGetResponses];
+
+export type TeamListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: {
+    /**
+     * The team label
+     */
+    label?: string;
+    /**
+     * The gallery name
+     */
+    gallery?: string;
+    /**
+     * The gallery id
+     */
+    galleryId?: string;
+    /**
+     * The component type
+     */
+    type?: string;
+    /**
+     * The component provider
+     */
+    provider?: string;
+    /**
+     * The component description
+     */
+    description?: string;
+  };
+  url: "/api/v1/tenants/{tenant}/teams";
+};
+
+export type TeamListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type TeamListError = TeamListErrors[keyof TeamListErrors];
+
+export type TeamListResponses = {
+  200: MtComponentList;
+};
+
+export type TeamListResponse = TeamListResponses[keyof TeamListResponses];
+
+export type TeamGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The team id
+     */
+    team: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/teams/{team}";
+};
+
+export type TeamGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type TeamGetError = TeamGetErrors[keyof TeamGetErrors];
+
+export type TeamGetResponses = {
+  200: Team;
+};
+
+export type TeamGetResponse = TeamGetResponses[keyof TeamGetResponses];
+
+export type TeamUpsertData = {
+  /**
+   * The model properties to update
+   */
+  body: MtComponent;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The team id
+     */
+    team: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/teams/{team}";
+};
+
+export type TeamUpsertErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type TeamUpsertError = TeamUpsertErrors[keyof TeamUpsertErrors];
+
+export type TeamUpsertResponses = {
+  /**
+   * Successfully upserted the mt component
+   */
+  200: MtComponent;
+};
+
+export type TeamUpsertResponse = TeamUpsertResponses[keyof TeamUpsertResponses];
+
+export type AgentListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/agents";
+};
+
+export type AgentListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type AgentListError = AgentListErrors[keyof AgentListErrors];
+
+export type AgentListResponses = {
+  200: MtComponentList;
+};
+
+export type AgentListResponse = AgentListResponses[keyof AgentListResponses];
+
+export type AgentGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The team id
+     */
+    agent: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/agents/{agent}";
+};
+
+export type AgentGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type AgentGetError = AgentGetErrors[keyof AgentGetErrors];
+
+export type AgentGetResponses = {
+  200: Agent;
+};
+
+export type AgentGetResponse = AgentGetResponses[keyof AgentGetResponses];
+
+export type AgentUpsertData = {
+  /**
+   * The model properties to update
+   */
+  body: MtComponent;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The team id
+     */
+    agent: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/agents/{agent}";
+};
+
+export type AgentUpsertErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type AgentUpsertError = AgentUpsertErrors[keyof AgentUpsertErrors];
+
+export type AgentUpsertResponses = {
+  /**
+   * Successfully upserted the mt component
+   */
+  200: MtComponent;
+};
+
+export type AgentUpsertResponse =
+  AgentUpsertResponses[keyof AgentUpsertResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

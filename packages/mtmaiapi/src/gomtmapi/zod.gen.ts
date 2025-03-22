@@ -6600,6 +6600,26 @@ export const zThoughtEvent = z.object({
   models_usage: z.object({}).optional(),
 });
 
+export const zAgent = zApiResourceMetaProperties.merge(
+  z.object({
+    name: z.string(),
+    description: z.string(),
+  }),
+);
+
+export const zAgentProperties = z.object({
+  name: z.string(),
+  description: z.string(),
+});
+
+export const zTeam = zApiResourceMetaProperties.merge(zMtResourceProperties);
+
+export const zTeamProperties = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string(),
+});
+
 export const zMetadataGetResponse = zApiMeta;
 
 export const zCloudMetadataGetResponse = zApiErrors;
@@ -6905,3 +6925,15 @@ export const zSettingsListResponse = zModelList;
 export const zSettingsUpsertResponse = zTenantSetting;
 
 export const zSettingsGetResponse = zTenantSetting;
+
+export const zTeamListResponse = zMtComponentList;
+
+export const zTeamGetResponse = zTeam;
+
+export const zTeamUpsertResponse = zMtComponent;
+
+export const zAgentListResponse = zMtComponentList;
+
+export const zAgentGetResponse = zAgent;
+
+export const zAgentUpsertResponse = zMtComponent;
