@@ -5510,6 +5510,7 @@ export const zFlowNames = z.enum([
   "browser",
   "tenant_settings",
   "smola",
+  "team",
 ]);
 
 export const zTerminationTypes = z.enum([

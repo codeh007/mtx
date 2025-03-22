@@ -1953,6 +1953,7 @@ export enum FlowNames {
   Browser = "browser",
   TenantSettings = "tenant_settings",
   Smola = "smola",
+  Team = "team",
 }
 
 export enum TerminationTypes {
