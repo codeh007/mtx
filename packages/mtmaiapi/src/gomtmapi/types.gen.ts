@@ -2484,63 +2484,6 @@ export const ToolTypes = {
   PYTHON_FUNCTION: "PythonFunction",
 } as const;
 
-export type Model = ApiResourceMetaProperties & ModelProperties;
-
-export type ModelConfig = {
-  model: string;
-  model_type: ModelTypes;
-  api_key?: string;
-  base_url?: string;
-  timeout?: number;
-  max_retries?: number;
-  frequency_penalty?: number;
-  logit_bias?: number;
-  max_tokens?: number;
-  n?: number;
-  presence_penalty?: number;
-  response_format?: ResponseFormat;
-  seed?: number;
-  stop?: Array<string>;
-  temperature?: number;
-  top_p?: number;
-  user?: string;
-  organization?: string;
-  default_headers?: {
-    [key: string]: unknown;
-  };
-  model_info?: ModelInfo;
-};
-
-export type ModelFamily = "r1" | "openai" | "unknown";
-
-export const ModelFamily = {
-  R1: "r1",
-  OPENAI: "openai",
-  UNKNOWN: "unknown",
-} as const;
-
-export type ModelInfo = {
-  family: ModelFamily;
-  vision: boolean;
-  function_calling: boolean;
-  json_output: boolean;
-};
-
-export type ModelTypes =
-  | "OpenAIChatCompletionClient"
-  | "AzureOpenAIChatCompletionClient";
-
-export const ModelTypes = {
-  OPEN_AI_CHAT_COMPLETION_CLIENT: "OpenAIChatCompletionClient",
-  AZURE_OPEN_AI_CHAT_COMPLETION_CLIENT: "AzureOpenAIChatCompletionClient",
-} as const;
-
-export type ModelProperties = {
-  name?: string;
-  description?: string;
-  family?: "r1" | "openai" | "unknown";
-};
-
 export type UpsertModel = ModelProperties;
 
 export type AzureOpenAiModelConfig = ModelConfig & {
@@ -2737,6 +2680,70 @@ export type Forbidden = unknown;
  * Not found
  */
 export type NotFound = unknown;
+
+export type Model = ApiResourceMetaProperties & ModelProperties;
+
+export type ModelConfig = {
+  model: string;
+  model_type: ModelTypes;
+  api_key?: string;
+  base_url?: string;
+  timeout?: number;
+  max_retries?: number;
+  frequency_penalty?: number;
+  logit_bias?: number;
+  max_tokens?: number;
+  n?: number;
+  presence_penalty?: number;
+  response_format?: ResponseFormat;
+  seed?: number;
+  stop?: Array<string>;
+  temperature?: number;
+  top_p?: number;
+  user?: string;
+  organization?: string;
+  default_headers?: {
+    [key: string]: unknown;
+  };
+  model_info?: ModelInfo;
+};
+
+export type ModelFamily = "r1" | "openai" | "unknown";
+
+export const ModelFamily = {
+  R1: "r1",
+  OPENAI: "openai",
+  UNKNOWN: "unknown",
+} as const;
+
+export type ModelInfo = {
+  family: ModelFamily;
+  vision: boolean;
+  function_calling: boolean;
+  json_output: boolean;
+};
+
+export type ModelTypes =
+  | "OpenAIChatCompletionClient"
+  | "AzureOpenAIChatCompletionClient";
+
+export const ModelTypes = {
+  OPEN_AI_CHAT_COMPLETION_CLIENT: "OpenAIChatCompletionClient",
+  AZURE_OPEN_AI_CHAT_COMPLETION_CLIENT: "AzureOpenAIChatCompletionClient",
+} as const;
+
+export type ModelProperties = {
+  name: string;
+  provider: string;
+  apiKey: string;
+  apiBase: string;
+  vendor: string;
+  description?: string;
+  family: string;
+  vision: boolean;
+  functionCalling: boolean;
+  jsonOutput: boolean;
+};
 
 export type ModelList = {
   pagination?: PaginationResponse;

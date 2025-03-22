@@ -4703,133 +4703,6 @@ export const ToolTypesSchema = {
   enum: ["PythonFunction"],
 } as const;
 
-export const ModelSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/APIResourceMetaProperties",
-    },
-    {
-      $ref: "#/components/schemas/ModelProperties",
-    },
-  ],
-} as const;
-
-export const ModelConfigSchema = {
-  required: ["model", "model_type"],
-  properties: {
-    model: {
-      type: "string",
-    },
-    model_type: {
-      type: "string",
-      $ref: "#/components/schemas/ModelTypes",
-    },
-    api_key: {
-      type: "string",
-    },
-    base_url: {
-      type: "string",
-    },
-    timeout: {
-      type: "number",
-    },
-    max_retries: {
-      type: "integer",
-    },
-    frequency_penalty: {
-      type: "number",
-    },
-    logit_bias: {
-      type: "integer",
-    },
-    max_tokens: {
-      type: "integer",
-    },
-    n: {
-      type: "integer",
-    },
-    presence_penalty: {
-      type: "number",
-    },
-    response_format: {
-      type: "string",
-      $ref: "#/components/schemas/ResponseFormat",
-    },
-    seed: {
-      type: "integer",
-    },
-    stop: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-    },
-    temperature: {
-      type: "number",
-    },
-    top_p: {
-      type: "number",
-    },
-    user: {
-      type: "string",
-    },
-    organization: {
-      type: "string",
-    },
-    default_headers: {
-      type: "object",
-      additionalProperties: true,
-    },
-    model_info: {
-      $ref: "#/components/schemas/ModelInfo",
-    },
-  },
-} as const;
-
-export const ModelFamilySchema = {
-  type: "string",
-  enum: ["r1", "openai", "unknown"],
-} as const;
-
-export const ModelInfoSchema = {
-  required: ["function_calling", "json_output", "family", "vision"],
-  properties: {
-    family: {
-      $ref: "#/components/schemas/ModelFamily",
-    },
-    vision: {
-      type: "boolean",
-    },
-    function_calling: {
-      type: "boolean",
-    },
-    json_output: {
-      type: "boolean",
-    },
-  },
-} as const;
-
-export const ModelTypesSchema = {
-  type: "string",
-  enum: ["OpenAIChatCompletionClient", "AzureOpenAIChatCompletionClient"],
-} as const;
-
-export const ModelPropertiesSchema = {
-  type: "object",
-  properties: {
-    name: {
-      type: "string",
-    },
-    description: {
-      type: "string",
-    },
-    family: {
-      type: "string",
-      enum: ["r1", "openai", "unknown"],
-    },
-  },
-} as const;
-
 export const UpsertModelSchema = {
   allOf: [
     {
@@ -5357,6 +5230,163 @@ export const NotFoundSchema = {
       schema: {
         $ref: "#/components/schemas/APIErrors",
       },
+    },
+  },
+} as const;
+
+export const ModelSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/ModelProperties",
+    },
+  ],
+} as const;
+
+export const ModelConfigSchema = {
+  required: ["model", "model_type"],
+  properties: {
+    model: {
+      type: "string",
+    },
+    model_type: {
+      type: "string",
+      $ref: "#/components/schemas/ModelTypes",
+    },
+    api_key: {
+      type: "string",
+    },
+    base_url: {
+      type: "string",
+    },
+    timeout: {
+      type: "number",
+    },
+    max_retries: {
+      type: "integer",
+    },
+    frequency_penalty: {
+      type: "number",
+    },
+    logit_bias: {
+      type: "integer",
+    },
+    max_tokens: {
+      type: "integer",
+    },
+    n: {
+      type: "integer",
+    },
+    presence_penalty: {
+      type: "number",
+    },
+    response_format: {
+      type: "string",
+      $ref: "#/components/schemas/ResponseFormat",
+    },
+    seed: {
+      type: "integer",
+    },
+    stop: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+    temperature: {
+      type: "number",
+    },
+    top_p: {
+      type: "number",
+    },
+    user: {
+      type: "string",
+    },
+    organization: {
+      type: "string",
+    },
+    default_headers: {
+      type: "object",
+      additionalProperties: true,
+    },
+    model_info: {
+      $ref: "#/components/schemas/ModelInfo",
+    },
+  },
+} as const;
+
+export const ModelFamilySchema = {
+  type: "string",
+  enum: ["r1", "openai", "unknown"],
+} as const;
+
+export const ModelInfoSchema = {
+  required: ["function_calling", "json_output", "family", "vision"],
+  properties: {
+    family: {
+      $ref: "#/components/schemas/ModelFamily",
+    },
+    vision: {
+      type: "boolean",
+    },
+    function_calling: {
+      type: "boolean",
+    },
+    json_output: {
+      type: "boolean",
+    },
+  },
+} as const;
+
+export const ModelTypesSchema = {
+  type: "string",
+  enum: ["OpenAIChatCompletionClient", "AzureOpenAIChatCompletionClient"],
+} as const;
+
+export const ModelPropertiesSchema = {
+  required: [
+    "name",
+    "family",
+    "provider",
+    "vendor",
+    "vision",
+    "functionCalling",
+    "jsonOutput",
+    "apiKey",
+    "apiBase",
+  ],
+  properties: {
+    name: {
+      type: "string",
+    },
+    provider: {
+      type: "string",
+    },
+    apiKey: {
+      type: "string",
+    },
+    apiBase: {
+      type: "string",
+    },
+    vendor: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    family: {
+      type: "string",
+    },
+    vision: {
+      type: "boolean",
+    },
+    functionCalling: {
+      type: "boolean",
+    },
+    jsonOutput: {
+      type: "boolean",
     },
   },
 } as const;

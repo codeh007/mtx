@@ -5665,84 +5665,100 @@ export const zAgentTypes = z.enum([
 
 export const zToolTypes = z.enum(["PythonFunction"]);
 
-export const zModel = zApiResourceMetaProperties.merge(
-  z.object({
-    name: z.string().optional(),
-    description: z.string().optional(),
-    family: z.enum(["r1", "openai", "unknown"]).optional(),
-  }),
-);
-
-export const zModelConfig = z.object({
-  model: z.string(),
-  model_type: z.enum([
-    "OpenAIChatCompletionClient",
-    "AzureOpenAIChatCompletionClient",
-  ]),
-  api_key: z.string().optional(),
-  base_url: z.string().optional(),
-  timeout: z.number().optional(),
-  max_retries: z.number().int().optional(),
-  frequency_penalty: z.number().optional(),
-  logit_bias: z.number().int().optional(),
-  max_tokens: z.number().int().optional(),
-  n: z.number().int().optional(),
-  presence_penalty: z.number().optional(),
-  response_format: z.enum(["json_object", "text"]).optional(),
-  seed: z.number().int().optional(),
-  stop: z.array(z.string()).optional(),
-  temperature: z.number().optional(),
-  top_p: z.number().optional(),
-  user: z.string().optional(),
-  organization: z.string().optional(),
-  default_headers: z.object({}).optional(),
-  model_info: z
-    .object({
-      family: z.enum(["r1", "openai", "unknown"]),
-      vision: z.boolean(),
-      function_calling: z.boolean(),
-      json_output: z.boolean(),
-    })
-    .optional(),
-});
-
-export const zModelFamily = z.enum(["r1", "openai", "unknown"]);
-
-export const zModelInfo = z.object({
-  family: zModelFamily,
-  vision: z.boolean(),
-  function_calling: z.boolean(),
-  json_output: z.boolean(),
-});
-
-export const zModelTypes = z.enum([
-  "OpenAIChatCompletionClient",
-  "AzureOpenAIChatCompletionClient",
-]);
-
-export const zModelProperties = z.object({
-  name: z.string().optional(),
+export const zUpsertModel = z.object({
+  name: z.string(),
+  provider: z.string(),
+  apiKey: z.string(),
+  apiBase: z.string(),
+  vendor: z.string(),
   description: z.string().optional(),
-  family: z.enum(["r1", "openai", "unknown"]).optional(),
+  family: z.string(),
+  vision: z.boolean(),
+  functionCalling: z.boolean(),
+  jsonOutput: z.boolean(),
 });
 
-export const zUpsertModel = zModelProperties;
+export const zAzureOpenAiModelConfig = z
+  .object({
+    model: z.string(),
+    model_type: z.enum([
+      "OpenAIChatCompletionClient",
+      "AzureOpenAIChatCompletionClient",
+    ]),
+    api_key: z.string().optional(),
+    base_url: z.string().optional(),
+    timeout: z.number().optional(),
+    max_retries: z.number().int().optional(),
+    frequency_penalty: z.number().optional(),
+    logit_bias: z.number().int().optional(),
+    max_tokens: z.number().int().optional(),
+    n: z.number().int().optional(),
+    presence_penalty: z.number().optional(),
+    response_format: z.enum(["json_object", "text"]).optional(),
+    seed: z.number().int().optional(),
+    stop: z.array(z.string()).optional(),
+    temperature: z.number().optional(),
+    top_p: z.number().optional(),
+    user: z.string().optional(),
+    organization: z.string().optional(),
+    default_headers: z.object({}).optional(),
+    model_info: z
+      .object({
+        family: z.enum(["r1", "openai", "unknown"]),
+        vision: z.boolean(),
+        function_calling: z.boolean(),
+        json_output: z.boolean(),
+      })
+      .optional(),
+  })
+  .merge(
+    z.object({
+      model_type: z.enum(["AzureOpenAIChatCompletionClient"]),
+      azure_deployment: z.string(),
+      api_version: z.string(),
+      azure_endpoint: z.string(),
+      azure_ad_token_provider: z.string(),
+    }),
+  );
 
-export const zAzureOpenAiModelConfig = zModelConfig.merge(
-  z.object({
-    model_type: z.enum(["AzureOpenAIChatCompletionClient"]),
-    azure_deployment: z.string(),
-    api_version: z.string(),
-    azure_endpoint: z.string(),
-    azure_ad_token_provider: z.string(),
-  }),
-);
-
-export const zOpenAiModelConfig = zModelConfig.merge(
-  z.object({
-    model_type: z.enum(["OpenAIChatCompletionClient"]),
-  }),
-);
+export const zOpenAiModelConfig = z
+  .object({
+    model: z.string(),
+    model_type: z.enum([
+      "OpenAIChatCompletionClient",
+      "AzureOpenAIChatCompletionClient",
+    ]),
+    api_key: z.string().optional(),
+    base_url: z.string().optional(),
+    timeout: z.number().optional(),
+    max_retries: z.number().int().optional(),
+    frequency_penalty: z.number().optional(),
+    logit_bias: z.number().int().optional(),
+    max_tokens: z.number().int().optional(),
+    n: z.number().int().optional(),
+    presence_penalty: z.number().optional(),
+    response_format: z.enum(["json_object", "text"]).optional(),
+    seed: z.number().int().optional(),
+    stop: z.array(z.string()).optional(),
+    temperature: z.number().optional(),
+    top_p: z.number().optional(),
+    user: z.string().optional(),
+    organization: z.string().optional(),
+    default_headers: z.object({}).optional(),
+    model_info: z
+      .object({
+        family: z.enum(["r1", "openai", "unknown"]),
+        vision: z.boolean(),
+        function_calling: z.boolean(),
+        json_output: z.boolean(),
+      })
+      .optional(),
+  })
+  .merge(
+    z.object({
+      model_type: z.enum(["OpenAIChatCompletionClient"]),
+    }),
+  );
 
 export const zToolComponent = zComponentModel.merge(
   z.object({
@@ -5778,7 +5794,38 @@ export const zHandoffConfig = z.object({
 export const zModelComponent = zComponentModel.merge(
   z.object({
     componentType: z.enum(["model"]),
-    config: zModelConfig,
+    config: z.object({
+      model: z.string(),
+      model_type: z.enum([
+        "OpenAIChatCompletionClient",
+        "AzureOpenAIChatCompletionClient",
+      ]),
+      api_key: z.string().optional(),
+      base_url: z.string().optional(),
+      timeout: z.number().optional(),
+      max_retries: z.number().int().optional(),
+      frequency_penalty: z.number().optional(),
+      logit_bias: z.number().int().optional(),
+      max_tokens: z.number().int().optional(),
+      n: z.number().int().optional(),
+      presence_penalty: z.number().optional(),
+      response_format: z.enum(["json_object", "text"]).optional(),
+      seed: z.number().int().optional(),
+      stop: z.array(z.string()).optional(),
+      temperature: z.number().optional(),
+      top_p: z.number().optional(),
+      user: z.string().optional(),
+      organization: z.string().optional(),
+      default_headers: z.object({}).optional(),
+      model_info: z
+        .object({
+          family: z.enum(["r1", "openai", "unknown"]),
+          vision: z.boolean(),
+          function_calling: z.boolean(),
+          json_output: z.boolean(),
+        })
+        .optional(),
+    }),
   }),
 );
 
@@ -6062,6 +6109,81 @@ export const zBadRequest = z.unknown();
 export const zForbidden = z.unknown();
 
 export const zNotFound = z.unknown();
+
+export const zModel = zApiResourceMetaProperties.merge(
+  z.object({
+    name: z.string(),
+    provider: z.string(),
+    apiKey: z.string(),
+    apiBase: z.string(),
+    vendor: z.string(),
+    description: z.string().optional(),
+    family: z.string(),
+    vision: z.boolean(),
+    functionCalling: z.boolean(),
+    jsonOutput: z.boolean(),
+  }),
+);
+
+export const zModelConfig = z.object({
+  model: z.string(),
+  model_type: z.enum([
+    "OpenAIChatCompletionClient",
+    "AzureOpenAIChatCompletionClient",
+  ]),
+  api_key: z.string().optional(),
+  base_url: z.string().optional(),
+  timeout: z.number().optional(),
+  max_retries: z.number().int().optional(),
+  frequency_penalty: z.number().optional(),
+  logit_bias: z.number().int().optional(),
+  max_tokens: z.number().int().optional(),
+  n: z.number().int().optional(),
+  presence_penalty: z.number().optional(),
+  response_format: zResponseFormat.optional(),
+  seed: z.number().int().optional(),
+  stop: z.array(z.string()).optional(),
+  temperature: z.number().optional(),
+  top_p: z.number().optional(),
+  user: z.string().optional(),
+  organization: z.string().optional(),
+  default_headers: z.object({}).optional(),
+  model_info: z
+    .object({
+      family: z.enum(["r1", "openai", "unknown"]),
+      vision: z.boolean(),
+      function_calling: z.boolean(),
+      json_output: z.boolean(),
+    })
+    .optional(),
+});
+
+export const zModelFamily = z.enum(["r1", "openai", "unknown"]);
+
+export const zModelInfo = z.object({
+  family: zModelFamily,
+  vision: z.boolean(),
+  function_calling: z.boolean(),
+  json_output: z.boolean(),
+});
+
+export const zModelTypes = z.enum([
+  "OpenAIChatCompletionClient",
+  "AzureOpenAIChatCompletionClient",
+]);
+
+export const zModelProperties = z.object({
+  name: z.string(),
+  provider: z.string(),
+  apiKey: z.string(),
+  apiBase: z.string(),
+  vendor: z.string(),
+  description: z.string().optional(),
+  family: z.string(),
+  vision: z.boolean(),
+  functionCalling: z.boolean(),
+  jsonOutput: z.boolean(),
+});
 
 export const zModelList = z.object({
   pagination: zPaginationResponse.optional(),

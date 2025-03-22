@@ -9,6 +9,7 @@ import {
 } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { useFormContext } from "react-hook-form";
+import { ModelSelect } from "../../../../../components/model/model-select";
 
 export const AgentForm = () => {
   const form = useFormContext();
@@ -56,6 +57,8 @@ export const AgentForm = () => {
           </FormItem>
         )}
       />
+
+      <ModelSelect />
       <AgentConfigForm />
     </div>
   );

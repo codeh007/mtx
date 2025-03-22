@@ -2090,55 +2090,6 @@ export enum ToolTypes {
   PythonFunction = "PythonFunction",
 }
 
-export type Model = APIResourceMetaProperties & ModelProperties;
-
-export interface ModelConfig {
-  model: string;
-  model_type: ModelTypes;
-  api_key?: string;
-  base_url?: string;
-  timeout?: number;
-  max_retries?: number;
-  frequency_penalty?: number;
-  logit_bias?: number;
-  max_tokens?: number;
-  n?: number;
-  presence_penalty?: number;
-  response_format?: ResponseFormat;
-  seed?: number;
-  stop?: string[];
-  temperature?: number;
-  top_p?: number;
-  user?: string;
-  organization?: string;
-  default_headers?: Record<string, any>;
-  model_info?: ModelInfo;
-}
-
-export enum ModelFamily {
-  R1 = "r1",
-  Openai = "openai",
-  Unknown = "unknown",
-}
-
-export interface ModelInfo {
-  family: ModelFamily;
-  vision: boolean;
-  function_calling: boolean;
-  json_output: boolean;
-}
-
-export enum ModelTypes {
-  OpenAIChatCompletionClient = "OpenAIChatCompletionClient",
-  AzureOpenAIChatCompletionClient = "AzureOpenAIChatCompletionClient",
-}
-
-export interface ModelProperties {
-  name?: string;
-  description?: string;
-  family?: "r1" | "openai" | "unknown";
-}
-
 export type UpsertModel = ModelProperties;
 
 export type AzureOpenAIModelConfig = ModelConfig & {
@@ -2307,6 +2258,62 @@ export type Forbidden = APIErrors;
 
 /** Not found */
 export type NotFound = APIErrors;
+
+export type Model = APIResourceMetaProperties & ModelProperties;
+
+export interface ModelConfig {
+  model: string;
+  model_type: ModelTypes;
+  api_key?: string;
+  base_url?: string;
+  timeout?: number;
+  max_retries?: number;
+  frequency_penalty?: number;
+  logit_bias?: number;
+  max_tokens?: number;
+  n?: number;
+  presence_penalty?: number;
+  response_format?: ResponseFormat;
+  seed?: number;
+  stop?: string[];
+  temperature?: number;
+  top_p?: number;
+  user?: string;
+  organization?: string;
+  default_headers?: Record<string, any>;
+  model_info?: ModelInfo;
+}
+
+export enum ModelFamily {
+  R1 = "r1",
+  Openai = "openai",
+  Unknown = "unknown",
+}
+
+export interface ModelInfo {
+  family: ModelFamily;
+  vision: boolean;
+  function_calling: boolean;
+  json_output: boolean;
+}
+
+export enum ModelTypes {
+  OpenAIChatCompletionClient = "OpenAIChatCompletionClient",
+  AzureOpenAIChatCompletionClient = "AzureOpenAIChatCompletionClient",
+}
+
+export interface ModelProperties {
+  name: string;
+  provider: string;
+  apiKey: string;
+  apiBase: string;
+  vendor: string;
+  description?: string;
+  family: string;
+  vision: boolean;
+  functionCalling: boolean;
+  jsonOutput: boolean;
+}
 
 export interface ModelList {
   pagination?: PaginationResponse;
