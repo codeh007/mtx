@@ -14,6 +14,7 @@ export const Route = createLazyFileRoute("/coms/$comId/team_builder/team")({
 
 function RouteComponent() {
   const team = useTeamBuilderStoreV2((x) => x.team);
+  const { comId } = Route.useParams();
 
   const form = useZodForm({
     schema: z.object({
@@ -25,7 +26,6 @@ function RouteComponent() {
     },
   });
   const handleSubmit = (values) => {
-    // console.log("(handleSubmit)", values);
     form.handleSubmit(values);
   };
   const tid = useTenantId();
@@ -37,10 +37,9 @@ function RouteComponent() {
     runTeamMu.mutate({
       path: {
         tenant: tid,
-        team: team.id,
+        team: comId,
       },
       body: {
-        // ...team,
         task: "hello123",
       },
     });
