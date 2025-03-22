@@ -3,11 +3,19 @@ import { Edit, HelpCircle, PlusCircle, Trash2 } from "lucide-react";
 import type { MtComponent } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { Switch } from "mtxuilib/ui/switch";
 import { Textarea } from "mtxuilib/ui/textarea";
 import { Tooltip } from "mtxuilib/ui/tooltip";
 import React, { useCallback } from "react";
+import { useFormContext } from "react-hook-form";
 import type {
   Component,
   ComponentConfig,
@@ -31,12 +39,17 @@ interface AgentFieldsProps {
   getCurrentComponent?: any;
 }
 
-const InputWithTooltip: React.FC<{
+const InputWithTooltip = ({
+  label,
+  tooltip,
+  required,
+  children,
+}: {
   label: string;
   tooltip: string;
   required?: boolean;
   children: React.ReactNode;
-}> = ({ label, tooltip, required, children }) => (
+}) => (
   <label className="block" htmlFor={label}>
     <div className="flex items-center gap-2 mb-1">
       <span className="text-sm font-medium text-primary">
@@ -96,7 +109,7 @@ export const AgentFields = ({
   const handleRemoveTool = useCallback(
     (toolIndex: number) => {
       if (!isAssistantAgent(component)) return;
-      const newTools = [...(component.config.tools || [])];
+      const newTools = [...((component.config.tools as any[]) || [])];
       newTools.splice(toolIndex, 1);
       handleConfigUpdate("tools", newTools);
     },
@@ -155,21 +168,50 @@ export const AgentFields = ({
     editPath,
   ]);
 
+  const form = useFormContext();
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       <DetailGroup title="Component Details">
-        <div className="space-y-2">
-          <label className="block" htmlFor="name">
+        <div className="space-y-1">
+          {/* <label className="block" htmlFor="name">
             <span className="text-sm font-medium text-primary">Name</span>
-          </label>
-          <Input
+          </label> */}
+
+          {/* <Input
             value={component.label || ""}
             onChange={(e) => handleComponentUpdate({ label: e.target.value })}
             placeholder="Component name"
-            className="mt-1"
+          /> */}
+          <FormField
+            control={form.control}
+            name="label"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>label</FormLabel>
+                <FormControl>
+                  <Input placeholder="Component name" {...field} />
+                </FormControl>
+                {/* <FormDescription></FormDescription> */}
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea placeholder="Component description" {...field} />
+                </FormControl>
+                {/* <FormDescription></FormDescription> */}
+                <FormMessage />
+              </FormItem>
+            )}
           />
 
-          <label className="block" htmlFor="description">
+          {/* <label className="block" htmlFor="description">
             <span className="text-sm font-medium text-primary">
               Description
             </span>
@@ -182,7 +224,7 @@ export const AgentFields = ({
               rows={4}
               className="mt-1"
             />
-          </label>
+          </label> */}
         </div>
       </DetailGroup>
       <DetailGroup title="Configuration">

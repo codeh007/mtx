@@ -2,10 +2,12 @@ import debounce from "lodash.debounce";
 import { ChevronLeft, Code, FormInput } from "lucide-react";
 import type { MtComponent } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
+import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { MonacoEditor } from "mtxuilib/mt/monaco";
 import { Breadcrumb } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
 import { useCallback, useEffect, useMemo, useRef } from "react";
+import { z } from "zod";
 import {
   isAgentComponent,
   isModelComponent,
@@ -202,6 +204,20 @@ export const ComponentEditor = ({
   );
 
   const currentComponent = getCurrentComponent(workingCopy) || workingCopy;
+  const form = useZodForm({
+    schema: z.any(),
+    defaultValues: component,
+  });
+  const handleSubmit = form.handleSubmit((data) => {
+    console.log("handleSubmit", data);
+    handleComponentUpdate(data);
+  });
+  const handleSave = useCallback(() => {
+    console.log("(handleSave)working copy", workingCopy);
+    handleSubmit(workingCopy);
+    onChange(workingCopy);
+    onClose?.();
+  }, [workingCopy, onChange, onClose, handleSubmit]);
 
   const renderFields = useCallback(() => {
     // console.log(
@@ -281,61 +297,57 @@ export const ComponentEditor = ({
     [workingCopy.label, editPath],
   );
 
-  const handleSave = useCallback(() => {
-    console.log("(handleSave)working copy", workingCopy);
-    onChange(workingCopy);
-    onClose?.();
-  }, [workingCopy, onChange, onClose]);
-
   return (
     <div className="flex flex-col h-full">
-      <div className="flex">
-        {navigationDepth && editPath.length > 0 && (
-          <Button onClick={handleNavigateBack} variant="ghost" size="icon">
-            <ChevronLeft className="size-4" />
-          </Button>
-        )}
-        <DebugValue data={{ editPath }} />
-        <div className="flex-1">
-          <Breadcrumb items={breadcrumbItems} />
-        </div>
-        <Button
-          onClick={() => setIsJsonEditing((prev) => !prev)}
-          variant="ghost"
-          // size="icon"
-        >
-          {isJsonEditing ? (
-            <>
-              <FormInput className="size-4 text-accent mr-1 inline-block" />
-              Form
-            </>
-          ) : (
-            <>
-              <Code className="size-4 text-accent mr-1 inline-block" />
-              JSON
-            </>
+      <ZForm form={form} handleSubmit={handleSubmit} className="space-y-2">
+        <div className="flex">
+          {navigationDepth && editPath.length > 0 && (
+            <Button onClick={handleNavigateBack} variant="ghost" size="icon">
+              <ChevronLeft className="size-4 pr-2" />
+            </Button>
           )}
-        </Button>
-      </div>
-      {isJsonEditing ? (
-        <div className="flex-1 overflow-y-auto">
-          <MonacoEditor
-            editorRef={editorRef}
-            value={JSON.stringify(workingCopy, null, 2)}
-            onChange={debouncedJsonUpdate}
-            language="json"
-            minimap={true}
-          />
+          <DebugValue data={{ editPath }} />
+          <div className="flex-1">
+            <Breadcrumb items={breadcrumbItems} />
+          </div>
+          <Button
+            onClick={() => setIsJsonEditing((prev) => !prev)}
+            variant="ghost"
+            // size="icon"
+          >
+            {isJsonEditing ? (
+              <>
+                <FormInput className="size-4 text-accent mr-1 inline-block" />
+                Form
+              </>
+            ) : (
+              <>
+                <Code className="size-4 text-accent mr-1 inline-block" />
+                JSON
+              </>
+            )}
+          </Button>
         </div>
-      ) : (
-        <div className="flex-1 overflow-y-auto">{renderFields()}</div>
-      )}
-      {onClose && (
-        <div className="flex justify-end gap-2 mt-6 pt-4 border-t border-secondary">
-          <Button onClick={onClose}>Cancel</Button>
-          <Button onClick={handleSave}>Save Changes</Button>
-        </div>
-      )}
+        {isJsonEditing ? (
+          <div className="flex-1 overflow-y-auto">
+            <MonacoEditor
+              editorRef={editorRef}
+              value={JSON.stringify(workingCopy, null, 2)}
+              onChange={debouncedJsonUpdate}
+              language="json"
+              minimap={true}
+            />
+          </div>
+        ) : (
+          <div className="flex-1 overflow-y-auto">{renderFields()}</div>
+        )}
+        {onClose && (
+          <div className="flex justify-end gap-2 mt-6 pt-4 border-t border-secondary">
+            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={handleSave}>Save Changes</Button>
+          </div>
+        )}
+      </ZForm>
     </div>
   );
 };
