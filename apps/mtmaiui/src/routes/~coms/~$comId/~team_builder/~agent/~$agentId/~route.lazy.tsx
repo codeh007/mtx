@@ -1,8 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { agentGetOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
+import { MtTabs, MtTabsList, MtTabsTrigger } from "mtxuilib/mt/tabs";
 import { z } from "zod";
 import { useTenantId } from "../../../../../../hooks/useAuth";
 
@@ -16,7 +18,7 @@ function RouteComponent() {
   const { agentId } = Route.useParams();
   const tid = useTenantId();
 
-  const agentQuery = useQuery({
+  const agentQuery = useSuspenseQuery({
     ...agentGetOptions({
       path: {
         tenant: tid,
@@ -36,9 +38,22 @@ function RouteComponent() {
 
   return (
     <ZForm form={form} handleSubmit={handleSubmit}>
-      <Outlet />
-      {/* <AgentForm agentId={agentId} /> */}
       <DebugValue data={agentQuery.data} />
+      <MtTabs defaultValue="agent" className="w-full">
+        <MtTabsList layout="underlined">
+          <CustomLink to="agent">
+            <MtTabsTrigger variant="underlined" value="agent">
+              agent
+            </MtTabsTrigger>
+          </CustomLink>
+          <CustomLink to="model">
+            <MtTabsTrigger variant="underlined" value="model">
+              model
+            </MtTabsTrigger>
+          </CustomLink>
+        </MtTabsList>
+        <Outlet />
+      </MtTabs>
     </ZForm>
   );
 }
