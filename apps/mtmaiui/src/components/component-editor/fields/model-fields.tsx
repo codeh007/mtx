@@ -1,14 +1,10 @@
 import { HelpCircle } from "lucide-react";
+import type { MtComponent } from "mtmaiapi";
 import { Input } from "mtxuilib/ui/input";
 import { Select } from "mtxuilib/ui/select";
 import { Textarea } from "mtxuilib/ui/textarea";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import React, { useCallback } from "react";
-import type {
-  Component,
-  ComponentConfig,
-  ModelConfig,
-} from "../../../routes/components/views/types/datamodel";
 import {
   isAnthropicModel,
   isAzureOpenAIModel,
@@ -17,8 +13,8 @@ import {
 import { DetailGroup } from "../../detailgroup";
 
 interface ModelFieldsProps {
-  component: Component<ModelConfig>;
-  onChange: (updates: Partial<Component<ComponentConfig>>) => void;
+  component: MtComponent;
+  onChange: (updates: Partial<MtComponent>) => void;
 }
 
 const InputWithTooltip: React.FC<{
@@ -341,10 +337,7 @@ const providerFields: Record<ProviderType, ProviderFields> = {
   },
 };
 
-export const ModelFields: React.FC<ModelFieldsProps> = ({
-  component,
-  onChange,
-}) => {
+export const ModelFields = ({ component, onChange }: ModelFieldsProps) => {
   // Determine which provider we're dealing with
   let providerType: ProviderType | null = null;
   if (isOpenAIModel(component)) {
@@ -356,10 +349,10 @@ export const ModelFields: React.FC<ModelFieldsProps> = ({
   }
 
   // Return null if we don't recognize the provider
-  if (!providerType) return null;
+  if (!providerType) return <div>unknown provider: {component.provider}</div>;
 
   const handleComponentUpdate = useCallback(
-    (updates: Partial<Component<ComponentConfig>>) => {
+    (updates: Partial<MtComponent>) => {
       onChange({
         ...component,
         ...updates,
@@ -429,9 +422,9 @@ export const ModelFields: React.FC<ModelFieldsProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <DetailGroup title="Component Details">
-        <div className="space-y-4">
+        <div className="space-y-2">
           <label className="block" htmlFor="name">
             <span className="text-sm font-medium text-primary">Name</span>
             <Input
@@ -477,7 +470,7 @@ export const ModelFields: React.FC<ModelFieldsProps> = ({
       {providerType === "anthropic" &&
         (component.config as any).tool_choice === "custom" && (
           <DetailGroup title="Custom Tool Choice">
-            <div className="space-y-4">
+            <div className="space-y-2">
               <Textarea
                 value={JSON.stringify(
                   (component.config as any).tool_choice,

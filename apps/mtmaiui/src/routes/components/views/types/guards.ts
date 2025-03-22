@@ -31,6 +31,7 @@ const PROVIDERS = {
 
   // Models
   OPENAI: "autogen_ext.models.openai.OpenAIChatCompletionClient",
+  MTM_OPENAI: "mtmai.model_client.MtOpenAIChatCompletionClient",
   AZURE_OPENAI: "autogen_ext.models.openai.AzureOpenAIChatCompletionClient",
   ANTHROPIC: "autogen_ext.models.anthropic.AnthropicChatCompletionClient",
 
@@ -163,7 +164,10 @@ export function isWebSurferAgent(component: MtComponent) {
 
 // Model provider guards with proper type narrowing
 export function isOpenAIModel(component: MtComponent) {
-  return isComponentOfType(component, PROVIDERS.OPENAI);
+  return (
+    isComponentOfType(component, PROVIDERS.OPENAI) ||
+    isComponentOfType(component, PROVIDERS.MTM_OPENAI)
+  );
 }
 
 export function isAzureOpenAIModel(component: MtComponent) {
@@ -172,6 +176,9 @@ export function isAzureOpenAIModel(component: MtComponent) {
 export function isAnthropicModel(component: MtComponent) {
   return isComponentOfType(component, PROVIDERS.ANTHROPIC);
 }
+// export function is(component: MtComponent) {
+//   return !isOpenAIModel(component) && !isAzureOpenAIModel(component) && !isAnthropicModel(component);
+// }
 
 // Tool provider guards with proper type narrowing
 export function isFunctionTool(

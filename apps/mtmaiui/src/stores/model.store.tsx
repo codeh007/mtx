@@ -187,7 +187,9 @@ export const ModelContent = ({ children }: ModelContentProps) => {
   const variant = useModelStore((x) => x.variant);
   if (variant === "modal") {
     return (
-      <DialogContent className="w-full sm:max-w-5xl">{children}</DialogContent>
+      <DialogContent className="max-h-lvh w-full overflow-scroll min-w-xl w-full sm:max-w-5xl">
+        {children}
+      </DialogContent>
     );
   }
   return (

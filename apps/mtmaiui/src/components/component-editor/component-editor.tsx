@@ -5,7 +5,7 @@ import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { MonacoEditor } from "mtxuilib/mt/monaco";
 import { Breadcrumb } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import {
   isAgentComponent,
   isModelComponent,
@@ -32,9 +32,11 @@ export const ComponentEditor = ({
 }: ComponentEditorProps) => {
   const editPath = useComponentEditStore((x) => x.editPath);
   const setEditPath = useComponentEditStore((x) => x.setEditPath);
-  const [workingCopy, setWorkingCopy] = useState<MtComponent>(
-    Object.assign({}, component),
-  );
+  // const [workingCopy, setWorkingCopy] = useState<MtComponent>(
+  //   Object.assign({}, component),
+  // );
+  const workingCopy = useComponentEditStore((x) => x.workingCopy);
+  const setWorkingCopy = useComponentEditStore((x) => x.setWorkingCopy);
   const isJsonEditing = useComponentEditStore((x) => x.isJsonEditing);
   const setIsJsonEditing = useComponentEditStore((x) => x.setIsJsonEditing);
 
@@ -43,12 +45,12 @@ export const ComponentEditor = ({
   // Reset working copy when component changes
   useEffect(() => {
     setWorkingCopy(component);
-    // setEditPath([]);
-  }, [component]);
+    setEditPath([]);
+  }, [component, setEditPath, setWorkingCopy]);
 
   const getCurrentComponent = useCallback(
     (root: MtComponent) => {
-      console.log("(getCurrentComponent)editPath", editPath);
+      // console.log("(getCurrentComponent)editPath", editPath);
       return editPath?.reduce<MtComponent | null>((current, path) => {
         if (!current) return null;
 
@@ -180,12 +182,12 @@ export const ComponentEditor = ({
       if (!navigationDepth) return;
       setEditPath([...editPath, { componentType, id, parentField, index }]);
     },
-    [navigationDepth, editPath],
+    [navigationDepth, editPath, setEditPath],
   );
 
   const handleNavigateBack = useCallback(() => {
-    setEditPath((prev) => prev.slice(0, -1));
-  }, []);
+    setEditPath(editPath.slice(0, -1));
+  }, [editPath, setEditPath]);
 
   const debouncedJsonUpdate = useCallback(
     debounce((value: string) => {
@@ -234,22 +236,32 @@ export const ComponentEditor = ({
     }
     if (isModelComponent(currentComponent)) {
       return (
-        <ModelFields
-          component={currentComponent}
-          onChange={handleComponentUpdate}
-        />
+        <>
+          <ModelFields
+            component={currentComponent}
+            onChange={handleComponentUpdate}
+          />
+        </>
       );
     }
     if (isToolComponent(currentComponent)) {
-      return <ToolFields {...commonProps} />;
+      return (
+        <>
+          <span>ToolFields</span>
+          <ToolFields {...commonProps} />
+        </>
+      );
     }
     if (isTerminationComponent(currentComponent)) {
       return (
-        <TerminationFields
-          component={currentComponent}
-          onChange={handleComponentUpdate}
-          onNavigate={handleNavigate}
-        />
+        <>
+          <span>TerminationFields</span>
+          <TerminationFields
+            component={currentComponent}
+            onChange={handleComponentUpdate}
+            onNavigate={handleNavigate}
+          />
+        </>
       );
     }
     return (
@@ -257,8 +269,6 @@ export const ComponentEditor = ({
         No fields for this component type: {currentComponent.componentType}
       </div>
     );
-
-    // return null;
   }, [currentComponent, handleComponentUpdate, handleNavigate]);
 
   const breadcrumbItems = useMemo(
