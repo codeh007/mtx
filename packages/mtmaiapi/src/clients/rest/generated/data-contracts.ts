@@ -2252,11 +2252,11 @@ export interface TextMentionTerminationConfig {
 
 export type AssistantAgentComponent = AgentComponent & {
   provider: "mtmai.agents.assistant_agent.AssistantAgent";
-  config: AssistantAgentConfig;
+  config: Record<string, any>;
 };
 
 export type AssistantAgentConfig = AgentConfig & {
-  model_client: ModelComponent;
+  model_client: MtComponent;
   name?: string;
 };
 

@@ -1265,7 +1265,6 @@ export const WorkflowTriggersSchema = {
 } as const;
 
 export const WorkflowTriggerEventRefSchema = {
-  type: "object",
   properties: {
     parent_id: {
       type: "string",
@@ -1277,7 +1276,6 @@ export const WorkflowTriggerEventRefSchema = {
 } as const;
 
 export const WorkflowTriggerCronRefSchema = {
-  type: "object",
   properties: {
     parent_id: {
       type: "string",
@@ -1289,7 +1287,6 @@ export const WorkflowTriggerCronRefSchema = {
 } as const;
 
 export const JobSchema = {
-  type: "object",
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -1322,7 +1319,6 @@ export const JobSchema = {
 } as const;
 
 export const StepSchema = {
-  type: "object",
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -2778,7 +2774,6 @@ export const CreateSNSIntegrationRequestSchema = {
 } as const;
 
 export const WorkflowMetricsSchema = {
-  type: "object",
   properties: {
     groupKeyRunsCount: {
       type: "integer",
@@ -5198,7 +5193,8 @@ export const AssistantAgentComponentSchema = {
           enum: ["mtmai.agents.assistant_agent.AssistantAgent"],
         },
         config: {
-          $ref: "#/components/schemas/AssistantAgentConfig",
+          type: "object",
+          additionalProperties: true,
         },
       },
     },
@@ -5214,7 +5210,7 @@ export const AssistantAgentConfigSchema = {
       required: ["model_client"],
       properties: {
         model_client: {
-          $ref: "#/components/schemas/ModelComponent",
+          $ref: "#/components/schemas/MtComponent",
         },
         name: {
           type: "string",
