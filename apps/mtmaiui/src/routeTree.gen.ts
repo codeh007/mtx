@@ -230,6 +230,9 @@ const ComsComIdTeambuilderComponentNodeIdLazyImport = createFileRoute(
 const ComsComIdTeambuilderAgentNewRouteLazyImport = createFileRoute(
   '/coms/$comId/team_builder/agent/new',
 )()
+const ComsComIdTeambuilderAgentAgentIdRouteLazyImport = createFileRoute(
+  '/coms/$comId/team_builder/agent/$agentId',
+)()
 const WorkflowsWorkflowIdTriggerSmolaIndexLazyImport = createFileRoute(
   '/workflows/$workflowId/trigger/smola/',
 )()
@@ -252,6 +255,9 @@ const ComsComIdTeambuilderAgentIndexLazyImport = createFileRoute(
 )()
 const ComsComIdTeambuilderAgentNewIndexLazyImport = createFileRoute(
   '/coms/$comId/team_builder/agent/new/',
+)()
+const ComsComIdTeambuilderAgentAgentIdIndexLazyImport = createFileRoute(
+  '/coms/$comId/team_builder/agent/$agentId/',
 )()
 
 // Create/Update Routes
@@ -1282,6 +1288,17 @@ const ComsComIdTeambuilderAgentNewRouteLazyRoute =
     ),
   )
 
+const ComsComIdTeambuilderAgentAgentIdRouteLazyRoute =
+  ComsComIdTeambuilderAgentAgentIdRouteLazyImport.update({
+    id: '/$agentId',
+    path: '/$agentId',
+    getParentRoute: () => ComsComIdTeambuilderAgentRouteLazyRoute,
+  } as any).lazy(() =>
+    import(
+      './routes/~coms/~$comId/~team_builder/~agent/~$agentId/~route.lazy'
+    ).then((d) => d.Route),
+  )
+
 const WorkflowsWorkflowIdTriggerSmolaIndexLazyRoute =
   WorkflowsWorkflowIdTriggerSmolaIndexLazyImport.update({
     id: '/',
@@ -1369,6 +1386,17 @@ const ComsComIdTeambuilderAgentNewIndexLazyRoute =
     import('./routes/~coms/~$comId/~team_builder/~agent/~new/~index.lazy').then(
       (d) => d.Route,
     ),
+  )
+
+const ComsComIdTeambuilderAgentAgentIdIndexLazyRoute =
+  ComsComIdTeambuilderAgentAgentIdIndexLazyImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => ComsComIdTeambuilderAgentAgentIdRouteLazyRoute,
+  } as any).lazy(() =>
+    import(
+      './routes/~coms/~$comId/~team_builder/~agent/~$agentId/~index.lazy'
+    ).then((d) => d.Route),
   )
 
 // Populate the FileRoutesByPath interface
@@ -2257,6 +2285,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkflowsWorkflowIdTriggerSmolaIndexLazyImport
       parentRoute: typeof WorkflowsWorkflowIdTriggerSmolaRouteLazyImport
     }
+    '/coms/$comId/team_builder/agent/$agentId': {
+      id: '/coms/$comId/team_builder/agent/$agentId'
+      path: '/$agentId'
+      fullPath: '/coms/$comId/team_builder/agent/$agentId'
+      preLoaderRoute: typeof ComsComIdTeambuilderAgentAgentIdRouteLazyImport
+      parentRoute: typeof ComsComIdTeambuilderAgentRouteLazyImport
+    }
     '/coms/$comId/team_builder/agent/new': {
       id: '/coms/$comId/team_builder/agent/new'
       path: '/new'
@@ -2270,6 +2305,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/coms/$comId/team_builder/component/$nodeId'
       preLoaderRoute: typeof ComsComIdTeambuilderComponentNodeIdLazyImport
       parentRoute: typeof ComsComIdTeambuilderComponentRouteLazyImport
+    }
+    '/coms/$comId/team_builder/agent/$agentId/': {
+      id: '/coms/$comId/team_builder/agent/$agentId/'
+      path: '/'
+      fullPath: '/coms/$comId/team_builder/agent/$agentId/'
+      preLoaderRoute: typeof ComsComIdTeambuilderAgentAgentIdIndexLazyImport
+      parentRoute: typeof ComsComIdTeambuilderAgentAgentIdRouteLazyImport
     }
     '/coms/$comId/team_builder/agent/new/': {
       id: '/coms/$comId/team_builder/agent/new/'
@@ -2343,6 +2385,21 @@ const ComsComIdRunRouteLazyRouteWithChildren =
     ComsComIdRunRouteLazyRouteChildren,
   )
 
+interface ComsComIdTeambuilderAgentAgentIdRouteLazyRouteChildren {
+  ComsComIdTeambuilderAgentAgentIdIndexLazyRoute: typeof ComsComIdTeambuilderAgentAgentIdIndexLazyRoute
+}
+
+const ComsComIdTeambuilderAgentAgentIdRouteLazyRouteChildren: ComsComIdTeambuilderAgentAgentIdRouteLazyRouteChildren =
+  {
+    ComsComIdTeambuilderAgentAgentIdIndexLazyRoute:
+      ComsComIdTeambuilderAgentAgentIdIndexLazyRoute,
+  }
+
+const ComsComIdTeambuilderAgentAgentIdRouteLazyRouteWithChildren =
+  ComsComIdTeambuilderAgentAgentIdRouteLazyRoute._addFileChildren(
+    ComsComIdTeambuilderAgentAgentIdRouteLazyRouteChildren,
+  )
+
 interface ComsComIdTeambuilderAgentNewRouteLazyRouteChildren {
   ComsComIdTeambuilderAgentNewIndexLazyRoute: typeof ComsComIdTeambuilderAgentNewIndexLazyRoute
 }
@@ -2360,6 +2417,7 @@ const ComsComIdTeambuilderAgentNewRouteLazyRouteWithChildren =
 
 interface ComsComIdTeambuilderAgentRouteLazyRouteChildren {
   ComsComIdTeambuilderAgentIndexLazyRoute: typeof ComsComIdTeambuilderAgentIndexLazyRoute
+  ComsComIdTeambuilderAgentAgentIdRouteLazyRoute: typeof ComsComIdTeambuilderAgentAgentIdRouteLazyRouteWithChildren
   ComsComIdTeambuilderAgentNewRouteLazyRoute: typeof ComsComIdTeambuilderAgentNewRouteLazyRouteWithChildren
 }
 
@@ -2367,6 +2425,8 @@ const ComsComIdTeambuilderAgentRouteLazyRouteChildren: ComsComIdTeambuilderAgent
   {
     ComsComIdTeambuilderAgentIndexLazyRoute:
       ComsComIdTeambuilderAgentIndexLazyRoute,
+    ComsComIdTeambuilderAgentAgentIdRouteLazyRoute:
+      ComsComIdTeambuilderAgentAgentIdRouteLazyRouteWithChildren,
     ComsComIdTeambuilderAgentNewRouteLazyRoute:
       ComsComIdTeambuilderAgentNewRouteLazyRouteWithChildren,
   }
@@ -3244,8 +3304,10 @@ export interface FileRoutesByFullPath {
   '/workflow-runs/$workflowRunId/stepRun/$stepRunId/': typeof WorkflowRunsWorkflowRunIdStepRunStepRunIdIndexLazyRoute
   '/workflows/$workflowId/trigger/ag/': typeof WorkflowsWorkflowIdTriggerAgIndexLazyRoute
   '/workflows/$workflowId/trigger/smola/': typeof WorkflowsWorkflowIdTriggerSmolaIndexLazyRoute
+  '/coms/$comId/team_builder/agent/$agentId': typeof ComsComIdTeambuilderAgentAgentIdRouteLazyRouteWithChildren
   '/coms/$comId/team_builder/agent/new': typeof ComsComIdTeambuilderAgentNewRouteLazyRouteWithChildren
   '/coms/$comId/team_builder/component/$nodeId': typeof ComsComIdTeambuilderComponentNodeIdLazyRoute
+  '/coms/$comId/team_builder/agent/$agentId/': typeof ComsComIdTeambuilderAgentAgentIdIndexLazyRoute
   '/coms/$comId/team_builder/agent/new/': typeof ComsComIdTeambuilderAgentNewIndexLazyRoute
 }
 
@@ -3331,6 +3393,7 @@ export interface FileRoutesByTo {
   '/workflows/$workflowId/trigger/ag': typeof WorkflowsWorkflowIdTriggerAgIndexLazyRoute
   '/workflows/$workflowId/trigger/smola': typeof WorkflowsWorkflowIdTriggerSmolaIndexLazyRoute
   '/coms/$comId/team_builder/component/$nodeId': typeof ComsComIdTeambuilderComponentNodeIdLazyRoute
+  '/coms/$comId/team_builder/agent/$agentId': typeof ComsComIdTeambuilderAgentAgentIdIndexLazyRoute
   '/coms/$comId/team_builder/agent/new': typeof ComsComIdTeambuilderAgentNewIndexLazyRoute
 }
 
@@ -3462,8 +3525,10 @@ export interface FileRoutesById {
   '/workflow-runs/$workflowRunId/stepRun/$stepRunId/': typeof WorkflowRunsWorkflowRunIdStepRunStepRunIdIndexLazyRoute
   '/workflows/$workflowId/trigger/ag/': typeof WorkflowsWorkflowIdTriggerAgIndexLazyRoute
   '/workflows/$workflowId/trigger/smola/': typeof WorkflowsWorkflowIdTriggerSmolaIndexLazyRoute
+  '/coms/$comId/team_builder/agent/$agentId': typeof ComsComIdTeambuilderAgentAgentIdRouteLazyRouteWithChildren
   '/coms/$comId/team_builder/agent/new': typeof ComsComIdTeambuilderAgentNewRouteLazyRouteWithChildren
   '/coms/$comId/team_builder/component/$nodeId': typeof ComsComIdTeambuilderComponentNodeIdLazyRoute
+  '/coms/$comId/team_builder/agent/$agentId/': typeof ComsComIdTeambuilderAgentAgentIdIndexLazyRoute
   '/coms/$comId/team_builder/agent/new/': typeof ComsComIdTeambuilderAgentNewIndexLazyRoute
 }
 
@@ -3596,8 +3661,10 @@ export interface FileRouteTypes {
     | '/workflow-runs/$workflowRunId/stepRun/$stepRunId/'
     | '/workflows/$workflowId/trigger/ag/'
     | '/workflows/$workflowId/trigger/smola/'
+    | '/coms/$comId/team_builder/agent/$agentId'
     | '/coms/$comId/team_builder/agent/new'
     | '/coms/$comId/team_builder/component/$nodeId'
+    | '/coms/$comId/team_builder/agent/$agentId/'
     | '/coms/$comId/team_builder/agent/new/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -3682,6 +3749,7 @@ export interface FileRouteTypes {
     | '/workflows/$workflowId/trigger/ag'
     | '/workflows/$workflowId/trigger/smola'
     | '/coms/$comId/team_builder/component/$nodeId'
+    | '/coms/$comId/team_builder/agent/$agentId'
     | '/coms/$comId/team_builder/agent/new'
   id:
     | '__root__'
@@ -3811,8 +3879,10 @@ export interface FileRouteTypes {
     | '/workflow-runs/$workflowRunId/stepRun/$stepRunId/'
     | '/workflows/$workflowId/trigger/ag/'
     | '/workflows/$workflowId/trigger/smola/'
+    | '/coms/$comId/team_builder/agent/$agentId'
     | '/coms/$comId/team_builder/agent/new'
     | '/coms/$comId/team_builder/component/$nodeId'
+    | '/coms/$comId/team_builder/agent/$agentId/'
     | '/coms/$comId/team_builder/agent/new/'
   fileRoutesById: FileRoutesById
 }
@@ -4472,6 +4542,7 @@ export const routeTree = rootRoute
       "parent": "/coms/$comId/team_builder",
       "children": [
         "/coms/$comId/team_builder/agent/",
+        "/coms/$comId/team_builder/agent/$agentId",
         "/coms/$comId/team_builder/agent/new"
       ]
     },
@@ -4592,6 +4663,13 @@ export const routeTree = rootRoute
       "filePath": "~workflows/~$workflowId/~trigger/~smola/~index.lazy.tsx",
       "parent": "/workflows/$workflowId/trigger/smola"
     },
+    "/coms/$comId/team_builder/agent/$agentId": {
+      "filePath": "~coms/~$comId/~team_builder/~agent/~$agentId/~route.lazy.tsx",
+      "parent": "/coms/$comId/team_builder/agent",
+      "children": [
+        "/coms/$comId/team_builder/agent/$agentId/"
+      ]
+    },
     "/coms/$comId/team_builder/agent/new": {
       "filePath": "~coms/~$comId/~team_builder/~agent/~new/~route.lazy.tsx",
       "parent": "/coms/$comId/team_builder/agent",
@@ -4602,6 +4680,10 @@ export const routeTree = rootRoute
     "/coms/$comId/team_builder/component/$nodeId": {
       "filePath": "~coms/~$comId/~team_builder/~component/~$nodeId.lazy.tsx",
       "parent": "/coms/$comId/team_builder/component"
+    },
+    "/coms/$comId/team_builder/agent/$agentId/": {
+      "filePath": "~coms/~$comId/~team_builder/~agent/~$agentId/~index.lazy.tsx",
+      "parent": "/coms/$comId/team_builder/agent/$agentId"
     },
     "/coms/$comId/team_builder/agent/new/": {
       "filePath": "~coms/~$comId/~team_builder/~agent/~new/~index.lazy.tsx",
