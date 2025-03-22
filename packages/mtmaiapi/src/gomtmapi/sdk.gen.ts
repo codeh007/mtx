@@ -464,6 +464,9 @@ import type {
   TeamListData,
   TeamListResponse,
   TeamListError,
+  TeamRunData,
+  TeamRunResponse,
+  TeamRunError,
   TeamGetData,
   TeamGetResponse,
   TeamGetError,
@@ -479,9 +482,6 @@ import type {
   AgentUpsertData,
   AgentUpsertResponse,
   AgentUpsertError,
-  TeamRunData,
-  TeamRunResponse,
-  TeamRunError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -4804,6 +4804,36 @@ export const teamList = <ThrowOnError extends boolean = false>(
 };
 
 /**
+ * Run a team
+ */
+export const teamRun = <ThrowOnError extends boolean = false>(
+  options: Options<TeamRunData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    TeamRunResponse,
+    TeamRunError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/teams/{team}/run",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
  * Get a team
  */
 export const teamGet = <ThrowOnError extends boolean = false>(
@@ -4927,36 +4957,6 @@ export const agentUpsert = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/agents/{agent}",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * Run a team
- */
-export const teamRun = <ThrowOnError extends boolean = false>(
-  options: Options<TeamRunData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    TeamRunResponse,
-    TeamRunError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/teams/{team}/run",
     ...options,
     headers: {
       "Content-Type": "application/json",

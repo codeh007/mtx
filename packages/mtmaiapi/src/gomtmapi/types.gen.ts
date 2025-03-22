@@ -9360,6 +9360,35 @@ export type TeamListResponses = {
 
 export type TeamListResponse = TeamListResponses[keyof TeamListResponses];
 
+export type TeamRunData = {
+  body: TeamRun;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The team id
+     */
+    team: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/teams/{team}/run";
+};
+
+export type TeamRunErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+};
+
+export type TeamRunError = TeamRunErrors[keyof TeamRunErrors];
+
+export type TeamRunResponses = {
+  200: TeamRunResult;
+};
+
+export type TeamRunResponse = TeamRunResponses[keyof TeamRunResponses];
+
 export type TeamGetData = {
   body?: never;
   path: {
@@ -9540,35 +9569,6 @@ export type AgentUpsertResponses = {
 
 export type AgentUpsertResponse =
   AgentUpsertResponses[keyof AgentUpsertResponses];
-
-export type TeamRunData = {
-  body: TeamRun;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The team id
-     */
-    team: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/teams/{team}/run";
-};
-
-export type TeamRunErrors = {
-  400: ApiErrors;
-  403: ApiErrors;
-};
-
-export type TeamRunError = TeamRunErrors[keyof TeamRunErrors];
-
-export type TeamRunResponses = {
-  200: TeamRunResult;
-};
-
-export type TeamRunResponse = TeamRunResponses[keyof TeamRunResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

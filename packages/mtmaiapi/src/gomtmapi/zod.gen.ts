@@ -6947,6 +6947,8 @@ export const zSettingsGetResponse = zTenantSetting;
 
 export const zTeamListResponse = zTeamList;
 
+export const zTeamRunResponse = zTeamRunResult;
+
 export const zTeamGetResponse = zTeam;
 
 export const zTeamUpsertResponse = zTeam;
@@ -6956,5 +6958,3 @@ export const zAgentListResponse = zAgentList;
 export const zAgentGetResponse = zAgent;
 
 export const zAgentUpsertResponse = zAgent;
-
-export const zTeamRunResponse = zTeamRunResult;

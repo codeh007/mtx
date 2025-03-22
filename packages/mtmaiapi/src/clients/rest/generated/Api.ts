@@ -3730,6 +3730,29 @@ export class Api<
       ...params,
     });
   /**
+   * @description Run a team
+   *
+   * @tags team
+   * @name TeamRun
+   * @request POST:/api/v1/tenants/{tenant}/teams/{team}/run
+   * @secure
+   */
+  teamRun = (
+    tenant: TenantParameter,
+    team: string,
+    data: TeamRun,
+    params: RequestParams = {},
+  ) =>
+    this.request<TeamRunResult, APIErrors>({
+      path: `/api/v1/tenants/${tenant}/teams/${team}/run`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.Json,
+      format: "json",
+      ...params,
+    });
+  /**
    * @description Get a team
    *
    * @tags team
@@ -3833,29 +3856,6 @@ export class Api<
     this.request<Agent, APIErrors>({
       path: `/api/v1/tenants/${tenant}/agents/${agent}`,
       method: "PATCH",
-      body: data,
-      secure: true,
-      type: ContentType.Json,
-      format: "json",
-      ...params,
-    });
-  /**
-   * @description Run a team
-   *
-   * @tags team
-   * @name TeamRun
-   * @request POST:/api/v1/tenants/{tenant}/teams/{team}/run
-   * @secure
-   */
-  teamRun = (
-    tenant: TenantParameter,
-    team: string,
-    data: TeamRun,
-    params: RequestParams = {},
-  ) =>
-    this.request<TeamRunResult, APIErrors>({
-      path: `/api/v1/tenants/${tenant}/teams/${team}/run`,
-      method: "POST",
       body: data,
       secure: true,
       type: ContentType.Json,
