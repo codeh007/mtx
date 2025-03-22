@@ -160,6 +160,8 @@ export interface TeamBuilderState extends TeamBuilderProps {
     targetType: ComponentTypes,
   ) => boolean;
   nav: ReturnType<typeof useNav>;
+
+  handleSaveV2: (teamValues: any) => void;
 }
 
 const buildTeamComponent = (
@@ -210,6 +212,9 @@ export const createWorkbrenchSlice: StateCreator<
       console.log("setEdges", edges);
       set({ edges });
     },
+    handleSaveV2: (teamValues) => {
+      console.log("handleSaveV2", teamValues);
+    },
     onNodesChange: (nodes: NodeChange<CustomNode>[]) => {
       for (const node of nodes) {
         if (node.type === "position") {
@@ -255,7 +260,6 @@ export const createWorkbrenchSlice: StateCreator<
     setShowMiniMap: (showMiniMap) => {
       set({ showMiniMap });
     },
-
     setIsDirty: (isDirty) => {
       set({ isDirty });
     },

@@ -34,6 +34,9 @@ export const ComponentEditor = ({
 }: ComponentEditorProps) => {
   const editPath = useComponentEditStore((x) => x.editPath);
   const setEditPath = useComponentEditStore((x) => x.setEditPath);
+  // const [workingCopy, setWorkingCopy] = useState<MtComponent>(
+  //   Object.assign({}, component),
+  // );
   const workingCopy = useComponentEditStore((x) => x.workingCopy);
   const setWorkingCopy = useComponentEditStore((x) => x.setWorkingCopy);
   const isJsonEditing = useComponentEditStore((x) => x.isJsonEditing);
@@ -186,7 +189,6 @@ export const ComponentEditor = ({
       index?: number,
     ) => {
       if (!navigationDepth) return;
-      console.log("(handleNavigate)editPath", editPath);
       setEditPath([...editPath, { componentType, id, parentField, index }]);
     },
     [navigationDepth, editPath, setEditPath],
