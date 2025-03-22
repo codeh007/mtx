@@ -129,23 +129,17 @@ export interface TeamBuilderState extends TeamBuilderProps {
   handleDragStart: (event: DragStartEvent) => void;
   handleDragEnd: (event: DragEndEvent) => void;
   handleDragOver: (event: DragOverEvent) => void;
-
-  // Simplified actions
   addNode: (
     position: Position,
     component: Component<ComponentConfig>,
     targetNodeId: string,
   ) => void;
-
   updateNode: (nodeId: string, updates: Partial<NodeData>) => void;
   removeNode: (nodeId: string) => void;
-
   addEdge: (edge: CustomEdge) => void;
   removeEdge: (edgeId: string) => void;
-
   selectedNode: CustomNode | null;
   setSelectedNode: (node: CustomNode | null) => void;
-
   undo: () => void;
   redo: () => void;
   syncToJson: () => MtComponent | null;
@@ -155,7 +149,6 @@ export interface TeamBuilderState extends TeamBuilderProps {
   layoutNodes: () => void;
   resetHistory: () => void;
   addToHistory: () => void;
-
   activeDragItem?: DragItemData | null;
   setActiveDragItem: (activeDragItem: DragItemData | null) => void;
   handleValidate: () => Promise<void>;
@@ -517,10 +510,7 @@ export const createWorkbrenchSlice: StateCreator<
               existingNames,
             );
           }
-
-          // const componentType =
-          //   clonedComponent.component_type || clonedComponent.componentType;
-          console.log("clonedComponent", clonedComponent);
+          // console.log("clonedComponent", clonedComponent);
           const newNode = {
             id: nanoid(),
             position,
