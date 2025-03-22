@@ -353,6 +353,7 @@ export const ModelFields = ({ component, onChange }: ModelFieldsProps) => {
 
   const handleComponentUpdate = useCallback(
     (updates: Partial<MtComponent>) => {
+      console.log("(model-fields)handleComponentUpdate", updates);
       onChange({
         ...component,
         ...updates,
@@ -367,6 +368,7 @@ export const ModelFields = ({ component, onChange }: ModelFieldsProps) => {
 
   const handleConfigUpdate = useCallback(
     (field: FieldName, value: unknown) => {
+      console.log("(model-fields)handleConfigUpdate", field, value);
       // Check if this field has a transform function
       const spec = fieldSpecs[field];
       const transformedValue = spec.transform?.toConfig

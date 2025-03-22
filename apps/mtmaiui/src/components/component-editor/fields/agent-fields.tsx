@@ -173,15 +173,6 @@ export const AgentFields = ({
     <div className="space-y-2">
       <DetailGroup title="Component Details">
         <div className="space-y-1">
-          {/* <label className="block" htmlFor="name">
-            <span className="text-sm font-medium text-primary">Name</span>
-          </label> */}
-
-          {/* <Input
-            value={component.label || ""}
-            onChange={(e) => handleComponentUpdate({ label: e.target.value })}
-            placeholder="Component name"
-          /> */}
           <FormField
             control={form.control}
             name="label"
@@ -210,21 +201,6 @@ export const AgentFields = ({
               </FormItem>
             )}
           />
-
-          {/* <label className="block" htmlFor="description">
-            <span className="text-sm font-medium text-primary">
-              Description
-            </span>
-            <Textarea
-              value={component.description || ""}
-              onChange={(e) =>
-                handleComponentUpdate({ description: e.target.value })
-              }
-              placeholder="Component description"
-              rows={4}
-              className="mt-1"
-            />
-          </label> */}
         </div>
       </DetailGroup>
       <DetailGroup title="Configuration">
