@@ -3,6 +3,8 @@
 import { Check, ChevronsUpDown } from "lucide-react";
 import * as React from "react";
 
+import { useQuery } from "@tanstack/react-query";
+import { modelListOptions } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { Button } from "mtxuilib/ui/button";
 import {
@@ -14,33 +16,19 @@ import {
   CommandList,
 } from "mtxuilib/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "mtxuilib/ui/popover";
-
-const componentTypes = [
-  {
-    value: "RoundRobinGroupChat",
-    label: "轮询群聊",
-  },
-  {
-    value: "SelectorGroupChat",
-    label: "选择群聊",
-  },
-  {
-    value: "Assisant",
-    label: "助手",
-  },
-  {
-    value: "MagenticOneGroupChat",
-    label: "磁力一号",
-  },
-  {
-    value: "instagramTeam",
-    label: "Instagram团队",
-  },
-];
+import { useTenantId } from "../../hooks/useAuth";
 
 export function ModelSelect(props: React.ComponentProps<"input">) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
+  const tid = useTenantId();
+  const modelQuery = useQuery({
+    ...modelListOptions({
+      path: {
+        tenant: tid,
+      },
+    }),
+  });
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -53,33 +41,36 @@ export function ModelSelect(props: React.ComponentProps<"input">) {
           className="w-[200px] justify-between"
         >
           {value
-            ? componentTypes.find((framework) => framework.value === value)
-                ?.label
-            : "选择组件类型"}
+            ? modelQuery.data?.rows?.find(
+                (model) => model.metadata?.id === value,
+              )?.name
+            : "选择模型"}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="选择组件类型" />
+          <CommandInput placeholder="选择模型" />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>No model found.</CommandEmpty>
             <CommandGroup>
-              {componentTypes.map((framework) => (
+              {modelQuery.data?.rows?.map((model) => (
                 <CommandItem
-                  key={framework.value}
-                  value={framework.value}
+                  key={model.metadata?.id}
+                  value={model.metadata?.id}
                   onSelect={(currentValue) => {
                     props.onChange?.(currentValue as any);
                     setValue(currentValue === value ? "" : currentValue);
                     setOpen(false);
                   }}
                 >
-                  {framework.label}
+                  {model.name}
                   <Check
                     className={cn(
                       "ml-auto",
-                      value === framework.value ? "opacity-100" : "opacity-0",
+                      value === model.metadata?.id
+                        ? "opacity-100"
+                        : "opacity-0",
                     )}
                   />
                 </CommandItem>
