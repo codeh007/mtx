@@ -1,34 +1,39 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
-import { teamRunMutation } from "mtmaiapi";
+import { teamGetOptions, teamRunMutation } from "mtmaiapi";
+import { zTeam } from "mtmaiapi/gomtmapi/zod.gen";
 import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";
-import { z } from "zod";
 import { useTenantId } from "../../../../../hooks/useAuth";
-import { useTeamBuilderStoreV2 } from "../../../../../stores/TeamBuilderStoreV2";
 
 export const Route = createLazyFileRoute("/coms/$comId/team_builder/team")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const team = useTeamBuilderStoreV2((x) => x.team);
+  // const team = useTeamBuilderStoreV2((x) => x.team);
+  const tid = useTenantId();
   const { comId } = Route.useParams();
 
-  const form = useZodForm({
-    schema: z.object({
-      label: z.string().optional(),
-      provider: z.string().optional(),
+  const teamQuery = useSuspenseQuery({
+    ...teamGetOptions({
+      path: {
+        tenant: tid,
+        team: comId,
+      },
     }),
+  });
+
+  const form = useZodForm({
+    schema: zTeam,
     defaultValues: {
-      ...team,
+      ...teamQuery.data,
     },
   });
   const handleSubmit = (values) => {
     form.handleSubmit(values);
   };
-  const tid = useTenantId();
   const runTeamMu = useMutation({
     ...teamRunMutation({}),
   });

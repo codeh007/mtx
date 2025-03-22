@@ -45,6 +45,20 @@ function RouteComponent() {
           </FormItem>
         )}
       />
+      <FormField
+        control={form.control}
+        name="provider"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>provider</FormLabel>
+            <FormControl>
+              <Input placeholder="provider" {...field} />
+            </FormControl>
+            {/* <FormDescription></FormDescription> */}
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </>
   );
 }
