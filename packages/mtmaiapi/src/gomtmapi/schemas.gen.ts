@@ -6674,7 +6674,7 @@ export const ThoughtEventSchema = {
 } as const;
 
 export const AgentPropertiesSchema = {
-  required: ["name", "description", "provider", "config"],
+  required: ["name", "description", "provider", "config", "teamId"],
   properties: {
     name: {
       type: "string",
@@ -6687,6 +6687,9 @@ export const AgentPropertiesSchema = {
     },
     config: {
       type: "object",
+    },
+    teamId: {
+      type: "string",
     },
   },
 } as const;

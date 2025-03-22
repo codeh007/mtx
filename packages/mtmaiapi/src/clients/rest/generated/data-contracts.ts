@@ -2820,6 +2820,7 @@ export interface AgentProperties {
   description: string;
   provider: string;
   config: object;
+  teamId: string;
 }
 
 export type Agent = APIResourceMetaProperties & AgentProperties;

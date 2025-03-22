@@ -1,23 +1,18 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { MtTabs, MtTabsList, MtTabsTrigger } from "mtxuilib/mt/tabs";
 import { z } from "zod";
-import { useTeamBuilderStore } from "../../../../stores/teamBuildStore";
+import { useTeamBuilderStoreV2 } from "../../../../stores/TeamBuilderStoreV2";
 
 export const Route = createLazyFileRoute("/coms/$comId/team_builder")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { comId } = Route.useParams();
-  const selectedNode = useTeamBuilderStore((x) => x.selectedNode);
-  const setSelectedNode = useTeamBuilderStore((x) => x.setSelectedNode);
-  const updateNode = useTeamBuilderStore((x) => x.updateNode);
-  const handleSave = useTeamBuilderStore((x) => x.handleSave);
-
-  const component = useTeamBuilderStore((x) => x.component);
+  const team = useTeamBuilderStoreV2((x) => x.team);
 
   const form = useZodForm({
     schema: z.object({
@@ -25,14 +20,17 @@ function RouteComponent() {
       provider: z.string().optional(),
     }),
     defaultValues: {
-      ...component,
+      ...team,
     },
   });
   const handleSubmit = (values) => {
-    console.log("(handleSubmit)", values);
+    // console.log("(handleSubmit)", values);
+    form.handleSubmit(values);
   };
+
   return (
     <ZForm form={form} handleSubmit={handleSubmit} className="px-4 space-y-4">
+      <DebugValue data={{ team }} />
       <MtTabs defaultValue="team" className="w-full">
         <MtTabsList layout="underlined">
           <CustomLink to="team">

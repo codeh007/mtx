@@ -3778,10 +3778,18 @@ export class Api<
    * @request GET:/api/v1/tenants/{tenant}/agents
    * @secure
    */
-  agentList = (tenant: TenantParameter, params: RequestParams = {}) =>
+  agentList = (
+    tenant: TenantParameter,
+    query?: {
+      /** The team id */
+      team?: string;
+    },
+    params: RequestParams = {},
+  ) =>
     this.request<AgentList, APIErrors>({
       path: `/api/v1/tenants/${tenant}/agents`,
       method: "GET",
+      query: query,
       secure: true,
       format: "json",
       ...params,
@@ -3817,10 +3825,10 @@ export class Api<
   agentUpsert = (
     tenant: TenantParameter,
     agent: string,
-    data: MtComponent,
+    data: Agent,
     params: RequestParams = {},
   ) =>
-    this.request<MtComponent, APIErrors>({
+    this.request<Agent, APIErrors>({
       path: `/api/v1/tenants/${tenant}/agents/${agent}`,
       method: "PATCH",
       body: data,

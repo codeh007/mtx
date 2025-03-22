@@ -3366,6 +3366,7 @@ export type AgentProperties = {
   config: {
     [key: string]: unknown;
   };
+  teamId: string;
 };
 
 export type Agent = ApiResourceMetaProperties & AgentProperties;
@@ -9434,7 +9435,12 @@ export type AgentListData = {
      */
     tenant: TenantParameter;
   };
-  query?: never;
+  query?: {
+    /**
+     * The team id
+     */
+    team?: string;
+  };
   url: "/api/v1/tenants/{tenant}/agents";
 };
 
@@ -9500,7 +9506,7 @@ export type AgentUpsertData = {
   /**
    * The model properties to update
    */
-  body: MtComponent;
+  body: Agent;
   path: {
     /**
      * The tenant id
@@ -9530,9 +9536,9 @@ export type AgentUpsertError = AgentUpsertErrors[keyof AgentUpsertErrors];
 
 export type AgentUpsertResponses = {
   /**
-   * Successfully upserted the mt component
+   * Successfully upserted the agent
    */
-  200: MtComponent;
+  200: Agent;
 };
 
 export type AgentUpsertResponse =

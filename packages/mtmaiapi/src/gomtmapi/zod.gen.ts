@@ -6605,6 +6605,7 @@ export const zAgentProperties = z.object({
   description: z.string(),
   provider: z.string(),
   config: z.object({}),
+  teamId: z.string(),
 });
 
 export const zAgent = zApiResourceMetaProperties.merge(zAgentProperties);
@@ -6945,4 +6946,4 @@ export const zAgentListResponse = zAgentList;
 
 export const zAgentGetResponse = zAgent;
 
-export const zAgentUpsertResponse = zMtComponent;
+export const zAgentUpsertResponse = zAgent;
