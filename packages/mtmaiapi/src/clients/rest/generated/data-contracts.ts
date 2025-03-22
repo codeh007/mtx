@@ -1397,7 +1397,7 @@ export interface WebhookWorkerListResponse {
 }
 
 export interface APIResourceMetaProperties {
-  metadata?: APIResourceMeta;
+  metadata: APIResourceMeta;
 }
 
 export interface CommonResult {

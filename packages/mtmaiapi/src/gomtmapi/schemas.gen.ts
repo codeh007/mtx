@@ -2910,7 +2910,7 @@ export const WebhookWorkerListResponseSchema = {
 } as const;
 
 export const APIResourceMetaPropertiesSchema = {
-  type: "object",
+  required: ["metadata"],
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",

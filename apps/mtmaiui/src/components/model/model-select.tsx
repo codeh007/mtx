@@ -1,12 +1,13 @@
 "use client";
 
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, PlusIcon } from "lucide-react";
 import * as React from "react";
 
 import { useQuery } from "@tanstack/react-query";
 import { modelListOptions } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
-import { Button } from "mtxuilib/ui/button";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
+import { Button, buttonVariants } from "mtxuilib/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -52,7 +53,17 @@ export function ModelSelect(props: React.ComponentProps<"input">) {
         <Command>
           <CommandInput placeholder="选择模型" />
           <CommandList>
-            <CommandEmpty>No model found.</CommandEmpty>
+            <CommandEmpty>
+              No model found.
+              <CustomLink
+                to={"/model/new"}
+                className={cn(
+                  buttonVariants({ variant: "ghost", size: "icon" }),
+                )}
+              >
+                <PlusIcon className="h-4 w-4" />
+              </CustomLink>
+            </CommandEmpty>
             <CommandGroup>
               {modelQuery.data?.rows?.map((model) => (
                 <CommandItem

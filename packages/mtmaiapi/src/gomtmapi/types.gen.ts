@@ -1647,7 +1647,7 @@ export type WebhookWorkerListResponse = {
 };
 
 export type ApiResourceMetaProperties = {
-  metadata?: ApiResourceMeta;
+  metadata: ApiResourceMeta;
 };
 
 export type CommonResult = {

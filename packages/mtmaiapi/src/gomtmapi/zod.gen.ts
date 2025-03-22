@@ -1392,7 +1392,7 @@ export const zWebhookWorkerListResponse = z.object({
 });
 
 export const zApiResourceMetaProperties = z.object({
-  metadata: zApiResourceMeta.optional(),
+  metadata: zApiResourceMeta,
 });
 
 export const zCommonResult = z.object({

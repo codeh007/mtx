@@ -76,6 +76,7 @@ const PlatformAccountCreateLazyImport = createFileRoute(
 const PlatformAccountPlatformAccountIdRouteLazyImport = createFileRoute(
   '/platform-account/$platformAccountId',
 )()
+const ModelNewRouteLazyImport = createFileRoute('/model/new')()
 const GalleryGalleryIdRouteLazyImport = createFileRoute('/gallery/$galleryId')()
 const ComsComIdRouteLazyImport = createFileRoute('/coms/$comId')()
 const AuthRegisterLazyImport = createFileRoute('/auth/register')()
@@ -150,6 +151,7 @@ const PlayChatIndexLazyImport = createFileRoute('/play/chat/')()
 const PlatformAccountPlatformAccountIdIndexLazyImport = createFileRoute(
   '/platform-account/$platformAccountId/',
 )()
+const ModelNewIndexLazyImport = createFileRoute('/model/new/')()
 const ComsComIdIndexLazyImport = createFileRoute('/coms/$comId/')()
 const AuthLoginIndexLazyImport = createFileRoute('/auth/login/')()
 const WorkflowsWorkflowIdTriggerSmolaRouteLazyImport = createFileRoute(
@@ -522,6 +524,14 @@ const PlatformAccountPlatformAccountIdRouteLazyRoute =
       (d) => d.Route,
     ),
   )
+
+const ModelNewRouteLazyRoute = ModelNewRouteLazyImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => ModelRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~model/~new/~route.lazy').then((d) => d.Route),
+)
 
 const GalleryGalleryIdRouteLazyRoute = GalleryGalleryIdRouteLazyImport.update({
   id: '/$galleryId',
@@ -912,6 +922,14 @@ const PlatformAccountPlatformAccountIdIndexLazyRoute =
       (d) => d.Route,
     ),
   )
+
+const ModelNewIndexLazyRoute = ModelNewIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ModelNewRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~model/~new/~index.lazy').then((d) => d.Route),
+)
 
 const ComsComIdIndexLazyRoute = ComsComIdIndexLazyImport.update({
   id: '/',
@@ -1767,6 +1785,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GalleryGalleryIdRouteLazyImport
       parentRoute: typeof GalleryRouteLazyImport
     }
+    '/model/new': {
+      id: '/model/new'
+      path: '/new'
+      fullPath: '/model/new'
+      preLoaderRoute: typeof ModelNewRouteLazyImport
+      parentRoute: typeof ModelRouteLazyImport
+    }
     '/platform-account/$platformAccountId': {
       id: '/platform-account/$platformAccountId'
       path: '/$platformAccountId'
@@ -1899,6 +1924,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/coms/$comId/'
       preLoaderRoute: typeof ComsComIdIndexLazyImport
       parentRoute: typeof ComsComIdRouteLazyImport
+    }
+    '/model/new/': {
+      id: '/model/new/'
+      path: '/'
+      fullPath: '/model/new/'
+      preLoaderRoute: typeof ModelNewIndexLazyImport
+      parentRoute: typeof ModelNewRouteLazyImport
     }
     '/platform-account/$platformAccountId/': {
       id: '/platform-account/$platformAccountId/'
@@ -2761,12 +2793,25 @@ const GalleryRouteLazyRouteChildren: GalleryRouteLazyRouteChildren = {
 const GalleryRouteLazyRouteWithChildren =
   GalleryRouteLazyRoute._addFileChildren(GalleryRouteLazyRouteChildren)
 
+interface ModelNewRouteLazyRouteChildren {
+  ModelNewIndexLazyRoute: typeof ModelNewIndexLazyRoute
+}
+
+const ModelNewRouteLazyRouteChildren: ModelNewRouteLazyRouteChildren = {
+  ModelNewIndexLazyRoute: ModelNewIndexLazyRoute,
+}
+
+const ModelNewRouteLazyRouteWithChildren =
+  ModelNewRouteLazyRoute._addFileChildren(ModelNewRouteLazyRouteChildren)
+
 interface ModelRouteLazyRouteChildren {
   ModelIndexLazyRoute: typeof ModelIndexLazyRoute
+  ModelNewRouteLazyRoute: typeof ModelNewRouteLazyRouteWithChildren
 }
 
 const ModelRouteLazyRouteChildren: ModelRouteLazyRouteChildren = {
   ModelIndexLazyRoute: ModelIndexLazyRoute,
+  ModelNewRouteLazyRoute: ModelNewRouteLazyRouteWithChildren,
 }
 
 const ModelRouteLazyRouteWithChildren = ModelRouteLazyRoute._addFileChildren(
@@ -3342,6 +3387,7 @@ export interface FileRoutesByFullPath {
   '/auth/register': typeof AuthRegisterLazyRoute
   '/coms/$comId': typeof ComsComIdRouteLazyRouteWithChildren
   '/gallery/$galleryId': typeof GalleryGalleryIdRouteLazyRoute
+  '/model/new': typeof ModelNewRouteLazyRouteWithChildren
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
   '/platform-account/create': typeof PlatformAccountCreateLazyRoute
   '/play/chat': typeof PlayChatRouteLazyRouteWithChildren
@@ -3361,6 +3407,7 @@ export interface FileRoutesByFullPath {
   '/site/$siteId/host': typeof SiteSiteIdHostRouteRouteWithChildren
   '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/coms/$comId/': typeof ComsComIdIndexLazyRoute
+  '/model/new/': typeof ModelNewIndexLazyRoute
   '/platform-account/$platformAccountId/': typeof PlatformAccountPlatformAccountIdIndexLazyRoute
   '/play/chat/': typeof PlayChatIndexLazyRoute
   '/resource/$resId/': typeof ResourceResIdIndexLazyRoute
@@ -3469,6 +3516,7 @@ export interface FileRoutesByTo {
   '/site/$siteId/edit': typeof SiteSiteIdEditRoute
   '/auth/login': typeof AuthLoginIndexLazyRoute
   '/coms/$comId': typeof ComsComIdIndexLazyRoute
+  '/model/new': typeof ModelNewIndexLazyRoute
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdIndexLazyRoute
   '/play/chat': typeof PlayChatIndexLazyRoute
   '/resource/$resId': typeof ResourceResIdIndexLazyRoute
@@ -3569,6 +3617,7 @@ export interface FileRoutesById {
   '/auth/register': typeof AuthRegisterLazyRoute
   '/coms/$comId': typeof ComsComIdRouteLazyRouteWithChildren
   '/gallery/$galleryId': typeof GalleryGalleryIdRouteLazyRoute
+  '/model/new': typeof ModelNewRouteLazyRouteWithChildren
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
   '/platform-account/create': typeof PlatformAccountCreateLazyRoute
   '/play/chat': typeof PlayChatRouteLazyRouteWithChildren
@@ -3588,6 +3637,7 @@ export interface FileRoutesById {
   '/site/$siteId/host': typeof SiteSiteIdHostRouteRouteWithChildren
   '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/coms/$comId/': typeof ComsComIdIndexLazyRoute
+  '/model/new/': typeof ModelNewIndexLazyRoute
   '/platform-account/$platformAccountId/': typeof PlatformAccountPlatformAccountIdIndexLazyRoute
   '/play/chat/': typeof PlayChatIndexLazyRoute
   '/resource/$resId/': typeof ResourceResIdIndexLazyRoute
@@ -3709,6 +3759,7 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/coms/$comId'
     | '/gallery/$galleryId'
+    | '/model/new'
     | '/platform-account/$platformAccountId'
     | '/platform-account/create'
     | '/play/chat'
@@ -3728,6 +3779,7 @@ export interface FileRouteTypes {
     | '/site/$siteId/host'
     | '/auth/login/'
     | '/coms/$comId/'
+    | '/model/new/'
     | '/platform-account/$platformAccountId/'
     | '/play/chat/'
     | '/resource/$resId/'
@@ -3835,6 +3887,7 @@ export interface FileRouteTypes {
     | '/site/$siteId/edit'
     | '/auth/login'
     | '/coms/$comId'
+    | '/model/new'
     | '/platform-account/$platformAccountId'
     | '/play/chat'
     | '/resource/$resId'
@@ -3933,6 +3986,7 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/coms/$comId'
     | '/gallery/$galleryId'
+    | '/model/new'
     | '/platform-account/$platformAccountId'
     | '/platform-account/create'
     | '/play/chat'
@@ -3952,6 +4006,7 @@ export interface FileRouteTypes {
     | '/site/$siteId/host'
     | '/auth/login/'
     | '/coms/$comId/'
+    | '/model/new/'
     | '/platform-account/$platformAccountId/'
     | '/play/chat/'
     | '/resource/$resId/'
@@ -4154,7 +4209,8 @@ export const routeTree = rootRoute
     "/model": {
       "filePath": "~model/~route.lazy.tsx",
       "children": [
-        "/model/"
+        "/model/",
+        "/model/new"
       ]
     },
     "/platform": {
@@ -4355,6 +4411,13 @@ export const routeTree = rootRoute
       "filePath": "~gallery/~$galleryId/~route.lazy.tsx",
       "parent": "/gallery"
     },
+    "/model/new": {
+      "filePath": "~model/~new/~route.lazy.tsx",
+      "parent": "/model",
+      "children": [
+        "/model/new/"
+      ]
+    },
     "/platform-account/$platformAccountId": {
       "filePath": "~platform-account/~$platformAccountId/~route.lazy.tsx",
       "parent": "/platform-account",
@@ -4472,6 +4535,10 @@ export const routeTree = rootRoute
     "/coms/$comId/": {
       "filePath": "~coms/~$comId/~index.lazy.tsx",
       "parent": "/coms/$comId"
+    },
+    "/model/new/": {
+      "filePath": "~model/~new/~index.lazy.tsx",
+      "parent": "/model/new"
     },
     "/platform-account/$platformAccountId/": {
       "filePath": "~platform-account/~$platformAccountId/~index.lazy.tsx",
