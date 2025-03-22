@@ -1695,12 +1695,7 @@ export interface TeamConfigBase {
 
 export type SmolaAgentComponent = AgentComponent & {
   provider: "mtmai.agents.smola_agent.SmolaAgent";
-  config: SmolaAgentConfig;
-};
-
-export type SmolaAgentConfig = AgentConfig & {
-  model_client: ModelComponent;
-  name?: string;
+  config: Record<string, any>;
 };
 
 export type ParticipantsProperty =

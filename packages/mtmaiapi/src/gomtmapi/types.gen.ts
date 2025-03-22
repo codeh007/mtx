@@ -1995,12 +1995,9 @@ export type TeamConfigBase = {
 
 export type SmolaAgentComponent = AgentComponent & {
   provider: "mtmai.agents.smola_agent.SmolaAgent";
-  config: SmolaAgentConfig;
-};
-
-export type SmolaAgentConfig = AgentConfig & {
-  model_client: ModelComponent;
-  name?: string;
+  config: {
+    [key: string]: unknown;
+  };
 };
 
 export type ParticipantsProperty =

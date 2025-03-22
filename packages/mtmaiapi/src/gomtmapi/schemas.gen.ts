@@ -3578,26 +3578,8 @@ export const SmolaAgentComponentSchema = {
           enum: ["mtmai.agents.smola_agent.SmolaAgent"],
         },
         config: {
-          $ref: "#/components/schemas/SmolaAgentConfig",
-        },
-      },
-    },
-  ],
-} as const;
-
-export const SmolaAgentConfigSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/AgentConfig",
-    },
-    {
-      required: ["model_client"],
-      properties: {
-        model_client: {
-          $ref: "#/components/schemas/ModelComponent",
-        },
-        name: {
-          type: "string",
+          type: "object",
+          additionalProperties: true,
         },
       },
     },
