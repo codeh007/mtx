@@ -4,7 +4,7 @@ import type { MtComponent } from "mtmaiapi";
 import { MonacoEditor } from "mtxuilib/mt/monaco";
 import { Breadcrumb } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   isAgentComponent,
   isModelComponent,
