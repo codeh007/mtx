@@ -23,13 +23,14 @@ export interface ComponentEditorProps {
 }
 
 export interface ComponentsProps {
-  queryParams?: Record<string, any>;
+  // queryParams?: Record<string, any>;
+  componentId?: string;
 }
 
 export interface ComponentsState extends ComponentsProps {
   isPending: boolean;
   components: MtComponent[];
-  setQueryParams: (queryParams: Record<string, any>) => void;
+  // setQueryParams: (queryParams: Record<string, any>) => void;
   isJsonEditing: boolean;
   setIsJsonEditing: (isJsonEditing: boolean) => void;
   editPath: EditPath[];
@@ -46,15 +47,15 @@ export const createComponentEditorStoreSlice: StateCreator<
 > = (set, get, init) => {
   return {
     isPending: false,
-    setQueryParams: (queryParams: Record<string, any>) => {
-      set({ queryParams });
-    },
+    // setQueryParams: (queryParams: Record<string, any>) => {
+    //   set({ queryParams });
+    // },
     isJsonEditing: false,
     setIsJsonEditing: (isJsonEditing: boolean) => {
       set({ isJsonEditing });
     },
     editPath: [],
-    setEditPath: (editPath: EditPath[]) => {
+    setEditPath: (editPath) => {
       set({ editPath });
     },
     workingCopy: {},

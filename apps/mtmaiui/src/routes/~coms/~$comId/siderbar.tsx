@@ -32,7 +32,7 @@ export function NavComsWithLibrary() {
 
   const linkToNew = useMemo(() => {
     const newUUID = generateUUID();
-    return `${newUUID}/new`;
+    return `/coms/${newUUID}`;
   }, []);
 
   const setQueryParams = useComponentsStore((x) => x.setQueryParams);
@@ -55,7 +55,6 @@ export function NavComsWithLibrary() {
         <SidebarInput
           placeholder="Type to search..."
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            // console.log("sidebar input", e.target.value);
             setQueryParams({
               label: e.target.value,
             });

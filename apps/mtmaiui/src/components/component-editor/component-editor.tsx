@@ -1,6 +1,7 @@
 import debounce from "lodash.debounce";
 import { ChevronLeft, Code, FormInput } from "lucide-react";
 import type { MtComponent } from "mtmaiapi";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { MonacoEditor } from "mtxuilib/mt/monaco";
 import { Breadcrumb } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
@@ -42,12 +43,13 @@ export const ComponentEditor = ({
   // Reset working copy when component changes
   useEffect(() => {
     setWorkingCopy(component);
-    setEditPath([]);
+    // setEditPath([]);
   }, [component]);
 
   const getCurrentComponent = useCallback(
     (root: MtComponent) => {
-      return editPath.reduce<MtComponent | null>((current, path) => {
+      console.log("(getCurrentComponent)editPath", editPath);
+      return editPath?.reduce<MtComponent | null>((current, path) => {
         if (!current) return null;
 
         const field = current.config[
@@ -176,12 +178,9 @@ export const ComponentEditor = ({
       index?: number,
     ) => {
       if (!navigationDepth) return;
-      setEditPath((prev) => [
-        ...prev,
-        { componentType, id, parentField, index },
-      ]);
+      setEditPath([...editPath, { componentType, id, parentField, index }]);
     },
-    [navigationDepth],
+    [navigationDepth, editPath],
   );
 
   const handleNavigateBack = useCallback(() => {
@@ -286,6 +285,7 @@ export const ComponentEditor = ({
             <ChevronLeft className="size-4" />
           </Button>
         )}
+        <DebugValue data={{ editPath }} />
         <div className="flex-1">
           <Breadcrumb items={breadcrumbItems} />
         </div>
