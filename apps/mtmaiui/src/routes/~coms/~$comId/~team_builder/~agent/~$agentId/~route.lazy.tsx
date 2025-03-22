@@ -41,7 +41,7 @@ function RouteComponent() {
       <DebugValue data={agentQuery.data} />
       <MtTabs defaultValue="agent" className="w-full">
         <MtTabsList layout="underlined">
-          <CustomLink to="agent">
+          <CustomLink to=".">
             <MtTabsTrigger variant="underlined" value="agent">
               agent
             </MtTabsTrigger>
@@ -52,8 +52,8 @@ function RouteComponent() {
             </MtTabsTrigger>
           </CustomLink>
         </MtTabsList>
-        <Outlet />
       </MtTabs>
+      <Outlet />
     </ZForm>
   );
 }
