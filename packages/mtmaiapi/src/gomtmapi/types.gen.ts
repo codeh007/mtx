@@ -3359,19 +3359,37 @@ export type ThoughtEvent = {
   };
 };
 
-export type Agent = ApiResourceMetaProperties & AgentProperties;
-
 export type AgentProperties = {
   name: string;
   description: string;
+  provider: string;
+  config: {
+    [key: string]: unknown;
+  };
 };
 
-export type Team = ApiResourceMetaProperties & MtResourceProperties;
+export type Agent = ApiResourceMetaProperties & AgentProperties;
+
+export type AgentList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Agent>;
+};
 
 export type TeamProperties = {
   id: string;
   name: string;
   description: string;
+  provider: string;
+  config: {
+    [key: string]: unknown;
+  };
+};
+
+export type Team = ApiResourceMetaProperties & TeamProperties;
+
+export type TeamList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Team>;
 };
 
 export type ReadinessGetData = {
@@ -9327,7 +9345,7 @@ export type TeamListErrors = {
 export type TeamListError = TeamListErrors[keyof TeamListErrors];
 
 export type TeamListResponses = {
-  200: MtComponentList;
+  200: TeamList;
 };
 
 export type TeamListResponse = TeamListResponses[keyof TeamListResponses];
@@ -9371,7 +9389,7 @@ export type TeamUpsertData = {
   /**
    * The model properties to update
    */
-  body: MtComponent;
+  body: Team;
   path: {
     /**
      * The tenant id
@@ -9403,7 +9421,7 @@ export type TeamUpsertResponses = {
   /**
    * Successfully upserted the mt component
    */
-  200: MtComponent;
+  200: Team;
 };
 
 export type TeamUpsertResponse = TeamUpsertResponses[keyof TeamUpsertResponses];
@@ -9438,7 +9456,7 @@ export type AgentListErrors = {
 export type AgentListError = AgentListErrors[keyof AgentListErrors];
 
 export type AgentListResponses = {
-  200: MtComponentList;
+  200: AgentList;
 };
 
 export type AgentListResponse = AgentListResponses[keyof AgentListResponses];

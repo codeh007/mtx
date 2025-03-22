@@ -12,6 +12,7 @@
 import {
   AcceptInviteRequest,
   Agent,
+  AgentList,
   AgEvent,
   AgEventList,
   AgState,
@@ -111,6 +112,7 @@ import {
   StepRunArchiveList,
   StepRunEventList,
   Team,
+  TeamList,
   Tenant,
   TenantAlertEmailGroup,
   TenantAlertEmailGroupList,
@@ -3717,7 +3719,7 @@ export class Api<
     },
     params: RequestParams = {},
   ) =>
-    this.request<MtComponentList, APIErrors>({
+    this.request<TeamList, APIErrors>({
       path: `/api/v1/tenants/${tenant}/teams`,
       method: "GET",
       query: query,
@@ -3756,10 +3758,10 @@ export class Api<
   teamUpsert = (
     tenant: TenantParameter,
     team: string,
-    data: MtComponent,
+    data: Team,
     params: RequestParams = {},
   ) =>
-    this.request<MtComponent, APIErrors>({
+    this.request<Team, APIErrors>({
       path: `/api/v1/tenants/${tenant}/teams/${team}`,
       method: "PATCH",
       body: data,
@@ -3777,7 +3779,7 @@ export class Api<
    * @secure
    */
   agentList = (tenant: TenantParameter, params: RequestParams = {}) =>
-    this.request<MtComponentList, APIErrors>({
+    this.request<AgentList, APIErrors>({
       path: `/api/v1/tenants/${tenant}/agents`,
       method: "GET",
       secure: true,

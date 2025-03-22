@@ -6673,6 +6673,24 @@ export const ThoughtEventSchema = {
   },
 } as const;
 
+export const AgentPropertiesSchema = {
+  required: ["name", "description", "provider", "config"],
+  properties: {
+    name: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    provider: {
+      type: "string",
+    },
+    config: {
+      type: "object",
+    },
+  },
+} as const;
+
 export const AgentSchema = {
   allOf: [
     {
@@ -6684,27 +6702,18 @@ export const AgentSchema = {
   ],
 } as const;
 
-export const AgentPropertiesSchema = {
-  required: ["name", "description"],
+export const AgentListSchema = {
   properties: {
-    name: {
-      type: "string",
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
     },
-    description: {
-      type: "string",
+    rows: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/Agent",
+      },
     },
   },
-} as const;
-
-export const TeamSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/APIResourceMetaProperties",
-    },
-    {
-      $ref: "#/components/schemas/MtResourceProperties",
-    },
-  ],
 } as const;
 
 export const TeamPropertiesSchema = {
@@ -6719,6 +6728,37 @@ export const TeamPropertiesSchema = {
     description: {
       type: "string",
     },
+    provider: {
+      type: "string",
+    },
+    config: {
+      type: "object",
+    },
   },
-  required: ["id", "name", "description"],
+  required: ["id", "name", "description", "provider", "config"],
+} as const;
+
+export const TeamSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/TeamProperties",
+    },
+  ],
+} as const;
+
+export const TeamListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/Team",
+      },
+    },
+  },
 } as const;

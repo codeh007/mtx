@@ -6600,24 +6600,33 @@ export const zThoughtEvent = z.object({
   models_usage: z.object({}).optional(),
 });
 
-export const zAgent = zApiResourceMetaProperties.merge(
-  z.object({
-    name: z.string(),
-    description: z.string(),
-  }),
-);
-
 export const zAgentProperties = z.object({
   name: z.string(),
   description: z.string(),
+  provider: z.string(),
+  config: z.object({}),
 });
 
-export const zTeam = zApiResourceMetaProperties.merge(zMtResourceProperties);
+export const zAgent = zApiResourceMetaProperties.merge(zAgentProperties);
+
+export const zAgentList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zAgent).optional(),
+});
 
 export const zTeamProperties = z.object({
   id: z.string(),
   name: z.string(),
   description: z.string(),
+  provider: z.string(),
+  config: z.object({}),
+});
+
+export const zTeam = zApiResourceMetaProperties.merge(zTeamProperties);
+
+export const zTeamList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zTeam).optional(),
 });
 
 export const zMetadataGetResponse = zApiMeta;
@@ -6926,13 +6935,13 @@ export const zSettingsUpsertResponse = zTenantSetting;
 
 export const zSettingsGetResponse = zTenantSetting;
 
-export const zTeamListResponse = zMtComponentList;
+export const zTeamListResponse = zTeamList;
 
 export const zTeamGetResponse = zTeam;
 
-export const zTeamUpsertResponse = zMtComponent;
+export const zTeamUpsertResponse = zTeam;
 
-export const zAgentListResponse = zMtComponentList;
+export const zAgentListResponse = zAgentList;
 
 export const zAgentGetResponse = zAgent;
 

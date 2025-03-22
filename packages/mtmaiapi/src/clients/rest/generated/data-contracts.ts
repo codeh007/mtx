@@ -2815,17 +2815,31 @@ export interface ThoughtEvent {
   models_usage?: Record<string, any>;
 }
 
-export type Agent = APIResourceMetaProperties & AgentProperties;
-
 export interface AgentProperties {
   name: string;
   description: string;
+  provider: string;
+  config: object;
 }
 
-export type Team = APIResourceMetaProperties & MtResourceProperties;
+export type Agent = APIResourceMetaProperties & AgentProperties;
+
+export interface AgentList {
+  pagination?: PaginationResponse;
+  rows?: Agent[];
+}
 
 export interface TeamProperties {
   id: string;
   name: string;
   description: string;
+  provider: string;
+  config: object;
+}
+
+export type Team = APIResourceMetaProperties & TeamProperties;
+
+export interface TeamList {
+  pagination?: PaginationResponse;
+  rows?: Team[];
 }
