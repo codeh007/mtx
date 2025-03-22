@@ -95,6 +95,7 @@ export const ComponentEditor = ({
       updates: Partial<MtComponent>,
     ): MtComponent => {
       if (path.length === 0) {
+        console.log("(updateComponentAtPath)root", root);
         return {
           ...root,
           ...updates,
@@ -110,6 +111,7 @@ export const ComponentEditor = ({
         root.config[currentPath.parentField as keyof typeof root.config];
 
       const updateField = (fieldValue: any): any => {
+        console.log("(updateField)fieldValue", fieldValue);
         if (Array.isArray(fieldValue)) {
           // If we have an index, use it directly for the update
           if (
@@ -127,7 +129,7 @@ export const ComponentEditor = ({
 
           // Fallback to label/name lookup
           return fieldValue.map((item) => {
-            if (!("component_type" in item)) return item;
+            if (!("componentType" in item)) return item;
             if (
               item.label === currentPath.id ||
               ("name" in item.config && item.config.name === currentPath.id)
@@ -138,7 +140,7 @@ export const ComponentEditor = ({
           });
         }
 
-        if (fieldValue && "component_type" in fieldValue) {
+        if (fieldValue && "componentType" in fieldValue) {
           return updateComponentAtPath(
             fieldValue as MtComponent,
             remainingPath,
@@ -307,30 +309,25 @@ export const ComponentEditor = ({
               <ChevronLeft className="size-4 pr-2" />
             </Button>
           )}
-          <DebugValue data={{ editPath }} />
           <div className="flex-1">
             <Breadcrumb items={breadcrumbItems} />
           </div>
+          <DebugValue data={{ editPath, workingCopy }} />
+
           <Button
-            onClick={() => setIsJsonEditing((prev) => !prev)}
+            onClick={() => setIsJsonEditing(!isJsonEditing)}
             variant="ghost"
-            // size="icon"
+            size="icon"
           >
             {isJsonEditing ? (
-              <>
-                <FormInput className="size-4 text-accent mr-1 inline-block" />
-                Form
-              </>
+              <FormInput className="size-4" />
             ) : (
-              <>
-                <Code className="size-4 text-accent mr-1 inline-block" />
-                JSON
-              </>
+              <Code className="size-4" />
             )}
           </Button>
         </div>
         {isJsonEditing ? (
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto min-h-[600px] h-lvh w-full overflow-scroll min-w-xl ">
             <MonacoEditor
               editorRef={editorRef}
               value={JSON.stringify(workingCopy, null, 2)}

@@ -457,7 +457,8 @@ export const AgentFields = ({
                               )
                             }
                           >
-                            <Edit className="size-4" /> Configure Model
+                            <Edit className="size-4" />
+                            模型配置
                           </Button>
                         )}
                       </div>

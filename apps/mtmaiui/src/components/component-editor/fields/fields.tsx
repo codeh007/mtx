@@ -166,7 +166,7 @@ export const NestedComponentButton: React.FC<NestedComponentButtonProps> = ({
 }) => {
   if (Array.isArray(component)) {
     return (
-      <div className="space-y-2 mb-4">
+      <div className="space-y-2 mb-2">
         <div className="flex justify-between items-center">
           <span className="text-sm font-medium">{label}</span>
           {parentField === "tools" && (

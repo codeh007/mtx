@@ -37,6 +37,7 @@ export interface ComponentsState extends ComponentsProps {
   setEditPath: (editPath: EditPath[]) => void;
   workingCopy: MtComponent;
   setWorkingCopy: (workingCopy: MtComponent) => void;
+  // handleNavigateBack: () => void;
 }
 
 export const createComponentEditorStoreSlice: StateCreator<
@@ -62,6 +63,10 @@ export const createComponentEditorStoreSlice: StateCreator<
     setWorkingCopy: (workingCopy: MtComponent) => {
       set({ workingCopy });
     },
+    // handleNavigateBack: () => {
+    //   const { editPath } = get();
+    //   set({ editPath: editPath.slice(0, -1) });
+    // },
     ...init,
   };
 };
