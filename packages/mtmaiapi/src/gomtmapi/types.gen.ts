@@ -3386,6 +3386,7 @@ export type TeamProperties = {
   config: {
     [key: string]: unknown;
   };
+  maxTurns: number;
 };
 
 export type Team = ApiResourceMetaProperties & TeamProperties;
@@ -3396,7 +3397,6 @@ export type TeamList = {
 };
 
 export type TeamRun = {
-  teamId?: string;
   task?: string;
 };
 

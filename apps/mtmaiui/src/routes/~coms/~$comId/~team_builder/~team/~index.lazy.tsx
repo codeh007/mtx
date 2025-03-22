@@ -59,6 +59,24 @@ function RouteComponent() {
           </FormItem>
         )}
       />
+      <FormField
+        control={form.control}
+        name="maxTurns"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>maxTurns</FormLabel>
+            <FormControl>
+              <Input
+                placeholder="maxTurns"
+                {...form.register("maxTurns", { valueAsNumber: true })}
+                type="number"
+              />
+            </FormControl>
+            {/* <FormDescription></FormDescription> */}
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </>
   );
 }

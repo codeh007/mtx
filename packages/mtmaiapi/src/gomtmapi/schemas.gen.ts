@@ -6737,8 +6737,12 @@ export const TeamPropertiesSchema = {
     config: {
       type: "object",
     },
+    maxTurns: {
+      type: "integer",
+      default: 25,
+    },
   },
-  required: ["id", "name", "description", "provider", "config"],
+  required: ["id", "name", "description", "provider", "config", "maxTurns"],
 } as const;
 
 export const TeamSchema = {
@@ -6769,9 +6773,6 @@ export const TeamListSchema = {
 export const TeamRunSchema = {
   type: "object",
   properties: {
-    teamId: {
-      type: "string",
-    },
     task: {
       type: "string",
     },

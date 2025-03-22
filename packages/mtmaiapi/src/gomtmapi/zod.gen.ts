@@ -6622,6 +6622,7 @@ export const zTeamProperties = z.object({
   description: z.string(),
   provider: z.string(),
   config: z.object({}),
+  maxTurns: z.number().int().default(25),
 });
 
 export const zTeam = zApiResourceMetaProperties.merge(zTeamProperties);
@@ -6632,7 +6633,6 @@ export const zTeamList = z.object({
 });
 
 export const zTeamRun = z.object({
-  teamId: z.string().optional(),
   task: z.string().optional(),
 });
 

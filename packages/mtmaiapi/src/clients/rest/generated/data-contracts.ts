@@ -2837,6 +2837,8 @@ export interface TeamProperties {
   description: string;
   provider: string;
   config: object;
+  /** @default 25 */
+  maxTurns: number;
 }
 
 export type Team = APIResourceMetaProperties & TeamProperties;
@@ -2847,7 +2849,6 @@ export interface TeamList {
 }
 
 export interface TeamRun {
-  teamId?: string;
   task?: string;
 }
 
