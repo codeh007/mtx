@@ -167,11 +167,12 @@ export const ComponentEditor = ({
         editPath,
         updates,
       );
+      console.log("(component-editor)handleComponentUpdate", updatedComponent);
 
       setWorkingCopy(updatedComponent);
       onChange?.(updatedComponent);
     },
-    [workingCopy, editPath, updateComponentAtPath],
+    [workingCopy, editPath, updateComponentAtPath, setWorkingCopy, onChange],
   );
 
   const handleNavigate = useCallback(
