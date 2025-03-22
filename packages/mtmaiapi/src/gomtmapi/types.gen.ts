@@ -2484,10 +2484,7 @@ export const ToolTypes = {
   PYTHON_FUNCTION: "PythonFunction",
 } as const;
 
-export type Model = {
-  metadata?: ApiResourceMeta;
-  config?: ModelConfig;
-};
+export type Model = ApiResourceMetaProperties & ModelProperties;
 
 export type ModelConfig = {
   model: string;
@@ -2537,6 +2534,14 @@ export const ModelTypes = {
   OPEN_AI_CHAT_COMPLETION_CLIENT: "OpenAIChatCompletionClient",
   AZURE_OPEN_AI_CHAT_COMPLETION_CLIENT: "AzureOpenAIChatCompletionClient",
 } as const;
+
+export type ModelProperties = {
+  name?: string;
+  description?: string;
+  family?: "r1" | "openai" | "unknown";
+};
+
+export type UpsertModel = ModelProperties;
 
 export type AzureOpenAiModelConfig = ModelConfig & {
   model_type: "AzureOpenAIChatCompletionClient";
@@ -2736,11 +2741,6 @@ export type NotFound = unknown;
 export type ModelList = {
   pagination?: PaginationResponse;
   rows?: Array<Model>;
-};
-
-export type UpdateModel = {
-  metadata?: ApiResourceMeta;
-  name?: string;
 };
 
 export type FormField = {
@@ -7687,9 +7687,6 @@ export type ModelListData = {
 };
 
 export type ModelListErrors = {
-  /**
-   * A malformed or bad request
-   */
   400: ApiErrors;
   /**
    * Forbidden
@@ -7708,41 +7705,6 @@ export type ModelListResponses = {
 };
 
 export type ModelListResponse = ModelListResponses[keyof ModelListResponses];
-
-export type ModelCreateData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/models";
-};
-
-export type ModelCreateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type ModelCreateError = ModelCreateErrors[keyof ModelCreateErrors];
-
-export type ModelCreateResponses = {
-  /**
-   * 获取大语言模型配置
-   */
-  200: Model;
-};
-
-export type ModelCreateResponse =
-  ModelCreateResponses[keyof ModelCreateResponses];
 
 export type ModelGetData = {
   body?: never;
@@ -7779,11 +7741,8 @@ export type ModelGetResponses = {
 
 export type ModelGetResponse = ModelGetResponses[keyof ModelGetResponses];
 
-export type ModelUpdateData = {
-  /**
-   * The model properties to update
-   */
-  body: Model;
+export type ModelUpsertData = {
+  body: UpsertModel;
   path: {
     /**
      * The tenant id
@@ -7798,28 +7757,19 @@ export type ModelUpdateData = {
   url: "/api/v1/tenants/{tenant}/models/{model}";
 };
 
-export type ModelUpdateErrors = {
-  /**
-   * A malformed or bad request
-   */
+export type ModelUpsertErrors = {
   400: ApiErrors;
-  /**
-   * Forbidden
-   */
   403: ApiErrors;
 };
 
-export type ModelUpdateError = ModelUpdateErrors[keyof ModelUpdateErrors];
+export type ModelUpsertError = ModelUpsertErrors[keyof ModelUpsertErrors];
 
-export type ModelUpdateResponses = {
-  /**
-   * Successfully created the model
-   */
+export type ModelUpsertResponses = {
   200: Model;
 };
 
-export type ModelUpdateResponse =
-  ModelUpdateResponses[keyof ModelUpdateResponses];
+export type ModelUpsertResponse =
+  ModelUpsertResponses[keyof ModelUpsertResponses];
 
 export type ModelRunsListData = {
   body?: never;

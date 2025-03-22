@@ -2090,10 +2090,7 @@ export enum ToolTypes {
   PythonFunction = "PythonFunction",
 }
 
-export interface Model {
-  metadata?: APIResourceMeta;
-  config?: ModelConfig;
-}
+export type Model = APIResourceMetaProperties & ModelProperties;
 
 export interface ModelConfig {
   model: string;
@@ -2135,6 +2132,14 @@ export enum ModelTypes {
   OpenAIChatCompletionClient = "OpenAIChatCompletionClient",
   AzureOpenAIChatCompletionClient = "AzureOpenAIChatCompletionClient",
 }
+
+export interface ModelProperties {
+  name?: string;
+  description?: string;
+  family?: "r1" | "openai" | "unknown";
+}
+
+export type UpsertModel = ModelProperties;
 
 export type AzureOpenAIModelConfig = ModelConfig & {
   model_type: "AzureOpenAIChatCompletionClient";
@@ -2306,11 +2311,6 @@ export type NotFound = APIErrors;
 export interface ModelList {
   pagination?: PaginationResponse;
   rows?: Model[];
-}
-
-export interface UpdateModel {
-  metadata?: APIResourceMeta;
-  name?: string;
 }
 
 export interface FormField {

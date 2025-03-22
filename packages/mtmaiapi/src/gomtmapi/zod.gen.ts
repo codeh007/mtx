@@ -5665,43 +5665,13 @@ export const zAgentTypes = z.enum([
 
 export const zToolTypes = z.enum(["PythonFunction"]);
 
-export const zModel = z.object({
-  metadata: zApiResourceMeta.optional(),
-  config: z
-    .object({
-      model: z.string(),
-      model_type: z.enum([
-        "OpenAIChatCompletionClient",
-        "AzureOpenAIChatCompletionClient",
-      ]),
-      api_key: z.string().optional(),
-      base_url: z.string().optional(),
-      timeout: z.number().optional(),
-      max_retries: z.number().int().optional(),
-      frequency_penalty: z.number().optional(),
-      logit_bias: z.number().int().optional(),
-      max_tokens: z.number().int().optional(),
-      n: z.number().int().optional(),
-      presence_penalty: z.number().optional(),
-      response_format: z.enum(["json_object", "text"]).optional(),
-      seed: z.number().int().optional(),
-      stop: z.array(z.string()).optional(),
-      temperature: z.number().optional(),
-      top_p: z.number().optional(),
-      user: z.string().optional(),
-      organization: z.string().optional(),
-      default_headers: z.object({}).optional(),
-      model_info: z
-        .object({
-          family: z.enum(["r1", "openai", "unknown"]),
-          vision: z.boolean(),
-          function_calling: z.boolean(),
-          json_output: z.boolean(),
-        })
-        .optional(),
-    })
-    .optional(),
-});
+export const zModel = zApiResourceMetaProperties.merge(
+  z.object({
+    name: z.string().optional(),
+    description: z.string().optional(),
+    family: z.enum(["r1", "openai", "unknown"]).optional(),
+  }),
+);
 
 export const zModelConfig = z.object({
   model: z.string(),
@@ -5749,6 +5719,14 @@ export const zModelTypes = z.enum([
   "OpenAIChatCompletionClient",
   "AzureOpenAIChatCompletionClient",
 ]);
+
+export const zModelProperties = z.object({
+  name: z.string().optional(),
+  description: z.string().optional(),
+  family: z.enum(["r1", "openai", "unknown"]).optional(),
+});
+
+export const zUpsertModel = zModelProperties;
 
 export const zAzureOpenAiModelConfig = zModelConfig.merge(
   z.object({
@@ -6088,11 +6066,6 @@ export const zNotFound = z.unknown();
 export const zModelList = z.object({
   pagination: zPaginationResponse.optional(),
   rows: z.array(zModel).optional(),
-});
-
-export const zUpdateModel = z.object({
-  metadata: zApiResourceMeta.optional(),
-  name: z.string().optional(),
 });
 
 export const zFormField = z.object({
@@ -6850,11 +6823,9 @@ export const zAgEventGetResponse = zAgEvent;
 
 export const zModelListResponse = zModelList;
 
-export const zModelCreateResponse = zModel;
-
 export const zModelGetResponse = zModel;
 
-export const zModelUpdateResponse = zModel;
+export const zModelUpsertResponse = zModel;
 
 export const zModelRunsListResponse = zModelList;
 

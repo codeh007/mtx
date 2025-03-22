@@ -4704,14 +4704,14 @@ export const ToolTypesSchema = {
 } as const;
 
 export const ModelSchema = {
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
     },
-    config: {
-      $ref: "#/components/schemas/ModelConfig",
+    {
+      $ref: "#/components/schemas/ModelProperties",
     },
-  },
+  ],
 } as const;
 
 export const ModelConfigSchema = {
@@ -4812,6 +4812,30 @@ export const ModelInfoSchema = {
 export const ModelTypesSchema = {
   type: "string",
   enum: ["OpenAIChatCompletionClient", "AzureOpenAIChatCompletionClient"],
+} as const;
+
+export const ModelPropertiesSchema = {
+  type: "object",
+  properties: {
+    name: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    family: {
+      type: "string",
+      enum: ["r1", "openai", "unknown"],
+    },
+  },
+} as const;
+
+export const UpsertModelSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/ModelProperties",
+    },
+  ],
 } as const;
 
 export const AzureOpenAIModelConfigSchema = {
@@ -5347,18 +5371,6 @@ export const ModelListSchema = {
         $ref: "#/components/schemas/Model",
       },
       type: "array",
-    },
-  },
-} as const;
-
-export const UpdateModelSchema = {
-  type: "object",
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    name: {
-      type: "string",
     },
   },
 } as const;

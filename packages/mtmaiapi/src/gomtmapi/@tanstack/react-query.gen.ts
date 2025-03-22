@@ -116,9 +116,8 @@ import {
   agEventList,
   agEventGet,
   modelList,
-  modelCreate,
   modelGet,
-  modelUpdate,
+  modelUpsert,
   modelRunsList,
   modelRunGet,
   modelRunUpsert,
@@ -394,13 +393,10 @@ import type {
   AgEventListData,
   AgEventGetData,
   ModelListData,
-  ModelCreateData,
-  ModelCreateError,
-  ModelCreateResponse,
   ModelGetData,
-  ModelUpdateData,
-  ModelUpdateError,
-  ModelUpdateResponse,
+  ModelUpsertData,
+  ModelUpsertError,
+  ModelUpsertResponse,
   ModelRunsListData,
   ModelRunGetData,
   ModelRunUpsertData,
@@ -3774,44 +3770,6 @@ export const modelListOptions = (options: Options<ModelListData>) => {
   });
 };
 
-export const modelCreateQueryKey = (options: Options<ModelCreateData>) =>
-  createQueryKey("modelCreate", options);
-
-export const modelCreateOptions = (options: Options<ModelCreateData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await modelCreate({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: modelCreateQueryKey(options),
-  });
-};
-
-export const modelCreateMutation = (
-  options?: Partial<Options<ModelCreateData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    ModelCreateResponse,
-    ModelCreateError,
-    Options<ModelCreateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await modelCreate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
 export const modelGetQueryKey = (options: Options<ModelGetData>) =>
   createQueryKey("modelGet", options);
 
@@ -3830,16 +3788,16 @@ export const modelGetOptions = (options: Options<ModelGetData>) => {
   });
 };
 
-export const modelUpdateMutation = (
-  options?: Partial<Options<ModelUpdateData>>,
+export const modelUpsertMutation = (
+  options?: Partial<Options<ModelUpsertData>>,
 ) => {
   const mutationOptions: UseMutationOptions<
-    ModelUpdateResponse,
-    ModelUpdateError,
-    Options<ModelUpdateData>
+    ModelUpsertResponse,
+    ModelUpsertError,
+    Options<ModelUpsertData>
   > = {
     mutationFn: async (localOptions) => {
-      const { data } = await modelUpdate({
+      const { data } = await modelUpsert({
         ...options,
         ...localOptions,
         throwOnError: true,

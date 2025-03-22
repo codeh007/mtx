@@ -323,15 +323,12 @@ import type {
   ModelListData,
   ModelListResponse,
   ModelListError,
-  ModelCreateData,
-  ModelCreateResponse,
-  ModelCreateError,
   ModelGetData,
   ModelGetResponse,
   ModelGetError,
-  ModelUpdateData,
-  ModelUpdateResponse,
-  ModelUpdateError,
+  ModelUpsertData,
+  ModelUpsertResponse,
+  ModelUpsertError,
   ModelRunsListData,
   ModelRunsListResponse,
   ModelRunsListError,
@@ -3540,32 +3537,6 @@ export const modelList = <ThrowOnError extends boolean = false>(
   });
 };
 
-/**
- * 大语言模型配置
- */
-export const modelCreate = <ThrowOnError extends boolean = false>(
-  options: Options<ModelCreateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    ModelCreateResponse,
-    ModelCreateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/models",
-    ...options,
-  });
-};
-
 export const modelGet = <ThrowOnError extends boolean = false>(
   options: Options<ModelGetData, ThrowOnError>,
 ) => {
@@ -3590,14 +3561,14 @@ export const modelGet = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Update an model
+ * upsert an model
  */
-export const modelUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<ModelUpdateData, ThrowOnError>,
+export const modelUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<ModelUpsertData, ThrowOnError>,
 ) => {
   return (options.client ?? _heyApiClient).patch<
-    ModelUpdateResponse,
-    ModelUpdateError,
+    ModelUpsertResponse,
+    ModelUpsertError,
     ThrowOnError
   >({
     security: [

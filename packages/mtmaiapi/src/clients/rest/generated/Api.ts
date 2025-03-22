@@ -137,6 +137,7 @@ import {
   UpdateTenantInviteRequest,
   UpdateTenantRequest,
   UpdateWorkerRequest,
+  UpsertModel,
   User,
   UserChangePasswordRequest,
   UserLoginRequest,
@@ -2759,22 +2760,6 @@ export class Api<
       ...params,
     });
   /**
-   * @description 大语言模型配置
-   *
-   * @tags model
-   * @name ModelCreate
-   * @request POST:/api/v1/tenants/{tenant}/models
-   * @secure
-   */
-  modelCreate = (tenant: TenantParameter, params: RequestParams = {}) =>
-    this.request<Model, APIErrors | APIError>({
-      path: `/api/v1/tenants/${tenant}/models`,
-      method: "POST",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
    * No description
    *
    * @tags model
@@ -2795,17 +2780,17 @@ export class Api<
       ...params,
     });
   /**
-   * @description Update an model
+   * @description upsert an model
    *
    * @tags model
-   * @name ModelUpdate
+   * @name ModelUpsert
    * @request PATCH:/api/v1/tenants/{tenant}/models/{model}
    * @secure
    */
-  modelUpdate = (
+  modelUpsert = (
     tenant: TenantParameter,
     model: string,
-    data: Model,
+    data: UpsertModel,
     params: RequestParams = {},
   ) =>
     this.request<Model, APIErrors>({
