@@ -2000,11 +2000,6 @@ export type SmolaAgentComponent = AgentComponent & {
   };
 };
 
-export type ParticipantsProperty =
-  | InstagramAgentComponent
-  | AssistantAgentComponent
-  | SmolaAgentComponent;
-
 export type ProviderTypes =
   | "mtmai.agents.assistant_agent.AssistantAgent"
   | "mtmai.agents.instagram_agent.InstagramAgent"
@@ -3303,7 +3298,7 @@ export type InstagramTeamComponent = ComponentModel & {
 };
 
 export type InstagramTeamConfig = TeamConfigBase & {
-  participants: Array<ParticipantsProperty>;
+  participants: Array<MtComponent>;
   termination_condition: OrTerminationComponent;
 };
 

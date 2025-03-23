@@ -3589,20 +3589,6 @@ export const SmolaAgentComponentSchema = {
   ],
 } as const;
 
-export const ParticipantsPropertySchema = {
-  oneOf: [
-    {
-      $ref: "#/components/schemas/InstagramAgentComponent",
-    },
-    {
-      $ref: "#/components/schemas/AssistantAgentComponent",
-    },
-    {
-      $ref: "#/components/schemas/SmolaAgentComponent",
-    },
-  ],
-} as const;
-
 export const ProviderTypesSchema = {
   type: "string",
   enum: [
@@ -6569,7 +6555,7 @@ export const InstagramTeamConfigSchema = {
         participants: {
           type: "array",
           items: {
-            $ref: "#/components/schemas/ParticipantsProperty",
+            $ref: "#/components/schemas/MtComponent",
           },
         },
         termination_condition: {
