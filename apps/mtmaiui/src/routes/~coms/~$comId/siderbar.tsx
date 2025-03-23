@@ -85,8 +85,8 @@ const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
   }, [rowId]);
 
   const editLink = useMemo(() => {
-    return `/coms/${rowId}/team_builder`;
-  }, [rowId]);
+    return `/coms/${rowId}/edit/${item.componentType}`;
+  }, [rowId, item]);
 
   return (
     <>
@@ -107,7 +107,6 @@ const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
             // icon={<Bot className="w-4 h-4" />}
             className="w-full"
           />
-          <DebugValue data={item} />
           <CollapsibleTrigger asChild>
             <Button variant="ghost" size="sm" className="w-9 p-0">
               <ChevronsUpDown className="h-4 w-4" />
@@ -116,11 +115,8 @@ const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
           </CollapsibleTrigger>
         </div>
         <CollapsibleContent className="space-y-1">
-          <div
-            // to={detailLink}
-            key={rowId}
-            // className="flex flex-col items-start gap-2 whitespace-nowrap p-2 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-          >
+          <div key={rowId}>
+            <DebugValue data={item} />
             <div className="flex w-full items-center gap-2">
               <span>{item.label}</span>
             </div>

@@ -283,9 +283,7 @@ export const TeamNode = memo<NodeProps<CustomNode>>((props) => {
               </div>
             )}
             <DroppableZone id={`${props.id}@@@model-zone`} accepts={["model"]}>
-              <div className="text-secondary text-xs my-1 text-center">
-                Drop model here
-              </div>
+              <div className="text-xs my-1 text-center">Drop model here</div>
             </DroppableZone>
           </div>
         </NodeSection>

@@ -20,7 +20,7 @@ function RouteComponent() {
         <ModelHeader>
           <ModelTitle>Unknown Component</ModelTitle>
         </ModelHeader>
-        <div className="bg-red-200">
+        <div className="flex items-center justify-center mx-auto bg-red-200">
           <h1>unknown component</h1>
           <DebugValue data={selectedNode} />
         </div>
