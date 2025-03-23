@@ -407,28 +407,12 @@ export const createWorkbrenchSlice: StateCreator<
             isSelectorTeam(targetNode.data.component)
           ) {
             console.log("model_client", clonedComponent);
-            // Update nodes properly using map to create a new array with the updated node
-            newNodes = newNodes.map((node) => {
-              if (node.id === targetNodeId) {
-                return {
-                  ...node,
-                  data: {
-                    ...node.data,
-                    component: {
-                      ...node.data.component,
-                      config: {
-                        ...node.data.component.config,
-                        model_client: clonedComponent,
-                      },
-                    },
-                  },
-                };
-              }
-              return node;
-            });
-
-            set({ nodes: newNodes });
+            targetNode.data.component.config.model_client = clonedComponent;
             get().newHistoryState();
+            set({
+              nodes: newNodes,
+              edges: newEdges,
+            });
             get().syncToJson();
             return;
           }
@@ -437,28 +421,12 @@ export const createWorkbrenchSlice: StateCreator<
             (isAssistantAgent(targetNode.data.component) ||
               isWebSurferAgent(targetNode.data.component))
           ) {
-            // Update nodes properly using map to create a new array with the updated node
-            newNodes = newNodes.map((node) => {
-              if (node.id === targetNodeId) {
-                return {
-                  ...node,
-                  data: {
-                    ...node.data,
-                    component: {
-                      ...node.data.component,
-                      config: {
-                        ...node.data.component.config,
-                        model_client: clonedComponent,
-                      },
-                    },
-                  },
-                };
-              }
-              return node;
-            });
-
-            set({ nodes: newNodes });
+            targetNode.data.component.config.model_client = clonedComponent;
             get().newHistoryState();
+            set({
+              nodes: newNodes,
+              edges: newEdges,
+            });
             get().syncToJson();
             return;
           }
@@ -629,10 +597,10 @@ export const createWorkbrenchSlice: StateCreator<
         nodes: layoutedNodes,
         edges: layoutedEdges,
         // history: [
-        //   ...state.history.slice(0, state.currentHistoryIndex + 1),
+        //   ...get().history.slice(0, get().currentHistoryIndex + 1),
         //   { nodes: layoutedNodes, edges: layoutedEdges },
         // ].slice(-MAX_HISTORY),
-        // currentHistoryIndex: state.currentHistoryIndex + 1,
+        // currentHistoryIndex: get().currentHistoryIndex + 1,
       });
       // return {
       //   // nodes: layoutedNodes,
