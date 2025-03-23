@@ -2277,7 +2277,9 @@ export type FlowNames =
   | "browser"
   | "tenant_settings"
   | "smola"
-  | "team";
+  | "team"
+  | "gallery"
+  | "com";
 
 export const FlowNames = {
   ASSISANT: "assisant",
@@ -2286,6 +2288,8 @@ export const FlowNames = {
   TENANT_SETTINGS: "tenant_settings",
   SMOLA: "smola",
   TEAM: "team",
+  GALLERY: "gallery",
+  COM: "com",
 } as const;
 
 export type TerminationTypes =

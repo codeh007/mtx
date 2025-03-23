@@ -2430,6 +2430,8 @@ export const zFlowNames = z.enum([
   "tenant_settings",
   "smola",
   "team",
+  "gallery",
+  "com",
 ]);
 
 export const zTerminationTypes = z.enum([
