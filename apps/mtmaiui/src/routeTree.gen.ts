@@ -77,6 +77,7 @@ const PlatformAccountPlatformAccountIdRouteLazyImport = createFileRoute(
   '/platform-account/$platformAccountId',
 )()
 const ModelNewRouteLazyImport = createFileRoute('/model/new')()
+const ModelModelIdRouteLazyImport = createFileRoute('/model/modelId')()
 const GalleryGalleryIdRouteLazyImport = createFileRoute('/gallery/$galleryId')()
 const ComsComIdRouteLazyImport = createFileRoute('/coms/$comId')()
 const AuthRegisterLazyImport = createFileRoute('/auth/register')()
@@ -155,16 +156,26 @@ const PlatformAccountPlatformAccountIdIndexLazyImport = createFileRoute(
   '/platform-account/$platformAccountId/',
 )()
 const ModelNewIndexLazyImport = createFileRoute('/model/new/')()
+const ModelModelIdIndexLazyImport = createFileRoute('/model/modelId/')()
 const ComsComIdIndexLazyImport = createFileRoute('/coms/$comId/')()
 const AuthLoginIndexLazyImport = createFileRoute('/auth/login/')()
 const WorkflowsWorkflowIdTriggerSmolaRouteLazyImport = createFileRoute(
   '/workflows/$workflowId/trigger/smola',
 )()
+const WorkflowsWorkflowIdTriggerResearchRouteLazyImport = createFileRoute(
+  '/workflows/$workflowId/trigger/research',
+)()
+const WorkflowsWorkflowIdTriggerBrowserRouteLazyImport = createFileRoute(
+  '/workflows/$workflowId/trigger/browser',
+)()
 const WorkflowsWorkflowIdTriggerAgRouteLazyImport = createFileRoute(
   '/workflows/$workflowId/trigger/ag',
 )()
-const WorkflowsWorkflowIdTriggerIdLazyImport = createFileRoute(
-  '/workflows/$workflowId/trigger/$id',
+const WorkflowsWorkflowIdTriggerFlowSubDemoRouteLazyImport = createFileRoute(
+  '/workflows/$workflowId/trigger/FlowSubDemo',
+)()
+const WorkflowsWorkflowIdTriggerSplatLazyImport = createFileRoute(
+  '/workflows/$workflowId/trigger/$',
 )()
 const WorkflowRunsWorkflowRunIdStepRunStepRunIdRouteLazyImport =
   createFileRoute('/workflow-runs/$workflowRunId/stepRun/$stepRunId')()
@@ -244,8 +255,17 @@ const ComsComIdTeambuilderAgentAgentIdRouteLazyImport = createFileRoute(
 const WorkflowsWorkflowIdTriggerSmolaIndexLazyImport = createFileRoute(
   '/workflows/$workflowId/trigger/smola/',
 )()
+const WorkflowsWorkflowIdTriggerResearchIndexLazyImport = createFileRoute(
+  '/workflows/$workflowId/trigger/research/',
+)()
+const WorkflowsWorkflowIdTriggerBrowserIndexLazyImport = createFileRoute(
+  '/workflows/$workflowId/trigger/browser/',
+)()
 const WorkflowsWorkflowIdTriggerAgIndexLazyImport = createFileRoute(
   '/workflows/$workflowId/trigger/ag/',
+)()
+const WorkflowsWorkflowIdTriggerFlowSubDemoIndexLazyImport = createFileRoute(
+  '/workflows/$workflowId/trigger/FlowSubDemo/',
 )()
 const WorkflowRunsWorkflowRunIdStepRunStepRunIdIndexLazyImport =
   createFileRoute('/workflow-runs/$workflowRunId/stepRun/$stepRunId/')()
@@ -537,6 +557,14 @@ const ModelNewRouteLazyRoute = ModelNewRouteLazyImport.update({
   getParentRoute: () => ModelRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~model/~new/~route.lazy').then((d) => d.Route),
+)
+
+const ModelModelIdRouteLazyRoute = ModelModelIdRouteLazyImport.update({
+  id: '/modelId',
+  path: '/modelId',
+  getParentRoute: () => ModelRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~model/~modelId/~route.lazy').then((d) => d.Route),
 )
 
 const GalleryGalleryIdRouteLazyRoute = GalleryGalleryIdRouteLazyImport.update({
@@ -948,6 +976,14 @@ const ModelNewIndexLazyRoute = ModelNewIndexLazyImport.update({
   import('./routes/~model/~new/~index.lazy').then((d) => d.Route),
 )
 
+const ModelModelIdIndexLazyRoute = ModelModelIdIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ModelModelIdRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~model/~modelId/~index.lazy').then((d) => d.Route),
+)
+
 const ComsComIdIndexLazyRoute = ComsComIdIndexLazyImport.update({
   id: '/',
   path: '/',
@@ -1006,6 +1042,28 @@ const WorkflowsWorkflowIdTriggerSmolaRouteLazyRoute =
     ),
   )
 
+const WorkflowsWorkflowIdTriggerResearchRouteLazyRoute =
+  WorkflowsWorkflowIdTriggerResearchRouteLazyImport.update({
+    id: '/research',
+    path: '/research',
+    getParentRoute: () => WorkflowsWorkflowIdTriggerRouteLazyRoute,
+  } as any).lazy(() =>
+    import(
+      './routes/~workflows/~$workflowId/~trigger/~research/~route.lazy'
+    ).then((d) => d.Route),
+  )
+
+const WorkflowsWorkflowIdTriggerBrowserRouteLazyRoute =
+  WorkflowsWorkflowIdTriggerBrowserRouteLazyImport.update({
+    id: '/browser',
+    path: '/browser',
+    getParentRoute: () => WorkflowsWorkflowIdTriggerRouteLazyRoute,
+  } as any).lazy(() =>
+    import(
+      './routes/~workflows/~$workflowId/~trigger/~browser/~route.lazy'
+    ).then((d) => d.Route),
+  )
+
 const WorkflowsWorkflowIdTriggerAgRouteLazyRoute =
   WorkflowsWorkflowIdTriggerAgRouteLazyImport.update({
     id: '/ag',
@@ -1017,13 +1075,24 @@ const WorkflowsWorkflowIdTriggerAgRouteLazyRoute =
     ),
   )
 
-const WorkflowsWorkflowIdTriggerIdLazyRoute =
-  WorkflowsWorkflowIdTriggerIdLazyImport.update({
-    id: '/$id',
-    path: '/$id',
+const WorkflowsWorkflowIdTriggerFlowSubDemoRouteLazyRoute =
+  WorkflowsWorkflowIdTriggerFlowSubDemoRouteLazyImport.update({
+    id: '/FlowSubDemo',
+    path: '/FlowSubDemo',
     getParentRoute: () => WorkflowsWorkflowIdTriggerRouteLazyRoute,
   } as any).lazy(() =>
-    import('./routes/~workflows/~$workflowId/~trigger/~$id.lazy').then(
+    import(
+      './routes/~workflows/~$workflowId/~trigger/~FlowSubDemo/~route.lazy'
+    ).then((d) => d.Route),
+  )
+
+const WorkflowsWorkflowIdTriggerSplatLazyRoute =
+  WorkflowsWorkflowIdTriggerSplatLazyImport.update({
+    id: '/$',
+    path: '/$',
+    getParentRoute: () => WorkflowsWorkflowIdTriggerRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/~workflows/~$workflowId/~trigger/~$.lazy').then(
       (d) => d.Route,
     ),
   )
@@ -1368,6 +1437,28 @@ const WorkflowsWorkflowIdTriggerSmolaIndexLazyRoute =
     ),
   )
 
+const WorkflowsWorkflowIdTriggerResearchIndexLazyRoute =
+  WorkflowsWorkflowIdTriggerResearchIndexLazyImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => WorkflowsWorkflowIdTriggerResearchRouteLazyRoute,
+  } as any).lazy(() =>
+    import(
+      './routes/~workflows/~$workflowId/~trigger/~research/~index.lazy'
+    ).then((d) => d.Route),
+  )
+
+const WorkflowsWorkflowIdTriggerBrowserIndexLazyRoute =
+  WorkflowsWorkflowIdTriggerBrowserIndexLazyImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => WorkflowsWorkflowIdTriggerBrowserRouteLazyRoute,
+  } as any).lazy(() =>
+    import(
+      './routes/~workflows/~$workflowId/~trigger/~browser/~index.lazy'
+    ).then((d) => d.Route),
+  )
+
 const WorkflowsWorkflowIdTriggerAgIndexLazyRoute =
   WorkflowsWorkflowIdTriggerAgIndexLazyImport.update({
     id: '/',
@@ -1377,6 +1468,17 @@ const WorkflowsWorkflowIdTriggerAgIndexLazyRoute =
     import('./routes/~workflows/~$workflowId/~trigger/~ag/~index.lazy').then(
       (d) => d.Route,
     ),
+  )
+
+const WorkflowsWorkflowIdTriggerFlowSubDemoIndexLazyRoute =
+  WorkflowsWorkflowIdTriggerFlowSubDemoIndexLazyImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => WorkflowsWorkflowIdTriggerFlowSubDemoRouteLazyRoute,
+  } as any).lazy(() =>
+    import(
+      './routes/~workflows/~$workflowId/~trigger/~FlowSubDemo/~index.lazy'
+    ).then((d) => d.Route),
   )
 
 const WorkflowRunsWorkflowRunIdStepRunStepRunIdIndexLazyRoute =
@@ -1813,6 +1915,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GalleryGalleryIdRouteLazyImport
       parentRoute: typeof GalleryRouteLazyImport
     }
+    '/model/modelId': {
+      id: '/model/modelId'
+      path: '/modelId'
+      fullPath: '/model/modelId'
+      preLoaderRoute: typeof ModelModelIdRouteLazyImport
+      parentRoute: typeof ModelRouteLazyImport
+    }
     '/model/new': {
       id: '/model/new'
       path: '/new'
@@ -1952,6 +2061,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/coms/$comId/'
       preLoaderRoute: typeof ComsComIdIndexLazyImport
       parentRoute: typeof ComsComIdRouteLazyImport
+    }
+    '/model/modelId/': {
+      id: '/model/modelId/'
+      path: '/'
+      fullPath: '/model/modelId/'
+      preLoaderRoute: typeof ModelModelIdIndexLazyImport
+      parentRoute: typeof ModelModelIdRouteLazyImport
     }
     '/model/new/': {
       id: '/model/new/'
@@ -2345,11 +2461,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkflowRunsWorkflowRunIdStepRunStepRunIdRouteLazyImport
       parentRoute: typeof WorkflowRunsWorkflowRunIdRouteLazyImport
     }
-    '/workflows/$workflowId/trigger/$id': {
-      id: '/workflows/$workflowId/trigger/$id'
-      path: '/$id'
-      fullPath: '/workflows/$workflowId/trigger/$id'
-      preLoaderRoute: typeof WorkflowsWorkflowIdTriggerIdLazyImport
+    '/workflows/$workflowId/trigger/$': {
+      id: '/workflows/$workflowId/trigger/$'
+      path: '/$'
+      fullPath: '/workflows/$workflowId/trigger/$'
+      preLoaderRoute: typeof WorkflowsWorkflowIdTriggerSplatLazyImport
+      parentRoute: typeof WorkflowsWorkflowIdTriggerRouteLazyImport
+    }
+    '/workflows/$workflowId/trigger/FlowSubDemo': {
+      id: '/workflows/$workflowId/trigger/FlowSubDemo'
+      path: '/FlowSubDemo'
+      fullPath: '/workflows/$workflowId/trigger/FlowSubDemo'
+      preLoaderRoute: typeof WorkflowsWorkflowIdTriggerFlowSubDemoRouteLazyImport
       parentRoute: typeof WorkflowsWorkflowIdTriggerRouteLazyImport
     }
     '/workflows/$workflowId/trigger/ag': {
@@ -2357,6 +2480,20 @@ declare module '@tanstack/react-router' {
       path: '/ag'
       fullPath: '/workflows/$workflowId/trigger/ag'
       preLoaderRoute: typeof WorkflowsWorkflowIdTriggerAgRouteLazyImport
+      parentRoute: typeof WorkflowsWorkflowIdTriggerRouteLazyImport
+    }
+    '/workflows/$workflowId/trigger/browser': {
+      id: '/workflows/$workflowId/trigger/browser'
+      path: '/browser'
+      fullPath: '/workflows/$workflowId/trigger/browser'
+      preLoaderRoute: typeof WorkflowsWorkflowIdTriggerBrowserRouteLazyImport
+      parentRoute: typeof WorkflowsWorkflowIdTriggerRouteLazyImport
+    }
+    '/workflows/$workflowId/trigger/research': {
+      id: '/workflows/$workflowId/trigger/research'
+      path: '/research'
+      fullPath: '/workflows/$workflowId/trigger/research'
+      preLoaderRoute: typeof WorkflowsWorkflowIdTriggerResearchRouteLazyImport
       parentRoute: typeof WorkflowsWorkflowIdTriggerRouteLazyImport
     }
     '/workflows/$workflowId/trigger/smola': {
@@ -2401,12 +2538,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkflowRunsWorkflowRunIdStepRunStepRunIdIndexLazyImport
       parentRoute: typeof WorkflowRunsWorkflowRunIdStepRunStepRunIdRouteLazyImport
     }
+    '/workflows/$workflowId/trigger/FlowSubDemo/': {
+      id: '/workflows/$workflowId/trigger/FlowSubDemo/'
+      path: '/'
+      fullPath: '/workflows/$workflowId/trigger/FlowSubDemo/'
+      preLoaderRoute: typeof WorkflowsWorkflowIdTriggerFlowSubDemoIndexLazyImport
+      parentRoute: typeof WorkflowsWorkflowIdTriggerFlowSubDemoRouteLazyImport
+    }
     '/workflows/$workflowId/trigger/ag/': {
       id: '/workflows/$workflowId/trigger/ag/'
       path: '/'
       fullPath: '/workflows/$workflowId/trigger/ag/'
       preLoaderRoute: typeof WorkflowsWorkflowIdTriggerAgIndexLazyImport
       parentRoute: typeof WorkflowsWorkflowIdTriggerAgRouteLazyImport
+    }
+    '/workflows/$workflowId/trigger/browser/': {
+      id: '/workflows/$workflowId/trigger/browser/'
+      path: '/'
+      fullPath: '/workflows/$workflowId/trigger/browser/'
+      preLoaderRoute: typeof WorkflowsWorkflowIdTriggerBrowserIndexLazyImport
+      parentRoute: typeof WorkflowsWorkflowIdTriggerBrowserRouteLazyImport
+    }
+    '/workflows/$workflowId/trigger/research/': {
+      id: '/workflows/$workflowId/trigger/research/'
+      path: '/'
+      fullPath: '/workflows/$workflowId/trigger/research/'
+      preLoaderRoute: typeof WorkflowsWorkflowIdTriggerResearchIndexLazyImport
+      parentRoute: typeof WorkflowsWorkflowIdTriggerResearchRouteLazyImport
     }
     '/workflows/$workflowId/trigger/smola/': {
       id: '/workflows/$workflowId/trigger/smola/'
@@ -2840,6 +2998,19 @@ const GalleryRouteLazyRouteChildren: GalleryRouteLazyRouteChildren = {
 const GalleryRouteLazyRouteWithChildren =
   GalleryRouteLazyRoute._addFileChildren(GalleryRouteLazyRouteChildren)
 
+interface ModelModelIdRouteLazyRouteChildren {
+  ModelModelIdIndexLazyRoute: typeof ModelModelIdIndexLazyRoute
+}
+
+const ModelModelIdRouteLazyRouteChildren: ModelModelIdRouteLazyRouteChildren = {
+  ModelModelIdIndexLazyRoute: ModelModelIdIndexLazyRoute,
+}
+
+const ModelModelIdRouteLazyRouteWithChildren =
+  ModelModelIdRouteLazyRoute._addFileChildren(
+    ModelModelIdRouteLazyRouteChildren,
+  )
+
 interface ModelNewRouteLazyRouteChildren {
   ModelNewIndexLazyRoute: typeof ModelNewIndexLazyRoute
 }
@@ -2853,11 +3024,13 @@ const ModelNewRouteLazyRouteWithChildren =
 
 interface ModelRouteLazyRouteChildren {
   ModelIndexLazyRoute: typeof ModelIndexLazyRoute
+  ModelModelIdRouteLazyRoute: typeof ModelModelIdRouteLazyRouteWithChildren
   ModelNewRouteLazyRoute: typeof ModelNewRouteLazyRouteWithChildren
 }
 
 const ModelRouteLazyRouteChildren: ModelRouteLazyRouteChildren = {
   ModelIndexLazyRoute: ModelIndexLazyRoute,
+  ModelModelIdRouteLazyRoute: ModelModelIdRouteLazyRouteWithChildren,
   ModelNewRouteLazyRoute: ModelNewRouteLazyRouteWithChildren,
 }
 
@@ -3304,6 +3477,21 @@ const WorkflowRunsRouteLazyRouteWithChildren =
     WorkflowRunsRouteLazyRouteChildren,
   )
 
+interface WorkflowsWorkflowIdTriggerFlowSubDemoRouteLazyRouteChildren {
+  WorkflowsWorkflowIdTriggerFlowSubDemoIndexLazyRoute: typeof WorkflowsWorkflowIdTriggerFlowSubDemoIndexLazyRoute
+}
+
+const WorkflowsWorkflowIdTriggerFlowSubDemoRouteLazyRouteChildren: WorkflowsWorkflowIdTriggerFlowSubDemoRouteLazyRouteChildren =
+  {
+    WorkflowsWorkflowIdTriggerFlowSubDemoIndexLazyRoute:
+      WorkflowsWorkflowIdTriggerFlowSubDemoIndexLazyRoute,
+  }
+
+const WorkflowsWorkflowIdTriggerFlowSubDemoRouteLazyRouteWithChildren =
+  WorkflowsWorkflowIdTriggerFlowSubDemoRouteLazyRoute._addFileChildren(
+    WorkflowsWorkflowIdTriggerFlowSubDemoRouteLazyRouteChildren,
+  )
+
 interface WorkflowsWorkflowIdTriggerAgRouteLazyRouteChildren {
   WorkflowsWorkflowIdTriggerAgIndexLazyRoute: typeof WorkflowsWorkflowIdTriggerAgIndexLazyRoute
 }
@@ -3317,6 +3505,36 @@ const WorkflowsWorkflowIdTriggerAgRouteLazyRouteChildren: WorkflowsWorkflowIdTri
 const WorkflowsWorkflowIdTriggerAgRouteLazyRouteWithChildren =
   WorkflowsWorkflowIdTriggerAgRouteLazyRoute._addFileChildren(
     WorkflowsWorkflowIdTriggerAgRouteLazyRouteChildren,
+  )
+
+interface WorkflowsWorkflowIdTriggerBrowserRouteLazyRouteChildren {
+  WorkflowsWorkflowIdTriggerBrowserIndexLazyRoute: typeof WorkflowsWorkflowIdTriggerBrowserIndexLazyRoute
+}
+
+const WorkflowsWorkflowIdTriggerBrowserRouteLazyRouteChildren: WorkflowsWorkflowIdTriggerBrowserRouteLazyRouteChildren =
+  {
+    WorkflowsWorkflowIdTriggerBrowserIndexLazyRoute:
+      WorkflowsWorkflowIdTriggerBrowserIndexLazyRoute,
+  }
+
+const WorkflowsWorkflowIdTriggerBrowserRouteLazyRouteWithChildren =
+  WorkflowsWorkflowIdTriggerBrowserRouteLazyRoute._addFileChildren(
+    WorkflowsWorkflowIdTriggerBrowserRouteLazyRouteChildren,
+  )
+
+interface WorkflowsWorkflowIdTriggerResearchRouteLazyRouteChildren {
+  WorkflowsWorkflowIdTriggerResearchIndexLazyRoute: typeof WorkflowsWorkflowIdTriggerResearchIndexLazyRoute
+}
+
+const WorkflowsWorkflowIdTriggerResearchRouteLazyRouteChildren: WorkflowsWorkflowIdTriggerResearchRouteLazyRouteChildren =
+  {
+    WorkflowsWorkflowIdTriggerResearchIndexLazyRoute:
+      WorkflowsWorkflowIdTriggerResearchIndexLazyRoute,
+  }
+
+const WorkflowsWorkflowIdTriggerResearchRouteLazyRouteWithChildren =
+  WorkflowsWorkflowIdTriggerResearchRouteLazyRoute._addFileChildren(
+    WorkflowsWorkflowIdTriggerResearchRouteLazyRouteChildren,
   )
 
 interface WorkflowsWorkflowIdTriggerSmolaRouteLazyRouteChildren {
@@ -3336,8 +3554,11 @@ const WorkflowsWorkflowIdTriggerSmolaRouteLazyRouteWithChildren =
 
 interface WorkflowsWorkflowIdTriggerRouteLazyRouteChildren {
   WorkflowsWorkflowIdTriggerIndexLazyRoute: typeof WorkflowsWorkflowIdTriggerIndexLazyRoute
-  WorkflowsWorkflowIdTriggerIdLazyRoute: typeof WorkflowsWorkflowIdTriggerIdLazyRoute
+  WorkflowsWorkflowIdTriggerSplatLazyRoute: typeof WorkflowsWorkflowIdTriggerSplatLazyRoute
+  WorkflowsWorkflowIdTriggerFlowSubDemoRouteLazyRoute: typeof WorkflowsWorkflowIdTriggerFlowSubDemoRouteLazyRouteWithChildren
   WorkflowsWorkflowIdTriggerAgRouteLazyRoute: typeof WorkflowsWorkflowIdTriggerAgRouteLazyRouteWithChildren
+  WorkflowsWorkflowIdTriggerBrowserRouteLazyRoute: typeof WorkflowsWorkflowIdTriggerBrowserRouteLazyRouteWithChildren
+  WorkflowsWorkflowIdTriggerResearchRouteLazyRoute: typeof WorkflowsWorkflowIdTriggerResearchRouteLazyRouteWithChildren
   WorkflowsWorkflowIdTriggerSmolaRouteLazyRoute: typeof WorkflowsWorkflowIdTriggerSmolaRouteLazyRouteWithChildren
 }
 
@@ -3345,10 +3566,16 @@ const WorkflowsWorkflowIdTriggerRouteLazyRouteChildren: WorkflowsWorkflowIdTrigg
   {
     WorkflowsWorkflowIdTriggerIndexLazyRoute:
       WorkflowsWorkflowIdTriggerIndexLazyRoute,
-    WorkflowsWorkflowIdTriggerIdLazyRoute:
-      WorkflowsWorkflowIdTriggerIdLazyRoute,
+    WorkflowsWorkflowIdTriggerSplatLazyRoute:
+      WorkflowsWorkflowIdTriggerSplatLazyRoute,
+    WorkflowsWorkflowIdTriggerFlowSubDemoRouteLazyRoute:
+      WorkflowsWorkflowIdTriggerFlowSubDemoRouteLazyRouteWithChildren,
     WorkflowsWorkflowIdTriggerAgRouteLazyRoute:
       WorkflowsWorkflowIdTriggerAgRouteLazyRouteWithChildren,
+    WorkflowsWorkflowIdTriggerBrowserRouteLazyRoute:
+      WorkflowsWorkflowIdTriggerBrowserRouteLazyRouteWithChildren,
+    WorkflowsWorkflowIdTriggerResearchRouteLazyRoute:
+      WorkflowsWorkflowIdTriggerResearchRouteLazyRouteWithChildren,
     WorkflowsWorkflowIdTriggerSmolaRouteLazyRoute:
       WorkflowsWorkflowIdTriggerSmolaRouteLazyRouteWithChildren,
   }
@@ -3434,6 +3661,7 @@ export interface FileRoutesByFullPath {
   '/auth/register': typeof AuthRegisterLazyRoute
   '/coms/$comId': typeof ComsComIdRouteLazyRouteWithChildren
   '/gallery/$galleryId': typeof GalleryGalleryIdRouteLazyRoute
+  '/model/modelId': typeof ModelModelIdRouteLazyRouteWithChildren
   '/model/new': typeof ModelNewRouteLazyRouteWithChildren
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
   '/platform-account/create': typeof PlatformAccountCreateLazyRoute
@@ -3454,6 +3682,7 @@ export interface FileRoutesByFullPath {
   '/site/$siteId/host': typeof SiteSiteIdHostRouteRouteWithChildren
   '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/coms/$comId/': typeof ComsComIdIndexLazyRoute
+  '/model/modelId/': typeof ModelModelIdIndexLazyRoute
   '/model/new/': typeof ModelNewIndexLazyRoute
   '/platform-account/$platformAccountId/': typeof PlatformAccountPlatformAccountIdIndexLazyRoute
   '/play/chat/': typeof PlayChatIndexLazyRoute
@@ -3510,15 +3739,21 @@ export interface FileRoutesByFullPath {
   '/resource/new/res/chat': typeof ResourceNewResChatLazyRoute
   '/resource/new/res/platform_account': typeof ResourceNewResPlatformaccountLazyRoute
   '/workflow-runs/$workflowRunId/stepRun/$stepRunId': typeof WorkflowRunsWorkflowRunIdStepRunStepRunIdRouteLazyRouteWithChildren
-  '/workflows/$workflowId/trigger/$id': typeof WorkflowsWorkflowIdTriggerIdLazyRoute
+  '/workflows/$workflowId/trigger/$': typeof WorkflowsWorkflowIdTriggerSplatLazyRoute
+  '/workflows/$workflowId/trigger/FlowSubDemo': typeof WorkflowsWorkflowIdTriggerFlowSubDemoRouteLazyRouteWithChildren
   '/workflows/$workflowId/trigger/ag': typeof WorkflowsWorkflowIdTriggerAgRouteLazyRouteWithChildren
+  '/workflows/$workflowId/trigger/browser': typeof WorkflowsWorkflowIdTriggerBrowserRouteLazyRouteWithChildren
+  '/workflows/$workflowId/trigger/research': typeof WorkflowsWorkflowIdTriggerResearchRouteLazyRouteWithChildren
   '/workflows/$workflowId/trigger/smola': typeof WorkflowsWorkflowIdTriggerSmolaRouteLazyRouteWithChildren
   '/coms/$comId/team_builder/agent/': typeof ComsComIdTeambuilderAgentIndexLazyRoute
   '/coms/$comId/team_builder/jsonview/': typeof ComsComIdTeambuilderJsonviewIndexLazyRoute
   '/coms/$comId/team_builder/team/': typeof ComsComIdTeambuilderTeamIndexLazyRoute
   '/coms/$comId/view/$subComId/': typeof ComsComIdViewSubComIdIndexLazyRoute
   '/workflow-runs/$workflowRunId/stepRun/$stepRunId/': typeof WorkflowRunsWorkflowRunIdStepRunStepRunIdIndexLazyRoute
+  '/workflows/$workflowId/trigger/FlowSubDemo/': typeof WorkflowsWorkflowIdTriggerFlowSubDemoIndexLazyRoute
   '/workflows/$workflowId/trigger/ag/': typeof WorkflowsWorkflowIdTriggerAgIndexLazyRoute
+  '/workflows/$workflowId/trigger/browser/': typeof WorkflowsWorkflowIdTriggerBrowserIndexLazyRoute
+  '/workflows/$workflowId/trigger/research/': typeof WorkflowsWorkflowIdTriggerResearchIndexLazyRoute
   '/workflows/$workflowId/trigger/smola/': typeof WorkflowsWorkflowIdTriggerSmolaIndexLazyRoute
   '/coms/$comId/team_builder/agent/$agentId': typeof ComsComIdTeambuilderAgentAgentIdRouteLazyRouteWithChildren
   '/coms/$comId/team_builder/agent/new': typeof ComsComIdTeambuilderAgentNewRouteLazyRouteWithChildren
@@ -3565,6 +3800,7 @@ export interface FileRoutesByTo {
   '/site/$siteId/edit': typeof SiteSiteIdEditRoute
   '/auth/login': typeof AuthLoginIndexLazyRoute
   '/coms/$comId': typeof ComsComIdIndexLazyRoute
+  '/model/modelId': typeof ModelModelIdIndexLazyRoute
   '/model/new': typeof ModelNewIndexLazyRoute
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdIndexLazyRoute
   '/play/chat': typeof PlayChatIndexLazyRoute
@@ -3607,13 +3843,16 @@ export interface FileRoutesByTo {
   '/resource/new/res/browser': typeof ResourceNewResBrowserLazyRoute
   '/resource/new/res/chat': typeof ResourceNewResChatLazyRoute
   '/resource/new/res/platform_account': typeof ResourceNewResPlatformaccountLazyRoute
-  '/workflows/$workflowId/trigger/$id': typeof WorkflowsWorkflowIdTriggerIdLazyRoute
+  '/workflows/$workflowId/trigger/$': typeof WorkflowsWorkflowIdTriggerSplatLazyRoute
   '/coms/$comId/team_builder/agent': typeof ComsComIdTeambuilderAgentIndexLazyRoute
   '/coms/$comId/team_builder/jsonview': typeof ComsComIdTeambuilderJsonviewIndexLazyRoute
   '/coms/$comId/team_builder/team': typeof ComsComIdTeambuilderTeamIndexLazyRoute
   '/coms/$comId/view/$subComId': typeof ComsComIdViewSubComIdIndexLazyRoute
   '/workflow-runs/$workflowRunId/stepRun/$stepRunId': typeof WorkflowRunsWorkflowRunIdStepRunStepRunIdIndexLazyRoute
+  '/workflows/$workflowId/trigger/FlowSubDemo': typeof WorkflowsWorkflowIdTriggerFlowSubDemoIndexLazyRoute
   '/workflows/$workflowId/trigger/ag': typeof WorkflowsWorkflowIdTriggerAgIndexLazyRoute
+  '/workflows/$workflowId/trigger/browser': typeof WorkflowsWorkflowIdTriggerBrowserIndexLazyRoute
+  '/workflows/$workflowId/trigger/research': typeof WorkflowsWorkflowIdTriggerResearchIndexLazyRoute
   '/workflows/$workflowId/trigger/smola': typeof WorkflowsWorkflowIdTriggerSmolaIndexLazyRoute
   '/coms/$comId/team_builder/component/$nodeId': typeof ComsComIdTeambuilderComponentNodeIdLazyRoute
   '/coms/$comId/team_builder/agent/$agentId': typeof ComsComIdTeambuilderAgentAgentIdIndexLazyRoute
@@ -3668,6 +3907,7 @@ export interface FileRoutesById {
   '/auth/register': typeof AuthRegisterLazyRoute
   '/coms/$comId': typeof ComsComIdRouteLazyRouteWithChildren
   '/gallery/$galleryId': typeof GalleryGalleryIdRouteLazyRoute
+  '/model/modelId': typeof ModelModelIdRouteLazyRouteWithChildren
   '/model/new': typeof ModelNewRouteLazyRouteWithChildren
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
   '/platform-account/create': typeof PlatformAccountCreateLazyRoute
@@ -3688,6 +3928,7 @@ export interface FileRoutesById {
   '/site/$siteId/host': typeof SiteSiteIdHostRouteRouteWithChildren
   '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/coms/$comId/': typeof ComsComIdIndexLazyRoute
+  '/model/modelId/': typeof ModelModelIdIndexLazyRoute
   '/model/new/': typeof ModelNewIndexLazyRoute
   '/platform-account/$platformAccountId/': typeof PlatformAccountPlatformAccountIdIndexLazyRoute
   '/play/chat/': typeof PlayChatIndexLazyRoute
@@ -3744,15 +3985,21 @@ export interface FileRoutesById {
   '/resource/new/res/chat': typeof ResourceNewResChatLazyRoute
   '/resource/new/res/platform_account': typeof ResourceNewResPlatformaccountLazyRoute
   '/workflow-runs/$workflowRunId/stepRun/$stepRunId': typeof WorkflowRunsWorkflowRunIdStepRunStepRunIdRouteLazyRouteWithChildren
-  '/workflows/$workflowId/trigger/$id': typeof WorkflowsWorkflowIdTriggerIdLazyRoute
+  '/workflows/$workflowId/trigger/$': typeof WorkflowsWorkflowIdTriggerSplatLazyRoute
+  '/workflows/$workflowId/trigger/FlowSubDemo': typeof WorkflowsWorkflowIdTriggerFlowSubDemoRouteLazyRouteWithChildren
   '/workflows/$workflowId/trigger/ag': typeof WorkflowsWorkflowIdTriggerAgRouteLazyRouteWithChildren
+  '/workflows/$workflowId/trigger/browser': typeof WorkflowsWorkflowIdTriggerBrowserRouteLazyRouteWithChildren
+  '/workflows/$workflowId/trigger/research': typeof WorkflowsWorkflowIdTriggerResearchRouteLazyRouteWithChildren
   '/workflows/$workflowId/trigger/smola': typeof WorkflowsWorkflowIdTriggerSmolaRouteLazyRouteWithChildren
   '/coms/$comId/team_builder/agent/': typeof ComsComIdTeambuilderAgentIndexLazyRoute
   '/coms/$comId/team_builder/jsonview/': typeof ComsComIdTeambuilderJsonviewIndexLazyRoute
   '/coms/$comId/team_builder/team/': typeof ComsComIdTeambuilderTeamIndexLazyRoute
   '/coms/$comId/view/$subComId/': typeof ComsComIdViewSubComIdIndexLazyRoute
   '/workflow-runs/$workflowRunId/stepRun/$stepRunId/': typeof WorkflowRunsWorkflowRunIdStepRunStepRunIdIndexLazyRoute
+  '/workflows/$workflowId/trigger/FlowSubDemo/': typeof WorkflowsWorkflowIdTriggerFlowSubDemoIndexLazyRoute
   '/workflows/$workflowId/trigger/ag/': typeof WorkflowsWorkflowIdTriggerAgIndexLazyRoute
+  '/workflows/$workflowId/trigger/browser/': typeof WorkflowsWorkflowIdTriggerBrowserIndexLazyRoute
+  '/workflows/$workflowId/trigger/research/': typeof WorkflowsWorkflowIdTriggerResearchIndexLazyRoute
   '/workflows/$workflowId/trigger/smola/': typeof WorkflowsWorkflowIdTriggerSmolaIndexLazyRoute
   '/coms/$comId/team_builder/agent/$agentId': typeof ComsComIdTeambuilderAgentAgentIdRouteLazyRouteWithChildren
   '/coms/$comId/team_builder/agent/new': typeof ComsComIdTeambuilderAgentNewRouteLazyRouteWithChildren
@@ -3812,6 +4059,7 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/coms/$comId'
     | '/gallery/$galleryId'
+    | '/model/modelId'
     | '/model/new'
     | '/platform-account/$platformAccountId'
     | '/platform-account/create'
@@ -3832,6 +4080,7 @@ export interface FileRouteTypes {
     | '/site/$siteId/host'
     | '/auth/login/'
     | '/coms/$comId/'
+    | '/model/modelId/'
     | '/model/new/'
     | '/platform-account/$platformAccountId/'
     | '/play/chat/'
@@ -3888,15 +4137,21 @@ export interface FileRouteTypes {
     | '/resource/new/res/chat'
     | '/resource/new/res/platform_account'
     | '/workflow-runs/$workflowRunId/stepRun/$stepRunId'
-    | '/workflows/$workflowId/trigger/$id'
+    | '/workflows/$workflowId/trigger/$'
+    | '/workflows/$workflowId/trigger/FlowSubDemo'
     | '/workflows/$workflowId/trigger/ag'
+    | '/workflows/$workflowId/trigger/browser'
+    | '/workflows/$workflowId/trigger/research'
     | '/workflows/$workflowId/trigger/smola'
     | '/coms/$comId/team_builder/agent/'
     | '/coms/$comId/team_builder/jsonview/'
     | '/coms/$comId/team_builder/team/'
     | '/coms/$comId/view/$subComId/'
     | '/workflow-runs/$workflowRunId/stepRun/$stepRunId/'
+    | '/workflows/$workflowId/trigger/FlowSubDemo/'
     | '/workflows/$workflowId/trigger/ag/'
+    | '/workflows/$workflowId/trigger/browser/'
+    | '/workflows/$workflowId/trigger/research/'
     | '/workflows/$workflowId/trigger/smola/'
     | '/coms/$comId/team_builder/agent/$agentId'
     | '/coms/$comId/team_builder/agent/new'
@@ -3942,6 +4197,7 @@ export interface FileRouteTypes {
     | '/site/$siteId/edit'
     | '/auth/login'
     | '/coms/$comId'
+    | '/model/modelId'
     | '/model/new'
     | '/platform-account/$platformAccountId'
     | '/play/chat'
@@ -3984,13 +4240,16 @@ export interface FileRouteTypes {
     | '/resource/new/res/browser'
     | '/resource/new/res/chat'
     | '/resource/new/res/platform_account'
-    | '/workflows/$workflowId/trigger/$id'
+    | '/workflows/$workflowId/trigger/$'
     | '/coms/$comId/team_builder/agent'
     | '/coms/$comId/team_builder/jsonview'
     | '/coms/$comId/team_builder/team'
     | '/coms/$comId/view/$subComId'
     | '/workflow-runs/$workflowRunId/stepRun/$stepRunId'
+    | '/workflows/$workflowId/trigger/FlowSubDemo'
     | '/workflows/$workflowId/trigger/ag'
+    | '/workflows/$workflowId/trigger/browser'
+    | '/workflows/$workflowId/trigger/research'
     | '/workflows/$workflowId/trigger/smola'
     | '/coms/$comId/team_builder/component/$nodeId'
     | '/coms/$comId/team_builder/agent/$agentId'
@@ -4043,6 +4302,7 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/coms/$comId'
     | '/gallery/$galleryId'
+    | '/model/modelId'
     | '/model/new'
     | '/platform-account/$platformAccountId'
     | '/platform-account/create'
@@ -4063,6 +4323,7 @@ export interface FileRouteTypes {
     | '/site/$siteId/host'
     | '/auth/login/'
     | '/coms/$comId/'
+    | '/model/modelId/'
     | '/model/new/'
     | '/platform-account/$platformAccountId/'
     | '/play/chat/'
@@ -4119,15 +4380,21 @@ export interface FileRouteTypes {
     | '/resource/new/res/chat'
     | '/resource/new/res/platform_account'
     | '/workflow-runs/$workflowRunId/stepRun/$stepRunId'
-    | '/workflows/$workflowId/trigger/$id'
+    | '/workflows/$workflowId/trigger/$'
+    | '/workflows/$workflowId/trigger/FlowSubDemo'
     | '/workflows/$workflowId/trigger/ag'
+    | '/workflows/$workflowId/trigger/browser'
+    | '/workflows/$workflowId/trigger/research'
     | '/workflows/$workflowId/trigger/smola'
     | '/coms/$comId/team_builder/agent/'
     | '/coms/$comId/team_builder/jsonview/'
     | '/coms/$comId/team_builder/team/'
     | '/coms/$comId/view/$subComId/'
     | '/workflow-runs/$workflowRunId/stepRun/$stepRunId/'
+    | '/workflows/$workflowId/trigger/FlowSubDemo/'
     | '/workflows/$workflowId/trigger/ag/'
+    | '/workflows/$workflowId/trigger/browser/'
+    | '/workflows/$workflowId/trigger/research/'
     | '/workflows/$workflowId/trigger/smola/'
     | '/coms/$comId/team_builder/agent/$agentId'
     | '/coms/$comId/team_builder/agent/new'
@@ -4269,6 +4536,7 @@ export const routeTree = rootRoute
       "filePath": "~model/~route.lazy.tsx",
       "children": [
         "/model/",
+        "/model/modelId",
         "/model/new"
       ]
     },
@@ -4471,6 +4739,13 @@ export const routeTree = rootRoute
       "filePath": "~gallery/~$galleryId/~route.lazy.tsx",
       "parent": "/gallery"
     },
+    "/model/modelId": {
+      "filePath": "~model/~modelId/~route.lazy.tsx",
+      "parent": "/model",
+      "children": [
+        "/model/modelId/"
+      ]
+    },
     "/model/new": {
       "filePath": "~model/~new/~route.lazy.tsx",
       "parent": "/model",
@@ -4595,6 +4870,10 @@ export const routeTree = rootRoute
     "/coms/$comId/": {
       "filePath": "~coms/~$comId/~index.lazy.tsx",
       "parent": "/coms/$comId"
+    },
+    "/model/modelId/": {
+      "filePath": "~model/~modelId/~index.lazy.tsx",
+      "parent": "/model/modelId"
     },
     "/model/new/": {
       "filePath": "~model/~new/~index.lazy.tsx",
@@ -4740,8 +5019,11 @@ export const routeTree = rootRoute
       "parent": "/workflows/$workflowId",
       "children": [
         "/workflows/$workflowId/trigger/",
-        "/workflows/$workflowId/trigger/$id",
+        "/workflows/$workflowId/trigger/$",
+        "/workflows/$workflowId/trigger/FlowSubDemo",
         "/workflows/$workflowId/trigger/ag",
+        "/workflows/$workflowId/trigger/browser",
+        "/workflows/$workflowId/trigger/research",
         "/workflows/$workflowId/trigger/smola"
       ]
     },
@@ -4893,15 +5175,36 @@ export const routeTree = rootRoute
         "/workflow-runs/$workflowRunId/stepRun/$stepRunId/"
       ]
     },
-    "/workflows/$workflowId/trigger/$id": {
-      "filePath": "~workflows/~$workflowId/~trigger/~$id.lazy.tsx",
+    "/workflows/$workflowId/trigger/$": {
+      "filePath": "~workflows/~$workflowId/~trigger/~$.lazy.tsx",
       "parent": "/workflows/$workflowId/trigger"
+    },
+    "/workflows/$workflowId/trigger/FlowSubDemo": {
+      "filePath": "~workflows/~$workflowId/~trigger/~FlowSubDemo/~route.lazy.tsx",
+      "parent": "/workflows/$workflowId/trigger",
+      "children": [
+        "/workflows/$workflowId/trigger/FlowSubDemo/"
+      ]
     },
     "/workflows/$workflowId/trigger/ag": {
       "filePath": "~workflows/~$workflowId/~trigger/~ag/~route.lazy.tsx",
       "parent": "/workflows/$workflowId/trigger",
       "children": [
         "/workflows/$workflowId/trigger/ag/"
+      ]
+    },
+    "/workflows/$workflowId/trigger/browser": {
+      "filePath": "~workflows/~$workflowId/~trigger/~browser/~route.lazy.tsx",
+      "parent": "/workflows/$workflowId/trigger",
+      "children": [
+        "/workflows/$workflowId/trigger/browser/"
+      ]
+    },
+    "/workflows/$workflowId/trigger/research": {
+      "filePath": "~workflows/~$workflowId/~trigger/~research/~route.lazy.tsx",
+      "parent": "/workflows/$workflowId/trigger",
+      "children": [
+        "/workflows/$workflowId/trigger/research/"
       ]
     },
     "/workflows/$workflowId/trigger/smola": {
@@ -4931,9 +5234,21 @@ export const routeTree = rootRoute
       "filePath": "~workflow-runs/~$workflowRunId/~stepRun/~$stepRunId/~index.lazy.tsx",
       "parent": "/workflow-runs/$workflowRunId/stepRun/$stepRunId"
     },
+    "/workflows/$workflowId/trigger/FlowSubDemo/": {
+      "filePath": "~workflows/~$workflowId/~trigger/~FlowSubDemo/~index.lazy.tsx",
+      "parent": "/workflows/$workflowId/trigger/FlowSubDemo"
+    },
     "/workflows/$workflowId/trigger/ag/": {
       "filePath": "~workflows/~$workflowId/~trigger/~ag/~index.lazy.tsx",
       "parent": "/workflows/$workflowId/trigger/ag"
+    },
+    "/workflows/$workflowId/trigger/browser/": {
+      "filePath": "~workflows/~$workflowId/~trigger/~browser/~index.lazy.tsx",
+      "parent": "/workflows/$workflowId/trigger/browser"
+    },
+    "/workflows/$workflowId/trigger/research/": {
+      "filePath": "~workflows/~$workflowId/~trigger/~research/~index.lazy.tsx",
+      "parent": "/workflows/$workflowId/trigger/research"
     },
     "/workflows/$workflowId/trigger/smola/": {
       "filePath": "~workflows/~$workflowId/~trigger/~smola/~index.lazy.tsx",

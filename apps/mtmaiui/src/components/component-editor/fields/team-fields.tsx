@@ -110,8 +110,8 @@ export const TeamFields = ({
           </label>
 
           <div className="space-y-2">
-            <h3 className="text-sm font-medium text-primary">Model</h3>
-            <div className="bg-secondary p-4 rounded-md">
+            <h3 className="text-sm font-medium">Model</h3>
+            <div className="p-4 rounded-md">
               {component.config.model_client ? (
                 <div className="flex items-center justify-between">
                   <span className="text-sm">
@@ -127,15 +127,15 @@ export const TeamFields = ({
                           "model_client",
                         )
                       }
+                      variant="ghost"
+                      size="icon"
                     >
-                      <Edit className="w-4 h-4" />
+                      <Edit className="size-4" />
                     </Button>
                   )}
                 </div>
               ) : (
-                <div className="text-sm text-secondary text-center">
-                  No model configured
-                </div>
+                <div className="text-sm text-center">No model configured</div>
               )}
             </div>
           </div>

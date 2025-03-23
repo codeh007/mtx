@@ -9,7 +9,6 @@ import { buttonVariants } from "mtxuilib/ui/button";
 import { useTenantId } from "../../hooks/useAuth";
 
 export function ModelListView() {
-  // const listWorkflowQuery = useWorkflowsStore((x) => x.listWorkflowQuery);
   const tid = useTenantId();
 
   const modelQuery = useSuspenseQuery({
@@ -34,7 +33,7 @@ function ModelListItem({ row }: { row: Model }) {
   return (
     <div className="flex flex-col gap-2 mb-2 bg-blue-50 p-2 rounded-md">
       <div>
-        <CustomLink to={`/workflows/${row.metadata.id}`}>{row.name}</CustomLink>
+        <CustomLink to={`/model/${row.metadata.id}`}>{row.name}</CustomLink>
       </div>
 
       <div>
@@ -48,7 +47,7 @@ function ModelListItem({ row }: { row: Model }) {
             to={`/workflows/${workflowId}/trigger/${workflowName}`}
             className={cn(buttonVariants({ variant: "outline" }))}
           >
-            启动
+            查看
           </CustomLink>
         </span>
       </div>

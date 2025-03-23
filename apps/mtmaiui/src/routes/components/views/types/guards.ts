@@ -144,7 +144,10 @@ export function isRoundRobinTeam(
 export function isSelectorTeam(
   component: MtComponent,
 ): component is MtComponent {
-  return isComponentOfType(component, PROVIDERS.SELECTOR_TEAM);
+  return (
+    isComponentOfType(component, PROVIDERS.SELECTOR_TEAM) ||
+    isComponentOfType(component, PROVIDERS.INSTAGRAM_TEAM)
+  );
 }
 
 export function isInstagramTeam(
