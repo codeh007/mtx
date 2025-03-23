@@ -1,6 +1,7 @@
 import { DragOverlay } from "@dnd-kit/core";
 import { Background, Controls, MiniMap, ReactFlow } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
+import { cn } from "mtxuilib/lib/utils";
 import { MonacoEditor } from "mtxuilib/mt/monaco";
 import { Button } from "mtxuilib/ui/button";
 import { useRef } from "react";
@@ -24,6 +25,8 @@ export const TeamBuilder = () => {
   const onConnect = useTeamBuilderStore((x) => x.onConnect);
   const onNodesChange = useTeamBuilderStore((x) => x.onNodesChange);
   const onEdgesChange = useTeamBuilderStore((x) => x.onEdgesChange);
+  const showFlowControl = useTeamBuilderStore((x) => x.showFlowControl);
+  // const setShowFlowControl = useTeamBuilderStore((x) => x.setShowFlowControl);
 
   return (
     <>
@@ -31,11 +34,12 @@ export const TeamBuilder = () => {
         <div className=" rounded bg-slate-500 w-full h-full">
           <div className="relative rounded w-full h-full">
             <div
-              className={`w-full h-full transition-all duration-200 ${
+              className={cn(
+                "w-full h-full transition-all duration-200",
                 isFullscreen
                   ? "fixed inset-4 z-50 shadow bg-tertiary  backdrop-blur-sm"
-                  : ""
-              }`}
+                  : "",
+              )}
             >
               {isJsonMode ? (
                 <MonacoEditor
@@ -63,7 +67,7 @@ export const TeamBuilder = () => {
                 >
                   {showGrid && <Background />}
                   {showMiniMap && <MiniMap />}
-                  <Controls />
+                  {showFlowControl && <Controls />}
                 </ReactFlow>
               )}
             </div>

@@ -122,6 +122,8 @@ export interface TeamBuilderState extends TeamBuilderProps {
   setShowGrid: (showGrid: boolean) => void;
   showMiniMap: boolean;
   setShowMiniMap: (showMiniMap: boolean) => void;
+  showFlowControl: boolean;
+  setShowFlowControl: (showFlowControl: boolean) => void;
   selectedNodeId: string | null;
   history: Array<{ nodes: CustomNode[]; edges: CustomEdge[] }>;
   currentHistoryIndex: number;
@@ -246,7 +248,11 @@ export const createWorkbrenchSlice: StateCreator<
     isJsonMode: false,
     isFullscreen: false,
     showGrid: true,
-    showMiniMap: true,
+    showMiniMap: false,
+    showFlowControl: true,
+    setShowFlowControl: (showFlowControl) => {
+      set({ showFlowControl });
+    },
 
     setIsJsonMode: (isJsonMode) => {
       set({ isJsonMode });
@@ -1054,7 +1060,7 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
     }),
   );
 
-  const mystore = useMemo(() => {
+  const store = useMemo(() => {
     const store = createTeamBuilderStore({
       ...etc,
       component: componentsQuery.data,
@@ -1067,23 +1073,23 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
 
   useEffect(() => {
     if (componentsQuery.data) {
-      mystore.getState().loadFromJson(componentsQuery.data);
+      store.getState().loadFromJson(componentsQuery.data);
     }
-  }, [componentsQuery.data, mystore]);
+  }, [componentsQuery.data, store]);
 
   useEffect(() => {
-    if (!mystore.getState().isFullscreen) return;
+    if (!store.getState().isFullscreen) return;
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        mystore.setState({ isFullscreen: false });
+        store.setState({ isFullscreen: false });
       }
     };
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
-  }, [mystore]);
+  }, [store]);
 
   useEffect(() => {
-    if (mystore.getState().isDirty) {
+    if (store.getState().isDirty) {
       const handleBeforeUnload = (e: BeforeUnloadEvent) => {
         e.preventDefault();
         e.returnValue = "";
@@ -1092,14 +1098,14 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
       return () =>
         window.removeEventListener("beforeunload", handleBeforeUnload);
     }
-  }, [mystore]);
+  }, [store]);
   return (
-    <mtmaiStoreContext.Provider value={mystore}>
+    <mtmaiStoreContext.Provider value={store}>
       <DndContext
         sensors={sensors}
-        onDragEnd={mystore.getState().handleDragEnd}
-        onDragOver={mystore.getState().handleDragOver}
-        onDragStart={mystore.getState().handleDragStart}
+        onDragEnd={store.getState().handleDragEnd}
+        onDragOver={store.getState().handleDragOver}
+        onDragStart={store.getState().handleDragStart}
       >
         {children}
       </DndContext>
