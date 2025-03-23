@@ -2301,17 +2301,19 @@ export const zBaseGroupChatManagerState = zBaseState.merge(
   }),
 );
 
+export const zMtComponentProperties = z.object({
+  label: z.string(),
+  description: z.string(),
+  provider: z.string(),
+  componentType: z.string(),
+  version: z.number().int(),
+  componentVersion: z.number().int(),
+  galleryId: z.string(),
+  config: z.object({}),
+});
+
 export const zMtComponent = zApiResourceMetaProperties.merge(
-  z.object({
-    label: z.string(),
-    description: z.string(),
-    provider: z.string(),
-    componentType: z.string(),
-    version: z.number().int(),
-    componentVersion: z.number().int(),
-    galleryId: z.string(),
-    config: z.object({}),
-  }),
+  zMtComponentProperties,
 );
 
 export const zMtComponentNew = z.object({
@@ -2323,6 +2325,8 @@ export const zMtComponentList = z.object({
   pagination: zPaginationResponse.optional(),
   rows: z.array(zMtComponent).optional(),
 });
+
+export const zMtComponentUpsert = zMtComponentProperties;
 
 export const zComponentModel = z.object({
   id: z.string().optional(),

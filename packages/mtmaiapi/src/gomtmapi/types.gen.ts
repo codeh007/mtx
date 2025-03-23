@@ -2123,7 +2123,7 @@ export type BaseGroupChatManagerState = BaseState & {
   current_turn?: number;
 };
 
-export type MtComponent = ApiResourceMetaProperties & {
+export type MtComponentProperties = {
   label: string;
   description: string;
   provider: string;
@@ -2136,6 +2136,8 @@ export type MtComponent = ApiResourceMetaProperties & {
   };
 };
 
+export type MtComponent = ApiResourceMetaProperties & MtComponentProperties;
+
 export type MtComponentNew = {
   label?: string;
   description?: string;
@@ -2145,6 +2147,8 @@ export type MtComponentList = {
   pagination?: PaginationResponse;
   rows?: Array<MtComponent>;
 };
+
+export type MtComponentUpsert = MtComponentProperties;
 
 export type ComponentModel = {
   /**
@@ -7387,7 +7391,7 @@ export type ComsUpsertData = {
   /**
    * The model properties to update
    */
-  body: MtComponent;
+  body: MtComponentUpsert;
   path: {
     /**
      * The tenant id

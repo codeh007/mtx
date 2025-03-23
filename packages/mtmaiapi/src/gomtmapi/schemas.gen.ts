@@ -3872,50 +3872,54 @@ export const BaseGroupChatManagerStateSchema = {
   ],
 } as const;
 
+export const MtComponentPropertiesSchema = {
+  required: [
+    "label",
+    "description",
+    "provider",
+    "componentType",
+    "version",
+    "componentVersion",
+    "galleryId",
+    "component",
+    "config",
+  ],
+  properties: {
+    label: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    provider: {
+      type: "string",
+    },
+    componentType: {
+      type: "string",
+    },
+    version: {
+      type: "integer",
+    },
+    componentVersion: {
+      type: "integer",
+    },
+    galleryId: {
+      type: "string",
+    },
+    config: {
+      type: "object",
+      additionalProperties: true,
+    },
+  },
+} as const;
+
 export const MtComponentSchema = {
   allOf: [
     {
       $ref: "#/components/schemas/APIResourceMetaProperties",
     },
     {
-      required: [
-        "label",
-        "description",
-        "provider",
-        "componentType",
-        "version",
-        "componentVersion",
-        "galleryId",
-        "component",
-        "config",
-      ],
-      properties: {
-        label: {
-          type: "string",
-        },
-        description: {
-          type: "string",
-        },
-        provider: {
-          type: "string",
-        },
-        componentType: {
-          type: "string",
-        },
-        version: {
-          type: "integer",
-        },
-        componentVersion: {
-          type: "integer",
-        },
-        galleryId: {
-          type: "string",
-        },
-        config: {
-          type: "object",
-          additionalProperties: true,
-        },
-      },
+      $ref: "#/components/schemas/MtComponentProperties",
     },
   ],
 } as const;
@@ -3943,6 +3947,14 @@ export const MtComponentListSchema = {
       },
     },
   },
+} as const;
+
+export const MtComponentUpsertSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/MtComponentProperties",
+    },
+  ],
 } as const;
 
 export const ComponentModelSchema = {
