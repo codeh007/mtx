@@ -6214,11 +6214,16 @@ export const zSchemaForm = z.object({
 });
 
 export const zModelRunProperties = z.object({
-  request: z.object({}).optional(),
-  response: z.object({}).optional(),
+  llmMessages: z.object({}).optional(),
+  llmResponse: z.object({}).optional(),
 });
 
 export const zModelRun = zApiResourceMetaProperties.merge(zModelRunProperties);
+
+export const zModelRunList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zModelRun).optional(),
+});
 
 export const zModelRunUpsert = zModelRunProperties;
 

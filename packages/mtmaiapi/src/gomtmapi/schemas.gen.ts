@@ -5451,13 +5451,13 @@ export const SchemaFormSchema = {
 export const ModelRunPropertiesSchema = {
   type: "object",
   properties: {
-    request: {
+    llmMessages: {
       type: "object",
       additionalProperties: {
         type: "string",
       },
     },
-    response: {
+    llmResponse: {
       type: "object",
       additionalProperties: {
         type: "string",
@@ -5475,6 +5475,20 @@ export const ModelRunSchema = {
       $ref: "#/components/schemas/ModelRunProperties",
     },
   ],
+} as const;
+
+export const ModelRunListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ModelRun",
+      },
+    },
+  },
 } as const;
 
 export const ModelRunUpsertSchema = {

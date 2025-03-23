@@ -2764,15 +2764,20 @@ export type SchemaForm = {
 };
 
 export type ModelRunProperties = {
-  request?: {
+  llmMessages?: {
     [key: string]: string;
   };
-  response?: {
+  llmResponse?: {
     [key: string]: string;
   };
 };
 
 export type ModelRun = ApiResourceMetaProperties & ModelRunProperties;
+
+export type ModelRunList = {
+  pagination?: PaginationResponse;
+  rows?: Array<ModelRun>;
+};
 
 export type ModelRunUpsert = ModelRunProperties;
 
