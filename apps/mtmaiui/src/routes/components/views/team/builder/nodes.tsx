@@ -38,6 +38,24 @@ import {
 } from "../../types/guards";
 import type { CustomNode } from "./types";
 
+interface NodeHandleProps {
+  type: "source" | "target";
+  position: Position;
+  id: string;
+  className?: string;
+}
+
+const NodeHandle = ({ type, position, id, className }: NodeHandleProps) => {
+  return (
+    <Handle
+      type={type}
+      position={position}
+      id={id}
+      className={cn("w-1 h-3 rounded-l-sm -mr-1 border-0", className)}
+    />
+  );
+};
+
 // Icon mapping for different node types
 export const iconMap: Record<
   Component<ComponentConfig>["component_type"],
@@ -277,11 +295,17 @@ export const TeamNode = memo<NodeProps<CustomNode>>((props) => {
           </div>
         }
       >
-        <Handle
+        {/* <Handle
           type="source"
           position={Position.Right}
           id={`${props.id}-agent-output-handle`}
           className="w-1 h-3 rounded-l-sm -mr-1 border-0"
+        /> */}
+        <NodeHandle
+          type="source"
+          position={Position.Right}
+          id={`${props.id}-agent-output-handle`}
+          // className="w-1 h-3 rounded-l-sm -mr-1 border-0"
         />
         <div className="space-y-1">
           {component.config.participants?.map((participant, index) => (

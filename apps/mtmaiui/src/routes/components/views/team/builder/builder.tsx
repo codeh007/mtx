@@ -26,8 +26,6 @@ export const TeamBuilder = () => {
   const onNodesChange = useTeamBuilderStore((x) => x.onNodesChange);
   const onEdgesChange = useTeamBuilderStore((x) => x.onEdgesChange);
   const showFlowControl = useTeamBuilderStore((x) => x.showFlowControl);
-  // const setShowFlowControl = useTeamBuilderStore((x) => x.setShowFlowControl);
-
   return (
     <>
       <div className=" relative h-[calc(100vh-50px)] flex-1">
