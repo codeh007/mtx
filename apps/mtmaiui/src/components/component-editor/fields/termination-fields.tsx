@@ -1,8 +1,9 @@
 import { Edit, HelpCircle, MinusCircle, PlusCircle } from "lucide-react";
+import type { MtComponent } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import { Input } from "mtxuilib/ui/input";
 import { Select } from "mtxuilib/ui/select";
-import { Tooltip } from "mtxuilib/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import React, { useCallback, useState } from "react";
 import type {
   Component,
@@ -19,7 +20,7 @@ import { DetailGroup } from "../../detailgroup";
 
 interface TerminationFieldsProps {
   component: Component<TerminationConfig>;
-  onChange: (updates: Partial<Component<ComponentConfig>>) => void;
+  onChange: (updates: Partial<MtComponent>) => void;
   onNavigate?: (componentType: string, id: string, parentField: string) => void;
 }
 
@@ -49,8 +50,13 @@ const InputWithTooltip: React.FC<{
   <label className="block" htmlFor={label}>
     <div className="flex items-center gap-2 mb-1">
       <span className="text-sm font-medium text-gray-700">{label}</span>
-      <Tooltip title={tooltip}>
-        <HelpCircle className="w-4 h-4 text-gray-400" />
+      <Tooltip>
+        <TooltipTrigger>
+          <HelpCircle className="size-4 text-gray-400" />
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>{tooltip}</p>
+        </TooltipContent>
       </Tooltip>
     </div>
     {children}
@@ -130,12 +136,11 @@ export const TerminationFields: React.FC<TerminationFieldsProps> = ({
         <div className="space-y-4">
           <div className="flex justify-between items-center">
             <Button
-              type="dashed"
               onClick={() => setShowAddCondition(true)}
-              icon={<PlusCircle className="w-4 h-4" />}
               className="w-full"
+              variant="outline"
             >
-              Add Condition
+              <PlusCircle className="size-4" /> 增加条件
             </Button>
           </div>
 
@@ -181,14 +186,17 @@ export const TerminationFields: React.FC<TerminationFieldsProps> = ({
                   className="w-full flex justify-between items-center"
                 >
                   <span>{condition.label || `Condition ${index + 1}`}</span>
-                  <Edit className="w-4 h-4" />
+                  <Edit className="size-4" />
                 </Button>
                 <Button
-                  type="text"
-                  danger
-                  icon={<MinusCircle className="w-4 h-4" />}
+                  // type="text"
+                  // danger
                   onClick={() => handleRemoveCondition(index)}
-                />
+                  className=""
+                  variant={"destructive"}
+                >
+                  <MinusCircle className="size-4" />
+                </Button>
               </div>
             ))}
           </div>
@@ -200,11 +208,12 @@ export const TerminationFields: React.FC<TerminationFieldsProps> = ({
   if (isMaxMessageTermination(component)) {
     return (
       <DetailGroup title="Max Messages Configuration">
-        {/* <InputWithTooltip
+        <InputWithTooltip
           label="Max Messages"
           tooltip="Maximum number of messages before termination"
         >
-          <InputNumber
+          <Input
+            type="number"
             min={1}
             value={component.config.max_messages}
             onChange={(value) =>
@@ -214,7 +223,7 @@ export const TerminationFields: React.FC<TerminationFieldsProps> = ({
             }
             className="w-full"
           />
-        </InputWithTooltip> */}
+        </InputWithTooltip>
       </DetailGroup>
     );
   }
@@ -227,7 +236,8 @@ export const TerminationFields: React.FC<TerminationFieldsProps> = ({
           tooltip="Text that triggers termination when mentioned"
         >
           <Input
-            value={component.config.text}
+            defaultValue={component.config.text}
+            // value={component.config.text}
             onChange={(e) =>
               handleComponentUpdate({
                 config: { text: e.target.value },

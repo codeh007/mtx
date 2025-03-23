@@ -120,9 +120,9 @@ export const AgentFields = ({
 
     const blankTool: Component<FunctionToolConfig> = {
       provider: "autogen_core.tools.FunctionTool",
-      component_type: "tool",
+      componentType: "tool",
       version: 1,
-      component_version: 1,
+      componentVersion: 1,
       description: "Create custom tools by wrapping standard Python functions.",
       label: "New Tool",
       config: {
@@ -282,9 +282,16 @@ export const AgentFields = ({
                   <span className="text-sm font-medium text-primary">
                     Tools
                   </span>
-                  <Button variant="outline" size="sm" onClick={handleAddTool}>
-                    <PlusCircle className="w-4 h-4" />
-                    Add Tool
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleAddTool();
+                    }}
+                  >
+                    <PlusCircle className="size-4" />
+                    增加工具
                   </Button>
                 </div>
                 <div className="space-y-2">
@@ -303,13 +310,14 @@ export const AgentFields = ({
                             <Button
                               variant="outline"
                               size="icon"
-                              onClick={() =>
+                              onClick={(e) => {
+                                e.preventDefault();
                                 onNavigate(
                                   "tool",
                                   tool.config.name || tool.label || "",
                                   "tools",
-                                )
-                              }
+                                );
+                              }}
                             >
                               <Edit className="size-4" />
                             </Button>
@@ -318,7 +326,10 @@ export const AgentFields = ({
                             // danger
                             variant="destructive"
                             size="icon"
-                            onClick={() => handleRemoveTool(index)}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleRemoveTool(index);
+                            }}
                           >
                             <Trash2 className="size-4" />
                           </Button>
@@ -340,10 +351,12 @@ export const AgentFields = ({
                   Reflect on Tool Use
                 </span>
                 <Switch
-                  checked={component.config.reflect_on_tool_use}
-                  onChange={(checked) =>
-                    handleConfigUpdate("reflect_on_tool_use", checked)
-                  }
+                  // checked={component.config.reflect_on_tool_use}
+
+                  onChange={(checked) => {
+                    console.log("checked", checked);
+                    handleConfigUpdate("reflect_on_tool_use", checked);
+                  }}
                 />
               </div>
 

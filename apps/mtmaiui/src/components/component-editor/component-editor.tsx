@@ -290,7 +290,6 @@ export const ComponentEditor = ({
     if (isTerminationComponent(currentComponent)) {
       return (
         <>
-          <span>TerminationFields</span>
           <TerminationFields
             component={currentComponent}
             onChange={handleComponentUpdate}
