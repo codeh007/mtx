@@ -5,19 +5,22 @@ import { siteGetOptions } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import { Label } from "mtxuilib/ui/label";
 import { Separator } from "mtxuilib/ui/separator";
+import { Switch } from "mtxuilib/ui/switch";
 import { Textarea } from "mtxuilib/ui/textarea";
-import { useTenant } from "../../hooks/useAuth";
+import { useTenant, useTenantId } from "../../hooks/useAuth";
+import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 
 interface SiteShowViewProps {
   siteId: string;
 }
 export function SiteShowView({ siteId }: SiteShowViewProps) {
   const tenant = useTenant();
+  const tid = useTenantId;()
   const siteQuery = useSuspenseQuery({
     ...siteGetOptions({
       path: {
         site: siteId,
-        tenant: tenant.metadata.id,
+        tenant: tid,
       },
     }),
   });

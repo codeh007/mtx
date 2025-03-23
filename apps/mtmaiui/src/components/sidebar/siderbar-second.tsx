@@ -30,7 +30,7 @@ export function SidebarSecond() {
             </div>
             <Label className="flex items-center gap-2 text-sm">
               <span>Unreads</span>
-              <Switch className="shadow-none" />
+              <Switch className="" />
             </Label>
           </div>
           <SidebarInput placeholder="Type to search..." />

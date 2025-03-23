@@ -9,13 +9,14 @@ import {
   FormMessage,
 } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
+import { Switch } from "mtxuilib/ui/switch";
 import { useFormContext } from "react-hook-form";
 import type { z } from "zod";
 
 export const ModelClientForm = () => {
   const form = useFormContext<z.infer<typeof zUpsertModel>>();
   return (
-    <div className=" p-2">
+    <div className="p-2 space-y-4">
       <FormField
         control={form.control}
         name="name"
@@ -68,6 +69,72 @@ export const ModelClientForm = () => {
               <Input placeholder="apiBase" {...field} />
             </FormControl>
             {/* <FormDescription></FormDescription> */}
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="family"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>family</FormLabel>
+            <FormControl>
+              <Input placeholder="family" {...field} />
+            </FormControl>
+            {/* <FormDescription></FormDescription> */}
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        name={"jsonOutput"}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>jsonOutput</FormLabel>
+            <FormControl>
+              <Switch
+                checked={!!field.value}
+                onCheckedChange={(checked) => {
+                  form.setValue("jsonOutput", checked);
+                }}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        name={"vision"}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>vision</FormLabel>
+            <FormControl>
+              <Switch
+                checked={!!field.value}
+                onCheckedChange={(checked) => {
+                  form.setValue("vision", checked);
+                }}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        name={"functionCalling"}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>functionCalling</FormLabel>
+            <FormControl>
+              <Switch
+                checked={!!field.value}
+                onCheckedChange={(checked) => {
+                  form.setValue("functionCalling", checked);
+                }}
+              />
+            </FormControl>
             <FormMessage />
           </FormItem>
         )}

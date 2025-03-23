@@ -31,7 +31,7 @@ export function NavWorkflow() {
             >
               <span>New</span>
             </CustomLink>
-            <Switch className="shadow-none" />
+            <Switch />
           </Label>
         </div>
         <SidebarInput placeholder="Type to search..." />

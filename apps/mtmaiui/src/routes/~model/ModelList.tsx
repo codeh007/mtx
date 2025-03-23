@@ -44,7 +44,7 @@ function ModelListItem({ row }: { row: Model }) {
         <span className="text-sm text-muted-foreground">{row.name}</span>
         <span>
           <CustomLink
-            to={`/workflows/${workflowId}/trigger/${workflowName}`}
+            to={`/model/${workflowId}/`}
             className={cn(buttonVariants({ variant: "outline" }))}
           >
             查看
