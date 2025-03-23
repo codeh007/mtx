@@ -281,7 +281,7 @@ export const TeamNode = memo<NodeProps<CustomNode>>((props) => {
           type="source"
           position={Position.Right}
           id={`${props.id}-agent-output-handle`}
-          className="my-right-handle"
+          className="w-1 h-3 rounded-l-sm -mr-1 border-0"
         />
         <div className="space-y-1">
           {component.config.participants?.map((participant, index) => (
@@ -290,14 +290,14 @@ export const TeamNode = memo<NodeProps<CustomNode>>((props) => {
               key={index}
               className="relative text-sm py-1 px-2 bg-white rounded flex items-center gap-2"
             >
-              <Brain className="w-4 h-4 text-gray-500" />
+              <Brain className="size-4 text-gray-500" />
               <span>
                 {participant.config.name}
                 <CustomLink
                   to={`/coms/${componentId}/team_builder/component`}
                   className={cn(
-                    "p-1 hover:bg-secondary rounded",
-                    buttonVariants({ variant: "outline" }),
+                    "rounded",
+                    buttonVariants({ variant: "outline", size: "icon" }),
                   )}
                 >
                   <Edit className="size-4" />{" "}
@@ -307,9 +307,7 @@ export const TeamNode = memo<NodeProps<CustomNode>>((props) => {
             </div>
           ))}
           <DroppableZone id={`${props.id}@@@agent-zone`} accepts={["agent"]}>
-            <div className="text-secondary text-xs my-1 text-center">
-              Drop agents here: {props.id} <DebugValue data={props} />
-            </div>
+            <div className="text-xs my-1 text-center">Drop agents here</div>
           </DroppableZone>
         </div>
       </NodeSection>

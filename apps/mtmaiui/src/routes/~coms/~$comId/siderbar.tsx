@@ -32,7 +32,7 @@ export function NavComsWithLibrary() {
 
   const linkToNew = useMemo(() => {
     const newUUID = generateUUID();
-    return `/coms/${newUUID}/team_builder`;
+    return `/coms/${newUUID}`;
   }, []);
 
   const setQueryParams = useComponentsStore((x) => x.setQueryParams);

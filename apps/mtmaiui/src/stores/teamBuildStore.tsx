@@ -157,6 +157,7 @@ export interface TeamBuilderState extends TeamBuilderProps {
   handleJsonChange: DebouncedFunc<(value: string) => void>;
   handleSave: () => Promise<void>;
   onConnect: (params: Connection) => void;
+  newHistoryState: () => void;
   validateDropTarget: (
     draggedType: ComponentTypes,
     targetType: ComponentTypes,
@@ -172,7 +173,7 @@ const buildTeamComponent = (
   edges: CustomEdge[],
 ): MtComponent | null => {
   const componentObj = { ...teamNode.data.component };
-  console.log("componentObj", teamNode.data.component);
+  // console.log("componentObj", teamNode.data.component);
   if (!isTeamComponent(componentObj)) return null;
 
   // Get participants using edges
@@ -187,7 +188,7 @@ const buildTeamComponent = (
       return agentNode.data.component;
     })
     .filter((agent) => agent !== null);
-  console.log("builded component", componentObj, participants);
+  // console.log("builded component", componentObj, participants);
 
   // Create a new object instead of modifying the original
   return {
@@ -245,24 +246,23 @@ export const createWorkbrenchSlice: StateCreator<
     history: [],
     currentHistoryIndex: -1,
     originalComponent: null,
-    isJsonMode: false,
-    isFullscreen: false,
-    showGrid: true,
-    showMiniMap: false,
     showFlowControl: true,
     setShowFlowControl: (showFlowControl) => {
       set({ showFlowControl });
     },
-
+    isJsonMode: false,
     setIsJsonMode: (isJsonMode) => {
       set({ isJsonMode });
     },
+    isFullscreen: false,
     setIsFullscreen: (isFullscreen) => {
       set({ isFullscreen });
     },
+    showGrid: true,
     setShowGrid: (showGrid) => {
       set({ showGrid });
     },
+    showMiniMap: false,
     setShowMiniMap: (showMiniMap) => {
       set({ showMiniMap });
     },
@@ -314,7 +314,7 @@ export const createWorkbrenchSlice: StateCreator<
 
       const draggedItem = active.data.current.current;
       const dropZoneId = over.id as string;
-      console.log({ message: "handleDragEnd", dropZoneId, draggedItem });
+      // console.log({ message: "handleDragEnd", dropZoneId, draggedItem });
       const [nodeId] = dropZoneId.split("@@@");
       // Find target node
       const targetNode = get().nodes.find((node) => node.id === nodeId);
@@ -348,13 +348,13 @@ export const createWorkbrenchSlice: StateCreator<
 
       const draggedType = active.data.current.type;
       const targetNode = get().nodes.find((node) => node.id === over.id);
-      console.log({
-        message: "handleDragOver",
-        event,
-        draggedType,
-        targetNode,
-        targetNodeType: targetNode?.data.component.componentType,
-      });
+      // console.log({
+      //   message: "handleDragOver",
+      //   event,
+      //   draggedType,
+      //   targetNode,
+      //   targetNodeType: targetNode?.data.component.componentType,
+      // });
       if (!targetNode) return;
 
       const isValid = get().validateDropTarget(
@@ -372,25 +372,29 @@ export const createWorkbrenchSlice: StateCreator<
     onConnect: (params: Connection) => {
       set({ edges: addEdge(params, get().edges) });
     },
+    newHistoryState: () => {
+      set({
+        history: [
+          ...get().history.slice(0, get().currentHistoryIndex + 1),
+          { nodes: get().nodes, edges: get().edges },
+        ].slice(-MAX_HISTORY),
+        currentHistoryIndex: get().currentHistoryIndex + 1,
+      });
+    },
     addNode: (
       position: Position,
       component: MtComponent,
       targetNodeId: string,
     ) => {
-      console.log("addNode", component, targetNodeId);
       // Deep clone the incoming component to avoid reference issues
       const clonedComponent = JSON.parse(JSON.stringify(component.config));
-      console.log("clonedComponent", clonedComponent);
+      console.log("addNode", { component, targetNodeId, position });
       let newNodes = [...get().nodes];
       const newEdges = [...get().edges];
 
       if (targetNodeId) {
         const targetNode = get().nodes.find((n) => n.id === targetNodeId);
-
-        console.log("Target node data", targetNode?.data);
         if (!targetNode) {
-          console.log("No target node", targetNodeId);
-          // return state;
           return;
         }
 
@@ -401,32 +405,40 @@ export const createWorkbrenchSlice: StateCreator<
             isSelectorTeam(targetNode.data.component)
           ) {
             targetNode.data.component.config.model_client = clonedComponent;
-            return {
+            get().newHistoryState();
+            set({
               nodes: newNodes,
               edges: newEdges,
-              history: [
-                ...get().history.slice(0, get().currentHistoryIndex + 1),
-                { nodes: newNodes, edges: newEdges },
-              ].slice(-MAX_HISTORY),
-              currentHistoryIndex: get().currentHistoryIndex + 1,
-            };
+              // history: [
+              //   ...get().history.slice(0, get().currentHistoryIndex + 1),
+              //   { nodes: newNodes, edges: newEdges },
+              // ].slice(-MAX_HISTORY),
+              // currentHistoryIndex: get().currentHistoryIndex + 1,
+            });
+            return;
             // biome-ignore lint/style/noUselessElse: <explanation>
           } else if (
             isAgentComponent(targetNode.data.component) &&
             (isAssistantAgent(targetNode.data.component) ||
               isWebSurferAgent(targetNode.data.component))
           ) {
-            console.log("添加agent 组件");
+            // console.log("添加agent 组件");
             targetNode.data.component.config.model_client = clonedComponent;
-            return {
+            get().newHistoryState();
+            set({
               nodes: newNodes,
               edges: newEdges,
-              history: [
-                ...get().history.slice(0, get().currentHistoryIndex + 1),
-                { nodes: newNodes, edges: newEdges },
-              ].slice(-MAX_HISTORY),
-              currentHistoryIndex: get().currentHistoryIndex + 1,
-            };
+            });
+            return;
+            // return {
+            //   nodes: newNodes,
+            //   edges: newEdges,
+            //   history: [
+            //     ...get().history.slice(0, get().currentHistoryIndex + 1),
+            //     { nodes: newNodes, edges: newEdges },
+            //   ].slice(-MAX_HISTORY),
+            //   currentHistoryIndex: get().currentHistoryIndex + 1,
+            // };
           }
         } else if (isToolComponent(clonedComponent)) {
           if (
@@ -572,12 +584,13 @@ export const createWorkbrenchSlice: StateCreator<
           set({
             edges: newEdges,
             nodes: newNodes,
-            history: [
-              ...get().history.slice(0, get().currentHistoryIndex + 1),
-              { nodes: newNodes, edges: newEdges },
-            ].slice(-MAX_HISTORY),
-            currentHistoryIndex: get().currentHistoryIndex + 1,
+            // history: [
+            //   ...get().history.slice(0, get().currentHistoryIndex + 1),
+            //   { nodes: newNodes, edges: newEdges },
+            // ].slice(-MAX_HISTORY),
+            // currentHistoryIndex: get().currentHistoryIndex + 1,
           });
+          get().newHistoryState();
           set({ isDirty: true });
           get().syncToJson();
         }
@@ -586,14 +599,15 @@ export const createWorkbrenchSlice: StateCreator<
       const { nodes: layoutedNodes, edges: layoutedEdges } =
         getLayoutedElements(newNodes, newEdges);
 
+      get().newHistoryState();
       set({
         nodes: layoutedNodes,
         edges: layoutedEdges,
-        history: [
-          ...get().history.slice(0, get().currentHistoryIndex + 1),
-          { nodes: layoutedNodes, edges: layoutedEdges },
-        ].slice(-MAX_HISTORY),
-        currentHistoryIndex: get().currentHistoryIndex + 1,
+        // history: [
+        //   ...get().history.slice(0, get().currentHistoryIndex + 1),
+        //   { nodes: layoutedNodes, edges: layoutedEdges },
+        // ].slice(-MAX_HISTORY),
+        // currentHistoryIndex: get().currentHistoryIndex + 1,
       });
       // return {
       //   // nodes: layoutedNodes,
@@ -608,7 +622,7 @@ export const createWorkbrenchSlice: StateCreator<
     },
 
     /**
-     * 更像节点
+     * 更新节点
      * TODO: 建议步骤,
      * @param nodeId
      * @param updates
@@ -657,11 +671,11 @@ export const createWorkbrenchSlice: StateCreator<
 
         // This is the directly updated node
         const updatedComponent = updates.component || node.data.component;
-        // console.log("This is the directly updated node", {
-        //   node,
-        //   updates,
-        //   updatedComponent,
-        // });
+        console.log("This is the directly updated node", {
+          node,
+          updates,
+          updatedComponent,
+        });
 
         return {
           ...node,
@@ -675,17 +689,18 @@ export const createWorkbrenchSlice: StateCreator<
         };
       });
 
-      // console.log("newNodes", newNodes);
-      get().syncToJson();
+      // console.log("更新后的节点:", newNodes);
       set({
         nodes: newNodes,
-        history: [
-          ...get().history.slice(0, get().currentHistoryIndex + 1),
-          { nodes: newNodes, edges: get().edges },
-        ].slice(-MAX_HISTORY),
-        currentHistoryIndex: get().currentHistoryIndex + 1,
+        // history: [
+        //   ...get().history.slice(0, get().currentHistoryIndex + 1),
+        //   { nodes: newNodes, edges: get().edges },
+        // ].slice(-MAX_HISTORY),
+        // currentHistoryIndex: get().currentHistoryIndex + 1,
         isDirty: true,
       });
+      get().newHistoryState();
+      get().syncToJson();
     },
 
     removeNode: (nodeId: string) => {
@@ -888,9 +903,8 @@ export const createWorkbrenchSlice: StateCreator<
       //   await onChange(teamData);
       //   resetHistory();
       // }
-      // TODO: 保存到后端
       console.log("handleSave", get().component);
-      get().upsertComponent.mutate({
+      await get().upsertComponent.mutateAsync({
         path: {
           tenant: get().tid,
           com: get().componentId,
@@ -899,6 +913,7 @@ export const createWorkbrenchSlice: StateCreator<
           ...get().component,
         },
       });
+      set({ isDirty: false });
     },
     handleJsonChange: debounce((value: string) => {
       try {

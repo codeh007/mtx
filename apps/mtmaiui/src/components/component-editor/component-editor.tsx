@@ -92,7 +92,7 @@ export const ComponentEditor = ({
       updates: Partial<MtComponent>,
     ): MtComponent => {
       if (path.length === 0) {
-        console.log("(updateComponentAtPath)", { path, root, updates });
+        // console.log("(更新根组件)", { path, root, updates });
         return {
           ...root,
           ...updates,
@@ -102,14 +102,19 @@ export const ComponentEditor = ({
           },
         };
       }
-      console.log("updateComponentAtPath更像子节点", path);
       const [currentPath, ...remainingPath] = path;
       const field =
         root.config[currentPath.parentField as keyof typeof root.config];
-      console.log("(updateComponentAtPath)path", currentPath, remainingPath);
+      // console.log("(更新非根组件)", {
+      //   path,
+      //   root,
+      //   updates,
+      //   field,
+      //   currentPath,
+      //   remainingPath,
+      // });
 
       const updateField = (fieldValue: any): any => {
-        console.log("(updateField)fieldValue", fieldValue);
         if (Array.isArray(fieldValue)) {
           // If we have an index, use it directly for the update
           if (
@@ -149,6 +154,10 @@ export const ComponentEditor = ({
         return fieldValue;
       };
 
+      // console.log("(更新非根组件)更新后的组件", {
+      //   field,
+      //   updateField: updateField(field),
+      // });
       return {
         ...root,
         config: {
@@ -167,13 +176,13 @@ export const ComponentEditor = ({
         editPath,
         updates,
       );
-      console.log("(component-editor)handleComponentUpdate", {
-        updates,
-        updatedComponent,
-      });
+      // console.log("(component-editor)handleComponentUpdate", {
+      //   updates,
+      //   updatedComponent,
+      // });
 
       setWorkingCopy(updatedComponent);
-      onChange?.(updatedComponent);
+      // onChange?.(updatedComponent);
     },
     [workingCopy, editPath, updateComponentAtPath, setWorkingCopy, onChange],
   );
@@ -186,7 +195,12 @@ export const ComponentEditor = ({
       index?: number,
     ) => {
       if (!navigationDepth) return;
-      console.log("(handleNavigate)editPath", editPath);
+      console.log("(handleNavigate)", {
+        componentType,
+        id,
+        parentField,
+        index,
+      });
       setEditPath([...editPath, { componentType, id, parentField, index }]);
     },
     [navigationDepth, editPath, setEditPath],
@@ -213,16 +227,16 @@ export const ComponentEditor = ({
     schema: z.any(),
     defaultValues: component,
   });
-  const handleSubmit = form.handleSubmit((data) => {
-    console.log("handleSubmit", data);
-    handleComponentUpdate(data);
-  });
+  // const handleSubmit = form.handleSubmit((data) => {
+  //   console.log("handleSubmit", data);
+  //   handleComponentUpdate(data);
+  // });
   const handleSave = useCallback(() => {
     console.log("(handleSave)working copy", workingCopy);
     // handleSubmit(workingCopy);
     onChange(workingCopy);
     onClose?.();
-  }, [workingCopy, onChange, onClose, handleSubmit]);
+  }, [workingCopy, onChange, onClose]);
 
   const renderFields = useCallback(() => {
     // console.log(
@@ -304,7 +318,15 @@ export const ComponentEditor = ({
 
   return (
     <div className="flex flex-col h-full">
-      <ZForm form={form} handleSubmit={handleSubmit} className="space-y-2">
+      <ZForm
+        form={form}
+        handleSubmit={() => {
+          // console.log("handleSubmit(TODO)", form.getValues());
+          // console.log("(handleSave)working copy", workingCopy);
+          handleSave();
+        }}
+        className="space-y-2"
+      >
         <div className="flex">
           {navigationDepth && editPath.length > 0 && (
             <Button
@@ -348,8 +370,23 @@ export const ComponentEditor = ({
         )}
         {onClose && (
           <div className="flex justify-end gap-2 mt-6 pt-4 border-t border-secondary">
-            <Button onClick={onClose}>Cancel</Button>
-            <Button onClick={handleSave}>Save Changes</Button>
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
+                onClose();
+              }}
+            >
+              取消
+            </Button>
+            <Button
+            // onClick={(e) => {
+            //   e.preventDefault();
+            //   console.log("(handleSave)working copy", workingCopy);
+            //   handleSave();
+            // }}
+            >
+              保存
+            </Button>
           </div>
         )}
       </ZForm>

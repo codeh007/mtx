@@ -18,7 +18,6 @@ import React, { useCallback } from "react";
 import { useFormContext } from "react-hook-form";
 import type {
   Component,
-  ComponentConfig,
   FunctionToolConfig,
 } from "../../../routes/components/views/types/datamodel";
 import {
@@ -81,7 +80,7 @@ export const AgentFields = ({
   if (!component) return null;
 
   const handleComponentUpdate = useCallback(
-    (updates: Partial<Component<ComponentConfig>>) => {
+    (updates: Partial<MtComponent>) => {
       onChange({
         ...component,
         ...updates,
@@ -247,8 +246,11 @@ export const AgentFields = ({
                                 "model_client",
                               )
                             }
+                            variant="outline"
+                            // size={"icon"}
+                            size={"default"}
                           >
-                            <Edit className="size-4" /> Configure Model
+                            <Edit className="size-4" /> 模型
                           </Button>
                         )}
                       </div>

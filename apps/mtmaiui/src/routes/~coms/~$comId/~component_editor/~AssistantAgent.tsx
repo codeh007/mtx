@@ -44,9 +44,10 @@ function RouteComponent() {
           onClose={() => {
             setSelectedNode(null);
             setOpen(false);
-            nav({
-              to: `/coms/${comId}`,
-            });
+            // nav({
+            //   to: `/coms/${comId}`,
+            // });
+            window.history.back();
           }}
           navigationDepth={true}
         />
