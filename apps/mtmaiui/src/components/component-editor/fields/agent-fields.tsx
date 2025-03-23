@@ -25,7 +25,6 @@ import {
   isUserProxyAgent,
   isWebSurferAgent,
 } from "../../../routes/components/views/types/guards";
-import { DetailGroup } from "../../detailgroup";
 
 interface AgentFieldsProps {
   component: MtComponent;
@@ -169,230 +168,52 @@ export const AgentFields = ({
 
   const form = useFormContext();
   return (
-    <div className="space-y-2">
-      <DetailGroup title="Component Details">
-        <div className="space-y-1">
-          <FormField
-            control={form.control}
-            name="label"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>label</FormLabel>
-                <FormControl>
-                  <Input placeholder="Component name" {...field} />
-                </FormControl>
-                {/* <FormDescription></FormDescription> */}
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Description</FormLabel>
-                <FormControl>
-                  <Textarea placeholder="Component description" {...field} />
-                </FormControl>
-                {/* <FormDescription></FormDescription> */}
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-      </DetailGroup>
-      <DetailGroup title="Configuration">
-        <div className="space-y-2">
-          {!isAssistantAgent(component) && (
-            <div className="text-sm text-center bg-secondary/50 p-4 rounded-md">
-              No agent configuration
-              <DebugValue data={component} />
-            </div>
+    <div className="space-y-2 px-2">
+      {/* <DetailGroup title="Component Details"> */}
+      <div className="space-y-1">
+        <FormField
+          control={form.control}
+          name="label"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>label</FormLabel>
+              <FormControl>
+                <Input placeholder="Component name" {...field} />
+              </FormControl>
+              {/* <FormDescription></FormDescription> */}
+              <FormMessage />
+            </FormItem>
           )}
-          {isAssistantAgent(component) && (
-            <>
-              <InputWithTooltip
-                label="Name"
-                tooltip="Name of the assistant agent"
-                required
-              >
-                <Input
-                  value={component.config.name}
-                  onChange={(e) => handleConfigUpdate("name", e.target.value)}
-                />
-              </InputWithTooltip>
-
-              {/* Model Client Section */}
-
-              <div className="space-y-2">
-                <span className="text-sm font-medium text-primary">
-                  Model Client
-                </span>
-                {component.config.model_client ? (
-                  <div className="bg-secondary p-1 px-2 rounded-md">
-                    <div className="flex items-center justify-between">
-                      {" "}
-                      <span className="text-sm">
-                        {component.config.model_client.config.model}
-                      </span>
-                      <div className="flex items-center justify-between">
-                        {component.config.model_client && onNavigate && (
-                          <Button
-                            onClick={() =>
-                              onNavigate(
-                                "model",
-                                component.config.model_client?.label || "",
-                                "model_client",
-                              )
-                            }
-                            variant="outline"
-                            // size={"icon"}
-                            size={"default"}
-                          >
-                            <Edit className="size-4" /> 模型
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-sm text-secondary text-center bg-secondary/50 p-4 rounded-md">
-                    No model configured
-                  </div>
-                )}
-              </div>
-
-              <InputWithTooltip
-                label="System Message"
-                tooltip="System message for the agent"
-              >
-                <Textarea
-                  rows={4}
-                  value={component.config.system_message}
-                  onChange={(e) =>
-                    handleConfigUpdate("system_message", e.target.value)
-                  }
-                />
-              </InputWithTooltip>
-
-              {/* Tools Section */}
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-primary">
-                    Tools
-                  </span>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleAddTool();
-                    }}
-                  >
-                    <PlusCircle className="size-4" />
-                    增加工具
-                  </Button>
-                </div>
-                <div className="space-y-2">
-                  {component.config.tools?.map((tool, index) => (
-                    <div
-                      // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                      key={(tool.label || "") + index}
-                      className="bg-secondary p-1 px-2 rounded-md"
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm">
-                          {tool.config.name || tool.label || ""}
-                        </span>
-                        <div className="flex items-center gap-2">
-                          {onNavigate && (
-                            <Button
-                              variant="outline"
-                              size="icon"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                onNavigate(
-                                  "tool",
-                                  tool.config.name || tool.label || "",
-                                  "tools",
-                                );
-                              }}
-                            >
-                              <Edit className="size-4" />
-                            </Button>
-                          )}
-                          <Button
-                            // danger
-                            variant="destructive"
-                            size="icon"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handleRemoveTool(index);
-                            }}
-                          >
-                            <Trash2 className="size-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  {(!component.config.tools ||
-                    component.config.tools?.length === 0) && (
-                    <div className="text-sm text-secondary text-center bg-secondary/50 p-4 rounded-md">
-                      No tools configured
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-primary">
-                  Reflect on Tool Use
-                </span>
-                <Switch
-                  // checked={component.config.reflect_on_tool_use}
-
-                  onChange={(checked) => {
-                    console.log("checked", checked);
-                    handleConfigUpdate("reflect_on_tool_use", checked);
-                  }}
-                />
-              </div>
-
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-primary">
-                  Stream Model Client
-                </span>
-                <Switch
-                  checked={component.config.model_client_stream}
-                  onChange={(checked) =>
-                    handleConfigUpdate("model_client_stream", checked)
-                  }
-                />
-              </div>
-
-              <InputWithTooltip
-                label="Tool Call Summary Format"
-                tooltip="Format for tool call summaries"
-              >
-                <Input
-                  value={component.config.tool_call_summary_format}
-                  onChange={(e) =>
-                    handleConfigUpdate(
-                      "tool_call_summary_format",
-                      e.target.value,
-                    )
-                  }
-                />
-              </InputWithTooltip>
-            </>
+        />
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Textarea placeholder="Component description" {...field} />
+              </FormControl>
+              {/* <FormDescription></FormDescription> */}
+              <FormMessage />
+            </FormItem>
           )}
-
-          {isUserProxyAgent(component) && (
+        />
+      </div>
+      {/* </DetailGroup> */}
+      {/* <DetailGroup title="Configuration"> */}
+      <div className="space-y-2">
+        {!isAssistantAgent(component) && (
+          <div className="text-sm text-center bg-secondary/50 p-4 rounded-md">
+            No agent configuration
+            <DebugValue data={component} />
+          </div>
+        )}
+        {isAssistantAgent(component) && (
+          <>
             <InputWithTooltip
               label="Name"
-              tooltip="Name of the user proxy agent"
+              tooltip="Name of the assistant agent"
               required
             >
               <Input
@@ -400,171 +221,338 @@ export const AgentFields = ({
                 onChange={(e) => handleConfigUpdate("name", e.target.value)}
               />
             </InputWithTooltip>
-          )}
 
-          {isWebSurferAgent(component) && (
-            <>
-              <InputWithTooltip
-                label="Name"
-                tooltip="Name of the web surfer agent"
-                required
-              >
-                <Input
-                  value={component.config.name}
-                  onChange={(e) => handleConfigUpdate("name", e.target.value)}
-                />
-              </InputWithTooltip>
-              <InputWithTooltip
-                label="Start Page"
-                tooltip="URL to start browsing from"
-              >
-                <Input
-                  value={component.config.start_page || ""}
-                  onChange={(e) =>
-                    handleConfigUpdate("start_page", e.target.value)
-                  }
-                />
-              </InputWithTooltip>
-              <InputWithTooltip
-                label="Downloads Folder"
-                tooltip="Folder path to save downloads"
-              >
-                <Input
-                  value={component.config.downloads_folder || ""}
-                  onChange={(e) =>
-                    handleConfigUpdate("downloads_folder", e.target.value)
-                  }
-                />
-              </InputWithTooltip>
-              <InputWithTooltip
-                label="Debug Directory"
-                tooltip="Directory for debugging logs"
-              >
-                <Input
-                  value={component.config.debug_dir || ""}
-                  onChange={(e) =>
-                    handleConfigUpdate("debug_dir", e.target.value)
-                  }
-                />
-              </InputWithTooltip>
+            {/* Model Client Section */}
 
-              {/* Added Model Client Section for WebSurferAgent */}
+            <div className="space-y-2">
+              <span className="text-sm font-medium text-primary">
+                Model Client
+              </span>
+              {component.config.model_client ? (
+                <div className="bg-secondary p-1 px-2 rounded-md">
+                  <div className="flex items-center justify-between">
+                    {" "}
+                    <span className="text-sm">
+                      {component.config.model_client.config.model}
+                    </span>
+                    <div className="flex items-center justify-between">
+                      {component.config.model_client && onNavigate && (
+                        <Button
+                          onClick={() =>
+                            onNavigate(
+                              "model",
+                              component.config.model_client?.label || "",
+                              "model_client",
+                            )
+                          }
+                          variant="outline"
+                          // size={"icon"}
+                          size={"default"}
+                        >
+                          <Edit className="size-4" /> 模型
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-sm text-secondary text-center bg-secondary/50 p-4 rounded-md">
+                  No model configured
+                </div>
+              )}
+            </div>
+
+            <InputWithTooltip
+              label="System Message"
+              tooltip="System message for the agent"
+            >
+              <Textarea
+                rows={4}
+                value={component.config.system_message}
+                onChange={(e) =>
+                  handleConfigUpdate("system_message", e.target.value)
+                }
+              />
+            </InputWithTooltip>
+
+            {/* Tools Section */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium text-primary">Tools</span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleAddTool();
+                  }}
+                >
+                  <PlusCircle className="size-4" />
+                  增加工具
+                </Button>
+              </div>
               <div className="space-y-2">
-                <span className="text-sm font-medium text-primary">
-                  Model Client
-                </span>
-                {component.config.model_client ? (
-                  <div className="bg-secondary p-1 px-2 rounded-md">
+                {component.config.tools?.map((tool, index) => (
+                  <div
+                    // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                    key={(tool.label || "") + index}
+                    className="bg-secondary p-1 px-2 rounded-md"
+                  >
                     <div className="flex items-center justify-between">
                       <span className="text-sm">
-                        {component.config.model_client.config.model}
+                        {tool.config.name || tool.label || ""}
                       </span>
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
                         {onNavigate && (
                           <Button
                             variant="outline"
-                            size="sm"
-                            onClick={() =>
+                            size="icon"
+                            onClick={(e) => {
+                              e.preventDefault();
                               onNavigate(
-                                "model",
-                                component.config.model_client?.label || "",
-                                "model_client",
-                              )
-                            }
+                                "tool",
+                                tool.config.name || tool.label || "",
+                                "tools",
+                              );
+                            }}
                           >
                             <Edit className="size-4" />
-                            模型配置
                           </Button>
                         )}
+                        <Button
+                          // danger
+                          variant="destructive"
+                          size="icon"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleRemoveTool(index);
+                          }}
+                        >
+                          <Trash2 className="size-4" />
+                        </Button>
                       </div>
                     </div>
                   </div>
-                ) : (
+                ))}
+                {(!component.config.tools ||
+                  component.config.tools?.length === 0) && (
                   <div className="text-sm text-secondary text-center bg-secondary/50 p-4 rounded-md">
-                    No model configured
+                    No tools configured
                   </div>
                 )}
               </div>
+            </div>
 
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-primary">
-                  Headless
-                </span>
-                <Switch
-                  checked={component.config.headless || false}
-                  onChange={(checked) =>
-                    handleConfigUpdate("headless", checked)
-                  }
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-primary">
-                  Animate Actions
-                </span>
-                <Switch
-                  checked={component.config.animate_actions || false}
-                  onChange={(checked) =>
-                    handleConfigUpdate("animate_actions", checked)
-                  }
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-primary">
-                  Save Screenshots
-                </span>
-                <Switch
-                  checked={component.config.to_save_screenshots || false}
-                  onChange={(checked) =>
-                    handleConfigUpdate("to_save_screenshots", checked)
-                  }
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-primary">
-                  Use OCR
-                </span>
-                <Switch
-                  checked={component.config.use_ocr || false}
-                  onChange={(checked) => handleConfigUpdate("use_ocr", checked)}
-                />
-              </div>
-              <InputWithTooltip
-                label="Browser Channel"
-                tooltip="Channel for the browser (e.g. beta, stable)"
-              >
-                <Input
-                  value={component.config.browser_channel || ""}
-                  onChange={(e) =>
-                    handleConfigUpdate("browser_channel", e.target.value)
-                  }
-                />
-              </InputWithTooltip>
-              <InputWithTooltip
-                label="Browser Data Directory"
-                tooltip="Directory for browser profile data"
-              >
-                <Input
-                  value={component.config.browser_data_dir || ""}
-                  onChange={(e) =>
-                    handleConfigUpdate("browser_data_dir", e.target.value)
-                  }
-                />
-              </InputWithTooltip>
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-primary">
-                  Resize Viewport
-                </span>
-                <Switch
-                  checked={component.config.to_resize_viewport || false}
-                  onChange={(checked) =>
-                    handleConfigUpdate("to_resize_viewport", checked)
-                  }
-                />
-              </div>
-            </>
-          )}
-        </div>
-      </DetailGroup>
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-primary">
+                Reflect on Tool Use
+              </span>
+              <Switch
+                // checked={component.config.reflect_on_tool_use}
+
+                onChange={(checked) => {
+                  console.log("checked", checked);
+                  handleConfigUpdate("reflect_on_tool_use", checked);
+                }}
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-primary">
+                Stream Model Client
+              </span>
+              <Switch
+                checked={component.config.model_client_stream}
+                onChange={(checked) =>
+                  handleConfigUpdate("model_client_stream", checked)
+                }
+              />
+            </div>
+
+            <InputWithTooltip
+              label="Tool Call Summary Format"
+              tooltip="Format for tool call summaries"
+            >
+              <Input
+                value={component.config.tool_call_summary_format}
+                onChange={(e) =>
+                  handleConfigUpdate("tool_call_summary_format", e.target.value)
+                }
+              />
+            </InputWithTooltip>
+          </>
+        )}
+
+        {isUserProxyAgent(component) && (
+          <InputWithTooltip
+            label="Name"
+            tooltip="Name of the user proxy agent"
+            required
+          >
+            <Input
+              value={component.config.name}
+              onChange={(e) => handleConfigUpdate("name", e.target.value)}
+            />
+          </InputWithTooltip>
+        )}
+
+        {isWebSurferAgent(component) && (
+          <>
+            <InputWithTooltip
+              label="Name"
+              tooltip="Name of the web surfer agent"
+              required
+            >
+              <Input
+                value={component.config.name}
+                onChange={(e) => handleConfigUpdate("name", e.target.value)}
+              />
+            </InputWithTooltip>
+            <InputWithTooltip
+              label="Start Page"
+              tooltip="URL to start browsing from"
+            >
+              <Input
+                value={component.config.start_page || ""}
+                onChange={(e) =>
+                  handleConfigUpdate("start_page", e.target.value)
+                }
+              />
+            </InputWithTooltip>
+            <InputWithTooltip
+              label="Downloads Folder"
+              tooltip="Folder path to save downloads"
+            >
+              <Input
+                value={component.config.downloads_folder || ""}
+                onChange={(e) =>
+                  handleConfigUpdate("downloads_folder", e.target.value)
+                }
+              />
+            </InputWithTooltip>
+            <InputWithTooltip
+              label="Debug Directory"
+              tooltip="Directory for debugging logs"
+            >
+              <Input
+                value={component.config.debug_dir || ""}
+                onChange={(e) =>
+                  handleConfigUpdate("debug_dir", e.target.value)
+                }
+              />
+            </InputWithTooltip>
+
+            {/* Added Model Client Section for WebSurferAgent */}
+            <div className="space-y-2">
+              <span className="text-sm font-medium text-primary">
+                Model Client
+              </span>
+              {component.config.model_client ? (
+                <div className="bg-secondary p-1 px-2 rounded-md">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">
+                      {component.config.model_client.config.model}
+                    </span>
+                    <div className="flex items-center justify-between">
+                      {onNavigate && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() =>
+                            onNavigate(
+                              "model",
+                              component.config.model_client?.label || "",
+                              "model_client",
+                            )
+                          }
+                        >
+                          <Edit className="size-4" />
+                          模型配置
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-sm text-secondary text-center bg-secondary/50 p-4 rounded-md">
+                  No model configured
+                </div>
+              )}
+            </div>
+
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-primary">Headless</span>
+              <Switch
+                checked={component.config.headless || false}
+                onChange={(checked) => handleConfigUpdate("headless", checked)}
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-primary">
+                Animate Actions
+              </span>
+              <Switch
+                checked={component.config.animate_actions || false}
+                onChange={(checked) =>
+                  handleConfigUpdate("animate_actions", checked)
+                }
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-primary">
+                Save Screenshots
+              </span>
+              <Switch
+                checked={component.config.to_save_screenshots || false}
+                onChange={(checked) =>
+                  handleConfigUpdate("to_save_screenshots", checked)
+                }
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-primary">Use OCR</span>
+              <Switch
+                checked={component.config.use_ocr || false}
+                onChange={(checked) => handleConfigUpdate("use_ocr", checked)}
+              />
+            </div>
+            <InputWithTooltip
+              label="Browser Channel"
+              tooltip="Channel for the browser (e.g. beta, stable)"
+            >
+              <Input
+                value={component.config.browser_channel || ""}
+                onChange={(e) =>
+                  handleConfigUpdate("browser_channel", e.target.value)
+                }
+              />
+            </InputWithTooltip>
+            <InputWithTooltip
+              label="Browser Data Directory"
+              tooltip="Directory for browser profile data"
+            >
+              <Input
+                value={component.config.browser_data_dir || ""}
+                onChange={(e) =>
+                  handleConfigUpdate("browser_data_dir", e.target.value)
+                }
+              />
+            </InputWithTooltip>
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-primary">
+                Resize Viewport
+              </span>
+              <Switch
+                checked={component.config.to_resize_viewport || false}
+                onChange={(checked) =>
+                  handleConfigUpdate("to_resize_viewport", checked)
+                }
+              />
+            </div>
+          </>
+        )}
+      </div>
+      {/* </DetailGroup> */}
     </div>
   );
 };

@@ -171,14 +171,12 @@ export const NestedComponentButton: React.FC<NestedComponentButtonProps> = ({
           <span className="text-sm font-medium">{label}</span>
           {parentField === "tools" && (
             <Button
-              // type="dashed"
-              // size="small"
               onClick={() => {
                 const blankTool: Component<FunctionToolConfig> = {
                   provider: "autogen_core.tools.FunctionTool",
-                  component_type: "tool",
+                  componentType: "tool",
                   version: 1,
-                  component_version: 1,
+                  componentVersion: 1,
                   description:
                     "Create custom tools by wrapping standard Python functions.",
                   label: "New Tool",
@@ -214,9 +212,8 @@ export const NestedComponentButton: React.FC<NestedComponentButtonProps> = ({
                   setWorkingCopy(updatedCopy);
                 }
               }}
-              // icon={}
             >
-              <PlusCircle className="w-4 h-4" />
+              <PlusCircle className="size-4" />
               Add Tool
             </Button>
           )}

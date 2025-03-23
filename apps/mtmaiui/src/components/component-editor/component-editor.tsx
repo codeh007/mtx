@@ -282,7 +282,6 @@ export const ComponentEditor = ({
     if (isToolComponent(currentComponent)) {
       return (
         <>
-          <span>ToolFields</span>
           <ToolFields {...commonProps} />
         </>
       );
