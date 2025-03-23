@@ -5356,10 +5356,13 @@ export const ModelPropertiesSchema = {
     "jsonOutput",
     "apiKey",
     "apiBase",
-    "tags",
+    "model",
   ],
   properties: {
     name: {
+      type: "string",
+    },
+    model: {
       type: "string",
     },
     provider: {

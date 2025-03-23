@@ -141,10 +141,10 @@ export const ModelClientForm = () => {
         )}
       />
       <FormField
-        name={"functionCalling"}
+        name={"tags"}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>functionCalling</FormLabel>
+            <FormLabel>tags</FormLabel>
             <FormControl>
               <TagsInput {...field} placeholder="tags" />
             </FormControl>

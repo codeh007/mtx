@@ -2734,6 +2734,7 @@ export const ModelTypes = {
 
 export type ModelProperties = {
   name: string;
+  model: string;
   provider: string;
   apiKey: string;
   apiBase: string;
@@ -2743,7 +2744,7 @@ export type ModelProperties = {
   vision: boolean;
   functionCalling: boolean;
   jsonOutput: boolean;
-  tags: Array<string>;
+  tags?: Array<string>;
 };
 
 export type ModelList = {

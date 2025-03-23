@@ -5667,6 +5667,7 @@ export const zToolTypes = z.enum(["PythonFunction"]);
 
 export const zUpsertModel = z.object({
   name: z.string(),
+  model: z.string(),
   provider: z.string(),
   apiKey: z.string(),
   apiBase: z.string(),
@@ -5676,7 +5677,7 @@ export const zUpsertModel = z.object({
   vision: z.boolean(),
   functionCalling: z.boolean(),
   jsonOutput: z.boolean(),
-  tags: z.array(z.string()),
+  tags: z.array(z.string()).optional(),
 });
 
 export const zAzureOpenAiModelConfig = z
@@ -6114,6 +6115,7 @@ export const zNotFound = z.unknown();
 export const zModel = zApiResourceMetaProperties.merge(
   z.object({
     name: z.string(),
+    model: z.string(),
     provider: z.string(),
     apiKey: z.string(),
     apiBase: z.string(),
@@ -6123,7 +6125,7 @@ export const zModel = zApiResourceMetaProperties.merge(
     vision: z.boolean(),
     functionCalling: z.boolean(),
     jsonOutput: z.boolean(),
-    tags: z.array(z.string()),
+    tags: z.array(z.string()).optional(),
   }),
 );
 
@@ -6176,6 +6178,7 @@ export const zModelTypes = z.enum([
 
 export const zModelProperties = z.object({
   name: z.string(),
+  model: z.string(),
   provider: z.string(),
   apiKey: z.string(),
   apiBase: z.string(),
@@ -6185,7 +6188,7 @@ export const zModelProperties = z.object({
   vision: z.boolean(),
   functionCalling: z.boolean(),
   jsonOutput: z.boolean(),
-  tags: z.array(z.string()),
+  tags: z.array(z.string()).optional(),
 });
 
 export const zModelList = z.object({
