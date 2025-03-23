@@ -125,10 +125,15 @@ const ModalDisplay = () => {
   const canGoBack = useCanGoBack();
   const loc = useLocation();
 
+  // const can = useCanGoBack()
+
   const handleClose = () => {
     setOpen(false);
     // window.history.back();
-    nav({ to: backLink.to });
+    // nav({ to: backLink.to });
+    if (canGoBack) {
+      window.history.back();
+    }
   };
   if (variant === "modal") {
     return (
@@ -187,7 +192,7 @@ export const ModelContent = ({ children }: ModelContentProps) => {
   const variant = useModelStore((x) => x.variant);
   if (variant === "modal") {
     return (
-      <DialogContent className="max-h-lvh w-full overflow-scroll min-w-xl w-full sm:max-w-5xl">
+      <DialogContent className="max-h-lvh overflow-scroll min-w-xl sm:max-w-5xl">
         {children}
       </DialogContent>
     );

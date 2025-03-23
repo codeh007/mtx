@@ -1,10 +1,11 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
-import { modelUpsertMutation } from "mtmaiapi";
+import { modelListQueryKey, modelUpsertMutation } from "mtmaiapi";
 import { zUpsertModel } from "mtmaiapi/gomtmapi/zod.gen";
 import { generateUUID } from "mtxuilib/lib/utils";
 import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
+import { useToast } from "mtxuilib/ui/use-toast";
 import { useTenantId } from "../../../hooks/useAuth";
 
 export const Route = createLazyFileRoute("/model/new")({
@@ -12,8 +13,23 @@ export const Route = createLazyFileRoute("/model/new")({
 });
 
 function RouteComponent() {
+  const toast = useToast();
+  const queryClient = useQueryClient();
   const upsertModel = useMutation({
     ...modelUpsertMutation({}),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: modelListQueryKey({
+          path: {
+            tenant: tid,
+          },
+        }),
+      });
+      toast.toast({
+        title: "model created",
+        description: "model created",
+      });
+    },
   });
   const tid = useTenantId();
   const form = useZodForm({

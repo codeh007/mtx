@@ -20,12 +20,12 @@ import { type ChangeEvent, useMemo } from "react";
 import { useComponentsStore } from "../../stores/componentsProvider";
 
 export function NavComs() {
+  // const { comId } = useParams();
   const components = useComponentsStore((x) => x.components);
 
   const linkToNew = useMemo(() => {
     const newUUID = generateUUID();
-    return `/coms/${newUUID}`;
-    // return "/coms/new";
+    return `/coms/${newUUID}/team_builder/team`;
   }, []);
 
   const setQueryParams = useComponentsStore((x) => x.setQueryParams);

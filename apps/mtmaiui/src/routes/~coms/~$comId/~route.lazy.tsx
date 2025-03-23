@@ -1,4 +1,6 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
+import { MtTabs, MtTabsList, MtTabsTrigger } from "mtxuilib/mt/tabs";
 import { ComponentEditProvider } from "../../../components/component-editor/ComponentEditor.store";
 import { TeamBuilderV2Provider } from "../../../stores/TeamBuilderStoreV2";
 import { ModalProvider } from "../../../stores/model.store";
@@ -24,8 +26,26 @@ function RouteComponent() {
               <ModalProvider>
                 <TeamBuilderHeader comId={comId} />
 
-                {/* <TeamBuilder /> */}
-
+                <MtTabs defaultValue="team" className="w-full">
+                  <MtTabsList layout="underlined">
+                    <CustomLink to="visualization">
+                      <MtTabsTrigger variant="underlined" value="visualization">
+                        可视化
+                      </MtTabsTrigger>
+                    </CustomLink>
+                    <CustomLink to="team_builder/team">
+                      <MtTabsTrigger variant="underlined" value="team">
+                        团队
+                      </MtTabsTrigger>
+                    </CustomLink>
+                    <CustomLink to="team_builder/agent">
+                      <MtTabsTrigger variant="underlined" value="agents">
+                        agent
+                      </MtTabsTrigger>
+                    </CustomLink>
+                  </MtTabsList>
+                  <Outlet />
+                </MtTabs>
                 <Outlet />
               </ModalProvider>
             </ComponentEditProvider>

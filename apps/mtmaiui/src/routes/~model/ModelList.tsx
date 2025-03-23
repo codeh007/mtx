@@ -11,6 +11,7 @@ import { useTenantId } from "../../hooks/useAuth";
 export function ModelListView() {
   // const listWorkflowQuery = useWorkflowsStore((x) => x.listWorkflowQuery);
   const tid = useTenantId();
+
   const modelQuery = useSuspenseQuery({
     ...modelListOptions({
       path: {

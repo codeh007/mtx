@@ -1,6 +1,4 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
-import { CustomLink } from "mtxuilib/mt/CustomLink";
-import { MtTabs, MtTabsList, MtTabsTrigger } from "mtxuilib/mt/tabs";
 
 export const Route = createLazyFileRoute("/coms/$comId/team_builder")({
   component: RouteComponent,
@@ -9,7 +7,7 @@ export const Route = createLazyFileRoute("/coms/$comId/team_builder")({
 function RouteComponent() {
   return (
     <div className="px-4 space-y-4">
-      <MtTabs defaultValue="team" className="w-full">
+      {/* <MtTabs defaultValue="team" className="w-full">
         <MtTabsList layout="underlined">
           <CustomLink to="team">
             <MtTabsTrigger variant="underlined" value="team">
@@ -22,8 +20,9 @@ function RouteComponent() {
             </MtTabsTrigger>
           </CustomLink>
         </MtTabsList>
-        <Outlet />
-      </MtTabs>
+        
+      </MtTabs> */}
+      <Outlet />
     </div>
   );
 }
