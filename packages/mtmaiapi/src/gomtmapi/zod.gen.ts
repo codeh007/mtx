@@ -5676,6 +5676,7 @@ export const zUpsertModel = z.object({
   vision: z.boolean(),
   functionCalling: z.boolean(),
   jsonOutput: z.boolean(),
+  tags: z.array(z.string()),
 });
 
 export const zAzureOpenAiModelConfig = z
@@ -6122,6 +6123,7 @@ export const zModel = zApiResourceMetaProperties.merge(
     vision: z.boolean(),
     functionCalling: z.boolean(),
     jsonOutput: z.boolean(),
+    tags: z.array(z.string()),
   }),
 );
 
@@ -6183,6 +6185,7 @@ export const zModelProperties = z.object({
   vision: z.boolean(),
   functionCalling: z.boolean(),
   jsonOutput: z.boolean(),
+  tags: z.array(z.string()),
 });
 
 export const zModelList = z.object({

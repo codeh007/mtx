@@ -139,6 +139,18 @@ export const ModelClientForm = () => {
           </FormItem>
         )}
       />
+      <FormField
+        name={"functionCalling"}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>functionCalling</FormLabel>
+            <FormControl>
+              <TagsInput {...field} placeholder="tags" />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </div>
   );
 };

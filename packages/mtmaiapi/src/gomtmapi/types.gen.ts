@@ -2743,6 +2743,7 @@ export type ModelProperties = {
   vision: boolean;
   functionCalling: boolean;
   jsonOutput: boolean;
+  tags: Array<string>;
 };
 
 export type ModelList = {

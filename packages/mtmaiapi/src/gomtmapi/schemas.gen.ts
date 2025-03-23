@@ -5356,6 +5356,7 @@ export const ModelPropertiesSchema = {
     "jsonOutput",
     "apiKey",
     "apiBase",
+    "tags",
   ],
   properties: {
     name: {
@@ -5388,6 +5389,12 @@ export const ModelPropertiesSchema = {
     jsonOutput: {
       type: "boolean",
     },
+    tags: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
   },
 } as const;
 
@@ -5397,10 +5404,10 @@ export const ModelListSchema = {
       $ref: "#/components/schemas/PaginationResponse",
     },
     rows: {
+      type: "array",
       items: {
         $ref: "#/components/schemas/Model",
       },
-      type: "array",
     },
   },
 } as const;
