@@ -821,7 +821,7 @@ export type WorkflowWorkersCount = {
   freeSlotCount?: number;
   maxSlotCount?: number;
   workflowRunId?: string;
-  other?: ProviderTypes;
+  other?: ProviderTypes | RunFlowModelInput;
 };
 
 export type WorkflowRun = {
@@ -3411,6 +3411,11 @@ export type TeamRun = {
 
 export type TeamRunResult = {
   workflowRun?: WorkflowRun;
+};
+
+export type RunFlowModelInput = {
+  modelId?: string;
+  tag?: string;
 };
 
 export type ReadinessGetData = {

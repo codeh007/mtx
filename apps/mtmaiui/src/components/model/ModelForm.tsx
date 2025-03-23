@@ -48,6 +48,20 @@ export const ModelClientForm = () => {
       />
       <FormField
         control={form.control}
+        name="model"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>model</FormLabel>
+            <FormControl>
+              <Input placeholder="model" {...field} />
+            </FormControl>
+            {/* <FormDescription></FormDescription> */}
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
         name="apiKey"
         render={({ field }) => (
           <FormItem>

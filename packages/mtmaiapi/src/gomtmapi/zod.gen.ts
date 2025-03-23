@@ -574,10 +574,16 @@ export const zWorkflowWorkersCount = z.object({
   maxSlotCount: z.number().int().optional(),
   workflowRunId: z.string().optional(),
   other: z
-    .enum([
-      "mtmai.agents.assistant_agent.AssistantAgent",
-      "mtmai.agents.instagram_agent.InstagramAgent",
-      "mtmai.agents.smola_agent.SmolaAgent",
+    .union([
+      z.enum([
+        "mtmai.agents.assistant_agent.AssistantAgent",
+        "mtmai.agents.instagram_agent.InstagramAgent",
+        "mtmai.agents.smola_agent.SmolaAgent",
+      ]),
+      z.object({
+        modelId: z.string().optional(),
+        tag: z.string().optional(),
+      }),
     ])
     .optional(),
 });
@@ -6739,6 +6745,11 @@ export const zTeamRun = z.object({
 
 export const zTeamRunResult = z.object({
   workflowRun: zWorkflowRun.optional(),
+});
+
+export const zRunFlowModelInput = z.object({
+  modelId: z.string().optional(),
+  tag: z.string().optional(),
 });
 
 export const zMetadataGetResponse = zApiMeta;

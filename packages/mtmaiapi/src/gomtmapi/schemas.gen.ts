@@ -1373,6 +1373,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/ProviderTypes",
         },
+        {
+          $ref: "#/components/schemas/RunFlowModelInput",
+        },
       ],
     },
   },
@@ -6836,6 +6839,17 @@ export const TeamRunResultSchema = {
   properties: {
     workflowRun: {
       $ref: "#/components/schemas/WorkflowRun",
+    },
+  },
+} as const;
+
+export const RunFlowModelInputSchema = {
+  properties: {
+    modelId: {
+      type: "string",
+    },
+    tag: {
+      type: "string",
     },
   },
 } as const;
