@@ -822,6 +822,16 @@ export type WorkflowWorkersCount = {
   maxSlotCount?: number;
   workflowRunId?: string;
   other?:
+    | BrowserData
+    | PlatformAccountData
+    | InstagramTask
+    | ChatSessionStartEvent
+    | TerminationMessage
+    | CodeReviewTask
+    | CodeReviewResult
+    | BrowserTask
+    | BrowserOpenTask
+    | MtTaskResult
     | ProviderTypes
     | RunFlowModelInput
     | AssistantAgentConfig
@@ -830,7 +840,9 @@ export type WorkflowWorkersCount = {
     | TextMentionTerminationConfig
     | MaxMessageTerminationConfig
     | StopMessageTerminationConfig
-    | OrTerminationConfig;
+    | OrTerminationConfig
+    | ModelInfo
+    | FlowNames;
 };
 
 export type WorkflowRun = {
@@ -1869,7 +1881,18 @@ export type AgentRunInput = {
     | CodeReviewResult
     | BrowserTask
     | BrowserOpenTask
-    | MtTaskResult;
+    | MtTaskResult
+    | ProviderTypes
+    | RunFlowModelInput
+    | AssistantAgentConfig
+    | InstagramTeamConfig
+    | ModelConfig
+    | TextMentionTerminationConfig
+    | MaxMessageTerminationConfig
+    | StopMessageTerminationConfig
+    | OrTerminationConfig
+    | ModelInfo
+    | FlowNames;
 };
 
 export type ChatHistoryList = {
@@ -1943,14 +1966,8 @@ export type Reflections = {
   content: Array<string>;
 };
 
-/**
- * 工具内容长度,(文章,代码内容长度)
- */
 export type ArtifactLengthOptions = "shortest" | "short" | "long" | "longest";
 
-/**
- * 工具内容长度,(文章,代码内容长度)
- */
 export const ArtifactLengthOptions = {
   SHORTEST: "shortest",
   SHORT: "short",
@@ -2124,13 +2141,13 @@ export type BaseGroupChatManagerState = BaseState & {
 };
 
 export type MtComponentProperties = {
+  galleryId: string;
   label: string;
   description: string;
   provider: string;
   componentType: string;
   version: number;
   componentVersion: number;
-  galleryId: string;
   config: {
     [key: string]: unknown;
   };
@@ -2150,42 +2167,19 @@ export type MtComponentList = {
 
 export type MtComponentUpsert = MtComponentProperties;
 
-export type ComponentModel = {
-  /**
-   * Unique identifier for the component.
-   */
-  id?: string;
-  /**
-   * Describes how the component can be instantiated.
-   */
-  provider: string;
-  /**
-   * Logical type of the component. If missing, the component assumes the default type of the provider.
-   */
-  componentType: ComponentTypes;
-  /**
-   * Version of the component specification. If missing, the component assumes whatever is the current version of the library used to load it. This is obviously dangerous and should be used for user authored ephmeral config. For all other configs version should be specified.
-   */
-  version: number;
-  /**
-   * Version of the component. If missing, the component assumes the default version of the provider.
-   */
-  componentVersion: number;
-  /**
-   * Description of the component.
-   */
-  description: string;
-  /**
-   * Human readable label for the component. If missing the component assumes the class name of the provider.
-   */
-  label: string;
-};
-
 export type GalleryComponents = {
-  agents: Array<ComponentModel>;
-  models: Array<ComponentModel>;
-  tools: Array<ComponentModel>;
-  terminations: Array<ComponentModel>;
+  agents: Array<{
+    [key: string]: unknown;
+  }>;
+  models: Array<{
+    [key: string]: unknown;
+  }>;
+  tools: Array<{
+    [key: string]: unknown;
+  }>;
+  terminations: Array<{
+    [key: string]: unknown;
+  }>;
 };
 
 export type GalleryItems = {
@@ -2313,18 +2307,8 @@ export type OrTerminationConfig = {
   conditions: Array<MtComponent>;
 };
 
-export type TenantComponent = ComponentModel & {
-  provider: "mtmai.tenant.Tenant";
-  config: TenantComponentConfig;
-};
-
 export type TenantComponentConfig = {
   default_openai_api_key?: string;
-};
-
-export type SystemComponent = ComponentModel & {
-  provider: "mtmai.system.System";
-  config: SystemConfig;
 };
 
 export type SystemConfig = {
@@ -2420,8 +2404,6 @@ export type AgentMessageConfig =
   | ToolCallMessageConfig
   | ToolCallResultMessageConfig;
 
-export type MemoryConfig = ComponentModel;
-
 export type MtTaskResult = {
   messages: Array<{
     [key: string]: unknown;
@@ -2464,11 +2446,6 @@ export type OpenAiModelConfig = ModelConfig & {
   model_type: "OpenAIChatCompletionClient";
 };
 
-export type ToolComponent = ComponentModel & {
-  componentType: "tool";
-  config: ToolConfig;
-};
-
 export type ToolConfig = {
   name: string;
   description?: string;
@@ -2476,8 +2453,6 @@ export type ToolConfig = {
   global_imports?: Array<string>;
   has_cancellation_support?: boolean;
 };
-
-export type HandoffComponent = ComponentModel & HandoffConfig;
 
 export type HandoffConfig = {
   target: string;
@@ -2579,10 +2554,6 @@ export const TeamTypes = {
   MAGENTIC_ONE_GROUP_CHAT: "MagenticOneGroupChat",
   INSTAGRAM_TEAM: "InstagramTeam",
 } as const;
-
-export type ModelContext = {
-  some?: string;
-};
 
 export type TenantParameter = string;
 
@@ -3246,7 +3217,9 @@ export type AgentConfig = {
   model_context?: {
     [key: string]: unknown;
   };
-  memory?: MemoryConfig;
+  memory?: {
+    [key: string]: unknown;
+  };
   model_client_stream: boolean;
   system_message?: string;
   model_client: MtComponent;

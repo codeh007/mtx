@@ -575,6 +575,52 @@ export const zWorkflowWorkersCount = z.object({
   workflowRunId: z.string().optional(),
   other: z
     .union([
+      z.object({
+        type: z.enum(["browser"]).optional(),
+        cookies: z.string().optional(),
+        session: z.string().optional(),
+      }),
+      z.object({
+        type: z.enum(["platform_account"]).optional(),
+        email: z.string().optional(),
+        password: z.string().optional(),
+        username: z.string().optional(),
+        api_token: z.string().optional(),
+      }),
+      z.object({
+        resourceId: z.string().optional(),
+        content: z.string().optional(),
+      }),
+      z.object({
+        type: z.string().optional(),
+        threadId: z.string().optional(),
+        source: z.string().optional(),
+      }),
+      z.object({
+        reason: z.string().optional(),
+        content: z.string().optional(),
+      }),
+      z.object({
+        session_id: z.string(),
+        code_writing_task: z.string(),
+        code_writing_scratchpad: z.string(),
+        code: z.string(),
+      }),
+      z.object({
+        review: z.string(),
+        session_id: z.string(),
+        approved: z.boolean(),
+      }),
+      z.object({
+        content: z.string(),
+      }),
+      z.object({
+        url: z.string(),
+      }),
+      z.object({
+        messages: z.array(z.object({})),
+        stop_reason: z.string(),
+      }),
       z.enum([
         "mtmai.agents.assistant_agent.AssistantAgent",
         "mtmai.agents.instagram_agent.InstagramAgent",
@@ -589,23 +635,7 @@ export const zWorkflowWorkersCount = z.object({
           name: z.string(),
           description: z.string(),
           model_context: z.object({}).optional(),
-          memory: z
-            .object({
-              id: z.string().optional(),
-              provider: z.string(),
-              componentType: z.enum([
-                "team",
-                "agent",
-                "model",
-                "tool",
-                "termination",
-              ]),
-              version: z.number().int(),
-              componentVersion: z.number().int(),
-              description: z.string(),
-              label: z.string(),
-            })
-            .optional(),
+          memory: z.object({}).optional(),
           model_client_stream: z.boolean().default(false),
           system_message: z.string().optional(),
           model_client: z
@@ -614,13 +644,13 @@ export const zWorkflowWorkersCount = z.object({
             })
             .merge(
               z.object({
+                galleryId: z.string(),
                 label: z.string(),
                 description: z.string(),
                 provider: z.string(),
                 componentType: z.string(),
                 version: z.number().int(),
                 componentVersion: z.number().int(),
-                galleryId: z.string(),
                 config: z.object({}),
               }),
             ),
@@ -637,13 +667,13 @@ export const zWorkflowWorkersCount = z.object({
               })
               .merge(
                 z.object({
+                  galleryId: z.string(),
                   label: z.string(),
                   description: z.string(),
                   provider: z.string(),
                   componentType: z.string(),
                   version: z.number().int(),
                   componentVersion: z.number().int(),
-                  galleryId: z.string(),
                   config: z.object({}),
                 }),
               ),
@@ -656,13 +686,13 @@ export const zWorkflowWorkersCount = z.object({
                   })
                   .merge(
                     z.object({
+                      galleryId: z.string(),
                       label: z.string(),
                       description: z.string(),
                       provider: z.string(),
                       componentType: z.string(),
                       version: z.number().int(),
                       componentVersion: z.number().int(),
-                      galleryId: z.string(),
                       config: z.object({}),
                     }),
                   ),
@@ -678,13 +708,13 @@ export const zWorkflowWorkersCount = z.object({
             })
             .merge(
               z.object({
+                galleryId: z.string(),
                 label: z.string(),
                 description: z.string(),
                 provider: z.string(),
                 componentType: z.string(),
                 version: z.number().int(),
                 componentVersion: z.number().int(),
-                galleryId: z.string(),
                 config: z.object({}),
               }),
             ),
@@ -695,13 +725,13 @@ export const zWorkflowWorkersCount = z.object({
           })
           .merge(
             z.object({
+              galleryId: z.string(),
               label: z.string(),
               description: z.string(),
               provider: z.string(),
               componentType: z.string(),
               version: z.number().int(),
               componentVersion: z.number().int(),
-              galleryId: z.string(),
               config: z.object({}),
             }),
           ),
@@ -756,18 +786,34 @@ export const zWorkflowWorkersCount = z.object({
             })
             .merge(
               z.object({
+                galleryId: z.string(),
                 label: z.string(),
                 description: z.string(),
                 provider: z.string(),
                 componentType: z.string(),
                 version: z.number().int(),
                 componentVersion: z.number().int(),
-                galleryId: z.string(),
                 config: z.object({}),
               }),
             ),
         ),
       }),
+      z.object({
+        family: z.enum(["r1", "openai", "unknown"]),
+        vision: z.boolean(),
+        function_calling: z.boolean(),
+        json_output: z.boolean(),
+      }),
+      z.enum([
+        "assisant",
+        "ag",
+        "browser",
+        "tenant_settings",
+        "smola",
+        "team",
+        "gallery",
+        "com",
+      ]),
     ])
     .optional(),
 });
@@ -1801,6 +1847,175 @@ export const zAgentRunInput = z.object({
         messages: z.array(z.object({})),
         stop_reason: z.string(),
       }),
+      z.enum([
+        "mtmai.agents.assistant_agent.AssistantAgent",
+        "mtmai.agents.instagram_agent.InstagramAgent",
+        "mtmai.agents.smola_agent.SmolaAgent",
+      ]),
+      z.object({
+        modelId: z.string().optional(),
+        tag: z.string().optional(),
+      }),
+      z
+        .object({
+          name: z.string(),
+          description: z.string(),
+          model_context: z.object({}).optional(),
+          memory: z.object({}).optional(),
+          model_client_stream: z.boolean().default(false),
+          system_message: z.string().optional(),
+          model_client: zApiResourceMetaProperties.merge(
+            z.object({
+              galleryId: z.string(),
+              label: z.string(),
+              description: z.string(),
+              provider: z.string(),
+              componentType: z.string(),
+              version: z.number().int(),
+              componentVersion: z.number().int(),
+              config: z.object({}),
+            }),
+          ),
+          tools: z.array(z.object({})).default([]),
+          handoffs: z.array(z.string()).default([]),
+          reflect_on_tool_use: z.boolean().default(false),
+          tool_call_summary_format: z.string().default("{result}"),
+        })
+        .merge(
+          z.object({
+            model_client: zApiResourceMetaProperties.merge(
+              z.object({
+                galleryId: z.string(),
+                label: z.string(),
+                description: z.string(),
+                provider: z.string(),
+                componentType: z.string(),
+                version: z.number().int(),
+                componentVersion: z.number().int(),
+                config: z.object({}),
+              }),
+            ),
+            name: z.string().optional(),
+            tools: z
+              .array(
+                zApiResourceMetaProperties.merge(
+                  z.object({
+                    galleryId: z.string(),
+                    label: z.string(),
+                    description: z.string(),
+                    provider: z.string(),
+                    componentType: z.string(),
+                    version: z.number().int(),
+                    componentVersion: z.number().int(),
+                    config: z.object({}),
+                  }),
+                ),
+              )
+              .optional(),
+          }),
+        ),
+      z.object({
+        participants: z.array(
+          zApiResourceMetaProperties.merge(
+            z.object({
+              galleryId: z.string(),
+              label: z.string(),
+              description: z.string(),
+              provider: z.string(),
+              componentType: z.string(),
+              version: z.number().int(),
+              componentVersion: z.number().int(),
+              config: z.object({}),
+            }),
+          ),
+        ),
+        termination_condition: zApiResourceMetaProperties.merge(
+          z.object({
+            galleryId: z.string(),
+            label: z.string(),
+            description: z.string(),
+            provider: z.string(),
+            componentType: z.string(),
+            version: z.number().int(),
+            componentVersion: z.number().int(),
+            config: z.object({}),
+          }),
+        ),
+      }),
+      z.object({
+        model: z.string(),
+        model_type: z.enum([
+          "OpenAIChatCompletionClient",
+          "AzureOpenAIChatCompletionClient",
+        ]),
+        api_key: z.string().optional(),
+        base_url: z.string().optional(),
+        timeout: z.number().optional(),
+        max_retries: z.number().int().optional(),
+        frequency_penalty: z.number().optional(),
+        logit_bias: z.number().int().optional(),
+        max_tokens: z.number().int().optional(),
+        n: z.number().int().optional(),
+        presence_penalty: z.number().optional(),
+        response_format: z.enum(["json_object", "text"]).optional(),
+        seed: z.number().int().optional(),
+        stop: z.array(z.string()).optional(),
+        temperature: z.number().optional(),
+        top_p: z.number().optional(),
+        user: z.string().optional(),
+        organization: z.string().optional(),
+        default_headers: z.object({}).optional(),
+        model_info: z
+          .object({
+            family: z.enum(["r1", "openai", "unknown"]),
+            vision: z.boolean(),
+            function_calling: z.boolean(),
+            json_output: z.boolean(),
+          })
+          .optional(),
+      }),
+      z.object({
+        text: z.string(),
+      }),
+      z.object({
+        termination_type: z.enum(["MaxMessageTermination"]),
+        max_messages: z.number().int(),
+      }),
+      z.object({
+        text: z.string(),
+      }),
+      z.object({
+        conditions: z.array(
+          zApiResourceMetaProperties.merge(
+            z.object({
+              galleryId: z.string(),
+              label: z.string(),
+              description: z.string(),
+              provider: z.string(),
+              componentType: z.string(),
+              version: z.number().int(),
+              componentVersion: z.number().int(),
+              config: z.object({}),
+            }),
+          ),
+        ),
+      }),
+      z.object({
+        family: z.enum(["r1", "openai", "unknown"]),
+        vision: z.boolean(),
+        function_calling: z.boolean(),
+        json_output: z.boolean(),
+      }),
+      z.enum([
+        "assisant",
+        "ag",
+        "browser",
+        "tenant_settings",
+        "smola",
+        "team",
+        "gallery",
+        "com",
+      ]),
     ])
     .optional(),
 });
@@ -2302,13 +2517,13 @@ export const zBaseGroupChatManagerState = zBaseState.merge(
 );
 
 export const zMtComponentProperties = z.object({
+  galleryId: z.string(),
   label: z.string(),
   description: z.string(),
   provider: z.string(),
   componentType: z.string(),
   version: z.number().int(),
   componentVersion: z.number().int(),
-  galleryId: z.string(),
   config: z.object({}),
 });
 
@@ -2328,21 +2543,11 @@ export const zMtComponentList = z.object({
 
 export const zMtComponentUpsert = zMtComponentProperties;
 
-export const zComponentModel = z.object({
-  id: z.string().optional(),
-  provider: z.string(),
-  componentType: z.enum(["team", "agent", "model", "tool", "termination"]),
-  version: z.number().int(),
-  componentVersion: z.number().int(),
-  description: z.string(),
-  label: z.string(),
-});
-
 export const zGalleryComponents = z.object({
-  agents: z.array(zComponentModel),
-  models: z.array(zComponentModel),
-  tools: z.array(zComponentModel),
-  terminations: z.array(zComponentModel),
+  agents: z.array(z.object({})),
+  models: z.array(z.object({})),
+  tools: z.array(z.object({})),
+  terminations: z.array(z.object({})),
 });
 
 export const zGalleryItems = z.object({
@@ -2449,27 +2654,9 @@ export const zOrTerminationConfig = z.object({
   conditions: z.array(zMtComponent),
 });
 
-export const zTenantComponent = zComponentModel.merge(
-  z.object({
-    provider: z.enum(["mtmai.tenant.Tenant"]),
-    config: z.object({
-      default_openai_api_key: z.string().optional(),
-    }),
-  }),
-);
-
 export const zTenantComponentConfig = z.object({
   default_openai_api_key: z.string().optional(),
 });
-
-export const zSystemComponent = zComponentModel.merge(
-  z.object({
-    provider: z.enum(["mtmai.system.System"]),
-    config: z.object({
-      default_openai_api_key: z.string().optional(),
-    }),
-  }),
-);
 
 export const zSystemConfig = z.object({
   default_openai_api_key: z.string().optional(),
@@ -2563,8 +2750,6 @@ export const zAgentMessageConfig = z.union([
   zToolCallMessageConfig,
   zToolCallResultMessageConfig,
 ]);
-
-export const zMemoryConfig = zComponentModel;
 
 export const zMtTaskResult = z.object({
   messages: z.array(z.object({})),
@@ -2678,19 +2863,6 @@ export const zOpenAiModelConfig = z
     }),
   );
 
-export const zToolComponent = zComponentModel.merge(
-  z.object({
-    componentType: z.enum(["tool"]),
-    config: z.object({
-      name: z.string(),
-      description: z.string().optional(),
-      source_code: z.string().optional(),
-      global_imports: z.array(z.string()).optional(),
-      has_cancellation_support: z.boolean().optional(),
-    }),
-  }),
-);
-
 export const zToolConfig = z.object({
   name: z.string(),
   description: z.string().optional(),
@@ -2698,12 +2870,6 @@ export const zToolConfig = z.object({
   global_imports: z.array(z.string()).optional(),
   has_cancellation_support: z.boolean().optional(),
 });
-
-export const zHandoffComponent = zComponentModel.merge(
-  z.object({
-    target: z.string(),
-  }),
-);
 
 export const zHandoffConfig = z.object({
   target: z.string(),
@@ -2770,7 +2936,7 @@ export const zAssistantAgentConfig = z
     name: z.string(),
     description: z.string(),
     model_context: z.object({}).optional(),
-    memory: zMemoryConfig.optional(),
+    memory: z.object({}).optional(),
     model_client_stream: z.boolean().default(false),
     system_message: z.string().optional(),
     model_client: zMtComponent,
@@ -2791,7 +2957,7 @@ export const zInstagramAgentConfig = z.object({
   name: z.string(),
   description: z.string(),
   model_context: z.object({}).optional(),
-  memory: zMemoryConfig.optional(),
+  memory: z.object({}).optional(),
   model_client_stream: z.boolean().default(false),
   system_message: z.string().optional(),
   model_client: zMtComponent,
@@ -2807,10 +2973,6 @@ export const zTeamTypes = z.enum([
   "MagenticOneGroupChat",
   "InstagramTeam",
 ]);
-
-export const zModelContext = z.object({
-  some: z.string().optional(),
-});
 
 export const zTenantParameter = z.string().uuid().length(36);
 
@@ -3347,7 +3509,7 @@ export const zAgentConfig = z.object({
   name: z.string(),
   description: z.string(),
   model_context: z.object({}).optional(),
-  memory: zMemoryConfig.optional(),
+  memory: z.object({}).optional(),
   model_client_stream: z.boolean().default(false),
   system_message: z.string().optional(),
   model_client: zMtComponent,

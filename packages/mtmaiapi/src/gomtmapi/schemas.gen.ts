@@ -1369,7 +1369,37 @@ export const WorkflowWorkersCountSchema = {
       type: "string",
     },
     other: {
-      oneOf: [
+      anyOf: [
+        {
+          $ref: "#/components/schemas/BrowserData",
+        },
+        {
+          $ref: "#/components/schemas/PlatformAccountData",
+        },
+        {
+          $ref: "#/components/schemas/InstagramTask",
+        },
+        {
+          $ref: "#/components/schemas/ChatSessionStartEvent",
+        },
+        {
+          $ref: "#/components/schemas/TerminationMessage",
+        },
+        {
+          $ref: "#/components/schemas/CodeReviewTask",
+        },
+        {
+          $ref: "#/components/schemas/CodeReviewResult",
+        },
+        {
+          $ref: "#/components/schemas/BrowserTask",
+        },
+        {
+          $ref: "#/components/schemas/BrowserOpenTask",
+        },
+        {
+          $ref: "#/components/schemas/MtTaskResult",
+        },
         {
           $ref: "#/components/schemas/ProviderTypes",
         },
@@ -1396,6 +1426,12 @@ export const WorkflowWorkersCountSchema = {
         },
         {
           $ref: "#/components/schemas/OrTerminationConfig",
+        },
+        {
+          $ref: "#/components/schemas/ModelInfo",
+        },
+        {
+          $ref: "#/components/schemas/FlowNames",
         },
       ],
     },
@@ -3361,6 +3397,45 @@ export const AgentRunInputSchema = {
         {
           $ref: "#/components/schemas/MtTaskResult",
         },
+        {
+          $ref: "#/components/schemas/ProviderTypes",
+        },
+        {
+          $ref: "#/components/schemas/RunFlowModelInput",
+        },
+        {
+          $ref: "#/components/schemas/AssistantAgentConfig",
+        },
+        {
+          $ref: "#/components/schemas/InstagramTeamConfig",
+        },
+        {
+          $ref: "#/components/schemas/ModelConfig",
+        },
+        {
+          $ref: "#/components/schemas/TextMentionTerminationConfig",
+        },
+        {
+          $ref: "#/components/schemas/MaxMessageTerminationConfig",
+        },
+        {
+          $ref: "#/components/schemas/StopMessageTerminationConfig",
+        },
+        {
+          $ref: "#/components/schemas/OrTerminationConfig",
+        },
+        {
+          $ref: "#/components/schemas/ModelInfo",
+        },
+        {
+          $ref: "#/components/schemas/ModelConfig",
+        },
+        {
+          $ref: "#/components/schemas/FlowNames",
+        },
+        {
+          $ref: "#/components/schemas/AssistantAgentConfig",
+        },
       ],
     },
   },
@@ -3504,7 +3579,6 @@ export const ReflectionsSchema = {
 
 export const ArtifactLengthOptionsSchema = {
   type: "string",
-  description: "工具内容长度,(文章,代码内容长度)",
   enum: ["shortest", "short", "long", "longest"],
 } as const;
 
@@ -3885,6 +3959,9 @@ export const MtComponentPropertiesSchema = {
     "config",
   ],
   properties: {
+    galleryId: {
+      type: "string",
+    },
     label: {
       type: "string",
     },
@@ -3902,9 +3979,6 @@ export const MtComponentPropertiesSchema = {
     },
     componentVersion: {
       type: "integer",
-    },
-    galleryId: {
-      type: "string",
     },
     config: {
       type: "object",
@@ -3957,77 +4031,34 @@ export const MtComponentUpsertSchema = {
   ],
 } as const;
 
-export const ComponentModelSchema = {
-  required: [
-    "componentType",
-    "provider",
-    "description",
-    "label",
-    "provider",
-    "version",
-    "componentVersion",
-  ],
-  properties: {
-    id: {
-      type: "string",
-      description: "Unique identifier for the component.",
-    },
-    provider: {
-      type: "string",
-      description: "Describes how the component can be instantiated.",
-    },
-    componentType: {
-      type: "string",
-      description:
-        "Logical type of the component. If missing, the component assumes the default type of the provider.",
-      $ref: "#/components/schemas/ComponentTypes",
-    },
-    version: {
-      type: "integer",
-      description:
-        "Version of the component specification. If missing, the component assumes whatever is the current version of the library used to load it. This is obviously dangerous and should be used for user authored ephmeral config. For all other configs version should be specified.",
-    },
-    componentVersion: {
-      type: "integer",
-      description:
-        "Version of the component. If missing, the component assumes the default version of the provider.",
-    },
-    description: {
-      type: "string",
-      description: "Description of the component.",
-    },
-    label: {
-      type: "string",
-      description:
-        "Human readable label for the component. If missing the component assumes the class name of the provider.",
-    },
-  },
-} as const;
-
 export const GalleryComponentsSchema = {
   type: "object",
   properties: {
     agents: {
       items: {
-        $ref: "#/components/schemas/ComponentModel",
+        type: "object",
+        additionalProperties: true,
       },
       type: "array",
     },
     models: {
       items: {
-        $ref: "#/components/schemas/ComponentModel",
+        type: "object",
+        additionalProperties: true,
       },
       type: "array",
     },
     tools: {
       items: {
-        $ref: "#/components/schemas/ComponentModel",
+        type: "object",
+        additionalProperties: true,
       },
       type: "array",
     },
     terminations: {
       items: {
-        $ref: "#/components/schemas/ComponentModel",
+        type: "object",
+        additionalProperties: true,
       },
       type: "array",
     },
@@ -4270,52 +4301,12 @@ export const OrTerminationConfigSchema = {
   },
 } as const;
 
-export const TenantComponentSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/ComponentModel",
-    },
-    {
-      required: ["config", "provider"],
-      properties: {
-        provider: {
-          type: "string",
-          enum: ["mtmai.tenant.Tenant"],
-        },
-        config: {
-          $ref: "#/components/schemas/TenantComponentConfig",
-        },
-      },
-    },
-  ],
-} as const;
-
 export const TenantComponentConfigSchema = {
   properties: {
     default_openai_api_key: {
       type: "string",
     },
   },
-} as const;
-
-export const SystemComponentSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/ComponentModel",
-    },
-    {
-      required: ["config", "provider"],
-      properties: {
-        provider: {
-          type: "string",
-          enum: ["mtmai.system.System"],
-        },
-        config: {
-          $ref: "#/components/schemas/SystemConfig",
-        },
-      },
-    },
-  ],
 } as const;
 
 export const SystemConfigSchema = {
@@ -4547,14 +4538,6 @@ export const AgentMessageConfigSchema = {
   ],
 } as const;
 
-export const MemoryConfigSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/ComponentModel",
-    },
-  ],
-} as const;
-
 export const MtTaskResultSchema = {
   properties: {
     messages: {
@@ -4648,26 +4631,6 @@ export const OpenAIModelConfigSchema = {
   ],
 } as const;
 
-export const ToolComponentSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/ComponentModel",
-    },
-    {
-      properties: {
-        componentType: {
-          type: "string",
-          enum: ["tool"],
-        },
-        config: {
-          $ref: "#/components/schemas/ToolConfig",
-        },
-      },
-      required: ["config", "componentType"],
-    },
-  ],
-} as const;
-
 export const ToolConfigSchema = {
   required: ["name"],
   properties: {
@@ -4690,17 +4653,6 @@ export const ToolConfigSchema = {
       type: "boolean",
     },
   },
-} as const;
-
-export const HandoffComponentSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/ComponentModel",
-    },
-    {
-      $ref: "#/components/schemas/HandoffConfig",
-    },
-  ],
 } as const;
 
 export const HandoffConfigSchema = {
@@ -4882,14 +4834,6 @@ export const TeamTypesSchema = {
     "MagenticOneGroupChat",
     "InstagramTeam",
   ],
-} as const;
-
-export const ModelContextSchema = {
-  properties: {
-    some: {
-      type: "string",
-    },
-  },
 } as const;
 
 export const TenantParameterSchema = {
@@ -6329,7 +6273,8 @@ export const AgentConfigSchema = {
       additionalProperties: true,
     },
     memory: {
-      $ref: "#/components/schemas/MemoryConfig",
+      type: "object",
+      additionalProperties: true,
     },
     model_client_stream: {
       type: "boolean",

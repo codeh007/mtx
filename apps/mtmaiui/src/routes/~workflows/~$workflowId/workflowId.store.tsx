@@ -1,24 +1,24 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useSearch } from "@tanstack/react-router";
+// import { useSearch } from "@tanstack/react-router";
 import debounce from "lodash.debounce";
 import { type MtComponent, comsListOptions } from "mtmaiapi";
 import type React from "react";
 import {
-    createContext,
-    useContext,
-    useEffect,
-    useMemo,
-    useState,
-    useTransition,
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  useTransition,
 } from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { useTenantId } from "../../../hooks/useAuth";
-import { useNav } from "../../../hooks/useNav";
+import { useNav, useSearch } from "../../../hooks/useNav";
 
 export interface ComponentsProps {
   queryParams?: Record<string, any>;

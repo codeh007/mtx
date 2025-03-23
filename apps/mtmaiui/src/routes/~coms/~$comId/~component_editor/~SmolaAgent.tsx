@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { zSmolaAgentComponent } from "mtmaiapi/gomtmapi/zod.gen";
+// import { zSmolaAgentComponent } from "mtmaiapi/gomtmapi/zod.gen";
 import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import {
@@ -12,7 +12,7 @@ import {
 } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { useFormContext } from "react-hook-form";
-import type { z } from "zod";
+import { z } from "zod";
 import {
   ModelContent,
   ModelHeader,
@@ -31,7 +31,7 @@ function RouteComponent() {
   const selectedNode = useTeamBuilderStore((x) => x.selectedNode);
 
   const form = useZodForm({
-    schema: zSmolaAgentComponent,
+    schema: z.any(),
     defaultValues: {
       ...selectedNode?.data.component,
     },
