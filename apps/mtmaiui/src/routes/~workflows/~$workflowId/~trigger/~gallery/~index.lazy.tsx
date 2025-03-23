@@ -28,7 +28,7 @@ function RouteComponent() {
   };
   return (
     <>
-      <Button onClick={handleClick}>运行 browser</Button>
+      <Button onClick={handleClick}>运行 gallery</Button>
     </>
   );
 }
