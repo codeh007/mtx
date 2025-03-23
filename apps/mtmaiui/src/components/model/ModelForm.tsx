@@ -1,6 +1,7 @@
 "use client";
 
 import type { zUpsertModel } from "mtmaiapi/gomtmapi/zod.gen";
+import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
 import {
   FormControl,
   FormField,
