@@ -46,6 +46,7 @@ export function TeamBuilderHeader({ comId }: TeamBuilderHeaderProps) {
   const layoutNodes = useTeamBuilderStore((x) => x.layoutNodes);
   const setShowGrid = useTeamBuilderStore((x) => x.setShowGrid);
   const setIsFullscreen = useTeamBuilderStore((x) => x.setIsFullscreen);
+  const component = useTeamBuilderStore((x) => x.component);
 
   return (
     <DashHeaders>
@@ -56,7 +57,7 @@ export function TeamBuilderHeader({ comId }: TeamBuilderHeaderProps) {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <HeaderActionConainer className="gap-2 flex gap-2 text-xs rounded border-dashed items-center">
+      <HeaderActionConainer className="flex gap-2 text-xs rounded border-dashed items-center">
         <div className="flex items-center gap-2">
           {validationResults && !validationResults.is_valid && (
             <div className="inline-block mr-2">
@@ -85,7 +86,7 @@ export function TeamBuilderHeader({ comId }: TeamBuilderHeaderProps) {
                 size="icon"
                 variant="outline"
                 onClick={() => {
-                  const json = JSON.stringify(syncToJson(), null, 2);
+                  const json = JSON.stringify(component, null, 2);
                   const blob = new Blob([json], {
                     type: "application/json",
                   });
@@ -101,7 +102,7 @@ export function TeamBuilderHeader({ comId }: TeamBuilderHeaderProps) {
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              <span>Download Team</span>
+              <span>下载</span>
             </TooltipContent>
           </Tooltip>
           <Tooltip>
