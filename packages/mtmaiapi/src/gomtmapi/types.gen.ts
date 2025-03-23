@@ -821,7 +821,16 @@ export type WorkflowWorkersCount = {
   freeSlotCount?: number;
   maxSlotCount?: number;
   workflowRunId?: string;
-  other?: ProviderTypes | RunFlowModelInput;
+  other?:
+    | ProviderTypes
+    | RunFlowModelInput
+    | AssistantAgentConfig
+    | InstagramTeamConfig
+    | ModelConfig
+    | TextMentionTerminationConfig
+    | MaxMessageTerminationConfig
+    | StopMessageTerminationConfig
+    | OrTerminationConfig;
 };
 
 export type WorkflowRun = {
@@ -1977,29 +1986,6 @@ export const ReadingLevelOptions = {
   PHD: "phd",
 } as const;
 
-export type SelectorGroupChatComponent = ComponentModel & {
-  provider: "autogen_agentchat.teams.SelectorGroupChat";
-  config: SelectorGroupChatConfig;
-};
-
-export type RoundRobinGroupChatComponent = ComponentModel & {
-  provider: "autogen_agentchat.teams.RoundRobinGroupChat";
-  config: RoundRobinGroupChatConfig;
-};
-
-export type TeamConfigBase = {
-  participants: Array<AgentComponent>;
-  max_turns: number;
-  termination_condition: TextMentionTerminationComponent;
-};
-
-export type SmolaAgentComponent = AgentComponent & {
-  provider: "mtmai.agents.smola_agent.SmolaAgent";
-  config: {
-    [key: string]: unknown;
-  };
-};
-
 export type ProviderTypes =
   | "mtmai.agents.assistant_agent.AssistantAgent"
   | "mtmai.agents.instagram_agent.InstagramAgent"
@@ -2137,19 +2123,18 @@ export type BaseGroupChatManagerState = BaseState & {
   current_turn?: number;
 };
 
-export type MtComponent = ApiResourceMetaProperties &
-  MtComponentProperties & {
-    label: string;
-    description: string;
-    provider: string;
-    componentType: string;
-    version: number;
-    componentVersion: number;
-    galleryId: string;
-    config: {
-      [key: string]: unknown;
-    };
+export type MtComponent = ApiResourceMetaProperties & {
+  label: string;
+  description: string;
+  provider: string;
+  componentType: string;
+  version: number;
+  componentVersion: number;
+  galleryId: string;
+  config: {
+    [key: string]: unknown;
   };
+};
 
 export type MtComponentNew = {
   label?: string;
@@ -2160,21 +2145,6 @@ export type MtComponentList = {
   pagination?: PaginationResponse;
   rows?: Array<MtComponent>;
 };
-
-export type MtComponentProperties =
-  | SystemComponent
-  | TextMentionTerminationComponent
-  | AgentComponent
-  | InstagramAgentComponent
-  | AssistantAgentComponent
-  | RoundRobinGroupChatComponent
-  | SelectorGroupChatComponent
-  | InstagramTeamComponent
-  | TenantComponent
-  | MaxMessageTerminationComponent
-  | StopMessageTerminationComponent
-  | SmolaAgentComponent
-  | ModelComponent;
 
 export type ComponentModel = {
   /**
@@ -2331,15 +2301,8 @@ export const TerminationTypes = {
   TIMEOUT_TERMINATION: "TimeoutTermination",
 } as const;
 
-export type OrTerminationComponent = ComponentModel & {
-  componentType: "termination";
-  config: OrTerminationConfig;
-};
-
 export type OrTerminationConfig = {
-  conditions: Array<{
-    [key: string]: unknown;
-  }>;
+  conditions: Array<MtComponent>;
 };
 
 export type TenantComponent = ComponentModel & {
@@ -2512,11 +2475,6 @@ export type HandoffConfig = {
   target: string;
 };
 
-export type ModelComponent = ComponentModel & {
-  componentType: "model";
-  config: ModelConfig;
-};
-
 export type ResponseFormat = "json_object" | "text";
 
 export const ResponseFormat = {
@@ -2569,28 +2527,15 @@ export type Subsection = {
   description: string;
 };
 
-export type RoundRobinGroupChatConfig = TeamConfigBase & {
-  participants: Array<AgentComponent>;
-  termination_condition: TextMentionTerminationComponent;
+export type RoundRobinGroupChatConfig = {
+  participants: Array<MtComponent>;
+  termination_condition: MtComponent;
 };
 
-export type SelectorGroupChatConfig = TeamConfigBase &
-  RoundRobinGroupChatConfig & {
-    participants: Array<AgentComponent>;
-    termination_condition: TextMentionTerminationComponent;
-    model_client?: ModelComponent;
-  };
-
-export type MaxMessageTerminationComponent = ComponentModel & {
-  componentType: "termination";
-  provider: "autogen_agentchat.conditions.MaxMessageTermination";
-  config: MaxMessageTerminationConfig;
-};
-
-export type StopMessageTerminationComponent = ComponentModel & {
-  componentType: "termination";
-  provider: "autogen_agentchat.conditions.StopMessageTermination";
-  config: StopMessageTerminationConfig;
+export type SelectorGroupChatConfig = RoundRobinGroupChatConfig & {
+  participants: Array<MtComponent>;
+  termination_condition: MtComponent;
+  model_client?: MtComponent;
 };
 
 export type StopMessageTerminationConfig = {
@@ -2602,31 +2547,14 @@ export type MaxMessageTerminationConfig = {
   max_messages: number;
 };
 
-export type TextMentionTerminationComponent = ComponentModel & {
-  componentType: "termination";
-  provider: "autogen_agentchat.conditions.TextMentionTermination";
-  config: TextMentionTerminationConfig;
-};
-
 export type TextMentionTerminationConfig = {
   text: string;
-};
-
-export type AssistantAgentComponent = AgentComponent & {
-  provider: "mtmai.agents.assistant_agent.AssistantAgent";
-  config: {
-    [key: string]: unknown;
-  };
 };
 
 export type AssistantAgentConfig = AgentConfig & {
   model_client: MtComponent;
   name?: string;
-};
-
-export type InstagramAgentComponent = AgentComponent & {
-  provider: "mtmai.agents.instagram_agent.InstagramAgent";
-  config: InstagramAgentConfig;
+  tools?: Array<MtComponent>;
 };
 
 export type InstagramAgentConfig = AgentConfig;
@@ -3292,14 +3220,9 @@ export type BrowserOpenTask = {
   url: string;
 };
 
-export type InstagramTeamComponent = ComponentModel & {
-  provider: "mtmai.teams.instagram_team.InstagramTeam";
-  config: InstagramTeamConfig;
-};
-
-export type InstagramTeamConfig = TeamConfigBase & {
+export type InstagramTeamConfig = {
   participants: Array<MtComponent>;
-  termination_condition: OrTerminationComponent;
+  termination_condition: MtComponent;
 };
 
 /**
@@ -3307,11 +3230,6 @@ export type InstagramTeamConfig = TeamConfigBase & {
  */
 export type BrowserConfig = {
   persistent?: boolean;
-};
-
-export type AgentComponent = ComponentModel & {
-  componentType: "agent";
-  config: AgentConfig;
 };
 
 export type AgentConfig = {
@@ -3323,8 +3241,10 @@ export type AgentConfig = {
   memory?: MemoryConfig;
   model_client_stream: boolean;
   system_message?: string;
-  model_client: ModelComponent;
-  tools: Array<ToolComponent>;
+  model_client: MtComponent;
+  tools: Array<{
+    [key: string]: unknown;
+  }>;
   handoffs: Array<string>;
   reflect_on_tool_use: boolean;
   tool_call_summary_format: string;
