@@ -14,7 +14,7 @@ import {
   SidebarInput,
 } from "mtxuilib/ui/sidebar";
 
-import { Bot, ChevronsUpDown, Edit } from "lucide-react";
+import { ChevronsUpDown, Edit } from "lucide-react";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { IconPlus } from "mtxuilib/icons/icons-ai";
 import {
@@ -101,10 +101,10 @@ const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
         <div className="flex items-center justify-between px-2">
           <PresetItem
             id={`${rowId}`}
-            type={"agent"}
+            type={item.componentType}
             config={item}
             label={item.label || ""}
-            icon={<Bot className="w-4 h-4" />}
+            // icon={<Bot className="w-4 h-4" />}
             className="w-full"
           />
           <DebugValue data={item} />

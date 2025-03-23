@@ -8,6 +8,7 @@ import {
   Timer,
   Wrench,
 } from "lucide-react";
+import { Icons } from "mtxuilib/icons/icons";
 import { cn } from "mtxuilib/lib/utils";
 import {
   Accordion,
@@ -16,7 +17,7 @@ import {
   AccordionTrigger,
 } from "mtxuilib/ui/accordion";
 import { Button } from "mtxuilib/ui/button";
-import React from "react";
+import React, { useMemo } from "react";
 import type { ComponentTypes, Gallery } from "../../types/datamodel";
 
 interface ComponentConfigTypes {
@@ -28,7 +29,7 @@ interface PresetItemProps {
   type: ComponentTypes;
   config: ComponentConfigTypes;
   label: string;
-  icon: React.ReactNode;
+  // icon: React.ReactNode;
   className?: string;
 }
 
@@ -37,7 +38,6 @@ export const PresetItem = ({
   type,
   config,
   label,
-  icon,
   className,
 }: PresetItemProps) => {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
@@ -51,6 +51,22 @@ export const PresetItem = ({
         },
       },
     });
+
+  const icon2 = useMemo(() => {
+    if (type === "agent") {
+      return <Bot className="size-4" />;
+    }
+    if (type === "model") {
+      return <Brain className="size-4" />;
+    }
+    if (type === "tool") {
+      return <Wrench className="size-4" />;
+    }
+    if (type === "termination") {
+      return <Timer className="size-4" />;
+    }
+    return <Icons.boxes className="size-4" />;
+  }, [type]);
   return (
     <div
       ref={setNodeRef}
@@ -65,7 +81,7 @@ export const PresetItem = ({
     >
       <div className="flex items-center gap-2">
         <GripVertical className="w-4 h-4 inline-block" />
-        {icon}
+        {icon2}
         <span className=" text-sm">{label}</span>
       </div>
     </div>

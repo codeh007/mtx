@@ -91,9 +91,13 @@ const DroppableZone = memo<DroppableZoneProps>(
     return (
       <div
         ref={setNodeRef}
-        className={`droppable-zone p-2 ${isValidDrop ? "can-drop" : ""} ${
-          className || ""
-        }`}
+        className={cn(
+          "droppable-zone p-2",
+          isValidDrop
+            ? "border-dashed border-2 border-accent bg-green-500/10"
+            : "",
+          className || "",
+        )}
       >
         {children}
       </div>
@@ -135,7 +139,7 @@ const BaseNode = memo<BaseNodeProps>(
       <div
         ref={dragHandle}
         className={`
-        bg-white text-primary relative rounded-lg shadow-lg w-72 
+        bg-white relative rounded-lg shadow-lg w-72 
         ${selected ? "ring-2 ring-accent" : ""}
         ${className || ""} 
         transition-all duration-200
@@ -359,9 +363,7 @@ export const TeamNode = memo<NodeProps<CustomNode>>((props) => {
             id={`${props.id}@@@termination-zone`}
             accepts={["termination"]}
           >
-            <div className="text-secondary text-xs my-1 text-center">
-              Drop termination here
-            </div>
+            <div className="text-xs my-1 text-center">拖放终结条件到此</div>
           </DroppableZone>
         </div>
       </NodeSection>
@@ -409,7 +411,7 @@ export const AgentNode = memo<NodeProps<CustomNode>>((props) => {
         type="target"
         position={Position.Left}
         id={`${props.id}-agent-input-handle`}
-        className="my-left-handle z-100"
+        className="w-1 h-3 rounded-r-sm -ml-1 border-0 z-100"
       />
 
       {(isAssistantAgent(component) || isWebSurferAgent(component)) && (
@@ -432,9 +434,7 @@ export const AgentNode = memo<NodeProps<CustomNode>>((props) => {
                 id={`${props.id}@@@model-zone`}
                 accepts={["model"]}
               >
-                <div className="text-secondary text-xs my-1 text-center">
-                  Drop model here
-                </div>
+                <div className="text-xs my-1 text-center">Drop model here</div>
               </DroppableZone>
             </div>
           </NodeSection>
@@ -459,7 +459,7 @@ export const AgentNode = memo<NodeProps<CustomNode>>((props) => {
                   id={`${props.id}@@@tool-zone`}
                   accepts={["tool"]}
                 >
-                  <div className="text-secondary text-xs my-1 text-center">
+                  <div className="text-xs my-1 text-center">
                     Drop tools here
                   </div>
                 </DroppableZone>

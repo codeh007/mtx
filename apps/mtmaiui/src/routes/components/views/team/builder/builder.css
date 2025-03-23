@@ -16,10 +16,10 @@
   margin: 8px 0;
 }
 
-.droppable-zone.can-drop {
+/* .droppable-zone.can-drop {
   border-color: #4caf50;
   background: rgba(76, 175, 80, 0.1);
-}
+} */
 
 .my-left-handle {
   /* @apply  w-1 h-3 rounded-r-sm -ml-1 border-0 ; */

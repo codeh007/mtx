@@ -289,7 +289,7 @@ export const createWorkbrenchSlice: StateCreator<
       draggedType: ComponentTypes,
       targetType: ComponentTypes,
     ): boolean => {
-      console.log("validateDropTarget", draggedType, targetType);
+      // console.log("validateDropTarget", draggedType, targetType);
       const validTargets: Record<ComponentTypes, ComponentTypes[]> = {
         model: ["team", "agent"],
         tool: ["agent"],
@@ -297,7 +297,9 @@ export const createWorkbrenchSlice: StateCreator<
         team: [],
         termination: ["team"],
       };
-      return validTargets[draggedType]?.includes(targetType) || false;
+      const ok = validTargets[draggedType]?.includes(targetType) || false;
+      console.log("validateDropTarget", { ok, draggedType, targetType });
+      return ok;
     },
 
     handleDragStart: (event: DragStartEvent) => {
@@ -409,11 +411,6 @@ export const createWorkbrenchSlice: StateCreator<
             set({
               nodes: newNodes,
               edges: newEdges,
-              // history: [
-              //   ...get().history.slice(0, get().currentHistoryIndex + 1),
-              //   { nodes: newNodes, edges: newEdges },
-              // ].slice(-MAX_HISTORY),
-              // currentHistoryIndex: get().currentHistoryIndex + 1,
             });
             return;
             // biome-ignore lint/style/noUselessElse: <explanation>
@@ -422,7 +419,6 @@ export const createWorkbrenchSlice: StateCreator<
             (isAssistantAgent(targetNode.data.component) ||
               isWebSurferAgent(targetNode.data.component))
           ) {
-            // console.log("添加agent 组件");
             targetNode.data.component.config.model_client = clonedComponent;
             get().newHistoryState();
             set({
@@ -430,15 +426,6 @@ export const createWorkbrenchSlice: StateCreator<
               edges: newEdges,
             });
             return;
-            // return {
-            //   nodes: newNodes,
-            //   edges: newEdges,
-            //   history: [
-            //     ...get().history.slice(0, get().currentHistoryIndex + 1),
-            //     { nodes: newNodes, edges: newEdges },
-            //   ].slice(-MAX_HISTORY),
-            //   currentHistoryIndex: get().currentHistoryIndex + 1,
-            // };
           }
         } else if (isToolComponent(clonedComponent)) {
           if (
@@ -449,20 +436,20 @@ export const createWorkbrenchSlice: StateCreator<
               targetNode.data.component.config.tools = [];
             }
             const toolName = getUniqueName(
-              clonedComponent.config.name,
+              clonedComponent.config.name as string,
               targetNode.data.component.config.tools.map((t) => t.config.name),
             );
             clonedComponent.config.name = toolName;
-            targetNode.data.component.config.tools.push(clonedComponent);
-            return {
+            targetNode.data.component.config.tools = [
+              ...(targetNode.data.component.config.tools || []),
+              clonedComponent,
+            ];
+            set({
               nodes: newNodes,
               edges: newEdges,
-              history: [
-                ...get().history.slice(0, get().currentHistoryIndex + 1),
-                { nodes: newNodes, edges: newEdges },
-              ].slice(-MAX_HISTORY),
-              currentHistoryIndex: get().currentHistoryIndex + 1,
-            };
+            });
+            get().newHistoryState();
+            return;
           }
         } else if (isTerminationComponent(clonedComponent)) {
           console.log("Termination component added", clonedComponent);
