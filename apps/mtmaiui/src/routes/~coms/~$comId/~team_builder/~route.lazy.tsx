@@ -6,22 +6,7 @@ export const Route = createLazyFileRoute("/coms/$comId/team_builder")({
 
 function RouteComponent() {
   return (
-    <div className="px-4 space-y-4">
-      {/* <MtTabs defaultValue="team" className="w-full">
-        <MtTabsList layout="underlined">
-          <CustomLink to="team">
-            <MtTabsTrigger variant="underlined" value="team">
-              团队
-            </MtTabsTrigger>
-          </CustomLink>
-          <CustomLink to="agent">
-            <MtTabsTrigger variant="underlined" value="agents">
-              agent
-            </MtTabsTrigger>
-          </CustomLink>
-        </MtTabsList>
-        
-      </MtTabs> */}
+    <div className="px-4 space-y-2">
       <Outlet />
     </div>
   );

@@ -31,6 +31,7 @@ export const DebugValue = (props: {
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
+              type="button"
               size={"icon"}
               variant={"outline"}
               className={className}

@@ -22,6 +22,7 @@ const PROVIDERS = {
   // Teams
   ROUND_ROBIN_TEAM: "autogen_agentchat.teams.RoundRobinGroupChat",
   SELECTOR_TEAM: "autogen_agentchat.teams.SelectorGroupChat",
+  INSTAGRAM_TEAM: "mtmai.teams.instagram_team.InstagramTeam",
 
   // Agents
   ASSISTANT_AGENT: "autogen_agentchat.agents.AssistantAgent",
@@ -144,6 +145,12 @@ export function isSelectorTeam(
   component: MtComponent,
 ): component is MtComponent {
   return isComponentOfType(component, PROVIDERS.SELECTOR_TEAM);
+}
+
+export function isInstagramTeam(
+  component: MtComponent,
+): component is MtComponent {
+  return isComponentOfType(component, PROVIDERS.INSTAGRAM_TEAM);
 }
 
 // Agent provider guards with proper type narrowing

@@ -328,6 +328,7 @@ export const ComponentEditor = ({
         <div className="flex">
           {navigationDepth && editPath.length > 0 && (
             <Button
+              type="button"
               onClick={handleNavigateBack}
               variant="ghost"
               size="icon"
@@ -342,6 +343,7 @@ export const ComponentEditor = ({
           <DebugValue data={{ editPath, workingCopy }} />
 
           <Button
+            type="button"
             onClick={() => setIsJsonEditing(!isJsonEditing)}
             variant="ghost"
             size="icon"
@@ -369,6 +371,7 @@ export const ComponentEditor = ({
         {onClose && (
           <div className="flex justify-end gap-2 mt-6 pt-4 border-t border-secondary">
             <Button
+              type="button"
               onClick={(e) => {
                 e.preventDefault();
                 onClose();
