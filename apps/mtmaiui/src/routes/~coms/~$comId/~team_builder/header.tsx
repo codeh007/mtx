@@ -28,10 +28,7 @@ interface TeamBuilderHeaderProps {
 export function TeamBuilderHeader({ comId }: TeamBuilderHeaderProps) {
   const isDirty = useTeamBuilderStore((x) => x.isDirty);
   const validationResults = useTeamBuilderStore((x) => x.validationResults);
-  const teamValidated = useTeamBuilderStore((x) => x.teamValidated);
-  const syncToJson = useTeamBuilderStore((x) => x.syncToJson);
   const handleSave = useTeamBuilderStore((x) => x.handleSave);
-  const handleValidate = useTeamBuilderStore((x) => x.handleValidate);
   const nav = useNav();
   const isJsonMode = useTeamBuilderStore((x) => x.isJsonMode);
   const isFullscreen = useTeamBuilderStore((x) => x.isFullscreen);
