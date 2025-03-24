@@ -299,7 +299,7 @@ export const ComponentEditor = ({
     }
     return (
       <div>
-        No fields for this component type: {currentComponent.componentType}
+        No fields for this component type: {currentComponent.component_type}
       </div>
     );
   }, [currentComponent, handleComponentUpdate, handleNavigate]);
