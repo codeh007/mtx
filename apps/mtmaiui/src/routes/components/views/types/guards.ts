@@ -29,7 +29,7 @@ const PROVIDERS = {
   MT_ASSISTANT_AGENT: "mtmai.agents.assistant_agent.AssistantAgent",
   USER_PROXY: "autogen_agentchat.agents.UserProxyAgent",
   WEB_SURFER: "autogen_ext.agents.web_surfer.MultimodalWebSurfer",
-
+  MT_WEB_SURFER: "mtmai.agents.web_surfer.MtMultimodalWebSurfer",
   // Models
   OPENAI: "autogen_ext.models.openai.OpenAIChatCompletionClient",
   MTM_OPENAI: "mtmai.model_client.MtOpenAIChatCompletionClient",
@@ -169,7 +169,10 @@ export function isUserProxyAgent(component: MtComponent) {
 }
 
 export function isWebSurferAgent(component: MtComponent) {
-  return isComponentOfType(component, PROVIDERS.WEB_SURFER);
+  return (
+    isComponentOfType(component, PROVIDERS.WEB_SURFER) ||
+    isComponentOfType(component, PROVIDERS.MT_WEB_SURFER)
+  );
 }
 
 // Model provider guards with proper type narrowing
