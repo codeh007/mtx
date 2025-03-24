@@ -3711,8 +3711,4 @@ export const zAgentGetResponse = zAgent;
 
 export const zAgentUpsertResponse = zAgent;
 
-export const zInstagramTestResponse = z.object({
-  message: z.string().optional(),
-});
-
 export const zInstagramLoginResponse = zIgLoginResponse;

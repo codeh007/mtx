@@ -170,7 +170,6 @@ import {
   agentList,
   agentGet,
   agentUpsert,
-  instagramTest,
   instagramLogin,
 } from "../sdk.gen";
 import {
@@ -491,7 +490,6 @@ import type {
   AgentUpsertData,
   AgentUpsertError,
   AgentUpsertResponse,
-  InstagramTestData,
   InstagramLoginData,
   InstagramLoginError,
   InstagramLoginResponse,
@@ -4996,24 +4994,6 @@ export const agentUpsertMutation = (
     },
   };
   return mutationOptions;
-};
-
-export const instagramTestQueryKey = (options?: Options<InstagramTestData>) =>
-  createQueryKey("instagramTest", options);
-
-export const instagramTestOptions = (options?: Options<InstagramTestData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await instagramTest({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: instagramTestQueryKey(options),
-  });
 };
 
 export const instagramLoginQueryKey = (options?: Options<InstagramLoginData>) =>

@@ -479,9 +479,6 @@ import type {
   AgentUpsertData,
   AgentUpsertResponse,
   AgentUpsertError,
-  InstagramTestData,
-  InstagramTestResponse,
-  InstagramTestError,
   InstagramLoginData,
   InstagramLoginResponse,
   InstagramLoginError,
@@ -4939,29 +4936,6 @@ export const agentUpsert = <ThrowOnError extends boolean = false>(
       "Content-Type": "application/json",
       ...options?.headers,
     },
-  });
-};
-
-export const instagramTest = <ThrowOnError extends boolean = false>(
-  options?: Options<InstagramTestData, ThrowOnError>,
-) => {
-  return (options?.client ?? _heyApiClient).get<
-    InstagramTestResponse,
-    InstagramTestError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/instagram/test",
-    ...options,
   });
 };
 
