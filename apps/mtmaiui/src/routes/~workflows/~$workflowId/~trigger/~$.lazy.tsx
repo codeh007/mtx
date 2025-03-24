@@ -1,28 +1,24 @@
-'use client'
-import {
-  createLazyFileRoute,
-  useNavigate,
-  useSearch,
-} from '@tanstack/react-router'
+"use client";
+import { createLazyFileRoute, useNavigate } from "@tanstack/react-router";
 
-import { PlusIcon } from '@heroicons/react/24/outline'
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
-import { workflowGetOptions, workflowRunCreateMutation } from 'mtmaiapi'
+import { PlusIcon } from "@heroicons/react/24/outline";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { workflowGetOptions, workflowRunCreateMutation } from "mtmaiapi";
 
-import { cn } from 'mtxuilib/lib/utils'
-import { CodeEditor } from 'mtxuilib/mt/code-editor'
-import { Button } from 'mtxuilib/ui/button'
-import { useState } from 'react'
-export const Route = createLazyFileRoute('/workflows/$workflowId/trigger/$')({
+import { cn } from "mtxuilib/lib/utils";
+import { CodeEditor } from "mtxuilib/mt/code-editor";
+import { Button } from "mtxuilib/ui/button";
+import { useState } from "react";
+export const Route = createLazyFileRoute("/workflows/$workflowId/trigger/$")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  const search = useSearch({ strict: false })
-  const navigate = useNavigate()
-  const [input, setInput] = useState<string | undefined>('{}')
-  const [addlMeta, setAddlMeta] = useState<string | undefined>('{}')
-  const [errors, setErrors] = useState<string[]>([])
+  const { workflowId } = Route.useParams();
+  const navigate = useNavigate();
+  const [input, setInput] = useState<string | undefined>("{}");
+  const [addlMeta, setAddlMeta] = useState<string | undefined>("{}");
+  const [errors, setErrors] = useState<string[]>([]);
 
   const triggerWorkflowMutation = useMutation({
     ...workflowRunCreateMutation(),
@@ -32,34 +28,34 @@ function RouteComponent() {
         params: {
           workflowRunId: data.metadata.id,
         },
-      })
+      });
     },
     // onError: handleApiError,
     onMutate: () => {
-      setErrors([])
+      setErrors([]);
     },
-  })
+  });
 
   const workflowQuery = useSuspenseQuery({
     ...workflowGetOptions({
       path: {
-        workflow: search.workflowId,
+        workflow: workflowId,
       },
     }),
-  })
+  });
 
-  const workflow = workflowQuery.data
+  const workflow = workflowQuery.data;
   return (
     <>
       <CodeEditor
-        code={input || '{}'}
+        code={input || "{}"}
         setCode={setInput}
         language="json"
         height="180px"
       />
       <div className="font-bold">Additional Metadata</div>
       <CodeEditor
-        code={addlMeta || '{}'}
+        code={addlMeta || "{}"}
         setCode={setAddlMeta}
         height="90px"
         language="json"
@@ -68,8 +64,8 @@ function RouteComponent() {
         className="w-fit"
         disabled={triggerWorkflowMutation.isPending}
         onClick={() => {
-          const inputObj = JSON.parse(input || '{}')
-          const addlMetaObj = JSON.parse(addlMeta || '{}')
+          const inputObj = JSON.parse(input || "{}");
+          const addlMetaObj = JSON.parse(addlMeta || "{}");
           triggerWorkflowMutation.mutate({
             path: {
               // tenant: tenant!.metadata.id,
@@ -79,13 +75,13 @@ function RouteComponent() {
               input: inputObj,
               additionalMetadata: addlMetaObj,
             },
-          })
+          });
         }}
       >
         <PlusIcon
           className={cn(
-            triggerWorkflowMutation.isPending ? 'rotate-180' : '',
-            'h-4 w-4 mr-2',
+            triggerWorkflowMutation.isPending ? "rotate-180" : "",
+            "h-4 w-4 mr-2",
           )}
         />
         Trigger
@@ -101,5 +97,5 @@ function RouteComponent() {
         </div>
       )}
     </>
-  )
+  );
 }

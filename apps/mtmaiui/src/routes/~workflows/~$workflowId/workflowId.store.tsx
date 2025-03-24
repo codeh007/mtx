@@ -1,18 +1,10 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
 // import { useSearch } from "@tanstack/react-router";
 import debounce from "lodash.debounce";
-import { type MtComponent, comsListOptions } from "mtmaiapi";
+import type { MtComponent } from "mtmaiapi";
 import type React from "react";
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  useTransition,
-} from "react";
+import { createContext, useContext, useMemo, useTransition } from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -72,10 +64,10 @@ export const WorkflowDetailProvider = (
   const nav = useNav();
   const [isPending, startTransition] = useTransition();
   const search = useSearch();
-  const [queryParams, setQueryParams] = useState({
-    ...etc.queryParams,
-    ...search,
-  });
+  // const [queryParams, setQueryParams] = useState({
+  //   ...etc.queryParams,
+  //   ...search,
+  // });
   const mystore = useMemo(
     () =>
       createComponentsStore({
@@ -85,35 +77,35 @@ export const WorkflowDetailProvider = (
       }),
     [],
   );
-  const componentsQuery = useSuspenseQuery({
-    ...comsListOptions({
-      path: {
-        tenant: tid!,
-      },
-      query: {
-        ...queryParams,
-        ...search,
-      },
-    }),
-  });
+  // const componentsQuery = useSuspenseQuery({
+  //   ...comsListOptions({
+  //     path: {
+  //       tenant: tid!,
+  //     },
+  //     query: {
+  //       ...queryParams,
+  //       ...search,
+  //     },
+  //   }),
+  // });
   mystore.subscribe(
     (state) => {
       return state.queryParams;
     },
     debounce((cur, prev) => {
       startTransition(() => {
-        setQueryParams(cur);
-        nav({ search: cur });
+        // setQueryParams(cur);
+        // nav({ search: cur });
       });
     }, 500),
   );
-  useEffect(() => {
-    if (componentsQuery.data) {
-      mystore.setState({
-        components: componentsQuery.data.rows,
-      });
-    }
-  }, [componentsQuery.data, mystore]);
+  // useEffect(() => {
+  //   if (componentsQuery.data) {
+  //     mystore.setState({
+  //       components: componentsQuery.data.rows,
+  //     });
+  //   }
+  // }, [componentsQuery.data, mystore]);
   return (
     <componentsStoreContext.Provider value={mystore}>
       {children}

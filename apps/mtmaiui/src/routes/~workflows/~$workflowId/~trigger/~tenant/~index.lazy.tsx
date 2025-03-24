@@ -4,7 +4,7 @@ import { Button } from "mtxuilib/ui/button";
 import { useWorkbenchStore } from "../../../../../stores/workbrench.store";
 
 export const Route = createLazyFileRoute(
-  "/workflows/$workflowId/trigger/gallery/",
+  "/workflows/$workflowId/trigger/tenant/",
 )({
   component: RouteComponent,
 });
@@ -15,7 +15,7 @@ function RouteComponent() {
   );
   const handleClick = async () => {
     workflowRunCreate(
-      FlowNames.GALLERY,
+      FlowNames.TENANT,
       {
         content: "你好",
         topic: "default",
@@ -28,7 +28,7 @@ function RouteComponent() {
   };
   return (
     <>
-      <Button onClick={handleClick}>运行 gallery</Button>
+      <Button onClick={handleClick}>运行</Button>
     </>
   );
 }
