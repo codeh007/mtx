@@ -6437,3 +6437,27 @@ export const RunFlowModelInputSchema = {
     },
   },
 } as const;
+
+export const IGLoginSchema = {
+  type: "object",
+  properties: {
+    username: {
+      type: "string",
+    },
+    password: {
+      type: "string",
+    },
+    twofa_code: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const IGLoginResponseSchema = {
+  type: "object",
+  properties: {
+    message: {
+      type: "string",
+    },
+  },
+} as const;

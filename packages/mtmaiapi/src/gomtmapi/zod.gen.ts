@@ -3383,6 +3383,16 @@ export const zRunFlowModelInput = z.object({
   tag: z.string().optional(),
 });
 
+export const zIgLogin = z.object({
+  username: z.string().optional(),
+  password: z.string().optional(),
+  twofa_code: z.string().optional(),
+});
+
+export const zIgLoginResponse = z.object({
+  message: z.string().optional(),
+});
+
 export const zMetadataGetResponse = zApiMeta;
 
 export const zCloudMetadataGetResponse = zApiErrors;
@@ -3700,3 +3710,9 @@ export const zAgentListResponse = zAgentList;
 export const zAgentGetResponse = zAgent;
 
 export const zAgentUpsertResponse = zAgent;
+
+export const zInstagramTestResponse = z.object({
+  message: z.string().optional(),
+});
+
+export const zInstagramLoginResponse = zIgLoginResponse;

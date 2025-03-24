@@ -3297,6 +3297,16 @@ export type RunFlowModelInput = {
   tag?: string;
 };
 
+export type IgLogin = {
+  username?: string;
+  password?: string;
+  twofa_code?: string;
+};
+
+export type IgLoginResponse = {
+  message?: string;
+};
+
 export type ReadinessGetData = {
   body?: never;
   path?: never;
@@ -9414,6 +9424,77 @@ export type AgentUpsertResponses = {
 
 export type AgentUpsertResponse =
   AgentUpsertResponses[keyof AgentUpsertResponses];
+
+export type InstagramTestData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/instagram/test";
+};
+
+export type InstagramTestErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type InstagramTestError = InstagramTestErrors[keyof InstagramTestErrors];
+
+export type InstagramTestResponses = {
+  /**
+   * Successfully created the blog post
+   */
+  200: {
+    message?: string;
+  };
+};
+
+export type InstagramTestResponse =
+  InstagramTestResponses[keyof InstagramTestResponses];
+
+export type InstagramLoginData = {
+  body?: IgLogin;
+  path?: never;
+  query?: never;
+  url: "/api/v1/instagram/login";
+};
+
+export type InstagramLoginErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type InstagramLoginError =
+  InstagramLoginErrors[keyof InstagramLoginErrors];
+
+export type InstagramLoginResponses = {
+  /**
+   * Successfully login to instagram
+   */
+  200: IgLoginResponse;
+};
+
+export type InstagramLoginResponse =
+  InstagramLoginResponses[keyof InstagramLoginResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

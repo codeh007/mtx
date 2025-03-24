@@ -479,6 +479,12 @@ import type {
   AgentUpsertData,
   AgentUpsertResponse,
   AgentUpsertError,
+  InstagramTestData,
+  InstagramTestResponse,
+  InstagramTestError,
+  InstagramLoginData,
+  InstagramLoginResponse,
+  InstagramLoginError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -4928,6 +4934,56 @@ export const agentUpsert = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/agents/{agent}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+export const instagramTest = <ThrowOnError extends boolean = false>(
+  options?: Options<InstagramTestData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    InstagramTestResponse,
+    InstagramTestError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/instagram/test",
+    ...options,
+  });
+};
+
+export const instagramLogin = <ThrowOnError extends boolean = false>(
+  options?: Options<InstagramLoginData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    InstagramLoginResponse,
+    InstagramLoginError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/instagram/login",
     ...options,
     headers: {
       "Content-Type": "application/json",

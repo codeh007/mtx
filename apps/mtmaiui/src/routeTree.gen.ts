@@ -47,6 +47,7 @@ const PlayRouteLazyImport = createFileRoute('/play')()
 const PlatformAccountRouteLazyImport = createFileRoute('/platform-account')()
 const PlatformRouteLazyImport = createFileRoute('/platform')()
 const ModelRouteLazyImport = createFileRoute('/model')()
+const InstagramRouteLazyImport = createFileRoute('/instagram')()
 const GalleryRouteLazyImport = createFileRoute('/gallery')()
 const EventsRouteLazyImport = createFileRoute('/events')()
 const EnvsRouteLazyImport = createFileRoute('/envs')()
@@ -94,6 +95,7 @@ const PostIndexLazyImport = createFileRoute('/post/')()
 const PlayIndexLazyImport = createFileRoute('/play/')()
 const PlatformAccountIndexLazyImport = createFileRoute('/platform-account/')()
 const ModelIndexLazyImport = createFileRoute('/model/')()
+const InstagramIndexLazyImport = createFileRoute('/instagram/')()
 const GalleryIndexLazyImport = createFileRoute('/gallery/')()
 const EventsIndexLazyImport = createFileRoute('/events/')()
 const EnvsIndexLazyImport = createFileRoute('/envs/')()
@@ -415,6 +417,14 @@ const ModelRouteLazyRoute = ModelRouteLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~model/~route.lazy').then((d) => d.Route))
 
+const InstagramRouteLazyRoute = InstagramRouteLazyImport.update({
+  id: '/instagram',
+  path: '/instagram',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/~instagram/~route.lazy').then((d) => d.Route),
+)
+
 const GalleryRouteLazyRoute = GalleryRouteLazyImport.update({
   id: '/gallery',
   path: '/gallery',
@@ -697,6 +707,14 @@ const ModelIndexLazyRoute = ModelIndexLazyImport.update({
   path: '/',
   getParentRoute: () => ModelRouteLazyRoute,
 } as any).lazy(() => import('./routes/~model/~index.lazy').then((d) => d.Route))
+
+const InstagramIndexLazyRoute = InstagramIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => InstagramRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~instagram/~index.lazy').then((d) => d.Route),
+)
 
 const GalleryIndexLazyRoute = GalleryIndexLazyImport.update({
   id: '/',
@@ -1748,6 +1766,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GalleryRouteLazyImport
       parentRoute: typeof rootRoute
     }
+    '/instagram': {
+      id: '/instagram'
+      path: '/instagram'
+      fullPath: '/instagram'
+      preLoaderRoute: typeof InstagramRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/model': {
       id: '/model'
       path: '/model'
@@ -1901,6 +1926,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/gallery/'
       preLoaderRoute: typeof GalleryIndexLazyImport
       parentRoute: typeof GalleryRouteLazyImport
+    }
+    '/instagram/': {
+      id: '/instagram/'
+      path: '/'
+      fullPath: '/instagram/'
+      preLoaderRoute: typeof InstagramIndexLazyImport
+      parentRoute: typeof InstagramRouteLazyImport
     }
     '/model/': {
       id: '/model/'
@@ -3159,6 +3191,17 @@ const GalleryRouteLazyRouteChildren: GalleryRouteLazyRouteChildren = {
 const GalleryRouteLazyRouteWithChildren =
   GalleryRouteLazyRoute._addFileChildren(GalleryRouteLazyRouteChildren)
 
+interface InstagramRouteLazyRouteChildren {
+  InstagramIndexLazyRoute: typeof InstagramIndexLazyRoute
+}
+
+const InstagramRouteLazyRouteChildren: InstagramRouteLazyRouteChildren = {
+  InstagramIndexLazyRoute: InstagramIndexLazyRoute,
+}
+
+const InstagramRouteLazyRouteWithChildren =
+  InstagramRouteLazyRoute._addFileChildren(InstagramRouteLazyRouteChildren)
+
 interface ModelModelIdRouteLazyRouteChildren {
   ModelModelIdIndexLazyRoute: typeof ModelModelIdIndexLazyRoute
 }
@@ -3821,6 +3864,7 @@ export interface FileRoutesByFullPath {
   '/envs': typeof EnvsRouteLazyRouteWithChildren
   '/events': typeof EventsRouteLazyRouteWithChildren
   '/gallery': typeof GalleryRouteLazyRouteWithChildren
+  '/instagram': typeof InstagramRouteLazyRouteWithChildren
   '/model': typeof ModelRouteLazyRouteWithChildren
   '/platform': typeof PlatformRouteLazyRouteWithChildren
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
@@ -3843,6 +3887,7 @@ export interface FileRoutesByFullPath {
   '/envs/': typeof EnvsIndexLazyRoute
   '/events/': typeof EventsIndexLazyRoute
   '/gallery/': typeof GalleryIndexLazyRoute
+  '/instagram/': typeof InstagramIndexLazyRoute
   '/model/': typeof ModelIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/play/': typeof PlayIndexLazyRoute
@@ -3981,6 +4026,7 @@ export interface FileRoutesByTo {
   '/envs': typeof EnvsIndexLazyRoute
   '/events': typeof EventsIndexLazyRoute
   '/gallery': typeof GalleryIndexLazyRoute
+  '/instagram': typeof InstagramIndexLazyRoute
   '/model': typeof ModelIndexLazyRoute
   '/platform-account': typeof PlatformAccountIndexLazyRoute
   '/play': typeof PlayIndexLazyRoute
@@ -4078,6 +4124,7 @@ export interface FileRoutesById {
   '/envs': typeof EnvsRouteLazyRouteWithChildren
   '/events': typeof EventsRouteLazyRouteWithChildren
   '/gallery': typeof GalleryRouteLazyRouteWithChildren
+  '/instagram': typeof InstagramRouteLazyRouteWithChildren
   '/model': typeof ModelRouteLazyRouteWithChildren
   '/platform': typeof PlatformRouteLazyRouteWithChildren
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
@@ -4100,6 +4147,7 @@ export interface FileRoutesById {
   '/envs/': typeof EnvsIndexLazyRoute
   '/events/': typeof EventsIndexLazyRoute
   '/gallery/': typeof GalleryIndexLazyRoute
+  '/instagram/': typeof InstagramIndexLazyRoute
   '/model/': typeof ModelIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/play/': typeof PlayIndexLazyRoute
@@ -4237,6 +4285,7 @@ export interface FileRouteTypes {
     | '/envs'
     | '/events'
     | '/gallery'
+    | '/instagram'
     | '/model'
     | '/platform'
     | '/platform-account'
@@ -4259,6 +4308,7 @@ export interface FileRouteTypes {
     | '/envs/'
     | '/events/'
     | '/gallery/'
+    | '/instagram/'
     | '/model/'
     | '/platform-account/'
     | '/play/'
@@ -4396,6 +4446,7 @@ export interface FileRouteTypes {
     | '/envs'
     | '/events'
     | '/gallery'
+    | '/instagram'
     | '/model'
     | '/platform-account'
     | '/play'
@@ -4491,6 +4542,7 @@ export interface FileRouteTypes {
     | '/envs'
     | '/events'
     | '/gallery'
+    | '/instagram'
     | '/model'
     | '/platform'
     | '/platform-account'
@@ -4513,6 +4565,7 @@ export interface FileRouteTypes {
     | '/envs/'
     | '/events/'
     | '/gallery/'
+    | '/instagram/'
     | '/model/'
     | '/platform-account/'
     | '/play/'
@@ -4649,6 +4702,7 @@ export interface RootRouteChildren {
   EnvsRouteLazyRoute: typeof EnvsRouteLazyRouteWithChildren
   EventsRouteLazyRoute: typeof EventsRouteLazyRouteWithChildren
   GalleryRouteLazyRoute: typeof GalleryRouteLazyRouteWithChildren
+  InstagramRouteLazyRoute: typeof InstagramRouteLazyRouteWithChildren
   ModelRouteLazyRoute: typeof ModelRouteLazyRouteWithChildren
   PlatformRouteLazyRoute: typeof PlatformRouteLazyRouteWithChildren
   PlatformAccountRouteLazyRoute: typeof PlatformAccountRouteLazyRouteWithChildren
@@ -4673,6 +4727,7 @@ const rootRouteChildren: RootRouteChildren = {
   EnvsRouteLazyRoute: EnvsRouteLazyRouteWithChildren,
   EventsRouteLazyRoute: EventsRouteLazyRouteWithChildren,
   GalleryRouteLazyRoute: GalleryRouteLazyRouteWithChildren,
+  InstagramRouteLazyRoute: InstagramRouteLazyRouteWithChildren,
   ModelRouteLazyRoute: ModelRouteLazyRouteWithChildren,
   PlatformRouteLazyRoute: PlatformRouteLazyRouteWithChildren,
   PlatformAccountRouteLazyRoute: PlatformAccountRouteLazyRouteWithChildren,
@@ -4706,6 +4761,7 @@ export const routeTree = rootRoute
         "/envs",
         "/events",
         "/gallery",
+        "/instagram",
         "/model",
         "/platform",
         "/platform-account",
@@ -4763,6 +4819,12 @@ export const routeTree = rootRoute
       "children": [
         "/gallery/",
         "/gallery/$galleryId"
+      ]
+    },
+    "/instagram": {
+      "filePath": "~instagram/~route.lazy.tsx",
+      "children": [
+        "/instagram/"
       ]
     },
     "/model": {
@@ -4899,6 +4961,10 @@ export const routeTree = rootRoute
     "/gallery/": {
       "filePath": "~gallery/~index.lazy.tsx",
       "parent": "/gallery"
+    },
+    "/instagram/": {
+      "filePath": "~instagram/~index.lazy.tsx",
+      "parent": "/instagram"
     },
     "/model/": {
       "filePath": "~model/~index.lazy.tsx",

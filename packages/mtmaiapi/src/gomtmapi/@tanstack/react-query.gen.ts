@@ -170,6 +170,8 @@ import {
   agentList,
   agentGet,
   agentUpsert,
+  instagramTest,
+  instagramLogin,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -489,6 +491,10 @@ import type {
   AgentUpsertData,
   AgentUpsertError,
   AgentUpsertResponse,
+  InstagramTestData,
+  InstagramLoginData,
+  InstagramLoginError,
+  InstagramLoginResponse,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -4982,6 +4988,64 @@ export const agentUpsertMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await agentUpsert({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const instagramTestQueryKey = (options?: Options<InstagramTestData>) =>
+  createQueryKey("instagramTest", options);
+
+export const instagramTestOptions = (options?: Options<InstagramTestData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await instagramTest({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: instagramTestQueryKey(options),
+  });
+};
+
+export const instagramLoginQueryKey = (options?: Options<InstagramLoginData>) =>
+  createQueryKey("instagramLogin", options);
+
+export const instagramLoginOptions = (
+  options?: Options<InstagramLoginData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await instagramLogin({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: instagramLoginQueryKey(options),
+  });
+};
+
+export const instagramLoginMutation = (
+  options?: Partial<Options<InstagramLoginData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    InstagramLoginResponse,
+    InstagramLoginError,
+    Options<InstagramLoginData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await instagramLogin({
         ...options,
         ...localOptions,
         throwOnError: true,
