@@ -155,7 +155,7 @@ const BaseNode = memo<BaseNodeProps>(
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
               <span className="text-xs px-2 py-1 bg-gray-200 rounded text-gray-700">
-                {data.component.componentType}
+                {data.component.component_ype}
               </span>
               <CustomLink
                 to={`/coms/${componentId}/component_editor`}

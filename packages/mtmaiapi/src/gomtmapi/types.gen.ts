@@ -2123,9 +2123,9 @@ export type MtComponentProperties = {
   label: string;
   description: string;
   provider: string;
-  componentType: string;
+  component_type: string;
   version: number;
-  componentVersion: number;
+  component_version: number;
   config: {
     [key: string]: unknown;
   };

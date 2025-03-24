@@ -103,29 +103,29 @@ function isComponentOfType<P extends Provider>(
 
 // Base component type guards
 export function isTeamComponent(component: MtComponent) {
-  return component.componentType === "team";
+  return component.component_type === "team";
 }
 
 export function isAgentComponent(component: MtComponent) {
-  return component.componentType === "agent";
+  return component.component_type === "agent";
 }
 
 export function isModelComponent(
   component: MtComponent,
 ): component is MtComponent {
-  return component.componentType === "model";
+  return component.component_type === "model";
 }
 
 export function isToolComponent(
   component: MtComponent,
 ): component is MtComponent {
-  return component.componentType === "tool";
+  return component.component_type === "tool";
 }
 
 export function isTerminationComponent(
   component: MtComponent,
 ): component is MtComponent {
-  return component.componentType === "termination";
+  return component.component_type === "termination";
 }
 
 // export function isChatCompletionContextComponent(

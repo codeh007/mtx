@@ -328,7 +328,7 @@ export const createWorkbrenchSlice: StateCreator<
       // Validate drop
       const isValid = get().validateDropTarget(
         draggedItem.type,
-        targetNode.data.component.componentType,
+        targetNode.data.component.component_type,
       );
       if (!isValid) {
         console.error("Invalid drop", draggedItem, targetNode);
@@ -361,7 +361,7 @@ export const createWorkbrenchSlice: StateCreator<
 
       const isValid = get().validateDropTarget(
         draggedType,
-        targetNode.data.component.componentType,
+        targetNode.data.component.component_type,
       );
       // Add visual feedback class to target node
       if (isValid) {
@@ -880,7 +880,7 @@ export const createWorkbrenchSlice: StateCreator<
       const teamNodes = get().nodes.filter(
         (node) =>
           // node.data.component.component_type === "team" ||
-          node.data.component?.componentType === "team",
+          node.data.component?.component_type === "team",
       );
       if (teamNodes.length === 0) {
         console.log("syncToJson error", get().nodes);

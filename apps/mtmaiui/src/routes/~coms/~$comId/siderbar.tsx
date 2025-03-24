@@ -85,7 +85,7 @@ const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
   }, [rowId]);
 
   const editLink = useMemo(() => {
-    return `/coms/${rowId}/edit/${item.componentType}`;
+    return `/coms/${rowId}/edit/${item.component_type}`;
   }, [rowId, item]);
 
   return (
@@ -101,7 +101,7 @@ const NavTeamItem = ({ item, rowId }: { item: MtComponent; rowId: string }) => {
         <div className="flex items-center justify-between px-2">
           <PresetItem
             id={`${rowId}`}
-            type={item.componentType}
+            type={item.component_type}
             config={item}
             label={item.label || ""}
             // icon={<Bot className="w-4 h-4" />}

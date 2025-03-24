@@ -3878,9 +3878,9 @@ export const MtComponentPropertiesSchema = {
     "label",
     "description",
     "provider",
-    "componentType",
+    "component_type",
     "version",
-    "componentVersion",
+    "component_version",
     "galleryId",
     "component",
     "config",
@@ -3898,13 +3898,13 @@ export const MtComponentPropertiesSchema = {
     provider: {
       type: "string",
     },
-    componentType: {
+    component_type: {
       type: "string",
     },
     version: {
       type: "integer",
     },
-    componentVersion: {
+    component_version: {
       type: "integer",
     },
     config: {
