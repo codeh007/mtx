@@ -1871,28 +1871,6 @@ export type AgentRunInput = {
   componentId?: string;
   topic?: string;
   source?: string;
-  other?:
-    | BrowserData
-    | PlatformAccountData
-    | InstagramTask
-    | ChatSessionStartEvent
-    | TerminationMessage
-    | CodeReviewTask
-    | CodeReviewResult
-    | BrowserTask
-    | BrowserOpenTask
-    | MtTaskResult
-    | ProviderTypes
-    | RunFlowModelInput
-    | AssistantAgentConfig
-    | InstagramTeamConfig
-    | ModelConfig
-    | TextMentionTerminationConfig
-    | MaxMessageTerminationConfig
-    | StopMessageTerminationConfig
-    | OrTerminationConfig
-    | ModelInfo
-    | FlowNames;
 };
 
 export type ChatHistoryList = {
@@ -2276,7 +2254,7 @@ export type FlowNames =
   | "tenant_settings"
   | "smola"
   | "team"
-  | "gallery"
+  | "tenant"
   | "com";
 
 export const FlowNames = {
@@ -2286,7 +2264,7 @@ export const FlowNames = {
   TENANT_SETTINGS: "tenant_settings",
   SMOLA: "smola",
   TEAM: "team",
-  GALLERY: "gallery",
+  TENANT: "tenant",
   COM: "com",
 } as const;
 

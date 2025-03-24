@@ -3365,79 +3365,6 @@ export const AgentRunInputSchema = {
     source: {
       type: "string",
     },
-    other: {
-      anyOf: [
-        {
-          $ref: "#/components/schemas/BrowserData",
-        },
-        {
-          $ref: "#/components/schemas/PlatformAccountData",
-        },
-        {
-          $ref: "#/components/schemas/InstagramTask",
-        },
-        {
-          $ref: "#/components/schemas/ChatSessionStartEvent",
-        },
-        {
-          $ref: "#/components/schemas/TerminationMessage",
-        },
-        {
-          $ref: "#/components/schemas/CodeReviewTask",
-        },
-        {
-          $ref: "#/components/schemas/CodeReviewResult",
-        },
-        {
-          $ref: "#/components/schemas/BrowserTask",
-        },
-        {
-          $ref: "#/components/schemas/BrowserOpenTask",
-        },
-        {
-          $ref: "#/components/schemas/MtTaskResult",
-        },
-        {
-          $ref: "#/components/schemas/ProviderTypes",
-        },
-        {
-          $ref: "#/components/schemas/RunFlowModelInput",
-        },
-        {
-          $ref: "#/components/schemas/AssistantAgentConfig",
-        },
-        {
-          $ref: "#/components/schemas/InstagramTeamConfig",
-        },
-        {
-          $ref: "#/components/schemas/ModelConfig",
-        },
-        {
-          $ref: "#/components/schemas/TextMentionTerminationConfig",
-        },
-        {
-          $ref: "#/components/schemas/MaxMessageTerminationConfig",
-        },
-        {
-          $ref: "#/components/schemas/StopMessageTerminationConfig",
-        },
-        {
-          $ref: "#/components/schemas/OrTerminationConfig",
-        },
-        {
-          $ref: "#/components/schemas/ModelInfo",
-        },
-        {
-          $ref: "#/components/schemas/ModelConfig",
-        },
-        {
-          $ref: "#/components/schemas/FlowNames",
-        },
-        {
-          $ref: "#/components/schemas/AssistantAgentConfig",
-        },
-      ],
-    },
   },
 } as const;
 
@@ -4248,6 +4175,7 @@ export const AgEventListSchema = {
 } as const;
 
 export const OutlineSchema = {
+  required: ["pageTitle", "sections"],
   properties: {
     pageTitle: {
       type: "string",
@@ -4262,7 +4190,6 @@ export const OutlineSchema = {
       },
     },
   },
-  required: ["pageTitle", "sections"],
 } as const;
 
 export const FlowNamesSchema = {
@@ -4274,7 +4201,7 @@ export const FlowNamesSchema = {
     "tenant_settings",
     "smola",
     "team",
-    "gallery",
+    "tenant",
     "com",
   ],
 } as const;
