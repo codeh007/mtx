@@ -4,6 +4,7 @@ import { tenantSettingsGetOptions } from "mtmaiapi";
 import { ZForm, ZFormToolbar, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { z } from "zod";
 import { useTenantId } from "../../../../hooks/useAuth";
+import { TenantSettingHeader } from "./header";
 
 export const Route = createLazyFileRoute("/tenant/settings/$tenantSettingId")({
   component: RouteComponent,
@@ -29,9 +30,12 @@ function RouteComponent() {
     console.log(data);
   });
   return (
-    <ZForm form={form} handleSubmit={handleSubmit}>
-      <Outlet />
-      <ZFormToolbar form={form} />
-    </ZForm>
+    <>
+      <TenantSettingHeader />
+      <ZForm form={form} handleSubmit={handleSubmit}>
+        <Outlet />
+        <ZFormToolbar form={form} />
+      </ZForm>
+    </>
   );
 }
