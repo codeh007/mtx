@@ -15,6 +15,7 @@ import {
   userUpdateSlackOauthStart,
   userUpdateSlackOauthCallback,
   tenantSettingsList,
+  tenantDefaultSetting,
   tenantSettingsDelete,
   tenantSettingsGet,
   tenantSettingsUpsert,
@@ -196,6 +197,9 @@ import type {
   UserUpdateSlackOauthStartData,
   UserUpdateSlackOauthCallbackData,
   TenantSettingsListData,
+  TenantDefaultSettingData,
+  TenantDefaultSettingError,
+  TenantDefaultSettingResponse,
   TenantSettingsDeleteData,
   TenantSettingsDeleteError,
   TenantSettingsDeleteResponse,
@@ -822,6 +826,47 @@ export const tenantSettingsListOptions = (
     },
     queryKey: tenantSettingsListQueryKey(options),
   });
+};
+
+export const tenantDefaultSettingQueryKey = (
+  options: Options<TenantDefaultSettingData>,
+) => createQueryKey("tenantDefaultSetting", options);
+
+export const tenantDefaultSettingOptions = (
+  options: Options<TenantDefaultSettingData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await tenantDefaultSetting({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: tenantDefaultSettingQueryKey(options),
+  });
+};
+
+export const tenantDefaultSettingMutation = (
+  options?: Partial<Options<TenantDefaultSettingData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    TenantDefaultSettingResponse,
+    TenantDefaultSettingError,
+    Options<TenantDefaultSettingData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await tenantDefaultSetting({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };
 
 export const tenantSettingsDeleteMutation = (

@@ -3553,6 +3553,37 @@ export type TenantSettingsListResponses = {
 export type TenantSettingsListResponse =
   TenantSettingsListResponses[keyof TenantSettingsListResponses];
 
+export type TenantDefaultSettingData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The setting id
+     */
+    setting: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/{setting}/default";
+};
+
+export type TenantDefaultSettingErrors = {
+  400: ApiErrors;
+  404: ApiErrors;
+};
+
+export type TenantDefaultSettingError =
+  TenantDefaultSettingErrors[keyof TenantDefaultSettingErrors];
+
+export type TenantDefaultSettingResponses = {
+  200: TenantSetting;
+};
+
+export type TenantDefaultSettingResponse =
+  TenantDefaultSettingResponses[keyof TenantDefaultSettingResponses];
+
 export type TenantSettingsDeleteData = {
   body?: never;
   path: {
