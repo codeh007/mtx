@@ -189,6 +189,7 @@ export const APIResourceMetaSchema = {
 } as const;
 
 export const UserSchema = {
+  type: "object",
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -221,7 +222,6 @@ export const UserSchema = {
     },
   },
   required: ["metadata", "email", "emailVerified"],
-  type: "object",
 } as const;
 
 export const UserTenantPublicSchema = {
@@ -788,6 +788,16 @@ export const UpdateTenantRequestSchema = {
     },
   },
   type: "object",
+} as const;
+
+export const TenantSettingSchema = {
+  type: "object",
+  properties: {
+    id: {
+      type: "string",
+      description: "The id of the tenant setting",
+    },
+  },
 } as const;
 
 export const EventSchema = {
@@ -6246,16 +6256,6 @@ export const AgentConfigSchema = {
     tool_call_summary_format: {
       type: "string",
       default: "{result}",
-    },
-  },
-} as const;
-
-export const TenantSettingSchema = {
-  type: "object",
-  properties: {
-    id: {
-      type: "string",
-      description: "The id of the tenant setting",
     },
   },
 } as const;

@@ -26,6 +26,18 @@ import type {
   UserUpdateGithubOauthCallbackData,
   UserUpdateSlackOauthStartData,
   UserUpdateSlackOauthCallbackData,
+  TenantSettingsListData,
+  TenantSettingsListResponse,
+  TenantSettingsListError,
+  TenantSettingsUpsertData,
+  TenantSettingsUpsertResponse,
+  TenantSettingsUpsertError,
+  TenantSettingsDeleteData,
+  TenantSettingsDeleteResponse,
+  TenantSettingsDeleteError,
+  TenantSettingsGetData,
+  TenantSettingsGetResponse,
+  TenantSettingsGetError,
   SnsListData,
   SnsListResponse,
   SnsListError,
@@ -452,15 +464,6 @@ import type {
   ResourceGetData,
   ResourceGetResponse,
   ResourceGetError,
-  SettingsListData,
-  SettingsListResponse,
-  SettingsListError,
-  SettingsUpsertData,
-  SettingsUpsertResponse,
-  SettingsUpsertError,
-  SettingsGetData,
-  SettingsGetResponse,
-  SettingsGetError,
   TeamListData,
   TeamListResponse,
   TeamListError,
@@ -732,6 +735,98 @@ export const userUpdateSlackOauthCallback = <
       ...options,
     },
   );
+};
+
+export const tenantSettingsList = <ThrowOnError extends boolean = false>(
+  options: Options<TenantSettingsListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    TenantSettingsListResponse,
+    TenantSettingsListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/settings",
+    ...options,
+  });
+};
+
+export const tenantSettingsUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<TenantSettingsUpsertData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    TenantSettingsUpsertResponse,
+    TenantSettingsUpsertError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/settings",
+    ...options,
+  });
+};
+
+export const tenantSettingsDelete = <ThrowOnError extends boolean = false>(
+  options: Options<TenantSettingsDeleteData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    TenantSettingsDeleteResponse,
+    TenantSettingsDeleteError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/settings/{setting}",
+    ...options,
+  });
+};
+
+export const tenantSettingsGet = <ThrowOnError extends boolean = false>(
+  options: Options<TenantSettingsGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    TenantSettingsGetResponse,
+    TenantSettingsGetError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/settings/{setting}",
+    ...options,
+  });
 };
 
 /**
@@ -4701,75 +4796,6 @@ export const resourceGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/resources/{resource}",
-    ...options,
-  });
-};
-
-export const settingsList = <ThrowOnError extends boolean = false>(
-  options: Options<SettingsListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    SettingsListResponse,
-    SettingsListError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/settings",
-    ...options,
-  });
-};
-
-export const settingsUpsert = <ThrowOnError extends boolean = false>(
-  options: Options<SettingsUpsertData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    SettingsUpsertResponse,
-    SettingsUpsertError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/settings",
-    ...options,
-  });
-};
-
-export const settingsGet = <ThrowOnError extends boolean = false>(
-  options: Options<SettingsGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    SettingsGetResponse,
-    SettingsGetError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/settings/{setting}",
     ...options,
   });
 };

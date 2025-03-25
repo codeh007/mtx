@@ -14,6 +14,10 @@ import {
   userUpdateGithubOauthCallback,
   userUpdateSlackOauthStart,
   userUpdateSlackOauthCallback,
+  tenantSettingsList,
+  tenantSettingsUpsert,
+  tenantSettingsDelete,
+  tenantSettingsGet,
   snsList,
   snsCreate,
   alertEmailGroupList,
@@ -161,9 +165,6 @@ import {
   resourceUpsert,
   resourceDelete,
   resourceGet,
-  settingsList,
-  settingsUpsert,
-  settingsGet,
   teamList,
   teamRun,
   teamGet,
@@ -194,6 +195,14 @@ import type {
   UserUpdateGithubOauthCallbackData,
   UserUpdateSlackOauthStartData,
   UserUpdateSlackOauthCallbackData,
+  TenantSettingsListData,
+  TenantSettingsUpsertData,
+  TenantSettingsUpsertError,
+  TenantSettingsUpsertResponse,
+  TenantSettingsDeleteData,
+  TenantSettingsDeleteError,
+  TenantSettingsDeleteResponse,
+  TenantSettingsGetData,
   SnsListData,
   SnsCreateData,
   SnsCreateError,
@@ -478,11 +487,6 @@ import type {
   ResourceDeleteError,
   ResourceDeleteResponse,
   ResourceGetData,
-  SettingsListData,
-  SettingsUpsertData,
-  SettingsUpsertError,
-  SettingsUpsertResponse,
-  SettingsGetData,
   TeamListData,
   TeamRunData,
   TeamRunError,
@@ -796,6 +800,109 @@ export const userUpdateSlackOauthCallbackOptions = (
       return data;
     },
     queryKey: userUpdateSlackOauthCallbackQueryKey(options),
+  });
+};
+
+export const tenantSettingsListQueryKey = (
+  options: Options<TenantSettingsListData>,
+) => createQueryKey("tenantSettingsList", options);
+
+export const tenantSettingsListOptions = (
+  options: Options<TenantSettingsListData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await tenantSettingsList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: tenantSettingsListQueryKey(options),
+  });
+};
+
+export const tenantSettingsUpsertQueryKey = (
+  options: Options<TenantSettingsUpsertData>,
+) => createQueryKey("tenantSettingsUpsert", options);
+
+export const tenantSettingsUpsertOptions = (
+  options: Options<TenantSettingsUpsertData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await tenantSettingsUpsert({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: tenantSettingsUpsertQueryKey(options),
+  });
+};
+
+export const tenantSettingsUpsertMutation = (
+  options?: Partial<Options<TenantSettingsUpsertData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    TenantSettingsUpsertResponse,
+    TenantSettingsUpsertError,
+    Options<TenantSettingsUpsertData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await tenantSettingsUpsert({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const tenantSettingsDeleteMutation = (
+  options?: Partial<Options<TenantSettingsDeleteData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    TenantSettingsDeleteResponse,
+    TenantSettingsDeleteError,
+    Options<TenantSettingsDeleteData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await tenantSettingsDelete({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const tenantSettingsGetQueryKey = (
+  options: Options<TenantSettingsGetData>,
+) => createQueryKey("tenantSettingsGet", options);
+
+export const tenantSettingsGetOptions = (
+  options: Options<TenantSettingsGetData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await tenantSettingsGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: tenantSettingsGetQueryKey(options),
   });
 };
 
@@ -4845,80 +4952,6 @@ export const resourceGetOptions = (options: Options<ResourceGetData>) => {
       return data;
     },
     queryKey: resourceGetQueryKey(options),
-  });
-};
-
-export const settingsListQueryKey = (options: Options<SettingsListData>) =>
-  createQueryKey("settingsList", options);
-
-export const settingsListOptions = (options: Options<SettingsListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await settingsList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: settingsListQueryKey(options),
-  });
-};
-
-export const settingsUpsertQueryKey = (options: Options<SettingsUpsertData>) =>
-  createQueryKey("settingsUpsert", options);
-
-export const settingsUpsertOptions = (options: Options<SettingsUpsertData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await settingsUpsert({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: settingsUpsertQueryKey(options),
-  });
-};
-
-export const settingsUpsertMutation = (
-  options?: Partial<Options<SettingsUpsertData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    SettingsUpsertResponse,
-    SettingsUpsertError,
-    Options<SettingsUpsertData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await settingsUpsert({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const settingsGetQueryKey = (options: Options<SettingsGetData>) =>
-  createQueryKey("settingsGet", options);
-
-export const settingsGetOptions = (options: Options<SettingsGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await settingsGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: settingsGetQueryKey(options),
   });
 };
 

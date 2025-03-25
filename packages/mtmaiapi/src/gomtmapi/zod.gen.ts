@@ -264,6 +264,10 @@ export const zUpdateTenantRequest = z.object({
   maxAlertingFrequency: z.string().optional(),
 });
 
+export const zTenantSetting = z.object({
+  id: z.string().optional(),
+});
+
 export const zEvent = z.object({
   metadata: zApiResourceMeta,
   key: z.string(),
@@ -3301,10 +3305,6 @@ export const zAgentConfig = z.object({
   tool_call_summary_format: z.string().default("{result}"),
 });
 
-export const zTenantSetting = z.object({
-  id: z.string().optional(),
-});
-
 export const zAgentEventType = z.enum(["ThoughtEvent", "TextMessage"]);
 
 export const zAgentEvent = z.union([
@@ -3401,6 +3401,14 @@ export const zCloudMetadataGetResponse = zApiErrors;
 export const zMetadataListIntegrationsResponse = zListApiMetaIntegration;
 
 export const zUserUpdateLoginResponse = zUser;
+
+export const zTenantSettingsListResponse = zModelList;
+
+export const zTenantSettingsUpsertResponse = zTenantSetting;
+
+export const zTenantSettingsDeleteResponse = z.void();
+
+export const zTenantSettingsGetResponse = zTenantSetting;
 
 export const zSnsListResponse = zListSnsIntegrations;
 
@@ -3693,12 +3701,6 @@ export const zResourceUpsertResponse = zMtResource;
 export const zResourceDeleteResponse = z.void();
 
 export const zResourceGetResponse = zMtResource;
-
-export const zSettingsListResponse = zModelList;
-
-export const zSettingsUpsertResponse = zTenantSetting;
-
-export const zSettingsGetResponse = zTenantSetting;
 
 export const zTeamListResponse = zTeamList;
 

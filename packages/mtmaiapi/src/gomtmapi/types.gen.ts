@@ -480,6 +480,13 @@ export type UpdateTenantRequest = {
   maxAlertingFrequency?: string;
 };
 
+export type TenantSetting = {
+  /**
+   * The id of the tenant setting
+   */
+  id?: string;
+};
+
 export type Event = {
   metadata: ApiResourceMeta;
   /**
@@ -3205,13 +3212,6 @@ export type AgentConfig = {
   tool_call_summary_format: string;
 };
 
-export type TenantSetting = {
-  /**
-   * The id of the tenant setting
-   */
-  id?: string;
-};
-
 export type AgentEventType = "ThoughtEvent" | "TextMessage";
 
 export const AgentEventType = {
@@ -3506,6 +3506,160 @@ export type UserUpdateSlackOauthCallbackData = {
   query?: never;
   url: "/api/v1/users/slack/callback";
 };
+
+export type TenantSettingsListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/settings";
+};
+
+export type TenantSettingsListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type TenantSettingsListError =
+  TenantSettingsListErrors[keyof TenantSettingsListErrors];
+
+export type TenantSettingsListResponses = {
+  200: ModelList;
+};
+
+export type TenantSettingsListResponse =
+  TenantSettingsListResponses[keyof TenantSettingsListResponses];
+
+export type TenantSettingsUpsertData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/settings";
+};
+
+export type TenantSettingsUpsertErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type TenantSettingsUpsertError =
+  TenantSettingsUpsertErrors[keyof TenantSettingsUpsertErrors];
+
+export type TenantSettingsUpsertResponses = {
+  /**
+   * 获取大语言模型配置
+   */
+  200: TenantSetting;
+};
+
+export type TenantSettingsUpsertResponse =
+  TenantSettingsUpsertResponses[keyof TenantSettingsUpsertResponses];
+
+export type TenantSettingsDeleteData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The setting id
+     */
+    setting: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/settings/{setting}";
+};
+
+export type TenantSettingsDeleteErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Unauthorized
+   */
+  401: ApiErrors;
+  /**
+   * Method not allowed
+   */
+  405: ApiErrors;
+};
+
+export type TenantSettingsDeleteError =
+  TenantSettingsDeleteErrors[keyof TenantSettingsDeleteErrors];
+
+export type TenantSettingsDeleteResponses = {
+  /**
+   * Successfully deleted resource
+   */
+  204: void;
+};
+
+export type TenantSettingsDeleteResponse =
+  TenantSettingsDeleteResponses[keyof TenantSettingsDeleteResponses];
+
+export type TenantSettingsGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The setting id
+     */
+    setting: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/settings/{setting}";
+};
+
+export type TenantSettingsGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type TenantSettingsGetError =
+  TenantSettingsGetErrors[keyof TenantSettingsGetErrors];
+
+export type TenantSettingsGetResponses = {
+  200: TenantSetting;
+};
+
+export type TenantSettingsGetResponse =
+  TenantSettingsGetResponses[keyof TenantSettingsGetResponses];
 
 export type SnsListData = {
   body?: never;
@@ -9090,114 +9244,6 @@ export type ResourceGetResponses = {
 
 export type ResourceGetResponse =
   ResourceGetResponses[keyof ResourceGetResponses];
-
-export type SettingsListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/settings";
-};
-
-export type SettingsListErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type SettingsListError = SettingsListErrors[keyof SettingsListErrors];
-
-export type SettingsListResponses = {
-  200: ModelList;
-};
-
-export type SettingsListResponse =
-  SettingsListResponses[keyof SettingsListResponses];
-
-export type SettingsUpsertData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/settings";
-};
-
-export type SettingsUpsertErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type SettingsUpsertError =
-  SettingsUpsertErrors[keyof SettingsUpsertErrors];
-
-export type SettingsUpsertResponses = {
-  /**
-   * 获取大语言模型配置
-   */
-  200: TenantSetting;
-};
-
-export type SettingsUpsertResponse =
-  SettingsUpsertResponses[keyof SettingsUpsertResponses];
-
-export type SettingsGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The setting id
-     */
-    setting: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/settings/{setting}";
-};
-
-export type SettingsGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-};
-
-export type SettingsGetError = SettingsGetErrors[keyof SettingsGetErrors];
-
-export type SettingsGetResponses = {
-  200: TenantSetting;
-};
-
-export type SettingsGetResponse =
-  SettingsGetResponses[keyof SettingsGetResponses];
 
 export type TeamListData = {
   body?: never;

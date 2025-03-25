@@ -2,7 +2,7 @@
 
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { type MtComponent, comsListOptions } from "mtmaiapi";
+import type { MtComponent, TenantSetting } from "mtmaiapi";
 import { cn, generateUUID } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
@@ -22,7 +22,7 @@ import { useTenantId } from "../../../hooks/useAuth";
 export function NavTenantSettings() {
   const tid = useTenantId();
   const comsQuery = useSuspenseQuery({
-    ...comsListOptions({
+    ...tenantSettingsListOptions({
       path: {
         tenant: tid!,
       },
@@ -55,7 +55,7 @@ export function NavTenantSettings() {
         <SidebarGroup className="px-0">
           <SidebarGroupContent>
             {comsQuery.data?.rows?.map((item) => (
-              <NavResourceItem key={item.metadata?.id} item={item} />
+              <NavTenantSettingItem key={item.metadata?.id} item={item} />
             ))}
           </SidebarGroupContent>
         </SidebarGroup>
@@ -64,7 +64,7 @@ export function NavTenantSettings() {
   );
 }
 
-const NavResourceItem = ({ item }: { item: MtComponent }) => {
+const NavTenantSettingItem = ({ item }: { item: TenantSetting }) => {
   const detailLink = useMemo(() => {
     // return `${item.metadata?.id}/type/${item.type}`;
     return `${item.metadata?.id}/view`;
