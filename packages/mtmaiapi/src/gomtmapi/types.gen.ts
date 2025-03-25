@@ -3553,42 +3553,6 @@ export type TenantSettingsListResponses = {
 export type TenantSettingsListResponse =
   TenantSettingsListResponses[keyof TenantSettingsListResponses];
 
-export type TenantSettingsUpsertData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/settings";
-};
-
-export type TenantSettingsUpsertErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type TenantSettingsUpsertError =
-  TenantSettingsUpsertErrors[keyof TenantSettingsUpsertErrors];
-
-export type TenantSettingsUpsertResponses = {
-  /**
-   * 获取大语言模型配置
-   */
-  200: TenantSetting;
-};
-
-export type TenantSettingsUpsertResponse =
-  TenantSettingsUpsertResponses[keyof TenantSettingsUpsertResponses];
-
 export type TenantSettingsDeleteData = {
   body?: never;
   path: {
@@ -3671,9 +3635,6 @@ export type TenantSettingsGetResponse =
   TenantSettingsGetResponses[keyof TenantSettingsGetResponses];
 
 export type TenantSettingsUpsertData = {
-  /**
-   * The model properties to update
-   */
   body: TenantSettingUpsert;
   path: {
     /**
@@ -3690,9 +3651,6 @@ export type TenantSettingsUpsertData = {
 };
 
 export type TenantSettingsUpsertErrors = {
-  /**
-   * A malformed or bad request
-   */
   400: ApiErrors;
   /**
    * Forbidden
@@ -3704,9 +3662,6 @@ export type TenantSettingsUpsertError =
   TenantSettingsUpsertErrors[keyof TenantSettingsUpsertErrors];
 
 export type TenantSettingsUpsertResponses = {
-  /**
-   * Successfully upserted the mt component
-   */
   200: TenantSetting;
 };
 
@@ -4373,9 +4328,6 @@ export type TenantCreateErrors = {
 export type TenantCreateError = TenantCreateErrors[keyof TenantCreateErrors];
 
 export type TenantCreateResponses = {
-  /**
-   * Successfully created the tenant
-   */
   200: Tenant;
 };
 

@@ -15,9 +15,9 @@ import {
   userUpdateSlackOauthStart,
   userUpdateSlackOauthCallback,
   tenantSettingsList,
-  tenantSettingsUpsert,
   tenantSettingsDelete,
   tenantSettingsGet,
+  tenantSettingsUpsert,
   snsList,
   snsCreate,
   alertEmailGroupList,
@@ -196,13 +196,13 @@ import type {
   UserUpdateSlackOauthStartData,
   UserUpdateSlackOauthCallbackData,
   TenantSettingsListData,
-  TenantSettingsUpsertData,
-  TenantSettingsUpsertError,
-  TenantSettingsUpsertResponse,
   TenantSettingsDeleteData,
   TenantSettingsDeleteError,
   TenantSettingsDeleteResponse,
   TenantSettingsGetData,
+  TenantSettingsUpsertData,
+  TenantSettingsUpsertError,
+  TenantSettingsUpsertResponse,
   SnsListData,
   SnsCreateData,
   SnsCreateError,
@@ -822,47 +822,6 @@ export const tenantSettingsListOptions = (
     },
     queryKey: tenantSettingsListQueryKey(options),
   });
-};
-
-export const tenantSettingsUpsertQueryKey = (
-  options: Options<TenantSettingsUpsertData>,
-) => createQueryKey("tenantSettingsUpsert", options);
-
-export const tenantSettingsUpsertOptions = (
-  options: Options<TenantSettingsUpsertData>,
-) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await tenantSettingsUpsert({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: tenantSettingsUpsertQueryKey(options),
-  });
-};
-
-export const tenantSettingsUpsertMutation = (
-  options?: Partial<Options<TenantSettingsUpsertData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    TenantSettingsUpsertResponse,
-    TenantSettingsUpsertError,
-    Options<TenantSettingsUpsertData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await tenantSettingsUpsert({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
 };
 
 export const tenantSettingsDeleteMutation = (

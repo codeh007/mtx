@@ -29,15 +29,15 @@ import type {
   TenantSettingsListData,
   TenantSettingsListResponse,
   TenantSettingsListError,
-  TenantSettingsUpsertData,
-  TenantSettingsUpsertResponse,
-  TenantSettingsUpsertError,
   TenantSettingsDeleteData,
   TenantSettingsDeleteResponse,
   TenantSettingsDeleteError,
   TenantSettingsGetData,
   TenantSettingsGetResponse,
   TenantSettingsGetError,
+  TenantSettingsUpsertData,
+  TenantSettingsUpsertResponse,
+  TenantSettingsUpsertError,
   SnsListData,
   SnsListResponse,
   SnsListError,
@@ -743,29 +743,6 @@ export const tenantSettingsList = <ThrowOnError extends boolean = false>(
   return (options.client ?? _heyApiClient).get<
     TenantSettingsListResponse,
     TenantSettingsListError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/settings",
-    ...options,
-  });
-};
-
-export const tenantSettingsUpsert = <ThrowOnError extends boolean = false>(
-  options: Options<TenantSettingsUpsertData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    TenantSettingsUpsertResponse,
-    TenantSettingsUpsertError,
     ThrowOnError
   >({
     security: [

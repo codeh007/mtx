@@ -3417,8 +3417,6 @@ export const zUserUpdateLoginResponse = zUser;
 
 export const zTenantSettingsListResponse = zTenantSettingList;
 
-export const zTenantSettingsUpsertResponse = zTenantSetting;
-
 export const zTenantSettingsDeleteResponse = z.void();
 
 export const zTenantSettingsGetResponse = zTenantSetting;
