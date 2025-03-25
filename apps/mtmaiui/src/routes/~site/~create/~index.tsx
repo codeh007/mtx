@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { type Site, siteCreateMutation } from "mtmaiapi";
 
 import { createFileRoute } from "@tanstack/react-router";
-import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
+import { ZFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import {
   FormControl,
@@ -73,7 +73,7 @@ export const SiteCreateView = (props: SiteCreateViewProps) => {
         name="host"
         render={({ field }) => <Input placeholder="host" {...field} />}
       />
-      <EditFormToolbar form={form} onCancel={onCancel} />
+      <ZFormToolbar form={form} onCancel={onCancel} />
     </ZForm>
   );
 };

@@ -3,7 +3,7 @@ import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { comsUpsertMutation } from "mtmaiapi";
 import { zMtComponent } from "mtmaiapi/gomtmapi/zod.gen";
 import { generateUUID } from "mtxuilib/lib/utils";
-import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
+import { ZFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";
 import {
@@ -119,7 +119,7 @@ function RouteComponent() {
             )}
           />
           <Outlet />
-          <EditFormToolbar form={form} />
+          <ZFormToolbar form={form} />
           {form.formState.errors && (
             <div className="text-red-500">
               {JSON.stringify(form.formState.errors, null, 2)}

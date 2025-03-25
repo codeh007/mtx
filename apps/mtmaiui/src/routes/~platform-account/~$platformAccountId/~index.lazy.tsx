@@ -6,7 +6,7 @@ import {
   platformAccountUpdateMutation,
 } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
-import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
+import { ZFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { JsonObjectInput } from "mtxuilib/mt/inputs/JsonObjectInput";
 import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
@@ -161,7 +161,7 @@ function RouteComponent() {
           )}
         />
         <DebugValue data={{ data: query.data, form: form.getValues() }} />
-        <EditFormToolbar form={form} />
+        <ZFormToolbar form={form} />
       </ZForm>
     </>
   );

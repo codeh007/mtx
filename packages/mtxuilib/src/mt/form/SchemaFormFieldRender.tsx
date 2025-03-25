@@ -11,19 +11,8 @@ import {
   FormLabel,
   FormMessage,
 } from "../../ui/form";
-// import type { SchemaForm } from "../components/schema-form/schema-form.z";
-// import {
-//   FormControl,
-//   FormDescription,
-//   FormField,
 import { Input } from "../../ui/input";
-//   FormItem,
-//   FormLabel,
-//   FormMessage,
-// } from "../ui/form";
-// import { Input } from "../ui/input";
-import { EditFormToolbar } from "./EditFormToolbar";
-import { ZForm, useZodForm } from "./ZodForm";
+import { ZForm, ZFormToolbar, useZodForm } from "./ZodForm";
 
 export const SchemaFormFieldRender = (props: {
   formSchema: SchemaForm;
@@ -79,7 +68,7 @@ export const SchemaFormFieldRender = (props: {
           }
         })}
 
-        <EditFormToolbar
+        <ZFormToolbar
           form={form}
           className="bg-primary-500 border p-2 font-bold text-white"
         />

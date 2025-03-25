@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { platformAccountCreateMutation } from "mtmaiapi";
 import { zPlatformAccount } from "mtmaiapi/gomtmapi/zod.gen";
-import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
+import { ZFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
 import {
@@ -155,7 +155,7 @@ function RouteComponent() {
           )}
         />
 
-        <EditFormToolbar form={form} />
+        <ZFormToolbar form={form} />
       </ZForm>
     </div>
   );

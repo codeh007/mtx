@@ -1,8 +1,8 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { z } from "zod";
-import { NavTenantSettings } from "./sidebar";
 import { RootAppWrapper } from "../../components/RootAppWrapper";
+import { NavTenantSettings } from "./sidebar";
 
 export const Route = createLazyFileRoute("/tenant/settings")({
   component: RouteComponent,

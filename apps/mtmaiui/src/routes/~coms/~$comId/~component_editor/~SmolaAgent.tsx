@@ -1,6 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-// import { zSmolaAgentComponent } from "mtmaiapi/gomtmapi/zod.gen";
-import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import {
   FormControl,
@@ -51,7 +49,7 @@ function RouteComponent() {
 
           <SmolaAgentConfigFormFields />
         </ZForm>
-        <EditFormToolbar form={form} />
+        <ZFormToolbar form={form} />
       </ModelContent>
     </MtModal>
   );

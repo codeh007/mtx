@@ -13,7 +13,7 @@ import { toast } from "sonner";
 
 import { javascript } from "@codemirror/lang-javascript";
 import CodeMirror from "@uiw/react-codemirror";
-import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
+import { ZFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { Input } from "mtxuilib/ui/input";
 import { useState } from "react";
 import { z } from "zod";
@@ -105,7 +105,7 @@ function RouteComponent() {
           />
         </div>
       </ZForm>
-      <EditFormToolbar form={form} />
+      <ZFormToolbar form={form} />
     </>
   );
 }

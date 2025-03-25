@@ -1,7 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { siteHostCreateMutation } from "mtmaiapi";
-import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import {
   FormControl,
@@ -55,7 +54,7 @@ function RouteComponent() {
             </FormItem>
           )}
         />
-        <EditFormToolbar form={form} />
+        <ZFormToolbar form={form} />
       </div>
     </ZForm>
   );

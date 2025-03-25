@@ -1,8 +1,8 @@
 "use client";
 import { Slot } from "@radix-ui/react-slot";
-import React, { useState } from "react";
+import React, { type ComponentProps, useState } from "react";
 import { cn } from "../../lib/utils";
-import { Button, type ButtonProps, buttonVariants } from "../../ui/button";
+import { Button, buttonVariants } from "../../ui/button";
 import {
   Dialog,
   DialogContent,
@@ -54,7 +54,7 @@ export const DeleteConformDlg = (props: {
 
 export const ConformDeleteBtn = React.forwardRef<
   HTMLButtonElement,
-  { callback: () => Promise<void> } & ButtonProps
+  { callback: () => Promise<void> } & ComponentProps<typeof Button>
 >(({ callback, className, variant, size, asChild = false, ...props }, ref) => {
   const Comp = asChild ? Slot : "button";
   const [deleteConformOpen, setDeleteConformOpen] = useState(false);

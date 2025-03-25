@@ -2,7 +2,6 @@ import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { teamGetOptions, teamRunMutation } from "mtmaiapi";
 import { zTeam } from "mtmaiapi/gomtmapi/zod.gen";
-import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";
 import { useTenantId } from "../../../../../hooks/useAuth";
@@ -53,7 +52,7 @@ function RouteComponent() {
   return (
     <ZForm form={form} handleSubmit={handleSubmit} className="px-4 space-y-4">
       <Outlet />
-      <EditFormToolbar form={form} />
+      <ZFormToolbar form={form} />
       <Button onClick={handleRun}>运行</Button>
     </ZForm>
   );

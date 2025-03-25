@@ -2,8 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { instagramLoginMutation } from "mtmaiapi";
 import { zIgLogin } from "mtmaiapi/gomtmapi/zod.gen";
-import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
-import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
+import { ZForm, ZFormToolbar, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import {
   FormControl,
   FormField,
@@ -56,7 +55,7 @@ function RouteComponent() {
           )}
         />
       </ZForm>
-      <EditFormToolbar form={form} />
+      <ZFormToolbar form={form} />
     </>
   );
 }

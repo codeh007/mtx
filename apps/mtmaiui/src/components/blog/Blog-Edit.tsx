@@ -3,7 +3,7 @@
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { blogGetOptions, blogUpdateMutation } from "mtmaiapi";
 
-import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
+import { ZFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import {
   FormControl,
@@ -95,7 +95,7 @@ export const BlogEditView = (props: BlogEditViewProps) => {
         {form.formState.isSubmitting && <Spinner />}
         Update Blog
       </Button> */}
-      <EditFormToolbar form={form} />
+      <ZFormToolbar form={form} />
     </>
   );
 };

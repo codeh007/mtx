@@ -1,6 +1,6 @@
 "use client";
 
-import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
+import { ZFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import {
   FormControl,
@@ -128,7 +128,7 @@ export const AgentNodeEditView = ({ id }: { id: string }) => {
             </FormItem>
           )}
         />
-        <EditFormToolbar form={form} />
+        <ZFormToolbar form={form} />
       </ZForm>
     </>
   );

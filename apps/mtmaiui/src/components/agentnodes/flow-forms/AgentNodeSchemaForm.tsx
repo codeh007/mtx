@@ -1,11 +1,10 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { agentNodeFormOptions } from "mtmaiapi";
+// import { agentNodeFormOptions } from "mtmaiapi";
 
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
-import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
-import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
+import { ZForm, ZFormToolbar, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import {
   FormControl,
   FormField,
@@ -66,7 +65,7 @@ export const AgentNodeSchemaForm = ({
             )}
           />
         ))}
-        <EditFormToolbar form={form} />
+        <ZFormToolbar form={form} />
       </ZForm>
     </>
   );

@@ -2,7 +2,7 @@ import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { modelGetOptions, modelUpsertMutation } from "mtmaiapi";
 import { zUpsertModel } from "mtmaiapi/gomtmapi/zod.gen";
-import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
+import { ZFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { ModelClientForm } from "../../../components/model/ModelForm";
 import { useTenantId } from "../../../hooks/useAuth";
@@ -44,7 +44,7 @@ function RouteComponent() {
         <h1>编辑 model: {modelId}</h1>
         <ModelClientForm />
       </ZForm>
-      <EditFormToolbar form={form} />
+      <ZFormToolbar form={form} />
     </>
   );
 }

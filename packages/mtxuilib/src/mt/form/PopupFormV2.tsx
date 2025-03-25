@@ -1,6 +1,5 @@
 "use client";
 import type { UseMutationResult } from "@tanstack/react-query";
-// import { Dialog, DialogContent, DialogTitle } from "@radix-ui/react-dialog";
 import type { SchemaForm } from "mtmaiapi";
 import {
   type PropsWithChildren,
@@ -17,10 +16,7 @@ import { devtools } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { Dialog, DialogContent, DialogTitle } from "../../ui/dialog";
-// import type { SchemaForm } from "../components/schema-form/schema-form.z";
-// import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
-import { EditFormToolbar } from "./EditFormToolbar";
-import { type UseZodForm, ZForm } from "./ZodForm";
+import { type UseZodForm, ZForm, ZFormToolbar } from "./ZodForm";
 
 type MtxFormProps = {};
 
@@ -174,7 +170,7 @@ export function PopupDashForm<TInput extends FieldValues>(
         {children}
 
         {!disableSubmitBar && (
-          <EditFormToolbar
+          <ZFormToolbar
             form={etc.form}
             className="bg-primary-500 border p-2 font-bold text-white"
           />

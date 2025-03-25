@@ -3,7 +3,6 @@ import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { modelListQueryKey, modelUpsertMutation } from "mtmaiapi";
 import { zUpsertModel } from "mtmaiapi/gomtmapi/zod.gen";
 import { generateUUID } from "mtxuilib/lib/utils";
-import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useTenantId } from "../../../hooks/useAuth";
@@ -56,8 +55,7 @@ function RouteComponent() {
   return (
     <ZForm form={form} handleSubmit={handleSubmit}>
       <Outlet />
-      {/* {JSON.stringify(form.formState.errors)} */}
-      <EditFormToolbar form={form} />
+      <ZFormToolbar form={form} />
     </ZForm>
   );
 }

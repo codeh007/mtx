@@ -16,7 +16,6 @@ import { DiffView } from "../../../components/aichatbot/diffview";
 import { Editor } from "../../../components/aichatbot/editor";
 import { useTenant } from "../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
-import { AssistantLoader } from "../../~play/~chat/chat/AssistantLoader.tsx--";
 
 const doc1 = `
 # title1
