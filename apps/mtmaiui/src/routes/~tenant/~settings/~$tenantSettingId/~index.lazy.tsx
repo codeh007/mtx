@@ -1,10 +1,17 @@
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import {
-  tenantDefaultSettingMutation,
-  tenantSettingsGetOptions,
-} from "mtmaiapi";
+import { tenantSettingsGetOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
+import { ZFormField } from "mtxuilib/mt/form/ZodForm";
+import { Button } from "mtxuilib/ui/button";
+import {
+  FormControl,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "mtxuilib/ui/form";
+import { Input } from "mtxuilib/ui/input";
+import { useFormContext } from "react-hook-form";
 import { useTenantId } from "../../../../hooks/useAuth";
 
 export const Route = createLazyFileRoute("/tenant/settings/$tenantSettingId/")({
@@ -23,12 +30,26 @@ function RouteComponent() {
     }),
   });
 
-  const updateTenantSetting = useMutation({
-    ...tenantDefaultSettingMutation({}),
-  });
+  const form = useFormContext();
   return (
     <>
       <DebugValue data={query.data} />
+
+      <ZFormField
+        control={form.control}
+        name="title"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>标题</FormLabel>
+            <FormControl>
+              <Input placeholder="标题222" {...field} />
+            </FormControl>
+            {/* <FormDescription></FormDescription> */}
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <Button>提交</Button>
     </>
   );
 }

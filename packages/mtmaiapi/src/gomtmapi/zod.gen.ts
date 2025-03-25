@@ -264,8 +264,10 @@ export const zUpdateTenantRequest = z.object({
   maxAlertingFrequency: z.string().optional(),
 });
 
+export const zTenantSettingContent = z.unknown();
+
 export const zTenantSettingProperties = z.object({
-  enabled_instagram_task: z.boolean().optional(),
+  content: zTenantSettingContent.optional(),
 });
 
 export const zTenantSetting = z

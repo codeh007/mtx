@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
+import { ZForm, ZFormToolbar, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import {
   FormControl,
   FormDescription,
@@ -56,7 +56,7 @@ function RouteComponent() {
 }
 
 export const SmolaAgentConfigFormFields = () => {
-  const form = useFormContext<z.infer<typeof zSmolaAgentComponent>>();
+  const form = useFormContext();
   return (
     <>
       <FormField

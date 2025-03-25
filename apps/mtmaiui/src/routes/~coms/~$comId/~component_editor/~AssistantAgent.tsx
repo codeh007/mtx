@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ComponentEditor } from "../../../../components/component-editor/component-editor";
-import { useNav } from "../../../../hooks/useNav";
 import {
   ModelContent,
   ModelHeader,
@@ -20,9 +19,9 @@ function RouteComponent() {
   const selectedNode = useTeamBuilderStore((x) => x.selectedNode);
   const updateNode = useTeamBuilderStore((x) => x.updateNode);
   const setSelectedNode = useTeamBuilderStore((x) => x.setSelectedNode);
-  const comId = useTeamBuilderStore((x) => x.componentId);
+  // const comId = useTeamBuilderStore((x) => x.componentId);
   const setOpen = useModelStore((x) => x.setOpen);
-  const nav = useNav();
+  // const nav = useNav();
   if (!selectedNode?.data.component) {
     return <div>no component selected</div>;
   }

@@ -29,7 +29,7 @@ export function SetDefaultSettingBtn({
           });
         }}
       >
-        设为默认
+        设为默认配置
       </Button>
     </>
   );

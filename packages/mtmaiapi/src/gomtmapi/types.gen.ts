@@ -480,11 +480,10 @@ export type UpdateTenantRequest = {
   maxAlertingFrequency?: string;
 };
 
+export type TenantSettingContent = unknown;
+
 export type TenantSettingProperties = {
-  /**
-   * Whether the tenant has enabled instagram task
-   */
-  enabled_instagram_task?: boolean;
+  content?: TenantSettingContent;
 };
 
 export type TenantSetting = ApiResourceMetaProperties & TenantSettingProperties;

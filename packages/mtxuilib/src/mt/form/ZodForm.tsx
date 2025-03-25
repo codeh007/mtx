@@ -8,8 +8,10 @@ import {
   useState,
 } from "react";
 import {
+  Controller,
+  type ControllerProps,
+  type FieldPath,
   type FieldValues,
-  FormProvider,
   type SubmitHandler,
   type UseFormProps,
   type UseFormReturn,
@@ -19,16 +21,13 @@ import {
 import { z } from "zod";
 import { cn } from "../../lib/utils";
 import { Button } from "../../ui/button";
+import { Form, FormField } from "../../ui/form";
 import { ConformDeleteBtn } from "./deleteConform";
 
 /**
- * 实现 react hook form + trpc + 前后端共用 zod schema
  * 参考： https://kitchen-sink.trpc.io/react-hook-form?file=#content
  */
 export type UseZodForm<TInput extends FieldValues> = UseFormReturn<TInput> & {
-  /**
-   * A unique ID for this form.
-   */
   id: string;
 };
 export function useZodForm<TSchema extends z.ZodType>(
@@ -36,20 +35,16 @@ export function useZodForm<TSchema extends z.ZodType>(
     schema?: TSchema;
   },
 ) {
-  const _schema = props.schema || z.any();
-
-  const a = zodResolver(_schema, undefined, {
-    // This makes it so we can use `.transform()`s on the schema without same transform getting applied again when it reaches the server
+  const resolver = zodResolver(props.schema || z.any(), undefined, {
     raw: true,
   });
+  const formId = useId();
   const form = useForm<TSchema["_input"]>({
     ...props,
-
-    //@ts-ignore
-    resolver: a,
+    resolver: resolver,
   }) as UseZodForm<TSchema["_input"]>;
 
-  form.id = useId();
+  form.id = formId;
   return form;
 }
 
@@ -64,39 +59,13 @@ export function ZForm<TInput extends FieldValues>(
   const { handleSubmit, form, ...passThrough }: typeof props = props;
 
   return (
-    <FormProvider {...form}>
-      {/* 原版的写法，好像有点问题 */}
-      {/* <form
-        {...passThrough}
-        id={form.id}
-        onSubmit={(event) => {
-          form.handleSubmit(async (values) => {
-            try {
-              await handleSubmit(values);
-            } catch (cause) {
-              form.setError("root.server", {
-                message: (cause as Error)?.message ?? "Unknown error",
-                type: "server",
-              });
-            }
-          })(event);
-        }}
-      /> */}
+    <Form {...form}>
       <form
         {...passThrough}
         id={form.id}
-        onSubmit={form.handleSubmit(async (values) => {
-          try {
-            await handleSubmit(values);
-          } catch (cause) {
-            form.setError("root.server", {
-              message: (cause as Error)?.message ?? "Unknown error",
-              type: "server",
-            });
-          }
-        })}
+        onSubmit={form.handleSubmit(handleSubmit)}
       />
-    </FormProvider>
+    </Form>
   );
 }
 
@@ -123,9 +92,7 @@ export const ZFormToolbar = forwardRef<
 >((props, forwardedRef) => {
   const {
     submitText,
-    onSubmit,
     onCancel,
-    children,
     enableCancelConform,
     enableDeleteButton,
     onDelete,
@@ -203,9 +170,8 @@ export const ZFormToolbar = forwardRef<
     </div>
   );
 });
-ZFormToolbar.displayName = "EditFormToolbar";
 
-const ComformCancel = (props: {
+export const ComformCancel = (props: {
   onContinue: () => void;
   onBack: () => void;
 }) => {
@@ -232,5 +198,17 @@ const ComformCancel = (props: {
         关闭
       </Button>
     </div>
+  );
+};
+export const ZFormField = <
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>({
+  ...props
+}: ControllerProps<TFieldValues, TName>) => {
+  return (
+    <FormField {...props}>
+      <Controller {...props} />
+    </FormField>
   );
 };
