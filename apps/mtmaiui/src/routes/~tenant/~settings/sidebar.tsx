@@ -17,7 +17,7 @@ import {
 
 import { Switch } from "mtxuilib/ui/switch";
 import { useMemo } from "react";
-import { useTenantId } from "../../hooks/useAuth";
+import { useTenantId } from "../../../hooks/useAuth";
 
 export function NavTenantSettings() {
   const tid = useTenantId();
