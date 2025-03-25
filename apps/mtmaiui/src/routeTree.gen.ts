@@ -37,6 +37,7 @@ import { Route as ComsComIdComponenteditorIndexImport } from './routes/~coms/~$c
 const WorkflowsRouteLazyImport = createFileRoute('/workflows')()
 const WorkflowRunsRouteLazyImport = createFileRoute('/workflow-runs')()
 const TenantsettingsRouteLazyImport = createFileRoute('/tenant_settings')()
+const TenantRouteLazyImport = createFileRoute('/tenant')()
 const TeamRouteLazyImport = createFileRoute('/team')()
 const SiteRouteLazyImport = createFileRoute('/site')()
 const SettingsRouteLazyImport = createFileRoute('/settings')()
@@ -87,6 +88,7 @@ const AuthLoginRouteLazyImport = createFileRoute('/auth/login')()
 const WorkflowsIndexLazyImport = createFileRoute('/workflows/')()
 const WorkflowRunsIndexLazyImport = createFileRoute('/workflow-runs/')()
 const TenantsettingsIndexLazyImport = createFileRoute('/tenant_settings/')()
+const TenantIndexLazyImport = createFileRoute('/tenant/')()
 const TeamIndexLazyImport = createFileRoute('/team/')()
 const SettingsIndexLazyImport = createFileRoute('/settings/')()
 const SessionIndexLazyImport = createFileRoute('/session/')()
@@ -348,6 +350,14 @@ const TenantsettingsRouteLazyRoute = TenantsettingsRouteLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/~tenant_settings/~route.lazy').then((d) => d.Route),
+)
+
+const TenantRouteLazyRoute = TenantRouteLazyImport.update({
+  id: '/tenant',
+  path: '/tenant',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/~tenant/~route.lazy').then((d) => d.Route),
 )
 
 const TeamRouteLazyRoute = TeamRouteLazyImport.update({
@@ -653,6 +663,14 @@ const TenantsettingsIndexLazyRoute = TenantsettingsIndexLazyImport.update({
   getParentRoute: () => TenantsettingsRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~tenant_settings/~index.lazy').then((d) => d.Route),
+)
+
+const TenantIndexLazyRoute = TenantIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => TenantRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~tenant/~index.lazy').then((d) => d.Route),
 )
 
 const TeamIndexLazyRoute = TeamIndexLazyImport.update({
@@ -1857,6 +1875,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamRouteLazyImport
       parentRoute: typeof rootRoute
     }
+    '/tenant': {
+      id: '/tenant'
+      path: '/tenant'
+      fullPath: '/tenant'
+      preLoaderRoute: typeof TenantRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/tenant_settings': {
       id: '/tenant_settings'
       path: '/tenant_settings'
@@ -2003,6 +2028,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/team/'
       preLoaderRoute: typeof TeamIndexLazyImport
       parentRoute: typeof TeamRouteLazyImport
+    }
+    '/tenant/': {
+      id: '/tenant/'
+      path: '/'
+      fullPath: '/tenant/'
+      preLoaderRoute: typeof TenantIndexLazyImport
+      parentRoute: typeof TenantRouteLazyImport
     }
     '/tenant_settings/': {
       id: '/tenant_settings/'
@@ -3574,6 +3606,18 @@ const TeamRouteLazyRouteWithChildren = TeamRouteLazyRoute._addFileChildren(
   TeamRouteLazyRouteChildren,
 )
 
+interface TenantRouteLazyRouteChildren {
+  TenantIndexLazyRoute: typeof TenantIndexLazyRoute
+}
+
+const TenantRouteLazyRouteChildren: TenantRouteLazyRouteChildren = {
+  TenantIndexLazyRoute: TenantIndexLazyRoute,
+}
+
+const TenantRouteLazyRouteWithChildren = TenantRouteLazyRoute._addFileChildren(
+  TenantRouteLazyRouteChildren,
+)
+
 interface TenantsettingsTenantSettingIdRouteLazyRouteChildren {
   TenantsettingsTenantSettingIdIndexLazyRoute: typeof TenantsettingsTenantSettingIdIndexLazyRoute
 }
@@ -3912,6 +3956,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof SettingsRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
   '/team': typeof TeamRouteLazyRouteWithChildren
+  '/tenant': typeof TenantRouteLazyRouteWithChildren
   '/tenant_settings': typeof TenantsettingsRouteLazyRouteWithChildren
   '/workflow-runs': typeof WorkflowRunsRouteLazyRouteWithChildren
   '/workflows': typeof WorkflowsRouteLazyRouteWithChildren
@@ -3933,6 +3978,7 @@ export interface FileRoutesByFullPath {
   '/session/': typeof SessionIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
   '/team/': typeof TeamIndexLazyRoute
+  '/tenant/': typeof TenantIndexLazyRoute
   '/tenant_settings/': typeof TenantsettingsIndexLazyRoute
   '/workflow-runs/': typeof WorkflowRunsIndexLazyRoute
   '/workflows/': typeof WorkflowsIndexLazyRoute
@@ -4073,6 +4119,7 @@ export interface FileRoutesByTo {
   '/session': typeof SessionIndexLazyRoute
   '/settings': typeof SettingsIndexLazyRoute
   '/team': typeof TeamIndexLazyRoute
+  '/tenant': typeof TenantIndexLazyRoute
   '/tenant_settings': typeof TenantsettingsIndexLazyRoute
   '/workflow-runs': typeof WorkflowRunsIndexLazyRoute
   '/workflows': typeof WorkflowsIndexLazyRoute
@@ -4173,6 +4220,7 @@ export interface FileRoutesById {
   '/settings': typeof SettingsRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
   '/team': typeof TeamRouteLazyRouteWithChildren
+  '/tenant': typeof TenantRouteLazyRouteWithChildren
   '/tenant_settings': typeof TenantsettingsRouteLazyRouteWithChildren
   '/workflow-runs': typeof WorkflowRunsRouteLazyRouteWithChildren
   '/workflows': typeof WorkflowsRouteLazyRouteWithChildren
@@ -4194,6 +4242,7 @@ export interface FileRoutesById {
   '/session/': typeof SessionIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
   '/team/': typeof TeamIndexLazyRoute
+  '/tenant/': typeof TenantIndexLazyRoute
   '/tenant_settings/': typeof TenantsettingsIndexLazyRoute
   '/workflow-runs/': typeof WorkflowRunsIndexLazyRoute
   '/workflows/': typeof WorkflowsIndexLazyRoute
@@ -4335,6 +4384,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/site'
     | '/team'
+    | '/tenant'
     | '/tenant_settings'
     | '/workflow-runs'
     | '/workflows'
@@ -4356,6 +4406,7 @@ export interface FileRouteTypes {
     | '/session/'
     | '/settings/'
     | '/team/'
+    | '/tenant/'
     | '/tenant_settings/'
     | '/workflow-runs/'
     | '/workflows/'
@@ -4495,6 +4546,7 @@ export interface FileRouteTypes {
     | '/session'
     | '/settings'
     | '/team'
+    | '/tenant'
     | '/tenant_settings'
     | '/workflow-runs'
     | '/workflows'
@@ -4593,6 +4645,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/site'
     | '/team'
+    | '/tenant'
     | '/tenant_settings'
     | '/workflow-runs'
     | '/workflows'
@@ -4614,6 +4667,7 @@ export interface FileRouteTypes {
     | '/session/'
     | '/settings/'
     | '/team/'
+    | '/tenant/'
     | '/tenant_settings/'
     | '/workflow-runs/'
     | '/workflows/'
@@ -4754,6 +4808,7 @@ export interface RootRouteChildren {
   SettingsRouteLazyRoute: typeof SettingsRouteLazyRouteWithChildren
   SiteRouteLazyRoute: typeof SiteRouteLazyRouteWithChildren
   TeamRouteLazyRoute: typeof TeamRouteLazyRouteWithChildren
+  TenantRouteLazyRoute: typeof TenantRouteLazyRouteWithChildren
   TenantsettingsRouteLazyRoute: typeof TenantsettingsRouteLazyRouteWithChildren
   WorkflowRunsRouteLazyRoute: typeof WorkflowRunsRouteLazyRouteWithChildren
   WorkflowsRouteLazyRoute: typeof WorkflowsRouteLazyRouteWithChildren
@@ -4779,6 +4834,7 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsRouteLazyRoute: SettingsRouteLazyRouteWithChildren,
   SiteRouteLazyRoute: SiteRouteLazyRouteWithChildren,
   TeamRouteLazyRoute: TeamRouteLazyRouteWithChildren,
+  TenantRouteLazyRoute: TenantRouteLazyRouteWithChildren,
   TenantsettingsRouteLazyRoute: TenantsettingsRouteLazyRouteWithChildren,
   WorkflowRunsRouteLazyRoute: WorkflowRunsRouteLazyRouteWithChildren,
   WorkflowsRouteLazyRoute: WorkflowsRouteLazyRouteWithChildren,
@@ -4813,6 +4869,7 @@ export const routeTree = rootRoute
         "/settings",
         "/site",
         "/team",
+        "/tenant",
         "/tenant_settings",
         "/workflow-runs",
         "/workflows",
@@ -4940,6 +4997,12 @@ export const routeTree = rootRoute
         "/team/$teamId"
       ]
     },
+    "/tenant": {
+      "filePath": "~tenant/~route.lazy.tsx",
+      "children": [
+        "/tenant/"
+      ]
+    },
     "/tenant_settings": {
       "filePath": "~tenant_settings/~route.lazy.tsx",
       "children": [
@@ -5038,6 +5101,10 @@ export const routeTree = rootRoute
     "/team/": {
       "filePath": "~team/~index.lazy.tsx",
       "parent": "/team"
+    },
+    "/tenant/": {
+      "filePath": "~tenant/~index.lazy.tsx",
+      "parent": "/tenant"
     },
     "/tenant_settings/": {
       "filePath": "~tenant_settings/~index.lazy.tsx",
