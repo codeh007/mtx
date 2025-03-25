@@ -4,6 +4,7 @@ import { resourceGetOptions, resourceUpsertMutation } from "mtmaiapi";
 import { zMtResourceUpsert } from "mtmaiapi/gomtmapi/zod.gen";
 import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
+import { Button } from "mtxuilib/ui/button";
 import {
   FormControl,
   FormField,
@@ -44,6 +45,9 @@ function RouteComponent() {
   return (
     <div className="px-2">
       <h1>社交媒体账号</h1>
+      <div>
+        <Button>测试运行</Button>
+      </div>
       <ZForm
         form={form}
         handleSubmit={(values) => {

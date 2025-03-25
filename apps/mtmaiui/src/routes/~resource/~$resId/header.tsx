@@ -16,18 +16,8 @@ import {
   HeaderActionConainer,
 } from "../../../components/DashHeaders";
 import { useSearch } from "../../../hooks/useNav";
-// import {
-//   DashHeaders,
-//   HeaderActionConainer,
-// } from "../../components/DashHeaders";
-// import { useSearch } from "../hooks/useNav";
-// import { useTeamSessionStore } from "../../stores/teamSessionProvider";
-// import { useWorkbenchStore } from "../../stores/workbrench.store";
 
 export function ResourceHeader() {
-  // const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
-  // const componentId = useTeamSessionStore((x) => x.componentId);
-  // const sessionId = useWorkbenchStore((x) => x.threadId);
   const search = useSearch();
   return (
     <DashHeaders>
@@ -40,7 +30,7 @@ export function ResourceHeader() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>对话</BreadcrumbPage>
+            <BreadcrumbPage>资源</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
