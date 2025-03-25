@@ -790,12 +790,38 @@ export const UpdateTenantRequestSchema = {
   type: "object",
 } as const;
 
-export const TenantSettingSchema = {
+export const TenantSettingPropertiesSchema = {
   type: "object",
   properties: {
-    id: {
-      type: "string",
-      description: "The id of the tenant setting",
+    enabled_instagram_task: {
+      type: "boolean",
+      description: "Whether the tenant has enabled instagram task",
+    },
+  },
+} as const;
+
+export const TenantSettingSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/TenantSettingProperties",
+    },
+  ],
+} as const;
+
+export const TenantSettingListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      items: {
+        $ref: "#/components/schemas/TenantSetting",
+      },
+      type: "array",
+      "x-go-name": "Rows",
     },
   },
 } as const;
@@ -4205,16 +4231,7 @@ export const OutlineSchema = {
 
 export const FlowNamesSchema = {
   type: "string",
-  enum: [
-    "assisant",
-    "ag",
-    "browser",
-    "tenant_settings",
-    "smola",
-    "team",
-    "tenant",
-    "com",
-  ],
+  enum: ["sys", "tenant", "assistant", "ag", "browser", "smola", "team", "com"],
 } as const;
 
 export const TerminationTypesSchema = {
@@ -6370,7 +6387,6 @@ export const AgentListSchema = {
 } as const;
 
 export const TeamPropertiesSchema = {
-  type: "object",
   properties: {
     id: {
       type: "string",

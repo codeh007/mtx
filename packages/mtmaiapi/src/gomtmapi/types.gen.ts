@@ -480,11 +480,18 @@ export type UpdateTenantRequest = {
   maxAlertingFrequency?: string;
 };
 
-export type TenantSetting = {
+export type TenantSettingProperties = {
   /**
-   * The id of the tenant setting
+   * Whether the tenant has enabled instagram task
    */
-  id?: string;
+  enabled_instagram_task?: boolean;
+};
+
+export type TenantSetting = ApiResourceMetaProperties & TenantSettingProperties;
+
+export type TenantSettingList = {
+  pagination?: PaginationResponse;
+  rows?: Array<TenantSetting>;
 };
 
 export type Event = {
@@ -2255,23 +2262,23 @@ export type Outline = {
 };
 
 export type FlowNames =
-  | "assisant"
+  | "sys"
+  | "tenant"
+  | "assistant"
   | "ag"
   | "browser"
-  | "tenant_settings"
   | "smola"
   | "team"
-  | "tenant"
   | "com";
 
 export const FlowNames = {
-  ASSISANT: "assisant",
+  SYS: "sys",
+  TENANT: "tenant",
+  ASSISTANT: "assistant",
   AG: "ag",
   BROWSER: "browser",
-  TENANT_SETTINGS: "tenant_settings",
   SMOLA: "smola",
   TEAM: "team",
-  TENANT: "tenant",
   COM: "com",
 } as const;
 
@@ -3538,7 +3545,7 @@ export type TenantSettingsListError =
   TenantSettingsListErrors[keyof TenantSettingsListErrors];
 
 export type TenantSettingsListResponses = {
-  200: ModelList;
+  200: TenantSettingList;
 };
 
 export type TenantSettingsListResponse =

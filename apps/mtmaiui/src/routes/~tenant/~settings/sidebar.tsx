@@ -2,7 +2,11 @@
 
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import type { MtComponent, TenantSetting } from "mtmaiapi";
+import {
+  type MtComponent,
+  type TenantSetting,
+  tenantSettingsListOptions,
+} from "mtmaiapi";
 import { cn, generateUUID } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
@@ -31,9 +35,9 @@ export function NavTenantSettings() {
 
   const linkToNew = useMemo(() => {
     const newUUID = generateUUID();
-    return `/coms/${newUUID}/new`;
+    return `/tenant/settings/${newUUID}/new`;
   }, []);
-
+  
   return (
     <Sidebar collapsible="none" className="hidden flex-1 md:flex">
       <SidebarHeader className="gap-3.5 border-b p-4">

@@ -264,8 +264,19 @@ export const zUpdateTenantRequest = z.object({
   maxAlertingFrequency: z.string().optional(),
 });
 
-export const zTenantSetting = z.object({
-  id: z.string().optional(),
+export const zTenantSettingProperties = z.object({
+  enabled_instagram_task: z.boolean().optional(),
+});
+
+export const zTenantSetting = z
+  .object({
+    metadata: zApiResourceMeta,
+  })
+  .merge(zTenantSettingProperties);
+
+export const zTenantSettingList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zTenantSetting).optional(),
 });
 
 export const zEvent = z.object({
@@ -809,13 +820,13 @@ export const zWorkflowWorkersCount = z.object({
         json_output: z.boolean(),
       }),
       z.enum([
-        "assisant",
+        "sys",
+        "tenant",
+        "assistant",
         "ag",
         "browser",
-        "tenant_settings",
         "smola",
         "team",
-        "tenant",
         "com",
       ]),
     ])
@@ -2418,13 +2429,13 @@ export const zOutline = z.object({
 });
 
 export const zFlowNames = z.enum([
-  "assisant",
+  "sys",
+  "tenant",
+  "assistant",
   "ag",
   "browser",
-  "tenant_settings",
   "smola",
   "team",
-  "tenant",
   "com",
 ]);
 
@@ -3402,7 +3413,7 @@ export const zMetadataListIntegrationsResponse = zListApiMetaIntegration;
 
 export const zUserUpdateLoginResponse = zUser;
 
-export const zTenantSettingsListResponse = zModelList;
+export const zTenantSettingsListResponse = zTenantSettingList;
 
 export const zTenantSettingsUpsertResponse = zTenantSetting;
 
