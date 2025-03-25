@@ -19,7 +19,6 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 
 import { useMemo } from "react";
 import { useGalleryStore } from "../../stores/gallerySstore";
-import { config } from "process";
 
 interface TeamSidebarProps {
   isOpen: boolean;
@@ -42,12 +41,6 @@ export const TeamSidebar = ({
   isLoading = false,
 }: TeamSidebarProps) => {
   const defaultGallery = useGalleryStore((state) => state.getDefaultGallery());
-  // const [messageApi, contextHolder] = message.useMessage();
-
-  // const tenant = useTenant();
-  // const createTeamMutation = useMutation({
-  //   ...teamCreateMutation({}),
-  // });
 
   const handleSaveTeam = async () => {
     // const teamData = Object.assign({}, defaultTeamConfig);
