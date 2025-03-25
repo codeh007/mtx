@@ -446,6 +446,9 @@ import type {
   ResourceUpsertData,
   ResourceUpsertResponse,
   ResourceUpsertError,
+  ResourceDeleteData,
+  ResourceDeleteResponse,
+  ResourceDeleteError,
   ResourceGetData,
   ResourceGetResponse,
   ResourceGetError,
@@ -4649,6 +4652,29 @@ export const resourceUpsert = <ThrowOnError extends boolean = false>(
       "Content-Type": "application/json",
       ...options?.headers,
     },
+  });
+};
+
+export const resourceDelete = <ThrowOnError extends boolean = false>(
+  options: Options<ResourceDeleteData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    ResourceDeleteResponse,
+    ResourceDeleteError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/resources/{resource}",
+    ...options,
   });
 };
 

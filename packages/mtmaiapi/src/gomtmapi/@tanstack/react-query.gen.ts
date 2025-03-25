@@ -159,6 +159,7 @@ import {
   dispatcherListen,
   resourceList,
   resourceUpsert,
+  resourceDelete,
   resourceGet,
   settingsList,
   settingsUpsert,
@@ -473,6 +474,9 @@ import type {
   ResourceUpsertData,
   ResourceUpsertError,
   ResourceUpsertResponse,
+  ResourceDeleteData,
+  ResourceDeleteError,
+  ResourceDeleteResponse,
   ResourceGetData,
   SettingsListData,
   SettingsUpsertData,
@@ -4796,6 +4800,26 @@ export const resourceUpsertMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await resourceUpsert({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const resourceDeleteMutation = (
+  options?: Partial<Options<ResourceDeleteData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    ResourceDeleteResponse,
+    ResourceDeleteError,
+    Options<ResourceDeleteData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await resourceDelete({
         ...options,
         ...localOptions,
         throwOnError: true,

@@ -3,11 +3,11 @@
 import { Label } from "@radix-ui/react-dropdown-menu";
 // import { Switch } from "@radix-ui/react-switch";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { type MtResource, resourceListOptions } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
-import { buttonVariants } from "mtxuilib/ui/button";
+import { Button, buttonVariants } from "mtxuilib/ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -18,6 +18,7 @@ import {
   useSidebar,
 } from "mtxuilib/ui/sidebar";
 
+import { Trash2Icon } from "lucide-react";
 import { Switch } from "mtxuilib/ui/switch";
 import { useMemo } from "react";
 import { useTenantId } from "../../hooks/useAuth";
@@ -67,6 +68,18 @@ const NavResourceItem = ({ item }: { item: MtResource }) => {
   const linkTo = useMemo(() => {
     return `${item.metadata?.id}/${item.type || ""}`;
   }, [item.metadata?.id, item.type]);
+
+  const resourceDeleteMu = useMutation({
+    ...resourceDeleteMutation({
+      path: {
+        tenant: tid!,
+        id: item.metadata?.id,
+      },
+    }),
+  });
+  const handleDelete = () => {
+    console.log("delete", item.metadata?.id);
+  };
   return (
     <>
       <CustomLink
@@ -82,6 +95,9 @@ const NavResourceItem = ({ item }: { item: MtResource }) => {
         <span className="line-clamp-2 w-[260px] whitespace-break-spaces text-xs">
           {item.title || item.metadata?.id}
         </span>
+        <Button variant="ghost" size="icon" onClick={handleDelete}>
+          <Trash2Icon className="size-4" />
+        </Button>
       </CustomLink>
     </>
   );

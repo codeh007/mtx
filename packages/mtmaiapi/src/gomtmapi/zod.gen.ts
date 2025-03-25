@@ -3690,6 +3690,8 @@ export const zResourceListResponse = zMtResourceList;
 
 export const zResourceUpsertResponse = zMtResource;
 
+export const zResourceDeleteResponse = z.void();
+
 export const zResourceGetResponse = zMtResource;
 
 export const zSettingsListResponse = zModelList;

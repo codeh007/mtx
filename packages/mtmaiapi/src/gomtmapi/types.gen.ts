@@ -9005,6 +9005,50 @@ export type ResourceUpsertResponses = {
 export type ResourceUpsertResponse =
   ResourceUpsertResponses[keyof ResourceUpsertResponses];
 
+export type ResourceDeleteData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The resource id
+     */
+    resource: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/resources/{resource}";
+};
+
+export type ResourceDeleteErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Unauthorized
+   */
+  401: ApiErrors;
+  /**
+   * Method not allowed
+   */
+  405: ApiErrors;
+};
+
+export type ResourceDeleteError =
+  ResourceDeleteErrors[keyof ResourceDeleteErrors];
+
+export type ResourceDeleteResponses = {
+  /**
+   * Successfully deleted resource
+   */
+  204: void;
+};
+
+export type ResourceDeleteResponse =
+  ResourceDeleteResponses[keyof ResourceDeleteResponses];
+
 export type ResourceGetData = {
   body?: never;
   path: {
