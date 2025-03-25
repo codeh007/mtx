@@ -809,7 +809,7 @@ export const tenantSettingsGet = <ThrowOnError extends boolean = false>(
 export const tenantSettingsUpsert = <ThrowOnError extends boolean = false>(
   options: Options<TenantSettingsUpsertData, ThrowOnError>,
 ) => {
-  return (options.client ?? _heyApiClient).patch<
+  return (options.client ?? _heyApiClient).post<
     TenantSettingsUpsertResponse,
     TenantSettingsUpsertError,
     ThrowOnError

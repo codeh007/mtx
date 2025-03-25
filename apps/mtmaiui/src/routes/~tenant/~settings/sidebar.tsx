@@ -3,7 +3,7 @@
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { type TenantSetting, tenantSettingsListOptions } from "mtmaiapi";
-import { cn, generateUUID } from "mtxuilib/lib/utils";
+import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
 import {
@@ -31,8 +31,7 @@ export function NavTenantSettings() {
   });
 
   const linkToNew = useMemo(() => {
-    const newUUID = generateUUID();
-    return `/tenant/settings/${newUUID}/new`;
+    return "/tenant/settings/new";
   }, []);
 
   return (
@@ -74,8 +73,7 @@ const NavTenantSettingItem = ({
   rowId,
 }: { item: TenantSetting; rowId: string }) => {
   const detailLink = useMemo(() => {
-    // return `${item.metadata?.id}/type/${item.type}`;
-    return `${rowId}/view`;
+    return `${rowId}`;
   }, [rowId]);
   return (
     <>

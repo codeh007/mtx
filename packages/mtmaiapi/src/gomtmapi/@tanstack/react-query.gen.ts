@@ -865,6 +865,27 @@ export const tenantSettingsGetOptions = (
   });
 };
 
+export const tenantSettingsUpsertQueryKey = (
+  options: Options<TenantSettingsUpsertData>,
+) => createQueryKey("tenantSettingsUpsert", options);
+
+export const tenantSettingsUpsertOptions = (
+  options: Options<TenantSettingsUpsertData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await tenantSettingsUpsert({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: tenantSettingsUpsertQueryKey(options),
+  });
+};
+
 export const tenantSettingsUpsertMutation = (
   options?: Partial<Options<TenantSettingsUpsertData>>,
 ) => {
