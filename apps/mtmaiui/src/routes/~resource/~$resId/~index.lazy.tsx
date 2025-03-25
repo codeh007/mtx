@@ -1,10 +1,8 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { Button } from "mtxuilib/ui/button";
-import { useEffect } from "react";
 import { useTenantId } from "../../../hooks/useAuth";
 import { useNav } from "../../../hooks/useNav";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
-import { ChatClient } from "../../~play/~chat/chat/Chat.client";
 
 export const Route = createLazyFileRoute("/resource/$resId/")({
   component: RouteComponent,
@@ -15,11 +13,11 @@ function RouteComponent() {
   const tid = useTenantId();
   const nav = useNav();
 
-  const setResourceId = useWorkbenchStore((x) => x.setResourceId);
-  const resourceId = useWorkbenchStore((x) => x.resourceId);
-  useEffect(() => {
-    setResourceId(resId);
-  }, [resId, setResourceId]);
+  // const setResourceId = useWorkbenchStore((x) => x.setResourceId);
+  // const resourceId = useWorkbenchStore((x) => x.resourceId);
+  // useEffect(() => {
+  //   setResourceId(resId);
+  // }, [resId, setResourceId]);
 
   const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
   const handleRunWorkflow = () => {
@@ -35,23 +33,21 @@ function RouteComponent() {
   };
 
   const threadId = useWorkbenchStore((x) => x.threadId);
-  useEffect(() => {
-    if (threadId) {
-      // handleRunWorkflow();
-      console.log("threadId", threadId);
-      nav({ to: `/resource/${resId}/${threadId}` });
-    }
-  }, [threadId]);
+  // useEffect(() => {
+  //   if (threadId) {
+  //     // handleRunWorkflow();
+  //     console.log("threadId", threadId);
+  //     nav({ to: `/resource/${resId}/${threadId}` });
+  //   }
+  // }, [threadId]);
 
   return (
     <div>
       <div className="flex flex-row gap-2">
         <Button onClick={handleRunWorkflow}>运行</Button>
-        resourceId:{resourceId}
+        resourceId:{resId}
       </div>
-      <div>
-        <ChatClient />
-      </div>
+      <div>{/* <ChatClient /> */}</div>
     </div>
   );
 }
