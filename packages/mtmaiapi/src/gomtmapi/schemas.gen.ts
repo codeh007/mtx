@@ -393,8 +393,8 @@ export const TenantMemberRoleSchema = {
 } as const;
 
 export const TenantResourceSchema = {
-  enum: ["WORKER", "EVENT", "WORKFLOW_RUN", "CRON", "SCHEDULE"],
   type: "string",
+  enum: ["WORKER", "EVENT", "WORKFLOW_RUN", "CRON", "SCHEDULE"],
 } as const;
 
 export const TenantResourceLimitSchema = {
@@ -3909,7 +3909,6 @@ export const MtComponentPropertiesSchema = {
     },
     config: {
       type: "object",
-      additionalProperties: true,
     },
   },
 } as const;
@@ -4143,7 +4142,9 @@ export const AgEventSchema = {
       type: "string",
     },
     meta: {
-      additionalProperties: true,
+      additionalProperties: {
+        type: "string",
+      },
     },
   },
 } as const;
@@ -4471,7 +4472,9 @@ export const MtTaskResultSchema = {
       type: "array",
       items: {
         type: "object",
-        additionalProperties: true,
+        additionalProperties: {
+          type: "object",
+        },
       },
     },
     stop_reason: {
@@ -4927,7 +4930,9 @@ export const ModelConfigSchema = {
     },
     default_headers: {
       type: "object",
-      additionalProperties: true,
+      additionalProperties: {
+        type: "string",
+      },
     },
     model_info: {
       $ref: "#/components/schemas/ModelInfo",
@@ -6197,11 +6202,15 @@ export const AgentConfigSchema = {
     },
     model_context: {
       type: "object",
-      additionalProperties: true,
+      additionalProperties: {
+        type: "object",
+      },
     },
     memory: {
       type: "object",
-      additionalProperties: true,
+      additionalProperties: {
+        type: "object",
+      },
     },
     model_client_stream: {
       type: "boolean",
@@ -6217,7 +6226,9 @@ export const AgentConfigSchema = {
       type: "array",
       items: {
         type: "object",
-        additionalProperties: true,
+        additionalProperties: {
+          type: "object",
+        },
       },
       default: [],
     },

@@ -23,14 +23,12 @@ export interface ComponentEditorProps {
 }
 
 export interface ComponentsProps {
-  // queryParams?: Record<string, any>;
   componentId?: string;
 }
 
 export interface ComponentsState extends ComponentsProps {
   isPending: boolean;
   components: MtComponent[];
-  // setQueryParams: (queryParams: Record<string, any>) => void;
   isJsonEditing: boolean;
   setIsJsonEditing: (isJsonEditing: boolean) => void;
   editPath: EditPath[];
@@ -48,9 +46,6 @@ export const createComponentEditorStoreSlice: StateCreator<
 > = (set, get, init) => {
   return {
     isPending: false,
-    // setQueryParams: (queryParams: Record<string, any>) => {
-    //   set({ queryParams });
-    // },
     isJsonEditing: false,
     setIsJsonEditing: (isJsonEditing: boolean) => {
       set({ isJsonEditing });
@@ -63,10 +58,6 @@ export const createComponentEditorStoreSlice: StateCreator<
     setWorkingCopy: (workingCopy: MtComponent) => {
       set({ workingCopy });
     },
-    // handleNavigateBack: () => {
-    //   const { editPath } = get();
-    //   set({ editPath: editPath.slice(0, -1) });
-    // },
     ...init,
   };
 };
@@ -95,14 +86,6 @@ export const ComponentEditProvider = (
   props: React.PropsWithChildren<ComponentsProps>,
 ) => {
   const { children, ...etc } = props;
-  // const tid = useTenantId();
-  // const nav = useNav();
-  // const [isPending, startTransition] = useTransition();
-  // const search = useSearch();
-  // const [queryParams, setQueryParams] = useState({
-  //   ...etc.queryParams,
-  //   // ...search,
-  // });
   const store = useMemo(
     () =>
       createComponentEditStore({

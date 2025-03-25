@@ -9,9 +9,9 @@ import {
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
-import { DashHeaders } from "../../components/DashHeaders";
+import { DashHeaders } from "../../../components/DashHeaders";
 
-export const Route = createLazyFileRoute("/tenant_settings/")({
+export const Route = createLazyFileRoute("/tenant/settings/")({
   component: RouteComponent,
 });
 

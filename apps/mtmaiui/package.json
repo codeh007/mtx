@@ -131,7 +131,7 @@
     "lucide-react": "^0.476.0",
     "mtmaiapi": "*",
     "mtxuilib": "*",
-    "next": "^15.2.3",
+    "next": "^15.2.4",
     "next-themes": "^0.4.4",
     "react": "^19",
     "react-day-picker": "^9.5.1",

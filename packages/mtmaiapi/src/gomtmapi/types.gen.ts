@@ -2384,7 +2384,9 @@ export type AgentMessageConfig =
 
 export type MtTaskResult = {
   messages: Array<{
-    [key: string]: unknown;
+    [key: string]: {
+      [key: string]: unknown;
+    };
   }>;
   stop_reason: string;
 };
@@ -2583,7 +2585,7 @@ export type ModelConfig = {
   user?: string;
   organization?: string;
   default_headers?: {
-    [key: string]: unknown;
+    [key: string]: string;
   };
   model_info?: ModelInfo;
 };
@@ -3181,16 +3183,22 @@ export type AgentConfig = {
   name: string;
   description: string;
   model_context?: {
-    [key: string]: unknown;
+    [key: string]: {
+      [key: string]: unknown;
+    };
   };
   memory?: {
-    [key: string]: unknown;
+    [key: string]: {
+      [key: string]: unknown;
+    };
   };
   model_client_stream: boolean;
   system_message?: string;
   model_client: MtComponent;
   tools: Array<{
-    [key: string]: unknown;
+    [key: string]: {
+      [key: string]: unknown;
+    };
   }>;
   handoffs: Array<string>;
   reflect_on_tool_use: boolean;
