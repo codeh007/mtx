@@ -468,6 +468,8 @@ import type {
   DispatcherListenError,
   DispatcherListenResponse,
   ResourceListData,
+  ResourceListError,
+  ResourceListResponse,
   ResourceUpsertData,
   ResourceUpsertError,
   ResourceUpsertResponse,
@@ -4716,6 +4718,54 @@ export const resourceListOptions = (options: Options<ResourceListData>) => {
     },
     queryKey: resourceListQueryKey(options),
   });
+};
+
+export const resourceListInfiniteQueryKey = (
+  options: Options<ResourceListData>,
+): QueryKey<Options<ResourceListData>> =>
+  createQueryKey("resourceList", options, true);
+
+export const resourceListInfiniteOptions = (
+  options: Options<ResourceListData>,
+) => {
+  return infiniteQueryOptions<
+    ResourceListResponse,
+    ResourceListError,
+    InfiniteData<ResourceListResponse>,
+    QueryKey<Options<ResourceListData>>,
+    | number
+    | Pick<
+        QueryKey<Options<ResourceListData>>[0],
+        "body" | "headers" | "path" | "query"
+      >
+  >(
+    // @ts-ignore
+    {
+      queryFn: async ({ pageParam, queryKey, signal }) => {
+        // @ts-ignore
+        const page: Pick<
+          QueryKey<Options<ResourceListData>>[0],
+          "body" | "headers" | "path" | "query"
+        > =
+          typeof pageParam === "object"
+            ? pageParam
+            : {
+                query: {
+                  offset: pageParam,
+                },
+              };
+        const params = createInfiniteParams(queryKey, page);
+        const { data } = await resourceList({
+          ...options,
+          ...params,
+          signal,
+          throwOnError: true,
+        });
+        return data;
+      },
+      queryKey: resourceListInfiniteQueryKey(options),
+    },
+  );
 };
 
 export const resourceUpsertQueryKey = (options: Options<ResourceUpsertData>) =>

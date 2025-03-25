@@ -4599,9 +4599,6 @@ export const dispatcherListen = <ThrowOnError extends boolean = false>(
   });
 };
 
-/**
- * 获取资源列表
- */
 export const resourceList = <ThrowOnError extends boolean = false>(
   options: Options<ResourceListData, ThrowOnError>,
 ) => {

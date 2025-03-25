@@ -5980,6 +5980,9 @@ export const MtResourcePropertiesSchema = {
     content: {
       type: "object",
     },
+    enabled: {
+      type: "boolean",
+    },
   },
 } as const;
 

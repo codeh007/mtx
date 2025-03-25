@@ -3095,6 +3095,7 @@ export type MtResourceProperties = {
   content?: {
     [key: string]: unknown;
   };
+  enabled?: boolean;
 };
 
 export type MtResource = ApiResourceMetaProperties & MtResourceProperties;
@@ -8954,7 +8955,11 @@ export type ResourceListData = {
      */
     tenant: TenantParameter;
   };
-  query?: never;
+  query?: {
+    enabled?: boolean;
+    limit?: number;
+    offset?: number;
+  };
   url: "/api/v1/tenants/{tenant}/resources";
 };
 
