@@ -279,6 +279,8 @@ export const zTenantSettingList = z.object({
   rows: z.array(zTenantSetting).optional(),
 });
 
+export const zTenantSettingUpsert = zTenantSettingProperties;
+
 export const zEvent = z.object({
   metadata: zApiResourceMeta,
   key: z.string(),
@@ -3420,6 +3422,8 @@ export const zTenantSettingsUpsertResponse = zTenantSetting;
 export const zTenantSettingsDeleteResponse = z.void();
 
 export const zTenantSettingsGetResponse = zTenantSetting;
+
+export const zTenantSettingsUpsertResponse = zTenantSetting;
 
 export const zSnsListResponse = zListSnsIntegrations;
 

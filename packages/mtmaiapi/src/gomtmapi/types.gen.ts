@@ -494,6 +494,8 @@ export type TenantSettingList = {
   rows?: Array<TenantSetting>;
 };
 
+export type TenantSettingUpsert = TenantSettingProperties;
+
 export type Event = {
   metadata: ApiResourceMeta;
   /**
@@ -3667,6 +3669,49 @@ export type TenantSettingsGetResponses = {
 
 export type TenantSettingsGetResponse =
   TenantSettingsGetResponses[keyof TenantSettingsGetResponses];
+
+export type TenantSettingsUpsertData = {
+  /**
+   * The model properties to update
+   */
+  body: TenantSettingUpsert;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The setting id
+     */
+    setting: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/settings/{setting}";
+};
+
+export type TenantSettingsUpsertErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type TenantSettingsUpsertError =
+  TenantSettingsUpsertErrors[keyof TenantSettingsUpsertErrors];
+
+export type TenantSettingsUpsertResponses = {
+  /**
+   * Successfully upserted the mt component
+   */
+  200: TenantSetting;
+};
+
+export type TenantSettingsUpsertResponse =
+  TenantSettingsUpsertResponses[keyof TenantSettingsUpsertResponses];
 
 export type SnsListData = {
   body?: never;

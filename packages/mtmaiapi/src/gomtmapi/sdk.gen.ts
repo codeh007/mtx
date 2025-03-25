@@ -829,6 +829,33 @@ export const tenantSettingsGet = <ThrowOnError extends boolean = false>(
   });
 };
 
+export const tenantSettingsUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<TenantSettingsUpsertData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).patch<
+    TenantSettingsUpsertResponse,
+    TenantSettingsUpsertError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/settings/{setting}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
 /**
  * List SNS integrations
  * List SNS integrations

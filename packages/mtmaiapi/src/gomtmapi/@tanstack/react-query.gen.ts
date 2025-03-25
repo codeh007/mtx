@@ -906,6 +906,26 @@ export const tenantSettingsGetOptions = (
   });
 };
 
+export const tenantSettingsUpsertMutation = (
+  options?: Partial<Options<TenantSettingsUpsertData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    TenantSettingsUpsertResponse,
+    TenantSettingsUpsertError,
+    Options<TenantSettingsUpsertData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await tenantSettingsUpsert({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
 export const snsListQueryKey = (options: Options<SnsListData>) =>
   createQueryKey("snsList", options);
 

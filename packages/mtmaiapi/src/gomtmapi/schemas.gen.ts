@@ -826,6 +826,14 @@ export const TenantSettingListSchema = {
   },
 } as const;
 
+export const TenantSettingUpsertSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/TenantSettingProperties",
+    },
+  ],
+} as const;
+
 export const EventSchema = {
   properties: {
     metadata: {
