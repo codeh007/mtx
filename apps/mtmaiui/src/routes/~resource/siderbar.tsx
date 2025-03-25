@@ -1,10 +1,12 @@
 "use client";
 
 import { Label } from "@radix-ui/react-dropdown-menu";
-// import { Switch } from "@radix-ui/react-switch";
-
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
-import { type MtResource, resourceListOptions } from "mtmaiapi";
+import {
+  type MtResource,
+  resourceDeleteMutation,
+  resourceListOptions,
+} from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
@@ -69,16 +71,23 @@ const NavResourceItem = ({ item }: { item: MtResource }) => {
     return `${item.metadata?.id}/${item.type || ""}`;
   }, [item.metadata?.id, item.type]);
 
+  const tid = useTenantId();
+
   const resourceDeleteMu = useMutation({
     ...resourceDeleteMutation({
       path: {
         tenant: tid!,
-        id: item.metadata?.id,
+        resource: item.metadata?.id,
       },
     }),
   });
   const handleDelete = () => {
-    console.log("delete", item.metadata?.id);
+    resourceDeleteMu.mutate({
+      path: {
+        tenant: tid!,
+        resource: item.metadata?.id,
+      },
+    });
   };
   return (
     <>
