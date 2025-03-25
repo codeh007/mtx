@@ -3073,6 +3073,8 @@ export const zPlatformUpdate = z.object({
 });
 
 export const zPlatformAccountProperties = z.object({
+  label: z.string().optional(),
+  description: z.string().optional(),
   username: z.string(),
   email: z.string().optional(),
   password: z.string().optional(),
@@ -3094,7 +3096,7 @@ export const zPlatformAccountList = z.object({
   rows: z.array(zPlatformAccount).optional(),
 });
 
-export const zPlatformAccountUpdate = zPlatformAccountProperties;
+export const zPlatformAccountUpsert = zPlatformAccountProperties;
 
 export const zBrowser = z.object({
   metadata: zApiResourceMeta,
@@ -3222,9 +3224,7 @@ export const zMtResourceList = z.object({
   pagination: zPaginationResponse.optional(),
 });
 
-export const zMtResourceUpsert = zApiResourceMetaProperties.merge(
-  zMtResourceProperties,
-);
+export const zMtResourceUpsert = zMtResourceProperties;
 
 export const zPlatformAccountData = z.object({
   type: z.enum(["platform_account"]).optional(),

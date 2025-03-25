@@ -1,6 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
-import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
-import { resourceUpsertMutation } from "mtmaiapi";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { createLazyFileRoute } from "@tanstack/react-router";
+import { resourceGetOptions, resourceUpsertMutation } from "mtmaiapi";
 import { zMtResourceUpsert } from "mtmaiapi/gomtmapi/zod.gen";
 import { EditFormToolbar } from "mtxuilib/mt/form/EditFormToolbar";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
@@ -13,6 +13,7 @@ import {
 } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { useTenantId } from "../../../../hooks/useAuth";
+import { PlatformAccountFields } from "../../fields/PlatformAccountFields";
 
 export const Route = createLazyFileRoute("/resource/$resId/platform_account/")({
   component: RouteComponent,
@@ -20,16 +21,29 @@ export const Route = createLazyFileRoute("/resource/$resId/platform_account/")({
 
 function RouteComponent() {
   const tid = useTenantId();
+  const { resId } = Route.useParams();
   const resourceUpsert = useMutation({
     ...resourceUpsertMutation(),
   });
+
+  const platformAccountQuery = useSuspenseQuery({
+    ...resourceGetOptions({
+      path: {
+        tenant: tid,
+        resource: resId,
+      },
+    }),
+  });
   const form = useZodForm({
     schema: zMtResourceUpsert,
-    defaultValues: {},
+    defaultValues: {
+      ...platformAccountQuery.data,
+      type: "platform_account",
+    },
   });
   return (
-    <div>
-      账号管理
+    <div className="px-2">
+      <h1>社交媒体账号</h1>
       <ZForm
         form={form}
         handleSubmit={(values) => {
@@ -70,12 +84,13 @@ function RouteComponent() {
             </FormItem>
           )}
         />
-        <Outlet />
+
+        <PlatformAccountFields />
         <EditFormToolbar form={form} />
         {form.formState.errors && (
-          <div className="text-red-500">
+          <pre className="text-red-500">
             {JSON.stringify(form.formState.errors, null, 2)}
-          </div>
+          </pre>
         )}
       </ZForm>
     </div>

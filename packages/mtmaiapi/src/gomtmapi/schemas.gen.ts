@@ -5603,8 +5603,14 @@ export const PlatformUpdateSchema = {
 } as const;
 
 export const PlatformAccountPropertiesSchema = {
-  required: ["metadata", "username", "platform"],
+  required: ["username", "platform"],
   properties: {
+    label: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
     username: {
       type: "string",
     },
@@ -5666,7 +5672,7 @@ export const PlatformAccountListSchema = {
   },
 } as const;
 
-export const PlatformAccountUpdateSchema = {
+export const PlatformAccountUpsertSchema = {
   allOf: [
     {
       $ref: "#/components/schemas/PlatformAccountProperties",
@@ -5958,27 +5964,21 @@ export const MtResourcePropertiesSchema = {
   properties: {
     title: {
       type: "string",
-      description: "The resource title",
     },
     description: {
       type: "string",
-      description: "The resource description",
     },
     version: {
       type: "string",
-      description: "The resource version",
     },
     url: {
       type: "string",
-      description: "The resource url",
     },
     type: {
       type: "string",
-      description: "The resource type",
     },
     content: {
       type: "object",
-      additionalProperties: true,
     },
   },
 } as const;
@@ -6013,9 +6013,6 @@ export const MtResourceListSchema = {
 
 export const MtResourceUpsertSchema = {
   allOf: [
-    {
-      $ref: "#/components/schemas/APIResourceMetaProperties",
-    },
     {
       $ref: "#/components/schemas/MtResourceProperties",
     },

@@ -2934,6 +2934,8 @@ export type PlatformUpdate = {
 };
 
 export type PlatformAccountProperties = {
+  label?: string;
+  description?: string;
   username: string;
   email?: string;
   password?: string;
@@ -2954,7 +2956,7 @@ export type PlatformAccountList = {
   rows?: Array<PlatformAccount>;
 };
 
-export type PlatformAccountUpdate = PlatformAccountProperties;
+export type PlatformAccountUpsert = PlatformAccountProperties;
 
 export type Browser = {
   metadata: ApiResourceMeta;
@@ -3085,25 +3087,10 @@ export type AssignedAction = {
 };
 
 export type MtResourceProperties = {
-  /**
-   * The resource title
-   */
   title: string;
-  /**
-   * The resource description
-   */
   description?: string;
-  /**
-   * The resource version
-   */
   version?: string;
-  /**
-   * The resource url
-   */
   url?: string;
-  /**
-   * The resource type
-   */
   type: string;
   content?: {
     [key: string]: unknown;
@@ -3118,7 +3105,7 @@ export type MtResourceList = {
   pagination?: PaginationResponse;
 };
 
-export type MtResourceUpsert = ApiResourceMetaProperties & MtResourceProperties;
+export type MtResourceUpsert = MtResourceProperties;
 
 export type PlatformAccountData = {
   type?: "platform_account";
