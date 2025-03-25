@@ -1,11 +1,16 @@
 "use client";
 
 import { Label } from "@radix-ui/react-dropdown-menu";
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import {
   type MtResource,
   resourceDeleteMutation,
   resourceListOptions,
+  resourceListQueryKey,
 } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
@@ -22,6 +27,7 @@ import {
 
 import { Trash2Icon } from "lucide-react";
 import { Switch } from "mtxuilib/ui/switch";
+import { useToast } from "mtxuilib/ui/use-toast";
 import { useMemo } from "react";
 import { useTenantId } from "../../hooks/useAuth";
 
@@ -72,14 +78,23 @@ const NavResourceItem = ({ item }: { item: MtResource }) => {
   }, [item.metadata?.id, item.type]);
 
   const tid = useTenantId();
+  const toast = useToast();
+  const queryClient = useQueryClient();
 
   const resourceDeleteMu = useMutation({
-    ...resourceDeleteMutation({
-      path: {
-        tenant: tid!,
-        resource: item.metadata?.id,
-      },
-    }),
+    ...resourceDeleteMutation({}),
+    onSuccess: () => {
+      toast.toast({
+        title: "删除成功",
+      });
+      queryClient.invalidateQueries({
+        queryKey: resourceListQueryKey({
+          path: {
+            tenant: tid!,
+          },
+        }),
+      });
+    },
   });
   const handleDelete = () => {
     resourceDeleteMu.mutate({
@@ -90,7 +105,7 @@ const NavResourceItem = ({ item }: { item: MtResource }) => {
     });
   };
   return (
-    <>
+    <div className="justify-between border-b space-y-0.5 w-full rounded-md">
       <CustomLink
         to={linkTo}
         key={item.metadata?.id}
@@ -104,10 +119,10 @@ const NavResourceItem = ({ item }: { item: MtResource }) => {
         <span className="line-clamp-2 w-[260px] whitespace-break-spaces text-xs">
           {item.title || item.metadata?.id}
         </span>
-        <Button variant="ghost" size="icon" onClick={handleDelete}>
-          <Trash2Icon className="size-4" />
-        </Button>
       </CustomLink>
-    </>
+      <Button variant="ghost" size="icon" onClick={handleDelete}>
+        <Trash2Icon className="size-4" />
+      </Button>
+    </div>
   );
 };
