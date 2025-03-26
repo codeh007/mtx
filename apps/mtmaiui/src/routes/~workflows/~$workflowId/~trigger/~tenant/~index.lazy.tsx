@@ -1,9 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { FlowNames, workflowRunCreateMutation } from "mtmaiapi";
-import { Button } from "mtxuilib/ui/button";
-import { useToast } from "mtxuilib/ui/use-toast";
-import { useNav } from "../../../../../hooks/useNav";
+import { FlowNames } from "mtmaiapi";
+import FlowForm from "../../../../../components/flow-form/FlowForm";
+import { FlowTenantFields } from "../../../../../components/flow-form/flow-forms/FlowTenantFields";
 
 export const Route = createLazyFileRoute(
   "/workflows/$workflowId/trigger/tenant/",
@@ -12,41 +10,41 @@ export const Route = createLazyFileRoute(
 });
 
 function RouteComponent() {
-  const toast = useToast();
-  const nav = useNav();
-  const handleNavToWorkflowRun = (id: string) => {
-    nav({
-      to: `/workflow-runs/${id}`,
-    });
-  };
-  const workflowRunCreate = useMutation({
-    ...workflowRunCreateMutation(),
-    onSuccess: (resp) => {
-      toast.toast({
-        title: "Workflow run created",
-        description: (
-          <div>
-            <Button onClick={() => handleNavToWorkflowRun(resp?.metadata?.id)}>
-              View Workflow
-            </Button>
-          </div>
-        ),
-      });
-    },
-  });
-  const handleClick = async () => {
-    workflowRunCreate.mutate({
-      path: {
-        workflow: FlowNames.TENANT,
-      },
-      body: {
-        input: {},
-      },
-    });
-  };
+  // const toast = useToast();
+  // const nav = useNav();
+  // const handleNavToWorkflowRun = (id: string) => {
+  //   nav({
+  //     to: `/workflow-runs/${id}`,
+  //   });
+  // };
+  // const workflowRunCreate = useMutation({
+  //   ...workflowRunCreateMutation(),
+  //   onSuccess: (resp) => {
+  //     toast.toast({
+  //       title: "Workflow run created",
+  //       description: (
+  //         <div>
+  //           <Button onClick={() => handleNavToWorkflowRun(resp?.metadata?.id)}>
+  //             View Workflow
+  //           </Button>
+  //         </div>
+  //       ),
+  //     });
+  //   },
+  // });
+  // const handleClick = async () => {
+  //   workflowRunCreate.mutate({
+  //     path: {
+  //       workflow: FlowNames.TENANT,
+  //     },
+  //     body: {
+  //       input: {},
+  //     },
+  //   });
+  // };
   return (
-    <>
-      <Button onClick={handleClick}>运行</Button>
-    </>
+    <FlowForm workflowName={FlowNames.TENANT}>
+      <FlowTenantFields />
+    </FlowForm>
   );
 }

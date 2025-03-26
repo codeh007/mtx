@@ -6,10 +6,8 @@ import {
   useNavigate,
 } from "@tanstack/react-router";
 import { FlowNames, workflowRunCreateMutation } from "mtmaiapi";
-import { zAgentRunInput } from "mtmaiapi/gomtmapi/zod.gen";
-import { useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { toast } from "mtxuilib/ui/use-toast";
-import type { z } from "zod";
+import FlowForm from "../../../../../components/flow-form/FlowForm";
 
 export const Route = createLazyFileRoute("/workflows/$workflowId/trigger/ag")({
   component: RouteComponent,
@@ -41,30 +39,9 @@ function RouteComponent() {
     },
   });
 
-  const form = useZodForm({
-    schema: zAgentRunInput,
-    defaultValues: {
-      // input: '',
-    },
-  });
-
-  const handleSubmit = (values: z.infer<typeof zAgentRunInput>) => {
-    triggerWorkflowMutation.mutate({
-      path: {
-        // tenant: tenant!.metadata.id,
-        // workflow: workflow.metadata.id,
-        workflow: FlowNames.ASSISANT,
-      },
-      body: {
-        // name: FlowNames.ASSISANT,
-        input: values,
-      },
-    });
-  };
   return (
-    <div className="flex flex-col gap-4">
-      <h1>AG</h1>
+    <FlowForm workflowName={FlowNames.AG}>
       <Outlet />
-    </div>
+    </FlowForm>
   );
 }
