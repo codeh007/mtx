@@ -18,8 +18,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-// import { useTheme } from "../theme-provider";
-// import { Button } from "./button";
 import CopyToClipboard from "./copy-to-clipboard";
 
 SyntaxHighlighter.registerLanguage("typescript", typescript);

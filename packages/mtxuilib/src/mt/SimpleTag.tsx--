@@ -1,6 +1,7 @@
 "use client";
 import { slug } from "github-slugger";
-import Link from "next/link";
+import React from "react";
+// import Link from "next/link";
 interface Props {
   text: string;
 }

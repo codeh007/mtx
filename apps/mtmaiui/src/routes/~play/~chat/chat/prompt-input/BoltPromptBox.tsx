@@ -2,7 +2,7 @@
 
 import classNames from "classnames";
 import { cn } from "mtxuilib/lib/utils";
-import { IconButton } from "mtxuilib/mt/IconButton";
+import { Button } from "mtxuilib/ui/button";
 import { SendButton } from "./SendButton.client";
 
 const TEXTAREA_MIN_HEIGHT = 76;
@@ -89,7 +89,7 @@ export const BoltPromptBox = ({
 
           <div className="flex justify-between text-sm p-4 pt-2">
             <div className="flex gap-1 items-center">
-              <IconButton
+              <Button
                 title="Enhance prompt"
                 disabled={input?.length === 0 || enhancingPrompt}
                 className={classNames({
@@ -112,7 +112,7 @@ export const BoltPromptBox = ({
                     )}
                   </>
                 )}
-              </IconButton>
+              </Button>
             </div>
             {input?.length > 3 ? (
               <div className="text-xs text-bolt-elements-textTertiary">

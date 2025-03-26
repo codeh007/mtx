@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, type ButtonProps } from "../ui/button";
+import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Spinner } from "./mtloading";
 
@@ -9,7 +9,6 @@ interface ConfirmDialogProps {
   description: React.ReactNode;
 
   submitLabel: string;
-  submitVariant?: ButtonProps["variant"];
   cancelLabel?: string;
   className?: string;
   onSubmit: () => void;
@@ -23,7 +22,6 @@ export function ConfirmDialog({
   title,
   description,
   submitLabel,
-  submitVariant = "destructive",
   cancelLabel = "Cancel",
   isOpen,
   ...props
@@ -46,7 +44,7 @@ export function ConfirmDialog({
             >
               {cancelLabel}
             </Button>
-            <Button variant={submitVariant} onClick={props.onSubmit}>
+            <Button onClick={props.onSubmit}>
               {props.isLoading && <Spinner />}
               {submitLabel}
             </Button>

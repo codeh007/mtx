@@ -240,23 +240,11 @@ export const EditorPanel = memo(
                   );
                 })}
                 {terminalCount < MAX_TERMINALS && (
-                  // <IconButton
-                  // 	icon="i-ph:plus"
-                  // 	size="md"
-                  // 	onClick={addTerminal}
-                  // />
                   <Icons.plus
                     className="text-lg cursor-pointer"
                     onClick={addTerminal}
                   />
                 )}
-                {/* <IconButton
-									className="ml-auto"
-									icon="i-ph:caret-down"
-									title="Close"
-									size="md"
-									onClick={() => workbenchStore.toggleTerminal(false)}
-								/> */}
                 <Icons.arrowDown
                   className="ml-auto text-lg cursor-pointer"
                   onClick={() => workbenchStore.toggleTerminal(false)}

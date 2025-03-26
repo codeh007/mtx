@@ -20,7 +20,7 @@ import {
 import * as React from "react";
 
 import { cn } from "../lib/utils";
-import { Skeleton } from "../mt/skeleton";
+import { Skeleton } from "../ui/skeleton";
 import {
   Table,
   TableBody,
