@@ -76,10 +76,8 @@ export default function FlowForm({
   });
 
   const handleDownload = () => {
-    console.log("download");
     const formValues = form.form.getValues();
     const formJson = JSON.stringify(formValues);
-    console.log(formJson);
     const blob = new Blob([formJson], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -89,7 +87,6 @@ export default function FlowForm({
   };
 
   const handleImport = () => {
-    console.log("import");
     // 创建一个隐藏的文件输入元素
     const fileInput = document.createElement("input");
     fileInput.type = "file";
@@ -118,13 +115,11 @@ export default function FlowForm({
       };
       reader.readAsText(file);
     };
-
-    // 触发文件选择对话框
     fileInput.click();
   };
 
   return (
-    <ZForm {...form} className={cn("flex flex-col gap-4", className)}>
+    <ZForm {...form} className={cn("flex flex-col gap-4 px-2", className)}>
       {children}
       <ZFormToolbar form={form.form} />
       <div className="flex justify-end gap-2 mr-2">
