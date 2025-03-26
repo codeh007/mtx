@@ -44,6 +44,7 @@ const SettingsRouteLazyImport = createFileRoute('/settings')()
 const SessionRouteLazyImport = createFileRoute('/session')()
 const ScheduledRunsRouteLazyImport = createFileRoute('/scheduled-runs')()
 const ResourceRouteLazyImport = createFileRoute('/resource')()
+const RecurringRouteLazyImport = createFileRoute('/recurring')()
 const PostRouteLazyImport = createFileRoute('/post')()
 const PlayRouteLazyImport = createFileRoute('/play')()
 const PlatformAccountRouteLazyImport = createFileRoute('/platform-account')()
@@ -90,6 +91,7 @@ const SettingsIndexLazyImport = createFileRoute('/settings/')()
 const SessionIndexLazyImport = createFileRoute('/session/')()
 const ScheduledRunsIndexLazyImport = createFileRoute('/scheduled-runs/')()
 const ResourceIndexLazyImport = createFileRoute('/resource/')()
+const RecurringIndexLazyImport = createFileRoute('/recurring/')()
 const PostIndexLazyImport = createFileRoute('/post/')()
 const PlayIndexLazyImport = createFileRoute('/play/')()
 const PlatformAccountIndexLazyImport = createFileRoute('/platform-account/')()
@@ -412,6 +414,14 @@ const ResourceRouteLazyRoute = ResourceRouteLazyImport.update({
   import('./routes/~resource/~route.lazy').then((d) => d.Route),
 )
 
+const RecurringRouteLazyRoute = RecurringRouteLazyImport.update({
+  id: '/recurring',
+  path: '/recurring',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/~recurring/~route.lazy').then((d) => d.Route),
+)
+
 const PostRouteLazyRoute = PostRouteLazyImport.update({
   id: '/post',
   path: '/post',
@@ -709,6 +719,14 @@ const ResourceIndexLazyRoute = ResourceIndexLazyImport.update({
   getParentRoute: () => ResourceRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~resource/~index.lazy').then((d) => d.Route),
+)
+
+const RecurringIndexLazyRoute = RecurringIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => RecurringRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~recurring/~index.lazy').then((d) => d.Route),
 )
 
 const PostIndexLazyRoute = PostIndexLazyImport.update({
@@ -1898,6 +1916,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostRouteLazyImport
       parentRoute: typeof rootRoute
     }
+    '/recurring': {
+      id: '/recurring'
+      path: '/recurring'
+      fullPath: '/recurring'
+      preLoaderRoute: typeof RecurringRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/resource': {
       id: '/resource'
       path: '/resource'
@@ -2065,6 +2090,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/post/'
       preLoaderRoute: typeof PostIndexLazyImport
       parentRoute: typeof PostRouteLazyImport
+    }
+    '/recurring/': {
+      id: '/recurring/'
+      path: '/'
+      fullPath: '/recurring/'
+      preLoaderRoute: typeof RecurringIndexLazyImport
+      parentRoute: typeof RecurringRouteLazyImport
     }
     '/resource/': {
       id: '/resource/'
@@ -3503,6 +3535,17 @@ const PostRouteLazyRouteWithChildren = PostRouteLazyRoute._addFileChildren(
   PostRouteLazyRouteChildren,
 )
 
+interface RecurringRouteLazyRouteChildren {
+  RecurringIndexLazyRoute: typeof RecurringIndexLazyRoute
+}
+
+const RecurringRouteLazyRouteChildren: RecurringRouteLazyRouteChildren = {
+  RecurringIndexLazyRoute: RecurringIndexLazyRoute,
+}
+
+const RecurringRouteLazyRouteWithChildren =
+  RecurringRouteLazyRoute._addFileChildren(RecurringRouteLazyRouteChildren)
+
 interface ResourceResIdPlatformaccountRouteLazyRouteChildren {
   ResourceResIdPlatformaccountIndexLazyRoute: typeof ResourceResIdPlatformaccountIndexLazyRoute
 }
@@ -4096,6 +4139,7 @@ export interface FileRoutesByFullPath {
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
   '/play': typeof PlayRouteLazyRouteWithChildren
   '/post': typeof PostRouteLazyRouteWithChildren
+  '/recurring': typeof RecurringRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
   '/scheduled-runs': typeof ScheduledRunsRouteLazyRouteWithChildren
   '/session': typeof SessionRouteLazyRouteWithChildren
@@ -4120,6 +4164,7 @@ export interface FileRoutesByFullPath {
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/play/': typeof PlayIndexLazyRoute
   '/post/': typeof PostIndexLazyRoute
+  '/recurring/': typeof RecurringIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
   '/scheduled-runs/': typeof ScheduledRunsIndexLazyRoute
   '/session/': typeof SessionIndexLazyRoute
@@ -4266,6 +4311,7 @@ export interface FileRoutesByTo {
   '/platform-account': typeof PlatformAccountIndexLazyRoute
   '/play': typeof PlayIndexLazyRoute
   '/post': typeof PostIndexLazyRoute
+  '/recurring': typeof RecurringIndexLazyRoute
   '/resource': typeof ResourceIndexLazyRoute
   '/scheduled-runs': typeof ScheduledRunsIndexLazyRoute
   '/session': typeof SessionIndexLazyRoute
@@ -4369,6 +4415,7 @@ export interface FileRoutesById {
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
   '/play': typeof PlayRouteLazyRouteWithChildren
   '/post': typeof PostRouteLazyRouteWithChildren
+  '/recurring': typeof RecurringRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
   '/scheduled-runs': typeof ScheduledRunsRouteLazyRouteWithChildren
   '/session': typeof SessionRouteLazyRouteWithChildren
@@ -4393,6 +4440,7 @@ export interface FileRoutesById {
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/play/': typeof PlayIndexLazyRoute
   '/post/': typeof PostIndexLazyRoute
+  '/recurring/': typeof RecurringIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
   '/scheduled-runs/': typeof ScheduledRunsIndexLazyRoute
   '/session/': typeof SessionIndexLazyRoute
@@ -4539,6 +4587,7 @@ export interface FileRouteTypes {
     | '/platform-account'
     | '/play'
     | '/post'
+    | '/recurring'
     | '/resource'
     | '/scheduled-runs'
     | '/session'
@@ -4563,6 +4612,7 @@ export interface FileRouteTypes {
     | '/platform-account/'
     | '/play/'
     | '/post/'
+    | '/recurring/'
     | '/resource/'
     | '/scheduled-runs/'
     | '/session/'
@@ -4708,6 +4758,7 @@ export interface FileRouteTypes {
     | '/platform-account'
     | '/play'
     | '/post'
+    | '/recurring'
     | '/resource'
     | '/scheduled-runs'
     | '/session'
@@ -4809,6 +4860,7 @@ export interface FileRouteTypes {
     | '/platform-account'
     | '/play'
     | '/post'
+    | '/recurring'
     | '/resource'
     | '/scheduled-runs'
     | '/session'
@@ -4833,6 +4885,7 @@ export interface FileRouteTypes {
     | '/platform-account/'
     | '/play/'
     | '/post/'
+    | '/recurring/'
     | '/resource/'
     | '/scheduled-runs/'
     | '/session/'
@@ -4978,6 +5031,7 @@ export interface RootRouteChildren {
   PlatformAccountRouteLazyRoute: typeof PlatformAccountRouteLazyRouteWithChildren
   PlayRouteLazyRoute: typeof PlayRouteLazyRouteWithChildren
   PostRouteLazyRoute: typeof PostRouteLazyRouteWithChildren
+  RecurringRouteLazyRoute: typeof RecurringRouteLazyRouteWithChildren
   ResourceRouteLazyRoute: typeof ResourceRouteLazyRouteWithChildren
   ScheduledRunsRouteLazyRoute: typeof ScheduledRunsRouteLazyRouteWithChildren
   SessionRouteLazyRoute: typeof SessionRouteLazyRouteWithChildren
@@ -5005,6 +5059,7 @@ const rootRouteChildren: RootRouteChildren = {
   PlatformAccountRouteLazyRoute: PlatformAccountRouteLazyRouteWithChildren,
   PlayRouteLazyRoute: PlayRouteLazyRouteWithChildren,
   PostRouteLazyRoute: PostRouteLazyRouteWithChildren,
+  RecurringRouteLazyRoute: RecurringRouteLazyRouteWithChildren,
   ResourceRouteLazyRoute: ResourceRouteLazyRouteWithChildren,
   ScheduledRunsRouteLazyRoute: ScheduledRunsRouteLazyRouteWithChildren,
   SessionRouteLazyRoute: SessionRouteLazyRouteWithChildren,
@@ -5041,6 +5096,7 @@ export const routeTree = rootRoute
         "/platform-account",
         "/play",
         "/post",
+        "/recurring",
         "/resource",
         "/scheduled-runs",
         "/session",
@@ -5137,6 +5193,12 @@ export const routeTree = rootRoute
       "children": [
         "/post/",
         "/post/create"
+      ]
+    },
+    "/recurring": {
+      "filePath": "~recurring/~route.lazy.tsx",
+      "children": [
+        "/recurring/"
       ]
     },
     "/resource": {
@@ -5268,6 +5330,10 @@ export const routeTree = rootRoute
     "/post/": {
       "filePath": "~post/~index.lazy.tsx",
       "parent": "/post"
+    },
+    "/recurring/": {
+      "filePath": "~recurring/~index.lazy.tsx",
+      "parent": "/recurring"
     },
     "/resource/": {
       "filePath": "~resource/~index.lazy.tsx",

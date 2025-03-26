@@ -481,9 +481,6 @@ export type UpdateTenantRequest = {
 };
 
 export type TenantSettingContent = {
-  /**
-   * Whether the tenant has enabled instagram task
-   */
   enabled_instagram_task?: boolean;
 };
 

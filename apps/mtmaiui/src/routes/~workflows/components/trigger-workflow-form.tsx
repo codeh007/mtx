@@ -15,18 +15,22 @@ import {
   DialogTitle,
 } from "mtxuilib/ui/dialog";
 import { useState } from "react";
-import { useBasePath } from "../../../hooks/useBasePath";
+
+type TimingOption = "now" | "schedule" | "cron";
+
 export function TriggerWorkflowForm({
-  workflow,
+  defaultWorkflow,
   show,
   onClose,
+  defaultTimingOption = "now",
 }: {
-  workflow: Workflow;
+  defaultWorkflow?: Workflow;
+
   show: boolean;
   onClose: () => void;
+  defaultTimingOption?: TimingOption;
 }) {
   const navigate = useNavigate();
-  const basePath = useBasePath();
 
   const [input, setInput] = useState<string | undefined>("{}");
   const [addlMeta, setAddlMeta] = useState<string | undefined>("{}");
@@ -36,7 +40,7 @@ export function TriggerWorkflowForm({
     ...workflowRunCreateMutation(),
     onSuccess: (data) => {
       navigate({
-        to: `/${basePath}/workflow-runs/${data.metadata.id}`,
+        to: `/workflow-runs/${data.metadata.id}`,
         params: {
           workflowRunId: data.metadata.id,
         },
@@ -50,7 +54,7 @@ export function TriggerWorkflowForm({
 
   return (
     <Dialog
-      open={!!workflow && show}
+      open={!!defaultWorkflow && show}
       onOpenChange={(open) => {
         if (!open) {
           onClose();
@@ -87,7 +91,7 @@ export function TriggerWorkflowForm({
             triggerWorkflowMutation.mutate({
               path: {
                 // tenant: tenant!.metadata.id,
-                workflow: workflow.metadata.id,
+                workflow: defaultWorkflow?.metadata.id,
               },
               body: {
                 input: inputObj,

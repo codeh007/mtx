@@ -794,7 +794,6 @@ export const TenantSettingContentSchema = {
   properties: {
     enabled_instagram_task: {
       type: "boolean",
-      description: "Whether the tenant has enabled instagram task",
     },
   },
 } as const;
