@@ -25,7 +25,6 @@ import {
 } from "mtxuilib/data-table/data-table-toolbar";
 import { Button } from "mtxuilib/ui/button";
 import { useSearchParams } from "next/navigation";
-import router from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { useTenantId } from "../../hooks/useAuth";
 import { DeleteScheduledRun } from "./delete-scheduled-runs";
@@ -107,7 +106,7 @@ export function ScheduledRunsTable({
     if (newSearchParams.toString() !== searchParams.toString()) {
       // router.setSearchParams(newSearchParams);
     }
-  }, [sorting, columnFilters, pagination, router, searchParams]);
+  }, [sorting, columnFilters, pagination, searchParams]);
 
   const [pageSize, setPageSize] = useState<number>(50);
 

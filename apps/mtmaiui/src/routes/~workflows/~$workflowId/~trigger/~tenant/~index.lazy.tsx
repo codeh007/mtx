@@ -1,7 +1,9 @@
+import { useMutation } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { FlowNames } from "mtmaiapi";
+import { FlowNames, workflowRunCreateMutation } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
-import { useWorkbenchStore } from "../../../../../stores/workbrench.store";
+import { useToast } from "mtxuilib/ui/use-toast";
+import { useNav } from "../../../../../hooks/useNav";
 
 export const Route = createLazyFileRoute(
   "/workflows/$workflowId/trigger/tenant/",
@@ -10,21 +12,37 @@ export const Route = createLazyFileRoute(
 });
 
 function RouteComponent() {
-  const workflowRunCreate = useWorkbenchStore(
-    (state) => state.workflowRunCreate,
-  );
+  const toast = useToast();
+  const nav = useNav();
+  const handleNavToWorkflowRun = (id: string) => {
+    nav({
+      to: `/workflow-runs/${id}`,
+    });
+  };
+  const workflowRunCreate = useMutation({
+    ...workflowRunCreateMutation(),
+    onSuccess: (resp) => {
+      toast.toast({
+        title: "Workflow run created",
+        description: (
+          <div>
+            <Button onClick={() => handleNavToWorkflowRun(resp?.metadata?.id)}>
+              View Workflow
+            </Button>
+          </div>
+        ),
+      });
+    },
+  });
   const handleClick = async () => {
-    workflowRunCreate(
-      FlowNames.TENANT,
-      {
-        content: "你好",
-        topic: "default",
-        source: "web",
+    workflowRunCreate.mutate({
+      path: {
+        workflow: FlowNames.TENANT,
       },
-      {
-        hello: "world",
+      body: {
+        input: {},
       },
-    );
+    });
   };
   return (
     <>

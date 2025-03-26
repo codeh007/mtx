@@ -1,4 +1,4 @@
-import { ArchiveX, Inbox, Send } from "lucide-react";
+import { ArchiveX, Clock, Inbox, Send } from "lucide-react";
 
 export const example_data = {
   user: {
@@ -23,6 +23,18 @@ export const example_data = {
       title: "workflows",
       url: "/workflows",
       icon: ArchiveX,
+      isActive: false,
+    },
+    {
+      title: "recurring",
+      url: "/recurring",
+      icon: Clock,
+      isActive: false,
+    },
+    {
+      title: "scheduled",
+      url: "/scheduled-runs",
+      icon: Clock,
       isActive: false,
     },
   ],
