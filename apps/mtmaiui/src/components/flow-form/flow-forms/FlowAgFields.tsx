@@ -1,5 +1,6 @@
 "use client";
 
+import type { zAgentRunInput } from "mtmaiapi/gomtmapi/zod.gen";
 import {
   FormControl,
   FormField,
@@ -9,11 +10,11 @@ import {
 } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import type { PropsWithChildren } from "react";
-import * as React from "react";
 import { useFormContext } from "react-hook-form";
+import type { z } from "zod";
 
 export const FlowAgFields = (props: PropsWithChildren) => {
-  const form = useFormContext();
+  const form = useFormContext<z.infer<typeof zAgentRunInput>>();
 
   return (
     <>

@@ -1886,6 +1886,7 @@ export type AgentRunInput = {
   stepRunId?: string;
   resourceId?: string;
   componentId?: string;
+  teamName?: string;
   topic?: string;
   source?: string;
 };

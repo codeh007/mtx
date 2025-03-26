@@ -3409,6 +3409,9 @@ export const AgentRunInputSchema = {
     componentId: {
       type: "string",
     },
+    teamName: {
+      type: "string",
+    },
     topic: {
       type: "string",
     },

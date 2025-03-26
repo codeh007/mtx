@@ -1818,6 +1818,7 @@ export const zAgentRunInput = z.object({
   stepRunId: z.string().optional(),
   resourceId: z.string().optional(),
   componentId: z.string().optional(),
+  teamName: z.string().optional(),
   topic: z.string().optional(),
   source: z.string().optional(),
 });

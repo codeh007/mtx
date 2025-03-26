@@ -2,6 +2,7 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { type FlowNames, workflowRunCreateMutation } from "mtmaiapi";
+import { cn } from "mtxuilib/lib/utils";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
@@ -11,11 +12,13 @@ import { useNav } from "../../hooks/useNav";
 
 interface FlowFormProps {
   workflowName: FlowNames;
+  className?: string;
 }
 
 export default function FlowForm({
   workflowName,
   children,
+  className,
 }: PropsWithChildren<FlowFormProps>) {
   const nav = useNav();
   const toast = useToast();
@@ -58,6 +61,7 @@ export default function FlowForm({
       input: z.string(),
     }),
     defaultValues: {},
+    toastValidateError: true,
     handleSubmit: (values) => {
       // console.log(values);
       workflowRunCreate.mutate({
@@ -72,22 +76,8 @@ export default function FlowForm({
   });
 
   return (
-    <ZForm {...form}>
+    <ZForm {...form} className={cn("flex flex-col gap-4", className)}>
       {children}
-      {/* <Button
-        onClick={() => {
-          workflowRunCreate.mutate({
-            path: {
-              workflow: workflowName,
-            },
-            body: {
-              input: form.form.getValues(),
-            },
-          });
-        }}
-      >
-        运行
-      </Button> */}
 
       <ZFormToolbar form={form.form} />
     </ZForm>
