@@ -1,4 +1,5 @@
-import { createLazyFileRoute, Outlet } from "@tanstack/react-router";
+import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
+import { RootAppWrapper } from "../components/RootAppWrapper";
 
 export const Route = createLazyFileRoute("/tenant")({
   component: RouteComponent,
@@ -7,7 +8,9 @@ export const Route = createLazyFileRoute("/tenant")({
 function RouteComponent() {
   return (
     <>
-      <Outlet />
+      <RootAppWrapper>
+        <Outlet />
+      </RootAppWrapper>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { ArchiveX, Clock, Inbox, Send } from "lucide-react";
+import { ArchiveX, Clock, Inbox, Send, Settings } from "lucide-react";
 
 export const example_data = {
   user: {
@@ -35,6 +35,12 @@ export const example_data = {
       title: "scheduled",
       url: "/scheduled-runs",
       icon: Clock,
+      isActive: false,
+    },
+    {
+      title: "setting",
+      url: "/tenant",
+      icon: Settings,
       isActive: false,
     },
   ],
