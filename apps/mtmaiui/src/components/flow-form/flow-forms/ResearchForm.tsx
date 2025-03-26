@@ -35,7 +35,9 @@ export const ResearchForm = (props: ResearchFormProps) => {
           </FormItem>
         )}
       />
-      <ZFormToolbar form={form} />
+      <div>
+        <ZFormToolbar form={form} />
+      </div>
     </ZForm>
   );
 };

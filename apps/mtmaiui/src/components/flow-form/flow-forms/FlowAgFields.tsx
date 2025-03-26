@@ -20,6 +20,20 @@ export const FlowAgFields = (props: PropsWithChildren) => {
     <>
       <FormField
         control={form.control}
+        name="message_type"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>message_type</FormLabel>
+            <FormControl>
+              <Input placeholder="message_type" {...field} />
+            </FormControl>
+            {/* <FormDescription></FormDescription> */}
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
         name="teamName"
         render={({ field }) => (
           <FormItem>
