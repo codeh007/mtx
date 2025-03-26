@@ -7,9 +7,8 @@ export const Route = createLazyFileRoute("/tenant/")({
 
 function RouteComponent() {
   return (
-    <div>
-      <h1>tenants 管理(TODO)</h1>
-      <CustomLink to="/tenant/setting">setting</CustomLink>
-    </div>
+    <>
+      <CustomLink to="/tenant/settings">setting</CustomLink>
+    </>
   );
 }

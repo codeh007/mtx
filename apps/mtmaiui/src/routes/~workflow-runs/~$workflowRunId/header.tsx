@@ -14,7 +14,6 @@ import {
   workflowRunUpdateReplayMutation,
 } from "mtmaiapi";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
-import { MtTabs, MtTabsList, MtTabsTrigger } from "mtxuilib/mt/tabs";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -24,6 +23,7 @@ import {
   BreadcrumbSeparator,
 } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "mtxuilib/ui/tabs";
 import { DashHeaders } from "../../../components/DashHeaders";
 import { useTenant, useTenantId } from "../../../hooks/useAuth";
 import { useParams } from "../../../hooks/useNav";
@@ -126,44 +126,44 @@ export const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
                 取消
               </Button>
 
-              <MtTabs defaultValue="activity">
-                <MtTabsList layout="underlined">
+              <Tabs defaultValue="activity">
+                <TabsList layout="underlined">
                   <CustomLink to="">
-                    <MtTabsTrigger variant="underlined" value="activity">
+                    <TabsTrigger variant="underlined" value="activity">
                       活动
-                    </MtTabsTrigger>
+                    </TabsTrigger>
                   </CustomLink>
                   <CustomLink to="input">
-                    <MtTabsTrigger variant="underlined" value="input">
+                    <TabsTrigger variant="underlined" value="input">
                       输入
-                    </MtTabsTrigger>
+                    </TabsTrigger>
                   </CustomLink>
                   <CustomLink to="additional-metadata">
-                    <MtTabsTrigger
+                    <TabsTrigger
                       variant="underlined"
                       value="additional-metadata"
                     >
                       元数据
-                    </MtTabsTrigger>
+                    </TabsTrigger>
                   </CustomLink>
-                  <MtTabsTrigger variant="underlined" value="control">
+                  <TabsTrigger variant="underlined" value="control">
                     调试
-                  </MtTabsTrigger>
+                  </TabsTrigger>
                   <CustomLink to="visualization">
-                    <MtTabsTrigger variant="underlined" value="visualization">
+                    <TabsTrigger variant="underlined" value="visualization">
                       可视化
-                    </MtTabsTrigger>
+                    </TabsTrigger>
                   </CustomLink>
                   <CustomLink to="chat">
-                    <MtTabsTrigger
+                    <TabsTrigger
                       variant="underlined"
                       value="agent_visualization"
                     >
                       智能体交互
-                    </MtTabsTrigger>
+                    </TabsTrigger>
                   </CustomLink>
-                </MtTabsList>
-              </MtTabs>
+                </TabsList>
+              </Tabs>
             </div>
           </div>
         </div>

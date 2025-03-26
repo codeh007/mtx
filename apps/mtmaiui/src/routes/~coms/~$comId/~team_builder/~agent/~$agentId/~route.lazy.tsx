@@ -4,7 +4,7 @@ import { agentGetOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
-import { MtTabs, MtTabsList, MtTabsTrigger } from "mtxuilib/mt/tabs";
+import { Tabs, TabsList, TabsTrigger } from "mtxuilib/ui/tabs";
 import { z } from "zod";
 import { useTenantId } from "../../../../../../hooks/useAuth";
 
@@ -39,20 +39,20 @@ function RouteComponent() {
   return (
     <ZForm form={form} handleSubmit={handleSubmit}>
       <DebugValue data={agentQuery.data} />
-      <MtTabs defaultValue="agent" className="w-full">
-        <MtTabsList layout="underlined">
+      <Tabs defaultValue="agent" className="w-full">
+        <TabsList layout="underlined">
           <CustomLink to=".">
-            <MtTabsTrigger variant="underlined" value="agent">
+            <TabsTrigger variant="underlined" value="agent">
               agent
-            </MtTabsTrigger>
+            </TabsTrigger>
           </CustomLink>
           <CustomLink to="model">
-            <MtTabsTrigger variant="underlined" value="model">
+            <TabsTrigger variant="underlined" value="model">
               model
-            </MtTabsTrigger>
+            </TabsTrigger>
           </CustomLink>
-        </MtTabsList>
-      </MtTabs>
+        </TabsList>
+      </Tabs>
       <Outlet />
     </ZForm>
   );

@@ -1,7 +1,7 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
 export const Route = createLazyFileRoute(
-  '/tenant/settings/model_client_settings/',
+  '/tenant/settings/$tenantSettingId/model_settings/',
 )({
   component: RouteComponent,
 })

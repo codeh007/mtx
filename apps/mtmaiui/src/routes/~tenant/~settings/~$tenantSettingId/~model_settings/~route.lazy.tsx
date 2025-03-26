@@ -5,10 +5,10 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
-import { DashHeaders } from "../../../../components/DashHeaders";
+import { DashHeaders } from "../../../../../components/DashHeaders";
 
 export const Route = createLazyFileRoute(
-  "/tenant/settings/model_client_settings",
+  "/tenant/settings/$tenantSettingId/model_settings",
 )({
   component: RouteComponent,
 });
@@ -20,7 +20,7 @@ function RouteComponent() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbPage>模型客户端设置</BreadcrumbPage>
+              <BreadcrumbPage>模型设置</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>

@@ -1,7 +1,7 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { Terminal } from "lucide-react";
 import { cn } from "mtxuilib/lib/utils";
-import { MtTabsContent } from "mtxuilib/mt/tabs";
+import { TabsContent } from "mtxuilib/ui/tabs";
 
 export const Route = createLazyFileRoute("/coms/$comId/team_builder/")({
   component: RouteComponent,
@@ -11,7 +11,7 @@ function RouteComponent() {
   // const form = useFormContext();
   return (
     <>
-      <MtTabsContent value="team">
+      <TabsContent value="team">
         <div className="h-full overflow-hidden bg-slate-100 border border-slate-300">
           <Terminal
             // key={index}
@@ -33,8 +33,8 @@ function RouteComponent() {
             // theme={theme}
           />
         </div>
-      </MtTabsContent>
-      <MtTabsContent value="agent">
+      </TabsContent>
+      <TabsContent value="agent">
         {/* {listItem?.length > 0 ? (
             <div className="flex flex-col overflow-y-auto max-h-[600px] whitespace-pre-wrap break-all font-mono text-sm leading-5 bg-black text-gray-200 p-2">
               {listItem?.map((item, i) => (
@@ -45,7 +45,7 @@ function RouteComponent() {
               ))}
             </div>
           ) : null} */}
-      </MtTabsContent>
+      </TabsContent>
 
       {/* <FormField
         control={form.control}

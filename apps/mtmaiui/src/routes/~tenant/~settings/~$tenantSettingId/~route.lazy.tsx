@@ -5,7 +5,9 @@ import {
   tenantSettingsUpsertMutation,
 } from "mtmaiapi";
 import { zTenantSettingUpsert } from "mtmaiapi/gomtmapi/zod.gen";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
+import { Tabs, TabsList, TabsTrigger } from "mtxuilib/ui/tabs";
 import { useTenantId } from "../../../../hooks/useAuth";
 import { TenantSettingHeader } from "./header";
 
@@ -49,6 +51,20 @@ function RouteComponent() {
   return (
     <>
       <TenantSettingHeader />
+      <Tabs defaultValue="visualization" className="w-full">
+        <TabsList layout="underlined">
+          <CustomLink to=".">
+            <TabsTrigger variant="underlined" value="visualization">
+              任务配置
+            </TabsTrigger>
+          </CustomLink>
+          <CustomLink to="team_builder/team">
+            <TabsTrigger variant="underlined" value="team">
+              模型配置
+            </TabsTrigger>
+          </CustomLink>
+        </TabsList>
+      </Tabs>
       <ZForm {...form} className="px-2">
         <Outlet />
       </ZForm>

@@ -16,20 +16,15 @@ import { CodeHighlighter } from "mtxuilib/mt/code-highlighter";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
-import {
-  MtTabs,
-  MtTabsContent,
-  MtTabsList,
-  MtTabsTrigger,
-} from "mtxuilib/mt/tabs";
 import { Button } from "mtxuilib/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "mtxuilib/ui/tabs";
 import type React from "react";
 import { useMemo, useState } from "react";
+import { useTenant } from "../../../../hooks/useAuth";
 import { RunIndicator } from "../run-statuses";
 import { StepRunEvents } from "../step-run-events-for-workflow-run";
 import { StepRunLogs } from "./step-run-logs";
 import { StepRunOutput } from "./step-run-output";
-import { useTenant } from "../../../../hooks/useAuth";
 export enum TabOption {
   Output = "output",
   ChildWorkflowRuns = "child-workflow-runs",
@@ -206,42 +201,39 @@ export const StepRunDetail = ({
       <div className="flex flex-row gap-2 items-center">
         {stepRun && <StepRunSummary data={stepRun} />}
       </div>
-      <MtTabs defaultValue={defaultOpenTab} className="flex-1 h-full">
-        <MtTabsList layout="underlined">
-          <MtTabsTrigger variant="underlined" value={TabOption.Output}>
+      <Tabs defaultValue={defaultOpenTab} className="flex-1 h-full">
+        <TabsList layout="underlined">
+          <TabsTrigger variant="underlined" value={TabOption.Output}>
             输出
-          </MtTabsTrigger>
+          </TabsTrigger>
           {stepRun.childWorkflowRuns &&
             stepRun.childWorkflowRuns.length > 0 && (
-              <MtTabsTrigger
+              <TabsTrigger
                 variant="underlined"
                 value={TabOption.ChildWorkflowRuns}
               >
                 Children ({stepRun.childWorkflowRuns.length})
-              </MtTabsTrigger>
+              </TabsTrigger>
             )}
-          <MtTabsTrigger variant="underlined" value={TabOption.Input}>
+          <TabsTrigger variant="underlined" value={TabOption.Input}>
             输入
-          </MtTabsTrigger>
-          <MtTabsTrigger variant="underlined" value={TabOption.Logs}>
+          </TabsTrigger>
+          <TabsTrigger variant="underlined" value={TabOption.Logs}>
             日志
-          </MtTabsTrigger>
-          <MtTabsTrigger variant="underlined" value={TabOption.Events}>
+          </TabsTrigger>
+          <TabsTrigger variant="underlined" value={TabOption.Events}>
             事件
-          </MtTabsTrigger>
-          <MtTabsTrigger variant="underlined" value={TabOption.StepPlayground}>
+          </TabsTrigger>
+          <TabsTrigger variant="underlined" value={TabOption.StepPlayground}>
             输入模式
-          </MtTabsTrigger>
-        </MtTabsList>
-        <MtTabsContent
-          value={TabOption.Output}
-          className="bg-red-200 p-1 h-full"
-        >
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value={TabOption.Output} className="bg-red-200 p-1 h-full">
           <div className="flex-1 h-full flex">
             <StepRunOutput stepRun={stepRun} workflowRun={workflowRun} />
           </div>
-        </MtTabsContent>
-        <MtTabsContent
+        </TabsContent>
+        <TabsContent
           value={TabOption.ChildWorkflowRuns}
           className="bg-green-200 p-1 h-full"
         >
@@ -253,8 +245,8 @@ export const StepRunDetail = ({
               refetchInterval={5000}
             />
           </div>
-        </MtTabsContent>
-        <MtTabsContent
+        </TabsContent>
+        <TabsContent
           value={TabOption.Input}
           className="bg-slate-200 p-1 h-full"
         >
@@ -273,14 +265,14 @@ export const StepRunDetail = ({
               />
             )}
           </div>
-        </MtTabsContent>
-        <MtTabsContent value={TabOption.Logs}>
+        </TabsContent>
+        <TabsContent value={TabOption.Logs}>
           <StepRunLogs
             stepRun={stepRun}
             readableId={step?.readableId || "step"}
           />
-        </MtTabsContent>
-        <MtTabsContent value={TabOption.Events}>
+        </TabsContent>
+        <TabsContent value={TabOption.Events}>
           <MtSuspenseBoundary>
             <div className="mb-8">
               <h3 className="text-lg font-semibold leading-tight text-foreground flex flex-row gap-4 items-center">
@@ -292,8 +284,8 @@ export const StepRunDetail = ({
               />
             </div>
           </MtSuspenseBoundary>
-        </MtTabsContent>
-        <MtTabsContent value={TabOption.StepPlayground}>
+        </TabsContent>
+        <TabsContent value={TabOption.StepPlayground}>
           <Button
             onClick={() => {
               stepRunSchemaQuery.refetch();
@@ -301,8 +293,8 @@ export const StepRunDetail = ({
           >
             <PlayIcon className="size-4" />
           </Button>
-        </MtTabsContent>
-      </MtTabs>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

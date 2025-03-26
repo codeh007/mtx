@@ -1,11 +1,5 @@
 "use client";
 
-import {
-  MtTabs,
-  MtTabsContent,
-  MtTabsList,
-  MtTabsTrigger,
-} from "mtxuilib/mt/tabs";
 import { Suspense } from "react";
 
 import { ConfirmDialog } from "mtxuilib/mt/confirm-dialog";
@@ -36,6 +30,7 @@ import {
   DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu";
 import { Separator } from "mtxuilib/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "mtxuilib/ui/tabs";
 import { useNav } from "../../../hooks/useNav";
 import { WorkflowTriggerBtn } from "../WorkflowTriggerBtn";
 import WorkflowGeneralSettings from "../components/workflow-general-settings";
@@ -212,16 +207,16 @@ export default function ExpandedWorkflow() {
                 </div>
               )}
               <div className="flex flex-row justify-start items-center mt-4" />
-              <MtTabs defaultValue="runs">
-                <MtTabsList layout="underlined">
-                  <MtTabsTrigger variant="underlined" value="runs">
+              <Tabs defaultValue="runs">
+                <TabsList layout="underlined">
+                  <TabsTrigger variant="underlined" value="runs">
                     Runs
-                  </MtTabsTrigger>
-                  <MtTabsTrigger variant="underlined" value="settings">
+                  </TabsTrigger>
+                  <TabsTrigger variant="underlined" value="settings">
                     Settings
-                  </MtTabsTrigger>
-                </MtTabsList>
-                <MtTabsContent value="runs">
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="runs">
                   <h3 className="text-xl font-bold leading-tight text-foreground mt-4">
                     Recent Runs
                   </h3>
@@ -229,8 +224,8 @@ export default function ExpandedWorkflow() {
                   <MtSuspenseBoundary>
                     <RecentRunsList workflowId={workflowId} />
                   </MtSuspenseBoundary>
-                </MtTabsContent>
-                <MtTabsContent value="settings">
+                </TabsContent>
+                <TabsContent value="settings">
                   <h3 className="text-xl font-bold leading-tight text-foreground mt-4">
                     Settings
                   </h3>
@@ -284,8 +279,8 @@ export default function ExpandedWorkflow() {
                     isLoading={deleteWorkflowMutation.isPending}
                     isOpen={deleteWorkflow}
                   />
-                </MtTabsContent>
-              </MtTabs>
+                </TabsContent>
+              </Tabs>
             </div>
           </div>
         </MtErrorBoundary>

@@ -39,7 +39,7 @@ export const example_data = {
     },
     {
       title: "setting",
-      url: "/tenant",
+      url: "/tenant/setting",
       icon: Settings,
       isActive: false,
     },

@@ -1,11 +1,6 @@
 import { Outlet, createFileRoute } from "@tanstack/react-router";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
-import {
-  MtTabs,
-  MtTabsContent,
-  MtTabsList,
-  MtTabsTrigger,
-} from "mtxuilib/mt/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "mtxuilib/ui/tabs";
 
 export const Route = createFileRoute("/site/$siteId/")({
   component: RouteComponent,
@@ -15,24 +10,24 @@ function RouteComponent() {
   const { siteId } = Route.useParams();
   return (
     <div>
-      <MtTabs defaultValue="site" className="w-full h-full">
-        <MtTabsList className="flex w-full gap-2">
-          <MtTabsTrigger value="site">编辑</MtTabsTrigger>
+      <Tabs defaultValue="site" className="w-full h-full">
+        <TabsList className="flex w-full gap-2">
+          <TabsTrigger value="site">编辑</TabsTrigger>
           <CustomLink to={`/dash/site/${siteId}/host/`}>
-            <MtTabsTrigger value="host">域名</MtTabsTrigger>
+            <TabsTrigger value="host">域名</TabsTrigger>
           </CustomLink>
-          <MtTabsTrigger value="post">文章</MtTabsTrigger>
-        </MtTabsList>
-        <MtTabsContent value="site">
+          <TabsTrigger value="post">文章</TabsTrigger>
+        </TabsList>
+        <TabsContent value="site">
           {/* <SiteEditor siteId={siteId} /> */}
-        </MtTabsContent>
-        <MtTabsContent value="host">
+        </TabsContent>
+        <TabsContent value="host">
           {/* <SiteHostListView tenant={tenant!} site={site.data} /> */}
-        </MtTabsContent>
-        <MtTabsContent value="post">
+        </TabsContent>
+        <TabsContent value="post">
           {/* <PostListView siteId={siteId} /> */}
-        </MtTabsContent>
-      </MtTabs>
+        </TabsContent>
+      </Tabs>
 
       <Outlet />
     </div>

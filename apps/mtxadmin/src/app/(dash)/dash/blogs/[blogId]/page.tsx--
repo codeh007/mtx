@@ -53,26 +53,26 @@ export default function Page(props: {
           </Breadcrumb>
         </DashHeaders>
         <DashContent>
-          <MtTabs defaultValue="blog">
-            <MtTabsList layout="underlined">
-              <MtTabsTrigger variant="underlined" value="blog">
+          <Tabs defaultValue="blog">
+            <TabsList layout="underlined">
+              <TabsTrigger variant="underlined" value="blog">
                 Blog
-              </MtTabsTrigger>
-              <MtTabsTrigger variant="underlined" value="posts">
+              </TabsTrigger>
+              <TabsTrigger variant="underlined" value="posts">
                 Posts
-              </MtTabsTrigger>
-              <MtTabsTrigger variant="underlined" value="Logs">
+              </TabsTrigger>
+              <TabsTrigger variant="underlined" value="Logs">
                 Logs
-              </MtTabsTrigger>
-            </MtTabsList>
-            <MtTabsContent value="blog">
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="blog">
               <BlogDetailView blogId={blogId} />
-            </MtTabsContent>
-            <MtTabsContent value="posts">
+            </TabsContent>
+            <TabsContent value="posts">
               <PostListView blogId={blogId} />
-            </MtTabsContent>
-            <MtTabsContent value="logs">todo logs</MtTabsContent>
-          </MtTabs>
+            </TabsContent>
+            <TabsContent value="logs">todo logs</TabsContent>
+          </Tabs>
         </DashContent>
       </SidebarInset>
     </>

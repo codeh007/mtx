@@ -1,6 +1,6 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
-import { MtTabs, MtTabsList, MtTabsTrigger } from "mtxuilib/mt/tabs";
+import { Tabs, TabsList, TabsTrigger } from "mtxuilib/ui/tabs";
 import { ComponentEditProvider } from "../../../components/component-editor/ComponentEditor.store";
 import { ModalProvider } from "../../../stores/model.store";
 import { TeamBuilderProvider } from "../../../stores/teamBuildStore";
@@ -25,25 +25,25 @@ function RouteComponent() {
           <ComponentEditProvider>
             <ModalProvider>
               <TeamBuilderHeader comId={comId} />
-              <MtTabs defaultValue="visualization" className="w-full">
-                <MtTabsList layout="underlined">
+              <Tabs defaultValue="visualization" className="w-full">
+                <TabsList layout="underlined">
                   <CustomLink to=".">
-                    <MtTabsTrigger variant="underlined" value="visualization">
+                    <TabsTrigger variant="underlined" value="visualization">
                       可视化
-                    </MtTabsTrigger>
+                    </TabsTrigger>
                   </CustomLink>
                   <CustomLink to="team_builder/team">
-                    <MtTabsTrigger variant="underlined" value="team">
+                    <TabsTrigger variant="underlined" value="team">
                       团队
-                    </MtTabsTrigger>
+                    </TabsTrigger>
                   </CustomLink>
                   <CustomLink to="team_builder/agent">
-                    <MtTabsTrigger variant="underlined" value="agents">
+                    <TabsTrigger variant="underlined" value="agents">
                       agent
-                    </MtTabsTrigger>
+                    </TabsTrigger>
                   </CustomLink>
-                </MtTabsList>
-              </MtTabs>
+                </TabsList>
+              </Tabs>
               <TeamBuilder />
               <Outlet />
             </ModalProvider>

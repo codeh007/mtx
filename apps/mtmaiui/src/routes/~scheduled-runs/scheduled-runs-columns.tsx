@@ -1,12 +1,12 @@
 "use client";
 import type { ColumnDef } from "@tanstack/react-table";
+import type { ScheduledWorkflows } from "mtmaiapi";
 import { DataTableColumnHeader } from "mtxuilib/data-table/data-table-column-header";
 import { DataTableRowActions } from "mtxuilib/data-table/data-table-row-actions";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import Link from "next/link";
-import { AdditionalMetadata } from "../../routes/~events/additional-metadata";
-import { RunStatus } from "../../routes/~workflow-runs/components/run-statuses";
-import type { ScheduledWorkflows } from "mtmaiapi";
+import { AdditionalMetadata } from "../~events/additional-metadata";
+import { RunStatus } from "../~workflow-runs/components/run-statuses";
 export type RateLimitRow = RateLimit & {
   metadata: {
     id: string;
