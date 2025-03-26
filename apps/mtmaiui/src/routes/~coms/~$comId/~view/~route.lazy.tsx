@@ -1,6 +1,4 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
-import { comsGetOptions } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import {
@@ -11,13 +9,13 @@ import {
 } from "mtxuilib/ui/breadcrumb";
 import { buttonVariants } from "mtxuilib/ui/button";
 import { useEffect } from "react";
-import {
-  DashHeaders,
-  HeaderActionConainer,
-} from "../../../../components/DashHeaders";
 import { useTenantId } from "../../../../hooks/useAuth";
 import { useNav } from "../../../../hooks/useNav";
 import { useTeamBuilderStore } from "../../../../stores/teamBuildStore";
+import {
+  DashHeaders,
+  HeaderActionConainer,
+} from "../../../../components/DashContent";
 
 export const Route = createLazyFileRoute("/coms/$comId/view")({
   component: RouteComponent,
@@ -26,16 +24,16 @@ export const Route = createLazyFileRoute("/coms/$comId/view")({
 function RouteComponent() {
   const { comId } = Route.useParams();
   const tid = useTenantId();
-  const teamQuery = useSuspenseQuery({
-    ...comsGetOptions({
-      path: {
-        tenant: tid,
-      },
-      query: {
-        com: comId,
-      },
-    }),
-  });
+  // const teamQuery = useSuspenseQuery({
+  //   ...comsGetOptions({
+  //     path: {
+  //       tenant: tid,
+  //     },
+  //     query: {
+  //       com: comId,
+  //     },
+  //   }),
+  // });
 
   const nav = useNav();
   const selectedNodeId = useTeamBuilderStore((x) => x.selectedNodeId);

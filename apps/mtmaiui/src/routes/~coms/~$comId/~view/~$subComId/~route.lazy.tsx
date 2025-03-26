@@ -10,7 +10,7 @@ import { Button, buttonVariants } from "mtxuilib/ui/button";
 import {
   DashHeaders,
   HeaderActionConainer,
-} from "../../../../../components/DashHeaders";
+} from "../../../../../components/DashContent";
 
 export const Route = createLazyFileRoute("/coms/$comId/view/$subComId")({
   component: RouteComponent,

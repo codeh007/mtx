@@ -9,8 +9,7 @@ import {
 } from "mtxuilib/ui/breadcrumb";
 import { SidebarInset } from "mtxuilib/ui/sidebar";
 import { Suspense } from "react";
-import { DashContent } from "../../components/DashContent";
-import { DashHeaders } from "../../components/DashHeaders";
+import { DashContent, DashHeaders } from "../../components/DashContent";
 import { DashSidebar } from "../../components/sidebar/siderbar";
 import { RootAppWrapper } from "../components/RootAppWrapper";
 export const Route = createLazyFileRoute("/events")({

@@ -24,7 +24,6 @@ import {
 } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "mtxuilib/ui/tabs";
-import { DashHeaders } from "../../../components/DashHeaders";
 import { useTenant, useTenantId } from "../../../hooks/useAuth";
 import { useParams } from "../../../hooks/useNav";
 import { useWorkflowRunShape } from "../../../hooks/useWorkflowRun";

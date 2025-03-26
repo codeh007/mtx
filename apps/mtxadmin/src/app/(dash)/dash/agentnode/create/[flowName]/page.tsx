@@ -1,9 +1,13 @@
 "use client";
 
 import { DashContent } from "mtmaiui/components/DashContent";
-import { DashHeaders } from "mtmaiui/components/DashHeaders";
 import { DashSidebar } from "mtmaiui/components/sidebar/siderbar";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from "mtxuilib/ui/breadcrumb";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+} from "mtxuilib/ui/breadcrumb";
 
 import { SidebarInset } from "mtxuilib/ui/sidebar";
 import { useParams } from "next/navigation";

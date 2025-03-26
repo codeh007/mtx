@@ -6,9 +6,9 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
-import { DashHeaders } from "../../components/DashHeaders";
 import { RootAppWrapper } from "../components/RootAppWrapper";
 import { NavModel } from "./sidebar";
+import { DashHeaders } from "../../components/DashContent";
 export const Route = createLazyFileRoute("/model")({
   component: RouteComponent,
 });

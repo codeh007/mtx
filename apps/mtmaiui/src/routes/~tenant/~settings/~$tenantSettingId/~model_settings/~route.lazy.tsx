@@ -5,7 +5,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
-import { DashHeaders } from "../../../../../components/DashHeaders";
+import { DashHeaders } from "../../../../../components/DashContent";
 
 export const Route = createLazyFileRoute(
   "/tenant/settings/$tenantSettingId/model_settings",

@@ -1,9 +1,13 @@
 "use client";
-import { DashContent } from "mtmaiui/components/DashContent";
-import { DashHeaders } from "mtmaiui/components/DashHeaders";
-import { ScheduledRunsTable } from "mtmaiui/components/scheduled-runs/scheduled-runs-table";
+import { DashContent, DashHeaders } from "mtmaiui/components/DashContent";
 import { DashSidebar } from "mtmaiui/components/sidebar/siderbar";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from "mtxuilib/ui/breadcrumb";
+import { ScheduledRunsTable } from "mtmaiui/routes/~scheduled-runs/scheduled-runs-table";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+} from "mtxuilib/ui/breadcrumb";
 import { Separator } from "mtxuilib/ui/separator";
 import { SidebarInset } from "mtxuilib/ui/sidebar";
 

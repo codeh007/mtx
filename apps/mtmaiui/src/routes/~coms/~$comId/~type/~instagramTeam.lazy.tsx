@@ -5,7 +5,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
-import { DashHeaders } from "../../../../components/DashHeaders";
+import { DashHeaders } from "../../../../components/DashContent";
 import { FormInstagramTeam } from "../../components/form_instagram_team";
 
 export const Route = createLazyFileRoute("/coms/$comId/type/instagramTeam")({

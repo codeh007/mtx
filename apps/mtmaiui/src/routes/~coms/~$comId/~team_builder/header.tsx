@@ -13,14 +13,14 @@ import {
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
-import {
-  DashHeaders,
-  HeaderActionConainer,
-} from "../../../../components/DashHeaders";
 import { useNav } from "../../../../hooks/useNav";
 import { useTeamBuilderStore } from "../../../../stores/teamBuildStore";
 import { TeamBuilderToolbar } from "../../../components/views/team/builder/toolbar";
 import { ValidationErrors } from "../../../components/views/team/builder/validationerrors";
+import {
+  DashHeaders,
+  HeaderActionConainer,
+} from "../../../../components/DashContent";
 
 interface TeamBuilderHeaderProps {
   comId: string;

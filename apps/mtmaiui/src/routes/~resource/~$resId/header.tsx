@@ -11,11 +11,11 @@ import {
 } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
+import { useSearch } from "../../../hooks/useNav";
 import {
   DashHeaders,
   HeaderActionConainer,
-} from "../../../components/DashHeaders";
-import { useSearch } from "../../../hooks/useNav";
+} from "../../../components/DashContent";
 
 export function ResourceHeader() {
   const search = useSearch();

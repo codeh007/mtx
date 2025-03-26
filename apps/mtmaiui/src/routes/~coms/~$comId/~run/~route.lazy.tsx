@@ -5,7 +5,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
-import { DashHeaders } from "../../../../components/DashHeaders";
+import { DashHeaders } from "../../../../components/DashContent";
 import { GoBack } from "../../../../components/GoBack";
 
 export const Route = createLazyFileRoute("/coms/$comId/run")({
