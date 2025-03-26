@@ -5,10 +5,9 @@ import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { SkeletonListview } from "mtxuilib/components/skeletons/SkeletonListView";
 import { cn } from "mtxuilib/lib/utils";
 import { Separator } from "mtxuilib/ui/separator";
-import { Suspense } from "react";
-import { SidebarToggle } from "./sidebar/sidebar-toggle";
-
-export const DashContent = (props: { children: React.ReactNode }) => {
+import { type PropsWithChildren, Suspense } from "react";
+import { SidebarToggle } from "./sidebar-toggle";
+export const DashContent = (props: PropsWithChildren) => {
   return (
     <div className="flex flex-1 flex-col">
       <Suspense fallback={<SkeletonListview />}>

@@ -1,6 +1,7 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
+import { DashHeaders, HeaderActionConainer } from "mtxuilib/mt/DashContent";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,10 +13,6 @@ import { useEffect } from "react";
 import { useTenantId } from "../../../../hooks/useAuth";
 import { useNav } from "../../../../hooks/useNav";
 import { useTeamBuilderStore } from "../../../../stores/teamBuildStore";
-import {
-  DashHeaders,
-  HeaderActionConainer,
-} from "../../../../components/DashContent";
 
 export const Route = createLazyFileRoute("/coms/$comId/view")({
   component: RouteComponent,

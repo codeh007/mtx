@@ -6,6 +6,7 @@ import {
   TooltipTrigger,
 } from "@radix-ui/react-tooltip";
 import { Download, Play, Save } from "lucide-react";
+import { DashHeaders, HeaderActionConainer } from "mtxuilib/mt/DashContent";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -17,10 +18,6 @@ import { useNav } from "../../../../hooks/useNav";
 import { useTeamBuilderStore } from "../../../../stores/teamBuildStore";
 import { TeamBuilderToolbar } from "../../../components/views/team/builder/toolbar";
 import { ValidationErrors } from "../../../components/views/team/builder/validationerrors";
-import {
-  DashHeaders,
-  HeaderActionConainer,
-} from "../../../../components/DashContent";
 
 interface TeamBuilderHeaderProps {
   comId: string;

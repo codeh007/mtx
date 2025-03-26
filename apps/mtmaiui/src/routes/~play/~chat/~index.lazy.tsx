@@ -1,7 +1,6 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { DashContent } from "../../../components/DashContent";
+import { DashContent } from "mtxuilib/mt/DashContent";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
-// import { TeamListView } from "../../~team/TeamListView";
 
 export const Route = createLazyFileRoute("/play/chat/")({
   component: RouteComponent,

@@ -1,5 +1,6 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { cn } from "mtxuilib/lib/utils";
+import { DashHeaders, HeaderActionConainer } from "mtxuilib/mt/DashContent";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,10 +8,6 @@ import {
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
-import {
-  DashHeaders,
-  HeaderActionConainer,
-} from "../../../../../components/DashContent";
 
 export const Route = createLazyFileRoute("/coms/$comId/view/$subComId")({
   component: RouteComponent,

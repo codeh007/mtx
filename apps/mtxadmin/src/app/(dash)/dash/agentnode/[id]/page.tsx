@@ -1,6 +1,7 @@
 "use client";
 
-import { DashHeaders } from "mtmaiui/components/DashContent";
+import { DashHeaders } from "mtxuilib/mt/DashContent";
+
 import { DashSidebar } from "mtmaiui/components/sidebar/siderbar";
 import {
   Breadcrumb,

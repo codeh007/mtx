@@ -1,11 +1,12 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
+import { DashHeaders } from "mtxuilib/mt/DashContent";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
-import { DashHeaders } from "../../../../components/DashContent";
+
 import { FormInstagramTeam } from "../../components/form_instagram_team";
 
 export const Route = createLazyFileRoute("/coms/$comId/type/instagramTeam")({

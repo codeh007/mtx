@@ -1,9 +1,9 @@
-import { SidebarLeftIcon } from "mtxuilib/icons/aichatbot.icons";
-import { cn } from "mtxuilib/lib/utils";
-import { Button } from "mtxuilib/ui/button";
-import { type SidebarTrigger, useSidebar } from "mtxuilib/ui/sidebar";
 import { BetterTooltip } from "mtxuilib/ui/tooltip";
 import type { ComponentProps } from "react";
+import { SidebarLeftIcon } from "../icons/aichatbot.icons";
+import { cn } from "../lib/utils";
+import { Button } from "../ui/button";
+import { type SidebarTrigger, useSidebar } from "../ui/sidebar";
 
 export function SidebarToggle({
   className,

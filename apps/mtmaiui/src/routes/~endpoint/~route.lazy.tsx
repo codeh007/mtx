@@ -1,6 +1,7 @@
 "use client";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 
+import { DashContent, DashHeaders } from "mtxuilib/mt/DashContent";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,7 +10,6 @@ import {
 } from "mtxuilib/ui/breadcrumb";
 import { SidebarInset } from "mtxuilib/ui/sidebar";
 import { Suspense } from "react";
-import { DashContent } from "../../components/DashContent";
 import { DashSidebar } from "../../components/sidebar/siderbar";
 import { RootAppWrapper } from "../components/RootAppWrapper";
 export const Route = createLazyFileRoute("/endpoint")({

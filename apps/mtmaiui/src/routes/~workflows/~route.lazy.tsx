@@ -1,12 +1,13 @@
 "use client";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
+import { DashHeaders } from "mtxuilib/mt/DashContent";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
-import { DashHeaders } from "../../components/DashContent";
+
 import { WorkbrenchProvider } from "../../stores/workbrench.store";
 import { WorkflowsProvider } from "../../stores/workflow-store";
 import { RootAppWrapper } from "../components/RootAppWrapper";

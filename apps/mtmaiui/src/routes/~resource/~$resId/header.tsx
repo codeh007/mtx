@@ -1,6 +1,7 @@
 "use client";
 
 import { Download, Save } from "lucide-react";
+import { DashHeaders, HeaderActionConainer } from "mtxuilib/mt/DashContent";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,10 +13,6 @@ import {
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import { useSearch } from "../../../hooks/useNav";
-import {
-  DashHeaders,
-  HeaderActionConainer,
-} from "../../../components/DashContent";
 
 export function ResourceHeader() {
   const search = useSearch();

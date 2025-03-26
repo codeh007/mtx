@@ -1,11 +1,11 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
+import { DashHeaders } from "mtxuilib/mt/DashContent";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
-import { DashHeaders } from "../../../../components/DashContent";
 import { GoBack } from "../../../../components/GoBack";
 
 export const Route = createLazyFileRoute("/coms/$comId/run")({

@@ -1,5 +1,6 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 
+import { DashHeaders } from "mtxuilib/mt/DashContent";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,7 +9,7 @@ import {
 } from "mtxuilib/ui/breadcrumb";
 import { RootAppWrapper } from "../components/RootAppWrapper";
 import { NavModel } from "./sidebar";
-import { DashHeaders } from "../../components/DashContent";
+
 export const Route = createLazyFileRoute("/model")({
   component: RouteComponent,
 });

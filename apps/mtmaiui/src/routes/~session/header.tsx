@@ -4,6 +4,7 @@ import { Download, Play, Save } from "lucide-react";
 import { Icons } from "mtxuilib/icons/icons";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
+import { DashHeaders, HeaderActionConainer } from "mtxuilib/mt/DashContent";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -14,10 +15,6 @@ import {
 } from "mtxuilib/ui/breadcrumb";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
-import {
-  DashHeaders,
-  HeaderActionConainer,
-} from "../../components/DashHeaders";
 import { useSearch } from "../../hooks/useNav";
 import { useTeamSessionStore } from "../../stores/teamSessionProvider";
 import { useWorkbenchStore } from "../../stores/workbrench.store";

@@ -9,7 +9,6 @@ import type {
 import { RateLimitOrderByDirection, RateLimitOrderByField } from "mtmaiapi/api";
 import { DashSidebar } from "mtmaiui/components/sidebar/siderbar";
 
-import { DashContent, DashHeaders } from "mtmaiui/components/DashContent";
 import { useTenant } from "mtmaiui/hooks/useAuth";
 import { useMtmClient } from "mtmaiui/hooks/useMtmapi";
 import { DataTable } from "mtxuilib/data-table/data-table";
@@ -24,6 +23,7 @@ import { SidebarInset } from "mtxuilib/ui/sidebar";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { type RateLimitRow, columns } from "./components/rate-limit-columns";
+import { DashHeaders, DashContent } from "mtxuilib/mt/DashContent";
 
 export default function RateLimits() {
   return (

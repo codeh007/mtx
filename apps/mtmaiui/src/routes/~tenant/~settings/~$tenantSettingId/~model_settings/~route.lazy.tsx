@@ -1,11 +1,11 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
+import { DashHeaders } from "mtxuilib/mt/DashContent";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
-import { DashHeaders } from "../../../../../components/DashContent";
 
 export const Route = createLazyFileRoute(
   "/tenant/settings/$tenantSettingId/model_settings",
