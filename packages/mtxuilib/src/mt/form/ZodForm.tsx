@@ -22,6 +22,7 @@ import { z } from "zod";
 import { cn } from "../../lib/utils";
 import { Button } from "../../ui/button";
 import { Form, FormField } from "../../ui/form";
+import { useToast } from "../../ui/use-toast";
 import { ConformDeleteBtn } from "./deleteConform";
 
 /**
@@ -48,23 +49,58 @@ export function useZodForm<TSchema extends z.ZodType>(
   return form;
 }
 
-export type AnyZodForm = UseZodForm<any>;
+export function useZodFormV2<TSchema extends z.ZodType>(
+  props: Omit<UseFormProps<TSchema["_input"]>, "resolver"> & {
+    schema?: TSchema;
+    handleSubmit: SubmitHandler<TSchema["_input"]>;
+    toastValidateError?: boolean;
+  },
+) {
+  const resolver = zodResolver(props.schema || z.any(), undefined, {
+    raw: true,
+  });
+  const form = useForm<TSchema["_input"]>({
+    ...props,
+    resolver: resolver,
+  }) as UseZodForm<TSchema["_input"]>;
+
+  form.id = useId();
+  return {
+    form,
+    handleSubmit: props.handleSubmit,
+    toastValidateError: props.toastValidateError,
+  };
+}
 
 export function ZForm<TInput extends FieldValues>(
   props: Omit<React.ComponentProps<"form">, "onSubmit" | "id"> & {
     handleSubmit: SubmitHandler<TInput>;
     form: UseZodForm<TInput>;
-  },
+    toastValidateError?: boolean;
+  } & PropsWithChildren,
 ) {
-  const { handleSubmit, form, ...passThrough }: typeof props = props;
+  const { handleSubmit, form, children, ...passThrough }: typeof props = props;
 
+  const formErrors = Object.keys(form.formState.errors);
+  const toast = useToast();
+  const handleSubmitInner = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (formErrors.length) {
+      if (props.toastValidateError) {
+        toast.toast({
+          title: "表单不正确",
+          description: formErrors.join(","),
+        });
+      }
+      return;
+    }
+    form.handleSubmit(handleSubmit)(e);
+  };
   return (
     <Form {...form}>
-      <form
-        {...passThrough}
-        id={form.id}
-        onSubmit={form.handleSubmit(handleSubmit)}
-      />
+      <form {...passThrough} id={form.id} onSubmit={handleSubmitInner}>
+        {children}
+      </form>
     </Form>
   );
 }
@@ -80,7 +116,7 @@ export const ZFormToolbar = forwardRef<
     /**
      * Optionally specify a form to submit instead of the closest form context.
      */
-    form?: AnyZodForm;
+    form?: UseZodForm<any>;
     submitText?: string;
     enableCancelConform?: boolean;
     enableDeleteButton?: boolean;

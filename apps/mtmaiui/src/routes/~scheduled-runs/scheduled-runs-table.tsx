@@ -8,12 +8,13 @@ import type {
   VisibilityState,
 } from "@tanstack/react-table";
 
+import { useQuery } from "@tanstack/react-query";
 import {
   ScheduledRunStatus,
   type ScheduledWorkflows,
   ScheduledWorkflowsOrderByField,
-  workflowListOptions,
   WorkflowRunOrderByDirection,
+  workflowListOptions,
   workflowScheduledListOptions,
 } from "mtmaiapi";
 import { DataTable } from "mtxuilib/data-table/data-table";
@@ -22,14 +23,13 @@ import {
   type ToolbarFilters,
   ToolbarType,
 } from "mtxuilib/data-table/data-table-toolbar";
-import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { Button } from "mtxuilib/ui/button";
 import { useSearchParams } from "next/navigation";
+import router from "next/router";
 import { useEffect, useMemo, useState } from "react";
-import { useTenant } from "../../hooks/useAuth";
+import { useTenantId } from "../../hooks/useAuth";
 import { DeleteScheduledRun } from "./delete-scheduled-runs";
 import { columns } from "./scheduled-runs-columns";
-import { useQuery } from "@tanstack/react-query";
 
 export interface ScheduledWorkflowRunsTableProps {
   createdAfter?: string;
@@ -54,8 +54,8 @@ export function ScheduledRunsTable({
   refetchInterval = 5000,
 }: ScheduledWorkflowRunsTableProps) {
   const searchParams = useSearchParams();
-  const router = useMtRouter();
-  const tenant = useTenant();
+  // const router = useMtRouter();
+  // const tenant = useTenant();
   const tid = useTenantId();
 
   const [sorting, setSorting] = useState<SortingState>(() => {
@@ -105,7 +105,7 @@ export function ScheduledRunsTable({
     newSearchParams.set("pageSize", pagination.pageSize.toString());
 
     if (newSearchParams.toString() !== searchParams.toString()) {
-      router.setSearchParams(newSearchParams);
+      // router.setSearchParams(newSearchParams);
     }
   }, [sorting, columnFilters, pagination, router, searchParams]);
 
@@ -225,25 +225,25 @@ export function ScheduledRunsTable({
   // );
 
   const listWorkflowRunsQuery = useQuery({
-      ...workflowScheduledListOptions({
-        path:{
-          tenant: tid,
-        },
-        query: {
-          offset,
-          limit: pageSize,
-          statuses,
-          workflowId: workflow,
-          parentWorkflowRunId,
-          parentStepRunId,
-          orderByDirection,
-          orderByField,
-          additionalMetadata: AdditionalMetadataFilter,
-        },
-      }),
-      placeholderData: (prev) => prev,
-      refetchInterval,
-    });
+    ...workflowScheduledListOptions({
+      path: {
+        tenant: tid,
+      },
+      query: {
+        offset,
+        limit: pageSize,
+        statuses,
+        workflowId: workflow,
+        parentWorkflowRunId,
+        parentStepRunId,
+        orderByDirection,
+        orderByField,
+        additionalMetadata: AdditionalMetadataFilter,
+      },
+    }),
+    placeholderData: (prev) => prev,
+    refetchInterval,
+  });
 
   // const {
   //   data: workflowKeys,
@@ -283,7 +283,6 @@ export function ScheduledRunsTable({
   //     .filter(([, selected]) => !!selected)
   //     .map(([id]) => (listWorkflowRunsQuery.data?.rows || [])[Number(id)]);
   // }, [listWorkflowRunsQuery.data?.rows, rowSelection]);
-
 
   // const cancelWorkflowRunMutation = useMutation({
   //   mutationKey: ['workflow-run:cancel', tenant.metadata.id, selectedRuns],

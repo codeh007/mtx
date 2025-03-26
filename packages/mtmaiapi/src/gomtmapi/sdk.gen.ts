@@ -29,6 +29,9 @@ import type {
   TenantSettingsListData,
   TenantSettingsListResponse,
   TenantSettingsListError,
+  TenantDefaultSettingGetData,
+  TenantDefaultSettingGetResponse,
+  TenantDefaultSettingGetError,
   TenantDefaultSettingData,
   TenantDefaultSettingResponse,
   TenantDefaultSettingError,
@@ -759,6 +762,29 @@ export const tenantSettingsList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/settings",
+    ...options,
+  });
+};
+
+export const tenantDefaultSettingGet = <ThrowOnError extends boolean = false>(
+  options: Options<TenantDefaultSettingGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    TenantDefaultSettingGetResponse,
+    TenantDefaultSettingGetError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/{setting}/default",
     ...options,
   });
 };

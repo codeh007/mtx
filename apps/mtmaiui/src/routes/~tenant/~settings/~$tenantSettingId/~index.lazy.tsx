@@ -3,7 +3,6 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import { tenantSettingsGetOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { ZFormField } from "mtxuilib/mt/form/ZodForm";
-import { Button } from "mtxuilib/ui/button";
 import {
   FormControl,
   FormItem,
@@ -49,7 +48,6 @@ function RouteComponent() {
           </FormItem>
         )}
       />
-      <Button>提交</Button>
     </>
   );
 }

@@ -15,6 +15,7 @@ import {
   userUpdateSlackOauthStart,
   userUpdateSlackOauthCallback,
   tenantSettingsList,
+  tenantDefaultSettingGet,
   tenantDefaultSetting,
   tenantSettingsDelete,
   tenantSettingsGet,
@@ -197,6 +198,7 @@ import type {
   UserUpdateSlackOauthStartData,
   UserUpdateSlackOauthCallbackData,
   TenantSettingsListData,
+  TenantDefaultSettingGetData,
   TenantDefaultSettingData,
   TenantDefaultSettingError,
   TenantDefaultSettingResponse,
@@ -825,6 +827,27 @@ export const tenantSettingsListOptions = (
       return data;
     },
     queryKey: tenantSettingsListQueryKey(options),
+  });
+};
+
+export const tenantDefaultSettingGetQueryKey = (
+  options: Options<TenantDefaultSettingGetData>,
+) => createQueryKey("tenantDefaultSettingGet", options);
+
+export const tenantDefaultSettingGetOptions = (
+  options: Options<TenantDefaultSettingGetData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await tenantDefaultSettingGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: tenantDefaultSettingGetQueryKey(options),
   });
 };
 

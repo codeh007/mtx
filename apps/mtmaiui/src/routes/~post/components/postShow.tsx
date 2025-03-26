@@ -10,7 +10,7 @@ import {
   FormLabel,
   FormMessage,
 } from "mtxuilib/ui/form";
-import { Input } from "postcss";
+import { Input } from "mtxuilib/ui/input";
 import { useState } from "react";
 import { DiffView } from "../../../components/aichatbot/diffview";
 import { Editor } from "../../../components/aichatbot/editor";

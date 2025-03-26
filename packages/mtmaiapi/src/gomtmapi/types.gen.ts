@@ -480,7 +480,12 @@ export type UpdateTenantRequest = {
   maxAlertingFrequency?: string;
 };
 
-export type TenantSettingContent = unknown;
+export type TenantSettingContent = {
+  /**
+   * Whether the tenant has enabled instagram task
+   */
+  enabled_instagram_task?: boolean;
+};
 
 export type TenantSettingProperties = {
   content?: TenantSettingContent;
@@ -3551,6 +3556,37 @@ export type TenantSettingsListResponses = {
 
 export type TenantSettingsListResponse =
   TenantSettingsListResponses[keyof TenantSettingsListResponses];
+
+export type TenantDefaultSettingGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The setting id
+     */
+    setting: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/{setting}/default";
+};
+
+export type TenantDefaultSettingGetErrors = {
+  400: ApiErrors;
+  404: ApiErrors;
+};
+
+export type TenantDefaultSettingGetError =
+  TenantDefaultSettingGetErrors[keyof TenantDefaultSettingGetErrors];
+
+export type TenantDefaultSettingGetResponses = {
+  200: TenantSetting;
+};
+
+export type TenantDefaultSettingGetResponse =
+  TenantDefaultSettingGetResponses[keyof TenantDefaultSettingGetResponses];
 
 export type TenantDefaultSettingData = {
   body?: never;

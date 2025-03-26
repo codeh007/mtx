@@ -42,6 +42,7 @@ const SysRouteLazyImport = createFileRoute('/sys')()
 const SiteRouteLazyImport = createFileRoute('/site')()
 const SettingsRouteLazyImport = createFileRoute('/settings')()
 const SessionRouteLazyImport = createFileRoute('/session')()
+const ScheduledRunsRouteLazyImport = createFileRoute('/scheduled-runs')()
 const ResourceRouteLazyImport = createFileRoute('/resource')()
 const PostRouteLazyImport = createFileRoute('/post')()
 const PlayRouteLazyImport = createFileRoute('/play')()
@@ -87,6 +88,7 @@ const TeamIndexLazyImport = createFileRoute('/team/')()
 const SysIndexLazyImport = createFileRoute('/sys/')()
 const SettingsIndexLazyImport = createFileRoute('/settings/')()
 const SessionIndexLazyImport = createFileRoute('/session/')()
+const ScheduledRunsIndexLazyImport = createFileRoute('/scheduled-runs/')()
 const ResourceIndexLazyImport = createFileRoute('/resource/')()
 const PostIndexLazyImport = createFileRoute('/post/')()
 const PlayIndexLazyImport = createFileRoute('/play/')()
@@ -394,6 +396,14 @@ const SessionRouteLazyRoute = SessionRouteLazyImport.update({
   import('./routes/~session/~route.lazy').then((d) => d.Route),
 )
 
+const ScheduledRunsRouteLazyRoute = ScheduledRunsRouteLazyImport.update({
+  id: '/scheduled-runs',
+  path: '/scheduled-runs',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/~scheduled-runs/~route.lazy').then((d) => d.Route),
+)
+
 const ResourceRouteLazyRoute = ResourceRouteLazyImport.update({
   id: '/resource',
   path: '/resource',
@@ -683,6 +693,14 @@ const SessionIndexLazyRoute = SessionIndexLazyImport.update({
   getParentRoute: () => SessionRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~session/~index.lazy').then((d) => d.Route),
+)
+
+const ScheduledRunsIndexLazyRoute = ScheduledRunsIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ScheduledRunsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~scheduled-runs/~index.lazy').then((d) => d.Route),
 )
 
 const ResourceIndexLazyRoute = ResourceIndexLazyImport.update({
@@ -1887,6 +1905,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResourceRouteLazyImport
       parentRoute: typeof rootRoute
     }
+    '/scheduled-runs': {
+      id: '/scheduled-runs'
+      path: '/scheduled-runs'
+      fullPath: '/scheduled-runs'
+      preLoaderRoute: typeof ScheduledRunsRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/session': {
       id: '/session'
       path: '/session'
@@ -2047,6 +2072,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/resource/'
       preLoaderRoute: typeof ResourceIndexLazyImport
       parentRoute: typeof ResourceRouteLazyImport
+    }
+    '/scheduled-runs/': {
+      id: '/scheduled-runs/'
+      path: '/'
+      fullPath: '/scheduled-runs/'
+      preLoaderRoute: typeof ScheduledRunsIndexLazyImport
+      parentRoute: typeof ScheduledRunsRouteLazyImport
     }
     '/session/': {
       id: '/session/'
@@ -3550,6 +3582,20 @@ const ResourceRouteLazyRouteChildren: ResourceRouteLazyRouteChildren = {
 const ResourceRouteLazyRouteWithChildren =
   ResourceRouteLazyRoute._addFileChildren(ResourceRouteLazyRouteChildren)
 
+interface ScheduledRunsRouteLazyRouteChildren {
+  ScheduledRunsIndexLazyRoute: typeof ScheduledRunsIndexLazyRoute
+}
+
+const ScheduledRunsRouteLazyRouteChildren: ScheduledRunsRouteLazyRouteChildren =
+  {
+    ScheduledRunsIndexLazyRoute: ScheduledRunsIndexLazyRoute,
+  }
+
+const ScheduledRunsRouteLazyRouteWithChildren =
+  ScheduledRunsRouteLazyRoute._addFileChildren(
+    ScheduledRunsRouteLazyRouteChildren,
+  )
+
 interface SessionSessionIdTeamstateRouteLazyRouteChildren {
   SessionSessionIdTeamstateIndexLazyRoute: typeof SessionSessionIdTeamstateIndexLazyRoute
 }
@@ -4051,6 +4097,7 @@ export interface FileRoutesByFullPath {
   '/play': typeof PlayRouteLazyRouteWithChildren
   '/post': typeof PostRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
+  '/scheduled-runs': typeof ScheduledRunsRouteLazyRouteWithChildren
   '/session': typeof SessionRouteLazyRouteWithChildren
   '/settings': typeof SettingsRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
@@ -4074,6 +4121,7 @@ export interface FileRoutesByFullPath {
   '/play/': typeof PlayIndexLazyRoute
   '/post/': typeof PostIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
+  '/scheduled-runs/': typeof ScheduledRunsIndexLazyRoute
   '/session/': typeof SessionIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
   '/sys/': typeof SysIndexLazyRoute
@@ -4219,6 +4267,7 @@ export interface FileRoutesByTo {
   '/play': typeof PlayIndexLazyRoute
   '/post': typeof PostIndexLazyRoute
   '/resource': typeof ResourceIndexLazyRoute
+  '/scheduled-runs': typeof ScheduledRunsIndexLazyRoute
   '/session': typeof SessionIndexLazyRoute
   '/settings': typeof SettingsIndexLazyRoute
   '/sys': typeof SysIndexLazyRoute
@@ -4321,6 +4370,7 @@ export interface FileRoutesById {
   '/play': typeof PlayRouteLazyRouteWithChildren
   '/post': typeof PostRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
+  '/scheduled-runs': typeof ScheduledRunsRouteLazyRouteWithChildren
   '/session': typeof SessionRouteLazyRouteWithChildren
   '/settings': typeof SettingsRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
@@ -4344,6 +4394,7 @@ export interface FileRoutesById {
   '/play/': typeof PlayIndexLazyRoute
   '/post/': typeof PostIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
+  '/scheduled-runs/': typeof ScheduledRunsIndexLazyRoute
   '/session/': typeof SessionIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
   '/sys/': typeof SysIndexLazyRoute
@@ -4489,6 +4540,7 @@ export interface FileRouteTypes {
     | '/play'
     | '/post'
     | '/resource'
+    | '/scheduled-runs'
     | '/session'
     | '/settings'
     | '/site'
@@ -4512,6 +4564,7 @@ export interface FileRouteTypes {
     | '/play/'
     | '/post/'
     | '/resource/'
+    | '/scheduled-runs/'
     | '/session/'
     | '/settings/'
     | '/sys/'
@@ -4656,6 +4709,7 @@ export interface FileRouteTypes {
     | '/play'
     | '/post'
     | '/resource'
+    | '/scheduled-runs'
     | '/session'
     | '/settings'
     | '/sys'
@@ -4756,6 +4810,7 @@ export interface FileRouteTypes {
     | '/play'
     | '/post'
     | '/resource'
+    | '/scheduled-runs'
     | '/session'
     | '/settings'
     | '/site'
@@ -4779,6 +4834,7 @@ export interface FileRouteTypes {
     | '/play/'
     | '/post/'
     | '/resource/'
+    | '/scheduled-runs/'
     | '/session/'
     | '/settings/'
     | '/sys/'
@@ -4923,6 +4979,7 @@ export interface RootRouteChildren {
   PlayRouteLazyRoute: typeof PlayRouteLazyRouteWithChildren
   PostRouteLazyRoute: typeof PostRouteLazyRouteWithChildren
   ResourceRouteLazyRoute: typeof ResourceRouteLazyRouteWithChildren
+  ScheduledRunsRouteLazyRoute: typeof ScheduledRunsRouteLazyRouteWithChildren
   SessionRouteLazyRoute: typeof SessionRouteLazyRouteWithChildren
   SettingsRouteLazyRoute: typeof SettingsRouteLazyRouteWithChildren
   SiteRouteLazyRoute: typeof SiteRouteLazyRouteWithChildren
@@ -4949,6 +5006,7 @@ const rootRouteChildren: RootRouteChildren = {
   PlayRouteLazyRoute: PlayRouteLazyRouteWithChildren,
   PostRouteLazyRoute: PostRouteLazyRouteWithChildren,
   ResourceRouteLazyRoute: ResourceRouteLazyRouteWithChildren,
+  ScheduledRunsRouteLazyRoute: ScheduledRunsRouteLazyRouteWithChildren,
   SessionRouteLazyRoute: SessionRouteLazyRouteWithChildren,
   SettingsRouteLazyRoute: SettingsRouteLazyRouteWithChildren,
   SiteRouteLazyRoute: SiteRouteLazyRouteWithChildren,
@@ -4984,6 +5042,7 @@ export const routeTree = rootRoute
         "/play",
         "/post",
         "/resource",
+        "/scheduled-runs",
         "/session",
         "/settings",
         "/site",
@@ -5086,6 +5145,12 @@ export const routeTree = rootRoute
         "/resource/",
         "/resource/$resId",
         "/resource/new"
+      ]
+    },
+    "/scheduled-runs": {
+      "filePath": "~scheduled-runs/~route.lazy.tsx",
+      "children": [
+        "/scheduled-runs/"
       ]
     },
     "/session": {
@@ -5207,6 +5272,10 @@ export const routeTree = rootRoute
     "/resource/": {
       "filePath": "~resource/~index.lazy.tsx",
       "parent": "/resource"
+    },
+    "/scheduled-runs/": {
+      "filePath": "~scheduled-runs/~index.lazy.tsx",
+      "parent": "/scheduled-runs"
     },
     "/session/": {
       "filePath": "~session/~index.lazy.tsx",

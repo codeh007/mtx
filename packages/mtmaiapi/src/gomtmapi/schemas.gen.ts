@@ -791,14 +791,15 @@ export const UpdateTenantRequestSchema = {
 } as const;
 
 export const TenantSettingContentSchema = {
-  enabled_instagram_task: {
-    type: "boolean",
-    description: "Whether the tenant has enabled instagram task",
+  properties: {
+    enabled_instagram_task: {
+      type: "boolean",
+      description: "Whether the tenant has enabled instagram task",
+    },
   },
 } as const;
 
 export const TenantSettingPropertiesSchema = {
-  type: "object",
   properties: {
     content: {
       $ref: "#/components/schemas/TenantSettingContent",
