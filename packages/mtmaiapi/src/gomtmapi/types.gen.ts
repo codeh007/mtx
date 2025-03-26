@@ -1889,6 +1889,10 @@ export type AgentRunInput = {
   teamName?: string;
   topic?: string;
   source?: string;
+  messages?: {
+    [key: string]: unknown;
+  };
+  message_type?: AgentMessageType;
 };
 
 export type ChatHistoryList = {
@@ -2463,25 +2467,6 @@ export const ResponseFormat = {
   TEXT: "text",
 } as const;
 
-export type RunStatus =
-  | "created"
-  | "active"
-  | "awaiting_input"
-  | "timeout"
-  | "complete"
-  | "error"
-  | "stopped";
-
-export const RunStatus = {
-  CREATED: "created",
-  ACTIVE: "active",
-  AWAITING_INPUT: "awaiting_input",
-  TIMEOUT: "timeout",
-  COMPLETE: "complete",
-  ERROR: "error",
-  STOPPED: "stopped",
-} as const;
-
 export type Section = {
   /**
    * Title of the section
@@ -2551,6 +2536,15 @@ export const TeamTypes = {
   SELECTOR_GROUP_CHAT: "SelectorGroupChat",
   MAGENTIC_ONE_GROUP_CHAT: "MagenticOneGroupChat",
   INSTAGRAM_TEAM: "InstagramTeam",
+} as const;
+
+export type AgentMessageType = "text" | "image" | "file" | "platform_account";
+
+export const AgentMessageType = {
+  TEXT: "text",
+  IMAGE: "image",
+  FILE: "file",
+  PLATFORM_ACCOUNT: "platform_account",
 } as const;
 
 export type TenantParameter = string;

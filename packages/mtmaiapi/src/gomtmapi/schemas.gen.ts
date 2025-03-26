@@ -2541,7 +2541,6 @@ export const UpdateWorkerRequestSchema = {
 } as const;
 
 export const APITokenSchema = {
-  type: "object",
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -2561,7 +2560,6 @@ export const APITokenSchema = {
 } as const;
 
 export const CreateAPITokenRequestSchema = {
-  type: "object",
   properties: {
     name: {
       type: "string",
@@ -2580,7 +2578,6 @@ export const CreateAPITokenRequestSchema = {
 } as const;
 
 export const CreateAPITokenResponseSchema = {
-  type: "object",
   properties: {
     token: {
       type: "string",
@@ -3138,7 +3135,6 @@ export const WorkerConfigSchema = {
 } as const;
 
 export const CreateBlogPostRequestSchema = {
-  type: "object",
   properties: {
     blogId: {
       type: "string",
@@ -3225,7 +3221,6 @@ export const BlogSchema = {
     },
   },
   required: ["metadata", "title"],
-  type: "object",
 } as const;
 
 export const CreateBlogRequestSchema = {
@@ -3238,7 +3233,6 @@ export const CreateBlogRequestSchema = {
 } as const;
 
 export const UpdateBlogRequestSchema = {
-  type: "object",
   properties: {
     title: {
       type: "string",
@@ -3266,7 +3260,6 @@ export const BlogPostSchema = {
       description: "The tenant associated with this tenant blog",
     },
     state: {
-      type: "object",
       properties: {
         title: {
           type: "string",
@@ -3279,7 +3272,6 @@ export const BlogPostSchema = {
         outlines: {
           type: "array",
           items: {
-            type: "object",
             properties: {
               title: {
                 type: "string",
@@ -3297,7 +3289,6 @@ export const BlogPostSchema = {
     },
   },
   required: ["metadata", "title", "content"],
-  type: "object",
 } as const;
 
 export const BlogPostListSchema = {
@@ -3316,7 +3307,6 @@ export const BlogPostListSchema = {
 } as const;
 
 export const UpdatePostRequestSchema = {
-  type: "object",
   properties: {
     blogId: {
       type: "string",
@@ -3418,6 +3408,13 @@ export const AgentRunInputSchema = {
     source: {
       type: "string",
     },
+    messages: {
+      type: "object",
+    },
+    message_type: {
+      type: "string",
+      $ref: "#/components/schemas/AgentMessageType",
+    },
   },
 } as const;
 
@@ -3482,6 +3479,7 @@ export const TextHighlightSchema = {
 } as const;
 
 export const CodeHighlightSchema = {
+  required: ["startCharIndex", "endCharIndex"],
   properties: {
     startCharIndex: {
       type: "number",
@@ -3490,7 +3488,6 @@ export const CodeHighlightSchema = {
       type: "number",
     },
   },
-  required: ["startCharIndex", "endCharIndex"],
 } as const;
 
 export const CustomQuickActionSchema = {
@@ -3536,7 +3533,6 @@ export const CustomQuickActionSchema = {
 } as const;
 
 export const ReflectionsSchema = {
-  type: "object",
   description: "生成内容的反思规则",
   properties: {
     styleRules: {
@@ -4011,7 +4007,6 @@ export const MtComponentUpsertSchema = {
 } as const;
 
 export const GalleryComponentsSchema = {
-  type: "object",
   properties: {
     agents: {
       items: {
@@ -4046,7 +4041,6 @@ export const GalleryComponentsSchema = {
 } as const;
 
 export const GalleryItemsSchema = {
-  type: "object",
   properties: {
     teams: {
       type: "array",
@@ -4121,7 +4115,6 @@ export const GalleryListSchema = {
 } as const;
 
 export const GalleryUpdateSchema = {
-  type: "object",
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -4137,7 +4130,6 @@ export const GalleryUpdateSchema = {
 } as const;
 
 export const GalleryMetadataSchema = {
-  type: "object",
   properties: {
     author: {
       type: "string",
@@ -4295,6 +4287,7 @@ export const ComponentTypesSchema = {
 } as const;
 
 export const RequestUsageSchema = {
+  required: ["prompt_tokens", "completion_tokens"],
   properties: {
     prompt_tokens: {
       type: "number",
@@ -4303,10 +4296,10 @@ export const RequestUsageSchema = {
       type: "number",
     },
   },
-  required: ["prompt_tokens", "completion_tokens"],
 } as const;
 
 export const FunctionCallSchema = {
+  required: ["id", "arguments", "name"],
   properties: {
     id: {
       type: "string",
@@ -4318,10 +4311,10 @@ export const FunctionCallSchema = {
       type: "string",
     },
   },
-  required: ["id", "arguments", "name"],
 } as const;
 
 export const FunctionExecutionResultSchema = {
+  required: ["call_id", "content"],
   properties: {
     call_id: {
       type: "string",
@@ -4330,7 +4323,6 @@ export const FunctionExecutionResultSchema = {
       type: "string",
     },
   },
-  required: ["call_id", "content"],
 } as const;
 
 export const BaseMessageConfigSchema = {
@@ -4643,19 +4635,6 @@ export const ResponseFormatSchema = {
   enum: ["json_object", "text"],
 } as const;
 
-export const RunStatusSchema = {
-  type: "string",
-  enum: [
-    "created",
-    "active",
-    "awaiting_input",
-    "timeout",
-    "complete",
-    "error",
-    "stopped",
-  ],
-} as const;
-
 export const SectionSchema = {
   properties: {
     section_title: {
@@ -4808,6 +4787,11 @@ export const TeamTypesSchema = {
     "MagenticOneGroupChat",
     "InstagramTeam",
   ],
+} as const;
+
+export const AgentMessageTypeSchema = {
+  type: "string",
+  enum: ["text", "image", "file", "platform_account"],
 } as const;
 
 export const TenantParameterSchema = {
@@ -5375,7 +5359,6 @@ export const CreatePostRequestSchema = {
 } as const;
 
 export const FrontendConfigSchema = {
-  type: "object",
   properties: {
     cookieAccessToken: {
       type: "string",
@@ -5403,7 +5386,6 @@ export const FrontendConfigSchema = {
 } as const;
 
 export const SiderbarConfigSchema = {
-  type: "object",
   properties: {
     logo: {
       type: "string",
@@ -5419,7 +5401,6 @@ export const SiderbarConfigSchema = {
 } as const;
 
 export const DashSidebarItemSchema = {
-  type: "object",
   properties: {
     title: {
       type: "string",
@@ -5452,7 +5433,6 @@ export const DashSidebarItemSchema = {
 } as const;
 
 export const DashSidebarItemLeafSchema = {
-  type: "object",
   properties: {
     title: {
       type: "string",
@@ -5492,7 +5472,6 @@ export const HfAccountSchema = {
 } as const;
 
 export const EnvSchema = {
-  type: "object",
   description: "环境变量",
   properties: {
     metadata: {
@@ -5525,7 +5504,6 @@ export const EnvListSchema = {
 } as const;
 
 export const EndpointSchema = {
-  type: "object",
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -5561,7 +5539,6 @@ export const EndpointListSchema = {
 } as const;
 
 export const UpdateEndpointRequestSchema = {
-  type: "object",
   properties: {
     name: {
       type: "string",
@@ -5945,7 +5922,6 @@ export const ChatWelcomeSchema = {
 } as const;
 
 export const AssignedActionSchema = {
-  type: "object",
   required: [
     "tenantId",
     "jobId",

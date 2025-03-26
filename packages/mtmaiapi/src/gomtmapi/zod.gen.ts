@@ -1821,6 +1821,10 @@ export const zAgentRunInput = z.object({
   teamName: z.string().optional(),
   topic: z.string().optional(),
   source: z.string().optional(),
+  messages: z.object({}).optional(),
+  message_type: z
+    .enum(["text", "image", "file", "platform_account"])
+    .optional(),
 });
 
 export const zChatHistoryList = z.object({
@@ -2680,16 +2684,6 @@ export const zHandoffConfig = z.object({
 
 export const zResponseFormat = z.enum(["json_object", "text"]);
 
-export const zRunStatus = z.enum([
-  "created",
-  "active",
-  "awaiting_input",
-  "timeout",
-  "complete",
-  "error",
-  "stopped",
-]);
-
 export const zSection = z.object({
   section_title: z.string(),
   description: z.string(),
@@ -2775,6 +2769,13 @@ export const zTeamTypes = z.enum([
   "SelectorGroupChat",
   "MagenticOneGroupChat",
   "InstagramTeam",
+]);
+
+export const zAgentMessageType = z.enum([
+  "text",
+  "image",
+  "file",
+  "platform_account",
 ]);
 
 export const zTenantParameter = z.string().uuid().length(36);
