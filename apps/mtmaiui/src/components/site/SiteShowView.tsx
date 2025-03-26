@@ -1,5 +1,6 @@
 "use client";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { siteGetOptions } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
@@ -8,14 +9,13 @@ import { Separator } from "mtxuilib/ui/separator";
 import { Switch } from "mtxuilib/ui/switch";
 import { Textarea } from "mtxuilib/ui/textarea";
 import { useTenant, useTenantId } from "../../hooks/useAuth";
-import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 
 interface SiteShowViewProps {
   siteId: string;
 }
 export function SiteShowView({ siteId }: SiteShowViewProps) {
   const tenant = useTenant();
-  const tid = useTenantId;()
+  const tid = useTenantId();
   const siteQuery = useSuspenseQuery({
     ...siteGetOptions({
       path: {

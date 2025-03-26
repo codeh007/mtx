@@ -31,7 +31,7 @@ export const SiteEditor = (props: SiteEditorProps) => {
   if (!siteId) {
     throw new Error("siteId is required");
   }
-  const tenant = useTenant();
+  // const tenant = useTenant();
   // const siteQuery = useSuspenseQuery({
   //   ...siteGetOptions({
   //     path: {

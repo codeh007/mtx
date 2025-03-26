@@ -13,7 +13,6 @@ import {
   CommandItem,
   CommandList,
 } from "mtxuilib/ui/command";
-// import type { InputProps } from "mtxuilib/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "mtxuilib/ui/popover";
 import React, { Suspense, useMemo } from "react";
 

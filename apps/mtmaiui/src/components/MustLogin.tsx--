@@ -2,7 +2,6 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { userGetCurrentOptions } from "mtmaiapi";
-import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { useIsAdmin } from "../hooks/useAuth";
 
 export const MustLogin = (props: { children: React.ReactNode }) => {
@@ -25,7 +24,7 @@ export const MustLogin = (props: { children: React.ReactNode }) => {
   //   }
   // }, [userQuery.data]);
 
-  const router = useMtRouter();
+  // const router = useMtRouter();
   if (userQuery.error) {
     // router.push("/auth/login");
     return (

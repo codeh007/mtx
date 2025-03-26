@@ -1,6 +1,6 @@
 "use client";
 
-import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
+import { ZForm, ZFormToolbar, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import {
   FormControl,
   FormField,
@@ -10,24 +10,10 @@ import {
 } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { z } from "zod";
-import { useTenant, useTenantId } from "../../hooks/useAuth";
 
 export const AgentNodeEditView = ({ id }: { id: string }) => {
-  const tenant = useTenant();
-
-  // const agentNodeGetQuery = mtmapi.useSuspenseQuery(
-  //   "get",
-  //   "/api/v1/tenants/{tenant}/nodes/{node}",
-  //   {
-  //     params: { path: { tenant: tenant!.metadata.id, node: id } },
-  //   },
-  // );
-
-  // const agentNodeGetQuery = useSuspenseQuery(
-  //   ...nodeopts
-  // );
-
-  const tid = useTenantId();
+  // const tenant = useTenant();
+  // const tid = useTenantId();
 
   const form = useZodForm({
     schema: z.object({
@@ -36,7 +22,7 @@ export const AgentNodeEditView = ({ id }: { id: string }) => {
       type: z.string().min(1),
       description: z.string().optional(),
     }),
-    defaultValues: agentNodeGetQuery.data,
+    // defaultValues: agentNodeGetQuery.data,
   });
 
   // const createAgentNodeMutation = mtmapi.useMutation(

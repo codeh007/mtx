@@ -1,6 +1,7 @@
 "use client";
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 import { cn } from "mtxuilib/lib/utils";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
 import {
   Card,
@@ -9,8 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from "mtxuilib/ui/card";
-import Link from "next/link";
-
 export const AgentNodeEmptyState = () => {
   return (
     <Card className="w-full text-justify">
@@ -26,9 +25,9 @@ export const AgentNodeEmptyState = () => {
         </CardDescription>
       </CardHeader>
       <CardFooter className="flex flex-row item-center">
-        <Link
+        <CustomLink
           onClick={() => {}}
-          href={""}
+          to={""}
           className={cn(
             "p-0 w-fit flex items-center justify-center",
             buttonVariants({
@@ -38,7 +37,7 @@ export const AgentNodeEmptyState = () => {
           )}
         >
           <QuestionMarkCircleIcon className={cn("h-4 w-4 mr-2")} />
-        </Link>
+        </CustomLink>
       </CardFooter>
     </Card>
   );
