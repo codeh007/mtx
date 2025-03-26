@@ -41,10 +41,10 @@ export function CronsTable() {
   });
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(() => {
-    const filtersParam = filters;
-    if (filtersParam) {
-      // return JSON.parse(filtersParam);
-    }
+    // const filtersParam = filters;
+    // if (filtersParam) {
+    //   // return JSON.parse(filtersParam);
+    // }
     return [];
   });
 
