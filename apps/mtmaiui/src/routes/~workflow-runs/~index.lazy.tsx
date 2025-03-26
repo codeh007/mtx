@@ -5,6 +5,8 @@ import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { DateTimePicker } from "mtxuilib/components/time-picker/date-time-picker";
 import { DataTable } from "mtxuilib/data-table/data-table";
 import { getCreatedAfterFromTimeRange } from "mtxuilib/lib/utils";
+import { DashHeaders } from "mtxuilib/mt/DashContent";
+import { GoBack } from "mtxuilib/mt/GoBack";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -25,7 +27,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "mtxuilib/ui/select";
-import { GoBack } from "../../components/GoBack";
 import { useTenantId } from "../../hooks/useAuth";
 import { useNav } from "../../hooks/useNav";
 import { useMtmaiV2 } from "../../stores/StoreProvider";
@@ -37,8 +38,6 @@ export const Route = createLazyFileRoute("/workflow-runs/")({
 });
 
 function RouteComponent() {
-  // const tenant = useTenant();
-
   const tid = useTenantId();
   const search = Route.useSearch();
   const nav = useNav();

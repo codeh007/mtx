@@ -1,9 +1,9 @@
 import { LoginWithCreddents } from "mtmaiui/components/auth/UserLoginView";
 import { Icons } from "mtxuilib/icons/icons";
 import { cn } from "mtxuilib/lib/utils";
-import { GoBackButton } from "mtxuilib/mt/GoBackButton";
 import { ScreenPanel } from "mtxuilib/mt/ScreenPanel";
 import { LoginGithub } from "../../../../components/auth/LoginGithub";
+import { GoBack } from "mtxuilib/mt/GoBack.jsx";
 export default function Page(props: {
   searchParams: { callbackUrl: string | undefined };
 }) {
@@ -11,7 +11,7 @@ export default function Page(props: {
     <ScreenPanel open={true}>
       <div className="size-screen container flex flex-col items-center justify-center">
         <div className="absolute left-4 top-20 focus:z-10 focus:outline-hidden md:left-8 md:top-8">
-          <GoBackButton />
+          <GoBack />
         </div>
 
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">

@@ -14,7 +14,7 @@ export const GoBack = ({ to, search }: GoBackProps) => {
     <BreadcrumbItem>
       <CustomLink
         to={to}
-        search={search}
+        // search={search}
         className={cn(buttonVariants({ variant: "ghost" }))}
       >
         返回
