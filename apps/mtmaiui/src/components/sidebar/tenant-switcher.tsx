@@ -27,7 +27,7 @@ export function TenantSwitcher({
   memberships,
   currTenant,
 }: TenantSwitcherProps) {
-  const meta = useApiMeta();
+  // const meta = useApiMeta();
   const [open, setOpen] = React.useState(false);
 
   if (!currTenant) {

@@ -12,6 +12,7 @@ import { Input } from "mtxuilib/ui/input";
 import type { PropsWithChildren } from "react";
 import { useFormContext } from "react-hook-form";
 import type { z } from "zod";
+import { MessageTypeSelect } from "../MessageTypeSelect";
 
 export const FlowAgFields = (props: PropsWithChildren) => {
   const form = useFormContext<z.infer<typeof zAgentRunInput>>();
@@ -25,7 +26,8 @@ export const FlowAgFields = (props: PropsWithChildren) => {
           <FormItem>
             <FormLabel>message_type</FormLabel>
             <FormControl>
-              <Input placeholder="message_type" {...field} />
+              {/* <Input placeholder="message_type" {...field} /> */}
+              <MessageTypeSelect {...field} />
             </FormControl>
             {/* <FormDescription></FormDescription> */}
             <FormMessage />

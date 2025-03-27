@@ -91,7 +91,11 @@ export function ZForm<TInput extends FieldValues>(
       if (props.toastValidateError) {
         toast.toast({
           title: "表单不正确",
-          description: formErrors.join(","),
+          description: (
+            <div>
+              <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
+            </div>
+          ),
         });
       }
       return;

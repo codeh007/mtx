@@ -1,12 +1,12 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { type FlowNames, workflowRunCreateMutation } from "mtmaiapi";
+import { workflowRunCreateMutation, type FlowNames } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
-import type { PropsWithChildren } from "react";
+import { useEffect, type PropsWithChildren } from "react";
 import { z } from "zod";
 import { useNav } from "../../hooks/useNav";
 
@@ -63,7 +63,7 @@ export default function FlowForm({
     defaultValues: {},
     toastValidateError: true,
     handleSubmit: (values) => {
-      // console.log(values);
+      console.log("values", values);
       workflowRunCreate.mutate({
         path: {
           workflow: workflowName,
@@ -117,6 +117,13 @@ export default function FlowForm({
     };
     fileInput.click();
   };
+
+  useEffect(() => {
+    const subscription = form.form.watch((value, { name, type }) =>
+      console.log(value, name, type)
+    )
+    return () => subscription.unsubscribe()
+  }, [form.form.watch])
 
   return (
     <ZForm {...form} className={cn("flex flex-col gap-4 px-2", className)}>
