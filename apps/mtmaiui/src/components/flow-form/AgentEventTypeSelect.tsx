@@ -21,8 +21,8 @@ const componentTypes = [
     label: "文本",
   },
   {
-    value: "平台账号",
-    label: "PlatformAccountInput",
+    value: "PlatformAccountInput",
+    label: "平台账号",
   },
 ];
 
