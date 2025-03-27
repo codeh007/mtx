@@ -17,28 +17,16 @@ import { Popover, PopoverContent, PopoverTrigger } from "mtxuilib/ui/popover";
 
 const componentTypes = [
   {
-    value: "RoundRobinGroupChat",
-    label: "轮询群聊",
+    value: "TextMessage",
+    label: "文本",
   },
   {
-    value: "SelectorGroupChat",
-    label: "选择群聊",
-  },
-  {
-    value: "Assisant",
-    label: "助手",
-  },
-  {
-    value: "MagenticOneGroupChat",
-    label: "磁力一号",
-  },
-  {
-    value: "instagramTeam",
-    label: "Instagram团队",
+    value: "平台账号",
+    label: "PlatformAccountInput",
   },
 ];
 
-export function MessageTypeSelect(props: React.ComponentProps<"input">) {
+export function AgentEventTypeSelect(props: React.ComponentProps<"input">) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
 

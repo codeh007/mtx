@@ -14,6 +14,7 @@ import {
   workflowRunUpdateReplayMutation,
 } from "mtmaiapi";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
+import { DashHeaders } from "mtxuilib/mt/DashContent";
 import {
   Breadcrumb,
   BreadcrumbItem,

@@ -2,12 +2,12 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { workflowRunCreateMutation, type FlowNames } from "mtmaiapi";
+import { zAgentRunInput } from "mtmaiapi/gomtmapi/zod.gen";
 import { cn } from "mtxuilib/lib/utils";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useEffect, type PropsWithChildren } from "react";
-import { z } from "zod";
 import { useNav } from "../../hooks/useNav";
 
 interface FlowFormProps {
@@ -57,10 +57,10 @@ export default function FlowForm({
     },
   });
   const form = useZodFormV2({
-    schema: z.object({
-      input: z.string(),
-    }),
-    defaultValues: {},
+    schema: zAgentRunInput,
+    defaultValues: {
+      content: "hello",
+    },
     toastValidateError: true,
     handleSubmit: (values) => {
       console.log("values", values);

@@ -1812,6 +1812,9 @@ export const zArtifact = z.object({
 
 export const zAgentRunInput = z.object({
   sessionId: z.string().optional(),
+  event_type: z
+    .enum(["ThoughtEvent", "TextMessage", "PlatformAccountInput"])
+    .optional(),
   content: z.string(),
   tenantId: z.string().optional(),
   runId: z.string().optional(),
@@ -1821,10 +1824,6 @@ export const zAgentRunInput = z.object({
   teamName: z.string().optional(),
   topic: z.string().optional(),
   source: z.string().optional(),
-  messages: z.object({}).optional(),
-  message_type: z
-    .enum(["text", "image", "file", "platform_account"])
-    .optional(),
 });
 
 export const zChatHistoryList = z.object({
@@ -1986,7 +1985,7 @@ export const zAgStateProperties = z.object({
                 z.object({
                   type: z.enum(["ThoughtEvent"]),
                   source: z.string(),
-                  content: z.string().optional(),
+                  content: z.string(),
                   metadata: z.object({}).optional(),
                   models_usage: z.object({}).optional(),
                 }),
@@ -1996,6 +1995,10 @@ export const zAgStateProperties = z.object({
                   content: z.string().optional(),
                   metadata: z.object({}).optional(),
                   models_usage: z.object({}).optional(),
+                }),
+                z.object({
+                  type: z.enum(["PlatformAccount"]).optional(),
+                  source: z.string().optional(),
                 }),
               ]),
             )
@@ -2155,7 +2158,7 @@ export const zAgStateProperties = z.object({
                 z.object({
                   type: z.enum(["ThoughtEvent"]),
                   source: z.string(),
-                  content: z.string().optional(),
+                  content: z.string(),
                   metadata: z.object({}).optional(),
                   models_usage: z.object({}).optional(),
                 }),
@@ -2165,6 +2168,10 @@ export const zAgStateProperties = z.object({
                   content: z.string().optional(),
                   metadata: z.object({}).optional(),
                   models_usage: z.object({}).optional(),
+                }),
+                z.object({
+                  type: z.enum(["PlatformAccount"]).optional(),
+                  source: z.string().optional(),
                 }),
               ]),
             )
@@ -2232,7 +2239,7 @@ export const zRoundRobinManagerState = zBaseState
             z.object({
               type: z.enum(["ThoughtEvent"]),
               source: z.string(),
-              content: z.string().optional(),
+              content: z.string(),
               metadata: z.object({}).optional(),
               models_usage: z.object({}).optional(),
             }),
@@ -2242,6 +2249,10 @@ export const zRoundRobinManagerState = zBaseState
               content: z.string().optional(),
               metadata: z.object({}).optional(),
               models_usage: z.object({}).optional(),
+            }),
+            z.object({
+              type: z.enum(["PlatformAccount"]).optional(),
+              source: z.string().optional(),
             }),
           ]),
         )
@@ -2305,7 +2316,7 @@ export const zBaseGroupChatManagerState = zBaseState.merge(
           z.object({
             type: z.enum(["ThoughtEvent"]),
             source: z.string(),
-            content: z.string().optional(),
+            content: z.string(),
             metadata: z.object({}).optional(),
             models_usage: z.object({}).optional(),
           }),
@@ -2315,6 +2326,10 @@ export const zBaseGroupChatManagerState = zBaseState.merge(
             content: z.string().optional(),
             metadata: z.object({}).optional(),
             models_usage: z.object({}).optional(),
+          }),
+          z.object({
+            type: z.enum(["PlatformAccount"]).optional(),
+            source: z.string().optional(),
           }),
         ]),
       )
@@ -2769,13 +2784,6 @@ export const zTeamTypes = z.enum([
   "SelectorGroupChat",
   "MagenticOneGroupChat",
   "InstagramTeam",
-]);
-
-export const zAgentMessageType = z.enum([
-  "text",
-  "image",
-  "file",
-  "platform_account",
 ]);
 
 export const zTenantParameter = z.string().uuid().length(36);
@@ -3324,13 +3332,17 @@ export const zAgentConfig = z.object({
   tool_call_summary_format: z.string().default("{result}"),
 });
 
-export const zAgentEventType = z.enum(["ThoughtEvent", "TextMessage"]);
+export const zAgentEventType = z.enum([
+  "ThoughtEvent",
+  "TextMessage",
+  "PlatformAccountInput",
+]);
 
 export const zAgentEvent = z.union([
   z.object({
     type: z.enum(["ThoughtEvent"]),
     source: z.string(),
-    content: z.string().optional(),
+    content: z.string(),
     metadata: z.object({}).optional(),
     models_usage: z.object({}).optional(),
   }),
@@ -3340,6 +3352,10 @@ export const zAgentEvent = z.union([
     content: z.string().optional(),
     metadata: z.object({}).optional(),
     models_usage: z.object({}).optional(),
+  }),
+  z.object({
+    type: z.enum(["PlatformAccount"]).optional(),
+    source: z.string().optional(),
   }),
 ]);
 
@@ -3354,7 +3370,7 @@ export const zTextMessage = z.object({
 export const zThoughtEvent = z.object({
   type: z.enum(["ThoughtEvent"]),
   source: z.string(),
-  content: z.string().optional(),
+  content: z.string(),
   metadata: z.object({}).optional(),
   models_usage: z.object({}).optional(),
 });

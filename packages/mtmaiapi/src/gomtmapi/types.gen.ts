@@ -1880,6 +1880,7 @@ export type Artifact = {
 
 export type AgentRunInput = {
   sessionId?: string;
+  event_type?: AgentEventType;
   content: string;
   tenantId?: string;
   runId?: string;
@@ -1889,10 +1890,6 @@ export type AgentRunInput = {
   teamName?: string;
   topic?: string;
   source?: string;
-  messages?: {
-    [key: string]: unknown;
-  };
-  message_type?: AgentMessageType;
 };
 
 export type ChatHistoryList = {
@@ -2536,15 +2533,6 @@ export const TeamTypes = {
   SELECTOR_GROUP_CHAT: "SelectorGroupChat",
   MAGENTIC_ONE_GROUP_CHAT: "MagenticOneGroupChat",
   INSTAGRAM_TEAM: "InstagramTeam",
-} as const;
-
-export type AgentMessageType = "text" | "image" | "file" | "platform_account";
-
-export const AgentMessageType = {
-  TEXT: "text",
-  IMAGE: "image",
-  FILE: "file",
-  PLATFORM_ACCOUNT: "platform_account",
 } as const;
 
 export type TenantParameter = string;
@@ -3217,14 +3205,24 @@ export type AgentConfig = {
   tool_call_summary_format: string;
 };
 
-export type AgentEventType = "ThoughtEvent" | "TextMessage";
+export type AgentEventType =
+  | "ThoughtEvent"
+  | "TextMessage"
+  | "PlatformAccountInput";
 
 export const AgentEventType = {
   THOUGHT_EVENT: "ThoughtEvent",
   TEXT_MESSAGE: "TextMessage",
+  PLATFORM_ACCOUNT_INPUT: "PlatformAccountInput",
 } as const;
 
-export type AgentEvent = ThoughtEvent | TextMessage;
+export type AgentEvent =
+  | ThoughtEvent
+  | TextMessage
+  | {
+      type?: "PlatformAccount";
+      source?: string;
+    };
 
 export type TextMessage = {
   type?: "TextMessage";
@@ -3241,7 +3239,7 @@ export type TextMessage = {
 export type ThoughtEvent = {
   type: "ThoughtEvent";
   source: string;
-  content?: string;
+  content: string;
   metadata?: {
     [key: string]: unknown;
   };

@@ -3338,6 +3338,10 @@ export const AgentRunInputSchema = {
     sessionId: {
       type: "string",
     },
+    event_type: {
+      type: "string",
+      $ref: "#/components/schemas/AgentEventType",
+    },
     content: {
       type: "string",
     },
@@ -3364,13 +3368,6 @@ export const AgentRunInputSchema = {
     },
     source: {
       type: "string",
-    },
-    messages: {
-      type: "object",
-    },
-    message_type: {
-      type: "string",
-      $ref: "#/components/schemas/AgentMessageType",
     },
   },
 } as const;
@@ -4744,11 +4741,6 @@ export const TeamTypesSchema = {
     "MagenticOneGroupChat",
     "InstagramTeam",
   ],
-} as const;
-
-export const AgentMessageTypeSchema = {
-  type: "string",
-  enum: ["text", "image", "file", "platform_account"],
 } as const;
 
 export const TenantParameterSchema = {
@@ -6217,7 +6209,7 @@ export const AgentConfigSchema = {
 
 export const AgentEventTypeSchema = {
   type: "string",
-  enum: ["ThoughtEvent", "TextMessage"],
+  enum: ["ThoughtEvent", "TextMessage", "PlatformAccountInput"],
 } as const;
 
 export const AgentEventSchema = {
@@ -6227,6 +6219,17 @@ export const AgentEventSchema = {
     },
     {
       $ref: "#/components/schemas/TextMessage",
+    },
+    {
+      properties: {
+        type: {
+          type: "string",
+          enum: ["PlatformAccount"],
+        },
+        source: {
+          type: "string",
+        },
+      },
     },
   ],
 } as const;
@@ -6255,7 +6258,7 @@ export const TextMessageSchema = {
 } as const;
 
 export const ThoughtEventSchema = {
-  required: ["type", "source"],
+  required: ["type", "source", "content"],
   properties: {
     type: {
       type: "string",
