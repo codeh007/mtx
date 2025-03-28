@@ -39,7 +39,7 @@ export function NavPlatformAccount() {
           <div className="text-base font-medium text-foreground">账号</div>
           <Label className="flex items-center gap-2 text-sm">
             <CustomLink
-              to={"create"}
+              to={"new"}
               className={cn(buttonVariants({ variant: "ghost", size: "icon" }))}
             >
               <Icons.plus className="size-4" />

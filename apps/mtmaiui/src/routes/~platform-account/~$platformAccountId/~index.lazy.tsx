@@ -3,9 +3,9 @@ import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import {
   platformAccountGetOptions,
-  platformAccountUpdateMutation,
+  platformAccountUpsertMutation,
 } from "mtmaiapi";
-import { zPlatformAccountUpsert } from "mtmaiapi/gomtmapi/zod.gen.js";
+import { zPlatformAccountUpsert } from "mtmaiapi/gomtmapi/zod.gen";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { ZForm, ZFormToolbar, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { JsonObjectInput } from "mtxuilib/mt/inputs/JsonObjectInput";
@@ -38,7 +38,7 @@ function RouteComponent() {
   });
 
   const updatePlatformAccountMutation = useMutation({
-    ...platformAccountUpdateMutation(),
+    ...platformAccountUpsertMutation(),
   });
   const form = useZodForm({
     schema: zPlatformAccountUpsert,
@@ -49,10 +49,6 @@ function RouteComponent() {
       <ZForm
         form={form}
         handleSubmit={(values) => {
-          // const convertedValues = {
-          //   ...values,
-          //   tags: values.tags,
-          // };
           updatePlatformAccountMutation.mutate({
             path: {
               tenant: tid!,

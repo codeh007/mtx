@@ -28,6 +28,7 @@ function RouteComponent() {
   const form = useZodFormV2({
     schema: zPlatformAccount,
     defaultValues: {},
+    toastValidateError: true,
     handleSubmit: (values) => {
       createPlatformAccountMutation.mutate({
         path: {
@@ -137,9 +138,8 @@ function RouteComponent() {
             </FormItem>
           )}
         />
-
-        <ZFormToolbar form={form.form} />
       </ZForm>
+      <ZFormToolbar form={form.form} />
     </>
   );
 }
