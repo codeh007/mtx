@@ -835,12 +835,16 @@ export const zWorkflowWorkersCount = z.object({
         "team",
         "com",
         "platform_account",
+        "resource",
       ]),
       z.object({
         type: z.enum(["PlatformAccountFlowInput"]).optional(),
         platform_account_id: z.string().optional(),
       }),
       z.enum(["ThoughtEvent", "TextMessage", "PlatformAccountFlowInput"]),
+      z.object({
+        resource_id: z.string().optional(),
+      }),
     ])
     .optional(),
 });
@@ -2376,6 +2380,7 @@ export const zFlowNames = z.enum([
   "team",
   "com",
   "platform_account",
+  "resource",
 ]);
 
 export const zTerminationTypes = z.enum([
@@ -3347,6 +3352,10 @@ export const zIgLogin = z.object({
 
 export const zIgLoginResponse = z.object({
   message: z.string().optional(),
+});
+
+export const zResourceFlowInput = z.object({
+  resource_id: z.string().optional(),
 });
 
 export const zMetadataGetResponse = zApiMeta;

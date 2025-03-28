@@ -1470,6 +1470,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/AgentEventType",
         },
+        {
+          $ref: "#/components/schemas/ResourceFlowInput",
+        },
       ],
     },
   },
@@ -4209,6 +4212,7 @@ export const FlowNamesSchema = {
     "team",
     "com",
     "platform_account",
+    "resource",
   ],
 } as const;
 
@@ -6450,6 +6454,14 @@ export const IGLoginResponseSchema = {
   type: "object",
   properties: {
     message: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const ResourceFlowInputSchema = {
+  properties: {
+    resource_id: {
       type: "string",
     },
   },

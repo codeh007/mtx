@@ -861,7 +861,8 @@ export type WorkflowWorkersCount = {
     | ModelInfo
     | FlowNames
     | PlatformAccountFlowInput
-    | AgentEventType;
+    | AgentEventType
+    | ResourceFlowInput;
 };
 
 export type WorkflowRun = {
@@ -2279,7 +2280,8 @@ export type FlowNames =
   | "smola"
   | "team"
   | "com"
-  | "platform_account";
+  | "platform_account"
+  | "resource";
 
 export const FlowNames = {
   SYS: "sys",
@@ -2291,6 +2293,7 @@ export const FlowNames = {
   TEAM: "team",
   COM: "com",
   PLATFORM_ACCOUNT: "platform_account",
+  RESOURCE: "resource",
 } as const;
 
 export type TerminationTypes =
@@ -3311,6 +3314,10 @@ export type IgLogin = {
 
 export type IgLoginResponse = {
   message?: string;
+};
+
+export type ResourceFlowInput = {
+  resource_id?: string;
 };
 
 export type ReadinessGetData = {

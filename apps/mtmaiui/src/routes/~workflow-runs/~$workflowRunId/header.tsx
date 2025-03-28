@@ -159,7 +159,7 @@ export const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
                       variant="underlined"
                       value="agent_visualization"
                     >
-                      智能体交互
+                      交互
                     </TabsTrigger>
                   </CustomLink>
                 </TabsList>
