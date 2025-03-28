@@ -7,7 +7,7 @@ import {
 } from "mtmaiapi";
 import { zPlatformAccountUpsert } from "mtmaiapi/gomtmapi/zod.gen";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
-import { ZForm, ZFormToolbar, useZodForm } from "mtxuilib/mt/form/ZodForm";
+import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import { JsonObjectInput } from "mtxuilib/mt/inputs/JsonObjectInput";
 import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
 import {
@@ -18,6 +18,8 @@ import {
   FormMessage,
 } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
+import { useToast } from "mtxuilib/ui/use-toast";
+import { useEffect } from "react";
 import { useTenantId } from "../../../hooks/useAuth";
 export const Route = createLazyFileRoute(
   "/platform-account/$platformAccountId/",
@@ -28,6 +30,7 @@ export const Route = createLazyFileRoute(
 function RouteComponent() {
   const { platformAccountId } = Route.useParams();
   const tid = useTenantId();
+  const toast = useToast();
   const query = useSuspenseQuery({
     ...platformAccountGetOptions({
       path: {
@@ -39,28 +42,36 @@ function RouteComponent() {
 
   const updatePlatformAccountMutation = useMutation({
     ...platformAccountUpsertMutation(),
+    onSuccess: () => {
+      toast.toast({
+        title: "操作成功",
+      });
+    },
   });
-  const form = useZodForm({
+  const form = useZodFormV2({
     schema: zPlatformAccountUpsert,
     defaultValues: query.data,
+    toastValidateError: true,
+    handleSubmit: (values) => {
+      updatePlatformAccountMutation.mutate({
+        path: {
+          tenant: tid!,
+          platform_account: platformAccountId,
+        },
+        body: values,
+      });
+    },
   });
+  useEffect(() => {
+    if (query.data) {
+      form.form.reset(query.data);
+    }
+  }, [query.data, form.form]);
   return (
     <>
-      <ZForm
-        form={form}
-        handleSubmit={(values) => {
-          updatePlatformAccountMutation.mutate({
-            path: {
-              tenant: tid!,
-              platform_account: platformAccountId,
-            },
-            body: values,
-          });
-        }}
-        className="space-y-2"
-      >
+      <ZForm {...form} className="space-y-2 px-2">
         <FormField
-          control={form.control}
+          control={form.form.control}
           name="username"
           render={({ field }) => (
             <FormItem>
@@ -73,7 +84,7 @@ function RouteComponent() {
           )}
         />
         <FormField
-          control={form.control}
+          control={form.form.control}
           name="password"
           render={({ field }) => (
             <FormItem>
@@ -86,7 +97,7 @@ function RouteComponent() {
           )}
         />
         <FormField
-          control={form.control}
+          control={form.form.control}
           name="type"
           render={({ field }) => (
             <FormItem>
@@ -99,7 +110,7 @@ function RouteComponent() {
           )}
         />
         <FormField
-          control={form.control}
+          control={form.form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
@@ -112,7 +123,7 @@ function RouteComponent() {
           )}
         />
         <FormField
-          control={form.control}
+          control={form.form.control}
           name="platform"
           render={({ field }) => (
             <FormItem>
@@ -125,7 +136,7 @@ function RouteComponent() {
           )}
         />
         <FormField
-          control={form.control}
+          control={form.form.control}
           name="tags"
           render={({ field }) => (
             <FormItem>
@@ -149,8 +160,8 @@ function RouteComponent() {
             </FormItem>
           )}
         />
-        <DebugValue data={{ data: query.data, form: form.getValues() }} />
-        <ZFormToolbar form={form} />
+        <DebugValue data={{ data: query.data, form: form.form.getValues() }} />
+        <ZFormToolbar form={form.form} />
       </ZForm>
     </>
   );

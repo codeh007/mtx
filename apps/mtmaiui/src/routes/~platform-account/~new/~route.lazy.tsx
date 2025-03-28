@@ -1,10 +1,14 @@
 "use client";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { platformAccountCreateMutation } from "mtmaiapi";
+import {
+  platformAccountCreateMutation,
+  platformAccountListOptions,
+} from "mtmaiapi";
 import { zPlatformAccountCreate } from "mtmaiapi/gomtmapi/zod.gen";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
+import { Button } from "mtxuilib/ui/button";
 import {
   FormControl,
   FormField,
@@ -14,15 +18,44 @@ import {
 } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { Switch } from "mtxuilib/ui/switch";
+import { useToast } from "mtxuilib/ui/use-toast";
 import { useTenantId } from "../../../hooks/useAuth";
+import { useNav } from "../../../hooks/useNav";
+import { PlatformAccountHeader } from "./headers";
 
 export const Route = createLazyFileRoute("/platform-account/new")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const queryClient = useQueryClient();
+  const toast = useToast();
+  const nav = useNav();
   const createPlatformAccountMutation = useMutation({
     ...platformAccountCreateMutation(),
+    onSuccess: (item) => {
+      queryClient.invalidateQueries({
+        ...platformAccountListOptions({
+          path: {
+            tenant: tid,
+          },
+        }),
+      });
+      toast.toast({
+        title: "创建成功",
+        description: (
+          <div>
+            <Button
+              onClick={() => {
+                nav({ to: `/platform-account/${item.metadata?.id}` });
+              }}
+            >
+              查看
+            </Button>
+          </div>
+        ),
+      });
+    },
   });
   const tid = useTenantId();
   const form = useZodFormV2({
@@ -42,6 +75,7 @@ function RouteComponent() {
   });
   return (
     <>
+      <PlatformAccountHeader />
       <ZForm {...form} className="flex flex-col h-full w-full px-2 space-y-2">
         <FormField
           control={form.form.control}

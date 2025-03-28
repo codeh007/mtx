@@ -3,7 +3,7 @@ import { Outlet } from "@tanstack/react-router";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { SidebarProvider } from "mtxuilib/ui/sidebar";
 import { RootAppWrapper } from "../components/RootAppWrapper";
-import { PlatformAccountHeader } from "./headers";
+// import { PlatformAccountHeader } from "./headers";
 import { NavPlatformAccount } from "./siderbar";
 
 export const Route = createLazyFileRoute("/platform-account")({
@@ -21,7 +21,6 @@ function RouteComponent() {
       }
     >
       <RootAppWrapper secondSidebar={<NavPlatformAccount />}>
-        <PlatformAccountHeader />
         <Outlet />
       </RootAppWrapper>
     </SidebarProvider>

@@ -3300,7 +3300,7 @@ export type RunFlowModelInput = {
 
 export type PlatformAccountFlowInput = {
   type?: "PlatformAccountFlowInput";
-  source?: string;
+  platform_account_id?: string;
 };
 
 export type IgLogin = {

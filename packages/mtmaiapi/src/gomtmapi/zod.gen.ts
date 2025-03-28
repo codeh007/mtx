@@ -838,7 +838,7 @@ export const zWorkflowWorkersCount = z.object({
       ]),
       z.object({
         type: z.enum(["PlatformAccountFlowInput"]).optional(),
-        source: z.string().optional(),
+        platform_account_id: z.string().optional(),
       }),
       z.enum(["ThoughtEvent", "TextMessage", "PlatformAccountFlowInput"]),
     ])
@@ -3270,7 +3270,7 @@ export const zAgentEvent = z.union([
   }),
   z.object({
     type: z.enum(["PlatformAccountFlowInput"]).optional(),
-    source: z.string().optional(),
+    platform_account_id: z.string().optional(),
   }),
 ]);
 
@@ -3336,7 +3336,7 @@ export const zRunFlowModelInput = z.object({
 
 export const zPlatformAccountFlowInput = z.object({
   type: z.enum(["PlatformAccountFlowInput"]).optional(),
-  source: z.string().optional(),
+  platform_account_id: z.string().optional(),
 });
 
 export const zIgLogin = z.object({

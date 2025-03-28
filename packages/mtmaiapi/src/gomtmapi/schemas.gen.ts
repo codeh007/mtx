@@ -6425,7 +6425,7 @@ export const PlatformAccountFlowInputSchema = {
       type: "string",
       enum: ["PlatformAccountFlowInput"],
     },
-    source: {
+    platform_account_id: {
       type: "string",
     },
   },

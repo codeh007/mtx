@@ -4215,9 +4215,6 @@ export const platformAccountList = <ThrowOnError extends boolean = false>(
   });
 };
 
-/**
- * create platform_account
- */
 export const platformAccountCreate = <ThrowOnError extends boolean = false>(
   options: Options<PlatformAccountCreateData, ThrowOnError>,
 ) => {
