@@ -406,9 +406,9 @@ import type {
   PlatformAccountCreateError,
   PlatformAccountGetData,
   PlatformAccountGetResponse,
-  PlatformAccountUpdateData,
-  PlatformAccountUpdateResponse,
-  PlatformAccountUpdateError,
+  PlatformAccountUpsertData,
+  PlatformAccountUpsertResponse,
+  PlatformAccountUpsertError,
   BrowserListData,
   BrowserListResponse,
   BrowserListError,
@@ -4272,12 +4272,12 @@ export const platformAccountGet = <ThrowOnError extends boolean = false>(
  * Update platform_account
  * Update an platform_account
  */
-export const platformAccountUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<PlatformAccountUpdateData, ThrowOnError>,
+export const platformAccountUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<PlatformAccountUpsertData, ThrowOnError>,
 ) => {
   return (options.client ?? _heyApiClient).patch<
-    PlatformAccountUpdateResponse,
-    PlatformAccountUpdateError,
+    PlatformAccountUpsertResponse,
+    PlatformAccountUpsertError,
     ThrowOnError
   >({
     security: [

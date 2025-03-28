@@ -145,7 +145,7 @@ import {
   platformAccountList,
   platformAccountCreate,
   platformAccountGet,
-  platformAccountUpdate,
+  platformAccountUpsert,
   browserList,
   browserCreate,
   browserGet,
@@ -449,9 +449,9 @@ import type {
   PlatformAccountCreateError,
   PlatformAccountCreateResponse,
   PlatformAccountGetData,
-  PlatformAccountUpdateData,
-  PlatformAccountUpdateError,
-  PlatformAccountUpdateResponse,
+  PlatformAccountUpsertData,
+  PlatformAccountUpsertError,
+  PlatformAccountUpsertResponse,
   BrowserListData,
   BrowserCreateData,
   BrowserCreateError,
@@ -4457,16 +4457,16 @@ export const platformAccountGetOptions = (
   });
 };
 
-export const platformAccountUpdateMutation = (
-  options?: Partial<Options<PlatformAccountUpdateData>>,
+export const platformAccountUpsertMutation = (
+  options?: Partial<Options<PlatformAccountUpsertData>>,
 ) => {
   const mutationOptions: UseMutationOptions<
-    PlatformAccountUpdateResponse,
-    PlatformAccountUpdateError,
-    Options<PlatformAccountUpdateData>
+    PlatformAccountUpsertResponse,
+    PlatformAccountUpsertError,
+    Options<PlatformAccountUpsertData>
   > = {
     mutationFn: async (localOptions) => {
-      const { data } = await platformAccountUpdate({
+      const { data } = await platformAccountUpsert({
         ...options,
         ...localOptions,
         throwOnError: true,

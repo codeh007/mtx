@@ -837,8 +837,10 @@ export const zWorkflowWorkersCount = z.object({
         "platform_account",
       ]),
       z.object({
-        account_id: z.string().optional(),
+        type: z.enum(["PlatformAccountFlowInput"]).optional(),
+        source: z.string().optional(),
       }),
+      z.enum(["ThoughtEvent", "TextMessage", "PlatformAccountFlowInput"]),
     ])
     .optional(),
 });
@@ -3246,7 +3248,7 @@ export const zAgentConfig = z.object({
 export const zAgentEventType = z.enum([
   "ThoughtEvent",
   "TextMessage",
-  "PlatformAccountInput",
+  "PlatformAccountFlowInput",
 ]);
 
 export const zAgentEvent = z.union([
@@ -3265,7 +3267,7 @@ export const zAgentEvent = z.union([
     models_usage: z.object({}).optional(),
   }),
   z.object({
-    type: z.enum(["PlatformAccount"]).optional(),
+    type: z.enum(["PlatformAccountFlowInput"]).optional(),
     source: z.string().optional(),
   }),
 ]);
@@ -3330,6 +3332,11 @@ export const zRunFlowModelInput = z.object({
   tag: z.string().optional(),
 });
 
+export const zPlatformAccountFlowInput = z.object({
+  type: z.enum(["PlatformAccountFlowInput"]).optional(),
+  source: z.string().optional(),
+});
+
 export const zIgLogin = z.object({
   username: z.string().optional(),
   password: z.string().optional(),
@@ -3338,10 +3345,6 @@ export const zIgLogin = z.object({
 
 export const zIgLoginResponse = z.object({
   message: z.string().optional(),
-});
-
-export const zPlatformAccountFlowInput = z.object({
-  account_id: z.string().optional(),
 });
 
 export const zMetadataGetResponse = zApiMeta;
@@ -3612,7 +3615,7 @@ export const zPlatformAccountCreateResponse = zPlatformAccount;
 
 export const zPlatformAccountGetResponse = zPlatformAccount;
 
-export const zPlatformAccountUpdateResponse = zPlatformAccount;
+export const zPlatformAccountUpsertResponse = zPlatformAccount;
 
 export const zBrowserListResponse = zBrowserList;
 

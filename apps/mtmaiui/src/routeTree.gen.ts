@@ -70,8 +70,8 @@ const ResourceNewRouteLazyImport = createFileRoute('/resource/new')()
 const ResourceResIdRouteLazyImport = createFileRoute('/resource/$resId')()
 const PostCreateLazyImport = createFileRoute('/post/create')()
 const PlayChatRouteLazyImport = createFileRoute('/play/chat')()
-const PlatformAccountCreateLazyImport = createFileRoute(
-  '/platform-account/create',
+const PlatformAccountNewRouteLazyImport = createFileRoute(
+  '/platform-account/new',
 )()
 const PlatformAccountPlatformAccountIdRouteLazyImport = createFileRoute(
   '/platform-account/$platformAccountId',
@@ -584,13 +584,14 @@ const PlayChatRouteLazyRoute = PlayChatRouteLazyImport.update({
   import('./routes/~play/~chat/~route.lazy').then((d) => d.Route),
 )
 
-const PlatformAccountCreateLazyRoute = PlatformAccountCreateLazyImport.update({
-  id: '/create',
-  path: '/create',
-  getParentRoute: () => PlatformAccountRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~platform-account/~create.lazy').then((d) => d.Route),
-)
+const PlatformAccountNewRouteLazyRoute =
+  PlatformAccountNewRouteLazyImport.update({
+    id: '/new',
+    path: '/new',
+    getParentRoute: () => PlatformAccountRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/~platform-account/~new/~route.lazy').then((d) => d.Route),
+  )
 
 const PlatformAccountPlatformAccountIdRouteLazyRoute =
   PlatformAccountPlatformAccountIdRouteLazyImport.update({
@@ -2209,11 +2210,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlatformAccountPlatformAccountIdRouteLazyImport
       parentRoute: typeof PlatformAccountRouteLazyImport
     }
-    '/platform-account/create': {
-      id: '/platform-account/create'
-      path: '/create'
-      fullPath: '/platform-account/create'
-      preLoaderRoute: typeof PlatformAccountCreateLazyImport
+    '/platform-account/new': {
+      id: '/platform-account/new'
+      path: '/new'
+      fullPath: '/platform-account/new'
+      preLoaderRoute: typeof PlatformAccountNewRouteLazyImport
       parentRoute: typeof PlatformAccountRouteLazyImport
     }
     '/play/chat': {
@@ -3455,7 +3456,7 @@ const PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren =
 interface PlatformAccountRouteLazyRouteChildren {
   PlatformAccountIndexLazyRoute: typeof PlatformAccountIndexLazyRoute
   PlatformAccountPlatformAccountIdRouteLazyRoute: typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
-  PlatformAccountCreateLazyRoute: typeof PlatformAccountCreateLazyRoute
+  PlatformAccountNewRouteLazyRoute: typeof PlatformAccountNewRouteLazyRoute
 }
 
 const PlatformAccountRouteLazyRouteChildren: PlatformAccountRouteLazyRouteChildren =
@@ -3463,7 +3464,7 @@ const PlatformAccountRouteLazyRouteChildren: PlatformAccountRouteLazyRouteChildr
     PlatformAccountIndexLazyRoute: PlatformAccountIndexLazyRoute,
     PlatformAccountPlatformAccountIdRouteLazyRoute:
       PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren,
-    PlatformAccountCreateLazyRoute: PlatformAccountCreateLazyRoute,
+    PlatformAccountNewRouteLazyRoute: PlatformAccountNewRouteLazyRoute,
   }
 
 const PlatformAccountRouteLazyRouteWithChildren =
@@ -4180,7 +4181,7 @@ export interface FileRoutesByFullPath {
   '/model/$modelId': typeof ModelModelIdRouteLazyRouteWithChildren
   '/model/new': typeof ModelNewRouteLazyRouteWithChildren
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
-  '/platform-account/create': typeof PlatformAccountCreateLazyRoute
+  '/platform-account/new': typeof PlatformAccountNewRouteLazyRoute
   '/play/chat': typeof PlayChatRouteLazyRouteWithChildren
   '/post/create': typeof PostCreateLazyRoute
   '/resource/$resId': typeof ResourceResIdRouteLazyRouteWithChildren
@@ -4322,7 +4323,7 @@ export interface FileRoutesByTo {
   '/workflows': typeof WorkflowsIndexLazyRoute
   '/auth/register': typeof AuthRegisterLazyRoute
   '/gallery/$galleryId': typeof GalleryGalleryIdRouteLazyRoute
-  '/platform-account/create': typeof PlatformAccountCreateLazyRoute
+  '/platform-account/new': typeof PlatformAccountNewRouteLazyRoute
   '/post/create': typeof PostCreateLazyRoute
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
   '/team/$teamId': typeof TeamTeamIdRouteLazyRouteWithChildren
@@ -4456,7 +4457,7 @@ export interface FileRoutesById {
   '/model/$modelId': typeof ModelModelIdRouteLazyRouteWithChildren
   '/model/new': typeof ModelNewRouteLazyRouteWithChildren
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
-  '/platform-account/create': typeof PlatformAccountCreateLazyRoute
+  '/platform-account/new': typeof PlatformAccountNewRouteLazyRoute
   '/play/chat': typeof PlayChatRouteLazyRouteWithChildren
   '/post/create': typeof PostCreateLazyRoute
   '/resource/$resId': typeof ResourceResIdRouteLazyRouteWithChildren
@@ -4628,7 +4629,7 @@ export interface FileRouteTypes {
     | '/model/$modelId'
     | '/model/new'
     | '/platform-account/$platformAccountId'
-    | '/platform-account/create'
+    | '/platform-account/new'
     | '/play/chat'
     | '/post/create'
     | '/resource/$resId'
@@ -4769,7 +4770,7 @@ export interface FileRouteTypes {
     | '/workflows'
     | '/auth/register'
     | '/gallery/$galleryId'
-    | '/platform-account/create'
+    | '/platform-account/new'
     | '/post/create'
     | '/resource/new'
     | '/team/$teamId'
@@ -4901,7 +4902,7 @@ export interface FileRouteTypes {
     | '/model/$modelId'
     | '/model/new'
     | '/platform-account/$platformAccountId'
-    | '/platform-account/create'
+    | '/platform-account/new'
     | '/play/chat'
     | '/post/create'
     | '/resource/$resId'
@@ -5177,7 +5178,7 @@ export const routeTree = rootRoute
       "children": [
         "/platform-account/",
         "/platform-account/$platformAccountId",
-        "/platform-account/create"
+        "/platform-account/new"
       ]
     },
     "/play": {
@@ -5420,8 +5421,8 @@ export const routeTree = rootRoute
         "/platform-account/$platformAccountId/"
       ]
     },
-    "/platform-account/create": {
-      "filePath": "~platform-account/~create.lazy.tsx",
+    "/platform-account/new": {
+      "filePath": "~platform-account/~new/~route.lazy.tsx",
       "parent": "/platform-account"
     },
     "/play/chat": {

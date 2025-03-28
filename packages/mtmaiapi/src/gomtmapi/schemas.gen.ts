@@ -1467,6 +1467,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/PlatformAccountFlowInput",
         },
+        {
+          $ref: "#/components/schemas/AgentEventType",
+        },
       ],
     },
   },
@@ -5550,6 +5553,7 @@ export const PlatformListSchema = {
 } as const;
 
 export const PlatformUpdateSchema = {
+  required: ["metadata", "name", "url"],
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -5576,7 +5580,6 @@ export const PlatformUpdateSchema = {
       },
     },
   },
-  required: ["metadata", "name", "url"],
 } as const;
 
 export const PlatformAccountPropertiesSchema = {
@@ -6221,7 +6224,7 @@ export const AgentConfigSchema = {
 
 export const AgentEventTypeSchema = {
   type: "string",
-  enum: ["ThoughtEvent", "TextMessage", "PlatformAccountInput"],
+  enum: ["ThoughtEvent", "TextMessage", "PlatformAccountFlowInput"],
 } as const;
 
 export const AgentEventSchema = {
@@ -6233,15 +6236,7 @@ export const AgentEventSchema = {
       $ref: "#/components/schemas/TextMessage",
     },
     {
-      properties: {
-        type: {
-          type: "string",
-          enum: ["PlatformAccount"],
-        },
-        source: {
-          type: "string",
-        },
-      },
+      $ref: "#/components/schemas/PlatformAccountFlowInput",
     },
   ],
 } as const;
@@ -6416,6 +6411,18 @@ export const RunFlowModelInputSchema = {
   },
 } as const;
 
+export const PlatformAccountFlowInputSchema = {
+  properties: {
+    type: {
+      type: "string",
+      enum: ["PlatformAccountFlowInput"],
+    },
+    source: {
+      type: "string",
+    },
+  },
+} as const;
+
 export const IGLoginSchema = {
   type: "object",
   properties: {
@@ -6435,14 +6442,6 @@ export const IGLoginResponseSchema = {
   type: "object",
   properties: {
     message: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const PlatformAccountFlowInputSchema = {
-  properties: {
-    account_id: {
       type: "string",
     },
   },

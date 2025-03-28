@@ -860,7 +860,8 @@ export type WorkflowWorkersCount = {
     | OrTerminationConfig
     | ModelInfo
     | FlowNames
-    | PlatformAccountFlowInput;
+    | PlatformAccountFlowInput
+    | AgentEventType;
 };
 
 export type WorkflowRun = {
@@ -3213,21 +3214,15 @@ export type AgentConfig = {
 export type AgentEventType =
   | "ThoughtEvent"
   | "TextMessage"
-  | "PlatformAccountInput";
+  | "PlatformAccountFlowInput";
 
 export const AgentEventType = {
   THOUGHT_EVENT: "ThoughtEvent",
   TEXT_MESSAGE: "TextMessage",
-  PLATFORM_ACCOUNT_INPUT: "PlatformAccountInput",
+  PLATFORM_ACCOUNT_FLOW_INPUT: "PlatformAccountFlowInput",
 } as const;
 
-export type AgentEvent =
-  | ThoughtEvent
-  | TextMessage
-  | {
-      type?: "PlatformAccount";
-      source?: string;
-    };
+export type AgentEvent = ThoughtEvent | TextMessage | PlatformAccountFlowInput;
 
 export type TextMessage = {
   type?: "TextMessage";
@@ -3301,6 +3296,11 @@ export type RunFlowModelInput = {
   tag?: string;
 };
 
+export type PlatformAccountFlowInput = {
+  type?: "PlatformAccountFlowInput";
+  source?: string;
+};
+
 export type IgLogin = {
   username?: string;
   password?: string;
@@ -3309,10 +3309,6 @@ export type IgLogin = {
 
 export type IgLoginResponse = {
   message?: string;
-};
-
-export type PlatformAccountFlowInput = {
-  account_id?: string;
 };
 
 export type ReadinessGetData = {
@@ -8570,11 +8566,11 @@ export type PlatformAccountGetResponses = {
 export type PlatformAccountGetResponse =
   PlatformAccountGetResponses[keyof PlatformAccountGetResponses];
 
-export type PlatformAccountUpdateData = {
+export type PlatformAccountUpsertData = {
   /**
    * The platform_account properties to update
    */
-  body: PlatformAccount;
+  body: PlatformAccountUpsert;
   path: {
     /**
      * The tenant id
@@ -8589,7 +8585,7 @@ export type PlatformAccountUpdateData = {
   url: "/api/v1/tenants/{tenant}/platform_accounts/{platform_account}";
 };
 
-export type PlatformAccountUpdateErrors = {
+export type PlatformAccountUpsertErrors = {
   /**
    * A malformed or bad request
    */
@@ -8600,18 +8596,18 @@ export type PlatformAccountUpdateErrors = {
   403: ApiErrors;
 };
 
-export type PlatformAccountUpdateError =
-  PlatformAccountUpdateErrors[keyof PlatformAccountUpdateErrors];
+export type PlatformAccountUpsertError =
+  PlatformAccountUpsertErrors[keyof PlatformAccountUpsertErrors];
 
-export type PlatformAccountUpdateResponses = {
+export type PlatformAccountUpsertResponses = {
   /**
    * Successfully created the platform_account
    */
   200: PlatformAccount;
 };
 
-export type PlatformAccountUpdateResponse =
-  PlatformAccountUpdateResponses[keyof PlatformAccountUpdateResponses];
+export type PlatformAccountUpsertResponse =
+  PlatformAccountUpsertResponses[keyof PlatformAccountUpsertResponses];
 
 export type BrowserListData = {
   body?: never;

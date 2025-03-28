@@ -18,6 +18,7 @@ import {
   useSidebar,
 } from "mtxuilib/ui/sidebar";
 
+import { Icons } from "mtxuilib/icons/icons";
 import { useTenantId } from "../../hooks/useAuth";
 
 export function NavPlatformAccount() {
@@ -39,9 +40,9 @@ export function NavPlatformAccount() {
           <Label className="flex items-center gap-2 text-sm">
             <CustomLink
               to={"create"}
-              className={cn(buttonVariants({ variant: "ghost" }))}
+              className={cn(buttonVariants({ variant: "ghost", size: "icon" }))}
             >
-              <span>+</span>
+              <Icons.plus className="size-4" />
             </CustomLink>
             <Switch className="shadow-none" />
           </Label>

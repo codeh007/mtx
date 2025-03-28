@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { platformAccountCreateMutation } from "mtmaiapi";
 import { zPlatformAccount } from "mtmaiapi/gomtmapi/zod.gen";
-import { ZForm, ZFormToolbar, useZodForm } from "mtxuilib/mt/form/ZodForm";
+import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
 import {
   FormControl,
@@ -14,9 +14,9 @@ import {
 } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { Switch } from "mtxuilib/ui/switch";
-import { useTenantId } from "../../hooks/useAuth";
+import { useTenantId } from "../../../hooks/useAuth";
 
-export const Route = createLazyFileRoute("/platform-account/create")({
+export const Route = createLazyFileRoute("/platform-account/new")({
   component: RouteComponent,
 });
 
@@ -25,28 +25,25 @@ function RouteComponent() {
     ...platformAccountCreateMutation(),
   });
   const tid = useTenantId();
-  const form = useZodForm({
+  const form = useZodFormV2({
     schema: zPlatformAccount,
     defaultValues: {},
+    handleSubmit: (values) => {
+      createPlatformAccountMutation.mutate({
+        path: {
+          tenant: tid,
+        },
+        body: {
+          ...values,
+        },
+      });
+    },
   });
   return (
-    <div className="flex flex-col h-full w-full px-2">
-      <ZForm
-        form={form}
-        handleSubmit={(values) => {
-          createPlatformAccountMutation.mutate({
-            path: {
-              tenant: tid,
-            },
-            body: {
-              ...values,
-            },
-          });
-        }}
-        className="space-y-2"
-      >
+    <>
+      <ZForm {...form} className="flex flex-col h-full w-full px-2 space-y-2">
         <FormField
-          control={form.control}
+          control={form.form.control}
           name="username"
           render={({ field }) => (
             <FormItem>
@@ -59,7 +56,7 @@ function RouteComponent() {
           )}
         />
         <FormField
-          control={form.control}
+          control={form.form.control}
           name="password"
           render={({ field }) => (
             <FormItem>
@@ -72,7 +69,7 @@ function RouteComponent() {
           )}
         />
         <FormField
-          control={form.control}
+          control={form.form.control}
           name="type"
           render={({ field }) => (
             <FormItem>
@@ -85,7 +82,7 @@ function RouteComponent() {
           )}
         />
         <FormField
-          control={form.control}
+          control={form.form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
@@ -98,7 +95,7 @@ function RouteComponent() {
           )}
         />
         <FormField
-          control={form.control}
+          control={form.form.control}
           name="platform"
           render={({ field }) => (
             <FormItem>
@@ -111,7 +108,7 @@ function RouteComponent() {
           )}
         />
         <FormField
-          control={form.control}
+          control={form.form.control}
           name="tags"
           render={({ field }) => (
             <FormItem>
@@ -123,19 +120,6 @@ function RouteComponent() {
             </FormItem>
           )}
         />
-        {/* <FormField
-          name={"properties"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>properties</FormLabel>
-              <FormControl>
-                <JsonObjectInput {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
-
         <FormField
           name={"enabled"}
           render={({ field }) => (
@@ -145,7 +129,7 @@ function RouteComponent() {
                 <Switch
                   checked={!!field.value}
                   onCheckedChange={(checked) => {
-                    form.setValue("enabled", checked);
+                    form.form.setValue("enabled", checked);
                   }}
                 />
               </FormControl>
@@ -154,8 +138,8 @@ function RouteComponent() {
           )}
         />
 
-        <ZFormToolbar form={form} />
+        <ZFormToolbar form={form.form} />
       </ZForm>
-    </div>
+    </>
   );
 }

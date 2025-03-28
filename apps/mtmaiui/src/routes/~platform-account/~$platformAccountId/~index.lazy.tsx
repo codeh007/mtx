@@ -5,6 +5,7 @@ import {
   platformAccountGetOptions,
   platformAccountUpdateMutation,
 } from "mtmaiapi";
+import { zPlatformAccountUpsert } from "mtmaiapi/gomtmapi/zod.gen.js";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { ZForm, ZFormToolbar, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { JsonObjectInput } from "mtxuilib/mt/inputs/JsonObjectInput";
@@ -17,7 +18,6 @@ import {
   FormMessage,
 } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
-import { z } from "zod";
 import { useTenantId } from "../../../hooks/useAuth";
 export const Route = createLazyFileRoute(
   "/platform-account/$platformAccountId/",
@@ -41,14 +41,7 @@ function RouteComponent() {
     ...platformAccountUpdateMutation(),
   });
   const form = useZodForm({
-    schema: z.object({
-      username: z.string().optional(),
-      password: z.string().optional(),
-      email: z.string().optional(),
-      type: z.string().optional(),
-      platform: z.string().optional(),
-      tags: z.array(z.string()).optional(),
-    }),
+    schema: zPlatformAccountUpsert,
     defaultValues: query.data,
   });
   return (
@@ -56,15 +49,16 @@ function RouteComponent() {
       <ZForm
         form={form}
         handleSubmit={(values) => {
-          const convertedValues = {
-            ...values,
-            tags: values.tags,
-          };
+          // const convertedValues = {
+          //   ...values,
+          //   tags: values.tags,
+          // };
           updatePlatformAccountMutation.mutate({
             path: {
-              platform_account: id,
+              tenant: tid!,
+              platform_account: platformAccountId,
             },
-            body: convertedValues,
+            body: values,
           });
         }}
         className="space-y-2"
