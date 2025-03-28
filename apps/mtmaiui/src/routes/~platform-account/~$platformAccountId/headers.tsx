@@ -106,7 +106,8 @@ export function PlatformAccountDetailHeader({
                   });
                 }}
               >
-                <Play className="size-4" /> Run
+                <Play className="size-4" />
+                Run
               </Button>
             </TooltipTrigger>
             <TooltipContent>

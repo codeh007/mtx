@@ -2,7 +2,11 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { Download, Play, Save } from "lucide-react";
-import { FlowNames, workflowRunCreateMutation } from "mtmaiapi";
+import {
+  FlowNames,
+  type ResourceFlowInput,
+  workflowRunCreateMutation,
+} from "mtmaiapi";
 import { DashHeaders, HeaderActionConainer } from "mtxuilib/mt/DashContent";
 import {
   Breadcrumb,
@@ -17,7 +21,10 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useNav } from "../../../hooks/useNav";
 
-export function ResourceHeader() {
+interface ResourceHeaderProps {
+  resId: string;
+}
+export function ResourceHeader({ resId }: ResourceHeaderProps) {
   const toast = useToast();
   const nav = useNav();
   const workflowRun = useMutation({
@@ -117,15 +124,16 @@ export function ResourceHeader() {
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-                size="icon"
-                className="w-16"
+                size="default"
                 onClick={() => {
                   workflowRun.mutate({
                     path: {
                       workflow: FlowNames.RESOURCE,
                     },
                     body: {
-                      input: {},
+                      input: {
+                        resource_id: resId,
+                      } satisfies ResourceFlowInput,
                     },
                   });
                 }}

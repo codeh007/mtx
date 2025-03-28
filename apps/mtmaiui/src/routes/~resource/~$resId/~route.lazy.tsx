@@ -6,9 +6,10 @@ export const Route = createLazyFileRoute("/resource/$resId")({
 });
 
 function RouteComponent() {
+  const { resId } = Route.useParams();
   return (
     <>
-      <ResourceHeader />
+      <ResourceHeader resId={resId} />
       <Outlet />
     </>
   );
