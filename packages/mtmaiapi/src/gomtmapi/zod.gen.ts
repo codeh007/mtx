@@ -3031,6 +3031,8 @@ export const zPlatformAccountProperties = z.object({
   properties: z.unknown().optional(),
 });
 
+export const zPlatformAccountCreate = zPlatformAccountProperties;
+
 export const zPlatformAccount = zApiResourceMetaProperties.merge(
   zPlatformAccountProperties,
 );

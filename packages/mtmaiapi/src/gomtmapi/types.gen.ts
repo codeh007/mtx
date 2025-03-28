@@ -2956,6 +2956,8 @@ export type PlatformAccountProperties = {
   properties?: unknown;
 };
 
+export type PlatformAccountCreate = PlatformAccountProperties;
+
 export type PlatformAccount = ApiResourceMetaProperties &
   PlatformAccountProperties;
 
@@ -8511,7 +8513,7 @@ export type PlatformAccountListResponse =
   PlatformAccountListResponses[keyof PlatformAccountListResponses];
 
 export type PlatformAccountCreateData = {
-  body: PlatformAccount;
+  body: PlatformAccountCreate;
   path: {
     /**
      * The tenant id

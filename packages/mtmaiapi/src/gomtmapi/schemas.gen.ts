@@ -5627,6 +5627,14 @@ export const PlatformAccountPropertiesSchema = {
   },
 } as const;
 
+export const PlatformAccountCreateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/PlatformAccountProperties",
+    },
+  ],
+} as const;
+
 export const PlatformAccountSchema = {
   allOf: [
     {

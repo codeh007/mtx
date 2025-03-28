@@ -2,7 +2,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { platformAccountCreateMutation } from "mtmaiapi";
-import { zPlatformAccount } from "mtmaiapi/gomtmapi/zod.gen";
+import { zPlatformAccountCreate } from "mtmaiapi/gomtmapi/zod.gen";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
 import {
@@ -26,7 +26,7 @@ function RouteComponent() {
   });
   const tid = useTenantId();
   const form = useZodFormV2({
-    schema: zPlatformAccount,
+    schema: zPlatformAccountCreate,
     defaultValues: {},
     toastValidateError: true,
     handleSubmit: (values) => {
