@@ -834,7 +834,11 @@ export const zWorkflowWorkersCount = z.object({
         "smola",
         "team",
         "com",
+        "platform_account",
       ]),
+      z.object({
+        account_id: z.string().optional(),
+      }),
     ])
     .optional(),
 });
@@ -1812,9 +1816,7 @@ export const zArtifact = z.object({
 
 export const zAgentRunInput = z.object({
   sessionId: z.string().optional(),
-  event_type: z
-    .enum(["ThoughtEvent", "TextMessage", "PlatformAccountInput"])
-    .optional(),
+  event_type: z.string().optional(),
   content: z.string(),
   tenantId: z.string().optional(),
   runId: z.string().optional(),
@@ -1979,30 +1981,7 @@ export const zAgStateProperties = z.object({
       .merge(
         z.object({
           type: z.enum(["BaseGroupChatManagerState"]).optional(),
-          message_thread: z
-            .array(
-              z.union([
-                z.object({
-                  type: z.enum(["ThoughtEvent"]),
-                  source: z.string(),
-                  content: z.string(),
-                  metadata: z.object({}).optional(),
-                  models_usage: z.object({}).optional(),
-                }),
-                z.object({
-                  type: z.enum(["TextMessage"]).optional(),
-                  source: z.string().optional(),
-                  content: z.string().optional(),
-                  metadata: z.object({}).optional(),
-                  models_usage: z.object({}).optional(),
-                }),
-                z.object({
-                  type: z.enum(["PlatformAccount"]).optional(),
-                  source: z.string().optional(),
-                }),
-              ]),
-            )
-            .optional(),
+          message_thread: z.array(z.object({})).optional(),
           current_turn: z.number().int().optional(),
         }),
       )
@@ -2152,30 +2131,7 @@ export const zAgStateProperties = z.object({
       .merge(
         z.object({
           type: z.enum(["BaseGroupChatManagerState"]).optional(),
-          message_thread: z
-            .array(
-              z.union([
-                z.object({
-                  type: z.enum(["ThoughtEvent"]),
-                  source: z.string(),
-                  content: z.string(),
-                  metadata: z.object({}).optional(),
-                  models_usage: z.object({}).optional(),
-                }),
-                z.object({
-                  type: z.enum(["TextMessage"]).optional(),
-                  source: z.string().optional(),
-                  content: z.string().optional(),
-                  metadata: z.object({}).optional(),
-                  models_usage: z.object({}).optional(),
-                }),
-                z.object({
-                  type: z.enum(["PlatformAccount"]).optional(),
-                  source: z.string().optional(),
-                }),
-              ]),
-            )
-            .optional(),
+          message_thread: z.array(z.object({})).optional(),
           current_turn: z.number().int().optional(),
         }),
       ),
@@ -2233,30 +2189,7 @@ export const zRoundRobinManagerState = zBaseState
   .merge(
     z.object({
       type: z.enum(["BaseGroupChatManagerState"]).optional(),
-      message_thread: z
-        .array(
-          z.union([
-            z.object({
-              type: z.enum(["ThoughtEvent"]),
-              source: z.string(),
-              content: z.string(),
-              metadata: z.object({}).optional(),
-              models_usage: z.object({}).optional(),
-            }),
-            z.object({
-              type: z.enum(["TextMessage"]).optional(),
-              source: z.string().optional(),
-              content: z.string().optional(),
-              metadata: z.object({}).optional(),
-              models_usage: z.object({}).optional(),
-            }),
-            z.object({
-              type: z.enum(["PlatformAccount"]).optional(),
-              source: z.string().optional(),
-            }),
-          ]),
-        )
-        .optional(),
+      message_thread: z.array(z.object({})).optional(),
       current_turn: z.number().int().optional(),
     }),
   )
@@ -2310,30 +2243,7 @@ export const zChatAgentContainerState = zBaseState.merge(
 export const zBaseGroupChatManagerState = zBaseState.merge(
   z.object({
     type: z.enum(["BaseGroupChatManagerState"]).optional(),
-    message_thread: z
-      .array(
-        z.union([
-          z.object({
-            type: z.enum(["ThoughtEvent"]),
-            source: z.string(),
-            content: z.string(),
-            metadata: z.object({}).optional(),
-            models_usage: z.object({}).optional(),
-          }),
-          z.object({
-            type: z.enum(["TextMessage"]).optional(),
-            source: z.string().optional(),
-            content: z.string().optional(),
-            metadata: z.object({}).optional(),
-            models_usage: z.object({}).optional(),
-          }),
-          z.object({
-            type: z.enum(["PlatformAccount"]).optional(),
-            source: z.string().optional(),
-          }),
-        ]),
-      )
-      .optional(),
+    message_thread: z.array(z.object({})).optional(),
     current_turn: z.number().int().optional(),
   }),
 );
@@ -2463,6 +2373,7 @@ export const zFlowNames = z.enum([
   "smola",
   "team",
   "com",
+  "platform_account",
 ]);
 
 export const zTerminationTypes = z.enum([
@@ -3427,6 +3338,10 @@ export const zIgLogin = z.object({
 
 export const zIgLoginResponse = z.object({
   message: z.string().optional(),
+});
+
+export const zPlatformAccountFlowInput = z.object({
+  account_id: z.string().optional(),
 });
 
 export const zMetadataGetResponse = zApiMeta;

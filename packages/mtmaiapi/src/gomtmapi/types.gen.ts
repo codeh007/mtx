@@ -859,7 +859,8 @@ export type WorkflowWorkersCount = {
     | StopMessageTerminationConfig
     | OrTerminationConfig
     | ModelInfo
-    | FlowNames;
+    | FlowNames
+    | PlatformAccountFlowInput;
 };
 
 export type WorkflowRun = {
@@ -1880,7 +1881,7 @@ export type Artifact = {
 
 export type AgentRunInput = {
   sessionId?: string;
-  event_type?: AgentEventType;
+  event_type?: string;
   content: string;
   tenantId?: string;
   runId?: string;
@@ -2133,7 +2134,9 @@ export type ChatAgentContainerState = BaseState & {
 
 export type BaseGroupChatManagerState = BaseState & {
   type?: "BaseGroupChatManagerState";
-  message_thread?: Array<AgentEvent>;
+  message_thread?: Array<{
+    [key: string]: unknown;
+  }>;
   current_turn?: number;
 };
 
@@ -2274,7 +2277,8 @@ export type FlowNames =
   | "browser"
   | "smola"
   | "team"
-  | "com";
+  | "com"
+  | "platform_account";
 
 export const FlowNames = {
   SYS: "sys",
@@ -2285,6 +2289,7 @@ export const FlowNames = {
   SMOLA: "smola",
   TEAM: "team",
   COM: "com",
+  PLATFORM_ACCOUNT: "platform_account",
 } as const;
 
 export type TerminationTypes =
@@ -3304,6 +3309,10 @@ export type IgLogin = {
 
 export type IgLoginResponse = {
   message?: string;
+};
+
+export type PlatformAccountFlowInput = {
+  account_id?: string;
 };
 
 export type ReadinessGetData = {

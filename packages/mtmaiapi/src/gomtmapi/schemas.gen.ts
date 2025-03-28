@@ -1464,6 +1464,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/FlowNames",
         },
+        {
+          $ref: "#/components/schemas/PlatformAccountFlowInput",
+        },
       ],
     },
   },
@@ -3340,7 +3343,6 @@ export const AgentRunInputSchema = {
     },
     event_type: {
       type: "string",
-      $ref: "#/components/schemas/AgentEventType",
     },
     content: {
       type: "string",
@@ -3865,7 +3867,7 @@ export const BaseGroupChatManagerStateSchema = {
         message_thread: {
           type: "array",
           items: {
-            $ref: "#/components/schemas/AgentEvent",
+            type: "object",
           },
         },
         current_turn: {
@@ -4194,7 +4196,17 @@ export const OutlineSchema = {
 
 export const FlowNamesSchema = {
   type: "string",
-  enum: ["sys", "tenant", "assistant", "ag", "browser", "smola", "team", "com"],
+  enum: [
+    "sys",
+    "tenant",
+    "assistant",
+    "ag",
+    "browser",
+    "smola",
+    "team",
+    "com",
+    "platform_account",
+  ],
 } as const;
 
 export const TerminationTypesSchema = {
@@ -6423,6 +6435,14 @@ export const IGLoginResponseSchema = {
   type: "object",
   properties: {
     message: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const PlatformAccountFlowInputSchema = {
+  properties: {
+    account_id: {
       type: "string",
     },
   },
