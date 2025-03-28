@@ -1,7 +1,5 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { Button } from "mtxuilib/ui/button";
-import { useTenantId } from "../../../hooks/useAuth";
-import { useNav } from "../../../hooks/useNav";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
 export const Route = createLazyFileRoute("/resource/$resId/")({
@@ -10,15 +8,6 @@ export const Route = createLazyFileRoute("/resource/$resId/")({
 
 function RouteComponent() {
   const { resId } = Route.useParams();
-  const tid = useTenantId();
-  const nav = useNav();
-
-  // const setResourceId = useWorkbenchStore((x) => x.setResourceId);
-  // const resourceId = useWorkbenchStore((x) => x.resourceId);
-  // useEffect(() => {
-  //   setResourceId(resId);
-  // }, [resId, setResourceId]);
-
   const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
   const handleRunWorkflow = () => {
     handleHumanInput({

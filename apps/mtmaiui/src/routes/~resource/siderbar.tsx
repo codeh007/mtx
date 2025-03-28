@@ -26,6 +26,7 @@ import {
 } from "mtxuilib/ui/sidebar";
 
 import { Trash2Icon } from "lucide-react";
+import { Icons } from "mtxuilib/icons/icons";
 import { Switch } from "mtxuilib/ui/switch";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useMemo } from "react";
@@ -50,9 +51,9 @@ export function NavResource() {
           <Label className="flex items-center gap-2 text-sm">
             <CustomLink
               to={"new"}
-              className={cn(buttonVariants({ variant: "ghost" }))}
+              className={cn(buttonVariants({ variant: "ghost", size: "icon" }))}
             >
-              <span>+</span>
+              <Icons.plus className="size-4" />
             </CustomLink>
             <Switch className="shadow-none" />
           </Label>

@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { resourceUpsertMutation } from "mtmaiapi";
 import { zMtResourceUpsert } from "mtmaiapi/gomtmapi/zod.gen";
-import { ZForm, ZFormToolbar, useZodForm } from "mtxuilib/mt/form/ZodForm";
+import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import {
   FormControl,
   FormField,
@@ -21,41 +21,26 @@ function RouteComponent() {
   const resourceUpsert = useMutation({
     ...resourceUpsertMutation(),
   });
-  const form = useZodForm({
+  const form = useZodFormV2({
     schema: zMtResourceUpsert,
     defaultValues: {},
+    handleSubmit: (values) => {
+      resourceUpsert.mutate({
+        path: {
+          tenant: tid,
+        },
+        body: {
+          ...values,
+          type: values.type,
+        },
+      });
+    },
   });
   return (
-    <div className="flex flex-col h-full w-full px-2">
-      <ZForm
-        form={form}
-        handleSubmit={(values) => {
-          console.log(values);
-          resourceUpsert.mutate({
-            path: {
-              tenant: tid,
-            },
-            body: {
-              ...values,
-            },
-          });
-        }}
-        className="space-y-2"
-      >
+    <>
+      <ZForm {...form} className="space-y-2 h-full w-full px-2">
         <FormField
-          control={form.control}
-          name="type"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <input type="hidden" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
+          control={form.form.control}
           name="title"
           render={({ field }) => (
             <FormItem>
@@ -68,13 +53,8 @@ function RouteComponent() {
           )}
         />
         <Outlet />
-        <ZFormToolbar form={form} />
-        {form.formState.errors && (
-          <div className="text-red-500">
-            {JSON.stringify(form.formState.errors, null, 2)}
-          </div>
-        )}
+        <ZFormToolbar form={form.form} />
       </ZForm>
-    </div>
+    </>
   );
 }

@@ -1,6 +1,8 @@
 "use client";
 
-import { Download, Save } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import { Download, Play, Save } from "lucide-react";
+import { FlowNames, workflowRunCreateMutation } from "mtmaiapi";
 import { DashHeaders, HeaderActionConainer } from "mtxuilib/mt/DashContent";
 import {
   Breadcrumb,
@@ -12,10 +14,32 @@ import {
 } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
-import { useSearch } from "../../../hooks/useNav";
+import { useToast } from "mtxuilib/ui/use-toast";
+import { useNav } from "../../../hooks/useNav";
 
 export function ResourceHeader() {
-  const search = useSearch();
+  const toast = useToast();
+  const nav = useNav();
+  const workflowRun = useMutation({
+    ...workflowRunCreateMutation(),
+    onSuccess: (result) => {
+      toast.toast({
+        title: "运行成功",
+        description: (
+          <div>
+            <Button
+              onClick={() => {
+                nav({ to: `/workflow-runs/${result.metadata?.id}` });
+              }}
+            >
+              查看
+            </Button>
+          </div>
+        ),
+      });
+    },
+  });
+
   return (
     <DashHeaders>
       <Breadcrumb>
@@ -92,21 +116,25 @@ export function ResourceHeader() {
 
           <Tooltip>
             <TooltipTrigger asChild>
-              {/* <Button
+              <Button
                 size="icon"
                 className="w-16"
                 onClick={() => {
-                  handleHumanInput({
-                    content: "你好",
-                    componentId: componentId,
+                  workflowRun.mutate({
+                    path: {
+                      workflow: FlowNames.RESOURCE,
+                    },
+                    body: {
+                      input: {},
+                    },
                   });
                 }}
               >
                 <Play className="size-4" /> Run
-              </Button> */}
+              </Button>
             </TooltipTrigger>
             <TooltipContent>
-              <span>Run Team</span>
+              <span>运行</span>
             </TooltipContent>
           </Tooltip>
         </div>

@@ -9,18 +9,10 @@ import {
   FormMessage,
 } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
-import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
 export const PlatformAccountFields = () => {
   const form = useFormContext();
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    form.reset();
-    form.setValue("type", "platform_account");
-    form.setValue("title", "账号");
-  }, []);
-
   return (
     <div className="flex flex-col h-full w-full px-2 space-y-2">
       <FormField

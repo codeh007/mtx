@@ -47,7 +47,6 @@ const ResourceRouteLazyImport = createFileRoute('/resource')()
 const RecurringRouteLazyImport = createFileRoute('/recurring')()
 const PostRouteLazyImport = createFileRoute('/post')()
 const PlayRouteLazyImport = createFileRoute('/play')()
-const PlatformAccountRouteLazyImport = createFileRoute('/platform-account')()
 const PlatformRouteLazyImport = createFileRoute('/platform')()
 const ModelRouteLazyImport = createFileRoute('/model')()
 const InstagramRouteLazyImport = createFileRoute('/instagram')()
@@ -94,7 +93,6 @@ const ResourceIndexLazyImport = createFileRoute('/resource/')()
 const RecurringIndexLazyImport = createFileRoute('/recurring/')()
 const PostIndexLazyImport = createFileRoute('/post/')()
 const PlayIndexLazyImport = createFileRoute('/play/')()
-const PlatformAccountIndexLazyImport = createFileRoute('/platform-account/')()
 const ModelIndexLazyImport = createFileRoute('/model/')()
 const InstagramIndexLazyImport = createFileRoute('/instagram/')()
 const GalleryIndexLazyImport = createFileRoute('/gallery/')()
@@ -432,14 +430,6 @@ const PlayRouteLazyRoute = PlayRouteLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~play/~route.lazy').then((d) => d.Route))
 
-const PlatformAccountRouteLazyRoute = PlatformAccountRouteLazyImport.update({
-  id: '/platform-account',
-  path: '/platform-account',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/~platform-account/~route.lazy').then((d) => d.Route),
-)
-
 const PlatformRouteLazyRoute = PlatformRouteLazyImport.update({
   id: '/platform',
   path: '/platform',
@@ -586,18 +576,18 @@ const PlayChatRouteLazyRoute = PlayChatRouteLazyImport.update({
 
 const PlatformAccountNewRouteLazyRoute =
   PlatformAccountNewRouteLazyImport.update({
-    id: '/new',
-    path: '/new',
-    getParentRoute: () => PlatformAccountRouteLazyRoute,
+    id: '/platform-account/new',
+    path: '/platform-account/new',
+    getParentRoute: () => rootRoute,
   } as any).lazy(() =>
     import('./routes/~platform-account/~new/~route.lazy').then((d) => d.Route),
   )
 
 const PlatformAccountPlatformAccountIdRouteLazyRoute =
   PlatformAccountPlatformAccountIdRouteLazyImport.update({
-    id: '/$platformAccountId',
-    path: '/$platformAccountId',
-    getParentRoute: () => PlatformAccountRouteLazyRoute,
+    id: '/platform-account/$platformAccountId',
+    path: '/platform-account/$platformAccountId',
+    getParentRoute: () => rootRoute,
   } as any).lazy(() =>
     import('./routes/~platform-account/~$platformAccountId/~route.lazy').then(
       (d) => d.Route,
@@ -739,14 +729,6 @@ const PlayIndexLazyRoute = PlayIndexLazyImport.update({
   path: '/',
   getParentRoute: () => PlayRouteLazyRoute,
 } as any).lazy(() => import('./routes/~play/~index.lazy').then((d) => d.Route))
-
-const PlatformAccountIndexLazyRoute = PlatformAccountIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PlatformAccountRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~platform-account/~index.lazy').then((d) => d.Route),
-)
 
 const ModelIndexLazyRoute = ModelIndexLazyImport.update({
   id: '/',
@@ -1895,13 +1877,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlatformRouteLazyImport
       parentRoute: typeof rootRoute
     }
-    '/platform-account': {
-      id: '/platform-account'
-      path: '/platform-account'
-      fullPath: '/platform-account'
-      preLoaderRoute: typeof PlatformAccountRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/play': {
       id: '/play'
       path: '/play'
@@ -2070,13 +2045,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ModelIndexLazyImport
       parentRoute: typeof ModelRouteLazyImport
     }
-    '/platform-account/': {
-      id: '/platform-account/'
-      path: '/'
-      fullPath: '/platform-account/'
-      preLoaderRoute: typeof PlatformAccountIndexLazyImport
-      parentRoute: typeof PlatformAccountRouteLazyImport
-    }
     '/play/': {
       id: '/play/'
       path: '/'
@@ -2205,17 +2173,17 @@ declare module '@tanstack/react-router' {
     }
     '/platform-account/$platformAccountId': {
       id: '/platform-account/$platformAccountId'
-      path: '/$platformAccountId'
+      path: '/platform-account/$platformAccountId'
       fullPath: '/platform-account/$platformAccountId'
       preLoaderRoute: typeof PlatformAccountPlatformAccountIdRouteLazyImport
-      parentRoute: typeof PlatformAccountRouteLazyImport
+      parentRoute: typeof rootRoute
     }
     '/platform-account/new': {
       id: '/platform-account/new'
-      path: '/new'
+      path: '/platform-account/new'
       fullPath: '/platform-account/new'
       preLoaderRoute: typeof PlatformAccountNewRouteLazyImport
-      parentRoute: typeof PlatformAccountRouteLazyImport
+      parentRoute: typeof rootRoute
     }
     '/play/chat': {
       id: '/play/chat'
@@ -3438,40 +3406,6 @@ const PlatformRouteLazyRouteChildren: PlatformRouteLazyRouteChildren = {
 const PlatformRouteLazyRouteWithChildren =
   PlatformRouteLazyRoute._addFileChildren(PlatformRouteLazyRouteChildren)
 
-interface PlatformAccountPlatformAccountIdRouteLazyRouteChildren {
-  PlatformAccountPlatformAccountIdIndexLazyRoute: typeof PlatformAccountPlatformAccountIdIndexLazyRoute
-}
-
-const PlatformAccountPlatformAccountIdRouteLazyRouteChildren: PlatformAccountPlatformAccountIdRouteLazyRouteChildren =
-  {
-    PlatformAccountPlatformAccountIdIndexLazyRoute:
-      PlatformAccountPlatformAccountIdIndexLazyRoute,
-  }
-
-const PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren =
-  PlatformAccountPlatformAccountIdRouteLazyRoute._addFileChildren(
-    PlatformAccountPlatformAccountIdRouteLazyRouteChildren,
-  )
-
-interface PlatformAccountRouteLazyRouteChildren {
-  PlatformAccountIndexLazyRoute: typeof PlatformAccountIndexLazyRoute
-  PlatformAccountPlatformAccountIdRouteLazyRoute: typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
-  PlatformAccountNewRouteLazyRoute: typeof PlatformAccountNewRouteLazyRoute
-}
-
-const PlatformAccountRouteLazyRouteChildren: PlatformAccountRouteLazyRouteChildren =
-  {
-    PlatformAccountIndexLazyRoute: PlatformAccountIndexLazyRoute,
-    PlatformAccountPlatformAccountIdRouteLazyRoute:
-      PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren,
-    PlatformAccountNewRouteLazyRoute: PlatformAccountNewRouteLazyRoute,
-  }
-
-const PlatformAccountRouteLazyRouteWithChildren =
-  PlatformAccountRouteLazyRoute._addFileChildren(
-    PlatformAccountRouteLazyRouteChildren,
-  )
-
 interface PlayChatSessionIdRouteLazyRouteChildren {
   PlayChatSessionIdIndexRoute: typeof PlayChatSessionIdIndexRoute
   PlayChatSessionIdEditLazyRoute: typeof PlayChatSessionIdEditLazyRoute
@@ -4125,6 +4059,21 @@ const WorkflowsRouteLazyRouteChildren: WorkflowsRouteLazyRouteChildren = {
 const WorkflowsRouteLazyRouteWithChildren =
   WorkflowsRouteLazyRoute._addFileChildren(WorkflowsRouteLazyRouteChildren)
 
+interface PlatformAccountPlatformAccountIdRouteLazyRouteChildren {
+  PlatformAccountPlatformAccountIdIndexLazyRoute: typeof PlatformAccountPlatformAccountIdIndexLazyRoute
+}
+
+const PlatformAccountPlatformAccountIdRouteLazyRouteChildren: PlatformAccountPlatformAccountIdRouteLazyRouteChildren =
+  {
+    PlatformAccountPlatformAccountIdIndexLazyRoute:
+      PlatformAccountPlatformAccountIdIndexLazyRoute,
+  }
+
+const PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren =
+  PlatformAccountPlatformAccountIdRouteLazyRoute._addFileChildren(
+    PlatformAccountPlatformAccountIdRouteLazyRouteChildren,
+  )
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteLazyRouteWithChildren
@@ -4136,7 +4085,6 @@ export interface FileRoutesByFullPath {
   '/instagram': typeof InstagramRouteLazyRouteWithChildren
   '/model': typeof ModelRouteLazyRouteWithChildren
   '/platform': typeof PlatformRouteLazyRouteWithChildren
-  '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
   '/play': typeof PlayRouteLazyRouteWithChildren
   '/post': typeof PostRouteLazyRouteWithChildren
   '/recurring': typeof RecurringRouteLazyRouteWithChildren
@@ -4161,7 +4109,6 @@ export interface FileRoutesByFullPath {
   '/gallery/': typeof GalleryIndexLazyRoute
   '/instagram/': typeof InstagramIndexLazyRoute
   '/model/': typeof ModelIndexLazyRoute
-  '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/play/': typeof PlayIndexLazyRoute
   '/post/': typeof PostIndexLazyRoute
   '/recurring/': typeof RecurringIndexLazyRoute
@@ -4308,7 +4255,6 @@ export interface FileRoutesByTo {
   '/gallery': typeof GalleryIndexLazyRoute
   '/instagram': typeof InstagramIndexLazyRoute
   '/model': typeof ModelIndexLazyRoute
-  '/platform-account': typeof PlatformAccountIndexLazyRoute
   '/play': typeof PlayIndexLazyRoute
   '/post': typeof PostIndexLazyRoute
   '/recurring': typeof RecurringIndexLazyRoute
@@ -4412,7 +4358,6 @@ export interface FileRoutesById {
   '/instagram': typeof InstagramRouteLazyRouteWithChildren
   '/model': typeof ModelRouteLazyRouteWithChildren
   '/platform': typeof PlatformRouteLazyRouteWithChildren
-  '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
   '/play': typeof PlayRouteLazyRouteWithChildren
   '/post': typeof PostRouteLazyRouteWithChildren
   '/recurring': typeof RecurringRouteLazyRouteWithChildren
@@ -4437,7 +4382,6 @@ export interface FileRoutesById {
   '/gallery/': typeof GalleryIndexLazyRoute
   '/instagram/': typeof InstagramIndexLazyRoute
   '/model/': typeof ModelIndexLazyRoute
-  '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/play/': typeof PlayIndexLazyRoute
   '/post/': typeof PostIndexLazyRoute
   '/recurring/': typeof RecurringIndexLazyRoute
@@ -4584,7 +4528,6 @@ export interface FileRouteTypes {
     | '/instagram'
     | '/model'
     | '/platform'
-    | '/platform-account'
     | '/play'
     | '/post'
     | '/recurring'
@@ -4609,7 +4552,6 @@ export interface FileRouteTypes {
     | '/gallery/'
     | '/instagram/'
     | '/model/'
-    | '/platform-account/'
     | '/play/'
     | '/post/'
     | '/recurring/'
@@ -4755,7 +4697,6 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/instagram'
     | '/model'
-    | '/platform-account'
     | '/play'
     | '/post'
     | '/recurring'
@@ -4857,7 +4798,6 @@ export interface FileRouteTypes {
     | '/instagram'
     | '/model'
     | '/platform'
-    | '/platform-account'
     | '/play'
     | '/post'
     | '/recurring'
@@ -4882,7 +4822,6 @@ export interface FileRouteTypes {
     | '/gallery/'
     | '/instagram/'
     | '/model/'
-    | '/platform-account/'
     | '/play/'
     | '/post/'
     | '/recurring/'
@@ -5028,7 +4967,6 @@ export interface RootRouteChildren {
   InstagramRouteLazyRoute: typeof InstagramRouteLazyRouteWithChildren
   ModelRouteLazyRoute: typeof ModelRouteLazyRouteWithChildren
   PlatformRouteLazyRoute: typeof PlatformRouteLazyRouteWithChildren
-  PlatformAccountRouteLazyRoute: typeof PlatformAccountRouteLazyRouteWithChildren
   PlayRouteLazyRoute: typeof PlayRouteLazyRouteWithChildren
   PostRouteLazyRoute: typeof PostRouteLazyRouteWithChildren
   RecurringRouteLazyRoute: typeof RecurringRouteLazyRouteWithChildren
@@ -5042,6 +4980,8 @@ export interface RootRouteChildren {
   TenantRouteLazyRoute: typeof TenantRouteLazyRouteWithChildren
   WorkflowRunsRouteLazyRoute: typeof WorkflowRunsRouteLazyRouteWithChildren
   WorkflowsRouteLazyRoute: typeof WorkflowsRouteLazyRouteWithChildren
+  PlatformAccountPlatformAccountIdRouteLazyRoute: typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
+  PlatformAccountNewRouteLazyRoute: typeof PlatformAccountNewRouteLazyRoute
   OnboardingCreateTenantIndexRoute: typeof OnboardingCreateTenantIndexRoute
 }
 
@@ -5056,7 +4996,6 @@ const rootRouteChildren: RootRouteChildren = {
   InstagramRouteLazyRoute: InstagramRouteLazyRouteWithChildren,
   ModelRouteLazyRoute: ModelRouteLazyRouteWithChildren,
   PlatformRouteLazyRoute: PlatformRouteLazyRouteWithChildren,
-  PlatformAccountRouteLazyRoute: PlatformAccountRouteLazyRouteWithChildren,
   PlayRouteLazyRoute: PlayRouteLazyRouteWithChildren,
   PostRouteLazyRoute: PostRouteLazyRouteWithChildren,
   RecurringRouteLazyRoute: RecurringRouteLazyRouteWithChildren,
@@ -5070,6 +5009,9 @@ const rootRouteChildren: RootRouteChildren = {
   TenantRouteLazyRoute: TenantRouteLazyRouteWithChildren,
   WorkflowRunsRouteLazyRoute: WorkflowRunsRouteLazyRouteWithChildren,
   WorkflowsRouteLazyRoute: WorkflowsRouteLazyRouteWithChildren,
+  PlatformAccountPlatformAccountIdRouteLazyRoute:
+    PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren,
+  PlatformAccountNewRouteLazyRoute: PlatformAccountNewRouteLazyRoute,
   OnboardingCreateTenantIndexRoute: OnboardingCreateTenantIndexRoute,
 }
 
@@ -5093,7 +5035,6 @@ export const routeTree = rootRoute
         "/instagram",
         "/model",
         "/platform",
-        "/platform-account",
         "/play",
         "/post",
         "/recurring",
@@ -5107,6 +5048,8 @@ export const routeTree = rootRoute
         "/tenant",
         "/workflow-runs",
         "/workflows",
+        "/platform-account/$platformAccountId",
+        "/platform-account/new",
         "/onboarding/create-tenant/"
       ]
     },
@@ -5171,14 +5114,6 @@ export const routeTree = rootRoute
       "filePath": "~platform/~route.lazy.tsx",
       "children": [
         "/platform/"
-      ]
-    },
-    "/platform-account": {
-      "filePath": "~platform-account/~route.lazy.tsx",
-      "children": [
-        "/platform-account/",
-        "/platform-account/$platformAccountId",
-        "/platform-account/new"
       ]
     },
     "/play": {
@@ -5319,10 +5254,6 @@ export const routeTree = rootRoute
       "filePath": "~model/~index.lazy.tsx",
       "parent": "/model"
     },
-    "/platform-account/": {
-      "filePath": "~platform-account/~index.lazy.tsx",
-      "parent": "/platform-account"
-    },
     "/play/": {
       "filePath": "~play/~index.lazy.tsx",
       "parent": "/play"
@@ -5416,14 +5347,12 @@ export const routeTree = rootRoute
     },
     "/platform-account/$platformAccountId": {
       "filePath": "~platform-account/~$platformAccountId/~route.lazy.tsx",
-      "parent": "/platform-account",
       "children": [
         "/platform-account/$platformAccountId/"
       ]
     },
     "/platform-account/new": {
-      "filePath": "~platform-account/~new/~route.lazy.tsx",
-      "parent": "/platform-account"
+      "filePath": "~platform-account/~new/~route.lazy.tsx"
     },
     "/play/chat": {
       "filePath": "~play/~chat/~route.lazy.tsx",
