@@ -95,23 +95,13 @@ export function PlatformAccountDetailHeader({
                 onClick={() => {
                   workflowRun.mutate({
                     path: {
-                      workflow: FlowNames.AG,
+                      workflow: FlowNames.PLATFORM_ACCOUNT,
                     },
                     body: {
                       input: {
-                        // content: "",
-                        // topic: "default",
-                        // source: "web",
-                        // componentId: componentId,
                         type: "PlatformAccountFlowInput",
                         platform_account_id: id,
                       } satisfies PlatformAccountFlowInput,
-                      // additionalMetadata: {
-                      //   // sessionId: threadId,
-                      //   // componentId: componentId,
-                      //   source: "web",
-                      //   // topic: "default",
-                      // },
                     },
                   });
                 }}
