@@ -22,7 +22,7 @@ const PROVIDERS = {
   // Teams
   ROUND_ROBIN_TEAM: "autogen_agentchat.teams.RoundRobinGroupChat",
   SELECTOR_TEAM: "autogen_agentchat.teams.SelectorGroupChat",
-  INSTAGRAM_TEAM: "mtmai.teams.instagram_team.InstagramTeam",
+  INSTAGRAM_TEAM: "mtmai.teams.instagram_team.instagram_team.InstagramTeam",
 
   // Agents
   ASSISTANT_AGENT: "autogen_agentchat.agents.AssistantAgent",

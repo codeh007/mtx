@@ -17,7 +17,7 @@ export const FormInstagramTeam = () => {
   useEffect(() => {
     form.setValue(
       "component.provider",
-      "mtmai.teams.instagram_team.InstagramTeam",
+      "mtmai.teams.instagram_team.instagram_team.InstagramTeam",
     );
     form.setValue("component.config", {
       max_turns: 10,

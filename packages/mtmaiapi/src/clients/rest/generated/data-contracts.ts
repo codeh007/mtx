@@ -2757,7 +2757,7 @@ export interface BrowserOpenTask {
 }
 
 export type InstagramTeamComponent = ComponentModel & {
-  provider: "mtmai.teams.instagram_team.InstagramTeam";
+  provider: "mtmai.teams.instagram_team.instagram_team.InstagramTeam";
   config: InstagramTeamConfig;
 };
 
