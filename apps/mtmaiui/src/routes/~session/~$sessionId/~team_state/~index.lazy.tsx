@@ -5,7 +5,7 @@ import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useEffect } from "react";
 import { useTenantId } from "../../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
-import { TeamStateView } from "../../../~play/~chat/chat/AgEventViews";
+import { TeamStateView } from "../../../~play/~chat/chat/AgStateViews";
 
 export const Route = createLazyFileRoute("/session/$sessionId/team_state/")({
   component: RouteComponent,

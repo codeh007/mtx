@@ -4,6 +4,7 @@ import { chatMessagesListOptions } from "mtmaiapi";
 import { useEffect } from "react";
 import { useTenantId } from "../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
+import { SessionHeader } from "../header";
 
 export const Route = createLazyFileRoute("/session/$sessionId")({
   component: RouteComponent,
@@ -25,9 +26,7 @@ function RouteComponent() {
   });
   const loadChatMessageList = useWorkbenchStore((x) => x.loadChatMessageList);
   useEffect(() => {
-    // if (chatMessagesQuery.data) {
     loadChatMessageList(chatMessagesQuery.data);
-    // }
   }, [chatMessagesQuery.data, loadChatMessageList]);
   useEffect(() => {
     if (sessionId) {
@@ -41,6 +40,7 @@ function RouteComponent() {
   }, [comId, setComponentId]);
   return (
     <>
+      <SessionHeader />
       <Outlet />
     </>
   );
