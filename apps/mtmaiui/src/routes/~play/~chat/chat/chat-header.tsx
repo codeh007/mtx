@@ -1,8 +1,5 @@
 "use client";
 
-import { useWindowSize } from "usehooks-ts";
-// import { ModelSelector } from "./chat/model-selector";
-
 import classNames from "classnames";
 import { PlusIcon } from "mtxuilib/icons/aichatbot.icons";
 import {
@@ -16,8 +13,8 @@ import { Button } from "mtxuilib/ui/button";
 import { Separator } from "mtxuilib/ui/separator";
 import { SidebarTrigger, useSidebar } from "mtxuilib/ui/sidebar";
 import { BetterTooltip } from "mtxuilib/ui/tooltip";
-import { useRouter } from "next-nprogress-bar";
 import { Suspense } from "react";
+import { useWindowSize } from "usehooks-ts";
 import { ChatDescription } from "../../../../lib/persistence/ChatDescription.client";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 import { HeaderActionButtons } from "../HeaderActionButtons";
@@ -25,7 +22,7 @@ import { HeaderActionButtons } from "../HeaderActionButtons";
 export function Header() {
   const started = useWorkbenchStore((x) => x.started);
 
-  const router = useRouter();
+  // const router = useRouter();
   const { open } = useSidebar();
   const { width: windowWidth } = useWindowSize();
 
@@ -59,8 +56,8 @@ export function Header() {
             variant="outline"
             className="order-2 md:order-1 md:px-2 px-2 md:h-fit ml-auto md:ml-0"
             onClick={() => {
-              router.push("/");
-              router.refresh();
+              // router.push("/");
+              // router.refresh();
             }}
           >
             <PlusIcon />
@@ -77,10 +74,7 @@ export function Header() {
 
       <div className="flex items-center gap-2 z-logo text-bolt-elements-textPrimary cursor-pointer">
         <div className="i-ph:sidebar-simple-duotone text-xl" />
-        <a
-          href="/"
-          className="text-2xl font-semibold text-accent flex items-center"
-        >
+        <a href="/" className="text-2xl font-semibold text-accent flex items-center" >
           <span className="i-bolt:logo-text?mask w-[46px] inline-block" />
         </a>
       </div>
