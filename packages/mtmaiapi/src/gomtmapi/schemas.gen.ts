@@ -1479,6 +1479,12 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/IgLoginEvent",
         },
+        {
+          $ref: "#/components/schemas/AgentTopicTypes",
+        },
+        {
+          $ref: "#/components/schemas/AgentUserInput",
+        },
       ],
     },
   },
@@ -6390,6 +6396,19 @@ export const AgentListSchema = {
       items: {
         $ref: "#/components/schemas/Agent",
       },
+    },
+  },
+} as const;
+
+export const AgentTopicTypesSchema = {
+  type: "string",
+  enum: ["user", "human", "SalesAgent"],
+} as const;
+
+export const AgentUserInputSchema = {
+  properties: {
+    content: {
+      type: "string",
     },
   },
 } as const;

@@ -864,7 +864,9 @@ export type WorkflowWorkersCount = {
     | AgentEventType
     | ResourceFlowInput
     | InstagramAgentState
-    | IgLoginEvent;
+    | IgLoginEvent
+    | AgentTopicTypes
+    | AgentUserInput;
 };
 
 export type WorkflowRun = {
@@ -3277,6 +3279,18 @@ export type Agent = ApiResourceMetaProperties & AgentProperties;
 export type AgentList = {
   pagination?: PaginationResponse;
   rows?: Array<Agent>;
+};
+
+export type AgentTopicTypes = "user" | "human" | "SalesAgent";
+
+export const AgentTopicTypes = {
+  USER: "user",
+  HUMAN: "human",
+  SALES_AGENT: "SalesAgent",
+} as const;
+
+export type AgentUserInput = {
+  content?: string;
 };
 
 export type TeamProperties = {

@@ -878,6 +878,10 @@ export const zWorkflowWorkersCount = z.object({
         password: z.string().optional(),
         two_factor_code: z.string().optional(),
       }),
+      z.enum(["user", "human", "SalesAgent"]),
+      z.object({
+        content: z.string().optional(),
+      }),
     ])
     .optional(),
 });
@@ -3359,6 +3363,12 @@ export const zAgent = zApiResourceMetaProperties.merge(zAgentProperties);
 export const zAgentList = z.object({
   pagination: zPaginationResponse.optional(),
   rows: z.array(zAgent).optional(),
+});
+
+export const zAgentTopicTypes = z.enum(["user", "human", "SalesAgent"]);
+
+export const zAgentUserInput = z.object({
+  content: z.string().optional(),
 });
 
 export const zTeamProperties = z.object({
