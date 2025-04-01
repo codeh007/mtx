@@ -1476,6 +1476,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/InstagramAgentState",
         },
+        {
+          $ref: "#/components/schemas/IgLoginEvent",
+        },
       ],
     },
   },
@@ -3733,6 +3736,9 @@ export const InstagramAgentStateSchema = {
         },
         session_state: {
           type: "object",
+        },
+        is_wait_user_input: {
+          type: "boolean",
         },
       },
     },
@@ -6327,6 +6333,20 @@ export const ThoughtEventSchema = {
     models_usage: {
       type: "object",
       additionalProperties: true,
+    },
+  },
+} as const;
+
+export const IgLoginEventSchema = {
+  properties: {
+    username: {
+      type: "string",
+    },
+    password: {
+      type: "string",
+    },
+    two_factor_code: {
+      type: "string",
     },
   },
 } as const;

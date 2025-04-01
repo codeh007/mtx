@@ -869,8 +869,14 @@ export const zWorkflowWorkersCount = z.object({
             username: z.string().optional(),
             password: z.string().optional(),
             session_state: z.object({}).optional(),
+            is_wait_user_input: z.boolean().optional(),
           }),
         ),
+      z.object({
+        username: z.string().optional(),
+        password: z.string().optional(),
+        two_factor_code: z.string().optional(),
+      }),
     ])
     .optional(),
 });
@@ -2217,6 +2223,7 @@ export const zInstagramAgentState = zBaseState.merge(
     username: z.string().optional(),
     password: z.string().optional(),
     session_state: z.object({}).optional(),
+    is_wait_user_input: z.boolean().optional(),
   }),
 );
 
@@ -3329,6 +3336,12 @@ export const zThoughtEvent = z.object({
   content: z.string(),
   metadata: z.object({}).optional(),
   models_usage: z.object({}).optional(),
+});
+
+export const zIgLoginEvent = z.object({
+  username: z.string().optional(),
+  password: z.string().optional(),
+  two_factor_code: z.string().optional(),
 });
 
 export const zAgentProperties = z.object({

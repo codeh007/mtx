@@ -863,7 +863,8 @@ export type WorkflowWorkersCount = {
     | PlatformAccountFlowInput
     | AgentEventType
     | ResourceFlowInput
-    | InstagramAgentState;
+    | InstagramAgentState
+    | IgLoginEvent;
 };
 
 export type WorkflowRun = {
@@ -2103,6 +2104,7 @@ export type InstagramAgentState = BaseState & {
   session_state?: {
     [key: string]: unknown;
   };
+  is_wait_user_input?: boolean;
 };
 
 export type TeamState = BaseState & {
@@ -3262,6 +3264,12 @@ export type ThoughtEvent = {
   models_usage?: {
     [key: string]: unknown;
   };
+};
+
+export type IgLoginEvent = {
+  username?: string;
+  password?: string;
+  two_factor_code?: string;
 };
 
 export type AgentProperties = {
