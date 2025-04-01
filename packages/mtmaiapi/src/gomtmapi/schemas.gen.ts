@@ -3649,19 +3649,15 @@ export const AgStateUpsertSchema = {
       properties: {
         stateId: {
           type: "string",
-          description: "状态id",
         },
         componentId: {
           type: "string",
-          description: "组件id",
         },
         chatId: {
           type: "string",
-          description: "聊天id",
         },
         tenantId: {
           type: "string",
-          description: "租户id",
         },
       },
     },
@@ -4250,6 +4246,7 @@ export const FlowNamesSchema = {
     "com",
     "platform_account",
     "resource",
+    "test_team",
   ],
 } as const;
 
@@ -6450,6 +6447,9 @@ export const TeamListSchema = {
 export const TeamRunSchema = {
   properties: {
     task: {
+      type: "string",
+    },
+    name: {
       type: "string",
     },
   },

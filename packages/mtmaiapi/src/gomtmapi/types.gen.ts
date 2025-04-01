@@ -2045,21 +2045,9 @@ export type AgStateList = {
 };
 
 export type AgStateUpsert = AgStateProperties & {
-  /**
-   * 状态id
-   */
   stateId?: string;
-  /**
-   * 组件id
-   */
   componentId: string;
-  /**
-   * 聊天id
-   */
   chatId: string;
-  /**
-   * 租户id
-   */
   tenantId?: string;
 };
 
@@ -2294,7 +2282,8 @@ export type FlowNames =
   | "team"
   | "com"
   | "platform_account"
-  | "resource";
+  | "resource"
+  | "test_team";
 
 export const FlowNames = {
   SYS: "sys",
@@ -2307,6 +2296,7 @@ export const FlowNames = {
   COM: "com",
   PLATFORM_ACCOUNT: "platform_account",
   RESOURCE: "resource",
+  TEST_TEAM: "test_team",
 } as const;
 
 export type TerminationTypes =
@@ -3309,6 +3299,7 @@ export type TeamList = {
 
 export type TeamRun = {
   task?: string;
+  name?: string;
 };
 
 export type TeamRunResult = {

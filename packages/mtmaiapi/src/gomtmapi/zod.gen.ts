@@ -836,6 +836,7 @@ export const zWorkflowWorkersCount = z.object({
         "com",
         "platform_account",
         "resource",
+        "test_team",
       ]),
       z.object({
         type: z.enum(["PlatformAccountFlowInput"]).optional(),
@@ -2424,6 +2425,7 @@ export const zFlowNames = z.enum([
   "com",
   "platform_account",
   "resource",
+  "test_team",
 ]);
 
 export const zTerminationTypes = z.enum([
@@ -3377,6 +3379,7 @@ export const zTeamList = z.object({
 
 export const zTeamRun = z.object({
   task: z.string().optional(),
+  name: z.string().optional(),
 });
 
 export const zTeamRunResult = z.object({
