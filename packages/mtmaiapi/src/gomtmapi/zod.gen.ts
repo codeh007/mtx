@@ -845,6 +845,32 @@ export const zWorkflowWorkersCount = z.object({
       z.object({
         resource_id: z.string().optional(),
       }),
+      z
+        .object({
+          type: z
+            .enum([
+              "AssistantAgentState",
+              "TeamState",
+              "RoundRobinManagerState",
+              "SelectorManagerState",
+              "SwarmManagerState",
+              "MagenticOneOrchestratorState",
+              "SocietyOfMindAgentState",
+              "ChatAgentContainerState",
+              "BaseGroupChatManagerState",
+            ])
+            .optional(),
+          version: z.string().optional(),
+        })
+        .merge(
+          z.object({
+            type: z.enum(["InstagramAgentState"]).optional(),
+            llm_context: z.unknown().optional(),
+            username: z.string().optional(),
+            password: z.string().optional(),
+            session_state: z.object({}).optional(),
+          }),
+        ),
     ])
     .optional(),
 });
@@ -2181,6 +2207,16 @@ export const zAssistantAgentState = zBaseState.merge(
   z.object({
     type: z.enum(["AssistantAgentState"]).optional(),
     llm_context: z.unknown().optional(),
+  }),
+);
+
+export const zInstagramAgentState = zBaseState.merge(
+  z.object({
+    type: z.enum(["InstagramAgentState"]).optional(),
+    llm_context: z.unknown().optional(),
+    username: z.string().optional(),
+    password: z.string().optional(),
+    session_state: z.object({}).optional(),
   }),
 );
 

@@ -862,7 +862,8 @@ export type WorkflowWorkersCount = {
     | FlowNames
     | PlatformAccountFlowInput
     | AgentEventType
-    | ResourceFlowInput;
+    | ResourceFlowInput
+    | InstagramAgentState;
 };
 
 export type WorkflowRun = {
@@ -2092,6 +2093,16 @@ export type BaseState = {
 export type AssistantAgentState = BaseState & {
   type?: "AssistantAgentState";
   llm_context?: unknown;
+};
+
+export type InstagramAgentState = BaseState & {
+  type?: "InstagramAgentState";
+  llm_context?: unknown;
+  username?: string;
+  password?: string;
+  session_state?: {
+    [key: string]: unknown;
+  };
 };
 
 export type TeamState = BaseState & {

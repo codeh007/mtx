@@ -1473,6 +1473,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/ResourceFlowInput",
         },
+        {
+          $ref: "#/components/schemas/InstagramAgentState",
+        },
       ],
     },
   },
@@ -3702,6 +3705,34 @@ export const AssistantAgentStateSchema = {
         },
         llm_context: {
           additionalProperties: true,
+        },
+      },
+    },
+  ],
+} as const;
+
+export const InstagramAgentStateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseState",
+    },
+    {
+      properties: {
+        type: {
+          type: "string",
+          enum: ["InstagramAgentState"],
+        },
+        llm_context: {
+          additionalProperties: true,
+        },
+        username: {
+          type: "string",
+        },
+        password: {
+          type: "string",
+        },
+        session_state: {
+          type: "object",
         },
       },
     },

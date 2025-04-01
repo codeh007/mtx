@@ -4,6 +4,7 @@ import {
   type AgentEvent,
   type AssistantAgentState,
   type ChatAgentContainerState,
+  type InstagramAgentState,
   type RoundRobinManagerState,
   StateType,
   type TeamState,
@@ -28,12 +29,7 @@ export const TeamStateView = ({ teamState }: { teamState: TeamState }) => {
           );
         }
         if (value.type === "InstagramOrchestratorState") {
-          return (
-            <InstagramOrchestratorStateView
-              key={key}
-              instagramOrchestratorState={value}
-            />
-          );
+          return <InstagramOrchestratorStateView key={key} state={value} />;
         }
         return (
           <div key={key} className="bg-red-100">
@@ -67,6 +63,8 @@ export const AgentStateView = ({ agentState }: { agentState: any }) => {
       return <AssistantAgentStateView assistantAgentState={agentState} />;
     case StateType.CHAT_AGENT_CONTAINER_STATE:
       return <ChatAgentContainerStateView agentState={agentState} />;
+    case "InstagramAgentState":
+      return <InstagramAgentStateView state={agentState} />;
     default:
       return <div>unknown agent state type: {agentState.type}</div>;
   }
@@ -117,13 +115,30 @@ export const ChatEventsView = ({
   );
 };
 
+interface InstagramOrchestratorStateViewProps {
+  state: any;
+}
 export const InstagramOrchestratorStateView = ({
-  instagramOrchestratorState,
-}: { instagramOrchestratorState: InstagramOrchestratorState }) => {
+  state,
+}: InstagramOrchestratorStateViewProps) => {
   return (
     <div className="flex flex-col gap-2 bg-green-200 p-2 rounded-md">
       InstagramOrchestratorState
-      <DebugValue data={instagramOrchestratorState} />
+      <DebugValue data={state} />
+    </div>
+  );
+};
+
+interface InstagramAgentStateViewProps {
+  state: InstagramAgentState;
+}
+export const InstagramAgentStateView = ({
+  state,
+}: InstagramAgentStateViewProps) => {
+  return (
+    <div className="flex flex-col gap-2 bg-red-200 p-2 rounded-md">
+      InstagramAgentStateView
+      <DebugValue data={state} />
     </div>
   );
 };
