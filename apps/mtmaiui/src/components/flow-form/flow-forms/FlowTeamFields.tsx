@@ -12,19 +12,33 @@ import { Input } from "mtxuilib/ui/input";
 import type { PropsWithChildren } from "react";
 import { useFormContext } from "react-hook-form";
 
-export const FlowTenantFields = (props: PropsWithChildren) => {
+export const FlowTeamFields = (props: PropsWithChildren) => {
   const form = useFormContext<TeamRun>();
 
   return (
     <>
       <FormField
         control={form.control}
-        name="team_name"
+        name="name"
         render={({ field }) => (
           <FormItem>
             <FormLabel>team_name</FormLabel>
             <FormControl>
               <Input placeholder="team_name" {...field} />
+            </FormControl>
+            {/* <FormDescription></FormDescription> */}
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="task"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>task</FormLabel>
+            <FormControl>
+              <Input placeholder="task" {...field} />
             </FormControl>
             {/* <FormDescription></FormDescription> */}
             <FormMessage />
