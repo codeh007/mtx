@@ -836,6 +836,7 @@ export const zWorkflowWorkersCount = z.object({
             password: z.string().optional(),
             session_state: z.object({}).optional(),
             is_wait_user_input: z.boolean().optional(),
+            ig_settings: z.object({}).optional(),
           }),
         ),
       z.object({
@@ -1985,6 +1986,7 @@ export const zInstagramAgentState = zBaseState.merge(
     password: z.string().optional(),
     session_state: z.object({}).optional(),
     is_wait_user_input: z.boolean().optional(),
+    ig_settings: z.object({}).optional(),
   }),
 );
 

@@ -2089,6 +2089,9 @@ export type InstagramAgentState = BaseState & {
     [key: string]: unknown;
   };
   is_wait_user_input?: boolean;
+  ig_settings?: {
+    [key: string]: unknown;
+  };
 };
 
 export type TeamState = BaseState & {

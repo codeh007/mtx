@@ -3712,6 +3712,9 @@ export const InstagramAgentStateSchema = {
         is_wait_user_input: {
           type: "boolean",
         },
+        ig_settings: {
+          type: "object",
+        },
       },
     },
   ],
