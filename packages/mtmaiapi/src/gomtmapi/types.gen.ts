@@ -852,7 +852,6 @@ export type WorkflowWorkersCount = {
     | ProviderTypes
     | RunFlowModelInput
     | AssistantAgentConfig
-    | InstagramTeamConfig
     | ModelConfig
     | TextMentionTerminationConfig
     | MaxMessageTerminationConfig
@@ -2027,16 +2026,9 @@ export type AgStateProperties = {
   chatId?: string;
   topic?: string;
   source?: string;
-  state:
-    | AssistantAgentState
-    | TeamState
-    | RoundRobinManagerState
-    | SelectorManagerState
-    | SwarmManagerState
-    | MagenticOneOrchestratorState
-    | SocietyOfMindAgentState
-    | ChatAgentContainerState
-    | BaseGroupChatManagerState;
+  state: {
+    [key: string]: unknown;
+  };
 };
 
 export type AgState = ApiResourceMetaProperties & AgStateProperties;
@@ -2054,8 +2046,9 @@ export type AgStateUpsert = AgStateProperties & {
 };
 
 export type StateType =
-  | "AssistantAgentState"
   | "TeamState"
+  | "RuntimeState"
+  | "AssistantAgentState"
   | "RoundRobinManagerState"
   | "SelectorManagerState"
   | "SwarmManagerState"
@@ -2065,8 +2058,9 @@ export type StateType =
   | "BaseGroupChatManagerState";
 
 export const StateType = {
-  ASSISTANT_AGENT_STATE: "AssistantAgentState",
   TEAM_STATE: "TeamState",
+  RUNTIME_STATE: "RuntimeState",
+  ASSISTANT_AGENT_STATE: "AssistantAgentState",
   ROUND_ROBIN_MANAGER_STATE: "RoundRobinManagerState",
   SELECTOR_MANAGER_STATE: "SelectorManagerState",
   SWARM_MANAGER_STATE: "SwarmManagerState",
@@ -3183,11 +3177,6 @@ export type BrowserOpenTask = {
   url: string;
 };
 
-export type InstagramTeamConfig = {
-  participants: Array<MtComponent>;
-  termination_condition: MtComponent;
-};
-
 /**
  * 浏览器配置(未完成)
  */
@@ -3281,12 +3270,27 @@ export type AgentList = {
   rows?: Array<Agent>;
 };
 
-export type AgentTopicTypes = "user" | "human" | "SalesAgent";
+export type AgentTopicTypes =
+  | "user"
+  | "human"
+  | "instagram"
+  | "browser"
+  | "socioety"
+  | "code"
+  | "router"
+  | "research"
+  | "writer";
 
 export const AgentTopicTypes = {
   USER: "user",
   HUMAN: "human",
-  SALES_AGENT: "SalesAgent",
+  INSTAGRAM: "instagram",
+  BROWSER: "browser",
+  SOCIOETY: "socioety",
+  CODE: "code",
+  ROUTER: "router",
+  RESEARCH: "research",
+  WRITER: "writer",
 } as const;
 
 export type AgentUserInput = {

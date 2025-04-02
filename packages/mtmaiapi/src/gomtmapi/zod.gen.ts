@@ -722,42 +722,6 @@ export const zWorkflowWorkersCount = z.object({
           }),
         ),
       z.object({
-        participants: z.array(
-          z
-            .object({
-              metadata: zApiResourceMeta,
-            })
-            .merge(
-              z.object({
-                galleryId: z.string(),
-                label: z.string(),
-                description: z.string(),
-                provider: z.string(),
-                component_type: z.string(),
-                version: z.number().int(),
-                component_version: z.number().int(),
-                config: z.object({}),
-              }),
-            ),
-        ),
-        termination_condition: z
-          .object({
-            metadata: zApiResourceMeta,
-          })
-          .merge(
-            z.object({
-              galleryId: z.string(),
-              label: z.string(),
-              description: z.string(),
-              provider: z.string(),
-              component_type: z.string(),
-              version: z.number().int(),
-              component_version: z.number().int(),
-              config: z.object({}),
-            }),
-          ),
-      }),
-      z.object({
         model: z.string(),
         model_type: z.enum([
           "OpenAIChatCompletionClient",
@@ -850,8 +814,9 @@ export const zWorkflowWorkersCount = z.object({
         .object({
           type: z
             .enum([
-              "AssistantAgentState",
               "TeamState",
+              "RuntimeState",
+              "AssistantAgentState",
               "RoundRobinManagerState",
               "SelectorManagerState",
               "SwarmManagerState",
@@ -878,7 +843,17 @@ export const zWorkflowWorkersCount = z.object({
         password: z.string().optional(),
         two_factor_code: z.string().optional(),
       }),
-      z.enum(["user", "human", "SalesAgent"]),
+      z.enum([
+        "user",
+        "human",
+        "instagram",
+        "browser",
+        "socioety",
+        "code",
+        "router",
+        "research",
+        "writer",
+      ]),
       z.object({
         content: z.string().optional(),
       }),
@@ -1943,8 +1918,9 @@ export const zProviderTypes = z.enum([
 export const zAgStateProperties = z.object({
   version: z.string().optional().default("1.0.0"),
   type: z.enum([
-    "AssistantAgentState",
     "TeamState",
+    "RuntimeState",
+    "AssistantAgentState",
     "RoundRobinManagerState",
     "SelectorManagerState",
     "SwarmManagerState",
@@ -1957,228 +1933,7 @@ export const zAgStateProperties = z.object({
   chatId: z.string().optional(),
   topic: z.string().optional(),
   source: z.string().optional(),
-  state: z.union([
-    z
-      .object({
-        type: z
-          .enum([
-            "AssistantAgentState",
-            "TeamState",
-            "RoundRobinManagerState",
-            "SelectorManagerState",
-            "SwarmManagerState",
-            "MagenticOneOrchestratorState",
-            "SocietyOfMindAgentState",
-            "ChatAgentContainerState",
-            "BaseGroupChatManagerState",
-          ])
-          .optional(),
-        version: z.string().optional(),
-      })
-      .merge(
-        z.object({
-          type: z.enum(["AssistantAgentState"]).optional(),
-          llm_context: z.unknown().optional(),
-        }),
-      ),
-    z
-      .object({
-        type: z
-          .enum([
-            "AssistantAgentState",
-            "TeamState",
-            "RoundRobinManagerState",
-            "SelectorManagerState",
-            "SwarmManagerState",
-            "MagenticOneOrchestratorState",
-            "SocietyOfMindAgentState",
-            "ChatAgentContainerState",
-            "BaseGroupChatManagerState",
-          ])
-          .optional(),
-        version: z.string().optional(),
-      })
-      .merge(
-        z.object({
-          type: z.enum(["TeamState"]).optional(),
-          agent_states: z.unknown().optional(),
-        }),
-      ),
-    z
-      .object({
-        type: z
-          .enum([
-            "AssistantAgentState",
-            "TeamState",
-            "RoundRobinManagerState",
-            "SelectorManagerState",
-            "SwarmManagerState",
-            "MagenticOneOrchestratorState",
-            "SocietyOfMindAgentState",
-            "ChatAgentContainerState",
-            "BaseGroupChatManagerState",
-          ])
-          .optional(),
-        version: z.string().optional(),
-      })
-      .merge(
-        z.object({
-          type: z.enum(["BaseGroupChatManagerState"]).optional(),
-          message_thread: z.array(z.object({})).optional(),
-          current_turn: z.number().int().optional(),
-        }),
-      )
-      .merge(
-        z.object({
-          type: z.enum(["RoundRobinManagerState"]).optional(),
-          next_speaker_index: z.number().int().optional(),
-        }),
-      ),
-    z
-      .object({
-        type: z
-          .enum([
-            "AssistantAgentState",
-            "TeamState",
-            "RoundRobinManagerState",
-            "SelectorManagerState",
-            "SwarmManagerState",
-            "MagenticOneOrchestratorState",
-            "SocietyOfMindAgentState",
-            "ChatAgentContainerState",
-            "BaseGroupChatManagerState",
-          ])
-          .optional(),
-        version: z.string().optional(),
-      })
-      .merge(
-        z.object({
-          type: z.enum(["SelectorManagerState"]).optional(),
-          previous_speaker: z.string().optional(),
-        }),
-      ),
-    z
-      .object({
-        type: z
-          .enum([
-            "AssistantAgentState",
-            "TeamState",
-            "RoundRobinManagerState",
-            "SelectorManagerState",
-            "SwarmManagerState",
-            "MagenticOneOrchestratorState",
-            "SocietyOfMindAgentState",
-            "ChatAgentContainerState",
-            "BaseGroupChatManagerState",
-          ])
-          .optional(),
-        version: z.string().optional(),
-      })
-      .merge(
-        z.object({
-          type: z.enum(["SwarmManagerState"]).optional(),
-          current_speaker: z.string().optional(),
-        }),
-      ),
-    z
-      .object({
-        type: z
-          .enum([
-            "AssistantAgentState",
-            "TeamState",
-            "RoundRobinManagerState",
-            "SelectorManagerState",
-            "SwarmManagerState",
-            "MagenticOneOrchestratorState",
-            "SocietyOfMindAgentState",
-            "ChatAgentContainerState",
-            "BaseGroupChatManagerState",
-          ])
-          .optional(),
-        version: z.string().optional(),
-      })
-      .merge(
-        z.object({
-          type: z.enum(["MagenticOneOrchestratorState"]).optional(),
-          task: z.string().optional(),
-          facts: z.string().optional(),
-          plan: z.string().optional(),
-          n_rounds: z.number().int().optional(),
-          n_stalls: z.number().int().optional(),
-        }),
-      ),
-    z
-      .object({
-        type: z
-          .enum([
-            "AssistantAgentState",
-            "TeamState",
-            "RoundRobinManagerState",
-            "SelectorManagerState",
-            "SwarmManagerState",
-            "MagenticOneOrchestratorState",
-            "SocietyOfMindAgentState",
-            "ChatAgentContainerState",
-            "BaseGroupChatManagerState",
-          ])
-          .optional(),
-        version: z.string().optional(),
-      })
-      .merge(
-        z.object({
-          type: z.enum(["SocietyOfMindAgentState"]).optional(),
-          inner_team_state: z.unknown().optional(),
-        }),
-      ),
-    z
-      .object({
-        type: z
-          .enum([
-            "AssistantAgentState",
-            "TeamState",
-            "RoundRobinManagerState",
-            "SelectorManagerState",
-            "SwarmManagerState",
-            "MagenticOneOrchestratorState",
-            "SocietyOfMindAgentState",
-            "ChatAgentContainerState",
-            "BaseGroupChatManagerState",
-          ])
-          .optional(),
-        version: z.string().optional(),
-      })
-      .merge(
-        z.object({
-          type: z.enum(["ChatAgentContainerState"]).optional(),
-          agent_state: z.unknown().optional(),
-          message_buffer: z.array(zChatMessage).optional(),
-        }),
-      ),
-    z
-      .object({
-        type: z
-          .enum([
-            "AssistantAgentState",
-            "TeamState",
-            "RoundRobinManagerState",
-            "SelectorManagerState",
-            "SwarmManagerState",
-            "MagenticOneOrchestratorState",
-            "SocietyOfMindAgentState",
-            "ChatAgentContainerState",
-            "BaseGroupChatManagerState",
-          ])
-          .optional(),
-        version: z.string().optional(),
-      })
-      .merge(
-        z.object({
-          type: z.enum(["BaseGroupChatManagerState"]).optional(),
-          message_thread: z.array(z.object({})).optional(),
-          current_turn: z.number().int().optional(),
-        }),
-      ),
-  ]),
+  state: z.object({}),
 });
 
 export const zAgState = zApiResourceMetaProperties.merge(zAgStateProperties);
@@ -2198,8 +1953,9 @@ export const zAgStateUpsert = zAgStateProperties.merge(
 );
 
 export const zStateType = z.enum([
-  "AssistantAgentState",
   "TeamState",
+  "RuntimeState",
+  "AssistantAgentState",
   "RoundRobinManagerState",
   "SelectorManagerState",
   "SwarmManagerState",
@@ -3278,11 +3034,6 @@ export const zBrowserOpenTask = z.object({
   url: z.string(),
 });
 
-export const zInstagramTeamConfig = z.object({
-  participants: z.array(zMtComponent),
-  termination_condition: zMtComponent,
-});
-
 export const zBrowserConfig = z.object({
   persistent: z.boolean().optional(),
 });
@@ -3365,7 +3116,17 @@ export const zAgentList = z.object({
   rows: z.array(zAgent).optional(),
 });
 
-export const zAgentTopicTypes = z.enum(["user", "human", "SalesAgent"]);
+export const zAgentTopicTypes = z.enum([
+  "user",
+  "human",
+  "instagram",
+  "browser",
+  "socioety",
+  "code",
+  "router",
+  "research",
+  "writer",
+]);
 
 export const zAgentUserInput = z.object({
   content: z.string().optional(),

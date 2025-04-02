@@ -20,6 +20,7 @@ export const ResearchForm = (props: ResearchFormProps) => {
   });
 
   return (
+    <>
     <ZForm form={form} handleSubmit={props.onSubmit}>
       <FormField
         control={form.control}
@@ -35,9 +36,9 @@ export const ResearchForm = (props: ResearchFormProps) => {
           </FormItem>
         )}
       />
-      <div>
+    
         <ZFormToolbar form={form} />
-      </div>
     </ZForm>
+    </>
   );
 };

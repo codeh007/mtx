@@ -1441,9 +1441,6 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/AssistantAgentConfig",
         },
         {
-          $ref: "#/components/schemas/InstagramTeamConfig",
-        },
-        {
           $ref: "#/components/schemas/ModelConfig",
         },
         {
@@ -3587,35 +3584,7 @@ export const AgStatePropertiesSchema = {
       type: "string",
     },
     state: {
-      oneOf: [
-        {
-          $ref: "#/components/schemas/AssistantAgentState",
-        },
-        {
-          $ref: "#/components/schemas/TeamState",
-        },
-        {
-          $ref: "#/components/schemas/RoundRobinManagerState",
-        },
-        {
-          $ref: "#/components/schemas/SelectorManagerState",
-        },
-        {
-          $ref: "#/components/schemas/SwarmManagerState",
-        },
-        {
-          $ref: "#/components/schemas/MagenticOneOrchestratorState",
-        },
-        {
-          $ref: "#/components/schemas/SocietyOfMindAgentState",
-        },
-        {
-          $ref: "#/components/schemas/ChatAgentContainerState",
-        },
-        {
-          $ref: "#/components/schemas/BaseGroupChatManagerState",
-        },
-      ],
+      type: "object",
     },
   },
 } as const;
@@ -3673,8 +3642,9 @@ export const AgStateUpsertSchema = {
 export const StateTypeSchema = {
   type: "string",
   enum: [
-    "AssistantAgentState",
     "TeamState",
+    "RuntimeState",
+    "AssistantAgentState",
     "RoundRobinManagerState",
     "SelectorManagerState",
     "SwarmManagerState",
@@ -6182,21 +6152,6 @@ export const BrowserOpenTaskSchema = {
   },
 } as const;
 
-export const InstagramTeamConfigSchema = {
-  required: ["participants", "termination_condition"],
-  properties: {
-    participants: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/MtComponent",
-      },
-    },
-    termination_condition: {
-      $ref: "#/components/schemas/MtComponent",
-    },
-  },
-} as const;
-
 export const BrowserConfigSchema = {
   description: "浏览器配置(未完成)",
   properties: {
@@ -6402,7 +6357,17 @@ export const AgentListSchema = {
 
 export const AgentTopicTypesSchema = {
   type: "string",
-  enum: ["user", "human", "SalesAgent"],
+  enum: [
+    "user",
+    "human",
+    "instagram",
+    "browser",
+    "socioety",
+    "code",
+    "router",
+    "research",
+    "writer",
+  ],
 } as const;
 
 export const AgentUserInputSchema = {
