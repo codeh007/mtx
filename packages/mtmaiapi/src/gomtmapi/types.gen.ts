@@ -2024,8 +2024,8 @@ export type AgStateProperties = {
   type: StateType;
   componentId?: string;
   chatId?: string;
-  topic?: string;
-  source?: string;
+  topic: string;
+  source: string;
   state: {
     [key: string]: unknown;
   };
@@ -2040,9 +2040,7 @@ export type AgStateList = {
 
 export type AgStateUpsert = AgStateProperties & {
   stateId?: string;
-  componentId: string;
-  chatId: string;
-  tenantId?: string;
+  tenantId: string;
 };
 
 export type StateType =

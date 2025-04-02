@@ -1932,8 +1932,8 @@ export const zAgStateProperties = z.object({
   ]),
   componentId: z.string().optional(),
   chatId: z.string().optional(),
-  topic: z.string().optional(),
-  source: z.string().optional(),
+  topic: z.string(),
+  source: z.string(),
   state: z.object({}),
 });
 
@@ -1947,9 +1947,7 @@ export const zAgStateList = z.object({
 export const zAgStateUpsert = zAgStateProperties.merge(
   z.object({
     stateId: z.string().optional(),
-    componentId: z.string(),
-    chatId: z.string(),
-    tenantId: z.string().optional(),
+    tenantId: z.string(),
   }),
 );
 

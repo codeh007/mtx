@@ -3562,7 +3562,7 @@ export const ProviderTypesSchema = {
 } as const;
 
 export const AgStatePropertiesSchema = {
-  required: ["type", "state"],
+  required: ["type", "state", "tenantId", "topic", "source"],
   properties: {
     version: {
       type: "string",
@@ -3620,15 +3620,9 @@ export const AgStateUpsertSchema = {
       $ref: "#/components/schemas/AgStateProperties",
     },
     {
-      required: ["componentId", "chatId"],
+      required: ["componentId", "chatId", "tenantId"],
       properties: {
         stateId: {
-          type: "string",
-        },
-        componentId: {
-          type: "string",
-        },
-        chatId: {
           type: "string",
         },
         tenantId: {
