@@ -67,6 +67,7 @@ function RouteComponent() {
       form.form.reset(query.data);
     }
   }, [query.data, form.form]);
+
   return (
     <>
       <ZForm {...form} className="space-y-2 px-2">

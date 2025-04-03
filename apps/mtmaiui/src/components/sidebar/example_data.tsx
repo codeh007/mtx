@@ -7,6 +7,7 @@ import {
   Settings,
   Users,
 } from "lucide-react";
+import { Icons } from "mtxuilib/icons/icons";
 
 export const example_data = {
   user: {
@@ -61,6 +62,12 @@ export const example_data = {
       title: "资源",
       url: "/resource",
       icon: FileIcon,
+      isActive: false,
+    },
+    {
+      title: "代理",
+      url: "/proxy",
+      icon: <Icons.mailX />,
       isActive: false,
     },
   ],

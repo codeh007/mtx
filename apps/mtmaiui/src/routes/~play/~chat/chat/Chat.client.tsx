@@ -7,7 +7,7 @@ import { ToastContainer, cssTransition } from "react-toastify";
 
 import { Icons } from "mtxuilib/icons/icons";
 import { cn } from "mtxuilib/lib/utils";
-import { usePromptEnhancer } from "../../../../hooks/usePromptEnhancer";
+// import { usePromptEnhancer } from "../../../../hooks/usePromptEnhancer";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 import { BaseChat } from "./BaseChat";
 const toastAnimation = cssTransition({
@@ -109,8 +109,8 @@ export const ChatImpl = memo((props: ChatProps) => {
   const [animationScope, animate] = useAnimate();
   const input = useWorkbenchStore((x) => x.input);
   const setInput = useWorkbenchStore((x) => x.setInput);
-  const { enhancingPrompt, promptEnhanced, enhancePrompt, resetEnhancer } =
-    usePromptEnhancer();
+  // const { enhancingPrompt, promptEnhanced, enhancePrompt, resetEnhancer } =
+  //   usePromptEnhancer();
   // const { parsedMessages, parseMessages } = useMessageParser();
   const started = useWorkbenchStore((x) => x.started);
   const TEXTAREA_MAX_HEIGHT = started ? 400 : 200;
@@ -159,7 +159,7 @@ export const ChatImpl = memo((props: ChatProps) => {
     handleHumanInput({ content: _input });
     runAnimation();
     setInput("");
-    resetEnhancer();
+    // resetEnhancer();
     textareaRef.current?.blur();
   };
 
@@ -171,8 +171,8 @@ export const ChatImpl = memo((props: ChatProps) => {
       input={input}
       showChat={!!showChat}
       isStreaming={false}
-      enhancingPrompt={enhancingPrompt}
-      promptEnhanced={promptEnhanced}
+      // enhancingPrompt={enhancingPrompt}
+      // promptEnhanced={promptEnhanced}
       sendMessage={sendMessage}
       messageRef={messageRef}
       scrollRef={scrollRef}

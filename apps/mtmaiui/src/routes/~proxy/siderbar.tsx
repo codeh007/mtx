@@ -2,6 +2,7 @@
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
+import { Label } from "mtxuilib/ui/label";
 import {
   Sidebar,
   SidebarContent,
@@ -11,11 +12,9 @@ import {
   SidebarInput,
   useSidebar,
 } from "mtxuilib/ui/sidebar";
-
-import { Label } from "mtxuilib/ui/label";
 import { Switch } from "mtxuilib/ui/switch";
-import { WorkflowListView } from "./WorkflowList";
-export function NavWorkflow() {
+
+export function NavProxy() {
   const { isMobile } = useSidebar();
   return (
     <Sidebar collapsible="none" className="hidden flex-1 md:flex">
@@ -24,7 +23,7 @@ export function NavWorkflow() {
           <div className="text-base font-medium text-foreground">运行历史</div>
           <Label className="flex items-center gap-2 text-sm">
             <CustomLink
-              to={"/play/chat"}
+              to={"/proxy/new"}
               className={cn(buttonVariants({ variant: "ghost" }))}
             >
               <span>New</span>
@@ -37,7 +36,8 @@ export function NavWorkflow() {
       <SidebarContent>
         <SidebarGroup className="px-0">
           <SidebarGroupContent>
-            <WorkflowListView />
+            {/* <WorkflowListView /> */}
+            todo proxy list view
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

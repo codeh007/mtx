@@ -16,16 +16,16 @@ function RouteComponent() {
     <>
       <PlatformAccountDetailHeader id={platformAccountId} />
 
-      <Tabs defaultValue="activity">
+      <Tabs defaultValue="details">
         <TabsList layout="underlined">
           <CustomLink to="">
-            <TabsTrigger variant="underlined" value="activity">
+            <TabsTrigger variant="underlined" value="details">
               基本
             </TabsTrigger>
           </CustomLink>
-          <CustomLink to="login">
-            <TabsTrigger variant="underlined" value="input">
-              登录
+          <CustomLink to="actions">
+            <TabsTrigger variant="underlined" value="actions">
+              操作
             </TabsTrigger>
           </CustomLink>
         </TabsList>
