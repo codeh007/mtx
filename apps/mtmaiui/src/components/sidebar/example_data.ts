@@ -1,4 +1,12 @@
-import { ArchiveX, Clock, FileIcon, Inbox, Send, Settings } from "lucide-react";
+import {
+  ArchiveX,
+  Clock,
+  FileIcon,
+  Inbox,
+  Send,
+  Settings,
+  Users,
+} from "lucide-react";
 
 export const example_data = {
   user: {
@@ -43,12 +51,12 @@ export const example_data = {
       icon: Settings,
       isActive: false,
     },
-    // {
-    //   title: "账号",
-    //   url: "/platform-account",
-    //   icon: Users,
-    //   isActive: false,
-    // },
+    {
+      title: "账号",
+      url: "/platform-account",
+      icon: Users,
+      isActive: false,
+    },
     {
       title: "资源",
       url: "/resource",
