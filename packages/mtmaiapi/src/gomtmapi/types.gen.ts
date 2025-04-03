@@ -3002,13 +3002,15 @@ export type BrowserUpdate = {
 
 export type ProxyProperties = {
   name: string;
-  description?: string;
+  description: string;
   url: string;
   loginUrl?: string;
   properties?: {
     [key: string]: unknown;
   };
   tags?: Array<string>;
+  enabled: boolean;
+  provider: string;
 };
 
 export type Proxy = ApiResourceMetaProperties & ProxyProperties;

@@ -2881,11 +2881,13 @@ export const zBrowserUpdate = z.object({
 
 export const zProxyProperties = z.object({
   name: z.string(),
-  description: z.string().optional(),
+  description: z.string(),
   url: z.string(),
   loginUrl: z.string().optional(),
   properties: z.object({}).optional(),
   tags: z.array(z.string()).optional(),
+  enabled: z.boolean(),
+  provider: z.string(),
 });
 
 export const zProxy = zApiResourceMetaProperties.merge(zProxyProperties);
