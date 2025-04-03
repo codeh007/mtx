@@ -3493,18 +3493,4 @@ export const zResourceDeleteResponse = z.void();
 
 export const zResourceGetResponse = zMtResource;
 
-export const zTeamListResponse = zTeamList;
-
-export const zTeamRunResponse = zTeamRunResult;
-
-export const zTeamGetResponse = zTeam;
-
-export const zTeamUpsertResponse = zTeam;
-
-export const zAgentListResponse = zAgentList;
-
-export const zAgentGetResponse = zAgent;
-
-export const zAgentUpsertResponse = zAgent;
-
 export const zInstagramLoginResponse = zIgLoginResponse;

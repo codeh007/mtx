@@ -167,13 +167,6 @@ import {
   resourceUpsert,
   resourceDelete,
   resourceGet,
-  teamList,
-  teamRun,
-  teamGet,
-  teamUpsert,
-  agentList,
-  agentGet,
-  agentUpsert,
   instagramLogin,
 } from "../sdk.gen";
 import {
@@ -493,19 +486,6 @@ import type {
   ResourceDeleteError,
   ResourceDeleteResponse,
   ResourceGetData,
-  TeamListData,
-  TeamRunData,
-  TeamRunError,
-  TeamRunResponse,
-  TeamGetData,
-  TeamUpsertData,
-  TeamUpsertError,
-  TeamUpsertResponse,
-  AgentListData,
-  AgentGetData,
-  AgentUpsertData,
-  AgentUpsertError,
-  AgentUpsertResponse,
   InstagramLoginData,
   InstagramLoginError,
   InstagramLoginResponse,
@@ -5021,154 +5001,6 @@ export const resourceGetOptions = (options: Options<ResourceGetData>) => {
     },
     queryKey: resourceGetQueryKey(options),
   });
-};
-
-export const teamListQueryKey = (options: Options<TeamListData>) =>
-  createQueryKey("teamList", options);
-
-export const teamListOptions = (options: Options<TeamListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await teamList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: teamListQueryKey(options),
-  });
-};
-
-export const teamRunQueryKey = (options: Options<TeamRunData>) =>
-  createQueryKey("teamRun", options);
-
-export const teamRunOptions = (options: Options<TeamRunData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await teamRun({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: teamRunQueryKey(options),
-  });
-};
-
-export const teamRunMutation = (options?: Partial<Options<TeamRunData>>) => {
-  const mutationOptions: UseMutationOptions<
-    TeamRunResponse,
-    TeamRunError,
-    Options<TeamRunData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await teamRun({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const teamGetQueryKey = (options: Options<TeamGetData>) =>
-  createQueryKey("teamGet", options);
-
-export const teamGetOptions = (options: Options<TeamGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await teamGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: teamGetQueryKey(options),
-  });
-};
-
-export const teamUpsertMutation = (
-  options?: Partial<Options<TeamUpsertData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    TeamUpsertResponse,
-    TeamUpsertError,
-    Options<TeamUpsertData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await teamUpsert({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const agentListQueryKey = (options: Options<AgentListData>) =>
-  createQueryKey("agentList", options);
-
-export const agentListOptions = (options: Options<AgentListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agentList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: agentListQueryKey(options),
-  });
-};
-
-export const agentGetQueryKey = (options: Options<AgentGetData>) =>
-  createQueryKey("agentGet", options);
-
-export const agentGetOptions = (options: Options<AgentGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agentGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: agentGetQueryKey(options),
-  });
-};
-
-export const agentUpsertMutation = (
-  options?: Partial<Options<AgentUpsertData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    AgentUpsertResponse,
-    AgentUpsertError,
-    Options<AgentUpsertData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await agentUpsert({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
 };
 
 export const instagramLoginQueryKey = (options?: Options<InstagramLoginData>) =>
