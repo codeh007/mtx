@@ -1,7 +1,7 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { FlowNames, type FlowPlatformAccountInput } from "mtmaiapi";
+import { zFlowPlatformAccountInput } from "mtmaiapi/gomtmapi/zod.gen";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
-import { z } from "zod";
 import { useWorkflowRun } from "../../../hooks/useWorkflowRun";
 import { SocialLoginFields } from "./SocialLoginFields";
 
@@ -22,14 +22,13 @@ function RouteComponent() {
 
   const form = useZodFormV2({
     toastValidateError: true,
-    schema: z.object({
-      username: z.string(),
-      password: z.string(),
-      two_factor_code: z.string(),
-      platform_name: z.string(),
-    }),
+    schema: zFlowPlatformAccountInput,
     defaultValues: {
       platform_name: "instagram",
+      username: "saibichquyenll2015",
+      password: "",
+      proxy_url: "http://localhost:10809",
+      // two_factor_code: "",
     },
     handleSubmit: (data) => {
       workflowRunMutation.mutate({

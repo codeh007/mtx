@@ -3297,7 +3297,9 @@ export type FlowPlatformAccountInput = {
   platform_name: string;
   username: string;
   password: string;
-  two_factor_code: string;
+  two_factor_code?: string;
+  two_factor_key?: string;
+  proxy_url?: string;
 };
 
 export type FlowError = {

@@ -64,6 +64,30 @@ export function SocialLoginFields() {
           </FormItem>
         )}
       />
+      <FormField
+        control={form.control}
+        name="two_factor_key"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>两步验证密钥</FormLabel>
+            <FormControl>
+              <Input {...field} placeholder="两步验证密钥" />
+            </FormControl>
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="proxy_url"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>代理地址</FormLabel>
+            <FormControl>
+              <Input {...field} placeholder="代理地址" />
+            </FormControl>
+          </FormItem>
+        )}
+      />
     </>
   );
 }

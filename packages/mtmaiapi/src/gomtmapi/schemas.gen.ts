@@ -6374,7 +6374,7 @@ export const AgentUserInputSchema = {
 } as const;
 
 export const FlowPlatformAccountInputSchema = {
-  required: ["platform_name", "username", "password", "two_factor_code"],
+  required: ["platform_name", "username", "password"],
   properties: {
     platform_name: {
       type: "string",
@@ -6386,6 +6386,12 @@ export const FlowPlatformAccountInputSchema = {
       type: "string",
     },
     two_factor_code: {
+      type: "string",
+    },
+    two_factor_key: {
+      type: "string",
+    },
+    proxy_url: {
       type: "string",
     },
   },

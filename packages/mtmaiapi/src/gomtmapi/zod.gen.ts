@@ -862,7 +862,9 @@ export const zWorkflowWorkersCount = z.object({
         platform_name: z.string(),
         username: z.string(),
         password: z.string(),
-        two_factor_code: z.string(),
+        two_factor_code: z.string().optional(),
+        two_factor_key: z.string().optional(),
+        proxy_url: z.string().optional(),
       }),
       z.object({
         type: z.string().optional(),
@@ -3141,7 +3143,9 @@ export const zFlowPlatformAccountInput = z.object({
   platform_name: z.string(),
   username: z.string(),
   password: z.string(),
-  two_factor_code: z.string(),
+  two_factor_code: z.string().optional(),
+  two_factor_key: z.string().optional(),
+  proxy_url: z.string().optional(),
 });
 
 export const zFlowError = z.object({
