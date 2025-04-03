@@ -5623,16 +5623,13 @@ export const PlatformAccountPropertiesSchema = {
     enabled: {
       type: "boolean",
     },
-    comment: {
-      type: "string",
-    },
     tags: {
       type: "array",
       items: {
         type: "string",
       },
     },
-    properties: {
+    state: {
       additionalProperties: true,
     },
   },

@@ -2954,9 +2954,8 @@ export type PlatformAccountProperties = {
   type?: string;
   platform: string;
   enabled?: boolean;
-  comment?: string;
   tags?: Array<string>;
-  properties?: unknown;
+  state?: unknown;
 };
 
 export type PlatformAccountCreate = PlatformAccountProperties;

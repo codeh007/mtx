@@ -2836,9 +2836,8 @@ export const zPlatformAccountProperties = z.object({
   type: z.string().optional(),
   platform: z.string(),
   enabled: z.boolean().optional(),
-  comment: z.string().optional(),
   tags: z.array(z.string()).optional(),
-  properties: z.unknown().optional(),
+  state: z.unknown().optional(),
 });
 
 export const zPlatformAccountCreate = zPlatformAccountProperties;
