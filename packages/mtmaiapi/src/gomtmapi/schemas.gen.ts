@@ -5803,42 +5803,20 @@ export const ProxyListSchema = {
       $ref: "#/components/schemas/PaginationResponse",
     },
     rows: {
+      type: "array",
       items: {
         $ref: "#/components/schemas/Proxy",
       },
-      type: "array",
     },
   },
 } as const;
 
 export const ProxyUpsertSchema = {
-  required: ["metadata", "name", "url"],
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
+  allOf: [
+    {
+      $ref: "#/components/schemas/ProxyProperties",
     },
-    name: {
-      type: "string",
-    },
-    description: {
-      type: "string",
-    },
-    url: {
-      type: "string",
-    },
-    loginUrl: {
-      type: "string",
-    },
-    properties: {
-      type: "object",
-    },
-    tags: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-    },
-  },
+  ],
 } as const;
 
 export const UiAgentStateSchema = {

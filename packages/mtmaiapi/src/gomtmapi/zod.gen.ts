@@ -2897,15 +2897,7 @@ export const zProxyList = z.object({
   rows: z.array(zProxy).optional(),
 });
 
-export const zProxyUpsert = z.object({
-  metadata: zApiResourceMeta,
-  name: z.string(),
-  description: z.string().optional(),
-  url: z.string(),
-  loginUrl: z.string().optional(),
-  properties: z.object({}).optional(),
-  tags: z.array(z.string()).optional(),
-});
+export const zProxyUpsert = zProxyProperties;
 
 export const zUiAgentState = z.object({
   welcome: z
@@ -3463,8 +3455,6 @@ export const zBrowserGetResponse = zBrowser;
 export const zBrowserUpdateResponse = zBrowser;
 
 export const zProxyListResponse = zProxyList;
-
-export const zProxyCreateResponse = zProxy;
 
 export const zProxyGetResponse = zProxy;
 

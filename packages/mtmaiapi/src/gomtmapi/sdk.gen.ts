@@ -423,9 +423,6 @@ import type {
   ProxyListData,
   ProxyListResponse,
   ProxyListError,
-  ProxyCreateData,
-  ProxyCreateResponse,
-  ProxyCreateError,
   ProxyGetData,
   ProxyGetResponse,
   ProxyGetError,
@@ -4383,9 +4380,9 @@ export const browserUpdate = <ThrowOnError extends boolean = false>(
 };
 
 export const proxyList = <ThrowOnError extends boolean = false>(
-  options?: Options<ProxyListData, ThrowOnError>,
+  options: Options<ProxyListData, ThrowOnError>,
 ) => {
-  return (options?.client ?? _heyApiClient).get<
+  return (options.client ?? _heyApiClient).get<
     ProxyListResponse,
     ProxyListError,
     ThrowOnError
@@ -4400,38 +4397,8 @@ export const proxyList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/proxies",
+    url: "/api/v1/tenants/{tenant}/proxies",
     ...options,
-  });
-};
-
-/**
- * create proxy
- */
-export const proxyCreate = <ThrowOnError extends boolean = false>(
-  options: Options<ProxyCreateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    ProxyCreateResponse,
-    ProxyCreateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/proxies",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
   });
 };
 
@@ -4453,14 +4420,11 @@ export const proxyGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/proxies/{proxy}",
+    url: "/api/v1/tenants/{tenant}/proxies/{proxy}",
     ...options,
   });
 };
 
-/**
- * upsert an proxy
- */
 export const proxyUpsert = <ThrowOnError extends boolean = false>(
   options: Options<ProxyUpsertData, ThrowOnError>,
 ) => {
@@ -4479,7 +4443,7 @@ export const proxyUpsert = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/proxies/{proxy}",
+    url: "/api/v1/tenants/{tenant}/proxies/{proxy}",
     ...options,
     headers: {
       "Content-Type": "application/json",

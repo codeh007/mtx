@@ -3020,17 +3020,7 @@ export type ProxyList = {
   rows?: Array<Proxy>;
 };
 
-export type ProxyUpsert = {
-  metadata: ApiResourceMeta;
-  name: string;
-  description?: string;
-  url: string;
-  loginUrl?: string;
-  properties?: {
-    [key: string]: unknown;
-  };
-  tags?: Array<string>;
-};
+export type ProxyUpsert = ProxyProperties;
 
 export type UiAgentState = {
   welcome?: ChatWelcome;
@@ -8784,9 +8774,14 @@ export type BrowserUpdateResponse =
 
 export type ProxyListData = {
   body?: never;
-  path?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
   query?: never;
-  url: "/api/v1/proxies";
+  url: "/api/v1/tenants/{tenant}/proxies";
 };
 
 export type ProxyListErrors = {
@@ -8812,43 +8807,20 @@ export type ProxyListResponses = {
 
 export type ProxyListResponse = ProxyListResponses[keyof ProxyListResponses];
 
-export type ProxyCreateData = {
-  body: Proxy;
-  path?: never;
-  query?: never;
-  url: "/api/v1/proxies";
-};
-
-export type ProxyCreateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type ProxyCreateError = ProxyCreateErrors[keyof ProxyCreateErrors];
-
-export type ProxyCreateResponses = {
-  200: Proxy;
-};
-
-export type ProxyCreateResponse =
-  ProxyCreateResponses[keyof ProxyCreateResponses];
-
 export type ProxyGetData = {
   body?: never;
   path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
     /**
      * The platform id
      */
     proxy: string;
   };
   query?: never;
-  url: "/api/v1/proxies/{proxy}";
+  url: "/api/v1/tenants/{tenant}/proxies/{proxy}";
 };
 
 export type ProxyGetErrors = {
@@ -8874,12 +8846,16 @@ export type ProxyUpsertData = {
   body: ProxyUpsert;
   path: {
     /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
      * The platform id
      */
     proxy: string;
   };
   query?: never;
-  url: "/api/v1/proxies/{proxy}";
+  url: "/api/v1/tenants/{tenant}/proxies/{proxy}";
 };
 
 export type ProxyUpsertErrors = {

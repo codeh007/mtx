@@ -68,6 +68,7 @@ const TeamTeamIdRouteLazyImport = createFileRoute('/team/$teamId')()
 const SessionSessionIdRouteLazyImport = createFileRoute('/session/$sessionId')()
 const ResourceNewRouteLazyImport = createFileRoute('/resource/new')()
 const ResourceResIdRouteLazyImport = createFileRoute('/resource/$resId')()
+const ProxyNewRouteLazyImport = createFileRoute('/proxy/new')()
 const PostCreateLazyImport = createFileRoute('/post/create')()
 const PlayChatRouteLazyImport = createFileRoute('/play/chat')()
 const PlatformAccountNewRouteLazyImport = createFileRoute(
@@ -584,6 +585,14 @@ const ResourceResIdRouteLazyRoute = ResourceResIdRouteLazyImport.update({
   getParentRoute: () => ResourceRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~resource/~$resId/~route.lazy').then((d) => d.Route),
+)
+
+const ProxyNewRouteLazyRoute = ProxyNewRouteLazyImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => ProxyRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~proxy/~new/~route.lazy').then((d) => d.Route),
 )
 
 const PostCreateLazyRoute = PostCreateLazyImport.update({
@@ -2311,6 +2320,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostCreateLazyImport
       parentRoute: typeof PostRouteLazyImport
     }
+    '/proxy/new': {
+      id: '/proxy/new'
+      path: '/new'
+      fullPath: '/proxy/new'
+      preLoaderRoute: typeof ProxyNewRouteLazyImport
+      parentRoute: typeof ProxyRouteLazyImport
+    }
     '/resource/$resId': {
       id: '/resource/$resId'
       path: '/$resId'
@@ -3666,10 +3682,12 @@ const PostRouteLazyRouteWithChildren = PostRouteLazyRoute._addFileChildren(
 
 interface ProxyRouteLazyRouteChildren {
   ProxyIndexLazyRoute: typeof ProxyIndexLazyRoute
+  ProxyNewRouteLazyRoute: typeof ProxyNewRouteLazyRoute
 }
 
 const ProxyRouteLazyRouteChildren: ProxyRouteLazyRouteChildren = {
   ProxyIndexLazyRoute: ProxyIndexLazyRoute,
+  ProxyNewRouteLazyRoute: ProxyNewRouteLazyRoute,
 }
 
 const ProxyRouteLazyRouteWithChildren = ProxyRouteLazyRoute._addFileChildren(
@@ -4361,6 +4379,7 @@ export interface FileRoutesByFullPath {
   '/platform-account/new': typeof PlatformAccountNewRouteLazyRoute
   '/play/chat': typeof PlayChatRouteLazyRouteWithChildren
   '/post/create': typeof PostCreateLazyRoute
+  '/proxy/new': typeof ProxyNewRouteLazyRoute
   '/resource/$resId': typeof ResourceResIdRouteLazyRouteWithChildren
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
   '/session/$sessionId': typeof SessionSessionIdRouteLazyRouteWithChildren
@@ -4508,6 +4527,7 @@ export interface FileRoutesByTo {
   '/gallery/$galleryId': typeof GalleryGalleryIdRouteLazyRoute
   '/platform-account/new': typeof PlatformAccountNewRouteLazyRoute
   '/post/create': typeof PostCreateLazyRoute
+  '/proxy/new': typeof ProxyNewRouteLazyRoute
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
   '/team/$teamId': typeof TeamTeamIdRouteLazyRouteWithChildren
   '/onboarding/create-tenant': typeof OnboardingCreateTenantIndexRoute
@@ -4646,6 +4666,7 @@ export interface FileRoutesById {
   '/platform-account/new': typeof PlatformAccountNewRouteLazyRoute
   '/play/chat': typeof PlayChatRouteLazyRouteWithChildren
   '/post/create': typeof PostCreateLazyRoute
+  '/proxy/new': typeof ProxyNewRouteLazyRoute
   '/resource/$resId': typeof ResourceResIdRouteLazyRouteWithChildren
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
   '/session/$sessionId': typeof SessionSessionIdRouteLazyRouteWithChildren
@@ -4824,6 +4845,7 @@ export interface FileRouteTypes {
     | '/platform-account/new'
     | '/play/chat'
     | '/post/create'
+    | '/proxy/new'
     | '/resource/$resId'
     | '/resource/new'
     | '/session/$sessionId'
@@ -4970,6 +4992,7 @@ export interface FileRouteTypes {
     | '/gallery/$galleryId'
     | '/platform-account/new'
     | '/post/create'
+    | '/proxy/new'
     | '/resource/new'
     | '/team/$teamId'
     | '/onboarding/create-tenant'
@@ -5106,6 +5129,7 @@ export interface FileRouteTypes {
     | '/platform-account/new'
     | '/play/chat'
     | '/post/create'
+    | '/proxy/new'
     | '/resource/$resId'
     | '/resource/new'
     | '/session/$sessionId'
@@ -5399,7 +5423,8 @@ export const routeTree = rootRoute
     "/proxy": {
       "filePath": "~proxy/~route.lazy.tsx",
       "children": [
-        "/proxy/"
+        "/proxy/",
+        "/proxy/new"
       ]
     },
     "/recurring": {
@@ -5644,6 +5669,10 @@ export const routeTree = rootRoute
     "/post/create": {
       "filePath": "~post/~create.lazy.tsx",
       "parent": "/post"
+    },
+    "/proxy/new": {
+      "filePath": "~proxy/~new/~route.lazy.tsx",
+      "parent": "/proxy"
     },
     "/resource/$resId": {
       "filePath": "~resource/~$resId/~route.lazy.tsx",

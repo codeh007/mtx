@@ -13,6 +13,7 @@ import {
   useSidebar,
 } from "mtxuilib/ui/sidebar";
 import { Switch } from "mtxuilib/ui/switch";
+import { ProxyListView } from "./ProxyListView";
 
 export function NavProxy() {
   const { isMobile } = useSidebar();
@@ -20,7 +21,7 @@ export function NavProxy() {
     <Sidebar collapsible="none" className="hidden flex-1 md:flex">
       <SidebarHeader className="gap-3.5 border-b p-4">
         <div className="flex w-full items-center justify-between">
-          <div className="text-base font-medium text-foreground">运行历史</div>
+          <div className="text-base font-medium text-foreground">网络代理</div>
           <Label className="flex items-center gap-2 text-sm">
             <CustomLink
               to={"/proxy/new"}
@@ -36,8 +37,7 @@ export function NavProxy() {
       <SidebarContent>
         <SidebarGroup className="px-0">
           <SidebarGroupContent>
-            {/* <WorkflowListView /> */}
-            todo proxy list view
+            <ProxyListView />
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
