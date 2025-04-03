@@ -858,6 +858,16 @@ export const zWorkflowWorkersCount = z.object({
       z.object({
         content: z.string().optional(),
       }),
+      z.object({
+        platform_name: z.string(),
+        username: z.string(),
+        password: z.string(),
+        two_factor_code: z.string(),
+      }),
+      z.object({
+        type: z.string().optional(),
+        error: z.string().optional(),
+      }),
     ])
     .optional(),
 });
@@ -2834,10 +2844,11 @@ export const zPlatformAccountProperties = z.object({
   password: z.string().optional(),
   token: z.string().optional(),
   type: z.string().optional(),
-  platform: z.string(),
+  platform: z.string().optional(),
   enabled: z.boolean().optional(),
   tags: z.array(z.string()).optional(),
   state: z.unknown().optional(),
+  error: z.string().optional(),
 });
 
 export const zPlatformAccountCreate = zPlatformAccountProperties;
@@ -3124,6 +3135,18 @@ export const zAgentTopicTypes = z.enum([
 
 export const zAgentUserInput = z.object({
   content: z.string().optional(),
+});
+
+export const zFlowPlatformAccountInput = z.object({
+  platform_name: z.string(),
+  username: z.string(),
+  password: z.string(),
+  two_factor_code: z.string(),
+});
+
+export const zFlowError = z.object({
+  type: z.string().optional(),
+  error: z.string().optional(),
 });
 
 export const zTeamProperties = z.object({

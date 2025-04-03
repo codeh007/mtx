@@ -151,10 +151,10 @@ function RouteComponent() {
           )}
         />
         <FormField
-          name={"properties"}
+          name={"state"}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>properties</FormLabel>
+              <FormLabel>state</FormLabel>
               <FormControl>
                 <JsonObjectInput {...field} />
               </FormControl>
@@ -164,7 +164,6 @@ function RouteComponent() {
         />
 
         <FormField
-          // control={form.control}
           name="proxyId"
           render={({ field }) => (
             <FormItem>

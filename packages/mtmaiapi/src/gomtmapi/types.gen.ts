@@ -865,7 +865,9 @@ export type WorkflowWorkersCount = {
     | InstagramAgentState
     | IgLoginEvent
     | AgentTopicTypes
-    | AgentUserInput;
+    | AgentUserInput
+    | FlowPlatformAccountInput
+    | FlowError;
 };
 
 export type WorkflowRun = {
@@ -2952,10 +2954,11 @@ export type PlatformAccountProperties = {
   password?: string;
   token?: string;
   type?: string;
-  platform: string;
+  platform?: string;
   enabled?: boolean;
   tags?: Array<string>;
   state?: unknown;
+  error?: string;
 };
 
 export type PlatformAccountCreate = PlatformAccountProperties;
@@ -3288,6 +3291,18 @@ export const AgentTopicTypes = {
 
 export type AgentUserInput = {
   content?: string;
+};
+
+export type FlowPlatformAccountInput = {
+  platform_name: string;
+  username: string;
+  password: string;
+  two_factor_code: string;
+};
+
+export type FlowError = {
+  type?: string;
+  error?: string;
 };
 
 export type TeamProperties = {

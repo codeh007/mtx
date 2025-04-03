@@ -1482,6 +1482,12 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/AgentUserInput",
         },
+        {
+          $ref: "#/components/schemas/FlowPlatformAccountInput",
+        },
+        {
+          $ref: "#/components/schemas/FlowError",
+        },
       ],
     },
   },
@@ -5594,7 +5600,7 @@ export const PlatformUpdateSchema = {
 } as const;
 
 export const PlatformAccountPropertiesSchema = {
-  required: ["username", "platform"],
+  required: ["username"],
   properties: {
     label: {
       type: "string",
@@ -5631,6 +5637,9 @@ export const PlatformAccountPropertiesSchema = {
     },
     state: {
       additionalProperties: true,
+    },
+    error: {
+      type: "string",
     },
   },
 } as const;
@@ -6359,6 +6368,35 @@ export const AgentTopicTypesSchema = {
 export const AgentUserInputSchema = {
   properties: {
     content: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const FlowPlatformAccountInputSchema = {
+  required: ["platform_name", "username", "password", "two_factor_code"],
+  properties: {
+    platform_name: {
+      type: "string",
+    },
+    username: {
+      type: "string",
+    },
+    password: {
+      type: "string",
+    },
+    two_factor_code: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const FlowErrorSchema = {
+  properties: {
+    type: {
+      type: "string",
+    },
+    error: {
       type: "string",
     },
   },

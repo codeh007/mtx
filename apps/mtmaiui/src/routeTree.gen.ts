@@ -169,6 +169,9 @@ const SessionSessionIdIndexLazyImport = createFileRoute(
 const ResourceResIdIndexLazyImport = createFileRoute('/resource/$resId/')()
 const ProxyProxyIdIndexLazyImport = createFileRoute('/proxy/$proxyId/')()
 const PlayChatIndexLazyImport = createFileRoute('/play/chat/')()
+const PlatformAccountNewIndexLazyImport = createFileRoute(
+  '/platform-account/new/',
+)()
 const PlatformAccountPlatformAccountIdIndexLazyImport = createFileRoute(
   '/platform-account/$platformAccountId/',
 )()
@@ -1126,6 +1129,15 @@ const PlayChatIndexLazyRoute = PlayChatIndexLazyImport.update({
 } as any).lazy(() =>
   import('./routes/~play/~chat/~index.lazy').then((d) => d.Route),
 )
+
+const PlatformAccountNewIndexLazyRoute =
+  PlatformAccountNewIndexLazyImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => PlatformAccountNewRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/~platform-account/~new/~index.lazy').then((d) => d.Route),
+  )
 
 const PlatformAccountPlatformAccountIdIndexLazyRoute =
   PlatformAccountPlatformAccountIdIndexLazyImport.update({
@@ -2499,6 +2511,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlatformAccountPlatformAccountIdIndexLazyImport
       parentRoute: typeof PlatformAccountPlatformAccountIdRouteLazyImport
     }
+    '/platform-account/new/': {
+      id: '/platform-account/new/'
+      path: '/'
+      fullPath: '/platform-account/new/'
+      preLoaderRoute: typeof PlatformAccountNewIndexLazyImport
+      parentRoute: typeof PlatformAccountNewRouteLazyImport
+    }
     '/play/chat/': {
       id: '/play/chat/'
       path: '/'
@@ -3672,10 +3691,24 @@ const PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren =
     PlatformAccountPlatformAccountIdRouteLazyRouteChildren,
   )
 
+interface PlatformAccountNewRouteLazyRouteChildren {
+  PlatformAccountNewIndexLazyRoute: typeof PlatformAccountNewIndexLazyRoute
+}
+
+const PlatformAccountNewRouteLazyRouteChildren: PlatformAccountNewRouteLazyRouteChildren =
+  {
+    PlatformAccountNewIndexLazyRoute: PlatformAccountNewIndexLazyRoute,
+  }
+
+const PlatformAccountNewRouteLazyRouteWithChildren =
+  PlatformAccountNewRouteLazyRoute._addFileChildren(
+    PlatformAccountNewRouteLazyRouteChildren,
+  )
+
 interface PlatformAccountRouteLazyRouteChildren {
   PlatformAccountIndexLazyRoute: typeof PlatformAccountIndexLazyRoute
   PlatformAccountPlatformAccountIdRouteLazyRoute: typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
-  PlatformAccountNewRouteLazyRoute: typeof PlatformAccountNewRouteLazyRoute
+  PlatformAccountNewRouteLazyRoute: typeof PlatformAccountNewRouteLazyRouteWithChildren
 }
 
 const PlatformAccountRouteLazyRouteChildren: PlatformAccountRouteLazyRouteChildren =
@@ -3683,7 +3716,8 @@ const PlatformAccountRouteLazyRouteChildren: PlatformAccountRouteLazyRouteChildr
     PlatformAccountIndexLazyRoute: PlatformAccountIndexLazyRoute,
     PlatformAccountPlatformAccountIdRouteLazyRoute:
       PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren,
-    PlatformAccountNewRouteLazyRoute: PlatformAccountNewRouteLazyRoute,
+    PlatformAccountNewRouteLazyRoute:
+      PlatformAccountNewRouteLazyRouteWithChildren,
   }
 
 const PlatformAccountRouteLazyRouteWithChildren =
@@ -4482,7 +4516,7 @@ export interface FileRoutesByFullPath {
   '/model/$modelId': typeof ModelModelIdRouteLazyRouteWithChildren
   '/model/new': typeof ModelNewRouteLazyRouteWithChildren
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
-  '/platform-account/new': typeof PlatformAccountNewRouteLazyRoute
+  '/platform-account/new': typeof PlatformAccountNewRouteLazyRouteWithChildren
   '/play/chat': typeof PlayChatRouteLazyRouteWithChildren
   '/post/create': typeof PostCreateLazyRoute
   '/proxy/$proxyId': typeof ProxyProxyIdRouteLazyRouteWithChildren
@@ -4504,6 +4538,7 @@ export interface FileRoutesByFullPath {
   '/model/$modelId/': typeof ModelModelIdIndexLazyRoute
   '/model/new/': typeof ModelNewIndexLazyRoute
   '/platform-account/$platformAccountId/': typeof PlatformAccountPlatformAccountIdIndexLazyRoute
+  '/platform-account/new/': typeof PlatformAccountNewIndexLazyRoute
   '/play/chat/': typeof PlayChatIndexLazyRoute
   '/proxy/$proxyId/': typeof ProxyProxyIdIndexLazyRoute
   '/resource/$resId/': typeof ResourceResIdIndexLazyRoute
@@ -4635,7 +4670,6 @@ export interface FileRoutesByTo {
   '/workflows': typeof WorkflowsIndexLazyRoute
   '/auth/register': typeof AuthRegisterLazyRoute
   '/gallery/$galleryId': typeof GalleryGalleryIdRouteLazyRoute
-  '/platform-account/new': typeof PlatformAccountNewRouteLazyRoute
   '/post/create': typeof PostCreateLazyRoute
   '/proxy/new': typeof ProxyNewRouteLazyRoute
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
@@ -4649,6 +4683,7 @@ export interface FileRoutesByTo {
   '/model/$modelId': typeof ModelModelIdIndexLazyRoute
   '/model/new': typeof ModelNewIndexLazyRoute
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdIndexLazyRoute
+  '/platform-account/new': typeof PlatformAccountNewIndexLazyRoute
   '/play/chat': typeof PlayChatIndexLazyRoute
   '/proxy/$proxyId': typeof ProxyProxyIdIndexLazyRoute
   '/resource/$resId': typeof ResourceResIdIndexLazyRoute
@@ -4775,7 +4810,7 @@ export interface FileRoutesById {
   '/model/$modelId': typeof ModelModelIdRouteLazyRouteWithChildren
   '/model/new': typeof ModelNewRouteLazyRouteWithChildren
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
-  '/platform-account/new': typeof PlatformAccountNewRouteLazyRoute
+  '/platform-account/new': typeof PlatformAccountNewRouteLazyRouteWithChildren
   '/play/chat': typeof PlayChatRouteLazyRouteWithChildren
   '/post/create': typeof PostCreateLazyRoute
   '/proxy/$proxyId': typeof ProxyProxyIdRouteLazyRouteWithChildren
@@ -4797,6 +4832,7 @@ export interface FileRoutesById {
   '/model/$modelId/': typeof ModelModelIdIndexLazyRoute
   '/model/new/': typeof ModelNewIndexLazyRoute
   '/platform-account/$platformAccountId/': typeof PlatformAccountPlatformAccountIdIndexLazyRoute
+  '/platform-account/new/': typeof PlatformAccountNewIndexLazyRoute
   '/play/chat/': typeof PlayChatIndexLazyRoute
   '/proxy/$proxyId/': typeof ProxyProxyIdIndexLazyRoute
   '/resource/$resId/': typeof ResourceResIdIndexLazyRoute
@@ -4980,6 +5016,7 @@ export interface FileRouteTypes {
     | '/model/$modelId/'
     | '/model/new/'
     | '/platform-account/$platformAccountId/'
+    | '/platform-account/new/'
     | '/play/chat/'
     | '/proxy/$proxyId/'
     | '/resource/$resId/'
@@ -5110,7 +5147,6 @@ export interface FileRouteTypes {
     | '/workflows'
     | '/auth/register'
     | '/gallery/$galleryId'
-    | '/platform-account/new'
     | '/post/create'
     | '/proxy/new'
     | '/resource/new'
@@ -5124,6 +5160,7 @@ export interface FileRouteTypes {
     | '/model/$modelId'
     | '/model/new'
     | '/platform-account/$platformAccountId'
+    | '/platform-account/new'
     | '/play/chat'
     | '/proxy/$proxyId'
     | '/resource/$resId'
@@ -5270,6 +5307,7 @@ export interface FileRouteTypes {
     | '/model/$modelId/'
     | '/model/new/'
     | '/platform-account/$platformAccountId/'
+    | '/platform-account/new/'
     | '/play/chat/'
     | '/proxy/$proxyId/'
     | '/resource/$resId/'
@@ -5783,7 +5821,10 @@ export const routeTree = rootRoute
     },
     "/platform-account/new": {
       "filePath": "~platform-account/~new/~route.lazy.tsx",
-      "parent": "/platform-account"
+      "parent": "/platform-account",
+      "children": [
+        "/platform-account/new/"
+      ]
     },
     "/play/chat": {
       "filePath": "~play/~chat/~route.lazy.tsx",
@@ -5910,6 +5951,10 @@ export const routeTree = rootRoute
     "/platform-account/$platformAccountId/": {
       "filePath": "~platform-account/~$platformAccountId/~index.lazy.tsx",
       "parent": "/platform-account/$platformAccountId"
+    },
+    "/platform-account/new/": {
+      "filePath": "~platform-account/~new/~index.lazy.tsx",
+      "parent": "/platform-account/new"
     },
     "/play/chat/": {
       "filePath": "~play/~chat/~index.lazy.tsx",

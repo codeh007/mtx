@@ -1,6 +1,6 @@
 "use client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createLazyFileRoute } from "@tanstack/react-router";
+import { createLazyFileRoute, Outlet } from "@tanstack/react-router";
 import {
   platformAccountCreateMutation,
   platformAccountListOptions,
@@ -174,6 +174,7 @@ function RouteComponent() {
         />
       </ZForm>
       <ZFormToolbar form={form.form} />
+      <Outlet />
     </>
   );
 }
