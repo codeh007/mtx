@@ -5754,7 +5754,7 @@ export const BrowserUpdateSchema = {
 } as const;
 
 export const ProxyPropertiesSchema = {
-  required: ["metadata", "name", "description", "url", "enabled", "provider"],
+  required: ["name", "description", "url"],
   properties: {
     name: {
       type: "string",

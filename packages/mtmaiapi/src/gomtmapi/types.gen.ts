@@ -3009,8 +3009,8 @@ export type ProxyProperties = {
     [key: string]: unknown;
   };
   tags?: Array<string>;
-  enabled: boolean;
-  provider: string;
+  enabled?: boolean;
+  provider?: string;
 };
 
 export type Proxy = ApiResourceMetaProperties & ProxyProperties;
@@ -8859,22 +8859,13 @@ export type ProxyUpsertData = {
 };
 
 export type ProxyUpsertErrors = {
-  /**
-   * A malformed or bad request
-   */
   400: ApiErrors;
-  /**
-   * Forbidden
-   */
   403: ApiErrors;
 };
 
 export type ProxyUpsertError = ProxyUpsertErrors[keyof ProxyUpsertErrors];
 
 export type ProxyUpsertResponses = {
-  /**
-   * Successfully created the proxy
-   */
   200: Proxy;
 };
 

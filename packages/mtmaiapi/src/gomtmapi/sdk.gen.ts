@@ -4242,7 +4242,6 @@ export const platformAccountGet = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Update platform_account
  * Update an platform_account
  */
 export const platformAccountUpsert = <ThrowOnError extends boolean = false>(

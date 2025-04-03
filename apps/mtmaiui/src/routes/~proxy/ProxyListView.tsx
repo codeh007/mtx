@@ -9,13 +9,12 @@ import { buttonVariants } from "mtxuilib/ui/button";
 import { useTenantId } from "../../hooks/useAuth";
 
 export function ProxyListView() {
-  //   const listWorkflowQuery = useWorkflowsStore((x) => x.listWorkflowQuery);
   const tid = useTenantId();
   const listProxyQuery = useSuspenseQuery({
     ...proxyListOptions({
-      // path:{
-      //     tenant: tid
-      // }
+      path: {
+        tenant: tid,
+      },
     }),
   });
   return (

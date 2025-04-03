@@ -2886,8 +2886,8 @@ export const zProxyProperties = z.object({
   loginUrl: z.string().optional(),
   properties: z.object({}).optional(),
   tags: z.array(z.string()).optional(),
-  enabled: z.boolean(),
-  provider: z.string(),
+  enabled: z.boolean().optional(),
+  provider: z.string().optional(),
 });
 
 export const zProxy = zApiResourceMetaProperties.merge(zProxyProperties);
