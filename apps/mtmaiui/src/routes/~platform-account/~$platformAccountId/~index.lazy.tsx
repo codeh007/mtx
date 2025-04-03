@@ -21,6 +21,7 @@ import { Input } from "mtxuilib/ui/input";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useEffect } from "react";
 import { useTenantId } from "../../../hooks/useAuth";
+import { ProxySelect } from "../../~proxy/ProxySelect";
 export const Route = createLazyFileRoute(
   "/platform-account/$platformAccountId/",
 )({
@@ -156,6 +157,20 @@ function RouteComponent() {
               <FormLabel>properties</FormLabel>
               <FormControl>
                 <JsonObjectInput {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          // control={form.control}
+          name="proxyId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>proxyId(未完成)</FormLabel>
+              <FormControl>
+                <ProxySelect {...field} placeholder="proxyId" />
               </FormControl>
               <FormMessage />
             </FormItem>

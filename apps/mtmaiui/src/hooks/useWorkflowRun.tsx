@@ -7,7 +7,7 @@ import {
 } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useTenantId } from "./useAuth";
 import { useNav } from "./useNav";
 export const useWorkflowRunShape = (runId: string) => {
@@ -41,6 +41,7 @@ export const useWorkflowRunShape = (runId: string) => {
 export const useWorkflowRun = (workflowName: string, payload: any) => {
   const toast = useToast();
 
+  const [workflowRunData, setWorkflowRunData] = useState<any>(null);
   const nav = useNav();
   const handleShow = useCallback(
     (runId: string) => {
@@ -58,6 +59,7 @@ export const useWorkflowRun = (workflowName: string, payload: any) => {
       },
     }),
     onSuccess: (data) => {
+      setWorkflowRunData(data);
       toast.toast({
         title: "工作流启动",
         description: (
@@ -85,5 +87,5 @@ export const useWorkflowRun = (workflowName: string, payload: any) => {
       },
     });
   }, [workflowRunMutation, workflowName, payload]);
-  return { workflowRunMutation, handleRun };
+  return { workflowRunMutation, handleRun, workflowRunData };
 };

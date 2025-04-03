@@ -11,8 +11,7 @@ import {
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useMemo } from "react";
 import { useTenantId } from "../../../hooks/useAuth";
-import { useWorkbenchStore } from "../../../stores/workbrench.store";
-import { AgStateView } from "../../~ag_state/components/AgStateView";
+// import { AgStateView } from "../../~ag_state/components/AgStateView";
 
 interface WorkflowRunViewProps {
   runId: string;
@@ -20,7 +19,7 @@ interface WorkflowRunViewProps {
 
 export const WorkflowRunView = ({ runId }: WorkflowRunViewProps) => {
   const tid = useTenantId();
-  const sessionId = useWorkbenchStore((x) => x.threadId);
+  // const sessionId = useWorkbenchStore((x) => x.threadId);
   const workflowRun = useSuspenseQuery({
     ...workflowRunGetOptions({
       path: {
@@ -56,19 +55,18 @@ export const WorkflowRunView = ({ runId }: WorkflowRunViewProps) => {
 
   return (
     <>
-      <div className="bg-slate-100 p-2">
-        {sessionId} / {runId}
-      </div>
+      <div className="bg-slate-100 p-2">{/* {sessionId} / {runId} */}</div>
       <div>
         <DebugValue data={{ workflowRun }} />
         {statusText === WorkflowRunStatus.RUNNING && <div>运行中</div>}
         {statusText === WorkflowRunStatus.SUCCEEDED && agStateQuery.data && (
           <div>
-            <AgStateView agState={agStateQuery.data} />
+            {/* <AgStateView agState={agStateQuery.data} /> */}
+            TODO: AgStateView
           </div>
         )}
       </div>
-      {sessionId && <AgChatView sessionId={sessionId} />}
+      {/* {sessionId && <AgChatView sessionId={sessionId} />} */}
     </>
   );
 };

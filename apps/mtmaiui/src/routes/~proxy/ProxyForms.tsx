@@ -17,6 +17,7 @@ import { useFormContext } from "react-hook-form";
 import type { z } from "zod";
 import { useTenantId } from "../../hooks/useAuth";
 import { useNav } from "../../hooks/useNav";
+import { ProxySelect } from "./ProxySelect";
 
 export function ProxyForm() {
   const tid = useTenantId();
@@ -109,19 +110,19 @@ export const ProxyFormFields = () => {
           </FormItem>
         )}
       />
-      {/* <FormField
+      <FormField
         control={form.control}
-        name="type"
+        name="proxyId"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>type</FormLabel>
+            <FormLabel>proxyId</FormLabel>
             <FormControl>
-              <Input {...field} placeholder="type" />
+              <ProxySelect {...field} placeholder="proxyId" />
             </FormControl>
             <FormMessage />
           </FormItem>
         )}
-      /> */}
+      />
     </>
   );
 };
