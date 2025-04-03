@@ -798,9 +798,9 @@ export const zWorkflowWorkersCount = z.object({
         "smola",
         "team",
         "com",
-        "platform_account",
+        "platform_account_login",
+        "platform_account_follow",
         "resource",
-        "test_team",
       ]),
       z.object({
         type: z.enum(["PlatformAccountFlowInput"]).optional(),
@@ -865,6 +865,10 @@ export const zWorkflowWorkersCount = z.object({
         two_factor_code: z.string().optional(),
         two_factor_key: z.string().optional(),
         proxy_url: z.string().optional(),
+      }),
+      z.object({
+        platform_account_id: z.string().optional(),
+        count_to_follow: z.number().default(1),
       }),
       z.object({
         type: z.string().optional(),
@@ -2195,9 +2199,9 @@ export const zFlowNames = z.enum([
   "smola",
   "team",
   "com",
-  "platform_account",
+  "platform_account_login",
+  "platform_account_follow",
   "resource",
-  "test_team",
 ]);
 
 export const zTerminationTypes = z.enum([
@@ -3139,13 +3143,18 @@ export const zAgentUserInput = z.object({
   content: z.string().optional(),
 });
 
-export const zFlowPlatformAccountInput = z.object({
+export const zFlowPlatformAccountLoginInput = z.object({
   platform_name: z.string(),
   username: z.string(),
   password: z.string(),
   two_factor_code: z.string().optional(),
   two_factor_key: z.string().optional(),
   proxy_url: z.string().optional(),
+});
+
+export const zFlowPlatformAccountFollowInput = z.object({
+  platform_account_id: z.string().optional(),
+  count_to_follow: z.number().default(1),
 });
 
 export const zFlowError = z.object({

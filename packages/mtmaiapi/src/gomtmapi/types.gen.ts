@@ -866,7 +866,8 @@ export type WorkflowWorkersCount = {
     | IgLoginEvent
     | AgentTopicTypes
     | AgentUserInput
-    | FlowPlatformAccountInput
+    | FlowPlatformAccountLoginInput
+    | FlowPlatformAccountFollowInput
     | FlowError;
 };
 
@@ -2280,9 +2281,9 @@ export type FlowNames =
   | "smola"
   | "team"
   | "com"
-  | "platform_account"
-  | "resource"
-  | "test_team";
+  | "platform_account_login"
+  | "platform_account_follow"
+  | "resource";
 
 export const FlowNames = {
   SYS: "sys",
@@ -2293,9 +2294,9 @@ export const FlowNames = {
   SMOLA: "smola",
   TEAM: "team",
   COM: "com",
-  PLATFORM_ACCOUNT: "platform_account",
+  PLATFORM_ACCOUNT_LOGIN: "platform_account_login",
+  PLATFORM_ACCOUNT_FOLLOW: "platform_account_follow",
   RESOURCE: "resource",
-  TEST_TEAM: "test_team",
 } as const;
 
 export type TerminationTypes =
@@ -3293,13 +3294,18 @@ export type AgentUserInput = {
   content?: string;
 };
 
-export type FlowPlatformAccountInput = {
+export type FlowPlatformAccountLoginInput = {
   platform_name: string;
   username: string;
   password: string;
   two_factor_code?: string;
   two_factor_key?: string;
   proxy_url?: string;
+};
+
+export type FlowPlatformAccountFollowInput = {
+  platform_account_id?: string;
+  count_to_follow: number;
 };
 
 export type FlowError = {

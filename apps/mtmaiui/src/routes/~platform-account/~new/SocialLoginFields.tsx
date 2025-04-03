@@ -1,4 +1,4 @@
-import type { zFlowPlatformAccountInput } from "mtmaiapi/gomtmapi/zod.gen.js";
+import type { zFlowPlatformAccountLoginInput } from "mtmaiapi/gomtmapi/zod.gen.js";
 import {
   FormControl,
   FormField,
@@ -11,7 +11,7 @@ import { useFormContext } from "react-hook-form";
 import type { z } from "zod";
 
 export function SocialLoginFields() {
-  const form = useFormContext<z.infer<typeof zFlowPlatformAccountInput>>();
+  const form = useFormContext<z.infer<typeof zFlowPlatformAccountLoginInput>>();
   return (
     <>
       <FormField

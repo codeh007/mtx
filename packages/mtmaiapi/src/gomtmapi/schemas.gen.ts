@@ -1483,7 +1483,10 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/AgentUserInput",
         },
         {
-          $ref: "#/components/schemas/FlowPlatformAccountInput",
+          $ref: "#/components/schemas/FlowPlatformAccountLoginInput",
+        },
+        {
+          $ref: "#/components/schemas/FlowPlatformAccountFollowInput",
         },
         {
           $ref: "#/components/schemas/FlowError",
@@ -4223,9 +4226,9 @@ export const FlowNamesSchema = {
     "smola",
     "team",
     "com",
-    "platform_account",
+    "platform_account_login",
+    "platform_account_follow",
     "resource",
-    "test_team",
   ],
 } as const;
 
@@ -6373,7 +6376,7 @@ export const AgentUserInputSchema = {
   },
 } as const;
 
-export const FlowPlatformAccountInputSchema = {
+export const FlowPlatformAccountLoginInputSchema = {
   required: ["platform_name", "username", "password"],
   properties: {
     platform_name: {
@@ -6393,6 +6396,19 @@ export const FlowPlatformAccountInputSchema = {
     },
     proxy_url: {
       type: "string",
+    },
+  },
+} as const;
+
+export const FlowPlatformAccountFollowInputSchema = {
+  required: ["count_to_follow"],
+  properties: {
+    platform_account_id: {
+      type: "string",
+    },
+    count_to_follow: {
+      type: "number",
+      default: 1,
     },
   },
 } as const;
