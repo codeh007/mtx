@@ -3000,8 +3000,7 @@ export type BrowserUpdate = {
   tags?: Array<string>;
 };
 
-export type Proxy = {
-  metadata: ApiResourceMeta;
+export type ProxyProperties = {
   name: string;
   description?: string;
   url: string;
@@ -3012,12 +3011,14 @@ export type Proxy = {
   tags?: Array<string>;
 };
 
+export type Proxy = ApiResourceMetaProperties & ProxyProperties;
+
 export type ProxyList = {
   pagination?: PaginationResponse;
   rows?: Array<Proxy>;
 };
 
-export type ProxyUpdate = {
+export type ProxyUpsert = {
   metadata: ApiResourceMeta;
   name: string;
   description?: string;
@@ -8867,11 +8868,8 @@ export type ProxyGetResponses = {
 
 export type ProxyGetResponse = ProxyGetResponses[keyof ProxyGetResponses];
 
-export type ProxyUpdateData = {
-  /**
-   * The proxy properties to update
-   */
-  body: Proxy;
+export type ProxyUpsertData = {
+  body: ProxyUpsert;
   path: {
     /**
      * The platform id
@@ -8882,7 +8880,7 @@ export type ProxyUpdateData = {
   url: "/api/v1/proxies/{proxy}";
 };
 
-export type ProxyUpdateErrors = {
+export type ProxyUpsertErrors = {
   /**
    * A malformed or bad request
    */
@@ -8893,17 +8891,17 @@ export type ProxyUpdateErrors = {
   403: ApiErrors;
 };
 
-export type ProxyUpdateError = ProxyUpdateErrors[keyof ProxyUpdateErrors];
+export type ProxyUpsertError = ProxyUpsertErrors[keyof ProxyUpsertErrors];
 
-export type ProxyUpdateResponses = {
+export type ProxyUpsertResponses = {
   /**
    * Successfully created the proxy
    */
   200: Proxy;
 };
 
-export type ProxyUpdateResponse =
-  ProxyUpdateResponses[keyof ProxyUpdateResponses];
+export type ProxyUpsertResponse =
+  ProxyUpsertResponses[keyof ProxyUpsertResponses];
 
 export type AgStateListData = {
   body?: never;

@@ -5753,11 +5753,9 @@ export const BrowserUpdateSchema = {
   required: ["metadata", "name", "url"],
 } as const;
 
-export const ProxySchema = {
+export const ProxyPropertiesSchema = {
+  required: ["metadata", "name", "url"],
   properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
     name: {
       type: "string",
     },
@@ -5780,7 +5778,17 @@ export const ProxySchema = {
       },
     },
   },
-  required: ["metadata", "name", "url"],
+} as const;
+
+export const ProxySchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/ProxyProperties",
+    },
+  ],
 } as const;
 
 export const ProxyListSchema = {
@@ -5797,7 +5805,8 @@ export const ProxyListSchema = {
   },
 } as const;
 
-export const ProxyUpdateSchema = {
+export const ProxyUpsertSchema = {
+  required: ["metadata", "name", "url"],
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -5824,7 +5833,6 @@ export const ProxyUpdateSchema = {
       },
     },
   },
-  required: ["metadata", "name", "url"],
 } as const;
 
 export const UiAgentStateSchema = {

@@ -3,11 +3,11 @@ import {
   Clock,
   FileIcon,
   Inbox,
+  Satellite,
   Send,
   Settings,
   Users,
 } from "lucide-react";
-import { Icons } from "mtxuilib/icons/icons";
 
 export const example_data = {
   user: {
@@ -67,7 +67,7 @@ export const example_data = {
     {
       title: "代理",
       url: "/proxy",
-      icon: <Icons.mailX />,
+      icon: () => <Satellite />,
       isActive: false,
     },
   ],

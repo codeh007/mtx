@@ -429,9 +429,9 @@ import type {
   ProxyGetData,
   ProxyGetResponse,
   ProxyGetError,
-  ProxyUpdateData,
-  ProxyUpdateResponse,
-  ProxyUpdateError,
+  ProxyUpsertData,
+  ProxyUpsertResponse,
+  ProxyUpsertError,
   AgStateListData,
   AgStateListResponse,
   AgStateUpsertData,
@@ -4459,15 +4459,14 @@ export const proxyGet = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Update proxy
- * Update an proxy
+ * upsert an proxy
  */
-export const proxyUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<ProxyUpdateData, ThrowOnError>,
+export const proxyUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<ProxyUpsertData, ThrowOnError>,
 ) => {
   return (options.client ?? _heyApiClient).patch<
-    ProxyUpdateResponse,
-    ProxyUpdateError,
+    ProxyUpsertResponse,
+    ProxyUpsertError,
     ThrowOnError
   >({
     security: [

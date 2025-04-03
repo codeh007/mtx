@@ -153,7 +153,7 @@ import {
   proxyList,
   proxyCreate,
   proxyGet,
-  proxyUpdate,
+  proxyUpsert,
   agStateList,
   agStateUpsert,
   agStateGet,
@@ -458,9 +458,9 @@ import type {
   ProxyCreateError,
   ProxyCreateResponse,
   ProxyGetData,
-  ProxyUpdateData,
-  ProxyUpdateError,
-  ProxyUpdateResponse,
+  ProxyUpsertData,
+  ProxyUpsertError,
+  ProxyUpsertResponse,
   AgStateListData,
   AgStateUpsertData,
   AgStateUpsertError,
@@ -4625,16 +4625,16 @@ export const proxyGetOptions = (options: Options<ProxyGetData>) => {
   });
 };
 
-export const proxyUpdateMutation = (
-  options?: Partial<Options<ProxyUpdateData>>,
+export const proxyUpsertMutation = (
+  options?: Partial<Options<ProxyUpsertData>>,
 ) => {
   const mutationOptions: UseMutationOptions<
-    ProxyUpdateResponse,
-    ProxyUpdateError,
-    Options<ProxyUpdateData>
+    ProxyUpsertResponse,
+    ProxyUpsertError,
+    Options<ProxyUpsertData>
   > = {
     mutationFn: async (localOptions) => {
-      const { data } = await proxyUpdate({
+      const { data } = await proxyUpsert({
         ...options,
         ...localOptions,
         throwOnError: true,

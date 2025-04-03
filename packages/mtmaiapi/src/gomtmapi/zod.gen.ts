@@ -2879,8 +2879,7 @@ export const zBrowserUpdate = z.object({
   tags: z.array(z.string()).optional(),
 });
 
-export const zProxy = z.object({
-  metadata: zApiResourceMeta,
+export const zProxyProperties = z.object({
   name: z.string(),
   description: z.string().optional(),
   url: z.string(),
@@ -2889,12 +2888,14 @@ export const zProxy = z.object({
   tags: z.array(z.string()).optional(),
 });
 
+export const zProxy = zApiResourceMetaProperties.merge(zProxyProperties);
+
 export const zProxyList = z.object({
   pagination: zPaginationResponse.optional(),
   rows: z.array(zProxy).optional(),
 });
 
-export const zProxyUpdate = z.object({
+export const zProxyUpsert = z.object({
   metadata: zApiResourceMeta,
   name: z.string(),
   description: z.string().optional(),
@@ -3465,7 +3466,7 @@ export const zProxyCreateResponse = zProxy;
 
 export const zProxyGetResponse = zProxy;
 
-export const zProxyUpdateResponse = zProxy;
+export const zProxyUpsertResponse = zProxy;
 
 export const zAgStateListResponse = zAgStateList;
 
