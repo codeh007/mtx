@@ -1,8 +1,7 @@
 "use client";
 import {
-  type UseMutationResult,
   useMutation,
-  useQuery,
+  useQuery
 } from "@tanstack/react-query";
 import {
   type Connection,
@@ -14,12 +13,9 @@ import {
 } from "@xyflow/react";
 import { type DebouncedFunc, debounce, isEqual } from "lodash";
 import {
-  type ApiErrors,
-  type ComsUpsertData,
   type MtComponent,
-  type Options,
   comsGetOptions,
-  comsUpsertMutation,
+  comsUpsertMutation
 } from "mtmaiapi";
 import { nanoid } from "nanoid";
 import {
@@ -86,13 +82,13 @@ export interface DragItemData {
 export interface TeamBuilderProps {
   componentId: string;
   queryParams?: Record<string, any>;
-  tid: string;
-  upsertComponent: UseMutationResult<
-    MtComponent,
-    ApiErrors,
-    Options<ComsUpsertData>,
-    unknown
-  >;
+  // tid: string;
+  // upsertComponent: UseMutationResult<
+  //   MtComponent,
+  //   ApiErrors,
+  //   Options<ComsUpsertData>,
+  //   unknown
+  // >;
 }
 export interface TeamBuilderState extends TeamBuilderProps {
   modelContent: React.ReactNode;

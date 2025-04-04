@@ -1,6 +1,5 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
-import { agentGetOptions } from "mtmaiapi";
+// import { agentGetOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
@@ -18,14 +17,14 @@ function RouteComponent() {
   const { agentId } = Route.useParams();
   const tid = useTenantId();
 
-  const agentQuery = useSuspenseQuery({
-    ...agentGetOptions({
-      path: {
-        tenant: tid,
-        agent: agentId,
-      },
-    }),
-  });
+  // const agentQuery = useSuspenseQuery({
+  //   ...agentGetOptions({
+  //     path: {
+  //       tenant: tid,
+  //       agent: agentId,
+  //     },
+  //   }),
+  // });
 
   const form = useZodForm({
     schema: z.any(),
