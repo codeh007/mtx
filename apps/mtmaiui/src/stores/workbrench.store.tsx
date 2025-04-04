@@ -42,6 +42,7 @@ export interface WorkbenchProps {
   componentId?: string;
   threadId?: string;
   teamState?: AgState;
+  resourceId?: string;
 }
 const DEFAULT_AGENT_FLOW_SETTINGS = {
   direction: "TB",
@@ -102,6 +103,7 @@ export interface WorkbrenchState extends WorkbenchProps {
   setFirstTokenReceived: (firstTokenReceived: boolean) => void;
   addMessage: (message: ChatMessage) => void;
   streamMessage: (params: AgentRunInput) => Promise<void>;
+  setResourceId: (resourceId: string) => void;
   setTeamState: (teamState: AgState) => void;
   loadChatMessageList: (response?: ChatMessageList) => void;
   workflowRunCreateMut: UseMutationResult<
@@ -196,6 +198,9 @@ export const createWorkbrenchSlice: StateCreator<
     addMessage: (message: ChatMessage) => {
       const prevMessages = get().messages;
       set({ messages: [...prevMessages, message] });
+    },
+    setResourceId: (resourceId: string) => {
+      set({ resourceId });
     },
     agentFlow: DEFAULT_AGENT_FLOW_SETTINGS,
     setTeamState: (teamState) => {

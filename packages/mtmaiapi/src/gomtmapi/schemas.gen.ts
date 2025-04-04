@@ -1486,9 +1486,6 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/FlowPlatformAccountLoginInput",
         },
         {
-          $ref: "#/components/schemas/FlowPlatformAccountFollowInput",
-        },
-        {
           $ref: "#/components/schemas/FlowError",
         },
       ],
@@ -5603,7 +5600,7 @@ export const PlatformUpdateSchema = {
 } as const;
 
 export const PlatformAccountPropertiesSchema = {
-  required: ["username"],
+  required: ["username", "password", "platform"],
   properties: {
     label: {
       type: "string",
@@ -5639,6 +5636,7 @@ export const PlatformAccountPropertiesSchema = {
       },
     },
     state: {
+      type: "object",
       additionalProperties: true,
     },
     error: {
@@ -6377,38 +6375,14 @@ export const AgentUserInputSchema = {
 } as const;
 
 export const FlowPlatformAccountLoginInputSchema = {
-  required: ["platform_name", "username", "password"],
-  properties: {
-    platform_name: {
-      type: "string",
-    },
-    username: {
-      type: "string",
-    },
-    password: {
-      type: "string",
-    },
-    two_factor_code: {
-      type: "string",
-    },
-    two_factor_key: {
-      type: "string",
-    },
-    proxy_url: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const FlowPlatformAccountFollowInputSchema = {
-  required: ["count_to_follow"],
+  required: ["message_type", "platform_account_id"],
   properties: {
     platform_account_id: {
       type: "string",
     },
-    count_to_follow: {
-      type: "number",
-      default: 1,
+    message_type: {
+      type: "string",
+      enum: ["LOGIN", "LOGOUT"],
     },
   },
 } as const;

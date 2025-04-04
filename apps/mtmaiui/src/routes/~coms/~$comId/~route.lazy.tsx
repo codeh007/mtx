@@ -6,7 +6,6 @@ import { ModalProvider } from "../../../stores/model.store";
 import { TeamBuilderProvider } from "../../../stores/teamBuildStore";
 import { WorkbrenchProvider } from "../../../stores/workbrench.store";
 import { RootAppWrapper } from "../../components/RootAppWrapper";
-import { TeamBuilder } from "../../components/views/team/builder/builder";
 import { NavComsWithLibrary } from "./siderbar";
 import { TeamBuilderHeader } from "./~team_builder/header";
 
@@ -20,7 +19,6 @@ function RouteComponent() {
   return (
     <WorkbrenchProvider>
       <TeamBuilderProvider componentId={comId}>
-        {/* <TeamBuilderV2Provider componentId={comId}> */}
         <RootAppWrapper secondSidebar={<NavComsWithLibrary />}>
           <ComponentEditProvider>
             <ModalProvider>
@@ -42,14 +40,17 @@ function RouteComponent() {
                       agent
                     </TabsTrigger>
                   </CustomLink>
+                  <CustomLink to="team_builderv2/instagram_team">
+                    <TabsTrigger variant="underlined" value="instagram_team">
+                      instagram_team
+                    </TabsTrigger>
+                  </CustomLink>
                 </TabsList>
               </Tabs>
-              <TeamBuilder />
               <Outlet />
             </ModalProvider>
           </ComponentEditProvider>
         </RootAppWrapper>
-        {/* </TeamBuilderV2Provider> */}
       </TeamBuilderProvider>
     </WorkbrenchProvider>
   );

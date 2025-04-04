@@ -130,6 +130,7 @@ import {
   promptList,
   promptGet,
   adminReleaseConn,
+  adminResetDb,
   frontendGetConfig,
   frontendGetSiderbar,
   hfAccountGet,
@@ -416,6 +417,9 @@ import type {
   AdminReleaseConnData,
   AdminReleaseConnError,
   AdminReleaseConnResponse,
+  AdminResetDbData,
+  AdminResetDbError,
+  AdminResetDbResponse,
   FrontendGetConfigData,
   FrontendGetSiderbarData,
   HfAccountGetData,
@@ -4092,6 +4096,44 @@ export const adminReleaseConnMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await adminReleaseConn({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const adminResetDbQueryKey = (options?: Options<AdminResetDbData>) =>
+  createQueryKey("adminResetDb", options);
+
+export const adminResetDbOptions = (options?: Options<AdminResetDbData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await adminResetDb({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: adminResetDbQueryKey(options),
+  });
+};
+
+export const adminResetDbMutation = (
+  options?: Partial<Options<AdminResetDbData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    AdminResetDbResponse,
+    AdminResetDbError,
+    Options<AdminResetDbData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await adminResetDb({
         ...options,
         ...localOptions,
         throwOnError: true,

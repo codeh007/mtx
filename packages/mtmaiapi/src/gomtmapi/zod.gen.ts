@@ -859,16 +859,8 @@ export const zWorkflowWorkersCount = z.object({
         content: z.string().optional(),
       }),
       z.object({
-        platform_name: z.string(),
-        username: z.string(),
-        password: z.string(),
-        two_factor_code: z.string().optional(),
-        two_factor_key: z.string().optional(),
-        proxy_url: z.string().optional(),
-      }),
-      z.object({
-        platform_account_id: z.string().optional(),
-        count_to_follow: z.number().default(1),
+        platform_account_id: z.string(),
+        message_type: z.enum(["LOGIN", "LOGOUT"]),
       }),
       z.object({
         type: z.string().optional(),
@@ -2847,13 +2839,13 @@ export const zPlatformAccountProperties = z.object({
   description: z.string().optional(),
   username: z.string(),
   email: z.string().optional(),
-  password: z.string().optional(),
+  password: z.string(),
   token: z.string().optional(),
   type: z.string().optional(),
-  platform: z.string().optional(),
+  platform: z.string(),
   enabled: z.boolean().optional(),
   tags: z.array(z.string()).optional(),
-  state: z.unknown().optional(),
+  state: z.object({}).optional(),
   error: z.string().optional(),
 });
 
@@ -3144,17 +3136,8 @@ export const zAgentUserInput = z.object({
 });
 
 export const zFlowPlatformAccountLoginInput = z.object({
-  platform_name: z.string(),
-  username: z.string(),
-  password: z.string(),
-  two_factor_code: z.string().optional(),
-  two_factor_key: z.string().optional(),
-  proxy_url: z.string().optional(),
-});
-
-export const zFlowPlatformAccountFollowInput = z.object({
-  platform_account_id: z.string().optional(),
-  count_to_follow: z.number().default(1),
+  platform_account_id: z.string(),
+  message_type: z.enum(["LOGIN", "LOGOUT"]),
 });
 
 export const zFlowError = z.object({
@@ -3448,6 +3431,8 @@ export const zPromptListResponse = zPromptList;
 export const zPromptGetResponse = z.string();
 
 export const zAdminReleaseConnResponse = zCommonResult;
+
+export const zAdminResetDbResponse = zCommonResult;
 
 export const zFrontendGetConfigResponse = zFrontendConfig;
 

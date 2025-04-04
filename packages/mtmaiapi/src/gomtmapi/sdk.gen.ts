@@ -365,6 +365,9 @@ import type {
   AdminReleaseConnData,
   AdminReleaseConnResponse,
   AdminReleaseConnError,
+  AdminResetDbData,
+  AdminResetDbResponse,
+  AdminResetDbError,
   FrontendGetConfigData,
   FrontendGetConfigResponse,
   FrontendGetSiderbarData,
@@ -3871,6 +3874,32 @@ export const adminReleaseConn = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/admin/releaseConn",
+    ...options,
+  });
+};
+
+/**
+ * Reset the database
+ */
+export const adminResetDb = <ThrowOnError extends boolean = false>(
+  options?: Options<AdminResetDbData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    AdminResetDbResponse,
+    AdminResetDbError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/admin/resetDb",
     ...options,
   });
 };

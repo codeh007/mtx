@@ -18,7 +18,7 @@ import { Button, buttonVariants } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 
 import { useMemo } from "react";
-import { useGalleryStore } from "../../stores/gallerySstore";
+// import { useGalleryStore } from "../../stores/gallerySstore";
 
 interface TeamSidebarProps {
   isOpen: boolean;
@@ -40,7 +40,7 @@ export const TeamSidebar = ({
   onDeleteTeam,
   isLoading = false,
 }: TeamSidebarProps) => {
-  const defaultGallery = useGalleryStore((state) => state.getDefaultGallery());
+  // const defaultGallery = useGalleryStore((state) => state.getDefaultGallery());
 
   const handleSaveTeam = async () => {
     // const teamData = Object.assign({}, defaultTeamConfig);

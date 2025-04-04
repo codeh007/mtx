@@ -11,11 +11,9 @@ function RouteComponent() {
   return (
     <WorkbrenchProvider>
       <ComponentsProvider>
-        {/* <GalleryProvider> */}
-          <MtSuspenseBoundary>
-            <Outlet />
-          </MtSuspenseBoundary>
-        {/* </GalleryProvider> */}
+        <MtSuspenseBoundary>
+          <Outlet />
+        </MtSuspenseBoundary>
       </ComponentsProvider>
     </WorkbrenchProvider>
   );

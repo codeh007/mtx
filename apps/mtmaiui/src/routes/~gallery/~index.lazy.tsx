@@ -3,7 +3,7 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { useEffect, useState } from "react";
-import { useGalleryStore } from "../../stores/gallerySstore";
+// import { useGalleryStore } from "../../stores/gallerySstore";
 import { GalleryCreateModal } from "../components/views/gallery/create-modal";
 import type { Gallery } from "../components/views/gallery/types";
 import { GallerySidebar } from "./sidebar";
@@ -24,17 +24,17 @@ function RouteComponent() {
     return true;
   });
 
-  const {
-    galleries,
-    selectedGalleryId,
-    selectGallery,
-    addGallery,
-    updateGallery,
-    removeGallery,
-    setDefaultGallery,
-    getSelectedGallery,
-    getDefaultGallery,
-  } = useGalleryStore();
+  // const {
+  //   galleries,
+  //   selectedGalleryId,
+  //   selectGallery,
+  //   addGallery,
+  //   updateGallery,
+  //   removeGallery,
+  //   setDefaultGallery,
+  //   getSelectedGallery,
+  //   getDefaultGallery,
+  // } = useGalleryStore();
 
   // const [messageApi, contextHolder] = message.useMessage();
   const currentGallery = getSelectedGallery();

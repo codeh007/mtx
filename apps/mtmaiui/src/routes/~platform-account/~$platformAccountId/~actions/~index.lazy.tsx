@@ -23,7 +23,7 @@ interface ActionFollowProps {
 }
 const ActionFollow = ({ platformAccountId }: ActionFollowProps) => {
   const { workflowRunMutation } = useWorkflowRun(
-    FlowNames.PLATFORM_ACCOUNT_FOLLOW,
+    FlowNames.PLATFORM_ACCOUNT_LOGIN,
     {},
   );
   return (
@@ -32,7 +32,7 @@ const ActionFollow = ({ platformAccountId }: ActionFollowProps) => {
         onClick={() => {
           workflowRunMutation.mutate({
             path: {
-              workflow: FlowNames.PLATFORM_ACCOUNT_FOLLOW,
+              workflow: FlowNames.PLATFORM_ACCOUNT_LOGIN,
             },
             body: {
               input: {

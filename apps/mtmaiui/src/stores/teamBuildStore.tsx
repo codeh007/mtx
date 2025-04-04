@@ -11,7 +11,6 @@ import {
   type OnEdgesChange,
   type OnNodesChange,
   addEdge,
-  useNodesState,
 } from "@xyflow/react";
 import { type DebouncedFunc, debounce, isEqual } from "lodash";
 import {
@@ -1075,7 +1074,7 @@ const mtmaiStoreContext = createContext<teamBuilderStore | null>(null);
 type AppProviderProps = React.PropsWithChildren<TeamBuilderProps>;
 export const TeamBuilderProvider = (props: AppProviderProps) => {
   const { children, ...etc } = props;
-  const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
+  // const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
   // const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
   const tid = useTenantId();
   const nav = useNav();

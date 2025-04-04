@@ -1,6 +1,6 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { GalleryProvider } from "../../stores/gallerySstore";
+// import { GalleryProvider } from "../../stores/gallerySstore";
 import { RootAppWrapper } from "../components/RootAppWrapper";
 import type { Gallery } from "../components/views/gallery/types";
 
@@ -137,9 +137,9 @@ function RouteComponent() {
     <RootAppWrapper
     // secondSidebar={<NavComs />}
     >
-      <GalleryProvider>
-        <Outlet />
-      </GalleryProvider>
+      {/* <GalleryProvider> */}
+      <Outlet />
+      {/* </GalleryProvider> */}
     </RootAppWrapper>
   );
 }

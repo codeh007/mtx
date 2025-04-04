@@ -26,6 +26,7 @@ import { Route as OnboardingCreateTenantIndexImport } from './routes/~onboarding
 import { Route as ComsComIdTypeModelClientImport } from './routes/~coms/~$comId/~type/~modelClient'
 import { Route as ComsComIdComponenteditorSmolaAgentImport } from './routes/~coms/~$comId/~component_editor/~SmolaAgent'
 import { Route as ComsComIdComponenteditorMtOpenAIChatCompletionClientImport } from './routes/~coms/~$comId/~component_editor/~MtOpenAIChatCompletionClient'
+import { Route as ComsComIdComponenteditorInstagramAgentImport } from './routes/~coms/~$comId/~component_editor/~InstagramAgent'
 import { Route as ComsComIdComponenteditorAssistantAgentImport } from './routes/~coms/~$comId/~component_editor/~AssistantAgent'
 import { Route as ComsComIdComponenteditorSplatImport } from './routes/~coms/~$comId/~component_editor/~$'
 import { Route as SiteSiteIdHostIndexImport } from './routes/~site/~$siteId/~host/~index'
@@ -38,7 +39,6 @@ const WorkflowsRouteLazyImport = createFileRoute('/workflows')()
 const WorkflowRunsRouteLazyImport = createFileRoute('/workflow-runs')()
 const TenantRouteLazyImport = createFileRoute('/tenant')()
 const TeamRouteLazyImport = createFileRoute('/team')()
-const SysRouteLazyImport = createFileRoute('/sys')()
 const SiteRouteLazyImport = createFileRoute('/site')()
 const SettingsRouteLazyImport = createFileRoute('/settings')()
 const SessionRouteLazyImport = createFileRoute('/session')()
@@ -57,6 +57,7 @@ const EnvsRouteLazyImport = createFileRoute('/envs')()
 const EndpointRouteLazyImport = createFileRoute('/endpoint')()
 const ComsRouteLazyImport = createFileRoute('/coms')()
 const AuthRouteLazyImport = createFileRoute('/auth')()
+const AdminRouteLazyImport = createFileRoute('/admin')()
 const WorkflowsWorkflowIdRouteLazyImport = createFileRoute(
   '/workflows/$workflowId',
 )()
@@ -88,7 +89,6 @@ const WorkflowsIndexLazyImport = createFileRoute('/workflows/')()
 const WorkflowRunsIndexLazyImport = createFileRoute('/workflow-runs/')()
 const TenantIndexLazyImport = createFileRoute('/tenant/')()
 const TeamIndexLazyImport = createFileRoute('/team/')()
-const SysIndexLazyImport = createFileRoute('/sys/')()
 const SettingsIndexLazyImport = createFileRoute('/settings/')()
 const SessionIndexLazyImport = createFileRoute('/session/')()
 const ScheduledRunsIndexLazyImport = createFileRoute('/scheduled-runs/')()
@@ -104,6 +104,7 @@ const EventsIndexLazyImport = createFileRoute('/events/')()
 const EnvsIndexLazyImport = createFileRoute('/envs/')()
 const EndpointIndexLazyImport = createFileRoute('/endpoint/')()
 const ComsIndexLazyImport = createFileRoute('/coms/')()
+const AdminIndexLazyImport = createFileRoute('/admin/')()
 const WorkflowsWorkflowIdTriggerRouteLazyImport = createFileRoute(
   '/workflows/$workflowId/trigger',
 )()
@@ -149,6 +150,9 @@ const ComsComIdVisualizationRouteLazyImport = createFileRoute(
 )()
 const ComsComIdViewRouteLazyImport = createFileRoute('/coms/$comId/view')()
 const ComsComIdTypeRouteLazyImport = createFileRoute('/coms/$comId/type')()
+const ComsComIdTeambuilderv2RouteLazyImport = createFileRoute(
+  '/coms/$comId/team_builderv2',
+)()
 const ComsComIdTeambuilderRouteLazyImport = createFileRoute(
   '/coms/$comId/team_builder',
 )()
@@ -241,17 +245,14 @@ const ComsComIdTypeInstagramTeamLazyImport = createFileRoute(
 const ComsComIdTypeAssisantLazyImport = createFileRoute(
   '/coms/$comId/type/assisant',
 )()
-const ComsComIdTeambuilderTeamRouteLazyImport = createFileRoute(
-  '/coms/$comId/team_builder/team',
+const ComsComIdTeambuilderv2InstagramteamRouteLazyImport = createFileRoute(
+  '/coms/$comId/team_builderv2/instagram_team',
 )()
 const ComsComIdTeambuilderJsonviewRouteLazyImport = createFileRoute(
   '/coms/$comId/team_builder/jsonview',
 )()
 const ComsComIdTeambuilderComponentRouteLazyImport = createFileRoute(
   '/coms/$comId/team_builder/component',
-)()
-const ComsComIdTeambuilderAgentRouteLazyImport = createFileRoute(
-  '/coms/$comId/team_builder/agent',
 )()
 const ComsComIdEditModelRouteLazyImport = createFileRoute(
   '/coms/$comId/edit/model',
@@ -287,6 +288,9 @@ const ProxyProxyIdActionsIndexLazyImport = createFileRoute(
 )()
 const PlatformAccountPlatformAccountIdActionsIndexLazyImport = createFileRoute(
   '/platform-account/$platformAccountId/actions/',
+)()
+const ComsComIdTeambuilderv2IndexLazyImport = createFileRoute(
+  '/coms/$comId/team_builderv2/',
 )()
 const ComsComIdTeambuilderIndexLazyImport = createFileRoute(
   '/coms/$comId/team_builder/',
@@ -335,14 +339,11 @@ const TenantSettingsTenantSettingIdModelsettingsIndexLazyImport =
 const ComsComIdViewSubComIdIndexLazyImport = createFileRoute(
   '/coms/$comId/view/$subComId/',
 )()
-const ComsComIdTeambuilderTeamIndexLazyImport = createFileRoute(
-  '/coms/$comId/team_builder/team/',
+const ComsComIdTeambuilderv2InstagramteamIndexLazyImport = createFileRoute(
+  '/coms/$comId/team_builderv2/instagram_team/',
 )()
 const ComsComIdTeambuilderJsonviewIndexLazyImport = createFileRoute(
   '/coms/$comId/team_builder/jsonview/',
-)()
-const ComsComIdTeambuilderAgentIndexLazyImport = createFileRoute(
-  '/coms/$comId/team_builder/agent/',
 )()
 const ComsComIdEditModelIndexLazyImport = createFileRoute(
   '/coms/$comId/edit/model/',
@@ -397,12 +398,6 @@ const TeamRouteLazyRoute = TeamRouteLazyImport.update({
   path: '/team',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~team/~route.lazy').then((d) => d.Route))
-
-const SysRouteLazyRoute = SysRouteLazyImport.update({
-  id: '/sys',
-  path: '/sys',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/~sys/~route.lazy').then((d) => d.Route))
 
 const SiteRouteLazyRoute = SiteRouteLazyImport.update({
   id: '/site',
@@ -531,6 +526,12 @@ const AuthRouteLazyRoute = AuthRouteLazyImport.update({
   path: '/auth',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~auth/~route.lazy').then((d) => d.Route))
+
+const AdminRouteLazyRoute = AdminRouteLazyImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/~admin/~route.lazy').then((d) => d.Route))
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -726,12 +727,6 @@ const TeamIndexLazyRoute = TeamIndexLazyImport.update({
   getParentRoute: () => TeamRouteLazyRoute,
 } as any).lazy(() => import('./routes/~team/~index.lazy').then((d) => d.Route))
 
-const SysIndexLazyRoute = SysIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => SysRouteLazyRoute,
-} as any).lazy(() => import('./routes/~sys/~index.lazy').then((d) => d.Route))
-
 const SettingsIndexLazyRoute = SettingsIndexLazyImport.update({
   id: '/',
   path: '/',
@@ -839,6 +834,12 @@ const ComsIndexLazyRoute = ComsIndexLazyImport.update({
   path: '/',
   getParentRoute: () => ComsRouteLazyRoute,
 } as any).lazy(() => import('./routes/~coms/~index.lazy').then((d) => d.Route))
+
+const AdminIndexLazyRoute = AdminIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRouteLazyRoute,
+} as any).lazy(() => import('./routes/~admin/~index.lazy').then((d) => d.Route))
 
 const SiteSiteIdRouteRoute = SiteSiteIdRouteImport.update({
   id: '/$siteId',
@@ -1039,6 +1040,17 @@ const ComsComIdTypeRouteLazyRoute = ComsComIdTypeRouteLazyImport.update({
 } as any).lazy(() =>
   import('./routes/~coms/~$comId/~type/~route.lazy').then((d) => d.Route),
 )
+
+const ComsComIdTeambuilderv2RouteLazyRoute =
+  ComsComIdTeambuilderv2RouteLazyImport.update({
+    id: '/team_builderv2',
+    path: '/team_builderv2',
+    getParentRoute: () => ComsComIdRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/~coms/~$comId/~team_builderv2/~route.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 
 const ComsComIdTeambuilderRouteLazyRoute =
   ComsComIdTeambuilderRouteLazyImport.update({
@@ -1439,15 +1451,15 @@ const ComsComIdTypeAssisantLazyRoute = ComsComIdTypeAssisantLazyImport.update({
   import('./routes/~coms/~$comId/~type/~assisant.lazy').then((d) => d.Route),
 )
 
-const ComsComIdTeambuilderTeamRouteLazyRoute =
-  ComsComIdTeambuilderTeamRouteLazyImport.update({
-    id: '/team',
-    path: '/team',
-    getParentRoute: () => ComsComIdTeambuilderRouteLazyRoute,
+const ComsComIdTeambuilderv2InstagramteamRouteLazyRoute =
+  ComsComIdTeambuilderv2InstagramteamRouteLazyImport.update({
+    id: '/instagram_team',
+    path: '/instagram_team',
+    getParentRoute: () => ComsComIdTeambuilderv2RouteLazyRoute,
   } as any).lazy(() =>
-    import('./routes/~coms/~$comId/~team_builder/~team/~route.lazy').then(
-      (d) => d.Route,
-    ),
+    import(
+      './routes/~coms/~$comId/~team_builderv2/~instagram_team/~route.lazy'
+    ).then((d) => d.Route),
   )
 
 const ComsComIdTeambuilderJsonviewRouteLazyRoute =
@@ -1468,17 +1480,6 @@ const ComsComIdTeambuilderComponentRouteLazyRoute =
     getParentRoute: () => ComsComIdTeambuilderRouteLazyRoute,
   } as any).lazy(() =>
     import('./routes/~coms/~$comId/~team_builder/~component/~route.lazy').then(
-      (d) => d.Route,
-    ),
-  )
-
-const ComsComIdTeambuilderAgentRouteLazyRoute =
-  ComsComIdTeambuilderAgentRouteLazyImport.update({
-    id: '/agent',
-    path: '/agent',
-    getParentRoute: () => ComsComIdTeambuilderRouteLazyRoute,
-  } as any).lazy(() =>
-    import('./routes/~coms/~$comId/~team_builder/~agent/~route.lazy').then(
       (d) => d.Route,
     ),
   )
@@ -1619,6 +1620,17 @@ const PlatformAccountPlatformAccountIdActionsIndexLazyRoute =
     ).then((d) => d.Route),
   )
 
+const ComsComIdTeambuilderv2IndexLazyRoute =
+  ComsComIdTeambuilderv2IndexLazyImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => ComsComIdTeambuilderv2RouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/~coms/~$comId/~team_builderv2/~index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+
 const ComsComIdTeambuilderIndexLazyRoute =
   ComsComIdTeambuilderIndexLazyImport.update({
     id: '/',
@@ -1655,6 +1667,13 @@ const ComsComIdComponenteditorMtOpenAIChatCompletionClientRoute =
   ComsComIdComponenteditorMtOpenAIChatCompletionClientImport.update({
     id: '/MtOpenAIChatCompletionClient',
     path: '/MtOpenAIChatCompletionClient',
+    getParentRoute: () => ComsComIdComponenteditorRouteLazyRoute,
+  } as any)
+
+const ComsComIdComponenteditorInstagramAgentRoute =
+  ComsComIdComponenteditorInstagramAgentImport.update({
+    id: '/InstagramAgent',
+    path: '/InstagramAgent',
     getParentRoute: () => ComsComIdComponenteditorRouteLazyRoute,
   } as any)
 
@@ -1704,9 +1723,9 @@ const ComsComIdTeambuilderComponentNodeIdLazyRoute =
 
 const ComsComIdTeambuilderAgentNewRouteLazyRoute =
   ComsComIdTeambuilderAgentNewRouteLazyImport.update({
-    id: '/new',
-    path: '/new',
-    getParentRoute: () => ComsComIdTeambuilderAgentRouteLazyRoute,
+    id: '/agent/new',
+    path: '/agent/new',
+    getParentRoute: () => ComsComIdTeambuilderRouteLazyRoute,
   } as any).lazy(() =>
     import('./routes/~coms/~$comId/~team_builder/~agent/~new/~route.lazy').then(
       (d) => d.Route,
@@ -1715,9 +1734,9 @@ const ComsComIdTeambuilderAgentNewRouteLazyRoute =
 
 const ComsComIdTeambuilderAgentAgentIdRouteLazyRoute =
   ComsComIdTeambuilderAgentAgentIdRouteLazyImport.update({
-    id: '/$agentId',
-    path: '/$agentId',
-    getParentRoute: () => ComsComIdTeambuilderAgentRouteLazyRoute,
+    id: '/agent/$agentId',
+    path: '/agent/$agentId',
+    getParentRoute: () => ComsComIdTeambuilderRouteLazyRoute,
   } as any).lazy(() =>
     import(
       './routes/~coms/~$comId/~team_builder/~agent/~$agentId/~route.lazy'
@@ -1858,15 +1877,15 @@ const ComsComIdViewSubComIdIndexLazyRoute =
     ),
   )
 
-const ComsComIdTeambuilderTeamIndexLazyRoute =
-  ComsComIdTeambuilderTeamIndexLazyImport.update({
+const ComsComIdTeambuilderv2InstagramteamIndexLazyRoute =
+  ComsComIdTeambuilderv2InstagramteamIndexLazyImport.update({
     id: '/',
     path: '/',
-    getParentRoute: () => ComsComIdTeambuilderTeamRouteLazyRoute,
+    getParentRoute: () => ComsComIdTeambuilderv2InstagramteamRouteLazyRoute,
   } as any).lazy(() =>
-    import('./routes/~coms/~$comId/~team_builder/~team/~index.lazy').then(
-      (d) => d.Route,
-    ),
+    import(
+      './routes/~coms/~$comId/~team_builderv2/~instagram_team/~index.lazy'
+    ).then((d) => d.Route),
   )
 
 const ComsComIdTeambuilderJsonviewIndexLazyRoute =
@@ -1876,17 +1895,6 @@ const ComsComIdTeambuilderJsonviewIndexLazyRoute =
     getParentRoute: () => ComsComIdTeambuilderJsonviewRouteLazyRoute,
   } as any).lazy(() =>
     import('./routes/~coms/~$comId/~team_builder/~jsonview/~index.lazy').then(
-      (d) => d.Route,
-    ),
-  )
-
-const ComsComIdTeambuilderAgentIndexLazyRoute =
-  ComsComIdTeambuilderAgentIndexLazyImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => ComsComIdTeambuilderAgentRouteLazyRoute,
-  } as any).lazy(() =>
-    import('./routes/~coms/~$comId/~team_builder/~agent/~index.lazy').then(
       (d) => d.Route,
     ),
   )
@@ -1977,6 +1985,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteLazyImport
       parentRoute: typeof rootRoute
     }
     '/auth': {
@@ -2105,13 +2120,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteRouteLazyImport
       parentRoute: typeof rootRoute
     }
-    '/sys': {
-      id: '/sys'
-      path: '/sys'
-      fullPath: '/sys'
-      preLoaderRoute: typeof SysRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/team': {
       id: '/team'
       path: '/team'
@@ -2167,6 +2175,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/site/$siteId'
       preLoaderRoute: typeof SiteSiteIdRouteImport
       parentRoute: typeof SiteRouteLazyImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexLazyImport
+      parentRoute: typeof AdminRouteLazyImport
     }
     '/coms/': {
       id: '/coms/'
@@ -2272,13 +2287,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings/'
       preLoaderRoute: typeof SettingsIndexLazyImport
       parentRoute: typeof SettingsRouteLazyImport
-    }
-    '/sys/': {
-      id: '/sys/'
-      path: '/'
-      fullPath: '/sys/'
-      preLoaderRoute: typeof SysIndexLazyImport
-      parentRoute: typeof SysRouteLazyImport
     }
     '/team/': {
       id: '/team/'
@@ -2588,6 +2596,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComsComIdTeambuilderRouteLazyImport
       parentRoute: typeof ComsComIdRouteLazyImport
     }
+    '/coms/$comId/team_builderv2': {
+      id: '/coms/$comId/team_builderv2'
+      path: '/team_builderv2'
+      fullPath: '/coms/$comId/team_builderv2'
+      preLoaderRoute: typeof ComsComIdTeambuilderv2RouteLazyImport
+      parentRoute: typeof ComsComIdRouteLazyImport
+    }
     '/coms/$comId/type': {
       id: '/coms/$comId/type'
       path: '/type'
@@ -2742,6 +2757,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComsComIdComponenteditorAssistantAgentImport
       parentRoute: typeof ComsComIdComponenteditorRouteLazyImport
     }
+    '/coms/$comId/component_editor/InstagramAgent': {
+      id: '/coms/$comId/component_editor/InstagramAgent'
+      path: '/InstagramAgent'
+      fullPath: '/coms/$comId/component_editor/InstagramAgent'
+      preLoaderRoute: typeof ComsComIdComponenteditorInstagramAgentImport
+      parentRoute: typeof ComsComIdComponenteditorRouteLazyImport
+    }
     '/coms/$comId/component_editor/MtOpenAIChatCompletionClient': {
       id: '/coms/$comId/component_editor/MtOpenAIChatCompletionClient'
       path: '/MtOpenAIChatCompletionClient'
@@ -2776,6 +2798,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/coms/$comId/team_builder/'
       preLoaderRoute: typeof ComsComIdTeambuilderIndexLazyImport
       parentRoute: typeof ComsComIdTeambuilderRouteLazyImport
+    }
+    '/coms/$comId/team_builderv2/': {
+      id: '/coms/$comId/team_builderv2/'
+      path: '/'
+      fullPath: '/coms/$comId/team_builderv2/'
+      preLoaderRoute: typeof ComsComIdTeambuilderv2IndexLazyImport
+      parentRoute: typeof ComsComIdTeambuilderv2RouteLazyImport
     }
     '/platform-account/$platformAccountId/actions/': {
       id: '/platform-account/$platformAccountId/actions/'
@@ -2868,13 +2897,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComsComIdEditModelRouteLazyImport
       parentRoute: typeof ComsComIdRouteLazyImport
     }
-    '/coms/$comId/team_builder/agent': {
-      id: '/coms/$comId/team_builder/agent'
-      path: '/agent'
-      fullPath: '/coms/$comId/team_builder/agent'
-      preLoaderRoute: typeof ComsComIdTeambuilderAgentRouteLazyImport
-      parentRoute: typeof ComsComIdTeambuilderRouteLazyImport
-    }
     '/coms/$comId/team_builder/component': {
       id: '/coms/$comId/team_builder/component'
       path: '/component'
@@ -2889,12 +2911,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComsComIdTeambuilderJsonviewRouteLazyImport
       parentRoute: typeof ComsComIdTeambuilderRouteLazyImport
     }
-    '/coms/$comId/team_builder/team': {
-      id: '/coms/$comId/team_builder/team'
-      path: '/team'
-      fullPath: '/coms/$comId/team_builder/team'
-      preLoaderRoute: typeof ComsComIdTeambuilderTeamRouteLazyImport
-      parentRoute: typeof ComsComIdTeambuilderRouteLazyImport
+    '/coms/$comId/team_builderv2/instagram_team': {
+      id: '/coms/$comId/team_builderv2/instagram_team'
+      path: '/instagram_team'
+      fullPath: '/coms/$comId/team_builderv2/instagram_team'
+      preLoaderRoute: typeof ComsComIdTeambuilderv2InstagramteamRouteLazyImport
+      parentRoute: typeof ComsComIdTeambuilderv2RouteLazyImport
     }
     '/coms/$comId/type/assisant': {
       id: '/coms/$comId/type/assisant'
@@ -3057,13 +3079,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComsComIdEditModelIndexLazyImport
       parentRoute: typeof ComsComIdEditModelRouteLazyImport
     }
-    '/coms/$comId/team_builder/agent/': {
-      id: '/coms/$comId/team_builder/agent/'
-      path: '/'
-      fullPath: '/coms/$comId/team_builder/agent/'
-      preLoaderRoute: typeof ComsComIdTeambuilderAgentIndexLazyImport
-      parentRoute: typeof ComsComIdTeambuilderAgentRouteLazyImport
-    }
     '/coms/$comId/team_builder/jsonview/': {
       id: '/coms/$comId/team_builder/jsonview/'
       path: '/'
@@ -3071,12 +3086,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComsComIdTeambuilderJsonviewIndexLazyImport
       parentRoute: typeof ComsComIdTeambuilderJsonviewRouteLazyImport
     }
-    '/coms/$comId/team_builder/team/': {
-      id: '/coms/$comId/team_builder/team/'
+    '/coms/$comId/team_builderv2/instagram_team/': {
+      id: '/coms/$comId/team_builderv2/instagram_team/'
       path: '/'
-      fullPath: '/coms/$comId/team_builder/team/'
-      preLoaderRoute: typeof ComsComIdTeambuilderTeamIndexLazyImport
-      parentRoute: typeof ComsComIdTeambuilderTeamRouteLazyImport
+      fullPath: '/coms/$comId/team_builderv2/instagram_team/'
+      preLoaderRoute: typeof ComsComIdTeambuilderv2InstagramteamIndexLazyImport
+      parentRoute: typeof ComsComIdTeambuilderv2InstagramteamRouteLazyImport
     }
     '/coms/$comId/view/$subComId/': {
       id: '/coms/$comId/view/$subComId/'
@@ -3164,17 +3179,17 @@ declare module '@tanstack/react-router' {
     }
     '/coms/$comId/team_builder/agent/$agentId': {
       id: '/coms/$comId/team_builder/agent/$agentId'
-      path: '/$agentId'
+      path: '/agent/$agentId'
       fullPath: '/coms/$comId/team_builder/agent/$agentId'
       preLoaderRoute: typeof ComsComIdTeambuilderAgentAgentIdRouteLazyImport
-      parentRoute: typeof ComsComIdTeambuilderAgentRouteLazyImport
+      parentRoute: typeof ComsComIdTeambuilderRouteLazyImport
     }
     '/coms/$comId/team_builder/agent/new': {
       id: '/coms/$comId/team_builder/agent/new'
-      path: '/new'
+      path: '/agent/new'
       fullPath: '/coms/$comId/team_builder/agent/new'
       preLoaderRoute: typeof ComsComIdTeambuilderAgentNewRouteLazyImport
-      parentRoute: typeof ComsComIdTeambuilderAgentRouteLazyImport
+      parentRoute: typeof ComsComIdTeambuilderRouteLazyImport
     }
     '/coms/$comId/team_builder/component/$nodeId': {
       id: '/coms/$comId/team_builder/component/$nodeId'
@@ -3230,6 +3245,18 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
+interface AdminRouteLazyRouteChildren {
+  AdminIndexLazyRoute: typeof AdminIndexLazyRoute
+}
+
+const AdminRouteLazyRouteChildren: AdminRouteLazyRouteChildren = {
+  AdminIndexLazyRoute: AdminIndexLazyRoute,
+}
+
+const AdminRouteLazyRouteWithChildren = AdminRouteLazyRoute._addFileChildren(
+  AdminRouteLazyRouteChildren,
+)
+
 interface AuthLoginRouteLazyRouteChildren {
   AuthLoginIndexLazyRoute: typeof AuthLoginIndexLazyRoute
 }
@@ -3259,6 +3286,7 @@ interface ComsComIdComponenteditorRouteLazyRouteChildren {
   ComsComIdComponenteditorIndexRoute: typeof ComsComIdComponenteditorIndexRoute
   ComsComIdComponenteditorSplatRoute: typeof ComsComIdComponenteditorSplatRoute
   ComsComIdComponenteditorAssistantAgentRoute: typeof ComsComIdComponenteditorAssistantAgentRoute
+  ComsComIdComponenteditorInstagramAgentRoute: typeof ComsComIdComponenteditorInstagramAgentRoute
   ComsComIdComponenteditorMtOpenAIChatCompletionClientRoute: typeof ComsComIdComponenteditorMtOpenAIChatCompletionClientRoute
   ComsComIdComponenteditorSmolaAgentRoute: typeof ComsComIdComponenteditorSmolaAgentRoute
   ComsComIdComponenteditorInstagramTeamLazyRoute: typeof ComsComIdComponenteditorInstagramTeamLazyRoute
@@ -3270,6 +3298,8 @@ const ComsComIdComponenteditorRouteLazyRouteChildren: ComsComIdComponenteditorRo
     ComsComIdComponenteditorSplatRoute: ComsComIdComponenteditorSplatRoute,
     ComsComIdComponenteditorAssistantAgentRoute:
       ComsComIdComponenteditorAssistantAgentRoute,
+    ComsComIdComponenteditorInstagramAgentRoute:
+      ComsComIdComponenteditorInstagramAgentRoute,
     ComsComIdComponenteditorMtOpenAIChatCompletionClientRoute:
       ComsComIdComponenteditorMtOpenAIChatCompletionClientRoute,
     ComsComIdComponenteditorSmolaAgentRoute:
@@ -3294,6 +3324,36 @@ const ComsComIdRunRouteLazyRouteChildren: ComsComIdRunRouteLazyRouteChildren = {
 const ComsComIdRunRouteLazyRouteWithChildren =
   ComsComIdRunRouteLazyRoute._addFileChildren(
     ComsComIdRunRouteLazyRouteChildren,
+  )
+
+interface ComsComIdTeambuilderComponentRouteLazyRouteChildren {
+  ComsComIdTeambuilderComponentNodeIdLazyRoute: typeof ComsComIdTeambuilderComponentNodeIdLazyRoute
+}
+
+const ComsComIdTeambuilderComponentRouteLazyRouteChildren: ComsComIdTeambuilderComponentRouteLazyRouteChildren =
+  {
+    ComsComIdTeambuilderComponentNodeIdLazyRoute:
+      ComsComIdTeambuilderComponentNodeIdLazyRoute,
+  }
+
+const ComsComIdTeambuilderComponentRouteLazyRouteWithChildren =
+  ComsComIdTeambuilderComponentRouteLazyRoute._addFileChildren(
+    ComsComIdTeambuilderComponentRouteLazyRouteChildren,
+  )
+
+interface ComsComIdTeambuilderJsonviewRouteLazyRouteChildren {
+  ComsComIdTeambuilderJsonviewIndexLazyRoute: typeof ComsComIdTeambuilderJsonviewIndexLazyRoute
+}
+
+const ComsComIdTeambuilderJsonviewRouteLazyRouteChildren: ComsComIdTeambuilderJsonviewRouteLazyRouteChildren =
+  {
+    ComsComIdTeambuilderJsonviewIndexLazyRoute:
+      ComsComIdTeambuilderJsonviewIndexLazyRoute,
+  }
+
+const ComsComIdTeambuilderJsonviewRouteLazyRouteWithChildren =
+  ComsComIdTeambuilderJsonviewRouteLazyRoute._addFileChildren(
+    ComsComIdTeambuilderJsonviewRouteLazyRouteChildren,
   )
 
 interface ComsComIdTeambuilderAgentAgentIdAgentRouteLazyRouteChildren {
@@ -3362,96 +3422,62 @@ const ComsComIdTeambuilderAgentNewRouteLazyRouteWithChildren =
     ComsComIdTeambuilderAgentNewRouteLazyRouteChildren,
   )
 
-interface ComsComIdTeambuilderAgentRouteLazyRouteChildren {
-  ComsComIdTeambuilderAgentIndexLazyRoute: typeof ComsComIdTeambuilderAgentIndexLazyRoute
+interface ComsComIdTeambuilderRouteLazyRouteChildren {
+  ComsComIdTeambuilderIndexLazyRoute: typeof ComsComIdTeambuilderIndexLazyRoute
+  ComsComIdTeambuilderComponentRouteLazyRoute: typeof ComsComIdTeambuilderComponentRouteLazyRouteWithChildren
+  ComsComIdTeambuilderJsonviewRouteLazyRoute: typeof ComsComIdTeambuilderJsonviewRouteLazyRouteWithChildren
   ComsComIdTeambuilderAgentAgentIdRouteLazyRoute: typeof ComsComIdTeambuilderAgentAgentIdRouteLazyRouteWithChildren
   ComsComIdTeambuilderAgentNewRouteLazyRoute: typeof ComsComIdTeambuilderAgentNewRouteLazyRouteWithChildren
 }
 
-const ComsComIdTeambuilderAgentRouteLazyRouteChildren: ComsComIdTeambuilderAgentRouteLazyRouteChildren =
+const ComsComIdTeambuilderRouteLazyRouteChildren: ComsComIdTeambuilderRouteLazyRouteChildren =
   {
-    ComsComIdTeambuilderAgentIndexLazyRoute:
-      ComsComIdTeambuilderAgentIndexLazyRoute,
+    ComsComIdTeambuilderIndexLazyRoute: ComsComIdTeambuilderIndexLazyRoute,
+    ComsComIdTeambuilderComponentRouteLazyRoute:
+      ComsComIdTeambuilderComponentRouteLazyRouteWithChildren,
+    ComsComIdTeambuilderJsonviewRouteLazyRoute:
+      ComsComIdTeambuilderJsonviewRouteLazyRouteWithChildren,
     ComsComIdTeambuilderAgentAgentIdRouteLazyRoute:
       ComsComIdTeambuilderAgentAgentIdRouteLazyRouteWithChildren,
     ComsComIdTeambuilderAgentNewRouteLazyRoute:
       ComsComIdTeambuilderAgentNewRouteLazyRouteWithChildren,
   }
 
-const ComsComIdTeambuilderAgentRouteLazyRouteWithChildren =
-  ComsComIdTeambuilderAgentRouteLazyRoute._addFileChildren(
-    ComsComIdTeambuilderAgentRouteLazyRouteChildren,
-  )
-
-interface ComsComIdTeambuilderComponentRouteLazyRouteChildren {
-  ComsComIdTeambuilderComponentNodeIdLazyRoute: typeof ComsComIdTeambuilderComponentNodeIdLazyRoute
-}
-
-const ComsComIdTeambuilderComponentRouteLazyRouteChildren: ComsComIdTeambuilderComponentRouteLazyRouteChildren =
-  {
-    ComsComIdTeambuilderComponentNodeIdLazyRoute:
-      ComsComIdTeambuilderComponentNodeIdLazyRoute,
-  }
-
-const ComsComIdTeambuilderComponentRouteLazyRouteWithChildren =
-  ComsComIdTeambuilderComponentRouteLazyRoute._addFileChildren(
-    ComsComIdTeambuilderComponentRouteLazyRouteChildren,
-  )
-
-interface ComsComIdTeambuilderJsonviewRouteLazyRouteChildren {
-  ComsComIdTeambuilderJsonviewIndexLazyRoute: typeof ComsComIdTeambuilderJsonviewIndexLazyRoute
-}
-
-const ComsComIdTeambuilderJsonviewRouteLazyRouteChildren: ComsComIdTeambuilderJsonviewRouteLazyRouteChildren =
-  {
-    ComsComIdTeambuilderJsonviewIndexLazyRoute:
-      ComsComIdTeambuilderJsonviewIndexLazyRoute,
-  }
-
-const ComsComIdTeambuilderJsonviewRouteLazyRouteWithChildren =
-  ComsComIdTeambuilderJsonviewRouteLazyRoute._addFileChildren(
-    ComsComIdTeambuilderJsonviewRouteLazyRouteChildren,
-  )
-
-interface ComsComIdTeambuilderTeamRouteLazyRouteChildren {
-  ComsComIdTeambuilderTeamIndexLazyRoute: typeof ComsComIdTeambuilderTeamIndexLazyRoute
-}
-
-const ComsComIdTeambuilderTeamRouteLazyRouteChildren: ComsComIdTeambuilderTeamRouteLazyRouteChildren =
-  {
-    ComsComIdTeambuilderTeamIndexLazyRoute:
-      ComsComIdTeambuilderTeamIndexLazyRoute,
-  }
-
-const ComsComIdTeambuilderTeamRouteLazyRouteWithChildren =
-  ComsComIdTeambuilderTeamRouteLazyRoute._addFileChildren(
-    ComsComIdTeambuilderTeamRouteLazyRouteChildren,
-  )
-
-interface ComsComIdTeambuilderRouteLazyRouteChildren {
-  ComsComIdTeambuilderIndexLazyRoute: typeof ComsComIdTeambuilderIndexLazyRoute
-  ComsComIdTeambuilderAgentRouteLazyRoute: typeof ComsComIdTeambuilderAgentRouteLazyRouteWithChildren
-  ComsComIdTeambuilderComponentRouteLazyRoute: typeof ComsComIdTeambuilderComponentRouteLazyRouteWithChildren
-  ComsComIdTeambuilderJsonviewRouteLazyRoute: typeof ComsComIdTeambuilderJsonviewRouteLazyRouteWithChildren
-  ComsComIdTeambuilderTeamRouteLazyRoute: typeof ComsComIdTeambuilderTeamRouteLazyRouteWithChildren
-}
-
-const ComsComIdTeambuilderRouteLazyRouteChildren: ComsComIdTeambuilderRouteLazyRouteChildren =
-  {
-    ComsComIdTeambuilderIndexLazyRoute: ComsComIdTeambuilderIndexLazyRoute,
-    ComsComIdTeambuilderAgentRouteLazyRoute:
-      ComsComIdTeambuilderAgentRouteLazyRouteWithChildren,
-    ComsComIdTeambuilderComponentRouteLazyRoute:
-      ComsComIdTeambuilderComponentRouteLazyRouteWithChildren,
-    ComsComIdTeambuilderJsonviewRouteLazyRoute:
-      ComsComIdTeambuilderJsonviewRouteLazyRouteWithChildren,
-    ComsComIdTeambuilderTeamRouteLazyRoute:
-      ComsComIdTeambuilderTeamRouteLazyRouteWithChildren,
-  }
-
 const ComsComIdTeambuilderRouteLazyRouteWithChildren =
   ComsComIdTeambuilderRouteLazyRoute._addFileChildren(
     ComsComIdTeambuilderRouteLazyRouteChildren,
+  )
+
+interface ComsComIdTeambuilderv2InstagramteamRouteLazyRouteChildren {
+  ComsComIdTeambuilderv2InstagramteamIndexLazyRoute: typeof ComsComIdTeambuilderv2InstagramteamIndexLazyRoute
+}
+
+const ComsComIdTeambuilderv2InstagramteamRouteLazyRouteChildren: ComsComIdTeambuilderv2InstagramteamRouteLazyRouteChildren =
+  {
+    ComsComIdTeambuilderv2InstagramteamIndexLazyRoute:
+      ComsComIdTeambuilderv2InstagramteamIndexLazyRoute,
+  }
+
+const ComsComIdTeambuilderv2InstagramteamRouteLazyRouteWithChildren =
+  ComsComIdTeambuilderv2InstagramteamRouteLazyRoute._addFileChildren(
+    ComsComIdTeambuilderv2InstagramteamRouteLazyRouteChildren,
+  )
+
+interface ComsComIdTeambuilderv2RouteLazyRouteChildren {
+  ComsComIdTeambuilderv2IndexLazyRoute: typeof ComsComIdTeambuilderv2IndexLazyRoute
+  ComsComIdTeambuilderv2InstagramteamRouteLazyRoute: typeof ComsComIdTeambuilderv2InstagramteamRouteLazyRouteWithChildren
+}
+
+const ComsComIdTeambuilderv2RouteLazyRouteChildren: ComsComIdTeambuilderv2RouteLazyRouteChildren =
+  {
+    ComsComIdTeambuilderv2IndexLazyRoute: ComsComIdTeambuilderv2IndexLazyRoute,
+    ComsComIdTeambuilderv2InstagramteamRouteLazyRoute:
+      ComsComIdTeambuilderv2InstagramteamRouteLazyRouteWithChildren,
+  }
+
+const ComsComIdTeambuilderv2RouteLazyRouteWithChildren =
+  ComsComIdTeambuilderv2RouteLazyRoute._addFileChildren(
+    ComsComIdTeambuilderv2RouteLazyRouteChildren,
   )
 
 interface ComsComIdTypeRouteLazyRouteChildren {
@@ -3520,6 +3546,7 @@ interface ComsComIdRouteLazyRouteChildren {
   ComsComIdComponenteditorRouteLazyRoute: typeof ComsComIdComponenteditorRouteLazyRouteWithChildren
   ComsComIdRunRouteLazyRoute: typeof ComsComIdRunRouteLazyRouteWithChildren
   ComsComIdTeambuilderRouteLazyRoute: typeof ComsComIdTeambuilderRouteLazyRouteWithChildren
+  ComsComIdTeambuilderv2RouteLazyRoute: typeof ComsComIdTeambuilderv2RouteLazyRouteWithChildren
   ComsComIdTypeRouteLazyRoute: typeof ComsComIdTypeRouteLazyRouteWithChildren
   ComsComIdViewRouteLazyRoute: typeof ComsComIdViewRouteLazyRouteWithChildren
   ComsComIdVisualizationRouteLazyRoute: typeof ComsComIdVisualizationRouteLazyRoute
@@ -3533,6 +3560,8 @@ const ComsComIdRouteLazyRouteChildren: ComsComIdRouteLazyRouteChildren = {
   ComsComIdRunRouteLazyRoute: ComsComIdRunRouteLazyRouteWithChildren,
   ComsComIdTeambuilderRouteLazyRoute:
     ComsComIdTeambuilderRouteLazyRouteWithChildren,
+  ComsComIdTeambuilderv2RouteLazyRoute:
+    ComsComIdTeambuilderv2RouteLazyRouteWithChildren,
   ComsComIdTypeRouteLazyRoute: ComsComIdTypeRouteLazyRouteWithChildren,
   ComsComIdViewRouteLazyRoute: ComsComIdViewRouteLazyRouteWithChildren,
   ComsComIdVisualizationRouteLazyRoute: ComsComIdVisualizationRouteLazyRoute,
@@ -4037,18 +4066,6 @@ const SiteRouteLazyRouteWithChildren = SiteRouteLazyRoute._addFileChildren(
   SiteRouteLazyRouteChildren,
 )
 
-interface SysRouteLazyRouteChildren {
-  SysIndexLazyRoute: typeof SysIndexLazyRoute
-}
-
-const SysRouteLazyRouteChildren: SysRouteLazyRouteChildren = {
-  SysIndexLazyRoute: SysIndexLazyRoute,
-}
-
-const SysRouteLazyRouteWithChildren = SysRouteLazyRoute._addFileChildren(
-  SysRouteLazyRouteChildren,
-)
-
 interface TeamTeamIdRouteLazyRouteChildren {
   TeamTeamIdNewIndexLazyRoute: typeof TeamTeamIdNewIndexLazyRoute
 }
@@ -4462,6 +4479,7 @@ const WorkflowsRouteLazyRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteLazyRouteWithChildren
   '/auth': typeof AuthRouteLazyRouteWithChildren
   '/coms': typeof ComsRouteLazyRouteWithChildren
   '/endpoint': typeof EndpointRouteLazyRouteWithChildren
@@ -4480,7 +4498,6 @@ export interface FileRoutesByFullPath {
   '/session': typeof SessionRouteLazyRouteWithChildren
   '/settings': typeof SettingsRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
-  '/sys': typeof SysRouteLazyRouteWithChildren
   '/team': typeof TeamRouteLazyRouteWithChildren
   '/tenant': typeof TenantRouteLazyRouteWithChildren
   '/workflow-runs': typeof WorkflowRunsRouteLazyRouteWithChildren
@@ -4489,6 +4506,7 @@ export interface FileRoutesByFullPath {
   '/site/': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
   '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
+  '/admin/': typeof AdminIndexLazyRoute
   '/coms/': typeof ComsIndexLazyRoute
   '/endpoint/': typeof EndpointIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
@@ -4504,7 +4522,6 @@ export interface FileRoutesByFullPath {
   '/scheduled-runs/': typeof ScheduledRunsIndexLazyRoute
   '/session/': typeof SessionIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
-  '/sys/': typeof SysIndexLazyRoute
   '/team/': typeof TeamIndexLazyRoute
   '/tenant/': typeof TenantIndexLazyRoute
   '/workflow-runs/': typeof WorkflowRunsIndexLazyRoute
@@ -4549,6 +4566,7 @@ export interface FileRoutesByFullPath {
   '/coms/$comId/component_editor': typeof ComsComIdComponenteditorRouteLazyRouteWithChildren
   '/coms/$comId/run': typeof ComsComIdRunRouteLazyRouteWithChildren
   '/coms/$comId/team_builder': typeof ComsComIdTeambuilderRouteLazyRouteWithChildren
+  '/coms/$comId/team_builderv2': typeof ComsComIdTeambuilderv2RouteLazyRouteWithChildren
   '/coms/$comId/type': typeof ComsComIdTypeRouteLazyRouteWithChildren
   '/coms/$comId/view': typeof ComsComIdViewRouteLazyRouteWithChildren
   '/coms/$comId/visualization': typeof ComsComIdVisualizationRouteLazyRoute
@@ -4571,11 +4589,13 @@ export interface FileRoutesByFullPath {
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexRoute
   '/coms/$comId/component_editor/$': typeof ComsComIdComponenteditorSplatRoute
   '/coms/$comId/component_editor/AssistantAgent': typeof ComsComIdComponenteditorAssistantAgentRoute
+  '/coms/$comId/component_editor/InstagramAgent': typeof ComsComIdComponenteditorInstagramAgentRoute
   '/coms/$comId/component_editor/MtOpenAIChatCompletionClient': typeof ComsComIdComponenteditorMtOpenAIChatCompletionClientRoute
   '/coms/$comId/component_editor/SmolaAgent': typeof ComsComIdComponenteditorSmolaAgentRoute
   '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
   '/coms/$comId/run/': typeof ComsComIdRunIndexLazyRoute
   '/coms/$comId/team_builder/': typeof ComsComIdTeambuilderIndexLazyRoute
+  '/coms/$comId/team_builderv2/': typeof ComsComIdTeambuilderv2IndexLazyRoute
   '/platform-account/$platformAccountId/actions/': typeof PlatformAccountPlatformAccountIdActionsIndexLazyRoute
   '/proxy/$proxyId/actions/': typeof ProxyProxyIdActionsIndexLazyRoute
   '/resource/$resId/platform_account/': typeof ResourceResIdPlatformaccountIndexLazyRoute
@@ -4589,10 +4609,9 @@ export interface FileRoutesByFullPath {
   '/workflows/$workflowId/trigger/': typeof WorkflowsWorkflowIdTriggerIndexLazyRoute
   '/coms/$comId/component_editor/InstagramTeam': typeof ComsComIdComponenteditorInstagramTeamLazyRoute
   '/coms/$comId/edit/model': typeof ComsComIdEditModelRouteLazyRouteWithChildren
-  '/coms/$comId/team_builder/agent': typeof ComsComIdTeambuilderAgentRouteLazyRouteWithChildren
   '/coms/$comId/team_builder/component': typeof ComsComIdTeambuilderComponentRouteLazyRouteWithChildren
   '/coms/$comId/team_builder/jsonview': typeof ComsComIdTeambuilderJsonviewRouteLazyRouteWithChildren
-  '/coms/$comId/team_builder/team': typeof ComsComIdTeambuilderTeamRouteLazyRouteWithChildren
+  '/coms/$comId/team_builderv2/instagram_team': typeof ComsComIdTeambuilderv2InstagramteamRouteLazyRouteWithChildren
   '/coms/$comId/type/assisant': typeof ComsComIdTypeAssisantLazyRoute
   '/coms/$comId/type/instagramTeam': typeof ComsComIdTypeInstagramTeamLazyRoute
   '/coms/$comId/view/$subComId': typeof ComsComIdViewSubComIdRouteLazyRouteWithChildren
@@ -4616,9 +4635,8 @@ export interface FileRoutesByFullPath {
   '/workflows/$workflowId/trigger/tenant': typeof WorkflowsWorkflowIdTriggerTenantRouteLazyRouteWithChildren
   '/workflows/$workflowId/trigger/test_team': typeof WorkflowsWorkflowIdTriggerTestteamRouteLazyRouteWithChildren
   '/coms/$comId/edit/model/': typeof ComsComIdEditModelIndexLazyRoute
-  '/coms/$comId/team_builder/agent/': typeof ComsComIdTeambuilderAgentIndexLazyRoute
   '/coms/$comId/team_builder/jsonview/': typeof ComsComIdTeambuilderJsonviewIndexLazyRoute
-  '/coms/$comId/team_builder/team/': typeof ComsComIdTeambuilderTeamIndexLazyRoute
+  '/coms/$comId/team_builderv2/instagram_team/': typeof ComsComIdTeambuilderv2InstagramteamIndexLazyRoute
   '/coms/$comId/view/$subComId/': typeof ComsComIdViewSubComIdIndexLazyRoute
   '/tenant/settings/$tenantSettingId/model_settings/': typeof TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute
   '/workflow-runs/$workflowRunId/stepRun/$stepRunId/': typeof WorkflowRunsWorkflowRunIdStepRunStepRunIdIndexLazyRoute
@@ -4648,6 +4666,7 @@ export interface FileRoutesByTo {
   '/platform': typeof PlatformIndexRoute
   '/site': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
+  '/admin': typeof AdminIndexLazyRoute
   '/coms': typeof ComsIndexLazyRoute
   '/endpoint': typeof EndpointIndexLazyRoute
   '/envs': typeof EnvsIndexLazyRoute
@@ -4663,7 +4682,6 @@ export interface FileRoutesByTo {
   '/scheduled-runs': typeof ScheduledRunsIndexLazyRoute
   '/session': typeof SessionIndexLazyRoute
   '/settings': typeof SettingsIndexLazyRoute
-  '/sys': typeof SysIndexLazyRoute
   '/team': typeof TeamIndexLazyRoute
   '/tenant': typeof TenantIndexLazyRoute
   '/workflow-runs': typeof WorkflowRunsIndexLazyRoute
@@ -4702,11 +4720,13 @@ export interface FileRoutesByTo {
   '/site/$siteId/host': typeof SiteSiteIdHostIndexRoute
   '/coms/$comId/component_editor/$': typeof ComsComIdComponenteditorSplatRoute
   '/coms/$comId/component_editor/AssistantAgent': typeof ComsComIdComponenteditorAssistantAgentRoute
+  '/coms/$comId/component_editor/InstagramAgent': typeof ComsComIdComponenteditorInstagramAgentRoute
   '/coms/$comId/component_editor/MtOpenAIChatCompletionClient': typeof ComsComIdComponenteditorMtOpenAIChatCompletionClientRoute
   '/coms/$comId/component_editor/SmolaAgent': typeof ComsComIdComponenteditorSmolaAgentRoute
   '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
   '/coms/$comId/run': typeof ComsComIdRunIndexLazyRoute
   '/coms/$comId/team_builder': typeof ComsComIdTeambuilderIndexLazyRoute
+  '/coms/$comId/team_builderv2': typeof ComsComIdTeambuilderv2IndexLazyRoute
   '/platform-account/$platformAccountId/actions': typeof PlatformAccountPlatformAccountIdActionsIndexLazyRoute
   '/proxy/$proxyId/actions': typeof ProxyProxyIdActionsIndexLazyRoute
   '/resource/$resId/platform_account': typeof ResourceResIdPlatformaccountIndexLazyRoute
@@ -4731,9 +4751,8 @@ export interface FileRoutesByTo {
   '/resource/new/res/platform_account': typeof ResourceNewResPlatformaccountLazyRoute
   '/workflows/$workflowId/trigger/$': typeof WorkflowsWorkflowIdTriggerSplatLazyRoute
   '/coms/$comId/edit/model': typeof ComsComIdEditModelIndexLazyRoute
-  '/coms/$comId/team_builder/agent': typeof ComsComIdTeambuilderAgentIndexLazyRoute
   '/coms/$comId/team_builder/jsonview': typeof ComsComIdTeambuilderJsonviewIndexLazyRoute
-  '/coms/$comId/team_builder/team': typeof ComsComIdTeambuilderTeamIndexLazyRoute
+  '/coms/$comId/team_builderv2/instagram_team': typeof ComsComIdTeambuilderv2InstagramteamIndexLazyRoute
   '/coms/$comId/view/$subComId': typeof ComsComIdViewSubComIdIndexLazyRoute
   '/tenant/settings/$tenantSettingId/model_settings': typeof TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute
   '/workflow-runs/$workflowRunId/stepRun/$stepRunId': typeof WorkflowRunsWorkflowRunIdStepRunStepRunIdIndexLazyRoute
@@ -4756,6 +4775,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteLazyRouteWithChildren
   '/auth': typeof AuthRouteLazyRouteWithChildren
   '/coms': typeof ComsRouteLazyRouteWithChildren
   '/endpoint': typeof EndpointRouteLazyRouteWithChildren
@@ -4774,7 +4794,6 @@ export interface FileRoutesById {
   '/session': typeof SessionRouteLazyRouteWithChildren
   '/settings': typeof SettingsRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
-  '/sys': typeof SysRouteLazyRouteWithChildren
   '/team': typeof TeamRouteLazyRouteWithChildren
   '/tenant': typeof TenantRouteLazyRouteWithChildren
   '/workflow-runs': typeof WorkflowRunsRouteLazyRouteWithChildren
@@ -4783,6 +4802,7 @@ export interface FileRoutesById {
   '/site/': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
   '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
+  '/admin/': typeof AdminIndexLazyRoute
   '/coms/': typeof ComsIndexLazyRoute
   '/endpoint/': typeof EndpointIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
@@ -4798,7 +4818,6 @@ export interface FileRoutesById {
   '/scheduled-runs/': typeof ScheduledRunsIndexLazyRoute
   '/session/': typeof SessionIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
-  '/sys/': typeof SysIndexLazyRoute
   '/team/': typeof TeamIndexLazyRoute
   '/tenant/': typeof TenantIndexLazyRoute
   '/workflow-runs/': typeof WorkflowRunsIndexLazyRoute
@@ -4843,6 +4862,7 @@ export interface FileRoutesById {
   '/coms/$comId/component_editor': typeof ComsComIdComponenteditorRouteLazyRouteWithChildren
   '/coms/$comId/run': typeof ComsComIdRunRouteLazyRouteWithChildren
   '/coms/$comId/team_builder': typeof ComsComIdTeambuilderRouteLazyRouteWithChildren
+  '/coms/$comId/team_builderv2': typeof ComsComIdTeambuilderv2RouteLazyRouteWithChildren
   '/coms/$comId/type': typeof ComsComIdTypeRouteLazyRouteWithChildren
   '/coms/$comId/view': typeof ComsComIdViewRouteLazyRouteWithChildren
   '/coms/$comId/visualization': typeof ComsComIdVisualizationRouteLazyRoute
@@ -4865,11 +4885,13 @@ export interface FileRoutesById {
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexRoute
   '/coms/$comId/component_editor/$': typeof ComsComIdComponenteditorSplatRoute
   '/coms/$comId/component_editor/AssistantAgent': typeof ComsComIdComponenteditorAssistantAgentRoute
+  '/coms/$comId/component_editor/InstagramAgent': typeof ComsComIdComponenteditorInstagramAgentRoute
   '/coms/$comId/component_editor/MtOpenAIChatCompletionClient': typeof ComsComIdComponenteditorMtOpenAIChatCompletionClientRoute
   '/coms/$comId/component_editor/SmolaAgent': typeof ComsComIdComponenteditorSmolaAgentRoute
   '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
   '/coms/$comId/run/': typeof ComsComIdRunIndexLazyRoute
   '/coms/$comId/team_builder/': typeof ComsComIdTeambuilderIndexLazyRoute
+  '/coms/$comId/team_builderv2/': typeof ComsComIdTeambuilderv2IndexLazyRoute
   '/platform-account/$platformAccountId/actions/': typeof PlatformAccountPlatformAccountIdActionsIndexLazyRoute
   '/proxy/$proxyId/actions/': typeof ProxyProxyIdActionsIndexLazyRoute
   '/resource/$resId/platform_account/': typeof ResourceResIdPlatformaccountIndexLazyRoute
@@ -4883,10 +4905,9 @@ export interface FileRoutesById {
   '/workflows/$workflowId/trigger/': typeof WorkflowsWorkflowIdTriggerIndexLazyRoute
   '/coms/$comId/component_editor/InstagramTeam': typeof ComsComIdComponenteditorInstagramTeamLazyRoute
   '/coms/$comId/edit/model': typeof ComsComIdEditModelRouteLazyRouteWithChildren
-  '/coms/$comId/team_builder/agent': typeof ComsComIdTeambuilderAgentRouteLazyRouteWithChildren
   '/coms/$comId/team_builder/component': typeof ComsComIdTeambuilderComponentRouteLazyRouteWithChildren
   '/coms/$comId/team_builder/jsonview': typeof ComsComIdTeambuilderJsonviewRouteLazyRouteWithChildren
-  '/coms/$comId/team_builder/team': typeof ComsComIdTeambuilderTeamRouteLazyRouteWithChildren
+  '/coms/$comId/team_builderv2/instagram_team': typeof ComsComIdTeambuilderv2InstagramteamRouteLazyRouteWithChildren
   '/coms/$comId/type/assisant': typeof ComsComIdTypeAssisantLazyRoute
   '/coms/$comId/type/instagramTeam': typeof ComsComIdTypeInstagramTeamLazyRoute
   '/coms/$comId/view/$subComId': typeof ComsComIdViewSubComIdRouteLazyRouteWithChildren
@@ -4910,9 +4931,8 @@ export interface FileRoutesById {
   '/workflows/$workflowId/trigger/tenant': typeof WorkflowsWorkflowIdTriggerTenantRouteLazyRouteWithChildren
   '/workflows/$workflowId/trigger/test_team': typeof WorkflowsWorkflowIdTriggerTestteamRouteLazyRouteWithChildren
   '/coms/$comId/edit/model/': typeof ComsComIdEditModelIndexLazyRoute
-  '/coms/$comId/team_builder/agent/': typeof ComsComIdTeambuilderAgentIndexLazyRoute
   '/coms/$comId/team_builder/jsonview/': typeof ComsComIdTeambuilderJsonviewIndexLazyRoute
-  '/coms/$comId/team_builder/team/': typeof ComsComIdTeambuilderTeamIndexLazyRoute
+  '/coms/$comId/team_builderv2/instagram_team/': typeof ComsComIdTeambuilderv2InstagramteamIndexLazyRoute
   '/coms/$comId/view/$subComId/': typeof ComsComIdViewSubComIdIndexLazyRoute
   '/tenant/settings/$tenantSettingId/model_settings/': typeof TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute
   '/workflow-runs/$workflowRunId/stepRun/$stepRunId/': typeof WorkflowRunsWorkflowRunIdStepRunStepRunIdIndexLazyRoute
@@ -4940,6 +4960,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/auth'
     | '/coms'
     | '/endpoint'
@@ -4958,7 +4979,6 @@ export interface FileRouteTypes {
     | '/session'
     | '/settings'
     | '/site'
-    | '/sys'
     | '/team'
     | '/tenant'
     | '/workflow-runs'
@@ -4967,6 +4987,7 @@ export interface FileRouteTypes {
     | '/site/'
     | '/envs/create'
     | '/site/$siteId'
+    | '/admin/'
     | '/coms/'
     | '/endpoint/'
     | '/envs/'
@@ -4982,7 +5003,6 @@ export interface FileRouteTypes {
     | '/scheduled-runs/'
     | '/session/'
     | '/settings/'
-    | '/sys/'
     | '/team/'
     | '/tenant/'
     | '/workflow-runs/'
@@ -5027,6 +5047,7 @@ export interface FileRouteTypes {
     | '/coms/$comId/component_editor'
     | '/coms/$comId/run'
     | '/coms/$comId/team_builder'
+    | '/coms/$comId/team_builderv2'
     | '/coms/$comId/type'
     | '/coms/$comId/view'
     | '/coms/$comId/visualization'
@@ -5049,11 +5070,13 @@ export interface FileRouteTypes {
     | '/site/$siteId/host/'
     | '/coms/$comId/component_editor/$'
     | '/coms/$comId/component_editor/AssistantAgent'
+    | '/coms/$comId/component_editor/InstagramAgent'
     | '/coms/$comId/component_editor/MtOpenAIChatCompletionClient'
     | '/coms/$comId/component_editor/SmolaAgent'
     | '/coms/$comId/type/modelClient'
     | '/coms/$comId/run/'
     | '/coms/$comId/team_builder/'
+    | '/coms/$comId/team_builderv2/'
     | '/platform-account/$platformAccountId/actions/'
     | '/proxy/$proxyId/actions/'
     | '/resource/$resId/platform_account/'
@@ -5067,10 +5090,9 @@ export interface FileRouteTypes {
     | '/workflows/$workflowId/trigger/'
     | '/coms/$comId/component_editor/InstagramTeam'
     | '/coms/$comId/edit/model'
-    | '/coms/$comId/team_builder/agent'
     | '/coms/$comId/team_builder/component'
     | '/coms/$comId/team_builder/jsonview'
-    | '/coms/$comId/team_builder/team'
+    | '/coms/$comId/team_builderv2/instagram_team'
     | '/coms/$comId/type/assisant'
     | '/coms/$comId/type/instagramTeam'
     | '/coms/$comId/view/$subComId'
@@ -5094,9 +5116,8 @@ export interface FileRouteTypes {
     | '/workflows/$workflowId/trigger/tenant'
     | '/workflows/$workflowId/trigger/test_team'
     | '/coms/$comId/edit/model/'
-    | '/coms/$comId/team_builder/agent/'
     | '/coms/$comId/team_builder/jsonview/'
-    | '/coms/$comId/team_builder/team/'
+    | '/coms/$comId/team_builderv2/instagram_team/'
     | '/coms/$comId/view/$subComId/'
     | '/tenant/settings/$tenantSettingId/model_settings/'
     | '/workflow-runs/$workflowRunId/stepRun/$stepRunId/'
@@ -5125,6 +5146,7 @@ export interface FileRouteTypes {
     | '/platform'
     | '/site'
     | '/envs/create'
+    | '/admin'
     | '/coms'
     | '/endpoint'
     | '/envs'
@@ -5140,7 +5162,6 @@ export interface FileRouteTypes {
     | '/scheduled-runs'
     | '/session'
     | '/settings'
-    | '/sys'
     | '/team'
     | '/tenant'
     | '/workflow-runs'
@@ -5179,11 +5200,13 @@ export interface FileRouteTypes {
     | '/site/$siteId/host'
     | '/coms/$comId/component_editor/$'
     | '/coms/$comId/component_editor/AssistantAgent'
+    | '/coms/$comId/component_editor/InstagramAgent'
     | '/coms/$comId/component_editor/MtOpenAIChatCompletionClient'
     | '/coms/$comId/component_editor/SmolaAgent'
     | '/coms/$comId/type/modelClient'
     | '/coms/$comId/run'
     | '/coms/$comId/team_builder'
+    | '/coms/$comId/team_builderv2'
     | '/platform-account/$platformAccountId/actions'
     | '/proxy/$proxyId/actions'
     | '/resource/$resId/platform_account'
@@ -5208,9 +5231,8 @@ export interface FileRouteTypes {
     | '/resource/new/res/platform_account'
     | '/workflows/$workflowId/trigger/$'
     | '/coms/$comId/edit/model'
-    | '/coms/$comId/team_builder/agent'
     | '/coms/$comId/team_builder/jsonview'
-    | '/coms/$comId/team_builder/team'
+    | '/coms/$comId/team_builderv2/instagram_team'
     | '/coms/$comId/view/$subComId'
     | '/tenant/settings/$tenantSettingId/model_settings'
     | '/workflow-runs/$workflowRunId/stepRun/$stepRunId'
@@ -5231,6 +5253,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/auth'
     | '/coms'
     | '/endpoint'
@@ -5249,7 +5272,6 @@ export interface FileRouteTypes {
     | '/session'
     | '/settings'
     | '/site'
-    | '/sys'
     | '/team'
     | '/tenant'
     | '/workflow-runs'
@@ -5258,6 +5280,7 @@ export interface FileRouteTypes {
     | '/site/'
     | '/envs/create'
     | '/site/$siteId'
+    | '/admin/'
     | '/coms/'
     | '/endpoint/'
     | '/envs/'
@@ -5273,7 +5296,6 @@ export interface FileRouteTypes {
     | '/scheduled-runs/'
     | '/session/'
     | '/settings/'
-    | '/sys/'
     | '/team/'
     | '/tenant/'
     | '/workflow-runs/'
@@ -5318,6 +5340,7 @@ export interface FileRouteTypes {
     | '/coms/$comId/component_editor'
     | '/coms/$comId/run'
     | '/coms/$comId/team_builder'
+    | '/coms/$comId/team_builderv2'
     | '/coms/$comId/type'
     | '/coms/$comId/view'
     | '/coms/$comId/visualization'
@@ -5340,11 +5363,13 @@ export interface FileRouteTypes {
     | '/site/$siteId/host/'
     | '/coms/$comId/component_editor/$'
     | '/coms/$comId/component_editor/AssistantAgent'
+    | '/coms/$comId/component_editor/InstagramAgent'
     | '/coms/$comId/component_editor/MtOpenAIChatCompletionClient'
     | '/coms/$comId/component_editor/SmolaAgent'
     | '/coms/$comId/type/modelClient'
     | '/coms/$comId/run/'
     | '/coms/$comId/team_builder/'
+    | '/coms/$comId/team_builderv2/'
     | '/platform-account/$platformAccountId/actions/'
     | '/proxy/$proxyId/actions/'
     | '/resource/$resId/platform_account/'
@@ -5358,10 +5383,9 @@ export interface FileRouteTypes {
     | '/workflows/$workflowId/trigger/'
     | '/coms/$comId/component_editor/InstagramTeam'
     | '/coms/$comId/edit/model'
-    | '/coms/$comId/team_builder/agent'
     | '/coms/$comId/team_builder/component'
     | '/coms/$comId/team_builder/jsonview'
-    | '/coms/$comId/team_builder/team'
+    | '/coms/$comId/team_builderv2/instagram_team'
     | '/coms/$comId/type/assisant'
     | '/coms/$comId/type/instagramTeam'
     | '/coms/$comId/view/$subComId'
@@ -5385,9 +5409,8 @@ export interface FileRouteTypes {
     | '/workflows/$workflowId/trigger/tenant'
     | '/workflows/$workflowId/trigger/test_team'
     | '/coms/$comId/edit/model/'
-    | '/coms/$comId/team_builder/agent/'
     | '/coms/$comId/team_builder/jsonview/'
-    | '/coms/$comId/team_builder/team/'
+    | '/coms/$comId/team_builderv2/instagram_team/'
     | '/coms/$comId/view/$subComId/'
     | '/tenant/settings/$tenantSettingId/model_settings/'
     | '/workflow-runs/$workflowRunId/stepRun/$stepRunId/'
@@ -5414,6 +5437,7 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRouteLazyRoute: typeof AdminRouteLazyRouteWithChildren
   AuthRouteLazyRoute: typeof AuthRouteLazyRouteWithChildren
   ComsRouteLazyRoute: typeof ComsRouteLazyRouteWithChildren
   EndpointRouteLazyRoute: typeof EndpointRouteLazyRouteWithChildren
@@ -5432,7 +5456,6 @@ export interface RootRouteChildren {
   SessionRouteLazyRoute: typeof SessionRouteLazyRouteWithChildren
   SettingsRouteLazyRoute: typeof SettingsRouteLazyRouteWithChildren
   SiteRouteLazyRoute: typeof SiteRouteLazyRouteWithChildren
-  SysRouteLazyRoute: typeof SysRouteLazyRouteWithChildren
   TeamRouteLazyRoute: typeof TeamRouteLazyRouteWithChildren
   TenantRouteLazyRoute: typeof TenantRouteLazyRouteWithChildren
   WorkflowRunsRouteLazyRoute: typeof WorkflowRunsRouteLazyRouteWithChildren
@@ -5442,6 +5465,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRouteLazyRoute: AdminRouteLazyRouteWithChildren,
   AuthRouteLazyRoute: AuthRouteLazyRouteWithChildren,
   ComsRouteLazyRoute: ComsRouteLazyRouteWithChildren,
   EndpointRouteLazyRoute: EndpointRouteLazyRouteWithChildren,
@@ -5460,7 +5484,6 @@ const rootRouteChildren: RootRouteChildren = {
   SessionRouteLazyRoute: SessionRouteLazyRouteWithChildren,
   SettingsRouteLazyRoute: SettingsRouteLazyRouteWithChildren,
   SiteRouteLazyRoute: SiteRouteLazyRouteWithChildren,
-  SysRouteLazyRoute: SysRouteLazyRouteWithChildren,
   TeamRouteLazyRoute: TeamRouteLazyRouteWithChildren,
   TenantRouteLazyRoute: TenantRouteLazyRouteWithChildren,
   WorkflowRunsRouteLazyRoute: WorkflowRunsRouteLazyRouteWithChildren,
@@ -5479,6 +5502,7 @@ export const routeTree = rootRoute
       "filePath": "~__root.tsx",
       "children": [
         "/",
+        "/admin",
         "/auth",
         "/coms",
         "/endpoint",
@@ -5497,7 +5521,6 @@ export const routeTree = rootRoute
         "/session",
         "/settings",
         "/site",
-        "/sys",
         "/team",
         "/tenant",
         "/workflow-runs",
@@ -5507,6 +5530,12 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "~index.tsx"
+    },
+    "/admin": {
+      "filePath": "~admin/~route.lazy.tsx",
+      "children": [
+        "/admin/"
+      ]
     },
     "/auth": {
       "filePath": "~auth/~route.lazy.tsx",
@@ -5633,12 +5662,6 @@ export const routeTree = rootRoute
         "/site/create/"
       ]
     },
-    "/sys": {
-      "filePath": "~sys/~route.lazy.tsx",
-      "children": [
-        "/sys/"
-      ]
-    },
     "/team": {
       "filePath": "~team/~route.lazy.tsx",
       "children": [
@@ -5687,6 +5710,10 @@ export const routeTree = rootRoute
         "/site/$siteId/edit",
         "/site/$siteId/host"
       ]
+    },
+    "/admin/": {
+      "filePath": "~admin/~index.lazy.tsx",
+      "parent": "/admin"
     },
     "/coms/": {
       "filePath": "~coms/~index.lazy.tsx",
@@ -5748,10 +5775,6 @@ export const routeTree = rootRoute
       "filePath": "~settings/~index.lazy.tsx",
       "parent": "/settings"
     },
-    "/sys/": {
-      "filePath": "~sys/~index.lazy.tsx",
-      "parent": "/sys"
-    },
     "/team/": {
       "filePath": "~team/~index.lazy.tsx",
       "parent": "/team"
@@ -5787,6 +5810,7 @@ export const routeTree = rootRoute
         "/coms/$comId/component_editor",
         "/coms/$comId/run",
         "/coms/$comId/team_builder",
+        "/coms/$comId/team_builderv2",
         "/coms/$comId/type",
         "/coms/$comId/view",
         "/coms/$comId/visualization",
@@ -5991,6 +6015,7 @@ export const routeTree = rootRoute
         "/coms/$comId/component_editor/",
         "/coms/$comId/component_editor/$",
         "/coms/$comId/component_editor/AssistantAgent",
+        "/coms/$comId/component_editor/InstagramAgent",
         "/coms/$comId/component_editor/MtOpenAIChatCompletionClient",
         "/coms/$comId/component_editor/SmolaAgent",
         "/coms/$comId/component_editor/InstagramTeam"
@@ -6008,10 +6033,18 @@ export const routeTree = rootRoute
       "parent": "/coms/$comId",
       "children": [
         "/coms/$comId/team_builder/",
-        "/coms/$comId/team_builder/agent",
         "/coms/$comId/team_builder/component",
         "/coms/$comId/team_builder/jsonview",
-        "/coms/$comId/team_builder/team"
+        "/coms/$comId/team_builder/agent/$agentId",
+        "/coms/$comId/team_builder/agent/new"
+      ]
+    },
+    "/coms/$comId/team_builderv2": {
+      "filePath": "~coms/~$comId/~team_builderv2/~route.lazy.tsx",
+      "parent": "/coms/$comId",
+      "children": [
+        "/coms/$comId/team_builderv2/",
+        "/coms/$comId/team_builderv2/instagram_team"
       ]
     },
     "/coms/$comId/type": {
@@ -6161,6 +6194,10 @@ export const routeTree = rootRoute
       "filePath": "~coms/~$comId/~component_editor/~AssistantAgent.tsx",
       "parent": "/coms/$comId/component_editor"
     },
+    "/coms/$comId/component_editor/InstagramAgent": {
+      "filePath": "~coms/~$comId/~component_editor/~InstagramAgent.tsx",
+      "parent": "/coms/$comId/component_editor"
+    },
     "/coms/$comId/component_editor/MtOpenAIChatCompletionClient": {
       "filePath": "~coms/~$comId/~component_editor/~MtOpenAIChatCompletionClient.tsx",
       "parent": "/coms/$comId/component_editor"
@@ -6180,6 +6217,10 @@ export const routeTree = rootRoute
     "/coms/$comId/team_builder/": {
       "filePath": "~coms/~$comId/~team_builder/~index.lazy.tsx",
       "parent": "/coms/$comId/team_builder"
+    },
+    "/coms/$comId/team_builderv2/": {
+      "filePath": "~coms/~$comId/~team_builderv2/~index.lazy.tsx",
+      "parent": "/coms/$comId/team_builderv2"
     },
     "/platform-account/$platformAccountId/actions/": {
       "filePath": "~platform-account/~$platformAccountId/~actions/~index.lazy.tsx",
@@ -6236,15 +6277,6 @@ export const routeTree = rootRoute
         "/coms/$comId/edit/model/"
       ]
     },
-    "/coms/$comId/team_builder/agent": {
-      "filePath": "~coms/~$comId/~team_builder/~agent/~route.lazy.tsx",
-      "parent": "/coms/$comId/team_builder",
-      "children": [
-        "/coms/$comId/team_builder/agent/",
-        "/coms/$comId/team_builder/agent/$agentId",
-        "/coms/$comId/team_builder/agent/new"
-      ]
-    },
     "/coms/$comId/team_builder/component": {
       "filePath": "~coms/~$comId/~team_builder/~component/~route.lazy.tsx",
       "parent": "/coms/$comId/team_builder",
@@ -6259,11 +6291,11 @@ export const routeTree = rootRoute
         "/coms/$comId/team_builder/jsonview/"
       ]
     },
-    "/coms/$comId/team_builder/team": {
-      "filePath": "~coms/~$comId/~team_builder/~team/~route.lazy.tsx",
-      "parent": "/coms/$comId/team_builder",
+    "/coms/$comId/team_builderv2/instagram_team": {
+      "filePath": "~coms/~$comId/~team_builderv2/~instagram_team/~route.lazy.tsx",
+      "parent": "/coms/$comId/team_builderv2",
       "children": [
-        "/coms/$comId/team_builder/team/"
+        "/coms/$comId/team_builderv2/instagram_team/"
       ]
     },
     "/coms/$comId/type/assisant": {
@@ -6394,17 +6426,13 @@ export const routeTree = rootRoute
       "filePath": "~coms/~$comId/~edit/~model/~index.lazy.tsx",
       "parent": "/coms/$comId/edit/model"
     },
-    "/coms/$comId/team_builder/agent/": {
-      "filePath": "~coms/~$comId/~team_builder/~agent/~index.lazy.tsx",
-      "parent": "/coms/$comId/team_builder/agent"
-    },
     "/coms/$comId/team_builder/jsonview/": {
       "filePath": "~coms/~$comId/~team_builder/~jsonview/~index.lazy.tsx",
       "parent": "/coms/$comId/team_builder/jsonview"
     },
-    "/coms/$comId/team_builder/team/": {
-      "filePath": "~coms/~$comId/~team_builder/~team/~index.lazy.tsx",
-      "parent": "/coms/$comId/team_builder/team"
+    "/coms/$comId/team_builderv2/instagram_team/": {
+      "filePath": "~coms/~$comId/~team_builderv2/~instagram_team/~index.lazy.tsx",
+      "parent": "/coms/$comId/team_builderv2/instagram_team"
     },
     "/coms/$comId/view/$subComId/": {
       "filePath": "~coms/~$comId/~view/~$subComId/~index.lazy.tsx",
@@ -6456,7 +6484,7 @@ export const routeTree = rootRoute
     },
     "/coms/$comId/team_builder/agent/$agentId": {
       "filePath": "~coms/~$comId/~team_builder/~agent/~$agentId/~route.lazy.tsx",
-      "parent": "/coms/$comId/team_builder/agent",
+      "parent": "/coms/$comId/team_builder",
       "children": [
         "/coms/$comId/team_builder/agent/$agentId/",
         "/coms/$comId/team_builder/agent/$agentId/agent",
@@ -6465,7 +6493,7 @@ export const routeTree = rootRoute
     },
     "/coms/$comId/team_builder/agent/new": {
       "filePath": "~coms/~$comId/~team_builder/~agent/~new/~route.lazy.tsx",
-      "parent": "/coms/$comId/team_builder/agent",
+      "parent": "/coms/$comId/team_builder",
       "children": [
         "/coms/$comId/team_builder/agent/new/"
       ]

@@ -50,24 +50,22 @@ export function NavPlatformAccount() {
         <SidebarInput placeholder="Type to search..." />
       </SidebarHeader>
       <SidebarContent>
-        {" "}
-        <SidebarGroup className="px-0">
-          <SidebarGroupContent>
+        <SidebarGroup className="px-1">
+          <SidebarGroupContent className="px-1 space-y-1 border-b">
             {platformAccountQuery.data?.rows?.map((item) => (
+              <div key={item.metadata?.id} className="flex flex-col flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
               <CustomLink
                 to={`${item.metadata?.id}`}
                 key={item.metadata?.id}
-                className="flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                className=""
               >
-                <div className="flex w-full items-center gap-2">
-                  <span>{item.email}</span>{" "}
-                  {/* <span className="ml-auto text-xs">{chat.createdAt}</span> */}
-                </div>
-                <span className="font-medium">{item.email}</span>
-                <span className="line-clamp-2 w-[260px] whitespace-break-spaces text-xs">
-                  {item.email || item.metadata?.id}
+                
+                <span className="line-clamp-2 whitespace-break-spaces text-xs">
+                  {item.username || item.metadata?.id}
                 </span>
               </CustomLink>
+              
+              </div>
             ))}
           </SidebarGroupContent>
         </SidebarGroup>

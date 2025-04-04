@@ -10,7 +10,7 @@ import {
 import { useTeamBuilderStore } from "../../../../stores/teamBuildStore";
 
 export const Route = createFileRoute(
-  "/coms/$comId/component_editor/AssistantAgent",
+  "/coms/$comId/component_editor/InstagramAgent",
 )({
   component: RouteComponent,
 });
@@ -27,7 +27,7 @@ function RouteComponent() {
     <MtModal>
       <ModelContent>
         <ModelHeader>
-          <ModelTitle>assistant agent</ModelTitle>
+          <ModelTitle>instagram agent</ModelTitle>
         </ModelHeader>
         <ComponentEditor
           component={selectedNode?.data.component}

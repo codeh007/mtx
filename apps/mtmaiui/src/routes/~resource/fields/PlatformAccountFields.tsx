@@ -41,19 +41,6 @@ export const PlatformAccountFields = () => {
           </FormItem>
         )}
       />
-      {/* <FormField
-        control={form.control}
-        name="content.email"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>type</FormLabel>
-            <FormControl>
-              <Input {...field} placeholder="type" />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      /> */}
       <FormField
         control={form.control}
         name="content.email"

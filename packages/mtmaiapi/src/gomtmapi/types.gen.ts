@@ -867,7 +867,6 @@ export type WorkflowWorkersCount = {
     | AgentTopicTypes
     | AgentUserInput
     | FlowPlatformAccountLoginInput
-    | FlowPlatformAccountFollowInput
     | FlowError;
 };
 
@@ -2952,13 +2951,15 @@ export type PlatformAccountProperties = {
   description?: string;
   username: string;
   email?: string;
-  password?: string;
+  password: string;
   token?: string;
   type?: string;
-  platform?: string;
+  platform: string;
   enabled?: boolean;
   tags?: Array<string>;
-  state?: unknown;
+  state?: {
+    [key: string]: unknown;
+  };
   error?: string;
 };
 
@@ -3295,17 +3296,8 @@ export type AgentUserInput = {
 };
 
 export type FlowPlatformAccountLoginInput = {
-  platform_name: string;
-  username: string;
-  password: string;
-  two_factor_code?: string;
-  two_factor_key?: string;
-  proxy_url?: string;
-};
-
-export type FlowPlatformAccountFollowInput = {
-  platform_account_id?: string;
-  count_to_follow: number;
+  platform_account_id: string;
+  message_type: "LOGIN" | "LOGOUT";
 };
 
 export type FlowError = {
@@ -8160,6 +8152,29 @@ export type AdminReleaseConnResponses = {
 
 export type AdminReleaseConnResponse =
   AdminReleaseConnResponses[keyof AdminReleaseConnResponses];
+
+export type AdminResetDbData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/admin/resetDb";
+};
+
+export type AdminResetDbErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+};
+
+export type AdminResetDbError = AdminResetDbErrors[keyof AdminResetDbErrors];
+
+export type AdminResetDbResponses = {
+  200: CommonResult;
+};
+
+export type AdminResetDbResponse =
+  AdminResetDbResponses[keyof AdminResetDbResponses];
 
 export type FrontendGetConfigData = {
   body?: never;
