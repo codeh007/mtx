@@ -13,7 +13,6 @@ import { Button } from "mtxuilib/ui/button";
 import { Separator } from "mtxuilib/ui/separator";
 import { SidebarTrigger, useSidebar } from "mtxuilib/ui/sidebar";
 import { BetterTooltip } from "mtxuilib/ui/tooltip";
-import { Suspense } from "react";
 import { useWindowSize } from "usehooks-ts";
 import { ChatDescription } from "../../../../lib/persistence/ChatDescription.client";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
@@ -21,8 +20,6 @@ import { HeaderActionButtons } from "../HeaderActionButtons";
 
 export function Header() {
   const started = useWorkbenchStore((x) => x.started);
-
-  // const router = useRouter();
   const { open } = useSidebar();
   const { width: windowWidth } = useWindowSize();
 
@@ -74,7 +71,10 @@ export function Header() {
 
       <div className="flex items-center gap-2 z-logo text-bolt-elements-textPrimary cursor-pointer">
         <div className="i-ph:sidebar-simple-duotone text-xl" />
-        <a href="/" className="text-2xl font-semibold text-accent flex items-center" >
+        <a
+          href="/"
+          className="text-2xl font-semibold text-accent flex items-center"
+        >
           <span className="i-bolt:logo-text?mask w-[46px] inline-block" />
         </a>
       </div>
@@ -86,7 +86,6 @@ export function Header() {
       <div className="mr-1">
         <HeaderActionButtons />
       </div>
-      <Suspense>{/* <UserAvatorMenus /> */}</Suspense>
     </header>
   );
 }

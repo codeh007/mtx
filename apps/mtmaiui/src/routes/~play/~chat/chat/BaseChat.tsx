@@ -6,7 +6,6 @@ import { type RefCallback, forwardRef, useMemo } from "react";
 import { classNames } from "mtxuilib/lib/utils";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 import { MtMessages } from "./MtMessages";
-import { Header } from "./chat-header";
 import { BoltPromptBox } from "./prompt-input/BoltPromptBox";
 
 interface BaseChatProps {
@@ -17,8 +16,8 @@ interface BaseChatProps {
   chatStarted?: boolean;
   isStreaming?: boolean;
   messages?: Message[];
-  enhancingPrompt?: boolean;
-  promptEnhanced?: boolean;
+  // enhancingPrompt?: boolean;
+  // promptEnhanced?: boolean;
   input?: string;
   handleStop?: () => void;
   sendMessage?: (messageInput?: string) => void;
@@ -34,8 +33,8 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
       scrollRef,
       showChat = true,
       isStreaming = false,
-      enhancingPrompt = false,
-      promptEnhanced = false,
+      // enhancingPrompt = false,
+      // promptEnhanced = false,
       input = "",
       sendMessage,
     },
@@ -70,7 +69,7 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
                   "h-full flex flex-col": chatStarted,
                 })}
               >
-                <Header />
+                {/* <Header /> */}
                 {/* <DebugValue data={{ messages }} /> */}
                 {chatStarted ? (
                   <>
@@ -87,8 +86,8 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
                 ) : null}
 
                 <BoltPromptBox
-                  enhancingPrompt={enhancingPrompt}
-                  promptEnhanced={promptEnhanced}
+                  // enhancingPrompt={enhancingPrompt}
+                  // promptEnhanced={promptEnhanced}
                   input={input}
                   sendMessage={sendMessage}
                   isStreaming={isStreaming}
