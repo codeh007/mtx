@@ -3629,17 +3629,6 @@ export const AgStateUpsertSchema = {
     {
       $ref: "#/components/schemas/AgStateProperties",
     },
-    {
-      required: ["componentId", "chatId", "tenantId"],
-      properties: {
-        stateId: {
-          type: "string",
-        },
-        tenantId: {
-          type: "string",
-        },
-      },
-    },
   ],
 } as const;
 

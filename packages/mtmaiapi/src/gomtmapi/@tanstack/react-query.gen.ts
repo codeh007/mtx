@@ -155,8 +155,8 @@ import {
   proxyGet,
   proxyUpsert,
   agStateList,
-  agStateUpsert,
   agStateGet,
+  agStateUpsert,
   chatMessagesList,
   chatSessionList,
   chatMessageUpsert,
@@ -462,10 +462,10 @@ import type {
   ProxyUpsertError,
   ProxyUpsertResponse,
   AgStateListData,
+  AgStateGetData,
   AgStateUpsertData,
   AgStateUpsertError,
   AgStateUpsertResponse,
-  AgStateGetData,
   ChatMessagesListData,
   ChatSessionListData,
   ChatMessageUpsertData,
@@ -4663,6 +4663,24 @@ export const agStateListOptions = (options: Options<AgStateListData>) => {
   });
 };
 
+export const agStateGetQueryKey = (options: Options<AgStateGetData>) =>
+  createQueryKey("agStateGet", options);
+
+export const agStateGetOptions = (options: Options<AgStateGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await agStateGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: agStateGetQueryKey(options),
+  });
+};
+
 export const agStateUpsertMutation = (
   options?: Partial<Options<AgStateUpsertData>>,
 ) => {
@@ -4681,24 +4699,6 @@ export const agStateUpsertMutation = (
     },
   };
   return mutationOptions;
-};
-
-export const agStateGetQueryKey = (options: Options<AgStateGetData>) =>
-  createQueryKey("agStateGet", options);
-
-export const agStateGetOptions = (options: Options<AgStateGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agStateGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: agStateGetQueryKey(options),
-  });
 };
 
 export const chatMessagesListQueryKey = (

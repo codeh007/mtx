@@ -2041,10 +2041,7 @@ export type AgStateList = {
   rows?: Array<AgState>;
 };
 
-export type AgStateUpsert = AgStateProperties & {
-  stateId?: string;
-  tenantId: string;
-};
+export type AgStateUpsert = AgStateProperties;
 
 export type StateType =
   | "TeamState"
@@ -8945,6 +8942,41 @@ export type AgStateListResponses = {
 export type AgStateListResponse =
   AgStateListResponses[keyof AgStateListResponses];
 
+export type AgStateGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The agState id
+     */
+    state: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/agState/{state}";
+};
+
+export type AgStateGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type AgStateGetError = AgStateGetErrors[keyof AgStateGetErrors];
+
+export type AgStateGetResponses = {
+  200: AgState;
+};
+
+export type AgStateGetResponse = AgStateGetResponses[keyof AgStateGetResponses];
+
 export type AgStateUpsertData = {
   /**
    * The model properties to update
@@ -8957,7 +8989,7 @@ export type AgStateUpsertData = {
     tenant: TenantParameter;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/agStates";
+  url: "/api/v1/tenants/{tenant}/agStateSave";
 };
 
 export type AgStateUpsertErrors = {
@@ -8982,46 +9014,6 @@ export type AgStateUpsertResponses = {
 
 export type AgStateUpsertResponse =
   AgStateUpsertResponses[keyof AgStateUpsertResponses];
-
-export type AgStateGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: {
-    /**
-     * The agState id
-     */
-    state?: string;
-    /**
-     * The chat id
-     */
-    chat?: string;
-  };
-  url: "/api/v1/tenants/{tenant}/agState";
-};
-
-export type AgStateGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-};
-
-export type AgStateGetError = AgStateGetErrors[keyof AgStateGetErrors];
-
-export type AgStateGetResponses = {
-  200: AgState;
-};
-
-export type AgStateGetResponse = AgStateGetResponses[keyof AgStateGetResponses];
 
 export type ChatMessagesListData = {
   body?: never;

@@ -1966,12 +1966,7 @@ export const zAgStateList = z.object({
   rows: z.array(zAgState).optional(),
 });
 
-export const zAgStateUpsert = zAgStateProperties.merge(
-  z.object({
-    stateId: z.string().optional(),
-    tenantId: z.string(),
-  }),
-);
+export const zAgStateUpsert = zAgStateProperties;
 
 export const zStateType = z.enum([
   "TeamState",
@@ -3502,9 +3497,9 @@ export const zProxyUpsertResponse = zProxy;
 
 export const zAgStateListResponse = zAgStateList;
 
-export const zAgStateUpsertResponse = zAgState;
-
 export const zAgStateGetResponse = zAgState;
+
+export const zAgStateUpsertResponse = zAgState;
 
 export const zChatMessagesListResponse = zChatMessageList;
 

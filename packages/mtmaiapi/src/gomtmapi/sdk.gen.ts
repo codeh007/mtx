@@ -434,12 +434,12 @@ import type {
   ProxyUpsertError,
   AgStateListData,
   AgStateListResponse,
-  AgStateUpsertData,
-  AgStateUpsertResponse,
-  AgStateUpsertError,
   AgStateGetData,
   AgStateGetResponse,
   AgStateGetError,
+  AgStateUpsertData,
+  AgStateUpsertResponse,
+  AgStateUpsertError,
   ChatMessagesListData,
   ChatMessagesListResponse,
   ChatMessagesListError,
@@ -4507,36 +4507,6 @@ export const agStateList = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Upsert an agState
- */
-export const agStateUpsert = <ThrowOnError extends boolean = false>(
-  options: Options<AgStateUpsertData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).patch<
-    AgStateUpsertResponse,
-    AgStateUpsertError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/agStates",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
  * 获取租户下的 agent 状态
  */
 export const agStateGet = <ThrowOnError extends boolean = false>(
@@ -4557,8 +4527,38 @@ export const agStateGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/tenants/{tenant}/agState",
+    url: "/api/v1/tenants/{tenant}/agState/{state}",
     ...options,
+  });
+};
+
+/**
+ * Upsert an agState
+ */
+export const agStateUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<AgStateUpsertData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).patch<
+    AgStateUpsertResponse,
+    AgStateUpsertError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/agStateSave",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
