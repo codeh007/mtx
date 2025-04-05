@@ -1,8 +1,7 @@
 "use client";
 
-import { Label } from "@radix-ui/react-dropdown-menu";
 import { type ChatSession, chatSessionListOptions } from "mtmaiapi";
-import { cn, generateUUID } from "mtxuilib/lib/utils";
+import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
 import {
@@ -16,13 +15,14 @@ import {
 
 import { useQuery } from "@tanstack/react-query";
 import { ChevronsUpDown } from "lucide-react";
-import { IconPlus } from "mtxuilib/icons/icons-ai";
+import { Icons } from "mtxuilib/icons/icons";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "mtxuilib/ui/collapsible";
+import { Label } from "mtxuilib/ui/label";
 import { Switch } from "mtxuilib/ui/switch";
 import { type ChangeEvent, useMemo, useState } from "react";
 import { useTenantId } from "../../hooks/useAuth";
@@ -30,11 +30,10 @@ import { useSearch } from "../../hooks/useNav";
 
 export function NavSession() {
   const linkToNew = useMemo(() => {
-    const newUUID = generateUUID();
-    return `${newUUID}/new`;
+    // const newUUID = generateUUID();
+    return "new";
   }, []);
 
-  // const setQueryParams = useComponentsStore((x) => x.setQueryParams);
   const tid = useTenantId();
   const chatQuery = useQuery({
     ...chatSessionListOptions({
@@ -54,7 +53,7 @@ export function NavSession() {
               to={linkToNew}
               className={cn(buttonVariants({ variant: "ghost", size: "icon" }))}
             >
-              <IconPlus />
+              <Icons.plus className="size-4" />
             </CustomLink>
             <Switch className="shadow-none" />
           </Label>
@@ -96,9 +95,9 @@ const NavChatSessionItem = ({
     return `/session/${rowId}`;
   }, [rowId]);
 
-  const editLink = useMemo(() => {
-    return `/session/${rowId}/edit`;
-  }, [rowId]);
+  // const editLink = useMemo(() => {
+  //   return `/session/${rowId}/edit`;
+  // }, [rowId]);
 
   return (
     <>

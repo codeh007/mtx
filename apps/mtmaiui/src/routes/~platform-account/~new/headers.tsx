@@ -12,10 +12,6 @@ import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 
 export function PlatformAccountHeader() {
-  //   const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
-  //   const componentId = useTeamSessionStore((x) => x.componentId);
-  //   const sessionId = useWorkbenchStore((x) => x.threadId);
-  //   const search = useSearch();
   return (
     <DashHeaders>
       <Breadcrumb>
