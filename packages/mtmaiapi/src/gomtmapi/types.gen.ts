@@ -1889,7 +1889,7 @@ export type Artifact = {
 
 export type AgentRunInput = {
   sessionId?: string;
-  event_type?: string;
+  type: AgentEventType;
   content: string;
   tenantId?: string;
   runId?: string;
@@ -3216,12 +3216,14 @@ export type AgentConfig = {
 export type AgentEventType =
   | "ThoughtEvent"
   | "TextMessage"
-  | "PlatformAccountFlowInput";
+  | "PlatformAccountFlowInput"
+  | "AgentUserInput";
 
 export const AgentEventType = {
   THOUGHT_EVENT: "ThoughtEvent",
   TEXT_MESSAGE: "TextMessage",
   PLATFORM_ACCOUNT_FLOW_INPUT: "PlatformAccountFlowInput",
+  AGENT_USER_INPUT: "AgentUserInput",
 } as const;
 
 export type AgentEvent = ThoughtEvent | TextMessage | PlatformAccountFlowInput;
@@ -3297,12 +3299,13 @@ export const AgentTopicTypes = {
 } as const;
 
 export type AgentUserInput = {
-  content?: string;
+  type: "AgentUserInput";
+  content: string;
 };
 
 export type FlowPlatformAccountLoginInput = {
   platform_account_id: string;
-  message_type: "LOGIN" | "LOGOUT";
+  message_type?: "LOGIN" | "LOGOUT";
 };
 
 export type FlowError = {

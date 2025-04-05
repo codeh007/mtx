@@ -1,6 +1,11 @@
 "use client";
 
-import { type AgentRunInput, FlowNames, workflowRunCreate } from "mtmaiapi";
+import {
+  AgentEventType,
+  type AgentRunInput,
+  FlowNames,
+  workflowRunCreate,
+} from "mtmaiapi";
 import {
   ResourceEventType,
   type WorkflowEvent,
@@ -36,6 +41,7 @@ export async function submitMessages(
     },
     body: {
       input: {
+        type: AgentEventType.AGENT_USER_INPUT,
         content: content,
         topic: "default",
         source: "web",

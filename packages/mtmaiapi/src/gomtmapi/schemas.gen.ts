@@ -3360,13 +3360,14 @@ export const ArtifactSchema = {
 } as const;
 
 export const AgentRunInputSchema = {
-  required: ["content"],
+  required: ["type", "content"],
   properties: {
     sessionId: {
       type: "string",
     },
-    event_type: {
+    type: {
       type: "string",
+      $ref: "#/components/schemas/AgentEventType",
     },
     content: {
       type: "string",
@@ -6239,7 +6240,12 @@ export const AgentConfigSchema = {
 
 export const AgentEventTypeSchema = {
   type: "string",
-  enum: ["ThoughtEvent", "TextMessage", "PlatformAccountFlowInput"],
+  enum: [
+    "ThoughtEvent",
+    "TextMessage",
+    "PlatformAccountFlowInput",
+    "AgentUserInput",
+  ],
 } as const;
 
 export const AgentEventSchema = {
@@ -6379,7 +6385,12 @@ export const AgentTopicTypesSchema = {
 } as const;
 
 export const AgentUserInputSchema = {
+  required: ["type", "content"],
   properties: {
+    type: {
+      type: "string",
+      enum: ["AgentUserInput"],
+    },
     content: {
       type: "string",
     },
@@ -6387,7 +6398,7 @@ export const AgentUserInputSchema = {
 } as const;
 
 export const FlowPlatformAccountLoginInputSchema = {
-  required: ["message_type", "platform_account_id"],
+  required: ["messagetype", "platform_account_id"],
   properties: {
     platform_account_id: {
       type: "string",

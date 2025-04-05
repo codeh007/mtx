@@ -806,7 +806,12 @@ export const zWorkflowWorkersCount = z.object({
         type: z.enum(["PlatformAccountFlowInput"]).optional(),
         platform_account_id: z.string().optional(),
       }),
-      z.enum(["ThoughtEvent", "TextMessage", "PlatformAccountFlowInput"]),
+      z.enum([
+        "ThoughtEvent",
+        "TextMessage",
+        "PlatformAccountFlowInput",
+        "AgentUserInput",
+      ]),
       z.object({
         resource_id: z.string().optional(),
       }),
@@ -856,11 +861,12 @@ export const zWorkflowWorkersCount = z.object({
         "writer",
       ]),
       z.object({
-        content: z.string().optional(),
+        type: z.enum(["AgentUserInput"]),
+        content: z.string(),
       }),
       z.object({
         platform_account_id: z.string(),
-        message_type: z.enum(["LOGIN", "LOGOUT"]),
+        message_type: z.enum(["LOGIN", "LOGOUT"]).optional(),
       }),
       z.object({
         type: z.string().optional(),
@@ -1846,7 +1852,12 @@ export const zArtifact = z.object({
 
 export const zAgentRunInput = z.object({
   sessionId: z.string().optional(),
-  event_type: z.string().optional(),
+  type: z.enum([
+    "ThoughtEvent",
+    "TextMessage",
+    "PlatformAccountFlowInput",
+    "AgentUserInput",
+  ]),
   content: z.string(),
   tenantId: z.string().optional(),
   runId: z.string().optional(),
@@ -3066,6 +3077,7 @@ export const zAgentEventType = z.enum([
   "ThoughtEvent",
   "TextMessage",
   "PlatformAccountFlowInput",
+  "AgentUserInput",
 ]);
 
 export const zAgentEvent = z.union([
@@ -3139,12 +3151,13 @@ export const zAgentTopicTypes = z.enum([
 ]);
 
 export const zAgentUserInput = z.object({
-  content: z.string().optional(),
+  type: z.enum(["AgentUserInput"]),
+  content: z.string(),
 });
 
 export const zFlowPlatformAccountLoginInput = z.object({
   platform_account_id: z.string(),
-  message_type: z.enum(["LOGIN", "LOGOUT"]),
+  message_type: z.enum(["LOGIN", "LOGOUT"]).optional(),
 });
 
 export const zFlowError = z.object({
