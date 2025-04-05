@@ -1488,6 +1488,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/FlowError",
         },
+        {
+          $ref: "#/components/schemas/SocialTeamConfig",
+        },
       ],
     },
   },
@@ -6144,6 +6147,15 @@ export const BrowserOpenTaskSchema = {
   properties: {
     url: {
       type: "string",
+    },
+  },
+} as const;
+
+export const SocialTeamConfigSchema = {
+  properties: {
+    max_turns: {
+      type: "integer",
+      default: 25,
     },
   },
 } as const;

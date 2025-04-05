@@ -866,6 +866,9 @@ export const zWorkflowWorkersCount = z.object({
         type: z.string().optional(),
         error: z.string().optional(),
       }),
+      z.object({
+        max_turns: z.number().int().optional().default(25),
+      }),
     ])
     .optional(),
 });
@@ -3035,6 +3038,10 @@ export const zBrowserTask = z.object({
 
 export const zBrowserOpenTask = z.object({
   url: z.string(),
+});
+
+export const zSocialTeamConfig = z.object({
+  max_turns: z.number().int().optional().default(25),
 });
 
 export const zBrowserConfig = z.object({

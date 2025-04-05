@@ -867,7 +867,8 @@ export type WorkflowWorkersCount = {
     | AgentTopicTypes
     | AgentUserInput
     | FlowPlatformAccountLoginInput
-    | FlowError;
+    | FlowError
+    | SocialTeamConfig;
 };
 
 export type WorkflowRun = {
@@ -3173,6 +3174,10 @@ export type BrowserTask = {
  */
 export type BrowserOpenTask = {
   url: string;
+};
+
+export type SocialTeamConfig = {
+  max_turns?: number;
 };
 
 /**
