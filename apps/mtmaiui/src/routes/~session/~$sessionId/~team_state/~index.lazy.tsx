@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { agStateListOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
+import { AgStateView } from "../../../../components/team_state/AgStateView";
 import { useTenantId } from "../../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 
@@ -14,13 +15,13 @@ function RouteComponent() {
   const tid = useTenantId();
   const setTeamState = useWorkbenchStore((x) => x.setTeamState);
 
-  const agStateQuery = useQuery({
+  const agStateListQuery = useQuery({
     ...agStateListOptions({
       path: {
         tenant: tid!,
       },
       query: {
-        // chat: sessionId,
+        session: sessionId,
       },
     }),
   });
@@ -32,10 +33,14 @@ function RouteComponent() {
   // }, [agStateQuery.data, setTeamState]);
   return (
     <>
-      <DebugValue data={{ agState: agStateQuery.data }} />
+      <DebugValue data={{ agState: agStateListQuery.data }} />
       {/* {agStateQuery.data?.state?.type === StateType.TEAM_STATE && (
         <TeamStateView teamState={agStateQuery.data.state as TeamState} />
       )} */}
+
+      {agStateListQuery.data?.rows?.map((x) => (
+        <AgStateView key={x.metadata.id} state={x} />
+      ))}
     </>
   );
 }
