@@ -14,7 +14,6 @@ import {
   BreadcrumbSeparator,
 } from "mtxuilib/ui/breadcrumb";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
-import { Separator } from "mtxuilib/ui/separator";
 import { useSidebar } from "mtxuilib/ui/sidebar";
 import {
   BetterTooltip,
@@ -24,7 +23,6 @@ import {
 } from "mtxuilib/ui/tooltip";
 import { useWindowSize } from "usehooks-ts";
 import { useSearch } from "../../hooks/useNav";
-import { ChatDescription } from "../../lib/persistence/ChatDescription.client";
 import { useTeamSessionStore } from "../../stores/teamSessionProvider";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 
@@ -158,96 +156,37 @@ export function SessionHeader() {
             mtmai
           </Button>
 
-          <div className="flex items-center gap-2 z-logo text-bolt-elements-textPrimary cursor-pointer">
-            <div className="i-ph:sidebar-simple-duotone text-xl" />
-            <a
-              href="/"
-              className="text-2xl font-semibold text-accent flex items-center"
-            >
-              <span className="i-bolt:logo-text?mask w-[46px] inline-block" />
-            </a>
-          </div>
+          <Button
+            disabled={!canHideChat}
+            variant={"ghost"}
+            onClick={() => {
+              if (canHideChat) {
+                setOpenChat(!openChat);
+              }
+            }}
+          >
+            <Icons.messageSquare className="size-5" />
+          </Button>
+          <div className="w-[1px] bg-bolt-elements-borderColor" />
+          <Button
+            disabled={!openWorkbench}
+            variant={"ghost"}
+            onClick={() => {
+              setOpenWorkbench(!openWorkbench);
+            }}
+          >
+            <Icons.code className="size-4" />
+          </Button>
 
-          <span className="flex-1 px-4 truncate text-center text-bolt-elements-textPrimary">
-            <ChatDescription />
-          </span>
-          <div className="flex">
-            <div className="flex border border-bolt-elements-borderColor rounded-md overflow-hidden">
-              <Button
-                disabled={!canHideChat}
-                variant={"ghost"}
-                onClick={() => {
-                  if (canHideChat) {
-                    setOpenChat(!openChat);
-                  }
-                }}
-              >
-                <Icons.messageSquare className="size-5" />
-              </Button>
-              <div className="w-[1px] bg-bolt-elements-borderColor" />
-              <Button
-                disabled={!openWorkbench}
-                variant={"ghost"}
-                onClick={() => {
-                  setOpenWorkbench(!openWorkbench);
-                }}
-              >
-                <Icons.code className="size-4" />
-              </Button>
-              <Separator orientation="vertical" className="mr-2 h-4" />
-              {/* <CustomLink
-          to={`/play/chat/${chatSessionId}/debug`}
-          className={cn(buttonVariants({ variant: "ghost" }))}
-          activeProps={{
-            className: "outline outline-1 outline-offset-2 outline-red-500",
-          }}
-        >
-          D
-        </CustomLink>
-        <Separator orientation="vertical" className="mr-2 h-4" /> */}
-              {/* <CustomLink
-          to={`/play/chat/${chatSessionId}/state`}
-          className={cn(buttonVariants({ variant: "ghost" }))}
-          activeProps={{
-            className: "outline outline-1 outline-offset-2 outline-red-500",
-          }}
-        >
-          ST
-        </CustomLink> */}
-              {/* <Separator orientation="vertical" className="mr-2 h-4" />
-        <CustomLink
-          to={`/play/chat/${chatSessionId}/team`}
-          className={cn(buttonVariants({ variant: "ghost" }))}
-          activeProps={{
-            className: "outline outline-1 outline-offset-2 outline-red-500",
-          }}
-        >
-          team
-        </CustomLink> */}
-              <CustomLink
-                to={`/play/chat/${chatSessionId}/edit`}
-                className={cn(buttonVariants({ variant: "ghost" }))}
-                activeProps={{
-                  className:
-                    "outline outline-1 outline-offset-2 outline-red-500",
-                }}
-              >
-                <Icons.settings className="size-4" />
-              </CustomLink>
-              {/* <Separator orientation="vertical" className="mr-2 h-4" /> */}
-              <CustomLink
-                to={`/play/chat/${chatSessionId}/result`}
-                className={cn(buttonVariants({ variant: "ghost" }))}
-                activeProps={{
-                  className:
-                    "outline outline-1 outline-offset-2 outline-red-500",
-                }}
-              >
-                result
-              </CustomLink>
-              {/* <Separator orientation="vertical" className="mr-2 h-4" /> */}
-            </div>
-          </div>
+          <CustomLink
+            to={`/play/chat/${chatSessionId}/edit`}
+            className={cn(buttonVariants({ variant: "ghost" }))}
+            activeProps={{
+              className: "outline outline-1 outline-offset-2 outline-red-500",
+            }}
+          >
+            <Icons.settings className="size-4" />
+          </CustomLink>
         </div>
       </HeaderActionConainer>
     </DashHeaders>

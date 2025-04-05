@@ -1,11 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { StateType, type TeamState, agStateGetOptions } from "mtmaiapi";
+import { agStateListOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
-import { useEffect } from "react";
 import { useTenantId } from "../../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
-import { TeamStateView } from "../../../~play/~chat/chat/AgStateViews";
 
 export const Route = createLazyFileRoute("/session/$sessionId/team_state/")({
   component: RouteComponent,
@@ -17,27 +15,27 @@ function RouteComponent() {
   const setTeamState = useWorkbenchStore((x) => x.setTeamState);
 
   const agStateQuery = useQuery({
-    ...agStateGetOptions({
+    ...agStateListOptions({
       path: {
         tenant: tid!,
       },
       query: {
-        chat: sessionId,
+        // chat: sessionId,
       },
     }),
   });
 
-  useEffect(() => {
-    if (agStateQuery.data) {
-      setTeamState(agStateQuery.data);
-    }
-  }, [agStateQuery.data, setTeamState]);
+  // useEffect(() => {
+  //   if (agStateQuery.data) {
+  //     setTeamState(agStateQuery.data);
+  //   }
+  // }, [agStateQuery.data, setTeamState]);
   return (
     <>
       <DebugValue data={{ agState: agStateQuery.data }} />
-      {agStateQuery.data?.state?.type === StateType.TEAM_STATE && (
+      {/* {agStateQuery.data?.state?.type === StateType.TEAM_STATE && (
         <TeamStateView teamState={agStateQuery.data.state as TeamState} />
-      )}
+      )} */}
     </>
   );
 }
