@@ -811,6 +811,7 @@ export const zWorkflowWorkersCount = z.object({
         "TextMessage",
         "PlatformAccountFlowInput",
         "AgentUserInput",
+        "SocialAddFollowersInput",
       ]),
       z.object({
         resource_id: z.string().optional(),
@@ -874,6 +875,11 @@ export const zWorkflowWorkersCount = z.object({
       }),
       z.object({
         max_turns: z.number().int().optional().default(25),
+      }),
+      z.object({
+        type: z.enum(["SocialAddFollowersInput"]),
+        platform_account_id: z.string().optional(),
+        count_to_follow: z.number().default(1),
       }),
     ])
     .optional(),
@@ -1857,6 +1863,7 @@ export const zAgentRunInput = z.object({
     "TextMessage",
     "PlatformAccountFlowInput",
     "AgentUserInput",
+    "SocialAddFollowersInput",
   ]),
   content: z.string(),
   tenantId: z.string().optional(),
@@ -1864,7 +1871,6 @@ export const zAgentRunInput = z.object({
   stepRunId: z.string().optional(),
   resourceId: z.string().optional(),
   componentId: z.string().optional(),
-  teamName: z.string().optional(),
   topic: z.string().optional(),
   source: z.string().optional(),
 });
@@ -3072,6 +3078,7 @@ export const zAgentEventType = z.enum([
   "TextMessage",
   "PlatformAccountFlowInput",
   "AgentUserInput",
+  "SocialAddFollowersInput",
 ]);
 
 export const zAgentEvent = z.union([
@@ -3092,6 +3099,15 @@ export const zAgentEvent = z.union([
   z.object({
     type: z.enum(["PlatformAccountFlowInput"]).optional(),
     platform_account_id: z.string().optional(),
+  }),
+  z.object({
+    type: z.enum(["SocialAddFollowersInput"]),
+    platform_account_id: z.string().optional(),
+    count_to_follow: z.number().default(1),
+  }),
+  z.object({
+    type: z.enum(["AgentUserInput"]),
+    content: z.string(),
   }),
 ]);
 
@@ -3157,6 +3173,12 @@ export const zFlowPlatformAccountLoginInput = z.object({
 export const zFlowError = z.object({
   type: z.string().optional(),
   error: z.string().optional(),
+});
+
+export const zSocialAddFollowersInput = z.object({
+  type: z.enum(["SocialAddFollowersInput"]),
+  platform_account_id: z.string().optional(),
+  count_to_follow: z.number().default(1),
 });
 
 export const zTeamProperties = z.object({

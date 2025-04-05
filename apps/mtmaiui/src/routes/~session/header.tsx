@@ -115,6 +115,19 @@ export function SessionHeader() {
             </TooltipContent>
           </Tooltip>
 
+          <BetterTooltip content="操作">
+            <CustomLink
+              to={`/session/${sessionId}/actions`}
+              className={cn(
+                "order-2 md:order-1 md:px-2 px-2 md:h-fit ml-auto md:ml-0",
+                buttonVariants({ variant: "ghost" }),
+              )}
+            >
+              <Icons.settings className="size-4" />
+              <span className="md:sr-only">操作</span>
+            </CustomLink>
+          </BetterTooltip>
+
           {/* <Tooltip>
             <TooltipTrigger asChild>
               <Button
@@ -149,12 +162,12 @@ export function SessionHeader() {
               </Button>
             </BetterTooltip>
           )}
-          <Button
+          {/* <Button
             className="bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-zinc-200 text-zinc-50 dark:text-zinc-900 hidden md:flex py-1.5 px-2 h-fit md:h-[34px] order-4 md:ml-auto"
             asChild
           >
             mtmai
-          </Button>
+          </Button> */}
 
           <Button
             disabled={!canHideChat}

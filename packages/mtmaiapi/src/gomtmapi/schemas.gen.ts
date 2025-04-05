@@ -1491,6 +1491,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/SocialTeamConfig",
         },
+        {
+          $ref: "#/components/schemas/SocialAddFollowersInput",
+        },
       ],
     },
   },
@@ -3385,9 +3388,6 @@ export const AgentRunInputSchema = {
       type: "string",
     },
     componentId: {
-      type: "string",
-    },
-    teamName: {
       type: "string",
     },
     topic: {
@@ -6231,6 +6231,7 @@ export const AgentEventTypeSchema = {
     "TextMessage",
     "PlatformAccountFlowInput",
     "AgentUserInput",
+    "SocialAddFollowersInput",
   ],
 } as const;
 
@@ -6244,6 +6245,12 @@ export const AgentEventSchema = {
     },
     {
       $ref: "#/components/schemas/PlatformAccountFlowInput",
+    },
+    {
+      $ref: "#/components/schemas/SocialAddFollowersInput",
+    },
+    {
+      $ref: "#/components/schemas/AgentUserInput",
     },
   ],
 } as const;
@@ -6403,6 +6410,23 @@ export const FlowErrorSchema = {
     },
     error: {
       type: "string",
+    },
+  },
+} as const;
+
+export const SocialAddFollowersInputSchema = {
+  required: ["type", "count_to_follow"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["SocialAddFollowersInput"],
+    },
+    platform_account_id: {
+      type: "string",
+    },
+    count_to_follow: {
+      type: "number",
+      default: 1,
     },
   },
 } as const;

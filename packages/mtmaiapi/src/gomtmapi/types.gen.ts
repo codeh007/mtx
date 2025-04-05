@@ -868,7 +868,8 @@ export type WorkflowWorkersCount = {
     | AgentUserInput
     | FlowPlatformAccountLoginInput
     | FlowError
-    | SocialTeamConfig;
+    | SocialTeamConfig
+    | SocialAddFollowersInput;
 };
 
 export type WorkflowRun = {
@@ -1896,7 +1897,6 @@ export type AgentRunInput = {
   stepRunId?: string;
   resourceId?: string;
   componentId?: string;
-  teamName?: string;
   topic?: string;
   source?: string;
 };
@@ -3213,16 +3213,23 @@ export type AgentEventType =
   | "ThoughtEvent"
   | "TextMessage"
   | "PlatformAccountFlowInput"
-  | "AgentUserInput";
+  | "AgentUserInput"
+  | "SocialAddFollowersInput";
 
 export const AgentEventType = {
   THOUGHT_EVENT: "ThoughtEvent",
   TEXT_MESSAGE: "TextMessage",
   PLATFORM_ACCOUNT_FLOW_INPUT: "PlatformAccountFlowInput",
   AGENT_USER_INPUT: "AgentUserInput",
+  SOCIAL_ADD_FOLLOWERS_INPUT: "SocialAddFollowersInput",
 } as const;
 
-export type AgentEvent = ThoughtEvent | TextMessage | PlatformAccountFlowInput;
+export type AgentEvent =
+  | ThoughtEvent
+  | TextMessage
+  | PlatformAccountFlowInput
+  | SocialAddFollowersInput
+  | AgentUserInput;
 
 export type TextMessage = {
   type?: "TextMessage";
@@ -3307,6 +3314,12 @@ export type FlowPlatformAccountLoginInput = {
 export type FlowError = {
   type?: string;
   error?: string;
+};
+
+export type SocialAddFollowersInput = {
+  type: "SocialAddFollowersInput";
+  platform_account_id?: string;
+  count_to_follow: number;
 };
 
 export type TeamProperties = {
