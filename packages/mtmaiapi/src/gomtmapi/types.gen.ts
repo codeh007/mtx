@@ -2025,7 +2025,6 @@ export const ProviderTypes = {
 export type AgStateProperties = {
   version?: string;
   type: StateType;
-  componentId?: string;
   chatId?: string;
   topic: string;
   source: string;
@@ -8931,6 +8930,10 @@ export type AgStateListData = {
      * The source
      */
     source?: string;
+    /**
+     * The session id
+     */
+    session?: string;
   };
   url: "/api/v1/tenants/{tenant}/agStates";
 };

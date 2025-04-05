@@ -1952,7 +1952,6 @@ export const zAgStateProperties = z.object({
     "ChatAgentContainerState",
     "BaseGroupChatManagerState",
   ]),
-  componentId: z.string().optional(),
   chatId: z.string().optional(),
   topic: z.string(),
   source: z.string(),

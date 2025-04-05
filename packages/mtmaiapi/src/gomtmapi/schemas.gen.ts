@@ -3581,9 +3581,6 @@ export const AgStatePropertiesSchema = {
     type: {
       $ref: "#/components/schemas/StateType",
     },
-    componentId: {
-      type: "string",
-    },
     chatId: {
       type: "string",
     },
