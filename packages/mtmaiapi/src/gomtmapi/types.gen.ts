@@ -1899,6 +1899,13 @@ export type AgentRunInput = {
   componentId?: string;
   topic?: string;
   source?: string;
+  input?:
+    | ({
+        type?: "SocialAddFollowersInput";
+      } & SocialAddFollowersInput)
+    | ({
+        type?: "AgentUserInput";
+      } & AgentUserInput);
 };
 
 export type ChatHistoryList = {
@@ -3235,9 +3242,7 @@ export type TextMessage = {
   type?: "TextMessage";
   source?: string;
   content?: string;
-  metadata?: {
-    [key: string]: unknown;
-  };
+  metadata?: unknown;
   models_usage?: {
     [key: string]: unknown;
   };

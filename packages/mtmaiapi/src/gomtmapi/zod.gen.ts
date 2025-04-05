@@ -1873,6 +1873,31 @@ export const zAgentRunInput = z.object({
   componentId: z.string().optional(),
   topic: z.string().optional(),
   source: z.string().optional(),
+  input: z
+    .union([
+      z
+        .object({
+          type: z.literal("SocialAddFollowersInput").optional(),
+        })
+        .merge(
+          z.object({
+            type: z.enum(["SocialAddFollowersInput"]),
+            platform_account_id: z.string().optional(),
+            count_to_follow: z.number().default(1),
+          }),
+        ),
+      z
+        .object({
+          type: z.literal("AgentUserInput").optional(),
+        })
+        .merge(
+          z.object({
+            type: z.enum(["AgentUserInput"]),
+            content: z.string(),
+          }),
+        ),
+    ])
+    .optional(),
 });
 
 export const zChatHistoryList = z.object({
@@ -3093,7 +3118,7 @@ export const zAgentEvent = z.union([
     type: z.enum(["TextMessage"]).optional(),
     source: z.string().optional(),
     content: z.string().optional(),
-    metadata: z.object({}).optional(),
+    metadata: z.unknown().optional(),
     models_usage: z.object({}).optional(),
   }),
   z.object({
@@ -3115,7 +3140,7 @@ export const zTextMessage = z.object({
   type: z.enum(["TextMessage"]).optional(),
   source: z.string().optional(),
   content: z.string().optional(),
-  metadata: z.object({}).optional(),
+  metadata: z.unknown().optional(),
   models_usage: z.object({}).optional(),
 });
 

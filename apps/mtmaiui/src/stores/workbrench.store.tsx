@@ -9,10 +9,12 @@ import {
   type ApiErrors,
   type ChatMessage,
   type ChatMessageList,
+  FlowNames,
   type Options,
   type Tenant,
   type WorkflowRun,
   type WorkflowRunCreateData,
+  workflowRunCreate,
   workflowRunCreateMutation,
 } from "mtmaiapi";
 import { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
@@ -36,7 +38,7 @@ import { useTenant } from "../hooks/useAuth";
 import { useNav, useSearch } from "../hooks/useNav";
 import { useMtmaiV2 } from "./StoreProvider";
 import { useGomtmClient } from "./TransportProvider";
-import { submitMessages } from "./submitMessages";
+import { handleWorkflowRunEvent } from "./submitMessages";
 
 export interface WorkbenchProps {
   componentId?: string;
@@ -148,12 +150,12 @@ export const createWorkbrenchSlice: StateCreator<
       set({ openChat });
     },
 
-    handleHumanInput: debounce(async ({ content, componentId }) => {
+    handleHumanInput: debounce(async (input) => {
       const preMessages = get().messages;
       const newChatMessage = {
         role: "user",
-        content,
-        componentId,
+        content: input.content,
+        componentId: input.componentId,
         topic: "default",
         source: "web",
         metadata: {
@@ -165,10 +167,40 @@ export const createWorkbrenchSlice: StateCreator<
       set({
         messages: [...preMessages, newChatMessage],
       });
-      if (componentId) {
-        set({ componentId });
+      if (input.componentId) {
+        set({ componentId: input.componentId });
       }
-      submitMessages(set, get);
+      // submitMessages(set, get);
+      const response = await workflowRunCreate({
+        path: {
+          workflow: FlowNames.AG,
+        },
+        body: {
+          input: input,
+          additionalMetadata: {
+            sessionId: get().threadId,
+            // componentId: input.componentId,
+            // source: "web",
+            // topic: "default",
+          },
+        },
+      });
+      if (response?.data) {
+        // console.log("response", response);
+        // pull stream event
+        if (response.data?.metadata?.id) {
+          const workflowRunId = response.data.metadata?.id;
+          set({ workflowRunId: workflowRunId });
+          const result = await get().dispatcherClient.subscribeToWorkflowEvents(
+            {
+              workflowRunId: workflowRunId,
+            },
+          );
+          for await (const event of result) {
+            handleWorkflowRunEvent(event, get, set);
+          }
+        }
+      }
     }, 100),
     setMessages: (messages) => set({ messages }),
     setShowWorkbench: (openWorkbench) => {

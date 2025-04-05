@@ -1,5 +1,6 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { AgentEventType } from "mtmaiapi/gomtmapi/types.gen";
+import { AgentEventType } from "mtmaiapi";
+// import { AgentEventType } from "mtmaiapi/gomtmapi/types.gen";
 import { Button } from "mtxuilib/ui/button";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 
@@ -11,7 +12,6 @@ function RouteComponent() {
   const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
 
   const handleSubmit = () => {
-    console.log("确定");
     handleHumanInput({
       type: AgentEventType.AGENT_USER_INPUT,
       content: "abc",

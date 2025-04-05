@@ -3396,6 +3396,19 @@ export const AgentRunInputSchema = {
     source: {
       type: "string",
     },
+    input: {
+      oneOf: [
+        {
+          $ref: "#/components/schemas/SocialAddFollowersInput",
+        },
+        {
+          $ref: "#/components/schemas/AgentUserInput",
+        },
+      ],
+      discriminator: {
+        propertyName: "type",
+      },
+    },
   },
 } as const;
 
@@ -6267,10 +6280,7 @@ export const TextMessageSchema = {
     content: {
       type: "string",
     },
-    metadata: {
-      type: "object",
-      additionalProperties: true,
-    },
+    metadata: {},
     models_usage: {
       type: "object",
       additionalProperties: true,
