@@ -6580,3 +6580,61 @@ export const ResourceFlowInputSchema = {
     },
   },
 } as const;
+
+export const FlowStatePropertiesSchema = {
+  required: ["type", "state", "tenantId", "topic", "source"],
+  properties: {
+    version: {
+      type: "string",
+      default: "1.0.0",
+    },
+    type: {
+      $ref: "#/components/schemas/StateType",
+    },
+    chatId: {
+      type: "string",
+    },
+    topic: {
+      type: "string",
+    },
+    source: {
+      type: "string",
+    },
+    state: {
+      type: "object",
+    },
+  },
+} as const;
+
+export const FlowStateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/FlowStateProperties",
+    },
+  ],
+} as const;
+
+export const FlowStateListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/FlowState",
+      },
+    },
+  },
+} as const;
+
+export const FlowStateUpsertSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/FlowStateProperties",
+    },
+  ],
+} as const;

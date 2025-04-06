@@ -452,6 +452,14 @@ import type {
   ChatSessionGetData,
   ChatSessionGetResponse,
   ChatSessionGetError,
+  FlowStateListData,
+  FlowStateListResponse,
+  FlowStateGetData,
+  FlowStateGetResponse,
+  FlowStateGetError,
+  FlowStateUpsertData,
+  FlowStateUpsertResponse,
+  FlowStateUpsertError,
   UiAgentGetData,
   UiAgentGetResponse,
   UiAgentGetError,
@@ -4668,6 +4676,85 @@ export const chatSessionGet = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/chat/sessions/{session}",
     ...options,
+  });
+};
+
+/**
+ * 获取租户下的 flow 状态
+ */
+export const flowStateList = <ThrowOnError extends boolean = false>(
+  options: Options<FlowStateListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    FlowStateListResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/flow-states",
+    ...options,
+  });
+};
+
+export const flowStateGet = <ThrowOnError extends boolean = false>(
+  options: Options<FlowStateGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    FlowStateGetResponse,
+    FlowStateGetError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/flow-states/{flowstate}",
+    ...options,
+  });
+};
+
+/**
+ * Upsert an flowState
+ */
+export const flowStateUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<FlowStateUpsertData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).patch<
+    FlowStateUpsertResponse,
+    FlowStateUpsertError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/flow-states/{flowstate}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 

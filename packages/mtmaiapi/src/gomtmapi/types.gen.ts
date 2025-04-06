@@ -3394,6 +3394,26 @@ export type ResourceFlowInput = {
   resource_id?: string;
 };
 
+export type FlowStateProperties = {
+  version?: string;
+  type: StateType;
+  chatId?: string;
+  topic: string;
+  source: string;
+  state: {
+    [key: string]: unknown;
+  };
+};
+
+export type FlowState = ApiResourceMetaProperties & FlowStateProperties;
+
+export type FlowStateList = {
+  pagination?: PaginationResponse;
+  rows?: Array<FlowState>;
+};
+
+export type FlowStateUpsert = FlowStateProperties;
+
 export type ReadinessGetData = {
   body?: never;
   path?: never;
@@ -9200,6 +9220,108 @@ export type ChatSessionGetResponses = {
 
 export type ChatSessionGetResponse =
   ChatSessionGetResponses[keyof ChatSessionGetResponses];
+
+export type FlowStateListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: {
+    /**
+     * The topic
+     */
+    topic?: string;
+    /**
+     * The source
+     */
+    source?: string;
+    /**
+     * The session id
+     */
+    session?: string;
+  };
+  url: "/api/v1/tenants/{tenant}/flow-states";
+};
+
+export type FlowStateListResponses = {
+  200: FlowStateList;
+};
+
+export type FlowStateListResponse =
+  FlowStateListResponses[keyof FlowStateListResponses];
+
+export type FlowStateGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The flowstate id
+     */
+    flowstate: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/flow-states/{flowstate}";
+};
+
+export type FlowStateGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type FlowStateGetError = FlowStateGetErrors[keyof FlowStateGetErrors];
+
+export type FlowStateGetResponses = {
+  200: FlowState;
+};
+
+export type FlowStateGetResponse =
+  FlowStateGetResponses[keyof FlowStateGetResponses];
+
+export type FlowStateUpsertData = {
+  /**
+   * The model properties to update
+   */
+  body: FlowStateUpsert;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The flowstate id
+     */
+    flowstate: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/flow-states/{flowstate}";
+};
+
+export type FlowStateUpsertErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+};
+
+export type FlowStateUpsertError =
+  FlowStateUpsertErrors[keyof FlowStateUpsertErrors];
+
+export type FlowStateUpsertResponses = {
+  200: FlowState;
+};
+
+export type FlowStateUpsertResponse =
+  FlowStateUpsertResponses[keyof FlowStateUpsertResponses];
 
 export type UiAgentGetData = {
   body?: never;

@@ -3338,6 +3338,25 @@ export const zResourceFlowInput = z.object({
   resource_id: z.string().optional(),
 });
 
+export const zFlowStateProperties = z.object({
+  version: z.string().optional().default("1.0.0"),
+  type: zStateType,
+  chatId: z.string().optional(),
+  topic: z.string(),
+  source: z.string(),
+  state: z.object({}),
+});
+
+export const zFlowState =
+  zApiResourceMetaProperties.merge(zFlowStateProperties);
+
+export const zFlowStateList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zFlowState).optional(),
+});
+
+export const zFlowStateUpsert = zFlowStateProperties;
+
 export const zMetadataGetResponse = zApiMeta;
 
 export const zCloudMetadataGetResponse = zApiErrors;
@@ -3637,6 +3656,12 @@ export const zChatSessionListResponse = zChatSessionList;
 export const zChatMessageUpsertResponse = zChatMessage;
 
 export const zChatSessionGetResponse = zChatSession;
+
+export const zFlowStateListResponse = zFlowStateList;
+
+export const zFlowStateGetResponse = zFlowState;
+
+export const zFlowStateUpsertResponse = zFlowState;
 
 export const zUiAgentGetResponse = zUiAgentState;
 

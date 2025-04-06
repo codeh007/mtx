@@ -161,6 +161,9 @@ import {
   chatSessionList,
   chatMessageUpsert,
   chatSessionGet,
+  flowStateList,
+  flowStateGet,
+  flowStateUpsert,
   uiAgentGet,
   dispatcherListen,
   resourceList,
@@ -472,6 +475,11 @@ import type {
   ChatMessageUpsertError,
   ChatMessageUpsertResponse,
   ChatSessionGetData,
+  FlowStateListData,
+  FlowStateGetData,
+  FlowStateUpsertData,
+  FlowStateUpsertError,
+  FlowStateUpsertResponse,
   UiAgentGetData,
   DispatcherListenData,
   DispatcherListenError,
@@ -4800,6 +4808,62 @@ export const chatSessionGetOptions = (options: Options<ChatSessionGetData>) => {
     },
     queryKey: chatSessionGetQueryKey(options),
   });
+};
+
+export const flowStateListQueryKey = (options: Options<FlowStateListData>) =>
+  createQueryKey("flowStateList", options);
+
+export const flowStateListOptions = (options: Options<FlowStateListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await flowStateList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: flowStateListQueryKey(options),
+  });
+};
+
+export const flowStateGetQueryKey = (options: Options<FlowStateGetData>) =>
+  createQueryKey("flowStateGet", options);
+
+export const flowStateGetOptions = (options: Options<FlowStateGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await flowStateGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: flowStateGetQueryKey(options),
+  });
+};
+
+export const flowStateUpsertMutation = (
+  options?: Partial<Options<FlowStateUpsertData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    FlowStateUpsertResponse,
+    FlowStateUpsertError,
+    Options<FlowStateUpsertData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await flowStateUpsert({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };
 
 export const uiAgentGetQueryKey = (options: Options<UiAgentGetData>) =>
