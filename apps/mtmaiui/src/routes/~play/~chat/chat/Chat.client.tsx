@@ -5,6 +5,7 @@ import { useSnapScroll } from "mtxuilib/hooks/useSnapScroll";
 import { memo, useEffect, useRef } from "react";
 import { ToastContainer, cssTransition } from "react-toastify";
 
+import { AgentEventType } from "mtmaiapi";
 import { Icons } from "mtxuilib/icons/icons";
 import { cn } from "mtxuilib/lib/utils";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
@@ -152,7 +153,10 @@ export const ChatImpl = memo((props: ChatProps) => {
     if (!_input) {
       return;
     }
-    handleHumanInput({ content: _input });
+    handleHumanInput({
+      type: AgentEventType.CHAT_MESSAGE_INPUT,
+      content: _input,
+    });
     runAnimation();
     setInput("");
     // resetEnhancer();

@@ -638,10 +638,6 @@ export const zWorkflowWorkersCount = z.object({
       z.object({
         url: z.string(),
       }),
-      z.object({
-        messages: z.array(z.object({})),
-        stop_reason: z.string(),
-      }),
       z.enum([
         "mtmai.agents.assistant_agent.AssistantAgent",
         "mtmai.agents.instagram_agent.InstagramAgent",
@@ -812,9 +808,10 @@ export const zWorkflowWorkersCount = z.object({
         "ThoughtEvent",
         "TextMessage",
         "PlatformAccountFlowInput",
-        "AgentUserInput",
+        "ChatMessageInput",
         "SocialAddFollowersInput",
         "SocialLoginInput",
+        "TenantInitInput",
       ]),
       z.object({
         resource_id: z.string().optional(),
@@ -843,6 +840,7 @@ export const zWorkflowWorkersCount = z.object({
             llm_context: z.unknown().optional(),
             username: z.string().optional(),
             password: z.string().optional(),
+            otp_key: z.string().optional(),
             session_state: z.object({}).optional(),
             is_wait_user_input: z.boolean().optional(),
             ig_settings: z.object({}).optional(),
@@ -859,11 +857,8 @@ export const zWorkflowWorkersCount = z.object({
         "router",
         "research",
         "writer",
+        "tenant",
       ]),
-      z.object({
-        type: z.enum(["AgentUserInput"]),
-        content: z.string(),
-      }),
       z.object({
         type: z.string().optional(),
         error: z.string().optional(),
@@ -1876,94 +1871,6 @@ export const zArtifact = z.object({
   prevId: z.string().optional(),
 });
 
-export const zAgentRunInput = z.object({
-  sessionId: z.string().optional(),
-  type: z.enum([
-    "ThoughtEvent",
-    "TextMessage",
-    "PlatformAccountFlowInput",
-    "AgentUserInput",
-    "SocialAddFollowersInput",
-    "SocialLoginInput",
-  ]),
-  content: z.string(),
-  tenantId: z.string().optional(),
-  runId: z.string().optional(),
-  stepRunId: z.string().optional(),
-  resourceId: z.string().optional(),
-  componentId: z.string().optional(),
-  topic: z.string().optional(),
-  source: z.string().optional(),
-  input: z
-    .union([
-      z
-        .object({
-          type: z.literal("SocialAddFollowersInput").optional(),
-        })
-        .merge(
-          z.object({
-            type: z.enum(["SocialAddFollowersInput"]),
-            platform_account_id: z.string().optional(),
-            count_to_follow: z.number().default(1),
-          }),
-        ),
-      z
-        .object({
-          type: z.literal("AgentUserInput").optional(),
-        })
-        .merge(
-          z.object({
-            type: z.enum(["AgentUserInput"]),
-            content: z.string(),
-          }),
-        ),
-      z
-        .object({
-          type: z.literal("SocialLoginInput").optional(),
-        })
-        .merge(
-          z.object({
-            type: z.enum(["SocialLoginInput"]),
-            username: z.string(),
-            password: z.string(),
-            otp_key: z.string().optional(),
-          }),
-        ),
-      z
-        .object({
-          type: z.literal("FlowInstagramInput").optional(),
-        })
-        .merge(
-          z.union([
-            z
-              .object({
-                type: z.literal("SocialAddFollowersInput").optional(),
-              })
-              .merge(
-                z.object({
-                  type: z.enum(["SocialAddFollowersInput"]),
-                  platform_account_id: z.string().optional(),
-                  count_to_follow: z.number().default(1),
-                }),
-              ),
-            z
-              .object({
-                type: z.literal("SocialLoginInput").optional(),
-              })
-              .merge(
-                z.object({
-                  type: z.enum(["SocialLoginInput"]),
-                  username: z.string(),
-                  password: z.string(),
-                  otp_key: z.string().optional(),
-                }),
-              ),
-          ]),
-        ),
-    ])
-    .optional(),
-});
-
 export const zChatHistoryList = z.object({
   pagination: zPaginationResponse.optional(),
   rows: z.array(zChatMessage).optional(),
@@ -2093,6 +2000,7 @@ export const zInstagramAgentState = zBaseState.merge(
     llm_context: z.unknown().optional(),
     username: z.string().optional(),
     password: z.string().optional(),
+    otp_key: z.string().optional(),
     session_state: z.object({}).optional(),
     is_wait_user_input: z.boolean().optional(),
     ig_settings: z.object({}).optional(),
@@ -2409,11 +2317,6 @@ export const zAgentMessageConfig = z.union([
   zToolCallMessageConfig,
   zToolCallResultMessageConfig,
 ]);
-
-export const zMtTaskResult = z.object({
-  messages: z.array(z.object({})),
-  stop_reason: z.string(),
-});
 
 export const zAgentTypes = z.enum([
   "AssistantAgent",
@@ -3169,39 +3072,92 @@ export const zAgentEventType = z.enum([
   "ThoughtEvent",
   "TextMessage",
   "PlatformAccountFlowInput",
-  "AgentUserInput",
+  "ChatMessageInput",
   "SocialAddFollowersInput",
   "SocialLoginInput",
+  "TenantInitInput",
 ]);
 
-export const zAgentEvent = z.union([
-  z.object({
-    type: z.enum(["ThoughtEvent"]),
-    source: z.string(),
-    content: z.string(),
-    metadata: z.object({}).optional(),
-    models_usage: z.object({}).optional(),
-  }),
-  z.object({
-    type: z.enum(["TextMessage"]).optional(),
-    source: z.string().optional(),
-    content: z.string().optional(),
-    metadata: z.unknown().optional(),
-    models_usage: z.object({}).optional(),
-  }),
-  z.object({
-    type: z.enum(["PlatformAccountFlowInput"]).optional(),
-    platform_account_id: z.string().optional(),
-  }),
-  z.object({
-    type: z.enum(["SocialAddFollowersInput"]),
-    platform_account_id: z.string().optional(),
-    count_to_follow: z.number().default(1),
-  }),
-  z.object({
-    type: z.enum(["AgentUserInput"]),
-    content: z.string(),
-  }),
+export const zMtAgEvent = z.union([
+  z
+    .object({
+      type: z.literal("ThoughtEvent").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["ThoughtEvent"]),
+        source: z.string(),
+        content: z.string(),
+        metadata: z.object({}).optional(),
+        models_usage: z.object({}).optional(),
+      }),
+    ),
+  z
+    .object({
+      type: z.literal("TextMessage").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["TextMessage"]).optional(),
+        source: z.string().optional(),
+        content: z.string().optional(),
+        metadata: z.unknown().optional(),
+        models_usage: z.object({}).optional(),
+      }),
+    ),
+  z
+    .object({
+      type: z.literal("PlatformAccountFlowInput").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["PlatformAccountFlowInput"]).optional(),
+        platform_account_id: z.string().optional(),
+      }),
+    ),
+  z
+    .object({
+      type: z.literal("SocialAddFollowersInput").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["SocialAddFollowersInput"]),
+        platform_account_id: z.string().optional(),
+        count_to_follow: z.number().default(1),
+      }),
+    ),
+  z
+    .object({
+      type: z.literal("SocialLoginInput").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["SocialLoginInput"]),
+        username: z.string(),
+        password: z.string(),
+        otp_key: z.string().optional(),
+      }),
+    ),
+  z
+    .object({
+      type: z.literal("TenantInitInput").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["TenantInitInput"]),
+        tenant_id: z.string(),
+      }),
+    ),
+  z
+    .object({
+      type: z.literal("ChatMessageInput").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["ChatMessageInput"]),
+        content: z.string(),
+      }),
+    ),
 ]);
 
 export const zTextMessage = z.object({
@@ -3225,6 +3181,11 @@ export const zSocialLoginInput = z.object({
   username: z.string(),
   password: z.string(),
   otp_key: z.string().optional(),
+});
+
+export const zTenantInitInput = z.object({
+  type: z.enum(["TenantInitInput"]),
+  tenant_id: z.string(),
 });
 
 export const zAgentProperties = z.object({
@@ -3252,10 +3213,11 @@ export const zAgentTopicTypes = z.enum([
   "router",
   "research",
   "writer",
+  "tenant",
 ]);
 
-export const zAgentUserInput = z.object({
-  type: z.enum(["AgentUserInput"]),
+export const zChatMessageInput = z.object({
+  type: z.enum(["ChatMessageInput"]),
   content: z.string(),
 });
 

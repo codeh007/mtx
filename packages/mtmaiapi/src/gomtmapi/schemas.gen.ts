@@ -1429,9 +1429,6 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/BrowserOpenTask",
         },
         {
-          $ref: "#/components/schemas/MtTaskResult",
-        },
-        {
           $ref: "#/components/schemas/ProviderTypes",
         },
         {
@@ -1475,9 +1472,6 @@ export const WorkflowWorkersCountSchema = {
         },
         {
           $ref: "#/components/schemas/AgentTopicTypes",
-        },
-        {
-          $ref: "#/components/schemas/AgentUserInput",
         },
         {
           $ref: "#/components/schemas/FlowError",
@@ -3359,62 +3353,6 @@ export const ArtifactSchema = {
   required: ["metadata", "title", "state"],
 } as const;
 
-export const AgentRunInputSchema = {
-  required: ["type", "content"],
-  properties: {
-    sessionId: {
-      type: "string",
-    },
-    type: {
-      type: "string",
-      $ref: "#/components/schemas/AgentEventType",
-    },
-    content: {
-      type: "string",
-    },
-    tenantId: {
-      type: "string",
-    },
-    runId: {
-      type: "string",
-    },
-    stepRunId: {
-      type: "string",
-    },
-    resourceId: {
-      type: "string",
-    },
-    componentId: {
-      type: "string",
-    },
-    topic: {
-      type: "string",
-    },
-    source: {
-      type: "string",
-    },
-    input: {
-      discriminator: {
-        propertyName: "type",
-      },
-      oneOf: [
-        {
-          $ref: "#/components/schemas/SocialAddFollowersInput",
-        },
-        {
-          $ref: "#/components/schemas/AgentUserInput",
-        },
-        {
-          $ref: "#/components/schemas/SocialLoginInput",
-        },
-        {
-          $ref: "#/components/schemas/FlowInstagramInput",
-        },
-      ],
-    },
-  },
-} as const;
-
 export const ChatHistoryListSchema = {
   properties: {
     pagination: {
@@ -3711,6 +3649,9 @@ export const InstagramAgentStateSchema = {
           type: "string",
         },
         password: {
+          type: "string",
+        },
+        otp_key: {
           type: "string",
         },
         session_state: {
@@ -4498,24 +4439,6 @@ export const AgentMessageConfigSchema = {
       $ref: "#/components/schemas/ToolCallResultMessageConfig",
     },
   ],
-} as const;
-
-export const MtTaskResultSchema = {
-  properties: {
-    messages: {
-      type: "array",
-      items: {
-        type: "object",
-        additionalProperties: {
-          type: "object",
-        },
-      },
-    },
-    stop_reason: {
-      type: "string",
-    },
-  },
-  required: ["messages", "stop_reason"],
 } as const;
 
 export const AgentTypesSchema = {
@@ -6252,13 +6175,17 @@ export const AgentEventTypeSchema = {
     "ThoughtEvent",
     "TextMessage",
     "PlatformAccountFlowInput",
-    "AgentUserInput",
+    "ChatMessageInput",
     "SocialAddFollowersInput",
     "SocialLoginInput",
+    "TenantInitInput",
   ],
 } as const;
 
-export const AgentEventSchema = {
+export const MtAgEventSchema = {
+  discriminator: {
+    propertyName: "type",
+  },
   oneOf: [
     {
       $ref: "#/components/schemas/ThoughtEvent",
@@ -6273,7 +6200,13 @@ export const AgentEventSchema = {
       $ref: "#/components/schemas/SocialAddFollowersInput",
     },
     {
-      $ref: "#/components/schemas/AgentUserInput",
+      $ref: "#/components/schemas/SocialLoginInput",
+    },
+    {
+      $ref: "#/components/schemas/TenantInitInput",
+    },
+    {
+      $ref: "#/components/schemas/ChatMessageInput",
     },
   ],
 } as const;
@@ -6341,6 +6274,19 @@ export const SocialLoginInputSchema = {
   },
 } as const;
 
+export const TenantInitInputSchema = {
+  required: ["type", "tenant_id"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["TenantInitInput"],
+    },
+    tenant_id: {
+      type: "string",
+    },
+  },
+} as const;
+
 export const AgentPropertiesSchema = {
   required: ["name", "description", "provider", "config", "teamId"],
   properties: {
@@ -6399,15 +6345,16 @@ export const AgentTopicTypesSchema = {
     "router",
     "research",
     "writer",
+    "tenant",
   ],
 } as const;
 
-export const AgentUserInputSchema = {
+export const ChatMessageInputSchema = {
   required: ["type", "content"],
   properties: {
     type: {
       type: "string",
-      enum: ["AgentUserInput"],
+      enum: ["ChatMessageInput"],
     },
     content: {
       type: "string",

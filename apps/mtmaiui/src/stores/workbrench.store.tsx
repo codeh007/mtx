@@ -10,6 +10,7 @@ import {
   type ChatMessage,
   type ChatMessageList,
   FlowNames,
+  type MtAgEvent,
   type Options,
   type Tenant,
   type WorkflowRun,
@@ -87,7 +88,7 @@ export interface WorkbrenchState extends WorkbenchProps {
   setLoading: (loading: boolean) => void;
   input?: string;
   setInput: (input: string) => void;
-  handleHumanInput: (input: AgentRunInput) => void;
+  handleHumanInput: (input: MtAgEvent) => void;
   setComponentId: (componentId: string) => void;
   workflowRunId?: string;
   setWorkflowRunId: (workflowRunId: string) => void;
@@ -167,21 +168,15 @@ export const createWorkbrenchSlice: StateCreator<
       set({
         messages: [...preMessages, newChatMessage],
       });
-      // if (input.componentId) {
-      //   set({ componentId: input.componentId });
-      // }
       const response = await workflowRunCreate({
         path: {
-          // workflow: FlowNames.AG,
-          workflow: FlowNames.USER,
+          workflow: FlowNames.AG,
+          // workflow: FlowNames.USER,
         },
         body: {
           input: input,
           additionalMetadata: {
             sessionId: get().threadId,
-            // componentId: input.componentId,
-            // source: "web",
-            // topic: "default",
           },
         },
       });

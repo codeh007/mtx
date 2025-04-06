@@ -848,7 +848,6 @@ export type WorkflowWorkersCount = {
     | CodeReviewResult
     | BrowserTask
     | BrowserOpenTask
-    | MtTaskResult
     | ProviderTypes
     | RunFlowModelInput
     | AssistantAgentConfig
@@ -864,7 +863,6 @@ export type WorkflowWorkersCount = {
     | ResourceFlowInput
     | InstagramAgentState
     | AgentTopicTypes
-    | AgentUserInput
     | FlowError
     | SocialTeamConfig
     | SocialAddFollowersInput
@@ -1887,32 +1885,6 @@ export type Artifact = {
   prevId?: string;
 };
 
-export type AgentRunInput = {
-  sessionId?: string;
-  type: AgentEventType;
-  content: string;
-  tenantId?: string;
-  runId?: string;
-  stepRunId?: string;
-  resourceId?: string;
-  componentId?: string;
-  topic?: string;
-  source?: string;
-  input?:
-    | ({
-        type?: "SocialAddFollowersInput";
-      } & SocialAddFollowersInput)
-    | ({
-        type?: "AgentUserInput";
-      } & AgentUserInput)
-    | ({
-        type?: "SocialLoginInput";
-      } & SocialLoginInput)
-    | ({
-        type?: "FlowInstagramInput";
-      } & FlowInstagramInput);
-};
-
 export type ChatHistoryList = {
   pagination?: PaginationResponse;
   rows?: Array<ChatMessage>;
@@ -2094,6 +2066,7 @@ export type InstagramAgentState = BaseState & {
   llm_context?: unknown;
   username?: string;
   password?: string;
+  otp_key?: string;
   session_state?: {
     [key: string]: unknown;
   };
@@ -2425,15 +2398,6 @@ export type AgentMessageConfig =
   | HandoffMessageConfig
   | ToolCallMessageConfig
   | ToolCallResultMessageConfig;
-
-export type MtTaskResult = {
-  messages: Array<{
-    [key: string]: {
-      [key: string]: unknown;
-    };
-  }>;
-  stop_reason: string;
-};
 
 export type AgentTypes =
   | "AssistantAgent"
@@ -3230,25 +3194,43 @@ export type AgentEventType =
   | "ThoughtEvent"
   | "TextMessage"
   | "PlatformAccountFlowInput"
-  | "AgentUserInput"
+  | "ChatMessageInput"
   | "SocialAddFollowersInput"
-  | "SocialLoginInput";
+  | "SocialLoginInput"
+  | "TenantInitInput";
 
 export const AgentEventType = {
   THOUGHT_EVENT: "ThoughtEvent",
   TEXT_MESSAGE: "TextMessage",
   PLATFORM_ACCOUNT_FLOW_INPUT: "PlatformAccountFlowInput",
-  AGENT_USER_INPUT: "AgentUserInput",
+  CHAT_MESSAGE_INPUT: "ChatMessageInput",
   SOCIAL_ADD_FOLLOWERS_INPUT: "SocialAddFollowersInput",
   SOCIAL_LOGIN_INPUT: "SocialLoginInput",
+  TENANT_INIT_INPUT: "TenantInitInput",
 } as const;
 
-export type AgentEvent =
-  | ThoughtEvent
-  | TextMessage
-  | PlatformAccountFlowInput
-  | SocialAddFollowersInput
-  | AgentUserInput;
+export type MtAgEvent =
+  | ({
+      type?: "ThoughtEvent";
+    } & ThoughtEvent)
+  | ({
+      type?: "TextMessage";
+    } & TextMessage)
+  | ({
+      type?: "PlatformAccountFlowInput";
+    } & PlatformAccountFlowInput)
+  | ({
+      type?: "SocialAddFollowersInput";
+    } & SocialAddFollowersInput)
+  | ({
+      type?: "SocialLoginInput";
+    } & SocialLoginInput)
+  | ({
+      type?: "TenantInitInput";
+    } & TenantInitInput)
+  | ({
+      type?: "ChatMessageInput";
+    } & ChatMessageInput);
 
 export type TextMessage = {
   type?: "TextMessage";
@@ -3279,6 +3261,11 @@ export type SocialLoginInput = {
   otp_key?: string;
 };
 
+export type TenantInitInput = {
+  type: "TenantInitInput";
+  tenant_id: string;
+};
+
 export type AgentProperties = {
   name: string;
   description: string;
@@ -3305,7 +3292,8 @@ export type AgentTopicTypes =
   | "code"
   | "router"
   | "research"
-  | "writer";
+  | "writer"
+  | "tenant";
 
 export const AgentTopicTypes = {
   USER: "user",
@@ -3317,10 +3305,11 @@ export const AgentTopicTypes = {
   ROUTER: "router",
   RESEARCH: "research",
   WRITER: "writer",
+  TENANT: "tenant",
 } as const;
 
-export type AgentUserInput = {
-  type: "AgentUserInput";
+export type ChatMessageInput = {
+  type: "ChatMessageInput";
   content: string;
 };
 
@@ -9278,6 +9267,7 @@ export type FlowStateGetErrors = {
    * Forbidden
    */
   403: ApiErrors;
+  404: ApiErrors;
 };
 
 export type FlowStateGetError = FlowStateGetErrors[keyof FlowStateGetErrors];
