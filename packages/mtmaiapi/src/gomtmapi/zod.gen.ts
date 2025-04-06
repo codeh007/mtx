@@ -896,6 +896,22 @@ export const zWorkflowWorkersCount = z.object({
             }),
           ),
       ]),
+      z.object({
+        type: z.enum(["UserAgentState"]).optional(),
+        llm_context: z.unknown().optional(),
+        action_form: z
+          .object({
+            title: z.string(),
+            description: z.string().optional(),
+            fields: z.array(
+              z.object({
+                name: z.string(),
+                type: z.string(),
+              }),
+            ),
+          })
+          .optional(),
+      }),
     ])
     .optional(),
 });
@@ -3274,6 +3290,12 @@ export const zTeamRun = z.object({
 
 export const zTeamRunResult = z.object({
   workflowRun: zWorkflowRun.optional(),
+});
+
+export const zUserAgentState = z.object({
+  type: z.enum(["UserAgentState"]).optional(),
+  llm_context: z.unknown().optional(),
+  action_form: zSchemaForm.optional(),
 });
 
 export const zRunFlowModelInput = z.object({

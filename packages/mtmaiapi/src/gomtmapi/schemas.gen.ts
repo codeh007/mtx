@@ -1485,6 +1485,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/FlowInstagramInput",
         },
+        {
+          $ref: "#/components/schemas/UserAgentState",
+        },
       ],
     },
   },
@@ -6469,6 +6472,21 @@ export const TeamRunResultSchema = {
   properties: {
     workflowRun: {
       $ref: "#/components/schemas/WorkflowRun",
+    },
+  },
+} as const;
+
+export const UserAgentStateSchema = {
+  properties: {
+    type: {
+      type: "string",
+      enum: ["UserAgentState"],
+    },
+    llm_context: {
+      additionalProperties: true,
+    },
+    action_form: {
+      $ref: "#/components/schemas/SchemaForm",
     },
   },
 } as const;

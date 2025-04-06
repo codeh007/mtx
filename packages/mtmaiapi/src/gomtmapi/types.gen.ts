@@ -866,7 +866,8 @@ export type WorkflowWorkersCount = {
     | FlowError
     | SocialTeamConfig
     | SocialAddFollowersInput
-    | FlowInstagramInput;
+    | FlowInstagramInput
+    | UserAgentState;
 };
 
 export type WorkflowRun = {
@@ -3357,6 +3358,12 @@ export type TeamRun = {
 
 export type TeamRunResult = {
   workflowRun?: WorkflowRun;
+};
+
+export type UserAgentState = {
+  type?: "UserAgentState";
+  llm_context?: unknown;
+  action_form?: SchemaForm;
 };
 
 export type RunFlowModelInput = {
