@@ -3339,11 +3339,7 @@ export const zResourceFlowInput = z.object({
 });
 
 export const zFlowStateProperties = z.object({
-  version: z.string().optional().default("1.0.0"),
-  type: zStateType,
-  chatId: z.string().optional(),
-  topic: z.string(),
-  source: z.string(),
+  sessionId: z.string(),
   state: z.object({}),
 });
 

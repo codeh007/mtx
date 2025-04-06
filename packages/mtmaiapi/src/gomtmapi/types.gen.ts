@@ -3395,11 +3395,7 @@ export type ResourceFlowInput = {
 };
 
 export type FlowStateProperties = {
-  version?: string;
-  type: StateType;
-  chatId?: string;
-  topic: string;
-  source: string;
+  sessionId: string;
   state: {
     [key: string]: unknown;
   };
@@ -9261,12 +9257,16 @@ export type FlowStateGetData = {
      */
     tenant: TenantParameter;
     /**
-     * The flowstate id
+     * The session id
      */
-    flowstate: string;
+    session: string;
+    /**
+     * The workflow id
+     */
+    workflow: string;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/flow-states/{flowstate}";
+  url: "/api/v1/tenants/{tenant}/flow-states/{session}/{workflow}";
 };
 
 export type FlowStateGetErrors = {
@@ -9300,12 +9300,16 @@ export type FlowStateUpsertData = {
      */
     tenant: TenantParameter;
     /**
-     * The flowstate id
+     * The session id
      */
-    flowstate: string;
+    session: string;
+    /**
+     * The workflow id
+     */
+    workflow: string;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/flow-states/{flowstate}";
+  url: "/api/v1/tenants/{tenant}/flow-states/{session}/{workflow}";
 };
 
 export type FlowStateUpsertErrors = {

@@ -6582,22 +6582,9 @@ export const ResourceFlowInputSchema = {
 } as const;
 
 export const FlowStatePropertiesSchema = {
-  required: ["type", "state", "tenantId", "topic", "source"],
+  required: ["sessionId", "state"],
   properties: {
-    version: {
-      type: "string",
-      default: "1.0.0",
-    },
-    type: {
-      $ref: "#/components/schemas/StateType",
-    },
-    chatId: {
-      type: "string",
-    },
-    topic: {
-      type: "string",
-    },
-    source: {
+    sessionId: {
       type: "string",
     },
     state: {

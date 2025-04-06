@@ -4723,7 +4723,7 @@ export const flowStateGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/tenants/{tenant}/flow-states/{flowstate}",
+    url: "/api/v1/tenants/{tenant}/flow-states/{session}/{workflow}",
     ...options,
   });
 };
@@ -4749,7 +4749,7 @@ export const flowStateUpsert = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/tenants/{tenant}/flow-states/{flowstate}",
+    url: "/api/v1/tenants/{tenant}/flow-states/{session}/{workflow}",
     ...options,
     headers: {
       "Content-Type": "application/json",
