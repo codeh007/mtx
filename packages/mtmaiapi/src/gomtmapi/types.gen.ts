@@ -2097,6 +2097,7 @@ export type InstagramAgentState = BaseState & {
   ig_settings?: {
     [key: string]: unknown;
   };
+  proxy_url?: string;
 };
 
 export type TeamState = BaseState & {
@@ -3267,7 +3268,7 @@ export type SocialLoginInput = {
   type: "SocialLoginInput";
   username: string;
   password: string;
-  two_factor_code?: string;
+  otp_key?: string;
 };
 
 export type AgentProperties = {

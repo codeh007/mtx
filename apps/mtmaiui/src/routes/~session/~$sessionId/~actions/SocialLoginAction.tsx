@@ -14,6 +14,9 @@ export const SocialLoginAction = () => {
       toastValidateError:true,
       defaultValues:{
         type: AgentEventType.SOCIAL_LOGIN_INPUT,
+        username:"saibichquyenll2015",
+        password:"qSJPn07c7",
+        otp_key:"MCF3M4XZHTFWKYXUGV4CQX3LFXMKMWFP",
       },
       handleSubmit: (values) => {
         console.log("values", values);
@@ -52,6 +55,19 @@ export const SocialLoginAction = () => {
                 <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input {...field} placeholder="password" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.form.control}
+            name="otp_key"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>otp_key</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="otp_key" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

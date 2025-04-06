@@ -844,6 +844,7 @@ export const zWorkflowWorkersCount = z.object({
             session_state: z.object({}).optional(),
             is_wait_user_input: z.boolean().optional(),
             ig_settings: z.object({}).optional(),
+            proxy_url: z.string().optional(),
           }),
         ),
       z.enum([
@@ -1898,7 +1899,7 @@ export const zAgentRunInput = z.object({
             type: z.enum(["SocialLoginInput"]),
             username: z.string(),
             password: z.string(),
-            two_factor_code: z.string().optional(),
+            otp_key: z.string().optional(),
           }),
         ),
     ])
@@ -2037,6 +2038,7 @@ export const zInstagramAgentState = zBaseState.merge(
     session_state: z.object({}).optional(),
     is_wait_user_input: z.boolean().optional(),
     ig_settings: z.object({}).optional(),
+    proxy_url: z.string().optional(),
   }),
 );
 
@@ -3162,7 +3164,7 @@ export const zSocialLoginInput = z.object({
   type: z.enum(["SocialLoginInput"]),
   username: z.string(),
   password: z.string(),
-  two_factor_code: z.string().optional(),
+  otp_key: z.string().optional(),
 });
 
 export const zAgentProperties = z.object({

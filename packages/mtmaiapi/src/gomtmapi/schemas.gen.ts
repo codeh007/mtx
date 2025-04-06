@@ -3715,6 +3715,9 @@ export const InstagramAgentStateSchema = {
         ig_settings: {
           type: "object",
         },
+        proxy_url: {
+          type: "string",
+        },
       },
     },
   ],
@@ -6323,7 +6326,7 @@ export const SocialLoginInputSchema = {
     password: {
       type: "string",
     },
-    two_factor_code: {
+    otp_key: {
       type: "string",
     },
   },
