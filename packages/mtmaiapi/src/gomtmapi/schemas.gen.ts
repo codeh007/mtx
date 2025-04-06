@@ -1488,6 +1488,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/SocialAddFollowersInput",
         },
+        {
+          $ref: "#/components/schemas/FlowInstagramInput",
+        },
       ],
     },
   },
@@ -3404,6 +3407,9 @@ export const AgentRunInputSchema = {
         {
           $ref: "#/components/schemas/SocialLoginInput",
         },
+        {
+          $ref: "#/components/schemas/FlowInstagramInput",
+        },
       ],
     },
   },
@@ -3696,6 +3702,7 @@ export const InstagramAgentStateSchema = {
         type: {
           type: "string",
           enum: ["InstagramAgentState"],
+          default: "InstagramAgentState",
         },
         llm_context: {
           additionalProperties: true,
@@ -4229,6 +4236,8 @@ export const FlowNamesSchema = {
     "platform_account_login",
     "platform_account_follow",
     "resource",
+    "instagram",
+    "user",
   ],
 } as const;
 
@@ -6404,6 +6413,20 @@ export const AgentUserInputSchema = {
       type: "string",
     },
   },
+} as const;
+
+export const FlowInstagramInputSchema = {
+  discriminator: {
+    propertyName: "type",
+  },
+  oneOf: [
+    {
+      $ref: "#/components/schemas/SocialAddFollowersInput",
+    },
+    {
+      $ref: "#/components/schemas/SocialLoginInput",
+    },
+  ],
 } as const;
 
 export const FlowErrorSchema = {

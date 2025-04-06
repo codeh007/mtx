@@ -867,7 +867,8 @@ export type WorkflowWorkersCount = {
     | AgentUserInput
     | FlowError
     | SocialTeamConfig
-    | SocialAddFollowersInput;
+    | SocialAddFollowersInput
+    | FlowInstagramInput;
 };
 
 export type WorkflowRun = {
@@ -1906,7 +1907,10 @@ export type AgentRunInput = {
       } & AgentUserInput)
     | ({
         type?: "SocialLoginInput";
-      } & SocialLoginInput);
+      } & SocialLoginInput)
+    | ({
+        type?: "FlowInstagramInput";
+      } & FlowInstagramInput);
 };
 
 export type ChatHistoryList = {
@@ -2288,7 +2292,9 @@ export type FlowNames =
   | "com"
   | "platform_account_login"
   | "platform_account_follow"
-  | "resource";
+  | "resource"
+  | "instagram"
+  | "user";
 
 export const FlowNames = {
   SYS: "sys",
@@ -2302,6 +2308,8 @@ export const FlowNames = {
   PLATFORM_ACCOUNT_LOGIN: "platform_account_login",
   PLATFORM_ACCOUNT_FOLLOW: "platform_account_follow",
   RESOURCE: "resource",
+  INSTAGRAM: "instagram",
+  USER: "user",
 } as const;
 
 export type TerminationTypes =
@@ -3315,6 +3323,14 @@ export type AgentUserInput = {
   type: "AgentUserInput";
   content: string;
 };
+
+export type FlowInstagramInput =
+  | ({
+      type?: "SocialAddFollowersInput";
+    } & SocialAddFollowersInput)
+  | ({
+      type?: "SocialLoginInput";
+    } & SocialLoginInput);
 
 export type FlowError = {
   type?: string;

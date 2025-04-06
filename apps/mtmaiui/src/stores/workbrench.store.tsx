@@ -172,7 +172,8 @@ export const createWorkbrenchSlice: StateCreator<
       // }
       const response = await workflowRunCreate({
         path: {
-          workflow: FlowNames.AG,
+          // workflow: FlowNames.AG,
+          workflow: FlowNames.USER,
         },
         body: {
           input: input,

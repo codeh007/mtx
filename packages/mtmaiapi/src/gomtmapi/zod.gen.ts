@@ -801,6 +801,8 @@ export const zWorkflowWorkersCount = z.object({
         "platform_account_login",
         "platform_account_follow",
         "resource",
+        "instagram",
+        "user",
       ]),
       z.object({
         type: z.enum(["PlatformAccountFlowInput"]).optional(),
@@ -874,6 +876,31 @@ export const zWorkflowWorkersCount = z.object({
         platform_account_id: z.string().optional(),
         count_to_follow: z.number().default(1),
       }),
+      z.union([
+        z
+          .object({
+            type: z.literal("SocialAddFollowersInput").optional(),
+          })
+          .merge(
+            z.object({
+              type: z.enum(["SocialAddFollowersInput"]),
+              platform_account_id: z.string().optional(),
+              count_to_follow: z.number().default(1),
+            }),
+          ),
+        z
+          .object({
+            type: z.literal("SocialLoginInput").optional(),
+          })
+          .merge(
+            z.object({
+              type: z.enum(["SocialLoginInput"]),
+              username: z.string(),
+              password: z.string(),
+              otp_key: z.string().optional(),
+            }),
+          ),
+      ]),
     ])
     .optional(),
 });
@@ -1902,6 +1929,37 @@ export const zAgentRunInput = z.object({
             otp_key: z.string().optional(),
           }),
         ),
+      z
+        .object({
+          type: z.literal("FlowInstagramInput").optional(),
+        })
+        .merge(
+          z.union([
+            z
+              .object({
+                type: z.literal("SocialAddFollowersInput").optional(),
+              })
+              .merge(
+                z.object({
+                  type: z.enum(["SocialAddFollowersInput"]),
+                  platform_account_id: z.string().optional(),
+                  count_to_follow: z.number().default(1),
+                }),
+              ),
+            z
+              .object({
+                type: z.literal("SocialLoginInput").optional(),
+              })
+              .merge(
+                z.object({
+                  type: z.enum(["SocialLoginInput"]),
+                  username: z.string(),
+                  password: z.string(),
+                  otp_key: z.string().optional(),
+                }),
+              ),
+          ]),
+        ),
     ])
     .optional(),
 });
@@ -2240,6 +2298,8 @@ export const zFlowNames = z.enum([
   "platform_account_login",
   "platform_account_follow",
   "resource",
+  "instagram",
+  "user",
 ]);
 
 export const zTerminationTypes = z.enum([
@@ -3198,6 +3258,25 @@ export const zAgentUserInput = z.object({
   type: z.enum(["AgentUserInput"]),
   content: z.string(),
 });
+
+export const zFlowInstagramInput = z.union([
+  z
+    .object({
+      type: z.literal("SocialAddFollowersInput").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["SocialAddFollowersInput"]),
+        platform_account_id: z.string().optional(),
+        count_to_follow: z.number().default(1),
+      }),
+    ),
+  z
+    .object({
+      type: z.literal("SocialLoginInput").optional(),
+    })
+    .merge(zSocialLoginInput),
+]);
 
 export const zFlowError = z.object({
   type: z.string().optional(),
