@@ -9,6 +9,7 @@ export const SocialAddFollowersAction = () => {
     const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
     const form = useZodFormV2({
       schema: zSocialAddFollowersInput,
+      toastValidateError:true,
       handleSubmit: (values) => {
         handleHumanInput({
           content: "",

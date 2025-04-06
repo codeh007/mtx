@@ -167,10 +167,9 @@ export const createWorkbrenchSlice: StateCreator<
       set({
         messages: [...preMessages, newChatMessage],
       });
-      if (input.componentId) {
-        set({ componentId: input.componentId });
-      }
-      // submitMessages(set, get);
+      // if (input.componentId) {
+      //   set({ componentId: input.componentId });
+      // }
       const response = await workflowRunCreate({
         path: {
           workflow: FlowNames.AG,

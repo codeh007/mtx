@@ -89,6 +89,7 @@ export function ZForm<TInput extends FieldValues>(
     e.preventDefault();
     if (formErrors.length) {
       if (props.toastValidateError) {
+        console.log("formErrors", form.formState.errors);
         toast.toast({
           title: "表单不正确",
           description: (
