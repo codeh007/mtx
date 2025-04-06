@@ -3362,7 +3362,7 @@ export type TeamRunResult = {
 
 export type UserAgentState = {
   type?: "UserAgentState";
-  llm_context?: unknown;
+  model_context?: unknown;
   action_form?: SchemaForm;
 };
 

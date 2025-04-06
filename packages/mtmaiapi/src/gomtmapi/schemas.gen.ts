@@ -6482,7 +6482,7 @@ export const UserAgentStateSchema = {
       type: "string",
       enum: ["UserAgentState"],
     },
-    llm_context: {
+    model_context: {
       additionalProperties: true,
     },
     action_form: {

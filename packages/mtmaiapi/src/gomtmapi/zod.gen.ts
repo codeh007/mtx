@@ -898,7 +898,7 @@ export const zWorkflowWorkersCount = z.object({
       ]),
       z.object({
         type: z.enum(["UserAgentState"]).optional(),
-        llm_context: z.unknown().optional(),
+        model_context: z.unknown().optional(),
         action_form: z
           .object({
             title: z.string(),
@@ -3294,7 +3294,7 @@ export const zTeamRunResult = z.object({
 
 export const zUserAgentState = z.object({
   type: z.enum(["UserAgentState"]).optional(),
-  llm_context: z.unknown().optional(),
+  model_context: z.unknown().optional(),
   action_form: zSchemaForm.optional(),
 });
 
