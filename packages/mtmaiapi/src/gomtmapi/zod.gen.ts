@@ -812,6 +812,7 @@ export const zWorkflowWorkersCount = z.object({
         "PlatformAccountFlowInput",
         "AgentUserInput",
         "SocialAddFollowersInput",
+        "SocialLoginInput",
       ]),
       z.object({
         resource_id: z.string().optional(),
@@ -845,11 +846,6 @@ export const zWorkflowWorkersCount = z.object({
             ig_settings: z.object({}).optional(),
           }),
         ),
-      z.object({
-        username: z.string().optional(),
-        password: z.string().optional(),
-        two_factor_code: z.string().optional(),
-      }),
       z.enum([
         "user",
         "human",
@@ -864,10 +860,6 @@ export const zWorkflowWorkersCount = z.object({
       z.object({
         type: z.enum(["AgentUserInput"]),
         content: z.string(),
-      }),
-      z.object({
-        platform_account_id: z.string(),
-        message_type: z.enum(["LOGIN", "LOGOUT"]).optional(),
       }),
       z.object({
         type: z.string().optional(),
@@ -1864,6 +1856,7 @@ export const zAgentRunInput = z.object({
     "PlatformAccountFlowInput",
     "AgentUserInput",
     "SocialAddFollowersInput",
+    "SocialLoginInput",
   ]),
   content: z.string(),
   tenantId: z.string().optional(),
@@ -1894,6 +1887,18 @@ export const zAgentRunInput = z.object({
           z.object({
             type: z.enum(["AgentUserInput"]),
             content: z.string(),
+          }),
+        ),
+      z
+        .object({
+          type: z.literal("SocialLoginInput").optional(),
+        })
+        .merge(
+          z.object({
+            type: z.enum(["SocialLoginInput"]),
+            username: z.string(),
+            password: z.string(),
+            two_factor_code: z.string().optional(),
           }),
         ),
     ])
@@ -3104,6 +3109,7 @@ export const zAgentEventType = z.enum([
   "PlatformAccountFlowInput",
   "AgentUserInput",
   "SocialAddFollowersInput",
+  "SocialLoginInput",
 ]);
 
 export const zAgentEvent = z.union([
@@ -3152,9 +3158,10 @@ export const zThoughtEvent = z.object({
   models_usage: z.object({}).optional(),
 });
 
-export const zIgLoginEvent = z.object({
-  username: z.string().optional(),
-  password: z.string().optional(),
+export const zSocialLoginInput = z.object({
+  type: z.enum(["SocialLoginInput"]),
+  username: z.string(),
+  password: z.string(),
   two_factor_code: z.string().optional(),
 });
 
@@ -3188,11 +3195,6 @@ export const zAgentTopicTypes = z.enum([
 export const zAgentUserInput = z.object({
   type: z.enum(["AgentUserInput"]),
   content: z.string(),
-});
-
-export const zFlowPlatformAccountLoginInput = z.object({
-  platform_account_id: z.string(),
-  message_type: z.enum(["LOGIN", "LOGOUT"]).optional(),
 });
 
 export const zFlowError = z.object({

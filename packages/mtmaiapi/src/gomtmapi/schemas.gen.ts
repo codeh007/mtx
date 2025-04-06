@@ -1474,16 +1474,10 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/InstagramAgentState",
         },
         {
-          $ref: "#/components/schemas/IgLoginEvent",
-        },
-        {
           $ref: "#/components/schemas/AgentTopicTypes",
         },
         {
           $ref: "#/components/schemas/AgentUserInput",
-        },
-        {
-          $ref: "#/components/schemas/FlowPlatformAccountLoginInput",
         },
         {
           $ref: "#/components/schemas/FlowError",
@@ -3397,6 +3391,9 @@ export const AgentRunInputSchema = {
       type: "string",
     },
     input: {
+      discriminator: {
+        propertyName: "type",
+      },
       oneOf: [
         {
           $ref: "#/components/schemas/SocialAddFollowersInput",
@@ -3404,10 +3401,10 @@ export const AgentRunInputSchema = {
         {
           $ref: "#/components/schemas/AgentUserInput",
         },
+        {
+          $ref: "#/components/schemas/SocialLoginInput",
+        },
       ],
-      discriminator: {
-        propertyName: "type",
-      },
     },
   },
 } as const;
@@ -6245,6 +6242,7 @@ export const AgentEventTypeSchema = {
     "PlatformAccountFlowInput",
     "AgentUserInput",
     "SocialAddFollowersInput",
+    "SocialLoginInput",
   ],
 } as const;
 
@@ -6312,8 +6310,13 @@ export const ThoughtEventSchema = {
   },
 } as const;
 
-export const IgLoginEventSchema = {
+export const SocialLoginInputSchema = {
+  required: ["type", "username", "password"],
   properties: {
+    type: {
+      type: "string",
+      enum: ["SocialLoginInput"],
+    },
     username: {
       type: "string",
     },
@@ -6396,19 +6399,6 @@ export const AgentUserInputSchema = {
     },
     content: {
       type: "string",
-    },
-  },
-} as const;
-
-export const FlowPlatformAccountLoginInputSchema = {
-  required: ["messagetype", "platform_account_id"],
-  properties: {
-    platform_account_id: {
-      type: "string",
-    },
-    message_type: {
-      type: "string",
-      enum: ["LOGIN", "LOGOUT"],
     },
   },
 } as const;

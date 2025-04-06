@@ -863,10 +863,8 @@ export type WorkflowWorkersCount = {
     | AgentEventType
     | ResourceFlowInput
     | InstagramAgentState
-    | IgLoginEvent
     | AgentTopicTypes
     | AgentUserInput
-    | FlowPlatformAccountLoginInput
     | FlowError
     | SocialTeamConfig
     | SocialAddFollowersInput;
@@ -1905,7 +1903,10 @@ export type AgentRunInput = {
       } & SocialAddFollowersInput)
     | ({
         type?: "AgentUserInput";
-      } & AgentUserInput);
+      } & AgentUserInput)
+    | ({
+        type?: "SocialLoginInput";
+      } & SocialLoginInput);
 };
 
 export type ChatHistoryList = {
@@ -3221,7 +3222,8 @@ export type AgentEventType =
   | "TextMessage"
   | "PlatformAccountFlowInput"
   | "AgentUserInput"
-  | "SocialAddFollowersInput";
+  | "SocialAddFollowersInput"
+  | "SocialLoginInput";
 
 export const AgentEventType = {
   THOUGHT_EVENT: "ThoughtEvent",
@@ -3229,6 +3231,7 @@ export const AgentEventType = {
   PLATFORM_ACCOUNT_FLOW_INPUT: "PlatformAccountFlowInput",
   AGENT_USER_INPUT: "AgentUserInput",
   SOCIAL_ADD_FOLLOWERS_INPUT: "SocialAddFollowersInput",
+  SOCIAL_LOGIN_INPUT: "SocialLoginInput",
 } as const;
 
 export type AgentEvent =
@@ -3260,9 +3263,10 @@ export type ThoughtEvent = {
   };
 };
 
-export type IgLoginEvent = {
-  username?: string;
-  password?: string;
+export type SocialLoginInput = {
+  type: "SocialLoginInput";
+  username: string;
+  password: string;
   two_factor_code?: string;
 };
 
@@ -3309,11 +3313,6 @@ export const AgentTopicTypes = {
 export type AgentUserInput = {
   type: "AgentUserInput";
   content: string;
-};
-
-export type FlowPlatformAccountLoginInput = {
-  platform_account_id: string;
-  message_type?: "LOGIN" | "LOGOUT";
 };
 
 export type FlowError = {
