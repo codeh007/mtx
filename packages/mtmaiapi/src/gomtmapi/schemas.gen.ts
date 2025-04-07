@@ -1497,6 +1497,12 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/SocialLoginResult",
         },
+        {
+          $ref: "#/components/schemas/FlowResult",
+        },
+        {
+          $ref: "#/components/schemas/FlowHandoffResult",
+        },
       ],
     },
   },
@@ -3846,6 +3852,38 @@ export const MtComponentPropertiesSchema = {
   },
 } as const;
 
+export const FlowResultSchema = {
+  required: ["type", "content"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["FlowResult"],
+    },
+    content: {
+      type: "string",
+    },
+    success: {
+      type: "boolean",
+    },
+  },
+} as const;
+
+export const FlowHandoffResultSchema = {
+  required: ["type", "content"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["FlowHandoffResult"],
+    },
+    success: {
+      type: "boolean",
+    },
+    name: {
+      type: "string",
+    },
+  },
+} as const;
+
 export const ToolTypesSchema = {
   type: "string",
   enum: ["code_executor", "social_login"],
@@ -6136,6 +6174,7 @@ export const AgentTopicTypesSchema = {
     "research",
     "writer",
     "tenant",
+    "closure",
   ],
 } as const;
 

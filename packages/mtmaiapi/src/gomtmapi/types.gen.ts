@@ -870,7 +870,9 @@ export type WorkflowWorkersCount = {
     | CodeExecutionInput
     | CodeExecutionResult
     | SocialLoginInput
-    | SocialLoginResult;
+    | SocialLoginResult
+    | FlowResult
+    | FlowHandoffResult;
 };
 
 export type WorkflowRun = {
@@ -2140,6 +2142,18 @@ export type MtComponentProperties = {
   };
 };
 
+export type FlowResult = {
+  type: "FlowResult";
+  content: string;
+  success?: boolean;
+};
+
+export type FlowHandoffResult = {
+  type: "FlowHandoffResult";
+  success?: boolean;
+  name?: string;
+};
+
 export type ToolTypes = "code_executor" | "social_login";
 
 export const ToolTypes = {
@@ -3205,7 +3219,8 @@ export type AgentTopicTypes =
   | "router"
   | "research"
   | "writer"
-  | "tenant";
+  | "tenant"
+  | "closure";
 
 export const AgentTopicTypes = {
   USER: "user",
@@ -3218,6 +3233,7 @@ export const AgentTopicTypes = {
   RESEARCH: "research",
   WRITER: "writer",
   TENANT: "tenant",
+  CLOSURE: "closure",
 } as const;
 
 export type ChatMessageInput = {

@@ -619,6 +619,7 @@ export const zWorkflowWorkersCount = z.object({
         "research",
         "writer",
         "tenant",
+        "closure",
       ]),
       z.object({
         type: z.enum(["browser"]).optional(),
@@ -954,6 +955,16 @@ export const zWorkflowWorkersCount = z.object({
       }),
       z.object({
         success: z.boolean(),
+      }),
+      z.object({
+        type: z.enum(["FlowResult"]),
+        content: z.string(),
+        success: z.boolean().optional(),
+      }),
+      z.object({
+        type: z.enum(["FlowHandoffResult"]),
+        success: z.boolean().optional(),
+        name: z.string().optional(),
       }),
     ])
     .optional(),
@@ -2188,6 +2199,18 @@ export const zMtComponentProperties = z.object({
   config: z.object({}),
 });
 
+export const zFlowResult = z.object({
+  type: z.enum(["FlowResult"]),
+  content: z.string(),
+  success: z.boolean().optional(),
+});
+
+export const zFlowHandoffResult = z.object({
+  type: z.enum(["FlowHandoffResult"]),
+  success: z.boolean().optional(),
+  name: z.string().optional(),
+});
+
 export const zToolTypes = z.enum(["code_executor", "social_login"]);
 
 export const zCodeExecutionInput = z.object({
@@ -3226,6 +3249,7 @@ export const zAgentTopicTypes = z.enum([
   "research",
   "writer",
   "tenant",
+  "closure",
 ]);
 
 export const zChatMessageInput = z.object({
