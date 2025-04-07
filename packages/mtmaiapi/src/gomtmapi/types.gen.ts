@@ -2119,8 +2119,9 @@ export type SystemMessage = {
 
 export type AssistantMessage = {
   type: "AssistantMessage";
-  content: string;
+  content: string | Array<FunctionCall>;
   source?: string;
+  thought?: string;
 };
 
 export type FunctionExecutionResultMessage = {

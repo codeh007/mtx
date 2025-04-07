@@ -3,6 +3,7 @@
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import type {
   AssistantMessage,
+  FunctionCall,
   FunctionExecutionResultMessage,
   MtLlmMessage,
   UserMessage,
@@ -75,7 +76,11 @@ export const AssistantMessageView = ({ msg }: { msg: AssistantMessage }) => {
         {msg.type}/{msg.source}
       </div>
       <MtSuspenseBoundary>
-        <Markdown>{msg.content}</Markdown>
+        {typeof msg.content === "string" ? (
+          <Markdown>{msg.content}</Markdown>
+        ) : (
+          <FunctionCallView msg={msg.content} />
+        )}
       </MtSuspenseBoundary>
     </div>
   );
@@ -88,6 +93,41 @@ export const FunctionExecutionResultMessageView = ({
     <div>
       FunctionExecutionResultMessageView
       <DebugValue data={{ msg }} />
+    </div>
+  );
+};
+export const FunctionCallView = ({ msg }: { msg: FunctionCall[] }) => {
+  return (
+    <div className="bg-slate-200 p-1">
+      <DebugValue data={{ msg }} />
+      {msg.map((item, i) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+        <FunctionCallItemView key={i} msg={item} />
+      ))}
+    </div>
+  );
+};
+
+export const FunctionCallItemView = ({ msg }: { msg: FunctionCall }) => {
+  return (
+    <div className="bg-slate-200 p-1 border">
+      <DebugValue data={{ msg }} />
+      {msg.name === "CodeExecutor" ? (
+        <CodeExecutorView msg={msg} />
+      ) : (
+        <div>unknown function call: {msg.name}</div>
+      )}
+    </div>
+  );
+};
+
+export const CodeExecutorView = ({ msg }: { msg: any }) => {
+  return (
+    <div>
+      CodeExecutorView
+      <pre className="text-xs bg-yellow-100 p-1">
+        {JSON.stringify(msg, null, 2)}
+      </pre>
     </div>
   );
 };

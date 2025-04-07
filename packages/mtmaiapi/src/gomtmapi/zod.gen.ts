@@ -942,8 +942,18 @@ export const zWorkflowWorkersCount = z.object({
           .merge(
             z.object({
               type: z.enum(["AssistantMessage"]),
-              content: z.string(),
+              content: z.union([
+                z.string(),
+                z.array(
+                  z.object({
+                    id: z.string(),
+                    arguments: z.string(),
+                    name: z.string(),
+                  }),
+                ),
+              ]),
               source: z.string().optional(),
+              thought: z.string().optional(),
             }),
           ),
         z
@@ -975,8 +985,18 @@ export const zWorkflowWorkersCount = z.object({
       }),
       z.object({
         type: z.enum(["AssistantMessage"]),
-        content: z.string(),
+        content: z.union([
+          z.string(),
+          z.array(
+            z.object({
+              id: z.string(),
+              arguments: z.string(),
+              name: z.string(),
+            }),
+          ),
+        ]),
         source: z.string().optional(),
+        thought: z.string().optional(),
       }),
       z.object({
         type: z.enum(["FunctionExecutionResultMessage"]),
@@ -2139,8 +2159,18 @@ export const zMtLlmMessage = z.union([
     .merge(
       z.object({
         type: z.enum(["AssistantMessage"]),
-        content: z.string(),
+        content: z.union([
+          z.string(),
+          z.array(
+            z.object({
+              id: z.string(),
+              arguments: z.string(),
+              name: z.string(),
+            }),
+          ),
+        ]),
         source: z.string().optional(),
+        thought: z.string().optional(),
       }),
     ),
   z
@@ -2175,8 +2205,18 @@ export const zSystemMessage = z.object({
 
 export const zAssistantMessage = z.object({
   type: z.enum(["AssistantMessage"]),
-  content: z.string(),
+  content: z.union([
+    z.string(),
+    z.array(
+      z.object({
+        id: z.string(),
+        arguments: z.string(),
+        name: z.string(),
+      }),
+    ),
+  ]),
   source: z.string().optional(),
+  thought: z.string().optional(),
 });
 
 export const zFunctionExecutionResultMessage = z.object({

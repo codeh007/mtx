@@ -3774,9 +3774,22 @@ export const AssistantMessageSchema = {
       enum: ["AssistantMessage"],
     },
     content: {
-      type: "string",
+      oneOf: [
+        {
+          type: "string",
+        },
+        {
+          type: "array",
+          items: {
+            $ref: "#/components/schemas/FunctionCall",
+          },
+        },
+      ],
     },
     source: {
+      type: "string",
+    },
+    thought: {
       type: "string",
     },
   },
