@@ -45,7 +45,7 @@ import { useTenant, useTenantId } from "../hooks/useAuth";
 import { useNav, useSearch } from "../hooks/useNav";
 import { useMtmaiV2 } from "./StoreProvider";
 import { useGomtmClient } from "./TransportProvider";
-import { handleWorkflowRunEvent } from "./submitMessages";
+import { handleWorkflowRunEvent } from "./ag-event-handlers";
 
 export interface WorkbenchProps {
   componentId?: string;
@@ -379,7 +379,6 @@ export const WorkbrenchProvider = (
 
   return (
     <mtmaiStoreContext.Provider value={mystore}>
-      sessionId:{etc.threadId}
       {children}
     </mtmaiStoreContext.Provider>
   );

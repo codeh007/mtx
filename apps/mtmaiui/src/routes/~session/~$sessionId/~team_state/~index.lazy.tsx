@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { agStateListOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
-import { AgStateView } from "../../../../components/team_state/AgStateView";
+import { AgStateView } from "../../../../components/stateview/AgStateView";
 import { useTenantId } from "../../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 

@@ -49,9 +49,16 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
     const setInput = useWorkbenchStore((x) => x.setInput);
     const TEXTAREA_MAX_HEIGHT = chatStarted ? 400 : 200;
     const userAgentState = useWorkbenchStore((x) => x.userAgentState);
-    const messagesV2 = (userAgentState?.model_context as any)
-      .messages as MtLlmMessage[];
+    // const messagesV2 = (userAgentState?.model_context as any)
+    //   .messages as MtLlmMessage[];
 
+    const messagesV2 = useMemo(() => {
+      if (!userAgentState?.model_context) return [];
+      return (
+        ((userAgentState?.model_context as any).messages as MtLlmMessage[]) ||
+        []
+      );
+    }, [userAgentState]);
     return (
       <>
         <div

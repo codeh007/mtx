@@ -705,3 +705,7 @@ export function truncateText(text: string, length = 50) {
   }
   return text;
 }
+
+export function camelToDashCase(input: string) {
+  return input.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+}

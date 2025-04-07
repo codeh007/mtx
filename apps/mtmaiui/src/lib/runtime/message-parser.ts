@@ -1,3 +1,4 @@
+import { camelToDashCase } from "mtxuilib/lib/utils";
 import type {
   ActionType,
   BoltAction,
@@ -314,6 +315,6 @@ const createArtifactElement: ElementFactory = (props) => {
   return `<div ${elementProps.join(" ")}></div>`;
 };
 
-function camelToDashCase(input: string) {
-  return input.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
-}
+// function camelToDashCase(input: string) {
+//   return input.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+// }

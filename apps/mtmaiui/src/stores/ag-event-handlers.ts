@@ -7,65 +7,6 @@ import {
 import { generateUUID } from "mtxuilib/lib/utils";
 import type { AgTextMessage } from "../types/event";
 import type { WorkbrenchState } from "./workbrench.store";
-// export async function submitMessages(
-//   set: (
-//     partial:
-//       | Partial<WorkbrenchState>
-//       | ((state: WorkbrenchState) => Partial<WorkbrenchState>),
-//   ) => void,
-//   get: () => WorkbrenchState,
-// ) {
-//   const tenant = get().tenant;
-//   if (!tenant?.metadata?.id) {
-//     throw new Error("(handleSseGraphStream)tenant is required");
-//   }
-
-//   const messages = get().messages;
-//   let threadId = get().threadId;
-//   const componentId = get().componentId;
-//   const content = messages[messages.length - 1].content;
-
-//   if (!threadId) {
-//     threadId = generateUUID();
-//     set({ threadId: threadId });
-//   }
-//   // const response = await workflowRunCreate({
-//   //   path: {
-//   //     workflow: FlowNames.AG,
-//   //   },
-//   //   body: {
-//   //     input: {
-//   //       type: AgentEventType.AGENT_USER_INPUT,
-//   //       content: content,
-//   //       topic: "default",
-//   //       source: "web",
-//   //       componentId: componentId,
-//   //       input: input,
-//   //     } satisfies AgentRunInput,
-//   //     additionalMetadata: {
-//   //       sessionId: threadId,
-//   //       componentId: componentId,
-//   //       source: "web",
-//   //       topic: "default",
-//   //     },
-//   //   },
-//   // });
-
-//   // if (response?.data) {
-//   //   // console.log("response", response);
-//   //   // pull stream event
-//   //   if (response.data?.metadata?.id) {
-//   //     const workflowRunId = response.data.metadata?.id;
-//   //     set({ workflowRunId: workflowRunId });
-//   //     const result = await get().dispatcherClient.subscribeToWorkflowEvents({
-//   //       workflowRunId: workflowRunId,
-//   //     });
-//   //     for await (const event of result) {
-//   //       handleWorkflowRunEvent(event, get, set);
-//   //     }
-//   //   }
-//   // }
-// }
 
 export const handleWorkflowRunEvent = (
   event: WorkflowEvent,
