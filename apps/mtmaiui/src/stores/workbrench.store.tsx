@@ -1,7 +1,11 @@
 "use client";
 
 import type { Client } from "@connectrpc/connect";
-import { type UseMutationResult, useMutation } from "@tanstack/react-query";
+import {
+  type UseMutationResult,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query";
 import { debounce } from "lodash";
 import {
   type AgState,
@@ -15,6 +19,7 @@ import {
   type Tenant,
   type WorkflowRun,
   type WorkflowRunCreateData,
+  agStateListOptions,
   workflowRunCreate,
   workflowRunCreateMutation,
 } from "mtmaiapi";
@@ -35,7 +40,7 @@ import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
-import { useTenant } from "../hooks/useAuth";
+import { useTenant, useTenantId } from "../hooks/useAuth";
 import { useNav, useSearch } from "../hooks/useNav";
 import { useMtmaiV2 } from "./StoreProvider";
 import { useGomtmClient } from "./TransportProvider";
@@ -281,8 +286,10 @@ const mtmaiStoreContext = createContext<ReturnType<
   typeof createWordbrenchStore
 > | null>(null);
 
-type AppProviderProps = React.PropsWithChildren<WorkbenchProps>;
-export const WorkbrenchProvider = (props: AppProviderProps) => {
+// type AppProviderProps = ;
+export const WorkbrenchProvider = (
+  props: React.PropsWithChildren<WorkbenchProps>,
+) => {
   const { children, ...etc } = props;
   const nav = useNav();
   const eventClient = useGomtmClient(EventsService);
@@ -296,6 +303,10 @@ export const WorkbrenchProvider = (props: AppProviderProps) => {
   const workflowRunCreate = useMutation({
     ...workflowRunCreateMutation(),
   });
+
+  const tid = useTenantId();
+  // const sessionId = useSessionId();
+
   const mystore = useMemo(
     () =>
       createWordbrenchStore({
@@ -317,6 +328,24 @@ export const WorkbrenchProvider = (props: AppProviderProps) => {
       mtmAgClient,
     ],
   );
+
+  const agStateListQuery = useQuery({
+    ...agStateListOptions({
+      path: {
+        tenant: tid!,
+      },
+      query: {
+        session: etc.threadId,
+      },
+    }),
+  });
+
+  useEffect(() => {
+    if (agStateListQuery.data) {
+      // setTeamState(agStateListQuery.data);
+    }
+  }, [agStateListQuery.data]);
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     return mystore.subscribe(

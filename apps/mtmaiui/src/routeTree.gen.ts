@@ -39,7 +39,6 @@ const WorkflowRunsRouteLazyImport = createFileRoute('/workflow-runs')()
 const TenantRouteLazyImport = createFileRoute('/tenant')()
 const TeamRouteLazyImport = createFileRoute('/team')()
 const SiteRouteLazyImport = createFileRoute('/site')()
-const SettingsRouteLazyImport = createFileRoute('/settings')()
 const SessionRouteLazyImport = createFileRoute('/session')()
 const ScheduledRunsRouteLazyImport = createFileRoute('/scheduled-runs')()
 const ResourceRouteLazyImport = createFileRoute('/resource')()
@@ -49,7 +48,6 @@ const PostRouteLazyImport = createFileRoute('/post')()
 const PlatformAccountRouteLazyImport = createFileRoute('/platform-account')()
 const PlatformRouteLazyImport = createFileRoute('/platform')()
 const ModelRouteLazyImport = createFileRoute('/model')()
-const GalleryRouteLazyImport = createFileRoute('/gallery')()
 const EventsRouteLazyImport = createFileRoute('/events')()
 const EnvsRouteLazyImport = createFileRoute('/envs')()
 const EndpointRouteLazyImport = createFileRoute('/endpoint')()
@@ -79,7 +77,6 @@ const PlatformAccountPlatformAccountIdRouteLazyImport = createFileRoute(
 )()
 const ModelNewRouteLazyImport = createFileRoute('/model/new')()
 const ModelModelIdRouteLazyImport = createFileRoute('/model/$modelId')()
-const GalleryGalleryIdRouteLazyImport = createFileRoute('/gallery/$galleryId')()
 const ComsComIdRouteLazyImport = createFileRoute('/coms/$comId')()
 const AuthRegisterLazyImport = createFileRoute('/auth/register')()
 const AuthLoginRouteLazyImport = createFileRoute('/auth/login')()
@@ -87,7 +84,6 @@ const WorkflowsIndexLazyImport = createFileRoute('/workflows/')()
 const WorkflowRunsIndexLazyImport = createFileRoute('/workflow-runs/')()
 const TenantIndexLazyImport = createFileRoute('/tenant/')()
 const TeamIndexLazyImport = createFileRoute('/team/')()
-const SettingsIndexLazyImport = createFileRoute('/settings/')()
 const SessionIndexLazyImport = createFileRoute('/session/')()
 const ScheduledRunsIndexLazyImport = createFileRoute('/scheduled-runs/')()
 const ResourceIndexLazyImport = createFileRoute('/resource/')()
@@ -96,7 +92,6 @@ const ProxyIndexLazyImport = createFileRoute('/proxy/')()
 const PostIndexLazyImport = createFileRoute('/post/')()
 const PlatformAccountIndexLazyImport = createFileRoute('/platform-account/')()
 const ModelIndexLazyImport = createFileRoute('/model/')()
-const GalleryIndexLazyImport = createFileRoute('/gallery/')()
 const EventsIndexLazyImport = createFileRoute('/events/')()
 const EnvsIndexLazyImport = createFileRoute('/envs/')()
 const EndpointIndexLazyImport = createFileRoute('/endpoint/')()
@@ -397,14 +392,6 @@ const SiteRouteLazyRoute = SiteRouteLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~site/~route.lazy').then((d) => d.Route))
 
-const SettingsRouteLazyRoute = SettingsRouteLazyImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/~settings/~route.lazy').then((d) => d.Route),
-)
-
 const SessionRouteLazyRoute = SessionRouteLazyImport.update({
   id: '/session',
   path: '/session',
@@ -470,14 +457,6 @@ const ModelRouteLazyRoute = ModelRouteLazyImport.update({
   path: '/model',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~model/~route.lazy').then((d) => d.Route))
-
-const GalleryRouteLazyRoute = GalleryRouteLazyImport.update({
-  id: '/gallery',
-  path: '/gallery',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/~gallery/~route.lazy').then((d) => d.Route),
-)
 
 const EventsRouteLazyRoute = EventsRouteLazyImport.update({
   id: '/events',
@@ -651,14 +630,6 @@ const ModelModelIdRouteLazyRoute = ModelModelIdRouteLazyImport.update({
   import('./routes/~model/~$modelId/~route.lazy').then((d) => d.Route),
 )
 
-const GalleryGalleryIdRouteLazyRoute = GalleryGalleryIdRouteLazyImport.update({
-  id: '/$galleryId',
-  path: '/$galleryId',
-  getParentRoute: () => GalleryRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~gallery/~$galleryId/~route.lazy').then((d) => d.Route),
-)
-
 const ComsComIdRouteLazyRoute = ComsComIdRouteLazyImport.update({
   id: '/$comId',
   path: '/$comId',
@@ -712,14 +683,6 @@ const TeamIndexLazyRoute = TeamIndexLazyImport.update({
   path: '/',
   getParentRoute: () => TeamRouteLazyRoute,
 } as any).lazy(() => import('./routes/~team/~index.lazy').then((d) => d.Route))
-
-const SettingsIndexLazyRoute = SettingsIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => SettingsRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~settings/~index.lazy').then((d) => d.Route),
-)
 
 const SessionIndexLazyRoute = SessionIndexLazyImport.update({
   id: '/',
@@ -778,14 +741,6 @@ const ModelIndexLazyRoute = ModelIndexLazyImport.update({
   path: '/',
   getParentRoute: () => ModelRouteLazyRoute,
 } as any).lazy(() => import('./routes/~model/~index.lazy').then((d) => d.Route))
-
-const GalleryIndexLazyRoute = GalleryIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => GalleryRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~gallery/~index.lazy').then((d) => d.Route),
-)
 
 const EventsIndexLazyRoute = EventsIndexLazyImport.update({
   id: '/',
@@ -1994,13 +1949,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsRouteLazyImport
       parentRoute: typeof rootRoute
     }
-    '/gallery': {
-      id: '/gallery'
-      path: '/gallery'
-      fullPath: '/gallery'
-      preLoaderRoute: typeof GalleryRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/model': {
       id: '/model'
       path: '/model'
@@ -2062,13 +2010,6 @@ declare module '@tanstack/react-router' {
       path: '/session'
       fullPath: '/session'
       preLoaderRoute: typeof SessionRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteLazyImport
       parentRoute: typeof rootRoute
     }
     '/site': {
@@ -2169,13 +2110,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsIndexLazyImport
       parentRoute: typeof EventsRouteLazyImport
     }
-    '/gallery/': {
-      id: '/gallery/'
-      path: '/'
-      fullPath: '/gallery/'
-      preLoaderRoute: typeof GalleryIndexLazyImport
-      parentRoute: typeof GalleryRouteLazyImport
-    }
     '/model/': {
       id: '/model/'
       path: '/'
@@ -2232,13 +2166,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SessionIndexLazyImport
       parentRoute: typeof SessionRouteLazyImport
     }
-    '/settings/': {
-      id: '/settings/'
-      path: '/'
-      fullPath: '/settings/'
-      preLoaderRoute: typeof SettingsIndexLazyImport
-      parentRoute: typeof SettingsRouteLazyImport
-    }
     '/team/': {
       id: '/team/'
       path: '/'
@@ -2287,13 +2214,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/coms/$comId'
       preLoaderRoute: typeof ComsComIdRouteLazyImport
       parentRoute: typeof ComsRouteLazyImport
-    }
-    '/gallery/$galleryId': {
-      id: '/gallery/$galleryId'
-      path: '/$galleryId'
-      fullPath: '/gallery/$galleryId'
-      preLoaderRoute: typeof GalleryGalleryIdRouteLazyImport
-      parentRoute: typeof GalleryRouteLazyImport
     }
     '/model/$modelId': {
       id: '/model/$modelId'
@@ -3560,19 +3480,6 @@ const EventsRouteLazyRouteWithChildren = EventsRouteLazyRoute._addFileChildren(
   EventsRouteLazyRouteChildren,
 )
 
-interface GalleryRouteLazyRouteChildren {
-  GalleryIndexLazyRoute: typeof GalleryIndexLazyRoute
-  GalleryGalleryIdRouteLazyRoute: typeof GalleryGalleryIdRouteLazyRoute
-}
-
-const GalleryRouteLazyRouteChildren: GalleryRouteLazyRouteChildren = {
-  GalleryIndexLazyRoute: GalleryIndexLazyRoute,
-  GalleryGalleryIdRouteLazyRoute: GalleryGalleryIdRouteLazyRoute,
-}
-
-const GalleryRouteLazyRouteWithChildren =
-  GalleryRouteLazyRoute._addFileChildren(GalleryRouteLazyRouteChildren)
-
 interface ModelModelIdRouteLazyRouteChildren {
   ModelModelIdIndexLazyRoute: typeof ModelModelIdIndexLazyRoute
 }
@@ -3946,17 +3853,6 @@ const SessionRouteLazyRouteChildren: SessionRouteLazyRouteChildren = {
 
 const SessionRouteLazyRouteWithChildren =
   SessionRouteLazyRoute._addFileChildren(SessionRouteLazyRouteChildren)
-
-interface SettingsRouteLazyRouteChildren {
-  SettingsIndexLazyRoute: typeof SettingsIndexLazyRoute
-}
-
-const SettingsRouteLazyRouteChildren: SettingsRouteLazyRouteChildren = {
-  SettingsIndexLazyRoute: SettingsIndexLazyRoute,
-}
-
-const SettingsRouteLazyRouteWithChildren =
-  SettingsRouteLazyRoute._addFileChildren(SettingsRouteLazyRouteChildren)
 
 interface SiteSiteIdHostRouteRouteChildren {
   SiteSiteIdHostIndexRoute: typeof SiteSiteIdHostIndexRoute
@@ -4420,7 +4316,6 @@ export interface FileRoutesByFullPath {
   '/endpoint': typeof EndpointRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
   '/events': typeof EventsRouteLazyRouteWithChildren
-  '/gallery': typeof GalleryRouteLazyRouteWithChildren
   '/model': typeof ModelRouteLazyRouteWithChildren
   '/platform': typeof PlatformRouteLazyRouteWithChildren
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
@@ -4430,7 +4325,6 @@ export interface FileRoutesByFullPath {
   '/resource': typeof ResourceRouteLazyRouteWithChildren
   '/scheduled-runs': typeof ScheduledRunsRouteLazyRouteWithChildren
   '/session': typeof SessionRouteLazyRouteWithChildren
-  '/settings': typeof SettingsRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
   '/team': typeof TeamRouteLazyRouteWithChildren
   '/tenant': typeof TenantRouteLazyRouteWithChildren
@@ -4445,7 +4339,6 @@ export interface FileRoutesByFullPath {
   '/endpoint/': typeof EndpointIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/events/': typeof EventsIndexLazyRoute
-  '/gallery/': typeof GalleryIndexLazyRoute
   '/model/': typeof ModelIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/post/': typeof PostIndexLazyRoute
@@ -4454,7 +4347,6 @@ export interface FileRoutesByFullPath {
   '/resource/': typeof ResourceIndexLazyRoute
   '/scheduled-runs/': typeof ScheduledRunsIndexLazyRoute
   '/session/': typeof SessionIndexLazyRoute
-  '/settings/': typeof SettingsIndexLazyRoute
   '/team/': typeof TeamIndexLazyRoute
   '/tenant/': typeof TenantIndexLazyRoute
   '/workflow-runs/': typeof WorkflowRunsIndexLazyRoute
@@ -4462,7 +4354,6 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
   '/auth/register': typeof AuthRegisterLazyRoute
   '/coms/$comId': typeof ComsComIdRouteLazyRouteWithChildren
-  '/gallery/$galleryId': typeof GalleryGalleryIdRouteLazyRoute
   '/model/$modelId': typeof ModelModelIdRouteLazyRouteWithChildren
   '/model/new': typeof ModelNewRouteLazyRouteWithChildren
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
@@ -4602,7 +4493,6 @@ export interface FileRoutesByTo {
   '/endpoint': typeof EndpointIndexLazyRoute
   '/envs': typeof EnvsIndexLazyRoute
   '/events': typeof EventsIndexLazyRoute
-  '/gallery': typeof GalleryIndexLazyRoute
   '/model': typeof ModelIndexLazyRoute
   '/platform-account': typeof PlatformAccountIndexLazyRoute
   '/post': typeof PostIndexLazyRoute
@@ -4611,13 +4501,11 @@ export interface FileRoutesByTo {
   '/resource': typeof ResourceIndexLazyRoute
   '/scheduled-runs': typeof ScheduledRunsIndexLazyRoute
   '/session': typeof SessionIndexLazyRoute
-  '/settings': typeof SettingsIndexLazyRoute
   '/team': typeof TeamIndexLazyRoute
   '/tenant': typeof TenantIndexLazyRoute
   '/workflow-runs': typeof WorkflowRunsIndexLazyRoute
   '/workflows': typeof WorkflowsIndexLazyRoute
   '/auth/register': typeof AuthRegisterLazyRoute
-  '/gallery/$galleryId': typeof GalleryGalleryIdRouteLazyRoute
   '/post/create': typeof PostCreateLazyRoute
   '/proxy/new': typeof ProxyNewRouteLazyRoute
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
@@ -4708,7 +4596,6 @@ export interface FileRoutesById {
   '/endpoint': typeof EndpointRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
   '/events': typeof EventsRouteLazyRouteWithChildren
-  '/gallery': typeof GalleryRouteLazyRouteWithChildren
   '/model': typeof ModelRouteLazyRouteWithChildren
   '/platform': typeof PlatformRouteLazyRouteWithChildren
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
@@ -4718,7 +4605,6 @@ export interface FileRoutesById {
   '/resource': typeof ResourceRouteLazyRouteWithChildren
   '/scheduled-runs': typeof ScheduledRunsRouteLazyRouteWithChildren
   '/session': typeof SessionRouteLazyRouteWithChildren
-  '/settings': typeof SettingsRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
   '/team': typeof TeamRouteLazyRouteWithChildren
   '/tenant': typeof TenantRouteLazyRouteWithChildren
@@ -4733,7 +4619,6 @@ export interface FileRoutesById {
   '/endpoint/': typeof EndpointIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/events/': typeof EventsIndexLazyRoute
-  '/gallery/': typeof GalleryIndexLazyRoute
   '/model/': typeof ModelIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/post/': typeof PostIndexLazyRoute
@@ -4742,7 +4627,6 @@ export interface FileRoutesById {
   '/resource/': typeof ResourceIndexLazyRoute
   '/scheduled-runs/': typeof ScheduledRunsIndexLazyRoute
   '/session/': typeof SessionIndexLazyRoute
-  '/settings/': typeof SettingsIndexLazyRoute
   '/team/': typeof TeamIndexLazyRoute
   '/tenant/': typeof TenantIndexLazyRoute
   '/workflow-runs/': typeof WorkflowRunsIndexLazyRoute
@@ -4750,7 +4634,6 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
   '/auth/register': typeof AuthRegisterLazyRoute
   '/coms/$comId': typeof ComsComIdRouteLazyRouteWithChildren
-  '/gallery/$galleryId': typeof GalleryGalleryIdRouteLazyRoute
   '/model/$modelId': typeof ModelModelIdRouteLazyRouteWithChildren
   '/model/new': typeof ModelNewRouteLazyRouteWithChildren
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
@@ -4889,7 +4772,6 @@ export interface FileRouteTypes {
     | '/endpoint'
     | '/envs'
     | '/events'
-    | '/gallery'
     | '/model'
     | '/platform'
     | '/platform-account'
@@ -4899,7 +4781,6 @@ export interface FileRouteTypes {
     | '/resource'
     | '/scheduled-runs'
     | '/session'
-    | '/settings'
     | '/site'
     | '/team'
     | '/tenant'
@@ -4914,7 +4795,6 @@ export interface FileRouteTypes {
     | '/endpoint/'
     | '/envs/'
     | '/events/'
-    | '/gallery/'
     | '/model/'
     | '/platform-account/'
     | '/post/'
@@ -4923,7 +4803,6 @@ export interface FileRouteTypes {
     | '/resource/'
     | '/scheduled-runs/'
     | '/session/'
-    | '/settings/'
     | '/team/'
     | '/tenant/'
     | '/workflow-runs/'
@@ -4931,7 +4810,6 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/coms/$comId'
-    | '/gallery/$galleryId'
     | '/model/$modelId'
     | '/model/new'
     | '/platform-account/$platformAccountId'
@@ -5070,7 +4948,6 @@ export interface FileRouteTypes {
     | '/endpoint'
     | '/envs'
     | '/events'
-    | '/gallery'
     | '/model'
     | '/platform-account'
     | '/post'
@@ -5079,13 +4956,11 @@ export interface FileRouteTypes {
     | '/resource'
     | '/scheduled-runs'
     | '/session'
-    | '/settings'
     | '/team'
     | '/tenant'
     | '/workflow-runs'
     | '/workflows'
     | '/auth/register'
-    | '/gallery/$galleryId'
     | '/post/create'
     | '/proxy/new'
     | '/resource/new'
@@ -5174,7 +5049,6 @@ export interface FileRouteTypes {
     | '/endpoint'
     | '/envs'
     | '/events'
-    | '/gallery'
     | '/model'
     | '/platform'
     | '/platform-account'
@@ -5184,7 +5058,6 @@ export interface FileRouteTypes {
     | '/resource'
     | '/scheduled-runs'
     | '/session'
-    | '/settings'
     | '/site'
     | '/team'
     | '/tenant'
@@ -5199,7 +5072,6 @@ export interface FileRouteTypes {
     | '/endpoint/'
     | '/envs/'
     | '/events/'
-    | '/gallery/'
     | '/model/'
     | '/platform-account/'
     | '/post/'
@@ -5208,7 +5080,6 @@ export interface FileRouteTypes {
     | '/resource/'
     | '/scheduled-runs/'
     | '/session/'
-    | '/settings/'
     | '/team/'
     | '/tenant/'
     | '/workflow-runs/'
@@ -5216,7 +5087,6 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/coms/$comId'
-    | '/gallery/$galleryId'
     | '/model/$modelId'
     | '/model/new'
     | '/platform-account/$platformAccountId'
@@ -5354,7 +5224,6 @@ export interface RootRouteChildren {
   EndpointRouteLazyRoute: typeof EndpointRouteLazyRouteWithChildren
   EnvsRouteLazyRoute: typeof EnvsRouteLazyRouteWithChildren
   EventsRouteLazyRoute: typeof EventsRouteLazyRouteWithChildren
-  GalleryRouteLazyRoute: typeof GalleryRouteLazyRouteWithChildren
   ModelRouteLazyRoute: typeof ModelRouteLazyRouteWithChildren
   PlatformRouteLazyRoute: typeof PlatformRouteLazyRouteWithChildren
   PlatformAccountRouteLazyRoute: typeof PlatformAccountRouteLazyRouteWithChildren
@@ -5364,7 +5233,6 @@ export interface RootRouteChildren {
   ResourceRouteLazyRoute: typeof ResourceRouteLazyRouteWithChildren
   ScheduledRunsRouteLazyRoute: typeof ScheduledRunsRouteLazyRouteWithChildren
   SessionRouteLazyRoute: typeof SessionRouteLazyRouteWithChildren
-  SettingsRouteLazyRoute: typeof SettingsRouteLazyRouteWithChildren
   SiteRouteLazyRoute: typeof SiteRouteLazyRouteWithChildren
   TeamRouteLazyRoute: typeof TeamRouteLazyRouteWithChildren
   TenantRouteLazyRoute: typeof TenantRouteLazyRouteWithChildren
@@ -5381,7 +5249,6 @@ const rootRouteChildren: RootRouteChildren = {
   EndpointRouteLazyRoute: EndpointRouteLazyRouteWithChildren,
   EnvsRouteLazyRoute: EnvsRouteLazyRouteWithChildren,
   EventsRouteLazyRoute: EventsRouteLazyRouteWithChildren,
-  GalleryRouteLazyRoute: GalleryRouteLazyRouteWithChildren,
   ModelRouteLazyRoute: ModelRouteLazyRouteWithChildren,
   PlatformRouteLazyRoute: PlatformRouteLazyRouteWithChildren,
   PlatformAccountRouteLazyRoute: PlatformAccountRouteLazyRouteWithChildren,
@@ -5391,7 +5258,6 @@ const rootRouteChildren: RootRouteChildren = {
   ResourceRouteLazyRoute: ResourceRouteLazyRouteWithChildren,
   ScheduledRunsRouteLazyRoute: ScheduledRunsRouteLazyRouteWithChildren,
   SessionRouteLazyRoute: SessionRouteLazyRouteWithChildren,
-  SettingsRouteLazyRoute: SettingsRouteLazyRouteWithChildren,
   SiteRouteLazyRoute: SiteRouteLazyRouteWithChildren,
   TeamRouteLazyRoute: TeamRouteLazyRouteWithChildren,
   TenantRouteLazyRoute: TenantRouteLazyRouteWithChildren,
@@ -5417,7 +5283,6 @@ export const routeTree = rootRoute
         "/endpoint",
         "/envs",
         "/events",
-        "/gallery",
         "/model",
         "/platform",
         "/platform-account",
@@ -5427,7 +5292,6 @@ export const routeTree = rootRoute
         "/resource",
         "/scheduled-runs",
         "/session",
-        "/settings",
         "/site",
         "/team",
         "/tenant",
@@ -5476,13 +5340,6 @@ export const routeTree = rootRoute
       "filePath": "~events/~route.lazy.tsx",
       "children": [
         "/events/"
-      ]
-    },
-    "/gallery": {
-      "filePath": "~gallery/~route.lazy.tsx",
-      "children": [
-        "/gallery/",
-        "/gallery/$galleryId"
       ]
     },
     "/model": {
@@ -5548,12 +5405,6 @@ export const routeTree = rootRoute
         "/session/",
         "/session/$sessionId",
         "/session/new"
-      ]
-    },
-    "/settings": {
-      "filePath": "~settings/~route.lazy.tsx",
-      "children": [
-        "/settings/"
       ]
     },
     "/site": {
@@ -5633,10 +5484,6 @@ export const routeTree = rootRoute
       "filePath": "~events/~index.lazy.tsx",
       "parent": "/events"
     },
-    "/gallery/": {
-      "filePath": "~gallery/~index.lazy.tsx",
-      "parent": "/gallery"
-    },
     "/model/": {
       "filePath": "~model/~index.lazy.tsx",
       "parent": "/model"
@@ -5668,10 +5515,6 @@ export const routeTree = rootRoute
     "/session/": {
       "filePath": "~session/~index.lazy.tsx",
       "parent": "/session"
-    },
-    "/settings/": {
-      "filePath": "~settings/~index.lazy.tsx",
-      "parent": "/settings"
     },
     "/team/": {
       "filePath": "~team/~index.lazy.tsx",
@@ -5714,10 +5557,6 @@ export const routeTree = rootRoute
         "/coms/$comId/visualization",
         "/coms/$comId/edit/model"
       ]
-    },
-    "/gallery/$galleryId": {
-      "filePath": "~gallery/~$galleryId/~route.lazy.tsx",
-      "parent": "/gallery"
     },
     "/model/$modelId": {
       "filePath": "~model/~$modelId/~route.lazy.tsx",

@@ -26,18 +26,9 @@ function RouteComponent() {
     }),
   });
 
-  // useEffect(() => {
-  //   if (agStateQuery.data) {
-  //     setTeamState(agStateQuery.data);
-  //   }
-  // }, [agStateQuery.data, setTeamState]);
   return (
     <>
       <DebugValue data={{ agState: agStateListQuery.data }} />
-      {/* {agStateQuery.data?.state?.type === StateType.TEAM_STATE && (
-        <TeamStateView teamState={agStateQuery.data.state as TeamState} />
-      )} */}
-
       {agStateListQuery.data?.rows?.map((x) => (
         <AgStateView key={x.metadata.id} state={x} />
       ))}
