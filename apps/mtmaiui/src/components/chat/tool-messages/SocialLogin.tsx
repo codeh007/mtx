@@ -1,11 +1,8 @@
 import { AgentEventType } from "mtmaiapi";
 import { zSocialLoginInput } from "mtmaiapi/gomtmapi/zod.gen";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
-import {
-  ZForm,
-  ZFormToolbar,
-  useZodFormV2,
-} from "mtxuilib/mt/form/ZodForm";
+import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
+import { Button } from "mtxuilib/ui/button";
 import {
   FormControl,
   FormField,
@@ -14,8 +11,12 @@ import {
   FormMessage,
 } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
+import { useState } from "react";
+import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
 export const SocialLoginView = ({ msg }: { msg: any }) => {
+  const [open, setOpen] = useState(false);
+  const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
   const form = useZodFormV2({
     schema: zSocialLoginInput,
     toastValidateError: true,
@@ -27,66 +28,65 @@ export const SocialLoginView = ({ msg }: { msg: any }) => {
     },
     handleSubmit: (values) => {
       console.log("values", values);
-      // handleHumanInput({
-      //   content: "",
-      //   type: AgentEventType.AGENT_USER_INPUT,
-      //   input: {
-      //     ...values,
-      //   },
-      // });
+      handleHumanInput({
+        ...values,
+        type: AgentEventType.SOCIAL_LOGIN_INPUT,
+      });
     },
   });
 
   return (
-    <div className="rounded-md bg-yellow-100 p-1">
+    <div className="rounded-md px-2">
       <h1>social login view</h1>
-      <DebugValue value={msg} />
-      {/* <pre className="text-xs bg-yellow-100 p-1">
-        {JSON.stringify(msg, null, 2)}
-      </pre> */}
-      <ZForm {...form} className="space-y-2">
-        <input type="hidden" {...form.form.register("type")} />
-        <FormField
-          control={form.form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>User name</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="username" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="password" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.form.control}
-          name="otp_key"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>otp_key</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="otp_key" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </ZForm>
-      <ZFormToolbar form={form.form} />
+      {!open && <Button onClick={() => setOpen(!open)}>登录</Button>}
+      <DebugValue data={msg} />
+      {open && (
+        <>
+          <ZForm {...form} className="space-y-2">
+            <input type="hidden" {...form.form.register("type")} />
+            <FormField
+              control={form.form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>User name</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="username" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="password" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.form.control}
+              name="otp_key"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>otp_key</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="otp_key" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </ZForm>
+          <ZFormToolbar form={form.form} />
+        </>
+      )}
     </div>
   );
 };

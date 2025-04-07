@@ -79,7 +79,9 @@ export const AssistantMessageView = ({ msg }: { msg: AssistantMessage }) => {
       </div>
       <MtSuspenseBoundary>
         {typeof msg.content === "string" ? (
-          <Markdown>{msg.content}</Markdown>
+          <div className="max-w-[400px] overflow-x-auto">
+            <Markdown>{msg.content}</Markdown>
+          </div>
         ) : (
           <FunctionCallView msg={msg.content} />
         )}

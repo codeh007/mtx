@@ -22,7 +22,7 @@ export const FunctionExecutionResultMessageView = ({
   const toolName = camelCase(content.name);
 
   return (
-    <div className="bg-blue-200 p-1">
+    <div className="p-1">
       <DebugValue data={{ msg }} />
       {toolName === "codeExecutor" ? (
         <CodeExecutorView msg={content.content} />
