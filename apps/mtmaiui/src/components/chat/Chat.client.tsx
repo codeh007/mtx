@@ -8,7 +8,7 @@ import { ToastContainer, cssTransition } from "react-toastify";
 import { AgentEventType } from "mtmaiapi";
 import { Icons } from "mtxuilib/icons/icons";
 import { cn } from "mtxuilib/lib/utils";
-import { useWorkbenchStore } from "../../../../stores/workbrench.store";
+import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { BaseChat } from "./BaseChat";
 const toastAnimation = cssTransition({
   enter: "animated fadeInRight",

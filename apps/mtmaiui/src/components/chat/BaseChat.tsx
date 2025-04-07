@@ -4,7 +4,7 @@ import type React from "react";
 import { type RefCallback, forwardRef, useMemo } from "react";
 
 import { classNames } from "mtxuilib/lib/utils";
-import { useWorkbenchStore } from "../../../../stores/workbrench.store";
+import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { MtMessages } from "./MtMessages";
 import { BoltPromptBox } from "./prompt-input/BoltPromptBox";
 

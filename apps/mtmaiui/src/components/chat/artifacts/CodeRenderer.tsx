@@ -18,7 +18,7 @@ import { getArtifactContent } from "mtxuilib/agentutils/opencanvas_utils";
 import { cleanContent } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
 import React, { type MutableRefObject } from "react";
-import { useWorkbenchStore } from "../../../../../stores/workbrench.store";
+import { useWorkbenchStore } from "../../../stores/workbrench.store";
 import styles from "./CodeRenderer.module.css";
 import { CopyText } from "./components/CopyText";
 

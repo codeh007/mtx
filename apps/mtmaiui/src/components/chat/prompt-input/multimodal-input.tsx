@@ -21,7 +21,7 @@ import {
 import { toast } from "sonner";
 import { useLocalStorage, useWindowSize } from "usehooks-ts";
 
-import { sanitizeUIMessages } from "../../../../../lib/utils";
+import { sanitizeUIMessages } from "../../../lib/utils";
 
 import {
   ArrowUpIcon,

@@ -1,5 +1,5 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { ChatClient } from "../../~play/~chat/chat/Chat.client";
+import { ChatClient } from "../../../components/chat/Chat.client";
 
 export const Route = createLazyFileRoute("/session/$sessionId/")({
   component: RouteComponent,

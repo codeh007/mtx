@@ -22,7 +22,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useWorkbenchStore } from "../../../../../stores/workbrench.store";
+import { useWorkbenchStore } from "../../../stores/workbrench.store";
 import { CopyText } from "./components/CopyText";
 
 const cleanText = (text: string) => {
