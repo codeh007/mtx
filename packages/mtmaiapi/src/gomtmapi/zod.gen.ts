@@ -791,13 +791,9 @@ export const zWorkflowWorkersCount = z.object({
         "assistant",
         "ag",
         "browser",
-        "smola",
-        "team",
-        "com",
-        "platform_account_login",
-        "platform_account_follow",
         "resource",
         "instagram",
+        "social",
         "user",
       ]),
       z.object({
@@ -1008,6 +1004,9 @@ export const zWorkflowWorkersCount = z.object({
             is_error: z.boolean().optional(),
           }),
         ),
+      }),
+      z.object({
+        max_turns: z.number().int().optional().default(25),
       }),
     ])
     .optional(),
@@ -2355,13 +2354,9 @@ export const zFlowNames = z.enum([
   "assistant",
   "ag",
   "browser",
-  "smola",
-  "team",
-  "com",
-  "platform_account_login",
-  "platform_account_follow",
   "resource",
   "instagram",
+  "social",
   "user",
 ]);
 
@@ -2382,6 +2377,10 @@ export const zTenantComponentConfig = z.object({
 
 export const zSystemConfig = z.object({
   default_openai_api_key: z.string().optional(),
+});
+
+export const zUserTeamConfig = z.object({
+  max_turns: z.number().int().optional().default(25),
 });
 
 export const zComponentTypes = z.enum([

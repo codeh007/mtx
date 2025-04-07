@@ -872,7 +872,8 @@ export type WorkflowWorkersCount = {
     | UserMessage
     | SystemMessage
     | AssistantMessage
-    | FunctionExecutionResultMessage;
+    | FunctionExecutionResultMessage
+    | UserTeamConfig;
 };
 
 export type WorkflowRun = {
@@ -2266,13 +2267,9 @@ export type FlowNames =
   | "assistant"
   | "ag"
   | "browser"
-  | "smola"
-  | "team"
-  | "com"
-  | "platform_account_login"
-  | "platform_account_follow"
   | "resource"
   | "instagram"
+  | "social"
   | "user";
 
 export const FlowNames = {
@@ -2281,13 +2278,9 @@ export const FlowNames = {
   ASSISTANT: "assistant",
   AG: "ag",
   BROWSER: "browser",
-  SMOLA: "smola",
-  TEAM: "team",
-  COM: "com",
-  PLATFORM_ACCOUNT_LOGIN: "platform_account_login",
-  PLATFORM_ACCOUNT_FOLLOW: "platform_account_follow",
   RESOURCE: "resource",
   INSTAGRAM: "instagram",
+  SOCIAL: "social",
   USER: "user",
 } as const;
 
@@ -2314,6 +2307,10 @@ export type TenantComponentConfig = {
 
 export type SystemConfig = {
   default_openai_api_key?: string;
+};
+
+export type UserTeamConfig = {
+  max_turns?: number;
 };
 
 export type ComponentTypes =

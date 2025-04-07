@@ -1503,6 +1503,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/FunctionExecutionResultMessage",
         },
+        {
+          $ref: "#/components/schemas/UserTeamConfig",
+        },
       ],
     },
   },
@@ -4142,13 +4145,9 @@ export const FlowNamesSchema = {
     "assistant",
     "ag",
     "browser",
-    "smola",
-    "team",
-    "com",
-    "platform_account_login",
-    "platform_account_follow",
     "resource",
     "instagram",
+    "social",
     "user",
   ],
 } as const;
@@ -4187,6 +4186,15 @@ export const SystemConfigSchema = {
   properties: {
     default_openai_api_key: {
       type: "string",
+    },
+  },
+} as const;
+
+export const UserTeamConfigSchema = {
+  properties: {
+    max_turns: {
+      type: "integer",
+      default: 25,
     },
   },
 } as const;
