@@ -873,7 +873,10 @@ export type WorkflowWorkersCount = {
     | SystemMessage
     | AssistantMessage
     | FunctionExecutionResultMessage
-    | UserTeamConfig;
+    | UserTeamConfig
+    | ToolTypes
+    | CodeExecutionInput
+    | CodeExecutionResult;
 };
 
 export type WorkflowRun = {
@@ -1972,13 +1975,6 @@ export const ArtifactLengthOptions = {
   LONGEST: "longest",
 } as const;
 
-export type ArtifactToolResponse = {
-  artifact?: string;
-  title?: string;
-  language?: string;
-  type?: string;
-};
-
 /**
  * 阅读级别
  */
@@ -2148,6 +2144,30 @@ export type MtComponentProperties = {
   config: {
     [key: string]: unknown;
   };
+};
+
+export type ToolTypes = "CodeExecutor";
+
+export const ToolTypes = {
+  CODE_EXECUTOR: "CodeExecutor",
+} as const;
+
+export type CodeExecutionInput = {
+  /**
+   * The contents of the Python code block that should be executed
+   */
+  code: string;
+};
+
+export type CodeExecutionResult = {
+  /**
+   * The result of the code execution
+   */
+  output: string;
+  /**
+   * Whether the code execution was successful
+   */
+  success: boolean;
 };
 
 export type MtComponent = ApiResourceMetaProperties & MtComponentProperties;
@@ -2410,12 +2430,6 @@ export const AgentTypes = {
   MULTIMODAL_WEB_SURFER: "MultimodalWebSurfer",
   FILE_SURFER: "FileSurfer",
   MAGENTIC_ONE_CODER_AGENT: "MagenticOneCoderAgent",
-} as const;
-
-export type ToolTypes = "PythonFunction";
-
-export const ToolTypes = {
-  PYTHON_FUNCTION: "PythonFunction",
 } as const;
 
 export type UpsertModel = ModelProperties;

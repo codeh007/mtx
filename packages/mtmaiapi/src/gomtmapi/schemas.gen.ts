@@ -1506,6 +1506,15 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/UserTeamConfig",
         },
+        {
+          $ref: "#/components/schemas/ToolTypes",
+        },
+        {
+          $ref: "#/components/schemas/CodeExecutionInput",
+        },
+        {
+          $ref: "#/components/schemas/CodeExecutionResult",
+        },
       ],
     },
   },
@@ -3514,23 +3523,6 @@ export const ArtifactLengthOptionsSchema = {
   enum: ["shortest", "short", "long", "longest"],
 } as const;
 
-export const ArtifactToolResponseSchema = {
-  properties: {
-    artifact: {
-      type: "string",
-    },
-    title: {
-      type: "string",
-    },
-    language: {
-      type: "string",
-    },
-    type: {
-      type: "string",
-    },
-  },
-} as const;
-
 export const ReadingLevelOptionsSchema = {
   type: "string",
   description: "阅读级别",
@@ -3868,6 +3860,36 @@ export const MtComponentPropertiesSchema = {
     },
     config: {
       type: "object",
+    },
+  },
+} as const;
+
+export const ToolTypesSchema = {
+  type: "string",
+  enum: ["CodeExecutor"],
+} as const;
+
+export const CodeExecutionInputSchema = {
+  required: ["code"],
+  properties: {
+    code: {
+      type: "string",
+      description:
+        "The contents of the Python code block that should be executed",
+    },
+  },
+} as const;
+
+export const CodeExecutionResultSchema = {
+  required: ["output", "success"],
+  properties: {
+    output: {
+      type: "string",
+      description: "The result of the code execution",
+    },
+    success: {
+      type: "boolean",
+      description: "Whether the code execution was successful",
     },
   },
 } as const;
@@ -4417,11 +4439,6 @@ export const AgentTypesSchema = {
     "FileSurfer",
     "MagenticOneCoderAgent",
   ],
-} as const;
-
-export const ToolTypesSchema = {
-  type: "string",
-  enum: ["PythonFunction"],
 } as const;
 
 export const UpsertModelSchema = {

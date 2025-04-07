@@ -3,7 +3,10 @@ import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { chatMessagesListOptions } from "mtmaiapi";
 import { useEffect } from "react";
 import { useTenantId } from "../../../hooks/useAuth";
-import { useWorkbenchStore } from "../../../stores/workbrench.store";
+import {
+  WorkbrenchProvider,
+  useWorkbenchStore,
+} from "../../../stores/workbrench.store";
 import { SessionHeader } from "../header";
 
 export const Route = createLazyFileRoute("/session/$sessionId")({
@@ -39,9 +42,9 @@ function RouteComponent() {
     }
   }, [comId, setComponentId]);
   return (
-    <>
+    <WorkbrenchProvider threadId={sessionId}>
       <SessionHeader />
       <Outlet />
-    </>
+    </WorkbrenchProvider>
   );
 }

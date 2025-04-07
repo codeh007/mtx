@@ -1008,6 +1008,14 @@ export const zWorkflowWorkersCount = z.object({
       z.object({
         max_turns: z.number().int().optional().default(25),
       }),
+      z.enum(["CodeExecutor"]),
+      z.object({
+        code: z.string(),
+      }),
+      z.object({
+        output: z.string(),
+        success: z.boolean(),
+      }),
     ])
     .optional(),
 });
@@ -2031,13 +2039,6 @@ export const zArtifactLengthOptions = z.enum([
   "longest",
 ]);
 
-export const zArtifactToolResponse = z.object({
-  artifact: z.string().optional(),
-  title: z.string().optional(),
-  language: z.string().optional(),
-  type: z.string().optional(),
-});
-
 export const zReadingLevelOptions = z.enum([
   "pirate",
   "child",
@@ -2246,6 +2247,17 @@ export const zMtComponentProperties = z.object({
   version: z.number().int(),
   component_version: z.number().int(),
   config: z.object({}),
+});
+
+export const zToolTypes = z.enum(["CodeExecutor"]);
+
+export const zCodeExecutionInput = z.object({
+  code: z.string(),
+});
+
+export const zCodeExecutionResult = z.object({
+  output: z.string(),
+  success: z.boolean(),
 });
 
 export const zMtComponent = zApiResourceMetaProperties.merge(
@@ -2474,8 +2486,6 @@ export const zAgentTypes = z.enum([
   "FileSurfer",
   "MagenticOneCoderAgent",
 ]);
-
-export const zToolTypes = z.enum(["PythonFunction"]);
 
 export const zUpsertModel = z.object({
   name: z.string(),

@@ -137,8 +137,8 @@ export const createWorkbrenchSlice: StateCreator<
   WorkbrenchState
 > = (set, get, init) => {
   return {
-    // isDev: false,
     backendUrl: "",
+    userAgentState: {},
     setInput: (input) => set({ input }),
     messages: [],
     firstUserInteraction: undefined,
@@ -379,6 +379,7 @@ export const WorkbrenchProvider = (
 
   return (
     <mtmaiStoreContext.Provider value={mystore}>
+      sessionId:{etc.threadId}
       {children}
     </mtmaiStoreContext.Provider>
   );
