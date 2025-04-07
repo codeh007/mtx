@@ -1,11 +1,10 @@
 "use client";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { type AgStateProperties, comsGetOptions } from "mtmaiapi";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { agStateGetOptions, type AgStateProperties, comsGetOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useTenantId } from "../../../../hooks/useAuth";
-import { useTeamStateQuery } from "../hooks/useTeamState";
 
 export const Route = createLazyFileRoute("/play/chat/$sessionId/state")({
   component: RouteComponent,
@@ -14,7 +13,17 @@ export const Route = createLazyFileRoute("/play/chat/$sessionId/state")({
 function RouteComponent() {
   const tid = useTenantId();
   const { sessionId } = Route.useParams();
-  const agStateQuery = useTeamStateQuery({ chatId: sessionId });
+  // const agStateQuery = useTeamStateQuery({ chatId: sessionId });
+  const agStateQuery = useQuery({
+    ...agStateGetOptions({
+      path: {
+        tenant: tid,
+      },
+      query: {
+        chat: sessionId,
+      },
+    }),
+  });
 
   const agState = agStateQuery.data as AgStateProperties;
   return (

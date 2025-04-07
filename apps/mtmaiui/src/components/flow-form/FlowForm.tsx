@@ -2,7 +2,7 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { workflowRunCreateMutation, type FlowNames } from "mtmaiapi";
-import { zAgentRunInput } from "mtmaiapi/gomtmapi/zod.gen";
+import { zMtAgEvent } from "mtmaiapi/gomtmapi/zod.gen";
 import { cn } from "mtxuilib/lib/utils";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";
@@ -57,7 +57,7 @@ export default function FlowForm({
     },
   });
   const form = useZodFormV2({
-    schema: zAgentRunInput,
+    schema: zMtAgEvent,
     defaultValues: {
       content: "hello",
     },

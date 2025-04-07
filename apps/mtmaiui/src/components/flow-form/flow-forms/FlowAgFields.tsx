@@ -1,6 +1,6 @@
 "use client";
 
-import type { zAgentRunInput } from "mtmaiapi/gomtmapi/zod.gen";
+import { zMtAgEvent } from "mtmaiapi/gomtmapi/zod.gen";
 import {
   FormControl,
   FormField,
@@ -15,7 +15,7 @@ import type { z } from "zod";
 import { AgentEventTypeSelect } from "../AgentEventTypeSelect";
 
 export const FlowAgFields = (props: PropsWithChildren) => {
-  const form = useFormContext<z.infer<typeof zAgentRunInput>>();
+  const form = useFormContext<z.infer<typeof zMtAgEvent>>();
 
   return (
     <>

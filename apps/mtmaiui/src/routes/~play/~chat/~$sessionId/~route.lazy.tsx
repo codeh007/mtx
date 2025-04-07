@@ -1,12 +1,15 @@
+import { useQuery } from "@tanstack/react-query";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
-import type { ChatMessage } from "mtmaiapi";
+import { agStateGetOptions, type ChatMessage } from "mtmaiapi";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { generateUUID } from "mtxuilib/lib/utils";
 import { DashContent } from "mtxuilib/mt/DashContent";
 import { useEffect } from "react";
+import { useTenantId } from "../../../../hooks/useAuth";
+import { chatId } from "../../../../lib/persistence/useChatHistory";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 import { ChatClient } from "../chat/Chat.client";
-import { useTeamStateQuery } from "../hooks/useTeamState";
+// import { useTeamStateQuery } from "../hooks/useTeamState";
 export const Route = createLazyFileRoute("/play/chat/$sessionId")({
   component: RouteComponent,
 });
@@ -16,9 +19,21 @@ function RouteComponent() {
   const setThreadId = useWorkbenchStore((x) => x.setThreadId);
   setThreadId(sessionId);
 
-  const agStateQuery = useTeamStateQuery({ chatId: sessionId });
+  // const agStateQuery = useTeamStateQuery({ chatId: sessionId });
   const addMessage = useWorkbenchStore((x) => x.addMessage);
   const messages = useWorkbenchStore((x) => x.messages);
+  const tid = useTenantId();
+  const agStateQuery = useQuery({
+    ...agStateGetOptions({
+      path: {
+        tenant: tid,
+      },
+      query: {
+        chat: chatId,
+      },
+    }),
+  });
+  // return agStateQuery;
   useEffect(() => {
     // 从 team state 获取聊天信息
     if (messages.length > 0) {

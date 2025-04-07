@@ -3669,112 +3669,8 @@ export const InstagramAgentStateSchema = {
         proxy_url: {
           type: "string",
         },
-      },
-    },
-  ],
-} as const;
-
-export const TeamStateSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/BaseState",
-    },
-    {
-      properties: {
-        type: {
+        platform_account_id: {
           type: "string",
-          enum: ["TeamState"],
-        },
-        agent_states: {
-          additionalProperties: true,
-        },
-      },
-    },
-  ],
-} as const;
-
-export const RoundRobinManagerStateSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/BaseGroupChatManagerState",
-    },
-    {
-      properties: {
-        type: {
-          type: "string",
-          enum: ["RoundRobinManagerState"],
-        },
-        next_speaker_index: {
-          type: "integer",
-        },
-      },
-    },
-  ],
-} as const;
-
-export const SelectorManagerStateSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/BaseState",
-    },
-    {
-      properties: {
-        type: {
-          type: "string",
-          enum: ["SelectorManagerState"],
-        },
-        previous_speaker: {
-          type: "string",
-        },
-      },
-    },
-  ],
-} as const;
-
-export const SwarmManagerStateSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/BaseState",
-    },
-    {
-      properties: {
-        type: {
-          type: "string",
-          enum: ["SwarmManagerState"],
-        },
-        current_speaker: {
-          type: "string",
-        },
-      },
-    },
-  ],
-} as const;
-
-export const MagenticOneOrchestratorStateSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/BaseState",
-    },
-    {
-      properties: {
-        type: {
-          type: "string",
-          enum: ["MagenticOneOrchestratorState"],
-        },
-        task: {
-          type: "string",
-        },
-        facts: {
-          type: "string",
-        },
-        plan: {
-          type: "string",
-        },
-        n_rounds: {
-          type: "integer",
-        },
-        n_stalls: {
-          type: "integer",
         },
       },
     },
@@ -3899,17 +3795,6 @@ export const MtComponentSchema = {
       $ref: "#/components/schemas/MtComponentProperties",
     },
   ],
-} as const;
-
-export const MtComponentNewSchema = {
-  properties: {
-    label: {
-      type: "string",
-    },
-    description: {
-      type: "string",
-    },
-  },
 } as const;
 
 export const MtComponentListSchema = {

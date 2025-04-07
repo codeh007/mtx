@@ -5,7 +5,7 @@ import { type UseMutationResult, useMutation } from "@tanstack/react-query";
 import { debounce } from "lodash";
 import {
   type AgState,
-  type AgentRunInput,
+  // type AgentRunInput,
   type ApiErrors,
   type ChatMessage,
   type ChatMessageList,
@@ -105,7 +105,6 @@ export interface WorkbrenchState extends WorkbenchProps {
   firstTokenReceived: boolean;
   setFirstTokenReceived: (firstTokenReceived: boolean) => void;
   addMessage: (message: ChatMessage) => void;
-  streamMessage: (params: AgentRunInput) => Promise<void>;
   setResourceId: (resourceId: string) => void;
   setTeamState: (teamState: AgState) => void;
   loadChatMessageList: (response?: ChatMessageList) => void;
@@ -131,7 +130,6 @@ export const createWorkbrenchSlice: StateCreator<
   return {
     isDev: false,
     backendUrl: "",
-    // setOpenDebugPanel: (openDebugPanel) => set({ openDebugPanel }),
     setInput: (input) => set({ input }),
     messages: [],
     firstUserInteraction: undefined,

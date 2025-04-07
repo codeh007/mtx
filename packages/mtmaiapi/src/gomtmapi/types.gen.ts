@@ -2076,35 +2076,7 @@ export type InstagramAgentState = BaseState & {
     [key: string]: unknown;
   };
   proxy_url?: string;
-};
-
-export type TeamState = BaseState & {
-  type?: "TeamState";
-  agent_states?: unknown;
-};
-
-export type RoundRobinManagerState = BaseGroupChatManagerState & {
-  type?: "RoundRobinManagerState";
-  next_speaker_index?: number;
-};
-
-export type SelectorManagerState = BaseState & {
-  type?: "SelectorManagerState";
-  previous_speaker?: string;
-};
-
-export type SwarmManagerState = BaseState & {
-  type?: "SwarmManagerState";
-  current_speaker?: string;
-};
-
-export type MagenticOneOrchestratorState = BaseState & {
-  type?: "MagenticOneOrchestratorState";
-  task?: string;
-  facts?: string;
-  plan?: string;
-  n_rounds?: number;
-  n_stalls?: number;
+  platform_account_id?: string;
 };
 
 export type SocietyOfMindAgentState = BaseState & {
@@ -2140,11 +2112,6 @@ export type MtComponentProperties = {
 };
 
 export type MtComponent = ApiResourceMetaProperties & MtComponentProperties;
-
-export type MtComponentNew = {
-  label?: string;
-  description?: string;
-};
 
 export type MtComponentList = {
   pagination?: PaginationResponse;
@@ -7738,40 +7705,6 @@ export type ComsGetResponses = {
 };
 
 export type ComsGetResponse = ComsGetResponses[keyof ComsGetResponses];
-
-export type ComsNewData = {
-  /**
-   * The model properties to update
-   */
-  body: MtComponentNew;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/comps/new";
-};
-
-export type ComsNewErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-};
-
-export type ComsNewError = ComsNewErrors[keyof ComsNewErrors];
-
-export type ComsNewResponses = {
-  200: MtComponent;
-};
-
-export type ComsNewResponse = ComsNewResponses[keyof ComsNewResponses];
 
 export type GalleryListData = {
   body?: never;

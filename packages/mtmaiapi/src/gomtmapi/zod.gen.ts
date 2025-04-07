@@ -845,6 +845,7 @@ export const zWorkflowWorkersCount = z.object({
             is_wait_user_input: z.boolean().optional(),
             ig_settings: z.object({}).optional(),
             proxy_url: z.string().optional(),
+            platform_account_id: z.string().optional(),
           }),
         ),
       z.enum([
@@ -2021,53 +2022,7 @@ export const zInstagramAgentState = zBaseState.merge(
     is_wait_user_input: z.boolean().optional(),
     ig_settings: z.object({}).optional(),
     proxy_url: z.string().optional(),
-  }),
-);
-
-export const zTeamState = zBaseState.merge(
-  z.object({
-    type: z.enum(["TeamState"]).optional(),
-    agent_states: z.unknown().optional(),
-  }),
-);
-
-export const zRoundRobinManagerState = zBaseState
-  .merge(
-    z.object({
-      type: z.enum(["BaseGroupChatManagerState"]).optional(),
-      message_thread: z.array(z.object({})).optional(),
-      current_turn: z.number().int().optional(),
-    }),
-  )
-  .merge(
-    z.object({
-      type: z.enum(["RoundRobinManagerState"]).optional(),
-      next_speaker_index: z.number().int().optional(),
-    }),
-  );
-
-export const zSelectorManagerState = zBaseState.merge(
-  z.object({
-    type: z.enum(["SelectorManagerState"]).optional(),
-    previous_speaker: z.string().optional(),
-  }),
-);
-
-export const zSwarmManagerState = zBaseState.merge(
-  z.object({
-    type: z.enum(["SwarmManagerState"]).optional(),
-    current_speaker: z.string().optional(),
-  }),
-);
-
-export const zMagenticOneOrchestratorState = zBaseState.merge(
-  z.object({
-    type: z.enum(["MagenticOneOrchestratorState"]).optional(),
-    task: z.string().optional(),
-    facts: z.string().optional(),
-    plan: z.string().optional(),
-    n_rounds: z.number().int().optional(),
-    n_stalls: z.number().int().optional(),
+    platform_account_id: z.string().optional(),
   }),
 );
 
@@ -2108,11 +2063,6 @@ export const zMtComponentProperties = z.object({
 export const zMtComponent = zApiResourceMetaProperties.merge(
   zMtComponentProperties,
 );
-
-export const zMtComponentNew = z.object({
-  label: z.string().optional(),
-  description: z.string().optional(),
-});
 
 export const zMtComponentList = z.object({
   pagination: zPaginationResponse.optional(),
@@ -3544,8 +3494,6 @@ export const zComsListResponse = zMtComponentList;
 export const zComsUpsertResponse = zMtComponent;
 
 export const zComsGetResponse = zMtComponent;
-
-export const zComsNewResponse = zMtComponent;
 
 export const zGalleryListResponse = zGalleryList;
 

@@ -324,9 +324,6 @@ import type {
   ComsGetData,
   ComsGetResponse,
   ComsGetError,
-  ComsNewData,
-  ComsNewResponse,
-  ComsNewError,
   GalleryListData,
   GalleryListResponse,
   GalleryCreateData,
@@ -3491,33 +3488,6 @@ export const comsGet = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/comps/get",
     ...options,
-  });
-};
-
-export const comsNew = <ThrowOnError extends boolean = false>(
-  options: Options<ComsNewData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    ComsNewResponse,
-    ComsNewError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/comps/new",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
   });
 };
 
