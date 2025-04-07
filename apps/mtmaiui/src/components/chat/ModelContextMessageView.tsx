@@ -1,7 +1,14 @@
 "use client";
 
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
-import type { AssistantMessage, MtLlmMessage, UserMessage } from "mtmaiapi";
+import type {
+  AssistantMessage,
+  FunctionExecutionResultMessage,
+  MtLlmMessage,
+  UserMessage,
+} from "mtmaiapi";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Markdown } from "mtxuilib/markdown/Markdown";
 
 interface MtMessagesProps {
@@ -9,11 +16,13 @@ interface MtMessagesProps {
 }
 export const ModelContextMessageView = ({ messages }: MtMessagesProps) => {
   return (
-    <div className="p-1">
-      {/* <DebugValue data={{ messages }} /> */}
+    <div className="p-1 px-2">
+      <DebugValue data={{ messages }} />
       {messages.map((message, i) => (
         // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-        <ChatMessageItemView key={i} message={message} />
+        <MtSuspenseBoundary key={i}>
+          <ChatMessageItemView message={message} />
+        </MtSuspenseBoundary>
       ))}
     </div>
   );
@@ -26,8 +35,12 @@ export const ChatMessageItemView = ({ message }: { message: MtLlmMessage }) => {
         <UserMessageView msg={message} />
       ) : message.type === "AssistantMessage" ? (
         <AssistantMessageView msg={message} />
+      ) : message.type === "FunctionExecutionResultMessage" ? (
+        <FunctionExecutionResultMessageView msg={message} />
       ) : (
-        <div>unknown message type: {message.type}</div>
+        <div className="text-sm text-slate-500">
+          unknown message type: {message.type}
+        </div>
       )}
     </div>
   );
@@ -57,10 +70,24 @@ export const UserMessageView = ({ msg }: UserMessageProps) => {
 export const AssistantMessageView = ({ msg }: { msg: AssistantMessage }) => {
   return (
     <div className="bg-slate-200 p-1">
+      <DebugValue data={{ msg }} />
       <div className="text-sm text-slate-500">
         {msg.type}/{msg.source}
       </div>
-      <Markdown>{msg.content}</Markdown>
+      <MtSuspenseBoundary>
+        <Markdown>{msg.content}</Markdown>
+      </MtSuspenseBoundary>
+    </div>
+  );
+};
+
+export const FunctionExecutionResultMessageView = ({
+  msg,
+}: { msg: FunctionExecutionResultMessage }) => {
+  return (
+    <div>
+      FunctionExecutionResultMessageView
+      <DebugValue data={{ msg }} />
     </div>
   );
 };
