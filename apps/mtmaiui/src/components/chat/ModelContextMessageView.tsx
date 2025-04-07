@@ -2,7 +2,6 @@
 
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import type { AssistantMessage, MtLlmMessage, UserMessage } from "mtmaiapi";
-import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Markdown } from "mtxuilib/markdown/Markdown";
 
 interface MtMessagesProps {
@@ -11,7 +10,7 @@ interface MtMessagesProps {
 export const ModelContextMessageView = ({ messages }: MtMessagesProps) => {
   return (
     <div className="p-1">
-      <DebugValue data={{ messages }} />
+      {/* <DebugValue data={{ messages }} /> */}
       {messages.map((message, i) => (
         // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
         <ChatMessageItemView key={i} message={message} />

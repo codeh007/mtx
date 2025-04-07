@@ -4,7 +4,6 @@ import type React from "react";
 import { type RefCallback, forwardRef, useMemo } from "react";
 
 import type { MtLlmMessage } from "mtmaiapi";
-import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { classNames } from "mtxuilib/lib/utils";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { ModelContextMessageView } from "./ModelContextMessageView";
@@ -73,21 +72,16 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
                   "h-full flex flex-col": chatStarted,
                 })}
               >
-                {/* <Header /> */}
-                <DebugValue data={{ messages, userAgentState }} />
-                {chatStarted ? (
-                  <>
-                    <ModelContextMessageView
-                      ref={messageRef}
-                      messages={messagesV2}
-                      elements={[]}
-                      actions={[]}
-                      indent={0}
-                      isStreaming={isStreaming}
-                      className="flex flex-col w-full flex-1 max-w-chat pb-3 mx-auto z-1 mb-6"
-                    />
-                  </>
-                ) : null}
+                {/* <DebugValue data={{ messages, userAgentState }} />                 */}
+                <ModelContextMessageView
+                  ref={messageRef}
+                  messages={messagesV2}
+                  elements={[]}
+                  actions={[]}
+                  indent={0}
+                  isStreaming={isStreaming}
+                  className="flex flex-col w-full flex-1 max-w-chat pb-3 mx-auto z-1 mb-6"
+                />
 
                 <BoltPromptBox
                   // enhancingPrompt={enhancingPrompt}
