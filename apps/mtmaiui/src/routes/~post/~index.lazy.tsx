@@ -20,7 +20,6 @@ import {
 } from "mtxuilib/ui/card";
 
 import { useTenant } from "../../hooks/useAuth";
-import { useBasePath } from "../../hooks/useBasePath";
 import { columns } from "../~workflows/components/workflow-columns";
 import { PostCard } from "./components/PostCard";
 
@@ -76,8 +75,6 @@ export function PostListView() {
 
   const [cardToggle, setCardToggle] = useState(true);
 
-  const basePath = useBasePath();
-
   const actions = [
     <Button
       key="card-toggle"
@@ -112,7 +109,7 @@ export function PostListView() {
     </Button>,
     <CustomLink
       key="create-post"
-      to={`${basePath}/post/create`}
+      to={`/post/create`}
       search={{ siteId: siteId }}
       className={cn("h-8 px-2 lg:px-3", buttonVariants({ variant: "outline" }))}
       // onClick={() => {

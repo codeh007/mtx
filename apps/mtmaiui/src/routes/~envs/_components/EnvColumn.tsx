@@ -3,7 +3,6 @@ import { ChevronRightIcon } from "@radix-ui/react-icons";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "mtxuilib/data-table/data-table-column-header";
 import Link from "next/link";
-import { useBasePath } from "../../../hooks/useBasePath";
 
 export const envColumns: ColumnDef<Workflow>[] = [
   {
@@ -12,9 +11,8 @@ export const envColumns: ColumnDef<Workflow>[] = [
       <DataTableColumnHeader column={column} title="Name" />
     ),
     cell: ({ row }) => {
-      const basePath = useBasePath();
       return (
-        <Link href={`${basePath}/workflows/${row.original.metadata.id}`}>
+        <Link href={`/workflows/${row.original.metadata.id}`}>
           <div className="cursor-pointer hover:underline min-w-fit whitespace-nowrap text-md p-2">
             {row.original.name}
           </div>
@@ -54,10 +52,9 @@ export const envColumns: ColumnDef<Workflow>[] = [
     header: () => <></>,
     accessorKey: "chevron",
     cell: ({ row }) => {
-      const basePath = useBasePath();
       return (
         <div className="flex gap-2 justify-end">
-          <Link href={`${basePath}/workflows/${row.original.metadata.id}`}>
+          <Link href={`/workflows/${row.original.metadata.id}`}>
             <div className="cursor-pointer hover:underline min-w-fit whitespace-nowrap text-md p-2">
               <ChevronRightIcon
                 className="h-5 w-5 flex-none text-gray-700 dark:text-gray-300"

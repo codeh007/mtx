@@ -3,13 +3,11 @@ import type { components } from "mtmaiapi/query_client/generated";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 import { Button } from "mtxuilib/ui/button";
 import Link from "next/link";
-import { useBasePath } from "../../../hooks/useBasePath";
 
 interface PostCardProps {
   data: components["schemas"]["BlogPost"];
 }
 export const PostCard = ({ data }: PostCardProps) => {
-  const basePath = useBasePath();
   return (
     <div
       key={data.metadata?.id}
@@ -18,9 +16,7 @@ export const PostCard = ({ data }: PostCardProps) => {
       <div className="px-4 py-5 sm:p-6">
         <div className="flex flex-row justify-between items-center">
           <h3 className="text-lg leading-6 font-medium text-foreground">
-            <Link href={`${basePath}/workflows/${data?.metadata?.id}`}>
-              {data?.title}
-            </Link>
+            <Link href={`/workflows/${data?.metadata?.id}`}>{data?.title}</Link>
           </h3>
           {/* {data?.isPaused ? (
             <Badge variant="inProgress">Paused</Badge>
@@ -37,7 +33,7 @@ export const PostCard = ({ data }: PostCardProps) => {
       </div>
       <div className="px-4 py-4 sm:px-6">
         <div className="text-sm text-background-secondary">
-          <Link href={`${basePath}/posts/${data?.metadata?.id}`}>
+          <Link href={`/posts/${data?.metadata?.id}`}>
             <Button>View Post</Button>
           </Link>
         </div>

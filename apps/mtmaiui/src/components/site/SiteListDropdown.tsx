@@ -5,7 +5,6 @@ import { formatDistanceToNow } from "date-fns";
 import { siteListSitesOptions } from "mtmaiapi/@tanstack/react-query.gen";
 import { useMtRouter } from "mtxuilib/hooks/use-router";
 import { cn } from "mtxuilib/lib/utils";
-import { useBasePath } from "../../hooks/useBasePath";
 export const SiteListDropdown = () => {
   const router = useMtRouter();
   const sitesQuery = useSuspenseQuery({
@@ -13,7 +12,6 @@ export const SiteListDropdown = () => {
   });
 
   const sites = sitesQuery.data?.data;
-  const basePath = useBasePath();
   return (
     <>
       <div className="flex flex-col gap-2 p-4 pt-0">
@@ -26,7 +24,7 @@ export const SiteListDropdown = () => {
               // mail.selected === item.id && "bg-muted"
             )}
             onClick={() => {
-              router.push(`${basePath}/site/${item.id}`);
+              router.push(`/site/${item.id}`);
             }}
           >
             <div className="flex w-full flex-col gap-1">

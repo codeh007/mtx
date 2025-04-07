@@ -3,20 +3,19 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { tenantCreateMutation, tenantMemberListOptions } from "mtmaiapi";
 import { useState } from "react";
-import { useBasePath } from "../../../hooks/useBasePath";
+import { useTenantId } from "../../../hooks/useAuth";
 import { TenantCreateForm } from "./_components/tenant-create-form";
 export const Route = createFileRoute("/onboarding/create-tenant/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const basePath = useBasePath();
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-
+  const tid = useTenantId();
   const listMembershipsQuery = useQuery({
     ...tenantMemberListOptions({
       path: {
-        tenant: tenant.metadata.id,
+        tenant: tid,
       },
     }),
   });
@@ -29,7 +28,7 @@ function RouteComponent() {
     ...tenantCreateMutation(),
     onSuccess: async (tenant) => {
       await listMembershipsQuery.refetch();
-      window.location.href = `${basePath}/onboarding/get-started?tenant=${tenant.metadata.id}`;
+      window.location.href = `/onboarding/get-started?tenant=${tenant.metadata.id}`;
     },
     // onError: handleApiError,
   });

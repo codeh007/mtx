@@ -9,7 +9,6 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import { useEffect } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { z } from "zod";
-import { useBasePath } from "../../hooks/useBasePath";
 
 export const SiteListViewHeader = () => {
   const form = useZodForm({
@@ -31,7 +30,6 @@ export const SiteListViewHeader = () => {
     return () => subscription.unsubscribe();
   }, [form.watch, debouncedSearch]);
 
-  const basePath = useBasePath();
   return (
     <ZForm
       form={form}
@@ -45,7 +43,7 @@ export const SiteListViewHeader = () => {
         <Tooltip>
           <TooltipTrigger asChild>
             <CustomLink
-              to={`${basePath}/site/create`}
+              to={`/site/create`}
               className="w-8 h-8 rounded-full p-1"
             >
               <Button variant={"outline"} className="rounded-full" size="icon">

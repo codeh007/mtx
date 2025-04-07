@@ -42,7 +42,6 @@ import {
 } from "mtxuilib/ui/sidebar";
 import { BetterTooltip } from "mtxuilib/ui/tooltip";
 import { useTenant } from "../../hooks/useAuth";
-import { useBasePath } from "../../hooks/useBasePath";
 
 type GroupedChats = {
   today: Chat[];
@@ -96,8 +95,6 @@ const ChatItem = ({
 export function SidebarHistory({ user }: { user: User | undefined }) {
   const { setOpenMobile } = useSidebar();
   const { id } = useParams();
-  const basePath = useBasePath();
-  // const pathname = usePathname();
   const tenant = useTenant();
   // const {
   //   data: history,
