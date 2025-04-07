@@ -596,6 +596,30 @@ export const zWorkflowWorkersCount = z.object({
   workflowRunId: z.string().optional(),
   other: z
     .union([
+      z.enum(["code_executor", "social_login"]),
+      z.enum([
+        "sys",
+        "tenant",
+        "assistant",
+        "ag",
+        "browser",
+        "resource",
+        "instagram",
+        "social",
+        "user",
+      ]),
+      z.enum([
+        "user",
+        "human",
+        "instagram",
+        "browser",
+        "socioety",
+        "code",
+        "router",
+        "research",
+        "writer",
+        "tenant",
+      ]),
       z.object({
         type: z.enum(["browser"]).optional(),
         cookies: z.string().optional(),
@@ -616,21 +640,6 @@ export const zWorkflowWorkersCount = z.object({
         type: z.string().optional(),
         threadId: z.string().optional(),
         source: z.string().optional(),
-      }),
-      z.object({
-        reason: z.string().optional(),
-        content: z.string().optional(),
-      }),
-      z.object({
-        session_id: z.string(),
-        code_writing_task: z.string(),
-        code_writing_scratchpad: z.string(),
-        code: z.string(),
-      }),
-      z.object({
-        review: z.string(),
-        session_id: z.string(),
-        approved: z.boolean(),
       }),
       z.object({
         content: z.string(),
@@ -750,52 +759,11 @@ export const zWorkflowWorkersCount = z.object({
           .optional(),
       }),
       z.object({
-        text: z.string(),
-      }),
-      z.object({
-        termination_type: z.enum(["MaxMessageTermination"]),
-        max_messages: z.number().int(),
-      }),
-      z.object({
-        text: z.string(),
-      }),
-      z.object({
-        conditions: z.array(
-          z
-            .object({
-              metadata: zApiResourceMeta,
-            })
-            .merge(
-              z.object({
-                galleryId: z.string(),
-                label: z.string(),
-                description: z.string(),
-                provider: z.string(),
-                component_type: z.string(),
-                version: z.number().int(),
-                component_version: z.number().int(),
-                config: z.object({}),
-              }),
-            ),
-        ),
-      }),
-      z.object({
         family: z.enum(["r1", "openai", "unknown"]),
         vision: z.boolean(),
         function_calling: z.boolean(),
         json_output: z.boolean(),
       }),
-      z.enum([
-        "sys",
-        "tenant",
-        "assistant",
-        "ag",
-        "browser",
-        "resource",
-        "instagram",
-        "social",
-        "user",
-      ]),
       z.object({
         type: z.enum(["PlatformAccountFlowInput"]).optional(),
         platform_account_id: z.string().optional(),
@@ -844,18 +812,6 @@ export const zWorkflowWorkersCount = z.object({
             platform_account_id: z.string().optional(),
           }),
         ),
-      z.enum([
-        "user",
-        "human",
-        "instagram",
-        "browser",
-        "socioety",
-        "code",
-        "router",
-        "research",
-        "writer",
-        "tenant",
-      ]),
       z.object({
         type: z.string().optional(),
         error: z.string().optional(),
@@ -983,7 +939,6 @@ export const zWorkflowWorkersCount = z.object({
       z.object({
         max_turns: z.number().int().optional().default(25),
       }),
-      z.enum(["code_executor", "social_login"]),
       z.object({
         code: z.string(),
       }),
@@ -2367,36 +2322,9 @@ export const zFlowNames = z.enum([
   "user",
 ]);
 
-export const zTerminationTypes = z.enum([
-  "MaxMessageTermination",
-  "StopMessageTermination",
-  "TextMentionTermination",
-  "TimeoutTermination",
-]);
-
-export const zOrTerminationConfig = z.object({
-  conditions: z.array(zMtComponent),
-});
-
-export const zTenantComponentConfig = z.object({
-  default_openai_api_key: z.string().optional(),
-});
-
-export const zSystemConfig = z.object({
-  default_openai_api_key: z.string().optional(),
-});
-
 export const zUserTeamConfig = z.object({
   max_turns: z.number().int().optional().default(25),
 });
-
-export const zComponentTypes = z.enum([
-  "team",
-  "agent",
-  "model",
-  "tool",
-  "termination",
-]);
 
 export const zRequestUsage = z.object({
   prompt_tokens: z.number(),
@@ -2444,12 +2372,6 @@ export const zToolCallResultMessageConfig = zBaseMessageConfig.merge(
     content: z.array(zFunctionExecutionResult),
   }),
 );
-
-export const zTeamResult = z.object({
-  task_result: z.object({}),
-  usage: z.string(),
-  duration: z.number(),
-});
 
 export const zChatMessageUpsert = z.object({
   tenantId: z.string(),
@@ -2587,10 +2509,6 @@ export const zToolConfig = z.object({
   has_cancellation_support: z.boolean().optional(),
 });
 
-export const zHandoffConfig = z.object({
-  target: z.string(),
-});
-
 export const zResponseFormat = z.enum(["json_object", "text"]);
 
 export const zSection = z.object({
@@ -2614,27 +2532,6 @@ export const zSubsection = z.object({
 export const zRoundRobinGroupChatConfig = z.object({
   participants: z.array(zMtComponent),
   termination_condition: zMtComponent,
-});
-
-export const zSelectorGroupChatConfig = zRoundRobinGroupChatConfig.merge(
-  z.object({
-    participants: z.array(zMtComponent),
-    termination_condition: zMtComponent,
-    model_client: zMtComponent.optional(),
-  }),
-);
-
-export const zStopMessageTerminationConfig = z.object({
-  text: z.string(),
-});
-
-export const zMaxMessageTerminationConfig = z.object({
-  termination_type: z.enum(["MaxMessageTermination"]),
-  max_messages: z.number().int(),
-});
-
-export const zTextMentionTerminationConfig = z.object({
-  text: z.string(),
 });
 
 export const zAssistantAgentConfig = z
@@ -2672,13 +2569,6 @@ export const zInstagramAgentConfig = z.object({
   reflect_on_tool_use: z.boolean().default(false),
   tool_call_summary_format: z.string().default("{result}"),
 });
-
-export const zTeamTypes = z.enum([
-  "RoundRobinGroupChat",
-  "SelectorGroupChat",
-  "MagenticOneGroupChat",
-  "InstagramTeam",
-]);
 
 export const zTenantParameter = z.string().uuid().length(36);
 
@@ -3172,24 +3062,6 @@ export const zChatSessionStartEvent = z.object({
   type: z.string().optional(),
   threadId: z.string().optional(),
   source: z.string().optional(),
-});
-
-export const zTerminationMessage = z.object({
-  reason: z.string().optional(),
-  content: z.string().optional(),
-});
-
-export const zCodeReviewTask = z.object({
-  session_id: z.string(),
-  code_writing_task: z.string(),
-  code_writing_scratchpad: z.string(),
-  code: z.string(),
-});
-
-export const zCodeReviewResult = z.object({
-  review: z.string(),
-  session_id: z.string(),
-  approved: z.boolean(),
 });
 
 export const zBrowserTask = z.object({

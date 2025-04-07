@@ -1402,6 +1402,15 @@ export const WorkflowWorkersCountSchema = {
     other: {
       anyOf: [
         {
+          $ref: "#/components/schemas/ToolTypes",
+        },
+        {
+          $ref: "#/components/schemas/FlowNames",
+        },
+        {
+          $ref: "#/components/schemas/AgentTopicTypes",
+        },
+        {
           $ref: "#/components/schemas/BrowserData",
         },
         {
@@ -1412,15 +1421,6 @@ export const WorkflowWorkersCountSchema = {
         },
         {
           $ref: "#/components/schemas/ChatSessionStartEvent",
-        },
-        {
-          $ref: "#/components/schemas/TerminationMessage",
-        },
-        {
-          $ref: "#/components/schemas/CodeReviewTask",
-        },
-        {
-          $ref: "#/components/schemas/CodeReviewResult",
         },
         {
           $ref: "#/components/schemas/BrowserTask",
@@ -1441,22 +1441,7 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/ModelConfig",
         },
         {
-          $ref: "#/components/schemas/TextMentionTerminationConfig",
-        },
-        {
-          $ref: "#/components/schemas/MaxMessageTerminationConfig",
-        },
-        {
-          $ref: "#/components/schemas/StopMessageTerminationConfig",
-        },
-        {
-          $ref: "#/components/schemas/OrTerminationConfig",
-        },
-        {
           $ref: "#/components/schemas/ModelInfo",
-        },
-        {
-          $ref: "#/components/schemas/FlowNames",
         },
         {
           $ref: "#/components/schemas/PlatformAccountFlowInput",
@@ -1469,9 +1454,6 @@ export const WorkflowWorkersCountSchema = {
         },
         {
           $ref: "#/components/schemas/InstagramAgentState",
-        },
-        {
-          $ref: "#/components/schemas/AgentTopicTypes",
         },
         {
           $ref: "#/components/schemas/FlowError",
@@ -1502,9 +1484,6 @@ export const WorkflowWorkersCountSchema = {
         },
         {
           $ref: "#/components/schemas/UserTeamConfig",
-        },
-        {
-          $ref: "#/components/schemas/ToolTypes",
         },
         {
           $ref: "#/components/schemas/CodeExecutionInput",
@@ -4206,44 +4185,6 @@ export const FlowNamesSchema = {
   ],
 } as const;
 
-export const TerminationTypesSchema = {
-  type: "string",
-  enum: [
-    "MaxMessageTermination",
-    "StopMessageTermination",
-    "TextMentionTermination",
-    "TimeoutTermination",
-  ],
-} as const;
-
-export const OrTerminationConfigSchema = {
-  required: ["conditions"],
-  properties: {
-    conditions: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/MtComponent",
-      },
-    },
-  },
-} as const;
-
-export const TenantComponentConfigSchema = {
-  properties: {
-    default_openai_api_key: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const SystemConfigSchema = {
-  properties: {
-    default_openai_api_key: {
-      type: "string",
-    },
-  },
-} as const;
-
 export const UserTeamConfigSchema = {
   properties: {
     max_turns: {
@@ -4251,11 +4192,6 @@ export const UserTeamConfigSchema = {
       default: 25,
     },
   },
-} as const;
-
-export const ComponentTypesSchema = {
-  type: "string",
-  enum: ["team", "agent", "model", "tool", "termination"],
 } as const;
 
 export const RequestUsageSchema = {
@@ -4382,21 +4318,6 @@ export const ToolCallResultMessageConfigSchema = {
       required: ["content"],
     },
   ],
-} as const;
-
-export const TeamResultSchema = {
-  properties: {
-    task_result: {
-      type: "object",
-    },
-    usage: {
-      type: "string",
-    },
-    duration: {
-      type: "number",
-    },
-  },
-  required: ["task_result", "usage", "duration"],
 } as const;
 
 export const ChatMessageUpsertSchema = {
@@ -4558,15 +4479,6 @@ export const ToolConfigSchema = {
   },
 } as const;
 
-export const HandoffConfigSchema = {
-  required: ["target"],
-  properties: {
-    target: {
-      type: "string",
-    },
-  },
-} as const;
-
 export const ResponseFormatSchema = {
   type: "string",
   enum: ["json_object", "text"],
@@ -4623,66 +4535,6 @@ export const RoundRobinGroupChatConfigSchema = {
   },
 } as const;
 
-export const SelectorGroupChatConfigSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/RoundRobinGroupChatConfig",
-    },
-    {
-      required: ["participants", "termination_condition"],
-      properties: {
-        participants: {
-          type: "array",
-          items: {
-            $ref: "#/components/schemas/MtComponent",
-          },
-        },
-        termination_condition: {
-          $ref: "#/components/schemas/MtComponent",
-        },
-        model_client: {
-          $ref: "#/components/schemas/MtComponent",
-        },
-      },
-    },
-  ],
-} as const;
-
-export const StopMessageTerminationConfigSchema = {
-  required: ["text"],
-  properties: {
-    text: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const MaxMessageTerminationConfigSchema = {
-  allOf: [
-    {
-      required: ["termination_type", "max_messages"],
-      properties: {
-        termination_type: {
-          type: "string",
-          enum: ["MaxMessageTermination"],
-        },
-        max_messages: {
-          type: "integer",
-        },
-      },
-    },
-  ],
-} as const;
-
-export const TextMentionTerminationConfigSchema = {
-  required: ["text"],
-  properties: {
-    text: {
-      type: "string",
-    },
-  },
-} as const;
-
 export const AssistantAgentConfigSchema = {
   allOf: [
     {
@@ -4713,16 +4565,6 @@ export const InstagramAgentConfigSchema = {
     {
       $ref: "#/components/schemas/AgentConfig",
     },
-  ],
-} as const;
-
-export const TeamTypesSchema = {
-  type: "string",
-  enum: [
-    "RoundRobinGroupChat",
-    "SelectorGroupChat",
-    "MagenticOneGroupChat",
-    "InstagramTeam",
   ],
 } as const;
 
@@ -6025,55 +5867,6 @@ export const ChatSessionStartEventSchema = {
     },
     source: {
       type: "string",
-    },
-  },
-} as const;
-
-export const TerminationMessageSchema = {
-  properties: {
-    reason: {
-      type: "string",
-    },
-    content: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const CodeReviewTaskSchema = {
-  required: [
-    "session_id",
-    "code_writing_task",
-    "code_writing_scratchpad",
-    "code",
-  ],
-  properties: {
-    session_id: {
-      type: "string",
-    },
-    code_writing_task: {
-      type: "string",
-    },
-    code_writing_scratchpad: {
-      type: "string",
-    },
-    code: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const CodeReviewResultSchema = {
-  required: ["review", "session_id", "approved"],
-  properties: {
-    review: {
-      type: "string",
-    },
-    session_id: {
-      type: "string",
-    },
-    approved: {
-      type: "boolean",
     },
   },
 } as const;

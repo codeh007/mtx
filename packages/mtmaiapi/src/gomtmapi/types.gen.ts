@@ -839,30 +839,24 @@ export type WorkflowWorkersCount = {
   maxSlotCount?: number;
   workflowRunId?: string;
   other?:
+    | ToolTypes
+    | FlowNames
+    | AgentTopicTypes
     | BrowserData
     | PlatformAccountData
     | InstagramTask
     | ChatSessionStartEvent
-    | TerminationMessage
-    | CodeReviewTask
-    | CodeReviewResult
     | BrowserTask
     | BrowserOpenTask
     | ProviderTypes
     | RunFlowModelInput
     | AssistantAgentConfig
     | ModelConfig
-    | TextMentionTerminationConfig
-    | MaxMessageTerminationConfig
-    | StopMessageTerminationConfig
-    | OrTerminationConfig
     | ModelInfo
-    | FlowNames
     | PlatformAccountFlowInput
     | AgentEventType
     | ResourceFlowInput
     | InstagramAgentState
-    | AgentTopicTypes
     | FlowError
     | SocialTeamConfig
     | SocialAddFollowersInput
@@ -873,7 +867,6 @@ export type WorkflowWorkersCount = {
     | AssistantMessage
     | FunctionExecutionResultMessage
     | UserTeamConfig
-    | ToolTypes
     | CodeExecutionInput
     | CodeExecutionResult
     | SocialLoginInput
@@ -2320,49 +2313,9 @@ export const FlowNames = {
   USER: "user",
 } as const;
 
-export type TerminationTypes =
-  | "MaxMessageTermination"
-  | "StopMessageTermination"
-  | "TextMentionTermination"
-  | "TimeoutTermination";
-
-export const TerminationTypes = {
-  MAX_MESSAGE_TERMINATION: "MaxMessageTermination",
-  STOP_MESSAGE_TERMINATION: "StopMessageTermination",
-  TEXT_MENTION_TERMINATION: "TextMentionTermination",
-  TIMEOUT_TERMINATION: "TimeoutTermination",
-} as const;
-
-export type OrTerminationConfig = {
-  conditions: Array<MtComponent>;
-};
-
-export type TenantComponentConfig = {
-  default_openai_api_key?: string;
-};
-
-export type SystemConfig = {
-  default_openai_api_key?: string;
-};
-
 export type UserTeamConfig = {
   max_turns?: number;
 };
-
-export type ComponentTypes =
-  | "team"
-  | "agent"
-  | "model"
-  | "tool"
-  | "termination";
-
-export const ComponentTypes = {
-  TEAM: "team",
-  AGENT: "agent",
-  MODEL: "model",
-  TOOL: "tool",
-  TERMINATION: "termination",
-} as const;
 
 export type RequestUsage = {
   prompt_tokens: number;
@@ -2401,14 +2354,6 @@ export type ToolCallMessageConfig = BaseMessageConfig & {
 
 export type ToolCallResultMessageConfig = BaseMessageConfig & {
   content: Array<FunctionExecutionResult>;
-};
-
-export type TeamResult = {
-  task_result: {
-    [key: string]: unknown;
-  };
-  usage: string;
-  duration: number;
 };
 
 export type ChatMessageUpsert = {
@@ -2470,10 +2415,6 @@ export type ToolConfig = {
   has_cancellation_support?: boolean;
 };
 
-export type HandoffConfig = {
-  target: string;
-};
-
 export type ResponseFormat = "json_object" | "text";
 
 export const ResponseFormat = {
@@ -2512,25 +2453,6 @@ export type RoundRobinGroupChatConfig = {
   termination_condition: MtComponent;
 };
 
-export type SelectorGroupChatConfig = RoundRobinGroupChatConfig & {
-  participants: Array<MtComponent>;
-  termination_condition: MtComponent;
-  model_client?: MtComponent;
-};
-
-export type StopMessageTerminationConfig = {
-  text: string;
-};
-
-export type MaxMessageTerminationConfig = {
-  termination_type: "MaxMessageTermination";
-  max_messages: number;
-};
-
-export type TextMentionTerminationConfig = {
-  text: string;
-};
-
 export type AssistantAgentConfig = AgentConfig & {
   model_client: MtComponent;
   name?: string;
@@ -2538,19 +2460,6 @@ export type AssistantAgentConfig = AgentConfig & {
 };
 
 export type InstagramAgentConfig = AgentConfig;
-
-export type TeamTypes =
-  | "RoundRobinGroupChat"
-  | "SelectorGroupChat"
-  | "MagenticOneGroupChat"
-  | "InstagramTeam";
-
-export const TeamTypes = {
-  ROUND_ROBIN_GROUP_CHAT: "RoundRobinGroupChat",
-  SELECTOR_GROUP_CHAT: "SelectorGroupChat",
-  MAGENTIC_ONE_GROUP_CHAT: "MagenticOneGroupChat",
-  INSTAGRAM_TEAM: "InstagramTeam",
-} as const;
 
 export type TenantParameter = string;
 
@@ -3147,24 +3056,6 @@ export type ChatSessionStartEvent = {
   type?: string;
   threadId?: string;
   source?: string;
-};
-
-export type TerminationMessage = {
-  reason?: string;
-  content?: string;
-};
-
-export type CodeReviewTask = {
-  session_id: string;
-  code_writing_task: string;
-  code_writing_scratchpad: string;
-  code: string;
-};
-
-export type CodeReviewResult = {
-  review: string;
-  session_id: string;
-  approved: boolean;
 };
 
 /**

@@ -1,17 +1,19 @@
 import { AgentEventType } from "mtmaiapi";
+import { zSocialLoginInput } from "mtmaiapi/gomtmapi/zod.gen";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import {
-  useZodFormV2,
   ZForm,
   ZFormToolbar,
-} from "mtxuilib/mt/form/ZodForm.jsx";
+  useZodFormV2,
+} from "mtxuilib/mt/form/ZodForm";
 import {
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
-} from "mtxuilib/ui/form.jsx";
-import { Input } from "mtxuilib/ui/input.jsx";
+} from "mtxuilib/ui/form";
+import { Input } from "mtxuilib/ui/input";
 
 export const SocialLoginView = ({ msg }: { msg: any }) => {
   const form = useZodFormV2({
@@ -25,22 +27,23 @@ export const SocialLoginView = ({ msg }: { msg: any }) => {
     },
     handleSubmit: (values) => {
       console.log("values", values);
-      handleHumanInput({
-        content: "",
-        type: AgentEventType.AGENT_USER_INPUT,
-        input: {
-          ...values,
-        },
-      });
+      // handleHumanInput({
+      //   content: "",
+      //   type: AgentEventType.AGENT_USER_INPUT,
+      //   input: {
+      //     ...values,
+      //   },
+      // });
     },
   });
 
   return (
     <div className="rounded-md bg-yellow-100 p-1">
       <h1>social login view</h1>
-      <pre className="text-xs bg-yellow-100 p-1">
+      <DebugValue value={msg} />
+      {/* <pre className="text-xs bg-yellow-100 p-1">
         {JSON.stringify(msg, null, 2)}
-      </pre>
+      </pre> */}
       <ZForm {...form} className="space-y-2">
         <input type="hidden" {...form.form.register("type")} />
         <FormField
