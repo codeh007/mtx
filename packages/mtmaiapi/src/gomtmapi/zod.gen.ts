@@ -913,6 +913,82 @@ export const zWorkflowWorkersCount = z.object({
           })
           .optional(),
       }),
+      z.union([
+        z
+          .object({
+            type: z.literal("UserMessage").optional(),
+          })
+          .merge(
+            z.object({
+              type: z.enum(["UserMessage"]),
+              content: z.string(),
+              source: z.string().optional(),
+            }),
+          ),
+        z
+          .object({
+            type: z.literal("SystemMessage").optional(),
+          })
+          .merge(
+            z.object({
+              type: z.enum(["SystemMessage"]),
+              content: z.string(),
+            }),
+          ),
+        z
+          .object({
+            type: z.literal("AssistantMessage").optional(),
+          })
+          .merge(
+            z.object({
+              type: z.enum(["AssistantMessage"]),
+              content: z.string(),
+              source: z.string().optional(),
+            }),
+          ),
+        z
+          .object({
+            type: z.literal("FunctionExecutionResultMessage").optional(),
+          })
+          .merge(
+            z.object({
+              type: z.enum(["FunctionExecutionResultMessage"]),
+              content: z.array(
+                z.object({
+                  content: z.string(),
+                  name: z.string(),
+                  call_id: z.string(),
+                  is_error: z.boolean().optional(),
+                }),
+              ),
+            }),
+          ),
+      ]),
+      z.object({
+        type: z.enum(["UserMessage"]),
+        content: z.string(),
+        source: z.string().optional(),
+      }),
+      z.object({
+        type: z.enum(["SystemMessage"]),
+        content: z.string(),
+      }),
+      z.object({
+        type: z.enum(["AssistantMessage"]),
+        content: z.string(),
+        source: z.string().optional(),
+      }),
+      z.object({
+        type: z.enum(["FunctionExecutionResultMessage"]),
+        content: z.array(
+          z.object({
+            content: z.string(),
+            name: z.string(),
+            call_id: z.string(),
+            is_error: z.boolean().optional(),
+          }),
+        ),
+      }),
     ])
     .optional(),
 });
@@ -2026,21 +2102,6 @@ export const zInstagramAgentState = zBaseState.merge(
   }),
 );
 
-export const zSocietyOfMindAgentState = zBaseState.merge(
-  z.object({
-    type: z.enum(["SocietyOfMindAgentState"]).optional(),
-    inner_team_state: z.unknown().optional(),
-  }),
-);
-
-export const zChatAgentContainerState = zBaseState.merge(
-  z.object({
-    type: z.enum(["ChatAgentContainerState"]).optional(),
-    agent_state: z.unknown().optional(),
-    message_buffer: z.array(zChatMessage).optional(),
-  }),
-);
-
 export const zBaseGroupChatManagerState = zBaseState.merge(
   z.object({
     type: z.enum(["BaseGroupChatManagerState"]).optional(),
@@ -2048,6 +2109,94 @@ export const zBaseGroupChatManagerState = zBaseState.merge(
     current_turn: z.number().int().optional(),
   }),
 );
+
+export const zMtLlmMessage = z.union([
+  z
+    .object({
+      type: z.literal("UserMessage").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["UserMessage"]),
+        content: z.string(),
+        source: z.string().optional(),
+      }),
+    ),
+  z
+    .object({
+      type: z.literal("SystemMessage").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["SystemMessage"]),
+        content: z.string(),
+      }),
+    ),
+  z
+    .object({
+      type: z.literal("AssistantMessage").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["AssistantMessage"]),
+        content: z.string(),
+        source: z.string().optional(),
+      }),
+    ),
+  z
+    .object({
+      type: z.literal("FunctionExecutionResultMessage").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["FunctionExecutionResultMessage"]),
+        content: z.array(
+          z.object({
+            content: z.string(),
+            name: z.string(),
+            call_id: z.string(),
+            is_error: z.boolean().optional(),
+          }),
+        ),
+      }),
+    ),
+]);
+
+export const zUserMessage = z.object({
+  type: z.enum(["UserMessage"]),
+  content: z.string(),
+  source: z.string().optional(),
+});
+
+export const zSystemMessage = z.object({
+  type: z.enum(["SystemMessage"]),
+  content: z.string(),
+});
+
+export const zAssistantMessage = z.object({
+  type: z.enum(["AssistantMessage"]),
+  content: z.string(),
+  source: z.string().optional(),
+});
+
+export const zFunctionExecutionResultMessage = z.object({
+  type: z.enum(["FunctionExecutionResultMessage"]),
+  content: z.array(
+    z.object({
+      content: z.string(),
+      name: z.string(),
+      call_id: z.string(),
+      is_error: z.boolean().optional(),
+    }),
+  ),
+});
+
+export const zFunctionExecutionResult = z.object({
+  content: z.string(),
+  name: z.string(),
+  call_id: z.string(),
+  is_error: z.boolean().optional(),
+});
 
 export const zMtComponentProperties = z.object({
   galleryId: z.string(),
@@ -2212,11 +2361,6 @@ export const zFunctionCall = z.object({
   id: z.string(),
   arguments: z.string(),
   name: z.string(),
-});
-
-export const zFunctionExecutionResult = z.object({
-  call_id: z.string(),
-  content: z.string(),
 });
 
 export const zBaseMessageConfig = z.object({

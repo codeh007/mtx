@@ -17,6 +17,7 @@ import {
   type MtAgEvent,
   type Options,
   type Tenant,
+  type UserAgentState,
   type WorkflowRun,
   type WorkflowRunCreateData,
   agStateListOptions,
@@ -124,6 +125,9 @@ export interface WorkbrenchState extends WorkbenchProps {
     input: Record<string, any>,
     additionalMetadata: Record<string, any>,
   ) => Promise<WorkflowRun>;
+
+  userAgentState?: UserAgentState;
+  setUserAgentState: (userAgentState: UserAgentState) => void;
 }
 
 export const createWorkbrenchSlice: StateCreator<
@@ -133,7 +137,7 @@ export const createWorkbrenchSlice: StateCreator<
   WorkbrenchState
 > = (set, get, init) => {
   return {
-    isDev: false,
+    // isDev: false,
     backendUrl: "",
     setInput: (input) => set({ input }),
     messages: [],
@@ -235,6 +239,9 @@ export const createWorkbrenchSlice: StateCreator<
     agentFlow: DEFAULT_AGENT_FLOW_SETTINGS,
     setTeamState: (teamState) => {
       set({ teamState });
+    },
+    setUserAgentState: (userAgentState) => {
+      set({ userAgentState });
     },
     loadChatMessageList: (chatMessageList) => {
       if (!chatMessageList?.rows?.length) {
@@ -342,9 +349,15 @@ export const WorkbrenchProvider = (
 
   useEffect(() => {
     if (agStateListQuery.data) {
-      // setTeamState(agStateListQuery.data);
+      console.log("加载了:agStateListQuery.data", agStateListQuery.data);
+      //TODO: 如何正确识别 UserAgentState?
+      for (const state of agStateListQuery.data?.rows ?? []) {
+        if (state.topic === "user") {
+          mystore.setState({ userAgentState: state.state as UserAgentState });
+        }
+      }
     }
-  }, [agStateListQuery.data]);
+  }, [agStateListQuery.data, mystore]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {

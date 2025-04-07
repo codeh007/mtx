@@ -6,10 +6,6 @@ export const Route = createLazyFileRoute("/session/$sessionId/")({
 });
 
 function RouteComponent() {
-  // const { sessionId } = Route.useParams();
-  // const tid = useTenantId();
-  // const setTeamState = useWorkbenchStore((x) => x.setTeamState);
-
   return (
     <>
       <ChatClient />

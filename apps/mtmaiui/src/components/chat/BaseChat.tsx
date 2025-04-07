@@ -3,9 +3,11 @@ import type { Message } from "ai";
 import type React from "react";
 import { type RefCallback, forwardRef, useMemo } from "react";
 
+import type { MtLlmMessage } from "mtmaiapi";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { classNames } from "mtxuilib/lib/utils";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
-import { MtMessages } from "./MtMessages";
+import { ModelContextMessageView } from "./ModelContextMessageView";
 import { BoltPromptBox } from "./prompt-input/BoltPromptBox";
 
 interface BaseChatProps {
@@ -47,7 +49,9 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
 
     const setInput = useWorkbenchStore((x) => x.setInput);
     const TEXTAREA_MAX_HEIGHT = chatStarted ? 400 : 200;
-    const agState = useWorkbenchStore((x) => x.teamState);
+    const userAgentState = useWorkbenchStore((x) => x.userAgentState);
+    const messagesV2 = (userAgentState?.model_context as any)
+      .messages as MtLlmMessage[];
 
     return (
       <>
@@ -70,12 +74,12 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
                 })}
               >
                 {/* <Header /> */}
-                {/* <DebugValue data={{ messages }} /> */}
+                <DebugValue data={{ messages, userAgentState }} />
                 {chatStarted ? (
                   <>
-                    <MtMessages
+                    <ModelContextMessageView
                       ref={messageRef}
-                      messages={messages}
+                      messages={messagesV2}
                       elements={[]}
                       actions={[]}
                       indent={0}

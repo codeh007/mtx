@@ -1488,6 +1488,21 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/UserAgentState",
         },
+        {
+          $ref: "#/components/schemas/MtLlmMessage",
+        },
+        {
+          $ref: "#/components/schemas/UserMessage",
+        },
+        {
+          $ref: "#/components/schemas/SystemMessage",
+        },
+        {
+          $ref: "#/components/schemas/AssistantMessage",
+        },
+        {
+          $ref: "#/components/schemas/FunctionExecutionResultMessage",
+        },
       ],
     },
   },
@@ -3677,50 +3692,6 @@ export const InstagramAgentStateSchema = {
   ],
 } as const;
 
-export const SocietyOfMindAgentStateSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/BaseState",
-    },
-    {
-      properties: {
-        type: {
-          type: "string",
-          enum: ["SocietyOfMindAgentState"],
-        },
-        inner_team_state: {
-          additionalProperties: true,
-        },
-      },
-    },
-  ],
-} as const;
-
-export const ChatAgentContainerStateSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/BaseState",
-    },
-    {
-      properties: {
-        type: {
-          type: "string",
-          enum: ["ChatAgentContainerState"],
-        },
-        agent_state: {
-          additionalProperties: true,
-        },
-        message_buffer: {
-          type: "array",
-          items: {
-            $ref: "#/components/schemas/ChatMessage",
-          },
-        },
-      },
-    },
-  ],
-} as const;
-
 export const BaseGroupChatManagerStateSchema = {
   allOf: [
     {
@@ -3744,6 +3715,105 @@ export const BaseGroupChatManagerStateSchema = {
       },
     },
   ],
+} as const;
+
+export const MtLlmMessageSchema = {
+  discriminator: {
+    propertyName: "type",
+  },
+  oneOf: [
+    {
+      $ref: "#/components/schemas/UserMessage",
+    },
+    {
+      $ref: "#/components/schemas/SystemMessage",
+    },
+    {
+      $ref: "#/components/schemas/AssistantMessage",
+    },
+    {
+      $ref: "#/components/schemas/FunctionExecutionResultMessage",
+    },
+  ],
+} as const;
+
+export const UserMessageSchema = {
+  required: ["type", "content"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["UserMessage"],
+    },
+    content: {
+      type: "string",
+    },
+    source: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const SystemMessageSchema = {
+  required: ["type", "content"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["SystemMessage"],
+    },
+    content: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const AssistantMessageSchema = {
+  required: ["type", "content"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["AssistantMessage"],
+    },
+    content: {
+      type: "string",
+    },
+    source: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const FunctionExecutionResultMessageSchema = {
+  required: ["type", "content"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["FunctionExecutionResultMessage"],
+    },
+    content: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/FunctionExecutionResult",
+      },
+    },
+  },
+} as const;
+
+export const FunctionExecutionResultSchema = {
+  required: ["name", "content", "call_id"],
+  properties: {
+    content: {
+      type: "string",
+    },
+    name: {
+      type: "string",
+    },
+    call_id: {
+      type: "string",
+    },
+    is_error: {
+      type: "boolean",
+    },
+  },
 } as const;
 
 export const MtComponentPropertiesSchema = {
@@ -4135,18 +4205,6 @@ export const FunctionCallSchema = {
       type: "string",
     },
     name: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const FunctionExecutionResultSchema = {
-  required: ["call_id", "content"],
-  properties: {
-    call_id: {
-      type: "string",
-    },
-    content: {
       type: "string",
     },
   },

@@ -21,7 +21,6 @@ interface ChatProps {
 }
 
 export function ChatClient(props: ChatProps) {
-  // 打开关闭 中间的聊天窗口的动画效果。
   const openChat = useWorkbenchStore((x) => x.openChat);
   const setOpenChat = useWorkbenchStore((x) => x.setOpenChat);
   const openWorkbench = useWorkbenchStore((x) => x.openWorkbench);

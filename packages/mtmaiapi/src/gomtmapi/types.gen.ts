@@ -867,7 +867,12 @@ export type WorkflowWorkersCount = {
     | SocialTeamConfig
     | SocialAddFollowersInput
     | FlowInstagramInput
-    | UserAgentState;
+    | UserAgentState
+    | MtLlmMessage
+    | UserMessage
+    | SystemMessage
+    | AssistantMessage
+    | FunctionExecutionResultMessage;
 };
 
 export type WorkflowRun = {
@@ -2079,23 +2084,55 @@ export type InstagramAgentState = BaseState & {
   platform_account_id?: string;
 };
 
-export type SocietyOfMindAgentState = BaseState & {
-  type?: "SocietyOfMindAgentState";
-  inner_team_state?: unknown;
-};
-
-export type ChatAgentContainerState = BaseState & {
-  type?: "ChatAgentContainerState";
-  agent_state?: unknown;
-  message_buffer?: Array<ChatMessage>;
-};
-
 export type BaseGroupChatManagerState = BaseState & {
   type?: "BaseGroupChatManagerState";
   message_thread?: Array<{
     [key: string]: unknown;
   }>;
   current_turn?: number;
+};
+
+export type MtLlmMessage =
+  | ({
+      type?: "UserMessage";
+    } & UserMessage)
+  | ({
+      type?: "SystemMessage";
+    } & SystemMessage)
+  | ({
+      type?: "AssistantMessage";
+    } & AssistantMessage)
+  | ({
+      type?: "FunctionExecutionResultMessage";
+    } & FunctionExecutionResultMessage);
+
+export type UserMessage = {
+  type: "UserMessage";
+  content: string;
+  source?: string;
+};
+
+export type SystemMessage = {
+  type: "SystemMessage";
+  content: string;
+};
+
+export type AssistantMessage = {
+  type: "AssistantMessage";
+  content: string;
+  source?: string;
+};
+
+export type FunctionExecutionResultMessage = {
+  type: "FunctionExecutionResultMessage";
+  content: Array<FunctionExecutionResult>;
+};
+
+export type FunctionExecutionResult = {
+  content: string;
+  name: string;
+  call_id: string;
+  is_error?: boolean;
 };
 
 export type MtComponentProperties = {
@@ -2302,11 +2339,6 @@ export type FunctionCall = {
   id: string;
   arguments: string;
   name: string;
-};
-
-export type FunctionExecutionResult = {
-  call_id: string;
-  content: string;
 };
 
 export type BaseMessageConfig = {
