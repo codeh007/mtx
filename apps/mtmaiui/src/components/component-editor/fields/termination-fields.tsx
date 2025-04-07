@@ -9,13 +9,13 @@ import type {
   Component,
   ComponentConfig,
   TerminationConfig,
-} from "../../../routes/components/views/types/datamodel";
+} from "../../autogen_views/types/datamodel";
 import {
   PROVIDERS,
   isMaxMessageTermination,
   isOrTermination,
   isTextMentionTermination,
-} from "../../../routes/components/views/types/guards";
+} from "../../autogen_views/types/guards";
 import { DetailGroup } from "../../detailgroup";
 
 interface TerminationFieldsProps {

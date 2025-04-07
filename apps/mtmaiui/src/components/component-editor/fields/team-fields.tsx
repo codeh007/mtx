@@ -7,12 +7,12 @@ import React, { useCallback } from "react";
 import type {
   RoundRobinGroupChatConfig,
   SelectorGroupChatConfig,
-} from "../../../routes/components/views/types/datamodel";
+} from "../../autogen_views/types/datamodel";
 import {
   isInstagramTeam,
   isRoundRobinTeam,
   isSelectorTeam,
-} from "../../../routes/components/views/types/guards";
+} from "../../autogen_views/types/guards";
 
 interface TeamFieldsProps {
   component: MtComponent;

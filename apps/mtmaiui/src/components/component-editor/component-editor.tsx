@@ -14,7 +14,7 @@ import {
   isTeamComponent,
   isTerminationComponent,
   isToolComponent,
-} from "../../routes/components/views/types/guards";
+} from "../autogen_views/types/guards";
 import {
   type ComponentEditorProps,
   type EditPath,

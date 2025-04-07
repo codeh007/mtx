@@ -24,8 +24,8 @@ import {
 } from "mtxuilib/ui/collapsible";
 import { Switch } from "mtxuilib/ui/switch";
 import { type ChangeEvent, useMemo, useState } from "react";
+import { PresetItem } from "../../../components/autogen_views/team/builder/library";
 import { useComponentsStore } from "../../../stores/componentsProvider";
-import { PresetItem } from "../../components/views/team/builder/library";
 
 export function NavComsWithLibrary() {
   const components = useComponentsStore((x) => x.components);

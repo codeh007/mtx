@@ -1,15 +1,22 @@
 import type { MtComponent } from "mtmaiapi";
 import { nanoid } from "nanoid";
-import type {
-  Component,
-  ComponentConfig,
-  TeamConfig,
-} from "../../../../../types/datamodel";
+import type { Component } from "react";
+import type { ComponentConfig, TeamConfig } from "../../types/datamodel";
 import {
   isAssistantAgent,
   isUserProxyAgent,
   isWebSurferAgent,
-} from "../../../../../types/guards";
+} from "../../types/guards";
+// import type {
+//   Component,
+//   ComponentConfig,
+//   TeamConfig,
+// } from "../../../../../types/datamodel";
+// import {
+//   isAssistantAgent,
+//   isUserProxyAgent,
+//   isWebSurferAgent,
+// } from "../../../../../types/guards";
 import type { CustomEdge, CustomNode } from "./types";
 
 interface Position {

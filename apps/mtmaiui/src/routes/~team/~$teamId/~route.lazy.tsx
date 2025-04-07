@@ -1,8 +1,8 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { comsGetOptions } from "mtmaiapi";
+import { TeamBuilder } from "../../../components/autogen_views/team/builder/builder";
 import { useTenant } from "../../../hooks/useAuth";
-import { TeamBuilder } from "../../components/views/team/builder/builder";
 
 export const Route = createLazyFileRoute("/team/$teamId")({
   component: RouteComponent,
@@ -27,11 +27,7 @@ function RouteComponent() {
 
   return (
     <>
-      <TeamBuilder
-        team={teamQuery.data}
-        // onChange={handleSaveTeam}
-        // onDirtyStateChange={setHasUnsavedChanges}
-      />
+      <TeamBuilder team={teamQuery.data} />
     </>
   );
 }

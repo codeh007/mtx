@@ -6,7 +6,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
-import { RootAppWrapper } from "../components/RootAppWrapper";
+import { RootAppWrapper } from "../../components/RootAppWrapper";
 
 export const Route = createLazyFileRoute("/admin")({
   component: RouteComponent,

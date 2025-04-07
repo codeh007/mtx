@@ -1,5 +1,5 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { RootAppWrapper } from "../components/RootAppWrapper";
+import { RootAppWrapper } from "../../components/RootAppWrapper";
 import { NavComs } from "./siderbar";
 
 export const Route = createLazyFileRoute("/coms/")({

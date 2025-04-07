@@ -24,7 +24,7 @@ import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
 import type React from "react";
 import { memo } from "react";
-import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
+import { useTeamBuilderStore } from "../../../../stores/teamBuildStore";
 import { TruncatableText } from "../../atoms";
 import type {
   Component,

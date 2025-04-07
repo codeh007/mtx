@@ -19,12 +19,12 @@ import { useFormContext } from "react-hook-form";
 import type {
   Component,
   FunctionToolConfig,
-} from "../../../routes/components/views/types/datamodel";
+} from "../../autogen_views/types/datamodel";
 import {
   isAssistantAgent,
   isUserProxyAgent,
   isWebSurferAgent,
-} from "../../../routes/components/views/types/guards";
+} from "../../autogen_views/types/guards";
 
 interface AgentFieldsProps {
   component: MtComponent;

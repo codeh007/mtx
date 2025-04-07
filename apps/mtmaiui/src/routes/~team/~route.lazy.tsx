@@ -5,8 +5,8 @@ import { useTenant, useUser } from "../../hooks/useAuth";
 // import { teamAPI } from "../components/views/team/api.ts--";
 
 import { type MtComponent, comsListOptions } from "mtmaiapi";
+import { RootAppWrapper } from "../../components/RootAppWrapper";
 import type { Team } from "../../types/datamodel";
-import { RootAppWrapper } from "../components/RootAppWrapper";
 import { TeamSidebar } from "./sidebar";
 
 export const Route = createLazyFileRoute("/team")({

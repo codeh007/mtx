@@ -15,9 +15,9 @@ import {
 } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
 import { useNav } from "../../../../hooks/useNav";
+import { TeamBuilderToolbar } from "../../../../components/autogen_views/team/builder/toolbar";
+import { ValidationErrors } from "../../../../components/autogen_views/team/builder/validationerrors";
 import { useTeamBuilderStore } from "../../../../stores/teamBuildStore";
-import { TeamBuilderToolbar } from "../../../components/views/team/builder/toolbar";
-import { ValidationErrors } from "../../../components/views/team/builder/validationerrors";
 
 interface TeamBuilderHeaderProps {
   comId: string;

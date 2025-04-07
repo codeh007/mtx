@@ -4,7 +4,7 @@ import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { cn } from "mtxuilib/lib/utils";
 import { SidebarInset, SidebarProvider } from "mtxuilib/ui/sidebar";
 import type { PropsWithChildren } from "react";
-import { DashSidebar } from "../../components/sidebar/siderbar";
+import { DashSidebar } from "./sidebar/siderbar";
 
 interface RootAppWrapperProps extends PropsWithChildren {
   secondSidebar?: React.ReactNode;

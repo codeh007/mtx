@@ -1,8 +1,5 @@
 "use client";
-import {
-  useMutation,
-  useQuery
-} from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   type Connection,
   type NodeChange,
@@ -12,11 +9,7 @@ import {
   addEdge,
 } from "@xyflow/react";
 import { type DebouncedFunc, debounce, isEqual } from "lodash";
-import {
-  type MtComponent,
-  comsGetOptions,
-  comsUpsertMutation
-} from "mtmaiapi";
+import { type MtComponent, comsGetOptions, comsUpsertMutation } from "mtmaiapi";
 import { nanoid } from "nanoid";
 import {
   type Dispatch,
@@ -42,25 +35,24 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 
-import { useNav } from "../hooks/useNav";
 import type {
   CustomEdge,
   CustomNode,
   GraphState,
   NodeData,
   Position,
-} from "../routes/components/views/team/builder/types";
+} from "../components/autogen_views/team/builder/types";
 import {
   convertTeamConfigToGraph,
   getLayoutedElements,
   getUniqueName,
-} from "../routes/components/views/team/builder/utils";
+} from "../components/autogen_views/team/builder/utils";
 import type {
   Component,
   ComponentConfig,
   ComponentTypes,
   TeamConfig,
-} from "../routes/components/views/types/datamodel";
+} from "../components/autogen_views/types/datamodel";
 import {
   isAgentComponent,
   isAssistantAgent,
@@ -70,7 +62,8 @@ import {
   isTerminationComponent,
   isToolComponent,
   isWebSurferAgent,
-} from "../routes/components/views/types/guards";
+} from "../components/autogen_views/types/guards";
+import { useNav } from "../hooks/useNav";
 
 const MAX_HISTORY = 50;
 export interface DragItemData {

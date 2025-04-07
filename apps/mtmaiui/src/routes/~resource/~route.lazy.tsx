@@ -4,8 +4,8 @@ import {
   useRouterState,
 } from "@tanstack/react-router";
 
+import { RootAppWrapper } from "../../components/RootAppWrapper";
 import { WorkbrenchProvider } from "../../stores/workbrench.store";
-import { RootAppWrapper } from "../components/RootAppWrapper";
 import { NavResource } from "./siderbar";
 
 export const Route = createLazyFileRoute("/resource")({

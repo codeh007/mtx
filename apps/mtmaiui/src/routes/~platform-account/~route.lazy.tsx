@@ -2,7 +2,7 @@ import { Outlet } from "@tanstack/react-router";
 
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { SidebarProvider } from "mtxuilib/ui/sidebar";
-import { RootAppWrapper } from "../components/RootAppWrapper";
+import { RootAppWrapper } from "../../components/RootAppWrapper";
 // import { PlatformAccountHeader } from "./headers";
 import { NavPlatformAccount } from "./siderbar";
 

@@ -9,7 +9,7 @@ import {
   isAnthropicModel,
   isAzureOpenAIModel,
   isOpenAIModel,
-} from "../../../routes/components/views/types/guards";
+} from "../../autogen_views/types/guards";
 import { DetailGroup } from "../../detailgroup";
 
 interface ModelFieldsProps {

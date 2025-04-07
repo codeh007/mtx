@@ -1,5 +1,5 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
-import { RootAppWrapper } from "../../components/RootAppWrapper";
+import { RootAppWrapper } from "../../../components/RootAppWrapper";
 import { NavTenantSettings } from "./sidebar";
 
 export const Route = createLazyFileRoute("/tenant/settings")({

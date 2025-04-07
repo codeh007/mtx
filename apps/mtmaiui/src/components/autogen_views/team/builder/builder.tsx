@@ -5,9 +5,9 @@ import { cn } from "mtxuilib/lib/utils";
 import { MonacoEditor } from "mtxuilib/mt/monaco";
 import { Button } from "mtxuilib/ui/button";
 import { useRef } from "react";
-import { useTeamBuilderStore } from "../../../../../stores/teamBuildStore";
 import "./builder.css";
 import { edgeTypes, nodeTypes } from "./nodes";
+import { useTeamBuilderStore } from "../../../../stores/teamBuildStore";
 
 export const TeamBuilder = () => {
   const nodes = useTeamBuilderStore((x) => x.nodes);

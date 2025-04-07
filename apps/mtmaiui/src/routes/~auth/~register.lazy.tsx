@@ -1,6 +1,6 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
+import { RootAppWrapper } from "../../components/RootAppWrapper";
 import { UserRegisterScreen } from "../../components/auth/UserRegister";
-import { RootAppWrapper } from "../components/RootAppWrapper";
 
 export const Route = createLazyFileRoute("/auth/register")({
   component: RouteComponent,

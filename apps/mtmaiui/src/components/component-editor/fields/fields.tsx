@@ -6,14 +6,14 @@ import type {
   Component,
   ComponentConfig,
   FunctionToolConfig,
-} from "../../../routes/components/views/types/datamodel";
+} from "../../autogen_views/types/datamodel";
 import {
   isAgentComponent,
   isModelComponent,
   isTeamComponent,
   isTerminationComponent,
   isToolComponent,
-} from "../../../routes/components/views/types/guards";
+} from "../../autogen_views/types/guards";
 import { DetailGroup } from "../../detailgroup";
 import type { EditPath } from "../component-editor";
 import { AgentFields } from "./agent-fields";

@@ -8,9 +8,9 @@ import {
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
 
+import { RootAppWrapper } from "../../components/RootAppWrapper";
 import { WorkbrenchProvider } from "../../stores/workbrench.store";
 import { WorkflowsProvider } from "../../stores/workflow-store";
-import { RootAppWrapper } from "../components/RootAppWrapper";
 import { NavWorkflow } from "./siderbar";
 export const Route = createLazyFileRoute("/workflows")({
   component: RouteComponent,

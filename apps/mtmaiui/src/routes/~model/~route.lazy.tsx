@@ -7,7 +7,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
-import { RootAppWrapper } from "../components/RootAppWrapper";
+import { RootAppWrapper } from "../../components/RootAppWrapper";
 import { NavModel } from "./sidebar";
 
 export const Route = createLazyFileRoute("/model")({

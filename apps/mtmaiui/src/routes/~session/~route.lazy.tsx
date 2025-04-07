@@ -1,8 +1,8 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
+import { RootAppWrapper } from "../../components/RootAppWrapper";
 import { TeamSessionProvider } from "../../stores/teamSessionProvider";
 import { WorkbrenchProvider } from "../../stores/workbrench.store";
-import { RootAppWrapper } from "../components/RootAppWrapper";
 import { NavSession } from "./siderbar";
 
 export const Route = createLazyFileRoute("/session")({

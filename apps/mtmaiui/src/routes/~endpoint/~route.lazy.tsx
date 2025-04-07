@@ -10,8 +10,8 @@ import {
 } from "mtxuilib/ui/breadcrumb";
 import { SidebarInset } from "mtxuilib/ui/sidebar";
 import { Suspense } from "react";
+import { RootAppWrapper } from "../../components/RootAppWrapper";
 import { DashSidebar } from "../../components/sidebar/siderbar";
-import { RootAppWrapper } from "../components/RootAppWrapper";
 export const Route = createLazyFileRoute("/endpoint")({
   component: RouteComponent,
 });

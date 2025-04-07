@@ -1,16 +1,18 @@
 "use client";
 
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
-import type {
-  AssistantMessage,
-  FunctionCall,
-  FunctionExecutionResultMessage,
-  MtLlmMessage,
-  UserMessage,
-} from "mtmaiapi";
+import cx from "classnames";
+import { motion } from "framer-motion";
+import type { AssistantMessage, MtLlmMessage, UserMessage } from "mtmaiapi";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
+import { SparklesIcon } from "mtxuilib/icons/aichatbot.icons";
 import { Markdown } from "mtxuilib/markdown/Markdown";
+
+import {
+  FunctionCallView,
+  FunctionExecutionResultMessageView,
+} from "./tool-messages/ToolMessageView";
 
 interface MtMessagesProps {
   messages: MtLlmMessage[];
@@ -86,48 +88,34 @@ export const AssistantMessageView = ({ msg }: { msg: AssistantMessage }) => {
   );
 };
 
-export const FunctionExecutionResultMessageView = ({
-  msg,
-}: { msg: FunctionExecutionResultMessage }) => {
-  return (
-    <div>
-      FunctionExecutionResultMessageView
-      <DebugValue data={{ msg }} />
-    </div>
-  );
-};
-export const FunctionCallView = ({ msg }: { msg: FunctionCall[] }) => {
-  return (
-    <div className="bg-slate-200 p-1">
-      <DebugValue data={{ msg }} />
-      {msg.map((item, i) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-        <FunctionCallItemView key={i} msg={item} />
-      ))}
-    </div>
-  );
-};
+export const ThinkingMessage = () => {
+  const role = "assistant";
 
-export const FunctionCallItemView = ({ msg }: { msg: FunctionCall }) => {
   return (
-    <div className="bg-slate-200 p-1 border">
-      <DebugValue data={{ msg }} />
-      {msg.name === "CodeExecutor" ? (
-        <CodeExecutorView msg={msg} />
-      ) : (
-        <div>unknown function call: {msg.name}</div>
-      )}
-    </div>
-  );
-};
+    <motion.div
+      className="w-full mx-auto max-w-3xl px-4 group/message "
+      initial={{ y: 5, opacity: 0 }}
+      animate={{ y: 0, opacity: 1, transition: { delay: 1 } }}
+      data-role={role}
+    >
+      <div
+        className={cx(
+          "flex gap-4 group-data-[role=user]/message:px-3 w-full group-data-[role=user]/message:w-fit group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-2xl group-data-[role=user]/message:py-2 rounded-xl",
+          {
+            "group-data-[role=user]/message:bg-muted": true,
+          },
+        )}
+      >
+        <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border">
+          <SparklesIcon size={14} />
+        </div>
 
-export const CodeExecutorView = ({ msg }: { msg: any }) => {
-  return (
-    <div>
-      CodeExecutorView
-      <pre className="text-xs bg-yellow-100 p-1">
-        {JSON.stringify(msg, null, 2)}
-      </pre>
-    </div>
+        <div className="flex flex-col gap-2 w-full">
+          <div className="flex flex-col gap-4 text-muted-foreground">
+            Thinking...
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 };
