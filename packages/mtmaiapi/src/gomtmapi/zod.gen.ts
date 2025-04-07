@@ -868,31 +868,6 @@ export const zWorkflowWorkersCount = z.object({
         platform_account_id: z.string().optional(),
         count_to_follow: z.number().default(1),
       }),
-      z.union([
-        z
-          .object({
-            type: z.literal("SocialAddFollowersInput").optional(),
-          })
-          .merge(
-            z.object({
-              type: z.enum(["SocialAddFollowersInput"]),
-              platform_account_id: z.string().optional(),
-              count_to_follow: z.number().default(1),
-            }),
-          ),
-        z
-          .object({
-            type: z.literal("SocialLoginInput").optional(),
-          })
-          .merge(
-            z.object({
-              type: z.enum(["SocialLoginInput"]),
-              username: z.string(),
-              password: z.string(),
-              otp_key: z.string().optional(),
-            }),
-          ),
-      ]),
       z.object({
         type: z.enum(["UserAgentState"]).optional(),
         model_context: z.unknown().optional(),
@@ -1008,12 +983,21 @@ export const zWorkflowWorkersCount = z.object({
       z.object({
         max_turns: z.number().int().optional().default(25),
       }),
-      z.enum(["CodeExecutor"]),
+      z.enum(["code_executor", "social_login"]),
       z.object({
         code: z.string(),
       }),
       z.object({
         output: z.string(),
+        success: z.boolean(),
+      }),
+      z.object({
+        type: z.enum(["SocialLoginInput"]),
+        username: z.string(),
+        password: z.string(),
+        otp_key: z.string().optional(),
+      }),
+      z.object({
         success: z.boolean(),
       }),
     ])
@@ -2249,7 +2233,7 @@ export const zMtComponentProperties = z.object({
   config: z.object({}),
 });
 
-export const zToolTypes = z.enum(["CodeExecutor"]);
+export const zToolTypes = z.enum(["code_executor", "social_login"]);
 
 export const zCodeExecutionInput = z.object({
   code: z.string(),
@@ -2257,6 +2241,17 @@ export const zCodeExecutionInput = z.object({
 
 export const zCodeExecutionResult = z.object({
   output: z.string(),
+  success: z.boolean(),
+});
+
+export const zSocialLoginInput = z.object({
+  type: z.enum(["SocialLoginInput"]),
+  username: z.string(),
+  password: z.string(),
+  otp_key: z.string().optional(),
+});
+
+export const zSocialLoginResult = z.object({
   success: z.boolean(),
 });
 
@@ -3289,14 +3284,7 @@ export const zMtAgEvent = z.union([
     .object({
       type: z.literal("SocialLoginInput").optional(),
     })
-    .merge(
-      z.object({
-        type: z.enum(["SocialLoginInput"]),
-        username: z.string(),
-        password: z.string(),
-        otp_key: z.string().optional(),
-      }),
-    ),
+    .merge(zSocialLoginInput),
   z
     .object({
       type: z.literal("TenantInitInput").optional(),
@@ -3333,13 +3321,6 @@ export const zThoughtEvent = z.object({
   content: z.string(),
   metadata: z.object({}).optional(),
   models_usage: z.object({}).optional(),
-});
-
-export const zSocialLoginInput = z.object({
-  type: z.enum(["SocialLoginInput"]),
-  username: z.string(),
-  password: z.string(),
-  otp_key: z.string().optional(),
 });
 
 export const zTenantInitInput = z.object({
@@ -3379,25 +3360,6 @@ export const zChatMessageInput = z.object({
   type: z.enum(["ChatMessageInput"]),
   content: z.string(),
 });
-
-export const zFlowInstagramInput = z.union([
-  z
-    .object({
-      type: z.literal("SocialAddFollowersInput").optional(),
-    })
-    .merge(
-      z.object({
-        type: z.enum(["SocialAddFollowersInput"]),
-        platform_account_id: z.string().optional(),
-        count_to_follow: z.number().default(1),
-      }),
-    ),
-  z
-    .object({
-      type: z.literal("SocialLoginInput").optional(),
-    })
-    .merge(zSocialLoginInput),
-]);
 
 export const zFlowError = z.object({
   type: z.string().optional(),

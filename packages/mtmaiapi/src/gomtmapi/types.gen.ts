@@ -866,7 +866,6 @@ export type WorkflowWorkersCount = {
     | FlowError
     | SocialTeamConfig
     | SocialAddFollowersInput
-    | FlowInstagramInput
     | UserAgentState
     | MtLlmMessage
     | UserMessage
@@ -876,7 +875,9 @@ export type WorkflowWorkersCount = {
     | UserTeamConfig
     | ToolTypes
     | CodeExecutionInput
-    | CodeExecutionResult;
+    | CodeExecutionResult
+    | SocialLoginInput
+    | SocialLoginResult;
 };
 
 export type WorkflowRun = {
@@ -2146,10 +2147,11 @@ export type MtComponentProperties = {
   };
 };
 
-export type ToolTypes = "CodeExecutor";
+export type ToolTypes = "code_executor" | "social_login";
 
 export const ToolTypes = {
-  CODE_EXECUTOR: "CodeExecutor",
+  CODE_EXECUTOR: "code_executor",
+  SOCIAL_LOGIN: "social_login",
 } as const;
 
 export type CodeExecutionInput = {
@@ -2166,6 +2168,20 @@ export type CodeExecutionResult = {
   output: string;
   /**
    * Whether the code execution was successful
+   */
+  success: boolean;
+};
+
+export type SocialLoginInput = {
+  type: "SocialLoginInput";
+  username: string;
+  password: string;
+  otp_key?: string;
+};
+
+export type SocialLoginResult = {
+  /**
+   * Whether the social login was successful
    */
   success: boolean;
 };
@@ -3266,13 +3282,6 @@ export type ThoughtEvent = {
   };
 };
 
-export type SocialLoginInput = {
-  type: "SocialLoginInput";
-  username: string;
-  password: string;
-  otp_key?: string;
-};
-
 export type TenantInitInput = {
   type: "TenantInitInput";
   tenant_id: string;
@@ -3324,14 +3333,6 @@ export type ChatMessageInput = {
   type: "ChatMessageInput";
   content: string;
 };
-
-export type FlowInstagramInput =
-  | ({
-      type?: "SocialAddFollowersInput";
-    } & SocialAddFollowersInput)
-  | ({
-      type?: "SocialLoginInput";
-    } & SocialLoginInput);
 
 export type FlowError = {
   type?: string;

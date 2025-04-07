@@ -1483,9 +1483,6 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/SocialAddFollowersInput",
         },
         {
-          $ref: "#/components/schemas/FlowInstagramInput",
-        },
-        {
           $ref: "#/components/schemas/UserAgentState",
         },
         {
@@ -1514,6 +1511,12 @@ export const WorkflowWorkersCountSchema = {
         },
         {
           $ref: "#/components/schemas/CodeExecutionResult",
+        },
+        {
+          $ref: "#/components/schemas/SocialLoginInput",
+        },
+        {
+          $ref: "#/components/schemas/SocialLoginResult",
         },
       ],
     },
@@ -3866,7 +3869,7 @@ export const MtComponentPropertiesSchema = {
 
 export const ToolTypesSchema = {
   type: "string",
-  enum: ["CodeExecutor"],
+  enum: ["code_executor", "social_login"],
 } as const;
 
 export const CodeExecutionInputSchema = {
@@ -3890,6 +3893,35 @@ export const CodeExecutionResultSchema = {
     success: {
       type: "boolean",
       description: "Whether the code execution was successful",
+    },
+  },
+} as const;
+
+export const SocialLoginInputSchema = {
+  required: ["type", "username", "password"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["SocialLoginInput"],
+    },
+    username: {
+      type: "string",
+    },
+    password: {
+      type: "string",
+    },
+    otp_key: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const SocialLoginResultSchema = {
+  required: ["success"],
+  properties: {
+    success: {
+      type: "boolean",
+      description: "Whether the social login was successful",
     },
   },
 } as const;
@@ -6239,25 +6271,6 @@ export const ThoughtEventSchema = {
   },
 } as const;
 
-export const SocialLoginInputSchema = {
-  required: ["type", "username", "password"],
-  properties: {
-    type: {
-      type: "string",
-      enum: ["SocialLoginInput"],
-    },
-    username: {
-      type: "string",
-    },
-    password: {
-      type: "string",
-    },
-    otp_key: {
-      type: "string",
-    },
-  },
-} as const;
-
 export const TenantInitInputSchema = {
   required: ["type", "tenant_id"],
   properties: {
@@ -6344,20 +6357,6 @@ export const ChatMessageInputSchema = {
       type: "string",
     },
   },
-} as const;
-
-export const FlowInstagramInputSchema = {
-  discriminator: {
-    propertyName: "type",
-  },
-  oneOf: [
-    {
-      $ref: "#/components/schemas/SocialAddFollowersInput",
-    },
-    {
-      $ref: "#/components/schemas/SocialLoginInput",
-    },
-  ],
 } as const;
 
 export const FlowErrorSchema = {
