@@ -59,7 +59,7 @@ interface DashSidebarProps extends React.ComponentProps<typeof Sidebar> {
 export const DashSidebar = (props: DashSidebarProps) => {
   const { collapsed, secondSidebar, ...rest } = props;
   const [isPending, startTransition] = useTransition();
-  const { setOpenMobile } = useSidebar();
+  // const { setOpenMobile } = useSidebar();
   const [mails, setMails] = React.useState(example_data.mails);
   const [activeItem, setActiveItem] = React.useState(example_data.navMain[0]);
   const { setOpen } = useSidebar();

@@ -129,6 +129,8 @@ export interface WorkbrenchState extends WorkbenchProps {
 
   userAgentState?: UserAgentState;
   setUserAgentState: (userAgentState: UserAgentState) => void;
+  lastestWorkflowRun?: WorkflowRun;
+  setLastestWorkflowRun: (lastestWorkflowRun: WorkflowRun) => void;
 }
 
 export const createWorkbrenchSlice: StateCreator<
@@ -164,13 +166,17 @@ export const createWorkbrenchSlice: StateCreator<
       const newChatMessage = {
         role: "user",
         content: input.content,
-        // topic: "default",
-        // source: "web",
         metadata: {
           id: generateUUID(),
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         },
+        content_type: "text",
+        type: "UserMessage",
+        topic: "default",
+        source: "web",
+        thread_id: get().threadId,
+        thought: "",
       } as ChatMessage;
       set({
         messages: [...preMessages, newChatMessage],
@@ -188,6 +194,9 @@ export const createWorkbrenchSlice: StateCreator<
           },
         },
       });
+      if (response?.data) {
+        get().setLastestWorkflowRun(response?.data);
+      }
       if (response?.data) {
         // console.log("response", response);
         // pull stream event
@@ -240,6 +249,9 @@ export const createWorkbrenchSlice: StateCreator<
     },
     setUserAgentState: (userAgentState) => {
       set({ userAgentState });
+    },
+    setLastestWorkflowRun: (lastestWorkflowRun) => {
+      set({ lastestWorkflowRun });
     },
     loadChatMessageList: (chatMessageList) => {
       if (!chatMessageList?.rows?.length) {
@@ -349,14 +361,9 @@ export const WorkbrenchProvider = (
   const chatMessageListQuery = useQuery({
     ...chatMessagesListOptions({
       path: {
-        // session: etc.threadId,
         tenant: tid!,
-        // session: etc.threadId,
         chat: etc.threadId!,
       },
-      // body: {
-      //   thread_id: etc.threadId,
-      // },
     }),
     enabled: !!etc.threadId,
   });
@@ -386,6 +393,13 @@ export const WorkbrenchProvider = (
       }
     }
   }, [agStateListQuery.data, mystore, etc.threadId]);
+
+  useEffect(() => {
+    if (mystore.getState().lastestWorkflowRun) {
+      // mystore.setState({ messages: [mystore.getState().lastestWorkflowRun] });
+      console.log("lastestWorkflowRun", mystore.getState().lastestWorkflowRun);
+    }
+  }, [mystore.getState().lastestWorkflowRun]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
