@@ -371,6 +371,7 @@ export const WorkbrenchProvider = (
     enabled: !!etc.threadId,
   });
   useEffect(() => {
+    console.log("chatMessageListQuery.data", chatMessageListQuery.data);
     if (chatMessageListQuery.data) {
       console.log(
         "加载了:chatMessageListQuery.data",
@@ -378,7 +379,7 @@ export const WorkbrenchProvider = (
         chatMessageListQuery.data,
       );
     }
-  }, [chatMessageListQuery.data, etc.threadId]);
+  }, [chatMessageListQuery, etc.threadId]);
 
   useEffect(() => {
     if (agStateListQuery.data) {
