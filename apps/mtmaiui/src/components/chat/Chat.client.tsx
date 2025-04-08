@@ -2,11 +2,10 @@
 import { useAnimate } from "framer-motion";
 import { useSnapScroll } from "mtxuilib/hooks/useSnapScroll";
 import { memo, useEffect, useRef } from "react";
-import { ToastContainer, cssTransition } from "react-toastify";
+// import { ToastContainer, cssTransition } from "react-toastify";
 
 import type { Message } from "ai";
 import { AgentEventType } from "mtmaiapi";
-import { Icons } from "mtxuilib/icons/icons";
 import { cn } from "mtxuilib/lib/utils";
 import { type RefCallback, forwardRef, useMemo } from "react";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
@@ -16,10 +15,10 @@ import { classNames } from "mtxuilib/lib/utils";
 import { ModelContextMessageView } from "./ModelContextMessageView";
 import { BoltPromptBox } from "./prompt-input/BoltPromptBox";
 
-const toastAnimation = cssTransition({
-  enter: "animated fadeInRight",
-  exit: "animated fadeOutRight",
-});
+// const toastAnimation = cssTransition({
+//   enter: "animated fadeInRight",
+//   exit: "animated fadeOutRight",
+// });
 
 interface ChatProps {
   initialMessages?: Message[];
@@ -63,45 +62,6 @@ export function ChatClient(props: ChatProps) {
           }
         >
           <ChatImpl />
-          <ToastContainer
-            closeButton={({ closeToast }) => {
-              return (
-                <button
-                  type="button"
-                  className="Toastify__close-button"
-                  onClick={closeToast}
-                >
-                  <Icons.X className="size-4" />
-                </button>
-              );
-            }}
-            icon={({ type }) => {
-              /**
-               * @todo Handle more types if we need them. This may require extra color palettes.
-               */
-              switch (type) {
-                case "success": {
-                  return (
-                    <div className="i-ph:check-bold text-bolt-elements-icon-success text-2xl">
-                      <Icons.check className="size-4" />
-                    </div>
-                  );
-                }
-                case "error": {
-                  return (
-                    <div className="i-ph:warning-circle-bold text-bolt-elements-icon-error text-2xl">
-                      <Icons.warning className="size-4" />
-                    </div>
-                  );
-                }
-              }
-
-              return undefined;
-            }}
-            position="bottom-right"
-            pauseOnFocusLoss
-            transition={toastAnimation}
-          />
         </div>
       </div>
     </>

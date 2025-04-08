@@ -48,7 +48,7 @@ import { useGomtmClient } from "./TransportProvider";
 import { handleWorkflowRunEvent } from "./ag-event-handlers";
 
 export interface WorkbenchProps {
-  componentId?: string;
+  // componentId?: string;
   threadId?: string;
   teamState?: AgState;
   resourceId?: string;
@@ -95,7 +95,7 @@ export interface WorkbrenchState extends WorkbenchProps {
   input?: string;
   setInput: (input: string) => void;
   handleHumanInput: (input: MtAgEvent) => void;
-  setComponentId: (componentId: string) => void;
+  // setComponentId: (componentId: string) => void;
   workflowRunId?: string;
   setWorkflowRunId: (workflowRunId: string) => void;
   chatStarted?: boolean;
@@ -137,7 +137,7 @@ export const createWorkbrenchSlice: StateCreator<
   WorkbrenchState
 > = (set, get, init) => {
   return {
-    backendUrl: "",
+    // backendUrl: "",
     userAgentState: {},
     setInput: (input) => set({ input }),
     messages: [],
@@ -163,7 +163,6 @@ export const createWorkbrenchSlice: StateCreator<
       const newChatMessage = {
         role: "user",
         content: input.content,
-        componentId: input.componentId,
         topic: "default",
         source: "web",
         metadata: {
@@ -210,9 +209,6 @@ export const createWorkbrenchSlice: StateCreator<
     },
     setThreadId: (threadId) => {
       set({ threadId });
-    },
-    setComponentId: (componentId) => {
-      set({ componentId });
     },
     setWorkflowRunId: (workflowRunId) => {
       set({ workflowRunId });
@@ -345,11 +341,16 @@ export const WorkbrenchProvider = (
         session: etc.threadId,
       },
     }),
+    enabled: !!etc.threadId,
   });
 
   useEffect(() => {
     if (agStateListQuery.data) {
-      console.log("加载了:agStateListQuery.data", agStateListQuery.data);
+      console.log(
+        "加载了:agStateListQuery.data",
+        etc.threadId,
+        agStateListQuery.data,
+      );
       //TODO: 如何正确识别 UserAgentState?
       for (const state of agStateListQuery.data?.rows ?? []) {
         if (state.topic === "user") {
@@ -357,7 +358,7 @@ export const WorkbrenchProvider = (
         }
       }
     }
-  }, [agStateListQuery.data, mystore]);
+  }, [agStateListQuery.data, mystore, etc.threadId]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
