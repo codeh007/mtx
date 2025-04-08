@@ -1,14 +1,14 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { tenantMembershipsListOptions, userGetCurrentOptions } from "mtmaiapi";
-import { useMtRouter } from "mtxuilib/hooks/use-router";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  tenantMembershipsListOptions,
+  userGetCurrentOptions,
+  userUpdateLoginMutation,
+} from "mtmaiapi";
 import { setCookie } from "mtxuilib/lib/clientlib";
 import { useEffect, useMemo, useState } from "react";
 import { useMtmaiV2 } from "../stores/StoreProvider";
-
-import { MtmService } from "mtmaiapi/mtmclient/mtmai/mtmpb/mtm_pb";
-import { useMtmMutation } from "./mtmQuery";
 
 export const useUser = () => {
   const userQuery = useQuery({
@@ -24,43 +24,47 @@ export const useTenantId = () => {
   return useMtmaiV2((x) => x.currentTenant?.metadata.id) as string;
 };
 
-// export const useTenantV2 = () => {
-//   const user = useUser();
-
-//   const membersQuery = useQuery({
-//     ...tenantMembershipsListOptions(),
-//   });
-
-//   const members = useMemo(() => {}, [user]);
-// };
-
 export const useIsAdmin = () => {
   const tenant = useTenant();
   return ["default", "admin", "Default"].includes(tenant?.name || "");
 };
 
 export const useLoginHandler = () => {
-  const router = useMtRouter();
+  // const router = useMtRouter();
   const frontendConfig = useMtmaiV2((x) => x.frontendConfig);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const cookieKey = frontendConfig?.cookieAccessToken || "access_token";
-  const loginMutation = useMtmMutation(MtmService.method.login, {
+  // const loginMutation = useMtmMutation(MtmService.method.login, {
+  //   onSuccess: (data) => {
+  //     console.log("login success", data);
+  //     if (data.accessToken) {
+  //       setCookie(cookieKey, data.accessToken);
+  //       router.push("/");
+  //     }
+  //   },
+  // });
+  const login = useMutation({
+    ...userUpdateLoginMutation(),
     onSuccess: (data) => {
       console.log("login success", data);
-      if (data.accessToken) {
-        setCookie(cookieKey, data.accessToken);
-        router.push("/");
+      if (data.userToken) {
+        setCookie(cookieKey, data.userToken);
+        // router.push("/");
       }
     },
   });
   const loginHandler = async (values) => {
-    loginMutation.mutate({
-      username: values.email,
-      password: values.password,
+    login.mutate({
+      // username: values.email,
+      // password: values.password,
+      body: {
+        email: values.email,
+        password: values.password,
+      },
     });
   };
 
-  return { loginHandler, isPending: loginMutation.isPending, fieldErrors };
+  return { loginHandler, isPending: login.isPending, fieldErrors };
 };
 
 /**
