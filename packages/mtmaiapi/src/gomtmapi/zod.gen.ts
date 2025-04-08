@@ -845,32 +845,32 @@ export const zWorkflowWorkersCount = z.object({
       z.union([
         z
           .object({
-            type: z.literal("UserMessage").optional(),
+            type: z.literal("MtUserMessage").optional(),
           })
           .merge(
             z.object({
-              type: z.enum(["UserMessage"]),
+              type: z.enum(["MtUserMessage"]),
               content: z.string(),
               source: z.string().optional(),
             }),
           ),
         z
           .object({
-            type: z.literal("SystemMessage").optional(),
+            type: z.literal("MtSystemMessage").optional(),
           })
           .merge(
             z.object({
-              type: z.enum(["SystemMessage"]),
+              type: z.enum(["MtSystemMessage"]),
               content: z.string(),
             }),
           ),
         z
           .object({
-            type: z.literal("AssistantMessage").optional(),
+            type: z.literal("MtAssistantMessage").optional(),
           })
           .merge(
             z.object({
-              type: z.enum(["AssistantMessage"]),
+              type: z.enum(["MtAssistantMessage"]),
               content: z.union([
                 z.string(),
                 z.array(
@@ -904,16 +904,16 @@ export const zWorkflowWorkersCount = z.object({
           ),
       ]),
       z.object({
-        type: z.enum(["UserMessage"]),
+        type: z.enum(["MtUserMessage"]),
         content: z.string(),
         source: z.string().optional(),
       }),
       z.object({
-        type: z.enum(["SystemMessage"]),
+        type: z.enum(["MtSystemMessage"]),
         content: z.string(),
       }),
       z.object({
-        type: z.enum(["AssistantMessage"]),
+        type: z.enum(["MtAssistantMessage"]),
         content: z.union([
           z.string(),
           z.array(
@@ -957,17 +957,31 @@ export const zWorkflowWorkersCount = z.object({
       z.object({
         success: z.boolean(),
       }),
-      z.object({
-        type: z.enum(["FlowResult"]),
-        source: z.string().optional(),
-        content: z.string(),
-        success: z.boolean().optional(),
-      }),
-      z.object({
-        type: z.enum(["FlowHandoffResult"]),
-        success: z.boolean().optional(),
-        name: z.string().optional(),
-      }),
+      z.union([
+        z
+          .object({
+            type: z.literal("FlowLoginResult").optional(),
+          })
+          .merge(
+            z.object({
+              type: z.enum(["FlowLoginResult"]),
+              success: z.boolean().optional(),
+              source: z.string().optional(),
+              account_id: z.string().optional(),
+            }),
+          ),
+        z
+          .object({
+            type: z.literal("FlowHandoffResult").optional(),
+          })
+          .merge(
+            z.object({
+              type: z.enum(["FlowHandoffResult"]),
+              success: z.boolean().optional(),
+              name: z.string().optional(),
+            }),
+          ),
+      ]),
       z.enum([
         "closure",
         "router",
@@ -2095,32 +2109,32 @@ export const zBaseGroupChatManagerState = zBaseState.merge(
 export const zMtLlmMessage = z.union([
   z
     .object({
-      type: z.literal("UserMessage").optional(),
+      type: z.literal("MtUserMessage").optional(),
     })
     .merge(
       z.object({
-        type: z.enum(["UserMessage"]),
+        type: z.enum(["MtUserMessage"]),
         content: z.string(),
         source: z.string().optional(),
       }),
     ),
   z
     .object({
-      type: z.literal("SystemMessage").optional(),
+      type: z.literal("MtSystemMessage").optional(),
     })
     .merge(
       z.object({
-        type: z.enum(["SystemMessage"]),
+        type: z.enum(["MtSystemMessage"]),
         content: z.string(),
       }),
     ),
   z
     .object({
-      type: z.literal("AssistantMessage").optional(),
+      type: z.literal("MtAssistantMessage").optional(),
     })
     .merge(
       z.object({
-        type: z.enum(["AssistantMessage"]),
+        type: z.enum(["MtAssistantMessage"]),
         content: z.union([
           z.string(),
           z.array(
@@ -2154,19 +2168,19 @@ export const zMtLlmMessage = z.union([
     ),
 ]);
 
-export const zUserMessage = z.object({
-  type: z.enum(["UserMessage"]),
+export const zMtUserMessage = z.object({
+  type: z.enum(["MtUserMessage"]),
   content: z.string(),
   source: z.string().optional(),
 });
 
-export const zSystemMessage = z.object({
-  type: z.enum(["SystemMessage"]),
+export const zMtSystemMessage = z.object({
+  type: z.enum(["MtSystemMessage"]),
   content: z.string(),
 });
 
-export const zAssistantMessage = z.object({
-  type: z.enum(["AssistantMessage"]),
+export const zMtAssistantMessage = z.object({
+  type: z.enum(["MtAssistantMessage"]),
   content: z.union([
     z.string(),
     z.array(
@@ -2211,11 +2225,37 @@ export const zMtComponentProperties = z.object({
   config: z.object({}),
 });
 
-export const zFlowResult = z.object({
-  type: z.enum(["FlowResult"]),
-  source: z.string().optional(),
-  content: z.string(),
+export const zFlowResult = z.union([
+  z
+    .object({
+      type: z.literal("FlowLoginResult").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["FlowLoginResult"]),
+        success: z.boolean().optional(),
+        source: z.string().optional(),
+        account_id: z.string().optional(),
+      }),
+    ),
+  z
+    .object({
+      type: z.literal("FlowHandoffResult").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["FlowHandoffResult"]),
+        success: z.boolean().optional(),
+        name: z.string().optional(),
+      }),
+    ),
+]);
+
+export const zFlowLoginResult = z.object({
+  type: z.enum(["FlowLoginResult"]),
   success: z.boolean().optional(),
+  source: z.string().optional(),
+  account_id: z.string().optional(),
 });
 
 export const zFlowHandoffResult = z.object({

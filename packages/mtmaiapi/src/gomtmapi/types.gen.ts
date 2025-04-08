@@ -862,9 +862,9 @@ export type WorkflowWorkersCount = {
     | SocialAddFollowersInput
     | UserAgentState
     | MtLlmMessage
-    | UserMessage
-    | SystemMessage
-    | AssistantMessage
+    | MtUserMessage
+    | MtSystemMessage
+    | MtAssistantMessage
     | FunctionExecutionResultMessage
     | UserTeamConfig
     | CodeExecutionInput
@@ -872,7 +872,6 @@ export type WorkflowWorkersCount = {
     | SocialLoginInput
     | SocialLoginResult
     | FlowResult
-    | FlowHandoffResult
     | AgentTypes;
 };
 
@@ -2088,31 +2087,31 @@ export type BaseGroupChatManagerState = BaseState & {
 
 export type MtLlmMessage =
   | ({
-      type?: "UserMessage";
-    } & UserMessage)
+      type?: "MtUserMessage";
+    } & MtUserMessage)
   | ({
-      type?: "SystemMessage";
-    } & SystemMessage)
+      type?: "MtSystemMessage";
+    } & MtSystemMessage)
   | ({
-      type?: "AssistantMessage";
-    } & AssistantMessage)
+      type?: "MtAssistantMessage";
+    } & MtAssistantMessage)
   | ({
       type?: "FunctionExecutionResultMessage";
     } & FunctionExecutionResultMessage);
 
-export type UserMessage = {
-  type: "UserMessage";
+export type MtUserMessage = {
+  type: "MtUserMessage";
   content: string;
   source?: string;
 };
 
-export type SystemMessage = {
-  type: "SystemMessage";
+export type MtSystemMessage = {
+  type: "MtSystemMessage";
   content: string;
 };
 
-export type AssistantMessage = {
-  type: "AssistantMessage";
+export type MtAssistantMessage = {
+  type: "MtAssistantMessage";
   content: string | Array<FunctionCall>;
   source?: string;
   thought?: string;
@@ -2143,11 +2142,19 @@ export type MtComponentProperties = {
   };
 };
 
-export type FlowResult = {
-  type: "FlowResult";
-  source?: string;
-  content: string;
+export type FlowResult =
+  | ({
+      type?: "FlowLoginResult";
+    } & FlowLoginResult)
+  | ({
+      type?: "FlowHandoffResult";
+    } & FlowHandoffResult);
+
+export type FlowLoginResult = {
+  type: "FlowLoginResult";
   success?: boolean;
+  source?: string;
+  account_id?: string;
 };
 
 export type FlowHandoffResult = {

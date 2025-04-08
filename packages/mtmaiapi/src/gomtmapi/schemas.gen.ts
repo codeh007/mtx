@@ -1471,13 +1471,13 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/MtLlmMessage",
         },
         {
-          $ref: "#/components/schemas/UserMessage",
+          $ref: "#/components/schemas/MtUserMessage",
         },
         {
-          $ref: "#/components/schemas/SystemMessage",
+          $ref: "#/components/schemas/MtSystemMessage",
         },
         {
-          $ref: "#/components/schemas/AssistantMessage",
+          $ref: "#/components/schemas/MtAssistantMessage",
         },
         {
           $ref: "#/components/schemas/FunctionExecutionResultMessage",
@@ -1499,9 +1499,6 @@ export const WorkflowWorkersCountSchema = {
         },
         {
           $ref: "#/components/schemas/FlowResult",
-        },
-        {
-          $ref: "#/components/schemas/FlowHandoffResult",
         },
         {
           $ref: "#/components/schemas/AgentTypes",
@@ -3709,13 +3706,13 @@ export const MtLlmMessageSchema = {
   },
   oneOf: [
     {
-      $ref: "#/components/schemas/UserMessage",
+      $ref: "#/components/schemas/MtUserMessage",
     },
     {
-      $ref: "#/components/schemas/SystemMessage",
+      $ref: "#/components/schemas/MtSystemMessage",
     },
     {
-      $ref: "#/components/schemas/AssistantMessage",
+      $ref: "#/components/schemas/MtAssistantMessage",
     },
     {
       $ref: "#/components/schemas/FunctionExecutionResultMessage",
@@ -3723,12 +3720,12 @@ export const MtLlmMessageSchema = {
   ],
 } as const;
 
-export const UserMessageSchema = {
+export const MtUserMessageSchema = {
   required: ["type", "content"],
   properties: {
     type: {
       type: "string",
-      enum: ["UserMessage"],
+      enum: ["MtUserMessage"],
     },
     content: {
       type: "string",
@@ -3739,12 +3736,12 @@ export const UserMessageSchema = {
   },
 } as const;
 
-export const SystemMessageSchema = {
+export const MtSystemMessageSchema = {
   required: ["type", "content"],
   properties: {
     type: {
       type: "string",
-      enum: ["SystemMessage"],
+      enum: ["MtSystemMessage"],
     },
     content: {
       type: "string",
@@ -3752,12 +3749,12 @@ export const SystemMessageSchema = {
   },
 } as const;
 
-export const AssistantMessageSchema = {
+export const MtAssistantMessageSchema = {
   required: ["type", "content"],
   properties: {
     type: {
       type: "string",
-      enum: ["AssistantMessage"],
+      enum: ["MtAssistantMessage"],
     },
     content: {
       oneOf: [
@@ -3856,20 +3853,35 @@ export const MtComponentPropertiesSchema = {
 } as const;
 
 export const FlowResultSchema = {
+  discriminator: {
+    propertyName: "type",
+  },
+  oneOf: [
+    {
+      $ref: "#/components/schemas/FlowLoginResult",
+    },
+    {
+      $ref: "#/components/schemas/FlowHandoffResult",
+    },
+  ],
+} as const;
+
+export const FlowLoginResultSchema = {
   required: ["type", "content"],
   properties: {
     type: {
       type: "string",
-      enum: ["FlowResult"],
+      enum: ["FlowLoginResult"],
+      default: "FlowLoginResult",
+    },
+    success: {
+      type: "boolean",
     },
     source: {
       type: "string",
     },
-    content: {
+    account_id: {
       type: "string",
-    },
-    success: {
-      type: "boolean",
     },
   },
 } as const;
