@@ -449,6 +449,9 @@ import type {
   ChatSessionGetData,
   ChatSessionGetResponse,
   ChatSessionGetError,
+  ChatSessionUpsertData,
+  ChatSessionUpsertResponse,
+  ChatSessionUpsertError,
   FlowStateListData,
   FlowStateListResponse,
   FlowStateGetData,
@@ -4646,6 +4649,36 @@ export const chatSessionGet = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/chat/sessions/{session}",
     ...options,
+  });
+};
+
+/**
+ * Upsert chat session
+ */
+export const chatSessionUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<ChatSessionUpsertData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).patch<
+    ChatSessionUpsertResponse,
+    ChatSessionUpsertError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/chat/sessions/{session}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 

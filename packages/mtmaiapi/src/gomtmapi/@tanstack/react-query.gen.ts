@@ -160,6 +160,7 @@ import {
   chatSessionList,
   chatMessageUpsert,
   chatSessionGet,
+  chatSessionUpsert,
   flowStateList,
   flowStateGet,
   flowStateUpsert,
@@ -471,6 +472,9 @@ import type {
   ChatMessageUpsertError,
   ChatMessageUpsertResponse,
   ChatSessionGetData,
+  ChatSessionUpsertData,
+  ChatSessionUpsertError,
+  ChatSessionUpsertResponse,
   FlowStateListData,
   FlowStateGetData,
   FlowStateUpsertData,
@@ -4768,6 +4772,26 @@ export const chatSessionGetOptions = (options: Options<ChatSessionGetData>) => {
     },
     queryKey: chatSessionGetQueryKey(options),
   });
+};
+
+export const chatSessionUpsertMutation = (
+  options?: Partial<Options<ChatSessionUpsertData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    ChatSessionUpsertResponse,
+    ChatSessionUpsertError,
+    Options<ChatSessionUpsertData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await chatSessionUpsert({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };
 
 export const flowStateListQueryKey = (options: Options<FlowStateListData>) =>

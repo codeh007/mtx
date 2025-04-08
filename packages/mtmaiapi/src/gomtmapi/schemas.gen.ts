@@ -1471,18 +1471,6 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/MtLlmMessage",
         },
         {
-          $ref: "#/components/schemas/MtUserMessage",
-        },
-        {
-          $ref: "#/components/schemas/MtSystemMessage",
-        },
-        {
-          $ref: "#/components/schemas/MtAssistantMessage",
-        },
-        {
-          $ref: "#/components/schemas/FunctionExecutionResultMessage",
-        },
-        {
           $ref: "#/components/schemas/UserTeamConfig",
         },
         {
@@ -3034,17 +3022,28 @@ export const CommonResultSchema = {
   },
 } as const;
 
-export const ChatMessageSchema = {
-  required: ["metadata", "role", "content"],
+export const ChatMessagePropertiesSchema = {
+  required: [
+    "metadata",
+    "type",
+    "content",
+    "content_type",
+    "source",
+    "topic",
+    "thought",
+    "thread_id",
+  ],
   properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    role: {
+    type: {
       type: "string",
+      enum: ["user", "system", "assistant"],
     },
     content: {
+      type: "object",
+    },
+    content_type: {
       type: "string",
+      enum: ["text", "function_call"],
     },
     source: {
       type: "string",
@@ -3055,7 +3054,7 @@ export const ChatMessageSchema = {
     thought: {
       type: "string",
     },
-    resourceId: {
+    thread_id: {
       type: "string",
     },
     msg_meta: {
@@ -3076,6 +3075,17 @@ export const ChatMessageSchema = {
       $ref: "#/components/schemas/ModelUsage",
     },
   },
+} as const;
+
+export const ChatMessageSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/ChatMessageProperties",
+    },
+  ],
 } as const;
 
 export const ModelUsageSchema = {
@@ -3107,6 +3117,35 @@ export const ChatMessageListSchema = {
       $ref: "#/components/schemas/PaginationResponse",
     },
   },
+} as const;
+
+export const ChatSessionPropertiesSchema = {
+  required: ["title", "name", "state", "state_type"],
+  properties: {
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+    title: {
+      type: "string",
+    },
+    name: {
+      type: "string",
+    },
+    state: {
+      type: "string",
+    },
+    state_type: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const ChatUpsertSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/ChatSessionProperties",
+    },
+  ],
 } as const;
 
 export const WorkerConfigSchema = {
@@ -3387,18 +3426,14 @@ export const ChatHistoryListSchema = {
 } as const;
 
 export const ChatSessionSchema = {
-  required: ["title", "version"],
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
     },
-    title: {
-      type: "string",
+    {
+      $ref: "#/components/schemas/ChatSessionProperties",
     },
-    componentId: {
-      type: "string",
-    },
-  },
+  ],
 } as const;
 
 export const ChatSessionListSchema = {
@@ -4391,49 +4426,11 @@ export const ToolCallResultMessageConfigSchema = {
 } as const;
 
 export const ChatMessageUpsertSchema = {
-  required: ["tenantId", "source", "content"],
-  properties: {
-    tenantId: {
-      type: "string",
+  allOf: [
+    {
+      $ref: "#/components/schemas/ChatMessageProperties",
     },
-    content: {
-      type: "string",
-    },
-    componentId: {
-      type: "string",
-    },
-    threadId: {
-      type: "string",
-    },
-    runId: {
-      type: "string",
-    },
-    role: {
-      type: "string",
-    },
-    topic: {
-      type: "string",
-    },
-    source: {
-      type: "string",
-      default: "user",
-    },
-    messageType: {
-      type: "string",
-    },
-    agentType: {
-      type: "string",
-    },
-    workflowRunId: {
-      type: "string",
-    },
-    stepRunId: {
-      type: "string",
-    },
-    thought: {
-      type: "string",
-    },
-  },
+  ],
 } as const;
 
 export const AgentMessageConfigSchema = {

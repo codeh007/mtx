@@ -904,41 +904,6 @@ export const zWorkflowWorkersCount = z.object({
           ),
       ]),
       z.object({
-        type: z.enum(["MtUserMessage"]),
-        content: z.string(),
-        source: z.string().optional(),
-      }),
-      z.object({
-        type: z.enum(["MtSystemMessage"]),
-        content: z.string(),
-      }),
-      z.object({
-        type: z.enum(["MtAssistantMessage"]),
-        content: z.union([
-          z.string(),
-          z.array(
-            z.object({
-              id: z.string(),
-              arguments: z.string(),
-              name: z.string(),
-            }),
-          ),
-        ]),
-        source: z.string().optional(),
-        thought: z.string().optional(),
-      }),
-      z.object({
-        type: z.enum(["FunctionExecutionResultMessage"]),
-        content: z.array(
-          z.object({
-            content: z.string(),
-            name: z.string(),
-            call_id: z.string(),
-            is_error: z.boolean().optional(),
-          }),
-        ),
-      }),
-      z.object({
         max_turns: z.number().int().optional().default(25),
       }),
       z.object({
@@ -1814,14 +1779,14 @@ export const zCommonResult = z.object({
   Message: z.string(),
 });
 
-export const zChatMessage = z.object({
-  metadata: zApiResourceMeta,
-  role: z.string(),
-  content: z.string(),
-  source: z.string().optional(),
-  topic: z.string().optional(),
-  thought: z.string().optional(),
-  resourceId: z.string().optional(),
+export const zChatMessageProperties = z.object({
+  type: z.enum(["user", "system", "assistant"]),
+  content: z.object({}),
+  content_type: z.enum(["text", "function_call"]),
+  source: z.string(),
+  topic: z.string(),
+  thought: z.string(),
+  thread_id: z.string(),
   msg_meta: z.object({}).optional(),
   config: z
     .object({
@@ -1838,6 +1803,10 @@ export const zChatMessage = z.object({
     .optional(),
 });
 
+export const zChatMessage = zApiResourceMetaProperties.merge(
+  zChatMessageProperties,
+);
+
 export const zModelUsage = z.object({
   model: z.string().optional(),
   prompt_tokens: z.number().int().optional(),
@@ -1849,6 +1818,16 @@ export const zChatMessageList = z.object({
   rows: z.array(zChatMessage).optional(),
   pagination: zPaginationResponse.optional(),
 });
+
+export const zChatSessionProperties = z.object({
+  metadata: zApiResourceMeta.optional(),
+  title: z.string(),
+  name: z.string(),
+  state: z.string(),
+  state_type: z.string(),
+});
+
+export const zChatUpsert = zChatSessionProperties;
 
 export const zWorkerConfig = z.object({
   workerToken: z.string().optional(),
@@ -1972,11 +1951,9 @@ export const zChatHistoryList = z.object({
   rows: z.array(zChatMessage).optional(),
 });
 
-export const zChatSession = z.object({
-  metadata: zApiResourceMeta.optional(),
-  title: z.string(),
-  componentId: z.string().optional(),
-});
+export const zChatSession = zApiResourceMetaProperties.merge(
+  zChatSessionProperties,
+);
 
 export const zChatSessionList = z.object({
   pagination: zPaginationResponse.optional(),
@@ -2460,21 +2437,7 @@ export const zToolCallResultMessageConfig = zBaseMessageConfig.merge(
   }),
 );
 
-export const zChatMessageUpsert = z.object({
-  tenantId: z.string(),
-  content: z.string(),
-  componentId: z.string().optional(),
-  threadId: z.string().optional(),
-  runId: z.string().optional(),
-  role: z.string().optional(),
-  topic: z.string().optional(),
-  source: z.string().default("user"),
-  messageType: z.string().optional(),
-  agentType: z.string().optional(),
-  workflowRunId: z.string().optional(),
-  stepRunId: z.string().optional(),
-  thought: z.string().optional(),
-});
+export const zChatMessageUpsert = zChatMessageProperties;
 
 export const zAgentMessageConfig = z.union([
   zStopMessageConfig,
@@ -3692,6 +3655,8 @@ export const zChatSessionListResponse = zChatSessionList;
 export const zChatMessageUpsertResponse = zChatMessage;
 
 export const zChatSessionGetResponse = zChatSession;
+
+export const zChatSessionUpsertResponse = zChatSession;
 
 export const zFlowStateListResponse = zFlowStateList;
 

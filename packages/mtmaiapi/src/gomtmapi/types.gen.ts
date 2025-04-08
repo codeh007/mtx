@@ -862,10 +862,6 @@ export type WorkflowWorkersCount = {
     | SocialAddFollowersInput
     | UserAgentState
     | MtLlmMessage
-    | MtUserMessage
-    | MtSystemMessage
-    | MtAssistantMessage
-    | FunctionExecutionResultMessage
     | UserTeamConfig
     | CodeExecutionInput
     | CodeExecutionResult
@@ -1706,14 +1702,16 @@ export type CommonResult = {
   Message: string;
 };
 
-export type ChatMessage = {
-  metadata: ApiResourceMeta;
-  role: string;
-  content: string;
-  source?: string;
-  topic?: string;
-  thought?: string;
-  resourceId?: string;
+export type ChatMessageProperties = {
+  type: "user" | "system" | "assistant";
+  content: {
+    [key: string]: unknown;
+  };
+  content_type: "text" | "function_call";
+  source: string;
+  topic: string;
+  thought: string;
+  thread_id: string;
   msg_meta?: {
     [key: string]: unknown;
   };
@@ -1723,6 +1721,8 @@ export type ChatMessage = {
   };
   model_usage?: ModelUsage;
 };
+
+export type ChatMessage = ApiResourceMetaProperties & ChatMessageProperties;
 
 export type ModelUsage = {
   model?: string;
@@ -1735,6 +1735,16 @@ export type ChatMessageList = {
   rows?: Array<ChatMessage>;
   pagination?: PaginationResponse;
 };
+
+export type ChatSessionProperties = {
+  metadata?: ApiResourceMeta;
+  title: string;
+  name: string;
+  state: string;
+  state_type: string;
+};
+
+export type ChatUpsert = ChatSessionProperties;
 
 /**
  * worker 启动时所需的关键配置
@@ -1896,11 +1906,7 @@ export type ChatHistoryList = {
   rows?: Array<ChatMessage>;
 };
 
-export type ChatSession = {
-  metadata?: ApiResourceMeta;
-  title: string;
-  componentId?: string;
-};
+export type ChatSession = ApiResourceMetaProperties & ChatSessionProperties;
 
 /**
  * 聊天 Session 列表
@@ -2400,21 +2406,7 @@ export type ToolCallResultMessageConfig = BaseMessageConfig & {
   content: Array<FunctionExecutionResult>;
 };
 
-export type ChatMessageUpsert = {
-  tenantId: string;
-  content: string;
-  componentId?: string;
-  threadId?: string;
-  runId?: string;
-  role?: string;
-  topic?: string;
-  source: string;
-  messageType?: string;
-  agentType?: string;
-  workflowRunId?: string;
-  stepRunId?: string;
-  thought?: string;
-};
+export type ChatMessageUpsert = ChatMessageProperties;
 
 export type AgentMessageConfig =
   | StopMessageConfig
@@ -9114,6 +9106,37 @@ export type ChatSessionGetResponses = {
 
 export type ChatSessionGetResponse =
   ChatSessionGetResponses[keyof ChatSessionGetResponses];
+
+export type ChatSessionUpsertData = {
+  body: ChatUpsert;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The chat session id
+     */
+    session: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/chat/sessions/{session}";
+};
+
+export type ChatSessionUpsertErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+};
+
+export type ChatSessionUpsertError =
+  ChatSessionUpsertErrors[keyof ChatSessionUpsertErrors];
+
+export type ChatSessionUpsertResponses = {
+  200: ChatSession;
+};
+
+export type ChatSessionUpsertResponse =
+  ChatSessionUpsertResponses[keyof ChatSessionUpsertResponses];
 
 export type FlowStateListData = {
   body?: never;

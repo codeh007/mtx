@@ -163,8 +163,8 @@ export const createWorkbrenchSlice: StateCreator<
       const newChatMessage = {
         role: "user",
         content: input.content,
-        topic: "default",
-        source: "web",
+        // topic: "default",
+        // source: "web",
         metadata: {
           id: generateUUID(),
           createdAt: new Date().toISOString(),
@@ -174,6 +174,7 @@ export const createWorkbrenchSlice: StateCreator<
       set({
         messages: [...preMessages, newChatMessage],
       });
+      console.log("handleHumanInput", get().messages);
       const response = await workflowRunCreate({
         path: {
           // workflow: FlowNames.AG,
