@@ -3,7 +3,7 @@
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import cx from "classnames";
 import { motion } from "framer-motion";
-import type { AssistantMessage, MtLlmMessage, UserMessage } from "mtmaiapi";
+import type { AssistantMessage, ChatMessage, UserMessage } from "mtmaiapi";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { SparklesIcon } from "mtxuilib/icons/aichatbot.icons";
@@ -15,7 +15,7 @@ import {
 } from "./tool-messages/ToolMessageView";
 
 interface MtMessagesProps {
-  messages: MtLlmMessage[];
+  messages: ChatMessage[];
 }
 export const ModelContextMessageView = ({ messages }: MtMessagesProps) => {
   return (
@@ -31,7 +31,7 @@ export const ModelContextMessageView = ({ messages }: MtMessagesProps) => {
   );
 };
 
-export const ChatMessageItemView = ({ message }: { message: MtLlmMessage }) => {
+export const ChatMessageItemView = ({ message }: { message: ChatMessage }) => {
   return (
     <div className="bg-slate-100 p-1">
       {message.type === "UserMessage" ? (
@@ -79,7 +79,7 @@ export const AssistantMessageView = ({ msg }: { msg: AssistantMessage }) => {
       </div>
       <MtSuspenseBoundary>
         {typeof msg.content === "string" ? (
-          <div className="max-w-[400px] overflow-x-auto">
+          <div className="max-w-[760px] overflow-x-auto">
             <Markdown>{msg.content}</Markdown>
           </div>
         ) : (

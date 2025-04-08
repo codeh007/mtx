@@ -21,7 +21,7 @@ import {
   type WorkflowRun,
   type WorkflowRunCreateData,
   agStateListOptions,
-  chatMessagesListOptions,
+  chatMessagesList,
   workflowRunCreate,
   workflowRunCreateMutation,
 } from "mtmaiapi";
@@ -257,17 +257,19 @@ export const createWorkbrenchSlice: StateCreator<
       set({ lastestWorkflowRun });
     },
     loadChatMessageList: (chatMessageList) => {
-      if (!chatMessageList?.rows?.length) {
-        set({ messages: [] });
-        return;
-      }
-      const messages = chatMessageList.rows.map((row) => {
+      // console.log("loadChatMessageList", chatMessageList?.rows);
+      // if (!chatMessageList?.rows?.length) {
+      //   // set({ messages: [] });
+      //   return;
+      // }
+      const messages = chatMessageList?.rows?.map((row) => {
         return {
           ...row,
           role: row.type,
-          content: row.content,
+          content: JSON.parse(row.content),
         };
       });
+      // console.log("set messages", messages);
       set({ messages: messages });
     },
     workflowRunCreate: async (name, input, additionalMetadata) => {
@@ -361,25 +363,26 @@ export const WorkbrenchProvider = (
     enabled: !!etc.threadId,
   });
 
-  const chatMessageListQuery = useQuery({
-    ...chatMessagesListOptions({
-      path: {
-        tenant: tid!,
-        chat: etc.threadId!,
-      },
-    }),
-    enabled: !!etc.threadId,
-  });
-  useEffect(() => {
-    console.log("chatMessageListQuery.data", chatMessageListQuery.data);
-    if (chatMessageListQuery.data) {
-      console.log(
-        "加载了:chatMessageListQuery.data",
-        etc.threadId,
-        chatMessageListQuery.data,
-      );
-    }
-  }, [chatMessageListQuery, etc.threadId]);
+  // const chatMessageListQuery = useQuery({
+  //   ...chatMessagesListOptions({
+  //     path: {
+  //       tenant: tid!,
+  //       chat: etc.threadId!,
+  //     },
+  //   }),
+  //   enabled:
+  //     !!mystore.getState().lastestWorkflowRun?.additionalMetadata?.sessionId,
+  // });
+  // useEffect(() => {
+  //   if (chatMessageListQuery.data) {
+  //     console.log(
+  //       "加载了:chatMessageListQuery.data",
+  //       mystore.getState().lastestWorkflowRun?.additionalMetadata?.sessionId,
+  //       chatMessageListQuery.data,
+  //     );
+  //     mystore.getState().loadChatMessageList(chatMessageListQuery.data);
+  //   }
+  // }, [chatMessageListQuery.data, mystore]);
 
   useEffect(() => {
     if (agStateListQuery.data) {
@@ -402,7 +405,7 @@ export const WorkbrenchProvider = (
       (state) => {
         return state.lastestWorkflowRun;
       },
-      (cur, prev) => {
+      async (cur, prev) => {
         console.log("lastestWorkflowRun changed", cur, "prev", prev);
         startTransition(() => {
           nav({
@@ -410,9 +413,19 @@ export const WorkbrenchProvider = (
             search: search,
           });
         });
+
+        const sessionId = cur?.additionalMetadata?.sessionId;
+        const messageList = await chatMessagesList({
+          path: {
+            tenant: tid!,
+            chat: sessionId as string,
+          },
+        });
+        console.log("messageList", messageList);
+        mystore.getState().loadChatMessageList(messageList.data);
       },
     );
-  }, [mystore, nav, search]);
+  }, [mystore, nav, search, tid]);
 
   useEffect(() => {
     return mystore.subscribe(

@@ -10,7 +10,6 @@ import { cn } from "mtxuilib/lib/utils";
 import { type RefCallback, forwardRef, useMemo } from "react";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 
-import type { MtLlmMessage } from "mtmaiapi";
 import { classNames } from "mtxuilib/lib/utils";
 import { ModelContextMessageView } from "./ModelContextMessageView";
 import { BoltPromptBox } from "./prompt-input/BoltPromptBox";
@@ -186,16 +185,17 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
     const setInput = useWorkbenchStore((x) => x.setInput);
     const TEXTAREA_MAX_HEIGHT = chatStarted ? 400 : 200;
     const userAgentState = useWorkbenchStore((x) => x.userAgentState);
+    // const messages = useWorkbenchStore(x=>x.messages)
     // const messagesV2 = (userAgentState?.model_context as any)
     //   .messages as MtLlmMessage[];
 
-    const messagesV2 = useMemo(() => {
-      if (!userAgentState?.model_context) return [];
-      return (
-        ((userAgentState?.model_context as any).messages as MtLlmMessage[]) ||
-        []
-      );
-    }, [userAgentState]);
+    // const messagesV2 = useMemo(() => {
+    //   if (!userAgentState?.model_context) return [];
+    //   return (
+    //     ((userAgentState?.model_context as any).messages as MtLlmMessage[]) ||
+    //     []
+    //   );
+    // }, [userAgentState]);
     return (
       <>
         <div
@@ -219,7 +219,7 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
                 {/* <DebugValue data={{ messages, userAgentState }} />                 */}
                 <ModelContextMessageView
                   ref={messageRef}
-                  messages={messagesV2}
+                  messages={messages}
                   elements={[]}
                   actions={[]}
                   indent={0}
