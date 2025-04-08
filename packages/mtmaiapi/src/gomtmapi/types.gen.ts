@@ -1966,20 +1966,6 @@ export type CustomQuickAction = {
   includeRecentHistory: boolean;
 };
 
-/**
- * 生成内容的反思规则
- */
-export type Reflections = {
-  /**
-   * 生成内容时要遵循的样式规则
-   */
-  styleRules: Array<string>;
-  /**
-   * 生成内容时要记住的关于用户的关键内容
-   */
-  content: Array<string>;
-};
-
 export type ArtifactLengthOptions = "shortest" | "short" | "long" | "longest";
 
 export const ArtifactLengthOptions = {
@@ -2118,18 +2104,18 @@ export type MtLlmMessage =
     } & FunctionExecutionResultMessage);
 
 export type MtUserMessage = {
-  type: "MtUserMessage";
+  type: "UserMessage";
   content: string;
   source?: string;
 };
 
 export type MtSystemMessage = {
-  type: "MtSystemMessage";
+  type: "SystemMessage";
   content: string;
 };
 
 export type MtAssistantMessage = {
-  type: "MtAssistantMessage";
+  type: "AssistantMessage";
   content: string | Array<FunctionCall>;
   source?: string;
   thought?: string;
@@ -2448,13 +2434,6 @@ export type ToolConfig = {
   has_cancellation_support?: boolean;
 };
 
-export type ResponseFormat = "json_object" | "text";
-
-export const ResponseFormat = {
-  JSON_OBJECT: "json_object",
-  TEXT: "text",
-} as const;
-
 export type Section = {
   /**
    * Title of the section
@@ -2536,7 +2515,7 @@ export type ModelConfig = {
   max_tokens?: number;
   n?: number;
   presence_penalty?: number;
-  response_format?: ResponseFormat;
+  response_format?: string;
   seed?: number;
   stop?: Array<string>;
   temperature?: number;

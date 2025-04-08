@@ -3533,27 +3533,6 @@ export const CustomQuickActionSchema = {
   ],
 } as const;
 
-export const ReflectionsSchema = {
-  description: "生成内容的反思规则",
-  properties: {
-    styleRules: {
-      type: "array",
-      description: "生成内容时要遵循的样式规则",
-      items: {
-        type: "string",
-      },
-    },
-    content: {
-      type: "array",
-      description: "生成内容时要记住的关于用户的关键内容",
-      items: {
-        type: "string",
-      },
-    },
-  },
-  required: ["styleRules", "content"],
-} as const;
-
 export const ArtifactLengthOptionsSchema = {
   type: "string",
   enum: ["shortest", "short", "long", "longest"],
@@ -3773,7 +3752,7 @@ export const MtUserMessageSchema = {
   properties: {
     type: {
       type: "string",
-      enum: ["MtUserMessage"],
+      enum: ["UserMessage"],
     },
     content: {
       type: "string",
@@ -3789,7 +3768,7 @@ export const MtSystemMessageSchema = {
   properties: {
     type: {
       type: "string",
-      enum: ["MtSystemMessage"],
+      enum: ["SystemMessage"],
     },
     content: {
       type: "string",
@@ -3802,7 +3781,7 @@ export const MtAssistantMessageSchema = {
   properties: {
     type: {
       type: "string",
-      enum: ["MtAssistantMessage"],
+      enum: ["AssistantMessage"],
     },
     content: {
       oneOf: [
@@ -4548,11 +4527,6 @@ export const ToolConfigSchema = {
   },
 } as const;
 
-export const ResponseFormatSchema = {
-  type: "string",
-  enum: ["json_object", "text"],
-} as const;
-
 export const SectionSchema = {
   properties: {
     section_title: {
@@ -4775,7 +4749,6 @@ export const ModelConfigSchema = {
     },
     response_format: {
       type: "string",
-      $ref: "#/components/schemas/ResponseFormat",
     },
     seed: {
       type: "integer",

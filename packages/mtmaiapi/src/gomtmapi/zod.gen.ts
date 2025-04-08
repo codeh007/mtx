@@ -743,7 +743,7 @@ export const zWorkflowWorkersCount = z.object({
         max_tokens: z.number().int().optional(),
         n: z.number().int().optional(),
         presence_penalty: z.number().optional(),
-        response_format: z.enum(["json_object", "text"]).optional(),
+        response_format: z.string().optional(),
         seed: z.number().int().optional(),
         stop: z.array(z.string()).optional(),
         temperature: z.number().optional(),
@@ -849,7 +849,7 @@ export const zWorkflowWorkersCount = z.object({
           })
           .merge(
             z.object({
-              type: z.enum(["MtUserMessage"]),
+              type: z.enum(["UserMessage"]),
               content: z.string(),
               source: z.string().optional(),
             }),
@@ -860,7 +860,7 @@ export const zWorkflowWorkersCount = z.object({
           })
           .merge(
             z.object({
-              type: z.enum(["MtSystemMessage"]),
+              type: z.enum(["SystemMessage"]),
               content: z.string(),
             }),
           ),
@@ -870,7 +870,7 @@ export const zWorkflowWorkersCount = z.object({
           })
           .merge(
             z.object({
-              type: z.enum(["MtAssistantMessage"]),
+              type: z.enum(["AssistantMessage"]),
               content: z.union([
                 z.string(),
                 z.array(
@@ -1794,7 +1794,7 @@ export const zChatMessageProperties = z.object({
       })
       .merge(
         z.object({
-          type: z.enum(["MtUserMessage"]),
+          type: z.enum(["UserMessage"]),
           content: z.string(),
           source: z.string().optional(),
         }),
@@ -1805,7 +1805,7 @@ export const zChatMessageProperties = z.object({
       })
       .merge(
         z.object({
-          type: z.enum(["MtSystemMessage"]),
+          type: z.enum(["SystemMessage"]),
           content: z.string(),
         }),
       ),
@@ -1815,7 +1815,7 @@ export const zChatMessageProperties = z.object({
       })
       .merge(
         z.object({
-          type: z.enum(["MtAssistantMessage"]),
+          type: z.enum(["AssistantMessage"]),
           content: z.union([
             z.string(),
             z.array(
@@ -2053,11 +2053,6 @@ export const zCustomQuickAction = z.object({
   includeRecentHistory: z.boolean(),
 });
 
-export const zReflections = z.object({
-  styleRules: z.array(z.string()),
-  content: z.array(z.string()),
-});
-
 export const zArtifactLengthOptions = z.enum([
   "shortest",
   "short",
@@ -2163,7 +2158,7 @@ export const zMtLlmMessage = z.union([
     })
     .merge(
       z.object({
-        type: z.enum(["MtUserMessage"]),
+        type: z.enum(["UserMessage"]),
         content: z.string(),
         source: z.string().optional(),
       }),
@@ -2174,7 +2169,7 @@ export const zMtLlmMessage = z.union([
     })
     .merge(
       z.object({
-        type: z.enum(["MtSystemMessage"]),
+        type: z.enum(["SystemMessage"]),
         content: z.string(),
       }),
     ),
@@ -2184,7 +2179,7 @@ export const zMtLlmMessage = z.union([
     })
     .merge(
       z.object({
-        type: z.enum(["MtAssistantMessage"]),
+        type: z.enum(["AssistantMessage"]),
         content: z.union([
           z.string(),
           z.array(
@@ -2219,18 +2214,18 @@ export const zMtLlmMessage = z.union([
 ]);
 
 export const zMtUserMessage = z.object({
-  type: z.enum(["MtUserMessage"]),
+  type: z.enum(["UserMessage"]),
   content: z.string(),
   source: z.string().optional(),
 });
 
 export const zMtSystemMessage = z.object({
-  type: z.enum(["MtSystemMessage"]),
+  type: z.enum(["SystemMessage"]),
   content: z.string(),
 });
 
 export const zMtAssistantMessage = z.object({
-  type: z.enum(["MtAssistantMessage"]),
+  type: z.enum(["AssistantMessage"]),
   content: z.union([
     z.string(),
     z.array(
@@ -2550,7 +2545,7 @@ export const zAzureOpenAiModelConfig = z
     max_tokens: z.number().int().optional(),
     n: z.number().int().optional(),
     presence_penalty: z.number().optional(),
-    response_format: z.enum(["json_object", "text"]).optional(),
+    response_format: z.string().optional(),
     seed: z.number().int().optional(),
     stop: z.array(z.string()).optional(),
     temperature: z.number().optional(),
@@ -2593,7 +2588,7 @@ export const zOpenAiModelConfig = z
     max_tokens: z.number().int().optional(),
     n: z.number().int().optional(),
     presence_penalty: z.number().optional(),
-    response_format: z.enum(["json_object", "text"]).optional(),
+    response_format: z.string().optional(),
     seed: z.number().int().optional(),
     stop: z.array(z.string()).optional(),
     temperature: z.number().optional(),
@@ -2623,8 +2618,6 @@ export const zToolConfig = z.object({
   global_imports: z.array(z.string()).optional(),
   has_cancellation_support: z.boolean().optional(),
 });
-
-export const zResponseFormat = z.enum(["json_object", "text"]);
 
 export const zSection = z.object({
   section_title: z.string(),
@@ -2739,7 +2732,7 @@ export const zModelConfig = z.object({
   max_tokens: z.number().int().optional(),
   n: z.number().int().optional(),
   presence_penalty: z.number().optional(),
-  response_format: zResponseFormat.optional(),
+  response_format: z.string().optional(),
   seed: z.number().int().optional(),
   stop: z.array(z.string()).optional(),
   temperature: z.number().optional(),
