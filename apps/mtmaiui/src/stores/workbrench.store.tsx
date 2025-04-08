@@ -269,7 +269,6 @@ export const createWorkbrenchSlice: StateCreator<
           content: JSON.parse(row.content),
         };
       });
-      // console.log("set messages", messages);
       set({ messages: messages });
     },
     workflowRunCreate: async (name, input, additionalMetadata) => {

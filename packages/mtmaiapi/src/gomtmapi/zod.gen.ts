@@ -1787,6 +1787,67 @@ export const zChatMessageProperties = z.object({
     "FunctionExecutionResultMessage",
   ]),
   content: z.string(),
+  llm_message: z.union([
+    z
+      .object({
+        type: z.literal("MtUserMessage").optional(),
+      })
+      .merge(
+        z.object({
+          type: z.enum(["MtUserMessage"]),
+          content: z.string(),
+          source: z.string().optional(),
+        }),
+      ),
+    z
+      .object({
+        type: z.literal("MtSystemMessage").optional(),
+      })
+      .merge(
+        z.object({
+          type: z.enum(["MtSystemMessage"]),
+          content: z.string(),
+        }),
+      ),
+    z
+      .object({
+        type: z.literal("MtAssistantMessage").optional(),
+      })
+      .merge(
+        z.object({
+          type: z.enum(["MtAssistantMessage"]),
+          content: z.union([
+            z.string(),
+            z.array(
+              z.object({
+                id: z.string(),
+                arguments: z.string(),
+                name: z.string(),
+              }),
+            ),
+          ]),
+          source: z.string().optional(),
+          thought: z.string().optional(),
+        }),
+      ),
+    z
+      .object({
+        type: z.literal("FunctionExecutionResultMessage").optional(),
+      })
+      .merge(
+        z.object({
+          type: z.enum(["FunctionExecutionResultMessage"]),
+          content: z.array(
+            z.object({
+              content: z.string(),
+              name: z.string(),
+              call_id: z.string(),
+              is_error: z.boolean().optional(),
+            }),
+          ),
+        }),
+      ),
+  ]),
   content_type: z.enum(["text", "function_call"]),
   source: z.string(),
   topic: z.string(),

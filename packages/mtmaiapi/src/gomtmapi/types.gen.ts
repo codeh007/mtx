@@ -1705,6 +1705,7 @@ export type CommonResult = {
 export type ChatMessageProperties = {
   type: ChatMessageTypes;
   content: string;
+  llm_message: MtLlmMessage;
   content_type: "text" | "function_call";
   source: string;
   topic: string;

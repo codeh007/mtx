@@ -3,7 +3,7 @@
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import cx from "classnames";
 import { motion } from "framer-motion";
-import type { AssistantMessage, ChatMessage, UserMessage } from "mtmaiapi";
+import type { ChatMessage } from "mtmaiapi";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { SparklesIcon } from "mtxuilib/icons/aichatbot.icons";
@@ -21,7 +21,7 @@ export const ModelContextMessageView = ({ messages }: MtMessagesProps) => {
   return (
     <div className="p-1 px-2">
       <DebugValue data={{ messages }} />
-      {messages.map((message, i) => (
+      {messages?.map((message, i) => (
         // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
         <MtSuspenseBoundary key={i}>
           <ChatMessageItemView message={message} />
@@ -50,7 +50,7 @@ export const ChatMessageItemView = ({ message }: { message: ChatMessage }) => {
 };
 
 export interface UserMessageProps {
-  msg: UserMessage;
+  msg: ChatMessage;
 }
 export const UserMessageView = ({ msg }: UserMessageProps) => {
   return (
@@ -70,12 +70,12 @@ export const UserMessageView = ({ msg }: UserMessageProps) => {
   );
 };
 
-export const AssistantMessageView = ({ msg }: { msg: AssistantMessage }) => {
+export const AssistantMessageView = ({ msg }: { msg: ChatMessage }) => {
   return (
     <div className="bg-slate-200 p-1">
       <DebugValue data={{ msg }} />
       <div className="text-sm text-slate-500">
-        {msg.type}/{msg.source}
+        {msg.type}/{msg.source}/{msg.type}
       </div>
       <MtSuspenseBoundary>
         {typeof msg.content === "string" ? (

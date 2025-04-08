@@ -3032,6 +3032,7 @@ export const ChatMessagePropertiesSchema = {
     "topic",
     "thought",
     "thread_id",
+    "llm_message",
   ],
   properties: {
     type: {
@@ -3039,6 +3040,9 @@ export const ChatMessagePropertiesSchema = {
     },
     content: {
       type: "string",
+    },
+    llm_message: {
+      $ref: "#/components/schemas/MtLlmMessage",
     },
     content_type: {
       type: "string",
