@@ -1,7 +1,6 @@
 "use client";
 
 import { Label } from "@radix-ui/react-dropdown-menu";
-import { Switch } from "@radix-ui/react-switch";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import {
   Sidebar,
@@ -13,6 +12,7 @@ import {
 } from "mtxuilib/ui/sidebar";
 import React from "react";
 
+import { Switch } from "mtxuilib/ui/switch";
 import { example_data } from "./example_data";
 export function SidebarSecond() {
   const [mails, setMails] = React.useState(example_data.mails);
