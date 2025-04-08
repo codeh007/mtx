@@ -140,8 +140,8 @@ export const createWorkbrenchSlice: StateCreator<
   WorkbrenchState
 > = (set, get, init) => {
   return {
-    // backendUrl: "",
     userAgentState: {},
+    threadId: generateUUID(),
     setInput: (input) => set({ input }),
     messages: [],
     firstUserInteraction: undefined,
@@ -181,7 +181,6 @@ export const createWorkbrenchSlice: StateCreator<
       set({
         messages: [...preMessages, newChatMessage],
       });
-      console.log("handleHumanInput", get().messages);
       const response = await workflowRunCreate({
         path: {
           // workflow: FlowNames.AG,
@@ -194,11 +193,14 @@ export const createWorkbrenchSlice: StateCreator<
           },
         },
       });
+
+      // const body = response.response.;
+      console.log("handleHumanInput", get().messages, response?.data);
+
       if (response?.data) {
         get().setLastestWorkflowRun(response?.data);
       }
       if (response?.data) {
-        // console.log("response", response);
         // pull stream event
         if (response.data?.metadata?.id) {
           const workflowRunId = response.data.metadata?.id;
@@ -251,6 +253,7 @@ export const createWorkbrenchSlice: StateCreator<
       set({ userAgentState });
     },
     setLastestWorkflowRun: (lastestWorkflowRun) => {
+      console.log("setLastestWorkflowRun", lastestWorkflowRun);
       set({ lastestWorkflowRun });
     },
     loadChatMessageList: (chatMessageList) => {
@@ -261,7 +264,7 @@ export const createWorkbrenchSlice: StateCreator<
       const messages = chatMessageList.rows.map((row) => {
         return {
           ...row,
-          role: row.role,
+          role: row.type,
           content: row.content,
         };
       });
@@ -374,9 +377,8 @@ export const WorkbrenchProvider = (
         etc.threadId,
         chatMessageListQuery.data,
       );
-      // mystore.setState({ messages: chatMessageListQuery.data.rows });
     }
-  }, [chatMessageListQuery.data]);
+  }, [chatMessageListQuery.data, etc.threadId]);
 
   useEffect(() => {
     if (agStateListQuery.data) {
@@ -395,13 +397,22 @@ export const WorkbrenchProvider = (
   }, [agStateListQuery.data, mystore, etc.threadId]);
 
   useEffect(() => {
-    if (mystore.getState().lastestWorkflowRun) {
-      // mystore.setState({ messages: [mystore.getState().lastestWorkflowRun] });
-      console.log("lastestWorkflowRun", mystore.getState().lastestWorkflowRun);
-    }
-  }, [mystore.getState().lastestWorkflowRun]);
+    return mystore.subscribe(
+      (state) => {
+        return state.lastestWorkflowRun;
+      },
+      (cur, prev) => {
+        console.log("lastestWorkflowRun changed", cur, "prev", prev);
+        startTransition(() => {
+          nav({
+            to: `/session/${cur?.additionalMetadata?.sessionId}`,
+            search: search,
+          });
+        });
+      },
+    );
+  }, [mystore, nav, search]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     return mystore.subscribe(
       (state) => {
@@ -417,7 +428,7 @@ export const WorkbrenchProvider = (
         });
       }, 100),
     );
-  }, []);
+  }, [mystore, nav, search]);
 
   return (
     <mtmaiStoreContext.Provider value={mystore}>
