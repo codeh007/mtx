@@ -2013,30 +2013,30 @@ export type BaseGroupChatManagerState = BaseState & {
 
 export type MtLlmMessage =
   | ({
-      type?: "MtUserMessage";
-    } & MtUserMessage)
+      type?: "UserMessage";
+    } & UserMessage)
   | ({
-      type?: "MtSystemMessage";
-    } & MtSystemMessage)
+      type?: "SystemMessage";
+    } & SystemMessage)
   | ({
-      type?: "MtAssistantMessage";
-    } & MtAssistantMessage)
+      type?: "AssistantMessage";
+    } & AssistantMessage)
   | ({
       type?: "FunctionExecutionResultMessage";
     } & FunctionExecutionResultMessage);
 
-export type MtUserMessage = {
+export type UserMessage = {
   type: "UserMessage";
   content: string;
   source?: string;
 };
 
-export type MtSystemMessage = {
+export type SystemMessage = {
   type: "SystemMessage";
   content: string;
 };
 
-export type MtAssistantMessage = {
+export type AssistantMessage = {
   type: "AssistantMessage";
   content: string | Array<FunctionCall>;
   source?: string;

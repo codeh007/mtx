@@ -3648,13 +3648,13 @@ export const MtLlmMessageSchema = {
   },
   oneOf: [
     {
-      $ref: "#/components/schemas/MtUserMessage",
+      $ref: "#/components/schemas/UserMessage",
     },
     {
-      $ref: "#/components/schemas/MtSystemMessage",
+      $ref: "#/components/schemas/SystemMessage",
     },
     {
-      $ref: "#/components/schemas/MtAssistantMessage",
+      $ref: "#/components/schemas/AssistantMessage",
     },
     {
       $ref: "#/components/schemas/FunctionExecutionResultMessage",
@@ -3662,7 +3662,7 @@ export const MtLlmMessageSchema = {
   ],
 } as const;
 
-export const MtUserMessageSchema = {
+export const UserMessageSchema = {
   required: ["type", "content"],
   properties: {
     type: {
@@ -3678,7 +3678,7 @@ export const MtUserMessageSchema = {
   },
 } as const;
 
-export const MtSystemMessageSchema = {
+export const SystemMessageSchema = {
   required: ["type", "content"],
   properties: {
     type: {
@@ -3691,7 +3691,7 @@ export const MtSystemMessageSchema = {
   },
 } as const;
 
-export const MtAssistantMessageSchema = {
+export const AssistantMessageSchema = {
   required: ["type", "content"],
   properties: {
     type: {

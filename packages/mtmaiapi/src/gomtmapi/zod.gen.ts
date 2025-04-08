@@ -1729,7 +1729,7 @@ export const zChatMessageProperties = z.object({
   llm_message: z.union([
     z
       .object({
-        type: z.literal("MtUserMessage").optional(),
+        type: z.literal("UserMessage").optional(),
       })
       .merge(
         z.object({
@@ -1740,7 +1740,7 @@ export const zChatMessageProperties = z.object({
       ),
     z
       .object({
-        type: z.literal("MtSystemMessage").optional(),
+        type: z.literal("SystemMessage").optional(),
       })
       .merge(
         z.object({
@@ -1750,7 +1750,7 @@ export const zChatMessageProperties = z.object({
       ),
     z
       .object({
-        type: z.literal("MtAssistantMessage").optional(),
+        type: z.literal("AssistantMessage").optional(),
       })
       .merge(
         z.object({
@@ -2056,7 +2056,7 @@ export const zBaseGroupChatManagerState = zBaseState.merge(
 export const zMtLlmMessage = z.union([
   z
     .object({
-      type: z.literal("MtUserMessage").optional(),
+      type: z.literal("UserMessage").optional(),
     })
     .merge(
       z.object({
@@ -2067,7 +2067,7 @@ export const zMtLlmMessage = z.union([
     ),
   z
     .object({
-      type: z.literal("MtSystemMessage").optional(),
+      type: z.literal("SystemMessage").optional(),
     })
     .merge(
       z.object({
@@ -2077,7 +2077,7 @@ export const zMtLlmMessage = z.union([
     ),
   z
     .object({
-      type: z.literal("MtAssistantMessage").optional(),
+      type: z.literal("AssistantMessage").optional(),
     })
     .merge(
       z.object({
@@ -2115,18 +2115,18 @@ export const zMtLlmMessage = z.union([
     ),
 ]);
 
-export const zMtUserMessage = z.object({
+export const zUserMessage = z.object({
   type: z.enum(["UserMessage"]),
   content: z.string(),
   source: z.string().optional(),
 });
 
-export const zMtSystemMessage = z.object({
+export const zSystemMessage = z.object({
   type: z.enum(["SystemMessage"]),
   content: z.string(),
 });
 
-export const zMtAssistantMessage = z.object({
+export const zAssistantMessage = z.object({
   type: z.enum(["AssistantMessage"]),
   content: z.union([
     z.string(),
