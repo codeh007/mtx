@@ -836,6 +836,7 @@ export const zWorkflowWorkersCount = z.object({
             ),
           })
           .optional(),
+        platform_account_id: z.string().optional(),
       }),
       z.object({
         max_turns: z.number().int().optional().default(25),
@@ -891,6 +892,10 @@ export const zWorkflowWorkersCount = z.object({
         "resource",
         "instagram",
       ]),
+      z.object({
+        type: z.enum(["ChatStartInput"]).optional(),
+        tenant_id: z.string().optional(),
+      }),
     ])
     .optional(),
 });
@@ -1785,9 +1790,7 @@ export const zChatMessageProperties = z.object({
   content_type: z.enum(["text", "function_call"]),
   source: z.string(),
   topic: z.string(),
-  thought: z.string(),
   thread_id: z.string(),
-  msg_meta: z.object({}).optional(),
   config: z
     .object({
       message_type: z.string().optional(),
@@ -3207,6 +3210,11 @@ export const zTenantInitInput = z.object({
   tenant_id: z.string(),
 });
 
+export const zChatStartInput = z.object({
+  type: z.enum(["ChatStartInput"]).optional(),
+  tenant_id: z.string().optional(),
+});
+
 export const zAgentProperties = z.object({
   name: z.string(),
   description: z.string(),
@@ -3282,6 +3290,7 @@ export const zUserAgentState = z.object({
   type: z.enum(["UserAgentState"]).optional(),
   model_context: z.unknown().optional(),
   action_form: zSchemaForm.optional(),
+  platform_account_id: z.string().optional(),
 });
 
 export const zRunFlowModelInput = z.object({

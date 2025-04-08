@@ -1485,6 +1485,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/AgentTypes",
         },
+        {
+          $ref: "#/components/schemas/ChatStartInput",
+        },
       ],
     },
   },
@@ -3018,13 +3021,11 @@ export const CommonResultSchema = {
 
 export const ChatMessagePropertiesSchema = {
   required: [
-    "metadata",
     "type",
     "content",
     "content_type",
     "source",
     "topic",
-    "thought",
     "thread_id",
     "llm_message",
   ],
@@ -3048,15 +3049,8 @@ export const ChatMessagePropertiesSchema = {
     topic: {
       type: "string",
     },
-    thought: {
-      type: "string",
-    },
     thread_id: {
       type: "string",
-    },
-    msg_meta: {
-      type: "object",
-      additionalProperties: true,
     },
     config: {
       properties: {
@@ -6040,6 +6034,18 @@ export const TenantInitInputSchema = {
   },
 } as const;
 
+export const ChatStartInputSchema = {
+  properties: {
+    type: {
+      type: "string",
+      enum: ["ChatStartInput"],
+    },
+    tenant_id: {
+      type: "string",
+    },
+  },
+} as const;
+
 export const AgentPropertiesSchema = {
   required: ["name", "description", "provider", "config", "teamId"],
   properties: {
@@ -6225,6 +6231,9 @@ export const UserAgentStateSchema = {
     },
     action_form: {
       $ref: "#/components/schemas/SchemaForm",
+    },
+    platform_account_id: {
+      type: "string",
     },
   },
 } as const;

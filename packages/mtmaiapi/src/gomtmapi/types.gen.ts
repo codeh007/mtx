@@ -866,7 +866,8 @@ export type WorkflowWorkersCount = {
     | SocialLoginInput
     | SocialLoginResult
     | FlowResult
-    | AgentTypes;
+    | AgentTypes
+    | ChatStartInput;
 };
 
 export type WorkflowRun = {
@@ -1707,11 +1708,7 @@ export type ChatMessageProperties = {
   content_type: "text" | "function_call";
   source: string;
   topic: string;
-  thought: string;
   thread_id: string;
-  msg_meta?: {
-    [key: string]: unknown;
-  };
   config?: {
     message_type?: string;
     source?: string;
@@ -3115,6 +3112,11 @@ export type TenantInitInput = {
   tenant_id: string;
 };
 
+export type ChatStartInput = {
+  type?: "ChatStartInput";
+  tenant_id?: string;
+};
+
 export type AgentProperties = {
   name: string;
   description: string;
@@ -3208,6 +3210,7 @@ export type UserAgentState = {
   type?: "UserAgentState";
   model_context?: unknown;
   action_form?: SchemaForm;
+  platform_account_id?: string;
 };
 
 export type RunFlowModelInput = {
