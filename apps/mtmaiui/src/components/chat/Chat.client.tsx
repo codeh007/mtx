@@ -1,13 +1,17 @@
 "use client";
-import { useAnimate } from "framer-motion";
-import { useSnapScroll } from "mtxuilib/hooks/useSnapScroll";
-import { memo, useEffect, useRef } from "react";
-// import { ToastContainer, cssTransition } from "react-toastify";
-
 import type { Message } from "ai";
+import { useAnimate } from "framer-motion";
 import { AgentEventType } from "mtmaiapi";
+import { useSnapScroll } from "mtxuilib/hooks/useSnapScroll";
 import { cn } from "mtxuilib/lib/utils";
-import { type RefCallback, forwardRef, useMemo } from "react";
+import {
+  type RefCallback,
+  forwardRef,
+  memo,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 
 import { classNames } from "mtxuilib/lib/utils";

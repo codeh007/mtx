@@ -1,7 +1,6 @@
 "use client";
 
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
-import cx from "classnames";
 import { motion } from "framer-motion";
 import type { ChatMessage } from "mtmaiapi";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
@@ -9,6 +8,7 @@ import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { SparklesIcon } from "mtxuilib/icons/aichatbot.icons";
 import { Markdown } from "mtxuilib/markdown/Markdown";
 
+import { cn } from "mtxuilib/lib/utils";
 import {
   FunctionCallView,
   FunctionExecutionResultMessageView,
@@ -101,7 +101,7 @@ export const ThinkingMessage = () => {
       data-role={role}
     >
       <div
-        className={cx(
+        className={cn(
           "flex gap-4 group-data-[role=user]/message:px-3 w-full group-data-[role=user]/message:w-fit group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-2xl group-data-[role=user]/message:py-2 rounded-xl",
           {
             "group-data-[role=user]/message:bg-muted": true,
