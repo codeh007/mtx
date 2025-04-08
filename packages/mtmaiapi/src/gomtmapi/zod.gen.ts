@@ -896,6 +896,19 @@ export const zWorkflowWorkersCount = z.object({
         type: z.enum(["ChatStartInput"]).optional(),
         tenant_id: z.string().optional(),
       }),
+      z.object({
+        type: z.enum(["AskUserFunctionCall"]).optional(),
+        title: z.string().optional(),
+        description: z.string().optional(),
+        fields: z
+          .array(
+            z.object({
+              name: z.string(),
+              type: z.string(),
+            }),
+          )
+          .optional(),
+      }),
     ])
     .optional(),
 });
@@ -3213,6 +3226,13 @@ export const zTenantInitInput = z.object({
 export const zChatStartInput = z.object({
   type: z.enum(["ChatStartInput"]).optional(),
   tenant_id: z.string().optional(),
+});
+
+export const zAskUserFunctionCall = z.object({
+  type: z.enum(["AskUserFunctionCall"]).optional(),
+  title: z.string().optional(),
+  description: z.string().optional(),
+  fields: z.array(zFormField).optional(),
 });
 
 export const zAgentProperties = z.object({

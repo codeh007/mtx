@@ -867,7 +867,8 @@ export type WorkflowWorkersCount = {
     | SocialLoginResult
     | FlowResult
     | AgentTypes
-    | ChatStartInput;
+    | ChatStartInput
+    | AskUserFunctionCall;
 };
 
 export type WorkflowRun = {
@@ -3115,6 +3116,13 @@ export type TenantInitInput = {
 export type ChatStartInput = {
   type?: "ChatStartInput";
   tenant_id?: string;
+};
+
+export type AskUserFunctionCall = {
+  type?: "AskUserFunctionCall";
+  title?: string;
+  description?: string;
+  fields?: Array<FormField>;
 };
 
 export type AgentProperties = {

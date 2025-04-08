@@ -1488,6 +1488,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/ChatStartInput",
         },
+        {
+          $ref: "#/components/schemas/AskUserFunctionCall",
+        },
       ],
     },
   },
@@ -6042,6 +6045,27 @@ export const ChatStartInputSchema = {
     },
     tenant_id: {
       type: "string",
+    },
+  },
+} as const;
+
+export const AskUserFunctionCallSchema = {
+  properties: {
+    type: {
+      type: "string",
+      enum: ["AskUserFunctionCall"],
+    },
+    title: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    fields: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/FormField",
+      },
     },
   },
 } as const;
