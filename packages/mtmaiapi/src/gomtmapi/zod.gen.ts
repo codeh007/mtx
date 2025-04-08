@@ -1780,8 +1780,13 @@ export const zCommonResult = z.object({
 });
 
 export const zChatMessageProperties = z.object({
-  type: z.enum(["user", "system", "assistant"]),
-  content: z.object({}),
+  type: z.enum([
+    "AssistantMessage",
+    "SystemMessage",
+    "UserMessage",
+    "FunctionExecutionResultMessage",
+  ]),
+  content: z.string(),
   content_type: z.enum(["text", "function_call"]),
   source: z.string(),
   topic: z.string(),
@@ -1818,6 +1823,13 @@ export const zChatMessageList = z.object({
   rows: z.array(zChatMessage).optional(),
   pagination: zPaginationResponse.optional(),
 });
+
+export const zChatMessageTypes = z.enum([
+  "AssistantMessage",
+  "SystemMessage",
+  "UserMessage",
+  "FunctionExecutionResultMessage",
+]);
 
 export const zChatSessionProperties = z.object({
   metadata: zApiResourceMeta.optional(),

@@ -1703,10 +1703,8 @@ export type CommonResult = {
 };
 
 export type ChatMessageProperties = {
-  type: "user" | "system" | "assistant";
-  content: {
-    [key: string]: unknown;
-  };
+  type: ChatMessageTypes;
+  content: string;
   content_type: "text" | "function_call";
   source: string;
   topic: string;
@@ -1735,6 +1733,19 @@ export type ChatMessageList = {
   rows?: Array<ChatMessage>;
   pagination?: PaginationResponse;
 };
+
+export type ChatMessageTypes =
+  | "AssistantMessage"
+  | "SystemMessage"
+  | "UserMessage"
+  | "FunctionExecutionResultMessage";
+
+export const ChatMessageTypes = {
+  ASSISTANT_MESSAGE: "AssistantMessage",
+  SYSTEM_MESSAGE: "SystemMessage",
+  USER_MESSAGE: "UserMessage",
+  FUNCTION_EXECUTION_RESULT_MESSAGE: "FunctionExecutionResultMessage",
+} as const;
 
 export type ChatSessionProperties = {
   metadata?: ApiResourceMeta;

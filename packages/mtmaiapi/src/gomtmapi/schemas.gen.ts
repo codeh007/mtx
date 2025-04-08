@@ -3035,11 +3035,10 @@ export const ChatMessagePropertiesSchema = {
   ],
   properties: {
     type: {
-      type: "string",
-      enum: ["user", "system", "assistant"],
+      $ref: "#/components/schemas/ChatMessageTypes",
     },
     content: {
-      type: "object",
+      type: "string",
     },
     content_type: {
       type: "string",
@@ -3117,6 +3116,16 @@ export const ChatMessageListSchema = {
       $ref: "#/components/schemas/PaginationResponse",
     },
   },
+} as const;
+
+export const ChatMessageTypesSchema = {
+  type: "string",
+  enum: [
+    "AssistantMessage",
+    "SystemMessage",
+    "UserMessage",
+    "FunctionExecutionResultMessage",
+  ],
 } as const;
 
 export const ChatSessionPropertiesSchema = {
