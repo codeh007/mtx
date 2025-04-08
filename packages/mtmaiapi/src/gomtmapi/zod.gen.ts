@@ -620,6 +620,7 @@ export const zWorkflowWorkersCount = z.object({
         "writer",
         "tenant",
         "closure",
+        "response",
       ]),
       z.object({
         type: z.enum(["browser"]).optional(),
@@ -958,6 +959,7 @@ export const zWorkflowWorkersCount = z.object({
       }),
       z.object({
         type: z.enum(["FlowResult"]),
+        source: z.string().optional(),
         content: z.string(),
         success: z.boolean().optional(),
       }),
@@ -966,6 +968,16 @@ export const zWorkflowWorkersCount = z.object({
         success: z.boolean().optional(),
         name: z.string().optional(),
       }),
+      z.enum([
+        "closure",
+        "router",
+        "user_proxy",
+        "assistant",
+        "social",
+        "browser",
+        "resource",
+        "instagram",
+      ]),
     ])
     .optional(),
 });
@@ -2201,6 +2213,7 @@ export const zMtComponentProperties = z.object({
 
 export const zFlowResult = z.object({
   type: z.enum(["FlowResult"]),
+  source: z.string().optional(),
   content: z.string(),
   success: z.boolean().optional(),
 });
@@ -2310,6 +2323,17 @@ export const zEventTypes = z.enum([
   "EventNewAgentState",
 ]);
 
+export const zAgentTypes = z.enum([
+  "closure",
+  "router",
+  "user_proxy",
+  "assistant",
+  "social",
+  "browser",
+  "resource",
+  "instagram",
+]);
+
 export const zAgEventList = z.object({
   pagination: zPaginationResponse.optional(),
   rows: z.array(zAgEvent).optional(),
@@ -2417,14 +2441,6 @@ export const zAgentMessageConfig = z.union([
   zHandoffMessageConfig,
   zToolCallMessageConfig,
   zToolCallResultMessageConfig,
-]);
-
-export const zAgentTypes = z.enum([
-  "AssistantAgent",
-  "UserProxyAgent",
-  "MultimodalWebSurfer",
-  "FileSurfer",
-  "MagenticOneCoderAgent",
 ]);
 
 export const zUpsertModel = z.object({
@@ -3250,6 +3266,7 @@ export const zAgentTopicTypes = z.enum([
   "writer",
   "tenant",
   "closure",
+  "response",
 ]);
 
 export const zChatMessageInput = z.object({

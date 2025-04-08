@@ -872,7 +872,8 @@ export type WorkflowWorkersCount = {
     | SocialLoginInput
     | SocialLoginResult
     | FlowResult
-    | FlowHandoffResult;
+    | FlowHandoffResult
+    | AgentTypes;
 };
 
 export type WorkflowRun = {
@@ -2144,6 +2145,7 @@ export type MtComponentProperties = {
 
 export type FlowResult = {
   type: "FlowResult";
+  source?: string;
   content: string;
   success?: boolean;
 };
@@ -2288,6 +2290,27 @@ export const EventTypes = {
   EVENT_NEW_AGENT_STATE: "EventNewAgentState",
 } as const;
 
+export type AgentTypes =
+  | "closure"
+  | "router"
+  | "user_proxy"
+  | "assistant"
+  | "social"
+  | "browser"
+  | "resource"
+  | "instagram";
+
+export const AgentTypes = {
+  CLOSURE: "closure",
+  ROUTER: "router",
+  USER_PROXY: "user_proxy",
+  ASSISTANT: "assistant",
+  SOCIAL: "social",
+  BROWSER: "browser",
+  RESOURCE: "resource",
+  INSTAGRAM: "instagram",
+} as const;
+
 export type AgEventList = {
   pagination?: PaginationResponse;
   rows?: Array<AgEvent>;
@@ -2391,21 +2414,6 @@ export type AgentMessageConfig =
   | HandoffMessageConfig
   | ToolCallMessageConfig
   | ToolCallResultMessageConfig;
-
-export type AgentTypes =
-  | "AssistantAgent"
-  | "UserProxyAgent"
-  | "MultimodalWebSurfer"
-  | "FileSurfer"
-  | "MagenticOneCoderAgent";
-
-export const AgentTypes = {
-  ASSISTANT_AGENT: "AssistantAgent",
-  USER_PROXY_AGENT: "UserProxyAgent",
-  MULTIMODAL_WEB_SURFER: "MultimodalWebSurfer",
-  FILE_SURFER: "FileSurfer",
-  MAGENTIC_ONE_CODER_AGENT: "MagenticOneCoderAgent",
-} as const;
 
 export type UpsertModel = ModelProperties;
 
@@ -3220,7 +3228,8 @@ export type AgentTopicTypes =
   | "research"
   | "writer"
   | "tenant"
-  | "closure";
+  | "closure"
+  | "response";
 
 export const AgentTopicTypes = {
   USER: "user",
@@ -3234,6 +3243,7 @@ export const AgentTopicTypes = {
   WRITER: "writer",
   TENANT: "tenant",
   CLOSURE: "closure",
+  RESPONSE: "response",
 } as const;
 
 export type ChatMessageInput = {

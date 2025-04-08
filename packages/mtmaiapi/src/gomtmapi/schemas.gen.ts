@@ -1503,6 +1503,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/FlowHandoffResult",
         },
+        {
+          $ref: "#/components/schemas/AgentTypes",
+        },
       ],
     },
   },
@@ -3859,6 +3862,9 @@ export const FlowResultSchema = {
       type: "string",
       enum: ["FlowResult"],
     },
+    source: {
+      type: "string",
+    },
     content: {
       type: "string",
     },
@@ -4176,6 +4182,20 @@ export const EventTypesSchema = {
   ],
 } as const;
 
+export const AgentTypesSchema = {
+  type: "string",
+  enum: [
+    "closure",
+    "router",
+    "user_proxy",
+    "assistant",
+    "social",
+    "browser",
+    "resource",
+    "instagram",
+  ],
+} as const;
+
 export const AgEventListSchema = {
   properties: {
     pagination: {
@@ -4418,17 +4438,6 @@ export const AgentMessageConfigSchema = {
     {
       $ref: "#/components/schemas/ToolCallResultMessageConfig",
     },
-  ],
-} as const;
-
-export const AgentTypesSchema = {
-  type: "string",
-  enum: [
-    "AssistantAgent",
-    "UserProxyAgent",
-    "MultimodalWebSurfer",
-    "FileSurfer",
-    "MagenticOneCoderAgent",
   ],
 } as const;
 
@@ -6175,6 +6184,7 @@ export const AgentTopicTypesSchema = {
     "writer",
     "tenant",
     "closure",
+    "response",
   ],
 } as const;
 
