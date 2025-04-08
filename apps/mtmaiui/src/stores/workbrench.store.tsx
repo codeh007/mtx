@@ -21,6 +21,7 @@ import {
   type WorkflowRun,
   type WorkflowRunCreateData,
   agStateListOptions,
+  chatMessagesListOptions,
   workflowRunCreate,
   workflowRunCreateMutation,
 } from "mtmaiapi";
@@ -344,6 +345,31 @@ export const WorkbrenchProvider = (
     }),
     enabled: !!etc.threadId,
   });
+
+  const chatMessageListQuery = useQuery({
+    ...chatMessagesListOptions({
+      path: {
+        // session: etc.threadId,
+        tenant: tid!,
+        // session: etc.threadId,
+        chat: etc.threadId!,
+      },
+      // body: {
+      //   thread_id: etc.threadId,
+      // },
+    }),
+    enabled: !!etc.threadId,
+  });
+  useEffect(() => {
+    if (chatMessageListQuery.data) {
+      console.log(
+        "加载了:chatMessageListQuery.data",
+        etc.threadId,
+        chatMessageListQuery.data,
+      );
+      // mystore.setState({ messages: chatMessageListQuery.data.rows });
+    }
+  }, [chatMessageListQuery.data]);
 
   useEffect(() => {
     if (agStateListQuery.data) {

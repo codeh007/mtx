@@ -3,9 +3,10 @@
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { coldarkDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
+import { IconCheck, IconCopy, IconDownload } from "mtxuilib/icons/icons-ai";
 import { type FC, memo } from "react";
-import { IconDownload, IconCheck, IconCopy } from "mtxuilib/icons/icons-ai";
-import { Button } from "mtxuilib/ui/button";
+import { useCopyToClipboard } from "../hooks/use-copy-to-clipboard";
+import { Button } from "../ui/button";
 interface Props {
   language: string;
   value: string;
@@ -52,7 +53,9 @@ export const generateRandomString = (length: number, lowercase = false) => {
 };
 
 export const CodeBlock: FC<Props> = memo(({ language, value }) => {
-  const { isCopied, copyToClipboard } = useCopyToClipboard({ timeout: 2000 });
+  const { isCopied, copyToClipboard } = useCopyToClipboard({
+    copiedDuration: 2000,
+  });
 
   const downloadAsFile = () => {
     if (typeof window === "undefined") {

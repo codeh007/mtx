@@ -5,6 +5,7 @@ import { Input } from "mtxuilib/ui/input";
 import { Select } from "mtxuilib/ui/select";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import React, { useCallback, useState } from "react";
+import { DetailGroup } from "../../autogen_views/detailgroup";
 import type {
   Component,
   ComponentConfig,
@@ -16,7 +17,6 @@ import {
   isOrTermination,
   isTextMentionTermination,
 } from "../../autogen_views/types/guards";
-import { DetailGroup } from "../../detailgroup";
 
 interface TerminationFieldsProps {
   component: Component<TerminationConfig>;

@@ -2,6 +2,7 @@ import type React from "react";
 
 import { Edit, MinusCircle, PlusCircle } from "lucide-react";
 import { Button } from "mtxuilib/ui/button";
+import { DetailGroup } from "../../autogen_views/detailgroup";
 import type {
   Component,
   ComponentConfig,
@@ -14,7 +15,6 @@ import {
   isTerminationComponent,
   isToolComponent,
 } from "../../autogen_views/types/guards";
-import { DetailGroup } from "../../detailgroup";
 import type { EditPath } from "../component-editor";
 import { AgentFields } from "./agent-fields";
 import { ModelFields } from "./model-fields";

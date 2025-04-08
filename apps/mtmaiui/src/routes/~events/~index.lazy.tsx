@@ -23,7 +23,6 @@ import {
   workflowListOptions,
   workflowRunListOptions,
 } from "mtmaiapi";
-import { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
 import { DataTable } from "mtxuilib/data-table/data-table";
 import {
   type FilterOption,
@@ -44,7 +43,7 @@ import { Separator } from "mtxuilib/ui/separator";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { BiX } from "react-icons/bi";
-import { useMtmMutation } from "../../hooks/mtmQuery";
+// import { useMtmMutation } from "../../hooks/mtmQuery";
 import { useTenant, useTenantId } from "../../hooks/useAuth";
 import { workflowRunsColumns } from "../~workflow-runs/components/workflow-runs-columns";
 import { CreateEventForm } from "./create-event-form";
@@ -170,7 +169,7 @@ function EventsTable() {
     }
 
     switch (sorting[0]?.id) {
-      case "Seen at":
+      // case "Seen at":
       default:
         return EventOrderByField.CREATED_AT;
     }
@@ -263,7 +262,7 @@ function EventsTable() {
   const cancelEventsMutation = useMutation({
     mutationKey: ["event:update:cancel", tenant.metadata.id],
     mutationFn: async (data: ReplayEventRequest) => {
-      await api.eventUpdateCancel(tenant.metadata.id, data);
+      // await api.eventUpdateCancel(tenant.metadata.id, data);
     },
     onSuccess: () => {
       refetch();
@@ -281,7 +280,7 @@ function EventsTable() {
     },
     // onError: handleApiError,
   });
-  const createEventMutation = useMtmMutation(EventsService.method.push);
+  // const createEventMutation = useMtmMutation(EventsService.method.push);
 
   const {
     data: eventKeys,
@@ -457,15 +456,15 @@ function EventsTable() {
         <CreateEventForm
           onSubmit={(data) => {
             console.log("createEventMutation.mutate", data);
-            createEventMutation.mutate({
-              // path: {
-              // tenant: tenant!.metadata.id,
-              // },
-              // body: data,
-              ...data,
-            });
+            // createEventMutation.mutate({
+            //   // path: {
+            //   // tenant: tenant!.metadata.id,
+            //   // },
+            //   // body: data,
+            //   ...data,
+            // });
           }}
-          isLoading={createEventMutation.isPending}
+          // isLoading={createEventMutation.isPending}
           fieldErrors={createEventFieldErrors}
         />
       </Dialog>

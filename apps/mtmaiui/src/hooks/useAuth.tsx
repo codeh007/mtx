@@ -9,6 +9,7 @@ import {
 import { setCookie } from "mtxuilib/lib/clientlib";
 import { useEffect, useMemo, useState } from "react";
 import { useMtmaiV2 } from "../stores/StoreProvider";
+import { useNav } from "./useNav";
 
 export const useUser = () => {
   const userQuery = useQuery({
@@ -30,33 +31,25 @@ export const useIsAdmin = () => {
 };
 
 export const useLoginHandler = () => {
-  // const router = useMtRouter();
+  const nav = useNav()
   const frontendConfig = useMtmaiV2((x) => x.frontendConfig);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const cookieKey = frontendConfig?.cookieAccessToken || "access_token";
-  // const loginMutation = useMtmMutation(MtmService.method.login, {
-  //   onSuccess: (data) => {
-  //     console.log("login success", data);
-  //     if (data.accessToken) {
-  //       setCookie(cookieKey, data.accessToken);
-  //       router.push("/");
-  //     }
-  //   },
-  // });
+  
   const login = useMutation({
     ...userUpdateLoginMutation(),
     onSuccess: (data) => {
       console.log("login success", data);
       if (data.userToken) {
         setCookie(cookieKey, data.userToken);
-        // router.push("/");
+        nav({
+          to: "/session",
+        });
       }
     },
   });
   const loginHandler = async (values) => {
     login.mutate({
-      // username: values.email,
-      // password: values.password,
       body: {
         email: values.email,
         password: values.password,
@@ -73,7 +66,6 @@ export const useLoginHandler = () => {
  * @returns
  */
 export function useSessionLoader() {
-  // const nav = Route.useNavigate();
   const currentTenant = useMtmaiV2((x) => x.currentTenant);
   const setCurrentTenant = useMtmaiV2((x) => x.setCurrentTenant);
   const lastTenant = useMtmaiV2((x) => x.lastTenant);

@@ -5,12 +5,12 @@ import { Select } from "mtxuilib/ui/select";
 import { Textarea } from "mtxuilib/ui/textarea";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import React, { useCallback } from "react";
+import { DetailGroup } from "../../autogen_views/detailgroup";
 import {
   isAnthropicModel,
   isAzureOpenAIModel,
   isOpenAIModel,
 } from "../../autogen_views/types/guards";
-import { DetailGroup } from "../../detailgroup";
 
 interface ModelFieldsProps {
   component: MtComponent;
