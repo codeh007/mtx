@@ -649,11 +649,6 @@ export const zWorkflowWorkersCount = z.object({
       z.object({
         url: z.string(),
       }),
-      z.enum([
-        "mtmai.agents.assistant_agent.AssistantAgent",
-        "mtmai.agents.instagram_agent.InstagramAgent",
-        "mtmai.agents.smola_agent.SmolaAgent",
-      ]),
       z.object({
         modelId: z.string().optional(),
         tag: z.string().optional(),
@@ -842,67 +837,6 @@ export const zWorkflowWorkersCount = z.object({
           })
           .optional(),
       }),
-      z.union([
-        z
-          .object({
-            type: z.literal("MtUserMessage").optional(),
-          })
-          .merge(
-            z.object({
-              type: z.enum(["UserMessage"]),
-              content: z.string(),
-              source: z.string().optional(),
-            }),
-          ),
-        z
-          .object({
-            type: z.literal("MtSystemMessage").optional(),
-          })
-          .merge(
-            z.object({
-              type: z.enum(["SystemMessage"]),
-              content: z.string(),
-            }),
-          ),
-        z
-          .object({
-            type: z.literal("MtAssistantMessage").optional(),
-          })
-          .merge(
-            z.object({
-              type: z.enum(["AssistantMessage"]),
-              content: z.union([
-                z.string(),
-                z.array(
-                  z.object({
-                    id: z.string(),
-                    arguments: z.string(),
-                    name: z.string(),
-                  }),
-                ),
-              ]),
-              source: z.string().optional(),
-              thought: z.string().optional(),
-            }),
-          ),
-        z
-          .object({
-            type: z.literal("FunctionExecutionResultMessage").optional(),
-          })
-          .merge(
-            z.object({
-              type: z.enum(["FunctionExecutionResultMessage"]),
-              content: z.array(
-                z.object({
-                  content: z.string(),
-                  name: z.string(),
-                  call_id: z.string(),
-                  is_error: z.boolean().optional(),
-                }),
-              ),
-            }),
-          ),
-      ]),
       z.object({
         max_turns: z.number().int().optional().default(25),
       }),
@@ -1885,7 +1819,7 @@ export const zChatMessageList = z.object({
   pagination: zPaginationResponse.optional(),
 });
 
-export const zChatMessageTypes = z.enum([
+export const zMtLlmMessageTypes = z.enum([
   "AssistantMessage",
   "SystemMessage",
   "UserMessage",
@@ -1896,7 +1830,7 @@ export const zChatSessionProperties = z.object({
   metadata: zApiResourceMeta.optional(),
   title: z.string(),
   name: z.string(),
-  state: z.string(),
+  state: z.object({}),
   state_type: z.string(),
 });
 
@@ -2038,41 +1972,6 @@ export const zTextHighlight = z.object({
   markdownBlock: z.string(),
   selectedText: z.string(),
 });
-
-export const zCodeHighlight = z.object({
-  startCharIndex: z.number(),
-  endCharIndex: z.number(),
-});
-
-export const zCustomQuickAction = z.object({
-  id: z.string(),
-  title: z.string(),
-  prompt: z.string(),
-  includeReflections: z.boolean(),
-  includePrefix: z.boolean(),
-  includeRecentHistory: z.boolean(),
-});
-
-export const zArtifactLengthOptions = z.enum([
-  "shortest",
-  "short",
-  "long",
-  "longest",
-]);
-
-export const zReadingLevelOptions = z.enum([
-  "pirate",
-  "child",
-  "teenager",
-  "college",
-  "phd",
-]);
-
-export const zProviderTypes = z.enum([
-  "mtmai.agents.assistant_agent.AssistantAgent",
-  "mtmai.agents.instagram_agent.InstagramAgent",
-  "mtmai.agents.smola_agent.SmolaAgent",
-]);
 
 export const zAgStateProperties = z.object({
   version: z.string().optional().default("1.0.0"),

@@ -1429,9 +1429,6 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/BrowserOpenTask",
         },
         {
-          $ref: "#/components/schemas/ProviderTypes",
-        },
-        {
           $ref: "#/components/schemas/RunFlowModelInput",
         },
         {
@@ -1466,9 +1463,6 @@ export const WorkflowWorkersCountSchema = {
         },
         {
           $ref: "#/components/schemas/UserAgentState",
-        },
-        {
-          $ref: "#/components/schemas/MtLlmMessage",
         },
         {
           $ref: "#/components/schemas/UserTeamConfig",
@@ -3036,7 +3030,7 @@ export const ChatMessagePropertiesSchema = {
   ],
   properties: {
     type: {
-      $ref: "#/components/schemas/ChatMessageTypes",
+      $ref: "#/components/schemas/MtLlmMessageTypes",
     },
     content: {
       type: "string",
@@ -3122,7 +3116,7 @@ export const ChatMessageListSchema = {
   },
 } as const;
 
-export const ChatMessageTypesSchema = {
+export const MtLlmMessageTypesSchema = {
   type: "string",
   enum: [
     "AssistantMessage",
@@ -3145,7 +3139,8 @@ export const ChatSessionPropertiesSchema = {
       type: "string",
     },
     state: {
-      type: "string",
+      type: "object",
+      additionalProperties: true,
     },
     state_type: {
       type: "string",
@@ -3477,80 +3472,6 @@ export const TextHighlightSchema = {
     },
   },
   required: ["fullMarkdown", "markdownBlock", "selectedText"],
-} as const;
-
-export const CodeHighlightSchema = {
-  required: ["startCharIndex", "endCharIndex"],
-  properties: {
-    startCharIndex: {
-      type: "number",
-    },
-    endCharIndex: {
-      type: "number",
-    },
-  },
-} as const;
-
-export const CustomQuickActionSchema = {
-  properties: {
-    id: {
-      type: "string",
-      description:
-        "A UUID for the quick action. Used to identify the quick action.",
-    },
-    title: {
-      type: "string",
-      description:
-        "The title of the quick action. Used in the UI to display the quick action.",
-    },
-    prompt: {
-      type: "string",
-      description: "The prompt to use when the quick action is invoked.",
-    },
-    includeReflections: {
-      type: "boolean",
-      description:
-        "Whether or not to include the user's reflections in the prompt.",
-    },
-    includePrefix: {
-      type: "boolean",
-      description:
-        "Whether or not to include the default prefix in the prompt.",
-    },
-    includeRecentHistory: {
-      type: "boolean",
-      description:
-        "Whether or not to include the last 5 (or less) messages in the prompt.",
-    },
-  },
-  required: [
-    "id",
-    "title",
-    "prompt",
-    "includeReflections",
-    "includePrefix",
-    "includeRecentHistory",
-  ],
-} as const;
-
-export const ArtifactLengthOptionsSchema = {
-  type: "string",
-  enum: ["shortest", "short", "long", "longest"],
-} as const;
-
-export const ReadingLevelOptionsSchema = {
-  type: "string",
-  description: "阅读级别",
-  enum: ["pirate", "child", "teenager", "college", "phd"],
-} as const;
-
-export const ProviderTypesSchema = {
-  type: "string",
-  enum: [
-    "mtmai.agents.assistant_agent.AssistantAgent",
-    "mtmai.agents.instagram_agent.InstagramAgent",
-    "mtmai.agents.smola_agent.SmolaAgent",
-  ],
 } as const;
 
 export const AgStatePropertiesSchema = {

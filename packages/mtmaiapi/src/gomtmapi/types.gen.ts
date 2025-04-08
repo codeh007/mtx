@@ -848,7 +848,6 @@ export type WorkflowWorkersCount = {
     | ChatSessionStartEvent
     | BrowserTask
     | BrowserOpenTask
-    | ProviderTypes
     | RunFlowModelInput
     | AssistantAgentConfig
     | ModelConfig
@@ -861,7 +860,6 @@ export type WorkflowWorkersCount = {
     | SocialTeamConfig
     | SocialAddFollowersInput
     | UserAgentState
-    | MtLlmMessage
     | UserTeamConfig
     | CodeExecutionInput
     | CodeExecutionResult
@@ -1703,7 +1701,7 @@ export type CommonResult = {
 };
 
 export type ChatMessageProperties = {
-  type: ChatMessageTypes;
+  type: MtLlmMessageTypes;
   content: string;
   llm_message: MtLlmMessage;
   content_type: "text" | "function_call";
@@ -1735,13 +1733,13 @@ export type ChatMessageList = {
   pagination?: PaginationResponse;
 };
 
-export type ChatMessageTypes =
+export type MtLlmMessageTypes =
   | "AssistantMessage"
   | "SystemMessage"
   | "UserMessage"
   | "FunctionExecutionResultMessage";
 
-export const ChatMessageTypes = {
+export const MtLlmMessageTypes = {
   ASSISTANT_MESSAGE: "AssistantMessage",
   SYSTEM_MESSAGE: "SystemMessage",
   USER_MESSAGE: "UserMessage",
@@ -1752,7 +1750,9 @@ export type ChatSessionProperties = {
   metadata?: ApiResourceMeta;
   title: string;
   name: string;
-  state: string;
+  state: {
+    [key: string]: unknown;
+  };
   state_type: string;
 };
 
@@ -1933,81 +1933,6 @@ export type TextHighlight = {
   markdownBlock: string;
   selectedText: string;
 };
-
-export type CodeHighlight = {
-  startCharIndex: number;
-  endCharIndex: number;
-};
-
-export type CustomQuickAction = {
-  /**
-   * A UUID for the quick action. Used to identify the quick action.
-   */
-  id: string;
-  /**
-   * The title of the quick action. Used in the UI to display the quick action.
-   */
-  title: string;
-  /**
-   * The prompt to use when the quick action is invoked.
-   */
-  prompt: string;
-  /**
-   * Whether or not to include the user's reflections in the prompt.
-   */
-  includeReflections: boolean;
-  /**
-   * Whether or not to include the default prefix in the prompt.
-   */
-  includePrefix: boolean;
-  /**
-   * Whether or not to include the last 5 (or less) messages in the prompt.
-   */
-  includeRecentHistory: boolean;
-};
-
-export type ArtifactLengthOptions = "shortest" | "short" | "long" | "longest";
-
-export const ArtifactLengthOptions = {
-  SHORTEST: "shortest",
-  SHORT: "short",
-  LONG: "long",
-  LONGEST: "longest",
-} as const;
-
-/**
- * 阅读级别
- */
-export type ReadingLevelOptions =
-  | "pirate"
-  | "child"
-  | "teenager"
-  | "college"
-  | "phd";
-
-/**
- * 阅读级别
- */
-export const ReadingLevelOptions = {
-  PIRATE: "pirate",
-  CHILD: "child",
-  TEENAGER: "teenager",
-  COLLEGE: "college",
-  PHD: "phd",
-} as const;
-
-export type ProviderTypes =
-  | "mtmai.agents.assistant_agent.AssistantAgent"
-  | "mtmai.agents.instagram_agent.InstagramAgent"
-  | "mtmai.agents.smola_agent.SmolaAgent";
-
-export const ProviderTypes = {
-  MTMAI_AGENTS_ASSISTANT_AGENT_ASSISTANT_AGENT:
-    "mtmai.agents.assistant_agent.AssistantAgent",
-  MTMAI_AGENTS_INSTAGRAM_AGENT_INSTAGRAM_AGENT:
-    "mtmai.agents.instagram_agent.InstagramAgent",
-  MTMAI_AGENTS_SMOLA_AGENT_SMOLA_AGENT: "mtmai.agents.smola_agent.SmolaAgent",
-} as const;
 
 export type AgStateProperties = {
   version?: string;
