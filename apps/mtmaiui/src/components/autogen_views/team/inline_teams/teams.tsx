@@ -14,12 +14,16 @@ export function get_default_social_team_component() {
     label: "social team",
     description: "social team",
     config: {
+      username: "user123",
+      password: "pass123",
+      otp_key: "otp123",
+      proxy_url: "http://localhost:8080",
       participants: [
         {
           provider: ProviderTypes.AUTOGEN_AGENTCHAT_AGENTS_ASSISTANT_AGENT,
-          label: "openai",
+          label: "assistant",
           component_type: "agent",
-          description: "openai",
+          description: "assistant",
           config: {
             name: "user123",
             description: "pass123",
@@ -35,10 +39,6 @@ export function get_default_social_team_component() {
           } satisfies AssistantAgentConfig,
         } satisfies AssistantAgentComponent,
       ],
-      username: "user123",
-      password: "pass123",
-      otp_key: "otp123",
-      proxy_url: "http://localhost:8080",
     },
   };
 

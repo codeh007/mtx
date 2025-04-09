@@ -842,6 +842,9 @@ export type WorkflowWorkersCount = {
     | ToolTypes
     | FlowNames
     | AgentTopicTypes
+    | ProviderTypes
+    | ComponentTypes
+    | AgentTypes
     | BrowserData
     | PlatformAccountData
     | InstagramTask
@@ -863,7 +866,6 @@ export type WorkflowWorkersCount = {
     | SocialLoginInput
     | SocialLoginResult
     | FlowResult
-    | AgentTypes
     | ChatStartInput
     | AskUserFunctionCall
     | ToolCallRequestEvent
@@ -873,10 +875,9 @@ export type WorkflowWorkersCount = {
     | TeamComponent
     | ComponentModel
     | FlowTeamInput
-    | ProviderTypes
-    | ComponentTypes
-    | OpenAiClientConfigurationConfigModel
-    | MtOpenAiChatCompletionClientComponent;
+    | MtOpenAiChatCompletionClientComponent
+    | RoundRobinGroupChatComponent
+    | Components;
 };
 
 export type WorkflowRun = {
@@ -2387,10 +2388,6 @@ export type Subsection = {
   description: string;
 };
 
-export type RoundRobinGroupChatConfig = {
-  participants: Array<Component>;
-};
-
 export type AssistantAgentComponent = ComponentModel & {
   component_type: "agent";
   config?: AssistantAgentConfig;
@@ -3073,7 +3070,9 @@ export type SocialTeamConfig = {
 };
 
 export type SocialTeamComponent = TeamComponent & {
+  provider?: "mtmai.teams.team_social.SocialTeam";
   config: SocialTeamConfig;
+  termination_condition: Terminations;
 };
 
 /**
@@ -3280,6 +3279,36 @@ export type MtOpenAiChatCompletionClientComponent = ComponentModel & {
   config: OpenAiClientConfigurationConfigModel;
 };
 
+export type Terminations = {
+  provider?: "TextMentionTermination";
+} & TextMentionTermination;
+
+export type TextMentionTermination = ComponentModel & {
+  provider: "autogen_agentchat.conditions.TextMentionTermination";
+  config: TextMentionTerminationConfig;
+};
+
+export type TextMentionTerminationConfig = {
+  text: string;
+};
+
+export type RoundRobinGroupChatComponent = TeamComponent & {
+  config: RoundRobinGroupChatConfig;
+};
+
+export type RoundRobinGroupChatConfig = {
+  participants: Array<Component>;
+  termination_condition: Terminations;
+};
+
+export type Components =
+  | ({
+      provider?: "SocialTeamComponent";
+    } & SocialTeamComponent)
+  | ({
+      provider?: "RoundRobinGroupChatComponent";
+    } & RoundRobinGroupChatComponent);
+
 export type TeamProperties = {
   id: string;
   name: string;
@@ -3313,7 +3342,8 @@ export type ProviderTypes =
   | "mtmai.teams.instagram_team.instagram_team.InstagramTeam"
   | "mtmai.teams.team_social.SocialTeam"
   | "autogen_agentchat.agents.AssistantAgent"
-  | "mtmai.model_client.MtOpenAIChatCompletionClient";
+  | "mtmai.model_client.MtOpenAIChatCompletionClient"
+  | "autogen_agentchat.conditions.TextMentionTermination";
 
 export const ProviderTypes = {
   AUTOGEN_AGENTCHAT_TEAMS_ROUND_ROBIN_GROUP_CHAT:
@@ -3327,6 +3357,8 @@ export const ProviderTypes = {
     "autogen_agentchat.agents.AssistantAgent",
   MTMAI_MODEL_CLIENT_MT_OPEN_AI_CHAT_COMPLETION_CLIENT:
     "mtmai.model_client.MtOpenAIChatCompletionClient",
+  AUTOGEN_AGENTCHAT_CONDITIONS_TEXT_MENTION_TERMINATION:
+    "autogen_agentchat.conditions.TextMentionTermination",
 } as const;
 
 export type UserAgentState = {

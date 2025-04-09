@@ -1411,6 +1411,15 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/AgentTopicTypes",
         },
         {
+          $ref: "#/components/schemas/ProviderTypes",
+        },
+        {
+          $ref: "#/components/schemas/ComponentTypes",
+        },
+        {
+          $ref: "#/components/schemas/AgentTypes",
+        },
+        {
           $ref: "#/components/schemas/BrowserData",
         },
         {
@@ -1474,9 +1483,6 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/FlowResult",
         },
         {
-          $ref: "#/components/schemas/AgentTypes",
-        },
-        {
           $ref: "#/components/schemas/ChatStartInput",
         },
         {
@@ -1504,16 +1510,13 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/FlowTeamInput",
         },
         {
-          $ref: "#/components/schemas/ProviderTypes",
-        },
-        {
-          $ref: "#/components/schemas/ComponentTypes",
-        },
-        {
-          $ref: "#/components/schemas/OpenAIClientConfigurationConfigModel",
-        },
-        {
           $ref: "#/components/schemas/MtOpenAIChatCompletionClientComponent",
+        },
+        {
+          $ref: "#/components/schemas/RoundRobinGroupChatComponent",
+        },
+        {
+          $ref: "#/components/schemas/Components",
         },
       ],
     },
@@ -4470,18 +4473,6 @@ export const SubsectionSchema = {
   required: ["subsectionTitle", "description"],
 } as const;
 
-export const RoundRobinGroupChatConfigSchema = {
-  required: ["participants", "termination_condition"],
-  properties: {
-    participants: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/Component",
-      },
-    },
-  },
-} as const;
-
 export const AssistantAgentComponentSchema = {
   allOf: [
     {
@@ -6007,10 +5998,17 @@ export const SocialTeamComponentSchema = {
       $ref: "#/components/schemas/TeamComponent",
     },
     {
-      required: ["config"],
+      required: ["config", "termination_condition"],
       properties: {
+        provider: {
+          type: "string",
+          enum: ["mtmai.teams.team_social.SocialTeam"],
+        },
         config: {
           $ref: "#/components/schemas/SocialTeamConfig",
+        },
+        termination_condition: {
+          $ref: "#/components/schemas/Terminations",
         },
       },
     },
@@ -6414,6 +6412,91 @@ export const MtOpenAIChatCompletionClientComponentSchema = {
   ],
 } as const;
 
+export const TerminationsSchema = {
+  discriminator: {
+    propertyName: "provider",
+  },
+  oneOf: [
+    {
+      $ref: "#/components/schemas/TextMentionTermination",
+    },
+  ],
+} as const;
+
+export const TextMentionTerminationSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
+    {
+      required: ["provider", "config"],
+      properties: {
+        provider: {
+          type: "string",
+          enum: ["autogen_agentchat.conditions.TextMentionTermination"],
+        },
+        config: {
+          $ref: "#/components/schemas/TextMentionTerminationConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const TextMentionTerminationConfigSchema = {
+  required: ["text"],
+  properties: {
+    text: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const RoundRobinGroupChatComponentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/TeamComponent",
+    },
+    {
+      required: ["config"],
+      properties: {
+        config: {
+          $ref: "#/components/schemas/RoundRobinGroupChatConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const RoundRobinGroupChatConfigSchema = {
+  required: ["participants", "termination_condition"],
+  properties: {
+    participants: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/Component",
+      },
+    },
+    termination_condition: {
+      $ref: "#/components/schemas/Terminations",
+    },
+  },
+} as const;
+
+export const ComponentsSchema = {
+  discriminator: {
+    propertyName: "provider",
+  },
+  oneOf: [
+    {
+      $ref: "#/components/schemas/SocialTeamComponent",
+    },
+    {
+      $ref: "#/components/schemas/RoundRobinGroupChatComponent",
+    },
+  ],
+} as const;
+
 export const TeamPropertiesSchema = {
   properties: {
     id: {
@@ -6492,6 +6575,7 @@ export const ProviderTypesSchema = {
     "mtmai.teams.team_social.SocialTeam",
     "autogen_agentchat.agents.AssistantAgent",
     "mtmai.model_client.MtOpenAIChatCompletionClient",
+    "autogen_agentchat.conditions.TextMentionTermination",
   ],
 } as const;
 

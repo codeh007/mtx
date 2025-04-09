@@ -622,6 +622,26 @@ export const zWorkflowWorkersCount = z.object({
         "closure",
         "response",
       ]),
+      z.enum([
+        "autogen_agentchat.teams.RoundRobinGroupChat",
+        "autogen_agentchat.teams.SelectorGroupChat",
+        "mtmai.teams.instagram_team.instagram_team.InstagramTeam",
+        "mtmai.teams.team_social.SocialTeam",
+        "autogen_agentchat.agents.AssistantAgent",
+        "mtmai.model_client.MtOpenAIChatCompletionClient",
+        "autogen_agentchat.conditions.TextMentionTermination",
+      ]),
+      z.enum(["agent", "team"]),
+      z.enum([
+        "closure",
+        "router",
+        "user_proxy",
+        "assistant",
+        "social",
+        "browser",
+        "resource",
+        "instagram",
+      ]),
       z.object({
         type: z.enum(["browser"]).optional(),
         cookies: z.string().optional(),
@@ -791,16 +811,6 @@ export const zWorkflowWorkersCount = z.object({
             }),
           ),
       ]),
-      z.enum([
-        "closure",
-        "router",
-        "user_proxy",
-        "assistant",
-        "social",
-        "browser",
-        "resource",
-        "instagram",
-      ]),
       z.object({
         type: z.enum(["ChatStartInput"]).optional(),
         tenant_id: z.string().optional(),
@@ -967,47 +977,6 @@ export const zWorkflowWorkersCount = z.object({
         task: z.string(),
         init_state: z.object({}),
       }),
-      z.enum([
-        "autogen_agentchat.teams.RoundRobinGroupChat",
-        "autogen_agentchat.teams.SelectorGroupChat",
-        "mtmai.teams.instagram_team.instagram_team.InstagramTeam",
-        "mtmai.teams.team_social.SocialTeam",
-        "autogen_agentchat.agents.AssistantAgent",
-        "mtmai.model_client.MtOpenAIChatCompletionClient",
-      ]),
-      z.enum(["agent", "team"]),
-      z.object({
-        model: z.string(),
-        model_type: z.enum([
-          "OpenAIChatCompletionClient",
-          "AzureOpenAIChatCompletionClient",
-        ]),
-        api_key: z.string().optional(),
-        base_url: z.string().optional(),
-        timeout: z.number().optional(),
-        max_retries: z.number().int().optional(),
-        frequency_penalty: z.number().optional(),
-        logit_bias: z.number().int().optional(),
-        max_tokens: z.number().int().optional(),
-        n: z.number().int().optional(),
-        presence_penalty: z.number().optional(),
-        response_format: z.string().optional(),
-        seed: z.number().int().optional(),
-        stop: z.array(z.string()).optional(),
-        temperature: z.number().optional(),
-        top_p: z.number().optional(),
-        user: z.string().optional(),
-        organization: z.string().optional(),
-        default_headers: z.object({}).optional(),
-        model_info: z
-          .object({
-            family: z.enum(["r1", "openai", "unknown"]),
-            vision: z.boolean(),
-            function_calling: z.boolean(),
-            json_output: z.boolean(),
-          })
-          .optional(),
-      }),
       z
         .object({
           provider: z.string().optional(),
@@ -1054,6 +1023,206 @@ export const zWorkflowWorkersCount = z.object({
             }),
           }),
         ),
+      z
+        .object({
+          provider: z.string().optional(),
+          component_type: z.string().optional(),
+          version: z.number().int().optional(),
+          component_version: z.number().int().optional(),
+          description: z.string().optional(),
+          label: z.string().optional(),
+          config: z.object({}).optional(),
+        })
+        .merge(
+          z.object({
+            component_type: z.enum(["team"]),
+          }),
+        )
+        .merge(
+          z.object({
+            config: z.object({
+              participants: z.array(
+                z
+                  .object({
+                    metadata: zApiResourceMeta,
+                  })
+                  .merge(
+                    z.object({
+                      label: z.string(),
+                      description: z.string(),
+                      provider: z.string(),
+                      component_type: z.string(),
+                      version: z.number().int(),
+                      component_version: z.number().int(),
+                      config: z.object({}),
+                    }),
+                  ),
+              ),
+              termination_condition: z
+                .object({
+                  provider: z.literal("TextMentionTermination").optional(),
+                })
+                .merge(
+                  z
+                    .object({
+                      provider: z.string().optional(),
+                      component_type: z.string().optional(),
+                      version: z.number().int().optional(),
+                      component_version: z.number().int().optional(),
+                      description: z.string().optional(),
+                      label: z.string().optional(),
+                      config: z.object({}).optional(),
+                    })
+                    .merge(
+                      z.object({
+                        provider: z.enum([
+                          "autogen_agentchat.conditions.TextMentionTermination",
+                        ]),
+                        config: z.object({
+                          text: z.string(),
+                        }),
+                      }),
+                    ),
+                ),
+            }),
+          }),
+        ),
+      z.union([
+        z
+          .object({
+            provider: z.literal("SocialTeamComponent").optional(),
+          })
+          .merge(
+            z
+              .object({
+                provider: z.string().optional(),
+                component_type: z.string().optional(),
+                version: z.number().int().optional(),
+                component_version: z.number().int().optional(),
+                description: z.string().optional(),
+                label: z.string().optional(),
+                config: z.object({}).optional(),
+              })
+              .merge(
+                z.object({
+                  component_type: z.enum(["team"]),
+                }),
+              )
+              .merge(
+                z.object({
+                  provider: z
+                    .enum(["mtmai.teams.team_social.SocialTeam"])
+                    .optional(),
+                  config: z.object({
+                    participants: z.array(z.object({})).optional(),
+                    max_turns: z.number().int().optional().default(25),
+                    username: z.string(),
+                    password: z.string(),
+                    otp_key: z.string(),
+                    proxy_url: z.string().optional(),
+                  }),
+                  termination_condition: z
+                    .object({
+                      provider: z.literal("TextMentionTermination").optional(),
+                    })
+                    .merge(
+                      z
+                        .object({
+                          provider: z.string().optional(),
+                          component_type: z.string().optional(),
+                          version: z.number().int().optional(),
+                          component_version: z.number().int().optional(),
+                          description: z.string().optional(),
+                          label: z.string().optional(),
+                          config: z.object({}).optional(),
+                        })
+                        .merge(
+                          z.object({
+                            provider: z.enum([
+                              "autogen_agentchat.conditions.TextMentionTermination",
+                            ]),
+                            config: z.object({
+                              text: z.string(),
+                            }),
+                          }),
+                        ),
+                    ),
+                }),
+              ),
+          ),
+        z
+          .object({
+            provider: z.literal("RoundRobinGroupChatComponent").optional(),
+          })
+          .merge(
+            z
+              .object({
+                provider: z.string().optional(),
+                component_type: z.string().optional(),
+                version: z.number().int().optional(),
+                component_version: z.number().int().optional(),
+                description: z.string().optional(),
+                label: z.string().optional(),
+                config: z.object({}).optional(),
+              })
+              .merge(
+                z.object({
+                  component_type: z.enum(["team"]),
+                }),
+              )
+              .merge(
+                z.object({
+                  config: z.object({
+                    participants: z.array(
+                      z
+                        .object({
+                          metadata: zApiResourceMeta,
+                        })
+                        .merge(
+                          z.object({
+                            label: z.string(),
+                            description: z.string(),
+                            provider: z.string(),
+                            component_type: z.string(),
+                            version: z.number().int(),
+                            component_version: z.number().int(),
+                            config: z.object({}),
+                          }),
+                        ),
+                    ),
+                    termination_condition: z
+                      .object({
+                        provider: z
+                          .literal("TextMentionTermination")
+                          .optional(),
+                      })
+                      .merge(
+                        z
+                          .object({
+                            provider: z.string().optional(),
+                            component_type: z.string().optional(),
+                            version: z.number().int().optional(),
+                            component_version: z.number().int().optional(),
+                            description: z.string().optional(),
+                            label: z.string().optional(),
+                            config: z.object({}).optional(),
+                          })
+                          .merge(
+                            z.object({
+                              provider: z.enum([
+                                "autogen_agentchat.conditions.TextMentionTermination",
+                              ]),
+                              config: z.object({
+                                text: z.string(),
+                              }),
+                            }),
+                          ),
+                      ),
+                  }),
+                }),
+              ),
+          ),
+      ]),
     ])
     .optional(),
 });
@@ -2684,10 +2853,6 @@ export const zSubsection = z.object({
   description: z.string(),
 });
 
-export const zRoundRobinGroupChatConfig = z.object({
-  participants: z.array(zComponent),
-});
-
 export const zAssistantAgentComponent = z
   .object({
     provider: z.string().optional(),
@@ -3362,7 +3527,24 @@ export const zSocialTeamConfig = z.object({
 
 export const zSocialTeamComponent = zTeamComponent.merge(
   z.object({
+    provider: z.enum(["mtmai.teams.team_social.SocialTeam"]).optional(),
     config: zSocialTeamConfig,
+    termination_condition: z
+      .object({
+        provider: z.literal("TextMentionTermination").optional(),
+      })
+      .merge(
+        zComponentModel.merge(
+          z.object({
+            provider: z.enum([
+              "autogen_agentchat.conditions.TextMentionTermination",
+            ]),
+            config: z.object({
+              text: z.string(),
+            }),
+          }),
+        ),
+      ),
   }),
 );
 
@@ -3605,6 +3787,63 @@ export const zMtOpenAiChatCompletionClientComponent = zComponentModel.merge(
   }),
 );
 
+export const zTerminations = z
+  .object({
+    provider: z.literal("TextMentionTermination").optional(),
+  })
+  .merge(
+    zComponentModel.merge(
+      z.object({
+        provider: z.enum([
+          "autogen_agentchat.conditions.TextMentionTermination",
+        ]),
+        config: z.object({
+          text: z.string(),
+        }),
+      }),
+    ),
+  );
+
+export const zTextMentionTermination = zComponentModel.merge(
+  z.object({
+    provider: z.enum(["autogen_agentchat.conditions.TextMentionTermination"]),
+    config: z.object({
+      text: z.string(),
+    }),
+  }),
+);
+
+export const zTextMentionTerminationConfig = z.object({
+  text: z.string(),
+});
+
+export const zRoundRobinGroupChatComponent = zTeamComponent.merge(
+  z.object({
+    config: z.object({
+      participants: z.array(zComponent),
+      termination_condition: zTerminations,
+    }),
+  }),
+);
+
+export const zRoundRobinGroupChatConfig = z.object({
+  participants: z.array(zComponent),
+  termination_condition: zTerminations,
+});
+
+export const zComponents = z.union([
+  z
+    .object({
+      provider: z.literal("SocialTeamComponent").optional(),
+    })
+    .merge(zSocialTeamComponent),
+  z
+    .object({
+      provider: z.literal("RoundRobinGroupChatComponent").optional(),
+    })
+    .merge(zRoundRobinGroupChatComponent),
+]);
+
 export const zTeamProperties = z.object({
   id: z.string(),
   name: z.string(),
@@ -3637,6 +3876,7 @@ export const zProviderTypes = z.enum([
   "mtmai.teams.team_social.SocialTeam",
   "autogen_agentchat.agents.AssistantAgent",
   "mtmai.model_client.MtOpenAIChatCompletionClient",
+  "autogen_agentchat.conditions.TextMentionTermination",
 ]);
 
 export const zUserAgentState = z.object({
