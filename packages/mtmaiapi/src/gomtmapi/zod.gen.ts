@@ -867,6 +867,7 @@ export const zWorkflowWorkersCount = z.object({
         })
         .merge(
           z.object({
+            provider: z.enum(["autogen_agentchat.agents.AssistantAgent"]),
             component_type: z.enum(["agent"]),
             config: z
               .object({
@@ -1040,6 +1041,7 @@ export const zWorkflowWorkersCount = z.object({
         )
         .merge(
           z.object({
+            provider: z.enum(["autogen_agentchat.teams.RoundRobinGroupChat"]),
             config: z.object({
               participants: z.array(
                 z
@@ -1110,9 +1112,7 @@ export const zWorkflowWorkersCount = z.object({
               )
               .merge(
                 z.object({
-                  provider: z
-                    .enum(["mtmai.teams.team_social.SocialTeam"])
-                    .optional(),
+                  provider: z.enum(["mtmai.teams.team_social.SocialTeam"]),
                   config: z.object({
                     participants: z.array(z.object({})).optional(),
                     max_turns: z.number().int().optional().default(25),
@@ -1172,6 +1172,9 @@ export const zWorkflowWorkersCount = z.object({
               )
               .merge(
                 z.object({
+                  provider: z.enum([
+                    "autogen_agentchat.teams.RoundRobinGroupChat",
+                  ]),
                   config: z.object({
                     participants: z.array(
                       z
@@ -2865,6 +2868,7 @@ export const zAssistantAgentComponent = z
   })
   .merge(
     z.object({
+      provider: z.enum(["autogen_agentchat.agents.AssistantAgent"]),
       component_type: z.enum(["agent"]),
       config: z
         .object({
@@ -3527,7 +3531,7 @@ export const zSocialTeamConfig = z.object({
 
 export const zSocialTeamComponent = zTeamComponent.merge(
   z.object({
-    provider: z.enum(["mtmai.teams.team_social.SocialTeam"]).optional(),
+    provider: z.enum(["mtmai.teams.team_social.SocialTeam"]),
     config: zSocialTeamConfig,
     termination_condition: z
       .object({
@@ -3819,6 +3823,7 @@ export const zTextMentionTerminationConfig = z.object({
 
 export const zRoundRobinGroupChatComponent = zTeamComponent.merge(
   z.object({
+    provider: z.enum(["autogen_agentchat.teams.RoundRobinGroupChat"]),
     config: z.object({
       participants: z.array(zComponent),
       termination_condition: zTerminations,

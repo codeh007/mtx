@@ -5,6 +5,7 @@ import {
   type MtOpenAiChatCompletionClientComponent,
   ProviderTypes,
   type SocialTeamComponent,
+  type TextMentionTermination,
 } from "mtmaiapi";
 
 export function get_default_social_team_component() {
@@ -39,6 +40,13 @@ export function get_default_social_team_component() {
           } satisfies AssistantAgentConfig,
         } satisfies AssistantAgentComponent,
       ],
+      termination_condition: {
+        provider:
+          ProviderTypes.AUTOGEN_AGENTCHAT_CONDITIONS_TEXT_MENTION_TERMINATION,
+        config: {
+          text: "TERMINATE",
+        },
+      } satisfies TextMentionTermination,
     },
   };
 

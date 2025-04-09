@@ -4479,8 +4479,12 @@ export const AssistantAgentComponentSchema = {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
-      required: ["component_type"],
+      required: ["component_type", "provider"],
       properties: {
+        provider: {
+          type: "string",
+          enum: ["autogen_agentchat.agents.AssistantAgent"],
+        },
         component_type: {
           type: "string",
           enum: ["agent"],
@@ -5998,7 +6002,7 @@ export const SocialTeamComponentSchema = {
       $ref: "#/components/schemas/TeamComponent",
     },
     {
-      required: ["config", "termination_condition"],
+      required: ["provider", "config", "termination_condition"],
       properties: {
         provider: {
           type: "string",
@@ -6008,7 +6012,14 @@ export const SocialTeamComponentSchema = {
           $ref: "#/components/schemas/SocialTeamConfig",
         },
         termination_condition: {
-          $ref: "#/components/schemas/Terminations",
+          discriminator: {
+            propertyName: "provider",
+          },
+          oneOf: [
+            {
+              $ref: "#/components/schemas/TextMentionTermination",
+            },
+          ],
         },
       },
     },
@@ -6458,8 +6469,12 @@ export const RoundRobinGroupChatComponentSchema = {
       $ref: "#/components/schemas/TeamComponent",
     },
     {
-      required: ["config"],
+      required: ["config", "provider"],
       properties: {
+        provider: {
+          type: "string",
+          enum: ["autogen_agentchat.teams.RoundRobinGroupChat"],
+        },
         config: {
           $ref: "#/components/schemas/RoundRobinGroupChatConfig",
         },

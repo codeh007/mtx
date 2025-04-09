@@ -2389,6 +2389,7 @@ export type Subsection = {
 };
 
 export type AssistantAgentComponent = ComponentModel & {
+  provider: "autogen_agentchat.agents.AssistantAgent";
   component_type: "agent";
   config?: AssistantAgentConfig;
 };
@@ -3070,9 +3071,11 @@ export type SocialTeamConfig = {
 };
 
 export type SocialTeamComponent = TeamComponent & {
-  provider?: "mtmai.teams.team_social.SocialTeam";
+  provider: "mtmai.teams.team_social.SocialTeam";
   config: SocialTeamConfig;
-  termination_condition: Terminations;
+  termination_condition: {
+    provider?: "TextMentionTermination";
+  } & TextMentionTermination;
 };
 
 /**
@@ -3293,6 +3296,7 @@ export type TextMentionTerminationConfig = {
 };
 
 export type RoundRobinGroupChatComponent = TeamComponent & {
+  provider: "autogen_agentchat.teams.RoundRobinGroupChat";
   config: RoundRobinGroupChatConfig;
 };
 
