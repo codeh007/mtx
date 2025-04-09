@@ -5,7 +5,7 @@ import {
   type MtOpenAiChatCompletionClientComponent,
   ProviderTypes,
   type SocialTeamComponent,
-  type TextMentionTermination,
+  type Terminations,
 } from "mtmaiapi";
 
 export function get_default_social_team_component() {
@@ -19,6 +19,7 @@ export function get_default_social_team_component() {
       password: "pass123",
       otp_key: "otp123",
       proxy_url: "http://localhost:8080",
+      max_turns: 10,
       participants: [
         {
           provider: ProviderTypes.AUTOGEN_AGENTCHAT_AGENTS_ASSISTANT_AGENT,
@@ -41,12 +42,11 @@ export function get_default_social_team_component() {
         } satisfies AssistantAgentComponent,
       ],
       termination_condition: {
-        provider:
-          ProviderTypes.AUTOGEN_AGENTCHAT_CONDITIONS_TEXT_MENTION_TERMINATION,
+        provider: "TextMentionTermination",
         config: {
           text: "TERMINATE",
         },
-      } satisfies TextMentionTermination,
+      } satisfies Terminations,
     },
   };
 

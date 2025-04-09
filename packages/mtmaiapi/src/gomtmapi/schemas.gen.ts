@@ -4124,6 +4124,25 @@ export const GalleryMetadataSchema = {
   required: ["author", "created_at", "updated_at", "version"],
 } as const;
 
+export const TeamConfigSchema = {
+  required: ["participants", "termination_condition", "max_turns"],
+  properties: {
+    participants: {
+      type: "array",
+      items: {
+        type: "object",
+      },
+    },
+    termination_condition: {
+      $ref: "#/components/schemas/Terminations",
+    },
+    max_turns: {
+      type: "integer",
+      default: 25,
+    },
+  },
+} as const;
+
 export const AgEventSchema = {
   required: ["data", "framework", "stepRunId"],
   properties: {
@@ -5969,31 +5988,28 @@ export const TeamComponentSchema = {
 } as const;
 
 export const SocialTeamConfigSchema = {
-  required: ["username", "password", "otp_key"],
-  properties: {
-    participants: {
-      type: "array",
-      items: {
-        type: "object",
+  allOf: [
+    {
+      $ref: "#/components/schemas/TeamConfig",
+    },
+    {
+      required: ["username", "password", "otp_key"],
+      properties: {
+        username: {
+          type: "string",
+        },
+        password: {
+          type: "string",
+        },
+        otp_key: {
+          type: "string",
+        },
+        proxy_url: {
+          type: "string",
+        },
       },
     },
-    max_turns: {
-      type: "integer",
-      default: 25,
-    },
-    username: {
-      type: "string",
-    },
-    password: {
-      type: "string",
-    },
-    otp_key: {
-      type: "string",
-    },
-    proxy_url: {
-      type: "string",
-    },
-  },
+  ],
 } as const;
 
 export const SocialTeamComponentSchema = {
@@ -6010,16 +6026,6 @@ export const SocialTeamComponentSchema = {
         },
         config: {
           $ref: "#/components/schemas/SocialTeamConfig",
-        },
-        termination_condition: {
-          discriminator: {
-            propertyName: "provider",
-          },
-          oneOf: [
-            {
-              $ref: "#/components/schemas/TextMentionTermination",
-            },
-          ],
         },
       },
     },
@@ -6431,27 +6437,36 @@ export const TerminationsSchema = {
     {
       $ref: "#/components/schemas/TextMentionTermination",
     },
+    {
+      $ref: "#/components/schemas/HandoffTermination",
+    },
+    {
+      $ref: "#/components/schemas/TimeoutTermination",
+    },
+    {
+      $ref: "#/components/schemas/SourceMatchTermination",
+    },
+    {
+      $ref: "#/components/schemas/FunctionCallTermination",
+    },
+    {
+      $ref: "#/components/schemas/TokenUsageTermination",
+    },
   ],
 } as const;
 
 export const TextMentionTerminationSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/ComponentModel",
+  required: ["provider", "config"],
+  properties: {
+    provider: {
+      type: "string",
+      enum: ["autogen_agentchat.conditions.TextMentionTermination"],
+      default: "autogen_agentchat.conditions.TextMentionTermination",
     },
-    {
-      required: ["provider", "config"],
-      properties: {
-        provider: {
-          type: "string",
-          enum: ["autogen_agentchat.conditions.TextMentionTermination"],
-        },
-        config: {
-          $ref: "#/components/schemas/TextMentionTerminationConfig",
-        },
-      },
+    config: {
+      $ref: "#/components/schemas/TextMentionTerminationConfig",
     },
-  ],
+  },
 } as const;
 
 export const TextMentionTerminationConfigSchema = {
@@ -6459,6 +6474,179 @@ export const TextMentionTerminationConfigSchema = {
   properties: {
     text: {
       type: "string",
+    },
+  },
+} as const;
+
+export const TextMessageTerminationSchema = {
+  required: ["provider", "config"],
+  properties: {
+    provider: {
+      type: "string",
+      enum: ["TextMessageTermination"],
+      default: "TextMessageTermination",
+    },
+    config: {
+      $ref: "#/components/schemas/TextMessageTerminationConfig",
+    },
+  },
+} as const;
+
+export const TextMessageTerminationConfigSchema = {
+  required: ["source"],
+  properties: {
+    source: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const HandoffTerminationSchema = {
+  required: ["provider", "config"],
+  properties: {
+    provider: {
+      type: "string",
+      enum: ["HandoffTermination"],
+      default: "HandoffTermination",
+    },
+    config: {
+      $ref: "#/components/schemas/HandoffTerminationConfig",
+    },
+  },
+} as const;
+
+export const HandoffTerminationConfigSchema = {
+  required: ["target"],
+  properties: {
+    target: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const TimeoutTerminationSchema = {
+  required: ["provider", "config"],
+  properties: {
+    provider: {
+      type: "string",
+      enum: ["TimeoutTermination"],
+      default: "TimeoutTermination",
+    },
+    config: {
+      $ref: "#/components/schemas/TimeoutTerminationConfig",
+    },
+  },
+} as const;
+
+export const TimeoutTerminationConfigSchema = {
+  required: ["timeout_seconds"],
+  properties: {
+    timeout_seconds: {
+      type: "integer",
+    },
+  },
+} as const;
+
+export const SourceMatchTerminationSchema = {
+  required: ["provider", "config"],
+  properties: {
+    provider: {
+      type: "string",
+      enum: ["SourceMatchTermination"],
+      default: "SourceMatchTermination",
+    },
+    config: {
+      $ref: "#/components/schemas/SourceMatchTerminationConfig",
+    },
+  },
+} as const;
+
+export const SourceMatchTerminationConfigSchema = {
+  required: ["sources"],
+  properties: {
+    sources: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+  },
+} as const;
+
+export const FunctionCallTerminationSchema = {
+  required: ["provider", "config"],
+  properties: {
+    provider: {
+      type: "string",
+      enum: ["FunctionCallTermination"],
+      default: "FunctionCallTermination",
+    },
+    config: {
+      $ref: "#/components/schemas/FunctionCallTerminationConfig",
+    },
+  },
+} as const;
+
+export const FunctionCallTerminationConfigSchema = {
+  required: ["function_name"],
+  properties: {
+    function_name: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const TokenUsageTerminationSchema = {
+  required: ["provider", "config"],
+  properties: {
+    provider: {
+      type: "string",
+      enum: ["TokenUsageTermination"],
+      default: "TokenUsageTermination",
+    },
+    config: {
+      $ref: "#/components/schemas/TokenUsageTerminationConfig",
+    },
+  },
+} as const;
+
+export const TokenUsageTerminationConfigSchema = {
+  properties: {
+    max_total_token: {
+      type: "integer",
+    },
+    max_prompt_token: {
+      type: "integer",
+    },
+    max_completion_token: {
+      type: "integer",
+    },
+  },
+} as const;
+
+export const MaxMessageTerminationSchema = {
+  required: ["provider", "config"],
+  properties: {
+    provider: {
+      type: "string",
+      enum: ["MaxMessageTermination"],
+      default: "MaxMessageTermination",
+    },
+    config: {
+      $ref: "#/components/schemas/MaxMessageTerminationConfig",
+    },
+  },
+} as const;
+
+export const MaxMessageTerminationConfigSchema = {
+  required: ["max_messages"],
+  properties: {
+    max_messages: {
+      type: "integer",
+    },
+    include_agent_event: {
+      type: "boolean",
+      default: false,
     },
   },
 } as const;

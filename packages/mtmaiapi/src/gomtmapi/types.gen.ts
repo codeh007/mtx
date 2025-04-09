@@ -2204,6 +2204,14 @@ export type GalleryMetadata = {
   last_synced?: string;
 };
 
+export type TeamConfig = {
+  participants: Array<{
+    [key: string]: unknown;
+  }>;
+  termination_condition: Terminations;
+  max_turns: number;
+};
+
 export type AgEvent = {
   metadata?: ApiResourceMeta;
   userId?: string;
@@ -3059,11 +3067,7 @@ export type TeamComponent = ComponentModel & {
   component_type: "team";
 };
 
-export type SocialTeamConfig = {
-  participants?: Array<{
-    [key: string]: unknown;
-  }>;
-  max_turns?: number;
+export type SocialTeamConfig = TeamConfig & {
   username: string;
   password: string;
   otp_key: string;
@@ -3073,9 +3077,6 @@ export type SocialTeamConfig = {
 export type SocialTeamComponent = TeamComponent & {
   provider: "mtmai.teams.team_social.SocialTeam";
   config: SocialTeamConfig;
-  termination_condition: {
-    provider?: "TextMentionTermination";
-  } & TextMentionTermination;
 };
 
 /**
@@ -3282,17 +3283,99 @@ export type MtOpenAiChatCompletionClientComponent = ComponentModel & {
   config: OpenAiClientConfigurationConfigModel;
 };
 
-export type Terminations = {
-  provider?: "TextMentionTermination";
-} & TextMentionTermination;
+export type Terminations =
+  | ({
+      provider?: "TextMentionTermination";
+    } & TextMentionTermination)
+  | ({
+      provider?: "HandoffTermination";
+    } & HandoffTermination)
+  | ({
+      provider?: "TimeoutTermination";
+    } & TimeoutTermination)
+  | ({
+      provider?: "SourceMatchTermination";
+    } & SourceMatchTermination)
+  | ({
+      provider?: "FunctionCallTermination";
+    } & FunctionCallTermination)
+  | ({
+      provider?: "TokenUsageTermination";
+    } & TokenUsageTermination);
 
-export type TextMentionTermination = ComponentModel & {
+export type TextMentionTermination = {
   provider: "autogen_agentchat.conditions.TextMentionTermination";
   config: TextMentionTerminationConfig;
 };
 
 export type TextMentionTerminationConfig = {
   text: string;
+};
+
+export type TextMessageTermination = {
+  provider: "TextMessageTermination";
+  config: TextMessageTerminationConfig;
+};
+
+export type TextMessageTerminationConfig = {
+  source: string;
+};
+
+export type HandoffTermination = {
+  provider: "HandoffTermination";
+  config: HandoffTerminationConfig;
+};
+
+export type HandoffTerminationConfig = {
+  target: string;
+};
+
+export type TimeoutTermination = {
+  provider: "TimeoutTermination";
+  config: TimeoutTerminationConfig;
+};
+
+export type TimeoutTerminationConfig = {
+  timeout_seconds: number;
+};
+
+export type SourceMatchTermination = {
+  provider: "SourceMatchTermination";
+  config: SourceMatchTerminationConfig;
+};
+
+export type SourceMatchTerminationConfig = {
+  sources: Array<string>;
+};
+
+export type FunctionCallTermination = {
+  provider: "FunctionCallTermination";
+  config: FunctionCallTerminationConfig;
+};
+
+export type FunctionCallTerminationConfig = {
+  function_name: string;
+};
+
+export type TokenUsageTermination = {
+  provider: "TokenUsageTermination";
+  config: TokenUsageTerminationConfig;
+};
+
+export type TokenUsageTerminationConfig = {
+  max_total_token?: number;
+  max_prompt_token?: number;
+  max_completion_token?: number;
+};
+
+export type MaxMessageTermination = {
+  provider: "MaxMessageTermination";
+  config: MaxMessageTerminationConfig;
+};
+
+export type MaxMessageTerminationConfig = {
+  max_messages: number;
+  include_agent_event?: boolean;
 };
 
 export type RoundRobinGroupChatComponent = TeamComponent & {
