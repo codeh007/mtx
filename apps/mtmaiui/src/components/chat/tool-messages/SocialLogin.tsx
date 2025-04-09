@@ -1,4 +1,4 @@
-import { AgentEventType } from "mtmaiapi";
+import { AgentEventType, type FunctionCall } from "mtmaiapi";
 import { zSocialLoginInput } from "mtmaiapi/gomtmapi/zod.gen";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
@@ -14,7 +14,7 @@ import { Input } from "mtxuilib/ui/input";
 import { useState } from "react";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
-export const SocialLoginView = ({ msg }: { msg: any }) => {
+export const SocialLoginView = ({ msg }: { msg: FunctionCall }) => {
   const [open, setOpen] = useState(false);
   const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
   const form = useZodFormV2({

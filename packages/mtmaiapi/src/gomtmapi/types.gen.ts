@@ -2269,8 +2269,7 @@ export type FlowNames =
   | "browser"
   | "resource"
   | "instagram"
-  | "social"
-  | "user";
+  | "social";
 
 export const FlowNames = {
   SYS: "sys",
@@ -2281,7 +2280,6 @@ export const FlowNames = {
   RESOURCE: "resource",
   INSTAGRAM: "instagram",
   SOCIAL: "social",
-  USER: "user",
 } as const;
 
 export type UserTeamConfig = {
@@ -2496,13 +2494,23 @@ export type ModelList = {
 };
 
 export type FormField = {
+  type: "text" | "number" | "boolean" | "array" | "object";
   name: string;
-  type: string;
+  default_value?: string;
+  label?: string;
+  description?: string;
+  required?: boolean;
+  min?: number;
+  max?: number;
+  placeholder?: string;
 };
 
 export type SchemaForm = {
+  form_type?: "schema" | "custom";
+  form_name?: string;
   title: string;
   description?: string;
+  layout?: "vertical" | "horizontal";
   fields: Array<FormField>;
 };
 
@@ -3009,6 +3017,10 @@ export type BrowserOpenTask = {
 
 export type SocialTeamConfig = {
   max_turns?: number;
+  username: string;
+  password: string;
+  otp_key: string;
+  proxy_url?: string;
 };
 
 /**
@@ -3051,7 +3063,9 @@ export type AgentEventType =
   | "ChatMessageInput"
   | "SocialAddFollowersInput"
   | "SocialLoginInput"
-  | "TenantInitInput";
+  | "TenantInitInput"
+  | "AskUserFunctionCallInput"
+  | "StartNewChatInput";
 
 export const AgentEventType = {
   THOUGHT_EVENT: "ThoughtEvent",
@@ -3061,6 +3075,8 @@ export const AgentEventType = {
   SOCIAL_ADD_FOLLOWERS_INPUT: "SocialAddFollowersInput",
   SOCIAL_LOGIN_INPUT: "SocialLoginInput",
   TENANT_INIT_INPUT: "TenantInitInput",
+  ASK_USER_FUNCTION_CALL_INPUT: "AskUserFunctionCallInput",
+  START_NEW_CHAT_INPUT: "StartNewChatInput",
 } as const;
 
 export type MtAgEvent =
@@ -3084,7 +3100,13 @@ export type MtAgEvent =
     } & TenantInitInput)
   | ({
       type?: "ChatMessageInput";
-    } & ChatMessageInput);
+    } & ChatMessageInput)
+  | ({
+      type?: "AskUserFunctionCallInput";
+    } & AskUserFunctionCallInput)
+  | ({
+      type?: "StartNewChatInput";
+    } & StartNewChatInput);
 
 export type TextMessage = {
   type?: "TextMessage";
@@ -3120,9 +3142,26 @@ export type ChatStartInput = {
 
 export type AskUserFunctionCall = {
   type?: "AskUserFunctionCall";
+  id?: string;
   title?: string;
   description?: string;
   fields?: Array<FormField>;
+};
+
+export type AskUserFunctionCallInput = {
+  type?: "AskUserFunctionCallInput";
+  title?: string;
+};
+
+export type AskUserFunctionCallInputFieldValue = {
+  name?: string;
+  value: string;
+};
+
+export type StartNewChatInput = {
+  type: "StartNewChatInput";
+  task: string;
+  config: SocialTeamConfig | InstagramAgentConfig;
 };
 
 export type AgentProperties = {

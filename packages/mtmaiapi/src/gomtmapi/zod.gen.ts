@@ -606,7 +606,6 @@ export const zWorkflowWorkersCount = z.object({
         "resource",
         "instagram",
         "social",
-        "user",
       ]),
       z.enum([
         "user",
@@ -773,6 +772,8 @@ export const zWorkflowWorkersCount = z.object({
         "SocialAddFollowersInput",
         "SocialLoginInput",
         "TenantInitInput",
+        "AskUserFunctionCallInput",
+        "StartNewChatInput",
       ]),
       z.object({
         resource_id: z.string().optional(),
@@ -815,6 +816,10 @@ export const zWorkflowWorkersCount = z.object({
       }),
       z.object({
         max_turns: z.number().int().optional().default(25),
+        username: z.string(),
+        password: z.string(),
+        otp_key: z.string(),
+        proxy_url: z.string().optional(),
       }),
       z.object({
         type: z.enum(["SocialAddFollowersInput"]),
@@ -826,12 +831,22 @@ export const zWorkflowWorkersCount = z.object({
         model_context: z.unknown().optional(),
         action_form: z
           .object({
+            form_type: z.enum(["schema", "custom"]).optional(),
+            form_name: z.string().optional(),
             title: z.string(),
             description: z.string().optional(),
+            layout: z.enum(["vertical", "horizontal"]).optional(),
             fields: z.array(
               z.object({
+                type: z.enum(["text", "number", "boolean", "array", "object"]),
                 name: z.string(),
-                type: z.string(),
+                default_value: z.string().optional(),
+                label: z.string().optional(),
+                description: z.string().optional(),
+                required: z.boolean().optional(),
+                min: z.number().optional(),
+                max: z.number().optional(),
+                placeholder: z.string().optional(),
               }),
             ),
           })
@@ -898,13 +913,21 @@ export const zWorkflowWorkersCount = z.object({
       }),
       z.object({
         type: z.enum(["AskUserFunctionCall"]).optional(),
+        id: z.string().optional(),
         title: z.string().optional(),
         description: z.string().optional(),
         fields: z
           .array(
             z.object({
+              type: z.enum(["text", "number", "boolean", "array", "object"]),
               name: z.string(),
-              type: z.string(),
+              default_value: z.string().optional(),
+              label: z.string().optional(),
+              description: z.string().optional(),
+              required: z.boolean().optional(),
+              min: z.number().optional(),
+              max: z.number().optional(),
+              placeholder: z.string().optional(),
             }),
           )
           .optional(),
@@ -2366,7 +2389,6 @@ export const zFlowNames = z.enum([
   "resource",
   "instagram",
   "social",
-  "user",
 ]);
 
 export const zUserTeamConfig = z.object({
@@ -2700,13 +2722,23 @@ export const zModelList = z.object({
 });
 
 export const zFormField = z.object({
+  type: z.enum(["text", "number", "boolean", "array", "object"]),
   name: z.string(),
-  type: z.string(),
+  default_value: z.string().optional(),
+  label: z.string().optional(),
+  description: z.string().optional(),
+  required: z.boolean().optional(),
+  min: z.number().optional(),
+  max: z.number().optional(),
+  placeholder: z.string().optional(),
 });
 
 export const zSchemaForm = z.object({
+  form_type: z.enum(["schema", "custom"]).optional(),
+  form_name: z.string().optional(),
   title: z.string(),
   description: z.string().optional(),
+  layout: z.enum(["vertical", "horizontal"]).optional(),
   fields: z.array(zFormField),
 });
 
@@ -3097,6 +3129,10 @@ export const zBrowserOpenTask = z.object({
 
 export const zSocialTeamConfig = z.object({
   max_turns: z.number().int().optional().default(25),
+  username: z.string(),
+  password: z.string(),
+  otp_key: z.string(),
+  proxy_url: z.string().optional(),
 });
 
 export const zBrowserConfig = z.object({
@@ -3125,6 +3161,8 @@ export const zAgentEventType = z.enum([
   "SocialAddFollowersInput",
   "SocialLoginInput",
   "TenantInitInput",
+  "AskUserFunctionCallInput",
+  "StartNewChatInput",
 ]);
 
 export const zMtAgEvent = z.union([
@@ -3200,6 +3238,27 @@ export const zMtAgEvent = z.union([
         content: z.string(),
       }),
     ),
+  z
+    .object({
+      type: z.literal("AskUserFunctionCallInput").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["AskUserFunctionCallInput"]).optional(),
+        title: z.string().optional(),
+      }),
+    ),
+  z
+    .object({
+      type: z.literal("StartNewChatInput").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["StartNewChatInput"]),
+        task: z.string(),
+        config: z.union([zSocialTeamConfig, zInstagramAgentConfig]),
+      }),
+    ),
 ]);
 
 export const zTextMessage = z.object({
@@ -3230,9 +3289,26 @@ export const zChatStartInput = z.object({
 
 export const zAskUserFunctionCall = z.object({
   type: z.enum(["AskUserFunctionCall"]).optional(),
+  id: z.string().optional(),
   title: z.string().optional(),
   description: z.string().optional(),
   fields: z.array(zFormField).optional(),
+});
+
+export const zAskUserFunctionCallInput = z.object({
+  type: z.enum(["AskUserFunctionCallInput"]).optional(),
+  title: z.string().optional(),
+});
+
+export const zAskUserFunctionCallInputFieldValue = z.object({
+  name: z.string().optional(),
+  value: z.string(),
+});
+
+export const zStartNewChatInput = z.object({
+  type: z.enum(["StartNewChatInput"]),
+  task: z.string(),
+  config: z.union([zSocialTeamConfig, zInstagramAgentConfig]),
 });
 
 export const zAgentProperties = z.object({

@@ -113,15 +113,16 @@ export const FunctionCallItemView = ({ msg }: { msg: FunctionCall }) => {
   const toolName = camelCase(msg.name);
   return (
     <div className="p-1 border">
-      {/* <DebugValue data={{ msg }} /> */}
       {toolName === "codeExecutor" ? (
         <CodeExecutorView msg={msg} />
       ) : toolName === "socialLogin" ? (
         <SocialLoginView msg={msg} />
-      ) : toolName === "ask_user" ? (
+      ) : toolName === "askUser" ? (
         <AskUserMessage msg={msg} />
       ) : (
-        <div>unknown function call: {msg.name}</div>
+        <div className="text-sm text-red-500">
+          error: unknown function call: {msg.name}
+        </div>
       )}
     </div>
   );

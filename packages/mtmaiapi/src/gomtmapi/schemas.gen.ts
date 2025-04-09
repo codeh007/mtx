@@ -4196,7 +4196,6 @@ export const FlowNamesSchema = {
     "resource",
     "instagram",
     "social",
-    "user",
   ],
 } as const;
 
@@ -4800,24 +4799,61 @@ export const ModelListSchema = {
 } as const;
 
 export const FormFieldSchema = {
+  required: ["type", "name"],
   properties: {
+    type: {
+      type: "string",
+      enum: ["text", "number", "boolean", "array", "object"],
+      default: "text",
+    },
     name: {
       type: "string",
     },
-    type: {
+    default_value: {
+      type: "string",
+    },
+    label: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    required: {
+      type: "boolean",
+    },
+    min: {
+      type: "number",
+    },
+    max: {
+      type: "number",
+    },
+    placeholder: {
       type: "string",
     },
   },
-  required: ["name", "type"],
 } as const;
 
 export const SchemaFormSchema = {
+  required: ["title", "fields"],
   properties: {
+    form_type: {
+      type: "string",
+      enum: ["schema", "custom"],
+      default: "schema",
+    },
+    form_name: {
+      type: "string",
+    },
     title: {
       type: "string",
     },
     description: {
       type: "string",
+    },
+    layout: {
+      type: "string",
+      enum: ["vertical", "horizontal"],
+      default: "vertical",
     },
     fields: {
       type: "array",
@@ -4826,7 +4862,6 @@ export const SchemaFormSchema = {
       },
     },
   },
-  required: ["title", "fields"],
 } as const;
 
 export const ModelRunPropertiesSchema = {
@@ -5853,10 +5888,23 @@ export const BrowserOpenTaskSchema = {
 } as const;
 
 export const SocialTeamConfigSchema = {
+  required: ["username", "password", "otp_key"],
   properties: {
     max_turns: {
       type: "integer",
       default: 25,
+    },
+    username: {
+      type: "string",
+    },
+    password: {
+      type: "string",
+    },
+    otp_key: {
+      type: "string",
+    },
+    proxy_url: {
+      type: "string",
     },
   },
 } as const;
@@ -5948,6 +5996,8 @@ export const AgentEventTypeSchema = {
     "SocialAddFollowersInput",
     "SocialLoginInput",
     "TenantInitInput",
+    "AskUserFunctionCallInput",
+    "StartNewChatInput",
   ],
 } as const;
 
@@ -5977,6 +6027,12 @@ export const MtAgEventSchema = {
     {
       $ref: "#/components/schemas/ChatMessageInput",
     },
+    {
+      $ref: "#/components/schemas/AskUserFunctionCallInput",
+    },
+    {
+      $ref: "#/components/schemas/StartNewChatInput",
+    },
   ],
 } as const;
 
@@ -5985,6 +6041,7 @@ export const TextMessageSchema = {
     type: {
       type: "string",
       enum: ["TextMessage"],
+      default: "TextMessage",
     },
     source: {
       type: "string",
@@ -6006,6 +6063,7 @@ export const ThoughtEventSchema = {
     type: {
       type: "string",
       enum: ["ThoughtEvent"],
+      default: "ThoughtEvent",
     },
     source: {
       type: "string",
@@ -6030,6 +6088,7 @@ export const TenantInitInputSchema = {
     type: {
       type: "string",
       enum: ["TenantInitInput"],
+      default: "TenantInitInput",
     },
     tenant_id: {
       type: "string",
@@ -6054,6 +6113,10 @@ export const AskUserFunctionCallSchema = {
     type: {
       type: "string",
       enum: ["AskUserFunctionCall"],
+      default: "AskUserFunctionCall",
+    },
+    id: {
+      type: "string",
     },
     title: {
       type: "string",
@@ -6066,6 +6129,55 @@ export const AskUserFunctionCallSchema = {
       items: {
         $ref: "#/components/schemas/FormField",
       },
+    },
+  },
+} as const;
+
+export const AskUserFunctionCallInputSchema = {
+  properties: {
+    type: {
+      type: "string",
+      enum: ["AskUserFunctionCallInput"],
+      default: "AskUserFunctionCallInput",
+    },
+    title: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const AskUserFunctionCallInputFieldValueSchema = {
+  required: ["type", "value"],
+  properties: {
+    name: {
+      type: "string",
+    },
+    value: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const StartNewChatInputSchema = {
+  required: ["type", "task", "config"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["StartNewChatInput"],
+      default: "StartNewChatInput",
+    },
+    task: {
+      type: "string",
+    },
+    config: {
+      oneOf: [
+        {
+          $ref: "#/components/schemas/SocialTeamConfig",
+        },
+        {
+          $ref: "#/components/schemas/InstagramAgentConfig",
+        },
+      ],
     },
   },
 } as const;
@@ -6140,6 +6252,7 @@ export const ChatMessageInputSchema = {
     type: {
       type: "string",
       enum: ["ChatMessageInput"],
+      default: "ChatMessageInput",
     },
     content: {
       type: "string",
@@ -6164,6 +6277,7 @@ export const SocialAddFollowersInputSchema = {
     type: {
       type: "string",
       enum: ["SocialAddFollowersInput"],
+      default: "SocialAddFollowersInput",
     },
     platform_account_id: {
       type: "string",
@@ -6278,6 +6392,7 @@ export const PlatformAccountFlowInputSchema = {
     type: {
       type: "string",
       enum: ["PlatformAccountFlowInput"],
+      default: "PlatformAccountFlowInput",
     },
     platform_account_id: {
       type: "string",

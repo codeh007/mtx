@@ -16,6 +16,7 @@ import {
   FlowNames,
   type MtAgEvent,
   type Options,
+  type StartNewChatInput,
   type Tenant,
   type UserAgentState,
   type WorkflowRun,
@@ -96,7 +97,7 @@ export interface WorkbrenchState extends WorkbenchProps {
   input?: string;
   setInput: (input: string) => void;
   handleHumanInput: (input: MtAgEvent) => void;
-  // setComponentId: (componentId: string) => void;
+  handleNewChat: (input: StartNewChatInput) => void;
   workflowRunId?: string;
   setWorkflowRunId: (workflowRunId: string) => void;
   chatStarted?: boolean;
@@ -141,7 +142,7 @@ export const createWorkbrenchSlice: StateCreator<
 > = (set, get, init) => {
   return {
     userAgentState: {},
-    threadId: generateUUID(),
+    // threadId: generateUUID(),
     setInput: (input) => set({ input }),
     messages: [],
     firstUserInteraction: undefined,
@@ -184,7 +185,7 @@ export const createWorkbrenchSlice: StateCreator<
       const response = await workflowRunCreate({
         path: {
           // workflow: FlowNames.AG,
-          workflow: FlowNames.USER,
+          workflow: FlowNames.SOCIAL,
         },
         body: {
           input: input,
@@ -216,6 +217,23 @@ export const createWorkbrenchSlice: StateCreator<
         }
       }
     }, 100),
+    handleNewChat: async (input) => {
+      console.log("handleNewChat", input);
+      const response = await workflowRunCreate({
+        path: {
+          workflow: FlowNames.SOCIAL,
+        },
+        body: {
+          input: input,
+          additionalMetadata: {
+            sessionId: get().threadId,
+          },
+        },
+      });
+      if (response?.data) {
+        get().setLastestWorkflowRun(response?.data);
+      }
+    },
     setMessages: (messages) => set({ messages }),
     setShowWorkbench: (openWorkbench) => {
       set({ openWorkbench });

@@ -83,7 +83,7 @@ export function ZForm<TInput extends FieldValues>(
 ) {
   const { handleSubmit, form, children, ...passThrough }: typeof props = props;
 
-  const formErrors = Object.keys(form.formState.errors);
+  const formErrors = Object.keys(form.formState?.errors || {});
   const toast = useToast();
   const handleSubmitInner = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
