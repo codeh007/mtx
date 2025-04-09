@@ -10,6 +10,7 @@ import { Markdown } from "mtxuilib/markdown/Markdown";
 
 import { camelCase } from "lodash-es";
 import { cn } from "mtxuilib/lib/utils";
+import { AskUserMessage } from "./tool-messages/AskUserMessage";
 import { CodeExecutorView } from "./tool-messages/CodeExecutor";
 import { SocialLoginView } from "./tool-messages/SocialLogin";
 import { FunctionExecutionResultMessageView } from "./tool-messages/ToolMessageView";
@@ -117,6 +118,8 @@ export const FunctionCallItemView = ({ msg }: { msg: FunctionCall }) => {
         <CodeExecutorView msg={msg} />
       ) : toolName === "socialLogin" ? (
         <SocialLoginView msg={msg} />
+      ) : toolName === "ask_user" ? (
+        <AskUserMessage msg={msg} />
       ) : (
         <div>unknown function call: {msg.name}</div>
       )}
