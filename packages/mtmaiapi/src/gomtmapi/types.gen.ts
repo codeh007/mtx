@@ -2392,8 +2392,6 @@ export type AssistantAgentConfig = AgentConfig & {
   tools?: Array<MtComponent>;
 };
 
-export type InstagramAgentConfig = AgentConfig;
-
 export type TenantParameter = string;
 
 export type HttpCommonStatusResponse = unknown;
@@ -3161,7 +3159,7 @@ export type AskUserFunctionCallInputFieldValue = {
 export type StartNewChatInput = {
   type: "StartNewChatInput";
   task: string;
-  config: SocialTeamConfig | InstagramAgentConfig;
+  config: SocialTeamConfig;
 };
 
 export type AgentProperties = {

@@ -4520,14 +4520,6 @@ export const AssistantAgentConfigSchema = {
   ],
 } as const;
 
-export const InstagramAgentConfigSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/AgentConfig",
-    },
-  ],
-} as const;
-
 export const TenantParameterSchema = {
   type: "string",
   format: "uuid",
@@ -6173,9 +6165,6 @@ export const StartNewChatInputSchema = {
       oneOf: [
         {
           $ref: "#/components/schemas/SocialTeamConfig",
-        },
-        {
-          $ref: "#/components/schemas/InstagramAgentConfig",
         },
       ],
     },

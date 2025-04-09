@@ -2601,20 +2601,6 @@ export const zAssistantAgentConfig = z
     }),
   );
 
-export const zInstagramAgentConfig = z.object({
-  name: z.string(),
-  description: z.string(),
-  model_context: z.object({}).optional(),
-  memory: z.object({}).optional(),
-  model_client_stream: z.boolean().default(false),
-  system_message: z.string().optional(),
-  model_client: zMtComponent,
-  tools: z.array(z.object({})).default([]),
-  handoffs: z.array(z.string()).default([]),
-  reflect_on_tool_use: z.boolean().default(false),
-  tool_call_summary_format: z.string().default("{result}"),
-});
-
 export const zTenantParameter = z.string().uuid().length(36);
 
 export const zHttpCommonStatusResponse = z.unknown();
@@ -3256,7 +3242,7 @@ export const zMtAgEvent = z.union([
       z.object({
         type: z.enum(["StartNewChatInput"]),
         task: z.string(),
-        config: z.union([zSocialTeamConfig, zInstagramAgentConfig]),
+        config: zSocialTeamConfig,
       }),
     ),
 ]);
@@ -3308,7 +3294,7 @@ export const zAskUserFunctionCallInputFieldValue = z.object({
 export const zStartNewChatInput = z.object({
   type: z.enum(["StartNewChatInput"]),
   task: z.string(),
-  config: z.union([zSocialTeamConfig, zInstagramAgentConfig]),
+  config: zSocialTeamConfig,
 });
 
 export const zAgentProperties = z.object({
