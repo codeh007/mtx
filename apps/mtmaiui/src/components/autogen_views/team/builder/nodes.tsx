@@ -17,7 +17,7 @@ import {
   Users,
   Wrench,
 } from "lucide-react";
-import type { MtComponent } from "mtmaiapi";
+import type { Component } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
@@ -27,9 +27,8 @@ import { memo } from "react";
 import { useTeamBuilderStore } from "../../../../stores/teamBuildStore";
 import { TruncatableText } from "../../atoms";
 import type {
-  Component,
   ComponentConfig,
-  ComponentTypes,
+  ComponentTypes
 } from "../../types/datamodel";
 import {
   isAssistantAgent,

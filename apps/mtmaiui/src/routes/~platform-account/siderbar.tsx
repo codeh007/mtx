@@ -1,7 +1,8 @@
 "use client";
 
 import { Label } from "@radix-ui/react-dropdown-menu";
-import { Switch } from "@radix-ui/react-switch";
+import { Switch } from "mtxuilib/ui/switch";
+
 
 import { useQuery } from "@tanstack/react-query";
 import { platformAccountListOptions } from "mtmaiapi";

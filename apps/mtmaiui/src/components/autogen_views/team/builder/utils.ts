@@ -1,6 +1,6 @@
-import type { MtComponent } from "mtmaiapi";
+import type { Component } from "mtmaiapi";
 import { nanoid } from "nanoid";
-import type { Component } from "react";
+// import type { Component } from "react";
 import type { ComponentConfig, TeamConfig } from "../../types/datamodel";
 import {
   isAssistantAgent,

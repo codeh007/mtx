@@ -868,7 +868,12 @@ export type WorkflowWorkersCount = {
     | FlowResult
     | AgentTypes
     | ChatStartInput
-    | AskUserFunctionCall;
+    | AskUserFunctionCall
+    | ToolCallRequestEvent
+    | MyDemoAgentEvent
+    | UserInputRequestedEvent
+    | InstagramAgentConfig
+    | TeamComponent;
 };
 
 export type WorkflowRun = {
@@ -2056,8 +2061,7 @@ export type FunctionExecutionResult = {
   is_error?: boolean;
 };
 
-export type MtComponentProperties = {
-  galleryId: string;
+export type ComponentProperties = {
   label: string;
   description: string;
   provider: string;
@@ -2129,14 +2133,14 @@ export type SocialLoginResult = {
   success: boolean;
 };
 
-export type MtComponent = ApiResourceMetaProperties & MtComponentProperties;
+export type Component = ApiResourceMetaProperties & ComponentProperties;
 
-export type MtComponentList = {
+export type ComponentList = {
   pagination?: PaginationResponse;
-  rows?: Array<MtComponent>;
+  rows?: Array<Component>;
 };
 
-export type MtComponentUpsert = MtComponentProperties;
+export type ComponentUpsert = ComponentProperties;
 
 export type GalleryComponents = {
   agents: Array<{
@@ -2382,14 +2386,13 @@ export type Subsection = {
 };
 
 export type RoundRobinGroupChatConfig = {
-  participants: Array<MtComponent>;
-  termination_condition: MtComponent;
+  participants: Array<Component>;
 };
 
 export type AssistantAgentConfig = AgentConfig & {
-  model_client: MtComponent;
+  model_client: Component;
   name?: string;
-  tools?: Array<MtComponent>;
+  tools?: Array<Component>;
 };
 
 export type TenantParameter = string;
@@ -2952,7 +2955,7 @@ export type AssignedAction = {
   parent_workflow_run_id?: string;
 };
 
-export type MtResourceProperties = {
+export type ResourceProperties = {
   title: string;
   description?: string;
   version?: string;
@@ -2964,15 +2967,15 @@ export type MtResourceProperties = {
   enabled?: boolean;
 };
 
-export type MtResource = ApiResourceMetaProperties & MtResourceProperties;
+export type Resource = ApiResourceMetaProperties & ResourceProperties;
 
-export type MtResourceList = {
+export type ResourceList = {
   metadata?: ApiResourceMeta;
-  rows?: Array<MtResource>;
+  rows?: Array<Resource>;
   pagination?: PaginationResponse;
 };
 
-export type MtResourceUpsert = MtResourceProperties;
+export type ResourceUpsert = ResourceProperties;
 
 export type PlatformAccountData = {
   type?: "platform_account";
@@ -3013,12 +3016,21 @@ export type BrowserOpenTask = {
   url: string;
 };
 
+export type TeamComponent = {
+  component_type?: "SocialTeamComponent";
+} & SocialTeamComponent;
+
 export type SocialTeamConfig = {
   max_turns?: number;
   username: string;
   password: string;
   otp_key: string;
   proxy_url?: string;
+};
+
+export type SocialTeamComponent = Component & {
+  component_type: "social";
+  config?: SocialTeamConfig;
 };
 
 /**
@@ -3043,7 +3055,7 @@ export type AgentConfig = {
   };
   model_client_stream: boolean;
   system_message?: string;
-  model_client: MtComponent;
+  model_client: Component;
   tools: Array<{
     [key: string]: {
       [key: string]: unknown;
@@ -3162,6 +3174,22 @@ export type StartNewChatInput = {
   config: SocialTeamConfig;
 };
 
+export type ToolCallRequestEvent = {
+  type: "ToolCallRequestEvent";
+  content: Array<FunctionCall>;
+};
+
+export type MyDemoAgentEvent = {
+  type: "MyDemoAgentEvent";
+  content: string;
+};
+
+export type UserInputRequestedEvent = {
+  type: "UserInputRequestedEvent";
+  request_id: string;
+  content: string;
+};
+
 export type AgentProperties = {
   name: string;
   description: string;
@@ -3222,6 +3250,13 @@ export type SocialAddFollowersInput = {
   type: "SocialAddFollowersInput";
   platform_account_id?: string;
   count_to_follow: number;
+};
+
+export type InstagramAgentConfig = AgentConfig & {
+  username?: string;
+  password?: string;
+  otp_key?: string;
+  proxy_url?: string;
 };
 
 export type TeamProperties = {
@@ -7545,7 +7580,7 @@ export type ComsListErrors = {
 export type ComsListError = ComsListErrors[keyof ComsListErrors];
 
 export type ComsListResponses = {
-  200: MtComponentList;
+  200: ComponentList;
 };
 
 export type ComsListResponse = ComsListResponses[keyof ComsListResponses];
@@ -7554,7 +7589,7 @@ export type ComsUpsertData = {
   /**
    * The model properties to update
    */
-  body: MtComponentUpsert;
+  body: ComponentUpsert;
   path: {
     /**
      * The tenant id
@@ -7586,7 +7621,7 @@ export type ComsUpsertResponses = {
   /**
    * Successfully upserted the mt component
    */
-  200: MtComponent;
+  200: Component;
 };
 
 export type ComsUpsertResponse = ComsUpsertResponses[keyof ComsUpsertResponses];
@@ -7626,7 +7661,7 @@ export type ComsGetErrors = {
 export type ComsGetError = ComsGetErrors[keyof ComsGetErrors];
 
 export type ComsGetResponses = {
-  200: MtComponent;
+  200: Component;
 };
 
 export type ComsGetResponse = ComsGetResponses[keyof ComsGetResponses];
@@ -9290,14 +9325,14 @@ export type ResourceListErrors = {
 export type ResourceListError = ResourceListErrors[keyof ResourceListErrors];
 
 export type ResourceListResponses = {
-  200: MtResourceList;
+  200: ResourceList;
 };
 
 export type ResourceListResponse =
   ResourceListResponses[keyof ResourceListResponses];
 
 export type ResourceUpsertData = {
-  body: MtResourceUpsert;
+  body: ResourceUpsert;
   path: {
     /**
      * The tenant id
@@ -9317,7 +9352,7 @@ export type ResourceUpsertError =
   ResourceUpsertErrors[keyof ResourceUpsertErrors];
 
 export type ResourceUpsertResponses = {
-  200: MtResource;
+  200: Resource;
 };
 
 export type ResourceUpsertResponse =
@@ -9340,17 +9375,11 @@ export type ResourceDeleteData = {
 };
 
 export type ResourceDeleteErrors = {
-  /**
-   * A malformed or bad request
-   */
   400: ApiErrors;
   /**
    * Unauthorized
    */
   401: ApiErrors;
-  /**
-   * Method not allowed
-   */
   405: ApiErrors;
 };
 
@@ -9384,9 +9413,6 @@ export type ResourceGetData = {
 };
 
 export type ResourceGetErrors = {
-  /**
-   * A malformed or bad request
-   */
   400: ApiErrors;
   403: ApiError;
   404: ApiErrors;
@@ -9395,7 +9421,7 @@ export type ResourceGetErrors = {
 export type ResourceGetError = ResourceGetErrors[keyof ResourceGetErrors];
 
 export type ResourceGetResponses = {
-  200: MtResource;
+  200: Resource;
 };
 
 export type ResourceGetResponse =

@@ -1,9 +1,4 @@
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@radix-ui/react-tooltip";
-import {
   Cable,
   Code2,
   Grid,
@@ -16,6 +11,7 @@ import {
   Undo2,
 } from "lucide-react";
 import { Button } from "mtxuilib/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type React from "react";
 
 interface TeamBuilderToolbarProps {

@@ -1,7 +1,6 @@
 "use client";
 
 import { Label } from "@radix-ui/react-dropdown-menu";
-import { Switch } from "@radix-ui/react-switch";
 
 import { PlusIcon } from "lucide-react";
 import { cn } from "mtxuilib/lib/utils";
@@ -16,6 +15,7 @@ import {
   SidebarInput,
   useSidebar,
 } from "mtxuilib/ui/sidebar";
+import { Switch } from "mtxuilib/ui/switch";
 import { ModelListView } from "./ModelList";
 export function NavModel() {
   const { isMobile } = useSidebar();

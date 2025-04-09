@@ -1,5 +1,7 @@
 // Base Component System
 
+import { ComponentConfig } from "../../../types/datamodel";
+
 export type ComponentTypes =
   | "team"
   | "agent"
@@ -255,13 +257,13 @@ export type TerminationConfig =
   | MaxMessageTerminationConfig
   | TextMentionTerminationConfig;
 
-export type ComponentConfig =
-  | TeamConfig
-  | AgentConfig
-  | ModelConfig
-  | ToolConfig
-  | TerminationConfig
-  | ChatCompletionContextConfig;
+// export type ComponentConfig =
+//   | TeamConfig
+//   | AgentConfig
+//   | ModelConfig
+//   | ToolConfig
+//   | TerminationConfig
+//   | ChatCompletionContextConfig;
 
 // DB Models
 export interface DBModel {

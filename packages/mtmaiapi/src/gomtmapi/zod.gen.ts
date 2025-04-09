@@ -666,7 +666,6 @@ export const zWorkflowWorkersCount = z.object({
             })
             .merge(
               z.object({
-                galleryId: z.string(),
                 label: z.string(),
                 description: z.string(),
                 provider: z.string(),
@@ -689,7 +688,6 @@ export const zWorkflowWorkersCount = z.object({
               })
               .merge(
                 z.object({
-                  galleryId: z.string(),
                   label: z.string(),
                   description: z.string(),
                   provider: z.string(),
@@ -708,7 +706,6 @@ export const zWorkflowWorkersCount = z.object({
                   })
                   .merge(
                     z.object({
-                      galleryId: z.string(),
                       label: z.string(),
                       description: z.string(),
                       provider: z.string(),
@@ -932,6 +929,96 @@ export const zWorkflowWorkersCount = z.object({
           )
           .optional(),
       }),
+      z.object({
+        type: z.enum(["ToolCallRequestEvent"]),
+        content: z.array(
+          z.object({
+            id: z.string(),
+            arguments: z.string(),
+            name: z.string(),
+          }),
+        ),
+      }),
+      z.object({
+        type: z.enum(["MyDemoAgentEvent"]),
+        content: z.string(),
+      }),
+      z.object({
+        type: z.enum(["UserInputRequestedEvent"]),
+        request_id: z.string(),
+        content: z.string(),
+      }),
+      z
+        .object({
+          name: z.string(),
+          description: z.string(),
+          model_context: z.object({}).optional(),
+          memory: z.object({}).optional(),
+          model_client_stream: z.boolean().default(false),
+          system_message: z.string().optional(),
+          model_client: z
+            .object({
+              metadata: zApiResourceMeta,
+            })
+            .merge(
+              z.object({
+                label: z.string(),
+                description: z.string(),
+                provider: z.string(),
+                component_type: z.string(),
+                version: z.number().int(),
+                component_version: z.number().int(),
+                config: z.object({}),
+              }),
+            ),
+          tools: z.array(z.object({})).default([]),
+          handoffs: z.array(z.string()).default([]),
+          reflect_on_tool_use: z.boolean().default(false),
+          tool_call_summary_format: z.string().default("{result}"),
+        })
+        .merge(
+          z.object({
+            username: z.string().optional(),
+            password: z.string().optional(),
+            otp_key: z.string().optional(),
+            proxy_url: z.string().optional(),
+          }),
+        ),
+      z
+        .object({
+          component_type: z.literal("SocialTeamComponent").optional(),
+        })
+        .merge(
+          z
+            .object({
+              metadata: zApiResourceMeta,
+            })
+            .merge(
+              z.object({
+                label: z.string(),
+                description: z.string(),
+                provider: z.string(),
+                component_type: z.string(),
+                version: z.number().int(),
+                component_version: z.number().int(),
+                config: z.object({}),
+              }),
+            )
+            .merge(
+              z.object({
+                component_type: z.enum(["social"]),
+                config: z
+                  .object({
+                    max_turns: z.number().int().optional().default(25),
+                    username: z.string(),
+                    password: z.string(),
+                    otp_key: z.string(),
+                    proxy_url: z.string().optional(),
+                  })
+                  .optional(),
+              }),
+            ),
+        ),
     ])
     .optional(),
 });
@@ -2197,8 +2284,7 @@ export const zFunctionExecutionResult = z.object({
   is_error: z.boolean().optional(),
 });
 
-export const zMtComponentProperties = z.object({
-  galleryId: z.string(),
+export const zComponentProperties = z.object({
   label: z.string(),
   description: z.string(),
   provider: z.string(),
@@ -2269,16 +2355,15 @@ export const zSocialLoginResult = z.object({
   success: z.boolean(),
 });
 
-export const zMtComponent = zApiResourceMetaProperties.merge(
-  zMtComponentProperties,
-);
+export const zComponent =
+  zApiResourceMetaProperties.merge(zComponentProperties);
 
-export const zMtComponentList = z.object({
+export const zComponentList = z.object({
   pagination: zPaginationResponse.optional(),
-  rows: z.array(zMtComponent).optional(),
+  rows: z.array(zComponent).optional(),
 });
 
-export const zMtComponentUpsert = zMtComponentProperties;
+export const zComponentUpsert = zComponentProperties;
 
 export const zGalleryComponents = z.object({
   agents: z.array(z.object({})),
@@ -2575,8 +2660,7 @@ export const zSubsection = z.object({
 });
 
 export const zRoundRobinGroupChatConfig = z.object({
-  participants: z.array(zMtComponent),
-  termination_condition: zMtComponent,
+  participants: z.array(zComponent),
 });
 
 export const zAssistantAgentConfig = z
@@ -2587,7 +2671,7 @@ export const zAssistantAgentConfig = z
     memory: z.object({}).optional(),
     model_client_stream: z.boolean().default(false),
     system_message: z.string().optional(),
-    model_client: zMtComponent,
+    model_client: zComponent,
     tools: z.array(z.object({})).default([]),
     handoffs: z.array(z.string()).default([]),
     reflect_on_tool_use: z.boolean().default(false),
@@ -2595,9 +2679,9 @@ export const zAssistantAgentConfig = z
   })
   .merge(
     z.object({
-      model_client: zMtComponent,
+      model_client: zComponent,
       name: z.string().optional(),
-      tools: z.array(zMtComponent).optional(),
+      tools: z.array(zComponent).optional(),
     }),
   );
 
@@ -3058,7 +3142,7 @@ export const zAssignedAction = z.object({
   parent_workflow_run_id: z.string().optional(),
 });
 
-export const zMtResourceProperties = z.object({
+export const zResourceProperties = z.object({
   title: z.string(),
   description: z.string().optional(),
   version: z.string().optional(),
@@ -3068,17 +3152,15 @@ export const zMtResourceProperties = z.object({
   enabled: z.boolean().optional(),
 });
 
-export const zMtResource = zApiResourceMetaProperties.merge(
-  zMtResourceProperties,
-);
+export const zResource = zApiResourceMetaProperties.merge(zResourceProperties);
 
-export const zMtResourceList = z.object({
+export const zResourceList = z.object({
   metadata: zApiResourceMeta.optional(),
-  rows: z.array(zMtResource).optional(),
+  rows: z.array(zResource).optional(),
   pagination: zPaginationResponse.optional(),
 });
 
-export const zMtResourceUpsert = zMtResourceProperties;
+export const zResourceUpsert = zResourceProperties;
 
 export const zPlatformAccountData = z.object({
   type: z.enum(["platform_account"]).optional(),
@@ -3113,6 +3195,27 @@ export const zBrowserOpenTask = z.object({
   url: z.string(),
 });
 
+export const zTeamComponent = z
+  .object({
+    component_type: z.literal("SocialTeamComponent").optional(),
+  })
+  .merge(
+    zComponent.merge(
+      z.object({
+        component_type: z.enum(["social"]),
+        config: z
+          .object({
+            max_turns: z.number().int().optional().default(25),
+            username: z.string(),
+            password: z.string(),
+            otp_key: z.string(),
+            proxy_url: z.string().optional(),
+          })
+          .optional(),
+      }),
+    ),
+  );
+
 export const zSocialTeamConfig = z.object({
   max_turns: z.number().int().optional().default(25),
   username: z.string(),
@@ -3120,6 +3223,13 @@ export const zSocialTeamConfig = z.object({
   otp_key: z.string(),
   proxy_url: z.string().optional(),
 });
+
+export const zSocialTeamComponent = zComponent.merge(
+  z.object({
+    component_type: z.enum(["social"]),
+    config: zSocialTeamConfig.optional(),
+  }),
+);
 
 export const zBrowserConfig = z.object({
   persistent: z.boolean().optional(),
@@ -3132,7 +3242,7 @@ export const zAgentConfig = z.object({
   memory: z.object({}).optional(),
   model_client_stream: z.boolean().default(false),
   system_message: z.string().optional(),
-  model_client: zMtComponent,
+  model_client: zComponent,
   tools: z.array(z.object({})).default([]),
   handoffs: z.array(z.string()).default([]),
   reflect_on_tool_use: z.boolean().default(false),
@@ -3297,6 +3407,22 @@ export const zStartNewChatInput = z.object({
   config: zSocialTeamConfig,
 });
 
+export const zToolCallRequestEvent = z.object({
+  type: z.enum(["ToolCallRequestEvent"]),
+  content: z.array(zFunctionCall),
+});
+
+export const zMyDemoAgentEvent = z.object({
+  type: z.enum(["MyDemoAgentEvent"]),
+  content: z.string(),
+});
+
+export const zUserInputRequestedEvent = z.object({
+  type: z.enum(["UserInputRequestedEvent"]),
+  request_id: z.string(),
+  content: z.string(),
+});
+
 export const zAgentProperties = z.object({
   name: z.string(),
   description: z.string(),
@@ -3342,6 +3468,15 @@ export const zSocialAddFollowersInput = z.object({
   platform_account_id: z.string().optional(),
   count_to_follow: z.number().default(1),
 });
+
+export const zInstagramAgentConfig = zAgentConfig.merge(
+  z.object({
+    username: z.string().optional(),
+    password: z.string().optional(),
+    otp_key: z.string().optional(),
+    proxy_url: z.string().optional(),
+  }),
+);
 
 export const zTeamProperties = z.object({
   id: z.string(),
@@ -3616,11 +3751,11 @@ export const zArtifactListResponse = zArtifactList;
 
 export const zArtifactGetResponse = zArtifact;
 
-export const zComsListResponse = zMtComponentList;
+export const zComsListResponse = zComponentList;
 
-export const zComsUpsertResponse = zMtComponent;
+export const zComsUpsertResponse = zComponent;
 
-export const zComsGetResponse = zMtComponent;
+export const zComsGetResponse = zComponent;
 
 export const zGalleryListResponse = zGalleryList;
 
@@ -3724,12 +3859,12 @@ export const zUiAgentGetResponse = zUiAgentState;
 
 export const zDispatcherListenResponse = zAssignedAction;
 
-export const zResourceListResponse = zMtResourceList;
+export const zResourceListResponse = zResourceList;
 
-export const zResourceUpsertResponse = zMtResource;
+export const zResourceUpsertResponse = zResource;
 
 export const zResourceDeleteResponse = z.void();
 
-export const zResourceGetResponse = zMtResource;
+export const zResourceGetResponse = zResource;
 
 export const zInstagramLoginResponse = zIgLoginResponse;

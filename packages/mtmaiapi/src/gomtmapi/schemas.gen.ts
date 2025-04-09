@@ -1491,6 +1491,21 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/AskUserFunctionCall",
         },
+        {
+          $ref: "#/components/schemas/ToolCallRequestEvent",
+        },
+        {
+          $ref: "#/components/schemas/MyDemoAgentEvent",
+        },
+        {
+          $ref: "#/components/schemas/UserInputRequestedEvent",
+        },
+        {
+          $ref: "#/components/schemas/InstagramAgentConfig",
+        },
+        {
+          $ref: "#/components/schemas/TeamComponent",
+        },
       ],
     },
   },
@@ -3757,7 +3772,7 @@ export const FunctionExecutionResultSchema = {
   },
 } as const;
 
-export const MtComponentPropertiesSchema = {
+export const ComponentPropertiesSchema = {
   required: [
     "label",
     "description",
@@ -3765,14 +3780,10 @@ export const MtComponentPropertiesSchema = {
     "component_type",
     "version",
     "component_version",
-    "galleryId",
     "component",
     "config",
   ],
   properties: {
-    galleryId: {
-      type: "string",
-    },
     label: {
       type: "string",
     },
@@ -3906,18 +3917,18 @@ export const SocialLoginResultSchema = {
   },
 } as const;
 
-export const MtComponentSchema = {
+export const ComponentSchema = {
   allOf: [
     {
       $ref: "#/components/schemas/APIResourceMetaProperties",
     },
     {
-      $ref: "#/components/schemas/MtComponentProperties",
+      $ref: "#/components/schemas/ComponentProperties",
     },
   ],
 } as const;
 
-export const MtComponentListSchema = {
+export const ComponentListSchema = {
   properties: {
     pagination: {
       $ref: "#/components/schemas/PaginationResponse",
@@ -3925,16 +3936,16 @@ export const MtComponentListSchema = {
     rows: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/MtComponent",
+        $ref: "#/components/schemas/Component",
       },
     },
   },
 } as const;
 
-export const MtComponentUpsertSchema = {
+export const ComponentUpsertSchema = {
   allOf: [
     {
-      $ref: "#/components/schemas/MtComponentProperties",
+      $ref: "#/components/schemas/ComponentProperties",
     },
   ],
 } as const;
@@ -4486,11 +4497,8 @@ export const RoundRobinGroupChatConfigSchema = {
     participants: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/MtComponent",
+        $ref: "#/components/schemas/Component",
       },
-    },
-    termination_condition: {
-      $ref: "#/components/schemas/MtComponent",
     },
   },
 } as const;
@@ -4504,7 +4512,7 @@ export const AssistantAgentConfigSchema = {
       required: ["model_client"],
       properties: {
         model_client: {
-          $ref: "#/components/schemas/MtComponent",
+          $ref: "#/components/schemas/Component",
         },
         name: {
           type: "string",
@@ -4512,7 +4520,7 @@ export const AssistantAgentConfigSchema = {
         tools: {
           type: "array",
           items: {
-            $ref: "#/components/schemas/MtComponent",
+            $ref: "#/components/schemas/Component",
           },
         },
       },
@@ -5734,7 +5742,7 @@ export const AssignedActionSchema = {
   },
 } as const;
 
-export const MtResourcePropertiesSchema = {
+export const ResourcePropertiesSchema = {
   required: ["title", "type"],
   properties: {
     title: {
@@ -5761,18 +5769,18 @@ export const MtResourcePropertiesSchema = {
   },
 } as const;
 
-export const MtResourceSchema = {
+export const ResourceSchema = {
   allOf: [
     {
       $ref: "#/components/schemas/APIResourceMetaProperties",
     },
     {
-      $ref: "#/components/schemas/MtResourceProperties",
+      $ref: "#/components/schemas/ResourceProperties",
     },
   ],
 } as const;
 
-export const MtResourceListSchema = {
+export const ResourceListSchema = {
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -5780,7 +5788,7 @@ export const MtResourceListSchema = {
     rows: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/MtResource",
+        $ref: "#/components/schemas/Resource",
       },
     },
     pagination: {
@@ -5789,10 +5797,10 @@ export const MtResourceListSchema = {
   },
 } as const;
 
-export const MtResourceUpsertSchema = {
+export const ResourceUpsertSchema = {
   allOf: [
     {
-      $ref: "#/components/schemas/MtResourceProperties",
+      $ref: "#/components/schemas/ResourceProperties",
     },
   ],
 } as const;
@@ -5879,6 +5887,17 @@ export const BrowserOpenTaskSchema = {
   },
 } as const;
 
+export const TeamComponentSchema = {
+  discriminator: {
+    propertyName: "component_type",
+  },
+  oneOf: [
+    {
+      $ref: "#/components/schemas/SocialTeamComponent",
+    },
+  ],
+} as const;
+
 export const SocialTeamConfigSchema = {
   required: ["username", "password", "otp_key"],
   properties: {
@@ -5899,6 +5918,26 @@ export const SocialTeamConfigSchema = {
       type: "string",
     },
   },
+} as const;
+
+export const SocialTeamComponentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/Component",
+    },
+    {
+      required: ["component_type"],
+      properties: {
+        component_type: {
+          type: "string",
+          enum: ["social"],
+        },
+        config: {
+          $ref: "#/components/schemas/SocialTeamConfig",
+        },
+      },
+    },
+  ],
 } as const;
 
 export const BrowserConfigSchema = {
@@ -5948,7 +5987,7 @@ export const AgentConfigSchema = {
       type: "string",
     },
     model_client: {
-      $ref: "#/components/schemas/MtComponent",
+      $ref: "#/components/schemas/Component",
     },
     tools: {
       type: "array",
@@ -6171,6 +6210,54 @@ export const StartNewChatInputSchema = {
   },
 } as const;
 
+export const ToolCallRequestEventSchema = {
+  required: ["type", "content"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["ToolCallRequestEvent"],
+      default: "ToolCallRequestEvent",
+    },
+    content: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/FunctionCall",
+      },
+    },
+  },
+} as const;
+
+export const MyDemoAgentEventSchema = {
+  required: ["type", "content"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["MyDemoAgentEvent"],
+      default: "MyDemoAgentEvent",
+    },
+    content: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const UserInputRequestedEventSchema = {
+  required: ["type", "request_id", "content"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["UserInputRequestedEvent"],
+      default: "UserInputRequestedEvent",
+    },
+    request_id: {
+      type: "string",
+    },
+    content: {
+      type: "string",
+    },
+  },
+} as const;
+
 export const AgentPropertiesSchema = {
   required: ["name", "description", "provider", "config", "teamId"],
   properties: {
@@ -6276,6 +6363,30 @@ export const SocialAddFollowersInputSchema = {
       default: 1,
     },
   },
+} as const;
+
+export const InstagramAgentConfigSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AgentConfig",
+    },
+    {
+      properties: {
+        username: {
+          type: "string",
+        },
+        password: {
+          type: "string",
+        },
+        otp_key: {
+          type: "string",
+        },
+        proxy_url: {
+          type: "string",
+        },
+      },
+    },
+  ],
 } as const;
 
 export const TeamPropertiesSchema = {

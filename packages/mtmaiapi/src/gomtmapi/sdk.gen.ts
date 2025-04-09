@@ -3442,7 +3442,7 @@ export const comsList = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Upsert an mtcomponent
+ * Upsert an component
  */
 export const comsUpsert = <ThrowOnError extends boolean = false>(
   options: Options<ComsUpsertData, ThrowOnError>,

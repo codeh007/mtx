@@ -5,15 +5,8 @@ import type React from "react";
 import { memo, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
+import { safeJsonStringify } from "mtxuilib/lib/utils";
 import remarkGfm from "remark-gfm";
-
-function safeJsonStringify(input: any): string {
-  if (typeof input === "object" && input !== null) {
-    return JSON.stringify(input);
-  }
-  return input;
-}
-
 export const LoadingIndicator = ({ size = 16 }: { size: number }) => (
   <div className="inline-flex items-center gap-2 text-accent   mr-2">
     <Loader2 size={size} className="animate-spin" />

@@ -709,3 +709,10 @@ export function truncateText(text: string, length = 50) {
 export function camelToDashCase(input: string) {
   return input.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
 }
+
+export function safeJsonStringify(input: any): string {
+  if (typeof input === "object" && input !== null) {
+    return JSON.stringify(input);
+  }
+  return input;
+}
