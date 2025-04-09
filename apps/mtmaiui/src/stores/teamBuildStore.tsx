@@ -9,7 +9,7 @@ import {
   addEdge,
 } from "@xyflow/react";
 import { type DebouncedFunc, debounce, isEqual } from "lodash";
-import { type MtComponent, comsGetOptions, comsUpsertMutation } from "mtmaiapi";
+import { type Component, comsGetOptions, comsUpsertMutation } from "mtmaiapi";
 import { nanoid } from "nanoid";
 import {
   type Dispatch,
@@ -48,8 +48,8 @@ import {
   getUniqueName,
 } from "../components/autogen_views/team/builder/utils";
 import type {
-  Component,
-  ComponentConfig,
+  // Component,
+  // ComponentConfig,
   ComponentTypes,
   TeamConfig,
 } from "../components/autogen_views/types/datamodel";
@@ -64,6 +64,7 @@ import {
   isWebSurferAgent,
 } from "../components/autogen_views/types/guards";
 import { useNav } from "../hooks/useNav";
+import type { ComponentConfig } from "../types/datamodel";
 
 const MAX_HISTORY = 50;
 export interface DragItemData {
@@ -93,7 +94,7 @@ export interface TeamBuilderState extends TeamBuilderProps {
   setNodes: Dispatch<SetStateAction<CustomNode[]>>;
   setEdges: (edges: CustomEdge[]) => void;
   onNodeClick: NodeMouseHandler<CustomNode>;
-  component?: MtComponent;
+  component?: Component;
   isJsonMode: boolean;
   setIsJsonMode: (isJsonMode: boolean) => void;
   isFullscreen: boolean;
@@ -132,10 +133,10 @@ export interface TeamBuilderState extends TeamBuilderProps {
   setSelectedNode: (node: CustomNode | null) => void;
   undo: () => void;
   redo: () => void;
-  syncToJson: () => MtComponent | null;
+  syncToJson: () => Component | null;
   teamJson: string;
   setTeamJson: (teamJson: string) => void;
-  loadFromJson: (config: MtComponent, isInitialLoad?: boolean) => GraphState;
+  loadFromJson: (config: Component, isInitialLoad?: boolean) => GraphState;
   layoutNodes: () => void;
   resetHistory: () => void;
   addToHistory: () => void;
@@ -159,7 +160,7 @@ const buildTeamComponent = (
   teamNode: CustomNode,
   nodes: CustomNode[],
   edges: CustomEdge[],
-): MtComponent | null => {
+): Component | null => {
   const componentObj = { ...teamNode.data.component };
   // console.log("componentObj", teamNode.data.component);
   if (!isTeamComponent(componentObj)) return null;

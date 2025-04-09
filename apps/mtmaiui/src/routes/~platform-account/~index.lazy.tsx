@@ -3,8 +3,10 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import { type PlatformAccount, platformAccountListOptions } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
-import { buttonVariants } from "mtxuilib/ui/button";
+import { Button, buttonVariants } from "mtxuilib/ui/button";
+import { get_default_social_team_component } from "../../components/autogen_views/team/inline_teams/teams";
 import { useTenantId } from "../../hooks/useAuth";
+import { useWorkbenchStore } from "../../stores/workbrench.store";
 
 export const Route = createLazyFileRoute("/platform-account/")({
   component: RouteComponent,
@@ -19,6 +21,8 @@ function RouteComponent() {
       },
     }),
   });
+
+  const handleRunTeam = useWorkbenchStore((x) => x.handleRunTeam);
   return (
     <div className="flex flex-col h-full w-full ">
       <div>
@@ -34,6 +38,22 @@ function RouteComponent() {
         {query.data?.rows?.map((item) => (
           <PlatformAccountListItem key={item.metadata?.id} item={item} />
         ))}
+      </div>
+
+      <div>
+        <Button
+          onClick={() => {
+            const team = get_default_social_team_component();
+            handleRunTeam({
+              component: team,
+              session_id: "123",
+              task: "test",
+              init_state: {},
+            });
+          }}
+        >
+          运行团队
+        </Button>
       </div>
     </div>
   );

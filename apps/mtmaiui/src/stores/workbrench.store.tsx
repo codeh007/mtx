@@ -14,6 +14,7 @@ import {
   type ChatMessage,
   type ChatMessageList,
   FlowNames,
+  type FlowTeamInput,
   type MtAgEvent,
   type Options,
   type StartNewChatInput,
@@ -98,6 +99,7 @@ export interface WorkbrenchState extends WorkbenchProps {
   setInput: (input: string) => void;
   handleHumanInput: (input: MtAgEvent) => void;
   handleNewChat: (input: StartNewChatInput) => void;
+  handleRunTeam: (team: FlowTeamInput) => void;
   workflowRunId?: string;
   setWorkflowRunId: (workflowRunId: string) => void;
   chatStarted?: boolean;
@@ -225,6 +227,23 @@ export const createWorkbrenchSlice: StateCreator<
         },
         body: {
           input: input,
+          additionalMetadata: {
+            sessionId: get().threadId,
+          },
+        },
+      });
+      if (response?.data) {
+        get().setLastestWorkflowRun(response?.data);
+      }
+    },
+    handleRunTeam: async (team) => {
+      console.log("handleRunTeam", team);
+      const response = await workflowRunCreate({
+        path: {
+          workflow: FlowNames.TEAM,
+        },
+        body: {
+          input: team,
           additionalMetadata: {
             sessionId: get().threadId,
           },
@@ -379,27 +398,6 @@ export const WorkbrenchProvider = (
     }),
     enabled: !!etc.threadId,
   });
-
-  // const chatMessageListQuery = useQuery({
-  //   ...chatMessagesListOptions({
-  //     path: {
-  //       tenant: tid!,
-  //       chat: etc.threadId!,
-  //     },
-  //   }),
-  //   enabled:
-  //     !!mystore.getState().lastestWorkflowRun?.additionalMetadata?.sessionId,
-  // });
-  // useEffect(() => {
-  //   if (chatMessageListQuery.data) {
-  //     console.log(
-  //       "加载了:chatMessageListQuery.data",
-  //       mystore.getState().lastestWorkflowRun?.additionalMetadata?.sessionId,
-  //       chatMessageListQuery.data,
-  //     );
-  //     mystore.getState().loadChatMessageList(chatMessageListQuery.data);
-  //   }
-  // }, [chatMessageListQuery.data, mystore]);
 
   useEffect(() => {
     if (agStateListQuery.data) {

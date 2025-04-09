@@ -1432,15 +1432,6 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/RunFlowModelInput",
         },
         {
-          $ref: "#/components/schemas/AssistantAgentConfig",
-        },
-        {
-          $ref: "#/components/schemas/ModelConfig",
-        },
-        {
-          $ref: "#/components/schemas/ModelInfo",
-        },
-        {
           $ref: "#/components/schemas/PlatformAccountFlowInput",
         },
         {
@@ -1501,10 +1492,28 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/UserInputRequestedEvent",
         },
         {
-          $ref: "#/components/schemas/InstagramAgentConfig",
+          $ref: "#/components/schemas/AssistantAgentComponent",
         },
         {
           $ref: "#/components/schemas/TeamComponent",
+        },
+        {
+          $ref: "#/components/schemas/ComponentModel",
+        },
+        {
+          $ref: "#/components/schemas/FlowTeamInput",
+        },
+        {
+          $ref: "#/components/schemas/ProviderTypes",
+        },
+        {
+          $ref: "#/components/schemas/ComponentTypes",
+        },
+        {
+          $ref: "#/components/schemas/OpenAIClientConfigurationConfigModel",
+        },
+        {
+          $ref: "#/components/schemas/MtOpenAIChatCompletionClientComponent",
         },
       ],
     },
@@ -4207,6 +4216,7 @@ export const FlowNamesSchema = {
     "resource",
     "instagram",
     "social",
+    "team",
   ],
 } as const;
 
@@ -4326,25 +4336,6 @@ export const ToolCallMessageConfigSchema = {
   ],
 } as const;
 
-export const ToolCallResultMessageConfigSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/BaseMessageConfig",
-    },
-    {
-      properties: {
-        content: {
-          type: "array",
-          items: {
-            $ref: "#/components/schemas/FunctionExecutionResult",
-          },
-        },
-      },
-      required: ["content"],
-    },
-  ],
-} as const;
-
 export const ChatMessageUpsertSchema = {
   allOf: [
     {
@@ -4353,21 +4344,9 @@ export const ChatMessageUpsertSchema = {
   ],
 } as const;
 
-export const AgentMessageConfigSchema = {
-  oneOf: [
-    {
-      $ref: "#/components/schemas/StopMessageConfig",
-    },
-    {
-      $ref: "#/components/schemas/HandoffMessageConfig",
-    },
-    {
-      $ref: "#/components/schemas/ToolCallMessageConfig",
-    },
-    {
-      $ref: "#/components/schemas/ToolCallResultMessageConfig",
-    },
-  ],
+export const ComponentTypesSchema = {
+  type: "string",
+  enum: ["agent", "team"],
 } as const;
 
 export const UpsertModelSchema = {
@@ -4503,29 +4482,84 @@ export const RoundRobinGroupChatConfigSchema = {
   },
 } as const;
 
-export const AssistantAgentConfigSchema = {
+export const AssistantAgentComponentSchema = {
   allOf: [
     {
-      $ref: "#/components/schemas/AgentConfig",
+      $ref: "#/components/schemas/ComponentModel",
     },
     {
-      required: ["model_client"],
+      required: ["component_type"],
       properties: {
-        model_client: {
-          $ref: "#/components/schemas/Component",
-        },
-        name: {
+        component_type: {
           type: "string",
+          enum: ["agent"],
+          default: "agent",
         },
-        tools: {
-          type: "array",
-          items: {
-            $ref: "#/components/schemas/Component",
-          },
+        config: {
+          $ref: "#/components/schemas/AssistantAgentConfig",
         },
       },
     },
   ],
+} as const;
+
+export const AssistantAgentConfigSchema = {
+  required: ["name", "description", "model_client"],
+  properties: {
+    name: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    model_context: {
+      type: "object",
+      additionalProperties: {
+        type: "object",
+      },
+    },
+    memory: {
+      type: "object",
+      additionalProperties: {
+        type: "object",
+      },
+    },
+    model_client_stream: {
+      type: "boolean",
+      default: false,
+    },
+    system_message: {
+      type: "string",
+    },
+    model_client: {
+      $ref: "#/components/schemas/MtOpenAIChatCompletionClientComponent",
+    },
+    tools: {
+      type: "array",
+      items: {
+        type: "object",
+        additionalProperties: {
+          type: "object",
+        },
+      },
+      default: [],
+    },
+    handoffs: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+      default: [],
+    },
+    reflect_on_tool_use: {
+      type: "boolean",
+      default: false,
+    },
+    tool_call_summary_format: {
+      type: "string",
+      default: "{result}",
+    },
+  },
 } as const;
 
 export const TenantParameterSchema = {
@@ -4726,6 +4760,14 @@ export const ModelInfoSchema = {
 export const ModelTypesSchema = {
   type: "string",
   enum: ["OpenAIChatCompletionClient", "AzureOpenAIChatCompletionClient"],
+} as const;
+
+export const OpenAIClientConfigurationConfigModelSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/ModelConfig",
+    },
+  ],
 } as const;
 
 export const ModelPropertiesSchema = {
@@ -5887,13 +5929,46 @@ export const BrowserOpenTaskSchema = {
   },
 } as const;
 
-export const TeamComponentSchema = {
-  discriminator: {
-    propertyName: "component_type",
+export const ComponentModelSchema = {
+  properties: {
+    provider: {
+      type: "string",
+    },
+    component_type: {
+      type: "string",
+    },
+    version: {
+      type: "integer",
+    },
+    component_version: {
+      type: "integer",
+    },
+    description: {
+      type: "string",
+    },
+    label: {
+      type: "string",
+    },
+    config: {
+      type: "object",
+    },
   },
-  oneOf: [
+} as const;
+
+export const TeamComponentSchema = {
+  allOf: [
     {
-      $ref: "#/components/schemas/SocialTeamComponent",
+      $ref: "#/components/schemas/ComponentModel",
+    },
+    {
+      required: ["component_type"],
+      properties: {
+        component_type: {
+          type: "string",
+          enum: ["team"],
+          default: "team",
+        },
+      },
     },
   ],
 } as const;
@@ -5901,6 +5976,12 @@ export const TeamComponentSchema = {
 export const SocialTeamConfigSchema = {
   required: ["username", "password", "otp_key"],
   properties: {
+    participants: {
+      type: "array",
+      items: {
+        type: "object",
+      },
+    },
     max_turns: {
       type: "integer",
       default: 25,
@@ -5923,15 +6004,11 @@ export const SocialTeamConfigSchema = {
 export const SocialTeamComponentSchema = {
   allOf: [
     {
-      $ref: "#/components/schemas/Component",
+      $ref: "#/components/schemas/TeamComponent",
     },
     {
-      required: ["component_type"],
+      required: ["config"],
       properties: {
-        component_type: {
-          type: "string",
-          enum: ["social"],
-        },
         config: {
           $ref: "#/components/schemas/SocialTeamConfig",
         },
@@ -5945,74 +6022,6 @@ export const BrowserConfigSchema = {
   properties: {
     persistent: {
       type: "boolean",
-    },
-  },
-} as const;
-
-export const AgentConfigSchema = {
-  required: [
-    "name",
-    "description",
-    "model_client",
-    "reflect_on_tool_use",
-    "tool_call_summary_format",
-    "model_client_stream",
-    "tools",
-    "handoffs",
-  ],
-  properties: {
-    name: {
-      type: "string",
-    },
-    description: {
-      type: "string",
-    },
-    model_context: {
-      type: "object",
-      additionalProperties: {
-        type: "object",
-      },
-    },
-    memory: {
-      type: "object",
-      additionalProperties: {
-        type: "object",
-      },
-    },
-    model_client_stream: {
-      type: "boolean",
-      default: false,
-    },
-    system_message: {
-      type: "string",
-    },
-    model_client: {
-      $ref: "#/components/schemas/Component",
-    },
-    tools: {
-      type: "array",
-      items: {
-        type: "object",
-        additionalProperties: {
-          type: "object",
-        },
-      },
-      default: [],
-    },
-    handoffs: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-      default: [],
-    },
-    reflect_on_tool_use: {
-      type: "boolean",
-      default: false,
-    },
-    tool_call_summary_format: {
-      type: "string",
-      default: "{result}",
     },
   },
 } as const;
@@ -6368,7 +6377,7 @@ export const SocialAddFollowersInputSchema = {
 export const InstagramAgentConfigSchema = {
   allOf: [
     {
-      $ref: "#/components/schemas/AgentConfig",
+      $ref: "#/components/schemas/AssistantAgentConfig",
     },
     {
       properties: {
@@ -6383,6 +6392,22 @@ export const InstagramAgentConfigSchema = {
         },
         proxy_url: {
           type: "string",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const MtOpenAIChatCompletionClientComponentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
+    {
+      required: ["config"],
+      properties: {
+        config: {
+          $ref: "#/components/schemas/OpenAIClientConfigurationConfigModel",
         },
       },
     },
@@ -6458,6 +6483,18 @@ export const TeamRunResultSchema = {
   },
 } as const;
 
+export const ProviderTypesSchema = {
+  type: "string",
+  enum: [
+    "autogen_agentchat.teams.RoundRobinGroupChat",
+    "autogen_agentchat.teams.SelectorGroupChat",
+    "mtmai.teams.instagram_team.instagram_team.InstagramTeam",
+    "mtmai.teams.team_social.SocialTeam",
+    "autogen_agentchat.agents.AssistantAgent",
+    "mtmai.model_client.MtOpenAIChatCompletionClient",
+  ],
+} as const;
+
 export const UserAgentStateSchema = {
   properties: {
     type: {
@@ -6483,6 +6520,24 @@ export const RunFlowModelInputSchema = {
     },
     tag: {
       type: "string",
+    },
+  },
+} as const;
+
+export const FlowTeamInputSchema = {
+  required: ["session_id", "component", "task", "init_state"],
+  properties: {
+    session_id: {
+      type: "string",
+    },
+    component: {
+      $ref: "#/components/schemas/TeamComponent",
+    },
+    task: {
+      type: "string",
+    },
+    init_state: {
+      type: "object",
     },
   },
 } as const;

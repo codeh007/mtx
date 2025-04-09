@@ -1,7 +1,15 @@
-import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { resourceGetOptions, resourceListOptions, resourceUpsertMutation } from "mtmaiapi";
-import { zMtResourceUpsert } from "mtmaiapi/gomtmapi/zod.gen";
+import {
+  resourceGetOptions,
+  resourceListOptions,
+  resourceUpsertMutation,
+} from "mtmaiapi";
+import { zResourceUpsert } from "mtmaiapi/gomtmapi/zod.gen";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import {
   FormControl,
@@ -29,15 +37,14 @@ function RouteComponent() {
     onSuccess: () => {
       queryClient.invalidateQueries({
         ...resourceListOptions({
-          path:{
+          path: {
             tenant: tid,
-          }
-        })
-      })
+          },
+        }),
+      });
       toast.toast({
         title: "保存成功",
       });
-
     },
   });
 
@@ -50,7 +57,7 @@ function RouteComponent() {
     }),
   });
   const form = useZodFormV2({
-    schema: zMtResourceUpsert,
+    schema: zResourceUpsert,
     defaultValues: {
       ...resourceGetQuery.data,
     },

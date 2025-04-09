@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { resourceUpsertMutation } from "mtmaiapi";
-import { zMtResourceUpsert } from "mtmaiapi/gomtmapi/zod.gen";
+import { zResourceUpsert } from "mtmaiapi/gomtmapi/zod.gen";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import {
   FormControl,
@@ -22,7 +22,7 @@ function RouteComponent() {
     ...resourceUpsertMutation(),
   });
   const form = useZodFormV2({
-    schema: zMtResourceUpsert,
+    schema: zResourceUpsert,
     defaultValues: {},
     handleSubmit: (values) => {
       resourceUpsert.mutate({

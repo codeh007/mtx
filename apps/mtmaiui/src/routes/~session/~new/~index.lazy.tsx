@@ -2,6 +2,7 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import { AgentEventType } from "mtmaiapi";
 import { zSocialTeamConfig } from "mtmaiapi/gomtmapi/zod.gen";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
+import { Button } from "mtxuilib/ui/button";
 import {
   FormControl,
   FormField,
@@ -10,6 +11,7 @@ import {
   FormMessage,
 } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
+import { get_default_social_team_component } from "../../../components/autogen_views/team/inline_teams/teams";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
 export const Route = createLazyFileRoute("/session/new/")({
@@ -18,6 +20,7 @@ export const Route = createLazyFileRoute("/session/new/")({
 
 function RouteComponent() {
   const handleNewChat = useWorkbenchStore((x) => x.handleNewChat);
+  const handleRunTeam = useWorkbenchStore((x) => x.handleRunTeam);
 
   const form = useZodFormV2({
     schema: zSocialTeamConfig,
@@ -81,6 +84,20 @@ function RouteComponent() {
         />
       </ZForm>
       <ZFormToolbar form={form.form} />
+
+      <Button
+        onClick={() => {
+          const team = get_default_social_team_component();
+          handleRunTeam({
+            component: team,
+            session_id: "123",
+            task: "告诉我,您能帮我做什么事情?",
+            init_state: {},
+          });
+        }}
+      >
+        运行团队
+      </Button>
     </>
   );
 }

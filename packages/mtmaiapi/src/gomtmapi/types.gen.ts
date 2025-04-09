@@ -849,9 +849,6 @@ export type WorkflowWorkersCount = {
     | BrowserTask
     | BrowserOpenTask
     | RunFlowModelInput
-    | AssistantAgentConfig
-    | ModelConfig
-    | ModelInfo
     | PlatformAccountFlowInput
     | AgentEventType
     | ResourceFlowInput
@@ -872,8 +869,14 @@ export type WorkflowWorkersCount = {
     | ToolCallRequestEvent
     | MyDemoAgentEvent
     | UserInputRequestedEvent
-    | InstagramAgentConfig
-    | TeamComponent;
+    | AssistantAgentComponent
+    | TeamComponent
+    | ComponentModel
+    | FlowTeamInput
+    | ProviderTypes
+    | ComponentTypes
+    | OpenAiClientConfigurationConfigModel
+    | MtOpenAiChatCompletionClientComponent;
 };
 
 export type WorkflowRun = {
@@ -2273,7 +2276,8 @@ export type FlowNames =
   | "browser"
   | "resource"
   | "instagram"
-  | "social";
+  | "social"
+  | "team";
 
 export const FlowNames = {
   SYS: "sys",
@@ -2284,6 +2288,7 @@ export const FlowNames = {
   RESOURCE: "resource",
   INSTAGRAM: "instagram",
   SOCIAL: "social",
+  TEAM: "team",
 } as const;
 
 export type UserTeamConfig = {
@@ -2325,17 +2330,14 @@ export type ToolCallMessageConfig = BaseMessageConfig & {
   content: Array<FunctionCall>;
 };
 
-export type ToolCallResultMessageConfig = BaseMessageConfig & {
-  content: Array<FunctionExecutionResult>;
-};
-
 export type ChatMessageUpsert = ChatMessageProperties;
 
-export type AgentMessageConfig =
-  | StopMessageConfig
-  | HandoffMessageConfig
-  | ToolCallMessageConfig
-  | ToolCallResultMessageConfig;
+export type ComponentTypes = "agent" | "team";
+
+export const ComponentTypes = {
+  AGENT: "agent",
+  TEAM: "team",
+} as const;
 
 export type UpsertModel = ModelProperties;
 
@@ -2389,10 +2391,35 @@ export type RoundRobinGroupChatConfig = {
   participants: Array<Component>;
 };
 
-export type AssistantAgentConfig = AgentConfig & {
-  model_client: Component;
-  name?: string;
-  tools?: Array<Component>;
+export type AssistantAgentComponent = ComponentModel & {
+  component_type: "agent";
+  config?: AssistantAgentConfig;
+};
+
+export type AssistantAgentConfig = {
+  name: string;
+  description: string;
+  model_context?: {
+    [key: string]: {
+      [key: string]: unknown;
+    };
+  };
+  memory?: {
+    [key: string]: {
+      [key: string]: unknown;
+    };
+  };
+  model_client_stream?: boolean;
+  system_message?: string;
+  model_client: MtOpenAiChatCompletionClientComponent;
+  tools?: Array<{
+    [key: string]: {
+      [key: string]: unknown;
+    };
+  }>;
+  handoffs?: Array<string>;
+  reflect_on_tool_use?: boolean;
+  tool_call_summary_format?: string;
 };
 
 export type TenantParameter = string;
@@ -2473,6 +2500,8 @@ export const ModelTypes = {
   OPEN_AI_CHAT_COMPLETION_CLIENT: "OpenAIChatCompletionClient",
   AZURE_OPEN_AI_CHAT_COMPLETION_CLIENT: "AzureOpenAIChatCompletionClient",
 } as const;
+
+export type OpenAiClientConfigurationConfigModel = ModelConfig;
 
 export type ModelProperties = {
   name: string;
@@ -3016,11 +3045,26 @@ export type BrowserOpenTask = {
   url: string;
 };
 
-export type TeamComponent = {
-  component_type?: "SocialTeamComponent";
-} & SocialTeamComponent;
+export type ComponentModel = {
+  provider?: string;
+  component_type?: string;
+  version?: number;
+  component_version?: number;
+  description?: string;
+  label?: string;
+  config?: {
+    [key: string]: unknown;
+  };
+};
+
+export type TeamComponent = ComponentModel & {
+  component_type: "team";
+};
 
 export type SocialTeamConfig = {
+  participants?: Array<{
+    [key: string]: unknown;
+  }>;
   max_turns?: number;
   username: string;
   password: string;
@@ -3028,9 +3072,8 @@ export type SocialTeamConfig = {
   proxy_url?: string;
 };
 
-export type SocialTeamComponent = Component & {
-  component_type: "social";
-  config?: SocialTeamConfig;
+export type SocialTeamComponent = TeamComponent & {
+  config: SocialTeamConfig;
 };
 
 /**
@@ -3038,32 +3081,6 @@ export type SocialTeamComponent = Component & {
  */
 export type BrowserConfig = {
   persistent?: boolean;
-};
-
-export type AgentConfig = {
-  name: string;
-  description: string;
-  model_context?: {
-    [key: string]: {
-      [key: string]: unknown;
-    };
-  };
-  memory?: {
-    [key: string]: {
-      [key: string]: unknown;
-    };
-  };
-  model_client_stream: boolean;
-  system_message?: string;
-  model_client: Component;
-  tools: Array<{
-    [key: string]: {
-      [key: string]: unknown;
-    };
-  }>;
-  handoffs: Array<string>;
-  reflect_on_tool_use: boolean;
-  tool_call_summary_format: string;
 };
 
 export type AgentEventType =
@@ -3252,11 +3269,15 @@ export type SocialAddFollowersInput = {
   count_to_follow: number;
 };
 
-export type InstagramAgentConfig = AgentConfig & {
+export type InstagramAgentConfig = AssistantAgentConfig & {
   username?: string;
   password?: string;
   otp_key?: string;
   proxy_url?: string;
+};
+
+export type MtOpenAiChatCompletionClientComponent = ComponentModel & {
+  config: OpenAiClientConfigurationConfigModel;
 };
 
 export type TeamProperties = {
@@ -3286,6 +3307,28 @@ export type TeamRunResult = {
   workflowRun?: WorkflowRun;
 };
 
+export type ProviderTypes =
+  | "autogen_agentchat.teams.RoundRobinGroupChat"
+  | "autogen_agentchat.teams.SelectorGroupChat"
+  | "mtmai.teams.instagram_team.instagram_team.InstagramTeam"
+  | "mtmai.teams.team_social.SocialTeam"
+  | "autogen_agentchat.agents.AssistantAgent"
+  | "mtmai.model_client.MtOpenAIChatCompletionClient";
+
+export const ProviderTypes = {
+  AUTOGEN_AGENTCHAT_TEAMS_ROUND_ROBIN_GROUP_CHAT:
+    "autogen_agentchat.teams.RoundRobinGroupChat",
+  AUTOGEN_AGENTCHAT_TEAMS_SELECTOR_GROUP_CHAT:
+    "autogen_agentchat.teams.SelectorGroupChat",
+  MTMAI_TEAMS_INSTAGRAM_TEAM_INSTAGRAM_TEAM_INSTAGRAM_TEAM:
+    "mtmai.teams.instagram_team.instagram_team.InstagramTeam",
+  MTMAI_TEAMS_TEAM_SOCIAL_SOCIAL_TEAM: "mtmai.teams.team_social.SocialTeam",
+  AUTOGEN_AGENTCHAT_AGENTS_ASSISTANT_AGENT:
+    "autogen_agentchat.agents.AssistantAgent",
+  MTMAI_MODEL_CLIENT_MT_OPEN_AI_CHAT_COMPLETION_CLIENT:
+    "mtmai.model_client.MtOpenAIChatCompletionClient",
+} as const;
+
 export type UserAgentState = {
   type?: "UserAgentState";
   model_context?: unknown;
@@ -3296,6 +3339,15 @@ export type UserAgentState = {
 export type RunFlowModelInput = {
   modelId?: string;
   tag?: string;
+};
+
+export type FlowTeamInput = {
+  session_id: string;
+  component: TeamComponent;
+  task: string;
+  init_state: {
+    [key: string]: unknown;
+  };
 };
 
 export type PlatformAccountFlowInput = {

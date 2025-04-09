@@ -1,14 +1,14 @@
 "use client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createLazyFileRoute, Outlet } from "@tanstack/react-router";
+import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import {
   FlowNames,
-  FlowPlatformAccountLoginInput,
+  type FlowPlatformAccountLoginInput,
   platformAccountCreateMutation,
   platformAccountListOptions,
 } from "mtmaiapi";
 import { zPlatformAccountCreate } from "mtmaiapi/gomtmapi/zod.gen";
-import { useZodFormV2, ZForm, ZFormToolbar } from "mtxuilib/mt/form/ZodForm";
+import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
 import { Button } from "mtxuilib/ui/button";
 import {
@@ -39,7 +39,7 @@ function RouteComponent() {
     FlowNames.PLATFORM_ACCOUNT_LOGIN,
     {},
   );
-  
+
   const createPlatformAccountMutation = useMutation({
     ...platformAccountCreateMutation(),
     onSuccess: (item) => {
@@ -110,18 +110,18 @@ function RouteComponent() {
       <PlatformAccountHeader />
       <ZForm {...form} className="flex flex-col h-full w-full px-2 space-y-2">
         <FormField
-            control={form.form.control}
-            name="platform"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>platform</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="platform" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          control={form.form.control}
+          name="platform"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>platform</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="platform" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.form.control}
           name="username"
@@ -174,7 +174,7 @@ function RouteComponent() {
             </FormItem>
           )}
         />
-        
+
         <FormField
           control={form.form.control}
           name="tags"
@@ -206,17 +206,17 @@ function RouteComponent() {
           )}
         />
         <FormField
-        control={form.form.control}
-        name="state.proxy_url"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>代理地址</FormLabel>
-            <FormControl>
-              <Input {...field} placeholder="代理地址" />
-            </FormControl>
-          </FormItem>
-        )}
-      />
+          control={form.form.control}
+          name="state.proxy_url"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>代理地址</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="代理地址" />
+              </FormControl>
+            </FormItem>
+          )}
+        />
       </ZForm>
       <ZFormToolbar form={form.form} />
       <Outlet />

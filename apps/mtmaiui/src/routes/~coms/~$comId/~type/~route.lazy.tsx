@@ -1,9 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { comsUpsertMutation } from "mtmaiapi";
-import { zMtComponent } from "mtmaiapi/gomtmapi/zod.gen";
+import { zComponent } from "mtmaiapi/gomtmapi/zod.gen";
 import { generateUUID } from "mtxuilib/lib/utils";
-import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
+import { ZForm, ZFormToolbar, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";
 import {
   FormControl,
@@ -46,7 +46,7 @@ function RouteComponent() {
     },
   });
   const form = useZodForm({
-    schema: zMtComponent,
+    schema: zComponent,
     defaultValues: {
       type: "RoundRobinGroupChat",
       component: {},
