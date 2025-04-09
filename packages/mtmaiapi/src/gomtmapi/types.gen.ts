@@ -2418,14 +2418,14 @@ export type AssistantAgentConfig = {
   model_client_stream?: boolean;
   system_message?: string;
   model_client: MtOpenAiChatCompletionClientComponent;
-  tools?: Array<{
+  tools: Array<{
     [key: string]: {
       [key: string]: unknown;
     };
   }>;
   handoffs?: Array<string>;
-  reflect_on_tool_use?: boolean;
-  tool_call_summary_format?: string;
+  reflect_on_tool_use: boolean;
+  tool_call_summary_format: string;
 };
 
 export type TenantParameter = string;
@@ -3301,10 +3301,16 @@ export type Terminations =
     } & FunctionCallTermination)
   | ({
       provider?: "TokenUsageTermination";
-    } & TokenUsageTermination);
+    } & TokenUsageTermination)
+  | ({
+      provider?: "MaxMessageTermination";
+    } & MaxMessageTermination)
+  | ({
+      provider?: "StopMessageTermination";
+    } & StopMessageTermination);
 
 export type TextMentionTermination = {
-  provider: "autogen_agentchat.conditions.TextMentionTermination";
+  provider: "TextMentionTermination";
   config: TextMentionTerminationConfig;
 };
 
@@ -3376,6 +3382,15 @@ export type MaxMessageTermination = {
 export type MaxMessageTerminationConfig = {
   max_messages: number;
   include_agent_event?: boolean;
+};
+
+export type StopMessageTermination = {
+  provider: "StopMessageTermination";
+  config: StopMessageTerminationConfig;
+};
+
+export type StopMessageTerminationConfig = {
+  some_thing?: string;
 };
 
 export type RoundRobinGroupChatComponent = TeamComponent & {

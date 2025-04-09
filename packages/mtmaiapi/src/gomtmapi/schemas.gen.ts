@@ -4518,7 +4518,14 @@ export const AssistantAgentComponentSchema = {
 } as const;
 
 export const AssistantAgentConfigSchema = {
-  required: ["name", "description", "model_client"],
+  required: [
+    "name",
+    "description",
+    "model_client",
+    "tools",
+    "tool_call_summary_format",
+    "reflect_on_tool_use",
+  ],
   properties: {
     name: {
       type: "string",
@@ -6452,6 +6459,12 @@ export const TerminationsSchema = {
     {
       $ref: "#/components/schemas/TokenUsageTermination",
     },
+    {
+      $ref: "#/components/schemas/MaxMessageTermination",
+    },
+    {
+      $ref: "#/components/schemas/StopMessageTermination",
+    },
   ],
 } as const;
 
@@ -6460,8 +6473,8 @@ export const TextMentionTerminationSchema = {
   properties: {
     provider: {
       type: "string",
-      enum: ["autogen_agentchat.conditions.TextMentionTermination"],
-      default: "autogen_agentchat.conditions.TextMentionTermination",
+      enum: ["TextMentionTermination"],
+      default: "TextMentionTermination",
     },
     config: {
       $ref: "#/components/schemas/TextMentionTerminationConfig",
@@ -6647,6 +6660,29 @@ export const MaxMessageTerminationConfigSchema = {
     include_agent_event: {
       type: "boolean",
       default: false,
+    },
+  },
+} as const;
+
+export const StopMessageTerminationSchema = {
+  required: ["provider", "config"],
+  properties: {
+    provider: {
+      type: "string",
+      enum: ["StopMessageTermination"],
+      default: "StopMessageTermination",
+    },
+    config: {
+      $ref: "#/components/schemas/StopMessageTerminationConfig",
+    },
+  },
+} as const;
+
+export const StopMessageTerminationConfigSchema = {
+  required: ["stop_messages"],
+  properties: {
+    some_thing: {
+      type: "string",
     },
   },
 } as const;

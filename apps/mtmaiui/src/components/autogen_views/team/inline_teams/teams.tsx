@@ -29,6 +29,9 @@ export function get_default_social_team_component() {
           config: {
             name: "user123",
             description: "pass123",
+            tools: [],
+            reflect_on_tool_use: false,
+            tool_call_summary_format: "{result}",
             model_client: {
               provider:
                 ProviderTypes.MTMAI_MODEL_CLIENT_MT_OPEN_AI_CHAT_COMPLETION_CLIENT,
