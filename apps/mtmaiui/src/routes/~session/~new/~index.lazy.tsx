@@ -21,6 +21,16 @@ function RouteComponent() {
 
   const form = useZodFormV2({
     schema: zSocialTeamConfig,
+    toastValidateError: true,
+    defaultValues: {
+      // type: AgentEventType.START_NEW_CHAT_INPUT,
+      // task: "你好",
+      // config: {
+      username: "saibichquyenll2015",
+      password: "qSJPn07c7",
+      otp_key: "MCF3M4XZHTFWKYXUGV4CQX3LFXMKMWFP",
+      // },
+    },
     handleSubmit: (values) => {
       handleNewChat({
         type: AgentEventType.START_NEW_CHAT_INPUT,

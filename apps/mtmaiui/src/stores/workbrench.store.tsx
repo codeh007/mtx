@@ -425,10 +425,12 @@ export const WorkbrenchProvider = (
       async (cur, prev) => {
         console.log("lastestWorkflowRun changed", cur, "prev", prev);
         startTransition(() => {
-          nav({
-            to: `/session/${cur?.additionalMetadata?.sessionId}`,
-            search: search,
-          });
+          if (cur?.additionalMetadata?.sessionId) {
+            nav({
+              to: `/session/${cur?.additionalMetadata?.sessionId}`,
+              search: search,
+            });
+          }
         });
 
         const sessionId = cur?.additionalMetadata?.sessionId;
@@ -451,12 +453,14 @@ export const WorkbrenchProvider = (
       },
       debounce((cur, prev) => {
         console.log("threadId changed", cur, "prev", prev);
-        startTransition(() => {
-          nav({
-            to: `/session/${cur}`,
-            search: search,
+        if (cur) {
+          startTransition(() => {
+            nav({
+              to: `/session/${cur}`,
+              search: search,
+            });
           });
-        });
+        }
       }, 100),
     );
   }, [mystore, nav, search]);
