@@ -876,7 +876,8 @@ export type WorkflowWorkersCount = {
     | SocialTeam
     | CodeExecutorAgent
     | SocietyOfMindAgent
-    | UserProxyAgent;
+    | UserProxyAgent
+    | OpenAiClientConfigurationConfigModel;
 };
 
 export type WorkflowRun = {
@@ -2241,7 +2242,7 @@ export type ProviderTypes =
   | "CodeExecutorAgent"
   | "SocietyOfMindAgent"
   | "UserProxyAgent"
-  | "MtOpenAIChatCompletionClient"
+  | "OpenAIChatCompletionClient"
   | "TextMentionTermination"
   | "HandoffTermination"
   | "TimeoutTermination"
@@ -2249,7 +2250,8 @@ export type ProviderTypes =
   | "FunctionCallTermination"
   | "TokenUsageTermination"
   | "MaxMessageTermination"
-  | "StopMessageTermination";
+  | "StopMessageTermination"
+  | "TextMessageTermination";
 
 export const ProviderTypes = {
   ROUND_ROBIN_GROUP_CHAT: "RoundRobinGroupChat",
@@ -2259,7 +2261,7 @@ export const ProviderTypes = {
   CODE_EXECUTOR_AGENT: "CodeExecutorAgent",
   SOCIETY_OF_MIND_AGENT: "SocietyOfMindAgent",
   USER_PROXY_AGENT: "UserProxyAgent",
-  MT_OPEN_AI_CHAT_COMPLETION_CLIENT: "MtOpenAIChatCompletionClient",
+  OPEN_AI_CHAT_COMPLETION_CLIENT: "OpenAIChatCompletionClient",
   TEXT_MENTION_TERMINATION: "TextMentionTermination",
   HANDOFF_TERMINATION: "HandoffTermination",
   TIMEOUT_TERMINATION: "TimeoutTermination",
@@ -2268,6 +2270,7 @@ export const ProviderTypes = {
   TOKEN_USAGE_TERMINATION: "TokenUsageTermination",
   MAX_MESSAGE_TERMINATION: "MaxMessageTermination",
   STOP_MESSAGE_TERMINATION: "StopMessageTermination",
+  TEXT_MESSAGE_TERMINATION: "TextMessageTermination",
 } as const;
 
 export type AgEvent = {
@@ -2366,6 +2369,51 @@ export type UserProxyAgentConfig = {
   provider: "UserProxyAgent";
 };
 
+export type OpenAiClientConfigurationConfigModel =
+  BaseOpenAiClientConfigurationConfigModel & {
+    organization?: string;
+    base_url?: string;
+  };
+
+export type BaseOpenAiClientConfigurationConfigModel =
+  CreateArgumentsConfigModel & {
+    model?: string;
+    api_key?: string;
+    timeout?: number;
+    max_retries?: number;
+    model_capabilities?: {
+      [key: string]: unknown;
+    };
+    model_info?: {
+      [key: string]: unknown;
+    };
+    add_name_prefixes?: boolean;
+    default_headers?: {
+      [key: string]: unknown;
+    };
+  };
+
+export type CreateArgumentsConfigModel = {
+  frequency_penalty?: number;
+  logit_bias?: {
+    [key: string]: number;
+  };
+  max_tokens?: number;
+  n?: number;
+  presence_penalty?: number;
+  response_format?: string;
+  seed?: number;
+  stop?: Array<string>;
+  temperature?: number;
+  top_p?: number;
+  user?: string;
+  stream_options?: {
+    [key: string]: {
+      [key: string]: unknown;
+    };
+  };
+};
+
 export type FunctionCall = {
   id: string;
   arguments: string;
@@ -2407,18 +2455,6 @@ export const ComponentTypes = {
 } as const;
 
 export type UpsertModel = ModelProperties;
-
-export type AzureOpenAiModelConfig = ModelConfig & {
-  model_type: "AzureOpenAIChatCompletionClient";
-  azure_deployment: string;
-  api_version: string;
-  azure_endpoint: string;
-  azure_ad_token_provider: string;
-};
-
-export type OpenAiModelConfig = ModelConfig & {
-  model_type: "OpenAIChatCompletionClient";
-};
 
 export type ToolConfig = {
   name: string;
@@ -2484,6 +2520,9 @@ export type AssistantAgentConfig = {
   handoffs?: Array<string>;
   reflect_on_tool_use: boolean;
   tool_call_summary_format: string;
+  metadata?: {
+    [key: string]: unknown;
+  };
 };
 
 export type TenantParameter = string;
@@ -2516,31 +2555,6 @@ export type NotFound = unknown;
 
 export type Model = ApiResourceMetaProperties & ModelProperties;
 
-export type ModelConfig = {
-  model: string;
-  model_type: ModelTypes;
-  api_key?: string;
-  base_url?: string;
-  timeout?: number;
-  max_retries?: number;
-  frequency_penalty?: number;
-  logit_bias?: number;
-  max_tokens?: number;
-  n?: number;
-  presence_penalty?: number;
-  response_format?: string;
-  seed?: number;
-  stop?: Array<string>;
-  temperature?: number;
-  top_p?: number;
-  user?: string;
-  organization?: string;
-  default_headers?: {
-    [key: string]: string;
-  };
-  model_info?: ModelInfo;
-};
-
 export type ModelFamily = "r1" | "openai" | "unknown";
 
 export const ModelFamily = {
@@ -2554,6 +2568,7 @@ export type ModelInfo = {
   vision: boolean;
   function_calling: boolean;
   json_output: boolean;
+  structured_output: boolean;
 };
 
 export type ModelTypes =
@@ -2564,8 +2579,6 @@ export const ModelTypes = {
   OPEN_AI_CHAT_COMPLETION_CLIENT: "OpenAIChatCompletionClient",
   AZURE_OPEN_AI_CHAT_COMPLETION_CLIENT: "AzureOpenAIChatCompletionClient",
 } as const;
-
-export type OpenAiClientConfigurationConfigModel = ModelConfig;
 
 export type ModelProperties = {
   name: string;
@@ -3339,7 +3352,7 @@ export type InstagramAgentConfig = AssistantAgentConfig & {
 };
 
 export type MtOpenAiChatCompletionClient = ComponentModel & {
-  provider: "MtOpenAIChatCompletionClient";
+  provider: "OpenAIChatCompletionClient";
   config: OpenAiClientConfigurationConfigModel;
 };
 

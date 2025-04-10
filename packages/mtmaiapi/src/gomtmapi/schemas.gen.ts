@@ -1515,6 +1515,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/UserProxyAgent",
         },
+        {
+          $ref: "#/components/schemas/OpenAIClientConfigurationConfigModel",
+        },
       ],
     },
   },
@@ -4161,7 +4164,7 @@ export const ProviderTypesSchema = {
     "CodeExecutorAgent",
     "SocietyOfMindAgent",
     "UserProxyAgent",
-    "MtOpenAIChatCompletionClient",
+    "OpenAIChatCompletionClient",
     "TextMentionTermination",
     "HandoffTermination",
     "TimeoutTermination",
@@ -4170,6 +4173,7 @@ export const ProviderTypesSchema = {
     "TokenUsageTermination",
     "MaxMessageTermination",
     "StopMessageTermination",
+    "TextMessageTermination",
   ],
 } as const;
 
@@ -4353,6 +4357,110 @@ export const UserProxyAgentConfigSchema = {
   },
 } as const;
 
+export const OpenAIClientConfigurationConfigModelSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseOpenAIClientConfigurationConfigModel",
+    },
+    {
+      properties: {
+        organization: {
+          type: "string",
+        },
+        base_url: {
+          type: "string",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const BaseOpenAIClientConfigurationConfigModelSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/CreateArgumentsConfigModel",
+    },
+    {
+      properties: {
+        model: {
+          type: "string",
+        },
+        api_key: {
+          type: "string",
+        },
+        timeout: {
+          type: "number",
+        },
+        max_retries: {
+          type: "integer",
+        },
+        model_capabilities: {
+          type: "object",
+        },
+        model_info: {
+          type: "object",
+        },
+        add_name_prefixes: {
+          type: "boolean",
+        },
+        default_headers: {
+          type: "object",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const CreateArgumentsConfigModelSchema = {
+  properties: {
+    frequency_penalty: {
+      type: "number",
+    },
+    logit_bias: {
+      type: "object",
+      additionalProperties: {
+        type: "integer",
+      },
+    },
+    max_tokens: {
+      type: "integer",
+    },
+    n: {
+      type: "integer",
+    },
+    presence_penalty: {
+      type: "number",
+    },
+    response_format: {
+      type: "string",
+    },
+    seed: {
+      type: "integer",
+    },
+    stop: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+    temperature: {
+      type: "number",
+    },
+    top_p: {
+      type: "number",
+    },
+    user: {
+      type: "string",
+    },
+    stream_options: {
+      type: "object",
+      additionalProperties: {
+        type: "object",
+      },
+    },
+  },
+} as const;
+
 export const FunctionCallSchema = {
   required: ["id", "arguments", "name"],
   properties: {
@@ -4465,59 +4573,6 @@ export const UpsertModelSchema = {
   allOf: [
     {
       $ref: "#/components/schemas/ModelProperties",
-    },
-  ],
-} as const;
-
-export const AzureOpenAIModelConfigSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/ModelConfig",
-    },
-    {
-      properties: {
-        model_type: {
-          type: "string",
-          enum: ["AzureOpenAIChatCompletionClient"],
-        },
-        azure_deployment: {
-          type: "string",
-        },
-        api_version: {
-          type: "string",
-        },
-        azure_endpoint: {
-          type: "string",
-        },
-        azure_ad_token_provider: {
-          type: "string",
-        },
-      },
-      required: [
-        "model_type",
-        "azure_deployment",
-        "api_version",
-        "azure_endpoint",
-        "azure_ad_token_provider",
-      ],
-    },
-  ],
-} as const;
-
-export const OpenAIModelConfigSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/ModelConfig",
-    },
-    {
-      type: "object",
-      properties: {
-        model_type: {
-          type: "string",
-          enum: ["OpenAIChatCompletionClient"],
-        },
-      },
-      required: ["model_type"],
     },
   ],
 } as const;
@@ -4671,6 +4726,9 @@ export const AssistantAgentConfigSchema = {
       type: "string",
       default: "{result}",
     },
+    metadata: {
+      type: "object",
+    },
   },
 } as const;
 
@@ -4773,86 +4831,19 @@ export const ModelSchema = {
   ],
 } as const;
 
-export const ModelConfigSchema = {
-  required: ["model", "model_type"],
-  properties: {
-    model: {
-      type: "string",
-    },
-    model_type: {
-      type: "string",
-      $ref: "#/components/schemas/ModelTypes",
-    },
-    api_key: {
-      type: "string",
-    },
-    base_url: {
-      type: "string",
-    },
-    timeout: {
-      type: "number",
-    },
-    max_retries: {
-      type: "integer",
-    },
-    frequency_penalty: {
-      type: "number",
-    },
-    logit_bias: {
-      type: "integer",
-    },
-    max_tokens: {
-      type: "integer",
-    },
-    n: {
-      type: "integer",
-    },
-    presence_penalty: {
-      type: "number",
-    },
-    response_format: {
-      type: "string",
-    },
-    seed: {
-      type: "integer",
-    },
-    stop: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-    },
-    temperature: {
-      type: "number",
-    },
-    top_p: {
-      type: "number",
-    },
-    user: {
-      type: "string",
-    },
-    organization: {
-      type: "string",
-    },
-    default_headers: {
-      type: "object",
-      additionalProperties: {
-        type: "string",
-      },
-    },
-    model_info: {
-      $ref: "#/components/schemas/ModelInfo",
-    },
-  },
-} as const;
-
 export const ModelFamilySchema = {
   type: "string",
   enum: ["r1", "openai", "unknown"],
 } as const;
 
 export const ModelInfoSchema = {
-  required: ["function_calling", "json_output", "family", "vision"],
+  required: [
+    "function_calling",
+    "json_output",
+    "structured_output",
+    "family",
+    "vision",
+  ],
   properties: {
     family: {
       $ref: "#/components/schemas/ModelFamily",
@@ -4866,20 +4857,15 @@ export const ModelInfoSchema = {
     json_output: {
       type: "boolean",
     },
+    structured_output: {
+      type: "boolean",
+    },
   },
 } as const;
 
 export const ModelTypesSchema = {
   type: "string",
   enum: ["OpenAIChatCompletionClient", "AzureOpenAIChatCompletionClient"],
-} as const;
-
-export const OpenAIClientConfigurationConfigModelSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/ModelConfig",
-    },
-  ],
 } as const;
 
 export const ModelPropertiesSchema = {
@@ -6526,7 +6512,7 @@ export const MtOpenAIChatCompletionClientSchema = {
       properties: {
         provider: {
           type: "string",
-          enum: ["MtOpenAIChatCompletionClient"],
+          enum: ["OpenAIChatCompletionClient"],
         },
         config: {
           $ref: "#/components/schemas/OpenAIClientConfigurationConfigModel",

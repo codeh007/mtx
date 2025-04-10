@@ -2,7 +2,7 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import {
   type AssistantAgent,
   type AssistantAgentConfig,
-  ModelTypes,
+  ModelFamily,
   type MtOpenAiChatCompletionClient,
   ProviderTypes,
   type TeamComponent,
@@ -35,7 +35,7 @@ function RouteComponent() {
       provider: ProviderTypes.ASSISTANT_AGENT,
       label: "assistant",
       component_type: "agent",
-      description: "assistant",
+      description: "assistant agent",
       config: {
         name: "user123",
         description: "pass123",
@@ -43,12 +43,19 @@ function RouteComponent() {
         reflect_on_tool_use: false,
         tool_call_summary_format: "{result}",
         model_client: {
-          provider: ProviderTypes.MT_OPEN_AI_CHAT_COMPLETION_CLIENT,
+          provider: ProviderTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
           config: {
+            model: MtmaiuiConfig.default_open_model,
             api_key: MtmaiuiConfig.default_open_ai_key,
             base_url: MtmaiuiConfig.default_open_base_url,
-            model: "gpt-4o",
-            model_type: ModelTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
+            // model_type: ModelTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
+            model_info: {
+              vision: false,
+              function_calling: true,
+              json_output: true,
+              structured_output: true,
+              family: ModelFamily.UNKNOWN,
+            },
           },
         } satisfies MtOpenAiChatCompletionClient,
       } satisfies AssistantAgentConfig,

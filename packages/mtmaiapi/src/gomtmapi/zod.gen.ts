@@ -631,7 +631,7 @@ export const zWorkflowWorkersCount = z.object({
         "CodeExecutorAgent",
         "SocietyOfMindAgent",
         "UserProxyAgent",
-        "MtOpenAIChatCompletionClient",
+        "OpenAIChatCompletionClient",
         "TextMentionTermination",
         "HandoffTermination",
         "TimeoutTermination",
@@ -640,6 +640,7 @@ export const zWorkflowWorkersCount = z.object({
         "TokenUsageTermination",
         "MaxMessageTermination",
         "StopMessageTermination",
+        "TextMessageTermination",
       ]),
       z.enum([
         "ThoughtEvent",
@@ -912,45 +913,47 @@ export const zWorkflowWorkersCount = z.object({
                   })
                   .merge(
                     z.object({
-                      provider: z.enum(["MtOpenAIChatCompletionClient"]),
-                      config: z.object({
-                        model: z.string(),
-                        model_type: z.enum([
-                          "OpenAIChatCompletionClient",
-                          "AzureOpenAIChatCompletionClient",
-                        ]),
-                        api_key: z.string().optional(),
-                        base_url: z.string().optional(),
-                        timeout: z.number().optional(),
-                        max_retries: z.number().int().optional(),
-                        frequency_penalty: z.number().optional(),
-                        logit_bias: z.number().int().optional(),
-                        max_tokens: z.number().int().optional(),
-                        n: z.number().int().optional(),
-                        presence_penalty: z.number().optional(),
-                        response_format: z.string().optional(),
-                        seed: z.number().int().optional(),
-                        stop: z.array(z.string()).optional(),
-                        temperature: z.number().optional(),
-                        top_p: z.number().optional(),
-                        user: z.string().optional(),
-                        organization: z.string().optional(),
-                        default_headers: z.object({}).optional(),
-                        model_info: z
-                          .object({
-                            family: z.enum(["r1", "openai", "unknown"]),
-                            vision: z.boolean(),
-                            function_calling: z.boolean(),
-                            json_output: z.boolean(),
-                          })
-                          .optional(),
-                      }),
+                      provider: z.enum(["OpenAIChatCompletionClient"]),
+                      config: z
+                        .object({
+                          frequency_penalty: z.number().optional(),
+                          logit_bias: z.object({}).optional(),
+                          max_tokens: z.number().int().optional(),
+                          n: z.number().int().optional(),
+                          presence_penalty: z.number().optional(),
+                          response_format: z.string().optional(),
+                          seed: z.number().int().optional(),
+                          stop: z.array(z.string()).optional(),
+                          temperature: z.number().optional(),
+                          top_p: z.number().optional(),
+                          user: z.string().optional(),
+                          stream_options: z.object({}).optional(),
+                        })
+                        .merge(
+                          z.object({
+                            model: z.string().optional(),
+                            api_key: z.string().optional(),
+                            timeout: z.number().optional(),
+                            max_retries: z.number().int().optional(),
+                            model_capabilities: z.object({}).optional(),
+                            model_info: z.object({}).optional(),
+                            add_name_prefixes: z.boolean().optional(),
+                            default_headers: z.object({}).optional(),
+                          }),
+                        )
+                        .merge(
+                          z.object({
+                            organization: z.string().optional(),
+                            base_url: z.string().optional(),
+                          }),
+                        ),
                     }),
                   ),
                 tools: z.array(z.object({})).default([]),
                 handoffs: z.array(z.string()).optional().default([]),
                 reflect_on_tool_use: z.boolean().default(false),
                 tool_call_summary_format: z.string().default("{result}"),
+                metadata: z.object({}).optional(),
               })
               .optional(),
           }),
@@ -967,39 +970,40 @@ export const zWorkflowWorkersCount = z.object({
         })
         .merge(
           z.object({
-            provider: z.enum(["MtOpenAIChatCompletionClient"]),
-            config: z.object({
-              model: z.string(),
-              model_type: z.enum([
-                "OpenAIChatCompletionClient",
-                "AzureOpenAIChatCompletionClient",
-              ]),
-              api_key: z.string().optional(),
-              base_url: z.string().optional(),
-              timeout: z.number().optional(),
-              max_retries: z.number().int().optional(),
-              frequency_penalty: z.number().optional(),
-              logit_bias: z.number().int().optional(),
-              max_tokens: z.number().int().optional(),
-              n: z.number().int().optional(),
-              presence_penalty: z.number().optional(),
-              response_format: z.string().optional(),
-              seed: z.number().int().optional(),
-              stop: z.array(z.string()).optional(),
-              temperature: z.number().optional(),
-              top_p: z.number().optional(),
-              user: z.string().optional(),
-              organization: z.string().optional(),
-              default_headers: z.object({}).optional(),
-              model_info: z
-                .object({
-                  family: z.enum(["r1", "openai", "unknown"]),
-                  vision: z.boolean(),
-                  function_calling: z.boolean(),
-                  json_output: z.boolean(),
-                })
-                .optional(),
-            }),
+            provider: z.enum(["OpenAIChatCompletionClient"]),
+            config: z
+              .object({
+                frequency_penalty: z.number().optional(),
+                logit_bias: z.object({}).optional(),
+                max_tokens: z.number().int().optional(),
+                n: z.number().int().optional(),
+                presence_penalty: z.number().optional(),
+                response_format: z.string().optional(),
+                seed: z.number().int().optional(),
+                stop: z.array(z.string()).optional(),
+                temperature: z.number().optional(),
+                top_p: z.number().optional(),
+                user: z.string().optional(),
+                stream_options: z.object({}).optional(),
+              })
+              .merge(
+                z.object({
+                  model: z.string().optional(),
+                  api_key: z.string().optional(),
+                  timeout: z.number().optional(),
+                  max_retries: z.number().int().optional(),
+                  model_capabilities: z.object({}).optional(),
+                  model_info: z.object({}).optional(),
+                  add_name_prefixes: z.boolean().optional(),
+                  default_headers: z.object({}).optional(),
+                }),
+              )
+              .merge(
+                z.object({
+                  organization: z.string().optional(),
+                  base_url: z.string().optional(),
+                }),
+              ),
           }),
         ),
       z
@@ -1512,45 +1516,47 @@ export const zWorkflowWorkersCount = z.object({
                         })
                         .merge(
                           z.object({
-                            provider: z.enum(["MtOpenAIChatCompletionClient"]),
-                            config: z.object({
-                              model: z.string(),
-                              model_type: z.enum([
-                                "OpenAIChatCompletionClient",
-                                "AzureOpenAIChatCompletionClient",
-                              ]),
-                              api_key: z.string().optional(),
-                              base_url: z.string().optional(),
-                              timeout: z.number().optional(),
-                              max_retries: z.number().int().optional(),
-                              frequency_penalty: z.number().optional(),
-                              logit_bias: z.number().int().optional(),
-                              max_tokens: z.number().int().optional(),
-                              n: z.number().int().optional(),
-                              presence_penalty: z.number().optional(),
-                              response_format: z.string().optional(),
-                              seed: z.number().int().optional(),
-                              stop: z.array(z.string()).optional(),
-                              temperature: z.number().optional(),
-                              top_p: z.number().optional(),
-                              user: z.string().optional(),
-                              organization: z.string().optional(),
-                              default_headers: z.object({}).optional(),
-                              model_info: z
-                                .object({
-                                  family: z.enum(["r1", "openai", "unknown"]),
-                                  vision: z.boolean(),
-                                  function_calling: z.boolean(),
-                                  json_output: z.boolean(),
-                                })
-                                .optional(),
-                            }),
+                            provider: z.enum(["OpenAIChatCompletionClient"]),
+                            config: z
+                              .object({
+                                frequency_penalty: z.number().optional(),
+                                logit_bias: z.object({}).optional(),
+                                max_tokens: z.number().int().optional(),
+                                n: z.number().int().optional(),
+                                presence_penalty: z.number().optional(),
+                                response_format: z.string().optional(),
+                                seed: z.number().int().optional(),
+                                stop: z.array(z.string()).optional(),
+                                temperature: z.number().optional(),
+                                top_p: z.number().optional(),
+                                user: z.string().optional(),
+                                stream_options: z.object({}).optional(),
+                              })
+                              .merge(
+                                z.object({
+                                  model: z.string().optional(),
+                                  api_key: z.string().optional(),
+                                  timeout: z.number().optional(),
+                                  max_retries: z.number().int().optional(),
+                                  model_capabilities: z.object({}).optional(),
+                                  model_info: z.object({}).optional(),
+                                  add_name_prefixes: z.boolean().optional(),
+                                  default_headers: z.object({}).optional(),
+                                }),
+                              )
+                              .merge(
+                                z.object({
+                                  organization: z.string().optional(),
+                                  base_url: z.string().optional(),
+                                }),
+                              ),
                           }),
                         ),
                       tools: z.array(z.object({})).default([]),
                       handoffs: z.array(z.string()).optional().default([]),
                       reflect_on_tool_use: z.boolean().default(false),
                       tool_call_summary_format: z.string().default("{result}"),
+                      metadata: z.object({}).optional(),
                     })
                     .optional(),
                 }),
@@ -1729,45 +1735,47 @@ export const zWorkflowWorkersCount = z.object({
                   })
                   .merge(
                     z.object({
-                      provider: z.enum(["MtOpenAIChatCompletionClient"]),
-                      config: z.object({
-                        model: z.string(),
-                        model_type: z.enum([
-                          "OpenAIChatCompletionClient",
-                          "AzureOpenAIChatCompletionClient",
-                        ]),
-                        api_key: z.string().optional(),
-                        base_url: z.string().optional(),
-                        timeout: z.number().optional(),
-                        max_retries: z.number().int().optional(),
-                        frequency_penalty: z.number().optional(),
-                        logit_bias: z.number().int().optional(),
-                        max_tokens: z.number().int().optional(),
-                        n: z.number().int().optional(),
-                        presence_penalty: z.number().optional(),
-                        response_format: z.string().optional(),
-                        seed: z.number().int().optional(),
-                        stop: z.array(z.string()).optional(),
-                        temperature: z.number().optional(),
-                        top_p: z.number().optional(),
-                        user: z.string().optional(),
-                        organization: z.string().optional(),
-                        default_headers: z.object({}).optional(),
-                        model_info: z
-                          .object({
-                            family: z.enum(["r1", "openai", "unknown"]),
-                            vision: z.boolean(),
-                            function_calling: z.boolean(),
-                            json_output: z.boolean(),
-                          })
-                          .optional(),
-                      }),
+                      provider: z.enum(["OpenAIChatCompletionClient"]),
+                      config: z
+                        .object({
+                          frequency_penalty: z.number().optional(),
+                          logit_bias: z.object({}).optional(),
+                          max_tokens: z.number().int().optional(),
+                          n: z.number().int().optional(),
+                          presence_penalty: z.number().optional(),
+                          response_format: z.string().optional(),
+                          seed: z.number().int().optional(),
+                          stop: z.array(z.string()).optional(),
+                          temperature: z.number().optional(),
+                          top_p: z.number().optional(),
+                          user: z.string().optional(),
+                          stream_options: z.object({}).optional(),
+                        })
+                        .merge(
+                          z.object({
+                            model: z.string().optional(),
+                            api_key: z.string().optional(),
+                            timeout: z.number().optional(),
+                            max_retries: z.number().int().optional(),
+                            model_capabilities: z.object({}).optional(),
+                            model_info: z.object({}).optional(),
+                            add_name_prefixes: z.boolean().optional(),
+                            default_headers: z.object({}).optional(),
+                          }),
+                        )
+                        .merge(
+                          z.object({
+                            organization: z.string().optional(),
+                            base_url: z.string().optional(),
+                          }),
+                        ),
                     }),
                   ),
                 tools: z.array(z.object({})).default([]),
                 handoffs: z.array(z.string()).optional().default([]),
                 reflect_on_tool_use: z.boolean().default(false),
                 tool_call_summary_format: z.string().default("{result}"),
+                metadata: z.object({}).optional(),
               })
               .optional(),
           }),
@@ -1816,45 +1824,47 @@ export const zWorkflowWorkersCount = z.object({
                   })
                   .merge(
                     z.object({
-                      provider: z.enum(["MtOpenAIChatCompletionClient"]),
-                      config: z.object({
-                        model: z.string(),
-                        model_type: z.enum([
-                          "OpenAIChatCompletionClient",
-                          "AzureOpenAIChatCompletionClient",
-                        ]),
-                        api_key: z.string().optional(),
-                        base_url: z.string().optional(),
-                        timeout: z.number().optional(),
-                        max_retries: z.number().int().optional(),
-                        frequency_penalty: z.number().optional(),
-                        logit_bias: z.number().int().optional(),
-                        max_tokens: z.number().int().optional(),
-                        n: z.number().int().optional(),
-                        presence_penalty: z.number().optional(),
-                        response_format: z.string().optional(),
-                        seed: z.number().int().optional(),
-                        stop: z.array(z.string()).optional(),
-                        temperature: z.number().optional(),
-                        top_p: z.number().optional(),
-                        user: z.string().optional(),
-                        organization: z.string().optional(),
-                        default_headers: z.object({}).optional(),
-                        model_info: z
-                          .object({
-                            family: z.enum(["r1", "openai", "unknown"]),
-                            vision: z.boolean(),
-                            function_calling: z.boolean(),
-                            json_output: z.boolean(),
-                          })
-                          .optional(),
-                      }),
+                      provider: z.enum(["OpenAIChatCompletionClient"]),
+                      config: z
+                        .object({
+                          frequency_penalty: z.number().optional(),
+                          logit_bias: z.object({}).optional(),
+                          max_tokens: z.number().int().optional(),
+                          n: z.number().int().optional(),
+                          presence_penalty: z.number().optional(),
+                          response_format: z.string().optional(),
+                          seed: z.number().int().optional(),
+                          stop: z.array(z.string()).optional(),
+                          temperature: z.number().optional(),
+                          top_p: z.number().optional(),
+                          user: z.string().optional(),
+                          stream_options: z.object({}).optional(),
+                        })
+                        .merge(
+                          z.object({
+                            model: z.string().optional(),
+                            api_key: z.string().optional(),
+                            timeout: z.number().optional(),
+                            max_retries: z.number().int().optional(),
+                            model_capabilities: z.object({}).optional(),
+                            model_info: z.object({}).optional(),
+                            add_name_prefixes: z.boolean().optional(),
+                            default_headers: z.object({}).optional(),
+                          }),
+                        )
+                        .merge(
+                          z.object({
+                            organization: z.string().optional(),
+                            base_url: z.string().optional(),
+                          }),
+                        ),
                     }),
                   ),
                 tools: z.array(z.object({})).default([]),
                 handoffs: z.array(z.string()).optional().default([]),
                 reflect_on_tool_use: z.boolean().default(false),
                 tool_call_summary_format: z.string().default("{result}"),
+                metadata: z.object({}).optional(),
               })
               .optional(),
           }),
@@ -1903,45 +1913,47 @@ export const zWorkflowWorkersCount = z.object({
                   })
                   .merge(
                     z.object({
-                      provider: z.enum(["MtOpenAIChatCompletionClient"]),
-                      config: z.object({
-                        model: z.string(),
-                        model_type: z.enum([
-                          "OpenAIChatCompletionClient",
-                          "AzureOpenAIChatCompletionClient",
-                        ]),
-                        api_key: z.string().optional(),
-                        base_url: z.string().optional(),
-                        timeout: z.number().optional(),
-                        max_retries: z.number().int().optional(),
-                        frequency_penalty: z.number().optional(),
-                        logit_bias: z.number().int().optional(),
-                        max_tokens: z.number().int().optional(),
-                        n: z.number().int().optional(),
-                        presence_penalty: z.number().optional(),
-                        response_format: z.string().optional(),
-                        seed: z.number().int().optional(),
-                        stop: z.array(z.string()).optional(),
-                        temperature: z.number().optional(),
-                        top_p: z.number().optional(),
-                        user: z.string().optional(),
-                        organization: z.string().optional(),
-                        default_headers: z.object({}).optional(),
-                        model_info: z
-                          .object({
-                            family: z.enum(["r1", "openai", "unknown"]),
-                            vision: z.boolean(),
-                            function_calling: z.boolean(),
-                            json_output: z.boolean(),
-                          })
-                          .optional(),
-                      }),
+                      provider: z.enum(["OpenAIChatCompletionClient"]),
+                      config: z
+                        .object({
+                          frequency_penalty: z.number().optional(),
+                          logit_bias: z.object({}).optional(),
+                          max_tokens: z.number().int().optional(),
+                          n: z.number().int().optional(),
+                          presence_penalty: z.number().optional(),
+                          response_format: z.string().optional(),
+                          seed: z.number().int().optional(),
+                          stop: z.array(z.string()).optional(),
+                          temperature: z.number().optional(),
+                          top_p: z.number().optional(),
+                          user: z.string().optional(),
+                          stream_options: z.object({}).optional(),
+                        })
+                        .merge(
+                          z.object({
+                            model: z.string().optional(),
+                            api_key: z.string().optional(),
+                            timeout: z.number().optional(),
+                            max_retries: z.number().int().optional(),
+                            model_capabilities: z.object({}).optional(),
+                            model_info: z.object({}).optional(),
+                            add_name_prefixes: z.boolean().optional(),
+                            default_headers: z.object({}).optional(),
+                          }),
+                        )
+                        .merge(
+                          z.object({
+                            organization: z.string().optional(),
+                            base_url: z.string().optional(),
+                          }),
+                        ),
                     }),
                   ),
                 tools: z.array(z.object({})).default([]),
                 handoffs: z.array(z.string()).optional().default([]),
                 reflect_on_tool_use: z.boolean().default(false),
                 tool_call_summary_format: z.string().default("{result}"),
+                metadata: z.object({}).optional(),
               })
               .optional(),
           }),
@@ -1953,6 +1965,39 @@ export const zWorkflowWorkersCount = z.object({
                 provider: z.enum(["UserProxyAgent"]),
               })
               .optional(),
+          }),
+        ),
+      z
+        .object({
+          frequency_penalty: z.number().optional(),
+          logit_bias: z.object({}).optional(),
+          max_tokens: z.number().int().optional(),
+          n: z.number().int().optional(),
+          presence_penalty: z.number().optional(),
+          response_format: z.string().optional(),
+          seed: z.number().int().optional(),
+          stop: z.array(z.string()).optional(),
+          temperature: z.number().optional(),
+          top_p: z.number().optional(),
+          user: z.string().optional(),
+          stream_options: z.object({}).optional(),
+        })
+        .merge(
+          z.object({
+            model: z.string().optional(),
+            api_key: z.string().optional(),
+            timeout: z.number().optional(),
+            max_retries: z.number().int().optional(),
+            model_capabilities: z.object({}).optional(),
+            model_info: z.object({}).optional(),
+            add_name_prefixes: z.boolean().optional(),
+            default_headers: z.object({}).optional(),
+          }),
+        )
+        .merge(
+          z.object({
+            organization: z.string().optional(),
+            base_url: z.string().optional(),
           }),
         ),
     ])
@@ -3474,7 +3519,7 @@ export const zProviderTypes = z.enum([
   "CodeExecutorAgent",
   "SocietyOfMindAgent",
   "UserProxyAgent",
-  "MtOpenAIChatCompletionClient",
+  "OpenAIChatCompletionClient",
   "TextMentionTermination",
   "HandoffTermination",
   "TimeoutTermination",
@@ -3483,6 +3528,7 @@ export const zProviderTypes = z.enum([
   "TokenUsageTermination",
   "MaxMessageTermination",
   "StopMessageTermination",
+  "TextMessageTermination",
 ]);
 
 export const zAgEvent = z.object({
@@ -3576,45 +3622,47 @@ export const zCodeExecutorAgent = z
             })
             .merge(
               z.object({
-                provider: z.enum(["MtOpenAIChatCompletionClient"]),
-                config: z.object({
-                  model: z.string(),
-                  model_type: z.enum([
-                    "OpenAIChatCompletionClient",
-                    "AzureOpenAIChatCompletionClient",
-                  ]),
-                  api_key: z.string().optional(),
-                  base_url: z.string().optional(),
-                  timeout: z.number().optional(),
-                  max_retries: z.number().int().optional(),
-                  frequency_penalty: z.number().optional(),
-                  logit_bias: z.number().int().optional(),
-                  max_tokens: z.number().int().optional(),
-                  n: z.number().int().optional(),
-                  presence_penalty: z.number().optional(),
-                  response_format: z.string().optional(),
-                  seed: z.number().int().optional(),
-                  stop: z.array(z.string()).optional(),
-                  temperature: z.number().optional(),
-                  top_p: z.number().optional(),
-                  user: z.string().optional(),
-                  organization: z.string().optional(),
-                  default_headers: z.object({}).optional(),
-                  model_info: z
-                    .object({
-                      family: z.enum(["r1", "openai", "unknown"]),
-                      vision: z.boolean(),
-                      function_calling: z.boolean(),
-                      json_output: z.boolean(),
-                    })
-                    .optional(),
-                }),
+                provider: z.enum(["OpenAIChatCompletionClient"]),
+                config: z
+                  .object({
+                    frequency_penalty: z.number().optional(),
+                    logit_bias: z.object({}).optional(),
+                    max_tokens: z.number().int().optional(),
+                    n: z.number().int().optional(),
+                    presence_penalty: z.number().optional(),
+                    response_format: z.string().optional(),
+                    seed: z.number().int().optional(),
+                    stop: z.array(z.string()).optional(),
+                    temperature: z.number().optional(),
+                    top_p: z.number().optional(),
+                    user: z.string().optional(),
+                    stream_options: z.object({}).optional(),
+                  })
+                  .merge(
+                    z.object({
+                      model: z.string().optional(),
+                      api_key: z.string().optional(),
+                      timeout: z.number().optional(),
+                      max_retries: z.number().int().optional(),
+                      model_capabilities: z.object({}).optional(),
+                      model_info: z.object({}).optional(),
+                      add_name_prefixes: z.boolean().optional(),
+                      default_headers: z.object({}).optional(),
+                    }),
+                  )
+                  .merge(
+                    z.object({
+                      organization: z.string().optional(),
+                      base_url: z.string().optional(),
+                    }),
+                  ),
               }),
             ),
           tools: z.array(z.object({})).default([]),
           handoffs: z.array(z.string()).optional().default([]),
           reflect_on_tool_use: z.boolean().default(false),
           tool_call_summary_format: z.string().default("{result}"),
+          metadata: z.object({}).optional(),
         })
         .optional(),
     }),
@@ -3669,45 +3717,47 @@ export const zSocietyOfMindAgent = z
             })
             .merge(
               z.object({
-                provider: z.enum(["MtOpenAIChatCompletionClient"]),
-                config: z.object({
-                  model: z.string(),
-                  model_type: z.enum([
-                    "OpenAIChatCompletionClient",
-                    "AzureOpenAIChatCompletionClient",
-                  ]),
-                  api_key: z.string().optional(),
-                  base_url: z.string().optional(),
-                  timeout: z.number().optional(),
-                  max_retries: z.number().int().optional(),
-                  frequency_penalty: z.number().optional(),
-                  logit_bias: z.number().int().optional(),
-                  max_tokens: z.number().int().optional(),
-                  n: z.number().int().optional(),
-                  presence_penalty: z.number().optional(),
-                  response_format: z.string().optional(),
-                  seed: z.number().int().optional(),
-                  stop: z.array(z.string()).optional(),
-                  temperature: z.number().optional(),
-                  top_p: z.number().optional(),
-                  user: z.string().optional(),
-                  organization: z.string().optional(),
-                  default_headers: z.object({}).optional(),
-                  model_info: z
-                    .object({
-                      family: z.enum(["r1", "openai", "unknown"]),
-                      vision: z.boolean(),
-                      function_calling: z.boolean(),
-                      json_output: z.boolean(),
-                    })
-                    .optional(),
-                }),
+                provider: z.enum(["OpenAIChatCompletionClient"]),
+                config: z
+                  .object({
+                    frequency_penalty: z.number().optional(),
+                    logit_bias: z.object({}).optional(),
+                    max_tokens: z.number().int().optional(),
+                    n: z.number().int().optional(),
+                    presence_penalty: z.number().optional(),
+                    response_format: z.string().optional(),
+                    seed: z.number().int().optional(),
+                    stop: z.array(z.string()).optional(),
+                    temperature: z.number().optional(),
+                    top_p: z.number().optional(),
+                    user: z.string().optional(),
+                    stream_options: z.object({}).optional(),
+                  })
+                  .merge(
+                    z.object({
+                      model: z.string().optional(),
+                      api_key: z.string().optional(),
+                      timeout: z.number().optional(),
+                      max_retries: z.number().int().optional(),
+                      model_capabilities: z.object({}).optional(),
+                      model_info: z.object({}).optional(),
+                      add_name_prefixes: z.boolean().optional(),
+                      default_headers: z.object({}).optional(),
+                    }),
+                  )
+                  .merge(
+                    z.object({
+                      organization: z.string().optional(),
+                      base_url: z.string().optional(),
+                    }),
+                  ),
               }),
             ),
           tools: z.array(z.object({})).default([]),
           handoffs: z.array(z.string()).optional().default([]),
           reflect_on_tool_use: z.boolean().default(false),
           tool_call_summary_format: z.string().default("{result}"),
+          metadata: z.object({}).optional(),
         })
         .optional(),
     }),
@@ -3762,45 +3812,47 @@ export const zUserProxyAgent = z
             })
             .merge(
               z.object({
-                provider: z.enum(["MtOpenAIChatCompletionClient"]),
-                config: z.object({
-                  model: z.string(),
-                  model_type: z.enum([
-                    "OpenAIChatCompletionClient",
-                    "AzureOpenAIChatCompletionClient",
-                  ]),
-                  api_key: z.string().optional(),
-                  base_url: z.string().optional(),
-                  timeout: z.number().optional(),
-                  max_retries: z.number().int().optional(),
-                  frequency_penalty: z.number().optional(),
-                  logit_bias: z.number().int().optional(),
-                  max_tokens: z.number().int().optional(),
-                  n: z.number().int().optional(),
-                  presence_penalty: z.number().optional(),
-                  response_format: z.string().optional(),
-                  seed: z.number().int().optional(),
-                  stop: z.array(z.string()).optional(),
-                  temperature: z.number().optional(),
-                  top_p: z.number().optional(),
-                  user: z.string().optional(),
-                  organization: z.string().optional(),
-                  default_headers: z.object({}).optional(),
-                  model_info: z
-                    .object({
-                      family: z.enum(["r1", "openai", "unknown"]),
-                      vision: z.boolean(),
-                      function_calling: z.boolean(),
-                      json_output: z.boolean(),
-                    })
-                    .optional(),
-                }),
+                provider: z.enum(["OpenAIChatCompletionClient"]),
+                config: z
+                  .object({
+                    frequency_penalty: z.number().optional(),
+                    logit_bias: z.object({}).optional(),
+                    max_tokens: z.number().int().optional(),
+                    n: z.number().int().optional(),
+                    presence_penalty: z.number().optional(),
+                    response_format: z.string().optional(),
+                    seed: z.number().int().optional(),
+                    stop: z.array(z.string()).optional(),
+                    temperature: z.number().optional(),
+                    top_p: z.number().optional(),
+                    user: z.string().optional(),
+                    stream_options: z.object({}).optional(),
+                  })
+                  .merge(
+                    z.object({
+                      model: z.string().optional(),
+                      api_key: z.string().optional(),
+                      timeout: z.number().optional(),
+                      max_retries: z.number().int().optional(),
+                      model_capabilities: z.object({}).optional(),
+                      model_info: z.object({}).optional(),
+                      add_name_prefixes: z.boolean().optional(),
+                      default_headers: z.object({}).optional(),
+                    }),
+                  )
+                  .merge(
+                    z.object({
+                      organization: z.string().optional(),
+                      base_url: z.string().optional(),
+                    }),
+                  ),
               }),
             ),
           tools: z.array(z.object({})).default([]),
           handoffs: z.array(z.string()).optional().default([]),
           reflect_on_tool_use: z.boolean().default(false),
           tool_call_summary_format: z.string().default("{result}"),
+          metadata: z.object({}).optional(),
         })
         .optional(),
     }),
@@ -3817,6 +3869,83 @@ export const zUserProxyAgent = z
 
 export const zUserProxyAgentConfig = z.object({
   provider: z.enum(["UserProxyAgent"]),
+});
+
+export const zOpenAiClientConfigurationConfigModel = z
+  .object({
+    frequency_penalty: z.number().optional(),
+    logit_bias: z.object({}).optional(),
+    max_tokens: z.number().int().optional(),
+    n: z.number().int().optional(),
+    presence_penalty: z.number().optional(),
+    response_format: z.string().optional(),
+    seed: z.number().int().optional(),
+    stop: z.array(z.string()).optional(),
+    temperature: z.number().optional(),
+    top_p: z.number().optional(),
+    user: z.string().optional(),
+    stream_options: z.object({}).optional(),
+  })
+  .merge(
+    z.object({
+      model: z.string().optional(),
+      api_key: z.string().optional(),
+      timeout: z.number().optional(),
+      max_retries: z.number().int().optional(),
+      model_capabilities: z.object({}).optional(),
+      model_info: z.object({}).optional(),
+      add_name_prefixes: z.boolean().optional(),
+      default_headers: z.object({}).optional(),
+    }),
+  )
+  .merge(
+    z.object({
+      organization: z.string().optional(),
+      base_url: z.string().optional(),
+    }),
+  );
+
+export const zBaseOpenAiClientConfigurationConfigModel = z
+  .object({
+    frequency_penalty: z.number().optional(),
+    logit_bias: z.object({}).optional(),
+    max_tokens: z.number().int().optional(),
+    n: z.number().int().optional(),
+    presence_penalty: z.number().optional(),
+    response_format: z.string().optional(),
+    seed: z.number().int().optional(),
+    stop: z.array(z.string()).optional(),
+    temperature: z.number().optional(),
+    top_p: z.number().optional(),
+    user: z.string().optional(),
+    stream_options: z.object({}).optional(),
+  })
+  .merge(
+    z.object({
+      model: z.string().optional(),
+      api_key: z.string().optional(),
+      timeout: z.number().optional(),
+      max_retries: z.number().int().optional(),
+      model_capabilities: z.object({}).optional(),
+      model_info: z.object({}).optional(),
+      add_name_prefixes: z.boolean().optional(),
+      default_headers: z.object({}).optional(),
+    }),
+  );
+
+export const zCreateArgumentsConfigModel = z.object({
+  frequency_penalty: z.number().optional(),
+  logit_bias: z.object({}).optional(),
+  max_tokens: z.number().int().optional(),
+  n: z.number().int().optional(),
+  presence_penalty: z.number().optional(),
+  response_format: z.string().optional(),
+  seed: z.number().int().optional(),
+  stop: z.array(z.string()).optional(),
+  temperature: z.number().optional(),
+  top_p: z.number().optional(),
+  user: z.string().optional(),
+  stream_options: z.object({}).optional(),
 });
 
 export const zFunctionCall = z.object({
@@ -3873,88 +4002,6 @@ export const zUpsertModel = z.object({
   jsonOutput: z.boolean(),
   tags: z.array(z.string()).optional(),
 });
-
-export const zAzureOpenAiModelConfig = z
-  .object({
-    model: z.string(),
-    model_type: z.enum([
-      "OpenAIChatCompletionClient",
-      "AzureOpenAIChatCompletionClient",
-    ]),
-    api_key: z.string().optional(),
-    base_url: z.string().optional(),
-    timeout: z.number().optional(),
-    max_retries: z.number().int().optional(),
-    frequency_penalty: z.number().optional(),
-    logit_bias: z.number().int().optional(),
-    max_tokens: z.number().int().optional(),
-    n: z.number().int().optional(),
-    presence_penalty: z.number().optional(),
-    response_format: z.string().optional(),
-    seed: z.number().int().optional(),
-    stop: z.array(z.string()).optional(),
-    temperature: z.number().optional(),
-    top_p: z.number().optional(),
-    user: z.string().optional(),
-    organization: z.string().optional(),
-    default_headers: z.object({}).optional(),
-    model_info: z
-      .object({
-        family: z.enum(["r1", "openai", "unknown"]),
-        vision: z.boolean(),
-        function_calling: z.boolean(),
-        json_output: z.boolean(),
-      })
-      .optional(),
-  })
-  .merge(
-    z.object({
-      model_type: z.enum(["AzureOpenAIChatCompletionClient"]),
-      azure_deployment: z.string(),
-      api_version: z.string(),
-      azure_endpoint: z.string(),
-      azure_ad_token_provider: z.string(),
-    }),
-  );
-
-export const zOpenAiModelConfig = z
-  .object({
-    model: z.string(),
-    model_type: z.enum([
-      "OpenAIChatCompletionClient",
-      "AzureOpenAIChatCompletionClient",
-    ]),
-    api_key: z.string().optional(),
-    base_url: z.string().optional(),
-    timeout: z.number().optional(),
-    max_retries: z.number().int().optional(),
-    frequency_penalty: z.number().optional(),
-    logit_bias: z.number().int().optional(),
-    max_tokens: z.number().int().optional(),
-    n: z.number().int().optional(),
-    presence_penalty: z.number().optional(),
-    response_format: z.string().optional(),
-    seed: z.number().int().optional(),
-    stop: z.array(z.string()).optional(),
-    temperature: z.number().optional(),
-    top_p: z.number().optional(),
-    user: z.string().optional(),
-    organization: z.string().optional(),
-    default_headers: z.object({}).optional(),
-    model_info: z
-      .object({
-        family: z.enum(["r1", "openai", "unknown"]),
-        vision: z.boolean(),
-        function_calling: z.boolean(),
-        json_output: z.boolean(),
-      })
-      .optional(),
-  })
-  .merge(
-    z.object({
-      model_type: z.enum(["OpenAIChatCompletionClient"]),
-    }),
-  );
 
 export const zToolConfig = z.object({
   name: z.string(),
@@ -4016,45 +4063,15 @@ export const zAssistantAgent = z
             })
             .merge(
               z.object({
-                provider: z.enum(["MtOpenAIChatCompletionClient"]),
-                config: z.object({
-                  model: z.string(),
-                  model_type: z.enum([
-                    "OpenAIChatCompletionClient",
-                    "AzureOpenAIChatCompletionClient",
-                  ]),
-                  api_key: z.string().optional(),
-                  base_url: z.string().optional(),
-                  timeout: z.number().optional(),
-                  max_retries: z.number().int().optional(),
-                  frequency_penalty: z.number().optional(),
-                  logit_bias: z.number().int().optional(),
-                  max_tokens: z.number().int().optional(),
-                  n: z.number().int().optional(),
-                  presence_penalty: z.number().optional(),
-                  response_format: z.string().optional(),
-                  seed: z.number().int().optional(),
-                  stop: z.array(z.string()).optional(),
-                  temperature: z.number().optional(),
-                  top_p: z.number().optional(),
-                  user: z.string().optional(),
-                  organization: z.string().optional(),
-                  default_headers: z.object({}).optional(),
-                  model_info: z
-                    .object({
-                      family: z.enum(["r1", "openai", "unknown"]),
-                      vision: z.boolean(),
-                      function_calling: z.boolean(),
-                      json_output: z.boolean(),
-                    })
-                    .optional(),
-                }),
+                provider: z.enum(["OpenAIChatCompletionClient"]),
+                config: zOpenAiClientConfigurationConfigModel,
               }),
             ),
           tools: z.array(z.object({})).default([]),
           handoffs: z.array(z.string()).optional().default([]),
           reflect_on_tool_use: z.boolean().default(false),
           tool_call_summary_format: z.string().default("{result}"),
+          metadata: z.object({}).optional(),
         })
         .optional(),
     }),
@@ -4079,45 +4096,15 @@ export const zAssistantAgentConfig = z.object({
     })
     .merge(
       z.object({
-        provider: z.enum(["MtOpenAIChatCompletionClient"]),
-        config: z.object({
-          model: z.string(),
-          model_type: z.enum([
-            "OpenAIChatCompletionClient",
-            "AzureOpenAIChatCompletionClient",
-          ]),
-          api_key: z.string().optional(),
-          base_url: z.string().optional(),
-          timeout: z.number().optional(),
-          max_retries: z.number().int().optional(),
-          frequency_penalty: z.number().optional(),
-          logit_bias: z.number().int().optional(),
-          max_tokens: z.number().int().optional(),
-          n: z.number().int().optional(),
-          presence_penalty: z.number().optional(),
-          response_format: z.string().optional(),
-          seed: z.number().int().optional(),
-          stop: z.array(z.string()).optional(),
-          temperature: z.number().optional(),
-          top_p: z.number().optional(),
-          user: z.string().optional(),
-          organization: z.string().optional(),
-          default_headers: z.object({}).optional(),
-          model_info: z
-            .object({
-              family: z.enum(["r1", "openai", "unknown"]),
-              vision: z.boolean(),
-              function_calling: z.boolean(),
-              json_output: z.boolean(),
-            })
-            .optional(),
-        }),
+        provider: z.enum(["OpenAIChatCompletionClient"]),
+        config: zOpenAiClientConfigurationConfigModel,
       }),
     ),
   tools: z.array(z.object({})).default([]),
   handoffs: z.array(z.string()).optional().default([]),
   reflect_on_tool_use: z.boolean().default(false),
   tool_call_summary_format: z.string().default("{result}"),
+  metadata: z.object({}).optional(),
 });
 
 export const zTenantParameter = z.string().uuid().length(36);
@@ -4159,39 +4146,6 @@ export const zModel = zApiResourceMetaProperties.merge(
   }),
 );
 
-export const zModelConfig = z.object({
-  model: z.string(),
-  model_type: z.enum([
-    "OpenAIChatCompletionClient",
-    "AzureOpenAIChatCompletionClient",
-  ]),
-  api_key: z.string().optional(),
-  base_url: z.string().optional(),
-  timeout: z.number().optional(),
-  max_retries: z.number().int().optional(),
-  frequency_penalty: z.number().optional(),
-  logit_bias: z.number().int().optional(),
-  max_tokens: z.number().int().optional(),
-  n: z.number().int().optional(),
-  presence_penalty: z.number().optional(),
-  response_format: z.string().optional(),
-  seed: z.number().int().optional(),
-  stop: z.array(z.string()).optional(),
-  temperature: z.number().optional(),
-  top_p: z.number().optional(),
-  user: z.string().optional(),
-  organization: z.string().optional(),
-  default_headers: z.object({}).optional(),
-  model_info: z
-    .object({
-      family: z.enum(["r1", "openai", "unknown"]),
-      vision: z.boolean(),
-      function_calling: z.boolean(),
-      json_output: z.boolean(),
-    })
-    .optional(),
-});
-
 export const zModelFamily = z.enum(["r1", "openai", "unknown"]);
 
 export const zModelInfo = z.object({
@@ -4199,14 +4153,13 @@ export const zModelInfo = z.object({
   vision: z.boolean(),
   function_calling: z.boolean(),
   json_output: z.boolean(),
+  structured_output: z.boolean(),
 });
 
 export const zModelTypes = z.enum([
   "OpenAIChatCompletionClient",
   "AzureOpenAIChatCompletionClient",
 ]);
-
-export const zOpenAiClientConfigurationConfigModel = zModelConfig;
 
 export const zModelProperties = z.object({
   name: z.string(),
@@ -4900,7 +4853,7 @@ export const zInstagramAgentConfig = zAssistantAgentConfig.merge(
 
 export const zMtOpenAiChatCompletionClient = zComponentModel.merge(
   z.object({
-    provider: z.enum(["MtOpenAIChatCompletionClient"]),
+    provider: z.enum(["OpenAIChatCompletionClient"]),
     config: zOpenAiClientConfigurationConfigModel,
   }),
 );
