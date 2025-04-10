@@ -851,9 +851,7 @@ export type WorkflowWorkersCount = {
     | PlatformAccountData
     | BrowserTask
     | BrowserOpenTask
-    | PlatformAccountFlowInput
     | FlowError
-    | SocialAddFollowersInput
     | FlowTeamInput
     | CodeExecutionResult
     | SocialLoginInput
@@ -861,7 +859,6 @@ export type WorkflowWorkersCount = {
     | FlowResult
     | ChatStartInput
     | UserInputRequestedEvent
-    | OpenAiChatCompletionClient
     | RoundRobinGroupChat
     | SocialTeam
     | AgentStates

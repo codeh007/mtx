@@ -1438,13 +1438,7 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/BrowserOpenTask",
         },
         {
-          $ref: "#/components/schemas/PlatformAccountFlowInput",
-        },
-        {
           $ref: "#/components/schemas/FlowError",
-        },
-        {
-          $ref: "#/components/schemas/SocialAddFollowersInput",
         },
         {
           $ref: "#/components/schemas/FlowTeamInput",
@@ -1466,9 +1460,6 @@ export const WorkflowWorkersCountSchema = {
         },
         {
           $ref: "#/components/schemas/UserInputRequestedEvent",
-        },
-        {
-          $ref: "#/components/schemas/OpenAIChatCompletionClient",
         },
         {
           $ref: "#/components/schemas/RoundRobinGroupChat",

@@ -698,17 +698,8 @@ export const zWorkflowWorkersCount = z.object({
         url: z.string(),
       }),
       z.object({
-        type: z.enum(["PlatformAccountFlowInput"]),
-        platform_account_id: z.string().optional(),
-      }),
-      z.object({
         type: z.string().optional(),
         error: z.string().optional(),
-      }),
-      z.object({
-        type: z.enum(["SocialAddFollowersInput"]),
-        platform_account_id: z.string().optional(),
-        count_to_follow: z.number().default(1),
       }),
       z.object({
         session_id: z.string(),
@@ -1480,54 +1471,6 @@ export const zWorkflowWorkersCount = z.object({
         request_id: z.string(),
         content: z.string(),
       }),
-      z
-        .object({
-          provider: z.string().optional(),
-          component_type: z.string().optional(),
-          version: z.number().int().optional(),
-          component_version: z.number().int().optional(),
-          description: z.string().optional(),
-          label: z.string().optional(),
-          config: z.object({}).optional(),
-        })
-        .merge(
-          z.object({
-            provider: z.enum(["OpenAIChatCompletionClient"]),
-            config: z
-              .object({
-                frequency_penalty: z.number().optional(),
-                logit_bias: z.object({}).optional(),
-                max_tokens: z.number().int().optional(),
-                n: z.number().int().optional(),
-                presence_penalty: z.number().optional(),
-                response_format: z.string().optional(),
-                seed: z.number().int().optional(),
-                stop: z.array(z.string()).optional(),
-                temperature: z.number().optional(),
-                top_p: z.number().optional(),
-                user: z.string().optional(),
-                stream_options: z.object({}).optional(),
-              })
-              .merge(
-                z.object({
-                  model: z.string().optional(),
-                  api_key: z.string().optional(),
-                  timeout: z.number().optional(),
-                  max_retries: z.number().int().optional(),
-                  model_capabilities: z.object({}).optional(),
-                  model_info: z.object({}).optional(),
-                  add_name_prefixes: z.boolean().optional(),
-                  default_headers: z.object({}).optional(),
-                }),
-              )
-              .merge(
-                z.object({
-                  organization: z.string().optional(),
-                  base_url: z.string().optional(),
-                }),
-              ),
-          }),
-        ),
       z
         .object({
           provider: z.string().optional(),
