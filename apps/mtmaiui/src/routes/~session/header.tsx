@@ -27,11 +27,10 @@ import { useTeamSessionStore } from "../../stores/teamSessionProvider";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 
 export function SessionHeader() {
-  const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
   const componentId = useTeamSessionStore((x) => x.componentId);
   const sessionId = useWorkbenchStore((x) => x.threadId);
   const search = useSearch();
-  const started = useWorkbenchStore((x) => x.started);
+  // const started = useWorkbenchStore((x) => x.started);
   const { open } = useSidebar();
   const { width: windowWidth } = useWindowSize();
   const openWorkbench = useWorkbenchStore((x) => x.openWorkbench);
@@ -127,47 +126,18 @@ export function SessionHeader() {
               <span className="md:sr-only">操作</span>
             </CustomLink>
           </BetterTooltip>
-
-          {/* <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                size="icon"
-                className="w-16"
-                onClick={() => {
-                  handleHumanInput({
-                    content: "你好",
-                    componentId: componentId,
-                  });
-                }}
-              >
-                <Play className="size-4" /> Run
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <span>Run Team</span>
-            </TooltipContent>
-          </Tooltip> */}
           {(!open || windowWidth < 768) && (
             <BetterTooltip content="New Chat">
               <Button
                 variant="outline"
                 className="order-2 md:order-1 md:px-2 px-2 md:h-fit ml-auto md:ml-0"
-                onClick={() => {
-                  // router.push("/");
-                  // router.refresh();
-                }}
+                onClick={() => {}}
               >
                 <PlusIcon />
                 <span className="md:sr-only">New Chat</span>
               </Button>
             </BetterTooltip>
           )}
-          {/* <Button
-            className="bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-zinc-200 text-zinc-50 dark:text-zinc-900 hidden md:flex py-1.5 px-2 h-fit md:h-[34px] order-4 md:ml-auto"
-            asChild
-          >
-            mtmai
-          </Button> */}
 
           <Button
             disabled={!canHideChat}
@@ -191,15 +161,17 @@ export function SessionHeader() {
             <Icons.code className="size-4" />
           </Button>
 
-          <CustomLink
-            to={`/play/chat/${chatSessionId}/edit`}
-            className={cn(buttonVariants({ variant: "ghost" }))}
-            activeProps={{
-              className: "outline outline-1 outline-offset-2 outline-red-500",
-            }}
-          >
-            <Icons.settings className="size-4" />
-          </CustomLink>
+          <BetterTooltip content="配置">
+            <CustomLink
+              to={`/session/${chatSessionId}/config`}
+              className={cn(buttonVariants({ variant: "ghost" }))}
+              activeProps={{
+                className: "outline outline-1 outline-offset-2 outline-red-500",
+              }}
+            >
+              <Icons.settings className="size-4" />
+            </CustomLink>
+          </BetterTooltip>
         </div>
       </HeaderActionConainer>
     </DashHeaders>

@@ -92,8 +92,8 @@ export interface WorkbrenchState extends WorkbenchProps {
   openChat?: boolean;
   setOpenChat: (openChat: boolean) => void;
   setCurrentWorkbenchView: (id: string) => void;
-  started: boolean;
-  setStarted: (started: boolean) => void;
+  // started: boolean;
+  // setStarted: (started: boolean) => void;
   chatEndpoint: string;
   setChatEndpoint: (chatEndpoint: string) => void;
   isConnected: boolean;
