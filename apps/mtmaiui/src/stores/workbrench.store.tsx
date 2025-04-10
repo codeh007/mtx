@@ -9,6 +9,7 @@ import {
 import { debounce } from "lodash";
 import {
   type AgState,
+  type Agents,
   type ApiErrors,
   type AssistantAgent,
   type AssistantAgentConfig,
@@ -16,6 +17,8 @@ import {
   type ChatMessageList,
   FlowNames,
   type FlowTeamInput,
+  type InstagramAgent,
+  type InstagramAgentConfig,
   ModelFamily,
   type MtAgEvent,
   type OpenAiChatCompletionClient,
@@ -27,6 +30,8 @@ import {
   type Tenant,
   type Terminations,
   type UserAgentState,
+  type UserProxyAgent,
+  type UserProxyAgentConfig,
   type WorkflowRun,
   type WorkflowRunCreateData,
   agStateListOptions,
@@ -244,7 +249,48 @@ export const createWorkbrenchSlice: StateCreator<
               } satisfies OpenAiChatCompletionClient,
             } satisfies AssistantAgentConfig,
           } satisfies AssistantAgent,
-        ] satisfies AssistantAgent[],
+
+          {
+            provider: ProviderTypes.INSTAGRAM_AGENT,
+            label: "instagram",
+            component_type: "agent",
+            description: "instagram agent",
+            config: {
+              name: "instagram_agent",
+              description: "instagram agent",
+              tools: [],
+              reflect_on_tool_use: false,
+              tool_call_summary_format: "{result}",
+              system_message: "你是instagram agent",
+              model_client: {
+                provider: ProviderTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
+                config: {
+                  model: MtmaiuiConfig.default_open_model,
+                  api_key: MtmaiuiConfig.default_open_ai_key,
+                  base_url: MtmaiuiConfig.default_open_base_url,
+                  model_info: {
+                    vision: false,
+                    function_calling: true,
+                    json_output: true,
+                    structured_output: true,
+                    family: ModelFamily.UNKNOWN,
+                  },
+                },
+              } satisfies OpenAiChatCompletionClient,
+            } satisfies InstagramAgentConfig,
+          } satisfies InstagramAgent,
+
+          {
+            provider: ProviderTypes.USER_PROXY_AGENT,
+            label: "user_proxy",
+            component_type: "agent",
+            description: "user proxy agent",
+            config: {
+              name: "user_proxy_agent",
+              description: "user proxy agent",
+            } satisfies UserProxyAgentConfig,
+          } satisfies UserProxyAgent,
+        ] satisfies Agents[],
         termination_condition: {
           provider: ProviderTypes.TEXT_MENTION_TERMINATION,
           config: {

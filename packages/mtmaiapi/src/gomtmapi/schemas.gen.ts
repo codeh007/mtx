@@ -1489,6 +1489,9 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/AssistantAgent",
         },
         {
+          $ref: "#/components/schemas/InstagramAgent",
+        },
+        {
           $ref: "#/components/schemas/OpenAIChatCompletionClient",
         },
         {
@@ -4129,7 +4132,7 @@ export const TeamConfigSchema = {
     participants: {
       type: "array",
       items: {
-        type: "object",
+        $ref: "#/components/schemas/Agents",
       },
     },
     termination_condition: {
@@ -4164,9 +4167,10 @@ export const ProviderTypesSchema = {
     "SelectorGroupChat",
     "SocialTeam",
     "AssistantAgent",
+    "InstagramAgent",
+    "UserProxyAgent",
     "CodeExecutorAgent",
     "SocietyOfMindAgent",
-    "UserProxyAgent",
     "OpenAIChatCompletionClient",
     "TextMentionTermination",
     "HandoffTermination",
@@ -4337,10 +4341,16 @@ export const SocietyOfMindAgentConfigSchema = {
 export const UserProxyAgentSchema = {
   allOf: [
     {
-      $ref: "#/components/schemas/AssistantAgent",
+      $ref: "#/components/schemas/ComponentModel",
     },
     {
+      required: ["provider", "config"],
       properties: {
+        provider: {
+          type: "string",
+          enum: ["UserProxyAgent"],
+          default: "UserProxyAgent",
+        },
         config: {
           $ref: "#/components/schemas/UserProxyAgentConfig",
         },
@@ -4350,14 +4360,37 @@ export const UserProxyAgentSchema = {
 } as const;
 
 export const UserProxyAgentConfigSchema = {
-  required: ["provider"],
+  required: ["name", "description"],
   properties: {
-    provider: {
+    name: {
       type: "string",
-      enum: ["UserProxyAgent"],
-      default: "UserProxyAgent",
+    },
+    description: {
+      type: "string",
+      default: "A human user",
+    },
+    input_func: {
+      type: "string",
+      default: "None",
     },
   },
+} as const;
+
+export const AgentsSchema = {
+  discriminator: {
+    propertyName: "provider",
+  },
+  oneOf: [
+    {
+      $ref: "#/components/schemas/AssistantAgent",
+    },
+    {
+      $ref: "#/components/schemas/InstagramAgent",
+    },
+    {
+      $ref: "#/components/schemas/UserProxyAgent",
+    },
+  ],
 } as const;
 
 export const OpenAIClientConfigurationConfigModelSchema = {
@@ -6482,6 +6515,27 @@ export const SocialAddFollowersInputSchema = {
   },
 } as const;
 
+export const InstagramAgentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
+    {
+      required: ["config", "provider"],
+      properties: {
+        provider: {
+          type: "string",
+          enum: ["InstagramAgent"],
+          default: "InstagramAgent",
+        },
+        config: {
+          $ref: "#/components/schemas/InstagramAgentConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
 export const InstagramAgentConfigSchema = {
   allOf: [
     {
@@ -6826,6 +6880,12 @@ export const ComponentsSchema = {
     },
     {
       $ref: "#/components/schemas/AssistantAgent",
+    },
+    {
+      $ref: "#/components/schemas/InstagramAgent",
+    },
+    {
+      $ref: "#/components/schemas/UserProxyAgent",
     },
   ],
 } as const;

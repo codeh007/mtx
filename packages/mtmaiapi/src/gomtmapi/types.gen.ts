@@ -868,6 +868,7 @@ export type WorkflowWorkersCount = {
     | MyDemoAgentEvent
     | UserInputRequestedEvent
     | AssistantAgent
+    | InstagramAgent
     | OpenAiChatCompletionClient
     | RoundRobinGroupChat
     | Components
@@ -2205,9 +2206,7 @@ export type GalleryMetadata = {
 };
 
 export type TeamConfig = {
-  participants: Array<{
-    [key: string]: unknown;
-  }>;
+  participants: Array<Agents>;
   termination_condition: Terminations;
   max_turns: number;
 };
@@ -2240,9 +2239,10 @@ export type ProviderTypes =
   | "SelectorGroupChat"
   | "SocialTeam"
   | "AssistantAgent"
+  | "InstagramAgent"
+  | "UserProxyAgent"
   | "CodeExecutorAgent"
   | "SocietyOfMindAgent"
-  | "UserProxyAgent"
   | "OpenAIChatCompletionClient"
   | "TextMentionTermination"
   | "HandoffTermination"
@@ -2259,9 +2259,10 @@ export const ProviderTypes = {
   SELECTOR_GROUP_CHAT: "SelectorGroupChat",
   SOCIAL_TEAM: "SocialTeam",
   ASSISTANT_AGENT: "AssistantAgent",
+  INSTAGRAM_AGENT: "InstagramAgent",
+  USER_PROXY_AGENT: "UserProxyAgent",
   CODE_EXECUTOR_AGENT: "CodeExecutorAgent",
   SOCIETY_OF_MIND_AGENT: "SocietyOfMindAgent",
-  USER_PROXY_AGENT: "UserProxyAgent",
   OPEN_AI_CHAT_COMPLETION_CLIENT: "OpenAIChatCompletionClient",
   TEXT_MENTION_TERMINATION: "TextMentionTermination",
   HANDOFF_TERMINATION: "HandoffTermination",
@@ -2362,13 +2363,27 @@ export type SocietyOfMindAgentConfig = {
   provider: "SocietyOfMindAgent";
 };
 
-export type UserProxyAgent = AssistantAgent & {
-  config?: UserProxyAgentConfig;
+export type UserProxyAgent = ComponentModel & {
+  provider: "UserProxyAgent";
+  config: UserProxyAgentConfig;
 };
 
 export type UserProxyAgentConfig = {
-  provider: "UserProxyAgent";
+  name: string;
+  description: string;
+  input_func?: string;
 };
+
+export type Agents =
+  | ({
+      provider?: "AssistantAgent";
+    } & AssistantAgent)
+  | ({
+      provider?: "InstagramAgent";
+    } & InstagramAgent)
+  | ({
+      provider?: "UserProxyAgent";
+    } & UserProxyAgent);
 
 export type OpenAiClientConfigurationConfigModel =
   BaseOpenAiClientConfigurationConfigModel & {
@@ -3345,6 +3360,11 @@ export type SocialAddFollowersInput = {
   count_to_follow: number;
 };
 
+export type InstagramAgent = ComponentModel & {
+  provider: "InstagramAgent";
+  config: InstagramAgentConfig;
+};
+
 export type InstagramAgentConfig = AssistantAgentConfig & {
   username?: string;
   password?: string;
@@ -3486,7 +3506,13 @@ export type Components =
     } & RoundRobinGroupChat)
   | ({
       provider?: "AssistantAgent";
-    } & AssistantAgent);
+    } & AssistantAgent)
+  | ({
+      provider?: "InstagramAgent";
+    } & InstagramAgent)
+  | ({
+      provider?: "UserProxyAgent";
+    } & UserProxyAgent);
 
 export type TeamProperties = {
   id: string;
