@@ -1,4 +1,5 @@
 export const MtmaiuiConfig = {
-  default_open_ai_key: "sk-proj-123",
-  default_open_base_url: "https://api.openai.com/v1",
+  default_open_ai_key:
+    "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",
+  default_open_base_url: "https://integrate.api.nvidia.com/v1",
 };

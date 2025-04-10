@@ -66,7 +66,7 @@ function RouteComponent() {
         username: "saibichquyenll2015",
         password: "qSJPn07c7",
         otp_key: "MCF3M4XZHTFWKYXUGV4CQX3LFXMKMWFP",
-        proxy_url: "http://localhost:8080",
+        proxy_url: "http://localhost:10809",
         max_turns: 10,
         participants: participants,
         termination_condition: {
