@@ -1423,6 +1423,9 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/StateType",
         },
         {
+          $ref: "#/components/schemas/AgentStateTypes",
+        },
+        {
           $ref: "#/components/schemas/AgentTypes",
         },
         {
@@ -1519,10 +1522,10 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/TeamState",
         },
         {
-          $ref: "#/components/schemas/UserAgentState",
+          $ref: "#/components/schemas/InstagramAgentState",
         },
         {
-          $ref: "#/components/schemas/InstagramAgentState",
+          $ref: "#/components/schemas/AgentStates",
         },
       ],
     },
@@ -3575,6 +3578,7 @@ export const StateTypeSchema = {
 } as const;
 
 export const BaseStateSchema = {
+  required: ["type"],
   properties: {
     type: {
       type: "string",
@@ -3592,10 +3596,14 @@ export const AssistantAgentStateSchema = {
       $ref: "#/components/schemas/BaseState",
     },
     {
+      required: ["type"],
+    },
+    {
       properties: {
         type: {
           type: "string",
           enum: ["AssistantAgentState"],
+          default: "AssistantAgentState",
         },
         llm_context: {
           additionalProperties: true,
@@ -3609,6 +3617,9 @@ export const InstagramAgentStateSchema = {
   allOf: [
     {
       $ref: "#/components/schemas/BaseState",
+    },
+    {
+      required: ["type"],
     },
     {
       properties: {
@@ -3643,6 +3654,9 @@ export const InstagramAgentStateSchema = {
         },
         platform_account_id: {
           type: "string",
+        },
+        credentials: {
+          $ref: "#/components/schemas/InstagramCredentials",
         },
       },
     },
@@ -4393,6 +4407,21 @@ export const AgentsSchema = {
   ],
 } as const;
 
+export const InstagramCredentialsSchema = {
+  required: ["username", "password"],
+  properties: {
+    username: {
+      type: "string",
+    },
+    password: {
+      type: "string",
+    },
+    otp_key: {
+      type: "string",
+    },
+  },
+} as const;
+
 export const OpenAIClientConfigurationConfigModelSchema = {
   allOf: [
     {
@@ -4495,6 +4524,48 @@ export const CreateArgumentsConfigModelSchema = {
       },
     },
   },
+} as const;
+
+export const AgentStatesSchema = {
+  discriminator: {
+    propertyName: "type",
+  },
+  oneOf: [
+    {
+      $ref: "#/components/schemas/InstagramAgentState",
+    },
+    {
+      $ref: "#/components/schemas/UserProxyAgentState",
+    },
+    {
+      $ref: "#/components/schemas/SocialTeamManagerState",
+    },
+  ],
+} as const;
+
+export const SocialTeamManagerStateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseState",
+    },
+    {
+      required: ["type"],
+      properties: {
+        type: {
+          type: "string",
+          enum: ["SocialTeamManagerState"],
+          default: "SocialTeamManagerState",
+        },
+        next_speaker_index: {
+          type: "integer",
+          default: 0,
+        },
+        previous_speaker: {
+          type: "string",
+        },
+      },
+    },
+  ],
 } as const;
 
 export const FunctionCallSchema = {
@@ -6113,18 +6184,17 @@ export const SocialTeamConfigSchema = {
       $ref: "#/components/schemas/TeamConfig",
     },
     {
-      required: ["username", "password", "otp_key"],
       properties: {
-        username: {
+        selector_prompt: {
           type: "string",
         },
-        password: {
-          type: "string",
+        allow_repeated_speaker: {
+          type: "boolean",
         },
-        otp_key: {
-          type: "string",
+        max_selector_attempts: {
+          type: "integer",
         },
-        proxy_url: {
+        selector_func: {
           type: "string",
         },
       },
@@ -6543,17 +6613,8 @@ export const InstagramAgentConfigSchema = {
     },
     {
       properties: {
-        username: {
-          type: "string",
-        },
-        password: {
-          type: "string",
-        },
-        otp_key: {
-          type: "string",
-        },
-        proxy_url: {
-          type: "string",
+        credentials: {
+          $ref: "#/components/schemas/InstagramCredentials",
         },
       },
     },
@@ -6959,6 +7020,15 @@ export const TeamRunResultSchema = {
   },
 } as const;
 
+export const AgentStateTypesSchema = {
+  type: "string",
+  enum: [
+    "InstagramAgentState",
+    "UserProxyAgentState",
+    "SocialTeamManagerState",
+  ],
+} as const;
+
 export const TeamStateSchema = {
   required: ["agent_states", "type"],
   properties: {
@@ -6973,11 +7043,12 @@ export const TeamStateSchema = {
   },
 } as const;
 
-export const UserAgentStateSchema = {
+export const UserProxyAgentStateSchema = {
+  required: ["type"],
   properties: {
     type: {
       type: "string",
-      enum: ["UserAgentState"],
+      enum: ["UserProxyAgentState"],
     },
     model_context: {
       additionalProperties: true,

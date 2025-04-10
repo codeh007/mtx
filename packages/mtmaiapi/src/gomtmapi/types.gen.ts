@@ -846,6 +846,7 @@ export type WorkflowWorkersCount = {
     | ProviderTypes
     | AgentEventType
     | StateType
+    | AgentStateTypes
     | AgentTypes
     | BrowserData
     | PlatformAccountData
@@ -878,8 +879,8 @@ export type WorkflowWorkersCount = {
     | UserProxyAgent
     | OpenAiClientConfigurationConfigModel
     | TeamState
-    | UserAgentState
-    | InstagramAgentState;
+    | InstagramAgentState
+    | AgentStates;
 };
 
 export type WorkflowRun = {
@@ -1988,31 +1989,34 @@ export const StateType = {
 } as const;
 
 export type BaseState = {
-  type?: StateType;
+  type: StateType;
   version?: string;
 };
 
-export type AssistantAgentState = BaseState & {
-  type?: "AssistantAgentState";
-  llm_context?: unknown;
-};
+export type AssistantAgentState = BaseState &
+  unknown & {
+    type?: "AssistantAgentState";
+    llm_context?: unknown;
+  };
 
-export type InstagramAgentState = BaseState & {
-  type?: "InstagramAgentState";
-  llm_context?: unknown;
-  username?: string;
-  password?: string;
-  otp_key?: string;
-  session_state?: {
-    [key: string]: unknown;
+export type InstagramAgentState = BaseState &
+  unknown & {
+    type?: "InstagramAgentState";
+    llm_context?: unknown;
+    username?: string;
+    password?: string;
+    otp_key?: string;
+    session_state?: {
+      [key: string]: unknown;
+    };
+    is_wait_user_input?: boolean;
+    ig_settings?: {
+      [key: string]: unknown;
+    };
+    proxy_url?: string;
+    platform_account_id?: string;
+    credentials?: InstagramCredentials;
   };
-  is_wait_user_input?: boolean;
-  ig_settings?: {
-    [key: string]: unknown;
-  };
-  proxy_url?: string;
-  platform_account_id?: string;
-};
 
 export type BaseGroupChatManagerState = BaseState & {
   type?: "BaseGroupChatManagerState";
@@ -2385,6 +2389,12 @@ export type Agents =
       provider?: "UserProxyAgent";
     } & UserProxyAgent);
 
+export type InstagramCredentials = {
+  username: string;
+  password: string;
+  otp_key?: string;
+};
+
 export type OpenAiClientConfigurationConfigModel =
   BaseOpenAiClientConfigurationConfigModel & {
     organization?: string;
@@ -2428,6 +2438,23 @@ export type CreateArgumentsConfigModel = {
       [key: string]: unknown;
     };
   };
+};
+
+export type AgentStates =
+  | ({
+      type?: "InstagramAgentState";
+    } & InstagramAgentState)
+  | ({
+      type?: "UserProxyAgentState";
+    } & UserProxyAgentState)
+  | ({
+      type?: "SocialTeamManagerState";
+    } & SocialTeamManagerState);
+
+export type SocialTeamManagerState = BaseState & {
+  type: "SocialTeamManagerState";
+  next_speaker_index?: number;
+  previous_speaker?: string;
 };
 
 export type FunctionCall = {
@@ -3155,10 +3182,10 @@ export type TeamComponent = ComponentModel & {
 };
 
 export type SocialTeamConfig = TeamConfig & {
-  username: string;
-  password: string;
-  otp_key: string;
-  proxy_url?: string;
+  selector_prompt?: string;
+  allow_repeated_speaker?: boolean;
+  max_selector_attempts?: number;
+  selector_func?: string;
 };
 
 export type SocialTeam = TeamComponent & {
@@ -3366,10 +3393,7 @@ export type InstagramAgent = ComponentModel & {
 };
 
 export type InstagramAgentConfig = AssistantAgentConfig & {
-  username?: string;
-  password?: string;
-  otp_key?: string;
-  proxy_url?: string;
+  credentials?: InstagramCredentials;
 };
 
 export type OpenAiChatCompletionClient = ComponentModel & {
@@ -3541,6 +3565,17 @@ export type TeamRunResult = {
   workflowRun?: WorkflowRun;
 };
 
+export type AgentStateTypes =
+  | "InstagramAgentState"
+  | "UserProxyAgentState"
+  | "SocialTeamManagerState";
+
+export const AgentStateTypes = {
+  INSTAGRAM_AGENT_STATE: "InstagramAgentState",
+  USER_PROXY_AGENT_STATE: "UserProxyAgentState",
+  SOCIAL_TEAM_MANAGER_STATE: "SocialTeamManagerState",
+} as const;
+
 export type TeamState = {
   agent_states: {
     [key: string]: unknown;
@@ -3548,8 +3583,8 @@ export type TeamState = {
   type: "TeamState";
 };
 
-export type UserAgentState = {
-  type?: "UserAgentState";
+export type UserProxyAgentState = {
+  type: "UserProxyAgentState";
   model_context?: unknown;
   action_form?: SchemaForm;
   platform_account_id?: string;
