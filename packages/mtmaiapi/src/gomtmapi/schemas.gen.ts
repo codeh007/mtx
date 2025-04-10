@@ -3616,7 +3616,7 @@ export const InstagramAgentStateSchema = {
       $ref: "#/components/schemas/BaseState",
     },
     {
-      required: ["type", "credentials"],
+      required: ["type"],
     },
     {
       properties: {
