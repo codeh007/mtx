@@ -1,5 +1,5 @@
-import { Worker, WorkerOptions } from "worker_threads";
 import path from "path";
+import { Worker, WorkerOptions } from "worker_threads";
 
 export function runThreaded(scriptPath: string, options: WorkerOptions) {
   const resolvedPath = require.resolve(scriptPath);
@@ -33,5 +33,3 @@ export function runThreaded(scriptPath: string, options: WorkerOptions) {
     eval: isTs ? true : undefined,
   });
 }
-
-// execArgv:  ? ['--require', 'ts-node/register'] : undefined,

@@ -851,16 +851,13 @@ export type WorkflowWorkersCount = {
     | ChatSessionStartEvent
     | BrowserTask
     | BrowserOpenTask
-    | RunFlowModelInput
     | PlatformAccountFlowInput
     | AgentEventType
-    | ResourceFlowInput
     | InstagramAgentState
     | FlowError
     | SocialTeamConfig
     | SocialAddFollowersInput
     | UserAgentState
-    | UserTeamConfig
     | CodeExecutionInput
     | CodeExecutionResult
     | SocialLoginInput
@@ -1942,7 +1939,6 @@ export type TextHighlight = {
 };
 
 export type AgStateProperties = {
-  version?: string;
   type: StateType;
   chatId?: string;
   topic: string;
@@ -2212,6 +2208,29 @@ export type TeamConfig = {
   max_turns: number;
 };
 
+export type FlowNames =
+  | "sys"
+  | "tenant"
+  | "assistant"
+  | "ag"
+  | "browser"
+  | "resource"
+  | "instagram"
+  | "social"
+  | "team";
+
+export const FlowNames = {
+  SYS: "sys",
+  TENANT: "tenant",
+  ASSISTANT: "assistant",
+  AG: "ag",
+  BROWSER: "browser",
+  RESOURCE: "resource",
+  INSTAGRAM: "instagram",
+  SOCIAL: "social",
+  TEAM: "team",
+} as const;
+
 export type AgEvent = {
   metadata?: ApiResourceMeta;
   userId?: string;
@@ -2275,33 +2294,6 @@ export type Outline = {
    * Titles and descriptions for each section of the Wikipedia page
    */
   sections: Array<Section>;
-};
-
-export type FlowNames =
-  | "sys"
-  | "tenant"
-  | "assistant"
-  | "ag"
-  | "browser"
-  | "resource"
-  | "instagram"
-  | "social"
-  | "team";
-
-export const FlowNames = {
-  SYS: "sys",
-  TENANT: "tenant",
-  ASSISTANT: "assistant",
-  AG: "ag",
-  BROWSER: "browser",
-  RESOURCE: "resource",
-  INSTAGRAM: "instagram",
-  SOCIAL: "social",
-  TEAM: "team",
-} as const;
-
-export type UserTeamConfig = {
-  max_turns?: number;
 };
 
 export type RequestUsage = {
@@ -2397,7 +2389,7 @@ export type Subsection = {
 };
 
 export type AssistantAgentComponent = ComponentModel & {
-  provider: "autogen_agentchat.agents.AssistantAgent";
+  provider: "AssistantAgent";
   component_type: "agent";
   config?: AssistantAgentConfig;
 };
@@ -3075,7 +3067,7 @@ export type SocialTeamConfig = TeamConfig & {
 };
 
 export type SocialTeamComponent = TeamComponent & {
-  provider: "mtmai.teams.team_social.SocialTeam";
+  provider: "SocialTeam";
   config: SocialTeamConfig;
 };
 
@@ -3394,7 +3386,7 @@ export type StopMessageTerminationConfig = {
 };
 
 export type RoundRobinGroupChatComponent = TeamComponent & {
-  provider: "autogen_agentchat.teams.RoundRobinGroupChat";
+  provider: "RoundRobinGroupChat";
   config: RoundRobinGroupChatConfig;
 };
 
@@ -3409,7 +3401,10 @@ export type Components =
     } & SocialTeamComponent)
   | ({
       provider?: "RoundRobinGroupChatComponent";
-    } & RoundRobinGroupChatComponent);
+    } & RoundRobinGroupChatComponent)
+  | ({
+      provider?: "AssistantAgentComponent";
+    } & AssistantAgentComponent);
 
 export type TeamProperties = {
   id: string;
@@ -3470,11 +3465,6 @@ export type UserAgentState = {
   platform_account_id?: string;
 };
 
-export type RunFlowModelInput = {
-  modelId?: string;
-  tag?: string;
-};
-
 export type FlowTeamInput = {
   session_id: string;
   component: TeamComponent;
@@ -3497,10 +3487,6 @@ export type IgLogin = {
 
 export type IgLoginResponse = {
   message?: string;
-};
-
-export type ResourceFlowInput = {
-  resource_id?: string;
 };
 
 export type FlowStateProperties = {

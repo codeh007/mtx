@@ -1,12 +1,16 @@
-import { Logger } from "./logger";
-import sleep from "./sleep";
+// import { Logger } from "./logger";
 
 const DEFAULT_RETRY_INTERVAL = 5; // seconds
 const DEFAULT_RETRY_COUNT = 5;
 
+const sleep = (ms: number) =>
+  new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+
 export async function retrier<T>(
   fn: () => Promise<T>,
-  logger: Logger,
+  // logger: Logger,
   retries: number = DEFAULT_RETRY_COUNT,
   interval: number = DEFAULT_RETRY_INTERVAL,
 ) {
@@ -18,7 +22,7 @@ export async function retrier<T>(
       return await fn();
     } catch (e: any) {
       lastError = e;
-      logger.error(`Error: ${e.message}`);
+      console.error(`Error: ${e.message}`);
       await sleep(interval * 1000);
     }
   }

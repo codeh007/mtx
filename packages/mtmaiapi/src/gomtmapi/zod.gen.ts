@@ -670,10 +670,6 @@ export const zWorkflowWorkersCount = z.object({
         url: z.string(),
       }),
       z.object({
-        modelId: z.string().optional(),
-        tag: z.string().optional(),
-      }),
-      z.object({
         type: z.enum(["PlatformAccountFlowInput"]).optional(),
         platform_account_id: z.string().optional(),
       }),
@@ -688,9 +684,6 @@ export const zWorkflowWorkersCount = z.object({
         "AskUserFunctionCallInput",
         "StartNewChatInput",
       ]),
-      z.object({
-        resource_id: z.string().optional(),
-      }),
       z
         .object({
           type: z
@@ -874,9 +867,6 @@ export const zWorkflowWorkersCount = z.object({
         platform_account_id: z.string().optional(),
       }),
       z.object({
-        max_turns: z.number().int().optional().default(25),
-      }),
-      z.object({
         code: z.string(),
       }),
       z.object({
@@ -973,7 +963,7 @@ export const zWorkflowWorkersCount = z.object({
         })
         .merge(
           z.object({
-            provider: z.enum(["autogen_agentchat.agents.AssistantAgent"]),
+            provider: z.enum(["AssistantAgent"]),
             component_type: z.enum(["agent"]),
             config: z
               .object({
@@ -1144,7 +1134,7 @@ export const zWorkflowWorkersCount = z.object({
         )
         .merge(
           z.object({
-            provider: z.enum(["autogen_agentchat.teams.RoundRobinGroupChat"]),
+            provider: z.enum(["RoundRobinGroupChat"]),
             config: z.object({
               participants: z.array(
                 z
@@ -1293,7 +1283,7 @@ export const zWorkflowWorkersCount = z.object({
               )
               .merge(
                 z.object({
-                  provider: z.enum(["mtmai.teams.team_social.SocialTeam"]),
+                  provider: z.enum(["SocialTeam"]),
                   config: z
                     .object({
                       participants: z.array(z.object({})),
@@ -1455,9 +1445,7 @@ export const zWorkflowWorkersCount = z.object({
               )
               .merge(
                 z.object({
-                  provider: z.enum([
-                    "autogen_agentchat.teams.RoundRobinGroupChat",
-                  ]),
+                  provider: z.enum(["RoundRobinGroupChat"]),
                   config: z.object({
                     participants: z.array(
                       z
@@ -1593,6 +1581,91 @@ export const zWorkflowWorkersCount = z.object({
                         ),
                     ]),
                   }),
+                }),
+              ),
+          ),
+        z
+          .object({
+            provider: z.literal("AssistantAgentComponent").optional(),
+          })
+          .merge(
+            z
+              .object({
+                provider: z.string().optional(),
+                component_type: z.string().optional(),
+                version: z.number().int().optional(),
+                component_version: z.number().int().optional(),
+                description: z.string().optional(),
+                label: z.string().optional(),
+                config: z.object({}).optional(),
+              })
+              .merge(
+                z.object({
+                  provider: z.enum(["AssistantAgent"]),
+                  component_type: z.enum(["agent"]),
+                  config: z
+                    .object({
+                      name: z.string(),
+                      description: z.string(),
+                      model_context: z.object({}).optional(),
+                      memory: z.object({}).optional(),
+                      model_client_stream: z
+                        .boolean()
+                        .optional()
+                        .default(false),
+                      system_message: z.string().optional(),
+                      model_client: z
+                        .object({
+                          provider: z.string().optional(),
+                          component_type: z.string().optional(),
+                          version: z.number().int().optional(),
+                          component_version: z.number().int().optional(),
+                          description: z.string().optional(),
+                          label: z.string().optional(),
+                          config: z.object({}).optional(),
+                        })
+                        .merge(
+                          z.object({
+                            config: z.object({
+                              model: z.string(),
+                              model_type: z.enum([
+                                "OpenAIChatCompletionClient",
+                                "AzureOpenAIChatCompletionClient",
+                              ]),
+                              api_key: z.string().optional(),
+                              base_url: z.string().optional(),
+                              timeout: z.number().optional(),
+                              max_retries: z.number().int().optional(),
+                              frequency_penalty: z.number().optional(),
+                              logit_bias: z.number().int().optional(),
+                              max_tokens: z.number().int().optional(),
+                              n: z.number().int().optional(),
+                              presence_penalty: z.number().optional(),
+                              response_format: z.string().optional(),
+                              seed: z.number().int().optional(),
+                              stop: z.array(z.string()).optional(),
+                              temperature: z.number().optional(),
+                              top_p: z.number().optional(),
+                              user: z.string().optional(),
+                              organization: z.string().optional(),
+                              default_headers: z.object({}).optional(),
+                              model_info: z
+                                .object({
+                                  family: z.enum(["r1", "openai", "unknown"]),
+                                  vision: z.boolean(),
+                                  function_calling: z.boolean(),
+                                  json_output: z.boolean(),
+                                })
+                                .optional(),
+                            }),
+                          }),
+                        ),
+                      tools: z.array(z.object({})).default([]),
+                      handoffs: z.array(z.string()).optional().default([]),
+                      reflect_on_tool_use: z.boolean().default(false),
+                      tool_call_summary_format: z.string().default("{result}"),
+                    })
+                    .optional(),
                 }),
               ),
           ),
@@ -2678,7 +2751,6 @@ export const zTextHighlight = z.object({
 });
 
 export const zAgStateProperties = z.object({
-  version: z.string().optional().default("1.0.0"),
   type: z.enum([
     "TeamState",
     "RuntimeState",
@@ -3097,6 +3169,18 @@ export const zTeamConfig = z.object({
   max_turns: z.number().int().default(25),
 });
 
+export const zFlowNames = z.enum([
+  "sys",
+  "tenant",
+  "assistant",
+  "ag",
+  "browser",
+  "resource",
+  "instagram",
+  "social",
+  "team",
+]);
+
 export const zAgEvent = z.object({
   metadata: zApiResourceMeta.optional(),
   userId: z.string().optional(),
@@ -3147,22 +3231,6 @@ export const zOutline = z.object({
         .optional(),
     }),
   ),
-});
-
-export const zFlowNames = z.enum([
-  "sys",
-  "tenant",
-  "assistant",
-  "ag",
-  "browser",
-  "resource",
-  "instagram",
-  "social",
-  "team",
-]);
-
-export const zUserTeamConfig = z.object({
-  max_turns: z.number().int().optional().default(25),
 });
 
 export const zRequestUsage = z.object({
@@ -3345,7 +3413,7 @@ export const zAssistantAgentComponent = z
   })
   .merge(
     z.object({
-      provider: z.enum(["autogen_agentchat.agents.AssistantAgent"]),
+      provider: z.enum(["AssistantAgent"]),
       component_type: z.enum(["agent"]),
       config: z
         .object({
@@ -4008,7 +4076,7 @@ export const zSocialTeamConfig = zTeamConfig.merge(
 
 export const zSocialTeamComponent = zTeamComponent.merge(
   z.object({
-    provider: z.enum(["mtmai.teams.team_social.SocialTeam"]),
+    provider: z.enum(["SocialTeam"]),
     config: zSocialTeamConfig,
   }),
 );
@@ -4461,7 +4529,7 @@ export const zStopMessageTerminationConfig = z.object({
 
 export const zRoundRobinGroupChatComponent = zTeamComponent.merge(
   z.object({
-    provider: z.enum(["autogen_agentchat.teams.RoundRobinGroupChat"]),
+    provider: z.enum(["RoundRobinGroupChat"]),
     config: z.object({
       participants: z.array(zComponent),
       termination_condition: zTerminations,
@@ -4485,6 +4553,11 @@ export const zComponents = z.union([
       provider: z.literal("RoundRobinGroupChatComponent").optional(),
     })
     .merge(zRoundRobinGroupChatComponent),
+  z
+    .object({
+      provider: z.literal("AssistantAgentComponent").optional(),
+    })
+    .merge(zAssistantAgentComponent),
 ]);
 
 export const zTeamProperties = z.object({
@@ -4529,11 +4602,6 @@ export const zUserAgentState = z.object({
   platform_account_id: z.string().optional(),
 });
 
-export const zRunFlowModelInput = z.object({
-  modelId: z.string().optional(),
-  tag: z.string().optional(),
-});
-
 export const zFlowTeamInput = z.object({
   session_id: z.string(),
   component: zTeamComponent,
@@ -4554,10 +4622,6 @@ export const zIgLogin = z.object({
 
 export const zIgLoginResponse = z.object({
   message: z.string().optional(),
-});
-
-export const zResourceFlowInput = z.object({
-  resource_id: z.string().optional(),
 });
 
 export const zFlowStateProperties = z.object({

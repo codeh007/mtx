@@ -10,22 +10,5 @@ export function initMtiaiClient(config: Config) {
   }
   client?.setConfig({
     ...config,
-
-    // baseUrl: backendUrl,
-    // fetch: async (req) => {
-    //   const accessToken = (await cookies()).get(cookieAccessToken)?.value;
-    //   console.log("mtmai ssr fetch", req);
-    //   return fetch(req, {
-    //     headers: {
-    //       ...req.headers,
-    //       "Content-Type": "application/json",
-    //       ...(accessToken && {
-    //         Authorization: `Bearer ${accessToken}`,
-    //       }),
-    //     },
-    //     //允许跨站cookie，这样可以不用专门设置 Authorization header
-    //     credentials: "include",
-    //   });
-    // },
   });
 }

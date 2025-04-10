@@ -1438,16 +1438,10 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/BrowserOpenTask",
         },
         {
-          $ref: "#/components/schemas/RunFlowModelInput",
-        },
-        {
           $ref: "#/components/schemas/PlatformAccountFlowInput",
         },
         {
           $ref: "#/components/schemas/AgentEventType",
-        },
-        {
-          $ref: "#/components/schemas/ResourceFlowInput",
         },
         {
           $ref: "#/components/schemas/InstagramAgentState",
@@ -1463,9 +1457,6 @@ export const WorkflowWorkersCountSchema = {
         },
         {
           $ref: "#/components/schemas/UserAgentState",
-        },
-        {
-          $ref: "#/components/schemas/UserTeamConfig",
         },
         {
           $ref: "#/components/schemas/CodeExecutionInput",
@@ -3499,12 +3490,8 @@ export const TextHighlightSchema = {
 } as const;
 
 export const AgStatePropertiesSchema = {
-  required: ["type", "state", "tenantId", "topic", "source"],
+  required: ["type", "state", "topic", "source"],
   properties: {
-    version: {
-      type: "string",
-      default: "1.0.0",
-    },
     type: {
       $ref: "#/components/schemas/StateType",
     },
@@ -4143,6 +4130,21 @@ export const TeamConfigSchema = {
   },
 } as const;
 
+export const FlowNamesSchema = {
+  type: "string",
+  enum: [
+    "sys",
+    "tenant",
+    "assistant",
+    "ag",
+    "browser",
+    "resource",
+    "instagram",
+    "social",
+    "team",
+  ],
+} as const;
+
 export const AgEventSchema = {
   required: ["data", "framework", "stepRunId"],
   properties: {
@@ -4223,30 +4225,6 @@ export const OutlineSchema = {
       items: {
         $ref: "#/components/schemas/Section",
       },
-    },
-  },
-} as const;
-
-export const FlowNamesSchema = {
-  type: "string",
-  enum: [
-    "sys",
-    "tenant",
-    "assistant",
-    "ag",
-    "browser",
-    "resource",
-    "instagram",
-    "social",
-    "team",
-  ],
-} as const;
-
-export const UserTeamConfigSchema = {
-  properties: {
-    max_turns: {
-      type: "integer",
-      default: 25,
     },
   },
 } as const;
@@ -4502,7 +4480,7 @@ export const AssistantAgentComponentSchema = {
       properties: {
         provider: {
           type: "string",
-          enum: ["autogen_agentchat.agents.AssistantAgent"],
+          enum: ["AssistantAgent"],
         },
         component_type: {
           type: "string",
@@ -6029,7 +6007,7 @@ export const SocialTeamComponentSchema = {
       properties: {
         provider: {
           type: "string",
-          enum: ["mtmai.teams.team_social.SocialTeam"],
+          enum: ["SocialTeam"],
         },
         config: {
           $ref: "#/components/schemas/SocialTeamConfig",
@@ -6697,7 +6675,7 @@ export const RoundRobinGroupChatComponentSchema = {
       properties: {
         provider: {
           type: "string",
-          enum: ["autogen_agentchat.teams.RoundRobinGroupChat"],
+          enum: ["RoundRobinGroupChat"],
         },
         config: {
           $ref: "#/components/schemas/RoundRobinGroupChatConfig",
@@ -6732,6 +6710,9 @@ export const ComponentsSchema = {
     },
     {
       $ref: "#/components/schemas/RoundRobinGroupChatComponent",
+    },
+    {
+      $ref: "#/components/schemas/AssistantAgentComponent",
     },
   ],
 } as const;
@@ -6836,17 +6817,6 @@ export const UserAgentStateSchema = {
   },
 } as const;
 
-export const RunFlowModelInputSchema = {
-  properties: {
-    modelId: {
-      type: "string",
-    },
-    tag: {
-      type: "string",
-    },
-  },
-} as const;
-
 export const FlowTeamInputSchema = {
   required: ["session_id", "component", "task", "init_state"],
   properties: {
@@ -6897,14 +6867,6 @@ export const IGLoginResponseSchema = {
   type: "object",
   properties: {
     message: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const ResourceFlowInputSchema = {
-  properties: {
-    resource_id: {
       type: "string",
     },
   },
