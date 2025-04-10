@@ -622,15 +622,7 @@ export const zWorkflowWorkersCount = z.object({
         "closure",
         "response",
       ]),
-      z.enum([
-        "RoundRobinGroupChat",
-        "SelectorGroupChat",
-        "SocialTeam",
-        "AssistantAgent",
-        "MtOpenAIChatCompletionClient",
-        "TextMentionTermination",
-      ]),
-      z.enum(["agent", "team"]),
+      z.enum(["agent", "team", "termination"]),
       z.enum([
         "closure",
         "router",
@@ -719,124 +711,30 @@ export const zWorkflowWorkersCount = z.object({
         type: z.string().optional(),
         error: z.string().optional(),
       }),
-      z
-        .object({
-          participants: z.array(z.object({})),
-          termination_condition: z.union([
-            z
-              .object({
-                provider: z.literal("TextMentionTermination").optional(),
-              })
-              .merge(
-                z.object({
-                  provider: z.enum(["TextMentionTermination"]),
-                  config: z.object({
-                    text: z.string(),
-                  }),
-                }),
-              ),
-            z
-              .object({
-                provider: z.literal("HandoffTermination").optional(),
-              })
-              .merge(
-                z.object({
-                  provider: z.enum(["HandoffTermination"]),
-                  config: z.object({
-                    target: z.string(),
-                  }),
-                }),
-              ),
-            z
-              .object({
-                provider: z.literal("TimeoutTermination").optional(),
-              })
-              .merge(
-                z.object({
-                  provider: z.enum(["TimeoutTermination"]),
-                  config: z.object({
-                    timeout_seconds: z.number().int(),
-                  }),
-                }),
-              ),
-            z
-              .object({
-                provider: z.literal("SourceMatchTermination").optional(),
-              })
-              .merge(
-                z.object({
-                  provider: z.enum(["SourceMatchTermination"]),
-                  config: z.object({
-                    sources: z.array(z.string()),
-                  }),
-                }),
-              ),
-            z
-              .object({
-                provider: z.literal("FunctionCallTermination").optional(),
-              })
-              .merge(
-                z.object({
-                  provider: z.enum(["FunctionCallTermination"]),
-                  config: z.object({
-                    function_name: z.string(),
-                  }),
-                }),
-              ),
-            z
-              .object({
-                provider: z.literal("TokenUsageTermination").optional(),
-              })
-              .merge(
-                z.object({
-                  provider: z.enum(["TokenUsageTermination"]),
-                  config: z.object({
-                    max_total_token: z.number().int().optional(),
-                    max_prompt_token: z.number().int().optional(),
-                    max_completion_token: z.number().int().optional(),
-                  }),
-                }),
-              ),
-            z
-              .object({
-                provider: z.literal("MaxMessageTermination").optional(),
-              })
-              .merge(
-                z.object({
-                  provider: z.enum(["MaxMessageTermination"]),
-                  config: z.object({
-                    max_messages: z.number().int(),
-                    include_agent_event: z.boolean().optional().default(false),
-                  }),
-                }),
-              ),
-            z
-              .object({
-                provider: z.literal("StopMessageTermination").optional(),
-              })
-              .merge(
-                z.object({
-                  provider: z.enum(["StopMessageTermination"]),
-                  config: z.object({
-                    some_thing: z.string().optional(),
-                  }),
-                }),
-              ),
-          ]),
-          max_turns: z.number().int().default(25),
-        })
-        .merge(
-          z.object({
-            username: z.string(),
-            password: z.string(),
-            otp_key: z.string(),
-            proxy_url: z.string().optional(),
-          }),
-        ),
       z.object({
         type: z.enum(["SocialAddFollowersInput"]),
         platform_account_id: z.string().optional(),
         count_to_follow: z.number().default(1),
+      }),
+      z.object({
+        session_id: z.string(),
+        component: z
+          .object({
+            provider: z.string().optional(),
+            component_type: z.string().optional(),
+            version: z.number().int().optional(),
+            component_version: z.number().int().optional(),
+            description: z.string().optional(),
+            label: z.string().optional(),
+            config: z.object({}).optional(),
+          })
+          .merge(
+            z.object({
+              component_type: z.enum(["team"]),
+            }),
+          ),
+        task: z.string(),
+        init_state: z.object({}),
       }),
       z.object({
         type: z.enum(["UserAgentState"]).optional(),
@@ -984,6 +882,7 @@ export const zWorkflowWorkersCount = z.object({
                   })
                   .merge(
                     z.object({
+                      provider: z.enum(["MtOpenAIChatCompletionClient"]),
                       config: z.object({
                         model: z.string(),
                         model_type: z.enum([
@@ -1038,50 +937,7 @@ export const zWorkflowWorkersCount = z.object({
         })
         .merge(
           z.object({
-            component_type: z.enum(["team"]),
-          }),
-        ),
-      z.object({
-        provider: z.string().optional(),
-        component_type: z.string().optional(),
-        version: z.number().int().optional(),
-        component_version: z.number().int().optional(),
-        description: z.string().optional(),
-        label: z.string().optional(),
-        config: z.object({}).optional(),
-      }),
-      z.object({
-        session_id: z.string(),
-        component: z
-          .object({
-            provider: z.string().optional(),
-            component_type: z.string().optional(),
-            version: z.number().int().optional(),
-            component_version: z.number().int().optional(),
-            description: z.string().optional(),
-            label: z.string().optional(),
-            config: z.object({}).optional(),
-          })
-          .merge(
-            z.object({
-              component_type: z.enum(["team"]),
-            }),
-          ),
-        task: z.string(),
-        init_state: z.object({}),
-      }),
-      z
-        .object({
-          provider: z.string().optional(),
-          component_type: z.string().optional(),
-          version: z.number().int().optional(),
-          component_version: z.number().int().optional(),
-          description: z.string().optional(),
-          label: z.string().optional(),
-          config: z.object({}).optional(),
-        })
-        .merge(
-          z.object({
+            provider: z.enum(["MtOpenAIChatCompletionClient"]),
             config: z.object({
               model: z.string(),
               model_type: z.enum([
@@ -1171,7 +1027,9 @@ export const zWorkflowWorkersCount = z.object({
                   })
                   .merge(
                     z.object({
-                      provider: z.enum(["HandoffTermination"]),
+                      provider: z.enum([
+                        "autogen_agentchat.conditions.HandoffTermination",
+                      ]),
                       config: z.object({
                         target: z.string(),
                       }),
@@ -1183,7 +1041,9 @@ export const zWorkflowWorkersCount = z.object({
                   })
                   .merge(
                     z.object({
-                      provider: z.enum(["TimeoutTermination"]),
+                      provider: z.enum([
+                        "autogen_agentchat.conditions.TimeoutTermination",
+                      ]),
                       config: z.object({
                         timeout_seconds: z.number().int(),
                       }),
@@ -1195,7 +1055,9 @@ export const zWorkflowWorkersCount = z.object({
                   })
                   .merge(
                     z.object({
-                      provider: z.enum(["SourceMatchTermination"]),
+                      provider: z.enum([
+                        "autogen_agentchat.conditions.SourceMatchTermination",
+                      ]),
                       config: z.object({
                         sources: z.array(z.string()),
                       }),
@@ -1207,7 +1069,9 @@ export const zWorkflowWorkersCount = z.object({
                   })
                   .merge(
                     z.object({
-                      provider: z.enum(["FunctionCallTermination"]),
+                      provider: z.enum([
+                        "autogen_agentchat.conditions.FunctionCallTermination",
+                      ]),
                       config: z.object({
                         function_name: z.string(),
                       }),
@@ -1219,7 +1083,9 @@ export const zWorkflowWorkersCount = z.object({
                   })
                   .merge(
                     z.object({
-                      provider: z.enum(["TokenUsageTermination"]),
+                      provider: z.enum([
+                        "autogen_agentchat.conditions.TokenUsageTermination",
+                      ]),
                       config: z.object({
                         max_total_token: z.number().int().optional(),
                         max_prompt_token: z.number().int().optional(),
@@ -1233,7 +1099,9 @@ export const zWorkflowWorkersCount = z.object({
                   })
                   .merge(
                     z.object({
-                      provider: z.enum(["MaxMessageTermination"]),
+                      provider: z.enum([
+                        "autogen_agentchat.conditions.MaxMessageTermination",
+                      ]),
                       config: z.object({
                         max_messages: z.number().int(),
                         include_agent_event: z
@@ -1249,7 +1117,9 @@ export const zWorkflowWorkersCount = z.object({
                   })
                   .merge(
                     z.object({
-                      provider: z.enum(["StopMessageTermination"]),
+                      provider: z.enum([
+                        "autogen_agentchat.conditions.StopMessageTermination",
+                      ]),
                       config: z.object({
                         some_thing: z.string().optional(),
                       }),
@@ -1262,7 +1132,7 @@ export const zWorkflowWorkersCount = z.object({
       z.union([
         z
           .object({
-            provider: z.literal("SocialTeamComponent").optional(),
+            provider: z.literal("SocialTeam").optional(),
           })
           .merge(
             z
@@ -1282,7 +1152,7 @@ export const zWorkflowWorkersCount = z.object({
               )
               .merge(
                 z.object({
-                  provider: z.enum(["SocialTeam"]),
+                  provider: z.enum(["mtmai.teams.team_social.SocialTeam"]),
                   config: z
                     .object({
                       participants: z.array(z.object({})),
@@ -1309,7 +1179,9 @@ export const zWorkflowWorkersCount = z.object({
                           })
                           .merge(
                             z.object({
-                              provider: z.enum(["HandoffTermination"]),
+                              provider: z.enum([
+                                "autogen_agentchat.conditions.HandoffTermination",
+                              ]),
                               config: z.object({
                                 target: z.string(),
                               }),
@@ -1323,7 +1195,9 @@ export const zWorkflowWorkersCount = z.object({
                           })
                           .merge(
                             z.object({
-                              provider: z.enum(["TimeoutTermination"]),
+                              provider: z.enum([
+                                "autogen_agentchat.conditions.TimeoutTermination",
+                              ]),
                               config: z.object({
                                 timeout_seconds: z.number().int(),
                               }),
@@ -1337,7 +1211,9 @@ export const zWorkflowWorkersCount = z.object({
                           })
                           .merge(
                             z.object({
-                              provider: z.enum(["SourceMatchTermination"]),
+                              provider: z.enum([
+                                "autogen_agentchat.conditions.SourceMatchTermination",
+                              ]),
                               config: z.object({
                                 sources: z.array(z.string()),
                               }),
@@ -1351,7 +1227,9 @@ export const zWorkflowWorkersCount = z.object({
                           })
                           .merge(
                             z.object({
-                              provider: z.enum(["FunctionCallTermination"]),
+                              provider: z.enum([
+                                "autogen_agentchat.conditions.FunctionCallTermination",
+                              ]),
                               config: z.object({
                                 function_name: z.string(),
                               }),
@@ -1365,7 +1243,9 @@ export const zWorkflowWorkersCount = z.object({
                           })
                           .merge(
                             z.object({
-                              provider: z.enum(["TokenUsageTermination"]),
+                              provider: z.enum([
+                                "autogen_agentchat.conditions.TokenUsageTermination",
+                              ]),
                               config: z.object({
                                 max_total_token: z.number().int().optional(),
                                 max_prompt_token: z.number().int().optional(),
@@ -1384,7 +1264,9 @@ export const zWorkflowWorkersCount = z.object({
                           })
                           .merge(
                             z.object({
-                              provider: z.enum(["MaxMessageTermination"]),
+                              provider: z.enum([
+                                "autogen_agentchat.conditions.MaxMessageTermination",
+                              ]),
                               config: z.object({
                                 max_messages: z.number().int(),
                                 include_agent_event: z
@@ -1402,7 +1284,9 @@ export const zWorkflowWorkersCount = z.object({
                           })
                           .merge(
                             z.object({
-                              provider: z.enum(["StopMessageTermination"]),
+                              provider: z.enum([
+                                "autogen_agentchat.conditions.StopMessageTermination",
+                              ]),
                               config: z.object({
                                 some_thing: z.string().optional(),
                               }),
@@ -1424,7 +1308,7 @@ export const zWorkflowWorkersCount = z.object({
           ),
         z
           .object({
-            provider: z.literal("RoundRobinGroupChatComponent").optional(),
+            provider: z.literal("RoundRobinGroupChat").optional(),
           })
           .merge(
             z
@@ -1484,7 +1368,9 @@ export const zWorkflowWorkersCount = z.object({
                         })
                         .merge(
                           z.object({
-                            provider: z.enum(["HandoffTermination"]),
+                            provider: z.enum([
+                              "autogen_agentchat.conditions.HandoffTermination",
+                            ]),
                             config: z.object({
                               target: z.string(),
                             }),
@@ -1496,7 +1382,9 @@ export const zWorkflowWorkersCount = z.object({
                         })
                         .merge(
                           z.object({
-                            provider: z.enum(["TimeoutTermination"]),
+                            provider: z.enum([
+                              "autogen_agentchat.conditions.TimeoutTermination",
+                            ]),
                             config: z.object({
                               timeout_seconds: z.number().int(),
                             }),
@@ -1510,7 +1398,9 @@ export const zWorkflowWorkersCount = z.object({
                         })
                         .merge(
                           z.object({
-                            provider: z.enum(["SourceMatchTermination"]),
+                            provider: z.enum([
+                              "autogen_agentchat.conditions.SourceMatchTermination",
+                            ]),
                             config: z.object({
                               sources: z.array(z.string()),
                             }),
@@ -1524,7 +1414,9 @@ export const zWorkflowWorkersCount = z.object({
                         })
                         .merge(
                           z.object({
-                            provider: z.enum(["FunctionCallTermination"]),
+                            provider: z.enum([
+                              "autogen_agentchat.conditions.FunctionCallTermination",
+                            ]),
                             config: z.object({
                               function_name: z.string(),
                             }),
@@ -1538,7 +1430,9 @@ export const zWorkflowWorkersCount = z.object({
                         })
                         .merge(
                           z.object({
-                            provider: z.enum(["TokenUsageTermination"]),
+                            provider: z.enum([
+                              "autogen_agentchat.conditions.TokenUsageTermination",
+                            ]),
                             config: z.object({
                               max_total_token: z.number().int().optional(),
                               max_prompt_token: z.number().int().optional(),
@@ -1554,7 +1448,9 @@ export const zWorkflowWorkersCount = z.object({
                         })
                         .merge(
                           z.object({
-                            provider: z.enum(["MaxMessageTermination"]),
+                            provider: z.enum([
+                              "autogen_agentchat.conditions.MaxMessageTermination",
+                            ]),
                             config: z.object({
                               max_messages: z.number().int(),
                               include_agent_event: z
@@ -1572,7 +1468,9 @@ export const zWorkflowWorkersCount = z.object({
                         })
                         .merge(
                           z.object({
-                            provider: z.enum(["StopMessageTermination"]),
+                            provider: z.enum([
+                              "autogen_agentchat.conditions.StopMessageTermination",
+                            ]),
                             config: z.object({
                               some_thing: z.string().optional(),
                             }),
@@ -1585,7 +1483,7 @@ export const zWorkflowWorkersCount = z.object({
           ),
         z
           .object({
-            provider: z.literal("AssistantAgentComponent").optional(),
+            provider: z.literal("AssistantAgent").optional(),
           })
           .merge(
             z
@@ -1625,6 +1523,7 @@ export const zWorkflowWorkersCount = z.object({
                         })
                         .merge(
                           z.object({
+                            provider: z.enum(["MtOpenAIChatCompletionClient"]),
                             config: z.object({
                               model: z.string(),
                               model_type: z.enum([
@@ -1669,6 +1568,157 @@ export const zWorkflowWorkersCount = z.object({
               ),
           ),
       ]),
+      z
+        .object({
+          provider: z.string().optional(),
+          component_type: z.string().optional(),
+          version: z.number().int().optional(),
+          component_version: z.number().int().optional(),
+          description: z.string().optional(),
+          label: z.string().optional(),
+          config: z.object({}).optional(),
+        })
+        .merge(
+          z.object({
+            component_type: z.enum(["team"]),
+          }),
+        )
+        .merge(
+          z.object({
+            provider: z.enum(["mtmai.teams.team_social.SocialTeam"]),
+            config: z
+              .object({
+                participants: z.array(z.object({})),
+                termination_condition: z.union([
+                  z
+                    .object({
+                      provider: z.literal("TextMentionTermination").optional(),
+                    })
+                    .merge(
+                      z.object({
+                        provider: z.enum(["TextMentionTermination"]),
+                        config: z.object({
+                          text: z.string(),
+                        }),
+                      }),
+                    ),
+                  z
+                    .object({
+                      provider: z.literal("HandoffTermination").optional(),
+                    })
+                    .merge(
+                      z.object({
+                        provider: z.enum([
+                          "autogen_agentchat.conditions.HandoffTermination",
+                        ]),
+                        config: z.object({
+                          target: z.string(),
+                        }),
+                      }),
+                    ),
+                  z
+                    .object({
+                      provider: z.literal("TimeoutTermination").optional(),
+                    })
+                    .merge(
+                      z.object({
+                        provider: z.enum([
+                          "autogen_agentchat.conditions.TimeoutTermination",
+                        ]),
+                        config: z.object({
+                          timeout_seconds: z.number().int(),
+                        }),
+                      }),
+                    ),
+                  z
+                    .object({
+                      provider: z.literal("SourceMatchTermination").optional(),
+                    })
+                    .merge(
+                      z.object({
+                        provider: z.enum([
+                          "autogen_agentchat.conditions.SourceMatchTermination",
+                        ]),
+                        config: z.object({
+                          sources: z.array(z.string()),
+                        }),
+                      }),
+                    ),
+                  z
+                    .object({
+                      provider: z.literal("FunctionCallTermination").optional(),
+                    })
+                    .merge(
+                      z.object({
+                        provider: z.enum([
+                          "autogen_agentchat.conditions.FunctionCallTermination",
+                        ]),
+                        config: z.object({
+                          function_name: z.string(),
+                        }),
+                      }),
+                    ),
+                  z
+                    .object({
+                      provider: z.literal("TokenUsageTermination").optional(),
+                    })
+                    .merge(
+                      z.object({
+                        provider: z.enum([
+                          "autogen_agentchat.conditions.TokenUsageTermination",
+                        ]),
+                        config: z.object({
+                          max_total_token: z.number().int().optional(),
+                          max_prompt_token: z.number().int().optional(),
+                          max_completion_token: z.number().int().optional(),
+                        }),
+                      }),
+                    ),
+                  z
+                    .object({
+                      provider: z.literal("MaxMessageTermination").optional(),
+                    })
+                    .merge(
+                      z.object({
+                        provider: z.enum([
+                          "autogen_agentchat.conditions.MaxMessageTermination",
+                        ]),
+                        config: z.object({
+                          max_messages: z.number().int(),
+                          include_agent_event: z
+                            .boolean()
+                            .optional()
+                            .default(false),
+                        }),
+                      }),
+                    ),
+                  z
+                    .object({
+                      provider: z.literal("StopMessageTermination").optional(),
+                    })
+                    .merge(
+                      z.object({
+                        provider: z.enum([
+                          "autogen_agentchat.conditions.StopMessageTermination",
+                        ]),
+                        config: z.object({
+                          some_thing: z.string().optional(),
+                        }),
+                      }),
+                    ),
+                ]),
+                max_turns: z.number().int().default(25),
+              })
+              .merge(
+                z.object({
+                  username: z.string(),
+                  password: z.string(),
+                  otp_key: z.string(),
+                  proxy_url: z.string().optional(),
+                }),
+              ),
+          }),
+        ),
     ])
     .optional(),
 });
@@ -3083,7 +3133,7 @@ export const zTeamConfig = z.object({
       })
       .merge(
         z.object({
-          provider: z.enum(["HandoffTermination"]),
+          provider: z.enum(["autogen_agentchat.conditions.HandoffTermination"]),
           config: z.object({
             target: z.string(),
           }),
@@ -3095,7 +3145,7 @@ export const zTeamConfig = z.object({
       })
       .merge(
         z.object({
-          provider: z.enum(["TimeoutTermination"]),
+          provider: z.enum(["autogen_agentchat.conditions.TimeoutTermination"]),
           config: z.object({
             timeout_seconds: z.number().int(),
           }),
@@ -3107,7 +3157,9 @@ export const zTeamConfig = z.object({
       })
       .merge(
         z.object({
-          provider: z.enum(["SourceMatchTermination"]),
+          provider: z.enum([
+            "autogen_agentchat.conditions.SourceMatchTermination",
+          ]),
           config: z.object({
             sources: z.array(z.string()),
           }),
@@ -3119,7 +3171,9 @@ export const zTeamConfig = z.object({
       })
       .merge(
         z.object({
-          provider: z.enum(["FunctionCallTermination"]),
+          provider: z.enum([
+            "autogen_agentchat.conditions.FunctionCallTermination",
+          ]),
           config: z.object({
             function_name: z.string(),
           }),
@@ -3131,7 +3185,9 @@ export const zTeamConfig = z.object({
       })
       .merge(
         z.object({
-          provider: z.enum(["TokenUsageTermination"]),
+          provider: z.enum([
+            "autogen_agentchat.conditions.TokenUsageTermination",
+          ]),
           config: z.object({
             max_total_token: z.number().int().optional(),
             max_prompt_token: z.number().int().optional(),
@@ -3145,7 +3201,9 @@ export const zTeamConfig = z.object({
       })
       .merge(
         z.object({
-          provider: z.enum(["MaxMessageTermination"]),
+          provider: z.enum([
+            "autogen_agentchat.conditions.MaxMessageTermination",
+          ]),
           config: z.object({
             max_messages: z.number().int(),
             include_agent_event: z.boolean().optional().default(false),
@@ -3158,7 +3216,9 @@ export const zTeamConfig = z.object({
       })
       .merge(
         z.object({
-          provider: z.enum(["StopMessageTermination"]),
+          provider: z.enum([
+            "autogen_agentchat.conditions.StopMessageTermination",
+          ]),
           config: z.object({
             some_thing: z.string().optional(),
           }),
@@ -3275,7 +3335,7 @@ export const zToolCallMessageConfig = zBaseMessageConfig.merge(
 
 export const zChatMessageUpsert = zChatMessageProperties;
 
-export const zComponentTypes = z.enum(["agent", "team"]);
+export const zComponentTypes = z.enum(["agent", "team", "termination"]);
 
 export const zUpsertModel = z.object({
   name: z.string(),
@@ -3400,7 +3460,7 @@ export const zSubsection = z.object({
   description: z.string(),
 });
 
-export const zAssistantAgentComponent = z
+export const zAssistantAgent = z
   .object({
     provider: z.string().optional(),
     component_type: z.string().optional(),
@@ -3434,6 +3494,7 @@ export const zAssistantAgentComponent = z
             })
             .merge(
               z.object({
+                provider: z.enum(["MtOpenAIChatCompletionClient"]),
                 config: z.object({
                   model: z.string(),
                   model_type: z.enum([
@@ -3496,6 +3557,7 @@ export const zAssistantAgentConfig = z.object({
     })
     .merge(
       z.object({
+        provider: z.enum(["MtOpenAIChatCompletionClient"]),
         config: z.object({
           model: z.string(),
           model_type: z.enum([
@@ -4073,9 +4135,9 @@ export const zSocialTeamConfig = zTeamConfig.merge(
   }),
 );
 
-export const zSocialTeamComponent = zTeamComponent.merge(
+export const zSocialTeam = zTeamComponent.merge(
   z.object({
-    provider: z.enum(["SocialTeam"]),
+    provider: z.enum(["mtmai.teams.team_social.SocialTeam"]),
     config: zSocialTeamConfig,
   }),
 );
@@ -4315,6 +4377,7 @@ export const zInstagramAgentConfig = zAssistantAgentConfig.merge(
 
 export const zMtOpenAiChatCompletionClientComponent = zComponentModel.merge(
   z.object({
+    provider: z.enum(["MtOpenAIChatCompletionClient"]),
     config: zOpenAiClientConfigurationConfigModel,
   }),
 );
@@ -4338,7 +4401,7 @@ export const zTerminations = z.union([
     })
     .merge(
       z.object({
-        provider: z.enum(["HandoffTermination"]),
+        provider: z.enum(["autogen_agentchat.conditions.HandoffTermination"]),
         config: z.object({
           target: z.string(),
         }),
@@ -4350,7 +4413,7 @@ export const zTerminations = z.union([
     })
     .merge(
       z.object({
-        provider: z.enum(["TimeoutTermination"]),
+        provider: z.enum(["autogen_agentchat.conditions.TimeoutTermination"]),
         config: z.object({
           timeout_seconds: z.number().int(),
         }),
@@ -4362,7 +4425,9 @@ export const zTerminations = z.union([
     })
     .merge(
       z.object({
-        provider: z.enum(["SourceMatchTermination"]),
+        provider: z.enum([
+          "autogen_agentchat.conditions.SourceMatchTermination",
+        ]),
         config: z.object({
           sources: z.array(z.string()),
         }),
@@ -4374,7 +4439,9 @@ export const zTerminations = z.union([
     })
     .merge(
       z.object({
-        provider: z.enum(["FunctionCallTermination"]),
+        provider: z.enum([
+          "autogen_agentchat.conditions.FunctionCallTermination",
+        ]),
         config: z.object({
           function_name: z.string(),
         }),
@@ -4386,7 +4453,9 @@ export const zTerminations = z.union([
     })
     .merge(
       z.object({
-        provider: z.enum(["TokenUsageTermination"]),
+        provider: z.enum([
+          "autogen_agentchat.conditions.TokenUsageTermination",
+        ]),
         config: z.object({
           max_total_token: z.number().int().optional(),
           max_prompt_token: z.number().int().optional(),
@@ -4400,7 +4469,9 @@ export const zTerminations = z.union([
     })
     .merge(
       z.object({
-        provider: z.enum(["MaxMessageTermination"]),
+        provider: z.enum([
+          "autogen_agentchat.conditions.MaxMessageTermination",
+        ]),
         config: z.object({
           max_messages: z.number().int(),
           include_agent_event: z.boolean().optional().default(false),
@@ -4413,7 +4484,9 @@ export const zTerminations = z.union([
     })
     .merge(
       z.object({
-        provider: z.enum(["StopMessageTermination"]),
+        provider: z.enum([
+          "autogen_agentchat.conditions.StopMessageTermination",
+        ]),
         config: z.object({
           some_thing: z.string().optional(),
         }),
@@ -4444,7 +4517,7 @@ export const zTextMessageTerminationConfig = z.object({
 });
 
 export const zHandoffTermination = z.object({
-  provider: z.enum(["HandoffTermination"]),
+  provider: z.enum(["autogen_agentchat.conditions.HandoffTermination"]),
   config: z.object({
     target: z.string(),
   }),
@@ -4455,7 +4528,7 @@ export const zHandoffTerminationConfig = z.object({
 });
 
 export const zTimeoutTermination = z.object({
-  provider: z.enum(["TimeoutTermination"]),
+  provider: z.enum(["autogen_agentchat.conditions.TimeoutTermination"]),
   config: z.object({
     timeout_seconds: z.number().int(),
   }),
@@ -4466,7 +4539,7 @@ export const zTimeoutTerminationConfig = z.object({
 });
 
 export const zSourceMatchTermination = z.object({
-  provider: z.enum(["SourceMatchTermination"]),
+  provider: z.enum(["autogen_agentchat.conditions.SourceMatchTermination"]),
   config: z.object({
     sources: z.array(z.string()),
   }),
@@ -4477,7 +4550,7 @@ export const zSourceMatchTerminationConfig = z.object({
 });
 
 export const zFunctionCallTermination = z.object({
-  provider: z.enum(["FunctionCallTermination"]),
+  provider: z.enum(["autogen_agentchat.conditions.FunctionCallTermination"]),
   config: z.object({
     function_name: z.string(),
   }),
@@ -4488,7 +4561,7 @@ export const zFunctionCallTerminationConfig = z.object({
 });
 
 export const zTokenUsageTermination = z.object({
-  provider: z.enum(["TokenUsageTermination"]),
+  provider: z.enum(["autogen_agentchat.conditions.TokenUsageTermination"]),
   config: z.object({
     max_total_token: z.number().int().optional(),
     max_prompt_token: z.number().int().optional(),
@@ -4503,7 +4576,7 @@ export const zTokenUsageTerminationConfig = z.object({
 });
 
 export const zMaxMessageTermination = z.object({
-  provider: z.enum(["MaxMessageTermination"]),
+  provider: z.enum(["autogen_agentchat.conditions.MaxMessageTermination"]),
   config: z.object({
     max_messages: z.number().int(),
     include_agent_event: z.boolean().optional().default(false),
@@ -4516,7 +4589,7 @@ export const zMaxMessageTerminationConfig = z.object({
 });
 
 export const zStopMessageTermination = z.object({
-  provider: z.enum(["StopMessageTermination"]),
+  provider: z.enum(["autogen_agentchat.conditions.StopMessageTermination"]),
   config: z.object({
     some_thing: z.string().optional(),
   }),
@@ -4526,7 +4599,7 @@ export const zStopMessageTerminationConfig = z.object({
   some_thing: z.string().optional(),
 });
 
-export const zRoundRobinGroupChatComponent = zTeamComponent.merge(
+export const zRoundRobinGroupChat = zTeamComponent.merge(
   z.object({
     provider: z.enum(["RoundRobinGroupChat"]),
     config: z.object({
@@ -4544,19 +4617,19 @@ export const zRoundRobinGroupChatConfig = z.object({
 export const zComponents = z.union([
   z
     .object({
-      provider: z.literal("SocialTeamComponent").optional(),
+      provider: z.literal("SocialTeam").optional(),
     })
-    .merge(zSocialTeamComponent),
+    .merge(zSocialTeam),
   z
     .object({
-      provider: z.literal("RoundRobinGroupChatComponent").optional(),
+      provider: z.literal("RoundRobinGroupChat").optional(),
     })
-    .merge(zRoundRobinGroupChatComponent),
+    .merge(zRoundRobinGroupChat),
   z
     .object({
-      provider: z.literal("AssistantAgentComponent").optional(),
+      provider: z.literal("AssistantAgent").optional(),
     })
-    .merge(zAssistantAgentComponent),
+    .merge(zAssistantAgent),
 ]);
 
 export const zTeamProperties = z.object({
@@ -4583,15 +4656,6 @@ export const zTeamRun = z.object({
 export const zTeamRunResult = z.object({
   workflowRun: zWorkflowRun.optional(),
 });
-
-export const zProviderTypes = z.enum([
-  "RoundRobinGroupChat",
-  "SelectorGroupChat",
-  "SocialTeam",
-  "AssistantAgent",
-  "MtOpenAIChatCompletionClient",
-  "TextMentionTermination",
-]);
 
 export const zUserAgentState = z.object({
   type: z.enum(["UserAgentState"]).optional(),

@@ -4,7 +4,6 @@ import {
   type AssistantAgentConfig,
   ModelTypes,
   type MtOpenAiChatCompletionClientComponent,
-  ProviderTypes,
   type Terminations,
 } from "mtmaiapi";
 import { zSocialTeamComponent } from "mtmaiapi/gomtmapi/zod.gen";
@@ -17,8 +16,10 @@ import {
   FormMessage,
 } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
-import { useFormContext } from "react-hook-form";
+import { useState } from "react";
+import { MtmaiuiConfig } from "../../../lib/core/config";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
+import { ParticipantsInput } from "./ParticipantsInput";
 
 export const Route = createLazyFileRoute("/session/new/")({
   component: RouteComponent,
@@ -26,11 +27,36 @@ export const Route = createLazyFileRoute("/session/new/")({
 
 function RouteComponent() {
   const handleRunTeam = useWorkbenchStore((x) => x.handleRunTeam);
+
+  const [participants, setParticipants] = useState<AssistantAgentComponent[]>([
+    {
+      provider: "autogen_agentchat.agents.AssistantAgent",
+      label: "assistant",
+      component_type: "agent",
+      description: "assistant",
+      config: {
+        name: "user123",
+        description: "pass123",
+        tools: [],
+        reflect_on_tool_use: false,
+        tool_call_summary_format: "{result}",
+        model_client: {
+          provider: "mtmai.model_client.MtOpenAIChatCompletionClient",
+          config: {
+            api_key: MtmaiuiConfig.default_open_ai_key,
+            base_url: MtmaiuiConfig.default_open_base_url,
+            model: "gpt-4o",
+            model_type: ModelTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
+          },
+        } satisfies MtOpenAiChatCompletionClientComponent,
+      } satisfies AssistantAgentConfig,
+    } satisfies AssistantAgentComponent,
+  ]);
   const form = useZodFormV2({
     schema: zSocialTeamComponent,
     toastValidateError: true,
     defaultValues: {
-      provider: ProviderTypes.SOCIAL_TEAM,
+      provider: "mtmai.teams.team_social.SocialTeam",
       component_type: "team",
       label: "social team",
       description: "social team",
@@ -40,31 +66,9 @@ function RouteComponent() {
         otp_key: "MCF3M4XZHTFWKYXUGV4CQX3LFXMKMWFP",
         proxy_url: "http://localhost:8080",
         max_turns: 10,
-        participants: [
-          {
-            provider: ProviderTypes.ASSISTANT_AGENT,
-            label: "assistant",
-            component_type: "agent",
-            description: "assistant",
-            config: {
-              name: "user123",
-              description: "pass123",
-              tools: [],
-              reflect_on_tool_use: false,
-              tool_call_summary_format: "{result}",
-              model_client: {
-                provider: ProviderTypes.MT_OPEN_AI_CHAT_COMPLETION_CLIENT,
-                config: {
-                  api_key: "sk-proj-123",
-                  model: "gpt-4o",
-                  model_type: ModelTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
-                },
-              } satisfies MtOpenAiChatCompletionClientComponent,
-            } satisfies AssistantAgentConfig,
-          } satisfies AssistantAgentComponent,
-        ],
+        participants: participants,
         termination_condition: {
-          provider: ProviderTypes.TEXT_MENTION_TERMINATION,
+          provider: "autogen_agentchat.conditions.TextMentionTermination",
           config: {
             text: "TERMINATE",
           },
@@ -72,48 +76,6 @@ function RouteComponent() {
       },
     },
     handleSubmit: (values) => {
-      // const social_team: SocialTeamComponent = {
-      //   provider: ProviderTypes.SOCIAL_TEAM,
-      //   component_type: "team",
-      //   label: "social team",
-      //   description: "social team",
-      //   config: {
-      //     username: "user123",
-      //     password: "pass123",
-      //     otp_key: "otp123",
-      //     proxy_url: "http://localhost:8080",
-      //     max_turns: 10,
-      //     participants: [
-      //       {
-      //         provider: ProviderTypes.ASSISTANT_AGENT,
-      //         label: "assistant",
-      //         component_type: "agent",
-      //         description: "assistant",
-      //         config: {
-      //           name: "user123",
-      //           description: "pass123",
-      //           tools: [],
-      //           reflect_on_tool_use: false,
-      //           tool_call_summary_format: "{result}",
-      //           model_client: {
-      //             provider: ProviderTypes.MT_OPEN_AI_CHAT_COMPLETION_CLIENT,
-      //             config: {
-      //               api_key: "sk-proj-123",
-      //               model: "gpt-4o",
-      //               model_type: ModelTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
-      //             },
-      //           } satisfies MtOpenAiChatCompletionClientComponent,
-      //         } satisfies AssistantAgentConfig,
-      //       } satisfies AssistantAgentComponent,
-      //     ],
-      //     termination_condition: {
-      //       provider: ProviderTypes.TEXT_MENTION_TERMINATION,
-      //       config: {
-      //         text: "TERMINATE",
-      //       },
-      //     } satisfies Terminations,
-      //   },
-      // };
       handleRunTeam({
         component: values,
         session_id: "123",
@@ -167,18 +129,12 @@ function RouteComponent() {
           )}
         />
 
-        <ParticipantsFields />
+        <ParticipantsInput
+          participants={participants}
+          onChange={setParticipants}
+        />
       </ZForm>
       <ZFormToolbar form={form.form} />
     </>
   );
 }
-
-export const ParticipantsFields = () => {
-  const form = useFormContext();
-  return (
-    <>
-      <h1>ParticipantsFields</h1>
-    </>
-  );
-};

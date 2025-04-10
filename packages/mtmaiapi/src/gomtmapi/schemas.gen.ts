@@ -1411,9 +1411,6 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/AgentTopicTypes",
         },
         {
-          $ref: "#/components/schemas/ProviderTypes",
-        },
-        {
           $ref: "#/components/schemas/ComponentTypes",
         },
         {
@@ -1450,10 +1447,10 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/FlowError",
         },
         {
-          $ref: "#/components/schemas/SocialTeamConfig",
+          $ref: "#/components/schemas/SocialAddFollowersInput",
         },
         {
-          $ref: "#/components/schemas/SocialAddFollowersInput",
+          $ref: "#/components/schemas/FlowTeamInput",
         },
         {
           $ref: "#/components/schemas/UserAgentState",
@@ -1489,25 +1486,19 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/UserInputRequestedEvent",
         },
         {
-          $ref: "#/components/schemas/AssistantAgentComponent",
-        },
-        {
-          $ref: "#/components/schemas/TeamComponent",
-        },
-        {
-          $ref: "#/components/schemas/ComponentModel",
-        },
-        {
-          $ref: "#/components/schemas/FlowTeamInput",
+          $ref: "#/components/schemas/AssistantAgent",
         },
         {
           $ref: "#/components/schemas/MtOpenAIChatCompletionClientComponent",
         },
         {
-          $ref: "#/components/schemas/RoundRobinGroupChatComponent",
+          $ref: "#/components/schemas/RoundRobinGroupChat",
         },
         {
           $ref: "#/components/schemas/Components",
+        },
+        {
+          $ref: "#/components/schemas/SocialTeam",
         },
       ],
     },
@@ -4346,7 +4337,7 @@ export const ChatMessageUpsertSchema = {
 
 export const ComponentTypesSchema = {
   type: "string",
-  enum: ["agent", "team"],
+  enum: ["agent", "team", "termination"],
 } as const;
 
 export const UpsertModelSchema = {
@@ -4470,7 +4461,7 @@ export const SubsectionSchema = {
   required: ["subsectionTitle", "description"],
 } as const;
 
-export const AssistantAgentComponentSchema = {
+export const AssistantAgentSchema = {
   allOf: [
     {
       $ref: "#/components/schemas/ComponentModel",
@@ -5997,7 +5988,7 @@ export const SocialTeamConfigSchema = {
   ],
 } as const;
 
-export const SocialTeamComponentSchema = {
+export const SocialTeamSchema = {
   allOf: [
     {
       $ref: "#/components/schemas/TeamComponent",
@@ -6007,7 +5998,7 @@ export const SocialTeamComponentSchema = {
       properties: {
         provider: {
           type: "string",
-          enum: ["SocialTeam"],
+          enum: ["mtmai.teams.team_social.SocialTeam"],
         },
         config: {
           $ref: "#/components/schemas/SocialTeamConfig",
@@ -6404,8 +6395,12 @@ export const MtOpenAIChatCompletionClientComponentSchema = {
       $ref: "#/components/schemas/ComponentModel",
     },
     {
-      required: ["config"],
+      required: ["config", "provider"],
       properties: {
+        provider: {
+          type: "string",
+          enum: ["MtOpenAIChatCompletionClient"],
+        },
         config: {
           $ref: "#/components/schemas/OpenAIClientConfigurationConfigModel",
         },
@@ -6497,8 +6492,8 @@ export const HandoffTerminationSchema = {
   properties: {
     provider: {
       type: "string",
-      enum: ["HandoffTermination"],
-      default: "HandoffTermination",
+      enum: ["autogen_agentchat.conditions.HandoffTermination"],
+      default: "autogen_agentchat.conditions.HandoffTermination",
     },
     config: {
       $ref: "#/components/schemas/HandoffTerminationConfig",
@@ -6520,8 +6515,8 @@ export const TimeoutTerminationSchema = {
   properties: {
     provider: {
       type: "string",
-      enum: ["TimeoutTermination"],
-      default: "TimeoutTermination",
+      enum: ["autogen_agentchat.conditions.TimeoutTermination"],
+      default: "autogen_agentchat.conditions.TimeoutTermination",
     },
     config: {
       $ref: "#/components/schemas/TimeoutTerminationConfig",
@@ -6543,8 +6538,8 @@ export const SourceMatchTerminationSchema = {
   properties: {
     provider: {
       type: "string",
-      enum: ["SourceMatchTermination"],
-      default: "SourceMatchTermination",
+      enum: ["autogen_agentchat.conditions.SourceMatchTermination"],
+      default: "autogen_agentchat.conditions.SourceMatchTermination",
     },
     config: {
       $ref: "#/components/schemas/SourceMatchTerminationConfig",
@@ -6569,8 +6564,8 @@ export const FunctionCallTerminationSchema = {
   properties: {
     provider: {
       type: "string",
-      enum: ["FunctionCallTermination"],
-      default: "FunctionCallTermination",
+      enum: ["autogen_agentchat.conditions.FunctionCallTermination"],
+      default: "autogen_agentchat.conditions.FunctionCallTermination",
     },
     config: {
       $ref: "#/components/schemas/FunctionCallTerminationConfig",
@@ -6592,8 +6587,8 @@ export const TokenUsageTerminationSchema = {
   properties: {
     provider: {
       type: "string",
-      enum: ["TokenUsageTermination"],
-      default: "TokenUsageTermination",
+      enum: ["autogen_agentchat.conditions.TokenUsageTermination"],
+      default: "autogen_agentchat.conditions.TokenUsageTermination",
     },
     config: {
       $ref: "#/components/schemas/TokenUsageTerminationConfig",
@@ -6620,8 +6615,8 @@ export const MaxMessageTerminationSchema = {
   properties: {
     provider: {
       type: "string",
-      enum: ["MaxMessageTermination"],
-      default: "MaxMessageTermination",
+      enum: ["autogen_agentchat.conditions.MaxMessageTermination"],
+      default: "autogen_agentchat.conditions.MaxMessageTermination",
     },
     config: {
       $ref: "#/components/schemas/MaxMessageTerminationConfig",
@@ -6647,8 +6642,8 @@ export const StopMessageTerminationSchema = {
   properties: {
     provider: {
       type: "string",
-      enum: ["StopMessageTermination"],
-      default: "StopMessageTermination",
+      enum: ["autogen_agentchat.conditions.StopMessageTermination"],
+      default: "autogen_agentchat.conditions.StopMessageTermination",
     },
     config: {
       $ref: "#/components/schemas/StopMessageTerminationConfig",
@@ -6665,7 +6660,7 @@ export const StopMessageTerminationConfigSchema = {
   },
 } as const;
 
-export const RoundRobinGroupChatComponentSchema = {
+export const RoundRobinGroupChatSchema = {
   allOf: [
     {
       $ref: "#/components/schemas/TeamComponent",
@@ -6706,13 +6701,13 @@ export const ComponentsSchema = {
   },
   oneOf: [
     {
-      $ref: "#/components/schemas/SocialTeamComponent",
+      $ref: "#/components/schemas/SocialTeam",
     },
     {
-      $ref: "#/components/schemas/RoundRobinGroupChatComponent",
+      $ref: "#/components/schemas/RoundRobinGroupChat",
     },
     {
-      $ref: "#/components/schemas/AssistantAgentComponent",
+      $ref: "#/components/schemas/AssistantAgent",
     },
   ],
 } as const;
@@ -6784,18 +6779,6 @@ export const TeamRunResultSchema = {
       $ref: "#/components/schemas/WorkflowRun",
     },
   },
-} as const;
-
-export const ProviderTypesSchema = {
-  type: "string",
-  enum: [
-    "RoundRobinGroupChat",
-    "SelectorGroupChat",
-    "SocialTeam",
-    "AssistantAgent",
-    "MtOpenAIChatCompletionClient",
-    "TextMentionTermination",
-  ],
 } as const;
 
 export const UserAgentStateSchema = {

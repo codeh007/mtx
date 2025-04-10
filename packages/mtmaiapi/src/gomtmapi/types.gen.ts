@@ -842,7 +842,6 @@ export type WorkflowWorkersCount = {
     | ToolTypes
     | FlowNames
     | AgentTopicTypes
-    | ProviderTypes
     | ComponentTypes
     | AgentTypes
     | BrowserData
@@ -855,8 +854,8 @@ export type WorkflowWorkersCount = {
     | AgentEventType
     | InstagramAgentState
     | FlowError
-    | SocialTeamConfig
     | SocialAddFollowersInput
+    | FlowTeamInput
     | UserAgentState
     | CodeExecutionInput
     | CodeExecutionResult
@@ -868,13 +867,11 @@ export type WorkflowWorkersCount = {
     | ToolCallRequestEvent
     | MyDemoAgentEvent
     | UserInputRequestedEvent
-    | AssistantAgentComponent
-    | TeamComponent
-    | ComponentModel
-    | FlowTeamInput
+    | AssistantAgent
     | MtOpenAiChatCompletionClientComponent
-    | RoundRobinGroupChatComponent
-    | Components;
+    | RoundRobinGroupChat
+    | Components
+    | SocialTeam;
 };
 
 export type WorkflowRun = {
@@ -2333,11 +2330,12 @@ export type ToolCallMessageConfig = BaseMessageConfig & {
 
 export type ChatMessageUpsert = ChatMessageProperties;
 
-export type ComponentTypes = "agent" | "team";
+export type ComponentTypes = "agent" | "team" | "termination";
 
 export const ComponentTypes = {
   AGENT: "agent",
   TEAM: "team",
+  TERMINATION: "termination",
 } as const;
 
 export type UpsertModel = ModelProperties;
@@ -2388,7 +2386,7 @@ export type Subsection = {
   description: string;
 };
 
-export type AssistantAgentComponent = ComponentModel & {
+export type AssistantAgent = ComponentModel & {
   provider: "AssistantAgent";
   component_type: "agent";
   config?: AssistantAgentConfig;
@@ -3066,8 +3064,8 @@ export type SocialTeamConfig = TeamConfig & {
   proxy_url?: string;
 };
 
-export type SocialTeamComponent = TeamComponent & {
-  provider: "SocialTeam";
+export type SocialTeam = TeamComponent & {
+  provider: "mtmai.teams.team_social.SocialTeam";
   config: SocialTeamConfig;
 };
 
@@ -3272,6 +3270,7 @@ export type InstagramAgentConfig = AssistantAgentConfig & {
 };
 
 export type MtOpenAiChatCompletionClientComponent = ComponentModel & {
+  provider: "MtOpenAIChatCompletionClient";
   config: OpenAiClientConfigurationConfigModel;
 };
 
@@ -3320,7 +3319,7 @@ export type TextMessageTerminationConfig = {
 };
 
 export type HandoffTermination = {
-  provider: "HandoffTermination";
+  provider: "autogen_agentchat.conditions.HandoffTermination";
   config: HandoffTerminationConfig;
 };
 
@@ -3329,7 +3328,7 @@ export type HandoffTerminationConfig = {
 };
 
 export type TimeoutTermination = {
-  provider: "TimeoutTermination";
+  provider: "autogen_agentchat.conditions.TimeoutTermination";
   config: TimeoutTerminationConfig;
 };
 
@@ -3338,7 +3337,7 @@ export type TimeoutTerminationConfig = {
 };
 
 export type SourceMatchTermination = {
-  provider: "SourceMatchTermination";
+  provider: "autogen_agentchat.conditions.SourceMatchTermination";
   config: SourceMatchTerminationConfig;
 };
 
@@ -3347,7 +3346,7 @@ export type SourceMatchTerminationConfig = {
 };
 
 export type FunctionCallTermination = {
-  provider: "FunctionCallTermination";
+  provider: "autogen_agentchat.conditions.FunctionCallTermination";
   config: FunctionCallTerminationConfig;
 };
 
@@ -3356,7 +3355,7 @@ export type FunctionCallTerminationConfig = {
 };
 
 export type TokenUsageTermination = {
-  provider: "TokenUsageTermination";
+  provider: "autogen_agentchat.conditions.TokenUsageTermination";
   config: TokenUsageTerminationConfig;
 };
 
@@ -3367,7 +3366,7 @@ export type TokenUsageTerminationConfig = {
 };
 
 export type MaxMessageTermination = {
-  provider: "MaxMessageTermination";
+  provider: "autogen_agentchat.conditions.MaxMessageTermination";
   config: MaxMessageTerminationConfig;
 };
 
@@ -3377,7 +3376,7 @@ export type MaxMessageTerminationConfig = {
 };
 
 export type StopMessageTermination = {
-  provider: "StopMessageTermination";
+  provider: "autogen_agentchat.conditions.StopMessageTermination";
   config: StopMessageTerminationConfig;
 };
 
@@ -3385,7 +3384,7 @@ export type StopMessageTerminationConfig = {
   some_thing?: string;
 };
 
-export type RoundRobinGroupChatComponent = TeamComponent & {
+export type RoundRobinGroupChat = TeamComponent & {
   provider: "RoundRobinGroupChat";
   config: RoundRobinGroupChatConfig;
 };
@@ -3397,14 +3396,14 @@ export type RoundRobinGroupChatConfig = {
 
 export type Components =
   | ({
-      provider?: "SocialTeamComponent";
-    } & SocialTeamComponent)
+      provider?: "SocialTeam";
+    } & SocialTeam)
   | ({
-      provider?: "RoundRobinGroupChatComponent";
-    } & RoundRobinGroupChatComponent)
+      provider?: "RoundRobinGroupChat";
+    } & RoundRobinGroupChat)
   | ({
-      provider?: "AssistantAgentComponent";
-    } & AssistantAgentComponent);
+      provider?: "AssistantAgent";
+    } & AssistantAgent);
 
 export type TeamProperties = {
   id: string;
@@ -3432,23 +3431,6 @@ export type TeamRun = {
 export type TeamRunResult = {
   workflowRun?: WorkflowRun;
 };
-
-export type ProviderTypes =
-  | "RoundRobinGroupChat"
-  | "SelectorGroupChat"
-  | "SocialTeam"
-  | "AssistantAgent"
-  | "MtOpenAIChatCompletionClient"
-  | "TextMentionTermination";
-
-export const ProviderTypes = {
-  ROUND_ROBIN_GROUP_CHAT: "RoundRobinGroupChat",
-  SELECTOR_GROUP_CHAT: "SelectorGroupChat",
-  SOCIAL_TEAM: "SocialTeam",
-  ASSISTANT_AGENT: "AssistantAgent",
-  MT_OPEN_AI_CHAT_COMPLETION_CLIENT: "MtOpenAIChatCompletionClient",
-  TEXT_MENTION_TERMINATION: "TextMentionTermination",
-} as const;
 
 export type UserAgentState = {
   type?: "UserAgentState";
