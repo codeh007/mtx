@@ -42,7 +42,6 @@ export function useGomtmTransport({
 
   const logger: Interceptor = useMemo(
     () => (next) => async (req) => {
-      console.log(`sending message to ${req.url}`);
       if (tenantId) {
         req.header.set("X-Tid", tenantId);
       }
@@ -68,42 +67,8 @@ export function useGomtmTransport({
         // By default, all requests use POST. Set this option to true to use GET
         // for side-effect free RPCs.
         useHttpGet: false,
-
-        // // fetch: globalThis.fetch,
-        // fetch: (input: RequestInfo | URL, init?: RequestInit) => {
-        //   console.log("fetching(GomtmTransport)", {
-        //     input,
-        //     tenantId,
-        //     headers: init?.headers,
-        //   });
-        //   const oldHeaders = init?.headers as Headers;
-        //   const newHeaders = new Headers();
-        //   // console.log("oldHeaders", oldHeaders);
-
-        //   for (const [k, v] of Object.entries(oldHeaders.entries())) {
-        //     // if (k.startsWith("x-")) {
-        //     console.log("setting header", k, v);
-        //     newHeaders.set(k, v);
-        //     // }
-        //   }
-        //   if (accessToken) {
-        //     newHeaders.set("Authorization", `Bearer ${accessToken}`);
-        //   }
-        //   if (tenantId) {
-        //     newHeaders.set("X-Tid", tenantId);
-        //   }
-        //   // newHeaders.set("Content-Type", "application/json");
-        //   newHeaders.set("Content-Type", "application/connect+json");
-        //   return globalThis.fetch(input, {
-        //     ...init,
-        //     headers: newHeaders,
-        //   });
-        // },
-
-        // Options for Protobuf JSON serialization.
-        // jsonOptions: {},
       }),
-    [accessToken, tenantId, backendUrl],
+    [backendUrl, logger],
   );
   return transport;
 }

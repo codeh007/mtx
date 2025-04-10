@@ -258,9 +258,11 @@ export const createWorkbrenchSlice: StateCreator<
     },
 
     handleHumanInput: debounce(async (input: MtAgEvent) => {
+      get().setChatStarted(true);
       const preMessages = get().messages;
-
       const task = input.content as unknown as string;
+
+      const sessionId = get().threadId ?? generateUUID();
       const newChatMessage = {
         content: task,
         metadata: {
@@ -272,7 +274,7 @@ export const createWorkbrenchSlice: StateCreator<
         type: "UserMessage",
         topic: "default",
         source: "web",
-        thread_id: get().threadId ?? generateUUID(),
+        thread_id: sessionId,
         // llm_message:{},
         // thought: "",
       } satisfies ChatMessage;
@@ -286,12 +288,12 @@ export const createWorkbrenchSlice: StateCreator<
         body: {
           input: {
             component: get().team,
-            session_id: "123",
+            session_id: sessionId,
             task: task,
             init_state: {},
           },
           additionalMetadata: {
-            sessionId: get().threadId,
+            sessionId: sessionId,
           },
         },
       });
@@ -316,40 +318,7 @@ export const createWorkbrenchSlice: StateCreator<
         }
       }
     }, 30),
-    // handleNewChat: async (input) => {
-    //   console.log("handleNewChat", input);
-    //   const response = await workflowRunCreate({
-    //     path: {
-    //       workflow: FlowNames.SOCIAL,
-    //     },
-    //     body: {
-    //       input: input,
-    //       additionalMetadata: {
-    //         sessionId: get().threadId,
-    //       },
-    //     },
-    //   });
-    //   if (response?.data) {
-    //     get().setLastestWorkflowRun(response?.data);
-    //   }
-    // },
-    // handleRunTeam: async (team) => {
-    //   console.log("handleRunTeam", team);
-    //   const response = await workflowRunCreate({
-    //     path: {
-    //       workflow: FlowNames.TEAM,
-    //     },
-    //     body: {
-    //       input: team,
-    //       additionalMetadata: {
-    //         sessionId: get().threadId,
-    //       },
-    //     },
-    //   });
-    //   if (response?.data) {
-    //     get().setLastestWorkflowRun(response?.data);
-    //   }
-    // },
+
     setMessages: (messages) => set({ messages }),
     setShowWorkbench: (openWorkbench) => {
       set({ openWorkbench });
@@ -392,11 +361,6 @@ export const createWorkbrenchSlice: StateCreator<
       set({ lastestWorkflowRun });
     },
     loadChatMessageList: (chatMessageList) => {
-      // console.log("loadChatMessageList", chatMessageList?.rows);
-      // if (!chatMessageList?.rows?.length) {
-      //   // set({ messages: [] });
-      //   return;
-      // }
       const messages = chatMessageList?.rows?.map((row) => {
         return {
           ...row,
@@ -461,8 +425,6 @@ export const WorkbrenchProvider = (
   });
 
   const tid = useTenantId();
-  // const sessionId = useSessionId();
-
   const mystore = useMemo(
     () =>
       createWordbrenchStore({
@@ -482,6 +444,7 @@ export const WorkbrenchProvider = (
       dispatcherClient,
       agrpcClient,
       mtmAgClient,
+      workflowRunCreate,
     ],
   );
 
@@ -520,24 +483,23 @@ export const WorkbrenchProvider = (
       },
       async (cur, prev) => {
         console.log("lastestWorkflowRun changed", cur, "prev", prev);
-        startTransition(() => {
-          if (cur?.additionalMetadata?.sessionId) {
+        if (cur?.additionalMetadata?.sessionId) {
+          startTransition(() => {
             nav({
               to: `/session/${cur?.additionalMetadata?.sessionId}`,
               search: search,
             });
-          }
-        });
-
-        const sessionId = cur?.additionalMetadata?.sessionId;
-        const messageList = await chatMessagesList({
-          path: {
-            tenant: tid!,
-            chat: sessionId as string,
-          },
-        });
-        console.log("messageList", messageList);
-        mystore.getState().loadChatMessageList(messageList.data);
+          });
+          const sessionId = cur?.additionalMetadata?.sessionId;
+          const messageList = await chatMessagesList({
+            path: {
+              tenant: tid!,
+              chat: sessionId as string,
+            },
+          });
+          mystore.getState().loadChatMessageList(messageList.data);
+          console.log("messageList", messageList);
+        }
       },
     );
   }, [mystore, nav, search, tid]);
