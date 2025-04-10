@@ -12,9 +12,7 @@ export const Route = createLazyFileRoute("/session/$sessionId")({
 
 function RouteComponent() {
   const { sessionId } = Route.useParams();
-  // const { comId } = Route.useSearch();
   const setThreadId = useWorkbenchStore((x) => x.setThreadId);
-  // const setComponentId = useWorkbenchStore((x) => x.setComponentId);
   const tid = useTenantId();
   const chatMessagesQuery = useQuery({
     ...chatMessagesListOptions({
@@ -33,17 +31,10 @@ function RouteComponent() {
       setThreadId(sessionId);
     }
   }, [sessionId, setThreadId]);
-  // useEffect(() => {
-  //   if (comId) {
-  //     setComponentId(comId);
-  //   }
-  // }, [comId, setComponentId]);
   return (
     <>
-      {/* <WorkbrenchProvider threadId={sessionId}> */}
       <SessionHeader />
       <Outlet />
-      {/* </WorkbrenchProvider> */}
     </>
   );
 }

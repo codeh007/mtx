@@ -1,6 +1,6 @@
 "use client";
 
-import { Download, PlusIcon, Save } from "lucide-react";
+import { InfoIcon, PlusIcon } from "lucide-react";
 import { Icons } from "mtxuilib/icons/icons";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
@@ -15,12 +15,7 @@ import {
 } from "mtxuilib/ui/breadcrumb";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
 import { useSidebar } from "mtxuilib/ui/sidebar";
-import {
-  BetterTooltip,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "mtxuilib/ui/tooltip";
+import { BetterTooltip } from "mtxuilib/ui/tooltip";
 import { useWindowSize } from "usehooks-ts";
 import { useSearch } from "../../hooks/useNav";
 import { useTeamSessionStore } from "../../stores/teamSessionProvider";
@@ -30,14 +25,13 @@ export function SessionHeader() {
   const componentId = useTeamSessionStore((x) => x.componentId);
   const sessionId = useWorkbenchStore((x) => x.threadId);
   const search = useSearch();
-  // const started = useWorkbenchStore((x) => x.started);
   const { open } = useSidebar();
   const { width: windowWidth } = useWindowSize();
   const openWorkbench = useWorkbenchStore((x) => x.openWorkbench);
   const setOpenWorkbench = useWorkbenchStore((x) => x.setOpenWorkbench);
   const openChat = useWorkbenchStore((x) => x.openChat);
-  const setOpenChat = useWorkbenchStore((x) => x.setOpenChat);
-  const canHideChat = openWorkbench || !openChat;
+  // const setOpenChat = useWorkbenchStore((x) => x.setOpenChat);
+  // const canHideChat = openWorkbench || !openChat;
 
   const chatSessionId = useWorkbenchStore((x) => x.threadId);
   return (
@@ -62,23 +56,11 @@ export function SessionHeader() {
                 <ValidationErrors validation={validationResults} />
               </div>
             )} */}
-          <Tooltip>
+          {/* <Tooltip>
             <TooltipTrigger asChild>
               <Button
                 size="icon"
                 variant="outline"
-                //   onClick={() => {
-                //     const json = JSON.stringify(syncToJson(), null, 2);
-                //     const blob = new Blob([json], {
-                //       type: "application/json",
-                //     });
-                //     const url = URL.createObjectURL(blob);
-                //     const a = document.createElement("a");
-                //     a.href = url;
-                //     a.download = "team-config.json";
-                //     a.click();
-                //     URL.revokeObjectURL(url);
-                //   }}
               >
                 <Download className="size-4" />
               </Button>
@@ -86,71 +68,46 @@ export function SessionHeader() {
             <TooltipContent>
               <span>Download Team</span>
             </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button size="icon" variant="outline">
-                <div className="relative">
-                  <Save className="size-4" />
-                </div>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <span>Save Team</span>
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <CustomLink
-                to={`/session/${sessionId}/team_state`}
-                search={search}
-                className={cn(buttonVariants({ variant: "outline" }))}
-              >
-                <Icons.code className="size-4" />
-              </CustomLink>
-            </TooltipTrigger>
-            <TooltipContent>
-              <span>state</span>
-            </TooltipContent>
-          </Tooltip>
-
-          <BetterTooltip content="操作">
+          </Tooltip> */}
+          {/* <BetterTooltip content="保存">
+            <Button size="icon" variant="outline">
+              <div className="relative">
+                <Save className="size-4" />
+              </div>
+            </Button>
+          </BetterTooltip> */}
+          <BetterTooltip content="状态">
             <CustomLink
-              to={`/session/${sessionId}/actions`}
-              className={cn(
-                "order-2 md:order-1 md:px-2 px-2 md:h-fit ml-auto md:ml-0",
-                buttonVariants({ variant: "ghost" }),
-              )}
+              to={`/session/${sessionId}/state`}
+              search={search}
+              className={cn(buttonVariants({ variant: "ghost" }))}
             >
-              <Icons.settings className="size-4" />
-              <span className="md:sr-only">操作</span>
+              <InfoIcon className="size-4" />
             </CustomLink>
           </BetterTooltip>
           {(!open || windowWidth < 768) && (
             <BetterTooltip content="New Chat">
               <Button
-                variant="outline"
+                variant="ghost"
                 className="order-2 md:order-1 md:px-2 px-2 md:h-fit ml-auto md:ml-0"
                 onClick={() => {}}
               >
-                <PlusIcon />
+                <PlusIcon className="size-4" />
                 <span className="md:sr-only">New Chat</span>
               </Button>
             </BetterTooltip>
           )}
 
-          <Button
-            disabled={!canHideChat}
-            variant={"ghost"}
-            onClick={() => {
-              if (canHideChat) {
-                setOpenChat(!openChat);
-              }
-            }}
-          >
-            <Icons.messageSquare className="size-5" />
-          </Button>
-          <div className="w-[1px] bg-bolt-elements-borderColor" />
+          <BetterTooltip content="对话">
+            <CustomLink
+              to={`/session/${sessionId}`}
+              // disabled={!canHideChat}
+              className={cn(buttonVariants({ variant: "ghost" }))}
+            >
+              <Icons.messageSquare className="size-5" />
+            </CustomLink>
+          </BetterTooltip>
+          {/* <div className="w-[1px]" /> */}
           <Button
             disabled={!openWorkbench}
             variant={"ghost"}
