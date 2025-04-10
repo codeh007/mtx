@@ -157,8 +157,6 @@ interface BaseChatProps {
   chatStarted?: boolean;
   isStreaming?: boolean;
   messages?: Message[];
-  // enhancingPrompt?: boolean;
-  // promptEnhanced?: boolean;
   input?: string;
   handleStop?: () => void;
   sendMessage?: (messageInput?: string) => void;
@@ -174,8 +172,6 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
       scrollRef,
       showChat = true,
       isStreaming = false,
-      // enhancingPrompt = false,
-      // promptEnhanced = false,
       input = "",
       sendMessage,
     },
@@ -189,17 +185,6 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
     const setInput = useWorkbenchStore((x) => x.setInput);
     const TEXTAREA_MAX_HEIGHT = chatStarted ? 400 : 200;
     const userAgentState = useWorkbenchStore((x) => x.userAgentState);
-    // const messages = useWorkbenchStore(x=>x.messages)
-    // const messagesV2 = (userAgentState?.model_context as any)
-    //   .messages as MtLlmMessage[];
-
-    // const messagesV2 = useMemo(() => {
-    //   if (!userAgentState?.model_context) return [];
-    //   return (
-    //     ((userAgentState?.model_context as any).messages as MtLlmMessage[]) ||
-    //     []
-    //   );
-    // }, [userAgentState]);
     return (
       <>
         <div

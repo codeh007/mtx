@@ -1,10 +1,10 @@
-import type { AssistantAgentComponent } from "mtmaiapi";
+import type { AssistantAgent } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useFormContext } from "react-hook-form";
 
 interface ParticipantsInputProps {
-  participants: AssistantAgentComponent[];
-  onChange: (participants: AssistantAgentComponent[]) => void;
+  participants: AssistantAgent[];
+  onChange: (participants: AssistantAgent[]) => void;
 }
 export const ParticipantsInput = ({
   participants,

@@ -9,16 +9,23 @@ import {
 import { debounce } from "lodash";
 import {
   type AgState,
-  // type AgentRunInput,
   type ApiErrors,
+  type AssistantAgent,
+  type AssistantAgentConfig,
   type ChatMessage,
   type ChatMessageList,
   FlowNames,
   type FlowTeamInput,
+  ModelFamily,
   type MtAgEvent,
+  type OpenAiChatCompletionClient,
   type Options,
+  ProviderTypes,
+  type SocialTeam,
+  type SocialTeamConfig,
   type StartNewChatInput,
   type Tenant,
+  type Terminations,
   type UserAgentState,
   type WorkflowRun,
   type WorkflowRunCreateData,
@@ -46,6 +53,7 @@ import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { useTenant, useTenantId } from "../hooks/useAuth";
 import { useNav, useSearch } from "../hooks/useNav";
+import { MtmaiuiConfig } from "../lib/core/config";
 import { useMtmaiV2 } from "./StoreProvider";
 import { useGomtmClient } from "./TransportProvider";
 import { handleWorkflowRunEvent } from "./ag-event-handlers";
@@ -102,7 +110,7 @@ export interface WorkbrenchState extends WorkbenchProps {
   handleRunTeam: (team: FlowTeamInput) => void;
   workflowRunId?: string;
   setWorkflowRunId: (workflowRunId: string) => void;
-  chatStarted?: boolean;
+  chatStarted: boolean;
   setChatStarted: (chatStarted: boolean) => void;
   messages: ChatMessage[];
   setMessages: (messages: ChatMessage[]) => void;
@@ -134,6 +142,9 @@ export interface WorkbrenchState extends WorkbenchProps {
   setUserAgentState: (userAgentState: UserAgentState) => void;
   lastestWorkflowRun?: WorkflowRun;
   setLastestWorkflowRun: (lastestWorkflowRun: WorkflowRun) => void;
+
+  team: SocialTeam;
+  setTeam: (team: SocialTeam) => void;
 }
 
 export const createWorkbrenchSlice: StateCreator<
@@ -144,7 +155,6 @@ export const createWorkbrenchSlice: StateCreator<
 > = (set, get, init) => {
   return {
     userAgentState: {},
-    // threadId: generateUUID(),
     setInput: (input) => set({ input }),
     messages: [],
     firstUserInteraction: undefined,
@@ -163,12 +173,96 @@ export const createWorkbrenchSlice: StateCreator<
     setOpenChat: (openChat: boolean) => {
       set({ openChat });
     },
+    team: {
+      provider: ProviderTypes.SOCIAL_TEAM,
+      component_type: "team",
+      label: "social team",
+      description: "social team",
+      config: {
+        username: "saibichquyenll2015",
+        password: "qSJPn07c7",
+        otp_key: "MCF3M4XZHTFWKYXUGV4CQX3LFXMKMWFP",
+        proxy_url: "http://localhost:10809",
 
-    handleHumanInput: debounce(async (input) => {
+        max_turns: 10,
+        participants: [
+          {
+            provider: ProviderTypes.ASSISTANT_AGENT,
+            label: "assistant",
+            component_type: "agent",
+            description: "assistant agent",
+            config: {
+              name: "useful_assistant",
+              description: "有用的助手",
+              tools: [],
+              reflect_on_tool_use: false,
+              tool_call_summary_format: "{result}",
+              model_client: {
+                provider: ProviderTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
+                config: {
+                  model: MtmaiuiConfig.default_open_model,
+                  api_key: MtmaiuiConfig.default_open_ai_key,
+                  base_url: MtmaiuiConfig.default_open_base_url,
+                  model_info: {
+                    vision: false,
+                    function_calling: true,
+                    json_output: true,
+                    structured_output: true,
+                    family: ModelFamily.UNKNOWN,
+                  },
+                },
+              } satisfies OpenAiChatCompletionClient,
+            } satisfies AssistantAgentConfig,
+          } satisfies AssistantAgent,
+
+          {
+            provider: ProviderTypes.ASSISTANT_AGENT,
+            label: "assistant",
+            component_type: "agent",
+            description: "assistant agent",
+            config: {
+              name: "joke_writer_assistant",
+              description: "擅长冷笑话创作的助手",
+              tools: [],
+              reflect_on_tool_use: false,
+              tool_call_summary_format: "{result}",
+              system_message: "你是擅长冷笑话创作的助手",
+              model_client: {
+                provider: ProviderTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
+                config: {
+                  model: MtmaiuiConfig.default_open_model,
+                  api_key: MtmaiuiConfig.default_open_ai_key,
+                  base_url: MtmaiuiConfig.default_open_base_url,
+                  model_info: {
+                    vision: false,
+                    function_calling: true,
+                    json_output: true,
+                    structured_output: true,
+                    family: ModelFamily.UNKNOWN,
+                  },
+                },
+              } satisfies OpenAiChatCompletionClient,
+            } satisfies AssistantAgentConfig,
+          } satisfies AssistantAgent,
+        ] satisfies AssistantAgent[],
+        termination_condition: {
+          provider: ProviderTypes.TEXT_MENTION_TERMINATION,
+          config: {
+            text: "TERMINATE",
+          },
+        } satisfies Terminations,
+      } satisfies SocialTeamConfig,
+    } satisfies SocialTeam,
+    setTeam: (team) => {
+      set({ team });
+    },
+
+    handleHumanInput: debounce(async (input: MtAgEvent) => {
       const preMessages = get().messages;
+
+      const task = input.content as unknown as string;
       const newChatMessage = {
-        role: "user",
-        content: input.content,
+        content: task,
         metadata: {
           id: generateUUID(),
           createdAt: new Date().toISOString(),
@@ -178,26 +272,29 @@ export const createWorkbrenchSlice: StateCreator<
         type: "UserMessage",
         topic: "default",
         source: "web",
-        thread_id: get().threadId,
-        thought: "",
-      } as ChatMessage;
+        thread_id: get().threadId ?? generateUUID(),
+        // llm_message:{},
+        // thought: "",
+      } satisfies ChatMessage;
       set({
         messages: [...preMessages, newChatMessage],
       });
       const response = await workflowRunCreate({
         path: {
-          // workflow: FlowNames.AG,
-          workflow: FlowNames.SOCIAL,
+          workflow: FlowNames.TEAM,
         },
         body: {
-          input: input,
+          input: {
+            component: get().team,
+            session_id: "123",
+            task: task,
+            init_state: {},
+          },
           additionalMetadata: {
             sessionId: get().threadId,
           },
         },
       });
-
-      // const body = response.response.;
       console.log("handleHumanInput", get().messages, response?.data);
 
       if (response?.data) {
@@ -218,41 +315,41 @@ export const createWorkbrenchSlice: StateCreator<
           }
         }
       }
-    }, 100),
-    handleNewChat: async (input) => {
-      console.log("handleNewChat", input);
-      const response = await workflowRunCreate({
-        path: {
-          workflow: FlowNames.SOCIAL,
-        },
-        body: {
-          input: input,
-          additionalMetadata: {
-            sessionId: get().threadId,
-          },
-        },
-      });
-      if (response?.data) {
-        get().setLastestWorkflowRun(response?.data);
-      }
-    },
-    handleRunTeam: async (team) => {
-      console.log("handleRunTeam", team);
-      const response = await workflowRunCreate({
-        path: {
-          workflow: FlowNames.TEAM,
-        },
-        body: {
-          input: team,
-          additionalMetadata: {
-            sessionId: get().threadId,
-          },
-        },
-      });
-      if (response?.data) {
-        get().setLastestWorkflowRun(response?.data);
-      }
-    },
+    }, 30),
+    // handleNewChat: async (input) => {
+    //   console.log("handleNewChat", input);
+    //   const response = await workflowRunCreate({
+    //     path: {
+    //       workflow: FlowNames.SOCIAL,
+    //     },
+    //     body: {
+    //       input: input,
+    //       additionalMetadata: {
+    //         sessionId: get().threadId,
+    //       },
+    //     },
+    //   });
+    //   if (response?.data) {
+    //     get().setLastestWorkflowRun(response?.data);
+    //   }
+    // },
+    // handleRunTeam: async (team) => {
+    //   console.log("handleRunTeam", team);
+    //   const response = await workflowRunCreate({
+    //     path: {
+    //       workflow: FlowNames.TEAM,
+    //     },
+    //     body: {
+    //       input: team,
+    //       additionalMetadata: {
+    //         sessionId: get().threadId,
+    //       },
+    //     },
+    //   });
+    //   if (response?.data) {
+    //     get().setLastestWorkflowRun(response?.data);
+    //   }
+    // },
     setMessages: (messages) => set({ messages }),
     setShowWorkbench: (openWorkbench) => {
       set({ openWorkbench });
@@ -263,6 +360,7 @@ export const createWorkbrenchSlice: StateCreator<
     setWorkflowRunId: (workflowRunId) => {
       set({ workflowRunId });
     },
+    chatStarted: false,
     setChatStarted: (chatStarted: boolean) => {
       set({ chatStarted });
     },

@@ -62,7 +62,6 @@ const WorkflowRunsWorkflowRunIdRouteLazyImport = createFileRoute(
 )()
 const TenantSettingsRouteLazyImport = createFileRoute('/tenant/settings')()
 const TeamTeamIdRouteLazyImport = createFileRoute('/team/$teamId')()
-const SessionNewRouteLazyImport = createFileRoute('/session/new')()
 const SessionSessionIdRouteLazyImport = createFileRoute('/session/$sessionId')()
 const ResourceNewRouteLazyImport = createFileRoute('/resource/new')()
 const ResourceResIdRouteLazyImport = createFileRoute('/resource/$resId')()
@@ -159,7 +158,6 @@ const WorkflowRunsWorkflowRunIdIndexLazyImport = createFileRoute(
   '/workflow-runs/$workflowRunId/',
 )()
 const TenantSettingsIndexLazyImport = createFileRoute('/tenant/settings/')()
-const SessionNewIndexLazyImport = createFileRoute('/session/new/')()
 const SessionSessionIdIndexLazyImport = createFileRoute(
   '/session/$sessionId/',
 )()
@@ -534,14 +532,6 @@ const TeamTeamIdRouteLazyRoute = TeamTeamIdRouteLazyImport.update({
   getParentRoute: () => TeamRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~team/~$teamId/~route.lazy').then((d) => d.Route),
-)
-
-const SessionNewRouteLazyRoute = SessionNewRouteLazyImport.update({
-  id: '/new',
-  path: '/new',
-  getParentRoute: () => SessionRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~session/~new/~route.lazy').then((d) => d.Route),
 )
 
 const SessionSessionIdRouteLazyRoute = SessionSessionIdRouteLazyImport.update({
@@ -1040,14 +1030,6 @@ const TenantSettingsIndexLazyRoute = TenantSettingsIndexLazyImport.update({
   getParentRoute: () => TenantSettingsRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~tenant/~settings/~index.lazy').then((d) => d.Route),
-)
-
-const SessionNewIndexLazyRoute = SessionNewIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => SessionNewRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~session/~new/~index.lazy').then((d) => d.Route),
 )
 
 const SessionSessionIdIndexLazyRoute = SessionSessionIdIndexLazyImport.update({
@@ -2265,13 +2247,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SessionSessionIdRouteLazyImport
       parentRoute: typeof SessionRouteLazyImport
     }
-    '/session/new': {
-      id: '/session/new'
-      path: '/new'
-      fullPath: '/session/new'
-      preLoaderRoute: typeof SessionNewRouteLazyImport
-      parentRoute: typeof SessionRouteLazyImport
-    }
     '/team/$teamId': {
       id: '/team/$teamId'
       path: '/$teamId'
@@ -2397,13 +2372,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/session/$sessionId/'
       preLoaderRoute: typeof SessionSessionIdIndexLazyImport
       parentRoute: typeof SessionSessionIdRouteLazyImport
-    }
-    '/session/new/': {
-      id: '/session/new/'
-      path: '/'
-      fullPath: '/session/new/'
-      preLoaderRoute: typeof SessionNewIndexLazyImport
-      parentRoute: typeof SessionNewRouteLazyImport
     }
     '/tenant/settings/': {
       id: '/tenant/settings/'
@@ -3778,27 +3746,14 @@ const SessionSessionIdRouteLazyRouteWithChildren =
     SessionSessionIdRouteLazyRouteChildren,
   )
 
-interface SessionNewRouteLazyRouteChildren {
-  SessionNewIndexLazyRoute: typeof SessionNewIndexLazyRoute
-}
-
-const SessionNewRouteLazyRouteChildren: SessionNewRouteLazyRouteChildren = {
-  SessionNewIndexLazyRoute: SessionNewIndexLazyRoute,
-}
-
-const SessionNewRouteLazyRouteWithChildren =
-  SessionNewRouteLazyRoute._addFileChildren(SessionNewRouteLazyRouteChildren)
-
 interface SessionRouteLazyRouteChildren {
   SessionIndexLazyRoute: typeof SessionIndexLazyRoute
   SessionSessionIdRouteLazyRoute: typeof SessionSessionIdRouteLazyRouteWithChildren
-  SessionNewRouteLazyRoute: typeof SessionNewRouteLazyRouteWithChildren
 }
 
 const SessionRouteLazyRouteChildren: SessionRouteLazyRouteChildren = {
   SessionIndexLazyRoute: SessionIndexLazyRoute,
   SessionSessionIdRouteLazyRoute: SessionSessionIdRouteLazyRouteWithChildren,
-  SessionNewRouteLazyRoute: SessionNewRouteLazyRouteWithChildren,
 }
 
 const SessionRouteLazyRouteWithChildren =
@@ -4314,7 +4269,6 @@ export interface FileRoutesByFullPath {
   '/resource/$resId': typeof ResourceResIdRouteLazyRouteWithChildren
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
   '/session/$sessionId': typeof SessionSessionIdRouteLazyRouteWithChildren
-  '/session/new': typeof SessionNewRouteLazyRouteWithChildren
   '/team/$teamId': typeof TeamTeamIdRouteLazyRouteWithChildren
   '/tenant/settings': typeof TenantSettingsRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren
@@ -4333,7 +4287,6 @@ export interface FileRoutesByFullPath {
   '/proxy/$proxyId/': typeof ProxyProxyIdIndexLazyRoute
   '/resource/$resId/': typeof ResourceResIdIndexLazyRoute
   '/session/$sessionId/': typeof SessionSessionIdIndexLazyRoute
-  '/session/new/': typeof SessionNewIndexLazyRoute
   '/tenant/settings/': typeof TenantSettingsIndexLazyRoute
   '/workflow-runs/$workflowRunId/': typeof WorkflowRunsWorkflowRunIdIndexLazyRoute
   '/workflows/$workflowId/': typeof WorkflowsWorkflowIdIndexLazyRoute
@@ -4471,7 +4424,6 @@ export interface FileRoutesByTo {
   '/proxy/$proxyId': typeof ProxyProxyIdIndexLazyRoute
   '/resource/$resId': typeof ResourceResIdIndexLazyRoute
   '/session/$sessionId': typeof SessionSessionIdIndexLazyRoute
-  '/session/new': typeof SessionNewIndexLazyRoute
   '/tenant/settings': typeof TenantSettingsIndexLazyRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdIndexLazyRoute
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdIndexLazyRoute
@@ -4591,7 +4543,6 @@ export interface FileRoutesById {
   '/resource/$resId': typeof ResourceResIdRouteLazyRouteWithChildren
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
   '/session/$sessionId': typeof SessionSessionIdRouteLazyRouteWithChildren
-  '/session/new': typeof SessionNewRouteLazyRouteWithChildren
   '/team/$teamId': typeof TeamTeamIdRouteLazyRouteWithChildren
   '/tenant/settings': typeof TenantSettingsRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren
@@ -4610,7 +4561,6 @@ export interface FileRoutesById {
   '/proxy/$proxyId/': typeof ProxyProxyIdIndexLazyRoute
   '/resource/$resId/': typeof ResourceResIdIndexLazyRoute
   '/session/$sessionId/': typeof SessionSessionIdIndexLazyRoute
-  '/session/new/': typeof SessionNewIndexLazyRoute
   '/tenant/settings/': typeof TenantSettingsIndexLazyRoute
   '/workflow-runs/$workflowRunId/': typeof WorkflowRunsWorkflowRunIdIndexLazyRoute
   '/workflows/$workflowId/': typeof WorkflowsWorkflowIdIndexLazyRoute
@@ -4765,7 +4715,6 @@ export interface FileRouteTypes {
     | '/resource/$resId'
     | '/resource/new'
     | '/session/$sessionId'
-    | '/session/new'
     | '/team/$teamId'
     | '/tenant/settings'
     | '/workflow-runs/$workflowRunId'
@@ -4784,7 +4733,6 @@ export interface FileRouteTypes {
     | '/proxy/$proxyId/'
     | '/resource/$resId/'
     | '/session/$sessionId/'
-    | '/session/new/'
     | '/tenant/settings/'
     | '/workflow-runs/$workflowRunId/'
     | '/workflows/$workflowId/'
@@ -4921,7 +4869,6 @@ export interface FileRouteTypes {
     | '/proxy/$proxyId'
     | '/resource/$resId'
     | '/session/$sessionId'
-    | '/session/new'
     | '/tenant/settings'
     | '/workflow-runs/$workflowRunId'
     | '/workflows/$workflowId'
@@ -5039,7 +4986,6 @@ export interface FileRouteTypes {
     | '/resource/$resId'
     | '/resource/new'
     | '/session/$sessionId'
-    | '/session/new'
     | '/team/$teamId'
     | '/tenant/settings'
     | '/workflow-runs/$workflowRunId'
@@ -5058,7 +5004,6 @@ export interface FileRouteTypes {
     | '/proxy/$proxyId/'
     | '/resource/$resId/'
     | '/session/$sessionId/'
-    | '/session/new/'
     | '/tenant/settings/'
     | '/workflow-runs/$workflowRunId/'
     | '/workflows/$workflowId/'
@@ -5343,8 +5288,7 @@ export const routeTree = rootRoute
       "filePath": "~session/~route.lazy.tsx",
       "children": [
         "/session/",
-        "/session/$sessionId",
-        "/session/new"
+        "/session/$sessionId"
       ]
     },
     "/site": {
@@ -5567,13 +5511,6 @@ export const routeTree = rootRoute
         "/session/$sessionId/team_state"
       ]
     },
-    "/session/new": {
-      "filePath": "~session/~new/~route.lazy.tsx",
-      "parent": "/session",
-      "children": [
-        "/session/new/"
-      ]
-    },
     "/team/$teamId": {
       "filePath": "~team/~$teamId/~route.lazy.tsx",
       "parent": "/team",
@@ -5668,10 +5605,6 @@ export const routeTree = rootRoute
     "/session/$sessionId/": {
       "filePath": "~session/~$sessionId/~index.lazy.tsx",
       "parent": "/session/$sessionId"
-    },
-    "/session/new/": {
-      "filePath": "~session/~new/~index.lazy.tsx",
-      "parent": "/session/new"
     },
     "/tenant/settings/": {
       "filePath": "~tenant/~settings/~index.lazy.tsx",
