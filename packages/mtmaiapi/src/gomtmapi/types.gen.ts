@@ -845,7 +845,6 @@ export type WorkflowWorkersCount = {
     | ComponentTypes
     | ProviderTypes
     | AgentEventType
-    | StateType
     | AgentStateTypes
     | AgentTypes
     | BrowserData
@@ -879,7 +878,8 @@ export type WorkflowWorkersCount = {
     | UserProxyAgent
     | OpenAiClientConfigurationConfigModel
     | TeamState
-    | AgentStates;
+    | AgentStates
+    | AgEvents;
 };
 
 export type WorkflowRun = {
@@ -1713,6 +1713,22 @@ export type CommonResult = {
   Message: string;
 };
 
+export type TenantParameter = string;
+
+export type HttpCommonStatusResponse = unknown;
+
+export type BadRequest = unknown;
+
+/**
+ * Forbidden
+ */
+export type Forbidden = unknown;
+
+/**
+ * Not found
+ */
+export type NotFound = unknown;
+
 export type ChatMessageProperties = {
   type: MtLlmMessageTypes;
   content: string;
@@ -1742,19 +1758,6 @@ export type ChatMessageList = {
   pagination?: PaginationResponse;
 };
 
-export type MtLlmMessageTypes =
-  | "AssistantMessage"
-  | "SystemMessage"
-  | "UserMessage"
-  | "FunctionExecutionResultMessage";
-
-export const MtLlmMessageTypes = {
-  ASSISTANT_MESSAGE: "AssistantMessage",
-  SYSTEM_MESSAGE: "SystemMessage",
-  USER_MESSAGE: "UserMessage",
-  FUNCTION_EXECUTION_RESULT_MESSAGE: "FunctionExecutionResultMessage",
-} as const;
-
 export type ChatSessionProperties = {
   metadata?: ApiResourceMeta;
   title: string;
@@ -1766,6 +1769,44 @@ export type ChatSessionProperties = {
 };
 
 export type ChatUpsert = ChatSessionProperties;
+
+export type ChatHistoryList = {
+  pagination?: PaginationResponse;
+  rows?: Array<ChatMessage>;
+};
+
+export type ChatSession = ApiResourceMetaProperties & ChatSessionProperties;
+
+/**
+ * 聊天 Session 列表
+ */
+export type ChatSessionList = {
+  pagination?: PaginationResponse;
+  rows?: Array<ChatSession>;
+};
+
+export type ChatMessageUpsert = ChatMessageProperties;
+
+/**
+ * 浏览器(browser use)任务
+ */
+export type BrowserTask = {
+  content: string;
+};
+
+/**
+ * 打开浏览器备用,一般用于调试目的Open a browser and navigate to a URL.
+ */
+export type BrowserOpenTask = {
+  url: string;
+};
+
+/**
+ * 浏览器配置(未完成)
+ */
+export type BrowserConfig = {
+  persistent?: boolean;
+};
 
 /**
  * worker 启动时所需的关键配置
@@ -1922,29 +1963,8 @@ export type Artifact = {
   prevId?: string;
 };
 
-export type ChatHistoryList = {
-  pagination?: PaginationResponse;
-  rows?: Array<ChatMessage>;
-};
-
-export type ChatSession = ApiResourceMetaProperties & ChatSessionProperties;
-
-/**
- * 聊天 Session 列表
- */
-export type ChatSessionList = {
-  pagination?: PaginationResponse;
-  rows?: Array<ChatSession>;
-};
-
-export type TextHighlight = {
-  fullMarkdown: string;
-  markdownBlock: string;
-  selectedText: string;
-};
-
 export type AgStateProperties = {
-  type: StateType;
+  type: AgentStateTypes;
   chatId?: string;
   topic: string;
   source: string;
@@ -1962,33 +1982,8 @@ export type AgStateList = {
 
 export type AgStateUpsert = AgStateProperties;
 
-export type StateType =
-  | "TeamState"
-  | "RuntimeState"
-  | "AssistantAgentState"
-  | "RoundRobinManagerState"
-  | "SelectorManagerState"
-  | "SwarmManagerState"
-  | "MagenticOneOrchestratorState"
-  | "SocietyOfMindAgentState"
-  | "ChatAgentContainerState"
-  | "BaseGroupChatManagerState";
-
-export const StateType = {
-  TEAM_STATE: "TeamState",
-  RUNTIME_STATE: "RuntimeState",
-  ASSISTANT_AGENT_STATE: "AssistantAgentState",
-  ROUND_ROBIN_MANAGER_STATE: "RoundRobinManagerState",
-  SELECTOR_MANAGER_STATE: "SelectorManagerState",
-  SWARM_MANAGER_STATE: "SwarmManagerState",
-  MAGENTIC_ONE_ORCHESTRATOR_STATE: "MagenticOneOrchestratorState",
-  SOCIETY_OF_MIND_AGENT_STATE: "SocietyOfMindAgentState",
-  CHAT_AGENT_CONTAINER_STATE: "ChatAgentContainerState",
-  BASE_GROUP_CHAT_MANAGER_STATE: "BaseGroupChatManagerState",
-} as const;
-
 export type BaseState = {
-  type: StateType;
+  type: AgentStateTypes;
   version?: string;
 };
 
@@ -2025,81 +2020,76 @@ export type BaseGroupChatManagerState = BaseState & {
   current_turn?: number;
 };
 
-export type MtLlmMessage =
+export type AgentStates =
   | ({
-      type?: "UserMessage";
-    } & UserMessage)
+      type?: "InstagramAgentState";
+    } & InstagramAgentState)
   | ({
-      type?: "SystemMessage";
-    } & SystemMessage)
+      type?: "UserProxyAgentState";
+    } & UserProxyAgentState)
   | ({
-      type?: "AssistantMessage";
-    } & AssistantMessage)
-  | ({
-      type?: "FunctionExecutionResultMessage";
-    } & FunctionExecutionResultMessage);
+      type?: "SocialTeamManagerState";
+    } & SocialTeamManagerState);
 
-export type UserMessage = {
-  type: "UserMessage";
-  content: string;
-  source?: string;
+export type SocialTeamManagerState = BaseState & {
+  type: "SocialTeamManagerState";
+  next_speaker_index?: number;
+  previous_speaker?: string;
+  selector_prompt?: string;
+  allow_repeated_speaker?: boolean;
+  max_selector_attempts?: number;
+  selector_func?: string;
 };
 
-export type SystemMessage = {
-  type: "SystemMessage";
-  content: string;
+export type InstagramCredentials = {
+  username: string;
+  password: string;
+  otp_key?: string;
 };
 
-export type AssistantMessage = {
-  type: "AssistantMessage";
-  content: string | Array<FunctionCall>;
-  source?: string;
-  thought?: string;
-};
+export type AgentStateTypes =
+  | "InstagramAgentState"
+  | "UserProxyAgentState"
+  | "SocialTeamManagerState"
+  | "TeamState"
+  | "RuntimeState"
+  | "AssistantAgentState"
+  | "RoundRobinManagerState"
+  | "SelectorManagerState"
+  | "SwarmManagerState"
+  | "MagenticOneOrchestratorState"
+  | "SocietyOfMindAgentState"
+  | "ChatAgentContainerState"
+  | "BaseGroupChatManagerState";
 
-export type FunctionExecutionResultMessage = {
-  type: "FunctionExecutionResultMessage";
-  content: Array<FunctionExecutionResult>;
-};
+export const AgentStateTypes = {
+  INSTAGRAM_AGENT_STATE: "InstagramAgentState",
+  USER_PROXY_AGENT_STATE: "UserProxyAgentState",
+  SOCIAL_TEAM_MANAGER_STATE: "SocialTeamManagerState",
+  TEAM_STATE: "TeamState",
+  RUNTIME_STATE: "RuntimeState",
+  ASSISTANT_AGENT_STATE: "AssistantAgentState",
+  ROUND_ROBIN_MANAGER_STATE: "RoundRobinManagerState",
+  SELECTOR_MANAGER_STATE: "SelectorManagerState",
+  SWARM_MANAGER_STATE: "SwarmManagerState",
+  MAGENTIC_ONE_ORCHESTRATOR_STATE: "MagenticOneOrchestratorState",
+  SOCIETY_OF_MIND_AGENT_STATE: "SocietyOfMindAgentState",
+  CHAT_AGENT_CONTAINER_STATE: "ChatAgentContainerState",
+  BASE_GROUP_CHAT_MANAGER_STATE: "BaseGroupChatManagerState",
+} as const;
 
-export type FunctionExecutionResult = {
-  content: string;
-  name: string;
-  call_id: string;
-  is_error?: boolean;
-};
-
-export type ComponentProperties = {
-  label: string;
-  description: string;
-  provider: string;
-  component_type: string;
-  version: number;
-  component_version: number;
-  config: {
+export type TeamState = {
+  agent_states: {
     [key: string]: unknown;
   };
+  type: "TeamState";
 };
 
-export type FlowResult =
-  | ({
-      type?: "FlowLoginResult";
-    } & FlowLoginResult)
-  | ({
-      type?: "FlowHandoffResult";
-    } & FlowHandoffResult);
-
-export type FlowLoginResult = {
-  type: "FlowLoginResult";
-  success?: boolean;
-  source?: string;
-  account_id?: string;
-};
-
-export type FlowHandoffResult = {
-  type: "FlowHandoffResult";
-  success?: boolean;
-  name?: string;
+export type UserProxyAgentState = {
+  type: "UserProxyAgentState";
+  model_context?: unknown;
+  action_form?: SchemaForm;
+  platform_account_id?: string;
 };
 
 export type ToolTypes = "code_executor" | "social_login";
@@ -2149,6 +2139,193 @@ export type ComponentList = {
 };
 
 export type ComponentUpsert = ComponentProperties;
+
+export type TeamConfig = {
+  participants: Array<Agents>;
+  termination_condition: Terminations;
+  max_turns: number;
+};
+
+export type ComponentTypes = "agent" | "team" | "termination";
+
+export const ComponentTypes = {
+  AGENT: "agent",
+  TEAM: "team",
+  TERMINATION: "termination",
+} as const;
+
+export type ComponentProperties = {
+  label: string;
+  description: string;
+  provider: string;
+  component_type: string;
+  version: number;
+  component_version: number;
+  config: {
+    [key: string]: unknown;
+  };
+};
+
+export type AssistantAgent = ComponentModel & {
+  provider: "AssistantAgent";
+  component_type: "agent";
+  config?: AssistantAgentConfig;
+};
+
+export type AssistantAgentConfig = {
+  name: string;
+  description: string;
+  model_context?: {
+    [key: string]: {
+      [key: string]: unknown;
+    };
+  };
+  memory?: {
+    [key: string]: {
+      [key: string]: unknown;
+    };
+  };
+  model_client_stream?: boolean;
+  system_message?: string;
+  model_client: OpenAiChatCompletionClient;
+  tools: Array<{
+    [key: string]: {
+      [key: string]: unknown;
+    };
+  }>;
+  handoffs?: Array<string>;
+  reflect_on_tool_use: boolean;
+  tool_call_summary_format: string;
+  metadata?: {
+    [key: string]: unknown;
+  };
+};
+
+export type ProviderTypes =
+  | "RoundRobinGroupChat"
+  | "SelectorGroupChat"
+  | "SocialTeam"
+  | "AssistantAgent"
+  | "InstagramAgent"
+  | "UserProxyAgent"
+  | "CodeExecutorAgent"
+  | "SocietyOfMindAgent"
+  | "OpenAIChatCompletionClient"
+  | "TextMentionTermination"
+  | "HandoffTermination"
+  | "TimeoutTermination"
+  | "SourceMatchTermination"
+  | "FunctionCallTermination"
+  | "TokenUsageTermination"
+  | "MaxMessageTermination"
+  | "StopMessageTermination"
+  | "TextMessageTermination";
+
+export const ProviderTypes = {
+  ROUND_ROBIN_GROUP_CHAT: "RoundRobinGroupChat",
+  SELECTOR_GROUP_CHAT: "SelectorGroupChat",
+  SOCIAL_TEAM: "SocialTeam",
+  ASSISTANT_AGENT: "AssistantAgent",
+  INSTAGRAM_AGENT: "InstagramAgent",
+  USER_PROXY_AGENT: "UserProxyAgent",
+  CODE_EXECUTOR_AGENT: "CodeExecutorAgent",
+  SOCIETY_OF_MIND_AGENT: "SocietyOfMindAgent",
+  OPEN_AI_CHAT_COMPLETION_CLIENT: "OpenAIChatCompletionClient",
+  TEXT_MENTION_TERMINATION: "TextMentionTermination",
+  HANDOFF_TERMINATION: "HandoffTermination",
+  TIMEOUT_TERMINATION: "TimeoutTermination",
+  SOURCE_MATCH_TERMINATION: "SourceMatchTermination",
+  FUNCTION_CALL_TERMINATION: "FunctionCallTermination",
+  TOKEN_USAGE_TERMINATION: "TokenUsageTermination",
+  MAX_MESSAGE_TERMINATION: "MaxMessageTermination",
+  STOP_MESSAGE_TERMINATION: "StopMessageTermination",
+  TEXT_MESSAGE_TERMINATION: "TextMessageTermination",
+} as const;
+
+export type CodeExecutorAgent = AssistantAgent & {
+  config?: CodeExecutorAgentConfig;
+};
+
+export type CodeExecutorAgentConfig = {
+  provider: "CodeExecutorAgent";
+  code: string;
+};
+
+export type SocietyOfMindAgent = AssistantAgent & {
+  config?: SocietyOfMindAgentConfig;
+};
+
+export type SocietyOfMindAgentConfig = {
+  code: string;
+  provider: "SocietyOfMindAgent";
+};
+
+export type UserProxyAgent = ComponentModel & {
+  provider: "UserProxyAgent";
+  config: UserProxyAgentConfig;
+};
+
+export type UserProxyAgentConfig = {
+  name: string;
+  description: string;
+  input_func?: string;
+};
+
+export type Agents =
+  | ({
+      provider?: "AssistantAgent";
+    } & AssistantAgent)
+  | ({
+      provider?: "InstagramAgent";
+    } & InstagramAgent)
+  | ({
+      provider?: "UserProxyAgent";
+    } & UserProxyAgent);
+
+export type OpenAiClientConfigurationConfigModel =
+  BaseOpenAiClientConfigurationConfigModel & {
+    organization?: string;
+    base_url?: string;
+  };
+
+export type BaseOpenAiClientConfigurationConfigModel =
+  CreateArgumentsConfigModel & {
+    model?: string;
+    api_key?: string;
+    timeout?: number;
+    max_retries?: number;
+    model_capabilities?: {
+      [key: string]: unknown;
+    };
+    model_info?: {
+      [key: string]: unknown;
+    };
+    add_name_prefixes?: boolean;
+    default_headers?: {
+      [key: string]: unknown;
+    };
+  };
+
+export type CreateArgumentsConfigModel = {
+  frequency_penalty?: number;
+  logit_bias?: {
+    [key: string]: number;
+  };
+  max_tokens?: number;
+  n?: number;
+  presence_penalty?: number;
+  response_format?: string;
+  seed?: number;
+  stop?: Array<string>;
+  temperature?: number;
+  top_p?: number;
+  user?: string;
+  stream_options?: {
+    [key: string]: {
+      [key: string]: unknown;
+    };
+  };
+};
 
 export type GalleryComponents = {
   agents: Array<{
@@ -2208,12 +2385,6 @@ export type GalleryMetadata = {
   last_synced?: string;
 };
 
-export type TeamConfig = {
-  participants: Array<Agents>;
-  termination_condition: Terminations;
-  max_turns: number;
-};
-
 export type FlowNames =
   | "sys"
   | "tenant"
@@ -2235,47 +2406,6 @@ export const FlowNames = {
   INSTAGRAM: "instagram",
   SOCIAL: "social",
   TEAM: "team",
-} as const;
-
-export type ProviderTypes =
-  | "RoundRobinGroupChat"
-  | "SelectorGroupChat"
-  | "SocialTeam"
-  | "AssistantAgent"
-  | "InstagramAgent"
-  | "UserProxyAgent"
-  | "CodeExecutorAgent"
-  | "SocietyOfMindAgent"
-  | "OpenAIChatCompletionClient"
-  | "TextMentionTermination"
-  | "HandoffTermination"
-  | "TimeoutTermination"
-  | "SourceMatchTermination"
-  | "FunctionCallTermination"
-  | "TokenUsageTermination"
-  | "MaxMessageTermination"
-  | "StopMessageTermination"
-  | "TextMessageTermination";
-
-export const ProviderTypes = {
-  ROUND_ROBIN_GROUP_CHAT: "RoundRobinGroupChat",
-  SELECTOR_GROUP_CHAT: "SelectorGroupChat",
-  SOCIAL_TEAM: "SocialTeam",
-  ASSISTANT_AGENT: "AssistantAgent",
-  INSTAGRAM_AGENT: "InstagramAgent",
-  USER_PROXY_AGENT: "UserProxyAgent",
-  CODE_EXECUTOR_AGENT: "CodeExecutorAgent",
-  SOCIETY_OF_MIND_AGENT: "SocietyOfMindAgent",
-  OPEN_AI_CHAT_COMPLETION_CLIENT: "OpenAIChatCompletionClient",
-  TEXT_MENTION_TERMINATION: "TextMentionTermination",
-  HANDOFF_TERMINATION: "HandoffTermination",
-  TIMEOUT_TERMINATION: "TimeoutTermination",
-  SOURCE_MATCH_TERMINATION: "SourceMatchTermination",
-  FUNCTION_CALL_TERMINATION: "FunctionCallTermination",
-  TOKEN_USAGE_TERMINATION: "TokenUsageTermination",
-  MAX_MESSAGE_TERMINATION: "MaxMessageTermination",
-  STOP_MESSAGE_TERMINATION: "StopMessageTermination",
-  TEXT_MESSAGE_TERMINATION: "TextMessageTermination",
 } as const;
 
 export type AgEvent = {
@@ -2343,129 +2473,6 @@ export type Outline = {
   sections: Array<Section>;
 };
 
-export type RequestUsage = {
-  prompt_tokens: number;
-  completion_tokens: number;
-};
-
-export type CodeExecutorAgent = AssistantAgent & {
-  config?: CodeExecutorAgentConfig;
-};
-
-export type CodeExecutorAgentConfig = {
-  provider: "CodeExecutorAgent";
-  code: string;
-};
-
-export type SocietyOfMindAgent = AssistantAgent & {
-  config?: SocietyOfMindAgentConfig;
-};
-
-export type SocietyOfMindAgentConfig = {
-  code: string;
-  provider: "SocietyOfMindAgent";
-};
-
-export type UserProxyAgent = ComponentModel & {
-  provider: "UserProxyAgent";
-  config: UserProxyAgentConfig;
-};
-
-export type UserProxyAgentConfig = {
-  name: string;
-  description: string;
-  input_func?: string;
-};
-
-export type Agents =
-  | ({
-      provider?: "AssistantAgent";
-    } & AssistantAgent)
-  | ({
-      provider?: "InstagramAgent";
-    } & InstagramAgent)
-  | ({
-      provider?: "UserProxyAgent";
-    } & UserProxyAgent);
-
-export type InstagramCredentials = {
-  username: string;
-  password: string;
-  otp_key?: string;
-};
-
-export type OpenAiClientConfigurationConfigModel =
-  BaseOpenAiClientConfigurationConfigModel & {
-    organization?: string;
-    base_url?: string;
-  };
-
-export type BaseOpenAiClientConfigurationConfigModel =
-  CreateArgumentsConfigModel & {
-    model?: string;
-    api_key?: string;
-    timeout?: number;
-    max_retries?: number;
-    model_capabilities?: {
-      [key: string]: unknown;
-    };
-    model_info?: {
-      [key: string]: unknown;
-    };
-    add_name_prefixes?: boolean;
-    default_headers?: {
-      [key: string]: unknown;
-    };
-  };
-
-export type CreateArgumentsConfigModel = {
-  frequency_penalty?: number;
-  logit_bias?: {
-    [key: string]: number;
-  };
-  max_tokens?: number;
-  n?: number;
-  presence_penalty?: number;
-  response_format?: string;
-  seed?: number;
-  stop?: Array<string>;
-  temperature?: number;
-  top_p?: number;
-  user?: string;
-  stream_options?: {
-    [key: string]: {
-      [key: string]: unknown;
-    };
-  };
-};
-
-export type AgentStates =
-  | ({
-      type?: "InstagramAgentState";
-    } & InstagramAgentState)
-  | ({
-      type?: "UserProxyAgentState";
-    } & UserProxyAgentState)
-  | ({
-      type?: "SocialTeamManagerState";
-    } & SocialTeamManagerState);
-
-export type SocialTeamManagerState = BaseState & {
-  type: "SocialTeamManagerState";
-  next_speaker_index?: number;
-  previous_speaker?: string;
-  selector_prompt?: string;
-  allow_repeated_speaker?: boolean;
-  max_selector_attempts?: number;
-  selector_func?: string;
-};
-
-export type FunctionCall = {
-  id: string;
-  arguments: string;
-  name: string;
-};
-
 export type BaseMessageConfig = {
   source?: string;
   models_usage?: RequestUsage;
@@ -2489,16 +2496,6 @@ export type HandoffMessageConfig = BaseMessageConfig & {
 export type ToolCallMessageConfig = BaseMessageConfig & {
   content: Array<FunctionCall>;
 };
-
-export type ChatMessageUpsert = ChatMessageProperties;
-
-export type ComponentTypes = "agent" | "team" | "termination";
-
-export const ComponentTypes = {
-  AGENT: "agent",
-  TEAM: "team",
-  TERMINATION: "termination",
-} as const;
 
 export type UpsertModel = ModelProperties;
 
@@ -2536,44 +2533,47 @@ export type Subsection = {
   description: string;
 };
 
-export type AssistantAgent = ComponentModel & {
-  provider: "AssistantAgent";
-  component_type: "agent";
-  config?: AssistantAgentConfig;
+export type TextHighlight = {
+  fullMarkdown: string;
+  markdownBlock: string;
+  selectedText: string;
 };
 
-export type AssistantAgentConfig = {
-  name: string;
-  description: string;
-  model_context?: {
-    [key: string]: {
-      [key: string]: unknown;
-    };
-  };
-  memory?: {
-    [key: string]: {
-      [key: string]: unknown;
-    };
-  };
-  model_client_stream?: boolean;
-  system_message?: string;
-  model_client: OpenAiChatCompletionClient;
-  tools: Array<{
-    [key: string]: {
-      [key: string]: unknown;
-    };
-  }>;
-  handoffs?: Array<string>;
-  reflect_on_tool_use: boolean;
-  tool_call_summary_format: string;
-  metadata?: {
-    [key: string]: unknown;
-  };
+export type MtLlmMessageTypes =
+  | "AssistantMessage"
+  | "SystemMessage"
+  | "UserMessage"
+  | "FunctionExecutionResultMessage";
+
+export const MtLlmMessageTypes = {
+  ASSISTANT_MESSAGE: "AssistantMessage",
+  SYSTEM_MESSAGE: "SystemMessage",
+  USER_MESSAGE: "UserMessage",
+  FUNCTION_EXECUTION_RESULT_MESSAGE: "FunctionExecutionResultMessage",
+} as const;
+
+export type QuickStart = {
+  /**
+   * 图标
+   */
+  icon?: string;
+  /**
+   * 组件ID (团队ID)
+   */
+  com_id?: string;
+  /**
+   * 摘要
+   */
+  title?: string;
+  /**
+   * 提交跟 agent 的内容
+   */
+  content: string;
+  /**
+   * html class name
+   */
+  cn?: string;
 };
-
-export type TenantParameter = string;
-
-export type HttpCommonStatusResponse = unknown;
 
 export type Prompt = {
   metadata: ApiResourceMeta;
@@ -2586,18 +2586,6 @@ export type PromptList = {
   pagination?: PaginationResponse;
   rows?: Array<Artifact>;
 };
-
-export type BadRequest = unknown;
-
-/**
- * Forbidden
- */
-export type Forbidden = unknown;
-
-/**
- * Not found
- */
-export type NotFound = unknown;
 
 export type Model = ApiResourceMetaProperties & ModelProperties;
 
@@ -3049,29 +3037,6 @@ export type UiAgentState = {
   team_id?: string;
 };
 
-export type QuickStart = {
-  /**
-   * 图标
-   */
-  icon?: string;
-  /**
-   * 组件ID (团队ID)
-   */
-  com_id?: string;
-  /**
-   * 摘要
-   */
-  title?: string;
-  /**
-   * 提交跟 agent 的内容
-   */
-  content: string;
-  /**
-   * html class name
-   */
-  cn?: string;
-};
-
 export type ChatWelcome = {
   /**
    * 欢迎语标题
@@ -3154,20 +3119,6 @@ export type ChatSessionStartEvent = {
   source?: string;
 };
 
-/**
- * 浏览器(browser use)任务
- */
-export type BrowserTask = {
-  content: string;
-};
-
-/**
- * 打开浏览器备用,一般用于调试目的Open a browser and navigate to a URL.
- */
-export type BrowserOpenTask = {
-  url: string;
-};
-
 export type ComponentModel = {
   provider?: string;
   component_type?: string;
@@ -3198,13 +3149,6 @@ export type SocialTeam = TeamComponent & {
   config: SocialTeamConfig;
 };
 
-/**
- * 浏览器配置(未完成)
- */
-export type BrowserConfig = {
-  persistent?: boolean;
-};
-
 export type AgentEventType =
   | "ThoughtEvent"
   | "TextMessage"
@@ -3228,7 +3172,7 @@ export const AgentEventType = {
   START_NEW_CHAT_INPUT: "StartNewChatInput",
 } as const;
 
-export type MtAgEvent =
+export type AgEvents =
   | ({
       type?: "ThoughtEvent";
     } & ThoughtEvent)
@@ -3257,14 +3201,8 @@ export type MtAgEvent =
       type?: "StartNewChatInput";
     } & StartNewChatInput);
 
-export type TextMessage = {
+export type TextMessage = BaseTextChatMessage & {
   type?: "TextMessage";
-  source?: string;
-  content?: string;
-  metadata?: unknown;
-  models_usage?: {
-    [key: string]: unknown;
-  };
 };
 
 export type ThoughtEvent = {
@@ -3329,6 +3267,126 @@ export type UserInputRequestedEvent = {
   content: string;
 };
 
+export type ChatMessageInput = {
+  type: "ChatMessageInput";
+  content: string;
+};
+
+export type FlowError = {
+  type?: string;
+  error?: string;
+};
+
+export type SocialAddFollowersInput = {
+  type: "SocialAddFollowersInput";
+  platform_account_id?: string;
+  count_to_follow: number;
+};
+
+export type FlowTeamInput = {
+  session_id: string;
+  component: TeamComponent;
+  task: string;
+  init_state: {
+    [key: string]: unknown;
+  };
+};
+
+export type PlatformAccountFlowInput = {
+  type?: "PlatformAccountFlowInput";
+  platform_account_id?: string;
+};
+
+export type FunctionCall = {
+  id: string;
+  arguments: string;
+  name: string;
+};
+
+export type FunctionExecutionResultMessage = {
+  type: "FunctionExecutionResultMessage";
+  content: Array<FunctionExecutionResult>;
+};
+
+export type FunctionExecutionResult = {
+  content: string;
+  name: string;
+  call_id: string;
+  is_error?: boolean;
+};
+
+export type FlowResult =
+  | ({
+      type?: "FlowLoginResult";
+    } & FlowLoginResult)
+  | ({
+      type?: "FlowHandoffResult";
+    } & FlowHandoffResult);
+
+export type FlowLoginResult = {
+  type: "FlowLoginResult";
+  success?: boolean;
+  source?: string;
+  account_id?: string;
+};
+
+export type FlowHandoffResult = {
+  type: "FlowHandoffResult";
+  success?: boolean;
+  name?: string;
+};
+
+export type MtLlmMessage =
+  | ({
+      type?: "UserMessage";
+    } & UserMessage)
+  | ({
+      type?: "SystemMessage";
+    } & SystemMessage)
+  | ({
+      type?: "AssistantMessage";
+    } & AssistantMessage)
+  | ({
+      type?: "FunctionExecutionResultMessage";
+    } & FunctionExecutionResultMessage);
+
+export type UserMessage = {
+  type: "UserMessage";
+  content: string;
+  source?: string;
+};
+
+export type SystemMessage = {
+  type: "SystemMessage";
+  content: string;
+};
+
+export type AssistantMessage = {
+  type: "AssistantMessage";
+  content: string | Array<FunctionCall>;
+  source?: string;
+  thought?: string;
+};
+
+export type RequestUsage = {
+  prompt_tokens: number;
+  completion_tokens: number;
+};
+
+export type BaseChatMessage = {
+  type: string;
+  source: string;
+  models_usage?: RequestUsage;
+  metadata?: {
+    [key: string]: unknown;
+  };
+  content: string;
+};
+
+export type BaseTextChatMessage = BaseChatMessage & {
+  type?: "BaseTextChatMessage";
+};
+
 export type AgentProperties = {
   name: string;
   description: string;
@@ -3374,22 +3432,6 @@ export const AgentTopicTypes = {
   CLOSURE: "closure",
   RESPONSE: "response",
 } as const;
-
-export type ChatMessageInput = {
-  type: "ChatMessageInput";
-  content: string;
-};
-
-export type FlowError = {
-  type?: string;
-  error?: string;
-};
-
-export type SocialAddFollowersInput = {
-  type: "SocialAddFollowersInput";
-  platform_account_id?: string;
-  count_to_follow: number;
-};
 
 export type InstagramAgent = ComponentModel & {
   provider: "InstagramAgent";
@@ -3568,45 +3610,6 @@ export type TeamRun = {
 
 export type TeamRunResult = {
   workflowRun?: WorkflowRun;
-};
-
-export type AgentStateTypes =
-  | "InstagramAgentState"
-  | "UserProxyAgentState"
-  | "SocialTeamManagerState";
-
-export const AgentStateTypes = {
-  INSTAGRAM_AGENT_STATE: "InstagramAgentState",
-  USER_PROXY_AGENT_STATE: "UserProxyAgentState",
-  SOCIAL_TEAM_MANAGER_STATE: "SocialTeamManagerState",
-} as const;
-
-export type TeamState = {
-  agent_states: {
-    [key: string]: unknown;
-  };
-  type: "TeamState";
-};
-
-export type UserProxyAgentState = {
-  type: "UserProxyAgentState";
-  model_context?: unknown;
-  action_form?: SchemaForm;
-  platform_account_id?: string;
-};
-
-export type FlowTeamInput = {
-  session_id: string;
-  component: TeamComponent;
-  task: string;
-  init_state: {
-    [key: string]: unknown;
-  };
-};
-
-export type PlatformAccountFlowInput = {
-  type?: "PlatformAccountFlowInput";
-  platform_account_id?: string;
 };
 
 export type IgLogin = {

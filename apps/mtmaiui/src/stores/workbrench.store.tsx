@@ -188,65 +188,6 @@ export const createWorkbrenchSlice: StateCreator<
         max_turns: 25,
         participants: [
           {
-            provider: ProviderTypes.ASSISTANT_AGENT,
-            label: "assistant",
-            component_type: "agent",
-            description: "assistant agent",
-            config: {
-              name: "useful_assistant",
-              description: "有用的助手",
-              tools: [],
-              reflect_on_tool_use: false,
-              tool_call_summary_format: "{result}",
-              model_client: {
-                provider: ProviderTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
-                config: {
-                  model: MtmaiuiConfig.default_open_model,
-                  api_key: MtmaiuiConfig.default_open_ai_key,
-                  base_url: MtmaiuiConfig.default_open_base_url,
-                  model_info: {
-                    vision: false,
-                    function_calling: true,
-                    json_output: true,
-                    structured_output: true,
-                    family: ModelFamily.UNKNOWN,
-                  },
-                },
-              } satisfies OpenAiChatCompletionClient,
-            } satisfies AssistantAgentConfig,
-          } satisfies AssistantAgent,
-
-          {
-            provider: ProviderTypes.ASSISTANT_AGENT,
-            label: "assistant",
-            component_type: "agent",
-            description: "assistant agent",
-            config: {
-              name: "joke_writer_assistant",
-              description: "擅长冷笑话创作的助手",
-              tools: [],
-              reflect_on_tool_use: false,
-              tool_call_summary_format: "{result}",
-              system_message: "你是擅长冷笑话创作的助手",
-              model_client: {
-                provider: ProviderTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
-                config: {
-                  model: MtmaiuiConfig.default_open_model,
-                  api_key: MtmaiuiConfig.default_open_ai_key,
-                  base_url: MtmaiuiConfig.default_open_base_url,
-                  model_info: {
-                    vision: false,
-                    function_calling: true,
-                    json_output: true,
-                    structured_output: true,
-                    family: ModelFamily.UNKNOWN,
-                  },
-                },
-              } satisfies OpenAiChatCompletionClient,
-            } satisfies AssistantAgentConfig,
-          } satisfies AssistantAgent,
-
-          {
             provider: ProviderTypes.INSTAGRAM_AGENT,
             label: "instagram",
             component_type: "agent",
@@ -281,7 +222,63 @@ export const createWorkbrenchSlice: StateCreator<
               } satisfies OpenAiChatCompletionClient,
             } satisfies InstagramAgentConfig,
           } satisfies InstagramAgent,
-
+          {
+            provider: ProviderTypes.ASSISTANT_AGENT,
+            label: "assistant",
+            component_type: "agent",
+            description: "assistant agent",
+            config: {
+              name: "useful_assistant",
+              description: "有用的助手",
+              tools: [],
+              reflect_on_tool_use: false,
+              tool_call_summary_format: "{result}",
+              model_client: {
+                provider: ProviderTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
+                config: {
+                  model: MtmaiuiConfig.default_open_model,
+                  api_key: MtmaiuiConfig.default_open_ai_key,
+                  base_url: MtmaiuiConfig.default_open_base_url,
+                  model_info: {
+                    vision: false,
+                    function_calling: true,
+                    json_output: true,
+                    structured_output: true,
+                    family: ModelFamily.UNKNOWN,
+                  },
+                },
+              } satisfies OpenAiChatCompletionClient,
+            } satisfies AssistantAgentConfig,
+          } satisfies AssistantAgent,
+          {
+            provider: ProviderTypes.ASSISTANT_AGENT,
+            label: "assistant",
+            component_type: "agent",
+            description: "assistant agent",
+            config: {
+              name: "joke_writer_assistant",
+              description: "擅长冷笑话创作的助手",
+              tools: [],
+              reflect_on_tool_use: false,
+              tool_call_summary_format: "{result}",
+              system_message: "你是擅长冷笑话创作的助手",
+              model_client: {
+                provider: ProviderTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
+                config: {
+                  model: MtmaiuiConfig.default_open_model,
+                  api_key: MtmaiuiConfig.default_open_ai_key,
+                  base_url: MtmaiuiConfig.default_open_base_url,
+                  model_info: {
+                    vision: false,
+                    function_calling: true,
+                    json_output: true,
+                    structured_output: true,
+                    family: ModelFamily.UNKNOWN,
+                  },
+                },
+              } satisfies OpenAiChatCompletionClient,
+            } satisfies AssistantAgentConfig,
+          } satisfies AssistantAgent,
           {
             provider: ProviderTypes.USER_PROXY_AGENT,
             label: "user_proxy",

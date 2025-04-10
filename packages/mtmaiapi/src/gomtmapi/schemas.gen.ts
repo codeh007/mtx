@@ -1420,9 +1420,6 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/AgentEventType",
         },
         {
-          $ref: "#/components/schemas/StateType",
-        },
-        {
           $ref: "#/components/schemas/AgentStateTypes",
         },
         {
@@ -1523,6 +1520,9 @@ export const WorkflowWorkersCountSchema = {
         },
         {
           $ref: "#/components/schemas/AgentStates",
+        },
+        {
+          $ref: "#/components/schemas/AgEvents",
         },
       ],
     },
@@ -3055,6 +3055,58 @@ export const CommonResultSchema = {
   },
 } as const;
 
+export const TenantParameterSchema = {
+  type: "string",
+  format: "uuid",
+  minLength: 36,
+  maxLength: 36,
+} as const;
+
+export const HttpCommonStatusResponseSchema = {
+  400: {
+    content: {
+      "application/json": {
+        schema: {
+          $ref: "#/components/schemas/APIErrors",
+        },
+      },
+    },
+    description: "A malformed or bad request",
+  },
+} as const;
+
+export const BadRequestSchema = {
+  content: {
+    "application/json": {
+      schema: {
+        $ref: "#/components/schemas/APIErrors",
+      },
+    },
+  },
+} as const;
+
+export const ForbiddenSchema = {
+  description: "Forbidden",
+  content: {
+    "application/json": {
+      schema: {
+        $ref: "#/components/schemas/APIErrors",
+      },
+    },
+  },
+} as const;
+
+export const NotFoundSchema = {
+  description: "Not found",
+  content: {
+    "application/json": {
+      schema: {
+        $ref: "#/components/schemas/APIErrors",
+      },
+    },
+  },
+} as const;
+
 export const ChatMessagePropertiesSchema = {
   required: [
     "type",
@@ -3146,16 +3198,6 @@ export const ChatMessageListSchema = {
   },
 } as const;
 
-export const MtLlmMessageTypesSchema = {
-  type: "string",
-  enum: [
-    "AssistantMessage",
-    "SystemMessage",
-    "UserMessage",
-    "FunctionExecutionResultMessage",
-  ],
-} as const;
-
 export const ChatSessionPropertiesSchema = {
   required: ["title", "name", "state", "state_type"],
   properties: {
@@ -3184,6 +3226,85 @@ export const ChatUpsertSchema = {
       $ref: "#/components/schemas/ChatSessionProperties",
     },
   ],
+} as const;
+
+export const ChatHistoryListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ChatMessage",
+      },
+      "x-go-name": "Rows",
+    },
+  },
+} as const;
+
+export const ChatSessionSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/ChatSessionProperties",
+    },
+  ],
+} as const;
+
+export const ChatSessionListSchema = {
+  description: "聊天 Session 列表",
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ChatSession",
+      },
+    },
+  },
+} as const;
+
+export const ChatMessageUpsertSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/ChatMessageProperties",
+    },
+  ],
+} as const;
+
+export const BrowserTaskSchema = {
+  description: "浏览器(browser use)任务",
+  required: ["content"],
+  properties: {
+    content: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const BrowserOpenTaskSchema = {
+  description:
+    "打开浏览器备用,一般用于调试目的Open a browser and navigate to a URL.",
+  required: ["url"],
+  properties: {
+    url: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const BrowserConfigSchema = {
+  description: "浏览器配置(未完成)",
+  properties: {
+    persistent: {
+      type: "boolean",
+    },
+  },
 } as const;
 
 export const WorkerConfigSchema = {
@@ -3448,67 +3569,11 @@ export const ArtifactSchema = {
   required: ["metadata", "title", "state"],
 } as const;
 
-export const ChatHistoryListSchema = {
-  properties: {
-    pagination: {
-      $ref: "#/components/schemas/PaginationResponse",
-    },
-    rows: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/ChatMessage",
-      },
-      "x-go-name": "Rows",
-    },
-  },
-} as const;
-
-export const ChatSessionSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/APIResourceMetaProperties",
-    },
-    {
-      $ref: "#/components/schemas/ChatSessionProperties",
-    },
-  ],
-} as const;
-
-export const ChatSessionListSchema = {
-  description: "聊天 Session 列表",
-  properties: {
-    pagination: {
-      $ref: "#/components/schemas/PaginationResponse",
-    },
-    rows: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/ChatSession",
-      },
-    },
-  },
-} as const;
-
-export const TextHighlightSchema = {
-  properties: {
-    fullMarkdown: {
-      type: "string",
-    },
-    markdownBlock: {
-      type: "string",
-    },
-    selectedText: {
-      type: "string",
-    },
-  },
-  required: ["fullMarkdown", "markdownBlock", "selectedText"],
-} as const;
-
 export const AgStatePropertiesSchema = {
   required: ["type", "state", "topic", "source"],
   properties: {
     type: {
-      $ref: "#/components/schemas/StateType",
+      $ref: "#/components/schemas/AgentStateTypes",
     },
     chatId: {
       type: "string",
@@ -3558,28 +3623,12 @@ export const AgStateUpsertSchema = {
   ],
 } as const;
 
-export const StateTypeSchema = {
-  type: "string",
-  enum: [
-    "TeamState",
-    "RuntimeState",
-    "AssistantAgentState",
-    "RoundRobinManagerState",
-    "SelectorManagerState",
-    "SwarmManagerState",
-    "MagenticOneOrchestratorState",
-    "SocietyOfMindAgentState",
-    "ChatAgentContainerState",
-    "BaseGroupChatManagerState",
-  ],
-} as const;
-
 export const BaseStateSchema = {
   required: ["type"],
   properties: {
     type: {
       type: "string",
-      $ref: "#/components/schemas/StateType",
+      $ref: "#/components/schemas/AgentStateTypes",
     },
     version: {
       type: "string",
@@ -3685,199 +3734,122 @@ export const BaseGroupChatManagerStateSchema = {
   ],
 } as const;
 
-export const MtLlmMessageSchema = {
+export const AgentStatesSchema = {
   discriminator: {
     propertyName: "type",
   },
   oneOf: [
     {
-      $ref: "#/components/schemas/UserMessage",
+      $ref: "#/components/schemas/InstagramAgentState",
     },
     {
-      $ref: "#/components/schemas/SystemMessage",
+      $ref: "#/components/schemas/UserProxyAgentState",
     },
     {
-      $ref: "#/components/schemas/AssistantMessage",
-    },
-    {
-      $ref: "#/components/schemas/FunctionExecutionResultMessage",
+      $ref: "#/components/schemas/SocialTeamManagerState",
     },
   ],
 } as const;
 
-export const UserMessageSchema = {
-  required: ["type", "content"],
-  properties: {
-    type: {
-      type: "string",
-      enum: ["UserMessage"],
+export const SocialTeamManagerStateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseState",
     },
-    content: {
-      type: "string",
-    },
-    source: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const SystemMessageSchema = {
-  required: ["type", "content"],
-  properties: {
-    type: {
-      type: "string",
-      enum: ["SystemMessage"],
-    },
-    content: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const AssistantMessageSchema = {
-  required: ["type", "content"],
-  properties: {
-    type: {
-      type: "string",
-      enum: ["AssistantMessage"],
-    },
-    content: {
-      oneOf: [
-        {
+    {
+      required: ["type"],
+      properties: {
+        type: {
+          type: "string",
+          enum: ["SocialTeamManagerState"],
+          default: "SocialTeamManagerState",
+        },
+        next_speaker_index: {
+          type: "integer",
+          default: 0,
+        },
+        previous_speaker: {
           type: "string",
         },
-        {
-          type: "array",
-          items: {
-            $ref: "#/components/schemas/FunctionCall",
-          },
+        selector_prompt: {
+          type: "string",
         },
-      ],
-    },
-    source: {
-      type: "string",
-    },
-    thought: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const FunctionExecutionResultMessageSchema = {
-  required: ["type", "content"],
-  properties: {
-    type: {
-      type: "string",
-      enum: ["FunctionExecutionResultMessage"],
-    },
-    content: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/FunctionExecutionResult",
+        allow_repeated_speaker: {
+          type: "boolean",
+        },
+        max_selector_attempts: {
+          type: "integer",
+        },
+        selector_func: {
+          type: "string",
+        },
       },
     },
-  },
-} as const;
-
-export const FunctionExecutionResultSchema = {
-  required: ["name", "content", "call_id"],
-  properties: {
-    content: {
-      type: "string",
-    },
-    name: {
-      type: "string",
-    },
-    call_id: {
-      type: "string",
-    },
-    is_error: {
-      type: "boolean",
-    },
-  },
-} as const;
-
-export const ComponentPropertiesSchema = {
-  required: [
-    "label",
-    "description",
-    "provider",
-    "component_type",
-    "version",
-    "component_version",
-    "component",
-    "config",
   ],
+} as const;
+
+export const InstagramCredentialsSchema = {
+  required: ["username", "password"],
   properties: {
-    label: {
+    username: {
       type: "string",
     },
-    description: {
+    password: {
       type: "string",
     },
-    provider: {
+    otp_key: {
       type: "string",
     },
-    component_type: {
-      type: "string",
-    },
-    version: {
-      type: "integer",
-    },
-    component_version: {
-      type: "integer",
-    },
-    config: {
+  },
+} as const;
+
+export const AgentStateTypesSchema = {
+  type: "string",
+  enum: [
+    "InstagramAgentState",
+    "UserProxyAgentState",
+    "SocialTeamManagerState",
+    "TeamState",
+    "RuntimeState",
+    "AssistantAgentState",
+    "RoundRobinManagerState",
+    "SelectorManagerState",
+    "SwarmManagerState",
+    "MagenticOneOrchestratorState",
+    "SocietyOfMindAgentState",
+    "ChatAgentContainerState",
+    "BaseGroupChatManagerState",
+  ],
+} as const;
+
+export const TeamStateSchema = {
+  required: ["agent_states", "type"],
+  properties: {
+    agent_states: {
       type: "object",
     },
+    type: {
+      type: "string",
+      enum: ["TeamState"],
+      default: "TeamState",
+    },
   },
 } as const;
 
-export const FlowResultSchema = {
-  discriminator: {
-    propertyName: "type",
-  },
-  oneOf: [
-    {
-      $ref: "#/components/schemas/FlowLoginResult",
-    },
-    {
-      $ref: "#/components/schemas/FlowHandoffResult",
-    },
-  ],
-} as const;
-
-export const FlowLoginResultSchema = {
-  required: ["type", "content"],
+export const UserProxyAgentStateSchema = {
+  required: ["type"],
   properties: {
     type: {
       type: "string",
-      enum: ["FlowLoginResult"],
-      default: "FlowLoginResult",
+      enum: ["UserProxyAgentState"],
     },
-    success: {
-      type: "boolean",
+    model_context: {
+      additionalProperties: true,
     },
-    source: {
-      type: "string",
+    action_form: {
+      $ref: "#/components/schemas/SchemaForm",
     },
-    account_id: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const FlowHandoffResultSchema = {
-  required: ["type", "content"],
-  properties: {
-    type: {
-      type: "string",
-      enum: ["FlowHandoffResult"],
-    },
-    success: {
-      type: "boolean",
-    },
-    name: {
+    platform_account_id: {
       type: "string",
     },
   },
@@ -3973,6 +3945,402 @@ export const ComponentUpsertSchema = {
       $ref: "#/components/schemas/ComponentProperties",
     },
   ],
+} as const;
+
+export const TeamConfigSchema = {
+  required: ["participants", "termination_condition", "max_turns"],
+  properties: {
+    participants: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/Agents",
+      },
+    },
+    termination_condition: {
+      $ref: "#/components/schemas/Terminations",
+    },
+    max_turns: {
+      type: "integer",
+      default: 25,
+    },
+  },
+} as const;
+
+export const ComponentTypesSchema = {
+  type: "string",
+  enum: ["agent", "team", "termination"],
+} as const;
+
+export const ComponentPropertiesSchema = {
+  required: [
+    "label",
+    "description",
+    "provider",
+    "component_type",
+    "version",
+    "component_version",
+    "component",
+    "config",
+  ],
+  properties: {
+    label: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    provider: {
+      type: "string",
+    },
+    component_type: {
+      type: "string",
+    },
+    version: {
+      type: "integer",
+    },
+    component_version: {
+      type: "integer",
+    },
+    config: {
+      type: "object",
+    },
+  },
+} as const;
+
+export const AssistantAgentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
+    {
+      required: ["component_type", "provider"],
+      properties: {
+        provider: {
+          type: "string",
+          enum: ["AssistantAgent"],
+          default: "AssistantAgent",
+        },
+        component_type: {
+          type: "string",
+          enum: ["agent"],
+          default: "agent",
+        },
+        config: {
+          $ref: "#/components/schemas/AssistantAgentConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const AssistantAgentConfigSchema = {
+  required: [
+    "name",
+    "description",
+    "model_client",
+    "tools",
+    "tool_call_summary_format",
+    "reflect_on_tool_use",
+  ],
+  properties: {
+    name: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    model_context: {
+      type: "object",
+      additionalProperties: {
+        type: "object",
+      },
+    },
+    memory: {
+      type: "object",
+      additionalProperties: {
+        type: "object",
+      },
+    },
+    model_client_stream: {
+      type: "boolean",
+      default: false,
+    },
+    system_message: {
+      type: "string",
+    },
+    model_client: {
+      $ref: "#/components/schemas/OpenAIChatCompletionClient",
+    },
+    tools: {
+      type: "array",
+      items: {
+        type: "object",
+        additionalProperties: {
+          type: "object",
+        },
+      },
+      default: [],
+    },
+    handoffs: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+      default: [],
+    },
+    reflect_on_tool_use: {
+      type: "boolean",
+      default: false,
+    },
+    tool_call_summary_format: {
+      type: "string",
+      default: "{result}",
+    },
+    metadata: {
+      type: "object",
+    },
+  },
+} as const;
+
+export const ProviderTypesSchema = {
+  type: "string",
+  enum: [
+    "RoundRobinGroupChat",
+    "SelectorGroupChat",
+    "SocialTeam",
+    "AssistantAgent",
+    "InstagramAgent",
+    "UserProxyAgent",
+    "CodeExecutorAgent",
+    "SocietyOfMindAgent",
+    "OpenAIChatCompletionClient",
+    "TextMentionTermination",
+    "HandoffTermination",
+    "TimeoutTermination",
+    "SourceMatchTermination",
+    "FunctionCallTermination",
+    "TokenUsageTermination",
+    "MaxMessageTermination",
+    "StopMessageTermination",
+    "TextMessageTermination",
+  ],
+} as const;
+
+export const CodeExecutorAgentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AssistantAgent",
+    },
+    {
+      properties: {
+        config: {
+          $ref: "#/components/schemas/CodeExecutorAgentConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const CodeExecutorAgentConfigSchema = {
+  required: ["code", "provider"],
+  properties: {
+    provider: {
+      type: "string",
+      enum: ["CodeExecutorAgent"],
+      default: "CodeExecutorAgent",
+    },
+    code: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const SocietyOfMindAgentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AssistantAgent",
+    },
+    {
+      properties: {
+        config: {
+          $ref: "#/components/schemas/SocietyOfMindAgentConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const SocietyOfMindAgentConfigSchema = {
+  required: ["code", "provider"],
+  properties: {
+    code: {
+      type: "string",
+    },
+    provider: {
+      type: "string",
+      enum: ["SocietyOfMindAgent"],
+      default: "SocietyOfMindAgent",
+    },
+  },
+} as const;
+
+export const UserProxyAgentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/ComponentModel",
+    },
+    {
+      required: ["provider", "config"],
+      properties: {
+        provider: {
+          type: "string",
+          enum: ["UserProxyAgent"],
+          default: "UserProxyAgent",
+        },
+        config: {
+          $ref: "#/components/schemas/UserProxyAgentConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const UserProxyAgentConfigSchema = {
+  required: ["name", "description"],
+  properties: {
+    name: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+      default: "A human user",
+    },
+    input_func: {
+      type: "string",
+      default: "None",
+    },
+  },
+} as const;
+
+export const AgentsSchema = {
+  discriminator: {
+    propertyName: "provider",
+  },
+  oneOf: [
+    {
+      $ref: "#/components/schemas/AssistantAgent",
+    },
+    {
+      $ref: "#/components/schemas/InstagramAgent",
+    },
+    {
+      $ref: "#/components/schemas/UserProxyAgent",
+    },
+  ],
+} as const;
+
+export const OpenAIClientConfigurationConfigModelSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseOpenAIClientConfigurationConfigModel",
+    },
+    {
+      properties: {
+        organization: {
+          type: "string",
+        },
+        base_url: {
+          type: "string",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const BaseOpenAIClientConfigurationConfigModelSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/CreateArgumentsConfigModel",
+    },
+    {
+      properties: {
+        model: {
+          type: "string",
+        },
+        api_key: {
+          type: "string",
+        },
+        timeout: {
+          type: "number",
+        },
+        max_retries: {
+          type: "integer",
+        },
+        model_capabilities: {
+          type: "object",
+        },
+        model_info: {
+          type: "object",
+        },
+        add_name_prefixes: {
+          type: "boolean",
+        },
+        default_headers: {
+          type: "object",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const CreateArgumentsConfigModelSchema = {
+  properties: {
+    frequency_penalty: {
+      type: "number",
+    },
+    logit_bias: {
+      type: "object",
+      additionalProperties: {
+        type: "integer",
+      },
+    },
+    max_tokens: {
+      type: "integer",
+    },
+    n: {
+      type: "integer",
+    },
+    presence_penalty: {
+      type: "number",
+    },
+    response_format: {
+      type: "string",
+    },
+    seed: {
+      type: "integer",
+    },
+    stop: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+    temperature: {
+      type: "number",
+    },
+    top_p: {
+      type: "number",
+    },
+    user: {
+      type: "string",
+    },
+    stream_options: {
+      type: "object",
+      additionalProperties: {
+        type: "object",
+      },
+    },
+  },
 } as const;
 
 export const GalleryComponentsSchema = {
@@ -4137,25 +4505,6 @@ export const GalleryMetadataSchema = {
   required: ["author", "created_at", "updated_at", "version"],
 } as const;
 
-export const TeamConfigSchema = {
-  required: ["participants", "termination_condition", "max_turns"],
-  properties: {
-    participants: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/Agents",
-      },
-    },
-    termination_condition: {
-      $ref: "#/components/schemas/Terminations",
-    },
-    max_turns: {
-      type: "integer",
-      default: 25,
-    },
-  },
-} as const;
-
 export const FlowNamesSchema = {
   type: "string",
   enum: [
@@ -4168,30 +4517,6 @@ export const FlowNamesSchema = {
     "instagram",
     "social",
     "team",
-  ],
-} as const;
-
-export const ProviderTypesSchema = {
-  type: "string",
-  enum: [
-    "RoundRobinGroupChat",
-    "SelectorGroupChat",
-    "SocialTeam",
-    "AssistantAgent",
-    "InstagramAgent",
-    "UserProxyAgent",
-    "CodeExecutorAgent",
-    "SocietyOfMindAgent",
-    "OpenAIChatCompletionClient",
-    "TextMentionTermination",
-    "HandoffTermination",
-    "TimeoutTermination",
-    "SourceMatchTermination",
-    "FunctionCallTermination",
-    "TokenUsageTermination",
-    "MaxMessageTermination",
-    "StopMessageTermination",
-    "TextMessageTermination",
   ],
 } as const;
 
@@ -4279,319 +4604,6 @@ export const OutlineSchema = {
   },
 } as const;
 
-export const RequestUsageSchema = {
-  required: ["prompt_tokens", "completion_tokens"],
-  properties: {
-    prompt_tokens: {
-      type: "number",
-    },
-    completion_tokens: {
-      type: "number",
-    },
-  },
-} as const;
-
-export const CodeExecutorAgentSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/AssistantAgent",
-    },
-    {
-      properties: {
-        config: {
-          $ref: "#/components/schemas/CodeExecutorAgentConfig",
-        },
-      },
-    },
-  ],
-} as const;
-
-export const CodeExecutorAgentConfigSchema = {
-  required: ["code", "provider"],
-  properties: {
-    provider: {
-      type: "string",
-      enum: ["CodeExecutorAgent"],
-      default: "CodeExecutorAgent",
-    },
-    code: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const SocietyOfMindAgentSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/AssistantAgent",
-    },
-    {
-      properties: {
-        config: {
-          $ref: "#/components/schemas/SocietyOfMindAgentConfig",
-        },
-      },
-    },
-  ],
-} as const;
-
-export const SocietyOfMindAgentConfigSchema = {
-  required: ["code", "provider"],
-  properties: {
-    code: {
-      type: "string",
-    },
-    provider: {
-      type: "string",
-      enum: ["SocietyOfMindAgent"],
-      default: "SocietyOfMindAgent",
-    },
-  },
-} as const;
-
-export const UserProxyAgentSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/ComponentModel",
-    },
-    {
-      required: ["provider", "config"],
-      properties: {
-        provider: {
-          type: "string",
-          enum: ["UserProxyAgent"],
-          default: "UserProxyAgent",
-        },
-        config: {
-          $ref: "#/components/schemas/UserProxyAgentConfig",
-        },
-      },
-    },
-  ],
-} as const;
-
-export const UserProxyAgentConfigSchema = {
-  required: ["name", "description"],
-  properties: {
-    name: {
-      type: "string",
-    },
-    description: {
-      type: "string",
-      default: "A human user",
-    },
-    input_func: {
-      type: "string",
-      default: "None",
-    },
-  },
-} as const;
-
-export const AgentsSchema = {
-  discriminator: {
-    propertyName: "provider",
-  },
-  oneOf: [
-    {
-      $ref: "#/components/schemas/AssistantAgent",
-    },
-    {
-      $ref: "#/components/schemas/InstagramAgent",
-    },
-    {
-      $ref: "#/components/schemas/UserProxyAgent",
-    },
-  ],
-} as const;
-
-export const InstagramCredentialsSchema = {
-  required: ["username", "password"],
-  properties: {
-    username: {
-      type: "string",
-    },
-    password: {
-      type: "string",
-    },
-    otp_key: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const OpenAIClientConfigurationConfigModelSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/BaseOpenAIClientConfigurationConfigModel",
-    },
-    {
-      properties: {
-        organization: {
-          type: "string",
-        },
-        base_url: {
-          type: "string",
-        },
-      },
-    },
-  ],
-} as const;
-
-export const BaseOpenAIClientConfigurationConfigModelSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/CreateArgumentsConfigModel",
-    },
-    {
-      properties: {
-        model: {
-          type: "string",
-        },
-        api_key: {
-          type: "string",
-        },
-        timeout: {
-          type: "number",
-        },
-        max_retries: {
-          type: "integer",
-        },
-        model_capabilities: {
-          type: "object",
-        },
-        model_info: {
-          type: "object",
-        },
-        add_name_prefixes: {
-          type: "boolean",
-        },
-        default_headers: {
-          type: "object",
-        },
-      },
-    },
-  ],
-} as const;
-
-export const CreateArgumentsConfigModelSchema = {
-  properties: {
-    frequency_penalty: {
-      type: "number",
-    },
-    logit_bias: {
-      type: "object",
-      additionalProperties: {
-        type: "integer",
-      },
-    },
-    max_tokens: {
-      type: "integer",
-    },
-    n: {
-      type: "integer",
-    },
-    presence_penalty: {
-      type: "number",
-    },
-    response_format: {
-      type: "string",
-    },
-    seed: {
-      type: "integer",
-    },
-    stop: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-    },
-    temperature: {
-      type: "number",
-    },
-    top_p: {
-      type: "number",
-    },
-    user: {
-      type: "string",
-    },
-    stream_options: {
-      type: "object",
-      additionalProperties: {
-        type: "object",
-      },
-    },
-  },
-} as const;
-
-export const AgentStatesSchema = {
-  discriminator: {
-    propertyName: "type",
-  },
-  oneOf: [
-    {
-      $ref: "#/components/schemas/InstagramAgentState",
-    },
-    {
-      $ref: "#/components/schemas/UserProxyAgentState",
-    },
-    {
-      $ref: "#/components/schemas/SocialTeamManagerState",
-    },
-  ],
-} as const;
-
-export const SocialTeamManagerStateSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/BaseState",
-    },
-    {
-      required: ["type"],
-      properties: {
-        type: {
-          type: "string",
-          enum: ["SocialTeamManagerState"],
-          default: "SocialTeamManagerState",
-        },
-        next_speaker_index: {
-          type: "integer",
-          default: 0,
-        },
-        previous_speaker: {
-          type: "string",
-        },
-        selector_prompt: {
-          type: "string",
-        },
-        allow_repeated_speaker: {
-          type: "boolean",
-        },
-        max_selector_attempts: {
-          type: "integer",
-        },
-        selector_func: {
-          type: "string",
-        },
-      },
-    },
-  ],
-} as const;
-
-export const FunctionCallSchema = {
-  required: ["id", "arguments", "name"],
-  properties: {
-    id: {
-      type: "string",
-    },
-    arguments: {
-      type: "string",
-    },
-    name: {
-      type: "string",
-    },
-  },
-} as const;
-
 export const BaseMessageConfigSchema = {
   properties: {
     source: {
@@ -4672,19 +4684,6 @@ export const ToolCallMessageConfigSchema = {
   ],
 } as const;
 
-export const ChatMessageUpsertSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/ChatMessageProperties",
-    },
-  ],
-} as const;
-
-export const ComponentTypesSchema = {
-  type: "string",
-  enum: ["agent", "team", "termination"],
-} as const;
-
 export const UpsertModelSchema = {
   allOf: [
     {
@@ -4753,118 +4752,54 @@ export const SubsectionSchema = {
   required: ["subsectionTitle", "description"],
 } as const;
 
-export const AssistantAgentSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/ComponentModel",
-    },
-    {
-      required: ["component_type", "provider"],
-      properties: {
-        provider: {
-          type: "string",
-          enum: ["AssistantAgent"],
-          default: "AssistantAgent",
-        },
-        component_type: {
-          type: "string",
-          enum: ["agent"],
-          default: "agent",
-        },
-        config: {
-          $ref: "#/components/schemas/AssistantAgentConfig",
-        },
-      },
-    },
-  ],
-} as const;
-
-export const AssistantAgentConfigSchema = {
-  required: [
-    "name",
-    "description",
-    "model_client",
-    "tools",
-    "tool_call_summary_format",
-    "reflect_on_tool_use",
-  ],
+export const TextHighlightSchema = {
   properties: {
-    name: {
+    fullMarkdown: {
       type: "string",
     },
-    description: {
+    markdownBlock: {
       type: "string",
     },
-    model_context: {
-      type: "object",
-      additionalProperties: {
-        type: "object",
-      },
-    },
-    memory: {
-      type: "object",
-      additionalProperties: {
-        type: "object",
-      },
-    },
-    model_client_stream: {
-      type: "boolean",
-      default: false,
-    },
-    system_message: {
+    selectedText: {
       type: "string",
-    },
-    model_client: {
-      $ref: "#/components/schemas/OpenAIChatCompletionClient",
-    },
-    tools: {
-      type: "array",
-      items: {
-        type: "object",
-        additionalProperties: {
-          type: "object",
-        },
-      },
-      default: [],
-    },
-    handoffs: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-      default: [],
-    },
-    reflect_on_tool_use: {
-      type: "boolean",
-      default: false,
-    },
-    tool_call_summary_format: {
-      type: "string",
-      default: "{result}",
-    },
-    metadata: {
-      type: "object",
     },
   },
+  required: ["fullMarkdown", "markdownBlock", "selectedText"],
 } as const;
 
-export const TenantParameterSchema = {
+export const MtLlmMessageTypesSchema = {
   type: "string",
-  format: "uuid",
-  minLength: 36,
-  maxLength: 36,
+  enum: [
+    "AssistantMessage",
+    "SystemMessage",
+    "UserMessage",
+    "FunctionExecutionResultMessage",
+  ],
 } as const;
 
-export const HttpCommonStatusResponseSchema = {
-  400: {
-    content: {
-      "application/json": {
-        schema: {
-          $ref: "#/components/schemas/APIErrors",
-        },
-      },
+export const QuickStartSchema = {
+  required: ["content"],
+  properties: {
+    icon: {
+      type: "string",
+      description: "图标",
     },
-    description: "A malformed or bad request",
+    com_id: {
+      type: "string",
+      description: "组件ID (团队ID)",
+    },
+    title: {
+      type: "string",
+      description: "摘要",
+    },
+    content: {
+      type: "string",
+      description: "提交跟 agent 的内容",
+    },
+    cn: {
+      type: "string",
+      description: "html class name",
+    },
   },
 } as const;
 
@@ -4900,38 +4835,6 @@ export const PromptListSchema = {
       },
       type: "array",
       "x-go-name": "Rows",
-    },
-  },
-} as const;
-
-export const BadRequestSchema = {
-  content: {
-    "application/json": {
-      schema: {
-        $ref: "#/components/schemas/APIErrors",
-      },
-    },
-  },
-} as const;
-
-export const ForbiddenSchema = {
-  description: "Forbidden",
-  content: {
-    "application/json": {
-      schema: {
-        $ref: "#/components/schemas/APIErrors",
-      },
-    },
-  },
-} as const;
-
-export const NotFoundSchema = {
-  description: "Not found",
-  content: {
-    "application/json": {
-      schema: {
-        $ref: "#/components/schemas/APIErrors",
-      },
     },
   },
 } as const;
@@ -5886,32 +5789,6 @@ export const UiAgentStateSchema = {
   },
 } as const;
 
-export const QuickStartSchema = {
-  required: ["content"],
-  properties: {
-    icon: {
-      type: "string",
-      description: "图标",
-    },
-    com_id: {
-      type: "string",
-      description: "组件ID (团队ID)",
-    },
-    title: {
-      type: "string",
-      description: "摘要",
-    },
-    content: {
-      type: "string",
-      description: "提交跟 agent 的内容",
-    },
-    cn: {
-      type: "string",
-      description: "html class name",
-    },
-  },
-} as const;
-
 export const ChatWelcomeSchema = {
   properties: {
     title: {
@@ -6122,27 +5999,6 @@ export const ChatSessionStartEventSchema = {
   },
 } as const;
 
-export const BrowserTaskSchema = {
-  description: "浏览器(browser use)任务",
-  required: ["content"],
-  properties: {
-    content: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const BrowserOpenTaskSchema = {
-  description:
-    "打开浏览器备用,一般用于调试目的Open a browser and navigate to a URL.",
-  required: ["url"],
-  properties: {
-    url: {
-      type: "string",
-    },
-  },
-} as const;
-
 export const ComponentModelSchema = {
   properties: {
     provider: {
@@ -6240,15 +6096,6 @@ export const SocialTeamSchema = {
   ],
 } as const;
 
-export const BrowserConfigSchema = {
-  description: "浏览器配置(未完成)",
-  properties: {
-    persistent: {
-      type: "boolean",
-    },
-  },
-} as const;
-
 export const AgentEventTypeSchema = {
   type: "string",
   enum: [
@@ -6264,7 +6111,7 @@ export const AgentEventTypeSchema = {
   ],
 } as const;
 
-export const MtAgEventSchema = {
+export const AgEventsSchema = {
   discriminator: {
     propertyName: "type",
   },
@@ -6300,24 +6147,20 @@ export const MtAgEventSchema = {
 } as const;
 
 export const TextMessageSchema = {
-  properties: {
-    type: {
-      type: "string",
-      enum: ["TextMessage"],
-      default: "TextMessage",
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseTextChatMessage",
     },
-    source: {
-      type: "string",
+    {
+      properties: {
+        type: {
+          type: "string",
+          enum: ["TextMessage"],
+          default: "TextMessage",
+        },
+      },
     },
-    content: {
-      type: "string",
-    },
-    metadata: {},
-    models_usage: {
-      type: "object",
-      additionalProperties: true,
-    },
-  },
+  ],
 } as const;
 
 export const ThoughtEventSchema = {
@@ -6490,6 +6333,308 @@ export const UserInputRequestedEventSchema = {
   },
 } as const;
 
+export const ChatMessageInputSchema = {
+  required: ["type", "content"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["ChatMessageInput"],
+      default: "ChatMessageInput",
+    },
+    content: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const FlowErrorSchema = {
+  properties: {
+    type: {
+      type: "string",
+    },
+    error: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const SocialAddFollowersInputSchema = {
+  required: ["type", "count_to_follow"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["SocialAddFollowersInput"],
+      default: "SocialAddFollowersInput",
+    },
+    platform_account_id: {
+      type: "string",
+    },
+    count_to_follow: {
+      type: "number",
+      default: 1,
+    },
+  },
+} as const;
+
+export const FlowTeamInputSchema = {
+  required: ["session_id", "component", "task", "init_state"],
+  properties: {
+    session_id: {
+      type: "string",
+    },
+    component: {
+      $ref: "#/components/schemas/TeamComponent",
+    },
+    task: {
+      type: "string",
+    },
+    init_state: {
+      type: "object",
+    },
+  },
+} as const;
+
+export const PlatformAccountFlowInputSchema = {
+  properties: {
+    type: {
+      type: "string",
+      enum: ["PlatformAccountFlowInput"],
+      default: "PlatformAccountFlowInput",
+    },
+    platform_account_id: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const FunctionCallSchema = {
+  required: ["id", "arguments", "name"],
+  properties: {
+    id: {
+      type: "string",
+    },
+    arguments: {
+      type: "string",
+    },
+    name: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const FunctionExecutionResultMessageSchema = {
+  required: ["type", "content"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["FunctionExecutionResultMessage"],
+    },
+    content: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/FunctionExecutionResult",
+      },
+    },
+  },
+} as const;
+
+export const FunctionExecutionResultSchema = {
+  required: ["name", "content", "call_id"],
+  properties: {
+    content: {
+      type: "string",
+    },
+    name: {
+      type: "string",
+    },
+    call_id: {
+      type: "string",
+    },
+    is_error: {
+      type: "boolean",
+    },
+  },
+} as const;
+
+export const FlowResultSchema = {
+  discriminator: {
+    propertyName: "type",
+  },
+  oneOf: [
+    {
+      $ref: "#/components/schemas/FlowLoginResult",
+    },
+    {
+      $ref: "#/components/schemas/FlowHandoffResult",
+    },
+  ],
+} as const;
+
+export const FlowLoginResultSchema = {
+  required: ["type", "content"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["FlowLoginResult"],
+      default: "FlowLoginResult",
+    },
+    success: {
+      type: "boolean",
+    },
+    source: {
+      type: "string",
+    },
+    account_id: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const FlowHandoffResultSchema = {
+  required: ["type", "content"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["FlowHandoffResult"],
+    },
+    success: {
+      type: "boolean",
+    },
+    name: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const MtLlmMessageSchema = {
+  discriminator: {
+    propertyName: "type",
+  },
+  oneOf: [
+    {
+      $ref: "#/components/schemas/UserMessage",
+    },
+    {
+      $ref: "#/components/schemas/SystemMessage",
+    },
+    {
+      $ref: "#/components/schemas/AssistantMessage",
+    },
+    {
+      $ref: "#/components/schemas/FunctionExecutionResultMessage",
+    },
+  ],
+} as const;
+
+export const UserMessageSchema = {
+  required: ["type", "content"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["UserMessage"],
+    },
+    content: {
+      type: "string",
+    },
+    source: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const SystemMessageSchema = {
+  required: ["type", "content"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["SystemMessage"],
+    },
+    content: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const AssistantMessageSchema = {
+  required: ["type", "content"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["AssistantMessage"],
+    },
+    content: {
+      oneOf: [
+        {
+          type: "string",
+        },
+        {
+          type: "array",
+          items: {
+            $ref: "#/components/schemas/FunctionCall",
+          },
+        },
+      ],
+    },
+    source: {
+      type: "string",
+    },
+    thought: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const RequestUsageSchema = {
+  required: ["prompt_tokens", "completion_tokens"],
+  properties: {
+    prompt_tokens: {
+      type: "integer",
+    },
+    completion_tokens: {
+      type: "integer",
+    },
+  },
+} as const;
+
+export const BaseChatMessageSchema = {
+  required: ["type", "content", "source"],
+  properties: {
+    type: {
+      type: "string",
+    },
+    source: {
+      type: "string",
+    },
+    models_usage: {
+      $ref: "#/components/schemas/RequestUsage",
+    },
+    metadata: {
+      type: "object",
+      additionalProperties: true,
+    },
+    content: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const BaseTextChatMessageSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseChatMessage",
+    },
+    {
+      properties: {
+        type: {
+          type: "string",
+          enum: ["BaseTextChatMessage"],
+          default: "BaseTextChatMessage",
+        },
+      },
+    },
+  ],
+} as const;
+
 export const AgentPropertiesSchema = {
   required: ["name", "description", "provider", "config", "teamId"],
   properties: {
@@ -6552,49 +6697,6 @@ export const AgentTopicTypesSchema = {
     "closure",
     "response",
   ],
-} as const;
-
-export const ChatMessageInputSchema = {
-  required: ["type", "content"],
-  properties: {
-    type: {
-      type: "string",
-      enum: ["ChatMessageInput"],
-      default: "ChatMessageInput",
-    },
-    content: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const FlowErrorSchema = {
-  properties: {
-    type: {
-      type: "string",
-    },
-    error: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const SocialAddFollowersInputSchema = {
-  required: ["type", "count_to_follow"],
-  properties: {
-    type: {
-      type: "string",
-      enum: ["SocialAddFollowersInput"],
-      default: "SocialAddFollowersInput",
-    },
-    platform_account_id: {
-      type: "string",
-    },
-    count_to_follow: {
-      type: "number",
-      default: 1,
-    },
-  },
 } as const;
 
 export const InstagramAgentSchema = {
@@ -7031,79 +7133,6 @@ export const TeamRunResultSchema = {
   properties: {
     workflowRun: {
       $ref: "#/components/schemas/WorkflowRun",
-    },
-  },
-} as const;
-
-export const AgentStateTypesSchema = {
-  type: "string",
-  enum: [
-    "InstagramAgentState",
-    "UserProxyAgentState",
-    "SocialTeamManagerState",
-  ],
-} as const;
-
-export const TeamStateSchema = {
-  required: ["agent_states", "type"],
-  properties: {
-    agent_states: {
-      type: "object",
-    },
-    type: {
-      type: "string",
-      enum: ["TeamState"],
-      default: "TeamState",
-    },
-  },
-} as const;
-
-export const UserProxyAgentStateSchema = {
-  required: ["type"],
-  properties: {
-    type: {
-      type: "string",
-      enum: ["UserProxyAgentState"],
-    },
-    model_context: {
-      additionalProperties: true,
-    },
-    action_form: {
-      $ref: "#/components/schemas/SchemaForm",
-    },
-    platform_account_id: {
-      type: "string",
-    },
-  },
-} as const;
-
-export const FlowTeamInputSchema = {
-  required: ["session_id", "component", "task", "init_state"],
-  properties: {
-    session_id: {
-      type: "string",
-    },
-    component: {
-      $ref: "#/components/schemas/TeamComponent",
-    },
-    task: {
-      type: "string",
-    },
-    init_state: {
-      type: "object",
-    },
-  },
-} as const;
-
-export const PlatformAccountFlowInputSchema = {
-  properties: {
-    type: {
-      type: "string",
-      enum: ["PlatformAccountFlowInput"],
-      default: "PlatformAccountFlowInput",
-    },
-    platform_account_id: {
-      type: "string",
     },
   },
 } as const;

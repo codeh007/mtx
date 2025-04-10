@@ -655,6 +655,9 @@ export const zWorkflowWorkersCount = z.object({
         "StartNewChatInput",
       ]),
       z.enum([
+        "InstagramAgentState",
+        "UserProxyAgentState",
+        "SocialTeamManagerState",
         "TeamState",
         "RuntimeState",
         "AssistantAgentState",
@@ -665,11 +668,6 @@ export const zWorkflowWorkersCount = z.object({
         "SocietyOfMindAgentState",
         "ChatAgentContainerState",
         "BaseGroupChatManagerState",
-      ]),
-      z.enum([
-        "InstagramAgentState",
-        "UserProxyAgentState",
-        "SocialTeamManagerState",
       ]),
       z.enum([
         "closure",
@@ -2756,6 +2754,9 @@ export const zWorkflowWorkersCount = z.object({
             z
               .object({
                 type: z.enum([
+                  "InstagramAgentState",
+                  "UserProxyAgentState",
+                  "SocialTeamManagerState",
                   "TeamState",
                   "RuntimeState",
                   "AssistantAgentState",
@@ -2839,6 +2840,9 @@ export const zWorkflowWorkersCount = z.object({
             z
               .object({
                 type: z.enum([
+                  "InstagramAgentState",
+                  "UserProxyAgentState",
+                  "SocialTeamManagerState",
                   "TeamState",
                   "RuntimeState",
                   "AssistantAgentState",
@@ -2863,6 +2867,553 @@ export const zWorkflowWorkersCount = z.object({
                   selector_func: z.string().optional(),
                 }),
               ),
+          ),
+      ]),
+      z.union([
+        z
+          .object({
+            type: z.literal("ThoughtEvent").optional(),
+          })
+          .merge(
+            z.object({
+              type: z.enum(["ThoughtEvent"]),
+              source: z.string(),
+              content: z.string(),
+              metadata: z.object({}).optional(),
+              models_usage: z.object({}).optional(),
+            }),
+          ),
+        z
+          .object({
+            type: z.literal("TextMessage").optional(),
+          })
+          .merge(
+            z
+              .object({
+                type: z.string(),
+                source: z.string(),
+                models_usage: z
+                  .object({
+                    prompt_tokens: z.number().int(),
+                    completion_tokens: z.number().int(),
+                  })
+                  .optional(),
+                metadata: z.object({}).optional(),
+                content: z.string(),
+              })
+              .merge(
+                z.object({
+                  type: z.enum(["BaseTextChatMessage"]).optional(),
+                }),
+              )
+              .merge(
+                z.object({
+                  type: z.enum(["TextMessage"]).optional(),
+                }),
+              ),
+          ),
+        z
+          .object({
+            type: z.literal("PlatformAccountFlowInput").optional(),
+          })
+          .merge(
+            z.object({
+              type: z.enum(["PlatformAccountFlowInput"]).optional(),
+              platform_account_id: z.string().optional(),
+            }),
+          ),
+        z
+          .object({
+            type: z.literal("SocialAddFollowersInput").optional(),
+          })
+          .merge(
+            z.object({
+              type: z.enum(["SocialAddFollowersInput"]),
+              platform_account_id: z.string().optional(),
+              count_to_follow: z.number().default(1),
+            }),
+          ),
+        z
+          .object({
+            type: z.literal("SocialLoginInput").optional(),
+          })
+          .merge(
+            z.object({
+              type: z.enum(["SocialLoginInput"]),
+              username: z.string(),
+              password: z.string(),
+              otp_key: z.string().optional(),
+            }),
+          ),
+        z
+          .object({
+            type: z.literal("TenantInitInput").optional(),
+          })
+          .merge(
+            z.object({
+              type: z.enum(["TenantInitInput"]),
+              tenant_id: z.string(),
+            }),
+          ),
+        z
+          .object({
+            type: z.literal("ChatMessageInput").optional(),
+          })
+          .merge(
+            z.object({
+              type: z.enum(["ChatMessageInput"]),
+              content: z.string(),
+            }),
+          ),
+        z
+          .object({
+            type: z.literal("AskUserFunctionCallInput").optional(),
+          })
+          .merge(
+            z.object({
+              type: z.enum(["AskUserFunctionCallInput"]).optional(),
+              title: z.string().optional(),
+            }),
+          ),
+        z
+          .object({
+            type: z.literal("StartNewChatInput").optional(),
+          })
+          .merge(
+            z.object({
+              type: z.enum(["StartNewChatInput"]),
+              task: z.string(),
+              config: z
+                .object({
+                  participants: z.array(
+                    z.union([
+                      z
+                        .object({
+                          provider: z.literal("AssistantAgent").optional(),
+                        })
+                        .merge(
+                          z
+                            .object({
+                              provider: z.string().optional(),
+                              component_type: z.string().optional(),
+                              version: z.number().int().optional(),
+                              component_version: z.number().int().optional(),
+                              description: z.string().optional(),
+                              label: z.string().optional(),
+                              config: z.object({}).optional(),
+                            })
+                            .merge(
+                              z.object({
+                                provider: z.enum(["AssistantAgent"]),
+                                component_type: z.enum(["agent"]),
+                                config: z
+                                  .object({
+                                    name: z.string(),
+                                    description: z.string(),
+                                    model_context: z.object({}).optional(),
+                                    memory: z.object({}).optional(),
+                                    model_client_stream: z
+                                      .boolean()
+                                      .optional()
+                                      .default(false),
+                                    system_message: z.string().optional(),
+                                    model_client: z
+                                      .object({
+                                        provider: z.string().optional(),
+                                        component_type: z.string().optional(),
+                                        version: z.number().int().optional(),
+                                        component_version: z
+                                          .number()
+                                          .int()
+                                          .optional(),
+                                        description: z.string().optional(),
+                                        label: z.string().optional(),
+                                        config: z.object({}).optional(),
+                                      })
+                                      .merge(
+                                        z.object({
+                                          provider: z.enum([
+                                            "OpenAIChatCompletionClient",
+                                          ]),
+                                          config: z
+                                            .object({
+                                              frequency_penalty: z
+                                                .number()
+                                                .optional(),
+                                              logit_bias: z
+                                                .object({})
+                                                .optional(),
+                                              max_tokens: z
+                                                .number()
+                                                .int()
+                                                .optional(),
+                                              n: z.number().int().optional(),
+                                              presence_penalty: z
+                                                .number()
+                                                .optional(),
+                                              response_format: z
+                                                .string()
+                                                .optional(),
+                                              seed: z.number().int().optional(),
+                                              stop: z
+                                                .array(z.string())
+                                                .optional(),
+                                              temperature: z
+                                                .number()
+                                                .optional(),
+                                              top_p: z.number().optional(),
+                                              user: z.string().optional(),
+                                              stream_options: z
+                                                .object({})
+                                                .optional(),
+                                            })
+                                            .merge(
+                                              z.object({
+                                                model: z.string().optional(),
+                                                api_key: z.string().optional(),
+                                                timeout: z.number().optional(),
+                                                max_retries: z
+                                                  .number()
+                                                  .int()
+                                                  .optional(),
+                                                model_capabilities: z
+                                                  .object({})
+                                                  .optional(),
+                                                model_info: z
+                                                  .object({})
+                                                  .optional(),
+                                                add_name_prefixes: z
+                                                  .boolean()
+                                                  .optional(),
+                                                default_headers: z
+                                                  .object({})
+                                                  .optional(),
+                                              }),
+                                            )
+                                            .merge(
+                                              z.object({
+                                                organization: z
+                                                  .string()
+                                                  .optional(),
+                                                base_url: z.string().optional(),
+                                              }),
+                                            ),
+                                        }),
+                                      ),
+                                    tools: z.array(z.object({})).default([]),
+                                    handoffs: z
+                                      .array(z.string())
+                                      .optional()
+                                      .default([]),
+                                    reflect_on_tool_use: z
+                                      .boolean()
+                                      .default(false),
+                                    tool_call_summary_format: z
+                                      .string()
+                                      .default("{result}"),
+                                    metadata: z.object({}).optional(),
+                                  })
+                                  .optional(),
+                              }),
+                            ),
+                        ),
+                      z
+                        .object({
+                          provider: z.literal("InstagramAgent").optional(),
+                        })
+                        .merge(
+                          z
+                            .object({
+                              provider: z.string().optional(),
+                              component_type: z.string().optional(),
+                              version: z.number().int().optional(),
+                              component_version: z.number().int().optional(),
+                              description: z.string().optional(),
+                              label: z.string().optional(),
+                              config: z.object({}).optional(),
+                            })
+                            .merge(
+                              z.object({
+                                provider: z.enum(["InstagramAgent"]),
+                                config: z
+                                  .object({
+                                    name: z.string(),
+                                    description: z.string(),
+                                    model_context: z.object({}).optional(),
+                                    memory: z.object({}).optional(),
+                                    model_client_stream: z
+                                      .boolean()
+                                      .optional()
+                                      .default(false),
+                                    system_message: z.string().optional(),
+                                    model_client: z
+                                      .object({
+                                        provider: z.string().optional(),
+                                        component_type: z.string().optional(),
+                                        version: z.number().int().optional(),
+                                        component_version: z
+                                          .number()
+                                          .int()
+                                          .optional(),
+                                        description: z.string().optional(),
+                                        label: z.string().optional(),
+                                        config: z.object({}).optional(),
+                                      })
+                                      .merge(
+                                        z.object({
+                                          provider: z.enum([
+                                            "OpenAIChatCompletionClient",
+                                          ]),
+                                          config: z
+                                            .object({
+                                              frequency_penalty: z
+                                                .number()
+                                                .optional(),
+                                              logit_bias: z
+                                                .object({})
+                                                .optional(),
+                                              max_tokens: z
+                                                .number()
+                                                .int()
+                                                .optional(),
+                                              n: z.number().int().optional(),
+                                              presence_penalty: z
+                                                .number()
+                                                .optional(),
+                                              response_format: z
+                                                .string()
+                                                .optional(),
+                                              seed: z.number().int().optional(),
+                                              stop: z
+                                                .array(z.string())
+                                                .optional(),
+                                              temperature: z
+                                                .number()
+                                                .optional(),
+                                              top_p: z.number().optional(),
+                                              user: z.string().optional(),
+                                              stream_options: z
+                                                .object({})
+                                                .optional(),
+                                            })
+                                            .merge(
+                                              z.object({
+                                                model: z.string().optional(),
+                                                api_key: z.string().optional(),
+                                                timeout: z.number().optional(),
+                                                max_retries: z
+                                                  .number()
+                                                  .int()
+                                                  .optional(),
+                                                model_capabilities: z
+                                                  .object({})
+                                                  .optional(),
+                                                model_info: z
+                                                  .object({})
+                                                  .optional(),
+                                                add_name_prefixes: z
+                                                  .boolean()
+                                                  .optional(),
+                                                default_headers: z
+                                                  .object({})
+                                                  .optional(),
+                                              }),
+                                            )
+                                            .merge(
+                                              z.object({
+                                                organization: z
+                                                  .string()
+                                                  .optional(),
+                                                base_url: z.string().optional(),
+                                              }),
+                                            ),
+                                        }),
+                                      ),
+                                    tools: z.array(z.object({})).default([]),
+                                    handoffs: z
+                                      .array(z.string())
+                                      .optional()
+                                      .default([]),
+                                    reflect_on_tool_use: z
+                                      .boolean()
+                                      .default(false),
+                                    tool_call_summary_format: z
+                                      .string()
+                                      .default("{result}"),
+                                    metadata: z.object({}).optional(),
+                                  })
+                                  .merge(
+                                    z.object({
+                                      credentials: z
+                                        .object({
+                                          username: z.string(),
+                                          password: z.string(),
+                                          otp_key: z.string().optional(),
+                                        })
+                                        .optional(),
+                                      proxy_url: z.string().optional(),
+                                    }),
+                                  ),
+                              }),
+                            ),
+                        ),
+                      z
+                        .object({
+                          provider: z.literal("UserProxyAgent").optional(),
+                        })
+                        .merge(
+                          z
+                            .object({
+                              provider: z.string().optional(),
+                              component_type: z.string().optional(),
+                              version: z.number().int().optional(),
+                              component_version: z.number().int().optional(),
+                              description: z.string().optional(),
+                              label: z.string().optional(),
+                              config: z.object({}).optional(),
+                            })
+                            .merge(
+                              z.object({
+                                provider: z.enum(["UserProxyAgent"]),
+                                config: z.object({
+                                  name: z.string(),
+                                  description: z
+                                    .string()
+                                    .default("A human user"),
+                                  input_func: z
+                                    .string()
+                                    .optional()
+                                    .default("None"),
+                                }),
+                              }),
+                            ),
+                        ),
+                    ]),
+                  ),
+                  termination_condition: z.union([
+                    z
+                      .object({
+                        provider: z
+                          .literal("TextMentionTermination")
+                          .optional(),
+                      })
+                      .merge(
+                        z.object({
+                          provider: z.enum(["TextMentionTermination"]),
+                          config: z.object({
+                            text: z.string(),
+                          }),
+                        }),
+                      ),
+                    z
+                      .object({
+                        provider: z.literal("HandoffTermination").optional(),
+                      })
+                      .merge(
+                        z.object({
+                          provider: z.enum(["HandoffTermination"]),
+                          config: z.object({
+                            target: z.string(),
+                          }),
+                        }),
+                      ),
+                    z
+                      .object({
+                        provider: z.literal("TimeoutTermination").optional(),
+                      })
+                      .merge(
+                        z.object({
+                          provider: z.enum(["TimeoutTermination"]),
+                          config: z.object({
+                            timeout_seconds: z.number().int(),
+                          }),
+                        }),
+                      ),
+                    z
+                      .object({
+                        provider: z
+                          .literal("SourceMatchTermination")
+                          .optional(),
+                      })
+                      .merge(
+                        z.object({
+                          provider: z.enum(["SourceMatchTermination"]),
+                          config: z.object({
+                            sources: z.array(z.string()),
+                          }),
+                        }),
+                      ),
+                    z
+                      .object({
+                        provider: z
+                          .literal("FunctionCallTermination")
+                          .optional(),
+                      })
+                      .merge(
+                        z.object({
+                          provider: z.enum(["FunctionCallTermination"]),
+                          config: z.object({
+                            function_name: z.string(),
+                          }),
+                        }),
+                      ),
+                    z
+                      .object({
+                        provider: z.literal("TokenUsageTermination").optional(),
+                      })
+                      .merge(
+                        z.object({
+                          provider: z.enum(["TokenUsageTermination"]),
+                          config: z.object({
+                            max_total_token: z.number().int().optional(),
+                            max_prompt_token: z.number().int().optional(),
+                            max_completion_token: z.number().int().optional(),
+                          }),
+                        }),
+                      ),
+                    z
+                      .object({
+                        provider: z.literal("MaxMessageTermination").optional(),
+                      })
+                      .merge(
+                        z.object({
+                          provider: z.enum(["MaxMessageTermination"]),
+                          config: z.object({
+                            max_messages: z.number().int(),
+                            include_agent_event: z
+                              .boolean()
+                              .optional()
+                              .default(false),
+                          }),
+                        }),
+                      ),
+                    z
+                      .object({
+                        provider: z
+                          .literal("StopMessageTermination")
+                          .optional(),
+                      })
+                      .merge(
+                        z.object({
+                          provider: z.enum(["StopMessageTermination"]),
+                          config: z.object({
+                            some_thing: z.string().optional(),
+                          }),
+                        }),
+                      ),
+                  ]),
+                  max_turns: z.number().int().default(25),
+                })
+                .merge(
+                  z.object({
+                    selector_prompt: z.string().optional(),
+                    allow_repeated_speaker: z.boolean().optional(),
+                    max_selector_attempts: z.number().int().optional(),
+                    selector_func: z.string().optional(),
+                    proxy_url: z.string().optional(),
+                  }),
+                ),
+            }),
           ),
       ]),
     ])
@@ -3687,6 +4238,16 @@ export const zCommonResult = z.object({
   Message: z.string(),
 });
 
+export const zTenantParameter = z.string().uuid().length(36);
+
+export const zHttpCommonStatusResponse = z.unknown();
+
+export const zBadRequest = z.unknown();
+
+export const zForbidden = z.unknown();
+
+export const zNotFound = z.unknown();
+
 export const zChatMessageProperties = z.object({
   type: z.enum([
     "AssistantMessage",
@@ -3791,13 +4352,6 @@ export const zChatMessageList = z.object({
   pagination: zPaginationResponse.optional(),
 });
 
-export const zMtLlmMessageTypes = z.enum([
-  "AssistantMessage",
-  "SystemMessage",
-  "UserMessage",
-  "FunctionExecutionResultMessage",
-]);
-
 export const zChatSessionProperties = z.object({
   metadata: zApiResourceMeta.optional(),
   title: z.string(),
@@ -3807,6 +4361,34 @@ export const zChatSessionProperties = z.object({
 });
 
 export const zChatUpsert = zChatSessionProperties;
+
+export const zChatHistoryList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zChatMessage).optional(),
+});
+
+export const zChatSession = zApiResourceMetaProperties.merge(
+  zChatSessionProperties,
+);
+
+export const zChatSessionList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zChatSession).optional(),
+});
+
+export const zChatMessageUpsert = zChatMessageProperties;
+
+export const zBrowserTask = z.object({
+  content: z.string(),
+});
+
+export const zBrowserOpenTask = z.object({
+  url: z.string(),
+});
+
+export const zBrowserConfig = z.object({
+  persistent: z.boolean().optional(),
+});
 
 export const zWorkerConfig = z.object({
   workerToken: z.string().optional(),
@@ -3925,28 +4507,11 @@ export const zArtifact = z.object({
   prevId: z.string().optional(),
 });
 
-export const zChatHistoryList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z.array(zChatMessage).optional(),
-});
-
-export const zChatSession = zApiResourceMetaProperties.merge(
-  zChatSessionProperties,
-);
-
-export const zChatSessionList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z.array(zChatSession).optional(),
-});
-
-export const zTextHighlight = z.object({
-  fullMarkdown: z.string(),
-  markdownBlock: z.string(),
-  selectedText: z.string(),
-});
-
 export const zAgStateProperties = z.object({
   type: z.enum([
+    "InstagramAgentState",
+    "UserProxyAgentState",
+    "SocialTeamManagerState",
     "TeamState",
     "RuntimeState",
     "AssistantAgentState",
@@ -3973,21 +4538,22 @@ export const zAgStateList = z.object({
 
 export const zAgStateUpsert = zAgStateProperties;
 
-export const zStateType = z.enum([
-  "TeamState",
-  "RuntimeState",
-  "AssistantAgentState",
-  "RoundRobinManagerState",
-  "SelectorManagerState",
-  "SwarmManagerState",
-  "MagenticOneOrchestratorState",
-  "SocietyOfMindAgentState",
-  "ChatAgentContainerState",
-  "BaseGroupChatManagerState",
-]);
-
 export const zBaseState = z.object({
-  type: zStateType,
+  type: z.enum([
+    "InstagramAgentState",
+    "UserProxyAgentState",
+    "SocialTeamManagerState",
+    "TeamState",
+    "RuntimeState",
+    "AssistantAgentState",
+    "RoundRobinManagerState",
+    "SelectorManagerState",
+    "SwarmManagerState",
+    "MagenticOneOrchestratorState",
+    "SocietyOfMindAgentState",
+    "ChatAgentContainerState",
+    "BaseGroupChatManagerState",
+  ]),
   version: z.string().optional(),
 });
 
@@ -4028,161 +4594,129 @@ export const zBaseGroupChatManagerState = zBaseState.merge(
   }),
 );
 
-export const zMtLlmMessage = z.union([
+export const zAgentStates = z.union([
   z
     .object({
-      type: z.literal("UserMessage").optional(),
+      type: z.literal("InstagramAgentState").optional(),
+    })
+    .merge(zInstagramAgentState),
+  z
+    .object({
+      type: z.literal("UserProxyAgentState").optional(),
     })
     .merge(
       z.object({
-        type: z.enum(["UserMessage"]),
-        content: z.string(),
-        source: z.string().optional(),
+        type: z.enum(["UserProxyAgentState"]),
+        model_context: z.unknown().optional(),
+        action_form: z
+          .object({
+            form_type: z.enum(["schema", "custom"]).optional(),
+            form_name: z.string().optional(),
+            title: z.string(),
+            description: z.string().optional(),
+            layout: z.enum(["vertical", "horizontal"]).optional(),
+            fields: z.array(
+              z.object({
+                type: z.enum(["text", "number", "boolean", "array", "object"]),
+                name: z.string(),
+                default_value: z.string().optional(),
+                label: z.string().optional(),
+                description: z.string().optional(),
+                required: z.boolean().optional(),
+                min: z.number().optional(),
+                max: z.number().optional(),
+                placeholder: z.string().optional(),
+              }),
+            ),
+          })
+          .optional(),
+        platform_account_id: z.string().optional(),
       }),
     ),
   z
     .object({
-      type: z.literal("SystemMessage").optional(),
+      type: z.literal("SocialTeamManagerState").optional(),
     })
     .merge(
-      z.object({
-        type: z.enum(["SystemMessage"]),
-        content: z.string(),
-      }),
-    ),
-  z
-    .object({
-      type: z.literal("AssistantMessage").optional(),
-    })
-    .merge(
-      z.object({
-        type: z.enum(["AssistantMessage"]),
-        content: z.union([
-          z.string(),
-          z.array(
-            z.object({
-              id: z.string(),
-              arguments: z.string(),
-              name: z.string(),
-            }),
-          ),
-        ]),
-        source: z.string().optional(),
-        thought: z.string().optional(),
-      }),
-    ),
-  z
-    .object({
-      type: z.literal("FunctionExecutionResultMessage").optional(),
-    })
-    .merge(
-      z.object({
-        type: z.enum(["FunctionExecutionResultMessage"]),
-        content: z.array(
-          z.object({
-            content: z.string(),
-            name: z.string(),
-            call_id: z.string(),
-            is_error: z.boolean().optional(),
-          }),
-        ),
-      }),
+      zBaseState.merge(
+        z.object({
+          type: z.enum(["SocialTeamManagerState"]),
+          next_speaker_index: z.number().int().optional().default(0),
+          previous_speaker: z.string().optional(),
+          selector_prompt: z.string().optional(),
+          allow_repeated_speaker: z.boolean().optional(),
+          max_selector_attempts: z.number().int().optional(),
+          selector_func: z.string().optional(),
+        }),
+      ),
     ),
 ]);
 
-export const zUserMessage = z.object({
-  type: z.enum(["UserMessage"]),
-  content: z.string(),
-  source: z.string().optional(),
+export const zSocialTeamManagerState = zBaseState.merge(
+  z.object({
+    type: z.enum(["SocialTeamManagerState"]),
+    next_speaker_index: z.number().int().optional().default(0),
+    previous_speaker: z.string().optional(),
+    selector_prompt: z.string().optional(),
+    allow_repeated_speaker: z.boolean().optional(),
+    max_selector_attempts: z.number().int().optional(),
+    selector_func: z.string().optional(),
+  }),
+);
+
+export const zInstagramCredentials = z.object({
+  username: z.string(),
+  password: z.string(),
+  otp_key: z.string().optional(),
 });
 
-export const zSystemMessage = z.object({
-  type: z.enum(["SystemMessage"]),
-  content: z.string(),
-});
-
-export const zAssistantMessage = z.object({
-  type: z.enum(["AssistantMessage"]),
-  content: z.union([
-    z.string(),
-    z.array(
-      z.object({
-        id: z.string(),
-        arguments: z.string(),
-        name: z.string(),
-      }),
-    ),
-  ]),
-  source: z.string().optional(),
-  thought: z.string().optional(),
-});
-
-export const zFunctionExecutionResultMessage = z.object({
-  type: z.enum(["FunctionExecutionResultMessage"]),
-  content: z.array(
-    z.object({
-      content: z.string(),
-      name: z.string(),
-      call_id: z.string(),
-      is_error: z.boolean().optional(),
-    }),
-  ),
-});
-
-export const zFunctionExecutionResult = z.object({
-  content: z.string(),
-  name: z.string(),
-  call_id: z.string(),
-  is_error: z.boolean().optional(),
-});
-
-export const zComponentProperties = z.object({
-  label: z.string(),
-  description: z.string(),
-  provider: z.string(),
-  component_type: z.string(),
-  version: z.number().int(),
-  component_version: z.number().int(),
-  config: z.object({}),
-});
-
-export const zFlowResult = z.union([
-  z
-    .object({
-      type: z.literal("FlowLoginResult").optional(),
-    })
-    .merge(
-      z.object({
-        type: z.enum(["FlowLoginResult"]),
-        success: z.boolean().optional(),
-        source: z.string().optional(),
-        account_id: z.string().optional(),
-      }),
-    ),
-  z
-    .object({
-      type: z.literal("FlowHandoffResult").optional(),
-    })
-    .merge(
-      z.object({
-        type: z.enum(["FlowHandoffResult"]),
-        success: z.boolean().optional(),
-        name: z.string().optional(),
-      }),
-    ),
+export const zAgentStateTypes = z.enum([
+  "InstagramAgentState",
+  "UserProxyAgentState",
+  "SocialTeamManagerState",
+  "TeamState",
+  "RuntimeState",
+  "AssistantAgentState",
+  "RoundRobinManagerState",
+  "SelectorManagerState",
+  "SwarmManagerState",
+  "MagenticOneOrchestratorState",
+  "SocietyOfMindAgentState",
+  "ChatAgentContainerState",
+  "BaseGroupChatManagerState",
 ]);
 
-export const zFlowLoginResult = z.object({
-  type: z.enum(["FlowLoginResult"]),
-  success: z.boolean().optional(),
-  source: z.string().optional(),
-  account_id: z.string().optional(),
+export const zTeamState = z.object({
+  agent_states: z.object({}),
+  type: z.enum(["TeamState"]),
 });
 
-export const zFlowHandoffResult = z.object({
-  type: z.enum(["FlowHandoffResult"]),
-  success: z.boolean().optional(),
-  name: z.string().optional(),
+export const zUserProxyAgentState = z.object({
+  type: z.enum(["UserProxyAgentState"]),
+  model_context: z.unknown().optional(),
+  action_form: z
+    .object({
+      form_type: z.enum(["schema", "custom"]).optional(),
+      form_name: z.string().optional(),
+      title: z.string(),
+      description: z.string().optional(),
+      layout: z.enum(["vertical", "horizontal"]).optional(),
+      fields: z.array(
+        z.object({
+          type: z.enum(["text", "number", "boolean", "array", "object"]),
+          name: z.string(),
+          default_value: z.string().optional(),
+          label: z.string().optional(),
+          description: z.string().optional(),
+          required: z.boolean().optional(),
+          min: z.number().optional(),
+          max: z.number().optional(),
+          placeholder: z.string().optional(),
+        }),
+      ),
+    })
+    .optional(),
+  platform_account_id: z.string().optional(),
 });
 
 export const zToolTypes = z.enum(["code_executor", "social_login"]);
@@ -4207,62 +4741,31 @@ export const zSocialLoginResult = z.object({
   success: z.boolean(),
 });
 
-export const zComponent =
-  zApiResourceMetaProperties.merge(zComponentProperties);
+export const zComponent = zApiResourceMetaProperties.merge(
+  z.object({
+    label: z.string(),
+    description: z.string(),
+    provider: z.string(),
+    component_type: z.string(),
+    version: z.number().int(),
+    component_version: z.number().int(),
+    config: z.object({}),
+  }),
+);
 
 export const zComponentList = z.object({
   pagination: zPaginationResponse.optional(),
   rows: z.array(zComponent).optional(),
 });
 
-export const zComponentUpsert = zComponentProperties;
-
-export const zGalleryComponents = z.object({
-  agents: z.array(z.object({})),
-  models: z.array(z.object({})),
-  tools: z.array(z.object({})),
-  terminations: z.array(z.object({})),
-});
-
-export const zGalleryItems = z.object({
-  teams: z.array(z.object({})),
-  components: zGalleryComponents,
-});
-
-export const zGallery = z.object({
-  metadata: zApiResourceMeta,
-  name: z.string(),
-  url: z.string(),
-  author: z.string(),
-  homepage: z.string(),
+export const zComponentUpsert = z.object({
+  label: z.string(),
   description: z.string(),
-  tags: z.array(z.string()),
-  license: z.string(),
-  lastSynced: z.string().optional(),
-});
-
-export const zGalleryList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z.array(zGallery).optional(),
-});
-
-export const zGalleryUpdate = z.object({
-  metadata: zApiResourceMeta,
-  name: z.string(),
-  userId: z.string(),
-});
-
-export const zGalleryMetadata = z.object({
-  author: z.string(),
-  created_at: z.string(),
-  updated_at: z.string(),
-  version: z.string(),
-  description: z.string().optional(),
-  tags: z.array(z.string()).optional(),
-  license: z.string().optional(),
-  homepage: z.string().optional(),
-  category: z.string().optional(),
-  last_synced: z.string().optional(),
+  provider: z.string(),
+  component_type: z.string(),
+  version: z.number().int(),
+  component_version: z.number().int(),
+  config: z.object({}),
 });
 
 export const zTeamConfig = z.object({
@@ -4435,13 +4938,7 @@ export const zTeamConfig = z.object({
                   })
                   .merge(
                     z.object({
-                      credentials: z
-                        .object({
-                          username: z.string(),
-                          password: z.string(),
-                          otp_key: z.string().optional(),
-                        })
-                        .optional(),
+                      credentials: zInstagramCredentials.optional(),
                       proxy_url: z.string().optional(),
                     }),
                   ),
@@ -4580,17 +5077,159 @@ export const zTeamConfig = z.object({
   max_turns: z.number().int().default(25),
 });
 
-export const zFlowNames = z.enum([
-  "sys",
-  "tenant",
-  "assistant",
-  "ag",
-  "browser",
-  "resource",
-  "instagram",
-  "social",
-  "team",
-]);
+export const zComponentTypes = z.enum(["agent", "team", "termination"]);
+
+export const zComponentProperties = z.object({
+  label: z.string(),
+  description: z.string(),
+  provider: z.string(),
+  component_type: z.string(),
+  version: z.number().int(),
+  component_version: z.number().int(),
+  config: z.object({}),
+});
+
+export const zAssistantAgent = z
+  .object({
+    provider: z.string().optional(),
+    component_type: z.string().optional(),
+    version: z.number().int().optional(),
+    component_version: z.number().int().optional(),
+    description: z.string().optional(),
+    label: z.string().optional(),
+    config: z.object({}).optional(),
+  })
+  .merge(
+    z.object({
+      provider: z.enum(["AssistantAgent"]),
+      component_type: z.enum(["agent"]),
+      config: z
+        .object({
+          name: z.string(),
+          description: z.string(),
+          model_context: z.object({}).optional(),
+          memory: z.object({}).optional(),
+          model_client_stream: z.boolean().optional().default(false),
+          system_message: z.string().optional(),
+          model_client: z
+            .object({
+              provider: z.string().optional(),
+              component_type: z.string().optional(),
+              version: z.number().int().optional(),
+              component_version: z.number().int().optional(),
+              description: z.string().optional(),
+              label: z.string().optional(),
+              config: z.object({}).optional(),
+            })
+            .merge(
+              z.object({
+                provider: z.enum(["OpenAIChatCompletionClient"]),
+                config: z
+                  .object({
+                    frequency_penalty: z.number().optional(),
+                    logit_bias: z.object({}).optional(),
+                    max_tokens: z.number().int().optional(),
+                    n: z.number().int().optional(),
+                    presence_penalty: z.number().optional(),
+                    response_format: z.string().optional(),
+                    seed: z.number().int().optional(),
+                    stop: z.array(z.string()).optional(),
+                    temperature: z.number().optional(),
+                    top_p: z.number().optional(),
+                    user: z.string().optional(),
+                    stream_options: z.object({}).optional(),
+                  })
+                  .merge(
+                    z.object({
+                      model: z.string().optional(),
+                      api_key: z.string().optional(),
+                      timeout: z.number().optional(),
+                      max_retries: z.number().int().optional(),
+                      model_capabilities: z.object({}).optional(),
+                      model_info: z.object({}).optional(),
+                      add_name_prefixes: z.boolean().optional(),
+                      default_headers: z.object({}).optional(),
+                    }),
+                  )
+                  .merge(
+                    z.object({
+                      organization: z.string().optional(),
+                      base_url: z.string().optional(),
+                    }),
+                  ),
+              }),
+            ),
+          tools: z.array(z.object({})).default([]),
+          handoffs: z.array(z.string()).optional().default([]),
+          reflect_on_tool_use: z.boolean().default(false),
+          tool_call_summary_format: z.string().default("{result}"),
+          metadata: z.object({}).optional(),
+        })
+        .optional(),
+    }),
+  );
+
+export const zAssistantAgentConfig = z.object({
+  name: z.string(),
+  description: z.string(),
+  model_context: z.object({}).optional(),
+  memory: z.object({}).optional(),
+  model_client_stream: z.boolean().optional().default(false),
+  system_message: z.string().optional(),
+  model_client: z
+    .object({
+      provider: z.string().optional(),
+      component_type: z.string().optional(),
+      version: z.number().int().optional(),
+      component_version: z.number().int().optional(),
+      description: z.string().optional(),
+      label: z.string().optional(),
+      config: z.object({}).optional(),
+    })
+    .merge(
+      z.object({
+        provider: z.enum(["OpenAIChatCompletionClient"]),
+        config: z
+          .object({
+            frequency_penalty: z.number().optional(),
+            logit_bias: z.object({}).optional(),
+            max_tokens: z.number().int().optional(),
+            n: z.number().int().optional(),
+            presence_penalty: z.number().optional(),
+            response_format: z.string().optional(),
+            seed: z.number().int().optional(),
+            stop: z.array(z.string()).optional(),
+            temperature: z.number().optional(),
+            top_p: z.number().optional(),
+            user: z.string().optional(),
+            stream_options: z.object({}).optional(),
+          })
+          .merge(
+            z.object({
+              model: z.string().optional(),
+              api_key: z.string().optional(),
+              timeout: z.number().optional(),
+              max_retries: z.number().int().optional(),
+              model_capabilities: z.object({}).optional(),
+              model_info: z.object({}).optional(),
+              add_name_prefixes: z.boolean().optional(),
+              default_headers: z.object({}).optional(),
+            }),
+          )
+          .merge(
+            z.object({
+              organization: z.string().optional(),
+              base_url: z.string().optional(),
+            }),
+          ),
+      }),
+    ),
+  tools: z.array(z.object({})).default([]),
+  handoffs: z.array(z.string()).optional().default([]),
+  reflect_on_tool_use: z.boolean().default(false),
+  tool_call_summary_format: z.string().default("{result}"),
+  metadata: z.object({}).optional(),
+});
 
 export const zProviderTypes = z.enum([
   "RoundRobinGroupChat",
@@ -4613,247 +5252,32 @@ export const zProviderTypes = z.enum([
   "TextMessageTermination",
 ]);
 
-export const zAgEvent = z.object({
-  metadata: zApiResourceMeta.optional(),
-  userId: z.string().optional(),
-  data: z.object({}),
-  framework: z.string(),
-  stepRunId: z.string(),
-  meta: z.unknown().optional(),
-});
-
-export const zEventTypes = z.enum([
-  "WorkflowRunStart",
-  "WorkflowRunEnd",
-  "StepRun",
-  "TextMessage",
-  "ModelClientStreamingChunkEvent",
-  "EventNewAgentState",
-]);
-
-export const zAgentTypes = z.enum([
-  "closure",
-  "router",
-  "user_proxy",
-  "assistant",
-  "social",
-  "browser",
-  "resource",
-  "instagram",
-]);
-
-export const zAgEventList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z.array(zAgEvent).optional(),
-});
-
-export const zOutline = z.object({
-  pageTitle: z.string(),
-  sections: z.array(
-    z.object({
-      section_title: z.string(),
-      description: z.string(),
-      subsections: z
-        .array(
-          z.object({
-            subsectionTitle: z.string(),
-            description: z.string(),
-          }),
-        )
-        .optional(),
-    }),
-  ),
-});
-
-export const zRequestUsage = z.object({
-  prompt_tokens: z.number(),
-  completion_tokens: z.number(),
-});
-
-export const zCodeExecutorAgent = z
-  .object({
-    provider: z.string().optional(),
-    component_type: z.string().optional(),
-    version: z.number().int().optional(),
-    component_version: z.number().int().optional(),
-    description: z.string().optional(),
-    label: z.string().optional(),
-    config: z.object({}).optional(),
-  })
-  .merge(
-    z.object({
-      provider: z.enum(["AssistantAgent"]),
-      component_type: z.enum(["agent"]),
-      config: z
-        .object({
-          name: z.string(),
-          description: z.string(),
-          model_context: z.object({}).optional(),
-          memory: z.object({}).optional(),
-          model_client_stream: z.boolean().optional().default(false),
-          system_message: z.string().optional(),
-          model_client: z
-            .object({
-              provider: z.string().optional(),
-              component_type: z.string().optional(),
-              version: z.number().int().optional(),
-              component_version: z.number().int().optional(),
-              description: z.string().optional(),
-              label: z.string().optional(),
-              config: z.object({}).optional(),
-            })
-            .merge(
-              z.object({
-                provider: z.enum(["OpenAIChatCompletionClient"]),
-                config: z
-                  .object({
-                    frequency_penalty: z.number().optional(),
-                    logit_bias: z.object({}).optional(),
-                    max_tokens: z.number().int().optional(),
-                    n: z.number().int().optional(),
-                    presence_penalty: z.number().optional(),
-                    response_format: z.string().optional(),
-                    seed: z.number().int().optional(),
-                    stop: z.array(z.string()).optional(),
-                    temperature: z.number().optional(),
-                    top_p: z.number().optional(),
-                    user: z.string().optional(),
-                    stream_options: z.object({}).optional(),
-                  })
-                  .merge(
-                    z.object({
-                      model: z.string().optional(),
-                      api_key: z.string().optional(),
-                      timeout: z.number().optional(),
-                      max_retries: z.number().int().optional(),
-                      model_capabilities: z.object({}).optional(),
-                      model_info: z.object({}).optional(),
-                      add_name_prefixes: z.boolean().optional(),
-                      default_headers: z.object({}).optional(),
-                    }),
-                  )
-                  .merge(
-                    z.object({
-                      organization: z.string().optional(),
-                      base_url: z.string().optional(),
-                    }),
-                  ),
-              }),
-            ),
-          tools: z.array(z.object({})).default([]),
-          handoffs: z.array(z.string()).optional().default([]),
-          reflect_on_tool_use: z.boolean().default(false),
-          tool_call_summary_format: z.string().default("{result}"),
-          metadata: z.object({}).optional(),
-        })
-        .optional(),
-    }),
-  )
-  .merge(
-    z.object({
-      config: z
-        .object({
-          provider: z.enum(["CodeExecutorAgent"]),
-          code: z.string(),
-        })
-        .optional(),
-    }),
-  );
+export const zCodeExecutorAgent = zAssistantAgent.merge(
+  z.object({
+    config: z
+      .object({
+        provider: z.enum(["CodeExecutorAgent"]),
+        code: z.string(),
+      })
+      .optional(),
+  }),
+);
 
 export const zCodeExecutorAgentConfig = z.object({
   provider: z.enum(["CodeExecutorAgent"]),
   code: z.string(),
 });
 
-export const zSocietyOfMindAgent = z
-  .object({
-    provider: z.string().optional(),
-    component_type: z.string().optional(),
-    version: z.number().int().optional(),
-    component_version: z.number().int().optional(),
-    description: z.string().optional(),
-    label: z.string().optional(),
-    config: z.object({}).optional(),
-  })
-  .merge(
-    z.object({
-      provider: z.enum(["AssistantAgent"]),
-      component_type: z.enum(["agent"]),
-      config: z
-        .object({
-          name: z.string(),
-          description: z.string(),
-          model_context: z.object({}).optional(),
-          memory: z.object({}).optional(),
-          model_client_stream: z.boolean().optional().default(false),
-          system_message: z.string().optional(),
-          model_client: z
-            .object({
-              provider: z.string().optional(),
-              component_type: z.string().optional(),
-              version: z.number().int().optional(),
-              component_version: z.number().int().optional(),
-              description: z.string().optional(),
-              label: z.string().optional(),
-              config: z.object({}).optional(),
-            })
-            .merge(
-              z.object({
-                provider: z.enum(["OpenAIChatCompletionClient"]),
-                config: z
-                  .object({
-                    frequency_penalty: z.number().optional(),
-                    logit_bias: z.object({}).optional(),
-                    max_tokens: z.number().int().optional(),
-                    n: z.number().int().optional(),
-                    presence_penalty: z.number().optional(),
-                    response_format: z.string().optional(),
-                    seed: z.number().int().optional(),
-                    stop: z.array(z.string()).optional(),
-                    temperature: z.number().optional(),
-                    top_p: z.number().optional(),
-                    user: z.string().optional(),
-                    stream_options: z.object({}).optional(),
-                  })
-                  .merge(
-                    z.object({
-                      model: z.string().optional(),
-                      api_key: z.string().optional(),
-                      timeout: z.number().optional(),
-                      max_retries: z.number().int().optional(),
-                      model_capabilities: z.object({}).optional(),
-                      model_info: z.object({}).optional(),
-                      add_name_prefixes: z.boolean().optional(),
-                      default_headers: z.object({}).optional(),
-                    }),
-                  )
-                  .merge(
-                    z.object({
-                      organization: z.string().optional(),
-                      base_url: z.string().optional(),
-                    }),
-                  ),
-              }),
-            ),
-          tools: z.array(z.object({})).default([]),
-          handoffs: z.array(z.string()).optional().default([]),
-          reflect_on_tool_use: z.boolean().default(false),
-          tool_call_summary_format: z.string().default("{result}"),
-          metadata: z.object({}).optional(),
-        })
-        .optional(),
-    }),
-  )
-  .merge(
-    z.object({
-      config: z
-        .object({
-          code: z.string(),
-          provider: z.enum(["SocietyOfMindAgent"]),
-        })
-        .optional(),
-    }),
-  );
+export const zSocietyOfMindAgent = zAssistantAgent.merge(
+  z.object({
+    config: z
+      .object({
+        code: z.string(),
+        provider: z.enum(["SocietyOfMindAgent"]),
+      })
+      .optional(),
+  }),
+);
 
 export const zSocietyOfMindAgentConfig = z.object({
   code: z.string(),
@@ -4892,87 +5316,7 @@ export const zAgents = z.union([
     .object({
       provider: z.literal("AssistantAgent").optional(),
     })
-    .merge(
-      z
-        .object({
-          provider: z.string().optional(),
-          component_type: z.string().optional(),
-          version: z.number().int().optional(),
-          component_version: z.number().int().optional(),
-          description: z.string().optional(),
-          label: z.string().optional(),
-          config: z.object({}).optional(),
-        })
-        .merge(
-          z.object({
-            provider: z.enum(["AssistantAgent"]),
-            component_type: z.enum(["agent"]),
-            config: z
-              .object({
-                name: z.string(),
-                description: z.string(),
-                model_context: z.object({}).optional(),
-                memory: z.object({}).optional(),
-                model_client_stream: z.boolean().optional().default(false),
-                system_message: z.string().optional(),
-                model_client: z
-                  .object({
-                    provider: z.string().optional(),
-                    component_type: z.string().optional(),
-                    version: z.number().int().optional(),
-                    component_version: z.number().int().optional(),
-                    description: z.string().optional(),
-                    label: z.string().optional(),
-                    config: z.object({}).optional(),
-                  })
-                  .merge(
-                    z.object({
-                      provider: z.enum(["OpenAIChatCompletionClient"]),
-                      config: z
-                        .object({
-                          frequency_penalty: z.number().optional(),
-                          logit_bias: z.object({}).optional(),
-                          max_tokens: z.number().int().optional(),
-                          n: z.number().int().optional(),
-                          presence_penalty: z.number().optional(),
-                          response_format: z.string().optional(),
-                          seed: z.number().int().optional(),
-                          stop: z.array(z.string()).optional(),
-                          temperature: z.number().optional(),
-                          top_p: z.number().optional(),
-                          user: z.string().optional(),
-                          stream_options: z.object({}).optional(),
-                        })
-                        .merge(
-                          z.object({
-                            model: z.string().optional(),
-                            api_key: z.string().optional(),
-                            timeout: z.number().optional(),
-                            max_retries: z.number().int().optional(),
-                            model_capabilities: z.object({}).optional(),
-                            model_info: z.object({}).optional(),
-                            add_name_prefixes: z.boolean().optional(),
-                            default_headers: z.object({}).optional(),
-                          }),
-                        )
-                        .merge(
-                          z.object({
-                            organization: z.string().optional(),
-                            base_url: z.string().optional(),
-                          }),
-                        ),
-                    }),
-                  ),
-                tools: z.array(z.object({})).default([]),
-                handoffs: z.array(z.string()).optional().default([]),
-                reflect_on_tool_use: z.boolean().default(false),
-                tool_call_summary_format: z.string().default("{result}"),
-                metadata: z.object({}).optional(),
-              })
-              .optional(),
-          }),
-        ),
-    ),
+    .merge(zAssistantAgent),
   z
     .object({
       provider: z.literal("InstagramAgent").optional(),
@@ -4991,80 +5335,12 @@ export const zAgents = z.union([
         .merge(
           z.object({
             provider: z.enum(["InstagramAgent"]),
-            config: z
-              .object({
-                name: z.string(),
-                description: z.string(),
-                model_context: z.object({}).optional(),
-                memory: z.object({}).optional(),
-                model_client_stream: z.boolean().optional().default(false),
-                system_message: z.string().optional(),
-                model_client: z
-                  .object({
-                    provider: z.string().optional(),
-                    component_type: z.string().optional(),
-                    version: z.number().int().optional(),
-                    component_version: z.number().int().optional(),
-                    description: z.string().optional(),
-                    label: z.string().optional(),
-                    config: z.object({}).optional(),
-                  })
-                  .merge(
-                    z.object({
-                      provider: z.enum(["OpenAIChatCompletionClient"]),
-                      config: z
-                        .object({
-                          frequency_penalty: z.number().optional(),
-                          logit_bias: z.object({}).optional(),
-                          max_tokens: z.number().int().optional(),
-                          n: z.number().int().optional(),
-                          presence_penalty: z.number().optional(),
-                          response_format: z.string().optional(),
-                          seed: z.number().int().optional(),
-                          stop: z.array(z.string()).optional(),
-                          temperature: z.number().optional(),
-                          top_p: z.number().optional(),
-                          user: z.string().optional(),
-                          stream_options: z.object({}).optional(),
-                        })
-                        .merge(
-                          z.object({
-                            model: z.string().optional(),
-                            api_key: z.string().optional(),
-                            timeout: z.number().optional(),
-                            max_retries: z.number().int().optional(),
-                            model_capabilities: z.object({}).optional(),
-                            model_info: z.object({}).optional(),
-                            add_name_prefixes: z.boolean().optional(),
-                            default_headers: z.object({}).optional(),
-                          }),
-                        )
-                        .merge(
-                          z.object({
-                            organization: z.string().optional(),
-                            base_url: z.string().optional(),
-                          }),
-                        ),
-                    }),
-                  ),
-                tools: z.array(z.object({})).default([]),
-                handoffs: z.array(z.string()).optional().default([]),
-                reflect_on_tool_use: z.boolean().default(false),
-                tool_call_summary_format: z.string().default("{result}"),
-                metadata: z.object({}).optional(),
-              })
-              .merge(
-                z.object({
-                  credentials: z
-                    .object({
-                      username: z.string(),
-                      password: z.string(),
-                      otp_key: z.string().optional(),
-                    })
-                    .optional(),
-                  proxy_url: z.string().optional(),
-                }),
-              ),
+            config: zAssistantAgentConfig.merge(
+              z.object({
+                credentials: zInstagramCredentials.optional(),
+                proxy_url: z.string().optional(),
+              }),
+            ),
           }),
         ),
     ),
@@ -5074,12 +5350,6 @@ export const zAgents = z.union([
     })
     .merge(zUserProxyAgent),
 ]);
-
-export const zInstagramCredentials = z.object({
-  username: z.string(),
-  password: z.string(),
-  otp_key: z.string().optional(),
-});
 
 export const zOpenAiClientConfigurationConfigModel = z
   .object({
@@ -5158,85 +5428,126 @@ export const zCreateArgumentsConfigModel = z.object({
   stream_options: z.object({}).optional(),
 });
 
-export const zAgentStates = z.union([
-  z
-    .object({
-      type: z.literal("InstagramAgentState").optional(),
-    })
-    .merge(zInstagramAgentState),
-  z
-    .object({
-      type: z.literal("UserProxyAgentState").optional(),
-    })
-    .merge(
-      z.object({
-        type: z.enum(["UserProxyAgentState"]),
-        model_context: z.unknown().optional(),
-        action_form: z
-          .object({
-            form_type: z.enum(["schema", "custom"]).optional(),
-            form_name: z.string().optional(),
-            title: z.string(),
-            description: z.string().optional(),
-            layout: z.enum(["vertical", "horizontal"]).optional(),
-            fields: z.array(
-              z.object({
-                type: z.enum(["text", "number", "boolean", "array", "object"]),
-                name: z.string(),
-                default_value: z.string().optional(),
-                label: z.string().optional(),
-                description: z.string().optional(),
-                required: z.boolean().optional(),
-                min: z.number().optional(),
-                max: z.number().optional(),
-                placeholder: z.string().optional(),
-              }),
-            ),
-          })
-          .optional(),
-        platform_account_id: z.string().optional(),
-      }),
-    ),
-  z
-    .object({
-      type: z.literal("SocialTeamManagerState").optional(),
-    })
-    .merge(
-      zBaseState.merge(
-        z.object({
-          type: z.enum(["SocialTeamManagerState"]),
-          next_speaker_index: z.number().int().optional().default(0),
-          previous_speaker: z.string().optional(),
-          selector_prompt: z.string().optional(),
-          allow_repeated_speaker: z.boolean().optional(),
-          max_selector_attempts: z.number().int().optional(),
-          selector_func: z.string().optional(),
-        }),
-      ),
-    ),
+export const zGalleryComponents = z.object({
+  agents: z.array(z.object({})),
+  models: z.array(z.object({})),
+  tools: z.array(z.object({})),
+  terminations: z.array(z.object({})),
+});
+
+export const zGalleryItems = z.object({
+  teams: z.array(z.object({})),
+  components: zGalleryComponents,
+});
+
+export const zGallery = z.object({
+  metadata: zApiResourceMeta,
+  name: z.string(),
+  url: z.string(),
+  author: z.string(),
+  homepage: z.string(),
+  description: z.string(),
+  tags: z.array(z.string()),
+  license: z.string(),
+  lastSynced: z.string().optional(),
+});
+
+export const zGalleryList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zGallery).optional(),
+});
+
+export const zGalleryUpdate = z.object({
+  metadata: zApiResourceMeta,
+  name: z.string(),
+  userId: z.string(),
+});
+
+export const zGalleryMetadata = z.object({
+  author: z.string(),
+  created_at: z.string(),
+  updated_at: z.string(),
+  version: z.string(),
+  description: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  license: z.string().optional(),
+  homepage: z.string().optional(),
+  category: z.string().optional(),
+  last_synced: z.string().optional(),
+});
+
+export const zFlowNames = z.enum([
+  "sys",
+  "tenant",
+  "assistant",
+  "ag",
+  "browser",
+  "resource",
+  "instagram",
+  "social",
+  "team",
 ]);
 
-export const zSocialTeamManagerState = zBaseState.merge(
-  z.object({
-    type: z.enum(["SocialTeamManagerState"]),
-    next_speaker_index: z.number().int().optional().default(0),
-    previous_speaker: z.string().optional(),
-    selector_prompt: z.string().optional(),
-    allow_repeated_speaker: z.boolean().optional(),
-    max_selector_attempts: z.number().int().optional(),
-    selector_func: z.string().optional(),
-  }),
-);
+export const zAgEvent = z.object({
+  metadata: zApiResourceMeta.optional(),
+  userId: z.string().optional(),
+  data: z.object({}),
+  framework: z.string(),
+  stepRunId: z.string(),
+  meta: z.unknown().optional(),
+});
 
-export const zFunctionCall = z.object({
-  id: z.string(),
-  arguments: z.string(),
-  name: z.string(),
+export const zEventTypes = z.enum([
+  "WorkflowRunStart",
+  "WorkflowRunEnd",
+  "StepRun",
+  "TextMessage",
+  "ModelClientStreamingChunkEvent",
+  "EventNewAgentState",
+]);
+
+export const zAgentTypes = z.enum([
+  "closure",
+  "router",
+  "user_proxy",
+  "assistant",
+  "social",
+  "browser",
+  "resource",
+  "instagram",
+]);
+
+export const zAgEventList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zAgEvent).optional(),
+});
+
+export const zOutline = z.object({
+  pageTitle: z.string(),
+  sections: z.array(
+    z.object({
+      section_title: z.string(),
+      description: z.string(),
+      subsections: z
+        .array(
+          z.object({
+            subsectionTitle: z.string(),
+            description: z.string(),
+          }),
+        )
+        .optional(),
+    }),
+  ),
 });
 
 export const zBaseMessageConfig = z.object({
   source: z.string().optional(),
-  models_usage: zRequestUsage.optional(),
+  models_usage: z
+    .object({
+      prompt_tokens: z.number().int(),
+      completion_tokens: z.number().int(),
+    })
+    .optional(),
 });
 
 export const zImageContent = z.object({
@@ -5260,13 +5571,15 @@ export const zHandoffMessageConfig = zBaseMessageConfig.merge(
 
 export const zToolCallMessageConfig = zBaseMessageConfig.merge(
   z.object({
-    content: z.array(zFunctionCall),
+    content: z.array(
+      z.object({
+        id: z.string(),
+        arguments: z.string(),
+        name: z.string(),
+      }),
+    ),
   }),
 );
-
-export const zChatMessageUpsert = zChatMessageProperties;
-
-export const zComponentTypes = z.enum(["agent", "team", "termination"]);
 
 export const zUpsertModel = z.object({
   name: z.string(),
@@ -5309,87 +5622,26 @@ export const zSubsection = z.object({
   description: z.string(),
 });
 
-export const zAssistantAgent = z
-  .object({
-    provider: z.string().optional(),
-    component_type: z.string().optional(),
-    version: z.number().int().optional(),
-    component_version: z.number().int().optional(),
-    description: z.string().optional(),
-    label: z.string().optional(),
-    config: z.object({}).optional(),
-  })
-  .merge(
-    z.object({
-      provider: z.enum(["AssistantAgent"]),
-      component_type: z.enum(["agent"]),
-      config: z
-        .object({
-          name: z.string(),
-          description: z.string(),
-          model_context: z.object({}).optional(),
-          memory: z.object({}).optional(),
-          model_client_stream: z.boolean().optional().default(false),
-          system_message: z.string().optional(),
-          model_client: z
-            .object({
-              provider: z.string().optional(),
-              component_type: z.string().optional(),
-              version: z.number().int().optional(),
-              component_version: z.number().int().optional(),
-              description: z.string().optional(),
-              label: z.string().optional(),
-              config: z.object({}).optional(),
-            })
-            .merge(
-              z.object({
-                provider: z.enum(["OpenAIChatCompletionClient"]),
-                config: zOpenAiClientConfigurationConfigModel,
-              }),
-            ),
-          tools: z.array(z.object({})).default([]),
-          handoffs: z.array(z.string()).optional().default([]),
-          reflect_on_tool_use: z.boolean().default(false),
-          tool_call_summary_format: z.string().default("{result}"),
-          metadata: z.object({}).optional(),
-        })
-        .optional(),
-    }),
-  );
-
-export const zAssistantAgentConfig = z.object({
-  name: z.string(),
-  description: z.string(),
-  model_context: z.object({}).optional(),
-  memory: z.object({}).optional(),
-  model_client_stream: z.boolean().optional().default(false),
-  system_message: z.string().optional(),
-  model_client: z
-    .object({
-      provider: z.string().optional(),
-      component_type: z.string().optional(),
-      version: z.number().int().optional(),
-      component_version: z.number().int().optional(),
-      description: z.string().optional(),
-      label: z.string().optional(),
-      config: z.object({}).optional(),
-    })
-    .merge(
-      z.object({
-        provider: z.enum(["OpenAIChatCompletionClient"]),
-        config: zOpenAiClientConfigurationConfigModel,
-      }),
-    ),
-  tools: z.array(z.object({})).default([]),
-  handoffs: z.array(z.string()).optional().default([]),
-  reflect_on_tool_use: z.boolean().default(false),
-  tool_call_summary_format: z.string().default("{result}"),
-  metadata: z.object({}).optional(),
+export const zTextHighlight = z.object({
+  fullMarkdown: z.string(),
+  markdownBlock: z.string(),
+  selectedText: z.string(),
 });
 
-export const zTenantParameter = z.string().uuid().length(36);
+export const zMtLlmMessageTypes = z.enum([
+  "AssistantMessage",
+  "SystemMessage",
+  "UserMessage",
+  "FunctionExecutionResultMessage",
+]);
 
-export const zHttpCommonStatusResponse = z.unknown();
+export const zQuickStart = z.object({
+  icon: z.string().optional(),
+  com_id: z.string().optional(),
+  title: z.string().optional(),
+  content: z.string(),
+  cn: z.string().optional(),
+});
 
 export const zPrompt = z.object({
   metadata: zApiResourceMeta,
@@ -5402,12 +5654,6 @@ export const zPromptList = z.object({
   pagination: zPaginationResponse.optional(),
   rows: z.array(zArtifact).optional(),
 });
-
-export const zBadRequest = z.unknown();
-
-export const zForbidden = z.unknown();
-
-export const zNotFound = z.unknown();
 
 export const zModel = zApiResourceMetaProperties.merge(
   z.object({
@@ -5761,29 +6007,11 @@ export const zUiAgentState = z.object({
       title: z.string().optional(),
       content: z.string().optional(),
       subTitle: z.string().optional(),
-      quick_starts: z
-        .array(
-          z.object({
-            icon: z.string().optional(),
-            com_id: z.string().optional(),
-            title: z.string().optional(),
-            content: z.string(),
-            cn: z.string().optional(),
-          }),
-        )
-        .optional(),
+      quick_starts: z.array(zQuickStart).optional(),
     })
     .optional(),
   thread_id: z.string().optional(),
   team_id: z.string().optional(),
-});
-
-export const zQuickStart = z.object({
-  icon: z.string().optional(),
-  com_id: z.string().optional(),
-  title: z.string().optional(),
-  content: z.string(),
-  cn: z.string().optional(),
 });
 
 export const zChatWelcome = z.object({
@@ -5857,14 +6085,6 @@ export const zChatSessionStartEvent = z.object({
   source: z.string().optional(),
 });
 
-export const zBrowserTask = z.object({
-  content: z.string(),
-});
-
-export const zBrowserOpenTask = z.object({
-  url: z.string(),
-});
-
 export const zComponentModel = z.object({
   provider: z.string().optional(),
   component_type: z.string().optional(),
@@ -5899,10 +6119,6 @@ export const zSocialTeam = zTeamComponent.merge(
   }),
 );
 
-export const zBrowserConfig = z.object({
-  persistent: z.boolean().optional(),
-});
-
 export const zAgentEventType = z.enum([
   "ThoughtEvent",
   "TextMessage",
@@ -5915,7 +6131,7 @@ export const zAgentEventType = z.enum([
   "StartNewChatInput",
 ]);
 
-export const zMtAgEvent = z.union([
+export const zAgEvents = z.union([
   z
     .object({
       type: z.literal("ThoughtEvent").optional(),
@@ -5934,13 +6150,29 @@ export const zMtAgEvent = z.union([
       type: z.literal("TextMessage").optional(),
     })
     .merge(
-      z.object({
-        type: z.enum(["TextMessage"]).optional(),
-        source: z.string().optional(),
-        content: z.string().optional(),
-        metadata: z.unknown().optional(),
-        models_usage: z.object({}).optional(),
-      }),
+      z
+        .object({
+          type: z.string(),
+          source: z.string(),
+          models_usage: z
+            .object({
+              prompt_tokens: z.number().int(),
+              completion_tokens: z.number().int(),
+            })
+            .optional(),
+          metadata: z.object({}).optional(),
+          content: z.string(),
+        })
+        .merge(
+          z.object({
+            type: z.enum(["BaseTextChatMessage"]).optional(),
+          }),
+        )
+        .merge(
+          z.object({
+            type: z.enum(["TextMessage"]).optional(),
+          }),
+        ),
     ),
   z
     .object({
@@ -6011,13 +6243,29 @@ export const zMtAgEvent = z.union([
     ),
 ]);
 
-export const zTextMessage = z.object({
-  type: z.enum(["TextMessage"]).optional(),
-  source: z.string().optional(),
-  content: z.string().optional(),
-  metadata: z.unknown().optional(),
-  models_usage: z.object({}).optional(),
-});
+export const zTextMessage = z
+  .object({
+    type: z.string(),
+    source: z.string(),
+    models_usage: z
+      .object({
+        prompt_tokens: z.number().int(),
+        completion_tokens: z.number().int(),
+      })
+      .optional(),
+    metadata: z.object({}).optional(),
+    content: z.string(),
+  })
+  .merge(
+    z.object({
+      type: z.enum(["BaseTextChatMessage"]).optional(),
+    }),
+  )
+  .merge(
+    z.object({
+      type: z.enum(["TextMessage"]).optional(),
+    }),
+  );
 
 export const zThoughtEvent = z.object({
   type: z.enum(["ThoughtEvent"]),
@@ -6063,7 +6311,13 @@ export const zStartNewChatInput = z.object({
 
 export const zToolCallRequestEvent = z.object({
   type: z.enum(["ToolCallRequestEvent"]),
-  content: z.array(zFunctionCall),
+  content: z.array(
+    z.object({
+      id: z.string(),
+      arguments: z.string(),
+      name: z.string(),
+    }),
+  ),
 });
 
 export const zMyDemoAgentEvent = z.object({
@@ -6076,6 +6330,176 @@ export const zUserInputRequestedEvent = z.object({
   request_id: z.string(),
   content: z.string(),
 });
+
+export const zChatMessageInput = z.object({
+  type: z.enum(["ChatMessageInput"]),
+  content: z.string(),
+});
+
+export const zFlowError = z.object({
+  type: z.string().optional(),
+  error: z.string().optional(),
+});
+
+export const zSocialAddFollowersInput = z.object({
+  type: z.enum(["SocialAddFollowersInput"]),
+  platform_account_id: z.string().optional(),
+  count_to_follow: z.number().default(1),
+});
+
+export const zFlowTeamInput = z.object({
+  session_id: z.string(),
+  component: zTeamComponent,
+  task: z.string(),
+  init_state: z.object({}),
+});
+
+export const zPlatformAccountFlowInput = z.object({
+  type: z.enum(["PlatformAccountFlowInput"]).optional(),
+  platform_account_id: z.string().optional(),
+});
+
+export const zFunctionCall = z.object({
+  id: z.string(),
+  arguments: z.string(),
+  name: z.string(),
+});
+
+export const zFunctionExecutionResultMessage = z.object({
+  type: z.enum(["FunctionExecutionResultMessage"]),
+  content: z.array(
+    z.object({
+      content: z.string(),
+      name: z.string(),
+      call_id: z.string(),
+      is_error: z.boolean().optional(),
+    }),
+  ),
+});
+
+export const zFunctionExecutionResult = z.object({
+  content: z.string(),
+  name: z.string(),
+  call_id: z.string(),
+  is_error: z.boolean().optional(),
+});
+
+export const zFlowResult = z.union([
+  z
+    .object({
+      type: z.literal("FlowLoginResult").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["FlowLoginResult"]),
+        success: z.boolean().optional(),
+        source: z.string().optional(),
+        account_id: z.string().optional(),
+      }),
+    ),
+  z
+    .object({
+      type: z.literal("FlowHandoffResult").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["FlowHandoffResult"]),
+        success: z.boolean().optional(),
+        name: z.string().optional(),
+      }),
+    ),
+]);
+
+export const zFlowLoginResult = z.object({
+  type: z.enum(["FlowLoginResult"]),
+  success: z.boolean().optional(),
+  source: z.string().optional(),
+  account_id: z.string().optional(),
+});
+
+export const zFlowHandoffResult = z.object({
+  type: z.enum(["FlowHandoffResult"]),
+  success: z.boolean().optional(),
+  name: z.string().optional(),
+});
+
+export const zMtLlmMessage = z.union([
+  z
+    .object({
+      type: z.literal("UserMessage").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["UserMessage"]),
+        content: z.string(),
+        source: z.string().optional(),
+      }),
+    ),
+  z
+    .object({
+      type: z.literal("SystemMessage").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["SystemMessage"]),
+        content: z.string(),
+      }),
+    ),
+  z
+    .object({
+      type: z.literal("AssistantMessage").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["AssistantMessage"]),
+        content: z.union([z.string(), z.array(zFunctionCall)]),
+        source: z.string().optional(),
+        thought: z.string().optional(),
+      }),
+    ),
+  z
+    .object({
+      type: z.literal("FunctionExecutionResultMessage").optional(),
+    })
+    .merge(zFunctionExecutionResultMessage),
+]);
+
+export const zUserMessage = z.object({
+  type: z.enum(["UserMessage"]),
+  content: z.string(),
+  source: z.string().optional(),
+});
+
+export const zSystemMessage = z.object({
+  type: z.enum(["SystemMessage"]),
+  content: z.string(),
+});
+
+export const zAssistantMessage = z.object({
+  type: z.enum(["AssistantMessage"]),
+  content: z.union([z.string(), z.array(zFunctionCall)]),
+  source: z.string().optional(),
+  thought: z.string().optional(),
+});
+
+export const zRequestUsage = z.object({
+  prompt_tokens: z.number().int(),
+  completion_tokens: z.number().int(),
+});
+
+export const zBaseChatMessage = z.object({
+  type: z.string(),
+  source: z.string(),
+  models_usage: zRequestUsage.optional(),
+  metadata: z.object({}).optional(),
+  content: z.string(),
+});
+
+export const zBaseTextChatMessage = zBaseChatMessage.merge(
+  z.object({
+    type: z.enum(["BaseTextChatMessage"]).optional(),
+  }),
+);
 
 export const zAgentProperties = z.object({
   name: z.string(),
@@ -6106,22 +6530,6 @@ export const zAgentTopicTypes = z.enum([
   "closure",
   "response",
 ]);
-
-export const zChatMessageInput = z.object({
-  type: z.enum(["ChatMessageInput"]),
-  content: z.string(),
-});
-
-export const zFlowError = z.object({
-  type: z.string().optional(),
-  error: z.string().optional(),
-});
-
-export const zSocialAddFollowersInput = z.object({
-  type: z.enum(["SocialAddFollowersInput"]),
-  platform_account_id: z.string().optional(),
-  count_to_follow: z.number().default(1),
-});
 
 export const zInstagramAgent = zComponentModel.merge(
   z.object({
@@ -6422,36 +6830,6 @@ export const zTeamRun = z.object({
 
 export const zTeamRunResult = z.object({
   workflowRun: zWorkflowRun.optional(),
-});
-
-export const zAgentStateTypes = z.enum([
-  "InstagramAgentState",
-  "UserProxyAgentState",
-  "SocialTeamManagerState",
-]);
-
-export const zTeamState = z.object({
-  agent_states: z.object({}),
-  type: z.enum(["TeamState"]),
-});
-
-export const zUserProxyAgentState = z.object({
-  type: z.enum(["UserProxyAgentState"]),
-  model_context: z.unknown().optional(),
-  action_form: zSchemaForm.optional(),
-  platform_account_id: z.string().optional(),
-});
-
-export const zFlowTeamInput = z.object({
-  session_id: z.string(),
-  component: zTeamComponent,
-  task: z.string(),
-  init_state: z.object({}),
-});
-
-export const zPlatformAccountFlowInput = z.object({
-  type: z.enum(["PlatformAccountFlowInput"]).optional(),
-  platform_account_id: z.string().optional(),
 });
 
 export const zIgLogin = z.object({
