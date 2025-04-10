@@ -845,6 +845,7 @@ export type WorkflowWorkersCount = {
     | ComponentTypes
     | ProviderTypes
     | AgentEventType
+    | StateType
     | AgentTypes
     | BrowserData
     | PlatformAccountData
@@ -872,7 +873,10 @@ export type WorkflowWorkersCount = {
     | MtOpenAiChatCompletionClient
     | RoundRobinGroupChat
     | Components
-    | SocialTeam;
+    | SocialTeam
+    | CodeExecutorAgent
+    | SocietyOfMindAgent
+    | UserProxyAgent;
 };
 
 export type WorkflowRun = {
@@ -2234,16 +2238,36 @@ export type ProviderTypes =
   | "SelectorGroupChat"
   | "SocialTeam"
   | "AssistantAgent"
+  | "CodeExecutorAgent"
+  | "SocietyOfMindAgent"
+  | "UserProxyAgent"
   | "MtOpenAIChatCompletionClient"
-  | "TextMentionTermination";
+  | "TextMentionTermination"
+  | "HandoffTermination"
+  | "TimeoutTermination"
+  | "SourceMatchTermination"
+  | "FunctionCallTermination"
+  | "TokenUsageTermination"
+  | "MaxMessageTermination"
+  | "StopMessageTermination";
 
 export const ProviderTypes = {
   ROUND_ROBIN_GROUP_CHAT: "RoundRobinGroupChat",
   SELECTOR_GROUP_CHAT: "SelectorGroupChat",
   SOCIAL_TEAM: "SocialTeam",
   ASSISTANT_AGENT: "AssistantAgent",
+  CODE_EXECUTOR_AGENT: "CodeExecutorAgent",
+  SOCIETY_OF_MIND_AGENT: "SocietyOfMindAgent",
+  USER_PROXY_AGENT: "UserProxyAgent",
   MT_OPEN_AI_CHAT_COMPLETION_CLIENT: "MtOpenAIChatCompletionClient",
   TEXT_MENTION_TERMINATION: "TextMentionTermination",
+  HANDOFF_TERMINATION: "HandoffTermination",
+  TIMEOUT_TERMINATION: "TimeoutTermination",
+  SOURCE_MATCH_TERMINATION: "SourceMatchTermination",
+  FUNCTION_CALL_TERMINATION: "FunctionCallTermination",
+  TOKEN_USAGE_TERMINATION: "TokenUsageTermination",
+  MAX_MESSAGE_TERMINATION: "MaxMessageTermination",
+  STOP_MESSAGE_TERMINATION: "StopMessageTermination",
 } as const;
 
 export type AgEvent = {
@@ -2314,6 +2338,32 @@ export type Outline = {
 export type RequestUsage = {
   prompt_tokens: number;
   completion_tokens: number;
+};
+
+export type CodeExecutorAgent = AssistantAgent & {
+  config?: CodeExecutorAgentConfig;
+};
+
+export type CodeExecutorAgentConfig = {
+  provider: "CodeExecutorAgent";
+  code: string;
+};
+
+export type SocietyOfMindAgent = AssistantAgent & {
+  config?: SocietyOfMindAgentConfig;
+};
+
+export type SocietyOfMindAgentConfig = {
+  code: string;
+  provider: "SocietyOfMindAgent";
+};
+
+export type UserProxyAgent = AssistantAgent & {
+  config?: UserProxyAgentConfig;
+};
+
+export type UserProxyAgentConfig = {
+  provider: "UserProxyAgent";
 };
 
 export type FunctionCall = {
@@ -3083,7 +3133,8 @@ export type SocialTeamConfig = TeamConfig & {
 };
 
 export type SocialTeam = TeamComponent & {
-  provider: "mtmai.teams.team_social.SocialTeam";
+  provider: "SocialTeam";
+  component_type?: "team";
   config: SocialTeamConfig;
 };
 
@@ -3337,7 +3388,7 @@ export type TextMessageTerminationConfig = {
 };
 
 export type HandoffTermination = {
-  provider: "autogen_agentchat.conditions.HandoffTermination";
+  provider: "HandoffTermination";
   config: HandoffTerminationConfig;
 };
 
@@ -3346,7 +3397,7 @@ export type HandoffTerminationConfig = {
 };
 
 export type TimeoutTermination = {
-  provider: "autogen_agentchat.conditions.TimeoutTermination";
+  provider: "TimeoutTermination";
   config: TimeoutTerminationConfig;
 };
 
@@ -3355,7 +3406,7 @@ export type TimeoutTerminationConfig = {
 };
 
 export type SourceMatchTermination = {
-  provider: "autogen_agentchat.conditions.SourceMatchTermination";
+  provider: "SourceMatchTermination";
   config: SourceMatchTerminationConfig;
 };
 
@@ -3364,7 +3415,7 @@ export type SourceMatchTerminationConfig = {
 };
 
 export type FunctionCallTermination = {
-  provider: "autogen_agentchat.conditions.FunctionCallTermination";
+  provider: "FunctionCallTermination";
   config: FunctionCallTerminationConfig;
 };
 
@@ -3373,7 +3424,7 @@ export type FunctionCallTerminationConfig = {
 };
 
 export type TokenUsageTermination = {
-  provider: "autogen_agentchat.conditions.TokenUsageTermination";
+  provider: "TokenUsageTermination";
   config: TokenUsageTerminationConfig;
 };
 
@@ -3384,7 +3435,7 @@ export type TokenUsageTerminationConfig = {
 };
 
 export type MaxMessageTermination = {
-  provider: "autogen_agentchat.conditions.MaxMessageTermination";
+  provider: "MaxMessageTermination";
   config: MaxMessageTerminationConfig;
 };
 
@@ -3394,7 +3445,7 @@ export type MaxMessageTerminationConfig = {
 };
 
 export type StopMessageTermination = {
-  provider: "autogen_agentchat.conditions.StopMessageTermination";
+  provider: "StopMessageTermination";
   config: StopMessageTerminationConfig;
 };
 

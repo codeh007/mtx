@@ -1420,6 +1420,9 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/AgentEventType",
         },
         {
+          $ref: "#/components/schemas/StateType",
+        },
+        {
           $ref: "#/components/schemas/AgentTypes",
         },
         {
@@ -1502,6 +1505,15 @@ export const WorkflowWorkersCountSchema = {
         },
         {
           $ref: "#/components/schemas/SocialTeam",
+        },
+        {
+          $ref: "#/components/schemas/CodeExecutorAgent",
+        },
+        {
+          $ref: "#/components/schemas/SocietyOfMindAgent",
+        },
+        {
+          $ref: "#/components/schemas/UserProxyAgent",
         },
       ],
     },
@@ -4146,8 +4158,18 @@ export const ProviderTypesSchema = {
     "SelectorGroupChat",
     "SocialTeam",
     "AssistantAgent",
+    "CodeExecutorAgent",
+    "SocietyOfMindAgent",
+    "UserProxyAgent",
     "MtOpenAIChatCompletionClient",
     "TextMentionTermination",
+    "HandoffTermination",
+    "TimeoutTermination",
+    "SourceMatchTermination",
+    "FunctionCallTermination",
+    "TokenUsageTermination",
+    "MaxMessageTermination",
+    "StopMessageTermination",
   ],
 } as const;
 
@@ -4243,6 +4265,90 @@ export const RequestUsageSchema = {
     },
     completion_tokens: {
       type: "number",
+    },
+  },
+} as const;
+
+export const CodeExecutorAgentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AssistantAgent",
+    },
+    {
+      properties: {
+        config: {
+          $ref: "#/components/schemas/CodeExecutorAgentConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const CodeExecutorAgentConfigSchema = {
+  required: ["code", "provider"],
+  properties: {
+    provider: {
+      type: "string",
+      enum: ["CodeExecutorAgent"],
+      default: "CodeExecutorAgent",
+    },
+    code: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const SocietyOfMindAgentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AssistantAgent",
+    },
+    {
+      properties: {
+        config: {
+          $ref: "#/components/schemas/SocietyOfMindAgentConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const SocietyOfMindAgentConfigSchema = {
+  required: ["code", "provider"],
+  properties: {
+    code: {
+      type: "string",
+    },
+    provider: {
+      type: "string",
+      enum: ["SocietyOfMindAgent"],
+      default: "SocietyOfMindAgent",
+    },
+  },
+} as const;
+
+export const UserProxyAgentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AssistantAgent",
+    },
+    {
+      properties: {
+        config: {
+          $ref: "#/components/schemas/UserProxyAgentConfig",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const UserProxyAgentConfigSchema = {
+  required: ["provider"],
+  properties: {
+    provider: {
+      type: "string",
+      enum: ["UserProxyAgent"],
+      default: "UserProxyAgent",
     },
   },
 } as const;
@@ -4487,6 +4593,7 @@ export const AssistantAgentSchema = {
         provider: {
           type: "string",
           enum: ["AssistantAgent"],
+          default: "AssistantAgent",
         },
         component_type: {
           type: "string",
@@ -6013,7 +6120,12 @@ export const SocialTeamSchema = {
       properties: {
         provider: {
           type: "string",
-          enum: ["mtmai.teams.team_social.SocialTeam"],
+          enum: ["SocialTeam"],
+        },
+        component_type: {
+          type: "string",
+          enum: ["team"],
+          default: "team",
         },
         config: {
           $ref: "#/components/schemas/SocialTeamConfig",
@@ -6507,8 +6619,8 @@ export const HandoffTerminationSchema = {
   properties: {
     provider: {
       type: "string",
-      enum: ["autogen_agentchat.conditions.HandoffTermination"],
-      default: "autogen_agentchat.conditions.HandoffTermination",
+      enum: ["HandoffTermination"],
+      default: "HandoffTermination",
     },
     config: {
       $ref: "#/components/schemas/HandoffTerminationConfig",
@@ -6530,8 +6642,8 @@ export const TimeoutTerminationSchema = {
   properties: {
     provider: {
       type: "string",
-      enum: ["autogen_agentchat.conditions.TimeoutTermination"],
-      default: "autogen_agentchat.conditions.TimeoutTermination",
+      enum: ["TimeoutTermination"],
+      default: "TimeoutTermination",
     },
     config: {
       $ref: "#/components/schemas/TimeoutTerminationConfig",
@@ -6553,8 +6665,8 @@ export const SourceMatchTerminationSchema = {
   properties: {
     provider: {
       type: "string",
-      enum: ["autogen_agentchat.conditions.SourceMatchTermination"],
-      default: "autogen_agentchat.conditions.SourceMatchTermination",
+      enum: ["SourceMatchTermination"],
+      default: "SourceMatchTermination",
     },
     config: {
       $ref: "#/components/schemas/SourceMatchTerminationConfig",
@@ -6579,8 +6691,8 @@ export const FunctionCallTerminationSchema = {
   properties: {
     provider: {
       type: "string",
-      enum: ["autogen_agentchat.conditions.FunctionCallTermination"],
-      default: "autogen_agentchat.conditions.FunctionCallTermination",
+      enum: ["FunctionCallTermination"],
+      default: "FunctionCallTermination",
     },
     config: {
       $ref: "#/components/schemas/FunctionCallTerminationConfig",
@@ -6602,8 +6714,8 @@ export const TokenUsageTerminationSchema = {
   properties: {
     provider: {
       type: "string",
-      enum: ["autogen_agentchat.conditions.TokenUsageTermination"],
-      default: "autogen_agentchat.conditions.TokenUsageTermination",
+      enum: ["TokenUsageTermination"],
+      default: "TokenUsageTermination",
     },
     config: {
       $ref: "#/components/schemas/TokenUsageTerminationConfig",
@@ -6630,8 +6742,8 @@ export const MaxMessageTerminationSchema = {
   properties: {
     provider: {
       type: "string",
-      enum: ["autogen_agentchat.conditions.MaxMessageTermination"],
-      default: "autogen_agentchat.conditions.MaxMessageTermination",
+      enum: ["MaxMessageTermination"],
+      default: "MaxMessageTermination",
     },
     config: {
       $ref: "#/components/schemas/MaxMessageTerminationConfig",
@@ -6657,8 +6769,8 @@ export const StopMessageTerminationSchema = {
   properties: {
     provider: {
       type: "string",
-      enum: ["autogen_agentchat.conditions.StopMessageTermination"],
-      default: "autogen_agentchat.conditions.StopMessageTermination",
+      enum: ["StopMessageTermination"],
+      default: "StopMessageTermination",
     },
     config: {
       $ref: "#/components/schemas/StopMessageTerminationConfig",

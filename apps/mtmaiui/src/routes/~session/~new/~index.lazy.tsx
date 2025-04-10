@@ -1,12 +1,14 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import {
-  type AssistantAgentComponent,
+  type AssistantAgent,
   type AssistantAgentConfig,
   ModelTypes,
-  type MtOpenAiChatCompletionClientComponent,
+  type MtOpenAiChatCompletionClient,
+  ProviderTypes,
+  type TeamComponent,
   type Terminations,
 } from "mtmaiapi";
-import { zSocialTeamComponent } from "mtmaiapi/gomtmapi/zod.gen";
+import { zSocialTeam } from "mtmaiapi/gomtmapi/zod.gen";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import {
   FormControl,
@@ -28,9 +30,9 @@ export const Route = createLazyFileRoute("/session/new/")({
 function RouteComponent() {
   const handleRunTeam = useWorkbenchStore((x) => x.handleRunTeam);
 
-  const [participants, setParticipants] = useState<AssistantAgentComponent[]>([
+  const [participants, setParticipants] = useState<AssistantAgent[]>([
     {
-      provider: "autogen_agentchat.agents.AssistantAgent",
+      provider: ProviderTypes.ASSISTANT_AGENT,
       label: "assistant",
       component_type: "agent",
       description: "assistant",
@@ -41,22 +43,22 @@ function RouteComponent() {
         reflect_on_tool_use: false,
         tool_call_summary_format: "{result}",
         model_client: {
-          provider: "mtmai.model_client.MtOpenAIChatCompletionClient",
+          provider: ProviderTypes.MT_OPEN_AI_CHAT_COMPLETION_CLIENT,
           config: {
             api_key: MtmaiuiConfig.default_open_ai_key,
             base_url: MtmaiuiConfig.default_open_base_url,
             model: "gpt-4o",
             model_type: ModelTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
           },
-        } satisfies MtOpenAiChatCompletionClientComponent,
+        } satisfies MtOpenAiChatCompletionClient,
       } satisfies AssistantAgentConfig,
-    } satisfies AssistantAgentComponent,
+    } satisfies AssistantAgent,
   ]);
   const form = useZodFormV2({
-    schema: zSocialTeamComponent,
+    schema: zSocialTeam,
     toastValidateError: true,
     defaultValues: {
-      provider: "mtmai.teams.team_social.SocialTeam",
+      provider: ProviderTypes.SOCIAL_TEAM,
       component_type: "team",
       label: "social team",
       description: "social team",
@@ -68,7 +70,7 @@ function RouteComponent() {
         max_turns: 10,
         participants: participants,
         termination_condition: {
-          provider: "autogen_agentchat.conditions.TextMentionTermination",
+          provider: ProviderTypes.TEXT_MENTION_TERMINATION,
           config: {
             text: "TERMINATE",
           },
@@ -77,7 +79,7 @@ function RouteComponent() {
     },
     handleSubmit: (values) => {
       handleRunTeam({
-        component: values,
+        component: values as TeamComponent,
         session_id: "123",
         task: "告诉我,您能帮我做什么事情?",
         init_state: {},
