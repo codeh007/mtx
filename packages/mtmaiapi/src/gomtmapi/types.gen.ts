@@ -849,35 +849,21 @@ export type WorkflowWorkersCount = {
     | AgentTypes
     | BrowserData
     | PlatformAccountData
-    | InstagramTask
-    | ChatSessionStartEvent
     | BrowserTask
     | BrowserOpenTask
     | PlatformAccountFlowInput
     | FlowError
     | SocialAddFollowersInput
     | FlowTeamInput
-    | CodeExecutionInput
     | CodeExecutionResult
     | SocialLoginInput
     | SocialLoginResult
     | FlowResult
     | ChatStartInput
-    | AskUserFunctionCall
-    | ToolCallRequestEvent
-    | MyDemoAgentEvent
     | UserInputRequestedEvent
-    | AssistantAgent
-    | InstagramAgent
     | OpenAiChatCompletionClient
     | RoundRobinGroupChat
-    | Components
     | SocialTeam
-    | CodeExecutorAgent
-    | SocietyOfMindAgent
-    | UserProxyAgent
-    | OpenAiClientConfigurationConfigModel
-    | TeamState
     | AgentStates
     | AgEvents;
 };
@@ -3230,8 +3216,8 @@ export type AskUserFunctionCall = {
 };
 
 export type AskUserFunctionCallInput = {
-  type?: "AskUserFunctionCallInput";
-  title?: string;
+  type: "AskUserFunctionCallInput";
+  title: string;
 };
 
 export type AskUserFunctionCallInputFieldValue = {
@@ -3280,10 +3266,8 @@ export type SocialAddFollowersInput = {
 export type FlowTeamInput = {
   session_id: string;
   component: TeamComponent;
-  task: string;
-  init_state: {
-    [key: string]: unknown;
-  };
+  task: AgEvents;
+  init_state: AgentStates;
 };
 
 export type PlatformAccountFlowInput = {

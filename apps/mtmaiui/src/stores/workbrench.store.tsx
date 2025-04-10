@@ -320,8 +320,6 @@ export const createWorkbrenchSlice: StateCreator<
         topic: "default",
         source: "web",
         thread_id: sessionId,
-        // llm_message:{},
-        // thought: "",
       } satisfies ChatMessage;
       set({
         messages: [...preMessages, newChatMessage],

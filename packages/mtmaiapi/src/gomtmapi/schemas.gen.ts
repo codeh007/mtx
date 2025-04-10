@@ -1432,12 +1432,6 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/PlatformAccountData",
         },
         {
-          $ref: "#/components/schemas/InstagramTask",
-        },
-        {
-          $ref: "#/components/schemas/ChatSessionStartEvent",
-        },
-        {
           $ref: "#/components/schemas/BrowserTask",
         },
         {
@@ -1456,9 +1450,6 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/FlowTeamInput",
         },
         {
-          $ref: "#/components/schemas/CodeExecutionInput",
-        },
-        {
           $ref: "#/components/schemas/CodeExecutionResult",
         },
         {
@@ -1474,22 +1465,7 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/ChatStartInput",
         },
         {
-          $ref: "#/components/schemas/AskUserFunctionCall",
-        },
-        {
-          $ref: "#/components/schemas/ToolCallRequestEvent",
-        },
-        {
-          $ref: "#/components/schemas/MyDemoAgentEvent",
-        },
-        {
           $ref: "#/components/schemas/UserInputRequestedEvent",
-        },
-        {
-          $ref: "#/components/schemas/AssistantAgent",
-        },
-        {
-          $ref: "#/components/schemas/InstagramAgent",
         },
         {
           $ref: "#/components/schemas/OpenAIChatCompletionClient",
@@ -1498,25 +1474,7 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/RoundRobinGroupChat",
         },
         {
-          $ref: "#/components/schemas/Components",
-        },
-        {
           $ref: "#/components/schemas/SocialTeam",
-        },
-        {
-          $ref: "#/components/schemas/CodeExecutorAgent",
-        },
-        {
-          $ref: "#/components/schemas/SocietyOfMindAgent",
-        },
-        {
-          $ref: "#/components/schemas/UserProxyAgent",
-        },
-        {
-          $ref: "#/components/schemas/OpenAIClientConfigurationConfigModel",
-        },
-        {
-          $ref: "#/components/schemas/TeamState",
         },
         {
           $ref: "#/components/schemas/AgentStates",
@@ -6238,6 +6196,7 @@ export const AskUserFunctionCallSchema = {
 } as const;
 
 export const AskUserFunctionCallInputSchema = {
+  required: ["type", "title"],
   properties: {
     type: {
       type: "string",
@@ -6384,10 +6343,10 @@ export const FlowTeamInputSchema = {
       $ref: "#/components/schemas/TeamComponent",
     },
     task: {
-      type: "string",
+      $ref: "#/components/schemas/AgEvents",
     },
     init_state: {
-      type: "object",
+      $ref: "#/components/schemas/AgentStates",
     },
   },
 } as const;
