@@ -4851,7 +4851,7 @@ export const zInstagramAgentConfig = zAssistantAgentConfig.merge(
   }),
 );
 
-export const zMtOpenAiChatCompletionClient = zComponentModel.merge(
+export const zOpenAiChatCompletionClient = zComponentModel.merge(
   z.object({
     provider: z.enum(["OpenAIChatCompletionClient"]),
     config: zOpenAiClientConfigurationConfigModel,

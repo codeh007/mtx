@@ -3,7 +3,7 @@ import {
   type AssistantAgent,
   type AssistantAgentConfig,
   ModelFamily,
-  type MtOpenAiChatCompletionClient,
+  type OpenAiChatCompletionClient,
   ProviderTypes,
   type TeamComponent,
   type Terminations,
@@ -48,7 +48,6 @@ function RouteComponent() {
             model: MtmaiuiConfig.default_open_model,
             api_key: MtmaiuiConfig.default_open_ai_key,
             base_url: MtmaiuiConfig.default_open_base_url,
-            // model_type: ModelTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
             model_info: {
               vision: false,
               function_calling: true,
@@ -57,7 +56,7 @@ function RouteComponent() {
               family: ModelFamily.UNKNOWN,
             },
           },
-        } satisfies MtOpenAiChatCompletionClient,
+        } satisfies OpenAiChatCompletionClient,
       } satisfies AssistantAgentConfig,
     } satisfies AssistantAgent,
   ]);

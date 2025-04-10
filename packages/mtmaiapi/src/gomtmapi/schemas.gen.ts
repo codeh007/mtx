@@ -1495,7 +1495,7 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/AssistantAgent",
         },
         {
-          $ref: "#/components/schemas/MtOpenAIChatCompletionClient",
+          $ref: "#/components/schemas/OpenAIChatCompletionClient",
         },
         {
           $ref: "#/components/schemas/RoundRobinGroupChat",
@@ -4699,7 +4699,7 @@ export const AssistantAgentConfigSchema = {
       type: "string",
     },
     model_client: {
-      $ref: "#/components/schemas/MtOpenAIChatCompletionClient",
+      $ref: "#/components/schemas/OpenAIChatCompletionClient",
     },
     tools: {
       type: "array",
@@ -6502,7 +6502,7 @@ export const InstagramAgentConfigSchema = {
   ],
 } as const;
 
-export const MtOpenAIChatCompletionClientSchema = {
+export const OpenAIChatCompletionClientSchema = {
   allOf: [
     {
       $ref: "#/components/schemas/ComponentModel",

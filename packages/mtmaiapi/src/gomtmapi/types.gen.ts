@@ -870,7 +870,7 @@ export type WorkflowWorkersCount = {
     | MyDemoAgentEvent
     | UserInputRequestedEvent
     | AssistantAgent
-    | MtOpenAiChatCompletionClient
+    | OpenAiChatCompletionClient
     | RoundRobinGroupChat
     | Components
     | SocialTeam
@@ -2511,7 +2511,7 @@ export type AssistantAgentConfig = {
   };
   model_client_stream?: boolean;
   system_message?: string;
-  model_client: MtOpenAiChatCompletionClient;
+  model_client: OpenAiChatCompletionClient;
   tools: Array<{
     [key: string]: {
       [key: string]: unknown;
@@ -3351,7 +3351,7 @@ export type InstagramAgentConfig = AssistantAgentConfig & {
   proxy_url?: string;
 };
 
-export type MtOpenAiChatCompletionClient = ComponentModel & {
+export type OpenAiChatCompletionClient = ComponentModel & {
   provider: "OpenAIChatCompletionClient";
   config: OpenAiClientConfigurationConfigModel;
 };
