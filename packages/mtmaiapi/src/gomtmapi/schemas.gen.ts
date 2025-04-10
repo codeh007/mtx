@@ -1414,6 +1414,12 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/ComponentTypes",
         },
         {
+          $ref: "#/components/schemas/ProviderTypes",
+        },
+        {
+          $ref: "#/components/schemas/AgentEventType",
+        },
+        {
           $ref: "#/components/schemas/AgentTypes",
         },
         {
@@ -1436,9 +1442,6 @@ export const WorkflowWorkersCountSchema = {
         },
         {
           $ref: "#/components/schemas/PlatformAccountFlowInput",
-        },
-        {
-          $ref: "#/components/schemas/AgentEventType",
         },
         {
           $ref: "#/components/schemas/InstagramAgentState",
@@ -1489,7 +1492,7 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/AssistantAgent",
         },
         {
-          $ref: "#/components/schemas/MtOpenAIChatCompletionClientComponent",
+          $ref: "#/components/schemas/MtOpenAIChatCompletionClient",
         },
         {
           $ref: "#/components/schemas/RoundRobinGroupChat",
@@ -4136,6 +4139,18 @@ export const FlowNamesSchema = {
   ],
 } as const;
 
+export const ProviderTypesSchema = {
+  type: "string",
+  enum: [
+    "RoundRobinGroupChat",
+    "SelectorGroupChat",
+    "SocialTeam",
+    "AssistantAgent",
+    "MtOpenAIChatCompletionClient",
+    "TextMentionTermination",
+  ],
+} as const;
+
 export const AgEventSchema = {
   required: ["data", "framework", "stepRunId"],
   properties: {
@@ -4522,7 +4537,7 @@ export const AssistantAgentConfigSchema = {
       type: "string",
     },
     model_client: {
-      $ref: "#/components/schemas/MtOpenAIChatCompletionClientComponent",
+      $ref: "#/components/schemas/MtOpenAIChatCompletionClient",
     },
     tools: {
       type: "array",
@@ -6389,7 +6404,7 @@ export const InstagramAgentConfigSchema = {
   ],
 } as const;
 
-export const MtOpenAIChatCompletionClientComponentSchema = {
+export const MtOpenAIChatCompletionClientSchema = {
   allOf: [
     {
       $ref: "#/components/schemas/ComponentModel",

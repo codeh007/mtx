@@ -843,6 +843,8 @@ export type WorkflowWorkersCount = {
     | FlowNames
     | AgentTopicTypes
     | ComponentTypes
+    | ProviderTypes
+    | AgentEventType
     | AgentTypes
     | BrowserData
     | PlatformAccountData
@@ -851,7 +853,6 @@ export type WorkflowWorkersCount = {
     | BrowserTask
     | BrowserOpenTask
     | PlatformAccountFlowInput
-    | AgentEventType
     | InstagramAgentState
     | FlowError
     | SocialAddFollowersInput
@@ -868,7 +869,7 @@ export type WorkflowWorkersCount = {
     | MyDemoAgentEvent
     | UserInputRequestedEvent
     | AssistantAgent
-    | MtOpenAiChatCompletionClientComponent
+    | MtOpenAiChatCompletionClient
     | RoundRobinGroupChat
     | Components
     | SocialTeam;
@@ -2228,6 +2229,23 @@ export const FlowNames = {
   TEAM: "team",
 } as const;
 
+export type ProviderTypes =
+  | "RoundRobinGroupChat"
+  | "SelectorGroupChat"
+  | "SocialTeam"
+  | "AssistantAgent"
+  | "MtOpenAIChatCompletionClient"
+  | "TextMentionTermination";
+
+export const ProviderTypes = {
+  ROUND_ROBIN_GROUP_CHAT: "RoundRobinGroupChat",
+  SELECTOR_GROUP_CHAT: "SelectorGroupChat",
+  SOCIAL_TEAM: "SocialTeam",
+  ASSISTANT_AGENT: "AssistantAgent",
+  MT_OPEN_AI_CHAT_COMPLETION_CLIENT: "MtOpenAIChatCompletionClient",
+  TEXT_MENTION_TERMINATION: "TextMentionTermination",
+} as const;
+
 export type AgEvent = {
   metadata?: ApiResourceMeta;
   userId?: string;
@@ -2407,7 +2425,7 @@ export type AssistantAgentConfig = {
   };
   model_client_stream?: boolean;
   system_message?: string;
-  model_client: MtOpenAiChatCompletionClientComponent;
+  model_client: MtOpenAiChatCompletionClient;
   tools: Array<{
     [key: string]: {
       [key: string]: unknown;
@@ -3269,7 +3287,7 @@ export type InstagramAgentConfig = AssistantAgentConfig & {
   proxy_url?: string;
 };
 
-export type MtOpenAiChatCompletionClientComponent = ComponentModel & {
+export type MtOpenAiChatCompletionClient = ComponentModel & {
   provider: "MtOpenAIChatCompletionClient";
   config: OpenAiClientConfigurationConfigModel;
 };

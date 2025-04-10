@@ -624,6 +624,25 @@ export const zWorkflowWorkersCount = z.object({
       ]),
       z.enum(["agent", "team", "termination"]),
       z.enum([
+        "RoundRobinGroupChat",
+        "SelectorGroupChat",
+        "SocialTeam",
+        "AssistantAgent",
+        "MtOpenAIChatCompletionClient",
+        "TextMentionTermination",
+      ]),
+      z.enum([
+        "ThoughtEvent",
+        "TextMessage",
+        "PlatformAccountFlowInput",
+        "ChatMessageInput",
+        "SocialAddFollowersInput",
+        "SocialLoginInput",
+        "TenantInitInput",
+        "AskUserFunctionCallInput",
+        "StartNewChatInput",
+      ]),
+      z.enum([
         "closure",
         "router",
         "user_proxy",
@@ -664,17 +683,6 @@ export const zWorkflowWorkersCount = z.object({
         type: z.enum(["PlatformAccountFlowInput"]).optional(),
         platform_account_id: z.string().optional(),
       }),
-      z.enum([
-        "ThoughtEvent",
-        "TextMessage",
-        "PlatformAccountFlowInput",
-        "ChatMessageInput",
-        "SocialAddFollowersInput",
-        "SocialLoginInput",
-        "TenantInitInput",
-        "AskUserFunctionCallInput",
-        "StartNewChatInput",
-      ]),
       z
         .object({
           type: z
@@ -3240,6 +3248,15 @@ export const zFlowNames = z.enum([
   "team",
 ]);
 
+export const zProviderTypes = z.enum([
+  "RoundRobinGroupChat",
+  "SelectorGroupChat",
+  "SocialTeam",
+  "AssistantAgent",
+  "MtOpenAIChatCompletionClient",
+  "TextMentionTermination",
+]);
+
 export const zAgEvent = z.object({
   metadata: zApiResourceMeta.optional(),
   userId: z.string().optional(),
@@ -4375,7 +4392,7 @@ export const zInstagramAgentConfig = zAssistantAgentConfig.merge(
   }),
 );
 
-export const zMtOpenAiChatCompletionClientComponent = zComponentModel.merge(
+export const zMtOpenAiChatCompletionClient = zComponentModel.merge(
   z.object({
     provider: z.enum(["MtOpenAIChatCompletionClient"]),
     config: zOpenAiClientConfigurationConfigModel,
