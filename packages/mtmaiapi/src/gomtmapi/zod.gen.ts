@@ -989,6 +989,7 @@ export const zWorkflowWorkersCount = z.object({
                       otp_key: z.string().optional(),
                     })
                     .optional(),
+                  proxy_url: z.string().optional(),
                 }),
               ),
           }),
@@ -1525,6 +1526,7 @@ export const zWorkflowWorkersCount = z.object({
                                               otp_key: z.string().optional(),
                                             })
                                             .optional(),
+                                          proxy_url: z.string().optional(),
                                         }),
                                       ),
                                   }),
@@ -1697,6 +1699,7 @@ export const zWorkflowWorkersCount = z.object({
                         allow_repeated_speaker: z.boolean().optional(),
                         max_selector_attempts: z.number().int().optional(),
                         selector_func: z.string().optional(),
+                        proxy_url: z.string().optional(),
                       }),
                     ),
                 }),
@@ -2043,6 +2046,7 @@ export const zWorkflowWorkersCount = z.object({
                             otp_key: z.string().optional(),
                           })
                           .optional(),
+                        proxy_url: z.string().optional(),
                       }),
                     ),
                 }),
@@ -2354,6 +2358,7 @@ export const zWorkflowWorkersCount = z.object({
                                         otp_key: z.string().optional(),
                                       })
                                       .optional(),
+                                    proxy_url: z.string().optional(),
                                   }),
                                 ),
                             }),
@@ -2502,6 +2507,7 @@ export const zWorkflowWorkersCount = z.object({
                   allow_repeated_speaker: z.boolean().optional(),
                   max_selector_attempts: z.number().int().optional(),
                   selector_func: z.string().optional(),
+                  proxy_url: z.string().optional(),
                 }),
               ),
           }),
@@ -2741,44 +2747,6 @@ export const zWorkflowWorkersCount = z.object({
         agent_states: z.object({}),
         type: z.enum(["TeamState"]),
       }),
-      z
-        .object({
-          type: z.enum([
-            "TeamState",
-            "RuntimeState",
-            "AssistantAgentState",
-            "RoundRobinManagerState",
-            "SelectorManagerState",
-            "SwarmManagerState",
-            "MagenticOneOrchestratorState",
-            "SocietyOfMindAgentState",
-            "ChatAgentContainerState",
-            "BaseGroupChatManagerState",
-          ]),
-          version: z.string().optional(),
-        })
-        .merge(z.unknown())
-        .merge(
-          z.object({
-            type: z.enum(["InstagramAgentState"]).optional(),
-            llm_context: z.unknown().optional(),
-            username: z.string().optional(),
-            password: z.string().optional(),
-            otp_key: z.string().optional(),
-            session_state: z.object({}).optional(),
-            is_wait_user_input: z.boolean().optional(),
-            ig_settings: z.object({}).optional(),
-            proxy_url: z.string().optional(),
-            platform_account_id: z.string().optional(),
-            credentials: z
-              .object({
-                username: z.string(),
-                password: z.string(),
-                otp_key: z.string().optional(),
-              })
-              .optional(),
-          }),
-        ),
       z.union([
         z
           .object({
@@ -2889,6 +2857,10 @@ export const zWorkflowWorkersCount = z.object({
                   type: z.enum(["SocialTeamManagerState"]),
                   next_speaker_index: z.number().int().optional().default(0),
                   previous_speaker: z.string().optional(),
+                  selector_prompt: z.string().optional(),
+                  allow_repeated_speaker: z.boolean().optional(),
+                  max_selector_attempts: z.number().int().optional(),
+                  selector_func: z.string().optional(),
                 }),
               ),
           ),
@@ -4470,6 +4442,7 @@ export const zTeamConfig = z.object({
                           otp_key: z.string().optional(),
                         })
                         .optional(),
+                      proxy_url: z.string().optional(),
                     }),
                   ),
               }),
@@ -5089,6 +5062,7 @@ export const zAgents = z.union([
                       otp_key: z.string().optional(),
                     })
                     .optional(),
+                  proxy_url: z.string().optional(),
                 }),
               ),
           }),
@@ -5233,6 +5207,10 @@ export const zAgentStates = z.union([
           type: z.enum(["SocialTeamManagerState"]),
           next_speaker_index: z.number().int().optional().default(0),
           previous_speaker: z.string().optional(),
+          selector_prompt: z.string().optional(),
+          allow_repeated_speaker: z.boolean().optional(),
+          max_selector_attempts: z.number().int().optional(),
+          selector_func: z.string().optional(),
         }),
       ),
     ),
@@ -5243,6 +5221,10 @@ export const zSocialTeamManagerState = zBaseState.merge(
     type: z.enum(["SocialTeamManagerState"]),
     next_speaker_index: z.number().int().optional().default(0),
     previous_speaker: z.string().optional(),
+    selector_prompt: z.string().optional(),
+    allow_repeated_speaker: z.boolean().optional(),
+    max_selector_attempts: z.number().int().optional(),
+    selector_func: z.string().optional(),
   }),
 );
 
@@ -5905,6 +5887,7 @@ export const zSocialTeamConfig = zTeamConfig.merge(
     allow_repeated_speaker: z.boolean().optional(),
     max_selector_attempts: z.number().int().optional(),
     selector_func: z.string().optional(),
+    proxy_url: z.string().optional(),
   }),
 );
 
@@ -6146,6 +6129,7 @@ export const zInstagramAgent = zComponentModel.merge(
     config: zAssistantAgentConfig.merge(
       z.object({
         credentials: zInstagramCredentials.optional(),
+        proxy_url: z.string().optional(),
       }),
     ),
   }),
@@ -6154,6 +6138,7 @@ export const zInstagramAgent = zComponentModel.merge(
 export const zInstagramAgentConfig = zAssistantAgentConfig.merge(
   z.object({
     credentials: zInstagramCredentials.optional(),
+    proxy_url: z.string().optional(),
   }),
 );
 

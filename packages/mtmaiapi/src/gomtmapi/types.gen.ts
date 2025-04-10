@@ -879,7 +879,6 @@ export type WorkflowWorkersCount = {
     | UserProxyAgent
     | OpenAiClientConfigurationConfigModel
     | TeamState
-    | InstagramAgentState
     | AgentStates;
 };
 
@@ -2455,6 +2454,10 @@ export type SocialTeamManagerState = BaseState & {
   type: "SocialTeamManagerState";
   next_speaker_index?: number;
   previous_speaker?: string;
+  selector_prompt?: string;
+  allow_repeated_speaker?: boolean;
+  max_selector_attempts?: number;
+  selector_func?: string;
 };
 
 export type FunctionCall = {
@@ -3186,6 +3189,7 @@ export type SocialTeamConfig = TeamConfig & {
   allow_repeated_speaker?: boolean;
   max_selector_attempts?: number;
   selector_func?: string;
+  proxy_url?: string;
 };
 
 export type SocialTeam = TeamComponent & {
@@ -3394,6 +3398,7 @@ export type InstagramAgent = ComponentModel & {
 
 export type InstagramAgentConfig = AssistantAgentConfig & {
   credentials?: InstagramCredentials;
+  proxy_url?: string;
 };
 
 export type OpenAiChatCompletionClient = ComponentModel & {

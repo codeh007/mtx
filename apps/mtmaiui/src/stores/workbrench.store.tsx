@@ -184,12 +184,8 @@ export const createWorkbrenchSlice: StateCreator<
       label: "social team",
       description: "social team",
       config: {
-        username: "saibichquyenll2015",
-        password: "qSJPn07c7",
-        otp_key: "MCF3M4XZHTFWKYXUGV4CQX3LFXMKMWFP",
         proxy_url: "http://localhost:10809",
-
-        max_turns: 10,
+        max_turns: 25,
         participants: [
           {
             provider: ProviderTypes.ASSISTANT_AGENT,
@@ -262,6 +258,12 @@ export const createWorkbrenchSlice: StateCreator<
               reflect_on_tool_use: false,
               tool_call_summary_format: "{result}",
               system_message: "你是instagram agent",
+              credentials: {
+                username: "saibichquyenll2015",
+                password: "qSJPn07c7",
+                otp_key: "MCF3M4XZHTFWKYXUGV4CQX3LFXMKMWFP",
+              },
+              proxy_url: "http://localhost:10809",
               model_client: {
                 provider: ProviderTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
                 config: {

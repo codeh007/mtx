@@ -1522,9 +1522,6 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/TeamState",
         },
         {
-          $ref: "#/components/schemas/InstagramAgentState",
-        },
-        {
           $ref: "#/components/schemas/AgentStates",
         },
       ],
@@ -3619,7 +3616,7 @@ export const InstagramAgentStateSchema = {
       $ref: "#/components/schemas/BaseState",
     },
     {
-      required: ["type"],
+      required: ["type", "credentials"],
     },
     {
       properties: {
@@ -4561,6 +4558,18 @@ export const SocialTeamManagerStateSchema = {
           default: 0,
         },
         previous_speaker: {
+          type: "string",
+        },
+        selector_prompt: {
+          type: "string",
+        },
+        allow_repeated_speaker: {
+          type: "boolean",
+        },
+        max_selector_attempts: {
+          type: "integer",
+        },
+        selector_func: {
           type: "string",
         },
       },
@@ -6197,6 +6206,9 @@ export const SocialTeamConfigSchema = {
         selector_func: {
           type: "string",
         },
+        proxy_url: {
+          type: "string",
+        },
       },
     },
   ],
@@ -6615,6 +6627,9 @@ export const InstagramAgentConfigSchema = {
       properties: {
         credentials: {
           $ref: "#/components/schemas/InstagramCredentials",
+        },
+        proxy_url: {
+          type: "string",
         },
       },
     },
