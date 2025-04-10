@@ -6,7 +6,7 @@ import {
   frontendGetConfig,
 } from "./gomtmapi";
 import { initMtiaiClient } from "./index";
-import { isInBuild } from "./util/sutils";
+// import { isInBuild } from "./util/sutils";
 
 const gomtmBackendToken: string | undefined = undefined;
 let cachedEndpointList: EndpointList | undefined = undefined;
@@ -108,10 +108,10 @@ export async function loadRemoteEnv() {
 
 // 获取前端配置数据
 export async function getFrontendConfig() {
-  if (isInBuild()) {
-    console.warn("在build 阶段,不加载FrontendConfig远程前端配置");
-    return {} as FrontendConfig;
-  }
+  // if (isInBuild()) {
+  //   console.warn("在build 阶段,不加载FrontendConfig远程前端配置");
+  //   return {} as FrontendConfig;
+  // }
   if (!cachedFrontendConfig) {
     try {
       cachedFrontendConfig = (await frontendGetConfig({})).data;
@@ -124,10 +124,10 @@ export async function getFrontendConfig() {
 }
 
 export async function getAccessToken() {
-  if (isInBuild()) {
-    console.warn("在build 阶段,不加载AccessToken");
-    return "";
-  }
+  // if (isInBuild()) {
+  //   console.warn("在build 阶段,不加载AccessToken");
+  //   return "";
+  // }
   return "";
 }
 
