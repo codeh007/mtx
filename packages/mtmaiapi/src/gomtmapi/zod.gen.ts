@@ -623,13 +623,12 @@ export const zWorkflowWorkersCount = z.object({
         "response",
       ]),
       z.enum([
-        "autogen_agentchat.teams.RoundRobinGroupChat",
-        "autogen_agentchat.teams.SelectorGroupChat",
-        "mtmai.teams.instagram_team.instagram_team.InstagramTeam",
-        "mtmai.teams.team_social.SocialTeam",
-        "autogen_agentchat.agents.AssistantAgent",
-        "mtmai.model_client.MtOpenAIChatCompletionClient",
-        "autogen_agentchat.conditions.TextMentionTermination",
+        "RoundRobinGroupChat",
+        "SelectorGroupChat",
+        "SocialTeam",
+        "AssistantAgent",
+        "MtOpenAIChatCompletionClient",
+        "TextMentionTermination",
       ]),
       z.enum(["agent", "team"]),
       z.enum([
@@ -4586,13 +4585,12 @@ export const zTeamRunResult = z.object({
 });
 
 export const zProviderTypes = z.enum([
-  "autogen_agentchat.teams.RoundRobinGroupChat",
-  "autogen_agentchat.teams.SelectorGroupChat",
-  "mtmai.teams.instagram_team.instagram_team.InstagramTeam",
-  "mtmai.teams.team_social.SocialTeam",
-  "autogen_agentchat.agents.AssistantAgent",
-  "mtmai.model_client.MtOpenAIChatCompletionClient",
-  "autogen_agentchat.conditions.TextMentionTermination",
+  "RoundRobinGroupChat",
+  "SelectorGroupChat",
+  "SocialTeam",
+  "AssistantAgent",
+  "MtOpenAIChatCompletionClient",
+  "TextMentionTermination",
 ]);
 
 export const zUserAgentState = z.object({

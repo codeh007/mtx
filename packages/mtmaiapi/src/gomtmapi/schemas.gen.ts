@@ -6789,13 +6789,12 @@ export const TeamRunResultSchema = {
 export const ProviderTypesSchema = {
   type: "string",
   enum: [
-    "autogen_agentchat.teams.RoundRobinGroupChat",
-    "autogen_agentchat.teams.SelectorGroupChat",
-    "mtmai.teams.instagram_team.instagram_team.InstagramTeam",
-    "mtmai.teams.team_social.SocialTeam",
-    "autogen_agentchat.agents.AssistantAgent",
-    "mtmai.model_client.MtOpenAIChatCompletionClient",
-    "autogen_agentchat.conditions.TextMentionTermination",
+    "RoundRobinGroupChat",
+    "SelectorGroupChat",
+    "SocialTeam",
+    "AssistantAgent",
+    "MtOpenAIChatCompletionClient",
+    "TextMentionTermination",
   ],
 } as const;
 

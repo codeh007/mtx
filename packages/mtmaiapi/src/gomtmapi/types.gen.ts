@@ -3434,28 +3434,20 @@ export type TeamRunResult = {
 };
 
 export type ProviderTypes =
-  | "autogen_agentchat.teams.RoundRobinGroupChat"
-  | "autogen_agentchat.teams.SelectorGroupChat"
-  | "mtmai.teams.instagram_team.instagram_team.InstagramTeam"
-  | "mtmai.teams.team_social.SocialTeam"
-  | "autogen_agentchat.agents.AssistantAgent"
-  | "mtmai.model_client.MtOpenAIChatCompletionClient"
-  | "autogen_agentchat.conditions.TextMentionTermination";
+  | "RoundRobinGroupChat"
+  | "SelectorGroupChat"
+  | "SocialTeam"
+  | "AssistantAgent"
+  | "MtOpenAIChatCompletionClient"
+  | "TextMentionTermination";
 
 export const ProviderTypes = {
-  AUTOGEN_AGENTCHAT_TEAMS_ROUND_ROBIN_GROUP_CHAT:
-    "autogen_agentchat.teams.RoundRobinGroupChat",
-  AUTOGEN_AGENTCHAT_TEAMS_SELECTOR_GROUP_CHAT:
-    "autogen_agentchat.teams.SelectorGroupChat",
-  MTMAI_TEAMS_INSTAGRAM_TEAM_INSTAGRAM_TEAM_INSTAGRAM_TEAM:
-    "mtmai.teams.instagram_team.instagram_team.InstagramTeam",
-  MTMAI_TEAMS_TEAM_SOCIAL_SOCIAL_TEAM: "mtmai.teams.team_social.SocialTeam",
-  AUTOGEN_AGENTCHAT_AGENTS_ASSISTANT_AGENT:
-    "autogen_agentchat.agents.AssistantAgent",
-  MTMAI_MODEL_CLIENT_MT_OPEN_AI_CHAT_COMPLETION_CLIENT:
-    "mtmai.model_client.MtOpenAIChatCompletionClient",
-  AUTOGEN_AGENTCHAT_CONDITIONS_TEXT_MENTION_TERMINATION:
-    "autogen_agentchat.conditions.TextMentionTermination",
+  ROUND_ROBIN_GROUP_CHAT: "RoundRobinGroupChat",
+  SELECTOR_GROUP_CHAT: "SelectorGroupChat",
+  SOCIAL_TEAM: "SocialTeam",
+  ASSISTANT_AGENT: "AssistantAgent",
+  MT_OPEN_AI_CHAT_COMPLETION_CLIENT: "MtOpenAIChatCompletionClient",
+  TEXT_MENTION_TERMINATION: "TextMentionTermination",
 } as const;
 
 export type UserAgentState = {
