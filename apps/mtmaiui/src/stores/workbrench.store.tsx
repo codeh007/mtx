@@ -9,6 +9,7 @@ import {
 import { debounce } from "lodash";
 import {
   type AgState,
+  AgentEventType,
   type Agents,
   type ApiErrors,
   type AssistantAgent,
@@ -29,6 +30,7 @@ import {
   type StartNewChatInput,
   type Tenant,
   type Terminations,
+  type TextMessage,
   type UserAgentState,
   type UserProxyAgent,
   type UserProxyAgentConfig,
@@ -332,9 +334,13 @@ export const createWorkbrenchSlice: StateCreator<
           input: {
             component: get().team,
             session_id: sessionId,
-            task: task,
+            task: {
+              type: AgentEventType.TEXT_MESSAGE,
+              content: task,
+              source: "user",
+            } satisfies TextMessage,
             init_state: {},
-          },
+          } satisfies FlowTeamInput,
           additionalMetadata: {
             sessionId: sessionId,
           },

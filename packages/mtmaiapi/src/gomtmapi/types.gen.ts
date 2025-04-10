@@ -3163,12 +3163,6 @@ export type AgEvents =
       type?: "TextMessage";
     } & TextMessage)
   | ({
-      type?: "PlatformAccountFlowInput";
-    } & PlatformAccountFlowInput)
-  | ({
-      type?: "SocialAddFollowersInput";
-    } & SocialAddFollowersInput)
-  | ({
       type?: "SocialLoginInput";
     } & SocialLoginInput)
   | ({
@@ -3185,13 +3179,13 @@ export type AgEvents =
     } & StartNewChatInput);
 
 export type TextMessage = BaseTextChatMessage & {
-  type?: "TextMessage";
-  content?: string;
+  type: "TextMessage";
+  content: string;
 };
 
 export type ThoughtEvent = BaseAgentEvent & {
-  type?: "ThoughtEvent";
-  content?: string;
+  type: "ThoughtEvent";
+  content: string;
 };
 
 export type TenantInitInput = {
@@ -3264,7 +3258,7 @@ export type FlowTeamInput = {
   session_id: string;
   component: TeamComponent;
   task: AgEvents;
-  init_state: AgentStates;
+  init_state?: AgentStates;
 };
 
 export type PlatformAccountFlowInput = {
@@ -3349,7 +3343,7 @@ export type RequestUsage = {
 };
 
 export type BaseChatMessage = {
-  type: string;
+  type?: string;
   source: string;
   models_usage?: RequestUsage;
   metadata?: {
@@ -3358,18 +3352,16 @@ export type BaseChatMessage = {
   content: string;
 };
 
-export type BaseTextChatMessage = BaseChatMessage & {
-  type?: "BaseTextChatMessage";
-};
+export type BaseTextChatMessage = BaseChatMessage;
 
 export type StructuredMessage = BaseChatMessage & {
-  type?: "StructuredMessage";
-  content?: string;
+  type: "StructuredMessage";
+  content: string;
 };
 
 export type MultiModalMessage = BaseChatMessage & {
-  type?: "MultiModalMessage";
-  content?: string;
+  type: "MultiModalMessage";
+  content: string;
 };
 
 export type BaseAgentEvent = {

@@ -6072,12 +6072,6 @@ export const AgEventsSchema = {
       $ref: "#/components/schemas/TextMessage",
     },
     {
-      $ref: "#/components/schemas/PlatformAccountFlowInput",
-    },
-    {
-      $ref: "#/components/schemas/SocialAddFollowersInput",
-    },
-    {
       $ref: "#/components/schemas/SocialLoginInput",
     },
     {
@@ -6101,6 +6095,7 @@ export const TextMessageSchema = {
       $ref: "#/components/schemas/BaseTextChatMessage",
     },
     {
+      required: ["type", "content"],
       properties: {
         type: {
           type: "string",
@@ -6121,6 +6116,7 @@ export const ThoughtEventSchema = {
       $ref: "#/components/schemas/BaseAgentEvent",
     },
     {
+      required: ["type", "content"],
       properties: {
         type: {
           type: "string",
@@ -6325,7 +6321,7 @@ export const SocialAddFollowersInputSchema = {
 } as const;
 
 export const FlowTeamInputSchema = {
-  required: ["session_id", "component", "task", "init_state"],
+  required: ["session_id", "component", "task"],
   properties: {
     session_id: {
       type: "string",
@@ -6546,7 +6542,7 @@ export const RequestUsageSchema = {
 } as const;
 
 export const BaseChatMessageSchema = {
-  required: ["type", "content", "source"],
+  required: ["content", "source"],
   properties: {
     type: {
       type: "string",
@@ -6572,15 +6568,6 @@ export const BaseTextChatMessageSchema = {
     {
       $ref: "#/components/schemas/BaseChatMessage",
     },
-    {
-      properties: {
-        type: {
-          type: "string",
-          enum: ["BaseTextChatMessage"],
-          default: "BaseTextChatMessage",
-        },
-      },
-    },
   ],
 } as const;
 
@@ -6590,6 +6577,7 @@ export const StructuredMessageSchema = {
       $ref: "#/components/schemas/BaseChatMessage",
     },
     {
+      required: ["type", "content"],
       properties: {
         type: {
           type: "string",
@@ -6610,6 +6598,7 @@ export const MultiModalMessageSchema = {
       $ref: "#/components/schemas/BaseChatMessage",
     },
     {
+      required: ["type", "content"],
       properties: {
         type: {
           type: "string",
