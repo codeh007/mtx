@@ -854,11 +854,9 @@ export type WorkflowWorkersCount = {
     | BrowserTask
     | BrowserOpenTask
     | PlatformAccountFlowInput
-    | InstagramAgentState
     | FlowError
     | SocialAddFollowersInput
     | FlowTeamInput
-    | UserAgentState
     | CodeExecutionInput
     | CodeExecutionResult
     | SocialLoginInput
@@ -877,7 +875,10 @@ export type WorkflowWorkersCount = {
     | CodeExecutorAgent
     | SocietyOfMindAgent
     | UserProxyAgent
-    | OpenAiClientConfigurationConfigModel;
+    | OpenAiClientConfigurationConfigModel
+    | TeamState
+    | UserAgentState
+    | InstagramAgentState;
 };
 
 export type WorkflowRun = {
@@ -3512,6 +3513,13 @@ export type TeamRun = {
 
 export type TeamRunResult = {
   workflowRun?: WorkflowRun;
+};
+
+export type TeamState = {
+  agent_states: {
+    [key: string]: unknown;
+  };
+  type: "TeamState";
 };
 
 export type UserAgentState = {

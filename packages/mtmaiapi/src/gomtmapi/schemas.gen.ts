@@ -1447,9 +1447,6 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/PlatformAccountFlowInput",
         },
         {
-          $ref: "#/components/schemas/InstagramAgentState",
-        },
-        {
           $ref: "#/components/schemas/FlowError",
         },
         {
@@ -1457,9 +1454,6 @@ export const WorkflowWorkersCountSchema = {
         },
         {
           $ref: "#/components/schemas/FlowTeamInput",
-        },
-        {
-          $ref: "#/components/schemas/UserAgentState",
         },
         {
           $ref: "#/components/schemas/CodeExecutionInput",
@@ -1517,6 +1511,15 @@ export const WorkflowWorkersCountSchema = {
         },
         {
           $ref: "#/components/schemas/OpenAIClientConfigurationConfigModel",
+        },
+        {
+          $ref: "#/components/schemas/TeamState",
+        },
+        {
+          $ref: "#/components/schemas/UserAgentState",
+        },
+        {
+          $ref: "#/components/schemas/InstagramAgentState",
         },
       ],
     },
@@ -6107,6 +6110,7 @@ export const SocialTeamSchema = {
         provider: {
           type: "string",
           enum: ["SocialTeam"],
+          default: "SocialTeam",
         },
         component_type: {
           type: "string",
@@ -6784,6 +6788,7 @@ export const RoundRobinGroupChatSchema = {
         provider: {
           type: "string",
           enum: ["RoundRobinGroupChat"],
+          default: "RoundRobinGroupChat",
         },
         config: {
           $ref: "#/components/schemas/RoundRobinGroupChatConfig",
@@ -6890,6 +6895,20 @@ export const TeamRunResultSchema = {
   properties: {
     workflowRun: {
       $ref: "#/components/schemas/WorkflowRun",
+    },
+  },
+} as const;
+
+export const TeamStateSchema = {
+  required: ["agent_states", "type"],
+  properties: {
+    agent_states: {
+      type: "object",
+    },
+    type: {
+      type: "string",
+      enum: ["TeamState"],
+      default: "TeamState",
     },
   },
 } as const;

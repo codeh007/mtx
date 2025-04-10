@@ -706,38 +706,6 @@ export const zWorkflowWorkersCount = z.object({
         type: z.enum(["PlatformAccountFlowInput"]).optional(),
         platform_account_id: z.string().optional(),
       }),
-      z
-        .object({
-          type: z
-            .enum([
-              "TeamState",
-              "RuntimeState",
-              "AssistantAgentState",
-              "RoundRobinManagerState",
-              "SelectorManagerState",
-              "SwarmManagerState",
-              "MagenticOneOrchestratorState",
-              "SocietyOfMindAgentState",
-              "ChatAgentContainerState",
-              "BaseGroupChatManagerState",
-            ])
-            .optional(),
-          version: z.string().optional(),
-        })
-        .merge(
-          z.object({
-            type: z.enum(["InstagramAgentState"]).optional(),
-            llm_context: z.unknown().optional(),
-            username: z.string().optional(),
-            password: z.string().optional(),
-            otp_key: z.string().optional(),
-            session_state: z.object({}).optional(),
-            is_wait_user_input: z.boolean().optional(),
-            ig_settings: z.object({}).optional(),
-            proxy_url: z.string().optional(),
-            platform_account_id: z.string().optional(),
-          }),
-        ),
       z.object({
         type: z.string().optional(),
         error: z.string().optional(),
@@ -766,33 +734,6 @@ export const zWorkflowWorkersCount = z.object({
           ),
         task: z.string(),
         init_state: z.object({}),
-      }),
-      z.object({
-        type: z.enum(["UserAgentState"]).optional(),
-        model_context: z.unknown().optional(),
-        action_form: z
-          .object({
-            form_type: z.enum(["schema", "custom"]).optional(),
-            form_name: z.string().optional(),
-            title: z.string(),
-            description: z.string().optional(),
-            layout: z.enum(["vertical", "horizontal"]).optional(),
-            fields: z.array(
-              z.object({
-                type: z.enum(["text", "number", "boolean", "array", "object"]),
-                name: z.string(),
-                default_value: z.string().optional(),
-                label: z.string().optional(),
-                description: z.string().optional(),
-                required: z.boolean().optional(),
-                min: z.number().optional(),
-                max: z.number().optional(),
-                placeholder: z.string().optional(),
-              }),
-            ),
-          })
-          .optional(),
-        platform_account_id: z.string().optional(),
       }),
       z.object({
         code: z.string(),
@@ -1998,6 +1939,69 @@ export const zWorkflowWorkersCount = z.object({
           z.object({
             organization: z.string().optional(),
             base_url: z.string().optional(),
+          }),
+        ),
+      z.object({
+        agent_states: z.object({}),
+        type: z.enum(["TeamState"]),
+      }),
+      z.object({
+        type: z.enum(["UserAgentState"]).optional(),
+        model_context: z.unknown().optional(),
+        action_form: z
+          .object({
+            form_type: z.enum(["schema", "custom"]).optional(),
+            form_name: z.string().optional(),
+            title: z.string(),
+            description: z.string().optional(),
+            layout: z.enum(["vertical", "horizontal"]).optional(),
+            fields: z.array(
+              z.object({
+                type: z.enum(["text", "number", "boolean", "array", "object"]),
+                name: z.string(),
+                default_value: z.string().optional(),
+                label: z.string().optional(),
+                description: z.string().optional(),
+                required: z.boolean().optional(),
+                min: z.number().optional(),
+                max: z.number().optional(),
+                placeholder: z.string().optional(),
+              }),
+            ),
+          })
+          .optional(),
+        platform_account_id: z.string().optional(),
+      }),
+      z
+        .object({
+          type: z
+            .enum([
+              "TeamState",
+              "RuntimeState",
+              "AssistantAgentState",
+              "RoundRobinManagerState",
+              "SelectorManagerState",
+              "SwarmManagerState",
+              "MagenticOneOrchestratorState",
+              "SocietyOfMindAgentState",
+              "ChatAgentContainerState",
+              "BaseGroupChatManagerState",
+            ])
+            .optional(),
+          version: z.string().optional(),
+        })
+        .merge(
+          z.object({
+            type: z.enum(["InstagramAgentState"]).optional(),
+            llm_context: z.unknown().optional(),
+            username: z.string().optional(),
+            password: z.string().optional(),
+            otp_key: z.string().optional(),
+            session_state: z.object({}).optional(),
+            is_wait_user_input: z.boolean().optional(),
+            ig_settings: z.object({}).optional(),
+            proxy_url: z.string().optional(),
+            platform_account_id: z.string().optional(),
           }),
         ),
     ])
@@ -5121,6 +5125,11 @@ export const zTeamRun = z.object({
 
 export const zTeamRunResult = z.object({
   workflowRun: zWorkflowRun.optional(),
+});
+
+export const zTeamState = z.object({
+  agent_states: z.object({}),
+  type: z.enum(["TeamState"]),
 });
 
 export const zUserAgentState = z.object({
