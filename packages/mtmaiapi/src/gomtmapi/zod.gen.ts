@@ -707,7 +707,7 @@ export const zWorkflowWorkersCount = z.object({
         url: z.string(),
       }),
       z.object({
-        type: z.enum(["PlatformAccountFlowInput"]).optional(),
+        type: z.enum(["PlatformAccountFlowInput"]),
         platform_account_id: z.string().optional(),
       }),
       z.object({
@@ -2875,13 +2875,24 @@ export const zWorkflowWorkersCount = z.object({
             type: z.literal("ThoughtEvent").optional(),
           })
           .merge(
-            z.object({
-              type: z.enum(["ThoughtEvent"]),
-              source: z.string(),
-              content: z.string(),
-              metadata: z.object({}).optional(),
-              models_usage: z.object({}).optional(),
-            }),
+            z
+              .object({
+                type: z.string(),
+                source: z.string(),
+                models_usage: z
+                  .object({
+                    prompt_tokens: z.number().int(),
+                    completion_tokens: z.number().int(),
+                  })
+                  .optional(),
+                metadata: z.object({}).optional(),
+              })
+              .merge(
+                z.object({
+                  type: z.enum(["ThoughtEvent"]).optional(),
+                  content: z.string().optional(),
+                }),
+              ),
           ),
         z
           .object({
@@ -2909,6 +2920,7 @@ export const zWorkflowWorkersCount = z.object({
               .merge(
                 z.object({
                   type: z.enum(["TextMessage"]).optional(),
+                  content: z.string().optional(),
                 }),
               ),
           ),
@@ -2918,7 +2930,7 @@ export const zWorkflowWorkersCount = z.object({
           })
           .merge(
             z.object({
-              type: z.enum(["PlatformAccountFlowInput"]).optional(),
+              type: z.enum(["PlatformAccountFlowInput"]),
               platform_account_id: z.string().optional(),
             }),
           ),
@@ -5628,7 +5640,7 @@ export const zTextHighlight = z.object({
   selectedText: z.string(),
 });
 
-export const zMtLlmMessageTypes = z.enum([
+export const zLlmMessageTypes = z.enum([
   "AssistantMessage",
   "SystemMessage",
   "UserMessage",
@@ -6137,13 +6149,24 @@ export const zAgEvents = z.union([
       type: z.literal("ThoughtEvent").optional(),
     })
     .merge(
-      z.object({
-        type: z.enum(["ThoughtEvent"]),
-        source: z.string(),
-        content: z.string(),
-        metadata: z.object({}).optional(),
-        models_usage: z.object({}).optional(),
-      }),
+      z
+        .object({
+          type: z.string(),
+          source: z.string(),
+          models_usage: z
+            .object({
+              prompt_tokens: z.number().int(),
+              completion_tokens: z.number().int(),
+            })
+            .optional(),
+          metadata: z.object({}).optional(),
+        })
+        .merge(
+          z.object({
+            type: z.enum(["ThoughtEvent"]).optional(),
+            content: z.string().optional(),
+          }),
+        ),
     ),
   z
     .object({
@@ -6171,6 +6194,7 @@ export const zAgEvents = z.union([
         .merge(
           z.object({
             type: z.enum(["TextMessage"]).optional(),
+            content: z.string().optional(),
           }),
         ),
     ),
@@ -6180,7 +6204,7 @@ export const zAgEvents = z.union([
     })
     .merge(
       z.object({
-        type: z.enum(["PlatformAccountFlowInput"]).optional(),
+        type: z.enum(["PlatformAccountFlowInput"]),
         platform_account_id: z.string().optional(),
       }),
     ),
@@ -6264,16 +6288,28 @@ export const zTextMessage = z
   .merge(
     z.object({
       type: z.enum(["TextMessage"]).optional(),
+      content: z.string().optional(),
     }),
   );
 
-export const zThoughtEvent = z.object({
-  type: z.enum(["ThoughtEvent"]),
-  source: z.string(),
-  content: z.string(),
-  metadata: z.object({}).optional(),
-  models_usage: z.object({}).optional(),
-});
+export const zThoughtEvent = z
+  .object({
+    type: z.string(),
+    source: z.string(),
+    models_usage: z
+      .object({
+        prompt_tokens: z.number().int(),
+        completion_tokens: z.number().int(),
+      })
+      .optional(),
+    metadata: z.object({}).optional(),
+  })
+  .merge(
+    z.object({
+      type: z.enum(["ThoughtEvent"]).optional(),
+      content: z.string().optional(),
+    }),
+  );
 
 export const zTenantInitInput = z.object({
   type: z.enum(["TenantInitInput"]),
@@ -6355,7 +6391,7 @@ export const zFlowTeamInput = z.object({
 });
 
 export const zPlatformAccountFlowInput = z.object({
-  type: z.enum(["PlatformAccountFlowInput"]).optional(),
+  type: z.enum(["PlatformAccountFlowInput"]),
   platform_account_id: z.string().optional(),
 });
 
@@ -6423,7 +6459,7 @@ export const zFlowHandoffResult = z.object({
   name: z.string().optional(),
 });
 
-export const zMtLlmMessage = z.union([
+export const zLlmMessage = z.union([
   z
     .object({
       type: z.literal("UserMessage").optional(),
@@ -6500,6 +6536,27 @@ export const zBaseTextChatMessage = zBaseChatMessage.merge(
     type: z.enum(["BaseTextChatMessage"]).optional(),
   }),
 );
+
+export const zStructuredMessage = zBaseChatMessage.merge(
+  z.object({
+    type: z.enum(["StructuredMessage"]).optional(),
+    content: z.string().optional(),
+  }),
+);
+
+export const zMultiModalMessage = zBaseChatMessage.merge(
+  z.object({
+    type: z.enum(["MultiModalMessage"]).optional(),
+    content: z.string().optional(),
+  }),
+);
+
+export const zBaseAgentEvent = z.object({
+  type: z.string(),
+  source: z.string(),
+  models_usage: zRequestUsage.optional(),
+  metadata: z.object({}).optional(),
+});
 
 export const zAgentProperties = z.object({
   name: z.string(),

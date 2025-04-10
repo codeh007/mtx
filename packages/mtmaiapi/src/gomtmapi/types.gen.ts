@@ -1730,9 +1730,9 @@ export type Forbidden = unknown;
 export type NotFound = unknown;
 
 export type ChatMessageProperties = {
-  type: MtLlmMessageTypes;
+  type: LlmMessageTypes;
   content: string;
-  llm_message: MtLlmMessage;
+  llm_message: LlmMessage;
   content_type: "text" | "function_call";
   source: string;
   topic: string;
@@ -2539,13 +2539,13 @@ export type TextHighlight = {
   selectedText: string;
 };
 
-export type MtLlmMessageTypes =
+export type LlmMessageTypes =
   | "AssistantMessage"
   | "SystemMessage"
   | "UserMessage"
   | "FunctionExecutionResultMessage";
 
-export const MtLlmMessageTypes = {
+export const LlmMessageTypes = {
   ASSISTANT_MESSAGE: "AssistantMessage",
   SYSTEM_MESSAGE: "SystemMessage",
   USER_MESSAGE: "UserMessage",
@@ -3203,18 +3203,12 @@ export type AgEvents =
 
 export type TextMessage = BaseTextChatMessage & {
   type?: "TextMessage";
+  content?: string;
 };
 
-export type ThoughtEvent = {
-  type: "ThoughtEvent";
-  source: string;
-  content: string;
-  metadata?: {
-    [key: string]: unknown;
-  };
-  models_usage?: {
-    [key: string]: unknown;
-  };
+export type ThoughtEvent = BaseAgentEvent & {
+  type?: "ThoughtEvent";
+  content?: string;
 };
 
 export type TenantInitInput = {
@@ -3293,7 +3287,7 @@ export type FlowTeamInput = {
 };
 
 export type PlatformAccountFlowInput = {
-  type?: "PlatformAccountFlowInput";
+  type: "PlatformAccountFlowInput";
   platform_account_id?: string;
 };
 
@@ -3336,7 +3330,7 @@ export type FlowHandoffResult = {
   name?: string;
 };
 
-export type MtLlmMessage =
+export type LlmMessage =
   | ({
       type?: "UserMessage";
     } & UserMessage)
@@ -3385,6 +3379,25 @@ export type BaseChatMessage = {
 
 export type BaseTextChatMessage = BaseChatMessage & {
   type?: "BaseTextChatMessage";
+};
+
+export type StructuredMessage = BaseChatMessage & {
+  type?: "StructuredMessage";
+  content?: string;
+};
+
+export type MultiModalMessage = BaseChatMessage & {
+  type?: "MultiModalMessage";
+  content?: string;
+};
+
+export type BaseAgentEvent = {
+  type: string;
+  source: string;
+  models_usage?: RequestUsage;
+  metadata?: {
+    [key: string]: unknown;
+  };
 };
 
 export type AgentProperties = {

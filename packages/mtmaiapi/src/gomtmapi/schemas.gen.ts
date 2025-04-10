@@ -3119,13 +3119,13 @@ export const ChatMessagePropertiesSchema = {
   ],
   properties: {
     type: {
-      $ref: "#/components/schemas/MtLlmMessageTypes",
+      $ref: "#/components/schemas/LlmMessageTypes",
     },
     content: {
       type: "string",
     },
     llm_message: {
-      $ref: "#/components/schemas/MtLlmMessage",
+      $ref: "#/components/schemas/LlmMessage",
     },
     content_type: {
       type: "string",
@@ -4767,7 +4767,7 @@ export const TextHighlightSchema = {
   required: ["fullMarkdown", "markdownBlock", "selectedText"],
 } as const;
 
-export const MtLlmMessageTypesSchema = {
+export const LlmMessageTypesSchema = {
   type: "string",
   enum: [
     "AssistantMessage",
@@ -6158,34 +6158,32 @@ export const TextMessageSchema = {
           enum: ["TextMessage"],
           default: "TextMessage",
         },
+        content: {
+          type: "string",
+        },
       },
     },
   ],
 } as const;
 
 export const ThoughtEventSchema = {
-  required: ["type", "source", "content"],
-  properties: {
-    type: {
-      type: "string",
-      enum: ["ThoughtEvent"],
-      default: "ThoughtEvent",
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseAgentEvent",
     },
-    source: {
-      type: "string",
+    {
+      properties: {
+        type: {
+          type: "string",
+          enum: ["ThoughtEvent"],
+          default: "ThoughtEvent",
+        },
+        content: {
+          type: "string",
+        },
+      },
     },
-    content: {
-      type: "string",
-    },
-    metadata: {
-      type: "object",
-      additionalProperties: true,
-    },
-    models_usage: {
-      type: "object",
-      additionalProperties: true,
-    },
-  },
+  ],
 } as const;
 
 export const TenantInitInputSchema = {
@@ -6395,6 +6393,7 @@ export const FlowTeamInputSchema = {
 } as const;
 
 export const PlatformAccountFlowInputSchema = {
+  required: ["type"],
   properties: {
     type: {
       type: "string",
@@ -6506,7 +6505,7 @@ export const FlowHandoffResultSchema = {
   },
 } as const;
 
-export const MtLlmMessageSchema = {
+export const LlmMessageSchema = {
   discriminator: {
     propertyName: "type",
   },
@@ -6633,6 +6632,65 @@ export const BaseTextChatMessageSchema = {
       },
     },
   ],
+} as const;
+
+export const StructuredMessageSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseChatMessage",
+    },
+    {
+      properties: {
+        type: {
+          type: "string",
+          enum: ["StructuredMessage"],
+          default: "StructuredMessage",
+        },
+        content: {
+          type: "string",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const MultiModalMessageSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseChatMessage",
+    },
+    {
+      properties: {
+        type: {
+          type: "string",
+          enum: ["MultiModalMessage"],
+          default: "MultiModalMessage",
+        },
+        content: {
+          type: "string",
+        },
+      },
+    },
+  ],
+} as const;
+
+export const BaseAgentEventSchema = {
+  required: ["type", "source"],
+  properties: {
+    type: {
+      type: "string",
+    },
+    source: {
+      type: "string",
+    },
+    models_usage: {
+      $ref: "#/components/schemas/RequestUsage",
+    },
+    metadata: {
+      type: "object",
+      additionalProperties: true,
+    },
+  },
 } as const;
 
 export const AgentPropertiesSchema = {
