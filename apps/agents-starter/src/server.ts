@@ -1,21 +1,23 @@
-import { routeAgentRequest, type Schedule } from "agents";
+import { type Schedule, routeAgentRequest } from "agents";
 
 import { unstable_getSchedulePrompt } from "agents/schedule";
 
 import { AIChatAgent } from "agents/ai-chat-agent";
 import {
+  type StreamTextOnFinishCallback,
   createDataStreamResponse,
   generateId,
   streamText,
-  type StreamTextOnFinishCallback,
 } from "ai";
-import { openai } from "@ai-sdk/openai";
-import { processToolCalls } from "./utils";
-import { tools, executions } from "./tools";
 import { AsyncLocalStorage } from "node:async_hooks";
+import { createWorkersAI } from "workers-ai-provider";
+import { executions, tools } from "./tools";
+import { processToolCalls } from "./utils";
 // import { env } from "cloudflare:workers";
 
-const model = openai("gpt-4o-2024-11-20");
+// const model = openai("gpt-4o-2024-11-20");
+
+// import { createWorkersAI } from 'workers-ai-provider';
 // Cloudflare AI Gateway
 // const openai = createOpenAI({
 //   apiKey: env.OPENAI_API_KEY,
@@ -35,6 +37,9 @@ export class Chat extends AIChatAgent<Env> {
 
   // biome-ignore lint/complexity/noBannedTypes: <explanation>
   async onChatMessage(onFinish: StreamTextOnFinishCallback<{}>) {
+    const workersai = createWorkersAI({ binding: this.env.AI });
+    const model = workersai("@cf/meta/llama-3.1-8b-instruct", {});
+
     // Create a streaming response that handles both text and tool outputs
     return agentContext.run(this, async () => {
       const dataStreamResponse = createDataStreamResponse({
@@ -102,7 +107,7 @@ export default {
     }
     if (!process.env.OPENAI_API_KEY) {
       console.error(
-        "OPENAI_API_KEY is not set, don't forget to set it locally in .dev.vars, and use `wrangler secret bulk .dev.vars` to upload it to production"
+        "OPENAI_API_KEY is not set, don't forget to set it locally in .dev.vars, and use `wrangler secret bulk .dev.vars` to upload it to production",
       );
     }
     return (
