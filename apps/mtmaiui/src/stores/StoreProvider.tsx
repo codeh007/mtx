@@ -7,7 +7,7 @@ import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
-import { MtSessionProvider } from "./MtSessionProvider";
+import { useSessionLoader } from "../hooks/useAuth";
 import ReactQueryProvider from "./ReactQueryProvider";
 import { MtTransportProvider } from "./TransportProvider";
 import { type HatchetSliceState, createHatchetSlice } from "./hatchet.slice";
@@ -134,6 +134,7 @@ export const MtmaiProvider = (props: AppProviderProps) => {
       x;
     });
   }, []);
+
   return (
     <mtmaiStoreContext.Provider value={mystore}>
       <ReactQueryProvider
@@ -141,9 +142,9 @@ export const MtmaiProvider = (props: AppProviderProps) => {
         accessToken={etc.accessToken as string}
         host={etc.hostName as string}
       >
-        <MtSessionProvider>
+        <MtSession>
           <MtTransportProvider>{children}</MtTransportProvider>
-        </MtSessionProvider>
+        </MtSession>
       </ReactQueryProvider>
     </mtmaiStoreContext.Provider>
   );
@@ -166,3 +167,8 @@ export function useMtmaiV2<T>(selector?: (state: MainStoreStateV2) => T) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return useStore(store);
 }
+
+const MtSession = ({ children }: { children: React.ReactNode }) => {
+  useSessionLoader();
+  return <>{children}</>;
+};

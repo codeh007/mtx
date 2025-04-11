@@ -1,12 +1,9 @@
 "use client";
 
-import type {
-  AgState,
-  AgentStates,
-  ChatAgentContainerState,
-  SocialTeamManagerState,
-} from "mtmaiapi";
+import type { AgState, AgentStates } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
+import { AssistantAgentStateView } from "./AssistantAgentStateView";
+import { SocialTeamManagerStateView } from "./SocialTeamManagerStateView";
 
 interface RuntimeStateViewProps {
   state: AgState;
@@ -45,32 +42,6 @@ const AgentStateView = ({ agentState }: { agentState: AgentStates }) => {
           unknown agent state type <DebugValue data={agentState} />
         </div>
       )}
-    </div>
-  );
-};
-
-interface AssistantAgentStateViewProps {
-  state: ChatAgentContainerState;
-}
-const AssistantAgentStateView = ({ state }: AssistantAgentStateViewProps) => {
-  return (
-    <div className="bg-yellow-100 p-2 rounded-md">
-      AssistantAgentStateView
-      <DebugValue data={state} />
-    </div>
-  );
-};
-
-interface SocialTeamManagerStateViewProps {
-  state: SocialTeamManagerState;
-}
-const SocialTeamManagerStateView = ({
-  state,
-}: SocialTeamManagerStateViewProps) => {
-  return (
-    <div className="bg-green-100 p-2 rounded-md">
-      SocialTeamManagerStateView
-      <DebugValue data={state} />
     </div>
   );
 };

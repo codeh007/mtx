@@ -8,7 +8,6 @@ import {
 } from "@tanstack/react-query";
 import { debounce } from "lodash";
 import {
-  type AgState,
   AgentEventType,
   type Agents,
   type ApiErrors,
@@ -27,6 +26,7 @@ import {
   ProviderTypes,
   type SocialTeam,
   type SocialTeamConfig,
+  type SocialTeamManagerState,
   type StartNewChatInput,
   type Tenant,
   type Terminations,
@@ -65,9 +65,8 @@ import { useGomtmClient } from "./TransportProvider";
 import { handleWorkflowRunEvent } from "./ag-event-handlers";
 
 export interface WorkbenchProps {
-  // componentId?: string;
   threadId?: string;
-  teamState?: AgState;
+  teamState?: SocialTeamManagerState;
   resourceId?: string;
 }
 const DEFAULT_AGENT_FLOW_SETTINGS = {
@@ -130,7 +129,7 @@ export interface WorkbrenchState extends WorkbenchProps {
   setFirstTokenReceived: (firstTokenReceived: boolean) => void;
   addMessage: (message: ChatMessage) => void;
   setResourceId: (resourceId: string) => void;
-  setTeamState: (teamState: AgState) => void;
+  setTeamState: (teamState: SocialTeamManagerState) => void;
   loadChatMessageList: (response?: ChatMessageList) => void;
   workflowRunCreateMut: UseMutationResult<
     WorkflowRun,

@@ -1,7 +1,6 @@
 "use client";
 
 import { Label } from "@radix-ui/react-dropdown-menu";
-import type { MtComponent } from "mtmaiapi";
 import { cn, generateUUID } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
@@ -17,7 +16,7 @@ import {
 import { IconPlus } from "mtxuilib/icons/icons-ai";
 import { Switch } from "mtxuilib/ui/switch";
 import { type ChangeEvent, useMemo } from "react";
-import { useComponentsStore } from "../../stores/componentsProvider";
+// import { useComponentsStore } from "../../stores/componentsProvider";
 
 export function NavComs() {
   // const { comId } = useParams();
