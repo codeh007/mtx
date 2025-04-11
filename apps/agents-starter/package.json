@@ -6,12 +6,12 @@
   "private": true,
   "scripts": {
     "start": "vite dev",
-    "deploy": "vite build && wrangler deploy",
+    "deploy": "bun run withEnv -- vite build && wrangler deploy",
     "test": "vitest",
     "types": "wrangler types",
     "format": "prettier --write .",
     "check": "prettier . --check && biome lint && tsc",
-    "withEnv": "dotenv -e ../../../gomtm/env/mtmaiui.env --"
+    "withEnv": "dotenv -e ../../../gomtm/env/dev.env --"
   },
   "keywords": ["cloudflare", "ai", "agents"],
   "author": "",
