@@ -1,7 +1,6 @@
 "use client";
 
-import { TooltipContent } from "@radix-ui/react-tooltip";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Icons } from "../../icons/icons";
 import { Button } from "../../ui/button";
 import {
@@ -12,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../../ui/dialog";
-import { Tooltip, TooltipTrigger } from "../../ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../../ui/tooltip";
 
 export const DebugValue = (props: {
   title?: string;
@@ -25,6 +24,10 @@ export const DebugValue = (props: {
   if (process.env.NODE_ENV === "production") {
     return null;
   }
+
+  const jsonFull = useMemo(() => JSON.stringify(data, null, 2), [data]);
+  const jsonSummary = useMemo(() => JSON.stringify(data, null, 2), [data]);
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -43,16 +46,15 @@ export const DebugValue = (props: {
               <Icons.bug className="size-4" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent>{title}</TooltipContent>
+          <TooltipContent>{jsonSummary}</TooltipContent>
         </Tooltip>
       </DialogTrigger>
       <DialogContent className="max-h-lvh w-full overflow-scroll min-w-xl ">
         <DialogTitle>{title}</DialogTitle>
-
         <DialogHeader>
           <DialogDescription className="text-sm"> </DialogDescription>
         </DialogHeader>
-        <pre className=" text-xs">{JSON.stringify(data, null, 2)}</pre>
+        <pre className=" text-xs">{jsonFull}</pre>
       </DialogContent>
     </Dialog>
   );

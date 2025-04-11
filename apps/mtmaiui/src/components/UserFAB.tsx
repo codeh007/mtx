@@ -28,6 +28,7 @@ import {
   adminResetDbMutation,
   frontendGetSiderbarOptions,
 } from "mtmaiapi";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useUser } from "../hooks/useAuth";
@@ -66,7 +67,9 @@ export const UserFAB = () => {
           <DropdownMenuContent className="w-56">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <UserFABDropdownMenuContent />
+            <MtSuspenseBoundary>
+              <UserFABDropdownMenuContent />
+            </MtSuspenseBoundary>
             <DropdownMenuSeparator />
             <AdminFABDropdownMenuContent />
             <DropdownMenuSeparator />

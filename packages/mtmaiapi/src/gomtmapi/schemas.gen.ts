@@ -1426,18 +1426,6 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/AgentTypes",
         },
         {
-          $ref: "#/components/schemas/BrowserData",
-        },
-        {
-          $ref: "#/components/schemas/PlatformAccountData",
-        },
-        {
-          $ref: "#/components/schemas/BrowserTask",
-        },
-        {
-          $ref: "#/components/schemas/BrowserOpenTask",
-        },
-        {
           $ref: "#/components/schemas/FlowError",
         },
         {
@@ -1456,19 +1444,7 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/FlowResult",
         },
         {
-          $ref: "#/components/schemas/ChatStartInput",
-        },
-        {
-          $ref: "#/components/schemas/UserInputRequestedEvent",
-        },
-        {
           $ref: "#/components/schemas/SocialTeam",
-        },
-        {
-          $ref: "#/components/schemas/AgentStates",
-        },
-        {
-          $ref: "#/components/schemas/AgEvents",
         },
       ],
     },
@@ -3531,7 +3507,7 @@ export const AgStatePropertiesSchema = {
       type: "string",
     },
     state: {
-      type: "object",
+      $ref: "#/components/schemas/AgentStates",
     },
   },
 } as const;
@@ -3735,6 +3711,13 @@ export const SocialTeamManagerStateSchema = {
         selector_func: {
           type: "string",
         },
+        current_turn: {
+          type: "integer",
+          default: 0,
+        },
+        message_thread: {
+          $ref: "#/components/schemas/MessageThread",
+        },
       },
     },
   ],
@@ -3862,26 +3845,6 @@ export const CodeExecutionResultSchema = {
     success: {
       type: "boolean",
       description: "Whether the code execution was successful",
-    },
-  },
-} as const;
-
-export const SocialLoginInputSchema = {
-  required: ["type", "username", "password"],
-  properties: {
-    type: {
-      type: "string",
-      enum: ["SocialLoginInput"],
-      default: "SocialLoginInput",
-    },
-    username: {
-      type: "string",
-    },
-    password: {
-      type: "string",
-    },
-    otp_key: {
-      type: "string",
     },
   },
 } as const;
@@ -6672,6 +6635,60 @@ export const BaseAgentEventSchema = {
       type: "object",
       additionalProperties: true,
     },
+  },
+} as const;
+
+export const HandoffMessageSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseTextChatMessage",
+    },
+    {
+      required: ["type", "content"],
+      properties: {
+        type: {
+          type: "string",
+          enum: ["HandoffMessage"],
+          default: "HandoffMessage",
+        },
+        target: {
+          type: "string",
+        },
+        context: {
+          type: "array",
+          items: {
+            $ref: "#/components/schemas/LlmMessage",
+          },
+        },
+      },
+    },
+  ],
+} as const;
+
+export const SocialLoginInputSchema = {
+  required: ["type", "username", "password"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["SocialLoginInput"],
+      default: "SocialLoginInput",
+    },
+    username: {
+      type: "string",
+    },
+    password: {
+      type: "string",
+    },
+    otp_key: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const MessageThreadSchema = {
+  type: "array",
+  items: {
+    $ref: "#/components/schemas/AgEvents",
   },
 } as const;
 

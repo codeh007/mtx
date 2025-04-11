@@ -1,8 +1,6 @@
-import { Tooltip } from "@radix-ui/react-tooltip";
 import { AlertTriangle, X, XCircle } from "lucide-react";
+import { BetterTooltip } from "mtxuilib/ui/tooltip";
 import React from "react";
-// import { Tooltip } from "antd";
-// import { ValidationResponse } from "../api";
 
 interface ValidationErrorViewProps {
   // validation: ValidationResponse;
@@ -24,14 +22,14 @@ const ValidationErrorView: React.FC<ValidationErrorViewProps> = ({
       style={{ opacity: 0.95 }}
       onClick={(e) => e.stopPropagation()}
     >
-      <Tooltip title="Close">
+      <BetterTooltip content="Close">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 p-2 rounded-full bg-tertiary  hover:bg-secondary text-primary transition-colors"
         >
           <X size={24} />
         </button>
-      </Tooltip>
+      </BetterTooltip>
 
       <div className="space-y-4">
         <div className="flex items-center gap-2 mb-4">

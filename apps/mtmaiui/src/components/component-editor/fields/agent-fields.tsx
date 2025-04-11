@@ -1,6 +1,5 @@
-import { TooltipContent, TooltipTrigger } from "@radix-ui/react-tooltip";
 import { Edit, HelpCircle, PlusCircle, Trash2 } from "lucide-react";
-import type { MtComponent } from "mtmaiapi";
+import type { Component } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
 import {
@@ -13,11 +12,11 @@ import {
 import { Input } from "mtxuilib/ui/input";
 import { Switch } from "mtxuilib/ui/switch";
 import { Textarea } from "mtxuilib/ui/textarea";
-import { Tooltip } from "mtxuilib/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import React, { useCallback } from "react";
 import { useFormContext } from "react-hook-form";
 import type {
-  Component,
+  // Component,
   FunctionToolConfig,
 } from "../../autogen_views/types/datamodel";
 import {
@@ -27,11 +26,11 @@ import {
 } from "../../autogen_views/types/guards";
 
 interface AgentFieldsProps {
-  component: MtComponent;
-  onChange: (updates: Partial<MtComponent>) => void;
+  component: Component;
+  onChange: (updates: Partial<Component>) => void;
   onNavigate?: (componentType: string, id: string, parentField: string) => void;
-  workingCopy?: MtComponent | null;
-  setWorkingCopy?: (component: MtComponent | null) => void;
+  workingCopy?: Component | null;
+  setWorkingCopy?: (component: Component | null) => void;
   editPath?: any[];
   updateComponentAtPath?: any;
   getCurrentComponent?: any;
@@ -79,7 +78,7 @@ export const AgentFields = ({
   if (!component) return null;
 
   const handleComponentUpdate = useCallback(
-    (updates: Partial<MtComponent>) => {
+    (updates: Partial<Component>) => {
       onChange({
         ...component,
         ...updates,

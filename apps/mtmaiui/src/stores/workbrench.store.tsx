@@ -150,6 +150,7 @@ export interface WorkbrenchState extends WorkbenchProps {
 
   team: SocialTeam;
   setTeam: (team: SocialTeam) => void;
+  refetchTeamState: () => Promise<void>;
 }
 
 export const createWorkbrenchSlice: StateCreator<
@@ -402,6 +403,9 @@ export const createWorkbrenchSlice: StateCreator<
     agentFlow: DEFAULT_AGENT_FLOW_SETTINGS,
     setTeamState: (teamState) => {
       set({ teamState });
+    },
+    refetchTeamState: async () => {
+      set({ teamState: undefined });
     },
     setUserAgentState: (userAgentState) => {
       set({ userAgentState });

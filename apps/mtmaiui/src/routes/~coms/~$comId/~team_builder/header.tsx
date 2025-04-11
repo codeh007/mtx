@@ -1,10 +1,4 @@
 "use client";
-
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@radix-ui/react-tooltip";
 import { Download, Play, Save } from "lucide-react";
 import { DashHeaders, HeaderActionConainer } from "mtxuilib/mt/DashContent";
 import {
@@ -14,9 +8,10 @@ import {
   BreadcrumbPage,
 } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
-import { useNav } from "../../../../hooks/useNav";
+import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import { TeamBuilderToolbar } from "../../../../components/autogen_views/team/builder/toolbar";
 import { ValidationErrors } from "../../../../components/autogen_views/team/builder/validationerrors";
+import { useNav } from "../../../../hooks/useNav";
 import { useTeamBuilderStore } from "../../../../stores/teamBuildStore";
 
 interface TeamBuilderHeaderProps {

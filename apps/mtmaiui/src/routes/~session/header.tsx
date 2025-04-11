@@ -18,20 +18,16 @@ import { useSidebar } from "mtxuilib/ui/sidebar";
 import { BetterTooltip } from "mtxuilib/ui/tooltip";
 import { useWindowSize } from "usehooks-ts";
 import { useSearch } from "../../hooks/useNav";
-import { useTeamSessionStore } from "../../stores/teamSessionProvider";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 
 export function SessionHeader() {
-  const componentId = useTeamSessionStore((x) => x.componentId);
   const sessionId = useWorkbenchStore((x) => x.threadId);
   const search = useSearch();
   const { open } = useSidebar();
   const { width: windowWidth } = useWindowSize();
   const openWorkbench = useWorkbenchStore((x) => x.openWorkbench);
   const setOpenWorkbench = useWorkbenchStore((x) => x.setOpenWorkbench);
-  const openChat = useWorkbenchStore((x) => x.openChat);
-  // const setOpenChat = useWorkbenchStore((x) => x.setOpenChat);
-  // const canHideChat = openWorkbench || !openChat;
+  // const openChat = useWorkbenchStore((x) => x.openChat);
 
   const chatSessionId = useWorkbenchStore((x) => x.threadId);
   return (
@@ -40,7 +36,7 @@ export function SessionHeader() {
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <CustomLink to={`/coms/${componentId}/view`}>组件</CustomLink>
+              {/* <CustomLink to={`/coms/${componentId}/view`}>组件</CustomLink> */}
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />

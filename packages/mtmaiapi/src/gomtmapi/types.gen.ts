@@ -847,21 +847,13 @@ export type WorkflowWorkersCount = {
     | AgentEventType
     | AgentStateTypes
     | AgentTypes
-    | BrowserData
-    | PlatformAccountData
-    | BrowserTask
-    | BrowserOpenTask
     | FlowError
     | FlowTeamInput
     | CodeExecutionResult
     | SocialLoginInput
     | SocialLoginResult
     | FlowResult
-    | ChatStartInput
-    | UserInputRequestedEvent
-    | SocialTeam
-    | AgentStates
-    | AgEvents;
+    | SocialTeam;
 };
 
 export type WorkflowRun = {
@@ -1950,9 +1942,7 @@ export type AgStateProperties = {
   chatId?: string;
   topic: string;
   source: string;
-  state: {
-    [key: string]: unknown;
-  };
+  state: AgentStates;
 };
 
 export type AgState = ApiResourceMetaProperties & AgStateProperties;
@@ -2025,6 +2015,8 @@ export type SocialTeamManagerState = BaseState & {
   allow_repeated_speaker?: boolean;
   max_selector_attempts?: number;
   selector_func?: string;
+  current_turn?: number;
+  message_thread?: MessageThread;
 };
 
 export type InstagramCredentials = {
@@ -2109,13 +2101,6 @@ export type CodeExecutionResult = {
    * Whether the code execution was successful
    */
   success: boolean;
-};
-
-export type SocialLoginInput = {
-  type: "SocialLoginInput";
-  username: string;
-  password: string;
-  otp_key?: string;
 };
 
 export type SocialLoginResult = {
@@ -3388,6 +3373,21 @@ export type BaseAgentEvent = {
     [key: string]: unknown;
   };
 };
+
+export type HandoffMessage = BaseTextChatMessage & {
+  type: "HandoffMessage";
+  target?: string;
+  context?: Array<LlmMessage>;
+};
+
+export type SocialLoginInput = {
+  type: "SocialLoginInput";
+  username: string;
+  password: string;
+  otp_key?: string;
+};
+
+export type MessageThread = Array<AgEvents>;
 
 export type AgentProperties = {
   name: string;

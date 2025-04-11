@@ -1,7 +1,6 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { RootAppWrapper } from "../../components/RootAppWrapper";
-import { TeamSessionProvider } from "../../stores/teamSessionProvider";
 import { WorkbrenchProvider } from "../../stores/workbrench.store";
 import { NavSession } from "./siderbar";
 
@@ -10,16 +9,14 @@ export const Route = createLazyFileRoute("/session")({
 });
 
 function RouteComponent() {
-  const { comId } = Route.useSearch();
+  // const { comId } = Route.useSearch();
   return (
     <WorkbrenchProvider>
-      <TeamSessionProvider componentId={comId}>
-        <RootAppWrapper secondSidebar={<NavSession />}>
-          <MtSuspenseBoundary>
-            <Outlet />
-          </MtSuspenseBoundary>
-        </RootAppWrapper>
-      </TeamSessionProvider>
+      <RootAppWrapper secondSidebar={<NavSession />}>
+        <MtSuspenseBoundary>
+          <Outlet />
+        </MtSuspenseBoundary>
+      </RootAppWrapper>
     </WorkbrenchProvider>
   );
 }
