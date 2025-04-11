@@ -655,7 +655,6 @@ export const zWorkflowWorkersCount = z.object({
       ]),
       z.enum([
         "InstagramAgentState",
-        "UserProxyAgentState",
         "SocialTeamManagerState",
         "TeamState",
         "RuntimeState",
@@ -1287,7 +1286,6 @@ export const zWorkflowWorkersCount = z.object({
                   .object({
                     type: z.enum([
                       "InstagramAgentState",
-                      "UserProxyAgentState",
                       "SocialTeamManagerState",
                       "TeamState",
                       "RuntimeState",
@@ -1302,10 +1300,9 @@ export const zWorkflowWorkersCount = z.object({
                     ]),
                     version: z.string().optional(),
                   })
-                  .merge(z.unknown())
                   .merge(
                     z.object({
-                      type: z.enum(["InstagramAgentState"]).optional(),
+                      type: z.enum(["InstagramAgentState"]),
                       llm_context: z.unknown().optional(),
                       username: z.string().optional(),
                       password: z.string().optional(),
@@ -1327,45 +1324,6 @@ export const zWorkflowWorkersCount = z.object({
               ),
             z
               .object({
-                type: z.literal("UserProxyAgentState").optional(),
-              })
-              .merge(
-                z.object({
-                  type: z.enum(["UserProxyAgentState"]),
-                  model_context: z.unknown().optional(),
-                  action_form: z
-                    .object({
-                      form_type: z.enum(["schema", "custom"]).optional(),
-                      form_name: z.string().optional(),
-                      title: z.string(),
-                      description: z.string().optional(),
-                      layout: z.enum(["vertical", "horizontal"]).optional(),
-                      fields: z.array(
-                        z.object({
-                          type: z.enum([
-                            "text",
-                            "number",
-                            "boolean",
-                            "array",
-                            "object",
-                          ]),
-                          name: z.string(),
-                          default_value: z.string().optional(),
-                          label: z.string().optional(),
-                          description: z.string().optional(),
-                          required: z.boolean().optional(),
-                          min: z.number().optional(),
-                          max: z.number().optional(),
-                          placeholder: z.string().optional(),
-                        }),
-                      ),
-                    })
-                    .optional(),
-                  platform_account_id: z.string().optional(),
-                }),
-              ),
-            z
-              .object({
                 type: z.literal("SocialTeamManagerState").optional(),
               })
               .merge(
@@ -1373,7 +1331,6 @@ export const zWorkflowWorkersCount = z.object({
                   .object({
                     type: z.enum([
                       "InstagramAgentState",
-                      "UserProxyAgentState",
                       "SocialTeamManagerState",
                       "TeamState",
                       "RuntimeState",
@@ -2219,7 +2176,6 @@ export const zWorkflowWorkersCount = z.object({
                   .object({
                     type: z.enum([
                       "InstagramAgentState",
-                      "UserProxyAgentState",
                       "SocialTeamManagerState",
                       "TeamState",
                       "RuntimeState",
@@ -3811,7 +3767,6 @@ export const zArtifact = z.object({
 export const zAgStateProperties = z.object({
   type: z.enum([
     "InstagramAgentState",
-    "UserProxyAgentState",
     "SocialTeamManagerState",
     "TeamState",
     "RuntimeState",
@@ -3837,7 +3792,6 @@ export const zAgStateProperties = z.object({
           .object({
             type: z.enum([
               "InstagramAgentState",
-              "UserProxyAgentState",
               "SocialTeamManagerState",
               "TeamState",
               "RuntimeState",
@@ -3852,10 +3806,9 @@ export const zAgStateProperties = z.object({
             ]),
             version: z.string().optional(),
           })
-          .merge(z.unknown())
           .merge(
             z.object({
-              type: z.enum(["InstagramAgentState"]).optional(),
+              type: z.enum(["InstagramAgentState"]),
               llm_context: z.unknown().optional(),
               username: z.string().optional(),
               password: z.string().optional(),
@@ -3877,45 +3830,6 @@ export const zAgStateProperties = z.object({
       ),
     z
       .object({
-        type: z.literal("UserProxyAgentState").optional(),
-      })
-      .merge(
-        z.object({
-          type: z.enum(["UserProxyAgentState"]),
-          model_context: z.unknown().optional(),
-          action_form: z
-            .object({
-              form_type: z.enum(["schema", "custom"]).optional(),
-              form_name: z.string().optional(),
-              title: z.string(),
-              description: z.string().optional(),
-              layout: z.enum(["vertical", "horizontal"]).optional(),
-              fields: z.array(
-                z.object({
-                  type: z.enum([
-                    "text",
-                    "number",
-                    "boolean",
-                    "array",
-                    "object",
-                  ]),
-                  name: z.string(),
-                  default_value: z.string().optional(),
-                  label: z.string().optional(),
-                  description: z.string().optional(),
-                  required: z.boolean().optional(),
-                  min: z.number().optional(),
-                  max: z.number().optional(),
-                  placeholder: z.string().optional(),
-                }),
-              ),
-            })
-            .optional(),
-          platform_account_id: z.string().optional(),
-        }),
-      ),
-    z
-      .object({
         type: z.literal("SocialTeamManagerState").optional(),
       })
       .merge(
@@ -3923,7 +3837,6 @@ export const zAgStateProperties = z.object({
           .object({
             type: z.enum([
               "InstagramAgentState",
-              "UserProxyAgentState",
               "SocialTeamManagerState",
               "TeamState",
               "RuntimeState",
@@ -4660,7 +4573,6 @@ export const zAgStateProperties = z.object({
           .object({
             type: z.enum([
               "InstagramAgentState",
-              "UserProxyAgentState",
               "SocialTeamManagerState",
               "TeamState",
               "RuntimeState",
@@ -4698,7 +4610,6 @@ export const zAgStateUpsert = zAgStateProperties;
 export const zBaseState = z.object({
   type: z.enum([
     "InstagramAgentState",
-    "UserProxyAgentState",
     "SocialTeamManagerState",
     "TeamState",
     "RuntimeState",
@@ -4714,16 +4625,16 @@ export const zBaseState = z.object({
   version: z.string().optional(),
 });
 
-export const zAssistantAgentState = zBaseState.merge(z.unknown()).merge(
+export const zAssistantAgentState = zBaseState.merge(
   z.object({
-    type: z.enum(["AssistantAgentState"]).optional(),
+    type: z.enum(["AssistantAgentState"]),
     llm_context: z.unknown().optional(),
   }),
 );
 
-export const zInstagramAgentState = zBaseState.merge(z.unknown()).merge(
+export const zInstagramAgentState = zBaseState.merge(
   z.object({
-    type: z.enum(["InstagramAgentState"]).optional(),
+    type: z.enum(["InstagramAgentState"]),
     llm_context: z.unknown().optional(),
     username: z.string().optional(),
     password: z.string().optional(),
@@ -4757,39 +4668,6 @@ export const zAgentStates = z.union([
       type: z.literal("InstagramAgentState").optional(),
     })
     .merge(zInstagramAgentState),
-  z
-    .object({
-      type: z.literal("UserProxyAgentState").optional(),
-    })
-    .merge(
-      z.object({
-        type: z.enum(["UserProxyAgentState"]),
-        model_context: z.unknown().optional(),
-        action_form: z
-          .object({
-            form_type: z.enum(["schema", "custom"]).optional(),
-            form_name: z.string().optional(),
-            title: z.string(),
-            description: z.string().optional(),
-            layout: z.enum(["vertical", "horizontal"]).optional(),
-            fields: z.array(
-              z.object({
-                type: z.enum(["text", "number", "boolean", "array", "object"]),
-                name: z.string(),
-                default_value: z.string().optional(),
-                label: z.string().optional(),
-                description: z.string().optional(),
-                required: z.boolean().optional(),
-                min: z.number().optional(),
-                max: z.number().optional(),
-                placeholder: z.string().optional(),
-              }),
-            ),
-          })
-          .optional(),
-        platform_account_id: z.string().optional(),
-      }),
-    ),
   z
     .object({
       type: z.literal("SocialTeamManagerState").optional(),
@@ -6082,7 +5960,6 @@ export const zInstagramCredentials = z.object({
 
 export const zAgentStateTypes = z.enum([
   "InstagramAgentState",
-  "UserProxyAgentState",
   "SocialTeamManagerState",
   "TeamState",
   "RuntimeState",
@@ -6099,34 +5976,6 @@ export const zAgentStateTypes = z.enum([
 export const zTeamState = z.object({
   agent_states: z.object({}),
   type: z.enum(["TeamState"]),
-});
-
-export const zUserProxyAgentState = z.object({
-  type: z.enum(["UserProxyAgentState"]),
-  model_context: z.unknown().optional(),
-  action_form: z
-    .object({
-      form_type: z.enum(["schema", "custom"]).optional(),
-      form_name: z.string().optional(),
-      title: z.string(),
-      description: z.string().optional(),
-      layout: z.enum(["vertical", "horizontal"]).optional(),
-      fields: z.array(
-        z.object({
-          type: z.enum(["text", "number", "boolean", "array", "object"]),
-          name: z.string(),
-          default_value: z.string().optional(),
-          label: z.string().optional(),
-          description: z.string().optional(),
-          required: z.boolean().optional(),
-          min: z.number().optional(),
-          max: z.number().optional(),
-          placeholder: z.string().optional(),
-        }),
-      ),
-    })
-    .optional(),
-  platform_account_id: z.string().optional(),
 });
 
 export const zChatAgentContainerState = zBaseState.merge(

@@ -3565,8 +3565,6 @@ export const AssistantAgentStateSchema = {
     },
     {
       required: ["type"],
-    },
-    {
       properties: {
         type: {
           type: "string",
@@ -3588,8 +3586,6 @@ export const InstagramAgentStateSchema = {
     },
     {
       required: ["type"],
-    },
-    {
       properties: {
         type: {
           type: "string",
@@ -3663,9 +3659,6 @@ export const AgentStatesSchema = {
   oneOf: [
     {
       $ref: "#/components/schemas/InstagramAgentState",
-    },
-    {
-      $ref: "#/components/schemas/UserProxyAgentState",
     },
     {
       $ref: "#/components/schemas/SocialTeamManagerState",
@@ -3742,7 +3735,6 @@ export const AgentStateTypesSchema = {
   type: "string",
   enum: [
     "InstagramAgentState",
-    "UserProxyAgentState",
     "SocialTeamManagerState",
     "TeamState",
     "RuntimeState",
@@ -3767,25 +3759,6 @@ export const TeamStateSchema = {
       type: "string",
       enum: ["TeamState"],
       default: "TeamState",
-    },
-  },
-} as const;
-
-export const UserProxyAgentStateSchema = {
-  required: ["type"],
-  properties: {
-    type: {
-      type: "string",
-      enum: ["UserProxyAgentState"],
-    },
-    model_context: {
-      additionalProperties: true,
-    },
-    action_form: {
-      $ref: "#/components/schemas/SchemaForm",
-    },
-    platform_account_id: {
-      type: "string",
     },
   },
 } as const;

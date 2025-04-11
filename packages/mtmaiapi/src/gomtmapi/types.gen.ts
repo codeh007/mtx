@@ -1959,30 +1959,28 @@ export type BaseState = {
   version?: string;
 };
 
-export type AssistantAgentState = BaseState &
-  unknown & {
-    type?: "AssistantAgentState";
-    llm_context?: unknown;
-  };
+export type AssistantAgentState = BaseState & {
+  type: "AssistantAgentState";
+  llm_context?: unknown;
+};
 
-export type InstagramAgentState = BaseState &
-  unknown & {
-    type?: "InstagramAgentState";
-    llm_context?: unknown;
-    username?: string;
-    password?: string;
-    otp_key?: string;
-    session_state?: {
-      [key: string]: unknown;
-    };
-    is_wait_user_input?: boolean;
-    ig_settings?: {
-      [key: string]: unknown;
-    };
-    proxy_url?: string;
-    platform_account_id?: string;
-    credentials?: InstagramCredentials;
+export type InstagramAgentState = BaseState & {
+  type: "InstagramAgentState";
+  llm_context?: unknown;
+  username?: string;
+  password?: string;
+  otp_key?: string;
+  session_state?: {
+    [key: string]: unknown;
   };
+  is_wait_user_input?: boolean;
+  ig_settings?: {
+    [key: string]: unknown;
+  };
+  proxy_url?: string;
+  platform_account_id?: string;
+  credentials?: InstagramCredentials;
+};
 
 export type BaseGroupChatManagerState = BaseState & {
   type?: "BaseGroupChatManagerState";
@@ -1996,9 +1994,6 @@ export type AgentStates =
   | ({
       type?: "InstagramAgentState";
     } & InstagramAgentState)
-  | ({
-      type?: "UserProxyAgentState";
-    } & UserProxyAgentState)
   | ({
       type?: "SocialTeamManagerState";
     } & SocialTeamManagerState)
@@ -2027,7 +2022,6 @@ export type InstagramCredentials = {
 
 export type AgentStateTypes =
   | "InstagramAgentState"
-  | "UserProxyAgentState"
   | "SocialTeamManagerState"
   | "TeamState"
   | "RuntimeState"
@@ -2042,7 +2036,6 @@ export type AgentStateTypes =
 
 export const AgentStateTypes = {
   INSTAGRAM_AGENT_STATE: "InstagramAgentState",
-  USER_PROXY_AGENT_STATE: "UserProxyAgentState",
   SOCIAL_TEAM_MANAGER_STATE: "SocialTeamManagerState",
   TEAM_STATE: "TeamState",
   RUNTIME_STATE: "RuntimeState",
@@ -2061,13 +2054,6 @@ export type TeamState = {
     [key: string]: unknown;
   };
   type: "TeamState";
-};
-
-export type UserProxyAgentState = {
-  type: "UserProxyAgentState";
-  model_context?: unknown;
-  action_form?: SchemaForm;
-  platform_account_id?: string;
 };
 
 export type ChatAgentContainerState = BaseState & {
