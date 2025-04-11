@@ -3,9 +3,9 @@ import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { postGetOptions } from "mtmaiapi";
 
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
+import { CustomLink } from "mtxuilib/mt/CustomLink.jsx";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
-import { MtLink } from "mtxuilib/mt/mtlink";
 import { Button } from "mtxuilib/ui/button";
 import {
   FormControl,
@@ -71,9 +71,9 @@ export const PostEditor = (props: PostEditorProps) => {
             <div className="flex flex-1">
               {props.goBackOptions && (
                 <div className="mr-2">
-                  <MtLink href={props.goBackOptions.path}>
+                  <CustomLink to={props.goBackOptions.path}>
                     {props.goBackOptions.label}
-                  </MtLink>
+                  </CustomLink>
                 </div>
               )}
               <TabsTrigger value="content">文章</TabsTrigger>

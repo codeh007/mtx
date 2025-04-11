@@ -1,7 +1,7 @@
 "use client";
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
-import { MtLink } from "mtxuilib/mt/mtlink";
-import { SubmitButton } from "mtxuilib/mt/submit-button";
+import { Button, buttonVariants } from "mtxuilib/ui/button";
 import { Input } from "mtxuilib/ui/input";
 import { useState } from "react";
 import { z } from "zod";
@@ -30,24 +30,25 @@ export function LoginWithCreddents() {
           {...form.register("password")}
         />
         <div className="flex items-center justify-between" />
-        <SubmitButton
-          isSuccessful={isSuccessful}
+        <Button
+          // isSuccessful={isSuccessful}
           className="w-full"
-          pending={isPending}
+          // pending={isPending}
+          disabled={isPending}
         >
           登录
-        </SubmitButton>
+        </Button>
       </ZForm>
 
       <p className="px-8 text-center text-sm ">
-        <MtLink
-          variant={"ghost"}
+        <CustomLink
+          cn={buttonVariants({ variant: "ghost" })}
           className="hover:text-brand underline mt-8"
-          href={"/auth/register"}
+          to={"/auth/register"}
         >
           {/* Don&apos;t have an account? Sign Up */}
           没有账号？ 注册一个
-        </MtLink>
+        </CustomLink>
       </p>
       <footer className="py-3">
         <div className="prose text-center">

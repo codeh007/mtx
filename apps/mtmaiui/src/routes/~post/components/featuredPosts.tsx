@@ -1,9 +1,10 @@
 "use client";
 
-import { MtLink } from "mtxuilib/mt/mtlink";
-import Link from "next/link";
+import { Link } from "lucide-react";
+import { cn } from "mtxuilib/lib/utils";
+import { Card, CardTitle, CardContent, CardFooter } from "mtxuilib/ui/card.jsx";
+import { Skeleton } from "mtxuilib/ui/skeleton.jsx";
 import { useMemo } from "react";
-// import { useIsAdmin } from "../auth/auth.hooks";
 
 export type FeaturePostItem =
   EdgeAppRouterOutput["blogPost"]["list"]["items"][number];
