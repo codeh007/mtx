@@ -624,7 +624,6 @@ export const zWorkflowWorkersCount = z.object({
       ]),
       z.enum(["agent", "team", "termination"]),
       z.enum([
-        "RoundRobinGroupChat",
         "SelectorGroupChat",
         "SocialTeam",
         "AssistantAgent",
@@ -698,8 +697,8 @@ export const zWorkflowWorkersCount = z.object({
         url: z.string(),
       }),
       z.object({
-        type: z.string().optional(),
-        error: z.string().optional(),
+        type: z.string(),
+        error: z.string(),
       }),
       z.object({
         session_id: z.string(),
@@ -767,6 +766,27 @@ export const zWorkflowWorkersCount = z.object({
                     content: z.string(),
                   }),
                 ),
+            ),
+          z
+            .object({
+              type: z.literal("PlatformAccountFlowInput").optional(),
+            })
+            .merge(
+              z.object({
+                type: z.enum(["PlatformAccountFlowInput"]),
+                platform_account_id: z.string().optional(),
+              }),
+            ),
+          z
+            .object({
+              type: z.literal("SocialAddFollowersInput").optional(),
+            })
+            .merge(
+              z.object({
+                type: z.enum(["SocialAddFollowersInput"]),
+                platform_account_id: z.string().optional(),
+                count_to_follow: z.number().default(1),
+              }),
             ),
           z
             .object({
@@ -1268,6 +1288,7 @@ export const zWorkflowWorkersCount = z.object({
                       max_selector_attempts: z.number().int().optional(),
                       selector_func: z.string().optional(),
                       proxy_url: z.string().optional(),
+                      enable_swarm: z.boolean().optional().default(false),
                     }),
                   ),
               }),
@@ -1394,6 +1415,7 @@ export const zWorkflowWorkersCount = z.object({
                         .optional()
                         .default(0),
                       previous_speaker: z.string().optional(),
+                      current_speaker: z.string().optional(),
                       selector_prompt: z.string().optional(),
                       allow_repeated_speaker: z.boolean().optional(),
                       max_selector_attempts: z.number().int().optional(),
@@ -1451,149 +1473,6 @@ export const zWorkflowWorkersCount = z.object({
         request_id: z.string(),
         content: z.string(),
       }),
-      z
-        .object({
-          provider: z.string().optional(),
-          component_type: z.string().optional(),
-          version: z.number().int().optional(),
-          component_version: z.number().int().optional(),
-          description: z.string().optional(),
-          label: z.string().optional(),
-          config: z.object({}).optional(),
-        })
-        .merge(
-          z.object({
-            component_type: z.enum(["team"]),
-          }),
-        )
-        .merge(
-          z.object({
-            provider: z.enum(["RoundRobinGroupChat"]),
-            config: z.object({
-              participants: z.array(
-                z
-                  .object({
-                    metadata: zApiResourceMeta,
-                  })
-                  .merge(
-                    z.object({
-                      label: z.string(),
-                      description: z.string(),
-                      provider: z.string(),
-                      component_type: z.string(),
-                      version: z.number().int(),
-                      component_version: z.number().int(),
-                      config: z.object({}),
-                    }),
-                  ),
-              ),
-              termination_condition: z.union([
-                z
-                  .object({
-                    provider: z.literal("TextMentionTermination").optional(),
-                  })
-                  .merge(
-                    z.object({
-                      provider: z.enum(["TextMentionTermination"]),
-                      config: z.object({
-                        text: z.string(),
-                      }),
-                    }),
-                  ),
-                z
-                  .object({
-                    provider: z.literal("HandoffTermination").optional(),
-                  })
-                  .merge(
-                    z.object({
-                      provider: z.enum(["HandoffTermination"]),
-                      config: z.object({
-                        target: z.string(),
-                      }),
-                    }),
-                  ),
-                z
-                  .object({
-                    provider: z.literal("TimeoutTermination").optional(),
-                  })
-                  .merge(
-                    z.object({
-                      provider: z.enum(["TimeoutTermination"]),
-                      config: z.object({
-                        timeout_seconds: z.number().int(),
-                      }),
-                    }),
-                  ),
-                z
-                  .object({
-                    provider: z.literal("SourceMatchTermination").optional(),
-                  })
-                  .merge(
-                    z.object({
-                      provider: z.enum(["SourceMatchTermination"]),
-                      config: z.object({
-                        sources: z.array(z.string()),
-                      }),
-                    }),
-                  ),
-                z
-                  .object({
-                    provider: z.literal("FunctionCallTermination").optional(),
-                  })
-                  .merge(
-                    z.object({
-                      provider: z.enum(["FunctionCallTermination"]),
-                      config: z.object({
-                        function_name: z.string(),
-                      }),
-                    }),
-                  ),
-                z
-                  .object({
-                    provider: z.literal("TokenUsageTermination").optional(),
-                  })
-                  .merge(
-                    z.object({
-                      provider: z.enum(["TokenUsageTermination"]),
-                      config: z.object({
-                        max_total_token: z.number().int().optional(),
-                        max_prompt_token: z.number().int().optional(),
-                        max_completion_token: z.number().int().optional(),
-                      }),
-                    }),
-                  ),
-                z
-                  .object({
-                    provider: z.literal("MaxMessageTermination").optional(),
-                  })
-                  .merge(
-                    z.object({
-                      provider: z.enum(["MaxMessageTermination"]),
-                      config: z.object({
-                        max_messages: z.number().int(),
-                        include_agent_event: z
-                          .boolean()
-                          .optional()
-                          .default(false),
-                      }),
-                    }),
-                  ),
-                z
-                  .object({
-                    provider: z.literal("StopMessageTermination").optional(),
-                  })
-                  .merge(
-                    z.object({
-                      provider: z.enum(["StopMessageTermination"]),
-                      config: z.object({
-                        some_thing: z.string().optional(),
-                      }),
-                    }),
-                  ),
-              ]),
-            }),
-          }),
-        ),
       z
         .object({
           provider: z.string().optional(),
@@ -2023,6 +1902,7 @@ export const zWorkflowWorkersCount = z.object({
                   max_selector_attempts: z.number().int().optional(),
                   selector_func: z.string().optional(),
                   proxy_url: z.string().optional(),
+                  enable_swarm: z.boolean().optional().default(false),
                 }),
               ),
           }),
@@ -2143,6 +2023,7 @@ export const zWorkflowWorkersCount = z.object({
                   type: z.enum(["SocialTeamManagerState"]),
                   next_speaker_index: z.number().int().optional().default(0),
                   previous_speaker: z.string().optional(),
+                  current_speaker: z.string().optional(),
                   selector_prompt: z.string().optional(),
                   allow_repeated_speaker: z.boolean().optional(),
                   max_selector_attempts: z.number().int().optional(),
@@ -2200,6 +2081,27 @@ export const zWorkflowWorkersCount = z.object({
                   content: z.string(),
                 }),
               ),
+          ),
+        z
+          .object({
+            type: z.literal("PlatformAccountFlowInput").optional(),
+          })
+          .merge(
+            z.object({
+              type: z.enum(["PlatformAccountFlowInput"]),
+              platform_account_id: z.string().optional(),
+            }),
+          ),
+        z
+          .object({
+            type: z.literal("SocialAddFollowersInput").optional(),
+          })
+          .merge(
+            z.object({
+              type: z.enum(["SocialAddFollowersInput"]),
+              platform_account_id: z.string().optional(),
+              count_to_follow: z.number().default(1),
+            }),
           ),
         z
           .object({
@@ -2679,6 +2581,7 @@ export const zWorkflowWorkersCount = z.object({
                     max_selector_attempts: z.number().int().optional(),
                     selector_func: z.string().optional(),
                     proxy_url: z.string().optional(),
+                    enable_swarm: z.boolean().optional().default(false),
                   }),
                 ),
             }),
@@ -3911,6 +3814,7 @@ export const zAgentStates = z.union([
           type: z.enum(["SocialTeamManagerState"]),
           next_speaker_index: z.number().int().optional().default(0),
           previous_speaker: z.string().optional(),
+          current_speaker: z.string().optional(),
           selector_prompt: z.string().optional(),
           allow_repeated_speaker: z.boolean().optional(),
           max_selector_attempts: z.number().int().optional(),
@@ -3925,6 +3829,7 @@ export const zSocialTeamManagerState = zBaseState.merge(
     type: z.enum(["SocialTeamManagerState"]),
     next_speaker_index: z.number().int().optional().default(0),
     previous_speaker: z.string().optional(),
+    current_speaker: z.string().optional(),
     selector_prompt: z.string().optional(),
     allow_repeated_speaker: z.boolean().optional(),
     max_selector_attempts: z.number().int().optional(),
@@ -4500,7 +4405,6 @@ export const zAssistantAgentConfig = z.object({
 });
 
 export const zProviderTypes = z.enum([
-  "RoundRobinGroupChat",
   "SelectorGroupChat",
   "SocialTeam",
   "AssistantAgent",
@@ -5376,6 +5280,7 @@ export const zSocialTeamConfig = zTeamConfig.merge(
     max_selector_attempts: z.number().int().optional(),
     selector_func: z.string().optional(),
     proxy_url: z.string().optional(),
+    enable_swarm: z.boolean().optional().default(false),
   }),
 );
 
@@ -5448,6 +5353,27 @@ export const zAgEvents = z.union([
             content: z.string(),
           }),
         ),
+    ),
+  z
+    .object({
+      type: z.literal("PlatformAccountFlowInput").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["PlatformAccountFlowInput"]),
+        platform_account_id: z.string().optional(),
+      }),
+    ),
+  z
+    .object({
+      type: z.literal("SocialAddFollowersInput").optional(),
+    })
+    .merge(
+      z.object({
+        type: z.enum(["SocialAddFollowersInput"]),
+        platform_account_id: z.string().optional(),
+        count_to_follow: z.number().default(1),
+      }),
     ),
   z
     .object({
@@ -5598,8 +5524,8 @@ export const zChatMessageInput = z.object({
 });
 
 export const zFlowError = z.object({
-  type: z.string().optional(),
-  error: z.string().optional(),
+  type: z.string(),
+  error: z.string(),
 });
 
 export const zSocialAddFollowersInput = z.object({
@@ -6042,32 +5968,12 @@ export const zStopMessageTerminationConfig = z.object({
   some_thing: z.string().optional(),
 });
 
-export const zRoundRobinGroupChat = zTeamComponent.merge(
-  z.object({
-    provider: z.enum(["RoundRobinGroupChat"]),
-    config: z.object({
-      participants: z.array(zComponent),
-      termination_condition: zTerminations,
-    }),
-  }),
-);
-
-export const zRoundRobinGroupChatConfig = z.object({
-  participants: z.array(zComponent),
-  termination_condition: zTerminations,
-});
-
 export const zComponents = z.union([
   z
     .object({
       provider: z.literal("SocialTeam").optional(),
     })
     .merge(zSocialTeam),
-  z
-    .object({
-      provider: z.literal("RoundRobinGroupChat").optional(),
-    })
-    .merge(zRoundRobinGroupChat),
   z
     .object({
       provider: z.literal("AssistantAgent").optional(),

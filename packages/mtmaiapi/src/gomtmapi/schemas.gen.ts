@@ -1462,9 +1462,6 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/UserInputRequestedEvent",
         },
         {
-          $ref: "#/components/schemas/RoundRobinGroupChat",
-        },
-        {
           $ref: "#/components/schemas/SocialTeam",
         },
         {
@@ -3720,6 +3717,9 @@ export const SocialTeamManagerStateSchema = {
         previous_speaker: {
           type: "string",
         },
+        current_speaker: {
+          type: "string",
+        },
         selector_prompt: {
           type: "string",
         },
@@ -3840,6 +3840,7 @@ export const SocialLoginInputSchema = {
     type: {
       type: "string",
       enum: ["SocialLoginInput"],
+      default: "SocialLoginInput",
     },
     username: {
       type: "string",
@@ -4054,7 +4055,6 @@ export const AssistantAgentConfigSchema = {
 export const ProviderTypesSchema = {
   type: "string",
   enum: [
-    "RoundRobinGroupChat",
     "SelectorGroupChat",
     "SocialTeam",
     "AssistantAgent",
@@ -6014,6 +6014,10 @@ export const SocialTeamConfigSchema = {
         proxy_url: {
           type: "string",
         },
+        enable_swarm: {
+          type: "boolean",
+          default: false,
+        },
       },
     },
   ],
@@ -6070,6 +6074,12 @@ export const AgEventsSchema = {
     },
     {
       $ref: "#/components/schemas/TextMessage",
+    },
+    {
+      $ref: "#/components/schemas/PlatformAccountFlowInput",
+    },
+    {
+      $ref: "#/components/schemas/SocialAddFollowersInput",
     },
     {
       $ref: "#/components/schemas/SocialLoginInput",
@@ -6292,6 +6302,7 @@ export const ChatMessageInputSchema = {
 } as const;
 
 export const FlowErrorSchema = {
+  required: ["type", "error"],
   properties: {
     type: {
       type: "string",
@@ -7006,42 +7017,6 @@ export const StopMessageTerminationConfigSchema = {
   },
 } as const;
 
-export const RoundRobinGroupChatSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/TeamComponent",
-    },
-    {
-      required: ["config", "provider"],
-      properties: {
-        provider: {
-          type: "string",
-          enum: ["RoundRobinGroupChat"],
-          default: "RoundRobinGroupChat",
-        },
-        config: {
-          $ref: "#/components/schemas/RoundRobinGroupChatConfig",
-        },
-      },
-    },
-  ],
-} as const;
-
-export const RoundRobinGroupChatConfigSchema = {
-  required: ["participants", "termination_condition"],
-  properties: {
-    participants: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/Component",
-      },
-    },
-    termination_condition: {
-      $ref: "#/components/schemas/Terminations",
-    },
-  },
-} as const;
-
 export const ComponentsSchema = {
   discriminator: {
     propertyName: "provider",
@@ -7049,9 +7024,6 @@ export const ComponentsSchema = {
   oneOf: [
     {
       $ref: "#/components/schemas/SocialTeam",
-    },
-    {
-      $ref: "#/components/schemas/RoundRobinGroupChat",
     },
     {
       $ref: "#/components/schemas/AssistantAgent",

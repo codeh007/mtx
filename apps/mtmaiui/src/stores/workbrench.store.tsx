@@ -30,7 +30,6 @@ import {
   type StartNewChatInput,
   type Tenant,
   type Terminations,
-  type TextMessage,
   type UserAgentState,
   type UserProxyAgent,
   type UserProxyAgentConfig,
@@ -188,6 +187,7 @@ export const createWorkbrenchSlice: StateCreator<
       config: {
         proxy_url: "http://localhost:10809",
         max_turns: 25,
+        enable_swarm: true,
         participants: [
           {
             provider: ProviderTypes.INSTAGRAM_AGENT,
@@ -198,6 +198,7 @@ export const createWorkbrenchSlice: StateCreator<
               name: "instagram_agent",
               description: "instagram agent",
               tools: [],
+              handoffs: ["user"],
               reflect_on_tool_use: false,
               tool_call_summary_format: "{result}",
               system_message: "你是instagram agent",
@@ -287,7 +288,7 @@ export const createWorkbrenchSlice: StateCreator<
             component_type: "agent",
             description: "user proxy agent",
             config: {
-              name: "user_proxy_agent",
+              name: "user",
               description: "user proxy agent",
             } satisfies UserProxyAgentConfig,
           } satisfies UserProxyAgent,
@@ -334,12 +335,13 @@ export const createWorkbrenchSlice: StateCreator<
           input: {
             component: get().team,
             session_id: sessionId,
+            // init_state: {},
             task: {
               type: AgentEventType.TEXT_MESSAGE,
               content: task,
               source: "user",
-            } satisfies TextMessage,
-            init_state: {},
+              metadata: {},
+            },
           } satisfies FlowTeamInput,
           additionalMetadata: {
             sessionId: sessionId,

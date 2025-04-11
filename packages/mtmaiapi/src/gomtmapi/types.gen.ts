@@ -859,7 +859,6 @@ export type WorkflowWorkersCount = {
     | FlowResult
     | ChatStartInput
     | UserInputRequestedEvent
-    | RoundRobinGroupChat
     | SocialTeam
     | AgentStates
     | AgEvents;
@@ -2018,6 +2017,7 @@ export type SocialTeamManagerState = BaseState & {
   type: "SocialTeamManagerState";
   next_speaker_index?: number;
   previous_speaker?: string;
+  current_speaker?: string;
   selector_prompt?: string;
   allow_repeated_speaker?: boolean;
   max_selector_attempts?: number;
@@ -2185,7 +2185,6 @@ export type AssistantAgentConfig = {
 };
 
 export type ProviderTypes =
-  | "RoundRobinGroupChat"
   | "SelectorGroupChat"
   | "SocialTeam"
   | "AssistantAgent"
@@ -2205,7 +2204,6 @@ export type ProviderTypes =
   | "TextMessageTermination";
 
 export const ProviderTypes = {
-  ROUND_ROBIN_GROUP_CHAT: "RoundRobinGroupChat",
   SELECTOR_GROUP_CHAT: "SelectorGroupChat",
   SOCIAL_TEAM: "SocialTeam",
   ASSISTANT_AGENT: "AssistantAgent",
@@ -3124,6 +3122,7 @@ export type SocialTeamConfig = TeamConfig & {
   max_selector_attempts?: number;
   selector_func?: string;
   proxy_url?: string;
+  enable_swarm?: boolean;
 };
 
 export type SocialTeam = TeamComponent & {
@@ -3162,6 +3161,12 @@ export type AgEvents =
   | ({
       type?: "TextMessage";
     } & TextMessage)
+  | ({
+      type?: "PlatformAccountFlowInput";
+    } & PlatformAccountFlowInput)
+  | ({
+      type?: "SocialAddFollowersInput";
+    } & SocialAddFollowersInput)
   | ({
       type?: "SocialLoginInput";
     } & SocialLoginInput)
@@ -3244,8 +3249,8 @@ export type ChatMessageInput = {
 };
 
 export type FlowError = {
-  type?: string;
-  error?: string;
+  type: string;
+  error: string;
 };
 
 export type SocialAddFollowersInput = {
@@ -3544,23 +3549,10 @@ export type StopMessageTerminationConfig = {
   some_thing?: string;
 };
 
-export type RoundRobinGroupChat = TeamComponent & {
-  provider: "RoundRobinGroupChat";
-  config: RoundRobinGroupChatConfig;
-};
-
-export type RoundRobinGroupChatConfig = {
-  participants: Array<Component>;
-  termination_condition: Terminations;
-};
-
 export type Components =
   | ({
       provider?: "SocialTeam";
     } & SocialTeam)
-  | ({
-      provider?: "RoundRobinGroupChat";
-    } & RoundRobinGroupChat)
   | ({
       provider?: "AssistantAgent";
     } & AssistantAgent)
