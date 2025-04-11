@@ -2011,7 +2011,10 @@ export type AgentStates =
     } & UserProxyAgentState)
   | ({
       type?: "SocialTeamManagerState";
-    } & SocialTeamManagerState);
+    } & SocialTeamManagerState)
+  | ({
+      type?: "ChatAgentContainerState";
+    } & ChatAgentContainerState);
 
 export type SocialTeamManagerState = BaseState & {
   type: "SocialTeamManagerState";
@@ -2073,6 +2076,14 @@ export type UserProxyAgentState = {
   model_context?: unknown;
   action_form?: SchemaForm;
   platform_account_id?: string;
+};
+
+export type ChatAgentContainerState = BaseState & {
+  type: "ChatAgentContainerState";
+  agent_state?: {
+    [key: string]: unknown;
+  };
+  message_buffer?: Array<unknown>;
 };
 
 export type ToolTypes = "code_executor" | "social_login";

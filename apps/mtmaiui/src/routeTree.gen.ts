@@ -53,7 +53,6 @@ const EnvsRouteLazyImport = createFileRoute('/envs')()
 const EndpointRouteLazyImport = createFileRoute('/endpoint')()
 const ComsRouteLazyImport = createFileRoute('/coms')()
 const AuthRouteLazyImport = createFileRoute('/auth')()
-const AdminRouteLazyImport = createFileRoute('/admin')()
 const WorkflowsWorkflowIdRouteLazyImport = createFileRoute(
   '/workflows/$workflowId',
 )()
@@ -95,7 +94,6 @@ const EventsIndexLazyImport = createFileRoute('/events/')()
 const EnvsIndexLazyImport = createFileRoute('/envs/')()
 const EndpointIndexLazyImport = createFileRoute('/endpoint/')()
 const ComsIndexLazyImport = createFileRoute('/coms/')()
-const AdminIndexLazyImport = createFileRoute('/admin/')()
 const WorkflowsWorkflowIdTriggerRouteLazyImport = createFileRoute(
   '/workflows/$workflowId/trigger',
 )()
@@ -492,12 +490,6 @@ const AuthRouteLazyRoute = AuthRouteLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~auth/~route.lazy').then((d) => d.Route))
 
-const AdminRouteLazyRoute = AdminRouteLazyImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/~admin/~route.lazy').then((d) => d.Route))
-
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
@@ -761,12 +753,6 @@ const ComsIndexLazyRoute = ComsIndexLazyImport.update({
   path: '/',
   getParentRoute: () => ComsRouteLazyRoute,
 } as any).lazy(() => import('./routes/~coms/~index.lazy').then((d) => d.Route))
-
-const AdminIndexLazyRoute = AdminIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AdminRouteLazyRoute,
-} as any).lazy(() => import('./routes/~admin/~index.lazy').then((d) => d.Route))
 
 const SiteSiteIdRouteRoute = SiteSiteIdRouteImport.update({
   id: '/$siteId',
@@ -1897,13 +1883,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -2064,13 +2043,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/site/$siteId'
       preLoaderRoute: typeof SiteSiteIdRouteImport
       parentRoute: typeof SiteRouteLazyImport
-    }
-    '/admin/': {
-      id: '/admin/'
-      path: '/'
-      fullPath: '/admin/'
-      preLoaderRoute: typeof AdminIndexLazyImport
-      parentRoute: typeof AdminRouteLazyImport
     }
     '/coms/': {
       id: '/coms/'
@@ -3077,18 +3049,6 @@ declare module '@tanstack/react-router' {
 }
 
 // Create and export the route tree
-
-interface AdminRouteLazyRouteChildren {
-  AdminIndexLazyRoute: typeof AdminIndexLazyRoute
-}
-
-const AdminRouteLazyRouteChildren: AdminRouteLazyRouteChildren = {
-  AdminIndexLazyRoute: AdminIndexLazyRoute,
-}
-
-const AdminRouteLazyRouteWithChildren = AdminRouteLazyRoute._addFileChildren(
-  AdminRouteLazyRouteChildren,
-)
 
 interface AuthLoginRouteLazyRouteChildren {
   AuthLoginIndexLazyRoute: typeof AuthLoginIndexLazyRoute
@@ -4273,7 +4233,6 @@ const WorkflowsRouteLazyRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteLazyRouteWithChildren
   '/auth': typeof AuthRouteLazyRouteWithChildren
   '/coms': typeof ComsRouteLazyRouteWithChildren
   '/endpoint': typeof EndpointRouteLazyRouteWithChildren
@@ -4297,7 +4256,6 @@ export interface FileRoutesByFullPath {
   '/site/': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
   '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
-  '/admin/': typeof AdminIndexLazyRoute
   '/coms/': typeof ComsIndexLazyRoute
   '/endpoint/': typeof EndpointIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
@@ -4449,7 +4407,6 @@ export interface FileRoutesByTo {
   '/platform': typeof PlatformIndexRoute
   '/site': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
-  '/admin': typeof AdminIndexLazyRoute
   '/coms': typeof ComsIndexLazyRoute
   '/endpoint': typeof EndpointIndexLazyRoute
   '/envs': typeof EnvsIndexLazyRoute
@@ -4550,7 +4507,6 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteLazyRouteWithChildren
   '/auth': typeof AuthRouteLazyRouteWithChildren
   '/coms': typeof ComsRouteLazyRouteWithChildren
   '/endpoint': typeof EndpointRouteLazyRouteWithChildren
@@ -4574,7 +4530,6 @@ export interface FileRoutesById {
   '/site/': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
   '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
-  '/admin/': typeof AdminIndexLazyRoute
   '/coms/': typeof ComsIndexLazyRoute
   '/endpoint/': typeof EndpointIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
@@ -4724,7 +4679,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/admin'
     | '/auth'
     | '/coms'
     | '/endpoint'
@@ -4748,7 +4702,6 @@ export interface FileRouteTypes {
     | '/site/'
     | '/envs/create'
     | '/site/$siteId'
-    | '/admin/'
     | '/coms/'
     | '/endpoint/'
     | '/envs/'
@@ -4899,7 +4852,6 @@ export interface FileRouteTypes {
     | '/platform'
     | '/site'
     | '/envs/create'
-    | '/admin'
     | '/coms'
     | '/endpoint'
     | '/envs'
@@ -4998,7 +4950,6 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/admin'
     | '/auth'
     | '/coms'
     | '/endpoint'
@@ -5022,7 +4973,6 @@ export interface FileRouteTypes {
     | '/site/'
     | '/envs/create'
     | '/site/$siteId'
-    | '/admin/'
     | '/coms/'
     | '/endpoint/'
     | '/envs/'
@@ -5171,7 +5121,6 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminRouteLazyRoute: typeof AdminRouteLazyRouteWithChildren
   AuthRouteLazyRoute: typeof AuthRouteLazyRouteWithChildren
   ComsRouteLazyRoute: typeof ComsRouteLazyRouteWithChildren
   EndpointRouteLazyRoute: typeof EndpointRouteLazyRouteWithChildren
@@ -5196,7 +5145,6 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminRouteLazyRoute: AdminRouteLazyRouteWithChildren,
   AuthRouteLazyRoute: AuthRouteLazyRouteWithChildren,
   ComsRouteLazyRoute: ComsRouteLazyRouteWithChildren,
   EndpointRouteLazyRoute: EndpointRouteLazyRouteWithChildren,
@@ -5230,7 +5178,6 @@ export const routeTree = rootRoute
       "filePath": "~__root.tsx",
       "children": [
         "/",
-        "/admin",
         "/auth",
         "/coms",
         "/endpoint",
@@ -5255,12 +5202,6 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "~index.tsx"
-    },
-    "/admin": {
-      "filePath": "~admin/~route.lazy.tsx",
-      "children": [
-        "/admin/"
-      ]
     },
     "/auth": {
       "filePath": "~auth/~route.lazy.tsx",
@@ -5415,10 +5356,6 @@ export const routeTree = rootRoute
         "/site/$siteId/edit",
         "/site/$siteId/host"
       ]
-    },
-    "/admin/": {
-      "filePath": "~admin/~index.lazy.tsx",
-      "parent": "/admin"
     },
     "/coms/": {
       "filePath": "~coms/~index.lazy.tsx",

@@ -3694,6 +3694,9 @@ export const AgentStatesSchema = {
     {
       $ref: "#/components/schemas/SocialTeamManagerState",
     },
+    {
+      $ref: "#/components/schemas/ChatAgentContainerState",
+    },
   ],
 } as const;
 
@@ -3802,6 +3805,35 @@ export const UserProxyAgentStateSchema = {
       type: "string",
     },
   },
+} as const;
+
+export const ChatAgentContainerStateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseState",
+    },
+    {
+      required: ["type"],
+      properties: {
+        type: {
+          type: "string",
+          enum: ["ChatAgentContainerState"],
+          default: "ChatAgentContainerState",
+        },
+        agent_state: {
+          type: "object",
+          additionalProperties: true,
+        },
+        message_buffer: {
+          type: "array",
+          item: {
+            type: "object",
+            additionalProperties: true,
+          },
+        },
+      },
+    },
+  ],
 } as const;
 
 export const ToolTypesSchema = {

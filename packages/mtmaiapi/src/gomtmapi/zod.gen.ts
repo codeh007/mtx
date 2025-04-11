@@ -1423,6 +1423,38 @@ export const zWorkflowWorkersCount = z.object({
                     }),
                   ),
               ),
+            z
+              .object({
+                type: z.literal("ChatAgentContainerState").optional(),
+              })
+              .merge(
+                z
+                  .object({
+                    type: z.enum([
+                      "InstagramAgentState",
+                      "UserProxyAgentState",
+                      "SocialTeamManagerState",
+                      "TeamState",
+                      "RuntimeState",
+                      "AssistantAgentState",
+                      "RoundRobinManagerState",
+                      "SelectorManagerState",
+                      "SwarmManagerState",
+                      "MagenticOneOrchestratorState",
+                      "SocietyOfMindAgentState",
+                      "ChatAgentContainerState",
+                      "BaseGroupChatManagerState",
+                    ]),
+                    version: z.string().optional(),
+                  })
+                  .merge(
+                    z.object({
+                      type: z.enum(["ChatAgentContainerState"]),
+                      agent_state: z.object({}).optional(),
+                      message_buffer: z.array(z.unknown()).optional(),
+                    }),
+                  ),
+              ),
           ])
           .optional(),
       }),
@@ -2028,6 +2060,38 @@ export const zWorkflowWorkersCount = z.object({
                   allow_repeated_speaker: z.boolean().optional(),
                   max_selector_attempts: z.number().int().optional(),
                   selector_func: z.string().optional(),
+                }),
+              ),
+          ),
+        z
+          .object({
+            type: z.literal("ChatAgentContainerState").optional(),
+          })
+          .merge(
+            z
+              .object({
+                type: z.enum([
+                  "InstagramAgentState",
+                  "UserProxyAgentState",
+                  "SocialTeamManagerState",
+                  "TeamState",
+                  "RuntimeState",
+                  "AssistantAgentState",
+                  "RoundRobinManagerState",
+                  "SelectorManagerState",
+                  "SwarmManagerState",
+                  "MagenticOneOrchestratorState",
+                  "SocietyOfMindAgentState",
+                  "ChatAgentContainerState",
+                  "BaseGroupChatManagerState",
+                ]),
+                version: z.string().optional(),
+              })
+              .merge(
+                z.object({
+                  type: z.enum(["ChatAgentContainerState"]),
+                  agent_state: z.object({}).optional(),
+                  message_buffer: z.array(z.unknown()).optional(),
                 }),
               ),
           ),
@@ -3822,6 +3886,19 @@ export const zAgentStates = z.union([
         }),
       ),
     ),
+  z
+    .object({
+      type: z.literal("ChatAgentContainerState").optional(),
+    })
+    .merge(
+      zBaseState.merge(
+        z.object({
+          type: z.enum(["ChatAgentContainerState"]),
+          agent_state: z.object({}).optional(),
+          message_buffer: z.array(z.unknown()).optional(),
+        }),
+      ),
+    ),
 ]);
 
 export const zSocialTeamManagerState = zBaseState.merge(
@@ -3891,6 +3968,14 @@ export const zUserProxyAgentState = z.object({
     .optional(),
   platform_account_id: z.string().optional(),
 });
+
+export const zChatAgentContainerState = zBaseState.merge(
+  z.object({
+    type: z.enum(["ChatAgentContainerState"]),
+    agent_state: z.object({}).optional(),
+    message_buffer: z.array(z.unknown()).optional(),
+  }),
+);
 
 export const zToolTypes = z.enum(["code_executor", "social_login"]);
 

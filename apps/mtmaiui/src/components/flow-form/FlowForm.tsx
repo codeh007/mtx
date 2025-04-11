@@ -1,13 +1,13 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { workflowRunCreateMutation, type FlowNames } from "mtmaiapi";
-import { zMtAgEvent } from "mtmaiapi/gomtmapi/zod.gen";
+import { type FlowNames, workflowRunCreateMutation } from "mtmaiapi";
+import { zAgEvent } from "mtmaiapi/gomtmapi/zod.gen";
 import { cn } from "mtxuilib/lib/utils";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
-import { useEffect, type PropsWithChildren } from "react";
+import { type PropsWithChildren, useEffect } from "react";
 import { useNav } from "../../hooks/useNav";
 
 interface FlowFormProps {
@@ -57,7 +57,7 @@ export default function FlowForm({
     },
   });
   const form = useZodFormV2({
-    schema: zMtAgEvent,
+    schema: zAgEvent,
     defaultValues: {
       content: "hello",
     },
@@ -120,10 +120,10 @@ export default function FlowForm({
 
   useEffect(() => {
     const subscription = form.form.watch((value, { name, type }) =>
-      console.log(value, name, type)
-    )
-    return () => subscription.unsubscribe()
-  }, [form.form.watch])
+      console.log(value, name, type),
+    );
+    return () => subscription.unsubscribe();
+  }, [form.form.watch]);
 
   return (
     <ZForm {...form} className={cn("flex flex-col gap-4 px-2", className)}>

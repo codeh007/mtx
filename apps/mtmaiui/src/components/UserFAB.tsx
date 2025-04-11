@@ -21,10 +21,15 @@ import {
 } from "mtxuilib/ui/dropdown-menu";
 import { useState } from "react";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { frontendGetSiderbarOptions } from "mtmaiapi";
+import {
+  adminReleaseConnMutation,
+  adminResetDbMutation,
+  frontendGetSiderbarOptions,
+} from "mtmaiapi";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
+import { useToast } from "mtxuilib/ui/use-toast";
 import { useUser } from "../hooks/useAuth";
 export const UserFAB = () => {
   const [openCmdk, setOpenCmdk] = useState(false);
@@ -63,6 +68,8 @@ export const UserFAB = () => {
             <DropdownMenuSeparator />
             <UserFABDropdownMenuContent />
             <DropdownMenuSeparator />
+            <AdminFABDropdownMenuContent />
+            <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>Team</DropdownMenuItem>
               <DropdownMenuSub>
@@ -76,15 +83,7 @@ export const UserFAB = () => {
                   </DropdownMenuSubContent>
                 </DropdownMenuPortal>
               </DropdownMenuSub>
-              {/* <DropdownMenuItem>
-              New Team
-              <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
-            </DropdownMenuItem> */}
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            {/* <DropdownMenuItem>GitHub</DropdownMenuItem> */}
-            {/* <DropdownMenuItem>Support</DropdownMenuItem> */}
-            {/* <DropdownMenuItem disabled>API</DropdownMenuItem> */}
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={logout}>
               Log out
@@ -131,5 +130,52 @@ const UserFABDropdownMenuContent = () => {
         </DropdownMenuGroup>
       ))}
     </>
+  );
+};
+
+const AdminFABDropdownMenuContent = () => {
+  const toast = useToast();
+  const adminReleaseConn = useMutation({
+    ...adminReleaseConnMutation(),
+    onSuccess: () => {
+      toast.toast({
+        title: "释放数据库连接成功",
+      });
+    },
+  });
+
+  const adminResetDb = useMutation({
+    ...adminResetDbMutation(),
+    onSuccess: () => {
+      toast.toast({
+        title: "清理数据库表成功",
+      });
+    },
+  });
+
+  return (
+    <DropdownMenuGroup>
+      <DropdownMenuSub>
+        <DropdownMenuSubTrigger>管理</DropdownMenuSubTrigger>
+        <DropdownMenuPortal>
+          <DropdownMenuSubContent>
+            <DropdownMenuItem
+              onClick={() => {
+                adminReleaseConn.mutate({});
+              }}
+            >
+              释放数据库连接
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                adminResetDb.mutate({});
+              }}
+            >
+              清理数据库表
+            </DropdownMenuItem>
+          </DropdownMenuSubContent>
+        </DropdownMenuPortal>
+      </DropdownMenuSub>
+    </DropdownMenuGroup>
   );
 };
