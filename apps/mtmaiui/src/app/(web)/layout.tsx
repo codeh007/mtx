@@ -36,6 +36,8 @@ export default async function Layout(props: {
     cookies: cookies,
   });
 
+  console.log("layout111111111111");
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>

@@ -108,6 +108,7 @@ export async function loadRemoteEnv() {
 
 // 获取前端配置数据
 export async function getFrontendConfig() {
+  console.log("getFrontendConfig");
   if (isInBuild()) {
     console.warn("在build 阶段,不加载FrontendConfig远程前端配置");
     return {} as FrontendConfig;
