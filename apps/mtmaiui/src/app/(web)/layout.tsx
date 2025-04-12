@@ -1,18 +1,15 @@
 import { UIProviders } from "mtmaiui/stores/UIProviders";
 import { fontSans } from "mtxuilib/fonts";
 import type { Viewport } from "next";
-import { cookies, headers } from "next/headers";
 import type { ReactNode } from "react";
 
 import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
-import { WebLayoutHeader } from "./Header";
 
 import {
   getAccessToken,
   getBackendUrl,
   getFrontendConfig,
   getHostName,
-  initGomtmApp,
 } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
 import { MtmaiProvider } from "../../stores/StoreProvider";
@@ -31,13 +28,10 @@ export default async function Layout(props: {
   children: ReactNode;
 }) {
   const { children } = props;
-  await initGomtmApp({
-    headers: headers,
-    cookies: cookies,
-  });
-
-  console.log("layout111111111111");
-
+  // await initGomtmApp({
+  //   headers: headers,
+  //   cookies: cookies,
+  // });
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -59,7 +53,7 @@ export default async function Layout(props: {
         >
           <UIProviders>
             <div className="flex flex-col min-h-screen h-full w-full">
-              <WebLayoutHeader />
+              {/* <WebLayoutHeader /> */}
               {children}
             </div>
           </UIProviders>
