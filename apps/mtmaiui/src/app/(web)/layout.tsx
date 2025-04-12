@@ -10,10 +10,12 @@ import {
   getBackendUrl,
   getFrontendConfig,
   getHostName,
+  initGomtmApp,
 } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
 import { MtmaiProvider } from "../../stores/StoreProvider";
 import "./globals.css";
+import { headers, cookies } from "next/headers";
 export const runtime = "nodejs";
 // export const dynamic = "force-dynamic";
 
@@ -28,10 +30,10 @@ export default async function Layout(props: {
   children: ReactNode;
 }) {
   const { children } = props;
-  // await initGomtmApp({
-  //   headers: headers,
-  //   cookies: cookies,
-  // });
+  await initGomtmApp({
+    headers: headers,
+    cookies: cookies,
+  });
   return (
     <html lang="en" suppressHydrationWarning>
       <head>

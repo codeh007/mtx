@@ -77,7 +77,6 @@ const ModelNewRouteLazyImport = createFileRoute('/model/new')()
 const ModelModelIdRouteLazyImport = createFileRoute('/model/$modelId')()
 const ComsComIdRouteLazyImport = createFileRoute('/coms/$comId')()
 const AuthRegisterLazyImport = createFileRoute('/auth/register')()
-const AuthLoginRouteLazyImport = createFileRoute('/auth/login')()
 const WorkflowsIndexLazyImport = createFileRoute('/workflows/')()
 const WorkflowRunsIndexLazyImport = createFileRoute('/workflow-runs/')()
 const TenantIndexLazyImport = createFileRoute('/tenant/')()
@@ -173,7 +172,6 @@ const PlatformAccountPlatformAccountIdIndexLazyImport = createFileRoute(
 const ModelNewIndexLazyImport = createFileRoute('/model/new/')()
 const ModelModelIdIndexLazyImport = createFileRoute('/model/$modelId/')()
 const ComsComIdIndexLazyImport = createFileRoute('/coms/$comId/')()
-const AuthLoginIndexLazyImport = createFileRoute('/auth/login/')()
 const WorkflowsWorkflowIdTriggerTestteamRouteLazyImport = createFileRoute(
   '/workflows/$workflowId/trigger/test_team',
 )()
@@ -628,14 +626,6 @@ const AuthRegisterLazyRoute = AuthRegisterLazyImport.update({
   getParentRoute: () => AuthRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~auth/~register.lazy').then((d) => d.Route),
-)
-
-const AuthLoginRouteLazyRoute = AuthLoginRouteLazyImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => AuthRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~auth/~login/~route.lazy').then((d) => d.Route),
 )
 
 const WorkflowsIndexLazyRoute = WorkflowsIndexLazyImport.update({
@@ -1101,14 +1091,6 @@ const ComsComIdIndexLazyRoute = ComsComIdIndexLazyImport.update({
   getParentRoute: () => ComsComIdRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~coms/~$comId/~index.lazy').then((d) => d.Route),
-)
-
-const AuthLoginIndexLazyRoute = AuthLoginIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthLoginRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~auth/~login/~index.lazy').then((d) => d.Route),
 )
 
 const SiteSiteIdHostRouteRoute = SiteSiteIdHostRouteImport.update({
@@ -2156,13 +2138,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkflowsIndexLazyImport
       parentRoute: typeof WorkflowsRouteLazyImport
     }
-    '/auth/login': {
-      id: '/auth/login'
-      path: '/login'
-      fullPath: '/auth/login'
-      preLoaderRoute: typeof AuthLoginRouteLazyImport
-      parentRoute: typeof AuthRouteLazyImport
-    }
     '/auth/register': {
       id: '/auth/register'
       path: '/register'
@@ -2309,13 +2284,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/site/$siteId/host'
       preLoaderRoute: typeof SiteSiteIdHostRouteImport
       parentRoute: typeof SiteSiteIdRouteImport
-    }
-    '/auth/login/': {
-      id: '/auth/login/'
-      path: '/'
-      fullPath: '/auth/login/'
-      preLoaderRoute: typeof AuthLoginIndexLazyImport
-      parentRoute: typeof AuthLoginRouteLazyImport
     }
     '/coms/$comId/': {
       id: '/coms/$comId/'
@@ -3050,24 +3018,11 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-interface AuthLoginRouteLazyRouteChildren {
-  AuthLoginIndexLazyRoute: typeof AuthLoginIndexLazyRoute
-}
-
-const AuthLoginRouteLazyRouteChildren: AuthLoginRouteLazyRouteChildren = {
-  AuthLoginIndexLazyRoute: AuthLoginIndexLazyRoute,
-}
-
-const AuthLoginRouteLazyRouteWithChildren =
-  AuthLoginRouteLazyRoute._addFileChildren(AuthLoginRouteLazyRouteChildren)
-
 interface AuthRouteLazyRouteChildren {
-  AuthLoginRouteLazyRoute: typeof AuthLoginRouteLazyRouteWithChildren
   AuthRegisterLazyRoute: typeof AuthRegisterLazyRoute
 }
 
 const AuthRouteLazyRouteChildren: AuthRouteLazyRouteChildren = {
-  AuthLoginRouteLazyRoute: AuthLoginRouteLazyRouteWithChildren,
   AuthRegisterLazyRoute: AuthRegisterLazyRoute,
 }
 
@@ -4272,7 +4227,6 @@ export interface FileRoutesByFullPath {
   '/tenant/': typeof TenantIndexLazyRoute
   '/workflow-runs/': typeof WorkflowRunsIndexLazyRoute
   '/workflows/': typeof WorkflowsIndexLazyRoute
-  '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
   '/auth/register': typeof AuthRegisterLazyRoute
   '/coms/$comId': typeof ComsComIdRouteLazyRouteWithChildren
   '/model/$modelId': typeof ModelModelIdRouteLazyRouteWithChildren
@@ -4294,7 +4248,6 @@ export interface FileRoutesByFullPath {
   '/site/create': typeof SiteCreateIndexRoute
   '/site/$siteId/edit': typeof SiteSiteIdEditRoute
   '/site/$siteId/host': typeof SiteSiteIdHostRouteRouteWithChildren
-  '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/coms/$comId/': typeof ComsComIdIndexLazyRoute
   '/model/$modelId/': typeof ModelModelIdIndexLazyRoute
   '/model/new/': typeof ModelNewIndexLazyRoute
@@ -4432,7 +4385,6 @@ export interface FileRoutesByTo {
   '/site/$siteId': typeof SiteSiteIdIndexRoute
   '/site/create': typeof SiteCreateIndexRoute
   '/site/$siteId/edit': typeof SiteSiteIdEditRoute
-  '/auth/login': typeof AuthLoginIndexLazyRoute
   '/coms/$comId': typeof ComsComIdIndexLazyRoute
   '/model/$modelId': typeof ModelModelIdIndexLazyRoute
   '/model/new': typeof ModelNewIndexLazyRoute
@@ -4546,7 +4498,6 @@ export interface FileRoutesById {
   '/tenant/': typeof TenantIndexLazyRoute
   '/workflow-runs/': typeof WorkflowRunsIndexLazyRoute
   '/workflows/': typeof WorkflowsIndexLazyRoute
-  '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
   '/auth/register': typeof AuthRegisterLazyRoute
   '/coms/$comId': typeof ComsComIdRouteLazyRouteWithChildren
   '/model/$modelId': typeof ModelModelIdRouteLazyRouteWithChildren
@@ -4568,7 +4519,6 @@ export interface FileRoutesById {
   '/site/create/': typeof SiteCreateIndexRoute
   '/site/$siteId/edit': typeof SiteSiteIdEditRoute
   '/site/$siteId/host': typeof SiteSiteIdHostRouteRouteWithChildren
-  '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/coms/$comId/': typeof ComsComIdIndexLazyRoute
   '/model/$modelId/': typeof ModelModelIdIndexLazyRoute
   '/model/new/': typeof ModelNewIndexLazyRoute
@@ -4718,7 +4668,6 @@ export interface FileRouteTypes {
     | '/tenant/'
     | '/workflow-runs/'
     | '/workflows/'
-    | '/auth/login'
     | '/auth/register'
     | '/coms/$comId'
     | '/model/$modelId'
@@ -4740,7 +4689,6 @@ export interface FileRouteTypes {
     | '/site/create'
     | '/site/$siteId/edit'
     | '/site/$siteId/host'
-    | '/auth/login/'
     | '/coms/$comId/'
     | '/model/$modelId/'
     | '/model/new/'
@@ -4877,7 +4825,6 @@ export interface FileRouteTypes {
     | '/site/$siteId'
     | '/site/create'
     | '/site/$siteId/edit'
-    | '/auth/login'
     | '/coms/$comId'
     | '/model/$modelId'
     | '/model/new'
@@ -4989,7 +4936,6 @@ export interface FileRouteTypes {
     | '/tenant/'
     | '/workflow-runs/'
     | '/workflows/'
-    | '/auth/login'
     | '/auth/register'
     | '/coms/$comId'
     | '/model/$modelId'
@@ -5011,7 +4957,6 @@ export interface FileRouteTypes {
     | '/site/create/'
     | '/site/$siteId/edit'
     | '/site/$siteId/host'
-    | '/auth/login/'
     | '/coms/$comId/'
     | '/model/$modelId/'
     | '/model/new/'
@@ -5206,7 +5151,6 @@ export const routeTree = rootRoute
     "/auth": {
       "filePath": "~auth/~route.lazy.tsx",
       "children": [
-        "/auth/login",
         "/auth/register"
       ]
     },
@@ -5421,13 +5365,6 @@ export const routeTree = rootRoute
       "filePath": "~workflows/~index.lazy.tsx",
       "parent": "/workflows"
     },
-    "/auth/login": {
-      "filePath": "~auth/~login/~route.lazy.tsx",
-      "parent": "/auth",
-      "children": [
-        "/auth/login/"
-      ]
-    },
     "/auth/register": {
       "filePath": "~auth/~register.lazy.tsx",
       "parent": "/auth"
@@ -5575,10 +5512,6 @@ export const routeTree = rootRoute
       "children": [
         "/site/$siteId/host/"
       ]
-    },
-    "/auth/login/": {
-      "filePath": "~auth/~login/~index.lazy.tsx",
-      "parent": "/auth/login"
     },
     "/coms/$comId/": {
       "filePath": "~coms/~$comId/~index.lazy.tsx",
