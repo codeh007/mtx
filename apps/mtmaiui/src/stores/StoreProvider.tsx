@@ -135,6 +135,11 @@ export const MtmaiProvider = (props: AppProviderProps) => {
     });
   }, []);
 
+  // initGomtmApp({
+  //   headers: headers,
+  //   cookies: cookies,
+  // });
+
   return (
     <mtmaiStoreContext.Provider value={mystore}>
       <ReactQueryProvider

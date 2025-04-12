@@ -1,6 +1,9 @@
+import { UIProviders } from "mtmaiui/stores/UIProviders";
 import { fontSans } from "mtxuilib/fonts";
 import type { Viewport } from "next";
 import type { ReactNode } from "react";
+
+import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
 
 import { getAccessToken, getBackendUrl, getHostName } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
@@ -27,7 +30,7 @@ export default async function Layout(props: {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* <ThemeHeaderScript /> */}
+        <ThemeHeaderScript />
         {/* <MtmaiuiLoaderScript uiUrl={selfUrl} /> */}
       </head>
       <body
@@ -43,12 +46,12 @@ export default async function Layout(props: {
           selfBackendUrl={await getBackendUrl()}
           accessToken={await getAccessToken()}
         >
-          {/* <UIProviders> */}
-          <div className="flex flex-col min-h-screen h-full w-full">
-            {/* <WebLayoutHeader /> */}
-            {children}
-          </div>
-          {/* </UIProviders> */}
+          <UIProviders>
+            <div className="flex flex-col min-h-screen h-full w-full">
+              {/* <WebLayoutHeader /> */}
+              {children}
+            </div>
+          </UIProviders>
         </MtmaiProvider>
       </body>
     </html>
