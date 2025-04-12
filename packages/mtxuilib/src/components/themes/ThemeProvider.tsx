@@ -1,6 +1,5 @@
 "use client";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import type { ThemeProviderProps } from "next-themes/dist/types";
 
 const LIGHT_THEME_COLOR = "hsl(0 0% 100%)";
 const DARK_THEME_COLOR = "hsl(240deg 10% 3.92%)";
@@ -33,22 +32,9 @@ export const ThemeHeaderScript = () => {
   );
 };
 
-// export const MtThemeProvider = (props: ThemeProviderProps) => {
-//   return (
-//     <NextThemesProvider
-//       attribute="class"
-//       defaultTheme="system"
-//       enableSystem
-//       disableTransitionOnChange
-//       {...props}
-//     >
-//       {props.children}
-//     </NextThemesProvider>
-//   );
-// };
 export function MtThemeProvider({
   children,
   ...props
 }: React.ComponentProps<typeof NextThemesProvider>) {
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
 }
