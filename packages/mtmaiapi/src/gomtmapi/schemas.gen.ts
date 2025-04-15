@@ -1449,6 +1449,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/MtBrowserConfig",
         },
+        {
+          $ref: "#/components/schemas/RootState",
+        },
       ],
     },
   },
@@ -3538,6 +3541,22 @@ export const AgStateListSchema = {
       },
     },
   },
+} as const;
+
+export const RootStateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/BaseState",
+    },
+    {
+      required: ["type"],
+      properties: {
+        type: {
+          type: "string",
+        },
+      },
+    },
+  ],
 } as const;
 
 export const AgStateUpsertSchema = {

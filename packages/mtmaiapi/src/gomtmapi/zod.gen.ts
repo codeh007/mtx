@@ -2676,6 +2676,29 @@ export const zWorkflowWorkersCount = z.object({
       z.object({
         browser: z.enum(["chrome", "firefox"]).optional(),
       }),
+      z
+        .object({
+          type: z.enum([
+            "InstagramAgentState",
+            "SocialTeamManagerState",
+            "TeamState",
+            "RuntimeState",
+            "AssistantAgentState",
+            "RoundRobinManagerState",
+            "SelectorManagerState",
+            "SwarmManagerState",
+            "MagenticOneOrchestratorState",
+            "SocietyOfMindAgentState",
+            "ChatAgentContainerState",
+            "BaseGroupChatManagerState",
+          ]),
+          version: z.string().optional(),
+        })
+        .merge(
+          z.object({
+            type: z.string(),
+          }),
+        ),
     ])
     .optional(),
 });
@@ -4607,6 +4630,30 @@ export const zAgStateList = z.object({
   pagination: zPaginationResponse.optional(),
   rows: z.array(zAgState).optional(),
 });
+
+export const zRootState = z
+  .object({
+    type: z.enum([
+      "InstagramAgentState",
+      "SocialTeamManagerState",
+      "TeamState",
+      "RuntimeState",
+      "AssistantAgentState",
+      "RoundRobinManagerState",
+      "SelectorManagerState",
+      "SwarmManagerState",
+      "MagenticOneOrchestratorState",
+      "SocietyOfMindAgentState",
+      "ChatAgentContainerState",
+      "BaseGroupChatManagerState",
+    ]),
+    version: z.string().optional(),
+  })
+  .merge(
+    z.object({
+      type: z.string(),
+    }),
+  );
 
 export const zAgStateUpsert = zAgStateProperties;
 

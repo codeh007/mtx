@@ -854,7 +854,8 @@ export type WorkflowWorkersCount = {
     | SocialLoginResult
     | FlowResult
     | SocialTeam
-    | MtBrowserConfig;
+    | MtBrowserConfig
+    | RootState;
 };
 
 export type WorkflowRun = {
@@ -1951,6 +1952,10 @@ export type AgState = ApiResourceMetaProperties & AgStateProperties;
 export type AgStateList = {
   pagination?: PaginationResponse;
   rows?: Array<AgState>;
+};
+
+export type RootState = BaseState & {
+  type: string;
 };
 
 export type AgStateUpsert = AgStateProperties;
