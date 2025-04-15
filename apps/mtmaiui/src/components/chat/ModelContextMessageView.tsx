@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import { motion } from "framer-motion";
-import { adkEventsListOptions, type ChatMessage, type FunctionCall } from "mtmaiapi";
+import { adkEventsListOptions, LlmMessage, type ChatMessage, type FunctionCall } from "mtmaiapi";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { SparklesIcon } from "mtxuilib/icons/aichatbot.icons";
@@ -27,9 +27,9 @@ export const ModelContextMessageView = ({ messages }: MtMessagesProps) => {
     ...adkEventsListOptions({
       path:{
         tenant: tid,
-        // query: {
-        //   limit: 100,
-        // },
+      },
+      query: {
+        limit: 100,
       },
     }),
   });
@@ -42,6 +42,14 @@ export const ModelContextMessageView = ({ messages }: MtMessagesProps) => {
           <ChatMessageItemView message={message} />
         </MtSuspenseBoundary>
       ))}
+
+      {
+        adkEventsQuery.data?.rows?.map((event) => (
+          <div key={event.id} className="bg-red-100 p-1">
+            {event.id}
+          </div>
+        ))
+      }
     </div>
   );
 };
@@ -99,7 +107,7 @@ export const AssistantMessageView = ({ msg }: { msg: ChatMessage }) => {
   );
 };
 
-export const AssistantLlmMessageView = ({ msg }: { msg: MtLlmMessage }) => {
+export const AssistantLlmMessageView = ({ msg }: { msg: LlmMessage }) => {
   return (
     <div className="p-1 rounded-md">
       {typeof msg.content === "string" ? (

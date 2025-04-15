@@ -8230,6 +8230,8 @@ export const zAdkEvent = zApiResourceMetaProperties.merge(zAdkEventProperties);
 
 export const zAdkEventUpsert = zAdkEventProperties;
 
+export const zAdkEventOrderByField = z.enum(["createdAt"]);
+
 export const zAdkAppProperties = z.object({
   id: z.string(),
   app_name: z.string(),

@@ -7308,6 +7308,11 @@ export const AdkEventUpsertSchema = {
   ],
 } as const;
 
+export const AdkEventOrderByFieldSchema = {
+  type: "string",
+  enum: ["createdAt"],
+} as const;
+
 export const AdkAppPropertiesSchema = {
   required: [
     "id",

@@ -525,6 +525,8 @@ import type {
   AdkUserStateUpsertResponse,
   AdkUserStateGetData,
   AdkEventsListData,
+  AdkEventsListError,
+  AdkEventsListResponse,
   AdkEventsUpsertData,
   AdkEventsUpsertError,
   AdkEventsUpsertResponse,
@@ -5373,6 +5375,54 @@ export const adkEventsListOptions = (options: Options<AdkEventsListData>) => {
     },
     queryKey: adkEventsListQueryKey(options),
   });
+};
+
+export const adkEventsListInfiniteQueryKey = (
+  options: Options<AdkEventsListData>,
+): QueryKey<Options<AdkEventsListData>> =>
+  createQueryKey("adkEventsList", options, true);
+
+export const adkEventsListInfiniteOptions = (
+  options: Options<AdkEventsListData>,
+) => {
+  return infiniteQueryOptions<
+    AdkEventsListResponse,
+    AdkEventsListError,
+    InfiniteData<AdkEventsListResponse>,
+    QueryKey<Options<AdkEventsListData>>,
+    | number
+    | Pick<
+        QueryKey<Options<AdkEventsListData>>[0],
+        "body" | "headers" | "path" | "query"
+      >
+  >(
+    // @ts-ignore
+    {
+      queryFn: async ({ pageParam, queryKey, signal }) => {
+        // @ts-ignore
+        const page: Pick<
+          QueryKey<Options<AdkEventsListData>>[0],
+          "body" | "headers" | "path" | "query"
+        > =
+          typeof pageParam === "object"
+            ? pageParam
+            : {
+                query: {
+                  offset: pageParam,
+                },
+              };
+        const params = createInfiniteParams(queryKey, page);
+        const { data } = await adkEventsList({
+          ...options,
+          ...params,
+          signal,
+          throwOnError: true,
+        });
+        return data;
+      },
+      queryKey: adkEventsListInfiniteQueryKey(options),
+    },
+  );
 };
 
 export const adkEventsUpsertQueryKey = (

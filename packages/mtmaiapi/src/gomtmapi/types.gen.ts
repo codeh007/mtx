@@ -3649,6 +3649,12 @@ export type AdkEvent = ApiResourceMetaProperties & AdkEventProperties;
 
 export type AdkEventUpsert = AdkEventProperties;
 
+export type AdkEventOrderByField = "createdAt";
+
+export const AdkEventOrderByField = {
+  CREATED_AT: "createdAt",
+} as const;
+
 export type AdkAppProperties = {
   id: string;
   app_name: string;
@@ -10007,9 +10013,6 @@ export type AdkSessionGetData = {
 };
 
 export type AdkSessionGetErrors = {
-  /**
-   * A malformed or bad request
-   */
   400: ApiErrors;
   403: ApiError;
   404: ApiErrors;
@@ -10119,7 +10122,11 @@ export type AdkEventsListData = {
      */
     tenant: TenantParameter;
   };
-  query?: never;
+  query?: {
+    limit?: number;
+    offset?: number;
+    orderByField?: AdkEventOrderByField;
+  };
   url: "/api/v1/tenants/{tenant}/adk/events";
 };
 
