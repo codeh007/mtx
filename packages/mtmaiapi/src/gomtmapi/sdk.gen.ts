@@ -4980,9 +4980,9 @@ export const instagramLogin = <ThrowOnError extends boolean = false>(
  * 获取adk事件列表
  */
 export const adkAppList = <ThrowOnError extends boolean = false>(
-  options?: Options<AdkAppListData, ThrowOnError>,
+  options: Options<AdkAppListData, ThrowOnError>,
 ) => {
-  return (options?.client ?? _heyApiClient).get<
+  return (options.client ?? _heyApiClient).get<
     AdkAppListResponse,
     AdkAppListError,
     ThrowOnError
@@ -4997,7 +4997,7 @@ export const adkAppList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/adk/app",
+    url: "/api/v1/tenants/{tenant}/adk/app",
     ...options,
   });
 };
@@ -5023,7 +5023,7 @@ export const adkAppUpsert = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/adk/app",
+    url: "/api/v1/tenants/{tenant}/adk/app",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -5054,7 +5054,7 @@ export const adkAppGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/adk/app/{app}",
+    url: "/api/v1/tenants/{tenant}/adk/app/{app}",
     ...options,
   });
 };

@@ -77,7 +77,7 @@ export const ChatImpl = memo((props: ChatProps) => {
   const [animationScope, animate] = useAnimate();
   const input = useWorkbenchStore((x) => x.input);
   const setInput = useWorkbenchStore((x) => x.setInput);
-  const started = useWorkbenchStore((x) => x.started);
+  const started = useWorkbenchStore((x) => x.chatStarted);
   const TEXTAREA_MAX_HEIGHT = started ? 400 : 200;
   const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
   const scrollTextArea = () => {

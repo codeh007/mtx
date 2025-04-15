@@ -5123,10 +5123,10 @@ export const instagramLoginMutation = (
   return mutationOptions;
 };
 
-export const adkAppListQueryKey = (options?: Options<AdkAppListData>) =>
+export const adkAppListQueryKey = (options: Options<AdkAppListData>) =>
   createQueryKey("adkAppList", options);
 
-export const adkAppListOptions = (options?: Options<AdkAppListData>) => {
+export const adkAppListOptions = (options: Options<AdkAppListData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
       const { data } = await adkAppList({

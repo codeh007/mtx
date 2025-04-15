@@ -9852,9 +9852,14 @@ export type InstagramLoginResponse =
 
 export type AdkAppListData = {
   body?: never;
-  path?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
   query?: never;
-  url: "/api/v1/adk/app";
+  url: "/api/v1/tenants/{tenant}/adk/app";
 };
 
 export type AdkAppListErrors = {
@@ -9873,9 +9878,14 @@ export type AdkAppListResponse = AdkAppListResponses[keyof AdkAppListResponses];
 
 export type AdkAppUpsertData = {
   body: AdkAppUpsert;
-  path?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
   query?: never;
-  url: "/api/v1/adk/app";
+  url: "/api/v1/tenants/{tenant}/adk/app";
 };
 
 export type AdkAppUpsertErrors = {
@@ -9896,12 +9906,16 @@ export type AdkAppGetData = {
   body?: never;
   path: {
     /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
      * The app id
      */
     app: string;
   };
   query?: never;
-  url: "/api/v1/adk/app/{app}";
+  url: "/api/v1/tenants/{tenant}/adk/app/{app}";
 };
 
 export type AdkAppGetErrors = {

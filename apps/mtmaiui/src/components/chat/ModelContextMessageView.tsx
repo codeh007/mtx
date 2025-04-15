@@ -2,14 +2,16 @@
 
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import { motion } from "framer-motion";
-import type { ChatMessage, FunctionCall, MtLlmMessage } from "mtmaiapi";
+import { adkEventsListOptions, type ChatMessage, type FunctionCall } from "mtmaiapi";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { SparklesIcon } from "mtxuilib/icons/aichatbot.icons";
 import { Markdown } from "mtxuilib/markdown/Markdown";
 
+import { useQuery } from "@tanstack/react-query";
 import { camelCase } from "lodash-es";
 import { cn } from "mtxuilib/lib/utils";
+import { useTenantId } from "../../hooks/useAuth";
 import { AskUserMessage } from "./tool-messages/AskUserMessage";
 import { CodeExecutorView } from "./tool-messages/CodeExecutor";
 import { SocialLoginView } from "./tool-messages/SocialLogin";
@@ -19,6 +21,18 @@ interface MtMessagesProps {
   messages: ChatMessage[];
 }
 export const ModelContextMessageView = ({ messages }: MtMessagesProps) => {
+
+  const tid = useTenantId();
+  const adkEventsQuery = useQuery({
+    ...adkEventsListOptions({
+      path:{
+        tenant: tid,
+        // query: {
+        //   limit: 100,
+        // },
+      },
+    }),
+  });
   return (
     <div className="p-1 px-2">
       <DebugValue data={{ messages }} />
