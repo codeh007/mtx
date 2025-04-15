@@ -8213,15 +8213,18 @@ export const zAdkEventProperties = z.object({
   session_id: z.string(),
   invocation_id: z.string(),
   author: z.string(),
-  branch: z.string(),
+  branch: z.string().optional(),
   timestamp: z.string(),
   content: z.object({}),
   actions: z.object({}),
 });
 
-export const zAdkEventList = z.array(
-  zApiResourceMetaProperties.merge(zAdkEventProperties),
-);
+export const zAdkEventList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z
+    .array(zApiResourceMetaProperties.merge(zAdkEventProperties))
+    .optional(),
+});
 
 export const zAdkEvent = zApiResourceMetaProperties.merge(zAdkEventProperties);
 
@@ -8240,9 +8243,10 @@ export const zAdkAppProperties = z.object({
   actions: z.object({}),
 });
 
-export const zAdkAppList = z.array(
-  zApiResourceMetaProperties.merge(zAdkAppProperties),
-);
+export const zAdkAppList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zApiResourceMetaProperties.merge(zAdkAppProperties)).optional(),
+});
 
 export const zAdkApp = zApiResourceMetaProperties.merge(zAdkAppProperties);
 
@@ -8252,20 +8256,19 @@ export const zAdkSessionProperties = z.object({
   id: z.string(),
   app_name: z.string(),
   user_id: z.string(),
-  session_id: z.string(),
-  invocation_id: z.string(),
-  author: z.string(),
-  branch: z.string(),
-  timestamp: z.string(),
-  content: z.object({}),
-  actions: z.object({}),
+  state: z.object({}),
+  create_time: z.string(),
+  update_time: z.string(),
 });
 
 export const zAdkSession = zApiResourceMetaProperties.merge(
   zAdkSessionProperties,
 );
 
-export const zAdkSessionList = z.array(zAdkSession);
+export const zAdkSessionList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zAdkSession).optional(),
+});
 
 export const zAdkSessionUpsert = zAdkSessionProperties;
 
@@ -8286,7 +8289,10 @@ export const zAdkUserState = zApiResourceMetaProperties.merge(
   zAdkUserStateProperties,
 );
 
-export const zAdkUserStateList = z.array(zAdkUserState);
+export const zAdkUserStateList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zAdkUserState).optional(),
+});
 
 export const zAdkUserStateUpsert = zAdkUserStateProperties;
 
@@ -8626,7 +8632,7 @@ export const zAdkUserStateListResponse = zAdkUserStateList;
 
 export const zAdkUserStateUpsertResponse = zAdkUserState;
 
-export const zAdkUserStateGetResponse = zAdkEvent;
+export const zAdkUserStateGetResponse = zAdkUserState;
 
 export const zAdkEventsListResponse = zAdkEventList;
 

@@ -8,6 +8,7 @@ import {
 } from "@tanstack/react-query";
 import { debounce } from "lodash";
 import {
+  type AdkEvent,
   AgentEventType,
   type Agents,
   type ApiErrors,
@@ -20,7 +21,6 @@ import {
   type InstagramAgent,
   type InstagramAgentConfig,
   ModelFamily,
-  type MtAgEvent,
   type OpenAiChatCompletionClient,
   type Options,
   ProviderTypes,
@@ -30,11 +30,11 @@ import {
   type StartNewChatInput,
   type Tenant,
   type Terminations,
-  type UserAgentState,
   type UserProxyAgent,
   type UserProxyAgentConfig,
   type WorkflowRun,
   type WorkflowRunCreateData,
+  adkEventsList,
   agStateListOptions,
   chatMessagesList,
   workflowRunCreate,
@@ -97,8 +97,6 @@ export interface WorkbrenchState extends WorkbenchProps {
   openChat?: boolean;
   setOpenChat: (openChat: boolean) => void;
   setCurrentWorkbenchView: (id: string) => void;
-  // started: boolean;
-  // setStarted: (started: boolean) => void;
   chatEndpoint: string;
   setChatEndpoint: (chatEndpoint: string) => void;
   isConnected: boolean;
@@ -151,6 +149,11 @@ export interface WorkbrenchState extends WorkbenchProps {
   team: SocialTeam;
   setTeam: (team: SocialTeam) => void;
   refetchTeamState: () => Promise<void>;
+
+  // google adk
+  adkEvents: AdkEvent[];
+  setAdkEvents: (adkEvents: AdkEvent[]) => void;
+  refetchAdkEvents: () => void;
 }
 
 export const createWorkbrenchSlice: StateCreator<
@@ -435,6 +438,22 @@ export const createWorkbrenchSlice: StateCreator<
         },
       });
       return response;
+    },
+
+    // google adk
+    adkEvents: [],
+    setAdkEvents: (adkEvents) => {
+      set({ adkEvents });
+    },
+    refetchAdkEvents: async () => {
+      const response = await adkEventsList({
+        path: {
+          tenant: get().tenant.metadata.id,
+        },
+      });
+      if (response.data?.rows) {
+        set({ adkEvents: response.data.rows });
+      }
     },
     ...init,
   };

@@ -5197,12 +5197,10 @@ export const adkAppGetOptions = (options: Options<AdkAppGetData>) => {
   });
 };
 
-export const adkSessionListQueryKey = (options?: Options<AdkSessionListData>) =>
+export const adkSessionListQueryKey = (options: Options<AdkSessionListData>) =>
   createQueryKey("adkSessionList", options);
 
-export const adkSessionListOptions = (
-  options?: Options<AdkSessionListData>,
-) => {
+export const adkSessionListOptions = (options: Options<AdkSessionListData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
       const { data } = await adkSessionList({
@@ -5277,11 +5275,11 @@ export const adkSessionGetOptions = (options: Options<AdkSessionGetData>) => {
 };
 
 export const adkUserStateListQueryKey = (
-  options?: Options<AdkUserStateListData>,
+  options: Options<AdkUserStateListData>,
 ) => createQueryKey("adkUserStateList", options);
 
 export const adkUserStateListOptions = (
-  options?: Options<AdkUserStateListData>,
+  options: Options<AdkUserStateListData>,
 ) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
@@ -5359,10 +5357,10 @@ export const adkUserStateGetOptions = (
   });
 };
 
-export const adkEventsListQueryKey = (options?: Options<AdkEventsListData>) =>
+export const adkEventsListQueryKey = (options: Options<AdkEventsListData>) =>
   createQueryKey("adkEventsList", options);
 
-export const adkEventsListOptions = (options?: Options<AdkEventsListData>) => {
+export const adkEventsListOptions = (options: Options<AdkEventsListData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
       const { data } = await adkEventsList({

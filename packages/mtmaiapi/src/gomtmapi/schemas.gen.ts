@@ -7236,7 +7236,6 @@ export const AdkEventPropertiesSchema = {
     "session_id",
     "invocation_id",
     "author",
-    "branch",
     "timestamp",
     "content",
     "actions",
@@ -7276,9 +7275,17 @@ export const AdkEventPropertiesSchema = {
 } as const;
 
 export const AdkEventListSchema = {
-  type: "array",
-  items: {
-    $ref: "#/components/schemas/AdkEvent",
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      items: {
+        $ref: "#/components/schemas/AdkEvent",
+      },
+      type: "array",
+      "x-go-name": "Rows",
+    },
   },
 } as const;
 
@@ -7349,9 +7356,17 @@ export const AdkAppPropertiesSchema = {
 } as const;
 
 export const AdkAppListSchema = {
-  type: "array",
-  items: {
-    $ref: "#/components/schemas/AdkApp",
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      items: {
+        $ref: "#/components/schemas/AdkApp",
+      },
+      type: "array",
+      "x-go-name": "Rows",
+    },
   },
 } as const;
 
@@ -7379,13 +7394,9 @@ export const AdkSessionPropertiesSchema = {
     "id",
     "app_name",
     "user_id",
-    "session_id",
-    "invocation_id",
-    "author",
-    "branch",
-    "timestamp",
-    "content",
-    "actions",
+    "state",
+    "create_time",
+    "update_time",
   ],
   properties: {
     id: {
@@ -7397,26 +7408,15 @@ export const AdkSessionPropertiesSchema = {
     user_id: {
       type: "string",
     },
-    session_id: {
-      type: "string",
-    },
-    invocation_id: {
-      type: "string",
-    },
-    author: {
-      type: "string",
-    },
-    branch: {
-      type: "string",
-    },
-    timestamp: {
-      type: "string",
-    },
-    content: {
+    state: {
       type: "object",
+      additionalProperties: true,
     },
-    actions: {
-      type: "object",
+    create_time: {
+      type: "string",
+    },
+    update_time: {
+      type: "string",
     },
   },
 } as const;
@@ -7433,9 +7433,17 @@ export const AdkSessionSchema = {
 } as const;
 
 export const AdkSessionListSchema = {
-  type: "array",
-  items: {
-    $ref: "#/components/schemas/AdkSession",
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      items: {
+        $ref: "#/components/schemas/AdkSession",
+      },
+      type: "array",
+      "x-go-name": "Rows",
+    },
   },
 } as const;
 
@@ -7506,9 +7514,17 @@ export const AdkUserStateSchema = {
 } as const;
 
 export const AdkUserStateListSchema = {
-  type: "array",
-  items: {
-    $ref: "#/components/schemas/AdkUserState",
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      items: {
+        $ref: "#/components/schemas/AdkUserState",
+      },
+      type: "array",
+      "x-go-name": "Rows",
+    },
   },
 } as const;
 

@@ -3630,7 +3630,7 @@ export type AdkEventProperties = {
   session_id: string;
   invocation_id: string;
   author: string;
-  branch: string;
+  branch?: string;
   timestamp: string;
   content: {
     [key: string]: unknown;
@@ -3640,7 +3640,10 @@ export type AdkEventProperties = {
   };
 };
 
-export type AdkEventList = Array<AdkEvent>;
+export type AdkEventList = {
+  pagination?: PaginationResponse;
+  rows?: Array<AdkEvent>;
+};
 
 export type AdkEvent = ApiResourceMetaProperties & AdkEventProperties;
 
@@ -3663,7 +3666,10 @@ export type AdkAppProperties = {
   };
 };
 
-export type AdkAppList = Array<AdkApp>;
+export type AdkAppList = {
+  pagination?: PaginationResponse;
+  rows?: Array<AdkApp>;
+};
 
 export type AdkApp = ApiResourceMetaProperties & AdkAppProperties;
 
@@ -3673,22 +3679,19 @@ export type AdkSessionProperties = {
   id: string;
   app_name: string;
   user_id: string;
-  session_id: string;
-  invocation_id: string;
-  author: string;
-  branch: string;
-  timestamp: string;
-  content: {
+  state: {
     [key: string]: unknown;
   };
-  actions: {
-    [key: string]: unknown;
-  };
+  create_time: string;
+  update_time: string;
 };
 
 export type AdkSession = ApiResourceMetaProperties & AdkSessionProperties;
 
-export type AdkSessionList = Array<AdkSession>;
+export type AdkSessionList = {
+  pagination?: PaginationResponse;
+  rows?: Array<AdkSession>;
+};
 
 export type AdkSessionUpsert = AdkSessionProperties;
 
@@ -3711,7 +3714,10 @@ export type AdkUserStateProperties = {
 
 export type AdkUserState = ApiResourceMetaProperties & AdkUserStateProperties;
 
-export type AdkUserStateList = Array<AdkUserState>;
+export type AdkUserStateList = {
+  pagination?: PaginationResponse;
+  rows?: Array<AdkUserState>;
+};
 
 export type AdkUserStateUpsert = AdkUserStateProperties;
 
@@ -9917,9 +9923,14 @@ export type AdkAppGetResponse = AdkAppGetResponses[keyof AdkAppGetResponses];
 
 export type AdkSessionListData = {
   body?: never;
-  path?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
   query?: never;
-  url: "/api/v1/adk/session";
+  url: "/api/v1/tenants/{tenant}/adk/session";
 };
 
 export type AdkSessionListErrors = {
@@ -9940,9 +9951,14 @@ export type AdkSessionListResponse =
 
 export type AdkSessionUpsertData = {
   body: AdkSessionUpsert;
-  path?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
   query?: never;
-  url: "/api/v1/adk/session";
+  url: "/api/v1/tenants/{tenant}/adk/session";
 };
 
 export type AdkSessionUpsertErrors = {
@@ -9964,12 +9980,16 @@ export type AdkSessionGetData = {
   body?: never;
   path: {
     /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
      * The session id
      */
     session: string;
   };
   query?: never;
-  url: "/api/v1/adk/session/{session}";
+  url: "/api/v1/tenants/{tenant}/adk/session/{session}";
 };
 
 export type AdkSessionGetErrors = {
@@ -9992,9 +10012,14 @@ export type AdkSessionGetResponse =
 
 export type AdkUserStateListData = {
   body?: never;
-  path?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
   query?: never;
-  url: "/api/v1/adk/user-state";
+  url: "/api/v1/tenants/{tenant}/adk/user-state";
 };
 
 export type AdkUserStateListErrors = {
@@ -10015,9 +10040,14 @@ export type AdkUserStateListResponse =
 
 export type AdkUserStateUpsertData = {
   body: AdkUserStateUpsert;
-  path?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
   query?: never;
-  url: "/api/v1/adk/user-state";
+  url: "/api/v1/tenants/{tenant}/adk/user-state";
 };
 
 export type AdkUserStateUpsertErrors = {
@@ -10039,18 +10069,19 @@ export type AdkUserStateGetData = {
   body?: never;
   path: {
     /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
      * The state id
      */
     state: string;
   };
   query?: never;
-  url: "/api/v1/adk/user-state/{state}";
+  url: "/api/v1/tenants/{tenant}/adk/user-state/{state}";
 };
 
 export type AdkUserStateGetErrors = {
-  /**
-   * A malformed or bad request
-   */
   400: ApiErrors;
   403: ApiError;
   404: ApiErrors;
@@ -10060,7 +10091,7 @@ export type AdkUserStateGetError =
   AdkUserStateGetErrors[keyof AdkUserStateGetErrors];
 
 export type AdkUserStateGetResponses = {
-  200: AdkEvent;
+  200: AdkUserState;
 };
 
 export type AdkUserStateGetResponse =
@@ -10068,9 +10099,14 @@ export type AdkUserStateGetResponse =
 
 export type AdkEventsListData = {
   body?: never;
-  path?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
   query?: never;
-  url: "/api/v1/adk/events";
+  url: "/api/v1/tenants/{tenant}/adk/events";
 };
 
 export type AdkEventsListErrors = {
@@ -10090,9 +10126,14 @@ export type AdkEventsListResponse =
 
 export type AdkEventsUpsertData = {
   body: AdkEventUpsert;
-  path?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
   query?: never;
-  url: "/api/v1/adk/events";
+  url: "/api/v1/tenants/{tenant}/adk/events";
 };
 
 export type AdkEventsUpsertErrors = {
@@ -10114,12 +10155,16 @@ export type AdkEventsGetData = {
   body?: never;
   path: {
     /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
      * The event id
      */
     event: string;
   };
   query?: never;
-  url: "/api/v1/adk/events/{event}";
+  url: "/api/v1/tenants/{tenant}/adk/events/{event}";
 };
 
 export type AdkEventsGetErrors = {

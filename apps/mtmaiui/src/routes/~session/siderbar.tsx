@@ -1,6 +1,11 @@
 "use client";
 
-import { type ChatSession, chatSessionListOptions } from "mtmaiapi";
+import {
+  type AdkSession,
+  type ChatSession,
+  adkSessionListOptions,
+  chatSessionListOptions,
+} from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
@@ -43,6 +48,14 @@ export function NavSession() {
     }),
   });
 
+  const adkSessionQuery = useQuery({
+    ...adkSessionListOptions({
+      path: {
+        tenant: tid,
+      },
+    }),
+  });
+
   return (
     <Sidebar collapsible="none" className="hidden flex-1 md:flex">
       <SidebarHeader className="gap-3.5 border-b p-4">
@@ -73,6 +86,14 @@ export function NavSession() {
           <SidebarGroupContent>
             {chatQuery.data?.rows?.map((item) => (
               <NavChatSessionItem
+                key={item.metadata?.id}
+                item={item}
+                rowId={item.metadata?.id || ""}
+              />
+            ))}
+
+            {adkSessionQuery.data?.rows?.map((item) => (
+              <NavAdkSessionItem
                 key={item.metadata?.id}
                 item={item}
                 rowId={item.metadata?.id || ""}
@@ -148,5 +169,21 @@ const NavChatSessionItem = ({
         </CollapsibleContent>
       </Collapsible>
     </>
+  );
+};
+
+const NavAdkSessionItem = ({
+  item,
+  rowId,
+}: { item: AdkSession; rowId: string }) => {
+  return (
+    <div className="bg-slate-100 border px-2 mb-2 rounded-md flex flex-col">
+      <div className="flex items-center justify-between">
+        <CustomLink to={`/session/${item.id}`}>
+          <div>{item.id}</div>
+        </CustomLink>
+        <div>{item.app_name}</div>
+      </div>
+    </div>
   );
 };

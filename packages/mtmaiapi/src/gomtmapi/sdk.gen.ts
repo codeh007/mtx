@@ -5063,9 +5063,9 @@ export const adkAppGet = <ThrowOnError extends boolean = false>(
  * 获取adk事件列表
  */
 export const adkSessionList = <ThrowOnError extends boolean = false>(
-  options?: Options<AdkSessionListData, ThrowOnError>,
+  options: Options<AdkSessionListData, ThrowOnError>,
 ) => {
-  return (options?.client ?? _heyApiClient).get<
+  return (options.client ?? _heyApiClient).get<
     AdkSessionListResponse,
     AdkSessionListError,
     ThrowOnError
@@ -5080,7 +5080,7 @@ export const adkSessionList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/adk/session",
+    url: "/api/v1/tenants/{tenant}/adk/session",
     ...options,
   });
 };
@@ -5106,7 +5106,7 @@ export const adkSessionUpsert = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/adk/session",
+    url: "/api/v1/tenants/{tenant}/adk/session",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -5137,18 +5137,18 @@ export const adkSessionGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/adk/session/{session}",
+    url: "/api/v1/tenants/{tenant}/adk/session/{session}",
     ...options,
   });
 };
 
 /**
- * 获取adk事件列表
+ * 获取adk用户状态列表
  */
 export const adkUserStateList = <ThrowOnError extends boolean = false>(
-  options?: Options<AdkUserStateListData, ThrowOnError>,
+  options: Options<AdkUserStateListData, ThrowOnError>,
 ) => {
-  return (options?.client ?? _heyApiClient).get<
+  return (options.client ?? _heyApiClient).get<
     AdkUserStateListResponse,
     AdkUserStateListError,
     ThrowOnError
@@ -5163,7 +5163,7 @@ export const adkUserStateList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/adk/user-state",
+    url: "/api/v1/tenants/{tenant}/adk/user-state",
     ...options,
   });
 };
@@ -5189,7 +5189,7 @@ export const adkUserStateUpsert = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/adk/user-state",
+    url: "/api/v1/tenants/{tenant}/adk/user-state",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -5220,7 +5220,7 @@ export const adkUserStateGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/adk/user-state/{state}",
+    url: "/api/v1/tenants/{tenant}/adk/user-state/{state}",
     ...options,
   });
 };
@@ -5229,9 +5229,9 @@ export const adkUserStateGet = <ThrowOnError extends boolean = false>(
  * 获取adk事件列表
  */
 export const adkEventsList = <ThrowOnError extends boolean = false>(
-  options?: Options<AdkEventsListData, ThrowOnError>,
+  options: Options<AdkEventsListData, ThrowOnError>,
 ) => {
-  return (options?.client ?? _heyApiClient).get<
+  return (options.client ?? _heyApiClient).get<
     AdkEventsListResponse,
     AdkEventsListError,
     ThrowOnError
@@ -5246,7 +5246,7 @@ export const adkEventsList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/adk/events",
+    url: "/api/v1/tenants/{tenant}/adk/events",
     ...options,
   });
 };
@@ -5272,7 +5272,7 @@ export const adkEventsUpsert = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/adk/events",
+    url: "/api/v1/tenants/{tenant}/adk/events",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -5303,7 +5303,7 @@ export const adkEventsGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/adk/events/{event}",
+    url: "/api/v1/tenants/{tenant}/adk/events/{event}",
     ...options,
   });
 };
