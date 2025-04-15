@@ -2,26 +2,15 @@
 // @generated from file mtmai/mtmpb/cli.proto (package mtmai.mtm.cli, syntax proto3)
 /* eslint-disable */
 
-import type {
-  GenFile,
-  GenMessage,
-  GenService,
-} from "@bufbuild/protobuf/codegenv1";
-import {
-  fileDesc,
-  messageDesc,
-  serviceDesc,
-} from "@bufbuild/protobuf/codegenv1";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file mtmai/mtmpb/cli.proto.
  */
-export const file_mtmai_mtmpb_cli: GenFile =
-  /*@__PURE__*/
-  fileDesc(
-    "ChVtdG1haS9tdG1wYi9jbGkucHJvdG8SDW10bWFpLm10bS5jbGkiPAoOQ2xpQ29tbWFuZEl0ZW0SCgoCaWQYASABKAkSDwoHY21kTGluZRgCIAEoCRINCgVsYWJlbBgDIAEoCSIMCgpMaXN0Q2xpUmVxIkkKCkxpc3RDbGlSZXMSLAoFaXRlbXMYASADKAsyHS5tdG1haS5tdG0uY2xpLkNsaUNvbW1hbmRJdGVtEg0KBWNvdW50GAIgASgNMl0KDE10Q2xpU2VydmljZRJNChNDbGlDb21tYW5kVGVtcGxhdGVzEhkubXRtYWkubXRtLmNsaS5MaXN0Q2xpUmVxGhkubXRtYWkubXRtLmNsaS5MaXN0Q2xpUmVzIgBCqQEKEWNvbS5tdG1haS5tdG0uY2xpQghDbGlQcm90b1ABWjRnaXRodWIuY29tL2NvZGVoMDA3L2dvbXRtL210bS9zcHBiL210bWFpL210bXBiO210bXBiogIDTU1DqgINTXRtYWkuTXRtLkNsacoCDU10bWFpXE10bVxDbGniAhlNdG1haVxNdG1cQ2xpXEdQQk1ldGFkYXRh6gIPTXRtYWk6Ok10bTo6Q2xpYgZwcm90bzM",
-  );
+export const file_mtmai_mtmpb_cli: GenFile = /*@__PURE__*/
+  fileDesc("ChVtdG1haS9tdG1wYi9jbGkucHJvdG8SDW10bWFpLm10bS5jbGkiPAoOQ2xpQ29tbWFuZEl0ZW0SCgoCaWQYASABKAkSDwoHY21kTGluZRgCIAEoCRINCgVsYWJlbBgDIAEoCSIMCgpMaXN0Q2xpUmVxIkkKCkxpc3RDbGlSZXMSLAoFaXRlbXMYASADKAsyHS5tdG1haS5tdG0uY2xpLkNsaUNvbW1hbmRJdGVtEg0KBWNvdW50GAIgASgNMl0KDE10Q2xpU2VydmljZRJNChNDbGlDb21tYW5kVGVtcGxhdGVzEhkubXRtYWkubXRtLmNsaS5MaXN0Q2xpUmVxGhkubXRtYWkubXRtLmNsaS5MaXN0Q2xpUmVzIgBCqQEKEWNvbS5tdG1haS5tdG0uY2xpQghDbGlQcm90b1ABWjRnaXRodWIuY29tL2NvZGVoMDA3L2dvbXRtL210bS9zcHBiL210bWFpL210bXBiO210bXBiogIDTU1DqgINTXRtYWkuTXRtLkNsacoCDU10bWFpXE10bVxDbGniAhlNdG1haVxNdG1cQ2xpXEdQQk1ldGFkYXRh6gIPTXRtYWk6Ok10bTo6Q2xpYgZwcm90bzM");
 
 /**
  * @generated from message mtmai.mtm.cli.CliCommandItem
@@ -47,21 +36,20 @@ export type CliCommandItem = Message<"mtmai.mtm.cli.CliCommandItem"> & {
  * Describes the message mtmai.mtm.cli.CliCommandItem.
  * Use `create(CliCommandItemSchema)` to create a new message.
  */
-export const CliCommandItemSchema: GenMessage<CliCommandItem> =
-  /*@__PURE__*/
+export const CliCommandItemSchema: GenMessage<CliCommandItem> = /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_cli, 0);
 
 /**
  * @generated from message mtmai.mtm.cli.ListCliReq
  */
-export type ListCliReq = Message<"mtmai.mtm.cli.ListCliReq"> & {};
+export type ListCliReq = Message<"mtmai.mtm.cli.ListCliReq"> & {
+};
 
 /**
  * Describes the message mtmai.mtm.cli.ListCliReq.
  * Use `create(ListCliReqSchema)` to create a new message.
  */
-export const ListCliReqSchema: GenMessage<ListCliReq> =
-  /*@__PURE__*/
+export const ListCliReqSchema: GenMessage<ListCliReq> = /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_cli, 1);
 
 /**
@@ -83,8 +71,7 @@ export type ListCliRes = Message<"mtmai.mtm.cli.ListCliRes"> & {
  * Describes the message mtmai.mtm.cli.ListCliRes.
  * Use `create(ListCliResSchema)` to create a new message.
  */
-export const ListCliResSchema: GenMessage<ListCliRes> =
-  /*@__PURE__*/
+export const ListCliResSchema: GenMessage<ListCliRes> = /*@__PURE__*/
   messageDesc(file_mtmai_mtmpb_cli, 2);
 
 /**
@@ -98,5 +85,7 @@ export const MtCliService: GenService<{
     methodKind: "unary";
     input: typeof ListCliReqSchema;
     output: typeof ListCliResSchema;
-  };
-}> = /*@__PURE__*/ serviceDesc(file_mtmai_mtmpb_cli, 0);
+  },
+}> = /*@__PURE__*/
+  serviceDesc(file_mtmai_mtmpb_cli, 0);
+
