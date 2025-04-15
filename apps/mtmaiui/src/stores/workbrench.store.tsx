@@ -34,11 +34,10 @@ import {
   type UserProxyAgentConfig,
   type WorkflowRun,
   type WorkflowRunCreateData,
-  adkEventsList,
   agStateListOptions,
   chatMessagesList,
   workflowRunCreate,
-  workflowRunCreateMutation,
+  workflowRunCreateMutation
 } from "mtmaiapi";
 import { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
 import { AgentRpc } from "mtmaiapi/mtmclient/mtmai/mtmpb/agent_worker_pb";
@@ -141,8 +140,8 @@ export interface WorkbrenchState extends WorkbenchProps {
     additionalMetadata: Record<string, any>,
   ) => Promise<WorkflowRun>;
 
-  userAgentState?: UserAgentState;
-  setUserAgentState: (userAgentState: UserAgentState) => void;
+  // userAgentState?: UserAgentState;
+  // setUserAgentState: (userAgentState: UserAgentState) => void;
   lastestWorkflowRun?: WorkflowRun;
   setLastestWorkflowRun: (lastestWorkflowRun: WorkflowRun) => void;
 
@@ -153,7 +152,7 @@ export interface WorkbrenchState extends WorkbenchProps {
   // google adk
   adkEvents: AdkEvent[];
   setAdkEvents: (adkEvents: AdkEvent[]) => void;
-  refetchAdkEvents: () => void;
+  // refetchAdkEvents: () => void;
 }
 
 export const createWorkbrenchSlice: StateCreator<
@@ -410,9 +409,9 @@ export const createWorkbrenchSlice: StateCreator<
     refetchTeamState: async () => {
       set({ teamState: undefined });
     },
-    setUserAgentState: (userAgentState) => {
-      set({ userAgentState });
-    },
+    // setUserAgentState: (userAgentState) => {
+    //   set({ userAgentState });
+    // },
     setLastestWorkflowRun: (lastestWorkflowRun) => {
       console.log("setLastestWorkflowRun", lastestWorkflowRun);
       set({ lastestWorkflowRun });
@@ -445,16 +444,16 @@ export const createWorkbrenchSlice: StateCreator<
     setAdkEvents: (adkEvents) => {
       set({ adkEvents });
     },
-    refetchAdkEvents: async () => {
-      const response = await adkEventsList({
-        path: {
-          tenant: get().tenant.metadata.id,
-        },
-      });
-      if (response.data?.rows) {
-        set({ adkEvents: response.data.rows });
-      }
-    },
+    // refetchAdkEvents: async () => {
+    //   const response = await adkEventsList({
+    //     path: {
+    //       tenant: get().tenant.metadata.id,
+    //     },
+    //   });
+    //   if (response.data?.rows) {
+    //     set({ adkEvents: response.data.rows });
+    //   }
+    // },
     ...init,
   };
 };

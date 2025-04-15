@@ -1,6 +1,5 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
-import { Button } from "mtxuilib/ui/button";
 import { useEffect } from "react";
 import { ChatClient } from "../../../components/chat/Chat.client";
 import { AgStateView } from "../../../components/stateview/AgStateView";
@@ -22,9 +21,9 @@ function RouteComponent() {
     <>
       <DebugValue data={{ teamSate }} />
       {teamSate && <AgStateView state={teamSate} />}
-      <div>
+      {/* <div>
         events: todo <Button onClick={refetchAdkEvents}>refetch events</Button>
-      </div>
+      </div> */}
       <ChatClient />
     </>
   );
