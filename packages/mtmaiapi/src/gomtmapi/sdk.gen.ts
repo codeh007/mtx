@@ -481,6 +481,24 @@ import type {
   InstagramLoginData,
   InstagramLoginResponse,
   InstagramLoginError,
+  AdkAppListData,
+  AdkAppListResponse,
+  AdkAppListError,
+  AdkAppUpsertData,
+  AdkAppUpsertResponse,
+  AdkAppUpsertError,
+  AdkAppGetData,
+  AdkAppGetResponse,
+  AdkAppGetError,
+  AdkEventsListData,
+  AdkEventsListResponse,
+  AdkEventsListError,
+  AdkEventsUpsertData,
+  AdkEventsUpsertResponse,
+  AdkEventsUpsertError,
+  AdkEventsGetData,
+  AdkEventsGetResponse,
+  AdkEventsGetError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -4937,5 +4955,171 @@ export const instagramLogin = <ThrowOnError extends boolean = false>(
       "Content-Type": "application/json",
       ...options?.headers,
     },
+  });
+};
+
+/**
+ * 获取adk事件列表
+ */
+export const adkAppList = <ThrowOnError extends boolean = false>(
+  options?: Options<AdkAppListData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    AdkAppListResponse,
+    AdkAppListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/adk/app",
+    ...options,
+  });
+};
+
+/**
+ * 保存 adk 应用
+ */
+export const adkAppUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<AdkAppUpsertData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    AdkAppUpsertResponse,
+    AdkAppUpsertError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/adk/app",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * 获取adk应用
+ * 获取adk应用
+ */
+export const adkAppGet = <ThrowOnError extends boolean = false>(
+  options: Options<AdkAppGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    AdkAppGetResponse,
+    AdkAppGetError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/adk/app/{app}",
+    ...options,
+  });
+};
+
+/**
+ * 获取adk事件列表
+ */
+export const adkEventsList = <ThrowOnError extends boolean = false>(
+  options?: Options<AdkEventsListData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    AdkEventsListResponse,
+    AdkEventsListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/adk/events",
+    ...options,
+  });
+};
+
+/**
+ * 保存 adk 事件
+ */
+export const adkEventsUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<AdkEventsUpsertData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    AdkEventsUpsertResponse,
+    AdkEventsUpsertError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/adk/events",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * 获取租户下的adk事件列表
+ * 获取adk事件列表
+ */
+export const adkEventsGet = <ThrowOnError extends boolean = false>(
+  options: Options<AdkEventsGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    AdkEventsGetResponse,
+    AdkEventsGetError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/adk/events/{event}",
+    ...options,
   });
 };

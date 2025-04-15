@@ -7227,3 +7227,149 @@ export const MtBrowserConfigSchema = {
     },
   },
 } as const;
+
+export const AdkEventPropertiesSchema = {
+  required: [
+    "id",
+    "app_name",
+    "user_id",
+    "session_id",
+    "invocation_id",
+    "author",
+    "branch",
+    "timestamp",
+    "content",
+    "actions",
+  ],
+  properties: {
+    id: {
+      type: "string",
+    },
+    app_name: {
+      type: "string",
+    },
+    user_id: {
+      type: "string",
+    },
+    session_id: {
+      type: "string",
+    },
+    invocation_id: {
+      type: "string",
+    },
+    author: {
+      type: "string",
+    },
+    branch: {
+      type: "string",
+    },
+    timestamp: {
+      type: "string",
+    },
+    content: {
+      type: "object",
+    },
+    actions: {
+      type: "object",
+    },
+  },
+} as const;
+
+export const AdkEventListSchema = {
+  type: "array",
+  items: {
+    $ref: "#/components/schemas/AdkEvent",
+  },
+} as const;
+
+export const AdkEventSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/AdkEventProperties",
+    },
+  ],
+} as const;
+
+export const AdkEventUpsertSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AdkEventProperties",
+    },
+  ],
+} as const;
+
+export const AdkAppPropertiesSchema = {
+  required: [
+    "id",
+    "app_name",
+    "user_id",
+    "session_id",
+    "invocation_id",
+    "author",
+    "branch",
+    "timestamp",
+    "content",
+    "actions",
+  ],
+  properties: {
+    id: {
+      type: "string",
+    },
+    app_name: {
+      type: "string",
+    },
+    user_id: {
+      type: "string",
+    },
+    session_id: {
+      type: "string",
+    },
+    invocation_id: {
+      type: "string",
+    },
+    author: {
+      type: "string",
+    },
+    branch: {
+      type: "string",
+    },
+    timestamp: {
+      type: "string",
+    },
+    content: {
+      type: "object",
+    },
+    actions: {
+      type: "object",
+    },
+  },
+} as const;
+
+export const AdkAppListSchema = {
+  type: "array",
+  items: {
+    $ref: "#/components/schemas/AdkApp",
+  },
+} as const;
+
+export const AdkAppSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/AdkAppProperties",
+    },
+  ],
+} as const;
+
+export const AdkAppUpsertSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AdkAppProperties",
+    },
+  ],
+} as const;

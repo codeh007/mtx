@@ -8206,6 +8206,48 @@ export const zMtBrowserConfig = z.object({
   browser: z.enum(["chrome", "firefox"]).optional(),
 });
 
+export const zAdkEventProperties = z.object({
+  id: z.string(),
+  app_name: z.string(),
+  user_id: z.string(),
+  session_id: z.string(),
+  invocation_id: z.string(),
+  author: z.string(),
+  branch: z.string(),
+  timestamp: z.string(),
+  content: z.object({}),
+  actions: z.object({}),
+});
+
+export const zAdkEventList = z.array(
+  zApiResourceMetaProperties.merge(zAdkEventProperties),
+);
+
+export const zAdkEvent = zApiResourceMetaProperties.merge(zAdkEventProperties);
+
+export const zAdkEventUpsert = zAdkEventProperties;
+
+export const zAdkAppProperties = z.object({
+  id: z.string(),
+  app_name: z.string(),
+  user_id: z.string(),
+  session_id: z.string(),
+  invocation_id: z.string(),
+  author: z.string(),
+  branch: z.string(),
+  timestamp: z.string(),
+  content: z.object({}),
+  actions: z.object({}),
+});
+
+export const zAdkAppList = z.array(
+  zApiResourceMetaProperties.merge(zAdkAppProperties),
+);
+
+export const zAdkApp = zApiResourceMetaProperties.merge(zAdkAppProperties);
+
+export const zAdkAppUpsert = zAdkAppProperties;
+
 export const zMetadataGetResponse = zApiMeta;
 
 export const zCloudMetadataGetResponse = zApiErrors;
@@ -8525,3 +8567,15 @@ export const zResourceDeleteResponse = z.void();
 export const zResourceGetResponse = zResource;
 
 export const zInstagramLoginResponse = zIgLoginResponse;
+
+export const zAdkAppListResponse = zAdkEventList;
+
+export const zAdkAppUpsertResponse = zAdkApp;
+
+export const zAdkAppGetResponse = zAdkApp;
+
+export const zAdkEventsListResponse = zAdkEventList;
+
+export const zAdkEventsUpsertResponse = zAdkEvent;
+
+export const zAdkEventsGetResponse = zAdkEvent;

@@ -171,6 +171,12 @@ import {
   resourceDelete,
   resourceGet,
   instagramLogin,
+  adkAppList,
+  adkAppUpsert,
+  adkAppGet,
+  adkEventsList,
+  adkEventsUpsert,
+  adkEventsGet,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -497,6 +503,16 @@ import type {
   InstagramLoginData,
   InstagramLoginError,
   InstagramLoginResponse,
+  AdkAppListData,
+  AdkAppUpsertData,
+  AdkAppUpsertError,
+  AdkAppUpsertResponse,
+  AdkAppGetData,
+  AdkEventsListData,
+  AdkEventsUpsertData,
+  AdkEventsUpsertError,
+  AdkEventsUpsertResponse,
+  AdkEventsGetData,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -5089,4 +5105,155 @@ export const instagramLoginMutation = (
     },
   };
   return mutationOptions;
+};
+
+export const adkAppListQueryKey = (options?: Options<AdkAppListData>) =>
+  createQueryKey("adkAppList", options);
+
+export const adkAppListOptions = (options?: Options<AdkAppListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await adkAppList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: adkAppListQueryKey(options),
+  });
+};
+
+export const adkAppUpsertQueryKey = (options: Options<AdkAppUpsertData>) =>
+  createQueryKey("adkAppUpsert", options);
+
+export const adkAppUpsertOptions = (options: Options<AdkAppUpsertData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await adkAppUpsert({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: adkAppUpsertQueryKey(options),
+  });
+};
+
+export const adkAppUpsertMutation = (
+  options?: Partial<Options<AdkAppUpsertData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    AdkAppUpsertResponse,
+    AdkAppUpsertError,
+    Options<AdkAppUpsertData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await adkAppUpsert({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const adkAppGetQueryKey = (options: Options<AdkAppGetData>) =>
+  createQueryKey("adkAppGet", options);
+
+export const adkAppGetOptions = (options: Options<AdkAppGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await adkAppGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: adkAppGetQueryKey(options),
+  });
+};
+
+export const adkEventsListQueryKey = (options?: Options<AdkEventsListData>) =>
+  createQueryKey("adkEventsList", options);
+
+export const adkEventsListOptions = (options?: Options<AdkEventsListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await adkEventsList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: adkEventsListQueryKey(options),
+  });
+};
+
+export const adkEventsUpsertQueryKey = (
+  options: Options<AdkEventsUpsertData>,
+) => createQueryKey("adkEventsUpsert", options);
+
+export const adkEventsUpsertOptions = (
+  options: Options<AdkEventsUpsertData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await adkEventsUpsert({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: adkEventsUpsertQueryKey(options),
+  });
+};
+
+export const adkEventsUpsertMutation = (
+  options?: Partial<Options<AdkEventsUpsertData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    AdkEventsUpsertResponse,
+    AdkEventsUpsertError,
+    Options<AdkEventsUpsertData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await adkEventsUpsert({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const adkEventsGetQueryKey = (options: Options<AdkEventsGetData>) =>
+  createQueryKey("adkEventsGet", options);
+
+export const adkEventsGetOptions = (options: Options<AdkEventsGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await adkEventsGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: adkEventsGetQueryKey(options),
+  });
 };

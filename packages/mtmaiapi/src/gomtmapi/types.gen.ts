@@ -3623,6 +3623,52 @@ export type MtBrowserConfig = {
   browser?: "chrome" | "firefox";
 };
 
+export type AdkEventProperties = {
+  id: string;
+  app_name: string;
+  user_id: string;
+  session_id: string;
+  invocation_id: string;
+  author: string;
+  branch: string;
+  timestamp: string;
+  content: {
+    [key: string]: unknown;
+  };
+  actions: {
+    [key: string]: unknown;
+  };
+};
+
+export type AdkEventList = Array<AdkEvent>;
+
+export type AdkEvent = ApiResourceMetaProperties & AdkEventProperties;
+
+export type AdkEventUpsert = AdkEventProperties;
+
+export type AdkAppProperties = {
+  id: string;
+  app_name: string;
+  user_id: string;
+  session_id: string;
+  invocation_id: string;
+  author: string;
+  branch: string;
+  timestamp: string;
+  content: {
+    [key: string]: unknown;
+  };
+  actions: {
+    [key: string]: unknown;
+  };
+};
+
+export type AdkAppList = Array<AdkApp>;
+
+export type AdkApp = ApiResourceMetaProperties & AdkAppProperties;
+
+export type AdkAppUpsert = AdkAppProperties;
+
 export type ReadinessGetData = {
   body?: never;
   path?: never;
@@ -9751,6 +9797,151 @@ export type InstagramLoginResponses = {
 
 export type InstagramLoginResponse =
   InstagramLoginResponses[keyof InstagramLoginResponses];
+
+export type AdkAppListData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/adk/app";
+};
+
+export type AdkAppListErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+  404: ApiErrors;
+};
+
+export type AdkAppListError = AdkAppListErrors[keyof AdkAppListErrors];
+
+export type AdkAppListResponses = {
+  200: AdkEventList;
+};
+
+export type AdkAppListResponse = AdkAppListResponses[keyof AdkAppListResponses];
+
+export type AdkAppUpsertData = {
+  body: AdkAppUpsert;
+  path?: never;
+  query?: never;
+  url: "/api/v1/adk/app";
+};
+
+export type AdkAppUpsertErrors = {
+  400: ApiErrors;
+  403: ApiError;
+};
+
+export type AdkAppUpsertError = AdkAppUpsertErrors[keyof AdkAppUpsertErrors];
+
+export type AdkAppUpsertResponses = {
+  200: AdkApp;
+};
+
+export type AdkAppUpsertResponse =
+  AdkAppUpsertResponses[keyof AdkAppUpsertResponses];
+
+export type AdkAppGetData = {
+  body?: never;
+  path: {
+    /**
+     * The app id
+     */
+    app: string;
+  };
+  query?: never;
+  url: "/api/v1/adk/app/{app}";
+};
+
+export type AdkAppGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  403: ApiError;
+  404: ApiErrors;
+};
+
+export type AdkAppGetError = AdkAppGetErrors[keyof AdkAppGetErrors];
+
+export type AdkAppGetResponses = {
+  200: AdkApp;
+};
+
+export type AdkAppGetResponse = AdkAppGetResponses[keyof AdkAppGetResponses];
+
+export type AdkEventsListData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/adk/events";
+};
+
+export type AdkEventsListErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+  404: ApiErrors;
+};
+
+export type AdkEventsListError = AdkEventsListErrors[keyof AdkEventsListErrors];
+
+export type AdkEventsListResponses = {
+  200: AdkEventList;
+};
+
+export type AdkEventsListResponse =
+  AdkEventsListResponses[keyof AdkEventsListResponses];
+
+export type AdkEventsUpsertData = {
+  body: AdkEventUpsert;
+  path?: never;
+  query?: never;
+  url: "/api/v1/adk/events";
+};
+
+export type AdkEventsUpsertErrors = {
+  400: ApiErrors;
+  403: ApiError;
+};
+
+export type AdkEventsUpsertError =
+  AdkEventsUpsertErrors[keyof AdkEventsUpsertErrors];
+
+export type AdkEventsUpsertResponses = {
+  200: AdkEvent;
+};
+
+export type AdkEventsUpsertResponse =
+  AdkEventsUpsertResponses[keyof AdkEventsUpsertResponses];
+
+export type AdkEventsGetData = {
+  body?: never;
+  path: {
+    /**
+     * The event id
+     */
+    event: string;
+  };
+  query?: never;
+  url: "/api/v1/adk/events/{event}";
+};
+
+export type AdkEventsGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  403: ApiError;
+  404: ApiErrors;
+};
+
+export type AdkEventsGetError = AdkEventsGetErrors[keyof AdkEventsGetErrors];
+
+export type AdkEventsGetResponses = {
+  200: AdkEvent;
+};
+
+export type AdkEventsGetResponse =
+  AdkEventsGetResponses[keyof AdkEventsGetResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});
