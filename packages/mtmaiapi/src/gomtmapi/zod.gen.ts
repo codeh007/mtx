@@ -2673,6 +2673,9 @@ export const zWorkflowWorkersCount = z.object({
               ),
           }),
         ),
+      z.object({
+        browser: z.enum(["chrome", "firefox"]).optional(),
+      }),
     ])
     .optional(),
 });
@@ -8151,6 +8154,10 @@ export const zFlowStateList = z.object({
 });
 
 export const zFlowStateUpsert = zFlowStateProperties;
+
+export const zMtBrowserConfig = z.object({
+  browser: z.enum(["chrome", "firefox"]).optional(),
+});
 
 export const zMetadataGetResponse = zApiMeta;
 

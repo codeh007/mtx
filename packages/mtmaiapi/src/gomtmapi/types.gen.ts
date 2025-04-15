@@ -853,7 +853,8 @@ export type WorkflowWorkersCount = {
     | SocialLoginInput
     | SocialLoginResult
     | FlowResult
-    | SocialTeam;
+    | SocialTeam
+    | MtBrowserConfig;
 };
 
 export type WorkflowRun = {
@@ -3612,6 +3613,10 @@ export type FlowStateList = {
 };
 
 export type FlowStateUpsert = FlowStateProperties;
+
+export type MtBrowserConfig = {
+  browser?: "chrome" | "firefox";
+};
 
 export type ReadinessGetData = {
   body?: never;

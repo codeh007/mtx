@@ -1446,6 +1446,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/SocialTeam",
         },
+        {
+          $ref: "#/components/schemas/MtBrowserConfig",
+        },
       ],
     },
   },
@@ -7195,4 +7198,13 @@ export const FlowStateUpsertSchema = {
       $ref: "#/components/schemas/FlowStateProperties",
     },
   ],
+} as const;
+
+export const MtBrowserConfigSchema = {
+  properties: {
+    browser: {
+      type: "string",
+      enum: ["chrome", "firefox"],
+    },
+  },
 } as const;
