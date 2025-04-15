@@ -490,6 +490,24 @@ import type {
   AdkAppGetData,
   AdkAppGetResponse,
   AdkAppGetError,
+  AdkSessionListData,
+  AdkSessionListResponse,
+  AdkSessionListError,
+  AdkSessionUpsertData,
+  AdkSessionUpsertResponse,
+  AdkSessionUpsertError,
+  AdkSessionGetData,
+  AdkSessionGetResponse,
+  AdkSessionGetError,
+  AdkUserStateListData,
+  AdkUserStateListResponse,
+  AdkUserStateListError,
+  AdkUserStateUpsertData,
+  AdkUserStateUpsertResponse,
+  AdkUserStateUpsertError,
+  AdkUserStateGetData,
+  AdkUserStateGetResponse,
+  AdkUserStateGetError,
   AdkEventsListData,
   AdkEventsListResponse,
   AdkEventsListError,
@@ -5037,6 +5055,172 @@ export const adkAppGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/adk/app/{app}",
+    ...options,
+  });
+};
+
+/**
+ * 获取adk事件列表
+ */
+export const adkSessionList = <ThrowOnError extends boolean = false>(
+  options?: Options<AdkSessionListData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    AdkSessionListResponse,
+    AdkSessionListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/adk/session",
+    ...options,
+  });
+};
+
+/**
+ * 保存 adk 会话
+ */
+export const adkSessionUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<AdkSessionUpsertData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    AdkSessionUpsertResponse,
+    AdkSessionUpsertError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/adk/session",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * 获取租户下的adk用户状态
+ * 获取adk会话
+ */
+export const adkSessionGet = <ThrowOnError extends boolean = false>(
+  options: Options<AdkSessionGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    AdkSessionGetResponse,
+    AdkSessionGetError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/adk/session/{session}",
+    ...options,
+  });
+};
+
+/**
+ * 获取adk事件列表
+ */
+export const adkUserStateList = <ThrowOnError extends boolean = false>(
+  options?: Options<AdkUserStateListData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    AdkUserStateListResponse,
+    AdkUserStateListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/adk/user-state",
+    ...options,
+  });
+};
+
+/**
+ * 保存 adk 用户状态
+ */
+export const adkUserStateUpsert = <ThrowOnError extends boolean = false>(
+  options: Options<AdkUserStateUpsertData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    AdkUserStateUpsertResponse,
+    AdkUserStateUpsertError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/adk/user-state",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * 获取租户下的adk用户状态
+ * 获取adk用户状态
+ */
+export const adkUserStateGet = <ThrowOnError extends boolean = false>(
+  options: Options<AdkUserStateGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    AdkUserStateGetResponse,
+    AdkUserStateGetError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/adk/user-state/{state}",
     ...options,
   });
 };

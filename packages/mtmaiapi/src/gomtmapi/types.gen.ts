@@ -3669,6 +3669,52 @@ export type AdkApp = ApiResourceMetaProperties & AdkAppProperties;
 
 export type AdkAppUpsert = AdkAppProperties;
 
+export type AdkSessionProperties = {
+  id: string;
+  app_name: string;
+  user_id: string;
+  session_id: string;
+  invocation_id: string;
+  author: string;
+  branch: string;
+  timestamp: string;
+  content: {
+    [key: string]: unknown;
+  };
+  actions: {
+    [key: string]: unknown;
+  };
+};
+
+export type AdkSession = ApiResourceMetaProperties & AdkSessionProperties;
+
+export type AdkSessionList = Array<AdkSession>;
+
+export type AdkSessionUpsert = AdkSessionProperties;
+
+export type AdkUserStateProperties = {
+  id: string;
+  app_name: string;
+  user_id: string;
+  session_id: string;
+  invocation_id: string;
+  author: string;
+  branch: string;
+  timestamp: string;
+  content: {
+    [key: string]: unknown;
+  };
+  actions: {
+    [key: string]: unknown;
+  };
+};
+
+export type AdkUserState = ApiResourceMetaProperties & AdkUserStateProperties;
+
+export type AdkUserStateList = Array<AdkUserState>;
+
+export type AdkUserStateUpsert = AdkUserStateProperties;
+
 export type ReadinessGetData = {
   body?: never;
   path?: never;
@@ -9868,6 +9914,157 @@ export type AdkAppGetResponses = {
 };
 
 export type AdkAppGetResponse = AdkAppGetResponses[keyof AdkAppGetResponses];
+
+export type AdkSessionListData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/adk/session";
+};
+
+export type AdkSessionListErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+  404: ApiErrors;
+};
+
+export type AdkSessionListError =
+  AdkSessionListErrors[keyof AdkSessionListErrors];
+
+export type AdkSessionListResponses = {
+  200: AdkSessionList;
+};
+
+export type AdkSessionListResponse =
+  AdkSessionListResponses[keyof AdkSessionListResponses];
+
+export type AdkSessionUpsertData = {
+  body: AdkSessionUpsert;
+  path?: never;
+  query?: never;
+  url: "/api/v1/adk/session";
+};
+
+export type AdkSessionUpsertErrors = {
+  400: ApiErrors;
+  403: ApiError;
+};
+
+export type AdkSessionUpsertError =
+  AdkSessionUpsertErrors[keyof AdkSessionUpsertErrors];
+
+export type AdkSessionUpsertResponses = {
+  200: AdkSession;
+};
+
+export type AdkSessionUpsertResponse =
+  AdkSessionUpsertResponses[keyof AdkSessionUpsertResponses];
+
+export type AdkSessionGetData = {
+  body?: never;
+  path: {
+    /**
+     * The session id
+     */
+    session: string;
+  };
+  query?: never;
+  url: "/api/v1/adk/session/{session}";
+};
+
+export type AdkSessionGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  403: ApiError;
+  404: ApiErrors;
+};
+
+export type AdkSessionGetError = AdkSessionGetErrors[keyof AdkSessionGetErrors];
+
+export type AdkSessionGetResponses = {
+  200: AdkSession;
+};
+
+export type AdkSessionGetResponse =
+  AdkSessionGetResponses[keyof AdkSessionGetResponses];
+
+export type AdkUserStateListData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/adk/user-state";
+};
+
+export type AdkUserStateListErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+  404: ApiErrors;
+};
+
+export type AdkUserStateListError =
+  AdkUserStateListErrors[keyof AdkUserStateListErrors];
+
+export type AdkUserStateListResponses = {
+  200: AdkUserStateList;
+};
+
+export type AdkUserStateListResponse =
+  AdkUserStateListResponses[keyof AdkUserStateListResponses];
+
+export type AdkUserStateUpsertData = {
+  body: AdkUserStateUpsert;
+  path?: never;
+  query?: never;
+  url: "/api/v1/adk/user-state";
+};
+
+export type AdkUserStateUpsertErrors = {
+  400: ApiErrors;
+  403: ApiError;
+};
+
+export type AdkUserStateUpsertError =
+  AdkUserStateUpsertErrors[keyof AdkUserStateUpsertErrors];
+
+export type AdkUserStateUpsertResponses = {
+  200: AdkUserState;
+};
+
+export type AdkUserStateUpsertResponse =
+  AdkUserStateUpsertResponses[keyof AdkUserStateUpsertResponses];
+
+export type AdkUserStateGetData = {
+  body?: never;
+  path: {
+    /**
+     * The state id
+     */
+    state: string;
+  };
+  query?: never;
+  url: "/api/v1/adk/user-state/{state}";
+};
+
+export type AdkUserStateGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  403: ApiError;
+  404: ApiErrors;
+};
+
+export type AdkUserStateGetError =
+  AdkUserStateGetErrors[keyof AdkUserStateGetErrors];
+
+export type AdkUserStateGetResponses = {
+  200: AdkEvent;
+};
+
+export type AdkUserStateGetResponse =
+  AdkUserStateGetResponses[keyof AdkUserStateGetResponses];
 
 export type AdkEventsListData = {
   body?: never;

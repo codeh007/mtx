@@ -7373,3 +7373,149 @@ export const AdkAppUpsertSchema = {
     },
   ],
 } as const;
+
+export const AdkSessionPropertiesSchema = {
+  required: [
+    "id",
+    "app_name",
+    "user_id",
+    "session_id",
+    "invocation_id",
+    "author",
+    "branch",
+    "timestamp",
+    "content",
+    "actions",
+  ],
+  properties: {
+    id: {
+      type: "string",
+    },
+    app_name: {
+      type: "string",
+    },
+    user_id: {
+      type: "string",
+    },
+    session_id: {
+      type: "string",
+    },
+    invocation_id: {
+      type: "string",
+    },
+    author: {
+      type: "string",
+    },
+    branch: {
+      type: "string",
+    },
+    timestamp: {
+      type: "string",
+    },
+    content: {
+      type: "object",
+    },
+    actions: {
+      type: "object",
+    },
+  },
+} as const;
+
+export const AdkSessionSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/AdkSessionProperties",
+    },
+  ],
+} as const;
+
+export const AdkSessionListSchema = {
+  type: "array",
+  items: {
+    $ref: "#/components/schemas/AdkSession",
+  },
+} as const;
+
+export const AdkSessionUpsertSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AdkSessionProperties",
+    },
+  ],
+} as const;
+
+export const AdkUserStatePropertiesSchema = {
+  required: [
+    "id",
+    "app_name",
+    "user_id",
+    "session_id",
+    "invocation_id",
+    "author",
+    "branch",
+    "timestamp",
+    "content",
+    "actions",
+  ],
+  properties: {
+    id: {
+      type: "string",
+    },
+    app_name: {
+      type: "string",
+    },
+    user_id: {
+      type: "string",
+    },
+    session_id: {
+      type: "string",
+    },
+    invocation_id: {
+      type: "string",
+    },
+    author: {
+      type: "string",
+    },
+    branch: {
+      type: "string",
+    },
+    timestamp: {
+      type: "string",
+    },
+    content: {
+      type: "object",
+    },
+    actions: {
+      type: "object",
+    },
+  },
+} as const;
+
+export const AdkUserStateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/AdkUserStateProperties",
+    },
+  ],
+} as const;
+
+export const AdkUserStateListSchema = {
+  type: "array",
+  items: {
+    $ref: "#/components/schemas/AdkUserState",
+  },
+} as const;
+
+export const AdkUserStateUpsertSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AdkUserStateProperties",
+    },
+  ],
+} as const;

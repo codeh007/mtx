@@ -174,6 +174,12 @@ import {
   adkAppList,
   adkAppUpsert,
   adkAppGet,
+  adkSessionList,
+  adkSessionUpsert,
+  adkSessionGet,
+  adkUserStateList,
+  adkUserStateUpsert,
+  adkUserStateGet,
   adkEventsList,
   adkEventsUpsert,
   adkEventsGet,
@@ -508,6 +514,16 @@ import type {
   AdkAppUpsertError,
   AdkAppUpsertResponse,
   AdkAppGetData,
+  AdkSessionListData,
+  AdkSessionUpsertData,
+  AdkSessionUpsertError,
+  AdkSessionUpsertResponse,
+  AdkSessionGetData,
+  AdkUserStateListData,
+  AdkUserStateUpsertData,
+  AdkUserStateUpsertError,
+  AdkUserStateUpsertResponse,
+  AdkUserStateGetData,
   AdkEventsListData,
   AdkEventsUpsertData,
   AdkEventsUpsertError,
@@ -5178,6 +5194,168 @@ export const adkAppGetOptions = (options: Options<AdkAppGetData>) => {
       return data;
     },
     queryKey: adkAppGetQueryKey(options),
+  });
+};
+
+export const adkSessionListQueryKey = (options?: Options<AdkSessionListData>) =>
+  createQueryKey("adkSessionList", options);
+
+export const adkSessionListOptions = (
+  options?: Options<AdkSessionListData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await adkSessionList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: adkSessionListQueryKey(options),
+  });
+};
+
+export const adkSessionUpsertQueryKey = (
+  options: Options<AdkSessionUpsertData>,
+) => createQueryKey("adkSessionUpsert", options);
+
+export const adkSessionUpsertOptions = (
+  options: Options<AdkSessionUpsertData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await adkSessionUpsert({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: adkSessionUpsertQueryKey(options),
+  });
+};
+
+export const adkSessionUpsertMutation = (
+  options?: Partial<Options<AdkSessionUpsertData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    AdkSessionUpsertResponse,
+    AdkSessionUpsertError,
+    Options<AdkSessionUpsertData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await adkSessionUpsert({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const adkSessionGetQueryKey = (options: Options<AdkSessionGetData>) =>
+  createQueryKey("adkSessionGet", options);
+
+export const adkSessionGetOptions = (options: Options<AdkSessionGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await adkSessionGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: adkSessionGetQueryKey(options),
+  });
+};
+
+export const adkUserStateListQueryKey = (
+  options?: Options<AdkUserStateListData>,
+) => createQueryKey("adkUserStateList", options);
+
+export const adkUserStateListOptions = (
+  options?: Options<AdkUserStateListData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await adkUserStateList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: adkUserStateListQueryKey(options),
+  });
+};
+
+export const adkUserStateUpsertQueryKey = (
+  options: Options<AdkUserStateUpsertData>,
+) => createQueryKey("adkUserStateUpsert", options);
+
+export const adkUserStateUpsertOptions = (
+  options: Options<AdkUserStateUpsertData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await adkUserStateUpsert({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: adkUserStateUpsertQueryKey(options),
+  });
+};
+
+export const adkUserStateUpsertMutation = (
+  options?: Partial<Options<AdkUserStateUpsertData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    AdkUserStateUpsertResponse,
+    AdkUserStateUpsertError,
+    Options<AdkUserStateUpsertData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await adkUserStateUpsert({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const adkUserStateGetQueryKey = (
+  options: Options<AdkUserStateGetData>,
+) => createQueryKey("adkUserStateGet", options);
+
+export const adkUserStateGetOptions = (
+  options: Options<AdkUserStateGetData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await adkUserStateGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: adkUserStateGetQueryKey(options),
   });
 };
 

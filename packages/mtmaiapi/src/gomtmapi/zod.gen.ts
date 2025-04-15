@@ -8248,6 +8248,48 @@ export const zAdkApp = zApiResourceMetaProperties.merge(zAdkAppProperties);
 
 export const zAdkAppUpsert = zAdkAppProperties;
 
+export const zAdkSessionProperties = z.object({
+  id: z.string(),
+  app_name: z.string(),
+  user_id: z.string(),
+  session_id: z.string(),
+  invocation_id: z.string(),
+  author: z.string(),
+  branch: z.string(),
+  timestamp: z.string(),
+  content: z.object({}),
+  actions: z.object({}),
+});
+
+export const zAdkSession = zApiResourceMetaProperties.merge(
+  zAdkSessionProperties,
+);
+
+export const zAdkSessionList = z.array(zAdkSession);
+
+export const zAdkSessionUpsert = zAdkSessionProperties;
+
+export const zAdkUserStateProperties = z.object({
+  id: z.string(),
+  app_name: z.string(),
+  user_id: z.string(),
+  session_id: z.string(),
+  invocation_id: z.string(),
+  author: z.string(),
+  branch: z.string(),
+  timestamp: z.string(),
+  content: z.object({}),
+  actions: z.object({}),
+});
+
+export const zAdkUserState = zApiResourceMetaProperties.merge(
+  zAdkUserStateProperties,
+);
+
+export const zAdkUserStateList = z.array(zAdkUserState);
+
+export const zAdkUserStateUpsert = zAdkUserStateProperties;
+
 export const zMetadataGetResponse = zApiMeta;
 
 export const zCloudMetadataGetResponse = zApiErrors;
@@ -8573,6 +8615,18 @@ export const zAdkAppListResponse = zAdkEventList;
 export const zAdkAppUpsertResponse = zAdkApp;
 
 export const zAdkAppGetResponse = zAdkApp;
+
+export const zAdkSessionListResponse = zAdkSessionList;
+
+export const zAdkSessionUpsertResponse = zAdkSession;
+
+export const zAdkSessionGetResponse = zAdkSession;
+
+export const zAdkUserStateListResponse = zAdkUserStateList;
+
+export const zAdkUserStateUpsertResponse = zAdkUserState;
+
+export const zAdkUserStateGetResponse = zAdkEvent;
 
 export const zAdkEventsListResponse = zAdkEventList;
 
