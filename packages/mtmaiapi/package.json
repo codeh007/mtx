@@ -3,7 +3,6 @@
   "version": "0.6.2",
   "files": ["dist", "src"],
   "license": "MIT",
-  "packageManager": "bun@1.1.20",
   "private": false,
   "publishConfig": {
     "access": "public"
