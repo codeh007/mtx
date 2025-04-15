@@ -77,6 +77,6 @@
   "engines": {
     "node": "22.x"
   },
-  "packageManager--": "bun@1.1.20",
+  "packageManager": "bun@1.1.20",
   "workspaces": ["packages/*", "apps/*"]
 }
