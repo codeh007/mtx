@@ -11,7 +11,7 @@ export const Route = createLazyFileRoute("/session/$sessionId/")({
 
 function RouteComponent() {
   const refetchTeamState = useWorkbenchStore((x) => x.refetchTeamState);
-  const refetchAdkEvents = useWorkbenchStore((x) => x.refetchAdkEvents);
+  // const refetchAdkEvents = useWorkbenchStore((x) => x.refetchAdkEvents);
   const teamSate = useWorkbenchStore((x) => x.teamState);
   useEffect(() => {
     refetchTeamState();
@@ -21,9 +21,6 @@ function RouteComponent() {
     <>
       <DebugValue data={{ teamSate }} />
       {teamSate && <AgStateView state={teamSate} />}
-      {/* <div>
-        events: todo <Button onClick={refetchAdkEvents}>refetch events</Button>
-      </div> */}
       <ChatClient />
     </>
   );
