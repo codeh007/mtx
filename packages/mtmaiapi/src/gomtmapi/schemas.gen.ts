@@ -4456,6 +4456,7 @@ export const FlowNamesSchema = {
     "instagram",
     "social",
     "team",
+    "adk",
   ],
 } as const;
 

@@ -184,7 +184,7 @@ export const BaseChat = forwardRef<HTMLDivElement, BaseChatProps>(
 
     const setInput = useWorkbenchStore((x) => x.setInput);
     const TEXTAREA_MAX_HEIGHT = chatStarted ? 400 : 200;
-    const userAgentState = useWorkbenchStore((x) => x.userAgentState);
+    // const userAgentState = useWorkbenchStore((x) => x.userAgentState);
     return (
       <>
         <div

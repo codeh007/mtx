@@ -2363,7 +2363,8 @@ export type FlowNames =
   | "resource"
   | "instagram"
   | "social"
-  | "team";
+  | "team"
+  | "adk";
 
 export const FlowNames = {
   SYS: "sys",
@@ -2375,6 +2376,7 @@ export const FlowNames = {
   INSTAGRAM: "instagram",
   SOCIAL: "social",
   TEAM: "team",
+  ADK: "adk",
 } as const;
 
 export type AgEvent = {
@@ -10123,6 +10125,8 @@ export type AdkEventsListData = {
     tenant: TenantParameter;
   };
   query?: {
+    app_name?: string;
+    session?: string;
     limit?: number;
     offset?: number;
     orderByField?: AdkEventOrderByField;

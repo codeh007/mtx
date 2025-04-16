@@ -2,7 +2,12 @@
 
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import { motion } from "framer-motion";
-import { adkEventsListOptions, LlmMessage, type ChatMessage, type FunctionCall } from "mtmaiapi";
+import {
+  type ChatMessage,
+  type FunctionCall,
+  type LlmMessage,
+  adkEventsListOptions,
+} from "mtmaiapi";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { SparklesIcon } from "mtxuilib/icons/aichatbot.icons";
@@ -12,6 +17,7 @@ import { useQuery } from "@tanstack/react-query";
 import { camelCase } from "lodash-es";
 import { cn } from "mtxuilib/lib/utils";
 import { useTenantId } from "../../hooks/useAuth";
+import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { AskUserMessage } from "./tool-messages/AskUserMessage";
 import { CodeExecutorView } from "./tool-messages/CodeExecutor";
 import { SocialLoginView } from "./tool-messages/SocialLogin";
@@ -21,15 +27,16 @@ interface MtMessagesProps {
   messages: ChatMessage[];
 }
 export const ModelContextMessageView = ({ messages }: MtMessagesProps) => {
-
   const tid = useTenantId();
+  const session = useWorkbenchStore((x) => x.threadId);
   const adkEventsQuery = useQuery({
     ...adkEventsListOptions({
-      path:{
+      path: {
         tenant: tid,
       },
       query: {
         limit: 100,
+        session: session,
       },
     }),
   });
@@ -43,13 +50,11 @@ export const ModelContextMessageView = ({ messages }: MtMessagesProps) => {
         </MtSuspenseBoundary>
       ))}
 
-      {
-        adkEventsQuery.data?.rows?.map((event) => (
-          <div key={event.id} className="bg-red-100 p-1">
-            {event.id}
-          </div>
-        ))
-      }
+      {adkEventsQuery.data?.rows?.map((event) => (
+        <div key={event.id} className="bg-red-100 p-1">
+          {event.id}
+        </div>
+      ))}
     </div>
   );
 };

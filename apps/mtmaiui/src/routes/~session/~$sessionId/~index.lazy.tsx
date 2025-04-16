@@ -11,7 +11,6 @@ export const Route = createLazyFileRoute("/session/$sessionId/")({
 
 function RouteComponent() {
   const refetchTeamState = useWorkbenchStore((x) => x.refetchTeamState);
-  // const refetchAdkEvents = useWorkbenchStore((x) => x.refetchAdkEvents);
   const teamSate = useWorkbenchStore((x) => x.teamState);
   useEffect(() => {
     refetchTeamState();

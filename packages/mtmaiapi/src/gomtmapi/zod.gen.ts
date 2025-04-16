@@ -607,6 +607,7 @@ export const zWorkflowWorkersCount = z.object({
         "instagram",
         "social",
         "team",
+        "adk",
       ]),
       z.enum([
         "user",
@@ -6795,6 +6796,7 @@ export const zFlowNames = z.enum([
   "instagram",
   "social",
   "team",
+  "adk",
 ]);
 
 export const zAgEvent = z.object({
