@@ -1,5 +1,5 @@
 import path from "path";
-import { Worker, WorkerOptions } from "worker_threads";
+import { Worker, type WorkerOptions } from "worker_threads";
 
 export function runThreaded(scriptPath: string, options: WorkerOptions) {
   const resolvedPath = require.resolve(scriptPath);
@@ -20,7 +20,7 @@ export function runThreaded(scriptPath: string, options: WorkerOptions) {
         "target": "es2016",
         "esModuleInterop": true,
         "module": "commonjs",
-        "rootDir": "${path.join(__dirname, "../../../")}",
+        // "rootDir": "${path.join(__dirname, "../../../")}",
       }
     });
     let file = '${resolvedPath}';

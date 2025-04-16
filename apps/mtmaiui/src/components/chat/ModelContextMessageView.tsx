@@ -192,10 +192,12 @@ export const ThinkingMessage = () => {
 
 export const AdkEventMessageView = ({ event }: { event: AdkEvent }) => {
   return (
-    <div>
-      <DebugValue data={{ event }} />
+    <div className="relative p-1">
       <div className="text-sm text-slate-500">
         <AdkContentView content={event.content} />
+      </div>
+      <div className="absolute top-0 right-0">
+        <DebugValue data={{ event }} />
       </div>
     </div>
   );

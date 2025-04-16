@@ -1,6 +1,5 @@
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
-import { resolve } from "node:path";
 import { defineConfig } from "vite";
 
 // https://vitejs.dev/config/
@@ -15,8 +14,10 @@ export default defineConfig({
   resolve: {
     alias: {
       // 添加 mtmaiapi 的路径别名
-      mtmaiapi: resolve(__dirname, "../../packages/mtmaiapi/src"),
-      mtxuilib: resolve(__dirname, "../../packages/mtxuilib/src"),
+      // mtmaiapi: resolve(__dirname, "../../packages/mtmaiapi/src"),
+      mtmaiapi: "../../packages/mtmaiapi/src",
+      // mtxuilib: resolve(__dirname, "../../packages/mtxuilib/src"),
+      mtxuilib: "../../packages/mtxuilib/src",
       // mtmaiui: resolve(__dirname, "../mtmaiui/src"),
     },
   },
@@ -34,10 +35,11 @@ export default defineConfig({
   build: {
     manifest: true,
     outDir: "public/mtmaiui/",
-    base: "/mtmaiui/",
+    // base: "/mtmaiui/",
     rollupOptions: {
       input: {
-        main: resolve(__dirname, "index.html"),
+        // main: resolve(__dirname, "index.html"),
+        // main
         // loader: resolve(__dirname, "src/lib/mtmaiui_loader.ts"),
       },
       output: {

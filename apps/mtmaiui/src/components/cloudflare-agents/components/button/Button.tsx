@@ -1,5 +1,6 @@
-import { cn } from "mtxuilib/lib/utils";
 import { Loader } from "../loader/Loader";
+
+import { cn } from "mtxuilib/lib/utils";
 import { Slot } from "../slot/Slot";
 import { Tooltip } from "../tooltip/Tooltip";
 
