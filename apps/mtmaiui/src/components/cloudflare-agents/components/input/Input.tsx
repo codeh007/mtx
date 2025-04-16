@@ -2,7 +2,8 @@ import { cn } from "mtxuilib/lib/utils";
 import { useMemo, useRef, useState } from "react";
 
 export const inputClasses = cn(
-  "bg-ob-btn-secondary-bg text-ob-base-300 border-ob-border focus:border-ob-border-active placeholder:text-ob-base-100 add-disable border border-1 transition-colors focus:outline-none",
+  "border-ob-border focus:border-ob-border-active placeholder:text-ob-base-100 text-ob-base-300 add-disable border border-1 transition-colors focus:outline-none",
+  "border-ob-btn-secondary-border bg-ob-btn-secondary-bg text-ob-base-300 shadow-xs",
 );
 
 export type InputProps = Omit<
@@ -79,7 +80,7 @@ export const Input = ({
 
       <input
         className={cn(
-          "placeholder:text-ob-base-100 w-full bg-transparent focus:outline-none",
+          "placeholder:text-ob-base-100 w-full bg-transparent focus:outline-none text-ob-base-300",
           {
             "text-ob-destructive": !isValid,
           },

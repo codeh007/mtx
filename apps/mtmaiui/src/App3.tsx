@@ -385,7 +385,7 @@ export default function Chat() {
                     ? "Please respond to the tool confirmation above..."
                     : "Type your message..."
                 }
-                className="pl-4 pr-10 py-2 w-full rounded-full"
+                className="pl-4 pr-10 py-2 w-full rounded-full bg-ob-btn-secondary-bg text-ob-base-300"
                 value={agentInput}
                 onChange={handleAgentInputChange}
                 onKeyDown={(e) => {
