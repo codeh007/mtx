@@ -3252,9 +3252,16 @@ export type SocialAddFollowersInput = {
 export type FlowTeamInput = {
   app_name: string;
   session_id: string;
+  /**
+   * deprecated
+   */
   component: TeamComponent;
+  /**
+   * deprecated
+   */
   task: AgEvents;
   init_state?: AgentStates;
+  content?: Content;
 };
 
 export type PlatformAccountFlowInput = {

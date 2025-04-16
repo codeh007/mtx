@@ -1,7 +1,6 @@
 "use client";
 import type { Message } from "ai";
 import { useAnimate } from "framer-motion";
-import { AgentEventType } from "mtmaiapi";
 import { useSnapScroll } from "mtxuilib/hooks/useSnapScroll";
 import { cn } from "mtxuilib/lib/utils";
 import {
@@ -122,8 +121,8 @@ export const ChatImpl = memo((props: ChatProps) => {
       return;
     }
     handleHumanInput({
-      type: AgentEventType.CHAT_MESSAGE_INPUT,
-      content: _input,
+      role: "user",
+      parts: [{ text: _input }],
     });
     runAnimation();
     setInput("");

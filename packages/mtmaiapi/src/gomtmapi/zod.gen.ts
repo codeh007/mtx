@@ -2202,6 +2202,38 @@ export const zWorkflowWorkersCount = z.object({
               ),
           ])
           .optional(),
+        content: z
+          .union([
+            z
+              .object({
+                role: z.literal("user").optional(),
+              })
+              .merge(
+                z.object({
+                  role: z.enum(["user"]),
+                  parts: z.array(
+                    z.object({
+                      text: z.string().optional(),
+                    }),
+                  ),
+                }),
+              ),
+            z
+              .object({
+                role: z.literal("model").optional(),
+              })
+              .merge(
+                z.object({
+                  role: z.enum(["model"]),
+                  parts: z.array(
+                    z.object({
+                      text: z.string().optional(),
+                    }),
+                  ),
+                }),
+              ),
+          ])
+          .optional(),
       }),
       z.object({
         output: z.string(),
@@ -7687,6 +7719,38 @@ export const zFlowTeamInput = z.object({
   component: zTeamComponent,
   task: zAgEvents,
   init_state: zAgentStates.optional(),
+  content: z
+    .union([
+      z
+        .object({
+          role: z.literal("user").optional(),
+        })
+        .merge(
+          z.object({
+            role: z.enum(["user"]),
+            parts: z.array(
+              z.object({
+                text: z.string().optional(),
+              }),
+            ),
+          }),
+        ),
+      z
+        .object({
+          role: z.literal("model").optional(),
+        })
+        .merge(
+          z.object({
+            role: z.enum(["model"]),
+            parts: z.array(
+              z.object({
+                text: z.string().optional(),
+              }),
+            ),
+          }),
+        ),
+    ])
+    .optional(),
 });
 
 export const zPlatformAccountFlowInput = z.object({

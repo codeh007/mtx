@@ -6333,12 +6333,17 @@ export const FlowTeamInputSchema = {
     },
     component: {
       $ref: "#/components/schemas/TeamComponent",
+      description: "deprecated",
     },
     task: {
       $ref: "#/components/schemas/AgEvents",
+      description: "deprecated",
     },
     init_state: {
       $ref: "#/components/schemas/AgentStates",
+    },
+    content: {
+      $ref: "#/components/schemas/Content",
     },
   },
 } as const;

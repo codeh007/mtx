@@ -206,7 +206,13 @@ export const AdkContentView = ({ content }: { content: Content }) => {
     <div>
       {content.role === "user" ? (
         <div className="rounded-md p-2 bg-muted">
-          user content
+          {content.parts.map((part, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+            <AdkContentPartView key={i} part={part} />
+          ))}
+        </div>
+      ) : content.role === "model" ? (
+        <div className="rounded-md p-2 bg-blue-100">
           {content.parts.map((part, i) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
             <AdkContentPartView key={i} part={part} />
@@ -215,7 +221,6 @@ export const AdkContentView = ({ content }: { content: Content }) => {
       ) : (
         <div>unknown content role: {content.role}</div>
       )}
-      {/* <DebugValue data={{ content }} /> */}
     </div>
   );
 };

@@ -16,6 +16,7 @@ import {
   type AssistantAgentConfig,
   type ChatMessage,
   type ChatMessageList,
+  type Content,
   FlowNames,
   type FlowTeamInput,
   type InstagramAgent,
@@ -37,7 +38,7 @@ import {
   agStateListOptions,
   chatMessagesList,
   workflowRunCreate,
-  workflowRunCreateMutation
+  workflowRunCreateMutation,
 } from "mtmaiapi";
 import { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
 import { AgentRpc } from "mtmaiapi/mtmclient/mtmai/mtmpb/agent_worker_pb";
@@ -107,7 +108,7 @@ export interface WorkbrenchState extends WorkbenchProps {
   setLoading: (loading: boolean) => void;
   input?: string;
   setInput: (input: string) => void;
-  handleHumanInput: (input: MtAgEvent) => void;
+  handleHumanInput: (input: Content) => void;
   handleNewChat: (input: StartNewChatInput) => void;
   handleRunTeam: (team: FlowTeamInput) => void;
   workflowRunId?: string;
@@ -307,10 +308,10 @@ export const createWorkbrenchSlice: StateCreator<
       set({ team });
     },
 
-    handleHumanInput: debounce(async (input: MtAgEvent) => {
+    handleHumanInput: debounce(async (input: Content) => {
       get().setChatStarted(true);
       const preMessages = get().messages;
-      const task = input.content as unknown as string;
+      const task = input.parts?.[0]?.text as unknown as string;
 
       const sessionId = get().threadId ?? generateUUID();
       const newChatMessage = {
@@ -335,6 +336,7 @@ export const createWorkbrenchSlice: StateCreator<
         },
         body: {
           input: {
+            app_name: "root",
             component: get().team,
             session_id: sessionId,
             // init_state: {},
@@ -344,6 +346,15 @@ export const createWorkbrenchSlice: StateCreator<
               source: "user",
               metadata: {},
             },
+            content: input,
+            // content:{
+            //   role: "user",
+            //   parts:[
+            //     {
+            //       text: ""
+            //     },
+            //   ]
+            // },
           } satisfies FlowTeamInput,
           additionalMetadata: {
             sessionId: sessionId,
