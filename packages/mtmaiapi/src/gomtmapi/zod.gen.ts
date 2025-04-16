@@ -683,6 +683,7 @@ export const zWorkflowWorkersCount = z.object({
         error: z.string(),
       }),
       z.object({
+        app_name: z.string(),
         session_id: z.string(),
         component: z
           .object({
@@ -7681,6 +7682,7 @@ export const zSocialAddFollowersInput = z.object({
 });
 
 export const zFlowTeamInput = z.object({
+  app_name: z.string(),
   session_id: z.string(),
   component: zTeamComponent,
   task: zAgEvents,
@@ -8217,7 +8219,36 @@ export const zAdkEventProperties = z.object({
   author: z.string(),
   branch: z.string().optional(),
   timestamp: z.string(),
-  content: z.object({}),
+  content: z.union([
+    z
+      .object({
+        role: z.literal("user").optional(),
+      })
+      .merge(
+        z.object({
+          role: z.enum(["user"]),
+          parts: z.array(
+            z.object({
+              text: z.string().optional(),
+            }),
+          ),
+        }),
+      ),
+    z
+      .object({
+        role: z.literal("model").optional(),
+      })
+      .merge(
+        z.object({
+          role: z.enum(["model"]),
+          parts: z.array(
+            z.object({
+              text: z.string().optional(),
+            }),
+          ),
+        }),
+      ),
+  ]),
   actions: z.object({}),
 });
 
@@ -8299,6 +8330,59 @@ export const zAdkUserStateList = z.object({
 });
 
 export const zAdkUserStateUpsert = zAdkUserStateProperties;
+
+export const zContent = z.union([
+  z
+    .object({
+      role: z.literal("user").optional(),
+    })
+    .merge(
+      z.object({
+        role: z.enum(["user"]),
+        parts: z.array(
+          z.object({
+            text: z.string().optional(),
+          }),
+        ),
+      }),
+    ),
+  z
+    .object({
+      role: z.literal("model").optional(),
+    })
+    .merge(
+      z.object({
+        role: z.enum(["model"]),
+        parts: z.array(
+          z.object({
+            text: z.string().optional(),
+          }),
+        ),
+      }),
+    ),
+]);
+
+export const zUserContent = z.object({
+  role: z.enum(["user"]),
+  parts: z.array(
+    z.object({
+      text: z.string().optional(),
+    }),
+  ),
+});
+
+export const zModelContent = z.object({
+  role: z.enum(["model"]),
+  parts: z.array(
+    z.object({
+      text: z.string().optional(),
+    }),
+  ),
+});
+
+export const zPart = z.object({
+  text: z.string().optional(),
+});
 
 export const zMetadataGetResponse = zApiMeta;
 

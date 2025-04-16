@@ -6323,8 +6323,11 @@ export const SocialAddFollowersInputSchema = {
 } as const;
 
 export const FlowTeamInputSchema = {
-  required: ["session_id", "component", "task"],
+  required: ["session_id", "component", "task", "app_name"],
   properties: {
+    app_name: {
+      type: "string",
+    },
     session_id: {
       type: "string",
     },
@@ -7267,7 +7270,7 @@ export const AdkEventPropertiesSchema = {
       type: "string",
     },
     content: {
-      type: "object",
+      $ref: "#/components/schemas/Content",
     },
     actions: {
       type: "object",
@@ -7540,4 +7543,63 @@ export const AdkUserStateUpsertSchema = {
       $ref: "#/components/schemas/AdkUserStateProperties",
     },
   ],
+} as const;
+
+export const ContentSchema = {
+  discriminator: {
+    propertyName: "role",
+    mapping: {
+      user: "#/components/schemas/UserContent",
+      model: "#/components/schemas/ModelContent",
+    },
+  },
+  oneOf: [
+    {
+      $ref: "#/components/schemas/UserContent",
+    },
+    {
+      $ref: "#/components/schemas/ModelContent",
+    },
+  ],
+} as const;
+
+export const UserContentSchema = {
+  required: ["role", "parts"],
+  properties: {
+    role: {
+      type: "string",
+      enum: ["user"],
+    },
+    parts: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/Part",
+      },
+    },
+  },
+} as const;
+
+export const ModelContentSchema = {
+  required: ["role", "parts"],
+  properties: {
+    role: {
+      type: "string",
+      enum: ["model"],
+    },
+    parts: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/Part",
+      },
+    },
+  },
+} as const;
+
+export const PartSchema = {
+  type: "object",
+  properties: {
+    text: {
+      type: "string",
+    },
+  },
 } as const;

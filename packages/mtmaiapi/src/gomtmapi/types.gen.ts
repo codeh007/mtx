@@ -3250,6 +3250,7 @@ export type SocialAddFollowersInput = {
 };
 
 export type FlowTeamInput = {
+  app_name: string;
   session_id: string;
   component: TeamComponent;
   task: AgEvents;
@@ -3634,9 +3635,7 @@ export type AdkEventProperties = {
   author: string;
   branch?: string;
   timestamp: string;
-  content: {
-    [key: string]: unknown;
-  };
+  content: Content;
   actions: {
     [key: string]: unknown;
   };
@@ -3728,6 +3727,28 @@ export type AdkUserStateList = {
 };
 
 export type AdkUserStateUpsert = AdkUserStateProperties;
+
+export type Content =
+  | ({
+      role?: "user";
+    } & UserContent)
+  | ({
+      role?: "model";
+    } & ModelContent);
+
+export type UserContent = {
+  role: "user";
+  parts: Array<Part>;
+};
+
+export type ModelContent = {
+  role: "model";
+  parts: Array<Part>;
+};
+
+export type Part = {
+  text?: string;
+};
 
 export type ReadinessGetData = {
   body?: never;

@@ -3,9 +3,12 @@
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import { motion } from "framer-motion";
 import {
+  type AdkEvent,
   type ChatMessage,
+  type Content,
   type FunctionCall,
   type LlmMessage,
+  type Part,
   adkEventsListOptions,
 } from "mtmaiapi";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
@@ -50,11 +53,11 @@ export const ModelContextMessageView = ({ messages }: MtMessagesProps) => {
         </MtSuspenseBoundary>
       ))}
 
-      {adkEventsQuery.data?.rows?.map((event) => (
-        <div key={event.id} className="bg-red-100 p-1">
-          {event.id}
-        </div>
-      ))}
+      <div className="mt-4 space-y-2">
+        {adkEventsQuery.data?.rows?.map((event) => (
+          <AdkEventMessageView key={event.id} event={event} />
+        ))}
+      </div>
     </div>
   );
 };
@@ -185,4 +188,38 @@ export const ThinkingMessage = () => {
       </div>
     </motion.div>
   );
+};
+
+export const AdkEventMessageView = ({ event }: { event: AdkEvent }) => {
+  return (
+    <div>
+      <DebugValue data={{ event }} />
+      <div className="text-sm text-slate-500">
+        <AdkContentView content={event.content} />
+      </div>
+    </div>
+  );
+};
+
+export const AdkContentView = ({ content }: { content: Content }) => {
+  return (
+    <div>
+      {content.role === "user" ? (
+        <div className="rounded-md p-2 bg-muted">
+          user content
+          {content.parts.map((part, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+            <AdkContentPartView key={i} part={part} />
+          ))}
+        </div>
+      ) : (
+        <div>unknown content role: {content.role}</div>
+      )}
+      {/* <DebugValue data={{ content }} /> */}
+    </div>
+  );
+};
+
+export const AdkContentPartView = ({ part }: { part: Part }) => {
+  return <Markdown>{part.text || ""}</Markdown>;
 };
