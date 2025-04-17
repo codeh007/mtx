@@ -1,19 +1,9 @@
+import OAuthProvider from "@cloudflare/workers-oauth-provider";
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { routeAgentRequest } from "agents";
-
-// import { unstable_getSchedulePrompt } from "agents/schedule";
-
-// import { AsyncLocalStorage } from "node:async_hooks";
-// import { AIChatAgent } from "agents/ai-chat-agent";
-// import {
-//   type StreamTextOnFinishCallback,
-//   createDataStreamResponse,
-//   generateId,
-//   streamText,
-// } from "ai";
-// import { createWorkersAI } from "workers-ai-provider";
-// import { executions, tools } from "./components/cloudflare-agents/tools";
-// import { processToolCalls } from "./components/cloudflare-agents/utils";
-
+import { McpAgent } from "agents/mcp";
+import app from "mtxuilib/mcp_server/app.js";
+import { z } from "zod";
 import { Chat } from "./components/cloudflare-agents/agents/chat";
 import { EmailAgent } from "./components/cloudflare-agents/agents/email";
 import { MockEmailService } from "./components/cloudflare-agents/agents/mock-email";
@@ -32,6 +22,53 @@ export type Env = {
 };
 export { Chat, EmailAgent, MockEmailService, Rpc, Scheduler, Stateful };
 
+export class MyMCP extends McpAgent {
+  server = new McpServer({
+    name: "Demo",
+    version: "1.0.0",
+  });
+
+  async init() {
+    this.server.tool(
+      "add",
+      { a: z.number(), b: z.number() },
+      async ({ a, b }) => ({
+        content: [{ type: "text", text: String(a + b) }],
+      }),
+    );
+    this.server.resource("counter", "mcp://resource/counter", (uri) => {
+      return {
+        contents: [{ uri: uri.href, text: "hello123 resource" }],
+      };
+    });
+    //export type PromptCallback<Args extends undefined | PromptArgsRawShape = undefined> = Args extends PromptArgsRawShape ? (args: z.objectOutputType<Args, ZodTypeAny>, extra: RequestHandlerExtra) => GetPromptResult | Promise<GetPromptResult> : (extra: RequestHandlerExtra) => GetPromptResult | Promise<GetPromptResult>;
+
+    this.server.prompt("review-code", { code: z.string() }, ({ code }) => ({
+      messages: [
+        {
+          role: "user",
+          content: {
+            type: "text",
+            text: `Please review this code:\n\n${code}`,
+          },
+        },
+      ],
+    }));
+  }
+}
+
+// Export the OAuth handler as the default
+const mcpServerHandler = new OAuthProvider({
+  apiRoute: "/sse",
+  // TODO: fix these types
+  // @ts-ignore
+  apiHandler: MyMCP.mount("/sse"),
+  // @ts-ignore
+  defaultHandler: app,
+  authorizeEndpoint: "/authorize",
+  tokenEndpoint: "/token",
+  clientRegistrationEndpoint: "/register",
+});
 // const model = openai("gpt-4o-2024-11-20");
 
 // import { createWorkersAI } from 'workers-ai-provider';
@@ -122,11 +159,14 @@ export default {
         success: hasOpenAIKey,
       });
     }
-    if (!process.env.OPENAI_API_KEY) {
-      console.error(
-        "OPENAI_API_KEY is not set, don't forget to set it locally in .dev.vars, and use `wrangler secret bulk .dev.vars` to upload it to production",
-      );
+    if (url.pathname === "/sse") {
+      return mcpServerHandler(request, env, ctx);
     }
+    // if (!process.env.OPENAI_API_KEY) {
+    //   console.error(
+    //     "OPENAI_API_KEY is not set, don't forget to set it locally in .dev.vars, and use `wrangler secret bulk .dev.vars` to upload it to production",
+    //   );
+    // }
     return (
       // Route the request to our agent or return 404 if not found
       (await routeAgentRequest(request, env)) ||

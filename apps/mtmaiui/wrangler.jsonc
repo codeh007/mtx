@@ -6,7 +6,8 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "mtmaiui-agents",
   "main": "src/server.ts",
-  "compatibility_date": "2025-02-04",
+  // "compatibility_date": "2025-02-04",
+  "compatibility_date": "2025-03-10",
   "compatibility_flags": [
     "nodejs_compat",
     "nodejs_compat_populate_process_env"
@@ -19,6 +20,10 @@
       {
         "name": "Chat",
         "class_name": "Chat"
+      },
+      {
+        "class_name": "MyMCP",
+        "name": "MCP_OBJECT"
       }
     ]
   },
@@ -29,6 +34,16 @@
     {
       "tag": "v1",
       "new_sqlite_classes": ["Chat"]
+    },
+    {
+      "new_sqlite_classes2": ["MyMCP"],
+      "tag": "v2"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "OAUTH_KV",
+      "id": "2a9c32f7ccef4e3cbc2f71dbd24c465c"
     }
   ],
   "observability": {
