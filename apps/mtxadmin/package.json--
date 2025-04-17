@@ -254,7 +254,7 @@
   },
   "other": {
     "@types/prismjs": "^1.26.3",
-    "@modelcontextprotocol/sdk": "^1.0.1",
+    "@modelcontextprotocol/sdk": "^1.9.0",
     "@types/webpack-env": "^1.18.4",
     "unist-builder": "3.0.0",
     "lru-cache": "^10.2.2",
