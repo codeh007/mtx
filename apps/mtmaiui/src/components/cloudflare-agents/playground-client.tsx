@@ -2,11 +2,11 @@
 import { useEffect, useState } from "react";
 import "./playground-client.css";
 import Chat from "./playground/Chat";
-import RPC from "./playground/RPC";
+// import RPC from "./playground/RPC";
 // import Chat from "./playground/Chat";
 // import Email from "./playground/Email";
 // import RPC from "./playground/RPC";
-import { Scheduler } from "./playground/Scheduler";
+// import { Scheduler } from "./playground/Scheduler";
 import { Stateful } from "./playground/Stateful";
 
 interface Toast {
@@ -69,7 +69,7 @@ export function PlaygroundApp() {
       <div className="grid grid-cols-2 gap-8">
         <div className="col-span-1">
           <h2 className="text-xl font-bold mb-4">Scheduler</h2>
-          <Scheduler addToast={addToast} />
+          {/* <Scheduler addToast={addToast} /> */}
         </div>
         <div className="col-span-1">
           <h2 className="text-xl font-bold mb-4">State Sync Demo</h2>
@@ -85,7 +85,7 @@ export function PlaygroundApp() {
         </div>
         <div className="col-span-1">
           <h2 className="text-xl font-bold mb-4">RPC Demo</h2>
-          <RPC addToast={addToast} />
+          {/* <RPC addToast={addToast} /> */}
         </div>
       </div>
     </div>
