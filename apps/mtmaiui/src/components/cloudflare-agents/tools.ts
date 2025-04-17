@@ -5,11 +5,8 @@
 import { tool } from "ai";
 import { z } from "zod";
 
-import { agentContext } from "./server";
-import {
-  unstable_getSchedulePrompt,
-  unstable_scheduleSchema,
-} from "agents/schedule";
+import { unstable_scheduleSchema } from "agents/schedule";
+import { agentContext } from "../../server";
 
 /**
  * Weather information tool that requires human confirmation
