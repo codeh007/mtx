@@ -1,0 +1,85 @@
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [TanStackRouterVite(), react()],
+  define: {
+    // 添加这个配置来模拟 process.env
+    "process.env": {
+      NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+    },
+  },
+  resolve: {
+    alias: {
+      // 添加 mtmaiapi 的路径别名
+      // mtmaiapi: resolve(__dirname, "../../packages/mtmaiapi/src"),
+      mtmaiapi: "../../packages/mtmaiapi/src",
+      // mtxuilib: resolve(__dirname, "../../packages/mtxuilib/src"),
+      mtxuilib: "../../packages/mtxuilib/src",
+      // mtmaiui: resolve(__dirname, "../mtmaiui/src"),
+    },
+  },
+  server: {
+    port: 6111,
+    cors: true,
+    env: {
+      isDev: true,
+    },
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Cross-Origin-Resource-Policy": "cross-origin",
+    },
+  },
+  build: {
+    manifest: true,
+    outDir: "public/mtmaiui/",
+    // base: "/mtmaiui/",
+    rollupOptions: {
+      input: {
+        // main: resolve(__dirname, "index.html"),
+        // main
+        // loader: resolve(__dirname, "src/lib/mtmaiui_loader.ts"),
+      },
+      output: {
+        // 添加这个配置来控制输出文件的命名
+        entryFileNames: (chunkInfo) => {
+          // 如果是 loader 入口，保持原始名称
+          if (chunkInfo.name === "loader") {
+            return "mtmaiui_loader.js";
+          }
+          return "assets/[name]-[hash].js";
+        },
+      },
+    },
+    // optimizeDeps: {
+    //   include: ['react', 'react-dom']
+    // },
+    // output: {
+    //   format: 'es',
+    //   entryFileNames: "[name].js",
+    //   chunkFileNames: "chunks/[name].[hash].js",
+    //   assetFileNames: "assets/[name].[ext]",
+    //   inlineDynamicImports: false,
+    //   experimentalMinChunkSize: 10000,
+    //   chunkSizeWarningLimit: 1000,
+    // },
+
+    // lib: {
+    //   entry: "src/lib/hello123.ts",
+    //   name: "hello123",
+    //   fileName: "hello123",
+    //   formats: ["es"],
+    // },
+    // overwrite default .html entry
+    // input: "src/entry-client.tsx",
+    // lib: {
+    //   // 添加库构建配置
+    //   entry: resolve(__dirname, "src/lib/mtmaiui_loader.ts"),
+    //   name: 'mtmaiui_loader',
+    //   fileName: 'mtmaiui_loader',
+    //   formats: ['es'],
+    // },
+  },
+});

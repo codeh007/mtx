@@ -1,0 +1,7 @@
+"use client";
+import { createRoot } from "react-dom/client";
+import { PlaygroundApp } from "./components/cloudflare-agents/playground-client";
+import "./styles/globals.css";
+const root = createRoot(document.getElementById("app")!);
+
+root.render(<PlaygroundApp />);
