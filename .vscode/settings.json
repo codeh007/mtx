@@ -48,7 +48,8 @@
   },
   "peacock.remoteColor": "#61dafb",
   "files.associations": {
-    "*.css": "tailwindcss"
+    "*.css": "tailwindcss",
+    "wrangler.json": "jsonc"
   },
   "terminal.integrated.env.linux": {
     "MY_ENV_VAR": "my_value"

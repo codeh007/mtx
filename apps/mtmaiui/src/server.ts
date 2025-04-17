@@ -40,7 +40,6 @@ export class Chat extends AIChatAgent<Env> {
     const workersai = createWorkersAI({ binding: this.env.AI });
     // const model = workersai("@cf/meta/llama-3.1-8b-instruct", {});
     const model = workersai("@cf/meta/llama-3.3-70b-instruct-fp8-fast", {});
-
     // Create a streaming response that handles both text and tool outputs
     return agentContext.run(this, async () => {
       const dataStreamResponse = createDataStreamResponse({
