@@ -307,7 +307,6 @@
     "vite-plugin-dts": "^4.4.0",
     "@cloudflare/vite-plugin": "1.0.3",
     "@cloudflare/vitest-pool-workers": "^0.8.14",
-    "@cloudflare/workers-types": "^4.20250410.0",
     "@tailwindcss/vite": "^4.1.3",
     "@types/node": "^22.14.0",
     "@types/react": "^19.1.0",
@@ -318,8 +317,8 @@
     "tailwindcss": "^4.1.3",
     "typescript": "^5.8.3",
     "vite": "^6.2.5",
-    "vitest": "3.0.9",
-    "wrangler": "^4.10.0"
+    "vitest": "3.0.9"
+    
   },
   "other": {
     "@langchain/langgraph": "^0.2.45",

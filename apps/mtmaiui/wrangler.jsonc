@@ -32,12 +32,8 @@
   },
   "migrations": [
     {
-      "tag": "v1",
-      "new_sqlite_classes": ["Chat"]
-    },
-    {
-      "new_sqlite_classes2": ["MyMCP"],
-      "tag": "v2"
+      "tag": "v2",
+      "new_sqlite_classes": ["Chat", "MyMCP"]
     }
   ],
   "kv_namespaces": [
