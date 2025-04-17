@@ -52,7 +52,7 @@
     "@changesets/cli": "^2.27.11",
     "@changesets/get-release-plan": "4.0.6",
     "@cloudflare/next-on-pages": "^1.13.7",
-    "@cloudflare/workers-types": "^4.20250109.0",
+    "@cloudflare/workers-types": "^4.20250410.0",
     "@jest/globals": "^29.7.0",
     "@jest/types": "^29.6.3",
     "@octokit/rest": "^21.0.0",
