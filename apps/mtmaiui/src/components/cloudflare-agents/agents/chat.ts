@@ -18,9 +18,13 @@ export class Chat extends AIChatAgent<Env> {
 
       console.log("1111111111112222V2----------------");
       console.log("api key");
-      console.log(`api key ${process.env.GOOGLE_GENERATIVE_AI_API_KEY}`);
+      console.log(`api key2 ${process.env.GOOGLE_GENERATIVE_AI_API_KEY}`);
       // console.log("(agent chat) onChatMessage", this.env);
       console.log("1111111111112222");
+      console.log(`json111 ${JSON.stringify(this.env.OPENAI_API_KEY)}`);
+      console.log(
+        `json1112222 ${JSON.stringify(this.env.GOOGLE_GENERATIVE_AI_API_KEY)}`,
+      );
       console.log(
         JSON.stringify(process.env.GOOGLE_GENERATIVE_AI_API_KEY, null, 2),
       );
