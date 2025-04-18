@@ -11,7 +11,7 @@ export type Server = {
   authUrl?: string;
 };
 
-export class MyMCP extends McpAgent<Env, MCPAgentState, {}> {
+export class MyMcpAgent extends McpAgent<Env, MCPAgentState, {}> {
   server = new McpServer({
     name: "mcp-agent",
     version: "1.0.0",
@@ -31,7 +31,6 @@ export class MyMCP extends McpAgent<Env, MCPAgentState, {}> {
       servers: {
         ...this.state.servers,
         [id]: state,
-        
       },
     });
   }
@@ -94,6 +93,6 @@ export class MyMCP extends McpAgent<Env, MCPAgentState, {}> {
     console.log({ stateUpdate: state });
   }
 }
-export default MyMCP.mount("/sse", {
-  binding: "MyMCP",
-});
+// export default MyMCP.mount("/sse", {
+//   binding: "MyMCP",
+// });

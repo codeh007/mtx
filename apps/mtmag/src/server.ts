@@ -3,17 +3,18 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { routeAgentRequest } from "agents";
 import { McpAgent } from "agents/mcp";
 import app from "mtxuilib/mcp_server/app";
+import postgres from "postgres";
 import { z } from "zod";
 import { Chat } from "./agents/chat";
 import { EmailAgent } from "./agents/email";
+import { MyMcpAgent } from "./agents/mcp_agent";
 import { MockEmailService } from "./agents/mock-email";
 import { RootAg } from "./agents/root_ag";
 import { Rpc } from "./agents/rpc";
 import { Scheduler } from "./agents/scheduler";
 import { Stateful } from "./agents/stateful";
-import postgres from "postgres";
 
-export { Chat, EmailAgent, MockEmailService, RootAg, Rpc, Scheduler, Stateful };
+export { RootAg, Chat, EmailAgent, MockEmailService, Rpc, Scheduler, Stateful, MyMcpAgent };
 
 export class MyMCP extends McpAgent {
   server = new McpServer({
@@ -22,13 +23,9 @@ export class MyMCP extends McpAgent {
   });
 
   async init() {
-    this.server.tool(
-      "add",
-      { a: z.number(), b: z.number() },
-      async ({ a, b }) => ({
-        content: [{ type: "text", text: String(a + b) }],
-      }),
-    );
+    this.server.tool("add", { a: z.number(), b: z.number() }, async ({ a, b }) => ({
+      content: [{ type: "text", text: String(a + b) }],
+    }));
     this.server.resource("counter", "mcp://resource/counter", (uri) => {
       return {
         contents: [{ uri: uri.href, text: "hello123 resource" }],
@@ -36,7 +33,10 @@ export class MyMCP extends McpAgent {
     });
     //export type PromptCallback<Args extends undefined | PromptArgsRawShape = undefined> = Args extends PromptArgsRawShape ? (args: z.objectOutputType<Args, ZodTypeAny>, extra: RequestHandlerExtra) => GetPromptResult | Promise<GetPromptResult> : (extra: RequestHandlerExtra) => GetPromptResult | Promise<GetPromptResult>;
 
-    this.server.prompt("review-code", { code: z.string() }, ({ code }) => ({
+    const schema = z.object({
+      code: z.string(),
+    });
+    this.server.prompt("review-code", schema, ({ code }) => ({
       messages: [
         {
           role: "user",
@@ -177,8 +177,7 @@ export default {
     }
     return (
       // Route the request to our agent or return 404 if not found
-      (await routeAgentRequest(request, env)) ||
-      new Response("Not found", { status: 404 })
+      (await routeAgentRequest(request, env)) || new Response("Not found", { status: 404 })
     );
   },
 } satisfies ExportedHandler<Env>;

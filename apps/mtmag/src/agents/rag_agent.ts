@@ -1,9 +1,6 @@
 import { Agent } from "agents";
 
 export class RAGAgent extends Agent<Env> {
-  // Other methods on our Agent
-  // ...
-  //
   async queryKnowledge(userQuery) {
     // Turn a query into an embedding
     const queryVector = await this.env.AI.run("@cf/baai/bge-base-en-v1.5", {
@@ -24,8 +21,7 @@ export class RAGAgent extends Agent<Env> {
 
     // Use the metadata to re-associate the vector search results
     // with data in our Agent's SQL database
-    const results = this
-      .sql`SELECT * FROM knowledge WHERE id IN (${knowledge?.map((k) => k.id)})`;
+    const results = this.sql`SELECT * FROM knowledge WHERE id IN (${knowledge?.map((k) => k.id)})`;
 
     // Return them
     return results;

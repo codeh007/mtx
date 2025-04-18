@@ -23,8 +23,8 @@ function RouteComponent() {
   } as MCPAgentState);
 
   const mcpAgent = useAgent<MCPAgentState>({
-    agent: "mcp-agent",
-    name: "mcp-agent",
+    agent: "my_mcp_agent",
+    name: "mcp_agent222",
     onOpen: () => setIsConnected(true),
     onClose: () => setIsConnected(false),
     onStateUpdate: (state) => {

@@ -1,5 +1,5 @@
 import type { EmailAgent } from "../../agents/email";
-import type { MyMCP } from "../../agents/mcp-agent";
+import type { MyMCP } from "../../agents/mcp_agent";
 import type { MockEmailService } from "../../agents/mock-email";
 import type { Scheduler } from "../../agents/scheduler";
 import type { Stateful } from "../../agents/stateful";
