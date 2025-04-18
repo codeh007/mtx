@@ -3,11 +3,7 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import { useAgent } from "agents/react";
 import { Button } from "mtxuilib/ui/button";
 import { useState } from "react";
-import type {
-  IncomingMessage,
-  OutgoingMessage,
-  ScheduledItem,
-} from "../../../components/cloudflare-agents/shared";
+import type { IncomingMessage, OutgoingMessage, ScheduledItem } from "../../../agent_state/shared";
 import "./Schedule.css";
 
 interface SchedulerProps {
@@ -34,9 +30,7 @@ export function Scheduler({ addToast }: SchedulerProps) {
         onHello(parsedMessage);
         if (parsedMessage.data.type !== "cron") {
           // remove the schedule from the list
-          setScheduledItems((items) =>
-            items.filter((item) => item.id !== parsedMessage.data.id),
-          );
+          setScheduledItems((items) => items.filter((item) => item.id !== parsedMessage.data.id));
         }
       } else if (parsedMessage?.type === "error") {
         // addToast(parsedMessage?.data, "error");
@@ -94,9 +88,7 @@ export function Scheduler({ addToast }: SchedulerProps) {
             <div className="itemContent">
               <div className="itemDetails">
                 <span className="trigger">Trigger: {item.trigger}</span>
-                <span className="nextTrigger">
-                  Next: {item.nextTrigger.toLocaleString()}
-                </span>
+                <span className="nextTrigger">Next: {item.nextTrigger.toLocaleString()}</span>
                 <span className="description">{item.description}</span>
               </div>
               <Button

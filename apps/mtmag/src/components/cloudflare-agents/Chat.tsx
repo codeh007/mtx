@@ -1,29 +1,20 @@
 "use client";
 import type { Message } from "@ai-sdk/react";
-import {
-  Bug,
-  Moon,
-  PaperPlaneRight,
-  Robot,
-  Sun,
-  Trash,
-} from "@phosphor-icons/react";
+import { Bug, Moon, PaperPlaneRight, Robot, Sun, Trash } from "@phosphor-icons/react";
 import { useAgentChat } from "agents/ai-react";
 import { useAgent } from "agents/react";
 import { Card } from "mtxuilib/ui/card";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { APPROVAL } from "../../agent_state/shared";
 import type { tools } from "../../agents/tools";
 import { Avatar } from "./components/avatar/Avatar";
 import { Button } from "./components/button/Button";
 import { Input } from "./components/input/Input";
 import { Toggle } from "./components/toggle/Toggle";
 import { Tooltip } from "./components/tooltip/Tooltip";
-import { APPROVAL } from "./shared";
 
 // List of tools that require human confirmation
-const toolsRequiringConfirmation: (keyof typeof tools)[] = [
-  "getWeatherInformation",
-];
+const toolsRequiringConfirmation: (keyof typeof tools)[] = ["getWeatherInformation"];
 
 export default function Chat() {
   const [theme, setTheme] = useState<"dark" | "light">(() => {
@@ -88,9 +79,7 @@ export default function Chat() {
       (part) =>
         part.type === "tool-invocation" &&
         part.toolInvocation.state === "call" &&
-        toolsRequiringConfirmation.includes(
-          part.toolInvocation.toolName as keyof typeof tools,
-        ),
+        toolsRequiringConfirmation.includes(part.toolInvocation.toolName as keyof typeof tools),
     ),
   );
 
@@ -103,12 +92,7 @@ export default function Chat() {
       <div className="h-[calc(100vh-2rem)] w-full mx-auto max-w-lg flex flex-col shadow-xl rounded-md overflow-hidden relative border border-neutral-300 dark:border-neutral-800">
         <div className="px-4 py-3 border-b border-neutral-300 dark:border-neutral-800 flex items-center gap-3 sticky top-0 z-10">
           <div className="flex items-center justify-center h-8 w-8">
-            <svg
-              width="28px"
-              height="28px"
-              className="text-[#F48120]"
-              data-icon="agents"
-            >
+            <svg width="28px" height="28px" className="text-[#F48120]" data-icon="agents">
               <title>Cloudflare Agents</title>
               <symbol id="ai:local:agents" viewBox="0 0 80 79">
                 <path
@@ -165,8 +149,7 @@ export default function Chat() {
                   </div>
                   <h3 className="font-semibold text-lg">Welcome to AI Chat</h3>
                   <p className="text-muted-foreground text-sm">
-                    Start a conversation with your AI assistant. Try asking
-                    about:
+                    Start a conversation with your AI assistant. Try asking about:
                   </p>
                   <ul className="text-sm text-left space-y-2">
                     <li className="flex items-center gap-2">
@@ -185,8 +168,7 @@ export default function Chat() {
 
           {agentMessages.map((m: Message, index) => {
             const isUser = m.role === "user";
-            const showAvatar =
-              index === 0 || agentMessages[index - 1]?.role !== m.role;
+            const showAvatar = index === 0 || agentMessages[index - 1]?.role !== m.role;
             const showRole = showAvatar && !isUser;
 
             return (
@@ -196,13 +178,9 @@ export default function Chat() {
                     {JSON.stringify(m, null, 2)}
                   </pre>
                 )}
-                <div
-                  className={`flex ${isUser ? "justify-end" : "justify-start"}`}
-                >
+                <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
                   <div
-                    className={`flex gap-2 max-w-[85%] ${
-                      isUser ? "flex-row-reverse" : "flex-row"
-                    }`}
+                    className={`flex gap-2 max-w-[85%] ${isUser ? "flex-row-reverse" : "flex-row"}`}
                   >
                     {showAvatar && !isUser ? (
                       <Avatar username={"AI"} />
@@ -228,18 +206,11 @@ export default function Chat() {
                                       : ""
                                   } relative`}
                                 >
-                                  {part.text.startsWith(
-                                    "scheduled message",
-                                  ) && (
-                                    <span className="absolute -top-3 -left-2 text-base">
-                                      🕒
-                                    </span>
+                                  {part.text.startsWith("scheduled message") && (
+                                    <span className="absolute -top-3 -left-2 text-base">🕒</span>
                                   )}
                                   <p className="text-sm whitespace-pre-wrap">
-                                    {part.text.replace(
-                                      /^scheduled message: /,
-                                      "",
-                                    )}
+                                    {part.text.replace(/^scheduled message: /, "")}
                                   </p>
                                 </Card>
                                 <p
@@ -247,9 +218,7 @@ export default function Chat() {
                                     isUser ? "text-right" : "text-left"
                                   }`}
                                 >
-                                  {formatTime(
-                                    new Date(m.createdAt as unknown as string),
-                                  )}
+                                  {formatTime(new Date(m.createdAt as unknown as string))}
                                 </p>
                               </div>
                             );
@@ -273,14 +242,9 @@ export default function Chat() {
                                 >
                                   <div className="flex items-center gap-2 mb-3">
                                     <div className="bg-[#F48120]/10 p-1.5 rounded-full">
-                                      <Robot
-                                        size={16}
-                                        className="text-[#F48120]"
-                                      />
+                                      <Robot size={16} className="text-[#F48120]" />
                                     </div>
-                                    <h4 className="font-medium">
-                                      {toolInvocation.toolName}
-                                    </h4>
+                                    <h4 className="font-medium">{toolInvocation.toolName}</h4>
                                   </div>
 
                                   <div className="mb-3">
@@ -288,11 +252,7 @@ export default function Chat() {
                                       Arguments:
                                     </h5>
                                     <pre className="bg-background/80 p-2 rounded-md text-xs overflow-auto">
-                                      {JSON.stringify(
-                                        toolInvocation.args,
-                                        null,
-                                        2,
-                                      )}
+                                      {JSON.stringify(toolInvocation.args, null, 2)}
                                     </pre>
                                   </div>
 

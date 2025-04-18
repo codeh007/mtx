@@ -34,7 +34,7 @@
     "deploy-worker-new": "bun run withEnv -- vite build && wrangler deploy --keep-vars --new-class",
     "cf-typegen": "wrangler types",
     "dev:wrangler": "wrangler dev",
-    "mcp-inspector": "npx @modelcontextprotocol/inspector"
+    "mcp-inspector": "bunx @modelcontextprotocol/inspector"
   },
   "typesVersions": {
     "*": {
@@ -134,7 +134,7 @@
     "@babel/core": "^7.26.0",
     "@babel/generator": "^7.26.3",
     "@lezer/highlight": "^1.2.0",
-    "@modelcontextprotocol/inspector": "^0.9.0",
+    "@modelcontextprotocol/inspector": "^0.10.2",
     "@rollup/plugin-babel": "^6.0.4",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/postcss": "^4.0.7",

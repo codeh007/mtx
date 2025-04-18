@@ -5,8 +5,8 @@ import type { StreamTextOnFinishCallback } from "ai";
 import { createDataStreamResponse, streamText } from "ai";
 import type { Env } from "../components/cloudflare-agents/env";
 
+import type { OutgoingMessage, ScheduledItem } from "../agent_state/shared";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
-import type { OutgoingMessage, ScheduledItem } from "../components/cloudflare-agents/shared";
 import { tools } from "./tools";
 
 function convertScheduleToScheduledItem(schedule: Schedule): ScheduledItem {

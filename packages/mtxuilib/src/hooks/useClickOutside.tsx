@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-const useClickOutside = (callback: () => void) => {
+export const useClickOutside = (callback: () => void) => {
   const ref = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -20,4 +20,4 @@ const useClickOutside = (callback: () => void) => {
   return ref;
 };
 
-export default useClickOutside;
+// export default useClickOutside;

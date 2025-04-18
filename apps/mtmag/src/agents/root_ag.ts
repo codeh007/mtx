@@ -1,16 +1,23 @@
 import type { Connection, ConnectionContext } from "agents";
 import { Agent } from "agents";
+import { MCPClientManager } from "agents/mcp/client";
 import type { RootAgentState } from "../agent_state/root_agent_state";
+import type { McpServer } from "../agent_state/shared";
+import type { IncomingMessage, OutgoingMessage } from "../agent_state/shared";
 import type { Env } from "../components/cloudflare-agents/env";
-import type { IncomingMessage, OutgoingMessage } from "../components/cloudflare-agents/shared";
-
 export class RootAg extends Agent<Env, RootAgentState> {
+  mcpClientManager = new MCPClientManager("mcp-clients", "1.0.0");
+
   initialState = {
     counter: 0,
     text: "root ag text",
     color: "#3B82F6",
     mainViewType: "chat",
     chatHistoryIds: [],
+    mcpServers: {},
+    mcpTools: [],
+    mcpPrompts: [],
+    mcpResources: [],
   } satisfies RootAgentState;
 
   onConnect(connection: Connection, ctx: ConnectionContext): void | Promise<void> {
@@ -80,9 +87,29 @@ export class RootAg extends Agent<Env, RootAgentState> {
       await this.cancelSchedule(event.id);
     } else if (event.type === "demo-event-1") {
       await this.onDemoEvent1(event.data);
+    } else if (event.type === "set-mcp-server") {
+      await this.onSetMcpServer(event.data);
+    } else {
+      console.log("root ag unknown message", event);
     }
   }
 
+  async onSetMcpServer(playload: McpServer) {
+    console.log("setMcpServer", playload);
+    this.setState({
+      ...this.state,
+      currentMcpServer: playload,
+    });
+  }
+  async refreshMcpServerData() {
+    console.log("my-mcp-agent refreshServerData");
+    this.setState({
+      ...this.state,
+      mcpPrompts: this.mcpClientManager.listPrompts(),
+      mcpTools: this.mcpClientManager.listTools(),
+      mcpResources: this.mcpClientManager.listResources(),
+    });
+  }
   async onDemoEvent1(payload: unknown) {
     this.broadcast(
       JSON.stringify({

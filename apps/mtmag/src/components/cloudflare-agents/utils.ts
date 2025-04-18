@@ -1,18 +1,18 @@
 // via https://github.com/vercel/ai/blob/main/examples/next-openai/app/api/use-chat-human-in-the-loop/utils.ts
 
-import { formatDataStreamPart, type Message } from "@ai-sdk/ui-utils";
+import { type Message, formatDataStreamPart } from "@ai-sdk/ui-utils";
 import {
-  convertToCoreMessages,
   type DataStreamWriter,
   type ToolExecutionOptions,
   type ToolSet,
+  convertToCoreMessages,
 } from "ai";
 import type { z } from "zod";
-import { APPROVAL } from "./shared";
+import { APPROVAL } from "../../agent_state/shared";
 
 function isValidToolName<K extends PropertyKey, T extends object>(
   key: K,
-  obj: T
+  obj: T,
 ): key is K & keyof T {
   return key in obj;
 }
@@ -31,9 +31,7 @@ export async function processToolCalls<
   Tools extends ToolSet,
   ExecutableTools extends {
     // biome-ignore lint/complexity/noBannedTypes: it's fine
-    [Tool in keyof Tools as Tools[Tool] extends { execute: Function }
-      ? never
-      : Tool]: Tools[Tool];
+    [Tool in keyof Tools as Tools[Tool] extends { execute: Function } ? never : Tool]: Tools[Tool];
   },
 >({
   dataStream,
@@ -46,7 +44,7 @@ export async function processToolCalls<
   executions: {
     [K in keyof Tools & keyof ExecutableTools]?: (
       args: z.infer<ExecutableTools[K]["parameters"]>,
-      context: ToolExecutionOptions
+      context: ToolExecutionOptions,
     ) => Promise<unknown>;
   };
 }): Promise<Message[]> {
@@ -63,17 +61,13 @@ export async function processToolCalls<
       const toolName = toolInvocation.toolName;
 
       // Only continue if we have an execute function for the tool (meaning it requires confirmation) and it's in a 'result' state
-      if (!(toolName in executions) || toolInvocation.state !== "result")
-        return part;
+      if (!(toolName in executions) || toolInvocation.state !== "result") return part;
 
       let result: unknown;
 
       if (toolInvocation.result === APPROVAL.YES) {
         // Get the tool and check if the tool has an execute function.
-        if (
-          !isValidToolName(toolName, executions) ||
-          toolInvocation.state !== "result"
-        ) {
+        if (!isValidToolName(toolName, executions) || toolInvocation.state !== "result") {
           return part;
         }
 
@@ -98,7 +92,7 @@ export async function processToolCalls<
         formatDataStreamPart("tool_result", {
           toolCallId: toolInvocation.toolCallId,
           result,
-        })
+        }),
       );
 
       // Return updated toolInvocation with the actual result.
@@ -109,7 +103,7 @@ export async function processToolCalls<
           result,
         },
       };
-    })
+    }),
   );
 
   // Finally return the processed messages

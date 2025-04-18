@@ -1,98 +1,72 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+// import type { Connection, ConnectionContext } from "agents";
 import { McpAgent } from "agents/mcp";
-import { MCPClientManager } from "agents/mcp/client";
-import { DurableObjectOAuthClientProvider } from "agents/mcp/do-oauth-client-provider";
-import { z } from "zod";
+
+// import { DurableObjectOAuthClientProvider } from "agents/mcp/do-oauth-client-provider";
+
 import type { MCPAgentState } from "../agent_state/mcp_agent_state";
 import type { Env } from "../components/cloudflare-agents/env";
-export type Server = {
-  url: string;
-  state: "authenticating" | "connecting" | "ready" | "discovering" | "failed";
-  authUrl?: string;
-};
 
-export class MyMcpAgent extends McpAgent<Env, MCPAgentState, {}> {
+/**
+ * 实现Mcp Server
+ */
+export class MyMcpAgent extends McpAgent<Env, MCPAgentState> {
   server = new McpServer({
-    name: "mcp-agent",
+    name: "my-mcp-agent",
     version: "1.0.0",
   });
-  mcp = new MCPClientManager("mcp-agent", "1.0.0");
 
-  initialState: MCPAgentState = {
-    counter: 1,
-    servers: {},
-    tools: [],
-    prompts: [],
-    resources: [],
-  };
-  setServerState(id: string, state: Server) {
-    this.setState({
-      ...this.state,
-      servers: {
-        ...this.state.servers,
-        [id]: state,
-      },
-    });
-  }
-
-  async refreshServerData() {
-    this.setState({
-      ...this.state,
-      prompts: this.mcp.listPrompts(),
-      tools: this.mcp.listTools(),
-      resources: this.mcp.listResources(),
-    });
-  }
   async addMcpServer(url: string): Promise<string> {
     console.log(`Registering server: ${url}`);
-    const authProvider = new DurableObjectOAuthClientProvider(
-      this.ctx.storage,
-      this.name,
-      `${this.env.HOST}/agents/my-agent/${this.name}/callback`,
-    );
-    const { id, authUrl } = await this.mcp.connect(url, {
-      transport: { authProvider },
-    });
-    this.setServerState(id, {
-      url,
-      authUrl,
-      state: this.mcp.mcpConnections[id].connectionState,
-    });
-    if (this.mcp.mcpConnections[id].connectionState === "ready") {
-      await this.refreshServerData();
-    }
-    return authUrl ?? "";
+    // const authProvider = new DurableObjectOAuthClientProvider(
+    //   this.ctx.storage,
+    //   this.name,
+    //   `${this.env.HOST}/agents/my-agent/${this.name}/callback`,
+    // );
+    // const { id, authUrl } = await this.mcp.connect(url, {
+    //   transport: { authProvider },
+    // });
+    // this.setServerState(id, {
+    //   url,
+    //   authUrl,
+    //   state: this.mcp.mcpConnections[id].connectionState,
+    // });
+    // if (this.mcp.mcpConnections[id].connectionState === "ready") {
+    //   await this.refreshServerData();
+    // }
+    // return authUrl ?? "";
+    return "fake-auth-url--111";
   }
 
   async init() {
+    console.log("my-mcp-agent initV2");
     this.server.resource("counter", "mcp://resource/counter", (uri) => {
       return {
-        contents: [{ uri: uri.href, text: String(this.state.counter) }],
+        contents: [{ uri: uri?.href, text: String(this.state?.counter) }],
       };
     });
 
-    this.server.tool(
-      "add",
-      "Add to the counter, stored in the MCP",
-      { a: z.number() },
-      async ({ a }) => {
-        this.setState({ ...this.state, counter: this.state.counter + a });
+    // 提示: typescript 存在循环类型, 会导致IDE保存代码的时候等待很久时间. 并且不会由明确报错或警告
+    // this.server.tool(
+    //   "add",
+    //   "Add to the counter, stored in the MCP",
+    //   { a: z.number() as z.ZodType<number> },
+    //   async ({ a }) => {
+    //     this.setState({ ...this.state, counter: this.state.counter + a });
 
-        return {
-          content: [
-            {
-              type: "text",
-              text: String(`Added ${a}, total is now ${this.state.counter}`),
-            },
-          ],
-        };
-      },
-    );
+    //     return {
+    //       content: [
+    //         {
+    //           type: "text",
+    //           text: String(`Added ${a}, total is now ${this.state.counter}`),
+    //         },
+    //       ],
+    //     };
+    //   },
+    // );
   }
-  onStateUpdate(state: MCPAgentState) {
-    console.log({ stateUpdate: state });
-  }
+  // onStateUpdate(state: MCPAgentState) {
+  //   console.log("my-mcp-agent onStateUpdate", state);
+  //   console.log({ stateUpdate: state });
+  // }
 }
-// export default MyMCP.mount("/sse", {
-//   binding: "MyMCP",
-// });

@@ -1,5 +1,5 @@
+import type { DemoMcpServer } from "../../agents/demoMcpServer";
 import type { EmailAgent } from "../../agents/email";
-import type { MyMCP } from "../../agents/mcp_agent";
 import type { MockEmailService } from "../../agents/mock-email";
 import type { Scheduler } from "../../agents/scheduler";
 import type { Stateful } from "../../agents/stateful";
@@ -10,6 +10,7 @@ export type Env = {
   Stateful: DurableObjectNamespace<Stateful>;
   Email: DurableObjectNamespace<EmailAgent>;
   MockEmailService: DurableObjectNamespace<MockEmailService<Env>>;
-  MyMCP: DurableObjectNamespace<MyMCP>;
+  DemoMcpServer: DurableObjectNamespace<DemoMcpServer>;
   OPENAI_API_KEY: string;
+  HYPERDRIVE: Hyperdrive;
 };

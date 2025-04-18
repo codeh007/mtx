@@ -18,15 +18,10 @@ import { Route as IndexImport } from './routes/~index'
 // Create Virtual Routes
 
 const SessionRouteLazyImport = createFileRoute('/session')()
-const ProxyRouteLazyImport = createFileRoute('/proxy')()
 const SessionSchedulerRouteLazyImport = createFileRoute('/session/scheduler')()
 const SessionRootagRouteLazyImport = createFileRoute('/session/root_ag')()
-const SessionMcpagentRouteLazyImport = createFileRoute('/session/mcp_agent')()
 const SessionSessionIdRouteLazyImport = createFileRoute('/session/$sessionId')()
-const ProxyNewRouteLazyImport = createFileRoute('/proxy/new')()
-const ProxyProxyIdRouteLazyImport = createFileRoute('/proxy/$proxyId')()
 const SessionIndexLazyImport = createFileRoute('/session/')()
-const ProxyIndexLazyImport = createFileRoute('/proxy/')()
 const SessionSessionIdStateRouteLazyImport = createFileRoute(
   '/session/$sessionId/state',
 )()
@@ -36,16 +31,11 @@ const SessionSessionIdConfigRouteLazyImport = createFileRoute(
 const SessionSessionIdActionsRouteLazyImport = createFileRoute(
   '/session/$sessionId/actions',
 )()
-const ProxyProxyIdActionsRouteLazyImport = createFileRoute(
-  '/proxy/$proxyId/actions',
-)()
 const SessionSchedulerIndexLazyImport = createFileRoute('/session/scheduler/')()
 const SessionRootagIndexLazyImport = createFileRoute('/session/root_ag/')()
-const SessionMcpagentIndexLazyImport = createFileRoute('/session/mcp_agent/')()
 const SessionSessionIdIndexLazyImport = createFileRoute(
   '/session/$sessionId/',
 )()
-const ProxyProxyIdIndexLazyImport = createFileRoute('/proxy/$proxyId/')()
 const SessionSessionIdStateIndexLazyImport = createFileRoute(
   '/session/$sessionId/state/',
 )()
@@ -54,9 +44,6 @@ const SessionSessionIdConfigIndexLazyImport = createFileRoute(
 )()
 const SessionSessionIdActionsIndexLazyImport = createFileRoute(
   '/session/$sessionId/actions/',
-)()
-const ProxyProxyIdActionsIndexLazyImport = createFileRoute(
-  '/proxy/$proxyId/actions/',
 )()
 
 // Create/Update Routes
@@ -68,12 +55,6 @@ const SessionRouteLazyRoute = SessionRouteLazyImport.update({
 } as any).lazy(() =>
   import('./routes/~session/~route.lazy').then((d) => d.Route),
 )
-
-const ProxyRouteLazyRoute = ProxyRouteLazyImport.update({
-  id: '/proxy',
-  path: '/proxy',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/~proxy/~route.lazy').then((d) => d.Route))
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -97,36 +78,12 @@ const SessionRootagRouteLazyRoute = SessionRootagRouteLazyImport.update({
   import('./routes/~session/~root_ag/~route.lazy').then((d) => d.Route),
 )
 
-const SessionMcpagentRouteLazyRoute = SessionMcpagentRouteLazyImport.update({
-  id: '/mcp_agent',
-  path: '/mcp_agent',
-  getParentRoute: () => SessionRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~session/~mcp_agent/~route.lazy').then((d) => d.Route),
-)
-
 const SessionSessionIdRouteLazyRoute = SessionSessionIdRouteLazyImport.update({
   id: '/$sessionId',
   path: '/$sessionId',
   getParentRoute: () => SessionRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~session/~$sessionId/~route.lazy').then((d) => d.Route),
-)
-
-const ProxyNewRouteLazyRoute = ProxyNewRouteLazyImport.update({
-  id: '/new',
-  path: '/new',
-  getParentRoute: () => ProxyRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~proxy/~new/~route.lazy').then((d) => d.Route),
-)
-
-const ProxyProxyIdRouteLazyRoute = ProxyProxyIdRouteLazyImport.update({
-  id: '/$proxyId',
-  path: '/$proxyId',
-  getParentRoute: () => ProxyRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~proxy/~$proxyId/~route.lazy').then((d) => d.Route),
 )
 
 const SessionIndexLazyRoute = SessionIndexLazyImport.update({
@@ -136,12 +93,6 @@ const SessionIndexLazyRoute = SessionIndexLazyImport.update({
 } as any).lazy(() =>
   import('./routes/~session/~index.lazy').then((d) => d.Route),
 )
-
-const ProxyIndexLazyRoute = ProxyIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ProxyRouteLazyRoute,
-} as any).lazy(() => import('./routes/~proxy/~index.lazy').then((d) => d.Route))
 
 const SessionSessionIdStateRouteLazyRoute =
   SessionSessionIdStateRouteLazyImport.update({
@@ -176,17 +127,6 @@ const SessionSessionIdActionsRouteLazyRoute =
     ),
   )
 
-const ProxyProxyIdActionsRouteLazyRoute =
-  ProxyProxyIdActionsRouteLazyImport.update({
-    id: '/actions',
-    path: '/actions',
-    getParentRoute: () => ProxyProxyIdRouteLazyRoute,
-  } as any).lazy(() =>
-    import('./routes/~proxy/~$proxyId/~actions/~route.lazy').then(
-      (d) => d.Route,
-    ),
-  )
-
 const SessionSchedulerIndexLazyRoute = SessionSchedulerIndexLazyImport.update({
   id: '/',
   path: '/',
@@ -203,28 +143,12 @@ const SessionRootagIndexLazyRoute = SessionRootagIndexLazyImport.update({
   import('./routes/~session/~root_ag/~index.lazy').then((d) => d.Route),
 )
 
-const SessionMcpagentIndexLazyRoute = SessionMcpagentIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => SessionMcpagentRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~session/~mcp_agent/~index.lazy').then((d) => d.Route),
-)
-
 const SessionSessionIdIndexLazyRoute = SessionSessionIdIndexLazyImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => SessionSessionIdRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~session/~$sessionId/~index.lazy').then((d) => d.Route),
-)
-
-const ProxyProxyIdIndexLazyRoute = ProxyProxyIdIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ProxyProxyIdRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~proxy/~$proxyId/~index.lazy').then((d) => d.Route),
 )
 
 const SessionSessionIdStateIndexLazyRoute =
@@ -260,17 +184,6 @@ const SessionSessionIdActionsIndexLazyRoute =
     ),
   )
 
-const ProxyProxyIdActionsIndexLazyRoute =
-  ProxyProxyIdActionsIndexLazyImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => ProxyProxyIdActionsRouteLazyRoute,
-  } as any).lazy(() =>
-    import('./routes/~proxy/~$proxyId/~actions/~index.lazy').then(
-      (d) => d.Route,
-    ),
-  )
-
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -282,26 +195,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/proxy': {
-      id: '/proxy'
-      path: '/proxy'
-      fullPath: '/proxy'
-      preLoaderRoute: typeof ProxyRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/session': {
       id: '/session'
       path: '/session'
       fullPath: '/session'
       preLoaderRoute: typeof SessionRouteLazyImport
       parentRoute: typeof rootRoute
-    }
-    '/proxy/': {
-      id: '/proxy/'
-      path: '/'
-      fullPath: '/proxy/'
-      preLoaderRoute: typeof ProxyIndexLazyImport
-      parentRoute: typeof ProxyRouteLazyImport
     }
     '/session/': {
       id: '/session/'
@@ -310,32 +209,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SessionIndexLazyImport
       parentRoute: typeof SessionRouteLazyImport
     }
-    '/proxy/$proxyId': {
-      id: '/proxy/$proxyId'
-      path: '/$proxyId'
-      fullPath: '/proxy/$proxyId'
-      preLoaderRoute: typeof ProxyProxyIdRouteLazyImport
-      parentRoute: typeof ProxyRouteLazyImport
-    }
-    '/proxy/new': {
-      id: '/proxy/new'
-      path: '/new'
-      fullPath: '/proxy/new'
-      preLoaderRoute: typeof ProxyNewRouteLazyImport
-      parentRoute: typeof ProxyRouteLazyImport
-    }
     '/session/$sessionId': {
       id: '/session/$sessionId'
       path: '/$sessionId'
       fullPath: '/session/$sessionId'
       preLoaderRoute: typeof SessionSessionIdRouteLazyImport
-      parentRoute: typeof SessionRouteLazyImport
-    }
-    '/session/mcp_agent': {
-      id: '/session/mcp_agent'
-      path: '/mcp_agent'
-      fullPath: '/session/mcp_agent'
-      preLoaderRoute: typeof SessionMcpagentRouteLazyImport
       parentRoute: typeof SessionRouteLazyImport
     }
     '/session/root_ag': {
@@ -352,26 +230,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SessionSchedulerRouteLazyImport
       parentRoute: typeof SessionRouteLazyImport
     }
-    '/proxy/$proxyId/': {
-      id: '/proxy/$proxyId/'
-      path: '/'
-      fullPath: '/proxy/$proxyId/'
-      preLoaderRoute: typeof ProxyProxyIdIndexLazyImport
-      parentRoute: typeof ProxyProxyIdRouteLazyImport
-    }
     '/session/$sessionId/': {
       id: '/session/$sessionId/'
       path: '/'
       fullPath: '/session/$sessionId/'
       preLoaderRoute: typeof SessionSessionIdIndexLazyImport
       parentRoute: typeof SessionSessionIdRouteLazyImport
-    }
-    '/session/mcp_agent/': {
-      id: '/session/mcp_agent/'
-      path: '/'
-      fullPath: '/session/mcp_agent/'
-      preLoaderRoute: typeof SessionMcpagentIndexLazyImport
-      parentRoute: typeof SessionMcpagentRouteLazyImport
     }
     '/session/root_ag/': {
       id: '/session/root_ag/'
@@ -386,13 +250,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/session/scheduler/'
       preLoaderRoute: typeof SessionSchedulerIndexLazyImport
       parentRoute: typeof SessionSchedulerRouteLazyImport
-    }
-    '/proxy/$proxyId/actions': {
-      id: '/proxy/$proxyId/actions'
-      path: '/actions'
-      fullPath: '/proxy/$proxyId/actions'
-      preLoaderRoute: typeof ProxyProxyIdActionsRouteLazyImport
-      parentRoute: typeof ProxyProxyIdRouteLazyImport
     }
     '/session/$sessionId/actions': {
       id: '/session/$sessionId/actions'
@@ -414,13 +271,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/session/$sessionId/state'
       preLoaderRoute: typeof SessionSessionIdStateRouteLazyImport
       parentRoute: typeof SessionSessionIdRouteLazyImport
-    }
-    '/proxy/$proxyId/actions/': {
-      id: '/proxy/$proxyId/actions/'
-      path: '/'
-      fullPath: '/proxy/$proxyId/actions/'
-      preLoaderRoute: typeof ProxyProxyIdActionsIndexLazyImport
-      parentRoute: typeof ProxyProxyIdActionsRouteLazyImport
     }
     '/session/$sessionId/actions/': {
       id: '/session/$sessionId/actions/'
@@ -447,52 +297,6 @@ declare module '@tanstack/react-router' {
 }
 
 // Create and export the route tree
-
-interface ProxyProxyIdActionsRouteLazyRouteChildren {
-  ProxyProxyIdActionsIndexLazyRoute: typeof ProxyProxyIdActionsIndexLazyRoute
-}
-
-const ProxyProxyIdActionsRouteLazyRouteChildren: ProxyProxyIdActionsRouteLazyRouteChildren =
-  {
-    ProxyProxyIdActionsIndexLazyRoute: ProxyProxyIdActionsIndexLazyRoute,
-  }
-
-const ProxyProxyIdActionsRouteLazyRouteWithChildren =
-  ProxyProxyIdActionsRouteLazyRoute._addFileChildren(
-    ProxyProxyIdActionsRouteLazyRouteChildren,
-  )
-
-interface ProxyProxyIdRouteLazyRouteChildren {
-  ProxyProxyIdIndexLazyRoute: typeof ProxyProxyIdIndexLazyRoute
-  ProxyProxyIdActionsRouteLazyRoute: typeof ProxyProxyIdActionsRouteLazyRouteWithChildren
-}
-
-const ProxyProxyIdRouteLazyRouteChildren: ProxyProxyIdRouteLazyRouteChildren = {
-  ProxyProxyIdIndexLazyRoute: ProxyProxyIdIndexLazyRoute,
-  ProxyProxyIdActionsRouteLazyRoute:
-    ProxyProxyIdActionsRouteLazyRouteWithChildren,
-}
-
-const ProxyProxyIdRouteLazyRouteWithChildren =
-  ProxyProxyIdRouteLazyRoute._addFileChildren(
-    ProxyProxyIdRouteLazyRouteChildren,
-  )
-
-interface ProxyRouteLazyRouteChildren {
-  ProxyIndexLazyRoute: typeof ProxyIndexLazyRoute
-  ProxyProxyIdRouteLazyRoute: typeof ProxyProxyIdRouteLazyRouteWithChildren
-  ProxyNewRouteLazyRoute: typeof ProxyNewRouteLazyRoute
-}
-
-const ProxyRouteLazyRouteChildren: ProxyRouteLazyRouteChildren = {
-  ProxyIndexLazyRoute: ProxyIndexLazyRoute,
-  ProxyProxyIdRouteLazyRoute: ProxyProxyIdRouteLazyRouteWithChildren,
-  ProxyNewRouteLazyRoute: ProxyNewRouteLazyRoute,
-}
-
-const ProxyRouteLazyRouteWithChildren = ProxyRouteLazyRoute._addFileChildren(
-  ProxyRouteLazyRouteChildren,
-)
 
 interface SessionSessionIdActionsRouteLazyRouteChildren {
   SessionSessionIdActionsIndexLazyRoute: typeof SessionSessionIdActionsIndexLazyRoute
@@ -560,20 +364,6 @@ const SessionSessionIdRouteLazyRouteWithChildren =
     SessionSessionIdRouteLazyRouteChildren,
   )
 
-interface SessionMcpagentRouteLazyRouteChildren {
-  SessionMcpagentIndexLazyRoute: typeof SessionMcpagentIndexLazyRoute
-}
-
-const SessionMcpagentRouteLazyRouteChildren: SessionMcpagentRouteLazyRouteChildren =
-  {
-    SessionMcpagentIndexLazyRoute: SessionMcpagentIndexLazyRoute,
-  }
-
-const SessionMcpagentRouteLazyRouteWithChildren =
-  SessionMcpagentRouteLazyRoute._addFileChildren(
-    SessionMcpagentRouteLazyRouteChildren,
-  )
-
 interface SessionRootagRouteLazyRouteChildren {
   SessionRootagIndexLazyRoute: typeof SessionRootagIndexLazyRoute
 }
@@ -605,7 +395,6 @@ const SessionSchedulerRouteLazyRouteWithChildren =
 interface SessionRouteLazyRouteChildren {
   SessionIndexLazyRoute: typeof SessionIndexLazyRoute
   SessionSessionIdRouteLazyRoute: typeof SessionSessionIdRouteLazyRouteWithChildren
-  SessionMcpagentRouteLazyRoute: typeof SessionMcpagentRouteLazyRouteWithChildren
   SessionRootagRouteLazyRoute: typeof SessionRootagRouteLazyRouteWithChildren
   SessionSchedulerRouteLazyRoute: typeof SessionSchedulerRouteLazyRouteWithChildren
 }
@@ -613,7 +402,6 @@ interface SessionRouteLazyRouteChildren {
 const SessionRouteLazyRouteChildren: SessionRouteLazyRouteChildren = {
   SessionIndexLazyRoute: SessionIndexLazyRoute,
   SessionSessionIdRouteLazyRoute: SessionSessionIdRouteLazyRouteWithChildren,
-  SessionMcpagentRouteLazyRoute: SessionMcpagentRouteLazyRouteWithChildren,
   SessionRootagRouteLazyRoute: SessionRootagRouteLazyRouteWithChildren,
   SessionSchedulerRouteLazyRoute: SessionSchedulerRouteLazyRouteWithChildren,
 }
@@ -623,26 +411,17 @@ const SessionRouteLazyRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/proxy': typeof ProxyRouteLazyRouteWithChildren
   '/session': typeof SessionRouteLazyRouteWithChildren
-  '/proxy/': typeof ProxyIndexLazyRoute
   '/session/': typeof SessionIndexLazyRoute
-  '/proxy/$proxyId': typeof ProxyProxyIdRouteLazyRouteWithChildren
-  '/proxy/new': typeof ProxyNewRouteLazyRoute
   '/session/$sessionId': typeof SessionSessionIdRouteLazyRouteWithChildren
-  '/session/mcp_agent': typeof SessionMcpagentRouteLazyRouteWithChildren
   '/session/root_ag': typeof SessionRootagRouteLazyRouteWithChildren
   '/session/scheduler': typeof SessionSchedulerRouteLazyRouteWithChildren
-  '/proxy/$proxyId/': typeof ProxyProxyIdIndexLazyRoute
   '/session/$sessionId/': typeof SessionSessionIdIndexLazyRoute
-  '/session/mcp_agent/': typeof SessionMcpagentIndexLazyRoute
   '/session/root_ag/': typeof SessionRootagIndexLazyRoute
   '/session/scheduler/': typeof SessionSchedulerIndexLazyRoute
-  '/proxy/$proxyId/actions': typeof ProxyProxyIdActionsRouteLazyRouteWithChildren
   '/session/$sessionId/actions': typeof SessionSessionIdActionsRouteLazyRouteWithChildren
   '/session/$sessionId/config': typeof SessionSessionIdConfigRouteLazyRouteWithChildren
   '/session/$sessionId/state': typeof SessionSessionIdStateRouteLazyRouteWithChildren
-  '/proxy/$proxyId/actions/': typeof ProxyProxyIdActionsIndexLazyRoute
   '/session/$sessionId/actions/': typeof SessionSessionIdActionsIndexLazyRoute
   '/session/$sessionId/config/': typeof SessionSessionIdConfigIndexLazyRoute
   '/session/$sessionId/state/': typeof SessionSessionIdStateIndexLazyRoute
@@ -650,15 +429,10 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/proxy': typeof ProxyIndexLazyRoute
   '/session': typeof SessionIndexLazyRoute
-  '/proxy/new': typeof ProxyNewRouteLazyRoute
-  '/proxy/$proxyId': typeof ProxyProxyIdIndexLazyRoute
   '/session/$sessionId': typeof SessionSessionIdIndexLazyRoute
-  '/session/mcp_agent': typeof SessionMcpagentIndexLazyRoute
   '/session/root_ag': typeof SessionRootagIndexLazyRoute
   '/session/scheduler': typeof SessionSchedulerIndexLazyRoute
-  '/proxy/$proxyId/actions': typeof ProxyProxyIdActionsIndexLazyRoute
   '/session/$sessionId/actions': typeof SessionSessionIdActionsIndexLazyRoute
   '/session/$sessionId/config': typeof SessionSessionIdConfigIndexLazyRoute
   '/session/$sessionId/state': typeof SessionSessionIdStateIndexLazyRoute
@@ -667,26 +441,17 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/proxy': typeof ProxyRouteLazyRouteWithChildren
   '/session': typeof SessionRouteLazyRouteWithChildren
-  '/proxy/': typeof ProxyIndexLazyRoute
   '/session/': typeof SessionIndexLazyRoute
-  '/proxy/$proxyId': typeof ProxyProxyIdRouteLazyRouteWithChildren
-  '/proxy/new': typeof ProxyNewRouteLazyRoute
   '/session/$sessionId': typeof SessionSessionIdRouteLazyRouteWithChildren
-  '/session/mcp_agent': typeof SessionMcpagentRouteLazyRouteWithChildren
   '/session/root_ag': typeof SessionRootagRouteLazyRouteWithChildren
   '/session/scheduler': typeof SessionSchedulerRouteLazyRouteWithChildren
-  '/proxy/$proxyId/': typeof ProxyProxyIdIndexLazyRoute
   '/session/$sessionId/': typeof SessionSessionIdIndexLazyRoute
-  '/session/mcp_agent/': typeof SessionMcpagentIndexLazyRoute
   '/session/root_ag/': typeof SessionRootagIndexLazyRoute
   '/session/scheduler/': typeof SessionSchedulerIndexLazyRoute
-  '/proxy/$proxyId/actions': typeof ProxyProxyIdActionsRouteLazyRouteWithChildren
   '/session/$sessionId/actions': typeof SessionSessionIdActionsRouteLazyRouteWithChildren
   '/session/$sessionId/config': typeof SessionSessionIdConfigRouteLazyRouteWithChildren
   '/session/$sessionId/state': typeof SessionSessionIdStateRouteLazyRouteWithChildren
-  '/proxy/$proxyId/actions/': typeof ProxyProxyIdActionsIndexLazyRoute
   '/session/$sessionId/actions/': typeof SessionSessionIdActionsIndexLazyRoute
   '/session/$sessionId/config/': typeof SessionSessionIdConfigIndexLazyRoute
   '/session/$sessionId/state/': typeof SessionSessionIdStateIndexLazyRoute
@@ -696,67 +461,44 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/proxy'
     | '/session'
-    | '/proxy/'
     | '/session/'
-    | '/proxy/$proxyId'
-    | '/proxy/new'
     | '/session/$sessionId'
-    | '/session/mcp_agent'
     | '/session/root_ag'
     | '/session/scheduler'
-    | '/proxy/$proxyId/'
     | '/session/$sessionId/'
-    | '/session/mcp_agent/'
     | '/session/root_ag/'
     | '/session/scheduler/'
-    | '/proxy/$proxyId/actions'
     | '/session/$sessionId/actions'
     | '/session/$sessionId/config'
     | '/session/$sessionId/state'
-    | '/proxy/$proxyId/actions/'
     | '/session/$sessionId/actions/'
     | '/session/$sessionId/config/'
     | '/session/$sessionId/state/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/proxy'
     | '/session'
-    | '/proxy/new'
-    | '/proxy/$proxyId'
     | '/session/$sessionId'
-    | '/session/mcp_agent'
     | '/session/root_ag'
     | '/session/scheduler'
-    | '/proxy/$proxyId/actions'
     | '/session/$sessionId/actions'
     | '/session/$sessionId/config'
     | '/session/$sessionId/state'
   id:
     | '__root__'
     | '/'
-    | '/proxy'
     | '/session'
-    | '/proxy/'
     | '/session/'
-    | '/proxy/$proxyId'
-    | '/proxy/new'
     | '/session/$sessionId'
-    | '/session/mcp_agent'
     | '/session/root_ag'
     | '/session/scheduler'
-    | '/proxy/$proxyId/'
     | '/session/$sessionId/'
-    | '/session/mcp_agent/'
     | '/session/root_ag/'
     | '/session/scheduler/'
-    | '/proxy/$proxyId/actions'
     | '/session/$sessionId/actions'
     | '/session/$sessionId/config'
     | '/session/$sessionId/state'
-    | '/proxy/$proxyId/actions/'
     | '/session/$sessionId/actions/'
     | '/session/$sessionId/config/'
     | '/session/$sessionId/state/'
@@ -765,13 +507,11 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ProxyRouteLazyRoute: typeof ProxyRouteLazyRouteWithChildren
   SessionRouteLazyRoute: typeof SessionRouteLazyRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ProxyRouteLazyRoute: ProxyRouteLazyRouteWithChildren,
   SessionRouteLazyRoute: SessionRouteLazyRouteWithChildren,
 }
 
@@ -786,50 +526,24 @@ export const routeTree = rootRoute
       "filePath": "~__root.tsx",
       "children": [
         "/",
-        "/proxy",
         "/session"
       ]
     },
     "/": {
       "filePath": "~index.tsx"
     },
-    "/proxy": {
-      "filePath": "~proxy/~route.lazy.tsx",
-      "children": [
-        "/proxy/",
-        "/proxy/$proxyId",
-        "/proxy/new"
-      ]
-    },
     "/session": {
       "filePath": "~session/~route.lazy.tsx",
       "children": [
         "/session/",
         "/session/$sessionId",
-        "/session/mcp_agent",
         "/session/root_ag",
         "/session/scheduler"
       ]
     },
-    "/proxy/": {
-      "filePath": "~proxy/~index.lazy.tsx",
-      "parent": "/proxy"
-    },
     "/session/": {
       "filePath": "~session/~index.lazy.tsx",
       "parent": "/session"
-    },
-    "/proxy/$proxyId": {
-      "filePath": "~proxy/~$proxyId/~route.lazy.tsx",
-      "parent": "/proxy",
-      "children": [
-        "/proxy/$proxyId/",
-        "/proxy/$proxyId/actions"
-      ]
-    },
-    "/proxy/new": {
-      "filePath": "~proxy/~new/~route.lazy.tsx",
-      "parent": "/proxy"
     },
     "/session/$sessionId": {
       "filePath": "~session/~$sessionId/~route.lazy.tsx",
@@ -839,13 +553,6 @@ export const routeTree = rootRoute
         "/session/$sessionId/actions",
         "/session/$sessionId/config",
         "/session/$sessionId/state"
-      ]
-    },
-    "/session/mcp_agent": {
-      "filePath": "~session/~mcp_agent/~route.lazy.tsx",
-      "parent": "/session",
-      "children": [
-        "/session/mcp_agent/"
       ]
     },
     "/session/root_ag": {
@@ -862,17 +569,9 @@ export const routeTree = rootRoute
         "/session/scheduler/"
       ]
     },
-    "/proxy/$proxyId/": {
-      "filePath": "~proxy/~$proxyId/~index.lazy.tsx",
-      "parent": "/proxy/$proxyId"
-    },
     "/session/$sessionId/": {
       "filePath": "~session/~$sessionId/~index.lazy.tsx",
       "parent": "/session/$sessionId"
-    },
-    "/session/mcp_agent/": {
-      "filePath": "~session/~mcp_agent/~index.lazy.tsx",
-      "parent": "/session/mcp_agent"
     },
     "/session/root_ag/": {
       "filePath": "~session/~root_ag/~index.lazy.tsx",
@@ -881,13 +580,6 @@ export const routeTree = rootRoute
     "/session/scheduler/": {
       "filePath": "~session/~scheduler/~index.lazy.tsx",
       "parent": "/session/scheduler"
-    },
-    "/proxy/$proxyId/actions": {
-      "filePath": "~proxy/~$proxyId/~actions/~route.lazy.tsx",
-      "parent": "/proxy/$proxyId",
-      "children": [
-        "/proxy/$proxyId/actions/"
-      ]
     },
     "/session/$sessionId/actions": {
       "filePath": "~session/~$sessionId/~actions/~route.lazy.tsx",
@@ -909,10 +601,6 @@ export const routeTree = rootRoute
       "children": [
         "/session/$sessionId/state/"
       ]
-    },
-    "/proxy/$proxyId/actions/": {
-      "filePath": "~proxy/~$proxyId/~actions/~index.lazy.tsx",
-      "parent": "/proxy/$proxyId/actions"
     },
     "/session/$sessionId/actions/": {
       "filePath": "~session/~$sessionId/~actions/~index.lazy.tsx",

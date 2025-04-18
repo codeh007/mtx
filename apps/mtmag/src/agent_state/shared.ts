@@ -4,6 +4,19 @@ export const APPROVAL = {
   NO: "No, denied.",
 } as const;
 
+export type McpServer = {
+  url: string;
+  state: "authenticating" | "connecting" | "ready" | "discovering" | "failed";
+  authUrl?: string;
+};
+export type ScheduledItem = {
+  id: string;
+  type: "cron" | "scheduled" | "delayed";
+  trigger: string;
+  nextTrigger: string;
+  description: string;
+};
+
 export type IncomingMessage =
   | {
       type: "schedule";
@@ -16,6 +29,19 @@ export type IncomingMessage =
   | {
       type: "demo-event-1";
       data: unknown;
+    }
+  | {
+      type: "add-mcp-server";
+      data: McpServer;
+    }
+  | {
+      type: "remove-mcp-server";
+      id: string;
+    }
+  | {
+      type: "set-mcp-server";
+      // id: string;
+      data: McpServer;
     };
 
 export type OutgoingMessage =
@@ -43,11 +69,3 @@ export type OutgoingMessage =
       type: "demo-event-response";
       data: unknown;
     };
-
-export type ScheduledItem = {
-  id: string;
-  type: "cron" | "scheduled" | "delayed";
-  trigger: string;
-  nextTrigger: string;
-  description: string;
-};
