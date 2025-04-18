@@ -99,17 +99,12 @@ function RouteComponent() {
                 <div>
                   <div>URL: {server.url}</div>
                   <div className="status-indicator">
-                    <div
-                      className={`status-dot ${server.state === "ready" ? "connected" : ""}`}
-                    />
+                    <div className={`status-dot ${server.state === "ready" ? "connected" : ""}`} />
                     {server.state} (id: {id})
                   </div>
                 </div>
                 {server.state === "authenticating" && server.authUrl && (
-                  <button
-                    type="button"
-                    onClick={() => openPopup(server.authUrl as string)}
-                  >
+                  <button type="button" onClick={() => openPopup(server.authUrl as string)}>
                     Authorize
                   </button>
                 )}

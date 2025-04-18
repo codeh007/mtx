@@ -2,25 +2,24 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { McpAgent } from "agents/mcp";
 import { MCPClientManager } from "agents/mcp/client";
 import { DurableObjectOAuthClientProvider } from "agents/mcp/do-oauth-client-provider";
-import type { State } from "postgres";
 import { z } from "zod";
+import type { MCPAgentState } from "../agent_state/mcp_agent_state";
 import type { Env } from "../components/cloudflare-agents/env";
-import type { State } from "postgres";
-
+import { State } from "postgres";
 export type Server = {
   url: string;
   state: "authenticating" | "connecting" | "ready" | "discovering" | "failed";
   authUrl?: string;
 };
 
-export class MyMCP extends McpAgent<Env, State, {}> {
+export class MyMCP extends McpAgent<Env, MCPAgentState, {}> {
   server = new McpServer({
     name: "mcp-agent",
     version: "1.0.0",
   });
   mcp = new MCPClientManager("mcp-agent", "1.0.0");
 
-  initialState: State = {
+  initialState: MCPAgentState = {
     counter: 1,
     servers: {},
     tools: [],
