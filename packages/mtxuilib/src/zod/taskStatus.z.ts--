@@ -1,0 +1,34 @@
+import { z } from "zod";
+export enum TASK_STATUS {
+	Init = 0,
+	Padding = 1,
+	Running = 2,
+	Paused = 3,
+	Terminated = 4,
+}
+export const taskStatusSchema = z
+	.custom<TASK_STATUS>()
+	.refine((value) => {
+		const a = Number(value || 0);
+		return a >= TASK_STATUS.Init && a <= TASK_STATUS.Terminated;
+	}, "Invalid taskStatus")
+	.transform((value) => Number(value) || (TASK_STATUS.Init as TASK_STATUS));
+
+export type TaskStatusSchema = z.infer<typeof taskStatusSchema>;
+
+export enum TASK_STATUS_V2 {
+	Init = 0,
+	Padding = 1,
+	fulfill = 2,
+}
+export const taskStatusV2Schema = z
+	.custom<TASK_STATUS>()
+	.refine((value) => {
+		const a = Number(value || 0);
+		return a >= TASK_STATUS_V2.Init && a <= TASK_STATUS_V2.fulfill;
+	}, "Invalid taskStatus")
+	.transform(
+		(value) => Number(value) || (TASK_STATUS_V2.Init as TASK_STATUS_V2),
+	);
+
+export type TaskStatusV2 = z.infer<typeof taskStatusV2Schema>;

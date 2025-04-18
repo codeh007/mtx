@@ -1,0 +1,169 @@
+{
+  "name": "mtmaiapi",
+  "version": "0.6.2",
+  "files": ["dist", "src"],
+  "license": "MIT",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./src/*.ts",
+        "./src/*.tsx",
+        "./src/*/index.ts",
+        "./src/*/index.tsx",
+        "./dist/*",
+        "./dist/*/index"
+      ]
+    }
+  },
+  "exports": {
+    ".": {
+      "types": [
+        "./src/*",
+        "./src/index.ts",
+        "./dist/index.js",
+        "./dist/*",
+        "./dist/*/index"
+      ],
+      "import": [
+        "./src/index.ts",
+        "./dist/index.js",
+        "./dist/*",
+        "./dist/*/index"
+      ]
+    },
+    "./*": {
+      "types": [
+        "./src/*",
+        "./src/*.ts",
+        "./src/*/index.ts",
+        "./src/*.tsx",
+        "./src/*/index.tsx",
+        "./dist/*",
+        "./dist/*/index",
+        "./dist/*/index.js",
+        "./dist/*/index.ts"
+      ],
+      "import": [
+        "./src/*",
+        "./src/*.ts",
+        "./src/*.tsx",
+        "./src/*/index.ts",
+        "./src/*/index.tsx",
+        "./dist/*/index.js",
+        "./dist/*.js"
+      ],
+      "require": [
+        "./dist/*.js",
+        "./dist/*/index.js",
+        "./src/*.ts",
+        "./src/*/index.ts",
+        "./src/*.tsx",
+        "./src/*/index.tsx"
+      ]
+    }
+  },
+  "scripts": {
+    "withEnv": "dotenv -e ../../../gomtm/env/mtmaiui.env --",
+    "build": "rimraf ./dist/ && tsc -p tsconfig.json --outDir dist --incremental false --noEmit false --removeComments true --skipLibCheck true",
+    "lint": "biome check --apply-unsafe --no-errors-on-unmatched --files-ignore-unknown=true ./",
+    "gen2--": "npx openapi-typescript ../../../gomtm/api-contracts/openapi/openapi.yaml -o src/query_client/generated.ts",
+    "tsc:build": "tsc && resolve-tspaths",
+    "test:unit": "jest --testMatch='**/*.test.ts'",
+    "test:e2e": "jest --testMatch='**/*.e2e.ts'",
+    "test:unit:watch": "jest --testMatch='**/*.test.ts' --watch",
+    "gen": "openapi-ts && biome format --write ./src",
+    "generate": "pnpm run '/generate-.*/'",
+    "generate-api": "npx --yes swagger-cli bundle ../../../gomtm/api-contracts/openapi/openapi.yaml --outfile openapi.yaml --type yaml",
+    "generate-api-step2": "npx swagger-typescript-api -p openapi.yaml -o src/clients/rest/generated -n hatchet.ts --modular --axios",
+    "generate-protoc": "./generate-protoc.sh",
+    "lint:check": "npm run eslint:check && npm run prettier:check",
+    "lint:fix": "npm run eslint:fix && npm run prettier:fix",
+    "eslint:check": "eslint \"{src,tests}/**/*.{ts,tsx,js}\"",
+    "eslint:fix": "eslint \"{src,tests}/**/*.{ts,tsx,js}\" --fix",
+    "prettier:check": "prettier \"src/**/*.{ts,tsx}\" --list-different",
+    "prettier:fix": "prettier \"src/**/*.{ts,tsx}\" --write",
+    "exec": "npx dotenv -- ts-node -r tsconfig-paths/register --project tsconfig.json",
+    "example:event": "npm run exec -- ./src/examples/example-event.ts",
+    "example:event-listen": "npm run exec -- ./src/examples/example-event-with-results.ts",
+    "manual:meta": "npm run exec -- ./src/examples/stream-by-additional-meta.ts",
+    "bulk:trigger": "npm run exec -- ./src/examples/bulk-trigger.ts",
+    "bulk:fanout:worker": "npm run exec -- ./src/examples/bulk-fanout-worker.ts",
+    "bulk:fanout:trigger": "npm run exec -- ./src/examples/bulk-fanout-trigger.ts",
+    "worker:dag": "npm run exec -- ./src/examples/dag-worker.ts",
+    "worker:concurrency": "npm run exec -- ./src/examples/concurrency/cancel-in-progress/concurrency-worker.ts",
+    "event:concurrency": "npm run exec -- ./src/examples/concurrency/cancel-in-progress/concurrency-event.ts",
+    "worker:concurrency:rr": "npm run exec -- ./src/examples/concurrency/group-round-robin/concurrency-worker-expression.ts",
+    "event:concurrency:rr": "npm run exec -- ./src/examples/concurrency/group-round-robin/concurrency-event.ts",
+    "worker:playground": "npm run exec -- ./src/examples/playground.ts",
+    "worker:retries": "npm run exec -- ./src/examples/retries-worker.ts",
+    "worker:multi-workflow": "npm run exec -- ./src/examples/multi-workflow.ts",
+    "worker:logger": "npm run exec -- ./src/examples/logger.ts",
+    "prepublish": "cp package.json dist/package.json;",
+    "publish:ci": "rm -rf ./dist && npm run tsc:build && npm run prepublish && cd dist && npm publish --access public --no-git-checks",
+    "publish:ci:alpha": "rm -rf ./dist && npm run tsc:build && npm run prepublish && cd dist && npm publish --access public --no-git-checks --tag alpha",
+    "generate-docs": "typedoc",
+    "db_gen": "drizzle-kit generate",
+    "db_migrate_old": "bun run withEnv -- bun run src/db/migrate.ts",
+    "db_migrate": "bun run withEnv -- bun drizzle-kit migrate --config=drizzle.config.ts",
+    "db_push": "bun run withEnv -- drizzle-kit push",
+    "db_pull": "bun run withEnv -- bun run drizzle-kit pull"
+  },
+  "dependencies": {
+    "@connectrpc/connect": "^2.0.1",
+    "@connectrpc/connect-query": "^2.0.1",
+    "@connectrpc/connect-web": "^2.0.1",
+    "@bufbuild/buf": "^1.50.0",
+    "@bufbuild/protobuf": "^2.2.3",
+    "@bufbuild/protoc-gen-es": "^2.2.3",
+    "@hey-api/client-fetch": "^0.8.1",
+    "@hey-api/openapi-ts": "^0.64.5",
+    "@langchain/aws": "^0.1.2",
+    "@langchain/groq": "^0.1.2",
+    "@lukemorales/query-key-factory": "^1.3.2",
+    "@tanstack/react-query": "^5.62.14",
+    "@tanstack/react-query-devtools": "^5.62.14",
+    "@tanstack/react-query-next-experimental": "^5.62.14",
+    "@types/qs": "^6.9.11",
+    "abort-controller-x": "^0.4.3",
+    "axios": "^1.6.7",
+    "drizzle-orm": "^0.39.0",
+    "long": "^5.3.1",
+    "nice-grpc": "^2.1.11",
+    "nice-grpc-common": "^2.0.2",
+    "openapi-fetch": "^0.13.0",
+    "openapi-react-query": "^0.2.4",
+    "protobufjs": "^7.4.0",
+    "qs": "^6.11.2",
+    "yaml": "^2.7.0",
+    "zod": "^3.24.3"
+  },
+  "devDependencies": {
+    "@bufbuild/protoplugin": "^2.2.3",
+    "@types/node": "^22.14.0",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "autoprefixer": "^10.4.16",
+    "dotenv-cli": "^7.3.0",
+    "drizzle-kit": "^0.30.3",
+    "grpc-tools": "^1.12.4",
+    "openapi-typescript": "^7.6.1",
+    "prettier": "^3.1.1",
+    "resolve-tspaths": "^0.8.17",
+    "swagger-typescript-api": "^13.0.24",
+    "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.2",
+    "ts-proto": "^2.6.1",
+    "typedoc": "^0.26.2",
+    "typedoc-plugin-markdown": "^4.0.2",
+    "typescript": "^5.8"
+  },
+  "engines": {
+    "node": "22.x"
+  }
+}

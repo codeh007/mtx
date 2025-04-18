@@ -1,0 +1,31 @@
+baseURL: https://example.org/
+languageCode: en-us
+title: My New Hugo Site
+
+build:
+  cachebusters:
+  - source: layouts/.*
+    target: css
+  - source: "assets/notwatching/hugo_stats\\.json"
+    target: css
+  - source: "(postcss|tailwind)\\.config\\.js"
+    target: css
+  buildStats: 
+    enable: true
+
+markup:
+  highlight: 
+    style: github
+
+module:
+  hugoVersion:
+    min: "0.128.0"
+  mounts:
+    - source: "assets"
+      target: "assets"
+    - source: "content" 
+      target: "content"
+    - source: "hugo_stats.json"
+      target: "assets/notwatching/hugo_stats.json"
+      disableWatch: true
+

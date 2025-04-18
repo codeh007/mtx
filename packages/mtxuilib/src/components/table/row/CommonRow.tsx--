@@ -1,0 +1,27 @@
+'use client'
+
+import { Row } from "@tanstack/react-table"
+import { logger } from "mtxui/lib/mt-logger"
+import { TableRow } from "mtxui/ui/table"
+import { ReactNode } from "react"
+import { useViewStore } from "../../../../store/view/viewstore.tsx--"
+
+
+interface CommonRowProps<T> extends React.HTMLAttributes<HTMLTableRowElement> {
+    children: ReactNode,
+    row: Row<T>
+    // enableDrag: boolean
+    // reorderRow: (draggedRowIndex: number, targetRowIndex: number) => void
+}
+export function CommonRow<T>({ children, row }: CommonRowProps<T>) {
+    const setActivatedItem = useViewStore(x => x.setActivatedItem)
+    return (<TableRow
+        key={row.id}
+        data-state={row.getIsSelected() && "selected"}
+        onClick={() => {
+            logger.log("row", row.original)
+            setActivatedItem && (setActivatedItem(row?.original))
+        }}
+    >{children}</TableRow>)
+
+}

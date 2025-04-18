@@ -1,0 +1,35 @@
+"use client";
+
+import { DashSidebar } from "mtmaiui/components/sidebar/siderbar";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+  SidebarInset,
+} from "mtxuilib";
+import AgentNodeListView from "../../../../modules/agentnodes/agentnode-table";
+import { DashContent } from "../components/DashContent";
+import { DashHeaders } from "../components/DashHeaders";
+
+export default function Page() {
+  return (
+    <>
+      <DashSidebar />
+      <SidebarInset>
+        <DashHeaders>
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbPage>agent nodes</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </DashHeaders>
+        <DashContent>
+          <AgentNodeListView />
+        </DashContent>
+      </SidebarInset>
+    </>
+  );
+}

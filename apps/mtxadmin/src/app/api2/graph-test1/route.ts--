@@ -1,0 +1,12 @@
+import { graphSseStream } from "mtxuilib/graphs/graphutils/graphutils.ts";
+import { newStreamResponse } from "mtxuilib/lib/sse/sse.ts";
+const handler = async (r: Request) => {
+  const input = {
+    messages: [{ role: "user", content: "What's the weather like today?" }],
+  };
+  const a = graphSseStream("assisant", input, {});
+  const response = newStreamResponse(a);
+  return response;
+};
+
+export const GET = handler;

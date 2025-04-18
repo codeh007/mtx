@@ -1,0 +1,57 @@
+{
+  "compilerOptions": {
+    "target": "ESNEXT",
+    "lib": ["dom", "dom.iterable", "esnext", "WebWorker"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    // "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    // "types": ["node", "jest", "@cloudflare/workers-types", "bun-types"],
+    "types": ["node", "jest"],
+    "moduleResolution": "bundler",
+    "module": "ESNext",
+    // "module": "commonjs" /* Specify what module code is generated. */,
+    "resolveJsonModule": true,
+    // "isolatedModules": true,
+    // "isolatedModules": false,
+    // "noEmitOnError": true,
+    "jsx": "preserve",
+    "declaration": true,
+    // "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
+    "rootDir": ".",
+    // "baseUrl": "./src",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    // "paths": {
+    //   "@/*": ["./src/*"]
+    // },
+    "paths": {
+      // NOTE: also set in jest.config.ts
+      "@hatchet/*": ["./src/*"],
+      "@util/*": ["./src/util/*"],
+      "@models/*": ["./src/models/*"],
+      "@clients/*": ["./src/clients/*"]
+    },
+    "noImplicitAny": false
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    ".vscode",
+    "public",
+    "dist",
+    "openapi-ts.config.ts",
+    "code_gen",
+    "src/examples",
+    "src/db/migrations/*"
+  ]
+}

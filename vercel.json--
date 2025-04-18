@@ -1,0 +1,27 @@
+{
+  "buildCommand": "bun run build",
+  "installCommand": "bun i",
+  "outputDirectory": "apps/mtmaiui/.next",
+  "framework": "nextjs",
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.go"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/demopage.html",
+      "destination": "/",
+      "missing": [
+        {
+          "type": "header",
+          "key": "Accept",
+          "value": "application/json"
+        }
+      ]
+    }
+  ]
+}

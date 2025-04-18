@@ -1,0 +1,207 @@
+import { schemaFormSchema } from "mtxuilib/common/schema-form/schema-form.z";
+import * as z from "zod";
+import { curdViewTypeSchema } from "./common.z";
+
+const DEFAULT_PAGE_SIZE = 24;
+const DEFAULT_PAGE_LIMITE_MAX = 200;
+
+const actionViewCommon = z.object({
+	label: z.string(),
+});
+const actionViewFormSchema = actionViewCommon.merge(
+	z.object({
+		viewType: z.literal("form"),
+		viewProps: schemaFormSchema,
+	}),
+);
+
+//删除列表item 的action
+const actionViewDropItemSchema = actionViewCommon.merge(
+	z.object({
+		viewType: z.literal("dropItem"),
+	}),
+);
+//action item export
+const actionViewExportSchema = actionViewCommon.merge(
+	z.object({
+		viewType: z.literal("export"),
+	}),
+);
+
+export const actionViewSchema = z.discriminatedUnion("viewType", [
+	actionViewFormSchema,
+	actionViewDropItemSchema,
+	actionViewExportSchema,
+]);
+
+// 下来命令按钮item 公共字段
+export const commonActionItem = z.object({
+	label: z.string(),
+	action: z.string(),
+	icon: z.string().optional(),
+	isDefault: z.boolean().default(false).optional(),
+	allowRoles: z.string().array().optional(),
+	//直接将表单视图签到到动作按钮当中
+	view: actionViewSchema.optional(),
+});
+export type ICommonActionItem = z.infer<typeof commonActionItem>;
+
+export const viewTypeSchema = z.enum(["simpleList", "cardList", "postCard"]);
+export type ViewType = z.infer<typeof viewTypeSchema>;
+
+export const listViewReq = z.object({
+	q: z.string().optional(),
+	limit: z
+		.number()
+		.min(1)
+		.max(DEFAULT_PAGE_LIMITE_MAX)
+		.optional()
+		.default(DEFAULT_PAGE_SIZE),
+	cursor: z.string().nullish(),
+	viewType: viewTypeSchema.optional().default(viewTypeSchema.Values.simpleList),
+	siteId: z.number().optional(),
+});
+
+export type ListViewReq = z.infer<typeof listViewReq>;
+
+export const simpleListViewItemSchema = z.object({
+	id: z.number().or(z.string()),
+	title: z.string(),
+	subTitle: z.string(),
+});
+export const listViewItemPostCardSchema = z.object({
+	id: z.number().or(z.string()),
+	title: z.string(),
+	subTitle: z.string(),
+});
+
+const simpleListItemViewSchema = z.object({
+	itemViewType: z.literal("simpleListItem"),
+	item: simpleListViewItemSchema,
+	acitons: z.array(commonActionItem).optional(),
+});
+export type SimpleListItemViewType = z.infer<typeof simpleListItemViewSchema>;
+
+const postCardItemViewSchema = z.object({
+	itemViewType: z.literal("postCardItem"),
+	item: listViewItemPostCardSchema,
+	acitons: z.array(commonActionItem).optional(),
+});
+
+export const listviewItemSchema = z.discriminatedUnion("itemViewType", [
+	simpleListItemViewSchema,
+	postCardItemViewSchema,
+]);
+export type ListviewItem = z.infer<typeof listviewItemSchema>;
+
+//视图的查询 工具栏 配置
+export const lvQueryView = z.object({
+	//查询面板布局
+	layout: z.enum(["top", "popup", "sheet"]), //位于视图上方\弹出\侧边滑出
+	fields: z
+		.object({
+			//查询字段名
+			fieldName: z.string(),
+			//组件名,相当于表单输入框
+			fieldType: z.string(),
+		})
+		.array(),
+});
+
+//列表视图公共字段
+const lvCommongSchema = z.object({
+	nextCursor: z.string().optional(),
+	acitons: z.array(commonActionItem).optional(),
+	queryView: lvQueryView.optional(),
+});
+
+//------------------------------------------------------------------------------------------------------
+export const simpleListViewSchema = z.object({
+	id: z.number().or(z.string()),
+	title: z.string(),
+	subTitle: z.string(),
+});
+
+export type SimpleListViewType = z.infer<typeof simpleListViewSchema>;
+
+export const simpleCardListViewSchema = z.object({
+	id: z.number().or(z.string()),
+	title: z.string(),
+	subTitle: z.string(),
+	image: z.string(),
+});
+export type SimpleCardListViewSchema = z.infer<typeof simpleCardListViewSchema>;
+
+export const postCardListViewSchema = z.object({
+	id: z.number().or(z.string()),
+	title: z.string(),
+	subTitle: z.string(),
+	image: z.string(),
+});
+export type PostCardListView = z.infer<typeof postCardListViewSchema>;
+
+const simpleList = lvCommongSchema.merge(
+	z.object({
+		viewType: z.literal("simpleList"),
+		items: listviewItemSchema.array(),
+	}),
+);
+
+export type ISimpleList = z.infer<typeof simpleList>;
+
+const cardList = lvCommongSchema.merge(
+	z.object({
+		viewType: z.literal("cardList"),
+		items: listviewItemSchema.array(),
+	}),
+);
+export type ICardList = z.infer<typeof cardList>;
+
+const postCard = lvCommongSchema.merge(
+	z.object({
+		viewType: z.literal("postCard"),
+		items: listviewItemSchema.array(),
+	}),
+);
+
+export type IPostCard = z.infer<typeof postCard>;
+
+/**
+ * discriminatedUnion 作用 自动根据 viewType 字段 识别类型
+ * 例子参考： https://stackblitz.com/edit/typescript-a5ffz1?file=index.ts
+ */
+const listviewOut = z.discriminatedUnion("viewType", [
+	simpleList,
+	cardList,
+	postCard,
+]);
+
+export type ListviewOut = z.infer<typeof listviewOut>;
+
+export const commonListInput = z.object({
+	viewType: curdViewTypeSchema.optional(),
+	limit: z
+		.number()
+		.min(1)
+		.max(DEFAULT_PAGE_LIMITE_MAX)
+		.default(DEFAULT_PAGE_SIZE)
+		.optional(),
+	cursor: z.string().optional().nullish(),
+	initialCursor: z.string().nullish(),
+	q: z.string().optional(),
+	where: z
+		.object({
+			name: z.string(),
+			value: z.any(),
+		})
+		.array()
+		.optional(),
+	orderBy: z
+		.object({
+			name: z.string(),
+			type: z.enum(["ASC", "DESC"]).default("DESC"),
+		})
+		.optional(),
+	//时间戳，或者其他值，用于避开Get缓存。
+	_ts: z.string().optional(),
+});

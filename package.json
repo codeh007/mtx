@@ -1,0 +1,82 @@
+{
+  "name": "workspaces",
+  "version": "0.0.759",
+  "license": "MIT",
+  "type": "module",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "turbo build",
+    "with-env": "dotenv -e ./env/gomtm.env --",
+    "gen": "cd packages/mtmaiapi && bun run gen",
+    "release": "changeset publish"
+  },
+  "typesVersions": {
+    "*": {
+      "*": ["src/*.ts", "src/*.tsx", "src/*/index.ts", "src/*/index.tsx"]
+    }
+  },
+  "exports": {
+    ".": {
+      "types": ["./src/index.ts", "./dist/esm/index.js"],
+      "import": ["./src/index.ts", "./dist/esm/index.js"],
+      "require": ["./dist/esm/index.js"]
+    },
+    "./*": {
+      "types": [
+        "./src/*.ts",
+        "./src/*/index.ts",
+        "./src/*.tsx",
+        "./src/*/index.tsx",
+        "./dist/*.js",
+        "./dist/*/index.js"
+      ],
+      "import": [
+        "./src/*.ts",
+        "./src/*.tsx",
+        "./src/*/index.ts",
+        "./src/*/index.tsx",
+        "./dist/*.js",
+        "./dist/*/index.js"
+      ]
+    }
+  },
+  "dependencies": {
+    "prisma": "^5.22.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@changesets/cli": "^2.27.11",
+    "@changesets/get-release-plan": "4.0.6",
+    "@cloudflare/next-on-pages": "^1.13.7",
+    "@cloudflare/workers-types": "^4.20250417.0",
+    "@jest/globals": "^29.7.0",
+    "@jest/types": "^29.6.3",
+    "@octokit/rest": "^21.0.0",
+    "@types/bun": "^1.1.16",
+    "@types/node": "^22.14.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "bun-types": "^1.1.43",
+    "changeset": "^0.2.6",
+    "express": "^4.19.2",
+    "turbo": "^2.3.3",
+    "typescript": "^5.8",
+    "vercel": "^39.3.0",
+    "vite": "^6.2.5",
+    "wrangler": "^4.12.0"
+  },
+  "resolutions": {
+    "prosemirror-model": "1.23.0"
+  },
+  "overrides": {
+    "prosemirror-model": "1.23.0"
+  },
+  "engines": {
+    "node": "22.x"
+  },
+  "packageManager": "bun@1.1.20",
+  "workspaces": ["packages/*", "apps/*"]
+}

@@ -1,0 +1,31 @@
+"use client";
+import { DashContent, DashHeaders, DashSidebar, SiteCreateView } from "mtmaiui";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+  SidebarInset,
+} from "mtxuilib";
+
+export default function Page(props: { params }) {
+  return (
+    <>
+      <DashSidebar />
+      <SidebarInset>
+        <DashHeaders>
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbPage>sites</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </DashHeaders>
+        <DashContent>
+          <SiteCreateView />
+        </DashContent>
+      </SidebarInset>
+    </>
+  );
+}

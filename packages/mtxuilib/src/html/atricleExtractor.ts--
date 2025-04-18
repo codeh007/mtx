@@ -1,0 +1,5 @@
+import { extractFromHtml } from "@extractus/article-extractor";
+
+export async function atricleExtractFromHtml(url: string, html: string) {
+  return await extractFromHtml(html, url, {});
+}

@@ -1,0 +1,80 @@
+"use client";
+import { PostListView } from "mtmaiui";
+import { BlogDetailView } from "mtmaiui/components/blog/blog-detal-view.js";
+import { useBlog } from "mtmaiui/components/blog/blog.d.hooks.js";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  MtTabs,
+  MtTabsContent,
+  MtTabsList,
+  MtTabsTrigger,
+  SidebarInset,
+} from "mtxuilib";
+import { use } from "react";
+import { DashSidebar } from "../../../../../components/sidebar/siderbar";
+import { useBasePath } from "../../../../../hooks/useBasePath";
+// import { PostListView } from "../../../../../modules/posts/PostListView.tsx--";
+import { DashContent } from "../../components/DashContent";
+import { DashHeaders } from "../../components/DashHeaders";
+
+export default function Page(props: {
+  params: Promise<{
+    blogId: string;
+  }>;
+}) {
+  const { blogId } = use(props.params);
+
+  const blog = useBlog(blogId);
+  const basePath = useBasePath();
+  return (
+    <>
+      <DashSidebar />
+      <SidebarInset>
+        <DashHeaders>
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href={`${basePath}`}>Blogs</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink href={`${basePath}/blogs`}>blog</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>{blog.data?.title}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </DashHeaders>
+        <DashContent>
+          <Tabs defaultValue="blog">
+            <TabsList layout="underlined">
+              <TabsTrigger variant="underlined" value="blog">
+                Blog
+              </TabsTrigger>
+              <TabsTrigger variant="underlined" value="posts">
+                Posts
+              </TabsTrigger>
+              <TabsTrigger variant="underlined" value="Logs">
+                Logs
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="blog">
+              <BlogDetailView blogId={blogId} />
+            </TabsContent>
+            <TabsContent value="posts">
+              <PostListView blogId={blogId} />
+            </TabsContent>
+            <TabsContent value="logs">todo logs</TabsContent>
+          </Tabs>
+        </DashContent>
+      </SidebarInset>
+    </>
+  );
+}

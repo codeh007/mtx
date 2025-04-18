@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "ESNEXT",
+    "lib": ["dom", "dom.iterable", "esnext", "WebWorker"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    // "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    // "types": ["node", "jest", "@cloudflare/workers-types", "bun-types"],
+    "types": ["node", "jest", "@cloudflare/workers-types", "jquery", "bun-types"],
+
+    "moduleResolution": "bundler",
+    "module": "ESNext",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    // "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
+    "rootDir": ".",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    // "paths": {
+    //   "@/*": ["./src/*"]
+    // },
+    "noImplicitAny": false
+  },
+  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", ".next.dev/types/**/*.ts"],
+  "exclude": ["node_modules", ".vscode", "public", ".next.dev", ".storybook", "dist"]
+}
