@@ -1,6 +1,5 @@
 "use client";
 import { RouterProvider } from "@tanstack/react-router";
-// import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { useMemo } from "react";
 import { getQueryClient } from "./lib/get-query-client";
 import { createRouter } from "./router";

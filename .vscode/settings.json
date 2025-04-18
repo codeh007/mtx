@@ -75,6 +75,7 @@
   "diffEditor.codeLens": true,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
+    "source.fixAll.biome": "explicit",
     "source.organizeImports.biome": "explicit",
     "quickfix.biome": "explicit",
     "source.addMissingImports": "explicit"

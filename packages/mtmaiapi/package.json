@@ -24,19 +24,8 @@
   },
   "exports": {
     ".": {
-      "types": [
-        "./src/*",
-        "./src/index.ts",
-        "./dist/index.js",
-        "./dist/*",
-        "./dist/*/index"
-      ],
-      "import": [
-        "./src/index.ts",
-        "./dist/index.js",
-        "./dist/*",
-        "./dist/*/index"
-      ]
+      "types": ["./src/*", "./src/index.ts", "./dist/index.js", "./dist/*", "./dist/*/index"],
+      "import": ["./src/index.ts", "./dist/index.js", "./dist/*", "./dist/*/index"]
     },
     "./*": {
       "types": [
@@ -161,7 +150,7 @@
     "ts-proto": "^2.6.1",
     "typedoc": "^0.26.2",
     "typedoc-plugin-markdown": "^4.0.2",
-    "typescript": "^5.8"
+    "typescript": "^5.7"
   },
   "engines": {
     "node": "22.x"

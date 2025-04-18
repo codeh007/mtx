@@ -25,7 +25,7 @@ export class RAGAgent extends Agent<Env> {
     // Use the metadata to re-associate the vector search results
     // with data in our Agent's SQL database
     const results = this
-      .sql`SELECT * FROM knowledge WHERE id IN (${knowledge.map((k) => k.id)})`;
+      .sql`SELECT * FROM knowledge WHERE id IN (${knowledge?.map((k) => k.id)})`;
 
     // Return them
     return results;

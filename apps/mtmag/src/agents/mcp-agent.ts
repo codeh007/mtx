@@ -5,7 +5,6 @@ import { DurableObjectOAuthClientProvider } from "agents/mcp/do-oauth-client-pro
 import { z } from "zod";
 import type { MCPAgentState } from "../agent_state/mcp_agent_state";
 import type { Env } from "../components/cloudflare-agents/env";
-import { State } from "postgres";
 export type Server = {
   url: string;
   state: "authenticating" | "connecting" | "ready" | "discovering" | "failed";
@@ -32,6 +31,7 @@ export class MyMCP extends McpAgent<Env, MCPAgentState, {}> {
       servers: {
         ...this.state.servers,
         [id]: state,
+        
       },
     });
   }
@@ -90,11 +90,10 @@ export class MyMCP extends McpAgent<Env, MCPAgentState, {}> {
       },
     );
   }
-  onStateUpdate(state: State) {
+  onStateUpdate(state: MCPAgentState) {
     console.log({ stateUpdate: state });
   }
 }
-
 export default MyMCP.mount("/sse", {
   binding: "MyMCP",
 });

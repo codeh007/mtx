@@ -99,7 +99,6 @@
     "@tanstack/start": "^1.93.0",
     "agents": "^0.0.60",
     "ai": "^4.3.9",
-    "class-variance-authority": "^0.7.1",
     "date-fns": "^4.1.0",
     "drizzle-orm": "^0.42.0",
     "embla-carousel-autoplay": "^8.5.2",
@@ -127,9 +126,7 @@
     "superjson": "^2.2.2",
     "tailwindcss": "^4.0.6",
     "tailwindcss-animate": "^1.0.7",
-    "unenv": "^1.10.0",
     "vaul": "^1.1.2",
-    "vite": "^6.2.5",
     "workers-ai-provider": "^0.3.0",
     "zod": "^3.24.3"
   },
@@ -138,7 +135,6 @@
     "@babel/generator": "^7.26.3",
     "@lezer/highlight": "^1.2.0",
     "@modelcontextprotocol/inspector": "^0.9.0",
-    "@next/bundle-analyzer": "^15.1.4",
     "@rollup/plugin-babel": "^6.0.4",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/postcss": "^4.0.7",
@@ -180,11 +176,15 @@
     "tailwindcss-animate": "^1.0.7",
     "ts-morph": "^25.0.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8",
+    "typescript": "^5.7",
     "unist-util-visit": "^4.1.2",
-    "vite-plugin-ssr": "^0.4.142"
+    "vite-plugin-ssr": "^0.4.142",
+    "vite": "^6.2.5"
   },
   "other": {
+    "unenv": "^1.10.0",
+    "@next/bundle-analyzer": "^15.1.4",
+    "class-variance-authority": "^0.7.1",
     "react-day-picker": "^9.5.1",
     "@bufbuild/protobuf": "^2.2.3",
     "clsx": "^2.1.1",
