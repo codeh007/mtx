@@ -52,35 +52,6 @@ async function helloPostgresHandler(env: Env, ctx: ExecutionContext) {
 }
 
 const handler = DemoMcpServer.mount("/sse", { binding: "DemoMcpServer" });
-/**
- * Worker entry point that routes incoming requests to the appropriate handler
- */
-// export default {
-//   async fetch(request: Request, env: Env, ctx: ExecutionContext) {
-//     const url = new URL(request.url);
-//     // if (url.pathname === "/check-open-ai-key") {
-//     //   const hasOpenAIKey = !!process.env.OPENAI_API_KEY;
-//     //   return Response.json({
-//     //     success: hasOpenAIKey,
-//     //   });
-//     // }
-//     if (url.pathname === "/sse") {
-//       // return mcpServerHandler.fetch(request, env, ctx);
-//       // return app.fetch(request, env, ctx);
-
-//       return handler.fetch(request, env, ctx);
-//     }
-//     if (url.pathname === "/hellopostgres") {
-//       return helloPostgresHandler(env, ctx);
-//     }
-//     return (
-//       // Route the request to our agent or return 404 if not found
-//       (await routeAgentRequest(request, env, {
-//         cors: true,
-//       })) || new Response("Not found", { status: 404 })
-//     );
-//   },
-// } satisfies ExportedHandler<Env>;
 
 export default {
   fetch: app.fetch,

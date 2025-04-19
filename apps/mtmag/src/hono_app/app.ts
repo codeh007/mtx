@@ -13,6 +13,7 @@ import {
   renderLoggedInAuthorizeScreen,
   renderLoggedOutAuthorizeScreen,
 } from "./utils";
+import mcpSseRoute from "./mcp_handler";
 
 export type Bindings = Env & {
   OAUTH_PROVIDER: OAuthHelpers;
@@ -23,6 +24,7 @@ const app = new Hono<{
 }>();
 
 app.use("*", cors());
+// 设置 cloudflare agents 中间件
 app.use(
   "*",
   agentsMiddleware({
@@ -39,20 +41,6 @@ app.use(
     },
   }),
 );
-// or with authentication
-// app.use(
-//   "*",
-//   agentsMiddleware({
-//     options: {
-//       onBeforeConnect: async (req) => {
-//         const token = req.headers.get("authorization");
-//         // validate token
-//         if (!token) return new Response("Unauthorized", { status: 401 });
-//       },
-//     },
-//   })
-// );
-// With error handling
 
 // authjs 配置开始 =============================================================
 // 文档: https://github.com/honojs/middleware/tree/main/packages/auth-js
@@ -70,9 +58,7 @@ app.use(
 );
 
 app.use("/api/auth/*", authHandler());
-
 app.use("/api/*", verifyAuth());
-
 app.get("/api/protected", (c) => {
   const auth = c.get("authUser");
   return c.json(auth);
@@ -192,5 +178,7 @@ app.post("/approve", async (c) => {
     ),
   );
 });
+
+app.route("/mcp", mcpSseRoute);
 
 export default app;
