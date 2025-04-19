@@ -1,12 +1,25 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { McpAgent } from "agents/mcp";
+// import { State } from "postgres";
 import { z } from "zod";
 
-export class DemoMcpServer extends McpAgent {
-  server = new McpServer({
-    name: "Demo",
-    version: "1.0.0",
-  });
+// type Props = {
+//   login: string;
+//   name: string;
+//   email: string;
+//   accessToken: string;
+// };
+
+// const ALLOWED_EMAILS = new Set(["<INSERT EMAIL>"]);
+type State = { counter: number };
+export class DemoMcpServer extends McpAgent<Env, State, {}> {
+  server = new McpServer(
+    {
+      name: "mcp-demo-server",
+      version: "1.0.0",
+    },
+    { capabilities: { logging: {} } },
+  );
 
   initialState: any = {
     counter: 1,
@@ -39,7 +52,7 @@ export class DemoMcpServer extends McpAgent {
     }));
     console.log("mcp demo server init done");
   }
-  onStateUpdate(state: State) {
+  onStateUpdate(state: any) {
     console.log({ stateUpdate: state });
   }
 }

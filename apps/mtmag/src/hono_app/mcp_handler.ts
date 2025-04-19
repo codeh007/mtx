@@ -1,15 +1,14 @@
 import { Hono } from "hono";
+import { DemoMcpServer } from "../agents/demoMcpServer";
 
-const mcpSseRoute = new Hono();
+const mcpSseRoute = new Hono<{ Bindings: Env }>();
+
+// const handler = DemoMcpServer.mount("/mcp/sse");
 
 mcpSseRoute.all("/sse", (c) => {
-  return c.text("hello mcp sse");
-}); // GET /book
-// mcpSseRoute.get("/:id", (c) => {
-//   // GET /book/:id
-//   const id = c.req.param("id");
-//   return c.text(`Get Book: ${id}`);
-// });
-// mcpSseRoute.post("/", (c) => c.text("Create Book")); // POST /book
+  const handler = DemoMcpServer.mount("/mcp/sse", { binding: "DemoMcpServer" });
+  const response = handler.fetch(c.req.raw, c.env, c.executionCtx);
+  return response;
+});
 
 export default mcpSseRoute;
