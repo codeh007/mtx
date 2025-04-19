@@ -3,7 +3,7 @@ import { AIChatAgent } from "agents/ai-chat-agent";
 import type { StreamTextOnFinishCallback } from "ai";
 
 import { createDataStreamResponse, streamText } from "ai";
-import type { Env } from "../hono_app/core/env";
+// import type { Env } from "../hono_app/core/env";
 
 import type { OutgoingMessage, ScheduledItem } from "../agent_state/shared";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
@@ -86,26 +86,26 @@ export class Chat extends AIChatAgent<Env> {
 
   async onChatMessage(onFinish: StreamTextOnFinishCallback<{}>) {
     console.log(`(chat on chat message), len: ${this.messages?.length}`);
-    try {
-      const model = getDefaultModel(this.env);
-      // console.log("chat with model", model.provider);
-      const dataStreamResponse = createDataStreamResponse({
-        execute: async (dataStream) => {
-          const result = streamText({
-            model,
-            messages: this.messages,
-            tools: { ...tools },
-            onFinish,
-          });
+    // try {
+    const model = getDefaultModel(this.env);
+    // console.log("chat with model", model.provider);
+    const dataStreamResponse = createDataStreamResponse({
+      execute: async (dataStream) => {
+        const result = streamText({
+          model,
+          messages: this.messages,
+          tools: { ...tools },
+          onFinish,
+        });
 
-          result.mergeIntoDataStream(dataStream);
-        },
-      });
+        result.mergeIntoDataStream(dataStream);
+      },
+    });
 
-      return dataStreamResponse;
-    } catch (e) {
-      console.log("未知错误111xxx", e);
-    }
+    return dataStreamResponse;
+    // } catch (e) {
+    //   console.log("未知错误111xxx", e);
+    // }
   }
   async onTask(payload: unknown, schedule: Schedule<string>) {
     // 提示: 当到时间运行新任务时, 会先进入这个函数.

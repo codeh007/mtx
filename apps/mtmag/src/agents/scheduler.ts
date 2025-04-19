@@ -1,7 +1,6 @@
 import type { Schedule } from "agents";
 import { Agent } from "agents";
 import { unstable_getSchedulePrompt, unstable_scheduleSchema } from "agents/schedule";
-// import type { Env } from "../hono_app/core/env";
 
 import type { IncomingMessage, OutgoingMessage, ScheduledItem } from "../agent_state/shared";
 
