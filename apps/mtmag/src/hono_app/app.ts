@@ -48,11 +48,15 @@ app.use(
 app.use(
   "*",
   initAuthConfig((c) => ({
+    /**
+     * authjs 问题排查:
+     *    1: 必须设置 AUTH_SECRET 及 AUTH_URL 变量
+     */
     secret: c.env.AUTH_SECRET,
     providers: [
       GitHub({
-        clientId: c.env.GITHUB_ID,
-        clientSecret: c.env.GITHUB_SECRET,
+        clientId: c.env.GITHUB_CLIENT_ID,
+        clientSecret: c.env.GITHUB_CLIENT_SECRET,
       }),
     ],
   })),

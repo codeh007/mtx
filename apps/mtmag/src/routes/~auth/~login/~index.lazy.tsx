@@ -3,7 +3,10 @@ import { Link, createLazyFileRoute } from "@tanstack/react-router";
 import { Icons } from "mtxuilib/icons/icons";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button } from "mtxuilib/ui/button";
-import { Fragment } from "react";
+import { getCsrfToken, getProviders, signIn } from "next-auth/react";
+// import { signIn } from "@/auth"
+// import { signIn } from "next-auth/react";
+import { Fragment, useEffect, useState } from "react";
 import { UserLoginForm } from "../../../components/auth/user-login-form";
 import { useLoginHandler } from "../../../hooks/useAuth";
 export const Route = createLazyFileRoute("/auth/login/")({
@@ -11,32 +14,6 @@ export const Route = createLazyFileRoute("/auth/login/")({
 });
 
 function RouteComponent() {
-  // useErrorParam();
-
-  // const meta = useApiMeta();
-
-  // if (meta.isLoading) {
-  // 	return <MtLoading />;
-  // }
-
-  // const schemes = meta.data?.auth?.schemes || [];
-  // const basicEnabled = schemes.includes("basic");
-  // const googleEnabled = schemes.includes("google");
-  // const githubEnabled = schemes.includes("github");
-
-  // let prompt = "Enter your email and password below.";
-
-  // if (basicEnabled && (googleEnabled || githubEnabled)) {
-  // 	prompt =
-  // 		"Enter your email and password below, or continue with a supported provider.";
-  // } else if (googleEnabled || githubEnabled) {
-  // 	prompt = "Continue with a supported provider.";
-  // } else if (basicEnabled) {
-  // 	prompt = "Enter your email and password below.";
-  // } else {
-  // 	prompt = "No login methods are enabled.";
-  // }
-
   const forms = [
     // basicEnabled && <BasicLogin />,
     <BasicLogin key="basic" />,
@@ -60,6 +37,8 @@ function RouteComponent() {
                 {/* {index < schemes.length - 1 && <OrContinueWith />} */}
               </Fragment>
             ))}
+
+            <GithubLogin />
 
             <div className="flex flex-col space-y-2">
               <p className="text-sm text-gray-700 dark:text-gray-300">
@@ -136,13 +115,56 @@ export function GoogleLogin() {
 }
 
 export function GithubLogin() {
-  const origin = window.location.origin;
+  // const origin = window.location.origin;
+  const [providers, setProviders] = useState({});
+  const [csrfToken, setCsrfToken] = useState("");
+
+  useEffect(() => {
+    // Récupérer les fournisseurs d'authentification et le token CSRF
+    async function loadProviders() {
+      const authProviders = await getProviders();
+      setProviders(authProviders || {});
+
+      const csrf = await getCsrfToken();
+      setCsrfToken(csrf);
+    }
+    loadProviders();
+  }, []);
   return (
-    <a href={`/api/v1/users/github/start?origin=${origin}`} className="w-full">
-      <Button variant="outline" type="button" className="w-full py-2">
+    <form
+      className="flex flex-col bg-amber-50 p-16 rounded-lg gap-4 self-center"
+      method="post"
+      action="/api/auth/callback/credentials"
+    >
+      <input type="hidden" name="csrfToken" value={csrfToken} />
+      <div className="flex flex-col lg:max-w-[75%]">
+        <div className="flex flex-col">
+          <label htmlFor="email">
+            Email
+            <input className="border shadow-md" name="email" id="email" />
+          </label>
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="password">
+            Password
+            <input className="border shadow-md" name="password" id="password" type="password" />
+          </label>
+        </div>
+      </div>
+      <input
+        type="submit"
+        value="Se connecter"
+        className="bg-red-500 cursor-pointer px-3 py-1 rounded-lg font-semibold text-white"
+      />
+      <Button
+        variant="outline"
+        type="button"
+        className="w-full py-2"
+        onClick={() => signIn("github")}
+      >
         <Icons.gitHub className="mr-2 h-4 w-4" />
         Github
       </Button>
-    </a>
+    </form>
   );
 }
