@@ -18,6 +18,7 @@ import { Route as IndexImport } from './routes/~index'
 // Create Virtual Routes
 
 const SessionRouteLazyImport = createFileRoute('/session')()
+const AuthRouteLazyImport = createFileRoute('/auth')()
 const SessionSchedulerRouteLazyImport = createFileRoute('/session/scheduler')()
 const SessionSessionIdRouteLazyImport = createFileRoute('/session/$sessionId')()
 const SessionIndexLazyImport = createFileRoute('/session/')()
@@ -34,6 +35,7 @@ const SessionSchedulerIndexLazyImport = createFileRoute('/session/scheduler/')()
 const SessionSessionIdIndexLazyImport = createFileRoute(
   '/session/$sessionId/',
 )()
+const AuthLoginIndexLazyImport = createFileRoute('/auth/login/')()
 const SessionSessionIdStateIndexLazyImport = createFileRoute(
   '/session/$sessionId/state/',
 )()
@@ -53,6 +55,12 @@ const SessionRouteLazyRoute = SessionRouteLazyImport.update({
 } as any).lazy(() =>
   import('./routes/~session/~route.lazy').then((d) => d.Route),
 )
+
+const AuthRouteLazyRoute = AuthRouteLazyImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/~auth/~route.lazy').then((d) => d.Route))
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -133,6 +141,14 @@ const SessionSessionIdIndexLazyRoute = SessionSessionIdIndexLazyImport.update({
   import('./routes/~session/~$sessionId/~index.lazy').then((d) => d.Route),
 )
 
+const AuthLoginIndexLazyRoute = AuthLoginIndexLazyImport.update({
+  id: '/login/',
+  path: '/login/',
+  getParentRoute: () => AuthRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~auth/~login/~index.lazy').then((d) => d.Route),
+)
+
 const SessionSessionIdStateIndexLazyRoute =
   SessionSessionIdStateIndexLazyImport.update({
     id: '/',
@@ -177,6 +193,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/session': {
       id: '/session'
       path: '/session'
@@ -204,6 +227,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/session/scheduler'
       preLoaderRoute: typeof SessionSchedulerRouteLazyImport
       parentRoute: typeof SessionRouteLazyImport
+    }
+    '/auth/login/': {
+      id: '/auth/login/'
+      path: '/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginIndexLazyImport
+      parentRoute: typeof AuthRouteLazyImport
     }
     '/session/$sessionId/': {
       id: '/session/$sessionId/'
@@ -265,6 +295,18 @@ declare module '@tanstack/react-router' {
 }
 
 // Create and export the route tree
+
+interface AuthRouteLazyRouteChildren {
+  AuthLoginIndexLazyRoute: typeof AuthLoginIndexLazyRoute
+}
+
+const AuthRouteLazyRouteChildren: AuthRouteLazyRouteChildren = {
+  AuthLoginIndexLazyRoute: AuthLoginIndexLazyRoute,
+}
+
+const AuthRouteLazyRouteWithChildren = AuthRouteLazyRoute._addFileChildren(
+  AuthRouteLazyRouteChildren,
+)
 
 interface SessionSessionIdActionsRouteLazyRouteChildren {
   SessionSessionIdActionsIndexLazyRoute: typeof SessionSessionIdActionsIndexLazyRoute
@@ -363,10 +405,12 @@ const SessionRouteLazyRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRouteLazyRouteWithChildren
   '/session': typeof SessionRouteLazyRouteWithChildren
   '/session/': typeof SessionIndexLazyRoute
   '/session/$sessionId': typeof SessionSessionIdRouteLazyRouteWithChildren
   '/session/scheduler': typeof SessionSchedulerRouteLazyRouteWithChildren
+  '/auth/login': typeof AuthLoginIndexLazyRoute
   '/session/$sessionId/': typeof SessionSessionIdIndexLazyRoute
   '/session/scheduler/': typeof SessionSchedulerIndexLazyRoute
   '/session/$sessionId/actions': typeof SessionSessionIdActionsRouteLazyRouteWithChildren
@@ -379,7 +423,9 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRouteLazyRouteWithChildren
   '/session': typeof SessionIndexLazyRoute
+  '/auth/login': typeof AuthLoginIndexLazyRoute
   '/session/$sessionId': typeof SessionSessionIdIndexLazyRoute
   '/session/scheduler': typeof SessionSchedulerIndexLazyRoute
   '/session/$sessionId/actions': typeof SessionSessionIdActionsIndexLazyRoute
@@ -390,10 +436,12 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/auth': typeof AuthRouteLazyRouteWithChildren
   '/session': typeof SessionRouteLazyRouteWithChildren
   '/session/': typeof SessionIndexLazyRoute
   '/session/$sessionId': typeof SessionSessionIdRouteLazyRouteWithChildren
   '/session/scheduler': typeof SessionSchedulerRouteLazyRouteWithChildren
+  '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/session/$sessionId/': typeof SessionSessionIdIndexLazyRoute
   '/session/scheduler/': typeof SessionSchedulerIndexLazyRoute
   '/session/$sessionId/actions': typeof SessionSessionIdActionsRouteLazyRouteWithChildren
@@ -408,10 +456,12 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/session'
     | '/session/'
     | '/session/$sessionId'
     | '/session/scheduler'
+    | '/auth/login'
     | '/session/$sessionId/'
     | '/session/scheduler/'
     | '/session/$sessionId/actions'
@@ -423,7 +473,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/session'
+    | '/auth/login'
     | '/session/$sessionId'
     | '/session/scheduler'
     | '/session/$sessionId/actions'
@@ -432,10 +484,12 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/auth'
     | '/session'
     | '/session/'
     | '/session/$sessionId'
     | '/session/scheduler'
+    | '/auth/login/'
     | '/session/$sessionId/'
     | '/session/scheduler/'
     | '/session/$sessionId/actions'
@@ -449,11 +503,13 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRouteLazyRoute: typeof AuthRouteLazyRouteWithChildren
   SessionRouteLazyRoute: typeof SessionRouteLazyRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRouteLazyRoute: AuthRouteLazyRouteWithChildren,
   SessionRouteLazyRoute: SessionRouteLazyRouteWithChildren,
 }
 
@@ -468,11 +524,18 @@ export const routeTree = rootRoute
       "filePath": "~__root.tsx",
       "children": [
         "/",
+        "/auth",
         "/session"
       ]
     },
     "/": {
       "filePath": "~index.tsx"
+    },
+    "/auth": {
+      "filePath": "~auth/~route.lazy.tsx",
+      "children": [
+        "/auth/login/"
+      ]
     },
     "/session": {
       "filePath": "~session/~route.lazy.tsx",
@@ -502,6 +565,10 @@ export const routeTree = rootRoute
       "children": [
         "/session/scheduler/"
       ]
+    },
+    "/auth/login/": {
+      "filePath": "~auth/~login/~index.lazy.tsx",
+      "parent": "/auth"
     },
     "/session/$sessionId/": {
       "filePath": "~session/~$sessionId/~index.lazy.tsx",
