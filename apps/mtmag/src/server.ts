@@ -6,10 +6,9 @@ import { EmailAgent } from "./agents/email";
 import { MyMcpAgent } from "./agents/mcp_agent";
 import { MockEmailService } from "./agents/mock-email";
 import { RootAg } from "./agents/root_ag";
-import { Rpc } from "./agents/rpc";
 import { Scheduler } from "./agents/scheduler";
 import { Stateful } from "./agents/stateful";
-import type { Env } from "./components/cloudflare-agents/env";
+import type { Env } from "./hono_app/core/env";
 // import app from "mtxuilib/mcp_server/app";
 
 export {
@@ -17,7 +16,7 @@ export {
   Chat,
   EmailAgent,
   MockEmailService,
-  Rpc,
+  // Rpc,
   Scheduler,
   Stateful,
   MyMcpAgent,

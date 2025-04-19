@@ -2,7 +2,7 @@
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 // import { openai } from "@ai-sdk/openai";
 // import { createWorkersAI } from "workers-ai-provider";
-import type { Env } from "./env";
+import type { Env } from "../../hono_app/core/env";
 
 export const getDefaultModel = (env: Env) => {
   // const aa= createWorkersAI("@cf/meta/llama-3.3-70b-instruct-fp8-fast", {});

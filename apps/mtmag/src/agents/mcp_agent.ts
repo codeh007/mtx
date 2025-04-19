@@ -5,7 +5,7 @@ import { McpAgent } from "agents/mcp";
 // import { DurableObjectOAuthClientProvider } from "agents/mcp/do-oauth-client-provider";
 
 import type { MCPAgentState } from "../agent_state/mcp_agent_state";
-import type { Env } from "../components/cloudflare-agents/env";
+import type { Env } from "../hono_app/core/env";
 
 /**
  * 实现Mcp Server

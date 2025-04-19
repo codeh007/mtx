@@ -10,7 +10,7 @@
     "noEmit": true,
     "incremental": true,
     "esModuleInterop": true,
-    // "types": ["node", "jest", "@cloudflare/workers-types", "bun-types"],
+    // "types": ["node", "jest",  "bun-types"],
     "types": ["node", "jest"],
     "moduleResolution": "bundler",
     "module": "ESNext",

@@ -11,10 +11,9 @@
   },
   "sideEffects": false,
   "scripts": {
-    "dev:vite": "bun run withEnv -- vite --host 0.0.0.0 --port=6111",
+    "dev": "bun run withEnv -- vite --host 0.0.0.0 --port=6111",
     "dev:wrangler": "bun run withEnv -- wrangler dev",
     "withEnv": "dotenv -e ../../../gomtm/env/dev.env --",
-    "dev": "bun run withEnv -- vite dev",
     "dev:next": "bun run watch & next dev",
     "build": "vite build && next build",
     "build:tsc": "tsc --outDir dist --jsx react-jsx --incremental false --declaration true --noEmit false --removeComments true --project tsconfig.json",
@@ -33,7 +32,7 @@
     "deploy": "npm run pages:build && wrangler pages deploy",
     "deploy-worker": "bun run withEnv -- vite build && wrangler deploy --keep-vars",
     "deploy-worker-new": "bun run withEnv -- vite build && wrangler deploy --keep-vars",
-    "cf-typegen": "wrangler types",
+    "cf-typegen": "wrangler types --path ./src/worker-configuration.d.ts",
     "mcp-inspector": "bunx @modelcontextprotocol/inspector"
   },
   "typesVersions": {

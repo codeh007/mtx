@@ -4,7 +4,7 @@ import { MCPClientManager } from "agents/mcp/client";
 import type { RootAgentState } from "../agent_state/root_agent_state";
 import type { McpServer } from "../agent_state/shared";
 import type { IncomingMessage, OutgoingMessage } from "../agent_state/shared";
-import type { Env } from "../components/cloudflare-agents/env";
+import type { Env } from "../hono_app/core/env";
 export class RootAg extends Agent<Env, RootAgentState> {
   mcpClientManager = new MCPClientManager("mcp-clients", "1.0.0");
 

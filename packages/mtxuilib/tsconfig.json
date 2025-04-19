@@ -11,16 +11,7 @@
     // "emitDeclarationOnly": false,
     "incremental": true,
     "esModuleInterop": true,
-    "types": [
-      "node",
-      "react",
-      "react-dom",
-      "jest",
-      "@cloudflare/workers-types",
-      // "@cloudflare/workers-types/experimental",
-      "bun-types",
-      "jquery"
-    ],
+    "types": ["node", "react", "react-dom", "jest", "bun-types", "jquery"],
     "moduleResolution": "bundler",
     // "moduleResolution": "node",
     // "module": "ESNext",

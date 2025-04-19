@@ -3,7 +3,7 @@ import { AIChatAgent } from "agents/ai-chat-agent";
 import type { StreamTextOnFinishCallback } from "ai";
 
 import { createDataStreamResponse, streamText } from "ai";
-import type { Env } from "../components/cloudflare-agents/env";
+import type { Env } from "../hono_app/core/env";
 
 import type { OutgoingMessage, ScheduledItem } from "../agent_state/shared";
 import { getDefaultModel } from "../components/cloudflare-agents/model";

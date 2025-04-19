@@ -9,7 +9,26 @@
       "nodeVersionHint": 20,
       "cwd": "${workspaceFolder}/apps/mtmaiui",
       "skipFiles": ["<node_internals>/**", ".vscode/**", "/public", "/dist"]
+    },
+
+    {
+      "name": "mtmag",
+      "type": "node",
+      "request": "attach",
+      "websocketAddress": "ws://localhost:9229/mtmag",
+      "resolveSourceMapLocations": null,
+      "attachExistingChildren": false,
+      "autoAttachChildProcesses": false,
+      "sourceMaps": true
     }
+  ],
+  "compounds": [
+    {
+      "name": "Debug Workers",
+      "configurations": ["mtmag"],
+      "stopAll": true
+    }
+
     // {
     //   "name": "wrangler",
     //   "type": "node-terminal",
