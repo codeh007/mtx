@@ -1,6 +1,5 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { McpAgent } from "agents/mcp";
-// import { State } from "postgres";
 import { z } from "zod";
 
 // type Props = {

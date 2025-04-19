@@ -32,7 +32,7 @@
     "deploy": "npm run pages:build && wrangler pages deploy",
     "deploy-worker": "bun run withEnv -- vite build && wrangler deploy",
     "cf-typegen": "wrangler types --path ./src/worker-configuration.d.ts",
-    "mcp-inspector": "bunx @modelcontextprotocol/inspector"
+    "mcp-inspector": "bunx @modelcontextprotocol/inspector@0.10.2"
   },
   "typesVersions": {
     "*": {

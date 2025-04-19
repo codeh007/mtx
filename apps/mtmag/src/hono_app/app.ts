@@ -4,6 +4,8 @@ import { authHandler, initAuthConfig, verifyAuth } from "@hono/auth-js";
 import { Hono } from "hono";
 import { agentsMiddleware } from "hono-agents";
 import { cors } from "hono/cors";
+import mcpSseRoute from "./mcp_handler";
+
 import {
   homeContent,
   layout,
@@ -13,7 +15,6 @@ import {
   renderLoggedInAuthorizeScreen,
   renderLoggedOutAuthorizeScreen,
 } from "./utils";
-import mcpSseRoute from "./mcp_handler";
 
 export type Bindings = Env & {
   OAUTH_PROVIDER: OAuthHelpers;
@@ -179,6 +180,12 @@ app.post("/approve", async (c) => {
   );
 });
 
-app.route("/mcp", mcpSseRoute);
+app.route("/sse", mcpSseRoute);
+
+// app.all("/sse/*", async (c) => {
+//   const handler = DemoMcpServer.mount("/sse", { binding: "DemoMcpServer" });
+//   const response = await handler.fetch(c.req.raw, c.env, c.executionCtx);
+//   return response;
+// });
 
 export default app;
