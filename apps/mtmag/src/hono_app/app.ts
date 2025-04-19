@@ -180,12 +180,7 @@ app.post("/approve", async (c) => {
   );
 });
 
+// mcp 服务
 app.route("/sse", mcpSseRoute);
-
-// app.all("/sse/*", async (c) => {
-//   const handler = DemoMcpServer.mount("/sse", { binding: "DemoMcpServer" });
-//   const response = await handler.fetch(c.req.raw, c.env, c.executionCtx);
-//   return response;
-// });
 
 export default app;
