@@ -8,7 +8,7 @@ import { MockEmailService } from "./agents/mock-email";
 import { RootAg } from "./agents/root_ag";
 import { Scheduler } from "./agents/scheduler";
 import { Stateful } from "./agents/stateful";
-import type { Env } from "./hono_app/core/env";
+// import type { Env } from "./hono_app/core/env";
 // import app from "mtxuilib/mcp_server/app";
 
 export {
