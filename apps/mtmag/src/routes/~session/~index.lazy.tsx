@@ -85,10 +85,6 @@ function RouteComponent() {
         <div className="flex-1 w-full">
           <Chat />
         </div>
-        {/* <div className="col-span-1">
-          <h2 className="text-xl font-bold mb-4">RPC Demo</h2>
-          <RPC addToast={addToast} />
-        </div> */}
       </div>
     </>
   );

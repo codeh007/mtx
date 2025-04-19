@@ -1,5 +1,8 @@
+import GitHub from "@auth/core/providers/github";
 import type { OAuthHelpers } from "@cloudflare/workers-oauth-provider";
+import { authHandler, initAuthConfig, verifyAuth } from "@hono/auth-js";
 import { Hono } from "hono";
+import { agentsMiddleware } from "hono-agents";
 import { cors } from "hono/cors";
 import {
   homeContent,
@@ -20,6 +23,89 @@ const app = new Hono<{
 }>();
 
 app.use("*", cors());
+app.use(
+  "*",
+  agentsMiddleware({
+    onError: (error) => console.error(error),
+    options: {
+      // 设置前缀:
+      prefix: "agents", // Handles /agents/* routes only
+      // 在连接之前验证请求
+      // onBeforeConnect: async (req) => {
+      //         const token = req.headers.get("authorization");
+      //         // validate token
+      //         if (!token) return new Response("Unauthorized", { status: 401 });
+      //       },
+    },
+  }),
+);
+// or with authentication
+// app.use(
+//   "*",
+//   agentsMiddleware({
+//     options: {
+//       onBeforeConnect: async (req) => {
+//         const token = req.headers.get("authorization");
+//         // validate token
+//         if (!token) return new Response("Unauthorized", { status: 401 });
+//       },
+//     },
+//   })
+// );
+// With error handling
+
+// authjs 配置开始 =============================================================
+// 文档: https://github.com/honojs/middleware/tree/main/packages/auth-js
+app.use(
+  "*",
+  initAuthConfig((c) => ({
+    secret: c.env.AUTH_SECRET,
+    providers: [
+      GitHub({
+        clientId: c.env.GITHUB_ID,
+        clientSecret: c.env.GITHUB_SECRET,
+      }),
+    ],
+  })),
+);
+
+app.use("/api/auth/*", authHandler());
+
+app.use("/api/*", verifyAuth());
+
+app.get("/api/protected", (c) => {
+  const auth = c.get("authUser");
+  return c.json(auth);
+});
+// authjs 配置结束 =============================================================
+
+// agent 调用(演示开始) =============================================================
+app.post("/query", async (c) => {
+  const { agentId, prompt } = await c.req.json<{
+    agentId: string;
+    prompt: string;
+  }>();
+  const id = c.env.RootAg.idFromName(agentId);
+  const agent = c.env.RootAg.get(id);
+
+  // const result = await agent.query(prompt);
+  return c.json({ hello: "world" });
+});
+
+app.post("/confirmations/:confirmationId", async (c) => {
+  const { agentId, confirm } = await c.req.json<{
+    agentId: string;
+    confirm: boolean;
+  }>();
+  const confirmationId = c.req.param("confirmationId");
+  const id = c.env.RootAg.idFromName(agentId);
+  const agent = c.env.RootAg.get(id);
+
+  // const result = await agent.confirm(confirmationId, confirm);
+  return c.json({ hello: "world" });
+});
+
+// agent 调用(演示结束) =============================================================
 
 // Render a basic homepage placeholder to make sure the app is up
 app.get("/", async (c) => {

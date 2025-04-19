@@ -1,4 +1,3 @@
-import { routeAgentRequest } from "agents";
 import postgres from "postgres";
 import { Chat } from "./agents/chat";
 import { DemoMcpServer } from "./agents/demoMcpServer";
@@ -8,6 +7,7 @@ import { MockEmailService } from "./agents/mock-email";
 import { RootAg } from "./agents/root_ag";
 import { Scheduler } from "./agents/scheduler";
 import { Stateful } from "./agents/stateful";
+import app from "./hono_app/app";
 // import type { Env } from "./hono_app/core/env";
 // import app from "mtxuilib/mcp_server/app";
 
@@ -55,29 +55,34 @@ const handler = DemoMcpServer.mount("/sse", { binding: "DemoMcpServer" });
 /**
  * Worker entry point that routes incoming requests to the appropriate handler
  */
-export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext) {
-    const url = new URL(request.url);
-    // if (url.pathname === "/check-open-ai-key") {
-    //   const hasOpenAIKey = !!process.env.OPENAI_API_KEY;
-    //   return Response.json({
-    //     success: hasOpenAIKey,
-    //   });
-    // }
-    if (url.pathname === "/sse") {
-      // return mcpServerHandler.fetch(request, env, ctx);
-      // return app.fetch(request, env, ctx);
+// export default {
+//   async fetch(request: Request, env: Env, ctx: ExecutionContext) {
+//     const url = new URL(request.url);
+//     // if (url.pathname === "/check-open-ai-key") {
+//     //   const hasOpenAIKey = !!process.env.OPENAI_API_KEY;
+//     //   return Response.json({
+//     //     success: hasOpenAIKey,
+//     //   });
+//     // }
+//     if (url.pathname === "/sse") {
+//       // return mcpServerHandler.fetch(request, env, ctx);
+//       // return app.fetch(request, env, ctx);
 
-      return handler.fetch(request, env, ctx);
-    }
-    if (url.pathname === "/hellopostgres") {
-      return helloPostgresHandler(env, ctx);
-    }
-    return (
-      // Route the request to our agent or return 404 if not found
-      (await routeAgentRequest(request, env, {
-        cors: true,
-      })) || new Response("Not found", { status: 404 })
-    );
-  },
+//       return handler.fetch(request, env, ctx);
+//     }
+//     if (url.pathname === "/hellopostgres") {
+//       return helloPostgresHandler(env, ctx);
+//     }
+//     return (
+//       // Route the request to our agent or return 404 if not found
+//       (await routeAgentRequest(request, env, {
+//         cors: true,
+//       })) || new Response("Not found", { status: 404 })
+//     );
+//   },
+// } satisfies ExportedHandler<Env>;
+
+export default {
+  fetch: app.fetch,
+  scheduled: async (batch, env) => {},
 } satisfies ExportedHandler<Env>;
