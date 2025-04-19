@@ -30,7 +30,7 @@
     "pages:build": "npx @cloudflare/next-on-pages",
     "preview": "npm run pages:build && wrangler pages dev",
     "deploy": "npm run pages:build && wrangler pages deploy",
-    "deploy-worker": "bun run withEnv -- vite build --mode=dev && wrangler deploy --keep-vars",
+    "deploy-worker": "bun run withEnv -- vite build && wrangler deploy",
     "cf-typegen": "wrangler types --path ./src/worker-configuration.d.ts",
     "mcp-inspector": "bunx @modelcontextprotocol/inspector"
   },

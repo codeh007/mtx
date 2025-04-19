@@ -19,7 +19,6 @@ import { Route as IndexImport } from './routes/~index'
 
 const SessionRouteLazyImport = createFileRoute('/session')()
 const SessionSchedulerRouteLazyImport = createFileRoute('/session/scheduler')()
-const SessionRootagRouteLazyImport = createFileRoute('/session/root_ag')()
 const SessionSessionIdRouteLazyImport = createFileRoute('/session/$sessionId')()
 const SessionIndexLazyImport = createFileRoute('/session/')()
 const SessionSessionIdStateRouteLazyImport = createFileRoute(
@@ -32,7 +31,6 @@ const SessionSessionIdActionsRouteLazyImport = createFileRoute(
   '/session/$sessionId/actions',
 )()
 const SessionSchedulerIndexLazyImport = createFileRoute('/session/scheduler/')()
-const SessionRootagIndexLazyImport = createFileRoute('/session/root_ag/')()
 const SessionSessionIdIndexLazyImport = createFileRoute(
   '/session/$sessionId/',
 )()
@@ -68,14 +66,6 @@ const SessionSchedulerRouteLazyRoute = SessionSchedulerRouteLazyImport.update({
   getParentRoute: () => SessionRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~session/~scheduler/~route.lazy').then((d) => d.Route),
-)
-
-const SessionRootagRouteLazyRoute = SessionRootagRouteLazyImport.update({
-  id: '/root_ag',
-  path: '/root_ag',
-  getParentRoute: () => SessionRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~session/~root_ag/~route.lazy').then((d) => d.Route),
 )
 
 const SessionSessionIdRouteLazyRoute = SessionSessionIdRouteLazyImport.update({
@@ -133,14 +123,6 @@ const SessionSchedulerIndexLazyRoute = SessionSchedulerIndexLazyImport.update({
   getParentRoute: () => SessionSchedulerRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~session/~scheduler/~index.lazy').then((d) => d.Route),
-)
-
-const SessionRootagIndexLazyRoute = SessionRootagIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => SessionRootagRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~session/~root_ag/~index.lazy').then((d) => d.Route),
 )
 
 const SessionSessionIdIndexLazyRoute = SessionSessionIdIndexLazyImport.update({
@@ -216,13 +198,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SessionSessionIdRouteLazyImport
       parentRoute: typeof SessionRouteLazyImport
     }
-    '/session/root_ag': {
-      id: '/session/root_ag'
-      path: '/root_ag'
-      fullPath: '/session/root_ag'
-      preLoaderRoute: typeof SessionRootagRouteLazyImport
-      parentRoute: typeof SessionRouteLazyImport
-    }
     '/session/scheduler': {
       id: '/session/scheduler'
       path: '/scheduler'
@@ -236,13 +211,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/session/$sessionId/'
       preLoaderRoute: typeof SessionSessionIdIndexLazyImport
       parentRoute: typeof SessionSessionIdRouteLazyImport
-    }
-    '/session/root_ag/': {
-      id: '/session/root_ag/'
-      path: '/'
-      fullPath: '/session/root_ag/'
-      preLoaderRoute: typeof SessionRootagIndexLazyImport
-      parentRoute: typeof SessionRootagRouteLazyImport
     }
     '/session/scheduler/': {
       id: '/session/scheduler/'
@@ -364,20 +332,6 @@ const SessionSessionIdRouteLazyRouteWithChildren =
     SessionSessionIdRouteLazyRouteChildren,
   )
 
-interface SessionRootagRouteLazyRouteChildren {
-  SessionRootagIndexLazyRoute: typeof SessionRootagIndexLazyRoute
-}
-
-const SessionRootagRouteLazyRouteChildren: SessionRootagRouteLazyRouteChildren =
-  {
-    SessionRootagIndexLazyRoute: SessionRootagIndexLazyRoute,
-  }
-
-const SessionRootagRouteLazyRouteWithChildren =
-  SessionRootagRouteLazyRoute._addFileChildren(
-    SessionRootagRouteLazyRouteChildren,
-  )
-
 interface SessionSchedulerRouteLazyRouteChildren {
   SessionSchedulerIndexLazyRoute: typeof SessionSchedulerIndexLazyRoute
 }
@@ -395,14 +349,12 @@ const SessionSchedulerRouteLazyRouteWithChildren =
 interface SessionRouteLazyRouteChildren {
   SessionIndexLazyRoute: typeof SessionIndexLazyRoute
   SessionSessionIdRouteLazyRoute: typeof SessionSessionIdRouteLazyRouteWithChildren
-  SessionRootagRouteLazyRoute: typeof SessionRootagRouteLazyRouteWithChildren
   SessionSchedulerRouteLazyRoute: typeof SessionSchedulerRouteLazyRouteWithChildren
 }
 
 const SessionRouteLazyRouteChildren: SessionRouteLazyRouteChildren = {
   SessionIndexLazyRoute: SessionIndexLazyRoute,
   SessionSessionIdRouteLazyRoute: SessionSessionIdRouteLazyRouteWithChildren,
-  SessionRootagRouteLazyRoute: SessionRootagRouteLazyRouteWithChildren,
   SessionSchedulerRouteLazyRoute: SessionSchedulerRouteLazyRouteWithChildren,
 }
 
@@ -414,10 +366,8 @@ export interface FileRoutesByFullPath {
   '/session': typeof SessionRouteLazyRouteWithChildren
   '/session/': typeof SessionIndexLazyRoute
   '/session/$sessionId': typeof SessionSessionIdRouteLazyRouteWithChildren
-  '/session/root_ag': typeof SessionRootagRouteLazyRouteWithChildren
   '/session/scheduler': typeof SessionSchedulerRouteLazyRouteWithChildren
   '/session/$sessionId/': typeof SessionSessionIdIndexLazyRoute
-  '/session/root_ag/': typeof SessionRootagIndexLazyRoute
   '/session/scheduler/': typeof SessionSchedulerIndexLazyRoute
   '/session/$sessionId/actions': typeof SessionSessionIdActionsRouteLazyRouteWithChildren
   '/session/$sessionId/config': typeof SessionSessionIdConfigRouteLazyRouteWithChildren
@@ -431,7 +381,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/session': typeof SessionIndexLazyRoute
   '/session/$sessionId': typeof SessionSessionIdIndexLazyRoute
-  '/session/root_ag': typeof SessionRootagIndexLazyRoute
   '/session/scheduler': typeof SessionSchedulerIndexLazyRoute
   '/session/$sessionId/actions': typeof SessionSessionIdActionsIndexLazyRoute
   '/session/$sessionId/config': typeof SessionSessionIdConfigIndexLazyRoute
@@ -444,10 +393,8 @@ export interface FileRoutesById {
   '/session': typeof SessionRouteLazyRouteWithChildren
   '/session/': typeof SessionIndexLazyRoute
   '/session/$sessionId': typeof SessionSessionIdRouteLazyRouteWithChildren
-  '/session/root_ag': typeof SessionRootagRouteLazyRouteWithChildren
   '/session/scheduler': typeof SessionSchedulerRouteLazyRouteWithChildren
   '/session/$sessionId/': typeof SessionSessionIdIndexLazyRoute
-  '/session/root_ag/': typeof SessionRootagIndexLazyRoute
   '/session/scheduler/': typeof SessionSchedulerIndexLazyRoute
   '/session/$sessionId/actions': typeof SessionSessionIdActionsRouteLazyRouteWithChildren
   '/session/$sessionId/config': typeof SessionSessionIdConfigRouteLazyRouteWithChildren
@@ -464,10 +411,8 @@ export interface FileRouteTypes {
     | '/session'
     | '/session/'
     | '/session/$sessionId'
-    | '/session/root_ag'
     | '/session/scheduler'
     | '/session/$sessionId/'
-    | '/session/root_ag/'
     | '/session/scheduler/'
     | '/session/$sessionId/actions'
     | '/session/$sessionId/config'
@@ -480,7 +425,6 @@ export interface FileRouteTypes {
     | '/'
     | '/session'
     | '/session/$sessionId'
-    | '/session/root_ag'
     | '/session/scheduler'
     | '/session/$sessionId/actions'
     | '/session/$sessionId/config'
@@ -491,10 +435,8 @@ export interface FileRouteTypes {
     | '/session'
     | '/session/'
     | '/session/$sessionId'
-    | '/session/root_ag'
     | '/session/scheduler'
     | '/session/$sessionId/'
-    | '/session/root_ag/'
     | '/session/scheduler/'
     | '/session/$sessionId/actions'
     | '/session/$sessionId/config'
@@ -537,7 +479,6 @@ export const routeTree = rootRoute
       "children": [
         "/session/",
         "/session/$sessionId",
-        "/session/root_ag",
         "/session/scheduler"
       ]
     },
@@ -555,13 +496,6 @@ export const routeTree = rootRoute
         "/session/$sessionId/state"
       ]
     },
-    "/session/root_ag": {
-      "filePath": "~session/~root_ag/~route.lazy.tsx",
-      "parent": "/session",
-      "children": [
-        "/session/root_ag/"
-      ]
-    },
     "/session/scheduler": {
       "filePath": "~session/~scheduler/~route.lazy.tsx",
       "parent": "/session",
@@ -572,10 +506,6 @@ export const routeTree = rootRoute
     "/session/$sessionId/": {
       "filePath": "~session/~$sessionId/~index.lazy.tsx",
       "parent": "/session/$sessionId"
-    },
-    "/session/root_ag/": {
-      "filePath": "~session/~root_ag/~index.lazy.tsx",
-      "parent": "/session/root_ag"
     },
     "/session/scheduler/": {
       "filePath": "~session/~scheduler/~index.lazy.tsx",
