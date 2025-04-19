@@ -7,7 +7,6 @@ import { createDataStreamResponse, streamText } from "ai";
 
 import type { OutgoingMessage, ScheduledItem } from "../agent_state/shared";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
-import { tools } from "./tools";
 
 function convertScheduleToScheduledItem(schedule: Schedule): ScheduledItem {
   return {
@@ -94,8 +93,11 @@ export class Chat extends AIChatAgent<Env> {
         const result = streamText({
           model,
           messages: this.messages,
-          tools: { ...tools },
+          // tools: { ...tools },
           onFinish,
+          onError: (error) => {
+            console.log("onStreamText error", error);
+          },
         });
 
         result.mergeIntoDataStream(dataStream);
