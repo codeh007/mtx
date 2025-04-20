@@ -1,11 +1,13 @@
 import GitHub from "@auth/core/providers/github";
-import type { OAuthHelpers } from "@cloudflare/workers-oauth-provider";
 import { authHandler, initAuthConfig, verifyAuth } from "@hono/auth-js";
-import { Hono } from "hono";
+// import { Hono } from "hono";
 import { agentsMiddleware } from "hono-agents";
 import { cors } from "hono/cors";
+import configureOpenAPI from "./lib/configureOpenAPI";
 import mcpSseRoute from "./mcp_handler";
+import users from "./routes/users/users.index";
 
+import createApp from "./lib/createApp";
 import {
   homeContent,
   layout,
@@ -16,14 +18,28 @@ import {
   renderLoggedOutAuthorizeScreen,
 } from "./utils";
 
-export type Bindings = Env & {
-  OAUTH_PROVIDER: OAuthHelpers;
-};
+// export type Bindings = Env & {
+//   OAUTH_PROVIDER: OAuthHelpers;
+// };
 
-const app = new Hono<{
-  Bindings: Bindings;
-}>();
+// const app = new Hono<{
+//   Bindings: Bindings;
+// }>();
+const app = createApp();
+const routes = [users] as const;
 
+app.use(
+  "/users",
+  cors({
+    origin: "http://localhost:5173",
+  }),
+);
+
+configureOpenAPI(app);
+// biome-ignore lint/complexity/noForEach: <explanation>
+routes.forEach((route) => {
+  app.route("/", route);
+});
 app.use("*", cors());
 // 设置 cloudflare agents 中间件
 app.use(
