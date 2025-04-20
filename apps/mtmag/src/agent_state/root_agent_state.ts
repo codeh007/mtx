@@ -14,4 +14,7 @@ export type RootAgentState = {
   mcpPrompts: (Prompt & { serverId: string })[];
   mcpResources: (Resource & { serverId: string })[];
   currentMcpServer?: McpServer;
+
+  //
+  mainAccessToken?: string;
 };

@@ -3,9 +3,10 @@ import Chat from "../../components/cloudflare-agents/playground/Chat";
 
 import { useAgent } from "agents/react";
 import { Button } from "mtxuilib/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { RootAgentState } from "../../agent_state/root_agent_state";
 import type { IncomingMessage, OutgoingMessage } from "../../agent_state/shared";
+import { useMtSession } from "../../stores/SessionProvider";
 import { CurrentMcpServerView, McpServerView } from "./McpServerView";
 
 export const Route = createLazyFileRoute("/session/")({
@@ -17,8 +18,10 @@ function RouteComponent() {
 
   const rootAgent = useAgent<RootAgentState>({
     agent: "root_ag",
-    name: "my-agent",
+    name: "root_agent",
+
     onStateUpdate: (newState) => setRootState(newState),
+
     onMessage: (message) => {
       const parsedMessage = JSON.parse(message.data) as OutgoingMessage;
       if (parsedMessage?.type === "connected") {
@@ -31,6 +34,8 @@ function RouteComponent() {
         console.log("schedule", parsedMessage);
       } else if (parsedMessage?.type === "demo-event-response") {
         console.log("demo-event-response", parsedMessage);
+      } else if (parsedMessage?.type === "require-main-access-token") {
+        console.log("require-main-access-token", parsedMessage);
       } else {
         console.log("scheduler client, 未知错误", message);
       }
@@ -46,9 +51,24 @@ function RouteComponent() {
     });
   };
 
+  const session = useMtSession();
+
+  useEffect(() => {
+    console.log("session", session);
+    if (session.data) {
+      rootAgent.send(
+        JSON.stringify({
+          type: "set-user-session",
+          data: session.data,
+        } satisfies IncomingMessage),
+      );
+    }
+  }, [session, rootAgent]);
+
   return (
     <>
       {/* <ChatClient /> */}
+      <pre>{JSON.stringify(session, null, 2)}</pre>
       <div className="flex gap-2">
         {/* <div className="col-span-1">
           <h2 className="text-xl font-bold mb-4">Scheduler</h2>

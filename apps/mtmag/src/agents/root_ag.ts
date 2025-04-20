@@ -1,10 +1,12 @@
+import type { Session } from "@auth/core/types";
 import type { Connection, ConnectionContext } from "agents";
 import { Agent } from "agents";
+import type { AgentContext } from "agents";
 import { MCPClientManager } from "agents/mcp/client";
 import type { RootAgentState } from "../agent_state/root_agent_state";
 import type { McpServer } from "../agent_state/shared";
 import type { IncomingMessage, OutgoingMessage } from "../agent_state/shared";
-import type { Env } from "../hono_app/core/env";
+
 export class RootAg extends Agent<Env, RootAgentState> {
   mcpClientManager = new MCPClientManager("mcp-clients", "1.0.0");
 
@@ -20,7 +22,20 @@ export class RootAg extends Agent<Env, RootAgentState> {
     mcpResources: [],
   } satisfies RootAgentState;
 
-  onConnect(connection: Connection, ctx: ConnectionContext): void | Promise<void> {
+  constructor(ctx: AgentContext, env: Env) {
+    console.log("root ag constructor", ctx, env);
+    super(ctx, env);
+  }
+
+  onStart(): void | Promise<void> {
+    console.log("root ag onStart");
+    // const session = await getAuthUser(this.ctx);
+    // console.log("session", session);
+  }
+  onConnect(connection: Connection, ctx: ConnectionContext) {
+    // const auth = ctx.request.headers.get("authorization");
+    // console.log("auth", auth);
+
     connection.send(
       JSON.stringify({
         type: "connected",
@@ -45,6 +60,7 @@ export class RootAg extends Agent<Env, RootAgentState> {
 
   async onMessage(connection: Connection, message: string): Promise<void> {
     const event = JSON.parse(message) as IncomingMessage;
+
     if (event.type === "schedule") {
       //       const result = await generateObject({
       //         model,
@@ -89,6 +105,8 @@ export class RootAg extends Agent<Env, RootAgentState> {
       await this.onDemoEvent1(event.data);
     } else if (event.type === "set-mcp-server") {
       await this.onSetMcpServer(event.data);
+    } else if (event.type === "set-user-session") {
+      await this.onSetUserSession(event.data);
     } else {
       console.log("root ag unknown message", event);
     }
@@ -100,6 +118,10 @@ export class RootAg extends Agent<Env, RootAgentState> {
       ...this.state,
       currentMcpServer: playload,
     });
+  }
+
+  async onSetUserSession(session: Session) {
+    console.log("(root ag) setUserSession", session);
   }
   async refreshMcpServerData() {
     console.log("my-mcp-agent refreshServerData");

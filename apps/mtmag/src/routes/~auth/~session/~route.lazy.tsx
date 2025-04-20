@@ -1,5 +1,6 @@
-import { SessionProvider, useSession } from "@hono/auth-js/react";
+import { useSession } from "@hono/auth-js/react";
 import { createLazyFileRoute } from "@tanstack/react-router";
+import { MtSessionProvider } from "../../../stores/SessionProvider";
 export const Route = createLazyFileRoute("/auth/session")({
   component: RouteComponent,
 });
@@ -7,9 +8,9 @@ export const Route = createLazyFileRoute("/auth/session")({
 function RouteComponent() {
   return (
     <>
-      <SessionProvider>
+      <MtSessionProvider>
         <Children />
-      </SessionProvider>
+      </MtSessionProvider>
     </>
   );
 }

@@ -3,7 +3,6 @@ import { AIChatAgent } from "agents/ai-chat-agent";
 import type { StreamTextOnFinishCallback } from "ai";
 
 import { createDataStreamResponse, streamText } from "ai";
-// import type { Env } from "../hono_app/core/env";
 
 import type { OutgoingMessage, ScheduledItem } from "../agent_state/shared";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
@@ -23,71 +22,12 @@ function convertScheduleToScheduledItem(schedule: Schedule): ScheduledItem {
   };
 }
 export class Chat extends AIChatAgent<Env> {
-  //   onConnect(
-  //     connection: Connection,
-  //     ctx: ConnectionContext,
-  //   ): void | Promise<void> {
-  //     connection.send(JSON.stringify(this.getSchedules()));
-  //   }
-
-  //   async onMessage(connection: Connection, message: string): Promise<void> {
-  //     console.log("(chat agent) on message", message);
-
-  //     const event = JSON.parse(message) as IncomingMessage;
-  //     const model = getDefaultModel(this.env);
-  //     if (event.type === "schedule") {
-  //       //步骤1: 通过llm 生成计划任务数据
-  //       const result = await generateObject({
-  //         model,
-  //         mode: "json",
-  //         schemaName: "task",
-  //         schemaDescription: "A task to be scheduled",
-  //         schema: unstable_scheduleSchema, // <- the shape of the object that the scheduler expects
-  //         maxRetries: 5,
-  //         prompt: `${unstable_getSchedulePrompt({
-  //           date: new Date(),
-  //         })}
-  // Input to parse: "${event.input}"`,
-  //       });
-  //       const { when, description } = result.object;
-  //       if (when.type === "no-schedule") {
-  //         connection.send(
-  //           JSON.stringify({
-  //             type: "error",
-  //             data: `No schedule provided for ${event.input}`,
-  //           } satisfies OutgoingMessage),
-  //         );
-  //         return;
-  //       }
-
-  //       // 将任务安排放到队列
-  //       const schedule = await this.schedule(
-  //         when.type === "scheduled"
-  //           ? when.date!
-  //           : when.type === "delayed"
-  //             ? when.delayInSeconds!
-  //             : when.cron!,
-  //         "onTask",
-  //         description,
-  //       );
-
-  //       //通知客户端
-  //       connection.send(
-  //         JSON.stringify({
-  //           type: "schedule",
-  //           data: convertScheduleToScheduledItem(schedule),
-  //         } satisfies OutgoingMessage),
-  //       );
-  //     } else if (event.type === "delete-schedule") {
-  //       await this.cancelSchedule(event.id);
-  //     }
-  //   }
-
   async onChatMessage(onFinish: StreamTextOnFinishCallback<{}>) {
     console.log(`(chat on chat message), len: ${this.messages?.length}`);
-    // try {
     const model = getDefaultModel(this.env);
-    // console.log("chat with model", model.provider);
+
+    const ctx = this.ctx;
+    const env = this.env;
     const dataStreamResponse = createDataStreamResponse({
       execute: async (dataStream) => {
         const result = streamText({
@@ -105,9 +45,6 @@ export class Chat extends AIChatAgent<Env> {
     });
 
     return dataStreamResponse;
-    // } catch (e) {
-    //   console.log("未知错误111xxx", e);
-    // }
   }
   async onTask(payload: unknown, schedule: Schedule<string>) {
     // 提示: 当到时间运行新任务时, 会先进入这个函数.

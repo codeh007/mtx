@@ -1,3 +1,5 @@
+import type { Session } from "@auth/core/types";
+
 // Approval string to be shared across frontend and backend
 export const APPROVAL = {
   YES: "Yes, confirmed.",
@@ -42,6 +44,10 @@ export type IncomingMessage =
       type: "set-mcp-server";
       // id: string;
       data: McpServer;
+    }
+  | {
+      type: "set-user-session";
+      data: Session;
     };
 
 export type OutgoingMessage =
@@ -67,5 +73,9 @@ export type OutgoingMessage =
     }
   | {
       type: "demo-event-response";
+      data: unknown;
+    }
+  | {
+      type: "require-main-access-token";
       data: unknown;
     };
