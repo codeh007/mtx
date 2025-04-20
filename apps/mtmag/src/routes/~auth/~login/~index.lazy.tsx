@@ -39,7 +39,7 @@ function RouteComponent() {
             ))}
 
             <GithubLogin />
-
+            <TwitterLogin />
             <div className="flex flex-col space-y-2">
               <p className="text-sm text-gray-700 dark:text-gray-300">
                 Don't have an account?{" "}
@@ -137,25 +137,6 @@ export function GithubLogin() {
       action="/api/auth/callback/credentials"
     >
       <input type="hidden" name="csrfToken" value={csrfToken} />
-      <div className="flex flex-col lg:max-w-[75%]">
-        <div className="flex flex-col">
-          <label htmlFor="email">
-            Email
-            <input className="border shadow-md" name="email" id="email" />
-          </label>
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="password">
-            Password
-            <input className="border shadow-md" name="password" id="password" type="password" />
-          </label>
-        </div>
-      </div>
-      <input
-        type="submit"
-        value="Se connecter"
-        className="bg-red-500 cursor-pointer px-3 py-1 rounded-lg font-semibold text-white"
-      />
       <Button
         variant="outline"
         type="button"
@@ -164,6 +145,41 @@ export function GithubLogin() {
       >
         <Icons.gitHub className="mr-2 h-4 w-4" />
         Github
+      </Button>
+    </form>
+  );
+}
+
+export function TwitterLogin() {
+  const [providers, setProviders] = useState({});
+  const [csrfToken, setCsrfToken] = useState("");
+
+  useEffect(() => {
+    // Récupérer les fournisseurs d'authentification et le token CSRF
+    async function loadProviders() {
+      const authProviders = await getProviders();
+      setProviders(authProviders || {});
+
+      const csrf = await getCsrfToken();
+      setCsrfToken(csrf);
+    }
+    loadProviders();
+  }, []);
+  return (
+    <form
+      className="flex flex-col bg-amber-50 p-16 rounded-lg gap-4 self-center"
+      method="post"
+      action="/api/auth/callback/credentials"
+    >
+      <input type="hidden" name="csrfToken" value={csrfToken} />
+      <Button
+        variant="outline"
+        type="button"
+        className="w-full py-2"
+        onClick={() => signIn("twitter")}
+      >
+        <Icons.twitter className="mr-2 size-4" />
+        Twitter
       </Button>
     </form>
   );

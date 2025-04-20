@@ -2,6 +2,8 @@ import { skipCSRFCheck } from "@auth/core";
 import GitHub from "@auth/core/providers/github";
 import { authHandler, initAuthConfig, verifyAuth } from "@hono/auth-js";
 import type { OpenAPIHono } from "@hono/zod-openapi";
+// import Instagram from "next-auth/providers/instagram";
+import Twitter from "next-auth/providers/twitter";
 import type { Bindings } from "./types";
 
 //文档: https://github.com/honojs/middleware/tree/main/packages/auth-js
@@ -19,6 +21,14 @@ export default function configureAuth(app: OpenAPIHono<{ Bindings: Bindings }>) 
           clientId: c.env.GITHUB_CLIENT_ID,
           clientSecret: c.env.GITHUB_CLIENT_SECRET,
         }),
+        Twitter({
+          clientId: c.env.TWITTER_CLIENT_ID,
+          clientSecret: c.env.TWITTER_CLIENT_SECRET,
+        }),
+        // Instagram({
+        //   clientId: c.env.INSTAGRAM_CLIENT_ID,
+        //   clientSecret: c.env.INSTAGRAM_CLIENT_SECRET,
+        // }),
       ],
       // adapter: D1Adapter(c.env.DB),
       debug: true,

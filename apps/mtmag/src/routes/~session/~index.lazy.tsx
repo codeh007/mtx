@@ -2,6 +2,7 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import Chat from "../../components/cloudflare-agents/playground/Chat";
 
 import { useAgent } from "agents/react";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue.jsx";
 import { Button } from "mtxuilib/ui/button";
 import { useEffect, useState } from "react";
 import type { RootAgentState } from "../../agent_state/root_agent_state";
@@ -54,7 +55,6 @@ function RouteComponent() {
   const session = useMtSession();
 
   useEffect(() => {
-    console.log("session", session);
     if (session.data) {
       rootAgent.send(
         JSON.stringify({
@@ -68,41 +68,43 @@ function RouteComponent() {
   return (
     <>
       {/* <ChatClient /> */}
-      <pre>{JSON.stringify(session, null, 2)}</pre>
       <div className="flex gap-2">
-        {/* <div className="col-span-1">
-          <h2 className="text-xl font-bold mb-4">Scheduler</h2>
-          <Scheduler addToast={addToast} />
-        </div> */}
-        {/* <div className="col-span-1">
-          <h2 className="text-xl font-bold mb-4">State Sync Demo</h2>
-          <Stateful addToast={addToast} />
-        </div> */}
-        {/* <div className="col-span-1">
-          <h2 className="text-xl font-bold mb-4">Email (wip)</h2>
-          <Email addToast={addToast} />
-        </div> */}
-        <div>
-          <div>Count: {rootState?.counter}</div>
-          <Button onClick={increment}>Increment</Button>
-          <Button
-            onClick={() => {
-              rootAgent.send(
-                JSON.stringify({
-                  type: "demo-event-1",
-                  data: "hello",
-                } satisfies IncomingMessage),
-              );
-            }}
-          >
-            send demo event
-          </Button>
-          <McpServerView agent={rootAgent} />
-          {rootState?.currentMcpServer && (
-            <CurrentMcpServerView mcpServer={rootState.currentMcpServer} />
-          )}
-        </div>
         <div className="flex-1 w-full">
+          <div className="flex gap-2">
+            <DebugValue data={session} />
+
+            <Button onClick={increment}>Increment:({rootState?.counter})</Button>
+            <Button
+              onClick={() => {
+                rootAgent.send(
+                  JSON.stringify({
+                    type: "demo-event-1",
+                    data: "hello",
+                  } satisfies IncomingMessage),
+                );
+              }}
+            >
+              send demo event
+            </Button>
+
+            <Button
+              onClick={() => {
+                console.log("call adk demo");
+                rootAgent.send(
+                  JSON.stringify({
+                    type: "call-adk",
+                    data: "hello call adk",
+                  } satisfies IncomingMessage),
+                );
+              }}
+            >
+              call adk demo
+            </Button>
+            <McpServerView agent={rootAgent} />
+            {rootState?.currentMcpServer && (
+              <CurrentMcpServerView mcpServer={rootState.currentMcpServer} />
+            )}
+          </div>
           <Chat />
         </div>
       </div>

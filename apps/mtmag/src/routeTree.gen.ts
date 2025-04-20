@@ -19,7 +19,6 @@ import { Route as IndexImport } from './routes/~index'
 
 const SessionRouteLazyImport = createFileRoute('/session')()
 const AuthRouteLazyImport = createFileRoute('/auth')()
-const SessionSchedulerRouteLazyImport = createFileRoute('/session/scheduler')()
 const SessionSessionIdRouteLazyImport = createFileRoute('/session/$sessionId')()
 const AuthSessionRouteLazyImport = createFileRoute('/auth/session')()
 const SessionIndexLazyImport = createFileRoute('/session/')()
@@ -32,7 +31,6 @@ const SessionSessionIdConfigRouteLazyImport = createFileRoute(
 const SessionSessionIdActionsRouteLazyImport = createFileRoute(
   '/session/$sessionId/actions',
 )()
-const SessionSchedulerIndexLazyImport = createFileRoute('/session/scheduler/')()
 const SessionSessionIdIndexLazyImport = createFileRoute(
   '/session/$sessionId/',
 )()
@@ -68,14 +66,6 @@ const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
-
-const SessionSchedulerRouteLazyRoute = SessionSchedulerRouteLazyImport.update({
-  id: '/scheduler',
-  path: '/scheduler',
-  getParentRoute: () => SessionRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~session/~scheduler/~route.lazy').then((d) => d.Route),
-)
 
 const SessionSessionIdRouteLazyRoute = SessionSessionIdRouteLazyImport.update({
   id: '/$sessionId',
@@ -133,14 +123,6 @@ const SessionSessionIdActionsRouteLazyRoute =
       (d) => d.Route,
     ),
   )
-
-const SessionSchedulerIndexLazyRoute = SessionSchedulerIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => SessionSchedulerRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~session/~scheduler/~index.lazy').then((d) => d.Route),
-)
 
 const SessionSessionIdIndexLazyRoute = SessionSessionIdIndexLazyImport.update({
   id: '/',
@@ -237,13 +219,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SessionSessionIdRouteLazyImport
       parentRoute: typeof SessionRouteLazyImport
     }
-    '/session/scheduler': {
-      id: '/session/scheduler'
-      path: '/scheduler'
-      fullPath: '/session/scheduler'
-      preLoaderRoute: typeof SessionSchedulerRouteLazyImport
-      parentRoute: typeof SessionRouteLazyImport
-    }
     '/auth/login/': {
       id: '/auth/login/'
       path: '/login'
@@ -257,13 +232,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/session/$sessionId/'
       preLoaderRoute: typeof SessionSessionIdIndexLazyImport
       parentRoute: typeof SessionSessionIdRouteLazyImport
-    }
-    '/session/scheduler/': {
-      id: '/session/scheduler/'
-      path: '/'
-      fullPath: '/session/scheduler/'
-      preLoaderRoute: typeof SessionSchedulerIndexLazyImport
-      parentRoute: typeof SessionSchedulerRouteLazyImport
     }
     '/session/$sessionId/actions': {
       id: '/session/$sessionId/actions'
@@ -392,30 +360,14 @@ const SessionSessionIdRouteLazyRouteWithChildren =
     SessionSessionIdRouteLazyRouteChildren,
   )
 
-interface SessionSchedulerRouteLazyRouteChildren {
-  SessionSchedulerIndexLazyRoute: typeof SessionSchedulerIndexLazyRoute
-}
-
-const SessionSchedulerRouteLazyRouteChildren: SessionSchedulerRouteLazyRouteChildren =
-  {
-    SessionSchedulerIndexLazyRoute: SessionSchedulerIndexLazyRoute,
-  }
-
-const SessionSchedulerRouteLazyRouteWithChildren =
-  SessionSchedulerRouteLazyRoute._addFileChildren(
-    SessionSchedulerRouteLazyRouteChildren,
-  )
-
 interface SessionRouteLazyRouteChildren {
   SessionIndexLazyRoute: typeof SessionIndexLazyRoute
   SessionSessionIdRouteLazyRoute: typeof SessionSessionIdRouteLazyRouteWithChildren
-  SessionSchedulerRouteLazyRoute: typeof SessionSchedulerRouteLazyRouteWithChildren
 }
 
 const SessionRouteLazyRouteChildren: SessionRouteLazyRouteChildren = {
   SessionIndexLazyRoute: SessionIndexLazyRoute,
   SessionSessionIdRouteLazyRoute: SessionSessionIdRouteLazyRouteWithChildren,
-  SessionSchedulerRouteLazyRoute: SessionSchedulerRouteLazyRouteWithChildren,
 }
 
 const SessionRouteLazyRouteWithChildren =
@@ -428,10 +380,8 @@ export interface FileRoutesByFullPath {
   '/session/': typeof SessionIndexLazyRoute
   '/auth/session': typeof AuthSessionRouteLazyRoute
   '/session/$sessionId': typeof SessionSessionIdRouteLazyRouteWithChildren
-  '/session/scheduler': typeof SessionSchedulerRouteLazyRouteWithChildren
   '/auth/login': typeof AuthLoginIndexLazyRoute
   '/session/$sessionId/': typeof SessionSessionIdIndexLazyRoute
-  '/session/scheduler/': typeof SessionSchedulerIndexLazyRoute
   '/session/$sessionId/actions': typeof SessionSessionIdActionsRouteLazyRouteWithChildren
   '/session/$sessionId/config': typeof SessionSessionIdConfigRouteLazyRouteWithChildren
   '/session/$sessionId/state': typeof SessionSessionIdStateRouteLazyRouteWithChildren
@@ -447,7 +397,6 @@ export interface FileRoutesByTo {
   '/auth/session': typeof AuthSessionRouteLazyRoute
   '/auth/login': typeof AuthLoginIndexLazyRoute
   '/session/$sessionId': typeof SessionSessionIdIndexLazyRoute
-  '/session/scheduler': typeof SessionSchedulerIndexLazyRoute
   '/session/$sessionId/actions': typeof SessionSessionIdActionsIndexLazyRoute
   '/session/$sessionId/config': typeof SessionSessionIdConfigIndexLazyRoute
   '/session/$sessionId/state': typeof SessionSessionIdStateIndexLazyRoute
@@ -461,10 +410,8 @@ export interface FileRoutesById {
   '/session/': typeof SessionIndexLazyRoute
   '/auth/session': typeof AuthSessionRouteLazyRoute
   '/session/$sessionId': typeof SessionSessionIdRouteLazyRouteWithChildren
-  '/session/scheduler': typeof SessionSchedulerRouteLazyRouteWithChildren
   '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/session/$sessionId/': typeof SessionSessionIdIndexLazyRoute
-  '/session/scheduler/': typeof SessionSchedulerIndexLazyRoute
   '/session/$sessionId/actions': typeof SessionSessionIdActionsRouteLazyRouteWithChildren
   '/session/$sessionId/config': typeof SessionSessionIdConfigRouteLazyRouteWithChildren
   '/session/$sessionId/state': typeof SessionSessionIdStateRouteLazyRouteWithChildren
@@ -482,10 +429,8 @@ export interface FileRouteTypes {
     | '/session/'
     | '/auth/session'
     | '/session/$sessionId'
-    | '/session/scheduler'
     | '/auth/login'
     | '/session/$sessionId/'
-    | '/session/scheduler/'
     | '/session/$sessionId/actions'
     | '/session/$sessionId/config'
     | '/session/$sessionId/state'
@@ -500,7 +445,6 @@ export interface FileRouteTypes {
     | '/auth/session'
     | '/auth/login'
     | '/session/$sessionId'
-    | '/session/scheduler'
     | '/session/$sessionId/actions'
     | '/session/$sessionId/config'
     | '/session/$sessionId/state'
@@ -512,10 +456,8 @@ export interface FileRouteTypes {
     | '/session/'
     | '/auth/session'
     | '/session/$sessionId'
-    | '/session/scheduler'
     | '/auth/login/'
     | '/session/$sessionId/'
-    | '/session/scheduler/'
     | '/session/$sessionId/actions'
     | '/session/$sessionId/config'
     | '/session/$sessionId/state'
@@ -566,8 +508,7 @@ export const routeTree = rootRoute
       "filePath": "~session/~route.lazy.tsx",
       "children": [
         "/session/",
-        "/session/$sessionId",
-        "/session/scheduler"
+        "/session/$sessionId"
       ]
     },
     "/session/": {
@@ -588,13 +529,6 @@ export const routeTree = rootRoute
         "/session/$sessionId/state"
       ]
     },
-    "/session/scheduler": {
-      "filePath": "~session/~scheduler/~route.lazy.tsx",
-      "parent": "/session",
-      "children": [
-        "/session/scheduler/"
-      ]
-    },
     "/auth/login/": {
       "filePath": "~auth/~login/~index.lazy.tsx",
       "parent": "/auth"
@@ -602,10 +536,6 @@ export const routeTree = rootRoute
     "/session/$sessionId/": {
       "filePath": "~session/~$sessionId/~index.lazy.tsx",
       "parent": "/session/$sessionId"
-    },
-    "/session/scheduler/": {
-      "filePath": "~session/~scheduler/~index.lazy.tsx",
-      "parent": "/session/scheduler"
     },
     "/session/$sessionId/actions": {
       "filePath": "~session/~$sessionId/~actions/~route.lazy.tsx",

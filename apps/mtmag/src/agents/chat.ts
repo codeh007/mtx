@@ -1,11 +1,13 @@
 import type { Schedule } from "agents";
+import type { Connection, ConnectionContext } from "agents";
 import { AIChatAgent } from "agents/ai-chat-agent";
-import type { StreamTextOnFinishCallback } from "ai";
-
-import { createDataStreamResponse, streamText } from "ai";
-
-import type { OutgoingMessage, ScheduledItem } from "../agent_state/shared";
+import { type StreamTextOnFinishCallback, createDataStreamResponse, streamText } from "ai";
+import type { RootAgentState } from "../agent_state/root_agent_state";
+import type { IncomingMessage, OutgoingMessage, ScheduledItem } from "../agent_state/shared";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
+// import { createDataStreamResponse, streamText } from "ai";
+import { tools } from "./tools";
+import { processToolCalls } from "./utils";
 
 function convertScheduleToScheduledItem(schedule: Schedule): ScheduledItem {
   return {
@@ -21,23 +23,99 @@ function convertScheduleToScheduledItem(schedule: Schedule): ScheduledItem {
     type: schedule.type,
   };
 }
-export class Chat extends AIChatAgent<Env> {
-  async onChatMessage(onFinish: StreamTextOnFinishCallback<{}>) {
-    console.log(`(chat on chat message), len: ${this.messages?.length}`);
-    const model = getDefaultModel(this.env);
 
+export class Chat extends AIChatAgent<Env, RootAgentState> {
+  initialState = {
+    counter: 0,
+    text: "root ag text",
+    color: "#3B82F6",
+    mainViewType: "chat",
+    chatHistoryIds: [],
+    mcpServers: {},
+    mcpTools: [],
+    mcpPrompts: [],
+    mcpResources: [],
+  } satisfies RootAgentState;
+
+  onStart(): void | Promise<void> {
+    console.log("chat onStart");
+    // const session = await getAuthUser(this.ctx);
+    // console.log("session", session);
+  }
+  onConnect(connection: Connection, ctx: ConnectionContext) {
+    // console.log("chat onConnect");
+    this.broadcast(
+      JSON.stringify({
+        type: "connected",
+        data: { message: "(chat agent)Hello, world! connected" },
+      } satisfies OutgoingMessage),
+    );
+  }
+
+  async onMessage(connection: Connection, message: string): Promise<void> {
+    const event = JSON.parse(message) as IncomingMessage;
+
+    if (event.type === "schedule") {
+    } else if (event.type === "delete-schedule") {
+      await this.cancelSchedule(event.id);
+    } else {
+      // console.log("root ag unknown message", event);
+      super.onMessage(connection, message);
+    }
+  }
+
+  async onChatMessage(onFinish: StreamTextOnFinishCallback<{}>) {
+    const model = getDefaultModel(this.env);
     const ctx = this.ctx;
     const env = this.env;
+
+    // cloudflare agents 的 streamText 的实现
+    // const dataStreamResponse = createDataStreamResponse({
+    //   execute: async (dataStream) => {
+    //     const lastestMessage = this.messages?.[this.messages.length - 1];
+    //     lastestMessage.content;
+    //     const result = streamText({
+    //       model,
+    //       messages: this.messages,
+    //       // tools: { ...tools },
+    //       onFinish,
+    //       onError: (error) => {
+    //         console.log("onStreamText error", error);
+    //       },
+    //     });
+
+    //     result.mergeIntoDataStream(dataStream);
+    //   },
+    // });
+
+    // return dataStreamResponse;
     const dataStreamResponse = createDataStreamResponse({
       execute: async (dataStream) => {
-        const result = streamText({
-          model,
-          messages: this.messages,
-          // tools: { ...tools },
-          onFinish,
-          onError: (error) => {
-            console.log("onStreamText error", error);
+        // Utility function to handle tools that require human confirmation
+        // Checks for confirmation in last message and then runs associated tool
+        const processedMessages = await processToolCalls(
+          {
+            messages: this.messages,
+            dataStream,
+            tools,
           },
+          {
+            // type-safe object for tools without an execute function
+            getWeatherInformation: async ({ city }) => {
+              const conditions = ["sunny", "cloudy", "rainy", "snowy"];
+              return `The weather in ${city} is ${
+                conditions[Math.floor(Math.random() * conditions.length)]
+              }.`;
+            },
+          },
+        );
+
+        const result = streamText({
+          // model: openai("gpt-4o"),
+          model,
+          messages: processedMessages,
+          tools,
+          onFinish,
         });
 
         result.mergeIntoDataStream(dataStream);

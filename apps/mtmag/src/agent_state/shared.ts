@@ -42,12 +42,16 @@ export type IncomingMessage =
     }
   | {
       type: "set-mcp-server";
-      // id: string;
       data: McpServer;
     }
   | {
       type: "set-user-session";
       data: Session;
+    }
+  | {
+      // 调用 python 版 adk
+      type: "call-adk";
+      data: unknown;
     };
 
 export type OutgoingMessage =
