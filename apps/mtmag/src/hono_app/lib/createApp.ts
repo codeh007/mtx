@@ -1,16 +1,17 @@
-import type { OAuthHelpers } from "@cloudflare/workers-oauth-provider";
+// import type { OAuthHelpers } from "@cloudflare/workers-oauth-provider";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import type { StatusCode } from "hono/utils/http-status";
-export type Bindings = Env & {
-  OAUTH_PROVIDER: OAuthHelpers;
-};
+import type { Bindings } from "./types";
+// export type Bindings = Env & {
+//   // OAUTH_PROVIDER: OAuthHelpers;
+// };
 
 export function createRouter() {
   return new OpenAPIHono<{ Bindings: Bindings }>({ strict: false });
 }
 
 export default function createApp() {
-  const app = new OpenAPIHono({ strict: false });
+  const app = new OpenAPIHono<{ Bindings: Bindings }>({ strict: false });
 
   app.notFound((c) => {
     return c.json(

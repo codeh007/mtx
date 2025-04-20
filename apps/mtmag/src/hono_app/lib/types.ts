@@ -1,6 +1,17 @@
+import type { OAuthHelpers } from "@cloudflare/workers-oauth-provider";
 import type { RouteConfig, RouteHandler, z } from "@hono/zod-openapi";
+// import type { Env } from "../app";
 
-export type AppRouteHandler<R extends RouteConfig> = RouteHandler<R>;
+export type Bindings = Env & {
+  OAUTH_PROVIDER: OAuthHelpers;
+};
+
+export type AppRouteHandler<
+  R extends RouteConfig,
+  //   Env extends Bindings,
+  //   InferRequestType = unknown,
+  //   InferResponseType = unknown,
+> = RouteHandler<R, { Bindings: Bindings }>;
 
 // eslint-disable-next-line ts/ban-ts-comment
 // @ts-expect-error

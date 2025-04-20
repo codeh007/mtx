@@ -35,7 +35,7 @@ app.use(
   }),
 );
 
-configureOpenAPI(app);
+configureOpenAPI(app as any);
 // biome-ignore lint/complexity/noForEach: <explanation>
 routes.forEach((route) => {
   app.route("/", route);

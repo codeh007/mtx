@@ -37,12 +37,15 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
 export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
   const { id } = c.req.valid("param");
   console.log({ id });
+  const env = c.env;
+
   // Add db query to get a user by id
   const foundUser = {
     age: 50,
     id,
     name: "Lisa Smith",
   };
+  // c.env.
 
   if (!foundUser) {
     return c.json(
