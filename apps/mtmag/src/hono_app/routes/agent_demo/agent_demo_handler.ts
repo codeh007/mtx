@@ -1,4 +1,5 @@
 import type { OpenAPIHono } from "@hono/zod-openapi";
+import type { Agent } from "agents";
 import type { Bindings } from "../../lib/types";
 import {
   homeContent,
@@ -21,19 +22,38 @@ export default function configureAgentDemo(app: OpenAPIHono<{ Bindings: Bindings
     const agent = c.env.RootAg.get(id);
 
     // const result = await agent.query(prompt);
+
     return c.json({ hello: "world" });
   });
 
   app.all("/agents/step_cb", async (c) => {
     // 远程 agent 运行的步骤回调
-    const { master_agent_id, data } = await c.req.json<{
-      master_agent_id: string;
+    const { session_id, data } = await c.req.json<{
+      session_id: string;
       data: any;
     }>();
-    const id = c.env.Chat.idFromName(master_agent_id);
+    const id = c.env.Chat.idFromName(session_id);
     const agent = c.env.Chat.get(id);
     await agent.onStep(data);
     return c.json({ success: true });
+  });
+  app.get("/agents/:agent/:session_id/state", async (c) => {
+    const agentName = c.req.param("agent");
+    const session_id = c.req.param("session_id");
+
+    let agentInstance: DurableObjectNamespace<Agent<Env, unknown>> | null = null;
+    if (agentName === "Chat") {
+      agentInstance = c.env.Chat as unknown as DurableObjectNamespace<Agent<Env, unknown>>;
+    } else if (agentName === "RootAg") {
+      agentInstance = c.env.RootAg as unknown as DurableObjectNamespace<Agent<Env, unknown>>;
+    }
+    if (!agentInstance) {
+      return c.json({ error: "Agent not found" }, 404);
+    }
+    const id = agentInstance.idFromName(session_id);
+    const agent = agentInstance.get(id);
+    const state = await agent.state;
+    return c.json({ state });
   });
 
   app.post("/confirmations/:confirmationId", async (c) => {

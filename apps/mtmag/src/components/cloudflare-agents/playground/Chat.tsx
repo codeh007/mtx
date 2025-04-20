@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import "./Chat.css";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import type { RootAgentState } from "../../../agent_state/root_agent_state";
-import { APPROVAL } from "../../../agent_state/shared";
+import { APPROVAL, type OutgoingMessage } from "../../../agent_state/shared";
 import type { tools } from "../../../agents/tools";
 
 const ROOMS = [
@@ -37,7 +37,27 @@ function ChatRoom({ roomId }: ChatProps) {
     name: `chat-${roomId}`,
     onStateUpdate: (newState) => setRootState(newState),
     onMessage: (message) => {
-      console.log("chat onMessage", message);
+      console.log("(chat)onMessage", message?.data?.type);
+      const parsedMessage = JSON.parse(message.data) as OutgoingMessage;
+      if (parsedMessage?.type === "connected") {
+        console.log("agent client connected");
+      } else if (parsedMessage.type === "run-schedule") {
+        console.log("run schedule", parsedMessage);
+      } else if (parsedMessage?.type === "error") {
+        console.log("error", parsedMessage);
+      } else if (parsedMessage?.type === "schedule") {
+        console.log("schedule", parsedMessage);
+      } else if (parsedMessage?.type === "demo-event-response") {
+        console.log("demo-event-response", parsedMessage);
+      } else if (parsedMessage?.type === "require-main-access-token") {
+        console.log("require-main-access-token", parsedMessage);
+        //@ts-expect-error
+      } else if (parsedMessage?.type === "cf_agent_use_chat_response") {
+        // console.log("demo-event-response", parsedMessage);
+        // 聊天消息, 可以不处理 chatAgent 会处理
+      } else {
+        console.log("chat onMessage: 未知消息", message);
+      }
     },
   });
 
@@ -59,14 +79,14 @@ function ChatRoom({ roomId }: ChatProps) {
     } satisfies RootAgentState);
   };
   const toolsRequiringConfirmation: (keyof typeof tools)[] = ["getWeatherInformation"];
-  const pendingToolCallConfirmation = messages.some((m: Message) =>
-    m.parts?.some(
-      (part) =>
-        part.type === "tool-invocation" &&
-        part.toolInvocation.state === "call" &&
-        toolsRequiringConfirmation.includes(part.toolInvocation.toolName as keyof typeof tools),
-    ),
-  );
+  // const pendingToolCallConfirmation = messages.some((m: Message) =>
+  //   m.parts?.some(
+  //     (part) =>
+  //       part.type === "tool-invocation" &&
+  //       part.toolInvocation.state === "call" &&
+  //       toolsRequiringConfirmation.includes(part.toolInvocation.toolName as keyof typeof tools),
+  //   ),
+  // );
 
   return (
     <>
@@ -153,7 +173,8 @@ function ChatRoom({ roomId }: ChatProps) {
                   }
                   default:
                     return (
-                      <div className="bg-red-500">
+                      // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                      <div className="bg-red-500" key={i}>
                         <DebugValue data={part} />
                       </div>
                     );

@@ -34,7 +34,6 @@ function convertScheduleToScheduledItem(schedule: Schedule): ScheduledItem {
 export class Chat extends AIChatAgent<Env, RootAgentState> {
   initialState = {
     counter: 0,
-    text: "root ag text",
     color: "#3B82F6",
     mainViewType: "chat",
     chatHistoryIds: [],
@@ -74,7 +73,7 @@ export class Chat extends AIChatAgent<Env, RootAgentState> {
   async onChatMessage(onFinish: StreamTextOnFinishCallback<{}>) {
     const model = getDefaultModel(this.env);
     const agentId = this.ctx.id;
-
+    const sessionId = this.name;
     const callCoderAgent = tool({
       description: "调用具有 python 编程能力的Agent, 用来解决复杂问题",
       parameters: z.object({
@@ -89,7 +88,7 @@ export class Chat extends AIChatAgent<Env, RootAgentState> {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ prompt, master_agent_id: agentId }),
+            body: JSON.stringify({ prompt, session_id: sessionId }),
           });
           const data = await response.text();
           return data;
@@ -174,6 +173,16 @@ export class Chat extends AIChatAgent<Env, RootAgentState> {
 
   async onStep(step) {
     console.log("onStep", step);
+    this.broadcast(
+      JSON.stringify({
+        type: "new-step",
+        data: step,
+      } satisfies OutgoingMessage),
+    );
+  }
+
+  async getState() {
+    return this.state;
   }
 
   async onDemoRun2(

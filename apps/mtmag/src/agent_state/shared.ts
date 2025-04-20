@@ -56,7 +56,8 @@ export type IncomingMessage =
   | {
       type: "demo_run_2";
       data: unknown;
-    };
+    }
+  ;
 
 export type OutgoingMessage =
   | {
@@ -92,4 +93,8 @@ export type OutgoingMessage =
       data: {
         message: string;
       };
+    }
+  | {
+      type: "new-step";
+      data: unknown;
     };
