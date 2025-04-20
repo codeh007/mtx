@@ -114,6 +114,32 @@ const cancelScheduledTask = tool({
   },
 });
 
+// const callCoderAgent = tool({
+//   description: "调用具有 python 编程能力的Agent, 用来解决复杂问题",
+//   parameters: z.object({
+//     prompt: z.string().describe("The prompt to send to the coder agent"),
+//   }),
+//   execute: async ({ prompt }, options) => {
+
+//     try {
+//       console.log("callCoderAgent", prompt);
+//       const agentApiEndpoint = "http://localhost:7860/api/v1/smolagent";
+//       const response = await fetch(agentApiEndpoint, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({ prompt }),
+//       });
+//       const data = await response.text();
+//       return data;
+//     } catch (error) {
+//       console.error("Error calling coder agent", error);
+//       return `Error calling coder agent: ${error}`;
+//     }
+//   },
+// });
+
 /**
  * Export all available tools
  * These will be provided to the AI model to describe available capabilities
@@ -124,6 +150,7 @@ export const tools = {
   scheduleTask,
   getScheduledTasks,
   cancelScheduledTask,
+  // callCoderAgent,
 };
 
 /**

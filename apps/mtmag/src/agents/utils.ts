@@ -21,6 +21,7 @@ function isValidToolName<K extends PropertyKey, T extends object>(
 }
 
 /**
+ * 处理工具调用, 当需要人工输入时, 执行工具.
  * Processes tool invocations where human input is required, executing tools when authorized.
  *
  * @param options - The function options

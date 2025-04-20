@@ -48,7 +48,7 @@ export default function configureAuth(app: OpenAPIHono<{ Bindings: Bindings }>) 
   // 需要认证的 api
   app.use("/api/*", verifyAuth());
   // 需要认证的 agents
-  app.use("/agents/*", verifyAuth());
+  // app.use("/agents/*", verifyAuth());
 
   app.get("/api/protected", (c) => {
     // 演示

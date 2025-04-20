@@ -52,6 +52,10 @@ export type IncomingMessage =
       // 调用 python 版 adk
       type: "call-adk";
       data: unknown;
+    }
+  | {
+      type: "demo_run_2";
+      data: unknown;
     };
 
 export type OutgoingMessage =
@@ -82,4 +86,10 @@ export type OutgoingMessage =
   | {
       type: "require-main-access-token";
       data: unknown;
+    }
+  | {
+      type: "toast";
+      data: {
+        message: string;
+      };
     };

@@ -41,7 +41,7 @@ function ChatRoom({ roomId }: ChatProps) {
     },
   });
 
-  const { messages, input, handleInputChange, handleSubmit, clearHistory, addToolResult } =
+  const { messages, input, handleInputChange, handleSubmit, clearHistory, addToolResult, data } =
     useAgentChat({
       agent,
       maxSteps: 5,
@@ -82,18 +82,14 @@ function ChatRoom({ roomId }: ChatProps) {
         >
           counter:{rootState?.counter}
         </Button>
-        {pendingToolCallConfirmation && (
-          <>
-            <Button>确认</Button>
-            <Button>取消</Button>
-          </>
-        )}
+        <DebugValue data={data} />
       </div>
 
       <div className="chat-container">
         <div className="messages-wrapper">
           {messages?.map((m: Message) => (
             <div key={m.id} className="message">
+              <DebugValue data={m} />
               <strong>{`${m.role}: `}</strong>
               {m.parts?.map((part, i) => {
                 switch (part.type) {
@@ -101,6 +97,7 @@ function ChatRoom({ roomId }: ChatProps) {
                     return (
                       // biome-ignore lint/suspicious/noArrayIndexKey: vibes
                       <div key={i} className="message-content">
+                        <DebugValue data={part} />
                         {part.text}
                       </div>
                     );
@@ -152,7 +149,14 @@ function ChatRoom({ roomId }: ChatProps) {
                         </div>
                       );
                     }
+                    break;
                   }
+                  default:
+                    return (
+                      <div className="bg-red-500">
+                        <DebugValue data={part} />
+                      </div>
+                    );
                 }
               })}
               <br />

@@ -24,6 +24,18 @@ export default function configureAgentDemo(app: OpenAPIHono<{ Bindings: Bindings
     return c.json({ hello: "world" });
   });
 
+  app.all("/agents/step_cb", async (c) => {
+    // 远程 agent 运行的步骤回调
+    const { master_agent_id, data } = await c.req.json<{
+      master_agent_id: string;
+      data: any;
+    }>();
+    const id = c.env.Chat.idFromName(master_agent_id);
+    const agent = c.env.Chat.get(id);
+    await agent.onStep(data);
+    return c.json({ success: true });
+  });
+
   app.post("/confirmations/:confirmationId", async (c) => {
     const { agentId, confirm } = await c.req.json<{
       agentId: string;
