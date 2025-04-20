@@ -4,7 +4,7 @@ import { authHandler, initAuthConfig, verifyAuth } from "@hono/auth-js";
 import { agentsMiddleware } from "hono-agents";
 import { cors } from "hono/cors";
 import configureOpenAPI from "./lib/configureOpenAPI";
-import mcpSseRoute from "./mcp_handler";
+import mcpSseRoute from "./routes/mcp/mcp_handler";
 import users from "./routes/users/users.index";
 
 import createApp from "./lib/createApp";
@@ -18,16 +18,10 @@ import {
   renderLoggedOutAuthorizeScreen,
 } from "./utils";
 
-// export type Bindings = Env & {
-//   OAUTH_PROVIDER: OAuthHelpers;
-// };
-
-// const app = new Hono<{
-//   Bindings: Bindings;
-// }>();
 const app = createApp();
 const routes = [users] as const;
 
+app.use("*", cors());
 app.use(
   "/users",
   cors({
@@ -36,11 +30,6 @@ app.use(
 );
 
 configureOpenAPI(app as any);
-// biome-ignore lint/complexity/noForEach: <explanation>
-routes.forEach((route) => {
-  app.route("/", route);
-});
-app.use("*", cors());
 // 设置 cloudflare agents 中间件
 app.use(
   "*",
@@ -85,6 +74,11 @@ app.get("/api/protected", (c) => {
   return c.json(auth);
 });
 // authjs 配置结束 =============================================================
+
+// biome-ignore lint/complexity/noForEach: <explanation>
+routes.forEach((route) => {
+  app.route("/", route);
+});
 
 // agent 调用(演示开始) =============================================================
 app.post("/query", async (c) => {
@@ -201,6 +195,6 @@ app.post("/approve", async (c) => {
 });
 
 // mcp 服务
-app.route("/sse", mcpSseRoute);
+app.route("/", mcpSseRoute);
 
 export default app;

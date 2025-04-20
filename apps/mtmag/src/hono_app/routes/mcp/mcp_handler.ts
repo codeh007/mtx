@@ -1,9 +1,9 @@
 import { Hono } from "hono";
-import { DemoMcpServer } from "../agents/demoMcpServer";
+import { DemoMcpServer } from "../../../agents/demoMcpServer";
 
 const mcpSseRoute = new Hono<{ Bindings: Env }>();
 
-mcpSseRoute.all("/*", (c) => {
+mcpSseRoute.all("/sse/*", (c) => {
   /**
    * 问题排查:
    *    1: 路径前缀需要对应

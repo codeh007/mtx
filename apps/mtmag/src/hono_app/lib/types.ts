@@ -1,6 +1,5 @@
 import type { OAuthHelpers } from "@cloudflare/workers-oauth-provider";
 import type { RouteConfig, RouteHandler, z } from "@hono/zod-openapi";
-// import type { Env } from "../app";
 
 export type Bindings = Env & {
   OAUTH_PROVIDER: OAuthHelpers;
