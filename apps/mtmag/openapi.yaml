@@ -107,7 +107,7 @@ components:
         - age
   parameters: {}
 paths:
-  /users:
+  /api/users:
     get:
       operationId: getUsers
       tags: &ref_0
@@ -169,7 +169,7 @@ paths:
                 required:
                   - success
                   - error
-  /users/{id}:
+  /api/users/{id}:
     get:
       operationId: getUser
       tags: *ref_0

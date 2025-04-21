@@ -42,7 +42,7 @@ export const getUsers = <ThrowOnError extends boolean = false>(
   options?: Options<GetUsersData, ThrowOnError>,
 ) => {
   return (options?.client ?? _heyApiClient).get<GetUsersResponse, unknown, ThrowOnError>({
-    url: "/users",
+    url: "/api/users",
     ...options,
   });
 };
@@ -51,7 +51,7 @@ export const createUser = <ThrowOnError extends boolean = false>(
   options: Options<CreateUserData, ThrowOnError>,
 ) => {
   return (options.client ?? _heyApiClient).post<CreateUserResponse, CreateUserError, ThrowOnError>({
-    url: "/users",
+    url: "/api/users",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -64,7 +64,7 @@ export const getUser = <ThrowOnError extends boolean = false>(
   options: Options<GetUserData, ThrowOnError>,
 ) => {
   return (options.client ?? _heyApiClient).get<GetUserResponse, GetUserError, ThrowOnError>({
-    url: "/users/{id}",
+    url: "/api/users/{id}",
     ...options,
   });
 };

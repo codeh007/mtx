@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  type AdkSession,
-  type ChatSession,
-  adkSessionListOptions,
-  chatSessionListOptions,
-} from "mtmaiapi";
+import type { AdkSession, ChatSession } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
@@ -20,42 +15,24 @@ import {
 
 import { useQuery } from "@tanstack/react-query";
 import { ChevronsUpDown } from "lucide-react";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Icons } from "mtxuilib/icons/icons";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "mtxuilib/ui/collapsible";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "mtxuilib/ui/collapsible";
 import { Label } from "mtxuilib/ui/label";
 import { Switch } from "mtxuilib/ui/switch";
 import { type ChangeEvent, useMemo, useState } from "react";
-import { useTenantId } from "../../hooks/useAuth";
 import { useSearch } from "../../hooks/useNav";
+import { listPlateformAccountOptions } from "../../lib/mtmagapi/@tanstack/react-query.gen";
 
 export function NavSession() {
   const linkToNew = useMemo(() => {
-    // const newUUID = generateUUID();
     return "new";
   }, []);
 
-  // const tid = useTenantId();
-  // const chatQuery = useQuery({
-  //   ...chatSessionListOptions({
-  //     path: {
-  //       tenant: tid,
-  //     },
-  //   }),
-  // });
-
-  // const adkSessionQuery = useQuery({
-  //   ...adkSessionListOptions({
-  //     path: {
-  //       tenant: tid,
-  //     },
-  //   }),
-
-  // });
+  const listSessions = useQuery({
+    ...listPlateformAccountOptions(),
+  });
 
   return (
     <Sidebar collapsible="none" className="hidden flex-1 md:flex">
@@ -85,21 +62,8 @@ export function NavSession() {
       <SidebarContent>
         <SidebarGroup className="px-0">
           <SidebarGroupContent>
-            {/* {chatQuery.data?.rows?.map((item) => (
-              <NavChatSessionItem
-                key={item.metadata?.id}
-                item={item}
-                rowId={item.metadata?.id || ""}
-              />
-            ))}
-
-            {adkSessionQuery.data?.rows?.map((item) => (
-              <NavAdkSessionItem
-                key={item.metadata?.id}
-                item={item}
-                rowId={item.metadata?.id || ""}
-              />
-            ))} */}
+            todo list
+            <DebugValue data={{ data: listSessions.data }} />
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
@@ -107,10 +71,7 @@ export function NavSession() {
   );
 }
 
-const NavChatSessionItem = ({
-  item,
-  rowId,
-}: { item: ChatSession; rowId: string }) => {
+const NavChatSessionItem = ({ item, rowId }: { item: ChatSession; rowId: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   const search = useSearch();
   const detailLink = useMemo(() => {
@@ -126,10 +87,7 @@ const NavChatSessionItem = ({
       <Collapsible
         open={isOpen}
         onOpenChange={setIsOpen}
-        className={cn(
-          "w-full",
-          isOpen && "border-slate-400 border mb-2 rounded-md pt-1",
-        )}
+        className={cn("w-full", isOpen && "border-slate-400 border mb-2 rounded-md pt-1")}
       >
         <div className="flex items-center justify-between px-2">
           {/* <PresetItem
@@ -173,10 +131,7 @@ const NavChatSessionItem = ({
   );
 };
 
-const NavAdkSessionItem = ({
-  item,
-  rowId,
-}: { item: AdkSession; rowId: string }) => {
+const NavAdkSessionItem = ({ item, rowId }: { item: AdkSession; rowId: string }) => {
   return (
     <div className="bg-slate-100 border px-2 mb-2 rounded-md flex flex-col">
       <div className="flex items-center justify-between">

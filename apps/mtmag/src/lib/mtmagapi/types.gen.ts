@@ -35,7 +35,7 @@ export type GetUsersData = {
   body?: never;
   path?: never;
   query?: never;
-  url: "/users";
+  url: "/api/users";
 };
 
 export type GetUsersResponses = {
@@ -54,7 +54,7 @@ export type CreateUserData = {
   body: UserInsert;
   path?: never;
   query?: never;
-  url: "/users";
+  url: "/api/users";
 };
 
 export type CreateUserErrors = {
@@ -88,7 +88,7 @@ export type GetUserData = {
     id: IdParams;
   };
   query?: never;
-  url: "/users/{id}";
+  url: "/api/users/{id}";
 };
 
 export type GetUserErrors = {

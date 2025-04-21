@@ -22,8 +22,6 @@ configureAuth(app);
 configureAgents(app);
 configureAgentDemo(app);
 
-// const routes = [users, plateformAccount] as const;
-
 for (const route of apiRoutes) {
   app.route("/", route);
 }
