@@ -1,18 +1,17 @@
 import type { Message } from "@ai-sdk/react";
 import { useAgentChat } from "agents/ai-react";
 import { useAgent } from "agents/react";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
 import { useCallback, useEffect, useRef, useState } from "react";
-import "./Chat.css";
-import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import type { RootAgentState } from "../../../agent_state/root_agent_state";
 import { APPROVAL, type OutgoingMessage } from "../../../agent_state/shared";
 import type { tools } from "../../../agents/tools";
 
 const ROOMS = [
-  { id: "1", label: "Room 1" },
-  { id: "2", label: "Room 2" },
-  { id: "3", label: "Room 3" },
+  { id: "1", label: "RoomA 1" },
+  { id: "2", label: "RoomA 2" },
+  { id: "3", label: "RoomA 3" },
 ];
 
 interface ChatProps {
@@ -27,7 +26,6 @@ function ChatRoom({ roomId }: ChatProps) {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, []);
 
-  // Scroll to bottom on mount
   useEffect(() => {
     scrollToBottom();
   }, [scrollToBottom]);
@@ -51,9 +49,7 @@ function ChatRoom({ roomId }: ChatProps) {
         console.log("demo-event-response", parsedMessage);
       } else if (parsedMessage?.type === "require-main-access-token") {
         console.log("require-main-access-token", parsedMessage);
-        //@ts-expect-error
       } else if (parsedMessage?.type === "cf_agent_use_chat_response") {
-        // console.log("demo-event-response", parsedMessage);
         // 聊天消息, 可以不处理 chatAgent 会处理
       } else {
         console.log("chat onMessage: 未知消息", message);
@@ -67,7 +63,6 @@ function ChatRoom({ roomId }: ChatProps) {
       maxSteps: 5,
     });
 
-  // Scroll to bottom when messages change
   useEffect(() => {
     messages.length > 0 && scrollToBottom();
   }, [messages, scrollToBottom]);
@@ -78,45 +73,40 @@ function ChatRoom({ roomId }: ChatProps) {
       counter: (rootState?.counter ?? 0) + 1,
     } satisfies RootAgentState);
   };
+
   const toolsRequiringConfirmation: (keyof typeof tools)[] = ["getWeatherInformation"];
-  // const pendingToolCallConfirmation = messages.some((m: Message) =>
-  //   m.parts?.some(
-  //     (part) =>
-  //       part.type === "tool-invocation" &&
-  //       part.toolInvocation.state === "call" &&
-  //       toolsRequiringConfirmation.includes(part.toolInvocation.toolName as keyof typeof tools),
-  //   ),
-  // );
 
   return (
     <>
-      <div className="controls-container">
-        <Button type="button" onClick={clearHistory} className="clear-history">
+      <div className="flex justify-end gap-3 p-3">
+        <Button
+          type="button"
+          onClick={clearHistory}
+          className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+        >
           🗑️ 删除对话历史
         </Button>
         <DebugValue data={rootState} />
         <Button
-          onClick={() => {
-            increment();
-          }}
+          onClick={increment}
+          className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
         >
           counter:{rootState?.counter}
         </Button>
         <DebugValue data={data} />
       </div>
 
-      <div className="chat-container">
-        <div className="messages-wrapper">
+      <div className="flex flex-col h-[80vh] max-w-[800px] mx-auto p-5 bg-white rounded-xl shadow-md w-full">
+        <div className="flex-1 overflow-y-auto p-5 mb-5">
           {messages?.map((m: Message) => (
-            <div key={m.id} className="message">
+            <div key={m.id} className="mb-4 p-3 rounded-lg bg-gray-100 text-gray-800">
               <DebugValue data={m} />
               <strong>{`${m.role}: `}</strong>
               {m.parts?.map((part, i) => {
                 switch (part.type) {
                   case "text":
                     return (
-                      // biome-ignore lint/suspicious/noArrayIndexKey: vibes
-                      <div key={i} className="message-content">
+                      <div key={i} className="mt-2 leading-relaxed whitespace-pre-wrap">
                         <DebugValue data={part} />
                         {part.text}
                       </div>
@@ -125,7 +115,6 @@ function ChatRoom({ roomId }: ChatProps) {
                     const toolInvocation = part.toolInvocation;
                     const toolCallId = toolInvocation.toolCallId;
 
-                    // render confirmation tool (client-side tool with user interaction)
                     if (
                       toolsRequiringConfirmation.includes(
                         toolInvocation.toolName as keyof typeof tools,
@@ -133,35 +122,33 @@ function ChatRoom({ roomId }: ChatProps) {
                       toolInvocation.state === "call"
                     ) {
                       return (
-                        <div key={toolCallId} className="tool-invocation">
-                          工具调用: <span className="dynamic-info">{toolInvocation.toolName}</span>{" "}
+                        <div key={toolCallId} className="mt-2">
+                          工具调用: <span className="font-medium">{toolInvocation.toolName}</span>{" "}
                           with args:{" "}
-                          <span className="dynamic-info">
-                            {JSON.stringify(toolInvocation.args)}
-                          </span>
-                          <div className="button-container flex gap-2">
+                          <span className="font-medium">{JSON.stringify(toolInvocation.args)}</span>
+                          <div className="flex gap-2 mt-2">
                             <Button
                               type="button"
-                              className="button-approve"
                               onClick={() =>
                                 addToolResult({
                                   toolCallId,
                                   result: APPROVAL.YES,
                                 })
                               }
+                              className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors"
                             >
                               确定
                             </Button>
                             <Button
                               type="button"
                               variant="destructive"
-                              className="button-reject"
                               onClick={() =>
                                 addToolResult({
                                   toolCallId,
                                   result: APPROVAL.NO,
                                 })
                               }
+                              className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors"
                             >
                               取消
                             </Button>
@@ -173,8 +160,7 @@ function ChatRoom({ roomId }: ChatProps) {
                   }
                   default:
                     return (
-                      // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                      <div className="bg-red-500" key={i}>
+                      <div className="bg-red-500 p-2 rounded" key={i}>
                         <DebugValue data={part} />
                       </div>
                     );
@@ -188,7 +174,7 @@ function ChatRoom({ roomId }: ChatProps) {
 
         <form onSubmit={handleSubmit}>
           <input
-            className="chat-input"
+            className="w-full p-3 border-2 border-gray-200 rounded-lg text-base bg-white text-gray-800 focus:outline-none focus:border-blue-500 transition-colors"
             value={input}
             placeholder={`Say something in Room ${roomId}...`}
             onChange={handleInputChange}
@@ -203,13 +189,18 @@ export default function Chat() {
   const [activeRoom, setActiveRoom] = useState(ROOMS[0].id);
 
   return (
-    <div className="chat-wrapper">
-      <div className="tab-bar">
+    <div className="flex flex-col h-full p-5">
+      <div className="flex gap-1 mb-5">
         {ROOMS.map((room) => (
           <button
             key={room.id}
             type="button"
-            className={`tab ${activeRoom === room.id ? "active" : ""}`}
+            className={`px-5 py-2.5 rounded-lg transition-all duration-200 text-sm font-medium
+              ${
+                activeRoom === room.id
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-800"
+              }`}
             onClick={() => setActiveRoom(room.id)}
           >
             {room.label}
