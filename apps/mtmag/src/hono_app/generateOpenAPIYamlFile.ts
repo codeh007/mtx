@@ -1,18 +1,17 @@
 import { writeFileSync } from "node:fs";
 import * as yaml from "js-yaml";
 
-import users from "./routes/users/users.index";
-
 import configureOpenAPI, { openAPIObjectConfig } from "./lib/configureOpenAPI";
 import createApp from "./lib/createApp";
+import { apiRoutes } from "./routes/api_routes";
 
 const app = createApp();
 
-const routes = [users] as const;
+// const routes = [users, plateformAccount] as const;
 
 configureOpenAPI(app);
 // biome-ignore lint/complexity/noForEach: <explanation>
-routes.forEach((route) => {
+apiRoutes.forEach((route) => {
   app.route("/", route);
 });
 

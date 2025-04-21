@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1744950034719,
-      "tag": "0000_many_nick_fury",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1745220260548,
-      "tag": "0001_wild_warbound",
+      "when": 1745223847188,
+      "tag": "0000_bent_colleen_wing",
       "breakpoints": true
     }
   ]

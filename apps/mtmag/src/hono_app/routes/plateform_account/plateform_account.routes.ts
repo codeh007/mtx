@@ -1,19 +1,19 @@
 import { createRoute, z } from "@hono/zod-openapi";
 
 import {
-  UserInsertSchema,
   UserSelectSchema,
   createErrorSchema,
   createMessageObjectSchema,
   idParamsSchema,
   patchUserSchema,
 } from "../../schemas";
+import { PlateformAccountInsertSchema, PlateformAccountSelectSchema } from "./schema";
 
-const tags = ["Users"];
+const tags = ["PlateformAccount"];
 
 export const list = createRoute({
-  operationId: "getUsers",
-  path: "/users",
+  operationId: "listPlateformAccount",
+  path: "/plateform_account",
   method: "get",
   tags,
   "x-speakeasy-retries": {
@@ -31,26 +31,26 @@ export const list = createRoute({
     200: {
       content: {
         "application/json": {
-          schema: z.array(UserSelectSchema),
+          schema: z.array(PlateformAccountSelectSchema),
         },
       },
-      description: "The list of users",
+      description: "The list of plateform accounts",
     },
   },
 });
 
 export const create = createRoute({
-  operationId: "createUser",
-  path: "/users",
+  operationId: "createPlateformAccount",
+  path: "/plateform_account",
   method: "post",
   request: {
     body: {
       content: {
         "application/json": {
-          schema: UserInsertSchema,
+          schema: PlateformAccountInsertSchema,
         },
       },
-      description: "The user to create",
+      description: "The plateform account to create",
       required: true,
     },
   },
@@ -84,8 +84,8 @@ export const create = createRoute({
 });
 
 export const getOne = createRoute({
-  operationId: "getUser",
-  path: "/users/{id}",
+  operationId: "getPlateformAccount",
+  path: "/plateform_account/{id}",
   method: "get",
   request: {
     params: idParamsSchema,

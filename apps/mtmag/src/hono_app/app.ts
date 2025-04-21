@@ -1,13 +1,12 @@
 import { cors } from "hono/cors";
 import configureOpenAPI from "./lib/configureOpenAPI";
 import mcpSseRoute from "./routes/mcp/mcp_handler";
-import users from "./routes/users/users.index";
 
 import configureAgents from "./lib/configureAgents";
 import configureAuth from "./lib/configureAuth";
 import createApp from "./lib/createApp";
 import configureAgentDemo from "./routes/agent_demo/agent_demo_handler";
-
+import { apiRoutes } from "./routes/api_routes";
 const app = createApp();
 
 app.use("*", cors());
@@ -23,9 +22,9 @@ configureAuth(app);
 configureAgents(app);
 configureAgentDemo(app);
 
-const routes = [users] as const;
+// const routes = [users, plateformAccount] as const;
 
-for (const route of routes) {
+for (const route of apiRoutes) {
   app.route("/", route);
 }
 

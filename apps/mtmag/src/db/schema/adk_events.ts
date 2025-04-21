@@ -1,8 +1,39 @@
 import type { InferSelectModel } from "drizzle-orm";
-import { foreignKey, jsonb, pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
+import {
+  customType,
+  foreignKey,
+  jsonb,
+  pgTable,
+  primaryKey,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
 // import { user } from "./user";
 import { adkSessions } from "./adk_sessions";
 
+const bytea = customType<{ data: Buffer; notNull: false; default: false }>({
+  dataType() {
+    return "bytea";
+  },
+});
+
+// const bytea = customType<{ data: string; notNull: false; default: false }>({
+//   dataType() {
+//     return "bytea";
+//   },
+//   toDriver(val) {
+//     let newVal = val;
+//     if (val.startsWith("0x")) {
+//       newVal = val.slice(2);
+//     }
+
+//     return Buffer.from(newVal, "hex");
+//   },
+//   fromDriver(val) {
+//     //@ts-expect-error
+//     return val.toString("hex");
+//   },
+// });
 /**
  * 
  * 
@@ -34,7 +65,7 @@ export const adkEvents = pgTable(
     branch: text("branch"),
     timestamp: timestamp("timestamp").notNull().defaultNow(),
     content: jsonb("content").notNull().default("{}"),
-    actions: jsonb("actions").notNull().default("{}"),
+    actions: bytea("actions").notNull(),
   },
   (t) => [
     {

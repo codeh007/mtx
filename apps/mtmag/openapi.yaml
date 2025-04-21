@@ -93,12 +93,24 @@ components:
       type: string
       minLength: 3
       example: '423'
+    PlateformAccountInsert:
+      type: object
+      properties:
+        name:
+          type: string
+          example: John Doe
+        age:
+          type: number
+          example: 42
+      required:
+        - name
+        - age
   parameters: {}
 paths:
   /users:
     get:
       operationId: getUsers
-      tags:
+      tags: &ref_0
         - Users
       x-speakeasy-retries:
         strategy: backoff
@@ -121,6 +133,7 @@ paths:
                   $ref: '#/components/schemas/UserSelect'
     post:
       operationId: createUser
+      tags: *ref_0
       requestBody:
         description: The user to create
         required: true
@@ -159,6 +172,107 @@ paths:
   /users/{id}:
     get:
       operationId: getUser
+      tags: *ref_0
+      parameters:
+        - schema:
+            $ref: '#/components/schemas/idParams'
+          required: true
+          name: id
+          in: path
+      responses:
+        '200':
+          description: The requested user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSelect'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createMessageObject'
+        '422':
+          description: Invalid id error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  error:
+                    $ref: '#/components/schemas/createError'
+                required:
+                  - success
+                  - error
+  /plateform_account:
+    get:
+      operationId: listPlateformAccount
+      tags: &ref_1
+        - PlateformAccount
+      x-speakeasy-retries:
+        strategy: backoff
+        backoff:
+          initialInterval: 300
+          maxInterval: 40000
+          maxElapsedTime: 3000000
+          exponent: 1.2
+        statusCodes:
+          - 5XX
+        retryConnectionErrors: true
+      responses:
+        '200':
+          description: The list of plateform accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserSelect'
+    post:
+      operationId: createPlateformAccount
+      tags: *ref_1
+      requestBody:
+        description: The plateform account to create
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlateformAccountInsert'
+      responses:
+        '200':
+          description: The created user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSelect'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createMessageObject'
+        '422':
+          description: The validation error(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  error:
+                    $ref: '#/components/schemas/createError'
+                required:
+                  - success
+                  - error
+  /plateform_account/{id}:
+    get:
+      operationId: getPlateformAccount
+      tags: *ref_1
       parameters:
         - schema:
             $ref: '#/components/schemas/idParams'

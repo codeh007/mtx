@@ -18,10 +18,12 @@ import { Route as IndexImport } from './routes/~index'
 // Create Virtual Routes
 
 const SessionRouteLazyImport = createFileRoute('/session')()
+const PlateformaccountRouteLazyImport = createFileRoute('/plateform_account')()
 const AuthRouteLazyImport = createFileRoute('/auth')()
 const SessionSessionIdRouteLazyImport = createFileRoute('/session/$sessionId')()
 const AuthSessionRouteLazyImport = createFileRoute('/auth/session')()
 const SessionIndexLazyImport = createFileRoute('/session/')()
+const PlateformaccountIndexLazyImport = createFileRoute('/plateform_account/')()
 const SessionSessionIdStateRouteLazyImport = createFileRoute(
   '/session/$sessionId/state',
 )()
@@ -53,6 +55,14 @@ const SessionRouteLazyRoute = SessionRouteLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/~session/~route.lazy').then((d) => d.Route),
+)
+
+const PlateformaccountRouteLazyRoute = PlateformaccountRouteLazyImport.update({
+  id: '/plateform_account',
+  path: '/plateform_account',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/~plateform_account/~route.lazy').then((d) => d.Route),
 )
 
 const AuthRouteLazyRoute = AuthRouteLazyImport.update({
@@ -89,6 +99,14 @@ const SessionIndexLazyRoute = SessionIndexLazyImport.update({
   getParentRoute: () => SessionRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~session/~index.lazy').then((d) => d.Route),
+)
+
+const PlateformaccountIndexLazyRoute = PlateformaccountIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PlateformaccountRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~plateform_account/~index.lazy').then((d) => d.Route),
 )
 
 const SessionSessionIdStateRouteLazyRoute =
@@ -191,12 +209,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteLazyImport
       parentRoute: typeof rootRoute
     }
+    '/plateform_account': {
+      id: '/plateform_account'
+      path: '/plateform_account'
+      fullPath: '/plateform_account'
+      preLoaderRoute: typeof PlateformaccountRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/session': {
       id: '/session'
       path: '/session'
       fullPath: '/session'
       preLoaderRoute: typeof SessionRouteLazyImport
       parentRoute: typeof rootRoute
+    }
+    '/plateform_account/': {
+      id: '/plateform_account/'
+      path: '/'
+      fullPath: '/plateform_account/'
+      preLoaderRoute: typeof PlateformaccountIndexLazyImport
+      parentRoute: typeof PlateformaccountRouteLazyImport
     }
     '/session/': {
       id: '/session/'
@@ -294,6 +326,20 @@ const AuthRouteLazyRouteWithChildren = AuthRouteLazyRoute._addFileChildren(
   AuthRouteLazyRouteChildren,
 )
 
+interface PlateformaccountRouteLazyRouteChildren {
+  PlateformaccountIndexLazyRoute: typeof PlateformaccountIndexLazyRoute
+}
+
+const PlateformaccountRouteLazyRouteChildren: PlateformaccountRouteLazyRouteChildren =
+  {
+    PlateformaccountIndexLazyRoute: PlateformaccountIndexLazyRoute,
+  }
+
+const PlateformaccountRouteLazyRouteWithChildren =
+  PlateformaccountRouteLazyRoute._addFileChildren(
+    PlateformaccountRouteLazyRouteChildren,
+  )
+
 interface SessionSessionIdActionsRouteLazyRouteChildren {
   SessionSessionIdActionsIndexLazyRoute: typeof SessionSessionIdActionsIndexLazyRoute
 }
@@ -376,7 +422,9 @@ const SessionRouteLazyRouteWithChildren =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteLazyRouteWithChildren
+  '/plateform_account': typeof PlateformaccountRouteLazyRouteWithChildren
   '/session': typeof SessionRouteLazyRouteWithChildren
+  '/plateform_account/': typeof PlateformaccountIndexLazyRoute
   '/session/': typeof SessionIndexLazyRoute
   '/auth/session': typeof AuthSessionRouteLazyRoute
   '/session/$sessionId': typeof SessionSessionIdRouteLazyRouteWithChildren
@@ -393,6 +441,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteLazyRouteWithChildren
+  '/plateform_account': typeof PlateformaccountIndexLazyRoute
   '/session': typeof SessionIndexLazyRoute
   '/auth/session': typeof AuthSessionRouteLazyRoute
   '/auth/login': typeof AuthLoginIndexLazyRoute
@@ -406,7 +455,9 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteLazyRouteWithChildren
+  '/plateform_account': typeof PlateformaccountRouteLazyRouteWithChildren
   '/session': typeof SessionRouteLazyRouteWithChildren
+  '/plateform_account/': typeof PlateformaccountIndexLazyRoute
   '/session/': typeof SessionIndexLazyRoute
   '/auth/session': typeof AuthSessionRouteLazyRoute
   '/session/$sessionId': typeof SessionSessionIdRouteLazyRouteWithChildren
@@ -425,7 +476,9 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/plateform_account'
     | '/session'
+    | '/plateform_account/'
     | '/session/'
     | '/auth/session'
     | '/session/$sessionId'
@@ -441,6 +494,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/plateform_account'
     | '/session'
     | '/auth/session'
     | '/auth/login'
@@ -452,7 +506,9 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/auth'
+    | '/plateform_account'
     | '/session'
+    | '/plateform_account/'
     | '/session/'
     | '/auth/session'
     | '/session/$sessionId'
@@ -470,12 +526,14 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRouteLazyRoute: typeof AuthRouteLazyRouteWithChildren
+  PlateformaccountRouteLazyRoute: typeof PlateformaccountRouteLazyRouteWithChildren
   SessionRouteLazyRoute: typeof SessionRouteLazyRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteLazyRoute: AuthRouteLazyRouteWithChildren,
+  PlateformaccountRouteLazyRoute: PlateformaccountRouteLazyRouteWithChildren,
   SessionRouteLazyRoute: SessionRouteLazyRouteWithChildren,
 }
 
@@ -491,6 +549,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/auth",
+        "/plateform_account",
         "/session"
       ]
     },
@@ -504,12 +563,22 @@ export const routeTree = rootRoute
         "/auth/login/"
       ]
     },
+    "/plateform_account": {
+      "filePath": "~plateform_account/~route.lazy.tsx",
+      "children": [
+        "/plateform_account/"
+      ]
+    },
     "/session": {
       "filePath": "~session/~route.lazy.tsx",
       "children": [
         "/session/",
         "/session/$sessionId"
       ]
+    },
+    "/plateform_account/": {
+      "filePath": "~plateform_account/~index.lazy.tsx",
+      "parent": "/plateform_account"
     },
     "/session/": {
       "filePath": "~session/~index.lazy.tsx",
