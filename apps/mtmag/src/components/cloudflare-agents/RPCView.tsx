@@ -1,6 +1,5 @@
 import { useAgent } from "agents/react";
 import { useState } from "react";
-import "./RPC.css";
 
 export default function RPC({
   addToast,
@@ -41,19 +40,19 @@ export default function RPC({
   };
 
   return (
-    <div className="rpc-container">
-      <div className="rpc-content">
-        <div className="button-container">
+    <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col sm:flex-row gap-4">
           <button
             type="button"
             onClick={handleRegularCall}
             disabled={loading}
-            className="rpc-button button-regular"
+            className="flex-1 px-6 py-3 font-medium rounded-lg transition-all duration-200 shadow-sm border-none cursor-pointer inline-flex items-center justify-center bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
-              <span className="button-text">
+              <span className="inline-flex items-center">
                 <svg
-                  className="loading-spinner"
+                  className="animate-spin h-5 w-5 mr-2"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -85,12 +84,12 @@ export default function RPC({
             type="button"
             onClick={handleStreamingCall}
             disabled={loading}
-            className="rpc-button button-streaming"
+            className="flex-1 px-6 py-3 font-medium rounded-lg transition-all duration-200 shadow-sm border-none cursor-pointer inline-flex items-center justify-center bg-emerald-500 text-white hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
-              <span className="button-text">
+              <span className="inline-flex items-center">
                 <svg
-                  className="loading-spinner"
+                  className="animate-spin h-5 w-5 mr-2"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -121,23 +120,20 @@ export default function RPC({
         </div>
 
         {messages.length > 0 && (
-          <div className="messages-container">
-            <div className="messages-header">
-              <h3>Streaming Messages</h3>
+          <div className="mt-6 bg-gray-50 rounded-lg border border-gray-200 overflow-hidden">
+            <div className="px-4 py-3 bg-gray-100 border-b border-gray-200">
+              <h3 className="text-sm font-semibold text-gray-700">Streaming Messages</h3>
             </div>
-            <div className="messages-list">
+            <div className="max-h-[400px] overflow-y-auto">
               {messages.map((message, messageId) => (
                 <div
-                  key={`message-${
-                    // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                    messageId
-                  }`}
-                  className="message-item"
+                  key={`message-${messageId}`}
+                  className="p-4 transition-colors duration-150 border-b border-gray-200 hover:bg-gray-50"
                 >
-                  <div className="message-content">
-                    <div className="message-icon-container">
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
                       <svg
-                        className="message-icon"
+                        className="w-4 h-4 text-emerald-600"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -153,9 +149,9 @@ export default function RPC({
                         />
                       </svg>
                     </div>
-                    <div className="message-text">
-                      <p className="message-main">{message}</p>
-                      <p className="message-number">Message #{messageId + 1}</p>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-gray-900">{message}</p>
+                      <p className="text-xs text-gray-500 mt-1">Message #{messageId + 1}</p>
                     </div>
                   </div>
                 </div>

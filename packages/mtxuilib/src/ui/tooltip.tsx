@@ -18,9 +18,7 @@ function TooltipProvider({
   );
 }
 
-function Tooltip({
-  ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Root>) {
+function Tooltip({ ...props }: React.ComponentProps<typeof TooltipPrimitive.Root>) {
   return (
     <TooltipProvider>
       <TooltipPrimitive.Root data-slot="tooltip" {...props} />
@@ -28,9 +26,7 @@ function Tooltip({
   );
 }
 
-function TooltipTrigger({
-  ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
+function TooltipTrigger({ ...props }: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
   return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />;
 }
 
@@ -65,16 +61,20 @@ export const BetterTooltip = ({
   content,
   children,
   align = "center",
+  className,
   ...props
 }: React.ComponentPropsWithoutRef<typeof Tooltip> & {
   content: React.ReactNode;
   align?: "center" | "end" | "start";
+  className?: string;
 }) => {
   return (
     <TooltipProvider delayDuration={0}>
       <Tooltip {...props}>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
-        <TooltipContent align={align}>{content}</TooltipContent>
+        <TooltipContent align={align} className={className}>
+          {content}
+        </TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );

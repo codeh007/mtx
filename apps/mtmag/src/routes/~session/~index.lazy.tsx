@@ -1,14 +1,10 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import Chat from "../../components/cloudflare-agents/playground/Chat";
-
 import { useAgent } from "agents/react";
-import { DebugValue } from "mtxuilib/components/devtools/DebugValue.jsx";
-import { Button } from "mtxuilib/ui/button";
 import { useEffect, useState } from "react";
 import type { RootAgentState } from "../../agent_state/root_agent_state";
 import type { IncomingMessage, OutgoingMessage } from "../../agent_state/shared";
+import AgentChatView from "../../components/cloudflare-agents/Chat";
 import { useMtSession } from "../../stores/SessionProvider";
-import { CurrentMcpServerView, McpServerView } from "./McpServerView";
 
 export const Route = createLazyFileRoute("/session/")({
   component: RouteComponent,
@@ -42,15 +38,15 @@ function RouteComponent() {
       }
     },
   });
-  const increment = () => {
-    //@ts-ignore
-    rootAgent.setState({
-      ...rootState,
-      counter: (rootState?.counter ?? 0) + 1,
-      text: "new text",
-      color: "red",
-    });
-  };
+  // const increment = () => {
+  //   //@ts-ignore
+  //   rootAgent.setState({
+  //     ...rootState,
+  //     counter: (rootState?.counter ?? 0) + 1,
+  //     text: "new text",
+  //     color: "red",
+  //   });
+  // };
 
   const session = useMtSession();
 
@@ -70,7 +66,7 @@ function RouteComponent() {
       {/* <ChatClient /> */}
       <div className="flex gap-2">
         <div className="flex-1 w-full">
-          <div className="flex gap-2">
+          {/* <div className="flex gap-2">
             <DebugValue data={session} />
 
             <Button onClick={increment}>Increment:({rootState?.counter})</Button>
@@ -104,8 +100,9 @@ function RouteComponent() {
             {rootState?.currentMcpServer && (
               <CurrentMcpServerView mcpServer={rootState.currentMcpServer} />
             )}
-          </div>
-          <Chat />
+          </div> */}
+          {/* <Chat /> */}
+          <AgentChatView />
         </div>
       </div>
     </>

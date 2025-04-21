@@ -1,6 +1,6 @@
 import { cn } from "mtxuilib/lib/utils";
+import { BetterTooltip } from "mtxuilib/ui/tooltip";
 import { Slot } from "../slot/Slot";
-import { Tooltip } from "../tooltip/Tooltip";
 
 export type AvatarProps = {
   as?: React.ElementType;
@@ -65,9 +65,9 @@ const AvatarComponent = ({
 
 export const Avatar = ({ ...props }: AvatarProps) => {
   return props.tooltip ? (
-    <Tooltip content={props.tooltip} className={props.className} id={props.id}>
+    <BetterTooltip content={props.tooltip} className={props.className}>
       <AvatarComponent {...props} className={undefined} />
-    </Tooltip>
+    </BetterTooltip>
   ) : (
     <AvatarComponent {...props} />
   );

@@ -18,6 +18,9 @@ export type RootAgentState = {
   //
   mainAccessToken?: string;
   agentRunnerUrl?: string;
+  // 本地运行, 表示有浏览器客户端直接调用 agent worker 这样调试方便.
+  // 否则, 由 cloudflare agent 来运行
+  isAgentRunLocal?: boolean;
 };
 
 export type AgentRunRequest = {

@@ -3,20 +3,22 @@ import type { Message } from "@ai-sdk/react";
 import { Bug, Moon, PaperPlaneRight, Robot, Sun, Trash } from "@phosphor-icons/react";
 import { useAgentChat } from "agents/ai-react";
 import { useAgent } from "agents/react";
+import { Button } from "mtxuilib/ui/button";
 import { Card } from "mtxuilib/ui/card";
+import { Switch } from "mtxuilib/ui/switch";
+import { BetterTooltip } from "mtxuilib/ui/tooltip";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { APPROVAL } from "../../agent_state/shared";
+import type { RootAgentState } from "../../agent_state/root_agent_state";
+import { APPROVAL, type OutgoingMessage } from "../../agent_state/shared";
 import type { tools } from "../../agents/tools";
 import { Avatar } from "./components/avatar/Avatar";
-import { Button } from "./components/button/Button";
 import { Input } from "./components/input/Input";
-import { Toggle } from "./components/toggle/Toggle";
-import { Tooltip } from "./components/tooltip/Tooltip";
 
 // List of tools that require human confirmation
 const toolsRequiringConfirmation: (keyof typeof tools)[] = ["getWeatherInformation"];
 
-export default function Chat() {
+export default function AgentChatView() {
+  const [rootState, setRootState] = useState<RootAgentState>();
   const [theme, setTheme] = useState<"dark" | "light">(() => {
     // Check localStorage first, default to dark if not found
     const savedTheme = localStorage.getItem("theme");
@@ -53,8 +55,32 @@ export default function Chat() {
     setTheme(newTheme);
   };
 
-  const agent = useAgent({
+  const agent = useAgent<RootAgentState>({
     agent: "chat",
+    name: "chat-agent-session-1",
+    onStateUpdate: (newState) => setRootState(newState),
+    onMessage: (message) => {
+      console.log("(chat)onMessage", message?.data?.type);
+      const parsedMessage = JSON.parse(message.data) as OutgoingMessage;
+      if (parsedMessage?.type === "connected") {
+        console.log("agent client connected");
+      } else if (parsedMessage.type === "run-schedule") {
+        console.log("run schedule", parsedMessage);
+      } else if (parsedMessage?.type === "error") {
+        console.log("error", parsedMessage);
+      } else if (parsedMessage?.type === "schedule") {
+        console.log("schedule", parsedMessage);
+      } else if (parsedMessage?.type === "demo-event-response") {
+        console.log("demo-event-response", parsedMessage);
+      } else if (parsedMessage?.type === "require-main-access-token") {
+        console.log("require-main-access-token", parsedMessage);
+        //@ts-expect-error
+      } else if (parsedMessage?.type === "cf_agent_use_chat_response") {
+        // 聊天消息, 可以不处理 chatAgent 会处理
+      } else {
+        console.log("chat onMessage: 未知消息", message);
+      }
+    },
   });
 
   const {
@@ -110,8 +136,8 @@ export default function Chat() {
 
           <div className="flex items-center gap-2 mr-2">
             <Bug size={16} />
-            <Toggle
-              toggled={showDebug}
+            <Switch
+              // toggled={showDebug}
               aria-label="Toggle debug mode"
               onClick={() => setShowDebug((prev) => !prev)}
             />
@@ -119,8 +145,8 @@ export default function Chat() {
 
           <Button
             variant="ghost"
-            size="md"
-            shape="square"
+            // size="md"
+            // shape="square"
             className="rounded-full h-9 w-9"
             onClick={toggleTheme}
           >
@@ -129,8 +155,9 @@ export default function Chat() {
 
           <Button
             variant="ghost"
-            size="md"
-            shape="square"
+            // size="md"
+            size="icon"
+            // shape="square"
             className="rounded-full h-9 w-9"
             onClick={clearHistory}
           >
@@ -193,7 +220,6 @@ export default function Chat() {
                         {m.parts?.map((part, i) => {
                           if (part.type === "text") {
                             return (
-                              // biome-ignore lint/suspicious/noArrayIndexKey: it's fine here
                               <div key={i}>
                                 <Card
                                   className={`p-3 rounded-md bg-neutral-100 dark:bg-neutral-900 ${
@@ -236,7 +262,6 @@ export default function Chat() {
                             ) {
                               return (
                                 <Card
-                                  // biome-ignore lint/suspicious/noArrayIndexKey: it's fine here
                                   key={i}
                                   className="p-4 my-3 rounded-md bg-neutral-100 dark:bg-neutral-900"
                                 >
@@ -258,7 +283,7 @@ export default function Chat() {
 
                                   <div className="flex gap-2 justify-end">
                                     <Button
-                                      variant="primary"
+                                      // variant="primary"
                                       size="sm"
                                       onClick={() =>
                                         addToolResult({
@@ -269,9 +294,9 @@ export default function Chat() {
                                     >
                                       Reject
                                     </Button>
-                                    <Tooltip content={"Accept action"}>
+                                    <BetterTooltip content={"Accept action"}>
                                       <Button
-                                        variant="primary"
+                                        // variant="primary"
                                         size="sm"
                                         onClick={() =>
                                           addToolResult({
@@ -282,7 +307,7 @@ export default function Chat() {
                                       >
                                         Approve
                                       </Button>
-                                    </Tooltip>
+                                    </BetterTooltip>
                                   </div>
                                 </Card>
                               );
@@ -338,7 +363,7 @@ export default function Chat() {
 
             <Button
               type="submit"
-              shape="square"
+              // shape="square"
               className="rounded-full h-10 w-10 flex-shrink-0"
               disabled={pendingToolCallConfirmation || !agentInput.trim()}
             >
