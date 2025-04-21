@@ -8,10 +8,8 @@ import type { IncomingMessage, OutgoingMessage } from "../agent_state/shared";
 
 export class RootAg extends Agent<Env, RootAgentState> {
   mcpClientManager = new MCPClientManager("mcp-clients", "1.0.0");
-
   initialState = {
     counter: 0,
-    text: "root ag text",
     color: "#3B82F6",
     mainViewType: "chat",
     chatHistoryIds: [],
@@ -21,16 +19,7 @@ export class RootAg extends Agent<Env, RootAgentState> {
     mcpResources: [],
   } satisfies RootAgentState;
 
-  // constructor(ctx: AgentContext, env: Env) {
-  //   console.log("root ag constructor", ctx, env);
-  //   super(ctx, env);
-  // }
-
-  onStart(): void | Promise<void> {
-    // console.log("root ag onStart");
-    // const session = await getAuthUser(this.ctx);
-    // console.log("session", session);
-  }
+  onStart(): void | Promise<void> {}
   onConnect(connection: Connection, ctx: ConnectionContext) {
     // const auth = ctx.request.headers.get("authorization");
     // console.log("auth", auth);

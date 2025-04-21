@@ -1,4 +1,5 @@
 import type { Prompt, Resource, Tool } from "@modelcontextprotocol/sdk/types.js";
+import type { UIMessage } from "ai";
 import type { McpServer } from "./shared";
 
 export type RootAgentState = {
@@ -16,4 +17,13 @@ export type RootAgentState = {
 
   //
   mainAccessToken?: string;
+  agentRunnerUrl?: string;
+};
+
+export type AgentRunRequest = {
+  app_name: string;
+  user_id: string;
+  session_id: string;
+  new_message: UIMessage;
+  streaming: boolean;
 };

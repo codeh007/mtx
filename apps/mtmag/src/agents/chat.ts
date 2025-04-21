@@ -13,6 +13,7 @@ import {
 import { z } from "zod";
 import type { RootAgentState } from "../agent_state/root_agent_state";
 import type { IncomingMessage, OutgoingMessage, ScheduledItem } from "../agent_state/shared";
+import { callAgentRunner } from "../agent_utils/agent_utils";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
 import { tools } from "./tools";
 
@@ -41,6 +42,7 @@ export class Chat extends AIChatAgent<Env, RootAgentState> {
     mcpTools: [],
     mcpPrompts: [],
     mcpResources: [],
+    agentRunnerUrl: "http://localhost:7860",
   } satisfies RootAgentState;
 
   onStart(): void | Promise<void> {
@@ -72,7 +74,6 @@ export class Chat extends AIChatAgent<Env, RootAgentState> {
 
   async onChatMessage(onFinish: StreamTextOnFinishCallback<{}>) {
     const model = getDefaultModel(this.env);
-    const agentId = this.ctx.id;
     const sessionId = this.name;
     const callCoderAgent = tool({
       description: "调用具有 python 编程能力的Agent, 用来解决复杂问题",
@@ -80,18 +81,22 @@ export class Chat extends AIChatAgent<Env, RootAgentState> {
         prompt: z.string().describe("The prompt to send to the coder agent"),
       }),
       execute: async ({ prompt }, options) => {
+        if (!this.state.agentRunnerUrl) {
+          return "Error: agentRunnerUrl is not set";
+        }
         try {
           console.log("callCoderAgent", prompt);
-          const agentApiEndpoint = "http://localhost:7860/api/v1/smolagent";
-          const response = await fetch(agentApiEndpoint, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
+          const result = await callAgentRunner(this.state.agentRunnerUrl, {
+            app_name: "root",
+            user_id: "user",
+            session_id: sessionId,
+            new_message: {
+              role: "user",
+              parts: [{ text: prompt }],
             },
-            body: JSON.stringify({ prompt, session_id: sessionId }),
+            streaming: false,
           });
-          const data = await response.text();
-          return data;
+          console.log("callCoderAgent result", result);
         } catch (error) {
           console.error("Error calling coder agent", error);
           return `Error calling coder agent: ${error}`;
@@ -127,31 +132,6 @@ export class Chat extends AIChatAgent<Env, RootAgentState> {
     });
 
     return dataStreamResponse;
-
-    // const dataStreamResponse = createDataStreamResponse({
-    //   execute: async (dataStream) => {
-
-    //     // 处理完成后调用onFinish回调
-    //     // await this.onDemoRun2(null, dataStream);
-    //     // if (onFinish) {
-    //     //   // onFinish({
-    //     //   //   text: "hello",
-    //     //   //   reasoning: "hello",
-    //     //   //   // reasoningDetails: "hello",
-    //     //   //   files: [],
-    //     //   //   // isContinued: false,
-    //     //   //   steps: [],
-    //     //   //   // stepType: "text",
-    //     //   // });
-    //     // }
-    //   },
-    //   onError: (error) => {
-    //     console.log("Stream error:", error);
-    //     return "Error occurred during streaming";
-    //   },
-    // });
-
-    // return dataStreamResponse;
   }
   async onTask(payload: unknown, schedule: Schedule<string>) {
     // 提示: 当到时间运行新任务时, 会先进入这个函数.

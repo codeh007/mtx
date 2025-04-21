@@ -19,7 +19,7 @@ function RouteComponent() {
 
   const rootAgent = useAgent<RootAgentState>({
     agent: "root_ag",
-    name: "root_agent",
+    name: "default",
 
     onStateUpdate: (newState) => setRootState(newState),
 
