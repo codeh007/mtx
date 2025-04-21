@@ -7,7 +7,7 @@ export default defineConfig({
   output: {
     format: "prettier",
     lint: "eslint",
-    path: "./src/mtmagapi",
+    path: "./src/lib/mtmagapi",
   },
   experimentalParser: true,
   plugins: [

@@ -34,7 +34,7 @@
     "cf-typegen": "wrangler types --path ./src/worker-configuration.d.ts",
     "mcp-inspector": "bunx @modelcontextprotocol/inspector@0.10.2",
     "gen:openapi": "npx tsx ./src/hono_app/generateOpenAPIYamlFile.ts",
-    "gen": "bun gen:openapi && openapi-ts && biome format --write ./src/mtmagapi"
+    "gen": "bun gen:openapi && openapi-ts && biome format --write ./src/lib/mtmagapi"
   },
   "typesVersions": {
     "*": {
