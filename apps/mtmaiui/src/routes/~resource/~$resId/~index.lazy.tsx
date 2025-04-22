@@ -21,7 +21,7 @@ function RouteComponent() {
     });
   };
 
-  const threadId = useWorkbenchStore((x) => x.threadId);
+  const threadId = useWorkbenchStore((x) => x.sessionId);
   // useEffect(() => {
   //   if (threadId) {
   //     // handleRunWorkflow();

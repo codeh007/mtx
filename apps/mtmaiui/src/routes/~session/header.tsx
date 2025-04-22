@@ -21,7 +21,7 @@ import { useSearch } from "../../hooks/useNav";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 
 export function SessionHeader() {
-  const sessionId = useWorkbenchStore((x) => x.threadId);
+  const sessionId = useWorkbenchStore((x) => x.sessionId);
   const search = useSearch();
   const { open } = useSidebar();
   const { width: windowWidth } = useWindowSize();
@@ -29,7 +29,7 @@ export function SessionHeader() {
   const setOpenWorkbench = useWorkbenchStore((x) => x.setOpenWorkbench);
   // const openChat = useWorkbenchStore((x) => x.openChat);
 
-  const chatSessionId = useWorkbenchStore((x) => x.threadId);
+  const chatSessionId = useWorkbenchStore((x) => x.sessionId);
   return (
     <DashHeaders>
       <Breadcrumb>

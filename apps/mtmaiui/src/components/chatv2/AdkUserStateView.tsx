@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { adkUserStateGetOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
-import { useTenantId } from "../../../hooks/useAuth";
+import { useTenantId } from "../../hooks/useAuth";
 
 interface AdkUserStateViewProps {
   sessionId: string;

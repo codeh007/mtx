@@ -2,14 +2,18 @@
 import { Bug, Moon, PaperPlaneRight, Sun, Trash } from "@phosphor-icons/react";
 import { useQuery } from "@tanstack/react-query";
 import { type RootAgentState, adkSessionGetOptions } from "mtmaiapi";
+import { type AdkEvent, type Content, type Part, adkEventsListOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
 import { Switch } from "mtxuilib/ui/switch";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { tools } from "../../../agents/tools";
-import { Input } from "../../../components/cloudflare-agents/components/input/Input";
-import { useTenantId } from "../../../hooks/useAuth";
-const toolsRequiringConfirmation: (keyof typeof tools)[] = ["getWeatherInformation"];
+import { useTenantId } from "../../hooks/useAuth";
+import { useWorkbenchStore } from "../../stores/workbrench.store";
+import { Avatar } from "../cloudflare-agents/components/avatar/Avatar";
+import { Card } from "../cloudflare-agents/components/card/Card";
+import { Input } from "../cloudflare-agents/components/input/Input";
+import { AdkWelcomeCard } from "./ChatWelcome";
+// const toolsRequiringConfirmation: (keyof typeof tools)[] = ["getWeatherInformation"];
 
 interface AgentChatViewProps {
   sessionId: string;
@@ -21,7 +25,9 @@ export default function AgentChatView({ sessionId }: AgentChatViewProps) {
     const savedTheme = localStorage.getItem("theme");
     return (savedTheme as "dark" | "light") || "dark";
   });
-  const [showDebug, setShowDebug] = useState(false);
+  // const [showDebug, setShowDebug] = useState(false);
+  const isDebug = useWorkbenchStore((x) => x.isDebug);
+  const setIsDebug = useWorkbenchStore((x) => x.setIsDebug);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const tid = useTenantId();
@@ -29,6 +35,17 @@ export default function AgentChatView({ sessionId }: AgentChatViewProps) {
     ...adkSessionGetOptions({
       path: {
         tenant: tid,
+        session: sessionId,
+      },
+    }),
+  });
+
+  const adkEventsQuery = useQuery({
+    ...adkEventsListOptions({
+      path: {
+        tenant: tid,
+      },
+      query: {
         session: sessionId,
       },
     }),
@@ -122,12 +139,11 @@ export default function AgentChatView({ sessionId }: AgentChatViewProps) {
 
   return (
     <div className="h-[100vh] w-full p-4 flex justify-center items-center bg-fixed overflow-hidden">
-      <DebugValue data={adkStateQuery.data} />
-      <div className="h-[calc(100vh-2rem)] w-full mx-auto max-w-lg flex flex-col shadow-xl rounded-md overflow-hidden relative border border-neutral-300 dark:border-neutral-800">
+      <div className="h-[calc(100vh-1rem)] w-full mx-auto max-w-lg flex flex-col shadow-xl rounded-md overflow-hidden relative border border-neutral-300 dark:border-neutral-800">
         <div className="px-4 py-3 border-b border-neutral-300 dark:border-neutral-800 flex items-center gap-3 sticky top-0 z-10">
           <div className="flex items-center justify-center h-8 w-8">
             <svg width="28px" height="28px" className="text-[#F48120]" data-icon="agents">
-              <title>Cloudflare Agents</title>
+              <title>Agent Chat</title>
               <symbol id="ai:local:agents" viewBox="0 0 80 79">
                 <path
                   fill="currentColor"
@@ -145,74 +161,46 @@ export default function AgentChatView({ sessionId }: AgentChatViewProps) {
           <div className="flex items-center gap-2 mr-2">
             <Bug size={16} />
             <Switch
-              // toggled={showDebug}
+              checked={isDebug}
               aria-label="Toggle debug mode"
-              onClick={() => setShowDebug((prev) => !prev)}
+              onClick={() => setIsDebug(!isDebug)}
             />
           </div>
 
-          <Button
-            variant="ghost"
-            // size="md"
-            // shape="square"
-            className="rounded-full h-9 w-9"
-            onClick={toggleTheme}
-          >
-            {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+          <Button variant="ghost" className="rounded-full h-9 w-9" onClick={toggleTheme}>
+            {theme === "dark" ? (
+              <Sun size={20} className="size-4" />
+            ) : (
+              <Moon size={20} className="size-4" />
+            )}
           </Button>
 
           <Button
             variant="ghost"
-            // size="md"
             size="icon"
-            // shape="square"
             className="rounded-full h-9 w-9"
             // onClick={clearHistory}
           >
-            <Trash size={20} />
+            <Trash className="size-4" />
           </Button>
+          <DebugValue data={adkStateQuery.data} />
         </div>
 
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-24 max-h-[calc(100vh-10rem)]">
-          {/* {agentMessages.length === 0 && (
-            <div className="h-full flex items-center justify-center">
-              <Card className="p-6 max-w-md mx-auto bg-neutral-100 dark:bg-neutral-900">
-                <div className="text-center space-y-4">
-                  <div className="bg-[#F48120]/10 text-[#F48120] rounded-full p-3 inline-flex">
-                    <Robot size={24} />
-                  </div>
-                  <h3 className="font-semibold text-lg">Welcome to AI Chat</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Start a conversation with your AI assistant. Try asking about:
-                  </p>
-                  <ul className="text-sm text-left space-y-2">
-                    <li className="flex items-center gap-2">
-                      <span className="text-[#F48120]">•</span>
-                      <span>Weather information for any city</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className="text-[#F48120]">•</span>
-                      <span>Local time in different locations</span>
-                    </li>
-                  </ul>
-                </div>
-              </Card>
-            </div>
-          )} */}
+          <AdkEventsView sessionId={sessionId} />
+          {!!adkEventsQuery.data?.rows?.length && <AdkWelcomeCard />}
 
-          {/* {agentMessages.map((m: Message, index) => {
-            const isUser = m.role === "user";
-            const showAvatar = index === 0 || agentMessages[index - 1]?.role !== m.role;
+          {adkEventsQuery.data?.rows?.map((m: AdkEvent, index) => {
+            const isUser = m.author === "user";
+            // const isUser = m.role === "user";
+            // const showAvatar = index === 0 || agentMessages[index - 1]?.role !== m.role;
+            const showAvatar = true;
             const showRole = showAvatar && !isUser;
 
             return (
               <div key={m.id}>
-                {showDebug && (
-                  <pre className="text-xs text-muted-foreground overflow-scroll">
-                    {JSON.stringify(m, null, 2)}
-                  </pre>
-                )}
+                {isDebug && <DebugValue data={m} />}
                 <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
                   <div
                     className={`flex gap-2 max-w-[85%] ${isUser ? "flex-row-reverse" : "flex-row"}`}
@@ -225,7 +213,7 @@ export default function AgentChatView({ sessionId }: AgentChatViewProps) {
 
                     <div>
                       <div>
-                        {m.parts?.map((part, i) => {
+                        {m.content.parts?.map((part, i) => {
                           if (part.type === "text") {
                             return (
                               <div key={i}>
@@ -252,76 +240,77 @@ export default function AgentChatView({ sessionId }: AgentChatViewProps) {
                                     isUser ? "text-right" : "text-left"
                                   }`}
                                 >
-                                  {formatTime(new Date(m.createdAt as unknown as string))}
+                                  {/* 时间字段待修正 */}
+                                  {formatTime(new Date(m.timestamp as unknown as string))}
                                 </p>
                               </div>
                             );
                           }
 
-                          if (part.type === "tool-invocation") {
-                            const toolInvocation = part.toolInvocation;
-                            const toolCallId = toolInvocation.toolCallId;
+                          // if (part.type === "tool-invocation") {
+                          //   const toolInvocation = part.toolInvocation;
+                          //   const toolCallId = toolInvocation.toolCallId;
 
-                            if (
-                              toolsRequiringConfirmation.includes(
-                                toolInvocation.toolName as keyof typeof tools,
-                              ) &&
-                              toolInvocation.state === "call"
-                            ) {
-                              return (
-                                <Card
-                                  key={i}
-                                  className="p-4 my-3 rounded-md bg-neutral-100 dark:bg-neutral-900"
-                                >
-                                  <div className="flex items-center gap-2 mb-3">
-                                    <div className="bg-[#F48120]/10 p-1.5 rounded-full">
-                                      <Robot size={16} className="text-[#F48120]" />
-                                    </div>
-                                    <h4 className="font-medium">{toolInvocation.toolName}</h4>
-                                  </div>
+                          //   if (
+                          //     toolsRequiringConfirmation.includes(
+                          //       toolInvocation.toolName as keyof typeof tools,
+                          //     ) &&
+                          //     toolInvocation.state === "call"
+                          //   ) {
+                          //     return (
+                          //       <Card
+                          //         key={i}
+                          //         className="p-4 my-3 rounded-md bg-neutral-100 dark:bg-neutral-900"
+                          //       >
+                          //         <div className="flex items-center gap-2 mb-3">
+                          //           <div className="bg-[#F48120]/10 p-1.5 rounded-full">
+                          //             <Robot size={16} className="text-[#F48120]" />
+                          //           </div>
+                          //           <h4 className="font-medium">{toolInvocation.toolName}</h4>
+                          //         </div>
 
-                                  <div className="mb-3">
-                                    <h5 className="text-xs font-medium mb-1 text-muted-foreground">
-                                      Arguments:
-                                    </h5>
-                                    <pre className="bg-background/80 p-2 rounded-md text-xs overflow-auto">
-                                      {JSON.stringify(toolInvocation.args, null, 2)}
-                                    </pre>
-                                  </div>
+                          //         <div className="mb-3">
+                          //           <h5 className="text-xs font-medium mb-1 text-muted-foreground">
+                          //             Arguments:
+                          //           </h5>
+                          //           <pre className="bg-background/80 p-2 rounded-md text-xs overflow-auto">
+                          //             {JSON.stringify(toolInvocation.args, null, 2)}
+                          //           </pre>
+                          //         </div>
 
-                                  <div className="flex gap-2 justify-end">
-                                    <Button
-                                      // variant="primary"
-                                      size="sm"
-                                      onClick={() =>
-                                        addToolResult({
-                                          toolCallId,
-                                          result: Approval.NO,
-                                        })
-                                      }
-                                    >
-                                      Reject
-                                    </Button>
-                                    <BetterTooltip content={"Accept action"}>
-                                      <Button
-                                        // variant="primary"
-                                        size="sm"
-                                        onClick={() =>
-                                          addToolResult({
-                                            toolCallId,
-                                            result: Approval.YES,
-                                          })
-                                        }
-                                      >
-                                        Approve
-                                      </Button>
-                                    </BetterTooltip>
-                                  </div>
-                                </Card>
-                              );
-                            }
-                            return null;
-                          }
+                          //         <div className="flex gap-2 justify-end">
+                          //           <Button
+                          //             // variant="primary"
+                          //             size="sm"
+                          //             // onClick={() =>
+                          //             //   addToolResult({
+                          //             //     toolCallId,
+                          //             //     result: Approval.NO,
+                          //             //   })
+                          //             // }
+                          //           >
+                          //             Reject
+                          //           </Button>
+                          //           <BetterTooltip content={"Accept action"}>
+                          //             <Button
+                          //               // variant="primary"
+                          //               size="sm"
+                          //               // onClick={() =>
+                          //               //   addToolResult({
+                          //               //     toolCallId,
+                          //               //     result: Approval.YES,
+                          //               //   })
+                          //               // }
+                          //             >
+                          //               Approve
+                          //             </Button>
+                          //           </BetterTooltip>
+                          //         </div>
+                          //       </Card>
+                          //     );
+                          //   }
+                          //   return null;
+                          // }
                           return null;
                         })}
                       </div>
@@ -330,7 +319,7 @@ export default function AgentChatView({ sessionId }: AgentChatViewProps) {
                 </div>
               </div>
             );
-          })} */}
+          })}
           <div ref={messagesEndRef} />
         </div>
 
@@ -350,12 +339,12 @@ export default function AgentChatView({ sessionId }: AgentChatViewProps) {
           <div className="flex items-center gap-2">
             <div className="flex-1 relative">
               <Input
-                disabled={pendingToolCallConfirmation}
-                placeholder={
-                  pendingToolCallConfirmation
-                    ? "Please respond to the tool confirmation above..."
-                    : "Type your message..."
-                }
+                // disabled={pendingToolCallConfirmation}
+                // placeholder={
+                //   pendingToolCallConfirmation
+                //     ? "Please respond to the tool confirmation above..."
+                //     : "Type your message..."
+                // }
                 className="pl-4 pr-10 py-2 w-full rounded-full bg-ob-btn-secondary-bg text-ob-base-300"
                 // value={agentInput}
                 // onChange={handleAgentInputChange}
@@ -383,3 +372,65 @@ export default function AgentChatView({ sessionId }: AgentChatViewProps) {
     </div>
   );
 }
+
+interface AdkEventsViewProps {
+  sessionId: string;
+}
+export const AdkEventsView = ({ sessionId }: AdkEventsViewProps) => {
+  const tid = useTenantId();
+  const adkStateQuery = useQuery({
+    ...adkEventsListOptions({
+      path: {
+        tenant: tid,
+      },
+      query: {
+        session: sessionId,
+      },
+    }),
+  });
+
+  return (
+    <div className=" rounded-md p-2  space-y-1">
+      {/* <DebugValue data={{ data: adkStateQuery.data }} /> */}
+      {adkStateQuery.data?.rows?.map((item) => {
+        return <AdkEventsViewItemView key={item.id} item={item} />;
+      })}
+    </div>
+  );
+};
+
+export const AdkEventsViewItemView = ({
+  item,
+}: {
+  item: AdkEvent;
+}) => {
+  return (
+    <div className="border border-gray-100 rounded-md p-2 bg-blue-100">
+      event item
+      <DebugValue data={item} />
+      {item.content && <AdkContentView content={item.content} />}
+    </div>
+  );
+};
+
+export const AdkContentView = ({
+  content,
+}: {
+  content: Content;
+}) => {
+  return (
+    <div>
+      {content.parts?.map((part, i) => {
+        return <AdkContentPartView key={i} part={part} />;
+      })}
+    </div>
+  );
+};
+
+export const AdkContentPartView = ({
+  part,
+}: {
+  part: Part;
+}) => {
+  return <div>{part.text}</div>;
+};

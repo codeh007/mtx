@@ -1,6 +1,6 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
-import { DashHeaders } from "mtxuilib/mt/DashContent";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from "mtxuilib/ui/breadcrumb";
+// import { DashHeaders } from "mtxuilib/mt/DashContent";
+// import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from "mtxuilib/ui/breadcrumb";
 import { RootAppWrapper } from "../../../components/RootAppWrapper";
 import { WorkbrenchProvider } from "../../../stores/workbrench.store";
 import { WorkflowsProvider } from "../../../stores/workflow-store";
@@ -16,7 +16,7 @@ function RouteComponent() {
       <WorkbrenchProvider>
         <WorkflowsProvider>
           <RootAppWrapper secondSidebar={<NavAdkSession />}>
-            <DashHeaders>
+            {/* <DashHeaders>
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem>
@@ -24,7 +24,7 @@ function RouteComponent() {
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
-            </DashHeaders>
+            </DashHeaders> */}
             <Outlet />
           </RootAppWrapper>
         </WorkflowsProvider>

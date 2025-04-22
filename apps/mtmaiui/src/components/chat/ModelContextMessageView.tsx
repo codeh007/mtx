@@ -31,7 +31,7 @@ interface MtMessagesProps {
 }
 export const ModelContextMessageView = ({ messages }: MtMessagesProps) => {
   const tid = useTenantId();
-  const session = useWorkbenchStore((x) => x.threadId);
+  const session = useWorkbenchStore((x) => x.sessionId);
   const adkEventsQuery = useQuery({
     ...adkEventsListOptions({
       path: {
@@ -73,9 +73,7 @@ export const ChatMessageItemView = ({ message }: { message: ChatMessage }) => {
         ) : message.llm_message.type === "FunctionExecutionResultMessage" ? (
           <FunctionExecutionResultMessageView msg={message.llm_message} />
         ) : (
-          <div className="text-sm text-slate-500">
-            unknown message type: {message.type}
-          </div>
+          <div className="text-sm text-slate-500">unknown message type: {message.type}</div>
         )}
       </MtSuspenseBoundary>
     </div>
@@ -150,9 +148,7 @@ export const FunctionCallItemView = ({ msg }: { msg: FunctionCall }) => {
       ) : toolName === "askUser" ? (
         <AskUserMessage msg={msg} />
       ) : (
-        <div className="text-sm text-red-500">
-          error: unknown function call: {msg.name}
-        </div>
+        <div className="text-sm text-red-500">error: unknown function call: {msg.name}</div>
       )}
     </div>
   );
@@ -181,9 +177,7 @@ export const ThinkingMessage = () => {
         </div>
 
         <div className="flex flex-col gap-2 w-full">
-          <div className="flex flex-col gap-4 text-muted-foreground">
-            Thinking...
-          </div>
+          <div className="flex flex-col gap-4 text-muted-foreground">Thinking...</div>
         </div>
       </div>
     </motion.div>

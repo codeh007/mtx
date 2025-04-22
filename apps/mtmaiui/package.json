@@ -96,7 +96,7 @@
     "@tanstack/router-devtools": "^1.112.0",
     "@tanstack/router-plugin": "^1.112.0",
     "@tanstack/start": "^1.116.2",
-    "agents": "^0.0.60",
+    
     "ai": "^4.3.9",
     "date-fns": "^4.1.0",
     "embla-carousel-autoplay": "^8.5.2",
@@ -182,6 +182,7 @@
     "vite-plugin-ssr": "^0.4.142"
   },
   "other": {
+    "agents": "^0.0.60",
     "react-day-picker": "^9.5.1",
     "@bufbuild/protobuf": "^2.2.3",
     "clsx": "^2.1.1",

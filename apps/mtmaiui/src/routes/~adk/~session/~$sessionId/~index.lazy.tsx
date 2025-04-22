@@ -1,6 +1,6 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { AdkEventsView } from "../AdkEventsView";
-import AgentChatView from "../AgentChatView";
+import AgentChatView from "../../../../components/chatv2/AgentChatView";
+import { WorkbrenchProvider } from "../../../../stores/workbrench.store";
 
 export const Route = createLazyFileRoute("/adk/session/$sessionId/")({
   component: RouteComponent,
@@ -11,9 +11,9 @@ function RouteComponent() {
 
   return (
     <>
-      <AgentChatView sessionId={sessionId} />
-
-      <AdkEventsView sessionId={sessionId} />
+      <WorkbrenchProvider sessionId={sessionId}>
+        <AgentChatView sessionId={sessionId} />
+      </WorkbrenchProvider>
     </>
   );
 }

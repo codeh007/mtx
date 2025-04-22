@@ -1,11 +1,7 @@
 "use client";
 
 import type { Client } from "@connectrpc/connect";
-import {
-  type UseMutationResult,
-  useMutation,
-  useQuery,
-} from "@tanstack/react-query";
+import { type UseMutationResult, useMutation, useQuery } from "@tanstack/react-query";
 import { debounce } from "lodash";
 import {
   type AdkEvent,
@@ -46,13 +42,7 @@ import { Dispatcher } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
 import { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
 import { generateUUID } from "mtxuilib/lib/utils";
 import type React from "react";
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useTransition,
-} from "react";
+import { createContext, useContext, useEffect, useMemo, useTransition } from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -65,18 +55,18 @@ import { useGomtmClient } from "./TransportProvider";
 import { handleWorkflowRunEvent } from "./ag-event-handlers";
 
 export interface WorkbenchProps {
-  threadId?: string;
-  teamState?: SocialTeamManagerState;
-  resourceId?: string;
+  sessionId?: string;
+  // teamState?: SocialTeamManagerState;
+  // resourceId?: string;
 }
-const DEFAULT_AGENT_FLOW_SETTINGS = {
-  direction: "TB",
-  showLabels: true,
-  showGrid: true,
-  showTokens: true,
-  showMessages: true,
-  showMiniMap: false,
-};
+// const DEFAULT_AGENT_FLOW_SETTINGS = {
+//   direction: "TB",
+//   showLabels: true,
+//   showGrid: true,
+//   showTokens: true,
+//   showMessages: true,
+//   showMiniMap: false,
+// };
 
 export interface WorkbrenchState extends WorkbenchProps {
   backendUrl: string;
@@ -117,6 +107,8 @@ export interface WorkbrenchState extends WorkbenchProps {
   setChatStarted: (chatStarted: boolean) => void;
   messages: ChatMessage[];
   setMessages: (messages: ChatMessage[]) => void;
+  isDebug: boolean;
+  setIsDebug: (isDebug: boolean) => void;
   openWorkbench?: boolean;
   setOpenWorkbench: (openWorkbench: boolean) => void;
   isOpenWorkbenchChat: boolean;
@@ -156,19 +148,17 @@ export interface WorkbrenchState extends WorkbenchProps {
   // refetchAdkEvents: () => void;
 }
 
-export const createWorkbrenchSlice: StateCreator<
-  WorkbrenchState,
-  [],
-  [],
-  WorkbrenchState
-> = (set, get, init) => {
+export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], WorkbrenchState> = (
+  set,
+  get,
+  init,
+) => {
   return {
     userAgentState: {},
     setInput: (input) => set({ input }),
     messages: [],
     firstUserInteraction: undefined,
-    setFirstUserInteraction: (firstUserInteraction) =>
-      set({ firstUserInteraction }),
+    setFirstUserInteraction: (firstUserInteraction) => set({ firstUserInteraction }),
     setAccessToken: (accessToken: string) => {
       set({ accessToken });
     },
@@ -181,6 +171,10 @@ export const createWorkbrenchSlice: StateCreator<
     openChat: false,
     setOpenChat: (openChat: boolean) => {
       set({ openChat });
+    },
+    isDebug: false,
+    setIsDebug: (isDebug: boolean) => {
+      set({ isDebug });
     },
     team: {
       provider: ProviderTypes.SOCIAL_TEAM,
@@ -313,7 +307,7 @@ export const createWorkbrenchSlice: StateCreator<
       const preMessages = get().messages;
       const task = input.parts?.[0]?.text as unknown as string;
 
-      const sessionId = get().threadId ?? generateUUID();
+      const sessionId = get().sessionId ?? generateUUID();
       const newChatMessage = {
         content: task,
         metadata: {
@@ -347,14 +341,6 @@ export const createWorkbrenchSlice: StateCreator<
               metadata: {},
             },
             content: input,
-            // content:{
-            //   role: "user",
-            //   parts:[
-            //     {
-            //       text: ""
-            //     },
-            //   ]
-            // },
           } satisfies FlowTeamInput,
           additionalMetadata: {
             sessionId: sessionId,
@@ -371,11 +357,9 @@ export const createWorkbrenchSlice: StateCreator<
         if (response.data?.metadata?.id) {
           const workflowRunId = response.data.metadata?.id;
           set({ workflowRunId: workflowRunId });
-          const result = await get().dispatcherClient.subscribeToWorkflowEvents(
-            {
-              workflowRunId: workflowRunId,
-            },
-          );
+          const result = await get().dispatcherClient.subscribeToWorkflowEvents({
+            workflowRunId: workflowRunId,
+          });
           for await (const event of result) {
             handleWorkflowRunEvent(event, get, set);
           }
@@ -388,7 +372,7 @@ export const createWorkbrenchSlice: StateCreator<
       set({ openWorkbench });
     },
     setThreadId: (threadId) => {
-      set({ threadId });
+      set({ sessionId: threadId });
     },
     setWorkflowRunId: (workflowRunId) => {
       set({ workflowRunId });
@@ -485,14 +469,9 @@ const createWordbrenchStore = (initProps?: Partial<WorkbrenchState>) => {
     ),
   );
 };
-const mtmaiStoreContext = createContext<ReturnType<
-  typeof createWordbrenchStore
-> | null>(null);
+const mtmaiStoreContext = createContext<ReturnType<typeof createWordbrenchStore> | null>(null);
 
-// type AppProviderProps = ;
-export const WorkbrenchProvider = (
-  props: React.PropsWithChildren<WorkbenchProps>,
-) => {
+export const WorkbrenchProvider = (props: React.PropsWithChildren<WorkbenchProps>) => {
   const { children, ...etc } = props;
   const nav = useNav();
   const eventClient = useGomtmClient(EventsService);
@@ -537,19 +516,15 @@ export const WorkbrenchProvider = (
         tenant: tid!,
       },
       query: {
-        session: etc.threadId,
+        session: etc.sessionId,
       },
     }),
-    enabled: !!etc.threadId,
+    enabled: !!etc.sessionId,
   });
 
   useEffect(() => {
     if (agStateListQuery.data) {
-      console.log(
-        "加载了:agStateListQuery.data",
-        etc.threadId,
-        agStateListQuery.data,
-      );
+      console.log("加载了:agStateListQuery.data", etc.sessionId, agStateListQuery.data);
       //TODO: 如何正确识别 UserAgentState?
       for (const state of agStateListQuery.data?.rows ?? []) {
         if (state.topic === "user") {
@@ -557,7 +532,7 @@ export const WorkbrenchProvider = (
         }
       }
     }
-  }, [agStateListQuery.data, mystore, etc.threadId]);
+  }, [agStateListQuery.data, mystore, etc.sessionId]);
 
   useEffect(() => {
     return mystore.subscribe(
@@ -590,7 +565,7 @@ export const WorkbrenchProvider = (
   useEffect(() => {
     return mystore.subscribe(
       (state) => {
-        return state.threadId;
+        return state.sessionId;
       },
       debounce((cur, prev) => {
         console.log("threadId changed", cur, "prev", prev);
@@ -606,27 +581,18 @@ export const WorkbrenchProvider = (
     );
   }, [mystore, nav, search]);
 
-  return (
-    <mtmaiStoreContext.Provider value={mystore}>
-      {children}
-    </mtmaiStoreContext.Provider>
-  );
+  return <mtmaiStoreContext.Provider value={mystore}>{children}</mtmaiStoreContext.Provider>;
 };
 
 const DEFAULT_USE_SHALLOW = false;
 export function useWorkbenchStore(): WorkbrenchState;
-export function useWorkbenchStore<T>(
-  selector: (state: WorkbrenchState) => T,
-): T;
+export function useWorkbenchStore<T>(selector: (state: WorkbrenchState) => T): T;
 export function useWorkbenchStore<T>(selector?: (state: WorkbrenchState) => T) {
   const store = useContext(mtmaiStoreContext);
   if (!store) throw new Error("useWorkbenchStore must in WorkbrenchProvider");
   if (selector) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useStore(
-      store,
-      DEFAULT_USE_SHALLOW ? useShallow(selector) : selector,
-    );
+    return useStore(store, DEFAULT_USE_SHALLOW ? useShallow(selector) : selector);
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks

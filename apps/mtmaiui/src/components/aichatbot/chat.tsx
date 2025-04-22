@@ -26,7 +26,7 @@ export function Chat({
   selectedModelId: string;
 }) {
   const { mutate } = useSWRConfig();
-  const threadId = useWorkbenchStore((x) => x.threadId);
+  const threadId = useWorkbenchStore((x) => x.sessionId);
   const {
     messages,
     setMessages,
@@ -59,8 +59,7 @@ export function Chat({
     },
   });
 
-  const { width: windowWidth = 1920, height: windowHeight = 1080 } =
-    useWindowSize();
+  const { width: windowWidth = 1920, height: windowHeight = 1080 } = useWindowSize();
 
   const [block, setBlock] = useState<UIBlock>({
     documentId: "init",
@@ -76,13 +75,9 @@ export function Chat({
     },
   });
 
-  const { data: votes } = useSWR<Array<Vote>>(
-    `/api/vote?chatId=${threadId}`,
-    fetcher,
-  );
+  const { data: votes } = useSWR<Array<Vote>>(`/api/vote?chatId=${threadId}`, fetcher);
 
-  const [messagesContainerRef, messagesEndRef] =
-    useScrollToBottom<HTMLDivElement>();
+  const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
 
   const [attachments, setAttachments] = useState<Array<Attachment>>([]);
 
@@ -104,24 +99,15 @@ export function Chat({
               block={block}
               setBlock={setBlock}
               isLoading={isLoading && messages.length - 1 === index}
-              vote={
-                votes
-                  ? votes.find((vote) => vote.messageId === message.id)
-                  : undefined
-              }
+              vote={votes ? votes.find((vote) => vote.messageId === message.id) : undefined}
             />
           ))}
 
-          {isLoading &&
-            messages.length > 0 &&
-            messages[messages.length - 1].role === "user" && (
-              <ThinkingMessage />
-            )}
+          {isLoading && messages.length > 0 && messages[messages.length - 1].role === "user" && (
+            <ThinkingMessage />
+          )}
 
-          <div
-            ref={messagesEndRef}
-            className="shrink-0 min-w-[24px] min-h-[24px]"
-          />
+          <div ref={messagesEndRef} className="shrink-0 min-w-[24px] min-h-[24px]" />
         </div>
         <form className="flex mx-auto px-4 bg-background pb-4 md:pb-6 gap-2 w-full md:max-w-3xl">
           <MultimodalInput
