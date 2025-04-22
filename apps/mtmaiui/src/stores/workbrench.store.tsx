@@ -5,6 +5,7 @@ import { type UseMutationResult, useMutation, useQuery } from "@tanstack/react-q
 import { debounce } from "lodash";
 import {
   type AdkEvent,
+  type AdkRawEvent,
   type AgentRunRequest,
   type ApiErrors,
   type ChatMessage,
@@ -29,8 +30,10 @@ import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
+import { parseEventStream } from "../agent_utils/agent_utils";
 import { useTenant, useTenantId } from "../hooks/useAuth";
 import { useNav } from "../hooks/useNav";
+import { handleAgentOutgoingEvent } from "./ag-event-handlers";
 import { exampleTeamConfig } from "./exampleTeamConfig";
 
 export interface WorkbenchProps {
@@ -113,6 +116,9 @@ export interface WorkbrenchState extends WorkbenchProps {
   adkEvents: AdkEvent[];
   setAdkEvents: (adkEvents: AdkEvent[]) => void;
 
+  adkRawEvents: AdkRawEvent[];
+  setAdkRawEvents: (adkRawEvents: AdkRawEvent[]) => void;
+
   agentState?: RootAgentState;
   setAgentState: (agentState: RootAgentState) => void;
 }
@@ -153,41 +159,35 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
     setAgentState: (agentState) => {
       set({ agentState });
     },
-    // google adk
+    adkRawEvents: [],
+    setAdkRawEvents: (adkRawEvents) => {
+      set({ adkRawEvents });
+    },
     adkEvents: [],
     setAdkEvents: (adkEvents) => {
       set({ adkEvents });
     },
-    submitInput: debounce(async (input: Content) => {
-      get().handleHumanInput(input);
-    }, 30),
     handleHumanInput: debounce(async (input: Content) => {
       console.log("handleHumanInput", input);
       get().setChatStarted(true);
       const sessionId = get().sessionId ?? generateUUID();
+
       set({
         input: "",
-        adkEvents: [
-          ...get().adkEvents,
+        adkRawEvents: [
+          ...get().adkRawEvents,
           {
-            metadata: {
-              id: generateUUID(),
-              createdAt: new Date().toISOString(),
-              updatedAt: new Date().toISOString(),
-            },
-            app_name: "root",
-            user_id: get().tenant.metadata.id,
+            // ...input,
             content: input,
-            timestamp: new Date().toISOString(),
-            actions: {},
-            author: "user",
-            id: generateUUID(),
             invocation_id: generateUUID(),
-            session_id: sessionId,
-          } satisfies AdkEvent,
+            author: "user",
+            actions: {},
+            grounding_metadata: {},
+            partial: false,
+            turn_complete: false,
+          },
         ],
       });
-
       const url = "http://localhost:7860/run_sse_v2";
       const response = await fetch(url, {
         method: "POST",
@@ -202,8 +202,16 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
           streaming: true,
         } satisfies AgentRunRequest),
       });
-      const data = await response.json();
-      console.log("data", data);
+      const reader = response.body?.getReader();
+      if (!reader) {
+        throw new Error("Failed to get reader from response body");
+      }
+      for await (const event of parseEventStream(reader)) {
+        // console.log("event", event);
+        handleAgentOutgoingEvent(event, get, set);
+      }
+      // const data = await response.json();
+      // console.log("data", data);
 
       // const response = await workflowRunCreate({
       //   path: {
@@ -273,19 +281,6 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
       const prevMessages = get().messages;
       set({ messages: [...prevMessages, message] });
     },
-    // setResourceId: (resourceId: string) => {
-    //   set({ resourceId });
-    // },
-    // agentFlow: DEFAULT_AGENT_FLOW_SETTINGS,
-    // setTeamState: (teamState) => {
-    //   set({ teamState });
-    // },
-    // refetchTeamState: async () => {
-    //   set({ teamState: undefined });
-    // },
-    // setUserAgentState: (userAgentState) => {
-    //   set({ userAgentState });
-    // },
     setLastestWorkflowRun: (lastestWorkflowRun) => {
       console.log("setLastestWorkflowRun", lastestWorkflowRun);
       set({ lastestWorkflowRun });
@@ -338,13 +333,7 @@ const mtmaiStoreContext = createContext<ReturnType<typeof createWordbrenchStore>
 export const WorkbrenchProvider = (props: React.PropsWithChildren<WorkbenchProps>) => {
   const { children, ...etc } = props;
   const nav = useNav();
-  // const eventClient = useGomtmClient(EventsService);
-  // const dispatcherClient = useGomtmClient(Dispatcher);
-  // const agrpcClient = useGomtmClient(AgentRpc);
-  // const mtmAgClient = useGomtmClient(AgService);
-  // const selfBackendend = useMtmaiV2((x) => x.selfBackendUrl);
   const [isPending, startTransition] = useTransition();
-  // const search = useSearch();
   const tenant = useTenant();
   const workflowRunCreate = useMutation({
     ...workflowRunCreateMutation(),
@@ -356,22 +345,9 @@ export const WorkbrenchProvider = (props: React.PropsWithChildren<WorkbenchProps
       createWordbrenchStore({
         ...etc,
         tenant: tenant,
-        // backendUrl: selfBackendend,
-        // eventClient: eventClient,
-        // dispatcherClient: dispatcherClient,
-        // runtimeClient: agrpcClient,
-        // agClient: mtmAgClient,
         workflowRunCreateMut: workflowRunCreate,
       }),
-    [
-      tenant,
-      // selfBackendend,
-      // eventClient,
-      // dispatcherClient,
-      // agrpcClient,
-      // mtmAgClient,
-      workflowRunCreate,
-    ],
+    [tenant, workflowRunCreate],
   );
 
   // const agStateListQuery = useQuery({

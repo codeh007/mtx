@@ -2388,6 +2388,99 @@ export const zWorkflowWorkersCount = z.object({
         session_id: z.string(),
         user_id: z.string(),
       }),
+      z
+        .object({
+          grounding_metadata: z.object({}).optional(),
+          partial: z.boolean().default(false),
+          turn_complete: z.boolean().optional().default(false),
+          error_code: z.string().optional(),
+          error_message: z.string().optional(),
+          interrupted: z.boolean().optional(),
+          custom_metadata: z.object({}).optional(),
+          content: z
+            .union([
+              z
+                .object({
+                  role: z.literal("user").optional(),
+                })
+                .merge(
+                  z.object({
+                    role: z.enum(["user"]),
+                    parts: z.array(
+                      z.object({
+                        text: z.string().optional(),
+                      }),
+                    ),
+                  }),
+                ),
+              z
+                .object({
+                  role: z.literal("model").optional(),
+                })
+                .merge(
+                  z.object({
+                    role: z.enum(["model"]),
+                    parts: z.array(
+                      z.object({
+                        text: z.string().optional(),
+                      }),
+                    ),
+                  }),
+                ),
+            ])
+            .optional(),
+        })
+        .merge(
+          z.object({
+            invocation_id: z.string(),
+            author: z.string(),
+            actions: z.object({}),
+            long_running_tool_ids: z.array(z.string()).optional(),
+            branch: z.string().optional(),
+            partial: z.boolean().optional(),
+          }),
+        ),
+      z.object({
+        grounding_metadata: z.object({}).optional(),
+        partial: z.boolean().default(false),
+        turn_complete: z.boolean().optional().default(false),
+        error_code: z.string().optional(),
+        error_message: z.string().optional(),
+        interrupted: z.boolean().optional(),
+        custom_metadata: z.object({}).optional(),
+        content: z
+          .union([
+            z
+              .object({
+                role: z.literal("user").optional(),
+              })
+              .merge(
+                z.object({
+                  role: z.enum(["user"]),
+                  parts: z.array(
+                    z.object({
+                      text: z.string().optional(),
+                    }),
+                  ),
+                }),
+              ),
+            z
+              .object({
+                role: z.literal("model").optional(),
+              })
+              .merge(
+                z.object({
+                  role: z.enum(["model"]),
+                  parts: z.array(
+                    z.object({
+                      text: z.string().optional(),
+                    }),
+                  ),
+                }),
+              ),
+          ])
+          .optional(),
+      }),
     ])
     .optional(),
 });
@@ -7622,6 +7715,101 @@ export const zAddSessionToEvalSetRequest = z.object({
   eval_id: z.string(),
   session_id: z.string(),
   user_id: z.string(),
+});
+
+export const zAdkRawEvent = z
+  .object({
+    grounding_metadata: z.object({}).optional(),
+    partial: z.boolean().default(false),
+    turn_complete: z.boolean().optional().default(false),
+    error_code: z.string().optional(),
+    error_message: z.string().optional(),
+    interrupted: z.boolean().optional(),
+    custom_metadata: z.object({}).optional(),
+    content: z
+      .union([
+        z
+          .object({
+            role: z.literal("user").optional(),
+          })
+          .merge(
+            z.object({
+              role: z.enum(["user"]),
+              parts: z.array(
+                z.object({
+                  text: z.string().optional(),
+                }),
+              ),
+            }),
+          ),
+        z
+          .object({
+            role: z.literal("model").optional(),
+          })
+          .merge(
+            z.object({
+              role: z.enum(["model"]),
+              parts: z.array(
+                z.object({
+                  text: z.string().optional(),
+                }),
+              ),
+            }),
+          ),
+      ])
+      .optional(),
+  })
+  .merge(
+    z.object({
+      invocation_id: z.string(),
+      author: z.string(),
+      actions: z.object({}),
+      long_running_tool_ids: z.array(z.string()).optional(),
+      branch: z.string().optional(),
+      partial: z.boolean().optional(),
+    }),
+  );
+
+export const zAdkLlmResponse = z.object({
+  grounding_metadata: z.object({}).optional(),
+  partial: z.boolean().default(false),
+  turn_complete: z.boolean().optional().default(false),
+  error_code: z.string().optional(),
+  error_message: z.string().optional(),
+  interrupted: z.boolean().optional(),
+  custom_metadata: z.object({}).optional(),
+  content: z
+    .union([
+      z
+        .object({
+          role: z.literal("user").optional(),
+        })
+        .merge(
+          z.object({
+            role: z.enum(["user"]),
+            parts: z.array(
+              z.object({
+                text: z.string().optional(),
+              }),
+            ),
+          }),
+        ),
+      z
+        .object({
+          role: z.literal("model").optional(),
+        })
+        .merge(
+          z.object({
+            role: z.enum(["model"]),
+            parts: z.array(
+              z.object({
+                text: z.string().optional(),
+              }),
+            ),
+          }),
+        ),
+    ])
+    .optional(),
 });
 
 export const zAgentProperties = z.object({

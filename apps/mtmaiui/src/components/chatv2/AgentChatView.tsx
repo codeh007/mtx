@@ -1,5 +1,5 @@
 "use client";
-import type { AdkEvent, Content, Part } from "mtmaiapi";
+import type { AdkEvent, AdkRawEvent, Content, Part } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useCallback, useEffect, useRef } from "react";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
@@ -230,11 +230,12 @@ export default function AgentChatView() {
 }
 
 export const AdkEventsView = () => {
-  const adkEvents = useWorkbenchStore((x) => x.adkEvents);
+  // const adkEvents = useWorkbenchStore((x) => x.adkEvents);
+  const adkRawEvents = useWorkbenchStore((x) => x.adkRawEvents);
   return (
     <div className="rounded-md p-2  space-y-1">
-      {adkEvents.map((item) => {
-        return <AdkEventsViewItemView key={item.id} item={item} />;
+      {adkRawEvents.map((item) => {
+        return <AdkEventsViewItemView key={item.invocation_id} item={item} />;
       })}
     </div>
   );
@@ -243,7 +244,7 @@ export const AdkEventsView = () => {
 export const AdkEventsViewItemView = ({
   item,
 }: {
-  item: AdkEvent;
+  item: AdkRawEvent;
 }) => {
   const isUser = item.author === "user";
   const isDebug = useWorkbenchStore((x) => x.isDebug);

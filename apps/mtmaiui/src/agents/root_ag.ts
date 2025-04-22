@@ -2,9 +2,11 @@ import type { Session } from "@auth/core/types";
 import type { Connection, ConnectionContext } from "agents";
 import { Agent } from "agents";
 import { MCPClientManager } from "agents/mcp/client";
-import type { RootAgentState } from "../agent_state/root_agent_state";
-import type { McpServer } from "../agent_state/shared";
-import type { IncomingMessage, OutgoingMessage } from "../agent_state/shared";
+import { OutgoingMessage, IncomingMessage } from "http";
+import { RootAgentState, McpServer } from "mtmaiapi";
+// import type { RootAgentState } from "../agent_state/root_agent_state";
+// import type { McpServer } from "../agent_state/shared";
+// import type { IncomingMessage, OutgoingMessage } from "../agent_state/shared";
 
 export class RootAg extends Agent<Env, RootAgentState> {
   mcpClientManager = new MCPClientManager("mcp-clients", "1.0.0");

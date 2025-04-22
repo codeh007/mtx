@@ -1449,6 +1449,12 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/AddSessionToEvalSetRequest",
         },
+        {
+          $ref: "#/components/schemas/AdkRawEvent",
+        },
+        {
+          $ref: "#/components/schemas/AdkLlmResponse",
+        },
       ],
     },
   },
@@ -6852,6 +6858,71 @@ export const AddSessionToEvalSetRequestSchema = {
     },
     user_id: {
       type: "string",
+    },
+  },
+} as const;
+
+export const AdkRawEventSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AdkLlmResponse",
+    },
+  ],
+  required: ["invocation_id", "author", "actions"],
+  properties: {
+    invocation_id: {
+      type: "string",
+    },
+    author: {
+      type: "string",
+    },
+    actions: {
+      type: "object",
+    },
+    long_running_tool_ids: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+    branch: {
+      type: "string",
+    },
+    partial: {
+      type: "boolean",
+    },
+  },
+} as const;
+
+export const AdkLlmResponseSchema = {
+  required: ["partial"],
+  properties: {
+    grounding_metadata: {
+      type: "object",
+    },
+    partial: {
+      type: "boolean",
+      default: false,
+    },
+    turn_complete: {
+      type: "boolean",
+      default: false,
+    },
+    error_code: {
+      type: "string",
+    },
+    error_message: {
+      type: "string",
+    },
+    interrupted: {
+      type: "boolean",
+    },
+    custom_metadata: {
+      type: "object",
+      additionalProperties: true,
+    },
+    content: {
+      $ref: "#/components/schemas/Content",
     },
   },
 } as const;

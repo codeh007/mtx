@@ -2,12 +2,13 @@ import type { Schedule } from "agents";
 import { Agent } from "agents";
 import { unstable_getSchedulePrompt, unstable_scheduleSchema } from "agents/schedule";
 
-import type { IncomingMessage, OutgoingMessage, ScheduledItem } from "../agent_state/shared";
 
 import type { Connection, ConnectionContext } from "agents";
 
 import { generateObject } from "ai";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
+import { IncomingMessage, OutgoingMessage } from "http";
+import { ScheduledItem } from "mtmaiapi";
 
 function convertScheduleToScheduledItem(schedule: Schedule): ScheduledItem {
   return {
