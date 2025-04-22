@@ -2,18 +2,8 @@
 // @generated from file mtmai/mtmpb/dispatcher.proto (package mtmai.mtmpb, syntax proto3)
 /* eslint-disable */
 
-import type {
-  GenEnum,
-  GenFile,
-  GenMessage,
-  GenService,
-} from "@bufbuild/protobuf/codegenv1";
-import {
-  enumDesc,
-  fileDesc,
-  messageDesc,
-  serviceDesc,
-} from "@bufbuild/protobuf/codegenv1";
+import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
@@ -94,58 +84,57 @@ export const RuntimeInfoSchema: GenMessage<RuntimeInfo> =
 /**
  * @generated from message mtmai.mtmpb.WorkerRegisterRequest
  */
-export type WorkerRegisterRequest =
-  Message<"mtmai.mtmpb.WorkerRegisterRequest"> & {
-    /**
-     * the name of the worker
-     *
-     * @generated from field: string workerName = 1;
-     */
-    workerName: string;
+export type WorkerRegisterRequest = Message<"mtmai.mtmpb.WorkerRegisterRequest"> & {
+  /**
+   * the name of the worker
+   *
+   * @generated from field: string workerName = 1;
+   */
+  workerName: string;
 
-    /**
-     * a list of actions that this worker can run
-     *
-     * @generated from field: repeated string actions = 2;
-     */
-    actions: string[];
+  /**
+   * a list of actions that this worker can run
+   *
+   * @generated from field: repeated string actions = 2;
+   */
+  actions: string[];
 
-    /**
-     * (optional) the services for this worker
-     *
-     * @generated from field: repeated string services = 3;
-     */
-    services: string[];
+  /**
+   * (optional) the services for this worker
+   *
+   * @generated from field: repeated string services = 3;
+   */
+  services: string[];
 
-    /**
-     * (optional) the max number of runs this worker can handle
-     *
-     * @generated from field: optional int32 maxRuns = 4;
-     */
-    maxRuns?: number;
+  /**
+   * (optional) the max number of runs this worker can handle
+   *
+   * @generated from field: optional int32 maxRuns = 4;
+   */
+  maxRuns?: number;
 
-    /**
-     * (optional) worker labels (i.e. state or other metadata)
-     *
-     * @generated from field: map<string, mtmai.mtmpb.WorkerLabels> labels = 5;
-     */
-    labels: { [key: string]: WorkerLabels };
+  /**
+   * (optional) worker labels (i.e. state or other metadata)
+   *
+   * @generated from field: map<string, mtmai.mtmpb.WorkerLabels> labels = 5;
+   */
+  labels: { [key: string]: WorkerLabels };
 
-    /**
-     * (optional) webhookId is the id of the webhook that the worker is associated
-     * with (if any)
-     *
-     * @generated from field: optional string webhookId = 6;
-     */
-    webhookId?: string;
+  /**
+   * (optional) webhookId is the id of the webhook that the worker is associated
+   * with (if any)
+   *
+   * @generated from field: optional string webhookId = 6;
+   */
+  webhookId?: string;
 
-    /**
-     * (optional) information regarding the runtime environment of the worker
-     *
-     * @generated from field: optional mtmai.mtmpb.RuntimeInfo runtimeInfo = 7;
-     */
-    runtimeInfo?: RuntimeInfo;
-  };
+  /**
+   * (optional) information regarding the runtime environment of the worker
+   *
+   * @generated from field: optional mtmai.mtmpb.RuntimeInfo runtimeInfo = 7;
+   */
+  runtimeInfo?: RuntimeInfo;
+};
 
 /**
  * Describes the message mtmai.mtmpb.WorkerRegisterRequest.
@@ -158,29 +147,28 @@ export const WorkerRegisterRequestSchema: GenMessage<WorkerRegisterRequest> =
 /**
  * @generated from message mtmai.mtmpb.WorkerRegisterResponse
  */
-export type WorkerRegisterResponse =
-  Message<"mtmai.mtmpb.WorkerRegisterResponse"> & {
-    /**
-     * the tenant id
-     *
-     * @generated from field: string tenantId = 1;
-     */
-    tenantId: string;
+export type WorkerRegisterResponse = Message<"mtmai.mtmpb.WorkerRegisterResponse"> & {
+  /**
+   * the tenant id
+   *
+   * @generated from field: string tenantId = 1;
+   */
+  tenantId: string;
 
-    /**
-     * the id of the worker
-     *
-     * @generated from field: string workerId = 2;
-     */
-    workerId: string;
+  /**
+   * the id of the worker
+   *
+   * @generated from field: string workerId = 2;
+   */
+  workerId: string;
 
-    /**
-     * the name of the worker
-     *
-     * @generated from field: string workerName = 3;
-     */
-    workerName: string;
-  };
+  /**
+   * the name of the worker
+   *
+   * @generated from field: string workerName = 3;
+   */
+  workerName: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.WorkerRegisterResponse.
@@ -193,22 +181,21 @@ export const WorkerRegisterResponseSchema: GenMessage<WorkerRegisterResponse> =
 /**
  * @generated from message mtmai.mtmpb.UpsertWorkerLabelsRequest
  */
-export type UpsertWorkerLabelsRequest =
-  Message<"mtmai.mtmpb.UpsertWorkerLabelsRequest"> & {
-    /**
-     * the name of the worker
-     *
-     * @generated from field: string workerId = 1;
-     */
-    workerId: string;
+export type UpsertWorkerLabelsRequest = Message<"mtmai.mtmpb.UpsertWorkerLabelsRequest"> & {
+  /**
+   * the name of the worker
+   *
+   * @generated from field: string workerId = 1;
+   */
+  workerId: string;
 
-    /**
-     * (optional) the worker labels
-     *
-     * @generated from field: map<string, mtmai.mtmpb.WorkerLabels> labels = 2;
-     */
-    labels: { [key: string]: WorkerLabels };
-  };
+  /**
+   * (optional) the worker labels
+   *
+   * @generated from field: map<string, mtmai.mtmpb.WorkerLabels> labels = 2;
+   */
+  labels: { [key: string]: WorkerLabels };
+};
 
 /**
  * Describes the message mtmai.mtmpb.UpsertWorkerLabelsRequest.
@@ -221,22 +208,21 @@ export const UpsertWorkerLabelsRequestSchema: GenMessage<UpsertWorkerLabelsReque
 /**
  * @generated from message mtmai.mtmpb.UpsertWorkerLabelsResponse
  */
-export type UpsertWorkerLabelsResponse =
-  Message<"mtmai.mtmpb.UpsertWorkerLabelsResponse"> & {
-    /**
-     * the tenant id
-     *
-     * @generated from field: string tenantId = 1;
-     */
-    tenantId: string;
+export type UpsertWorkerLabelsResponse = Message<"mtmai.mtmpb.UpsertWorkerLabelsResponse"> & {
+  /**
+   * the tenant id
+   *
+   * @generated from field: string tenantId = 1;
+   */
+  tenantId: string;
 
-    /**
-     * the id of the worker
-     *
-     * @generated from field: string workerId = 2;
-     */
-    workerId: string;
-  };
+  /**
+   * the id of the worker
+   *
+   * @generated from field: string workerId = 2;
+   */
+  workerId: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.UpsertWorkerLabelsResponse.
@@ -401,15 +387,14 @@ export const WorkerListenRequestSchema: GenMessage<WorkerListenRequest> =
 /**
  * @generated from message mtmai.mtmpb.WorkerUnsubscribeRequest
  */
-export type WorkerUnsubscribeRequest =
-  Message<"mtmai.mtmpb.WorkerUnsubscribeRequest"> & {
-    /**
-     * the id of the worker
-     *
-     * @generated from field: string workerId = 1;
-     */
-    workerId: string;
-  };
+export type WorkerUnsubscribeRequest = Message<"mtmai.mtmpb.WorkerUnsubscribeRequest"> & {
+  /**
+   * the id of the worker
+   *
+   * @generated from field: string workerId = 1;
+   */
+  workerId: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.WorkerUnsubscribeRequest.
@@ -422,22 +407,21 @@ export const WorkerUnsubscribeRequestSchema: GenMessage<WorkerUnsubscribeRequest
 /**
  * @generated from message mtmai.mtmpb.WorkerUnsubscribeResponse
  */
-export type WorkerUnsubscribeResponse =
-  Message<"mtmai.mtmpb.WorkerUnsubscribeResponse"> & {
-    /**
-     * the tenant id to unsubscribe from
-     *
-     * @generated from field: string tenantId = 1;
-     */
-    tenantId: string;
+export type WorkerUnsubscribeResponse = Message<"mtmai.mtmpb.WorkerUnsubscribeResponse"> & {
+  /**
+   * the tenant id to unsubscribe from
+   *
+   * @generated from field: string tenantId = 1;
+   */
+  tenantId: string;
 
-    /**
-     * the id of the worker
-     *
-     * @generated from field: string workerId = 2;
-     */
-    workerId: string;
-  };
+  /**
+   * the id of the worker
+   *
+   * @generated from field: string workerId = 2;
+   */
+  workerId: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.WorkerUnsubscribeResponse.
@@ -855,8 +839,7 @@ export const OverridesDataSchema: GenMessage<OverridesData> =
 /**
  * @generated from message mtmai.mtmpb.OverridesDataResponse
  */
-export type OverridesDataResponse =
-  Message<"mtmai.mtmpb.OverridesDataResponse"> & {};
+export type OverridesDataResponse = Message<"mtmai.mtmpb.OverridesDataResponse"> & {};
 
 /**
  * Describes the message mtmai.mtmpb.OverridesDataResponse.
@@ -909,20 +892,19 @@ export const HeartbeatResponseSchema: GenMessage<HeartbeatResponse> =
 /**
  * @generated from message mtmai.mtmpb.RefreshTimeoutRequest
  */
-export type RefreshTimeoutRequest =
-  Message<"mtmai.mtmpb.RefreshTimeoutRequest"> & {
-    /**
-     * the id of the step run to release
-     *
-     * @generated from field: string stepRunId = 1;
-     */
-    stepRunId: string;
+export type RefreshTimeoutRequest = Message<"mtmai.mtmpb.RefreshTimeoutRequest"> & {
+  /**
+   * the id of the step run to release
+   *
+   * @generated from field: string stepRunId = 1;
+   */
+  stepRunId: string;
 
-    /**
-     * @generated from field: string incrementTimeoutBy = 2;
-     */
-    incrementTimeoutBy: string;
-  };
+  /**
+   * @generated from field: string incrementTimeoutBy = 2;
+   */
+  incrementTimeoutBy: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.RefreshTimeoutRequest.
@@ -935,13 +917,12 @@ export const RefreshTimeoutRequestSchema: GenMessage<RefreshTimeoutRequest> =
 /**
  * @generated from message mtmai.mtmpb.RefreshTimeoutResponse
  */
-export type RefreshTimeoutResponse =
-  Message<"mtmai.mtmpb.RefreshTimeoutResponse"> & {
-    /**
-     * @generated from field: google.protobuf.Timestamp timeoutAt = 1;
-     */
-    timeoutAt?: Timestamp;
-  };
+export type RefreshTimeoutResponse = Message<"mtmai.mtmpb.RefreshTimeoutResponse"> & {
+  /**
+   * @generated from field: google.protobuf.Timestamp timeoutAt = 1;
+   */
+  timeoutAt?: Timestamp;
+};
 
 /**
  * Describes the message mtmai.mtmpb.RefreshTimeoutResponse.
@@ -974,8 +955,7 @@ export const ReleaseSlotRequestSchema: GenMessage<ReleaseSlotRequest> =
 /**
  * @generated from message mtmai.mtmpb.ReleaseSlotResponse
  */
-export type ReleaseSlotResponse =
-  Message<"mtmai.mtmpb.ReleaseSlotResponse"> & {};
+export type ReleaseSlotResponse = Message<"mtmai.mtmpb.ReleaseSlotResponse"> & {};
 
 /**
  * Describes the message mtmai.mtmpb.ReleaseSlotResponse.
@@ -1013,9 +993,7 @@ export enum SDKS {
 /**
  * Describes the enum mtmai.mtmpb.SDKS.
  */
-export const SDKSSchema: GenEnum<SDKS> =
-  /*@__PURE__*/
-  enumDesc(file_mtmai_mtmpb_dispatcher, 0);
+export const SDKSSchema: GenEnum<SDKS> = /*@__PURE__*/ enumDesc(file_mtmai_mtmpb_dispatcher, 0);
 
 /**
  * @generated from enum mtmai.mtmpb.ActionType

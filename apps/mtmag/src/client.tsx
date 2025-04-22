@@ -1,3 +1,4 @@
+"use client";
 import { createRoot } from "react-dom/client";
 import "./styles/globals.css";
 
@@ -21,5 +22,8 @@ export function MtmRootApp() {
     </>
   );
 }
+
 const root = createRoot(document.getElementById("app")!);
-root.render(<MtmRootApp />);
+if (document.getElementById("app") !== null) {
+  root.render(<MtmRootApp />);
+}

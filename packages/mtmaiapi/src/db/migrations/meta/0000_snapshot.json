@@ -11654,12 +11654,7 @@
   "enums": {
     "public.ConcurrencyLimitStrategy": {
       "name": "ConcurrencyLimitStrategy",
-      "values": [
-        "CANCEL_IN_PROGRESS",
-        "DROP_NEWEST",
-        "QUEUE_NEWEST",
-        "GROUP_ROUND_ROBIN"
-      ],
+      "values": ["CANCEL_IN_PROGRESS", "DROP_NEWEST", "QUEUE_NEWEST", "GROUP_ROUND_ROBIN"],
       "schema": "public"
     },
     "public.From": {

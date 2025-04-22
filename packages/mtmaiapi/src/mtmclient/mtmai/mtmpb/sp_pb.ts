@@ -2,16 +2,8 @@
 // @generated from file mtmai/mtmpb/sp.proto (package mtmai.mtmpb, syntax proto3)
 /* eslint-disable */
 
-import type {
-  GenFile,
-  GenMessage,
-  GenService,
-} from "@bufbuild/protobuf/codegenv1";
-import {
-  fileDesc,
-  messageDesc,
-  serviceDesc,
-} from "@bufbuild/protobuf/codegenv1";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
 import type { Paging, ResDeleteReqSchema, ResultSchema } from "./mtm_pb";
 import { file_mtmai_mtmpb_mtm } from "./mtm_pb";
 import type { Message } from "@bufbuild/protobuf";
@@ -123,9 +115,7 @@ export type SpField = Message<"mtmai.mtmpb.SpField"> & {
  * Describes the message mtmai.mtmpb.SpField.
  * Use `create(SpFieldSchema)` to create a new message.
  */
-export const SpFieldSchema: GenMessage<SpField> =
-  /*@__PURE__*/
-  messageDesc(file_mtmai_mtmpb_sp, 1);
+export const SpFieldSchema: GenMessage<SpField> = /*@__PURE__*/ messageDesc(file_mtmai_mtmpb_sp, 1);
 
 /**
  * @generated from message mtmai.mtmpb.SpSlugsReq
@@ -203,9 +193,7 @@ export type SpPage = Message<"mtmai.mtmpb.SpPage"> & {
  * Describes the message mtmai.mtmpb.SpPage.
  * Use `create(SpPageSchema)` to create a new message.
  */
-export const SpPageSchema: GenMessage<SpPage> =
-  /*@__PURE__*/
-  messageDesc(file_mtmai_mtmpb_sp, 4);
+export const SpPageSchema: GenMessage<SpPage> = /*@__PURE__*/ messageDesc(file_mtmai_mtmpb_sp, 4);
 
 /**
  * @generated from message mtmai.mtmpb.SpSiteEnableReq
@@ -288,23 +276,22 @@ export const SpContentmodiSchema: GenMessage<SpContentmodi> =
 /**
  * @generated from message mtmai.mtmpb.SpContentmodiListReq
  */
-export type SpContentmodiListReq =
-  Message<"mtmai.mtmpb.SpContentmodiListReq"> & {
-    /**
-     * @generated from field: mtmai.mtmpb.Paging Pagination = 1;
-     */
-    Pagination?: Paging;
+export type SpContentmodiListReq = Message<"mtmai.mtmpb.SpContentmodiListReq"> & {
+  /**
+   * @generated from field: mtmai.mtmpb.Paging Pagination = 1;
+   */
+  Pagination?: Paging;
 
-    /**
-     * @generated from field: uint32 site_id = 2;
-     */
-    siteId: number;
+  /**
+   * @generated from field: uint32 site_id = 2;
+   */
+  siteId: number;
 
-    /**
-     * @generated from field: string q = 3;
-     */
-    q: string;
-  };
+  /**
+   * @generated from field: string q = 3;
+   */
+  q: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.SpContentmodiListReq.
@@ -317,23 +304,22 @@ export const SpContentmodiListReqSchema: GenMessage<SpContentmodiListReq> =
 /**
  * @generated from message mtmai.mtmpb.SpContentmodiListReply
  */
-export type SpContentmodiListReply =
-  Message<"mtmai.mtmpb.SpContentmodiListReply"> & {
-    /**
-     * @generated from field: mtmai.mtmpb.Paging Pagination = 1;
-     */
-    Pagination?: Paging;
+export type SpContentmodiListReply = Message<"mtmai.mtmpb.SpContentmodiListReply"> & {
+  /**
+   * @generated from field: mtmai.mtmpb.Paging Pagination = 1;
+   */
+  Pagination?: Paging;
 
-    /**
-     * @generated from field: repeated mtmai.mtmpb.SpContentmodi items = 2;
-     */
-    items: SpContentmodi[];
+  /**
+   * @generated from field: repeated mtmai.mtmpb.SpContentmodi items = 2;
+   */
+  items: SpContentmodi[];
 
-    /**
-     * @generated from field: int32 Total = 3;
-     */
-    Total: number;
-  };
+  /**
+   * @generated from field: int32 Total = 3;
+   */
+  Total: number;
+};
 
 /**
  * Describes the message mtmai.mtmpb.SpContentmodiListReply.
@@ -364,48 +350,47 @@ export const SpContentmodiGetReqSchema: GenMessage<SpContentmodiGetReq> =
 /**
  * @generated from message mtmai.mtmpb.SpContentmodiCreateReq
  */
-export type SpContentmodiCreateReq =
-  Message<"mtmai.mtmpb.SpContentmodiCreateReq"> & {
-    /**
-     * @generated from field: uint32 id = 1;
-     */
-    id: number;
+export type SpContentmodiCreateReq = Message<"mtmai.mtmpb.SpContentmodiCreateReq"> & {
+  /**
+   * @generated from field: uint32 id = 1;
+   */
+  id: number;
 
-    /**
-     * @generated from field: uint32 site_id = 2;
-     */
-    siteId: number;
+  /**
+   * @generated from field: uint32 site_id = 2;
+   */
+  siteId: number;
 
-    /**
-     * @generated from field: string action = 3;
-     */
-    action: string;
+  /**
+   * @generated from field: string action = 3;
+   */
+  action: string;
 
-    /**
-     * @generated from field: string sel = 4;
-     */
-    sel: string;
+  /**
+   * @generated from field: string sel = 4;
+   */
+  sel: string;
 
-    /**
-     * @generated from field: string value = 5;
-     */
-    value: string;
+  /**
+   * @generated from field: string value = 5;
+   */
+  value: string;
 
-    /**
-     * @generated from field: string description = 6;
-     */
-    description: string;
+  /**
+   * @generated from field: string description = 6;
+   */
+  description: string;
 
-    /**
-     * @generated from field: uint32 priority = 7;
-     */
-    priority: number;
+  /**
+   * @generated from field: uint32 priority = 7;
+   */
+  priority: number;
 
-    /**
-     * @generated from field: string title = 8;
-     */
-    title: string;
-  };
+  /**
+   * @generated from field: string title = 8;
+   */
+  title: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.SpContentmodiCreateReq.
@@ -418,48 +403,47 @@ export const SpContentmodiCreateReqSchema: GenMessage<SpContentmodiCreateReq> =
 /**
  * @generated from message mtmai.mtmpb.SpContentmodiUpdateReq
  */
-export type SpContentmodiUpdateReq =
-  Message<"mtmai.mtmpb.SpContentmodiUpdateReq"> & {
-    /**
-     * @generated from field: uint32 id = 1;
-     */
-    id: number;
+export type SpContentmodiUpdateReq = Message<"mtmai.mtmpb.SpContentmodiUpdateReq"> & {
+  /**
+   * @generated from field: uint32 id = 1;
+   */
+  id: number;
 
-    /**
-     * @generated from field: string title = 2;
-     */
-    title: string;
+  /**
+   * @generated from field: string title = 2;
+   */
+  title: string;
 
-    /**
-     * @generated from field: uint32 site_id = 3;
-     */
-    siteId: number;
+  /**
+   * @generated from field: uint32 site_id = 3;
+   */
+  siteId: number;
 
-    /**
-     * @generated from field: string action = 4;
-     */
-    action: string;
+  /**
+   * @generated from field: string action = 4;
+   */
+  action: string;
 
-    /**
-     * @generated from field: string sel = 5;
-     */
-    sel: string;
+  /**
+   * @generated from field: string sel = 5;
+   */
+  sel: string;
 
-    /**
-     * @generated from field: string value = 6;
-     */
-    value: string;
+  /**
+   * @generated from field: string value = 6;
+   */
+  value: string;
 
-    /**
-     * @generated from field: string description = 7;
-     */
-    description: string;
+  /**
+   * @generated from field: string description = 7;
+   */
+  description: string;
 
-    /**
-     * @generated from field: uint32 priority = 8;
-     */
-    priority: number;
-  };
+  /**
+   * @generated from field: uint32 priority = 8;
+   */
+  priority: number;
+};
 
 /**
  * Describes the message mtmai.mtmpb.SpContentmodiUpdateReq.
@@ -723,18 +707,17 @@ export const SpiderProjectRunReqSchema: GenMessage<SpiderProjectRunReq> =
 /**
  * @generated from message mtmai.mtmpb.SpProjectBindHostnameReq
  */
-export type SpProjectBindHostnameReq =
-  Message<"mtmai.mtmpb.SpProjectBindHostnameReq"> & {
-    /**
-     * @generated from field: string hostname = 1;
-     */
-    hostname: string;
+export type SpProjectBindHostnameReq = Message<"mtmai.mtmpb.SpProjectBindHostnameReq"> & {
+  /**
+   * @generated from field: string hostname = 1;
+   */
+  hostname: string;
 
-    /**
-     * @generated from field: string sp_project_id = 2;
-     */
-    spProjectId: string;
-  };
+  /**
+   * @generated from field: string sp_project_id = 2;
+   */
+  spProjectId: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.SpProjectBindHostnameReq.
@@ -798,20 +781,19 @@ export const SpiderTraceListReqSchema: GenMessage<SpiderTraceListReq> =
 /**
  * @generated from message mtmai.mtmpb.SpiderTraceListReply
  */
-export type SpiderTraceListReply =
-  Message<"mtmai.mtmpb.SpiderTraceListReply"> & {
-    /**
-     * @generated from field: mtmai.mtmpb.Paging Pagination = 2;
-     */
-    Pagination?: Paging;
+export type SpiderTraceListReply = Message<"mtmai.mtmpb.SpiderTraceListReply"> & {
+  /**
+   * @generated from field: mtmai.mtmpb.Paging Pagination = 2;
+   */
+  Pagination?: Paging;
 
-    /**
-     * string SpiderTrace = 3;
-     *
-     * @generated from field: repeated mtmai.mtmpb.SpiderTrace items = 4;
-     */
-    items: SpiderTrace[];
-  };
+  /**
+   * string SpiderTrace = 3;
+   *
+   * @generated from field: repeated mtmai.mtmpb.SpiderTrace items = 4;
+   */
+  items: SpiderTrace[];
+};
 
 /**
  * Describes the message mtmai.mtmpb.SpiderTraceListReply.
@@ -860,25 +842,24 @@ export const SpiderTraceGetReplySchema: GenMessage<SpiderTraceGetReply> =
 /**
  * @generated from message mtmai.mtmpb.SpiderTraceCreateReq
  */
-export type SpiderTraceCreateReq =
-  Message<"mtmai.mtmpb.SpiderTraceCreateReq"> & {
-    /**
-     * @generated from field: string id = 1;
-     */
-    id: string;
+export type SpiderTraceCreateReq = Message<"mtmai.mtmpb.SpiderTraceCreateReq"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
 
-    /**
-     * @generated from field: string url = 2;
-     */
-    url: string;
+  /**
+   * @generated from field: string url = 2;
+   */
+  url: string;
 
-    /**
-     * 其他字段
-     *
-     * @generated from field: string ProjectId = 3;
-     */
-    ProjectId: string;
-  };
+  /**
+   * 其他字段
+   *
+   * @generated from field: string ProjectId = 3;
+   */
+  ProjectId: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.SpiderTraceCreateReq.
@@ -891,18 +872,17 @@ export const SpiderTraceCreateReqSchema: GenMessage<SpiderTraceCreateReq> =
 /**
  * @generated from message mtmai.mtmpb.SpiderProjectVisitReq
  */
-export type SpiderProjectVisitReq =
-  Message<"mtmai.mtmpb.SpiderProjectVisitReq"> & {
-    /**
-     * @generated from field: string project_id = 1;
-     */
-    projectId: string;
+export type SpiderProjectVisitReq = Message<"mtmai.mtmpb.SpiderProjectVisitReq"> & {
+  /**
+   * @generated from field: string project_id = 1;
+   */
+  projectId: string;
 
-    /**
-     * @generated from field: string url = 2;
-     */
-    url: string;
-  };
+  /**
+   * @generated from field: string url = 2;
+   */
+  url: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.SpiderProjectVisitReq.
@@ -956,18 +936,17 @@ export const SpiderResultListReqSchema: GenMessage<SpiderResultListReq> =
 /**
  * @generated from message mtmai.mtmpb.SpiderResultListReply
  */
-export type SpiderResultListReply =
-  Message<"mtmai.mtmpb.SpiderResultListReply"> & {
-    /**
-     * @generated from field: mtmai.mtmpb.Paging Pagination = 2;
-     */
-    Pagination?: Paging;
+export type SpiderResultListReply = Message<"mtmai.mtmpb.SpiderResultListReply"> & {
+  /**
+   * @generated from field: mtmai.mtmpb.Paging Pagination = 2;
+   */
+  Pagination?: Paging;
 
-    /**
-     * @generated from field: repeated mtmai.mtmpb.SpiderResult items = 4;
-     */
-    items: SpiderResult[];
-  };
+  /**
+   * @generated from field: repeated mtmai.mtmpb.SpiderResult items = 4;
+   */
+  items: SpiderResult[];
+};
 
 /**
  * Describes the message mtmai.mtmpb.SpiderResultListReply.
@@ -998,18 +977,17 @@ export const SpiderResultGetReqSchema: GenMessage<SpiderResultGetReq> =
 /**
  * @generated from message mtmai.mtmpb.SpiderResultGetReply
  */
-export type SpiderResultGetReply =
-  Message<"mtmai.mtmpb.SpiderResultGetReply"> & {
-    /**
-     * @generated from field: string key = 1;
-     */
-    key: string;
+export type SpiderResultGetReply = Message<"mtmai.mtmpb.SpiderResultGetReply"> & {
+  /**
+   * @generated from field: string key = 1;
+   */
+  key: string;
 
-    /**
-     * @generated from field: string content = 2;
-     */
-    content: string;
-  };
+  /**
+   * @generated from field: string content = 2;
+   */
+  content: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.SpiderResultGetReply.

@@ -1,10 +1,11 @@
 import { ArrowsClockwise } from "@phosphor-icons/react";
 import { cn } from "mtxuilib/lib/utils";
-import type { ButtonProps } from "../button/Button";
-import { Button } from "../button/Button";
+import { Button } from "mtxuilib/ui/button";
+// import type { ButtonProps } from "../button/Button";
+// import { Button } from "../button/Button";
 
-export const RefreshButton = ({ ...props }: ButtonProps) => (
-  <Button shape="square" toggled={props.toggled} {...props}>
+export const RefreshButton = ({ ...props }) => (
+  <Button toggled={props.toggled} {...props}>
     <ArrowsClockwise
       className={cn({
         "animate-refresh": props.toggled,

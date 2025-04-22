@@ -5,6 +5,7 @@ import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 export default defineConfig({
   plugins: [
     cloudflare({

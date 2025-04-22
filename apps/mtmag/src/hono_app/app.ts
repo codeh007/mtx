@@ -7,7 +7,7 @@ import configureAuth from "./lib/configureAuth";
 import createApp from "./lib/createApp";
 import configureAgentDemo from "./routes/agent_demo/agent_demo_handler";
 import { apiRoutes } from "./routes/api_routes";
-const app = createApp();
+const app = createApp().basePath("/api/v2");
 
 app.use("*", cors());
 app.use(

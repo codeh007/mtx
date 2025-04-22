@@ -2,16 +2,8 @@
 // @generated from file mtmai/mtmpb/agent_worker.proto (package mtmai.mtmpb.agent_worker, syntax proto3)
 /* eslint-disable */
 
-import type {
-  GenFile,
-  GenMessage,
-  GenService,
-} from "@bufbuild/protobuf/codegenv1";
-import {
-  fileDesc,
-  messageDesc,
-  serviceDesc,
-} from "@bufbuild/protobuf/codegenv1";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
 import type { CloudEvent } from "./cloudevent_pb";
 import { file_mtmai_mtmpb_cloudevent } from "./cloudevent_pb";
 import type { Any } from "@bufbuild/protobuf/wkt";
@@ -191,18 +183,17 @@ export const RegisterAgentTypeResponseSchema: GenMessage<RegisterAgentTypeRespon
 /**
  * @generated from message mtmai.mtmpb.agent_worker.TypeSubscription
  */
-export type TypeSubscription =
-  Message$1<"mtmai.mtmpb.agent_worker.TypeSubscription"> & {
-    /**
-     * @generated from field: string topic_type = 1;
-     */
-    topicType: string;
+export type TypeSubscription = Message$1<"mtmai.mtmpb.agent_worker.TypeSubscription"> & {
+  /**
+   * @generated from field: string topic_type = 1;
+   */
+  topicType: string;
 
-    /**
-     * @generated from field: string agent_type = 2;
-     */
-    agentType: string;
-  };
+  /**
+   * @generated from field: string agent_type = 2;
+   */
+  agentType: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.agent_worker.TypeSubscription.
@@ -239,33 +230,32 @@ export const TypePrefixSubscriptionSchema: GenMessage<TypePrefixSubscription> =
 /**
  * @generated from message mtmai.mtmpb.agent_worker.Subscription
  */
-export type Subscription =
-  Message$1<"mtmai.mtmpb.agent_worker.Subscription"> & {
-    /**
-     * @generated from field: string id = 1;
-     */
-    id: string;
+export type Subscription = Message$1<"mtmai.mtmpb.agent_worker.Subscription"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
 
-    /**
-     * @generated from oneof mtmai.mtmpb.agent_worker.Subscription.subscription
-     */
-    subscription:
-      | {
-          /**
-           * @generated from field: mtmai.mtmpb.agent_worker.TypeSubscription typeSubscription = 2;
-           */
-          value: TypeSubscription;
-          case: "typeSubscription";
-        }
-      | {
-          /**
-           * @generated from field: mtmai.mtmpb.agent_worker.TypePrefixSubscription typePrefixSubscription = 3;
-           */
-          value: TypePrefixSubscription;
-          case: "typePrefixSubscription";
-        }
-      | { case: undefined; value?: undefined };
-  };
+  /**
+   * @generated from oneof mtmai.mtmpb.agent_worker.Subscription.subscription
+   */
+  subscription:
+    | {
+        /**
+         * @generated from field: mtmai.mtmpb.agent_worker.TypeSubscription typeSubscription = 2;
+         */
+        value: TypeSubscription;
+        case: "typeSubscription";
+      }
+    | {
+        /**
+         * @generated from field: mtmai.mtmpb.agent_worker.TypePrefixSubscription typePrefixSubscription = 3;
+         */
+        value: TypePrefixSubscription;
+        case: "typePrefixSubscription";
+      }
+    | { case: undefined; value?: undefined };
+};
 
 /**
  * Describes the message mtmai.mtmpb.agent_worker.Subscription.
@@ -417,13 +407,12 @@ export const MessageSchema: GenMessage<Message> =
 /**
  * @generated from message mtmai.mtmpb.agent_worker.SaveStateRequest
  */
-export type SaveStateRequest =
-  Message$1<"mtmai.mtmpb.agent_worker.SaveStateRequest"> & {
-    /**
-     * @generated from field: mtmai.mtmpb.agent_worker.AgentId agentId = 1;
-     */
-    agentId?: AgentId;
-  };
+export type SaveStateRequest = Message$1<"mtmai.mtmpb.agent_worker.SaveStateRequest"> & {
+  /**
+   * @generated from field: mtmai.mtmpb.agent_worker.AgentId agentId = 1;
+   */
+  agentId?: AgentId;
+};
 
 /**
  * Describes the message mtmai.mtmpb.agent_worker.SaveStateRequest.
@@ -436,18 +425,17 @@ export const SaveStateRequestSchema: GenMessage<SaveStateRequest> =
 /**
  * @generated from message mtmai.mtmpb.agent_worker.SaveStateResponse
  */
-export type SaveStateResponse =
-  Message$1<"mtmai.mtmpb.agent_worker.SaveStateResponse"> & {
-    /**
-     * @generated from field: string state = 1;
-     */
-    state: string;
+export type SaveStateResponse = Message$1<"mtmai.mtmpb.agent_worker.SaveStateResponse"> & {
+  /**
+   * @generated from field: string state = 1;
+   */
+  state: string;
 
-    /**
-     * @generated from field: optional string error = 2;
-     */
-    error?: string;
-  };
+  /**
+   * @generated from field: optional string error = 2;
+   */
+  error?: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.agent_worker.SaveStateResponse.
@@ -460,18 +448,17 @@ export const SaveStateResponseSchema: GenMessage<SaveStateResponse> =
 /**
  * @generated from message mtmai.mtmpb.agent_worker.LoadStateRequest
  */
-export type LoadStateRequest =
-  Message$1<"mtmai.mtmpb.agent_worker.LoadStateRequest"> & {
-    /**
-     * @generated from field: mtmai.mtmpb.agent_worker.AgentId agentId = 1;
-     */
-    agentId?: AgentId;
+export type LoadStateRequest = Message$1<"mtmai.mtmpb.agent_worker.LoadStateRequest"> & {
+  /**
+   * @generated from field: mtmai.mtmpb.agent_worker.AgentId agentId = 1;
+   */
+  agentId?: AgentId;
 
-    /**
-     * @generated from field: string state = 2;
-     */
-    state: string;
-  };
+  /**
+   * @generated from field: string state = 2;
+   */
+  state: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.agent_worker.LoadStateRequest.
@@ -484,13 +471,12 @@ export const LoadStateRequestSchema: GenMessage<LoadStateRequest> =
 /**
  * @generated from message mtmai.mtmpb.agent_worker.LoadStateResponse
  */
-export type LoadStateResponse =
-  Message$1<"mtmai.mtmpb.agent_worker.LoadStateResponse"> & {
-    /**
-     * @generated from field: optional string error = 1;
-     */
-    error?: string;
-  };
+export type LoadStateResponse = Message$1<"mtmai.mtmpb.agent_worker.LoadStateResponse"> & {
+  /**
+   * @generated from field: optional string error = 1;
+   */
+  error?: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.agent_worker.LoadStateResponse.
@@ -503,45 +489,44 @@ export const LoadStateResponseSchema: GenMessage<LoadStateResponse> =
 /**
  * @generated from message mtmai.mtmpb.agent_worker.ControlMessage
  */
-export type ControlMessage =
-  Message$1<"mtmai.mtmpb.agent_worker.ControlMessage"> & {
-    /**
-     * A response message should have the same id as the request message
-     *
-     * @generated from field: string rpc_id = 1;
-     */
-    rpcId: string;
+export type ControlMessage = Message$1<"mtmai.mtmpb.agent_worker.ControlMessage"> & {
+  /**
+   * A response message should have the same id as the request message
+   *
+   * @generated from field: string rpc_id = 1;
+   */
+  rpcId: string;
 
-    /**
-     * This is either:
-     * agentid=AGENT_ID
-     * clientid=CLIENT_ID
-     *
-     * @generated from field: string destination = 2;
-     */
-    destination: string;
+  /**
+   * This is either:
+   * agentid=AGENT_ID
+   * clientid=CLIENT_ID
+   *
+   * @generated from field: string destination = 2;
+   */
+  destination: string;
 
-    /**
-     * This is either:
-     * agentid=AGENT_ID
-     * clientid=CLIENT_ID
-     * Empty string means the message is a response
-     *
-     * @generated from field: optional string respond_to = 3;
-     */
-    respondTo?: string;
+  /**
+   * This is either:
+   * agentid=AGENT_ID
+   * clientid=CLIENT_ID
+   * Empty string means the message is a response
+   *
+   * @generated from field: optional string respond_to = 3;
+   */
+  respondTo?: string;
 
-    /**
-     * One of:
-     *     SaveStateRequest saveStateRequest = 2;
-     *     SaveStateResponse saveStateResponse = 3;
-     *     LoadStateRequest loadStateRequest = 4;
-     *     LoadStateResponse loadStateResponse = 5;
-     *
-     * @generated from field: google.protobuf.Any rpcMessage = 4;
-     */
-    rpcMessage?: Any;
-  };
+  /**
+   * One of:
+   *     SaveStateRequest saveStateRequest = 2;
+   *     SaveStateResponse saveStateResponse = 3;
+   *     LoadStateRequest loadStateRequest = 4;
+   *     LoadStateResponse loadStateResponse = 5;
+   *
+   * @generated from field: google.protobuf.Any rpcMessage = 4;
+   */
+  rpcMessage?: Any;
+};
 
 /**
  * Describes the message mtmai.mtmpb.agent_worker.ControlMessage.

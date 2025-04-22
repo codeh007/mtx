@@ -2,18 +2,8 @@
 // @generated from file mtmai/mtmpb/workflows.proto (syntax proto3)
 /* eslint-disable */
 
-import type {
-  GenEnum,
-  GenFile,
-  GenMessage,
-  GenService,
-} from "@bufbuild/protobuf/codegenv1";
-import {
-  enumDesc,
-  fileDesc,
-  messageDesc,
-  serviceDesc,
-} from "@bufbuild/protobuf/codegenv1";
+import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
@@ -658,13 +648,12 @@ export const WorkflowTriggerCronRefSchema: GenMessage<WorkflowTriggerCronRef> =
 /**
  * @generated from message BulkTriggerWorkflowRequest
  */
-export type BulkTriggerWorkflowRequest =
-  Message<"BulkTriggerWorkflowRequest"> & {
-    /**
-     * @generated from field: repeated TriggerWorkflowRequest workflows = 1;
-     */
-    workflows: TriggerWorkflowRequest[];
-  };
+export type BulkTriggerWorkflowRequest = Message<"BulkTriggerWorkflowRequest"> & {
+  /**
+   * @generated from field: repeated TriggerWorkflowRequest workflows = 1;
+   */
+  workflows: TriggerWorkflowRequest[];
+};
 
 /**
  * Describes the message BulkTriggerWorkflowRequest.
@@ -677,13 +666,12 @@ export const BulkTriggerWorkflowRequestSchema: GenMessage<BulkTriggerWorkflowReq
 /**
  * @generated from message BulkTriggerWorkflowResponse
  */
-export type BulkTriggerWorkflowResponse =
-  Message<"BulkTriggerWorkflowResponse"> & {
-    /**
-     * @generated from field: repeated string workflow_run_ids = 1;
-     */
-    workflowRunIds: string[];
-  };
+export type BulkTriggerWorkflowResponse = Message<"BulkTriggerWorkflowResponse"> & {
+  /**
+   * @generated from field: repeated string workflow_run_ids = 1;
+   */
+  workflowRunIds: string[];
+};
 
 /**
  * Describes the message BulkTriggerWorkflowResponse.

@@ -10,6 +10,15 @@
       "cwd": "${workspaceFolder}/apps/mtmaiui",
       "skipFiles": ["<node_internals>/**", ".vscode/**", "/public", "/dist"]
     },
+    {
+      "name": "mtmag-next",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "bun run dev",
+      "nodeVersionHint": 20,
+      "cwd": "${workspaceFolder}/apps/mtmag",
+      "skipFiles": ["<node_internals>/**", ".vscode/**", "/public", "/dist"]
+    },
 
     {
       "name": "mtmag",

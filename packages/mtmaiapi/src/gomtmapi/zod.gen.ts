@@ -147,13 +147,7 @@ export const zTenantMemberList = z.object({
 
 export const zTenantMemberRole = z.enum(["OWNER", "ADMIN", "MEMBER"]);
 
-export const zTenantResource = z.enum([
-  "WORKER",
-  "EVENT",
-  "WORKFLOW_RUN",
-  "CRON",
-  "SCHEDULE",
-]);
+export const zTenantResource = z.enum(["WORKER", "EVENT", "WORKFLOW_RUN", "CRON", "SCHEDULE"]);
 
 export const zTenantResourceLimit = z.object({
   metadata: zApiResourceMeta,
@@ -435,12 +429,7 @@ export const zWorkflowUpdateRequest = z.object({
 
 export const zWorkflowConcurrency = z.object({
   maxRuns: z.number().int(),
-  limitStrategy: z.enum([
-    "CANCEL_IN_PROGRESS",
-    "DROP_NEWEST",
-    "QUEUE_NEWEST",
-    "GROUP_ROUND_ROBIN",
-  ]),
+  limitStrategy: z.enum(["CANCEL_IN_PROGRESS", "DROP_NEWEST", "QUEUE_NEWEST", "GROUP_ROUND_ROBIN"]),
   getConcurrencyGroup: z.string(),
 });
 
@@ -850,114 +839,60 @@ export const zWorkflowWorkersCount = z.object({
                                       description: z.string(),
                                       model_context: z.object({}).optional(),
                                       memory: z.object({}).optional(),
-                                      model_client_stream: z
-                                        .boolean()
-                                        .optional()
-                                        .default(false),
+                                      model_client_stream: z.boolean().optional().default(false),
                                       system_message: z.string().optional(),
                                       model_client: z
                                         .object({
                                           provider: z.string().optional(),
                                           component_type: z.string().optional(),
                                           version: z.number().int().optional(),
-                                          component_version: z
-                                            .number()
-                                            .int()
-                                            .optional(),
+                                          component_version: z.number().int().optional(),
                                           description: z.string().optional(),
                                           label: z.string().optional(),
                                           config: z.object({}).optional(),
                                         })
                                         .merge(
                                           z.object({
-                                            provider: z.enum([
-                                              "OpenAIChatCompletionClient",
-                                            ]),
+                                            provider: z.enum(["OpenAIChatCompletionClient"]),
                                             config: z
                                               .object({
-                                                frequency_penalty: z
-                                                  .number()
-                                                  .optional(),
-                                                logit_bias: z
-                                                  .object({})
-                                                  .optional(),
-                                                max_tokens: z
-                                                  .number()
-                                                  .int()
-                                                  .optional(),
+                                                frequency_penalty: z.number().optional(),
+                                                logit_bias: z.object({}).optional(),
+                                                max_tokens: z.number().int().optional(),
                                                 n: z.number().int().optional(),
-                                                presence_penalty: z
-                                                  .number()
-                                                  .optional(),
-                                                response_format: z
-                                                  .string()
-                                                  .optional(),
-                                                seed: z
-                                                  .number()
-                                                  .int()
-                                                  .optional(),
-                                                stop: z
-                                                  .array(z.string())
-                                                  .optional(),
-                                                temperature: z
-                                                  .number()
-                                                  .optional(),
+                                                presence_penalty: z.number().optional(),
+                                                response_format: z.string().optional(),
+                                                seed: z.number().int().optional(),
+                                                stop: z.array(z.string()).optional(),
+                                                temperature: z.number().optional(),
                                                 top_p: z.number().optional(),
                                                 user: z.string().optional(),
-                                                stream_options: z
-                                                  .object({})
-                                                  .optional(),
+                                                stream_options: z.object({}).optional(),
                                               })
                                               .merge(
                                                 z.object({
                                                   model: z.string().optional(),
-                                                  api_key: z
-                                                    .string()
-                                                    .optional(),
-                                                  timeout: z
-                                                    .number()
-                                                    .optional(),
-                                                  max_retries: z
-                                                    .number()
-                                                    .int()
-                                                    .optional(),
-                                                  model_capabilities: z
-                                                    .object({})
-                                                    .optional(),
-                                                  model_info: z
-                                                    .object({})
-                                                    .optional(),
-                                                  add_name_prefixes: z
-                                                    .boolean()
-                                                    .optional(),
-                                                  default_headers: z
-                                                    .object({})
-                                                    .optional(),
+                                                  api_key: z.string().optional(),
+                                                  timeout: z.number().optional(),
+                                                  max_retries: z.number().int().optional(),
+                                                  model_capabilities: z.object({}).optional(),
+                                                  model_info: z.object({}).optional(),
+                                                  add_name_prefixes: z.boolean().optional(),
+                                                  default_headers: z.object({}).optional(),
                                                 }),
                                               )
                                               .merge(
                                                 z.object({
-                                                  organization: z
-                                                    .string()
-                                                    .optional(),
-                                                  base_url: z
-                                                    .string()
-                                                    .optional(),
+                                                  organization: z.string().optional(),
+                                                  base_url: z.string().optional(),
                                                 }),
                                               ),
                                           }),
                                         ),
                                       tools: z.array(z.object({})).default([]),
-                                      handoffs: z
-                                        .array(z.string())
-                                        .optional()
-                                        .default([]),
-                                      reflect_on_tool_use: z
-                                        .boolean()
-                                        .default(false),
-                                      tool_call_summary_format: z
-                                        .string()
-                                        .default("{result}"),
+                                      handoffs: z.array(z.string()).optional().default([]),
+                                      reflect_on_tool_use: z.boolean().default(false),
+                                      tool_call_summary_format: z.string().default("{result}"),
                                       metadata: z.object({}).optional(),
                                     })
                                     .optional(),
@@ -988,114 +923,60 @@ export const zWorkflowWorkersCount = z.object({
                                       description: z.string(),
                                       model_context: z.object({}).optional(),
                                       memory: z.object({}).optional(),
-                                      model_client_stream: z
-                                        .boolean()
-                                        .optional()
-                                        .default(false),
+                                      model_client_stream: z.boolean().optional().default(false),
                                       system_message: z.string().optional(),
                                       model_client: z
                                         .object({
                                           provider: z.string().optional(),
                                           component_type: z.string().optional(),
                                           version: z.number().int().optional(),
-                                          component_version: z
-                                            .number()
-                                            .int()
-                                            .optional(),
+                                          component_version: z.number().int().optional(),
                                           description: z.string().optional(),
                                           label: z.string().optional(),
                                           config: z.object({}).optional(),
                                         })
                                         .merge(
                                           z.object({
-                                            provider: z.enum([
-                                              "OpenAIChatCompletionClient",
-                                            ]),
+                                            provider: z.enum(["OpenAIChatCompletionClient"]),
                                             config: z
                                               .object({
-                                                frequency_penalty: z
-                                                  .number()
-                                                  .optional(),
-                                                logit_bias: z
-                                                  .object({})
-                                                  .optional(),
-                                                max_tokens: z
-                                                  .number()
-                                                  .int()
-                                                  .optional(),
+                                                frequency_penalty: z.number().optional(),
+                                                logit_bias: z.object({}).optional(),
+                                                max_tokens: z.number().int().optional(),
                                                 n: z.number().int().optional(),
-                                                presence_penalty: z
-                                                  .number()
-                                                  .optional(),
-                                                response_format: z
-                                                  .string()
-                                                  .optional(),
-                                                seed: z
-                                                  .number()
-                                                  .int()
-                                                  .optional(),
-                                                stop: z
-                                                  .array(z.string())
-                                                  .optional(),
-                                                temperature: z
-                                                  .number()
-                                                  .optional(),
+                                                presence_penalty: z.number().optional(),
+                                                response_format: z.string().optional(),
+                                                seed: z.number().int().optional(),
+                                                stop: z.array(z.string()).optional(),
+                                                temperature: z.number().optional(),
                                                 top_p: z.number().optional(),
                                                 user: z.string().optional(),
-                                                stream_options: z
-                                                  .object({})
-                                                  .optional(),
+                                                stream_options: z.object({}).optional(),
                                               })
                                               .merge(
                                                 z.object({
                                                   model: z.string().optional(),
-                                                  api_key: z
-                                                    .string()
-                                                    .optional(),
-                                                  timeout: z
-                                                    .number()
-                                                    .optional(),
-                                                  max_retries: z
-                                                    .number()
-                                                    .int()
-                                                    .optional(),
-                                                  model_capabilities: z
-                                                    .object({})
-                                                    .optional(),
-                                                  model_info: z
-                                                    .object({})
-                                                    .optional(),
-                                                  add_name_prefixes: z
-                                                    .boolean()
-                                                    .optional(),
-                                                  default_headers: z
-                                                    .object({})
-                                                    .optional(),
+                                                  api_key: z.string().optional(),
+                                                  timeout: z.number().optional(),
+                                                  max_retries: z.number().int().optional(),
+                                                  model_capabilities: z.object({}).optional(),
+                                                  model_info: z.object({}).optional(),
+                                                  add_name_prefixes: z.boolean().optional(),
+                                                  default_headers: z.object({}).optional(),
                                                 }),
                                               )
                                               .merge(
                                                 z.object({
-                                                  organization: z
-                                                    .string()
-                                                    .optional(),
-                                                  base_url: z
-                                                    .string()
-                                                    .optional(),
+                                                  organization: z.string().optional(),
+                                                  base_url: z.string().optional(),
                                                 }),
                                               ),
                                           }),
                                         ),
                                       tools: z.array(z.object({})).default([]),
-                                      handoffs: z
-                                        .array(z.string())
-                                        .optional()
-                                        .default([]),
-                                      reflect_on_tool_use: z
-                                        .boolean()
-                                        .default(false),
-                                      tool_call_summary_format: z
-                                        .string()
-                                        .default("{result}"),
+                                      handoffs: z.array(z.string()).optional().default([]),
+                                      reflect_on_tool_use: z.boolean().default(false),
+                                      tool_call_summary_format: z.string().default("{result}"),
                                       metadata: z.object({}).optional(),
                                     })
                                     .merge(
@@ -1133,13 +1014,8 @@ export const zWorkflowWorkersCount = z.object({
                                   provider: z.enum(["UserProxyAgent"]),
                                   config: z.object({
                                     name: z.string(),
-                                    description: z
-                                      .string()
-                                      .default("A human user"),
-                                    input_func: z
-                                      .string()
-                                      .optional()
-                                      .default("None"),
+                                    description: z.string().default("A human user"),
+                                    input_func: z.string().optional().default("None"),
                                   }),
                                 }),
                               ),
@@ -1149,9 +1025,7 @@ export const zWorkflowWorkersCount = z.object({
                     termination_condition: z.union([
                       z
                         .object({
-                          provider: z
-                            .literal("TextMentionTermination")
-                            .optional(),
+                          provider: z.literal("TextMentionTermination").optional(),
                         })
                         .merge(
                           z.object({
@@ -1187,9 +1061,7 @@ export const zWorkflowWorkersCount = z.object({
                         ),
                       z
                         .object({
-                          provider: z
-                            .literal("SourceMatchTermination")
-                            .optional(),
+                          provider: z.literal("SourceMatchTermination").optional(),
                         })
                         .merge(
                           z.object({
@@ -1201,9 +1073,7 @@ export const zWorkflowWorkersCount = z.object({
                         ),
                       z
                         .object({
-                          provider: z
-                            .literal("FunctionCallTermination")
-                            .optional(),
+                          provider: z.literal("FunctionCallTermination").optional(),
                         })
                         .merge(
                           z.object({
@@ -1215,9 +1085,7 @@ export const zWorkflowWorkersCount = z.object({
                         ),
                       z
                         .object({
-                          provider: z
-                            .literal("TokenUsageTermination")
-                            .optional(),
+                          provider: z.literal("TokenUsageTermination").optional(),
                         })
                         .merge(
                           z.object({
@@ -1231,27 +1099,20 @@ export const zWorkflowWorkersCount = z.object({
                         ),
                       z
                         .object({
-                          provider: z
-                            .literal("MaxMessageTermination")
-                            .optional(),
+                          provider: z.literal("MaxMessageTermination").optional(),
                         })
                         .merge(
                           z.object({
                             provider: z.enum(["MaxMessageTermination"]),
                             config: z.object({
                               max_messages: z.number().int(),
-                              include_agent_event: z
-                                .boolean()
-                                .optional()
-                                .default(false),
+                              include_agent_event: z.boolean().optional().default(false),
                             }),
                           }),
                         ),
                       z
                         .object({
-                          provider: z
-                            .literal("StopMessageTermination")
-                            .optional(),
+                          provider: z.literal("StopMessageTermination").optional(),
                         })
                         .merge(
                           z.object({
@@ -1350,11 +1211,7 @@ export const zWorkflowWorkersCount = z.object({
                   .merge(
                     z.object({
                       type: z.enum(["SocialTeamManagerState"]),
-                      next_speaker_index: z
-                        .number()
-                        .int()
-                        .optional()
-                        .default(0),
+                      next_speaker_index: z.number().int().optional().default(0),
                       previous_speaker: z.string().optional(),
                       current_speaker: z.string().optional(),
                       selector_prompt: z.string().optional(),
@@ -1416,9 +1273,7 @@ export const zWorkflowWorkersCount = z.object({
                               ),
                             z
                               .object({
-                                type: z
-                                  .literal("PlatformAccountFlowInput")
-                                  .optional(),
+                                type: z.literal("PlatformAccountFlowInput").optional(),
                               })
                               .merge(
                                 z.object({
@@ -1428,9 +1283,7 @@ export const zWorkflowWorkersCount = z.object({
                               ),
                             z
                               .object({
-                                type: z
-                                  .literal("SocialAddFollowersInput")
-                                  .optional(),
+                                type: z.literal("SocialAddFollowersInput").optional(),
                               })
                               .merge(
                                 z.object({
@@ -1473,9 +1326,7 @@ export const zWorkflowWorkersCount = z.object({
                               ),
                             z
                               .object({
-                                type: z
-                                  .literal("AskUserFunctionCallInput")
-                                  .optional(),
+                                type: z.literal("AskUserFunctionCallInput").optional(),
                               })
                               .merge(
                                 z.object({
@@ -1497,85 +1348,46 @@ export const zWorkflowWorkersCount = z.object({
                                         z.union([
                                           z
                                             .object({
-                                              provider: z
-                                                .literal("AssistantAgent")
-                                                .optional(),
+                                              provider: z.literal("AssistantAgent").optional(),
                                             })
                                             .merge(
                                               z
                                                 .object({
-                                                  provider: z
-                                                    .string()
-                                                    .optional(),
-                                                  component_type: z
-                                                    .string()
-                                                    .optional(),
-                                                  version: z
-                                                    .number()
-                                                    .int()
-                                                    .optional(),
-                                                  component_version: z
-                                                    .number()
-                                                    .int()
-                                                    .optional(),
-                                                  description: z
-                                                    .string()
-                                                    .optional(),
+                                                  provider: z.string().optional(),
+                                                  component_type: z.string().optional(),
+                                                  version: z.number().int().optional(),
+                                                  component_version: z.number().int().optional(),
+                                                  description: z.string().optional(),
                                                   label: z.string().optional(),
-                                                  config: z
-                                                    .object({})
-                                                    .optional(),
+                                                  config: z.object({}).optional(),
                                                 })
                                                 .merge(
                                                   z.object({
-                                                    provider: z.enum([
-                                                      "AssistantAgent",
-                                                    ]),
-                                                    component_type: z.enum([
-                                                      "agent",
-                                                    ]),
+                                                    provider: z.enum(["AssistantAgent"]),
+                                                    component_type: z.enum(["agent"]),
                                                     config: z
                                                       .object({
                                                         name: z.string(),
                                                         description: z.string(),
-                                                        model_context: z
-                                                          .object({})
-                                                          .optional(),
-                                                        memory: z
-                                                          .object({})
-                                                          .optional(),
+                                                        model_context: z.object({}).optional(),
+                                                        memory: z.object({}).optional(),
                                                         model_client_stream: z
                                                           .boolean()
                                                           .optional()
                                                           .default(false),
-                                                        system_message: z
-                                                          .string()
-                                                          .optional(),
+                                                        system_message: z.string().optional(),
                                                         model_client: z
                                                           .object({
-                                                            provider: z
-                                                              .string()
-                                                              .optional(),
-                                                            component_type: z
-                                                              .string()
-                                                              .optional(),
-                                                            version: z
-                                                              .number()
-                                                              .int()
-                                                              .optional(),
+                                                            provider: z.string().optional(),
+                                                            component_type: z.string().optional(),
+                                                            version: z.number().int().optional(),
                                                             component_version: z
                                                               .number()
                                                               .int()
                                                               .optional(),
-                                                            description: z
-                                                              .string()
-                                                              .optional(),
-                                                            label: z
-                                                              .string()
-                                                              .optional(),
-                                                            config: z
-                                                              .object({})
-                                                              .optional(),
+                                                            description: z.string().optional(),
+                                                            label: z.string().optional(),
+                                                            config: z.object({}).optional(),
                                                           })
                                                           .merge(
                                                             z.object({
@@ -1584,10 +1396,9 @@ export const zWorkflowWorkersCount = z.object({
                                                               ]),
                                                               config: z
                                                                 .object({
-                                                                  frequency_penalty:
-                                                                    z
-                                                                      .number()
-                                                                      .optional(),
+                                                                  frequency_penalty: z
+                                                                    .number()
+                                                                    .optional(),
                                                                   logit_bias: z
                                                                     .object({})
                                                                     .optional(),
@@ -1595,99 +1406,60 @@ export const zWorkflowWorkersCount = z.object({
                                                                     .number()
                                                                     .int()
                                                                     .optional(),
-                                                                  n: z
+                                                                  n: z.number().int().optional(),
+                                                                  presence_penalty: z
                                                                     .number()
-                                                                    .int()
                                                                     .optional(),
-                                                                  presence_penalty:
-                                                                    z
-                                                                      .number()
-                                                                      .optional(),
-                                                                  response_format:
-                                                                    z
-                                                                      .string()
-                                                                      .optional(),
-                                                                  seed: z
-                                                                    .number()
-                                                                    .int()
+                                                                  response_format: z
+                                                                    .string()
                                                                     .optional(),
+                                                                  seed: z.number().int().optional(),
                                                                   stop: z
-                                                                    .array(
-                                                                      z.string(),
-                                                                    )
+                                                                    .array(z.string())
                                                                     .optional(),
                                                                   temperature: z
                                                                     .number()
                                                                     .optional(),
-                                                                  top_p: z
-                                                                    .number()
+                                                                  top_p: z.number().optional(),
+                                                                  user: z.string().optional(),
+                                                                  stream_options: z
+                                                                    .object({})
                                                                     .optional(),
-                                                                  user: z
-                                                                    .string()
-                                                                    .optional(),
-                                                                  stream_options:
-                                                                    z
-                                                                      .object(
-                                                                        {},
-                                                                      )
-                                                                      .optional(),
                                                                 })
                                                                 .merge(
                                                                   z.object({
-                                                                    model: z
-                                                                      .string()
-                                                                      .optional(),
-                                                                    api_key: z
-                                                                      .string()
-                                                                      .optional(),
-                                                                    timeout: z
+                                                                    model: z.string().optional(),
+                                                                    api_key: z.string().optional(),
+                                                                    timeout: z.number().optional(),
+                                                                    max_retries: z
                                                                       .number()
+                                                                      .int()
                                                                       .optional(),
-                                                                    max_retries:
-                                                                      z
-                                                                        .number()
-                                                                        .int()
-                                                                        .optional(),
-                                                                    model_capabilities:
-                                                                      z
-                                                                        .object(
-                                                                          {},
-                                                                        )
-                                                                        .optional(),
-                                                                    model_info:
-                                                                      z
-                                                                        .object(
-                                                                          {},
-                                                                        )
-                                                                        .optional(),
-                                                                    add_name_prefixes:
-                                                                      z
-                                                                        .boolean()
-                                                                        .optional(),
-                                                                    default_headers:
-                                                                      z
-                                                                        .object(
-                                                                          {},
-                                                                        )
-                                                                        .optional(),
+                                                                    model_capabilities: z
+                                                                      .object({})
+                                                                      .optional(),
+                                                                    model_info: z
+                                                                      .object({})
+                                                                      .optional(),
+                                                                    add_name_prefixes: z
+                                                                      .boolean()
+                                                                      .optional(),
+                                                                    default_headers: z
+                                                                      .object({})
+                                                                      .optional(),
                                                                   }),
                                                                 )
                                                                 .merge(
                                                                   z.object({
-                                                                    organization:
-                                                                      z
-                                                                        .string()
-                                                                        .optional(),
-                                                                    base_url: z
+                                                                    organization: z
                                                                       .string()
                                                                       .optional(),
+                                                                    base_url: z.string().optional(),
                                                                   }),
                                                                 ),
                                                             }),
                                                           ),
-                                                        tools: z
-                                                          .array(z.object({}))
-                                                          .default([]),
+                                                        tools: z.array(z.object({})).default([]),
                                                         handoffs: z
                                                           .array(z.string())
                                                           .optional()
@@ -1695,15 +1467,10 @@ export const zWorkflowWorkersCount = z.object({
                                                         reflect_on_tool_use: z
                                                           .boolean()
                                                           .default(false),
-                                                        tool_call_summary_format:
-                                                          z
-                                                            .string()
-                                                            .default(
-                                                              "{result}",
-                                                            ),
-                                                        metadata: z
-                                                          .object({})
-                                                          .optional(),
+                                                        tool_call_summary_format: z
+                                                          .string()
+                                                          .default("{result}"),
+                                                        metadata: z.object({}).optional(),
                                                       })
                                                       .optional(),
                                                   }),
@@ -1711,82 +1478,45 @@ export const zWorkflowWorkersCount = z.object({
                                             ),
                                           z
                                             .object({
-                                              provider: z
-                                                .literal("InstagramAgent")
-                                                .optional(),
+                                              provider: z.literal("InstagramAgent").optional(),
                                             })
                                             .merge(
                                               z
                                                 .object({
-                                                  provider: z
-                                                    .string()
-                                                    .optional(),
-                                                  component_type: z
-                                                    .string()
-                                                    .optional(),
-                                                  version: z
-                                                    .number()
-                                                    .int()
-                                                    .optional(),
-                                                  component_version: z
-                                                    .number()
-                                                    .int()
-                                                    .optional(),
-                                                  description: z
-                                                    .string()
-                                                    .optional(),
+                                                  provider: z.string().optional(),
+                                                  component_type: z.string().optional(),
+                                                  version: z.number().int().optional(),
+                                                  component_version: z.number().int().optional(),
+                                                  description: z.string().optional(),
                                                   label: z.string().optional(),
-                                                  config: z
-                                                    .object({})
-                                                    .optional(),
+                                                  config: z.object({}).optional(),
                                                 })
                                                 .merge(
                                                   z.object({
-                                                    provider: z.enum([
-                                                      "InstagramAgent",
-                                                    ]),
+                                                    provider: z.enum(["InstagramAgent"]),
                                                     config: z
                                                       .object({
                                                         name: z.string(),
                                                         description: z.string(),
-                                                        model_context: z
-                                                          .object({})
-                                                          .optional(),
-                                                        memory: z
-                                                          .object({})
-                                                          .optional(),
+                                                        model_context: z.object({}).optional(),
+                                                        memory: z.object({}).optional(),
                                                         model_client_stream: z
                                                           .boolean()
                                                           .optional()
                                                           .default(false),
-                                                        system_message: z
-                                                          .string()
-                                                          .optional(),
+                                                        system_message: z.string().optional(),
                                                         model_client: z
                                                           .object({
-                                                            provider: z
-                                                              .string()
-                                                              .optional(),
-                                                            component_type: z
-                                                              .string()
-                                                              .optional(),
-                                                            version: z
-                                                              .number()
-                                                              .int()
-                                                              .optional(),
+                                                            provider: z.string().optional(),
+                                                            component_type: z.string().optional(),
+                                                            version: z.number().int().optional(),
                                                             component_version: z
                                                               .number()
                                                               .int()
                                                               .optional(),
-                                                            description: z
-                                                              .string()
-                                                              .optional(),
-                                                            label: z
-                                                              .string()
-                                                              .optional(),
-                                                            config: z
-                                                              .object({})
-                                                              .optional(),
+                                                            description: z.string().optional(),
+                                                            label: z.string().optional(),
+                                                            config: z.object({}).optional(),
                                                           })
                                                           .merge(
                                                             z.object({
@@ -1795,10 +1525,9 @@ export const zWorkflowWorkersCount = z.object({
                                                               ]),
                                                               config: z
                                                                 .object({
-                                                                  frequency_penalty:
-                                                                    z
-                                                                      .number()
-                                                                      .optional(),
+                                                                  frequency_penalty: z
+                                                                    .number()
+                                                                    .optional(),
                                                                   logit_bias: z
                                                                     .object({})
                                                                     .optional(),
@@ -1806,99 +1535,60 @@ export const zWorkflowWorkersCount = z.object({
                                                                     .number()
                                                                     .int()
                                                                     .optional(),
-                                                                  n: z
+                                                                  n: z.number().int().optional(),
+                                                                  presence_penalty: z
                                                                     .number()
-                                                                    .int()
                                                                     .optional(),
-                                                                  presence_penalty:
-                                                                    z
-                                                                      .number()
-                                                                      .optional(),
-                                                                  response_format:
-                                                                    z
-                                                                      .string()
-                                                                      .optional(),
-                                                                  seed: z
-                                                                    .number()
-                                                                    .int()
+                                                                  response_format: z
+                                                                    .string()
                                                                     .optional(),
+                                                                  seed: z.number().int().optional(),
                                                                   stop: z
-                                                                    .array(
-                                                                      z.string(),
-                                                                    )
+                                                                    .array(z.string())
                                                                     .optional(),
                                                                   temperature: z
                                                                     .number()
                                                                     .optional(),
-                                                                  top_p: z
-                                                                    .number()
+                                                                  top_p: z.number().optional(),
+                                                                  user: z.string().optional(),
+                                                                  stream_options: z
+                                                                    .object({})
                                                                     .optional(),
-                                                                  user: z
-                                                                    .string()
-                                                                    .optional(),
-                                                                  stream_options:
-                                                                    z
-                                                                      .object(
-                                                                        {},
-                                                                      )
-                                                                      .optional(),
                                                                 })
                                                                 .merge(
                                                                   z.object({
-                                                                    model: z
-                                                                      .string()
-                                                                      .optional(),
-                                                                    api_key: z
-                                                                      .string()
-                                                                      .optional(),
-                                                                    timeout: z
+                                                                    model: z.string().optional(),
+                                                                    api_key: z.string().optional(),
+                                                                    timeout: z.number().optional(),
+                                                                    max_retries: z
                                                                       .number()
+                                                                      .int()
                                                                       .optional(),
-                                                                    max_retries:
-                                                                      z
-                                                                        .number()
-                                                                        .int()
-                                                                        .optional(),
-                                                                    model_capabilities:
-                                                                      z
-                                                                        .object(
-                                                                          {},
-                                                                        )
-                                                                        .optional(),
-                                                                    model_info:
-                                                                      z
-                                                                        .object(
-                                                                          {},
-                                                                        )
-                                                                        .optional(),
-                                                                    add_name_prefixes:
-                                                                      z
-                                                                        .boolean()
-                                                                        .optional(),
-                                                                    default_headers:
-                                                                      z
-                                                                        .object(
-                                                                          {},
-                                                                        )
-                                                                        .optional(),
+                                                                    model_capabilities: z
+                                                                      .object({})
+                                                                      .optional(),
+                                                                    model_info: z
+                                                                      .object({})
+                                                                      .optional(),
+                                                                    add_name_prefixes: z
+                                                                      .boolean()
+                                                                      .optional(),
+                                                                    default_headers: z
+                                                                      .object({})
+                                                                      .optional(),
                                                                   }),
                                                                 )
                                                                 .merge(
                                                                   z.object({
-                                                                    organization:
-                                                                      z
-                                                                        .string()
-                                                                        .optional(),
-                                                                    base_url: z
+                                                                    organization: z
                                                                       .string()
                                                                       .optional(),
+                                                                    base_url: z.string().optional(),
                                                                   }),
                                                                 ),
                                                             }),
                                                           ),
-                                                        tools: z
-                                                          .array(z.object({}))
-                                                          .default([]),
+                                                        tools: z.array(z.object({})).default([]),
                                                         handoffs: z
                                                           .array(z.string())
                                                           .optional()
@@ -1906,32 +1596,21 @@ export const zWorkflowWorkersCount = z.object({
                                                         reflect_on_tool_use: z
                                                           .boolean()
                                                           .default(false),
-                                                        tool_call_summary_format:
-                                                          z
-                                                            .string()
-                                                            .default(
-                                                              "{result}",
-                                                            ),
-                                                        metadata: z
-                                                          .object({})
-                                                          .optional(),
+                                                        tool_call_summary_format: z
+                                                          .string()
+                                                          .default("{result}"),
+                                                        metadata: z.object({}).optional(),
                                                       })
                                                       .merge(
                                                         z.object({
                                                           credentials: z
                                                             .object({
-                                                              username:
-                                                                z.string(),
-                                                              password:
-                                                                z.string(),
-                                                              otp_key: z
-                                                                .string()
-                                                                .optional(),
+                                                              username: z.string(),
+                                                              password: z.string(),
+                                                              otp_key: z.string().optional(),
                                                             })
                                                             .optional(),
-                                                          proxy_url: z
-                                                            .string()
-                                                            .optional(),
+                                                          proxy_url: z.string().optional(),
                                                         }),
                                                       ),
                                                   }),
@@ -1939,47 +1618,27 @@ export const zWorkflowWorkersCount = z.object({
                                             ),
                                           z
                                             .object({
-                                              provider: z
-                                                .literal("UserProxyAgent")
-                                                .optional(),
+                                              provider: z.literal("UserProxyAgent").optional(),
                                             })
                                             .merge(
                                               z
                                                 .object({
-                                                  provider: z
-                                                    .string()
-                                                    .optional(),
-                                                  component_type: z
-                                                    .string()
-                                                    .optional(),
-                                                  version: z
-                                                    .number()
-                                                    .int()
-                                                    .optional(),
-                                                  component_version: z
-                                                    .number()
-                                                    .int()
-                                                    .optional(),
-                                                  description: z
-                                                    .string()
-                                                    .optional(),
+                                                  provider: z.string().optional(),
+                                                  component_type: z.string().optional(),
+                                                  version: z.number().int().optional(),
+                                                  component_version: z.number().int().optional(),
+                                                  description: z.string().optional(),
                                                   label: z.string().optional(),
-                                                  config: z
-                                                    .object({})
-                                                    .optional(),
+                                                  config: z.object({}).optional(),
                                                 })
                                                 .merge(
                                                   z.object({
-                                                    provider: z.enum([
-                                                      "UserProxyAgent",
-                                                    ]),
+                                                    provider: z.enum(["UserProxyAgent"]),
                                                     config: z.object({
                                                       name: z.string(),
                                                       description: z
                                                         .string()
-                                                        .default(
-                                                          "A human user",
-                                                        ),
+                                                        .default("A human user"),
                                                       input_func: z
                                                         .string()
                                                         .optional()
@@ -1999,9 +1658,7 @@ export const zWorkflowWorkersCount = z.object({
                                           })
                                           .merge(
                                             z.object({
-                                              provider: z.enum([
-                                                "TextMentionTermination",
-                                              ]),
+                                              provider: z.enum(["TextMentionTermination"]),
                                               config: z.object({
                                                 text: z.string(),
                                               }),
@@ -2009,15 +1666,11 @@ export const zWorkflowWorkersCount = z.object({
                                           ),
                                         z
                                           .object({
-                                            provider: z
-                                              .literal("HandoffTermination")
-                                              .optional(),
+                                            provider: z.literal("HandoffTermination").optional(),
                                           })
                                           .merge(
                                             z.object({
-                                              provider: z.enum([
-                                                "HandoffTermination",
-                                              ]),
+                                              provider: z.enum(["HandoffTermination"]),
                                               config: z.object({
                                                 target: z.string(),
                                               }),
@@ -2025,19 +1678,13 @@ export const zWorkflowWorkersCount = z.object({
                                           ),
                                         z
                                           .object({
-                                            provider: z
-                                              .literal("TimeoutTermination")
-                                              .optional(),
+                                            provider: z.literal("TimeoutTermination").optional(),
                                           })
                                           .merge(
                                             z.object({
-                                              provider: z.enum([
-                                                "TimeoutTermination",
-                                              ]),
+                                              provider: z.enum(["TimeoutTermination"]),
                                               config: z.object({
-                                                timeout_seconds: z
-                                                  .number()
-                                                  .int(),
+                                                timeout_seconds: z.number().int(),
                                               }),
                                             }),
                                           ),
@@ -2049,9 +1696,7 @@ export const zWorkflowWorkersCount = z.object({
                                           })
                                           .merge(
                                             z.object({
-                                              provider: z.enum([
-                                                "SourceMatchTermination",
-                                              ]),
+                                              provider: z.enum(["SourceMatchTermination"]),
                                               config: z.object({
                                                 sources: z.array(z.string()),
                                               }),
@@ -2060,16 +1705,12 @@ export const zWorkflowWorkersCount = z.object({
                                         z
                                           .object({
                                             provider: z
-                                              .literal(
-                                                "FunctionCallTermination",
-                                              )
+                                              .literal("FunctionCallTermination")
                                               .optional(),
                                           })
                                           .merge(
                                             z.object({
-                                              provider: z.enum([
-                                                "FunctionCallTermination",
-                                              ]),
+                                              provider: z.enum(["FunctionCallTermination"]),
                                               config: z.object({
                                                 function_name: z.string(),
                                               }),
@@ -2077,42 +1718,25 @@ export const zWorkflowWorkersCount = z.object({
                                           ),
                                         z
                                           .object({
-                                            provider: z
-                                              .literal("TokenUsageTermination")
-                                              .optional(),
+                                            provider: z.literal("TokenUsageTermination").optional(),
                                           })
                                           .merge(
                                             z.object({
-                                              provider: z.enum([
-                                                "TokenUsageTermination",
-                                              ]),
+                                              provider: z.enum(["TokenUsageTermination"]),
                                               config: z.object({
-                                                max_total_token: z
-                                                  .number()
-                                                  .int()
-                                                  .optional(),
-                                                max_prompt_token: z
-                                                  .number()
-                                                  .int()
-                                                  .optional(),
-                                                max_completion_token: z
-                                                  .number()
-                                                  .int()
-                                                  .optional(),
+                                                max_total_token: z.number().int().optional(),
+                                                max_prompt_token: z.number().int().optional(),
+                                                max_completion_token: z.number().int().optional(),
                                               }),
                                             }),
                                           ),
                                         z
                                           .object({
-                                            provider: z
-                                              .literal("MaxMessageTermination")
-                                              .optional(),
+                                            provider: z.literal("MaxMessageTermination").optional(),
                                           })
                                           .merge(
                                             z.object({
-                                              provider: z.enum([
-                                                "MaxMessageTermination",
-                                              ]),
+                                              provider: z.enum(["MaxMessageTermination"]),
                                               config: z.object({
                                                 max_messages: z.number().int(),
                                                 include_agent_event: z
@@ -2130,13 +1754,9 @@ export const zWorkflowWorkersCount = z.object({
                                           })
                                           .merge(
                                             z.object({
-                                              provider: z.enum([
-                                                "StopMessageTermination",
-                                              ]),
+                                              provider: z.enum(["StopMessageTermination"]),
                                               config: z.object({
-                                                some_thing: z
-                                                  .string()
-                                                  .optional(),
+                                                some_thing: z.string().optional(),
                                               }),
                                             }),
                                           ),
@@ -2146,19 +1766,11 @@ export const zWorkflowWorkersCount = z.object({
                                     .merge(
                                       z.object({
                                         selector_prompt: z.string().optional(),
-                                        allow_repeated_speaker: z
-                                          .boolean()
-                                          .optional(),
-                                        max_selector_attempts: z
-                                          .number()
-                                          .int()
-                                          .optional(),
+                                        allow_repeated_speaker: z.boolean().optional(),
+                                        max_selector_attempts: z.number().int().optional(),
                                         selector_func: z.string().optional(),
                                         proxy_url: z.string().optional(),
-                                        enable_swarm: z
-                                          .boolean()
-                                          .optional()
-                                          .default(false),
+                                        enable_swarm: z.boolean().optional().default(false),
                                       }),
                                     ),
                                 }),
@@ -2321,101 +1933,60 @@ export const zWorkflowWorkersCount = z.object({
                                   description: z.string(),
                                   model_context: z.object({}).optional(),
                                   memory: z.object({}).optional(),
-                                  model_client_stream: z
-                                    .boolean()
-                                    .optional()
-                                    .default(false),
+                                  model_client_stream: z.boolean().optional().default(false),
                                   system_message: z.string().optional(),
                                   model_client: z
                                     .object({
                                       provider: z.string().optional(),
                                       component_type: z.string().optional(),
                                       version: z.number().int().optional(),
-                                      component_version: z
-                                        .number()
-                                        .int()
-                                        .optional(),
+                                      component_version: z.number().int().optional(),
                                       description: z.string().optional(),
                                       label: z.string().optional(),
                                       config: z.object({}).optional(),
                                     })
                                     .merge(
                                       z.object({
-                                        provider: z.enum([
-                                          "OpenAIChatCompletionClient",
-                                        ]),
+                                        provider: z.enum(["OpenAIChatCompletionClient"]),
                                         config: z
                                           .object({
-                                            frequency_penalty: z
-                                              .number()
-                                              .optional(),
+                                            frequency_penalty: z.number().optional(),
                                             logit_bias: z.object({}).optional(),
-                                            max_tokens: z
-                                              .number()
-                                              .int()
-                                              .optional(),
+                                            max_tokens: z.number().int().optional(),
                                             n: z.number().int().optional(),
-                                            presence_penalty: z
-                                              .number()
-                                              .optional(),
-                                            response_format: z
-                                              .string()
-                                              .optional(),
+                                            presence_penalty: z.number().optional(),
+                                            response_format: z.string().optional(),
                                             seed: z.number().int().optional(),
-                                            stop: z
-                                              .array(z.string())
-                                              .optional(),
+                                            stop: z.array(z.string()).optional(),
                                             temperature: z.number().optional(),
                                             top_p: z.number().optional(),
                                             user: z.string().optional(),
-                                            stream_options: z
-                                              .object({})
-                                              .optional(),
+                                            stream_options: z.object({}).optional(),
                                           })
                                           .merge(
                                             z.object({
                                               model: z.string().optional(),
                                               api_key: z.string().optional(),
                                               timeout: z.number().optional(),
-                                              max_retries: z
-                                                .number()
-                                                .int()
-                                                .optional(),
-                                              model_capabilities: z
-                                                .object({})
-                                                .optional(),
-                                              model_info: z
-                                                .object({})
-                                                .optional(),
-                                              add_name_prefixes: z
-                                                .boolean()
-                                                .optional(),
-                                              default_headers: z
-                                                .object({})
-                                                .optional(),
+                                              max_retries: z.number().int().optional(),
+                                              model_capabilities: z.object({}).optional(),
+                                              model_info: z.object({}).optional(),
+                                              add_name_prefixes: z.boolean().optional(),
+                                              default_headers: z.object({}).optional(),
                                             }),
                                           )
                                           .merge(
                                             z.object({
-                                              organization: z
-                                                .string()
-                                                .optional(),
+                                              organization: z.string().optional(),
                                               base_url: z.string().optional(),
                                             }),
                                           ),
                                       }),
                                     ),
                                   tools: z.array(z.object({})).default([]),
-                                  handoffs: z
-                                    .array(z.string())
-                                    .optional()
-                                    .default([]),
-                                  reflect_on_tool_use: z
-                                    .boolean()
-                                    .default(false),
-                                  tool_call_summary_format: z
-                                    .string()
-                                    .default("{result}"),
+                                  handoffs: z.array(z.string()).optional().default([]),
+                                  reflect_on_tool_use: z.boolean().default(false),
+                                  tool_call_summary_format: z.string().default("{result}"),
                                   metadata: z.object({}).optional(),
                                 })
                                 .optional(),
@@ -2446,101 +2017,60 @@ export const zWorkflowWorkersCount = z.object({
                                   description: z.string(),
                                   model_context: z.object({}).optional(),
                                   memory: z.object({}).optional(),
-                                  model_client_stream: z
-                                    .boolean()
-                                    .optional()
-                                    .default(false),
+                                  model_client_stream: z.boolean().optional().default(false),
                                   system_message: z.string().optional(),
                                   model_client: z
                                     .object({
                                       provider: z.string().optional(),
                                       component_type: z.string().optional(),
                                       version: z.number().int().optional(),
-                                      component_version: z
-                                        .number()
-                                        .int()
-                                        .optional(),
+                                      component_version: z.number().int().optional(),
                                       description: z.string().optional(),
                                       label: z.string().optional(),
                                       config: z.object({}).optional(),
                                     })
                                     .merge(
                                       z.object({
-                                        provider: z.enum([
-                                          "OpenAIChatCompletionClient",
-                                        ]),
+                                        provider: z.enum(["OpenAIChatCompletionClient"]),
                                         config: z
                                           .object({
-                                            frequency_penalty: z
-                                              .number()
-                                              .optional(),
+                                            frequency_penalty: z.number().optional(),
                                             logit_bias: z.object({}).optional(),
-                                            max_tokens: z
-                                              .number()
-                                              .int()
-                                              .optional(),
+                                            max_tokens: z.number().int().optional(),
                                             n: z.number().int().optional(),
-                                            presence_penalty: z
-                                              .number()
-                                              .optional(),
-                                            response_format: z
-                                              .string()
-                                              .optional(),
+                                            presence_penalty: z.number().optional(),
+                                            response_format: z.string().optional(),
                                             seed: z.number().int().optional(),
-                                            stop: z
-                                              .array(z.string())
-                                              .optional(),
+                                            stop: z.array(z.string()).optional(),
                                             temperature: z.number().optional(),
                                             top_p: z.number().optional(),
                                             user: z.string().optional(),
-                                            stream_options: z
-                                              .object({})
-                                              .optional(),
+                                            stream_options: z.object({}).optional(),
                                           })
                                           .merge(
                                             z.object({
                                               model: z.string().optional(),
                                               api_key: z.string().optional(),
                                               timeout: z.number().optional(),
-                                              max_retries: z
-                                                .number()
-                                                .int()
-                                                .optional(),
-                                              model_capabilities: z
-                                                .object({})
-                                                .optional(),
-                                              model_info: z
-                                                .object({})
-                                                .optional(),
-                                              add_name_prefixes: z
-                                                .boolean()
-                                                .optional(),
-                                              default_headers: z
-                                                .object({})
-                                                .optional(),
+                                              max_retries: z.number().int().optional(),
+                                              model_capabilities: z.object({}).optional(),
+                                              model_info: z.object({}).optional(),
+                                              add_name_prefixes: z.boolean().optional(),
+                                              default_headers: z.object({}).optional(),
                                             }),
                                           )
                                           .merge(
                                             z.object({
-                                              organization: z
-                                                .string()
-                                                .optional(),
+                                              organization: z.string().optional(),
                                               base_url: z.string().optional(),
                                             }),
                                           ),
                                       }),
                                     ),
                                   tools: z.array(z.object({})).default([]),
-                                  handoffs: z
-                                    .array(z.string())
-                                    .optional()
-                                    .default([]),
-                                  reflect_on_tool_use: z
-                                    .boolean()
-                                    .default(false),
-                                  tool_call_summary_format: z
-                                    .string()
-                                    .default("{result}"),
+                                  handoffs: z.array(z.string()).optional().default([]),
+                                  reflect_on_tool_use: z.boolean().default(false),
+                                  tool_call_summary_format: z.string().default("{result}"),
                                   metadata: z.object({}).optional(),
                                 })
                                 .merge(
@@ -2579,10 +2109,7 @@ export const zWorkflowWorkersCount = z.object({
                               config: z.object({
                                 name: z.string(),
                                 description: z.string().default("A human user"),
-                                input_func: z
-                                  .string()
-                                  .optional()
-                                  .default("None"),
+                                input_func: z.string().optional().default("None"),
                               }),
                             }),
                           ),
@@ -2673,10 +2200,7 @@ export const zWorkflowWorkersCount = z.object({
                         provider: z.enum(["MaxMessageTermination"]),
                         config: z.object({
                           max_messages: z.number().int(),
-                          include_agent_event: z
-                            .boolean()
-                            .optional()
-                            .default(false),
+                          include_agent_event: z.boolean().optional().default(false),
                         }),
                       }),
                     ),
@@ -2742,15 +2266,7 @@ export const zWorkflowRun: z.ZodTypeAny = z.object({
   tenantId: z.string(),
   workflowVersionId: z.string(),
   workflowVersion: zWorkflowVersion.optional(),
-  status: z.enum([
-    "PENDING",
-    "RUNNING",
-    "SUCCEEDED",
-    "FAILED",
-    "CANCELLED",
-    "QUEUED",
-    "BACKOFF",
-  ]),
+  status: z.enum(["PENDING", "RUNNING", "SUCCEEDED", "FAILED", "CANCELLED", "QUEUED", "BACKOFF"]),
   displayName: z.string().optional(),
   jobRuns: z
     .array(
@@ -2808,14 +2324,7 @@ export const zWorkflowRun: z.ZodTypeAny = z.object({
             }),
           )
           .optional(),
-        status: z.enum([
-          "PENDING",
-          "RUNNING",
-          "SUCCEEDED",
-          "FAILED",
-          "CANCELLED",
-          "BACKOFF",
-        ]),
+        status: z.enum(["PENDING", "RUNNING", "SUCCEEDED", "FAILED", "CANCELLED", "BACKOFF"]),
         result: z.object({}).optional(),
         startedAt: z.string().datetime().optional(),
         finishedAt: z.string().datetime().optional(),
@@ -2849,15 +2358,7 @@ export const zWorkflowRunShape = z.object({
   workflowId: z.string().optional(),
   workflowVersionId: z.string(),
   workflowVersion: zWorkflowVersion.optional(),
-  status: z.enum([
-    "PENDING",
-    "RUNNING",
-    "SUCCEEDED",
-    "FAILED",
-    "CANCELLED",
-    "QUEUED",
-    "BACKOFF",
-  ]),
+  status: z.enum(["PENDING", "RUNNING", "SUCCEEDED", "FAILED", "CANCELLED", "QUEUED", "BACKOFF"]),
   displayName: z.string().optional(),
   jobRuns: z
     .array(
@@ -2911,14 +2412,7 @@ export const zWorkflowRunShape = z.object({
             }),
           )
           .optional(),
-        status: z.enum([
-          "PENDING",
-          "RUNNING",
-          "SUCCEEDED",
-          "FAILED",
-          "CANCELLED",
-          "BACKOFF",
-        ]),
+        status: z.enum(["PENDING", "RUNNING", "SUCCEEDED", "FAILED", "CANCELLED", "BACKOFF"]),
         result: z.object({}).optional(),
         startedAt: z.string().datetime().optional(),
         finishedAt: z.string().datetime().optional(),
@@ -2971,15 +2465,7 @@ export const zScheduledWorkflows = z.object({
   workflowRunCreatedAt: z.string().datetime().optional(),
   workflowRunName: z.string().optional(),
   workflowRunStatus: z
-    .enum([
-      "PENDING",
-      "RUNNING",
-      "SUCCEEDED",
-      "FAILED",
-      "CANCELLED",
-      "QUEUED",
-      "BACKOFF",
-    ])
+    .enum(["PENDING", "RUNNING", "SUCCEEDED", "FAILED", "CANCELLED", "QUEUED", "BACKOFF"])
     .optional(),
   workflowRunId: z.string().uuid().length(36).optional(),
   method: z.enum(["DEFAULT", "API"]),
@@ -2990,10 +2476,7 @@ export const zScheduledWorkflowsList = z.object({
   pagination: zPaginationResponse.optional(),
 });
 
-export const zScheduledWorkflowsOrderByField = z.enum([
-  "triggerAt",
-  "createdAt",
-]);
+export const zScheduledWorkflowsOrderByField = z.enum(["triggerAt", "createdAt"]);
 
 export const zScheduledRunStatus = z.enum([
   "PENDING",
@@ -3653,9 +3136,7 @@ export const zChatMessageProperties = z.object({
     .optional(),
 });
 
-export const zChatMessage = zApiResourceMetaProperties.merge(
-  zChatMessageProperties,
-);
+export const zChatMessage = zApiResourceMetaProperties.merge(zChatMessageProperties);
 
 export const zModelUsage = z.object({
   model: z.string().optional(),
@@ -3684,9 +3165,7 @@ export const zChatHistoryList = z.object({
   rows: z.array(zChatMessage).optional(),
 });
 
-export const zChatSession = zApiResourceMetaProperties.merge(
-  zChatSessionProperties,
-);
+export const zChatSession = zApiResourceMetaProperties.merge(zChatSessionProperties);
 
 export const zChatSessionList = z.object({
   pagination: zPaginationResponse.optional(),
@@ -4051,9 +3530,7 @@ export const zAgStateProperties = z.object({
                                 z.union([
                                   z
                                     .object({
-                                      provider: z
-                                        .literal("AssistantAgent")
-                                        .optional(),
+                                      provider: z.literal("AssistantAgent").optional(),
                                     })
                                     .merge(
                                       z
@@ -4061,60 +3538,35 @@ export const zAgStateProperties = z.object({
                                           provider: z.string().optional(),
                                           component_type: z.string().optional(),
                                           version: z.number().int().optional(),
-                                          component_version: z
-                                            .number()
-                                            .int()
-                                            .optional(),
+                                          component_version: z.number().int().optional(),
                                           description: z.string().optional(),
                                           label: z.string().optional(),
                                           config: z.object({}).optional(),
                                         })
                                         .merge(
                                           z.object({
-                                            provider: z.enum([
-                                              "AssistantAgent",
-                                            ]),
+                                            provider: z.enum(["AssistantAgent"]),
                                             component_type: z.enum(["agent"]),
                                             config: z
                                               .object({
                                                 name: z.string(),
                                                 description: z.string(),
-                                                model_context: z
-                                                  .object({})
-                                                  .optional(),
+                                                model_context: z.object({}).optional(),
                                                 memory: z.object({}).optional(),
                                                 model_client_stream: z
                                                   .boolean()
                                                   .optional()
                                                   .default(false),
-                                                system_message: z
-                                                  .string()
-                                                  .optional(),
+                                                system_message: z.string().optional(),
                                                 model_client: z
                                                   .object({
-                                                    provider: z
-                                                      .string()
-                                                      .optional(),
-                                                    component_type: z
-                                                      .string()
-                                                      .optional(),
-                                                    version: z
-                                                      .number()
-                                                      .int()
-                                                      .optional(),
-                                                    component_version: z
-                                                      .number()
-                                                      .int()
-                                                      .optional(),
-                                                    description: z
-                                                      .string()
-                                                      .optional(),
-                                                    label: z
-                                                      .string()
-                                                      .optional(),
-                                                    config: z
-                                                      .object({})
-                                                      .optional(),
+                                                    provider: z.string().optional(),
+                                                    component_type: z.string().optional(),
+                                                    version: z.number().int().optional(),
+                                                    component_version: z.number().int().optional(),
+                                                    description: z.string().optional(),
+                                                    label: z.string().optional(),
+                                                    config: z.object({}).optional(),
                                                   })
                                                   .merge(
                                                     z.object({
@@ -4123,68 +3575,32 @@ export const zAgStateProperties = z.object({
                                                       ]),
                                                       config: z
                                                         .object({
-                                                          frequency_penalty: z
-                                                            .number()
-                                                            .optional(),
-                                                          logit_bias: z
-                                                            .object({})
-                                                            .optional(),
-                                                          max_tokens: z
-                                                            .number()
-                                                            .int()
-                                                            .optional(),
-                                                          n: z
-                                                            .number()
-                                                            .int()
-                                                            .optional(),
-                                                          presence_penalty: z
-                                                            .number()
-                                                            .optional(),
-                                                          response_format: z
-                                                            .string()
-                                                            .optional(),
-                                                          seed: z
-                                                            .number()
-                                                            .int()
-                                                            .optional(),
-                                                          stop: z
-                                                            .array(z.string())
-                                                            .optional(),
-                                                          temperature: z
-                                                            .number()
-                                                            .optional(),
-                                                          top_p: z
-                                                            .number()
-                                                            .optional(),
-                                                          user: z
-                                                            .string()
-                                                            .optional(),
-                                                          stream_options: z
-                                                            .object({})
-                                                            .optional(),
+                                                          frequency_penalty: z.number().optional(),
+                                                          logit_bias: z.object({}).optional(),
+                                                          max_tokens: z.number().int().optional(),
+                                                          n: z.number().int().optional(),
+                                                          presence_penalty: z.number().optional(),
+                                                          response_format: z.string().optional(),
+                                                          seed: z.number().int().optional(),
+                                                          stop: z.array(z.string()).optional(),
+                                                          temperature: z.number().optional(),
+                                                          top_p: z.number().optional(),
+                                                          user: z.string().optional(),
+                                                          stream_options: z.object({}).optional(),
                                                         })
                                                         .merge(
                                                           z.object({
-                                                            model: z
-                                                              .string()
-                                                              .optional(),
-                                                            api_key: z
-                                                              .string()
-                                                              .optional(),
-                                                            timeout: z
-                                                              .number()
-                                                              .optional(),
+                                                            model: z.string().optional(),
+                                                            api_key: z.string().optional(),
+                                                            timeout: z.number().optional(),
                                                             max_retries: z
                                                               .number()
                                                               .int()
                                                               .optional(),
-                                                            model_capabilities:
-                                                              z
-                                                                .object({})
-                                                                .optional(),
-                                                            model_info: z
+                                                            model_capabilities: z
                                                               .object({})
                                                               .optional(),
+                                                            model_info: z.object({}).optional(),
                                                             add_name_prefixes: z
                                                               .boolean()
                                                               .optional(),
@@ -4195,32 +3611,22 @@ export const zAgStateProperties = z.object({
                                                         )
                                                         .merge(
                                                           z.object({
-                                                            organization: z
-                                                              .string()
-                                                              .optional(),
-                                                            base_url: z
-                                                              .string()
-                                                              .optional(),
+                                                            organization: z.string().optional(),
+                                                            base_url: z.string().optional(),
                                                           }),
                                                         ),
                                                     }),
                                                   ),
-                                                tools: z
-                                                  .array(z.object({}))
-                                                  .default([]),
+                                                tools: z.array(z.object({})).default([]),
                                                 handoffs: z
                                                   .array(z.string())
                                                   .optional()
                                                   .default([]),
-                                                reflect_on_tool_use: z
-                                                  .boolean()
-                                                  .default(false),
+                                                reflect_on_tool_use: z.boolean().default(false),
                                                 tool_call_summary_format: z
                                                   .string()
                                                   .default("{result}"),
-                                                metadata: z
-                                                  .object({})
-                                                  .optional(),
+                                                metadata: z.object({}).optional(),
                                               })
                                               .optional(),
                                           }),
@@ -4228,9 +3634,7 @@ export const zAgStateProperties = z.object({
                                     ),
                                   z
                                     .object({
-                                      provider: z
-                                        .literal("InstagramAgent")
-                                        .optional(),
+                                      provider: z.literal("InstagramAgent").optional(),
                                     })
                                     .merge(
                                       z
@@ -4238,59 +3642,34 @@ export const zAgStateProperties = z.object({
                                           provider: z.string().optional(),
                                           component_type: z.string().optional(),
                                           version: z.number().int().optional(),
-                                          component_version: z
-                                            .number()
-                                            .int()
-                                            .optional(),
+                                          component_version: z.number().int().optional(),
                                           description: z.string().optional(),
                                           label: z.string().optional(),
                                           config: z.object({}).optional(),
                                         })
                                         .merge(
                                           z.object({
-                                            provider: z.enum([
-                                              "InstagramAgent",
-                                            ]),
+                                            provider: z.enum(["InstagramAgent"]),
                                             config: z
                                               .object({
                                                 name: z.string(),
                                                 description: z.string(),
-                                                model_context: z
-                                                  .object({})
-                                                  .optional(),
+                                                model_context: z.object({}).optional(),
                                                 memory: z.object({}).optional(),
                                                 model_client_stream: z
                                                   .boolean()
                                                   .optional()
                                                   .default(false),
-                                                system_message: z
-                                                  .string()
-                                                  .optional(),
+                                                system_message: z.string().optional(),
                                                 model_client: z
                                                   .object({
-                                                    provider: z
-                                                      .string()
-                                                      .optional(),
-                                                    component_type: z
-                                                      .string()
-                                                      .optional(),
-                                                    version: z
-                                                      .number()
-                                                      .int()
-                                                      .optional(),
-                                                    component_version: z
-                                                      .number()
-                                                      .int()
-                                                      .optional(),
-                                                    description: z
-                                                      .string()
-                                                      .optional(),
-                                                    label: z
-                                                      .string()
-                                                      .optional(),
-                                                    config: z
-                                                      .object({})
-                                                      .optional(),
+                                                    provider: z.string().optional(),
+                                                    component_type: z.string().optional(),
+                                                    version: z.number().int().optional(),
+                                                    component_version: z.number().int().optional(),
+                                                    description: z.string().optional(),
+                                                    label: z.string().optional(),
+                                                    config: z.object({}).optional(),
                                                   })
                                                   .merge(
                                                     z.object({
@@ -4299,68 +3678,32 @@ export const zAgStateProperties = z.object({
                                                       ]),
                                                       config: z
                                                         .object({
-                                                          frequency_penalty: z
-                                                            .number()
-                                                            .optional(),
-                                                          logit_bias: z
-                                                            .object({})
-                                                            .optional(),
-                                                          max_tokens: z
-                                                            .number()
-                                                            .int()
-                                                            .optional(),
-                                                          n: z
-                                                            .number()
-                                                            .int()
-                                                            .optional(),
-                                                          presence_penalty: z
-                                                            .number()
-                                                            .optional(),
-                                                          response_format: z
-                                                            .string()
-                                                            .optional(),
-                                                          seed: z
-                                                            .number()
-                                                            .int()
-                                                            .optional(),
-                                                          stop: z
-                                                            .array(z.string())
-                                                            .optional(),
-                                                          temperature: z
-                                                            .number()
-                                                            .optional(),
-                                                          top_p: z
-                                                            .number()
-                                                            .optional(),
-                                                          user: z
-                                                            .string()
-                                                            .optional(),
-                                                          stream_options: z
-                                                            .object({})
-                                                            .optional(),
+                                                          frequency_penalty: z.number().optional(),
+                                                          logit_bias: z.object({}).optional(),
+                                                          max_tokens: z.number().int().optional(),
+                                                          n: z.number().int().optional(),
+                                                          presence_penalty: z.number().optional(),
+                                                          response_format: z.string().optional(),
+                                                          seed: z.number().int().optional(),
+                                                          stop: z.array(z.string()).optional(),
+                                                          temperature: z.number().optional(),
+                                                          top_p: z.number().optional(),
+                                                          user: z.string().optional(),
+                                                          stream_options: z.object({}).optional(),
                                                         })
                                                         .merge(
                                                           z.object({
-                                                            model: z
-                                                              .string()
-                                                              .optional(),
-                                                            api_key: z
-                                                              .string()
-                                                              .optional(),
-                                                            timeout: z
-                                                              .number()
-                                                              .optional(),
+                                                            model: z.string().optional(),
+                                                            api_key: z.string().optional(),
+                                                            timeout: z.number().optional(),
                                                             max_retries: z
                                                               .number()
                                                               .int()
                                                               .optional(),
-                                                            model_capabilities:
-                                                              z
-                                                                .object({})
-                                                                .optional(),
-                                                            model_info: z
+                                                            model_capabilities: z
                                                               .object({})
                                                               .optional(),
+                                                            model_info: z.object({}).optional(),
                                                             add_name_prefixes: z
                                                               .boolean()
                                                               .optional(),
@@ -4371,32 +3714,22 @@ export const zAgStateProperties = z.object({
                                                         )
                                                         .merge(
                                                           z.object({
-                                                            organization: z
-                                                              .string()
-                                                              .optional(),
-                                                            base_url: z
-                                                              .string()
-                                                              .optional(),
+                                                            organization: z.string().optional(),
+                                                            base_url: z.string().optional(),
                                                           }),
                                                         ),
                                                     }),
                                                   ),
-                                                tools: z
-                                                  .array(z.object({}))
-                                                  .default([]),
+                                                tools: z.array(z.object({})).default([]),
                                                 handoffs: z
                                                   .array(z.string())
                                                   .optional()
                                                   .default([]),
-                                                reflect_on_tool_use: z
-                                                  .boolean()
-                                                  .default(false),
+                                                reflect_on_tool_use: z.boolean().default(false),
                                                 tool_call_summary_format: z
                                                   .string()
                                                   .default("{result}"),
-                                                metadata: z
-                                                  .object({})
-                                                  .optional(),
+                                                metadata: z.object({}).optional(),
                                               })
                                               .merge(
                                                 z.object({
@@ -4404,14 +3737,10 @@ export const zAgStateProperties = z.object({
                                                     .object({
                                                       username: z.string(),
                                                       password: z.string(),
-                                                      otp_key: z
-                                                        .string()
-                                                        .optional(),
+                                                      otp_key: z.string().optional(),
                                                     })
                                                     .optional(),
-                                                  proxy_url: z
-                                                    .string()
-                                                    .optional(),
+                                                  proxy_url: z.string().optional(),
                                                 }),
                                               ),
                                           }),
@@ -4419,9 +3748,7 @@ export const zAgStateProperties = z.object({
                                     ),
                                   z
                                     .object({
-                                      provider: z
-                                        .literal("UserProxyAgent")
-                                        .optional(),
+                                      provider: z.literal("UserProxyAgent").optional(),
                                     })
                                     .merge(
                                       z
@@ -4429,28 +3756,18 @@ export const zAgStateProperties = z.object({
                                           provider: z.string().optional(),
                                           component_type: z.string().optional(),
                                           version: z.number().int().optional(),
-                                          component_version: z
-                                            .number()
-                                            .int()
-                                            .optional(),
+                                          component_version: z.number().int().optional(),
                                           description: z.string().optional(),
                                           label: z.string().optional(),
                                           config: z.object({}).optional(),
                                         })
                                         .merge(
                                           z.object({
-                                            provider: z.enum([
-                                              "UserProxyAgent",
-                                            ]),
+                                            provider: z.enum(["UserProxyAgent"]),
                                             config: z.object({
                                               name: z.string(),
-                                              description: z
-                                                .string()
-                                                .default("A human user"),
-                                              input_func: z
-                                                .string()
-                                                .optional()
-                                                .default("None"),
+                                              description: z.string().default("A human user"),
+                                              input_func: z.string().optional().default("None"),
                                             }),
                                           }),
                                         ),
@@ -4460,15 +3777,11 @@ export const zAgStateProperties = z.object({
                               termination_condition: z.union([
                                 z
                                   .object({
-                                    provider: z
-                                      .literal("TextMentionTermination")
-                                      .optional(),
+                                    provider: z.literal("TextMentionTermination").optional(),
                                   })
                                   .merge(
                                     z.object({
-                                      provider: z.enum([
-                                        "TextMentionTermination",
-                                      ]),
+                                      provider: z.enum(["TextMentionTermination"]),
                                       config: z.object({
                                         text: z.string(),
                                       }),
@@ -4476,9 +3789,7 @@ export const zAgStateProperties = z.object({
                                   ),
                                 z
                                   .object({
-                                    provider: z
-                                      .literal("HandoffTermination")
-                                      .optional(),
+                                    provider: z.literal("HandoffTermination").optional(),
                                   })
                                   .merge(
                                     z.object({
@@ -4490,9 +3801,7 @@ export const zAgStateProperties = z.object({
                                   ),
                                 z
                                   .object({
-                                    provider: z
-                                      .literal("TimeoutTermination")
-                                      .optional(),
+                                    provider: z.literal("TimeoutTermination").optional(),
                                   })
                                   .merge(
                                     z.object({
@@ -4504,15 +3813,11 @@ export const zAgStateProperties = z.object({
                                   ),
                                 z
                                   .object({
-                                    provider: z
-                                      .literal("SourceMatchTermination")
-                                      .optional(),
+                                    provider: z.literal("SourceMatchTermination").optional(),
                                   })
                                   .merge(
                                     z.object({
-                                      provider: z.enum([
-                                        "SourceMatchTermination",
-                                      ]),
+                                      provider: z.enum(["SourceMatchTermination"]),
                                       config: z.object({
                                         sources: z.array(z.string()),
                                       }),
@@ -4520,15 +3825,11 @@ export const zAgStateProperties = z.object({
                                   ),
                                 z
                                   .object({
-                                    provider: z
-                                      .literal("FunctionCallTermination")
-                                      .optional(),
+                                    provider: z.literal("FunctionCallTermination").optional(),
                                   })
                                   .merge(
                                     z.object({
-                                      provider: z.enum([
-                                        "FunctionCallTermination",
-                                      ]),
+                                      provider: z.enum(["FunctionCallTermination"]),
                                       config: z.object({
                                         function_name: z.string(),
                                       }),
@@ -4536,62 +3837,38 @@ export const zAgStateProperties = z.object({
                                   ),
                                 z
                                   .object({
-                                    provider: z
-                                      .literal("TokenUsageTermination")
-                                      .optional(),
+                                    provider: z.literal("TokenUsageTermination").optional(),
                                   })
                                   .merge(
                                     z.object({
-                                      provider: z.enum([
-                                        "TokenUsageTermination",
-                                      ]),
+                                      provider: z.enum(["TokenUsageTermination"]),
                                       config: z.object({
-                                        max_total_token: z
-                                          .number()
-                                          .int()
-                                          .optional(),
-                                        max_prompt_token: z
-                                          .number()
-                                          .int()
-                                          .optional(),
-                                        max_completion_token: z
-                                          .number()
-                                          .int()
-                                          .optional(),
+                                        max_total_token: z.number().int().optional(),
+                                        max_prompt_token: z.number().int().optional(),
+                                        max_completion_token: z.number().int().optional(),
                                       }),
                                     }),
                                   ),
                                 z
                                   .object({
-                                    provider: z
-                                      .literal("MaxMessageTermination")
-                                      .optional(),
+                                    provider: z.literal("MaxMessageTermination").optional(),
                                   })
                                   .merge(
                                     z.object({
-                                      provider: z.enum([
-                                        "MaxMessageTermination",
-                                      ]),
+                                      provider: z.enum(["MaxMessageTermination"]),
                                       config: z.object({
                                         max_messages: z.number().int(),
-                                        include_agent_event: z
-                                          .boolean()
-                                          .optional()
-                                          .default(false),
+                                        include_agent_event: z.boolean().optional().default(false),
                                       }),
                                     }),
                                   ),
                                 z
                                   .object({
-                                    provider: z
-                                      .literal("StopMessageTermination")
-                                      .optional(),
+                                    provider: z.literal("StopMessageTermination").optional(),
                                   })
                                   .merge(
                                     z.object({
-                                      provider: z.enum([
-                                        "StopMessageTermination",
-                                      ]),
+                                      provider: z.enum(["StopMessageTermination"]),
                                       config: z.object({
                                         some_thing: z.string().optional(),
                                       }),
@@ -4604,16 +3881,10 @@ export const zAgStateProperties = z.object({
                               z.object({
                                 selector_prompt: z.string().optional(),
                                 allow_repeated_speaker: z.boolean().optional(),
-                                max_selector_attempts: z
-                                  .number()
-                                  .int()
-                                  .optional(),
+                                max_selector_attempts: z.number().int().optional(),
                                 selector_func: z.string().optional(),
                                 proxy_url: z.string().optional(),
-                                enable_swarm: z
-                                  .boolean()
-                                  .optional()
-                                  .default(false),
+                                enable_swarm: z.boolean().optional().default(false),
                               }),
                             ),
                         }),
@@ -4897,9 +4168,7 @@ export const zAgentStates = z.union([
                             z.union([
                               z
                                 .object({
-                                  provider: z
-                                    .literal("AssistantAgent")
-                                    .optional(),
+                                  provider: z.literal("AssistantAgent").optional(),
                                 })
                                 .merge(
                                   z
@@ -4907,10 +4176,7 @@ export const zAgentStates = z.union([
                                       provider: z.string().optional(),
                                       component_type: z.string().optional(),
                                       version: z.number().int().optional(),
-                                      component_version: z
-                                        .number()
-                                        .int()
-                                        .optional(),
+                                      component_version: z.number().int().optional(),
                                       description: z.string().optional(),
                                       label: z.string().optional(),
                                       config: z.object({}).optional(),
@@ -4923,135 +4189,64 @@ export const zAgentStates = z.union([
                                           .object({
                                             name: z.string(),
                                             description: z.string(),
-                                            model_context: z
-                                              .object({})
-                                              .optional(),
+                                            model_context: z.object({}).optional(),
                                             memory: z.object({}).optional(),
                                             model_client_stream: z
                                               .boolean()
                                               .optional()
                                               .default(false),
-                                            system_message: z
-                                              .string()
-                                              .optional(),
+                                            system_message: z.string().optional(),
                                             model_client: z
                                               .object({
                                                 provider: z.string().optional(),
-                                                component_type: z
-                                                  .string()
-                                                  .optional(),
-                                                version: z
-                                                  .number()
-                                                  .int()
-                                                  .optional(),
-                                                component_version: z
-                                                  .number()
-                                                  .int()
-                                                  .optional(),
-                                                description: z
-                                                  .string()
-                                                  .optional(),
+                                                component_type: z.string().optional(),
+                                                version: z.number().int().optional(),
+                                                component_version: z.number().int().optional(),
+                                                description: z.string().optional(),
                                                 label: z.string().optional(),
                                                 config: z.object({}).optional(),
                                               })
                                               .merge(
                                                 z.object({
-                                                  provider: z.enum([
-                                                    "OpenAIChatCompletionClient",
-                                                  ]),
+                                                  provider: z.enum(["OpenAIChatCompletionClient"]),
                                                   config: z
                                                     .object({
-                                                      frequency_penalty: z
-                                                        .number()
-                                                        .optional(),
-                                                      logit_bias: z
-                                                        .object({})
-                                                        .optional(),
-                                                      max_tokens: z
-                                                        .number()
-                                                        .int()
-                                                        .optional(),
-                                                      n: z
-                                                        .number()
-                                                        .int()
-                                                        .optional(),
-                                                      presence_penalty: z
-                                                        .number()
-                                                        .optional(),
-                                                      response_format: z
-                                                        .string()
-                                                        .optional(),
-                                                      seed: z
-                                                        .number()
-                                                        .int()
-                                                        .optional(),
-                                                      stop: z
-                                                        .array(z.string())
-                                                        .optional(),
-                                                      temperature: z
-                                                        .number()
-                                                        .optional(),
-                                                      top_p: z
-                                                        .number()
-                                                        .optional(),
-                                                      user: z
-                                                        .string()
-                                                        .optional(),
-                                                      stream_options: z
-                                                        .object({})
-                                                        .optional(),
+                                                      frequency_penalty: z.number().optional(),
+                                                      logit_bias: z.object({}).optional(),
+                                                      max_tokens: z.number().int().optional(),
+                                                      n: z.number().int().optional(),
+                                                      presence_penalty: z.number().optional(),
+                                                      response_format: z.string().optional(),
+                                                      seed: z.number().int().optional(),
+                                                      stop: z.array(z.string()).optional(),
+                                                      temperature: z.number().optional(),
+                                                      top_p: z.number().optional(),
+                                                      user: z.string().optional(),
+                                                      stream_options: z.object({}).optional(),
                                                     })
                                                     .merge(
                                                       z.object({
-                                                        model: z
-                                                          .string()
-                                                          .optional(),
-                                                        api_key: z
-                                                          .string()
-                                                          .optional(),
-                                                        timeout: z
-                                                          .number()
-                                                          .optional(),
-                                                        max_retries: z
-                                                          .number()
-                                                          .int()
-                                                          .optional(),
-                                                        model_capabilities: z
-                                                          .object({})
-                                                          .optional(),
-                                                        model_info: z
-                                                          .object({})
-                                                          .optional(),
-                                                        add_name_prefixes: z
-                                                          .boolean()
-                                                          .optional(),
-                                                        default_headers: z
-                                                          .object({})
-                                                          .optional(),
+                                                        model: z.string().optional(),
+                                                        api_key: z.string().optional(),
+                                                        timeout: z.number().optional(),
+                                                        max_retries: z.number().int().optional(),
+                                                        model_capabilities: z.object({}).optional(),
+                                                        model_info: z.object({}).optional(),
+                                                        add_name_prefixes: z.boolean().optional(),
+                                                        default_headers: z.object({}).optional(),
                                                       }),
                                                     )
                                                     .merge(
                                                       z.object({
-                                                        organization: z
-                                                          .string()
-                                                          .optional(),
-                                                        base_url: z
-                                                          .string()
-                                                          .optional(),
+                                                        organization: z.string().optional(),
+                                                        base_url: z.string().optional(),
                                                       }),
                                                     ),
                                                 }),
                                               ),
-                                            tools: z
-                                              .array(z.object({}))
-                                              .default([]),
-                                            handoffs: z
-                                              .array(z.string())
-                                              .optional()
-                                              .default([]),
-                                            reflect_on_tool_use: z
-                                              .boolean()
-                                              .default(false),
+                                            tools: z.array(z.object({})).default([]),
+                                            handoffs: z.array(z.string()).optional().default([]),
+                                            reflect_on_tool_use: z.boolean().default(false),
                                             tool_call_summary_format: z
                                               .string()
                                               .default("{result}"),
@@ -5063,9 +4258,7 @@ export const zAgentStates = z.union([
                                 ),
                               z
                                 .object({
-                                  provider: z
-                                    .literal("InstagramAgent")
-                                    .optional(),
+                                  provider: z.literal("InstagramAgent").optional(),
                                 })
                                 .merge(
                                   z
@@ -5073,10 +4266,7 @@ export const zAgentStates = z.union([
                                       provider: z.string().optional(),
                                       component_type: z.string().optional(),
                                       version: z.number().int().optional(),
-                                      component_version: z
-                                        .number()
-                                        .int()
-                                        .optional(),
+                                      component_version: z.number().int().optional(),
                                       description: z.string().optional(),
                                       label: z.string().optional(),
                                       config: z.object({}).optional(),
@@ -5088,135 +4278,64 @@ export const zAgentStates = z.union([
                                           .object({
                                             name: z.string(),
                                             description: z.string(),
-                                            model_context: z
-                                              .object({})
-                                              .optional(),
+                                            model_context: z.object({}).optional(),
                                             memory: z.object({}).optional(),
                                             model_client_stream: z
                                               .boolean()
                                               .optional()
                                               .default(false),
-                                            system_message: z
-                                              .string()
-                                              .optional(),
+                                            system_message: z.string().optional(),
                                             model_client: z
                                               .object({
                                                 provider: z.string().optional(),
-                                                component_type: z
-                                                  .string()
-                                                  .optional(),
-                                                version: z
-                                                  .number()
-                                                  .int()
-                                                  .optional(),
-                                                component_version: z
-                                                  .number()
-                                                  .int()
-                                                  .optional(),
-                                                description: z
-                                                  .string()
-                                                  .optional(),
+                                                component_type: z.string().optional(),
+                                                version: z.number().int().optional(),
+                                                component_version: z.number().int().optional(),
+                                                description: z.string().optional(),
                                                 label: z.string().optional(),
                                                 config: z.object({}).optional(),
                                               })
                                               .merge(
                                                 z.object({
-                                                  provider: z.enum([
-                                                    "OpenAIChatCompletionClient",
-                                                  ]),
+                                                  provider: z.enum(["OpenAIChatCompletionClient"]),
                                                   config: z
                                                     .object({
-                                                      frequency_penalty: z
-                                                        .number()
-                                                        .optional(),
-                                                      logit_bias: z
-                                                        .object({})
-                                                        .optional(),
-                                                      max_tokens: z
-                                                        .number()
-                                                        .int()
-                                                        .optional(),
-                                                      n: z
-                                                        .number()
-                                                        .int()
-                                                        .optional(),
-                                                      presence_penalty: z
-                                                        .number()
-                                                        .optional(),
-                                                      response_format: z
-                                                        .string()
-                                                        .optional(),
-                                                      seed: z
-                                                        .number()
-                                                        .int()
-                                                        .optional(),
-                                                      stop: z
-                                                        .array(z.string())
-                                                        .optional(),
-                                                      temperature: z
-                                                        .number()
-                                                        .optional(),
-                                                      top_p: z
-                                                        .number()
-                                                        .optional(),
-                                                      user: z
-                                                        .string()
-                                                        .optional(),
-                                                      stream_options: z
-                                                        .object({})
-                                                        .optional(),
+                                                      frequency_penalty: z.number().optional(),
+                                                      logit_bias: z.object({}).optional(),
+                                                      max_tokens: z.number().int().optional(),
+                                                      n: z.number().int().optional(),
+                                                      presence_penalty: z.number().optional(),
+                                                      response_format: z.string().optional(),
+                                                      seed: z.number().int().optional(),
+                                                      stop: z.array(z.string()).optional(),
+                                                      temperature: z.number().optional(),
+                                                      top_p: z.number().optional(),
+                                                      user: z.string().optional(),
+                                                      stream_options: z.object({}).optional(),
                                                     })
                                                     .merge(
                                                       z.object({
-                                                        model: z
-                                                          .string()
-                                                          .optional(),
-                                                        api_key: z
-                                                          .string()
-                                                          .optional(),
-                                                        timeout: z
-                                                          .number()
-                                                          .optional(),
-                                                        max_retries: z
-                                                          .number()
-                                                          .int()
-                                                          .optional(),
-                                                        model_capabilities: z
-                                                          .object({})
-                                                          .optional(),
-                                                        model_info: z
-                                                          .object({})
-                                                          .optional(),
-                                                        add_name_prefixes: z
-                                                          .boolean()
-                                                          .optional(),
-                                                        default_headers: z
-                                                          .object({})
-                                                          .optional(),
+                                                        model: z.string().optional(),
+                                                        api_key: z.string().optional(),
+                                                        timeout: z.number().optional(),
+                                                        max_retries: z.number().int().optional(),
+                                                        model_capabilities: z.object({}).optional(),
+                                                        model_info: z.object({}).optional(),
+                                                        add_name_prefixes: z.boolean().optional(),
+                                                        default_headers: z.object({}).optional(),
                                                       }),
                                                     )
                                                     .merge(
                                                       z.object({
-                                                        organization: z
-                                                          .string()
-                                                          .optional(),
-                                                        base_url: z
-                                                          .string()
-                                                          .optional(),
+                                                        organization: z.string().optional(),
+                                                        base_url: z.string().optional(),
                                                       }),
                                                     ),
                                                 }),
                                               ),
-                                            tools: z
-                                              .array(z.object({}))
-                                              .default([]),
-                                            handoffs: z
-                                              .array(z.string())
-                                              .optional()
-                                              .default([]),
-                                            reflect_on_tool_use: z
-                                              .boolean()
-                                              .default(false),
+                                            tools: z.array(z.object({})).default([]),
+                                            handoffs: z.array(z.string()).optional().default([]),
+                                            reflect_on_tool_use: z.boolean().default(false),
                                             tool_call_summary_format: z
                                               .string()
                                               .default("{result}"),
@@ -5228,9 +4347,7 @@ export const zAgentStates = z.union([
                                                 .object({
                                                   username: z.string(),
                                                   password: z.string(),
-                                                  otp_key: z
-                                                    .string()
-                                                    .optional(),
+                                                  otp_key: z.string().optional(),
                                                 })
                                                 .optional(),
                                               proxy_url: z.string().optional(),
@@ -5241,9 +4358,7 @@ export const zAgentStates = z.union([
                                 ),
                               z
                                 .object({
-                                  provider: z
-                                    .literal("UserProxyAgent")
-                                    .optional(),
+                                  provider: z.literal("UserProxyAgent").optional(),
                                 })
                                 .merge(
                                   z
@@ -5251,10 +4366,7 @@ export const zAgentStates = z.union([
                                       provider: z.string().optional(),
                                       component_type: z.string().optional(),
                                       version: z.number().int().optional(),
-                                      component_version: z
-                                        .number()
-                                        .int()
-                                        .optional(),
+                                      component_version: z.number().int().optional(),
                                       description: z.string().optional(),
                                       label: z.string().optional(),
                                       config: z.object({}).optional(),
@@ -5264,13 +4376,8 @@ export const zAgentStates = z.union([
                                         provider: z.enum(["UserProxyAgent"]),
                                         config: z.object({
                                           name: z.string(),
-                                          description: z
-                                            .string()
-                                            .default("A human user"),
-                                          input_func: z
-                                            .string()
-                                            .optional()
-                                            .default("None"),
+                                          description: z.string().default("A human user"),
+                                          input_func: z.string().optional().default("None"),
                                         }),
                                       }),
                                     ),
@@ -5280,9 +4387,7 @@ export const zAgentStates = z.union([
                           termination_condition: z.union([
                             z
                               .object({
-                                provider: z
-                                  .literal("TextMentionTermination")
-                                  .optional(),
+                                provider: z.literal("TextMentionTermination").optional(),
                               })
                               .merge(
                                 z.object({
@@ -5294,9 +4399,7 @@ export const zAgentStates = z.union([
                               ),
                             z
                               .object({
-                                provider: z
-                                  .literal("HandoffTermination")
-                                  .optional(),
+                                provider: z.literal("HandoffTermination").optional(),
                               })
                               .merge(
                                 z.object({
@@ -5308,9 +4411,7 @@ export const zAgentStates = z.union([
                               ),
                             z
                               .object({
-                                provider: z
-                                  .literal("TimeoutTermination")
-                                  .optional(),
+                                provider: z.literal("TimeoutTermination").optional(),
                               })
                               .merge(
                                 z.object({
@@ -5322,9 +4423,7 @@ export const zAgentStates = z.union([
                               ),
                             z
                               .object({
-                                provider: z
-                                  .literal("SourceMatchTermination")
-                                  .optional(),
+                                provider: z.literal("SourceMatchTermination").optional(),
                               })
                               .merge(
                                 z.object({
@@ -5336,9 +4435,7 @@ export const zAgentStates = z.union([
                               ),
                             z
                               .object({
-                                provider: z
-                                  .literal("FunctionCallTermination")
-                                  .optional(),
+                                provider: z.literal("FunctionCallTermination").optional(),
                               })
                               .merge(
                                 z.object({
@@ -5350,52 +4447,34 @@ export const zAgentStates = z.union([
                               ),
                             z
                               .object({
-                                provider: z
-                                  .literal("TokenUsageTermination")
-                                  .optional(),
+                                provider: z.literal("TokenUsageTermination").optional(),
                               })
                               .merge(
                                 z.object({
                                   provider: z.enum(["TokenUsageTermination"]),
                                   config: z.object({
-                                    max_total_token: z
-                                      .number()
-                                      .int()
-                                      .optional(),
-                                    max_prompt_token: z
-                                      .number()
-                                      .int()
-                                      .optional(),
-                                    max_completion_token: z
-                                      .number()
-                                      .int()
-                                      .optional(),
+                                    max_total_token: z.number().int().optional(),
+                                    max_prompt_token: z.number().int().optional(),
+                                    max_completion_token: z.number().int().optional(),
                                   }),
                                 }),
                               ),
                             z
                               .object({
-                                provider: z
-                                  .literal("MaxMessageTermination")
-                                  .optional(),
+                                provider: z.literal("MaxMessageTermination").optional(),
                               })
                               .merge(
                                 z.object({
                                   provider: z.enum(["MaxMessageTermination"]),
                                   config: z.object({
                                     max_messages: z.number().int(),
-                                    include_agent_event: z
-                                      .boolean()
-                                      .optional()
-                                      .default(false),
+                                    include_agent_event: z.boolean().optional().default(false),
                                   }),
                                 }),
                               ),
                             z
                               .object({
-                                provider: z
-                                  .literal("StopMessageTermination")
-                                  .optional(),
+                                provider: z.literal("StopMessageTermination").optional(),
                               })
                               .merge(
                                 z.object({
@@ -5604,114 +4683,60 @@ export const zSocialTeamManagerState = zBaseState.merge(
                                       description: z.string(),
                                       model_context: z.object({}).optional(),
                                       memory: z.object({}).optional(),
-                                      model_client_stream: z
-                                        .boolean()
-                                        .optional()
-                                        .default(false),
+                                      model_client_stream: z.boolean().optional().default(false),
                                       system_message: z.string().optional(),
                                       model_client: z
                                         .object({
                                           provider: z.string().optional(),
                                           component_type: z.string().optional(),
                                           version: z.number().int().optional(),
-                                          component_version: z
-                                            .number()
-                                            .int()
-                                            .optional(),
+                                          component_version: z.number().int().optional(),
                                           description: z.string().optional(),
                                           label: z.string().optional(),
                                           config: z.object({}).optional(),
                                         })
                                         .merge(
                                           z.object({
-                                            provider: z.enum([
-                                              "OpenAIChatCompletionClient",
-                                            ]),
+                                            provider: z.enum(["OpenAIChatCompletionClient"]),
                                             config: z
                                               .object({
-                                                frequency_penalty: z
-                                                  .number()
-                                                  .optional(),
-                                                logit_bias: z
-                                                  .object({})
-                                                  .optional(),
-                                                max_tokens: z
-                                                  .number()
-                                                  .int()
-                                                  .optional(),
+                                                frequency_penalty: z.number().optional(),
+                                                logit_bias: z.object({}).optional(),
+                                                max_tokens: z.number().int().optional(),
                                                 n: z.number().int().optional(),
-                                                presence_penalty: z
-                                                  .number()
-                                                  .optional(),
-                                                response_format: z
-                                                  .string()
-                                                  .optional(),
-                                                seed: z
-                                                  .number()
-                                                  .int()
-                                                  .optional(),
-                                                stop: z
-                                                  .array(z.string())
-                                                  .optional(),
-                                                temperature: z
-                                                  .number()
-                                                  .optional(),
+                                                presence_penalty: z.number().optional(),
+                                                response_format: z.string().optional(),
+                                                seed: z.number().int().optional(),
+                                                stop: z.array(z.string()).optional(),
+                                                temperature: z.number().optional(),
                                                 top_p: z.number().optional(),
                                                 user: z.string().optional(),
-                                                stream_options: z
-                                                  .object({})
-                                                  .optional(),
+                                                stream_options: z.object({}).optional(),
                                               })
                                               .merge(
                                                 z.object({
                                                   model: z.string().optional(),
-                                                  api_key: z
-                                                    .string()
-                                                    .optional(),
-                                                  timeout: z
-                                                    .number()
-                                                    .optional(),
-                                                  max_retries: z
-                                                    .number()
-                                                    .int()
-                                                    .optional(),
-                                                  model_capabilities: z
-                                                    .object({})
-                                                    .optional(),
-                                                  model_info: z
-                                                    .object({})
-                                                    .optional(),
-                                                  add_name_prefixes: z
-                                                    .boolean()
-                                                    .optional(),
-                                                  default_headers: z
-                                                    .object({})
-                                                    .optional(),
+                                                  api_key: z.string().optional(),
+                                                  timeout: z.number().optional(),
+                                                  max_retries: z.number().int().optional(),
+                                                  model_capabilities: z.object({}).optional(),
+                                                  model_info: z.object({}).optional(),
+                                                  add_name_prefixes: z.boolean().optional(),
+                                                  default_headers: z.object({}).optional(),
                                                 }),
                                               )
                                               .merge(
                                                 z.object({
-                                                  organization: z
-                                                    .string()
-                                                    .optional(),
-                                                  base_url: z
-                                                    .string()
-                                                    .optional(),
+                                                  organization: z.string().optional(),
+                                                  base_url: z.string().optional(),
                                                 }),
                                               ),
                                           }),
                                         ),
                                       tools: z.array(z.object({})).default([]),
-                                      handoffs: z
-                                        .array(z.string())
-                                        .optional()
-                                        .default([]),
-                                      reflect_on_tool_use: z
-                                        .boolean()
-                                        .default(false),
-                                      tool_call_summary_format: z
-                                        .string()
-                                        .default("{result}"),
+                                      handoffs: z.array(z.string()).optional().default([]),
+                                      reflect_on_tool_use: z.boolean().default(false),
+                                      tool_call_summary_format: z.string().default("{result}"),
                                       metadata: z.object({}).optional(),
                                     })
                                     .optional(),
@@ -5742,114 +4767,60 @@ export const zSocialTeamManagerState = zBaseState.merge(
                                       description: z.string(),
                                       model_context: z.object({}).optional(),
                                       memory: z.object({}).optional(),
-                                      model_client_stream: z
-                                        .boolean()
-                                        .optional()
-                                        .default(false),
+                                      model_client_stream: z.boolean().optional().default(false),
                                       system_message: z.string().optional(),
                                       model_client: z
                                         .object({
                                           provider: z.string().optional(),
                                           component_type: z.string().optional(),
                                           version: z.number().int().optional(),
-                                          component_version: z
-                                            .number()
-                                            .int()
-                                            .optional(),
+                                          component_version: z.number().int().optional(),
                                           description: z.string().optional(),
                                           label: z.string().optional(),
                                           config: z.object({}).optional(),
                                         })
                                         .merge(
                                           z.object({
-                                            provider: z.enum([
-                                              "OpenAIChatCompletionClient",
-                                            ]),
+                                            provider: z.enum(["OpenAIChatCompletionClient"]),
                                             config: z
                                               .object({
-                                                frequency_penalty: z
-                                                  .number()
-                                                  .optional(),
-                                                logit_bias: z
-                                                  .object({})
-                                                  .optional(),
-                                                max_tokens: z
-                                                  .number()
-                                                  .int()
-                                                  .optional(),
+                                                frequency_penalty: z.number().optional(),
+                                                logit_bias: z.object({}).optional(),
+                                                max_tokens: z.number().int().optional(),
                                                 n: z.number().int().optional(),
-                                                presence_penalty: z
-                                                  .number()
-                                                  .optional(),
-                                                response_format: z
-                                                  .string()
-                                                  .optional(),
-                                                seed: z
-                                                  .number()
-                                                  .int()
-                                                  .optional(),
-                                                stop: z
-                                                  .array(z.string())
-                                                  .optional(),
-                                                temperature: z
-                                                  .number()
-                                                  .optional(),
+                                                presence_penalty: z.number().optional(),
+                                                response_format: z.string().optional(),
+                                                seed: z.number().int().optional(),
+                                                stop: z.array(z.string()).optional(),
+                                                temperature: z.number().optional(),
                                                 top_p: z.number().optional(),
                                                 user: z.string().optional(),
-                                                stream_options: z
-                                                  .object({})
-                                                  .optional(),
+                                                stream_options: z.object({}).optional(),
                                               })
                                               .merge(
                                                 z.object({
                                                   model: z.string().optional(),
-                                                  api_key: z
-                                                    .string()
-                                                    .optional(),
-                                                  timeout: z
-                                                    .number()
-                                                    .optional(),
-                                                  max_retries: z
-                                                    .number()
-                                                    .int()
-                                                    .optional(),
-                                                  model_capabilities: z
-                                                    .object({})
-                                                    .optional(),
-                                                  model_info: z
-                                                    .object({})
-                                                    .optional(),
-                                                  add_name_prefixes: z
-                                                    .boolean()
-                                                    .optional(),
-                                                  default_headers: z
-                                                    .object({})
-                                                    .optional(),
+                                                  api_key: z.string().optional(),
+                                                  timeout: z.number().optional(),
+                                                  max_retries: z.number().int().optional(),
+                                                  model_capabilities: z.object({}).optional(),
+                                                  model_info: z.object({}).optional(),
+                                                  add_name_prefixes: z.boolean().optional(),
+                                                  default_headers: z.object({}).optional(),
                                                 }),
                                               )
                                               .merge(
                                                 z.object({
-                                                  organization: z
-                                                    .string()
-                                                    .optional(),
-                                                  base_url: z
-                                                    .string()
-                                                    .optional(),
+                                                  organization: z.string().optional(),
+                                                  base_url: z.string().optional(),
                                                 }),
                                               ),
                                           }),
                                         ),
                                       tools: z.array(z.object({})).default([]),
-                                      handoffs: z
-                                        .array(z.string())
-                                        .optional()
-                                        .default([]),
-                                      reflect_on_tool_use: z
-                                        .boolean()
-                                        .default(false),
-                                      tool_call_summary_format: z
-                                        .string()
-                                        .default("{result}"),
+                                      handoffs: z.array(z.string()).optional().default([]),
+                                      reflect_on_tool_use: z.boolean().default(false),
+                                      tool_call_summary_format: z.string().default("{result}"),
                                       metadata: z.object({}).optional(),
                                     })
                                     .merge(
@@ -5887,13 +4858,8 @@ export const zSocialTeamManagerState = zBaseState.merge(
                                   provider: z.enum(["UserProxyAgent"]),
                                   config: z.object({
                                     name: z.string(),
-                                    description: z
-                                      .string()
-                                      .default("A human user"),
-                                    input_func: z
-                                      .string()
-                                      .optional()
-                                      .default("None"),
+                                    description: z.string().default("A human user"),
+                                    input_func: z.string().optional().default("None"),
                                   }),
                                 }),
                               ),
@@ -5903,9 +4869,7 @@ export const zSocialTeamManagerState = zBaseState.merge(
                     termination_condition: z.union([
                       z
                         .object({
-                          provider: z
-                            .literal("TextMentionTermination")
-                            .optional(),
+                          provider: z.literal("TextMentionTermination").optional(),
                         })
                         .merge(
                           z.object({
@@ -5941,9 +4905,7 @@ export const zSocialTeamManagerState = zBaseState.merge(
                         ),
                       z
                         .object({
-                          provider: z
-                            .literal("SourceMatchTermination")
-                            .optional(),
+                          provider: z.literal("SourceMatchTermination").optional(),
                         })
                         .merge(
                           z.object({
@@ -5955,9 +4917,7 @@ export const zSocialTeamManagerState = zBaseState.merge(
                         ),
                       z
                         .object({
-                          provider: z
-                            .literal("FunctionCallTermination")
-                            .optional(),
+                          provider: z.literal("FunctionCallTermination").optional(),
                         })
                         .merge(
                           z.object({
@@ -5969,9 +4929,7 @@ export const zSocialTeamManagerState = zBaseState.merge(
                         ),
                       z
                         .object({
-                          provider: z
-                            .literal("TokenUsageTermination")
-                            .optional(),
+                          provider: z.literal("TokenUsageTermination").optional(),
                         })
                         .merge(
                           z.object({
@@ -5985,27 +4943,20 @@ export const zSocialTeamManagerState = zBaseState.merge(
                         ),
                       z
                         .object({
-                          provider: z
-                            .literal("MaxMessageTermination")
-                            .optional(),
+                          provider: z.literal("MaxMessageTermination").optional(),
                         })
                         .merge(
                           z.object({
                             provider: z.enum(["MaxMessageTermination"]),
                             config: z.object({
                               max_messages: z.number().int(),
-                              include_agent_event: z
-                                .boolean()
-                                .optional()
-                                .default(false),
+                              include_agent_event: z.boolean().optional().default(false),
                             }),
                           }),
                         ),
                       z
                         .object({
-                          provider: z
-                            .literal("StopMessageTermination")
-                            .optional(),
+                          provider: z.literal("StopMessageTermination").optional(),
                         })
                         .merge(
                           z.object({
@@ -7289,9 +6240,7 @@ export const zPlatformAccountProperties = z.object({
 
 export const zPlatformAccountCreate = zPlatformAccountProperties;
 
-export const zPlatformAccount = zApiResourceMetaProperties.merge(
-  zPlatformAccountProperties,
-);
+export const zPlatformAccount = zApiResourceMetaProperties.merge(zPlatformAccountProperties);
 
 export const zPlatformAccountList = z.object({
   pagination: zPaginationResponse.optional(),
@@ -8260,8 +7209,7 @@ export const zFlowStateProperties = z.object({
   state: z.object({}),
 });
 
-export const zFlowState =
-  zApiResourceMetaProperties.merge(zFlowStateProperties);
+export const zFlowState = zApiResourceMetaProperties.merge(zFlowStateProperties);
 
 export const zFlowStateList = z.object({
   pagination: zPaginationResponse.optional(),
@@ -8318,9 +7266,7 @@ export const zAdkEventProperties = z.object({
 
 export const zAdkEventList = z.object({
   pagination: zPaginationResponse.optional(),
-  rows: z
-    .array(zApiResourceMetaProperties.merge(zAdkEventProperties))
-    .optional(),
+  rows: z.array(zApiResourceMetaProperties.merge(zAdkEventProperties)).optional(),
 });
 
 export const zAdkEvent = zApiResourceMetaProperties.merge(zAdkEventProperties);
@@ -8360,9 +7306,7 @@ export const zAdkSessionProperties = z.object({
   update_time: z.string(),
 });
 
-export const zAdkSession = zApiResourceMetaProperties.merge(
-  zAdkSessionProperties,
-);
+export const zAdkSession = zApiResourceMetaProperties.merge(zAdkSessionProperties);
 
 export const zAdkSessionList = z.object({
   pagination: zPaginationResponse.optional(),
@@ -8384,9 +7328,7 @@ export const zAdkUserStateProperties = z.object({
   actions: z.object({}),
 });
 
-export const zAdkUserState = zApiResourceMetaProperties.merge(
-  zAdkUserStateProperties,
-);
+export const zAdkUserState = zApiResourceMetaProperties.merge(zAdkUserStateProperties);
 
 export const zAdkUserStateList = z.object({
   pagination: zPaginationResponse.optional(),

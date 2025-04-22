@@ -35,11 +35,7 @@ export const internalQueue = pgEnum("InternalQueue", [
   "WORKFLOW_RUN_UPDATE",
   "WORKFLOW_RUN_PAUSED",
 ]);
-export const inviteLinkStatus = pgEnum("InviteLinkStatus", [
-  "PENDING",
-  "ACCEPTED",
-  "REJECTED",
-]);
+export const inviteLinkStatus = pgEnum("InviteLinkStatus", ["PENDING", "ACCEPTED", "REJECTED"]);
 export const jobKind = pgEnum("JobKind", ["DEFAULT", "ON_FAILURE"]);
 export const jobRunStatus = pgEnum("JobRunStatus", [
   "PENDING",
@@ -56,12 +52,7 @@ export const limitResource = pgEnum("LimitResource", [
   "CRON",
   "SCHEDULE",
 ]);
-export const logLineLevel = pgEnum("LogLineLevel", [
-  "DEBUG",
-  "INFO",
-  "WARN",
-  "ERROR",
-]);
+export const logLineLevel = pgEnum("LogLineLevel", ["DEBUG", "INFO", "WARN", "ERROR"]);
 export const state = pgEnum("State", ["QUEUE", "PUBLISHED", "ERROR", "DRAFT"]);
 export const stepExpressionKind = pgEnum("StepExpressionKind", [
   "DYNAMIC_RATE_LIMIT_KEY",
@@ -69,10 +60,7 @@ export const stepExpressionKind = pgEnum("StepExpressionKind", [
   "DYNAMIC_RATE_LIMIT_UNITS",
   "DYNAMIC_RATE_LIMIT_WINDOW",
 ]);
-export const stepRateLimitKind = pgEnum("StepRateLimitKind", [
-  "STATIC",
-  "DYNAMIC",
-]);
+export const stepRateLimitKind = pgEnum("StepRateLimitKind", ["STATIC", "DYNAMIC"]);
 export const stepRunEventReason = pgEnum("StepRunEventReason", [
   "REQUEUED_NO_WORKER",
   "REQUEUED_RATE_LIMIT",
@@ -94,11 +82,7 @@ export const stepRunEventReason = pgEnum("StepRunEventReason", [
   "WORKFLOW_RUN_GROUP_KEY_SUCCEEDED",
   "WORKFLOW_RUN_GROUP_KEY_FAILED",
 ]);
-export const stepRunEventSeverity = pgEnum("StepRunEventSeverity", [
-  "INFO",
-  "WARNING",
-  "CRITICAL",
-]);
+export const stepRunEventSeverity = pgEnum("StepRunEventSeverity", ["INFO", "WARNING", "CRITICAL"]);
 export const stepRunStatus = pgEnum("StepRunStatus", [
   "PENDING",
   "PENDING_ASSIGNMENT",
@@ -110,15 +94,11 @@ export const stepRunStatus = pgEnum("StepRunStatus", [
   "CANCELLED",
 ]);
 export const stickyStrategy = pgEnum("StickyStrategy", ["SOFT", "HARD"]);
-export const tenantMemberRole = pgEnum("TenantMemberRole", [
-  "OWNER",
-  "ADMIN",
-  "MEMBER",
+export const tenantMemberRole = pgEnum("TenantMemberRole", ["OWNER", "ADMIN", "MEMBER"]);
+export const tenantResourceLimitAlertType = pgEnum("TenantResourceLimitAlertType", [
+  "Alarm",
+  "Exhausted",
 ]);
-export const tenantResourceLimitAlertType = pgEnum(
-  "TenantResourceLimitAlertType",
-  ["Alarm", "Exhausted"],
-);
 export const vcsProvider = pgEnum("VcsProvider", ["GITHUB"]);
 export const webhookWorkerRequestMethod = pgEnum("WebhookWorkerRequestMethod", [
   "GET",
@@ -133,22 +113,9 @@ export const workerLabelComparator = pgEnum("WorkerLabelComparator", [
   "LESS_THAN",
   "LESS_THAN_OR_EQUAL",
 ]);
-export const workerSdks = pgEnum("WorkerSDKS", [
-  "UNKNOWN",
-  "GO",
-  "PYTHON",
-  "TYPESCRIPT",
-]);
-export const workerType = pgEnum("WorkerType", [
-  "WEBHOOK",
-  "MANAGED",
-  "SELFHOSTED",
-]);
-export const workflowKind = pgEnum("WorkflowKind", [
-  "FUNCTION",
-  "DURABLE",
-  "DAG",
-]);
+export const workerSdks = pgEnum("WorkerSDKS", ["UNKNOWN", "GO", "PYTHON", "TYPESCRIPT"]);
+export const workerType = pgEnum("WorkerType", ["WEBHOOK", "MANAGED", "SELFHOSTED"]);
+export const workflowKind = pgEnum("WorkflowKind", ["FUNCTION", "DURABLE", "DAG"]);
 export const workflowRunStatus = pgEnum("WorkflowRunStatus", [
   "PENDING",
   "QUEUED",
@@ -171,10 +138,7 @@ export const popularPosts = pgTable(
     updatedAt: timestamp({ precision: 3, mode: "string" }).notNull(),
   },
   (table) => [
-    uniqueIndex("PopularPosts_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("PopularPosts_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
   ],
 );
 
@@ -204,10 +168,7 @@ export const internalQueueItem = pgTable(
       table.queue.asc().nullsLast().op("text_ops"),
       table.uniqueKey.asc().nullsLast().op("text_ops"),
     ),
-    check(
-      "InternalQueueItem_priority_check",
-      sql`(priority >= 1) AND (priority <= 4)`,
-    ),
+    check("InternalQueueItem_priority_check", sql`(priority >= 1) AND (priority <= 4)`),
   ],
 );
 
@@ -223,10 +184,7 @@ export const siteHost = pgTable(
     updatedAt: timestamp({ precision: 3, mode: "string" }).notNull(),
   },
   (table) => [
-    uniqueIndex("SiteHost_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("SiteHost_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     foreignKey({
       columns: [table.siteId],
       foreignColumns: [site.id],
@@ -251,10 +209,7 @@ export const site = pgTable(
     enabled: boolean().default(true).notNull(),
   },
   (table) => [
-    uniqueIndex("Site_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("Site_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     foreignKey({
       columns: [table.tenantId],
       foreignColumns: [tenant.id],
@@ -274,10 +229,7 @@ export const env = pgTable(
     appName: text().notNull(),
   },
   (table) => [
-    index("Env_appName_idx").using(
-      "btree",
-      table.appName.asc().nullsLast().op("text_ops"),
-    ),
+    index("Env_appName_idx").using("btree", table.appName.asc().nullsLast().op("text_ops")),
   ],
 );
 
@@ -299,10 +251,7 @@ export const chatSuggestion = pgTable(
       .notNull(),
   },
   (table) => [
-    uniqueIndex("ChatSuggestion_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("ChatSuggestion_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
   ],
 );
 
@@ -329,19 +278,13 @@ export const event = pgTable(
       "btree",
       table.createdAt.asc().nullsLast().op("timestamp_ops"),
     ),
-    uniqueIndex("Event_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("Event_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     index("Event_tenantId_createdAt_idx").using(
       "btree",
       table.tenantId.asc().nullsLast().op("uuid_ops"),
       table.createdAt.asc().nullsLast().op("timestamp_ops"),
     ),
-    index("Event_tenantId_idx").using(
-      "btree",
-      table.tenantId.asc().nullsLast().op("uuid_ops"),
-    ),
+    index("Event_tenantId_idx").using("btree", table.tenantId.asc().nullsLast().op("uuid_ops")),
     foreignKey({
       columns: [table.replayedFromId],
       foreignColumns: [table.id],
@@ -457,10 +400,7 @@ export const post = pgTable(
       "btree",
       table.deletedAt.asc().nullsLast().op("timestamp_ops"),
     ),
-    uniqueIndex("Post_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("Post_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     index("Post_lastMessageId_idx").using(
       "btree",
       table.lastMessageId.asc().nullsLast().op("uuid_ops"),
@@ -473,18 +413,9 @@ export const post = pgTable(
       "btree",
       table.publishDate.asc().nullsLast().op("timestamp_ops"),
     ),
-    index("Post_releaseURL_idx").using(
-      "btree",
-      table.releaseUrl.asc().nullsLast().op("text_ops"),
-    ),
-    index("Post_state_idx").using(
-      "btree",
-      table.state.asc().nullsLast().op("enum_ops"),
-    ),
-    index("Post_tenantId_idx").using(
-      "btree",
-      table.tenantId.asc().nullsLast().op("uuid_ops"),
-    ),
+    index("Post_releaseURL_idx").using("btree", table.releaseUrl.asc().nullsLast().op("text_ops")),
+    index("Post_state_idx").using("btree", table.state.asc().nullsLast().op("enum_ops")),
+    index("Post_tenantId_idx").using("btree", table.tenantId.asc().nullsLast().op("uuid_ops")),
     index("Post_updatedAt_idx").using(
       "btree",
       table.updatedAt.asc().nullsLast().op("timestamp_ops"),
@@ -577,10 +508,7 @@ export const platformAccount = pgTable(
       "gin",
       table.properties.asc().nullsLast().op("jsonb_ops"),
     ),
-    index("PlatformAccount_tags_idx").using(
-      "gin",
-      table.tags.asc().nullsLast().op("array_ops"),
-    ),
+    index("PlatformAccount_tags_idx").using("gin", table.tags.asc().nullsLast().op("array_ops")),
   ],
 );
 
@@ -682,10 +610,7 @@ export const stepRunEvent = pgTable(
     data: jsonb(),
   },
   (table) => [
-    uniqueIndex("StepRunEvent_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("int8_ops"),
-    ),
+    uniqueIndex("StepRunEvent_id_key").using("btree", table.id.asc().nullsLast().op("int8_ops")),
     index("StepRunEvent_stepRunId_idx").using(
       "btree",
       table.stepRunId.asc().nullsLast().op("uuid_ops"),
@@ -785,10 +710,7 @@ export const workflowRun = pgTable(
       "btree",
       table.finishedAt.asc().nullsLast().op("timestamp_ops"),
     ),
-    uniqueIndex("WorkflowRun_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("WorkflowRun_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     index("WorkflowRun_parentId_parentStepRunId_childIndex_key")
       .using(
         "btree",
@@ -807,10 +729,7 @@ export const workflowRun = pgTable(
       "btree",
       table.parentStepRunId.asc().nullsLast().op("uuid_ops"),
     ),
-    index("WorkflowRun_status_idx").using(
-      "btree",
-      table.status.asc().nullsLast().op("enum_ops"),
-    ),
+    index("WorkflowRun_status_idx").using("btree", table.status.asc().nullsLast().op("enum_ops")),
     index("WorkflowRun_tenantId_createdAt_idx").using(
       "btree",
       table.tenantId.asc().nullsLast().op("uuid_ops"),
@@ -920,14 +839,8 @@ export const tenant = pgTable(
       "btree",
       table.controllerPartitionId.asc().nullsLast().op("text_ops"),
     ),
-    uniqueIndex("Tenant_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
-    uniqueIndex("Tenant_slug_key").using(
-      "btree",
-      table.slug.asc().nullsLast().op("text_ops"),
-    ),
+    uniqueIndex("Tenant_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
+    uniqueIndex("Tenant_slug_key").using("btree", table.slug.asc().nullsLast().op("text_ops")),
     index("Tenant_workerPartitionId_idx").using(
       "btree",
       table.workerPartitionId.asc().nullsLast().op("text_ops"),
@@ -993,10 +906,7 @@ export const action = pgTable(
     tenantId: uuid().notNull(),
   },
   (table) => [
-    uniqueIndex("Action_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("Action_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     foreignKey({
       columns: [table.tenantId],
       foreignColumns: [tenant.id],
@@ -1036,10 +946,7 @@ export const agentNode = pgTable(
     resourceType: text(),
   },
   (table) => [
-    uniqueIndex("AgentNode_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("AgentNode_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     index("AgentNode_tenantId_id_idx").using(
       "btree",
       table.tenantId.asc().nullsLast().op("uuid_ops"),
@@ -1074,10 +981,7 @@ export const agentNodeRun = pgTable(
     workflowRunId: uuid(),
   },
   (table) => [
-    uniqueIndex("AgentNodeRun_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("AgentNodeRun_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     index("AgentNodeRun_tenantId_id_idx").using(
       "btree",
       table.tenantId.asc().nullsLast().op("uuid_ops"),
@@ -1116,10 +1020,7 @@ export const chat = pgTable(
     activateArtId: uuid(),
   },
   (table) => [
-    uniqueIndex("Chat_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("Chat_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     foreignKey({
       columns: [table.tenantId],
       foreignColumns: [tenant.id],
@@ -1159,10 +1060,7 @@ export const artifact = pgTable(
     chatId: uuid().notNull(),
   },
   (table) => [
-    uniqueIndex("Artifact_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("Artifact_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     foreignKey({
       columns: [table.chatId],
       foreignColumns: [chat.id],
@@ -1198,10 +1096,7 @@ export const assisant = pgTable(
     config: jsonb().default({}).notNull(),
   },
   (table) => [
-    uniqueIndex("Assisant_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("Assisant_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     foreignKey({
       columns: [table.tenantId],
       foreignColumns: [tenant.id],
@@ -1231,14 +1126,8 @@ export const blog = pgTable(
     status: text().notNull(),
   },
   (table) => [
-    uniqueIndex("Blog_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
-    uniqueIndex("Blog_slug_key").using(
-      "btree",
-      table.slug.asc().nullsLast().op("text_ops"),
-    ),
+    uniqueIndex("Blog_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
+    uniqueIndex("Blog_slug_key").using("btree", table.slug.asc().nullsLast().op("text_ops")),
     foreignKey({
       columns: [table.tenantId],
       foreignColumns: [tenant.id],
@@ -1260,10 +1149,7 @@ export const blogConfig = pgTable(
       "btree",
       table.blogId.asc().nullsLast().op("uuid_ops"),
     ),
-    uniqueIndex("BlogConfig_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("BlogConfig_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     foreignKey({
       columns: [table.blogId],
       foreignColumns: [blog.id],
@@ -1290,14 +1176,8 @@ export const user = pgTable(
     name: text(),
   },
   (table) => [
-    uniqueIndex("User_email_key").using(
-      "btree",
-      table.email.asc().nullsLast().op("text_ops"),
-    ),
-    uniqueIndex("User_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("User_email_key").using("btree", table.email.asc().nullsLast().op("text_ops")),
+    uniqueIndex("User_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
   ],
 );
 
@@ -1322,14 +1202,8 @@ export const blogPost = pgTable(
     slug: text().notNull(),
   },
   (table) => [
-    uniqueIndex("BlogPost_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
-    uniqueIndex("BlogPost_slug_key").using(
-      "btree",
-      table.slug.asc().nullsLast().op("text_ops"),
-    ),
+    uniqueIndex("BlogPost_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
+    uniqueIndex("BlogPost_slug_key").using("btree", table.slug.asc().nullsLast().op("text_ops")),
     foreignKey({
       columns: [table.authorId],
       foreignColumns: [user.id],
@@ -1369,10 +1243,7 @@ export const chatMessage = pgTable(
     chatId: uuid().notNull(),
   },
   (table) => [
-    uniqueIndex("ChatMessage_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("ChatMessage_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     foreignKey({
       columns: [table.chatId],
       foreignColumns: [chat.id],
@@ -1399,10 +1270,7 @@ export const comment = pgTable(
     status: text().notNull(),
   },
   (table) => [
-    uniqueIndex("Comment_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("Comment_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     foreignKey({
       columns: [table.authorId],
       foreignColumns: [user.id],
@@ -1434,10 +1302,7 @@ export const ticker = pgTable(
     isActive: boolean().default(true).notNull(),
   },
   (table) => [
-    uniqueIndex("Ticker_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("Ticker_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
   ],
 );
 
@@ -1478,10 +1343,7 @@ export const getGroupKeyRun = pgTable(
       "btree",
       table.deletedAt.asc().nullsLast().op("timestamp_ops"),
     ),
-    uniqueIndex("GetGroupKeyRun_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("GetGroupKeyRun_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     index("GetGroupKeyRun_status_deletedAt_timeoutAt_idx").using(
       "btree",
       table.status.asc().nullsLast().op("enum_ops"),
@@ -1558,10 +1420,7 @@ export const worker = pgTable(
     runtimeExtra: text(),
   },
   (table) => [
-    uniqueIndex("Worker_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("Worker_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     uniqueIndex("Worker_webhookId_key").using(
       "btree",
       table.webhookId.asc().nullsLast().op("uuid_ops"),
@@ -1606,9 +1465,7 @@ export const integration = pgTable(
     updatedAt: timestamp({ precision: 3, mode: "string" }),
     inBetweenSteps: boolean().default(false).notNull(),
     refreshNeeded: boolean().default(false).notNull(),
-    postingTimes: text()
-      .default('[{"time":120}, {"time":400}, {"time":700}]')
-      .notNull(),
+    postingTimes: text().default('[{"time":120}, {"time":400}, {"time":700}]').notNull(),
     customInstanceDetails: text(),
     customerId: text(),
   },
@@ -1617,10 +1474,7 @@ export const integration = pgTable(
       "btree",
       table.deletedAt.asc().nullsLast().op("timestamp_ops"),
     ),
-    uniqueIndex("Integration_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("Integration_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     uniqueIndex("Integration_organizationId_internalId_key").using(
       "btree",
       table.organizationId.asc().nullsLast().op("uuid_ops"),
@@ -1666,10 +1520,7 @@ export const workflowVersion = pgTable(
       "btree",
       table.deletedAt.asc().nullsLast().op("timestamp_ops"),
     ),
-    uniqueIndex("WorkflowVersion_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("WorkflowVersion_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     uniqueIndex("WorkflowVersion_onFailureJobId_key").using(
       "btree",
       table.onFailureJobId.asc().nullsLast().op("uuid_ops"),
@@ -1717,10 +1568,7 @@ export const job = pgTable(
     kind: jobKind().default("DEFAULT").notNull(),
   },
   (table) => [
-    uniqueIndex("Job_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("Job_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     uniqueIndex("Job_workflowVersionId_name_key").using(
       "btree",
       table.workflowVersionId.asc().nullsLast().op("text_ops"),
@@ -1765,10 +1613,7 @@ export const jobRun = pgTable(
       "btree",
       table.deletedAt.asc().nullsLast().op("timestamp_ops"),
     ),
-    uniqueIndex("JobRun_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("JobRun_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     index("JobRun_workflowRunId_tenantId_idx").using(
       "btree",
       table.workflowRunId.asc().nullsLast().op("uuid_ops"),
@@ -1870,10 +1715,7 @@ export const stepRun = pgTable(
       "btree",
       table.deletedAt.asc().nullsLast().op("timestamp_ops"),
     ),
-    uniqueIndex("StepRun_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("StepRun_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     index("StepRun_id_tenantId_idx").using(
       "btree",
       table.id.asc().nullsLast().op("uuid_ops"),
@@ -1898,18 +1740,9 @@ export const stepRun = pgTable(
       table.tenantId.asc().nullsLast().op("int8_ops"),
       table.order.asc().nullsLast().op("uuid_ops"),
     ),
-    index("StepRun_stepId_idx").using(
-      "btree",
-      table.stepId.asc().nullsLast().op("uuid_ops"),
-    ),
-    index("StepRun_tenantId_idx").using(
-      "btree",
-      table.tenantId.asc().nullsLast().op("uuid_ops"),
-    ),
-    index("StepRun_workerId_idx").using(
-      "btree",
-      table.workerId.asc().nullsLast().op("uuid_ops"),
-    ),
+    index("StepRun_stepId_idx").using("btree", table.stepId.asc().nullsLast().op("uuid_ops")),
+    index("StepRun_tenantId_idx").using("btree", table.tenantId.asc().nullsLast().op("uuid_ops")),
+    index("StepRun_workerId_idx").using("btree", table.workerId.asc().nullsLast().op("uuid_ops")),
     foreignKey({
       columns: [table.jobRunId],
       foreignColumns: [jobRun.id],
@@ -1964,14 +1797,8 @@ export const media = pgTable(
     updatedAt: timestamp({ precision: 3, mode: "string" }).notNull(),
   },
   (table) => [
-    uniqueIndex("Media_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
-    index("Media_tenantId_idx").using(
-      "btree",
-      table.tenantId.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("Media_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
+    index("Media_tenantId_idx").using("btree", table.tenantId.asc().nullsLast().op("uuid_ops")),
     foreignKey({
       columns: [table.tenantId],
       foreignColumns: [tenant.id],
@@ -1996,10 +1823,7 @@ export const messagesGroup = pgTable(
       "btree",
       table.createdAt.asc().nullsLast().op("timestamp_ops"),
     ),
-    uniqueIndex("MessagesGroup_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("MessagesGroup_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     index("MessagesGroup_updatedAt_idx").using(
       "btree",
       table.updatedAt.asc().nullsLast().op("timestamp_ops"),
@@ -2030,14 +1854,8 @@ export const messages = pgTable(
       "btree",
       table.deletedAt.asc().nullsLast().op("timestamp_ops"),
     ),
-    index("Messages_groupId_idx").using(
-      "btree",
-      table.groupId.asc().nullsLast().op("uuid_ops"),
-    ),
-    uniqueIndex("Messages_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    index("Messages_groupId_idx").using("btree", table.groupId.asc().nullsLast().op("uuid_ops")),
+    uniqueIndex("Messages_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     foreignKey({
       columns: [table.groupId],
       foreignColumns: [messagesGroup.id],
@@ -2065,10 +1883,7 @@ export const prompt = pgTable(
     tenantId: uuid().notNull(),
   },
   (table) => [
-    uniqueIndex("Prompt_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("Prompt_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     foreignKey({
       columns: [table.tenantId],
       foreignColumns: [tenant.id],
@@ -2094,10 +1909,7 @@ export const reply = pgTable(
       .notNull(),
   },
   (table) => [
-    uniqueIndex("Reply_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("Reply_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     foreignKey({
       columns: [table.authorId],
       foreignColumns: [user.id],
@@ -2129,10 +1941,7 @@ export const snsIntegration = pgTable(
     topicArn: text().notNull(),
   },
   (table) => [
-    uniqueIndex("SNSIntegration_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("SNSIntegration_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     uniqueIndex("SNSIntegration_tenantId_topicArn_key").using(
       "btree",
       table.tenantId.asc().nullsLast().op("text_ops"),
@@ -2164,10 +1973,7 @@ export const service = pgTable(
     tenantId: uuid().notNull(),
   },
   (table) => [
-    uniqueIndex("Service_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("Service_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     uniqueIndex("Service_tenantId_name_key").using(
       "btree",
       table.tenantId.asc().nullsLast().op("text_ops"),
@@ -2203,10 +2009,7 @@ export const slackAppWebhook = pgTable(
     webhookUrl: unknown("webhookURL").notNull(),
   },
   (table) => [
-    uniqueIndex("SlackAppWebhook_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("SlackAppWebhook_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     uniqueIndex("SlackAppWebhook_tenantId_teamId_channelId_key").using(
       "btree",
       table.tenantId.asc().nullsLast().op("text_ops"),
@@ -2253,10 +2056,7 @@ export const socialMediaAgency = pgTable(
       "btree",
       table.deletedAt.asc().nullsLast().op("timestamp_ops"),
     ),
-    index("SocialMediaAgency_id_idx").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    index("SocialMediaAgency_id_idx").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     uniqueIndex("SocialMediaAgency_id_key").using(
       "btree",
       table.id.asc().nullsLast().op("uuid_ops"),
@@ -2303,10 +2103,7 @@ export const step = pgTable(
     scheduleTimeout: text().default("5m").notNull(),
   },
   (table) => [
-    uniqueIndex("Step_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("Step_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     uniqueIndex("Step_jobId_readableId_key").using(
       "btree",
       table.jobId.asc().nullsLast().op("text_ops"),
@@ -2373,9 +2170,7 @@ export const rateLimit = pgTable("RateLimit", {
   limitValue: integer().notNull(),
   value: integer().notNull(),
   window: text().notNull(),
-  lastRefill: timestamp({ precision: 3, mode: "string" })
-    .default(sql`CURRENT_TIMESTAMP`)
-    .notNull(),
+  lastRefill: timestamp({ precision: 3, mode: "string" }).default(sql`CURRENT_TIMESTAMP`).notNull(),
 });
 
 export const stepRateLimit = pgTable(
@@ -2650,10 +2445,7 @@ export const tenantMember = pgTable(
     role: tenantMemberRole().notNull(),
   },
   (table) => [
-    uniqueIndex("TenantMember_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("TenantMember_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     uniqueIndex("TenantMember_tenantId_userId_key").using(
       "btree",
       table.tenantId.asc().nullsLast().op("uuid_ops"),
@@ -2811,10 +2603,7 @@ export const userOauth = pgTable(
     expiresAt: timestamp({ precision: 3, mode: "string" }),
   },
   (table) => [
-    uniqueIndex("UserOAuth_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("UserOAuth_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     uniqueIndex("UserOAuth_userId_key").using(
       "btree",
       table.userId.asc().nullsLast().op("uuid_ops"),
@@ -2870,10 +2659,7 @@ export const userSession = pgTable(
     expiresAt: timestamp({ precision: 3, mode: "string" }).notNull(),
   },
   (table) => [
-    uniqueIndex("UserSession_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("UserSession_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     foreignKey({
       columns: [table.userId],
       foreignColumns: [user.id],
@@ -2903,14 +2689,8 @@ export const webhookWorker = pgTable(
     tenantId: uuid().notNull(),
   },
   (table) => [
-    uniqueIndex("WebhookWorker_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
-    uniqueIndex("WebhookWorker_url_key").using(
-      "btree",
-      table.url.asc().nullsLast().op("text_ops"),
-    ),
+    uniqueIndex("WebhookWorker_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
+    uniqueIndex("WebhookWorker_url_key").using("btree", table.url.asc().nullsLast().op("text_ops")),
     foreignKey({
       columns: [table.tenantId],
       foreignColumns: [tenant.id],
@@ -3009,19 +2789,13 @@ export const workflow = pgTable(
       "btree",
       table.deletedAt.asc().nullsLast().op("timestamp_ops"),
     ),
-    uniqueIndex("Workflow_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("Workflow_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     uniqueIndex("Workflow_tenantId_name_key").using(
       "btree",
       table.tenantId.asc().nullsLast().op("uuid_ops"),
       table.name.asc().nullsLast().op("text_ops"),
     ),
-    index("idx_workflow_tenant_id").using(
-      "btree",
-      table.tenantId.asc().nullsLast().op("uuid_ops"),
-    ),
+    index("idx_workflow_tenant_id").using("btree", table.tenantId.asc().nullsLast().op("uuid_ops")),
   ],
 );
 
@@ -3040,10 +2814,7 @@ export const dispatcher = pgTable(
     isActive: boolean().default(true).notNull(),
   },
   (table) => [
-    uniqueIndex("Dispatcher_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("Dispatcher_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
   ],
 );
 
@@ -3119,9 +2890,7 @@ export const workflowConcurrency = pgTable(
     getConcurrencyGroupId: uuid(),
     concurrencyGroupExpression: text(),
     maxRuns: integer().default(1).notNull(),
-    limitStrategy: concurrencyLimitStrategy()
-      .default("CANCEL_IN_PROGRESS")
-      .notNull(),
+    limitStrategy: concurrencyLimitStrategy().default("CANCEL_IN_PROGRESS").notNull(),
   },
   (table) => [
     uniqueIndex("WorkflowConcurrency_id_key").using(
@@ -3260,10 +3029,7 @@ export const workflowRunTriggeredBy = pgTable(
     ),
     foreignKey({
       columns: [table.cronParentId, table.cronSchedule],
-      foreignColumns: [
-        workflowTriggerCronRef.parentId,
-        workflowTriggerCronRef.cron,
-      ],
+      foreignColumns: [workflowTriggerCronRef.parentId, workflowTriggerCronRef.cron],
       name: "WorkflowRunTriggeredBy_cronParentId_cronSchedule_fkey",
     })
       .onUpdate("cascade")
@@ -3304,9 +3070,7 @@ export const workflowTriggerScheduledRef = pgTable(
       "btree",
       table.id.asc().nullsLast().op("uuid_ops"),
     ),
-    uniqueIndex(
-      "WorkflowTriggerScheduledRef_parentId_parentStepRunId_childK_key",
-    ).using(
+    uniqueIndex("WorkflowTriggerScheduledRef_parentId_parentStepRunId_childK_key").using(
       "btree",
       table.parentId.asc().nullsLast().op("text_ops"),
       table.parentStepRunId.asc().nullsLast().op("uuid_ops"),
@@ -3358,10 +3122,7 @@ export const workflowTag = pgTable(
     color: text().default("#93C5FD").notNull(),
   },
   (table) => [
-    uniqueIndex("WorkflowTag_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
+    uniqueIndex("WorkflowTag_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops")),
     uniqueIndex("WorkflowTag_tenantId_name_key").using(
       "btree",
       table.tenantId.asc().nullsLast().op("text_ops"),
@@ -3520,12 +3281,7 @@ export const tag = pgTable(
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
   },
-  (table) => [
-    uniqueIndex("Tag_id_key").using(
-      "btree",
-      table.id.asc().nullsLast().op("uuid_ops"),
-    ),
-  ],
+  (table) => [uniqueIndex("Tag_id_key").using("btree", table.id.asc().nullsLast().op("uuid_ops"))],
 );
 
 export const mediaToUser = pgTable(

@@ -120,7 +120,7 @@ export type ListPlateformAccountData = {
   body?: never;
   path?: never;
   query?: never;
-  url: "/plateform_account";
+  url: "/api/plateform_account";
 };
 
 export type ListPlateformAccountResponses = {
@@ -140,7 +140,7 @@ export type CreatePlateformAccountData = {
   body: PlateformAccountInsert;
   path?: never;
   query?: never;
-  url: "/plateform_account";
+  url: "/api/plateform_account";
 };
 
 export type CreatePlateformAccountErrors = {
@@ -176,7 +176,7 @@ export type GetPlateformAccountData = {
     id: IdParams;
   };
   query?: never;
-  url: "/plateform_account/{id}";
+  url: "/api/plateform_account/{id}";
 };
 
 export type GetPlateformAccountErrors = {
@@ -206,5 +206,5 @@ export type GetPlateformAccountResponse =
   GetPlateformAccountResponses[keyof GetPlateformAccountResponses];
 
 export type ClientOptions = {
-  baseUrl: "http://localhost:3000/" | (string & {});
+  baseUrl: "http://localhost:6111/" | (string & {});
 };

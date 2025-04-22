@@ -1,23 +1,19 @@
+import { getDb } from "../../../db/dbClientV2";
+import { plateformAccount } from "../../../db/schema/plateform_account";
 import type { AppRouteHandler } from "../../lib/types";
 import type { CreateRoute, GetOneRoute, ListRoute } from "./plateform_account.routes";
 
 export const list: AppRouteHandler<ListRoute> = async (c) => {
-  // Add db query to get all users
-  return c.json(
-    [
-      {
-        age: 42,
-        id: "123",
-        name: "John Doe",
-      },
-      {
-        age: 32,
-        id: "124",
-        name: "Sarah Jones",
-      },
-    ],
-    200,
-  );
+  try {
+    const db = await getDb(c.env);
+    // console.log("db", db);
+    const result = await db.select().from(plateformAccount).limit(10);
+    console.log("result", result);
+    return c.json(result, 200);
+  } catch (e) {
+    console.error(e);
+    return c.json({ message: "Internal Server Error" }, 500);
+  }
 };
 
 export const create: AppRouteHandler<CreateRoute> = async (c) => {

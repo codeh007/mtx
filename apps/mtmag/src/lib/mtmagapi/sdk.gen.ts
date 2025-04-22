@@ -77,7 +77,7 @@ export const listPlateformAccount = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({
-    url: "/plateform_account",
+    url: "/api/plateform_account",
     ...options,
   });
 };
@@ -90,7 +90,7 @@ export const createPlateformAccount = <ThrowOnError extends boolean = false>(
     CreatePlateformAccountError,
     ThrowOnError
   >({
-    url: "/plateform_account",
+    url: "/api/plateform_account",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -107,7 +107,7 @@ export const getPlateformAccount = <ThrowOnError extends boolean = false>(
     GetPlateformAccountError,
     ThrowOnError
   >({
-    url: "/plateform_account/{id}",
+    url: "/api/plateform_account/{id}",
     ...options,
   });
 };

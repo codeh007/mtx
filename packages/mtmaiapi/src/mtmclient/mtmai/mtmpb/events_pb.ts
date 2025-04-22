@@ -2,16 +2,8 @@
 // @generated from file mtmai/mtmpb/events.proto (package mtmai.mtmpb, syntax proto3)
 /* eslint-disable */
 
-import type {
-  GenFile,
-  GenMessage,
-  GenService,
-} from "@bufbuild/protobuf/codegenv1";
-import {
-  fileDesc,
-  messageDesc,
-  serviceDesc,
-} from "@bufbuild/protobuf/codegenv1";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
@@ -77,9 +69,7 @@ export type Event = Message<"mtmai.mtmpb.Event"> & {
  * Describes the message mtmai.mtmpb.Event.
  * Use `create(EventSchema)` to create a new message.
  */
-export const EventSchema: GenMessage<Event> =
-  /*@__PURE__*/
-  messageDesc(file_mtmai_mtmpb_events, 0);
+export const EventSchema: GenMessage<Event> = /*@__PURE__*/ messageDesc(file_mtmai_mtmpb_events, 0);
 
 /**
  * @generated from message mtmai.mtmpb.Events
@@ -163,36 +153,35 @@ export const PutLogResponseSchema: GenMessage<PutLogResponse> =
 /**
  * @generated from message mtmai.mtmpb.PutStreamEventRequest
  */
-export type PutStreamEventRequest =
-  Message<"mtmai.mtmpb.PutStreamEventRequest"> & {
-    /**
-     * the step run id for the request
-     *
-     * @generated from field: string stepRunId = 1;
-     */
-    stepRunId: string;
+export type PutStreamEventRequest = Message<"mtmai.mtmpb.PutStreamEventRequest"> & {
+  /**
+   * the step run id for the request
+   *
+   * @generated from field: string stepRunId = 1;
+   */
+  stepRunId: string;
 
-    /**
-     * when the stream event was created
-     *
-     * @generated from field: google.protobuf.Timestamp createdAt = 2;
-     */
-    createdAt?: Timestamp;
+  /**
+   * when the stream event was created
+   *
+   * @generated from field: google.protobuf.Timestamp createdAt = 2;
+   */
+  createdAt?: Timestamp;
 
-    /**
-     * the stream event message
-     *
-     * @generated from field: bytes message = 3;
-     */
-    message: Uint8Array;
+  /**
+   * the stream event message
+   *
+   * @generated from field: bytes message = 3;
+   */
+  message: Uint8Array;
 
-    /**
-     * associated stream event metadata
-     *
-     * @generated from field: string metadata = 5;
-     */
-    metadata: string;
-  };
+  /**
+   * associated stream event metadata
+   *
+   * @generated from field: string metadata = 5;
+   */
+  metadata: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.PutStreamEventRequest.
@@ -205,8 +194,7 @@ export const PutStreamEventRequestSchema: GenMessage<PutStreamEventRequest> =
 /**
  * @generated from message mtmai.mtmpb.PutStreamEventResponse
  */
-export type PutStreamEventResponse =
-  Message<"mtmai.mtmpb.PutStreamEventResponse"> & {};
+export type PutStreamEventResponse = Message<"mtmai.mtmpb.PutStreamEventResponse"> & {};
 
 /**
  * Describes the message mtmai.mtmpb.PutStreamEventResponse.
@@ -219,13 +207,12 @@ export const PutStreamEventResponseSchema: GenMessage<PutStreamEventResponse> =
 /**
  * @generated from message mtmai.mtmpb.BulkPushEventRequest
  */
-export type BulkPushEventRequest =
-  Message<"mtmai.mtmpb.BulkPushEventRequest"> & {
-    /**
-     * @generated from field: repeated mtmai.mtmpb.PushEventRequest events = 1;
-     */
-    events: PushEventRequest[];
-  };
+export type BulkPushEventRequest = Message<"mtmai.mtmpb.BulkPushEventRequest"> & {
+  /**
+   * @generated from field: repeated mtmai.mtmpb.PushEventRequest events = 1;
+   */
+  events: PushEventRequest[];
+};
 
 /**
  * Describes the message mtmai.mtmpb.BulkPushEventRequest.

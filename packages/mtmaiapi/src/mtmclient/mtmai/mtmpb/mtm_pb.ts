@@ -37,73 +37,68 @@ export const file_mtmai_mtmpb_mtm: GenFile =
   /*@__PURE__*/
   fileDesc(
     "ChVtdG1haS9tdG1wYi9tdG0ucHJvdG8SC210bWFpLm10bXBiIoICChZPYXV0aDJMb2dpbkhvb2tSZXF1ZXN0EgwKBHR5cGUYASABKAkSEAoIcHJvdmlkZXIYAiABKAkSGQoRcHJvdmlkZXJBY2NvdW50SWQYAyABKAkSFQoNcmVmcmVzaF90b2tlbhgEIAEoCRIgChhyZWZyZXNoX3Rva2VuX2V4cGlyZXNfaW4YBSABKAUSFAoMYWNjZXNzX3Rva2VuGAYgASgJEhIKCmV4cGlyZXNfYXQYByABKAUSEgoKdG9rZW5fdHlwZRgIIAEoCRINCgVzY29wZRgJIAEoCRIQCghpZF90b2tlbhgKIAEoCRIVCg1zZXNzaW9uX3N0YXRlGAsgASgJIi0KCUF1dGhUb2tlbhIKCgJpZBgBIAEoCRIUCgxhY2Nlc3NfdG9rZW4YAiABKAkiYwoIVXNlckluZm8SCgoCSUQYASABKAkSDAoEbmFtZRgCIAEoCRIQCgh1c2VybmFtZRgDIAEoCRINCgVpbWFnZRgEIAEoCRINCgVlbWFpbBgFIAEoCRINCgVyb2xlcxgGIAMoCSJACgtSZWdpc3RlclJlcRIQCgh1c2VybmFtZRgBIAEoCRINCgVlbWFpbBgCIAEoCRIQCghwYXNzd29yZBgDIAEoCSIgCg1SZWdpc3RlclJlcGx5Eg8KB3VzZXJfaWQYASABKAkiLgoITG9naW5SZXESEAoIdXNlcm5hbWUYASABKAkSEAoIcGFzc3dvcmQYAiABKAkiMQoITXRtRXJyb3ISEAoIZXJyX2NvZGUYASABKAkSEwoLZXJyX21lc3NhZ2UYAiABKAkiIgoKTG9naW5SZXBseRIUCgxhY2Nlc3NfdG9rZW4YAiABKAkiMwoEVXNlchIKCgJpZBgBIAEoDRINCgVlbWFpbBgCIAEoCRIQCgh1c2VybmFtZRgDIAEoCSJhCgtVc2VyTGlzdFJlcRInCgpQYWdpbmF0aW9uGAEgASgLMhMubXRtYWkubXRtcGIuUGFnaW5nEgkKAXEYAiABKAkSDwoHdXNlbmFtZRgDIAEoCRINCgVlbWFpbBgEIAEoCSJpCg1Vc2VyTGlzdFJlcGx5EicKClBhZ2luYXRpb24YASABKAsyEy5tdG1haS5tdG1wYi5QYWdpbmcSIAoFaXRlbXMYAiADKAsyES5tdG1haS5tdG1wYi5Vc2VyEg0KBVRvdGFsGAMgASgFIisKClVzZXJHZXRSZXESCgoCaWQYASABKA0SEQoJaG9zdF9uYW1lGAIgASgJIlEKDVVzZXJDcmVhdGVSZXESDQoFZW1haWwYAiABKAkSEAoIdXNlcm5hbWUYAyABKAkSEAoIcGFzc3dvcmQYBCABKAkSDQoFcm9sZXMYBSADKAkiHQoPVXNlckNyZWF0ZVJlcGx5EgoKAmlkGAEgASgNIj4KDVVzZXJVcGRhdGVSZXESCgoCaWQYASABKA0SDQoFdGl0bGUYAiABKAkSEgoKc3BfZW5hYmxlZBgDIAEoCCIUCgRSb2xlEgwKBG5hbWUYAiABKAkiBwoFRW1wdHkiGAoKT2JqSWRSZXBseRIKCgJpZBgBIAEoCSITCgVPYmpJZBIKCgJpZBgBIAEoCSJXCgZSZXN1bHQSCgoCb2sYASABKAgSDQoFZXJyb3IYAiABKAkSCgoCaWQYAyABKAkSDwoHbWVzc2FnZRgEIAEoCRIVCg1yb3dzX2FmZmVjdGVkGAUgASgNIikKCEVycm9yUmVzEgwKBGNvZGUYASABKAkSDwoHbWVzc2FnZRgCIAEoCSIpCg5SZXNDcmVhdGVSZXBseRIKCgJpZBgBIAEoCRILCgNlcnIYAiABKAkiHQoOUmVzVXBkYXRlUmVwbHkSCwoDZXJyGAIgASgJIh0KDlJlc0RlbGV0ZVJlcGx5EgsKA2VychgCIAEoCSIbCgxSZXNEZWxldGVSZXESCwoDaWRzGAEgAygJImsKBlBhZ2luZxIMCgRwYWdlGDMgASgFEg0KBWxpbWl0GDQgASgFEhAKCG9yZGVyX2J5GDUgASgJEg0KBW9yZGVyGDYgASgJEg4KBmN1cnNvchg3IAEoCRITCgtwcmV2X2N1cnNvchhCIAEoCSIcCgpGaWVsZE1hcmtzEg4KBmZpZWxkcxgBIAMoCSKtAQoITGlzdEl0ZW0SNwoQY29tbW9uX2xpc3RfaXRlbRgEIAEoCzIbLm10bWFpLm10bXBiLkNvbW1vbkxpc3RJdGVtSAASMAoJY2FyZF9pdGVtGAkgASgLMhsubXRtYWkubXRtcGIuQ29tbW9uQ2FyZEl0ZW1IABIuCglwb3N0X2NhcmQYCiABKAsyGS5tdG1haS5tdG1wYi5Qb3N0Q2FyZEl0ZW1IAEIGCgRpdGVtImoKDkNvbW1vbkxpc3RJdGVtEgoKAmlkGAEgASgJEg0KBXRpdGxlGAIgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEigKB2FjdGlvbnMYBCABKAsyFy5tdG1haS5tdG1wYi5JdGVtQWN0aW9uIngKDkNvbW1vbkNhcmRJdGVtEgoKAmlkGAEgASgJEg0KBXRpdGxlGAIgASgJEhEKCXN1Yl90aXRsZRgDIAEoCRIoCgdhY3Rpb25zGAQgASgLMhcubXRtYWkubXRtcGIuSXRlbUFjdGlvbhIOCgZzdW1hcnkYBSABKAkinAIKDFBvc3RDYXJkSXRlbRIKCgJpZBgBIAEoCRIWCg5sYXlvdXRfdmFyaWFudBgCIAEoCRINCgV0aXRsZRgDIAEoCRIRCglzdWJfdGl0bGUYBCABKAkSKAoHYWN0aW9ucxgFIAEoCzIXLm10bWFpLm10bXBiLkl0ZW1BY3Rpb24SDwoHc3VtbWFyeRgGIAEoCRIRCgl0b3BfaW1hZ2UYByABKAkSDwoHZXhjZXJwdBgIIAEoCRIQCghjYXRlZ29yeRgJIAEoCRIOCgZhdXRob3IYCiABKAkSKQoMcHVibGlzaF9kYXRlGAsgASgLMhMubXRtYWkubXRtcGIuTXREYXRlEgwKBHNsdWcYDCABKAkSDAoEdGFncxgNIAMoCSKtAgoOTGlzdEl0ZW1BY3Rpb24SCgoCaWQYASABKAkSDQoFbGFiZWwYAiABKAkSDAoEaWNvbhgDIAEoCRINCgVncm91cBgFIAEoCRILCgN1cmwYCCABKAkSEgoKaXNfZGVmYXVsdBgJIAEoCBISCgphY2Nlc3Nfa2V5GAogASgJEgwKBHNvcnQYCyABKA0SEQoJY29tcG9uZW50GAwgASgJEkgKD2NvbXBvbmVudF9wcm9wcxgNIAMoCzIvLm10bWFpLm10bXBiLkxpc3RJdGVtQWN0aW9uLkNvbXBvbmVudFByb3BzRW50cnkSDAoEaHRtbBgOIAEoCRo1ChNDb21wb25lbnRQcm9wc0VudHJ5EgsKA2tleRgBIAEoCRINCgV2YWx1ZRgCIAEoCToCOAEidAoKSXRlbUFjdGlvbhIzCg5kZWZhdWx0X2FjdGlvbhgBIAEoCzIbLm10bWFpLm10bXBiLkxpc3RJdGVtQWN0aW9uEjEKDGl0ZW1fYWN0aW9ucxgCIAMoCzIbLm10bWFpLm10bXBiLkxpc3RJdGVtQWN0aW9uIukCCg5Db21tb250TGlzdFJlcRISCgVzbHVncxgBIAEoCUgAiAEBEjcKBnBhcmFtcxgCIAMoCzInLm10bWFpLm10bXBiLkNvbW1vbnRMaXN0UmVxLlBhcmFtc0VudHJ5EiwKCnBhZ2luYXRpb24YBCABKAsyEy5tdG1haS5tdG1wYi5QYWdpbmdIAYgBARIaCg1wcmVfdGFnX2xpbWl0GAcgASgNSAKIAQESEwoGY3Vyc29yGAggASgJSAOIAQESFAoHcmVyZWZlchgJIAEoCUgEiAEBEhYKCXNpdGVfaG9zdBgKIAEoCUgFiAEBGi0KC1BhcmFtc0VudHJ5EgsKA2tleRgBIAEoCRINCgV2YWx1ZRgCIAEoCToCOAFCCAoGX3NsdWdzQg0KC19wYWdpbmF0aW9uQhAKDl9wcmVfdGFnX2xpbWl0QgkKB19jdXJzb3JCCgoIX3JlcmVmZXJCDAoKX3NpdGVfaG9zdCIdCg1DdXJkRGV0YWlsUmVxEgwKBHNsdWcYASABKAkiQgoKQ3VyZERldGFpbBINCgV0aXRsZRgBIAEoCRIlCgRmb3JtGAIgASgLMhcubXRtYWkubXRtcGIuRm9ybVNjaGVtYSIyCgZNdERhdGUSDAoEeWVhchgBIAEoBRINCgVtb250aBgCIAEoBRILCgNkYXkYAyABKAUiNAoPUHVic3ViUHViTXNnUmVxEiEKA21zZxgEIAEoCzIULmdvb2dsZS5wcm90b2J1Zi5BbnkiPwoKUHVsbExvZ1JlcRISCgpzZXNzaW9uX2lkGAEgASgJEg4KBmN1cnNvchgCIAEoCRINCgVsaW1pdBgDIAEoDSIjCgdMb2dMaW5lEgoKAm5vGAEgASgNEgwKBHRleHQYAiABKAkiMQoKUHVsbExvZ1JlcxIjCgVsaW5lcxgCIAMoCzIULm10bWFpLm10bXBiLkxvZ0xpbmUiEgoQTXRtU2VydmVyTGlzdFJlcSI1CglNdG1TZXJ2ZXISCwoDdXJsGAEgASgJEg0KBXRpdGxlGAIgASgJEgwKBHR5cGUYAyABKAkicQoQTXRtU2VydmVyTGlzdFJlcxInCgpQYWdpbmF0aW9uGAEgASgLMhMubXRtYWkubXRtcGIuUGFnaW5nEg0KBVRvdGFsGAIgASgFEiUKBWl0ZW1zGAMgAygLMhYubXRtYWkubXRtcGIuTXRtU2VydmVyIgwKCkdldE1ldGFSZXEiHQoHTXRtTWV0YRISCgpwdWJsaWNfdXJsGAEgASgJIjAKCkdldE1ldGFSZXMSIgoEbWV0YRgBIAEoCzIULm10bWFpLm10bXBiLk10bU1ldGEiwgIKCVByb3RvTWV0YRIMCgRuYW1lGAEgASgJEhEKCWZ1bGxfbmFtZRgCIAEoCRIUCgxwYWNrYWdlX25hbWUYAyABKAkSMAoIc2VydmljZXMYBCADKAsyHi5tdG1haS5tdG1wYi5Qcm90b01ldGEuU2VydmljZRINCgVpbmRleBgFIAEoDRq8AQoHU2VydmljZRIMCgRuYW1lGAEgASgJEhEKCWZ1bGxfbmFtZRgCIAEoCRINCgVpbmRleBgDIAEoDRI2CgdtZXRob2RzGAQgAygLMiUubXRtYWkubXRtcGIuUHJvdG9NZXRhLlNlcnZpY2UuTWV0aG9kEg8KB29wdGlvbnMYBSABKAkaOAoGTWV0aG9kEgwKBG5hbWUYASABKAkSEQoJZnVsbF9uYW1lGAIgASgJEg0KBWluZGV4GAMgASgNIhAKDlNlcnZpY2VNZXRhUmVxIjgKDlNlcnZpY2VNZXRhUmVzEiYKBnByb3RvcxgBIAMoCzIWLm10bWFpLm10bXBiLlByb3RvTWV0YSKvAQoHU2x1Z1JlcRIRCglkYXRhX3R5cGUYAiABKAkSDAoEcGF0aBgDIAEoCRI8CgxzZWFyY2hQYXJhbXMYBCADKAsyJi5tdG1haS5tdG1wYi5TbHVnUmVxLlNlYXJjaFBhcmFtc0VudHJ5EhAKCG10bV9ob3N0GAUgASgJGjMKEVNlYXJjaFBhcmFtc0VudHJ5EgsKA2tleRgBIAEoCRINCgV2YWx1ZRgCIAEoCToCOAEi8QIKB1NsdWdSZXMSLgoFbWV0YXMYASADKAsyHy5tdG1haS5tdG1wYi5TbHVnUmVzLk1ldGFzRW50cnkSJAoHdG9wX25hdhgCIAEoCzITLm10bWFpLm10bXBiLlRvcE5hdhIOCgZsYXlvdXQYBCABKAkSJQoFc2lkZXIYBSABKAsyFi5tdG1haS5tdG1wYi5QYWdlU2lkZXISKgoIc2VjdGlvbnMYBiADKAsyGC5tdG1haS5tdG1wYi5QYWdlQ29udGVudBInCgZmb290ZXIYByABKAsyFy5tdG1haS5tdG1wYi5QYWdlRm9vdGVyEiMKBHBhZ2UYCCABKAsyFS5tdG1haS5tdG1wYi5QYWdlSW5mbxINCgVlcnJvchgJIAEoCRIiCgRsb2dzGAogAygLMhQubXRtYWkubXRtcGIuTG9nTGluZRosCgpNZXRhc0VudHJ5EgsKA2tleRgBIAEoCRINCgV2YWx1ZRgCIAEoCToCOAEiswEKCVRvcE5hdlJlcRIRCglkYXRhX3R5cGUYAiABKAkSDAoEcGF0aBgDIAEoCRI+CgxzZWFyY2hQYXJhbXMYBCADKAsyKC5tdG1haS5tdG1wYi5Ub3BOYXZSZXEuU2VhcmNoUGFyYW1zRW50cnkSEAoIbXRtX2hvc3QYBSABKAkaMwoRU2VhcmNoUGFyYW1zRW50cnkSCwoDa2V5GAEgASgJEg0KBXZhbHVlGAIgASgJOgI4ASItCglUb3BOYXZSZXMSIAoDbmF2GAEgASgLMhMubXRtYWkubXRtcGIuVG9wTmF2IlEKBlRvcE5hdhIQCghsb2dvX3VybBgBIAEoCRIlCgRuYXZzGAIgAygLMhcubXRtYWkubXRtcGIuVG9wTmF2SXRlbRIOCgZsYXlvdXQYAyABKAkiKAoKVG9wTmF2SXRlbRINCgVsYWJlbBgBIAEoCRILCgN1cmwYAiABKAkiKwoIUGFnZUluZm8SDQoFdGl0bGUYASABKAkSEAoIbG9nb191cmwYAiABKAkiGgoJUGFnZVNpZGVyEg0KBXRpdGxlGAEgASgJIhwKClBhZ2VGb290ZXISDgoGbGF5b3V0GAEgASgJIt4BCgtQYWdlQ29udGVudBItCghyYXdfaHRtbBhlIAEoCzIZLm10bWFpLm10bXBiLlJhd0h0bWxCbG9ja0gAEioKCWJsb2dfcG9zdBhmIAEoCzIVLm10bWFpLm10bXBiLkJsb2dQb3N0SAASOQoOYXJ0aWNsZV9kZXRhaWwYZyABKAsyHy5tdG1haS5tdG1wYi5BcnRpY2xlRGV0YWlsQmxvY2tIABIuCgtzaW1wbGVfdGV4dBhpIAEoCzIXLm10bWFpLm10bXBiLlNpbXBsZVRleHRIAEIJCgdjb250ZW50IhoKClNpbXBsZVRleHQSDAoEYm9keRgBIAEoCSJACgdVc2VyTmF2Eg4KBmxheW91dBgBIAEoCRIlCgRuYXZzGAIgAygLMhcubXRtYWkubXRtcGIuVG9wTmF2SXRlbSJLCgtVc2VyTmF2SXRlbRINCgVsYWJlbBgBIAEoCRILCgN1cmwYAiABKAkSDAoEaWNvbhgDIAEoCRISCgphY2Nlc3Nfa2V5GAQgASgJIl8KC1VzZXJpbmZvUmVzEigKCXVzZXJfaW5mbxgBIAEoCzIVLm10bWFpLm10bXBiLlVzZXJJbmZvEiYKBG5hdnMYAiADKAsyGC5tdG1haS5tdG1wYi5Vc2VyTmF2SXRlbSI+CgtCbG9nTmF2SXRlbRITCgtjYXRlZ29yeV9pZBgBIAEoCRINCgVsYWJlbBgCIAEoCRILCgN1cmwYAyABKAkiMAoOSW5wdXRTb3VyY2VSZXESDwoHa2V5d29yZBgBIAEoCRINCgVsaW1pdBgCIAEoBSI/ChBJbnB1dFNvdXJjZVJlcGx5EisKBWl0ZW1zGAEgAygLMhwubXRtYWkubXRtcGIuSW5wdXRTb3VyY2VJdGVtIi8KD0lucHV0U291cmNlSXRlbRINCgV0aXRsZRgBIAEoCRINCgV2YWx1ZRgCIAEoCSIqCg1CbG9nQ2F0ZWdvcmllEgoKAmlkGAEgASgNEg0KBXRpdGxlGAIgASgJImoKFEJsb2dDYXRlZ29yaWVMaXN0UmVxEicKClBhZ2luYXRpb24YASABKAsyEy5tdG1haS5tdG1wYi5QYWdpbmcSCQoBcRgDIAEoCRIPCgdzaXRlX2lkGAQgASgNEg0KBWxpbWl0GAYgASgNInsKFkJsb2dDYXRlZ29yaWVMaXN0UmVwbHkSJwoKUGFnaW5hdGlvbhgBIAEoCzITLm10bWFpLm10bXBiLlBhZ2luZxIpCgVpdGVtcxgCIAMoCzIaLm10bWFpLm10bXBiLkJsb2dDYXRlZ29yaWUSDQoFVG90YWwYAyABKAUiIQoTQmxvZ0NhdGVnb3JpZUdldFJlcRIKCgJpZBgBIAEoDSJEChZCbG9nQ2F0ZWdvcmllQ3JlYXRlUmVxEgoKAmlkGAEgASgNEg0KBXRpdGxlGAIgASgJEg8KB3NpdGVfaWQYBCABKA0iJgoYQmxvZ0NhdGVnb3JpZUNyZWF0ZVJlcGx5EgoKAmlkGAEgASgNIkQKFkJsb2dDYXRlZ29yaWVVcGRhdGVSZXESCgoCaWQYASABKA0SDQoFdGl0bGUYAiABKAkSDwoHc2l0ZV9pZBgEIAEoDSInChlCbG9nQ2F0ZWdvcmllVXBkYXRlUmVxcGx5EgoKAmlkGAEgASgNIiQKB0Jsb2dUYWcSCgoCaWQYASABKA0SDQoFdGl0bGUYAiABKAkivgMKCEJsb2dQb3N0EgoKAmlkGAEgASgNEg8KB3NpdGVfaWQYAiABKA0SGQoRYmxvZ19jYXRlZ29yaWVfaWQYAyABKA0SEgoKdXBkYXRlZF9hdBgEIAEoDRINCgV0aXRsZRgFIAEoCRIPCgdjb250ZW50GAYgASgJEhQKDGNvbnRlbnRfdHlwZRgHIAEoCRIMCgRhdXRoGAggASgJEhEKCXB1Ymxpc2hlZBgJIAEoCBIRCglwb3N0X25hbWUYCiABKAkSDwoHZXhjZXJwdBgLIAEoCRIOCgZzdGF0dXMYDCABKAkSFgoOY29tbWVudF9zdGF0dXMYDSABKAkSDgoGcGFyZW50GA4gASgJEgwKBHR5cGUYDyABKAkSEQoJbWltZV90eXBlGBAgASgJEhUKDWNvbW1lbnRfY291bnQYESABKA0SIgoEdGFncxgTIAMoCzIULm10bWFpLm10bXBiLkJsb2dUYWcSDQoFc2x1Z3MYFCABKAkSEQoJdG9wX2ltYWdlGBUgASgJEhEKCWlzX21hbnVhbBgXIAEoCBIRCglpc19wdWJsaWMYGCABKAgSDwoHbW9kaV9ieRgZIAEoCSLHAQoMQmxvZ1Bvc3RJdGVtEgoKAmlkGAEgASgNEg8KB3NpdGVfaWQYAiABKA0SDQoFdGl0bGUYAyABKAkSEgoKdXBkYXRlZF9hdBgEIAEoDRIPCgdjb250ZW50GAYgASgJEhQKDGNvbnRlbnRfdHlwZRgHIAEoCRIPCgdleGNlcnB0GAsgASgJEiwKCGNhdGVnb3J5GAkgASgLMhoubXRtYWkubXRtcGIuQmxvZ0NhdGVnb3JpZRIRCgl0b3BfaW1hZ2UYFSABKAkiKwoOQmxvZ1Bvc3RHZXRSZXESCgoCaWQYASABKA0SDQoFc2x1Z3MYAiABKAkiXwoRQmxvZ1Bvc3RDcmVhdGVSZXESDQoFdGl0bGUYAiABKAkSDwoHc2l0ZV9pZBgDIAEoDRIZChFibG9nX2NhdGVnb3JpZV9pZBgEIAEoDRIPCgdjb250ZW50GAUgASgJIp4BChFCbG9nUG9zdFVwZGF0ZVJlcRIKCgJpZBgBIAEoDRINCgV0aXRsZRgCIAEoCRINCgVzbHVncxgDIAEoCRIZChFibG9nX2NhdGVnb3JpZV9pZBgEIAEoDRIPCgdjb250ZW50GAUgASgJEg8KB3NpdGVfaWQYBiABKA0SEQoJaXNfbWFudWFsGAcgASgIEg8KB21vZGlfYnkYCCABKAkiNgoRQmxvZ1Bvc3RJbXBvcnRSZXESCwoDdXJsGAEgASgJEhQKDGJsb2dfcG9zdF9pZBgCIAEoCSJ4ChhCbG9nUG9zdExpc3RCeVNsdWdzUmVwbHkSJwoKUGFnaW5hdGlvbhgBIAEoCzITLm10bWFpLm10bXBiLlBhZ2luZxIkCgVpdGVtcxgCIAMoCzIVLm10bWFpLm10bXBiLkJsb2dQb3N0Eg0KBVRvdGFsGAMgASgFIg4KDEJsb2dDbGVhblJlcSIcCgxSYXdIdG1sQmxvY2sSDAoEaHRtbBgCIAEoCSKrAwoSQXJ0aWNsZURldGFpbEJsb2NrEg8KB3NpdGVfaWQYAiABKA0SGQoRYmxvZ19jYXRlZ29yaWVfaWQYAyABKA0SEgoKdXBkYXRlZF9hdBgEIAEoDRINCgV0aXRsZRgFIAEoCRIPCgdjb250ZW50GAYgASgJEhQKDGNvbnRlbnRfdHlwZRgHIAEoCRIOCgZhdXRob3IYCCABKAkSEQoJcG9zdF9uYW1lGAogASgJEg8KB2V4Y2VycHQYCyABKAkSDgoGc3RhdHVzGAwgASgJEhYKDmNvbW1lbnRfc3RhdHVzGA0gASgJEg4KBnBhcmVudBgOIAEoCRIMCgR0eXBlGA8gASgJEhEKCW1pbWVfdHlwZRgQIAEoCRIVCg1jb21tZW50X2NvdW50GBEgASgNEiIKBHRhZ3MYEyADKAsyFC5tdG1haS5tdG1wYi5CbG9nVGFnEg0KBXNsdWdzGBQgASgJEhEKCXRvcF9pbWFnZRgVIAEoCRIRCglpc19tYW51YWwYFyABKAgSEQoJaXNfcHVibGljGBggASgIEg8KB21vZGlfYnkYGSABKAkibgoEU2l0ZRIKCgJpZBgBIAEoDRINCgV0aXRsZRgCIAEoCRIRCglrZXlfd29yZHMYAyADKAkSEgoKc3BfZW5hYmxlZBgEIAEoCBIkCgVob3N0cxgFIAMoCzIVLm10bWFpLm10bXBiLlNpdGVIb3N0IlUKC1NpdGVMaXN0UmVxEicKClBhZ2luYXRpb24YASABKAsyEy5tdG1haS5tdG1wYi5QYWdpbmcSCQoBcRgDIAEoCRISCgp3aXRoX2hvc3RzGAQgASgIImkKDVNpdGVMaXN0UmVwbHkSJwoKUGFnaW5hdGlvbhgBIAEoCzITLm10bWFpLm10bXBiLlBhZ2luZxIgCgVpdGVtcxgCIAMoCzIRLm10bWFpLm10bXBiLlNpdGUSDQoFVG90YWwYAyABKAUiKwoKU2l0ZUdldFJlcRIKCgJpZBgBIAEoDRIRCglob3N0X25hbWUYAiABKAkiOgoNU2l0ZUNyZWF0ZVJlcRIKCgJpZBgBIAEoDRINCgV0aXRsZRgCIAEoCRIOCgZkb21haW4YAyABKAkiMwoNU2l0ZUNyZWF0ZVJlcxIKCgJpZBgBIAEoDRIWCg5kZWZhdWx0X2RvbWFpbhgCIAEoCSI+Cg1TaXRlVXBkYXRlUmVxEgoKAmlkGAEgASgNEg0KBXRpdGxlGAIgASgJEhIKCnNwX2VuYWJsZWQYAyABKAgiJAoIU2l0ZUhvc3QSCgoCaWQYASABKA0SDAoEaG9zdBgCIAEoCSJWCg9TaXRlSG9zdExpc3RSZXESJwoKUGFnaW5hdGlvbhgBIAEoCzITLm10bWFpLm10bXBiLlBhZ2luZxIJCgFxGAMgASgJEg8KB3NpdGVfaWQYBCABKA0icQoRU2l0ZUhvc3RMaXN0UmVwbHkSJwoKUGFnaW5hdGlvbhgBIAEoCzITLm10bWFpLm10bXBiLlBhZ2luZxIkCgVpdGVtcxgCIAMoCzIVLm10bWFpLm10bXBiLlNpdGVIb3N0Eg0KBVRvdGFsGAMgASgFIhwKDlNpdGVIb3N0R2V0UmVxEgoKAmlkGAEgASgNIk0KEVNpdGVIb3N0Q3JlYXRlUmVxEgoKAmlkGAEgASgNEg0KBXRpdGxlGAIgASgJEg8KB3NpdGVfaWQYAyABKA0SDAoEaG9zdBgEIAEoCSJNChFTaXRlSG9zdFVwZGF0ZVJlcRIKCgJpZBgBIAEoDRINCgV0aXRsZRgCIAEoCRIPCgdzaXRlX2lkGAMgASgNEgwKBGhvc3QYBCABKAkiXAoNU2l0ZUltcG9ydFJlcRIMCgR0ZXh0GAEgASgJEhMKC2NyZWF0ZV9mcm9tGAIgASgJEg0KBXRpdGxlGAMgASgJEhkKEXNlcnZlX3Jvb3RfZG9tYWluGAQgASgJIkoKEERvbWFpbkNvbGxSZXN1bHQSEwoLcm9vdF9kb21haW4YASABKAkSDQoFdGl0bGUYAiABKAkSEgoKU2NyZWVuc2hvdBgDIAEoDCIgChBFdmVudFNwU2l0ZVZpc2l0EgwKBGhhc2gYASABKAkiJwoXQ21kU3BTaXRlVGFrZVNjcmVlbnNob3QSDAoEaGFzaBgBIAEoCSInChdFdmVudFNwU2l0ZVNjcmVlbnNob3RPaxIMCgRoYXNoGAEgASgJIicKFFNpdGVTZXR1cENmdHVubmVsUmVxEg8KB3NpdGVfaWQYASABKA0iGAoWU2l0ZVNldHVwQ2Z0dW5uZWxSZXBseSLgAQoKRm9ybVNjaGVtYRISCgV0aXRsZRgBIAEoCUgAiAEBEhgKC2Rlc2NyaXB0aW9uGAIgASgJSAGIAQESEwoGYWN0aW9uGAMgASgJSAKIAQESLAoGZmllbGRzGAQgAygLMhwubXRtYWkubXRtcGIuRm9ybVNjaGVtc0ZpZWxkEhIKBWdyb3VwGAUgASgJSAOIAQESEwoGbGF5b3V0GAYgASgJSASIAQFCCAoGX3RpdGxlQg4KDF9kZXNjcmlwdGlvbkIJCgdfYWN0aW9uQggKBl9ncm91cEIJCgdfbGF5b3V0ItkBCg9Gb3JtU2NoZW1zRmllbGQSDAoEbmFtZRgBIAEoCRISCgVsYWJlbBgCIAEoCUgAiAEBEhEKBHR5cGUYAyABKAlIAYgBARIZCgxkZWZhdWx0VmFsdWUYBCABKAlIAogBARIYCgtkZXNjcmlwdGlvbhgFIAEoCUgDiAEBEhgKC3BsYWNlaG9sZGVyGAYgASgJSASIAQFCCAoGX2xhYmVsQgcKBV90eXBlQg8KDV9kZWZhdWx0VmFsdWVCDgoMX2Rlc2NyaXB0aW9uQg4KDF9wbGFjZWhvbGRlciI5ChVBcnRDb250ZW50Q2xhc3NpZnlSZXESDAoEdGV4dBgBIAEoCRISCgpjYXRlZ29yaWVzGAIgAygJIjYKF0FydENvbnRlbnRDbGFzc2lmeVJlcGx5EhsKE2Jlc3RfbWF0Y2hfY2F0ZWdvcnkYASABKAkiVQoNQXJ0UmV3cml0ZVJlcRIKCgJpZBgBIAEoCRINCgV0aXRsZRgCIAEoCRIPCgdjb250ZW50GAMgASgJEhgKEGNhbmRpZGF0ZV9sYWJlbHMYBCADKAkiVwoPQXJ0UmV3cml0ZVJlcGx5EgoKAmlkGAEgASgJEg0KBXRpdGxlGAIgASgJEg8KB2NvbnRlbnQYAyABKAkSGAoQYmVzdF9tYXRjaF9sYWJlbBgEIAEoCSJ9CgtNdG1naENvbmZpZxIVCg1zZXR1cF9jb21tYW5kGAEgASgJEhMKC3J1bl9jb21tYW5kGAIgASgJEhQKDHByb2plY3RfdHlwZRgDIAEoCRIsCghkZXZfaW5pdBgEIAEoCzIaLm10bWFpLm10bXBiLkRldkluaXRDb25maWciUgoNRGV2SW5pdENvbmZpZxIVCg1zdWJfcmVwb19yb290GAEgASgJEhQKDHN1Yl9wcm9qZWN0cxgCIAMoCRIUCgxpbml0X2NvbW1hbmQYAyABKAkiSQoIQ21ka0l0ZW0SDQoFZ3JvdXAYASABKAkSDQoFbGFiZWwYAiABKAkSCwoDdXJsGAMgASgJEhIKCmFsbG93Um9sZXMYBCADKAkiGAoKRm9ybUdldFJlcRIKCgJpZBgBIAEoCSI3Cg1Gb3JtQ3JlYXRlUmVxEiYKBWlucHV0GAEgASgLMhcubXRtYWkubXRtcGIuRm9ybVNjaGVtYSJFCgtUYXNrTWVzc2FnZRIMCgRuYW1lGAEgASgJEigKBGRhdGUYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIkUKD0FQSVJlc291cmNlTWV0YRIKCgJpZBgBIAEoCRISCgpjcmVhdGVkX2F0GAIgASgJEhIKCnVwZGF0ZWRfYXQYAyABKAkqOgoLRXJyb3JSZWFzb24SFwoTR1JFRVRFUl9VTlNQRUNJRklFRBAAEhIKDlVTRVJfTk9UX0ZPVU5EEAEqPwoOTGlzdFZpZXdMYXlvdXQSCAoEY2FyZBAAEggKBGdyaWQQARIKCgZzaW1wbGUQAxINCglwb3N0X2NhcmQQBConChJMaXN0Vmlld0FjdGlvblR5cGUSEQoNbGlzdF9pdGVtX25ldxAAKioKDFBhZ2luYXRlVHlwZRIMCghJTkZJTklURRAAEgwKCFBBR0lOQVRFEAEylxQKCk10bVNlcnZpY2USUAoPT2F1dGgyTG9naW5Ib29rEiMubXRtYWkubXRtcGIuT2F1dGgyTG9naW5Ib29rUmVxdWVzdBoWLm10bWFpLm10bXBiLkF1dGhUb2tlbiIAEjkKBUxvZ2luEhUubXRtYWkubXRtcGIuTG9naW5SZXEaFy5tdG1haS5tdG1wYi5Mb2dpblJlcGx5IgASQgoIUmVnaXN0ZXISGC5tdG1haS5tdG1wYi5SZWdpc3RlclJlcRoaLm10bWFpLm10bXBiLlJlZ2lzdGVyUmVwbHkiABI9CgdHZXRNZXRhEhcubXRtYWkubXRtcGIuR2V0TWV0YVJlcRoXLm10bWFpLm10bXBiLkdldE1ldGFSZXMiABI+CghQdWxsTG9ncxIXLm10bWFpLm10bXBiLlB1bGxMb2dSZXEaFy5tdG1haS5tdG1wYi5QdWxsTG9nUmVzIgASTwoNTXRtU2VydmVyTGlzdBIdLm10bWFpLm10bXBiLk10bVNlcnZlckxpc3RSZXEaHS5tdG1haS5tdG1wYi5NdG1TZXJ2ZXJMaXN0UmVzIgASSQoLU2VydmljZU1ldGESGy5tdG1haS5tdG1wYi5TZXJ2aWNlTWV0YVJlcRobLm10bWFpLm10bXBiLlNlcnZpY2VNZXRhUmVzIgASOAoIU2x1Z1BhZ2USFC5tdG1haS5tdG1wYi5TbHVnUmVxGhQubXRtYWkubXRtcGIuU2x1Z1JlcyIAEjoKCFVzZXJpbmZvEhIubXRtYWkubXRtcGIuRW1wdHkaGC5tdG1haS5tdG1wYi5Vc2VyaW5mb1JlcyIAEkMKC0Jsb2dQb3N0R2V0EhsubXRtYWkubXRtcGIuQmxvZ1Bvc3RHZXRSZXEaFS5tdG1haS5tdG1wYi5CbG9nUG9zdCIAEkcKDkJsb2dQb3N0Q3JlYXRlEh4ubXRtYWkubXRtcGIuQmxvZ1Bvc3RDcmVhdGVSZXEaEy5tdG1haS5tdG1wYi5SZXN1bHQiABJHCg5CbG9nUG9zdFVwZGF0ZRIeLm10bWFpLm10bXBiLkJsb2dQb3N0VXBkYXRlUmVxGhMubXRtYWkubXRtcGIuUmVzdWx0IgASQgoOQmxvZ1Bvc3REZWxldGUSGS5tdG1haS5tdG1wYi5SZXNEZWxldGVSZXEaEy5tdG1haS5tdG1wYi5SZXN1bHQiABJJCg5CbG9nUG9zdEltcG9ydBIeLm10bWFpLm10bXBiLkJsb2dQb3N0SW1wb3J0UmVxGhUubXRtYWkubXRtcGIuQmxvZ1Bvc3QiABJdChFCbG9nQ2F0ZWdvcmllTGlzdBIhLm10bWFpLm10bXBiLkJsb2dDYXRlZ29yaWVMaXN0UmVxGiMubXRtYWkubXRtcGIuQmxvZ0NhdGVnb3JpZUxpc3RSZXBseSIAElIKEEJsb2dDYXRlZ29yaWVHZXQSIC5tdG1haS5tdG1wYi5CbG9nQ2F0ZWdvcmllR2V0UmVxGhoubXRtYWkubXRtcGIuQmxvZ0NhdGVnb3JpZSIAEmMKE0Jsb2dDYXRlZ29yaWVDcmVhdGUSIy5tdG1haS5tdG1wYi5CbG9nQ2F0ZWdvcmllQ3JlYXRlUmVxGiUubXRtYWkubXRtcGIuQmxvZ0NhdGVnb3JpZUNyZWF0ZVJlcGx5IgASZAoTQmxvZ0NhdGVnb3JpZVVwZGF0ZRIjLm10bWFpLm10bXBiLkJsb2dDYXRlZ29yaWVVcGRhdGVSZXEaJi5tdG1haS5tdG1wYi5CbG9nQ2F0ZWdvcmllVXBkYXRlUmVxcGx5IgASRwoTQmxvZ0NhdGVnb3JpZURlbGV0ZRIZLm10bWFpLm10bXBiLlJlc0RlbGV0ZVJlcRoTLm10bWFpLm10bXBiLlJlc3VsdCIAEj0KCUJsb2dDbGVhbhIZLm10bWFpLm10bXBiLkJsb2dDbGVhblJlcRoTLm10bWFpLm10bXBiLlJlc3VsdCIAEjcKB1NpdGVHZXQSFy5tdG1haS5tdG1wYi5TaXRlR2V0UmVxGhEubXRtYWkubXRtcGIuU2l0ZSIAEkYKClNpdGVDcmVhdGUSGi5tdG1haS5tdG1wYi5TaXRlQ3JlYXRlUmVxGhoubXRtYWkubXRtcGIuU2l0ZUNyZWF0ZVJlcyIAEj8KClNpdGVVcGRhdGUSGi5tdG1haS5tdG1wYi5TaXRlVXBkYXRlUmVxGhMubXRtYWkubXRtcGIuUmVzdWx0IgASPgoKU2l0ZURlbGV0ZRIZLm10bWFpLm10bXBiLlJlc0RlbGV0ZVJlcRoTLm10bWFpLm10bXBiLlJlc3VsdCIAEj8KClNpdGVJbXBvcnQSGi5tdG1haS5tdG1wYi5TaXRlSW1wb3J0UmVxGhMubXRtYWkubXRtcGIuUmVzdWx0IgASXQoRU2l0ZVNldHVwQ2Z0dW5uZWwSIS5tdG1haS5tdG1wYi5TaXRlU2V0dXBDZnR1bm5lbFJlcRojLm10bWFpLm10bXBiLlNpdGVTZXR1cENmdHVubmVsUmVwbHkiABJOCgxTaXRlSG9zdExpc3QSHC5tdG1haS5tdG1wYi5TaXRlSG9zdExpc3RSZXEaHi5tdG1haS5tdG1wYi5TaXRlSG9zdExpc3RSZXBseSIAEkMKC1NpdGVIb3N0R2V0EhsubXRtYWkubXRtcGIuU2l0ZUhvc3RHZXRSZXEaFS5tdG1haS5tdG1wYi5TaXRlSG9zdCIAEkcKDlNpdGVIb3N0Q3JlYXRlEh4ubXRtYWkubXRtcGIuU2l0ZUhvc3RDcmVhdGVSZXEaEy5tdG1haS5tdG1wYi5SZXN1bHQiABJHCg5TaXRlSG9zdFVwZGF0ZRIeLm10bWFpLm10bXBiLlNpdGVIb3N0VXBkYXRlUmVxGhMubXRtYWkubXRtcGIuUmVzdWx0IgASQgoOU2l0ZUhvc3REZWxldGUSGS5tdG1haS5tdG1wYi5SZXNEZWxldGVSZXEaEy5tdG1haS5tdG1wYi5SZXN1bHQiABI9CgdGb3JtR2V0EhcubXRtYWkubXRtcGIuRm9ybUdldFJlcRoXLm10bWFpLm10bXBiLkZvcm1TY2hlbWEiABJDCgpGb3JtQ3JlYXRlEhoubXRtYWkubXRtcGIuRm9ybUNyZWF0ZVJlcRoXLm10bWFpLm10bXBiLkZvcm1TY2hlbWEiABJgChJBcnRDb250ZW50Q2xhc3NpZnkSIi5tdG1haS5tdG1wYi5BcnRDb250ZW50Q2xhc3NpZnlSZXEaJC5tdG1haS5tdG1wYi5BcnRDb250ZW50Q2xhc3NpZnlSZXBseSIAEkgKCkFydFJld3JpdGUSGi5tdG1haS5tdG1wYi5BcnRSZXdyaXRlUmVxGhwubXRtYWkubXRtcGIuQXJ0UmV3cml0ZVJlcGx5IgA6NAoFc2x1Z3MSHS5nb29nbGUucHJvdG9idWYuRmllbGRPcHRpb25zGOkHIAEoCVIFc2x1Z3M6OQoIaXNfdGl0bGUSHS5nb29nbGUucHJvdG9idWYuRmllbGRPcHRpb25zGOoHIAEoCFIHaXNUaXRsZTpACgxpc19zdWJfdGl0bGUSHS5nb29nbGUucHJvdG9idWYuRmllbGRPcHRpb25zGOsHIAEoCFIKaXNTdWJUaXRsZTo/CgpldmVudF9uYW1lEh8uZ29vZ2xlLnByb3RvYnVmLk1lc3NhZ2VPcHRpb25zGOkHIAEoCVIJZXZlbnROYW1lOjoKCHN2Y19saXN0Eh4uZ29vZ2xlLnByb3RvYnVmLk1ldGhvZE9wdGlvbnMY6QcgASgIUgdzdmNMaXN0Qp4BCg9jb20ubXRtYWkubXRtcGJCCE10bVByb3RvUAFaNGdpdGh1Yi5jb20vY29kZWgwMDcvZ29tdG0vbXRtL3NwcGIvbXRtYWkvbXRtcGI7bXRtcGKiAgNNTViqAgtNdG1haS5NdG1wYsoCC010bWFpXE10bXBi4gIXTXRtYWlcTXRtcGJcR1BCTWV0YWRhdGHqAgxNdG1haTo6TXRtcGJiBnByb3RvMw",
-    [
-      file_google_protobuf_any,
-      file_google_protobuf_timestamp,
-      file_google_protobuf_descriptor,
-    ],
+    [file_google_protobuf_any, file_google_protobuf_timestamp, file_google_protobuf_descriptor],
   );
 
 /**
  * @generated from message mtmai.mtmpb.Oauth2LoginHookRequest
  */
-export type Oauth2LoginHookRequest =
-  Message<"mtmai.mtmpb.Oauth2LoginHookRequest"> & {
-    /**
-     * @generated from field: string type = 1;
-     */
-    type: string;
+export type Oauth2LoginHookRequest = Message<"mtmai.mtmpb.Oauth2LoginHookRequest"> & {
+  /**
+   * @generated from field: string type = 1;
+   */
+  type: string;
 
-    /**
-     * @generated from field: string provider = 2;
-     */
-    provider: string;
+  /**
+   * @generated from field: string provider = 2;
+   */
+  provider: string;
 
-    /**
-     * @generated from field: string providerAccountId = 3;
-     */
-    providerAccountId: string;
+  /**
+   * @generated from field: string providerAccountId = 3;
+   */
+  providerAccountId: string;
 
-    /**
-     * @generated from field: string refresh_token = 4;
-     */
-    refreshToken: string;
+  /**
+   * @generated from field: string refresh_token = 4;
+   */
+  refreshToken: string;
 
-    /**
-     * @generated from field: int32 refresh_token_expires_in = 5;
-     */
-    refreshTokenExpiresIn: number;
+  /**
+   * @generated from field: int32 refresh_token_expires_in = 5;
+   */
+  refreshTokenExpiresIn: number;
 
-    /**
-     * @generated from field: string access_token = 6;
-     */
-    accessToken: string;
+  /**
+   * @generated from field: string access_token = 6;
+   */
+  accessToken: string;
 
-    /**
-     * @generated from field: int32 expires_at = 7;
-     */
-    expiresAt: number;
+  /**
+   * @generated from field: int32 expires_at = 7;
+   */
+  expiresAt: number;
 
-    /**
-     * @generated from field: string token_type = 8;
-     */
-    tokenType: string;
+  /**
+   * @generated from field: string token_type = 8;
+   */
+  tokenType: string;
 
-    /**
-     * @generated from field: string scope = 9;
-     */
-    scope: string;
+  /**
+   * @generated from field: string scope = 9;
+   */
+  scope: string;
 
-    /**
-     * @generated from field: string id_token = 10;
-     */
-    idToken: string;
+  /**
+   * @generated from field: string id_token = 10;
+   */
+  idToken: string;
 
-    /**
-     * @generated from field: string session_state = 11;
-     */
-    sessionState: string;
-  };
+  /**
+   * @generated from field: string session_state = 11;
+   */
+  sessionState: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.Oauth2LoginHookRequest.
@@ -317,9 +312,7 @@ export type User = Message<"mtmai.mtmpb.User"> & {
  * Describes the message mtmai.mtmpb.User.
  * Use `create(UserSchema)` to create a new message.
  */
-export const UserSchema: GenMessage<User> =
-  /*@__PURE__*/
-  messageDesc(file_mtmai_mtmpb_mtm, 8);
+export const UserSchema: GenMessage<User> = /*@__PURE__*/ messageDesc(file_mtmai_mtmpb_mtm, 8);
 
 /**
  * @generated from message mtmai.mtmpb.UserListReq
@@ -498,9 +491,7 @@ export type Role = Message<"mtmai.mtmpb.Role"> & {
  * Describes the message mtmai.mtmpb.Role.
  * Use `create(RoleSchema)` to create a new message.
  */
-export const RoleSchema: GenMessage<Role> =
-  /*@__PURE__*/
-  messageDesc(file_mtmai_mtmpb_mtm, 15);
+export const RoleSchema: GenMessage<Role> = /*@__PURE__*/ messageDesc(file_mtmai_mtmpb_mtm, 15);
 
 /**
  * @generated from message mtmai.mtmpb.Empty
@@ -511,9 +502,7 @@ export type Empty = Message<"mtmai.mtmpb.Empty"> & {};
  * Describes the message mtmai.mtmpb.Empty.
  * Use `create(EmptySchema)` to create a new message.
  */
-export const EmptySchema: GenMessage<Empty> =
-  /*@__PURE__*/
-  messageDesc(file_mtmai_mtmpb_mtm, 16);
+export const EmptySchema: GenMessage<Empty> = /*@__PURE__*/ messageDesc(file_mtmai_mtmpb_mtm, 16);
 
 /**
  * @generated from message mtmai.mtmpb.ObjIdReply
@@ -547,9 +536,7 @@ export type ObjId = Message<"mtmai.mtmpb.ObjId"> & {
  * Describes the message mtmai.mtmpb.ObjId.
  * Use `create(ObjIdSchema)` to create a new message.
  */
-export const ObjIdSchema: GenMessage<ObjId> =
-  /*@__PURE__*/
-  messageDesc(file_mtmai_mtmpb_mtm, 18);
+export const ObjIdSchema: GenMessage<ObjId> = /*@__PURE__*/ messageDesc(file_mtmai_mtmpb_mtm, 18);
 
 /**
  * @generated from message mtmai.mtmpb.Result
@@ -585,9 +572,7 @@ export type Result = Message<"mtmai.mtmpb.Result"> & {
  * Describes the message mtmai.mtmpb.Result.
  * Use `create(ResultSchema)` to create a new message.
  */
-export const ResultSchema: GenMessage<Result> =
-  /*@__PURE__*/
-  messageDesc(file_mtmai_mtmpb_mtm, 19);
+export const ResultSchema: GenMessage<Result> = /*@__PURE__*/ messageDesc(file_mtmai_mtmpb_mtm, 19);
 
 /**
  * @generated from message mtmai.mtmpb.ErrorRes
@@ -728,9 +713,7 @@ export type Paging = Message<"mtmai.mtmpb.Paging"> & {
  * Describes the message mtmai.mtmpb.Paging.
  * Use `create(PagingSchema)` to create a new message.
  */
-export const PagingSchema: GenMessage<Paging> =
-  /*@__PURE__*/
-  messageDesc(file_mtmai_mtmpb_mtm, 25);
+export const PagingSchema: GenMessage<Paging> = /*@__PURE__*/ messageDesc(file_mtmai_mtmpb_mtm, 25);
 
 /**
  * 字段掩码
@@ -1181,9 +1164,7 @@ export type MtDate = Message<"mtmai.mtmpb.MtDate"> & {
  * Describes the message mtmai.mtmpb.MtDate.
  * Use `create(MtDateSchema)` to create a new message.
  */
-export const MtDateSchema: GenMessage<MtDate> =
-  /*@__PURE__*/
-  messageDesc(file_mtmai_mtmpb_mtm, 36);
+export const MtDateSchema: GenMessage<MtDate> = /*@__PURE__*/ messageDesc(file_mtmai_mtmpb_mtm, 36);
 
 /**
  * @generated from message mtmai.mtmpb.PubsubPubMsgReq
@@ -1473,23 +1454,22 @@ export const ProtoMeta_ServiceSchema: GenMessage<ProtoMeta_Service> =
 /**
  * @generated from message mtmai.mtmpb.ProtoMeta.Service.Method
  */
-export type ProtoMeta_Service_Method =
-  Message<"mtmai.mtmpb.ProtoMeta.Service.Method"> & {
-    /**
-     * @generated from field: string name = 1;
-     */
-    name: string;
+export type ProtoMeta_Service_Method = Message<"mtmai.mtmpb.ProtoMeta.Service.Method"> & {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name: string;
 
-    /**
-     * @generated from field: string full_name = 2;
-     */
-    fullName: string;
+  /**
+   * @generated from field: string full_name = 2;
+   */
+  fullName: string;
 
-    /**
-     * @generated from field: uint32 index = 3;
-     */
-    index: number;
-  };
+  /**
+   * @generated from field: uint32 index = 3;
+   */
+  index: number;
+};
 
 /**
  * Describes the message mtmai.mtmpb.ProtoMeta.Service.Method.
@@ -1696,9 +1676,7 @@ export type TopNav = Message<"mtmai.mtmpb.TopNav"> & {
  * Describes the message mtmai.mtmpb.TopNav.
  * Use `create(TopNavSchema)` to create a new message.
  */
-export const TopNavSchema: GenMessage<TopNav> =
-  /*@__PURE__*/
-  messageDesc(file_mtmai_mtmpb_mtm, 54);
+export const TopNavSchema: GenMessage<TopNav> = /*@__PURE__*/ messageDesc(file_mtmai_mtmpb_mtm, 54);
 
 /**
  * @generated from message mtmai.mtmpb.TopNavItem
@@ -2056,30 +2034,29 @@ export const BlogCategorieSchema: GenMessage<BlogCategorie> =
 /**
  * @generated from message mtmai.mtmpb.BlogCategorieListReq
  */
-export type BlogCategorieListReq =
-  Message<"mtmai.mtmpb.BlogCategorieListReq"> & {
-    /**
-     * @generated from field: mtmai.mtmpb.Paging Pagination = 1;
-     */
-    Pagination?: Paging;
+export type BlogCategorieListReq = Message<"mtmai.mtmpb.BlogCategorieListReq"> & {
+  /**
+   * @generated from field: mtmai.mtmpb.Paging Pagination = 1;
+   */
+  Pagination?: Paging;
 
-    /**
-     * @generated from field: string q = 3;
-     */
-    q: string;
+  /**
+   * @generated from field: string q = 3;
+   */
+  q: string;
 
-    /**
-     * @generated from field: uint32 site_id = 4;
-     */
-    siteId: number;
+  /**
+   * @generated from field: uint32 site_id = 4;
+   */
+  siteId: number;
 
-    /**
-     * string host_name = 5;
-     *
-     * @generated from field: uint32 limit = 6;
-     */
-    limit: number;
-  };
+  /**
+   * string host_name = 5;
+   *
+   * @generated from field: uint32 limit = 6;
+   */
+  limit: number;
+};
 
 /**
  * Describes the message mtmai.mtmpb.BlogCategorieListReq.
@@ -2092,23 +2069,22 @@ export const BlogCategorieListReqSchema: GenMessage<BlogCategorieListReq> =
 /**
  * @generated from message mtmai.mtmpb.BlogCategorieListReply
  */
-export type BlogCategorieListReply =
-  Message<"mtmai.mtmpb.BlogCategorieListReply"> & {
-    /**
-     * @generated from field: mtmai.mtmpb.Paging Pagination = 1;
-     */
-    Pagination?: Paging;
+export type BlogCategorieListReply = Message<"mtmai.mtmpb.BlogCategorieListReply"> & {
+  /**
+   * @generated from field: mtmai.mtmpb.Paging Pagination = 1;
+   */
+  Pagination?: Paging;
 
-    /**
-     * @generated from field: repeated mtmai.mtmpb.BlogCategorie items = 2;
-     */
-    items: BlogCategorie[];
+  /**
+   * @generated from field: repeated mtmai.mtmpb.BlogCategorie items = 2;
+   */
+  items: BlogCategorie[];
 
-    /**
-     * @generated from field: int32 Total = 3;
-     */
-    Total: number;
-  };
+  /**
+   * @generated from field: int32 Total = 3;
+   */
+  Total: number;
+};
 
 /**
  * Describes the message mtmai.mtmpb.BlogCategorieListReply.
@@ -2139,23 +2115,22 @@ export const BlogCategorieGetReqSchema: GenMessage<BlogCategorieGetReq> =
 /**
  * @generated from message mtmai.mtmpb.BlogCategorieCreateReq
  */
-export type BlogCategorieCreateReq =
-  Message<"mtmai.mtmpb.BlogCategorieCreateReq"> & {
-    /**
-     * @generated from field: uint32 id = 1;
-     */
-    id: number;
+export type BlogCategorieCreateReq = Message<"mtmai.mtmpb.BlogCategorieCreateReq"> & {
+  /**
+   * @generated from field: uint32 id = 1;
+   */
+  id: number;
 
-    /**
-     * @generated from field: string title = 2;
-     */
-    title: string;
+  /**
+   * @generated from field: string title = 2;
+   */
+  title: string;
 
-    /**
-     * @generated from field: uint32 site_id = 4;
-     */
-    siteId: number;
-  };
+  /**
+   * @generated from field: uint32 site_id = 4;
+   */
+  siteId: number;
+};
 
 /**
  * Describes the message mtmai.mtmpb.BlogCategorieCreateReq.
@@ -2168,13 +2143,12 @@ export const BlogCategorieCreateReqSchema: GenMessage<BlogCategorieCreateReq> =
 /**
  * @generated from message mtmai.mtmpb.BlogCategorieCreateReply
  */
-export type BlogCategorieCreateReply =
-  Message<"mtmai.mtmpb.BlogCategorieCreateReply"> & {
-    /**
-     * @generated from field: uint32 id = 1;
-     */
-    id: number;
-  };
+export type BlogCategorieCreateReply = Message<"mtmai.mtmpb.BlogCategorieCreateReply"> & {
+  /**
+   * @generated from field: uint32 id = 1;
+   */
+  id: number;
+};
 
 /**
  * Describes the message mtmai.mtmpb.BlogCategorieCreateReply.
@@ -2187,23 +2161,22 @@ export const BlogCategorieCreateReplySchema: GenMessage<BlogCategorieCreateReply
 /**
  * @generated from message mtmai.mtmpb.BlogCategorieUpdateReq
  */
-export type BlogCategorieUpdateReq =
-  Message<"mtmai.mtmpb.BlogCategorieUpdateReq"> & {
-    /**
-     * @generated from field: uint32 id = 1;
-     */
-    id: number;
+export type BlogCategorieUpdateReq = Message<"mtmai.mtmpb.BlogCategorieUpdateReq"> & {
+  /**
+   * @generated from field: uint32 id = 1;
+   */
+  id: number;
 
-    /**
-     * @generated from field: string title = 2;
-     */
-    title: string;
+  /**
+   * @generated from field: string title = 2;
+   */
+  title: string;
 
-    /**
-     * @generated from field: uint32 site_id = 4;
-     */
-    siteId: number;
-  };
+  /**
+   * @generated from field: uint32 site_id = 4;
+   */
+  siteId: number;
+};
 
 /**
  * Describes the message mtmai.mtmpb.BlogCategorieUpdateReq.
@@ -2216,13 +2189,12 @@ export const BlogCategorieUpdateReqSchema: GenMessage<BlogCategorieUpdateReq> =
 /**
  * @generated from message mtmai.mtmpb.BlogCategorieUpdateReqply
  */
-export type BlogCategorieUpdateReqply =
-  Message<"mtmai.mtmpb.BlogCategorieUpdateReqply"> & {
-    /**
-     * @generated from field: uint32 id = 1;
-     */
-    id: number;
-  };
+export type BlogCategorieUpdateReqply = Message<"mtmai.mtmpb.BlogCategorieUpdateReqply"> & {
+  /**
+   * @generated from field: uint32 id = 1;
+   */
+  id: number;
+};
 
 /**
  * Describes the message mtmai.mtmpb.BlogCategorieUpdateReqply.
@@ -2592,23 +2564,22 @@ export const BlogPostImportReqSchema: GenMessage<BlogPostImportReq> =
 /**
  * @generated from message mtmai.mtmpb.BlogPostListBySlugsReply
  */
-export type BlogPostListBySlugsReply =
-  Message<"mtmai.mtmpb.BlogPostListBySlugsReply"> & {
-    /**
-     * @generated from field: mtmai.mtmpb.Paging Pagination = 1;
-     */
-    Pagination?: Paging;
+export type BlogPostListBySlugsReply = Message<"mtmai.mtmpb.BlogPostListBySlugsReply"> & {
+  /**
+   * @generated from field: mtmai.mtmpb.Paging Pagination = 1;
+   */
+  Pagination?: Paging;
 
-    /**
-     * @generated from field: repeated mtmai.mtmpb.BlogPost items = 2;
-     */
-    items: BlogPost[];
+  /**
+   * @generated from field: repeated mtmai.mtmpb.BlogPost items = 2;
+   */
+  items: BlogPost[];
 
-    /**
-     * @generated from field: int32 Total = 3;
-     */
-    Total: number;
-  };
+  /**
+   * @generated from field: int32 Total = 3;
+   */
+  Total: number;
+};
 
 /**
  * Describes the message mtmai.mtmpb.BlogPostListBySlugsReply.
@@ -2809,9 +2780,7 @@ export type Site = Message<"mtmai.mtmpb.Site"> & {
  * Describes the message mtmai.mtmpb.Site.
  * Use `create(SiteSchema)` to create a new message.
  */
-export const SiteSchema: GenMessage<Site> =
-  /*@__PURE__*/
-  messageDesc(file_mtmai_mtmpb_mtm, 87);
+export const SiteSchema: GenMessage<Site> = /*@__PURE__*/ messageDesc(file_mtmai_mtmpb_mtm, 87);
 
 /**
  * @generated from message mtmai.mtmpb.SiteListReq
@@ -3231,13 +3200,12 @@ export const EventSpSiteVisitSchema: GenMessage<EventSpSiteVisit> =
 /**
  * @generated from message mtmai.mtmpb.CmdSpSiteTakeScreenshot
  */
-export type CmdSpSiteTakeScreenshot =
-  Message<"mtmai.mtmpb.CmdSpSiteTakeScreenshot"> & {
-    /**
-     * @generated from field: string hash = 1;
-     */
-    hash: string;
-  };
+export type CmdSpSiteTakeScreenshot = Message<"mtmai.mtmpb.CmdSpSiteTakeScreenshot"> & {
+  /**
+   * @generated from field: string hash = 1;
+   */
+  hash: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.CmdSpSiteTakeScreenshot.
@@ -3252,13 +3220,12 @@ export const CmdSpSiteTakeScreenshotSchema: GenMessage<CmdSpSiteTakeScreenshot> 
  *
  * @generated from message mtmai.mtmpb.EventSpSiteScreenshotOk
  */
-export type EventSpSiteScreenshotOk =
-  Message<"mtmai.mtmpb.EventSpSiteScreenshotOk"> & {
-    /**
-     * @generated from field: string hash = 1;
-     */
-    hash: string;
-  };
+export type EventSpSiteScreenshotOk = Message<"mtmai.mtmpb.EventSpSiteScreenshotOk"> & {
+  /**
+   * @generated from field: string hash = 1;
+   */
+  hash: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.EventSpSiteScreenshotOk.
@@ -3271,13 +3238,12 @@ export const EventSpSiteScreenshotOkSchema: GenMessage<EventSpSiteScreenshotOk> 
 /**
  * @generated from message mtmai.mtmpb.SiteSetupCftunnelReq
  */
-export type SiteSetupCftunnelReq =
-  Message<"mtmai.mtmpb.SiteSetupCftunnelReq"> & {
-    /**
-     * @generated from field: uint32 site_id = 1;
-     */
-    siteId: number;
-  };
+export type SiteSetupCftunnelReq = Message<"mtmai.mtmpb.SiteSetupCftunnelReq"> & {
+  /**
+   * @generated from field: uint32 site_id = 1;
+   */
+  siteId: number;
+};
 
 /**
  * Describes the message mtmai.mtmpb.SiteSetupCftunnelReq.
@@ -3290,8 +3256,7 @@ export const SiteSetupCftunnelReqSchema: GenMessage<SiteSetupCftunnelReq> =
 /**
  * @generated from message mtmai.mtmpb.SiteSetupCftunnelReply
  */
-export type SiteSetupCftunnelReply =
-  Message<"mtmai.mtmpb.SiteSetupCftunnelReply"> & {};
+export type SiteSetupCftunnelReply = Message<"mtmai.mtmpb.SiteSetupCftunnelReply"> & {};
 
 /**
  * Describes the message mtmai.mtmpb.SiteSetupCftunnelReply.
@@ -3396,22 +3361,21 @@ export const FormSchemsFieldSchema: GenMessage<FormSchemsField> =
 /**
  * @generated from message mtmai.mtmpb.ArtContentClassifyReq
  */
-export type ArtContentClassifyReq =
-  Message<"mtmai.mtmpb.ArtContentClassifyReq"> & {
-    /**
-     * 待分类的文本
-     *
-     * @generated from field: string text = 1;
-     */
-    text: string;
+export type ArtContentClassifyReq = Message<"mtmai.mtmpb.ArtContentClassifyReq"> & {
+  /**
+   * 待分类的文本
+   *
+   * @generated from field: string text = 1;
+   */
+  text: string;
 
-    /**
-     * 预定义的类别列表
-     *
-     * @generated from field: repeated string categories = 2;
-     */
-    categories: string[];
-  };
+  /**
+   * 预定义的类别列表
+   *
+   * @generated from field: repeated string categories = 2;
+   */
+  categories: string[];
+};
 
 /**
  * Describes the message mtmai.mtmpb.ArtContentClassifyReq.
@@ -3424,15 +3388,14 @@ export const ArtContentClassifyReqSchema: GenMessage<ArtContentClassifyReq> =
 /**
  * @generated from message mtmai.mtmpb.ArtContentClassifyReply
  */
-export type ArtContentClassifyReply =
-  Message<"mtmai.mtmpb.ArtContentClassifyReply"> & {
-    /**
-     * 最匹配的类别
-     *
-     * @generated from field: string best_match_category = 1;
-     */
-    bestMatchCategory: string;
-  };
+export type ArtContentClassifyReply = Message<"mtmai.mtmpb.ArtContentClassifyReply"> & {
+  /**
+   * 最匹配的类别
+   *
+   * @generated from field: string best_match_category = 1;
+   */
+  bestMatchCategory: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.ArtContentClassifyReply.

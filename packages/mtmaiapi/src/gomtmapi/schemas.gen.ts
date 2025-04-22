@@ -20,8 +20,7 @@ export const APIMetaSchema = {
     },
     allowInvites: {
       type: "boolean",
-      description:
-        "whether or not users can invite other users to this instance",
+      description: "whether or not users can invite other users to this instance",
       example: true,
     },
     allowCreateTenant: {
@@ -109,8 +108,7 @@ export const APIErrorSchema = {
     },
     field: {
       type: "string",
-      description:
-        "the field that this error is associated with, if applicable",
+      description: "the field that this error is associated with, if applicable",
       example: "name",
     },
     description: {
@@ -205,8 +203,7 @@ export const UserSchema = {
     },
     emailHash: {
       type: "string",
-      description:
-        "A hash of the user's email address for use with Pylon Support Chat",
+      description: "A hash of the user's email address for use with Pylon Support Chat",
     },
     userToken: {
       type: "string",
@@ -401,8 +398,7 @@ export const TenantResourceLimitSchema = {
     },
     alarmValue: {
       type: "integer",
-      description:
-        "The alarm value associated with this limit to warn of approaching limit value.",
+      description: "The alarm value associated with this limit to warn of approaching limit value.",
     },
     value: {
       type: "integer",
@@ -410,8 +406,7 @@ export const TenantResourceLimitSchema = {
     },
     window: {
       type: "string",
-      description:
-        "The meter window for the limit. (i.e. 1 day, 1 week, 1 month)",
+      description: "The meter window for the limit. (i.e. 1 day, 1 week, 1 month)",
     },
     lastRefill: {
       type: "string",
@@ -487,13 +482,11 @@ export const TenantAlertingSettingsSchema = {
     },
     enableExpiringTokenAlerts: {
       type: "boolean",
-      description:
-        "Whether to enable alerts when tokens are approaching expiration.",
+      description: "Whether to enable alerts when tokens are approaching expiration.",
     },
     enableTenantResourceLimitAlerts: {
       type: "boolean",
-      description:
-        "Whether to enable alerts when tenant resources are approaching limits.",
+      description: "Whether to enable alerts when tenant resources are approaching limits.",
     },
     maxAlertingFrequency: {
       type: "string",
@@ -758,13 +751,11 @@ export const UpdateTenantRequestSchema = {
     },
     enableExpiringTokenAlerts: {
       type: "boolean",
-      description:
-        "Whether to enable alerts when tokens are approaching expiration.",
+      description: "Whether to enable alerts when tokens are approaching expiration.",
     },
     enableTenantResourceLimitAlerts: {
       type: "boolean",
-      description:
-        "Whether to enable alerts when tenant resources are approaching limits.",
+      description: "Whether to enable alerts when tenant resources are approaching limits.",
     },
     maxAlertingFrequency: {
       type: "string",
@@ -1142,17 +1133,11 @@ export const WorkflowConcurrencySchema = {
     limitStrategy: {
       description: "The strategy to use when the concurrency limit is reached.",
       type: "string",
-      enum: [
-        "CANCEL_IN_PROGRESS",
-        "DROP_NEWEST",
-        "QUEUE_NEWEST",
-        "GROUP_ROUND_ROBIN",
-      ],
+      enum: ["CANCEL_IN_PROGRESS", "DROP_NEWEST", "QUEUE_NEWEST", "GROUP_ROUND_ROBIN"],
     },
     getConcurrencyGroup: {
       type: "string",
-      description:
-        "An action which gets the concurrency group for the WorkflowRun.",
+      description: "An action which gets the concurrency group for the WorkflowRun.",
     },
   },
   required: ["maxRuns", "limitStrategy", "getConcurrencyGroup"],
@@ -1524,13 +1509,7 @@ export const WorkflowRunSchema = {
       additionalProperties: true,
     },
   },
-  required: [
-    "metadata",
-    "tenantId",
-    "workflowVersionId",
-    "status",
-    "triggeredBy",
-  ],
+  required: ["metadata", "tenantId", "workflowVersionId", "status", "triggeredBy"],
 } as const;
 
 export const WorkflowRunShapeSchema = {
@@ -1603,13 +1582,7 @@ export const WorkflowRunShapeSchema = {
       additionalProperties: true,
     },
   },
-  required: [
-    "metadata",
-    "tenantId",
-    "workflowVersionId",
-    "status",
-    "triggeredBy",
-  ],
+  required: ["metadata", "tenantId", "workflowVersionId", "status", "triggeredBy"],
 } as const;
 
 export const ReplayWorkflowRunsRequestSchema = {
@@ -1738,15 +1711,7 @@ export const ScheduledWorkflowsOrderByFieldSchema = {
 
 export const ScheduledRunStatusSchema = {
   type: "string",
-  enum: [
-    "PENDING",
-    "RUNNING",
-    "SUCCEEDED",
-    "FAILED",
-    "CANCELLED",
-    "QUEUED",
-    "SCHEDULED",
-  ],
+  enum: ["PENDING", "RUNNING", "SUCCEEDED", "FAILED", "CANCELLED", "QUEUED", "SCHEDULED"],
 } as const;
 
 export const CronWorkflowsSchema = {
@@ -1864,15 +1829,7 @@ export const WorkflowRunsMetricsCountsSchema = {
 
 export const WorkflowRunStatusSchema = {
   type: "string",
-  enum: [
-    "PENDING",
-    "RUNNING",
-    "SUCCEEDED",
-    "FAILED",
-    "CANCELLED",
-    "QUEUED",
-    "BACKOFF",
-  ],
+  enum: ["PENDING", "RUNNING", "SUCCEEDED", "FAILED", "CANCELLED", "QUEUED", "BACKOFF"],
 } as const;
 
 export const WorkflowRunStatusListSchema = {
@@ -2170,15 +2127,7 @@ export const StepRunEventSchema = {
       type: "object",
     },
   },
-  required: [
-    "id",
-    "timeFirstSeen",
-    "timeLastSeen",
-    "reason",
-    "severity",
-    "message",
-    "count",
-  ],
+  required: ["id", "timeFirstSeen", "timeLastSeen", "reason", "severity", "message", "count"],
 } as const;
 
 export const StepRunEventListSchema = {
@@ -2429,8 +2378,7 @@ export const WorkerSchema = {
     },
     maxRuns: {
       type: "integer",
-      description:
-        "The maximum number of runs this worker can execute concurrently.",
+      description: "The maximum number of runs this worker can execute concurrently.",
     },
     availableRuns: {
       type: "integer",
@@ -2737,8 +2685,7 @@ export const SNSIntegrationSchema = {
     tenantId: {
       type: "string",
       format: "uuid",
-      description:
-        "The unique identifier for the tenant that the SNS integration belongs to.",
+      description: "The unique identifier for the tenant that the SNS integration belongs to.",
     },
     topicArn: {
       type: "string",
@@ -2775,8 +2722,7 @@ export const SlackWebhookSchema = {
     tenantId: {
       type: "string",
       format: "uuid",
-      description:
-        "The unique identifier for the tenant that the SNS integration belongs to.",
+      description: "The unique identifier for the tenant that the SNS integration belongs to.",
     },
     teamName: {
       type: "string",
@@ -2795,14 +2741,7 @@ export const SlackWebhookSchema = {
       description: "The channel id associated with this slack webhook.",
     },
   },
-  required: [
-    "metadata",
-    "tenantId",
-    "teamName",
-    "teamId",
-    "channelName",
-    "channelId",
-  ],
+  required: ["metadata", "tenantId", "teamName", "teamId", "channelName", "channelId"],
 } as const;
 
 export const ListSlackWebhooksSchema = {
@@ -2837,8 +2776,7 @@ export const WorkflowMetricsSchema = {
   properties: {
     groupKeyRunsCount: {
       type: "integer",
-      description:
-        "The number of runs for a specific group key (passed via filter)",
+      description: "The number of runs for a specific group key (passed via filter)",
     },
     groupKeyCount: {
       type: "integer",
@@ -3036,15 +2974,7 @@ export const NotFoundSchema = {
 } as const;
 
 export const ChatMessagePropertiesSchema = {
-  required: [
-    "type",
-    "content",
-    "content_type",
-    "source",
-    "topic",
-    "thread_id",
-    "llm_message",
-  ],
+  required: ["type", "content", "content_type", "source", "topic", "thread_id", "llm_message"],
   properties: {
     type: {
       $ref: "#/components/schemas/LlmMessageTypes",
@@ -3216,8 +3146,7 @@ export const BrowserTaskSchema = {
 } as const;
 
 export const BrowserOpenTaskSchema = {
-  description:
-    "打开浏览器备用,一般用于调试目的Open a browser and navigate to a URL.",
+  description: "打开浏览器备用,一般用于调试目的Open a browser and navigate to a URL.",
   required: ["url"],
   properties: {
     url: {
@@ -3824,8 +3753,7 @@ export const CodeExecutionInputSchema = {
   properties: {
     code: {
       type: "string",
-      description:
-        "The contents of the Python code block that should be executed",
+      description: "The contents of the Python code block that should be executed",
     },
   },
 } as const;
@@ -4332,16 +4260,7 @@ export const GalleryItemsSchema = {
 } as const;
 
 export const GallerySchema = {
-  required: [
-    "metadata",
-    "name",
-    "url",
-    "author",
-    "homepage",
-    "description",
-    "tags",
-    "license",
-  ],
+  required: ["metadata", "name", "url", "author", "homepage", "description", "tags", "license"],
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -4535,8 +4454,7 @@ export const OutlineSchema = {
     },
     sections: {
       type: "array",
-      description:
-        "Titles and descriptions for each section of the Wikipedia page",
+      description: "Titles and descriptions for each section of the Wikipedia page",
       items: {
         $ref: "#/components/schemas/Section",
       },
@@ -4668,8 +4586,7 @@ export const SectionSchema = {
     },
     subsections: {
       type: "array",
-      description:
-        "Titles and descriptions for each subsection of the Wikipedia page",
+      description: "Titles and descriptions for each subsection of the Wikipedia page",
       items: {
         $ref: "#/components/schemas/Subsection",
       },
@@ -4709,12 +4626,7 @@ export const TextHighlightSchema = {
 
 export const LlmMessageTypesSchema = {
   type: "string",
-  enum: [
-    "AssistantMessage",
-    "SystemMessage",
-    "UserMessage",
-    "FunctionExecutionResultMessage",
-  ],
+  enum: ["AssistantMessage", "SystemMessage", "UserMessage", "FunctionExecutionResultMessage"],
 } as const;
 
 export const QuickStartSchema = {
@@ -4796,13 +4708,7 @@ export const ModelFamilySchema = {
 } as const;
 
 export const ModelInfoSchema = {
-  required: [
-    "function_calling",
-    "json_output",
-    "structured_output",
-    "family",
-    "vision",
-  ],
+  required: ["function_calling", "json_output", "structured_output", "family", "vision"],
   properties: {
     family: {
       $ref: "#/components/schemas/ModelFamily",
@@ -5237,12 +5143,7 @@ export const FrontendConfigSchema = {
       description: "实验性质，默认租户的access token",
     },
   },
-  required: [
-    "cookieAccessToken",
-    "dashPath",
-    "hotKeyDebug",
-    "defaultTenantAccessToken",
-  ],
+  required: ["cookieAccessToken", "dashPath", "hotKeyDebug", "defaultTenantAccessToken"],
 } as const;
 
 export const SiderbarConfigSchema = {
@@ -7404,14 +7305,7 @@ export const AdkAppUpsertSchema = {
 } as const;
 
 export const AdkSessionPropertiesSchema = {
-  required: [
-    "id",
-    "app_name",
-    "user_id",
-    "state",
-    "create_time",
-    "update_time",
-  ],
+  required: ["id", "app_name", "user_id", "state", "create_time", "update_time"],
   properties: {
     id: {
       type: "string",

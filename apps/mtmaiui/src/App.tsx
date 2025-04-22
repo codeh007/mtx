@@ -1,22 +1,11 @@
 "use client";
 import { RouterProvider } from "@tanstack/react-router";
-// import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
-import { useMemo } from "react";
-import { WebLayoutHeader } from "./app/(web)/Header";
 import { getQueryClient } from "./lib/get-query-client";
 import { createRouter } from "./router";
 import { MtmaiProvider } from "./stores/StoreProvider";
 import { UIProviders } from "./stores/UIProviders";
 
-export function App() {
-  const mainRouter = useMemo(() => {
-    return createRouter();
-  }, []);
-
-  const ctx = {
-    tid: "",
-    queryClient: getQueryClient(),
-  };
+export function MtmClientApp() {
   return (
     <>
       <MtmaiProvider
@@ -27,11 +16,15 @@ export function App() {
       // accessToken={await getAccessToken()}
       >
         <UIProviders>
-          <div className="flex flex-col min-h-screen h-full w-full">
-            <WebLayoutHeader />
-            {/* {children} */}
-            <RouterProvider router={mainRouter} context={ctx} />
-          </div>
+          {/* <div className="flex flex-col min-h-screen h-full w-full"> */}
+          <RouterProvider
+            router={createRouter()}
+            context={{
+              tid: "",
+              queryClient: getQueryClient(),
+            }}
+          />
+          {/* </div> */}
         </UIProviders>
       </MtmaiProvider>
     </>

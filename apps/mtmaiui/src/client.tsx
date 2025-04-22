@@ -2,7 +2,7 @@
 import { StrictMode } from "react";
 // import ReactDOM from "react-dom/client";
 import { createRoot, hydrateRoot } from "react-dom/client";
-import { App } from "./App";
+import { MtmClientApp } from "./App";
 
 interface MtmaiFrontAppOptions {
   routerType: "memory" | "hash";
@@ -17,9 +17,7 @@ export class MtmaiFrontApp {
     //提示,在 edgeruntime 下, 不支持直接访问 import.meta
     // console.log("entry-client loaded \n import.meta:", import.meta);
 
-    let rootElement = document.getElementById(
-      this.rootElementId,
-    ) as HTMLElement;
+    let rootElement = document.getElementById(this.rootElementId) as HTMLElement;
     if (!rootElement) {
       rootElement = document.createElement("div");
       rootElement.id = this.rootElementId;
@@ -28,7 +26,7 @@ export class MtmaiFrontApp {
     if (this.options.mountType === "normal") {
       //开发环境
       const root = createRoot(rootElement);
-      root.render(<App />);
+      root.render(<MtmClientApp />);
       // root.render(<PlaygroundApp />);
       // hydrateRoot(
       //   rootElement,
@@ -49,7 +47,7 @@ export class MtmaiFrontApp {
       hydrateRoot(
         shadowRoot,
         <StrictMode>
-          <App />
+          <MtmClientApp />
           {/* <PlaygroundApp /> */}
         </StrictMode>,
       );

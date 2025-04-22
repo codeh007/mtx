@@ -2,16 +2,8 @@
 // @generated from file mtmai/mtmpb/ag.proto (package mtmai.mtmpb, syntax proto3)
 /* eslint-disable */
 
-import type {
-  GenFile,
-  GenMessage,
-  GenService,
-} from "@bufbuild/protobuf/codegenv1";
-import {
-  fileDesc,
-  messageDesc,
-  serviceDesc,
-} from "@bufbuild/protobuf/codegenv1";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import {
   file_google_protobuf_descriptor,
@@ -28,11 +20,7 @@ export const file_mtmai_mtmpb_ag: GenFile =
   /*@__PURE__*/
   fileDesc(
     "ChRtdG1haS9tdG1wYi9hZy5wcm90bxILbXRtYWkubXRtcGIiIgoSRGVtb1N0cmVhbTFSZXF1ZXN0EgwKBG5hbWUYASABKAkiIAoQRGVtb1N0cmVhbTFSZXBseRIMCgRuYW1lGAEgASgJIhwKDEdyZWV0UmVxdWVzdBIMCgRuYW1lGAEgASgJIiEKDUdyZWV0UmVzcG9uc2USEAoIZ3JlZXRpbmcYASABKAkiawoNQWdlbnRSdW5JbnB1dBIRCgl0ZW5hbnRfaWQYASABKAkSDgoGcnVuX2lkGAIgASgJEg8KB2NvbnRlbnQYAyABKAkSEwoLcnVuX3N0ZXBfaWQYBCABKAkSEQoJc2Vzc2lvbklkGAUgASgJIjoKD0dldENvbXBvbmVudFJlcRIRCgl0ZW5hbnRfaWQYASABKAkSFAoMY29tcG9uZW50X2lkGAMgASgJIjsKEENvbXBvbmVudExpc3RSZXESJwoKUGFnaW5hdGlvbhgBIAEoCzITLm10bWFpLm10bXBiLlBhZ2luZyI0CglDb21wb25lbnQSFAoMY29tcG9uZW50X2lkGAEgASgJEhEKCWNvbXBvbmVudBgCIAEoDCJxChBDb21wb25lbnRMaXN0UmVzEicKClBhZ2luYXRpb24YASABKAsyEy5tdG1haS5tdG1wYi5QYWdpbmcSJQoFaXRlbXMYAiADKAsyFi5tdG1haS5tdG1wYi5Db21wb25lbnQSDQoFVG90YWwYAyABKAUipAEKC0NoYXRNZXNzYWdlEioKBG1ldGEYASABKAsyHC5tdG1haS5tdG1wYi5BUElSZXNvdXJjZU1ldGESCgoCaWQYAiABKAkSDwoHY29udGVudBgDIAEoCRIMCgRyb2xlGAQgASgJEg4KBnNvdXJjZRgFIAEoCRIuCgpjcmVhdGVkX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCItCg5FdmVudEVtYmVkZGluZxIMCgRjb2xsGAEgASgJEg0KBXRleHRzGAIgAygJIlEKEkNoYXRNZXNzYWdlTGlzdFJlcRInCgpQYWdpbmF0aW9uGAEgASgLMhMubXRtYWkubXRtcGIuUGFnaW5nEhIKCnNlc3Npb25faWQYAiABKAkicgoPQ2hhdE1lc3NhZ2VMaXN0EicKClBhZ2luYXRpb24YASABKAsyEy5tdG1haS5tdG1wYi5QYWdpbmcSJwoFaXRlbXMYAiADKAsyGC5tdG1haS5tdG1wYi5DaGF0TWVzc2FnZRINCgVUb3RhbBgDIAEoBSKYAQoUQ2hhdE1lc3NhZ2VDcmVhdGVSZXESEQoJdGVuYW50X2lkGAEgASgJEg8KB2NoYXRfaWQYAiABKAkSDwoHY29udGVudBgDIAEoCRIOCgZzb3VyY2UYBCABKAkSFAoMY29tcG9uZW50X2lkGAUgASgJEg8KB3ZlcnNpb24YBiABKAkSFAoMbWVzc2FnZV90eXBlGAcgASgJIloKDVVwc2VydENoYXRSZXESEQoJdGVuYW50X2lkGAEgASgJEg8KB2NoYXRfaWQYAiABKAkSFAoMY29tcG9uZW50X2lkGAMgASgJEg8KB3ZlcnNpb24YBCABKAkiSAoEQ2hhdBIKCgJpZBgBIAEoCRINCgV0aXRsZRgCIAEoCRIUCgxjb21wb25lbnRfaWQYAyABKAkSDwoHdmVyc2lvbhgEIAEoCSIqCgtHZXRTdGF0ZVJlcRIKCgJpZBgBIAEoCRIPCgdjaGF0X2lkGAIgASgJImoKB0FnU3RhdGUSCgoCaWQYASABKAkSDwoHY2hhdF9pZBgCIAEoCRIMCgR0eXBlGAMgASgJEhQKDGNvbXBvbmVudF9pZBgEIAEoCRIPCgd2ZXJzaW9uGAUgASgJEg0KBXN0YXRlGAYgASgJMowFCglBZ1NlcnZpY2USQgoFR3JlZXQSGS5tdG1haS5tdG1wYi5HcmVldFJlcXVlc3QaGi5tdG1haS5tdG1wYi5HcmVldFJlc3BvbnNlIgAoARJDCgZHcmVldDISGS5tdG1haS5tdG1wYi5HcmVldFJlcXVlc3QaGi5tdG1haS5tdG1wYi5HcmVldFJlc3BvbnNlIgAwARJPCg1Db21wb25lbnRMaXN0Eh0ubXRtYWkubXRtcGIuQ29tcG9uZW50TGlzdFJlcRodLm10bWFpLm10bXBiLkNvbXBvbmVudExpc3RSZXMiABJGCgxHZXRDb21wb25lbnQSHC5tdG1haS5tdG1wYi5HZXRDb21wb25lbnRSZXEaFi5tdG1haS5tdG1wYi5Db21wb25lbnQiABJSCg9MaXN0Q2hhdE1lc3NhZ2USHy5tdG1haS5tdG1wYi5DaGF0TWVzc2FnZUxpc3RSZXEaHC5tdG1haS5tdG1wYi5DaGF0TWVzc2FnZUxpc3QiABI9CgpVcHNlcnRDaGF0EhoubXRtYWkubXRtcGIuVXBzZXJ0Q2hhdFJlcRoRLm10bWFpLm10bXBiLkNoYXQiABJSChFVcHNlcnRDaGF0TWVzc2FnZRIhLm10bWFpLm10bXBiLkNoYXRNZXNzYWdlQ3JlYXRlUmVxGhgubXRtYWkubXRtcGIuQ2hhdE1lc3NhZ2UiABI8CghHZXRTdGF0ZRIYLm10bWFpLm10bXBiLkdldFN0YXRlUmVxGhQubXRtYWkubXRtcGIuQWdTdGF0ZSIAEjgKCFNldFN0YXRlEhQubXRtYWkubXRtcGIuQWdTdGF0ZRoULm10bWFpLm10bXBiLkFnU3RhdGUiAEKdAQoPY29tLm10bWFpLm10bXBiQgdBZ1Byb3RvUAFaNGdpdGh1Yi5jb20vY29kZWgwMDcvZ29tdG0vbXRtL3NwcGIvbXRtYWkvbXRtcGI7bXRtcGKiAgNNTViqAgtNdG1haS5NdG1wYsoCC010bWFpXE10bXBi4gIXTXRtYWlcTXRtcGJcR1BCTWV0YWRhdGHqAgxNdG1haTo6TXRtcGJiBnByb3RvMw",
-    [
-      file_google_protobuf_descriptor,
-      file_mtmai_mtmpb_mtm,
-      file_google_protobuf_timestamp,
-    ],
+    [file_google_protobuf_descriptor, file_mtmai_mtmpb_mtm, file_google_protobuf_timestamp],
   );
 
 /**
@@ -359,43 +347,42 @@ export const ChatMessageListSchema: GenMessage<ChatMessageList> =
 /**
  * @generated from message mtmai.mtmpb.ChatMessageCreateReq
  */
-export type ChatMessageCreateReq =
-  Message<"mtmai.mtmpb.ChatMessageCreateReq"> & {
-    /**
-     * @generated from field: string tenant_id = 1;
-     */
-    tenantId: string;
+export type ChatMessageCreateReq = Message<"mtmai.mtmpb.ChatMessageCreateReq"> & {
+  /**
+   * @generated from field: string tenant_id = 1;
+   */
+  tenantId: string;
 
-    /**
-     * @generated from field: string chat_id = 2;
-     */
-    chatId: string;
+  /**
+   * @generated from field: string chat_id = 2;
+   */
+  chatId: string;
 
-    /**
-     * @generated from field: string content = 3;
-     */
-    content: string;
+  /**
+   * @generated from field: string content = 3;
+   */
+  content: string;
 
-    /**
-     * @generated from field: string source = 4;
-     */
-    source: string;
+  /**
+   * @generated from field: string source = 4;
+   */
+  source: string;
 
-    /**
-     * @generated from field: string component_id = 5;
-     */
-    componentId: string;
+  /**
+   * @generated from field: string component_id = 5;
+   */
+  componentId: string;
 
-    /**
-     * @generated from field: string version = 6;
-     */
-    version: string;
+  /**
+   * @generated from field: string version = 6;
+   */
+  version: string;
 
-    /**
-     * @generated from field: string message_type = 7;
-     */
-    messageType: string;
-  };
+  /**
+   * @generated from field: string message_type = 7;
+   */
+  messageType: string;
+};
 
 /**
  * Describes the message mtmai.mtmpb.ChatMessageCreateReq.
@@ -467,9 +454,7 @@ export type Chat = Message<"mtmai.mtmpb.Chat"> & {
  * Describes the message mtmai.mtmpb.Chat.
  * Use `create(ChatSchema)` to create a new message.
  */
-export const ChatSchema: GenMessage<Chat> =
-  /*@__PURE__*/
-  messageDesc(file_mtmai_mtmpb_ag, 15);
+export const ChatSchema: GenMessage<Chat> = /*@__PURE__*/ messageDesc(file_mtmai_mtmpb_ag, 15);
 
 /**
  * @generated from message mtmai.mtmpb.GetStateReq

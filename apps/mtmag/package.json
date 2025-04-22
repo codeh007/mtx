@@ -11,7 +11,8 @@
   },
   "sideEffects": false,
   "scripts": {
-    "dev": "bun run withEnv -- vite --host 0.0.0.0 --port=6111",
+    "dev": "bun withEnv -- next dev --port 6111",
+    "dev:vite": "bun run withEnv -- miniflare --port=6111",
     "dev:wrangler": "bun run withEnv -- wrangler dev",
     "withEnv": "dotenv -e ../../../gomtm/env/dev.env --",
     "dev:next": "bun run watch & next dev",
@@ -34,7 +35,7 @@
     "cf-typegen": "wrangler types --path ./src/worker-configuration.d.ts",
     "mcp-inspector": "bunx @modelcontextprotocol/inspector@0.10.2",
     "gen:openapi": "npx tsx ./src/hono_app/generateOpenAPIYamlFile.ts",
-    "gen": "bun gen:openapi && openapi-ts && biome format --write ./src/lib/mtmagapi"
+    "gen": "bun gen:openapi && openapi-ts && biome format --write ./src/lib/mtmagapi && bun cf-typegen"
   },
   "typesVersions": {
     "*": {
@@ -91,6 +92,7 @@
     "@hono/zod-openapi": "^0.19.5",
     "@modelcontextprotocol/sdk": "^1.10.1",
     "@nanostores/react": "^0.8.4",
+    "@next/bundle-analyzer": "^15.3.1",
     "@radix-ui/react-icons": "^1.3.2",
     "@tailwindcss/vite": "^4.0.6",
     "@tanstack/react-query": "^5.62.14",
@@ -115,9 +117,11 @@
     "lucide-react": "^0.476.0",
     "mcp-remote": "^0.0.22",
     "mimetext": "^3.0.27",
+    "miniflare": "^4.20250416.0",
     "mtxuilib": "*",
-    "next": "^15.2.4",
+    "next": "^15.3.1",
     "next-themes": "^0.4.4",
+    "pg": "^8.14.1",
     "postal-mime": "^2.4.3",
     "postgres": "^3.4.5",
     "react": "^19.1.0",

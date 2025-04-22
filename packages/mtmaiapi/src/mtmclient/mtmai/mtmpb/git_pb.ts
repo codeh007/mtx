@@ -2,16 +2,8 @@
 // @generated from file mtmai/mtmpb/git.proto (package mtmai.mtmpb.git, syntax proto3)
 /* eslint-disable */
 
-import type {
-  GenFile,
-  GenMessage,
-  GenService,
-} from "@bufbuild/protobuf/codegenv1";
-import {
-  fileDesc,
-  messageDesc,
-  serviceDesc,
-} from "@bufbuild/protobuf/codegenv1";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
 import { file_mtmai_mtmpb_mtm } from "./mtm_pb";
 import type { Message } from "@bufbuild/protobuf";
 

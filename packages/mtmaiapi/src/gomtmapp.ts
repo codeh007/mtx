@@ -25,9 +25,7 @@ export function getBackendUrl(prefix = "") {
   const port = Number(process.env.PORT) || 3000;
 
   const localHost =
-    host?.includes("localhost") ||
-    host?.includes("ts.net") ||
-    host?.startsWith("100.");
+    host?.includes("localhost") || host?.includes("ts.net") || host?.startsWith("100.");
   if (localHost) {
     return `http://${host}:${port}${prefix}`;
   }
@@ -48,9 +46,7 @@ export async function getEndpointList() {
   try {
     cachedEndpointList = (await endpointList({})).data;
   } catch (e) {
-    console.error(
-      `getEndpointList error: ${e}, when backendUrl: ${await getBackendUrl()}`,
-    );
+    console.error(`getEndpointList error: ${e}, when backendUrl: ${await getBackendUrl()}`);
   }
 }
 
@@ -64,21 +60,14 @@ export async function loadRemoteEnv() {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `get remote env error: ${response.statusText}, from url: ${envUrl}`,
-    );
+    throw new Error(`get remote env error: ${response.statusText}, from url: ${envUrl}`);
   }
   const envText = await response.text();
   const env = envText.split("\n").map((line) => line.trim());
 
   const skipsComment = ["#", "//"];
   //防止覆盖重要本地变量
-  const skipsLocals = [
-    "NEXT_BUILD_OUTPUT",
-    "PORT",
-    "MTMAI_BACKEND",
-    "MTM_TOKEN",
-  ];
+  const skipsLocals = ["NEXT_BUILD_OUTPUT", "PORT", "MTMAI_BACKEND", "MTM_TOKEN"];
   for (const line of env) {
     const v = line.split("=");
     if (v.length !== 2) {

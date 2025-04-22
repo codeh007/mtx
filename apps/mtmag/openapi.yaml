@@ -3,7 +3,7 @@ externalDocs:
   description: Find out more about Users API
   url: https://www.example.com
 servers:
-  - url: http://localhost:3000/
+  - url: http://localhost:6111/
     description: Development server
 x-speakeasy-retries:
   strategy: backoff
@@ -207,7 +207,7 @@ paths:
                 required:
                   - success
                   - error
-  /plateform_account:
+  /api/plateform_account:
     get:
       operationId: listPlateformAccount
       tags: &ref_1
@@ -269,7 +269,7 @@ paths:
                 required:
                   - success
                   - error
-  /plateform_account/{id}:
+  /api/plateform_account/{id}:
     get:
       operationId: getPlateformAccount
       tags: *ref_1

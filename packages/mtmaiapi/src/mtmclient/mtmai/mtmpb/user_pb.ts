@@ -2,16 +2,8 @@
 // @generated from file mtmai/mtmpb/user.proto (package mtmai.mtmpb, syntax proto3)
 /* eslint-disable */
 
-import type {
-  GenFile,
-  GenMessage,
-  GenService,
-} from "@bufbuild/protobuf/codegenv1";
-import {
-  fileDesc,
-  messageDesc,
-  serviceDesc,
-} from "@bufbuild/protobuf/codegenv1";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv1";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv1";
 import {
   file_google_protobuf_descriptor,
   file_google_protobuf_timestamp,
@@ -26,11 +18,7 @@ export const file_mtmai_mtmpb_user: GenFile =
   /*@__PURE__*/
   fileDesc(
     "ChZtdG1haS9tdG1wYi91c2VyLnByb3RvEgttdG1haS5tdG1wYiIPCg1MaXN0TWVtYmVyUmVxIhsKCk1lbWJlckxpc3QSDQoFdG9rZW4YASABKAkyUwoLVXNlclNlcnZpY2USRAoLTGlzdE1lbWJlcnMSGi5tdG1haS5tdG1wYi5MaXN0TWVtYmVyUmVxGhcubXRtYWkubXRtcGIuTWVtYmVyTGlzdCIAQp8BCg9jb20ubXRtYWkubXRtcGJCCVVzZXJQcm90b1ABWjRnaXRodWIuY29tL2NvZGVoMDA3L2dvbXRtL210bS9zcHBiL210bWFpL210bXBiO210bXBiogIDTU1YqgILTXRtYWkuTXRtcGLKAgtNdG1haVxNdG1wYuICF010bWFpXE10bXBiXEdQQk1ldGFkYXRh6gIMTXRtYWk6Ok10bXBiYgZwcm90bzM",
-    [
-      file_google_protobuf_descriptor,
-      file_mtmai_mtmpb_mtm,
-      file_google_protobuf_timestamp,
-    ],
+    [file_google_protobuf_descriptor, file_mtmai_mtmpb_mtm, file_google_protobuf_timestamp],
   );
 
 /**

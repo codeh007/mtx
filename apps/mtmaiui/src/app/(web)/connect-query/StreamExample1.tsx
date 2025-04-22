@@ -20,7 +20,6 @@ export const StreamExample1 = () => {
       <Button onClick={handleClient}>StreamExample1</Button>
       <div>
         {results.map((result, index) => (
-          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
           <div key={index}>{result}</div>
         ))}
       </div>
