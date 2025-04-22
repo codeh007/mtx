@@ -8,19 +8,11 @@ import { Input } from "../cloudflare-agents/components/input/Input";
 
 export const ChatInput = () => {
   const handleHumanInput = useWorkbenchStore((x) => x.handleHumanInput);
+  const input = useWorkbenchStore((x) => x.input);
+  const setInput = useWorkbenchStore((x) => x.setInput);
 
   return (
-    <form
-      // onSubmit={(e) =>
-      //   handleAgentSubmit(e, {
-      //     data: {
-      //       annotations: {
-      //         hello: "world",
-      //       },
-      //     },
-      //   })
-      // }
-      className="p-3 bg-input-background absolute bottom-0 left-0 right-0 z-10 border-t border-neutral-300 dark:border-neutral-800"
+    <form className="p-3 bg-input-background absolute bottom-0 left-0 right-0 z-10 border-t border-neutral-300 dark:border-neutral-800"
     >
       <div className="flex items-center gap-2">
         <div className="flex-1 relative">
@@ -32,7 +24,8 @@ export const ChatInput = () => {
             //     : "Type your message..."
             // }
             className="pl-4 pr-10 py-2 w-full rounded-full bg-ob-btn-secondary-bg text-ob-base-300"
-            // value={agentInput}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
             // onChange={handleAgentInputChange}
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {
@@ -42,7 +35,7 @@ export const ChatInput = () => {
                   role: "user",
                   parts: [
                     {
-                      text: (e.target as HTMLInputElement).value as string,
+                      text: input,
                     },
                   ],
                 });

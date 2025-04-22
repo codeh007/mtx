@@ -1,12 +1,13 @@
 "use client";
-import { Bug, Moon, Sun, Trash } from "@phosphor-icons/react";
+import { Bug, Trash } from "@phosphor-icons/react";
 import { useQuery } from "@tanstack/react-query";
 import { adkSessionGetOptions } from "mtmaiapi";
 import { type AdkEvent, type Content, type Part, adkEventsListOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
+import { ThemeToggle } from "mtxuilib/components/theme-toggle";
 import { Button } from "mtxuilib/ui/button";
 import { Switch } from "mtxuilib/ui/switch";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useTenantId } from "../../hooks/useAuth";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { Avatar } from "../cloudflare-agents/components/avatar/Avatar";
@@ -18,14 +19,10 @@ interface AgentChatViewProps {
   sessionId: string;
 }
 export default function AgentChatView({ sessionId }: AgentChatViewProps) {
-  // const [rootState, setRootState] = useState<RootAgentState>();
-  const [theme, setTheme] = useState<"dark" | "light">(() => {
-    // Check localStorage first, default to dark if not found
-    const savedTheme = localStorage.getItem("theme");
-    return (savedTheme as "dark" | "light") || "dark";
-  });
   const isDebug = useWorkbenchStore((x) => x.isDebug);
   const setIsDebug = useWorkbenchStore((x) => x.setIsDebug);
+
+  const adkEvents = useWorkbenchStore((x) => x.adkEvents);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const tid = useTenantId();
@@ -38,44 +35,14 @@ export default function AgentChatView({ sessionId }: AgentChatViewProps) {
     }),
   });
 
-  const adkEventsQuery = useQuery({
-    ...adkEventsListOptions({
-      path: {
-        tenant: tid,
-      },
-      query: {
-        session: sessionId,
-      },
-    }),
-  });
-
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, []);
-
-  useEffect(() => {
-    // Apply theme class on mount and when theme changes
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-      document.documentElement.classList.remove("light");
-    } else {
-      document.documentElement.classList.remove("dark");
-      document.documentElement.classList.add("light");
-    }
-
-    // Save theme preference to localStorage
-    localStorage.setItem("theme", theme);
-  }, [theme]);
 
   // Scroll to bottom on mount
   useEffect(() => {
     scrollToBottom();
   }, [scrollToBottom]);
-
-  const toggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
-  };
 
   // const agent = useAgent<RootAgentState>({
   //   agent: "chat",
@@ -165,13 +132,7 @@ export default function AgentChatView({ sessionId }: AgentChatViewProps) {
             />
           </div>
 
-          <Button variant="ghost" className="rounded-full h-9 w-9" onClick={toggleTheme}>
-            {theme === "dark" ? (
-              <Sun size={20} className="size-4" />
-            ) : (
-              <Moon size={20} className="size-4" />
-            )}
-          </Button>
+          <ThemeToggle />
 
           <Button
             variant="ghost"
@@ -187,9 +148,9 @@ export default function AgentChatView({ sessionId }: AgentChatViewProps) {
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-24 max-h-[calc(100vh-10rem)]">
           <AdkEventsView sessionId={sessionId} />
-          {!!adkEventsQuery.data?.rows?.length && <AdkWelcomeCard />}
+          {!!adkEvents.length && <AdkWelcomeCard />}
 
-          {adkEventsQuery.data?.rows?.map((m: AdkEvent, index) => {
+          {adkEvents.map((m: AdkEvent, index) => {
             const isUser = m.author === "user";
             // const isUser = m.role === "user";
             // const showAvatar = index === 0 || agentMessages[index - 1]?.role !== m.role;

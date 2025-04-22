@@ -1,7 +1,7 @@
 "use client";
 
 // import type { Client } from "@connectrpc/connect";
-import { type UseMutationResult, useMutation } from "@tanstack/react-query";
+import { type UseMutationResult, useMutation, useQuery } from "@tanstack/react-query";
 import { debounce } from "lodash";
 import {
   type AdkEvent,
@@ -15,11 +15,10 @@ import {
   type Options,
   type SocialTeam,
   type SocialTeamManagerState,
-  type StartNewChatInput,
   type Tenant,
   type WorkflowRun,
   type WorkflowRunCreateData,
-  chatMessagesList,
+  adkEventsListOptions,
   workflowRunCreate,
   workflowRunCreateMutation,
 } from "mtmaiapi";
@@ -31,8 +30,7 @@ import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { useTenant, useTenantId } from "../hooks/useAuth";
-import { useNav, useSearch } from "../hooks/useNav";
-import { handleWorkflowRunEvent } from "./ag-event-handlers";
+import { useNav } from "../hooks/useNav";
 import { exampleTeamConfig } from "./exampleTeamConfig";
 
 export interface WorkbenchProps {
@@ -54,10 +52,6 @@ export interface WorkbrenchState extends WorkbenchProps {
   accessToken?: string;
   params?: Record<string, any>;
   tenant: Tenant;
-  // agClient: Client<typeof AgService>;
-  // runtimeClient: Client<typeof AgentRpc>;
-  // eventClient: Client<typeof EventsService>;
-  // dispatcherClient: Client<typeof Dispatcher>;
   setThreadId: (threadId?: string) => void;
   workbenchViewProps?: Record<string, any>;
   setWorkbenchViewProps: (props?: Record<string, any>) => void;
@@ -80,7 +74,7 @@ export interface WorkbrenchState extends WorkbenchProps {
   input?: string;
   setInput: (input: string) => void;
   handleHumanInput: (input: Content) => void;
-  handleNewChat: (input: StartNewChatInput) => void;
+  // handleNewChat: (input: StartNewChatInput) => void;
   handleRunTeam: (team: FlowTeamInput) => void;
   workflowRunId?: string;
   setWorkflowRunId: (workflowRunId: string) => void;
@@ -121,7 +115,7 @@ export interface WorkbrenchState extends WorkbenchProps {
 
   team: SocialTeam;
   setTeam: (team: SocialTeam) => void;
-  refetchTeamState: () => Promise<void>;
+  // refetchTeamState: () => Promise<void>;
 
   // google adk
   adkEvents: AdkEvent[];
@@ -187,6 +181,8 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
       ];
       set({ adkEvents: newEvents });
 
+      set({ input: "" });
+
       const sessionId = get().sessionId ?? generateUUID();
       const newChatMessage = {
         content: task,
@@ -228,7 +224,6 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
         },
       });
       console.log("handleHumanInput", get().messages, response?.data);
-
       if (response?.data) {
         get().setLastestWorkflowRun(response?.data);
       }
@@ -237,12 +232,12 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
         if (response.data?.metadata?.id) {
           const workflowRunId = response.data.metadata?.id;
           set({ workflowRunId: workflowRunId });
-          const result = await get().dispatcherClient.subscribeToWorkflowEvents({
-            workflowRunId: workflowRunId,
-          });
-          for await (const event of result) {
-            handleWorkflowRunEvent(event, get, set);
-          }
+          // const result = await get().dispatcherClient.subscribeToWorkflowEvents({
+          //   workflowRunId: workflowRunId,
+          // });
+          // for await (const event of result) {
+          //   handleWorkflowRunEvent(event, get, set);
+          // }
         }
       }
     }, 30),
@@ -274,9 +269,9 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
       const prevMessages = get().messages;
       set({ messages: [...prevMessages, message] });
     },
-    setResourceId: (resourceId: string) => {
-      set({ resourceId });
-    },
+    // setResourceId: (resourceId: string) => {
+    //   set({ resourceId });
+    // },
     agentFlow: DEFAULT_AGENT_FLOW_SETTINGS,
     // setTeamState: (teamState) => {
     //   set({ teamState });
@@ -345,7 +340,7 @@ export const WorkbrenchProvider = (props: React.PropsWithChildren<WorkbenchProps
   // const mtmAgClient = useGomtmClient(AgService);
   // const selfBackendend = useMtmaiV2((x) => x.selfBackendUrl);
   const [isPending, startTransition] = useTransition();
-  const search = useSearch();
+  // const search = useSearch();
   const tenant = useTenant();
   const workflowRunCreate = useMutation({
     ...workflowRunCreateMutation(),
@@ -399,52 +394,69 @@ export const WorkbrenchProvider = (props: React.PropsWithChildren<WorkbenchProps
   //   }
   // }, [agStateListQuery.data, mystore, etc.sessionId]);
 
-  useEffect(() => {
-    return mystore.subscribe(
-      (state) => {
-        return state.lastestWorkflowRun;
-      },
-      async (cur, prev) => {
-        console.log("lastestWorkflowRun changed", cur, "prev", prev);
-        if (cur?.additionalMetadata?.sessionId) {
-          startTransition(() => {
-            nav({
-              to: `/session/${cur?.additionalMetadata?.sessionId}`,
-              search: search,
-            });
-          });
-          const sessionId = cur?.additionalMetadata?.sessionId;
-          const messageList = await chatMessagesList({
-            path: {
-              tenant: tid!,
-              chat: sessionId as string,
-            },
-          });
-          mystore.getState().loadChatMessageList(messageList.data);
-          console.log("messageList", messageList);
-        }
-      },
-    );
-  }, [mystore, nav, search, tid]);
+  // useEffect(() => {
+  //   return mystore.subscribe(
+  //     (state) => {
+  //       return state.lastestWorkflowRun;
+  //     },
+  //     async (cur, prev) => {
+  //       console.log("lastestWorkflowRun changed", cur, "prev", prev);
+  //       if (cur?.additionalMetadata?.sessionId) {
+  //         startTransition(() => {
+  //           nav({
+  //             to: `/adk/session/${cur?.additionalMetadata?.sessionId}`,
+  //             search: search,
+  //           });
+  //         });
+  //         const sessionId = cur?.additionalMetadata?.sessionId;
+  //         const messageList = await chatMessagesList({
+  //           path: {
+  //             tenant: tid!,
+  //             chat: sessionId as string,
+  //           },
+  //         });
+  //         mystore.getState().loadChatMessageList(messageList.data);
+  //         console.log("messageList", messageList);
+  //       }
+  //     },
+  //   );
+  // }, [mystore, nav, search, tid]);
 
-  useEffect(() => {
-    return mystore.subscribe(
-      (state) => {
-        return state.sessionId;
+  // useEffect(() => {
+  //   return mystore.subscribe(
+  //     (state) => {
+  //       return state.sessionId;
+  //     },
+  //     debounce((cur, prev) => {
+  //       console.log("threadId changed", cur, "prev", prev);
+  //       if (cur) {
+  //         startTransition(() => {
+  //           nav({
+  //             to: `/session/${cur}`,
+  //             search: search,
+  //           });
+  //         });
+  //       }
+  //     }, 100),
+  //   );
+  // }, [mystore, nav, search]);
+
+  const adkEventsQuery = useQuery({
+    ...adkEventsListOptions({
+      path: {
+        tenant: tid,
       },
-      debounce((cur, prev) => {
-        console.log("threadId changed", cur, "prev", prev);
-        if (cur) {
-          startTransition(() => {
-            nav({
-              to: `/session/${cur}`,
-              search: search,
-            });
-          });
-        }
-      }, 100),
-    );
-  }, [mystore, nav, search]);
+      query: {
+        session: etc.sessionId,
+      },
+    }),
+    enabled: !!etc.sessionId,
+  });
+  useEffect(() => {
+    if (adkEventsQuery.data) {
+      mystore.setState({ adkEvents: adkEventsQuery.data.rows });
+    }
+  }, [adkEventsQuery.data, mystore]);
 
   return <mtmaiStoreContext.Provider value={mystore}>{children}</mtmaiStoreContext.Provider>;
 };
