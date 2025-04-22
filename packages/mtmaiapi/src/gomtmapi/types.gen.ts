@@ -2097,6 +2097,10 @@ export type ScheduledItem = {
   description: string;
 };
 
+export type AdkSessionState = {
+  type?: "RootAgentState";
+} & RootAgentState;
+
 export type ToolTypes = "code_executor" | "social_login";
 
 export const ToolTypes = {
@@ -3766,9 +3770,7 @@ export type AdkSessionProperties = {
   id: string;
   app_name: string;
   user_id: string;
-  state: {
-    [key: string]: unknown;
-  };
+  state: AdkSessionState;
   title?: string;
   create_time: string;
   update_time: string;

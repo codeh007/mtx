@@ -5607,6 +5607,12 @@ export const zScheduledItem = z.object({
   description: z.string(),
 });
 
+export const zAdkSessionState = z
+  .object({
+    type: z.literal("RootAgentState").optional(),
+  })
+  .merge(zRootAgentState);
+
 export const zToolTypes = z.enum(["code_executor", "social_login"]);
 
 export const zCodeExecutionInput = z.object({
@@ -7967,7 +7973,7 @@ export const zAdkSessionProperties = z.object({
   id: z.string(),
   app_name: z.string(),
   user_id: z.string(),
-  state: z.object({}),
+  state: zAdkSessionState,
   title: z.string().optional(),
   create_time: z.string(),
   update_time: z.string(),

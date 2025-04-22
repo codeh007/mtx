@@ -3864,6 +3864,17 @@ export const ScheduledItemSchema = {
   },
 } as const;
 
+export const AdkSessionStateSchema = {
+  discriminator: {
+    propertyName: "type",
+  },
+  oneOf: [
+    {
+      $ref: "#/components/schemas/RootAgentState",
+    },
+  ],
+} as const;
+
 export const ToolTypesSchema = {
   type: "string",
   enum: ["code_executor", "social_login"],
@@ -7546,8 +7557,7 @@ export const AdkSessionPropertiesSchema = {
       type: "string",
     },
     state: {
-      type: "object",
-      additionalProperties: true,
+      $ref: "#/components/schemas/AdkSessionState",
     },
     title: {
       type: "string",
