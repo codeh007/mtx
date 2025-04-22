@@ -1435,7 +1435,19 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/MtBrowserConfig",
         },
         {
-          $ref: "#/components/schemas/RootState",
+          $ref: "#/components/schemas/RootAgentState",
+        },
+        {
+          $ref: "#/components/schemas/AgentRunRequest",
+        },
+        {
+          $ref: "#/components/schemas/AgentIncomingEvent",
+        },
+        {
+          $ref: "#/components/schemas/AgentOutgoingEvent",
+        },
+        {
+          $ref: "#/components/schemas/ScheduledItem",
         },
       ],
     },
@@ -3472,7 +3484,7 @@ export const AgStateListSchema = {
   },
 } as const;
 
-export const RootStateSchema = {
+export const RootAgentStateSchema = {
   allOf: [
     {
       $ref: "#/components/schemas/BaseState",
@@ -3483,9 +3495,92 @@ export const RootStateSchema = {
         type: {
           type: "string",
         },
+        is_agent_run_local: {
+          type: "boolean",
+        },
+        counter: {
+          type: "number",
+        },
+        color: {
+          type: "string",
+        },
+        mainViewType: {
+          type: "string",
+          enum: ["chat", "scheduler"],
+        },
+        chatHistoryIds: {
+          type: "array",
+          items: {
+            type: "string",
+          },
+        },
+        currentChatHistoryIds: {
+          type: "string",
+        },
+        currentChatHistory: {
+          type: "object",
+        },
+        mcpServers: {
+          type: "array",
+          items: {
+            $ref: "#/components/schemas/McpServer",
+          },
+        },
+        mcpTools: {
+          type: "array",
+          items: {
+            type: "object",
+          },
+        },
+        mcpPrompts: {
+          type: "array",
+          items: {
+            type: "object",
+          },
+        },
+        mcpResources: {
+          type: "array",
+        },
       },
     },
   ],
+} as const;
+
+export const McpServerSchema = {
+  type: "object",
+  properties: {
+    url: {
+      type: "string",
+    },
+    state: {
+      type: "string",
+      enum: ["authenticating", "connecting", "ready", "discovering", "failed"],
+    },
+    auth_url: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const AgentRunRequestSchema = {
+  required: ["app_name", "user_id", "session_id", "new_message", "streaming"],
+  properties: {
+    app_name: {
+      type: "string",
+    },
+    user_id: {
+      type: "string",
+    },
+    session_id: {
+      type: "string",
+    },
+    new_message: {
+      type: "object",
+    },
+    streaming: {
+      type: "boolean",
+    },
+  },
 } as const;
 
 export const AgStateUpsertSchema = {
@@ -3741,6 +3836,35 @@ export const ChatAgentContainerStateSchema = {
       },
     },
   ],
+} as const;
+
+export const MessageThreadSchema = {
+  type: "array",
+  items: {
+    $ref: "#/components/schemas/AgEvents",
+  },
+} as const;
+
+export const ScheduledItemSchema = {
+  required: ["id", "type", "trigger", "nextTrigger", "description"],
+  properties: {
+    id: {
+      type: "string",
+    },
+    type: {
+      type: "string",
+      enum: ["cron", "scheduled", "delayed"],
+    },
+    trigger: {
+      type: "string",
+    },
+    nextTrigger: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+  },
 } as const;
 
 export const ToolTypesSchema = {
@@ -6590,10 +6714,118 @@ export const SocialLoginInputSchema = {
   },
 } as const;
 
-export const MessageThreadSchema = {
-  type: "array",
-  items: {
-    $ref: "#/components/schemas/AgEvents",
+export const AgentIncomingEventSchema = {
+  required: ["type", "content"],
+  mapping: {
+    approval: "./_index.yaml#/AgentApprovalEvent",
+  },
+  oneOf: [
+    {
+      $ref: "#/components/schemas/AgentApprovalEvent",
+    },
+  ],
+} as const;
+
+export const AgentOutgoingEventSchema = {
+  discriminator: {
+    propertyName: "type",
+  },
+  mapping: {
+    scheduled: "./_index.yaml#/AgentScheduledEvent",
+    runScheduled: "./_index.yaml#/AgentRunScheduledEvent",
+    error: "./_index.yaml#/AgentErrorEvent",
+    toast: "./_index.yaml#/AgentToastEvent",
+  },
+  oneOf: [
+    {
+      $ref: "#/components/schemas/AgentScheduledEvent",
+    },
+    {
+      $ref: "#/components/schemas/AgentRunScheduledEvent",
+    },
+    {
+      $ref: "#/components/schemas/AgentErrorEvent",
+    },
+    {
+      $ref: "#/components/schemas/AgentToastEvent",
+    },
+    {
+      $ref: "#/components/schemas/AgentConnectedEvent",
+    },
+  ],
+} as const;
+
+export const AgentApprovalEventSchema = {
+  type: "string",
+  enum: ["YES", "NO"],
+} as const;
+
+export const AgentScheduledEventSchema = {
+  required: ["type", "data"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["AgentScheduledEvent"],
+    },
+    data: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ScheduledItem",
+      },
+    },
+  },
+} as const;
+
+export const AgentRunScheduledEventSchema = {
+  required: ["type", "data"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["AgentRunScheduledEvent"],
+    },
+    data: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ScheduledItem",
+      },
+    },
+  },
+} as const;
+
+export const AgentErrorEventSchema = {
+  required: ["type", "data"],
+  properties: {
+    type: {
+      type: "string",
+    },
+    data: {
+      type: "object",
+      additionalProperties: true,
+    },
+  },
+} as const;
+
+export const AgentToastEventSchema = {
+  required: ["type", "title", "message"],
+  properties: {
+    type: {
+      type: "string",
+    },
+    title: {
+      type: "string",
+    },
+    message: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const AgentConnectedEventSchema = {
+  required: ["type"],
+  properties: {
+    type: {
+      type: "string",
+    },
   },
 } as const;
 
@@ -7319,6 +7551,9 @@ export const AdkSessionPropertiesSchema = {
     state: {
       type: "object",
       additionalProperties: true,
+    },
+    title: {
+      type: "string",
     },
     create_time: {
       type: "string",

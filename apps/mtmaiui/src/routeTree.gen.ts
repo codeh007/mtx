@@ -153,6 +153,9 @@ const ComsComIdRunRouteLazyImport = createFileRoute('/coms/$comId/run')()
 const ComsComIdComponenteditorRouteLazyImport = createFileRoute(
   '/coms/$comId/component_editor',
 )()
+const AdkSessionSessionIdRouteLazyImport = createFileRoute(
+  '/adk/session/$sessionId',
+)()
 const WorkflowsWorkflowIdIndexLazyImport = createFileRoute(
   '/workflows/$workflowId/',
 )()
@@ -283,6 +286,9 @@ const ComsComIdTeambuilderIndexLazyImport = createFileRoute(
   '/coms/$comId/team_builder/',
 )()
 const ComsComIdRunIndexLazyImport = createFileRoute('/coms/$comId/run/')()
+const AdkSessionSessionIdIndexLazyImport = createFileRoute(
+  '/adk/session/$sessionId/',
+)()
 const ComsComIdTeambuilderComponentNodeIdLazyImport = createFileRoute(
   '/coms/$comId/team_builder/component/$nodeId',
 )()
@@ -1017,6 +1023,17 @@ const ComsComIdComponenteditorRouteLazyRoute =
     ),
   )
 
+const AdkSessionSessionIdRouteLazyRoute =
+  AdkSessionSessionIdRouteLazyImport.update({
+    id: '/$sessionId',
+    path: '/$sessionId',
+    getParentRoute: () => AdkSessionRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/~adk/~session/~$sessionId/~route.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+
 const WorkflowsWorkflowIdIndexLazyRoute =
   WorkflowsWorkflowIdIndexLazyImport.update({
     id: '/',
@@ -1569,6 +1586,17 @@ const ComsComIdRunIndexLazyRoute = ComsComIdRunIndexLazyImport.update({
 } as any).lazy(() =>
   import('./routes/~coms/~$comId/~run/~index.lazy').then((d) => d.Route),
 )
+
+const AdkSessionSessionIdIndexLazyRoute =
+  AdkSessionSessionIdIndexLazyImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AdkSessionSessionIdRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/~adk/~session/~$sessionId/~index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 
 const ComsComIdTypeModelClientRoute = ComsComIdTypeModelClientImport.update({
   id: '/modelClient',
@@ -2426,6 +2454,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkflowsWorkflowIdIndexLazyImport
       parentRoute: typeof WorkflowsWorkflowIdRouteLazyImport
     }
+    '/adk/session/$sessionId': {
+      id: '/adk/session/$sessionId'
+      path: '/$sessionId'
+      fullPath: '/adk/session/$sessionId'
+      preLoaderRoute: typeof AdkSessionSessionIdRouteLazyImport
+      parentRoute: typeof AdkSessionRouteLazyImport
+    }
     '/coms/$comId/component_editor': {
       id: '/coms/$comId/component_editor'
       path: '/component_editor'
@@ -2635,6 +2670,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/coms/$comId/type/modelClient'
       preLoaderRoute: typeof ComsComIdTypeModelClientImport
       parentRoute: typeof ComsComIdTypeRouteLazyImport
+    }
+    '/adk/session/$sessionId/': {
+      id: '/adk/session/$sessionId/'
+      path: '/'
+      fullPath: '/adk/session/$sessionId/'
+      preLoaderRoute: typeof AdkSessionSessionIdIndexLazyImport
+      parentRoute: typeof AdkSessionSessionIdRouteLazyImport
     }
     '/coms/$comId/run/': {
       id: '/coms/$comId/run/'
@@ -4263,12 +4305,29 @@ const WorkflowsRouteLazyRouteChildren: WorkflowsRouteLazyRouteChildren = {
 const WorkflowsRouteLazyRouteWithChildren =
   WorkflowsRouteLazyRoute._addFileChildren(WorkflowsRouteLazyRouteChildren)
 
+interface AdkSessionSessionIdRouteLazyRouteChildren {
+  AdkSessionSessionIdIndexLazyRoute: typeof AdkSessionSessionIdIndexLazyRoute
+}
+
+const AdkSessionSessionIdRouteLazyRouteChildren: AdkSessionSessionIdRouteLazyRouteChildren =
+  {
+    AdkSessionSessionIdIndexLazyRoute: AdkSessionSessionIdIndexLazyRoute,
+  }
+
+const AdkSessionSessionIdRouteLazyRouteWithChildren =
+  AdkSessionSessionIdRouteLazyRoute._addFileChildren(
+    AdkSessionSessionIdRouteLazyRouteChildren,
+  )
+
 interface AdkSessionRouteLazyRouteChildren {
   AdkSessionIndexLazyRoute: typeof AdkSessionIndexLazyRoute
+  AdkSessionSessionIdRouteLazyRoute: typeof AdkSessionSessionIdRouteLazyRouteWithChildren
 }
 
 const AdkSessionRouteLazyRouteChildren: AdkSessionRouteLazyRouteChildren = {
   AdkSessionIndexLazyRoute: AdkSessionIndexLazyRoute,
+  AdkSessionSessionIdRouteLazyRoute:
+    AdkSessionSessionIdRouteLazyRouteWithChildren,
 }
 
 const AdkSessionRouteLazyRouteWithChildren =
@@ -4351,6 +4410,7 @@ export interface FileRoutesByFullPath {
   '/tenant/settings/': typeof TenantSettingsIndexLazyRoute
   '/workflow-runs/$workflowRunId/': typeof WorkflowRunsWorkflowRunIdIndexLazyRoute
   '/workflows/$workflowId/': typeof WorkflowsWorkflowIdIndexLazyRoute
+  '/adk/session/$sessionId': typeof AdkSessionSessionIdRouteLazyRouteWithChildren
   '/coms/$comId/component_editor': typeof ComsComIdComponenteditorRouteLazyRouteWithChildren
   '/coms/$comId/run': typeof ComsComIdRunRouteLazyRouteWithChildren
   '/coms/$comId/team_builder': typeof ComsComIdTeambuilderRouteLazyRouteWithChildren
@@ -4381,6 +4441,7 @@ export interface FileRoutesByFullPath {
   '/coms/$comId/component_editor/MtOpenAIChatCompletionClient': typeof ComsComIdComponenteditorMtOpenAIChatCompletionClientRoute
   '/coms/$comId/component_editor/SmolaAgent': typeof ComsComIdComponenteditorSmolaAgentRoute
   '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
+  '/adk/session/$sessionId/': typeof AdkSessionSessionIdIndexLazyRoute
   '/coms/$comId/run/': typeof ComsComIdRunIndexLazyRoute
   '/coms/$comId/team_builder/': typeof ComsComIdTeambuilderIndexLazyRoute
   '/coms/$comId/team_builderv2/': typeof ComsComIdTeambuilderv2IndexLazyRoute
@@ -4504,6 +4565,7 @@ export interface FileRoutesByTo {
   '/coms/$comId/component_editor/MtOpenAIChatCompletionClient': typeof ComsComIdComponenteditorMtOpenAIChatCompletionClientRoute
   '/coms/$comId/component_editor/SmolaAgent': typeof ComsComIdComponenteditorSmolaAgentRoute
   '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
+  '/adk/session/$sessionId': typeof AdkSessionSessionIdIndexLazyRoute
   '/coms/$comId/run': typeof ComsComIdRunIndexLazyRoute
   '/coms/$comId/team_builder': typeof ComsComIdTeambuilderIndexLazyRoute
   '/coms/$comId/team_builderv2': typeof ComsComIdTeambuilderv2IndexLazyRoute
@@ -4628,6 +4690,7 @@ export interface FileRoutesById {
   '/tenant/settings/': typeof TenantSettingsIndexLazyRoute
   '/workflow-runs/$workflowRunId/': typeof WorkflowRunsWorkflowRunIdIndexLazyRoute
   '/workflows/$workflowId/': typeof WorkflowsWorkflowIdIndexLazyRoute
+  '/adk/session/$sessionId': typeof AdkSessionSessionIdRouteLazyRouteWithChildren
   '/coms/$comId/component_editor': typeof ComsComIdComponenteditorRouteLazyRouteWithChildren
   '/coms/$comId/run': typeof ComsComIdRunRouteLazyRouteWithChildren
   '/coms/$comId/team_builder': typeof ComsComIdTeambuilderRouteLazyRouteWithChildren
@@ -4658,6 +4721,7 @@ export interface FileRoutesById {
   '/coms/$comId/component_editor/MtOpenAIChatCompletionClient': typeof ComsComIdComponenteditorMtOpenAIChatCompletionClientRoute
   '/coms/$comId/component_editor/SmolaAgent': typeof ComsComIdComponenteditorSmolaAgentRoute
   '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
+  '/adk/session/$sessionId/': typeof AdkSessionSessionIdIndexLazyRoute
   '/coms/$comId/run/': typeof ComsComIdRunIndexLazyRoute
   '/coms/$comId/team_builder/': typeof ComsComIdTeambuilderIndexLazyRoute
   '/coms/$comId/team_builderv2/': typeof ComsComIdTeambuilderv2IndexLazyRoute
@@ -4802,6 +4866,7 @@ export interface FileRouteTypes {
     | '/tenant/settings/'
     | '/workflow-runs/$workflowRunId/'
     | '/workflows/$workflowId/'
+    | '/adk/session/$sessionId'
     | '/coms/$comId/component_editor'
     | '/coms/$comId/run'
     | '/coms/$comId/team_builder'
@@ -4832,6 +4897,7 @@ export interface FileRouteTypes {
     | '/coms/$comId/component_editor/MtOpenAIChatCompletionClient'
     | '/coms/$comId/component_editor/SmolaAgent'
     | '/coms/$comId/type/modelClient'
+    | '/adk/session/$sessionId/'
     | '/coms/$comId/run/'
     | '/coms/$comId/team_builder/'
     | '/coms/$comId/team_builderv2/'
@@ -4954,6 +5020,7 @@ export interface FileRouteTypes {
     | '/coms/$comId/component_editor/MtOpenAIChatCompletionClient'
     | '/coms/$comId/component_editor/SmolaAgent'
     | '/coms/$comId/type/modelClient'
+    | '/adk/session/$sessionId'
     | '/coms/$comId/run'
     | '/coms/$comId/team_builder'
     | '/coms/$comId/team_builderv2'
@@ -5076,6 +5143,7 @@ export interface FileRouteTypes {
     | '/tenant/settings/'
     | '/workflow-runs/$workflowRunId/'
     | '/workflows/$workflowId/'
+    | '/adk/session/$sessionId'
     | '/coms/$comId/component_editor'
     | '/coms/$comId/run'
     | '/coms/$comId/team_builder'
@@ -5106,6 +5174,7 @@ export interface FileRouteTypes {
     | '/coms/$comId/component_editor/MtOpenAIChatCompletionClient'
     | '/coms/$comId/component_editor/SmolaAgent'
     | '/coms/$comId/type/modelClient'
+    | '/adk/session/$sessionId/'
     | '/coms/$comId/run/'
     | '/coms/$comId/team_builder/'
     | '/coms/$comId/team_builderv2/'
@@ -5480,7 +5549,8 @@ export const routeTree = rootRoute
     "/adk/session": {
       "filePath": "~adk/~session/~route.lazy.tsx",
       "children": [
-        "/adk/session/"
+        "/adk/session/",
+        "/adk/session/$sessionId"
       ]
     },
     "/auth/login": {
@@ -5690,6 +5760,13 @@ export const routeTree = rootRoute
       "filePath": "~workflows/~$workflowId/~index.lazy.tsx",
       "parent": "/workflows/$workflowId"
     },
+    "/adk/session/$sessionId": {
+      "filePath": "~adk/~session/~$sessionId/~route.lazy.tsx",
+      "parent": "/adk/session",
+      "children": [
+        "/adk/session/$sessionId/"
+      ]
+    },
     "/coms/$comId/component_editor": {
       "filePath": "~coms/~$comId/~component_editor/~route.lazy.tsx",
       "parent": "/coms/$comId",
@@ -5890,6 +5967,10 @@ export const routeTree = rootRoute
     "/coms/$comId/type/modelClient": {
       "filePath": "~coms/~$comId/~type/~modelClient.tsx",
       "parent": "/coms/$comId/type"
+    },
+    "/adk/session/$sessionId/": {
+      "filePath": "~adk/~session/~$sessionId/~index.lazy.tsx",
+      "parent": "/adk/session/$sessionId"
     },
     "/coms/$comId/run/": {
       "filePath": "~coms/~$comId/~run/~index.lazy.tsx",

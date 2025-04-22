@@ -14,6 +14,7 @@ import {
 } from "mtxuilib/ui/sidebar";
 
 import { useQuery } from "@tanstack/react-query";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Icons } from "mtxuilib/icons/icons";
 import { Label } from "mtxuilib/ui/label";
 import { Switch } from "mtxuilib/ui/switch";
@@ -62,6 +63,7 @@ export function NavAdkSession() {
       <SidebarContent>
         <SidebarGroup className="px-0">
           <SidebarGroupContent>
+            <DebugValue data={{ data: adkSessionQuery.data }} />
             {adkSessionQuery.data?.rows?.map((item) => (
               <NavAdkSessionItem
                 key={item.metadata?.id}
@@ -80,8 +82,8 @@ const NavAdkSessionItem = ({ item, rowId }: { item: AdkSession; rowId: string })
   return (
     <div className="bg-slate-100 border px-2 mb-2 rounded-md flex flex-col">
       <div className="flex items-center justify-between">
-        <CustomLink to={`/session/${item.id}`}>
-          <div>{item.id}</div>
+        <CustomLink to={`/adk/session/${item.id}`}>
+          <div>{item.title || item.id}</div>
         </CustomLink>
         <div>{item.app_name}</div>
       </div>

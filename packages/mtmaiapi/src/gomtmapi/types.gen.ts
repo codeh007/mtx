@@ -846,7 +846,11 @@ export type WorkflowWorkersCount = {
     | FlowResult
     | SocialTeam
     | MtBrowserConfig
-    | RootState;
+    | RootAgentState
+    | AgentRunRequest
+    | AgentIncomingEvent
+    | AgentOutgoingEvent
+    | ScheduledItem;
 };
 
 export type WorkflowRun = {
@@ -1935,8 +1939,41 @@ export type AgStateList = {
   rows?: Array<AgState>;
 };
 
-export type RootState = BaseState & {
+export type RootAgentState = BaseState & {
   type: string;
+  is_agent_run_local?: boolean;
+  counter?: number;
+  color?: string;
+  mainViewType?: "chat" | "scheduler";
+  chatHistoryIds?: Array<string>;
+  currentChatHistoryIds?: string;
+  currentChatHistory?: {
+    [key: string]: unknown;
+  };
+  mcpServers?: Array<McpServer>;
+  mcpTools?: Array<{
+    [key: string]: unknown;
+  }>;
+  mcpPrompts?: Array<{
+    [key: string]: unknown;
+  }>;
+  mcpResources?: Array<unknown>;
+};
+
+export type McpServer = {
+  url?: string;
+  state?: "authenticating" | "connecting" | "ready" | "discovering" | "failed";
+  auth_url?: string;
+};
+
+export type AgentRunRequest = {
+  app_name: string;
+  user_id: string;
+  session_id: string;
+  new_message: {
+    [key: string]: unknown;
+  };
+  streaming: boolean;
 };
 
 export type AgStateUpsert = AgStateProperties;
@@ -2049,6 +2086,16 @@ export type ChatAgentContainerState = BaseState & {
     [key: string]: unknown;
   };
   message_buffer?: Array<unknown>;
+};
+
+export type MessageThread = Array<AgEvents>;
+
+export type ScheduledItem = {
+  id: string;
+  type: "cron" | "scheduled" | "delayed";
+  trigger: string;
+  nextTrigger: string;
+  description: string;
 };
 
 export type ToolTypes = "code_executor" | "social_login";
@@ -3365,7 +3412,58 @@ export type SocialLoginInput = {
   otp_key?: string;
 };
 
-export type MessageThread = Array<AgEvents>;
+export type AgentIncomingEvent = AgentApprovalEvent;
+
+export type AgentOutgoingEvent =
+  | ({
+      type?: "AgentScheduledEvent";
+    } & AgentScheduledEvent)
+  | ({
+      type?: "AgentRunScheduledEvent";
+    } & AgentRunScheduledEvent)
+  | ({
+      type?: "AgentErrorEvent";
+    } & AgentErrorEvent)
+  | ({
+      type?: "AgentToastEvent";
+    } & AgentToastEvent)
+  | ({
+      type?: "AgentConnectedEvent";
+    } & AgentConnectedEvent);
+
+export type AgentApprovalEvent = "YES" | "NO";
+
+export const AgentApprovalEvent = {
+  YES: "YES",
+  NO: "NO",
+} as const;
+
+export type AgentScheduledEvent = {
+  type: "AgentScheduledEvent";
+  data: Array<ScheduledItem>;
+};
+
+export type AgentRunScheduledEvent = {
+  type: "AgentRunScheduledEvent";
+  data: Array<ScheduledItem>;
+};
+
+export type AgentErrorEvent = {
+  type: string;
+  data: {
+    [key: string]: unknown;
+  };
+};
+
+export type AgentToastEvent = {
+  type: string;
+  title: string;
+  message: string;
+};
+
+export type AgentConnectedEvent = {
+  type: string;
+};
 
 export type AgentProperties = {
   name: string;
@@ -3672,6 +3770,7 @@ export type AdkSessionProperties = {
   state: {
     [key: string]: unknown;
   };
+  title?: string;
   create_time: string;
   update_time: string;
 };

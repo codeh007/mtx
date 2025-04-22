@@ -1,6 +1,3 @@
-"use client";
-import { MtmClientApp } from "../../App";
-
 export default function Page(props: { params }) {
   // const queryClient = getQueryClient();
   return (
@@ -8,7 +5,8 @@ export default function Page(props: { params }) {
       {/* <HydrationBoundary state={dehydrate(queryClient)}>
         <div id="page-actions" />
       </HydrationBoundary> */}
-      <MtmClientApp />
+      {/* <MtmClientApp /> */}
+      <div>Hello home page</div>
     </>
   );
 }

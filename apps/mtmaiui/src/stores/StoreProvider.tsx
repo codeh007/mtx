@@ -35,18 +35,13 @@ interface MtmaiState extends MtmaiBotProps {
   setSite: (site: Site) => void;
 }
 
-const createAppSlice: StateCreator<MtmaiState, [], [], MtmaiState> = (
-  set,
-  get,
-  init,
-) => {
+const createAppSlice: StateCreator<MtmaiState, [], [], MtmaiState> = (set, get, init) => {
   return {
     debug: false,
     serverUrl: "",
     ...init,
     setHasHydrated: (_hasHydrated: boolean) => set({ _hasHydrated }),
-    setFrontendConfig: (frontendConfig: FrontendConfig) =>
-      set({ frontendConfig }),
+    setFrontendConfig: (frontendConfig: FrontendConfig) => set({ frontendConfig }),
     setDebug: (debug) => set({ debug }),
     setServerUrl: (serverUrl) => set({ serverUrl }),
     setHostName: (hostName) => set({ hostName }),
@@ -163,10 +158,7 @@ export function useMtmaiV2<T>(selector?: (state: MainStoreStateV2) => T) {
   if (!store) throw new Error("useMtmaiV2 must in MtmaiProviderV2");
   if (selector) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useStore(
-      store,
-      DEFAULT_USE_SHALLOW ? useShallow(selector) : selector,
-    );
+    return useStore(store, DEFAULT_USE_SHALLOW ? useShallow(selector) : selector);
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks

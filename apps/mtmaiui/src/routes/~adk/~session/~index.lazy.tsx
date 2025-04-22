@@ -5,5 +5,5 @@ export const Route = createLazyFileRoute("/adk/session/")({
 });
 
 function RouteComponent() {
-  return <div>Hello "/adk/session/"!</div>;
+  return <div>adk/session</div>;
 }

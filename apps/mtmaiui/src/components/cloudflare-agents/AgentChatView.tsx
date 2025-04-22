@@ -3,13 +3,15 @@ import type { Message } from "@ai-sdk/react";
 import { Bug, Moon, PaperPlaneRight, Robot, Sun, Trash } from "@phosphor-icons/react";
 import { useAgentChat } from "agents/ai-react";
 import { useAgent } from "agents/react";
+import { type AgentOutgoingEvent, Approval, type RootAgentState } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import { Card } from "mtxuilib/ui/card";
 import { Switch } from "mtxuilib/ui/switch";
 import { BetterTooltip } from "mtxuilib/ui/tooltip";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { RootAgentState } from "../../agent_state/root_agent_state";
-import { APPROVAL, type OutgoingMessage } from "../../agent_state/shared";
+// import type { RootAgentState } from "../../agent_state/root_agent_state";
+// import type { RootAgentState } from "../../agent_state/root_agent_state";
+// import { APPROVAL, type OutgoingMessage } from "../../agent_state/shared";
 import type { tools } from "../../agents/tools";
 import { Avatar } from "./components/avatar/Avatar";
 import { Input } from "./components/input/Input";
@@ -61,7 +63,7 @@ export default function AgentChatView() {
     onStateUpdate: (newState) => setRootState(newState),
     onMessage: (message) => {
       console.log("(chat)onMessage", message?.data?.type);
-      const parsedMessage = JSON.parse(message.data) as OutgoingMessage;
+      const parsedMessage = JSON.parse(message.data) as AgentOutgoingEvent;
       if (parsedMessage?.type === "connected") {
         console.log("agent client connected");
       } else if (parsedMessage.type === "run-schedule") {
@@ -288,7 +290,7 @@ export default function AgentChatView() {
                                       onClick={() =>
                                         addToolResult({
                                           toolCallId,
-                                          result: APPROVAL.NO,
+                                          result: Approval.NO,
                                         })
                                       }
                                     >
@@ -301,7 +303,7 @@ export default function AgentChatView() {
                                         onClick={() =>
                                           addToolResult({
                                             toolCallId,
-                                            result: APPROVAL.YES,
+                                            result: Approval.YES,
                                           })
                                         }
                                       >
