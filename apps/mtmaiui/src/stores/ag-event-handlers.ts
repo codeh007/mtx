@@ -12,9 +12,7 @@ export const handleWorkflowRunEvent = (
   event: WorkflowEvent,
   get: () => WorkbrenchState,
   set: (
-    partial:
-      | Partial<WorkbrenchState>
-      | ((state: WorkbrenchState) => Partial<WorkbrenchState>),
+    partial: Partial<WorkbrenchState> | ((state: WorkbrenchState) => Partial<WorkbrenchState>),
   ) => void,
 ) => {
   switch (event.eventType) {
@@ -45,9 +43,7 @@ const onStreamEvent = (
   event: WorkflowEvent,
   get: () => WorkbrenchState,
   set: (
-    partial:
-      | Partial<WorkbrenchState>
-      | ((state: WorkbrenchState) => Partial<WorkbrenchState>),
+    partial: Partial<WorkbrenchState> | ((state: WorkbrenchState) => Partial<WorkbrenchState>),
   ) => void,
 ) => {
   // 相关 protobuf 文档: https://github.com/bufbuild/protobuf-es/blob/main/MANUAL.md
@@ -58,7 +54,7 @@ const onStreamEvent = (
   }
   // console.log("payload", payload);
   if (payload.type === "ChatSessionStartEvent") {
-    get().setThreadId(payload.threadId);
+    get().setSessionId(payload.threadId);
   } else if (payload.type === "ThoughtEvent") {
     const newChatMessage = {
       role: "assistant",

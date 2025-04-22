@@ -13,12 +13,14 @@ import {
   FlowNames,
   type FlowTeamInput,
   type Options,
+  type RootAgentState,
   type SocialTeam,
   type SocialTeamManagerState,
   type Tenant,
   type WorkflowRun,
   type WorkflowRunCreateData,
   adkEventsListOptions,
+  adkUserStateGetOptions,
   workflowRunCreate,
   workflowRunCreateMutation,
 } from "mtmaiapi";
@@ -35,24 +37,22 @@ import { exampleTeamConfig } from "./exampleTeamConfig";
 
 export interface WorkbenchProps {
   sessionId?: string;
-  // teamState?: SocialTeamManagerState;
-  // resourceId?: string;
 }
-const DEFAULT_AGENT_FLOW_SETTINGS = {
-  direction: "TB",
-  showLabels: true,
-  showGrid: true,
-  showTokens: true,
-  showMessages: true,
-  showMiniMap: false,
-};
+// const DEFAULT_AGENT_FLOW_SETTINGS = {
+//   direction: "TB",
+//   showLabels: true,
+//   showGrid: true,
+//   showTokens: true,
+//   showMessages: true,
+//   showMiniMap: false,
+// };
 
 export interface WorkbrenchState extends WorkbenchProps {
   backendUrl: string;
   accessToken?: string;
   params?: Record<string, any>;
   tenant: Tenant;
-  setThreadId: (threadId?: string) => void;
+  setSessionId: (threadId?: string) => void;
   workbenchViewProps?: Record<string, any>;
   setWorkbenchViewProps: (props?: Record<string, any>) => void;
   appendChatMessageCb?: (message) => void;
@@ -66,7 +66,6 @@ export interface WorkbrenchState extends WorkbenchProps {
   setChatEndpoint: (chatEndpoint: string) => void;
   isConnected: boolean;
   setIsConnected: (isConnected: boolean) => void;
-  setSessionId: (sessionId: string) => void;
   firstUserInteraction?: string;
   setFirstUserInteraction: (firstUserInteraction: string) => void;
   loading: boolean;
@@ -74,7 +73,6 @@ export interface WorkbrenchState extends WorkbenchProps {
   input?: string;
   setInput: (input: string) => void;
   handleHumanInput: (input: Content) => void;
-  // handleNewChat: (input: StartNewChatInput) => void;
   handleRunTeam: (team: FlowTeamInput) => void;
   workflowRunId?: string;
   setWorkflowRunId: (workflowRunId: string) => void;
@@ -108,19 +106,17 @@ export interface WorkbrenchState extends WorkbenchProps {
     additionalMetadata: Record<string, any>,
   ) => Promise<WorkflowRun>;
 
-  // userAgentState?: UserAgentState;
-  // setUserAgentState: (userAgentState: UserAgentState) => void;
   lastestWorkflowRun?: WorkflowRun;
   setLastestWorkflowRun: (lastestWorkflowRun: WorkflowRun) => void;
 
   team: SocialTeam;
   setTeam: (team: SocialTeam) => void;
-  // refetchTeamState: () => Promise<void>;
-
   // google adk
   adkEvents: AdkEvent[];
   setAdkEvents: (adkEvents: AdkEvent[]) => void;
-  // refetchAdkEvents: () => void;
+
+  agentState?: RootAgentState;
+  setAgentState: (agentState: RootAgentState) => void;
 }
 
 export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], WorkbrenchState> = (
@@ -155,6 +151,10 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
     setTeam: (team) => {
       set({ team });
     },
+    agentState: undefined,
+    setAgentState: (agentState) => {
+      set({ agentState });
+    },
     // google adk
     adkEvents: [],
     setAdkEvents: (adkEvents) => {
@@ -166,39 +166,28 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
     handleHumanInput: debounce(async (input: Content) => {
       console.log("handleHumanInput", input);
       get().setChatStarted(true);
-      const preMessages = get().messages;
-      const task = input.parts?.[0]?.text as unknown as string;
-
-      const preEvents = get().adkEvents;
-      const newEvents = [
-        ...preEvents,
-        {
-          type: "UserMessage",
-          content: task,
-          source: "web",
-          metadata: {},
-        },
-      ];
-      set({ adkEvents: newEvents });
-
-      set({ input: "" });
-
       const sessionId = get().sessionId ?? generateUUID();
-      const newChatMessage = {
-        content: task,
-        metadata: {
-          id: generateUUID(),
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-        content_type: "text",
-        type: "UserMessage",
-        topic: "default",
-        source: "web",
-        thread_id: sessionId,
-      } satisfies ChatMessage;
       set({
-        messages: [...preMessages, newChatMessage],
+        input: "",
+        adkEvents: [
+          ...get().adkEvents,
+          {
+            metadata: {
+              id: generateUUID(),
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+            },
+            app_name: "root",
+            user_id: get().tenant.metadata.id,
+            content: input,
+            timestamp: new Date().toISOString(),
+            actions: {},
+            author: "user",
+            id: generateUUID(),
+            invocation_id: generateUUID(),
+            session_id: sessionId,
+          } satisfies AdkEvent,
+        ],
       });
       const response = await workflowRunCreate({
         path: {
@@ -223,7 +212,6 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
           },
         },
       });
-      console.log("handleHumanInput", get().messages, response?.data);
       if (response?.data) {
         get().setLastestWorkflowRun(response?.data);
       }
@@ -246,8 +234,8 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
     setShowWorkbench: (openWorkbench) => {
       set({ openWorkbench });
     },
-    setThreadId: (threadId) => {
-      set({ sessionId: threadId });
+    setSessionId: (sessionId) => {
+      set({ sessionId });
     },
     setWorkflowRunId: (workflowRunId) => {
       set({ workflowRunId });
@@ -272,7 +260,7 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
     // setResourceId: (resourceId: string) => {
     //   set({ resourceId });
     // },
-    agentFlow: DEFAULT_AGENT_FLOW_SETTINGS,
+    // agentFlow: DEFAULT_AGENT_FLOW_SETTINGS,
     // setTeamState: (teamState) => {
     //   set({ teamState });
     // },
@@ -457,6 +445,21 @@ export const WorkbrenchProvider = (props: React.PropsWithChildren<WorkbenchProps
       mystore.setState({ adkEvents: adkEventsQuery.data.rows });
     }
   }, [adkEventsQuery.data, mystore]);
+
+  const adkStateQuery = useQuery({
+    ...adkUserStateGetOptions({
+      path: {
+        tenant: tid,
+        state: etc.sessionId!,
+      },
+    }),
+    enabled: !!etc.sessionId,
+  });
+  useEffect(() => {
+    if (adkStateQuery.data) {
+      mystore.setState({ agentState: adkStateQuery.data.state as RootAgentState });
+    }
+  }, [adkStateQuery.data, mystore]);
 
   return <mtmaiStoreContext.Provider value={mystore}>{children}</mtmaiStoreContext.Provider>;
 };
