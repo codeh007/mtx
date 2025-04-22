@@ -1,4 +1,5 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
+import { AdkSessionView } from "../AdkSessionView";
 
 export const Route = createLazyFileRoute("/adk/session/$sessionId/")({
   component: RouteComponent,
@@ -6,14 +7,10 @@ export const Route = createLazyFileRoute("/adk/session/$sessionId/")({
 
 function RouteComponent() {
   const { sessionId } = Route.useParams();
+
   return (
     <div>
-      adk/session {sessionId}
-      <AdkStateView />
+      <AdkSessionView sessionId={sessionId} />
     </div>
   );
 }
-
-const AdkStateView = () => {
-  return <div>AdkStateView</div>;
-};

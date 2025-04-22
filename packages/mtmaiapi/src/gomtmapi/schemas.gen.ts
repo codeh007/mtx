@@ -1446,9 +1446,6 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/AgentOutgoingEvent",
         },
-        {
-          $ref: "#/components/schemas/ScheduledItem",
-        },
       ],
     },
   },

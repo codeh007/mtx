@@ -849,8 +849,7 @@ export type WorkflowWorkersCount = {
     | RootAgentState
     | AgentRunRequest
     | AgentIncomingEvent
-    | AgentOutgoingEvent
-    | ScheduledItem;
+    | AgentOutgoingEvent;
 };
 
 export type WorkflowRun = {

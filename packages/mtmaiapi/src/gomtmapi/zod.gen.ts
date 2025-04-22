@@ -2354,13 +2354,6 @@ export const zWorkflowWorkersCount = z.object({
             }),
           ),
       ]),
-      z.object({
-        id: z.string(),
-        type: z.enum(["cron", "scheduled", "delayed"]),
-        trigger: z.string(),
-        nextTrigger: z.string(),
-        description: z.string(),
-      }),
     ])
     .optional(),
 });
