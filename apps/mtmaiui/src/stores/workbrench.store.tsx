@@ -5,12 +5,11 @@ import { type UseMutationResult, useMutation, useQuery } from "@tanstack/react-q
 import { debounce } from "lodash";
 import {
   type AdkEvent,
-  AgentEventType,
+  type AgentRunRequest,
   type ApiErrors,
   type ChatMessage,
   type ChatMessageList,
   type Content,
-  FlowNames,
   type FlowTeamInput,
   type Options,
   type RootAgentState,
@@ -21,7 +20,6 @@ import {
   type WorkflowRunCreateData,
   adkEventsListOptions,
   adkUserStateGetOptions,
-  workflowRunCreate,
   workflowRunCreateMutation,
 } from "mtmaiapi";
 import { generateUUID } from "mtxuilib/lib/utils";
@@ -189,45 +187,63 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
           } satisfies AdkEvent,
         ],
       });
-      const response = await workflowRunCreate({
-        path: {
-          workflow: FlowNames.TEAM,
+
+      const url = "http://localhost:7860/run_sse_v2";
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        body: {
-          input: {
-            app_name: "root",
-            component: get().team,
-            session_id: sessionId,
-            // init_state: {},
-            task: {
-              type: AgentEventType.TEXT_MESSAGE,
-              content: task,
-              source: "user",
-              metadata: {},
-            },
-            content: input,
-          } satisfies FlowTeamInput,
-          additionalMetadata: {
-            sessionId: sessionId,
-          },
-        },
+        body: JSON.stringify({
+          session_id: sessionId,
+          app_name: "root",
+          user_id: get().tenant.metadata.id,
+          new_message: input,
+          streaming: true,
+        } satisfies AgentRunRequest),
       });
-      if (response?.data) {
-        get().setLastestWorkflowRun(response?.data);
-      }
-      if (response?.data) {
-        // pull stream event
-        if (response.data?.metadata?.id) {
-          const workflowRunId = response.data.metadata?.id;
-          set({ workflowRunId: workflowRunId });
-          // const result = await get().dispatcherClient.subscribeToWorkflowEvents({
-          //   workflowRunId: workflowRunId,
-          // });
-          // for await (const event of result) {
-          //   handleWorkflowRunEvent(event, get, set);
-          // }
-        }
-      }
+      const data = await response.json();
+      console.log("data", data);
+
+      // const response = await workflowRunCreate({
+      //   path: {
+      //     workflow: FlowNames.TEAM,
+      //   },
+      //   body: {
+      //     input: {
+      //       app_name: "root",
+      //       component: get().team,
+      //       session_id: sessionId,
+      //       // init_state: {},
+      //       task: {
+      //         type: AgentEventType.TEXT_MESSAGE,
+      //         content: task,
+      //         source: "user",
+      //         metadata: {},
+      //       },
+      //       content: input,
+      //     } satisfies FlowTeamInput,
+      //     additionalMetadata: {
+      //       sessionId: sessionId,
+      //     },
+      //   },
+      // });
+      // if (response?.data) {
+      //   get().setLastestWorkflowRun(response?.data);
+      // }
+      // if (response?.data) {
+      //   // pull stream event
+      //   if (response.data?.metadata?.id) {
+      //     const workflowRunId = response.data.metadata?.id;
+      //     set({ workflowRunId: workflowRunId });
+      //     // const result = await get().dispatcherClient.subscribeToWorkflowEvents({
+      //     //   workflowRunId: workflowRunId,
+      //     // });
+      //     // for await (const event of result) {
+      //     //   handleWorkflowRunEvent(event, get, set);
+      //     // }
+      //   }
+      // }
     }, 30),
 
     setMessages: (messages) => set({ messages }),

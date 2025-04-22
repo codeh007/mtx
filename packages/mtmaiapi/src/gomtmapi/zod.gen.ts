@@ -2282,7 +2282,36 @@ export const zWorkflowWorkersCount = z.object({
         app_name: z.string(),
         user_id: z.string(),
         session_id: z.string(),
-        new_message: z.object({}),
+        new_message: z.union([
+          z
+            .object({
+              role: z.literal("user").optional(),
+            })
+            .merge(
+              z.object({
+                role: z.enum(["user"]),
+                parts: z.array(
+                  z.object({
+                    text: z.string().optional(),
+                  }),
+                ),
+              }),
+            ),
+          z
+            .object({
+              role: z.literal("model").optional(),
+            })
+            .merge(
+              z.object({
+                role: z.enum(["model"]),
+                parts: z.array(
+                  z.object({
+                    text: z.string().optional(),
+                  }),
+                ),
+              }),
+            ),
+        ]),
         streaming: z.boolean().default(false),
       }),
       z.enum(["YES", "NO"]),
@@ -2354,6 +2383,11 @@ export const zWorkflowWorkersCount = z.object({
             }),
           ),
       ]),
+      z.object({
+        eval_id: z.string(),
+        session_id: z.string(),
+        user_id: z.string(),
+      }),
     ])
     .optional(),
 });
@@ -7551,8 +7585,43 @@ export const zAgentRunRequest = z.object({
   app_name: z.string(),
   user_id: z.string(),
   session_id: z.string(),
-  new_message: z.object({}),
+  new_message: z.union([
+    z
+      .object({
+        role: z.literal("user").optional(),
+      })
+      .merge(
+        z.object({
+          role: z.enum(["user"]),
+          parts: z.array(
+            z.object({
+              text: z.string().optional(),
+            }),
+          ),
+        }),
+      ),
+    z
+      .object({
+        role: z.literal("model").optional(),
+      })
+      .merge(
+        z.object({
+          role: z.enum(["model"]),
+          parts: z.array(
+            z.object({
+              text: z.string().optional(),
+            }),
+          ),
+        }),
+      ),
+  ]),
   streaming: z.boolean().default(false),
+});
+
+export const zAddSessionToEvalSetRequest = z.object({
+  eval_id: z.string(),
+  session_id: z.string(),
+  user_id: z.string(),
 });
 
 export const zAgentProperties = z.object({

@@ -1446,6 +1446,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/AgentOutgoingEvent",
         },
+        {
+          $ref: "#/components/schemas/AddSessionToEvalSetRequest",
+        },
       ],
     },
   },
@@ -6829,11 +6832,26 @@ export const AgentRunRequestSchema = {
       type: "string",
     },
     new_message: {
-      type: "object",
+      $ref: "#/components/schemas/Content",
     },
     streaming: {
       type: "boolean",
       default: false,
+    },
+  },
+} as const;
+
+export const AddSessionToEvalSetRequestSchema = {
+  required: ["eval_id", "session_id", "user_id"],
+  properties: {
+    eval_id: {
+      type: "string",
+    },
+    session_id: {
+      type: "string",
+    },
+    user_id: {
+      type: "string",
     },
   },
 } as const;

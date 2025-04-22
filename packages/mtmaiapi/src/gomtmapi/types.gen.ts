@@ -849,7 +849,8 @@ export type WorkflowWorkersCount = {
     | RootAgentState
     | AgentRunRequest
     | AgentIncomingEvent
-    | AgentOutgoingEvent;
+    | AgentOutgoingEvent
+    | AddSessionToEvalSetRequest;
 };
 
 export type WorkflowRun = {
@@ -3462,10 +3463,14 @@ export type AgentRunRequest = {
   app_name: string;
   user_id: string;
   session_id: string;
-  new_message: {
-    [key: string]: unknown;
-  };
+  new_message: Content;
   streaming: boolean;
+};
+
+export type AddSessionToEvalSetRequest = {
+  eval_id: string;
+  session_id: string;
+  user_id: string;
 };
 
 export type AgentProperties = {
