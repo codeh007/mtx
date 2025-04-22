@@ -1,7 +1,7 @@
 "use client";
-import { Bug, Moon, PaperPlaneRight, Sun, Trash } from "@phosphor-icons/react";
+import { Bug, Moon, Sun, Trash } from "@phosphor-icons/react";
 import { useQuery } from "@tanstack/react-query";
-import { type RootAgentState, adkSessionGetOptions } from "mtmaiapi";
+import { adkSessionGetOptions } from "mtmaiapi";
 import { type AdkEvent, type Content, type Part, adkEventsListOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Button } from "mtxuilib/ui/button";
@@ -11,21 +11,19 @@ import { useTenantId } from "../../hooks/useAuth";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { Avatar } from "../cloudflare-agents/components/avatar/Avatar";
 import { Card } from "../cloudflare-agents/components/card/Card";
-import { Input } from "../cloudflare-agents/components/input/Input";
+import { ChatInput } from "./ChatInput";
 import { AdkWelcomeCard } from "./ChatWelcome";
-// const toolsRequiringConfirmation: (keyof typeof tools)[] = ["getWeatherInformation"];
 
 interface AgentChatViewProps {
   sessionId: string;
 }
 export default function AgentChatView({ sessionId }: AgentChatViewProps) {
-  const [rootState, setRootState] = useState<RootAgentState>();
+  // const [rootState, setRootState] = useState<RootAgentState>();
   const [theme, setTheme] = useState<"dark" | "light">(() => {
     // Check localStorage first, default to dark if not found
     const savedTheme = localStorage.getItem("theme");
     return (savedTheme as "dark" | "light") || "dark";
   });
-  // const [showDebug, setShowDebug] = useState(false);
   const isDebug = useWorkbenchStore((x) => x.isDebug);
   const setIsDebug = useWorkbenchStore((x) => x.setIsDebug);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -324,50 +322,7 @@ export default function AgentChatView({ sessionId }: AgentChatViewProps) {
         </div>
 
         {/* Input Area */}
-        <form
-          // onSubmit={(e) =>
-          //   handleAgentSubmit(e, {
-          //     data: {
-          //       annotations: {
-          //         hello: "world",
-          //       },
-          //     },
-          //   })
-          // }
-          className="p-3 bg-input-background absolute bottom-0 left-0 right-0 z-10 border-t border-neutral-300 dark:border-neutral-800"
-        >
-          <div className="flex items-center gap-2">
-            <div className="flex-1 relative">
-              <Input
-                // disabled={pendingToolCallConfirmation}
-                // placeholder={
-                //   pendingToolCallConfirmation
-                //     ? "Please respond to the tool confirmation above..."
-                //     : "Type your message..."
-                // }
-                className="pl-4 pr-10 py-2 w-full rounded-full bg-ob-btn-secondary-bg text-ob-base-300"
-                // value={agentInput}
-                // onChange={handleAgentInputChange}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    // handleAgentSubmit(e as unknown as React.FormEvent);
-                  }
-                }}
-                onValueChange={undefined}
-              />
-            </div>
-
-            <Button
-              type="submit"
-              // shape="square"
-              className="rounded-full h-10 w-10 flex-shrink-0"
-              // disabled={pendingToolCallConfirmation || !agentInput.trim()}
-            >
-              <PaperPlaneRight size={16} />
-            </Button>
-          </div>
-        </form>
+        <ChatInput />
       </div>
     </div>
   );

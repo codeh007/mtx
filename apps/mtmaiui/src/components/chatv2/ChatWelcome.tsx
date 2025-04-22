@@ -1,6 +1,5 @@
 "use client";
 import { Robot } from "@phosphor-icons/react";
-// import type { tools } from "../../agents/tools";
 import { Card } from "../cloudflare-agents/components/card/Card";
 
 export const AdkWelcomeCard = () => {

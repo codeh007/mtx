@@ -1,45 +1,28 @@
 "use client";
 
-import type { Client } from "@connectrpc/connect";
-import { type UseMutationResult, useMutation, useQuery } from "@tanstack/react-query";
+// import type { Client } from "@connectrpc/connect";
+import { type UseMutationResult, useMutation } from "@tanstack/react-query";
 import { debounce } from "lodash";
 import {
   type AdkEvent,
   AgentEventType,
-  type Agents,
   type ApiErrors,
-  type AssistantAgent,
-  type AssistantAgentConfig,
   type ChatMessage,
   type ChatMessageList,
   type Content,
   FlowNames,
   type FlowTeamInput,
-  type InstagramAgent,
-  type InstagramAgentConfig,
-  ModelFamily,
-  type OpenAiChatCompletionClient,
   type Options,
-  ProviderTypes,
   type SocialTeam,
-  type SocialTeamConfig,
   type SocialTeamManagerState,
   type StartNewChatInput,
   type Tenant,
-  type Terminations,
-  type UserProxyAgent,
-  type UserProxyAgentConfig,
   type WorkflowRun,
   type WorkflowRunCreateData,
-  agStateListOptions,
   chatMessagesList,
   workflowRunCreate,
   workflowRunCreateMutation,
 } from "mtmaiapi";
-import { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
-import { AgentRpc } from "mtmaiapi/mtmclient/mtmai/mtmpb/agent_worker_pb";
-import { Dispatcher } from "mtmaiapi/mtmclient/mtmai/mtmpb/dispatcher_pb";
-import { EventsService } from "mtmaiapi/mtmclient/mtmai/mtmpb/events_pb";
 import { generateUUID } from "mtxuilib/lib/utils";
 import type React from "react";
 import { createContext, useContext, useEffect, useMemo, useTransition } from "react";
@@ -49,34 +32,32 @@ import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { useTenant, useTenantId } from "../hooks/useAuth";
 import { useNav, useSearch } from "../hooks/useNav";
-import { MtmaiuiConfig } from "../lib/core/config";
-import { useMtmaiV2 } from "./StoreProvider";
-import { useGomtmClient } from "./TransportProvider";
 import { handleWorkflowRunEvent } from "./ag-event-handlers";
+import { exampleTeamConfig } from "./exampleTeamConfig";
 
 export interface WorkbenchProps {
   sessionId?: string;
   // teamState?: SocialTeamManagerState;
   // resourceId?: string;
 }
-// const DEFAULT_AGENT_FLOW_SETTINGS = {
-//   direction: "TB",
-//   showLabels: true,
-//   showGrid: true,
-//   showTokens: true,
-//   showMessages: true,
-//   showMiniMap: false,
-// };
+const DEFAULT_AGENT_FLOW_SETTINGS = {
+  direction: "TB",
+  showLabels: true,
+  showGrid: true,
+  showTokens: true,
+  showMessages: true,
+  showMiniMap: false,
+};
 
 export interface WorkbrenchState extends WorkbenchProps {
   backendUrl: string;
   accessToken?: string;
   params?: Record<string, any>;
   tenant: Tenant;
-  agClient: Client<typeof AgService>;
-  runtimeClient: Client<typeof AgentRpc>;
-  eventClient: Client<typeof EventsService>;
-  dispatcherClient: Client<typeof Dispatcher>;
+  // agClient: Client<typeof AgService>;
+  // runtimeClient: Client<typeof AgentRpc>;
+  // eventClient: Client<typeof EventsService>;
+  // dispatcherClient: Client<typeof Dispatcher>;
   setThreadId: (threadId?: string) => void;
   workbenchViewProps?: Record<string, any>;
   setWorkbenchViewProps: (props?: Record<string, any>) => void;
@@ -176,136 +157,35 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
     setIsDebug: (isDebug: boolean) => {
       set({ isDebug });
     },
-    team: {
-      provider: ProviderTypes.SOCIAL_TEAM,
-      component_type: "team",
-      label: "social team",
-      description: "social team",
-      config: {
-        proxy_url: "http://localhost:10809",
-        max_turns: 25,
-        enable_swarm: true,
-        participants: [
-          {
-            provider: ProviderTypes.INSTAGRAM_AGENT,
-            label: "instagram",
-            component_type: "agent",
-            description: "instagram agent",
-            config: {
-              name: "instagram_agent",
-              description: "instagram agent",
-              tools: [],
-              handoffs: ["user"],
-              reflect_on_tool_use: false,
-              tool_call_summary_format: "{result}",
-              system_message: "你是instagram agent",
-              credentials: {
-                username: "saibichquyenll2015",
-                password: "qSJPn07c7",
-                otp_key: "MCF3M4XZHTFWKYXUGV4CQX3LFXMKMWFP",
-              },
-              proxy_url: "http://localhost:10809",
-              model_client: {
-                provider: ProviderTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
-                config: {
-                  model: MtmaiuiConfig.default_open_model,
-                  api_key: MtmaiuiConfig.default_open_ai_key,
-                  base_url: MtmaiuiConfig.default_open_base_url,
-                  model_info: {
-                    vision: false,
-                    function_calling: true,
-                    json_output: true,
-                    structured_output: true,
-                    family: ModelFamily.UNKNOWN,
-                  },
-                },
-              } satisfies OpenAiChatCompletionClient,
-            } satisfies InstagramAgentConfig,
-          } satisfies InstagramAgent,
-          {
-            provider: ProviderTypes.ASSISTANT_AGENT,
-            label: "assistant",
-            component_type: "agent",
-            description: "assistant agent",
-            config: {
-              name: "useful_assistant",
-              description: "有用的助手",
-              tools: [],
-              reflect_on_tool_use: false,
-              tool_call_summary_format: "{result}",
-              model_client: {
-                provider: ProviderTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
-                config: {
-                  model: MtmaiuiConfig.default_open_model,
-                  api_key: MtmaiuiConfig.default_open_ai_key,
-                  base_url: MtmaiuiConfig.default_open_base_url,
-                  model_info: {
-                    vision: false,
-                    function_calling: true,
-                    json_output: true,
-                    structured_output: true,
-                    family: ModelFamily.UNKNOWN,
-                  },
-                },
-              } satisfies OpenAiChatCompletionClient,
-            } satisfies AssistantAgentConfig,
-          } satisfies AssistantAgent,
-          {
-            provider: ProviderTypes.ASSISTANT_AGENT,
-            label: "assistant",
-            component_type: "agent",
-            description: "assistant agent",
-            config: {
-              name: "joke_writer_assistant",
-              description: "擅长冷笑话创作的助手",
-              tools: [],
-              reflect_on_tool_use: false,
-              tool_call_summary_format: "{result}",
-              system_message: "你是擅长冷笑话创作的助手",
-              model_client: {
-                provider: ProviderTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
-                config: {
-                  model: MtmaiuiConfig.default_open_model,
-                  api_key: MtmaiuiConfig.default_open_ai_key,
-                  base_url: MtmaiuiConfig.default_open_base_url,
-                  model_info: {
-                    vision: false,
-                    function_calling: true,
-                    json_output: true,
-                    structured_output: true,
-                    family: ModelFamily.UNKNOWN,
-                  },
-                },
-              } satisfies OpenAiChatCompletionClient,
-            } satisfies AssistantAgentConfig,
-          } satisfies AssistantAgent,
-          {
-            provider: ProviderTypes.USER_PROXY_AGENT,
-            label: "user_proxy",
-            component_type: "agent",
-            description: "user proxy agent",
-            config: {
-              name: "user",
-              description: "user proxy agent",
-            } satisfies UserProxyAgentConfig,
-          } satisfies UserProxyAgent,
-        ] satisfies Agents[],
-        termination_condition: {
-          provider: ProviderTypes.TEXT_MENTION_TERMINATION,
-          config: {
-            text: "TERMINATE",
-          },
-        } satisfies Terminations,
-      } satisfies SocialTeamConfig,
-    } satisfies SocialTeam,
+    team: exampleTeamConfig,
     setTeam: (team) => {
       set({ team });
     },
-
+    // google adk
+    adkEvents: [],
+    setAdkEvents: (adkEvents) => {
+      set({ adkEvents });
+    },
+    submitInput: debounce(async (input: Content) => {
+      get().handleHumanInput(input);
+    }, 30),
     handleHumanInput: debounce(async (input: Content) => {
+      console.log("handleHumanInput", input);
       get().setChatStarted(true);
       const preMessages = get().messages;
       const task = input.parts?.[0]?.text as unknown as string;
+
+      const preEvents = get().adkEvents;
+      const newEvents = [
+        ...preEvents,
+        {
+          type: "UserMessage",
+          content: task,
+          source: "web",
+          metadata: {},
+        },
+      ];
+      set({ adkEvents: newEvents });
 
       const sessionId = get().sessionId ?? generateUUID();
       const newChatMessage = {
@@ -398,12 +278,12 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
       set({ resourceId });
     },
     agentFlow: DEFAULT_AGENT_FLOW_SETTINGS,
-    setTeamState: (teamState) => {
-      set({ teamState });
-    },
-    refetchTeamState: async () => {
-      set({ teamState: undefined });
-    },
+    // setTeamState: (teamState) => {
+    //   set({ teamState });
+    // },
+    // refetchTeamState: async () => {
+    //   set({ teamState: undefined });
+    // },
     // setUserAgentState: (userAgentState) => {
     //   set({ userAgentState });
     // },
@@ -434,21 +314,6 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
       return response;
     },
 
-    // google adk
-    adkEvents: [],
-    setAdkEvents: (adkEvents) => {
-      set({ adkEvents });
-    },
-    // refetchAdkEvents: async () => {
-    //   const response = await adkEventsList({
-    //     path: {
-    //       tenant: get().tenant.metadata.id,
-    //     },
-    //   });
-    //   if (response.data?.rows) {
-    //     set({ adkEvents: response.data.rows });
-    //   }
-    // },
     ...init,
   };
 };
@@ -474,11 +339,11 @@ const mtmaiStoreContext = createContext<ReturnType<typeof createWordbrenchStore>
 export const WorkbrenchProvider = (props: React.PropsWithChildren<WorkbenchProps>) => {
   const { children, ...etc } = props;
   const nav = useNav();
-  const eventClient = useGomtmClient(EventsService);
-  const dispatcherClient = useGomtmClient(Dispatcher);
-  const agrpcClient = useGomtmClient(AgentRpc);
-  const mtmAgClient = useGomtmClient(AgService);
-  const selfBackendend = useMtmaiV2((x) => x.selfBackendUrl);
+  // const eventClient = useGomtmClient(EventsService);
+  // const dispatcherClient = useGomtmClient(Dispatcher);
+  // const agrpcClient = useGomtmClient(AgentRpc);
+  // const mtmAgClient = useGomtmClient(AgService);
+  // const selfBackendend = useMtmaiV2((x) => x.selfBackendUrl);
   const [isPending, startTransition] = useTransition();
   const search = useSearch();
   const tenant = useTenant();
@@ -492,47 +357,47 @@ export const WorkbrenchProvider = (props: React.PropsWithChildren<WorkbenchProps
       createWordbrenchStore({
         ...etc,
         tenant: tenant,
-        backendUrl: selfBackendend,
-        eventClient: eventClient,
-        dispatcherClient: dispatcherClient,
-        runtimeClient: agrpcClient,
-        agClient: mtmAgClient,
+        // backendUrl: selfBackendend,
+        // eventClient: eventClient,
+        // dispatcherClient: dispatcherClient,
+        // runtimeClient: agrpcClient,
+        // agClient: mtmAgClient,
         workflowRunCreateMut: workflowRunCreate,
       }),
     [
       tenant,
-      selfBackendend,
-      eventClient,
-      dispatcherClient,
-      agrpcClient,
-      mtmAgClient,
+      // selfBackendend,
+      // eventClient,
+      // dispatcherClient,
+      // agrpcClient,
+      // mtmAgClient,
       workflowRunCreate,
     ],
   );
 
-  const agStateListQuery = useQuery({
-    ...agStateListOptions({
-      path: {
-        tenant: tid!,
-      },
-      query: {
-        session: etc.sessionId,
-      },
-    }),
-    enabled: !!etc.sessionId,
-  });
+  // const agStateListQuery = useQuery({
+  //   ...agStateListOptions({
+  //     path: {
+  //       tenant: tid!,
+  //     },
+  //     query: {
+  //       session: etc.sessionId,
+  //     },
+  //   }),
+  //   enabled: !!etc.sessionId,
+  // });
 
-  useEffect(() => {
-    if (agStateListQuery.data) {
-      console.log("加载了:agStateListQuery.data", etc.sessionId, agStateListQuery.data);
-      //TODO: 如何正确识别 UserAgentState?
-      for (const state of agStateListQuery.data?.rows ?? []) {
-        if (state.topic === "user") {
-          mystore.setState({ userAgentState: state.state as UserAgentState });
-        }
-      }
-    }
-  }, [agStateListQuery.data, mystore, etc.sessionId]);
+  // useEffect(() => {
+  //   if (agStateListQuery.data) {
+  //     console.log("加载了:agStateListQuery.data", etc.sessionId, agStateListQuery.data);
+  //     //TODO: 如何正确识别 UserAgentState?
+  //     for (const state of agStateListQuery.data?.rows ?? []) {
+  //       if (state.topic === "user") {
+  //         mystore.setState({ userAgentState: state.state as UserAgentState });
+  //       }
+  //     }
+  //   }
+  // }, [agStateListQuery.data, mystore, etc.sessionId]);
 
   useEffect(() => {
     return mystore.subscribe(
