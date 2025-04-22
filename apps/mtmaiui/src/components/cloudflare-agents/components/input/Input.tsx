@@ -6,10 +6,7 @@ export const inputClasses = cn(
   "border-ob-btn-secondary-border bg-ob-btn-secondary-bg text-ob-base-300 shadow-xs",
 );
 
-export type InputProps = Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  "size"
-> & {
+export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> & {
   children?: React.ReactNode;
   className?: string;
   displayContent?: "items-first" | "items-last"; // used for children of component
