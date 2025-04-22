@@ -7,7 +7,7 @@ import { getAccessToken, getBackendUrl, getHostName } from "mtxuilib/lib/sslib";
 import { cn } from "mtxuilib/lib/utils";
 import { MtmaiProvider } from "../../stores/StoreProvider";
 import { UIProviders } from "../../stores/UIProviders";
-import "./globals.css";
+import "../../styles/globals.css";
 import { WebLayoutHeader } from "./Header";
 export const runtime = "nodejs";
 // export const dynamic = "force-dynamic";

@@ -1,11 +1,9 @@
+"use client";
 import type { PropsWithChildren, ReactNode } from "react";
 import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import { Button } from "../ui/button";
 
-export const DefaultErrorRender = ({
-  error,
-  resetErrorBoundary,
-}: FallbackProps) => {
+export const DefaultErrorRender = ({ error, resetErrorBoundary }: FallbackProps) => {
   console.log("💥💥💥", error);
   return (
     <div className="flex items-center justify-center h-full w-full">
@@ -23,10 +21,7 @@ export const MtErrorBoundary = (
 ) => {
   const { children } = props;
   return (
-    <ErrorBoundary
-      fallbackRender={props.fallbackRender || DefaultErrorRender}
-      onReset={() => {}}
-    >
+    <ErrorBoundary fallbackRender={props.fallbackRender || DefaultErrorRender} onReset={() => {}}>
       {children}
     </ErrorBoundary>
   );
