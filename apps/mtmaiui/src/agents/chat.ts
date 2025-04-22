@@ -1,5 +1,3 @@
-import type { Schedule } from "agents";
-import type { Connection, ConnectionContext } from "agents";
 import { AIChatAgent } from "agents/ai-chat-agent";
 import {
   type DataStreamWriter,
@@ -10,12 +8,15 @@ import {
   streamText,
   tool,
 } from "ai";
+import type { RootAgentState, ScheduledItem } from "mtmaiapi";
 import { z } from "zod";
-import type { RootAgentState } from "../agent_state/root_agent_state";
-import type { IncomingMessage, OutgoingMessage, ScheduledItem } from "../agent_state/shared";
+// import type { RootAgentState } from "../agent_state/root_agent_state";
+// import type { IncomingMessage, OutgoingMessage, ScheduledItem } from "../agent_state/shared";
 import { callAgentRunner } from "../agent_utils/agent_utils";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
 import { tools } from "./tools";
+import { Schedule, Connection, ConnectionContext } from "agents";
+import { OutgoingMessage, IncomingMessage } from "http";
 
 function convertScheduleToScheduledItem(schedule: Schedule): ScheduledItem {
   return {

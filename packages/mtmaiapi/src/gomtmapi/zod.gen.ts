@@ -2283,7 +2283,7 @@ export const zWorkflowWorkersCount = z.object({
         user_id: z.string(),
         session_id: z.string(),
         new_message: z.object({}),
-        streaming: z.boolean(),
+        streaming: z.boolean().default(false),
       }),
       z.enum(["YES", "NO"]),
       z.union([
@@ -4082,14 +4082,6 @@ export const zMcpServer = z.object({
   url: z.string().optional(),
   state: z.enum(["authenticating", "connecting", "ready", "discovering", "failed"]).optional(),
   auth_url: z.string().optional(),
-});
-
-export const zAgentRunRequest = z.object({
-  app_name: z.string(),
-  user_id: z.string(),
-  session_id: z.string(),
-  new_message: z.object({}),
-  streaming: z.boolean(),
 });
 
 export const zAgStateUpsert = zAgStateProperties;
@@ -7553,6 +7545,14 @@ export const zAgentToastEvent = z.object({
 
 export const zAgentConnectedEvent = z.object({
   type: z.string(),
+});
+
+export const zAgentRunRequest = z.object({
+  app_name: z.string(),
+  user_id: z.string(),
+  session_id: z.string(),
+  new_message: z.object({}),
+  streaming: z.boolean().default(false),
 });
 
 export const zAgentProperties = z.object({

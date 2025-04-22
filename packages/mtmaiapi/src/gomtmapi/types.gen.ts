@@ -1965,16 +1965,6 @@ export type McpServer = {
   auth_url?: string;
 };
 
-export type AgentRunRequest = {
-  app_name: string;
-  user_id: string;
-  session_id: string;
-  new_message: {
-    [key: string]: unknown;
-  };
-  streaming: boolean;
-};
-
 export type AgStateUpsert = AgStateProperties;
 
 export type BaseState = {
@@ -3466,6 +3456,16 @@ export type AgentToastEvent = {
 
 export type AgentConnectedEvent = {
   type: string;
+};
+
+export type AgentRunRequest = {
+  app_name: string;
+  user_id: string;
+  session_id: string;
+  new_message: {
+    [key: string]: unknown;
+  };
+  streaming: boolean;
 };
 
 export type AgentProperties = {

@@ -3559,27 +3559,6 @@ export const McpServerSchema = {
   },
 } as const;
 
-export const AgentRunRequestSchema = {
-  required: ["app_name", "user_id", "session_id", "new_message", "streaming"],
-  properties: {
-    app_name: {
-      type: "string",
-    },
-    user_id: {
-      type: "string",
-    },
-    session_id: {
-      type: "string",
-    },
-    new_message: {
-      type: "object",
-    },
-    streaming: {
-      type: "boolean",
-    },
-  },
-} as const;
-
 export const AgStateUpsertSchema = {
   allOf: [
     {
@@ -6833,6 +6812,28 @@ export const AgentConnectedEventSchema = {
   properties: {
     type: {
       type: "string",
+    },
+  },
+} as const;
+
+export const AgentRunRequestSchema = {
+  required: ["app_name", "user_id", "session_id", "new_message", "streaming"],
+  properties: {
+    app_name: {
+      type: "string",
+    },
+    user_id: {
+      type: "string",
+    },
+    session_id: {
+      type: "string",
+    },
+    new_message: {
+      type: "object",
+    },
+    streaming: {
+      type: "boolean",
+      default: false,
     },
   },
 } as const;

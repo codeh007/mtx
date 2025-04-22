@@ -31,7 +31,7 @@
     "preview": "npm run pages:build && wrangler pages dev",
     "deploy": "npm run pages:build && wrangler pages deploy",
     "deploy-worker": "bun run withEnv -- vite build && wrangler deploy --keep-vars",
-    "cf-typegen": "wrangler types",
+    "cf-typegen": "wrangler types --path ./src/worker-configuration.d.ts",
     "dev:wrangler": "wrangler dev",
     "mcp-inspector": "npx @modelcontextprotocol/inspector"
   },
@@ -96,7 +96,7 @@
     "@tanstack/router-devtools": "^1.112.0",
     "@tanstack/router-plugin": "^1.112.0",
     "@tanstack/start": "^1.116.2",
-    
+
     "ai": "^4.3.9",
     "date-fns": "^4.1.0",
     "embla-carousel-autoplay": "^8.5.2",

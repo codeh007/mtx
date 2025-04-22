@@ -11,8 +11,6 @@ import { Rpc } from "./components/cloudflare-agents/agents/rpc";
 import { Scheduler } from "./components/cloudflare-agents/agents/scheduler";
 import { Stateful } from "./components/cloudflare-agents/agents/stateful";
 
-// import { env } from "cloudflare:workers";
-
 export type Env = {
   Scheduler: DurableObjectNamespace<Scheduler>;
   Stateful: DurableObjectNamespace<Stateful>;
@@ -29,13 +27,9 @@ export class MyMCP extends McpAgent {
   });
 
   async init() {
-    this.server.tool(
-      "add",
-      { a: z.number(), b: z.number() },
-      async ({ a, b }) => ({
-        content: [{ type: "text", text: String(a + b) }],
-      }),
-    );
+    this.server.tool("add", { a: z.number(), b: z.number() }, async ({ a, b }) => ({
+      content: [{ type: "text", text: String(a + b) }],
+    }));
     this.server.resource("counter", "mcp://resource/counter", (uri) => {
       return {
         contents: [{ uri: uri.href, text: "hello123 resource" }],
@@ -171,8 +165,7 @@ export default {
     // }
     return (
       // Route the request to our agent or return 404 if not found
-      (await routeAgentRequest(request, env)) ||
-      new Response("Not found", { status: 404 })
+      (await routeAgentRequest(request, env)) || new Response("Not found", { status: 404 })
     );
   },
 } satisfies ExportedHandler<Env>;
