@@ -1,21 +1,17 @@
+import cors, { type CorsOptions } from "cors";
 import express, {
-  Request,
-  Response,
-  NextFunction,
-  RequestHandler,
+  type Request,
+  type Response,
+  type NextFunction,
+  type RequestHandler,
 } from "express";
-import cors, { CorsOptions } from "cors";
-import * as schema from "../schema.js";
-// Import TaskAndHistory along with TaskStore implementations
-import { TaskStore, InMemoryTaskStore, TaskAndHistory } from "./store.js";
-// Import TaskHandler and the original TaskContext to derive the new one
-import { TaskHandler, TaskContext as OldTaskContext } from "./handler.js";
+import type * as schema from "../lib/a2a/schema.js";
 import { A2AError } from "./error.js";
-import {
-  getCurrentTimestamp,
-  isTaskStatusUpdate,
-  isArtifactUpdate,
-} from "./utils.js";
+// Import TaskHandler and the original TaskContext to derive the new one
+import type { TaskContext as OldTaskContext, TaskHandler } from "./handler.js";
+// Import TaskAndHistory along with TaskStore implementations
+import { InMemoryTaskStore, type TaskAndHistory, type TaskStore } from "./store.js";
+import { getCurrentTimestamp, isArtifactUpdate, isTaskStatusUpdate } from "./utils.js";
 
 /**
  * Options for configuring the A2AServer.
@@ -49,10 +45,10 @@ export class A2AServer {
   // Helper to apply updates (status or artifact) immutably
   private applyUpdateToTaskAndHistory(
     current: TaskAndHistory,
-    update: Omit<schema.TaskStatus, "timestamp"> | schema.Artifact
+    update: Omit<schema.TaskStatus, "timestamp"> | schema.Artifact,
   ): TaskAndHistory {
-    let newTask = { ...current.task }; // Shallow copy task
-    let newHistory = [...current.history]; // Shallow copy history
+    const newTask = { ...current.task }; // Shallow copy task
+    const newHistory = [...current.history]; // Shallow copy history
 
     if (isTaskStatusUpdate(update)) {
       // Merge status update
@@ -89,10 +85,8 @@ export class A2AServer {
               ...update.metadata,
             };
           }
-          if (update.lastChunk !== undefined)
-            appendedArtifact.lastChunk = update.lastChunk;
-          if (update.description)
-            appendedArtifact.description = update.description;
+          if (update.lastChunk !== undefined) appendedArtifact.lastChunk = update.lastChunk;
+          if (update.description) appendedArtifact.description = update.description;
           newTask.artifacts[existingIndex] = appendedArtifact; // Replace with appended version
           replaced = true;
         } else {
@@ -101,9 +95,7 @@ export class A2AServer {
           replaced = true;
         }
       } else if (update.name) {
-        const namedIndex = newTask.artifacts.findIndex(
-          (a) => a.name === update.name
-        );
+        const namedIndex = newTask.artifacts.findIndex((a) => a.name === update.name);
         if (namedIndex >= 0) {
           newTask.artifacts[namedIndex] = { ...update }; // Replace by name (with copy)
           replaced = true;
@@ -148,8 +140,8 @@ export class A2AServer {
         typeof this.corsOptions === "string"
           ? { origin: this.corsOptions }
           : this.corsOptions === true
-          ? undefined // Use default cors options if true
-          : this.corsOptions;
+            ? undefined // Use default cors options if true
+            : this.corsOptions;
       app.use(cors(options));
     }
 
@@ -168,9 +160,7 @@ export class A2AServer {
 
     // Start listening
     app.listen(port, () => {
-      console.log(
-        `A2A Server listening on port ${port} at path ${this.basePath}`
-      );
+      console.log(`A2A Server listening on port ${port} at path ${this.basePath}`);
     });
 
     return app;
@@ -196,25 +186,16 @@ export class A2AServer {
         // 2. Route based on method
         switch (requestBody.method) {
           case "tasks/send":
-            await this.handleTaskSend(
-              requestBody as schema.SendTaskRequest,
-              res
-            );
+            await this.handleTaskSend(requestBody as schema.SendTaskRequest, res);
             break;
           case "tasks/sendSubscribe":
-            await this.handleTaskSendSubscribe(
-              requestBody as schema.SendTaskStreamingRequest,
-              res
-            );
+            await this.handleTaskSendSubscribe(requestBody as schema.SendTaskStreamingRequest, res);
             break;
           case "tasks/get":
             await this.handleTaskGet(requestBody as schema.GetTaskRequest, res);
             break;
           case "tasks/cancel":
-            await this.handleTaskCancel(
-              requestBody as schema.CancelTaskRequest,
-              res
-            );
+            await this.handleTaskCancel(requestBody as schema.CancelTaskRequest, res);
             break;
           // Add other methods like tasks/pushNotification/*, tasks/resubscribe later if needed
           default:
@@ -232,26 +213,14 @@ export class A2AServer {
 
   // --- Request Handlers ---
 
-  private async handleTaskSend(
-    req: schema.SendTaskRequest,
-    res: Response
-  ): Promise<void> {
+  private async handleTaskSend(req: schema.SendTaskRequest, res: Response): Promise<void> {
     this.validateTaskSendParams(req.params);
     const { id: taskId, message, sessionId, metadata } = req.params;
 
     // Load or create task AND history
-    let currentData = await this.loadOrCreateTaskAndHistory(
-      taskId,
-      message,
-      sessionId,
-      metadata
-    );
+    let currentData = await this.loadOrCreateTaskAndHistory(taskId, message, sessionId, metadata);
     // Use the new TaskContext definition, passing history
-    const context = this.createTaskContext(
-      currentData.task,
-      message,
-      currentData.history
-    );
+    const context = this.createTaskContext(currentData.task, message, currentData.history);
     const generator = this.taskHandler(context);
 
     // Process generator yields
@@ -273,25 +242,17 @@ export class A2AServer {
           parts: [
             {
               text: `Handler failed: ${
-                handlerError instanceof Error
-                  ? handlerError.message
-                  : String(handlerError)
+                handlerError instanceof Error ? handlerError.message : String(handlerError)
               }`,
             },
           ],
         },
       };
-      currentData = this.applyUpdateToTaskAndHistory(
-        currentData,
-        failureStatusUpdate
-      );
+      currentData = this.applyUpdateToTaskAndHistory(currentData, failureStatusUpdate);
       try {
         await this.taskStore.save(currentData);
       } catch (saveError) {
-        console.error(
-          `Failed to save task ${taskId} after handler error:`,
-          saveError
-        );
+        console.error(`Failed to save task ${taskId} after handler error:`, saveError);
         // Still throw the original handler error
       }
       throw this.normalizeError(handlerError, req.id, taskId); // Rethrow original error
@@ -303,24 +264,15 @@ export class A2AServer {
 
   private async handleTaskSendSubscribe(
     req: schema.SendTaskStreamingRequest,
-    res: Response
+    res: Response,
   ): Promise<void> {
     this.validateTaskSendParams(req.params);
     const { id: taskId, message, sessionId, metadata } = req.params;
 
     // Load or create task AND history
-    let currentData = await this.loadOrCreateTaskAndHistory(
-      taskId,
-      message,
-      sessionId,
-      metadata
-    );
+    let currentData = await this.loadOrCreateTaskAndHistory(taskId, message, sessionId, metadata);
     // Use the new TaskContext definition, passing history
-    const context = this.createTaskContext(
-      currentData.task,
-      message,
-      currentData.history
-    );
+    const context = this.createTaskContext(currentData.task, message, currentData.history);
     const generator = this.taskHandler(context);
 
     // --- Setup SSE ---
@@ -350,9 +302,7 @@ export class A2AServer {
         // Update context snapshot
         context.task = currentData.task;
 
-        let event:
-          | schema.TaskStatusUpdateEvent
-          | schema.TaskArtifactUpdateEvent;
+        let event: schema.TaskStatusUpdateEvent | schema.TaskArtifactUpdateEvent;
         let isFinal = false;
 
         // Determine event type and check for final state based on the *updated* task
@@ -364,14 +314,10 @@ export class A2AServer {
             "input-required", // Treat input-required as potentially final for streaming?
           ];
           isFinal = terminalStates.includes(currentData.task.status.state);
-          event = this.createTaskStatusEvent(
-            taskId,
-            currentData.task.status,
-            isFinal
-          );
+          event = this.createTaskStatusEvent(taskId, currentData.task.status, isFinal);
           if (isFinal) {
             console.log(
-              `[SSE ${taskId}] Yielded terminal state ${currentData.task.status.state}, marking event as final.`
+              `[SSE ${taskId}] Yielded terminal state ${currentData.task.status.state}, marking event as final.`,
             );
           }
         } else if (isArtifactUpdate(yieldValue)) {
@@ -380,7 +326,7 @@ export class A2AServer {
             currentData.task.artifacts?.find(
               (a) =>
                 (a.index !== undefined && a.index === yieldValue.index) ||
-                (a.name && a.name === yieldValue.name)
+                (a.name && a.name === yieldValue.name),
             ) ?? yieldValue; // Fallback
           event = this.createTaskArtifactEvent(taskId, updatedArtifact, false);
           // Note: Artifact updates themselves don't usually mark the task as final.
@@ -399,7 +345,7 @@ export class A2AServer {
       // Loop finished. Check if a final event was already sent.
       if (!lastEventWasFinal) {
         console.log(
-          `[SSE ${taskId}] Handler finished without yielding terminal state. Sending final state: ${currentData.task.status.state}`
+          `[SSE ${taskId}] Handler finished without yielding terminal state. Sending final state: ${currentData.task.status.state}`,
         );
         // Ensure the task is actually in a recognized final state before sending.
         const finalStates: schema.TaskState[] = [
@@ -410,7 +356,7 @@ export class A2AServer {
         ];
         if (!finalStates.includes(currentData.task.status.state)) {
           console.warn(
-            `[SSE ${taskId}] Task ended non-terminally (${currentData.task.status.state}). Forcing 'completed'.`
+            `[SSE ${taskId}] Task ended non-terminally (${currentData.task.status.state}). Forcing 'completed'.`,
           );
           // Apply 'completed' state update
           currentData = this.applyUpdateToTaskAndHistory(currentData, {
@@ -423,16 +369,13 @@ export class A2AServer {
         const finalEvent = this.createTaskStatusEvent(
           taskId,
           currentData.task.status,
-          true // Mark as final
+          true, // Mark as final
         );
         sendEvent(this.createSuccessResponse(req.id, finalEvent));
       }
     } catch (handlerError) {
       // Handler threw an error
-      console.error(
-        `[SSE ${taskId}] Handler error during streaming:`,
-        handlerError
-      );
+      console.error(`[SSE ${taskId}] Handler error during streaming:`, handlerError);
       // Apply 'failed' status update
       const failureUpdate: Omit<schema.TaskStatus, "timestamp"> = {
         state: "failed",
@@ -441,34 +384,26 @@ export class A2AServer {
           parts: [
             {
               text: `Handler failed: ${
-                handlerError instanceof Error
-                  ? handlerError.message
-                  : String(handlerError)
+                handlerError instanceof Error ? handlerError.message : String(handlerError)
               }`,
             },
           ],
         },
       };
-      currentData = this.applyUpdateToTaskAndHistory(
-        currentData,
-        failureUpdate
-      );
+      currentData = this.applyUpdateToTaskAndHistory(currentData, failureUpdate);
 
       try {
         // Save the failed state
         await this.taskStore.save(currentData);
       } catch (saveError) {
-        console.error(
-          `[SSE ${taskId}] Failed to save task after handler error:`,
-          saveError
-        );
+        console.error(`[SSE ${taskId}] Failed to save task after handler error:`, saveError);
       }
 
       // Send final error status event via SSE
       const errorEvent = this.createTaskStatusEvent(
         taskId,
         currentData.task.status, // Use the updated status
-        true // Mark as final
+        true, // Mark as final
       );
       sendEvent(this.createSuccessResponse(req.id, errorEvent));
 
@@ -481,10 +416,7 @@ export class A2AServer {
     }
   }
 
-  private async handleTaskGet(
-    req: schema.GetTaskRequest,
-    res: Response
-  ): Promise<void> {
+  private async handleTaskGet(req: schema.GetTaskRequest, res: Response): Promise<void> {
     const { id: taskId } = req.params;
     if (!taskId) throw A2AError.invalidParams("Missing task ID.");
 
@@ -497,10 +429,7 @@ export class A2AServer {
     this.sendJsonResponse(res, req.id, data.task);
   }
 
-  private async handleTaskCancel(
-    req: schema.CancelTaskRequest,
-    res: Response
-  ): Promise<void> {
+  private async handleTaskCancel(req: schema.CancelTaskRequest, res: Response): Promise<void> {
     const { id: taskId } = req.params;
     if (!taskId) throw A2AError.invalidParams("Missing task ID.");
 
@@ -514,7 +443,7 @@ export class A2AServer {
     const finalStates: schema.TaskState[] = ["completed", "failed", "canceled"];
     if (finalStates.includes(data.task.status.state)) {
       console.log(
-        `Task ${taskId} already in final state ${data.task.status.state}, cannot cancel.`
+        `Task ${taskId} already in final state ${data.task.status.state}, cannot cancel.`,
       );
       this.sendJsonResponse(res, req.id, data.task); // Return current state
       return;
@@ -550,7 +479,7 @@ export class A2AServer {
     taskId: string,
     initialMessage: schema.Message,
     sessionId?: string | null, // Allow null
-    metadata?: Record<string, unknown> | null // Allow null
+    metadata?: Record<string, unknown> | null, // Allow null
   ): Promise<TaskAndHistory> {
     let data = await this.taskStore.load(taskId);
     let needsSave = false;
@@ -580,14 +509,10 @@ export class A2AServer {
       needsSave = true; // History updated, mark for saving
 
       // Handle state transitions for existing tasks
-      const finalStates: schema.TaskState[] = [
-        "completed",
-        "failed",
-        "canceled",
-      ];
+      const finalStates: schema.TaskState[] = ["completed", "failed", "canceled"];
       if (finalStates.includes(data.task.status.state)) {
         console.warn(
-          `[Task ${taskId}] Received message for task already in final state ${data.task.status.state}. Handling as new submission (keeping history).`
+          `[Task ${taskId}] Received message for task already in final state ${data.task.status.state}. Handling as new submission (keeping history).`,
         );
         // Option 1: Reset state to 'submitted' (keeps history, effectively restarts)
         const resetUpdate: Omit<schema.TaskStatus, "timestamp"> = {
@@ -601,7 +526,7 @@ export class A2AServer {
         // throw A2AError.invalidRequest(`Task ${taskId} is already in a final state.`);
       } else if (data.task.status.state === "input-required") {
         console.log(
-          `[Task ${taskId}] Received message while 'input-required', changing state to 'working'.`
+          `[Task ${taskId}] Received message while 'input-required', changing state to 'working'.`,
         );
         // If it was waiting for input, update state to 'working'
         const workingUpdate: Omit<schema.TaskStatus, "timestamp"> = {
@@ -611,9 +536,7 @@ export class A2AServer {
         // needsSave is already true
       } else if (data.task.status.state === "working") {
         // If already working, maybe warn but allow? Or force back to submitted?
-        console.warn(
-          `[Task ${taskId}] Received message while already 'working'. Proceeding.`
-        );
+        console.warn(`[Task ${taskId}] Received message while already 'working'. Proceeding.`);
         // No state change needed, but history was updated, so needsSave is true.
       }
       // If 'submitted', receiving another message might be odd, but proceed.
@@ -632,7 +555,7 @@ export class A2AServer {
   private createTaskContext(
     task: schema.Task,
     userMessage: schema.Message,
-    history: schema.Message[] // Add history parameter
+    history: schema.Message[], // Add history parameter
   ): TaskContext {
     return {
       task: { ...task }, // Pass a copy
@@ -649,18 +572,14 @@ export class A2AServer {
       body !== null &&
       body.jsonrpc === "2.0" &&
       typeof body.method === "string" &&
-      (body.id === null ||
-        typeof body.id === "string" ||
-        typeof body.id === "number") && // ID is required for requests needing response
+      (body.id === null || typeof body.id === "string" || typeof body.id === "number") && // ID is required for requests needing response
       (body.params === undefined ||
         typeof body.params === "object" || // Allows null, array, or object
         Array.isArray(body.params))
     );
   }
 
-  private validateTaskSendParams(
-    params: any
-  ): asserts params is schema.TaskSendParams {
+  private validateTaskSendParams(params: any): asserts params is schema.TaskSendParams {
     if (!params || typeof params !== "object") {
       throw A2AError.invalidParams("Missing or invalid params object.");
     }
@@ -672,9 +591,7 @@ export class A2AServer {
       typeof params.message !== "object" ||
       !Array.isArray(params.message.parts)
     ) {
-      throw A2AError.invalidParams(
-        "Invalid or missing message object (params.message)."
-      );
+      throw A2AError.invalidParams("Invalid or missing message object (params.message).");
     }
     // Add more checks for message structure, sessionID, metadata, etc. if needed
   }
@@ -683,13 +600,11 @@ export class A2AServer {
 
   private createSuccessResponse<T>(
     id: number | string | null,
-    result: T
+    result: T,
   ): schema.JSONRPCResponse<T> {
     if (id === null) {
       // This shouldn't happen for methods that expect a response, but safeguard
-      throw A2AError.internalError(
-        "Cannot create success response for null ID."
-      );
+      throw A2AError.internalError("Cannot create success response for null ID.");
     }
     return {
       jsonrpc: "2.0",
@@ -700,7 +615,7 @@ export class A2AServer {
 
   private createErrorResponse(
     id: number | string | null,
-    error: schema.JSONRPCError<unknown>
+    error: schema.JSONRPCError<unknown>,
   ): schema.JSONRPCResponse<null, unknown> {
     // For errors, ID should be the same as request ID, or null if that couldn't be determined
     return {
@@ -714,7 +629,7 @@ export class A2AServer {
   private normalizeError(
     error: any,
     reqId: number | string | null,
-    taskId?: string
+    taskId?: string,
   ): schema.JSONRPCResponse<null, unknown> {
     let a2aError: A2AError;
     if (error instanceof A2AError) {
@@ -733,10 +648,8 @@ export class A2AServer {
     }
 
     console.error(
-      `Error processing request (Task: ${a2aError.taskId ?? "N/A"}, ReqID: ${
-        reqId ?? "N/A"
-      }):`,
-      a2aError
+      `Error processing request (Task: ${a2aError.taskId ?? "N/A"}, ReqID: ${reqId ?? "N/A"}):`,
+      a2aError,
     );
 
     return this.createErrorResponse(reqId, a2aError.toJSONRPCError());
@@ -746,7 +659,7 @@ export class A2AServer {
   private createTaskStatusEvent(
     taskId: string,
     status: schema.TaskStatus,
-    final: boolean
+    final: boolean,
   ): schema.TaskStatusUpdateEvent {
     return {
       id: taskId,
@@ -759,7 +672,7 @@ export class A2AServer {
   private createTaskArtifactEvent(
     taskId: string,
     artifact: schema.Artifact,
-    final: boolean
+    final: boolean,
   ): schema.TaskArtifactUpdateEvent {
     return {
       id: taskId,
@@ -773,7 +686,7 @@ export class A2AServer {
     err: any,
     req: Request,
     res: Response,
-    next: NextFunction // eslint-disable-line @typescript-eslint/no-unused-vars
+    next: NextFunction, // eslint-disable-line @typescript-eslint/no-unused-vars
   ) => {
     // If headers already sent (likely streaming), just log and end.
     // The stream handler should have sent an error event if possible.
@@ -782,7 +695,7 @@ export class A2AServer {
         `[ErrorHandler] Error after headers sent (ReqID: ${
           req.body?.id ?? "N/A"
         }, TaskID: ${err?.taskId ?? "N/A"}):`,
-        err
+        err,
       );
       // Ensure the response is ended if it wasn't already
       if (!res.writableEnded) {
@@ -795,11 +708,7 @@ export class A2AServer {
 
     if (err instanceof A2AError) {
       // Already normalized somewhat by the endpoint handler
-      responseError = this.normalizeError(
-        err,
-        req.body?.id ?? null,
-        err.taskId
-      );
+      responseError = this.normalizeError(err, req.body?.id ?? null, err.taskId);
     } else {
       // Normalize other errors caught by Express itself (e.g., JSON parse errors)
       let reqId = null;
@@ -812,16 +721,8 @@ export class A2AServer {
       }
 
       // Check for Express/body-parser JSON parsing error
-      if (
-        err instanceof SyntaxError &&
-        "body" in err &&
-        "status" in err &&
-        err.status === 400
-      ) {
-        responseError = this.normalizeError(
-          A2AError.parseError(err.message),
-          reqId
-        );
+      if (err instanceof SyntaxError && "body" in err && "status" in err && err.status === 400) {
+        responseError = this.normalizeError(A2AError.parseError(err.message), reqId);
       } else {
         responseError = this.normalizeError(err, reqId); // Normalize other unexpected errors
       }
@@ -832,15 +733,9 @@ export class A2AServer {
   };
 
   /** Sends a standard JSON success response */
-  private sendJsonResponse<T>(
-    res: Response,
-    reqId: number | string | null,
-    result: T
-  ): void {
+  private sendJsonResponse<T>(res: Response, reqId: number | string | null, result: T): void {
     if (reqId === null) {
-      console.warn(
-        "Attempted to send JSON response for a request with null ID."
-      );
+      console.warn("Attempted to send JSON response for a request with null ID.");
       // Should this be an error? Or just log and ignore?
       // For 'tasks/send' etc., ID should always be present.
       return;

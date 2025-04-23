@@ -1,12 +1,7 @@
-import fs from "fs/promises";
 import path from "path";
-import * as schema from "../schema.js";
+import fs from "fs/promises";
+import type * as schema from "../lib/a2a/schema.js";
 import { A2AError } from "./error.js";
-import {
-  getCurrentTimestamp,
-  isArtifactUpdate,
-  isTaskStatusUpdate,
-} from "./utils.js";
 
 // Helper type for the simplified store
 export interface TaskAndHistory {
@@ -46,9 +41,7 @@ export class InMemoryTaskStore implements TaskStore {
   async load(taskId: string): Promise<TaskAndHistory | null> {
     const entry = this.store.get(taskId);
     // Return copies to prevent external mutation
-    return entry
-      ? { task: { ...entry.task }, history: [...entry.history] }
-      : null;
+    return entry ? { task: { ...entry.task }, history: [...entry.history] } : null;
   }
 
   async save(data: TaskAndHistory): Promise<void> {
@@ -78,7 +71,7 @@ export class FileStore implements TaskStore {
     } catch (error: any) {
       throw A2AError.internalError(
         `Failed to create directory ${this.baseDir}: ${error.message}`,
-        error
+        error,
       );
     }
   }
@@ -99,17 +92,13 @@ export class FileStore implements TaskStore {
   }
 
   // Type guard for history file content
-  private isHistoryFileContent(
-    content: any
-  ): content is { messageHistory: schema.Message[] } {
+  private isHistoryFileContent(content: any): content is { messageHistory: schema.Message[] } {
     return (
       typeof content === "object" &&
       content !== null &&
       Array.isArray(content.messageHistory) &&
       // Optional: Add deeper validation of message structure if needed
-      content.messageHistory.every(
-        (msg: any) => typeof msg === "object" && msg.role && msg.parts
-      )
+      content.messageHistory.every((msg: any) => typeof msg === "object" && msg.role && msg.parts)
     );
   }
 
@@ -121,10 +110,7 @@ export class FileStore implements TaskStore {
       if (error.code === "ENOENT") {
         return null; // File not found is not an error for loading
       }
-      throw A2AError.internalError(
-        `Failed to read file ${filePath}: ${error.message}`,
-        error
-      );
+      throw A2AError.internalError(`Failed to read file ${filePath}: ${error.message}`, error);
     }
   }
 
@@ -133,10 +119,7 @@ export class FileStore implements TaskStore {
       await this.ensureDirectoryExists();
       await fs.writeFile(filePath, JSON.stringify(data, null, 2), "utf8");
     } catch (error: any) {
-      throw A2AError.internalError(
-        `Failed to write file ${filePath}: ${error.message}`,
-        error
-      );
+      throw A2AError.internalError(`Failed to write file ${filePath}: ${error.message}`, error);
     }
   }
 
@@ -160,7 +143,7 @@ export class FileStore implements TaskStore {
       } else if (historyContent !== null) {
         // Log a warning if the history file exists but is malformed
         console.warn(
-          `[FileStore] Malformed history file found for task ${taskId} at ${historyFilePath}. Ignoring content.`
+          `[FileStore] Malformed history file found for task ${taskId} at ${historyFilePath}. Ignoring content.`,
         );
         // Attempt to delete or rename the malformed file? Or just proceed with empty history.
         // For now, proceed with empty. A 'save' will overwrite it correctly later.
@@ -168,10 +151,7 @@ export class FileStore implements TaskStore {
       // If historyContent is null (file not found), history remains []
     } catch (error) {
       // Log error reading history but proceed with empty history
-      console.error(
-        `[FileStore] Error reading history file for task ${taskId}:`,
-        error
-      );
+      console.error(`[FileStore] Error reading history file for task ${taskId}:`, error);
       // Proceed with empty history
     }
 

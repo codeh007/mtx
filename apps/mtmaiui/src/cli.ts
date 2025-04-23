@@ -14,7 +14,7 @@ import type {
   // Specific Params/Payload types used by the CLI
   TaskSendParams,
   TaskStatusUpdateEvent,
-} from "./schema.js";
+} from "./lib/a2a/schema.js";
 
 // --- ANSI Colors ---
 const colors = {

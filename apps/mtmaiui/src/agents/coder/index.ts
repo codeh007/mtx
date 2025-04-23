@@ -1,5 +1,5 @@
 import type { MessageData } from "genkit";
-import type * as schema from "../../schema.js"; // Import schema for types
+import type * as schema from "../../lib/a2a/schema.js"; // Import schema for types
 import type { TaskYieldUpdate } from "../../server/handler.js";
 import { A2AServer, type TaskContext } from "../../server/index.js"; // Import server components
 import type { CodeMessage } from "./code-format.js"; // CodeMessageSchema might not be needed here

@@ -1,5 +1,5 @@
-import * as schema from "../schema.js";
-import { TaskStore } from "./store.js"; // Import TaskStore
+import type * as schema from "../lib/a2a/schema.js";
+// import { TaskStore } from "./store.js"; // Import TaskStore
 
 /**
  * Context object provided to the TaskHandler.
@@ -44,9 +44,7 @@ export interface TaskContext {
  * It's either a partial TaskStatus (without the server-managed timestamp)
  * or a complete Artifact object.
  */
-export type TaskYieldUpdate =
-  | Omit<schema.TaskStatus, "timestamp">
-  | schema.Artifact;
+export type TaskYieldUpdate = Omit<schema.TaskStatus, "timestamp"> | schema.Artifact;
 
 /**
  * Defines the signature for a task handler function.
@@ -63,5 +61,5 @@ export type TaskYieldUpdate =
  *   last known state from the store after processing all yields.
  */
 export type TaskHandler = (
-  context: TaskContext
+  context: TaskContext,
 ) => AsyncGenerator<TaskYieldUpdate, schema.Task | void, unknown>;

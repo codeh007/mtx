@@ -12,8 +12,8 @@
   "sideEffects": false,
   "scripts": {
     "dev_vite": "vite --port=6111",
-    "withEnv": "dotenv -e ../../../gomtm/env/mtmaiui.env --",
-    "dev": "dotenv -e ../../../gomtm/env/mtmaiui.env -- next dev",
+    "withEnv": "dotenv -e ../../../gomtm/env/dev.env --",
+    "dev": "dotenv -e ../../../gomtm/env/dev.env -- next dev --port 3600",
     "dev:next": "bun run watch & next dev",
     "build": "vite build && next build",
     "build:tsc": "tsc --outDir dist --jsx react-jsx --incremental false --declaration true --noEmit false --removeComments true --project tsconfig.json",

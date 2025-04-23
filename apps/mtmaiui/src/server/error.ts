@@ -1,4 +1,4 @@
-import * as schema from "../schema.js";
+import * as schema from "../lib/a2a/schema.js";
 
 /**
  * Custom error class for A2A server operations, incorporating JSON-RPC error codes.
@@ -12,7 +12,7 @@ export class A2AError extends Error {
     code: schema.KnownErrorCode | number,
     message: string,
     data?: unknown,
-    taskId?: string
+    taskId?: string,
   ) {
     super(message);
     this.name = "A2AError";
@@ -46,10 +46,7 @@ export class A2AError extends Error {
   }
 
   static methodNotFound(method: string): A2AError {
-    return new A2AError(
-      schema.ErrorCodeMethodNotFound,
-      `Method not found: ${method}`
-    );
+    return new A2AError(schema.ErrorCodeMethodNotFound, `Method not found: ${method}`);
   }
 
   static invalidParams(message: string, data?: unknown): A2AError {
@@ -65,7 +62,7 @@ export class A2AError extends Error {
       schema.ErrorCodeTaskNotFound,
       `Task not found: ${taskId}`,
       undefined,
-      taskId
+      taskId,
     );
   }
 
@@ -74,21 +71,21 @@ export class A2AError extends Error {
       schema.ErrorCodeTaskNotCancelable,
       `Task not cancelable: ${taskId}`,
       undefined,
-      taskId
+      taskId,
     );
   }
 
   static pushNotificationNotSupported(): A2AError {
     return new A2AError(
       schema.ErrorCodePushNotificationNotSupported,
-      "Push Notification is not supported"
+      "Push Notification is not supported",
     );
   }
 
   static unsupportedOperation(operation: string): A2AError {
     return new A2AError(
       schema.ErrorCodeUnsupportedOperation,
-      `Unsupported operation: ${operation}`
+      `Unsupported operation: ${operation}`,
     );
   }
 }
