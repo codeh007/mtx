@@ -2391,7 +2391,7 @@ export const zWorkflowWorkersCount = z.object({
       z
         .object({
           grounding_metadata: z.object({}).optional(),
-          partial: z.boolean().default(false),
+          partial: z.boolean().optional().default(false),
           turn_complete: z.boolean().optional().default(false),
           error_code: z.string().optional(),
           error_message: z.string().optional(),
@@ -2438,49 +2438,10 @@ export const zWorkflowWorkersCount = z.object({
             long_running_tool_ids: z.array(z.string()).optional(),
             branch: z.string().optional(),
             partial: z.boolean().optional(),
+            timestamp: z.string().optional(),
+            id: z.string().optional(),
           }),
         ),
-      z.object({
-        grounding_metadata: z.object({}).optional(),
-        partial: z.boolean().default(false),
-        turn_complete: z.boolean().optional().default(false),
-        error_code: z.string().optional(),
-        error_message: z.string().optional(),
-        interrupted: z.boolean().optional(),
-        custom_metadata: z.object({}).optional(),
-        content: z
-          .union([
-            z
-              .object({
-                role: z.literal("user").optional(),
-              })
-              .merge(
-                z.object({
-                  role: z.enum(["user"]),
-                  parts: z.array(
-                    z.object({
-                      text: z.string().optional(),
-                    }),
-                  ),
-                }),
-              ),
-            z
-              .object({
-                role: z.literal("model").optional(),
-              })
-              .merge(
-                z.object({
-                  role: z.enum(["model"]),
-                  parts: z.array(
-                    z.object({
-                      text: z.string().optional(),
-                    }),
-                  ),
-                }),
-              ),
-          ])
-          .optional(),
-      }),
     ])
     .optional(),
 });
@@ -7720,7 +7681,7 @@ export const zAddSessionToEvalSetRequest = z.object({
 export const zAdkRawEvent = z
   .object({
     grounding_metadata: z.object({}).optional(),
-    partial: z.boolean().default(false),
+    partial: z.boolean().optional().default(false),
     turn_complete: z.boolean().optional().default(false),
     error_code: z.string().optional(),
     error_message: z.string().optional(),
@@ -7767,12 +7728,14 @@ export const zAdkRawEvent = z
       long_running_tool_ids: z.array(z.string()).optional(),
       branch: z.string().optional(),
       partial: z.boolean().optional(),
+      timestamp: z.string().optional(),
+      id: z.string().optional(),
     }),
   );
 
 export const zAdkLlmResponse = z.object({
   grounding_metadata: z.object({}).optional(),
-  partial: z.boolean().default(false),
+  partial: z.boolean().optional().default(false),
   turn_complete: z.boolean().optional().default(false),
   error_code: z.string().optional(),
   error_message: z.string().optional(),

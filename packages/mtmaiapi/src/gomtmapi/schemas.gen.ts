@@ -1452,9 +1452,6 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/AdkRawEvent",
         },
-        {
-          $ref: "#/components/schemas/AdkLlmResponse",
-        },
       ],
     },
   },
@@ -6891,11 +6888,16 @@ export const AdkRawEventSchema = {
     partial: {
       type: "boolean",
     },
+    timestamp: {
+      type: "string",
+    },
+    id: {
+      type: "string",
+    },
   },
 } as const;
 
 export const AdkLlmResponseSchema = {
-  required: ["partial"],
   properties: {
     grounding_metadata: {
       type: "object",

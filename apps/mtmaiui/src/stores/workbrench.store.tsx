@@ -1,11 +1,9 @@
 "use client";
 
-// import type { Client } from "@connectrpc/connect";
 import { type UseMutationResult, useMutation, useQuery } from "@tanstack/react-query";
 import { debounce } from "lodash";
 import {
   type AdkEvent,
-  type AdkRawEvent,
   type AgentRunRequest,
   type ApiErrors,
   type ChatMessage,
@@ -39,15 +37,6 @@ import { exampleTeamConfig } from "./exampleTeamConfig";
 export interface WorkbenchProps {
   sessionId?: string;
 }
-// const DEFAULT_AGENT_FLOW_SETTINGS = {
-//   direction: "TB",
-//   showLabels: true,
-//   showGrid: true,
-//   showTokens: true,
-//   showMessages: true,
-//   showMiniMap: false,
-// };
-
 export interface WorkbrenchState extends WorkbenchProps {
   backendUrl: string;
   accessToken?: string;
@@ -116,9 +105,6 @@ export interface WorkbrenchState extends WorkbenchProps {
   adkEvents: AdkEvent[];
   setAdkEvents: (adkEvents: AdkEvent[]) => void;
 
-  adkRawEvents: AdkRawEvent[];
-  setAdkRawEvents: (adkRawEvents: AdkRawEvent[]) => void;
-
   agentState?: RootAgentState;
   setAgentState: (agentState: RootAgentState) => void;
 }
@@ -159,40 +145,60 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
     setAgentState: (agentState) => {
       set({ agentState });
     },
-    adkRawEvents: [],
-    setAdkRawEvents: (adkRawEvents) => {
-      set({ adkRawEvents });
-    },
+    // adkRawEvents: [],
+    // setAdkRawEvents: (adkRawEvents) => {
+    //   set({ adkRawEvents });
+    // },
     adkEvents: [],
     setAdkEvents: (adkEvents) => {
       set({ adkEvents });
     },
     handleHumanInput: debounce(async (input: Content) => {
-      console.log("handleHumanInput", input);
+      // console.log("handleHumanInput", input);
       get().setChatStarted(true);
       const sessionId = get().sessionId ?? generateUUID();
 
       set({
         input: "",
-        adkRawEvents: [
-          ...get().adkRawEvents,
+        // adkRawEvents: [
+        //   ...get().adkRawEvents,
+        //   {
+        //     content: input,
+        //     invocation_id: generateUUID(),
+        //     author: "user",
+        //     actions: {},
+        //     partial: false,
+        //     timestamp: new Date().toISOString(),
+        //   },
+        // ],
+        adkEvents: [
+          ...get().adkEvents,
           {
-            // ...input,
             content: input,
-            invocation_id: generateUUID(),
+            timestamp: new Date().toISOString(),
+            metadata: {
+              id: generateUUID(),
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+            },
+            app_name: "root",
+            user_id: get().tenant.metadata.id,
+            session_id: sessionId,
+            // type: "text_message",
             author: "user",
+            invocation_id: generateUUID(),
             actions: {},
-            grounding_metadata: {},
-            partial: false,
-            turn_complete: false,
+            id: generateUUID(),
           },
         ],
       });
-      const url = "http://localhost:7860/run_sse_v2";
+      const url = "http://localhost:7860/run_sse";
       const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Accept: "text/event-stream",
+          "Accept-Encoding": "gzip, deflate, br, zstd",
         },
         body: JSON.stringify({
           session_id: sessionId,

@@ -63,7 +63,7 @@ const AvatarComponent = ({
   );
 };
 
-export const Avatar = ({ ...props }: AvatarProps) => {
+export const ChatAvatar = ({ ...props }: AvatarProps) => {
   return props.tooltip ? (
     <BetterTooltip content={props.tooltip} className={props.className}>
       <AvatarComponent {...props} className={undefined} />

@@ -851,8 +851,7 @@ export type WorkflowWorkersCount = {
     | AgentIncomingEvent
     | AgentOutgoingEvent
     | AddSessionToEvalSetRequest
-    | AdkRawEvent
-    | AdkLlmResponse;
+    | AdkRawEvent;
 };
 
 export type WorkflowRun = {
@@ -3484,13 +3483,15 @@ export type AdkRawEvent = AdkLlmResponse & {
   long_running_tool_ids?: Array<string>;
   branch?: string;
   partial?: boolean;
+  timestamp?: string;
+  id?: string;
 };
 
 export type AdkLlmResponse = {
   grounding_metadata?: {
     [key: string]: unknown;
   };
-  partial: boolean;
+  partial?: boolean;
   turn_complete?: boolean;
   error_code?: string;
   error_message?: string;

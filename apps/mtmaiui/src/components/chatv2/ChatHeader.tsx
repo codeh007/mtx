@@ -11,6 +11,7 @@ export const ChatHeader = () => {
   const setIsDebug = useWorkbenchStore((x) => x.setIsDebug);
 
   const agentState = useWorkbenchStore((x) => x.agentState);
+  const adkEvents = useWorkbenchStore((x) => x.adkEvents);
   return (
     <div className="px-4 py-3 border-b border-neutral-300 dark:border-neutral-800 flex items-center gap-3 sticky top-0 z-10">
       <div className="flex items-center justify-center h-8 w-8">
@@ -50,6 +51,7 @@ export const ChatHeader = () => {
         <Trash className="size-4" />
       </Button>
       <DebugValue data={agentState} title="Agent State" />
+      <DebugValue data={adkEvents} title="Adk Events" />
     </div>
   );
 };
