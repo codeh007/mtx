@@ -51,7 +51,7 @@ export const ChatHeader = () => {
         <Trash className="size-4" />
       </Button>
       <DebugValue data={agentState} title="Agent State" />
-      <DebugValue data={adkEvents} title="Adk Events" />
+      {/* <DebugValue data={adkEvents} title="Adk Events" /> */}
     </div>
   );
 };

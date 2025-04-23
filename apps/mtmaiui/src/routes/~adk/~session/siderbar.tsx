@@ -23,7 +23,7 @@ import { useTenantId } from "../../../hooks/useAuth";
 
 export function NavAdkSession() {
   const linkToNew = useMemo(() => {
-    return "new";
+    return "/adk/session";
   }, []);
 
   const tid = useTenantId();

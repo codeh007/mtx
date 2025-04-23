@@ -119,12 +119,12 @@ export const AdkEventsViewItemView = ({
             !isUser && <div className="w-8" />
           )}
           <div>
-            <div>
-              {item.content?.parts?.map((part, i) => {
-                // if (part.type === "text") {
-                //   return (
-                return (
-                  <div key={i}>
+            {item.content?.parts?.map((part, i) => {
+              // if (part.type === "text") {
+              //   return (
+              return (
+                <div key={i}>
+                  {part.text && (
                     <Card
                       className={`p-3 rounded-md bg-neutral-100 dark:bg-neutral-900 ${
                         isUser ? "rounded-br-none" : "rounded-bl-none border-assistant-border"
@@ -139,87 +139,97 @@ export const AdkEventsViewItemView = ({
                         {part.text?.replace(/^scheduled message: /, "")}
                       </p>
                     </Card>
+                  )}
+
+                  {part.functionCall && (
+                    <Card className="p-3 rounded-md bg-neutral-100 dark:bg-neutral-900">
+                      <div className="text-sm p-1 rounded-md bg-orange-200">
+                        <DebugValue data={part.functionCall} />
+                      </div>
+                    </Card>
+                  )}
+
+                  {/* 时间字段待修正 */}
+                  {item?.timestamp && (
                     <p
                       className={`text-xs text-muted-foreground mt-1 ${
                         isUser ? "text-right" : "text-left"
                       }`}
                     >
-                      {/* 时间字段待修正 */}
-                      {item?.timestamp &&
-                        formatTime(new Date(item?.timestamp as unknown as string))}
+                      {formatTime(new Date(item?.timestamp as unknown as string))}
                     </p>
-                  </div>
-                );
-                //   );
-                // }
+                  )}
+                </div>
+              );
+              //   );
+              // }
 
-                // if (part.type === "tool-invocation") {
-                //   const toolInvocation = part.toolInvocation;
-                //   const toolCallId = toolInvocation.toolCallId;
+              // if (part.type === "tool-invocation") {
+              //   const toolInvocation = part.toolInvocation;
+              //   const toolCallId = toolInvocation.toolCallId;
 
-                //   if (
-                //     toolsRequiringConfirmation.includes(
-                //       toolInvocation.toolName as keyof typeof tools,
-                //     ) &&
-                //     toolInvocation.state === "call"
-                //   ) {
-                //     return (
-                //       <Card
-                //         key={i}
-                //         className="p-4 my-3 rounded-md bg-neutral-100 dark:bg-neutral-900"
-                //       >
-                //         <div className="flex items-center gap-2 mb-3">
-                //           <div className="bg-[#F48120]/10 p-1.5 rounded-full">
-                //             <Robot size={16} className="text-[#F48120]" />
-                //           </div>
-                //           <h4 className="font-medium">{toolInvocation.toolName}</h4>
-                //         </div>
+              //   if (
+              //     toolsRequiringConfirmation.includes(
+              //       toolInvocation.toolName as keyof typeof tools,
+              //     ) &&
+              //     toolInvocation.state === "call"
+              //   ) {
+              //     return (
+              //       <Card
+              //         key={i}
+              //         className="p-4 my-3 rounded-md bg-neutral-100 dark:bg-neutral-900"
+              //       >
+              //         <div className="flex items-center gap-2 mb-3">
+              //           <div className="bg-[#F48120]/10 p-1.5 rounded-full">
+              //             <Robot size={16} className="text-[#F48120]" />
+              //           </div>
+              //           <h4 className="font-medium">{toolInvocation.toolName}</h4>
+              //         </div>
 
-                //         <div className="mb-3">
-                //           <h5 className="text-xs font-medium mb-1 text-muted-foreground">
-                //             Arguments:
-                //           </h5>
-                //           <pre className="bg-background/80 p-2 rounded-md text-xs overflow-auto">
-                //             {JSON.stringify(toolInvocation.args, null, 2)}
-                //           </pre>
-                //         </div>
+              //         <div className="mb-3">
+              //           <h5 className="text-xs font-medium mb-1 text-muted-foreground">
+              //             Arguments:
+              //           </h5>
+              //           <pre className="bg-background/80 p-2 rounded-md text-xs overflow-auto">
+              //             {JSON.stringify(toolInvocation.args, null, 2)}
+              //           </pre>
+              //         </div>
 
-                //         <div className="flex gap-2 justify-end">
-                //           <Button
-                //             // variant="primary"
-                //             size="sm"
-                //             // onClick={() =>
-                //             //   addToolResult({
-                //             //     toolCallId,
-                //             //     result: Approval.NO,
-                //             //   })
-                //             // }
-                //           >
-                //             Reject
-                //           </Button>
-                //           <BetterTooltip content={"Accept action"}>
-                //             <Button
-                //               // variant="primary"
-                //               size="sm"
-                //               // onClick={() =>
-                //               //   addToolResult({
-                //               //     toolCallId,
-                //               //     result: Approval.YES,
-                //               //   })
-                //               // }
-                //             >
-                //               Approve
-                //             </Button>
-                //           </BetterTooltip>
-                //         </div>
-                //       </Card>
-                //     );
-                //   }
-                //   return null;
-                // }
-                // return null;
-              })}
-            </div>
+              //         <div className="flex gap-2 justify-end">
+              //           <Button
+              //             // variant="primary"
+              //             size="sm"
+              //             // onClick={() =>
+              //             //   addToolResult({
+              //             //     toolCallId,
+              //             //     result: Approval.NO,
+              //             //   })
+              //             // }
+              //           >
+              //             Reject
+              //           </Button>
+              //           <BetterTooltip content={"Accept action"}>
+              //             <Button
+              //               // variant="primary"
+              //               size="sm"
+              //               // onClick={() =>
+              //               //   addToolResult({
+              //               //     toolCallId,
+              //               //     result: Approval.YES,
+              //               //   })
+              //               // }
+              //             >
+              //               Approve
+              //             </Button>
+              //           </BetterTooltip>
+              //         </div>
+              //       </Card>
+              //     );
+              //   }
+              //   return null;
+              // }
+              // return null;
+            })}
           </div>
         </div>
       </div>

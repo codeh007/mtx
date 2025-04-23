@@ -1826,6 +1826,20 @@ export const zWorkflowWorkersCount = z.object({
                   parts: z.array(
                     z.object({
                       text: z.string().optional(),
+                      video_metadata: z.object({}).optional(),
+                      thought: z.boolean().optional(),
+                      code_execution_result: z.object({}).optional(),
+                      executable_code: z.string().optional(),
+                      file_data: z.object({}).optional(),
+                      functionCall: z
+                        .object({
+                          id: z.string(),
+                          name: z.string(),
+                          args: z.object({}).optional(),
+                        })
+                        .optional(),
+                      functionResponse: z.object({}).optional(),
+                      inlineData: z.object({}).optional(),
                     }),
                   ),
                 }),
@@ -1840,6 +1854,20 @@ export const zWorkflowWorkersCount = z.object({
                   parts: z.array(
                     z.object({
                       text: z.string().optional(),
+                      video_metadata: z.object({}).optional(),
+                      thought: z.boolean().optional(),
+                      code_execution_result: z.object({}).optional(),
+                      executable_code: z.string().optional(),
+                      file_data: z.object({}).optional(),
+                      functionCall: z
+                        .object({
+                          id: z.string(),
+                          name: z.string(),
+                          args: z.object({}).optional(),
+                        })
+                        .optional(),
+                      functionResponse: z.object({}).optional(),
+                      inlineData: z.object({}).optional(),
                     }),
                   ),
                 }),
@@ -2293,6 +2321,20 @@ export const zWorkflowWorkersCount = z.object({
                 parts: z.array(
                   z.object({
                     text: z.string().optional(),
+                    video_metadata: z.object({}).optional(),
+                    thought: z.boolean().optional(),
+                    code_execution_result: z.object({}).optional(),
+                    executable_code: z.string().optional(),
+                    file_data: z.object({}).optional(),
+                    functionCall: z
+                      .object({
+                        id: z.string(),
+                        name: z.string(),
+                        args: z.object({}).optional(),
+                      })
+                      .optional(),
+                    functionResponse: z.object({}).optional(),
+                    inlineData: z.object({}).optional(),
                   }),
                 ),
               }),
@@ -2307,6 +2349,20 @@ export const zWorkflowWorkersCount = z.object({
                 parts: z.array(
                   z.object({
                     text: z.string().optional(),
+                    video_metadata: z.object({}).optional(),
+                    thought: z.boolean().optional(),
+                    code_execution_result: z.object({}).optional(),
+                    executable_code: z.string().optional(),
+                    file_data: z.object({}).optional(),
+                    functionCall: z
+                      .object({
+                        id: z.string(),
+                        name: z.string(),
+                        args: z.object({}).optional(),
+                      })
+                      .optional(),
+                    functionResponse: z.object({}).optional(),
+                    inlineData: z.object({}).optional(),
                   }),
                 ),
               }),
@@ -2409,6 +2465,20 @@ export const zWorkflowWorkersCount = z.object({
                     parts: z.array(
                       z.object({
                         text: z.string().optional(),
+                        video_metadata: z.object({}).optional(),
+                        thought: z.boolean().optional(),
+                        code_execution_result: z.object({}).optional(),
+                        executable_code: z.string().optional(),
+                        file_data: z.object({}).optional(),
+                        functionCall: z
+                          .object({
+                            id: z.string(),
+                            name: z.string(),
+                            args: z.object({}).optional(),
+                          })
+                          .optional(),
+                        functionResponse: z.object({}).optional(),
+                        inlineData: z.object({}).optional(),
                       }),
                     ),
                   }),
@@ -2423,6 +2493,20 @@ export const zWorkflowWorkersCount = z.object({
                     parts: z.array(
                       z.object({
                         text: z.string().optional(),
+                        video_metadata: z.object({}).optional(),
+                        thought: z.boolean().optional(),
+                        code_execution_result: z.object({}).optional(),
+                        executable_code: z.string().optional(),
+                        file_data: z.object({}).optional(),
+                        functionCall: z
+                          .object({
+                            id: z.string(),
+                            name: z.string(),
+                            args: z.object({}).optional(),
+                          })
+                          .optional(),
+                        functionResponse: z.object({}).optional(),
+                        inlineData: z.object({}).optional(),
                       }),
                     ),
                   }),
@@ -7352,6 +7436,20 @@ export const zFlowTeamInput = z.object({
             parts: z.array(
               z.object({
                 text: z.string().optional(),
+                video_metadata: z.object({}).optional(),
+                thought: z.boolean().optional(),
+                code_execution_result: z.object({}).optional(),
+                executable_code: z.string().optional(),
+                file_data: z.object({}).optional(),
+                functionCall: z
+                  .object({
+                    id: z.string(),
+                    name: z.string(),
+                    args: z.object({}).optional(),
+                  })
+                  .optional(),
+                functionResponse: z.object({}).optional(),
+                inlineData: z.object({}).optional(),
               }),
             ),
           }),
@@ -7366,6 +7464,20 @@ export const zFlowTeamInput = z.object({
             parts: z.array(
               z.object({
                 text: z.string().optional(),
+                video_metadata: z.object({}).optional(),
+                thought: z.boolean().optional(),
+                code_execution_result: z.object({}).optional(),
+                executable_code: z.string().optional(),
+                file_data: z.object({}).optional(),
+                functionCall: z
+                  .object({
+                    id: z.string(),
+                    name: z.string(),
+                    args: z.object({}).optional(),
+                  })
+                  .optional(),
+                functionResponse: z.object({}).optional(),
+                inlineData: z.object({}).optional(),
               }),
             ),
           }),
@@ -7650,6 +7762,20 @@ export const zAgentRunRequest = z.object({
           parts: z.array(
             z.object({
               text: z.string().optional(),
+              video_metadata: z.object({}).optional(),
+              thought: z.boolean().optional(),
+              code_execution_result: z.object({}).optional(),
+              executable_code: z.string().optional(),
+              file_data: z.object({}).optional(),
+              functionCall: z
+                .object({
+                  id: z.string(),
+                  name: z.string(),
+                  args: z.object({}).optional(),
+                })
+                .optional(),
+              functionResponse: z.object({}).optional(),
+              inlineData: z.object({}).optional(),
             }),
           ),
         }),
@@ -7664,6 +7790,20 @@ export const zAgentRunRequest = z.object({
           parts: z.array(
             z.object({
               text: z.string().optional(),
+              video_metadata: z.object({}).optional(),
+              thought: z.boolean().optional(),
+              code_execution_result: z.object({}).optional(),
+              executable_code: z.string().optional(),
+              file_data: z.object({}).optional(),
+              functionCall: z
+                .object({
+                  id: z.string(),
+                  name: z.string(),
+                  args: z.object({}).optional(),
+                })
+                .optional(),
+              functionResponse: z.object({}).optional(),
+              inlineData: z.object({}).optional(),
             }),
           ),
         }),
@@ -7699,6 +7839,20 @@ export const zAdkRawEvent = z
               parts: z.array(
                 z.object({
                   text: z.string().optional(),
+                  video_metadata: z.object({}).optional(),
+                  thought: z.boolean().optional(),
+                  code_execution_result: z.object({}).optional(),
+                  executable_code: z.string().optional(),
+                  file_data: z.object({}).optional(),
+                  functionCall: z
+                    .object({
+                      id: z.string(),
+                      name: z.string(),
+                      args: z.object({}).optional(),
+                    })
+                    .optional(),
+                  functionResponse: z.object({}).optional(),
+                  inlineData: z.object({}).optional(),
                 }),
               ),
             }),
@@ -7713,6 +7867,20 @@ export const zAdkRawEvent = z
               parts: z.array(
                 z.object({
                   text: z.string().optional(),
+                  video_metadata: z.object({}).optional(),
+                  thought: z.boolean().optional(),
+                  code_execution_result: z.object({}).optional(),
+                  executable_code: z.string().optional(),
+                  file_data: z.object({}).optional(),
+                  functionCall: z
+                    .object({
+                      id: z.string(),
+                      name: z.string(),
+                      args: z.object({}).optional(),
+                    })
+                    .optional(),
+                  functionResponse: z.object({}).optional(),
+                  inlineData: z.object({}).optional(),
                 }),
               ),
             }),
@@ -7753,6 +7921,20 @@ export const zAdkLlmResponse = z.object({
             parts: z.array(
               z.object({
                 text: z.string().optional(),
+                video_metadata: z.object({}).optional(),
+                thought: z.boolean().optional(),
+                code_execution_result: z.object({}).optional(),
+                executable_code: z.string().optional(),
+                file_data: z.object({}).optional(),
+                functionCall: z
+                  .object({
+                    id: z.string(),
+                    name: z.string(),
+                    args: z.object({}).optional(),
+                  })
+                  .optional(),
+                functionResponse: z.object({}).optional(),
+                inlineData: z.object({}).optional(),
               }),
             ),
           }),
@@ -7767,12 +7949,32 @@ export const zAdkLlmResponse = z.object({
             parts: z.array(
               z.object({
                 text: z.string().optional(),
+                video_metadata: z.object({}).optional(),
+                thought: z.boolean().optional(),
+                code_execution_result: z.object({}).optional(),
+                executable_code: z.string().optional(),
+                file_data: z.object({}).optional(),
+                functionCall: z
+                  .object({
+                    id: z.string(),
+                    name: z.string(),
+                    args: z.object({}).optional(),
+                  })
+                  .optional(),
+                functionResponse: z.object({}).optional(),
+                inlineData: z.object({}).optional(),
               }),
             ),
           }),
         ),
     ])
     .optional(),
+});
+
+export const zFunctionCallDict = z.object({
+  id: z.string(),
+  name: z.string(),
+  args: z.object({}).optional(),
 });
 
 export const zAgentProperties = z.object({
@@ -8134,6 +8336,14 @@ export const zAdkEventProperties = z.object({
           parts: z.array(
             z.object({
               text: z.string().optional(),
+              video_metadata: z.object({}).optional(),
+              thought: z.boolean().optional(),
+              code_execution_result: z.object({}).optional(),
+              executable_code: z.string().optional(),
+              file_data: z.object({}).optional(),
+              functionCall: zFunctionCallDict.optional(),
+              functionResponse: z.object({}).optional(),
+              inlineData: z.object({}).optional(),
             }),
           ),
         }),
@@ -8148,6 +8358,14 @@ export const zAdkEventProperties = z.object({
           parts: z.array(
             z.object({
               text: z.string().optional(),
+              video_metadata: z.object({}).optional(),
+              thought: z.boolean().optional(),
+              code_execution_result: z.object({}).optional(),
+              executable_code: z.string().optional(),
+              file_data: z.object({}).optional(),
+              functionCall: zFunctionCallDict.optional(),
+              functionResponse: z.object({}).optional(),
+              inlineData: z.object({}).optional(),
             }),
           ),
         }),
@@ -8241,6 +8459,14 @@ export const zContent = z.union([
         parts: z.array(
           z.object({
             text: z.string().optional(),
+            video_metadata: z.object({}).optional(),
+            thought: z.boolean().optional(),
+            code_execution_result: z.object({}).optional(),
+            executable_code: z.string().optional(),
+            file_data: z.object({}).optional(),
+            functionCall: zFunctionCallDict.optional(),
+            functionResponse: z.object({}).optional(),
+            inlineData: z.object({}).optional(),
           }),
         ),
       }),
@@ -8255,6 +8481,14 @@ export const zContent = z.union([
         parts: z.array(
           z.object({
             text: z.string().optional(),
+            video_metadata: z.object({}).optional(),
+            thought: z.boolean().optional(),
+            code_execution_result: z.object({}).optional(),
+            executable_code: z.string().optional(),
+            file_data: z.object({}).optional(),
+            functionCall: zFunctionCallDict.optional(),
+            functionResponse: z.object({}).optional(),
+            inlineData: z.object({}).optional(),
           }),
         ),
       }),
@@ -8266,6 +8500,14 @@ export const zUserContent = z.object({
   parts: z.array(
     z.object({
       text: z.string().optional(),
+      video_metadata: z.object({}).optional(),
+      thought: z.boolean().optional(),
+      code_execution_result: z.object({}).optional(),
+      executable_code: z.string().optional(),
+      file_data: z.object({}).optional(),
+      functionCall: zFunctionCallDict.optional(),
+      functionResponse: z.object({}).optional(),
+      inlineData: z.object({}).optional(),
     }),
   ),
 });
@@ -8275,12 +8517,28 @@ export const zModelContent = z.object({
   parts: z.array(
     z.object({
       text: z.string().optional(),
+      video_metadata: z.object({}).optional(),
+      thought: z.boolean().optional(),
+      code_execution_result: z.object({}).optional(),
+      executable_code: z.string().optional(),
+      file_data: z.object({}).optional(),
+      functionCall: zFunctionCallDict.optional(),
+      functionResponse: z.object({}).optional(),
+      inlineData: z.object({}).optional(),
     }),
   ),
 });
 
 export const zPart = z.object({
   text: z.string().optional(),
+  video_metadata: z.object({}).optional(),
+  thought: z.boolean().optional(),
+  code_execution_result: z.object({}).optional(),
+  executable_code: z.string().optional(),
+  file_data: z.object({}).optional(),
+  functionCall: zFunctionCallDict.optional(),
+  functionResponse: z.object({}).optional(),
+  inlineData: z.object({}).optional(),
 });
 
 export const zMetadataGetResponse = zApiMeta;

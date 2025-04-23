@@ -6929,6 +6929,27 @@ export const AdkLlmResponseSchema = {
   },
 } as const;
 
+export const FunctionCallDictSchema = {
+  required: ["id", "name"],
+  properties: {
+    id: {
+      type: "string",
+      description:
+        "Optional. The unique id of the function call. If populated, the client to execute the `function_call` and return the response with the matching `id`.",
+    },
+    name: {
+      type: "string",
+      description:
+        "Required. The name of the function to call. Matches [FunctionDeclaration.name].",
+    },
+    args: {
+      type: "object",
+      description:
+        "Optional. The function parameters and values in JSON object format. See [FunctionDeclaration.parameters] for parameter details.",
+    },
+  },
+} as const;
+
 export const AgentPropertiesSchema = {
   required: ["name", "description", "provider", "config", "teamId"],
   properties: {
@@ -7829,10 +7850,40 @@ export const ModelContentSchema = {
 } as const;
 
 export const PartSchema = {
-  type: "object",
   properties: {
     text: {
       type: "string",
+      description: "Optional. Text part (can be code)..",
+    },
+    video_metadata: {
+      type: "object",
+      description: "Metadata for a given video..",
+    },
+    thought: {
+      type: "boolean",
+      description: "Indicates if the part is thought from the model..",
+    },
+    code_execution_result: {
+      type: "object",
+    },
+    executable_code: {
+      type: "string",
+      description: "Optional. Executable code..",
+    },
+    file_data: {
+      type: "object",
+      description: "Optional. File data..",
+    },
+    functionCall: {
+      $ref: "#/components/schemas/FunctionCallDict",
+    },
+    functionResponse: {
+      type: "object",
+      description: "Optional. Function response..",
+    },
+    inlineData: {
+      type: "object",
+      description: "Optional. Inlined bytes data..",
     },
   },
 } as const;

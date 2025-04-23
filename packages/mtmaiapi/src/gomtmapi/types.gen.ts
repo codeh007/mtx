@@ -3502,6 +3502,23 @@ export type AdkLlmResponse = {
   content?: Content;
 };
 
+export type FunctionCallDict = {
+  /**
+   * Optional. The unique id of the function call. If populated, the client to execute the `function_call` and return the response with the matching `id`.
+   */
+  id: string;
+  /**
+   * Required. The name of the function to call. Matches [FunctionDeclaration.name].
+   */
+  name: string;
+  /**
+   * Optional. The function parameters and values in JSON object format. See [FunctionDeclaration.parameters] for parameter details.
+   */
+  args?: {
+    [key: string]: unknown;
+  };
+};
+
 export type AgentProperties = {
   name: string;
   description: string;
@@ -3864,7 +3881,46 @@ export type ModelContent = {
 };
 
 export type Part = {
+  /**
+   * Optional. Text part (can be code)..
+   */
   text?: string;
+  /**
+   * Metadata for a given video..
+   */
+  video_metadata?: {
+    [key: string]: unknown;
+  };
+  /**
+   * Indicates if the part is thought from the model..
+   */
+  thought?: boolean;
+  code_execution_result?: {
+    [key: string]: unknown;
+  };
+  /**
+   * Optional. Executable code..
+   */
+  executable_code?: string;
+  /**
+   * Optional. File data..
+   */
+  file_data?: {
+    [key: string]: unknown;
+  };
+  functionCall?: FunctionCallDict;
+  /**
+   * Optional. Function response..
+   */
+  functionResponse?: {
+    [key: string]: unknown;
+  };
+  /**
+   * Optional. Inlined bytes data..
+   */
+  inlineData?: {
+    [key: string]: unknown;
+  };
 };
 
 export type ReadinessGetData = {
