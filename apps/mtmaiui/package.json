@@ -33,7 +33,10 @@
     "deploy-worker": "bun run withEnv -- vite build && wrangler deploy --keep-vars",
     "cf-typegen": "wrangler types --path ./src/worker-configuration.d.ts",
     "dev:wrangler": "wrangler dev",
-    "mcp-inspector": "npx @modelcontextprotocol/inspector"
+    "mcp-inspector": "npx @modelcontextprotocol/inspector",
+    "agents:coder": "bun run withEnv -- bun run src/agents/coder/index.ts",
+    "a2a:cli": "bun run withEnv -- bun run src/cli.ts",
+    "agents:movie-agent": "bun run withEnv -- bun run src/agents/movie-agent/index.ts"
   },
   "typesVersions": {
     "*": {
@@ -84,6 +87,8 @@
     "@ai-sdk/openai": "^1.1.5",
     "@cloudflare/workers-oauth-provider": "^0.0.2",
     "@codemirror/lang-sql": "^6.8.0",
+    "@genkit-ai/googleai": "^1.6.2",
+    "@genkit-ai/vertexai": "^1.6.2",
     "@modelcontextprotocol/sdk": "^1.10.1",
     "@nanostores/react": "^0.8.4",
     "@radix-ui/react-icons": "^1.3.2",
@@ -96,12 +101,12 @@
     "@tanstack/router-devtools": "^1.112.0",
     "@tanstack/router-plugin": "^1.112.0",
     "@tanstack/start": "^1.116.2",
-
     "ai": "^4.3.9",
     "date-fns": "^4.1.0",
     "embla-carousel-autoplay": "^8.5.2",
     "embla-carousel-react": "^8.5.2",
     "geist": "^1.3.1",
+    "genkit": "^1.6.2",
     "get-port": "^7.1.0",
     "hono": "^4.7.4",
     "isbot": "^5.1.17",

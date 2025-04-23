@@ -142,10 +142,9 @@ export const AdkEventsViewItemView = ({
                   )}
 
                   {part.functionCall && (
-                    <Card className="p-3 rounded-md bg-neutral-100 dark:bg-neutral-900">
-                      <div className="text-sm p-1 rounded-md bg-orange-200">
-                        <DebugValue data={part.functionCall} />
-                      </div>
+                    <Card className="p-1 rounded-md bg-neutral-100 dark:bg-neutral-900">
+                      {isDebug && <DebugValue data={part.functionCall} />}
+                      {part.functionCall.name}
                     </Card>
                   )}
 
