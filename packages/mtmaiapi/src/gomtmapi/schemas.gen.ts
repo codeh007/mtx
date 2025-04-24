@@ -1455,6 +1455,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/AdkAppTypes",
         },
+        {
+          $ref: "#/components/schemas/Part",
+        },
       ],
     },
   },
@@ -7882,16 +7885,38 @@ export const PartSchema = {
       type: "object",
       description: "Optional. File data..",
     },
-    functionCall: {
+    function_call: {
       $ref: "#/components/schemas/FunctionCallDict",
     },
-    functionResponse: {
-      type: "object",
-      description: "Optional. Function response..",
+    function_response: {
+      $ref: "#/components/schemas/FunctionResponse",
     },
-    inlineData: {
+    inline_data: {
       type: "object",
       description: "Optional. Inlined bytes data..",
+    },
+  },
+} as const;
+
+export const FunctionResponseSchema = {
+  required: ["name", "response"],
+  properties: {
+    id: {
+      type: "string",
+      default: "",
+      description:
+        "The id of the function call this response is for. Populated by the client to match the corresponding function call `id`.",
+    },
+    name: {
+      type: "string",
+      description:
+        "The name of the function to call. Matches [FunctionDeclaration.name] and [FunctionCall.name].",
+    },
+    response: {
+      type: "object",
+      additionalProperties: true,
+      description:
+        'Required. The function response in JSON object format. Use "output" key to specify function output and "error" key to specify error details (if any). If "output" and "error" keys are not specified, then whole "response" is treated as function output.',
     },
   },
 } as const;

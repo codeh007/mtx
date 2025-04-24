@@ -38,7 +38,6 @@ export interface WorkbenchProps {
   sessionId?: string;
 }
 export interface WorkbrenchState extends WorkbenchProps {
-  // backendUrl: string;
   agentUrl: string;
   setAgentUrl: (agentUrl: string) => void;
   accessToken?: string;
@@ -46,9 +45,6 @@ export interface WorkbrenchState extends WorkbenchProps {
   params?: Record<string, any>;
   tenant: Tenant;
   setSessionId: (threadId?: string) => void;
-  // workbenchViewProps?: Record<string, any>;
-  // setWorkbenchViewProps: (props?: Record<string, any>) => void;
-  // appendChatMessageCb?: (message) => void;
   adkAppName: string;
   setAdkAppName: (adkAppName: string) => void;
   messageParser?: (messages: Message[]) => void;
@@ -105,7 +101,6 @@ export interface WorkbrenchState extends WorkbenchProps {
 
   team: SocialTeam;
   setTeam: (team: SocialTeam) => void;
-  // google adk
   adkEvents: AdkEvent[];
   setAdkEvents: (adkEvents: AdkEvent[]) => void;
 
@@ -151,6 +146,7 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
     },
     adkAppName: "root",
     setAdkAppName: (adkAppName) => {
+      console.log("setAdkAppName", adkAppName);
       set({ adkAppName });
     },
     agentUrl: "http://localhost:7860",
@@ -209,7 +205,6 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
         throw new Error("Failed to get reader from response body");
       }
       for await (const event of parseEventStream(reader)) {
-        // console.log("event", event);
         handleAgentOutgoingEvent(event, get, set);
       }
       // const data = await response.json();

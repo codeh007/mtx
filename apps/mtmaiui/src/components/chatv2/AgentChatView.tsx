@@ -1,5 +1,5 @@
 "use client";
-import type { AdkEventProperties } from "mtmaiapi";
+import type { AdkEventProperties, Part } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useCallback, useEffect, useRef } from "react";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
@@ -8,11 +8,11 @@ import { Card } from "../cloudflare-agents/components/card/Card";
 import { ChatHeader } from "./ChatHeader";
 import { ChatInput } from "./ChatInput";
 import { AdkWelcomeCard } from "./ChatWelcome";
+import InstagramLoginView from "./func_view/InstagramLogin";
 const formatTime = (date: Date) => {
   return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 };
 export default function AgentChatView() {
-  // const isDebug = useWorkbenchStore((x) => x.isDebug);
   const adkEvents = useWorkbenchStore((x) => x.adkEvents);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -104,7 +104,6 @@ export const AdkEventsViewItemView = ({
 }) => {
   const isDebug = useWorkbenchStore((x) => x.isDebug);
   const isUser = item.author === "user";
-  // const isUser = m.role === "user";
   // const showAvatar = index === 0 || agentMessages[index - 1]?.role !== m.role;
   const showAvatar = true;
   // const showRole = showAvatar && !isUser;
@@ -120,48 +119,21 @@ export const AdkEventsViewItemView = ({
           )}
           <div>
             {item.content?.parts?.map((part, i) => {
-              // if (part.type === "text") {
-              //   return (
               return (
                 <div key={i}>
-                  {part.text && (
-                    <Card
-                      className={`p-3 rounded-md bg-neutral-100 dark:bg-neutral-900 ${
-                        isUser ? "rounded-br-none" : "rounded-bl-none border-assistant-border"
-                      } ${
-                        part.text?.startsWith("scheduled message") ? "border-accent/50" : ""
-                      } relative`}
-                    >
-                      {part.text?.startsWith("scheduled message") && (
-                        <span className="absolute -top-3 -left-2 text-base">🕒</span>
-                      )}
-                      <p className="text-sm whitespace-pre-wrap">
-                        {part.text?.replace(/^scheduled message: /, "")}
-                      </p>
-                    </Card>
-                  )}
-
-                  {part.functionCall && (
-                    <Card className="p-1 rounded-md bg-neutral-100 dark:bg-neutral-900">
-                      {isDebug && <DebugValue data={part.functionCall} />}
-                      {part.functionCall.name}
-                    </Card>
-                  )}
+                  {part.text && <TextContentView part={part} isUser={isUser} />}
+                  {part.functionCall && <FunctionCallPartView part={part} />}
 
                   {/* 时间字段待修正 */}
-                  {item?.timestamp && (
+                  {item.timestamp && (
                     <p
-                      className={`text-xs text-muted-foreground mt-1 ${
-                        isUser ? "text-right" : "text-left"
-                      }`}
+                      className={`text-xs text-muted-foreground mt-1 ${isUser ? "text-right" : "text-left"}`}
                     >
-                      {formatTime(new Date(item?.timestamp as unknown as string))}
+                      {formatTime(new Date(item.timestamp as unknown as string))}
                     </p>
                   )}
                 </div>
               );
-              //   );
-              // }
 
               // if (part.type === "tool-invocation") {
               //   const toolInvocation = part.toolInvocation;
@@ -236,24 +208,42 @@ export const AdkEventsViewItemView = ({
   );
 };
 
-// export const AdkContentView = ({
-//   content,
-// }: {
-//   content: Content;
-// }) => {
-//   return (
-//     <div>
-//       {content.parts?.map((part, i) => {
-//         return <AdkContentPartView key={i} part={part} />;
-//       })}
-//     </div>
-//   );
-// };
-
-// export const AdkContentPartView = ({
-//   part,
-// }: {
-//   part: Part;
-// }) => {
-//   return <div>{part.text}</div>;
-// };
+const TextContentView = ({
+  part,
+  isUser,
+  // timestamp,
+}: {
+  part: Part;
+  isUser: boolean;
+  // timestamp: string;
+}) => {
+  return (
+    <>
+      <Card
+        className={`p-3 rounded-md bg-neutral-100 dark:bg-neutral-900 ${
+          isUser ? "rounded-br-none" : "rounded-bl-none border-assistant-border"
+        } ${part.text?.startsWith("scheduled message") ? "border-accent/50" : ""} relative`}
+      >
+        {part.text?.startsWith("scheduled message") && (
+          <span className="absolute -top-3 -left-2 text-base">🕒</span>
+        )}
+        <p className="text-sm whitespace-pre-wrap">
+          {part.text?.replace(/^scheduled message: /, "")}
+        </p>
+      </Card>
+    </>
+  );
+};
+const FunctionCallPartView = ({
+  part,
+}: {
+  part: Part;
+}) => {
+  const isDebug = useWorkbenchStore((x) => x.isDebug);
+  return (
+    <Card className="p-1 rounded-md bg-neutral-100 dark:bg-neutral-900">
+      {isDebug && <DebugValue data={part.functionCall} />}
+      {part.functionCall?.name === "instagram_login" ? <InstagramLoginView /> : <></>}
+    </Card>
+  );
+};

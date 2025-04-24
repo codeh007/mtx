@@ -852,7 +852,8 @@ export type WorkflowWorkersCount = {
     | AgentOutgoingEvent
     | AddSessionToEvalSetRequest
     | AdkRawEvent
-    | AdkAppTypes;
+    | AdkAppTypes
+    | Part;
 };
 
 export type WorkflowRun = {
@@ -3918,17 +3919,29 @@ export type Part = {
   file_data?: {
     [key: string]: unknown;
   };
-  functionCall?: FunctionCallDict;
-  /**
-   * Optional. Function response..
-   */
-  functionResponse?: {
-    [key: string]: unknown;
-  };
+  function_call?: FunctionCallDict;
+  function_response?: FunctionResponse;
   /**
    * Optional. Inlined bytes data..
    */
-  inlineData?: {
+  inline_data?: {
+    [key: string]: unknown;
+  };
+};
+
+export type FunctionResponse = {
+  /**
+   * The id of the function call this response is for. Populated by the client to match the corresponding function call `id`.
+   */
+  id?: string;
+  /**
+   * The name of the function to call. Matches [FunctionDeclaration.name] and [FunctionCall.name].
+   */
+  name: string;
+  /**
+   * Required. The function response in JSON object format. Use "output" key to specify function output and "error" key to specify error details (if any). If "output" and "error" keys are not specified, then whole "response" is treated as function output.
+   */
+  response: {
     [key: string]: unknown;
   };
 };

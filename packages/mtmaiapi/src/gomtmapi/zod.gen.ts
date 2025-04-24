@@ -1831,15 +1831,21 @@ export const zWorkflowWorkersCount = z.object({
                       code_execution_result: z.object({}).optional(),
                       executable_code: z.string().optional(),
                       file_data: z.object({}).optional(),
-                      functionCall: z
+                      function_call: z
                         .object({
                           id: z.string(),
                           name: z.string(),
                           args: z.object({}).optional(),
                         })
                         .optional(),
-                      functionResponse: z.object({}).optional(),
-                      inlineData: z.object({}).optional(),
+                      function_response: z
+                        .object({
+                          id: z.string().optional().default(""),
+                          name: z.string(),
+                          response: z.object({}),
+                        })
+                        .optional(),
+                      inline_data: z.object({}).optional(),
                     }),
                   ),
                 }),
@@ -1859,15 +1865,21 @@ export const zWorkflowWorkersCount = z.object({
                       code_execution_result: z.object({}).optional(),
                       executable_code: z.string().optional(),
                       file_data: z.object({}).optional(),
-                      functionCall: z
+                      function_call: z
                         .object({
                           id: z.string(),
                           name: z.string(),
                           args: z.object({}).optional(),
                         })
                         .optional(),
-                      functionResponse: z.object({}).optional(),
-                      inlineData: z.object({}).optional(),
+                      function_response: z
+                        .object({
+                          id: z.string().optional().default(""),
+                          name: z.string(),
+                          response: z.object({}),
+                        })
+                        .optional(),
+                      inline_data: z.object({}).optional(),
                     }),
                   ),
                 }),
@@ -2326,15 +2338,21 @@ export const zWorkflowWorkersCount = z.object({
                     code_execution_result: z.object({}).optional(),
                     executable_code: z.string().optional(),
                     file_data: z.object({}).optional(),
-                    functionCall: z
+                    function_call: z
                       .object({
                         id: z.string(),
                         name: z.string(),
                         args: z.object({}).optional(),
                       })
                       .optional(),
-                    functionResponse: z.object({}).optional(),
-                    inlineData: z.object({}).optional(),
+                    function_response: z
+                      .object({
+                        id: z.string().optional().default(""),
+                        name: z.string(),
+                        response: z.object({}),
+                      })
+                      .optional(),
+                    inline_data: z.object({}).optional(),
                   }),
                 ),
               }),
@@ -2354,15 +2372,21 @@ export const zWorkflowWorkersCount = z.object({
                     code_execution_result: z.object({}).optional(),
                     executable_code: z.string().optional(),
                     file_data: z.object({}).optional(),
-                    functionCall: z
+                    function_call: z
                       .object({
                         id: z.string(),
                         name: z.string(),
                         args: z.object({}).optional(),
                       })
                       .optional(),
-                    functionResponse: z.object({}).optional(),
-                    inlineData: z.object({}).optional(),
+                    function_response: z
+                      .object({
+                        id: z.string().optional().default(""),
+                        name: z.string(),
+                        response: z.object({}),
+                      })
+                      .optional(),
+                    inline_data: z.object({}).optional(),
                   }),
                 ),
               }),
@@ -2470,15 +2494,21 @@ export const zWorkflowWorkersCount = z.object({
                         code_execution_result: z.object({}).optional(),
                         executable_code: z.string().optional(),
                         file_data: z.object({}).optional(),
-                        functionCall: z
+                        function_call: z
                           .object({
                             id: z.string(),
                             name: z.string(),
                             args: z.object({}).optional(),
                           })
                           .optional(),
-                        functionResponse: z.object({}).optional(),
-                        inlineData: z.object({}).optional(),
+                        function_response: z
+                          .object({
+                            id: z.string().optional().default(""),
+                            name: z.string(),
+                            response: z.object({}),
+                          })
+                          .optional(),
+                        inline_data: z.object({}).optional(),
                       }),
                     ),
                   }),
@@ -2498,15 +2528,21 @@ export const zWorkflowWorkersCount = z.object({
                         code_execution_result: z.object({}).optional(),
                         executable_code: z.string().optional(),
                         file_data: z.object({}).optional(),
-                        functionCall: z
+                        function_call: z
                           .object({
                             id: z.string(),
                             name: z.string(),
                             args: z.object({}).optional(),
                           })
                           .optional(),
-                        functionResponse: z.object({}).optional(),
-                        inlineData: z.object({}).optional(),
+                        function_response: z
+                          .object({
+                            id: z.string().optional().default(""),
+                            name: z.string(),
+                            response: z.object({}),
+                          })
+                          .optional(),
+                        inline_data: z.object({}).optional(),
                       }),
                     ),
                   }),
@@ -2527,6 +2563,29 @@ export const zWorkflowWorkersCount = z.object({
           }),
         ),
       z.enum(["root", "instagram_agent", "assistant", "open_deep_research"]),
+      z.object({
+        text: z.string().optional(),
+        video_metadata: z.object({}).optional(),
+        thought: z.boolean().optional(),
+        code_execution_result: z.object({}).optional(),
+        executable_code: z.string().optional(),
+        file_data: z.object({}).optional(),
+        function_call: z
+          .object({
+            id: z.string(),
+            name: z.string(),
+            args: z.object({}).optional(),
+          })
+          .optional(),
+        function_response: z
+          .object({
+            id: z.string().optional().default(""),
+            name: z.string(),
+            response: z.object({}),
+          })
+          .optional(),
+        inline_data: z.object({}).optional(),
+      }),
     ])
     .optional(),
 });
@@ -7442,15 +7501,21 @@ export const zFlowTeamInput = z.object({
                 code_execution_result: z.object({}).optional(),
                 executable_code: z.string().optional(),
                 file_data: z.object({}).optional(),
-                functionCall: z
+                function_call: z
                   .object({
                     id: z.string(),
                     name: z.string(),
                     args: z.object({}).optional(),
                   })
                   .optional(),
-                functionResponse: z.object({}).optional(),
-                inlineData: z.object({}).optional(),
+                function_response: z
+                  .object({
+                    id: z.string().optional().default(""),
+                    name: z.string(),
+                    response: z.object({}),
+                  })
+                  .optional(),
+                inline_data: z.object({}).optional(),
               }),
             ),
           }),
@@ -7470,15 +7535,21 @@ export const zFlowTeamInput = z.object({
                 code_execution_result: z.object({}).optional(),
                 executable_code: z.string().optional(),
                 file_data: z.object({}).optional(),
-                functionCall: z
+                function_call: z
                   .object({
                     id: z.string(),
                     name: z.string(),
                     args: z.object({}).optional(),
                   })
                   .optional(),
-                functionResponse: z.object({}).optional(),
-                inlineData: z.object({}).optional(),
+                function_response: z
+                  .object({
+                    id: z.string().optional().default(""),
+                    name: z.string(),
+                    response: z.object({}),
+                  })
+                  .optional(),
+                inline_data: z.object({}).optional(),
               }),
             ),
           }),
@@ -7768,15 +7839,21 @@ export const zAgentRunRequest = z.object({
               code_execution_result: z.object({}).optional(),
               executable_code: z.string().optional(),
               file_data: z.object({}).optional(),
-              functionCall: z
+              function_call: z
                 .object({
                   id: z.string(),
                   name: z.string(),
                   args: z.object({}).optional(),
                 })
                 .optional(),
-              functionResponse: z.object({}).optional(),
-              inlineData: z.object({}).optional(),
+              function_response: z
+                .object({
+                  id: z.string().optional().default(""),
+                  name: z.string(),
+                  response: z.object({}),
+                })
+                .optional(),
+              inline_data: z.object({}).optional(),
             }),
           ),
         }),
@@ -7796,15 +7873,21 @@ export const zAgentRunRequest = z.object({
               code_execution_result: z.object({}).optional(),
               executable_code: z.string().optional(),
               file_data: z.object({}).optional(),
-              functionCall: z
+              function_call: z
                 .object({
                   id: z.string(),
                   name: z.string(),
                   args: z.object({}).optional(),
                 })
                 .optional(),
-              functionResponse: z.object({}).optional(),
-              inlineData: z.object({}).optional(),
+              function_response: z
+                .object({
+                  id: z.string().optional().default(""),
+                  name: z.string(),
+                  response: z.object({}),
+                })
+                .optional(),
+              inline_data: z.object({}).optional(),
             }),
           ),
         }),
@@ -7845,15 +7928,21 @@ export const zAdkRawEvent = z
                   code_execution_result: z.object({}).optional(),
                   executable_code: z.string().optional(),
                   file_data: z.object({}).optional(),
-                  functionCall: z
+                  function_call: z
                     .object({
                       id: z.string(),
                       name: z.string(),
                       args: z.object({}).optional(),
                     })
                     .optional(),
-                  functionResponse: z.object({}).optional(),
-                  inlineData: z.object({}).optional(),
+                  function_response: z
+                    .object({
+                      id: z.string().optional().default(""),
+                      name: z.string(),
+                      response: z.object({}),
+                    })
+                    .optional(),
+                  inline_data: z.object({}).optional(),
                 }),
               ),
             }),
@@ -7873,15 +7962,21 @@ export const zAdkRawEvent = z
                   code_execution_result: z.object({}).optional(),
                   executable_code: z.string().optional(),
                   file_data: z.object({}).optional(),
-                  functionCall: z
+                  function_call: z
                     .object({
                       id: z.string(),
                       name: z.string(),
                       args: z.object({}).optional(),
                     })
                     .optional(),
-                  functionResponse: z.object({}).optional(),
-                  inlineData: z.object({}).optional(),
+                  function_response: z
+                    .object({
+                      id: z.string().optional().default(""),
+                      name: z.string(),
+                      response: z.object({}),
+                    })
+                    .optional(),
+                  inline_data: z.object({}).optional(),
                 }),
               ),
             }),
@@ -7927,15 +8022,21 @@ export const zAdkLlmResponse = z.object({
                 code_execution_result: z.object({}).optional(),
                 executable_code: z.string().optional(),
                 file_data: z.object({}).optional(),
-                functionCall: z
+                function_call: z
                   .object({
                     id: z.string(),
                     name: z.string(),
                     args: z.object({}).optional(),
                   })
                   .optional(),
-                functionResponse: z.object({}).optional(),
-                inlineData: z.object({}).optional(),
+                function_response: z
+                  .object({
+                    id: z.string().optional().default(""),
+                    name: z.string(),
+                    response: z.object({}),
+                  })
+                  .optional(),
+                inline_data: z.object({}).optional(),
               }),
             ),
           }),
@@ -7955,15 +8056,21 @@ export const zAdkLlmResponse = z.object({
                 code_execution_result: z.object({}).optional(),
                 executable_code: z.string().optional(),
                 file_data: z.object({}).optional(),
-                functionCall: z
+                function_call: z
                   .object({
                     id: z.string(),
                     name: z.string(),
                     args: z.object({}).optional(),
                   })
                   .optional(),
-                functionResponse: z.object({}).optional(),
-                inlineData: z.object({}).optional(),
+                function_response: z
+                  .object({
+                    id: z.string().optional().default(""),
+                    name: z.string(),
+                    response: z.object({}),
+                  })
+                  .optional(),
+                inline_data: z.object({}).optional(),
               }),
             ),
           }),
@@ -8342,9 +8449,15 @@ export const zAdkEventProperties = z.object({
               code_execution_result: z.object({}).optional(),
               executable_code: z.string().optional(),
               file_data: z.object({}).optional(),
-              functionCall: zFunctionCallDict.optional(),
-              functionResponse: z.object({}).optional(),
-              inlineData: z.object({}).optional(),
+              function_call: zFunctionCallDict.optional(),
+              function_response: z
+                .object({
+                  id: z.string().optional().default(""),
+                  name: z.string(),
+                  response: z.object({}),
+                })
+                .optional(),
+              inline_data: z.object({}).optional(),
             }),
           ),
         }),
@@ -8364,9 +8477,15 @@ export const zAdkEventProperties = z.object({
               code_execution_result: z.object({}).optional(),
               executable_code: z.string().optional(),
               file_data: z.object({}).optional(),
-              functionCall: zFunctionCallDict.optional(),
-              functionResponse: z.object({}).optional(),
-              inlineData: z.object({}).optional(),
+              function_call: zFunctionCallDict.optional(),
+              function_response: z
+                .object({
+                  id: z.string().optional().default(""),
+                  name: z.string(),
+                  response: z.object({}),
+                })
+                .optional(),
+              inline_data: z.object({}).optional(),
             }),
           ),
         }),
@@ -8467,9 +8586,15 @@ export const zContent = z.union([
             code_execution_result: z.object({}).optional(),
             executable_code: z.string().optional(),
             file_data: z.object({}).optional(),
-            functionCall: zFunctionCallDict.optional(),
-            functionResponse: z.object({}).optional(),
-            inlineData: z.object({}).optional(),
+            function_call: zFunctionCallDict.optional(),
+            function_response: z
+              .object({
+                id: z.string().optional().default(""),
+                name: z.string(),
+                response: z.object({}),
+              })
+              .optional(),
+            inline_data: z.object({}).optional(),
           }),
         ),
       }),
@@ -8489,9 +8614,15 @@ export const zContent = z.union([
             code_execution_result: z.object({}).optional(),
             executable_code: z.string().optional(),
             file_data: z.object({}).optional(),
-            functionCall: zFunctionCallDict.optional(),
-            functionResponse: z.object({}).optional(),
-            inlineData: z.object({}).optional(),
+            function_call: zFunctionCallDict.optional(),
+            function_response: z
+              .object({
+                id: z.string().optional().default(""),
+                name: z.string(),
+                response: z.object({}),
+              })
+              .optional(),
+            inline_data: z.object({}).optional(),
           }),
         ),
       }),
@@ -8508,9 +8639,15 @@ export const zUserContent = z.object({
       code_execution_result: z.object({}).optional(),
       executable_code: z.string().optional(),
       file_data: z.object({}).optional(),
-      functionCall: zFunctionCallDict.optional(),
-      functionResponse: z.object({}).optional(),
-      inlineData: z.object({}).optional(),
+      function_call: zFunctionCallDict.optional(),
+      function_response: z
+        .object({
+          id: z.string().optional().default(""),
+          name: z.string(),
+          response: z.object({}),
+        })
+        .optional(),
+      inline_data: z.object({}).optional(),
     }),
   ),
 });
@@ -8525,9 +8662,15 @@ export const zModelContent = z.object({
       code_execution_result: z.object({}).optional(),
       executable_code: z.string().optional(),
       file_data: z.object({}).optional(),
-      functionCall: zFunctionCallDict.optional(),
-      functionResponse: z.object({}).optional(),
-      inlineData: z.object({}).optional(),
+      function_call: zFunctionCallDict.optional(),
+      function_response: z
+        .object({
+          id: z.string().optional().default(""),
+          name: z.string(),
+          response: z.object({}),
+        })
+        .optional(),
+      inline_data: z.object({}).optional(),
     }),
   ),
 });
@@ -8539,9 +8682,21 @@ export const zPart = z.object({
   code_execution_result: z.object({}).optional(),
   executable_code: z.string().optional(),
   file_data: z.object({}).optional(),
-  functionCall: zFunctionCallDict.optional(),
-  functionResponse: z.object({}).optional(),
-  inlineData: z.object({}).optional(),
+  function_call: zFunctionCallDict.optional(),
+  function_response: z
+    .object({
+      id: z.string().optional().default(""),
+      name: z.string(),
+      response: z.object({}),
+    })
+    .optional(),
+  inline_data: z.object({}).optional(),
+});
+
+export const zFunctionResponse = z.object({
+  id: z.string().optional().default(""),
+  name: z.string(),
+  response: z.object({}),
 });
 
 export const zMetadataGetResponse = zApiMeta;
