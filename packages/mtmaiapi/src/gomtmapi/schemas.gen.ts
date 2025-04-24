@@ -7877,21 +7877,21 @@ export const PartSchema = {
     code_execution_result: {
       type: "object",
     },
-    executable_code: {
+    executableCode: {
       type: "string",
       description: "Optional. Executable code..",
     },
-    file_data: {
+    fileData: {
       type: "object",
       description: "Optional. File data..",
     },
-    function_call: {
+    functionCall: {
       $ref: "#/components/schemas/FunctionCallDict",
     },
-    function_response: {
+    functionResponse: {
       $ref: "#/components/schemas/FunctionResponse",
     },
-    inline_data: {
+    inlineData: {
       type: "object",
       description: "Optional. Inlined bytes data..",
     },

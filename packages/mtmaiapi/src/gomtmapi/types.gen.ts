@@ -3912,19 +3912,19 @@ export type Part = {
   /**
    * Optional. Executable code..
    */
-  executable_code?: string;
+  executableCode?: string;
   /**
    * Optional. File data..
    */
-  file_data?: {
+  fileData?: {
     [key: string]: unknown;
   };
-  function_call?: FunctionCallDict;
-  function_response?: FunctionResponse;
+  functionCall?: FunctionCallDict;
+  functionResponse?: FunctionResponse;
   /**
    * Optional. Inlined bytes data..
    */
-  inline_data?: {
+  inlineData?: {
     [key: string]: unknown;
   };
 };

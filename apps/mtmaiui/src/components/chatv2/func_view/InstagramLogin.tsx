@@ -24,9 +24,9 @@ export default function InstagramLoginView({ part }: InstagramLoginViewProps) {
         role: "user",
         parts: [
           {
-            function_response: {
-              id: part.function_call!.id,
-              name: part.function_call!.name,
+            functionResponse: {
+              id: part.functionCall!.id,
+              name: part.functionCall!.name,
               response: {
                 username: form.form.getValues("username"),
                 password: form.form.getValues("password"),
