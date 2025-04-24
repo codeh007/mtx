@@ -11,7 +11,7 @@ export const ChatHeader = () => {
   const setIsDebug = useWorkbenchStore((x) => x.setIsDebug);
 
   const agentState = useWorkbenchStore((x) => x.agentState);
-  const adkEvents = useWorkbenchStore((x) => x.adkEvents);
+  const appName = useWorkbenchStore((x) => x.adkAppName);
   return (
     <div className="px-4 py-3 border-b border-neutral-300 dark:border-neutral-800 flex items-center gap-3 sticky top-0 z-10">
       <div className="flex items-center justify-center h-8 w-8">
@@ -28,7 +28,7 @@ export const ChatHeader = () => {
       </div>
 
       <div className="flex-1">
-        <h2 className="font-semibold text-base">AI Chat Agent</h2>
+        <h2 className="font-semibold text-base">{appName || "AI Chat"}</h2>
       </div>
 
       <div className="flex items-center gap-2 mr-2">

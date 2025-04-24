@@ -14,21 +14,23 @@ import {
   CommandList,
 } from "mtxuilib/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "mtxuilib/ui/popover";
+import { useWorkbenchStore } from "../../stores/workbrench.store";
 
-const componentTypes = [
+const adkAppNames = [
   {
-    value: "TextMessage",
-    label: "Instagram 自动化操作",
+    value: "instagram_agent",
+    label: "Instagram 自动化",
   },
   {
-    value: "PlatformAccountInput",
+    value: "root",
     label: "测试",
   },
 ];
 
 export function AdkAppSelect(props: React.ComponentProps<"input">) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const value = useWorkbenchStore((x) => x.adkAppName);
+  const setAdkAppName = useWorkbenchStore((x) => x.setAdkAppName);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -41,24 +43,24 @@ export function AdkAppSelect(props: React.ComponentProps<"input">) {
           className="w-[200px] justify-between"
         >
           {value
-            ? componentTypes.find((framework) => framework.value === value)?.label
-            : "选择消息类型"}
+            ? adkAppNames.find((framework) => framework.value === value)?.label
+            : "选择应用..."}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="选择组件类型" />
+          <CommandInput placeholder="选择应用..." />
           <CommandList>
             <CommandEmpty>No framework found.</CommandEmpty>
             <CommandGroup>
-              {componentTypes.map((framework) => (
+              {adkAppNames.map((framework) => (
                 <CommandItem
                   key={framework.value}
                   value={framework.value}
                   onSelect={(currentValue) => {
                     props.onChange?.(currentValue as any);
-                    setValue(currentValue === value ? "" : currentValue);
+                    setAdkAppName(currentValue === value ? "" : currentValue);
                     setOpen(false);
                   }}
                 >

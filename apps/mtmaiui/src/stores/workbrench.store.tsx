@@ -38,15 +38,19 @@ export interface WorkbenchProps {
   sessionId?: string;
 }
 export interface WorkbrenchState extends WorkbenchProps {
-  backendUrl: string;
+  // backendUrl: string;
+  agentUrl: string;
+  setAgentUrl: (agentUrl: string) => void;
   accessToken?: string;
+  setAccessToken: (accessToken: string) => void;
   params?: Record<string, any>;
   tenant: Tenant;
   setSessionId: (threadId?: string) => void;
-  workbenchViewProps?: Record<string, any>;
-  setWorkbenchViewProps: (props?: Record<string, any>) => void;
-  appendChatMessageCb?: (message) => void;
-  setAccessToken: (accessToken: string) => void;
+  // workbenchViewProps?: Record<string, any>;
+  // setWorkbenchViewProps: (props?: Record<string, any>) => void;
+  // appendChatMessageCb?: (message) => void;
+  adkAppName: string;
+  setAdkAppName: (adkAppName: string) => void;
   messageParser?: (messages: Message[]) => void;
   setMessageParser: (messageParser: (messages: Message[]) => void) => void;
   openChat?: boolean;
@@ -145,10 +149,14 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
     setAgentState: (agentState) => {
       set({ agentState });
     },
-    // adkRawEvents: [],
-    // setAdkRawEvents: (adkRawEvents) => {
-    //   set({ adkRawEvents });
-    // },
+    adkAppName: "root",
+    setAdkAppName: (adkAppName) => {
+      set({ adkAppName });
+    },
+    agentUrl: "http://localhost:7860",
+    setAgentUrl: (agentUrl) => {
+      set({ agentUrl });
+    },
     adkEvents: [],
     setAdkEvents: (adkEvents) => {
       set({ adkEvents });
@@ -160,17 +168,6 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
 
       set({
         input: "",
-        // adkRawEvents: [
-        //   ...get().adkRawEvents,
-        //   {
-        //     content: input,
-        //     invocation_id: generateUUID(),
-        //     author: "user",
-        //     actions: {},
-        //     partial: false,
-        //     timestamp: new Date().toISOString(),
-        //   },
-        // ],
         adkEvents: [
           ...get().adkEvents,
           {
@@ -181,10 +178,9 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString(),
             },
-            app_name: "root",
+            app_name: get().adkAppName,
             user_id: get().tenant.metadata.id,
             session_id: sessionId,
-            // type: "text_message",
             author: "user",
             invocation_id: generateUUID(),
             actions: {},
@@ -192,7 +188,7 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
           },
         ],
       });
-      const url = "http://localhost:7860/run_sse";
+      const url = `${get().agentUrl}/run_sse`;
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -202,7 +198,7 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
         },
         body: JSON.stringify({
           session_id: sessionId,
-          app_name: "root",
+          app_name: get().adkAppName,
           user_id: get().tenant.metadata.id,
           new_message: input,
           streaming: true,

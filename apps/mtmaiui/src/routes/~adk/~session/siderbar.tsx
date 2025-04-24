@@ -10,21 +10,20 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
-  SidebarInput,
 } from "mtxuilib/ui/sidebar";
 
 import { useQuery } from "@tanstack/react-query";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Icons } from "mtxuilib/icons/icons";
 import { Label } from "mtxuilib/ui/label";
-import { Switch } from "mtxuilib/ui/switch";
-import { type ChangeEvent, useMemo } from "react";
+import { useMemo } from "react";
 import { AdkAppSelect } from "../../../components/chatv2/app_select";
 import { useTenantId } from "../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
 export function NavAdkSession() {
   const isDebug = useWorkbenchStore((x) => x.isDebug);
+
   const linkToNew = useMemo(() => {
     return "/adk/session";
   }, []);
@@ -50,18 +49,13 @@ export function NavAdkSession() {
             >
               <Icons.plus className="size-4" />
             </CustomLink>
-            <Switch className="shadow-none" />
+            {/* <Switch className="shadow-none" /> */}
           </Label>
         </div>
-        <SidebarInput
+        {/* <SidebarInput
           placeholder="Type to search..."
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            // console.log("sidebar input", e.target.value);
-            // setQueryParams({
-            //   label: e.target.value,
-            // });
-          }}
-        />
+          onChange={(e: ChangeEvent<HTMLInputElement>) => { }}
+        /> */}
         <AdkAppSelect />
       </SidebarHeader>
       <SidebarContent>

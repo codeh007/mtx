@@ -1452,6 +1452,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/AdkRawEvent",
         },
+        {
+          $ref: "#/components/schemas/AdkAppTypes",
+        },
       ],
     },
   },
@@ -7655,6 +7658,11 @@ export const AdkAppUpsertSchema = {
       $ref: "#/components/schemas/AdkAppProperties",
     },
   ],
+} as const;
+
+export const AdkAppTypesSchema = {
+  type: "string",
+  enum: ["root", "instagram_agent", "assistant", "open_deep_research"],
 } as const;
 
 export const AdkSessionPropertiesSchema = {

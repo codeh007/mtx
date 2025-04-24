@@ -851,7 +851,8 @@ export type WorkflowWorkersCount = {
     | AgentIncomingEvent
     | AgentOutgoingEvent
     | AddSessionToEvalSetRequest
-    | AdkRawEvent;
+    | AdkRawEvent
+    | AdkAppTypes;
 };
 
 export type WorkflowRun = {
@@ -3816,6 +3817,15 @@ export type AdkAppList = {
 export type AdkApp = ApiResourceMetaProperties & AdkAppProperties;
 
 export type AdkAppUpsert = AdkAppProperties;
+
+export type AdkAppTypes = "root" | "instagram_agent" | "assistant" | "open_deep_research";
+
+export const AdkAppTypes = {
+  ROOT: "root",
+  INSTAGRAM_AGENT: "instagram_agent",
+  ASSISTANT: "assistant",
+  OPEN_DEEP_RESEARCH: "open_deep_research",
+} as const;
 
 export type AdkSessionProperties = {
   id: string;

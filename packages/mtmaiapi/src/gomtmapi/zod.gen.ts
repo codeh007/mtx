@@ -2526,6 +2526,7 @@ export const zWorkflowWorkersCount = z.object({
             id: z.string().optional(),
           }),
         ),
+      z.enum(["root", "instagram_agent", "assistant", "open_deep_research"]),
     ])
     .optional(),
 });
@@ -8406,6 +8407,8 @@ export const zAdkAppList = z.object({
 export const zAdkApp = zApiResourceMetaProperties.merge(zAdkAppProperties);
 
 export const zAdkAppUpsert = zAdkAppProperties;
+
+export const zAdkAppTypes = z.enum(["root", "instagram_agent", "assistant", "open_deep_research"]);
 
 export const zAdkSessionProperties = z.object({
   id: z.string(),
