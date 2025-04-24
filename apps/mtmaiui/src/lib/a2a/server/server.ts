@@ -5,7 +5,7 @@ import express, {
   type NextFunction,
   type RequestHandler,
 } from "express";
-import type * as schema from "../lib/a2a/schema.js";
+import type * as schema from "../schema.js";
 import { A2AError } from "./error.js";
 // Import TaskHandler and the original TaskContext to derive the new one
 import type { TaskContext as OldTaskContext, TaskHandler } from "./handler.js";

@@ -4,7 +4,7 @@ import {
   type TaskContext,
   type TaskYieldUpdate,
   type schema,
-} from "../../server/index.js";
+} from "../../lib/a2a/server/index.js";
 import { ai } from "./genkit.js";
 import { searchMovies, searchPeople } from "./tools.js";
 

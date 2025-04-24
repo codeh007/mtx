@@ -19,9 +19,12 @@ import { Icons } from "mtxuilib/icons/icons";
 import { Label } from "mtxuilib/ui/label";
 import { Switch } from "mtxuilib/ui/switch";
 import { type ChangeEvent, useMemo } from "react";
+import { AdkAppSelect } from "../../../components/chatv2/app_select";
 import { useTenantId } from "../../../hooks/useAuth";
+import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
 export function NavAdkSession() {
+  const isDebug = useWorkbenchStore((x) => x.isDebug);
   const linkToNew = useMemo(() => {
     return "/adk/session";
   }, []);
@@ -59,11 +62,12 @@ export function NavAdkSession() {
             // });
           }}
         />
+        <AdkAppSelect />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup className="px-0">
           <SidebarGroupContent>
-            <DebugValue data={{ data: adkSessionQuery.data }} />
+            {isDebug && <DebugValue data={{ data: adkSessionQuery.data }} />}
             {adkSessionQuery.data?.rows?.map((item) => (
               <NavAdkSessionItem
                 key={item.metadata?.id}

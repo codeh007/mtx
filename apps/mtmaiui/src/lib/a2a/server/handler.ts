@@ -1,4 +1,4 @@
-import type * as schema from "../lib/a2a/schema.js";
+import type * as schema from "../schema.js";
 // import { TaskStore } from "./store.js"; // Import TaskStore
 
 /**

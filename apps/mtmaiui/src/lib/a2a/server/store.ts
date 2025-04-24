@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs/promises";
-import type * as schema from "../lib/a2a/schema.js";
+import type * as schema from "../schema.js";
 import { A2AError } from "./error.js";
 
 // Helper type for the simplified store

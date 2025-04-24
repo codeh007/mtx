@@ -35,7 +35,7 @@
     "dev:wrangler": "wrangler dev",
     "mcp-inspector": "npx @modelcontextprotocol/inspector",
     "agents:coder": "bun run withEnv -- bun run src/agents/coder/index.ts",
-    "a2a:cli": "bun run withEnv -- bun run src/cli.ts",
+    "a2a:cli": "bun run withEnv -- bun run src/lib/a2a/cli.ts",
     "agents:movie-agent": "bun run withEnv -- bun run src/agents/movie-agent/index.ts"
   },
   "typesVersions": {

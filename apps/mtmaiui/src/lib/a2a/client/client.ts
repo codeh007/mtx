@@ -1,38 +1,38 @@
 // Import necessary types from schema.ts
-import {
-  type A2ARequest, // Needed for supports() method check
+import type {
+  A2ARequest, // Needed for supports() method check
   // Core types
-  type AgentCard,
-  type CancelTaskRequest,
-  type CancelTaskResponse,
-  type GetTaskPushNotificationRequest,
-  type GetTaskPushNotificationResponse,
-  type GetTaskRequest,
-  type GetTaskResponse,
-  type JSONRPCError,
-  type JSONRPCRequest,
-  type JSONRPCResponse,
+  AgentCard,
+  CancelTaskRequest,
+  CancelTaskResponse,
+  GetTaskPushNotificationRequest,
+  GetTaskPushNotificationResponse,
+  GetTaskRequest,
+  GetTaskResponse,
+  JSONRPCError,
+  JSONRPCRequest,
+  JSONRPCResponse,
   // Full Request types (needed for internal generics)
-  type SendTaskRequest,
+  SendTaskRequest,
   // Full Response types (needed for internal generics and result extraction)
-  type SendTaskResponse,
-  type SendTaskStreamingRequest,
-  type SendTaskStreamingResponse,
-  type SetTaskPushNotificationRequest,
-  type SetTaskPushNotificationResponse,
+  SendTaskResponse,
+  SendTaskStreamingRequest,
+  SendTaskStreamingResponse,
+  SetTaskPushNotificationRequest,
+  SetTaskPushNotificationResponse,
   // Response Payload types (used in public method return signatures)
-  type Task,
-  type TaskArtifactUpdateEvent,
-  type TaskIdParams, // Used by cancel, getTaskPushNotificationConfig
-  type TaskPushNotificationConfig, // Used by setTaskPushNotificationConfig
-  type TaskQueryParams, // Used by get, resubscribe
-  type TaskResubscriptionRequest,
+  Task,
+  TaskArtifactUpdateEvent,
+  TaskIdParams, // Used by cancel, getTaskPushNotificationConfig
+  TaskPushNotificationConfig, // Used by setTaskPushNotificationConfig
+  TaskQueryParams, // Used by get, resubscribe
+  TaskResubscriptionRequest,
   // Specific Params types (used directly in public method signatures)
-  type TaskSendParams,
+  TaskSendParams,
   // TaskHistory, // Not currently implemented
   // Streaming Payload types (used in public method yield signatures)
-  type TaskStatusUpdateEvent,
-} from "../lib/a2a/schema.js";
+  TaskStatusUpdateEvent,
+} from "../schema.js";
 
 // Simple error class for client-side representation of JSON-RPC errors
 class RpcError extends Error {
