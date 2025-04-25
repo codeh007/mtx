@@ -87,7 +87,7 @@ export default function AgentChatView() {
         <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-24 max-h-[calc(100vh-10rem)]">
           {adkEvents && adkEvents.length <= 0 && <AdkWelcomeCard />}
           {adkEvents?.map((m) => {
-            return <AdkEventsViewItemView key={m.invocation_id} item={m} />;
+            return <AdkEventsViewItemView key={m.id} item={m} />;
           })}
           <div ref={messagesEndRef} />
         </div>

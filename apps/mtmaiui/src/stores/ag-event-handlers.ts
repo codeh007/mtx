@@ -12,62 +12,67 @@ export const handleAgentOutgoingEvent = (
   ) => void,
 ) => {
   if (event.content) {
-    for (const part of event.content.parts) {
+    // 处理 functionCall 到 function_call 的转换
+    for (const part of event.content?.parts ?? []) {
       //@ts-expect-error
       if (part.functionCall) {
         //@ts-expect-error
         part.function_call = part.functionCall;
       }
     }
+    // console.log({ event, adkEvents: get().adkEvents });
+
     if (event.partial) {
-      const adkEvent = get().adkEvents.find((item) => item.invocation_id === event.invocation_id);
-      if (!adkEvent) {
-        addAdkRawEvent(event, get, set);
+      // 查找是否已存在相同 invocation_id 的事件
+      const existingEvent = get().adkEvents.find(
+        (item) => item.invocation_id === event.invocation_id,
+      );
+
+      if (event.partial) {
+        // 流式响应处理
+        if (!existingEvent) {
+          // 首次收到流式响应，创建新事件
+          addAdkRawEvent(event, get, set);
+        } else {
+          // 更新已有事件的内容
+          set({
+            adkEvents: get().adkEvents.map((item) => {
+              if (item.invocation_id === event.invocation_id) {
+                const newText =
+                  (item.content?.parts?.[0]?.text || "") + (event.content?.parts?.[0]?.text || "");
+                return {
+                  ...item,
+                  content: {
+                    ...event.content,
+                    role: event.content?.role,
+                    parts: [{ text: newText }],
+                  },
+                };
+              }
+              return item;
+            }),
+          });
+        }
       } else {
-        // 流式事件处理: 更新现有事件的内容，合并之前的消息内容
-        set({
-          adkEvents: get().adkEvents.map((item) => {
-            const newText =
-              (item.content?.parts?.[0]?.text || "") + event.content?.parts?.[0]?.text;
-            console.log("newText", newText);
-            if (item.invocation_id === event.invocation_id) {
-              return {
-                ...item,
-                content: {
-                  ...event.content,
-                  role: event.content!.role,
-                  parts: [
-                    {
-                      text: newText,
-                    },
-                  ],
-                },
-              };
-            }
-            return item;
-          }),
-        });
+        // 非流式完整消息处理
+        if (!existingEvent) {
+          // 只有不存在相同 invocation_id 的消息时才添加
+          addAdkRawEvent(event, get, set);
+        } else {
+          // 如果存在则更新为完整消息
+          set({
+            adkEvents: get().adkEvents.map((item) => {
+              if (item.invocation_id === event.invocation_id) {
+                return {
+                  ...item,
+                  content: event.content!,
+                };
+              }
+              return item;
+            }),
+          });
+        }
       }
-    } else {
-      // 完整消息
-      // const adkEvent = get().adkEvents.find((item) => item.invocation_id === event.invocation_id);
-      // if (adkEvent) {
-      //   // 更新为完整消息
-      //   set({
-      //     adkEvents: get().adkEvents.map((item) => {
-      //       if (item.invocation_id === event.invocation_id) {
-      //         return {
-      //           ...item,
-      //           ...(event.content && { content: event.content }),
-      //         };
-      //       }
-      //       return item;
-      //     }),
-      //   });
-      // } else {
-      //   // 添加新的完整消息
-      addAdkRawEvent(event, get, set);
-      // }
     }
   }
 };
