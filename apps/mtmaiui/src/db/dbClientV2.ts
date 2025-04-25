@@ -49,7 +49,7 @@ bzAKBggqhkjOPQQDAgNJADBGAiEAivkxeo1Cilt0aq/S4ByYVa+fOUHT3up4TAYQ
   // );
 
   // Create drizzle instance with the postgres client
-  const db = drizzle(`${env.MTMAG_DATABASE_URL}?sslmode=require`);
+  const db = drizzle(`${env.MTMAG_DATABASE_URL}`);
 
   // const pool = new Pool({
   //   connectionString: `${env.MTMAG_DATABASE_URL}?sslmode=verify-ca`,
