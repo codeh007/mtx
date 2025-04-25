@@ -12,7 +12,8 @@
   "sideEffects": false,
   "scripts": {
     "dev": "bun withEnv -- next dev --port 6111",
-    "dev:vite": "bun run withEnv -- miniflare --port=6111",
+    "dev2": "bun withEnv -- vite --port 6111",
+    "dev:vite": "bun run withEnv -- bunx miniflare dev --port=6111",
     "dev:wrangler": "bun run withEnv -- wrangler dev",
     "withEnv": "dotenv -e ../../../gomtm/env/dev.env --",
     "dev:next": "bun run watch & next dev",

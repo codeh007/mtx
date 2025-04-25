@@ -4,6 +4,7 @@ import configureOpenAPI from "./lib/configureOpenAPI";
 import configureAuth from "./lib/configureAuth";
 import createApp from "./lib/createApp";
 import { apiRoutes } from "./routes/api_routes";
+import helloDbRouter from "./routes/db-example/dbexample.handler";
 const app = createApp().basePath("/api");
 
 app.use("*", cors());
@@ -22,6 +23,8 @@ configureAuth(app);
 for (const route of apiRoutes) {
   app.route("/", route);
 }
+
+app.route("/", helloDbRouter);
 
 // mcp 服务
 // app.route("/", mcpSseRoute);

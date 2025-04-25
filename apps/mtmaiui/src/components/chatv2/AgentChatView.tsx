@@ -211,11 +211,9 @@ export const AdkEventsViewItemView = ({
 const TextContentView = ({
   part,
   isUser,
-  // timestamp,
 }: {
   part: Part;
   isUser: boolean;
-  // timestamp: string;
 }) => {
   return (
     <>
@@ -243,7 +241,12 @@ const FunctionCallPartView = ({
   return (
     <Card className="p-1 rounded-md bg-neutral-100 dark:bg-neutral-900">
       {isDebug && <DebugValue data={part.functionCall} />}
-      {part.functionCall?.name === "instagram_login" ? <InstagramLoginView part={part} /> : <></>}
+      {/* @ts-expect-error */}
+      {(part.functionCall || part.function_call)?.name === "instagram_login" ? (
+        <InstagramLoginView part={part} />
+      ) : (
+        <></>
+      )}
     </Card>
   );
 };

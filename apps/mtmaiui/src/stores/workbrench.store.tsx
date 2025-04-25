@@ -259,7 +259,8 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
       set({ openWorkbench });
     },
     setSessionId: async (sessionId) => {
-      console.log("setSessionId", sessionId);
+      // console.log("setSessionId", sessionId);
+      set({ sessionId });
       if (!sessionId) {
         return;
       }
@@ -270,11 +271,10 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
           session: sessionId ?? "",
         },
       });
-      console.log("adkStateQuery Result", adkSession);
+      // console.log("adkStateQuery Result", adkSession);
       if (adkSession.data) {
         set({ agentState: adkSession.data.state as RootAgentState });
       }
-      set({ sessionId });
     },
     setWorkflowRunId: (workflowRunId) => {
       set({ workflowRunId });
@@ -469,7 +469,12 @@ export const WorkbrenchProvider = (props: React.PropsWithChildren<WorkbenchProps
     }
   }, [adkSessionQuery.data, mystore]);
 
-  return <mtmaiStoreContext.Provider value={mystore}>{children}</mtmaiStoreContext.Provider>;
+  return (
+    <mtmaiStoreContext.Provider value={mystore}>
+      {children}
+      <OnSessionChange />
+    </mtmaiStoreContext.Provider>
+  );
 };
 
 const DEFAULT_USE_SHALLOW = false;
@@ -486,3 +491,29 @@ export function useWorkbenchStore<T>(selector?: (state: WorkbrenchState) => T) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return useStore(store);
 }
+
+export const OnSessionChange = () => {
+  const sessionId = useWorkbenchStore((state) => state.sessionId);
+  const adkAppName = useWorkbenchStore((state) => state.adkAppName);
+  const setAdkEvents = useWorkbenchStore((state) => state.setAdkEvents);
+  const tid = useTenantId();
+  const adkEventsQuery = useQuery({
+    ...adkEventsListOptions({
+      path: {
+        tenant: tid,
+      },
+      query: {
+        app_name: adkAppName,
+        session: sessionId!,
+      },
+    }),
+  });
+
+  useEffect(() => {
+    if (adkEventsQuery.data) {
+      console.log("adkEventsQuery.data", adkEventsQuery.data);
+      setAdkEvents(adkEventsQuery.data.rows || []);
+    }
+  }, [adkEventsQuery.data, setAdkEvents]);
+  return null;
+};
