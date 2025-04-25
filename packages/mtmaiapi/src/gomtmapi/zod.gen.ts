@@ -1815,76 +1815,36 @@ export const zWorkflowWorkersCount = z.object({
           ])
           .optional(),
         content: z
-          .union([
-            z
-              .object({
-                role: z.literal("user").optional(),
-              })
-              .merge(
+          .object({
+            role: z.string().optional(),
+            parts: z
+              .array(
                 z.object({
-                  role: z.enum(["user"]),
-                  parts: z.array(
-                    z.object({
-                      text: z.string().optional(),
-                      video_metadata: z.object({}).optional(),
-                      thought: z.boolean().optional(),
-                      code_execution_result: z.object({}).optional(),
-                      executable_code: z.string().optional(),
-                      file_data: z.object({}).optional(),
-                      function_call: z
-                        .object({
-                          id: z.string(),
-                          name: z.string(),
-                          args: z.object({}).optional(),
-                        })
-                        .optional(),
-                      function_response: z
-                        .object({
-                          id: z.string().optional().default(""),
-                          name: z.string(),
-                          response: z.object({}),
-                        })
-                        .optional(),
-                      inline_data: z.object({}).optional(),
-                    }),
-                  ),
+                  text: z.string().optional(),
+                  video_metadata: z.object({}).optional(),
+                  thought: z.boolean().optional(),
+                  code_execution_result: z.object({}).optional(),
+                  executable_code: z.string().optional(),
+                  file_data: z.object({}).optional(),
+                  function_call: z
+                    .object({
+                      id: z.string(),
+                      name: z.string(),
+                      args: z.object({}).optional(),
+                    })
+                    .optional(),
+                  function_response: z
+                    .object({
+                      id: z.string().optional().default(""),
+                      name: z.string(),
+                      response: z.object({}),
+                    })
+                    .optional(),
+                  inline_data: z.object({}).optional(),
                 }),
-              ),
-            z
-              .object({
-                role: z.literal("model").optional(),
-              })
-              .merge(
-                z.object({
-                  role: z.enum(["model"]),
-                  parts: z.array(
-                    z.object({
-                      text: z.string().optional(),
-                      video_metadata: z.object({}).optional(),
-                      thought: z.boolean().optional(),
-                      code_execution_result: z.object({}).optional(),
-                      executable_code: z.string().optional(),
-                      file_data: z.object({}).optional(),
-                      function_call: z
-                        .object({
-                          id: z.string(),
-                          name: z.string(),
-                          args: z.object({}).optional(),
-                        })
-                        .optional(),
-                      function_response: z
-                        .object({
-                          id: z.string().optional().default(""),
-                          name: z.string(),
-                          response: z.object({}),
-                        })
-                        .optional(),
-                      inline_data: z.object({}).optional(),
-                    }),
-                  ),
-                }),
-              ),
-          ])
+              )
+              .optional(),
+          })
           .optional(),
       }),
       z.object({
@@ -2271,9 +2231,6 @@ export const zWorkflowWorkersCount = z.object({
               ),
           }),
         ),
-      z.object({
-        browser: z.enum(["chrome", "firefox"]).optional(),
-      }),
       z
         .object({
           type: z.enum([
@@ -2318,82 +2275,6 @@ export const zWorkflowWorkersCount = z.object({
             mcpResources: z.array(z.unknown()).optional(),
           }),
         ),
-      z.object({
-        app_name: z.string(),
-        user_id: z.string(),
-        session_id: z.string(),
-        new_message: z.union([
-          z
-            .object({
-              role: z.literal("user").optional(),
-            })
-            .merge(
-              z.object({
-                role: z.enum(["user"]),
-                parts: z.array(
-                  z.object({
-                    text: z.string().optional(),
-                    video_metadata: z.object({}).optional(),
-                    thought: z.boolean().optional(),
-                    code_execution_result: z.object({}).optional(),
-                    executable_code: z.string().optional(),
-                    file_data: z.object({}).optional(),
-                    function_call: z
-                      .object({
-                        id: z.string(),
-                        name: z.string(),
-                        args: z.object({}).optional(),
-                      })
-                      .optional(),
-                    function_response: z
-                      .object({
-                        id: z.string().optional().default(""),
-                        name: z.string(),
-                        response: z.object({}),
-                      })
-                      .optional(),
-                    inline_data: z.object({}).optional(),
-                  }),
-                ),
-              }),
-            ),
-          z
-            .object({
-              role: z.literal("model").optional(),
-            })
-            .merge(
-              z.object({
-                role: z.enum(["model"]),
-                parts: z.array(
-                  z.object({
-                    text: z.string().optional(),
-                    video_metadata: z.object({}).optional(),
-                    thought: z.boolean().optional(),
-                    code_execution_result: z.object({}).optional(),
-                    executable_code: z.string().optional(),
-                    file_data: z.object({}).optional(),
-                    function_call: z
-                      .object({
-                        id: z.string(),
-                        name: z.string(),
-                        args: z.object({}).optional(),
-                      })
-                      .optional(),
-                    function_response: z
-                      .object({
-                        id: z.string().optional().default(""),
-                        name: z.string(),
-                        response: z.object({}),
-                      })
-                      .optional(),
-                    inline_data: z.object({}).optional(),
-                  }),
-                ),
-              }),
-            ),
-        ]),
-        streaming: z.boolean().default(false),
-      }),
       z.enum(["YES", "NO"]),
       z.union([
         z
@@ -2478,76 +2359,36 @@ export const zWorkflowWorkersCount = z.object({
           interrupted: z.boolean().optional(),
           custom_metadata: z.object({}).optional(),
           content: z
-            .union([
-              z
-                .object({
-                  role: z.literal("user").optional(),
-                })
-                .merge(
+            .object({
+              role: z.string().optional(),
+              parts: z
+                .array(
                   z.object({
-                    role: z.enum(["user"]),
-                    parts: z.array(
-                      z.object({
-                        text: z.string().optional(),
-                        video_metadata: z.object({}).optional(),
-                        thought: z.boolean().optional(),
-                        code_execution_result: z.object({}).optional(),
-                        executable_code: z.string().optional(),
-                        file_data: z.object({}).optional(),
-                        function_call: z
-                          .object({
-                            id: z.string(),
-                            name: z.string(),
-                            args: z.object({}).optional(),
-                          })
-                          .optional(),
-                        function_response: z
-                          .object({
-                            id: z.string().optional().default(""),
-                            name: z.string(),
-                            response: z.object({}),
-                          })
-                          .optional(),
-                        inline_data: z.object({}).optional(),
-                      }),
-                    ),
+                    text: z.string().optional(),
+                    video_metadata: z.object({}).optional(),
+                    thought: z.boolean().optional(),
+                    code_execution_result: z.object({}).optional(),
+                    executable_code: z.string().optional(),
+                    file_data: z.object({}).optional(),
+                    function_call: z
+                      .object({
+                        id: z.string(),
+                        name: z.string(),
+                        args: z.object({}).optional(),
+                      })
+                      .optional(),
+                    function_response: z
+                      .object({
+                        id: z.string().optional().default(""),
+                        name: z.string(),
+                        response: z.object({}),
+                      })
+                      .optional(),
+                    inline_data: z.object({}).optional(),
                   }),
-                ),
-              z
-                .object({
-                  role: z.literal("model").optional(),
-                })
-                .merge(
-                  z.object({
-                    role: z.enum(["model"]),
-                    parts: z.array(
-                      z.object({
-                        text: z.string().optional(),
-                        video_metadata: z.object({}).optional(),
-                        thought: z.boolean().optional(),
-                        code_execution_result: z.object({}).optional(),
-                        executable_code: z.string().optional(),
-                        file_data: z.object({}).optional(),
-                        function_call: z
-                          .object({
-                            id: z.string(),
-                            name: z.string(),
-                            args: z.object({}).optional(),
-                          })
-                          .optional(),
-                        function_response: z
-                          .object({
-                            id: z.string().optional().default(""),
-                            name: z.string(),
-                            response: z.object({}),
-                          })
-                          .optional(),
-                        inline_data: z.object({}).optional(),
-                      }),
-                    ),
-                  }),
-                ),
-            ])
+                )
+                .optional(),
+            })
             .optional(),
         })
         .merge(
@@ -2564,27 +2405,71 @@ export const zWorkflowWorkersCount = z.object({
         ),
       z.enum(["root", "instagram_agent", "assistant", "open_deep_research"]),
       z.object({
-        text: z.string().optional(),
-        video_metadata: z.object({}).optional(),
-        thought: z.boolean().optional(),
-        code_execution_result: z.object({}).optional(),
-        executable_code: z.string().optional(),
-        file_data: z.object({}).optional(),
-        function_call: z
-          .object({
-            id: z.string(),
-            name: z.string(),
-            args: z.object({}).optional(),
-          })
+        role: z.string().optional(),
+        parts: z
+          .array(
+            z.object({
+              text: z.string().optional(),
+              video_metadata: z.object({}).optional(),
+              thought: z.boolean().optional(),
+              code_execution_result: z.object({}).optional(),
+              executable_code: z.string().optional(),
+              file_data: z.object({}).optional(),
+              function_call: z
+                .object({
+                  id: z.string(),
+                  name: z.string(),
+                  args: z.object({}).optional(),
+                })
+                .optional(),
+              function_response: z
+                .object({
+                  id: z.string().optional().default(""),
+                  name: z.string(),
+                  response: z.object({}),
+                })
+                .optional(),
+              inline_data: z.object({}).optional(),
+            }),
+          )
           .optional(),
-        function_response: z
-          .object({
-            id: z.string().optional().default(""),
-            name: z.string(),
-            response: z.object({}),
-          })
-          .optional(),
-        inline_data: z.object({}).optional(),
+      }),
+      z.object({
+        app_name: z.string(),
+        user_id: z.string().optional(),
+        session_id: z.string().optional(),
+        init_state: z.object({}).optional(),
+        new_message: z.object({
+          role: z.string().optional(),
+          parts: z
+            .array(
+              z.object({
+                text: z.string().optional(),
+                video_metadata: z.object({}).optional(),
+                thought: z.boolean().optional(),
+                code_execution_result: z.object({}).optional(),
+                executable_code: z.string().optional(),
+                file_data: z.object({}).optional(),
+                function_call: z
+                  .object({
+                    id: z.string(),
+                    name: z.string(),
+                    args: z.object({}).optional(),
+                  })
+                  .optional(),
+                function_response: z
+                  .object({
+                    id: z.string().optional().default(""),
+                    name: z.string(),
+                    response: z.object({}),
+                  })
+                  .optional(),
+                inline_data: z.object({}).optional(),
+              }),
+            )
+            .optional(),
+        }),
+        streaming: z.boolean().optional().default(false),
       }),
     ])
     .optional(),
@@ -7485,76 +7370,36 @@ export const zFlowTeamInput = z.object({
   task: zAgEvents,
   init_state: zAgentStates.optional(),
   content: z
-    .union([
-      z
-        .object({
-          role: z.literal("user").optional(),
-        })
-        .merge(
+    .object({
+      role: z.string().optional(),
+      parts: z
+        .array(
           z.object({
-            role: z.enum(["user"]),
-            parts: z.array(
-              z.object({
-                text: z.string().optional(),
-                video_metadata: z.object({}).optional(),
-                thought: z.boolean().optional(),
-                code_execution_result: z.object({}).optional(),
-                executable_code: z.string().optional(),
-                file_data: z.object({}).optional(),
-                function_call: z
-                  .object({
-                    id: z.string(),
-                    name: z.string(),
-                    args: z.object({}).optional(),
-                  })
-                  .optional(),
-                function_response: z
-                  .object({
-                    id: z.string().optional().default(""),
-                    name: z.string(),
-                    response: z.object({}),
-                  })
-                  .optional(),
-                inline_data: z.object({}).optional(),
-              }),
-            ),
+            text: z.string().optional(),
+            video_metadata: z.object({}).optional(),
+            thought: z.boolean().optional(),
+            code_execution_result: z.object({}).optional(),
+            executable_code: z.string().optional(),
+            file_data: z.object({}).optional(),
+            function_call: z
+              .object({
+                id: z.string(),
+                name: z.string(),
+                args: z.object({}).optional(),
+              })
+              .optional(),
+            function_response: z
+              .object({
+                id: z.string().optional().default(""),
+                name: z.string(),
+                response: z.object({}),
+              })
+              .optional(),
+            inline_data: z.object({}).optional(),
           }),
-        ),
-      z
-        .object({
-          role: z.literal("model").optional(),
-        })
-        .merge(
-          z.object({
-            role: z.enum(["model"]),
-            parts: z.array(
-              z.object({
-                text: z.string().optional(),
-                video_metadata: z.object({}).optional(),
-                thought: z.boolean().optional(),
-                code_execution_result: z.object({}).optional(),
-                executable_code: z.string().optional(),
-                file_data: z.object({}).optional(),
-                function_call: z
-                  .object({
-                    id: z.string(),
-                    name: z.string(),
-                    args: z.object({}).optional(),
-                  })
-                  .optional(),
-                function_response: z
-                  .object({
-                    id: z.string().optional().default(""),
-                    name: z.string(),
-                    response: z.object({}),
-                  })
-                  .optional(),
-                inline_data: z.object({}).optional(),
-              }),
-            ),
-          }),
-        ),
-    ])
+        )
+        .optional(),
+    })
     .optional(),
 });
 
@@ -7819,83 +7664,6 @@ export const zAgentConnectedEvent = z.object({
   type: z.string(),
 });
 
-export const zAgentRunRequest = z.object({
-  app_name: z.string(),
-  user_id: z.string(),
-  session_id: z.string(),
-  new_message: z.union([
-    z
-      .object({
-        role: z.literal("user").optional(),
-      })
-      .merge(
-        z.object({
-          role: z.enum(["user"]),
-          parts: z.array(
-            z.object({
-              text: z.string().optional(),
-              video_metadata: z.object({}).optional(),
-              thought: z.boolean().optional(),
-              code_execution_result: z.object({}).optional(),
-              executable_code: z.string().optional(),
-              file_data: z.object({}).optional(),
-              function_call: z
-                .object({
-                  id: z.string(),
-                  name: z.string(),
-                  args: z.object({}).optional(),
-                })
-                .optional(),
-              function_response: z
-                .object({
-                  id: z.string().optional().default(""),
-                  name: z.string(),
-                  response: z.object({}),
-                })
-                .optional(),
-              inline_data: z.object({}).optional(),
-            }),
-          ),
-        }),
-      ),
-    z
-      .object({
-        role: z.literal("model").optional(),
-      })
-      .merge(
-        z.object({
-          role: z.enum(["model"]),
-          parts: z.array(
-            z.object({
-              text: z.string().optional(),
-              video_metadata: z.object({}).optional(),
-              thought: z.boolean().optional(),
-              code_execution_result: z.object({}).optional(),
-              executable_code: z.string().optional(),
-              file_data: z.object({}).optional(),
-              function_call: z
-                .object({
-                  id: z.string(),
-                  name: z.string(),
-                  args: z.object({}).optional(),
-                })
-                .optional(),
-              function_response: z
-                .object({
-                  id: z.string().optional().default(""),
-                  name: z.string(),
-                  response: z.object({}),
-                })
-                .optional(),
-              inline_data: z.object({}).optional(),
-            }),
-          ),
-        }),
-      ),
-  ]),
-  streaming: z.boolean().default(false),
-});
-
 export const zAddSessionToEvalSetRequest = z.object({
   eval_id: z.string(),
   session_id: z.string(),
@@ -7912,76 +7680,36 @@ export const zAdkRawEvent = z
     interrupted: z.boolean().optional(),
     custom_metadata: z.object({}).optional(),
     content: z
-      .union([
-        z
-          .object({
-            role: z.literal("user").optional(),
-          })
-          .merge(
+      .object({
+        role: z.string().optional(),
+        parts: z
+          .array(
             z.object({
-              role: z.enum(["user"]),
-              parts: z.array(
-                z.object({
-                  text: z.string().optional(),
-                  video_metadata: z.object({}).optional(),
-                  thought: z.boolean().optional(),
-                  code_execution_result: z.object({}).optional(),
-                  executable_code: z.string().optional(),
-                  file_data: z.object({}).optional(),
-                  function_call: z
-                    .object({
-                      id: z.string(),
-                      name: z.string(),
-                      args: z.object({}).optional(),
-                    })
-                    .optional(),
-                  function_response: z
-                    .object({
-                      id: z.string().optional().default(""),
-                      name: z.string(),
-                      response: z.object({}),
-                    })
-                    .optional(),
-                  inline_data: z.object({}).optional(),
-                }),
-              ),
+              text: z.string().optional(),
+              video_metadata: z.object({}).optional(),
+              thought: z.boolean().optional(),
+              code_execution_result: z.object({}).optional(),
+              executable_code: z.string().optional(),
+              file_data: z.object({}).optional(),
+              function_call: z
+                .object({
+                  id: z.string(),
+                  name: z.string(),
+                  args: z.object({}).optional(),
+                })
+                .optional(),
+              function_response: z
+                .object({
+                  id: z.string().optional().default(""),
+                  name: z.string(),
+                  response: z.object({}),
+                })
+                .optional(),
+              inline_data: z.object({}).optional(),
             }),
-          ),
-        z
-          .object({
-            role: z.literal("model").optional(),
-          })
-          .merge(
-            z.object({
-              role: z.enum(["model"]),
-              parts: z.array(
-                z.object({
-                  text: z.string().optional(),
-                  video_metadata: z.object({}).optional(),
-                  thought: z.boolean().optional(),
-                  code_execution_result: z.object({}).optional(),
-                  executable_code: z.string().optional(),
-                  file_data: z.object({}).optional(),
-                  function_call: z
-                    .object({
-                      id: z.string(),
-                      name: z.string(),
-                      args: z.object({}).optional(),
-                    })
-                    .optional(),
-                  function_response: z
-                    .object({
-                      id: z.string().optional().default(""),
-                      name: z.string(),
-                      response: z.object({}),
-                    })
-                    .optional(),
-                  inline_data: z.object({}).optional(),
-                }),
-              ),
-            }),
-          ),
-      ])
+          )
+          .optional(),
+      })
       .optional(),
   })
   .merge(
@@ -8006,76 +7734,36 @@ export const zAdkLlmResponse = z.object({
   interrupted: z.boolean().optional(),
   custom_metadata: z.object({}).optional(),
   content: z
-    .union([
-      z
-        .object({
-          role: z.literal("user").optional(),
-        })
-        .merge(
+    .object({
+      role: z.string().optional(),
+      parts: z
+        .array(
           z.object({
-            role: z.enum(["user"]),
-            parts: z.array(
-              z.object({
-                text: z.string().optional(),
-                video_metadata: z.object({}).optional(),
-                thought: z.boolean().optional(),
-                code_execution_result: z.object({}).optional(),
-                executable_code: z.string().optional(),
-                file_data: z.object({}).optional(),
-                function_call: z
-                  .object({
-                    id: z.string(),
-                    name: z.string(),
-                    args: z.object({}).optional(),
-                  })
-                  .optional(),
-                function_response: z
-                  .object({
-                    id: z.string().optional().default(""),
-                    name: z.string(),
-                    response: z.object({}),
-                  })
-                  .optional(),
-                inline_data: z.object({}).optional(),
-              }),
-            ),
+            text: z.string().optional(),
+            video_metadata: z.object({}).optional(),
+            thought: z.boolean().optional(),
+            code_execution_result: z.object({}).optional(),
+            executable_code: z.string().optional(),
+            file_data: z.object({}).optional(),
+            function_call: z
+              .object({
+                id: z.string(),
+                name: z.string(),
+                args: z.object({}).optional(),
+              })
+              .optional(),
+            function_response: z
+              .object({
+                id: z.string().optional().default(""),
+                name: z.string(),
+                response: z.object({}),
+              })
+              .optional(),
+            inline_data: z.object({}).optional(),
           }),
-        ),
-      z
-        .object({
-          role: z.literal("model").optional(),
-        })
-        .merge(
-          z.object({
-            role: z.enum(["model"]),
-            parts: z.array(
-              z.object({
-                text: z.string().optional(),
-                video_metadata: z.object({}).optional(),
-                thought: z.boolean().optional(),
-                code_execution_result: z.object({}).optional(),
-                executable_code: z.string().optional(),
-                file_data: z.object({}).optional(),
-                function_call: z
-                  .object({
-                    id: z.string(),
-                    name: z.string(),
-                    args: z.object({}).optional(),
-                  })
-                  .optional(),
-                function_response: z
-                  .object({
-                    id: z.string().optional().default(""),
-                    name: z.string(),
-                    response: z.object({}),
-                  })
-                  .optional(),
-                inline_data: z.object({}).optional(),
-              }),
-            ),
-          }),
-        ),
-    ])
+        )
+        .optional(),
+    })
     .optional(),
 });
 
@@ -8420,10 +8108,6 @@ export const zFlowStateList = z.object({
 
 export const zFlowStateUpsert = zFlowStateProperties;
 
-export const zMtBrowserConfig = z.object({
-  browser: z.enum(["chrome", "firefox"]).optional(),
-});
-
 export const zAdkEventProperties = z.object({
   id: z.string(),
   app_name: z.string(),
@@ -8433,64 +8117,30 @@ export const zAdkEventProperties = z.object({
   author: z.string(),
   branch: z.string().optional(),
   timestamp: z.string(),
-  content: z.union([
-    z
-      .object({
-        role: z.literal("user").optional(),
-      })
-      .merge(
+  content: z.object({
+    role: z.string().optional(),
+    parts: z
+      .array(
         z.object({
-          role: z.enum(["user"]),
-          parts: z.array(
-            z.object({
-              text: z.string().optional(),
-              video_metadata: z.object({}).optional(),
-              thought: z.boolean().optional(),
-              code_execution_result: z.object({}).optional(),
-              executable_code: z.string().optional(),
-              file_data: z.object({}).optional(),
-              function_call: zFunctionCallDict.optional(),
-              function_response: z
-                .object({
-                  id: z.string().optional().default(""),
-                  name: z.string(),
-                  response: z.object({}),
-                })
-                .optional(),
-              inline_data: z.object({}).optional(),
-            }),
-          ),
+          text: z.string().optional(),
+          video_metadata: z.object({}).optional(),
+          thought: z.boolean().optional(),
+          code_execution_result: z.object({}).optional(),
+          executable_code: z.string().optional(),
+          file_data: z.object({}).optional(),
+          function_call: zFunctionCallDict.optional(),
+          function_response: z
+            .object({
+              id: z.string().optional().default(""),
+              name: z.string(),
+              response: z.object({}),
+            })
+            .optional(),
+          inline_data: z.object({}).optional(),
         }),
-      ),
-    z
-      .object({
-        role: z.literal("model").optional(),
-      })
-      .merge(
-        z.object({
-          role: z.enum(["model"]),
-          parts: z.array(
-            z.object({
-              text: z.string().optional(),
-              video_metadata: z.object({}).optional(),
-              thought: z.boolean().optional(),
-              code_execution_result: z.object({}).optional(),
-              executable_code: z.string().optional(),
-              file_data: z.object({}).optional(),
-              function_call: zFunctionCallDict.optional(),
-              function_response: z
-                .object({
-                  id: z.string().optional().default(""),
-                  name: z.string(),
-                  response: z.object({}),
-                })
-                .optional(),
-              inline_data: z.object({}).optional(),
-            }),
-          ),
-        }),
-      ),
-  ]),
+      )
+      .optional(),
+  }),
   actions: z.object({}),
 });
 
@@ -8528,6 +8178,38 @@ export const zAdkApp = zApiResourceMetaProperties.merge(zAdkAppProperties);
 export const zAdkAppUpsert = zAdkAppProperties;
 
 export const zAdkAppTypes = z.enum(["root", "instagram_agent", "assistant", "open_deep_research"]);
+
+export const zAgentRunRequestV3 = z.object({
+  app_name: z.string(),
+  user_id: z.string().optional(),
+  session_id: z.string().optional(),
+  init_state: z.object({}).optional(),
+  new_message: z.object({
+    role: z.string().optional(),
+    parts: z
+      .array(
+        z.object({
+          text: z.string().optional(),
+          video_metadata: z.object({}).optional(),
+          thought: z.boolean().optional(),
+          code_execution_result: z.object({}).optional(),
+          executable_code: z.string().optional(),
+          file_data: z.object({}).optional(),
+          function_call: zFunctionCallDict.optional(),
+          function_response: z
+            .object({
+              id: z.string().optional().default(""),
+              name: z.string(),
+              response: z.object({}),
+            })
+            .optional(),
+          inline_data: z.object({}).optional(),
+        }),
+      )
+      .optional(),
+  }),
+  streaming: z.boolean().optional().default(false),
+});
 
 export const zAdkSessionProperties = z.object({
   id: z.string(),
@@ -8570,64 +8252,30 @@ export const zAdkUserStateList = z.object({
 
 export const zAdkUserStateUpsert = zAdkUserStateProperties;
 
-export const zContent = z.union([
-  z
-    .object({
-      role: z.literal("user").optional(),
-    })
-    .merge(
+export const zContent = z.object({
+  role: z.string().optional(),
+  parts: z
+    .array(
       z.object({
-        role: z.enum(["user"]),
-        parts: z.array(
-          z.object({
-            text: z.string().optional(),
-            video_metadata: z.object({}).optional(),
-            thought: z.boolean().optional(),
-            code_execution_result: z.object({}).optional(),
-            executable_code: z.string().optional(),
-            file_data: z.object({}).optional(),
-            function_call: zFunctionCallDict.optional(),
-            function_response: z
-              .object({
-                id: z.string().optional().default(""),
-                name: z.string(),
-                response: z.object({}),
-              })
-              .optional(),
-            inline_data: z.object({}).optional(),
-          }),
-        ),
+        text: z.string().optional(),
+        video_metadata: z.object({}).optional(),
+        thought: z.boolean().optional(),
+        code_execution_result: z.object({}).optional(),
+        executable_code: z.string().optional(),
+        file_data: z.object({}).optional(),
+        function_call: zFunctionCallDict.optional(),
+        function_response: z
+          .object({
+            id: z.string().optional().default(""),
+            name: z.string(),
+            response: z.object({}),
+          })
+          .optional(),
+        inline_data: z.object({}).optional(),
       }),
-    ),
-  z
-    .object({
-      role: z.literal("model").optional(),
-    })
-    .merge(
-      z.object({
-        role: z.enum(["model"]),
-        parts: z.array(
-          z.object({
-            text: z.string().optional(),
-            video_metadata: z.object({}).optional(),
-            thought: z.boolean().optional(),
-            code_execution_result: z.object({}).optional(),
-            executable_code: z.string().optional(),
-            file_data: z.object({}).optional(),
-            function_call: zFunctionCallDict.optional(),
-            function_response: z
-              .object({
-                id: z.string().optional().default(""),
-                name: z.string(),
-                response: z.object({}),
-              })
-              .optional(),
-            inline_data: z.object({}).optional(),
-          }),
-        ),
-      }),
-    ),
-]);
+    )
+    .optional(),
+});
 
 export const zUserContent = z.object({
   role: z.enum(["user"]),

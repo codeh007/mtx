@@ -5,7 +5,6 @@ import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
 import { useTenantId } from "../../hooks/useAuth";
-import { useWorkbenchStore } from "../../stores/workbrench.store";
 
 export const Route = createLazyFileRoute("/platform-account/")({
   component: RouteComponent,
@@ -20,13 +19,11 @@ function RouteComponent() {
       },
     }),
   });
-
-  const handleRunTeam = useWorkbenchStore((x) => x.handleRunTeam);
   return (
     <div className="flex flex-col h-full w-full ">
       <div>
         <div>
-          <CustomLink to="create" className={cn(buttonVariants())}>
+          <CustomLink to="/platform-account/new" className={cn(buttonVariants())}>
             新建
           </CustomLink>
         </div>

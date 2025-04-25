@@ -845,15 +845,14 @@ export type WorkflowWorkersCount = {
     | SocialLoginResult
     | FlowResult
     | SocialTeam
-    | MtBrowserConfig
     | RootAgentState
-    | AgentRunRequest
     | AgentIncomingEvent
     | AgentOutgoingEvent
     | AddSessionToEvalSetRequest
     | AdkRawEvent
     | AdkAppTypes
-    | Part;
+    | Content
+    | AgentRunRequestV3;
 };
 
 export type WorkflowRun = {
@@ -3462,14 +3461,6 @@ export type AgentConnectedEvent = {
   type: string;
 };
 
-export type AgentRunRequest = {
-  app_name: string;
-  user_id: string;
-  session_id: string;
-  new_message: Content;
-  streaming: boolean;
-};
-
 export type AddSessionToEvalSetRequest = {
   eval_id: string;
   session_id: string;
@@ -3759,10 +3750,6 @@ export type FlowStateList = {
 
 export type FlowStateUpsert = FlowStateProperties;
 
-export type MtBrowserConfig = {
-  browser?: "chrome" | "firefox";
-};
-
 export type AdkEventProperties = {
   id: string;
   app_name: string;
@@ -3828,6 +3815,17 @@ export const AdkAppTypes = {
   OPEN_DEEP_RESEARCH: "open_deep_research",
 } as const;
 
+export type AgentRunRequestV3 = {
+  app_name: string;
+  user_id?: string;
+  session_id?: string;
+  init_state?: {
+    [key: string]: unknown;
+  };
+  new_message: Content;
+  streaming?: boolean;
+};
+
 export type AdkSessionProperties = {
   id: string;
   app_name: string;
@@ -3873,13 +3871,10 @@ export type AdkUserStateList = {
 
 export type AdkUserStateUpsert = AdkUserStateProperties;
 
-export type Content =
-  | ({
-      role?: "user";
-    } & UserContent)
-  | ({
-      role?: "model";
-    } & ModelContent);
+export type Content = {
+  role?: string;
+  parts?: Array<Part>;
+};
 
 export type UserContent = {
   role: "user";

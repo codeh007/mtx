@@ -122,7 +122,7 @@ export const AdkEventsViewItemView = ({
               return (
                 <div key={i}>
                   {part.text && <TextContentView part={part} isUser={isUser} />}
-                  {part.functionCall && <FunctionCallPartView part={part} />}
+                  {part.function_call && <FunctionCallPartView part={part} />}
 
                   {/* 时间字段待修正 */}
                   {item.timestamp && (
@@ -240,7 +240,7 @@ const FunctionCallPartView = ({
   const isDebug = useWorkbenchStore((x) => x.isDebug);
   return (
     <Card className="p-1 rounded-md bg-neutral-100 dark:bg-neutral-900">
-      {isDebug && <DebugValue data={part.functionCall} />}
+      {isDebug && <DebugValue data={part} />}
       {/* @ts-expect-error */}
       {(part.functionCall || part.function_call)?.name === "instagram_login" ? (
         <InstagramLoginView part={part} />

@@ -7,8 +7,6 @@ const gomtmProxyRouter = createRouter();
 gomtmProxyRouter.all("/", async (c) => {
   const r = c.req.raw;
   await initGomtmApp({ r: r });
-
-  // console.log("MTMAI_BACKEND", process.env.MTMAI_BACKEND);
   const rProxy = newRProxy({
     rewrites: [
       {
@@ -18,6 +16,10 @@ gomtmProxyRouter.all("/", async (c) => {
       {
         from: "/api/v1/(.*)",
         to: `${process.env.MTMAI_BACKEND}/api/v1/$1`,
+      },
+      {
+        from: "/api/v1/run_sse/(.*)",
+        to: "http://localhost:7860/api/v1/run_sse/$1",
       },
     ],
   });

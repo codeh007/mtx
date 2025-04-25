@@ -1,5 +1,6 @@
 import { createRoute, z } from "@hono/zod-openapi";
 
+import { zPlatformAccount } from "mtmaiapi/gomtmapi/zod.gen";
 import {
   UserSelectSchema,
   createErrorSchema,
@@ -7,7 +8,7 @@ import {
   idParamsSchema,
   patchUserSchema,
 } from "../../schemas";
-import { PlateformAccountInsertSchema, PlateformAccountSelectSchema } from "./schema";
+import { PlateformAccountInsertSchema } from "./schema";
 
 const tags = ["PlateformAccount"];
 
@@ -31,7 +32,8 @@ export const list = createRoute({
     200: {
       content: {
         "application/json": {
-          schema: z.array(PlateformAccountSelectSchema),
+          // schema: z.array(PlateformAccountSelectSchema),
+          schema: z.array(zPlatformAccount),
         },
       },
       description: "The list of plateform accounts",

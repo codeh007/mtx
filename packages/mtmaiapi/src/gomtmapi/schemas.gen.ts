@@ -1432,13 +1432,7 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/SocialTeam",
         },
         {
-          $ref: "#/components/schemas/MtBrowserConfig",
-        },
-        {
           $ref: "#/components/schemas/RootAgentState",
-        },
-        {
-          $ref: "#/components/schemas/AgentRunRequest",
         },
         {
           $ref: "#/components/schemas/AgentIncomingEvent",
@@ -1456,7 +1450,10 @@ export const WorkflowWorkersCountSchema = {
           $ref: "#/components/schemas/AdkAppTypes",
         },
         {
-          $ref: "#/components/schemas/Part",
+          $ref: "#/components/schemas/Content",
+        },
+        {
+          $ref: "#/components/schemas/AgentRunRequestV3",
         },
       ],
     },
@@ -6828,28 +6825,6 @@ export const AgentConnectedEventSchema = {
   },
 } as const;
 
-export const AgentRunRequestSchema = {
-  required: ["app_name", "user_id", "session_id", "new_message", "streaming"],
-  properties: {
-    app_name: {
-      type: "string",
-    },
-    user_id: {
-      type: "string",
-    },
-    session_id: {
-      type: "string",
-    },
-    new_message: {
-      $ref: "#/components/schemas/Content",
-    },
-    streaming: {
-      type: "boolean",
-      default: false,
-    },
-  },
-} as const;
-
 export const AddSessionToEvalSetRequestSchema = {
   required: ["eval_id", "session_id", "user_id"],
   properties: {
@@ -7488,15 +7463,6 @@ export const FlowStateUpsertSchema = {
   ],
 } as const;
 
-export const MtBrowserConfigSchema = {
-  properties: {
-    browser: {
-      type: "string",
-      enum: ["chrome", "firefox"],
-    },
-  },
-} as const;
-
 export const AdkEventPropertiesSchema = {
   required: [
     "id",
@@ -7668,6 +7634,32 @@ export const AdkAppTypesSchema = {
   enum: ["root", "instagram_agent", "assistant", "open_deep_research"],
 } as const;
 
+export const AgentRunRequestV3Schema = {
+  required: ["app_name", "new_message"],
+  properties: {
+    app_name: {
+      type: "string",
+    },
+    user_id: {
+      type: "string",
+    },
+    session_id: {
+      type: "string",
+    },
+    init_state: {
+      type: "object",
+      additionalProperties: true,
+    },
+    new_message: {
+      $ref: "#/components/schemas/Content",
+    },
+    streaming: {
+      type: "boolean",
+      default: false,
+    },
+  },
+} as const;
+
 export const AdkSessionPropertiesSchema = {
   required: ["id", "app_name", "user_id", "state", "create_time", "update_time"],
   properties: {
@@ -7811,21 +7803,17 @@ export const AdkUserStateUpsertSchema = {
 } as const;
 
 export const ContentSchema = {
-  discriminator: {
-    propertyName: "role",
-    mapping: {
-      user: "#/components/schemas/UserContent",
-      model: "#/components/schemas/ModelContent",
+  properties: {
+    role: {
+      type: "string",
+    },
+    parts: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/Part",
+      },
     },
   },
-  oneOf: [
-    {
-      $ref: "#/components/schemas/UserContent",
-    },
-    {
-      $ref: "#/components/schemas/ModelContent",
-    },
-  ],
 } as const;
 
 export const UserContentSchema = {

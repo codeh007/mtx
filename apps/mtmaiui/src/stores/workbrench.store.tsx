@@ -4,7 +4,7 @@ import { type UseMutationResult, useMutation, useQuery } from "@tanstack/react-q
 import { debounce } from "lodash";
 import {
   type AdkEvent,
-  type AgentRunRequest,
+  type AgentRunRequestV3,
   type ApiErrors,
   type ChatMessage,
   type ChatMessageList,
@@ -30,6 +30,7 @@ import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { parseEventStream } from "../agent_utils/agent_utils";
+import data from "../data/ig_settings_xiaoto33.json";
 import { useTenant, useTenantId } from "../hooks/useAuth";
 import { useNav } from "../hooks/useNav";
 import { handleAgentOutgoingEvent } from "./ag-event-handlers";
@@ -187,7 +188,7 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
           },
         ],
       });
-      const url = `${get().agentUrl}/run_sse`;
+      const url = `${get().agentUrl}/api/v1/run_sse_v3`;
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -201,7 +202,11 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
           user_id: get().tenant.metadata.id,
           new_message: input,
           streaming: true,
-        } satisfies AgentRunRequest),
+          init_state: {
+            hello_init_state_from_web: "hello_init_state_from_web",
+            ig_settings: data,
+          },
+        } satisfies AgentRunRequestV3),
       });
       const reader = response.body?.getReader();
       if (!reader) {

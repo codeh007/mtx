@@ -12,8 +12,13 @@ export const handleAgentOutgoingEvent = (
   ) => void,
 ) => {
   if (event.content) {
-    // console.log("event.content", event.content);
-
+    for (const part of event.content.parts) {
+      //@ts-expect-error
+      if (part.functionCall) {
+        //@ts-expect-error
+        part.function_call = part.functionCall;
+      }
+    }
     if (event.partial) {
       const adkEvent = get().adkEvents.find((item) => item.invocation_id === event.invocation_id);
       if (!adkEvent) {
