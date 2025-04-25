@@ -18,7 +18,8 @@ import {
   type WorkflowRun,
   type WorkflowRunCreateData,
   adkEventsListOptions,
-  adkUserStateGetOptions,
+  adkSessionGet,
+  adkSessionGetOptions,
   workflowRunCreateMutation,
 } from "mtmaiapi";
 import { generateUUID } from "mtxuilib/lib/utils";
@@ -33,6 +34,8 @@ import { useTenant, useTenantId } from "../hooks/useAuth";
 import { useNav } from "../hooks/useNav";
 import { handleAgentOutgoingEvent } from "./ag-event-handlers";
 import { exampleTeamConfig } from "./exampleTeamConfig";
+
+const DEFAULT_APP_NAME = "instagram_agent";
 
 export interface WorkbenchProps {
   sessionId?: string;
@@ -144,7 +147,7 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
     setAgentState: (agentState) => {
       set({ agentState });
     },
-    adkAppName: "root",
+    adkAppName: DEFAULT_APP_NAME,
     setAdkAppName: (adkAppName) => {
       console.log("setAdkAppName", adkAppName);
       set({ adkAppName });
@@ -255,7 +258,22 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
     setShowWorkbench: (openWorkbench) => {
       set({ openWorkbench });
     },
-    setSessionId: (sessionId) => {
+    setSessionId: async (sessionId) => {
+      console.log("setSessionId", sessionId);
+      if (!sessionId) {
+        return;
+      }
+      const adkSession = await adkSessionGet({
+        path: {
+          tenant: get().tenant.metadata.id,
+          app: get().adkAppName,
+          session: sessionId ?? "",
+        },
+      });
+      console.log("adkStateQuery Result", adkSession);
+      if (adkSession.data) {
+        set({ agentState: adkSession.data.state as RootAgentState });
+      }
       set({ sessionId });
     },
     setWorkflowRunId: (workflowRunId) => {
@@ -435,20 +453,21 @@ export const WorkbrenchProvider = (props: React.PropsWithChildren<WorkbenchProps
     }
   }, [adkEventsQuery.data, mystore]);
 
-  const adkStateQuery = useQuery({
-    ...adkUserStateGetOptions({
+  const adkSessionQuery = useQuery({
+    ...adkSessionGetOptions({
       path: {
         tenant: tid,
-        state: etc.sessionId!,
+        session: etc.sessionId!,
       },
     }),
     enabled: !!etc.sessionId,
   });
   useEffect(() => {
-    if (adkStateQuery.data) {
-      mystore.setState({ agentState: adkStateQuery.data.state as RootAgentState });
+    if (adkSessionQuery.data) {
+      console.log("adkSessionQuery.data", adkSessionQuery.data);
+      mystore.setState({ agentState: adkSessionQuery.data.state as RootAgentState });
     }
-  }, [adkStateQuery.data, mystore]);
+  }, [adkSessionQuery.data, mystore]);
 
   return <mtmaiStoreContext.Provider value={mystore}>{children}</mtmaiStoreContext.Provider>;
 };

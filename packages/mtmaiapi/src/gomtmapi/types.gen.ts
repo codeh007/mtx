@@ -10092,12 +10092,16 @@ export type AdkSessionGetData = {
      */
     tenant: TenantParameter;
     /**
+     * The app name
+     */
+    app: string;
+    /**
      * The session id
      */
     session: string;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/adk/session/{session}";
+  url: "/api/v1/tenants/{tenant}/adk/app/{app}/session/{session}";
 };
 
 export type AdkSessionGetErrors = {

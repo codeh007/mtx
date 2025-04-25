@@ -26,6 +26,7 @@ export default function InstagramLoginView({ part }: InstagramLoginViewProps) {
       password: "",
       otp_key: "",
       proxy_url: "http://127.0.0.1:10809",
+      //socks5://US-Illinois-pbfBnijAfc-172.59.190.194:myb398a6ewyqcc5w@172.235.39.216:8000
     },
     toastValidateError: true,
     handleSubmit: () => {

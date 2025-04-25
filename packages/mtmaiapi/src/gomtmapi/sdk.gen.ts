@@ -4895,7 +4895,7 @@ export const adkSessionGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/tenants/{tenant}/adk/session/{session}",
+    url: "/api/v1/tenants/{tenant}/adk/app/{app}/session/{session}",
     ...options,
   });
 };
