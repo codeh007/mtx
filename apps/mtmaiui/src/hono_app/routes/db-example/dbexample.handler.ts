@@ -1,7 +1,10 @@
 import { getDb } from "../../../db/dbClientV2";
 import { users } from "../../../db/schema/auth";
 import { createRouter } from "../../lib/createApp";
-export const helloPostgres = async (c) => {
+
+const helloDbRouter = createRouter();
+
+helloDbRouter.get("/helloPostgres", async (c) => {
   // Add db query to get all users
   const env = c.env;
 
@@ -17,10 +20,6 @@ export const helloPostgres = async (c) => {
     ],
     200,
   );
-};
-
-const helloDbRouter = createRouter();
-
-helloDbRouter.get("/helloPostgres", helloPostgres);
+});
 
 export default helloDbRouter;

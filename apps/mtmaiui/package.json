@@ -12,7 +12,7 @@
   "sideEffects": false,
   "scripts": {
     "dev": "dotenv -e ../../../gomtm/env/dev.env -- next dev --port 3600",
-    "dev:vite": "bun withEnv -- vite",
+    "vite": "bun withEnv -- vite",
     "withEnv": "dotenv -e ../../../gomtm/env/dev.env --",
     "build": "vite build && next build",
     "build:tsc": "tsc --outDir dist --jsx react-jsx --incremental false --declaration true --noEmit false --removeComments true --project tsconfig.json",

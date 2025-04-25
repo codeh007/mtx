@@ -3,6 +3,7 @@ import { StrictMode } from "react";
 // import ReactDOM from "react-dom/client";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import { MtmClientApp } from "./App";
+import "./styles/globals.css";
 
 interface MtmaiFrontAppOptions {
   routerType: "memory" | "hash";

@@ -19,9 +19,10 @@ export default defineConfig({
   define: {
     __dirname: '""', // 或者使用 process.cwd() 的路径
     // 添加这个配置来模拟 process.env
-    "process.env": {
-      NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-    },
+    // "process.env": {
+    //   NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+    // },
+    "process.env": process.env,
   },
   resolve: {
     alias: {

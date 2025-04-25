@@ -5,6 +5,7 @@ import configureAuth from "./lib/configureAuth";
 import createApp from "./lib/createApp";
 import { apiRoutes } from "./routes/api_routes";
 import helloDbRouter from "./routes/db-example/dbexample.handler";
+import gomtmProxyRouter from "./routes/v1/v1_route";
 const app = createApp().basePath("/api");
 
 app.use("*", cors());
@@ -25,7 +26,7 @@ for (const route of apiRoutes) {
 }
 
 app.route("/", helloDbRouter);
-
+app.route("/v1/*", gomtmProxyRouter);
 // mcp 服务
 // app.route("/", mcpSseRoute);
 

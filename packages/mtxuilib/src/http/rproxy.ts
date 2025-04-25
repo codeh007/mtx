@@ -45,12 +45,9 @@ export function newRProxy(options: RProxyOptions) {
         break;
       }
     }
-
-    // final url
-    const fullUrl = new URL(targetUrl);
-    fullUrl.search = incomeUri.search;
-
     try {
+      const fullUrl = new URL(targetUrl);
+      fullUrl.search = incomeUri.search;
       const requestHeaders = copyIncomeHeaders(r);
 
       const headersLogItem: string[] = [];
@@ -79,7 +76,7 @@ export function newRProxy(options: RProxyOptions) {
       );
       return newResponse;
     } catch (e) {
-      return new Response(`error ${e} ${fullUrl.toString()}`);
+      return new Response(`error ${targetUrl}  ${e}`);
     }
   };
 }
@@ -101,18 +98,12 @@ const DEFAULT_EXCLUDED_HEADERS = [
  * @param additionalExcludes 额外需要排除的头部前缀
  * @returns 新的 Headers 对象
  */
-export function copyIncomeHeaders(
-  request: Request,
-  additionalExcludes: string[] = [],
-): Headers {
+export function copyIncomeHeaders(request: Request, additionalExcludes: string[] = []): Headers {
   const excludedPrefixes = [...DEFAULT_EXCLUDED_HEADERS, ...additionalExcludes];
 
   const newHeaders = new Headers(
     Array.from(request.headers.entries()).filter(
-      ([key]) =>
-        !excludedPrefixes.some((prefix) =>
-          key.toLowerCase().startsWith(prefix),
-        ),
+      ([key]) => !excludedPrefixes.some((prefix) => key.toLowerCase().startsWith(prefix)),
     ),
   );
 
