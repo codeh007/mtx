@@ -16,6 +16,13 @@ export default defineConfig({
     tailwindcss(),
     // nodePolyfills(), // 添加这个插件
   ],
+  environments: {
+    mtmag: {
+      define: {
+        MY_VARIABLE: "MY_VARIABLE9999invite",
+      },
+    },
+  },
   define: {
     __dirname: '""', // 或者使用 process.cwd() 的路径
     // 添加这个配置来模拟 process.env
@@ -29,6 +36,9 @@ export default defineConfig({
       mtmaiapi: path.resolve(__dirname, "../../packages/mtmaiapi/src"),
       mtxuilib: path.resolve(__dirname, "../../packages/mtxuilib/src"),
     },
+  },
+  build: {
+    sourcemap: true,
   },
   server: {
     port: 6111,
