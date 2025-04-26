@@ -1,7 +1,8 @@
 .dev.vars
 .dev.vars.local
 wrangler.jsonc
-
+*.env
+.env.*
 
 # Logs
 logs
