@@ -1,9 +1,9 @@
 import "dotenv/config";
 import os from "node:os";
+import bodyParser from "body-parser";
+import cors from "cors";
+import express from "express";
 import { proxyRouter } from "./routes/proxy";
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
 
 const numCPUs = process.env.ENV === "local" ? 2 : os.cpus().length;
 console.log(`Number of CPUs: ${numCPUs} available`);

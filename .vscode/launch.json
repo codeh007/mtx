@@ -19,7 +19,6 @@
       "cwd": "${workspaceFolder}/apps/mtmag",
       "skipFiles": ["<node_internals>/**", ".vscode/**", "/public", "/dist"]
     },
-
     {
       "name": "mtmag",
       "type": "node",
@@ -29,6 +28,16 @@
       "attachExistingChildren": false,
       "autoAttachChildProcesses": false,
       "sourceMaps": true
+    },
+    {
+      "name": "Express Debug",
+      "type": "node-terminal",
+      "request": "launch",
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "command": "bun run dev",
+      "cwd": "${workspaceFolder}/packages/mtcrawl",
+      "internalConsoleOptions": "openOnSessionStart"
     }
   ],
   "compounds": [
