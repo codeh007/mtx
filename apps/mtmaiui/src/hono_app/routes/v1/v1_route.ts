@@ -8,7 +8,7 @@ gomtmProxyRouter.all("/", async (c) => {
   const r = c.req.raw;
   await initGomtmApp({ r: r });
 
-  // 如果 使用 nextjs 环境，这里不能正常工作, 可能原因是 request 的结构有差异
+  // 如果 使用 nextjs 环境，这里不能正常工作, 可能原因是 request/response 对象 在 edge和node环境下 有差异
   const rProxy = newRProxy({
     rewrites: [
       {
