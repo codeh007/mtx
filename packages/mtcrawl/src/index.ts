@@ -1,12 +1,9 @@
 import "dotenv/config";
 import os from "node:os";
+import { proxyRouter } from "./routes/proxy";
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-
-// const { createBullBoard } = require("@bull-board/api");
-// const { BullAdapter } = require("@bull-board/api/bullAdapter");
-// const { ExpressAdapter } = require("@bull-board/express");
 
 const numCPUs = process.env.ENV === "local" ? 2 : os.cpus().length;
 console.log(`Number of CPUs: ${numCPUs} available`);
@@ -244,6 +241,8 @@ app.use(cors()); // Add this line to enable CORS
 // });
 
 console.log(`Worker ${process.pid} started`);
+
+app.use(proxyRouter);
 function startServer(port?: number) {
   const _port = Number(process.env.PORT) || 3444;
   const HOST = process.env.HOST?.length ? process.env.HOST : "0.0.0.0";
