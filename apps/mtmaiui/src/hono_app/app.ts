@@ -4,7 +4,6 @@ import configureOpenAPI from "./lib/configureOpenAPI";
 import configureAuth from "./lib/configureAuth";
 import createApp from "./lib/createApp";
 import { apiRoutes } from "./routes/api_routes";
-import browserRouter from "./routes/browser/browser.handler";
 import helloDbRouter from "./routes/db-example/dbexample.handler";
 import gomtmProxyRouter from "./routes/v1/v1_route";
 const app = createApp().basePath("/api");
@@ -21,7 +20,7 @@ configureOpenAPI(app as any);
 configureAuth(app);
 // configureAgents(app);
 // configureAgentDemo(app);
-app.route("/browser/", browserRouter);
+// app.route("/browser/", browserRouter);
 for (const route of apiRoutes) {
   app.route("/", route);
 }
