@@ -2,10 +2,7 @@ import { createRouter } from "../../lib/createApp";
 
 const browserRouter = createRouter();
 
-browserRouter.get("/hellobrowser", async (c) => {
-  // Add db query to get all users
-  const env = c.env;
-
+browserRouter.all("/hellobrowser", async (c) => {
   return c.json({
     message: "Hello browser",
   });
