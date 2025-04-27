@@ -1,8 +1,8 @@
 import axios from "axios";
 import { logScrape } from "../../../services/logging/scrape_log";
-import { generateRequestParams } from "../single_url";
-import { fetchAndProcessPdf } from "../utils/pdfProcessor";
+// import { fetchAndProcessPdf } from "../utils/pdfProcessor";
 import { universalTimeout } from "../global";
+import { generateRequestParams } from "../single_url";
 
 /**
  * Scrapes a URL with Playwright
@@ -14,9 +14,9 @@ import { universalTimeout } from "../global";
  */
 export async function scrapWithPlaywright(
   url: string,
-  waitFor: number = 0,
+  waitFor = 0,
   headers?: Record<string, string>,
-  pageOptions: { parsePDF?: boolean } = { parsePDF: true }
+  pageOptions: { parsePDF?: boolean } = { parsePDF: true },
 ): Promise<{ content: string; pageStatusCode?: number; pageError?: string }> {
   const logParams = {
     url,
@@ -47,13 +47,11 @@ export async function scrapWithPlaywright(
         },
         timeout: universalTimeout + waitParam, // Add waitParam to timeout to account for the wait time
         transformResponse: [(data) => data], // Prevent axios from parsing JSON automatically
-      }
+      },
     );
 
     if (response.status !== 200) {
-      console.error(
-        `[Playwright] Error fetching url: ${url} with status: ${response.status}`
-      );
+      console.error(`[Playwright] Error fetching url: ${url} with status: ${response.status}`);
       logParams.error_message = response.data?.pageError;
       logParams.response_code = response.data?.pageStatusCode;
       return {
@@ -66,7 +64,10 @@ export async function scrapWithPlaywright(
     const contentType = response.headers["content-type"];
     if (contentType && contentType.includes("application/pdf")) {
       logParams.success = true;
-      const { content, pageStatusCode, pageError } = await fetchAndProcessPdf(url, pageOptions?.parsePDF);
+      const { content, pageStatusCode, pageError } = await fetchAndProcessPdf(
+        url,
+        pageOptions?.parsePDF,
+      );
       logParams.response_code = pageStatusCode;
       logParams.error_message = pageError;
       return { content, pageStatusCode, pageError };
@@ -86,9 +87,7 @@ export async function scrapWithPlaywright(
         };
       } catch (jsonError) {
         logParams.error_message = jsonError.message || jsonError;
-        console.error(
-          `[Playwright] Error parsing JSON response for url: ${url} -> ${jsonError}`
-        );
+        console.error(`[Playwright] Error parsing JSON response for url: ${url} -> ${jsonError}`);
         return { content: "", pageStatusCode: null, pageError: logParams.error_message };
       }
     }

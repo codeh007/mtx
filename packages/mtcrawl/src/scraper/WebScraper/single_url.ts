@@ -1,21 +1,21 @@
-import * as cheerio from "cheerio";
-import { extractMetadata } from "./utils/metadata";
+import { load } from "cheerio";
 import dotenv from "dotenv";
-import {
+import type {
   Document,
-  PageOptions,
-  FireEngineResponse,
   ExtractorOptions,
+  FireEngineResponse,
+  PageOptions,
 } from "../../lib/entities";
 import { parseMarkdown } from "../../lib/html-to-markdown";
-import { urlSpecificParams } from "./utils/custom/website_params";
-import { fetchAndProcessPdf } from "./utils/pdfProcessor";
+// import { fetchAndProcessPdf } from "./utils/pdfProcessor";
 import { handleCustomScraping } from "./custom/handleCustomScraping";
-import { removeUnwantedElements } from "./utils/removeUnwantedElements";
 import { scrapWithFetch } from "./scrapers/fetch";
 import { scrapWithFireEngine } from "./scrapers/fireEngine";
 import { scrapWithPlaywright } from "./scrapers/playwright";
 import { scrapWithScrapingBee } from "./scrapers/scrapingBee";
+import { urlSpecificParams } from "./utils/custom/website_params";
+import { extractMetadata } from "./utils/metadata";
+import { removeUnwantedElements } from "./utils/removeUnwantedElements";
 
 dotenv.config();
 
@@ -29,8 +29,8 @@ const baseScrapers = [
 
 export async function generateRequestParams(
   url: string,
-  wait_browser: string = "domcontentloaded",
-  timeout: number = 15000
+  wait_browser = "domcontentloaded",
+  timeout = 15000,
 ): Promise<any> {
   const defaultParams = {
     url: url,
@@ -59,9 +59,9 @@ export async function generateRequestParams(
  */
 function getScrapingFallbackOrder(
   defaultScraper?: string,
-  isWaitPresent: boolean = false,
-  isScreenshotPresent: boolean = false,
-  isHeadersPresent: boolean = false
+  isWaitPresent = false,
+  isScreenshotPresent = false,
+  isHeadersPresent = false,
 ) {
   const availableScrapers = baseScrapers.filter((scraper) => {
     switch (scraper) {
@@ -77,32 +77,23 @@ function getScrapingFallbackOrder(
     }
   });
 
-  let defaultOrder = [
-    "scrapingBee",
-    "fire-engine",
-    "playwright",
-    "scrapingBeeLoad",
-    "fetch",
-  ];
+  let defaultOrder = ["scrapingBee", "fire-engine", "playwright", "scrapingBeeLoad", "fetch"];
 
   if (isWaitPresent || isScreenshotPresent || isHeadersPresent) {
     defaultOrder = [
       "fire-engine",
       "playwright",
-      ...defaultOrder.filter(
-        (scraper) => scraper !== "fire-engine" && scraper !== "playwright"
-      ),
+      ...defaultOrder.filter((scraper) => scraper !== "fire-engine" && scraper !== "playwright"),
     ];
   }
 
-  const filteredDefaultOrder = defaultOrder.filter(
-    (scraper: (typeof baseScrapers)[number]) =>
-      availableScrapers.includes(scraper)
+  const filteredDefaultOrder = defaultOrder.filter((scraper: (typeof baseScrapers)[number]) =>
+    availableScrapers.includes(scraper),
   );
   const uniqueScrapers = new Set(
     defaultScraper
       ? [defaultScraper, ...filteredDefaultOrder, ...availableScrapers]
-      : [...filteredDefaultOrder, ...availableScrapers]
+      : [...filteredDefaultOrder, ...availableScrapers],
   );
 
   const scrapersInOrder = Array.from(uniqueScrapers);
@@ -122,15 +113,12 @@ export async function scrapSingleUrl(
   extractorOptions: ExtractorOptions = {
     mode: "llm-extraction-from-markdown",
   },
-  existingHtml: string = ""
+  existingHtml = "",
 ): Promise<Document> {
   urlToScrap = urlToScrap.trim();
 
-  const attemptScraping = async (
-    url: string,
-    method: (typeof baseScrapers)[number]
-  ) => {
-    let scraperResponse: {
+  const attemptScraping = async (url: string, method: (typeof baseScrapers)[number]) => {
+    const scraperResponse: {
       text: string;
       screenshot: string;
       metadata: { pageStatusCode?: number; pageError?: string | null };
@@ -158,7 +146,7 @@ export async function scrapSingleUrl(
           const response = await scrapWithScrapingBee(
             url,
             "domcontentloaded",
-            pageOptions.fallback === false ? 7000 : 15000
+            pageOptions.fallback === false ? 7000 : 15000,
           );
           scraperResponse.text = response.content;
           scraperResponse.metadata.pageStatusCode = response.pageStatusCode;
@@ -167,11 +155,7 @@ export async function scrapSingleUrl(
         break;
       case "playwright":
         if (process.env.PLAYWRIGHT_MICROSERVICE_URL) {
-          const response = await scrapWithPlaywright(
-            url,
-            pageOptions.waitFor,
-            pageOptions.headers
-          );
+          const response = await scrapWithPlaywright(url, pageOptions.waitFor, pageOptions.headers);
           scraperResponse.text = response.content;
           scraperResponse.metadata.pageStatusCode = response.pageStatusCode;
           scraperResponse.metadata.pageError = response.pageError;
@@ -196,10 +180,7 @@ export async function scrapSingleUrl(
     let customScrapedContent: FireEngineResponse | null = null;
 
     // Check for custom scraping conditions
-    const customScraperResult = await handleCustomScraping(
-      scraperResponse.text,
-      url
-    );
+    const customScraperResult = await handleCustomScraping(scraperResponse.text, url);
 
     if (customScraperResult) {
       switch (customScraperResult.scraper) {
@@ -215,11 +196,10 @@ export async function scrapSingleUrl(
           }
           break;
         case "pdf":
-          const { content, pageStatusCode, pageError } =
-            await fetchAndProcessPdf(
-              customScraperResult.url,
-              pageOptions?.parsePDF
-            );
+          const { content, pageStatusCode, pageError } = await fetchAndProcessPdf(
+            customScraperResult.url,
+            pageOptions?.parsePDF,
+          );
           customScrapedContent = {
             html: content,
             screenshot,
@@ -236,7 +216,7 @@ export async function scrapSingleUrl(
     }
 
     //* TODO: add an optional to return markdown or structured/extracted content
-    let cleanedHtml = removeUnwantedElements(scraperResponse.text, pageOptions);
+    const cleanedHtml = removeUnwantedElements(scraperResponse.text, pageOptions);
     return {
       text: await parseMarkdown(cleanedHtml),
       html: cleanedHtml,
@@ -267,13 +247,13 @@ export async function scrapSingleUrl(
       defaultScraper,
       pageOptions && pageOptions.waitFor && pageOptions.waitFor > 0,
       pageOptions && pageOptions.screenshot && pageOptions.screenshot === true,
-      pageOptions && pageOptions.headers && pageOptions.headers !== undefined
+      pageOptions && pageOptions.headers && pageOptions.headers !== undefined,
     );
 
     for (const scraper of scrapersInOrder) {
       // If exists text coming from crawler, use it
       if (existingHtml && existingHtml.trim().length >= 100) {
-        let cleanedHtml = removeUnwantedElements(existingHtml, pageOptions);
+        const cleanedHtml = removeUnwantedElements(existingHtml, pageOptions);
         text = await parseMarkdown(cleanedHtml);
         html = cleanedHtml;
         break;
@@ -306,7 +286,7 @@ export async function scrapSingleUrl(
       throw new Error(`All scraping methods failed for URL: ${urlToScrap}`);
     }
 
-    const soup = cheerio.load(rawHtml);
+    const soup = load(rawHtml);
     const metadata = extractMetadata(soup, urlToScrap);
 
     let document: Document;
@@ -316,8 +296,7 @@ export async function scrapSingleUrl(
         markdown: text,
         html: pageOptions.includeHtml ? html : undefined,
         rawHtml:
-          pageOptions.includeRawHtml ||
-          extractorOptions.mode === "llm-extraction-from-raw-html"
+          pageOptions.includeRawHtml || extractorOptions.mode === "llm-extraction-from-raw-html"
             ? rawHtml
             : undefined,
         metadata: {
@@ -334,8 +313,7 @@ export async function scrapSingleUrl(
         markdown: text,
         html: pageOptions.includeHtml ? html : undefined,
         rawHtml:
-          pageOptions.includeRawHtml ||
-          extractorOptions.mode === "llm-extraction-from-raw-html"
+          pageOptions.includeRawHtml || extractorOptions.mode === "llm-extraction-from-raw-html"
             ? rawHtml
             : undefined,
         metadata: {

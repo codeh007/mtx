@@ -20,23 +20,17 @@
     "jsx": "preserve",
     // "allowImportingTsExtensions": true,
     "allowSyntheticDefaultImports": true,
-    "rootDir": ".",
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    // "rootDir": ".",
+    // "plugins": [
+    //   {
+    //     "name": "next"
+    //   }
+    // ],
     // "paths": {
     //   "@/*": ["./src/*"]
     // },
     "noImplicitAny": false
   },
-  "include": [
-    "next-env.d.ts",
-    ".next/types/**/*.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next.dev/types/**/*.ts"
-  ],
+  "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", ".vscode", "public", ".next.dev", ".storybook", "dist"]
 }

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { logScrape } from "../../../services/logging/scrape_log";
-import { fetchAndProcessPdf } from "../utils/pdfProcessor";
+// import { fetchAndProcessPdf } from "../utils/pdfProcessor";
 import { universalTimeout } from "../global";
 
 /**
@@ -11,7 +11,7 @@ import { universalTimeout } from "../global";
  */
 export async function scrapWithFetch(
   url: string,
-  pageOptions: { parsePDF?: boolean } = { parsePDF: true }
+  pageOptions: { parsePDF?: boolean } = { parsePDF: true },
 ): Promise<{ content: string; pageStatusCode?: number; pageError?: string }> {
   const logParams = {
     url,
@@ -34,9 +34,7 @@ export async function scrapWithFetch(
     });
 
     if (response.status !== 200) {
-      console.error(
-        `[Axios] Error fetching url: ${url} with status: ${response.status}`
-      );
+      console.error(`[Axios] Error fetching url: ${url} with status: ${response.status}`);
       logParams.error_message = response.statusText;
       logParams.response_code = response.status;
       return {
@@ -49,7 +47,10 @@ export async function scrapWithFetch(
     const contentType = response.headers["content-type"];
     if (contentType && contentType.includes("application/pdf")) {
       logParams.success = true;
-      const { content, pageStatusCode, pageError } = await fetchAndProcessPdf(url, pageOptions?.parsePDF);
+      const { content, pageStatusCode, pageError } = await fetchAndProcessPdf(
+        url,
+        pageOptions?.parsePDF,
+      );
       logParams.response_code = pageStatusCode;
       logParams.error_message = pageError;
       return { content, pageStatusCode, pageError };

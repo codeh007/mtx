@@ -1,9 +1,9 @@
 import axios from "axios";
-import { FireEngineOptions, FireEngineResponse } from "../../../lib/entities";
+import type { FireEngineOptions, FireEngineResponse } from "../../../lib/entities";
 import { logScrape } from "../../../services/logging/scrape_log";
-import { generateRequestParams } from "../single_url";
-import { fetchAndProcessPdf } from "../utils/pdfProcessor";
+// import { fetchAndProcessPdf } from "../utils/pdfProcessor";
 import { universalTimeout } from "../global";
+import { generateRequestParams } from "../single_url";
 
 /**
  * Scrapes a URL with Fire-Engine
@@ -47,15 +47,16 @@ export async function scrapWithFireEngine({
     const reqParams = await generateRequestParams(url);
     const waitParam = reqParams["params"]?.wait ?? waitFor;
     const screenshotParam = reqParams["params"]?.screenshot ?? screenshot;
-    const fireEngineOptionsParam : FireEngineOptions = reqParams["params"]?.fireEngineOptions ?? fireEngineOptions;
+    const fireEngineOptionsParam: FireEngineOptions =
+      reqParams["params"]?.fireEngineOptions ?? fireEngineOptions;
 
-    let endpoint = fireEngineOptionsParam.method === "get" ? "/request" : "/scrape";
+    const endpoint = fireEngineOptionsParam.method === "get" ? "/request" : "/scrape";
 
     console.log(
-      `[Fire-Engine] Scraping ${url} with wait: ${waitParam} and screenshot: ${screenshotParam} and method: ${fireEngineOptionsParam?.method ?? "null"}`
+      `[Fire-Engine] Scraping ${url} with wait: ${waitParam} and screenshot: ${screenshotParam} and method: ${fireEngineOptionsParam?.method ?? "null"}`,
     );
 
-    console.log(fireEngineOptionsParam)
+    console.log(fireEngineOptionsParam);
 
     const response = await axios.post(
       process.env.FIRE_ENGINE_BETA_URL + endpoint,
@@ -72,18 +73,16 @@ export async function scrapWithFireEngine({
           "Content-Type": "application/json",
         },
         timeout: universalTimeout + waitParam,
-      }
+      },
     );
 
     if (response.status !== 200) {
-      console.error(
-        `[Fire-Engine] Error fetching url: ${url} with status: ${response.status}`
-      );
+      console.error(`[Fire-Engine] Error fetching url: ${url} with status: ${response.status}`);
 
       logParams.error_message = response.data?.pageError;
       logParams.response_code = response.data?.pageStatusCode;
 
-      if(response.data && response.data?.pageStatusCode !== 200) {
+      if (response.data && response.data?.pageStatusCode !== 200) {
         console.error(`[Fire-Engine] Error fetching url: ${url} with status: ${response.status}`);
       }
 
@@ -99,7 +98,7 @@ export async function scrapWithFireEngine({
     if (contentType && contentType.includes("application/pdf")) {
       const { content, pageStatusCode, pageError } = await fetchAndProcessPdf(
         url,
-        pageOptions?.parsePDF
+        pageOptions?.parsePDF,
       );
       logParams.success = true;
       logParams.response_code = pageStatusCode;
@@ -108,8 +107,7 @@ export async function scrapWithFireEngine({
     } else {
       const data = response.data;
       logParams.success =
-        (data.pageStatusCode >= 200 && data.pageStatusCode < 300) ||
-        data.pageStatusCode === 404;
+        (data.pageStatusCode >= 200 && data.pageStatusCode < 300) || data.pageStatusCode === 404;
       logParams.html = data.content ?? "";
       logParams.response_code = data.pageStatusCode;
       logParams.error_message = data.pageError;

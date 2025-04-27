@@ -1,5 +1,6 @@
+// import { createRouter } from "../../lib/createApp";
+import express from "express";
 import { sleep } from "mtxuilib/lib/sslib";
-import { createRouter } from "../../lib/createApp";
 
 import { spawn } from "node:child_process";
 // import { sleep } from "bun";
@@ -82,5 +83,7 @@ browserRouter.all("/hellobrowser", async (c) => {
     message: "Hello browser",
   });
 });
+
+export const v0Router = express.Router();
 
 export default browserRouter;
