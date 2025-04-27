@@ -3,6 +3,7 @@ import os from "node:os";
 import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
+import browserRouter from "./routes/browser.handler";
 import { proxyRouter } from "./routes/proxy";
 
 const numCPUs = process.env.ENV === "local" ? 2 : os.cpus().length;
@@ -243,15 +244,16 @@ app.use(cors()); // Add this line to enable CORS
 console.log(`Worker ${process.pid} started`);
 
 app.use(proxyRouter);
+app.use(browserRouter);
 function startServer(port?: number) {
   const _port = Number(process.env.PORT) || 3444;
   const HOST = process.env.HOST?.length ? process.env.HOST : "0.0.0.0";
   console.log(`爬虫服务启动，端口： ${_port}`);
   const server = app.listen(Number(_port), HOST, () => {
     console.log(`Worker ${process.pid} listening on port ${_port}`);
-    console.log(
-      `For the UI, open http://${HOST}:${_port}/admin/${process.env.BULL_AUTH_KEY}/queues`,
-    );
+    // console.log(
+    //   `For the UI, open http://${HOST}:${_port}/admin/${process.env.BULL_AUTH_KEY}/queues`,
+    // );
   });
   return server;
 }

@@ -7,6 +7,8 @@ const gomtmProxyRouter = createRouter();
 gomtmProxyRouter.all("/", async (c) => {
   const r = c.req.raw;
   await initGomtmApp({ r: r });
+
+  // 如果 使用 nextjs 环境，这里不能正常工作, 可能原因是 request 的结构有差异
   const rProxy = newRProxy({
     rewrites: [
       {
@@ -23,7 +25,8 @@ gomtmProxyRouter.all("/", async (c) => {
       },
     ],
   });
-  return rProxy(r);
+  const response = await rProxy(r);
+  return response.clone();
 });
 
 export default gomtmProxyRouter;

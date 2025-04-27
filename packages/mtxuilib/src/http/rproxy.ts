@@ -58,6 +58,8 @@ export function newRProxy(options: RProxyOptions) {
         method: r.method,
         headers: requestHeaders,
         body: ["GET", "HEAD"].includes(r.method) ? undefined : r.body,
+        // 在 Next.js 环境中需要这个选项
+        // duplex: "half",
         // credentials: "include", // 提示: 在 cloudflare worker 中不支持
       });
 
@@ -68,13 +70,16 @@ export function newRProxy(options: RProxyOptions) {
         headers: response.headers,
       });
 
+      // 确保响应体可以被多次读取
+      const clonedResponse = newResponse.clone();
+
       // console.log(
       //   `🚀 [rProxy] ${r.method}(${response.status}) \n${r.url}, \n===> ${fullUrl.toString()} with headers: ${headersLogItem.join("\n")}`,
       // );
       console.log(
         `🚀 [rProxy] ${r.method}(${response.status}) \n${r.url}, \n===> ${fullUrl.toString()}`,
       );
-      return newResponse;
+      return clonedResponse;
     } catch (e) {
       return new Response(`error ${targetUrl}  ${e}`);
     }
