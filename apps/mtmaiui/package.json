@@ -34,7 +34,8 @@
     "mcp-inspector": "npx @modelcontextprotocol/inspector",
     "agents:coder": "bun run withEnv -- bun run src/agents/coder/index.ts",
     "a2a:cli": "bun run withEnv -- bun run src/lib/a2a/cli.ts",
-    "agents:movie-agent": "bun run withEnv -- bun run src/agents/movie-agent/index.ts"
+    "agents:movie-agent": "bun run withEnv -- bun run src/agents/movie-agent/index.ts",
+    "dev:browser": "bun src/browser.ts"
   },
   "typesVersions": {
     "*": {
@@ -182,7 +183,11 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.7",
     "unist-util-visit": "^4.1.2",
-    "vite-plugin-ssr": "^0.4.142"
+    "vite-plugin-ssr": "^0.4.142",
+    "playwright-core": "1.49.1",
+    "puppeteer": "^23",
+    "puppeteer-extra": "^3.3",
+    "puppeteer-extra-plugin-stealth": "^2.11"
   },
   "other": {
     "agents": "^0.0.60",
