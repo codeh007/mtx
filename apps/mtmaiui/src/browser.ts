@@ -1,8 +1,9 @@
 import { spawn } from "node:child_process";
+import { sleep } from "bun";
+// import { sleep } from "./lib/utils";
 import { chromium } from "playwright-extra";
 import stealthPlugin from "puppeteer-extra-plugin-stealth";
-import StealthPlugin from "puppeteer-extra-plugin-stealth";
-import { sleep } from "./lib/utils";
+// import StealthPlugin from "puppeteer-extra-plugin-stealth";
 chromium.use(stealthPlugin());
 
 async function runExample() {
