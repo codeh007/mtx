@@ -5689,6 +5689,9 @@ export const BrowserOpenResultSchema = {
     title: {
       type: "string",
     },
+    debugPort: {
+      type: "number",
+    },
   },
 } as const;
 

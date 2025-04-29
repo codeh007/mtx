@@ -6983,6 +6983,7 @@ export const zBrowserOpenRequest = z.object({
 export const zBrowserOpenResult = z.object({
   url: z.string(),
   title: z.string(),
+  debugPort: z.number().optional(),
 });
 
 export const zProxyProperties = z.object({

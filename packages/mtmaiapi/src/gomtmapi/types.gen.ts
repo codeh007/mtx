@@ -3001,6 +3001,7 @@ export type BrowserOpenRequest = {
 export type BrowserOpenResult = {
   url: string;
   title: string;
+  debugPort?: number;
 };
 
 export type ProxyProperties = {
