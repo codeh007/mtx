@@ -6975,9 +6975,13 @@ export const zBrowserUpdate = z.object({
   tags: z.array(z.string()).optional(),
 });
 
-export const zBrowserOpenResponse = z.object({
-  url: z.string().optional(),
-  title: z.string().optional(),
+export const zBrowserOpenRequest = z.object({
+  url: z.string(),
+});
+
+export const zBrowserOpenResult = z.object({
+  url: z.string(),
+  title: z.string(),
 });
 
 export const zProxyProperties = z.object({
@@ -8626,7 +8630,7 @@ export const zBrowserListResponse = zBrowserList;
 
 export const zBrowserCreateResponse = zBrowser;
 
-export const zBrowserOpenResponse2 = zBrowserOpenResponse;
+export const zBrowserOpenResponse = zBrowserOpenResult;
 
 export const zBrowserGetResponse = zBrowser;
 

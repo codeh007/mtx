@@ -466,6 +466,8 @@ import type {
   BrowserCreateError,
   BrowserCreateResponse,
   BrowserOpenData,
+  BrowserOpenError,
+  BrowserOpenResponse,
   BrowserGetData,
   BrowserUpdateData,
   BrowserUpdateError,
@@ -4275,6 +4277,24 @@ export const browserOpenOptions = (options: Options<BrowserOpenData>) => {
     },
     queryKey: browserOpenQueryKey(options),
   });
+};
+
+export const browserOpenMutation = (options?: Partial<Options<BrowserOpenData>>) => {
+  const mutationOptions: UseMutationOptions<
+    BrowserOpenResponse,
+    BrowserOpenError,
+    Options<BrowserOpenData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await browserOpen({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };
 
 export const browserGetQueryKey = (options: Options<BrowserGetData>) =>

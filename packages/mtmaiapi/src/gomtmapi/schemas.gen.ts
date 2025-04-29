@@ -5668,7 +5668,17 @@ export const BrowserUpdateSchema = {
   required: ["metadata", "name", "url"],
 } as const;
 
-export const BrowserOpenResponseSchema = {
+export const BrowserOpenRequestSchema = {
+  required: ["url"],
+  properties: {
+    url: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const BrowserOpenResultSchema = {
+  required: ["url", "title"],
   properties: {
     url: {
       type: "string",

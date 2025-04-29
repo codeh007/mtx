@@ -412,7 +412,8 @@ import type {
   BrowserCreateResponse,
   BrowserCreateError,
   BrowserOpenData,
-  BrowserOpenResponse2,
+  BrowserOpenResponse,
+  BrowserOpenError,
   BrowserGetData,
   BrowserGetResponse,
   BrowserUpdateData,
@@ -4171,7 +4172,11 @@ export const browserCreate = <ThrowOnError extends boolean = false>(
 export const browserOpen = <ThrowOnError extends boolean = false>(
   options: Options<BrowserOpenData, ThrowOnError>,
 ) => {
-  return (options.client ?? _heyApiClient).get<BrowserOpenResponse2, unknown, ThrowOnError>({
+  return (options.client ?? _heyApiClient).post<
+    BrowserOpenResponse,
+    BrowserOpenError,
+    ThrowOnError
+  >({
     security: [
       {
         scheme: "bearer",
@@ -4182,8 +4187,12 @@ export const browserOpen = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/api/v1/browsers/{browser}/open",
+    url: "/api/v1/tenants/{tenant}/browsers/{browser}/open",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 

@@ -52,6 +52,7 @@ const EventsRouteLazyImport = createFileRoute('/events')()
 const EnvsRouteLazyImport = createFileRoute('/envs')()
 const EndpointRouteLazyImport = createFileRoute('/endpoint')()
 const ComsRouteLazyImport = createFileRoute('/coms')()
+const BrowserRouteLazyImport = createFileRoute('/browser')()
 const AuthRouteLazyImport = createFileRoute('/auth')()
 const WorkflowsWorkflowIdRouteLazyImport = createFileRoute(
   '/workflows/$workflowId',
@@ -95,6 +96,7 @@ const EventsIndexLazyImport = createFileRoute('/events/')()
 const EnvsIndexLazyImport = createFileRoute('/envs/')()
 const EndpointIndexLazyImport = createFileRoute('/endpoint/')()
 const ComsIndexLazyImport = createFileRoute('/coms/')()
+const BrowserIndexLazyImport = createFileRoute('/browser/')()
 const WorkflowsWorkflowIdTriggerRouteLazyImport = createFileRoute(
   '/workflows/$workflowId/trigger',
 )()
@@ -492,6 +494,14 @@ const ComsRouteLazyRoute = ComsRouteLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~coms/~route.lazy').then((d) => d.Route))
 
+const BrowserRouteLazyRoute = BrowserRouteLazyImport.update({
+  id: '/browser',
+  path: '/browser',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/~browser/~route.lazy').then((d) => d.Route),
+)
+
 const AuthRouteLazyRoute = AuthRouteLazyImport.update({
   id: '/auth',
   path: '/auth',
@@ -769,6 +779,14 @@ const ComsIndexLazyRoute = ComsIndexLazyImport.update({
   path: '/',
   getParentRoute: () => ComsRouteLazyRoute,
 } as any).lazy(() => import('./routes/~coms/~index.lazy').then((d) => d.Route))
+
+const BrowserIndexLazyRoute = BrowserIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BrowserRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~browser/~index.lazy').then((d) => d.Route),
+)
 
 const SiteSiteIdRouteRoute = SiteSiteIdRouteImport.update({
   id: '/$siteId',
@@ -1936,6 +1954,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteLazyImport
       parentRoute: typeof rootRoute
     }
+    '/browser': {
+      id: '/browser'
+      path: '/browser'
+      fullPath: '/browser'
+      preLoaderRoute: typeof BrowserRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/coms': {
       id: '/coms'
       path: '/coms'
@@ -2089,6 +2114,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/site/$siteId'
       preLoaderRoute: typeof SiteSiteIdRouteImport
       parentRoute: typeof SiteRouteLazyImport
+    }
+    '/browser/': {
+      id: '/browser/'
+      path: '/'
+      fullPath: '/browser/'
+      preLoaderRoute: typeof BrowserIndexLazyImport
+      parentRoute: typeof BrowserRouteLazyImport
     }
     '/coms/': {
       id: '/coms/'
@@ -3148,6 +3180,17 @@ const AuthRouteLazyRouteChildren: AuthRouteLazyRouteChildren = {
 const AuthRouteLazyRouteWithChildren = AuthRouteLazyRoute._addFileChildren(
   AuthRouteLazyRouteChildren,
 )
+
+interface BrowserRouteLazyRouteChildren {
+  BrowserIndexLazyRoute: typeof BrowserIndexLazyRoute
+}
+
+const BrowserRouteLazyRouteChildren: BrowserRouteLazyRouteChildren = {
+  BrowserIndexLazyRoute: BrowserIndexLazyRoute,
+}
+
+const BrowserRouteLazyRouteWithChildren =
+  BrowserRouteLazyRoute._addFileChildren(BrowserRouteLazyRouteChildren)
 
 interface ComsComIdComponenteditorRouteLazyRouteChildren {
   ComsComIdComponenteditorIndexRoute: typeof ComsComIdComponenteditorIndexRoute
@@ -4336,6 +4379,7 @@ const AdkSessionRouteLazyRouteWithChildren =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteLazyRouteWithChildren
+  '/browser': typeof BrowserRouteLazyRouteWithChildren
   '/coms': typeof ComsRouteLazyRouteWithChildren
   '/endpoint': typeof EndpointRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
@@ -4358,6 +4402,7 @@ export interface FileRoutesByFullPath {
   '/site/': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
   '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
+  '/browser/': typeof BrowserIndexLazyRoute
   '/coms/': typeof ComsIndexLazyRoute
   '/endpoint/': typeof EndpointIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
@@ -4513,6 +4558,7 @@ export interface FileRoutesByTo {
   '/platform': typeof PlatformIndexRoute
   '/site': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
+  '/browser': typeof BrowserIndexLazyRoute
   '/coms': typeof ComsIndexLazyRoute
   '/endpoint': typeof EndpointIndexLazyRoute
   '/envs': typeof EnvsIndexLazyRoute
@@ -4616,6 +4662,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteLazyRouteWithChildren
+  '/browser': typeof BrowserRouteLazyRouteWithChildren
   '/coms': typeof ComsRouteLazyRouteWithChildren
   '/endpoint': typeof EndpointRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
@@ -4638,6 +4685,7 @@ export interface FileRoutesById {
   '/site/': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
   '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
+  '/browser/': typeof BrowserIndexLazyRoute
   '/coms/': typeof ComsIndexLazyRoute
   '/endpoint/': typeof EndpointIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
@@ -4792,6 +4840,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/browser'
     | '/coms'
     | '/endpoint'
     | '/envs'
@@ -4814,6 +4863,7 @@ export interface FileRouteTypes {
     | '/site/'
     | '/envs/create'
     | '/site/$siteId'
+    | '/browser/'
     | '/coms/'
     | '/endpoint/'
     | '/envs/'
@@ -4968,6 +5018,7 @@ export interface FileRouteTypes {
     | '/platform'
     | '/site'
     | '/envs/create'
+    | '/browser'
     | '/coms'
     | '/endpoint'
     | '/envs'
@@ -5069,6 +5120,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/auth'
+    | '/browser'
     | '/coms'
     | '/endpoint'
     | '/envs'
@@ -5091,6 +5143,7 @@ export interface FileRouteTypes {
     | '/site/'
     | '/envs/create'
     | '/site/$siteId'
+    | '/browser/'
     | '/coms/'
     | '/endpoint/'
     | '/envs/'
@@ -5244,6 +5297,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRouteLazyRoute: typeof AuthRouteLazyRouteWithChildren
+  BrowserRouteLazyRoute: typeof BrowserRouteLazyRouteWithChildren
   ComsRouteLazyRoute: typeof ComsRouteLazyRouteWithChildren
   EndpointRouteLazyRoute: typeof EndpointRouteLazyRouteWithChildren
   EnvsRouteLazyRoute: typeof EnvsRouteLazyRouteWithChildren
@@ -5269,6 +5323,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteLazyRoute: AuthRouteLazyRouteWithChildren,
+  BrowserRouteLazyRoute: BrowserRouteLazyRouteWithChildren,
   ComsRouteLazyRoute: ComsRouteLazyRouteWithChildren,
   EndpointRouteLazyRoute: EndpointRouteLazyRouteWithChildren,
   EnvsRouteLazyRoute: EnvsRouteLazyRouteWithChildren,
@@ -5303,6 +5358,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/auth",
+        "/browser",
         "/coms",
         "/endpoint",
         "/envs",
@@ -5333,6 +5389,12 @@ export const routeTree = rootRoute
       "children": [
         "/auth/login",
         "/auth/register"
+      ]
+    },
+    "/browser": {
+      "filePath": "~browser/~route.lazy.tsx",
+      "children": [
+        "/browser/"
       ]
     },
     "/coms": {
@@ -5481,6 +5543,10 @@ export const routeTree = rootRoute
         "/site/$siteId/edit",
         "/site/$siteId/host"
       ]
+    },
+    "/browser/": {
+      "filePath": "~browser/~index.lazy.tsx",
+      "parent": "/browser"
     },
     "/coms/": {
       "filePath": "~coms/~index.lazy.tsx",

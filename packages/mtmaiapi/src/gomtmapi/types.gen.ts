@@ -2993,9 +2993,13 @@ export type BrowserUpdate = {
   tags?: Array<string>;
 };
 
-export type BrowserOpenResponse = {
-  url?: string;
-  title?: string;
+export type BrowserOpenRequest = {
+  url: string;
+};
+
+export type BrowserOpenResult = {
+  url: string;
+  title: string;
 };
 
 export type ProxyProperties = {
@@ -9202,22 +9206,33 @@ export type BrowserCreateResponses = {
 export type BrowserCreateResponse = BrowserCreateResponses[keyof BrowserCreateResponses];
 
 export type BrowserOpenData = {
-  body?: never;
+  body: BrowserOpenRequest;
   path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
     /**
      * The browser id
      */
     browser: string;
   };
   query?: never;
-  url: "/api/v1/browsers/{browser}/open";
+  url: "/api/v1/tenants/{tenant}/browsers/{browser}/open";
 };
+
+export type BrowserOpenErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+};
+
+export type BrowserOpenError = BrowserOpenErrors[keyof BrowserOpenErrors];
 
 export type BrowserOpenResponses = {
-  200: BrowserOpenResponse;
+  200: BrowserOpenResult;
 };
 
-export type BrowserOpenResponse2 = BrowserOpenResponses[keyof BrowserOpenResponses];
+export type BrowserOpenResponse = BrowserOpenResponses[keyof BrowserOpenResponses];
 
 export type BrowserGetData = {
   body?: never;
