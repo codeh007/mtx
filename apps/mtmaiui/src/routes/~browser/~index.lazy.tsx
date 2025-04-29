@@ -33,7 +33,7 @@ const TestOpenBrowser = () => {
               browser: "browserid123",
             },
             body: {
-              url: "https://whoer.net",
+              urls: ["https://whoer.net", "https://pixelscan.net"],
             },
           });
         }}

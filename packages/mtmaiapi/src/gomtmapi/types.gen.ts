@@ -2994,14 +2994,14 @@ export type BrowserUpdate = {
 };
 
 export type BrowserOpenRequest = {
-  url: string;
+  urls: Array<string>;
   title?: string;
+  proxyUrl?: string;
 };
 
 export type BrowserOpenResult = {
-  url: string;
-  title: string;
-  debugPort?: number;
+  title?: string;
+  debugPort: number;
 };
 
 export type ProxyProperties = {

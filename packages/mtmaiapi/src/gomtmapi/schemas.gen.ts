@@ -5669,28 +5669,31 @@ export const BrowserUpdateSchema = {
 } as const;
 
 export const BrowserOpenRequestSchema = {
-  required: ["url"],
+  required: ["urls"],
   properties: {
-    url: {
-      type: "string",
+    urls: {
+      type: "array",
+      items: {
+        type: "string",
+      },
     },
     title: {
+      type: "string",
+    },
+    proxyUrl: {
       type: "string",
     },
   },
 } as const;
 
 export const BrowserOpenResultSchema = {
-  required: ["url", "title"],
+  required: ["debugPort"],
   properties: {
-    url: {
-      type: "string",
-    },
     title: {
       type: "string",
     },
     debugPort: {
-      type: "number",
+      type: "integer",
     },
   },
 } as const;

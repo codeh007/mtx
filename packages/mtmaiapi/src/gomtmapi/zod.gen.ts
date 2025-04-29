@@ -6976,14 +6976,14 @@ export const zBrowserUpdate = z.object({
 });
 
 export const zBrowserOpenRequest = z.object({
-  url: z.string(),
+  urls: z.array(z.string()),
   title: z.string().optional(),
+  proxyUrl: z.string().optional(),
 });
 
 export const zBrowserOpenResult = z.object({
-  url: z.string(),
-  title: z.string(),
-  debugPort: z.number().optional(),
+  title: z.string().optional(),
+  debugPort: z.number().int(),
 });
 
 export const zProxyProperties = z.object({
