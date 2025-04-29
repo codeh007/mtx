@@ -2995,6 +2995,7 @@ export type BrowserUpdate = {
 
 export type BrowserOpenRequest = {
   url: string;
+  title?: string;
 };
 
 export type BrowserOpenResult = {

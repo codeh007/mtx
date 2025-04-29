@@ -5674,6 +5674,9 @@ export const BrowserOpenRequestSchema = {
     url: {
       type: "string",
     },
+    title: {
+      type: "string",
+    },
   },
 } as const;
 

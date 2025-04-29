@@ -6977,6 +6977,7 @@ export const zBrowserUpdate = z.object({
 
 export const zBrowserOpenRequest = z.object({
   url: z.string(),
+  title: z.string().optional(),
 });
 
 export const zBrowserOpenResult = z.object({
