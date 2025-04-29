@@ -2993,6 +2993,11 @@ export type BrowserUpdate = {
   tags?: Array<string>;
 };
 
+export type BrowserOpenResponse = {
+  url?: string;
+  title?: string;
+};
+
 export type ProxyProperties = {
   name: string;
   description: string;
@@ -9195,6 +9200,24 @@ export type BrowserCreateResponses = {
 };
 
 export type BrowserCreateResponse = BrowserCreateResponses[keyof BrowserCreateResponses];
+
+export type BrowserOpenData = {
+  body?: never;
+  path: {
+    /**
+     * The browser id
+     */
+    browser: string;
+  };
+  query?: never;
+  url: "/api/v1/browsers/{browser}/open";
+};
+
+export type BrowserOpenResponses = {
+  200: BrowserOpenResponse;
+};
+
+export type BrowserOpenResponse2 = BrowserOpenResponses[keyof BrowserOpenResponses];
 
 export type BrowserGetData = {
   body?: never;

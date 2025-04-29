@@ -5668,6 +5668,17 @@ export const BrowserUpdateSchema = {
   required: ["metadata", "name", "url"],
 } as const;
 
+export const BrowserOpenResponseSchema = {
+  properties: {
+    url: {
+      type: "string",
+    },
+    title: {
+      type: "string",
+    },
+  },
+} as const;
+
 export const ProxyPropertiesSchema = {
   required: ["name", "description", "url"],
   properties: {

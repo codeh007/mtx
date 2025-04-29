@@ -148,6 +148,7 @@ import {
   platformAccountUpsert,
   browserList,
   browserCreate,
+  browserOpen,
   browserGet,
   browserUpdate,
   proxyList,
@@ -464,6 +465,7 @@ import type {
   BrowserCreateData,
   BrowserCreateError,
   BrowserCreateResponse,
+  BrowserOpenData,
   BrowserGetData,
   BrowserUpdateData,
   BrowserUpdateError,
@@ -4255,6 +4257,24 @@ export const browserCreateMutation = (options?: Partial<Options<BrowserCreateDat
     },
   };
   return mutationOptions;
+};
+
+export const browserOpenQueryKey = (options: Options<BrowserOpenData>) =>
+  createQueryKey("browserOpen", options);
+
+export const browserOpenOptions = (options: Options<BrowserOpenData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await browserOpen({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: browserOpenQueryKey(options),
+  });
 };
 
 export const browserGetQueryKey = (options: Options<BrowserGetData>) =>
