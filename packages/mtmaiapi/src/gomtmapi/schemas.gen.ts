@@ -7938,3 +7938,27 @@ export const FunctionResponseSchema = {
     },
   },
 } as const;
+
+export const TkGetUserProfileRequestSchema = {
+  required: ["user"],
+  properties: {
+    user: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const TkGetUserProfileResponseSchema = {
+  required: ["user"],
+  properties: {
+    user: {
+      type: "string",
+    },
+    data: {
+      type: "object",
+      additionalProperties: {
+        type: "string",
+      },
+    },
+  },
+} as const;

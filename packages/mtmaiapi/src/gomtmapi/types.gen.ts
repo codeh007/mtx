@@ -3952,6 +3952,17 @@ export type FunctionResponse = {
   };
 };
 
+export type TkGetUserProfileRequest = {
+  user: string;
+};
+
+export type TkGetUserProfileResponse = {
+  user: string;
+  data?: {
+    [key: string]: string;
+  };
+};
+
 export type ReadinessGetData = {
   body?: never;
   path?: never;
@@ -10324,6 +10335,31 @@ export type AdkEventsGetResponses = {
 };
 
 export type AdkEventsGetResponse = AdkEventsGetResponses[keyof AdkEventsGetResponses];
+
+export type TkGetUserProfileData = {
+  body: TkGetUserProfileRequest;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/tk/getUserProfile";
+};
+
+export type TkGetUserProfileErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+};
+
+export type TkGetUserProfileError = TkGetUserProfileErrors[keyof TkGetUserProfileErrors];
+
+export type TkGetUserProfileResponses = {
+  200: TkGetUserProfileResponse;
+};
+
+export type TkGetUserProfileResponse2 = TkGetUserProfileResponses[keyof TkGetUserProfileResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

@@ -184,6 +184,7 @@ import {
   adkEventsList,
   adkEventsUpsert,
   adkEventsGet,
+  tkGetUserProfile,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -535,6 +536,9 @@ import type {
   AdkEventsUpsertError,
   AdkEventsUpsertResponse,
   AdkEventsGetData,
+  TkGetUserProfileData,
+  TkGetUserProfileError,
+  TkGetUserProfileResponse2,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -5151,4 +5155,40 @@ export const adkEventsGetOptions = (options: Options<AdkEventsGetData>) => {
     },
     queryKey: adkEventsGetQueryKey(options),
   });
+};
+
+export const tkGetUserProfileQueryKey = (options: Options<TkGetUserProfileData>) =>
+  createQueryKey("tkGetUserProfile", options);
+
+export const tkGetUserProfileOptions = (options: Options<TkGetUserProfileData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await tkGetUserProfile({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: tkGetUserProfileQueryKey(options),
+  });
+};
+
+export const tkGetUserProfileMutation = (options?: Partial<Options<TkGetUserProfileData>>) => {
+  const mutationOptions: UseMutationOptions<
+    TkGetUserProfileResponse2,
+    TkGetUserProfileError,
+    Options<TkGetUserProfileData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await tkGetUserProfile({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };

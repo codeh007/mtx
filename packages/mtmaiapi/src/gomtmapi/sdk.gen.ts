@@ -516,6 +516,9 @@ import type {
   AdkEventsGetData,
   AdkEventsGetResponse,
   AdkEventsGetError,
+  TkGetUserProfileData,
+  TkGetUserProfileResponse2,
+  TkGetUserProfileError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -5092,5 +5095,35 @@ export const adkEventsGet = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/tenants/{tenant}/adk/events/{event}",
     ...options,
+  });
+};
+
+/**
+ * Get a user profile
+ */
+export const tkGetUserProfile = <ThrowOnError extends boolean = false>(
+  options: Options<TkGetUserProfileData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    TkGetUserProfileResponse2,
+    TkGetUserProfileError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/tk/getUserProfile",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };

@@ -20,7 +20,7 @@ function RouteComponent() {
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem>
-                    <BreadcrumbPage>TK</BreadcrumbPage>
+                    <BreadcrumbPage>浏览器</BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
