@@ -6,7 +6,7 @@ import { RootAppWrapper } from "../../components/RootAppWrapper";
 import { WorkbrenchProvider } from "../../stores/workbrench.store";
 import { WorkflowsProvider } from "../../stores/workflow-store";
 import { NavWorkflow } from "../~workflows/siderbar";
-export const Route = createLazyFileRoute("/browser")({
+export const Route = createLazyFileRoute("/tk")({
   component: RouteComponent,
 });
 

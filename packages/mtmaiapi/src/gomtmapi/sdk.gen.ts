@@ -517,8 +517,11 @@ import type {
   AdkEventsGetResponse,
   AdkEventsGetError,
   TkGetUserProfileData,
-  TkGetUserProfileResponse2,
+  TkGetUserProfileResponse,
   TkGetUserProfileError,
+  TkAccountLoginData,
+  TkAccountLoginResponse,
+  TkAccountLoginError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -5105,7 +5108,7 @@ export const tkGetUserProfile = <ThrowOnError extends boolean = false>(
   options: Options<TkGetUserProfileData, ThrowOnError>,
 ) => {
   return (options.client ?? _heyApiClient).post<
-    TkGetUserProfileResponse2,
+    TkGetUserProfileResponse,
     TkGetUserProfileError,
     ThrowOnError
   >({
@@ -5120,6 +5123,36 @@ export const tkGetUserProfile = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/tk/getUserProfile",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Login to tk account
+ */
+export const tkAccountLogin = <ThrowOnError extends boolean = false>(
+  options: Options<TkAccountLoginData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    TkAccountLoginResponse,
+    TkAccountLoginError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/tk/tkAccountLogin",
     ...options,
     headers: {
       "Content-Type": "application/json",

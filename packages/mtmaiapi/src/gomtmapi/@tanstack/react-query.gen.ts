@@ -185,6 +185,7 @@ import {
   adkEventsUpsert,
   adkEventsGet,
   tkGetUserProfile,
+  tkAccountLogin,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -538,7 +539,10 @@ import type {
   AdkEventsGetData,
   TkGetUserProfileData,
   TkGetUserProfileError,
-  TkGetUserProfileResponse2,
+  TkGetUserProfileResponse,
+  TkAccountLoginData,
+  TkAccountLoginError,
+  TkAccountLoginResponse,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -5177,12 +5181,48 @@ export const tkGetUserProfileOptions = (options: Options<TkGetUserProfileData>) 
 
 export const tkGetUserProfileMutation = (options?: Partial<Options<TkGetUserProfileData>>) => {
   const mutationOptions: UseMutationOptions<
-    TkGetUserProfileResponse2,
+    TkGetUserProfileResponse,
     TkGetUserProfileError,
     Options<TkGetUserProfileData>
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await tkGetUserProfile({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const tkAccountLoginQueryKey = (options: Options<TkAccountLoginData>) =>
+  createQueryKey("tkAccountLogin", options);
+
+export const tkAccountLoginOptions = (options: Options<TkAccountLoginData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await tkAccountLogin({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: tkAccountLoginQueryKey(options),
+  });
+};
+
+export const tkAccountLoginMutation = (options?: Partial<Options<TkAccountLoginData>>) => {
+  const mutationOptions: UseMutationOptions<
+    TkAccountLoginResponse,
+    TkAccountLoginError,
+    Options<TkAccountLoginData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await tkAccountLogin({
         ...options,
         ...localOptions,
         throwOnError: true,

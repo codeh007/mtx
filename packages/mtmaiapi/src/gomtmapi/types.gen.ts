@@ -3956,10 +3956,21 @@ export type TkGetUserProfileRequest = {
   user: string;
 };
 
-export type TkGetUserProfileResponse = {
+export type TkUserProfile = {
   user: string;
   data?: {
-    [key: string]: string;
+    [key: string]: unknown;
+  };
+};
+
+export type TkAccountLoginRequest = {
+  username: string;
+  password: string;
+};
+
+export type TkAccountLoginResult = {
+  data: {
+    [key: string]: unknown;
   };
 };
 
@@ -10356,10 +10367,34 @@ export type TkGetUserProfileErrors = {
 export type TkGetUserProfileError = TkGetUserProfileErrors[keyof TkGetUserProfileErrors];
 
 export type TkGetUserProfileResponses = {
-  200: TkGetUserProfileResponse;
+  200: TkUserProfile;
 };
 
-export type TkGetUserProfileResponse2 = TkGetUserProfileResponses[keyof TkGetUserProfileResponses];
+export type TkGetUserProfileResponse = TkGetUserProfileResponses[keyof TkGetUserProfileResponses];
+
+export type TkAccountLoginData = {
+  body: TkAccountLoginRequest;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/tk/tkAccountLogin";
+};
+
+export type TkAccountLoginErrors = {
+  400: ApiErrors;
+};
+
+export type TkAccountLoginError = TkAccountLoginErrors[keyof TkAccountLoginErrors];
+
+export type TkAccountLoginResponses = {
+  200: TkAccountLoginResult;
+};
+
+export type TkAccountLoginResponse = TkAccountLoginResponses[keyof TkAccountLoginResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

@@ -7948,7 +7948,7 @@ export const TkGetUserProfileRequestSchema = {
   },
 } as const;
 
-export const TkGetUserProfileResponseSchema = {
+export const TkUserProfileSchema = {
   required: ["user"],
   properties: {
     user: {
@@ -7956,9 +7956,29 @@ export const TkGetUserProfileResponseSchema = {
     },
     data: {
       type: "object",
-      additionalProperties: {
-        type: "string",
-      },
+      additionalProperties: true,
+    },
+  },
+} as const;
+
+export const TkAccountLoginRequestSchema = {
+  required: ["username", "password"],
+  properties: {
+    username: {
+      type: "string",
+    },
+    password: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const TkAccountLoginResultSchema = {
+  required: ["data"],
+  properties: {
+    data: {
+      type: "object",
+      additionalProperties: true,
     },
   },
 } as const;

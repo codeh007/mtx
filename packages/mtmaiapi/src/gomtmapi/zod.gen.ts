@@ -8362,9 +8362,18 @@ export const zTkGetUserProfileRequest = z.object({
   user: z.string(),
 });
 
-export const zTkGetUserProfileResponse = z.object({
+export const zTkUserProfile = z.object({
   user: z.string(),
   data: z.object({}).optional(),
+});
+
+export const zTkAccountLoginRequest = z.object({
+  username: z.string(),
+  password: z.string(),
+});
+
+export const zTkAccountLoginResult = z.object({
+  data: z.object({}),
 });
 
 export const zMetadataGetResponse = zApiMeta;
@@ -8713,4 +8722,6 @@ export const zAdkEventsUpsertResponse = zAdkEvent;
 
 export const zAdkEventsGetResponse = zAdkEvent;
 
-export const zTkGetUserProfileResponse2 = zTkGetUserProfileResponse;
+export const zTkGetUserProfileResponse = zTkUserProfile;
+
+export const zTkAccountLoginResponse = zTkAccountLoginResult;
