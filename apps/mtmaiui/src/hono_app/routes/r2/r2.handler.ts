@@ -2,33 +2,34 @@ import type { ContentfulStatusCode } from "hono/utils/http-status";
 import { createRouter } from "../../lib/createApp";
 
 const pathPrefix = "/api/r2";
-const bucketRoot = "short_videos/";
+const defaultDelimiter = "/";
+// const bucketRoot = "short_videos/";
 const r2Router = createRouter();
 
 r2Router.get("/list/*", async (c) => {
   let path = c.req.path;
   if (path.startsWith(pathPrefix)) {
-    path = path.slice(pathPrefix.length);
+    path = path.slice(`${pathPrefix}/list`.length);
   }
   if (path.startsWith("/")) {
     path = path.slice(1);
   }
   const options: R2ListOptions = {
     prefix: `${path}/`,
-    delimiter: c.req.query("delimiter") ?? "/",
+    delimiter: c.req.query("delimiter") ?? defaultDelimiter,
     cursor: c.req.query("cursor") ?? undefined,
     // include: ["customMetadata", "httpMetadata"],
   };
   const listing = await c.env.MY_BUCKET.list(options);
   const html = `
     <h1>R2 List</h1>
-    <div>path:${path}</div>
+    <div>path: &nbsp; ${path}</div>
     <table>
       <thead>
         <tr>
           <th>Key</th>
           <th>Size</th>
-          <th>actions</th>
+        //   <th>actions</th>
         </tr>
       </thead>
       <tbody>
@@ -36,9 +37,9 @@ r2Router.get("/list/*", async (c) => {
           .map(
             (obj) => `
           <tr>
-            <td><a href="${pathPrefix}/get/${obj.key}">${obj.key}</a></td>
+            <td><a href="${pathPrefix}/${obj.key}">${obj.key}</a></td>
             <td>${obj.size}</td>
-            <td><a href="${pathPrefix}/get/${obj.key}">get</a></td>
+            // <td><a href="${pathPrefix}/${obj.key}">get</a></td>
           </tr>
         `,
           )
@@ -54,7 +55,7 @@ r2Router.get("/list/*", async (c) => {
 r2Router.get("*", async (c) => {
   let path = c.req.path;
   if (path.startsWith(pathPrefix)) {
-    path = path.slice(pathPrefix.length);
+    path = path.slice(`${pathPrefix}`.length);
   }
   if (path.startsWith("/")) {
     path = path.slice(1);
