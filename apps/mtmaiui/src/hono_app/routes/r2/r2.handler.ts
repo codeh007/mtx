@@ -6,10 +6,12 @@ const bucketRoot = "short_videos/";
 const r2Router = createRouter();
 
 r2Router.get("/list/*", async (c) => {
-  //   const path = c.req.param("path") || bucketRoot;
   let path = c.req.path;
   if (path.startsWith(pathPrefix)) {
     path = path.slice(pathPrefix.length);
+  }
+  if (path.startsWith("/")) {
+    path = path.slice(1);
   }
   const options: R2ListOptions = {
     prefix: `${path}/`,
@@ -19,6 +21,8 @@ r2Router.get("/list/*", async (c) => {
   };
   const listing = await c.env.MY_BUCKET.list(options);
   const html = `
+    <h1>R2 List</h1>
+    <div>path:${path}</div>
     <table>
       <thead>
         <tr>
@@ -52,9 +56,12 @@ r2Router.get("*", async (c) => {
   if (path.startsWith(pathPrefix)) {
     path = path.slice(pathPrefix.length);
   }
+  if (path.startsWith("/")) {
+    path = path.slice(1);
+  }
 
   if (!path) {
-    return c.text(`file not found:${path}`, 404);
+    return c.text(`file not found:${path}, c.req.path ${c.req.path}`, 404);
   }
 
   const object = await c.env.MY_BUCKET.get(path, {
@@ -63,7 +70,7 @@ r2Router.get("*", async (c) => {
   });
 
   if (object === null) {
-    return c.text("file not found", 404);
+    return c.text(`object not found:${path}, c.req.path ${c.req.path}`, 404);
   }
   const headers = new Headers();
   object.writeHttpMetadata(headers);
