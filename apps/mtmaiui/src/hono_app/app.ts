@@ -18,18 +18,15 @@ app.use(
 );
 
 configureOpenAPI(app as any);
+
 configureAuth(app);
 // configureAgents(app);
 // configureAgentDemo(app);
 // app.route("/browser/", browserRouter);
+app.route("/r2/", r2Router);
 for (const route of apiRoutes) {
   app.route("/", route);
 }
-
-app.route("/", r2Router);
-app.route("/", helloDbRouter);
 app.route("/v1/*", gomtmProxyRouter);
-// mcp 服务
-// app.route("/", mcpSseRoute);
-
+app.route("/", helloDbRouter);
 export default app;
