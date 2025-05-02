@@ -23,13 +23,11 @@ r2Router.get("/list/*", async (c) => {
   const listing = await c.env.MY_BUCKET.list(options);
   const html = `
     <h1>R2 List</h1>
-    <div>path: &nbsp; ${path}</div>
     <table>
       <thead>
         <tr>
           <th>Key</th>
           <th>Size</th>
-        //   <th>actions</th>
         </tr>
       </thead>
       <tbody>
@@ -39,7 +37,6 @@ r2Router.get("/list/*", async (c) => {
           <tr>
             <td><a href="${pathPrefix}/${obj.key}">${obj.key}</a></td>
             <td>${obj.size}</td>
-            // <td><a href="${pathPrefix}/${obj.key}">get</a></td>
           </tr>
         `,
           )
