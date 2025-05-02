@@ -7988,14 +7988,188 @@ export const TkAccountLoginResultSchema = {
 
 export const VideoParamsSchema = {
   properties: {
-    prompt: {
+    video_subject: {
       type: "string",
     },
-    style: {
+    video_script: {
       type: "string",
+      description: "Script used to generate the video",
     },
-    duration: {
+    video_terms: {
+      type: "string",
+      description: "Keywords used to generate the video",
+    },
+    video_aspect: {
+      type: "string",
+      description: "Aspect ratio of the video",
+    },
+    video_concat_mode: {
+      type: "string",
+      description: "Mode of concatenation of the video",
+    },
+    video_transition_mode: {
+      type: "string",
+      description: "Mode of transition of the video",
+    },
+    video_clip_duration: {
+      type: "integer",
+      description: "Duration of the video clip",
+      default: 5,
+    },
+    video_count: {
+      type: "integer",
+      description: "Number of videos to generate",
+      default: 1,
+    },
+    video_source: {
+      type: "string",
+      description: "Source of the video",
+      default: "pexels",
+    },
+    video_materials: {
+      type: "array",
+      description: "Materials used to generate the video",
+      items: {
+        $ref: "#/components/schemas/MaterialInfo",
+      },
+    },
+    video_style: {
+      type: "string",
+      description: "Style of the video",
+      default: "",
+    },
+    video_language: {
+      type: "string",
+      description: "Language of the video",
+      default: "",
+    },
+    voice_name: {
+      type: "string",
+      description: "Name of the voice",
+      default: "",
+    },
+    voice_volume: {
       type: "number",
+      description: "Volume of the voice",
+      default: 1,
+    },
+    voice_rate: {
+      type: "number",
+      description: "Rate of the voice",
+      default: 1,
+    },
+    bgm_type: {
+      type: "string",
+      description: "Type of the background music",
+      default: "random",
+    },
+    bgm_file: {
+      type: "string",
+      description: "File of the background music",
+      default: "",
+    },
+    bgm_volume: {
+      type: "number",
+      description: "Volume of the background music",
+      default: 1,
+    },
+    bgm_rate: {
+      type: "number",
+      description: "Rate of the background music",
+      default: 0.2,
+    },
+    bgm_start_time: {
+      type: "number",
+      description: "Start time of the background music",
+      default: 0,
+    },
+    bgm_end_time: {
+      type: "number",
+      description: "End time of the background music",
+      default: 0,
+    },
+    bgm_loop: {
+      type: "boolean",
+      description: "Whether the background music is looped",
+      default: false,
+    },
+    subtitle_enabled: {
+      type: "boolean",
+      description: "Whether the subtitle is enabled",
+      default: true,
+    },
+    subtitle_position: {
+      type: "string",
+      description: "Position of the subtitle",
+      default: "bottom",
+    },
+    custom_position: {
+      type: "number",
+      description: "Custom position of the subtitle",
+      default: 70,
+    },
+    font_name: {
+      type: "string",
+      description: "Name of the font",
+      default: "STHeitiMedium.ttc",
+    },
+    text_fore_color: {
+      type: "string",
+      description: "Foreground color of the text",
+      default: "#FFFFFF",
+    },
+    text_background_color: {
+      type: "string",
+      description: "Background color of the text",
+      default: "#000000",
+    },
+    font_size: {
+      type: "integer",
+      description: "Size of the font",
+      default: 60,
+    },
+    stroke_color: {
+      type: "string",
+      description: "Color of the stroke",
+      default: "#000000",
+    },
+    stroke_width: {
+      type: "integer",
+      description: "Width of the stroke",
+      default: 1.5,
+    },
+    n_threads: {
+      type: "integer",
+      description: "Number of threads",
+      default: 2,
+    },
+    paragraph_number: {
+      type: "integer",
+      description: "Number of paragraphs",
+      default: 1,
     },
   },
+} as const;
+
+export const MaterialInfoSchema = {
+  properties: {
+    provider: {
+      type: "string",
+      description: "Provider of the material",
+    },
+    url: {
+      type: "string",
+      description: "URL of the material",
+    },
+    duration: {
+      type: "integer",
+      description: "Duration of the material",
+    },
+  },
+} as const;
+
+export const VideoAspectSchema = {
+  type: "string",
+  description: "Aspect ratio of the video",
+  enum: ["16:9", "9:16", "1:1"],
 } as const;

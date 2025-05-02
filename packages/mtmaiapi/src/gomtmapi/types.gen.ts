@@ -3976,10 +3976,165 @@ export type TkAccountLoginResult = {
 };
 
 export type VideoParams = {
-  prompt?: string;
-  style?: string;
+  video_subject?: string;
+  /**
+   * Script used to generate the video
+   */
+  video_script?: string;
+  /**
+   * Keywords used to generate the video
+   */
+  video_terms?: string;
+  /**
+   * Aspect ratio of the video
+   */
+  video_aspect?: string;
+  /**
+   * Mode of concatenation of the video
+   */
+  video_concat_mode?: string;
+  /**
+   * Mode of transition of the video
+   */
+  video_transition_mode?: string;
+  /**
+   * Duration of the video clip
+   */
+  video_clip_duration?: number;
+  /**
+   * Number of videos to generate
+   */
+  video_count?: number;
+  /**
+   * Source of the video
+   */
+  video_source?: string;
+  /**
+   * Materials used to generate the video
+   */
+  video_materials?: Array<MaterialInfo>;
+  /**
+   * Style of the video
+   */
+  video_style?: string;
+  /**
+   * Language of the video
+   */
+  video_language?: string;
+  /**
+   * Name of the voice
+   */
+  voice_name?: string;
+  /**
+   * Volume of the voice
+   */
+  voice_volume?: number;
+  /**
+   * Rate of the voice
+   */
+  voice_rate?: number;
+  /**
+   * Type of the background music
+   */
+  bgm_type?: string;
+  /**
+   * File of the background music
+   */
+  bgm_file?: string;
+  /**
+   * Volume of the background music
+   */
+  bgm_volume?: number;
+  /**
+   * Rate of the background music
+   */
+  bgm_rate?: number;
+  /**
+   * Start time of the background music
+   */
+  bgm_start_time?: number;
+  /**
+   * End time of the background music
+   */
+  bgm_end_time?: number;
+  /**
+   * Whether the background music is looped
+   */
+  bgm_loop?: boolean;
+  /**
+   * Whether the subtitle is enabled
+   */
+  subtitle_enabled?: boolean;
+  /**
+   * Position of the subtitle
+   */
+  subtitle_position?: string;
+  /**
+   * Custom position of the subtitle
+   */
+  custom_position?: number;
+  /**
+   * Name of the font
+   */
+  font_name?: string;
+  /**
+   * Foreground color of the text
+   */
+  text_fore_color?: string;
+  /**
+   * Background color of the text
+   */
+  text_background_color?: string;
+  /**
+   * Size of the font
+   */
+  font_size?: number;
+  /**
+   * Color of the stroke
+   */
+  stroke_color?: string;
+  /**
+   * Width of the stroke
+   */
+  stroke_width?: number;
+  /**
+   * Number of threads
+   */
+  n_threads?: number;
+  /**
+   * Number of paragraphs
+   */
+  paragraph_number?: number;
+};
+
+export type MaterialInfo = {
+  /**
+   * Provider of the material
+   */
+  provider?: string;
+  /**
+   * URL of the material
+   */
+  url?: string;
+  /**
+   * Duration of the material
+   */
   duration?: number;
 };
+
+/**
+ * Aspect ratio of the video
+ */
+export type VideoAspect = "16:9" | "9:16" | "1:1";
+
+/**
+ * Aspect ratio of the video
+ */
+export const VideoAspect = {
+  "16:9": "16:9",
+  "9:16": "9:16",
+  "1:1": "1:1",
+} as const;
 
 export type ReadinessGetData = {
   body?: never;

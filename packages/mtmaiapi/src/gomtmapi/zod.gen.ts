@@ -2472,9 +2472,47 @@ export const zWorkflowWorkersCount = z.object({
         streaming: z.boolean().optional().default(false),
       }),
       z.object({
-        prompt: z.string().optional(),
-        style: z.string().optional(),
-        duration: z.number().optional(),
+        video_subject: z.string().optional(),
+        video_script: z.string().optional(),
+        video_terms: z.string().optional(),
+        video_aspect: z.string().optional(),
+        video_concat_mode: z.string().optional(),
+        video_transition_mode: z.string().optional(),
+        video_clip_duration: z.number().int().optional().default(5),
+        video_count: z.number().int().optional().default(1),
+        video_source: z.string().optional().default("pexels"),
+        video_materials: z
+          .array(
+            z.object({
+              provider: z.string().optional(),
+              url: z.string().optional(),
+              duration: z.number().int().optional(),
+            }),
+          )
+          .optional(),
+        video_style: z.string().optional().default(""),
+        video_language: z.string().optional().default(""),
+        voice_name: z.string().optional().default(""),
+        voice_volume: z.number().optional().default(1),
+        voice_rate: z.number().optional().default(1),
+        bgm_type: z.string().optional().default("random"),
+        bgm_file: z.string().optional().default(""),
+        bgm_volume: z.number().optional().default(1),
+        bgm_rate: z.number().optional().default(0.2),
+        bgm_start_time: z.number().optional().default(0),
+        bgm_end_time: z.number().optional().default(0),
+        bgm_loop: z.boolean().optional().default(false),
+        subtitle_enabled: z.boolean().optional().default(true),
+        subtitle_position: z.string().optional().default("bottom"),
+        custom_position: z.number().optional().default(70),
+        font_name: z.string().optional().default("STHeitiMedium.ttc"),
+        text_fore_color: z.string().optional().default("#FFFFFF"),
+        text_background_color: z.string().optional().default("#000000"),
+        font_size: z.number().int().optional().default(60),
+        stroke_color: z.string().optional().default("#000000"),
+        stroke_width: z.number().int().optional().default(1.5),
+        n_threads: z.number().int().optional().default(2),
+        paragraph_number: z.number().int().optional().default(1),
       }),
     ])
     .optional(),
@@ -8382,10 +8420,56 @@ export const zTkAccountLoginResult = z.object({
 });
 
 export const zVideoParams = z.object({
-  prompt: z.string().optional(),
-  style: z.string().optional(),
-  duration: z.number().optional(),
+  video_subject: z.string().optional(),
+  video_script: z.string().optional(),
+  video_terms: z.string().optional(),
+  video_aspect: z.string().optional(),
+  video_concat_mode: z.string().optional(),
+  video_transition_mode: z.string().optional(),
+  video_clip_duration: z.number().int().optional().default(5),
+  video_count: z.number().int().optional().default(1),
+  video_source: z.string().optional().default("pexels"),
+  video_materials: z
+    .array(
+      z.object({
+        provider: z.string().optional(),
+        url: z.string().optional(),
+        duration: z.number().int().optional(),
+      }),
+    )
+    .optional(),
+  video_style: z.string().optional().default(""),
+  video_language: z.string().optional().default(""),
+  voice_name: z.string().optional().default(""),
+  voice_volume: z.number().optional().default(1),
+  voice_rate: z.number().optional().default(1),
+  bgm_type: z.string().optional().default("random"),
+  bgm_file: z.string().optional().default(""),
+  bgm_volume: z.number().optional().default(1),
+  bgm_rate: z.number().optional().default(0.2),
+  bgm_start_time: z.number().optional().default(0),
+  bgm_end_time: z.number().optional().default(0),
+  bgm_loop: z.boolean().optional().default(false),
+  subtitle_enabled: z.boolean().optional().default(true),
+  subtitle_position: z.string().optional().default("bottom"),
+  custom_position: z.number().optional().default(70),
+  font_name: z.string().optional().default("STHeitiMedium.ttc"),
+  text_fore_color: z.string().optional().default("#FFFFFF"),
+  text_background_color: z.string().optional().default("#000000"),
+  font_size: z.number().int().optional().default(60),
+  stroke_color: z.string().optional().default("#000000"),
+  stroke_width: z.number().int().optional().default(1.5),
+  n_threads: z.number().int().optional().default(2),
+  paragraph_number: z.number().int().optional().default(1),
 });
+
+export const zMaterialInfo = z.object({
+  provider: z.string().optional(),
+  url: z.string().optional(),
+  duration: z.number().int().optional(),
+});
+
+export const zVideoAspect = z.enum(["16:9", "9:16", "1:1"]);
 
 export const zMetadataGetResponse = zApiMeta;
 
