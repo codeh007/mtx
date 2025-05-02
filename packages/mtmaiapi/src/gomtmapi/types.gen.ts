@@ -852,7 +852,8 @@ export type WorkflowWorkersCount = {
     | AdkRawEvent
     | AdkAppTypes
     | Content
-    | AgentRunRequestV3;
+    | AgentRunRequestV3
+    | VideoParams;
 };
 
 export type WorkflowRun = {
@@ -3972,6 +3973,12 @@ export type TkAccountLoginResult = {
   data: {
     [key: string]: unknown;
   };
+};
+
+export type VideoParams = {
+  prompt?: string;
+  style?: string;
+  duration?: number;
 };
 
 export type ReadinessGetData = {

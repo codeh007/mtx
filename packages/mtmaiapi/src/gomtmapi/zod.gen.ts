@@ -2471,6 +2471,11 @@ export const zWorkflowWorkersCount = z.object({
         }),
         streaming: z.boolean().optional().default(false),
       }),
+      z.object({
+        prompt: z.string().optional(),
+        style: z.string().optional(),
+        duration: z.number().optional(),
+      }),
     ])
     .optional(),
 });
@@ -8374,6 +8379,12 @@ export const zTkAccountLoginRequest = z.object({
 
 export const zTkAccountLoginResult = z.object({
   data: z.object({}),
+});
+
+export const zVideoParams = z.object({
+  prompt: z.string().optional(),
+  style: z.string().optional(),
+  duration: z.number().optional(),
 });
 
 export const zMetadataGetResponse = zApiMeta;

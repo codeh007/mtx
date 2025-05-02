@@ -1455,6 +1455,9 @@ export const WorkflowWorkersCountSchema = {
         {
           $ref: "#/components/schemas/AgentRunRequestV3",
         },
+        {
+          $ref: "#/components/schemas/VideoParams",
+        },
       ],
     },
   },
@@ -7979,6 +7982,20 @@ export const TkAccountLoginResultSchema = {
     data: {
       type: "object",
       additionalProperties: true,
+    },
+  },
+} as const;
+
+export const VideoParamsSchema = {
+  properties: {
+    prompt: {
+      type: "string",
+    },
+    style: {
+      type: "string",
+    },
+    duration: {
+      type: "number",
     },
   },
 } as const;
