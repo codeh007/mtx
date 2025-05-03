@@ -11,7 +11,7 @@
     "jsx": "preserve", //react-jsx
     "allowImportingTsExtensions": true,
     "lib": ["DOM", "DOM.iterable", "ES2022", "esnext", "WebWorker"],
-    "types": ["node", "vite/client", "jest", "bun-types", "jquery"],
+    "types": ["node", "vite/client", "jest", "bun-types", "jquery","src/types/worker-configuration.d.ts"],
     "moduleResolution": "bundler",
     "rootDir": ".",
     // "baseUrl": "./src",
