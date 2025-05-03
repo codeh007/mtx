@@ -31,6 +31,11 @@ const nextConfig = {
   },
 
   webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
+
+    config.plugins.push(new webpack.IgnorePlugin({
+      resourceRegExp: /^pg-native$|^cloudflare:sockets$/,
+    }))
+
     // add externals
     config.externals = config.externals || [];
     config.externals.push(

@@ -1,6 +1,7 @@
 "use client";
 
 import { type UseMutationResult, useMutation, useQuery } from "@tanstack/react-query";
+import type { Message } from "ai";
 import { debounce } from "lodash";
 import {
   type AdkEvent,
@@ -37,9 +38,10 @@ import { handleAgentOutgoingEvent } from "./ag-event-handlers";
 import { exampleTeamConfig } from "./exampleTeamConfig";
 
 const DEFAULT_APP_NAME = "instagram_agent";
-
+const DEFAULT_AGENT_URL = "http://localhost:7860";
 export interface WorkbenchProps {
   sessionId?: string;
+  // agentHost?: string;
 }
 export interface WorkbrenchState extends WorkbenchProps {
   agentUrl: string;
@@ -50,6 +52,8 @@ export interface WorkbrenchState extends WorkbenchProps {
   tenant: Tenant;
   setSessionId: (threadId?: string) => void;
   adkAppName: string;
+  // agentHost: string;
+  // setAgentHost: (agentHost: string) => void;
   setAdkAppName: (adkAppName: string) => void;
   messageParser?: (messages: Message[]) => void;
   setMessageParser: (messageParser: (messages: Message[]) => void) => void;
@@ -140,6 +144,10 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
     setIsDebug: (isDebug: boolean) => {
       set({ isDebug });
     },
+    // agentHost: DEFAULT_AGENT_HOST,
+    // setAgentHost: (agentHost: string) => {
+    //   set({ agentHost });
+    // },
     team: exampleTeamConfig,
     setTeam: (team) => {
       set({ team });
@@ -153,7 +161,7 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
       console.log("setAdkAppName", adkAppName);
       set({ adkAppName });
     },
-    agentUrl: "http://localhost:7860",
+    agentUrl: DEFAULT_AGENT_URL,
     setAgentUrl: (agentUrl) => {
       set({ agentUrl });
     },

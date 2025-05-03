@@ -1,5 +1,6 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { CfAgentChatView } from "../../../../components/chatv2/CfAgentChatView";
+import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 
 export const Route = createLazyFileRoute("/agents/$agent/$sessionId/")({
   component: RouteComponent,
@@ -7,10 +8,11 @@ export const Route = createLazyFileRoute("/agents/$agent/$sessionId/")({
 
 function RouteComponent() {
   const { agent, sessionId } = Route.useParams();
-  const agentHost = new URL(process.env.CF_AGENT_ENDPOINT!);
+  const agentUrl = useWorkbenchStore((state) => state.agentUrl);
+  const agentHost = new URL(agentUrl).host;
   return (
     <>
-      <CfAgentChatView agentName={agent} agentId={sessionId} host={agentHost.host} />
+      <CfAgentChatView agentName={agent} agentId={sessionId} host={agentHost} />
     </>
   );
 }
