@@ -5,6 +5,7 @@ import type { RootAgentState } from "mtmaiapi";
 // import { RootAgentState } from "mtmaiapi";
 import { useState } from "react";
 import type { OutgoingMessage } from "../../agent_state/shared";
+import { CfAgentChatView } from "../../components/chatv2/CfAgentChatView";
 // import type { RootAgentState } from "../../agent_state/root_agent_state";
 // import type { IncomingMessage, OutgoingMessage } from "../../agent_state/shared";
 // import AgentChatView from "../../components/cloudflare-agents/Chat";
@@ -42,15 +43,14 @@ function RouteComponent() {
       }
     },
   });
-  // const increment = () => {
-  //   //@ts-ignore
-  //   rootAgent.setState({
-  //     ...rootState,
-  //     counter: (rootState?.counter ?? 0) + 1,
-  //     text: "new text",
-  //     color: "red",
-  //   });
-  // };
+  const increment = () => {
+    //@ts-ignore
+    rootAgent.setState({
+      ...rootState,
+      counter: (rootState?.counter ?? 0) + 1,
+      color: "red",
+    });
+  };
 
   // const session = useMtSession();
 
@@ -107,7 +107,7 @@ function RouteComponent() {
           </div> */}
           {/* <Chat /> */}
           {/* <AgentChatView /> */}
-          index
+          <CfAgentChatView />
         </div>
       </div>
     </>

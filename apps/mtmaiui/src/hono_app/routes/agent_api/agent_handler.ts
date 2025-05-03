@@ -42,17 +42,12 @@ export default function configureAgentDemo(app: OpenAPIHono<{ Bindings: Bindings
   // 演示
   app.post("/agent_fetch/:agentId", async (c) => {
     try {
-      const agentId = c.req.param("agentId");
-      const namedAgent = await getAgentByName<Env, RootAg>(c.env.RootAg, agentId);
+      const namedAgent = await getAgentByName<Env, RootAg>(c.env.RootAg, c.req.param("agentId"));
       if (!namedAgent) {
         return c.json({ error: "Agent not found" }, 404);
       }
-      const namedResp = await namedAgent.fetch(c.req.raw);
-      // const jsonData = await namedResp.text();
-      return namedResp;
-      // return c.text(jsonData);
+      return await namedAgent.fetch(c.req.raw);
     } catch (e: any) {
-      console.error(e);
       return c.json(
         {
           error: e.message,
