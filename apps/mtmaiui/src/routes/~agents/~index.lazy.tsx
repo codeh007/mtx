@@ -107,7 +107,7 @@ function RouteComponent() {
           </div> */}
           {/* <Chat /> */}
           {/* <AgentChatView /> */}
-          <CfAgentChatView />
+          <CfAgentChatView agentName="chat" agentId="chat1" />
         </div>
       </div>
     </>

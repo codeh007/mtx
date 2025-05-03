@@ -4,7 +4,6 @@ import { chatMessagesListOptions } from "mtmaiapi";
 import { useEffect } from "react";
 import { useTenantId } from "../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
-import { SessionHeader } from "../header";
 
 export const Route = createLazyFileRoute("/agents/$sessionId")({
   component: RouteComponent,
@@ -33,7 +32,7 @@ function RouteComponent() {
   }, [sessionId, setSessionId]);
   return (
     <>
-      <SessionHeader />
+      {/* <SessionHeader /> */}
       <Outlet />
     </>
   );

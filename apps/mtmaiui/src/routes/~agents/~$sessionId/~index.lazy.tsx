@@ -10,7 +10,7 @@ function RouteComponent() {
   const { sessionId } = Route.useParams();
   return (
     <>
-      <div className="flex flex-col gap-2">
+      <div className="absolute top-0 right-0 flex flex-col gap-2">
         <ButtonsAgentInfo />
       </div>
 

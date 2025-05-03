@@ -1,6 +1,6 @@
 "use client";
 import type { Message } from "@ai-sdk/react";
-import { Bug, Moon, PaperPlaneRight, Robot, Sun, Trash } from "@phosphor-icons/react";
+import { Bug, PaperPlaneRight, Robot, Trash } from "@phosphor-icons/react";
 import { useAgentChat } from "agents/ai-react";
 import { useAgent } from "agents/react";
 import { Button } from "mtxuilib/ui/button";
@@ -152,7 +152,7 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
             />
           </div>
 
-          <Button
+          {/* <Button
             variant="ghost"
             // size="md"
             // shape="square"
@@ -160,7 +160,7 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
             onClick={toggleTheme}
           >
             {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-          </Button>
+          </Button> */}
 
           <Button
             variant="ghost"
