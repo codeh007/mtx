@@ -48,8 +48,9 @@ export default function configureAgentDemo(app: OpenAPIHono<{ Bindings: Bindings
         return c.json({ error: "Agent not found" }, 404);
       }
       const namedResp = await namedAgent.fetch(c.req.raw);
-      const jsonData = await namedResp.json();
-      return c.text(JSON.stringify(jsonData));
+      // const jsonData = await namedResp.text();
+      return namedResp;
+      // return c.text(jsonData);
     } catch (e: any) {
       console.error(e);
       return c.json(
