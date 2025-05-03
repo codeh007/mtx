@@ -55,16 +55,11 @@ export class WorkerAgent extends Agent<Env, WorkerAgentState> {
     this.setState({ ...this.state, totalWorkers: this.state.totalWorkers - 1 });
   }
 
-  // Called when the Agent's state is updated from any source
-  // source can be "server" or a client Connection
   onStateUpdate(state: WorkerAgentState, source: "server" | Connection) {
     console.log("State updated:", state, "Source:", source);
   }
 
-  // You can define your own custom methods to be called by requests,
-  // WebSocket messages, or scheduled tasks
   async customProcessingMethod(data: any) {
-    // Process data, update state, schedule tasks, etc.
     this.setState({ ...this.state, lastUpdated: new Date().getTime() });
   }
 }

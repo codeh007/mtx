@@ -1,4 +1,5 @@
 import type { Connection, ConnectionContext, Schedule } from "agents";
+import { getAgentByName } from "agents";
 import { AIChatAgent } from "agents/ai-chat-agent";
 import {
   type DataStreamWriter,
@@ -9,9 +10,15 @@ import {
   streamText,
   tool,
 } from "ai";
-import type { RootAgentState, ScheduledItem } from "mtmaiapi";
+import type { ScheduledItem } from "mtmaiapi";
 import { z } from "zod";
-import type { IncomingMessage, OutgoingMessage } from "../agent_state/shared";
+import type {
+  ChatAgentIncomingMessage,
+  ChatAgentOutgoingMessage,
+  ChatAgentState,
+} from "../agent_state/chat_agent_state";
+import type { OutgoingMessage } from "../agent_state/shared";
+import type { WorkerAgentState } from "../agent_state/workerAgentState";
 import { callAgentRunner } from "../agent_utils/agent_utils";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
 import { tools } from "./tools";
@@ -31,19 +38,12 @@ function convertScheduleToScheduledItem(schedule: Schedule): ScheduledItem {
   };
 }
 
-export class Chat extends AIChatAgent<Env, RootAgentState> {
-  initialState = {
-    counter: 0,
-    color: "#3B82F6",
-    mainViewType: "chat",
-    chatHistoryIds: [],
-    // mcpServers: {},
-    mcpTools: [],
-    mcpPrompts: [],
-    mcpResources: [],
-    agentRunnerUrl: "http://localhost:7860",
-    connectionsCount: 0,
-  } satisfies RootAgentState;
+export class Chat extends AIChatAgent<Env, ChatAgentState> {
+  initialState: ChatAgentState = {
+    chatViewType: "full",
+    participants: [],
+    lastUpdated: 0,
+  };
 
   onStart(): void | Promise<void> {
     // console.log("chat onStart");
@@ -51,7 +51,6 @@ export class Chat extends AIChatAgent<Env, RootAgentState> {
   onConnect(connection: Connection, ctx: ConnectionContext) {
     this.setState({
       ...this.state,
-      connectionsCount: this.state.connectionsCount + 1,
     });
     this.broadcast(
       JSON.stringify({
@@ -65,20 +64,20 @@ export class Chat extends AIChatAgent<Env, RootAgentState> {
   }
 
   async onMessage(connection: Connection, message: string): Promise<void> {
-    const event = JSON.parse(message) as IncomingMessage;
+    const event = JSON.parse(message) as ChatAgentIncomingMessage;
 
-    if (event.type === "schedule") {
-    } else if (event.type === "delete-schedule") {
-      await this.cancelSchedule(event.id);
-    } else if ("worker_init" === event.type) {
+    if (event.type === "new_chat_participant") {
+      this.setState({
+        ...this.state,
+        participants: [...this.state.participants, event.data.agentName],
+      });
       this.broadcast(
         JSON.stringify({
-          type: "new_worker_connected",
-          data: { message: "(chat agent)Hello, world! new_worker_connected" },
-        } satisfies OutgoingMessage),
+          type: "new_chat_participant",
+          data: { agentName: event.data.agentName || "unknown" },
+        } satisfies ChatAgentOutgoingMessage),
       );
     } else {
-      // console.log("root ag unknown message", event);
       super.onMessage(connection, message);
     }
   }
@@ -92,11 +91,28 @@ export class Chat extends AIChatAgent<Env, RootAgentState> {
         prompt: z.string().describe("The prompt to send to the coder agent"),
       }),
       execute: async ({ prompt }, options) => {
-        if (!this.state.agentRunnerUrl) {
-          return "Error: agentRunnerUrl is not set";
-        }
         try {
           console.log("callCoderAgent", prompt);
+
+          const workerAgent = await getAgentByName<Env, WorkerAgentState>(
+            this.env.WorkerAgent,
+            "worker-agent",
+          );
+
+          const id = this.env.WorkerAgent.idFromName("default");
+          const agent = this.env.WorkerAgent.get(id);
+
+          if (!agent) {
+            throw new Error("Worker agent not found");
+          }
+
+          this.broadcast(
+            JSON.stringify({
+              type: "new_chat_participant",
+              data: { agentName: "worker-agent" },
+            } satisfies ChatAgentOutgoingMessage),
+          );
+
           const result = await callAgentRunner(this.state.agentRunnerUrl, {
             app_name: "root",
             user_id: "user",
@@ -115,14 +131,16 @@ export class Chat extends AIChatAgent<Env, RootAgentState> {
       },
     });
 
+    const lastestMessage = this.messages?.[this.messages.length - 1];
+    const userInput = lastestMessage?.content;
+    this.log(`userInput: ${userInput}`);
     // cloudflare agents 的 streamText 的实现
     const dataStreamResponse = createDataStreamResponse({
       execute: async (dataStream) => {
-        const lastestMessage = this.messages?.[this.messages.length - 1];
-        lastestMessage.content;
-        if (lastestMessage.content.startsWith("@adk")) {
-          lastestMessage.content = lastestMessage.content.slice(4);
-          await this.onDemoRun2(lastestMessage, dataStream, onFinish);
+        if (userInput?.startsWith("/test1")) {
+          // lastestMessage.content = lastestMessage.content.slice(4);
+          // await this.onDemoRun2(lastestMessage, dataStream, onFinish);
+          this.log("test1");
         } else {
           const result = streamText({
             model,
@@ -136,7 +154,6 @@ export class Chat extends AIChatAgent<Env, RootAgentState> {
               console.log("onStreamText error", error);
             },
           });
-
           result.mergeIntoDataStream(dataStream);
         }
       },
@@ -159,7 +176,7 @@ export class Chat extends AIChatAgent<Env, RootAgentState> {
     // 广播任务信息, 这样,所有在同一个 房间的客户端都可以接收到信息,从而可以自主运行实际的任务.
     this.broadcast(
       JSON.stringify({
-        type: "run-schedule",
+        type: "runSchedule",
         data: convertScheduleToScheduledItem(schedule),
       } satisfies OutgoingMessage),
     );
@@ -325,5 +342,17 @@ export class Chat extends AIChatAgent<Env, RootAgentState> {
       }
     }
     return streamAdkMessages();
+  }
+
+  log(message: string) {
+    this.broadcast(
+      JSON.stringify({
+        type: "log",
+        data: {
+          level: "info",
+          message,
+        },
+      } satisfies ChatAgentOutgoingMessage),
+    );
   }
 }

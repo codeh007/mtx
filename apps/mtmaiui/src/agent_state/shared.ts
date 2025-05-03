@@ -56,8 +56,7 @@ export type IncomingMessage =
   | {
       type: "demo_run_2";
       data: unknown;
-    }
-  ;
+    };
 
 export type OutgoingMessage =
   | {
@@ -69,17 +68,10 @@ export type OutgoingMessage =
       data: ScheduledItem[];
     }
   | {
-      type: "run-schedule";
-      data: ScheduledItem;
-    }
-  | {
       type: "error";
       data: string;
     }
-  | {
-      type: "schedule";
-      data: ScheduledItem;
-    }
+  | ScheduleMessage
   | {
       type: "demo-event-response";
       data: unknown;
@@ -97,4 +89,24 @@ export type OutgoingMessage =
   | {
       type: "new-step";
       data: unknown;
-    };
+    }
+  | MessageRunSchedule
+  | LogMessage;
+
+export type MessageRunSchedule = {
+  type: "runSchedule";
+  data: ScheduledItem;
+};
+
+export type ScheduleMessage = {
+  type: "schedule";
+  data: ScheduledItem;
+};
+
+export type LogMessage = {
+  type: "log";
+  data: {
+    level?: "debug" | "info" | "warn" | "error";
+    message: string;
+  };
+};
