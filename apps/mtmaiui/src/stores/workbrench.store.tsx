@@ -57,8 +57,6 @@ export interface WorkbrenchState extends WorkbenchProps {
   openChat?: boolean;
   setOpenChat: (openChat: boolean) => void;
   setCurrentWorkbenchView: (id: string) => void;
-  chatEndpoint: string;
-  setChatEndpoint: (chatEndpoint: string) => void;
   isConnected: boolean;
   setIsConnected: (isConnected: boolean) => void;
   firstUserInteraction?: string;
@@ -141,10 +139,6 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
     setIsDebug: (isDebug: boolean) => {
       set({ isDebug });
     },
-    // agentHost: DEFAULT_AGENT_HOST,
-    // setAgentHost: (agentHost: string) => {
-    //   set({ agentHost });
-    // },
     team: exampleTeamConfig,
     setTeam: (team) => {
       set({ team });

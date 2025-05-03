@@ -11,7 +11,15 @@
     "jsx": "preserve", //react-jsx
     "allowImportingTsExtensions": true,
     "lib": ["DOM", "DOM.iterable", "ES2022", "esnext", "WebWorker"],
-    "types": ["node", "vite/client", "jest", "bun-types", "jquery","src/types/worker-configuration.d.ts"],
+    "types": [
+      "node",
+      "vite/client",
+      "jest",
+      "bun-types",
+      "jquery",
+      "@cloudflare/workers-types",
+      "src/types/worker-configuration.d.ts"
+    ],
     "moduleResolution": "bundler",
     "rootDir": ".",
     // "baseUrl": "./src",
@@ -38,5 +46,5 @@
     // "noUncheckedSideEffectImports": true
   },
   "include": [".next/types/**/*.ts", "src", ".next.dev/types/**/*.ts", "src/type/index.ts"],
-  "exclude": ["node_modules", "dist", "src/types/worker-configuration.d.ts"]
+  "exclude": ["node_modules", "dist"]
 }
