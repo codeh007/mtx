@@ -60,6 +60,7 @@ const nextConfig = {
       "unpdf",
       "agent-base",
       "basic-ftp",
+      "cloudflare:workers",
     );
 
     // 演示将 chunk 文件名改为特定名称
