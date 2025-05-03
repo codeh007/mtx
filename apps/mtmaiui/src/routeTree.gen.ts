@@ -18,6 +18,7 @@ import { Route as SiteSiteIdRouteImport } from './routes/~site/~$siteId/~route'
 import { Route as EnvsCreateImport } from './routes/~envs/~create'
 import { Route as SiteIndexImport } from './routes/~site/~index'
 import { Route as PlatformIndexImport } from './routes/~platform/~index'
+import { Route as AgentsIndexImport } from './routes/~agents/~index'
 import { Route as SiteSiteIdHostRouteImport } from './routes/~site/~$siteId/~host/~route'
 import { Route as SiteSiteIdEditImport } from './routes/~site/~$siteId/~edit'
 import { Route as SiteCreateIndexImport } from './routes/~site/~create/~index'
@@ -55,6 +56,7 @@ const EndpointRouteLazyImport = createFileRoute('/endpoint')()
 const ComsRouteLazyImport = createFileRoute('/coms')()
 const BrowserRouteLazyImport = createFileRoute('/browser')()
 const AuthRouteLazyImport = createFileRoute('/auth')()
+const AgentsRouteLazyImport = createFileRoute('/agents')()
 const WorkflowsWorkflowIdRouteLazyImport = createFileRoute(
   '/workflows/$workflowId',
 )()
@@ -516,6 +518,14 @@ const AuthRouteLazyRoute = AuthRouteLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~auth/~route.lazy').then((d) => d.Route))
 
+const AgentsRouteLazyRoute = AgentsRouteLazyImport.update({
+  id: '/agents',
+  path: '/agents',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/~agents/~route.lazy').then((d) => d.Route),
+)
+
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
@@ -824,6 +834,12 @@ const PlatformIndexRoute = PlatformIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => PlatformRouteLazyRoute,
+} as any)
+
+const AgentsIndexRoute = AgentsIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AgentsRouteLazyRoute,
 } as any)
 
 const WorkflowsWorkflowIdTriggerRouteLazyRoute =
@@ -1961,6 +1977,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/agents': {
+      id: '/agents'
+      path: '/agents'
+      fullPath: '/agents'
+      preLoaderRoute: typeof AgentsRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -2107,6 +2130,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/workflows'
       preLoaderRoute: typeof WorkflowsRouteLazyImport
       parentRoute: typeof rootRoute
+    }
+    '/agents/': {
+      id: '/agents/'
+      path: '/'
+      fullPath: '/agents/'
+      preLoaderRoute: typeof AgentsIndexImport
+      parentRoute: typeof AgentsRouteLazyImport
     }
     '/platform/': {
       id: '/platform/'
@@ -3183,6 +3213,18 @@ declare module '@tanstack/react-router' {
 }
 
 // Create and export the route tree
+
+interface AgentsRouteLazyRouteChildren {
+  AgentsIndexRoute: typeof AgentsIndexRoute
+}
+
+const AgentsRouteLazyRouteChildren: AgentsRouteLazyRouteChildren = {
+  AgentsIndexRoute: AgentsIndexRoute,
+}
+
+const AgentsRouteLazyRouteWithChildren = AgentsRouteLazyRoute._addFileChildren(
+  AgentsRouteLazyRouteChildren,
+)
 
 interface AuthLoginRouteLazyRouteChildren {
   AuthLoginIndexLazyRoute: typeof AuthLoginIndexLazyRoute
@@ -4418,6 +4460,7 @@ const AdkSessionRouteLazyRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agents': typeof AgentsRouteLazyRouteWithChildren
   '/auth': typeof AuthRouteLazyRouteWithChildren
   '/browser': typeof BrowserRouteLazyRouteWithChildren
   '/coms': typeof ComsRouteLazyRouteWithChildren
@@ -4439,6 +4482,7 @@ export interface FileRoutesByFullPath {
   '/tk': typeof TkRouteLazyRouteWithChildren
   '/workflow-runs': typeof WorkflowRunsRouteLazyRouteWithChildren
   '/workflows': typeof WorkflowsRouteLazyRouteWithChildren
+  '/agents/': typeof AgentsIndexRoute
   '/platform/': typeof PlatformIndexRoute
   '/site/': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
@@ -4597,6 +4641,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteLazyRouteWithChildren
+  '/agents': typeof AgentsIndexRoute
   '/platform': typeof PlatformIndexRoute
   '/site': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
@@ -4704,6 +4749,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/agents': typeof AgentsRouteLazyRouteWithChildren
   '/auth': typeof AuthRouteLazyRouteWithChildren
   '/browser': typeof BrowserRouteLazyRouteWithChildren
   '/coms': typeof ComsRouteLazyRouteWithChildren
@@ -4725,6 +4771,7 @@ export interface FileRoutesById {
   '/tk': typeof TkRouteLazyRouteWithChildren
   '/workflow-runs': typeof WorkflowRunsRouteLazyRouteWithChildren
   '/workflows': typeof WorkflowsRouteLazyRouteWithChildren
+  '/agents/': typeof AgentsIndexRoute
   '/platform/': typeof PlatformIndexRoute
   '/site/': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
@@ -4884,6 +4931,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/agents'
     | '/auth'
     | '/browser'
     | '/coms'
@@ -4905,6 +4953,7 @@ export interface FileRouteTypes {
     | '/tk'
     | '/workflow-runs'
     | '/workflows'
+    | '/agents/'
     | '/platform/'
     | '/site/'
     | '/envs/create'
@@ -5062,6 +5111,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/agents'
     | '/platform'
     | '/site'
     | '/envs/create'
@@ -5167,6 +5217,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/agents'
     | '/auth'
     | '/browser'
     | '/coms'
@@ -5188,6 +5239,7 @@ export interface FileRouteTypes {
     | '/tk'
     | '/workflow-runs'
     | '/workflows'
+    | '/agents/'
     | '/platform/'
     | '/site/'
     | '/envs/create'
@@ -5346,6 +5398,7 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgentsRouteLazyRoute: typeof AgentsRouteLazyRouteWithChildren
   AuthRouteLazyRoute: typeof AuthRouteLazyRouteWithChildren
   BrowserRouteLazyRoute: typeof BrowserRouteLazyRouteWithChildren
   ComsRouteLazyRoute: typeof ComsRouteLazyRouteWithChildren
@@ -5373,6 +5426,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgentsRouteLazyRoute: AgentsRouteLazyRouteWithChildren,
   AuthRouteLazyRoute: AuthRouteLazyRouteWithChildren,
   BrowserRouteLazyRoute: BrowserRouteLazyRouteWithChildren,
   ComsRouteLazyRoute: ComsRouteLazyRouteWithChildren,
@@ -5409,6 +5463,7 @@ export const routeTree = rootRoute
       "filePath": "~__root.tsx",
       "children": [
         "/",
+        "/agents",
         "/auth",
         "/browser",
         "/coms",
@@ -5436,6 +5491,12 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "~index.tsx"
+    },
+    "/agents": {
+      "filePath": "~agents/~route.lazy.tsx",
+      "children": [
+        "/agents/"
+      ]
     },
     "/auth": {
       "filePath": "~auth/~route.lazy.tsx",
@@ -5581,6 +5642,10 @@ export const routeTree = rootRoute
         "/workflows/",
         "/workflows/$workflowId"
       ]
+    },
+    "/agents/": {
+      "filePath": "~agents/~index.tsx",
+      "parent": "/agents"
     },
     "/platform/": {
       "filePath": "~platform/~index.tsx",

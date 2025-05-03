@@ -1,10 +1,10 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
-import { RootAppWrapper } from "../../../components/RootAppWrapper";
-import { WorkbrenchProvider } from "../../../stores/workbrench.store";
-import { WorkflowsProvider } from "../../../stores/workflow-store";
-import { NavAdkSession } from "./siderbar";
+import { RootAppWrapper } from "../../components/RootAppWrapper";
+import { WorkbrenchProvider } from "../../stores/workbrench.store";
+import { WorkflowsProvider } from "../../stores/workflow-store";
+import { NavAdkSession } from "../~adk/~session/siderbar";
 
-export const Route = createLazyFileRoute("/adk/session")({
+export const Route = createLazyFileRoute("/agents")({
   component: RouteComponent,
 });
 

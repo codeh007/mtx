@@ -1,3 +1,5 @@
+// import type { IncomingMessage, OutgoingMessage } from "node:http";
+import type { Connection, ConnectionContext, Schedule } from "agents";
 import { AIChatAgent } from "agents/ai-chat-agent";
 import {
   type DataStreamWriter,
@@ -11,12 +13,11 @@ import {
 import type { RootAgentState, ScheduledItem } from "mtmaiapi";
 import { z } from "zod";
 // import type { RootAgentState } from "../agent_state/root_agent_state";
-// import type { IncomingMessage, OutgoingMessage, ScheduledItem } from "../agent_state/shared";
+import type { IncomingMessage, OutgoingMessage } from "../agent_state/shared";
 import { callAgentRunner } from "../agent_utils/agent_utils";
+// import {OutgoingMessage} from "gomtmapi"
 import { getDefaultModel } from "../components/cloudflare-agents/model";
 import { tools } from "./tools";
-import { Schedule, Connection, ConnectionContext } from "agents";
-import { OutgoingMessage, IncomingMessage } from "http";
 
 function convertScheduleToScheduledItem(schedule: Schedule): ScheduledItem {
   return {
@@ -39,7 +40,7 @@ export class Chat extends AIChatAgent<Env, RootAgentState> {
     color: "#3B82F6",
     mainViewType: "chat",
     chatHistoryIds: [],
-    mcpServers: {},
+    // mcpServers: {},
     mcpTools: [],
     mcpPrompts: [],
     mcpResources: [],
