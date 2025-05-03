@@ -1,8 +1,10 @@
 import { cors } from "hono/cors";
 import configureOpenAPI from "./lib/configureOpenAPI";
 
+import configureAgents from "./lib/configureAgents";
 import configureAuth from "./lib/configureAuth";
 import createApp from "./lib/createApp";
+import configureAgentDemo from "./routes/agent_demo/agent_demo_handler";
 import { apiRoutes } from "./routes/api_routes";
 import helloDbRouter from "./routes/db-example/dbexample.handler";
 import { envsRouter } from "./routes/envs/envs.handler";
@@ -22,8 +24,8 @@ app.use(
 configureOpenAPI(app as any);
 
 configureAuth(app);
-// configureAgents(app);
-// configureAgentDemo(app);
+configureAgents(app);
+configureAgentDemo(app);
 // app.route("/browser/", browserRouter);
 app.route("/r2/", r2Router);
 app.route("/scripts/", scriptRouter);

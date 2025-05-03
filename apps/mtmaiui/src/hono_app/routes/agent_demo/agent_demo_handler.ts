@@ -1,5 +1,5 @@
 import type { OpenAPIHono } from "@hono/zod-openapi";
-// import type { Agent } from "agents";
+import type { Agent } from "agents";
 import type { Bindings } from "../../lib/types";
 import {
   homeContent,
@@ -10,8 +10,6 @@ import {
   renderLoggedInAuthorizeScreen,
   renderLoggedOutAuthorizeScreen,
 } from "../../utils";
-import { Env } from "bun";
-import { Agent } from "http";
 
 export default function configureAgentDemo(app: OpenAPIHono<{ Bindings: Bindings }>) {
   // agent 调用(演示开始) =============================================================

@@ -12,7 +12,7 @@ export const Route = createLazyFileRoute("/session/$sessionId")({
 
 function RouteComponent() {
   const { sessionId } = Route.useParams();
-  const setThreadId = useWorkbenchStore((x) => x.setThreadId);
+  const setSessionId = useWorkbenchStore((x) => x.setSessionId);
   const tid = useTenantId();
   const chatMessagesQuery = useQuery({
     ...chatMessagesListOptions({
@@ -28,9 +28,9 @@ function RouteComponent() {
   }, [chatMessagesQuery.data, loadChatMessageList]);
   useEffect(() => {
     if (sessionId) {
-      setThreadId(sessionId);
+      setSessionId(sessionId);
     }
-  }, [sessionId, setThreadId]);
+  }, [sessionId, setSessionId]);
   return (
     <>
       <SessionHeader />
