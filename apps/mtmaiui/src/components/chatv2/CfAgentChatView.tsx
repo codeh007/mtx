@@ -24,13 +24,6 @@ interface CfAgentChatViewProps {
 }
 export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentChatViewProps) {
   const [rootState, setRootState] = useState<RootAgentState>();
-  const _host = host || "mtmag.yuepa8.com";
-  const _prefix = prefix || "api";
-  // const [theme, setTheme] = useState<"dark" | "light">(() => {
-  //   // Check localStorage first, default to dark if not found
-  //   const savedTheme = localStorage.getItem("theme");
-  //   return (savedTheme as "dark" | "light") || "dark";
-  // });
   const [showDebug, setShowDebug] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -38,34 +31,14 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, []);
 
-  // useEffect(() => {
-  //   // Apply theme class on mount and when theme changes
-  //   if (theme === "dark") {
-  //     document.documentElement.classList.add("dark");
-  //     document.documentElement.classList.remove("light");
-  //   } else {
-  //     document.documentElement.classList.remove("dark");
-  //     document.documentElement.classList.add("light");
-  //   }
-
-  //   // Save theme preference to localStorage
-  //   localStorage.setItem("theme", theme);
-  // }, [theme]);
-
-  // Scroll to bottom on mount
   useEffect(() => {
     scrollToBottom();
   }, [scrollToBottom]);
 
-  // const toggleTheme = () => {
-  //   const newTheme = theme === "dark" ? "light" : "dark";
-  //   setTheme(newTheme);
-  // };
-
   const agent = useAgent<RootAgentState>({
     agent: agentName,
-    host: _host,
-    prefix: _prefix,
+    host: host,
+    prefix: prefix,
     name: agentId,
     onStateUpdate: (newState) => setRootState(newState),
     onMessage: (message) => {

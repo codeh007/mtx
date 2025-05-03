@@ -45,6 +45,8 @@ export interface WorkbenchProps {
 export interface WorkbrenchState extends WorkbenchProps {
   agentUrl: string;
   setAgentUrl: (agentUrl: string) => void;
+  agentPathPrefix: string;
+  setAgentPathPrefix: (agentPathPrefix: string) => void;
   accessToken?: string;
   setAccessToken: (accessToken: string) => void;
   params?: Record<string, any>;
@@ -127,6 +129,10 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
     },
     setParams: (params: Record<string, any>) => {
       set({ params });
+    },
+    agentPathPrefix: "api",
+    setAgentPathPrefix: (agentPathPrefix: string) => {
+      set({ agentPathPrefix });
     },
     setMessageParser: (messageParser: (messages: Message[]) => void) => {
       set({ messageParser });

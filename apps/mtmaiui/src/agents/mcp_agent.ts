@@ -1,11 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-// import type { Connection, ConnectionContext } from "agents";
 import { McpAgent } from "agents/mcp";
-
-// import { DurableObjectOAuthClientProvider } from "agents/mcp/do-oauth-client-provider";
-
 import type { MCPAgentState } from "../agent_state/mcp_agent_state";
-import type { Env } from "../hono_app/core/env";
 
 /**
  * 实现Mcp Server

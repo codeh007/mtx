@@ -38,7 +38,6 @@ const WorkflowsRouteLazyImport = createFileRoute('/workflows')()
 const WorkflowRunsRouteLazyImport = createFileRoute('/workflow-runs')()
 const TkRouteLazyImport = createFileRoute('/tk')()
 const TenantRouteLazyImport = createFileRoute('/tenant')()
-const TeamRouteLazyImport = createFileRoute('/team')()
 const SiteRouteLazyImport = createFileRoute('/site')()
 const SessionOldRouteLazyImport = createFileRoute('/session-old')()
 const ScheduledRunsRouteLazyImport = createFileRoute('/scheduled-runs')()
@@ -63,7 +62,6 @@ const WorkflowRunsWorkflowRunIdRouteLazyImport = createFileRoute(
   '/workflow-runs/$workflowRunId',
 )()
 const TenantSettingsRouteLazyImport = createFileRoute('/tenant/settings')()
-const TeamTeamIdRouteLazyImport = createFileRoute('/team/$teamId')()
 const SessionOldSessionIdRouteLazyImport = createFileRoute(
   '/session-old/$sessionId',
 )()
@@ -88,7 +86,6 @@ const WorkflowsIndexLazyImport = createFileRoute('/workflows/')()
 const WorkflowRunsIndexLazyImport = createFileRoute('/workflow-runs/')()
 const TkIndexLazyImport = createFileRoute('/tk/')()
 const TenantIndexLazyImport = createFileRoute('/tenant/')()
-const TeamIndexLazyImport = createFileRoute('/team/')()
 const SessionOldIndexLazyImport = createFileRoute('/session-old/')()
 const ScheduledRunsIndexLazyImport = createFileRoute('/scheduled-runs/')()
 const ResourceIndexLazyImport = createFileRoute('/resource/')()
@@ -279,7 +276,6 @@ const TenantSettingsNewIndexLazyImport = createFileRoute(
 const TenantSettingsTenantSettingIdIndexLazyImport = createFileRoute(
   '/tenant/settings/$tenantSettingId/',
 )()
-const TeamTeamIdNewIndexLazyImport = createFileRoute('/team/$teamId/new/')()
 const SessionOldSessionIdStateIndexLazyImport = createFileRoute(
   '/session-old/$sessionId/state/',
 )()
@@ -423,12 +419,6 @@ const TenantRouteLazyRoute = TenantRouteLazyImport.update({
 } as any).lazy(() =>
   import('./routes/~tenant/~route.lazy').then((d) => d.Route),
 )
-
-const TeamRouteLazyRoute = TeamRouteLazyImport.update({
-  id: '/team',
-  path: '/team',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/~team/~route.lazy').then((d) => d.Route))
 
 const SiteRouteLazyRoute = SiteRouteLazyImport.update({
   id: '/site',
@@ -586,14 +576,6 @@ const TenantSettingsRouteLazyRoute = TenantSettingsRouteLazyImport.update({
   import('./routes/~tenant/~settings/~route.lazy').then((d) => d.Route),
 )
 
-const TeamTeamIdRouteLazyRoute = TeamTeamIdRouteLazyImport.update({
-  id: '/$teamId',
-  path: '/$teamId',
-  getParentRoute: () => TeamRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~team/~$teamId/~route.lazy').then((d) => d.Route),
-)
-
 const SessionOldSessionIdRouteLazyRoute =
   SessionOldSessionIdRouteLazyImport.update({
     id: '/$sessionId',
@@ -740,12 +722,6 @@ const TenantIndexLazyRoute = TenantIndexLazyImport.update({
 } as any).lazy(() =>
   import('./routes/~tenant/~index.lazy').then((d) => d.Route),
 )
-
-const TeamIndexLazyRoute = TeamIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => TeamRouteLazyRoute,
-} as any).lazy(() => import('./routes/~team/~index.lazy').then((d) => d.Route))
 
 const SessionOldIndexLazyRoute = SessionOldIndexLazyImport.update({
   id: '/',
@@ -1601,14 +1577,6 @@ const TenantSettingsTenantSettingIdIndexLazyRoute =
     ),
   )
 
-const TeamTeamIdNewIndexLazyRoute = TeamTeamIdNewIndexLazyImport.update({
-  id: '/new/',
-  path: '/new/',
-  getParentRoute: () => TeamTeamIdRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~team/~$teamId/~new/~index.lazy').then((d) => d.Route),
-)
-
 const SessionOldSessionIdStateIndexLazyRoute =
   SessionOldSessionIdStateIndexLazyImport.update({
     id: '/',
@@ -2218,13 +2186,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteRouteLazyImport
       parentRoute: typeof rootRoute
     }
-    '/team': {
-      id: '/team'
-      path: '/team'
-      fullPath: '/team'
-      preLoaderRoute: typeof TeamRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/tenant': {
       id: '/tenant'
       path: '/tenant'
@@ -2379,13 +2340,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SessionOldIndexLazyImport
       parentRoute: typeof SessionOldRouteLazyImport
     }
-    '/team/': {
-      id: '/team/'
-      path: '/'
-      fullPath: '/team/'
-      preLoaderRoute: typeof TeamIndexLazyImport
-      parentRoute: typeof TeamRouteLazyImport
-    }
     '/tenant/': {
       id: '/tenant/'
       path: '/'
@@ -2511,13 +2465,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/session-old/$sessionId'
       preLoaderRoute: typeof SessionOldSessionIdRouteLazyImport
       parentRoute: typeof SessionOldRouteLazyImport
-    }
-    '/team/$teamId': {
-      id: '/team/$teamId'
-      path: '/$teamId'
-      fullPath: '/team/$teamId'
-      preLoaderRoute: typeof TeamTeamIdRouteLazyImport
-      parentRoute: typeof TeamRouteLazyImport
     }
     '/tenant/settings': {
       id: '/tenant/settings'
@@ -2973,13 +2920,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/session-old/$sessionId/state/'
       preLoaderRoute: typeof SessionOldSessionIdStateIndexLazyImport
       parentRoute: typeof SessionOldSessionIdStateRouteLazyImport
-    }
-    '/team/$teamId/new/': {
-      id: '/team/$teamId/new/'
-      path: '/new'
-      fullPath: '/team/$teamId/new'
-      preLoaderRoute: typeof TeamTeamIdNewIndexLazyImport
-      parentRoute: typeof TeamTeamIdRouteLazyImport
     }
     '/tenant/settings/$tenantSettingId/': {
       id: '/tenant/settings/$tenantSettingId/'
@@ -4259,31 +4199,6 @@ const SiteRouteLazyRouteWithChildren = SiteRouteLazyRoute._addFileChildren(
   SiteRouteLazyRouteChildren,
 )
 
-interface TeamTeamIdRouteLazyRouteChildren {
-  TeamTeamIdNewIndexLazyRoute: typeof TeamTeamIdNewIndexLazyRoute
-}
-
-const TeamTeamIdRouteLazyRouteChildren: TeamTeamIdRouteLazyRouteChildren = {
-  TeamTeamIdNewIndexLazyRoute: TeamTeamIdNewIndexLazyRoute,
-}
-
-const TeamTeamIdRouteLazyRouteWithChildren =
-  TeamTeamIdRouteLazyRoute._addFileChildren(TeamTeamIdRouteLazyRouteChildren)
-
-interface TeamRouteLazyRouteChildren {
-  TeamIndexLazyRoute: typeof TeamIndexLazyRoute
-  TeamTeamIdRouteLazyRoute: typeof TeamTeamIdRouteLazyRouteWithChildren
-}
-
-const TeamRouteLazyRouteChildren: TeamRouteLazyRouteChildren = {
-  TeamIndexLazyRoute: TeamIndexLazyRoute,
-  TeamTeamIdRouteLazyRoute: TeamTeamIdRouteLazyRouteWithChildren,
-}
-
-const TeamRouteLazyRouteWithChildren = TeamRouteLazyRoute._addFileChildren(
-  TeamRouteLazyRouteChildren,
-)
-
 interface TenantSettingsTenantSettingIdModelsettingsRouteLazyRouteChildren {
   TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute: typeof TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute
 }
@@ -4729,7 +4644,6 @@ export interface FileRoutesByFullPath {
   '/scheduled-runs': typeof ScheduledRunsRouteLazyRouteWithChildren
   '/session-old': typeof SessionOldRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
-  '/team': typeof TeamRouteLazyRouteWithChildren
   '/tenant': typeof TenantRouteLazyRouteWithChildren
   '/tk': typeof TkRouteLazyRouteWithChildren
   '/workflow-runs': typeof WorkflowRunsRouteLazyRouteWithChildren
@@ -4752,7 +4666,6 @@ export interface FileRoutesByFullPath {
   '/resource/': typeof ResourceIndexLazyRoute
   '/scheduled-runs/': typeof ScheduledRunsIndexLazyRoute
   '/session-old/': typeof SessionOldIndexLazyRoute
-  '/team/': typeof TeamIndexLazyRoute
   '/tenant/': typeof TenantIndexLazyRoute
   '/tk/': typeof TkIndexLazyRoute
   '/workflow-runs/': typeof WorkflowRunsIndexLazyRoute
@@ -4771,7 +4684,6 @@ export interface FileRoutesByFullPath {
   '/resource/$resId': typeof ResourceResIdRouteLazyRouteWithChildren
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
   '/session-old/$sessionId': typeof SessionOldSessionIdRouteLazyRouteWithChildren
-  '/team/$teamId': typeof TeamTeamIdRouteLazyRouteWithChildren
   '/tenant/settings': typeof TenantSettingsRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdRouteLazyRouteWithChildren
@@ -4837,7 +4749,6 @@ export interface FileRoutesByFullPath {
   '/session-old/$sessionId/actions/': typeof SessionOldSessionIdActionsIndexLazyRoute
   '/session-old/$sessionId/config/': typeof SessionOldSessionIdConfigIndexLazyRoute
   '/session-old/$sessionId/state/': typeof SessionOldSessionIdStateIndexLazyRoute
-  '/team/$teamId/new': typeof TeamTeamIdNewIndexLazyRoute
   '/tenant/settings/$tenantSettingId/': typeof TenantSettingsTenantSettingIdIndexLazyRoute
   '/tenant/settings/new/': typeof TenantSettingsNewIndexLazyRoute
   '/workflow-runs/$workflowRunId/chat/': typeof WorkflowRunsWorkflowRunIdChatIndexLazyRoute
@@ -4918,7 +4829,6 @@ export interface FileRoutesByTo {
   '/resource': typeof ResourceIndexLazyRoute
   '/scheduled-runs': typeof ScheduledRunsIndexLazyRoute
   '/session-old': typeof SessionOldIndexLazyRoute
-  '/team': typeof TeamIndexLazyRoute
   '/tenant': typeof TenantIndexLazyRoute
   '/tk': typeof TkIndexLazyRoute
   '/workflow-runs': typeof WorkflowRunsIndexLazyRoute
@@ -4927,7 +4837,6 @@ export interface FileRoutesByTo {
   '/post/create': typeof PostCreateLazyRoute
   '/proxy/new': typeof ProxyNewRouteLazyRoute
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
-  '/team/$teamId': typeof TeamTeamIdRouteLazyRouteWithChildren
   '/onboarding/create-tenant': typeof OnboardingCreateTenantIndexRoute
   '/site/$siteId': typeof SiteSiteIdIndexRoute
   '/site/create': typeof SiteCreateIndexRoute
@@ -4971,7 +4880,6 @@ export interface FileRoutesByTo {
   '/session-old/$sessionId/actions': typeof SessionOldSessionIdActionsIndexLazyRoute
   '/session-old/$sessionId/config': typeof SessionOldSessionIdConfigIndexLazyRoute
   '/session-old/$sessionId/state': typeof SessionOldSessionIdStateIndexLazyRoute
-  '/team/$teamId/new': typeof TeamTeamIdNewIndexLazyRoute
   '/tenant/settings/$tenantSettingId': typeof TenantSettingsTenantSettingIdIndexLazyRoute
   '/tenant/settings/new': typeof TenantSettingsNewIndexLazyRoute
   '/workflow-runs/$workflowRunId/chat': typeof WorkflowRunsWorkflowRunIdChatIndexLazyRoute
@@ -5030,7 +4938,6 @@ export interface FileRoutesById {
   '/scheduled-runs': typeof ScheduledRunsRouteLazyRouteWithChildren
   '/session-old': typeof SessionOldRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
-  '/team': typeof TeamRouteLazyRouteWithChildren
   '/tenant': typeof TenantRouteLazyRouteWithChildren
   '/tk': typeof TkRouteLazyRouteWithChildren
   '/workflow-runs': typeof WorkflowRunsRouteLazyRouteWithChildren
@@ -5053,7 +4960,6 @@ export interface FileRoutesById {
   '/resource/': typeof ResourceIndexLazyRoute
   '/scheduled-runs/': typeof ScheduledRunsIndexLazyRoute
   '/session-old/': typeof SessionOldIndexLazyRoute
-  '/team/': typeof TeamIndexLazyRoute
   '/tenant/': typeof TenantIndexLazyRoute
   '/tk/': typeof TkIndexLazyRoute
   '/workflow-runs/': typeof WorkflowRunsIndexLazyRoute
@@ -5072,7 +4978,6 @@ export interface FileRoutesById {
   '/resource/$resId': typeof ResourceResIdRouteLazyRouteWithChildren
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
   '/session-old/$sessionId': typeof SessionOldSessionIdRouteLazyRouteWithChildren
-  '/team/$teamId': typeof TeamTeamIdRouteLazyRouteWithChildren
   '/tenant/settings': typeof TenantSettingsRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdRouteLazyRouteWithChildren
@@ -5138,7 +5043,6 @@ export interface FileRoutesById {
   '/session-old/$sessionId/actions/': typeof SessionOldSessionIdActionsIndexLazyRoute
   '/session-old/$sessionId/config/': typeof SessionOldSessionIdConfigIndexLazyRoute
   '/session-old/$sessionId/state/': typeof SessionOldSessionIdStateIndexLazyRoute
-  '/team/$teamId/new/': typeof TeamTeamIdNewIndexLazyRoute
   '/tenant/settings/$tenantSettingId/': typeof TenantSettingsTenantSettingIdIndexLazyRoute
   '/tenant/settings/new/': typeof TenantSettingsNewIndexLazyRoute
   '/workflow-runs/$workflowRunId/chat/': typeof WorkflowRunsWorkflowRunIdChatIndexLazyRoute
@@ -5220,7 +5124,6 @@ export interface FileRouteTypes {
     | '/scheduled-runs'
     | '/session-old'
     | '/site'
-    | '/team'
     | '/tenant'
     | '/tk'
     | '/workflow-runs'
@@ -5243,7 +5146,6 @@ export interface FileRouteTypes {
     | '/resource/'
     | '/scheduled-runs/'
     | '/session-old/'
-    | '/team/'
     | '/tenant/'
     | '/tk/'
     | '/workflow-runs/'
@@ -5262,7 +5164,6 @@ export interface FileRouteTypes {
     | '/resource/$resId'
     | '/resource/new'
     | '/session-old/$sessionId'
-    | '/team/$teamId'
     | '/tenant/settings'
     | '/workflow-runs/$workflowRunId'
     | '/workflows/$workflowId'
@@ -5328,7 +5229,6 @@ export interface FileRouteTypes {
     | '/session-old/$sessionId/actions/'
     | '/session-old/$sessionId/config/'
     | '/session-old/$sessionId/state/'
-    | '/team/$teamId/new'
     | '/tenant/settings/$tenantSettingId/'
     | '/tenant/settings/new/'
     | '/workflow-runs/$workflowRunId/chat/'
@@ -5408,7 +5308,6 @@ export interface FileRouteTypes {
     | '/resource'
     | '/scheduled-runs'
     | '/session-old'
-    | '/team'
     | '/tenant'
     | '/tk'
     | '/workflow-runs'
@@ -5417,7 +5316,6 @@ export interface FileRouteTypes {
     | '/post/create'
     | '/proxy/new'
     | '/resource/new'
-    | '/team/$teamId'
     | '/onboarding/create-tenant'
     | '/site/$siteId'
     | '/site/create'
@@ -5461,7 +5359,6 @@ export interface FileRouteTypes {
     | '/session-old/$sessionId/actions'
     | '/session-old/$sessionId/config'
     | '/session-old/$sessionId/state'
-    | '/team/$teamId/new'
     | '/tenant/settings/$tenantSettingId'
     | '/tenant/settings/new'
     | '/workflow-runs/$workflowRunId/chat'
@@ -5518,7 +5415,6 @@ export interface FileRouteTypes {
     | '/scheduled-runs'
     | '/session-old'
     | '/site'
-    | '/team'
     | '/tenant'
     | '/tk'
     | '/workflow-runs'
@@ -5541,7 +5437,6 @@ export interface FileRouteTypes {
     | '/resource/'
     | '/scheduled-runs/'
     | '/session-old/'
-    | '/team/'
     | '/tenant/'
     | '/tk/'
     | '/workflow-runs/'
@@ -5560,7 +5455,6 @@ export interface FileRouteTypes {
     | '/resource/$resId'
     | '/resource/new'
     | '/session-old/$sessionId'
-    | '/team/$teamId'
     | '/tenant/settings'
     | '/workflow-runs/$workflowRunId'
     | '/workflows/$workflowId'
@@ -5626,7 +5520,6 @@ export interface FileRouteTypes {
     | '/session-old/$sessionId/actions/'
     | '/session-old/$sessionId/config/'
     | '/session-old/$sessionId/state/'
-    | '/team/$teamId/new/'
     | '/tenant/settings/$tenantSettingId/'
     | '/tenant/settings/new/'
     | '/workflow-runs/$workflowRunId/chat/'
@@ -5707,7 +5600,6 @@ export interface RootRouteChildren {
   ScheduledRunsRouteLazyRoute: typeof ScheduledRunsRouteLazyRouteWithChildren
   SessionOldRouteLazyRoute: typeof SessionOldRouteLazyRouteWithChildren
   SiteRouteLazyRoute: typeof SiteRouteLazyRouteWithChildren
-  TeamRouteLazyRoute: typeof TeamRouteLazyRouteWithChildren
   TenantRouteLazyRoute: typeof TenantRouteLazyRouteWithChildren
   TkRouteLazyRoute: typeof TkRouteLazyRouteWithChildren
   WorkflowRunsRouteLazyRoute: typeof WorkflowRunsRouteLazyRouteWithChildren
@@ -5735,7 +5627,6 @@ const rootRouteChildren: RootRouteChildren = {
   ScheduledRunsRouteLazyRoute: ScheduledRunsRouteLazyRouteWithChildren,
   SessionOldRouteLazyRoute: SessionOldRouteLazyRouteWithChildren,
   SiteRouteLazyRoute: SiteRouteLazyRouteWithChildren,
-  TeamRouteLazyRoute: TeamRouteLazyRouteWithChildren,
   TenantRouteLazyRoute: TenantRouteLazyRouteWithChildren,
   TkRouteLazyRoute: TkRouteLazyRouteWithChildren,
   WorkflowRunsRouteLazyRoute: WorkflowRunsRouteLazyRouteWithChildren,
@@ -5772,7 +5663,6 @@ export const routeTree = rootRoute
         "/scheduled-runs",
         "/session-old",
         "/site",
-        "/team",
         "/tenant",
         "/tk",
         "/workflow-runs",
@@ -5902,13 +5792,6 @@ export const routeTree = rootRoute
         "/site/create/"
       ]
     },
-    "/team": {
-      "filePath": "~team/~route.lazy.tsx",
-      "children": [
-        "/team/",
-        "/team/$teamId"
-      ]
-    },
     "/tenant": {
       "filePath": "~tenant/~route.lazy.tsx",
       "children": [
@@ -6012,10 +5895,6 @@ export const routeTree = rootRoute
     "/session-old/": {
       "filePath": "~session-old/~index.lazy.tsx",
       "parent": "/session-old"
-    },
-    "/team/": {
-      "filePath": "~team/~index.lazy.tsx",
-      "parent": "/team"
     },
     "/tenant/": {
       "filePath": "~tenant/~index.lazy.tsx",
@@ -6134,13 +6013,6 @@ export const routeTree = rootRoute
         "/session-old/$sessionId/actions",
         "/session-old/$sessionId/config",
         "/session-old/$sessionId/state"
-      ]
-    },
-    "/team/$teamId": {
-      "filePath": "~team/~$teamId/~route.lazy.tsx",
-      "parent": "/team",
-      "children": [
-        "/team/$teamId/new/"
       ]
     },
     "/tenant/settings": {
@@ -6512,10 +6384,6 @@ export const routeTree = rootRoute
     "/session-old/$sessionId/state/": {
       "filePath": "~session-old/~$sessionId/~state/~index.lazy.tsx",
       "parent": "/session-old/$sessionId/state"
-    },
-    "/team/$teamId/new/": {
-      "filePath": "~team/~$teamId/~new/~index.lazy.tsx",
-      "parent": "/team/$teamId"
     },
     "/tenant/settings/$tenantSettingId/": {
       "filePath": "~tenant/~settings/~$tenantSettingId/~index.lazy.tsx",

@@ -1,6 +1,7 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { CfAgentChatView } from "../../../../components/chatv2/CfAgentChatView";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
+import { WorkerAgentView } from "../../WorkerAgentView";
 
 export const Route = createLazyFileRoute("/agents/$agent/$sessionId/")({
   component: RouteComponent,
@@ -9,30 +10,16 @@ export const Route = createLazyFileRoute("/agents/$agent/$sessionId/")({
 function RouteComponent() {
   const { agent, sessionId } = Route.useParams();
   const agentUrl = useWorkbenchStore((state) => state.agentUrl);
-  const agentHost = new URL(agentUrl).host;
+  const agentPathPrefix = useWorkbenchStore((state) => state.agentPathPrefix);
   return (
-    <>
-      <CfAgentChatView agentName={agent} agentId={sessionId} host={agentHost} />
-    </>
+    <div className="flex h-full">
+      <CfAgentChatView
+        agentName={agent}
+        agentId={sessionId}
+        host={new URL(agentUrl).host}
+        prefix={agentPathPrefix}
+      />
+      <WorkerAgentView />
+    </div>
   );
 }
-
-// const agentEndpoint = process.env.CF_AGENT_ENDPOINT!;
-
-// const ButtonsAgentInfo = () => {
-//   const handleClick = async () => {
-//     const response = await fetch(`${agentEndpoint}/api/agent_info`, {
-//       method: "POST",
-//       body: JSON.stringify({
-//         prompt: "Hello, how are you?",
-//         agentId: "chat1",
-//       }),
-//     });
-//     const data = await response.json();
-//   };
-//   return (
-//     <>
-//       <Button onClick={handleClick}>agent info</Button>
-//     </>
-//   );
-// };
