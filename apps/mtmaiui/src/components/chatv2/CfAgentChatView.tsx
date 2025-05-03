@@ -31,19 +31,19 @@ export function CfAgentChatView() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, []);
 
-  useEffect(() => {
-    // Apply theme class on mount and when theme changes
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-      document.documentElement.classList.remove("light");
-    } else {
-      document.documentElement.classList.remove("dark");
-      document.documentElement.classList.add("light");
-    }
+  // useEffect(() => {
+  //   // Apply theme class on mount and when theme changes
+  //   if (theme === "dark") {
+  //     document.documentElement.classList.add("dark");
+  //     document.documentElement.classList.remove("light");
+  //   } else {
+  //     document.documentElement.classList.remove("dark");
+  //     document.documentElement.classList.add("light");
+  //   }
 
-    // Save theme preference to localStorage
-    localStorage.setItem("theme", theme);
-  }, [theme]);
+  //   // Save theme preference to localStorage
+  //   localStorage.setItem("theme", theme);
+  // }, [theme]);
 
   // Scroll to bottom on mount
   useEffect(() => {
@@ -57,6 +57,7 @@ export function CfAgentChatView() {
 
   const agent = useAgent<RootAgentState>({
     agent: "chat",
+    host: "mtmag.yuepa8.com",
     name: "chat-agent-session-1",
     onStateUpdate: (newState) => setRootState(newState),
     onMessage: (message) => {

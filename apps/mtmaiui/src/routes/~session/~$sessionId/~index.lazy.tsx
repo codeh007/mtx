@@ -1,6 +1,6 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { Button } from "mtxuilib/ui/button";
-import { ChatClient } from "../../../components/chat/Chat.client";
+import { CfAgentChatView } from "../../../components/chatv2/CfAgentChatView";
 
 export const Route = createLazyFileRoute("/session/$sessionId/")({
   component: RouteComponent,
@@ -15,18 +15,17 @@ function RouteComponent() {
         <ButtonsAgentFetch />
       </div>
 
-      <ChatClient />
+      {/* <ChatClient /> */}
+      <CfAgentChatView />
     </>
   );
 }
 
-const agentEndpointBase = "https://mtmag.yuepa8.com";
+const agentEndpoint = process.env.CF_AGENT_ENDPOINT!;
 
 const ButtonsCallAgent = () => {
   const handleClick = async () => {
-    const agentEndpoint = `${agentEndpointBase}/agents/chat/chat1`;
-    console.log("hello");
-    const response = await fetch(agentEndpoint, {
+    const response = await fetch(`${agentEndpoint}/agents/chat/chat1`, {
       method: "POST",
       body: JSON.stringify({
         message: "Hello, how are you?",
@@ -44,8 +43,7 @@ const ButtonsCallAgent = () => {
 
 const ButtonsAgentInfo = () => {
   const handleClick = async () => {
-    const agentEndpoint = `${agentEndpointBase}/api/agent_info`;
-    const response = await fetch(agentEndpoint, {
+    const response = await fetch(`${agentEndpoint}/api/agent_info`, {
       method: "POST",
       body: JSON.stringify({
         prompt: "Hello, how are you?",
@@ -63,8 +61,7 @@ const ButtonsAgentInfo = () => {
 
 const ButtonsAgentFetch = () => {
   const handleClick = async () => {
-    const agentEndpoint = `${agentEndpointBase}/api/agent_fetch/chat1`;
-    const response = await fetch(agentEndpoint, {
+    const response = await fetch(`${agentEndpoint}/api/agent_fetch/chat1`, {
       method: "POST",
       body: JSON.stringify({
         prompt: "Hello, how are you?",
