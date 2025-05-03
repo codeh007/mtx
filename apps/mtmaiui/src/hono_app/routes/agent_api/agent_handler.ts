@@ -18,39 +18,50 @@ export default function configureAgentDemo(app: OpenAPIHono<{ Bindings: Bindings
       agentId: string;
       prompt: string;
     }>();
-    console.log("agent_info", agentId, c.env.RootAg);
+    try {
+      console.log("agent_info", agentId, c.env.RootAg);
 
-    const namedAgent = await getAgentByName<Env, RootAg>(c.env.RootAg, agentId);
+      const namedAgent = await getAgentByName<Env, RootAg>(c.env.RootAg, agentId);
 
-    // const id = c.env.RootAg.idFromName(agentId);
-    // const agent = c.env.RootAg.get(id);
-    if (!namedAgent) {
-      return c.json({ error: "Agent not found" }, 404);
+      // const id = c.env.RootAg.idFromName(agentId);
+      // const agent = c.env.RootAg.get(id);
+      if (!namedAgent) {
+        return c.json({ error: "Agent not found" }, 404);
+      }
+      return c.json({
+        agentName: namedAgent.name,
+        agentId: namedAgent.id,
+        state: namedAgent.state,
+      });
+    } catch (e: any) {
+      console.error(e);
+      return c.json({ error: e.message }, 500);
     }
-    return c.json({
-      agentName: namedAgent.name,
-      agentId: namedAgent.id,
-      state: namedAgent.state,
-    });
   });
 
   // 演示
-  app.post("/agent_fetch", async (c) => {
-    const { agentId, prompt } = await c.req.json<{
-      agentId: string;
-      prompt: string;
-    }>();
-    console.log("agent_info", agentId, c.env.RootAg);
-
-    const namedAgent = await getAgentByName<Env, RootAg>(c.env.RootAg, agentId);
-
-    // const id = c.env.RootAg.idFromName(agentId);
-    // const agent = c.env.RootAg.get(id);
-    if (!namedAgent) {
-      return c.json({ error: "Agent not found" }, 404);
+  app.post("/agent_fetch/:agentId", async (c) => {
+    try {
+      const agentId = c.req.param("agentId");
+      const namedAgent = await getAgentByName<Env, RootAg>(c.env.RootAg, agentId);
+      if (!namedAgent) {
+        return c.json({ error: "Agent not found" }, 404);
+      }
+      const namedResp = await namedAgent.fetch(c.req.raw);
+      const jsonData = await namedResp.json();
+      return c.text(JSON.stringify(jsonData));
+    } catch (e: any) {
+      console.error(e);
+      return c.json(
+        {
+          error: e.message,
+          stack: e.stack,
+          name: e.name,
+          cause: e.cause,
+        },
+        500,
+      );
     }
-    const namedResp = await namedAgent.fetch(c.req.raw);
-    return c.newResponse(await namedResp.json());
   });
 
   app.all("/agents/step_cb", async (c) => {

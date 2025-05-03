@@ -63,12 +63,11 @@ const ButtonsAgentInfo = () => {
 
 const ButtonsAgentFetch = () => {
   const handleClick = async () => {
-    const agentEndpoint = `${agentEndpointBase}/api/agent_fetch`;
+    const agentEndpoint = `${agentEndpointBase}/api/agent_fetch/chat1`;
     const response = await fetch(agentEndpoint, {
       method: "POST",
       body: JSON.stringify({
         prompt: "Hello, how are you?",
-        agentId: "chat2",
       }),
     });
     const data = await response.json();
