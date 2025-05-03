@@ -1,4 +1,3 @@
-// import type { IncomingMessage, OutgoingMessage } from "node:http";
 import type { Connection, ConnectionContext, Schedule } from "agents";
 import { AIChatAgent } from "agents/ai-chat-agent";
 import {
@@ -12,10 +11,8 @@ import {
 } from "ai";
 import type { RootAgentState, ScheduledItem } from "mtmaiapi";
 import { z } from "zod";
-// import type { RootAgentState } from "../agent_state/root_agent_state";
 import type { IncomingMessage, OutgoingMessage } from "../agent_state/shared";
 import { callAgentRunner } from "../agent_utils/agent_utils";
-// import {OutgoingMessage} from "gomtmapi"
 import { getDefaultModel } from "../components/cloudflare-agents/model";
 import { tools } from "./tools";
 
@@ -45,12 +42,17 @@ export class Chat extends AIChatAgent<Env, RootAgentState> {
     mcpPrompts: [],
     mcpResources: [],
     agentRunnerUrl: "http://localhost:7860",
+    connectionsCount: 0,
   } satisfies RootAgentState;
 
   onStart(): void | Promise<void> {
     // console.log("chat onStart");
   }
   onConnect(connection: Connection, ctx: ConnectionContext) {
+    this.setState({
+      ...this.state,
+      connectionsCount: this.state.connectionsCount + 1,
+    });
     this.broadcast(
       JSON.stringify({
         type: "connected",
@@ -68,6 +70,13 @@ export class Chat extends AIChatAgent<Env, RootAgentState> {
     if (event.type === "schedule") {
     } else if (event.type === "delete-schedule") {
       await this.cancelSchedule(event.id);
+    } else if ("worker_init" === event.type) {
+      this.broadcast(
+        JSON.stringify({
+          type: "new_worker_connected",
+          data: { message: "(chat agent)Hello, world! new_worker_connected" },
+        } satisfies OutgoingMessage),
+      );
     } else {
       // console.log("root ag unknown message", event);
       super.onMessage(connection, message);
@@ -134,6 +143,9 @@ export class Chat extends AIChatAgent<Env, RootAgentState> {
     });
 
     return dataStreamResponse;
+  }
+  onStateUpdate(state, source: "server" | Connection) {
+    console.log(`${source} state updated`, state);
   }
   async onTask(payload: unknown, schedule: Schedule<string>) {
     // 提示: 当到时间运行新任务时, 会先进入这个函数.
