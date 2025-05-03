@@ -1,4 +1,7 @@
 import { type Message, formatDataStreamPart } from "@ai-sdk/ui-utils";
+import type { ScheduledItem } from "mtmaiapi";
+
+import type { Schedule } from "agents";
 import {
   type DataStreamWriter,
   type ToolExecutionOptions,
@@ -124,4 +127,19 @@ export function getToolsRequiringConfirmation<
     const maybeTool = tools[key];
     return typeof maybeTool.execute !== "function";
   }) as string[];
+}
+
+export function convertScheduleToScheduledItem(schedule: Schedule): ScheduledItem {
+  return {
+    id: schedule.id,
+    trigger:
+      schedule.type === "delayed"
+        ? `in ${schedule.delayInSeconds} seconds`
+        : schedule.type === "cron"
+          ? `at ${schedule.cron}`
+          : `at ${new Date(schedule.time * 1000).toISOString()}`,
+    nextTrigger: new Date(schedule.time * 1000).toISOString(),
+    description: schedule.payload,
+    type: schedule.type,
+  };
 }

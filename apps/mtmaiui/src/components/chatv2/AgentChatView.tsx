@@ -45,8 +45,6 @@ export default function AgentChatView() {
   //     } else if (parsedMessage?.type === "require-main-access-token") {
   //       console.log("require-main-access-token", parsedMessage);
   //       //@ts-expect-error
-  //     } else if (parsedMessage?.type === "cf_agent_use_chat_response") {
-  //       // 聊天消息, 可以不处理 chatAgent 会处理
   //     } else {
   //       console.log("chat onMessage: 未知消息", message);
   //     }

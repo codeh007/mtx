@@ -25,14 +25,15 @@ export function WorkerAgentView() {
       const parsedMessage = JSON.parse(message.data) as WorkerAgentOutgoingMessage;
       if (parsedMessage?.type === "new_worker_connected") {
         console.log("new worker connected", parsedMessage);
+      } else if (parsedMessage?.type === "log") {
+        console.log("worker agent log:", parsedMessage);
       } else {
         console.warn("worker agent onMessage: 未知消息", message);
       }
     },
   });
   return (
-    <div className="w-1/3">
-      <div>worker agent view</div>
+    <div className="w-1/3 rounded-md border border-gray-300 p-2">
       <DebugValue data={{ workerAgentState }} />
       <div>total worker count: {workerAgentState?.totalWorkers}</div>
     </div>

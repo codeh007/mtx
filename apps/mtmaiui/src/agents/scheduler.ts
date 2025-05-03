@@ -2,28 +2,12 @@ import type { Schedule } from "agents";
 import { Agent } from "agents";
 import { unstable_getSchedulePrompt, unstable_scheduleSchema } from "agents/schedule";
 
-
 import type { Connection, ConnectionContext } from "agents";
 
 import { generateObject } from "ai";
+import type { IncomingMessage, OutgoingMessage } from "../agent_state/shared";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
-import { IncomingMessage, OutgoingMessage } from "http";
-import { ScheduledItem } from "mtmaiapi";
-
-function convertScheduleToScheduledItem(schedule: Schedule): ScheduledItem {
-  return {
-    id: schedule.id,
-    trigger:
-      schedule.type === "delayed"
-        ? `in ${schedule.delayInSeconds} seconds`
-        : schedule.type === "cron"
-          ? `at ${schedule.cron}`
-          : `at ${new Date(schedule.time * 1000).toISOString()}`,
-    nextTrigger: new Date(schedule.time * 1000).toISOString(),
-    description: schedule.payload,
-    type: schedule.type,
-  };
-}
+import { convertScheduleToScheduledItem } from "./utils";
 
 export class Scheduler extends Agent<Env> {
   onConnect(connection: Connection, ctx: ConnectionContext): void | Promise<void> {
@@ -94,7 +78,7 @@ Input to parse: "${event.input}"`,
     // 广播任务信息, 这样,所有在同一个 房间的客户端都可以接收到信息,从而可以自主运行实际的任务.
     this.broadcast(
       JSON.stringify({
-        type: "run-schedule",
+        type: "runSchedule",
         data: convertScheduleToScheduledItem(schedule),
       } satisfies OutgoingMessage),
     );

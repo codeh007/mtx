@@ -44,13 +44,16 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
     onStateUpdate: (newState) => setRootState(newState),
     onMessage: (message) => {
       const parsedMessage = JSON.parse(message.data) as ChatAgentOutgoingMessage;
-      console.log("(chat)onMessage", parsedMessage);
+      // console.log("(chat)onMessage", parsedMessage);
       if (parsedMessage.type === "runSchedule") {
-        console.log("run schedule", parsedMessage);
+        console.log("run schedule(TODO)", parsedMessage);
       } else if (parsedMessage?.type === "log") {
-        console.log("error", parsedMessage);
+        console.log(
+          `%c Log: ${parsedMessage.data.message}`,
+          "color: red; font-weight: bold; font-size: 14px",
+        );
       } else if (parsedMessage?.type === "schedule") {
-        console.log("schedule", parsedMessage);
+        console.log("schedule(TODO)", parsedMessage);
       } else {
         console.log("chat onMessage: 未知消息", message);
       }

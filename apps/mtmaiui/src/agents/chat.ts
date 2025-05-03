@@ -10,7 +10,6 @@ import {
   streamText,
   tool,
 } from "ai";
-import type { ScheduledItem } from "mtmaiapi";
 import { z } from "zod";
 import type {
   ChatAgentIncomingMessage,
@@ -18,25 +17,11 @@ import type {
   ChatAgentState,
 } from "../agent_state/chat_agent_state";
 import type { OutgoingMessage } from "../agent_state/shared";
-import type { WorkerAgentState } from "../agent_state/workerAgentState";
 import { callAgentRunner } from "../agent_utils/agent_utils";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
 import { tools } from "./tools";
-
-function convertScheduleToScheduledItem(schedule: Schedule): ScheduledItem {
-  return {
-    id: schedule.id,
-    trigger:
-      schedule.type === "delayed"
-        ? `in ${schedule.delayInSeconds} seconds`
-        : schedule.type === "cron"
-          ? `at ${schedule.cron}`
-          : `at ${new Date(schedule.time * 1000).toISOString()}`,
-    nextTrigger: new Date(schedule.time * 1000).toISOString(),
-    description: schedule.payload,
-    type: schedule.type,
-  };
-}
+import { convertScheduleToScheduledItem } from "./utils";
+import type { WorkerAgent } from "./worker_agent";
 
 export class Chat extends AIChatAgent<Env, ChatAgentState> {
   initialState: ChatAgentState = {
@@ -92,20 +77,6 @@ export class Chat extends AIChatAgent<Env, ChatAgentState> {
       }),
       execute: async ({ prompt }, options) => {
         try {
-          console.log("callCoderAgent", prompt);
-
-          const workerAgent = await getAgentByName<Env, WorkerAgentState>(
-            this.env.WorkerAgent,
-            "worker-agent",
-          );
-
-          const id = this.env.WorkerAgent.idFromName("default");
-          const agent = this.env.WorkerAgent.get(id);
-
-          if (!agent) {
-            throw new Error("Worker agent not found");
-          }
-
           this.broadcast(
             JSON.stringify({
               type: "new_chat_participant",
@@ -133,7 +104,6 @@ export class Chat extends AIChatAgent<Env, ChatAgentState> {
 
     const lastestMessage = this.messages?.[this.messages.length - 1];
     const userInput = lastestMessage?.content;
-    this.log(`userInput: ${userInput}`);
     // cloudflare agents 的 streamText 的实现
     const dataStreamResponse = createDataStreamResponse({
       execute: async (dataStream) => {
@@ -141,6 +111,20 @@ export class Chat extends AIChatAgent<Env, ChatAgentState> {
           // lastestMessage.content = lastestMessage.content.slice(4);
           // await this.onDemoRun2(lastestMessage, dataStream, onFinish);
           this.log("test1");
+
+          const workerAgent = await getAgentByName<Env, WorkerAgent>(
+            this.env.WorkerAgent,
+            "default",
+          );
+
+          // const id = this.env.WorkerAgent.idFromName("default");
+          // const workerAgent = this.env.WorkerAgent.get(id);
+
+          if (!workerAgent) {
+            // throw new Error("Worker agent not found");
+            this.handleException(new Error("Worker agent not found"));
+          }
+          workerAgent.log("log message from worker agent");
         } else {
           const result = streamText({
             model,
@@ -201,14 +185,6 @@ export class Chat extends AIChatAgent<Env, ChatAgentState> {
     dataStream: DataStreamWriter,
     onFinish: StreamTextOnFinishCallback<{}>,
   ) {
-    // console.log("onDemoRun2", data);
-    // const helloStream2 = async function* () {
-    //   yield "hello";
-    //   yield "world";
-    //   yield "test";
-    // };
-    // const textGenerator = helloStream2();
-
     let finnalResponseText = "";
     // 逐个处理yield的文本
     for await (const adkEvent of await this.onCallAdk(newMessage)) {
@@ -221,9 +197,9 @@ export class Chat extends AIChatAgent<Env, ChatAgentState> {
         if (adkEvent.content.parts) {
           for (const part of adkEvent.content.parts) {
             // yield part.text;
-            const a = `0:${JSON.stringify(part.text)}\n`;
-            console.log("a", a);
-            dataStream.write(a);
+            // const a = `0:${JSON.stringify(part.text)}\n`;
+            // console.log("a", a);
+            dataStream.write(`0:${JSON.stringify(part.text)}\n`);
             finnalResponseText += part.text;
           }
         } else {
@@ -354,5 +330,10 @@ export class Chat extends AIChatAgent<Env, ChatAgentState> {
         },
       } satisfies ChatAgentOutgoingMessage),
     );
+  }
+
+  handleException(error: unknown) {
+    console.error("Error calling coder agent", error);
+    this.log(`(handleException): ${error}`);
   }
 }
