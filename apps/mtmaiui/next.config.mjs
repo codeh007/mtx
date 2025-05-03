@@ -33,7 +33,7 @@ const nextConfig = {
   webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
     config.plugins.push(
       new webpack.IgnorePlugin({
-        resourceRegExp: /^pg-native$|^cloudflare:sockets$|^cloudflare:workers$/,
+        resourceRegExp: /^pg-native$|^cloudflare:sockets$/,
       }),
     );
 
@@ -137,6 +137,7 @@ const nextConfig = {
     "unpdf",
     "agent-base",
     "basic-ftp",
+    "cloudflare:workers",
   ],
 };
 
