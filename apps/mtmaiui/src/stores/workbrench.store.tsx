@@ -37,11 +37,10 @@ import { useNav } from "../hooks/useNav";
 import { handleAgentOutgoingEvent } from "./ag-event-handlers";
 import { exampleTeamConfig } from "./exampleTeamConfig";
 
-const DEFAULT_APP_NAME = "instagram_agent";
-const DEFAULT_AGENT_URL = "http://localhost:7860";
+const DEFAULT_APP_NAME = "chat";
+const DEFAULT_AGENT_URL = "https://mtmag.yuepa8.com";
 export interface WorkbenchProps {
   sessionId?: string;
-  // agentHost?: string;
 }
 export interface WorkbrenchState extends WorkbenchProps {
   agentUrl: string;
@@ -52,8 +51,6 @@ export interface WorkbrenchState extends WorkbenchProps {
   tenant: Tenant;
   setSessionId: (threadId?: string) => void;
   adkAppName: string;
-  // agentHost: string;
-  // setAgentHost: (agentHost: string) => void;
   setAdkAppName: (adkAppName: string) => void;
   messageParser?: (messages: Message[]) => void;
   setMessageParser: (messageParser: (messages: Message[]) => void) => void;
