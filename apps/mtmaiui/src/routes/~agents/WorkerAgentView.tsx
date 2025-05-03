@@ -15,7 +15,7 @@ export function WorkerAgentView() {
   const agentHost = new URL(agentUrl).host;
   const agentPathPrefix = useWorkbenchStore((state) => state.agentPathPrefix);
   const workerAgent = useAgent<WorkerAgentState>({
-    agent: "worker",
+    agent: "worker-agent",
     id: "default",
     host: agentHost,
     prefix: agentPathPrefix,
@@ -31,7 +31,7 @@ export function WorkerAgentView() {
     },
   });
   return (
-    <div className="w-1/4">
+    <div className="w-1/3">
       <div>worker agent view</div>
       <DebugValue data={{ workerAgentState }} />
       <div>total worker count: {workerAgentState?.totalWorkers}</div>

@@ -1,5 +1,7 @@
 export type WorkerAgentState = {
   totalWorkers: number;
+  lastUpdated: number;
+  error?: string;
 };
 
 export type WorkerAgentOutgoingMessage = {
