@@ -4,7 +4,7 @@ import { createRouter } from "../../lib/createApp";
 const pathPrefix = "/api/r2";
 const defaultDelimiter = "/";
 // const bucketRoot = "short_videos/";
-const r2Router = createRouter();
+export const r2Router = createRouter();
 
 r2Router.get("/list/*", async (c) => {
   let path = c.req.path;
@@ -117,5 +117,3 @@ r2Router.get("*", async (c) => {
   });
   return c.body(responseBody!, status as ContentfulStatusCode, responseHeaders!);
 });
-
-export default r2Router;
