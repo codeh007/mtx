@@ -14,7 +14,7 @@
     "dev": "dotenv -e ../../../gomtm/env/dev.env -- next dev --port 3600",
     "vite": "bun withEnv -- vite",
     "withEnv": "dotenv -e ../../../gomtm/env/dev.env --",
-    "build": "vite build && next build",
+    "build": "next build",
     "build:tsc": "tsc --outDir dist --jsx react-jsx --incremental false --declaration true --noEmit false --removeComments true --project tsconfig.json",
     "build_vite_dev": "vite build --config vite.config.dev.js",
     "build:types": "vite build --types",
