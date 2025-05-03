@@ -6,7 +6,7 @@ import { useTenantId } from "../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
 import { SessionHeader } from "../header";
 
-export const Route = createLazyFileRoute("/session/$sessionId")({
+export const Route = createLazyFileRoute("/agents/$sessionId")({
   component: RouteComponent,
 });
 

@@ -2,7 +2,7 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import { Button } from "mtxuilib/ui/button";
 import { CfAgentChatView } from "../../../components/chatv2/CfAgentChatView";
 
-export const Route = createLazyFileRoute("/session/$sessionId/")({
+export const Route = createLazyFileRoute("/agents/$sessionId/")({
   component: RouteComponent,
 });
 

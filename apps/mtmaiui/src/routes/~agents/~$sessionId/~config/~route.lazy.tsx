@@ -1,7 +1,7 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 
-export const Route = createLazyFileRoute("/session/$sessionId/config")({
+export const Route = createLazyFileRoute("/agents/$sessionId/config")({
   component: RouteComponent,
 });
 

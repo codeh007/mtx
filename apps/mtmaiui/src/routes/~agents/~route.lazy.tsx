@@ -1,8 +1,9 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { RootAppWrapper } from "../../components/RootAppWrapper";
+// import { MtSessionProvider } from "../../stores/SessionProvider";
 import { WorkbrenchProvider } from "../../stores/workbrench.store";
-import { WorkflowsProvider } from "../../stores/workflow-store";
-import { NavAdkSession } from "../~adk/~session/siderbar";
+import { NavSession } from "./siderbar";
 
 export const Route = createLazyFileRoute("/agents")({
   component: RouteComponent,
@@ -10,23 +11,14 @@ export const Route = createLazyFileRoute("/agents")({
 
 function RouteComponent() {
   return (
-    <>
-      <WorkbrenchProvider>
-        <WorkflowsProvider>
-          <RootAppWrapper secondSidebar={<NavAdkSession />}>
-            {/* <DashHeaders>
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>Adk会话</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb>
-            </DashHeaders> */}
-            <Outlet />
-          </RootAppWrapper>
-        </WorkflowsProvider>
-      </WorkbrenchProvider>
-    </>
+    <WorkbrenchProvider>
+      <RootAppWrapper secondSidebar={<NavSession />}>
+        <MtSuspenseBoundary>
+          {/* <MtSessionProvider> */}
+          <Outlet />
+          {/* </MtSessionProvider> */}
+        </MtSuspenseBoundary>
+      </RootAppWrapper>
+    </WorkbrenchProvider>
   );
 }

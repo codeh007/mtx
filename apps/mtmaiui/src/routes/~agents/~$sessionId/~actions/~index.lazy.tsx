@@ -2,7 +2,7 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import { SocialAddFollowersAction } from "./SocialAddFollowersAction";
 import { SocialLoginAction } from "./SocialLoginAction";
 
-export const Route = createLazyFileRoute("/session/$sessionId/actions/")({
+export const Route = createLazyFileRoute("/agents/$sessionId/actions/")({
   component: RouteComponent,
 });
 

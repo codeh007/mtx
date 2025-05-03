@@ -6,7 +6,7 @@ import { AgStateView } from '../../../../components/stateview/AgStateView'
 import { useTenantId } from '../../../../hooks/useAuth'
 import { useWorkbenchStore } from '../../../../stores/workbrench.store'
 
-export const Route = createLazyFileRoute('/session/$sessionId/state/')({
+export const Route = createLazyFileRoute('/agents/$sessionId/state/')({
   component: RouteComponent,
 })
 

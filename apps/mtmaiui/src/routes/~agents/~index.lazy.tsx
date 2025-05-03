@@ -11,7 +11,7 @@ import { CfAgentChatView } from "../../components/chatv2/CfAgentChatView";
 // import AgentChatView from "../../components/cloudflare-agents/Chat";
 // import { useMtSession } from "../../stores/SessionProvider";
 
-export const Route = createLazyFileRoute("/session/")({
+export const Route = createLazyFileRoute("/agents/")({
   component: RouteComponent,
 });
 
