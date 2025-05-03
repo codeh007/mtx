@@ -135,7 +135,6 @@ const nextConfig = {
     "@xenova",
     "tiktoken",
     "unpdf",
-    "agent-base",
     "basic-ftp",
     "cloudflare:workers",
   ],
