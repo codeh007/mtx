@@ -1,7 +1,7 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { ChatClient } from "../../../components/chat/Chat.client";
 
-export const Route = createLazyFileRoute("/session/$sessionId/")({
+export const Route = createLazyFileRoute("/session-old/$sessionId/")({
   component: RouteComponent,
 });
 
@@ -14,8 +14,8 @@ function RouteComponent() {
 
   return (
     <>
-      {/* <DebugValue data={{ teamSate }} /> */}
-      {/* {teamSate && <AgStateView state={teamSate} />} */}
+      {/* <DebugValue data={{ teamSate }} />
+      {teamSate && <AgStateView state={teamSate} />} */}
       <ChatClient />
     </>
   );

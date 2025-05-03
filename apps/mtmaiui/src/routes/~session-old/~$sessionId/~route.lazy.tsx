@@ -6,13 +6,13 @@ import { useTenantId } from "../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
 import { SessionHeader } from "../header";
 
-export const Route = createLazyFileRoute("/session/$sessionId")({
+export const Route = createLazyFileRoute("/session-old/$sessionId")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
   const { sessionId } = Route.useParams();
-  const setThreadId = useWorkbenchStore((x) => x.setThreadId);
+  const setThreadId = useWorkbenchStore((x) => x.setSessionId);
   const tid = useTenantId();
   const chatMessagesQuery = useQuery({
     ...chatMessagesListOptions({
