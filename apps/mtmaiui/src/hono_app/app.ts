@@ -4,7 +4,7 @@ import configureOpenAPI from "./lib/configureOpenAPI";
 import configureAgents from "./lib/configureAgents";
 import configureAuth from "./lib/configureAuth";
 import createApp from "./lib/createApp";
-import configureAgentDemo from "./routes/agent_demo/agent_demo_handler";
+import configureAgentDemo from "./routes/agent_api/agent_handler";
 import { apiRoutes } from "./routes/api_routes";
 import helloDbRouter from "./routes/db-example/dbexample.handler";
 import { envsRouter } from "./routes/envs/envs.handler";

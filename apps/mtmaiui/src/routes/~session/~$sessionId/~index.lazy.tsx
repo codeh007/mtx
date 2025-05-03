@@ -11,8 +11,8 @@ function RouteComponent() {
     <>
       <div className="flex flex-col gap-2">
         <ButtonsCallAgent />
-        <ButtonsCallAgent2 />
-        <ButtonsCallAgent3 />
+        <ButtonsAgentInfo />
+        <ButtonsAgentFetch />
       </div>
 
       <ChatClient />
@@ -42,34 +42,33 @@ const ButtonsCallAgent = () => {
   );
 };
 
-const ButtonsCallAgent2 = () => {
+const ButtonsAgentInfo = () => {
   const handleClick = async () => {
-    const agentEndpoint = `${agentEndpointBase}/api/query`;
-    console.log("hello");
+    const agentEndpoint = `${agentEndpointBase}/api/agent_info`;
     const response = await fetch(agentEndpoint, {
       method: "POST",
       body: JSON.stringify({
-        message: "Hello, how are you?",
+        prompt: "Hello, how are you?",
+        agentId: "chat1",
       }),
     });
     const data = await response.json();
-    console.log(data);
   };
   return (
     <>
-      <Button onClick={handleClick}>Hello2</Button>
+      <Button onClick={handleClick}>agent info</Button>
     </>
   );
 };
 
-const ButtonsCallAgent3 = () => {
+const ButtonsAgentFetch = () => {
   const handleClick = async () => {
-    const agentEndpoint = `${agentEndpointBase}/agents/step_cb`;
-    console.log("hello");
+    const agentEndpoint = `${agentEndpointBase}/api/agent_fetch`;
     const response = await fetch(agentEndpoint, {
       method: "POST",
       body: JSON.stringify({
-        message: "Hello, how are you?",
+        prompt: "Hello, how are you?",
+        agentId: "chat2",
       }),
     });
     const data = await response.json();

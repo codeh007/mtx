@@ -1,5 +1,6 @@
 import type { OpenAPIHono } from "@hono/zod-openapi";
-import type { Agent } from "agents";
+import { type Agent, getAgentByName } from "agents";
+import type { RootAg } from "../../../agents/root_ag";
 import type { Bindings } from "../../lib/types";
 import {
   homeContent,
@@ -12,18 +13,44 @@ import {
 } from "../../utils";
 
 export default function configureAgentDemo(app: OpenAPIHono<{ Bindings: Bindings }>) {
-  // agent 调用(演示开始) =============================================================
-  app.post("/query", async (c) => {
+  app.post("/agent_info", async (c) => {
     const { agentId, prompt } = await c.req.json<{
       agentId: string;
       prompt: string;
     }>();
-    const id = c.env.RootAg.idFromName(agentId);
-    const agent = c.env.RootAg.get(id);
+    console.log("agent_info", agentId, c.env.RootAg);
 
-    // const result = await agent.query(prompt);
+    const namedAgent = await getAgentByName<Env, RootAg>(c.env.RootAg, agentId);
 
-    return c.json({ hello: "world" });
+    // const id = c.env.RootAg.idFromName(agentId);
+    // const agent = c.env.RootAg.get(id);
+    if (!namedAgent) {
+      return c.json({ error: "Agent not found" }, 404);
+    }
+    return c.json({
+      agentName: namedAgent.name,
+      agentId: namedAgent.id,
+      state: namedAgent.state,
+    });
+  });
+
+  // 演示
+  app.post("/agent_fetch", async (c) => {
+    const { agentId, prompt } = await c.req.json<{
+      agentId: string;
+      prompt: string;
+    }>();
+    console.log("agent_info", agentId, c.env.RootAg);
+
+    const namedAgent = await getAgentByName<Env, RootAg>(c.env.RootAg, agentId);
+
+    // const id = c.env.RootAg.idFromName(agentId);
+    // const agent = c.env.RootAg.get(id);
+    if (!namedAgent) {
+      return c.json({ error: "Agent not found" }, 404);
+    }
+    const namedResp = await namedAgent.fetch(c.req.raw);
+    return c.newResponse(await namedResp.json());
   });
 
   app.all("/agents/step_cb", async (c) => {
