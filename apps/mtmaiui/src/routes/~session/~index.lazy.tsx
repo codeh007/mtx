@@ -1,8 +1,10 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { useAgent } from "agents/react";
-import { OutgoingMessage } from "http";
-import { RootAgentState } from "mtmaiapi";
+import type { RootAgentState } from "mtmaiapi";
+// import { OutgoingMessage } from "http";
+// import { RootAgentState } from "mtmaiapi";
 import { useState } from "react";
+import type { OutgoingMessage } from "../../agent_state/shared";
 // import type { RootAgentState } from "../../agent_state/root_agent_state";
 // import type { IncomingMessage, OutgoingMessage } from "../../agent_state/shared";
 // import AgentChatView from "../../components/cloudflare-agents/Chat";
