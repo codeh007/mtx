@@ -13,7 +13,9 @@ envsRouter.get("/gomtm_kaggle", async (c) => {
   }
   const envs = `
 MTM_DATABASE_URL="postgresql://postgres:uF0tZtDquHJ0bC38@unhelpfully-large-ling.data-1.use1.tembo.io/mtm18?sslmode=require"
-  `;
+# cf_tunel_kaggle
+CF_TUNNEL_TOKEN="eyJhIjoiNjIzZmFmNzJlZTBkMmFmM2U1ODZlN2NkOWRhZGI3MmIiLCJ0IjoiODVmMmE2YmItNmQ1MS00YjJlLTlkOTYtZWNlODk4MDgwNzA0IiwicyI6Ik5UVmpaRFZtTURJdE9EazJNQzAwWWpWbUxUZzFZak10TTJGaVpqWmxPRE14TlRneiJ9"
+`;
 
   return c.text(`${envs.trim()}\n`);
 });
