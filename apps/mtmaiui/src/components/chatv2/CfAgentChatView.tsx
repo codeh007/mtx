@@ -14,16 +14,23 @@ import type { tools } from "../../agents/tools";
 import { ChatAvatar } from "../cloudflare-agents/components/avatar/ChatAvatar";
 import { Input } from "../cloudflare-agents/components/input/Input";
 
-// List of tools that require human confirmation
 const toolsRequiringConfirmation: (keyof typeof tools)[] = ["getWeatherInformation"];
 
-export function CfAgentChatView() {
+interface CfAgentChatViewProps {
+  agentName: string;
+  agentId: string;
+  host?: string;
+  prefix?: string;
+}
+export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentChatViewProps) {
   const [rootState, setRootState] = useState<RootAgentState>();
-  const [theme, setTheme] = useState<"dark" | "light">(() => {
-    // Check localStorage first, default to dark if not found
-    const savedTheme = localStorage.getItem("theme");
-    return (savedTheme as "dark" | "light") || "dark";
-  });
+  const _host = host || "mtmag.yuepa8.com";
+  const _prefix = prefix || "api";
+  // const [theme, setTheme] = useState<"dark" | "light">(() => {
+  //   // Check localStorage first, default to dark if not found
+  //   const savedTheme = localStorage.getItem("theme");
+  //   return (savedTheme as "dark" | "light") || "dark";
+  // });
   const [showDebug, setShowDebug] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -50,16 +57,16 @@ export function CfAgentChatView() {
     scrollToBottom();
   }, [scrollToBottom]);
 
-  const toggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
-  };
+  // const toggleTheme = () => {
+  //   const newTheme = theme === "dark" ? "light" : "dark";
+  //   setTheme(newTheme);
+  // };
 
   const agent = useAgent<RootAgentState>({
-    agent: "chat",
-    host: "mtmag.yuepa8.com",
-    prefix: "api",
-    name: "chat-agent-session-2",
+    agent: agentName,
+    host: _host,
+    prefix: _prefix,
+    name: agentId,
     onStateUpdate: (newState) => setRootState(newState),
     onMessage: (message) => {
       console.log("(chat)onMessage", message?.data?.type);
