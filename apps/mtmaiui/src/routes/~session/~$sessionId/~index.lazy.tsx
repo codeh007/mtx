@@ -76,7 +76,7 @@ const ButtonsAgentFetch = () => {
   };
   return (
     <>
-      <Button onClick={handleClick}>call step cb</Button>
+      <Button onClick={handleClick}>agent fetch</Button>
     </>
   );
 };
