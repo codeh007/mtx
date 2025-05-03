@@ -23,6 +23,7 @@ type AgentMiddlewareContext<E extends Env> = {
 export function agentsMiddleware<E extends Env = Env>(ctx?: AgentMiddlewareContext<E>) {
   return createMiddleware<Env>(async (c, next) => {
     try {
+      console.log("agentsMiddleware", c.req.url);
       const handler = isWebSocketUpgrade(c) ? handleWebSocketUpgrade : handleHttpRequest;
 
       const response = await handler(c, ctx?.options);

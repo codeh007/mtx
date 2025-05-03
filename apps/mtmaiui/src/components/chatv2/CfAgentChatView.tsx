@@ -58,7 +58,8 @@ export function CfAgentChatView() {
   const agent = useAgent<RootAgentState>({
     agent: "chat",
     host: "mtmag.yuepa8.com",
-    name: "chat-agent-session-1",
+    prefix: "api",
+    name: "chat-agent-session-2",
     onStateUpdate: (newState) => setRootState(newState),
     onMessage: (message) => {
       console.log("(chat)onMessage", message?.data?.type);
