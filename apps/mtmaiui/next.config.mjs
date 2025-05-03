@@ -30,10 +30,7 @@ const nextConfig = {
     optimizePackageImports: ["icon-library"],
   },
 
-  webpack: (
-    config,
-    { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack },
-  ) => {
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
     // add externals
     config.externals = config.externals || [];
     config.externals.push(
@@ -60,7 +57,6 @@ const nextConfig = {
       "unpdf",
       "agent-base",
       "basic-ftp",
-      "cloudflare:workers",
     );
 
     // 演示将 chunk 文件名改为特定名称

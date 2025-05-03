@@ -2,10 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { chatMessagesListOptions } from "mtmaiapi";
 import { useEffect } from "react";
-import { useTenantId } from "../../../hooks/useAuth";
-import { useWorkbenchStore } from "../../../stores/workbrench.store";
+import { useTenantId } from "../../../../hooks/useAuth";
+import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 
-export const Route = createLazyFileRoute("/agents/$sessionId")({
+export const Route = createLazyFileRoute("/agents/$agent/$sessionId")({
   component: RouteComponent,
 });
 

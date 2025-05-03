@@ -1,7 +1,7 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { SocialTeamEditor } from "../../../../components/chat/SocialTeamEditor";
+import { SocialTeamEditor } from "../../../../../components/chat/SocialTeamEditor";
 
-export const Route = createLazyFileRoute("/agents/$sessionId/config/")({
+export const Route = createLazyFileRoute("/agents/$agent/$sessionId/config/")({
   component: RouteComponent,
 });
 
