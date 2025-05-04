@@ -2,7 +2,7 @@ import { WorkflowEntrypoint, type WorkflowEvent, type WorkflowStep } from "cloud
 import { generateText } from "ai";
 import { createWorkersAI } from "workers-ai-provider";
 import z from "zod";
-import { getDefaultModel } from "../components/cloudflare-agents/model";
+import { getDefaultModel } from "../../components/cloudflare-agents/model";
 
 export type ShortVideoWorkflowParams = {
   prompt: string;
@@ -29,6 +29,7 @@ export class ShortVideoWorkflow extends WorkflowEntrypoint<Env, ShortVideoWorkfl
     // const model = workersai("@cf/meta/llama-3.3-70b-instruct-fp8-fast");
     const model = getDefaultModel(this.env);
 
+    // TODO: 标题和文案,可以合并为一个步骤, 使用 generateObject 生成一个对象, 对象包含标题和文案.
     // Step 1: 生成视频标题
     const videoSubjectObj = await step.do("generate subject", async () => {
       try {
@@ -103,6 +104,8 @@ ${videoSubjectObj}
         };
       }
     });
+
+    // TODO: 添加步骤, 对文案进行评估, 评估标准如下:
 
     // if (!criteriaObj.meetsCriteria) {
     //   return { error: "Outline does not meet the criteria." };
