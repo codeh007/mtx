@@ -1,5 +1,5 @@
 import { WorkflowEntrypoint, type WorkflowEvent, type WorkflowStep } from "cloudflare:workers";
-import { generateObject } from "ai";
+import { generateText } from "ai";
 import { createWorkersAI } from "workers-ai-provider";
 import z from "zod";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
@@ -30,30 +30,41 @@ export class ShortVideoWorkflow extends WorkflowEntrypoint<Env, ShortVideoWorkfl
     const model = getDefaultModel(this.env);
 
     // Step 1: 生成视频标题
-    const outlineObj = await step.do("generate subject", async () => {
-      const outlinePrompt = `# Role: Video Subject Generator
+    const videoSubjectObj = await step.do("generate subject", async () => {
+      try {
+        const outlinePrompt = `# Role: Video Subject Generator
 ## Goals:
 Generate a subject for a video, depending on the user's input.
 
 ## Constrains:
 1. the subject is to be returned as a string.
 2. the subject must be related to the user's input.
+3. respond in the same language as the user's input.
 
 user input: 
 
 ${prompt}
 `;
-      const { object } = await generateObject({
-        model,
-        schema: outlineSchema,
-        prompt: outlinePrompt,
-      });
-      return object;
+        const { text } = await generateText({
+          model,
+          // schema: outlineSchema,
+          prompt: outlinePrompt,
+        });
+        return text;
+      } catch (e: any) {
+        return {
+          outline: "生成视频标题失败",
+          error: e.message,
+        };
+      }
     });
 
+    if (!videoSubjectObj.error) {
+    }
     // Step 2: 生成视频文案
-    const criteriaObj = await step.do("evaluate outline", async () => {
-      const videoScriptPrompt = `# Role: Video Script Generator
+    const videoScriptObj = await step.do("generate video script", async () => {
+      try {
+        const videoScriptPrompt = `# Role: Video Script Generator
 
 ## Goals:
 Generate a script for a video, depending on the subject of the video.
@@ -69,13 +80,24 @@ Generate a script for a video, depending on the subject of the video.
 8. respond in the same language as the video subject.
 
 # Initialization:
-- number of paragraphs: {paragraph_number}`;
-      const { object } = await generateObject({
-        model,
-        schema: criteriaSchema,
-        prompt: videoScriptPrompt,
-      });
-      return object;
+- number of paragraphs: ${paragraph_number}
+
+user input: 
+
+${videoSubjectObj}
+`;
+        const { text } = await generateText({
+          model,
+          prompt: videoScriptPrompt,
+        });
+        return {
+          videoScript: text,
+        };
+      } catch (e: any) {
+        return {
+          error: `生成视频文案失败: ${e.message}`,
+        };
+      }
     });
 
     // if (!criteriaObj.meetsCriteria) {
@@ -97,8 +119,8 @@ Generate a script for a video, depending on the subject of the video.
     });
 
     return {
-      outline: outlineObj,
-      criteria: criteriaObj,
+      videoSubject: videoSubjectObj,
+      videoScript: videoScriptObj,
       audio: audioObj,
       subtitle: subtitleObj,
     };

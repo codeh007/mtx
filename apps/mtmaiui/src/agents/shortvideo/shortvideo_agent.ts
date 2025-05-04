@@ -44,8 +44,8 @@ export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
       case "event_test2":
         await this.onTest2(connection);
         break;
-      case "event_test3":
-        await this.onTest3(connection);
+      case "run_workflow_shortvideo":
+        await this.onRunWorkflowShortvideo(connection, event);
         break;
       default:
         return super.onMessage(connection, message);
@@ -221,14 +221,20 @@ Input to parse: "${userInput}"`,
     });
   }
 
-  async taskRunWorkflow(params: any) {
-    this.log("taskRunWorkflow启动", params);
-    this.env.PROMPT_CHAINING_WORKFLOW.create({
+  async onRunWorkflowShortvideo(connection: Connection, event: any) {
+    this.log("onRunWorkflowShortvideo启动");
+
+    const exampleCase = `
+在没有小红书的年代，成为网红并不容易，而绿茶旅社里来来往往的游客就成了初代网红成功出圈的重要推手。随着入住的游客越来越多，“绿茶旅社”的餐饮服务也因为游客们的口口相传形成口碑。2008年，绿茶旅社彻底转型成绿茶餐厅，并且因其独特的中式装修风格和亲民的定价迅速吸引了众多消费者。根据媒体报道，当时首家绿茶餐厅还创下了单日14次的翻台纪录。
+`;
+
+    const workflowInstance = await this.env.SHORTVIDEO_WORKFLOW.create({
       id: generateId(),
       params: {
-        aaa: "bbb",
+        prompt: exampleCase,
       },
     });
+    this.log("workflowInstance", workflowInstance.id);
   }
 
   /**

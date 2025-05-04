@@ -105,21 +105,13 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
       const inputValue = (e.target as HTMLInputElement).value;
       if (inputValue.startsWith("/test1")) {
         setInput("");
-      } else if (inputValue.startsWith("/test2")) {
+      } else if (inputValue.startsWith("/")) {
+        // 调试: 直接发送事件
         setInput("");
         agent.send(
           JSON.stringify({
-            type: "event_test2",
-            data: {
-              message: "test2",
-            },
-          }),
-        );
-      } else if (inputValue.startsWith("/test3")) {
-        setInput("");
-        agent.send(
-          JSON.stringify({
-            type: "event_test3",
+            type: inputValue.slice(1),
+            data: {},
           }),
         );
       } else {

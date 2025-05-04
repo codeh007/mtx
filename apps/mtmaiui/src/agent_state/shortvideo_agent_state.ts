@@ -7,10 +7,17 @@ export type ShortVideoAgentState = {
   video_subject: string;
 };
 
-export type ShortVideoInMessage = ShortVideoTopicMessage;
+export type ShortVideoInMessage = ShortVideoTopicMessage | ShortVideoRunWorkflowMessage;
 
 export type ShortVideoTopicMessage = {
   type: "shortvideo_topic";
+  data: {
+    topic: string;
+  };
+};
+
+export type ShortVideoRunWorkflowMessage = {
+  type: "run_workflow_shortvideo";
   data: {
     topic: string;
   };
