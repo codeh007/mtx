@@ -59,15 +59,15 @@ ${prompt}
       }
     });
 
-    if (!videoSubjectObj.error) {
-    }
+    // if (!videoSubjectObj.error) {
+    // }
     // Step 2: 生成视频文案
     const videoScriptObj = await step.do("generate video script", async () => {
       try {
         const videoScriptPrompt = `# Role: Video Script Generator
 
 ## Goals:
-Generate a script for a video, depending on the subject of the video.
+Generate a script for a video, depending on the subject of the video and the user's input.
 
 ## Constrains:
 1. the script is to be returned as a string with the specified number of paragraphs.
@@ -82,9 +82,13 @@ Generate a script for a video, depending on the subject of the video.
 # Initialization:
 - number of paragraphs: ${paragraph_number}
 
-user input: 
+<userInput>
+${prompt}
+</userInput>
 
+<videoSubject>
 ${videoSubjectObj}
+</videoSubject>
 `;
         const { text } = await generateText({
           model,
