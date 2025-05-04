@@ -73,7 +73,7 @@ Input to parse: "${event.input}"`,
     //        1: 通过 api 运行远程任务.
     //        2:
     //
-    console.log("on Task", payload, schedule);
+    // console.log("on Task", payload, schedule);
 
     // 广播任务信息, 这样,所有在同一个 房间的客户端都可以接收到信息,从而可以自主运行实际的任务.
     this.broadcast(

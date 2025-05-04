@@ -1,4 +1,3 @@
-import type { OutgoingMessage } from "http";
 import type { Connection, ConnectionContext, Schedule } from "agents";
 import { unstable_getSchedulePrompt, unstable_scheduleSchema } from "agents/schedule";
 import {
@@ -17,7 +16,6 @@ import type {
 import { getDefaultModel } from "../../components/cloudflare-agents/model";
 import { ChatAgentBase } from "../ChatAgentBase";
 import { tools } from "../tools";
-import { convertScheduleToScheduledItem } from "../utils";
 
 const mcpServerUrl = "https://colab-7860.yuepa8.com/sse";
 
@@ -40,12 +38,11 @@ export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
       case "shortvideo_topic":
         console.log("shortvideo_topic", event);
         break;
-      case "reset":
-        await this.onReset();
-        break;
       case "event_test2":
-        this.log("on event_test2");
         await this.onTest2(connection);
+        break;
+      case "event_test3":
+        await this.onTest3(connection);
         break;
       default:
         return super.onMessage(connection, message);
@@ -164,7 +161,8 @@ export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
     // this.log("response", response.text);
   }
   async onTest2(connection: Connection) {
-    const userInput = "请在5分钟后, 生成一个视频, 视频的主题是: 如何使用llm 生成一个视频";
+    this.log("onTest2 启动");
+    const userInput = "请在10秒后, 生成一个视频, 视频的主题是: 如何使用llm 生成一个视频";
     const model = getDefaultModel(this.env);
     //步骤1: 通过llm 生成计划任务数据
     const result = await generateObject({
@@ -181,12 +179,7 @@ Input to parse: "${userInput}"`,
     });
     const { when, description } = result.object;
     if (when.type === "no-schedule") {
-      connection.send(
-        JSON.stringify({
-          type: "error",
-          data: `No schedule provided for ${userInput}`,
-        } satisfies OutgoingMessage),
-      );
+      this.notifyError(`No schedule provided for ${userInput}`, connection);
       return;
     }
 
@@ -202,20 +195,27 @@ Input to parse: "${userInput}"`,
     );
 
     //通知客户端
-    connection.send(
-      JSON.stringify({
-        type: "schedule",
-        data: convertScheduleToScheduledItem(schedule),
-      }),
-    );
+    this.notifySchedule(schedule, connection);
   }
+
+  async onTest3(connection: Connection) {
+    this.log("onTest3 启动");
+    // schedule a task to run every 10 seconds
+    const { id } = await this.schedule("*/10 * * * *", "someTask", { message: "hello" });
+  }
+
+  async someTask(params: { message: string }) {
+    this.log("someTask启动", params);
+  }
+
   /**
    * 实际的任务调度
    * @param payload
    * @param schedule
    */
   async onTask(payload: unknown, schedule: Schedule<string>) {
-    this.notifySchedule(schedule);
+    // this.notifySchedule(schedule);
+    this.notifyRunSchedule(schedule);
   }
 
   async onReset() {

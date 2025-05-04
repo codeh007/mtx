@@ -36,12 +36,41 @@ export class ChatAgentBase<Env = unknown, State = unknown> extends AIChatAgent<E
     this.log(`(handleException): ${error}`);
   }
 
-  notifySchedule(schedule: Schedule<string>) {
-    this.broadcast(
-      JSON.stringify({
-        type: "schedule",
-        data: convertScheduleToScheduledItem(schedule),
-      }),
-    );
+  notifySchedule(schedule: Schedule<string>, connection: Connection | undefined = undefined) {
+    const message = JSON.stringify({
+      type: "schedule",
+      data: convertScheduleToScheduledItem(schedule),
+    });
+    if (connection) {
+      connection.send(message);
+    } else {
+      this.broadcast(message);
+    }
+  }
+
+  // 通过广播通知所有 参与者, 现在立即执行任务
+  notifyRunSchedule(schedule: Schedule<string>) {
+    const message = JSON.stringify({
+      type: "runSchedule",
+      data: convertScheduleToScheduledItem(schedule),
+    });
+
+    // if (connection) {
+    //   connection.send(message);
+    // } else {
+    this.broadcast(message);
+    // }
+  }
+
+  notifyError(error: unknown, connection: Connection | undefined = undefined) {
+    const message = JSON.stringify({
+      type: "error",
+      data: error,
+    });
+    if (connection) {
+      connection.send(message);
+    } else {
+      this.broadcast(message);
+    }
   }
 }

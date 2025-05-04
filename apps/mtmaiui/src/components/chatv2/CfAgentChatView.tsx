@@ -9,6 +9,7 @@ import { Button } from "mtxuilib/ui/button";
 import { Card } from "mtxuilib/ui/card";
 import { Switch } from "mtxuilib/ui/switch";
 import { BetterTooltip } from "mtxuilib/ui/tooltip";
+import { useToast } from "mtxuilib/ui/use-toast";
 import { useState } from "react";
 import type { ChatAgentOutgoingMessage } from "../../agent_state/chat_agent_state";
 import type { RootAgentState } from "../../agent_state/root_agent_state";
@@ -29,6 +30,8 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
   const [rootState, setRootState] = useState<RootAgentState>();
   const [showDebug, setShowDebug] = useState(false);
   const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
+
+  const toast = useToast();
 
   const agent = useAgent<RootAgentState>({
     agent: agentName,
@@ -53,13 +56,25 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
           // 对话消息
           break;
         case "runSchedule":
-          console.log("run schedule(TODO)", parsedMessage);
+          console.log("收到 任务调度信息", parsedMessage);
+          toast.toast({
+            title: "任务调度",
+            description: (
+              <pre className="text-xs">{JSON.stringify(parsedMessage.data, null, 2)}</pre>
+            ),
+          });
           break;
         case "log":
           console.log(`%c ${parsedMessage.data.message}`, "color: blue; font-size: 11px");
           break;
         case "schedule":
-          console.log("schedule(TODO)", parsedMessage);
+          console.log("收到 任务计划信息", parsedMessage);
+          toast.toast({
+            title: "Schedule",
+            description: (
+              <pre className="text-xs">{JSON.stringify(parsedMessage.data, null, 2)}</pre>
+            ),
+          });
           break;
         default:
           console.log(`onMessage: 未知消息: ${parsedMessage?.type}`, message);
@@ -110,6 +125,13 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
             data: {
               message: "test2",
             },
+          }),
+        );
+      } else if (inputValue.startsWith("/test3")) {
+        setInput("");
+        agent.send(
+          JSON.stringify({
+            type: "event_test3",
           }),
         );
       } else {
