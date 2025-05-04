@@ -45,18 +45,47 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
     onMessage: (message) => {
       const parsedMessage = JSON.parse(message.data) as ChatAgentOutgoingMessage;
       // console.log("(chat)onMessage", parsedMessage);
-      if (parsedMessage.type === "runSchedule") {
-        console.log("run schedule(TODO)", parsedMessage);
-      } else if (parsedMessage?.type === "log") {
-        console.log(
-          `%c Log: ${parsedMessage.data.message}`,
-          "color: red; font-weight: bold; font-size: 14px",
-        );
-      } else if (parsedMessage?.type === "schedule") {
-        console.log("schedule(TODO)", parsedMessage);
-      } else {
-        console.log("chat onMessage: 未知消息", message);
+      const messageType = parsedMessage?.type;
+      switch (messageType) {
+        //@ts-expect-error
+        case "cf_agent_use_chat_response":
+          // 普通对话响应
+          break;
+        //@ts-expect-error
+        case "cf_agent_chat_clear":
+          // 清空对话
+          break;
+        case "runSchedule":
+          console.log("run schedule(TODO)", parsedMessage);
+          break;
+        case "log":
+          console.log(
+            `%c Log: ${parsedMessage.data.message}`,
+            "color: red; font-weight: bold; font-size: 14px",
+          );
+          break;
+        case "schedule":
+          console.log("schedule(TODO)", parsedMessage);
+          break;
+        default:
+          console.log(`onMessage: 未知消息: ${parsedMessage?.type}`, message);
+          break;
       }
+      // if (parsedMessage.type === "runSchedule") {
+      //   console.log("run schedule(TODO)", parsedMessage);
+      //   //@ts-expect-error
+      // } else if (parsedMessage?.type === "cf_agent_use_chat_response") {
+      //   // 普通对话响应
+      // } else if (parsedMessage?.type === "log") {
+      //   console.log(
+      //     `%c Log: ${parsedMessage.data.message}`,
+      //     "color: red; font-weight: bold; font-size: 14px",
+      //   );
+      // } else if (parsedMessage?.type === "schedule") {
+      //   console.log("schedule(TODO)", parsedMessage);
+      // } else {
+      //   console.log(`chat onMessage: 未知消息: ${parsedMessage?.type}`, message);
+      // }
     },
   });
 
