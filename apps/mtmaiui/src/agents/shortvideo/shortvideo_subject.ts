@@ -1,7 +1,7 @@
 /**
  * 短视频文案生成
  */
-
+import { type LanguageModelV1, generateText } from "ai";
 const shortvideo_prompt = `
 # Role: Video Subject Generator
 
@@ -14,8 +14,10 @@ Generate a subject for a video, depending on the user's input.
 
 `;
 
-export const generateShortvideoSubject = async (input: string) => {
-  const response = await fetch(input);
-  const data = await response.json();
-  return data;
+export const generateShortvideoSubject = async (input: string, model: LanguageModelV1) => {
+  const response = await generateText({
+    model: model,
+    messages: [{ role: "system", content: input }],
+  });
+  return response.text;
 };

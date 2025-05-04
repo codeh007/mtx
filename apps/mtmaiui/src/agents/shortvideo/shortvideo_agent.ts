@@ -9,63 +9,22 @@ import { experimental_createMCPClient, generateText } from "ai";
 import type {
   ShortVideoAgentState,
   ShortVideoInMessage,
-} from "../agent_state/shortvideo_agent_state";
-import { getDefaultModel } from "../components/cloudflare-agents/model";
-import { ChatAgentBase } from "./ChatAgentBase";
-import { tools } from "./tools";
+} from "../../agent_state/shortvideo_agent_state";
+import { getDefaultModel } from "../../components/cloudflare-agents/model";
+import { ChatAgentBase } from "../ChatAgentBase";
+import { tools } from "../tools";
 
 const mcpServerUrl = "https://colab-7860.yuepa8.com/sse";
 
 export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
-  // mcpClientManager = new MCPClientManager("mcp-clients", "1.0.0");
   initialState = {
     mtmai_api_endpoint: mcpServerUrl,
     video_subject: "",
   } satisfies ShortVideoAgentState;
 
-  // mcpClient: Awaited<ReturnType<typeof experimental_createMCPClient>> | undefined;
-  // async getMcpClient() {
-  //   this.log("getMcpClient");
-  //   if (!this.mcpClient) {
-  //     try {
-  //       this.mcpClient = await experimental_createMCPClient({
-  //         transport: {
-  //           type: "sse",
-  //           url: mcpServerUrl,
-  //         },
-  //       });
-  //     } catch (error) {
-  //       this.handleException(error);
-  //     }
-  //   }
-  //   await this.mcpClient?.init();
-  //   return this.mcpClient;
-  // }
-
-  // async getMcpTools() {
-  //   this.log("getMcpTools");
-  //   const mcpClient = await this.getMcpClient();
-  //   return mcpClient?.tools();
-  // }
-
-  // async closeMcpClient() {
-  //   const mcpClient = await this.getMcpClient();
-  //   await mcpClient?.close();
-  //   this.mcpClient = undefined;
-  //   this.log("mcpClient closed");
-  // }
-
-  onStart(): void | Promise<void> {
-    // this.mcp
-  }
-  onConnect(connection: Connection, ctx: ConnectionContext) {
-    // const auth = ctx.request.headers.get("authorization");
-    // console.log("auth", auth);
-  }
-
-  onClose(connection: Connection) {
-    console.log("root ag disconnected:", connection.id);
-  }
+  onStart(): void | Promise<void> {}
+  onConnect(connection: Connection, ctx: ConnectionContext) {}
+  onClose(connection: Connection) {}
 
   async onMessage(connection: Connection, message: string): Promise<void> {
     const event = JSON.parse(message) as ShortVideoInMessage;
@@ -97,6 +56,7 @@ export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
         this.log("onChatMessage");
         await mcpClient.init();
         const mcptools = await mcpClient.tools();
+
         const dataStreamResponse = createDataStreamResponse({
           execute: async (dataStream) => {
             const result = streamText({

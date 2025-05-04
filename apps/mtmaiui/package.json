@@ -30,7 +30,7 @@
     "deploy": "npm run pages:build && wrangler pages deploy",
     "deploy:worker": "bun run withEnv -- vite build && wrangler deploy --keep-vars",
     "deploy:worker:server": "bun run withEnv -- wrangler deploy --keep-vars",
-    "cf-typegen": "wrangler types --path ./src/types/worker-configuration.d.ts",
+    "typegen": "wrangler types --path ./src/types/worker-configuration.d.ts",
     "dev:wrangler": "wrangler dev",
     "mcp-inspector": "npx @modelcontextprotocol/inspector",
     "agents:coder": "bun run withEnv -- bun run src/agents/coder/index.ts",
