@@ -1,3 +1,4 @@
+import type { OutgoingMessage } from "http";
 import type { Connection, ConnectionContext } from "agents";
 import {
   type StreamTextOnFinishCallback,
@@ -6,6 +7,7 @@ import {
   streamText,
 } from "ai";
 import { experimental_createMCPClient, generateText } from "ai";
+import { connection } from "next/server";
 import type {
   ShortVideoAgentState,
   ShortVideoInMessage,
@@ -13,6 +15,7 @@ import type {
 import { getDefaultModel } from "../../components/cloudflare-agents/model";
 import { ChatAgentBase } from "../ChatAgentBase";
 import { tools } from "../tools";
+import { convertScheduleToScheduledItem } from "../utils";
 
 const mcpServerUrl = "https://colab-7860.yuepa8.com/sse";
 
@@ -52,6 +55,8 @@ export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
       const userInput = lastestMessage?.content;
       if (userInput?.startsWith("/test1")) {
         await this.onTest1();
+      } else if (userInput?.startsWith("/test2")) {
+        await this.onTest2();
       } else {
         this.log("onChatMessage");
         await mcpClient.init();
@@ -137,5 +142,14 @@ export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
     //   prompt: `立即调用 "greet" 工具, 传入参数:"你好"`,
     // });
     // this.log("response", response.text);
+  }
+  onTest2() {
+    //通知客户端
+    connection.send(
+      JSON.stringify({
+        type: "schedule",
+        data: convertScheduleToScheduledItem(schedule),
+      } satisfies OutgoingMessage),
+    );
   }
 }

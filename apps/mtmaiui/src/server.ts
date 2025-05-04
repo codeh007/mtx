@@ -18,7 +18,11 @@ export {
   DemoMcpServer,
   ShortVideoAg,
 };
+
+// 工作流
 export { PromptChainingWorkflow } from "./workflows/prompt-chaining-workflow";
+export { ShortVideoWorkflow } from "./workflows/shortvideo-workflow";
+export { D1DbBackupWorkflow } from "./workflows/d1db-backup-workflow";
 
 export default {
   fetch: app.fetch,
