@@ -14,15 +14,9 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/~__root'
 import { Route as IndexImport } from './routes/~index'
-import { Route as SiteSiteIdRouteImport } from './routes/~site/~$siteId/~route'
 import { Route as EnvsCreateImport } from './routes/~envs/~create'
-import { Route as SiteIndexImport } from './routes/~site/~index'
 import { Route as PlatformIndexImport } from './routes/~platform/~index'
 import { Route as SiteSiteIdHostRouteImport } from './routes/~site/~$siteId/~host/~route'
-import { Route as SiteSiteIdEditImport } from './routes/~site/~$siteId/~edit'
-import { Route as SiteCreateIndexImport } from './routes/~site/~create/~index'
-import { Route as SiteSiteIdIndexImport } from './routes/~site/~$siteId/~index'
-import { Route as OnboardingCreateTenantIndexImport } from './routes/~onboarding/~create-tenant/~index'
 import { Route as ComsComIdTypeModelClientImport } from './routes/~coms/~$comId/~type/~modelClient'
 import { Route as ComsComIdComponenteditorSmolaAgentImport } from './routes/~coms/~$comId/~component_editor/~SmolaAgent'
 import { Route as ComsComIdComponenteditorMtOpenAIChatCompletionClientImport } from './routes/~coms/~$comId/~component_editor/~MtOpenAIChatCompletionClient'
@@ -36,14 +30,12 @@ const WorkflowsRouteLazyImport = createFileRoute('/workflows')()
 const WorkflowRunsRouteLazyImport = createFileRoute('/workflow-runs')()
 const TkRouteLazyImport = createFileRoute('/tk')()
 const TenantRouteLazyImport = createFileRoute('/tenant')()
-const SiteRouteLazyImport = createFileRoute('/site')()
 const ScheduledRunsRouteLazyImport = createFileRoute('/scheduled-runs')()
 const ResourceRouteLazyImport = createFileRoute('/resource')()
 const RecurringRouteLazyImport = createFileRoute('/recurring')()
 const ProxyRouteLazyImport = createFileRoute('/proxy')()
 const PlatformAccountRouteLazyImport = createFileRoute('/platform-account')()
 const PlatformRouteLazyImport = createFileRoute('/platform')()
-const ModelRouteLazyImport = createFileRoute('/model')()
 const EventsRouteLazyImport = createFileRoute('/events')()
 const EnvsRouteLazyImport = createFileRoute('/envs')()
 const BrowserRouteLazyImport = createFileRoute('/browser')()
@@ -69,8 +61,6 @@ const PlatformAccountNewRouteLazyImport = createFileRoute(
 const PlatformAccountPlatformAccountIdRouteLazyImport = createFileRoute(
   '/platform-account/$platformAccountId',
 )()
-const ModelNewRouteLazyImport = createFileRoute('/model/new')()
-const ModelModelIdRouteLazyImport = createFileRoute('/model/$modelId')()
 const AuthRegisterLazyImport = createFileRoute('/auth/register')()
 const AuthLoginRouteLazyImport = createFileRoute('/auth/login')()
 const AdkSessionRouteLazyImport = createFileRoute('/adk/session')()
@@ -83,7 +73,6 @@ const ResourceIndexLazyImport = createFileRoute('/resource/')()
 const RecurringIndexLazyImport = createFileRoute('/recurring/')()
 const ProxyIndexLazyImport = createFileRoute('/proxy/')()
 const PlatformAccountIndexLazyImport = createFileRoute('/platform-account/')()
-const ModelIndexLazyImport = createFileRoute('/model/')()
 const EventsIndexLazyImport = createFileRoute('/events/')()
 const EnvsIndexLazyImport = createFileRoute('/envs/')()
 const BrowserIndexLazyImport = createFileRoute('/browser/')()
@@ -157,8 +146,6 @@ const PlatformAccountNewIndexLazyImport = createFileRoute(
 const PlatformAccountPlatformAccountIdIndexLazyImport = createFileRoute(
   '/platform-account/$platformAccountId/',
 )()
-const ModelNewIndexLazyImport = createFileRoute('/model/new/')()
-const ModelModelIdIndexLazyImport = createFileRoute('/model/$modelId/')()
 const AuthLoginIndexLazyImport = createFileRoute('/auth/login/')()
 const AdkSessionIndexLazyImport = createFileRoute('/adk/session/')()
 const WorkflowsWorkflowIdTriggerTestteamRouteLazyImport = createFileRoute(
@@ -351,12 +338,6 @@ const TenantRouteLazyRoute = TenantRouteLazyImport.update({
   import('./routes/~tenant/~route.lazy').then((d) => d.Route),
 )
 
-const SiteRouteLazyRoute = SiteRouteLazyImport.update({
-  id: '/site',
-  path: '/site',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/~site/~route.lazy').then((d) => d.Route))
-
 const ScheduledRunsRouteLazyRoute = ScheduledRunsRouteLazyImport.update({
   id: '/scheduled-runs',
   path: '/scheduled-runs',
@@ -402,12 +383,6 @@ const PlatformRouteLazyRoute = PlatformRouteLazyImport.update({
 } as any).lazy(() =>
   import('./routes/~platform/~route.lazy').then((d) => d.Route),
 )
-
-const ModelRouteLazyRoute = ModelRouteLazyImport.update({
-  id: '/model',
-  path: '/model',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/~model/~route.lazy').then((d) => d.Route))
 
 const EventsRouteLazyRoute = EventsRouteLazyImport.update({
   id: '/events',
@@ -542,22 +517,6 @@ const PlatformAccountPlatformAccountIdRouteLazyRoute =
     ),
   )
 
-const ModelNewRouteLazyRoute = ModelNewRouteLazyImport.update({
-  id: '/new',
-  path: '/new',
-  getParentRoute: () => ModelRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~model/~new/~route.lazy').then((d) => d.Route),
-)
-
-const ModelModelIdRouteLazyRoute = ModelModelIdRouteLazyImport.update({
-  id: '/$modelId',
-  path: '/$modelId',
-  getParentRoute: () => ModelRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~model/~$modelId/~route.lazy').then((d) => d.Route),
-)
-
 const AuthRegisterLazyRoute = AuthRegisterLazyImport.update({
   id: '/register',
   path: '/register',
@@ -650,12 +609,6 @@ const PlatformAccountIndexLazyRoute = PlatformAccountIndexLazyImport.update({
   import('./routes/~platform-account/~index.lazy').then((d) => d.Route),
 )
 
-const ModelIndexLazyRoute = ModelIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ModelRouteLazyRoute,
-} as any).lazy(() => import('./routes/~model/~index.lazy').then((d) => d.Route))
-
 const EventsIndexLazyRoute = EventsIndexLazyImport.update({
   id: '/',
   path: '/',
@@ -686,22 +639,10 @@ const AgentsIndexLazyRoute = AgentsIndexLazyImport.update({
   import('./routes/~agents/~index.lazy').then((d) => d.Route),
 )
 
-const SiteSiteIdRouteRoute = SiteSiteIdRouteImport.update({
-  id: '/$siteId',
-  path: '/$siteId',
-  getParentRoute: () => SiteRouteLazyRoute,
-} as any)
-
 const EnvsCreateRoute = EnvsCreateImport.update({
   id: '/create',
   path: '/create',
   getParentRoute: () => EnvsRouteLazyRoute,
-} as any)
-
-const SiteIndexRoute = SiteIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => SiteRouteLazyRoute,
 } as any)
 
 const PlatformIndexRoute = PlatformIndexImport.update({
@@ -984,22 +925,6 @@ const PlatformAccountPlatformAccountIdIndexLazyRoute =
     ),
   )
 
-const ModelNewIndexLazyRoute = ModelNewIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ModelNewRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~model/~new/~index.lazy').then((d) => d.Route),
-)
-
-const ModelModelIdIndexLazyRoute = ModelModelIdIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ModelModelIdRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~model/~$modelId/~index.lazy').then((d) => d.Route),
-)
-
 const AuthLoginIndexLazyRoute = AuthLoginIndexLazyImport.update({
   id: '/',
   path: '/',
@@ -1017,35 +942,10 @@ const AdkSessionIndexLazyRoute = AdkSessionIndexLazyImport.update({
 )
 
 const SiteSiteIdHostRouteRoute = SiteSiteIdHostRouteImport.update({
-  id: '/host',
-  path: '/host',
-  getParentRoute: () => SiteSiteIdRouteRoute,
+  id: '/site/$siteId/host',
+  path: '/site/$siteId/host',
+  getParentRoute: () => rootRoute,
 } as any)
-
-const SiteSiteIdEditRoute = SiteSiteIdEditImport.update({
-  id: '/edit',
-  path: '/edit',
-  getParentRoute: () => SiteSiteIdRouteRoute,
-} as any)
-
-const SiteCreateIndexRoute = SiteCreateIndexImport.update({
-  id: '/create/',
-  path: '/create/',
-  getParentRoute: () => SiteRouteLazyRoute,
-} as any)
-
-const SiteSiteIdIndexRoute = SiteSiteIdIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => SiteSiteIdRouteRoute,
-} as any)
-
-const OnboardingCreateTenantIndexRoute =
-  OnboardingCreateTenantIndexImport.update({
-    id: '/onboarding/create-tenant/',
-    path: '/onboarding/create-tenant/',
-    getParentRoute: () => rootRoute,
-  } as any)
 
 const WorkflowsWorkflowIdTriggerTestteamRouteLazyRoute =
   WorkflowsWorkflowIdTriggerTestteamRouteLazyImport.update({
@@ -1727,13 +1627,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsRouteLazyImport
       parentRoute: typeof rootRoute
     }
-    '/model': {
-      id: '/model'
-      path: '/model'
-      fullPath: '/model'
-      preLoaderRoute: typeof ModelRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/platform': {
       id: '/platform'
       path: '/platform'
@@ -1776,13 +1669,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScheduledRunsRouteLazyImport
       parentRoute: typeof rootRoute
     }
-    '/site': {
-      id: '/site'
-      path: '/site'
-      fullPath: '/site'
-      preLoaderRoute: typeof SiteRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/tenant': {
       id: '/tenant'
       path: '/tenant'
@@ -1818,26 +1704,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlatformIndexImport
       parentRoute: typeof PlatformRouteLazyImport
     }
-    '/site/': {
-      id: '/site/'
-      path: '/'
-      fullPath: '/site/'
-      preLoaderRoute: typeof SiteIndexImport
-      parentRoute: typeof SiteRouteLazyImport
-    }
     '/envs/create': {
       id: '/envs/create'
       path: '/create'
       fullPath: '/envs/create'
       preLoaderRoute: typeof EnvsCreateImport
       parentRoute: typeof EnvsRouteLazyImport
-    }
-    '/site/$siteId': {
-      id: '/site/$siteId'
-      path: '/$siteId'
-      fullPath: '/site/$siteId'
-      preLoaderRoute: typeof SiteSiteIdRouteImport
-      parentRoute: typeof SiteRouteLazyImport
     }
     '/agents/': {
       id: '/agents/'
@@ -1866,13 +1738,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/events/'
       preLoaderRoute: typeof EventsIndexLazyImport
       parentRoute: typeof EventsRouteLazyImport
-    }
-    '/model/': {
-      id: '/model/'
-      path: '/'
-      fullPath: '/model/'
-      preLoaderRoute: typeof ModelIndexLazyImport
-      parentRoute: typeof ModelRouteLazyImport
     }
     '/platform-account/': {
       id: '/platform-account/'
@@ -1958,20 +1823,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRegisterLazyImport
       parentRoute: typeof AuthRouteLazyImport
     }
-    '/model/$modelId': {
-      id: '/model/$modelId'
-      path: '/$modelId'
-      fullPath: '/model/$modelId'
-      preLoaderRoute: typeof ModelModelIdRouteLazyImport
-      parentRoute: typeof ModelRouteLazyImport
-    }
-    '/model/new': {
-      id: '/model/new'
-      path: '/new'
-      fullPath: '/model/new'
-      preLoaderRoute: typeof ModelNewRouteLazyImport
-      parentRoute: typeof ModelRouteLazyImport
-    }
     '/platform-account/$platformAccountId': {
       id: '/platform-account/$platformAccountId'
       path: '/$platformAccountId'
@@ -2042,40 +1893,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkflowsWorkflowIdRouteLazyImport
       parentRoute: typeof WorkflowsRouteLazyImport
     }
-    '/onboarding/create-tenant/': {
-      id: '/onboarding/create-tenant/'
-      path: '/onboarding/create-tenant'
-      fullPath: '/onboarding/create-tenant'
-      preLoaderRoute: typeof OnboardingCreateTenantIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/site/$siteId/': {
-      id: '/site/$siteId/'
-      path: '/'
-      fullPath: '/site/$siteId/'
-      preLoaderRoute: typeof SiteSiteIdIndexImport
-      parentRoute: typeof SiteSiteIdRouteImport
-    }
-    '/site/create/': {
-      id: '/site/create/'
-      path: '/create'
-      fullPath: '/site/create'
-      preLoaderRoute: typeof SiteCreateIndexImport
-      parentRoute: typeof SiteRouteLazyImport
-    }
-    '/site/$siteId/edit': {
-      id: '/site/$siteId/edit'
-      path: '/edit'
-      fullPath: '/site/$siteId/edit'
-      preLoaderRoute: typeof SiteSiteIdEditImport
-      parentRoute: typeof SiteSiteIdRouteImport
-    }
     '/site/$siteId/host': {
       id: '/site/$siteId/host'
-      path: '/host'
+      path: '/site/$siteId/host'
       fullPath: '/site/$siteId/host'
       preLoaderRoute: typeof SiteSiteIdHostRouteImport
-      parentRoute: typeof SiteSiteIdRouteImport
+      parentRoute: typeof rootRoute
     }
     '/adk/session/': {
       id: '/adk/session/'
@@ -2090,20 +1913,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/auth/login/'
       preLoaderRoute: typeof AuthLoginIndexLazyImport
       parentRoute: typeof AuthLoginRouteLazyImport
-    }
-    '/model/$modelId/': {
-      id: '/model/$modelId/'
-      path: '/'
-      fullPath: '/model/$modelId/'
-      preLoaderRoute: typeof ModelModelIdIndexLazyImport
-      parentRoute: typeof ModelModelIdRouteLazyImport
-    }
-    '/model/new/': {
-      id: '/model/new/'
-      path: '/'
-      fullPath: '/model/new/'
-      preLoaderRoute: typeof ModelNewIndexLazyImport
-      parentRoute: typeof ModelNewRouteLazyImport
     }
     '/platform-account/$platformAccountId/': {
       id: '/platform-account/$platformAccountId/'
@@ -2871,46 +2680,6 @@ const EventsRouteLazyRouteWithChildren = EventsRouteLazyRoute._addFileChildren(
   EventsRouteLazyRouteChildren,
 )
 
-interface ModelModelIdRouteLazyRouteChildren {
-  ModelModelIdIndexLazyRoute: typeof ModelModelIdIndexLazyRoute
-}
-
-const ModelModelIdRouteLazyRouteChildren: ModelModelIdRouteLazyRouteChildren = {
-  ModelModelIdIndexLazyRoute: ModelModelIdIndexLazyRoute,
-}
-
-const ModelModelIdRouteLazyRouteWithChildren =
-  ModelModelIdRouteLazyRoute._addFileChildren(
-    ModelModelIdRouteLazyRouteChildren,
-  )
-
-interface ModelNewRouteLazyRouteChildren {
-  ModelNewIndexLazyRoute: typeof ModelNewIndexLazyRoute
-}
-
-const ModelNewRouteLazyRouteChildren: ModelNewRouteLazyRouteChildren = {
-  ModelNewIndexLazyRoute: ModelNewIndexLazyRoute,
-}
-
-const ModelNewRouteLazyRouteWithChildren =
-  ModelNewRouteLazyRoute._addFileChildren(ModelNewRouteLazyRouteChildren)
-
-interface ModelRouteLazyRouteChildren {
-  ModelIndexLazyRoute: typeof ModelIndexLazyRoute
-  ModelModelIdRouteLazyRoute: typeof ModelModelIdRouteLazyRouteWithChildren
-  ModelNewRouteLazyRoute: typeof ModelNewRouteLazyRouteWithChildren
-}
-
-const ModelRouteLazyRouteChildren: ModelRouteLazyRouteChildren = {
-  ModelIndexLazyRoute: ModelIndexLazyRoute,
-  ModelModelIdRouteLazyRoute: ModelModelIdRouteLazyRouteWithChildren,
-  ModelNewRouteLazyRoute: ModelNewRouteLazyRouteWithChildren,
-}
-
-const ModelRouteLazyRouteWithChildren = ModelRouteLazyRoute._addFileChildren(
-  ModelRouteLazyRouteChildren,
-)
-
 interface PlatformRouteLazyRouteChildren {
   PlatformIndexRoute: typeof PlatformIndexRoute
 }
@@ -3138,49 +2907,6 @@ const ScheduledRunsRouteLazyRouteWithChildren =
   ScheduledRunsRouteLazyRoute._addFileChildren(
     ScheduledRunsRouteLazyRouteChildren,
   )
-
-interface SiteSiteIdHostRouteRouteChildren {
-  SiteSiteIdHostIndexRoute: typeof SiteSiteIdHostIndexRoute
-}
-
-const SiteSiteIdHostRouteRouteChildren: SiteSiteIdHostRouteRouteChildren = {
-  SiteSiteIdHostIndexRoute: SiteSiteIdHostIndexRoute,
-}
-
-const SiteSiteIdHostRouteRouteWithChildren =
-  SiteSiteIdHostRouteRoute._addFileChildren(SiteSiteIdHostRouteRouteChildren)
-
-interface SiteSiteIdRouteRouteChildren {
-  SiteSiteIdIndexRoute: typeof SiteSiteIdIndexRoute
-  SiteSiteIdEditRoute: typeof SiteSiteIdEditRoute
-  SiteSiteIdHostRouteRoute: typeof SiteSiteIdHostRouteRouteWithChildren
-}
-
-const SiteSiteIdRouteRouteChildren: SiteSiteIdRouteRouteChildren = {
-  SiteSiteIdIndexRoute: SiteSiteIdIndexRoute,
-  SiteSiteIdEditRoute: SiteSiteIdEditRoute,
-  SiteSiteIdHostRouteRoute: SiteSiteIdHostRouteRouteWithChildren,
-}
-
-const SiteSiteIdRouteRouteWithChildren = SiteSiteIdRouteRoute._addFileChildren(
-  SiteSiteIdRouteRouteChildren,
-)
-
-interface SiteRouteLazyRouteChildren {
-  SiteIndexRoute: typeof SiteIndexRoute
-  SiteSiteIdRouteRoute: typeof SiteSiteIdRouteRouteWithChildren
-  SiteCreateIndexRoute: typeof SiteCreateIndexRoute
-}
-
-const SiteRouteLazyRouteChildren: SiteRouteLazyRouteChildren = {
-  SiteIndexRoute: SiteIndexRoute,
-  SiteSiteIdRouteRoute: SiteSiteIdRouteRouteWithChildren,
-  SiteCreateIndexRoute: SiteCreateIndexRoute,
-}
-
-const SiteRouteLazyRouteWithChildren = SiteRouteLazyRoute._addFileChildren(
-  SiteRouteLazyRouteChildren,
-)
 
 interface TenantSettingsTenantSettingIdModelsettingsRouteLazyRouteChildren {
   TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute: typeof TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute
@@ -3676,6 +3402,17 @@ const SessionOldSessionIdRouteLazyRouteWithChildren =
     SessionOldSessionIdRouteLazyRouteChildren,
   )
 
+interface SiteSiteIdHostRouteRouteChildren {
+  SiteSiteIdHostIndexRoute: typeof SiteSiteIdHostIndexRoute
+}
+
+const SiteSiteIdHostRouteRouteChildren: SiteSiteIdHostRouteRouteChildren = {
+  SiteSiteIdHostIndexRoute: SiteSiteIdHostIndexRoute,
+}
+
+const SiteSiteIdHostRouteRouteWithChildren =
+  SiteSiteIdHostRouteRoute._addFileChildren(SiteSiteIdHostRouteRouteChildren)
+
 interface ComsComIdTypeRouteLazyRouteChildren {
   ComsComIdTypeModelClientRoute: typeof ComsComIdTypeModelClientRoute
   ComsComIdTypeAssisantLazyRoute: typeof ComsComIdTypeAssisantLazyRoute
@@ -3760,27 +3497,22 @@ export interface FileRoutesByFullPath {
   '/browser': typeof BrowserRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
   '/events': typeof EventsRouteLazyRouteWithChildren
-  '/model': typeof ModelRouteLazyRouteWithChildren
   '/platform': typeof PlatformRouteLazyRouteWithChildren
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
   '/proxy': typeof ProxyRouteLazyRouteWithChildren
   '/recurring': typeof RecurringRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
   '/scheduled-runs': typeof ScheduledRunsRouteLazyRouteWithChildren
-  '/site': typeof SiteRouteLazyRouteWithChildren
   '/tenant': typeof TenantRouteLazyRouteWithChildren
   '/tk': typeof TkRouteLazyRouteWithChildren
   '/workflow-runs': typeof WorkflowRunsRouteLazyRouteWithChildren
   '/workflows': typeof WorkflowsRouteLazyRouteWithChildren
   '/platform/': typeof PlatformIndexRoute
-  '/site/': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
-  '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
   '/agents/': typeof AgentsIndexLazyRoute
   '/browser/': typeof BrowserIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/events/': typeof EventsIndexLazyRoute
-  '/model/': typeof ModelIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/proxy/': typeof ProxyIndexLazyRoute
   '/recurring/': typeof RecurringIndexLazyRoute
@@ -3793,8 +3525,6 @@ export interface FileRoutesByFullPath {
   '/adk/session': typeof AdkSessionRouteLazyRouteWithChildren
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
   '/auth/register': typeof AuthRegisterLazyRoute
-  '/model/$modelId': typeof ModelModelIdRouteLazyRouteWithChildren
-  '/model/new': typeof ModelNewRouteLazyRouteWithChildren
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
   '/platform-account/new': typeof PlatformAccountNewRouteLazyRouteWithChildren
   '/proxy/$proxyId': typeof ProxyProxyIdRouteLazyRouteWithChildren
@@ -3805,15 +3535,9 @@ export interface FileRoutesByFullPath {
   '/tenant/settings': typeof TenantSettingsRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdRouteLazyRouteWithChildren
-  '/onboarding/create-tenant': typeof OnboardingCreateTenantIndexRoute
-  '/site/$siteId/': typeof SiteSiteIdIndexRoute
-  '/site/create': typeof SiteCreateIndexRoute
-  '/site/$siteId/edit': typeof SiteSiteIdEditRoute
   '/site/$siteId/host': typeof SiteSiteIdHostRouteRouteWithChildren
   '/adk/session/': typeof AdkSessionIndexLazyRoute
   '/auth/login/': typeof AuthLoginIndexLazyRoute
-  '/model/$modelId/': typeof ModelModelIdIndexLazyRoute
-  '/model/new/': typeof ModelNewIndexLazyRoute
   '/platform-account/$platformAccountId/': typeof PlatformAccountPlatformAccountIdIndexLazyRoute
   '/platform-account/new/': typeof PlatformAccountNewIndexLazyRoute
   '/proxy/$proxyId/': typeof ProxyProxyIdIndexLazyRoute
@@ -3908,13 +3632,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteLazyRouteWithChildren
   '/platform': typeof PlatformIndexRoute
-  '/site': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
   '/agents': typeof AgentsIndexLazyRoute
   '/browser': typeof BrowserIndexLazyRoute
   '/envs': typeof EnvsIndexLazyRoute
   '/events': typeof EventsIndexLazyRoute
-  '/model': typeof ModelIndexLazyRoute
   '/platform-account': typeof PlatformAccountIndexLazyRoute
   '/proxy': typeof ProxyIndexLazyRoute
   '/recurring': typeof RecurringIndexLazyRoute
@@ -3927,14 +3649,8 @@ export interface FileRoutesByTo {
   '/auth/register': typeof AuthRegisterLazyRoute
   '/proxy/new': typeof ProxyNewRouteLazyRoute
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
-  '/onboarding/create-tenant': typeof OnboardingCreateTenantIndexRoute
-  '/site/$siteId': typeof SiteSiteIdIndexRoute
-  '/site/create': typeof SiteCreateIndexRoute
-  '/site/$siteId/edit': typeof SiteSiteIdEditRoute
   '/adk/session': typeof AdkSessionIndexLazyRoute
   '/auth/login': typeof AuthLoginIndexLazyRoute
-  '/model/$modelId': typeof ModelModelIdIndexLazyRoute
-  '/model/new': typeof ModelNewIndexLazyRoute
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdIndexLazyRoute
   '/platform-account/new': typeof PlatformAccountNewIndexLazyRoute
   '/proxy/$proxyId': typeof ProxyProxyIdIndexLazyRoute
@@ -4002,27 +3718,22 @@ export interface FileRoutesById {
   '/browser': typeof BrowserRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
   '/events': typeof EventsRouteLazyRouteWithChildren
-  '/model': typeof ModelRouteLazyRouteWithChildren
   '/platform': typeof PlatformRouteLazyRouteWithChildren
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
   '/proxy': typeof ProxyRouteLazyRouteWithChildren
   '/recurring': typeof RecurringRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
   '/scheduled-runs': typeof ScheduledRunsRouteLazyRouteWithChildren
-  '/site': typeof SiteRouteLazyRouteWithChildren
   '/tenant': typeof TenantRouteLazyRouteWithChildren
   '/tk': typeof TkRouteLazyRouteWithChildren
   '/workflow-runs': typeof WorkflowRunsRouteLazyRouteWithChildren
   '/workflows': typeof WorkflowsRouteLazyRouteWithChildren
   '/platform/': typeof PlatformIndexRoute
-  '/site/': typeof SiteIndexRoute
   '/envs/create': typeof EnvsCreateRoute
-  '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
   '/agents/': typeof AgentsIndexLazyRoute
   '/browser/': typeof BrowserIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/events/': typeof EventsIndexLazyRoute
-  '/model/': typeof ModelIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/proxy/': typeof ProxyIndexLazyRoute
   '/recurring/': typeof RecurringIndexLazyRoute
@@ -4035,8 +3746,6 @@ export interface FileRoutesById {
   '/adk/session': typeof AdkSessionRouteLazyRouteWithChildren
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
   '/auth/register': typeof AuthRegisterLazyRoute
-  '/model/$modelId': typeof ModelModelIdRouteLazyRouteWithChildren
-  '/model/new': typeof ModelNewRouteLazyRouteWithChildren
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdRouteLazyRouteWithChildren
   '/platform-account/new': typeof PlatformAccountNewRouteLazyRouteWithChildren
   '/proxy/$proxyId': typeof ProxyProxyIdRouteLazyRouteWithChildren
@@ -4047,15 +3756,9 @@ export interface FileRoutesById {
   '/tenant/settings': typeof TenantSettingsRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdRouteLazyRouteWithChildren
-  '/onboarding/create-tenant/': typeof OnboardingCreateTenantIndexRoute
-  '/site/$siteId/': typeof SiteSiteIdIndexRoute
-  '/site/create/': typeof SiteCreateIndexRoute
-  '/site/$siteId/edit': typeof SiteSiteIdEditRoute
   '/site/$siteId/host': typeof SiteSiteIdHostRouteRouteWithChildren
   '/adk/session/': typeof AdkSessionIndexLazyRoute
   '/auth/login/': typeof AuthLoginIndexLazyRoute
-  '/model/$modelId/': typeof ModelModelIdIndexLazyRoute
-  '/model/new/': typeof ModelNewIndexLazyRoute
   '/platform-account/$platformAccountId/': typeof PlatformAccountPlatformAccountIdIndexLazyRoute
   '/platform-account/new/': typeof PlatformAccountNewIndexLazyRoute
   '/proxy/$proxyId/': typeof ProxyProxyIdIndexLazyRoute
@@ -4155,27 +3858,22 @@ export interface FileRouteTypes {
     | '/browser'
     | '/envs'
     | '/events'
-    | '/model'
     | '/platform'
     | '/platform-account'
     | '/proxy'
     | '/recurring'
     | '/resource'
     | '/scheduled-runs'
-    | '/site'
     | '/tenant'
     | '/tk'
     | '/workflow-runs'
     | '/workflows'
     | '/platform/'
-    | '/site/'
     | '/envs/create'
-    | '/site/$siteId'
     | '/agents/'
     | '/browser/'
     | '/envs/'
     | '/events/'
-    | '/model/'
     | '/platform-account/'
     | '/proxy/'
     | '/recurring/'
@@ -4188,8 +3886,6 @@ export interface FileRouteTypes {
     | '/adk/session'
     | '/auth/login'
     | '/auth/register'
-    | '/model/$modelId'
-    | '/model/new'
     | '/platform-account/$platformAccountId'
     | '/platform-account/new'
     | '/proxy/$proxyId'
@@ -4200,15 +3896,9 @@ export interface FileRouteTypes {
     | '/tenant/settings'
     | '/workflow-runs/$workflowRunId'
     | '/workflows/$workflowId'
-    | '/onboarding/create-tenant'
-    | '/site/$siteId/'
-    | '/site/create'
-    | '/site/$siteId/edit'
     | '/site/$siteId/host'
     | '/adk/session/'
     | '/auth/login/'
-    | '/model/$modelId/'
-    | '/model/new/'
     | '/platform-account/$platformAccountId/'
     | '/platform-account/new/'
     | '/proxy/$proxyId/'
@@ -4302,13 +3992,11 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/platform'
-    | '/site'
     | '/envs/create'
     | '/agents'
     | '/browser'
     | '/envs'
     | '/events'
-    | '/model'
     | '/platform-account'
     | '/proxy'
     | '/recurring'
@@ -4321,14 +4009,8 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/proxy/new'
     | '/resource/new'
-    | '/onboarding/create-tenant'
-    | '/site/$siteId'
-    | '/site/create'
-    | '/site/$siteId/edit'
     | '/adk/session'
     | '/auth/login'
-    | '/model/$modelId'
-    | '/model/new'
     | '/platform-account/$platformAccountId'
     | '/platform-account/new'
     | '/proxy/$proxyId'
@@ -4394,27 +4076,22 @@ export interface FileRouteTypes {
     | '/browser'
     | '/envs'
     | '/events'
-    | '/model'
     | '/platform'
     | '/platform-account'
     | '/proxy'
     | '/recurring'
     | '/resource'
     | '/scheduled-runs'
-    | '/site'
     | '/tenant'
     | '/tk'
     | '/workflow-runs'
     | '/workflows'
     | '/platform/'
-    | '/site/'
     | '/envs/create'
-    | '/site/$siteId'
     | '/agents/'
     | '/browser/'
     | '/envs/'
     | '/events/'
-    | '/model/'
     | '/platform-account/'
     | '/proxy/'
     | '/recurring/'
@@ -4427,8 +4104,6 @@ export interface FileRouteTypes {
     | '/adk/session'
     | '/auth/login'
     | '/auth/register'
-    | '/model/$modelId'
-    | '/model/new'
     | '/platform-account/$platformAccountId'
     | '/platform-account/new'
     | '/proxy/$proxyId'
@@ -4439,15 +4114,9 @@ export interface FileRouteTypes {
     | '/tenant/settings'
     | '/workflow-runs/$workflowRunId'
     | '/workflows/$workflowId'
-    | '/onboarding/create-tenant/'
-    | '/site/$siteId/'
-    | '/site/create/'
-    | '/site/$siteId/edit'
     | '/site/$siteId/host'
     | '/adk/session/'
     | '/auth/login/'
-    | '/model/$modelId/'
-    | '/model/new/'
     | '/platform-account/$platformAccountId/'
     | '/platform-account/new/'
     | '/proxy/$proxyId/'
@@ -4546,21 +4215,19 @@ export interface RootRouteChildren {
   BrowserRouteLazyRoute: typeof BrowserRouteLazyRouteWithChildren
   EnvsRouteLazyRoute: typeof EnvsRouteLazyRouteWithChildren
   EventsRouteLazyRoute: typeof EventsRouteLazyRouteWithChildren
-  ModelRouteLazyRoute: typeof ModelRouteLazyRouteWithChildren
   PlatformRouteLazyRoute: typeof PlatformRouteLazyRouteWithChildren
   PlatformAccountRouteLazyRoute: typeof PlatformAccountRouteLazyRouteWithChildren
   ProxyRouteLazyRoute: typeof ProxyRouteLazyRouteWithChildren
   RecurringRouteLazyRoute: typeof RecurringRouteLazyRouteWithChildren
   ResourceRouteLazyRoute: typeof ResourceRouteLazyRouteWithChildren
   ScheduledRunsRouteLazyRoute: typeof ScheduledRunsRouteLazyRouteWithChildren
-  SiteRouteLazyRoute: typeof SiteRouteLazyRouteWithChildren
   TenantRouteLazyRoute: typeof TenantRouteLazyRouteWithChildren
   TkRouteLazyRoute: typeof TkRouteLazyRouteWithChildren
   WorkflowRunsRouteLazyRoute: typeof WorkflowRunsRouteLazyRouteWithChildren
   WorkflowsRouteLazyRoute: typeof WorkflowsRouteLazyRouteWithChildren
   AdkSessionRouteLazyRoute: typeof AdkSessionRouteLazyRouteWithChildren
   SessionOldSessionIdRouteLazyRoute: typeof SessionOldSessionIdRouteLazyRouteWithChildren
-  OnboardingCreateTenantIndexRoute: typeof OnboardingCreateTenantIndexRoute
+  SiteSiteIdHostRouteRoute: typeof SiteSiteIdHostRouteRouteWithChildren
   ComsComIdTypeRouteLazyRoute: typeof ComsComIdTypeRouteLazyRouteWithChildren
   ComsComIdViewRouteLazyRoute: typeof ComsComIdViewRouteLazyRouteWithChildren
   ComsComIdComponenteditorAssistantAgentRoute: typeof ComsComIdComponenteditorAssistantAgentRoute
@@ -4579,14 +4246,12 @@ const rootRouteChildren: RootRouteChildren = {
   BrowserRouteLazyRoute: BrowserRouteLazyRouteWithChildren,
   EnvsRouteLazyRoute: EnvsRouteLazyRouteWithChildren,
   EventsRouteLazyRoute: EventsRouteLazyRouteWithChildren,
-  ModelRouteLazyRoute: ModelRouteLazyRouteWithChildren,
   PlatformRouteLazyRoute: PlatformRouteLazyRouteWithChildren,
   PlatformAccountRouteLazyRoute: PlatformAccountRouteLazyRouteWithChildren,
   ProxyRouteLazyRoute: ProxyRouteLazyRouteWithChildren,
   RecurringRouteLazyRoute: RecurringRouteLazyRouteWithChildren,
   ResourceRouteLazyRoute: ResourceRouteLazyRouteWithChildren,
   ScheduledRunsRouteLazyRoute: ScheduledRunsRouteLazyRouteWithChildren,
-  SiteRouteLazyRoute: SiteRouteLazyRouteWithChildren,
   TenantRouteLazyRoute: TenantRouteLazyRouteWithChildren,
   TkRouteLazyRoute: TkRouteLazyRouteWithChildren,
   WorkflowRunsRouteLazyRoute: WorkflowRunsRouteLazyRouteWithChildren,
@@ -4594,7 +4259,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdkSessionRouteLazyRoute: AdkSessionRouteLazyRouteWithChildren,
   SessionOldSessionIdRouteLazyRoute:
     SessionOldSessionIdRouteLazyRouteWithChildren,
-  OnboardingCreateTenantIndexRoute: OnboardingCreateTenantIndexRoute,
+  SiteSiteIdHostRouteRoute: SiteSiteIdHostRouteRouteWithChildren,
   ComsComIdTypeRouteLazyRoute: ComsComIdTypeRouteLazyRouteWithChildren,
   ComsComIdViewRouteLazyRoute: ComsComIdViewRouteLazyRouteWithChildren,
   ComsComIdComponenteditorAssistantAgentRoute:
@@ -4629,21 +4294,19 @@ export const routeTree = rootRoute
         "/browser",
         "/envs",
         "/events",
-        "/model",
         "/platform",
         "/platform-account",
         "/proxy",
         "/recurring",
         "/resource",
         "/scheduled-runs",
-        "/site",
         "/tenant",
         "/tk",
         "/workflow-runs",
         "/workflows",
         "/adk/session",
         "/session-old/$sessionId",
-        "/onboarding/create-tenant/",
+        "/site/$siteId/host",
         "/coms/$comId/type",
         "/coms/$comId/view",
         "/coms/$comId/component_editor/AssistantAgent",
@@ -4691,14 +4354,6 @@ export const routeTree = rootRoute
         "/events/"
       ]
     },
-    "/model": {
-      "filePath": "~model/~route.lazy.tsx",
-      "children": [
-        "/model/",
-        "/model/$modelId",
-        "/model/new"
-      ]
-    },
     "/platform": {
       "filePath": "~platform/~route.lazy.tsx",
       "children": [
@@ -4741,14 +4396,6 @@ export const routeTree = rootRoute
         "/scheduled-runs/"
       ]
     },
-    "/site": {
-      "filePath": "~site/~route.lazy.tsx",
-      "children": [
-        "/site/",
-        "/site/$siteId",
-        "/site/create/"
-      ]
-    },
     "/tenant": {
       "filePath": "~tenant/~route.lazy.tsx",
       "children": [
@@ -4780,22 +4427,9 @@ export const routeTree = rootRoute
       "filePath": "~platform/~index.tsx",
       "parent": "/platform"
     },
-    "/site/": {
-      "filePath": "~site/~index.tsx",
-      "parent": "/site"
-    },
     "/envs/create": {
       "filePath": "~envs/~create.tsx",
       "parent": "/envs"
-    },
-    "/site/$siteId": {
-      "filePath": "~site/~$siteId/~route.tsx",
-      "parent": "/site",
-      "children": [
-        "/site/$siteId/",
-        "/site/$siteId/edit",
-        "/site/$siteId/host"
-      ]
     },
     "/agents/": {
       "filePath": "~agents/~index.lazy.tsx",
@@ -4812,10 +4446,6 @@ export const routeTree = rootRoute
     "/events/": {
       "filePath": "~events/~index.lazy.tsx",
       "parent": "/events"
-    },
-    "/model/": {
-      "filePath": "~model/~index.lazy.tsx",
-      "parent": "/model"
     },
     "/platform-account/": {
       "filePath": "~platform-account/~index.lazy.tsx",
@@ -4870,20 +4500,6 @@ export const routeTree = rootRoute
     "/auth/register": {
       "filePath": "~auth/~register.lazy.tsx",
       "parent": "/auth"
-    },
-    "/model/$modelId": {
-      "filePath": "~model/~$modelId/~route.lazy.tsx",
-      "parent": "/model",
-      "children": [
-        "/model/$modelId/"
-      ]
-    },
-    "/model/new": {
-      "filePath": "~model/~new/~route.lazy.tsx",
-      "parent": "/model",
-      "children": [
-        "/model/new/"
-      ]
     },
     "/platform-account/$platformAccountId": {
       "filePath": "~platform-account/~$platformAccountId/~route.lazy.tsx",
@@ -4966,24 +4582,8 @@ export const routeTree = rootRoute
         "/workflows/$workflowId/trigger"
       ]
     },
-    "/onboarding/create-tenant/": {
-      "filePath": "~onboarding/~create-tenant/~index.tsx"
-    },
-    "/site/$siteId/": {
-      "filePath": "~site/~$siteId/~index.tsx",
-      "parent": "/site/$siteId"
-    },
-    "/site/create/": {
-      "filePath": "~site/~create/~index.tsx",
-      "parent": "/site"
-    },
-    "/site/$siteId/edit": {
-      "filePath": "~site/~$siteId/~edit.tsx",
-      "parent": "/site/$siteId"
-    },
     "/site/$siteId/host": {
       "filePath": "~site/~$siteId/~host/~route.tsx",
-      "parent": "/site/$siteId",
       "children": [
         "/site/$siteId/host/"
       ]
@@ -4995,14 +4595,6 @@ export const routeTree = rootRoute
     "/auth/login/": {
       "filePath": "~auth/~login/~index.lazy.tsx",
       "parent": "/auth/login"
-    },
-    "/model/$modelId/": {
-      "filePath": "~model/~$modelId/~index.lazy.tsx",
-      "parent": "/model/$modelId"
-    },
-    "/model/new/": {
-      "filePath": "~model/~new/~index.lazy.tsx",
-      "parent": "/model/new"
     },
     "/platform-account/$platformAccountId/": {
       "filePath": "~platform-account/~$platformAccountId/~index.lazy.tsx",
