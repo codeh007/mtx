@@ -17,17 +17,43 @@ import type {
   ChatAgentState,
 } from "../agent_state/chat_agent_state";
 import type { OutgoingMessage } from "../agent_state/shared";
-import { callAgentRunner } from "../agent_utils/agent_utils";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
 import { tools } from "./tools";
 import { convertScheduleToScheduledItem } from "./utils";
 import type { WorkerAgent } from "./worker_agent";
+
+const callCoderAgent = tool({
+  description: "调用具有 python 编程能力的Agent, 用来解决复杂问题",
+  parameters: z.object({
+    prompt: z.string().describe("The prompt to send to the coder agent"),
+  }),
+  execute: async ({ prompt }, options) => {
+    try {
+      // const result = await callAgentRunner(this.state.agentRunnerUrl, {
+      //   app_name: "root",
+      //   user_id: "user",
+      //   session_id: sessionId,
+      //   new_message: {
+      //     role: "user",
+      //     parts: [{ text: prompt }],
+      //   },
+      //   streaming: false,
+      // });
+      // console.log("callCoderAgent result", result);
+    } catch (error) {
+      //   console.error("Error calling coder agent", error);
+      //   return `Error calling coder agent: ${error}`;
+    }
+  },
+});
 
 export class Chat extends AIChatAgent<Env, ChatAgentState> {
   initialState: ChatAgentState = {
     chatViewType: "full",
     participants: [],
     lastUpdated: 0,
+    tts_api_endpoint: "",
+    video_subject: "",
   };
 
   onStart(): void | Promise<void> {
@@ -70,62 +96,37 @@ export class Chat extends AIChatAgent<Env, ChatAgentState> {
   async onChatMessage(onFinish: StreamTextOnFinishCallback<{}>) {
     const model = getDefaultModel(this.env);
     const sessionId = this.name;
-    const callCoderAgent = tool({
-      description: "调用具有 python 编程能力的Agent, 用来解决复杂问题",
-      parameters: z.object({
-        prompt: z.string().describe("The prompt to send to the coder agent"),
-      }),
-      execute: async ({ prompt }, options) => {
-        try {
-          this.broadcast(
-            JSON.stringify({
-              type: "new_chat_participant",
-              data: { agentName: "worker-agent" },
-            } satisfies ChatAgentOutgoingMessage),
-          );
-
-          const result = await callAgentRunner(this.state.agentRunnerUrl, {
-            app_name: "root",
-            user_id: "user",
-            session_id: sessionId,
-            new_message: {
-              role: "user",
-              parts: [{ text: prompt }],
-            },
-            streaming: false,
-          });
-          console.log("callCoderAgent result", result);
-        } catch (error) {
-          console.error("Error calling coder agent", error);
-          return `Error calling coder agent: ${error}`;
-        }
-      },
-    });
 
     const lastestMessage = this.messages?.[this.messages.length - 1];
     const userInput = lastestMessage?.content;
-    // cloudflare agents 的 streamText 的实现
-    const dataStreamResponse = createDataStreamResponse({
-      execute: async (dataStream) => {
-        if (userInput?.startsWith("/test1")) {
-          // lastestMessage.content = lastestMessage.content.slice(4);
-          // await this.onDemoRun2(lastestMessage, dataStream, onFinish);
-          this.log("test1");
 
-          const workerAgent = await getAgentByName<Env, WorkerAgent>(
-            this.env.WorkerAgent,
-            "default",
-          );
+    if (userInput?.startsWith("/test1")) {
+      // lastestMessage.content = lastestMessage.content.slice(4);
+      // await this.onDemoRun2(lastestMessage, dataStream, onFinish);
+      this.log("test1");
 
-          // const id = this.env.WorkerAgent.idFromName("default");
-          // const workerAgent = this.env.WorkerAgent.get(id);
+      const workerAgent = await getAgentByName<Env, WorkerAgent>(this.env.WorkerAgent, "default");
+      // const id = this.env.WorkerAgent.idFromName("default");
+      // const workerAgent = this.env.WorkerAgent.get(id);
 
-          if (!workerAgent) {
-            // throw new Error("Worker agent not found");
-            this.handleException(new Error("Worker agent not found"));
-          }
-          workerAgent.log("log message from worker agent");
-        } else {
+      if (!workerAgent) {
+        // throw new Error("Worker agent not found");
+        this.handleException(new Error("Worker agent not found"));
+      }
+      workerAgent.log("log message from worker agent");
+      await workerAgent.callAdkAgent("shortvideo_agent", {
+        role: "user",
+        parts: [
+          {
+            type: "text",
+            text: "call adk agent example",
+          },
+        ],
+      });
+    } else {
+      // cloudflare agents 的 streamText 的实现
+      const dataStreamResponse = createDataStreamResponse({
+        execute: async (dataStream) => {
           const result = streamText({
             model,
             messages: this.messages,
@@ -139,11 +140,11 @@ export class Chat extends AIChatAgent<Env, ChatAgentState> {
             },
           });
           result.mergeIntoDataStream(dataStream);
-        }
-      },
-    });
+        },
+      });
 
-    return dataStreamResponse;
+      return dataStreamResponse;
+    }
   }
   onStateUpdate(state, source: "server" | Connection) {
     console.log(`${source} state updated`, state);

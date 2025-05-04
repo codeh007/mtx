@@ -54,4 +54,17 @@ export class WorkerAgent extends AIChatAgent<Env, WorkerAgentState> {
       }),
     );
   }
+
+  // 发送消息, 通知 基于 python adk 的worker, 运行对应的agent, 并将消息实时传递到前端
+  callAdkAgent(agent_name: string, content: any) {
+    //TODO: 应该使用 connection 发送,而不是广播
+    this.broadcast(
+      JSON.stringify({
+        type: "call_adk_agent",
+        agent_name: agent_name,
+        content,
+      }),
+    );
+    this.log("已经调用 adk agent");
+  }
 }

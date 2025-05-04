@@ -33,7 +33,7 @@ export function WorkerAgentView() {
     },
   });
   return (
-    <div className="w-1/3 rounded-md border border-gray-300 p-2">
+    <div className="w-1/3 rounded-md border border-gray-300 bg-gray-100 p-2">
       <DebugValue data={{ workerAgentState }} />
       <div>total worker count: {workerAgentState?.totalWorkers}</div>
     </div>
