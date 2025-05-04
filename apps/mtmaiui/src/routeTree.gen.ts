@@ -17,11 +17,6 @@ import { Route as IndexImport } from './routes/~index'
 import { Route as EnvsCreateImport } from './routes/~envs/~create'
 import { Route as PlatformIndexImport } from './routes/~platform/~index'
 import { Route as SiteSiteIdHostRouteImport } from './routes/~site/~$siteId/~host/~route'
-import { Route as ComsComIdTypeModelClientImport } from './routes/~coms/~$comId/~type/~modelClient'
-import { Route as ComsComIdComponenteditorSmolaAgentImport } from './routes/~coms/~$comId/~component_editor/~SmolaAgent'
-import { Route as ComsComIdComponenteditorMtOpenAIChatCompletionClientImport } from './routes/~coms/~$comId/~component_editor/~MtOpenAIChatCompletionClient'
-import { Route as ComsComIdComponenteditorInstagramAgentImport } from './routes/~coms/~$comId/~component_editor/~InstagramAgent'
-import { Route as ComsComIdComponenteditorAssistantAgentImport } from './routes/~coms/~$comId/~component_editor/~AssistantAgent'
 import { Route as SiteSiteIdHostIndexImport } from './routes/~site/~$siteId/~host/~index'
 
 // Create Virtual Routes
@@ -120,8 +115,6 @@ const ProxyProxyIdActionsRouteLazyImport = createFileRoute(
 const PlatformAccountPlatformAccountIdActionsRouteLazyImport = createFileRoute(
   '/platform-account/$platformAccountId/actions',
 )()
-const ComsComIdViewRouteLazyImport = createFileRoute('/coms/$comId/view')()
-const ComsComIdTypeRouteLazyImport = createFileRoute('/coms/$comId/type')()
 const AgentsAgentSessionIdRouteLazyImport = createFileRoute(
   '/agents/$agent/$sessionId',
 )()
@@ -189,20 +182,8 @@ const ResourceNewResChatLazyImport = createFileRoute('/resource/new/res/chat')()
 const ResourceNewResBrowserLazyImport = createFileRoute(
   '/resource/new/res/browser',
 )()
-const ComsComIdViewSubComIdRouteLazyImport = createFileRoute(
-  '/coms/$comId/view/$subComId',
-)()
-const ComsComIdTypeInstagramTeamLazyImport = createFileRoute(
-  '/coms/$comId/type/instagramTeam',
-)()
-const ComsComIdTypeAssisantLazyImport = createFileRoute(
-  '/coms/$comId/type/assisant',
-)()
 const ComsComIdTeambuilderv2InstagramteamRouteLazyImport = createFileRoute(
   '/coms/$comId/team_builderv2/instagram_team',
-)()
-const ComsComIdComponenteditorInstagramTeamLazyImport = createFileRoute(
-  '/coms/$comId/component_editor/InstagramTeam',
 )()
 const AgentsAgentSessionIdStateRouteLazyImport = createFileRoute(
   '/agents/$agent/$sessionId/state',
@@ -284,9 +265,6 @@ const WorkflowRunsWorkflowRunIdStepRunStepRunIdIndexLazyImport =
   createFileRoute('/workflow-runs/$workflowRunId/stepRun/$stepRunId/')()
 const TenantSettingsTenantSettingIdModelsettingsIndexLazyImport =
   createFileRoute('/tenant/settings/$tenantSettingId/model_settings/')()
-const ComsComIdViewSubComIdIndexLazyImport = createFileRoute(
-  '/coms/$comId/view/$subComId/',
-)()
 const ComsComIdTeambuilderv2InstagramteamIndexLazyImport = createFileRoute(
   '/coms/$comId/team_builderv2/instagram_team/',
 )()
@@ -812,22 +790,6 @@ const PlatformAccountPlatformAccountIdActionsRouteLazyRoute =
     ).then((d) => d.Route),
   )
 
-const ComsComIdViewRouteLazyRoute = ComsComIdViewRouteLazyImport.update({
-  id: '/coms/$comId/view',
-  path: '/coms/$comId/view',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/~coms/~$comId/~view/~route.lazy').then((d) => d.Route),
-)
-
-const ComsComIdTypeRouteLazyRoute = ComsComIdTypeRouteLazyImport.update({
-  id: '/coms/$comId/type',
-  path: '/coms/$comId/type',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/~coms/~$comId/~type/~route.lazy').then((d) => d.Route),
-)
-
 const AgentsAgentSessionIdRouteLazyRoute =
   AgentsAgentSessionIdRouteLazyImport.update({
     id: '/$agent/$sessionId',
@@ -1106,36 +1068,6 @@ const ResourceNewResBrowserLazyRoute = ResourceNewResBrowserLazyImport.update({
   import('./routes/~resource/~new/~res/~browser.lazy').then((d) => d.Route),
 )
 
-const ComsComIdViewSubComIdRouteLazyRoute =
-  ComsComIdViewSubComIdRouteLazyImport.update({
-    id: '/$subComId',
-    path: '/$subComId',
-    getParentRoute: () => ComsComIdViewRouteLazyRoute,
-  } as any).lazy(() =>
-    import('./routes/~coms/~$comId/~view/~$subComId/~route.lazy').then(
-      (d) => d.Route,
-    ),
-  )
-
-const ComsComIdTypeInstagramTeamLazyRoute =
-  ComsComIdTypeInstagramTeamLazyImport.update({
-    id: '/instagramTeam',
-    path: '/instagramTeam',
-    getParentRoute: () => ComsComIdTypeRouteLazyRoute,
-  } as any).lazy(() =>
-    import('./routes/~coms/~$comId/~type/~instagramTeam.lazy').then(
-      (d) => d.Route,
-    ),
-  )
-
-const ComsComIdTypeAssisantLazyRoute = ComsComIdTypeAssisantLazyImport.update({
-  id: '/assisant',
-  path: '/assisant',
-  getParentRoute: () => ComsComIdTypeRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~coms/~$comId/~type/~assisant.lazy').then((d) => d.Route),
-)
-
 const ComsComIdTeambuilderv2InstagramteamRouteLazyRoute =
   ComsComIdTeambuilderv2InstagramteamRouteLazyImport.update({
     id: '/coms/$comId/team_builderv2/instagram_team',
@@ -1145,17 +1077,6 @@ const ComsComIdTeambuilderv2InstagramteamRouteLazyRoute =
     import(
       './routes/~coms/~$comId/~team_builderv2/~instagram_team/~route.lazy'
     ).then((d) => d.Route),
-  )
-
-const ComsComIdComponenteditorInstagramTeamLazyRoute =
-  ComsComIdComponenteditorInstagramTeamLazyImport.update({
-    id: '/coms/$comId/component_editor/InstagramTeam',
-    path: '/coms/$comId/component_editor/InstagramTeam',
-    getParentRoute: () => rootRoute,
-  } as any).lazy(() =>
-    import('./routes/~coms/~$comId/~component_editor/~InstagramTeam.lazy').then(
-      (d) => d.Route,
-    ),
   )
 
 const AgentsAgentSessionIdStateRouteLazyRoute =
@@ -1341,40 +1262,6 @@ const AdkSessionSessionIdIndexLazyRoute =
     ),
   )
 
-const ComsComIdTypeModelClientRoute = ComsComIdTypeModelClientImport.update({
-  id: '/modelClient',
-  path: '/modelClient',
-  getParentRoute: () => ComsComIdTypeRouteLazyRoute,
-} as any)
-
-const ComsComIdComponenteditorSmolaAgentRoute =
-  ComsComIdComponenteditorSmolaAgentImport.update({
-    id: '/coms/$comId/component_editor/SmolaAgent',
-    path: '/coms/$comId/component_editor/SmolaAgent',
-    getParentRoute: () => rootRoute,
-  } as any)
-
-const ComsComIdComponenteditorMtOpenAIChatCompletionClientRoute =
-  ComsComIdComponenteditorMtOpenAIChatCompletionClientImport.update({
-    id: '/coms/$comId/component_editor/MtOpenAIChatCompletionClient',
-    path: '/coms/$comId/component_editor/MtOpenAIChatCompletionClient',
-    getParentRoute: () => rootRoute,
-  } as any)
-
-const ComsComIdComponenteditorInstagramAgentRoute =
-  ComsComIdComponenteditorInstagramAgentImport.update({
-    id: '/coms/$comId/component_editor/InstagramAgent',
-    path: '/coms/$comId/component_editor/InstagramAgent',
-    getParentRoute: () => rootRoute,
-  } as any)
-
-const ComsComIdComponenteditorAssistantAgentRoute =
-  ComsComIdComponenteditorAssistantAgentImport.update({
-    id: '/coms/$comId/component_editor/AssistantAgent',
-    path: '/coms/$comId/component_editor/AssistantAgent',
-    getParentRoute: () => rootRoute,
-  } as any)
-
 const SiteSiteIdHostIndexRoute = SiteSiteIdHostIndexImport.update({
   id: '/',
   path: '/',
@@ -1502,17 +1389,6 @@ const TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute =
     import(
       './routes/~tenant/~settings/~$tenantSettingId/~model_settings/~index.lazy'
     ).then((d) => d.Route),
-  )
-
-const ComsComIdViewSubComIdIndexLazyRoute =
-  ComsComIdViewSubComIdIndexLazyImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => ComsComIdViewSubComIdRouteLazyRoute,
-  } as any).lazy(() =>
-    import('./routes/~coms/~$comId/~view/~$subComId/~index.lazy').then(
-      (d) => d.Route,
-    ),
   )
 
 const ComsComIdTeambuilderv2InstagramteamIndexLazyRoute =
@@ -1984,20 +1860,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgentsAgentSessionIdRouteLazyImport
       parentRoute: typeof AgentsRouteLazyImport
     }
-    '/coms/$comId/type': {
-      id: '/coms/$comId/type'
-      path: '/coms/$comId/type'
-      fullPath: '/coms/$comId/type'
-      preLoaderRoute: typeof ComsComIdTypeRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/coms/$comId/view': {
-      id: '/coms/$comId/view'
-      path: '/coms/$comId/view'
-      fullPath: '/coms/$comId/view'
-      preLoaderRoute: typeof ComsComIdViewRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/platform-account/$platformAccountId/actions': {
       id: '/platform-account/$platformAccountId/actions'
       path: '/actions'
@@ -2109,41 +1971,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/site/$siteId/host/'
       preLoaderRoute: typeof SiteSiteIdHostIndexImport
       parentRoute: typeof SiteSiteIdHostRouteImport
-    }
-    '/coms/$comId/component_editor/AssistantAgent': {
-      id: '/coms/$comId/component_editor/AssistantAgent'
-      path: '/coms/$comId/component_editor/AssistantAgent'
-      fullPath: '/coms/$comId/component_editor/AssistantAgent'
-      preLoaderRoute: typeof ComsComIdComponenteditorAssistantAgentImport
-      parentRoute: typeof rootRoute
-    }
-    '/coms/$comId/component_editor/InstagramAgent': {
-      id: '/coms/$comId/component_editor/InstagramAgent'
-      path: '/coms/$comId/component_editor/InstagramAgent'
-      fullPath: '/coms/$comId/component_editor/InstagramAgent'
-      preLoaderRoute: typeof ComsComIdComponenteditorInstagramAgentImport
-      parentRoute: typeof rootRoute
-    }
-    '/coms/$comId/component_editor/MtOpenAIChatCompletionClient': {
-      id: '/coms/$comId/component_editor/MtOpenAIChatCompletionClient'
-      path: '/coms/$comId/component_editor/MtOpenAIChatCompletionClient'
-      fullPath: '/coms/$comId/component_editor/MtOpenAIChatCompletionClient'
-      preLoaderRoute: typeof ComsComIdComponenteditorMtOpenAIChatCompletionClientImport
-      parentRoute: typeof rootRoute
-    }
-    '/coms/$comId/component_editor/SmolaAgent': {
-      id: '/coms/$comId/component_editor/SmolaAgent'
-      path: '/coms/$comId/component_editor/SmolaAgent'
-      fullPath: '/coms/$comId/component_editor/SmolaAgent'
-      preLoaderRoute: typeof ComsComIdComponenteditorSmolaAgentImport
-      parentRoute: typeof rootRoute
-    }
-    '/coms/$comId/type/modelClient': {
-      id: '/coms/$comId/type/modelClient'
-      path: '/modelClient'
-      fullPath: '/coms/$comId/type/modelClient'
-      preLoaderRoute: typeof ComsComIdTypeModelClientImport
-      parentRoute: typeof ComsComIdTypeRouteLazyImport
     }
     '/adk/session/$sessionId/': {
       id: '/adk/session/$sessionId/'
@@ -2264,40 +2091,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgentsAgentSessionIdStateRouteLazyImport
       parentRoute: typeof AgentsAgentSessionIdRouteLazyImport
     }
-    '/coms/$comId/component_editor/InstagramTeam': {
-      id: '/coms/$comId/component_editor/InstagramTeam'
-      path: '/coms/$comId/component_editor/InstagramTeam'
-      fullPath: '/coms/$comId/component_editor/InstagramTeam'
-      preLoaderRoute: typeof ComsComIdComponenteditorInstagramTeamLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/coms/$comId/team_builderv2/instagram_team': {
       id: '/coms/$comId/team_builderv2/instagram_team'
       path: '/coms/$comId/team_builderv2/instagram_team'
       fullPath: '/coms/$comId/team_builderv2/instagram_team'
       preLoaderRoute: typeof ComsComIdTeambuilderv2InstagramteamRouteLazyImport
       parentRoute: typeof rootRoute
-    }
-    '/coms/$comId/type/assisant': {
-      id: '/coms/$comId/type/assisant'
-      path: '/assisant'
-      fullPath: '/coms/$comId/type/assisant'
-      preLoaderRoute: typeof ComsComIdTypeAssisantLazyImport
-      parentRoute: typeof ComsComIdTypeRouteLazyImport
-    }
-    '/coms/$comId/type/instagramTeam': {
-      id: '/coms/$comId/type/instagramTeam'
-      path: '/instagramTeam'
-      fullPath: '/coms/$comId/type/instagramTeam'
-      preLoaderRoute: typeof ComsComIdTypeInstagramTeamLazyImport
-      parentRoute: typeof ComsComIdTypeRouteLazyImport
-    }
-    '/coms/$comId/view/$subComId': {
-      id: '/coms/$comId/view/$subComId'
-      path: '/$subComId'
-      fullPath: '/coms/$comId/view/$subComId'
-      preLoaderRoute: typeof ComsComIdViewSubComIdRouteLazyImport
-      parentRoute: typeof ComsComIdViewRouteLazyImport
     }
     '/resource/new/res/browser': {
       id: '/resource/new/res/browser'
@@ -2431,13 +2230,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/coms/$comId/team_builderv2/instagram_team/'
       preLoaderRoute: typeof ComsComIdTeambuilderv2InstagramteamIndexLazyImport
       parentRoute: typeof ComsComIdTeambuilderv2InstagramteamRouteLazyImport
-    }
-    '/coms/$comId/view/$subComId/': {
-      id: '/coms/$comId/view/$subComId/'
-      path: '/'
-      fullPath: '/coms/$comId/view/$subComId/'
-      preLoaderRoute: typeof ComsComIdViewSubComIdIndexLazyImport
-      parentRoute: typeof ComsComIdViewSubComIdRouteLazyImport
     }
     '/tenant/settings/$tenantSettingId/model_settings/': {
       id: '/tenant/settings/$tenantSettingId/model_settings/'
@@ -3413,53 +3205,6 @@ const SiteSiteIdHostRouteRouteChildren: SiteSiteIdHostRouteRouteChildren = {
 const SiteSiteIdHostRouteRouteWithChildren =
   SiteSiteIdHostRouteRoute._addFileChildren(SiteSiteIdHostRouteRouteChildren)
 
-interface ComsComIdTypeRouteLazyRouteChildren {
-  ComsComIdTypeModelClientRoute: typeof ComsComIdTypeModelClientRoute
-  ComsComIdTypeAssisantLazyRoute: typeof ComsComIdTypeAssisantLazyRoute
-  ComsComIdTypeInstagramTeamLazyRoute: typeof ComsComIdTypeInstagramTeamLazyRoute
-}
-
-const ComsComIdTypeRouteLazyRouteChildren: ComsComIdTypeRouteLazyRouteChildren =
-  {
-    ComsComIdTypeModelClientRoute: ComsComIdTypeModelClientRoute,
-    ComsComIdTypeAssisantLazyRoute: ComsComIdTypeAssisantLazyRoute,
-    ComsComIdTypeInstagramTeamLazyRoute: ComsComIdTypeInstagramTeamLazyRoute,
-  }
-
-const ComsComIdTypeRouteLazyRouteWithChildren =
-  ComsComIdTypeRouteLazyRoute._addFileChildren(
-    ComsComIdTypeRouteLazyRouteChildren,
-  )
-
-interface ComsComIdViewSubComIdRouteLazyRouteChildren {
-  ComsComIdViewSubComIdIndexLazyRoute: typeof ComsComIdViewSubComIdIndexLazyRoute
-}
-
-const ComsComIdViewSubComIdRouteLazyRouteChildren: ComsComIdViewSubComIdRouteLazyRouteChildren =
-  {
-    ComsComIdViewSubComIdIndexLazyRoute: ComsComIdViewSubComIdIndexLazyRoute,
-  }
-
-const ComsComIdViewSubComIdRouteLazyRouteWithChildren =
-  ComsComIdViewSubComIdRouteLazyRoute._addFileChildren(
-    ComsComIdViewSubComIdRouteLazyRouteChildren,
-  )
-
-interface ComsComIdViewRouteLazyRouteChildren {
-  ComsComIdViewSubComIdRouteLazyRoute: typeof ComsComIdViewSubComIdRouteLazyRouteWithChildren
-}
-
-const ComsComIdViewRouteLazyRouteChildren: ComsComIdViewRouteLazyRouteChildren =
-  {
-    ComsComIdViewSubComIdRouteLazyRoute:
-      ComsComIdViewSubComIdRouteLazyRouteWithChildren,
-  }
-
-const ComsComIdViewRouteLazyRouteWithChildren =
-  ComsComIdViewRouteLazyRoute._addFileChildren(
-    ComsComIdViewRouteLazyRouteChildren,
-  )
-
 interface ComsComIdTeambuilderv2InstagramteamRouteLazyRouteChildren {
   ComsComIdTeambuilderv2InstagramteamIndexLazyRoute: typeof ComsComIdTeambuilderv2InstagramteamIndexLazyRoute
 }
@@ -3548,8 +3293,6 @@ export interface FileRoutesByFullPath {
   '/workflows/$workflowId/': typeof WorkflowsWorkflowIdIndexLazyRoute
   '/adk/session/$sessionId': typeof AdkSessionSessionIdRouteLazyRouteWithChildren
   '/agents/$agent/$sessionId': typeof AgentsAgentSessionIdRouteLazyRouteWithChildren
-  '/coms/$comId/type': typeof ComsComIdTypeRouteLazyRouteWithChildren
-  '/coms/$comId/view': typeof ComsComIdViewRouteLazyRouteWithChildren
   '/platform-account/$platformAccountId/actions': typeof PlatformAccountPlatformAccountIdActionsRouteLazyRouteWithChildren
   '/proxy/$proxyId/actions': typeof ProxyProxyIdActionsRouteLazyRouteWithChildren
   '/resource/$resId/platform_account': typeof ResourceResIdPlatformaccountRouteLazyRouteWithChildren
@@ -3566,11 +3309,6 @@ export interface FileRoutesByFullPath {
   '/workflow-runs/$workflowRunId/visualization': typeof WorkflowRunsWorkflowRunIdVisualizationRouteLazyRouteWithChildren
   '/workflows/$workflowId/trigger': typeof WorkflowsWorkflowIdTriggerRouteLazyRouteWithChildren
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexRoute
-  '/coms/$comId/component_editor/AssistantAgent': typeof ComsComIdComponenteditorAssistantAgentRoute
-  '/coms/$comId/component_editor/InstagramAgent': typeof ComsComIdComponenteditorInstagramAgentRoute
-  '/coms/$comId/component_editor/MtOpenAIChatCompletionClient': typeof ComsComIdComponenteditorMtOpenAIChatCompletionClientRoute
-  '/coms/$comId/component_editor/SmolaAgent': typeof ComsComIdComponenteditorSmolaAgentRoute
-  '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
   '/adk/session/$sessionId/': typeof AdkSessionSessionIdIndexLazyRoute
   '/agents/$agent/$sessionId/': typeof AgentsAgentSessionIdIndexLazyRoute
   '/platform-account/$platformAccountId/actions/': typeof PlatformAccountPlatformAccountIdActionsIndexLazyRoute
@@ -3588,11 +3326,7 @@ export interface FileRoutesByFullPath {
   '/agents/$agent/$sessionId/actions': typeof AgentsAgentSessionIdActionsRouteLazyRouteWithChildren
   '/agents/$agent/$sessionId/config': typeof AgentsAgentSessionIdConfigRouteLazyRouteWithChildren
   '/agents/$agent/$sessionId/state': typeof AgentsAgentSessionIdStateRouteLazyRouteWithChildren
-  '/coms/$comId/component_editor/InstagramTeam': typeof ComsComIdComponenteditorInstagramTeamLazyRoute
   '/coms/$comId/team_builderv2/instagram_team': typeof ComsComIdTeambuilderv2InstagramteamRouteLazyRouteWithChildren
-  '/coms/$comId/type/assisant': typeof ComsComIdTypeAssisantLazyRoute
-  '/coms/$comId/type/instagramTeam': typeof ComsComIdTypeInstagramTeamLazyRoute
-  '/coms/$comId/view/$subComId': typeof ComsComIdViewSubComIdRouteLazyRouteWithChildren
   '/resource/new/res/browser': typeof ResourceNewResBrowserLazyRoute
   '/resource/new/res/chat': typeof ResourceNewResChatLazyRoute
   '/resource/new/res/platform_account': typeof ResourceNewResPlatformaccountLazyRoute
@@ -3612,7 +3346,6 @@ export interface FileRoutesByFullPath {
   '/agents/$agent/$sessionId/config/': typeof AgentsAgentSessionIdConfigIndexLazyRoute
   '/agents/$agent/$sessionId/state/': typeof AgentsAgentSessionIdStateIndexLazyRoute
   '/coms/$comId/team_builderv2/instagram_team/': typeof ComsComIdTeambuilderv2InstagramteamIndexLazyRoute
-  '/coms/$comId/view/$subComId/': typeof ComsComIdViewSubComIdIndexLazyRoute
   '/tenant/settings/$tenantSettingId/model_settings/': typeof TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute
   '/workflow-runs/$workflowRunId/stepRun/$stepRunId/': typeof WorkflowRunsWorkflowRunIdStepRunStepRunIdIndexLazyRoute
   '/workflows/$workflowId/trigger/ag/': typeof WorkflowsWorkflowIdTriggerAgIndexLazyRoute
@@ -3659,17 +3392,10 @@ export interface FileRoutesByTo {
   '/tenant/settings': typeof TenantSettingsIndexLazyRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdIndexLazyRoute
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdIndexLazyRoute
-  '/coms/$comId/type': typeof ComsComIdTypeRouteLazyRouteWithChildren
-  '/coms/$comId/view': typeof ComsComIdViewRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId/additional-metadata': typeof WorkflowRunsWorkflowRunIdAdditionalMetadataLazyRoute
   '/workflow-runs/$workflowRunId/input': typeof WorkflowRunsWorkflowRunIdInputLazyRoute
   '/workflow-runs/$workflowRunId/summary': typeof WorkflowRunsWorkflowRunIdSummaryLazyRoute
   '/site/$siteId/host': typeof SiteSiteIdHostIndexRoute
-  '/coms/$comId/component_editor/AssistantAgent': typeof ComsComIdComponenteditorAssistantAgentRoute
-  '/coms/$comId/component_editor/InstagramAgent': typeof ComsComIdComponenteditorInstagramAgentRoute
-  '/coms/$comId/component_editor/MtOpenAIChatCompletionClient': typeof ComsComIdComponenteditorMtOpenAIChatCompletionClientRoute
-  '/coms/$comId/component_editor/SmolaAgent': typeof ComsComIdComponenteditorSmolaAgentRoute
-  '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
   '/adk/session/$sessionId': typeof AdkSessionSessionIdIndexLazyRoute
   '/agents/$agent/$sessionId': typeof AgentsAgentSessionIdIndexLazyRoute
   '/platform-account/$platformAccountId/actions': typeof PlatformAccountPlatformAccountIdActionsIndexLazyRoute
@@ -3684,9 +3410,6 @@ export interface FileRoutesByTo {
   '/workflow-runs/$workflowRunId/chat': typeof WorkflowRunsWorkflowRunIdChatIndexLazyRoute
   '/workflow-runs/$workflowRunId/visualization': typeof WorkflowRunsWorkflowRunIdVisualizationIndexLazyRoute
   '/workflows/$workflowId/trigger': typeof WorkflowsWorkflowIdTriggerIndexLazyRoute
-  '/coms/$comId/component_editor/InstagramTeam': typeof ComsComIdComponenteditorInstagramTeamLazyRoute
-  '/coms/$comId/type/assisant': typeof ComsComIdTypeAssisantLazyRoute
-  '/coms/$comId/type/instagramTeam': typeof ComsComIdTypeInstagramTeamLazyRoute
   '/resource/new/res/browser': typeof ResourceNewResBrowserLazyRoute
   '/resource/new/res/chat': typeof ResourceNewResChatLazyRoute
   '/resource/new/res/platform_account': typeof ResourceNewResPlatformaccountLazyRoute
@@ -3695,7 +3418,6 @@ export interface FileRoutesByTo {
   '/agents/$agent/$sessionId/config': typeof AgentsAgentSessionIdConfigIndexLazyRoute
   '/agents/$agent/$sessionId/state': typeof AgentsAgentSessionIdStateIndexLazyRoute
   '/coms/$comId/team_builderv2/instagram_team': typeof ComsComIdTeambuilderv2InstagramteamIndexLazyRoute
-  '/coms/$comId/view/$subComId': typeof ComsComIdViewSubComIdIndexLazyRoute
   '/tenant/settings/$tenantSettingId/model_settings': typeof TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute
   '/workflow-runs/$workflowRunId/stepRun/$stepRunId': typeof WorkflowRunsWorkflowRunIdStepRunStepRunIdIndexLazyRoute
   '/workflows/$workflowId/trigger/ag': typeof WorkflowsWorkflowIdTriggerAgIndexLazyRoute
@@ -3769,8 +3491,6 @@ export interface FileRoutesById {
   '/workflows/$workflowId/': typeof WorkflowsWorkflowIdIndexLazyRoute
   '/adk/session/$sessionId': typeof AdkSessionSessionIdRouteLazyRouteWithChildren
   '/agents/$agent/$sessionId': typeof AgentsAgentSessionIdRouteLazyRouteWithChildren
-  '/coms/$comId/type': typeof ComsComIdTypeRouteLazyRouteWithChildren
-  '/coms/$comId/view': typeof ComsComIdViewRouteLazyRouteWithChildren
   '/platform-account/$platformAccountId/actions': typeof PlatformAccountPlatformAccountIdActionsRouteLazyRouteWithChildren
   '/proxy/$proxyId/actions': typeof ProxyProxyIdActionsRouteLazyRouteWithChildren
   '/resource/$resId/platform_account': typeof ResourceResIdPlatformaccountRouteLazyRouteWithChildren
@@ -3787,11 +3507,6 @@ export interface FileRoutesById {
   '/workflow-runs/$workflowRunId/visualization': typeof WorkflowRunsWorkflowRunIdVisualizationRouteLazyRouteWithChildren
   '/workflows/$workflowId/trigger': typeof WorkflowsWorkflowIdTriggerRouteLazyRouteWithChildren
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexRoute
-  '/coms/$comId/component_editor/AssistantAgent': typeof ComsComIdComponenteditorAssistantAgentRoute
-  '/coms/$comId/component_editor/InstagramAgent': typeof ComsComIdComponenteditorInstagramAgentRoute
-  '/coms/$comId/component_editor/MtOpenAIChatCompletionClient': typeof ComsComIdComponenteditorMtOpenAIChatCompletionClientRoute
-  '/coms/$comId/component_editor/SmolaAgent': typeof ComsComIdComponenteditorSmolaAgentRoute
-  '/coms/$comId/type/modelClient': typeof ComsComIdTypeModelClientRoute
   '/adk/session/$sessionId/': typeof AdkSessionSessionIdIndexLazyRoute
   '/agents/$agent/$sessionId/': typeof AgentsAgentSessionIdIndexLazyRoute
   '/platform-account/$platformAccountId/actions/': typeof PlatformAccountPlatformAccountIdActionsIndexLazyRoute
@@ -3809,11 +3524,7 @@ export interface FileRoutesById {
   '/agents/$agent/$sessionId/actions': typeof AgentsAgentSessionIdActionsRouteLazyRouteWithChildren
   '/agents/$agent/$sessionId/config': typeof AgentsAgentSessionIdConfigRouteLazyRouteWithChildren
   '/agents/$agent/$sessionId/state': typeof AgentsAgentSessionIdStateRouteLazyRouteWithChildren
-  '/coms/$comId/component_editor/InstagramTeam': typeof ComsComIdComponenteditorInstagramTeamLazyRoute
   '/coms/$comId/team_builderv2/instagram_team': typeof ComsComIdTeambuilderv2InstagramteamRouteLazyRouteWithChildren
-  '/coms/$comId/type/assisant': typeof ComsComIdTypeAssisantLazyRoute
-  '/coms/$comId/type/instagramTeam': typeof ComsComIdTypeInstagramTeamLazyRoute
-  '/coms/$comId/view/$subComId': typeof ComsComIdViewSubComIdRouteLazyRouteWithChildren
   '/resource/new/res/browser': typeof ResourceNewResBrowserLazyRoute
   '/resource/new/res/chat': typeof ResourceNewResChatLazyRoute
   '/resource/new/res/platform_account': typeof ResourceNewResPlatformaccountLazyRoute
@@ -3833,7 +3544,6 @@ export interface FileRoutesById {
   '/agents/$agent/$sessionId/config/': typeof AgentsAgentSessionIdConfigIndexLazyRoute
   '/agents/$agent/$sessionId/state/': typeof AgentsAgentSessionIdStateIndexLazyRoute
   '/coms/$comId/team_builderv2/instagram_team/': typeof ComsComIdTeambuilderv2InstagramteamIndexLazyRoute
-  '/coms/$comId/view/$subComId/': typeof ComsComIdViewSubComIdIndexLazyRoute
   '/tenant/settings/$tenantSettingId/model_settings/': typeof TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute
   '/workflow-runs/$workflowRunId/stepRun/$stepRunId/': typeof WorkflowRunsWorkflowRunIdStepRunStepRunIdIndexLazyRoute
   '/workflows/$workflowId/trigger/ag/': typeof WorkflowsWorkflowIdTriggerAgIndexLazyRoute
@@ -3909,8 +3619,6 @@ export interface FileRouteTypes {
     | '/workflows/$workflowId/'
     | '/adk/session/$sessionId'
     | '/agents/$agent/$sessionId'
-    | '/coms/$comId/type'
-    | '/coms/$comId/view'
     | '/platform-account/$platformAccountId/actions'
     | '/proxy/$proxyId/actions'
     | '/resource/$resId/platform_account'
@@ -3927,11 +3635,6 @@ export interface FileRouteTypes {
     | '/workflow-runs/$workflowRunId/visualization'
     | '/workflows/$workflowId/trigger'
     | '/site/$siteId/host/'
-    | '/coms/$comId/component_editor/AssistantAgent'
-    | '/coms/$comId/component_editor/InstagramAgent'
-    | '/coms/$comId/component_editor/MtOpenAIChatCompletionClient'
-    | '/coms/$comId/component_editor/SmolaAgent'
-    | '/coms/$comId/type/modelClient'
     | '/adk/session/$sessionId/'
     | '/agents/$agent/$sessionId/'
     | '/platform-account/$platformAccountId/actions/'
@@ -3949,11 +3652,7 @@ export interface FileRouteTypes {
     | '/agents/$agent/$sessionId/actions'
     | '/agents/$agent/$sessionId/config'
     | '/agents/$agent/$sessionId/state'
-    | '/coms/$comId/component_editor/InstagramTeam'
     | '/coms/$comId/team_builderv2/instagram_team'
-    | '/coms/$comId/type/assisant'
-    | '/coms/$comId/type/instagramTeam'
-    | '/coms/$comId/view/$subComId'
     | '/resource/new/res/browser'
     | '/resource/new/res/chat'
     | '/resource/new/res/platform_account'
@@ -3973,7 +3672,6 @@ export interface FileRouteTypes {
     | '/agents/$agent/$sessionId/config/'
     | '/agents/$agent/$sessionId/state/'
     | '/coms/$comId/team_builderv2/instagram_team/'
-    | '/coms/$comId/view/$subComId/'
     | '/tenant/settings/$tenantSettingId/model_settings/'
     | '/workflow-runs/$workflowRunId/stepRun/$stepRunId/'
     | '/workflows/$workflowId/trigger/ag/'
@@ -4019,17 +3717,10 @@ export interface FileRouteTypes {
     | '/tenant/settings'
     | '/workflow-runs/$workflowRunId'
     | '/workflows/$workflowId'
-    | '/coms/$comId/type'
-    | '/coms/$comId/view'
     | '/workflow-runs/$workflowRunId/additional-metadata'
     | '/workflow-runs/$workflowRunId/input'
     | '/workflow-runs/$workflowRunId/summary'
     | '/site/$siteId/host'
-    | '/coms/$comId/component_editor/AssistantAgent'
-    | '/coms/$comId/component_editor/InstagramAgent'
-    | '/coms/$comId/component_editor/MtOpenAIChatCompletionClient'
-    | '/coms/$comId/component_editor/SmolaAgent'
-    | '/coms/$comId/type/modelClient'
     | '/adk/session/$sessionId'
     | '/agents/$agent/$sessionId'
     | '/platform-account/$platformAccountId/actions'
@@ -4044,9 +3735,6 @@ export interface FileRouteTypes {
     | '/workflow-runs/$workflowRunId/chat'
     | '/workflow-runs/$workflowRunId/visualization'
     | '/workflows/$workflowId/trigger'
-    | '/coms/$comId/component_editor/InstagramTeam'
-    | '/coms/$comId/type/assisant'
-    | '/coms/$comId/type/instagramTeam'
     | '/resource/new/res/browser'
     | '/resource/new/res/chat'
     | '/resource/new/res/platform_account'
@@ -4055,7 +3743,6 @@ export interface FileRouteTypes {
     | '/agents/$agent/$sessionId/config'
     | '/agents/$agent/$sessionId/state'
     | '/coms/$comId/team_builderv2/instagram_team'
-    | '/coms/$comId/view/$subComId'
     | '/tenant/settings/$tenantSettingId/model_settings'
     | '/workflow-runs/$workflowRunId/stepRun/$stepRunId'
     | '/workflows/$workflowId/trigger/ag'
@@ -4127,8 +3814,6 @@ export interface FileRouteTypes {
     | '/workflows/$workflowId/'
     | '/adk/session/$sessionId'
     | '/agents/$agent/$sessionId'
-    | '/coms/$comId/type'
-    | '/coms/$comId/view'
     | '/platform-account/$platformAccountId/actions'
     | '/proxy/$proxyId/actions'
     | '/resource/$resId/platform_account'
@@ -4145,11 +3830,6 @@ export interface FileRouteTypes {
     | '/workflow-runs/$workflowRunId/visualization'
     | '/workflows/$workflowId/trigger'
     | '/site/$siteId/host/'
-    | '/coms/$comId/component_editor/AssistantAgent'
-    | '/coms/$comId/component_editor/InstagramAgent'
-    | '/coms/$comId/component_editor/MtOpenAIChatCompletionClient'
-    | '/coms/$comId/component_editor/SmolaAgent'
-    | '/coms/$comId/type/modelClient'
     | '/adk/session/$sessionId/'
     | '/agents/$agent/$sessionId/'
     | '/platform-account/$platformAccountId/actions/'
@@ -4167,11 +3847,7 @@ export interface FileRouteTypes {
     | '/agents/$agent/$sessionId/actions'
     | '/agents/$agent/$sessionId/config'
     | '/agents/$agent/$sessionId/state'
-    | '/coms/$comId/component_editor/InstagramTeam'
     | '/coms/$comId/team_builderv2/instagram_team'
-    | '/coms/$comId/type/assisant'
-    | '/coms/$comId/type/instagramTeam'
-    | '/coms/$comId/view/$subComId'
     | '/resource/new/res/browser'
     | '/resource/new/res/chat'
     | '/resource/new/res/platform_account'
@@ -4191,7 +3867,6 @@ export interface FileRouteTypes {
     | '/agents/$agent/$sessionId/config/'
     | '/agents/$agent/$sessionId/state/'
     | '/coms/$comId/team_builderv2/instagram_team/'
-    | '/coms/$comId/view/$subComId/'
     | '/tenant/settings/$tenantSettingId/model_settings/'
     | '/workflow-runs/$workflowRunId/stepRun/$stepRunId/'
     | '/workflows/$workflowId/trigger/ag/'
@@ -4228,13 +3903,6 @@ export interface RootRouteChildren {
   AdkSessionRouteLazyRoute: typeof AdkSessionRouteLazyRouteWithChildren
   SessionOldSessionIdRouteLazyRoute: typeof SessionOldSessionIdRouteLazyRouteWithChildren
   SiteSiteIdHostRouteRoute: typeof SiteSiteIdHostRouteRouteWithChildren
-  ComsComIdTypeRouteLazyRoute: typeof ComsComIdTypeRouteLazyRouteWithChildren
-  ComsComIdViewRouteLazyRoute: typeof ComsComIdViewRouteLazyRouteWithChildren
-  ComsComIdComponenteditorAssistantAgentRoute: typeof ComsComIdComponenteditorAssistantAgentRoute
-  ComsComIdComponenteditorInstagramAgentRoute: typeof ComsComIdComponenteditorInstagramAgentRoute
-  ComsComIdComponenteditorMtOpenAIChatCompletionClientRoute: typeof ComsComIdComponenteditorMtOpenAIChatCompletionClientRoute
-  ComsComIdComponenteditorSmolaAgentRoute: typeof ComsComIdComponenteditorSmolaAgentRoute
-  ComsComIdComponenteditorInstagramTeamLazyRoute: typeof ComsComIdComponenteditorInstagramTeamLazyRoute
   ComsComIdTeambuilderv2InstagramteamRouteLazyRoute: typeof ComsComIdTeambuilderv2InstagramteamRouteLazyRouteWithChildren
   ComsComIdTeambuilderAgentAgentIdModelRouteLazyRoute: typeof ComsComIdTeambuilderAgentAgentIdModelRouteLazyRouteWithChildren
 }
@@ -4260,18 +3928,6 @@ const rootRouteChildren: RootRouteChildren = {
   SessionOldSessionIdRouteLazyRoute:
     SessionOldSessionIdRouteLazyRouteWithChildren,
   SiteSiteIdHostRouteRoute: SiteSiteIdHostRouteRouteWithChildren,
-  ComsComIdTypeRouteLazyRoute: ComsComIdTypeRouteLazyRouteWithChildren,
-  ComsComIdViewRouteLazyRoute: ComsComIdViewRouteLazyRouteWithChildren,
-  ComsComIdComponenteditorAssistantAgentRoute:
-    ComsComIdComponenteditorAssistantAgentRoute,
-  ComsComIdComponenteditorInstagramAgentRoute:
-    ComsComIdComponenteditorInstagramAgentRoute,
-  ComsComIdComponenteditorMtOpenAIChatCompletionClientRoute:
-    ComsComIdComponenteditorMtOpenAIChatCompletionClientRoute,
-  ComsComIdComponenteditorSmolaAgentRoute:
-    ComsComIdComponenteditorSmolaAgentRoute,
-  ComsComIdComponenteditorInstagramTeamLazyRoute:
-    ComsComIdComponenteditorInstagramTeamLazyRoute,
   ComsComIdTeambuilderv2InstagramteamRouteLazyRoute:
     ComsComIdTeambuilderv2InstagramteamRouteLazyRouteWithChildren,
   ComsComIdTeambuilderAgentAgentIdModelRouteLazyRoute:
@@ -4307,13 +3963,6 @@ export const routeTree = rootRoute
         "/adk/session",
         "/session-old/$sessionId",
         "/site/$siteId/host",
-        "/coms/$comId/type",
-        "/coms/$comId/view",
-        "/coms/$comId/component_editor/AssistantAgent",
-        "/coms/$comId/component_editor/InstagramAgent",
-        "/coms/$comId/component_editor/MtOpenAIChatCompletionClient",
-        "/coms/$comId/component_editor/SmolaAgent",
-        "/coms/$comId/component_editor/InstagramTeam",
         "/coms/$comId/team_builderv2/instagram_team",
         "/coms/$comId/team_builder/agent/$agentId/model"
       ]
@@ -4645,20 +4294,6 @@ export const routeTree = rootRoute
         "/agents/$agent/$sessionId/state"
       ]
     },
-    "/coms/$comId/type": {
-      "filePath": "~coms/~$comId/~type/~route.lazy.tsx",
-      "children": [
-        "/coms/$comId/type/modelClient",
-        "/coms/$comId/type/assisant",
-        "/coms/$comId/type/instagramTeam"
-      ]
-    },
-    "/coms/$comId/view": {
-      "filePath": "~coms/~$comId/~view/~route.lazy.tsx",
-      "children": [
-        "/coms/$comId/view/$subComId"
-      ]
-    },
     "/platform-account/$platformAccountId/actions": {
       "filePath": "~platform-account/~$platformAccountId/~actions/~route.lazy.tsx",
       "parent": "/platform-account/$platformAccountId",
@@ -4773,22 +4408,6 @@ export const routeTree = rootRoute
       "filePath": "~site/~$siteId/~host/~index.tsx",
       "parent": "/site/$siteId/host"
     },
-    "/coms/$comId/component_editor/AssistantAgent": {
-      "filePath": "~coms/~$comId/~component_editor/~AssistantAgent.tsx"
-    },
-    "/coms/$comId/component_editor/InstagramAgent": {
-      "filePath": "~coms/~$comId/~component_editor/~InstagramAgent.tsx"
-    },
-    "/coms/$comId/component_editor/MtOpenAIChatCompletionClient": {
-      "filePath": "~coms/~$comId/~component_editor/~MtOpenAIChatCompletionClient.tsx"
-    },
-    "/coms/$comId/component_editor/SmolaAgent": {
-      "filePath": "~coms/~$comId/~component_editor/~SmolaAgent.tsx"
-    },
-    "/coms/$comId/type/modelClient": {
-      "filePath": "~coms/~$comId/~type/~modelClient.tsx",
-      "parent": "/coms/$comId/type"
-    },
     "/adk/session/$sessionId/": {
       "filePath": "~adk/~session/~$sessionId/~index.lazy.tsx",
       "parent": "/adk/session/$sessionId"
@@ -4866,28 +4485,10 @@ export const routeTree = rootRoute
         "/agents/$agent/$sessionId/state/"
       ]
     },
-    "/coms/$comId/component_editor/InstagramTeam": {
-      "filePath": "~coms/~$comId/~component_editor/~InstagramTeam.lazy.tsx"
-    },
     "/coms/$comId/team_builderv2/instagram_team": {
       "filePath": "~coms/~$comId/~team_builderv2/~instagram_team/~route.lazy.tsx",
       "children": [
         "/coms/$comId/team_builderv2/instagram_team/"
-      ]
-    },
-    "/coms/$comId/type/assisant": {
-      "filePath": "~coms/~$comId/~type/~assisant.lazy.tsx",
-      "parent": "/coms/$comId/type"
-    },
-    "/coms/$comId/type/instagramTeam": {
-      "filePath": "~coms/~$comId/~type/~instagramTeam.lazy.tsx",
-      "parent": "/coms/$comId/type"
-    },
-    "/coms/$comId/view/$subComId": {
-      "filePath": "~coms/~$comId/~view/~$subComId/~route.lazy.tsx",
-      "parent": "/coms/$comId/view",
-      "children": [
-        "/coms/$comId/view/$subComId/"
       ]
     },
     "/resource/new/res/browser": {
@@ -4998,10 +4599,6 @@ export const routeTree = rootRoute
     "/coms/$comId/team_builderv2/instagram_team/": {
       "filePath": "~coms/~$comId/~team_builderv2/~instagram_team/~index.lazy.tsx",
       "parent": "/coms/$comId/team_builderv2/instagram_team"
-    },
-    "/coms/$comId/view/$subComId/": {
-      "filePath": "~coms/~$comId/~view/~$subComId/~index.lazy.tsx",
-      "parent": "/coms/$comId/view/$subComId"
     },
     "/tenant/settings/$tenantSettingId/model_settings/": {
       "filePath": "~tenant/~settings/~$tenantSettingId/~model_settings/~index.lazy.tsx",

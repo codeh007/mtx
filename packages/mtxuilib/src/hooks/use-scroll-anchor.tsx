@@ -51,15 +51,15 @@ export const useScrollAnchor = () => {
 
   useEffect(() => {
     if (visibilityRef.current) {
-      let observer = new IntersectionObserver(
+      const observer = new IntersectionObserver(
         (entries) => {
-          entries.forEach((entry) => {
+          for (const entry of entries) {
             if (entry.isIntersecting) {
               setIsVisible(true);
             } else {
               setIsVisible(false);
             }
-          });
+          }
         },
         {
           rootMargin: "0px 0px -150px 0px",

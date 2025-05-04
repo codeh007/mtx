@@ -5,11 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-type ClassNamesArg =
-  | undefined
-  | string
-  | Record<string, boolean>
-  | ClassNamesArg[];
+type ClassNamesArg = undefined | string | Record<string, boolean> | ClassNamesArg[];
 
 /**
  * A simple JavaScript utility for conditionally joining classNames together.
@@ -76,6 +72,9 @@ export function formatDate(input: string | number): string {
     year: "numeric",
   });
 }
+export const formatTime = (date: Date) => {
+  return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+};
 export const getCreatedAfterFromTimeRange = (timeRange?: string) => {
   switch (timeRange) {
     case "1h":
@@ -159,11 +158,7 @@ export function cleanSearchParams(urlSearchParams: URLSearchParams) {
   return cleanedParams;
 }
 
-export function searchString(
-  page: string,
-  search: string,
-  sort: string,
-): string {
+export function searchString(page: string, search: string, sort: string): string {
   const searchParameters = new URLSearchParams({
     page,
     search,
@@ -173,8 +168,7 @@ export function searchString(
   return cleanSearchParams(searchParameters)?.toString();
 }
 
-export const sleep = (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
+export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 export const delay = sleep;
 /**
  * 模拟文件下载
@@ -317,10 +311,7 @@ export function stringsRemovePrefix(inputString: string, prefix: string) {
   return inputString;
 }
 
-export async function fetcher<JSON>(
-  input: RequestInfo,
-  init?: RequestInit,
-): Promise<JSON> {
+export async function fetcher<JSON>(input: RequestInfo, init?: RequestInit): Promise<JSON> {
   const res = await fetch(input, init);
 
   if (!res.ok) {
@@ -399,10 +390,7 @@ export function isObject(object) {
   return object != null && typeof object === "object";
 }
 
-export function deepEqual(
-  object1: Record<string, any>,
-  object2: Record<string, any>,
-) {
+export function deepEqual(object1: Record<string, any>, object2: Record<string, any>) {
   const keys1 = Object.keys(object1);
   const keys2 = Object.keys(object2);
 
@@ -414,10 +402,7 @@ export function deepEqual(
     const val1 = object1[key];
     const val2 = object2[key];
     const areObjects = isObject(val1) && isObject(val2);
-    if (
-      (areObjects && !deepEqual(val1, val2)) ||
-      (!areObjects && val1 !== val2)
-    ) {
+    if ((areObjects && !deepEqual(val1, val2)) || (!areObjects && val1 !== val2)) {
       return false;
     }
   }
@@ -618,15 +603,9 @@ export function generateUUID(): string {
 }
 
 export function stripIndents(value: string): string;
-export function stripIndents(
-  strings: TemplateStringsArray,
-  ...values: any[]
-): string;
+export function stripIndents(strings: TemplateStringsArray, ...values: any[]): string;
 
-export function stripIndents(
-  arg0: string | TemplateStringsArray,
-  ...values: any[]
-) {
+export function stripIndents(arg0: string | TemplateStringsArray, ...values: any[]) {
   if (typeof arg0 !== "string") {
     const processedString = arg0.reduce((acc, curr, i) => {
       const newAcc = acc + curr + (values[i] ?? "");

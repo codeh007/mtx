@@ -1,7 +1,8 @@
 "use client";
 import type { AdkEventProperties, Part } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
-import { useCallback, useEffect, useRef } from "react";
+import { useScrollToBottom } from "mtxuilib/hooks/use-scroll-to-bottom";
+import { formatTime } from "mtxuilib/lib/utils";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { ChatAvatar } from "../cloudflare-agents/components/avatar/ChatAvatar";
 import { Card } from "../cloudflare-agents/components/card/Card";
@@ -9,80 +10,20 @@ import { ChatHeader } from "./ChatHeader";
 import { ChatInput } from "./ChatInput";
 import { AdkWelcomeCard } from "./ChatWelcome";
 import InstagramLoginView from "./func_view/InstagramLogin";
-const formatTime = (date: Date) => {
-  return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-};
+
 export default function AgentChatView() {
   const adkEvents = useWorkbenchStore((x) => x.adkEvents);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const scrollToBottom = useCallback(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, []);
-
-  // Scroll to bottom on mount
-  useEffect(() => {
-    scrollToBottom();
-  }, [scrollToBottom]);
-
-  // const agent = useAgent<RootAgentState>({
-  //   agent: "chat",
-  //   name: "chat-agent-session-1",
-  //   onStateUpdate: (newState) => setRootState(newState),
-  //   onMessage: (message) => {
-  //     console.log("(chat)onMessage", message?.data?.type);
-  //     const parsedMessage = JSON.parse(message.data) as AgentOutgoingEvent;
-  //     if (parsedMessage?.type === "connected") {
-  //       console.log("agent client connected");
-  //     } else if (parsedMessage.type === "run-schedule") {
-  //       console.log("run schedule", parsedMessage);
-  //     } else if (parsedMessage?.type === "error") {
-  //       console.log("error", parsedMessage);
-  //     } else if (parsedMessage?.type === "schedule") {
-  //       console.log("schedule", parsedMessage);
-  //     } else if (parsedMessage?.type === "demo-event-response") {
-  //       console.log("demo-event-response", parsedMessage);
-  //     } else if (parsedMessage?.type === "require-main-access-token") {
-  //       console.log("require-main-access-token", parsedMessage);
-  //       //@ts-expect-error
-  //     } else {
-  //       console.log("chat onMessage: 未知消息", message);
-  //     }
-  //   },
-  // });
-
-  // const {
-  //   messages: agentMessages,
-  //   input: agentInput,
-  //   handleInputChange: handleAgentInputChange,
-  //   handleSubmit: handleAgentSubmit,
-  //   addToolResult,
-  //   clearHistory,
-  // } = useAgentChat({
-  //   agent,
-  //   maxSteps: 5,
-  // });
-
-  // Scroll to bottom when messages change
-  // useEffect(() => {
-  //   agentMessages.length > 0 && scrollToBottom();
-  // }, [agentMessages, scrollToBottom]);
-
-  // const pendingToolCallConfirmation = agentMessages.some((m: Message) =>
-  //   m.parts?.some(
-  //     (part) =>
-  //       part.type === "tool-invocation" &&
-  //       part.toolInvocation.state === "call" &&
-  //       toolsRequiringConfirmation.includes(part.toolInvocation.toolName as keyof typeof tools),
-  //   ),
-  // );
+  const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
 
   return (
     <div className="h-[100vh] w-full p-4 flex justify-center items-center bg-fixed overflow-hidden">
       <div className="h-[calc(100vh-1rem)] w-full mx-auto max-w-lg flex flex-col shadow-xl rounded-md overflow-hidden relative border border-neutral-300 dark:border-neutral-800">
         <ChatHeader />
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-24 max-h-[calc(100vh-10rem)]">
+        <div
+          ref={messagesContainerRef}
+          className="flex-1 overflow-y-auto p-4 space-y-4 pb-24 max-h-[calc(100vh-10rem)]"
+        >
           {adkEvents && adkEvents.length <= 0 && <AdkWelcomeCard />}
           {adkEvents?.map((m) => {
             return <AdkEventsViewItemView key={m.id} item={m} />;

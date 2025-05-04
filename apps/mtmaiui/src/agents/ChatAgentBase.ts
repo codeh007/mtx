@@ -1,6 +1,7 @@
-import type { Connection } from "agents";
+import type { Connection, Schedule } from "agents";
 import { AIChatAgent } from "agents/ai-chat-agent";
 import type { StreamTextOnFinishCallback, ToolSet } from "ai";
+import { convertScheduleToScheduledItem } from "./utils";
 
 export class ChatAgentBase<Env = unknown, State = unknown> extends AIChatAgent<Env, State> {
   onMessage(connection: Connection, message: string): Promise<void> {
@@ -33,5 +34,14 @@ export class ChatAgentBase<Env = unknown, State = unknown> extends AIChatAgent<E
   handleException(error: unknown) {
     console.error("Error calling coder agent", error);
     this.log(`(handleException): ${error}`);
+  }
+
+  notifySchedule(schedule: Schedule<string>) {
+    this.broadcast(
+      JSON.stringify({
+        type: "schedule",
+        data: convertScheduleToScheduledItem(schedule),
+      }),
+    );
   }
 }

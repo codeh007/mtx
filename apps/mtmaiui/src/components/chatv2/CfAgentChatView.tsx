@@ -3,11 +3,13 @@ import type { Message } from "@ai-sdk/react";
 import { Bug, PaperPlaneRight, Robot, Trash } from "@phosphor-icons/react";
 import { useAgentChat } from "agents/ai-react";
 import { useAgent } from "agents/react";
+import { useScrollToBottom } from "mtxuilib/hooks/use-scroll-to-bottom";
+import { formatTime } from "mtxuilib/lib/utils";
 import { Button } from "mtxuilib/ui/button";
 import { Card } from "mtxuilib/ui/card";
 import { Switch } from "mtxuilib/ui/switch";
 import { BetterTooltip } from "mtxuilib/ui/tooltip";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import type { ChatAgentOutgoingMessage } from "../../agent_state/chat_agent_state";
 import type { RootAgentState } from "../../agent_state/root_agent_state";
 import { APPROVAL } from "../../agent_state/shared";
@@ -26,15 +28,7 @@ interface CfAgentChatViewProps {
 export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentChatViewProps) {
   const [rootState, setRootState] = useState<RootAgentState>();
   const [showDebug, setShowDebug] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const scrollToBottom = useCallback(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, []);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [scrollToBottom]);
+  const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
 
   const agent = useAgent<RootAgentState>({
     agent: agentName,
@@ -44,7 +38,6 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
     onStateUpdate: (newState) => setRootState(newState),
     onMessage: (message) => {
       const parsedMessage = JSON.parse(message.data) as ChatAgentOutgoingMessage;
-      // console.log("(chat)onMessage", parsedMessage);
       const messageType = parsedMessage?.type;
       switch (messageType) {
         //@ts-expect-error
@@ -55,14 +48,15 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
         case "cf_agent_chat_clear":
           // 清空对话
           break;
+        //@ts-expect-error
+        case "cf_agent_chat_messages":
+          // 对话消息
+          break;
         case "runSchedule":
           console.log("run schedule(TODO)", parsedMessage);
           break;
         case "log":
-          console.log(
-            `%c Log: ${parsedMessage.data.message}`,
-            "color: red; font-weight: bold; font-size: 14px",
-          );
+          console.log(`%c ${parsedMessage.data.message}`, "color: blue; font-size: 11px");
           break;
         case "schedule":
           console.log("schedule(TODO)", parsedMessage);
@@ -96,15 +90,33 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
     handleSubmit: handleAgentSubmit,
     addToolResult,
     clearHistory,
+    setInput,
   } = useAgentChat({
     agent,
     maxSteps: 5,
   });
 
-  // Scroll to bottom when messages change
-  useEffect(() => {
-    agentMessages.length > 0 && scrollToBottom();
-  }, [agentMessages, scrollToBottom]);
+  const handleInputSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      const inputValue = (e.target as HTMLInputElement).value;
+      if (inputValue.startsWith("/test1")) {
+        setInput("");
+      } else if (inputValue.startsWith("/test2")) {
+        setInput("");
+        agent.send(
+          JSON.stringify({
+            type: "event_test2",
+            data: {
+              message: "test2",
+            },
+          }),
+        );
+      } else {
+        handleAgentSubmit(e as unknown as React.FormEvent);
+      }
+    }
+  };
 
   const pendingToolCallConfirmation = agentMessages.some((m: Message) =>
     m.parts?.some(
@@ -114,10 +126,6 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
         toolsRequiringConfirmation.includes(part.toolInvocation.toolName as keyof typeof tools),
     ),
   );
-
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  };
 
   return (
     <div className="h-[100vh] w-full p-4 flex justify-center items-center bg-fixed overflow-hidden">
@@ -172,7 +180,11 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-24 max-h-[calc(100vh-10rem)]">
+        <div
+          ref={messagesContainerRef}
+          className="flex-1 overflow-y-auto p-4 space-y-4 pb-24 max-h-[calc(100vh-10rem)]"
+        >
+          {/* <div ref={messagesContainerRef} /> */}
           {agentMessages.length === 0 && (
             <div className="h-full flex items-center justify-center">
               <Card className="p-6 max-w-md mx-auto bg-neutral-100 dark:bg-neutral-900">
@@ -357,12 +369,7 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
                 className="pl-4 pr-10 py-2 w-full rounded-full bg-ob-btn-secondary-bg text-ob-base-300"
                 value={agentInput}
                 onChange={handleAgentInputChange}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    handleAgentSubmit(e as unknown as React.FormEvent);
-                  }
-                }}
+                onKeyDown={handleInputSubmit}
                 onValueChange={undefined}
               />
             </div>

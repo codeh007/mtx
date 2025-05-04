@@ -1,9 +1,11 @@
 import type { OutgoingMessage } from "http";
-import type { Connection, ConnectionContext } from "agents";
+import type { Connection, ConnectionContext, Schedule } from "agents";
+import { unstable_getSchedulePrompt, unstable_scheduleSchema } from "agents/schedule";
 import {
   type StreamTextOnFinishCallback,
   type ToolSet,
   createDataStreamResponse,
+  generateObject,
   streamText,
 } from "ai";
 import { experimental_createMCPClient, generateText } from "ai";
@@ -30,12 +32,24 @@ export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
   onClose(connection: Connection) {}
 
   async onMessage(connection: Connection, message: string): Promise<void> {
+    this.log("onMessage", message);
     const event = JSON.parse(message) as ShortVideoInMessage;
-    if (event.type === "shortvideo_topic") {
-      console.log("shortvideo_topic", event);
-      return;
+    const eventType = event.type;
+    this.log("onMessage", eventType);
+    switch (eventType) {
+      case "shortvideo_topic":
+        console.log("shortvideo_topic", event);
+        break;
+      case "reset":
+        await this.onReset();
+        break;
+      case "event_test2":
+        this.log("on event_test2");
+        await this.onTest2(connection);
+        break;
+      default:
+        return super.onMessage(connection, message);
     }
-    return super.onMessage(connection, message);
   }
 
   async onChatMessage(
@@ -53,10 +67,16 @@ export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
       const model = getDefaultModel(this.env);
       const lastestMessage = this.messages?.[this.messages.length - 1];
       const userInput = lastestMessage?.content;
+      this.log("userInput", userInput);
       if (userInput?.startsWith("/test1")) {
+        this.log("onTest1");
         await this.onTest1();
       } else if (userInput?.startsWith("/test2")) {
-        await this.onTest2();
+        this.log("onTest2");
+        await this.onTest2(connection);
+      } else if (userInput?.startsWith("/reset")) {
+        this.log("onReset");
+        await this.onReset();
       } else {
         this.log("onChatMessage");
         await mcpClient.init();
@@ -143,13 +163,62 @@ export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
     // });
     // this.log("response", response.text);
   }
-  onTest2() {
+  async onTest2(connection: Connection) {
+    const userInput = "请在5分钟后, 生成一个视频, 视频的主题是: 如何使用llm 生成一个视频";
+    const model = getDefaultModel(this.env);
+    //步骤1: 通过llm 生成计划任务数据
+    const result = await generateObject({
+      model,
+      mode: "json",
+      schemaName: "task",
+      schemaDescription: "A task to be scheduled",
+      schema: unstable_scheduleSchema, // <- the shape of the object that the scheduler expects
+      maxRetries: 5,
+      prompt: `${unstable_getSchedulePrompt({
+        date: new Date(),
+      })} 
+Input to parse: "${userInput}"`,
+    });
+    const { when, description } = result.object;
+    if (when.type === "no-schedule") {
+      connection.send(
+        JSON.stringify({
+          type: "error",
+          data: `No schedule provided for ${userInput}`,
+        } satisfies OutgoingMessage),
+      );
+      return;
+    }
+
+    // 将任务安排放到队列
+    const schedule = await this.schedule(
+      when.type === "scheduled"
+        ? when.date!
+        : when.type === "delayed"
+          ? when.delayInSeconds!
+          : when.cron!,
+      "onTask",
+      description,
+    );
+
     //通知客户端
     connection.send(
       JSON.stringify({
         type: "schedule",
         data: convertScheduleToScheduledItem(schedule),
-      } satisfies OutgoingMessage),
+      }),
     );
+  }
+  /**
+   * 实际的任务调度
+   * @param payload
+   * @param schedule
+   */
+  async onTask(payload: unknown, schedule: Schedule<string>) {
+    this.notifySchedule(schedule);
+  }
+
+  async onReset() {
+    //TODO: 重置状态
   }
 }
