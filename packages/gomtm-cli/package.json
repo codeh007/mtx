@@ -14,18 +14,15 @@
   },
   "sideEffects": false,
   "scripts": {
-    "build--": "bun build src/cli/main.ts --outdir=dist/gomtm-cli.js --target node",
-    "build": "next build ",
-    "wrangler_deploy": "bun run withEnv -- wrangler deploy src/entry-cfworker.ts --config=../../../gomtm/wrangler.mtmgw.json",
-    "wrangler_dev": "bun run withEnv -- wrangler dev src/entry-cfworker.ts --config=../../../gomtm/wrangler.mtmgw.json --ip=0.0.0.0 --port=8788 --tsconfig=tsconfig.wrangler.json"
+    "build": "echo hello"
   },
-  "dependencies": {
+  "dependencies--": {
     "next": "^15.2",
     "react": "^19",
     "react-dom": "^19",
     "zod": "^3.24.3"
   },
-  "devDependencies": {
+  "devDependencies--": {
     "vite": "^6.2.5",
     "@types/node": "^22.14.0",
     "@types/react": "^19.0.2",

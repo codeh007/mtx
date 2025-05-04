@@ -2,7 +2,9 @@ import { WorkflowEntrypoint, type WorkflowEvent, type WorkflowStep } from "cloud
 import { generateText } from "ai";
 import { createWorkersAI } from "workers-ai-provider";
 import z from "zod";
-import { getDefaultModel } from "../../components/cloudflare-agents/model";
+import { getDefaultModel, getOllamaModel } from "../../components/cloudflare-agents/model";
+
+// const ollamaApiUrl = "http://localhost:11434";
 
 export type ShortVideoWorkflowParams = {
   prompt: string;
@@ -113,6 +115,7 @@ ${videoSubjectObj}
 
     // Step 3: 生成音频
     const audioObj = await step.do("generate audio", async () => {
+      const ollamaModel = getOllamaModel(this.env);
       return {
         audio: "TODO: 生成音频",
       };
