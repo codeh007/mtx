@@ -3,6 +3,7 @@ import type { Message } from "@ai-sdk/react";
 import { Bug, PaperPlaneRight, Robot, Trash } from "@phosphor-icons/react";
 import { useAgentChat } from "agents/ai-react";
 import { useAgent } from "agents/react";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useScrollToBottom } from "mtxuilib/hooks/use-scroll-to-bottom";
 import { formatTime } from "mtxuilib/lib/utils";
 import { Button } from "mtxuilib/ui/button";
@@ -11,12 +12,12 @@ import { Switch } from "mtxuilib/ui/switch";
 import { BetterTooltip } from "mtxuilib/ui/tooltip";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useState } from "react";
-import type { ChatAgentOutgoingMessage } from "../../agent_state/chat_agent_state";
-import type { RootAgentState } from "../../agent_state/root_agent_state";
+import type { ChatAgentOutgoingMessage, ChatAgentState } from "../../agent_state/chat_agent_state";
 import { APPROVAL } from "../../agent_state/shared";
 import type { tools } from "../../agents/tools";
 import { ChatAvatar } from "../cloudflare-agents/components/avatar/ChatAvatar";
 import { Input } from "../cloudflare-agents/components/input/Input";
+import { useChatAgentStore } from "./agentStore";
 
 const toolsRequiringConfirmation: (keyof typeof tools)[] = ["getWeatherInformation"];
 
@@ -27,18 +28,20 @@ interface CfAgentChatViewProps {
   prefix?: string;
 }
 export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentChatViewProps) {
-  const [rootState, setRootState] = useState<RootAgentState>();
   const [showDebug, setShowDebug] = useState(false);
   const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
 
+  const agentState = useChatAgentStore((x) => x.agentState);
+  const setAgentState = useChatAgentStore((x) => x.setAgentState);
+
   const toast = useToast();
 
-  const agent = useAgent<RootAgentState>({
+  const agent = useAgent<ChatAgentState>({
     agent: agentName,
     host: host,
     prefix: prefix,
     name: agentId,
-    onStateUpdate: (newState) => setRootState(newState),
+    onStateUpdate: (newState) => setAgentState(newState),
     onMessage: (message) => {
       const parsedMessage = JSON.parse(message.data) as ChatAgentOutgoingMessage;
       const messageType = parsedMessage?.type;
@@ -80,21 +83,6 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
           console.log(`onMessage: 未知消息: ${parsedMessage?.type}`, message);
           break;
       }
-      // if (parsedMessage.type === "runSchedule") {
-      //   console.log("run schedule(TODO)", parsedMessage);
-      //   //@ts-expect-error
-      // } else if (parsedMessage?.type === "cf_agent_use_chat_response") {
-      //   // 普通对话响应
-      // } else if (parsedMessage?.type === "log") {
-      //   console.log(
-      //     `%c Log: ${parsedMessage.data.message}`,
-      //     "color: red; font-weight: bold; font-size: 14px",
-      //   );
-      // } else if (parsedMessage?.type === "schedule") {
-      //   console.log("schedule(TODO)", parsedMessage);
-      // } else {
-      //   console.log(`chat onMessage: 未知消息: ${parsedMessage?.type}`, message);
-      // }
     },
   });
 
@@ -171,7 +159,7 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
           </div>
 
           <div className="flex items-center gap-2 mr-2">
-            <Bug size={16} />
+            <Bug className="size-4" />
             <Switch
               // toggled={showDebug}
               aria-label="Toggle debug mode"
@@ -179,26 +167,15 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
             />
           </div>
 
-          {/* <Button
-            variant="ghost"
-            // size="md"
-            // shape="square"
-            className="rounded-full h-9 w-9"
-            onClick={toggleTheme}
-          >
-            {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-          </Button> */}
-
           <Button
             variant="ghost"
-            // size="md"
             size="icon"
-            // shape="square"
-            className="rounded-full h-9 w-9"
+            className="rounded-full size-8"
             onClick={clearHistory}
           >
-            <Trash size={20} />
+            <Trash className="size-4" />
           </Button>
+          <DebugValue data={agentState} />
         </div>
 
         {/* Messages */}
@@ -206,7 +183,6 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
           ref={messagesContainerRef}
           className="flex-1 overflow-y-auto p-4 space-y-4 pb-24 max-h-[calc(100vh-10rem)]"
         >
-          {/* <div ref={messagesContainerRef} /> */}
           {agentMessages.length === 0 && (
             <div className="h-full flex items-center justify-center">
               <Card className="p-6 max-w-md mx-auto bg-neutral-100 dark:bg-neutral-900">

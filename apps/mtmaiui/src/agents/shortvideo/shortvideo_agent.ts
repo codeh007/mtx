@@ -4,6 +4,7 @@ import {
   type StreamTextOnFinishCallback,
   type ToolSet,
   createDataStreamResponse,
+  generateId,
   generateObject,
   streamText,
 } from "ai";
@@ -23,6 +24,8 @@ export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
   initialState = {
     mtmai_api_endpoint: mcpServerUrl,
     video_subject: "",
+    schedules: [],
+    scheduleFinished: [] as Schedule<string>[],
   } satisfies ShortVideoAgentState;
 
   onStart(): void | Promise<void> {}
@@ -162,7 +165,7 @@ export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
   }
   async onTest2(connection: Connection) {
     this.log("onTest2 启动");
-    const userInput = "请在10秒后, 生成一个视频, 视频的主题是: 如何使用llm 生成一个视频";
+    const userInput = "请在20秒后, 生成一个视频, 视频的主题是: 如何使用llm 生成一个视频";
     const model = getDefaultModel(this.env);
     //步骤1: 通过llm 生成计划任务数据
     const result = await generateObject({
@@ -201,11 +204,31 @@ Input to parse: "${userInput}"`,
   async onTest3(connection: Connection) {
     this.log("onTest3 启动");
     // schedule a task to run every 10 seconds
-    const { id } = await this.schedule("*/10 * * * *", "someTask", { message: "hello" });
+    // const { id } = await this.schedule("*/20 * * * *", "someTask", { message: "hello" });
+
+    // schedule a task to run in 10 seconds
+    const task = await this.schedule(10, "someTask", { message: "hello" });
+    this.setState({
+      schedules: [...this.state.schedules, task],
+    });
   }
 
   async someTask(params: { message: string }) {
     this.log("someTask启动", params);
+    this.setState({
+      schedules: this.state.schedules.filter((t) => t.id !== params.id),
+      scheduleFinished: [...this.state.scheduleFinished, params.id],
+    });
+  }
+
+  async taskRunWorkflow(params: any) {
+    this.log("taskRunWorkflow启动", params);
+    this.env.PROMPT_CHAINING_WORKFLOW.create({
+      id: generateId(),
+      params: {
+        aaa: "bbb",
+      },
+    });
   }
 
   /**

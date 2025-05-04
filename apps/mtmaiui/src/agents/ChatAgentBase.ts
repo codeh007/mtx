@@ -54,12 +54,7 @@ export class ChatAgentBase<Env = unknown, State = unknown> extends AIChatAgent<E
       type: "runSchedule",
       data: convertScheduleToScheduledItem(schedule),
     });
-
-    // if (connection) {
-    //   connection.send(message);
-    // } else {
     this.broadcast(message);
-    // }
   }
 
   notifyError(error: unknown, connection: Connection | undefined = undefined) {

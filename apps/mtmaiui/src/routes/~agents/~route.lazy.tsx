@@ -1,7 +1,6 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { RootAppWrapper } from "../../components/RootAppWrapper";
-// import { MtSessionProvider } from "../../stores/SessionProvider";
 import { WorkbrenchProvider } from "../../stores/workbrench.store";
 import { NavSession } from "./siderbar";
 
