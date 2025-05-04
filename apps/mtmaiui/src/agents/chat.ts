@@ -1,10 +1,10 @@
 import type { Connection, ConnectionContext, Schedule } from "agents";
 import { getAgentByName } from "agents";
-import { AIChatAgent } from "agents/ai-chat-agent";
 import {
   type DataStreamWriter,
   type Message,
   type StreamTextOnFinishCallback,
+  ToolSet,
   createDataStreamResponse,
   generateId,
   streamText,
@@ -18,6 +18,7 @@ import type {
 } from "../agent_state/chat_agent_state";
 import type { OutgoingMessage } from "../agent_state/shared";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
+import { ChatAgentBase } from "./ChatAgentBase";
 import { tools } from "./tools";
 import { convertScheduleToScheduledItem } from "./utils";
 import type { WorkerAgent } from "./worker_agent";
@@ -47,13 +48,11 @@ const callCoderAgent = tool({
   },
 });
 
-export class Chat extends AIChatAgent<Env, ChatAgentState> {
+export class Chat extends ChatAgentBase<Env, ChatAgentState> {
   initialState: ChatAgentState = {
     chatViewType: "full",
     participants: [],
     lastUpdated: 0,
-    tts_api_endpoint: "",
-    video_subject: "",
   };
 
   onStart(): void | Promise<void> {
@@ -93,7 +92,7 @@ export class Chat extends AIChatAgent<Env, ChatAgentState> {
     }
   }
 
-  async onChatMessage(onFinish: StreamTextOnFinishCallback<{}>) {
+  async onChatMessage(onFinish: StreamTextOnFinishCallback<ToolSet>) {
     const model = getDefaultModel(this.env);
     const sessionId = this.name;
 
@@ -319,22 +318,5 @@ export class Chat extends AIChatAgent<Env, ChatAgentState> {
       }
     }
     return streamAdkMessages();
-  }
-
-  log(message: string) {
-    this.broadcast(
-      JSON.stringify({
-        type: "log",
-        data: {
-          level: "info",
-          message,
-        },
-      } satisfies ChatAgentOutgoingMessage),
-    );
-  }
-
-  handleException(error: unknown) {
-    console.error("Error calling coder agent", error);
-    this.log(`(handleException): ${error}`);
   }
 }
