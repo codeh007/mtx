@@ -3,6 +3,15 @@ import { Player, Stage, getFullPreviewSettings } from "@revideo/core";
 
 import { Vector2 } from "@revideo/core";
 
+/**  *****************************************************************************
+ * 主要修改:
+ *  添加了自定义事件: play 和 pause, 原因是, 原版 在nextjs 中, 不能通过属性获取到相关状态
+ *
+ *  现在直接用事件来触发播放和暂停.
+ *
+ *
+ */
+
 const stylesNew = `
 .overlay {
 	position: absolute;
@@ -107,12 +116,9 @@ class RevideoPlayer extends HTMLElement {
   private setState(state: State) {
     this.state = state;
     this.setPlaying(this.playing);
-
-    console.log("setState", state);
   }
 
   private setPlaying(value: boolean) {
-    // console.log("setPlaying", value, State);
     if (this.state === State.Ready && value) {
       this.player?.togglePlayback(true);
       this.playing = true;
@@ -123,7 +129,6 @@ class RevideoPlayer extends HTMLElement {
   }
 
   private async updateProject(project: Project) {
-    console.log("updateProject", project);
     const playing = this.playing;
     this.setState(State.Initial);
 
@@ -151,13 +156,11 @@ class RevideoPlayer extends HTMLElement {
 
     // Restore previous state
     this.setPlaying(playing);
-    // this.setPlaying(true);
     this.player.onRender.subscribe(this.render);
     this.player.onFrameChanged.subscribe(this.handleFrameChanged);
   }
 
   public attributeChangedCallback(name: string, _: any, newValue: any) {
-    console.log("attributeChangedCallback2", name, newValue);
     switch (name) {
       case "playing":
         this.setPlaying(newValue === "true");
@@ -184,16 +187,13 @@ class RevideoPlayer extends HTMLElement {
   }
 
   private handlePlay = () => {
-    console.log("收到播放信号 play");
-    this.player?.activate();
-    // this.player?.onRender.subscribe(this.render);
-    // this.setPlaying(true);
+    this.setPlaying(true);
   };
 
   private handlePause = () => {
-    this.player?.deactivate();
-    // this.setPlaying(false);
+    this.setPlaying(false);
   };
+
   /**
    * Runs when the element is removed from the DOM.
    */
@@ -205,13 +205,13 @@ class RevideoPlayer extends HTMLElement {
     this.removeEventListener("volumechange", this.handleVolumeChange);
     this.removeEventListener("play", this.handlePlay);
     this.removeEventListener("pause", this.handlePause);
+    // this.removeEventListener("nextframe", this.handleNextFrame);
   }
 
   /**
    * Runs when the element is added to the DOM.
    */
   public connectedCallback() {
-    console.log("connectedCallback");
     this.player?.activate();
     this.player?.onRender.subscribe(this.render);
 
@@ -221,6 +221,7 @@ class RevideoPlayer extends HTMLElement {
     // 增加代码
     this.addEventListener("play", this.handlePlay);
     this.addEventListener("pause", this.handlePause);
+    // this.addEventListener("nextframe", this.handleNextFrame);
   }
 
   /**
@@ -230,16 +231,18 @@ class RevideoPlayer extends HTMLElement {
     if (!this.project) {
       return;
     }
+    if (!this.player) {
+      return;
+    }
 
     const e = event as CustomEvent;
     this.time = e.detail;
-    // console.log("handleSeekTo", e.detail * this.player.playback.fps);
-    this.player?.deactivate();
+    // console.log(`seekTo: ${this.time}`, e.detail * this.player?.playback.fps);
     this.player?.requestSeek(e.detail * this.player.playback.fps);
     this.volumeChangeRequested = true;
-    // this.handlePause();
-
-    // this.player.req
+    this.player?.onFrameChanged;
+    this.player?.onRender;
+    this.player?.requestRender();
   };
 
   private handleVolumeChange = (event: Event) => {
@@ -257,7 +260,7 @@ class RevideoPlayer extends HTMLElement {
    * Triggered by the player.
    */
   private handleFrameChanged = (frame: number) => {
-    console.log("handleFrameChanged", frame);
+    // console.log("handleFrameChanged", frame);
     if (!this.project || !this.player) {
       return;
     }
@@ -278,11 +281,14 @@ class RevideoPlayer extends HTMLElement {
         this.player.playback.currentScene,
         this.player.playback.previousScene,
       );
+
       this.dispatchEvent(new CustomEvent("timeupdate", { detail: this.time }));
+
       const durationInFrames = this.player.playback.duration;
       if (durationInFrames === this.duration) {
         return;
       }
+
       this.duration = durationInFrames;
 
       const durationInSeconds = durationInFrames / this.player.playback.fps;

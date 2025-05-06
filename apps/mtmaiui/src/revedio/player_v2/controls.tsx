@@ -53,13 +53,13 @@ function VolumeSlider({
         }
       }}
     >
-      controller
-      <div
+      <button
+        type="button"
         className="w-6 h-6 flex items-center justify-center cursor-pointer"
         onClick={handleIconClick}
       >
         {volume === 0 ? <MutedSoundIcon /> : <SoundIcon />}
-      </div>
+      </button>
       {(isHovering || isInteracting) && (
         <div className="flex items-center h-1.5 whitespace-nowrap">
           <div className="relative w-20 h-1.5 bg-gray-300 rounded-full">
@@ -104,9 +104,9 @@ function Timeline({
   const progressPercentage = (currentTime / duration) * 100;
 
   return (
-    <div className="relative flex-1 w-full h-1.5 bg-gray-300 rounded-full overflow-hidden">
+    <div className="relative flex-1 w-full h-1.5 bg-slate-400 rounded-full overflow-hidden">
       <div
-        className="absolute top-0 left-0 h-full bg-gray-100"
+        className="absolute top-0 left-0 h-full bg-slate-100"
         style={{ width: `${progressPercentage}%` }}
       />
       <input
@@ -142,7 +142,7 @@ export function Controls({
   setVolume: (volume: number) => void;
 }) {
   return (
-    <div className="text-white p-4 flex-col space-y-2 bg-gradient-to-t from-gray-500 to-transparent bg-red-500">
+    <div className="text-white p-4 flex-col space-y-2 bg-gradient-to-t from-blue-400">
       <div className="flex items-center space-x-2">
         <PlayPause playing={playing} setPlaying={setPlaying} />
         <div className="flex items-center space-x-2">

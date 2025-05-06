@@ -92,7 +92,7 @@ export function PlayerV2({
 
   // 通过事件,控制 播放器
   useEffect(() => {
-    console.log("useEffect playingState", playingState);
+    // console.log("useEffect playingState", playingState);
     if (playerRef.current) {
       if (!playingState) {
         playerRef.current?.dispatchEvent(new CustomEvent("pause"));
@@ -101,6 +101,23 @@ export function PlayerV2({
       }
     }
   }, [playingState]);
+
+  /**
+   * When the forced time changes, seek to that time.
+   */
+  function setForcedTime(forcedTime: number) {
+    console.log("setForcedTime", forcedTime);
+    if (playerRef.current) {
+      playerRef.current.dispatchEvent(new CustomEvent("seekto", { detail: forcedTime }));
+    }
+  }
+
+  function setForcedVolume(volume: number) {
+    setVolumeState(volume);
+    if (playerRef.current) {
+      playerRef.current.dispatchEvent(new CustomEvent("volumechange", { detail: volume }));
+    }
+  }
 
   /**
    * Sync the current time with the player's own state.
@@ -120,11 +137,16 @@ export function PlayerV2({
    * Receives the current time of the video from the player.
    */
   const handleTimeUpdate = (event: Event) => {
-    // console.log("handleTimeUpdate", event);
     const e = event as CustomEvent;
     setCurrentTime(e.detail);
     onTimeUpdate(e.detail);
   };
+
+  // const handleNextFrame = () => {
+  //   if (playerRef.current) {
+  //     playerRef.current.dispatchEvent(new CustomEvent("nextframe"));
+  //   }
+  // };
 
   /**
    * Receives the duration of the video from the player.
@@ -147,7 +169,6 @@ export function PlayerV2({
 
   const handlePlayerReady = (event: Event) => {
     const player = (event as CustomEvent).detail;
-    console.log("onPlayerReady", player);
     if (player) {
       onPlayerReady(player);
     }
@@ -213,37 +234,27 @@ export function PlayerV2({
     };
   }, [project, playerRef.current]);
 
-  /**
-   * When the forced time changes, seek to that time.
-   */
-  function setForcedTime(forcedTime: number) {
-    console.log("setForcedTime", forcedTime);
-    if (playerRef.current) {
-      playerRef.current.dispatchEvent(new CustomEvent("seekto", { detail: forcedTime }));
-    }
-  }
-
-  function setForcedVolume(volume: number) {
-    setVolumeState(volume);
-    if (playerRef.current) {
-      playerRef.current.dispatchEvent(new CustomEvent("volumechange", { detail: volume }));
-    }
-  }
-
   return (
     <div className="revideo-player-root" style={{ display: "contents" }}>
       <div
         ref={wrapperRef}
         className="relative cursor-default focus:outline-none"
-        onFocus={() => (focus.current = true)}
-        onBlur={() => (focus.current = false)}
-        tabIndex={0}
+        onFocus={() => {
+          focus.current = true;
+          // console.log("onFocus");
+        }}
+        onBlur={() => {
+          focus.current = false;
+          // console.log("onBlur");
+        }}
+        // tabIndex={0}
         onMouseEnter={() => setIsMouseOver(true)}
         onMouseLeave={() => setIsMouseOver(false)}
       >
         <div className="relative">
           <revideo-player
             ref={playerRef}
+            // 这里的 playing 没有发挥作用
             playing={String(playingState)}
             onClick={onClickHandler}
             variables={JSON.stringify(variables)}
