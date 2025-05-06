@@ -1,4 +1,3 @@
-import { Button } from "mtxuilib/ui/button";
 import { useState } from "react";
 import { MutedSoundIcon, PauseButton, PlayButton, SoundIcon } from "./icons";
 import { getFormattedTime } from "./utils";
@@ -155,7 +154,7 @@ export function Controls({
         <div className="flex-grow" />
       </div>
       <Timeline currentTime={currentTime} duration={duration} setCurrentTime={setForcedTime} />
-      <div>
+      {/* <div>
         <Button
           onClick={() => {
             console.log("onClick");
@@ -164,10 +163,10 @@ export function Controls({
         >
           play
         </Button>
-      </div>
-      <div>
+      </div> */}
+      {/* <div>
         duration:{duration},currentTime:{currentTime},
-      </div>
+      </div> */}
     </div>
   );
 }

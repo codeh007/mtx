@@ -98,15 +98,6 @@ class RevideoPlayer extends HTMLElement {
     this.canvas.classList.add("canvas");
     this.root.prepend(this.canvas);
     this.setState(State.Initial);
-    this.onclick = () => {
-      console.log("onclick setplaying", this.playing);
-      this.setPlaying(!this.playing);
-
-      if (!this.playing) {
-        this.player?.onRender.unsubscribe(this.render);
-        this.player?.onFrameChanged.unsubscribe(this.handleFrameChanged);
-      }
-    };
   }
 
   public setProject(project: Project) {
@@ -121,17 +112,13 @@ class RevideoPlayer extends HTMLElement {
   }
 
   private setPlaying(value: boolean) {
-    console.log("setPlaying", value, State);
+    // console.log("setPlaying", value, State);
     if (this.state === State.Ready && value) {
       this.player?.togglePlayback(true);
       this.playing = true;
     } else {
       this.player?.togglePlayback(false);
       this.playing = false;
-      if (!this.playing) {
-        this.player?.onRender.unsubscribe(this.render);
-        this.player?.onFrameChanged.unsubscribe(this.handleFrameChanged);
-      }
     }
   }
 
@@ -196,6 +183,17 @@ class RevideoPlayer extends HTMLElement {
     }
   }
 
+  private handlePlay = () => {
+    console.log("收到播放信号 play");
+    this.player?.activate();
+    // this.player?.onRender.subscribe(this.render);
+    // this.setPlaying(true);
+  };
+
+  private handlePause = () => {
+    this.player?.deactivate();
+    // this.setPlaying(false);
+  };
   /**
    * Runs when the element is removed from the DOM.
    */
@@ -205,6 +203,8 @@ class RevideoPlayer extends HTMLElement {
 
     this.removeEventListener("seekto", this.handleSeekTo);
     this.removeEventListener("volumechange", this.handleVolumeChange);
+    this.removeEventListener("play", this.handlePlay);
+    this.removeEventListener("pause", this.handlePause);
   }
 
   /**
@@ -217,10 +217,10 @@ class RevideoPlayer extends HTMLElement {
 
     this.addEventListener("seekto", this.handleSeekTo);
     this.addEventListener("volumechange", this.handleVolumeChange);
-    this.addEventListener("click22", () => {
-      console.log("click22");
-      this.setPlaying(!this.playing);
-    });
+
+    // 增加代码
+    this.addEventListener("play", this.handlePlay);
+    this.addEventListener("pause", this.handlePause);
   }
 
   /**
@@ -233,8 +233,13 @@ class RevideoPlayer extends HTMLElement {
 
     const e = event as CustomEvent;
     this.time = e.detail;
+    // console.log("handleSeekTo", e.detail * this.player.playback.fps);
+    this.player?.deactivate();
     this.player?.requestSeek(e.detail * this.player.playback.fps);
     this.volumeChangeRequested = true;
+    // this.handlePause();
+
+    // this.player.req
   };
 
   private handleVolumeChange = (event: Event) => {
@@ -252,7 +257,7 @@ class RevideoPlayer extends HTMLElement {
    * Triggered by the player.
    */
   private handleFrameChanged = (frame: number) => {
-    // console.log("handleFrameChanged", frame);
+    console.log("handleFrameChanged", frame);
     if (!this.project || !this.player) {
       return;
     }
@@ -286,7 +291,6 @@ class RevideoPlayer extends HTMLElement {
   };
 
   private updateSettings() {
-    console.log("updateSettings");
     if (!this.defaultSettings) {
       return;
     }

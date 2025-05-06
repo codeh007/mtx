@@ -79,9 +79,7 @@ export function PlayerV2({
 
   const onClickHandler = controls
     ? () => {
-        console.log("playerV2 onClickHandler");
         setPlaying((prev) => !prev);
-        playerRef.current?.dispatchEvent(new CustomEvent("click22"));
       }
     : undefined;
 
@@ -91,6 +89,18 @@ export function PlayerV2({
   useEffect(() => {
     setPlaying(playing);
   }, [playing]);
+
+  // 通过事件,控制 播放器
+  useEffect(() => {
+    console.log("useEffect playingState", playingState);
+    if (playerRef.current) {
+      if (!playingState) {
+        playerRef.current?.dispatchEvent(new CustomEvent("pause"));
+      } else {
+        playerRef.current?.dispatchEvent(new CustomEvent("play"));
+      }
+    }
+  }, [playingState]);
 
   /**
    * Sync the current time with the player's own state.
@@ -207,6 +217,7 @@ export function PlayerV2({
    * When the forced time changes, seek to that time.
    */
   function setForcedTime(forcedTime: number) {
+    console.log("setForcedTime", forcedTime);
     if (playerRef.current) {
       playerRef.current.dispatchEvent(new CustomEvent("seekto", { detail: forcedTime }));
     }
