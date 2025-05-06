@@ -14,7 +14,6 @@ function PlayPause({
       type="button"
       className="p-1"
       onClick={() => {
-        console.log("onClick", playing);
         setPlaying(!playing);
       }}
     >
@@ -154,19 +153,6 @@ export function Controls({
         <div className="flex-grow" />
       </div>
       <Timeline currentTime={currentTime} duration={duration} setCurrentTime={setForcedTime} />
-      {/* <div>
-        <Button
-          onClick={() => {
-            console.log("onClick");
-            setPlaying(!playing);
-          }}
-        >
-          play
-        </Button>
-      </div> */}
-      {/* <div>
-        duration:{duration},currentTime:{currentTime},
-      </div> */}
     </div>
   );
 }

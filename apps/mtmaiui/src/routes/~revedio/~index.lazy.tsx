@@ -2,8 +2,9 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 import { Button } from "mtxuilib/ui/button";
-import { Suspense, useEffect, useState } from "react";
-import { RenderComponent } from "./RenderComponent";
+import { useState } from "react";
+import { PlayerV2 } from "../../components/revedio_player";
+import project from "../../revedio/project";
 import { getGithubRepositoryInfo } from "./actions";
 
 export const Route = createLazyFileRoute("/revedio/")({
@@ -19,13 +20,6 @@ function RouteComponent() {
   const [needsKey, setNeedsKey] = useState(false);
   const [key, setKey] = useState("");
   const [error, setError] = useState<string | null>();
-
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   /**
    * Get information about the repository from Github.
    */
@@ -48,10 +42,6 @@ function RouteComponent() {
     setRepoImage(response.repoImage);
   }
 
-  if (!mounted) {
-    return null;
-  }
-
   return (
     <>
       <div className="m-auto p-12 max-w-7xl flex flex-col gap-y-4">
@@ -66,7 +56,6 @@ function RouteComponent() {
             />
             {!needsKey && (
               <Button
-                // loading={githubLoading}
                 disabled={githubLoading}
                 onClick={() => fetchInformation(repoName as `${string}/${string}`, key)}
               >
@@ -75,7 +64,7 @@ function RouteComponent() {
             )}
           </div>
         </div>
-        {needsKey && (
+        {/* {needsKey && (
           <div>
             <div className="text-sm text-blue-600 mb-2">
               You hit the Github API rate-limit. Please provide your own key. Requests to Github are
@@ -97,7 +86,7 @@ function RouteComponent() {
               </Button>
             </div>
           </div>
-        )}
+        )} */}
         {error && <div className="text-sm text-red-600">{error}</div>}
         <div>
           <div className="rounded-lg overflow-hidden">
@@ -111,17 +100,26 @@ function RouteComponent() {
                 repoImage: repoImage ? repoImage : undefined,
               }}
             /> */}
-            <Suspense fallback={<div>Loading...</div>}>
-              {/* <Player /> */}
-              todo player
-            </Suspense>
+            {/* <PlayerV2 project={project} /> */}
+
+            <PlayerV2
+              project={project}
+              controls={true}
+              variables={
+                {
+                  // data: stargazerTimes.length > 0 ? stargazerTimes : undefined,
+                  // repoName: repoName ? repoName : undefined,
+                  // repoImage: repoImage ? repoImage : undefined,
+                }
+              }
+            />
           </div>
         </div>
-        <RenderComponent
+        {/* <RenderComponent
           stargazerTimes={stargazerTimes}
           repoName={repoName}
           repoImage={repoImage}
-        />
+        /> */}
       </div>
     </>
   );

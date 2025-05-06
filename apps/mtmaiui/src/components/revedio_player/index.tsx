@@ -106,7 +106,7 @@ export function PlayerV2({
    * When the forced time changes, seek to that time.
    */
   function setForcedTime(forcedTime: number) {
-    console.log("setForcedTime", forcedTime);
+    // console.log("setForcedTime", forcedTime);
     if (playerRef.current) {
       playerRef.current.dispatchEvent(new CustomEvent("seekto", { detail: forcedTime }));
     }
@@ -122,6 +122,8 @@ export function PlayerV2({
   /**
    * Sync the current time with the player's own state.
    */
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const diff = Math.abs(currentTime - currentTimeState);
     if (diff > 0.05) {
@@ -129,6 +131,7 @@ export function PlayerV2({
     }
   }, [currentTime]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     setForcedVolume(volume);
   }, [volume]);
@@ -141,12 +144,6 @@ export function PlayerV2({
     setCurrentTime(e.detail);
     onTimeUpdate(e.detail);
   };
-
-  // const handleNextFrame = () => {
-  //   if (playerRef.current) {
-  //     playerRef.current.dispatchEvent(new CustomEvent("nextframe"));
-  //   }
-  // };
 
   /**
    * Receives the duration of the video from the player.
@@ -252,12 +249,15 @@ export function PlayerV2({
         onMouseLeave={() => setIsMouseOver(false)}
       >
         <div className="relative">
+          {/* @ts-ignore */}
           <revideo-player
             ref={playerRef}
             // 这里的 playing 没有发挥作用
             playing={String(playingState)}
+            //@ts-ignore
             onClick={onClickHandler}
             variables={JSON.stringify(variables)}
+            //@ts-ignore
             looping={looping ? "true" : "false"}
             width={width}
             height={height}
