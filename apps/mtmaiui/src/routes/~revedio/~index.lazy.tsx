@@ -1,122 +1,18 @@
 "use client";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
-import { Player } from "@revideo/player-react";
-import { LoaderCircle } from "lucide-react";
-import { useState } from "react";
-import project from "../../revedio/project";
+import { Button } from "mtxuilib/ui/button";
+import { Suspense, lazy, useEffect, useState } from "react";
+import { RenderComponent } from "./RenderComponent";
 import { getGithubRepositoryInfo } from "./actions";
-import { parseStream } from "./parse";
+
+const LazyPlayer = lazy(() => import("./Player").then((mod) => ({ default: mod.PlayerComponent })));
 
 export const Route = createLazyFileRoute("/revedio/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  return (
-    <>
-      <Home />
-    </>
-  );
-}
-
-function Button({
-  children,
-  loading,
-  onClick,
-}: {
-  children: React.ReactNode;
-  loading: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      className="text-sm flex items-center gap-x-2 rounded-md p-2 bg-gray-200 text-gray-700 hover:bg-gray-300"
-      onClick={() => onClick()}
-      disabled={loading}
-    >
-      {loading && <LoaderCircle className="animate-spin h-4 w-4 text-gray-700" />}
-      {children}
-    </button>
-  );
-}
-
-function RenderComponent({
-  stargazerTimes,
-  repoName,
-  repoImage,
-}: {
-  stargazerTimes: number[];
-  repoName: string;
-  repoImage: string | null | undefined;
-}) {
-  const [renderLoading, setRenderLoading] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
-
-  /**
-   * Render the video.
-   */
-  async function render() {
-    setRenderLoading(true);
-    const res = await fetch("/api/render", {
-      method: "POST",
-      headers: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        variables: {
-          data: stargazerTimes.length ? stargazerTimes : undefined,
-          repoName: repoName || undefined,
-          repoImage: repoImage || undefined,
-        },
-        streamProgress: true,
-      }),
-    }).catch((e) => console.log(e));
-
-    if (!res) {
-      alert("Failed to render video.");
-      return;
-    }
-
-    const downloadUrl = await parseStream(res.body!.getReader(), (p) => setProgress(p));
-    setRenderLoading(false);
-    setDownloadUrl(downloadUrl);
-  }
-
-  return (
-    <div className="flex gap-x-4">
-      {/* Progress bar */}
-      <div className="text-sm flex-1 bg-gray-100 rounded-md overflow-hidden">
-        <div
-          className="text-gray-600 bg-gray-400 h-full flex items-center px-4 transition-all transition-200"
-          style={{
-            width: `${Math.round(progress * 100)}%`,
-          }}
-        >
-          {Math.round(progress * 100)}%
-        </div>
-      </div>
-      {downloadUrl ? (
-        <a
-          href={downloadUrl}
-          download
-          className="text-sm flex items-center gap-x-2 rounded-md p-2 bg-green-200 text-gray-700 hover:bg-gray-300"
-        >
-          Download video
-        </a>
-      ) : (
-        <Button onClick={() => render()} loading={renderLoading}>
-          Render video
-        </Button>
-      )}
-    </div>
-  );
-}
-
-export default function Home() {
   const [repoName, setRepoName] = useState<string>("");
   const [repoImage, setRepoImage] = useState<string | null>();
   const [stargazerTimes, setStargazerTimes] = useState<number[]>([]);
@@ -125,6 +21,12 @@ export default function Home() {
   const [needsKey, setNeedsKey] = useState(false);
   const [key, setKey] = useState("");
   const [error, setError] = useState<string | null>();
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   /**
    * Get information about the repository from Github.
@@ -148,6 +50,10 @@ export default function Home() {
     setRepoImage(response.repoImage);
   }
 
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <>
       <div className="m-auto p-12 max-w-7xl flex flex-col gap-y-4">
@@ -162,7 +68,8 @@ export default function Home() {
             />
             {!needsKey && (
               <Button
-                loading={githubLoading}
+                // loading={githubLoading}
+                disabled={githubLoading}
                 onClick={() => fetchInformation(repoName as `${string}/${string}`, key)}
               >
                 Fetch information
@@ -184,7 +91,8 @@ export default function Home() {
                 onChange={(e) => setKey(e.target.value)}
               />
               <Button
-                loading={githubLoading}
+                // loading={githubLoading}
+                disabled={githubLoading}
                 onClick={() => fetchInformation(repoName as `${string}/${string}`, key)}
               >
                 Fetch information
@@ -196,7 +104,7 @@ export default function Home() {
         <div>
           <div className="rounded-lg overflow-hidden">
             {/* You can find the scene code inside revideo/src/scenes/example.tsx */}
-            <Player
+            {/* <Player
               project={project}
               controls={true}
               variables={{
@@ -204,7 +112,10 @@ export default function Home() {
                 repoName: repoName ? repoName : undefined,
                 repoImage: repoImage ? repoImage : undefined,
               }}
-            />
+            /> */}
+            <Suspense fallback={<div>Loading...</div>}>
+              <LazyPlayer />
+            </Suspense>
           </div>
         </div>
         <RenderComponent
@@ -216,3 +127,11 @@ export default function Home() {
     </>
   );
 }
+
+/**
+ * 
+ * 
+ * "Error
+    at U_ (https://mtmag.yuepa8.com/assets/~index.lazy-BvTKITr9.js:201:55612)
+    at https://mtmag.yuepa8.com/assets/~index.lazy-BvTKITr9.js:201:55671"
+ */

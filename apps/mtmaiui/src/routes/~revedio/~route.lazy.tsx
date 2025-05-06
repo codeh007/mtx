@@ -1,3 +1,5 @@
+"use client";
+
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { RootAppWrapper } from "../../components/RootAppWrapper";
 import { WorkbrenchProvider } from "../../stores/workbrench.store";
