@@ -44,10 +44,10 @@ const exampleData = [
   6733098000, 6783253000, 6805478000, 6875821000, 6904033000, 6971558000, 6972735000,
 ];
 
-const exampleRepoName = "redotvideo/revideo";
+const exampleRepoName = "redotvideo/revideo222";
 const exampleRepoImage = "https://avatars.githubusercontent.com/u/133898679";
 
-export const exampleScene = makeScene2D("main", function* (view) {
+export default makeScene2D("main", function* (view) {
   // Get variables
   const repoName = useScene().variables.get("repoName", exampleRepoName);
   const repoImage = useScene().variables.get("repoImage", exampleRepoImage);
@@ -163,7 +163,7 @@ export const exampleScene = makeScene2D("main", function* (view) {
     <Txt
       fontFamily={"Roboto"}
       ref={starTextRef}
-      text={`${totalValues} stars, 介绍2`}
+      text={`${totalValues} stars, 介绍3`}
       fill={"#000000"}
       x={0}
       y={0}

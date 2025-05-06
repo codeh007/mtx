@@ -117,7 +117,6 @@
     "get-port": "^7.1.0",
     "@revideo/2d": "0.10.4",
     "@revideo/core": "0.10.4",
-    "@revideo/player-react": "0.10.4",
     "hono": "^4.7.4",
     "isbot": "^5.1.17",
     "lucide-react": "^0.476.0",

@@ -1,4 +1,5 @@
-// @ts-nocheck
+/** @jsxImportSource @revideo/2d/lib */
+
 import { Circle, makeScene2D } from "@revideo/2d";
 import { all, createRef } from "@revideo/core";
 

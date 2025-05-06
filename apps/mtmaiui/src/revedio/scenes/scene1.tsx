@@ -1,6 +1,4 @@
-//@ts-nocheck
-"use client";
-
+/** @jsxImportSource @revideo/2d/lib */
 import { Audio, Img, Video, makeScene2D } from "@revideo/2d";
 import { all, chain, createRef, waitFor } from "@revideo/core";
 

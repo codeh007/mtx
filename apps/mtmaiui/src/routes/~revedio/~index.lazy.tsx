@@ -2,11 +2,9 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 import { Button } from "mtxuilib/ui/button";
-import { Suspense, lazy, useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { RenderComponent } from "./RenderComponent";
 import { getGithubRepositoryInfo } from "./actions";
-
-const LazyPlayer = lazy(() => import("./Player").then((mod) => ({ default: mod.PlayerComponent })));
 
 export const Route = createLazyFileRoute("/revedio/")({
   component: RouteComponent,
@@ -114,7 +112,8 @@ function RouteComponent() {
               }}
             /> */}
             <Suspense fallback={<div>Loading...</div>}>
-              <LazyPlayer />
+              {/* <Player /> */}
+              todo player
             </Suspense>
           </div>
         </div>
