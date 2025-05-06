@@ -26,6 +26,7 @@ const WorkflowRunsRouteLazyImport = createFileRoute('/workflow-runs')()
 const TkRouteLazyImport = createFileRoute('/tk')()
 const TenantRouteLazyImport = createFileRoute('/tenant')()
 const ScheduledRunsRouteLazyImport = createFileRoute('/scheduled-runs')()
+const RevedioRouteLazyImport = createFileRoute('/revedio')()
 const ResourceRouteLazyImport = createFileRoute('/resource')()
 const RecurringRouteLazyImport = createFileRoute('/recurring')()
 const ProxyRouteLazyImport = createFileRoute('/proxy')()
@@ -64,6 +65,7 @@ const WorkflowRunsIndexLazyImport = createFileRoute('/workflow-runs/')()
 const TkIndexLazyImport = createFileRoute('/tk/')()
 const TenantIndexLazyImport = createFileRoute('/tenant/')()
 const ScheduledRunsIndexLazyImport = createFileRoute('/scheduled-runs/')()
+const RevedioIndexLazyImport = createFileRoute('/revedio/')()
 const ResourceIndexLazyImport = createFileRoute('/resource/')()
 const RecurringIndexLazyImport = createFileRoute('/recurring/')()
 const ProxyIndexLazyImport = createFileRoute('/proxy/')()
@@ -324,6 +326,14 @@ const ScheduledRunsRouteLazyRoute = ScheduledRunsRouteLazyImport.update({
   import('./routes/~scheduled-runs/~route.lazy').then((d) => d.Route),
 )
 
+const RevedioRouteLazyRoute = RevedioRouteLazyImport.update({
+  id: '/revedio',
+  path: '/revedio',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/~revedio/~route.lazy').then((d) => d.Route),
+)
+
 const ResourceRouteLazyRoute = ResourceRouteLazyImport.update({
   id: '/resource',
   path: '/resource',
@@ -555,6 +565,14 @@ const ScheduledRunsIndexLazyRoute = ScheduledRunsIndexLazyImport.update({
   getParentRoute: () => ScheduledRunsRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~scheduled-runs/~index.lazy').then((d) => d.Route),
+)
+
+const RevedioIndexLazyRoute = RevedioIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => RevedioRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~revedio/~index.lazy').then((d) => d.Route),
 )
 
 const ResourceIndexLazyRoute = ResourceIndexLazyImport.update({
@@ -1538,6 +1556,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResourceRouteLazyImport
       parentRoute: typeof rootRoute
     }
+    '/revedio': {
+      id: '/revedio'
+      path: '/revedio'
+      fullPath: '/revedio'
+      preLoaderRoute: typeof RevedioRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/scheduled-runs': {
       id: '/scheduled-runs'
       path: '/scheduled-runs'
@@ -1642,6 +1667,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/resource/'
       preLoaderRoute: typeof ResourceIndexLazyImport
       parentRoute: typeof ResourceRouteLazyImport
+    }
+    '/revedio/': {
+      id: '/revedio/'
+      path: '/'
+      fullPath: '/revedio/'
+      preLoaderRoute: typeof RevedioIndexLazyImport
+      parentRoute: typeof RevedioRouteLazyImport
     }
     '/scheduled-runs/': {
       id: '/scheduled-runs/'
@@ -2686,6 +2718,17 @@ const ResourceRouteLazyRouteChildren: ResourceRouteLazyRouteChildren = {
 const ResourceRouteLazyRouteWithChildren =
   ResourceRouteLazyRoute._addFileChildren(ResourceRouteLazyRouteChildren)
 
+interface RevedioRouteLazyRouteChildren {
+  RevedioIndexLazyRoute: typeof RevedioIndexLazyRoute
+}
+
+const RevedioRouteLazyRouteChildren: RevedioRouteLazyRouteChildren = {
+  RevedioIndexLazyRoute: RevedioIndexLazyRoute,
+}
+
+const RevedioRouteLazyRouteWithChildren =
+  RevedioRouteLazyRoute._addFileChildren(RevedioRouteLazyRouteChildren)
+
 interface ScheduledRunsRouteLazyRouteChildren {
   ScheduledRunsIndexLazyRoute: typeof ScheduledRunsIndexLazyRoute
 }
@@ -3247,6 +3290,7 @@ export interface FileRoutesByFullPath {
   '/proxy': typeof ProxyRouteLazyRouteWithChildren
   '/recurring': typeof RecurringRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
+  '/revedio': typeof RevedioRouteLazyRouteWithChildren
   '/scheduled-runs': typeof ScheduledRunsRouteLazyRouteWithChildren
   '/tenant': typeof TenantRouteLazyRouteWithChildren
   '/tk': typeof TkRouteLazyRouteWithChildren
@@ -3262,6 +3306,7 @@ export interface FileRoutesByFullPath {
   '/proxy/': typeof ProxyIndexLazyRoute
   '/recurring/': typeof RecurringIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
+  '/revedio/': typeof RevedioIndexLazyRoute
   '/scheduled-runs/': typeof ScheduledRunsIndexLazyRoute
   '/tenant/': typeof TenantIndexLazyRoute
   '/tk/': typeof TkIndexLazyRoute
@@ -3374,6 +3419,7 @@ export interface FileRoutesByTo {
   '/proxy': typeof ProxyIndexLazyRoute
   '/recurring': typeof RecurringIndexLazyRoute
   '/resource': typeof ResourceIndexLazyRoute
+  '/revedio': typeof RevedioIndexLazyRoute
   '/scheduled-runs': typeof ScheduledRunsIndexLazyRoute
   '/tenant': typeof TenantIndexLazyRoute
   '/tk': typeof TkIndexLazyRoute
@@ -3445,6 +3491,7 @@ export interface FileRoutesById {
   '/proxy': typeof ProxyRouteLazyRouteWithChildren
   '/recurring': typeof RecurringRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
+  '/revedio': typeof RevedioRouteLazyRouteWithChildren
   '/scheduled-runs': typeof ScheduledRunsRouteLazyRouteWithChildren
   '/tenant': typeof TenantRouteLazyRouteWithChildren
   '/tk': typeof TkRouteLazyRouteWithChildren
@@ -3460,6 +3507,7 @@ export interface FileRoutesById {
   '/proxy/': typeof ProxyIndexLazyRoute
   '/recurring/': typeof RecurringIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
+  '/revedio/': typeof RevedioIndexLazyRoute
   '/scheduled-runs/': typeof ScheduledRunsIndexLazyRoute
   '/tenant/': typeof TenantIndexLazyRoute
   '/tk/': typeof TkIndexLazyRoute
@@ -3573,6 +3621,7 @@ export interface FileRouteTypes {
     | '/proxy'
     | '/recurring'
     | '/resource'
+    | '/revedio'
     | '/scheduled-runs'
     | '/tenant'
     | '/tk'
@@ -3588,6 +3637,7 @@ export interface FileRouteTypes {
     | '/proxy/'
     | '/recurring/'
     | '/resource/'
+    | '/revedio/'
     | '/scheduled-runs/'
     | '/tenant/'
     | '/tk/'
@@ -3699,6 +3749,7 @@ export interface FileRouteTypes {
     | '/proxy'
     | '/recurring'
     | '/resource'
+    | '/revedio'
     | '/scheduled-runs'
     | '/tenant'
     | '/tk'
@@ -3768,6 +3819,7 @@ export interface FileRouteTypes {
     | '/proxy'
     | '/recurring'
     | '/resource'
+    | '/revedio'
     | '/scheduled-runs'
     | '/tenant'
     | '/tk'
@@ -3783,6 +3835,7 @@ export interface FileRouteTypes {
     | '/proxy/'
     | '/recurring/'
     | '/resource/'
+    | '/revedio/'
     | '/scheduled-runs/'
     | '/tenant/'
     | '/tk/'
@@ -3895,6 +3948,7 @@ export interface RootRouteChildren {
   ProxyRouteLazyRoute: typeof ProxyRouteLazyRouteWithChildren
   RecurringRouteLazyRoute: typeof RecurringRouteLazyRouteWithChildren
   ResourceRouteLazyRoute: typeof ResourceRouteLazyRouteWithChildren
+  RevedioRouteLazyRoute: typeof RevedioRouteLazyRouteWithChildren
   ScheduledRunsRouteLazyRoute: typeof ScheduledRunsRouteLazyRouteWithChildren
   TenantRouteLazyRoute: typeof TenantRouteLazyRouteWithChildren
   TkRouteLazyRoute: typeof TkRouteLazyRouteWithChildren
@@ -3919,6 +3973,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProxyRouteLazyRoute: ProxyRouteLazyRouteWithChildren,
   RecurringRouteLazyRoute: RecurringRouteLazyRouteWithChildren,
   ResourceRouteLazyRoute: ResourceRouteLazyRouteWithChildren,
+  RevedioRouteLazyRoute: RevedioRouteLazyRouteWithChildren,
   ScheduledRunsRouteLazyRoute: ScheduledRunsRouteLazyRouteWithChildren,
   TenantRouteLazyRoute: TenantRouteLazyRouteWithChildren,
   TkRouteLazyRoute: TkRouteLazyRouteWithChildren,
@@ -3955,6 +4010,7 @@ export const routeTree = rootRoute
         "/proxy",
         "/recurring",
         "/resource",
+        "/revedio",
         "/scheduled-runs",
         "/tenant",
         "/tk",
@@ -4039,6 +4095,12 @@ export const routeTree = rootRoute
         "/resource/new"
       ]
     },
+    "/revedio": {
+      "filePath": "~revedio/~route.lazy.tsx",
+      "children": [
+        "/revedio/"
+      ]
+    },
     "/scheduled-runs": {
       "filePath": "~scheduled-runs/~route.lazy.tsx",
       "children": [
@@ -4111,6 +4173,10 @@ export const routeTree = rootRoute
     "/resource/": {
       "filePath": "~resource/~index.lazy.tsx",
       "parent": "/resource"
+    },
+    "/revedio/": {
+      "filePath": "~revedio/~index.lazy.tsx",
+      "parent": "/revedio"
     },
     "/scheduled-runs/": {
       "filePath": "~scheduled-runs/~index.lazy.tsx",
