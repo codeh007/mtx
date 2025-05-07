@@ -49,12 +49,6 @@ export class RevidioAg extends ChatAgentBase<Env, ShortVideoAgentState> {
     options?: { abortSignal?: AbortSignal },
   ) {
     this.log("(onChatMessage)开始");
-    const mcpClient = await experimental_createMCPClient({
-      transport: {
-        type: "sse",
-        url: mcpServerUrl,
-      },
-    });
     try {
       const model = getDefaultModel(this.env);
       const lastestMessage = this.messages?.[this.messages.length - 1];

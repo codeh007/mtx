@@ -13,6 +13,7 @@ const nextConfig = {
   // Configure `pageExtensions` to include MDX files
   pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
   distDir: distDir, //输出路径
+  
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -28,6 +29,7 @@ const nextConfig = {
 
   experimental: {
     optimizePackageImports: ["icon-library"],
+    // urlImports: ["https://cdn.skypack.dev", "blob:"],
   },
 
   webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {

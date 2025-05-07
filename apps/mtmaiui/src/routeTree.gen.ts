@@ -15,6 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/~__root'
 import { Route as IndexImport } from './routes/~index'
 import { Route as EnvsCreateImport } from './routes/~envs/~create'
+import { Route as BundlerTest111Import } from './routes/~bundler/~test111'
 import { Route as PlatformIndexImport } from './routes/~platform/~index'
 import { Route as SiteSiteIdHostRouteImport } from './routes/~site/~$siteId/~host/~route'
 import { Route as SiteSiteIdHostIndexImport } from './routes/~site/~$siteId/~host/~index'
@@ -34,6 +35,7 @@ const PlatformAccountRouteLazyImport = createFileRoute('/platform-account')()
 const PlatformRouteLazyImport = createFileRoute('/platform')()
 const EventsRouteLazyImport = createFileRoute('/events')()
 const EnvsRouteLazyImport = createFileRoute('/envs')()
+const BundlerRouteLazyImport = createFileRoute('/bundler')()
 const BrowserRouteLazyImport = createFileRoute('/browser')()
 const AuthRouteLazyImport = createFileRoute('/auth')()
 const AgentsRouteLazyImport = createFileRoute('/agents')()
@@ -72,6 +74,7 @@ const ProxyIndexLazyImport = createFileRoute('/proxy/')()
 const PlatformAccountIndexLazyImport = createFileRoute('/platform-account/')()
 const EventsIndexLazyImport = createFileRoute('/events/')()
 const EnvsIndexLazyImport = createFileRoute('/envs/')()
+const BundlerIndexLazyImport = createFileRoute('/bundler/')()
 const BrowserIndexLazyImport = createFileRoute('/browser/')()
 const AgentsIndexLazyImport = createFileRoute('/agents/')()
 const WorkflowsWorkflowIdTriggerRouteLazyImport = createFileRoute(
@@ -386,6 +389,14 @@ const EnvsRouteLazyRoute = EnvsRouteLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~envs/~route.lazy').then((d) => d.Route))
 
+const BundlerRouteLazyRoute = BundlerRouteLazyImport.update({
+  id: '/bundler',
+  path: '/bundler',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/~bundler/~route.lazy').then((d) => d.Route),
+)
+
 const BrowserRouteLazyRoute = BrowserRouteLazyImport.update({
   id: '/browser',
   path: '/browser',
@@ -619,6 +630,14 @@ const EnvsIndexLazyRoute = EnvsIndexLazyImport.update({
   getParentRoute: () => EnvsRouteLazyRoute,
 } as any).lazy(() => import('./routes/~envs/~index.lazy').then((d) => d.Route))
 
+const BundlerIndexLazyRoute = BundlerIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BundlerRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~bundler/~index.lazy').then((d) => d.Route),
+)
+
 const BrowserIndexLazyRoute = BrowserIndexLazyImport.update({
   id: '/',
   path: '/',
@@ -639,6 +658,12 @@ const EnvsCreateRoute = EnvsCreateImport.update({
   id: '/create',
   path: '/create',
   getParentRoute: () => EnvsRouteLazyRoute,
+} as any)
+
+const BundlerTest111Route = BundlerTest111Import.update({
+  id: '/test111',
+  path: '/test111',
+  getParentRoute: () => BundlerRouteLazyRoute,
 } as any)
 
 const PlatformIndexRoute = PlatformIndexImport.update({
@@ -1507,6 +1532,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BrowserRouteLazyImport
       parentRoute: typeof rootRoute
     }
+    '/bundler': {
+      id: '/bundler'
+      path: '/bundler'
+      fullPath: '/bundler'
+      preLoaderRoute: typeof BundlerRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/envs': {
       id: '/envs'
       path: '/envs'
@@ -1605,6 +1637,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlatformIndexImport
       parentRoute: typeof PlatformRouteLazyImport
     }
+    '/bundler/test111': {
+      id: '/bundler/test111'
+      path: '/test111'
+      fullPath: '/bundler/test111'
+      preLoaderRoute: typeof BundlerTest111Import
+      parentRoute: typeof BundlerRouteLazyImport
+    }
     '/envs/create': {
       id: '/envs/create'
       path: '/create'
@@ -1625,6 +1664,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/browser/'
       preLoaderRoute: typeof BrowserIndexLazyImport
       parentRoute: typeof BrowserRouteLazyImport
+    }
+    '/bundler/': {
+      id: '/bundler/'
+      path: '/'
+      fullPath: '/bundler/'
+      preLoaderRoute: typeof BundlerIndexLazyImport
+      parentRoute: typeof BundlerRouteLazyImport
     }
     '/envs/': {
       id: '/envs/'
@@ -2478,6 +2524,19 @@ const BrowserRouteLazyRouteChildren: BrowserRouteLazyRouteChildren = {
 const BrowserRouteLazyRouteWithChildren =
   BrowserRouteLazyRoute._addFileChildren(BrowserRouteLazyRouteChildren)
 
+interface BundlerRouteLazyRouteChildren {
+  BundlerTest111Route: typeof BundlerTest111Route
+  BundlerIndexLazyRoute: typeof BundlerIndexLazyRoute
+}
+
+const BundlerRouteLazyRouteChildren: BundlerRouteLazyRouteChildren = {
+  BundlerTest111Route: BundlerTest111Route,
+  BundlerIndexLazyRoute: BundlerIndexLazyRoute,
+}
+
+const BundlerRouteLazyRouteWithChildren =
+  BundlerRouteLazyRoute._addFileChildren(BundlerRouteLazyRouteChildren)
+
 interface EnvsRouteLazyRouteChildren {
   EnvsCreateRoute: typeof EnvsCreateRoute
   EnvsIndexLazyRoute: typeof EnvsIndexLazyRoute
@@ -3283,6 +3342,7 @@ export interface FileRoutesByFullPath {
   '/agents': typeof AgentsRouteLazyRouteWithChildren
   '/auth': typeof AuthRouteLazyRouteWithChildren
   '/browser': typeof BrowserRouteLazyRouteWithChildren
+  '/bundler': typeof BundlerRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
   '/events': typeof EventsRouteLazyRouteWithChildren
   '/platform': typeof PlatformRouteLazyRouteWithChildren
@@ -3297,9 +3357,11 @@ export interface FileRoutesByFullPath {
   '/workflow-runs': typeof WorkflowRunsRouteLazyRouteWithChildren
   '/workflows': typeof WorkflowsRouteLazyRouteWithChildren
   '/platform/': typeof PlatformIndexRoute
+  '/bundler/test111': typeof BundlerTest111Route
   '/envs/create': typeof EnvsCreateRoute
   '/agents/': typeof AgentsIndexLazyRoute
   '/browser/': typeof BrowserIndexLazyRoute
+  '/bundler/': typeof BundlerIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/events/': typeof EventsIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
@@ -3410,9 +3472,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteLazyRouteWithChildren
   '/platform': typeof PlatformIndexRoute
+  '/bundler/test111': typeof BundlerTest111Route
   '/envs/create': typeof EnvsCreateRoute
   '/agents': typeof AgentsIndexLazyRoute
   '/browser': typeof BrowserIndexLazyRoute
+  '/bundler': typeof BundlerIndexLazyRoute
   '/envs': typeof EnvsIndexLazyRoute
   '/events': typeof EventsIndexLazyRoute
   '/platform-account': typeof PlatformAccountIndexLazyRoute
@@ -3484,6 +3548,7 @@ export interface FileRoutesById {
   '/agents': typeof AgentsRouteLazyRouteWithChildren
   '/auth': typeof AuthRouteLazyRouteWithChildren
   '/browser': typeof BrowserRouteLazyRouteWithChildren
+  '/bundler': typeof BundlerRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
   '/events': typeof EventsRouteLazyRouteWithChildren
   '/platform': typeof PlatformRouteLazyRouteWithChildren
@@ -3498,9 +3563,11 @@ export interface FileRoutesById {
   '/workflow-runs': typeof WorkflowRunsRouteLazyRouteWithChildren
   '/workflows': typeof WorkflowsRouteLazyRouteWithChildren
   '/platform/': typeof PlatformIndexRoute
+  '/bundler/test111': typeof BundlerTest111Route
   '/envs/create': typeof EnvsCreateRoute
   '/agents/': typeof AgentsIndexLazyRoute
   '/browser/': typeof BrowserIndexLazyRoute
+  '/bundler/': typeof BundlerIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/events/': typeof EventsIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
@@ -3614,6 +3681,7 @@ export interface FileRouteTypes {
     | '/agents'
     | '/auth'
     | '/browser'
+    | '/bundler'
     | '/envs'
     | '/events'
     | '/platform'
@@ -3628,9 +3696,11 @@ export interface FileRouteTypes {
     | '/workflow-runs'
     | '/workflows'
     | '/platform/'
+    | '/bundler/test111'
     | '/envs/create'
     | '/agents/'
     | '/browser/'
+    | '/bundler/'
     | '/envs/'
     | '/events/'
     | '/platform-account/'
@@ -3740,9 +3810,11 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/platform'
+    | '/bundler/test111'
     | '/envs/create'
     | '/agents'
     | '/browser'
+    | '/bundler'
     | '/envs'
     | '/events'
     | '/platform-account'
@@ -3812,6 +3884,7 @@ export interface FileRouteTypes {
     | '/agents'
     | '/auth'
     | '/browser'
+    | '/bundler'
     | '/envs'
     | '/events'
     | '/platform'
@@ -3826,9 +3899,11 @@ export interface FileRouteTypes {
     | '/workflow-runs'
     | '/workflows'
     | '/platform/'
+    | '/bundler/test111'
     | '/envs/create'
     | '/agents/'
     | '/browser/'
+    | '/bundler/'
     | '/envs/'
     | '/events/'
     | '/platform-account/'
@@ -3941,6 +4016,7 @@ export interface RootRouteChildren {
   AgentsRouteLazyRoute: typeof AgentsRouteLazyRouteWithChildren
   AuthRouteLazyRoute: typeof AuthRouteLazyRouteWithChildren
   BrowserRouteLazyRoute: typeof BrowserRouteLazyRouteWithChildren
+  BundlerRouteLazyRoute: typeof BundlerRouteLazyRouteWithChildren
   EnvsRouteLazyRoute: typeof EnvsRouteLazyRouteWithChildren
   EventsRouteLazyRoute: typeof EventsRouteLazyRouteWithChildren
   PlatformRouteLazyRoute: typeof PlatformRouteLazyRouteWithChildren
@@ -3966,6 +4042,7 @@ const rootRouteChildren: RootRouteChildren = {
   AgentsRouteLazyRoute: AgentsRouteLazyRouteWithChildren,
   AuthRouteLazyRoute: AuthRouteLazyRouteWithChildren,
   BrowserRouteLazyRoute: BrowserRouteLazyRouteWithChildren,
+  BundlerRouteLazyRoute: BundlerRouteLazyRouteWithChildren,
   EnvsRouteLazyRoute: EnvsRouteLazyRouteWithChildren,
   EventsRouteLazyRoute: EventsRouteLazyRouteWithChildren,
   PlatformRouteLazyRoute: PlatformRouteLazyRouteWithChildren,
@@ -4003,6 +4080,7 @@ export const routeTree = rootRoute
         "/agents",
         "/auth",
         "/browser",
+        "/bundler",
         "/envs",
         "/events",
         "/platform",
@@ -4044,6 +4122,13 @@ export const routeTree = rootRoute
       "filePath": "~browser/~route.lazy.tsx",
       "children": [
         "/browser/"
+      ]
+    },
+    "/bundler": {
+      "filePath": "~bundler/~route.lazy.tsx",
+      "children": [
+        "/bundler/test111",
+        "/bundler/"
       ]
     },
     "/envs": {
@@ -4138,6 +4223,10 @@ export const routeTree = rootRoute
       "filePath": "~platform/~index.tsx",
       "parent": "/platform"
     },
+    "/bundler/test111": {
+      "filePath": "~bundler/~test111.tsx",
+      "parent": "/bundler"
+    },
     "/envs/create": {
       "filePath": "~envs/~create.tsx",
       "parent": "/envs"
@@ -4149,6 +4238,10 @@ export const routeTree = rootRoute
     "/browser/": {
       "filePath": "~browser/~index.lazy.tsx",
       "parent": "/browser"
+    },
+    "/bundler/": {
+      "filePath": "~bundler/~index.lazy.tsx",
+      "parent": "/bundler"
     },
     "/envs/": {
       "filePath": "~envs/~index.lazy.tsx",

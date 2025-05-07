@@ -64,29 +64,6 @@ function RouteComponent() {
             )}
           </div>
         </div>
-        {/* {needsKey && (
-          <div>
-            <div className="text-sm text-blue-600 mb-2">
-              You hit the Github API rate-limit. Please provide your own key. Requests to Github are
-              made directly and the key stays on your device.
-            </div>
-            <div className="flex gap-x-4 text-sm">
-              <input
-                className="flex-1 rounded-md p-2 bg-gray-200 focus:outline-none placeholder:text-gray-400"
-                placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                value={key}
-                onChange={(e) => setKey(e.target.value)}
-              />
-              <Button
-                // loading={githubLoading}
-                disabled={githubLoading}
-                onClick={() => fetchInformation(repoName as `${string}/${string}`, key)}
-              >
-                Fetch information
-              </Button>
-            </div>
-          </div>
-        )} */}
         {error && <div className="text-sm text-red-600">{error}</div>}
         <div>
           <div className="rounded-lg overflow-hidden">
@@ -120,15 +97,9 @@ function RouteComponent() {
           repoName={repoName}
           repoImage={repoImage}
         /> */}
+
+        {/* <DynamicSceneLoader /> */}
       </div>
     </>
   );
 }
-
-/**
- * 
- * 
- * "Error
-    at U_ (https://mtmag.yuepa8.com/assets/~index.lazy-BvTKITr9.js:201:55612)
-    at https://mtmag.yuepa8.com/assets/~index.lazy-BvTKITr9.js:201:55671"
- */

@@ -1,0 +1,43 @@
+// import { Player } from "@revideo/player";
+import { useEffect, useRef } from "react";
+// import { makeProject } from "@revideo/core";
+
+const exampleTsxCode = `
+<div>hello2</div>
+
+`;
+
+export const DynamicSceneLoader = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  // const [player, setPlayer] = useState<Player | null>(null);
+
+  useEffect(() => {
+    const loadDynamicScene = async () => {
+      try {
+        // 创建一个临时的 Blob URL 来存储动态生成的代码
+        const blob = new Blob([exampleTsxCode], { type: "text/javascript" });
+        const url = URL.createObjectURL(blob);
+
+        // 动态导入生成的代码
+        const dynamicModule = await import(/* @vite-ignore */ url);
+        const scene = dynamicModule.default;
+        console.log("dynamicModule", dynamicModule);
+        console.log("scene", scene);
+        // 清理
+        URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error("Error loading dynamic scene:", error);
+      }
+    };
+
+    if (exampleTsxCode && containerRef.current) {
+      loadDynamicScene();
+    }
+  }, []);
+
+  return (
+    <div ref={containerRef} className="w-full h-full">
+      DynamicSceneLoader
+    </div>
+  );
+};
