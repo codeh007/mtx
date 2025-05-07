@@ -1,0 +1,98 @@
+{
+  "name": "mtravideolib",
+  "private": false,
+  "version": "0.0.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "files": ["dist"],
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "unpkg": "./dist/index.umd.js",
+  "jsdelivr": "./dist/index.umd.js",
+  "repository": {
+    "url": "https://github.com/codeh007/mtxuilib"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "src/*.ts",
+        "src/*.tsx",
+        "src/*/index.ts",
+        "src/*/index.tsx",
+        "dist/*.d.ts",
+        "dist/*",
+        "dist/*/index"
+      ]
+    }
+  },
+  "exports": {
+    ".": {
+      "types": ["./src/index.ts", "./dist/index.js", "./dist/index.d.ts"],
+      "import": ["./src/index.ts", "./dist/index.js", "./dist/*"]
+    },
+    "./*": {
+      "types": [
+        "./src/*",
+        "./src/*.tsx",
+        "./src/*.ts",
+        "./src/*/index.ts",
+        "./src/*.tsx",
+        "./src/*/index.tsx",
+        "./dist/*.d.ts",
+        "./dist/*/index.d.ts"
+      ],
+      "import": [
+        "./src/*",
+        "./src/*.ts",
+        "./src/*.tsx",
+        "./src/*/index.ts",
+        "./src/*/index.tsx",
+        "./dist/*/index.js",
+        "./dist/*.js",
+        "./dist/*"
+      ],
+      "default": [
+        "./src/*",
+        "./src/*.ts",
+        "./src/*.tsx",
+        "./src/*/index.ts",
+        "./src/*/index.tsx",
+        "./dist/*/index.js",
+        "./dist/*.js",
+        "./dist/*"
+      ]
+    },
+    "./styles/globals.css": {
+      "import": ["./src/styles/globals.css", "./dist/styles/globals.css"],
+      "require": ["./src/styles/globals.css", "./dist/styles/globals.css"]
+    },
+    "./styles/*": {
+      "import": ["./src/styles/*", "./dist/styles/*"],
+      "require": ["./src/styles/*", "./dist/styles/*"]
+    }
+  },
+  "description": "Basic project template for Motion Canvas",
+  "author": "motion-canvas",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc && vite build",
+    "build:lib": "tsc && vite build --config vite.config.lib.ts",
+    "prepublishOnly": "npm run build:lib"
+  },
+  "dependencies": {
+    "@revideo/2d": "0.10.4",
+    "@revideo/core": "0.10.4"
+  },
+  "devDependencies": {
+    "@motion-canvas/ui": "*",
+    "@motion-canvas/vite-plugin": "^3.17.2",
+    "vite": "^5.0.0",
+    "typescript": "^5.0.0",
+    "@motion-canvas/2d": "*",
+    "@motion-canvas/core": "*"
+  }
+}

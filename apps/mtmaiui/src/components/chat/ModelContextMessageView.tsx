@@ -47,7 +47,6 @@ export const ModelContextMessageView = ({ messages }: MtMessagesProps) => {
     <div className="p-1 px-2">
       <DebugValue data={{ messages }} />
       {messages?.map((message, i) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
         <MtSuspenseBoundary key={i}>
           <ChatMessageItemView message={message} />
         </MtSuspenseBoundary>

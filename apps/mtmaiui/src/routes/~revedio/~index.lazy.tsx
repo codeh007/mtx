@@ -1,10 +1,10 @@
 "use client";
 import { createLazyFileRoute } from "@tanstack/react-router";
-
+// import project from "../../revedio/project";
+import project from "mtravideolib/project";
 import { Button } from "mtxuilib/ui/button";
 import { useState } from "react";
 import { PlayerV2 } from "../../components/revedio_player";
-import project from "../../revedio/project";
 import { getGithubRepositoryInfo } from "./actions";
 
 export const Route = createLazyFileRoute("/revedio/")({
@@ -67,18 +67,6 @@ function RouteComponent() {
         {error && <div className="text-sm text-red-600">{error}</div>}
         <div>
           <div className="rounded-lg overflow-hidden">
-            {/* You can find the scene code inside revideo/src/scenes/example.tsx */}
-            {/* <Player
-              project={project}
-              controls={true}
-              variables={{
-                data: stargazerTimes.length > 0 ? stargazerTimes : undefined,
-                repoName: repoName ? repoName : undefined,
-                repoImage: repoImage ? repoImage : undefined,
-              }}
-            /> */}
-            {/* <PlayerV2 project={project} /> */}
-
             <PlayerV2
               project={project}
               controls={true}
@@ -92,13 +80,6 @@ function RouteComponent() {
             />
           </div>
         </div>
-        {/* <RenderComponent
-          stargazerTimes={stargazerTimes}
-          repoName={repoName}
-          repoImage={repoImage}
-        /> */}
-
-        {/* <DynamicSceneLoader /> */}
       </div>
     </>
   );
