@@ -127,27 +127,27 @@ jobs:
         run: |
           gomtm vc_gomtm --enable-vercel-deploy=true --sub-package apps/mtmaiui
 
-  deploy_cloudflare:
-    # needs: [release]
-    name: deploy
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+  # deploy_cloudflare:
+  #   # needs: [release]
+  #   name: deploy_cloudflare_cfpage
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 20
+  #   steps:
+  #     - name: Checkout branch
+  #       uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
 
-      - name: setup bun
-        uses: ./.github/actions/setup_bun
+  #     - name: setup bun
+  #       uses: ./.github/actions/setup_bun
 
-      - name: install gomtm
-        run: |
-          ( cd packages/gomtm-cli && npm i -g )
+  #     - name: install gomtm
+  #       run: |
+  #         ( cd packages/gomtm-cli && npm i -g )
 
-      - name: deploy mtmaiui cfpage
-        run: |
-          gomtm vc_gomtm --sub-package=apps/mtmaiui --enable-deploy-cfpage=true
+  #     - name: deploy mtmaiui cfpage
+  #       run: |
+  #         gomtm vc_gomtm --sub-package=apps/mtmaiui --enable-deploy-cfpage=true
 
 
   build_docker_gomtm_base:

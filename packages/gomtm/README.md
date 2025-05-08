@@ -1,1 +1,1 @@
-# gomtm-cli
+# gomtm
