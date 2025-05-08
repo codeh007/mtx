@@ -44,9 +44,9 @@ export const NextLogo: React.FC<{
     };
   }, [outProgress]);
 
-  const firstPath = `M 60.0568 54 v 71.97`;
-  const secondPath = `M 63.47956 56.17496 L 144.7535 161.1825`;
-  const thirdPath = `M 121 54 L 121 126`;
+  const firstPath = "M 60.0568 54 v 71.97";
+  const secondPath = "M 63.47956 56.17496 L 144.7535 161.1825";
+  const thirdPath = "M 121 54 L 121 126";
 
   const evolution1 = evolvePath(evolve1, firstPath);
   const evolution2 = evolvePath(evolve2, secondPath);
@@ -55,26 +55,26 @@ export const NextLogo: React.FC<{
   return (
     <svg style={style} fill="none" viewBox="0 0 180 180">
       <mask height="180" id="mask" className="[mask-type:alpha]" width="180" x="0" y="0">
-        <circle cx="90" cy="90" fill="black" r="90"></circle>
+        <circle cx="90" cy="90" fill="black" r="90" />
       </mask>
       <mask id="n-mask" className="[mask-type:alpha]">
-        <path d={nStroke} fill="black"></path>
+        <path d={nStroke} fill="black" />
       </mask>
       <g mask="url(#mask)">
-        <circle cx="90" cy="90" fill="black" r="90"></circle>
+        <circle cx="90" cy="90" fill="black" r="90" />
         <g stroke="url(#gradient0)" mask="url(#n-mask)">
           <path
             strokeWidth="12.1136"
             d={firstPath}
             strokeDasharray={evolution1.strokeDasharray}
             strokeDashoffset={evolution1.strokeDashoffset}
-          ></path>
+          />
           <path
             strokeWidth={12.1136}
             d={secondPath}
             strokeDasharray={evolution2.strokeDasharray}
             strokeDashoffset={evolution2.strokeDashoffset}
-          ></path>
+          />
         </g>
         <path
           stroke="url(#gradient1)"
@@ -82,7 +82,7 @@ export const NextLogo: React.FC<{
           strokeDasharray={evolution3.strokeDasharray}
           strokeDashoffset={evolution3.strokeDashoffset}
           strokeWidth="12"
-        ></path>
+        />
       </g>
       <defs>
         <linearGradient
@@ -93,8 +93,8 @@ export const NextLogo: React.FC<{
           y1="116.5"
           y2="160.5"
         >
-          <stop stopColor="white"></stop>
-          <stop offset="1" stopColor="white" stopOpacity="0"></stop>
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           gradientUnits="userSpaceOnUse"
@@ -104,8 +104,8 @@ export const NextLogo: React.FC<{
           y1="54"
           y2="106.875"
         >
-          <stop stopColor="white"></stop>
-          <stop offset="1" stopColor="white" stopOpacity="0"></stop>
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="white" stopOpacity="0" />
         </linearGradient>
       </defs>
     </svg>

@@ -4,8 +4,6 @@ import { createWorkersAI } from "workers-ai-provider";
 import z from "zod";
 import { getDefaultModel, getOllamaModel } from "../../components/cloudflare-agents/model";
 
-// const ollamaApiUrl = "http://localhost:11434";
-
 export type ShortVideoWorkflowParams = {
   prompt: string;
 };

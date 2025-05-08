@@ -11,11 +11,11 @@ export const AgentNames = {
 } as const;
 
 export interface AgentStateBase {
-  lastUpdated: number;
+  lastUpdated?: number;
   error?: string;
   enabledDebug?: boolean;
   // 子 agent, 让前端可以判断和显示子 agent 视图
-  subAgents: Record<string, string>;
+  subAgents?: Record<string, string>;
 }
 
 export type McpServer = {

@@ -12,15 +12,15 @@ import {
 import { experimental_createMCPClient, generateText } from "ai";
 import { connection } from "next/server";
 import { z } from "zod";
+import { genImage } from "../../agent_utils/text2image";
 import { getDefaultModel } from "../../components/cloudflare-agents/model";
 import { ChatAgentBase } from "../ChatAgentBase";
 import { tools } from "../tools";
-import {
-  type ShortVideoAgentState,
-  type ShortVideoInMessage,
+import type {
+  ShortVideoAgentState,
+  ShortVideoInMessage,
   ShortVideoScencesSchema,
 } from "./shortvideo_agent_state";
-import scene from "../../revedio/scenes/scene";
 
 const mcpServerUrl = "https://colab-7860.yuepa8.com/sse";
 
@@ -30,6 +30,10 @@ export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
     video_subject: "",
     // schedules: [],
     // scheduleFinished: [] as Schedule<string>[],
+    mainSence: {
+      title: "",
+      subScenes: [],
+    },
   } satisfies ShortVideoAgentState;
 
   onStart(): void | Promise<void> {}
@@ -276,11 +280,13 @@ Input to parse: "${userInput}"`,
 
   @callable()
   async stepGenScence(topic: string) {
-    const SingleImageSenceGenSchema = z.object({
-      imageGeneratePrompt: z.string().describe("文字生成图片的提示词"),
-      title: z.string().describe("显示在场景中央的标题"),
-      duration: z.number().describe("场景时长,精确到毫秒"),
-    });
+    const SingleImageSenceGenSchema = z.array(
+      z.object({
+        imageGeneratePrompt: z.string().describe("文字生成图片的提示词"),
+        title: z.string().describe("显示在场景中央的标题"),
+        duration: z.number().describe("场景时长,精确到毫秒"),
+      }),
+    );
 
     try {
       // 场景生成
@@ -310,28 +316,33 @@ Input to parse: "${userInput}"`,
         mode: "json",
         schemaName: "scenes",
         schemaDescription: "A scenes to be scheduled",
-        schema: ShortVideoScencesSchema,
-        maxRetries: 5,
+        schema: SingleImageSenceGenSchema,
+        maxRetries: 3,
         messages: [{ role: "user", content: genScenesPrompt }],
       });
 
+      const scenes: z.infer<typeof ShortVideoScencesSchema> = [];
       for (const scene of objResult.object) {
-        const imageResult = await this.stepGenImage(scene.image);
+        const imageResult = await genImage(scene.imageGeneratePrompt);
+        scenes.push({
+          senceType: "single_image",
+          title: scene.title,
+          image: imageResult,
+          duration: scene.duration,
+        });
+        this.log("生成了场景图片", imageResult);
       }
 
       this.setState({
         ...this.state,
-        scenes: objResult.object,
+        mainSence: {
+          title: this.state.video_subject,
+          subScenes: scenes,
+        },
       });
-      return objResult.object;
+      return scenes;
     } catch (error) {
       this.handleException(error);
     }
-  }
-  async stepGenImage(imagePrompt: string) {
-    const imageResult = await generateImage({
-      model: getDefaultModel(this.env),
-      prompt: scene.imageGeneratePrompt,
-    });
   }
 }

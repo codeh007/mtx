@@ -11,10 +11,8 @@ import { Card } from "mtxuilib/ui/card";
 import { Switch } from "mtxuilib/ui/switch";
 import { BetterTooltip } from "mtxuilib/ui/tooltip";
 import { useToast } from "mtxuilib/ui/use-toast";
-import { useState } from "react";
 import type { ChatAgentOutgoingMessage, ChatAgentState } from "../../agent_state/chat_agent_state";
 import { APPROVAL } from "../../agent_state/shared";
-import type { ShortVideoAgentState } from "../../agents/shortvideo/shortvideo_agent_state";
 import type { tools } from "../../agents/tools";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { ChatAvatar } from "../cloudflare-agents/components/avatar/ChatAvatar";
@@ -35,19 +33,19 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
   const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
 
   const agentState = useWorkbenchStore((x) => x.assistantState);
-  const [shortVideoAgentState, setShortVideoAgentState] = useState<ShortVideoAgentState>({});
+  // const [shortVideoAgentState, setShortVideoAgentState] = useState<ShortVideoAgentState>({});
   const setAgentState = useWorkbenchStore((x) => x.setAssistantState);
 
   const toast = useToast();
 
   //临时测试
-  const shortVideoAgent = useAgent<ShortVideoAgentState>({
-    agent: "short-video-ag",
-    host: host,
-    prefix: prefix,
-    name: "default",
-    onStateUpdate: (newState) => setShortVideoAgentState(newState),
-  });
+  // const shortVideoAgent = useAgent<ShortVideoAgentState>({
+  //   agent: "short-video-ag",
+  //   host: host,
+  //   prefix: prefix,
+  //   name: "default",
+  //   onStateUpdate: (newState) => setShortVideoAgentState(newState),
+  // });
 
   const agent = useAgent<ChatAgentState>({
     agent: agentName,

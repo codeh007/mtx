@@ -7,17 +7,16 @@ import {
   VIDEO_WIDTH,
   defaultMyCompProps,
 } from "../types/constants";
-import { Main } from "./MyComp/Main";
+import { MainSence } from "./MyComp/Main";
 import { NextLogo } from "./MyComp/NextLogo";
-import { Sence2 } from "./Sence2/Sence2";
-import { SingleImageSence } from "./SingleImageSence/SingleImageSence";
+import { SingleImageSence } from "./MyComp/SingleImageSence";
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
       <Composition
         id={COMP_NAME}
-        component={Main}
+        component={MainSence}
         durationInFrames={DURATION_IN_FRAMES}
         fps={VIDEO_FPS}
         width={VIDEO_WIDTH}
@@ -33,18 +32,6 @@ export const RemotionRoot: React.FC = () => {
         height={140}
         defaultProps={{
           outProgress: 0,
-        }}
-      />
-      <Composition
-        id="Sence2"
-        component={Sence2}
-        durationInFrames={300}
-        fps={30}
-        width={VIDEO_WIDTH}
-        height={VIDEO_HEIGHT}
-        defaultProps={{
-          title: "场景2",
-          subtitle: "练习",
         }}
       />
       <Composition

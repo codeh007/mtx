@@ -2,15 +2,15 @@
 
 import { Player } from "@remotion/player";
 import type { NextPage } from "next";
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import type { z } from "zod";
 import { RenderControls } from "../components/RenderControls";
 import { Spacing } from "../components/Spacing";
 import { Tips } from "../components/Tips";
-import { Main } from "../remotion/MyComp/Main";
+import { MainSence } from "../remotion/MyComp/Main";
 import {
-  type CompositionProps,
   DURATION_IN_FRAMES,
+  type MainSenceSchema,
   VIDEO_FPS,
   VIDEO_HEIGHT,
   VIDEO_WIDTH,
@@ -20,7 +20,7 @@ import {
 const Home: NextPage = () => {
   const [text, setText] = useState<string>(defaultMyCompProps.title);
 
-  const inputProps: z.infer<typeof CompositionProps> = useMemo(() => {
+  const inputProps: z.infer<typeof MainSenceSchema> = useMemo(() => {
     return {
       title: text,
     };
@@ -31,7 +31,7 @@ const Home: NextPage = () => {
       <div className="max-w-screen-md m-auto mb-5">
         <div className="overflow-hidden rounded-geist shadow-[0_0_200px_rgba(0,0,0,0.15)] mb-10 mt-16">
           <Player
-            component={Main}
+            component={MainSence}
             inputProps={inputProps}
             durationInFrames={DURATION_IN_FRAMES}
             fps={VIDEO_FPS}

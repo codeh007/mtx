@@ -1,8 +1,8 @@
 import { fontFamily, loadFont } from "@remotion/google-fonts/Inter";
 import { AbsoluteFill, Sequence, spring, useCurrentFrame, useVideoConfig } from "remotion";
-import { NextLogo } from "../MyComp/NextLogo";
-import { Rings } from "../MyComp/Rings";
-import { TextFade } from "../MyComp/TextFade";
+import { NextLogo } from "./NextLogo";
+import { Rings } from "./Rings";
+import { TextFade } from "./TextFade";
 
 loadFont("normal", {
   subsets: ["latin"],
