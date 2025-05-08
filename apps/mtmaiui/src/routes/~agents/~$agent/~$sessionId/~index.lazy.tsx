@@ -1,12 +1,10 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { WorkbenchView } from "../../../../components/WorkbenchView";
+import { useEffect } from "react";
 import { CfAgentChatView } from "../../../../components/chatv3/CfAgentChatView";
 import { ChatAgentProvider } from "../../../../components/chatv3/agentStore";
-import { RemotionNextDemo1 } from "../../../../components/remotion/RemotionNextDemo1";
-import { WorkbenchWrapperfrom "../../../../ccccomponents/workbenchnWorkbenchViewkbenchViewkbenchViewkbenchView";
-import { useWorkbenchStoreeee }import { WorkbenchWrapper } from "../../../../components/workbench/WorkbenchView";
+// import { RemotionNextDemo1 } from "../../../../components/remotion/RemotionNextDemo1";
+import { WorkbenchWrapper } from "../../../../components/workbench/WorkbenchWrapper";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
- from "../../../storesrworkbrench.store
 
 export const Route = createLazyFileRoute("/agents/$agent/$sessionId/")({
   component: RouteComponent,
@@ -16,10 +14,15 @@ function RouteComponent() {
   const { agent, sessionId } = Route.useParams();
   const agentUrl = useWorkbenchStore((state) => state.agentUrl);
   const agentPathPrefix = useWorkbenchStore((state) => state.agentPathPrefix);
+
+  const setOpenWorkbench = useWorkbenchStore((x) => x.setOpenWorkbench);
+
+  useEffect(() => {
+    setOpenWorkbench(true);
+  }, [setOpenWorkbench]);
+
   return (
-    <div className="flex h-full">
-      
-      <ChatAgentProvider>
+    <ChatAgentProvider>
       <WorkbenchWrapper>
         <CfAgentChatView
           agentName={agent}
@@ -29,10 +32,8 @@ function RouteComponent() {
         />
         {/* <WorkerAgentView /> */}
 
-        
-          {/* <RemotionNextDemo1 title={"一些文字333"} /> */}
-        </WorkbenchWrapper>
-      </ChatAgentProvider>
-    </div>
+        {/* <RemotionNextDemo1 title={"一些文字333"} /> */}
+      </WorkbenchWrapper>
+    </ChatAgentProvider>
   );
 }

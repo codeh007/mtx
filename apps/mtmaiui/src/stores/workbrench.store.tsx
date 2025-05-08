@@ -79,6 +79,13 @@ export interface WorkbrenchState extends WorkbenchProps {
   setIsDebug: (isDebug: boolean) => void;
   openWorkbench?: boolean;
   setOpenWorkbench: (openWorkbench: boolean) => void;
+
+  openRightPanel?: boolean;
+  setOpenRightPanel: (openRightPanel: boolean) => void;
+
+  activeArtiface: unknown;
+  setActiveArtiface: (activeArtiface: unknown) => void;
+
   isOpenWorkbenchChat: boolean;
   setIsOpenWorkbenchChat: (isOpenWorkbenchChat: boolean) => void;
   isStreaming: boolean;
@@ -141,6 +148,10 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
     setOpenChat: (openChat: boolean) => {
       set({ openChat });
     },
+    openRightPanel: false,
+    setOpenRightPanel: (openRightPanel: boolean) => {
+      set({ openRightPanel });
+    },
     isDebug: false,
     setIsDebug: (isDebug: boolean) => {
       set({ isDebug });
@@ -152,6 +163,10 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
     agentState: undefined,
     setAgentState: (agentState) => {
       set({ agentState });
+    },
+    activeArtiface: undefined,
+    setActiveArtiface: (activeArtiface) => {
+      set({ activeArtiface });
     },
     adkAppName: DEFAULT_APP_NAME,
     setAdkAppName: (adkAppName) => {
@@ -170,7 +185,6 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
       // console.log("handleHumanInput", input);
       get().setChatStarted(true);
       const sessionId = get().sessionId ?? generateUUID();
-
       set({
         input: "",
         adkEvents: [

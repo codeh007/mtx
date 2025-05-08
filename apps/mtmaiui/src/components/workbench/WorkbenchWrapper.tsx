@@ -1,9 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { cn } from "mtxuilib/lib/utils";
 
-import { type PropsWithChildren, memo } from "react";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
+import { memo } from "react";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 
 export const WorkbenchWrapper = memo(function WorkbenchWrapper(props: {
@@ -14,48 +14,26 @@ export const WorkbenchWrapper = memo(function WorkbenchWrapper(props: {
   const showWorkbench = useWorkbenchStore((x) => x.openWorkbench);
   const setOpenWorkbench = useWorkbenchStore((x) => x.setOpenWorkbench);
   return (
-    <div
-      className={cn("relative w-full h-full overflow-hidden caret-lime-100", {
-        "w-0": !showWorkbench,
-      })}
-    >
-      <motion.div
-        initial="closed"
-        animate={showWorkbench ? "open" : "closed"}
-        variants={{
-          open: { width: "100%", x: "0%" },
-          closed: { width: "0%", x: "100%" },
-        }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="absolute inset-0 z-workbench"
-      >
-        <div className="w-full h-full overflow-auto">{children}</div>
-        <div>todo right panel</div>
-      </motion.div>
+    <div className={cn("flex h-full")}>
+      {/* 左侧(聊天面板) */}
+      <div className="w-full">{children}</div>
+      {/* 右侧面板(主体内容) */}
+      <WorkbenchContent />
     </div>
   );
 });
 
-export const WorkbenchHeader = memo(function WorkbenchHeader(props: PropsWithChildren) {
-  const { children } = props;
-
+export const WorkbenchContent = () => {
+  const activeArtiface = useWorkbenchStore((x) => x.activeArtiface);
+  const setActiveArtiface = useWorkbenchStore((x) => x.setActiveArtiface);
   return (
-    <header
-      className={cn(
-        "flex items-center bg-bolt-elements-background-depth-1 p-5 border-b h-[var(--header-height)]",
-        {
-          // "border-transparent": !chat.started,
-          "border-transparent": true,
-          // "border-bolt-elements-borderColor": chat.started,
-        },
+    <div className="w-full bg-slate-100">
+      {!activeArtiface && <div>没有选定构建</div>}
+      {(activeArtiface as any) && (
+        <div>
+          <DebugValue data={activeArtiface} />
+        </div>
       )}
-    >
-      {children}
-    </header>
+    </div>
   );
-});
-
-export const WorkbenchContent = memo(function WorkbenchContent(props: PropsWithChildren) {
-  const { children } = props;
-  return <div className="w-full">{children}</div>;
-});
+};
