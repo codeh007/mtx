@@ -12,11 +12,15 @@ export interface ShortVideoAgentState extends AgentStateBase {
   mtmai_api_endpoint: string;
   // 短视频生成相关
   video_subject: string;
+  video_script: string;
+  audioUrl: string;
   mainSence: z.infer<typeof MainSenceSchema>;
+  videoMeta: {
+    fps: number;
+    width: number;
+    height: number;
+  };
 }
-
-// export const ShortVideoScencesSchema = z.array(SingleImageSenceSchema);
-// export type ShortVideoScenes = z.infer<typeof ShortVideoScencesSchema>;
 
 export type ShortVideoInMessage = ShortVideoTopicMessage | ShortVideoRunWorkflowMessage;
 

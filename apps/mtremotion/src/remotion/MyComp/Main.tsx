@@ -1,9 +1,9 @@
-import { loadFont } from "@remotion/google-fonts/Inter";
+import { fontFamily, loadFont } from "@remotion/google-fonts/Inter";
 import { AbsoluteFill, Sequence, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import type { z } from "zod";
 import type { MainSenceSchema } from "../../types/constants";
 import { NextLogoSence } from "./NextLogoSence";
-import { SingleImageSence } from "./SingleImageSence";
+import { TextFade } from "./TextFade";
 
 loadFont("normal", {
   subsets: ["latin"],
@@ -24,20 +24,42 @@ export const MainSence = ({ title, subScenes }: z.infer<typeof MainSenceSchema>)
     <AbsoluteFill className="bg-slate-500">
       {subScenes?.map((scene, index) => {
         const durationSeconds = scene.duration / 1000;
-        const fromSeconds = index === 0 ? 0 : durationSeconds;
-        // const secondToFrames = index === 0 ? 0 : 10 + index * 10;
-        // const positionOffset = index === 0 ? 0 : 10 + index * 10;
+        // 计算开始时间 - 累加之前所有场景的时长
+        const fromSeconds = subScenes
+          .slice(0, index)
+          .reduce((acc, s) => acc + s.duration / 1000, 0);
 
-        // 时间端->帧数
-        const fromFrames = fromSeconds * fps;
-        const toFrames = fromFrames + durationSeconds * fps;
+        // 转换为帧数
+        const fromFrames = Math.round(fromSeconds * fps);
+        const durationFrames = Math.round(durationSeconds * fps);
 
         return (
-          <Sequence key={index} from={fromFrames} durationInFrames={toFrames - fromFrames}>
-            <SingleImageSence {...scene} />
+          <Sequence key={index} from={fromFrames} durationInFrames={durationFrames}>
+            <TextFade>
+              <h1
+                className="text-[70px] font-bold text-white text-center tracking-wider uppercase"
+                style={{
+                  fontFamily,
+                  textShadow: `
+                    -2px -2px 0 #000,  
+                    2px -2px 0 #000,
+                    -2px 2px 0 #000,
+                    2px 2px 0 #000,
+                    0 0 20px rgba(255,255,255,0.5)
+                  `,
+                  WebkitTextStroke: "2px black",
+                  background: "linear-gradient(to bottom, #ffffff 0%, #f0f0f0 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                {scene.title}
+              </h1>
+            </TextFade>
+            <img src={scene.image} alt="video-image" className="w-full h-full" />
             <div className="text-white text-2xl z-10 absolute top-0 left-0">
               {index},{subScenes.length}, from: {fromSeconds}, duration: {scene.duration},
-              fromFrames: {fromFrames}, toFrames: {toFrames}
+              fromFrames: {fromFrames}, durationFrames: {durationFrames}
             </div>
           </Sequence>
         );
@@ -45,23 +67,6 @@ export const MainSence = ({ title, subScenes }: z.infer<typeof MainSenceSchema>)
     </AbsoluteFill>
   );
 };
-
-// const SequenceSecondToFrames = (
-//   props: React.PropsWithChildren<{
-//     secondFrom: number;
-//     secondTo: number;
-//   }>,
-// ) => {
-//   const { secondFrom, secondTo, children } = props;
-//   const { fps } = useVideoConfig();
-//   const from = secondFrom * fps;
-//   const to = secondTo * fps;
-//   return (
-//     <Sequence from={from} durationInFrames={to - from}>
-//       {children}
-//     </Sequence>
-//   );
-// };
 
 const Title: React.FC<{ title: string }> = ({ title }) => {
   const frame = useCurrentFrame();

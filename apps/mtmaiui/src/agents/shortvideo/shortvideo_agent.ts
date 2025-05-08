@@ -13,6 +13,7 @@ import { experimental_createMCPClient, generateText } from "ai";
 import { connection } from "next/server";
 import { z } from "zod";
 import { genImage } from "../../agent_utils/text2image";
+import { generateAudioViaGet } from "../../agent_utils/tts";
 import { getDefaultModel } from "../../components/cloudflare-agents/model";
 import { ChatAgentBase } from "../ChatAgentBase";
 import { tools } from "../tools";
@@ -253,15 +254,28 @@ Input to parse: "${userInput}"`,
 
   @callable()
   async onGenShortVideo(topic: string) {
+    try {
+      await this.stepGenTopic(topic);
+      await this.stepGenShortVideoScript(topic);
+      await this.stepGenScence(topic);
+
+      return "视频生成成功";
+    } catch (error) {
+      this.handleException(error);
+    }
+  }
+
+  @callable()
+  async stepGenTopic(topic: string) {
     // 主标题生成
     const genTitlePrompt = `你是专业的视频生成助手, 请根据以下内容, 生成一个视频标题, 视频标题需要符合以下要求:
-    1. 适合发布到 tiktok 平台:
-    2. 仅输出标题,不要解释和啰嗦
+1. 适合发布到 tiktok 平台:
+2. 仅输出标题,不要解释和啰嗦
 
-    <topic>
-    输入内容: ${topic}
-    </topic>
-    `;
+<topic>
+输入内容: ${topic}
+</topic>
+`;
 
     const textResult = await generateText({
       model: getDefaultModel(this.env),
@@ -273,11 +287,37 @@ Input to parse: "${userInput}"`,
       video_subject: textResult.text,
     });
 
-    await this.stepGenScence(topic);
-
     return textResult.text;
   }
 
+  @callable()
+  async stepGenShortVideoScript(topic: string) {
+    // 生成视频脚本(文案)
+    const genScriptPrompt = `你是专业的视频生成助手, 请根据以下内容, 生成一个视频脚本, 视频脚本需要符合以下要求:
+    1. 适合发布到 tiktok 平台:
+    2. 仅输出脚本,不要解释和啰嗦
+
+    <topic>
+    输入内容: ${topic}
+    </topic>
+    `;
+    const scriptResult = await generateText({
+      model: getDefaultModel(this.env),
+      messages: [{ role: "user", content: genScriptPrompt }],
+    });
+    this.setState({
+      ...this.state,
+      video_script: scriptResult.text,
+    });
+  }
+  @callable()
+  async stepGenAudio(topic: string) {
+    const audioResult = await generateAudioViaGet(topic);
+    this.setState({
+      ...this.state,
+      audioUrl: audioResult,
+    });
+  }
   @callable()
   async stepGenScence(topic: string) {
     const SingleImageSenceGenSchema = z.array(

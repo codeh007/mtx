@@ -23,27 +23,8 @@ export const SingleImageSence = (props: Props) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // const transitionStart = 2 * fps;
-  const transitionDuration = 1 * fps;
-
-  // const logoOut = spring({
-  //   fps,
-  //   frame,
-  //   config: {
-  //     damping: 200,
-  //   },
-  //   durationInFrames: transitionDuration,
-  //   delay: transitionStart,
-  // });
-
   return (
     <AbsoluteFill className={`${className}`}>
-      {/* <Sequence durationInFrames={transitionStart + transitionDuration}>
-        <Rings outProgress={logoOut} />
-        <AbsoluteFill className="justify-center items-center">
-          <NextLogo outProgress={logoOut} />
-        </AbsoluteFill>
-      </Sequence> */}
       <Sequence from={0}>
         <TextFade>
           <h1
