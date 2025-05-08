@@ -16,12 +16,11 @@
   "scripts": {
     "build": "echo hello"
   },
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "next": "^15",
     "react": "^19",
-    "react-dom": "^19"
-  },
-  "devDependencies": {
+    "react-dom": "^19",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
