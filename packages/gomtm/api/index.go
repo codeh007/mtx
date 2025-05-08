@@ -16,8 +16,7 @@ var serverApp *server.MtmBaseApp
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 	if serverApp == nil {
-		opts := server.MtmAppOptions{}
-		serverApp = server.NewMtmBaseApp(&opts)
+		serverApp = server.NewMtmBaseApp(&server.MtmAppOptions{})
 		if err := serverApp.SetupBase(context.Background()); err != nil {
 			panic(fmt.Errorf("serverApp.SetupBase error: %w", err))
 		}
