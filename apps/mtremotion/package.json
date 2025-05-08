@@ -117,7 +117,7 @@
   "devDependencies": {
     "@remotion/eslint-plugin": "^4",
     "@eslint/eslintrc": "^3",
-    "@types/node": "^20",
+    "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/web": "^0.0.166",
