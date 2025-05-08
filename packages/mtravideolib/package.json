@@ -79,7 +79,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "tsc && vite build",
+    "build--": "tsc && vite build",
     "build:lib": "tsc && vite build --config vite.config.lib.ts",
     "prepublishOnly": "npm run build:lib"
   },
