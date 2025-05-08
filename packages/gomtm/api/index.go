@@ -1,4 +1,5 @@
 package handler
+
 /* ************************************************************
 依赖 GIT_CREDENTIALS 和GOPRIVATE 这两个 build 环境变量
 ***************************************************************/
@@ -15,7 +16,8 @@ var serverApp *server.MtmBaseApp
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 	if serverApp == nil {
-		serverApp = server.NewMtmBaseApp()
+		opts := server.MtmAppOptions{}
+		serverApp = server.NewMtmBaseApp(&opts)
 		if err := serverApp.SetupBase(context.Background()); err != nil {
 			panic(fmt.Errorf("serverApp.SetupBase error: %w", err))
 		}
