@@ -11,10 +11,16 @@ import {
 } from "ai";
 import { experimental_createMCPClient, generateText } from "ai";
 import { connection } from "next/server";
+import { z } from "zod";
 import { getDefaultModel } from "../../components/cloudflare-agents/model";
 import { ChatAgentBase } from "../ChatAgentBase";
 import { tools } from "../tools";
-import type { ShortVideoAgentState, ShortVideoInMessage } from "./shortvideo_agent_state";
+import {
+  type ShortVideoAgentState,
+  type ShortVideoInMessage,
+  ShortVideoScencesSchema,
+} from "./shortvideo_agent_state";
+import scene from "../../revedio/scenes/scene";
 
 const mcpServerUrl = "https://colab-7860.yuepa8.com/sse";
 
@@ -238,12 +244,7 @@ Input to parse: "${userInput}"`,
    * @param schedule
    */
   async onTask(payload: unknown, schedule: Schedule<string>) {
-    // this.notifySchedule(schedule);
     this.notifyRunSchedule(schedule);
-  }
-
-  async onReset() {
-    //TODO: 重置状态
   }
 
   @callable()
@@ -268,18 +269,29 @@ Input to parse: "${userInput}"`,
       video_subject: textResult.text,
     });
 
+    await this.stepGenScence(topic);
+
     return textResult.text;
   }
 
   @callable()
-  async onGenScenes(topic: string) {
-    // 场景生成
-    const genScenesPrompt = `你是专业的视频生成助手, 请根据以下内容, 生成视频场景.
+  async stepGenScence(topic: string) {
+    const SingleImageSenceGenSchema = z.object({
+      imageGeneratePrompt: z.string().describe("文字生成图片的提示词"),
+      title: z.string().describe("显示在场景中央的标题"),
+      duration: z.number().describe("场景时长,精确到毫秒"),
+    });
 
+    try {
+      // 场景生成
+      const genScenesPrompt = `你是专业的有10年经验的短编辑助手, 非常熟悉 TIKTOK 平台的短视频编辑及发布,直到如何通过画面和文字,吸引用户的观看.
+    生成的场景数据, 将会后续使用 文生图 AI工具生成最终的图片.
+    图片的标题,描述,时长,等将会使用专业的工具渲染为最终视频
     <要求>
     1. 适合发布到 tiktok 平台:
     2. 仅输出场景,不要解释和啰嗦
     3. 场景需要符合视频标题
+    4: 场景数量为3个
     </要求>
 
     <topic>
@@ -288,13 +300,38 @@ Input to parse: "${userInput}"`,
     <title>
     视频标题: ${this.state.video_subject}
     </title>
+    <任务>
+      根据上文提供的信息,生成3个场景,每个场景需要包含图片描述和图片标题, 场景时长精确到毫秒.    
+    </任务>
 
     `;
+      const objResult = await generateObject({
+        model: getDefaultModel(this.env),
+        mode: "json",
+        schemaName: "scenes",
+        schemaDescription: "A scenes to be scheduled",
+        schema: ShortVideoScencesSchema,
+        maxRetries: 5,
+        messages: [{ role: "user", content: genScenesPrompt }],
+      });
 
-    const textResult = await generateText({
+      for (const scene of objResult.object) {
+        const imageResult = await this.stepGenImage(scene.image);
+      }
+
+      this.setState({
+        ...this.state,
+        scenes: objResult.object,
+      });
+      return objResult.object;
+    } catch (error) {
+      this.handleException(error);
+    }
+  }
+  async stepGenImage(imagePrompt: string) {
+    const imageResult = await generateImage({
       model: getDefaultModel(this.env),
-      messages: [{ role: "user", content: genScenesPrompt }],
+      prompt: scene.imageGeneratePrompt,
     });
-    return textResult.text;
   }
 }

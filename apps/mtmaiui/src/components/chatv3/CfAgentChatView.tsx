@@ -29,7 +29,9 @@ interface CfAgentChatViewProps {
   prefix?: string;
 }
 export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentChatViewProps) {
-  const [showDebug, setShowDebug] = useState(false);
+  // const [showDebug, setShowDebug] = useState(false);
+  const isDebug = useWorkbenchStore((x) => x.isDebug);
+  const setIsDebug = useWorkbenchStore((x) => x.setIsDebug);
   const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
 
   const agentState = useWorkbenchStore((x) => x.assistantState);
@@ -186,7 +188,8 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
             <Switch
               // toggled={showDebug}
               aria-label="Toggle debug mode"
-              onClick={() => setShowDebug((prev) => !prev)}
+              checked={isDebug}
+              onCheckedChange={() => setIsDebug(!isDebug)}
             />
           </div>
 
@@ -239,11 +242,7 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
 
             return (
               <div key={m.id}>
-                {showDebug && (
-                  <pre className="text-xs text-muted-foreground overflow-scroll">
-                    {JSON.stringify(m, null, 2)}
-                  </pre>
-                )}
+                {isDebug && <DebugValue data={m} />}
                 <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
                   <div
                     className={`flex gap-2 max-w-[85%] ${isUser ? "flex-row-reverse" : "flex-row"}`}

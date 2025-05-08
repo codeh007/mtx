@@ -11,6 +11,7 @@ import { TextFade } from "../MyComp/TextFade";
 // });
 
 export const SingleImageSenceSchema = z.object({
+  senceType: z.literal("single_image"),
   image: z.string(),
   title: z.string(),
 });

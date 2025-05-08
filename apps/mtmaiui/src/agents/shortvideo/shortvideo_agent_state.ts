@@ -1,3 +1,5 @@
+import { SingleImageSenceSchema } from "mtremotion/remotion/SingleImageSence/SingleImageSence";
+import { z } from "zod";
 import type {
   AgentStateBase,
   LogMessage,
@@ -10,14 +12,11 @@ export interface ShortVideoAgentState extends AgentStateBase {
   mtmai_api_endpoint: string;
   // 短视频生成相关
   video_subject: string;
-  scenes: ShortVideoScene[];
+  scenes: ShortVideoScenes;
 }
 
-export type ShortVideoScene = {
-  title: string;
-  description: string;
-  image: string;
-};
+export const ShortVideoScencesSchema = z.array(SingleImageSenceSchema);
+export type ShortVideoScenes = z.infer<typeof ShortVideoScencesSchema>;
 
 export type ShortVideoInMessage = ShortVideoTopicMessage | ShortVideoRunWorkflowMessage;
 

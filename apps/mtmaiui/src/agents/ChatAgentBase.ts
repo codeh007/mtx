@@ -34,6 +34,10 @@ export class ChatAgentBase<Env = unknown, State = unknown> extends AIChatAgent<E
   handleException(error: unknown) {
     console.error("Error calling coder agent", error);
     this.log(`(handleException): ${error}`);
+    this.setState({
+      ...this.state,
+      error: error,
+    });
   }
 
   notifySchedule(schedule: Schedule<string>, connection: Connection | undefined = undefined) {
