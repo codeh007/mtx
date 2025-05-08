@@ -77,6 +77,15 @@
   "description": "Basic project template for Motion Canvas",
   "author": "motion-canvas",
   "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build--": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "remotion": "remotionb studio",
+    "render": "remotionb render",
+    "deploy": "node deploy.mjs"
+  },
   "dependencies": {
     "@remotion/animated-emoji": "4.0.298",
     "@remotion/animation-utils": "4.0.298",
@@ -124,14 +133,5 @@
     "prettier": "3.3.3",
     "tailwindcss": "4.0.3",
     "typescript": "5.8.2"
-  },
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "remotion": "remotionb studio",
-    "render": "remotionb render",
-    "deploy": "node deploy.mjs"
   }
 }
